@@ -2,70 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03AEAB22FF
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 11:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD66AB2308
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 11:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF8B10E23E;
-	Sat, 10 May 2025 09:42:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ldIPC27B";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B5810E247;
+	Sat, 10 May 2025 09:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8399B10E20D;
- Sat, 10 May 2025 09:42:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 810C9A4D7C6;
- Sat, 10 May 2025 09:42:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67518C4CEE2;
- Sat, 10 May 2025 09:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746870156;
- bh=mvGfz4+zhaqRCocFMaf0hgjCnm1CJTvyI1js5uNHlJs=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ldIPC27Bt9cUfcjCameGNcaKJEAzqc7AUG4thRUqo3qyHbBIdcMs8n0bTUIlQ5Tym
- TJ7a9nhwlFa6+4GEQwIXU2cFx+VvQ3OOD4XQqH+HZ6e6O5slyTKfu+IY7orStEmsf7
- eC0/5x1y0Vg6Xmq3EiJb6IJts6XegY1Z06KyQ77eaEbMVXv3ghE27h09P69DXIY8Gf
- 9QftRl1mTZGBFVanZ/8Q7gRLFPXgadbF10wjnLH+hZH7YFIa/GdZ/yr013KSFD4rSd
- NWLTE5kwJ+ijvBSyCwBPXOzsriTpRCh+eVuiXMtGgY+rum+32WSQ8qr99iOs9aGbQ2
- Y6mdWOA3Vy+qw==
-Message-ID: <0bc432f67dc0cdb5fa307565df72af34@kernel.org>
-Date: Sat, 10 May 2025 09:42:32 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 22/22] drm/todo: add entry to remove
- devm_drm_put_bridge()
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-22-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-22-b8bc1f16d7aa@bootlin.com>
-Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, "Andrzej
- Hajda" <andrzej.hajda@intel.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
- "Chun-Kuang
- Hu" <chunkuang.hu@kernel.org>, "David Airlie" <airlied@gmail.com>, "Dmitry
- Baryshkov" <lumag@kernel.org>, "Douglas Anderson" <dianders@chromium.org>,
- "Fabio
- Estevam" <festevam@gmail.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jagan
- Teki" <jagan@amarulasolutions.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jonas
- Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Krzysztof
- Kozlowski" <krzk@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Robert Foss" <rfoss@kernel.org>, "Sascha
- Hauer" <s.hauer@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 909 seconds by postgrey-1.36 at gabe;
+ Sat, 10 May 2025 09:46:06 UTC
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC14510E247
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 May 2025 09:46:06 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Zvgc671xyz27hNk;
+ Sat, 10 May 2025 17:31:34 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+ by mail.maildlp.com (Postfix) with ESMTPS id 7305D140146;
+ Sat, 10 May 2025 17:30:48 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by kwepemf100008.china.huawei.com
+ (7.202.181.222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 10 May
+ 2025 17:30:47 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mario.kleiner@tuebingen.mpg.de>,
+ <airlied@redhat.com>, <mripard@kernel.org>, <simona@ffwll.ch>
+CC: <bobo.shaobowang@huawei.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/vblank: Fix hard lockup in drm_handle_vblank()
+Date: Sat, 10 May 2025 17:47:57 +0800
+Message-ID: <20250510094757.4174662-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,16 +55,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 May 2025 15:53:48 +0200, Luca Ceresoli wrote:
-> devm_drm_put_bridge() is a temporary workaround waiting for the panel
-> bridge lifetime rework. Add a TODO entry to not forget it must be removed
-> after such rework.
->=20
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
->=20
-> [ ... ]
+When we performed fuzz testing on DRM using syzkaller, we encountered
+the following hard lockup issue:
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Kernel panic - not syncing: Hard LOCKUP
+CPU: 3 PID: 0 Comm: swapper/3 Not tainted 6.6.0+ #21
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+Call Trace:
+ <IRQ>
+ hrtimer_cancel+0x52/0x70 kernel/time/hrtimer.c:1449
+ __disable_vblank drivers/gpu/drm/drm_vblank.c:434 [inline]
+ drm_vblank_disable_and_save+0x27f/0x3c0 drivers/gpu/drm/drm_vblank.c:478
+ vblank_disable_fn+0x15d/0x1b0 drivers/gpu/drm/drm_vblank.c:495
+ call_timer_fn+0x39/0x280 kernel/time/timer.c:1700
+ expire_timers+0x22d/0x3c0 kernel/time/timer.c:1751
+ __run_timers kernel/time/timer.c:2022 [inline]
+ run_timer_softirq+0x315/0x8a0 kernel/time/timer.c:2035
+ handle_softirqs+0x195/0x580 kernel/softirq.c:553
+ __do_softirq kernel/softirq.c:587 [inline]
+ </IRQ>
 
-Thanks!
-Maxime
+This is a deadlock issue as follows:
+
+    CPU3				CPU 7
+
+vblank_disable_fn()
+  drm_vblank_disable_and_save()
+  spin_lock(vblank_time_lock)
+				hrtimer_interrupt()
+				  vkms_vblank_simulate()
+				    drm_handle_vblank()
+				      // wait for CPU3 to release vblank_time_lock
+				      spin_lock(vblank_time_lock)
+    vkms_disable_vblank()
+      // wait for vblank_hrtimer on CPU7 to finish
+      hrtimer_cancel(vblank_hrtimer)
+
+The call of hrtimer_cancel() has hold vblank_time_lock which would prevent
+completion of the hrtimer's callback function.
+
+Therefore, in drm_handle_vblank(), we move the check for the
+vblank->enabled variable to the time when vblank_time_lock() is acquired.
+If the CRTC event has already been canceled, the drm_handle_vblank() will
+be terminated and will no longer attempt to acquire vblank_time_lock.
+
+In the same time, in drm_vblank_disable_and_save(), we set vblank->enabled
+to disable before calling hrtimer_cancel() to avoid endless waiting in
+hrtimer_cancel_wait_running().
+
+Fixes: 27641c3f003e ("drm/vblank: Add support for precise vblank timestamping.")
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ drivers/gpu/drm/drm_vblank.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 78958ddf8485..56b80e5ede2a 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -471,6 +471,8 @@ void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
+ 	if (!vblank->enabled)
+ 		goto out;
+ 
++	vblank->enabled = false;
++
+ 	/*
+ 	 * Update the count and timestamp to maintain the
+ 	 * appearance that the counter has been ticking all along until
+@@ -479,7 +481,6 @@ void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
+ 	 */
+ 	drm_update_vblank_count(dev, pipe, false);
+ 	__disable_vblank(dev, pipe);
+-	vblank->enabled = false;
+ 
+ out:
+ 	spin_unlock_irqrestore(&dev->vblank_time_lock, irqflags);
+@@ -1932,14 +1933,13 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
+ 	 * vblank enable/disable, as this would cause inconsistent
+ 	 * or corrupted timestamps and vblank counts.
+ 	 */
+-	spin_lock(&dev->vblank_time_lock);
+-
+-	/* Vblank irq handling disabled. Nothing to do. */
+-	if (!vblank->enabled) {
+-		spin_unlock(&dev->vblank_time_lock);
+-		spin_unlock_irqrestore(&dev->event_lock, irqflags);
+-		return false;
+-	}
++	do {
++		/* Vblank irq handling disabled. Nothing to do. */
++		if (!vblank->enabled) {
++			spin_unlock_irqrestore(&dev->event_lock, irqflags);
++			return false;
++		}
++	} while (!spin_trylock(&dev->vblank_time_lock));
+ 
+ 	drm_update_vblank_count(dev, pipe, true);
+ 
+-- 
+2.25.1
+
