@@ -2,91 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CDCAB25AE
-	for <lists+dri-devel@lfdr.de>; Sun, 11 May 2025 01:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7F8AB2783
+	for <lists+dri-devel@lfdr.de>; Sun, 11 May 2025 11:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3986C10E027;
-	Sat, 10 May 2025 23:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1384310E04B;
+	Sun, 11 May 2025 09:52:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="elvRyCML";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 406 seconds by postgrey-1.36 at gabe;
- Sat, 10 May 2025 12:10:21 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F192A10E010;
- Sat, 10 May 2025 12:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oldschoolsolutions.biz; s=s1-ionos; t=1746879019; x=1747483819;
- i=jens.glathe@oldschoolsolutions.biz;
- bh=OwyZeqxclZuiANkoRb9+rhejJTcrD9vErRrbOtX25YM=;
- h=X-UI-Sender-Class:Content-Type:Message-ID:Date:MIME-Version:
- Subject:To:Cc:References:From:In-Reply-To:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=oN4uec/+hPnYgjc2aR5TRstZ+nIt6WSK8ME1wf03X+V3r+IWK/CISgV6DFM2C4hj
- KBYKhmoIoK9zqCMg7Mu/Pm5CQ1AFco5URmNc2BqA2sw/Nv/r01nbgxqHtwVQe81zh
- xhVEE0I3kV/7CR1GSKJGbRc1CMjj7Se47VpkRaQoqIMpJBI1fUu+UpjWBHsiB1ROL
- LzWmdpBpGOwC3a6P5GdpCkHu2FeYsR62lUuRVZZnSicV2OPnXQ7JHlDxY0DmYKNg7
- Hk7fDZRuoPxhlgQCYMTNrpNJ2gJQSv54uTS4a+tWncBYmAuhSiM6otmAO4OgNz6zz
- F8WmLf6IdkYSNsiLDg==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.0.174] ([91.64.235.193]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MS4WT-1ub4hq1rAp-00VsaB; Sat, 10 May 2025 14:03:25 +0200
-Content-Type: multipart/alternative;
- boundary="------------MfVJlgetY58PZTM6eedPaseE"
-Message-ID: <9cfba854-24f8-41bc-9f78-44852bed7c3d@oldschoolsolutions.biz>
-Date: Sat, 10 May 2025 14:03:22 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384AD10E042;
+ Sun, 11 May 2025 09:52:21 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54B5DBRF022791;
+ Sun, 11 May 2025 09:52:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Q2BsqUJ5qs8sClJC0RBmiR2OPzrS2wHqFWx0KothqIg=; b=elvRyCML7Yv1MhEA
+ 2WaJOPLHdMD1PTT20TF1SQE+ZQiuswtcTDERA10Xrq5p+8BUB6Bkbk3Cipues0G/
+ 4eetcXb2K6NkE/0hJC58BkBvXAeHO+Ouoes1f7jsjOg4kyKOdf3RCdOPkP+5YHDn
+ hHZvs7blT5HYCJ+9llCV87g1vV24ldYc2Pqiachq3buETJCsQ5TzLJerMenyGXwS
+ N1/uzgNXeN5h9Kazg0+5VM3PnqoBpdfRWM/YF5uNW2vOg+Kqc1PaZ0woafOVhjof
+ V84/TZsLZxY4tZzppb4s9mM8QF3tRprH1GWrORhLFeiMIXXjiXIadNBSGpPONx8J
+ v9k/ag==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46hyjjhrb8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 May 2025 09:52:07 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54B9q65k028030
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 May 2025 09:52:06 GMT
+Received: from [10.216.59.153] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 11 May
+ 2025 02:52:01 -0700
+Message-ID: <1903ee8a-f819-4a4d-baee-90f35e0da290@quicinc.com>
+Date: Sun, 11 May 2025 15:21:57 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH 00/45] drm/msm/dp: Add MST support for MSM chipsets
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <swboyd@chromium.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Guenter Roeck <groeck@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>,
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Yongxing Mou <quic_yongmou@quicinc.com>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v6 2/5] drm/msm/adreno: Add speedbin data for SM8550 /
+ A740
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, <neil.armstrong@linaro.org>
+CC: Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
+ <20250430-topic-smem_speedbin_respin-v6-2-954ff66061cf@oss.qualcomm.com>
+ <13cd20c6-f758-45ff-82d1-4fd663d1698c@linaro.org>
+ <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
+ <b838f9bd-0537-4f8d-b24b-d96700d566c8@linaro.org>
+ <98a4ad20-c141-4280-801e-015dafd1fb39@oss.qualcomm.com>
+ <a26213ec-808f-4edf-bb0d-ab469ee0a884@linaro.org>
+ <281ab1b6-498e-4b29-9e15-19b5aae25342@oss.qualcomm.com>
+ <63105bce-6b8e-4b99-bca1-3741f27ea25a@linaro.org>
+ <892fc1eb-efd3-4fb6-9110-2df3349960a6@oss.qualcomm.com>
+ <b989522d-bd41-4d76-91a9-3cf680214003@linaro.org>
+ <f5734944-1ed2-4acc-a015-0c638c331bbe@quicinc.com>
+ <d73c6151-91bb-4c96-ad2a-972ad392624b@oss.qualcomm.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
-X-Provags-ID: V03:K1:QleC2uSmYuR5CojDBquY1PeogUOZW64rzhcBqtnW4bINLAwGaxu
- XrbY6ZqRxCx0hxCBVdtWW12+vdam8DlDR7yMVx5HgzivIuHtvc8qU/UuLK97bnK7kegG1bm
- u2zzWEpmGCMToJuXvfdGgg4ZyFIBHg2UVVhJKeU40t2vOTDDwl0HRpJtQa4YxIA7iM9G173
- 0asLuKhcXoaO35xOsDlIA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MlD3gKthU6Y=;2yODLyHpW7DYB+49NfQ87pImbxG
- aXhCbUEfJJ/bkUaO7FaeJiF2egIJs2hW3/yC/5IrCAG5MwAT+kLoZpoQiSJBSY6HQFmY00GPA
- GRqs69iHBZ31zslBmDnr5LgT2MoVpwL2FZuRo6vtnoTD15TOG/MebctN2x05czf/0+ppcvXkd
- /FLfbcBYRR1OSNpofMVWvq5MoZumKf8j9j7Aen9JIbwyrZdTF83/dVETPTu89RvrVMboZpIvw
- AGFdpW+zTK0lypEYBI2l2cXMDkKGC3ONFGqpWwRjnF9lhcHTfaVsb+rof4C0airJpbZ540M06
- bOfFGJOOeQrrNGDYLY4SmPjjCKKYUwERyqa4XiFxg3AXcEb4Ot2XIw6WCh4BPFaDy32PrdCzH
- VkEkWIx5jgTMDJm4cUr60ET/l6TMYiiHPO2rMfNbOljTUGmVJ2yKFMgArIgsN5+K6UKWdkQ2L
- CSOQdGDIHIT2eJeucNQ9otye8buVv4FwUpiPC7oJxq+IuK2EBjm7l8XYpvB3istsqzs+2ZyGs
- NKvu65+mFoAzWxoPafbTF1G5yZyvLIUPrZLkGc3+bdtRjHK+qY+DGDIXZvPmOjxQ4bMk3jIxo
- Arie8d2BC4eeENaJerd9Wbv00PBVgHaNpVab/VtR4D/h7S9Mwl1fP9AKTpMb2YgE5G7v+QYpG
- 0eEuyBd8DNlIHs2Qy8mG9bb9uPjB2boBAjiHqNa7ttCCSvDmiA+duRvVXAIXiRfF5qV0Qjs4v
- VkCyy18B3Zx4g1fqXyFmF+dxAwQuWE/V0r/u7SVbCDX+d3/+S8B/V0t+mXexX5jbQFNVELasb
- I0OkGwTzHEK3CT38a2+95KfDtqpVkjLcnNdQE0Xnx4cAYqOHR/F6DSzHbQ6z0IlpAmLMzuKJz
- YVhytSTfwQJyXna25lYVeeniK3FxY38wZqM4i1dWZsBJmNpmWv2ZbPl4QjwJ9uwE9qCIfkSJ/
- 01J/WUWztKRNXd2WgFSGotuahmJ1sQAmo7zpjOUaSBwJKdECPVc8fvhFTkoqC70Fdy0G0b+ny
- lz4Vyb4f8wGnmtwFn18hGYjX7tshuS5IYlW8zFK+x/sVW//MH0X1NOPUgkRQh5qKjZ2xBQ9iT
- TbuExWgdk2ZhqiYH87bIzr5B8IXEJ8KFweA+01YVVGMrYWyWSA9vmz6JrZBaRnwD4uIkzTzau
- I4Z6eSouf6H31PaeR2GmOVk7kRHoSFd/ZlTnEH5LDKsEKzDaQZdNfjaZeuF203J6SKNcK3n0L
- U/887awk03s8LeFIdrv6y7NmFan76Q26RCEq14wru9PVSXX8iQdqCRgdyQXTGqpNi17phriVI
- JB+wFBK78oGFH3qDPAlcNJNMHCXzU6+/NDyTo3BnnXPNBmBvMcdHw+LAWmZ6j/qNke8RyHrGk
- vJYxpf4DUG5nZ6deMzhlGHIBbCo0blM4bywWRaH+IcvWw1/tCxCO6ZpnPw
-X-Mailman-Approved-At: Sat, 10 May 2025 23:07:20 +0000
+In-Reply-To: <d73c6151-91bb-4c96-ad2a-972ad392624b@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTExMDA5OSBTYWx0ZWRfXy0iWnmVfZ948
+ W8G3FTxfcJhMR1S4OQgzgXn02ZhoFwpZnM6bzzSyQZKzaj2D/xjfaof8jxY20M37m/dna7vF53D
+ QVhIYrD+cF4cwCFlhO/ag9hb7iKbEuCr11re/g6MGXYUG2yLxhCM9pVSoRS3AE6zQTUn74/08ae
+ JdV5244rcnHWef0OTdQcQhOVxfzLYithB0I6FEu0CYA64bqlMlyXERuIJo3sWdeL/0uxmkxxXtw
+ bBscXeLtZBcBQW5MfwrlX9/LWpPdIaassjkWWoOJ9/WArOtTJQ9WHj1nr95bJfSXYikRVty23PJ
+ 6ywHLBBdE4Y+ivmSG3u2DEBUIxpndEZFab09DNlSYMAB7b2C7fEK4UXo6OWHknGDHwO1qUQrBu1
+ aLwcYyqK/nMC//U4PUJLYDzXeI0RbJ4egFJK++PqQ4cHBjhu7N18fXQm/anVm7wuAX8J7KpG
+X-Proofpoint-GUID: Pxr5qnV33ichnL7CgcdknTCUznFW9JTU
+X-Authority-Analysis: v=2.4 cv=QuVe3Uyd c=1 sm=1 tr=0 ts=68207347 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8
+ a=90UGo0xaWWtCiJOOztUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Pxr5qnV33ichnL7CgcdknTCUznFW9JTU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-11_03,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1015 spamscore=0 phishscore=0
+ mlxlogscore=833 impostorscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505110099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,50 +122,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------MfVJlgetY58PZTM6eedPaseE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+On 5/1/2025 9:23 PM, Konrad Dybcio wrote:
+> On 5/1/25 11:29 AM, Akhil P Oommen wrote:
+>> On 4/30/2025 10:26 PM, neil.armstrong@linaro.org wrote:
+>>> On 30/04/2025 18:39, Konrad Dybcio wrote:
+>>>> On 4/30/25 6:19 PM, neil.armstrong@linaro.org wrote:
+>>>>> On 30/04/2025 17:36, Konrad Dybcio wrote:
+>>>>>> On 4/30/25 4:49 PM, neil.armstrong@linaro.org wrote:
+>>>>>>> On 30/04/2025 15:09, Konrad Dybcio wrote:
+>>>>>>>> On 4/30/25 2:49 PM, neil.armstrong@linaro.org wrote:
+>>>>>>>>> On 30/04/2025 14:35, Konrad Dybcio wrote:
+>>>>>>>>>> On 4/30/25 2:26 PM, neil.armstrong@linaro.org wrote:
+> 
+> [...]
+> 
+>>> This behaves exactly as I said, so please fix it.
+> 
+> Eh, I was so sure I tested things correctly..
+> 
+>>
+>> Konrad,
+>>
+>> iirc, we discussed this in one of the earlier revision. There is a
+>> circular dependency between the driver change for SKU support and the dt
+>> change that adds supported_hw bitmask in opp-table. Only scenario it
+>> works is when you add these to the initial patches series of a new GPU.
+>>
+>> It will be very useful if we can break this circular dependency.
+> 
+> Right. Let's start with getting that in order
 
-On 06.12.24 05:31, Abhinav Kumar wrote:
-> base-commit: b166256c1e6ce356fa1404d4c8531830e6f100a8
+Another complication with the socinfo is that the value is unique for a
+chipset, not for a GPU. So, it won't work if we keep this data in GPU
+list in the driver.
 
-Hi Abhinav,
+Downstream solved this problem by keeping the PCODE/FCODE mappings in
+the devicetree.
 
-I would like to test / play around with this patchset, unfortunately=20
-this base commit is not easy to find. Trying to apply without gives lots=
-=20
-of conflicts. Can you please rebase?
+-Akhil.
 
-with best regards
+> 
+> Konrad
 
-Jens
-
---------------MfVJlgetY58PZTM6eedPaseE
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 06.12.24 05:31, Abhinav Kumar wrote:<span
-      style="white-space: pre-wrap">
-</span></div>
-    <blockquote type="cite"
-      cite="mid:20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com">
-      <pre wrap="" class="moz-quote-pre">base-commit: b166256c1e6ce356fa1404d4c8531830e6f100a8
-</pre>
-    </blockquote>
-    <p>Hi Abhinav,</p>
-    <p>I would like to test / play around with this patchset,
-      unfortunately this base commit is not easy to find. Trying to
-      apply without gives lots of conflicts. Can you please rebase?</p>
-    <p>with best regards</p>
-    <p>Jens</p>
-  </body>
-</html>
-
---------------MfVJlgetY58PZTM6eedPaseE--
