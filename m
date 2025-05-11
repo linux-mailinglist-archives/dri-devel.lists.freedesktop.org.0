@@ -2,49 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725D1AB2BA3
-	for <lists+dri-devel@lfdr.de>; Sun, 11 May 2025 23:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BCCAB2BE0
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 00:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7782D10E0B8;
-	Sun, 11 May 2025 21:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC1910E083;
+	Sun, 11 May 2025 22:22:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TW5FjP0c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sKIDWwpn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF93410E0B8;
- Sun, 11 May 2025 21:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=moNs0d3PL9+4Allv8IQxIKhdsP9+MrQ2T+WXbX6oiRk=; b=TW5FjP0c3WcQwl++SZDJnE3C6G
- /qNfcVr15d1mlMFicZ6oW2ktVFdmZBXfRoFRAIL5etpcHwv51Zry3gkLofkWGJxHaTcyxghbKhIhB
- ZBf8tKTDdL1F3HdEIDCH3IJPaZJev3bbFJPKsmWDrGWo1aSaSQCT0b9NidLozGRUl6fDbZLuSJiRH
- fbefX/iJm6dKdripcEMPauC3VRS1o9kDc6Rq3ZKySsbqrDKTz63kE/x9O2M5YCMuq2kFqOgBSoxLb
- 0YUTQ3MCd4s+SCX1eRKjIoTbgKKtJHzz2Y3MKAfVWcv8M+s7jSCN3ZqzIInFVQ386Rt0UNK9NuE/B
- Qo3kr2Dw==;
-Received: from [189.6.16.79] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uEEIp-006mbm-Un; Sun, 11 May 2025 23:38:56 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Michel Daenzer <michel.daenzer@mailbox.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH] drm/amd/display: disable CRTC degamma LUT for DCN401
-Date: Sun, 11 May 2025 18:22:41 -0300
-Message-ID: <20250511213847.61930-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.47.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894FA10E070;
+ Sun, 11 May 2025 22:22:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4A9E85C3E3A;
+ Sun, 11 May 2025 22:19:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1EDC4CEE4;
+ Sun, 11 May 2025 22:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747002121;
+ bh=90D+9dE1CN6ZdSQxwX0KBLb9YkLh28TwblG+qnXVuV8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sKIDWwpnDYplCYZlSo2dZjFt4wK2B4RyqKMg0xReTSpL8S6OkmLgQ6wmzaJlZb3Z4
+ hc6+V9xc1slAHreQX8SMat5AOa5N/NcMUcNhaVUhdFBDX34bPjFkbEXPsAv06P4zD1
+ tm1fr7MqXUkJakVkhKuaPlpxZa6RnwkGgQ4gjd44D5vkbTy8Y3+RzlXG3M1ZbzZFAN
+ jvJFjDOiFPaBNsCMUYroU+VLVYEcAvl3vHbLfzAH1FJQo3ENXL/6N+b+bZAAudq4af
+ 717bugTTz3IFn/5eehGBqpR83Hls6el+R6GPXKqYnn4HKZbRtx98yh/UWxvkabQ/qa
+ H+tjeuKUxevGA==
+Date: Sun, 11 May 2025 17:21:56 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH RFT 01/14] soc: qcom: Add UBWC config provider
+Message-ID: <skd4q3wjeqespqchxqlwwripbek6wsdnxy5l2zzsj6ua3j7ydv@56qiaw7u4kbu>
+References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
+ <20250508-topic-ubwc_central-v1-1-035c4c5cbe50@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508-topic-ubwc_central-v1-1-035c4c5cbe50@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +64,351 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In DCN401 pre-blending degamma LUT isn't affecting cursor as in previous
-DCN version. As this is not the behavior close to what is expected for
-CRTC degamma LUT, disable CRTC degamma LUT property in this HW.
+On Thu, May 08, 2025 at 08:12:33PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
 
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/4176
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
+I'd prefer this to contain some of the problem description from the
+cover letter.
 
-Hi,
+Regards,
+Bjorn
 
-When enabling HDR on KDE, it takes the first CRTC 1D LUT available and
-apply a color transformation (Gamma 2.2 -> PQ). AMD driver usually
-advertises a CRTC degamma LUT as the first CRTC 1D LUT, but it's
-actually applied pre-blending. In previous HW version, it seems to work
-fine because the 1D LUT was applied to cursor too, but DCN401 presents a
-different behavior and the 1D LUT isn't affecting the hardware cursor.
-
-To address the wrong gamma on cursor with HDR (see the link), I came up
-with this patch that disables CRTC degamma LUT in this hw, since it
-presents a different behavior than others. With this KDE sees CRTC
-regamma LUT as the first post-blending 1D LUT available. This is
-actually more consistent with AMD color pipeline. It was tested by the
-reporter, since I don't have the HW available for local testing and
-debugging.
-
-Melissa
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index e8bdd7f0c460..db157b38f862 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -737,7 +737,16 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
- 	 * support programmable degamma anywhere.
- 	 */
- 	is_dcn = dm->adev->dm.dc->caps.color.dpp.dcn_arch;
--	drm_crtc_enable_color_mgmt(&acrtc->base, is_dcn ? MAX_COLOR_LUT_ENTRIES : 0,
-+	/* Dont't enable DRM CRTC degamma property for DCN401 since the
-+	 * pre-blending degamma LUT doesn't apply to cursor, and therefore
-+	 * can't work similar to a post-blending degamma LUT as in other hw
-+	 * versions.
-+	 * TODO: revisit it once KMS plane color API is merged.
-+	 */
-+	drm_crtc_enable_color_mgmt(&acrtc->base,
-+				   (is_dcn &&
-+				    dm->adev->dm.dc->ctx->dce_version != DCN_VERSION_4_01) ?
-+				     MAX_COLOR_LUT_ENTRIES : 0,
- 				   true, MAX_COLOR_LUT_ENTRIES);
- 
- 	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
--- 
-2.47.2
-
+> Add a file that will serve as a single source of truth for UBWC
+> configuration data for various multimedia blocks.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  drivers/soc/qcom/Kconfig       |   8 ++
+>  drivers/soc/qcom/Makefile      |   1 +
+>  drivers/soc/qcom/ubwc_config.c | 255 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/soc/qcom/ubwc.h  |  31 +++++
+>  4 files changed, 295 insertions(+)
+> 
+> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+> index 58e63cf0036ba8554e4082da5184a620ca807a9e..2caadbbcf8307ff94f5afbdd1481e5e5e291749f 100644
+> --- a/drivers/soc/qcom/Kconfig
+> +++ b/drivers/soc/qcom/Kconfig
+> @@ -296,3 +296,11 @@ config QCOM_PBS
+>  	  PBS trigger event to the PBS RAM.
+>  
+>  endmenu
+> +
+> +config QCOM_UBWC_CONFIG
+> +	tristate
+> +	help
+> +	  Most Qualcomm SoCs feature a number of Universal Bandwidth Compression
+> +	  (UBWC) engines across various IP blocks, which need to be initialized
+> +	  with coherent configuration data. This module functions as a single
+> +	  source of truth for that information.
+> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+> index acbca2ab5cc2a9ab3dce1ff38efd048ba2fab31e..b7f1d2a5736748b8772c090fd24462fa91f321c6 100644
+> --- a/drivers/soc/qcom/Makefile
+> +++ b/drivers/soc/qcom/Makefile
+> @@ -39,3 +39,4 @@ obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+>  qcom_ice-objs			+= ice.o
+>  obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= qcom_ice.o
+>  obj-$(CONFIG_QCOM_PBS) +=	qcom-pbs.o
+> +obj-$(CONFIG_QCOM_UBWC_CONFIG) += ubwc_config.o
+> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3f81fb2aab284dc9a5bcf53e5d638aaba44b6f2d
+> --- /dev/null
+> +++ b/drivers/soc/qcom/ubwc_config.c
+> @@ -0,0 +1,255 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <linux/soc/qcom/ubwc.h>
+> +
+> +static const struct qcom_ubwc_cfg_data msm8937_data = {
+> +	.ubwc_enc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_1_0,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data msm8998_data = {
+> +	.ubwc_enc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_1_0,
+> +	.highest_bank_bit = 2,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data qcm2290_data = {
+> +	/* no UBWC */
+> +	.highest_bank_bit = 2,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sa8775p_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 4,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 0,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 74000,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sar2130p_data = {
+> +	.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
+> +	.ubwc_dec_version = UBWC_4_3,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 0,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 74000,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sc7180_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sc7280_data = {
+> +	.ubwc_enc_version = UBWC_3_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 1,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 74000,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sc8180x_data = {
+> +	.ubwc_enc_version = UBWC_3_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sc8280xp_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sdm670_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sdm845_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.highest_bank_bit = 2,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm6115_data = {
+> +	.ubwc_enc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.ubwc_swizzle = 7,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm6125_data = {
+> +	.ubwc_enc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.ubwc_swizzle = 1,
+> +	.highest_bank_bit = 1,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm6150_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm6350_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm7150_data = {
+> +	.ubwc_enc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.highest_bank_bit = 1,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm8150_data = {
+> +	.ubwc_enc_version = UBWC_3_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.highest_bank_bit = 2,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm8250_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 76800,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm8350_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 74000,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data sm8550_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_3,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	.mdss_reg_bus_bw = 57000,
+> +};
+> +
+> +static const struct qcom_ubwc_cfg_data x1e80100_data = {
+> +	.ubwc_enc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_3,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_bank_spread = true,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = true,
+> +	/* TODO: Add mdss_reg_bus_bw with real value */
+> +};
+> +
+> +static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
+> +	{ .compatible = "qcom,apq8096", .data = &msm8998_data },
+> +	{ .compatible = "qcom,msm8917", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8937", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8953", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8956", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8976", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8996", .data = &msm8998_data },
+> +	{ .compatible = "qcom,msm8998", .data = &msm8998_data },
+> +	{ .compatible = "qcom,qcm2290", .data = &qcm2290_data, },
+> +	{ .compatible = "qcom,qcm6490", .data = &sc7280_data, },
+> +	{ .compatible = "qcom,sa8155p", .data = &sm8150_data, },
+> +	{ .compatible = "qcom,sa8540p", .data = &sc8280xp_data, },
+> +	{ .compatible = "qcom,sa8775p", .data = &sa8775p_data, },
+> +	{ .compatible = "qcom,sc7180", .data = &sc7180_data },
+> +	{ .compatible = "qcom,sc7280", .data = &sc7280_data, },
+> +	{ .compatible = "qcom,sc8180x", .data = &sc8180x_data, },
+> +	{ .compatible = "qcom,sc8280xp", .data = &sc8280xp_data, },
+> +	{ .compatible = "qcom,sdm630", .data = &msm8937_data },
+> +	{ .compatible = "qcom,sdm636", .data = &msm8937_data },
+> +	{ .compatible = "qcom,sdm660", .data = &msm8937_data },
+> +	{ .compatible = "qcom,sdm670", .data = &sdm670_data, },
+> +	{ .compatible = "qcom,sdm845", .data = &sdm845_data, },
+> +	{ .compatible = "qcom,sm4250", .data = &sm6115_data, },
+> +	{ .compatible = "qcom,sm6115", .data = &sm6115_data, },
+> +	{ .compatible = "qcom,sm6125", .data = &sm6125_data, },
+> +	{ .compatible = "qcom,sm6150", .data = &sm6150_data, },
+> +	{ .compatible = "qcom,sm6350", .data = &sm6350_data, },
+> +	{ .compatible = "qcom,sm6375", .data = &sm6350_data, },
+> +	{ .compatible = "qcom,sm7125", .data = &sc7180_data },
+> +	{ .compatible = "qcom,sm7150", .data = &sm7150_data, },
+> +	{ .compatible = "qcom,sm8150", .data = &sm8150_data, },
+> +	{ .compatible = "qcom,sm8250", .data = &sm8250_data, },
+> +	{ .compatible = "qcom,sm8350", .data = &sm8350_data, },
+> +	{ .compatible = "qcom,sm8450", .data = &sm8350_data, },
+> +	{ .compatible = "qcom,sm8550", .data = &sm8550_data, },
+> +	{ .compatible = "qcom,sm8650", .data = &sm8550_data, },
+> +	{ .compatible = "qcom,x1e80100", .data = &x1e80100_data, },
+> +	{ .compatible = "qcom,x1p42100", .data = &x1e80100_data, },
+> +	{ }
+> +};
+> +
+> +const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void)
+> +{
+> +	const struct of_device_id *match;
+> +	struct device_node *root;
+> +
+> +	root = of_find_node_by_path("/");
+> +	if (!root)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	match = of_match_node(qcom_ubwc_configs, root);
+> +	of_node_put(root);
+> +	if (!match) {
+> +		pr_err("Couldn't find UBWC config data for this platform!\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	return match->data;
+> +}
+> diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..450106e6aea06f9f752bb7312ec3074e375eee4d
+> --- /dev/null
+> +++ b/include/linux/soc/qcom/ubwc.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2018, The Linux Foundation
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef __QCOM_UBWC_H__
+> +#define __QCOM_UBWC_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct qcom_ubwc_cfg_data {
+> +	u32 ubwc_enc_version;
+> +	/* Can be read from MDSS_BASE + 0x58 */
+> +	u32 ubwc_dec_version;
+> +	u32 ubwc_swizzle;
+> +	int highest_bank_bit;
+> +	bool ubwc_bank_spread;
+> +	bool macrotile_mode;
+> +	u32 mdss_reg_bus_bw;
+> +};
+> +
+> +#define UBWC_1_0 0x10000000
+> +#define UBWC_2_0 0x20000000
+> +#define UBWC_3_0 0x30000000
+> +#define UBWC_4_0 0x40000000
+> +#define UBWC_4_3 0x40030000
+> +
+> +const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void);
+> +
+> +#endif /* __QCOM_UBWC_H__ */
+> 
+> -- 
+> 2.49.0
+> 
