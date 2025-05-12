@@ -2,59 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2B2AB32F7
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 11:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F2CAB3354
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 11:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30C9110E346;
-	Mon, 12 May 2025 09:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43D1C10E341;
+	Mon, 12 May 2025 09:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Cfq7HrsX";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vYGn906P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC1110E0C7;
- Mon, 12 May 2025 09:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hj59TOBb21Ws8RgUIds2AGjqvk25AJJ0X33YQR+g87E=; b=Cfq7HrsXcR1m73+T0EZJRtz/jv
- Tstv6f+X1qVwa8HkP3zazgzJfv0uMdBxHG3CsElrnDNsTcAJV/rzuBqkhnpV4ve3jwW3XLjUPoD+y
- uCLa78S2GSFW9dkqaoxJMJic1UmiUb68+4XkdJFPuNT7NQVjlfccMRZQNUl5IARMTVUCUmwgesbEG
- uGb+Irkfi2n4kZALBt8fk4gThYat3oyyc6PUI2+oBtTBPH6F9xCWV5Z+QcBCJsHHUw0fEhpt8qpoI
- 0DQhuSU39BGNeVRc+voKLHJAkYBt60izqVFZY3sdLXlSqBQTKXD5GsiQb9+f4hG1faYSVn70HmAdb
- KWl0S0RQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uEPFL-006zkP-80; Mon, 12 May 2025 11:20:09 +0200
-Message-ID: <24fd309e-fb2e-433b-ad9b-f846f296cd2f@igalia.com>
-Date: Mon, 12 May 2025 10:20:08 +0100
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A156410E170;
+ Mon, 12 May 2025 09:25:00 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZwvMX5fwgz9smN;
+ Mon, 12 May 2025 11:24:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1747041896; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jx6/lo73KV9uhh+6cHg1qBPdgm6rkh+b+VT/ZKn9Omg=;
+ b=vYGn906PpXjLXF+d3ECyenHZsLtn59hDjs6W3Jh27Bfd+XJIlY761XhkRes9nXHE2SGAij
+ ALGb7sJanGlJHN9w+U6xz3y5djtoFy6CNCcvPSobCAKHeVo4PqJ5pqHNPpZZ/92qaVk1on
+ IRllAvesOJOwV/khQ/+KWrJOtuM33aVEesHUGAb8O0sHR/DusyWhgPI5Af3g0QM6ZmJ4Rq
+ YZnOYljeguDVgWExKY6aHDdNbSpWuNd8PqqFfIpWmHZCyQmUbZ2tJldA6E7Vqi6A9YQgTJ
+ /Qmw4H9W/WXF+bXHPpz7JS7ZVE50xdLiZU0ipCPikHbPsc7RIIM1P3m7UgINgw==
+Message-ID: <73e6d7c4d216456f10960b5409de46c669bdc3ce.camel@mailbox.org>
+Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
+ on running
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?=
+ Canal <mcanal@igalia.com>, Matthew Brost <matthew.brost@intel.com>, Danilo
+ Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 12 May 2025 11:24:48 +0200
+In-Reply-To: <95daf571-fa56-4e49-9c45-adb3932aecdb@igalia.com>
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
+ <4020cf8b-3524-46c9-a082-adaf4c1797c2@igalia.com>
+ <95daf571-fa56-4e49-9c45-adb3932aecdb@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 03/13] dma-fence: Use a flag for 64-bit seqnos
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com
-References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
- <20250509153352.7187-4-tvrtko.ursulin@igalia.com>
- <48ca64e8-09a8-4321-a84a-e33f2d32e552@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <48ca64e8-09a8-4321-a84a-e33f2d32e552@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: cceb89f7b8e4215d719
+X-MBO-RS-META: ee3qndim4nmfrwoxiac3r5pseqn7m559
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,139 +76,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2025-05-07 at 13:50 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 07/05/2025 13:33, Ma=C3=ADra Canal wrote:
+> > Hi Tvrtko,
+> >=20
+> > Thanks for the review!
+> >=20
+> > On 06/05/25 08:32, Tvrtko Ursulin wrote:
+> > >=20
+> > > On 03/05/2025 21:59, Ma=C3=ADra Canal wrote:
+> > > > When the DRM scheduler times out, it's possible that the GPU
+> > > > isn't hung;
+> > > > instead, a job may still be running, and there may be no valid
+> > > > reason to
+> > > > reset the hardware. This can occur in two situations:
+> > > >=20
+> > > > =C2=A0=C2=A0 1. The GPU exposes some mechanism that ensures the GPU=
+ is
+> > > > still=20
+> > > > making
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism=
+, we can safely skip
+> > > > the=20
+> > > > reset,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rearm the timeout, and allow the job=
+ to continue running
+> > > > until
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d=
+ and Etnaviv.
+> > > > =C2=A0=C2=A0 2. TDR has fired before the IRQ that signals the fence=
+.
+> > > > Consequently,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the job actually finishes, but it tr=
+iggers a timeout
+> > > > before=20
+> > > > signaling
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the completion fence.
+> > > >=20
+> > > > These two scenarios are problematic because we remove the job
+> > > > from the
+> > > > `sched->pending_list` before calling `sched->ops-
+> > > > >timedout_job()`. This
+> > > > means that when the job finally signals completion (e.g. in the
+> > > > IRQ
+> > > > handler), the scheduler won't call `sched->ops->free_job()`. As
+> > > > a=20
+> > > > result,
+> > > > the job and its resources won't be freed, leading to a memory
+> > > > leak.
+> > > >=20
+> > > > To resolve this issue, we create a new `drm_gpu_sched_stat`
+> > > > that=20
+> > > > allows a
+> > > > driver to skip the reset. This new status will indicate that
+> > > > the job
+> > > > should be reinserted into the pending list, and the driver will
+> > > > still
+> > > > signal its completion.
+> > >=20
+> >=20
+> > [...]
+> >=20
+> > > > diff --git a/include/drm/gpu_scheduler.h
+> > > > b/include/drm/gpu_scheduler.h
+> > > > index=20
+> > > > 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b
+> > > > 5fc16b927202a507d51 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -389,11 +389,13 @@ struct drm_sched_job {
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not ava=
+ilable
+> > > > anymore.
+> > > > + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip
+> > > > the=20
+> > > > reset.
+> > >=20
+> > > s/GPU/job/ ?
+> > >=20
+> > > > =C2=A0=C2=A0 */
+> > > > =C2=A0 enum drm_gpu_sched_stat {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_NONE,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_NOMINAL,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_ENODEV,
+> > > > +=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_RUNNING,
+> > >=20
+> > > I am wondering if we could make it more obvious what is the
+> > > difference=20
+> > > between "nominal" and "running" and from whose point of view
+> > > should=20
+> > > those statuses be considered.
+> > =C2=A0> > So far we have "nominal" which means scheduler/hardware is
+> > working=20
+> > fine
+> > > but the job may or may have not been cancelled. With "running" we
+> > > kind=20
+> > > of split it into two sub-statuses and it would be nice for that
+> > > to be=20
+> > > intuitively visible from the naming. But I struggle to suggest an
+> > > elegant name while preserving nominal as is.
+> >=20
+> > I was thinking: how about changing DRM_GPU_SCHED_STAT_NOMINAL to
+> > DRM_GPU_SCHED_STAT_RESET (the hardware is fine, but we reset it)?
+> >=20
+> > Then, when we skip the reset, we would have
+> > DRM_GPU_SCHED_STAT_NOMINAL
+> > (which means the hardware is fine and we didn't reset it).
+> >=20
+> > I'm open to other suggestions.
+>=20
+> DRM_GPU_SCHED_STAT_RESET sounds like a good name and seems to paint a
+> consistent story between running - reset - enodev.
+>=20
+> > > Thinking out loud here - perhaps that is pointing towards an=20
+> > > alternative that instead of a new status, a new helper to re-
+> > > insert=20
+> > > the single job (like drm_sched_resubmit_job(sched, job)) would
+> > > fit=20
+> > > better? Although it would be more churn.
+> > >=20
+> >=20
+> > Although your solution might be more elegant, I'm worried that such
+> > a
+> > function could be used improperly by new users (e.g. being called
+> > in
+> > contexts other than `timedout_job()`).
+>=20
+> We could call it drm_sched_untimedout_job(). </humour>
+>=20
+> > I'd prefer to have a new status as it'll be use solely for
+> > `timedout_job()` (making it harder for users to use it
+> > inappropriately).
+> > With the addition of Matthew's feedback (calling
+> > `drm_sched_run_free_queue()` after adding the job to the pending
+> > list),
+> > I think it makes even more sense to keep it inside the timeout
+> > function.
+> >=20
+> > I hope others can chime in and give their opinions about your idea.
+>=20
+> Yeah - Philipp - Danilo - what do you prefer? Third enum with or a
+> new=20
+> helper?
 
-On 12/05/2025 09:17, Christian König wrote:
-> On 5/9/25 17:33, Tvrtko Ursulin wrote:
->> With the goal of reducing the need for drivers to touch (and dereference)
->> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
->> the fence->flags.
->>
->> Drivers which were setting this flag are changed to use new
->> dma_fence_init64() instead of dma_fence_init().
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> My idea was to copy the flag from the ops during init, but that should work as well.
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+I'm also afraid that providing yet another helper for this specific
+case opens the door to abuse. We had (and still have) issues with the
+familiar drm_sched_resubmit_jobs() function. Christian has been very
+clear that this was a bad idea, and I'd rather not walk a road that
+looks similar to that one.
 
-Thanks!
+I tend to think that the status codes are the appropriate mechanism to
+address this. They were, after all, invented to inform the scheduler
+about what is going on inside the driver.
 
-One alternative to dma_fence_init64() I was thinking about is to perhaps 
-have add dma_fence_init_flags(). Especially in the context of patch 4/13 
-where it would then look cleaner for callers such as 
-dma_fence_chain_init(). 4/13 aside, how would dma_fence_init_flags look 
-to you? It is a little bit more verbose is one thing. And if we are not 
-doing 4/13, verbosity coupled with a single benefit perhaps it is best 
-to leave dma_fence_init64() as is?
+That said, currently, ENODEV is basically the only error, and
+everything unequal ENODEV (i.e., NOMINAL) is the "OK state".
 
-Regards,
+A timeout occurring and the GPU not hanging is, therefore, also "OK".
+Whatever the name will be, the docu for NOMINAL must also be adjusted.
 
-Tvrtko
+How about calling it "NORMAL" instead of "NOMINAL", since that state
+actually describes what is both OK and "the norm", i.e., most commonly
+the case?
 
->> ---
->>   drivers/dma-buf/dma-fence-chain.c                | 5 ++---
->>   drivers/dma-buf/dma-fence.c                      | 9 +++++++++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c | 5 ++---
->>   include/linux/dma-fence.h                        | 6 +++++-
->>   4 files changed, 18 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->> index 90424f23fd73..a8a90acf4f34 100644
->> --- a/drivers/dma-buf/dma-fence-chain.c
->> +++ b/drivers/dma-buf/dma-fence-chain.c
->> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
->>   }
->>   
->>   const struct dma_fence_ops dma_fence_chain_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = dma_fence_chain_get_driver_name,
->>   	.get_timeline_name = dma_fence_chain_get_timeline_name,
->>   	.enable_signaling = dma_fence_chain_enable_signaling,
->> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>   			seqno = max(prev->seqno, seqno);
->>   	}
->>   
->> -	dma_fence_init(&chain->base, &dma_fence_chain_ops,
->> -		       &chain->lock, context, seqno);
->> +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
->> +			 context, seqno);
->>   
->>   	/*
->>   	 * Chaining dma_fence_chain container together is only allowed through
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index f0cdd3e99d36..33661658f684 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -1023,3 +1023,12 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>   	trace_dma_fence_init(fence);
->>   }
->>   EXPORT_SYMBOL(dma_fence_init);
->> +
->> +void
->> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +		 spinlock_t *lock, u64 context, u64 seqno)
->> +{
->> +	dma_fence_init(fence, ops, lock, context, seqno);
->> +	__set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
->> +}
->> +EXPORT_SYMBOL(dma_fence_init64);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> index 51cddfa3f1e8..5d26797356a3 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
->>   }
->>   
->>   static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
->> -	.use_64bit_seqno = true,
->>   	.get_driver_name = amdgpu_tlb_fence_get_driver_name,
->>   	.get_timeline_name = amdgpu_tlb_fence_get_timeline_name
->>   };
->> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->>   	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
->>   	spin_lock_init(&f->lock);
->>   
->> -	dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->> -		       vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->> +	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->> +			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>   
->>   	/* TODO: We probably need a separate wq here */
->>   	dma_fence_get(&f->base);
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 48b5202c531d..ac6535716dbe 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -97,6 +97,7 @@ struct dma_fence {
->>   };
->>   
->>   enum dma_fence_flag_bits {
->> +	DMA_FENCE_FLAG_SEQNO64_BIT,
->>   	DMA_FENCE_FLAG_SIGNALED_BIT,
->>   	DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>   	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->> @@ -262,6 +263,9 @@ struct dma_fence_ops {
->>   void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>   		    spinlock_t *lock, u64 context, u64 seqno);
->>   
->> +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->> +		      spinlock_t *lock, u64 context, u64 seqno);
->> +
->>   void dma_fence_release(struct kref *kref);
->>   void dma_fence_free(struct dma_fence *fence);
->>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->> @@ -454,7 +458,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
->>   	 * 32bit sequence numbers. Use a 64bit compare when the driver says to
->>   	 * do so.
->>   	 */
->> -	if (fence->ops->use_64bit_seqno)
->> +	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
->>   		return f1 > f2;
->>   
->>   	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
-> 
+And I wouldn't call it RUNNING, since the GPU is also running in
+NOMINAL state. "NO_HANG" could hint more effectively at the fact that
+the GPU is, contrary to the scheduler's believe, not hanging.
+
+(I've been out for a few days and am catching up to a lot of things.
+Just had time to get deeper into this series. Apologies if my picture
+isn't complete yet)
+
+Thanks,
+P.
+
+
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
 
