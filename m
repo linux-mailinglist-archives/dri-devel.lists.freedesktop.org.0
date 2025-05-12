@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEF5AB3E23
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C767AAB3E24
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBCE89C55;
-	Mon, 12 May 2025 16:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B5C10E470;
+	Mon, 12 May 2025 16:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB35389C55
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:54:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705C210E110
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:54:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9B9EA4A88D;
- Mon, 12 May 2025 16:54:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F219FC4CEE7;
- Mon, 12 May 2025 16:54:44 +0000 (UTC)
-Date: Mon, 12 May 2025 18:54:43 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTP id 57D7D5C0648;
+ Mon, 12 May 2025 16:52:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD11EC4CEEE;
+ Mon, 12 May 2025 16:54:49 +0000 (UTC)
+Date: Mon, 12 May 2025 18:54:48 +0200
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Danila Tikhonov <danila@jiaxyga.com>
 Cc: Rob Herring <robh@kernel.org>, 
@@ -76,15 +76,15 @@ Cc: Rob Herring <robh@kernel.org>,
  linux-remoteproc@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
  linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 20/33] dt-bindings: i2c: qcom-cci: Add the SM7150
+Subject: Re: [PATCH 21/33] dt-bindings: clock: qcom-rpmhcc: Add the SM7150
  compatible
-Message-ID: <20250512-incredible-radiant-jackrabbit-d0c77b@kuoka>
+Message-ID: <20250512-victorious-neon-crane-4c7edc@kuoka>
 References: <20250422213137.80366-1-danila@jiaxyga.com>
- <20250422213137.80366-4-danila@jiaxyga.com>
+ <20250422213137.80366-5-danila@jiaxyga.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250422213137.80366-4-danila@jiaxyga.com>
+In-Reply-To: <20250422213137.80366-5-danila@jiaxyga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,15 +100,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 12:31:24AM GMT, Danila Tikhonov wrote:
-> Add the SM7150 CCI device string compatible.
+On Wed, Apr 23, 2025 at 12:31:25AM GMT, Danila Tikhonov wrote:
+> Update the documentation for clock rpmh driver on SM7150 SoCs.
 > 
 > Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 > ---
->  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/clock/qcom,rpmhcc.yaml           | 53 ++++++++++---------
+>  1 file changed, 29 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml b/Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml
+> index dcb872b9cf3e..311aae5c9828 100644
+> --- a/Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml
+> @@ -16,30 +16,35 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - qcom,qcs615-rpmh-clk
+> -      - qcom,qdu1000-rpmh-clk
+> -      - qcom,sa8775p-rpmh-clk
+> -      - qcom,sar2130p-rpmh-clk
+> -      - qcom,sc7180-rpmh-clk
+> -      - qcom,sc7280-rpmh-clk
+> -      - qcom,sc8180x-rpmh-clk
+> -      - qcom,sc8280xp-rpmh-clk
+> -      - qcom,sdm670-rpmh-clk
+> -      - qcom,sdm845-rpmh-clk
+> -      - qcom,sdx55-rpmh-clk
+> -      - qcom,sdx65-rpmh-clk
+> -      - qcom,sdx75-rpmh-clk
+> -      - qcom,sm4450-rpmh-clk
+> -      - qcom,sm6350-rpmh-clk
+> -      - qcom,sm8150-rpmh-clk
+> -      - qcom,sm8250-rpmh-clk
+> -      - qcom,sm8350-rpmh-clk
+> -      - qcom,sm8450-rpmh-clk
+> -      - qcom,sm8550-rpmh-clk
+> -      - qcom,sm8650-rpmh-clk
+> -      - qcom,sm8750-rpmh-clk
+> -      - qcom,x1e80100-rpmh-clk
+> +    oneOf:
+> +      - enum:
+> +        - qcom,qcs615-rpmh-clk
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Wrong indentation, needs testing.
 
 Best regards,
 Krzysztof
