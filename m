@@ -2,78 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A6AAB3605
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 13:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0288AB3630
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 13:48:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF8E10E17B;
-	Mon, 12 May 2025 11:41:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5678510E183;
+	Mon, 12 May 2025 11:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cJKOV8pu";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lX+8YgxR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AaTupqTw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lX+8YgxR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AaTupqTw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE6D610E17B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 11:41:25 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-af907e48e00so260444a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 04:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747050085; x=1747654885; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FWdZ0FvRG7jRFpnyMwSNn8FH9aRym0nmItdxHtAcDko=;
- b=cJKOV8puNdp0Cd+BSnf7oeqwe8Hos1ZnX0D988MiQJuRsu6wNn4Cmy5dajbZm4Ce1S
- 9HHufPUjk3scp0WYfF8hcv5G+IKcnQTvMBmH1nMLkUxaogXbd9MWxXmiI4yYLOSVFMs8
- 1oDrEYldBgOWfme+ZL7VGBhAq1A1rr9PMHDETx4f+SRdefGcorqYpv9+AZw5D80ipyLT
- X0rvk6ap3CYOvM7sitLqXcfgyJq/IQd2cNi0B45Abp7u55z26L0+WmeJ1yUFALho5NnT
- 7rTQpS26TKrkVYspIP7nq31N6m5E8Hd2sUgAzirjX/hlyE1N6fM+rAMxrFiqG9YergdY
- Kn4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747050085; x=1747654885;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FWdZ0FvRG7jRFpnyMwSNn8FH9aRym0nmItdxHtAcDko=;
- b=O6oTbOKfNeypjH1cAf9LX3KLpsdYeRXiR/D0N22yDjcLUWj4oKLg3Q2G74uufk1OMQ
- jwZrdTtZR53T4vwyN2Yv/yKOhUQMs5VLUrfjZ3f/MpbJGTliCDTXs+m023mbs7VD/CEd
- yWyXe9olPPDfk+WqodX8vtruwt0ap/Aej8hseiK/l9zZsubPIMC6jV76FGJ2OCFy0jqZ
- lZNB9mNSxjJ9zGvNyGACLh9wCl+RZ7KmilBNA5R4gSd2LwgqVVykRVZoYWXK1nhdwNP3
- QsmIthZY3FO9VUWvI+zOXYyl+Hlo0DU42UPYNIH3atOajN6MTXHrIiF8gNHoOvpNKqwQ
- wgmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWcqUmCB9LJkqilLQk7mX3BemKiU6VluZo/9rvcQBXmANUXaJ0GlhrqfjAyeLcqrj1ZxiZ9u0WSDTc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzo8ujne0AUSp9acyJkb69c1BvVMR8hzp3fLu5GKMu+THAd/wMH
- xuQFguiYFNlygnOCrVQgLc+wmYPfTHGoagk3gHj992g2DSp/xDlt3Otbl+Lrsy/Sf57TpB/JMSx
- MV4I+TAa94N1LPtoq2yu5ddrUnR8=
-X-Gm-Gg: ASbGnctqdDa0McsTA61JLPxonwuwqu2c6Fh6wr852UKvw/vBCka6t+ol5iU3NimQASn
- N+UNY/Oe5WnUDT79gMSEJHi9Cyz5+EyImIZ42Cpz+q6yKLade/eO+ozjZbti37CtkWomwrBEJsv
- QHAdIQpE3f6gCQD3rvXjAcfN5HgyjvV6mmBvdrVF58lhY=
-X-Google-Smtp-Source: AGHT+IEtQf2BdCN7e2sHSUk0VJX0Olv5qlcwauAFJbrOV1/mqRMGEU3MBVPNlGdiu+mmHNXEQgSqiV+PRfZLQzZHfJg=
-X-Received: by 2002:a17:903:3bc5:b0:22e:62da:2e58 with SMTP id
- d9443c01a7336-22fc8d9852dmr63171295ad.10.1747050085392; Mon, 12 May 2025
- 04:41:25 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0A5010E183
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 11:48:02 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3A5EF1F387;
+ Mon, 12 May 2025 11:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1747050481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=P/xgfo4coMIWbhkXr1qQoSvH8xgdook6MpHrG8zUTpU=;
+ b=lX+8YgxRMYOHbZLSRZHDxHnovPiVwxV1fweh7hIRxLSY7T3eIeHtAB7N14TFQjrc4Tqg8W
+ ydbB0KLUPbDrc6YqRj2/7UqpWOxXUtlKqWbtTuG8RkRCzgDkJx5uy85Db0+wbnglRNZ6jU
+ 4tTlWNWfq7Lt0J5G9gX2GgLvbyrjXWs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1747050481;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=P/xgfo4coMIWbhkXr1qQoSvH8xgdook6MpHrG8zUTpU=;
+ b=AaTupqTw8q1HIcCCeQH1TBEei/hboN5hKpW9/G5IRnE8ojk2QozKNsdQXFI2buYwaBTUDW
+ eLmmT5k5H/33IOCQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lX+8YgxR;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AaTupqTw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1747050481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=P/xgfo4coMIWbhkXr1qQoSvH8xgdook6MpHrG8zUTpU=;
+ b=lX+8YgxRMYOHbZLSRZHDxHnovPiVwxV1fweh7hIRxLSY7T3eIeHtAB7N14TFQjrc4Tqg8W
+ ydbB0KLUPbDrc6YqRj2/7UqpWOxXUtlKqWbtTuG8RkRCzgDkJx5uy85Db0+wbnglRNZ6jU
+ 4tTlWNWfq7Lt0J5G9gX2GgLvbyrjXWs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1747050481;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=P/xgfo4coMIWbhkXr1qQoSvH8xgdook6MpHrG8zUTpU=;
+ b=AaTupqTw8q1HIcCCeQH1TBEei/hboN5hKpW9/G5IRnE8ojk2QozKNsdQXFI2buYwaBTUDW
+ eLmmT5k5H/33IOCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E81B61397F;
+ Mon, 12 May 2025 11:48:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Vq9QN/DfIWhPeAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 May 2025 11:48:00 +0000
+Message-ID: <47ca248e-2c8f-456c-afdb-c9b30c9a3e71@suse.de>
+Date: Mon, 12 May 2025 13:48:00 +0200
 MIME-Version: 1.0
-References: <20250410235546.43736-1-dakr@kernel.org>
- <20250410235546.43736-8-dakr@kernel.org>
-In-Reply-To: <20250410235546.43736-8-dakr@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 12 May 2025 13:41:13 +0200
-X-Gm-Features: AX0GCFsXrceSa7Z-E7razDmeQKNGOcQChVn-chfnpWnHFst4WuM6qw4PjEJHdJA
-Message-ID: <CANiq72ks_1rEQYvYY464WOqAGKJTQpgvjM_RoBkHTJhMx1euyA@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] rust: drm: gem: Add GEM object abstraction
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com, lina@asahilina.net, 
- daniel.almeida@collabora.com, j@jannau.net, alyssa@rosenzweig.io, 
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me, 
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm: Provide helpers for programming gamma ramps and
+ palettes
+To: jfalempe@redhat.com, javierm@redhat.com, airlied@redhat.com,
+ simona@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20250509083911.39018-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250509083911.39018-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 3A5EF1F387
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,linux.intel.com,kernel.org];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_NONE(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,26 +156,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 11, 2025 at 1:56=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+
+
+Am 09.05.25 um 10:23 schrieb Thomas Zimmermann:
+> We have a number of drivers that offer simple gamma correction and
+> palette modes. Depending on their hardware, the drivers process the
+> provided data in similar ways. Unify the functionality in several
+> DRM color-management helpers and update the drivers. The new helpers
+> can load provided data or generate default data to load.
 >
-> +    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self {
-> +        // SAFETY: All of our objects are Object<T>.
-> +        unsafe { crate::container_of!(obj, Object<T>, obj).cast_mut() }
-> +    }
+> With the drivers; ast, mgag200 ofdrm and vesadrm; gamma ramps are
+> always 8 bit wide. For 24-bit color depth, 8-bit gamma ramps are being
+> loaded to hardware as provided. For lower color depths the hardware
+> often requires the gamma ramp to be reduced to the number of bits
+> per pixel component, which the new helpers can do automatically. The
+> exception is ast's hardware, which always uses 8-bit gamma ramps.
 
-Doing something unrelated, I got a Clippy warning about this public
-function not being unsafe, and while the lint talks about potentially
-dereferecing a pointer, it is still the case the `container_of` uses
-`byte_sub` which is why the macro requires both the in and out pointer
-to be in bounds of the same allocation.
+> The default gamma ramp uses a factor of 1.0 (as has been the case in
+> existing the per-driver implementations). A later update could change
+> this to the common value of 2.2 or a system-specific value.
 
-So since someone may pass any pointer here, this should be unsafe, right?
+That might not be such a great idea. See 
+https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&highlight_names=&date=2025-05-12&show_html=true
 
-Even if that is not correct, the `// SAFETY` comment should
-nevertheless explain why that holds, no?
+>
+> Helpers for palettes either load an 8-bit palette or generate a default
+> palette with increasing luminance. The goal for the default is to keep
+> the display content visible with black at index 0. A later update could
+> possibly load a system-specific default palette.
+>
+> Thomas Zimmermann (5):
+>    drm: Add helpers for programming hardware gamma LUTs
+>    drm/ast: Use helpers for programming gamma ramps and palettes
+>    drm/mgag200: Use helpers for programming gamma ramps
+>    drm/ofdrm: Use helpers for programming gamma ramps
+>    drm/vesadrm: Use helpers for programming gamma ramps
+>
+>   drivers/gpu/drm/ast/ast_mode.c           |  69 +++++---
+>   drivers/gpu/drm/drm_color_mgmt.c         | 206 +++++++++++++++++++++++
+>   drivers/gpu/drm/mgag200/mgag200_drv.h    |   4 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200er.c |   4 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200ev.c |   4 +-
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c |   4 +-
+>   drivers/gpu/drm/mgag200/mgag200_mode.c   |  78 ++++-----
+>   drivers/gpu/drm/sysfb/ofdrm.c            |  78 ++++-----
+>   drivers/gpu/drm/sysfb/vesadrm.c          | 100 ++++-------
+>   include/drm/drm_color_mgmt.h             |  27 +++
+>   10 files changed, 380 insertions(+), 194 deletions(-)
+>
+>
+> base-commit: 842c3c276c106040f9b96d72b9df35ed6aed9ae9
 
-I hope that helps.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Cheers,
-Miguel
