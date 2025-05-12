@@ -2,160 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4536BAB3B63
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:53:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A110EAB3B72
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0683910E1AC;
-	Mon, 12 May 2025 14:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902D310E427;
+	Mon, 12 May 2025 14:57:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="D/8XI2Rq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nYbLX77l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68BAE10E0FE;
- Mon, 12 May 2025 14:53:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qhkxzRM24poReZCAoFSMMUnzH69mCh9kP7MOQhaBLJAA0r0wInq1mwZWIDQCWM0wOEtUDvgvgg2VomaIsUrHLNG0nIo8V1+eUcV4Fioyy56mtS02r3o4rjQnbDvTOjXtBK3iogcAkT/yv0TH7ekfp/irOZyWgaGDAEgrSWcIiJd7vwJsOzhls5usUtzmVuwIUfTFW1m715L+O2OVBkra9q3hjCAoiqbmmDh4HWqqfrQ/3CKYb0OhfexYDEA201BFeLx6y2m5ghg746jSywIohnfECQ0517omhxPyn9BmM5718H7ZUg+5ktqFvly+Vbe0Bb60vxJ/Y7pDUHyXmITlaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6wKfC+0pv8WWe+zOUGR2TyO2tjuYPy9DBSYXtPrGzQg=;
- b=Hqsi41W11rvEMq+tFMYzz0Rh/gzhWdOQkJqDlVs8iS4rU86767ylmHDu+aUa0CK2L5VO0qji9MflLVCYWnQDrns4IhBrRrjxw7kdjvC90q4MOEwP5yKl9YAtpErP3tvETRTQ04pqiChcDOkOTorKYzJiAxT/gPfnxsWs9GsCzqQGT2SBGq+DPVp5oMWx1MbqJz856IEKZFg2F3a4rS59ZYAlhgkKpp6rJ7JpdsFx8Thw9mLbEJIWcNGH2rVTArsRftI5G9P2uCtKv9zKeasMEsOD3mq72xJ9ORRTjz8gq96qA0oSZoMvGpU7oggNF+XfGslKaGwlRjtQpVUfZDl/PQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6wKfC+0pv8WWe+zOUGR2TyO2tjuYPy9DBSYXtPrGzQg=;
- b=D/8XI2RqBNg9Yb5S0OtFEpaPy2pfdrg8VUXSkKxCCnNJCNF4pwXHNFa+EWZCi2p2HseLupe8rqttiDqiqBgw6MZteFIM1dCCBC5rHQ/YKKWXWXXI5rVJAo7EAuk1A9UfsDy+DIcLNOxkoAX6Du3a8RpcDDP0plMhX9YQ1KLC+wk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB7175.namprd12.prod.outlook.com (2603:10b6:806:2b2::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Mon, 12 May
- 2025 14:53:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Mon, 12 May 2025
- 14:53:46 +0000
-Message-ID: <2c3c957f-8353-4bcc-bc30-b92a1db1acfb@amd.com>
-Date: Mon, 12 May 2025 16:53:37 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm: Create an app info option for wedge events
-To: Krzysztof Karas <krzysztof.karas@intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, siqueira@igalia.com,
- airlied@gmail.com, simona@ffwll.ch, Raag Jadav <raag.jadav@intel.com>,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- Xaver Hugl <xaver.hugl@gmail.com>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20250511224745.834446-1-andrealmeid@igalia.com>
- <20250511224745.834446-2-andrealmeid@igalia.com>
- <x3ep3offdy5on6hckumvpsvnlfnmjdfqjlcyv7hojitzsn5u3k@opnou6grp7ad>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <x3ep3offdy5on6hckumvpsvnlfnmjdfqjlcyv7hojitzsn5u3k@opnou6grp7ad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR06CA0030.namprd06.prod.outlook.com
- (2603:10b6:208:23d::35) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 255D010E42C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:57:14 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-85dac9728cdso120413339f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 07:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747061833; x=1747666633; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5CM/pTzzheLYdPVFGIT6hfnPFRugrCCGuXn8kzkW3cc=;
+ b=nYbLX77lkdfqWU8LutkUqOPl40EAZnpMxpCzv0pI+Mmz5yEAxmpQfRVYxJj7iusvQj
+ loclSGScCiRRgHQD4cuNBNTWaFm66iT9mwjbmBVP6V5U3l4ES1guUIBNNxNVazJDwsFM
+ ZwgS2TRDAuPeZ/JIPGfR3mIjjksCyTzT7NcnerXpoOv6diFC1Z6mlc370b+Mk+JzUDUm
+ TyB+BdrD8rp885rFV76eeZi/ISPASIU1J+Dsh+B8ajls+uwrlix3Y5CLlzDxufp2bhCq
+ CbvowhzBZrDUXpEsU3b1/YkG9WubNp0wmDqjpx9uKgZWD2PlTe/spxZJXKnD+XMu1/Vs
+ hfiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747061833; x=1747666633;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5CM/pTzzheLYdPVFGIT6hfnPFRugrCCGuXn8kzkW3cc=;
+ b=M+B5OJ4WWiLjeNA7uj1BLKQzEycAlAfdIOt4mlitbNXbRrNyuIuKNEYBC8oqUMHvi+
+ 77f6bMLphjxi0E0LFuQTBYhSE2u67KPIgQ6+MDSBpzSYXt/PIg9kK4Fj9NSAEAv7kfBN
+ gm1oUBC3s2tzQCAx/o5w1QjJ+mDE7+D+pyQTLctnCaORBGLooB5kNXVflnLL1XVpyuSh
+ sWS+mGJFtlEihimIO5/n5rXrwxG6iRC7RDncmbGX0rIS3Rc9K8D8twTupuy4WVUzMFnj
+ sNgyXKrYrtgw6MaKpq6NYSKb6jdW0Aat0H1EFxMl74LXnNab6N3oR/2VAYxp5cAE5Rcg
+ l5FQ==
+X-Gm-Message-State: AOJu0YwboOnM7tTzKBtgFC/Kq9AjnlsgHbaOBt/Twx5/ftAxktNatCjY
+ sVgbK632tnYc+C2NLBDlTAEJ/0GBulKrAtriVRKH+MoA4TLBxWUDhxxtOVdW8KjgMh6XiBrbqIf
+ maj8QpdYLpxMxxOXG6teAd3ErvS0=
+X-Gm-Gg: ASbGncvS3mLt4IafzfkBzcFPJVR0j4jDy3q6S5cmTc1LieLxyu+SeMOEs/n6fl9q70W
+ 78Bp0uvNq9auZ1ReSe671TeYfteKtwe2Al8DKdq7kpH+JO6XhUiTKhU+oDUfSdnCHxCfr+d0I/3
+ kYjuAbB04t2ly73nbW4i0rC+GpJWFQGumZ9FJSM6/rtZg7qF9P9gviY9fiRXzmsXwYsUWPiOhnJ
+ w==
+X-Google-Smtp-Source: AGHT+IFcYrKXRaJZ0ODsRE3pns6yi3SayGrvR5yPXNbXJIajTTYC9WnKJWrvwG6tIF8zooAutxZSNN6rpze9CqKgADI=
+X-Received: by 2002:a05:6e02:1845:b0:3d9:34c8:54ce with SMTP id
+ e9e14a558f8ab-3da7e2103c5mr168593675ab.18.1747061832916; Mon, 12 May 2025
+ 07:57:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7175:EE_
-X-MS-Office365-Filtering-Correlation-Id: 929a373d-75a3-4d77-4fc5-08dd9164cc28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NEM5Q2VzNDFpWCtpaVpkbElLQ2xXVkxkZlNjS3dpeHloRER3T1pNVDIzcmFE?=
- =?utf-8?B?Qno2R1BZMXA1cVpxOS9sUUQ4U1RyM3hINVUvOVowV05udzZIamU0LytHanB5?=
- =?utf-8?B?YU9OR0NvdDZOOHFhT1Bzd0JzKzBLNmVXb2ltTUtiUWhCUzdJVkFNL0lEZmdI?=
- =?utf-8?B?TE1DaTBBNHVuV091cGhmbkFtWjUxc1ZDSUQvZ3BZK044OUJCLzRkRUJQYnFY?=
- =?utf-8?B?WXJKSWVCRVB0azJqY05VTmw5bHIzTnk5R2FrVjZpYXdoK1kxdlNxanFxTEQ1?=
- =?utf-8?B?Q0N4Vm02RHJtTlF3M3VieDlEcVVJTUIwY2dxSS9pR0ZFTnJVMlJrRzIveDNJ?=
- =?utf-8?B?d3FORDM3T0svcGRubFZPa0k5M1Q0a2JOaTBJczRhankzWi85THdsR3FBVkVu?=
- =?utf-8?B?dWpaRlNjQWRPOWZ4cDRzeG1aWlZzaVNrM2hrNDFNZWdlV3FvQVRLN3RBazJF?=
- =?utf-8?B?UEltQmlDamh4N2I4T2Z6b3lVKzFsZ3owQkV5SVAyckxKVFk4RkhVWmkzQlhD?=
- =?utf-8?B?NTI2OHRHSjBIL01ycWdGQW1tSHZCYTRMdC9xTDZYK0lyVEtGNXB3cjRMb0xW?=
- =?utf-8?B?eEplaEdqaFFaemEvVGZleUgxSlkwV2VzejRpdmc2WmpHMGVQYUVzWVUzYXg1?=
- =?utf-8?B?TDJ3M3hDL2JZMGg2NFRMdWVXaklPRFpPbU9PYTZBSEFPeHVRai9zZ1BsY3d1?=
- =?utf-8?B?T09HQTcvRTFTYUExTWlSbHhtSkM0dHZmZTN3OFJ4VCtaMGpPaXJwcktGcnF2?=
- =?utf-8?B?akVmSU1jbG1nUUlmVWs1SEZBSjQ2bkVjcnBLSzlxN0FKVHFJRWJ4SERyOEdu?=
- =?utf-8?B?UlV6WUEzeE42eDlwNHZ2RjNpL1c0TFlBYms1WXJ4UGhGWGdDNnU1UW84aEdP?=
- =?utf-8?B?amlxOElpVmVKeGVMOUdYMkJucmVDcEljaUxSV1F4cE5nUnFJd0tZOW9hWUhR?=
- =?utf-8?B?clduWHBWY3U5V0IwZUVGWVcrcFhRdk9LbXkyR2xnUEd3Nk00bWpaNnlCMnRR?=
- =?utf-8?B?ZXcwUnJLamdtQVk3dndvaUFCVGpSVVJ4NVpXbVRHZUJobkE0bWUxdnU4OUVV?=
- =?utf-8?B?SzREVlNzOWJDY3NUMERtdERzRjN0b3I2cjRkbW10eDQ4eFROUG01V050VTN2?=
- =?utf-8?B?ZWRjTlRhZytJTHZ0a3JJekc1VE81eUc5bHVPTjN1ckVRZjdjWnZyNFN6T2Jv?=
- =?utf-8?B?N1JiOW51L0RWcmhRTWZmWDA5Z0dRRlEySEJ3OWhRMUs0Y3hPSmtabDRHcFJn?=
- =?utf-8?B?L2NVZ2lkRkdYSXdZTDFneGJ2eGd5ajJNYk02cFNwbVVNNmFVYmM1NHhpTFhG?=
- =?utf-8?B?Q2VNcUdUNUdZWFk4anNWejdWditnYzZVUk1rRy9MM1RvNjUrZzVJQnhEUVYz?=
- =?utf-8?B?WUpYdjlyUlR1cURaRnp0TFZocU9KN0M2OCt0SmYvVEpkOHE4TURFdnV0bCtO?=
- =?utf-8?B?VUxrTldQaTQwSlluTWJZY2piMnNsR2xLRnNvSFU4Qnp2d3JVNHBDcnR6RWVt?=
- =?utf-8?B?aWw3WG1zWWhkeGtlSTlOUWlWWGNxbkkrZ3ZpSmZVRlZ0bVZ3RWFOVlJYMnBq?=
- =?utf-8?B?MnpaTThuMmZnVGRSSHNoZnpvbXV1aUhDbktVekEwN3BzcHMzSkxPRDR4RkRK?=
- =?utf-8?B?bExKRCsvM3diVTNiZHJvMWQxNWZ4aitmMlh0aDF0SVJ0WDRkTVNYa282UDFT?=
- =?utf-8?B?WmwwV21mRGFpWFNvcStQS3YxOTRsMUNHaTNaNVJ6cjY2c0kyNWpsYjNoUzRF?=
- =?utf-8?B?RFczb1FYcDBWaVpJUmVqYVVpRExHVktOc284eEFIaXAxdkVlQ2tBVWtWZEhv?=
- =?utf-8?B?T0c4TUpkcHpUa0hJTm4xejJQdmJVNlVRZnR3ejUzclNSR0lvaUZXeUNESVRX?=
- =?utf-8?B?L2FHb3l5UWd5QzdpMVc1SWZPNGtoRjc1YW1IRVFWRU95Nmh4MmNWUDQ1bzlw?=
- =?utf-8?Q?AsCL4juSWY0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RzJjaWZFZXE5eVJaaGovMG9FQW93UGNtV3pGK3NmbWdyNmh5UEJiNGJ2aWRK?=
- =?utf-8?B?M3FWaFk4K3IrUzc3bU45TjVCOU0yV1o4MGxCVUN4alMwdjcxaUovRkYyODd0?=
- =?utf-8?B?VVcxT0YrdWoxUUpkZXVOQy95N3J3bW02Vkw3OTh3MGswN2RmY1E1bnBuVktz?=
- =?utf-8?B?M3lUM1FyRE50UGw1VTBQTlZ1VzBsVFVmODYyV3ROT0RQUTRaU0FrS1M1a3Zh?=
- =?utf-8?B?R1JwTnRSTWVrWHZMZHlJdDZmekFLU21rODJmT05aSzB5VmdiQ0ZhR2syYnh2?=
- =?utf-8?B?U0FwZmZaOGtWY2JuMmVrTWRQbnhDcTI3RVkzajA0dVhiOVhNdUxkelRpS0Fs?=
- =?utf-8?B?MzZrR21lcXF0cmpxeVpxQmt3SHlWMmh6cU1naVlYTEg3WVg2OGp2NHNMbGNr?=
- =?utf-8?B?S3hBbXBCM2l3Tk1uVkcxNkNXRWpwZnpqRlVvd3pWOS9YcWZjc243aHNVY2Nu?=
- =?utf-8?B?MzgrN3MzRXZmMVRUbXhpRlRHTjdyNHZQVzdqRmFFQjlIT1g3TmErbFNueGEw?=
- =?utf-8?B?a0VnWG1teUhlUTF5WWs4NHZiaU8vZW52ZmdrWFFHMFVjV2xWT3hoMldDRnMz?=
- =?utf-8?B?NlhCMzVNVEltR2d6aWNSMUlhMSswODRkUW1qSHBXTUJqODJyVG5NRE82ZVVL?=
- =?utf-8?B?TFNQVnBBazNaMWYrbmc5a2JtMEs1a25Ja05uYVcwc1ZnVS82UGdTMFd6Nmp0?=
- =?utf-8?B?VEYyN3NkN3ppODRvSUl2aWEzTGhscU1XSWlKeEJ1bW9IZW1ERDFKeC85LzhE?=
- =?utf-8?B?YnJXUEM3cWF4RmJkWVhGcFJCeUFuMHBtYnNZekk1Mk1Ed0VLMEgxdmVFREo0?=
- =?utf-8?B?ZmFSeXdYWWptVjJLK2JBNmVBZUlSb1Q3ZDVKM1dRcXRkU2ZWaC9zcWZJTnJ5?=
- =?utf-8?B?cXowNzI5VExrVUoyVDR1S2xZaFJhQ3BTNjlneS8rTFp6clA3MmpMTmdubXdM?=
- =?utf-8?B?OTJrN3dTRTFCWlJQSXdwSFIyZ3VwQk92OGIyTHNHZlhWYnB5UG9RMFBFZnl1?=
- =?utf-8?B?Q09aQ1V0L3BVN05jUmNPTE0wcjVWUVI4MTFMczR6TTczNzhmN3pvckdEMFkr?=
- =?utf-8?B?K3lRWURJR3JucEY1VmcybE1XTldBVHNXeVUxeFpVOEZSaExXckJqY0xqSUI2?=
- =?utf-8?B?djdnMU1ia2xVNVJnUCtEdmVlMDF2TW41THkzZ3JwL1FsS29wc3JEWnBKbXhr?=
- =?utf-8?B?YmJZOUVucURjUStNbDMxdEhkZmtVaDhGSWhvL0FwREJpeVV3ZHA5elZyMC9z?=
- =?utf-8?B?M2ZVTE9PRjNtNlNPVVdYbEdtUXZmczZUWkdFaWhkcUFzeFpER08yc090Wnlh?=
- =?utf-8?B?Q0syZG9IMmdCOHVWNFJmNFhIL1haWFhVaUVBVEhHRzRHdkNjYzlPajFKY0tp?=
- =?utf-8?B?cjhrTzlLV0w2cXN0Sm5hVHR0Z0ZMTWNkbnpIL0NUVm44b1JlSStpU0VLV1ls?=
- =?utf-8?B?am5uSWQwSWdsUFo3VXdxcStOdyttWEF2dmlZakRRSWtHMFJnd0hodW1xbk95?=
- =?utf-8?B?enc2MVBxMzFJdDJOK09OUGZyek1DQm1wckUxK3hTZUlZMVd4cUYrdVNRNnE1?=
- =?utf-8?B?bVJKbHpKS2JhUmdjRW05MVRhOVJzOGllQk8vOWdxMDNUY2dRcno2Mm5mcXda?=
- =?utf-8?B?Zm40QmFpb3pXc2d6alVNdUw3aDhDUE95Q1E1Ni9rUjJFQ09tWENOTnYrRXFO?=
- =?utf-8?B?RlVkZFlMMDhDcWNieHFqUHVITUk1a0M4WkExZDhuT2VJREhYRWY5Z1dYdDhs?=
- =?utf-8?B?MHJPL3pqVFFWYjRoQ1hqM1EwTWJsZ3pySlQ3eGtTOGswQWdzd3BZWi94OHF0?=
- =?utf-8?B?MXFHamZ2WFMycW0yVjJNVnE5N2pONzFMcTNjVFl5U2ZHby9yS25aWldUd1F1?=
- =?utf-8?B?MDlWK1pkSWVGQWJ5Q1dLbUI0cEJqaUs1dFdnMjNBK0J5cW1kN05oN0R0VFdL?=
- =?utf-8?B?dGxvcVByeHBNSDNPME9QV1BWbmhBTXBLRWlZbDR4Q3BCWHpDb0d2eDZBeUMz?=
- =?utf-8?B?SnIwYTRQS285MG0xNHZYNkx2bEcyL3ZKVlUveVo1TUF6T04xanlMcDBVVHcr?=
- =?utf-8?B?NSs1S3VpR3g5WksrTUQxKzJWSFM5UXlzdFNOelk0Mzd2K1hMUlFGUXIyL0hu?=
- =?utf-8?Q?p4+Ah5Gfz3LJe1p130ef+8GO+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 929a373d-75a3-4d77-4fc5-08dd9164cc28
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 14:53:46.5805 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p7Xtn12VBMtbjyGlFVzFk28lK2s3QMoRHtzbHC3HOV3JvnulTkL7eI+RaaOoi0IB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7175
+References: <20250509212936.490048-1-robdclark@gmail.com>
+ <aCGpLxb4WQMPXjmZ@pollux>
+In-Reply-To: <aCGpLxb4WQMPXjmZ@pollux>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 12 May 2025 07:57:00 -0700
+X-Gm-Features: AX0GCFvY70VyppyNcKIsqevbp767XzogcVBanUlEETQE9zisSjdkhLh5-UBxH6g
+Message-ID: <CAF6AEGtSr0Y7nk2Jrk+yzoxnW8WGs5S9iOVtvxfQ1hcS9e0AtA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: Fix UAF in drm_sched_fence_get_timeline_name()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ open list <linux-kernel@vger.kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,54 +89,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 12, 2025 at 12:54=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> On Fri, May 09, 2025 at 02:29:36PM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > The fence can outlive the sched, so it is not safe to dereference the
+> > sched in drm_sched_fence_get_timeline_name()
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/scheduler/sched_fence.c |  3 ++-
+> >  include/drm/gpu_scheduler.h             | 11 +++++++++++
+> >  2 files changed, 13 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/=
+scheduler/sched_fence.c
+> > index e971528504a5..4e529c3ba6d4 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> > @@ -92,7 +92,7 @@ static const char *drm_sched_fence_get_driver_name(st=
+ruct dma_fence *fence)
+> >  static const char *drm_sched_fence_get_timeline_name(struct dma_fence =
+*f)
+> >  {
+> >       struct drm_sched_fence *fence =3D to_drm_sched_fence(f);
+> > -     return (const char *)fence->sched->name;
+> > +     return fence->name;
+> >  }
+> >
+> >  static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
+> > @@ -226,6 +226,7 @@ void drm_sched_fence_init(struct drm_sched_fence *f=
+ence,
+> >       unsigned seq;
+> >
+> >       fence->sched =3D entity->rq->sched;
+> > +     fence->name  =3D fence->sched->name;
+>
+> This requires sched->name to be a string in the .(ro)data section of the =
+binary,
+> or a string that the driver only ever frees after all fences of this sche=
+duler
+> have been freed.
+>
+> Are we sure that those rules are documented and honored by existing drive=
+rs?
+>
+> Otherwise, we might just fix one bug and create a more subtle one instead=
+. :(
 
+Agreed, but at least it is _less_ bad, and the alternative of
+refcnting the sched seemed pretty heavy handed :-(
 
-On 5/12/25 08:08, Krzysztof Karas wrote:
-> Hi André,
-> 
-> [...]
-> 
->> @@ -582,6 +584,14 @@ int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
->>  	drm_info(dev, "device wedged, %s\n", method == DRM_WEDGE_RECOVERY_NONE ?
->>  		 "but recovered through reset" : "needs recovery");
->>  
->> +	if (info) {
->> +		snprintf(pid_string, sizeof(pid_string), "PID=%u", info->pid);
->> +		snprintf(comm_string, sizeof(comm_string), "APP=%s", info->comm);
->> +	} else {
->> +		snprintf(pid_string, sizeof(pid_string), "%s", "PID=-1");
->> +		snprintf(comm_string, sizeof(comm_string), "%s", "APP=none");
-> 
-> I think using PID=-1 and APP=none might be misleading, because
-> something did cause the wedge if we landed here.
+I'll take a look at Tvrtko's series to see if that could help.
 
-Yeah, that certainly won't fly. 1 is a perfectly valid pid.
+I suppose the alternative is to null out the sched ptr when the fence
+is signalled, and then return some generic name (ie "signalled" or
+something like that)?
 
-I would just set pid_string and comm_string to empty if info isn't available.
+BR,
+-R
 
-Regards,
-Christian.
-
-
- You could use
-> "PID=unknown" and "APP=unknown" or ensure these arrays are
-> zeroed and fill them only if "info" is available:
-> 
-> -     char *envp[] = { event_string, NULL };
-> +     char pid_string[15] = {}, comm_string[TASK_COMM_LEN] = {};
-> +     char *envp[] = { event_string, pid_string, comm_string, NULL };
-> 
-> [...]
-> 
-> +     if (info) {
-> +             snprintf(pid_string, sizeof(pid_string), "PID=%u", info->pid);
-> +             snprintf(comm_string, sizeof(comm_string), "APP=%s", info->comm);
-> +     }
-> 
-> Then, when printing the logs later you could check if they have
-> a value and only use them if they do (or handle that however
-> you would see fit :) ).
-> 
-> Best Regards,
-> Krzysztof
-
+>
+> >       seq =3D atomic_inc_return(&entity->fence_seq);
+> >       dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+> >                      &fence->lock, entity->fence_context, seq);
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index 0ae108f6fcaf..d830ffe083f1 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -295,6 +295,9 @@ struct drm_sched_fence {
+> >          /**
+> >           * @sched: the scheduler instance to which the job having this=
+ struct
+> >           * belongs to.
+> > +         *
+> > +         * Some care must be taken as to where the sched is derefed, a=
+s the
+> > +         * fence can outlive the sched.
+> >           */
+> >       struct drm_gpu_scheduler        *sched;
+> >          /**
+> > @@ -305,6 +308,14 @@ struct drm_sched_fence {
+> >           * @owner: job owner for debugging
+> >           */
+> >       void                            *owner;
+> > +
+> > +     /**
+> > +      * @name: the timeline name
+> > +      *
+> > +      * This comes from the @sched, but since the fence can outlive th=
+e
+> > +      * sched, we need to keep our own copy.
+>
+> It's our own copy of the pointer, not our own copy of the string. I think=
+ we
+> should be clear about that.
+>
+> > +      */
+> > +     const char                      *name;
+> >  };
