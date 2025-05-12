@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F6AAB3A84
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88FDAB3A93
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48BA810E197;
-	Mon, 12 May 2025 14:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAC210E191;
+	Mon, 12 May 2025 14:27:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="GDMFg2tJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XJUJ/dyd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B5F10E197
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:26:36 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id
- 5614622812f47-400fa6b3012so3707545b6e.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 07:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1747059995; x=1747664795;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6MHmHt5KrhGfVdCCVVSYk7zFa7SARfEF+PYfhH9l5pc=;
- b=GDMFg2tJzeKez0OQ9XmI5CFNBkrAj5j4h2AMw6jue5CPfdrq3EESFR3IaLKiojvCWS
- e11CBqV5QJSgMoiUBnNXsC7hYIx6/+TKg2gZyKWyeZ1rLcEHMBBWsrDDDzt3K0QmCfp6
- maIhXOsKPr3oaJkYRRKqifHUKFEukJm/6XYgwtWlhTo19d/LeTjGp2N2NcUgly5e+rs4
- k/UfGxyPD/CNf4EWfiasotwqA6kBrwRHWEdwU16pjSCMLqjF48oYWtkCHuoJvIPU2CBS
- vs+JKJJIVeIUboz5Sp1pD+sU7YW5l0kmpwnZIdgS+vCMxIg4o3uSwRR14jPbbdtjEUjO
- rmyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747059995; x=1747664795;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6MHmHt5KrhGfVdCCVVSYk7zFa7SARfEF+PYfhH9l5pc=;
- b=oDE0nrhl7okhHJ+qEE5mMGOABWV7pv0MDN/iBPVREztIkUXDAvVoieJfqghUkBnFvd
- DbMCdh4G3dt8QrPnLh+2VRg/tt5KAE4+2MyUi/qEpYWBt1qLRVgdjzsiSHfW6G/iBnFw
- l/mZUPBxIv/yDRQgTSHkcPPCFj+kovpvs6CbGrvDg7pHqR9vfWEWojAvZn0z9mDGFqcb
- WkQVfOZIu3KHJRhSzXEhlcnAqlRq/35h3ScNZ/Hc09uhlH5k29zD9ryb94KvA59cQonw
- n0UESPOvwb+Bq0q9P3tjGGx1WmTwfeXXPmiXxUQNwR4lWqY9fq02/nFxOnukrz4+Q/dS
- CF6g==
-X-Gm-Message-State: AOJu0YysRgiw4BF6dB+MoHpltiLNDlYJcPzKjTo52rQAqXno1jxP3uSu
- O9g+OeI3XV8mzQx/NLeULxmRZkWe/qzJm8a1+0sVv6lYCEXOoeWfI7wLEi7yq/CFK0pRuGZyxW1
- lOtdMYCARYoVo00+hEQlYQBwZpG08jMZdW3ud9lt0RNnJaG9tDW0=
-X-Gm-Gg: ASbGncvJ456DqAVv2cmobPLFN+B6VnoOjyh3LUzfWoQ6yZZESBOqkyKVyNpa9xYEROx
- 4uOqefB84wFjmUUWYMFQw4r14/VL2GoYT01KjqKhmLyx3KVrYYFdADr4pSet4Ks8UXh8DKU1mi+
- 3Zp2pQ1H3vfRsNxLEE9jinuz/J4Lasafg=
-X-Google-Smtp-Source: AGHT+IH2fuOB8ReHzkp6on/K21sFkx/NVgIg4B4uKYyDj7XuJsTc37/iPS6pDLoDczJPW3TiLUEisxd4Pf6t9Y5/9rI=
-X-Received: by 2002:a05:6214:2347:b0:6f2:b9f4:3843 with SMTP id
- 6a1803df08f44-6f54bb50cfdmr294157146d6.22.1747059984510; Mon, 12 May 2025
- 07:26:24 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A437E10E191
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ShlYCAlpUj0EG4BFFQGzIlfptjTPq6gwYXAUM0H4Ork=; b=XJUJ/dydz3VlhW90lBogldLNUj
+ 8ADonzlkFcuGd4guYD5B54jwooOTJAoaD7v9jw6aelUwd1q0UyptqECq4s28nQjxVzlFvsazZTm8Y
+ 7wqAaW7zyqc+Y4GBHZ1g+3gDCYdDIDO4Ub0oqD75vdodIvwFCOfDGale5vuOj+WvkRrN2rH0WYJ7P
+ Hv4c5Hmd9duMC+T4b+863YtmsYd8iT7cqzZQLz3nPYIZXPLqRG2BX2oLAx/cnp8cIekdbDjXwbljr
+ pg2OlCQurfrhuwynRN/DCd1PmzUTaSDWyuYISEK9/viI6c7PjCkFBAcU/HUApSApeMSIY9MizQ6La
+ 3ATQvYcg==;
+Received: from [191.204.192.64] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uEU2w-0077TL-6e; Mon, 12 May 2025 16:27:43 +0200
+Message-ID: <86103c8d-0cdf-4fc8-aa79-5a03b299d26e@igalia.com>
+Date: Mon, 12 May 2025 11:27:40 -0300
 MIME-Version: 1.0
-References: <20250509133535.60330-1-robert.mader@collabora.com>
-In-Reply-To: <20250509133535.60330-1-robert.mader@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 12 May 2025 15:26:12 +0100
-X-Gm-Features: AX0GCFsz7xqAqhxMQN2gxiN4jcfMII-JZMRKkXxucf7GQES_oR2egsnzqeC_7NU
-Message-ID: <CAPj87rONHCNJQ_aaWtA32uLZO1hxGMdb0cty8E-GvnyxpsoarA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: drm_fourcc: add 10/12/16bit software decoder
- YCbCr formats
-To: Robert Mader <robert.mader@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, tomi.valkeinen@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: drm_auth: Convert mutex usage to guard(mutex)
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Kees Cook <keescook@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250509142627.639419-1-andrealmeid@igalia.com>
+ <7133e9b4-c05a-4901-940e-de3e70bbbb1e@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <7133e9b4-c05a-4901-940e-de3e70bbbb1e@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,40 +67,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Hi Thomas,
 
-On Fri, 9 May 2025 at 14:36, Robert Mader <robert.mader@collabora.com> wrote:
-> This adds FOURCCs for 3-plane 10/12/16bit YCbCr formats used by software
-> decoders like ffmpeg, dav1d and libvpx. The intended use-case is buffer
-> sharing between decoders and GPUs by allocating buffers with e.g. udmabuf
-> or dma-heaps, avoiding unnecessary copies and format conversions in
-> various scenarios.
->
-> Unlike formats typically used by hardware decoders the 10/12bit formats
-> use a LSB alignment. In order to allow fast implementations in GL
-> and Vulkan the padding must contain only zeros, so the float
-> representation can be calculated by multiplying with 2^6=64 or 2^4=16
-> respectively.
->
-> MRs or branches for Mesa, Vulkan, Gstreamer, Weston and Mutter can be found at:
->  - https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34303
->  - https://github.com/rmader/Vulkan-Docs/commits/ycbcr-16bit-lsb-formats/
->  - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8540
->  - https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1753
->  - https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4348
->
-> The naming scheme follows the 'P' and 'Q' formats. The 'S' stands for
-> 'software' and was selected in order to make remembering easy.
->
-> The 'Sx16' formats could as well be 'Qx16'. We stick with 'S' as 16bit software
-> decoders are likely much more common than hardware ones for the foreseeable
-> future. Note that these formats already have Vulkan equivalents:
->  - VK_FORMAT_G16_B16_R16_3PLANE_420_UNORM
->  - VK_FORMAT_G16_B16_R16_3PLANE_422_UNORM
->  - VK_FORMAT_G16_B16_R16_3PLANE_444_UNORM
+Thanks for the feedback.
 
-Thanks a lot for these - series is:
-Reviewed-by: Daniel Stone <daniels@collabora.com>
+Em 12/05/2025 03:52, Thomas Zimmermann escreveu:
+> Hi
+> 
+> Am 09.05.25 um 16:26 schrieb André Almeida:
+>> Replace open-coded mutex handling with cleanup.h guard(mutex). This
+>> simplifies the code and removes the "goto unlock" pattern.
+>>
+>> Tested with igt tests core_auth and core_setmaster.
+>>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> but with questions below
+> 
+>> ---
+>>
+>> For more information about guard(mutex):
+>> https://www.kernel.org/doc/html/latest/core-api/cleanup.html
+> 
+> This page lists issues with guards, so conversion from manual locking 
+> should be decided on a case-by-case base IMHO.
+> 
 
-Cheers,
-Daniel
+Sure, agreed. The places that I have converted to guard(mutex) here 
+looks like a good fit for this conversion, where the scope of the mutex 
+is well defined inside a function without conditional locking.
+
+>> ---
+>>   drivers/gpu/drm/drm_auth.c | 64 ++++++++++++++------------------------
+>>   1 file changed, 23 insertions(+), 41 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index 22aa015df387..d6bf605b4b90 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -95,7 +95,7 @@ int drm_getmagic(struct drm_device *dev, void *data, 
+>> struct drm_file *file_priv)
+>>       struct drm_auth *auth = data;
+>>       int ret = 0;
+>> -    mutex_lock(&dev->master_mutex);
+>> +    guard(mutex)(&dev->master_mutex);
+> 
+> These guard statements are hidden variable declarations. Shouldn't they 
+> rather go to the function top with the other declarations? This would 
+> also help to prevent the problem listed in cleanup.html to some extend.
+> 
+
+The guard statements should go exactly where the lock should be taken, 
+as it not only declares anonymous variables but also really takes the 
+lock. The lock is then release when the mutex goes out of scope. File 
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c has some usage of 
+guard(mutex) as well, where Mario did a similar cleanup:
+
+f123fda19752 drm/amd/display: Use scoped guards for handle_hpd_irq_helper()
+aca9ec9b050c drm/amd/display: Use scoped guard for 
+amdgpu_dm_update_connector_after_detect()
+f24a74d59e14 drm/amd/display: Use scoped guard for dm_resume()
+
+
+> Best regards
+> Thomas
+> 
