@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F978AB3E27
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39790AB3E3B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3410E468;
-	Mon, 12 May 2025 16:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C7810E110;
+	Mon, 12 May 2025 16:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDEAD10E468
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:55:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42BB710E110
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:55:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0E5355C59D7;
- Mon, 12 May 2025 16:52:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C894C4CEE7;
- Mon, 12 May 2025 16:54:59 +0000 (UTC)
-Date: Mon, 12 May 2025 18:54:57 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5527F5C59DD;
+ Mon, 12 May 2025 16:53:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6073C4CEE7;
+ Mon, 12 May 2025 16:55:40 +0000 (UTC)
+Date: Mon, 12 May 2025 18:55:39 +0200
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Danila Tikhonov <danila@jiaxyga.com>
 Cc: Rob Herring <robh@kernel.org>, 
@@ -76,15 +76,14 @@ Cc: Rob Herring <robh@kernel.org>,
  linux-remoteproc@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
  linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 24/33] dt-bindings: clock: qcom,gpucc: Add the SM7150
- compatible
-Message-ID: <20250512-flashy-snobbish-hoatzin-ea9a47@kuoka>
+Subject: Re: [PATCH 26/33] remoteproc: qcom: pas: Add SM7150 remoteproc support
+Message-ID: <20250512-pastel-vagabond-eel-2969fd@kuoka>
 References: <20250422213137.80366-1-danila@jiaxyga.com>
- <20250422213137.80366-8-danila@jiaxyga.com>
+ <20250422213137.80366-10-danila@jiaxyga.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250422213137.80366-8-danila@jiaxyga.com>
+In-Reply-To: <20250422213137.80366-10-danila@jiaxyga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,18 +99,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 12:31:28AM GMT, Danila Tikhonov wrote:
-> SM7150 is fully compatible with the existing SC7180 GPU Clock
-> Controller driver. Define corresponding compatible string, having the
-> qcom,sc7180-gpucc as a fallback.
+On Wed, Apr 23, 2025 at 12:31:30AM GMT, Danila Tikhonov wrote:
+> Add DSP Peripheral Authentication Service support for the SM7150
+> platform.
 > 
 > Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 > ---
->  .../devicetree/bindings/clock/qcom,gpucc.yaml | 29 +++++++++++--------
->  1 file changed, 17 insertions(+), 12 deletions(-)
+>  drivers/remoteproc/qcom_q6v5_pas.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
+> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+> index b306f223127c..d2cc75880ce5 100644
+> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> @@ -1478,6 +1478,9 @@ static const struct of_device_id adsp_of_match[] = {
+>  	{ .compatible = "qcom,sm6375-adsp-pas", .data = &sm6350_adsp_resource},
+>  	{ .compatible = "qcom,sm6375-cdsp-pas", .data = &sm8150_cdsp_resource},
+>  	{ .compatible = "qcom,sm6375-mpss-pas", .data = &sm6375_mpss_resource},
+> +	{ .compatible = "qcom,sm7150-adsp-pas", .data = &sm8350_adsp_resource},
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+sm8250 would not work? If yes, this and mpss entry could be dropped.
+
+> +	{ .compatible = "qcom,sm7150-cdsp-pas", .data = &sm6350_cdsp_resource},
+> +	{ .compatible = "qcom,sm7150-mpss-pas", .data = &mpss_resource_init},
 
 Best regards,
 Krzysztof
