@@ -2,86 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36740AB31B3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 10:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BD3AB31CF
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 10:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5B010E30D;
-	Mon, 12 May 2025 08:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5664D10E163;
+	Mon, 12 May 2025 08:38:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FZl1wqN5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wl5itApO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73A5B10E30D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 08:32:24 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3a1f5d2d91eso2117058f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 01:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747038742; x=1747643542; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kYXcYfmW92NwQS8DOWBMZ1iD5TRg6ruyTQhU7K965SU=;
- b=FZl1wqN5R9pQHTR9B/avmNvHZcL3lQemNtnQBFr2JV/1sOanuCk+iIjalVirwhg8kf
- rEylF7IHc1+5RHq+u1XdFc+4oTzBI47BBg9wrSYJx/Krx228l8tYTl1Z+gKfdwvTqZCp
- D+ldh+j5I4cGjBg2EQAsugryA7DzMm4Fk73Xo6cAbJqoec1ZX9mB6uDu0P02L8q0kQtK
- 9ks6s7dQpIUVNYmmYlEKNxhvoI0LVOkxaRaFf3hkGDOcVs6q68sQ4Z9t6NN2/j3Ngc2R
- Lu+ecJRGnQvQs23l9shtueWiwsu8+Vs7RHz5Szm2wJIWilR0SOryWL1G8qXXHmkf+RNW
- ZXoQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13FF10E163
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 08:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1747039095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PP89qRhPkoWIIYcgVm1wnfv4RdTsHvtgvKByma5wHQw=;
+ b=Wl5itApOT7ehTHiIH68ZUuw8sCu+r19RMvANRQzNvALKWZDl+gsry38pjUjLQlqiZc7FXX
+ Kbit1myxhdh4dJGyudNaXUepUFvOoQhHHC5Q7c8tFL64d2kOoow3gSoU1Nb3I759cZSKRF
+ fWDjK2yyWBeTDbt8Z3IKwukYm7F0idk=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-S6ZP_09nOLSRlLMtAQw63Q-1; Mon, 12 May 2025 04:38:12 -0400
+X-MC-Unique: S6ZP_09nOLSRlLMtAQw63Q-1
+X-Mimecast-MFC-AGG-ID: S6ZP_09nOLSRlLMtAQw63Q_1747039091
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c53e316734so749161085a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 01:38:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747038742; x=1747643542;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kYXcYfmW92NwQS8DOWBMZ1iD5TRg6ruyTQhU7K965SU=;
- b=mUNFSECItUDNXci+RbWViMuSiVePC/W4yT4LPNgpvSOtf6ASoO0SzUEqzIodToKb8x
- TJx2XnIR2v74ujVZpYG0nKvywg030dylfGZUmvPuOPJ13m6dbB28pVXKRPBioAZkIMDL
- VKhPJNe+j3YE751KfLMKDh8ACI6opgADtmUxQ71fptdzKXfgwbkpN9ZEHJMxTBVXFEjb
- kzvAeI8Bvw2lBbQ8d9lR456sDXyEJLz7onWF6ehB2yaqoMzXfbDoJ1/Vr6zFQiV3VA0h
- yiWaazgtxYRN5rqg52/nyWD7qRFB+cyVVELJL5b3zEu+YE2Fv7SZj3wdq1RNkkD1xhhU
- vWWw==
+ d=1e100.net; s=20230601; t=1747039091; x=1747643891;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PP89qRhPkoWIIYcgVm1wnfv4RdTsHvtgvKByma5wHQw=;
+ b=RR2A/Q+D93cLG+PEwgb9XqyNKONBJ8hSIYqf4hPR6cdnOkbEULUfjlIO4CZCSG9CF2
+ VH/Z/7zpGOj3DYOJI2VK0V29HO6O8OzqhF0z6PMZ6bLPmK8vAMqLdZVpfI17kpad17c/
+ 4J7x4c41FT/JxivDqXi3Ms/H8PBLULn68PH+n5ZaPQvCr8x7kwageje/uLXWYPEZBjVf
+ 2XkK1JXkK95jOHjgmmVA/pQb5pDvGnD06N8T95HyCci1D9fQYIMPhajx3/nRV7x+Pnnd
+ fw0ZuW37Fi3qt8wyesK0Tp7PZPWhs1CMMI50F/aFqWmwFq0YSIj1uJIY6vshz3yjwNBX
+ lvCw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/xtuwkPZhW+oPgqNQpKMlBoTQhsvt+HCZBcaKJhxUxNHzyrU0XQaRyRApAJom8247NJOfhiB6noY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvxrRZzWwOmiBXtzfWZZrl7KACD7UX8Vm1BxQ3EVIW7h/0dtUp
- 9L73qgr+40XdPemvBdiTL9/wZwsYySgBZ2hBq2qvj0rp0WMjQZ0n
-X-Gm-Gg: ASbGncv7IE38RaYRXDvVKkWn6XdOc+F5kiGFvsVbai9SnB8+W+UnZaKV9IbE/noPSkL
- VbRz2R4aIm4HKn+memaUf1Z5TWbkVmTUuFX7aokvRVmKcelJjR5TBTWdT3t5iNC2Ceb8HQaEQec
- OiNMbaCi1LWokebD97WTCZJ8vWFKBTFDPjFlLQaof3ujwseDytwL8eWlAFPxXDDfooJAboYMQCW
- AFYdQytttgB5j+Ku+w25lnqf39WuVqgDg/Q5UBtUX3Snic8OLp9+UJmqNCP7uJl3eioLGSisANo
- dNOykScoPSEyFocgqiCGsgUBSlH4e9l65/9WudAJXWj3u8Br7aPS
-X-Google-Smtp-Source: AGHT+IEJoNDjSaA+Sniz3FqA3ByQMXjgbbgPzhBhHPvWA9YXb+3eKhQDYoPDKhbTMcwyvyd3M3nzGw==
-X-Received: by 2002:a05:6000:430e:b0:39c:1ef6:4364 with SMTP id
- ffacd0b85a97d-3a1f643833emr10644682f8f.14.1747038741864; 
- Mon, 12 May 2025 01:32:21 -0700 (PDT)
-Received: from vitor-nb.Home ([2001:8a0:e602:d900:7df1:5521:294c:1eb5])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a1f5a4c5a4sm11577918f8f.81.2025.05.12.01.32.20
+ AJvYcCU9uBHEVex7JC0VCmeteqsM2f+kJoL8s49AOaen7gixFTiUbLaSYW4/CqqNm74hJPd/Nr3iVkxo6hc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2X/g2HShqpyuCNlzHcoqwM5I0X5IZ9yvOsLrejbJUVqnhZ35Y
+ y1kqxFdPn0QG+I3RJ6ytfzTBqA89geXonQ0aCvdV7hnfxpBNT3cMayDzybWgftKcMKeZK5Hoz/K
+ yuv/dvNdDEvJ6YnhilcZ23X3njWb20BE9EGtU3Mk0n6qhHaT+rxupu5impBjISaHscg==
+X-Gm-Gg: ASbGncsBwaVojigLi3UERU3wy3ei8YITIJJDe1V6vLQVaRYy82Ua8MlAqKC7BbG9G7l
+ 0Sd6+hM1izjNmdk6zIaO5qmLU6UztExRg2LRpy7xk63DLd5oQa3vqAwyG2n9/o1LqFoZqqUAIGD
+ j63ON9yv2xoKmv8Txa1AUAdkQrVpvwg0mV1CFVwzUlkdU43CsSrIBX/CnSCRVVwfOt15Z1hgaJu
+ lbQ0t244o3yx/7DvyRwHVw0K740eZ8tD+K/R4c8wzXvCMr7/ZwWfpw3NnNkrRCm8ysLN10pxb/U
+ 0TIqkFlQ3MLYHbcYbIwiruLnLf8YYh5z0uEQPYlLfg==
+X-Received: by 2002:a05:620a:28d2:b0:7ca:f04b:3fa2 with SMTP id
+ af79cd13be357-7cd0114ef36mr1842632885a.38.1747039091454; 
+ Mon, 12 May 2025 01:38:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHEXjH17/jNl/oMK1ZTPoobma2pz5XZPziKyHswuWD5nTF/iKW1+p6YuEGPTvLqK5Yg5zg9BQ==
+X-Received: by 2002:a05:620a:28d2:b0:7ca:f04b:3fa2 with SMTP id
+ af79cd13be357-7cd0114ef36mr1842630785a.38.1747039091183; 
+ Mon, 12 May 2025 01:38:11 -0700 (PDT)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7cd00f63a63sm527858985a.37.2025.05.12.01.38.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 May 2025 01:32:21 -0700 (PDT)
-From: Vitor Soares <ivitro@gmail.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Jayesh Choudhary <j-choudhary@ti.com>, ivitro@gmail.com,
- stable@vger.kernel.org
-Subject: [PATCH v3] drm/bridge: cdns-dsi: Replace deprecated
- UNIVERSAL_DEV_PM_OPS()
-Date: Mon, 12 May 2025 09:32:15 +0100
-Message-Id: <20250512083215.436149-1-ivitro@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Mon, 12 May 2025 01:38:10 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, David
+ Lechner <david@lechnology.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/sitronix: move tiny Sitronix drivers to their
+ own subdir
+In-Reply-To: <8c717f94-5b7f-476a-895a-c5b0969eb208@suse.de>
+References: <20250512-sitronix-v3-1-bbf6cc413698@gmail.com>
+ <8c717f94-5b7f-476a-895a-c5b0969eb208@suse.de>
+Date: Mon, 12 May 2025 10:38:08 +0200
+Message-ID: <87h61qp6kv.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: K0DBidmLw_o3AOKM9xjZ07cEDs0dKq4Ux0gdpNv5AmA_1747039091
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,92 +100,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitor Soares <vitor.soares@toradex.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
-for both runtime PM and system sleep. This causes the DSI clocks to be
-disabled twice: once during runtime suspend and again during system
-suspend, resulting in a WARN message from the clock framework when
-attempting to disable already-disabled clocks.
+Hello Marcus,
 
-[   84.384540] clk:231:5 already disabled
-[   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
-...
-[   84.579183] Call trace:
-[   84.581624]  clk_core_disable+0xa4/0xac
-[   84.585457]  clk_disable+0x30/0x4c
-[   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
-[   84.593651]  pm_generic_suspend+0x2c/0x44
-[   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
-[   84.601670]  dpm_run_callback+0x8c/0x14c
-[   84.605588]  __device_suspend+0x1a0/0x56c
-[   84.609594]  dpm_suspend+0x17c/0x21c
-[   84.613165]  dpm_suspend_start+0xa0/0xa8
-[   84.617083]  suspend_devices_and_enter+0x12c/0x634
-[   84.621872]  pm_suspend+0x1fc/0x368
+> Am 12.05.25 um 09:15 schrieb Marcus Folkesson:
+>> We start to have support many Sitronix displays in the tiny directory,
+>> and we expect more to come.
+>>
+>> Move them to their own subdirectory.
+>>
+>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
 
-To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
-SET_RUNTIME_PM_OPS(), enabling suspend/resume handling through the
-_enable()/_disable() hooks managed by the DRM framework for both
-runtime and system-wide PM.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Cc: <stable@vger.kernel.org> # 6.1.x
-Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
----
-v2 -> v3
- - Fix warning: 'cdns_dsi_suspend' defined but not used [-Wunused-function]
- - Fix warning: 'cdns_dsi_resume' defined but not used [-Wunused-function]
-
-v1 -> v2
- - Rely only on SET_RUNTIME_PM_OPS() for the PM.
-
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index b022dd6e6b6e..6429d541889c 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
- 	.transfer = cdns_dsi_transfer,
- };
- 
--static int __maybe_unused cdns_dsi_resume(struct device *dev)
-+static int cdns_dsi_resume(struct device *dev)
- {
- 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
- 
-@@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-+static int cdns_dsi_suspend(struct device *dev)
- {
- 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
- 
-@@ -1279,8 +1279,9 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
- 	return 0;
- }
- 
--static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
--			    NULL);
-+static const struct dev_pm_ops cdns_dsi_pm_ops = {
-+	RUNTIME_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume, NULL)
-+};
- 
- static int cdns_dsi_drm_probe(struct platform_device *pdev)
- {
-@@ -1427,7 +1428,7 @@ static struct platform_driver cdns_dsi_platform_driver = {
- 	.driver = {
- 		.name   = "cdns-dsi",
- 		.of_match_table = cdns_dsi_of_match,
--		.pm = &cdns_dsi_pm_ops,
-+		.pm = pm_ptr(&cdns_dsi_pm_ops),
- 	},
- };
- module_platform_driver(cdns_dsi_platform_driver);
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
