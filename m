@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0366DAB3E26
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F978AB3E27
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 18:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692F110E434;
-	Mon, 12 May 2025 16:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3410E468;
+	Mon, 12 May 2025 16:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2246910E46E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:54:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDEAD10E468
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:55:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0645F4AAB2;
- Mon, 12 May 2025 16:54:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7FBC4CEF2;
- Mon, 12 May 2025 16:54:55 +0000 (UTC)
-Date: Mon, 12 May 2025 18:54:53 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0E5355C59D7;
+ Mon, 12 May 2025 16:52:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C894C4CEE7;
+ Mon, 12 May 2025 16:54:59 +0000 (UTC)
+Date: Mon, 12 May 2025 18:54:57 +0200
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Danila Tikhonov <danila@jiaxyga.com>
 Cc: Rob Herring <robh@kernel.org>, 
@@ -76,14 +76,15 @@ Cc: Rob Herring <robh@kernel.org>,
  linux-remoteproc@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
  linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 23/33] dt-bindings: arm-smmu: Add the SM7150 compatible
-Message-ID: <20250512-fearless-hoatzin-of-triumph-acccf1@kuoka>
+Subject: Re: [PATCH 24/33] dt-bindings: clock: qcom,gpucc: Add the SM7150
+ compatible
+Message-ID: <20250512-flashy-snobbish-hoatzin-ea9a47@kuoka>
 References: <20250422213137.80366-1-danila@jiaxyga.com>
- <20250422213137.80366-7-danila@jiaxyga.com>
+ <20250422213137.80366-8-danila@jiaxyga.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250422213137.80366-7-danila@jiaxyga.com>
+In-Reply-To: <20250422213137.80366-8-danila@jiaxyga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,13 +100,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 12:31:27AM GMT, Danila Tikhonov wrote:
-> Document the SM7150 SMMU block.
+On Wed, Apr 23, 2025 at 12:31:28AM GMT, Danila Tikhonov wrote:
+> SM7150 is fully compatible with the existing SC7180 GPU Clock
+> Controller driver. Define corresponding compatible string, having the
+> qcom,sc7180-gpucc as a fallback.
 > 
 > Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 > ---
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../devicetree/bindings/clock/qcom,gpucc.yaml | 29 +++++++++++--------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
 > 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
