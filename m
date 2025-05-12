@@ -2,109 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEDFAB3717
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A10AB372B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B11910E3F4;
-	Mon, 12 May 2025 12:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8005110E3CA;
+	Mon, 12 May 2025 12:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="i9YK9rmK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QaJn82/h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327B410E3F1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747053295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bC3rmCqfA5icmQmv1eGXLPySmScZgaTKRTiPQFcrNeg=;
- b=i9YK9rmKA03tZJHhju5UwiDtKhxCCLh15GNUPeCHVL8ljp2O6d39xm97knzg2eSFcRRF2F
- l4SiBFPgdrLlbs+8AgeJxzmAOAK8Lw0bg0xiCjvk7cuNkqZenCoTm4R10LCwSwWei5Euha
- rqgexsVLOtukOYCbPdmNNBBTJ3mbfQo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-235-GOdcCQ9sMK2VMPkrUWKchg-1; Mon, 12 May 2025 08:34:54 -0400
-X-MC-Unique: GOdcCQ9sMK2VMPkrUWKchg-1
-X-Mimecast-MFC-AGG-ID: GOdcCQ9sMK2VMPkrUWKchg_1747053293
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43ceeaf1524so17071175e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:34:54 -0700 (PDT)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E873610E3CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:38:42 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-b1faa09bae7so639000a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747053522; x=1747658322; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L2vR12jukEHB8wkI6/8ITyfRSdlOZ7QdM2sX73UrN6c=;
+ b=QaJn82/hSeST/5a6nS0JWpSFi9OtIPsGfCOqRpdg1FpGOulHR1lMi+WdxIh4foVTcb
+ X81ySOfd04cgfZtL3ToDZe2b95iRjKyzBAh7ucF8TCL1Lrpj+UiTNKPfZg/Kb2UY+zP3
+ kbUDF1V/dvDABCUxo44DjKck1+wPWMu9nZ91ozzE+9drvFlX89Bt+iPrgy3UoyZYVdLD
+ SdtYYb5Pp5Vc164wQFIIWYOZH9leBgGbA5P+f72UR18Oqpa+r1PlhPHXGK7rOAiZEAG0
+ +0tUhVy6vOvutZEA78mx67t2io8Fy8+Ebw0h7MI4d8z9jZN3ItfjGcNLzcNsfOkyI3C3
+ uUvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747053293; x=1747658093;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1747053522; x=1747658322;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bC3rmCqfA5icmQmv1eGXLPySmScZgaTKRTiPQFcrNeg=;
- b=P3i6kXe2Bk0ANtX91zDorZ2Vb67utzuUwQCO3q27DYkpxENjYV0bgh+06w1BrIXmHT
- FYlvwU0QouxJEnp6l7K4UHjixIBVvIA4b23F/kfNjAtcRE7T8dXEShMeBFDkQa9lV0sO
- VfCWvaVa3U+nxoM5JYoVrUpCfhVDP9gadBxhGPQ1yvPI6MahydfVFNZfnu9mOF+R61/e
- MqT8yzJ9m/DapxrJAks3w+5H9LjDTw9rD1ynUMdw3SxKjKTpCVBmQBxSv2x55lI6gJDG
- +BJ69bKYmIAythuGyT0r0GYJU32EsReD4kpZlQfAs9w5g3/uNkG5ffgwBtluYjPK9aMB
- 24oQ==
+ bh=L2vR12jukEHB8wkI6/8ITyfRSdlOZ7QdM2sX73UrN6c=;
+ b=kZ3l6lCpPHlvpbmXzm3LGFv8S4CMRVr6bxPKggE0SeRKiO/0SRRNPm7xvr1Zvl9Hv9
+ CBjUnDn9dNfsyotBBCEMoP07LmjkrdoTryD6i1nQ8Z0GQ7OnIMojMuwWQDoPJuYANMHb
+ rm/uXxLkAQoKF+OiKJ6KtmOS1Tv6tggYSUm7igG/fXMC+JMPQYQcg4gSCTSLtPD035YM
+ k1uYbYwXx5tKT/ItllznLB5aN+2HXx5XYrNKHpJp6mesclCQMT7/jDysQzl+0ycrYJOl
+ /0/oEJ2PKE2Cbg7ytt8wb20iGI2zgoveOVM9LxnMTHC5qrUn1LeB9Q/geVauUUZrhlLz
+ uu5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2K00Kpw4Fp7O532By/bryoafDvKt0nuMxJlQ62fUWdoAz4fOIJwEdANW4kZhUDtJhqmeO87jU6JU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyY7k7B+GpxiHdqZ5piZI2uCVppJyO0YCZc9odn9z9lokcqkaSo
- e3J5usWupYE/iNHd8V1T2a2yUQu15jbwgwFsX+rXlNTyYzpxxkmg4sRwAa1UJRXbVLtsYunQt+F
- 8k9PmHAUjfA9Gn85/JmPm4DC+m28HcWKJ/7UiGeiutouc4USxYQKUH9wAQAM5oe5Wmw==
-X-Gm-Gg: ASbGnctwTFLj1qYZzsdUD+H6Plrjp01QU7fgcUWlA0knji7ijubrkVvfZgDSC+XFUC3
- oWGuS9KJ2zXEf/BZZ9A4lpQXd1VG79K7jHApGHmPKyd8t7pgGZhaTao80DHK5TYONKMfNcTpw18
- cLB30uU1A/wqY+uFD1IAMGQJXYJMxIxVKphUrkR3d47FYIone78FZVk2jucfqEiWBqXYB8W4Tdd
- G5SvAOI6hCZWJ3QYp4FRHL8uPIpvDXdvpV5L4RjjpwTWXaaVvWPsR4ClXsyMh0OxDGi55P+lODo
- h+PKwzms7p9d2Zetuh0kmF//3d/ISceqO/a01J97KBQ43SPUOL0KWGWTgB/GjymGe+ZWXwLO
-X-Received: by 2002:a05:600c:c0c3:10b0:439:8878:5029 with SMTP id
- 5b1f17b1804b1-442d6d71e58mr72191815e9.2.1747053293043; 
- Mon, 12 May 2025 05:34:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGmemaQ8osM6LIu2Hwsj+bFw5CfMQg914aObUDJRDyOqNqUwk6qAxyXq65jxeriv3mY00DEQ==
-X-Received: by 2002:a05:600c:c0c3:10b0:439:8878:5029 with SMTP id
- 5b1f17b1804b1-442d6d71e58mr72191505e9.2.1747053292674; 
- Mon, 12 May 2025 05:34:52 -0700 (PDT)
-Received: from localhost
- (p200300d82f4a5800f1ae8e20d7f451b0.dip0.t-ipconnect.de.
- [2003:d8:2f4a:5800:f1ae:8e20:d7f4:51b0])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-442d67d74b5sm125447555e9.2.2025.05.12.05.34.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 May 2025 05:34:52 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- David Hildenbrand <david@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
- Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH v2 11/11] mm/io-mapping: track_pfn() -> "pfnmap tracking"
-Date: Mon, 12 May 2025 14:34:24 +0200
-Message-ID: <20250512123424.637989-12-david@redhat.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250512123424.637989-1-david@redhat.com>
-References: <20250512123424.637989-1-david@redhat.com>
+ AJvYcCVE9uYgiEiOfXNhcKiP4m4GJ9PdnnEuwbUDtYiSQ/w88cDWT4AZgspi5yr7Cax8vlcyY7DB+Zvxcx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzy1QmALvq1B606eWcdvtJxGWCyaBzSgWs6lAVJGedXeVl3/xGR
+ LOz7p3egertS9szW73exz/O7JJ92leXlNQ64DoZjrAQuypiTkNeGhQzqrMrIR9JyIZacYWtc9uK
+ N7KcNUmFMOc4o7foc9aQDocSTLMA=
+X-Gm-Gg: ASbGnct2zbcXc1gdjougCG26p7eTh0ephmo9pSKlsCAfYkqTZSAsc5Ihec92zYLmzRV
+ QbOKRUdTiUuL4ZyhtNV2ca6vWHeuQVTsA1r9yDGGdFGSHL37xy+QavJAovyJHP/pOIa0VPRqh+j
+ Uc5CqgB7wuNHjgOUNCHN0fHoqCr9kQKEKG
+X-Google-Smtp-Source: AGHT+IEYqcS6EXB4bIsasmrb2iRFTXQLZPzpehKramsuR+1+ds9b4AEMvbC9xZkWHCXsZPKqLPabOXW06X/TVCmz/oY=
+X-Received: by 2002:a17:902:ecc2:b0:224:1005:7281 with SMTP id
+ d9443c01a7336-22fc8b7ae74mr65103295ad.7.1747053522145; Mon, 12 May 2025
+ 05:38:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Y8Wu6x-AJt5hJrs8LVc-ZN9vhoo9EBkfUWGJS5Fm95U_1747053293
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <20250410235546.43736-1-dakr@kernel.org>
+ <20250410235546.43736-8-dakr@kernel.org>
+ <CANiq72ks_1rEQYvYY464WOqAGKJTQpgvjM_RoBkHTJhMx1euyA@mail.gmail.com>
+ <aCHk4286hSrq2pym@pollux>
+In-Reply-To: <aCHk4286hSrq2pym@pollux>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 12 May 2025 14:38:30 +0200
+X-Gm-Features: AX0GCFvggQ_DN2wFmgfdRWsgwN3vMQlTeCFDKNSKjT_vFgvFDR_6caKO8FxgrNY
+Message-ID: <CANiq72kshyTc8iK7a456wAKoJ9pD6omC_+zTZHf+k4Y=ME+aLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] rust: drm: gem: Add GEM object abstraction
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com, lina@asahilina.net, 
+ daniel.almeida@collabora.com, j@jannau.net, alyssa@rosenzweig.io, 
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me, 
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,29 +91,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-track_pfn() does not exist, let's simply refer to it as "pfnmap
-tracking".
+On Mon, May 12, 2025 at 2:09=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> Lyude's series [1] should address this and the other one you pointed out.
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Acked-by: Ingo Molnar <mingo@kernel.org> # x86 bits
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- mm/io-mapping.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Great, thanks!
 
-diff --git a/mm/io-mapping.c b/mm/io-mapping.c
-index f44a6a1347123..d3586e95c12c5 100644
---- a/mm/io-mapping.c
-+++ b/mm/io-mapping.c
-@@ -24,7 +24,7 @@ int io_mapping_map_user(struct io_mapping *iomap, struct vm_area_struct *vma,
- 	pgprot_t remap_prot = __pgprot((pgprot_val(iomap->prot) & _PAGE_CACHE_MASK) |
- 				       (pgprot_val(vma->vm_page_prot) & ~_PAGE_CACHE_MASK));
- 
--	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
-+	/* We rely on prevalidation of the io-mapping to skip pfnmap tracking. */
- 	return remap_pfn_range_notrack(vma, addr, pfn, size, remap_prot);
- }
- EXPORT_SYMBOL_GPL(io_mapping_map_user);
--- 
-2.49.0
-
+Cheers,
+Miguel
