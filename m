@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D00AB3700
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E39AB3705
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0417D10E3CF;
-	Mon, 12 May 2025 12:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7382D10E3DD;
+	Mon, 12 May 2025 12:34:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZJq+mvy0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="T+b0e8qP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDF810E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:34:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 324C510E3DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:34:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747053273;
+ s=mimecast20190719; t=1747053277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hrbmXyUL7HXGUWgagRU2heQ2lgkOZ/iJWMnvv1t5buw=;
- b=ZJq+mvy0ZvefcuZmdyp5+Ui0gRr8WkpSKT50kAy38LViqzN3J1US0nIMFE5yBf7hXilS4C
- s3VP5/PK1/KEG8VtUALrm0QeJ0/fERZUzq8AQ+Pt4p8U1q4TMnjy1J1G4ni+vcMPl+6PPF
- o7O0p2Frt0qt61wBdyzUV8POw72MAJE=
+ bh=6nHoWozKkbl8Jpefo8Zb0yf0bGe9671cYhr6GgVPgWI=;
+ b=T+b0e8qPcYcpCZ3dA0/OoYJPwkfF3YtSjpfBNKmVMmb+Dn9LKt0Lt2GIRCPTp4gviaNbtI
+ Kiq6VbN1uO4mP2eLduVTAcx5a57IOMkKaajOJDVchnPFxrObAPbIr1C/gsSfcHd5RJg+J4
+ /tOgNp2Gl9nNle3mRVZaqQsXOQLtKs8=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-PUL2WvUwPb2Ij2KCrmGS2A-1; Mon, 12 May 2025 08:34:30 -0400
-X-MC-Unique: PUL2WvUwPb2Ij2KCrmGS2A-1
-X-Mimecast-MFC-AGG-ID: PUL2WvUwPb2Ij2KCrmGS2A_1747053269
+ us-mta-611-DFnOWbvIPaqXeEfdHUD2Hw-1; Mon, 12 May 2025 08:34:33 -0400
+X-MC-Unique: DFnOWbvIPaqXeEfdHUD2Hw-1
+X-Mimecast-MFC-AGG-ID: DFnOWbvIPaqXeEfdHUD2Hw_1747053272
 Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43cf44b66f7so24844805e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:34:30 -0700 (PDT)
+ 5b1f17b1804b1-43f405810b4so21972795e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:34:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747053269; x=1747658069;
+ d=1e100.net; s=20230601; t=1747053272; x=1747658072;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hrbmXyUL7HXGUWgagRU2heQ2lgkOZ/iJWMnvv1t5buw=;
- b=iz9ri9E9Cevodoci7jGBCC1Sh7Ry/U38XlVQm2Zp39jo7Bs4E6NH3Zg5+CiYtFmXzy
- whhRy+l2lfF5oj0DvRiz8Dt5Hg4Pof+AG/R5yKk1PUcy+UMjJGqi8WAOo541eJpu92OP
- cWgO/mQoBrdWgaI4bab6XexQTXsNrymDJy7tE4WsP1O0RzzsLGuhl9fMODlBvWIiS5gv
- DxKpRISbzCahtW/bvGukwdP2RQkcdvAKMAsMsAZBw90pEmX/GtMnngIvw2brCExN4DpS
- SLfCl6bJIHV6vbyyCjXVffFoSrgBOlb9JQA9WxVrSjiYb6z2gCkNS9x4m97uv8DRgfdm
- Fhrg==
+ bh=6nHoWozKkbl8Jpefo8Zb0yf0bGe9671cYhr6GgVPgWI=;
+ b=pIruqRWJUvFL/QPY5OUmjLknWbGEjuXoig5DA9hs6DTYszFXc60RPYJn2Bnt4bRwfk
+ MyOFYka5HyWDfp0+Fsz1oJF3yYBZAcDAhPVAJ2BsgIiCoLesThn8w1Fh/GcCNLVVirCl
+ WmgmTk6qqj2R56OD01m05Fpv+M5xOcY6jEfRf2Q+FD5cx42QoVTzU3ISI5vqhTVhnFyy
+ N6xRw4gEAj+oaA9oHhbC3i6XC5LYSKw9XeA7hPFOtgASZpcePKyByJMJghG86amrlRkX
+ 6RmNvr4Abmw1jZuzi0HAts5ztXGJyClTSbDoeHQQDgN7Q+ZrvnWDTuQzaVJhZC1MWYa5
+ jRnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTyDq0Eoflk+tBGgNHnrZUOsjr64YLcy35eHLVzIWee8B9lAiXkviqGrNSG/P0a0GofWRKwKCp7qo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywym8YVwEUtL7N46sp2Q3WTG7JpAFOtWeWXZay9M1YgOxmSFypA
- o4gfncjV0f/b4ENyLmeIcMp30x8SvjKKB8LeqC+Tnoef0l8ojUB7EP89vNTiQEHLA8qJ7sEr8cd
- AneVbeO+uR4OC8xqw94xgP5DpZ7wvzbO3L8z+nA2Yk1P7UXVJXH00DPUFIfjPq8cPXA==
-X-Gm-Gg: ASbGnct5vAfCma18PwCQdhgwKpcLXXnXJQtyEdvjvuEcETQZINhphy+aTYDmSle8rz3
- zHgwmQhpYoeqPReXJ0FjmcKWZZqgo+V0dWMwce81GBmXLk8xX/qHWNq//szJ8UBfkLWd+JpLelN
- Ex2DX/L4BM7ij+9hr4gihLoxaJDJJxf1fHT+/l/uEEEm5TFknLrjk6e4bn60omCMT7ks1msVD51
- WsuYV48+5aanOPSPMUARlwF0Rh3xlss9xigzpmF7jlzYYFbAb16zRRNJ+5yAfr36bvUXZeW+FI2
- gOU+ECnZANj+Gb7If/y3yYrsEJMxAvtv/Xh9nBDxq2g/fHOaNWYIC5Bukbt0F285MxzHwupb
-X-Received: by 2002:a05:600c:444c:b0:43d:5ec:b2f4 with SMTP id
- 5b1f17b1804b1-442d6d3dcc8mr126249975e9.10.1747053269222; 
- Mon, 12 May 2025 05:34:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7YFyagUZ9y+fevUV3BzP4ffMO+2lnku0MMlhrkvHNYDdbfZ5KLiwSKLyxUHWcSulKlrGmcw==
-X-Received: by 2002:a05:600c:444c:b0:43d:5ec:b2f4 with SMTP id
- 5b1f17b1804b1-442d6d3dcc8mr126249585e9.10.1747053268821; 
- Mon, 12 May 2025 05:34:28 -0700 (PDT)
+ AJvYcCWOybVMyf7O19S45L/bW3WmGGfaE6hP5wpvwuKjC7lwXP0NsNHraC8IXiyrWSxX0CAAS4tfmKE/xas=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWA0ab7zL12XCSj4XBRBCiELYV8kzhVkQzGOYO6jB7Nzywqi47
+ PRZk3CaZ3Bv7gCyUtihKOQq7sXdefZLhI7CjdjYzR0X4+yFyEnUuJFei7HLEBTt/01NZrcZwN8r
+ sHtXHueZdLFCdAhH65Q0UVvn4Yu/SlqfkYtgewy3qpePHrM+LfVtWV+Nbc/hlTJyoBw==
+X-Gm-Gg: ASbGnct3iL+NdiEJby6yk3fhz6hVzfZPNY1pMClCOaj8mb4TszrelMmld9jjvqZfTAz
+ KxSAJDIw0aEPC395pcvXxkD5+6xZotX7Deg/SZZ6snIpZN6/dwsWA4RQf78n++9tJQuecaM5uZ2
+ Cq2/5go11hyTH5HMzTDizquOxqhmX75Rlh+FF2CC+AElaLoPupCyMQJhjTF77pCKqs6tixAvi9q
+ InKDP7ynPgZWMmW5jahpq42WXgndi8RuANJPqllJs78hlWCGtunHC/SEzUeGQCDK2lkx0WgyCIT
+ cDFvrfr5UwKblDqaP1C4RuFdiO6YYhXna3uTaHSEWSJvTFo8nv14BEj3yES4N24EXKE3/nUO
+X-Received: by 2002:a05:600c:3490:b0:441:d4e8:76cd with SMTP id
+ 5b1f17b1804b1-442d6ddec00mr105442365e9.29.1747053272047; 
+ Mon, 12 May 2025 05:34:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEAkmJW1RYt0shbyVSJYG/Cde8Y5kgDkvTgdUylwEM8H1PlNDd2NNsMG+k4pYVsizSZx0oo/Q==
+X-Received: by 2002:a05:600c:3490:b0:441:d4e8:76cd with SMTP id
+ 5b1f17b1804b1-442d6ddec00mr105442015e9.29.1747053271651; 
+ Mon, 12 May 2025 05:34:31 -0700 (PDT)
 Received: from localhost
  (p200300d82f4a5800f1ae8e20d7f451b0.dip0.t-ipconnect.de.
  [2003:d8:2f4a:5800:f1ae:8e20:d7f4:51b0])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-442d687adc0sm123327975e9.35.2025.05.12.05.34.27
+ 5b1f17b1804b1-442cd32f331sm168479925e9.13.2025.05.12.05.34.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 May 2025 05:34:28 -0700 (PDT)
+ Mon, 12 May 2025 05:34:31 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
@@ -93,16 +93,16 @@ Cc: linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
  Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH v2 01/11] x86/mm/pat: factor out setting cachemode into
- pgprot_set_cachemode()
-Date: Mon, 12 May 2025 14:34:14 +0200
-Message-ID: <20250512123424.637989-2-david@redhat.com>
+Subject: [PATCH v2 02/11] mm: convert track_pfn_insert() to
+ pfnmap_setup_cachemode*()
+Date: Mon, 12 May 2025 14:34:15 +0200
+Message-ID: <20250512123424.637989-3-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250512123424.637989-1-david@redhat.com>
 References: <20250512123424.637989-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LDLJ0VnThsBLuh4qGoFh7Z3BPKYOF7nxecfLPB50nFo_1747053269
+X-Mimecast-MFC-PROC-ID: 6qbq1xAPphPaC_7Cl0eB7JLg8wQtLD5a1efW-tCYPdE_1747053272
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -121,113 +121,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's factor it out to make the code easier to grasp. Drop one comment
-where it is now rather obvious what is happening.
+... by factoring it out from track_pfn_remap() into
+pfnmap_setup_cachemode() and provide pfnmap_setup_cachemode_pfn() as
+a replacement for track_pfn_insert().
 
-Use it also in pgprot_writecombine()/pgprot_writethrough() where
-clearing the old cachemode might not be required, but given that we are
-already doing a function call, no need to care about this
-micro-optimization.
+For PMDs/PUDs, we keep checking a single pfn only. Add some documentation,
+and also document why it is valid to not check the whole pfn range.
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+We'll reuse pfnmap_setup_cachemode() from core MM next.
+
 Acked-by: Ingo Molnar <mingo@kernel.org> # x86 bits
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/x86/mm/pat/memtype.c | 33 +++++++++++++++------------------
- 1 file changed, 15 insertions(+), 18 deletions(-)
+ arch/x86/mm/pat/memtype.c | 24 ++++++------------
+ include/linux/pgtable.h   | 52 +++++++++++++++++++++++++++++++++------
+ mm/huge_memory.c          |  5 ++--
+ mm/memory.c               |  4 +--
+ 4 files changed, 57 insertions(+), 28 deletions(-)
 
 diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
-index 72d8cbc611583..edec5859651d6 100644
+index edec5859651d6..fa78facc6f633 100644
 --- a/arch/x86/mm/pat/memtype.c
 +++ b/arch/x86/mm/pat/memtype.c
-@@ -800,6 +800,12 @@ static inline int range_is_allowed(unsigned long pfn, unsigned long size)
- }
- #endif /* CONFIG_STRICT_DEVMEM */
+@@ -1031,7 +1031,6 @@ int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+ 		    unsigned long pfn, unsigned long addr, unsigned long size)
+ {
+ 	resource_size_t paddr = (resource_size_t)pfn << PAGE_SHIFT;
+-	enum page_cache_mode pcm;
  
-+static inline void pgprot_set_cachemode(pgprot_t *prot, enum page_cache_mode pcm)
-+{
-+	*prot = __pgprot((pgprot_val(*prot) & ~_PAGE_CACHE_MASK) |
-+			 cachemode2protval(pcm));
+ 	/* reserve the whole chunk starting from paddr */
+ 	if (!vma || (addr == vma->vm_start
+@@ -1044,13 +1043,17 @@ int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+ 		return ret;
+ 	}
+ 
++	return pfnmap_setup_cachemode(pfn, size, prot);
 +}
 +
- int phys_mem_access_prot_allowed(struct file *file, unsigned long pfn,
- 				unsigned long size, pgprot_t *vma_prot)
- {
-@@ -811,8 +817,7 @@ int phys_mem_access_prot_allowed(struct file *file, unsigned long pfn,
- 	if (file->f_flags & O_DSYNC)
- 		pcm = _PAGE_CACHE_MODE_UC_MINUS;
- 
--	*vma_prot = __pgprot((pgprot_val(*vma_prot) & ~_PAGE_CACHE_MASK) |
--			     cachemode2protval(pcm));
-+	pgprot_set_cachemode(vma_prot, pcm);
- 	return 1;
- }
- 
-@@ -880,9 +885,7 @@ static int reserve_pfn_range(u64 paddr, unsigned long size, pgprot_t *vma_prot,
- 				(unsigned long long)paddr,
- 				(unsigned long long)(paddr + size - 1),
- 				cattr_name(pcm));
--			*vma_prot = __pgprot((pgprot_val(*vma_prot) &
--					     (~_PAGE_CACHE_MASK)) |
--					     cachemode2protval(pcm));
-+			pgprot_set_cachemode(vma_prot, pcm);
- 		}
++int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size, pgprot_t *prot)
++{
++	resource_size_t paddr = (resource_size_t)pfn << PAGE_SHIFT;
++	enum page_cache_mode pcm;
++
+ 	if (!pat_enabled())
  		return 0;
- 	}
-@@ -907,9 +910,7 @@ static int reserve_pfn_range(u64 paddr, unsigned long size, pgprot_t *vma_prot,
- 		 * We allow returning different type than the one requested in
- 		 * non strict case.
- 		 */
--		*vma_prot = __pgprot((pgprot_val(*vma_prot) &
--				      (~_PAGE_CACHE_MASK)) |
--				     cachemode2protval(pcm));
-+		pgprot_set_cachemode(vma_prot, pcm);
- 	}
  
- 	if (memtype_kernel_map_sync(paddr, size, pcm) < 0) {
-@@ -1060,9 +1061,7 @@ int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
- 			return -EINVAL;
- 	}
+-	/*
+-	 * For anything smaller than the vma size we set prot based on the
+-	 * lookup.
+-	 */
+ 	pcm = lookup_memtype(paddr);
  
--	*prot = __pgprot((pgprot_val(*prot) & (~_PAGE_CACHE_MASK)) |
--			 cachemode2protval(pcm));
--
-+	pgprot_set_cachemode(prot, pcm);
+ 	/* Check memtype for the remaining pages */
+@@ -1065,17 +1068,6 @@ int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
  	return 0;
  }
  
-@@ -1073,10 +1072,8 @@ void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot, pfn_t pfn)
- 	if (!pat_enabled())
- 		return;
+-void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot, pfn_t pfn)
+-{
+-	enum page_cache_mode pcm;
+-
+-	if (!pat_enabled())
+-		return;
+-
+-	pcm = lookup_memtype(pfn_t_to_phys(pfn));
+-	pgprot_set_cachemode(prot, pcm);
+-}
+-
+ /*
+  * untrack_pfn is called while unmapping a pfnmap for a region.
+  * untrack can be called for a specific region indicated by pfn and size or
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index f1e890b604609..be1745839871c 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1496,13 +1496,10 @@ static inline int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+ 	return 0;
+ }
  
--	/* Set prot based on lookup */
- 	pcm = lookup_memtype(pfn_t_to_phys(pfn));
--	*prot = __pgprot((pgprot_val(*prot) & (~_PAGE_CACHE_MASK)) |
--			 cachemode2protval(pcm));
-+	pgprot_set_cachemode(prot, pcm);
+-/*
+- * track_pfn_insert is called when a _new_ single pfn is established
+- * by vmf_insert_pfn().
+- */
+-static inline void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+-				    pfn_t pfn)
++static inline int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size,
++		pgprot_t *prot)
+ {
++	return 0;
  }
  
  /*
-@@ -1115,15 +1112,15 @@ void untrack_pfn_clear(struct vm_area_struct *vma)
+@@ -1552,8 +1549,32 @@ static inline void untrack_pfn_clear(struct vm_area_struct *vma)
+ extern int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+ 			   unsigned long pfn, unsigned long addr,
+ 			   unsigned long size);
+-extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+-			     pfn_t pfn);
++
++/**
++ * pfnmap_setup_cachemode - setup the cachemode in the pgprot for a pfn range
++ * @pfn: the start of the pfn range
++ * @size: the size of the pfn range in bytes
++ * @prot: the pgprot to modify
++ *
++ * Lookup the cachemode for the pfn range starting at @pfn with the size
++ * @size and store it in @prot, leaving other data in @prot unchanged.
++ *
++ * This allows for a hardware implementation to have fine-grained control of
++ * memory cache behavior at page level granularity. Without a hardware
++ * implementation, this function does nothing.
++ *
++ * Currently there is only one implementation for this - x86 Page Attribute
++ * Table (PAT). See Documentation/arch/x86/pat.rst for more details.
++ *
++ * This function can fail if the pfn range spans pfns that require differing
++ * cachemodes. If the pfn range was previously verified to have a single
++ * cachemode, it is sufficient to query only a single pfn. The assumption is
++ * that this is the case for drivers using the vmf_insert_pfn*() interface.
++ *
++ * Returns 0 on success and -EINVAL on error.
++ */
++int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size,
++		pgprot_t *prot);
+ extern int track_pfn_copy(struct vm_area_struct *dst_vma,
+ 		struct vm_area_struct *src_vma, unsigned long *pfn);
+ extern void untrack_pfn_copy(struct vm_area_struct *dst_vma,
+@@ -1563,6 +1584,21 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+ extern void untrack_pfn_clear(struct vm_area_struct *vma);
+ #endif
  
- pgprot_t pgprot_writecombine(pgprot_t prot)
- {
--	return __pgprot(pgprot_val(prot) |
--				cachemode2protval(_PAGE_CACHE_MODE_WC));
-+	pgprot_set_cachemode(&prot, _PAGE_CACHE_MODE_WC);
-+	return prot;
- }
- EXPORT_SYMBOL_GPL(pgprot_writecombine);
++/**
++ * pfnmap_setup_cachemode_pfn - setup the cachemode in the pgprot for a pfn
++ * @pfn: the pfn
++ * @prot: the pgprot to modify
++ *
++ * Lookup the cachemode for @pfn and store it in @prot, leaving other
++ * data in @prot unchanged.
++ *
++ * See pfnmap_setup_cachemode() for details.
++ */
++static inline void pfnmap_setup_cachemode_pfn(unsigned long pfn, pgprot_t *prot)
++{
++	pfnmap_setup_cachemode(pfn, PAGE_SIZE, prot);
++}
++
+ #ifdef CONFIG_MMU
+ #ifdef __HAVE_COLOR_ZERO_PAGE
+ static inline int is_zero_pfn(unsigned long pfn)
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 2780a12b25f01..d3e66136e41a3 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1455,7 +1455,8 @@ vm_fault_t vmf_insert_pfn_pmd(struct vm_fault *vmf, pfn_t pfn, bool write)
+ 			return VM_FAULT_OOM;
+ 	}
  
- pgprot_t pgprot_writethrough(pgprot_t prot)
- {
--	return __pgprot(pgprot_val(prot) |
--				cachemode2protval(_PAGE_CACHE_MODE_WT));
-+	pgprot_set_cachemode(&prot, _PAGE_CACHE_MODE_WT);
-+	return prot;
- }
- EXPORT_SYMBOL_GPL(pgprot_writethrough);
+-	track_pfn_insert(vma, &pgprot, pfn);
++	pfnmap_setup_cachemode_pfn(pfn_t_to_pfn(pfn), &pgprot);
++
+ 	ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+ 	error = insert_pfn_pmd(vma, addr, vmf->pmd, pfn, pgprot, write,
+ 			pgtable);
+@@ -1577,7 +1578,7 @@ vm_fault_t vmf_insert_pfn_pud(struct vm_fault *vmf, pfn_t pfn, bool write)
+ 	if (addr < vma->vm_start || addr >= vma->vm_end)
+ 		return VM_FAULT_SIGBUS;
  
+-	track_pfn_insert(vma, &pgprot, pfn);
++	pfnmap_setup_cachemode_pfn(pfn_t_to_pfn(pfn), &pgprot);
+ 
+ 	ptl = pud_lock(vma->vm_mm, vmf->pud);
+ 	insert_pfn_pud(vma, addr, vmf->pud, pfn, write);
+diff --git a/mm/memory.c b/mm/memory.c
+index 99af83434e7c5..064fc55d8eab9 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -2564,7 +2564,7 @@ vm_fault_t vmf_insert_pfn_prot(struct vm_area_struct *vma, unsigned long addr,
+ 	if (!pfn_modify_allowed(pfn, pgprot))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	track_pfn_insert(vma, &pgprot, __pfn_to_pfn_t(pfn, PFN_DEV));
++	pfnmap_setup_cachemode_pfn(pfn, &pgprot);
+ 
+ 	return insert_pfn(vma, addr, __pfn_to_pfn_t(pfn, PFN_DEV), pgprot,
+ 			false);
+@@ -2627,7 +2627,7 @@ static vm_fault_t __vm_insert_mixed(struct vm_area_struct *vma,
+ 	if (addr < vma->vm_start || addr >= vma->vm_end)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	track_pfn_insert(vma, &pgprot, pfn);
++	pfnmap_setup_cachemode_pfn(pfn_t_to_pfn(pfn), &pgprot);
+ 
+ 	if (!pfn_modify_allowed(pfn_t_to_pfn(pfn), pgprot))
+ 		return VM_FAULT_SIGBUS;
 -- 
 2.49.0
 
