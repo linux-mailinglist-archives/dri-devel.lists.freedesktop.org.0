@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35277AB4153
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 20:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0FEAB415C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 20:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9BA610E456;
-	Mon, 12 May 2025 18:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4AE10E46C;
+	Mon, 12 May 2025 18:04:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mSBCRxGS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BwsM1eT3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED56A10E0D0;
- Mon, 12 May 2025 18:04:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8533D10E46C;
+ Mon, 12 May 2025 18:04:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D72684439E;
- Mon, 12 May 2025 18:04:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14276C4CEE7;
- Mon, 12 May 2025 18:04:21 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5933EA4B171;
+ Mon, 12 May 2025 18:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C564C4CEE7;
+ Mon, 12 May 2025 18:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747073064;
- bh=I5az5wRzKhind2IBff+dV7VxU/cjoZ2Q7jYFeJQu+CM=;
+ s=k20201202; t=1747073091;
+ bh=AESvUlPW8mv9wKVURiU6MMPiaUUCwGT2gGubYF9BAAg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mSBCRxGSu//FJAXYysiT/xkFHIV4XmMW+uQ5N0F9yvor4Sf2FkMC2YNaTs27Z2MRN
- GsDQvakYhVzzUe0HCGr8wcry5PM1/yXTFFmP76nZBLfd/oq26RizMFOMUhMXynmAIV
- pCBJjxF8MIeZimcyd2Fzs1PrEz1PIlffLks7NPLIizcunD2Lnk8tQtIuiRrNeTTFip
- B+2FmmmS7vzfphSZXgLqrx4D5dS3FxEbTtc8BavhQPJfzKm/uGuP1vx1SNKubyEXxm
- xnIEt24u25JuHDEgFKZNEfUYlwsn+sI5vNmN/jb6qWGT+fz09eIN/kDRL6rotONyhQ
- 9hnDs6WFm1EIQ==
+ b=BwsM1eT3Fpb4JXg297t2vWY/GgVkD96ukqHKjeil16HKnUQgCSBHkCnzPMUAxnj6m
+ CsRyZ99lmxB9f5yIDS8t9TKbb+KQZcsRF28SOcrvRJwqyRQRaa1cutOdqZno4LrLNN
+ MzBFy5TNkZms1X6v71FOup1McLz39aj0so2r70w3vhnRMRYw2Gpetn889nkL8giTPc
+ ob8iZSnMlR4qYtSvVZM5YUtLnHoMLxgJ1zSQ2xo1ABd8vFN/+EyKAc7CCn+Ix/e+Ry
+ 5i1NdX3iRM+t7dJmGGpHMRSREXjrKaCH+wt5JH+1fCM1eLMBG+hX9FpNyHbrzOFfbf
+ x3K9sEl2FGbgg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -39,21 +39,21 @@ Cc: Austin Zheng <Austin.Zheng@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
  austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
  sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  simona@ffwll.ch, dillon.varone@amd.com, aurabindo.pillai@amd.com,
- alex.hung@amd.com, chenhuacai@kernel.org, jerry.zuo@amd.com,
- rostrows@amd.com, chris.park@amd.com, jiapeng.chong@linux.alibaba.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 14/15] drm/amd/display: Call FP Protect Before
+ chenhuacai@kernel.org, george.shen@amd.com, rostrows@amd.com,
+ siqueira@igalia.com, jerry.zuo@amd.com, jiapeng.chong@linux.alibaba.com,
+ chris.park@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 10/11] drm/amd/display: Call FP Protect Before
  Mode Programming/Mode Support
-Date: Mon, 12 May 2025 14:03:49 -0400
-Message-Id: <20250512180352.437356-14-sashal@kernel.org>
+Date: Mon, 12 May 2025 14:04:25 -0400
+Message-Id: <20250512180426.437627-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250512180352.437356-1-sashal@kernel.org>
-References: <20250512180352.437356-1-sashal@kernel.org>
+In-Reply-To: <20250512180426.437627-1-sashal@kernel.org>
+References: <20250512180426.437627-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.6
+X-stable-base: Linux 6.12.28
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-index d6fd13f43c08f..e011dc56be828 100644
+index e3e4f40bd4123..dcbe327209d5d 100644
 --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
 +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-@@ -220,7 +220,9 @@ static bool dml21_mode_check_and_programming(const struct dc *in_dc, struct dc_s
+@@ -221,7 +221,9 @@ static bool dml21_mode_check_and_programming(const struct dc *in_dc, struct dc_s
  	if (!result)
  		return false;
  
@@ -108,7 +108,7 @@ index d6fd13f43c08f..e011dc56be828 100644
  	if (!result)
  		return false;
  
-@@ -263,7 +265,9 @@ static bool dml21_check_mode_support(const struct dc *in_dc, struct dc_state *co
+@@ -271,7 +273,9 @@ static bool dml21_check_mode_support(const struct dc *in_dc, struct dc_state *co
  	mode_support->dml2_instance = dml_init->dml2_instance;
  	dml21_map_dc_state_into_dml_display_cfg(in_dc, context, dml_ctx);
  	dml_ctx->v21.mode_programming.dml2_instance->scratch.build_mode_programming_locals.mode_programming_params.programming = dml_ctx->v21.mode_programming.programming;
@@ -118,7 +118,7 @@ index d6fd13f43c08f..e011dc56be828 100644
  	if (!is_supported)
  		return false;
  
-@@ -274,16 +278,12 @@ bool dml21_validate(const struct dc *in_dc, struct dc_state *context, struct dml
+@@ -282,16 +286,12 @@ bool dml21_validate(const struct dc *in_dc, struct dc_state *context, struct dml
  {
  	bool out = false;
  
