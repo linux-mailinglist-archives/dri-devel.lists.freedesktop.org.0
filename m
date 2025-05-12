@@ -2,44 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D17CAB47EF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 01:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E028AB47EE
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 01:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7D210E249;
-	Mon, 12 May 2025 23:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD6810E1D2;
+	Mon, 12 May 2025 23:33:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=att.net header.i=@att.net header.b="g0EbxXk8";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEC910E1CB
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 16:58:32 +0000 (UTC)
-Received: from localhost (unknown [82.64.135.138])
- by smtp2-g21.free.fr (Postfix) with ESMTP id 38CBE2003ED;
- Mon, 12 May 2025 18:58:16 +0200 (CEST)
-Received: by localhost (Postfix, from userid 1502)
- id 878C9C4CE; Mon, 12 May 2025 16:58:15 +0000 (GMT)
-Date: Mon, 12 May 2025 16:58:15 +0000
-From: Etienne Buira <etienne.buira@free.fr>
-To: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: RaspberryPi4B, VC4 fails to output on HDMI
-Message-ID: <aCIopzfzbckMQFLj@Z926fQmE5jqhFMgp6>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Received: from sonic316-24.consmr.mail.ne1.yahoo.com
+ (sonic316-24.consmr.mail.ne1.yahoo.com [66.163.187.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2CB210E4A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 20:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=att.net; s=s1024;
+ t=1747080460; bh=1N/T8d74Jx+NCpWrd0FKqkJSTab0kL3ts0D27zynN0Q=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From:Subject:Reply-To;
+ b=g0EbxXk8UB4Ss62FNDWPCEa+x2y0QSDFm4T8X9bYnXYaO2MP9+s2AkhYtBLmhd/2z4roqrHQpFklztRZI4+WN3RJYWrWdl14LATsH0XD4aZBDIon6sSeS4rNa3mO4EiWYdgTe8hgeEd2NLX0/hvST2QEKUYxxJYB2AxD6Puggbw=
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1747080460; bh=Z66IBuW9+VKRQ+onHevfzUgDKNKwdfUBjLurPvUrQrN=;
+ h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
+ b=TQMgGu/kWSomrnzBHAQM+mt8+lWAJTUqpo83ZIdzb8XzjBRIAYUHzf6PXoRHD381KJ+2tUrhLrmkyOsoAHCWM4kFifj4ZvXJqlKH4rC6AI9Z9Hgt70nmD8ouusGPRuO2v10c56fhgf8AVycuhodlBT/X4kLJMfIBh3Tx2OCZ+8xorS/9k55cVZsCCqF/SN3OfTayGwQX204LlONR8y3OdiIZ7TDloonYOyyZOPhqgQ5Hud9WrVgEr9l5Px5+dIFTEU7NbMVjFVKuYiWU2vir5a2lkS7aIKv/J2s+D5IY4Y519wEGM1A4bsXnv6gO0XNNa0EqtChQsM7BSLzzhv61iA==
+X-YMail-OSG: SfGStR8VM1kcdjK0BQU9ABoNtJ51dRs8HhVOzF8JkfiHvJZqgzO4msousYo8cl6
+ sOmFx4rQl5ukpuDqJFfm3ggY4hPNiubLOLRtGLZdmoHeRDz2NUZdUfkAgpwXcqzv52dVkQug9tCp
+ IBCCQ_I3_C6e0OHpiIyInC8TQ_0uOsftFqz8ifLaz6HtfmnxY9PW_xyfbXky2PN6C6WVD5fuCNUX
+ jBZI7Mv9L1MnnKKLOGwggdPkerpaF20S0pSSXZbG.XcH.wUryjLrBR.TSvUzE1d7FkFeUQ.Qchpl
+ wyxhEWc2888iatYUnHTxhFnxWUtwl.sBKrxD0ZFXMUYf6gDSGYO6NbzymhrgDRDsLPtJRVviw4es
+ Pm29TBnc2nRbRSvThSJDKe8I8QYzRrKjxTORwnNJbp0oRcm4LkPGNZPgdZRJHKS6Go0_SEXUisNA
+ 8zKA18tDFcRzxT2yoXYfa_YiCU_2AMckD8Rv9KTl9Hay7RhfFgO1WtzpABE3xuhFb_pV9o3nw69c
+ z7SBswJiUbBxRX84LhTbOFQfXMX6qHA_sqfSYOqF4Np.3no8f6Ve1oaAaA8gjSFP.a3wJMRYIlmB
+ qY8Jf4pDN8aljNO7zkbSkWB4_zsiXmat8gihUQT1QwilWQw.4RlQWikoSaTl_QpMco9KqHiojOU7
+ 1_ePff.O0kIzLkQ1Wmev3fMM.tjcdUafEF7jzdmBOguD_qwS4QaWSmKn9TjxfKi06zHjRdr7r3ud
+ Go_FL4wu0JbhqEQlfsWvCo43Onxq.i3roGKvJ73MBIi1e6kKl8APh_2krSKe3q7ljTE8wNdbkw8.
+ Tdwg9NahrVyC9XxFik9qiMJl8fCz8txctf1iZm5hp7xseSuKwlc.MS7dhL2BMFj4r4cp.bhLp1dF
+ DWj3gRqTQksLTzD1CcSqcColOR8L.0CxypV3Lj121fdRtL.Iy4k0DAhgtUDx75w2BqJQh5HCcehP
+ iF9w_KwmRKiqSArmIhGKNsRAqdQFTYIufKiw2UHuES5zpP_.F.C4sgj2OfxYTu3zOA9heBGfnkX1
+ qdVkXrIArkFDpo_5erI8tvKD2xdx7ldTYg9pgm6mi9qW7nNuQdkRiGmSecUWQi_SeyJPB0L7m22I
+ Q_2nGn167lfdA1EGpKOZzMpfPu7FXn6zAhA2YE14HG68WbKAYHTWMfssW2FBBWjLMz8zgRsbvcUc
+ ItEXdma5NFSgOwOkizabLGde9vHhz4uA0GD2.iYPkv8HEPcZvEPMdfRIoJqSNDqWZ22pdJYZoVyy
+ h8OxXJzmU5P9A7Xrr.GTeb8FZ2d6hY6NKmwt7HFqr1OgkSYaidAdgrcJz.XUgYV3oiUT0rIMnrGk
+ 8qzHrRmXzfwsFwdkwz8vCwNRy3K8YL8Ogcag2fzJjv1wG0cJsHSJkEo9Wz4sb4glU3FNTE.JacTr
+ yHSaTdhFXfBsgTTxoLXWrSAVyxffW6B8FGR2B0r1uyOjOW.NWYiDhVZSBCMV7cWNtlowYmdkpUqC
+ r6xitKEQu8u.1nL8TdHdGT7AOS5htxikFM7ehqg3442VwIEKZAmt._o7CPOYvgl1uuj3gs8KxEzO
+ ZP0nRM4X9bJK0wrMtmDF2oIAz0IbNXgEUZu2bApWRRDtOqD3hFTIYc5EotZAv_nm2RkStTh2GEq9
+ 2P9HTbDcMqBhYdJhsWeUhPrT68hX_T5wiC.NQdJjmuzAAvuKI.1S4eAiO70U.fsyCRsg_H.h7RzN
+ mPO4WpyUDpbnH2BiaRJk.uX7BMcgBUFCvDp1NGmaayRFyzhJ87A.VJ0ou_Colw543d0uBaGA2fqv
+ G7vx4Vmv9m.3.NH2eb8VnhBlUcULuWKQIQljodDpJSiUkX2_Vr0YoWDBLf2HqsqnsDCF.ZdWkkCy
+ 0FRr0txuZibkmEZgzI.lyZ33o90cpWjPCqCIf.IwB73PdxuXH2aE06hCpaurdDl6Jed5X5cGiSz6
+ f5b100xLjEgzVEHvzLuCAGT0Zv0ka2MgWT4q_TijAhe0CgGww5pOCAEeIY_aEeqcZZCCqk5GgYcz
+ z4XhcLEuazTwXZv3MXfsL21oemBCxzvxmTTCbFfNDYzzPRqXBgoaV5qUvE9O5SMh8hq9eifpHXwM
+ CXINkepTCOFMT54hyJgIit3NwtWSISTSZtu9YIculSL3EyqjEzRDSXtQaE17_B5ODh0QERK4OEaH
+ L_VI3j_xEBIRFc5Vbdyveyix5Rw2HTcNvpXG0Ir0NtF0PlcHc72kXoHlAuAXRcma_LTutYmnUm2T
+ Ct_oiuIigoBYWsj7BOkH9zdi6VZL4AmJt2SqRCRyt26I-
+X-Sonic-MF: <pheonix.sja@att.net>
+X-Sonic-ID: 4f4440cb-6ae0-401d-ab8d-fc5f8ee83129
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.ne1.yahoo.com with HTTP; Mon, 12 May 2025 20:07:40 +0000
+Received: by hermes--production-bf1-689c4795f-g78fx (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 4a4ca3ada7a93e68209359edaa6dc896; 
+ Mon, 12 May 2025 20:07:34 +0000 (UTC)
+Date: Mon, 12 May 2025 16:07:26 -0400
+From: Steven J Abner <pheonix.sja@att.net>
+Subject: Re: Kernels >= 6.3 disable video output
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Message-Id: <EWZ5WS.K2DTZM5DEZCL2@att.net>
+In-Reply-To: <1Q10WS.BHBZBX486I3M2@att.net>
+References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
+ <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
+ <GXXZVS.Q1GIIU1M9VBL1@att.net>
+ <CADnq5_NvoPfgTxOxjBCc-iGR7k8w7oR7VKkXQtWga8VP7vBViQ@mail.gmail.com>
+ <1Q10WS.BHBZBX486I3M2@att.net>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=us-ascii; format=flowed
 X-Mailman-Approved-At: Mon, 12 May 2025 23:33:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,109 +93,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all (and i hope you won't feel spammed).
+On Fri, May 9 2025 at 03:01:13 PM +0000, Steven J Abner 
+<pheonix.sja@att.net> wrote:
+> On Fri, May 9 2025 at 02:05:16 PM +0000, Alex Deucher 
+> <alexdeucher@gmail.com> wrote:
+>> bisect between 6.2.16 and 6.2.17 to identify the commit which broke
+> 
+> Are you asking for a 'diff' output of drm and amdgpu directories 
+> between 6.2.16 (last of the 6.2 series) and 6.3 (start of the 6.3 
+> series)?
 
-I have a Raspberry Pi 4B i want to use with HDMI0, but i can't make it
-work (tried lot of kernel versions), and i'd appreciate some guidance.
+ I'm willing to revert/test code on my machine, problem is I don't know 
+sequence nor what I can safely revert. I haven't messed with video 
+drivers/code since DOS days of having to write ones own graphics 
+routines. I could force? kernel to build with '-g' on drm/amdgpu? and 
+walk it I guess. But don't know what I'm looking for. :(
+Steve
 
-Overview of dmesg (6.15-rc6 with some trace/stack dump of mine):
-[    0.212555] simple-framebuffer 3e40f000.framebuffer: framebuffer at 0x3e40f000, 0x6e7000 bytes
-[    0.212569] simple-framebuffer 3e40f000.framebuffer: format=a8r8g8b8, mode=1824x984x32, linelength=7296
-[    0.216036] Console: switching to colour frame buffer device 228x61
-[    0.219382] simple-framebuffer 3e40f000.framebuffer: fb0: simplefb registered!
-...
-[    1.923879] raspberrypi-firmware soc:firmware: Attached to firmware from 2025-02-17T20:03:07
-...
-[    1.957445] v3d fec00000.gpu: [drm] Using Transparent Hugepages
-[    1.964814] [drm] Initialized v3d 1.0.0 for fec00000.gpu on minor 0
-[    1.972428] Console: do_bind_con_driver, backtrace:
-[    1.972437] CPU: 0 UID: 0 PID: 44 Comm: kworker/u16:2 Not tainted 6.15.0-rc6-00001-gb4f861e88093-dirty #2 PREEMPT 
-[    1.972446] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
-[    1.972449] Workqueue: events_unbound deferred_probe_work_func
-[    1.972465] Call trace:
-[    1.972467]  show_stack+0x2c/0xc0 (C)
-[    1.972476]  dump_stack_lvl+0x60/0x94
-[    1.972483]  dump_stack+0x18/0x30
-[    1.972488]  do_bind_con_driver.isra.0+0x40/0x294
-[    1.972497]  do_unbind_con_driver+0x1b8/0x1dc
-[    1.972506]  fbcon_fb_unbind+0x108/0x1d8
-[    1.972512]  unregister_framebuffer+0x110/0x120
-[    1.972522]  simplefb_remove+0x14/0x2c
-[    1.972527]  platform_remove+0x28/0x5c
-[    1.972533]  device_remove+0x4c/0xa0
-[    1.972538]  device_release_driver_internal+0x1fc/0x250
-[    1.972543]  device_release_driver+0x18/0x40
-[    1.972548]  bus_remove_device+0xd4/0x17c
-[    1.972552]  device_del+0x150/0x3b8
-[    1.972559]  platform_device_del+0x28/0xbc
-[    1.972564]  platform_device_unregister+0x18/0x50
-[    1.972570]  aperture_detach_platform_device+0x14/0x2c
-[    1.972575]  aperture_detach_devices+0xb8/0x120
-[    1.972581]  aperture_remove_conflicting_devices+0x10/0x2c
-[    1.972587]  vc4_drm_bind+0x110/0x364
-[    1.972592]  try_to_bring_up_aggregate_device+0x22c/0x308
-[    1.972597]  __component_add+0xec/0x224
-[    1.972602]  component_add+0x14/0x30
-[    1.972607]  vc4_hdmi_dev_probe+0x1c/0x40
-[    1.972614]  platform_probe+0x68/0xf0
-[    1.972620]  really_probe+0xc0/0x3ac
-[    1.972624]  __driver_probe_device+0x7c/0x174
-[    1.972629]  driver_probe_device+0x40/0x100
-[    1.972634]  __device_attach_driver+0x10c/0x1e0
-[    1.972639]  bus_for_each_drv+0x88/0x100
-[    1.972643]  __device_attach+0xa0/0x1c8
-[    1.972647]  device_initial_probe+0x14/0x30
-[    1.972652]  bus_probe_device+0xc8/0xcc
-[    1.972656]  deferred_probe_work_func+0xb8/0x12c
-[    1.972661]  process_one_work+0x160/0x2d4
-[    1.972668]  worker_thread+0x2d8/0x400
-[    1.972673]  kthread+0x12c/0x208
-[    1.972678]  ret_from_fork+0x10/0x20
-[    1.972720] Console: switching to colour dummy device 80x25
-[    3.115665] vc4-drm gpu: bound fe400000.hvs (ops 0xffffffd14312f480)
-[    3.122490] Registered IR keymap rc-cec
-[    3.125869] rc rc0: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0
-[    3.133033] input: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input0
-[    3.141737] vc4-drm gpu: bound fef00700.hdmi (ops 0xffffffd14312bc68)
-[    3.148700] Registered IR keymap rc-cec
-[    3.152074] rc rc1: vc4-hdmi-1 as /devices/platform/soc/fef05700.hdmi/rc/rc1
-[    3.159241] input: vc4-hdmi-1 as /devices/platform/soc/fef05700.hdmi/rc/rc1/input1
-[    3.168548] vc4-drm gpu: bound fef05700.hdmi (ops 0xffffffd14312bc68)
-[    3.174671] vc4-drm gpu: bound fe004000.txp (ops 0xffffffd1431307d0)
-[    3.181044] vc4-drm gpu: bound fe206000.pixelvalve (ops 0xffffffd1431296f0)
-[    3.188070] vc4-drm gpu: bound fe207000.pixelvalve (ops 0xffffffd1431296f0)
-[    3.195114] vc4-drm gpu: bound fe20a000.pixelvalve (ops 0xffffffd1431296f0)
-[    3.202132] vc4-drm gpu: bound fe216000.pixelvalve (ops 0xffffffd1431296f0)
-[    3.210213] [drm] Initialized vc4 0.0.0 for gpu on minor 1
-...
-[   12.308295] EDID block 1 read ok (drivers/gpu/drm/drm_edid.c:edid_block_status_print case EDID_BLOCK_OK)
-
-The EDID is fetched ok (but strangely late according to dmesg), and edid-decode
-softly complains about it (and it lists a wide range of modes it does not
-complain about):
-Warnings:
-
-Block 1, CTA-861 Extension Block:
-  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
-  Add a Colorimetry Data Block with the sRGB colorimetry bit set to avoid interop issues.
-
-Failures:
-
-Block 1, CTA-861 Extension Block:
-  Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop issues.
-EDID:
-  Base EDID: Some timings are out of range of the Monitor Ranges:
-    Vertical Freq: 50.000 - 75.029 Hz (Monitor: 56.000 - 76.000 Hz)
-    Horizontal Freq: 15.625 - 79.976 kHz (Monitor: 30.000 - 83.000 kHz)
-
-
-Interestingly enough, while EDID seems to have parsed ok, there is zero
-entry in /sys/class/drm/card1-HDMI-A-1/modes (the hdmi node i took the
-edid from).
-
-
-Can someone give me some hint(s) on how to get this hdmi output working?
-I can obviously give more informations if needed.
-
-Regards.
 
