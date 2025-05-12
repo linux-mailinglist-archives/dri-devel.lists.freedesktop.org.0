@@ -2,60 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C20CAB3BA2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 17:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DA0AB3BA8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 17:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 800BC10E44E;
-	Mon, 12 May 2025 15:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B01910E42D;
+	Mon, 12 May 2025 15:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iS4dKAX8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Im2oKphr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8664710E44C;
- Mon, 12 May 2025 15:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747062427; x=1778598427;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=B2apuhP9RusKeYaL8N7daLjLojgq1GJPitTwj1AvwOo=;
- b=iS4dKAX87+g9cto/PNrwpVFJVsOugubdz+BNwjJX7OCCxlxg2AtfbwtY
- zX1LNp72ASpJCJLK5WfBKhgfKtjW+DLrtWCbyQFyQ6gcgCRbJPh57zcnT
- vvwDVi1gT+lF6kiJatKW5VBeRKniFFYvw3gOlrLj/7+h2F4qUR9y0shsf
- TutcPOEKtSsgTUahDgYkhSZoOkS9aE54w0XcwBHpgpRYRNAFaPGWYsLuS
- z2uWnBVjjpKB8M04NI5EWvxCQkshC8owdEVkb7qyct8yYYPH1FVj/gqAD
- BQX4Xf2xKVhNJyQXvkzFm+bydokAYMuPXpuHvIUJnqXanuTl/rXEfLgPm g==;
-X-CSE-ConnectionGUID: UC+XMZSHTu2kLWLwe7Ui8A==
-X-CSE-MsgGUID: Bew4jU9GQ+CkdwWI9qY5ag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="71377088"
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="71377088"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2025 08:07:07 -0700
-X-CSE-ConnectionGUID: 62Vf3/1xTWOVThweOmH1kQ==
-X-CSE-MsgGUID: fLKXLXflQq+euiRhhfsVDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="137916570"
-Received: from ettammin-desk.ger.corp.intel.com (HELO mwauld-desk.intel.com)
- ([10.245.245.222])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2025 08:07:06 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v4 8/8] drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
-Date: Mon, 12 May 2025 16:06:46 +0100
-Message-ID: <20250512150637.61462-18-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250512150637.61462-10-matthew.auld@intel.com>
-References: <20250512150637.61462-10-matthew.auld@intel.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A3F10E42D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 15:08:33 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-43edecbfb94so47639865e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 08:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747062512; x=1747667312; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vKGMmsb0GZX2a1OGZNJcNSyZ+FKExfgRMzBaszfNUvg=;
+ b=Im2oKphrKuK7+pydIgxpaxxA4I8LYNJt3RBdoOIIcKPIXDFfUw8mkzIAClFvNKf7v1
+ vDvO0ARHycIoj8kmQUbF4QhVyIuZTKqsiGJ8gzZXirgqNJko2jGPR7zE5VvVH7v+rIOF
+ Dgxutb8I0F9hlEOQSO8jbXSMtrVd3KZo+YmX+M9vANRtBSXDdtmhy1GH/KLIIyRWpMKO
+ zCGGQmXnIVOjUgD8CBUMg0MPStdaqLYWmxqUop2+v5tgysya5cm48PAFkABq3iN1tmgD
+ ngrUp8rXBoZHJOED0to752omQktJu0d1Ys6yBDM1ZKfmQxeniVc8NKAX3fMmzlidnlwr
+ jAyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747062512; x=1747667312;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vKGMmsb0GZX2a1OGZNJcNSyZ+FKExfgRMzBaszfNUvg=;
+ b=wN66a6Gy9n0LMLDek59OlYwM0zhwzNqHbCNcdPzXFlmNNmmnBSkJBlTp/PsFIMgLg1
+ 5KDACcGnh4rDnvQ7uMppQ9LEGPjXclbeaFcEzybm1ybbRAYjyWSO9FjQkVwmX24YbvY2
+ CARXhbIAZDbb5i6s1ytty+/fy5H5NH2lKNO3KrxxquSs5WxrsDeYPqxDciwwqssow+Lq
+ Tgix1Us1fbHWGo5sBQ0nR3wrid0ODz1B0zqBKsosGh5U5Z+RwRYmQntRFzQN926AJ/f0
+ fuXNVqFHi68yQnDwIACR3Zi9PlMUXTTRx7cPWsMv/egP8VChouaOfSTpoFcO2VFM3ZXm
+ 356Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDOnM6tIPCrfFGvztgdmrbLIoF81dhXM4m62xOG1NjV1T67+74uZbUVO5Sv1GZtABzIpEPHwjlydM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTF6ycy/i1qZRI3tP4PYlKwnYbNLS5A+avEyOl7PnXkXnmH42W
+ bWwmRO/69yOJjBX/FfXLk6qsQ5gQkP5J4zgMoHALu8K6x0OC2T/OeOc8Q+6qgsunI7DyfcavKYk
+ AyrV8m0+Im3OGYCHrSZ2grJa6eyE=
+X-Gm-Gg: ASbGnctKLr/bpYxQEt45UHDAfh2JIcNFT6ugzLq3uBTukYov7PIOdhZ2GzhZ341q0xl
+ BHEvADiPwEvm+WQAs0boXj7vZl5fCRE+R6UWrbWbYPqOwd/rgbazxd3mRgZi1Iqix33Kj84Uckp
+ KAbTtHWGpPAMRhHb2i4BWb8IDZO/NqvTU=
+X-Google-Smtp-Source: AGHT+IHGDorUIAcM2wju/yK2w1g6iMVsJSONLlGUWzv7KAkB4xpZt3eEAqg+ZCcMqMLKnBSEQpRoVG2lt0TGAjIK4Ds=
+X-Received: by 2002:a05:600c:3b26:b0:43c:fbbf:7bf1 with SMTP id
+ 5b1f17b1804b1-442d6dd4ccdmr114204985e9.30.1747062511455; Mon, 12 May 2025
+ 08:08:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250430204112.342123-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB113468F023BBECAB10C41DF50868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113468F023BBECAB10C41DF50868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 12 May 2025 16:08:04 +0100
+X-Gm-Features: AX0GCFt0aBi6yZgUyAVYV8vXQDfkJXpvMN6TvFcSMOiBCk3Pku0EFVryPRnJdSE
+Message-ID: <CA+V-a8uCfcBYcmg9DTJubki1VnAT9oFvqEsSdBuxM2bYyrta8A@mail.gmail.com>
+Subject: Re: [PATCH v4 09/15] drm: renesas: rz-du: mipi_dsi: Add OF data
+ support
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,207 +106,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We now use the same notifier lock for SVM and userptr, with that we can
-combine xe_pt_userptr_pre_commit and xe_pt_svm_pre_commit.
+Hi Biju,
 
-v2: (Matt B)
-  - Re-use xe_svm_notifier_lock/unlock for userptr.
-  - Combine svm/userptr handling further down into op_check_svm_userptr.
+Thank you for the review.
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_pt.c       | 90 ++++++++++----------------------
- drivers/gpu/drm/xe/xe_pt_types.h |  2 -
- 2 files changed, 29 insertions(+), 63 deletions(-)
+On Sun, May 4, 2025 at 1:41=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
+>
+> Hi Prabhakar,
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 30 April 2025 21:41
+> > Subject: [PATCH v4 09/15] drm: renesas: rz-du: mipi_dsi: Add OF data su=
+pport
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > In preparation for adding support for the Renesas RZ/V2H(P) SoC, this p=
+atch introduces a mechanism to
+> > pass SoC-specific information via OF data in the DSI driver. This enabl=
+es the driver to adapt
+> > dynamically to various SoC-specific requirements without hardcoding con=
+figurations.
+> >
+> > The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to the =
+one on the RZ/G2L SoC. While
+> > the LINK registers are shared between the two SoCs, the D-PHY registers=
+ differ. Also the VCLK range
+> > differs on both these SoCs. To accommodate these differences `struct rz=
+g2l_mipi_dsi_hw_info` is
+> > introduced and as now passed as OF data.
+> >
+> > These changes lay the groundwork for the upcoming RZ/V2H(P) SoC support=
+ by allowing SoC-specific data
+> > to be passed through OF.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v3->v4:
+> > - No changes
+> >
+> > v2->v3:
+> > - Dropped !dsi->info check in rzg2l_mipi_dsi_probe() as it is not neede=
+d.
+> >
+> > v1->v2:
+> > - Added DPHY_RST as feature flag
+> > ---
+> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 65 ++++++++++++++-----
+> >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  2 -
+> >  2 files changed, 48 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
+pu/drm/renesas/rz-
+> > du/rzg2l_mipi_dsi.c
+> > index 911c955a3a76..ed259627f5e8 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -28,10 +28,26 @@
+> >
+> >  #include "rzg2l_mipi_dsi_regs.h"
+> >
+> > +#define RZ_MIPI_DSI_FEATURE_DPHY_RST BIT(0)
+> > +
+> > +struct rzg2l_mipi_dsi;
+> > +
+> > +struct rzg2l_mipi_dsi_hw_info {
+> > +     int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long hsfreq=
+);
+> > +     void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
+> > +     u32 phy_reg_offset;
+> > +     u32 link_reg_offset;
+> > +     unsigned long max_dclk;
+> > +     unsigned long min_dclk;
+> > +     u8 features;
+> > +};
+> > +
+> >  struct rzg2l_mipi_dsi {
+> >       struct device *dev;
+> >       void __iomem *mmio;
+> >
+> > +     const struct rzg2l_mipi_dsi_hw_info *info;
+> > +
+> >       struct reset_control *rstc;
+> >       struct reset_control *arstc;
+> >       struct reset_control *prstc;
+> > @@ -164,22 +180,22 @@ static const struct rzg2l_mipi_dsi_timings rzg2l_=
+mipi_dsi_global_timings[] =3D {
+> >
+> >  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 r=
+eg, u32 data)  {
+> > -     iowrite32(data, dsi->mmio + reg);
+> > +     iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
+> >  }
+> >
+> >  static void rzg2l_mipi_dsi_link_write(struct rzg2l_mipi_dsi *dsi, u32 =
+reg, u32 data)  {
+> > -     iowrite32(data, dsi->mmio + LINK_REG_OFFSET + reg);
+> > +     iowrite32(data, dsi->mmio + dsi->info->link_reg_offset + reg);
+> >  }
+> >
+> >  static u32 rzg2l_mipi_dsi_phy_read(struct rzg2l_mipi_dsi *dsi, u32 reg=
+)  {
+> > -     return ioread32(dsi->mmio + reg);
+> > +     return ioread32(dsi->mmio + dsi->info->phy_reg_offset + reg);
+> >  }
+> >
+> >  static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mipi_dsi *dsi, u32 re=
+g)  {
+> > -     return ioread32(dsi->mmio + LINK_REG_OFFSET + reg);
+> > +     return ioread32(dsi->mmio + dsi->info->link_reg_offset + reg);
+> >  }
+> >
+> >  /* -------------------------------------------------------------------=
+----------
+> > @@ -291,7 +307,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >       vclk_rate =3D clk_get_rate(dsi->vclk);
+> >       hsfreq =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+> >
+> > -     ret =3D rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
+> > +     ret =3D dsi->info->dphy_init(dsi, hsfreq);
+> >       if (ret < 0)
+> >               goto err_phy;
+> >
+> > @@ -334,7 +350,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >       return 0;
+> >
+> >  err_phy:
+> > -     rzg2l_mipi_dsi_dphy_exit(dsi);
+> > +     dsi->info->dphy_exit(dsi);
+> >       pm_runtime_put(dsi->dev);
+> >
+> >       return ret;
+> > @@ -342,7 +358,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >
+> >  static void rzg2l_mipi_dsi_stop(struct rzg2l_mipi_dsi *dsi)  {
+> > -     rzg2l_mipi_dsi_dphy_exit(dsi);
+> > +     dsi->info->dphy_exit(dsi);
+> >       pm_runtime_put(dsi->dev);
+> >  }
+> >
+> > @@ -584,10 +600,12 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridg=
+e *bridge,
+> >                                const struct drm_display_info *info,
+> >                                const struct drm_display_mode *mode)  {
+> > -     if (mode->clock > 148500)
+> > +     struct rzg2l_mipi_dsi *dsi =3D bridge_to_rzg2l_mipi_dsi(bridge);
+> > +
+> > +     if (mode->clock > dsi->info->max_dclk)
+> >               return MODE_CLOCK_HIGH;
+> >
+> > -     if (mode->clock < 5803)
+> > +     if (mode->clock < dsi->info->min_dclk)
+> >               return MODE_CLOCK_LOW;
+> >
+> >       return MODE_OK;
+> > @@ -713,6 +731,8 @@ static int rzg2l_mipi_dsi_probe(struct platform_dev=
+ice *pdev)
+> >       platform_set_drvdata(pdev, dsi);
+> >       dsi->dev =3D &pdev->dev;
+> >
+> > +     dsi->info =3D of_device_get_match_data(&pdev->dev);
+> > +
+> >       ret =3D drm_of_get_data_lanes_count_ep(dsi->dev->of_node, 1, 0, 1=
+, 4);
+> >       if (ret < 0)
+> >               return dev_err_probe(dsi->dev, ret,
+> > @@ -728,10 +748,12 @@ static int rzg2l_mipi_dsi_probe(struct platform_d=
+evice *pdev)
+> >       if (IS_ERR(dsi->vclk))
+> >               return PTR_ERR(dsi->vclk);
+> >
+> > -     dsi->rstc =3D devm_reset_control_get_exclusive(dsi->dev, "rst");
+> > -     if (IS_ERR(dsi->rstc))
+> > -             return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc),
+> > -                                  "failed to get rst\n");
+> > +     if (dsi->info->features & RZ_MIPI_DSI_FEATURE_DPHY_RST) {
+> > +             dsi->rstc =3D devm_reset_control_get_exclusive(dsi->dev, =
+"rst");
+> > +             if (IS_ERR(dsi->rstc))
+> > +                     return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc)=
+,
+> > +                                          "failed to get rst\n");
+> > +     }
+>
+> Dt binding check already checks "rst" as required property the currently =
+supported
+> SoCs. So for RZ/V2H if it is optional maybe replace
+> devm_reset_control_get_exclusive()->devm_reset_control_get_optional_exclu=
+sive()
+> and get rid of this feature bit check? If I understand correctly, optiona=
+l APIs
+> are introduced for this purpose.
+>
+Ok, I'll make use of devm_reset_control_get_optional_exclusive()
 
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index 92b6a4d63bb1..6642fdcc34fd 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -1394,8 +1394,8 @@ static int vma_check_userptr(struct xe_vm *vm, struct xe_vma *vma,
- 	return 0;
- }
- 
--static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
--			    struct xe_vm_pgtable_update_ops *pt_update)
-+static int op_check_svm_userptr(struct xe_vm *vm, struct xe_vma_op *op,
-+				struct xe_vm_pgtable_update_ops *pt_update)
- {
- 	int err = 0;
- 
-@@ -1420,6 +1420,24 @@ static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
- 		err = vma_check_userptr(vm, gpuva_to_vma(op->base.prefetch.va),
- 					pt_update);
- 		break;
-+#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
-+	case DRM_GPUVA_OP_DRIVER:
-+		if (op->subop == XE_VMA_SUBOP_MAP_RANGE) {
-+			struct xe_svm_range *range = op->map_range.range;
-+
-+			xe_svm_range_debug(range, "PRE-COMMIT");
-+
-+			xe_assert(vm->xe,
-+				  xe_vma_is_cpu_addr_mirror(op->map_range.vma));
-+			xe_assert(vm->xe, op->subop == XE_VMA_SUBOP_MAP_RANGE);
-+
-+			if (!xe_svm_range_pages_valid(range)) {
-+				xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
-+				err = -EAGAIN;
-+			}
-+		}
-+		break;
-+#endif
- 	default:
- 		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
- 	}
-@@ -1427,7 +1445,7 @@ static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
- 	return err;
- }
- 
--static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
-+static int xe_pt_svm_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- {
- 	struct xe_vm *vm = pt_update->vops->vm;
- 	struct xe_vma_ops *vops = pt_update->vops;
-@@ -1440,12 +1458,12 @@ static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- 	if (err)
- 		return err;
- 
--	down_read(&vm->svm.gpusvm.notifier_lock);
-+	xe_svm_notifier_lock(vm);
- 
- 	list_for_each_entry(op, &vops->list, link) {
--		err = op_check_userptr(vm, op, pt_update_ops);
-+		err = op_check_svm_userptr(vm, op, pt_update_ops);
- 		if (err) {
--			up_read(&vm->svm.gpusvm.notifier_lock);
-+			xe_svm_notifier_unlock(vm);
- 			break;
- 		}
- 	}
-@@ -1453,42 +1471,6 @@ static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- 	return err;
- }
- 
--#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
--static int xe_pt_svm_pre_commit(struct xe_migrate_pt_update *pt_update)
--{
--	struct xe_vm *vm = pt_update->vops->vm;
--	struct xe_vma_ops *vops = pt_update->vops;
--	struct xe_vma_op *op;
--	int err;
--
--	err = xe_pt_pre_commit(pt_update);
--	if (err)
--		return err;
--
--	xe_svm_notifier_lock(vm);
--
--	list_for_each_entry(op, &vops->list, link) {
--		struct xe_svm_range *range = op->map_range.range;
--
--		if (op->subop == XE_VMA_SUBOP_UNMAP_RANGE)
--			continue;
--
--		xe_svm_range_debug(range, "PRE-COMMIT");
--
--		xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(op->map_range.vma));
--		xe_assert(vm->xe, op->subop == XE_VMA_SUBOP_MAP_RANGE);
--
--		if (!xe_svm_range_pages_valid(range)) {
--			xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
--			xe_svm_notifier_unlock(vm);
--			return -EAGAIN;
--		}
--	}
--
--	return 0;
--}
--#endif
--
- struct invalidation_fence {
- 	struct xe_gt_tlb_invalidation_fence base;
- 	struct xe_gt *gt;
-@@ -1859,7 +1841,7 @@ static int bind_op_prepare(struct xe_vm *vm, struct xe_tile *tile,
- 						 xe_vma_start(vma),
- 						 xe_vma_end(vma));
- 		++pt_update_ops->current_op;
--		pt_update_ops->needs_userptr_lock |= xe_vma_is_userptr(vma);
-+		pt_update_ops->needs_svm_lock |= xe_vma_is_userptr(vma);
- 
- 		/*
- 		 * If rebind, we have to invalidate TLB on !LR vms to invalidate
-@@ -1967,7 +1949,7 @@ static int unbind_op_prepare(struct xe_tile *tile,
- 	xe_pt_update_ops_rfence_interval(pt_update_ops, xe_vma_start(vma),
- 					 xe_vma_end(vma));
- 	++pt_update_ops->current_op;
--	pt_update_ops->needs_userptr_lock |= xe_vma_is_userptr(vma);
-+	pt_update_ops->needs_svm_lock |= xe_vma_is_userptr(vma);
- 	pt_update_ops->needs_invalidation = true;
- 
- 	xe_pt_commit_prepare_unbind(vma, pt_op->entries, pt_op->num_entries);
-@@ -2290,22 +2272,12 @@ static const struct xe_migrate_pt_update_ops migrate_ops = {
- 	.pre_commit = xe_pt_pre_commit,
- };
- 
--static const struct xe_migrate_pt_update_ops userptr_migrate_ops = {
-+static const struct xe_migrate_pt_update_ops svm_userptr_migrate_ops = {
- 	.populate = xe_vm_populate_pgtable,
- 	.clear = xe_migrate_clear_pgtable_callback,
--	.pre_commit = xe_pt_userptr_pre_commit,
-+	.pre_commit = xe_pt_svm_userptr_pre_commit,
- };
- 
--#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
--static const struct xe_migrate_pt_update_ops svm_migrate_ops = {
--	.populate = xe_vm_populate_pgtable,
--	.clear = xe_migrate_clear_pgtable_callback,
--	.pre_commit = xe_pt_svm_pre_commit,
--};
--#else
--static const struct xe_migrate_pt_update_ops svm_migrate_ops;
--#endif
--
- /**
-  * xe_pt_update_ops_run() - Run PT update operations
-  * @tile: Tile of PT update operations
-@@ -2332,9 +2304,7 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 	int err = 0, i;
- 	struct xe_migrate_pt_update update = {
- 		.ops = pt_update_ops->needs_svm_lock ?
--			&svm_migrate_ops :
--			pt_update_ops->needs_userptr_lock ?
--			&userptr_migrate_ops :
-+			&svm_userptr_migrate_ops :
- 			&migrate_ops,
- 		.vops = vops,
- 		.tile_id = tile->id,
-@@ -2456,8 +2426,6 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 
- 	if (pt_update_ops->needs_svm_lock)
- 		xe_svm_notifier_unlock(vm);
--	if (pt_update_ops->needs_userptr_lock)
--		up_read(&vm->svm.gpusvm.notifier_lock);
- 
- 	return fence;
- 
-diff --git a/drivers/gpu/drm/xe/xe_pt_types.h b/drivers/gpu/drm/xe/xe_pt_types.h
-index 69eab6f37cfe..dc0b2d8c3af8 100644
---- a/drivers/gpu/drm/xe/xe_pt_types.h
-+++ b/drivers/gpu/drm/xe/xe_pt_types.h
-@@ -106,8 +106,6 @@ struct xe_vm_pgtable_update_ops {
- 	u32 current_op;
- 	/** @needs_svm_lock: Needs SVM lock */
- 	bool needs_svm_lock;
--	/** @needs_userptr_lock: Needs userptr lock */
--	bool needs_userptr_lock;
- 	/** @needs_invalidation: Needs invalidation */
- 	bool needs_invalidation;
- 	/**
--- 
-2.49.0
-
+Cheers,
+Prabhakar
