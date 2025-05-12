@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3E2AB455F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 22:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D000EAB4572
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 22:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF3010E4A1;
-	Mon, 12 May 2025 20:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9626F10E1DB;
+	Mon, 12 May 2025 20:29:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UAOoJLdq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tBx4KgqP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A769210E49F;
- Mon, 12 May 2025 20:10:52 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-b1ff8a0a13cso814194a12.0; 
- Mon, 12 May 2025 13:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747080652; x=1747685452; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TNzlrfZxfOGKMDbj14ymw9GdOkMEXSGepdIAXWjXZl0=;
- b=UAOoJLdqwBMOkNOlM1XXN7f5gaNc+ugoCxn1DkgjApVkNSwFs7NmnM83zFQH5ib1sN
- qeFlGts0XyK8rxyjL0fFPcKPMSn6rtnYr1GpXMaXJWWY0SDxPZfbnpRo7S2HRYyxgB67
- bPqIKo3BF+d/4jemu9TOo78RRwVumDhxCqqZiPfnvPK64pkNTNeu1erDJa5zhcuTnqR0
- V2eRBDF6s4Od9pnopnDltQcTvROaLY6x16E8sLbhXKMSrVPepUaVunhDRlkHzUTCeYEW
- lkoOpq8nkOOG6nNanIHVvMFkq1xiL5eMLkpxk+/nkreiXXaBKq1j2Eg/Mmx9LBop8fal
- JS8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747080652; x=1747685452;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TNzlrfZxfOGKMDbj14ymw9GdOkMEXSGepdIAXWjXZl0=;
- b=nKC6H1Jimz4YL9nwtY18K93fKz30oIR3smXXQbzMQhP0WkF+u6a0IBZhboEGbY27UX
- Bfln8MRIHe0GJDoDfb7839frVetyDSjHIEjX/E5G7xDSRavh+z8xApSbnW6MKfUppkbC
- kmzcpSkRlXa/a/BjLmDm2wlewdX3mcHJPOELP54Q4nFqEK6QHWHybQ480crTwOInwvhG
- 4o1UnFAHO5VJiBqWiNjHlgkR2PkYwlFtGc/UrwUjj6kYIArcfgURxD/dSGrNkklCq9gw
- GOXLlWM/++psB5aS/vUXSTBvvGdgPKMw/Kc45VNM4BL7yCwd2+FYdeBDqYcmSNx6vJyj
- CSuw==
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B60310E1DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 20:29:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 185E9614B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 20:29:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80B14C4CEF5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 20:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747081796;
+ bh=Q1AuxTQ7799vYv+9kB6vXV1iWDTncQh/7UoL2uX/9No=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tBx4KgqPJq4VQ1ebPq+sGhfPYt+EgimgZpb7ffjTzWptg3sC1RNUxs6d7gcCf1ufJ
+ +jlhrT716R8b0aYG9sWKZd0UA1Cq6JqGv1sdbR1gEIHEm8/3uwnkLWEgPJ1aPzIWT3
+ +iKaXca7/KFAsH4ypGp05neMEmdp38FQR2qkMH8M+NzEicX3hGT1WQxyLT9JJR+//4
+ otYETItWVpkNIl6AeGX04cTSdNpS4loTUB2NTey0KCTnF3+ZpslrhVlfMu47rLC67/
+ k8LUu+e+fJAY1GqKc8l/W5F8rgp9XCrSIqM3pFl6+aV3aOg1i22ccZTVVw91I7fuxK
+ a3X25K5bACSGw==
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-47692b9d059so77670151cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 13:29:56 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXydnb2F3o9qF2c0v6AegkHcB9N3RAaMjIbz16V/5jv/RaOgPOIcVFtHUSLDoMhllUFd9zkxbc0sXY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjE1/d066lMwuLMcHhEoA7iPS5bMkD8T8Ghmo2Rv4bhPJzmIIu
- JiLya/28Hel1KO20fHRn3AXBayaSDBZ02XoveVbBEuL6w3JSuyO3gxk+AdWDmtgQwxkaVZzGRmv
- Vg1eGbvbQWkc9EFjKVmkTjPysJ7mrh4MM
-X-Gm-Gg: ASbGncuB5hPZSJiholkvOMcS5v6D7HcumIwWWY+LfdU1aPOMKA8q4TvpaTZvlj+X7kA
- Kp4vGICTVAZydMYhU6ndtZCP/EUMsIIbiBG7fHZ16G4qCqdXZ/c3GsbPv564hw7MfwhyXPAtFxr
- TVysysDexqKZ1pkhoa6yRxhryhNIdT+n7NytBxOovExws=
-X-Google-Smtp-Source: AGHT+IFY9WwxznwjIs56GtzB24snIWQRo9lN27jIRJJqRwz7p9swzydfVUUHJJf7h067rUUhBH0+CyXauWgdM2Ua75M=
-X-Received: by 2002:a17:902:e94d:b0:22e:6ea8:8a07 with SMTP id
- d9443c01a7336-22fc9087803mr73172895ad.9.1747080652056; Mon, 12 May 2025
- 13:10:52 -0700 (PDT)
+ AJvYcCXrr9TAXSscnspog5GSp2T6q9n+k0KIdcQ8RJaVYTxMXLxY8On8YHsv3olorHycsTrg0RMUTEbY6dY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPypcMpWfvQpQtHTxyEVFJWgEpvfB8EejKjkUANrujqau72kl0
+ 8wuuVUwkVeDtF+dP8t71QllLCKQrYiraZbA7meyvWmn75RUcvilWECXKLDJa3BnwjvVTcCWvfOI
+ uKJGDgetWapLkvdhXlOLosxhixPk=
+X-Google-Smtp-Source: AGHT+IG5rkCx/hpDMtSKvEl8qMX6hPk0sGnzSeyFBD0wIK4YZybCKppA5Uh0VUx57tW/L441bM7HGxWCyQByM39LevM=
+X-Received: by 2002:ad4:5bc9:0:b0:6e8:f17e:e00d with SMTP id
+ 6a1803df08f44-6f6e47aa755mr234448176d6.14.1747081795541; Mon, 12 May 2025
+ 13:29:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
- <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
- <GXXZVS.Q1GIIU1M9VBL1@att.net>
- <CADnq5_NvoPfgTxOxjBCc-iGR7k8w7oR7VKkXQtWga8VP7vBViQ@mail.gmail.com>
- <1Q10WS.BHBZBX486I3M2@att.net> <EWZ5WS.K2DTZM5DEZCL2@att.net>
-In-Reply-To: <EWZ5WS.K2DTZM5DEZCL2@att.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 12 May 2025 16:10:40 -0400
-X-Gm-Features: AX0GCFsEFo7fJJ6Kq4sfr7_XIE3CIvTcO2qwnDkAN3SdcTpfdVs26FffhVmYghE
-Message-ID: <CADnq5_PbeZCPD7WWO0i5HSVMepka7Ao6byfkx3zHkiBfg4amwg@mail.gmail.com>
-Subject: Re: Kernels >= 6.3 disable video output
-To: Steven J Abner <pheonix.sja@att.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250512174036.266796-1-tjmercier@google.com>
+ <20250512174036.266796-6-tjmercier@google.com>
+In-Reply-To: <20250512174036.266796-6-tjmercier@google.com>
+From: Song Liu <song@kernel.org>
+Date: Mon, 12 May 2025 13:29:43 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW6KEtKu5C+Y_X3EFkUFSg8=LnQ9nJFUD81rYgwvBvqzHg@mail.gmail.com>
+X-Gm-Features: AX0GCFvzZHZSPJCVC-VLXwXHh9XY0gCw1pbH1Gr6Gl6YMKHnqA26hCVsNML8Mo4
+Message-ID: <CAPhsuW6KEtKu5C+Y_X3EFkUFSg8=LnQ9nJFUD81rYgwvBvqzHg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 5/5] selftests/bpf: Add test for open coded
+ dmabuf_iter
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,33 +80,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 12, 2025 at 4:07=E2=80=AFPM Steven J Abner <pheonix.sja@att.net=
+On Mon, May 12, 2025 at 10:41=E2=80=AFAM T.J. Mercier <tjmercier@google.com=
 > wrote:
 >
-> On Fri, May 9 2025 at 03:01:13 PM +0000, Steven J Abner
-> <pheonix.sja@att.net> wrote:
-> > On Fri, May 9 2025 at 02:05:16 PM +0000, Alex Deucher
-> > <alexdeucher@gmail.com> wrote:
-> >> bisect between 6.2.16 and 6.2.17 to identify the commit which broke
-> >
-> > Are you asking for a 'diff' output of drm and amdgpu directories
-> > between 6.2.16 (last of the 6.2 series) and 6.3 (start of the 6.3
-> > series)?
+> Use the same test buffers as the traditional iterator and a new BPF map
+> to verify the test buffers can be found with the open coded dmabuf
+> iterator.
 >
->  I'm willing to revert/test code on my machine, problem is I don't know
-> sequence nor what I can safely revert. I haven't messed with video
-> drivers/code since DOS days of having to write ones own graphics
-> routines. I could force? kernel to build with '-g' on drm/amdgpu? and
-> walk it I guess. But don't know what I'm looking for. :(
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-See:
-https://docs.kernel.org/admin-guide/bug-bisect.html
-If you know a good and bad point on a particular kernel branch, you
-can use git to bisect the tree and identify the exact commit which
-broke caused your issue.
+Acked-by: Song Liu <song@kernel.org>
 
-Alex
+With a nitpick below.
 
-> Steve
+[...]
+
 >
+> -static int create_test_buffers(void)
+> +static int create_test_buffers(int map_fd)
+>  {
+> +       bool f =3D false;
+> +
+>         udmabuf =3D create_udmabuf();
+>         sysheap_dmabuf =3D create_sys_heap_dmabuf();
 >
+>         if (udmabuf < 0 || sysheap_dmabuf < 0)
+>                 return -1;
+>
+> -       return 0;
+> +       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name, &f, =
+BPF_ANY) ||
+> +              bpf_map_update_elem(map_fd, sysheap_test_buffer_name, &f, =
+BPF_ANY);
+
+nit: Instead of passing map_fd in here, we can just call
+bpf_map_update_elem() in test_dmabuf_iter()
+
+[...]
