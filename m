@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32BDAB3BA0
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 17:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A450AB3BA1
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 17:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EC910E44A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859D010E44B;
 	Mon, 12 May 2025 15:07:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OFSO7wvv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HzgiyBv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFE210E445;
- Mon, 12 May 2025 15:07:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C28DC10E449;
+ Mon, 12 May 2025 15:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747062422; x=1778598422;
+ t=1747062423; x=1778598423;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2VEtyavV4yu9SLNOfDwWTryehqaK1rxvXQIQYAtg7t8=;
- b=OFSO7wvv3kjndAAzY/z93kY7hxJLa49zkSuHb2vFRL21fRchx1cacqqB
- saukgazqefLdskdoC4YXds7lM204OEW198RApTWhxEYpWTu9I8CZL0FgV
- 6yXmozZT1VmDekdSe/yDpnnQRY41tTEPtyFxo7XFiirU9npXnWekZXC6M
- ZPisIRwa9H1mcdbCc7tS9cFTSkAHDjftz+mHW55MTSovYtwlyVZGloH7H
- 4aT2l4K69iG4rTc5u4DWGCnEu8To4fFieUDXeaMH1qsTthlfMHhWFnwdD
- OUUo9cJBvpm9Ls+MRzmyjLFfCNkQEFyCOwpIhiUH3HDZomjC6zGBH/56o Q==;
-X-CSE-ConnectionGUID: SWzdMgFnRJq9wtbqRtetuw==
-X-CSE-MsgGUID: WyrRss9tROKtsDK90bcMbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="71377064"
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="71377064"
+ bh=RYMm/XSNXKUH9YqrOBFt9GNztYt1XvnxsM+OXHaote4=;
+ b=HzgiyBv/0T6OCGp3Aiz+zpFBYctpNZKB8psraXPQ9eiMtp+z6JqWPrAB
+ +3XR210ZacB6hGpBlAJoI9sqKfHRmf7FF3beH0Lnhp9HDDOKmYhEXzhjA
+ BmyAtd0xK5EQc3Qjt2/MU40HWdYEQx8npACgupoFzG4doahUcucETjehK
+ exGNmSl5+BDPPE1zg+EyaIyGCGxZtOndLfr7uWKBx8fgI/Jvcl4G/h85o
+ PiWwqGh2u2Hm4wNeLDRnxR8PBXXZmjVItuVC3fZnZnl6JzSMDLE8Fub7+
+ /ihuoSfD1izOEGuTndlJKQe2hdGNo6QHVr+vYONHnLI6uvhIWvTBwubak Q==;
+X-CSE-ConnectionGUID: QNOdGMVMQbO/GlUNKBgTlg==
+X-CSE-MsgGUID: zc8no2JWQDiIzqPxAtbDsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="71377074"
+X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="71377074"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2025 08:07:01 -0700
-X-CSE-ConnectionGUID: kbmhaPoiSBy9KQKIHQUWXA==
-X-CSE-MsgGUID: lO1v4Z5KQumZIJG6SNIwIA==
+ 12 May 2025 08:07:03 -0700
+X-CSE-ConnectionGUID: uvMe8O1MSBOpAq6muvClEQ==
+X-CSE-MsgGUID: XJexN65mT9K3g9nLjekg7g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="137916558"
+X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="137916561"
 Received: from ettammin-desk.ger.corp.intel.com (HELO mwauld-desk.intel.com)
  ([10.245.245.222])
  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2025 08:07:01 -0700
+ 12 May 2025 08:07:03 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Matthew Brost <matthew.brost@intel.com>
-Subject: [PATCH v4 5/8] drm/gpusvm: export drm_gpusvm_pages API
-Date: Mon, 12 May 2025 16:06:43 +0100
-Message-ID: <20250512150637.61462-15-matthew.auld@intel.com>
+Subject: [PATCH v4 6/8] drm/xe/vm: split userptr bits into separate file
+Date: Mon, 12 May 2025 16:06:44 +0100
+Message-ID: <20250512150637.61462-16-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250512150637.61462-10-matthew.auld@intel.com>
 References: <20250512150637.61462-10-matthew.auld@intel.com>
@@ -71,178 +71,929 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export get/unmap/free pages API. We also need to tweak the SVM init to
-allow skipping much of the unneeded parts.
+This will simplify compiling out the bits that depend on DRM_GPUSVM in a
+later patch. Without this we end up littering the code with ifdef
+checks, plus it becomes hard to be sure that something won't blow at
+runtime due to something not being initialised, even though it passed
+the build. Should be no functional change here.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/drm_gpusvm.c | 66 ++++++++++++++++++++++++++++--------
- include/drm/drm_gpusvm.h     | 16 +++++++++
- 2 files changed, 67 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/xe/Makefile      |   1 +
+ drivers/gpu/drm/xe/xe_pt.c       |   1 +
+ drivers/gpu/drm/xe/xe_userptr.c  | 303 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_userptr.h  |  97 ++++++++++
+ drivers/gpu/drm/xe/xe_vm.c       | 280 +---------------------------
+ drivers/gpu/drm/xe/xe_vm.h       |  18 --
+ drivers/gpu/drm/xe/xe_vm_types.h |  60 +-----
+ 7 files changed, 410 insertions(+), 350 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_userptr.c
+ create mode 100644 drivers/gpu/drm/xe/xe_userptr.h
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index f998f3fa69fe..eac7f9b165f9 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -539,6 +539,12 @@ static const struct mmu_interval_notifier_ops drm_gpusvm_notifier_ops = {
-  *
-  * This function initializes the GPU SVM.
-  *
-+ * Note: If only using the simple drm_gpusvm_pages API (get/unmap/free),
-+ * then only @gpusvm, @name, and @drm are expected. However, the same base
-+ * @gpusvm can also be used with both modes together in which case the full
-+ * setup is needed, where the core drm_gpusvm_pages API will simply never use
-+ * the other fields.
-+ *
-  * Return: 0 on success, a negative error code on failure.
-  */
- int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
-@@ -549,8 +555,16 @@ int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
- 		    const struct drm_gpusvm_ops *ops,
- 		    const unsigned long *chunk_sizes, int num_chunks)
- {
--	if (!ops->invalidate || !num_chunks)
--		return -EINVAL;
-+	if (mm) {
-+		if (!ops->invalidate || !num_chunks)
-+			return -EINVAL;
-+		mmgrab(mm);
-+	} else {
-+		/* No full SVM mode, only core drm_gpusvm_pages API. */
-+		if (ops || num_chunks || mm_range || notifier_size ||
-+		    device_private_page_owner)
-+			return -EINVAL;
-+	}
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index e4bf484d4121..10b42118e761 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -116,6 +116,7 @@ xe-y += xe_bb.o \
+ 	xe_tuning.o \
+ 	xe_uc.o \
+ 	xe_uc_fw.o \
++	xe_userptr.o \
+ 	xe_vm.o \
+ 	xe_vram.o \
+ 	xe_vram_freq.o \
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index 5cccfd9cc3e9..720c25bf48f2 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -23,6 +23,7 @@
+ #include "xe_svm.h"
+ #include "xe_trace.h"
+ #include "xe_ttm_stolen_mgr.h"
++#include "xe_userptr.h"
+ #include "xe_vm.h"
  
- 	gpusvm->name = name;
- 	gpusvm->drm = drm;
-@@ -563,7 +577,6 @@ int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
- 	gpusvm->chunk_sizes = chunk_sizes;
- 	gpusvm->num_chunks = num_chunks;
- 
--	mmgrab(mm);
- 	gpusvm->root = RB_ROOT_CACHED;
- 	INIT_LIST_HEAD(&gpusvm->notifier_list);
- 
-@@ -671,7 +684,8 @@ void drm_gpusvm_fini(struct drm_gpusvm *gpusvm)
- 			drm_gpusvm_range_remove(gpusvm, range);
- 	}
- 
--	mmdrop(gpusvm->mm);
-+	if (gpusvm->mm)
-+		mmdrop(gpusvm->mm);
- 	WARN_ON(!RB_EMPTY_ROOT(&gpusvm->root.rb_root));
- }
- EXPORT_SYMBOL_GPL(drm_gpusvm_fini);
-@@ -1184,6 +1198,27 @@ static void __drm_gpusvm_free_pages(struct drm_gpusvm *gpusvm,
- 	}
- }
- 
-+/**
-+ * drm_gpusvm_free_pages() - Free dma-mapping associated with GPU SVM pages
-+ * struct
-+ * @gpusvm: Pointer to the GPU SVM structure
-+ * @svm_pages: Pointer to the GPU SVM pages structure
-+ * @npages: Number of mapped pages
-+ *
-+ * This function unmaps and frees the dma address array associated with a GPU
-+ * SVM pages struct.
+ struct xe_pt_dir {
+diff --git a/drivers/gpu/drm/xe/xe_userptr.c b/drivers/gpu/drm/xe/xe_userptr.c
+new file mode 100644
+index 000000000000..f573842a3d4b
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_userptr.c
+@@ -0,0 +1,303 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2025 Intel Corporation
 + */
-+void drm_gpusvm_free_pages(struct drm_gpusvm *gpusvm,
-+			   struct drm_gpusvm_pages *svm_pages,
-+			   unsigned long npages)
++
++#include "xe_userptr.h"
++
++#include <linux/mm.h>
++
++#include "xe_hmm.h"
++#include "xe_trace_bo.h"
++
++/**
++ * xe_vma_userptr_check_repin() - Advisory check for repin needed
++ * @uvma: The userptr vma
++ *
++ * Check if the userptr vma has been invalidated since last successful
++ * repin. The check is advisory only and can the function can be called
++ * without the vm->svm.gpusvm.notifier_lock held. There is no guarantee that the
++ * vma userptr will remain valid after a lockless check, so typically
++ * the call needs to be followed by a proper check under the notifier_lock.
++ *
++ * Return: 0 if userptr vma is valid, -EAGAIN otherwise; repin recommended.
++ */
++int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma)
 +{
-+	drm_gpusvm_notifier_lock(gpusvm);
-+	__drm_gpusvm_unmap_pages(gpusvm, svm_pages, npages);
-+	__drm_gpusvm_free_pages(gpusvm, svm_pages);
-+	drm_gpusvm_notifier_unlock(gpusvm);
++	return mmu_interval_check_retry(&uvma->userptr.notifier,
++					uvma->userptr.notifier_seq) ?
++		-EAGAIN : 0;
 +}
-+EXPORT_SYMBOL_GPL(drm_gpusvm_free_pages);
 +
- /**
-  * drm_gpusvm_range_remove() - Remove GPU SVM range
-  * @gpusvm: Pointer to the GPU SVM structure
-@@ -1359,13 +1394,12 @@ static bool drm_gpusvm_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
-  *
-  * Return: 0 on success, negative error code on failure.
-  */
--static int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
--				struct drm_gpusvm_pages *svm_pages,
--				struct mm_struct *mm,
--				struct mmu_interval_notifier *notifier,
--				unsigned long pages_start,
--				unsigned long pages_end,
--				const struct drm_gpusvm_ctx *ctx)
-+int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
-+			 struct drm_gpusvm_pages *svm_pages,
-+			 struct mm_struct *mm,
-+			 struct mmu_interval_notifier *notifier,
-+			 unsigned long pages_start, unsigned long pages_end,
-+			 const struct drm_gpusvm_ctx *ctx)
- {
- 	struct hmm_range hmm_range = {
- 		.default_flags = HMM_PFN_REQ_FAULT | (ctx->read_only ? 0 :
-@@ -1543,6 +1577,7 @@ static int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 		goto retry;
- 	return err;
++int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
++{
++	struct xe_vma *vma = &uvma->vma;
++	struct xe_vm *vm = xe_vma_vm(vma);
++	struct xe_device *xe = vm->xe;
++
++	lockdep_assert_held(&vm->lock);
++	xe_assert(xe, xe_vma_is_userptr(vma));
++
++	return xe_hmm_userptr_populate_range(uvma, false);
++}
++
++static void __vma_userptr_invalidate(struct xe_vm *vm, struct xe_userptr_vma *uvma)
++{
++	struct xe_userptr *userptr = &uvma->userptr;
++	struct xe_vma *vma = &uvma->vma;
++	struct dma_resv_iter cursor;
++	struct dma_fence *fence;
++	long err;
++
++	/*
++	 * Tell exec and rebind worker they need to repin and rebind this
++	 * userptr.
++	 */
++	if (!xe_vm_in_fault_mode(vm) &&
++	    !(vma->gpuva.flags & XE_VMA_DESTROYED)) {
++		spin_lock(&vm->userptr.invalidated_lock);
++		list_move_tail(&userptr->invalidate_link,
++			       &vm->userptr.invalidated);
++		spin_unlock(&vm->userptr.invalidated_lock);
++	}
++
++	/*
++	 * Preempt fences turn into schedule disables, pipeline these.
++	 * Note that even in fault mode, we need to wait for binds and
++	 * unbinds to complete, and those are attached as BOOKMARK fences
++	 * to the vm.
++	 */
++	dma_resv_iter_begin(&cursor, xe_vm_resv(vm),
++			    DMA_RESV_USAGE_BOOKKEEP);
++	dma_resv_for_each_fence_unlocked(&cursor, fence)
++		dma_fence_enable_sw_signaling(fence);
++	dma_resv_iter_end(&cursor);
++
++	err = dma_resv_wait_timeout(xe_vm_resv(vm),
++				    DMA_RESV_USAGE_BOOKKEEP,
++				    false, MAX_SCHEDULE_TIMEOUT);
++	XE_WARN_ON(err <= 0);
++
++	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
++		err = xe_vm_invalidate_vma(vma);
++		XE_WARN_ON(err);
++	}
++
++	xe_hmm_userptr_unmap(uvma);
++}
++
++#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
++/**
++ * xe_vma_userptr_force_invalidate() - force invalidate a userptr
++ * @uvma: The userptr vma to invalidate
++ *
++ * Perform a forced userptr invalidation for testing purposes.
++ */
++void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
++{
++	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
++
++	/* Protect against concurrent userptr pinning */
++	lockdep_assert_held(&vm->lock);
++	/* Protect against concurrent notifiers */
++	lockdep_assert_held(&vm->svm.gpusvm.notifier_lock);
++	/*
++	 * Protect against concurrent instances of this function and
++	 * the critical exec sections
++	 */
++	xe_vm_assert_held(vm);
++
++	if (!mmu_interval_read_retry(&uvma->userptr.notifier,
++				     uvma->userptr.notifier_seq))
++		uvma->userptr.notifier_seq -= 2;
++	__vma_userptr_invalidate(vm, uvma);
++}
++#endif
++
++static bool vma_userptr_invalidate(struct mmu_interval_notifier *mni,
++				   const struct mmu_notifier_range *range,
++				   unsigned long cur_seq)
++{
++	struct xe_userptr_vma *uvma = container_of(mni, typeof(*uvma), userptr.notifier);
++	struct xe_vma *vma = &uvma->vma;
++	struct xe_vm *vm = xe_vma_vm(vma);
++
++	xe_assert(vm->xe, xe_vma_is_userptr(vma));
++	trace_xe_vma_userptr_invalidate(vma);
++
++	if (!mmu_notifier_range_blockable(range))
++		return false;
++
++	vm_dbg(&xe_vma_vm(vma)->xe->drm,
++	       "NOTIFIER: addr=0x%016llx, range=0x%016llx",
++		xe_vma_start(vma), xe_vma_size(vma));
++
++	down_write(&vm->svm.gpusvm.notifier_lock);
++	mmu_interval_set_seq(mni, cur_seq);
++
++	__vma_userptr_invalidate(vm, uvma);
++	up_write(&vm->svm.gpusvm.notifier_lock);
++	trace_xe_vma_userptr_invalidate_complete(vma);
++
++	return true;
++}
++
++static const struct mmu_interval_notifier_ops vma_userptr_notifier_ops = {
++	.invalidate = vma_userptr_invalidate,
++};
++
++/**
++ * __xe_vm_userptr_needs_repin() - Check whether the VM does have userptrs
++ * that need repinning.
++ * @vm: The VM.
++ *
++ * This function checks for whether the VM has userptrs that need repinning,
++ * and provides a release-type barrier on the svm.gpusvm.notifier_lock after
++ * checking.
++ *
++ * Return: 0 if there are no userptrs needing repinning, -EAGAIN if there are.
++ */
++int __xe_vm_userptr_needs_repin(struct xe_vm *vm)
++{
++	lockdep_assert_held_read(&vm->svm.gpusvm.notifier_lock);
++
++	return (list_empty(&vm->userptr.repin_list) &&
++		list_empty(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
++}
++
++int xe_vm_userptr_pin(struct xe_vm *vm)
++{
++	struct xe_userptr_vma *uvma, *next;
++	int err = 0;
++
++	xe_assert(vm->xe, !xe_vm_in_fault_mode(vm));
++	lockdep_assert_held_write(&vm->lock);
++
++	/* Collect invalidated userptrs */
++	spin_lock(&vm->userptr.invalidated_lock);
++	xe_assert(vm->xe, list_empty(&vm->userptr.repin_list));
++	list_for_each_entry_safe(uvma, next, &vm->userptr.invalidated,
++				 userptr.invalidate_link) {
++		list_del_init(&uvma->userptr.invalidate_link);
++		list_add_tail(&uvma->userptr.repin_link,
++			      &vm->userptr.repin_list);
++	}
++	spin_unlock(&vm->userptr.invalidated_lock);
++
++	/* Pin and move to bind list */
++	list_for_each_entry_safe(uvma, next, &vm->userptr.repin_list,
++				 userptr.repin_link) {
++		err = xe_vma_userptr_pin_pages(uvma);
++		if (err == -EFAULT) {
++			list_del_init(&uvma->userptr.repin_link);
++			/*
++			 * We might have already done the pin once already, but
++			 * then had to retry before the re-bind happened, due
++			 * some other condition in the caller, but in the
++			 * meantime the userptr got dinged by the notifier such
++			 * that we need to revalidate here, but this time we hit
++			 * the EFAULT. In such a case make sure we remove
++			 * ourselves from the rebind list to avoid going down in
++			 * flames.
++			 */
++			if (!list_empty(&uvma->vma.combined_links.rebind))
++				list_del_init(&uvma->vma.combined_links.rebind);
++
++			/* Wait for pending binds */
++			xe_vm_lock(vm, false);
++			dma_resv_wait_timeout(xe_vm_resv(vm),
++					      DMA_RESV_USAGE_BOOKKEEP,
++					      false, MAX_SCHEDULE_TIMEOUT);
++
++			err = xe_vm_invalidate_vma(&uvma->vma);
++			xe_vm_unlock(vm);
++			if (err)
++				break;
++		} else {
++			if (err)
++				break;
++
++			list_del_init(&uvma->userptr.repin_link);
++			list_move_tail(&uvma->vma.combined_links.rebind,
++				       &vm->rebind_list);
++		}
++	}
++
++	if (err) {
++		down_write(&vm->svm.gpusvm.notifier_lock);
++		spin_lock(&vm->userptr.invalidated_lock);
++		list_for_each_entry_safe(uvma, next, &vm->userptr.repin_list,
++					 userptr.repin_link) {
++			list_del_init(&uvma->userptr.repin_link);
++			list_move_tail(&uvma->userptr.invalidate_link,
++				       &vm->userptr.invalidated);
++		}
++		spin_unlock(&vm->userptr.invalidated_lock);
++		up_write(&vm->svm.gpusvm.notifier_lock);
++	}
++	return err;
++}
++
++/**
++ * xe_vm_userptr_check_repin() - Check whether the VM might have userptrs
++ * that need repinning.
++ * @vm: The VM.
++ *
++ * This function does an advisory check for whether the VM has userptrs that
++ * need repinning.
++ *
++ * Return: 0 if there are no indications of userptrs needing repinning,
++ * -EAGAIN if there are.
++ */
++int xe_vm_userptr_check_repin(struct xe_vm *vm)
++{
++	return (list_empty_careful(&vm->userptr.repin_list) &&
++		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
++}
++
++int xe_userptr_setup(struct xe_userptr_vma *uvma, unsigned long start,
++		     unsigned long range)
++{
++	struct xe_userptr *userptr = &uvma->userptr;
++	int err;
++
++	INIT_LIST_HEAD(&userptr->invalidate_link);
++	INIT_LIST_HEAD(&userptr->repin_link);
++	mutex_init(&userptr->unmap_mutex);
++
++	err = mmu_interval_notifier_insert(&userptr->notifier, current->mm,
++					   start, range,
++					   &vma_userptr_notifier_ops);
++	if (err)
++		return err;
++
++	userptr->notifier_seq = LONG_MAX;
++
++	return 0;
++}
++
++void xe_userptr_remove(struct xe_userptr_vma *uvma)
++{
++	struct xe_userptr *userptr = &uvma->userptr;
++
++	if (userptr->sg)
++		xe_hmm_userptr_free_sg(uvma);
++
++	/*
++	 * Since userptr pages are not pinned, we can't remove
++	 * the notifier until we're sure the GPU is not accessing
++	 * them anymore
++	 */
++	mmu_interval_notifier_remove(&userptr->notifier);
++	mutex_destroy(&userptr->unmap_mutex);
++}
++
++void xe_userptr_destroy(struct xe_userptr_vma *uvma)
++{
++	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
++
++	spin_lock(&vm->userptr.invalidated_lock);
++	xe_assert(vm->xe, list_empty(&uvma->userptr.repin_link));
++	list_del(&uvma->userptr.invalidate_link);
++	spin_unlock(&vm->userptr.invalidated_lock);
++}
+diff --git a/drivers/gpu/drm/xe/xe_userptr.h b/drivers/gpu/drm/xe/xe_userptr.h
+new file mode 100644
+index 000000000000..83d17b58ed16
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_userptr.h
+@@ -0,0 +1,97 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2025 Intel Corporation
++ */
++
++#ifndef _XE_USERPTR_H_
++#define _XE_USERPTR_H_
++
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/notifier.h>
++#include <linux/scatterlist.h>
++#include <linux/spinlock.h>
++
++struct xe_vm;
++struct xe_vma;
++struct xe_userptr_vma;
++
++/** struct xe_userptr_vm - User pointer VM level state */
++struct xe_userptr_vm {
++	/**
++	 * @userptr.repin_list: list of VMAs which are user pointers,
++	 * and needs repinning. Protected by @lock.
++	 */
++	struct list_head repin_list;
++	/**
++	 * @notifier_lock: protects notifier in write mode and
++	 * submission in read mode.
++	 */
++	struct rw_semaphore notifier_lock;
++	/**
++	 * @userptr.invalidated_lock: Protects the
++	 * @userptr.invalidated list.
++	 */
++	spinlock_t invalidated_lock;
++	/**
++	 * @userptr.invalidated: List of invalidated userptrs, not yet
++	 * picked
++	 * up for revalidation. Protected from access with the
++	 * @invalidated_lock. Removing items from the list
++	 * additionally requires @lock in write mode, and adding
++	 * items to the list requires either the @userptr.notifer_lock in
++	 * write mode, OR @lock in write mode.
++	 */
++	struct list_head invalidated;
++};
++
++/** struct xe_userptr - User pointer */
++struct xe_userptr {
++	/** @invalidate_link: Link for the vm::userptr.invalidated list */
++	struct list_head invalidate_link;
++	/** @userptr: link into VM repin list if userptr. */
++	struct list_head repin_link;
++	/**
++	 * @notifier: MMU notifier for user pointer (invalidation call back)
++	 */
++	struct mmu_interval_notifier notifier;
++	/** @sgt: storage for a scatter gather table */
++	struct sg_table sgt;
++	/** @sg: allocated scatter gather table */
++	struct sg_table *sg;
++	/** @notifier_seq: notifier sequence number */
++	unsigned long notifier_seq;
++	/** @unmap_mutex: Mutex protecting dma-unmapping */
++	struct mutex unmap_mutex;
++	/**
++	 * @initial_bind: user pointer has been bound at least once.
++	 * write: vm->userptr.notifier_lock in read mode and vm->resv held.
++	 * read: vm->userptr.notifier_lock in write mode or vm->resv held.
++	 */
++	bool initial_bind;
++	/** @mapped: Whether the @sgt sg-table is dma-mapped. Protected by @unmap_mutex. */
++	bool mapped;
++#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
++	u32 divisor;
++#endif
++};
++
++void xe_userptr_remove(struct xe_userptr_vma *uvma);
++int xe_userptr_setup(struct xe_userptr_vma *uvma, unsigned long start,
++		     unsigned long range);
++void xe_userptr_destroy(struct xe_userptr_vma *uvma);
++
++int xe_vm_userptr_pin(struct xe_vm *vm);
++int __xe_vm_userptr_needs_repin(struct xe_vm *vm);
++int xe_vm_userptr_check_repin(struct xe_vm *vm);
++int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma);
++int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
++
++#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
++void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma);
++#else
++static inline void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
++{
++}
++#endif
++#endif
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 79323c78130f..e5bf4ddc9d86 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -39,6 +39,7 @@
+ #include "xe_svm.h"
+ #include "xe_sync.h"
+ #include "xe_trace_bo.h"
++#include "xe_userptr.h"
+ #include "xe_wa.h"
+ #include "xe_hmm.h"
+ 
+@@ -47,37 +48,6 @@ static struct drm_gem_object *xe_vm_obj(struct xe_vm *vm)
+ 	return vm->gpuvm.r_obj;
  }
-+EXPORT_SYMBOL_GPL(drm_gpusvm_get_pages);
  
- /**
-  * drm_gpusvm_range_get_pages() - Get pages for a GPU SVM range
-@@ -1578,10 +1613,10 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_get_pages);
-  * Must be called in the invalidate() callback of the corresponding notifier for
-  * IOMMU security model.
-  */
--static void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
--				   struct drm_gpusvm_pages *svm_pages,
--				   unsigned long npages,
--				   const struct drm_gpusvm_ctx *ctx)
-+void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
-+			    struct drm_gpusvm_pages *svm_pages,
-+			    unsigned long npages,
-+			    const struct drm_gpusvm_ctx *ctx)
+-/**
+- * xe_vma_userptr_check_repin() - Advisory check for repin needed
+- * @uvma: The userptr vma
+- *
+- * Check if the userptr vma has been invalidated since last successful
+- * repin. The check is advisory only and can the function can be called
+- * without the vm->userptr.notifier_lock held. There is no guarantee that the
+- * vma userptr will remain valid after a lockless check, so typically
+- * the call needs to be followed by a proper check under the notifier_lock.
+- *
+- * Return: 0 if userptr vma is valid, -EAGAIN otherwise; repin recommended.
+- */
+-int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma)
+-{
+-	return mmu_interval_check_retry(&uvma->userptr.notifier,
+-					uvma->userptr.notifier_seq) ?
+-		-EAGAIN : 0;
+-}
+-
+-int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
+-{
+-	struct xe_vma *vma = &uvma->vma;
+-	struct xe_vm *vm = xe_vma_vm(vma);
+-	struct xe_device *xe = vm->xe;
+-
+-	lockdep_assert_held(&vm->lock);
+-	xe_assert(xe, xe_vma_is_userptr(vma));
+-
+-	return xe_hmm_userptr_populate_range(uvma, false);
+-}
+-
+ static bool preempt_fences_waiting(struct xe_vm *vm)
  {
- 	if (ctx->in_notifier)
- 		lockdep_assert_held_write(&gpusvm->notifier_lock);
-@@ -1593,6 +1628,7 @@ static void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
- 	if (!ctx->in_notifier)
- 		drm_gpusvm_notifier_unlock(gpusvm);
+ 	struct xe_exec_queue *q;
+@@ -299,25 +269,6 @@ void xe_vm_remove_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
+ 	up_write(&vm->lock);
  }
-+EXPORT_SYMBOL_GPL(drm_gpusvm_unmap_pages);
+ 
+-/**
+- * __xe_vm_userptr_needs_repin() - Check whether the VM does have userptrs
+- * that need repinning.
+- * @vm: The VM.
+- *
+- * This function checks for whether the VM has userptrs that need repinning,
+- * and provides a release-type barrier on the userptr.notifier_lock after
+- * checking.
+- *
+- * Return: 0 if there are no userptrs needing repinning, -EAGAIN if there are.
+- */
+-int __xe_vm_userptr_needs_repin(struct xe_vm *vm)
+-{
+-	lockdep_assert_held_read(&vm->userptr.notifier_lock);
+-
+-	return (list_empty(&vm->userptr.repin_list) &&
+-		list_empty(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
+-}
+-
+ #define XE_VM_REBIND_RETRY_TIMEOUT_MS 1000
  
  /**
-  * drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range
-diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
-index 1b7ed4f4a8e2..611aaba1ac80 100644
---- a/include/drm/drm_gpusvm.h
-+++ b/include/drm/drm_gpusvm.h
-@@ -370,6 +370,22 @@ void drm_gpusvm_devmem_init(struct drm_gpusvm_devmem *devmem_allocation,
- 			    const struct drm_gpusvm_devmem_ops *ops,
- 			    struct drm_pagemap *dpagemap, size_t size);
+@@ -583,201 +534,6 @@ static void preempt_rebind_work_func(struct work_struct *w)
+ 	trace_xe_vm_rebind_worker_exit(vm);
+ }
  
-+int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
-+			 struct drm_gpusvm_pages *svm_pages,
-+			 struct mm_struct *mm,
-+			 struct mmu_interval_notifier *notifier,
-+			 unsigned long pages_start, unsigned long pages_end,
-+			 const struct drm_gpusvm_ctx *ctx);
-+
-+void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
-+			    struct drm_gpusvm_pages *svm_pages,
-+			    unsigned long npages,
-+			    const struct drm_gpusvm_ctx *ctx);
-+
-+void drm_gpusvm_free_pages(struct drm_gpusvm *gpusvm,
-+			   struct drm_gpusvm_pages *svm_pages,
-+			   unsigned long npages);
-+
- #ifdef CONFIG_LOCKDEP
- /**
-  * drm_gpusvm_driver_set_lock() - Set the lock protecting accesses to GPU SVM
+-static void __vma_userptr_invalidate(struct xe_vm *vm, struct xe_userptr_vma *uvma)
+-{
+-	struct xe_userptr *userptr = &uvma->userptr;
+-	struct xe_vma *vma = &uvma->vma;
+-	struct dma_resv_iter cursor;
+-	struct dma_fence *fence;
+-	long err;
+-
+-	/*
+-	 * Tell exec and rebind worker they need to repin and rebind this
+-	 * userptr.
+-	 */
+-	if (!xe_vm_in_fault_mode(vm) &&
+-	    !(vma->gpuva.flags & XE_VMA_DESTROYED)) {
+-		spin_lock(&vm->userptr.invalidated_lock);
+-		list_move_tail(&userptr->invalidate_link,
+-			       &vm->userptr.invalidated);
+-		spin_unlock(&vm->userptr.invalidated_lock);
+-	}
+-
+-	/*
+-	 * Preempt fences turn into schedule disables, pipeline these.
+-	 * Note that even in fault mode, we need to wait for binds and
+-	 * unbinds to complete, and those are attached as BOOKMARK fences
+-	 * to the vm.
+-	 */
+-	dma_resv_iter_begin(&cursor, xe_vm_resv(vm),
+-			    DMA_RESV_USAGE_BOOKKEEP);
+-	dma_resv_for_each_fence_unlocked(&cursor, fence)
+-		dma_fence_enable_sw_signaling(fence);
+-	dma_resv_iter_end(&cursor);
+-
+-	err = dma_resv_wait_timeout(xe_vm_resv(vm),
+-				    DMA_RESV_USAGE_BOOKKEEP,
+-				    false, MAX_SCHEDULE_TIMEOUT);
+-	XE_WARN_ON(err <= 0);
+-
+-	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
+-		err = xe_vm_invalidate_vma(vma);
+-		XE_WARN_ON(err);
+-	}
+-
+-	xe_hmm_userptr_unmap(uvma);
+-}
+-
+-static bool vma_userptr_invalidate(struct mmu_interval_notifier *mni,
+-				   const struct mmu_notifier_range *range,
+-				   unsigned long cur_seq)
+-{
+-	struct xe_userptr_vma *uvma = container_of(mni, typeof(*uvma), userptr.notifier);
+-	struct xe_vma *vma = &uvma->vma;
+-	struct xe_vm *vm = xe_vma_vm(vma);
+-
+-	xe_assert(vm->xe, xe_vma_is_userptr(vma));
+-	trace_xe_vma_userptr_invalidate(vma);
+-
+-	if (!mmu_notifier_range_blockable(range))
+-		return false;
+-
+-	vm_dbg(&xe_vma_vm(vma)->xe->drm,
+-	       "NOTIFIER: addr=0x%016llx, range=0x%016llx",
+-		xe_vma_start(vma), xe_vma_size(vma));
+-
+-	down_write(&vm->userptr.notifier_lock);
+-	mmu_interval_set_seq(mni, cur_seq);
+-
+-	__vma_userptr_invalidate(vm, uvma);
+-	up_write(&vm->userptr.notifier_lock);
+-	trace_xe_vma_userptr_invalidate_complete(vma);
+-
+-	return true;
+-}
+-
+-static const struct mmu_interval_notifier_ops vma_userptr_notifier_ops = {
+-	.invalidate = vma_userptr_invalidate,
+-};
+-
+-#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
+-/**
+- * xe_vma_userptr_force_invalidate() - force invalidate a userptr
+- * @uvma: The userptr vma to invalidate
+- *
+- * Perform a forced userptr invalidation for testing purposes.
+- */
+-void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
+-{
+-	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
+-
+-	/* Protect against concurrent userptr pinning */
+-	lockdep_assert_held(&vm->lock);
+-	/* Protect against concurrent notifiers */
+-	lockdep_assert_held(&vm->userptr.notifier_lock);
+-	/*
+-	 * Protect against concurrent instances of this function and
+-	 * the critical exec sections
+-	 */
+-	xe_vm_assert_held(vm);
+-
+-	if (!mmu_interval_read_retry(&uvma->userptr.notifier,
+-				     uvma->userptr.notifier_seq))
+-		uvma->userptr.notifier_seq -= 2;
+-	__vma_userptr_invalidate(vm, uvma);
+-}
+-#endif
+-
+-int xe_vm_userptr_pin(struct xe_vm *vm)
+-{
+-	struct xe_userptr_vma *uvma, *next;
+-	int err = 0;
+-
+-	xe_assert(vm->xe, !xe_vm_in_fault_mode(vm));
+-	lockdep_assert_held_write(&vm->lock);
+-
+-	/* Collect invalidated userptrs */
+-	spin_lock(&vm->userptr.invalidated_lock);
+-	xe_assert(vm->xe, list_empty(&vm->userptr.repin_list));
+-	list_for_each_entry_safe(uvma, next, &vm->userptr.invalidated,
+-				 userptr.invalidate_link) {
+-		list_del_init(&uvma->userptr.invalidate_link);
+-		list_add_tail(&uvma->userptr.repin_link,
+-			      &vm->userptr.repin_list);
+-	}
+-	spin_unlock(&vm->userptr.invalidated_lock);
+-
+-	/* Pin and move to bind list */
+-	list_for_each_entry_safe(uvma, next, &vm->userptr.repin_list,
+-				 userptr.repin_link) {
+-		err = xe_vma_userptr_pin_pages(uvma);
+-		if (err == -EFAULT) {
+-			list_del_init(&uvma->userptr.repin_link);
+-			/*
+-			 * We might have already done the pin once already, but
+-			 * then had to retry before the re-bind happened, due
+-			 * some other condition in the caller, but in the
+-			 * meantime the userptr got dinged by the notifier such
+-			 * that we need to revalidate here, but this time we hit
+-			 * the EFAULT. In such a case make sure we remove
+-			 * ourselves from the rebind list to avoid going down in
+-			 * flames.
+-			 */
+-			if (!list_empty(&uvma->vma.combined_links.rebind))
+-				list_del_init(&uvma->vma.combined_links.rebind);
+-
+-			/* Wait for pending binds */
+-			xe_vm_lock(vm, false);
+-			dma_resv_wait_timeout(xe_vm_resv(vm),
+-					      DMA_RESV_USAGE_BOOKKEEP,
+-					      false, MAX_SCHEDULE_TIMEOUT);
+-
+-			err = xe_vm_invalidate_vma(&uvma->vma);
+-			xe_vm_unlock(vm);
+-			if (err)
+-				break;
+-		} else {
+-			if (err)
+-				break;
+-
+-			list_del_init(&uvma->userptr.repin_link);
+-			list_move_tail(&uvma->vma.combined_links.rebind,
+-				       &vm->rebind_list);
+-		}
+-	}
+-
+-	if (err) {
+-		down_write(&vm->userptr.notifier_lock);
+-		spin_lock(&vm->userptr.invalidated_lock);
+-		list_for_each_entry_safe(uvma, next, &vm->userptr.repin_list,
+-					 userptr.repin_link) {
+-			list_del_init(&uvma->userptr.repin_link);
+-			list_move_tail(&uvma->userptr.invalidate_link,
+-				       &vm->userptr.invalidated);
+-		}
+-		spin_unlock(&vm->userptr.invalidated_lock);
+-		up_write(&vm->userptr.notifier_lock);
+-	}
+-	return err;
+-}
+-
+-/**
+- * xe_vm_userptr_check_repin() - Check whether the VM might have userptrs
+- * that need repinning.
+- * @vm: The VM.
+- *
+- * This function does an advisory check for whether the VM has userptrs that
+- * need repinning.
+- *
+- * Return: 0 if there are no indications of userptrs needing repinning,
+- * -EAGAIN if there are.
+- */
+-int xe_vm_userptr_check_repin(struct xe_vm *vm)
+-{
+-	return (list_empty_careful(&vm->userptr.repin_list) &&
+-		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
+-}
+-
+ static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
+ {
+ 	int i;
+@@ -1215,25 +971,15 @@ static struct xe_vma *xe_vma_create(struct xe_vm *vm,
+ 		drm_gpuvm_bo_put(vm_bo);
+ 	} else /* userptr or null */ {
+ 		if (!is_null && !is_cpu_addr_mirror) {
+-			struct xe_userptr *userptr = &to_userptr_vma(vma)->userptr;
+-			u64 size = end - start + 1;
++			struct xe_userptr_vma *uvma = to_userptr_vma(vma);
+ 			int err;
+ 
+-			INIT_LIST_HEAD(&userptr->invalidate_link);
+-			INIT_LIST_HEAD(&userptr->repin_link);
+-			vma->gpuva.gem.offset = bo_offset_or_userptr;
+-			mutex_init(&userptr->unmap_mutex);
+-
+-			err = mmu_interval_notifier_insert(&userptr->notifier,
+-							   current->mm,
+-							   xe_vma_userptr(vma), size,
+-							   &vma_userptr_notifier_ops);
++			err = xe_userptr_setup(uvma, xe_vma_userptr(vma),
++					       end - start + 1);
+ 			if (err) {
+ 				xe_vma_free(vma);
+ 				return ERR_PTR(err);
+ 			}
+-
+-			userptr->notifier_seq = LONG_MAX;
+ 		}
+ 
+ 		xe_vm_get(vm);
+@@ -1253,18 +999,8 @@ static void xe_vma_destroy_late(struct xe_vma *vma)
+ 
+ 	if (xe_vma_is_userptr(vma)) {
+ 		struct xe_userptr_vma *uvma = to_userptr_vma(vma);
+-		struct xe_userptr *userptr = &uvma->userptr;
+ 
+-		if (userptr->sg)
+-			xe_hmm_userptr_free_sg(uvma);
+-
+-		/*
+-		 * Since userptr pages are not pinned, we can't remove
+-		 * the notifier until we're sure the GPU is not accessing
+-		 * them anymore
+-		 */
+-		mmu_interval_notifier_remove(&userptr->notifier);
+-		mutex_destroy(&userptr->unmap_mutex);
++		xe_userptr_remove(uvma);
+ 		xe_vm_put(vm);
+ 	} else if (xe_vma_is_null(vma) || xe_vma_is_cpu_addr_mirror(vma)) {
+ 		xe_vm_put(vm);
+@@ -1301,11 +1037,7 @@ static void xe_vma_destroy(struct xe_vma *vma, struct dma_fence *fence)
+ 
+ 	if (xe_vma_is_userptr(vma)) {
+ 		xe_assert(vm->xe, vma->gpuva.flags & XE_VMA_DESTROYED);
+-
+-		spin_lock(&vm->userptr.invalidated_lock);
+-		xe_assert(vm->xe, list_empty(&to_userptr_vma(vma)->userptr.repin_link));
+-		list_del(&to_userptr_vma(vma)->userptr.invalidate_link);
+-		spin_unlock(&vm->userptr.invalidated_lock);
++		xe_userptr_destroy(to_userptr_vma(vma));
+ 	} else if (!xe_vma_is_null(vma) && !xe_vma_is_cpu_addr_mirror(vma)) {
+ 		xe_bo_assert_held(xe_vma_bo(vma));
+ 
+diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+index 0ef811fc2bde..c59a94e2ffb9 100644
+--- a/drivers/gpu/drm/xe/xe_vm.h
++++ b/drivers/gpu/drm/xe/xe_vm.h
+@@ -210,12 +210,6 @@ static inline bool xe_vm_in_preempt_fence_mode(struct xe_vm *vm)
+ int xe_vm_add_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q);
+ void xe_vm_remove_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q);
+ 
+-int xe_vm_userptr_pin(struct xe_vm *vm);
+-
+-int __xe_vm_userptr_needs_repin(struct xe_vm *vm);
+-
+-int xe_vm_userptr_check_repin(struct xe_vm *vm);
+-
+ int xe_vm_rebind(struct xe_vm *vm, bool rebind_worker);
+ struct dma_fence *xe_vma_rebind(struct xe_vm *vm, struct xe_vma *vma,
+ 				u8 tile_mask);
+@@ -253,10 +247,6 @@ static inline void xe_vm_reactivate_rebind(struct xe_vm *vm)
+ 	}
+ }
+ 
+-int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma);
+-
+-int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
+-
+ bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *end);
+ 
+ int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
+@@ -300,12 +290,4 @@ struct xe_vm_snapshot *xe_vm_snapshot_capture(struct xe_vm *vm);
+ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap);
+ void xe_vm_snapshot_print(struct xe_vm_snapshot *snap, struct drm_printer *p);
+ void xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
+-
+-#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
+-void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma);
+-#else
+-static inline void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
+-{
+-}
+-#endif
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
+index 1662604c4486..65e889f2537d 100644
+--- a/drivers/gpu/drm/xe/xe_vm_types.h
++++ b/drivers/gpu/drm/xe/xe_vm_types.h
+@@ -17,6 +17,7 @@
+ #include "xe_device_types.h"
+ #include "xe_pt_types.h"
+ #include "xe_range_fence.h"
++#include "xe_userptr.h"
+ 
+ struct xe_bo;
+ struct xe_svm_range;
+@@ -46,37 +47,6 @@ struct xe_vm_pgtable_update_op;
+ #define XE_VMA_DUMPABLE		(DRM_GPUVA_USERBITS << 8)
+ #define XE_VMA_SYSTEM_ALLOCATOR	(DRM_GPUVA_USERBITS << 9)
+ 
+-/** struct xe_userptr - User pointer */
+-struct xe_userptr {
+-	/** @invalidate_link: Link for the vm::userptr.invalidated list */
+-	struct list_head invalidate_link;
+-	/** @userptr: link into VM repin list if userptr. */
+-	struct list_head repin_link;
+-	/**
+-	 * @notifier: MMU notifier for user pointer (invalidation call back)
+-	 */
+-	struct mmu_interval_notifier notifier;
+-	/** @sgt: storage for a scatter gather table */
+-	struct sg_table sgt;
+-	/** @sg: allocated scatter gather table */
+-	struct sg_table *sg;
+-	/** @notifier_seq: notifier sequence number */
+-	unsigned long notifier_seq;
+-	/** @unmap_mutex: Mutex protecting dma-unmapping */
+-	struct mutex unmap_mutex;
+-	/**
+-	 * @initial_bind: user pointer has been bound at least once.
+-	 * write: vm->userptr.notifier_lock in read mode and vm->resv held.
+-	 * read: vm->userptr.notifier_lock in write mode or vm->resv held.
+-	 */
+-	bool initial_bind;
+-	/** @mapped: Whether the @sgt sg-table is dma-mapped. Protected by @unmap_mutex. */
+-	bool mapped;
+-#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
+-	u32 divisor;
+-#endif
+-};
+-
+ struct xe_vma {
+ 	/** @gpuva: Base GPUVA object */
+ 	struct drm_gpuva gpuva;
+@@ -237,33 +207,7 @@ struct xe_vm {
+ 	const struct xe_pt_ops *pt_ops;
+ 
+ 	/** @userptr: user pointer state */
+-	struct {
+-		/**
+-		 * @userptr.repin_list: list of VMAs which are user pointers,
+-		 * and needs repinning. Protected by @lock.
+-		 */
+-		struct list_head repin_list;
+-		/**
+-		 * @notifier_lock: protects notifier in write mode and
+-		 * submission in read mode.
+-		 */
+-		struct rw_semaphore notifier_lock;
+-		/**
+-		 * @userptr.invalidated_lock: Protects the
+-		 * @userptr.invalidated list.
+-		 */
+-		spinlock_t invalidated_lock;
+-		/**
+-		 * @userptr.invalidated: List of invalidated userptrs, not yet
+-		 * picked
+-		 * up for revalidation. Protected from access with the
+-		 * @invalidated_lock. Removing items from the list
+-		 * additionally requires @lock in write mode, and adding
+-		 * items to the list requires either the @userptr.notifer_lock in
+-		 * write mode, OR @lock in write mode.
+-		 */
+-		struct list_head invalidated;
+-	} userptr;
++	struct xe_userptr_vm userptr;
+ 
+ 	/** @preempt: preempt state */
+ 	struct {
 -- 
 2.49.0
 
