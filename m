@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88EB0AB39F0
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55336AB3A00
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750E310E417;
-	Mon, 12 May 2025 14:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC48988C4C;
+	Mon, 12 May 2025 14:05:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Vmd870Wt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Mf4mHCh3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C9510E419
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:02:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0CC0743912;
- Mon, 12 May 2025 14:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1747058525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o3TRMmycxHOQ79R3VMJurcxx8hZEsQrWPdGeODqMNcc=;
- b=Vmd870WtRHsIOA6Yr7wFlzOG4AmNyCWFvocZMUvnqrE8yWUTp27MGDROkWw1/AglWncaXv
- +vj8GiQu90rRrZrWpiQnGj5nYeLthGJAxAyMirLdRtqA1kbVvjXXsj32yYMDVxfg2TnvNT
- YRTdEcq8iGDdwsthMOYJinZJyPHGL6ak4+BGsiBYdNDeEq20hap0dLm7FSJLKFYknxQWo/
- j6NMEKqWHQsdsRDjzuyjoBREAvCU+TV+4cCS+Nx3op1D9Im/DA6xYSh75ycr6Hk31DkA+N
- a6nxiISEpD8aBsL4L5+roNOI89e6Oo7wYscVzKIbGUMk2uWhEmnSu9HERElAjg==
-Date: Mon, 12 May 2025 16:02:01 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Louis Chauvet <louis.chauvet@bootlin.com>, Dmitry
- Baryshkov <lumag@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/22] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250512160201.7d0b21d8@booty>
-In-Reply-To: <4yeqvg3wnlr2bhb54zutgqpkehrodat5w5x4rr5qjlrc2ts3pz@gr2iosycclpl>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250509-drm-bridge-convert-to-alloc-api-v3-2-b8bc1f16d7aa@bootlin.com>
- <4yeqvg3wnlr2bhb54zutgqpkehrodat5w5x4rr5qjlrc2ts3pz@gr2iosycclpl>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38FB488C4C;
+ Mon, 12 May 2025 14:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bdAJIZj8EkyTSHzJtlofMzEYSEZPj3UWU/VWBf2U6A0=; b=Mf4mHCh3JUXt1T+gK/KSjIVMTd
+ dW/O3PzmTlRbjXU3XKnC1gSxwTM0dcOxwk1/n6BKz4QzqJLtg25X43RUOSbx045+RjR4lDua/V93b
+ iuFjjpUv5GpZ7EsVIbsZtGlCpRYFAz1Y5K57uTKBg/7C5n5IArpPIAFakhR0f0qeA40w3Xyqy4p1x
+ qEGERlwUhA70ki6rBaK26vnwRG2uLeJKdAPPF0HPRN9ClTPe1n/HO7dbwpsbKpRew9IQzvzbkfTlz
+ +fYopjKQy5oilzVQE/0qnJ19nv+9x9GT2L5FOgW6a0YL63CTA6pIo7eHMgzxo4s0SBDKZjthxPVMk
+ T3dK53cA==;
+Received: from [189.7.87.163] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uETgv-0076zW-8g; Mon, 12 May 2025 16:04:58 +0200
+Message-ID: <22fdf8aa-437a-4d28-886a-fe10e957edfa@igalia.com>
+Date: Mon, 12 May 2025 11:04:50 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftddugeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfejhffgjeelkeeftdekfefgteekgefhleelueeijeffieekieeigefhledtffetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigr
- dhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
+ on running
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <aBl2xaVBlYYyBt2o@lstrano-desk.jf.intel.com>
+ <aBodbVPeVtAWK6OX@lstrano-desk.jf.intel.com>
+ <c0ce8bc07bf5547af5084cfcb2c7572d786fdc0e.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <c0ce8bc07bf5547af5084cfcb2c7572d786fdc0e.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +77,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Philipp,
 
-On Sat, 10 May 2025 10:43:04 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+On 12/05/25 08:13, Philipp Stanner wrote:
+> On Tue, 2025-05-06 at 07:32 -0700, Matthew Brost wrote:
+>> On Mon, May 05, 2025 at 07:41:09PM -0700, Matthew Brost wrote:
+>>> On Sat, May 03, 2025 at 05:59:52PM -0300, Maíra Canal wrote:
+>>>> When the DRM scheduler times out, it's possible that the GPU
+>>>> isn't hung;
+>>>> instead, a job may still be running, and there may be no valid
+>>>> reason to
+>>>> reset the hardware. This can occur in two situations:
+>>>>
+>>>>    1. The GPU exposes some mechanism that ensures the GPU is still
+>>>> making
+>>>>       progress. By checking this mechanism, we can safely skip the
+>>>> reset,
+>>>>       rearm the timeout, and allow the job to continue running
+>>>> until
+>>>>       completion. This is the case for v3d and Etnaviv.
+>>>>    2. TDR has fired before the IRQ that signals the fence.
+>>>> Consequently,
+>>>>       the job actually finishes, but it triggers a timeout before
+>>>> signaling
+>>>>       the completion fence.
+>>>>
+>>>
+>>> We have both of these cases in Xe too. We implement the requeuing
+>>> in Xe
+>>> via driver side function - xe_sched_add_pending_job but this looks
+>>> better and will make use of this.
+>>>
+>>>> These two scenarios are problematic because we remove the job
+>>>> from the
+>>>> `sched->pending_list` before calling `sched->ops-
+>>>>> timedout_job()`. This
+>>>> means that when the job finally signals completion (e.g. in the
+>>>> IRQ
+>>>> handler), the scheduler won't call `sched->ops->free_job()`. As a
+>>>> result,
+>>>> the job and its resources won't be freed, leading to a memory
+>>>> leak.
+>>>>
+>>>> To resolve this issue, we create a new `drm_gpu_sched_stat` that
+>>>> allows a
+>>>> driver to skip the reset. This new status will indicate that the
+>>>> job
+>>>> should be reinserted into the pending list, and the driver will
+>>>> still
+>>>> signal its completion.
+>>>>
+>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>
+>>> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+>>>
+>>
+>> Wait - nevermind I think one issue is below.
+>>
+>>>> ---
+>>>>   drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
+>>>>   include/drm/gpu_scheduler.h            |  2 ++
+>>>>   2 files changed, 16 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index
+>>>> 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309
+>>>> f881135dbc639a9b4 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct
+>>>> work_struct *work)
+>>>>   			job->sched->ops->free_job(job);
+>>>>   			sched->free_guilty = false;
+>>>>   		}
+>>>> +
+>>>> +		/*
+>>>> +		 * If the driver indicated that the GPU is still
+>>>> running and wants to skip
+>>>> +		 * the reset, reinsert the job back into the
+>>>> pending list and realarm the
+>>>> +		 * timeout.
+>>>> +		 */
+>>>> +		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
+>>>> +			spin_lock(&sched->job_list_lock);
+>>>> +			list_add(&job->list, &sched-
+>>>>> pending_list);
+>>>> +			spin_unlock(&sched->job_list_lock);
+>>>> +		}
+>>
+>> I think you need to requeue free_job wq here. It is possible the
+>> free_job wq ran, didn't find a job, goes to sleep, then we add a
+>> signaled job here which will never get freed.
+> 
+> I wonder if that could be solved by holding job_list_lock a bit longer.
+> free_job_work will try to check the list for the next signaled job, but
+> will wait for the lock.
+> 
+> If that works, we could completely rely on the standard mechanism
+> without requeuing, which would be neat.
 
-> Acked-by: Maxime Ripard <mripard@kernel.org>
+I believe it works. However, the tradeoff would be holding the lock for
+the entire reset of the GPU (in the cases the GPU actually hanged),
+which looks like a lot of time.
 
-Thanks for looking at this series!
+Do you think it's reasonable to do so?
 
-Unfortunately the exynos patch is still needing a decision. Quick recap
-of the story:
+Best Regards,
+- Maíra
 
- 1. patch was sent in v2, nobody acked/reviewed it [1]
- 2. was applied by mistake to drm-misc-next [2]
- 3. you pinged maintainers, no reply do far -> should be reverted [3]
- 4. Louis (fomys) asked on IRC how to handle it, no reply [4]
- 5. in this v3 I added a revert (patch 1), no acks/reviews on it [5]
+> 
+> P.
+> 
+>>
+>> Matt
+>>
 
-[1] https://lore.kernel.org/lkml/20250424-drm-bridge-convert-to-alloc-api-v2-14-8f91a404d86b@bootlin.com/
-[2] https://lore.kernel.org/lkml/832a9db0-cf8a-4d35-8a98-08053fbd6723@bootlin.com/
-[3] https://lore.kernel.org/lkml/20250430-arrogant-marmoset-of-justice-92ced3@houat/
-[4] https://dri.freedesktop.org/~cbrill/dri-log/index.php?channel=dri-devel&highlight_names=&date=2025-05-07
-[5] https://lore.kernel.org/lkml/20250509-drm-bridge-convert-to-alloc-api-v3-1-b8bc1f16d7aa@bootlin.com/
 
-What to do? Proposed plan:
-
- 1. Louis immediately applies the revert (patch 1)
- 2. I send v4 with the original patch to hopefully be reviewed/acked
-
-Plan is OK?
-
-I'm assuming Louis doesn't need an Acked/Reviewed-by for that, but I might
-be wrong, and we both would like to avoid further mess.
-
-This annoying issue is taking much more effort to be fixed than it took
-to develop it. I'd like to get past it and think about the next steps
-in bridge lifetime management.
-
-Thanks for your understanding.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
