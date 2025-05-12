@@ -2,162 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82AAAB36C8
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC90AB36D8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:19:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C6F10E196;
-	Mon, 12 May 2025 12:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE08C10E39C;
+	Mon, 12 May 2025 12:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=siemens.com header.i=@siemens.com header.b="RcGqP0xM";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="fFCUI6tC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010043.outbound.protection.outlook.com [52.101.69.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D087410E196
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:14:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iv2l4iq0vWi3nEQ+uEJOHSqyA4IjgZt2SPAKOOyM0I69OgopvyrmEO2MwQGZVdnVO3VB22pPVsIPzGwOsHCHkOb4TtElrT5f4mK9O7XKbW9vKTlQyCSH7UMQ/Nc5WmaFC8xnpOZ1b7baQVmKv5QePgMCVjXunyAT9wL5vynqdV184NOS3/clcZBo6cZcOAEtpoPmKk3xAyftq4w9YWiYe4m2gb7iscop7qp1HolJTav60TM+FPZA6M9ScCtRz2X09hP0EyC7Dbpv2WyX7/R8l0hMmLKFQA9Dr3VGdK/LUQ80qILxAjDwQIAova0kmk6avcrs74Ld+kru4onNMfT6Ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PrK4nocsKtnyiInCIuSzZfV61O1ukDVycAwidOvmnQc=;
- b=RVlBu5w2pyUyNmjfTdeHur9zv9mB+R9G7VgeLru/g4zVxevSqxBNEAeAKqOs6sps1fd8feBAlVWWUEmRysvW7DSADS8EbX1IKLHgtMnREjgDIbNkpWrD4tO2wNd602bs6Mwgl5y4MB7uuy6EhmkDbeycx3zM4Q9OfiU5VRnSrjU0AFQx+Lrf6yrkSiMruYaU5LrNY/cgq4ad/93n+s8mLGN0mDx1Y08csvIN32Aoxthzupm7ovhCZP9b+ijPhtsliu5pTo+XKIXMD2QP6i6QwsiMI/bEKJB2fAbQL5hxKHWeptKaxan0zwA5oN2dAWxwlOZ986r164ejtK4VCPWbrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PrK4nocsKtnyiInCIuSzZfV61O1ukDVycAwidOvmnQc=;
- b=RcGqP0xMWBUO/gATDkoFVU19klAmKyOGT9v4+PvA2L2DlwA4rVfvfnKq58WeyuNi0Omy77OUVxCZFdQBAu38ZtIXL4btwhprcEQ0qp6VmYgxmryY3NXqzg0v42Srxgmd1I1bejFn+COQkijtjItNxVCZ/KmAsLXGK42F4spIiUv3MBqcn9SFcd2N8JJ+9Hg2ge3PdQ1hNNkVDyhsxECsYwyLPHROPtrnS9DlHE33C7cNxuARFsVgfiJlB/rVLbDItvZ3cOB3aTce1mvLJvoM+PhDs7jZ8PWwYqZyND7SzrCgS6XOYbQBsQnQsbJKXFJSVBkTicOdZHWHtAp0G3czFg==
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
- by GV1PR10MB7979.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:80::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.26; Mon, 12 May
- 2025 12:13:54 +0000
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::baa6:3ada:fbe6:98f4]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::baa6:3ada:fbe6:98f4%5]) with mapi id 15.20.8722.027; Mon, 12 May 2025
- 12:13:54 +0000
-From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-To: "luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v4 6/8] backlight: led-backlight: add devlink to supplier
- LEDs
-Thread-Topic: [PATCH v4 6/8] backlight: led-backlight: add devlink to supplier
- LEDs
-Thread-Index: AQHbwy6KQi63IdReNUm0mQlOTxVNOrPO3syAgAAJfAA=
-Date: Mon, 12 May 2025 12:13:54 +0000
-Message-ID: <b5d2b71ffc38eb1980ce72994a20e8f6ee7869bd.camel@siemens.com>
-References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
- <20240917-hotplug-drm-bridge-v4-6-bc4dfee61be6@bootlin.com>
- <fa87471d31a62017067d4c3ba559cf79d6c3afec.camel@siemens.com>
-In-Reply-To: <fa87471d31a62017067d4c3ba559cf79d6c3afec.camel@siemens.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.54.3 (3.54.3-1.fc41) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|GV1PR10MB7979:EE_
-x-ms-office365-filtering-correlation-id: 1079f879-7e9b-4b0a-8b38-08dd914e76ae
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?V2d6V0dKbGx4OE5JeG5vTFVkalZMNUd6b01lUFE4YlR4cG1ySk1HVmZsTlhy?=
- =?utf-8?B?WWRLMElrbzd3cS95cDNabW1YaldUVm56cnNSTDhxWlFvNy9wbG0vb2JCOEdM?=
- =?utf-8?B?UU1kUkJxNDVFV0d4S1hlYXVLeTF1YTNLWHk2QkRjTVhMbWhPbXh1bDM2M1JK?=
- =?utf-8?B?TFdTYTZDVjdtVG9KeWRINUtqUmV2TVQ4RFk2Q25Lc1Z2aXRrYldBTSt6VnVX?=
- =?utf-8?B?UHNTUCtWeUZIT1Azb3Z1M094L3JzMzlaM2N0cWY4VTNaYXhqdlZFM3R5OENI?=
- =?utf-8?B?VkdOWnFXdFE0NmRZR2NaMHYzMjloS1BVaWNoS055Z3lreEdvU2tIdW52d09S?=
- =?utf-8?B?NXVhS0ZhREZwR256a2FWaDdSdXFZYjBpc0xma3R3THhNd0N3dDJLaHFTQ1p5?=
- =?utf-8?B?QXNXQ1djdkkrc2J1Z1BVeFRXdmdBQ01TZTU0STRWaTdwOGJkSVBJUUx0UlVj?=
- =?utf-8?B?cThZVlR5WHhPWkJwVk9hSTVTMEltd25VMnZzVGJrcWQwWG1YcVN4aEVObFFI?=
- =?utf-8?B?c0ZiUjdzWkpETVpXcU1lZTVvVStaUUpFNUN2UFhnUjJWOWVNZkl4d3JGbjFu?=
- =?utf-8?B?cW5FVlBLMWl1ZUk4d1M5NXM1Sm5mOFB0MTFwR0phcWp2RDBvR0FaYWpYRXcv?=
- =?utf-8?B?b3IwUGo4Z0JrZ3lQdXdhaE9yQS9qTThxU2d0R0ZPdFVvSTlaZHhES0ZnN0Ro?=
- =?utf-8?B?Zm1Ma2p2VVMydFBIdFJjUXJZd3lLWFgvTm83WjloSFZpWStZQmZkck80K1h2?=
- =?utf-8?B?Qk9sNTJqU2JkajY3eVhXVjJWbDBiQSt0TFNrSUdBOGduMG84QWtybWFxWWhH?=
- =?utf-8?B?OTBoZDVhVi9XNk1sZFo2UkdyY0lQY09JTG1GZGtsdUtXQzJSUzBpMFVOZGpP?=
- =?utf-8?B?dUhadlFrYUpseGhoZnpoeUhhZ1BtY3MweGI1Q3pKMDZyWlpuck9GVXFqSmFj?=
- =?utf-8?B?SVE0S2hFSExTTlJaOHFIdHBnNEpvRTlwUDRIenR3eEIxQUp0WVhrQUsrbzVJ?=
- =?utf-8?B?dlp4TVVQaHh3ZEJmMjg2M2U2S0NUM3FOUzYvQ1lRa1ZNQ1lORnFtM3psbHVz?=
- =?utf-8?B?U0wxQklJUzVaaTF1VVphMkQ3WnlYUlV0UzBRTmxZSTJsYVBwd1RmUUo2UXF3?=
- =?utf-8?B?U21oMy92Ynl6Rk1TVXJ0a1pWaWwrMDNtS0p2Vjh5dVcrSDY2SmxwS2NyMVFR?=
- =?utf-8?B?WmdxVHJEZDlrVlRzV1E5RmtkTkExUGdBTTFNRW9zTFBteklYUHY3N2l5bFF1?=
- =?utf-8?B?MW9wTkNhUVlWbWQwbUVHZkp3Ykt0THpTMnNjK2tuZHhZY2NtQVh5d3RyeGxQ?=
- =?utf-8?B?UFUxd09IRUJFNkZzd0hyTy80RXh1Yk9tcWVFQTNQbnNGM3lJMjJiNy9JaTQr?=
- =?utf-8?B?VW8vM2duRmVtbkZ0TmdBT0RkUE1Ca1FGWWswVkhvUFEzOW5LV0FRUGV3c3lv?=
- =?utf-8?B?T3UxNjBXVTB5N3hsSkZXVFlzRXRnTEpickdkQjMrMHFLbUdSd3BWelo2SXV1?=
- =?utf-8?B?aC9qaWJ2VnNtL2tvUk4rbTZTNVo1YUlWdGJYcGhpRS9aTlpVc2VIcmlEcXo3?=
- =?utf-8?B?dVJIK3Nia0lreE83dGRGYTBCUWhyYStxdU4yckExcGsvN1E1cGdEejN3cm5v?=
- =?utf-8?B?QTl4Y1ltL0FBaXFPNDQ0RjFCSGsweXl1bzEveHNhRWtsS1lQWWZ0eVRsandE?=
- =?utf-8?B?Y3RVTmpReHFiYnBuUDVKaFFMN3pBMFA5RElTQ0NPWFhjWmtoNm5HaTdDNUNx?=
- =?utf-8?B?TXk2VFVFeFVxUjdGTlB5aUpNMTMzQzJ2eE9aUndWRmw0WndNV2xkaUpKWENk?=
- =?utf-8?B?Nm1KVitBeWFCVCtHTVFWN0ExWTFKNi8zSk9CcGFnN0p3bUNEWEY3TkRaOU8x?=
- =?utf-8?B?L0JYM2NubFZyditDcGk5NHU0U0tvTVpZL2RGT1A2cFVDak4wTnRqRHhsWDNV?=
- =?utf-8?Q?59j7o2pbAgA=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?US9TTm50YkdCNTBQbDY5YlJUUllTSy9NMjZ4SCtBT3VGVXBPOGFDQWtMLzhL?=
- =?utf-8?B?U1V0Vy90NGMvcWV1MlVkL1RhVkV4eVgrZ0RERHJhK2hBcWk5NjloL2V0QTY2?=
- =?utf-8?B?d1FwVDlrbFg5clhGb051VWNxbVNMM3pHNURpMHpKcXhndXRaYk05YW1TYndF?=
- =?utf-8?B?MzcvV3BWMzlVclB6TlJ6dTBodSsyV2NmMGI1dm9LNjlZOE1pNllUZmk5TXhJ?=
- =?utf-8?B?Y05ibFhmRXFXVzBCMHJLRUlFdTZFZlNoZXJXQ0FLYUZWeWhvOVhSNnRlalZw?=
- =?utf-8?B?cTc3aW0zOGtiMHpCbmcvVHh2RnpFcjRjWUtmOHNHNmh3czBEMzBCdUZjTVhW?=
- =?utf-8?B?Q2svNzUrNzZuZ1VReEZINFBNM0NUL2xpQTcyeTlORUVlZFNkOVNhVmRSN3hx?=
- =?utf-8?B?ZGZjNUp4ZzhEN3NES0hlUkV3bFdrRk94RzR1cnkzWitkeTA5aVlsL3JSWUpv?=
- =?utf-8?B?bklQUHBxWGY3MmVhZVJubk9rMjVWMks0WnEwUzhHQldWL3p5cVRwRmFtN3Aw?=
- =?utf-8?B?ODBxR1kweHROMlViTDRLdG1GMlA5QzZ2NWo2TTljaWFha2JjUkk0c3Q5L0ZW?=
- =?utf-8?B?OXNiUnpZMWV2OHlycEFIMWNHbHNJYUZybk1paHBXSmlCMkRmc3BxQS91TFJ1?=
- =?utf-8?B?VFk5alkxUkQzRGhRVWxmZE4vRWsvUmFycFlnQVNVNFFLL0dhdGRiRUVOeURN?=
- =?utf-8?B?QnhmWUV1aldDWlV2YklTakxhZXJodzJEQ0xLajE1UUFPeXhCU1VvYXF4N1Jv?=
- =?utf-8?B?Sk1TbnhlSnlhRGtHQmRDd3F1MWtQQjZVYXBBMGlaTEVXSWxlQlBIUi9LTHVs?=
- =?utf-8?B?cVBDM2NwNUtidnRVWjZQeFd5K3NFU2xxblhEbDkrU0d2Zi9xcHJWTTQ0YVBN?=
- =?utf-8?B?U2Y1Skk1dVRyZ1VxbGsrNzVHR1Z5Z0NwMVM4ODFPck1YM2JpeXZubm9wS1R3?=
- =?utf-8?B?VHI4VHZLTHRHeDJiRzF6TmJZZ2tMNkxIMHIrQzBqNm1SWVdFU2gvbFR0aHZn?=
- =?utf-8?B?dmQ1Q1JqN1hIOFpib2MrblYyMnQ1bGNqWG9TUVhYZkJKVDFiRzJRQzJUNytE?=
- =?utf-8?B?OVpjbjg0YUNRVml0a0l1Ti82bk5hUG4rRVJ4b3FMQzNDbFMxSXdMTzJQS2RT?=
- =?utf-8?B?NElDR0NJUGlLRGg1RktNZWd0bmJDMEZUQld6ajZBMFNCTjJZV0FNVFE1WHVQ?=
- =?utf-8?B?VStpK1NMV0FPNzdkVDRkUHFkRWdVYVFXN1hMS0xhY0l3UzJkQjVNaTJMYWdp?=
- =?utf-8?B?WDdlenZ4UURaVno0U09QOGFUWHN6cDRjaXEvVUFEb0FRTVBSK1ZxTEJSVzc4?=
- =?utf-8?B?SkZ2ZU1idUY2NnF1R3VZZ0NwZnRONXNxczkzNFVnUVFRSTdGUkVGRFJ4ZWFo?=
- =?utf-8?B?aUJyNENhQmNpeEdvWE5EUXFqWlBvN0hqc3dBTTRIbEVWallHYUxVSmJDOTlx?=
- =?utf-8?B?dHo2T21laW8yTC9uRmtrb2pQTGtrMVNOU3JQMy8rRnJ2TFVxeFdhVVJMT1Mv?=
- =?utf-8?B?b1FEeVg1SzdkY3ZQV2R0eVg1a2k2aDFuR2VoQWtwRVdYRHEyRkJCUVc4OTlZ?=
- =?utf-8?B?ZHpKSGt1TTZmaE9CMUhPaUY0YlUycTVRRWZJR0c3RCsyOVAvN1R5WGszQzRk?=
- =?utf-8?B?QnBVRjgwVXI1bjVTNHJEcm5sTFVkdjU1S215ZDVGVWdIb1plZXNmNDlIV21m?=
- =?utf-8?B?SVN4QTcweFFaWUU0Zm15NEFCM25Yb0lnbE1LU1RPanZ2OVAxbmxCR0llUlJD?=
- =?utf-8?B?YS9HREJkOGRKREVpQU9XTDVucWM1ek9FTUFwbzlING1nSmJwMGx3dDc0ZjU2?=
- =?utf-8?B?aGo0eUhkRlIxdm1aKyttYkI1ZzlScVd5eENaeWp6em5jYmtEVXFzWkxRUzZ1?=
- =?utf-8?B?NXRpdGlzVUo0UjdTeExHdFFxY3FTV3VsVTRBYjNxTVpYQlcxb1U1U2VSZlgz?=
- =?utf-8?B?V3ZXTXFjZXVub0Z0ZUhiUGExZ0hRVDBJa3dOLzVPejliN1NJYnhRVE1GYkF0?=
- =?utf-8?B?QVhCQnZyQTVaQlBNMS9CZktMb2F2MzV6NUljK0hNZG1uZExqeUxYaGNsL0JF?=
- =?utf-8?B?MjFLaDR1ZkNiMHhSeDd5aXZXYVZueXo1UzhYYmRRUnJPNFEwL3ZaR2JtQjZi?=
- =?utf-8?B?Qjk0TGFBTkYvNFJGL2J1eHhheTJqMmR6SW52SGt5dENLeEZLZ0JsMVM3cmJq?=
- =?utf-8?Q?nrCK4c1m0u7eWtZpHSHsGRM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <098A487A750E644CA0EFF0865F7A7EA2@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7F510E39C;
+ Mon, 12 May 2025 12:19:00 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A0D2B40E0258; 
+ Mon, 12 May 2025 12:18:55 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id ccwyyjUzt1cm; Mon, 12 May 2025 12:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1747052330; bh=y2rvk9+xynJQWk4O+d7r1KtnxXxgSq7f47cdvEfH2tc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=fFCUI6tCCOSnlKQ9ZKEKhnIXJCEfM7Hsf/FWHvEG1oFYTaCNjd2CB2vP/VHniI+MC
+ i81A8LNTiN0pZ7r+UKdCbT4Tk4ff4/fePLqyK73JhJVR4fpJlJvQhkHVRv6I2VNMRr
+ JcbppzDusbHvPcUgBRIkZ/+aeE2mCqLoMemfMvT82D4vZ+KEPuRonSBu4v+hUMcFNl
+ vMUINIES0M5b0FKS4Ua3t5AF5dG1PLJZkhl3JYINL5EfRMtDjk8fod2navo5sjCAZ8
+ jhkO3HR3cYwFuZgpEE1pp6TBOgLVDi8XqK3lU1yKE/bHh54vUg+2R0WN21TeHw54a+
+ IX1uiepFquM1cUBcYR2btYMpZBksN2aJveRSUEa61YMGs6oCMtBWHBHbE7Vt7KCLOz
+ PSaIVQid0LX93+lbjkPVyIo2m2YH/lhrmX3gRI4IrS4o63X/XE7GxxIk0O+nMNwmfL
+ pbDhUQVuNcWIhEhR4Zg34T7bNrfyMsX3RwF8aTbeVofBHT8jInuuUONVTXI7s2nBuw
+ SG/10upvx34lPUdf7duDW6+tQGLX7VN1zfU5MGltrLBCRpsf3AmlCgu6wOkOdvrD6C
+ XbMK1eSteGoVB5bHib48nBTM2BjI0GsXwadYd3JUNtdoAHYI6U8L6AIUUM8swOPcn6
+ lIAB4R/HftQl1+KN/Q9lp8QA=
+Received: from zn.tnic (p579690ee.dip0.t-ipconnect.de [87.150.144.238])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 38F3D40E023B;
+ Mon, 12 May 2025 12:18:42 +0000 (UTC)
+Date: Mon, 12 May 2025 14:18:36 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: amdgpu RENOIR funky complaints in dmesg
+Message-ID: <20250512121836.GDaCHnHNjeBwfyV0hh@fat_crate.local>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1079f879-7e9b-4b0a-8b38-08dd914e76ae
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2025 12:13:54.0972 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BeeiO3PJIxLn1KTzPoNz7LZTJlG5VoVpvDqbSWt5Vs3wKxuPUS8QaLIOFI3V50tECkGhV/iQ0hE6y/UPrSmgknlPf/XxrbhHdKWRmCOQsNM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB7979
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,35 +72,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYSwNCg0KT24gTW9uLCAyMDI1LTA1LTEyIGF0IDEzOjM5ICswMjAwLCBBbGV4YW5kZXIg
-U3ZlcmRsaW4gd3JvdGU6DQo+ID4gbGVkLWJhY2tsaWdodCBpcyBhIGNvbnN1bWVyIG9mIG9uZSBv
-ciBtdWx0aXBsZSBMRUQgY2xhc3MgZGV2aWNlcywgYnV0IG5vDQo+ID4gZGV2bGluayBpcyBjcmVh
-dGVkIGZvciBzdWNoIHN1cHBsaWVyLXByb2R1Y2VyIHJlbGF0aW9uc2hpcC4gT25lIGNvbnNlcXVl
-bmNlDQo+ID4gaXMgdGhhdCByZW1vdmFsIG9yZGVyZWQgaXMgbm90IGNvcnJlY3RseSBlbmZvcmNl
-ZC4NCj4gPiANCj4gPiBJc3N1ZXMgaGFwcGVuIGZvciBleGFtcGxlIHdpdGggdGhlIGZvbGxvd2lu
-ZyBzZWN0aW9ucyBpbiBhIGRldmljZSB0cmVlDQo+ID4gb3ZlcmxheToNCj4gPiANCj4gPiAgICAg
-Ly8gQW4gTEVEIGRyaXZlciBjaGlwDQo+ID4gICAgIHBjYTk2MzJANjIgew0KPiA+ICAgICAgICAg
-Y29tcGF0aWJsZSA9ICJueHAscGNhOTYzMiI7DQo+ID4gICAgICAgICByZWcgPSA8MHg2Mj47DQo+
-ID4gDQo+ID4gCS8vIC4uLg0KPiA+IA0KPiA+ICAgICAgICAgYWRkb25fbGVkX3B3bTogbGVkLXB3
-bUAzIHsNCj4gPiAgICAgICAgICAgICByZWcgPSA8Mz47DQo+ID4gICAgICAgICAgICAgbGFiZWwg
-PSAiYWRkb246bGVkOnB3bSI7DQo+ID4gICAgICAgICB9Ow0KPiA+ICAgICB9Ow0KPiA+IA0KPiA+
-ICAgICBiYWNrbGlnaHQtYWRkb24gew0KPiA+ICAgICAgICAgY29tcGF0aWJsZSA9ICJsZWQtYmFj
-a2xpZ2h0IjsNCj4gPiAgICAgICAgIGxlZHMgPSA8JmFkZG9uX2xlZF9wd20+Ow0KPiA+ICAgICAg
-ICAgYnJpZ2h0bmVzcy1sZXZlbHMgPSA8MjU1PjsNCj4gPiAgICAgICAgIGRlZmF1bHQtYnJpZ2h0
-bmVzcy1sZXZlbCA9IDwyNTU+Ow0KPiA+ICAgICB9Ow0KPiA+IA0KPiA+IE9uIHJlbW92YWwgb2Yg
-dGhlIGFib3ZlIG92ZXJsYXksIHRoZSBMRUQgZHJpdmVyIGNhbiBiZSByZW1vdmVkIGJlZm9yZSB0
-aGUNCj4gPiBiYWNrbGlnaHQgZGV2aWNlLCByZXN1bHRpbmcgaW46DQo+ID4gDQo+ID4gICAgIFVu
-YWJsZSB0byBoYW5kbGUga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSBhdCB2aXJ0dWFs
-IGFkZHJlc3MgMDAwMDAwMDAwMDAwMDAxMA0KPiA+ICAgICAuLi4NCj4gPiAgICAgQ2FsbCB0cmFj
-ZToNCj4gPiAgICAgIGxlZF9wdXQrMHhlMC8weDE0MA0KPiA+ICAgICAgZGV2bV9sZWRfcmVsZWFz
-ZSsweDZjLzB4OTgNCj4gPiANCj4gPiBGaXggYnkgYWRkaW5nIGEgZGV2bGluayBiZXR3ZWVuIHRo
-ZSBjb25zdW1pbmcgbGVkLWJhY2tsaWdodCBkZXZpY2UgYW5kIHRoZQ0KPiA+IHN1cHBseWluZyBM
-RUQgZGV2aWNlLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IEx1Y2EgQ2VyZXNvbGkgPGx1Y2Eu
-Y2VyZXNvbGlAYm9vdGxpbi5jb20+DQo+IA0KPiBJJ3ZlIHRlc3RlZCB0aGUgcGF0Y2ggd2l0IExQ
-ODg2NCBMRUQgYXMgYSBwcm92aWRlciBmb3IgbGVkX2JsLCByZW1vdmluZyB0aGUNCj4gdW5kZXJs
-eWluZyBJMkMgYnVzLiBUaGUgcGF0Y2ggYXZvaWRzIHRoZSBjcmFzaCBmb3IgbWUgKGJ5IHJlbW92
-aW5nIGxlZF9ibCBkZXZpY2UgYXMgd2VsbCksDQo+IHRoYW5rcyBmb3IgZml4aW5nIGl0IQ0KPiAN
-Cj4gVGVzdGVkLWJ5OiBBbGV4YW5kZXIgU3ZlcmRsaW4gPGFsZXhhbmRlci5zdmVyZGxpbkBzaWVt
-ZW5zLmNvbT4NCg0KV291bGQgaXQgbWFrZSBzZW5zZSB0byBhZGQNCg0KRml4ZXM6IGFlMjMyZTQ1
-YWNmOSAoImJhY2tsaWdodDogYWRkIGxlZC1iYWNrbGlnaHQgZHJpdmVyIikNCg0KPw0KDQotLSAN
-CkFsZXhhbmRlciBTdmVyZGxpbg0KU2llbWVucyBBRw0Kd3d3LnNpZW1lbnMuY29tDQo=
+Hey folks,
+
+this is rc6 + tip/master on a Zen2 RN laptop.
+
+Needless to say, the complaints are brand new.
+
+Thx.
+
+[    0.875804] ACPI: bus type drm_connector registered
+[    0.877903] [drm] Initialized vgem 1.0.0 for vgem on minor 0
+[    0.880430] [drm] Initialized vkms 1.0.0 for vkms on minor 1
+[    0.922159] platform vkms: [drm] fb0: vkmsdrmfb frame buffer device
+[   11.655127] [drm] amdgpu kernel modesetting enabled.
+[   11.833426] amdgpu: Virtual CRAT table created for CPU
+[   11.835726] amdgpu: Topology: Add CPU node
+[   11.837865] amdgpu 0000:06:00.0: enabling device (0006 -> 0007)
+[   11.839494] [drm] initializing kernel modesetting (RENOIR 0x1002:0x1636 0x17AA:0x5099 0xD1).
+[   11.842925] [drm] register mmio base: 0xFD300000
+[   11.843821] [drm] register mmio size: 524288
+[   11.866875] amdgpu 0000:06:00.0: amdgpu: detected ip block number 0 <soc15_common>
+[   11.867854] amdgpu 0000:06:00.0: amdgpu: detected ip block number 1 <gmc_v9_0>
+[   11.868731] amdgpu 0000:06:00.0: amdgpu: detected ip block number 2 <vega10_ih>
+[   11.869567] amdgpu 0000:06:00.0: amdgpu: detected ip block number 3 <psp>
+[   11.870389] amdgpu 0000:06:00.0: amdgpu: detected ip block number 4 <smu>
+[   11.871295] amdgpu 0000:06:00.0: amdgpu: detected ip block number 5 <dm>
+[   11.872154] amdgpu 0000:06:00.0: amdgpu: detected ip block number 6 <gfx_v9_0>
+[   11.872984] amdgpu 0000:06:00.0: amdgpu: detected ip block number 7 <sdma_v4_0>
+[   11.873802] amdgpu 0000:06:00.0: amdgpu: detected ip block number 8 <vcn_v2_0>
+[   11.874629] amdgpu 0000:06:00.0: amdgpu: detected ip block number 9 <jpeg_v2_0>
+[   11.875457] amdgpu 0000:06:00.0: amdgpu: Fetched VBIOS from VFCT
+[   11.876246] amdgpu: ATOM BIOS: 113-RENOIR-026
+[   11.916515] amdgpu 0000:06:00.0: vgaarb: deactivate vga console
+[   11.917441] amdgpu 0000:06:00.0: amdgpu: Trusted Memory Zone (TMZ) feature enabled
+[   11.918275] amdgpu 0000:06:00.0: amdgpu: MODE2 reset
+[   11.920343] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is 9-bit
+[   11.921245] amdgpu 0000:06:00.0: amdgpu: VRAM: 512M 0x000000F400000000 - 0x000000F41FFFFFFF (512M used)
+[   11.922102] amdgpu 0000:06:00.0: amdgpu: GART: 1024M 0x0000000000000000 - 0x000000003FFFFFFF
+[   11.923005] [drm] Detected VRAM RAM=512M, BAR=512M
+[   11.923822] [drm] RAM width 128bits DDR4
+[   11.927674] [drm] amdgpu: 512M of VRAM memory ready
+[   11.928527] [drm] amdgpu: 7569M of GTT memory ready.
+[   11.929974] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[   11.931833] [drm] PCIE GART of 1024M enabled.
+[   11.932659] [drm] PTB located at 0x000000F41FC00000
+[   11.936483] [drm] Loading DMUB firmware via PSP: version=0x01010028
+[   11.940719] amdgpu 0000:06:00.0: amdgpu: Found VCN firmware Version ENC: 1.21 DEC: 6 VEP: 0 Revision: 0
+[   12.929948] amdgpu 0000:06:00.0: amdgpu: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   13.019057] amdgpu 0000:06:00.0: amdgpu: RAS: optional ras ta ucode is not available
+[   13.029393] amdgpu 0000:06:00.0: amdgpu: RAP: optional rap ta ucode is not available
+[   13.034982] amdgpu 0000:06:00.0: amdgpu: psp gfx command LOAD_TA(0x1) failed and response status is (0x7)
+[   13.036793] amdgpu 0000:06:00.0: amdgpu: psp gfx command INVOKE_CMD(0x3) failed and response status is (0x4)
+[   13.037973] amdgpu 0000:06:00.0: amdgpu: Secure display: Generic Failure.
+[   13.038885] amdgpu 0000:06:00.0: amdgpu: SECUREDISPLAY: query securedisplay TA failed. ret 0x0
+[   13.040151] amdgpu 0000:06:00.0: amdgpu: SMU is initialized successfully!
+[   13.042348] [drm] Display Core v3.2.325 initialized on DCN 2.1
+[   13.043396] [drm] DP-HDMI FRL PCON supported
+[   13.044896] [drm] DMUB hardware initialized: version=0x01010028
+[   13.073956] snd_hda_intel 0000:06:00.1: bound 0000:06:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+[   13.085947] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.087463] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.089942] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.090882] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.093284] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.094155] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.096543] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.097394] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.099734] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.100573] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.102937] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.103750] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.106074] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.106964] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.109336] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.110187] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.112599] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.113459] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.115840] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.116698] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.119046] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.119899] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.122234] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.123114] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.125463] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.126282] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.128622] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.129437] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.131730] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.132535] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.134838] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.135643] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.137930] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.138771] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.141164] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.142002] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.144354] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.145133] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.147373] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.148141] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.150425] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.151226] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.153517] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.154260] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.156568] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.157310] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.159568] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.160293] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.162561] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.163241] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.165433] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.166145] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.168424] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.169140] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.171397] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.172111] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.174317] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.175157] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.177436] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.178125] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.180371] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.181090] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.183345] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   13.184062] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   13.272389] amdgpu 0000:06:00.0: amdgpu: [drm] Using ACPI provided EDID for eDP-1
+[   13.284163] [drm] kiq ring mec 2 pipe 1 q 0
+[   13.300102] kfd kfd: amdgpu: Allocated 3969056 bytes on gart
+[   13.301009] kfd kfd: amdgpu: Total number of KFD nodes to be created: 1
+[   13.304093] amdgpu: Virtual CRAT table created for GPU
+[   13.307633] amdgpu: Topology: Add dGPU node [0x1636:0x1002]
+[   13.308735] kfd kfd: amdgpu: added device 1002:1636
+[   13.309670] amdgpu 0000:06:00.0: amdgpu: SE 1, SH per SE 1, CU per SH 8, active_cu_number 7
+[   13.310667] amdgpu 0000:06:00.0: amdgpu: ring gfx uses VM inv eng 0 on hub 0
+[   13.311465] amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng 1 on hub 0
+[   13.312242] amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng 4 on hub 0
+[   13.312985] amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng 5 on hub 0
+[   13.313712] amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng 6 on hub 0
+[   13.314435] amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng 7 on hub 0
+[   13.315229] amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng 8 on hub 0
+[   13.315997] amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng 9 on hub 0
+[   13.316742] amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng 10 on hub 0
+[   13.317487] amdgpu 0000:06:00.0: amdgpu: ring kiq_0.2.1.0 uses VM inv eng 11 on hub 0
+[   13.318232] amdgpu 0000:06:00.0: amdgpu: ring sdma0 uses VM inv eng 0 on hub 8
+[   13.319114] amdgpu 0000:06:00.0: amdgpu: ring vcn_dec uses VM inv eng 1 on hub 8
+[   13.319867] amdgpu 0000:06:00.0: amdgpu: ring vcn_enc0 uses VM inv eng 4 on hub 8
+[   13.320578] amdgpu 0000:06:00.0: amdgpu: ring vcn_enc1 uses VM inv eng 5 on hub 8
+[   13.321284] amdgpu 0000:06:00.0: amdgpu: ring jpeg_dec uses VM inv eng 6 on hub 8
+[   13.329495] amdgpu 0000:06:00.0: amdgpu: Runtime PM not available
+[   13.336874] amdgpu 0000:06:00.0: amdgpu: [drm] Using custom brightness curve
+[   13.345049] [drm] Initialized amdgpu 3.63.0 for 0000:06:00.0 on minor 2
+[   13.365870] fbcon: amdgpudrmfb (fb1) is primary device
+[   13.367117] [drm] pre_validate_dsc:1621 MST_DSC dsc precompute is not needed
+[   13.573337] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:3
+[   13.574721] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:3
+[   13.574793] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.575609] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.576327] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.577042] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.577759] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.578521] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.579237] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.579951] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.580667] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.581382] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.582096] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.582811] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.583527] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.584241] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.584956] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.585672] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.586387] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.587101] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.587816] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.588531] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.589245] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.589960] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.590670] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.591385] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.592101] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.592816] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.593530] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.594246] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.594961] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.595676] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.595767] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.596483] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.597198] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.597913] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.598570] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.599286] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.600000] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.600715] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.601431] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.602146] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.602860] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.603575] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.604290] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.605004] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.605719] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.606435] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.607197] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.607912] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.608628] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.609343] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.610058] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.610774] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.611489] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.612204] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.612920] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.613635] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.614351] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.615066] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.615780] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.616495] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.617210] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.617924] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.618009] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.618724] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.619440] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.620155] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.620870] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.621586] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.622301] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.623016] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.623731] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.624447] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.625161] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.625876] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.626570] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.627284] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.627999] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.628714] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.629429] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.630143] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.630858] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.631572] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.632287] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.633002] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.633718] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.634433] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.635196] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.635911] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.636625] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.637341] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.638057] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.638771] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.639487] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   13.640202] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: DP AUX transfer fail:4
+[   14.151445] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.151460] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.152974] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.152983] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.154517] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.154526] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.156046] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.156054] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.157573] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.157581] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.159099] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.159107] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.160626] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.160634] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.162154] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.162163] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.163681] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.163690] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.165197] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.165205] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.166715] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.166724] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.168243] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.168252] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.169772] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.169780] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.171343] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.171351] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.172871] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.172879] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.174398] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.174406] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.175926] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.175934] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.177453] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.177461] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.178973] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.178982] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.180488] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.180497] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.182015] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.182024] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.183540] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.183548] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.185056] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.185064] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.186578] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.186587] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.188093] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.188101] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.189621] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.189629] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.191137] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.191146] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.192666] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.192674] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.194193] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.194201] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.195725] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.195734] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.197241] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.197250] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   14.198764] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX partially written
+[   14.198772] amdgpu 0000:06:00.0: amdgpu: [drm] amdgpu: AUX reply command not ACK: 0x01.
+[   18.646254] amdgpu 0000:06:00.0: [drm] fb1: amdgpudrmfb frame buffer device
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
