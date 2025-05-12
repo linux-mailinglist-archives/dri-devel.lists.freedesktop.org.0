@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16EBAB3707
+	by mail.lfdr.de (Postfix) with ESMTPS id D4297AB3708
 	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 14:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC0B10E3DE;
-	Mon, 12 May 2025 12:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057A310E3E1;
+	Mon, 12 May 2025 12:34:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AdRmZRp4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NHUhaLLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6AC010E3DD
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:34:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAA0A10E3E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 12:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747053277;
+ s=mimecast20190719; t=1747053280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vjnnC5BACKQYADpf3O8+rlLTsN5UNkR42iRu+4jj/5k=;
- b=AdRmZRp4m6r6RL0T14AcfP2U7HlxJop4Y2QdawtfyR9aRMNf6vxC8w3NACuxwdCF/aXG/z
- 5cq7R2bzpPDl+5zMXkuBDoSkZl0mrXHQ/kpMLr9l5JMgR1R/K1S7CMzs4kyJufAu/idvVv
- NKvY5WBtS/QFD847tChR2stMuINI8pA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NYDrLvG5XDZK2S7Vzjb3pmEnm43v74kkrfTla5+cPZI=;
+ b=NHUhaLLyzpyRRsQrpd3sK+uwdDu5BdmEDqMUS36GRK/4GmXd+1epxUdddNsoApW45cSeD6
+ 2utAwyhdP7ouZbQvWgrPzCmOYfE+hvz6S/TSbKYZVH3xw+vHYTvLkNAaGlIduFHpK8aY0m
+ 4Y/Z7vWu4fKfzW4LZL9WRqnvpMqllHw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-_E8lCS94NbWXERCv2vTo4Q-1; Mon, 12 May 2025 08:34:35 -0400
-X-MC-Unique: _E8lCS94NbWXERCv2vTo4Q-1
-X-Mimecast-MFC-AGG-ID: _E8lCS94NbWXERCv2vTo4Q_1747053274
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43d209dc2d3so21225915e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:34:35 -0700 (PDT)
+ us-mta-120-f4-9_wDaMKeSYHGIsH1IuA-1; Mon, 12 May 2025 08:34:39 -0400
+X-MC-Unique: f4-9_wDaMKeSYHGIsH1IuA-1
+X-Mimecast-MFC-AGG-ID: f4-9_wDaMKeSYHGIsH1IuA_1747053278
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a0bd786a53so1767582f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 05:34:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747053274; x=1747658074;
+ d=1e100.net; s=20230601; t=1747053278; x=1747658078;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vjnnC5BACKQYADpf3O8+rlLTsN5UNkR42iRu+4jj/5k=;
- b=v4y+bTL39cv2eeTU1khgDWyh/yC1NZcxwFtcasZk4nxYhv+vz2iQJfv4Py0NukAdcB
- iPRr0eVUyAoTH4S3pnKKpHrYc84iwW5US3XF32LP6GNuhJeZ1SGGU31JMyOyvgsowN7k
- IlVGN6iQIAwuqm+nCLpTuJC7LXDQfEI+D/ApSJVAdoo1+lw5yA6s/gH39pSGZIWB8LEX
- TcVP5XAed4/G2mXHU4Vh8XSKPzYiGFvpRXrhGg+fDTt3jUJhSSIeDCt3+bhWurSa2inT
- dAUK1VOejVgN1x20pd9PTkRyn0spCKVEOrIZh50EnURZ12rLSxg2fWUZo1ww621oF2vs
- 5kbQ==
+ bh=NYDrLvG5XDZK2S7Vzjb3pmEnm43v74kkrfTla5+cPZI=;
+ b=Lp0FJbbEYDBq1A7eR2ydcoCTv+AuzEMTAMmTlddST9YF5/zeTJXGwtM070jGdCB1Ra
+ wEWRd5BHH5YZMl02SSaZyLcM/ouhZuvswUZSSBsfITsk+fQ0ylVuPZk7LWK0aWb43eaT
+ jCga4jp4eny+d+/sblhGB1b/ekHPKJcJG0If9IjAbp6uBMD1rcfSYhRsd7ezo7ZBYr02
+ qyBuu0Cam9cyssK/6e518FGWn2yz02xrt1n1tNCSvkTAxIPG1E/jP/fmj46IXhqbXY4d
+ d8+DfhYhukMpEMBZMnZ0FAg6fCivSk/yCSpdvhnv+5t3M3Y0yGXyV9+uTEIFdNZ6b6NZ
+ G0TA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyVS5xo/OTauEOxwlVEdaZE4yLzDLzBmDI+hnxP04ZTq0H/TW7lnD3xPSildYSPQiPpEyLxJWn49A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5Zso9LNW19JfncxW8smZeup8sc6/7BOVNM1ZfXn3A0AdVoZ6m
- 9+40jaZEh7BhJAowc9NtU8Y5l7g41IvLJ/5jpJW/fX8SiHqtpq8CnT7KIOCkhLy65g/UMZqh/Da
- O1/0Gowp+NNg/O2O8OMJUueZ7eAkSpFe08BVqPt2orn3H8vTPgklelxQ6YjRHMpKcQw==
-X-Gm-Gg: ASbGncvKW5VxrUZeMit86jeGV6yNunnsE0WziEL39xl333ZF3VT5lO79xss24k9ftG4
- OsvAlSSSlBWSggoeAaOoCndArhjuahXS6BTn9PgKqz0tAODLBAoGIEpMOw68Sf+oLUHL++/EIqU
- anaMPY1Pe4/Et0+c31yAkjqVlNfCF9afZ/VO0zjJ1qxG+JdS3bMUFmzFRrxTWpBVc5GDpAgKOch
- tdY4fBngO+vVbfDw2Py6TK8ewGtzy0wEAWdxB4wUxwiwM5oyZP+ZuabfQwes9cv1bwnuu6qo08o
- A/bYrnRnuDOYl2Huv6mQ7+zk7zGbTBHZGXf/Q/9hkw/NMZ4Go4r+6sZFFgUYRqrhlgw4BUSb
-X-Received: by 2002:a05:600c:5118:b0:43d:cc9:b09d with SMTP id
- 5b1f17b1804b1-442d6dc539cmr82258565e9.20.1747053274328; 
- Mon, 12 May 2025 05:34:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLHMAxfNnCQj32PB2xBlHRpvgTd61IhRYv44GdPG9fUkbIQCt1pbTkP7UkTO09z7pcUrC5ng==
-X-Received: by 2002:a05:600c:5118:b0:43d:cc9:b09d with SMTP id
- 5b1f17b1804b1-442d6dc539cmr82258205e9.20.1747053273921; 
- Mon, 12 May 2025 05:34:33 -0700 (PDT)
+ AJvYcCUzx1l+rUQ/RuqSGTXP79URbLnz4TitHMzvt04d70FXc4zIrWWjuqGQD9PiVMmXyZnd/OX8/uu8U8E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyiy+mSQ7Tu3D6VawMbUVCLdq28dzkJFCxfaxLj/Qa6hMicgy+F
+ OVMRwGHoFUVpH1/xy02zb95hvqFEyg61Bg7icgXqznVLsBCoMnqHQ6rNMBXwyv3uGvu032XZlll
+ /JW/EqkbOsv2Ut0FBb1wPtS5nsbMYAt4KVA3wxA62GERtvyUqa97Z2v40eDSM/jMoJQ==
+X-Gm-Gg: ASbGncsCG5VvqrHjcly9/8yIG3l9Yv2+tiOJE2dHqWwShc0OYpjbUEx0uYZrcu1qDQd
+ ydfg0TvJjIHBBe2JxQxw3uCdaBnYYKYMkgtjD79OzwIjVeJfOz9GsKniJqT9ofpDM8Y21HG0dF+
+ 7EOTQZypIciSB+uDfbTs+ta5PO0u/j2mzyih2bio844eqbMepT8hXWmKm5+JDRnjWD/ZQDsVltR
+ MNgKBj2QHlV/sgV9BCVQ2je2Q5MU+EcNfpUWtDnBVajKS6ONZBhABEVcqOgnXYKqX4MTLINp+1y
+ uOj1SOVN5EJxO2R1axCZdZTEtfBS5U+Mlm2e452JpGaFjWer4HuCqBMk6le2P7MO/yVBVjMK
+X-Received: by 2002:a05:6000:430d:b0:3a0:b9a9:2fd9 with SMTP id
+ ffacd0b85a97d-3a1f64a34c6mr10772122f8f.51.1747053278110; 
+ Mon, 12 May 2025 05:34:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEhxNuxHtjAVwepTb/c5WYjIAvKZdsEfHNK/tmk5VSXnQqEoBOKdiBfd2UyPw5vI1dksu9fng==
+X-Received: by 2002:a05:6000:430d:b0:3a0:b9a9:2fd9 with SMTP id
+ ffacd0b85a97d-3a1f64a34c6mr10772084f8f.51.1747053277633; 
+ Mon, 12 May 2025 05:34:37 -0700 (PDT)
 Received: from localhost
  (p200300d82f4a5800f1ae8e20d7f451b0.dip0.t-ipconnect.de.
  [2003:d8:2f4a:5800:f1ae:8e20:d7f4:51b0])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-442d67df5ecsm123693385e9.9.2025.05.12.05.34.32
+ 5b1f17b1804b1-442d687ae10sm123566305e9.37.2025.05.12.05.34.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 May 2025 05:34:33 -0700 (PDT)
+ Mon, 12 May 2025 05:34:36 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
@@ -93,16 +93,16 @@ Cc: linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
  Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH v2 03/11] mm: introduce pfnmap_track() and pfnmap_untrack()
- and use them for memremap
-Date: Mon, 12 May 2025 14:34:16 +0200
-Message-ID: <20250512123424.637989-4-david@redhat.com>
+Subject: [PATCH v2 04/11] mm: convert VM_PFNMAP tracking to pfnmap_track() +
+ pfnmap_untrack()
+Date: Mon, 12 May 2025 14:34:17 +0200
+Message-ID: <20250512123424.637989-5-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250512123424.637989-1-david@redhat.com>
 References: <20250512123424.637989-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wRRjl_DK20hKaj9HzKJRjCRjy_BxUqbHNWeIkPytouU_1747053274
+X-Mimecast-MFC-PROC-ID: f4aCjdyE5WWSnEYrhjHPPm8zMval4W0qJnaodya5OHc_1747053278
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -121,135 +121,326 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's provide variants of track_pfn_remap() and untrack_pfn() that won't
-mess with VMAs, and replace the usage in mm/memremap.c.
+Let's use our new interface. In remap_pfn_range(), we'll now decide
+whether we have to track (full VMA covered) or only lookup the
+cachemode (partial VMA covered).
 
-Add some documentation.
+Remember what we have to untrack by linking it from the VMA. When
+duplicating VMAs (e.g., splitting, mremap, fork), we'll handle it similar
+to anon VMA names, and use a kref to share the tracking.
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Once the last VMA un-refs our tracking data, we'll do the untracking,
+which simplifies things a lot and should sort our various issues we saw
+recently, for example, when partially unmapping/zapping a tracked VMA.
+
+This change implies that we'll keep tracking the original PFN range even
+after splitting + partially unmapping it: not too bad, because it was
+not working reliably before. The only thing that kind-of worked before
+was shrinking such a mapping using mremap(): we managed to adjust the
+reservation in a hacky way, now we won't adjust the reservation but
+leave it around until all involved VMAs are gone.
+
+If that ever turns out to be an issue, we could hook into VM splitting
+code and split the tracking; however, that adds complexity that might
+not be required, so we'll keep it simple for now.
+
 Acked-by: Ingo Molnar <mingo@kernel.org> # x86 bits
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/x86/mm/pat/memtype.c | 14 ++++++++++++++
- include/linux/pgtable.h   | 39 +++++++++++++++++++++++++++++++++++++++
- mm/memremap.c             |  8 ++++----
- 3 files changed, 57 insertions(+), 4 deletions(-)
+ include/linux/mm_inline.h |  2 +
+ include/linux/mm_types.h  | 11 ++++++
+ mm/memory.c               | 82 +++++++++++++++++++++++++++++++--------
+ mm/mmap.c                 |  5 ---
+ mm/mremap.c               |  4 --
+ mm/vma_init.c             | 50 ++++++++++++++++++++++++
+ 6 files changed, 129 insertions(+), 25 deletions(-)
 
-diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
-index fa78facc6f633..1ec8af6cad6bf 100644
---- a/arch/x86/mm/pat/memtype.c
-+++ b/arch/x86/mm/pat/memtype.c
-@@ -1068,6 +1068,20 @@ int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size, pgprot_t *prot
- 	return 0;
- }
+diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+index f9157a0c42a5c..89b518ff097e6 100644
+--- a/include/linux/mm_inline.h
++++ b/include/linux/mm_inline.h
+@@ -447,6 +447,8 @@ static inline bool anon_vma_name_eq(struct anon_vma_name *anon_name1,
  
-+int pfnmap_track(unsigned long pfn, unsigned long size, pgprot_t *prot)
-+{
-+	const resource_size_t paddr = (resource_size_t)pfn << PAGE_SHIFT;
+ #endif  /* CONFIG_ANON_VMA_NAME */
+ 
++void pfnmap_track_ctx_release(struct kref *ref);
 +
-+	return reserve_pfn_range(paddr, size, prot, 0);
-+}
-+
-+void pfnmap_untrack(unsigned long pfn, unsigned long size)
-+{
-+	const resource_size_t paddr = (resource_size_t)pfn << PAGE_SHIFT;
-+
-+	free_pfn_range(paddr, size);
-+}
+ static inline void init_tlb_flush_pending(struct mm_struct *mm)
+ {
+ 	atomic_set(&mm->tlb_flush_pending, 0);
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 15808cad2bc1a..3e934dc6057c4 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -763,6 +763,14 @@ struct vma_numab_state {
+ 	int prev_scan_seq;
+ };
+ 
++#ifdef __HAVE_PFNMAP_TRACKING
++struct pfnmap_track_ctx {
++	struct kref kref;
++	unsigned long pfn;
++	unsigned long size;	/* in bytes */
++};
++#endif
 +
  /*
-  * untrack_pfn is called while unmapping a pfnmap for a region.
-  * untrack can be called for a specific region indicated by pfn and size or
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index be1745839871c..90f72cd358390 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1502,6 +1502,16 @@ static inline int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size,
- 	return 0;
+  * Describes a VMA that is about to be mmap()'ed. Drivers may choose to
+  * manipulate mutable fields which will cause those fields to be updated in the
+@@ -900,6 +908,9 @@ struct vm_area_struct {
+ 	struct anon_vma_name *anon_name;
+ #endif
+ 	struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
++#ifdef __HAVE_PFNMAP_TRACKING
++	struct pfnmap_track_ctx *pfnmap_track_ctx;
++#endif
+ } __randomize_layout;
+ 
+ #ifdef CONFIG_NUMA
+diff --git a/mm/memory.c b/mm/memory.c
+index 064fc55d8eab9..4cf4adb0de266 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -1371,7 +1371,7 @@ copy_page_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma)
+ 	struct mm_struct *dst_mm = dst_vma->vm_mm;
+ 	struct mm_struct *src_mm = src_vma->vm_mm;
+ 	struct mmu_notifier_range range;
+-	unsigned long next, pfn = 0;
++	unsigned long next;
+ 	bool is_cow;
+ 	int ret;
+ 
+@@ -1381,12 +1381,6 @@ copy_page_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma)
+ 	if (is_vm_hugetlb_page(src_vma))
+ 		return copy_hugetlb_page_range(dst_mm, src_mm, dst_vma, src_vma);
+ 
+-	if (unlikely(src_vma->vm_flags & VM_PFNMAP)) {
+-		ret = track_pfn_copy(dst_vma, src_vma, &pfn);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	/*
+ 	 * We need to invalidate the secondary MMU mappings only when
+ 	 * there could be a permission downgrade on the ptes of the
+@@ -1428,8 +1422,6 @@ copy_page_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma)
+ 		raw_write_seqcount_end(&src_mm->write_protect_seq);
+ 		mmu_notifier_invalidate_range_end(&range);
+ 	}
+-	if (ret && unlikely(src_vma->vm_flags & VM_PFNMAP))
+-		untrack_pfn_copy(dst_vma, pfn);
+ 	return ret;
  }
  
-+static inline int pfnmap_track(unsigned long pfn, unsigned long size,
-+		pgprot_t *prot)
+@@ -1924,9 +1916,6 @@ static void unmap_single_vma(struct mmu_gather *tlb,
+ 	if (vma->vm_file)
+ 		uprobe_munmap(vma, start, end);
+ 
+-	if (unlikely(vma->vm_flags & VM_PFNMAP))
+-		untrack_pfn(vma, 0, 0, mm_wr_locked);
+-
+ 	if (start != end) {
+ 		if (unlikely(is_vm_hugetlb_page(vma))) {
+ 			/*
+@@ -2872,6 +2861,36 @@ int remap_pfn_range_notrack(struct vm_area_struct *vma, unsigned long addr,
+ 	return error;
+ }
+ 
++#ifdef __HAVE_PFNMAP_TRACKING
++static inline struct pfnmap_track_ctx *pfnmap_track_ctx_alloc(unsigned long pfn,
++		unsigned long size, pgprot_t *prot)
 +{
++	struct pfnmap_track_ctx *ctx;
++
++	if (pfnmap_track(pfn, size, prot))
++		return ERR_PTR(-EINVAL);
++
++	ctx = kmalloc(sizeof(*ctx), GFP_KERNEL);
++	if (unlikely(!ctx)) {
++		pfnmap_untrack(pfn, size);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	ctx->pfn = pfn;
++	ctx->size = size;
++	kref_init(&ctx->kref);
++	return ctx;
++}
++
++void pfnmap_track_ctx_release(struct kref *ref)
++{
++	struct pfnmap_track_ctx *ctx = container_of(ref, struct pfnmap_track_ctx, kref);
++
++	pfnmap_untrack(ctx->pfn, ctx->size);
++	kfree(ctx);
++}
++#endif /* __HAVE_PFNMAP_TRACKING */
++
+ /**
+  * remap_pfn_range - remap kernel memory to userspace
+  * @vma: user vma to map to
+@@ -2884,20 +2903,51 @@ int remap_pfn_range_notrack(struct vm_area_struct *vma, unsigned long addr,
+  *
+  * Return: %0 on success, negative error code otherwise.
+  */
++#ifdef __HAVE_PFNMAP_TRACKING
+ int remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
+ 		    unsigned long pfn, unsigned long size, pgprot_t prot)
+ {
++	struct pfnmap_track_ctx *ctx = NULL;
+ 	int err;
+ 
+-	err = track_pfn_remap(vma, &prot, pfn, addr, PAGE_ALIGN(size));
+-	if (err)
++	size = PAGE_ALIGN(size);
++
++	/*
++	 * If we cover the full VMA, we'll perform actual tracking, and
++	 * remember to untrack when the last reference to our tracking
++	 * context from a VMA goes away. We'll keep tracking the whole pfn
++	 * range even during VMA splits and partial unmapping.
++	 *
++	 * If we only cover parts of the VMA, we'll only setup the cachemode
++	 * in the pgprot for the pfn range.
++	 */
++	if (addr == vma->vm_start && addr + size == vma->vm_end) {
++		if (vma->pfnmap_track_ctx)
++			return -EINVAL;
++		ctx = pfnmap_track_ctx_alloc(pfn, size, &prot);
++		if (IS_ERR(ctx))
++			return PTR_ERR(ctx);
++	} else if (pfnmap_setup_cachemode(pfn, size, &prot)) {
+ 		return -EINVAL;
++	}
+ 
+ 	err = remap_pfn_range_notrack(vma, addr, pfn, size, prot);
+-	if (err)
+-		untrack_pfn(vma, pfn, PAGE_ALIGN(size), true);
++	if (ctx) {
++		if (err)
++			kref_put(&ctx->kref, pfnmap_track_ctx_release);
++		else
++			vma->pfnmap_track_ctx = ctx;
++	}
+ 	return err;
+ }
++
++#else
++int remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
++		    unsigned long pfn, unsigned long size, pgprot_t prot)
++{
++	return remap_pfn_range_notrack(vma, addr, pfn, size, prot);
++}
++#endif
+ EXPORT_SYMBOL(remap_pfn_range);
+ 
+ /**
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 50f902c08341a..09c563c951123 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1784,11 +1784,6 @@ __latent_entropy int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
+ 		tmp = vm_area_dup(mpnt);
+ 		if (!tmp)
+ 			goto fail_nomem;
+-
+-		/* track_pfn_copy() will later take care of copying internal state. */
+-		if (unlikely(tmp->vm_flags & VM_PFNMAP))
+-			untrack_pfn_clear(tmp);
+-
+ 		retval = vma_dup_policy(mpnt, tmp);
+ 		if (retval)
+ 			goto fail_nomem_policy;
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 7db9da609c84f..6e78e02f74bd3 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -1191,10 +1191,6 @@ static int copy_vma_and_data(struct vma_remap_struct *vrm,
+ 	if (is_vm_hugetlb_page(vma))
+ 		clear_vma_resv_huge_pages(vma);
+ 
+-	/* Tell pfnmap has moved from this vma */
+-	if (unlikely(vma->vm_flags & VM_PFNMAP))
+-		untrack_pfn_clear(vma);
+-
+ 	*new_vma_ptr = new_vma;
+ 	return err;
+ }
+diff --git a/mm/vma_init.c b/mm/vma_init.c
+index 967ca85179864..8e53c7943561e 100644
+--- a/mm/vma_init.c
++++ b/mm/vma_init.c
+@@ -71,7 +71,51 @@ static void vm_area_init_from(const struct vm_area_struct *src,
+ #ifdef CONFIG_NUMA
+ 	dest->vm_policy = src->vm_policy;
+ #endif
++#ifdef __HAVE_PFNMAP_TRACKING
++	dest->pfnmap_track_ctx = NULL;
++#endif
++}
++
++#ifdef __HAVE_PFNMAP_TRACKING
++static inline int vma_pfnmap_track_ctx_dup(struct vm_area_struct *orig,
++		struct vm_area_struct *new)
++{
++	struct pfnmap_track_ctx *ctx = orig->pfnmap_track_ctx;
++
++	if (likely(!ctx))
++		return 0;
++
++	/*
++	 * We don't expect to ever hit this. If ever required, we would have
++	 * to duplicate the tracking.
++	 */
++	if (unlikely(kref_read(&ctx->kref) >= REFCOUNT_MAX))
++		return -ENOMEM;
++	kref_get(&ctx->kref);
++	new->pfnmap_track_ctx = ctx;
 +	return 0;
 +}
 +
-+static inline void pfnmap_untrack(unsigned long pfn, unsigned long size)
++static inline void vma_pfnmap_track_ctx_release(struct vm_area_struct *vma)
++{
++	struct pfnmap_track_ctx *ctx = vma->pfnmap_track_ctx;
++
++	if (likely(!ctx))
++		return;
++
++	kref_put(&ctx->kref, pfnmap_track_ctx_release);
++	vma->pfnmap_track_ctx = NULL;
++}
++#else
++static inline int vma_pfnmap_track_ctx_dup(struct vm_area_struct *orig,
++		struct vm_area_struct *new)
++{
++	return 0;
+ }
++static inline void vma_pfnmap_track_ctx_release(struct vm_area_struct *vma)
 +{
 +}
-+
- /*
-  * track_pfn_copy is called when a VM_PFNMAP VMA is about to get the page
-  * tables copied during copy_page_range(). Will store the pfn to be
-@@ -1575,6 +1585,35 @@ extern int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
-  */
- int pfnmap_setup_cachemode(unsigned long pfn, unsigned long size,
- 		pgprot_t *prot);
-+
-+/**
-+ * pfnmap_track - track a pfn range
-+ * @pfn: the start of the pfn range
-+ * @size: the size of the pfn range in bytes
-+ * @prot: the pgprot to track
-+ *
-+ * Requested the pfn range to be 'tracked' by a hardware implementation and
-+ * setup the cachemode in @prot similar to pfnmap_setup_cachemode().
-+ *
-+ * This allows for fine-grained control of memory cache behaviour at page
-+ * level granularity. Tracking memory this way is persisted across VMA splits
-+ * (VMA merging does not apply for VM_PFNMAP).
-+ *
-+ * Currently, there is only one implementation for this - x86 Page Attribute
-+ * Table (PAT). See Documentation/arch/x86/pat.rst for more details.
-+ *
-+ * Returns 0 on success and -EINVAL on error.
-+ */
-+int pfnmap_track(unsigned long pfn, unsigned long size, pgprot_t *prot);
-+
-+/**
-+ * pfnmap_untrack - untrack a pfn range
-+ * @pfn: the start of the pfn range
-+ * @size: the size of the pfn range in bytes
-+ *
-+ * Untrack a pfn range previously tracked through pfnmap_track().
-+ */
-+void pfnmap_untrack(unsigned long pfn, unsigned long size);
- extern int track_pfn_copy(struct vm_area_struct *dst_vma,
- 		struct vm_area_struct *src_vma, unsigned long *pfn);
- extern void untrack_pfn_copy(struct vm_area_struct *dst_vma,
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 2aebc1b192da9..c417c843e9b1f 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -130,7 +130,7 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
- 	}
- 	mem_hotplug_done();
++#endif
  
--	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
-+	pfnmap_untrack(PHYS_PFN(range->start), range_len(range));
- 	pgmap_array_delete(range);
+ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+ {
+@@ -83,6 +127,11 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+ 	ASSERT_EXCLUSIVE_WRITER(orig->vm_flags);
+ 	ASSERT_EXCLUSIVE_WRITER(orig->vm_file);
+ 	vm_area_init_from(orig, new);
++
++	if (vma_pfnmap_track_ctx_dup(orig, new)) {
++		kmem_cache_free(vm_area_cachep, new);
++		return NULL;
++	}
+ 	vma_lock_init(new, true);
+ 	INIT_LIST_HEAD(&new->anon_vma_chain);
+ 	vma_numab_state_init(new);
+@@ -97,5 +146,6 @@ void vm_area_free(struct vm_area_struct *vma)
+ 	vma_assert_detached(vma);
+ 	vma_numab_state_free(vma);
+ 	free_anon_vma_name(vma);
++	vma_pfnmap_track_ctx_release(vma);
+ 	kmem_cache_free(vm_area_cachep, vma);
  }
- 
-@@ -211,8 +211,8 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
- 	if (nid < 0)
- 		nid = numa_mem_id();
- 
--	error = track_pfn_remap(NULL, &params->pgprot, PHYS_PFN(range->start), 0,
--			range_len(range));
-+	error = pfnmap_track(PHYS_PFN(range->start), range_len(range),
-+			     &params->pgprot);
- 	if (error)
- 		goto err_pfn_remap;
- 
-@@ -277,7 +277,7 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
- 	if (!is_private)
- 		kasan_remove_zero_shadow(__va(range->start), range_len(range));
- err_kasan:
--	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
-+	pfnmap_untrack(PHYS_PFN(range->start), range_len(range));
- err_pfn_remap:
- 	pgmap_array_delete(range);
- 	return error;
 -- 
 2.49.0
 
