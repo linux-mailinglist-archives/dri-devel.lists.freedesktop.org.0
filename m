@@ -2,95 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A856AB3ADD
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907CCAB3AE9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 16:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8400810E413;
-	Mon, 12 May 2025 14:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C4610E19E;
+	Mon, 12 May 2025 14:43:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="elyiDxk4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cncGeDDP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C717F10E413
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:42:54 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3a0ac853894so3965762f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 07:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747060973; x=1747665773; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dgS0gFzPJkgOZrUm2WjFUj6B4kBtJbfFOU+fHqfvDz4=;
- b=elyiDxk4cesmN6btznycaSN52Fl/P+9H/6wOCzWOuPYN76KHWt/vNhoZxtoa/fohfZ
- nyJKhHmW92K+S8jNvQnqD2B+jcS4VnyVZ6D5RQ1zbiL9Y8lJIgQdvEiEFhk85JOavbgT
- ytzo0yeC0Po3vjQDJJUvqVhDk5DazhGNUmGyitDND4SGDXl/Pe55qXC2Ku8rswWlmM3O
- z+zMOz138RFoHsro6YpL3hULS6hCRgsGP0+XKXbTgTf1bWWPo2W4mqgy6GQrbLM9QEaX
- 4Lj+gVlSN4HmU3Qrwti40kuCxkZ5q/lht98E3L4kVjHWwUrJMdqbZT6VvFWchnDaIink
- Xrjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747060973; x=1747665773;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dgS0gFzPJkgOZrUm2WjFUj6B4kBtJbfFOU+fHqfvDz4=;
- b=ZG2LodcyeL8GO7d1y8DiXhw8gdJqcWMDQksVJAHZrMX7pwsViLu4LnYDEsS7IFfaxR
- KE8qKxTealWFNyyau7NgWPn0qVBeKqEsH4IfaNXFvaiaGWbIi2V663gh9/3RB7NHkpU/
- rWATkBk8FBUIjo/JapREzMeCRDS3B6JcWOYt2kHWm+dGwlc8zYcQ75U+TaMgYv2ogGO4
- wuiW9aEeGQ6GBgin0iNTsIPlfLg6P4ymD0BT0Tv/rlIsfJ5WtdICgPjQMa8vH9L/HGZ4
- pvBPFK6FjlDEJF5Y5utnHycasc9FRX1Eig7YrCeNRk/nVM4aOMzj/684+HZIZEHMkoU2
- FrTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUp0tHeqHjAeStKegCcbZ+28Igi0Vi3rhZLZ1iXkuCKNrjPzAt3KZ3rpEjBbdj1FcAmVMnxTR1tXB8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywfo6gRgxlHwsw5HotIUfOBoV+OVvluXqNWPk9nFb3Cb3VfzE6O
- G666T8R1IunRgFaOJY6/Q1x9wSBg6f92k57kb2Of/mPfV1Cj8e/LAhCUpC8C77ZLIsUu1db7d72
- I8H8amjkbynRaYVcblHMlZkjsXIQ=
-X-Gm-Gg: ASbGnctcp4kC77hd3L03DcTY9vh/YNAdl9SRpF/FBwMRG7JSXTIZPHejvEFmId+uJ5Z
- DvPKo5MQ6DvQTxL0NPLcclqsztrT+caPx8YzKxA9sU26RuuiKDXrevjSo2HpCtwho9/eVNWuMVN
- iX/jzdopY9Og1Dt6S69wbJTttercW7Ldo=
-X-Google-Smtp-Source: AGHT+IGgeCmhN6ZRg/tTj5xtux+YtjBRmxlsL0nR+eKs2oGnS9tHIOYCy15h6BCp659yOebsuWHJvxi2oHiACilW0rA=
-X-Received: by 2002:a05:6000:420d:b0:3a2:39d:f51d with SMTP id
- ffacd0b85a97d-3a2039df76fmr5286273f8f.23.1747060972990; Mon, 12 May 2025
- 07:42:52 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349B610E19E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 14:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747061032; x=1778597032;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aMcY98rvT3+Gv3S6jFWEKI7EYVNx8+l+hDVnIdzv3cE=;
+ b=cncGeDDPXbc+Z8aJeagg5ZrzG7kTIV+4tC+u51MsX3u1vtSPxBDlZ4sX
+ zJchlb3UxClKCToOkR6YhxZFeBuhKRoXsK51qY/oavzbk0BHbvotKMiy/
+ nHMPdadwI9InZsMRi+bs8KF5ojtD5MA31xf2Z4tdfhWZr/ZIWJsyw/VdA
+ FDYSgQYzyhL9j7XoiKexb6A1wNroBV4K/YIMl9EkV+Hr5kR2ph+yJPLJR
+ GSD4jatzbHFtVD0fRR3F9dMcrEETDvxXLMeFgppCbSob7MHy7p59ku8gA
+ ydjcm5M8uK3WEYfpO7Oa7GwYCHMMZXmPoaAJ950zLdsPG4Bl4DNPqp51w A==;
+X-CSE-ConnectionGUID: DHIDuGoNRfOfXygmWNSgJg==
+X-CSE-MsgGUID: TSBxApn9TC6TMiHU3fz4Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="52509458"
+X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="52509458"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2025 07:43:51 -0700
+X-CSE-ConnectionGUID: GcXqWT1qRNSSUDl8fsiP2A==
+X-CSE-MsgGUID: 53vPXQh7RgWAf3vxil6W6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; d="scan'208";a="174518166"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 12 May 2025 07:43:48 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uEUNd-000EVX-38;
+ Mon, 12 May 2025 14:43:45 +0000
+Date: Mon, 12 May 2025 22:42:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, christian.koenig@amd.com,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Subject: Re: [PATCH 5/7] ttm: add initial memcg integration. (v4)
+Message-ID: <202505122244.IEuTPfWF-lkp@intel.com>
+References: <20250512061913.3522902-6-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250430204112.342123-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB11346F143A2F83CAD8733BD2E868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346F143A2F83CAD8733BD2E868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 12 May 2025 15:42:26 +0100
-X-Gm-Features: AX0GCFtIfNOD3yNLytAtJM5Aw-ApuQ_ToGcv-oRoFGArlVXSiaJ6rYqqvhWKN_4
-Message-ID: <CA+V-a8sCY38_KZTaEsEyF2cXNA=+3R4405FdJwx+GbgUcogWeA@mail.gmail.com>
-Subject: Re: [PATCH v4 08/15] drm: renesas: rz-du: mipi_dsi: Use VCLK for
- HSFREQ calculation
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250512061913.3522902-6-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,145 +75,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi Dave,
 
-Thank you for the review.
+kernel test robot noticed the following build errors:
 
-On Sun, May 4, 2025 at 1:33=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
->
-> Hi Prabhakar,
->
-> > -----Original Message-----
-> > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: 30 April 2025 21:41
-> > Subject: [PATCH v4 08/15] drm: renesas: rz-du: mipi_dsi: Use VCLK for H=
-SFREQ calculation
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual =
-VCLK rate instead of the mode
-> > clock. The relationship between HSCLK and VCLK is:
-> >
-> >     vclk * bpp <=3D hsclk * 8 * lanes
-> >
-> > Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that H=
-SFREQ accurately reflects the
-> > clock rate set in hardware, leading to better precision in data transmi=
-ssion.
-> >
-> > Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division w=
-hen computing `hsfreq`. Also,
-> > update unit conversions to use correct scaling factors for better clari=
-ty and correctness.
-> >
-> > Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ =
-threshold comparisons to use Hz
-> > instead of kHz to ensure correct behavior.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v3->v4:
-> > - Used MILLI instead of KILO
-> >
-> > v2->v3:
-> > - No changes
-> >
-> > v1->v2:
-> > - No changes
-> > ---
-> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 ++++++++++---------
-> >  1 file changed, 15 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
-pu/drm/renesas/rz-
-> > du/rzg2l_mipi_dsi.c
-> > index c5f698cd74f1..911c955a3a76 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > @@ -8,6 +8,7 @@
-> >  #include <linux/delay.h>
-> >  #include <linux/io.h>
-> >  #include <linux/iopoll.h>
-> > +#include <linux/math.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> >  #include <linux/of_graph.h>
-> > @@ -15,6 +16,7 @@
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/reset.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/units.h>
-> >
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> > @@ -199,7 +201,7 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mi=
-pi_dsi *dsi,
-> >       /* All DSI global operation timings are set with recommended sett=
-ing */
-> >       for (i =3D 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i)=
- {
-> >               dphy_timings =3D &rzg2l_mipi_dsi_global_timings[i];
-> > -             if (hsfreq <=3D dphy_timings->hsfreq_max)
-> > +             if (hsfreq <=3D (dphy_timings->hsfreq_max * MILLI))
-> >                       break;
-> >       }
-> >
-> > @@ -258,7 +260,7 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_m=
-ipi_dsi *dsi)  static int
-> > rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
-> >                                 const struct drm_display_mode *mode)  {
-> > -     unsigned long hsfreq;
-> > +     unsigned long hsfreq, vclk_rate;
-> >       unsigned int bpp;
-> >       u32 txsetr;
-> >       u32 clstptsetr;
-> > @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mip=
-i_dsi *dsi,
-> >       u32 golpbkt;
-> >       int ret;
-> >
-> > +     ret =3D pm_runtime_resume_and_get(dsi->dev);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     clk_set_rate(dsi->vclk, mode->clock * MILLI);
-> >       /*
-> >        * Relationship between hsclk and vclk must follow
-> >        * vclk * bpp =3D hsclk * 8 * lanes
-> > @@ -280,13 +288,8 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mip=
-i_dsi *dsi,
-> >        * hsclk(bit) =3D hsclk(byte) * 8 =3D hsfreq
-> >        */
-> >       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> > -     hsfreq =3D (mode->clock * bpp) / dsi->lanes;
-> > -
-> > -     ret =3D pm_runtime_resume_and_get(dsi->dev);
-> > -     if (ret < 0)
-> > -             return ret;
-> > -
-> > -     clk_set_rate(dsi->vclk, mode->clock * 1000);
-> > +     vclk_rate =3D clk_get_rate(dsi->vclk);
->
-> Not sure, If there is a requested vclk for example, 108.45 MHz and get_ra=
-te() is returning
-> only 108MHz, do we need to propagate/print this error(like requested vs a=
-ctual, if there is a mismatch)
-> as there is change in resolution?
->
-OK, I'll add the below:
+[auto build test ERROR on akpm-mm/mm-everything]
 
-       if (vclk_rate !=3D mode->clock * MILLI)
-               dev_info(dsi->dev, "Requested vclk rate %lu, actual %lu
-mismatch\n",
-                        mode->clock * MILLI, vclk_rate);
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations/20250512-182204
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250512061913.3522902-6-airlied%40gmail.com
+patch subject: [PATCH 5/7] ttm: add initial memcg integration. (v4)
+config: riscv-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250512/202505122244.IEuTPfWF-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505122244.IEuTPfWF-lkp@intel.com/reproduce)
 
-> Otherwise LGTM
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505122244.IEuTPfWF-lkp@intel.com/
 
-Cheers,
-Prabhakar
+All error/warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_bo_evict_pinned':
+>> drivers/gpu/drm/xe/xe_bo.c:1147:2: warning: the address of 'ctx' will always evaluate as 'true' [-Waddress]
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+     ^~~
+>> drivers/gpu/drm/xe/xe_bo.c:1147:8: error: too few arguments to function 'ttm_bo_populate'
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+           ^~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:12:0,
+                    from drivers/gpu/drm/xe/xe_bo.h:11,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   include/drm/ttm/ttm_bo.h:494:5: note: declared here
+    int ttm_bo_populate(struct ttm_buffer_object *bo,
+        ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_bo_restore_pinned':
+   drivers/gpu/drm/xe/xe_bo.c:1208:2: warning: the address of 'ctx' will always evaluate as 'true' [-Waddress]
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+     ^~~
+   drivers/gpu/drm/xe/xe_bo.c:1208:8: error: too few arguments to function 'ttm_bo_populate'
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+           ^~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:12:0,
+                    from drivers/gpu/drm/xe/xe_bo.h:11,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   include/drm/ttm/ttm_bo.h:494:5: note: declared here
+    int ttm_bo_populate(struct ttm_buffer_object *bo,
+        ^~~~~~~~~~~~~~~
+
+
+vim +/ttm_bo_populate +1147 drivers/gpu/drm/xe/xe_bo.c
+
+00c8efc3180f0c Thomas Hellström 2025-03-05  1096  
+36919ebeaacab3 Matthew Auld     2023-04-06  1097  /**
+36919ebeaacab3 Matthew Auld     2023-04-06  1098   * xe_bo_evict_pinned() - Evict a pinned VRAM object to system memory
+36919ebeaacab3 Matthew Auld     2023-04-06  1099   * @bo: The buffer object to move.
+36919ebeaacab3 Matthew Auld     2023-04-06  1100   *
+75fd04f276de31 Nitin Gote       2025-01-06  1101   * On successful completion, the object memory will be moved to system memory.
+36919ebeaacab3 Matthew Auld     2023-04-06  1102   *
+36919ebeaacab3 Matthew Auld     2023-04-06  1103   * This is needed to for special handling of pinned VRAM object during
+36919ebeaacab3 Matthew Auld     2023-04-06  1104   * suspend-resume.
+36919ebeaacab3 Matthew Auld     2023-04-06  1105   *
+36919ebeaacab3 Matthew Auld     2023-04-06  1106   * Return: 0 on success. Negative error code on failure.
+36919ebeaacab3 Matthew Auld     2023-04-06  1107   */
+36919ebeaacab3 Matthew Auld     2023-04-06  1108  int xe_bo_evict_pinned(struct xe_bo *bo)
+36919ebeaacab3 Matthew Auld     2023-04-06  1109  {
+36919ebeaacab3 Matthew Auld     2023-04-06  1110  	struct ttm_place place = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1111  		.mem_type = XE_PL_TT,
+36919ebeaacab3 Matthew Auld     2023-04-06  1112  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1113  	struct ttm_placement placement = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1114  		.placement = &place,
+36919ebeaacab3 Matthew Auld     2023-04-06  1115  		.num_placement = 1,
+36919ebeaacab3 Matthew Auld     2023-04-06  1116  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1117  	struct ttm_operation_ctx ctx = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1118  		.interruptible = false,
+6bd49cc1a8924c Thomas Hellström 2024-10-31  1119  		.gfp_retry_mayfail = true,
+36919ebeaacab3 Matthew Auld     2023-04-06  1120  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1121  	struct ttm_resource *new_mem;
+36919ebeaacab3 Matthew Auld     2023-04-06  1122  	int ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1123  
+36919ebeaacab3 Matthew Auld     2023-04-06  1124  	xe_bo_assert_held(bo);
+36919ebeaacab3 Matthew Auld     2023-04-06  1125  
+36919ebeaacab3 Matthew Auld     2023-04-06  1126  	if (WARN_ON(!bo->ttm.resource))
+36919ebeaacab3 Matthew Auld     2023-04-06  1127  		return -EINVAL;
+36919ebeaacab3 Matthew Auld     2023-04-06  1128  
+36919ebeaacab3 Matthew Auld     2023-04-06  1129  	if (WARN_ON(!xe_bo_is_pinned(bo)))
+36919ebeaacab3 Matthew Auld     2023-04-06  1130  		return -EINVAL;
+36919ebeaacab3 Matthew Auld     2023-04-06  1131  
+a19d1db9a3fa89 Matthew Brost    2024-10-31  1132  	if (!xe_bo_is_vram(bo))
+a19d1db9a3fa89 Matthew Brost    2024-10-31  1133  		return 0;
+36919ebeaacab3 Matthew Auld     2023-04-06  1134  
+36919ebeaacab3 Matthew Auld     2023-04-06  1135  	ret = ttm_bo_mem_space(&bo->ttm, &placement, &new_mem, &ctx);
+36919ebeaacab3 Matthew Auld     2023-04-06  1136  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1137  		return ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1138  
+36919ebeaacab3 Matthew Auld     2023-04-06  1139  	if (!bo->ttm.ttm) {
+36919ebeaacab3 Matthew Auld     2023-04-06  1140  		bo->ttm.ttm = xe_ttm_tt_create(&bo->ttm, 0);
+36919ebeaacab3 Matthew Auld     2023-04-06  1141  		if (!bo->ttm.ttm) {
+36919ebeaacab3 Matthew Auld     2023-04-06  1142  			ret = -ENOMEM;
+36919ebeaacab3 Matthew Auld     2023-04-06  1143  			goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1144  		}
+36919ebeaacab3 Matthew Auld     2023-04-06  1145  	}
+36919ebeaacab3 Matthew Auld     2023-04-06  1146  
+fc5d96670eb254 Thomas Hellström 2024-09-11 @1147  	ret = ttm_bo_populate(&bo->ttm, &ctx);
+36919ebeaacab3 Matthew Auld     2023-04-06  1148  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1149  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1150  
+36919ebeaacab3 Matthew Auld     2023-04-06  1151  	ret = dma_resv_reserve_fences(bo->ttm.base.resv, 1);
+36919ebeaacab3 Matthew Auld     2023-04-06  1152  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1153  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1154  
+36919ebeaacab3 Matthew Auld     2023-04-06  1155  	ret = xe_bo_move(&bo->ttm, false, &ctx, new_mem, NULL);
+36919ebeaacab3 Matthew Auld     2023-04-06  1156  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1157  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1158  
+36919ebeaacab3 Matthew Auld     2023-04-06  1159  	return 0;
+36919ebeaacab3 Matthew Auld     2023-04-06  1160  
+36919ebeaacab3 Matthew Auld     2023-04-06  1161  err_res_free:
+36919ebeaacab3 Matthew Auld     2023-04-06  1162  	ttm_resource_free(&bo->ttm, &new_mem);
+36919ebeaacab3 Matthew Auld     2023-04-06  1163  	return ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1164  }
+36919ebeaacab3 Matthew Auld     2023-04-06  1165  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
