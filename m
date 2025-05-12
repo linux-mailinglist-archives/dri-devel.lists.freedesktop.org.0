@@ -2,96 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E1DAB30B5
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 09:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB45AB30C6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 09:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6AB410E138;
-	Mon, 12 May 2025 07:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067B710E2EE;
+	Mon, 12 May 2025 07:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cYuWbnOA";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="mH7tNZWs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C233510E138;
- Mon, 12 May 2025 07:42:58 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-7410c18bb00so4480007b3a.3; 
- Mon, 12 May 2025 00:42:58 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0863B10E2EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 07:52:32 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-440685d6afcso46326405e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 00:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747035778; x=1747640578; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
- b=cYuWbnOAxPJ+L4sidzOdV0Dculq16OP3wmMg5z+7vKOfcFYlZNPPWmkWpXhfORo3rU
- 4q2d+VSbuDNchFB049QHMoZzgr+leE3QLOFgnjFFF2rA4Kxxed5GaDEE8k5EhuQ2E1AO
- WQftZGLCfUe91A0e2od7w0YtchxTBCcoupX4ZwfnO8jYvrh9oBknQQWZTAnvslRsU6eF
- mi0wxMv1JfGvlszePKgNzWE+6SlEKHIRVSMTfJDIVcUHLg87x59Z5htLrw7l/Obyp4WX
- MuCF3W+NOGfpuBYnaa9M3A+TzRTQSfG6uaWtZelgrXvXgsbP9AE/2wLKE1+BiU3Vwecp
- GhBQ==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747036350; x=1747641150;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6dV607UHZMlya+8fS0IcgPOSDSCXxkhRJBLWphOTew=;
+ b=mH7tNZWszaOgjc8guoyL9KQCwlEZTmfLaknqFE/UPkpMCjSxZ31LdVJRisr3ueoO0q
+ vQCZGQUw6NADyxYl9tBAoX2KX6XHi1bCqhhUG0vwXRluC34zrezyXz8VoMaw/nsiihxM
+ 2ZDLyrbojYlsxlTGn+iVc3HQovS/b3jZ/BOGO4mVsXgYh1a1uTev7mW9vg4BZgvrHbVr
+ FkN7DkoCgcWdctzS1nW/SsE6M8HdcUIGIGDHluoqe6DOUZBpB4bCI1MUbTid1cbxEzyT
+ MQNwwySF+zXNpnJ7siXtE7sAalQJ1/prDNjDHYnS443+faXyPS/sYf3grUnmu2Htugyh
+ A39g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747035778; x=1747640578;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
- b=MBSLtKdBktL1r60oA83YZ36FQKQ3pkctwMwVjHMauZcHG9x8k6vdvhhCYDi0sqMhQp
- Fe4+WgZFqpfxTCs6A1xJqli2DznqZTy2reUPlHEaXx6dzv1B98RYCzCsKccX2jAaBRb+
- XDWYn/5M0QABhTWzn6frNv29B9FY9R5a4mMtHVAM1Mi7ChRWcU2mU429XbBnl1PTLq8X
- vpC1edf66NkrtYBZnIPHifgBf4rCEFvE+LgZ11xXm6IYEg4F0oPkFjQL2a9uiTgNlcHq
- adg0HYHpKzBX2Y3qdxncU4vXnBpn+C1AEjmIS2UvWf9q8w1wkJnNN6czmCmObrtUG+2i
- Ow+g==
+ d=1e100.net; s=20230601; t=1747036350; x=1747641150;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6dV607UHZMlya+8fS0IcgPOSDSCXxkhRJBLWphOTew=;
+ b=HPfYSerYuvbrmN3hxP8ThrEW446gW7J1HOY9IdNPxmIWs6/GqyA2AXCbkpcJwuKM53
+ 542rBHUPEeq1KKZUBnYfkteFESpnswDN6i18Aswsc9rS6+0mXu43zOnVwia2HiqxSWiv
+ 9QPSX6asHpysVfj/blgVt2s699dxhboQEnWCOym4Hs6zO7k32hLmgZNTYEr38rbOED9J
+ iU2lRV9DZaj9/fjzim1Yx2OQa7X4ERJHdP+71vXXRq+p4kL0Nxc7s6xllsAvEIHplhag
+ 0kqyKTFIJ+as3q1g0GMULMm9weNgMB6xvPKdsba2tpOeCMRYRGUSiJCVhih7BTRMuto/
+ YLUw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWj1dPwTzC1sDkwvOYDJMDKPWYQ2aIa8Ch5AonflmdIL2pyjUwMdNq0gP0yIeFcFV4VgzIypAkH@lists.freedesktop.org,
- AJvYcCXWsgxRVaECXB2lJ3+F+HnJHL88O3Gnlb5sXkmezrOdOxIgWcahlRGfDfm9t8HdGC7L7H/XByxs5Xbv@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7z8PUu/33mJwzxGlAibJe4mD2cSdawsNwk0LIB+wgqQ4TIuVn
- Xm/2eYZBm77t0xy/jt3ifjWjAgmeZKV+MapDG11QGZFpc6SjCw2Q
-X-Gm-Gg: ASbGncuMuD+wkdJK5DQ31NA6xGL7LYPuokidPMC8Iq/1KBn4K5YANoo591ZshTj7KjO
- FUFCKOGaKGa7gYj5t1rbeVGIM/ir/N7I4Xkm8wN8btSvzUc+L8P9vFZ0lEie9KcgIyXkPCNqxp0
- CKYZgET7fnTXypvbOYfSFI5Trgt+O013Y7p+OCgpKgZIlVB4HphGGgCLTum0176rpWIkZf7DSqW
- L4IY1mz258J9/8GO8cUvgLYk50YyLjUFxc56LIiprIQU9h7hNTiaeGjzlxIpDAMrTnGc0W6J9tk
- TmZRtDqvhJ2pULexUKwgfNnBCeLXF1p25KP0hkb8+yyZL4BnuEM=
-X-Google-Smtp-Source: AGHT+IEM8O9x95BglttkpsX1VYoI4jLWpK+gMFTpf3ZBXg7sxj3iLdI7bWtsrH6IFjYE84LOvjVznA==
-X-Received: by 2002:a05:6a00:190f:b0:740:9a42:a356 with SMTP id
- d2e1a72fcca58-7423bd5544cmr17176473b3a.11.1747035778066; 
- Mon, 12 May 2025 00:42:58 -0700 (PDT)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74237a0d007sm5690848b3a.96.2025.05.12.00.42.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 May 2025 00:42:57 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
- id C0F76420AB0E; Mon, 12 May 2025 14:42:52 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux Media Subsystem <linux-media@vger.kernel.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation/gpu: Disambiguate SPI term
-Date: Mon, 12 May 2025 14:42:16 +0700
-Message-ID: <20250512074215.40928-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+ AJvYcCWz/avKEVZ30XahrI34PyB6EDFkpGsU2EO9wS/h3m1SkHAVAQ91t70elWPejH0mJRQl5r/3lmnrvS4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyV9/SYN1g8QZCRxGWt76PTYAkXqdmpixNJ3HhnJ1p0Z1+skfzS
+ Ys1d8quCl29aghfnfr0ksFab27jCTm7cfT3z9ouIiH4ZjgsrTsy4ElBChZZbp7A=
+X-Gm-Gg: ASbGncvl1zvV/8FLPMbAEJ0BYdP3LbURU20RppDOIbFEPkNMPxkjRG6mZzxBSltsvRt
+ Q+Av2A1+xJ8fHF4A8Uj/Bg/dn0p7WZ2JJGHS0uJ2Y3m/Jd02DxzNaL+/h4l8LK6boAnt22qDuqA
+ gZm7miuLHU/xQMuBgqWzkL6bL+SAmMSNt55MuDUgwdVRvVwv0O9XJWEbe39ZbCP4lde0BlUVTuh
+ jutNtkB072joA865rbDlfzX4p6fOXMsRSqZ69bYBHdiD3YGmJ+7mejPFVPjvCClY55H47LPLchl
+ 3WphrTiUZv4somPO4899G0TnrtJ579jz40p5SayD/NOAW+/O+r+hpn1aoztCoJtOxQ==
+X-Google-Smtp-Source: AGHT+IEcQ2vTdjkVJJfeqWwpeF5uH1q35HnkAVFXZV3V/18SxGeFROcAXX7AmB5sQ2NYa+ldDl7y7Q==
+X-Received: by 2002:a05:600c:b93:b0:442:e109:3032 with SMTP id
+ 5b1f17b1804b1-442e10930dbmr53828855e9.24.1747036350182; 
+ Mon, 12 May 2025 00:52:30 -0700 (PDT)
+Received: from [192.168.0.101] ([81.79.92.254])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442d67ed1c9sm116203075e9.21.2025.05.12.00.52.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 May 2025 00:52:29 -0700 (PDT)
+Message-ID: <a3b3e8d2-ada8-4b34-91d4-e9dc22b83b46@ursulin.net>
+Date: Mon, 12 May 2025 08:52:29 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1452; i=bagasdotme@gmail.com;
- h=from:subject; bh=0Ff/DfdS8SM8W7YuaV5Dll23KaO6sYsRLEZgfh2NHJI=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmKSxutzjK83xzJWfo1+rSB1/66S/XV36er3TApzjA81
- P5Q+o1ARykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACay9wPD/zCXyKlr4lNVHMKL
- ix8lhjNN5fR0bSuV3Kz27HEtX0IMM8P/hPX6hu+LdjKZsbzb95rhbZH7R/+Cnk8pWqH2DAtMGY8
- zAwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Fix UAF in drm_sched_fence_get_timeline_name()
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250509212936.490048-1-robdclark@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250509212936.490048-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,41 +97,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation/userspace-api/media/glossary.rst:170: WARNING: duplicate term description of SPI, other instance in gpu/amdgpu/amdgpu-glossary
 
-That's because SPI of amdgpu (Shader Processor Input) shares the same
-global glossary term as SPI of media subsystem (which is Serial
-Peripheral Interface Bus). Disambiguate the former from the latter to
-fix the warning.
+On 09/05/2025 22:29, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The fence can outlive the sched, so it is not safe to dereference the
+> sched in drm_sched_fence_get_timeline_name()
 
-Note that adding context qualifiers in the term is strictly necessary
-in order to make Sphinx happy.
+Funny I've been working in the same problem space:
 
-Fixes: dd3d035a7838 ("Documentation/gpu: Add new entries to amdgpu glossary")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250509185845.60bf5e7b@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Also Cc: media maintainers.
+See 
+https://lore.kernel.org/dri-devel/20250509153352.7187-1-tvrtko.ursulin@igalia.com/
 
- Documentation/gpu/amdgpu/amdgpu-glossary.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/scheduler/sched_fence.c |  3 ++-
+>   include/drm/gpu_scheduler.h             | 11 +++++++++++
+>   2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index e971528504a5..4e529c3ba6d4 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -92,7 +92,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+>   static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
+>   {
+>   	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+> -	return (const char *)fence->sched->name;
+> +	return fence->name;
+>   }
+>   
+>   static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
+> @@ -226,6 +226,7 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+>   	unsigned seq;
+>   
+>   	fence->sched = entity->rq->sched;
+> +	fence->name  = fence->sched->name;
+>   	seq = atomic_inc_return(&entity->fence_seq);
+>   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>   		       &fence->lock, entity->fence_context, seq);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 0ae108f6fcaf..d830ffe083f1 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -295,6 +295,9 @@ struct drm_sched_fence {
+>           /**
+>            * @sched: the scheduler instance to which the job having this struct
+>            * belongs to.
+> +         *
+> +         * Some care must be taken as to where the sched is derefed, as the
+> +         * fence can outlive the sched.
+>            */
+>   	struct drm_gpu_scheduler	*sched;
+>           /**
+> @@ -305,6 +308,14 @@ struct drm_sched_fence {
+>            * @owner: job owner for debugging
+>            */
+>   	void				*owner;
+> +
+> +	/**
+> +	 * @name: the timeline name
+> +	 *
+> +	 * This comes from the @sched, but since the fence can outlive the
+> +	 * sched, we need to keep our own copy.
+> +	 */
+> +	const char			*name;
 
-diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-index 2040da593b1490..30812d9d53c645 100644
---- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-+++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-@@ -182,7 +182,7 @@ we have a dedicated glossary for Display Core at
-     SMU/SMC
-       System Management Unit / System Management Controller
- 
--    SPI
-+    SPI (AMDGPU)
-       Shader Processor Input
- 
-     SRLC
+With drivers such as xe, fence->sched can indeed be freed, but so can 
+sched->name, so it is not safe to store a copy of it. AFAICT only safe 
+way is to simply give up on the real names for signalled fences.
 
-base-commit: afc6053d4c4b0a6be500b9e643aa17221e93a57b
--- 
-An old man doll... just what I always wanted! - Clara
+Could you see if my series fixes the issue in your use case? I *think* 
+by using the driver/timeline name wrappers I did catch all external 
+access points and made them safe.
+
+Regards,
+
+Tvrtko
+
+>   };
+>   
+>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
 
