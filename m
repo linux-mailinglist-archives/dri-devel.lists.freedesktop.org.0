@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438B6AB2F7B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 08:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0311CAB2FAD
+	for <lists+dri-devel@lfdr.de>; Mon, 12 May 2025 08:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACB210E2B5;
-	Mon, 12 May 2025 06:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339CF10E2BF;
+	Mon, 12 May 2025 06:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FE710E2B5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 06:20:08 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-610-8ZdlnH7lPFugSdi1PgcIOw-1; Mon,
- 12 May 2025 02:20:04 -0400
-X-MC-Unique: 8ZdlnH7lPFugSdi1PgcIOw-1
-X-Mimecast-MFC-AGG-ID: 8ZdlnH7lPFugSdi1PgcIOw_1747030802
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BFD601800877; Mon, 12 May 2025 06:20:02 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.70])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id EB28519560B0; Mon, 12 May 2025 06:19:57 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org, tj@kernel.org, christian.koenig@amd.com,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
-Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: [PATCH 7/7] nouveau: add memcg integration
-Date: Mon, 12 May 2025 16:12:13 +1000
-Message-ID: <20250512061913.3522902-8-airlied@gmail.com>
-In-Reply-To: <20250512061913.3522902-1-airlied@gmail.com>
-References: <20250512061913.3522902-1-airlied@gmail.com>
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1584410E2BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 06:34:22 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id
+ ca18e2360f4ac-85b3888569bso386758639f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 May 2025 23:34:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747031661; x=1747636461;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aY4YPekFezEFOenoNv7QvnHL9ecGgH1YuNNn9+bqEQM=;
+ b=I7ZXgxGBS3w0tALkO0EKeGHJqMDFAAGjvAmUHcsV/aW/Tl9QIZdjGeuqtbFTfVxHeY
+ OvqVxKFlVTCiULE9ERSTjzx6nV/wBGOVkHfWIsg0IhHZpahPatzhw2VF/iLTrCENI7Tw
+ boGnJ8uWdEVZuGJHWJyP9vmmoMpEnrodUxU0QTAKxnda1W7v7Nzg5jOnxio8cEk3jX7r
+ eiku3L9IXz9WHAmCHg0K0vJiy0yiPDcC6Cy4L9j4mhXkVnBDpmshkh1fktj++LT+nEjU
+ JSajoPUOIjzi099TAwpAKHM6p2FW/M7gbimjrbcbxDSlFtLQQzunHQ1j8jijtlTA0U+U
+ 9+Vg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIF+bNvhWi0SfP3frvSNCzsnI361iC8L29qXoeW0prenbO0mD7zTTvcVU/LnpmS9p1ir8S4WaeGIU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyxFKz8C/3iratpnJcpfASwMkveHb7cAjo+6J08dJ6J9vTbamFR
+ 3p9O0fR77FMhPM9LrlrCvOYYQfZTizmJqJCWn0r9UggA9AzIV8ATet0zlNtvNrov4TM3ARb9HE/
+ 0osHA/G9+vtSd/LDvXd/Fwd5z31L/0yH9EFnEk4GnKe6dB6kem97QjBQ=
+X-Google-Smtp-Source: AGHT+IE/gq9tU8dDX0ASPqGXpdsRLrai6u1l1DaPlmIX4+KOGGG7M7zAz8Nc88V/zx5bwevHNOlj5Q/7zqSuQmQo1RVVNZ6/iRgI
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: q-w2PZN0GPrv7B4iQ1sPbkIEXd25c8Kl2zRDj12NKkM_1747030802
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+X-Received: by 2002:a05:6602:3fca:b0:867:16f4:5254 with SMTP id
+ ca18e2360f4ac-8676445406dmr1255531439f.6.1747031661405; Sun, 11 May 2025
+ 23:34:21 -0700 (PDT)
+Date: Sun, 11 May 2025 23:34:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6821966d.050a0220.f2294.0051.GAE@google.com>
+Subject: [syzbot] Monthly fbdev report (May 2025)
+From: syzbot <syzbot+listee2134ca234fc0c46f91@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +62,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+Hello fbdev maintainers/developers,
 
-This just adds the memcg init and memcg placement flag support.
+This is a 31-day syzbot report for the fbdev subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/fbdev
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 6 issues are still open and 25 have already been fixed.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 1393    Yes   KASAN: vmalloc-out-of-bounds Write in imageblit (4)
+                  https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
+<2> 123     Yes   KASAN: slab-out-of-bounds Read in fbcon_prepare_logo
+                  https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
+<3> 18      Yes   KASAN: global-out-of-bounds Read in bit_putcs (3)
+                  https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c  | 5 +++--
- drivers/gpu/drm/nouveau/nouveau_gem.c | 2 ++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau=
-/nouveau_bo.c
-index 2016c1e7242f..6bd8d9ed9f35 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -450,13 +450,13 @@ nouveau_bo_placement_set(struct nouveau_bo *nvbo, uin=
-t32_t domain,
- =09if (domain & NOUVEAU_GEM_DOMAIN_GART) {
- =09=09pl[*n].mem_type =3D TTM_PL_TT;
- =09=09pl[*n].flags =3D busy & NOUVEAU_GEM_DOMAIN_GART ?
--=09=09=09TTM_PL_FLAG_FALLBACK : 0;
-+=09=09=09TTM_PL_FLAG_FALLBACK : TTM_PL_FLAG_MEMCG;
- =09=09(*n)++;
- =09}
- =09if (domain & NOUVEAU_GEM_DOMAIN_CPU) {
- =09=09pl[*n].mem_type =3D TTM_PL_SYSTEM;
- =09=09pl[*n].flags =3D busy & NOUVEAU_GEM_DOMAIN_CPU ?
--=09=09=09TTM_PL_FLAG_FALLBACK : 0;
-+=09=09=09TTM_PL_FLAG_FALLBACK : TTM_PL_FLAG_MEMCG;
- =09=09(*n)++;
- =09}
-=20
-@@ -814,6 +814,7 @@ nouveau_bo_evict_flags(struct ttm_buffer_object *bo, st=
-ruct ttm_placement *pl)
- =09case TTM_PL_VRAM:
- =09=09nouveau_bo_placement_set(nvbo, NOUVEAU_GEM_DOMAIN_GART,
- =09=09=09=09=09 NOUVEAU_GEM_DOMAIN_CPU);
-+=09=09nvbo->placements[0].flags &=3D ~TTM_PL_FLAG_MEMCG;
- =09=09break;
- =09default:
- =09=09nouveau_bo_placement_set(nvbo, NOUVEAU_GEM_DOMAIN_CPU, 0);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouvea=
-u/nouveau_gem.c
-index 67e3c99de73a..56899c89bdd8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -87,6 +87,7 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
- =09=09return;
- =09}
-=20
-+=09mem_cgroup_put(nvbo->bo.memcg);
- =09ttm_bo_put(&nvbo->bo);
-=20
- =09pm_runtime_mark_last_busy(dev);
-@@ -254,6 +255,7 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int =
-align, uint32_t domain,
- =09if (IS_ERR(nvbo))
- =09=09return PTR_ERR(nvbo);
-=20
-+=09nvbo->bo.memcg =3D get_mem_cgroup_from_mm(current->mm);
- =09nvbo->bo.base.funcs =3D &nouveau_gem_object_funcs;
- =09nvbo->no_share =3D domain & NOUVEAU_GEM_DOMAIN_NO_SHARE;
-=20
---=20
-2.49.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
