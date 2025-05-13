@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07688AB56BB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 16:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A03AB56D8
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 16:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A1410E5AD;
-	Tue, 13 May 2025 14:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE60810E39F;
+	Tue, 13 May 2025 14:17:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JcimUHHe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PjgZNt+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5F910E39F;
- Tue, 13 May 2025 14:07:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C3BB8629CC;
- Tue, 13 May 2025 14:07:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96748C4CEE4;
- Tue, 13 May 2025 14:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747145259;
- bh=XQ0PtISiJMgGCU3R2QWS6wlTIRUGPytrW2EX30D6e7g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JcimUHHeGhjNh5Mvyn/0+mHwha12SUXq/bzqXiYCaJvDlyuvWqt5KhUbpdrbCcH1/
- cT4Ehy28S5fCuVFxcz3E5GAB1gT6MgG9pHEoCq1C3akgfeedYk/M6HimsJy//j/8Wf
- 428iF63D62aPQNlw/15ArDhPmQThH3Pfq57e6BMIh8CUSsxcZGE+8PeUErxlA5xgZk
- iG6c3C5A8FoCUWOOuzOxJztvCcwyUxWp7D3DM+1n1blv+9tbr3fgJrR5PxzEVAk72I
- 1Ayo4c+kYTMQP/ARFFCd0lrwBktjRgmvTRTQtNDvYHmQ2lREVnC2PuY4Q1AjZIOzxp
- 98STD1WVLgZ1Q==
-Date: Tue, 13 May 2025 16:07:31 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 09/19] gpu: nova-core: wait for GFW_BOOT completion
-Message-ID: <aCNSI1iwvK8w51oJ@pollux>
-References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
- <20250507-nova-frts-v3-9-fcb02749754d@nvidia.com>
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+ [209.85.166.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCF810E1F6;
+ Tue, 13 May 2025 14:17:06 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id
+ e9e14a558f8ab-3d9189e9a06so23610245ab.2; 
+ Tue, 13 May 2025 07:17:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747145826; x=1747750626; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V7JvgoF1myyPp51kXMFO7KeBiBPtIqWZF4DhsDiCmkU=;
+ b=PjgZNt+N1VfW8wUM+1XbLit2sSXQEgrPt4BaAoM35xnVK+nayazMQ0T7Ys9/y9oNL1
+ Ta638qUoDsMPQ/m7ICe282xSCUyJzs4jbap/VkN7jceUFfaRJGy95tOHNQt0Pll+HUuM
+ I3ASZu/6yQPYK1gjitxPYbfvY133dlli9A5Lc+abE5L4jpP/lHDTZY0QmvDDODzgMCaG
+ /PfGlxmLvFu1BGaPMl/ml9CEOEjpkPL1TIrIu5KPw2b7ZE3W/r1f/LdaaavmUD4zCl1e
+ q3pqN+Zv+GzuX5ZDAfLR+0udWV9nXJs9yna+0dLENGmGnvStsE3YrAVmbiudhxxfLeBD
+ eYzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747145826; x=1747750626;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=V7JvgoF1myyPp51kXMFO7KeBiBPtIqWZF4DhsDiCmkU=;
+ b=rJs52xJFyGi5Xymf2U/NhRX6/GmefyKpF/PbWgsZBNVDGb+hZEMTpZTmR87EcwpLzq
+ XFRQq5REBRZVTswRia1yE8+kSar9BixgH35PTVGDHhihHn0wdG/5qECt86DfMgOT+zaH
+ ObvLt2p8/TdrIuPjqbIRTuTUUOJ/T+v+UiA2URPJnw/fYCeP30kva3CgezW3UL47/aoI
+ lOYjtxOHkNfwpnZYaETubjrHvHndzblMQj4yMQbEfBouwEPoU/droaDYmp08QTxlHDDh
+ ZAscI8CVQQtsnja+oc0/Qxe1OGqhD5sSJOAXRswj41r7PPxuHPyzkh7vS+B2KRDyerqY
+ w9Fw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVa540366YDfHmbMafyJs+LLDuWeek1tGF3ZXZzVKVCLtavygsP8qKyrP1FR+yBcwEfhfPiKjX7jipm@lists.freedesktop.org,
+ AJvYcCWNInJlmAz8ZXo2KYbpEd8krWi0fAYNj61PJ+nYGmHAI9/r4T8yj7ulc5iFjwT0Vq/RwixtZBn9TSM=@lists.freedesktop.org,
+ AJvYcCX8e3XSZGabpeC+npwVnc1nJ//c4Vus1pZrcktM5l8pPWOHPxSJCFoPg3T7E4YX9N1b/yrCe6nI@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxItqcEXjadxMDtlbxgmjeKqAuhYgn5D2o3lphFDT59duLtvPX1
+ ATVp8oV9WZ8C2xCkcAsFVtMOH9F/IZuNsw4XKN+A4KAzZ/Z0pCGFR45zViPriI221xmKTDIIywH
+ BNEhdQtrL/4sVn9Ppsgqxt6zzbnQ=
+X-Gm-Gg: ASbGnctnVJgWqTOPLsETAz6dq7Kjyphr38CSeeBW1Ns+QLnqPYTzGe1Vu3zedlOyjMV
+ E6Cz71spr0lGruXC3HWpTm+GLyd8OUMmE1HkVep/wqeIgY1puY1gvHUqePJd3tmTfyF3WnYUO9I
+ xwWZSsQ6bblElbXKOmWo+2hy4WerI0pYtX9AtRrh5r0zbV5lkvbkcK/d178carzIk=
+X-Google-Smtp-Source: AGHT+IGiTGnKZsysreFCsBlhWepL/hQV58J2zh5LT1gGazMVzNwO9kv9W4HW2fzPjKZ0XABsGEeKFoY6ux7cVV7hQFM=
+X-Received: by 2002:a05:6e02:2292:b0:3d6:cd54:ba53 with SMTP id
+ e9e14a558f8ab-3da7e21658cmr209314645ab.22.1747145825748; Tue, 13 May 2025
+ 07:17:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507-nova-frts-v3-9-fcb02749754d@nvidia.com>
+References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
+ <20250509153352.7187-11-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250509153352.7187-11-tvrtko.ursulin@igalia.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 13 May 2025 07:16:53 -0700
+X-Gm-Features: AX0GCFuH1j40yQO1HsIKDsTCJ5uHO4NcgonBSju0wMc3XxKpk3t9K9r-1vi2EhU
+Message-ID: <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
+Subject: Re: [RFC v2 10/13] dma-fence: Add safe access helpers and document
+ the rules
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ kernel-dev@igalia.com, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,84 +94,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 07, 2025 at 10:52:36PM +0900, Alexandre Courbot wrote:
-> Upon reset, the GPU executes the GFW_BOOT firmware in order to
-> initialize its base parameters such as clocks. The driver must ensure
-> that this step is completed before using the hardware.
-> 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+On Fri, May 9, 2025 at 8:34=E2=80=AFAM Tvrtko Ursulin <tvrtko.ursulin@igali=
+a.com> wrote:
+>
+> Dma-fence objects currently suffer from a potential use after free proble=
+m
+> where fences exported to userspace and other drivers can outlive the
+> exporting driver, or the associated data structures.
+>
+> The discussion on how to address this concluded that adding reference
+> counting to all the involved objects is not desirable, since it would nee=
+d
+> to be very wide reaching and could cause unloadable drivers if another
+> entity would be holding onto a signaled fence reference potentially
+> indefinitely.
+>
+> This patch enables the safe access by introducing and documenting a
+> contract between fence exporters and users. It documents a set of
+> contraints and adds helpers which a) drivers with potential to suffer fro=
+m
+> the use after free must use and b) users of the dma-fence API must use as
+> well.
+>
+> Premise of the design has multiple sides:
+>
+> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
+> signalling a fence and freeing the driver private data associated with it=
+.
+>
+> The grace period does not have to follow the signalling immediately but
+> HAS to happen before data is freed.
+>
+> 2. Users of the dma-fence API marked with such requirement MUST contain
+> the complete access to the data within a single code block guarded by the
+> new dma_fence_access_begin() and dma_fence_access_end() helpers.
+>
+> The combination of the two ensures that whoever sees the
+> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
+> valid fence->lock and valid data potentially accessed by the fence->ops
+> virtual functions, until the call to dma_fence_access_end().
+>
+> 3. Module unload (fence->ops) disappearing is for now explicitly not
+> handled. That would required a more complex protection, possibly needing
+> SRCU instead of RCU to handle callers such as dma_fence_wait_timeout(),
+> where race between dma_fence_enable_sw_signaling, signalling, and
+> dereference of fence->ops->wait() would need a sleeping SRCU context.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > ---
->  drivers/gpu/nova-core/devinit.rs   | 38 ++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/nova-core/driver.rs    |  2 +-
->  drivers/gpu/nova-core/gpu.rs       |  5 +++++
->  drivers/gpu/nova-core/nova_core.rs |  1 +
->  drivers/gpu/nova-core/regs.rs      | 11 +++++++++++
->  5 files changed, 56 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/nova-core/devinit.rs b/drivers/gpu/nova-core/devinit.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..5be2e0344fb651e5e53c9223aefeb5b2d95b8de1
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/devinit.rs
-> @@ -0,0 +1,38 @@
-> +// SPDX-License-Identifier: GPL-2.0
+>  drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-fence.h   | 32 ++++++++++++-----
+>  2 files changed, 93 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index dc2456f68685..cfe1d7b79c22 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -533,6 +533,7 @@ void dma_fence_release(struct kref *kref)
+>         struct dma_fence *fence =3D
+>                 container_of(kref, struct dma_fence, refcount);
+>
+> +       dma_fence_access_begin();
+>         trace_dma_fence_destroy(fence);
+>
+>         if (WARN(!list_empty(&fence->cb_list) &&
+> @@ -560,6 +561,8 @@ void dma_fence_release(struct kref *kref)
+>                 fence->ops->release(fence);
+>         else
+>                 dma_fence_free(fence);
 > +
-> +//! Methods for device initialization.
-> +
-> +use kernel::bindings;
-> +use kernel::prelude::*;
-> +
-> +use crate::driver::Bar0;
-> +use crate::regs;
-> +
-> +/// Wait for devinit FW completion.
-> +///
-> +/// Upon reset, the GPU runs some firmware code to setup its core parameters. Most of the GPU is
-> +/// considered unusable until this step is completed, so it must be waited on very early during
-> +/// driver initialization.
-> +pub(crate) fn wait_gfw_boot_completion(bar: &Bar0) -> Result<()> {
-> +    let mut timeout = 2000;
-> +
-> +    loop {
-> +        let gfw_booted = regs::NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK::read(bar)
-> +            .read_protection_level0()
-> +            && (regs::NV_PGC6_AON_SECURE_SCRATCH_GROUP_05::read(bar).value() & 0xff) == 0xff;
-
-What does it mean when the first 8 bits are set? Why don't we have a mask and
-value to compare for that?
-
-> +
-> +        if gfw_booted {
-> +            return Ok(());
-> +        }
-> +
-> +        if timeout == 0 {
-> +            return Err(ETIMEDOUT);
-> +        }
-> +        timeout -= 1;
-
-NIT: This means the timeout is ~4s; can we start with timeout == 4000 and decrement
-with the number of ms passed to msleep()?
-
-Anyways, this should go away with read_poll_timeout() anyways.
-
-> +
-> +        // TODO: use `read_poll_timeout` once it is available.
-> +        // (https://lore.kernel.org/lkml/20250220070611.214262-8-fujita.tomonori@gmail.com/)
-> +        // SAFETY: msleep should be safe to call with any parameter.
-> +        unsafe { bindings::msleep(2) };
-> +    }
-> +}
-> diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-> index a08fb6599267a960f0e07b6efd0e3b6cdc296aa4..752ba4b0fcfe8d835d366570bb2f807840a196da 100644
-> --- a/drivers/gpu/nova-core/driver.rs
-> +++ b/drivers/gpu/nova-core/driver.rs
-> @@ -10,7 +10,7 @@ pub(crate) struct NovaCore {
->      pub(crate) gpu: Gpu,
+> +       dma_fence_access_end();
 >  }
->  
-> -const BAR0_SIZE: usize = 8;
-> +const BAR0_SIZE: usize = 0x1000000;
+>  EXPORT_SYMBOL(dma_fence_release);
+>
+> @@ -982,11 +985,13 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+>   */
+>  void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>  {
+> +       dma_fence_access_begin();
+>         seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+>                    dma_fence_driver_name(fence),
+>                    dma_fence_timeline_name(fence),
+>                    fence->seqno,
+>                    dma_fence_is_signaled(fence) ? "" : "un");
+> +       dma_fence_access_end();
+>  }
+>  EXPORT_SYMBOL(dma_fence_describe);
+>
+> @@ -1033,3 +1038,67 @@ dma_fence_init64(struct dma_fence *fence, const st=
+ruct dma_fence_ops *ops,
+>         __set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
+>  }
+>  EXPORT_SYMBOL(dma_fence_init64);
+> +
+> +/**
+> + * dma_fence_driver_name - Access the driver name
+> + * @fence: the fence to query
+> + *
+> + * Returns a driver name backing the dma-fence implementation.
+> + *
+> + * IMPORTANT CONSIDERATION:
+> + * Dma-fence contract stipulates that access to driver provided data (da=
+ta not
+> + * directly embedded into the object itself), such as the &dma_fence.loc=
+k and
+> + * memory potentially accessed by the &dma_fence.ops functions, is forbi=
+dden
+> + * after the fence has been signalled. Drivers are allowed to free that =
+data,
+> + * and some do.
+> + *
+> + * To allow safe access drivers are mandated to guarantee a RCU grace pe=
+riod
+> + * between signalling the fence and freeing said data.
+> + *
+> + * As such access to the driver name is only valid inside a RCU locked s=
+ection.
+> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block =
+guarded
+> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+> + */
+> +const char *dma_fence_driver_name(struct dma_fence *fence)
+> +{
+> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> +                        "rcu_read_lock() required for safe access to ret=
+urned string");
+> +
+> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +               return fence->ops->get_driver_name(fence);
+> +       else
+> +               return "detached-driver";
+> +}
+> +EXPORT_SYMBOL(dma_fence_driver_name);
+> +
+> +/**
+> + * dma_fence_timeline_name - Access the timeline name
+> + * @fence: the fence to query
+> + *
+> + * Returns a timeline name provided by the dma-fence implementation.
+> + *
+> + * IMPORTANT CONSIDERATION:
+> + * Dma-fence contract stipulates that access to driver provided data (da=
+ta not
+> + * directly embedded into the object itself), such as the &dma_fence.loc=
+k and
+> + * memory potentially accessed by the &dma_fence.ops functions, is forbi=
+dden
+> + * after the fence has been signalled. Drivers are allowed to free that =
+data,
+> + * and some do.
+> + *
+> + * To allow safe access drivers are mandated to guarantee a RCU grace pe=
+riod
+> + * between signalling the fence and freeing said data.
+> + *
+> + * As such access to the driver name is only valid inside a RCU locked s=
+ection.
+> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block =
+guarded
+> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
+> + */
+> +const char *dma_fence_timeline_name(struct dma_fence *fence)
+> +{
+> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> +                        "rcu_read_lock() required for safe access to ret=
+urned string");
+> +
+> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +               return fence->ops->get_driver_name(fence);
+> +       else
+> +               return "signaled-timeline";
 
-This means that we'll fail probing the card if BAR0 is not at least 16MiB.
-AFAIK, that should be fine. However, can you make this a separate patch please?
+This means that trace_dma_fence_signaled() will get the wrong
+timeline/driver name, which probably screws up perfetto and maybe
+other tools.
+
+Maybe it would work well enough just to move the
+trace_dma_fence_signaled() call ahead of the test_and_set_bit()?  Idk
+if some things will start getting confused if they see that trace
+multiple times.
+
+Maybe a better solution would be to add a new bit for this purpose,
+which is set after the tracepoint in
+dma_fence_signal_timestamp_locked().
+
+(trace_dma_fence_destroy() will I guess be messed up regardless.. it
+doesn't look like perfetto cares about this tracepoint, so maybe that
+is ok.  It doesn't seem so useful.)
+
+BR,
+-R
+
+
+> +}
+> +EXPORT_SYMBOL(dma_fence_timeline_name);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index c814a86087f8..c8a9915eb360 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -387,15 +387,31 @@ bool dma_fence_remove_callback(struct dma_fence *fe=
+nce,
+>                                struct dma_fence_cb *cb);
+>  void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>
+> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
+> -{
+> -       return fence->ops->get_driver_name(fence);
+> -}
+> +/**
+> + * DOC: Safe external access to driver provided object members
+> + *
+> + * All data not stored directly in the dma-fence object, such as the
+> + * &dma_fence.lock and memory potentially accessed by functions in the
+> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been s=
+ignalled
+> + * because after that point drivers are allowed to free it.
+> + *
+> + * All code accessing that data via the dma-fence API (or directly, whic=
+h is
+> + * discouraged), MUST make sure to contain the complete access within a
+> + * &dma_fence_access_begin and &dma_fence_access_end pair.
+> + *
+> + * Some dma-fence API handles this automatically, while other, as for ex=
+ample
+> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
+> + * responsibility to the caller.
+> + *
+> + * To enable this scheme to work drivers MUST ensure a RCU grace period =
+elapses
+> + * between signalling the fence and freeing the said data.
+> + *
+> + */
+> +#define dma_fence_access_begin rcu_read_lock
+> +#define dma_fence_access_end   rcu_read_unlock
+>
+> -static inline const char *dma_fence_timeline_name(struct dma_fence *fenc=
+e)
+> -{
+> -       return fence->ops->get_timeline_name(fence);
+> -}
+> +const char *dma_fence_driver_name(struct dma_fence *fence);
+> +const char *dma_fence_timeline_name(struct dma_fence *fence);
+>
+>  /**
+>   * dma_fence_is_signaled_locked - Return an indication if the fence
+> --
+> 2.48.0
+>
