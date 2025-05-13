@@ -2,59 +2,212 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85D8AB5939
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 18:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DD0AB596E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 18:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8176510E0E1;
-	Tue, 13 May 2025 16:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C8F10E167;
+	Tue, 13 May 2025 16:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dQHbYQrB";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ZD1BfDTe";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="e11g6n5C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B1D10E0BD;
- Tue, 13 May 2025 16:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=gJIVCwcInRwehnXb2MseJ+x/KJMF2AkpWIP64+9mIeo=; b=dQHbYQrB6A3PFjNgYhUKcjNiKM
- TGB/lVJSCsBbC2dYYBhLSg/hQKHjrCqve1vS9Whsd3/oJY+AsJ31/kw75Y5F2QkKRHdSopHXU9VYZ
- Vg7+gUTwCHI6keCOC1axcggrUkhFOEb+8CENS/PRHJI7SNc3olc7r0dgHjoeTUmWRYDR8IA6EiLUe
- +h8S0q1dNjq+IIxmuR3DhB/JX+WQjJ9QaPyTHxMBEyok4+Q2Uwgdg/ODT5nIYNFhlYY75GN4ayCQw
- aE2Ck+KCkcx8aPIumFUaWsGBI/PmsD66v9ORo0TJeaGuxJ9d2Kw6PmyPfQHJeGSLCBhsSWCmj6P0D
- exoBPipg==;
-Received: from [189.6.16.79] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uErxZ-007giy-Cp; Tue, 13 May 2025 18:00:00 +0200
-Date: Tue, 13 May 2025 12:59:39 -0300
-From: Melissa Wen <mwen@igalia.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com, 
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- contact@emersion.fr, 
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, 
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, 
- Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH V9 00/43] Color Pipeline API w/ VKMS
-Message-ID: <y4jxopbjnrq63ovk3rd2gole3nlkvgpm2mordkj5abpp6xyk5j@7s2wvycg4yeu>
-References: <20250430011115.223996-1-alex.hung@amd.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA3310E167
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 16:11:48 +0000 (UTC)
+X-UUID: f6c72518301411f0813e4fe1310efc19-20250514
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=U2QFsUgLVROJKmSuaVps5oKUerCfjgv8pGJn7++zB8c=; 
+ b=ZD1BfDTeRi23BIkdzT3wP3IuteXrmL1GzCHbfIaE7qiV4Fg4g86Vj53/1XwS3ZvNBtw/7Bw7FisM6Eyil8vrFin56YKZpS8qhz8Q8P8NPcxVua3NJv20Yyj/PmC3zk6+XEV1bNOCRZwdSd697SYkl02AFcfNmBn0WlEdbZ7j9wI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1, REQID:0ce44630-e438-45cb-ad42-0d4a9a392c14, IP:0,
+ UR
+ L:0,TC:0,Content:2,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:2
+X-CID-META: VersionHash:0ef645f, CLOUDID:fc4c7b51-76c0-4e62-bb75-246dfb0889c6,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111,TC:nil,Conte
+ nt:4|51,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+ OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: f6c72518301411f0813e4fe1310efc19-20250514
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ mailgw01.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1917769396; Wed, 14 May 2025 00:11:44 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Wed, 14 May 2025 00:11:42 +0800
+Received: from OS8PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Wed, 14 May 2025 00:11:43 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Hb3XTI0OImiEHYkBIGvxBfunjZYLInn9jkxNYO6A/OmXKv//hpejZUGmfO466FT0PBpBebB6VEIRvbLmcqA+usGDzXn1868MssgNL572aGLYr8YmO8e0zSmIq9X3lWI9rgIxXaTLIhgb1rP3b9lJW62khf1f7RD2LB4LjtBxNXpQnjrvS0UBDbKwUOOWXafetxFQaRqo/lb7GJLyu84I36c4PK/Q4zapzUK2rgi1YG8vu0yWrwYKXqSS/XTd/AarQPy0tgIg7mlQsaUfTOlyslv70dBURpPAXu5CMa7UzQIOlOi+22XIzftFS4zD1EgzVA/IdQQ9ibbRDc9RL3bNow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KaPSAehZzSVf7VOBn+zkWhkwoLUZr0p4ed0mpEH0wAg=;
+ b=XjFwKsrMfkqGI666D1b8dviMHw7QbBdCzvIpgQaibf2rLDnzZmEw/MLbvN36wfRI4HLjs8ge+c0WZmz8x9usUUNA4N4MbafSJt9CCu1YrAHI1n+HLs+NpVc/W74m2+zQYOlTdJRos93nKO4uHrZ+Prv3s2ZdyHgRNJhNo0x0CBF7aUz8nlKi7c0tnzfOYDrHGAnzU0aBUcFDUvRaF8VJk+qn4no4Exs7RIrBcSY9VFCK4yWle56wS3DrChi5mOhlZFrtAvHbM6oovFrbT+7TxPrZcM8D9HORwsV9iqt1cUZXG5S/2iPDMO/gobnekSbEvoKwKraWQhwHEumx/9aGEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KaPSAehZzSVf7VOBn+zkWhkwoLUZr0p4ed0mpEH0wAg=;
+ b=e11g6n5CwATJsjUzV0pgYPw1x3qRgjfZoAploiosD1yuEO73sr4yznsgelhsfvlVkmQZCSkM7cGj9Rl7Qg0PSnzSaAxcGOcpBogxLMJeAQkDM6/olePEMRwJqRg2XOitpRdr/HUsrrVHk4JSrpN0gPJMIck4iUxwZFqBSjsgPEs=
+Received: from SG2PR03MB6636.apcprd03.prod.outlook.com (2603:1096:4:1b8::6) by
+ TY1PPF4D0176D00.apcprd03.prod.outlook.com (2603:1096:408::a53) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.29; Tue, 13 May 2025 16:11:39 +0000
+Received: from SG2PR03MB6636.apcprd03.prod.outlook.com
+ ([fe80::98e8:d61:f404:4052]) by SG2PR03MB6636.apcprd03.prod.outlook.com
+ ([fe80::98e8:d61:f404:4052%7]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 16:11:38 +0000
+From: =?utf-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?= <Paul-pl.Chen@mediatek.com>
+To: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+CC: "conor+dt@kernel.org" <conor+dt@kernel.org>, "robh@kernel.org"
+ <robh@kernel.org>, =?utf-8?B?U3VubnkgU2hlbiAo5rKI5aeN5aeNKQ==?=
+ <Sunny.Shen@mediatek.com>, =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?=
+ <Sirius.Wang@mediatek.com>, =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>, =?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "treapking@chromium.org" <treapking@chromium.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 14/15] drm/mediatek: Add support for multiple mmsys in
+ the one mediatek-drm driver
+Thread-Topic: [PATCH v2 14/15] drm/mediatek: Add support for multiple mmsys in
+ the one mediatek-drm driver
+Thread-Index: AQHbmkTEVma8fTY0uk2QHt27Jr/h3bODPASAgE3S2oA=
+Date: Tue, 13 May 2025 16:11:38 +0000
+Message-ID: <a917b57f4392e1cba5798d97da4c4b24f1a5e990.camel@mediatek.com>
+References: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
+ <20250321093435.94835-15-paul-pl.chen@mediatek.com>
+ <6bf9d4b3e060461ec491a3703d7ba952f9c5dceb.camel@mediatek.com>
+In-Reply-To: <6bf9d4b3e060461ec491a3703d7ba952f9c5dceb.camel@mediatek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR03MB6636:EE_|TY1PPF4D0176D00:EE_
+x-ms-office365-filtering-correlation-id: 783a5f7e-6359-4b5a-27a6-08dd9238d76d
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7416014|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?Ym43VDVzM1FNNFdUUldWL2VCSmRRTkZJbTZDSDd5TGFZNGNuUW1mYVhESlpl?=
+ =?utf-8?B?YkNDUWs2NTN1WUxlV1ArVnREZ2dwSEpxYlcyOGlkTG9LbVpKNENpUTI2OW1w?=
+ =?utf-8?B?d21yZUpTUDRwRS9UaG40SW9qVUgxemxsUm9GSkRVcXlSK05oSHRTSGNUMUNt?=
+ =?utf-8?B?Yno2TlBVcFlwelM2Y1U0am1JbSsvU1gzaElIVkJUMWpac0pQUVFuZTdLeTJN?=
+ =?utf-8?B?d3NwSnpqZlFlRDNtMEExRzBsd05NdW5tSlVHNDBKNTJIMzZhVE1GRGFqdmdR?=
+ =?utf-8?B?SUJtR0xCR3lXekUxWHlZN2IreTJDNk51VjdSMXFJNGdoRGU5YnhGaXJ5V1FH?=
+ =?utf-8?B?T1JjWlF3NDQ2WXNBK1BJd1o2TUFlbzduNlRTQVhkN25JbXZ1d1F1QlB6cTJl?=
+ =?utf-8?B?Y096WHA3Mlp4aExrWHJJY0FQK0J3VFN0Wjk0d0I4NEdNYUVjeEN0N00za0dL?=
+ =?utf-8?B?MnVTU2FDUEUvU0g5Nk9NZ1FjWlNqZFNwWlhQRm0zWkU1OElkdUlNcGplTnF1?=
+ =?utf-8?B?Tkhrbm9ja0hWUm1ZUWNadEtTOTdKU3FJUSthOHc2K2pQMEpHSWJWVGpodTZh?=
+ =?utf-8?B?MDdrV0M4RDNZUnk0eXMrRGJwT2NMRCtlYWtGRjZRT0dRb1hNa1crSFpRb0VM?=
+ =?utf-8?B?enc0cUEydG1SRG5MZFRDVWt6RzB3WDIrU1N5RENWV2xuU1F6cSsrU29xNFN2?=
+ =?utf-8?B?K05JWitTV0ZlNDZodGJBeEplV1d2WU51dms2OW5CWHN6RzQyblVaNnFSdWJk?=
+ =?utf-8?B?eUZoWkNDM0JoSExZZ01yamVxSjlYSU5hZ1lRK3RXK29RNThQUmlWV3d4UENW?=
+ =?utf-8?B?U0hIV2RqbWFONnJ2R0p4M0psejFTV21SMXc4eFNtWkI0bjBZejRTd2MwWEdW?=
+ =?utf-8?B?MkJYWDc2WENZNy9nMHJzSFY1MU1wbFlxeGw3ZVUwY2R5WFVkSkE5QVl5ZlMx?=
+ =?utf-8?B?YitQQU9UaFZLVnFzTWFWMlJnem1STit1eUlsVnNsV05aaC9ERktQdDRRUFJS?=
+ =?utf-8?B?Y3hXM0VvKzlueUdSTG4vdkNZbHFLT3VRcHNVdE13SFNiUGY2THBQQU4rNjk4?=
+ =?utf-8?B?cStDMVNKT29obE9RaWN2Qm02S2RZallTZ0NlV3FuTkwycTV6ZmpQWm84c3h1?=
+ =?utf-8?B?eW00TkdQVGRKWHJGZnh2VzBTYVJpRFI1Q1pSK01XblY0QTB5eVYxMFovSllH?=
+ =?utf-8?B?bTRaYWxvYmhqR08yVXBjWmIvRTR4V1V0TlB6NTF2dlhkeVp0a0JQaG12VXpD?=
+ =?utf-8?B?M3NQbWJFdVhGK1VlQWxZRDV5N24zWjRRSU9aODZzdEFPUkFueWw0WUJHTGVK?=
+ =?utf-8?B?T3M3TW5SOWhoSXkzcXdYRDFUdGNwcERzMEpGTXRCMldsSlRaS3R2WEUvK1kv?=
+ =?utf-8?B?Q1kvUzN3aVEvdFBrSkorYlJ1bFVTRDBkQXFQcXp0ak9vT3hlWWRtZmdPc1Bl?=
+ =?utf-8?B?Y0hxRTRQZmpQTlZscUsvMkVqWENYSTNEQ0ZJbGxkVUszcHhFcjBBU1E1d1hy?=
+ =?utf-8?B?V0dFdXRQamY1bTg0QmVFQXdFWjdWWUY5cmtpaitxb08zSmV2SXVPUUVZMjY5?=
+ =?utf-8?B?NHdGOFZOa2ZIdUFuMEhPR25IaDZERHZTVHdpWW15NGxlY1UraWxmWGI2c0Rm?=
+ =?utf-8?B?cWRKMzg3MVhsNW9uWm94Tlp1Sis5Zzl2b0lBcjVyaHNMbDFiL3ptT3M5WWpt?=
+ =?utf-8?B?UnVtT21sRC9XbkRseHQwVmpPbm9UZVhaRW1FZ0RsL1AxZklmRkJKSHRzMVpi?=
+ =?utf-8?B?ZE1JM3JKb1ZKV3dBVUxIa1A1eVRRdlB0Y09qUVVaUXQvOTF3Y25nNDhVUUxO?=
+ =?utf-8?B?dWlLVStCYTh4RXBMV1ZVWVlySWJxR1hRai9ycSs5ZGJEN2JzVlF0ZUtWaWJS?=
+ =?utf-8?B?QWtBTFArdGo3YjRwNThJcWZvcU9RU2w1TTJoT2U5VnJwM29qZXM1ZlF3N1NS?=
+ =?utf-8?B?cGtFVERkRFU0UW1OWDU1eUFGTGhzeks4YkRJeUJlbGxseW15MHhGdkpxR21i?=
+ =?utf-8?B?OVFub1UxVTB3PT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR03MB6636.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?anE1ZXp0WWRsNmdQY3ZlTDZyblA5M3YxMk12dmFrVDRHc3VlM1RWbTZIdE01?=
+ =?utf-8?B?b2J0aHdHR1dJNFdGTGZHeXVER2tiVWpDRm5uT0ZPTnhpWkswKzFCeUQ5ZEdY?=
+ =?utf-8?B?dE1JeFdZVFhBY2ZQT0JsRi8wdW9jak5CaGJHbzVpWFFEUFpKSFc5WVZvNTV0?=
+ =?utf-8?B?S1ljYkRVc2VCZ05BNGg0eU90RW5GUlJkS3NWWTd3T2RPd3ZWcE1WSUhWVlUv?=
+ =?utf-8?B?U2VrdERIeHFZaU5xVFJJSi9hdEdSSGdZVFFGQ2x1Ym5KSlZzOTFRVmpDTys3?=
+ =?utf-8?B?ZGltYThKWExKaDRLQ1J1Ykg5MUE0K3hwZ2xlMUIxSGFnN2hic1lUMGxNanJU?=
+ =?utf-8?B?RVV6d21iazg1KzloK2NjSUJud2l4OVNDNlZDL2pxc0ZKNnlTbU82Lyt3K0xl?=
+ =?utf-8?B?UHRML0RDVmVuV3BtSk5HL1ZxVFhkRE91L3VLTkJvR1JrRDRZREowdTBMNE04?=
+ =?utf-8?B?dU54UVd3OTBLZDRYVVNzMkxzL052YUM1cjU0OFdrQi8xN0RROEQ0RXhIRlV6?=
+ =?utf-8?B?bzNyUlhJL2x3SG9GMHRsR21CaFBqUG9QRVhhV1VDdlNFSnh6SjFiVTBHdlpB?=
+ =?utf-8?B?QWdTNVlOUWhXanpVVGRNOGFoZkR5WFgvM1hKQ3p3T3hxZWNReTBUMTlpNEla?=
+ =?utf-8?B?RnB0dTlMZklzaGk1L0RaS0NGSjVPK1RVVGxud0VkZjk3Z2JSWElEOU9Lc0lh?=
+ =?utf-8?B?U3dRbEdnbFhGbXVtVVdlckxaNGU1NC96T2RJL1B3RHB0ZFQ1VCtuWWRpNUFo?=
+ =?utf-8?B?NitjbEZTY3pIdk5qYVpQSmhUZlRtLzVhNytlSFdlZTkrazdaQTJ0T1NjUHMx?=
+ =?utf-8?B?Tjl2RzJuYnZrT2FvbmIyREhMTjd4anpiN09ZMjRQSUJoSDJxY3BJWXR4Ujk4?=
+ =?utf-8?B?aXZIUS9pekFvOFNtQm1ZMGo0YTFKQUFPcFRpaVVud0VxTGJyYlNyS09IU0lJ?=
+ =?utf-8?B?S2ZkZzlDbVJJQy9MVlNhS0lPM0hGY0tWS0Z2aUFISGZTWFQvS0lQYjNSRFM1?=
+ =?utf-8?B?WTA4d0JVbW04QjBieDQ4cFJQRXN3VU01c1k1Rmx2Um0zM0loTXlUVEl3VXds?=
+ =?utf-8?B?OEtSdkNsam9vU0R2NkxSa1VEUXVkb2Q3YXpNUFpsRFdqTTg3V0NIcUJzd2VT?=
+ =?utf-8?B?WWdRN3NDZFZnelJ6cVZJZHdJbllEQ29tWmVldnIzMHN0VDVPNDJJT3M2MFkx?=
+ =?utf-8?B?dGR3Z2x2aExQbzM1UmgyZnFvVVR2TmsrWVBGTXc3MVZPd29qUTVnSC9uVUl5?=
+ =?utf-8?B?WmxqdzM3RDZkVmROcDVFUHhGdkVaM05IKzRlQ0JXR21PQ2p1UjVvTDBpTTJL?=
+ =?utf-8?B?a0N0VkwxVG9DOGdxK3Z4UTdOaFMwcGF1eUVXQWpUb2lIYkYrMEhreGcwZVRD?=
+ =?utf-8?B?emFoVDIxWE9SYXIwblRWK2Z0aE1PUysvZStPTHlNSDFNNTI3aWpuYmJQbE54?=
+ =?utf-8?B?eENLSE9obytxTlpTa0hZTEozdjBDSFVJMG50WmdXL2IvbDBySUlMK0RGbnB5?=
+ =?utf-8?B?SmhHcW5ndUJ6aVB4elA4TXBEZGxJWDZpQkNoK2RVM3V2UTRMK3RTUndnRHZT?=
+ =?utf-8?B?M1hmUnlUdTBLV3VnOGxaUW9ZSFp3MHlWOGtqWEFrQ3pqVTZIZXM1SUhWb0xv?=
+ =?utf-8?B?YzgraC9uTzg0dnhZZ1FNOWxURGREZ2QxZTdReHRHRXJqV1JnRUwyRlZFRmNv?=
+ =?utf-8?B?WnpJc1E1dy9SblUxN0FVOGRRdTZGN2pKMk9ZNGVwTnJ4bFlwSkh5Q1o0SElL?=
+ =?utf-8?B?bjJoSDI1OEY3L211YjVqdjVxUUxYV3Yxck5MNTRBcysrSkNEYms1QVRZUGoz?=
+ =?utf-8?B?TmlJaGRVZTE0bnJRQ2pJWVJNdnNKOVJ5T3pSTi9VNVBIZjc0WlRWbzhML2dV?=
+ =?utf-8?B?dEp5U3JFTkU2ZnVsSWwyQW9tM3FFSFdyQnBBY1ZHbXNVNnhJN29hVU9tZGh1?=
+ =?utf-8?B?MXYwNXBKRW5wMjFlallSaGIyQzczYURzTFNpenNad0pqOUpTdDVvdzZxdXFY?=
+ =?utf-8?B?QkNqVER4YVUwTE8yNUJxcXFweUNSRDVCM0hEOWJib3VIZFpZSStBMDVmamRD?=
+ =?utf-8?B?M2xIOFEvQk5hZFVQRFY1YjFrYzU4aDEwMC96b0JVVm94UERBSm9iTmVlcUtr?=
+ =?utf-8?B?UGJxRXdBdks5alIrR1VDZnpDQUdlakh3VGxsWm4vcFVpam9VVlpNOFRjZG9B?=
+ =?utf-8?B?dnc9PQ==?=
+Content-ID: <2E4E860D3FD31743B4810565726374A9@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR03MB6636.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 783a5f7e-6359-4b5a-27a6-08dd9238d76d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2025 16:11:38.6026 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ehaa1ddfPXTbbZKHBRH97jwWMr8B3WiN3JE0V/b9p9reFMJnUa11iJQ1SeUy//8vNQ47TG6VC/gE3DO8ypbCHoS+Igfw/osMdwLSuQX8ag8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPF4D0176D00
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_009_1901800704.267185654"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,321 +223,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/29, Alex Hung wrote:
-> This is an RFC set for a color pipeline API, along with implementations
-> in VKMS and amdgpu. It is tested with a set of IGT tests that can be
-> found at [1]. The IGT tests run a pixel-by-pixel comparison with an
-> allowable delta variation as the goal for these transformations is
-> perceptual correctness, not complete pixel accuracy.
+--__=_Part_Boundary_009_1901800704.267185654
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi,
+T24gVHVlLCAyMDI1LTAzLTI1IGF0IDAzOjQ0ICswMDAwLCBDSyBIdSAo6IOh5L+K5YWJKSB3cm90
+ZToNCj4gT24gRnJpLCAyMDI1LTAzLTIxIGF0IDE3OjMzICswODAwLCBwYXVsLXBsLmNoZW4gd3Jv
+dGU6DQo+ID4gRnJvbTogTmFuY3kgTGluIDxuYW5jeS5saW5AbWVkaWF0ZWsuY29tPg0KPiA+IA0K
+PiA+IFRvIHN1cHBvcnQgbXVsdGlwbGUgbW1zeXMgaW5zdGFuY2VzIGluIHRoZSBvbmUgbWVkaWF0
+ZWstZHJtDQo+ID4gaW5zdGFuY2UsDQo+ID4gcHJvdmlkaW5nIGltcHJvdmVkIGZsZXhpYmlsaXR5
+IGFuZCBzY2FsYWJpbGl0eSBieSB0aGUgZm9sbG93aW5nDQo+ID4gY2hhbmdlczoNCj4gPiANCj4g
+PiAxLiBBZGQgRERQX0NPTVBPTkVOVF9EUk1fT1ZMU1lTX0FEQVBUT1IqIHRvIHByb2JlIHRoZQ0K
+PiA+IMKgIG92bHN5c19hZGFwdG9yIGRyaXZlcnMgYW5kIHN1cHBvcnQgZGlmZmVyZW50IG1tc3lz
+IGNvbXBvc2l0aW9uLg0KPiA+IDIuIEFkZGVkIG5ldyBjb21wb25lbnQgdHlwZXMgTVRLX0RJU1Bf
+VklSVFVBTCB0byBzdXBwb3J0IHRoZQ0KPiA+IMKgIHJvdXRpbmcgdG8gdmlydHVhbCBkaXNwbGF5
+IGNvbXBvbmVudHMuDQo+ID4gMy4gQWRkZWQgYW5kIGFkanVzdGVkIHRoZSBleGlzdGVkIHN0cnVj
+dHVyZSBvciBpbnRlcmZhY2UgdG8gZXh0ZW5kDQo+ID4gwqAgdGhlIHN1cHBvcnQgb2YgbXVsdGlw
+bGUgbW1zeXMgaW5zdGFuY2VzLg0KPiA+IDQuIE1vZGlmaWVkIHRoZSBjb21wb25lbnQgbWF0Y2hp
+bmcgYW5kIGJpbmRpbmcgbG9naWMgdG8gc3VwcG9ydA0KPiA+IMKgIG11bHRpcGxlIG1tc3lzIGlu
+c3RhbmNlcy4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBOYW5jeSBMaW4gPG5hbmN5LmxpbkBt
+ZWRpYXRlay5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGF1bC1wbCBDaGVuIDxwYXVsLXBsLmNo
+ZW5AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiANCj4gW3NuaXBdDQo+IA0KPiA+IMKgDQo+ID4g
+K2VudW0gbXRrX2RybV9tbXN5cyB7DQo+ID4gKwlESVNQU1lTMCwNCj4gPiArCURJU1BTWVMxLA0K
+PiA+ICsJT1ZMU1lTMCwNCj4gPiArCU9WTFNZUzEsDQo+ID4gKwlNQVhfTU1TWVMsDQo+ID4gK307
+DQo+IA0KPiBMZXQgb3Zsc3lzIHN1YiBkcml2ZXIgY29udHJvbCBPVkxTWVMwIGFuZCBPVkxTWVMx
+LCBzbyBtZWRpYXRlayBkcm0NCj4gZHJpdmVyIHdvdWxkIG5vdCBzZWUgdGhlbSBhbmQgdGhpcyBw
+YXRjaCBpcyBub3QgbmVjZXNzYXJ5Lg0KPiANCj4gUmVnYXJkcywNCj4gQ0sNCj4gDQo+IA0KSGkg
+Q0ssIA0KDQpUaGUgRFJNIERyaXZlciBuZWVkcyB0aGUgZGlzdGluZ3Vpc2ggYmV0d2VlbiBvdmxz
+eXMwLA0Kb3Zsc3lzMSwgZGlzcHN5czAsIGRpc3BzeXMxIHRvIGNvbm5lY3QgdGhlIG1haW4sIGV4
+dCwgdGhpcmQNCkNSVEMgUGF0aHMuDQoNCg0KIm92bHN5cyBzdWIgZHJpdmVyIGNvbnRyb2wgT1ZM
+U1lTMCBhbmQgT1ZMU1lTMSwgc28gbWVkaWF0ZWsgZHJtDQpkcml2ZXIgd291bGQgbm90IHNlZSB0
+aGVtIGFuZCB0aGlzIHBhdGNoIiANCg0KVGhpcyBpcyBzaWduaWZpY2FudCBjaGFuZ2UsIHdlIHdp
+bGwgZml4IHRoaXMgbW9kaWZpY2F0aW9uIGF0IHRoZSANCm5leHQgdmVyc2lvbi4NCg0KIA0KDQpC
+ZXN0LCBQYXVsDQo+IA0KPiANCj4gDQo+IA0KDQo=
 
-Thanks for this work. I found it very solid and well documented.
-The drm colorop implementation looks good to me, but I still have some
-questions about AMD specific bits.
+--__=_Part_Boundary_009_1901800704.267185654
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Patches 1, 3-13, 16, 21-23, 25, 35-41 and 43 are:
-Reviewed-by: Melissa Wen <mwen@igalia.com>
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1R1ZSwmIzMyOzIwMjUtMDMtMjUmIzMyO2F0
+JiMzMjswMzo0NCYjMzI7KzAwMDAsJiMzMjtDSyYjMzI7SHUmIzMyOygmIzMyOTkzOyYjMjA0MjY7
+JiMyMDgwOTspJiMzMjt3cm90ZToNCiZndDsmIzMyO09uJiMzMjtGcmksJiMzMjsyMDI1LTAzLTIx
+JiMzMjthdCYjMzI7MTc6MzMmIzMyOyswODAwLCYjMzI7cGF1bC1wbC5jaGVuJiMzMjt3cm90ZToN
+CiZndDsmIzMyOyZndDsmIzMyO0Zyb206JiMzMjtOYW5jeSYjMzI7TGluJiMzMjsmbHQ7bmFuY3ku
+bGluQG1lZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYj
+MzI7VG8mIzMyO3N1cHBvcnQmIzMyO211bHRpcGxlJiMzMjttbXN5cyYjMzI7aW5zdGFuY2VzJiMz
+MjtpbiYjMzI7dGhlJiMzMjtvbmUmIzMyO21lZGlhdGVrLWRybQ0KJmd0OyYjMzI7Jmd0OyYjMzI7
+aW5zdGFuY2UsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtwcm92aWRpbmcmIzMyO2ltcHJvdmVkJiMzMjtm
+bGV4aWJpbGl0eSYjMzI7YW5kJiMzMjtzY2FsYWJpbGl0eSYjMzI7YnkmIzMyO3RoZSYjMzI7Zm9s
+bG93aW5nDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtjaGFuZ2VzOg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQom
+Z3Q7JiMzMjsmZ3Q7JiMzMjsxLiYjMzI7QWRkJiMzMjtERFBfQ09NUE9ORU5UX0RSTV9PVkxTWVNf
+QURBUFRPUiomIzMyO3RvJiMzMjtwcm9iZSYjMzI7dGhlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2
+MDsmIzMyO292bHN5c19hZGFwdG9yJiMzMjtkcml2ZXJzJiMzMjthbmQmIzMyO3N1cHBvcnQmIzMy
+O2RpZmZlcmVudCYjMzI7bW1zeXMmIzMyO2NvbXBvc2l0aW9uLg0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Mi4mIzMyO0FkZGVkJiMzMjtuZXcmIzMyO2NvbXBvbmVudCYjMzI7dHlwZXMmIzMyO01US19ESVNQ
+X1ZJUlRVQUwmIzMyO3RvJiMzMjtzdXBwb3J0JiMzMjt0aGUNCiZndDsmIzMyOyZndDsmIzMyOyYj
+MTYwOyYjMzI7cm91dGluZyYjMzI7dG8mIzMyO3ZpcnR1YWwmIzMyO2Rpc3BsYXkmIzMyO2NvbXBv
+bmVudHMuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjszLiYjMzI7QWRkZWQmIzMyO2FuZCYjMzI7YWRqdXN0
+ZWQmIzMyO3RoZSYjMzI7ZXhpc3RlZCYjMzI7c3RydWN0dXJlJiMzMjtvciYjMzI7aW50ZXJmYWNl
+JiMzMjt0byYjMzI7ZXh0ZW5kDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2MDsmIzMyO3RoZSYjMzI7
+c3VwcG9ydCYjMzI7b2YmIzMyO211bHRpcGxlJiMzMjttbXN5cyYjMzI7aW5zdGFuY2VzLg0KJmd0
+OyYjMzI7Jmd0OyYjMzI7NC4mIzMyO01vZGlmaWVkJiMzMjt0aGUmIzMyO2NvbXBvbmVudCYjMzI7
+bWF0Y2hpbmcmIzMyO2FuZCYjMzI7YmluZGluZyYjMzI7bG9naWMmIzMyO3RvJiMzMjtzdXBwb3J0
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2MDsmIzMyO211bHRpcGxlJiMzMjttbXN5cyYjMzI7aW5z
+dGFuY2VzLg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtTaWduZWQtb2Zm
+LWJ5OiYjMzI7TmFuY3kmIzMyO0xpbiYjMzI7Jmx0O25hbmN5LmxpbkBtZWRpYXRlay5jb20mZ3Q7
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7UGF1bC1wbCYjMzI7Q2hlbiYj
+MzI7Jmx0O3BhdWwtcGwuY2hlbkBtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjst
+LS0NCiZndDsmIzMyOw0KJmd0OyYjMzI7W3NuaXBdDQomZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsm
+IzMyOyYjMTYwOw0KJmd0OyYjMzI7Jmd0OyYjMzI7K2VudW0mIzMyO210a19kcm1fbW1zeXMmIzMy
+O3sNCiZndDsmIzMyOyZndDsmIzMyOytESVNQU1lTMCwNCiZndDsmIzMyOyZndDsmIzMyOytESVNQ
+U1lTMSwNCiZndDsmIzMyOyZndDsmIzMyOytPVkxTWVMwLA0KJmd0OyYjMzI7Jmd0OyYjMzI7K09W
+TFNZUzEsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrTUFYX01NU1lTLA0KJmd0OyYjMzI7Jmd0OyYjMzI7
+K307DQomZ3Q7JiMzMjsNCiZndDsmIzMyO0xldCYjMzI7b3Zsc3lzJiMzMjtzdWImIzMyO2RyaXZl
+ciYjMzI7Y29udHJvbCYjMzI7T1ZMU1lTMCYjMzI7YW5kJiMzMjtPVkxTWVMxLCYjMzI7c28mIzMy
+O21lZGlhdGVrJiMzMjtkcm0NCiZndDsmIzMyO2RyaXZlciYjMzI7d291bGQmIzMyO25vdCYjMzI7
+c2VlJiMzMjt0aGVtJiMzMjthbmQmIzMyO3RoaXMmIzMyO3BhdGNoJiMzMjtpcyYjMzI7bm90JiMz
+MjtuZWNlc3NhcnkuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1JlZ2FyZHMsDQomZ3Q7JiMzMjtDSw0K
+Jmd0OyYjMzI7DQomZ3Q7JiMzMjsNCkhpJiMzMjtDSywmIzMyOw0KDQpUaGUmIzMyO0RSTSYjMzI7
+RHJpdmVyJiMzMjtuZWVkcyYjMzI7dGhlJiMzMjtkaXN0aW5ndWlzaCYjMzI7YmV0d2VlbiYjMzI7
+b3Zsc3lzMCwNCm92bHN5czEsJiMzMjtkaXNwc3lzMCwmIzMyO2Rpc3BzeXMxJiMzMjt0byYjMzI7
+Y29ubmVjdCYjMzI7dGhlJiMzMjttYWluLCYjMzI7ZXh0LCYjMzI7dGhpcmQNCkNSVEMmIzMyO1Bh
+dGhzLg0KDQoNCiZxdW90O292bHN5cyYjMzI7c3ViJiMzMjtkcml2ZXImIzMyO2NvbnRyb2wmIzMy
+O09WTFNZUzAmIzMyO2FuZCYjMzI7T1ZMU1lTMSwmIzMyO3NvJiMzMjttZWRpYXRlayYjMzI7ZHJt
+DQpkcml2ZXImIzMyO3dvdWxkJiMzMjtub3QmIzMyO3NlZSYjMzI7dGhlbSYjMzI7YW5kJiMzMjt0
+aGlzJiMzMjtwYXRjaCZxdW90OyYjMzI7DQoNClRoaXMmIzMyO2lzJiMzMjtzaWduaWZpY2FudCYj
+MzI7Y2hhbmdlLCYjMzI7d2UmIzMyO3dpbGwmIzMyO2ZpeCYjMzI7dGhpcyYjMzI7bW9kaWZpY2F0
+aW9uJiMzMjthdCYjMzI7dGhlJiMzMjsNCm5leHQmIzMyO3ZlcnNpb24uDQoNCiYjMzI7DQoNCkJl
+c3QsJiMzMjtQYXVsDQomZ3Q7JiMzMjsNCiZndDsmIzMyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsN
+Cg0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxw
+cmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioq
+KioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1l
+c3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwg
+cHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xv
+c3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5
+ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWlu
+YXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2Yg
+dGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCBy
+ZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwu
+IElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3Ig
+YmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBs
+ZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlz
+IGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5j
+bHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlz
+Y2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhh
+bmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-And I dropped some comments and questions to some AMD-specific patches.
+--__=_Part_Boundary_009_1901800704.267185654--
 
-> 
-> v5 of this patchset fleshed out documentation for colorops and the
-> various defines that are being introduced.
-> 
-> v6 addresses a few comments from various reviewers.
-> 
-> v7 simplifies 3D LUT and addresses more comments from various reviewers.
-> 
-> v8 fixes typo and errors and address comments from reviewers.
-> 
-> v9 refactors cleanup functions, fixes typo and errors, and addresses
->    comments from reviewers.
-> 
-> VKMS supports two named transfer function colorops and two matrix
-> colorops.
-> 
-> Amdgpu advertises the following pipeline for GPUs with DCN 3 or newer:
-> 
-> 1. 1D Curve EOTF
-> 2. 3x4 CTM
-> 3. Multiplier
-> 4. 1D Curve Inverse EOTF
-> 5. 1D LUT
-> 6. 3D LUT
-> 7. 1D Curve EOTF
-> 8. 1D LUT
-> 
-> The supported curves for the 1D Curve type are:
-> - sRGB EOTF and its inverse
-> - PQ EOTF, scaled to [0.0, 125.0] and its inverse
-> - BT.2020/BT.709 OETF and its inverse
-> 
-> Note that the 1st and 5th colorops take the EOTF or Inverse
-> OETF while the 3rd colorop takes the Inverse EOTF or OETF.
-> 
-> The 3D LUT is a 17^3 tetrahedrally interpolated LUT but the mechanism
-> exists for other drivers to describe their own 3D LUT capability.
-> 
-> This mirrors the color pipeline used by gamescope and presented by
-> Melissa Wen, with the exception of the DEGAM LUT, which is not currently
-> used. See [1]
-> https://indico.freedesktop.org/event/4/contributions/186/attachments/138/218/xdc2023-TheRainbowTreasureMap-MelissaWen.pdf
-> 
-> At this point we're hoping to see gamescope and kwin implementations
-> take shape. The existing pipeline should be enough to satisfy the
-> gamescope use-cases on the drm_plane.
-> 
-> In order to support YUV we'll need to add COLOR_ENCODING and COLOR_RANGE
-> support to the color pipeline. I have sketched these out already but
-> don't have it all hooked up yet. This should not hinder adoption of this
-> API for gaming use-cases.
-> 
-> We'll also want to advertise IN_FORMATS on a color pipeline as some
-> color pipelines won't be able to work for all IN_FORMATS on a plane.
-> Again, I have a sketch but no full implementation yet. This is not
-> currently required by the AMD color pipeline and could be added after
-> the merge of this set.
-> 
-> VKMS patches could still be improved in a few ways, though the
-> payoff might be limited and I would rather focus on other work
-> at the moment. The most obvious thing to improve would be to
-> eliminate the hard-coded LUTs for identity, and sRGB, and replace
-> them with fixed-point math instead.
-> 
-> There are plenty of things that I would like to see, but they could
-> be added after the merge of this patchset:
->  - COLOR_ENCODING and COLOR_RANGE
->  - IN_FORMATS for a color pipeline
->  - Is it possible to support HW which can't bypass entire pipeline?
->  - Can we do a LOAD / COMMIT model for LUTs (and other properties)?
->  - read-only scaling colorop which defines scaling taps and position
->  - named matrices, for things like converting YUV to RGB
->  - Add custom LUT colorops to VKMS
-> 
-> IGT tests can be found at [1] or on the igt-dev mailing list. There
-> have been no updates since v5 and rebase on latest main is straight-
-> forward.
-> 
-> A kernel branch can be found at [2].
-> 
-> [1] https://gitlab.freedesktop.org/alex.hung/igt-gpu-tools/-/tree/amd-color-pipeline-v8
-> [2] https://gitlab.freedesktop.org/alex.hung/linux/-/tree/amd-color-pipeline-v9
-> 
-> v9:
->  - Update RFC documents for 3DLUT and fallback behaviours (Simon Ser)
->  - Specify colorop function names by _plane_ (Chaitanya Kumar Borah)
->  - Remove redundant comments (Simon Ser)
->  - Fix typo in commit description (Shengyu Qu)
->  - Move destroy and cleanup functions earlier (Simon Ser)
->  - Move DRM_COLOROP_1D_CURVE_BT2020_* from middle to end (Simon Ser)
->  - Chagne "bool allow_bypass" to "uint32_t flags" for better extensibility (Simon Ser)
->  - Return a value in __set_dm_plane_colorop_3dlut
-> 
-> v8:
->  - Change VKMS config names (Louis Chauvet)
->  - Remove deprecated function "drm_atomic_get_existing_colorop_state" (Louis Chauvet)
->  - Remove null check in drm_colorop_set_next_property (Simon Ser)
->  - Remove MAX_COLOR_PIPELINES in drm (Simon Ser)
->  - Update kernel docs and documents for DRM_COLOROP_3D_LUT (Simon Ser)
->  - Add comments for dmr_color_lut (Louis Chauvet)
->  - Fix typos and replace DRM_ERROR and DRM_WARN_ONCE by drm_err drm_WARN_ONCE (Louis Chauvet)
->  - Fix incorrect conditions in __set_colorop_in_tf_1d_curve (Leo Li)
->  - Add DRM_MODE_PROP_ATOMIC to drm_property_create_range (Simon Ser)
->  - Change "1D Curve Custom LUT" to "1D LUT" (Simon Ser)
->  - Return error when __set_output_tf fails (Leo Li)
->  - Return -EINVAL when drm_color_ctm_3x4's size mismatches (Leo Li)
->  - Set initialized to 0 and return when drm_lut3d_size is 0 (Harry Wentland)
->  - Rework tf->type = TF_TYPE_BYPASS for shaper (Harry Wentland & Leo Li)
-> 
-> v7:
->  - Simplify 3D LUT by removing lut_3d_modes and update doc accordingly (Simon Ser)
->  - Add destroy / cleanup functions when color pipeline initialization
->    fails (Louis Chauvet)
->  - Fix checkpatch errors and warning (spaces, long lines, {}, and etc)
->  - Change lut's size from drm_colorop_state->size to drm_colorop->lut_size
->    and from size_property to lut_size_property
->  - Update some kernel updates and commit messagesa (Louis Chauvet)
->  - Squash "drm/colorop: Add atomic state print for drm_colorop" and
->    "drm/colorop: Add NEXT to colorop state print" (Simon Ser)
->  - Add missing MODULE_DESCRIPTION (Jeff Johnson)
-> 
-> v6:
->  - Eliminate need to include test as .c file (Louis Chauvet)
->  - some doc updates
->  - cleanup if colorop alloc or init fails in VKMS and amdgpu (Louis Chauvet)
->  - couple other small improvements in VKMS, such as rounding (Louis Chauvet)
->  - take ref for DATA blob in duplicate_state func & fix refcount issues (Xaver Hugl)
-> 
-> v5:
->  - amdgpu 3D LUT
->  - Don't require BYPASS
->  - update RFC docs and add to TOC tree
->  - add drm_colorop and COLOR_PIPELINE kernel docs (non-RFC)
->  - add amdgpu color pipeline doc
->  - define SIZE property similar to drm_crtc's GAMMA_SIZE
->  - various minor fixes and cleanups
-> 
-> v4:
->  - Add amdgpu color pipeline (WIP)
->  - Don't block setting of deprecated properties, instead pass client cap
->    to atomic check so drivers can ignore these props
->  - Drop IOCTL definitions (Pekka)
->  - Use enum property for colorop TYPE (Pekka)
->  - A few cleanups to the docs (Pekka)
->  - Rework the TYPE enum to name relation to avoid code duplication (Pekka)
->  - Add missing function declarations (Chaitanya Kumar Borah)
->  - Allow setting of NEXT property to NULL in _set_ function (Chaitanya Kumar Borah)
->  - Add helper for creation of pipeline drm_plane property (Pekka)
->  - Always create Bypass pipeline (Pekka)
->  - A bunch of changes to VKMS kunit tests (Pekka)
->  - Fix index in CTM doc (Pekka)
-> 
-> v3:
->  - Abandon IOCTLs and discover colorops as clients iterate the pipeline
->  - Remove need for libdrm
->  - Add color_pipeline client cap and make mutually exclusive with
->    COLOR_RANGE and COLOR_ENCODING properties
->  - add CTM colorop to VKMS
->  - Use include way for kunit testing static functions (Arthur)
->  - Make TYPE a range property
->  - Move enum drm_colorop_type to uapi header
->  - and a bunch of smaller bits that are highlighted in the relevant commit
->    description
-> 
-> v2:
->  - Rebased on drm-misc-next
->  - Introduce a VKMS Kunit so we can test LUT functionality in vkms_composer
->  - Incorporate feedback in color_pipeline.rst doc
->  - Add support for sRGB inverse EOTF
->  - Add 2nd enumerated TF colorop to VKMS
->  - Fix LUTs and some issues with applying LUTs in VKMS
-> 
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Shashank Sharma <shashank.sharma@amd.com>
-> Cc: Alexander Goins <agoins@nvidia.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Michel Dänzer <mdaenzer@redhat.com>
-> Cc: Aleix Pol <aleixpol@kde.org>
-> Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> Cc: Victoria Brekenfeld <victoria@system76.com>
-> Cc: Sima <daniel@ffwll.ch>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
-> Cc: Christopher Braga <quic_cbraga@quicinc.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
-> Cc: Hector Martin <marcan@marcan.st>
-> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
-> Cc: Sasha McIntosh <sashamcintosh@google.com>
-> Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> 
-> Alex Hung (14):
->   drm/colorop: Add destroy functions for color pipeline
->   drm/colorop: define a new macro for_each_new_colorop_in_state
->   drm/amd/display: Skip color pipeline initialization for cursor plane
->   drm/amd/display: Add support for sRGB EOTF in DEGAM block
->   drm/amd/display: Add support for sRGB Inverse EOTF in SHAPER block
->   drm/amd/display: Add support for sRGB EOTF in BLND block
->   drm/colorop: Add 1D Curve Custom LUT type
->   drm/amd/display: add shaper and blend colorops for 1D Curve Custom LUT
->   drm/amd/display: add 3x4 matrix colorop
->   drm/colorop: Add mutliplier type
->   drm/amd/display: add multiplier colorop
->   drm/amd/display: Swap matrix and multiplier
->   drm/colorop: Add 3D LUT support to color pipeline
->   drm/amd/display: add 3D LUT colorop
-> 
-> Harry Wentland (29):
->   drm: Add helper for conversion from signed-magnitude
->   drm/vkms: Add kunit tests for VKMS LUT handling
->   drm/doc/rfc: Describe why prescriptive color pipeline is needed
->   drm/colorop: Introduce new drm_colorop mode object
->   drm/colorop: Add TYPE property
->   drm/colorop: Add 1D Curve subtype
->   drm/colorop: Add BYPASS property
->   drm/colorop: Add NEXT property
->   drm/colorop: Add atomic state print for drm_colorop
->   drm/plane: Add COLOR PIPELINE property
->   drm/colorop: Introduce DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
->   Documentation/gpu: document drm_colorop
->   drm/vkms: Add enumerated 1D curve colorop
->   drm/vkms: Add kunit tests for linear and sRGB LUTs
->   drm/colorop: Add 3x4 CTM type
->   drm/vkms: Use s32 for internal color pipeline precision
->   drm/vkms: add 3x4 matrix in color pipeline
->   drm/tests: Add a few tests around drm_fixed.h
->   drm/vkms: Add tests for CTM handling
->   drm/colorop: pass plane_color_pipeline client cap to atomic check
->   drm/amd/display: Ignore deprecated props when plane_color_pipeline set
->   drm/amd/display: Add bypass COLOR PIPELINE
->   drm/colorop: Add PQ 125 EOTF and its inverse
->   drm/amd/display: Enable support for PQ 125 EOTF and Inverse
->   drm/colorop: add BT2020/BT709 OETF and Inverse OETF
->   drm/amd/display: Add support for BT.709 and BT.2020 TFs
->   drm/colorop: Define LUT_1D interpolation
->   drm/colorop: allow non-bypass colorops
->   drm/amd/display: Add AMD color pipeline doc
-> 
->  Documentation/gpu/drm-kms.rst                 |  15 +
->  Documentation/gpu/rfc/color_pipeline.rst      | 378 ++++++++
->  Documentation/gpu/rfc/index.rst               |   3 +
->  drivers/gpu/drm/Makefile                      |   1 +
->  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   3 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   4 +
->  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 573 ++++++++++++-
->  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 207 +++++
->  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h |  36 +
->  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  32 +
->  drivers/gpu/drm/drm_atomic.c                  | 170 +++-
->  drivers/gpu/drm/drm_atomic_helper.c           |  12 +
->  drivers/gpu/drm/drm_atomic_state_helper.c     |   5 +
->  drivers/gpu/drm/drm_atomic_uapi.c             | 175 ++++
->  drivers/gpu/drm/drm_colorop.c                 | 598 +++++++++++++
->  drivers/gpu/drm/drm_ioctl.c                   |   7 +
->  drivers/gpu/drm/drm_mode_config.c             |   7 +
->  drivers/gpu/drm/drm_plane.c                   |  59 ++
->  drivers/gpu/drm/tests/Makefile                |   3 +-
->  drivers/gpu/drm/tests/drm_fixp_test.c         |  71 ++
->  drivers/gpu/drm/vkms/Makefile                 |   4 +-
->  drivers/gpu/drm/vkms/tests/Makefile           |   2 +-
->  drivers/gpu/drm/vkms/tests/vkms_color_test.c  | 459 ++++++++++
->  drivers/gpu/drm/vkms/vkms_colorop.c           | 115 +++
->  drivers/gpu/drm/vkms/vkms_composer.c          | 134 ++-
->  drivers/gpu/drm/vkms/vkms_composer.h          |  27 +
->  drivers/gpu/drm/vkms/vkms_drv.h               |   7 +
->  drivers/gpu/drm/vkms/vkms_luts.c              | 808 ++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_luts.h              |  12 +
->  drivers/gpu/drm/vkms/vkms_plane.c             |   2 +
->  include/drm/drm_atomic.h                      | 111 +++
->  include/drm/drm_atomic_uapi.h                 |   3 +
->  include/drm/drm_colorop.h                     | 442 ++++++++++
->  include/drm/drm_file.h                        |   7 +
->  include/drm/drm_fixed.h                       |  18 +
->  include/drm/drm_mode_config.h                 |  18 +
->  include/drm/drm_plane.h                       |  19 +
->  include/uapi/drm/amdgpu_drm.h                 |   9 -
->  include/uapi/drm/drm.h                        |  15 +
->  include/uapi/drm/drm_mode.h                   | 121 +++
->  40 files changed, 4642 insertions(+), 50 deletions(-)
->  create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
->  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
->  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
->  create mode 100644 drivers/gpu/drm/drm_colorop.c
->  create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
->  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
->  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
->  create mode 100644 include/drm/drm_colorop.h
-> 
-> -- 
-> 2.43.0
-> 
