@@ -2,154 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47134AB55E0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 15:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE890AB5613
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 15:30:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF6610E3A0;
-	Tue, 13 May 2025 13:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D2210E180;
+	Tue, 13 May 2025 13:30:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0zH8ZBS4";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jQOBIxKo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7FC10E3A0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 13:21:36 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B2210E180
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 13:30:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lmYs0UuCiGj1jDOvbjXo7qsbvjVYA+Aw71dBKanmC+5Ggj57utVYbUCaie4D0q68zaZqX6RFs5uhwFMWLAdK1FPlpQHk587le2NAHtwVcC8+RlROTMBvFnHrbZQ4XRrjrHI9rHLZjQ0Q5fg1ZGOP746ny4fCePs2TJP2gkIWz87BQVaITkJIx0kdVdXHKKFo6TB8i+B02oqCH4MftBUPwKDQQAOx2L7/HGg2xsLPs5qwMiKHGoBReVUxvpQv4IdeaVZE8pQpYh3coTw7gMZ28KT+niKHpQiVl4GBBlMZ+sQ1W3XOgZQxkljT0ve5ydH4on3CpRH3VgDnPNNjUY7OZw==
+ b=yP6k6x/Lpv7jrHDacUc7LpFTcN1kZ1Fxr37DVr1eT/Ilw8mivWk6mTbF5vrRPL+BQBBw8btyVfHwvpSM1lFNv9tCAYfgTUOZGL0nVm2mkCOMsVW+6pzCdIm1DImnk5SmkuJpFUreHLVu83ngb+1XNzMfR4m18yuVOe1J0Xy05IBb1MsZ+IKKveWYxih/nFWvEKrMX33/Yc0S8KTOmiAAGisgL6pNg49I0AkVM4IC00TBBfqJUTbTBY2Q85RQoacKnMHiAT5ad9QgoAi4nu9E8aS+DfBzCzb2YTW5x6wSu2V1FipARDEHplkbS4s6LM2bp4Aim62rZxvDOhNUzoKlzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jxPXzanJ9J7V0C93bb6gwqbcQfO/pxFBOih6GrZoWXQ=;
- b=Gaof6WRKT/MjEN5HZhElpMuPyPgnA+xVpUPYcrvsR2arSbT7v0LF9cThuIULyY8eypHUMWaO0bDJTopxp4FF7GCWRlhwkDIaGyYJoMxJeZyZmf65RRTqNYkca1bYlBQDs8jt6tBfZuBUkrPEh09KrSQBdb7NM8txeS5gKcI4Lptdj6YmimjjBn780TKzWKgxJQCq00+ercSZ/Vr2bF/qnFzqDqowC9sjtEbpuZkUn1XCYmBcI+9u7H0M3pYVEqzJthS/va0yAgwItSqLhufoj9h8Jr1xMIYOiHLuVclE4yEAWguH1GQ/epsdNC8ci/7bS1z8qY23NTh9XmG+sBJ82g==
+ bh=76AL/tsc3giu4p9R3Iatnrb6YzXFUF2gnWwvZNzsXN8=;
+ b=fjjc5NcAgUvJWRmAFXBNvg2ousW+rq0QTj4cVznPT+Fzh2a0hvr+1rzbSbOj7HAktRv2fFlgXdY7kfKaRAh6Ritn+4ZORyx1HOF7NHw7YAz5Ldq9MDSi3cWoJNjAzDc0kfXf+189djnpkyHMHI8sUuOrSmz+kivMx5NAzTs3Z3nYQA//CrfdKWTwfnAsOUqX02474fJ+8RzSyHLl2zFsLF1a+YcwZ2YvQMHXmnFuP88okCNwXGiIDzQpcaoDtwrCJivb/NGAtl4ZHuIZmO/vt8Bm9668YYvAyRii2xWpWeoLZIOzlQydQX0OFAyJ6YAXfQs+EznvykjTLqYqwKMeYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jxPXzanJ9J7V0C93bb6gwqbcQfO/pxFBOih6GrZoWXQ=;
- b=0zH8ZBS4N0RxXwDCbXCW8PoniaxyE/XvKPC9pDU7i/V7tP4O46viXC9Mbp7fVJmGuB1rqRcPV/8avUjUKNH7Ac7w0jIh62qrhg01IykFVU8AyHd3/WFn6oa2GHtnp25vThVUEJFj7RqY07dqcNeFNsQsk0W1cuwMMBvHtARmAeM=
+ bh=76AL/tsc3giu4p9R3Iatnrb6YzXFUF2gnWwvZNzsXN8=;
+ b=jQOBIxKoPthfb2uXyymLQGURS14G/AF3EXwsNVTAEwhElkkv5BLdcrpurM0RyLMaFtX+crRRxGGmdIZo6EhFNq/KWhXKnqVYOuS+9xTim2YX+MiH/QqkQxqGRUgqTDHCCCmVGHwLzw/FF+DMBYTF8CipuqqBU5OJJSd1E/IxEWE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB6614.namprd12.prod.outlook.com (2603:10b6:8:bb::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Tue, 13 May
- 2025 13:21:32 +0000
+ by CY8PR12MB7194.namprd12.prod.outlook.com (2603:10b6:930:5a::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Tue, 13 May
+ 2025 13:30:23 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Tue, 13 May 2025
- 13:21:32 +0000
-Message-ID: <5aae4982-4ad0-4d31-a8d6-6392ff48bc53@amd.com>
-Date: Tue, 13 May 2025 15:21:26 +0200
+ 13:30:22 +0000
+Message-ID: <b1f94ede-fc07-4735-8444-61a473a9d751@amd.com>
+Date: Tue, 13 May 2025 15:30:15 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] amdgpu: add support for memcg integration
+Subject: Re: [PATCH 5/7] ttm: add initial memcg integration. (v4)
 To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
  tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
  Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
  Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
 Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
 References: <20250512061913.3522902-1-airlied@gmail.com>
- <20250512061913.3522902-7-airlied@gmail.com>
+ <20250512061913.3522902-6-airlied@gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250512061913.3522902-7-airlied@gmail.com>
+In-Reply-To: <20250512061913.3522902-6-airlied@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0P220CA0007.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR20CA0003.namprd20.prod.outlook.com
+ (2603:10b6:208:e8::16) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6614:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c0feebc-21fd-4360-17fb-08dd922113e0
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7194:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33968b7f-f643-4fa9-9ad7-08dd92224fad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YjU4WlVMNC91Y2pUL3c2cFIxNE9IVnpvNGMyaVpPak9iVjRpR21MRVJwWjVQ?=
- =?utf-8?B?SDNDemo3VkJOdU45UmdWY1BEQXlhbHZZQWVIUlg2S2w3OENnVSs0dGY2UUdr?=
- =?utf-8?B?RFNKZ2JJVUx3dnc4czIyNTlMeExGZzY0VnhkVTkwaDZxT29KTnZnRjAweHBw?=
- =?utf-8?B?Y2Y3b2dvODNEUUJLL2ZUeFFYVnhyRllYU282UlMvQ1MwL2JscS9ZWVJMUUhJ?=
- =?utf-8?B?SE9jMTRxQ0NmeUlPK3pXRjJHRzQ0RTZlUSt1V1pydFduZVV6N2NORkRzbGxJ?=
- =?utf-8?B?SlpVcjhqZ3krVU0zV1JFKzdoaDNtQXN2QlZaWGxlZ2lSaFlvclV5S0NVc2pD?=
- =?utf-8?B?R1I1REZrUUQ3cTVRZlhiZ214VkQ0ckdKT0FjZVFPTjFTVWdacU4rMzF4SkND?=
- =?utf-8?B?OXlhQXhhOUZtVks2Nzh5MWFHdlNBTWZSdXF3c0F1Wm9oT0w3SDl1Qmp3WFcx?=
- =?utf-8?B?RVlPYW5TZGhUdUxTWURoN3FnR2tDaHR6MStaY0hVempaVkhEVm5lNXR2ZE5z?=
- =?utf-8?B?cjBYUkNKM2F3ekl5ZkF5SGtZdHpYVkNLVGUyUWNENHBWczhQQ1M1RVBCTytT?=
- =?utf-8?B?cUVJSnNzaWRwMWkvNy8vT3RWNWlSUGdZWm0vckR5ZVphWDhKL3M1NUxBWGZJ?=
- =?utf-8?B?N1EwbDFSVXJGd0ZoRGlVOGRVMkVMN2tud2YrYnZ4OVRwcTQ2TWJPZTBBUXc3?=
- =?utf-8?B?YVpNcDBwWmcyNkFpMTJSVXgzcC9weE5WMnRCcXFETEVZUGgyMmJGNW5VdDZE?=
- =?utf-8?B?YUNiZUZnTUN4WjRMZlFxWHVkand5NWtZWmtjdmFsNzZGVmN6M01rYjNNeXZN?=
- =?utf-8?B?bXdQbVRrT0prRmtzcW9ycGJjWS9iT1h1VVJZbktzRjlHNU5sK21waUp4TjNN?=
- =?utf-8?B?N2tRUElyN0ZudFRDZ2V5ZlJKWHBoSWN0MW9EU1AwUlVDNW9XY3NNOWVNK3hP?=
- =?utf-8?B?S3EyNEFWRmRGZnc2SHRIZnRCaDlCN2pqN3BBZlZ1a3FBQkMycDA3NkljUkNr?=
- =?utf-8?B?Y21qRnZxbEo5OW5qU0lCb25BckJqT3d0QzZzamNhRmRkQXJNMzJkcU84cjNR?=
- =?utf-8?B?cDd0L1dkWUpoNGlYYVRFeUtoenlNMW1XUzBXN0VmU2JkdVYweW05V2VyZml6?=
- =?utf-8?B?cCtEUU5EYXUzRFZFNXh1TlNKL0ltN1l3Z2RraWk5am5wc25zN2VqaHpOU2Vs?=
- =?utf-8?B?SC9Lb1BURHhTbFE0NEMvb09seUxHS1g0VU1hak56SEV4VFhSMGJlQ2lIQmRt?=
- =?utf-8?B?QkJrWUc5RWFBdGxmU2JlWHNZK2lRYk9STVk3RTZLZk44LytZQmh3djZ1UFBy?=
- =?utf-8?B?T2hmVUU2aEZoME1JTTB3YWZFdVhMNjk3UThYVmtmdDljczhIWlhtVVpZdTds?=
- =?utf-8?B?VkFMY3dJNitIQnQ0WmxOdDJKcGpKdEc4Q3lrNUNZTkF6NUQ3MGZXdHhqT0o0?=
- =?utf-8?B?MG5pak1KZ0liaEw1Q05GdWpWNjl5Q3lWMGRtZVkrNGlxc3ZBQ1BqemRseDMx?=
- =?utf-8?B?Ry8xZ01vSnlHNVQvc0FxV0NoYTA4b1B3akRWTVNpNHNTRGxQOXUrR1c3UWVN?=
- =?utf-8?B?Z2pCUStpNkVJbGw5N2NERC9MQlhwL2tkSW9PR2g2a3R5OE1BVllnMTAybzdw?=
- =?utf-8?B?SXR3UEYvZ0dXN0V2bnQ5TjlkYWxvRmFiemFsT2RHYnZoRVBVVkhNYzNNYy8x?=
- =?utf-8?B?a1YwT0RQbTgrNENCNWlhOEpBcHEyZW5Md3Q0RzlTTktXZHpsZGdzN3dKRjBJ?=
- =?utf-8?B?V2JHckQ0NUEydWEwM3E0OS9LQ2Q1NWgyb1B6WXRXN0Evem9tZEdHSWdYZlNC?=
- =?utf-8?B?UExmVFp1UXoyUGdDanZMTS90OGtqa2d4SFdBeFl6TWxZelBkOVFPT2s0ajdo?=
- =?utf-8?B?aTZMc0tIMEcySHhuOXNwTm9YN0NXWlB4ZlA1Qmpha0dveldYWjRid2thQmRB?=
- =?utf-8?Q?QVXUluiQag8=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N3FNMGUyYnZMMGFNRFhCaTJtTUt1NDVEaXRCY1RHVmVoOUdmTGJsV3pvU2Fs?=
+ =?utf-8?B?MlZzc2twc2doaW8xeHJ6dloraDZOYnZBcXdza3RKNnJId2xzRTRUOURYZ1k1?=
+ =?utf-8?B?TVloZXlseG5MY0g0blZtcjVXaWNoMzBoMjIwYzh3SmRvaVFLc3Y5cUxxdGNQ?=
+ =?utf-8?B?dDlGNFZsZzMyYmZZa0JGU2ZSTkpqTjhVVTFBeGNabEEvcllScGcvQUxOTkJN?=
+ =?utf-8?B?YitqUnpwdjljRnM4dXA2aWNYZmJYbEo1enduMnFvaDFVYTVWdCtJMXlMaW5a?=
+ =?utf-8?B?ekdIZDZPalVaZFZJOWVua0NRbncxYWRuRWtxaERod1d5UDFsbDdMR3haM2hi?=
+ =?utf-8?B?WEVYbjNER1hTVUNZYW1GamkxbnBjVFRqaks2WEdkMzgwZHpSMTdERm1obW5D?=
+ =?utf-8?B?aWhmOTE5a0diZ2hMYkphQlh4UmVPM1ArOVNXUFYzK2UwYWpIcys2Q2J0RVpH?=
+ =?utf-8?B?Q0poNUVIWDRvQWhJaHFSd3M3b0pwWURuMWFuN1VPSGVHai9HeFJEbEdpQkNQ?=
+ =?utf-8?B?czQxVGd5SGpQdVFDMDFmNmxRRXIyd1AvQzF6SkJFUThjb2x3YUxNVmcrRThi?=
+ =?utf-8?B?RWJFYUJzc0oxTVg5K3lBK2twbjVkR3U4dFdWTjJrdEJaZDdzSGFvU3lMUzY2?=
+ =?utf-8?B?cDFHWEpQYjgzSjViOHZrbDlpamVJZ2N0MldnWDJwaGtjekttKzd4OXEwTGxF?=
+ =?utf-8?B?S0wvQm1oSmxGMXlJMHF1OEE3VmpuVmdJeFkvV2JqQVI4NFJnUTZXWEJvdU9P?=
+ =?utf-8?B?WDZPSTc4VURDcGJtKy9xSFhuRGdGcmlDemlsUmhmMXdaUnI4aDZyYkpndjFH?=
+ =?utf-8?B?OVZsbjdVYUg0SmJnNTNkUzNiL1ozUlBiWUZsNGg4V2phYjNIU0tKbnhDMjIz?=
+ =?utf-8?B?RGxBejBkM3ZLeFpCQjdBVUJLeDkxSkplbXNWSXE5VlBxY2R6NzNEbXcxUmZY?=
+ =?utf-8?B?SGd4dkFsSStzTG9OU09aMkFPMS9NSDZQS2U1OFFnN3YyNVMyaWtnYlhiSkRw?=
+ =?utf-8?B?aDNnVEErVUQvV1VqODgzeUtwWE14RTBiZXNlVmVNb3ZBOEdVU3MxS0MyWU80?=
+ =?utf-8?B?VmV1anNsaDdEc3BrY2xIK0tnQmFBVVBhellMM1ZmL08zUjFWUVBhK1FNZVE1?=
+ =?utf-8?B?dHJLU1dKKzNmb2plZUdDVXM4MU9wVjJ0c2pEcVB2RHBGanBKbHZBQ1FycVE4?=
+ =?utf-8?B?QUJoeVJmb3k1bW5QT293SkM3OVkvY29jUzc0VGFvWERJN0c4UEFyYTE2U240?=
+ =?utf-8?B?NU9vUkw2cC9vZVFyY2hCQ1pFL0I1TU9CSHh2YW5iVVFRRTd5MTFlQVZIcXNa?=
+ =?utf-8?B?WDA1Y2tldGtDSUxTeEN2THJjNUNTUXRnRWZEbVJLQlhkS1h0aWxMTGpkZ2Ra?=
+ =?utf-8?B?NmpuUkx6c29zQ09YcHF6dmZGcGRtNVVDSzNvZThQRWRtcTFTbTdpN2pwNnR2?=
+ =?utf-8?B?R05kQVdHa21BV3VBUUlaUURuckhPUm9TUUNGMmpLWEthbkFkdVVGd0gwakI3?=
+ =?utf-8?B?OG1McDZlQktlOHpwTlBkbG9rdFEyc2EreXJDZ0NqNWVDY3ZYZFdoY1RYMjdl?=
+ =?utf-8?B?WEFCa25oMXAvNERtNHhZRWNtenVUYVcwNjV5cENLbDdLdWhEYnNzQWI3L2ZS?=
+ =?utf-8?B?aVRFb25rR20zNmpsRE9VejVpVXBpMUZSVE9lRHpsN3FmVVFUQnVKOUtHM1VH?=
+ =?utf-8?B?U3JSTlRtT0tYUHJRbTZBVEhhdWQwejJJUmdsc3VlcXQyU3RuNVpiL0dOV0JH?=
+ =?utf-8?B?dW1qcHZERHBaWHhiNHNIdjFrYmFQSENsVUhyZnhLVDYxc1dwMFd1SFM0N3Jj?=
+ =?utf-8?B?Zy92ZEZadUlsdHZyM0FWM2t3Vmh2ZlJFZXYrcFlFWFVnN3lWVTZQMnRPUGJZ?=
+ =?utf-8?B?U2Q3Z3Z3bWZiUHp6VVVaSExacjR1akpsUUtja3Z3Unpxa1AraElDTWlZRE5B?=
+ =?utf-8?Q?eDxAGCM0V0E=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(376014)(366016)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFZsSXBnRDZxM204eDdYYk9XZ200VXFodlVuckNNbTRucjZ2c1RYNEhOM2d1?=
- =?utf-8?B?c0xNRmJJZmZRNVNyelluanJwdjNpaEhyd3REaWM3VWdWWExSOWtVN29VSXFw?=
- =?utf-8?B?aXFORzVROFNUbEc1TkNTdExER3N5ZDhpL2l1Q0ZpNGYyZS9keXBMT1R0M3RI?=
- =?utf-8?B?NnJmN0pXSzc2S3lkTmM0eUxmNHlNTVl2cktvSStlQkd5TGhGRE0yS01YNm5G?=
- =?utf-8?B?cWo1N1JoRG93L2ZZa25jYTU3cFM0MHhhYnozeU9yUkFnaStSUGdYNUlaSFBv?=
- =?utf-8?B?VFhsWFVMdXJuOU9lc1dXdzZ0bWpiVVJwcHVyTHo5bWl3ZXpsRU5ZK2lMSVZ5?=
- =?utf-8?B?eU80dzVjKzdoOTV6RSttRFlMOHlSSkRjNnpmSm40TGVuWFZYcy9RVWJKTVJo?=
- =?utf-8?B?eXdVRnNYM0srUnRmaVVsc1RJT21MY2FaUVNNUEhSdW8yaUZNSTVaZzJWOWxT?=
- =?utf-8?B?STJrWXczcTNmMW1FZ0gyMnJmRExicDhIa040ZFNUR3BiaFRPQ0YxYmhJdVZV?=
- =?utf-8?B?ejlsNzVCcTc4KzZoY3I4WWh3ZkRtK0xSYWhrWmwvMDMvcmZvdEg0RDEwSTcz?=
- =?utf-8?B?dzRCc1h0dVR3ZVJneWRwUFI2Mm9UTkpRMndFTzhSOE9BRko0THlwcEp2TVpG?=
- =?utf-8?B?YlRHN3g3dStaZzJCeXExbytGbkFmRlZ4ZllTQkpQb1dmSGRSL3pZUXFDYnVp?=
- =?utf-8?B?VFZhRWUzMVcya3h4UVpRZVFQYW5YTld6ajJTdk0yS3RneFZhNGRiYThXVTNa?=
- =?utf-8?B?VHpXbVB3NGF1RkNaUnovcUhvcXlTUlNqRWV6R3gwa2poNnhGeUhtSlV2WVc2?=
- =?utf-8?B?R2RhdUw2WERIaFl5SEhOR0tYNkRMbXlyTkkxTytFcERrUEl3ano1SXRrN1NL?=
- =?utf-8?B?OEt0VW4wTU1KUTdvVDFsU0RWN3pIQUNidGtCTVpXZ0VCWGJtSjBneGIwQ25L?=
- =?utf-8?B?SjNEZThWL3pGS29HbW5tN0x0L2pCUVdTS2tibHdMdXlnbVEvcDFQNEdoM3Ri?=
- =?utf-8?B?UzAwY3lCVHpZVEpKVTAxUlBEWEd6ZFNyVjNmdDQwajJUTVh5QUs0cWRQZ3N1?=
- =?utf-8?B?REVQNnJ0MUFxdGdpTVVwRDdzVFRhaW1FRmUwRnNpY0c5eU0xaEhBRE90Q3Ba?=
- =?utf-8?B?U1NxY2tnVWdKY2tBeGFKUUJkcnl0Q3g3U0Z0RFhuZmZCcHJhVGMweWNiOCtW?=
- =?utf-8?B?bGozUUx4S3JzV2J2b3diSks1SmI2TVRwR250MzY3QmlDN1VnZU5nb3h2UThS?=
- =?utf-8?B?bHRoaU9jZVEyK1B2bVYrVkx2b0p3T3B0Nkx2K0hHL2I2V2w4TXFFWDZPWU5i?=
- =?utf-8?B?Ulo3TDBOWkhldnJYZkwrMDZZbHh0dVdPZzMwa2V1a2FDUE1ld21STUtOZ1FG?=
- =?utf-8?B?bzdkQmQ5MmM2eHltamJGTk9ibDAyeWhYdHBwQUcrOTJXWGFMTVRVeUlLOWUv?=
- =?utf-8?B?MEp3YXI2QmJlWVQxbGpRc1loMVBrWXdXbTl4T1RxS1JjRmVQbGRGcU5LV3cr?=
- =?utf-8?B?aGhvVW53c1Q5Ukpqamp6UzZIYjBHRjNMaXZibUFONXZaQm5YZHJYU2xKMWJ1?=
- =?utf-8?B?c21vVFRmQ2ljVWZLUGFLVkQxd1kyVXBaOTRob3NEbjVETTBNMTRqdkNxa3Rl?=
- =?utf-8?B?L0t0Kzh0c284anBVMHVnVUtsL0FCN1h3NEZzUVI3K2ZUYWhMVmVzZmFVSkJO?=
- =?utf-8?B?MEJwc0FacmdLRE1rMWVEK2xZZG4yamM3NUhxeHJvdCsrRUJTSXZyRk05eUUr?=
- =?utf-8?B?ajVNTnBXbE1sYndKd1V1TWpkYitmSUpSZWNoWWx6dXBYZnRraE5KL1YvT2ZX?=
- =?utf-8?B?cnpCRUpCQi92OFVIOU5LdlZTOTBTM2JZSERLSmVGcno2T2ZDbE1Za0NmMHhO?=
- =?utf-8?B?VklMT2duTG93QWV5OVVONlhhanJ6bVpHekpBMGRPbmcxT0Nvc2M4WjlHZ2Q0?=
- =?utf-8?B?VUVveWFzeEdvY3kvMXdVcm43VkRSL0N2VEhGUUhMRUpORG5PYWYzYVVIYUNG?=
- =?utf-8?B?S2x4a1BlVlR1dUtseTJEM2ZBYnByQldtUGFOeGMwQmlRbTdpczJmcTQ4QWd5?=
- =?utf-8?B?RU5CUkhWL0xlUmpPTWVlOWlVS3BYVmxDOTRxcnExSC9QL09uRHYwZFdFc0ty?=
- =?utf-8?Q?tE615YWwNejI0tAMbcI/uS1N/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXFyc1N0VFRSZnYvcTZmajZ5VjFUZGFjeFBBWmRxZjM1NVF6Y1hTY0hxMDlw?=
+ =?utf-8?B?Y25yRFEyRitTWjVMR0xjWWFNM2hYak40SEJzc1Y3VXlRNExEMkZQLzlhZlRM?=
+ =?utf-8?B?c01EVThPNERWRXVhV256bm9RMmdGNUV6NFhmak1VUC8rU2V2d2ZwRUlkbE9U?=
+ =?utf-8?B?eTdWamNwekg5NmZvWUgvazVCWnFpSlA0MDFHYlIvL0l1NmRPcXVrdFMrY01o?=
+ =?utf-8?B?dGRxdVFhQ1YzTnlaalAwcjFxRmFPZmpCcDBBNDdqMUVGKzdtRk5aeUozRFlI?=
+ =?utf-8?B?WGptc0lhc0RPVVY5UGRpL3JqZ054cVU2QytHR0grMWN2eEdNbUlneWs3bXZU?=
+ =?utf-8?B?T0JjWmtRbzREK3ZnWXNDZjRFQ1phMjRRZFhmRFpiM3h3eGJBTzB2STcwUEx1?=
+ =?utf-8?B?d2dZejhsVjNEdmd0MXNiSFc5V0Z2RFNuY1Z0UFhJSWJFNXltOFpJYi9xWGE2?=
+ =?utf-8?B?MTRVOGFTWGhpUVFNdER5TGVxM2N1YlJoME1Ba1pTcFViN2FmZlI0WTYxaUVY?=
+ =?utf-8?B?K01UTWc1VDJDR3czK25BU0JjZ3QyUkhPeWpxeGNoUnFKWENaaXRZZ1JTRUdW?=
+ =?utf-8?B?TW5vK3Y2VmVQSmxYN0Q3WVBYMHNSMlN3dGdxelFQWDYxS0tvcENEcldJc0xZ?=
+ =?utf-8?B?NXBucFBCcmJlSXdOK0NUY1J2ZVdoUHArYU8yVmRzckZzWGJnUWQwa1UxNTJE?=
+ =?utf-8?B?a1NVWkI5M1JyL2E0cEdIZFkxSnM1dERRdEVpU2F6TWJudk1tY1IycVQ3eC9j?=
+ =?utf-8?B?WXdXMEhrUFI0R2V2QjlVQitqN3Vyb0VWcFZGY3E4ZnF6dmdOU0lMM0Z4T0tJ?=
+ =?utf-8?B?WWR1VXlLck5SdnJXb1NFeGlOcmJvb3Z0ck13bmlKV3kxa28xRUE1ZGlHZko3?=
+ =?utf-8?B?S0pwaC9GUDcxRUsyUlNpSmRsWlgzaGtWV1ZlbXRoVWVpVjBsb1BMR3JPbFUv?=
+ =?utf-8?B?QWp2TXg5YzlLS0huaXd4TVpJUGhlZUszR09acTEyWldvbXBHM0FvTUdtN3hD?=
+ =?utf-8?B?UUx0NnNJcUJKd1kxUjdpOWR6SlVGZjJPNEpaVjNkclVZSnVDRlhhUWxablh2?=
+ =?utf-8?B?eENDbmtzMlNiMGMzMjBZOHRxdmE0UG1OZ3VyY2l2TlMraE9UcDB0ckdCT1hP?=
+ =?utf-8?B?R0M2TmtOclN2NUVEL2VDUVVxRVU5dWRtazRRWkpBejlIaGhSblFvTXMrUTg4?=
+ =?utf-8?B?VVpCWVFhRkJWaGt2UHR4TUFRMVdQSWI5YldTbWFYOU1qSmZtWTFPSnpFcWFm?=
+ =?utf-8?B?ZDJEMk9WckRyeDZ5ZjdqNlRTRWU0WnFVemJuSmhtaU1wTnlmcnVhVklrdFha?=
+ =?utf-8?B?V25IWXEwZGY3WW9VdnVoaEpsS1o2QlFzdEpzQXo1aXJ1SkFBemFTejFtOEU4?=
+ =?utf-8?B?KzF0ZHlXdGN6dW0rV2h5QllxMkQyTUZoSDZhKzJwUmU1UWVHVXZIdGtCcG55?=
+ =?utf-8?B?Wk5PMUZEQUtxL1BBcDBIKzRoMHJKQXJZZ1k2ZXVNSFl0MnpZSFV2OHh5T1I3?=
+ =?utf-8?B?RUVKNC84WWt3UVJBSUlkdldlamxxT21uSGxHcU1Sd0JLVXNTZmNuTm5ncElG?=
+ =?utf-8?B?dTlVZ3dRRWFWQ1o5d3UzNDVrYm4vU1BIamJzaUZxcnBGZXZOelRvY2Y1R3NJ?=
+ =?utf-8?B?dDJMbmlqbXBWaEhiMWk2dldjcDhhSEJOV2JYVnBud3AvM3JvSDFielpIWU5w?=
+ =?utf-8?B?QXlqenBHSFRldXk5WGxTWTUrblRxVjN5TU9xMkp1QTRHem9nMUYrRGJrMGVz?=
+ =?utf-8?B?OUVXdzJ6TW1KV0FQa0VJVEV6WHp2WGZsY0sxcDVuNE5sUERxTnFyTVEyYzd6?=
+ =?utf-8?B?TVhjSnArd0lnMW9OSk5mbndnWktiNGY5cFFocXVsUGJvYzBibXIxSkMxSk4w?=
+ =?utf-8?B?NzJqNEdyWU5BV2F4NnZta3Z0WHhtNzV4NTNrUzliNmw1MmRHdEljVFBwZzVk?=
+ =?utf-8?B?Rkx2V1d3aldpUWpDSVZkMDlYcGYydFdXcjd6akJQRjE4OHUza2NCc0U3K0RZ?=
+ =?utf-8?B?VlQ1bmZTWmFzMFVSaExMN3FBNFc3NjJwRVpvRjVNK3RSLzJHOSszcEJlbDEv?=
+ =?utf-8?B?NmIzY21DYUVYaGRxMGhFYUdFa2EwWlRWR2drYnBnUnlLd29HY1Z3M3JJT1Ur?=
+ =?utf-8?Q?qZdg=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c0feebc-21fd-4360-17fb-08dd922113e0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33968b7f-f643-4fa9-9ad7-08dd92224fad
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 13:21:32.3502 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 13:30:22.2043 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lo9RQ0AZzhpDYZOcOHFhUwn9YNoAc+Oe7uck2cBfIebJTSSpvPBzK7w/5+s8jpLU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6614
+X-MS-Exchange-CrossTenant-UserPrincipalName: oLK05/zfxZwcyRFEkLg1PnNdpL8cQJpy997721GPGCW2jNOeaXX/F8vw+1t6BljY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,148 +168,276 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 5/12/25 08:12, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
-> This adds the memcg object for any user allocated objects,
-> add uses the MEMCG placement flags in the correct places.
+> Doing proper integration of TTM system memory allocations with
+> memcg is a difficult ask, primarily due to difficulties around
+> accounting for evictions properly.
 > 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     |  5 ++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 16 +++++++++++-----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
->  5 files changed, 20 insertions(+), 6 deletions(-)
+> However there are systems where userspace will be allocating
+> objects in system memory and they won't be prone to migrating
+> or evicting and we should start with at least accounting those.
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 82df06a72ee0..1684a7e6d6cd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -839,7 +839,10 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
->  				union drm_amdgpu_cs *cs)
->  {
->  	struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
-> -	struct ttm_operation_ctx ctx = { true, false };
-> +	struct ttm_operation_ctx ctx = {
-> +		.interruptible = true,
-> +		.no_wait_gpu = false,
-> +	};
+> This adds a memcg group to ttm bo and tt objects.
+> 
+> This memcg is used when:
+> a) when a tt is populated (and unpopulated)
+> b) the TTM_PL_FLAG_MEMCG is set on the placement for the
+> bo when the tt is allocated.
+> 
+> The placement flag is set for all non-eviction placements.
+> 
+> This version moves back from the resource to the tt layer,
+> when accounting at the resource layer, if an object is swapped
+> out there was no way to remove it from the accounting, whereas
+> the tt layer has more info for this.
 
-In general this change here is very welcomed, but should probably be in a separate patch.
+Good point, we should probably really come up with a SWAPED TTM domain.
 
-Looks likely a leftover from when the flag was in the context.
+The nice thing about attaching it to the resource would have been that you could charge evicted BOs when they are re-validated by the driver.
 
-Apart from that the patch series looks totally fine to me.
+But that can also come much later.
 
 Regards,
 Christian.
 
->  	struct amdgpu_vm *vm = &fpriv->vm;
->  	struct amdgpu_bo_list_entry *e;
->  	struct drm_gem_object *obj;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index 69429df09477..bdad9a862ed3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -89,6 +89,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->  	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
+
+> 
+> v4: move back to the tt layer from the resource layer to
+> handle swap, but keep the memcg charging hooks for now.
+> v3: moves from having a flags on the op ctx to the using a
+> placement flag.
+> v2: moved the charging up a level and also no longer used
+> __GFP_ACCOUNT, or attached the memcg to object pages, it instead
+> uses the same approach as socket memory and just charges/uncharges
+> at the object level. This was suggested by Christian.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c      |  6 ++++--
+>  drivers/gpu/drm/ttm/ttm_bo_util.c |  6 +++---
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c   |  4 +++-
+>  drivers/gpu/drm/ttm/ttm_tt.c      | 17 ++++++++++++++++-
+>  include/drm/ttm/ttm_bo.h          |  7 +++++++
+>  include/drm/ttm/ttm_placement.h   |  3 +++
+>  include/drm/ttm/ttm_tt.h          |  9 ++++++++-
+>  7 files changed, 44 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 5bf3c969907c..1630ef28e5a8 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -140,7 +140,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>  			goto out_err;
 >  
->  	amdgpu_hmm_unregister(aobj);
-> +	mem_cgroup_put(aobj->tbo.memcg);
->  	ttm_bo_put(&aobj->tbo);
+>  		if (mem->mem_type != TTM_PL_SYSTEM) {
+> -			ret = ttm_bo_populate(bo, ctx);
+> +			ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, ctx);
+>  			if (ret)
+>  				goto out_err;
+>  		}
+> @@ -1237,6 +1237,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>  /**
+>   * ttm_bo_populate() - Ensure that a buffer object has backing pages
+>   * @bo: The buffer object
+> + * @memcg_account: account this memory with memcg if needed
+>   * @ctx: The ttm_operation_ctx governing the operation.
+>   *
+>   * For buffer objects in a memory type whose manager uses
+> @@ -1250,6 +1251,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>   * is set to true.
+>   */
+>  int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    bool memcg_account,
+>  		    struct ttm_operation_ctx *ctx)
+>  {
+>  	struct ttm_tt *tt = bo->ttm;
+> @@ -1262,7 +1264,7 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
+>  		return 0;
+>  
+>  	swapped = ttm_tt_is_swapped(tt);
+> -	ret = ttm_tt_populate(bo->bdev, tt, ctx);
+> +	ret = ttm_tt_populate(bo->bdev, tt, memcg_account, ctx);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 15cab9bda17f..7d599d0707e4 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>  	src_man = ttm_manager_type(bdev, src_mem->mem_type);
+>  	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
+>  		    dst_man->use_tt)) {
+> -		ret = ttm_bo_populate(bo, ctx);
+> +		ret = ttm_bo_populate(bo, dst_mem->placement & TTM_PL_FLAG_MEMCG, ctx);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+>  
+>  	BUG_ON(!ttm);
+>  
+> -	ret = ttm_bo_populate(bo, &ctx);
+> +	ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>  		pgprot_t prot;
+>  		void *vaddr;
+>  
+> -		ret = ttm_bo_populate(bo, &ctx);
+> +		ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
+>  		if (ret)
+>  			return ret;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index a194db83421d..02aea23a34e7 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -224,7 +224,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+>  		};
+>  
+>  		ttm = bo->ttm;
+> -		err = ttm_bo_populate(bo, &ctx);
+> +		err = ttm_bo_populate(bo,
+> +				      bo->resource->placement & TTM_PL_FLAG_MEMCG,
+> +				      &ctx);
+>  		if (err) {
+>  			if (err == -EINTR || err == -ERESTARTSYS ||
+>  			    err == -EAGAIN)
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 698cd4bf5e46..81c4cbbeb130 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -161,6 +161,7 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>  	ttm->caching = caching;
+>  	ttm->restore = NULL;
+>  	ttm->backup = NULL;
+> +	ttm->memcg = bo->memcg;
 >  }
 >  
-> @@ -116,6 +117,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
->  	bp.domain = initial_domain;
->  	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
->  	bp.xcp_id_plus1 = xcp_id_plus1;
-> +	bp.memcg = get_mem_cgroup_from_mm(current->mm);
+>  int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> @@ -365,7 +366,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+>  EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
 >  
->  	r = amdgpu_bo_create_user(adev, &bp, &ubo);
->  	if (r)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 0b9987781f76..1d930421354a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -158,7 +158,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
->  		places[c].mem_type =
->  			abo->flags & AMDGPU_GEM_CREATE_PREEMPTIBLE ?
->  			AMDGPU_PL_PREEMPT : TTM_PL_TT;
-> -		places[c].flags = 0;
-> +		places[c].flags = TTM_PL_FLAG_MEMCG;
->  		/*
->  		 * When GTT is just an alternative to VRAM make sure that we
->  		 * only use it as fallback and still try to fill up VRAM first.
-> @@ -173,7 +173,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
->  		places[c].fpfn = 0;
->  		places[c].lpfn = 0;
->  		places[c].mem_type = TTM_PL_SYSTEM;
-> -		places[c].flags = 0;
-> +		places[c].flags = TTM_PL_FLAG_MEMCG;
->  		c++;
->  	}
->  
-> @@ -657,16 +657,21 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
->  		size = ALIGN(size, PAGE_SIZE);
->  	}
->  
-> -	if (!amdgpu_bo_validate_size(adev, size, bp->domain))
-> +	if (!amdgpu_bo_validate_size(adev, size, bp->domain)) {
-> +		mem_cgroup_put(bp->memcg);
->  		return -ENOMEM;
-> +	}
->  
->  	BUG_ON(bp->bo_ptr_size < sizeof(struct amdgpu_bo));
->  
->  	*bo_ptr = NULL;
->  	bo = kvzalloc(bp->bo_ptr_size, GFP_KERNEL);
-> -	if (bo == NULL)
-> +	if (bo == NULL) {
-> +		mem_cgroup_put(bp->memcg);
->  		return -ENOMEM;
-> +	}
->  	drm_gem_private_object_init(adev_to_drm(adev), &bo->tbo.base, size);
-> +	bo->tbo.memcg = bp->memcg;
->  	bo->tbo.base.funcs = &amdgpu_gem_object_funcs;
->  	bo->vm_bo = NULL;
->  	bo->preferred_domains = bp->preferred_domain ? bp->preferred_domain :
-> @@ -1341,7 +1346,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
->  vm_fault_t amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+>  int ttm_tt_populate(struct ttm_device *bdev,
+> -		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+> +		    struct ttm_tt *ttm,
+> +		    bool memcg_account_tt,
+> +		    struct ttm_operation_ctx *ctx)
 >  {
->  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
-> -	struct ttm_operation_ctx ctx = { false, false };
-> +	struct ttm_operation_ctx ctx = { .interruptible = false,
-> +					 .no_wait_gpu = false };
->  	struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
->  	int r;
+>  	int ret;
 >  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> index 375448627f7b..9a4c506cfb76 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> @@ -55,6 +55,7 @@ struct amdgpu_bo_param {
->  	enum ttm_bo_type		type;
->  	bool				no_wait_gpu;
->  	struct dma_resv			*resv;
-> +	struct mem_cgroup               *memcg;
->  	void				(*destroy)(struct ttm_buffer_object *bo);
->  	/* xcp partition number plus 1, 0 means any partition */
->  	int8_t				xcp_id_plus1;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 53b71e9d8076..f40b0c0a820b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -151,11 +151,13 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
->  			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT |
->  							AMDGPU_GEM_DOMAIN_CPU);
->  		}
-> +		abo->placements[0].flags &= ~TTM_PL_FLAG_MEMCG;
->  		break;
->  	case TTM_PL_TT:
->  	case AMDGPU_PL_PREEMPT:
->  	default:
->  		amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_CPU);
-> +		abo->placements[0].flags &= ~TTM_PL_FLAG_MEMCG;
->  		break;
->  	}
->  	*placement = abo->placement;
+> @@ -376,6 +379,14 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>  		return 0;
+>  
+>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+> +		if (ttm->memcg && memcg_account_tt) {
+> +			gfp_t gfp_flags = GFP_USER;
+> +			if (ctx->gfp_retry_mayfail)
+> +				gfp_flags |= __GFP_RETRY_MAYFAIL;
+> +			if (!mem_cgroup_charge_gpu(ttm->memcg, ttm->num_pages, gfp_flags))
+> +				return -ENOMEM;
+> +			ttm->page_flags |= TTM_TT_FLAG_ACCOUNTED;
+> +		}
+>  		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
+>  		if (bdev->pool.use_dma32)
+>  			atomic_long_add(ttm->num_pages,
+> @@ -437,6 +448,10 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>  		ttm_pool_free(&bdev->pool, ttm);
+>  
+>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+> +		if (ttm->page_flags & TTM_TT_FLAG_ACCOUNTED) {
+> +			mem_cgroup_uncharge_gpu(ttm->memcg, ttm->num_pages);
+> +			ttm->page_flags &= ~TTM_TT_FLAG_ACCOUNTED;
+> +		}
+>  		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+>  		if (bdev->pool.use_dma32)
+>  			atomic_long_sub(ttm->num_pages,
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index 903cd1030110..d7c0dd9e0746 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -135,6 +135,12 @@ struct ttm_buffer_object {
+>  	 * reservation lock.
+>  	 */
+>  	struct sg_table *sg;
+> +
+> +	/**
+> +	 * @memcg: memory cgroup to charge this to if it ends up using system memory.
+> +	 * NULL means don't charge.
+> +	 */
+> +	struct mem_cgroup *memcg;
+>  };
+>  
+>  #define TTM_BO_MAP_IOMEM_MASK 0x80
+> @@ -486,6 +492,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+>  		     pgprot_t tmp);
+>  void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+>  int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    bool memcg_account,
+>  		    struct ttm_operation_ctx *ctx);
+>  
+>  /* Driver LRU walk helpers initially targeted for shrinking. */
+> diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
+> index b510a4812609..668798072292 100644
+> --- a/include/drm/ttm/ttm_placement.h
+> +++ b/include/drm/ttm/ttm_placement.h
+> @@ -70,6 +70,9 @@
+>  /* Placement is only used during eviction */
+>  #define TTM_PL_FLAG_FALLBACK	(1 << 4)
+>  
+> +/* Placement causes memcg accounting */
+> +#define TTM_PL_FLAG_MEMCG	(1 << 5)
+> +
+>  /**
+>   * struct ttm_place
+>   *
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 406437ad674b..2790fc82edc3 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -90,6 +90,8 @@ struct ttm_tt {
+>  	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
+>  	 * struct ttm_tt has been (possibly partially) backed up.
+>  	 *
+> +	 * TTM_TT_FLAG_ACCOUNTED: TTM internal. This tt has been accounted.
+> +	 *
+>  	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+>  	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+>  	 * then unset when TTM calls ttm_tt_unpopulate().
+> @@ -101,8 +103,9 @@ struct ttm_tt {
+>  #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+>  #define TTM_TT_FLAG_DECRYPTED		BIT(4)
+>  #define TTM_TT_FLAG_BACKED_UP	        BIT(5)
+> +#define TTM_TT_FLAG_ACCOUNTED	        BIT(6)
+>  
+> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
+> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(7)
+>  	uint32_t page_flags;
+>  	/** @num_pages: Number of pages in the page array. */
+>  	uint32_t num_pages;
+> @@ -126,6 +129,8 @@ struct ttm_tt {
+>  	enum ttm_caching caching;
+>  	/** @restore: Partial restoration from backup state. TTM private */
+>  	struct ttm_pool_tt_restore *restore;
+> +	/** @memcg: Memory cgroup for this TT allocation */
+> +	struct mem_cgroup *memcg;
+>  };
+>  
+>  /**
+> @@ -245,11 +250,13 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+>   *
+>   * @bdev: the ttm_device this object belongs to
+>   * @ttm: Pointer to the ttm_tt structure
+> + * @mem_account_tt: Account this population to the memcg
+>   * @ctx: operation context for populating the tt object.
+>   *
+>   * Calls the driver method to allocate pages for a ttm
+>   */
+>  int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
+> +		    bool mem_account_tt,
+>  		    struct ttm_operation_ctx *ctx);
+>  
+>  /**
 
