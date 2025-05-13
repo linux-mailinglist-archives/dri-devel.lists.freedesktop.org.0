@@ -2,110 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F5AAB4A84
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 06:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678CBAB4A85
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 06:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD1EE10E2C3;
-	Tue, 13 May 2025 04:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75EB10E4E5;
+	Tue, 13 May 2025 04:28:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eBy3rIC2";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LycLwXlt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF8910E2C3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:41 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CIwwdi010230
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:41 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D4D10E4DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:45 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54D3KVFe023403
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=80VSBrnaMRJ
- WWQG6HQKfwi1RurptGFsnclEszCS2EMo=; b=eBy3rIC2NAX96Zdk7fuJsOzUt85
- 6ifwrIy5+rpygd58PYr8tVmvWfS+Cpto09Uu/Sa1OU0/7jmYM1pcq5wkupMT+m5r
- Mh9aVUVXLCqTvmM8k+IVIDE1m6IUqhf9PTw8mwsihps3kPnlMrNOvp1mauVIPkYx
- JlLFxJaYTb0GWnVc9vpOak5iCMQtb7Ldkg9HV8ctBlFqfkZ3Z7a/i8vf9uxhqnso
- 6L3AGbHGk+lmwHU+nqNwsqKkgccFH1XnUUsh1ZEg1RrAOmuROOZQX5rfcADN7t70
- XMiF6GDxx6KPYMoos1wLT8y1Kw8MznrGSxTmwOWP7U9YAHn8jS7ePRCqWsA==
+ :mime-version:references:subject:to; s=qcppdkim1; bh=W6GAILZe1jq
+ 2FdYPLrjjokTUXGgsX3z5BCNlHC9cgZU=; b=LycLwXlt7RoCmNdFiYWyOvk/9/U
+ hkFK/hXQ+w36NMnBW3d1QMc26PrmtSz01Eey4sN5jZck4qRvLu8ECoUcUPqRJRMI
+ itULNwyPdkLVrwgLJFGSVnl/gBq8LqGFzNbb8MfBA0jIKwEDFYF3IcOc9ucy0T9f
+ AOw8Oo/uD+/5oELDmC1uXN4dPv5J2YSt6pgiO/4HCssP6u4mnbFzEws1XveLyws3
+ gwDICGWS9pFhp/fzoXF2+/kTyVbp+1P3qnJ4ug58T+5gPnQbF0c4Oit9EtgJSvlr
+ T4KPg/kklSbM2wBgJ3ktk9Ku2twY+EoQZpktb5V8Dld+NXx0l5henjbXuow==
 Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
  [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46hv5qeps0-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46kcfejwfe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:40 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 04:28:44 +0000 (GMT)
 Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b115fb801bcso5624989a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 21:28:40 -0700 (PDT)
+ 41be03b00d2f7-b2431e45064so4404509a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 May 2025 21:28:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747110519; x=1747715319;
+ d=1e100.net; s=20230601; t=1747110523; x=1747715323;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=80VSBrnaMRJWWQG6HQKfwi1RurptGFsnclEszCS2EMo=;
- b=giNhHm3Iv7pAtYp6okYuzdnjdf4tW9JlSJwJrGOHfxt5429YI28PUojUnrmNSTfkvN
- o5+GswvXP1IPQ3CE9oU7RgwPBquz8CUNGURZ20DYN4vvIFdclhZDvT/Lsxu+cgngJNug
- FUxkxk3ClqF1Hsn4fo9IzG2OY4lFGdtXpHn79xf0M+zgB6sB4RPIGHX9UXKA1egmbshY
- O4f7kjUPMgaIPeF0/zkbheJ7xh6qfQU3ONU/59i1V6XOQ03HH6nuuDHxZDi7xNFs5O42
- X+BUSy9QYN2tTCvR93uxM85C5OsFwbStRlxYrqztk+7RqSSmLgiP4MLmNpdPlCzYxoTN
- LOlg==
+ bh=W6GAILZe1jq2FdYPLrjjokTUXGgsX3z5BCNlHC9cgZU=;
+ b=K4CImUjLCKQzqQRa30zfMKJZW2HaneCZKcyCaip0iUreLaMZfcEuaQuFBDbzi3WVqq
+ VX0bnYSjtXT1JXDtdkraUkHu628EU4Z9E2J4rYB4qzVqb7iRoRX9Yk5bgdfDeU+zdvRt
+ ADY4/YxDYKSWs6IX0QzrU+G2IW5NW5eizdw4wiwV9EnPQPLtIRiG2AmIiNmjy6tJ9EHQ
+ Fx4gnaoVhZCx6kHSN+moQm94Deo7VBZytOqBZXsvX3Gqo0IU1wguSi94Nr9TqhN3qI7A
+ m+F5TwJiGZVnCz1vqUvP2bKASxuFio93kqErfpg96JGOqn/cEc/mhAXfhie6P7H6IZpO
+ rZEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6CNLgKDKL1fKvPn3L+KTVayTmYBOf2Wy5FDhW6Lng6osBGWEMYZpbr1F+O2oQ8RKY1jE1vVQ3Ilk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1K3iILlZzYV01iMd27nepvYNZQpevyFpkKnn0tWYeQewU68bW
- qav2Cj9e7qq1l/M7MU1SCTRHcHMykRUK9eh6s9SSFqQ2e0HlnVTTJY8+tDms87KZChMacqZVeZa
- Xcldk04NEDyYDB10oLZGdbCgASFiMJS9+iyT/BuUEyF9FzWnGJD/u85TsEtSqZFUtyYQ=
-X-Gm-Gg: ASbGncsC8HKhwtV/HdEvS5oJM3mEokdhuyPmHuUvp7zpFcAjxpKhywx8o+G1f47HRrI
- exnXQsTq+krwBV3Cl3o4CrvS4w61CL/UrnYFlcpMjX2/HDg9VvGX85U1lrW6cntKr8AEvsF3Chq
- IIzy2rk14yy80VG+1O6LxQ9fwKT4D1C6xQnNKiTAqTQDZH1wCQS6HOn35cuD5rGnJq1s+8i1pS0
- iiF8zPlMS3EaKKf2BUg3e1OFB4SKAaFSnbwp2q1CLdWnQwD3A8eBp2iGLc7oVECh1QAe8IKG4tB
- GtxWHyfdDDCrFROJxuy+P64Kwd9+OUBsdDBeXqHLtdvO
-X-Received: by 2002:a05:6a21:458b:b0:1f5:70d8:6a98 with SMTP id
- adf61e73a8af0-215ab883667mr25224176637.0.1747110519627; 
- Mon, 12 May 2025 21:28:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEkhTKa1aIjIDArtHetshGQTFyREicJBCEr0fG8qbpWn0Htg+JAbubSWvVsCfvyg9O9E3J4Ww==
-X-Received: by 2002:a05:6a21:458b:b0:1f5:70d8:6a98 with SMTP id
- adf61e73a8af0-215ab883667mr25224141637.0.1747110519205; 
- Mon, 12 May 2025 21:28:39 -0700 (PDT)
+ AJvYcCUi5j+svyFuw8fsXySG4q7ZjO41X1d0SzrodwZWbV62/IBEGjZQyHFZbDScKXfrXx7tea/2LJFcCpI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxfhOlvU24CDTtX7icNNNMY1sHO6xKiQsdImTSG5rSjHtKfzAh5
+ FiRuapjUzJYCYCUw4w4MUmKrg4kFxzUDnOnlP6o82c1xWGp1OwReqnA/xZMStuAPeC3IkBzPIhV
+ flk5yCpl6As1Da4wfTKX7NdM4wFLORBp4e96GEcwCMIp70Q7U2g7F7r0IubbcfY8xCVI=
+X-Gm-Gg: ASbGncsEJIjiKnIqtHpvJoWOqHWE7tecRG0ftcbnhx8eQJqk71PzO2PcCNpVaQIfdEd
+ Yb6sYKzrq62eNkQ6azUB8eUKLsdzDjhWVVr3M6/cdvrIcHs/MxTa3+fILqMLQ01e4ta4lsxlbY/
+ 424a6ZK4pKgTwrGjdLYGPERaBuWHxqILLtFVyp9F8+mYO6rzrLCCthZyXIW44Gy5Gi1r0pJWd1G
+ p0CXj6flAhY88SL8lpJ8rqNKa/WXfTKx/8n4lc5WcJukRmzBakOhlOqhxHmtjoJooL4fHXsBSWI
+ GkFZukQG+Suj0b3wEiMbVwU73pIlTD7WMCmdPQOrgMDw
+X-Received: by 2002:a05:6a20:1124:b0:215:d565:3026 with SMTP id
+ adf61e73a8af0-215d5653229mr6842189637.20.1747110522840; 
+ Mon, 12 May 2025 21:28:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4+gbSS6s7qSuU5YmGTKTsPTB3m3lJGYEwqEPy9irPtLLKsH0Ru/ril7XSm2s95m5IamjdpQ==
+X-Received: by 2002:a05:6a20:1124:b0:215:d565:3026 with SMTP id
+ adf61e73a8af0-215d5653229mr6842165637.20.1747110522505; 
+ Mon, 12 May 2025 21:28:42 -0700 (PDT)
 Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b234ad3e9f1sm5486101a12.35.2025.05.12.21.28.36
+ 41be03b00d2f7-b234ad3e9f1sm5486101a12.35.2025.05.12.21.28.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 May 2025 21:28:38 -0700 (PDT)
+ Mon, 12 May 2025 21:28:42 -0700 (PDT)
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 To: srinivas.kandagatla@oss.qualcomm.com, linux-arm-msm@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
  linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
  dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org
-Subject: [PATCH v1 3/5] misc: fastrpc: Fix initial memory allocation for Audio
- PD memory pool
-Date: Tue, 13 May 2025 09:58:23 +0530
-Message-Id: <20250513042825.2147985-4-ekansh.gupta@oss.qualcomm.com>
+Subject: [PATCH v1 4/5] misc: fastrpc: Remove buffer from list prior to unmap
+ operation
+Date: Tue, 13 May 2025 09:58:24 +0530
+Message-Id: <20250513042825.2147985-5-ekansh.gupta@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
 References: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=DqtW+H/+ c=1 sm=1 tr=0 ts=6822ca78 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDAzOSBTYWx0ZWRfX7F6+xUjOgjc2
+ wsgs1R9w7SoB1lD1dcJqZtkQCUsCrjtijbwH9ulYUk0RlTjpnnG56yQSVGkpJ6lkZ3GWcRHVDfk
+ ejI5HDM4uaTUo3n6bU0Tgda2JltsX3A864GrGU5RDP+NDDkS3gOJMuB5uGyyMCcIasFM5Tfxl+2
+ 6/2jDABVOIhmQ1PWwRj7daodVjbtImF/XD6TIQW3e4R/FQTwNBe4CruBqzuqIuG8nYcHaW3d2lI
+ xPAeUQVYDQrxvz3aT0MNvzpL7+nADy1nCE+itqnMqFmpGo9Kdky/jG/ORRIfpTg4lOg41otTmgB
+ qeHVlP6GrvTCYQlFKoZcfh5rVv7Br9le1liVxfvLM8xPkurDaaWvkHWFc8e1zeRXcCAyc6E5gSz
+ ndE0z0a14JPbHxSYHH4LbvY8CvILjU91dEjg1YYP6owIxj/tPEBrEO76L5i7P6EwbhpXDlQ3
+X-Proofpoint-ORIG-GUID: sw_VlLXdxma5F1Rs_AgSxOlSOdKcL_9n
+X-Authority-Analysis: v=2.4 cv=asuyCTZV c=1 sm=1 tr=0 ts=6822ca7c cx=c_pps
  a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=l_23c2mIThvE2ntJpuUA:9
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=BnVeGx0dmUjw97O46OEA:9
  a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-ORIG-GUID: 3w5JDf3_lxavnNGhS1FC3_Yn3uSem5yE
-X-Proofpoint-GUID: 3w5JDf3_lxavnNGhS1FC3_Yn3uSem5yE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDAzOSBTYWx0ZWRfX9jnIEz7tdSFO
- xuE94afX1Hi8+kLzzgtOesWHuQrbH1Qc3J7rBnsbtyRUiDCWbk8Q59V3L1KgvkkNoN4nOsm4inS
- 2e+iOS//idnGedguhJZ23hIth/+d4HCG1s/aLa9v/FVjuAzvJ3mQkl72VWbavtnY0jVLIx92vH+
- dj/+AVMPFSwK+Ptpmkc2lJR1cwRL684I8Q5Mzd/2ZUhylMyV15Tr5p29PWujZRJxaMKloUi4Rsy
- V4najYVO2y2b2wrnrH+UOuf2bRKeGupFEUPEL3tJKd/cwU2/+uy6VopisllNhr0yu4IBiraJ/Qn
- 2c4nBm0zxEeuVZOYt8LUjFGZeCQfVYhs6+GS5OR+SKt4ea4DcurK5Qs+dMy6sR0+oK+SObNrHEO
- NVwMC2B8GjrjhTYAUi8a+tfqrWuslcSQw/CsfF1j21kGpFR+MZVIf1C3Ng0xoCDTDo2sAaaK
+X-Proofpoint-GUID: sw_VlLXdxma5F1Rs_AgSxOlSOdKcL_9n
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-12_07,2025-05-09_01,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0 phishscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505130039
+ clxscore=1015 mlxscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505130039
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,46 +121,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The initially allocated memory is not properly included in the pool,
-leading to potential issues with memory management. Set the number
-of pages to one to ensure that the initially allocated memory is
-correctly added to the Audio PD memory pool.
+fastrpc_req_munmap_impl() is called to unmap any buffer. The buffer is
+getting removed from the list after it is unmapped from DSP. This can
+create potential race conditions if any other thread removes the entry
+from list while unmap operation is ongoing. Remove the entry before
+calling unmap operation.
 
-Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
+Fixes: 2419e55e532de ("misc: fastrpc: add mmap/unmap support")
 Cc: stable@kernel.org
 Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 ---
- drivers/misc/fastrpc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/misc/fastrpc.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index d4e38b5e5e6c..b629e24f00bc 100644
+index b629e24f00bc..d54368bf8c5c 100644
 --- a/drivers/misc/fastrpc.c
 +++ b/drivers/misc/fastrpc.c
-@@ -1311,6 +1311,9 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 		goto err;
- 	}
+@@ -1868,9 +1868,6 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+ 				      &args[0]);
+ 	if (!err) {
+ 		dev_dbg(dev, "unmmap\tpt 0x%09lx OK\n", buf->raddr);
+-		spin_lock(&fl->lock);
+-		list_del(&buf->node);
+-		spin_unlock(&fl->lock);
+ 		fastrpc_buf_free(buf);
+ 	} else {
+ 		dev_err(dev, "unmmap\tpt 0x%09lx ERROR\n", buf->raddr);
+@@ -1884,13 +1881,15 @@ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
+ 	struct fastrpc_buf *buf = NULL, *iter, *b;
+ 	struct fastrpc_req_munmap req;
+ 	struct device *dev = fl->sctx->dev;
++	int err;
  
-+	inbuf.client_id = fl->client_id;
-+	inbuf.namelen = init.namelen;
-+	inbuf.pageslen = 0;
- 	if (!fl->cctx->audio_init_mem) {
- 		err = fastrpc_remote_heap_alloc(fl, fl->sctx->dev, init.memlen,
- 						&buf);
-@@ -1335,12 +1338,10 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 			list_add_tail(&buf->node, &fl->cctx->rhmaps);
- 			spin_unlock_irqrestore(&fl->cctx->lock, flags);
- 			fl->cctx->audio_init_mem = true;
-+			inbuf.pageslen = 1;
+ 	if (copy_from_user(&req, argp, sizeof(req)))
+ 		return -EFAULT;
+ 
+ 	spin_lock(&fl->lock);
+ 	list_for_each_entry_safe(iter, b, &fl->mmaps, node) {
+-		if ((iter->raddr == req.vaddrout) && (iter->size == req.size)) {
++		if (iter->raddr == req.vaddrout && iter->size == req.size) {
++			list_del(&iter->node);
+ 			buf = iter;
+ 			break;
  		}
+@@ -1903,7 +1902,14 @@ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
+ 		return -EINVAL;
  	}
  
--	inbuf.client_id = fl->client_id;
--	inbuf.namelen = init.namelen;
--	inbuf.pageslen = 0;
- 	fl->pd = USER_PD;
+-	return fastrpc_req_munmap_impl(fl, buf);
++	err = fastrpc_req_munmap_impl(fl, buf);
++	if (err) {
++		spin_lock(&fl->lock);
++		list_add_tail(&buf->node, &fl->mmaps);
++		spin_unlock(&fl->lock);
++	}
++
++	return err;
+ }
  
- 	args[0].ptr = (u64)(uintptr_t)&inbuf;
+ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+@@ -1997,14 +2003,23 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 
+ 	if (copy_to_user((void __user *)argp, &req, sizeof(req))) {
+ 		err = -EFAULT;
+-		goto err_assign;
++		goto err_copy;
+ 	}
+ 
+ 	dev_dbg(dev, "mmap\t\tpt 0x%09lx OK [len 0x%08llx]\n",
+ 		buf->raddr, buf->size);
+ 
+ 	return 0;
+-
++err_copy:
++	if (req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR) {
++		spin_lock_irqsave(&fl->cctx->lock, flags);
++		list_del(&buf->node);
++		spin_unlock_irqrestore(&fl->cctx->lock, flags);
++	} else {
++		spin_lock(&fl->lock);
++		list_del(&buf->node);
++		spin_unlock(&fl->lock);
++	}
+ err_assign:
+ 	fastrpc_req_munmap_impl(fl, buf);
+ 
 -- 
 2.34.1
 
