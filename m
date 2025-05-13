@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8C0AB5A0F
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 18:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77079AB5A11
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 18:36:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C9010E1BE;
-	Tue, 13 May 2025 16:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C11710E1CF;
+	Tue, 13 May 2025 16:36:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="rfMQEviE";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Ou5YJrFF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79E7310E1BE
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 16:36:19 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-30c371c34e7so5032113a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 09:36:19 -0700 (PDT)
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com
+ [209.85.215.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6A310E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 16:36:20 +0000 (UTC)
+Received: by mail-pg1-f201.google.com with SMTP id
+ 41be03b00d2f7-b1ffd144867so2201364a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 09:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1747154179; x=1747758979;
+ d=google.com; s=20230601; t=1747154180; x=1747758980;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=CKKYXlxsmJ/PJp8vxDdrzNF8Zmu2eeCGm/ICj1a8XDU=;
- b=rfMQEviE5jkIoF83npklJ1rbFy2UHX7y77R1V9JNpGuREyb/nr9vbKF+zQfOfuwZ33
- Gjq2Wl3a7qRHakSMo2blcg2ZS8W7Mm9a3UveuL8QROqQy1EWRIsbVKEa+7NbYT3JyZWA
- AameO9Xct+i9UriLtsNKCCeQqO+z7oKvhOrvE5sEEhd9jtpwjnqSyHd+v3RGF++2cXyH
- x6jA+7D9lx6tRPBJrRGYTyhbGOmy+u6LPWMXtf2mLzQ2Y5BmwKPZhVkOEGc+5+/uyyot
- LN2C/VIPERiblID2Dpn3JgYvCFhGFweGFBFG49NJHofNnZcLsiQEEXIcYqVpnYKx9Azm
- MVSQ==
+ :reply-to; bh=xt8CAY1hcGS6Lny9EEFatzo77hxl+1XNQzM/j34oESs=;
+ b=Ou5YJrFFxnyf47oayS7b3rxgvhoOgjQK+N6WabKupb+nxdVinxSBY2XyDrfg4UqF2f
+ VZsrLh0EtstP66KyADupdif7fFHJvNMzWihsfaFTflv9Sq8bX3Y0vm9YjuFBSx19n7ad
+ rt7kntK4nrcLbdp4yOCkemA1kgUYcSk5o2lvhpDoEHhRlYtL/fKSoa9r4wnFzx06QDlb
+ y0X89IOeqxR86wuMFk1j6eR63Rkb66OMfHA1fFx5GlTKjoTE08fMJQq9X7Lq6GYUSBQi
+ tHT/6/pAL5vjuTHSMX4ZLGfJK3H5haPu4pLuwHmWq9dcavrP0pzcQ2jbWOwO2EI7qntb
+ YhIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747154179; x=1747758979;
+ d=1e100.net; s=20230601; t=1747154180; x=1747758980;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=CKKYXlxsmJ/PJp8vxDdrzNF8Zmu2eeCGm/ICj1a8XDU=;
- b=j+9QNRQf4699MHsB4yPTCbvLImI+hmDEO0aeDTPjdW6K6InJrvL+raBZXXgW9+0eQo
- 4K2k9kTRD/GakkfenmxttiD8mvwr+ZMxD6VnmiIcCpdmxCzK5Y9Nfa3QitL49nauhN9o
- I27IipQ9rpSGsbL4Q8deucrlaoltVUhZyuOIPUDhd7W8C5D7qJUriAF/Z9EmwX3ib9ZM
- kcpeZYWbTHr79y5Bh/JfwRHpbGO1x+l+9fsJeWvlQ/p+3ekxtjfOOnkIyl58Vha34dwp
- FrkceNS6P6aqAwCAk/jRqEc+RtZ1HoWsutqyJi4VUna3VGhVfrXgoawIlcQN+fijwnd7
- B9xQ==
+ bh=xt8CAY1hcGS6Lny9EEFatzo77hxl+1XNQzM/j34oESs=;
+ b=bVSo+VC5lzhcuorfSKMUL7MIIx9qGONK2mWPQWCWR8FbfjCrOtr2GNgY02IvYiPRP5
+ 3NWWH5pvD83kilyemxayYx25n+zqaoSO97YBS/4vGk8ObUvWSKkQbsAss914CO4yOWu5
+ LIg7GIfLaSPHhIolJ7nOlZ3rqA0vOF4xKO2t7LyRnFX5R/nngUpQSfHo/944PhzgGJ7f
+ WmMV/dpGJKCC7fPrmYHstPHKYAdyFkRhtTalJLFSKc235Kq/MFjkwhOiPIfdAk6dqqhi
+ Q24XAmHWWYwqSpPSCbwRSWtL0KRXDAlyrGtDwmT0HtIH0GNYnMVnHpglTvg4ZMRSpJVx
+ ghHQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF8EWNjn71OwOnVv1snUah42H2rh/5mUKKxMOZd22AjRbz8/hg42F78xznZroUChM+POA+tB0Wy2g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1oNaMViwbCilKxYjSDbW/cRjqW4UpK/K5gTAARxiDuCuEjyAl
- JfyIFEtczgUJenukZS6MU86KAXqkUh70D4SIJk6c/5TfL496vdIIss9Ac9UYDcrxuBvFMFP/8kZ
- Xv/ZIPgFUp3eFDA==
-X-Google-Smtp-Source: AGHT+IEO10qMgr32tvTQ7/4QxAx7mhMZ/7IeP7wNavx86wbLnjBqEaJ0Vpx/9J1Z2eTjq2aNMPypdmtydgFVyrU=
-X-Received: from pjbsv6.prod.google.com ([2002:a17:90b:5386:b0:30a:8ffa:9154])
+ AJvYcCWMQmQjoNVgjJaVsO/8L56JHNpBvOjT2LvNnXVoavJ7t4+f2ghXkh32kcULXjag2WD1ZY8MKyycvBY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK/302wNxnxSxCreUFqB3VJBxDNetSMbvQA/PhL+8lsHSUFba6
+ P87kbMnn1y8Ds/FGDOVfSrvVBi52uvVmvqUYiY9iqysET3WMpc4t8SgLK6i4wDHzGSx41zrGb8j
+ 3Z20oXIx0AehitA==
+X-Google-Smtp-Source: AGHT+IGNBh3t4ciLN6BTi9rDoJf0eB2VzLVSDG8EDfVIskybqOSTvm6Sm7/M8V1wG/5e//CdmDmAFqSBHvaalCQ=
+X-Received: from pjbsj5.prod.google.com ([2002:a17:90b:2d85:b0:2f4:465d:5c61])
  (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2250:b0:305:2d27:7cb0 with SMTP id
- 98e67ed59e1d1-30e2e5d6029mr298516a91.21.1747154179069; 
- Tue, 13 May 2025 09:36:19 -0700 (PDT)
-Date: Tue, 13 May 2025 16:35:58 +0000
+ 2002:a17:90b:288b:b0:2ee:f440:53ed with SMTP id
+ 98e67ed59e1d1-30e2e639b4cmr297905a91.31.1747154180487; 
+ Tue, 13 May 2025 09:36:20 -0700 (PDT)
+Date: Tue, 13 May 2025 16:35:59 +0000
 In-Reply-To: <20250513163601.812317-1-tjmercier@google.com>
 Mime-Version: 1.0
 References: <20250513163601.812317-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.49.0.1045.g170613ef41-goog
-Message-ID: <20250513163601.812317-3-tjmercier@google.com>
-Subject: [PATCH bpf-next v6 2/5] bpf: Add dmabuf iterator
+Message-ID: <20250513163601.812317-4-tjmercier@google.com>
+Subject: [PATCH bpf-next v6 3/5] bpf: Add open coded dmabuf iterator
 From: "T.J. Mercier" <tjmercier@google.com>
 To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
  daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
@@ -89,256 +89,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dmabuf iterator traverses the list of all DMA buffers.
-
-DMA buffers are refcounted through their associated struct file. A
-reference is taken on each buffer as the list is iterated to ensure each
-buffer persists for the duration of the bpf program execution without
-holding the list mutex.
+This open coded iterator allows for more flexibility when creating BPF
+programs. It can support output in formats other than text. With an open
+coded iterator, a single BPF program can traverse multiple kernel data
+structures (now including dmabufs), allowing for more efficient analysis
+of kernel data compared to multiple reads from procfs, sysfs, or
+multiple traditional BPF iterator invocations.
 
 Signed-off-by: T.J. Mercier <tjmercier@google.com>
-Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 Acked-by: Song Liu <song@kernel.org>
 ---
- drivers/dma-buf/dma-buf.c |  68 +++++++++++++++++++++++++
- include/linux/dma-buf.h   |   2 +
- kernel/bpf/Makefile       |   3 ++
- kernel/bpf/dmabuf_iter.c  | 102 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 175 insertions(+)
- create mode 100644 kernel/bpf/dmabuf_iter.c
+ kernel/bpf/dmabuf_iter.c | 48 ++++++++++++++++++++++++++++++++++++++++
+ kernel/bpf/helpers.c     |  5 +++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8d151784e302..6b59506a1b94 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -19,7 +19,9 @@
- #include <linux/anon_inodes.h>
- #include <linux/export.h>
- #include <linux/debugfs.h>
-+#include <linux/list.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/seq_file.h>
- #include <linux/sync_file.h>
- #include <linux/poll.h>
-@@ -55,6 +57,72 @@ static void __dma_buf_list_del(struct dma_buf *dmabuf)
- 	mutex_unlock(&dmabuf_list_mutex);
+diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+index 83ef54d78b62..4dd7ef7c145c 100644
+--- a/kernel/bpf/dmabuf_iter.c
++++ b/kernel/bpf/dmabuf_iter.c
+@@ -100,3 +100,51 @@ static int __init dmabuf_iter_init(void)
  }
 =20
-+/**
-+ * dma_buf_iter_begin - begin iteration through global list of all DMA buf=
-fers
-+ *
-+ * Returns the first buffer in the global list of DMA-bufs that's not in t=
-he
-+ * process of being destroyed. Increments that buffer's reference count to
-+ * prevent buffer destruction. Callers must release the reference, either =
-by
-+ * continuing iteration with dma_buf_iter_next(), or with dma_buf_put().
-+ *
-+ * Return:
-+ * * First buffer from global list, with refcount elevated
-+ * * NULL if no active buffers are present
-+ */
-+struct dma_buf *dma_buf_iter_begin(void)
-+{
-+	struct dma_buf *ret =3D NULL, *dmabuf;
+ late_initcall(dmabuf_iter_init);
 +
++struct bpf_iter_dmabuf {
 +	/*
-+	 * The list mutex does not protect a dmabuf's refcount, so it can be
-+	 * zeroed while we are iterating. We cannot call get_dma_buf() since the
-+	 * caller may not already own a reference to the buffer.
++	 * opaque iterator state; having __u64 here allows to preserve correct
++	 * alignment requirements in vmlinux.h, generated from BTF
 +	 */
-+	mutex_lock(&dmabuf_list_mutex);
-+	list_for_each_entry(dmabuf, &dmabuf_list, list_node) {
-+		if (file_ref_get(&dmabuf->file->f_ref)) {
-+			ret =3D dmabuf;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&dmabuf_list_mutex);
-+	return ret;
-+}
++	__u64 __opaque[1];
++} __aligned(8);
 +
-+/**
-+ * dma_buf_iter_next - continue iteration through global list of all DMA b=
-uffers
-+ * @dmabuf:	[in]	pointer to dma_buf
-+ *
-+ * Decrements the reference count on the provided buffer. Returns the next
-+ * buffer from the remainder of the global list of DMA-bufs with its refer=
-ence
-+ * count incremented. Callers must release the reference, either by contin=
-uing
-+ * iteration with dma_buf_iter_next(), or with dma_buf_put().
-+ *
-+ * Return:
-+ * * Next buffer from global list, with refcount elevated
-+ * * NULL if no additional active buffers are present
-+ */
-+struct dma_buf *dma_buf_iter_next(struct dma_buf *dmabuf)
++/* Non-opaque version of bpf_iter_dmabuf */
++struct bpf_iter_dmabuf_kern {
++	struct dma_buf *dmabuf;
++} __aligned(8);
++
++__bpf_kfunc_start_defs();
++
++__bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
 +{
-+	struct dma_buf *ret =3D NULL;
++	struct bpf_iter_dmabuf_kern *kit =3D (void *)it;
 +
-+	/*
-+	 * The list mutex does not protect a dmabuf's refcount, so it can be
-+	 * zeroed while we are iterating. We cannot call get_dma_buf() since the
-+	 * caller may not already own a reference to the buffer.
-+	 */
-+	mutex_lock(&dmabuf_list_mutex);
-+	dma_buf_put(dmabuf);
-+	list_for_each_entry_continue(dmabuf, &dmabuf_list, list_node) {
-+		if (file_ref_get(&dmabuf->file->f_ref)) {
-+			ret =3D dmabuf;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&dmabuf_list_mutex);
-+	return ret;
-+}
++	BUILD_BUG_ON(sizeof(*kit) > sizeof(*it));
++	BUILD_BUG_ON(__alignof__(*kit) !=3D __alignof__(*it));
 +
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int bufle=
-n)
- {
- 	struct dma_buf *dmabuf;
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 8ff4add71f88..7af2ea839f58 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -634,4 +634,6 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_m=
-ap *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map);
- int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
- void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map=
-);
-+struct dma_buf *dma_buf_iter_begin(void);
-+struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf);
- #endif /* __DMA_BUF_H__ */
-diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-index 70502f038b92..3a335c50e6e3 100644
---- a/kernel/bpf/Makefile
-+++ b/kernel/bpf/Makefile
-@@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
- obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
- obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
- obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
-+ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
-+obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
-+endif
-=20
- CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
- CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
-diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-new file mode 100644
-index 000000000000..83ef54d78b62
---- /dev/null
-+++ b/kernel/bpf/dmabuf_iter.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2025 Google LLC */
-+#include <linux/bpf.h>
-+#include <linux/btf_ids.h>
-+#include <linux/dma-buf.h>
-+#include <linux/kernel.h>
-+#include <linux/seq_file.h>
-+
-+static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
-+{
-+	if (*pos)
-+		return NULL;
-+
-+	return dma_buf_iter_begin();
-+}
-+
-+static void *dmabuf_iter_seq_next(struct seq_file *seq, void *v, loff_t *p=
-os)
-+{
-+	struct dma_buf *dmabuf =3D v;
-+
-+	++*pos;
-+
-+	return dma_buf_iter_next(dmabuf);
-+}
-+
-+struct bpf_iter__dmabuf {
-+	__bpf_md_ptr(struct bpf_iter_meta *, meta);
-+	__bpf_md_ptr(struct dma_buf *, dmabuf);
-+};
-+
-+static int __dmabuf_seq_show(struct seq_file *seq, void *v, bool in_stop)
-+{
-+	struct bpf_iter_meta meta =3D {
-+		.seq =3D seq,
-+	};
-+	struct bpf_iter__dmabuf ctx =3D {
-+		.meta =3D &meta,
-+		.dmabuf =3D v,
-+	};
-+	struct bpf_prog *prog =3D bpf_iter_get_info(&meta, in_stop);
-+
-+	if (prog)
-+		return bpf_iter_run_prog(prog, &ctx);
-+
++	kit->dmabuf =3D NULL;
 +	return 0;
 +}
 +
-+static int dmabuf_iter_seq_show(struct seq_file *seq, void *v)
++__bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *i=
+t)
 +{
-+	return __dmabuf_seq_show(seq, v, false);
++	struct bpf_iter_dmabuf_kern *kit =3D (void *)it;
++
++	if (kit->dmabuf)
++		kit->dmabuf =3D dma_buf_iter_next(kit->dmabuf);
++	else
++		kit->dmabuf =3D dma_buf_iter_begin();
++
++	return kit->dmabuf;
 +}
 +
-+static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
++__bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
 +{
-+	struct dma_buf *dmabuf =3D v;
++	struct bpf_iter_dmabuf_kern *kit =3D (void *)it;
 +
-+	if (dmabuf)
-+		dma_buf_put(dmabuf);
++	if (kit->dmabuf)
++		dma_buf_put(kit->dmabuf);
 +}
 +
-+static const struct seq_operations dmabuf_iter_seq_ops =3D {
-+	.start	=3D dmabuf_iter_seq_start,
-+	.next	=3D dmabuf_iter_seq_next,
-+	.stop	=3D dmabuf_iter_seq_stop,
-+	.show	=3D dmabuf_iter_seq_show,
-+};
-+
-+static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_info *au=
-x,
-+					struct seq_file *seq)
-+{
-+	seq_puts(seq, "dmabuf iter\n");
-+}
-+
-+static const struct bpf_iter_seq_info dmabuf_iter_seq_info =3D {
-+	.seq_ops		=3D &dmabuf_iter_seq_ops,
-+	.init_seq_private	=3D NULL,
-+	.fini_seq_private	=3D NULL,
-+	.seq_priv_size		=3D 0,
-+};
-+
-+static struct bpf_iter_reg bpf_dmabuf_reg_info =3D {
-+	.target			=3D "dmabuf",
-+	.feature                =3D BPF_ITER_RESCHED,
-+	.show_fdinfo		=3D bpf_iter_dmabuf_show_fdinfo,
-+	.ctx_arg_info_size	=3D 1,
-+	.ctx_arg_info		=3D {
-+		{ offsetof(struct bpf_iter__dmabuf, dmabuf),
-+		  PTR_TO_BTF_ID_OR_NULL },
-+	},
-+	.seq_info		=3D &dmabuf_iter_seq_info,
-+};
-+
-+DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_buf *d=
-mabuf)
-+BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
-+
-+static int __init dmabuf_iter_init(void)
-+{
-+	bpf_dmabuf_reg_info.ctx_arg_info[0].btf_id =3D bpf_dmabuf_btf_id[0];
-+	return bpf_iter_reg_target(&bpf_dmabuf_reg_info);
-+}
-+
-+late_initcall(dmabuf_iter_init);
++__bpf_kfunc_end_defs();
+diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+index 78cefb41266a..39fe63016868 100644
+--- a/kernel/bpf/helpers.c
++++ b/kernel/bpf/helpers.c
+@@ -3346,6 +3346,11 @@ BTF_ID_FLAGS(func, bpf_iter_kmem_cache_next, KF_ITER=
+_NEXT | KF_RET_NULL | KF_SLE
+ BTF_ID_FLAGS(func, bpf_iter_kmem_cache_destroy, KF_ITER_DESTROY | KF_SLEEP=
+ABLE)
+ BTF_ID_FLAGS(func, bpf_local_irq_save)
+ BTF_ID_FLAGS(func, bpf_local_irq_restore)
++#ifdef CONFIG_DMA_SHARED_BUFFER
++BTF_ID_FLAGS(func, bpf_iter_dmabuf_new, KF_ITER_NEW | KF_SLEEPABLE)
++BTF_ID_FLAGS(func, bpf_iter_dmabuf_next, KF_ITER_NEXT | KF_RET_NULL | KF_S=
+LEEPABLE)
++BTF_ID_FLAGS(func, bpf_iter_dmabuf_destroy, KF_ITER_DESTROY | KF_SLEEPABLE=
+)
++#endif
+ BTF_KFUNCS_END(common_btf_ids)
+=20
+ static const struct btf_kfunc_id_set common_kfunc_set =3D {
 --=20
 2.49.0.1045.g170613ef41-goog
 
