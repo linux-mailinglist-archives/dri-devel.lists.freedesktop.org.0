@@ -2,74 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9857CAB48F6
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 03:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85327AB4907
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 04:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E628C10E2A2;
-	Tue, 13 May 2025 01:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5023010E4C6;
+	Tue, 13 May 2025 02:00:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CppJvmfm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69CD310E2A2;
- Tue, 13 May 2025 01:52:26 +0000 (UTC)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54D196Q8028546;
- Tue, 13 May 2025 01:52:21 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com
- [147.11.82.252])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46hv11jg9p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 13 May 2025 01:52:21 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 12 May 2025 18:52:19 -0700
-Received: from pek-lpg-core1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 12 May 2025 18:52:15 -0700
-From: <jianqi.ren.cn@windriver.com>
-To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
-CC: <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <jianqi.ren.cn@windriver.com>, <harry.wentland@amd.com>,
- <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <Jerry.Zuo@amd.com>, <wayne.lin@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <zaeem.mohamed@amd.com>, <daniel.wheeler@amd.com>
-Subject: [PATCH 6.1.y] drm/amd/display: Don't refer to dc_sink in
- is_dsc_need_re_compute
-Date: Tue, 13 May 2025 09:52:14 +0800
-Message-ID: <20250513015214.3360461-1-jianqi.ren.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCFF10E4C6;
+ Tue, 13 May 2025 01:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747101600; x=1778637600;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WcrSmSlSjmHVcZ3HD2/qTAxVlXG+sQlwOjuClfwPBi8=;
+ b=CppJvmfmC/ioNI3lepI+aPeJmavC7pHkRc4Ur4dLe5RboljC4hmlpD1l
+ u9bQsED3fY2Yh4TL/rBta1o+hSLbl8M+b34NVtaGseuhCCea4OBKVPmgO
+ AbCII2R3cirkwneybWwSILI20geFyNGyqLMvzxJfnpAhyboLSj19/kpsi
+ EdsCCeq8DRAbNIOx0h4kIs217RX9D0qWwdTeqkhCIaQzrUgYOhooNMkv9
+ oYyqTrYxLlgheLj8L52V/qHTtVrhRxGU7slEN3f5emE9gWcWvDLoOZlah
+ 5WeOtUZl3hcc9r1DDOzsQla/qema5eoOuJ33vzZhqkvx7boT2puBcJKjR w==;
+X-CSE-ConnectionGUID: kXSin/gbTEKukTS38o6K4Q==
+X-CSE-MsgGUID: rdIzzJkXRGi86AlrLSHLeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59928343"
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; d="scan'208";a="59928343"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2025 18:59:58 -0700
+X-CSE-ConnectionGUID: mzr8htMGRjaIDmb/NxuA0w==
+X-CSE-MsgGUID: apClmqaPSfix6Pw7S7DIcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; d="scan'208";a="137957128"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 12 May 2025 18:59:51 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uEevt-000FaB-00;
+ Tue, 13 May 2025 01:59:49 +0000
+Date: Tue, 13 May 2025 09:59:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, akpm@linux-foundation.org,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
+ kwilczynski@kernel.org, raag.jadav@intel.com,
+ andriy.shevchenko@linux.intel.com, arnd@arndb.de, me@kloenk.dev,
+ fujita.tomonori@gmail.com, daniel.almeida@collabora.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH 01/11] rust: helpers: io: use macro to generate io
+ accessor functions
+Message-ID: <202505130821.z5LcD77G-lkp@intel.com>
+References: <20250509031524.2604087-2-andrewjballance@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=TZCWtQQh c=1 sm=1 tr=0 ts=6822a5d5 cx=c_pps
- a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17
- a=dt9VzEwgFbYA:10 a=zd2uoN0lAAAA:8 a=t7CeM3EgAAAA:8 a=r8Kla15me-PCpvyDwbMA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: IfsBuhMvJYAouEqq-Dl30CUPGKGNyJ_c
-X-Proofpoint-ORIG-GUID: IfsBuhMvJYAouEqq-Dl30CUPGKGNyJ_c
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDAxNSBTYWx0ZWRfX7nmkn/8mDoje
- Fu6onx5XJN1H5fJMKinqsKlP5HAFLE1QQasBeElUiF/SbMgJGKkB9hZOr/ew42pm0nDLMWgUI4W
- V/EsSWVwW61Z51laT7w7InyLPRX3xme8ONHquNW6HgbftrO+Cpq7p8OB4vFkT3Gs7ihGYGYfgvD
- ay3+E9SJ1uYKkZAdyQ9wuT7BypwFVkFzrnoyDV+7sBaruPdXAb+PrclKMYMIxbuNmE//HVlRXrG
- P7+iIe/m5uiYzbPoViTrBjuNd8z/mLkzk26QhcRtEccGCgdM3HPV/PbZUPTl71Ym6WTE8J6XXn6
- gL5BhoBsSGlinnrKV4oA/jiFla8R74Q1RpuTdxU71KEZ074FQXflRKan9K2PFUgzRipgTttlKl2
- +tTBEH55Fo4Ca25TQrfddwm4HOBvBbS4uqe8WzGubnhpN3Z5CVEJV3hQNmQvy/kFRNJqOpE4
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_07,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 bulkscore=0
- phishscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2505130015
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250509031524.2604087-2-andrewjballance@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +81,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wayne Lin <wayne.lin@amd.com>
+Hi Andrew,
 
-[ Upstream commit fcf6a49d79923a234844b8efe830a61f3f0584e4 ]
+kernel test robot noticed the following build errors:
 
-[Why]
-When unplug one of monitors connected after mst hub, encounter null pointer dereference.
+[auto build test ERROR on 92a09c47464d040866cf2b4cd052bc60555185fb]
 
-It's due to dc_sink get released immediately in early_unregister() or detect_ctx(). When
-commit new state which directly referring to info stored in dc_sink will cause null pointer
-dereference.
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ballance/rust-helpers-io-use-macro-to-generate-io-accessor-functions/20250509-111818
+base:   92a09c47464d040866cf2b4cd052bc60555185fb
+patch link:    https://lore.kernel.org/r/20250509031524.2604087-2-andrewjballance%40gmail.com
+patch subject: [PATCH 01/11] rust: helpers: io: use macro to generate io accessor functions
+config: x86_64-randconfig-073-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130821.z5LcD77G-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505130821.z5LcD77G-lkp@intel.com/reproduce)
 
-[how]
-Remove redundant checking condition. Relevant condition should already be covered by checking
-if dsc_aux is null or not. Also reset dsc_aux to NULL when the connector is disconnected.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130821.z5LcD77G-lkp@intel.com/
 
-Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-[The deleted codes in this fix is introduced by commit b9b5a82c5321
-("drm/amd/display: Fix DSC-re-computing") after 6.11.]
-Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-Verified the build test
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++++
- 1 file changed, 4 insertions(+)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 5eb994ed5471..6bb590bc7c19 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -183,6 +183,8 @@ amdgpu_dm_mst_connector_early_unregister(struct drm_connector *connector)
- 		dc_sink_release(dc_sink);
- 		aconnector->dc_sink = NULL;
- 		aconnector->edid = NULL;
-+		aconnector->dsc_aux = NULL;
-+		port->passthrough_aux = NULL;
- 	}
- 
- 	aconnector->mst_status = MST_STATUS_DEFAULT;
-@@ -487,6 +489,8 @@ dm_dp_mst_detect(struct drm_connector *connector,
- 		dc_sink_release(aconnector->dc_sink);
- 		aconnector->dc_sink = NULL;
- 		aconnector->edid = NULL;
-+		aconnector->dsc_aux = NULL;
-+		port->passthrough_aux = NULL;
- 
- 		amdgpu_dm_set_mst_status(&aconnector->mst_status,
- 			MST_REMOTE_EDID | MST_ALLOCATE_NEW_PAYLOAD | MST_CLEAR_ALLOCATED_PAYLOAD,
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 20.1.2
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+>> error[E0425]: cannot find function `readb` in crate `bindings`
+   --> rust/kernel/io.rs:221:36
+   |
+   221 |     define_read!(read8, try_read8, readb -> u8);
+   |                                    ^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `readw` in crate `bindings`
+   --> rust/kernel/io.rs:222:38
+   |
+   222 |     define_read!(read16, try_read16, readw -> u16);
+   |                                      ^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writel` in crate `bindings`
+   --> rust/kernel/io.rs:243:41
+   |
+   243 |     define_write!(write32, try_write32, writel <- u32);
+   |                                         ^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writeq` in crate `bindings`
+   --> rust/kernel/io.rs:248:9
+   |
+   248 |         writeq <- u64
+   |         ^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writeb_relaxed` in crate `bindings`
+   --> rust/kernel/io.rs:251:55
+   |
+   251 |     define_write!(write8_relaxed, try_write8_relaxed, writeb_relaxed <- u8);
+   |                                                       ^^^^^^^^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writew_relaxed` in crate `bindings`
+   --> rust/kernel/io.rs:252:57
+   |
+   252 |     define_write!(write16_relaxed, try_write16_relaxed, writew_relaxed <- u16);
+   |                                                         ^^^^^^^^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writel_relaxed` in crate `bindings`
+   --> rust/kernel/io.rs:253:57
+   |
+   253 |     define_write!(write32_relaxed, try_write32_relaxed, writel_relaxed <- u32);
+   |                                                         ^^^^^^^^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `writeq_relaxed` in crate `bindings`
+   --> rust/kernel/io.rs:258:9
+   |
+   258 |         writeq_relaxed <- u64
+   |         ^^^^^^^^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `readl` in crate `bindings`
+   --> rust/kernel/io.rs:223:38
+   |
+   223 |     define_read!(read32, try_read32, readl -> u32);
+   |                                      ^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `readq` in crate `bindings`
+   --> rust/kernel/io.rs:228:9
+   |
+   228 |         readq -> u64
+   |         ^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `readb_relaxed` in crate `bindings`
+   --> rust/kernel/io.rs:231:52
+   |
+   231 |     define_read!(read8_relaxed, try_read8_relaxed, readb_relaxed -> u8);
+   |                                                    ^^^^^^^^^^^^^ not found in `bindings`
+..
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
