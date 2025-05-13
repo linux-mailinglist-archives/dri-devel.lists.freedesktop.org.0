@@ -2,91 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046E3AB54C0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 14:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29291AB5514
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 14:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6149B10E59E;
-	Tue, 13 May 2025 12:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C8F10E598;
+	Tue, 13 May 2025 12:43:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JIkP3aCN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DKf3wwGj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990A110E59E
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 12:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747139238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X/p3h5e9wmTs8dI9Ka3t/mD4p4fAO+nuYBKiFrLyMw0=;
- b=JIkP3aCNQZAfp/G6nHYc68cBL1H3Lfos4K5QuXc9dRKYnAfdc6rPT2vIzvk1aDDSy+KxqT
- bk3Mkw1e0ylDggAWl/gNCQoWEbY0BY39EpLdzGvbSWnPmZKozWgh6dDNSsKQ6qdFRHa30M
- opzjwmWnEgYg8Gb22LcMwWwbKkMC2fM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-152-WwJPas6kM_OVg0k6cg5vXQ-1; Tue, 13 May 2025 08:27:15 -0400
-X-MC-Unique: WwJPas6kM_OVg0k6cg5vXQ-1
-X-Mimecast-MFC-AGG-ID: WwJPas6kM_OVg0k6cg5vXQ_1747139234
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3a0adce033bso1887819f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 05:27:15 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791B610E598
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 12:43:08 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ad21a5466f6so799898166b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 05:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747140187; x=1747744987; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=3SBXEjjhVC1EuH3UOI0/Jmhx9LET+hs3zHGAFUvLwZE=;
+ b=DKf3wwGjRxaK18wnu530mvOOGYS4e4/vWvyCTsogxdreCA/f5aonskPCu0WT0uXFZP
+ zwwE0kb89D0KUa33yuK+1v7p1q6O16u6ikbzP+gvH6o0F6nYFziP2rnYwNFfuW9Ba/28
+ bxdIiKIh/l+g284IW00pJkgRNgnj0936QWOJFbgfKQWELTBUYj7F978apaR5jdaG1Yeb
+ Qbgiyi4kVZIg6KKSgOC89ruIUCjmKxO10r7SZtDtu+1FJwMa/Gx5YlQSnbGXsHL+r9PD
+ n1c/9dGCEoou6T1k+d/5sR1VGIRzEnno+g6OF/3isYY++DY7R/+AhdGnXkg7/CVo5lQL
+ PXFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747139234; x=1747744034;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1747140187; x=1747744987;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X/p3h5e9wmTs8dI9Ka3t/mD4p4fAO+nuYBKiFrLyMw0=;
- b=FSoMUozbQ7RgnOiFJSyoIA1wEoBZbtMKoUE14bYtOoYViRfOLY7hKSFwFM8xBI+dwG
- 7G9AO4J3ai9Mp8mRf82DoLAWhpJdta3rbcPa/nY4QShqEqg2S7CqepZrejCdsEaVPbe2
- Nl8KvKbf8zvZpg/uuC9IRe34WQ/Wja3bKZ3CteEgEjcEZhVbUHmqXAxIGHBFPA/siVJW
- 9/ELdDj8E2LtaM9U0S9sCuLB3TCBGBEZeDi3O111hzmyDnILuD/8NkTE1UlllmSXOKzP
- 1UzwD/cR7AYWILBqeL3PCypMBjCqvdBhtqbe+ruJj+VqP6DzO0M90KNo8R1XyAi6Srx4
- 1R8A==
-X-Gm-Message-State: AOJu0Yzsn+INm3LYKj8Jjuhdoed27/vR171UgsRS8QOf9asNRoB+ZwET
- 83uOoXJfFQR34pwjaSiFggOB0yGGwdWQsGGRt/GRPMv1W9M9NiZ/PJuv1/rP2m4VMRPjlRL9p8A
- 7p4EXSI19hEM0LH1Pl5NgVAnr2JT0PS16DEzI/lb+ot9ZQGQlitUx7mFc4CzVlQqRZw==
-X-Gm-Gg: ASbGncv8xE2OqzlkKUQxgylBqO4kZGvGuAxQ8fkyiiDBhOG4HQLPY3GIVG4yxIkUzV6
- gop2v9ozAeYCixkgSrNNmlsN7lkJ11n3wpsjMM4j6ExCt7qrRy4JxPppcVe5b2HUhRZQNLn1aGV
- EWbEZliWzYGCznV9mrWlnuVhF4jrdQN+tyGNKqrm45BNmVakAIX23Syb4+L9MhowwCwrkNqr6dt
- O8203IavmY0oJUR0FYoqgDcNwVT70KClkrk3WOkVxKqZgsYpY2G9l1R2fDDDpYCLQXRhp+Ei50X
- 3h8qQSfaBO6+bx7JcxnM+Gp7TLcdG4MwY9KwYga1K1QKPrx8Skk=
-X-Received: by 2002:a05:6000:402a:b0:3a1:f5c7:c50 with SMTP id
- ffacd0b85a97d-3a1f6488071mr12143266f8f.47.1747139234293; 
- Tue, 13 May 2025 05:27:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFrrxj3IwXdKUV2CELEqv0QBfuZbCQ3r3I4UNOECD2kxQZkxX4AjMG3Z/asswcNELawoNcng==
-X-Received: by 2002:a05:6000:402a:b0:3a1:f5c7:c50 with SMTP id
- ffacd0b85a97d-3a1f6488071mr12143244f8f.47.1747139233794; 
- Tue, 13 May 2025 05:27:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a1f58f396asm16352827f8f.59.2025.05.13.05.27.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 May 2025 05:27:13 -0700 (PDT)
-Message-ID: <66c4553e-17ec-428e-8a3b-73a51af65cc1@redhat.com>
-Date: Tue, 13 May 2025 14:27:12 +0200
+ bh=3SBXEjjhVC1EuH3UOI0/Jmhx9LET+hs3zHGAFUvLwZE=;
+ b=XYh4EQLi1+I2uZRjvC7LJq8F5ya1xX4WjOO1o89I2VJMlLAdg/EhfyeVwr7+x3L30/
+ cvRJqUA6EV22eG//R6biSlEFEp5JtEUbrOAeA8QsId1eF8RGgsy6pbalW/hjJK72HKhD
+ vRaPUaW9HghaZHTf9qo+3MSIUTwscUepfH98fklq0mEniO2DldIr16ru0+d1Ag3HkLgC
+ VTiHCHuvK7OlHzR/svvAfEcwCWpDaZGw6LESkEN67m4rvcs88jL62jUUm0Cp3kENDVlW
+ KgAjxfP+ulexabvoC53mMfA7soLiDkuWbm+Urzi/VBgHSH2b39DUIFYEFMubgJ9tXq+8
+ dHnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUeOMkXpd75NHJdE96cnKozxYUwNGTxwMYY+GujOmc62TFvfqreCTaHDdzNe90J/tiV0oQL/CKOE8I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyclqdzlXaGglz7U6gpZp17oaxH/MaGH2nNvwqhd9P+Op0ebKNY
+ HJoTQwB1eb+ycT2ZVEoOLxgw0Xuh3a3e6SZatVSI7ehXPsqxSl2C
+X-Gm-Gg: ASbGncs47kMjkQ6eQKzyh1yONJW+naM3v+IjBLL8aoFXx7wJlikU6/Xieta6sLJ9cvB
+ 8YmQLbzwmQy+qbNOl6VWTRAwtOUMD22ettm0CBXAuBmiJ6Nscjy7ZQmzFyrflXgzcXhE39QPB5c
+ eJkC590LF4IauoapK67YCA0j8VdUJgwORmzs+xzaIWdlev1AxXpe4Ywf08oXEjPXbdLkMhswyyv
+ XnyH6ZaE4kqfhHcuGGhTsAyg7RlmEViTbdncnNMon055oZs58j1n8tykeqL4oihUSy7+nRuqYR2
+ hPe69e0T4hHTVlxig3dFIVMEHObCcXfM6AzZUOHZrqtGAhnfMr0CVHbU+Vy0Ak6g9hNS37ozU1/
+ ibBLlKqMsTKzG6tz61yYrrmTbw1gcyqHb
+X-Google-Smtp-Source: AGHT+IEEJwaGQNEs+ETh8ls4sgLALLfU3bE4rJnfCyJldPf5oRxxddJO1sK4tUJgKQ3fhtsC0sJiuw==
+X-Received: by 2002:a17:907:2ce4:b0:ad2:3c4e:2fc2 with SMTP id
+ a640c23a62f3a-ad4d52be8e5mr333035766b.29.1747140186540; 
+ Tue, 13 May 2025 05:43:06 -0700 (PDT)
+Received: from toolbox (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch.
+ [83.173.201.248]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad21937b329sm773797466b.78.2025.05.13.05.43.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 May 2025 05:43:06 -0700 (PDT)
+Date: Tue, 13 May 2025 14:43:04 +0200
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: Doug Anderson <dianders@chromium.org>, max.krummenacher@toradex.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Use HPD in a DP use case
+Message-ID: <aCM-WPobRYwUP7RC@toolbox>
+References: <20250501074805.3069311-1-max.oss.09@gmail.com>
+ <CAD=FV=W=NjbM9ZXLw7gH-_4CnpU7QU=sKCVQVxgmgP-Qpt-3hg@mail.gmail.com>
+ <aBo8elFPYgPleK5n@toolbox>
+ <68f0c5ef-ac51-4652-b829-2bc56c5a75c8@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/mgag200: Use helpers for programming gamma ramps
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- airlied@redhat.com, simona@ffwll.ch, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20250509083911.39018-1-tzimmermann@suse.de>
- <20250509083911.39018-4-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250509083911.39018-4-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: k7QZEKISrugvBoIugYpHNAmBX3s1xIJHJfhCKaX_1WE_1747139234
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <68f0c5ef-ac51-4652-b829-2bc56c5a75c8@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,225 +101,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/05/2025 10:23, Thomas Zimmermann wrote:
-> Replace mgag200's code for programming the hardware gamma LUT with
-> DRM helpers. Either load a provided gamma ramp or program a default.
-> Set the individual entries with a callback.
+On Wed, May 07, 2025 at 03:45:52PM +0530, Jayesh Choudhary wrote:
+> Hello Max,
 > 
-> Each gamma value is given as 3 individual 16-bit values for red,
-> green and blue. The driver reduces them to 8 bit to make them fit
-> into hardware registers.
-
-Thanks, it looks good to me.
-
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> On 06/05/25 22:14, Max Krummenacher wrote:
+> > On Thu, May 01, 2025 at 08:38:15PM -0700, Doug Anderson wrote:
+> > > Hi,
+> > > 
+> > > On Thu, May 1, 2025 at 12:48 AM <max.oss.09@gmail.com> wrote:
+> > > > 
+> > > > From: Max Krummenacher <max.krummenacher@toradex.com>
+> > > > 
+> > > > The bridge driver currently disables handling the hot plug input and
+> > > > relies on a always connected eDP panel with fixed delays when the
+> > > > panel is ready.
+> > > 
+> > > Not entirely correct. In some cases we don't have fixed delays and
+> > > instead use a GPIO for HPD. That GPIO gets routed to the eDP panel
+> > > code.
+> > 
+> > Will reword in a v2
+> > 
+> > > 
+> > > 
+> > > > If one uses the bridge for a regular display port monitor this
+> > > > assumption is no longer true.
+> > > > If used with a display port monitor change to keep the hot plug
+> > > > detection functionality enabled and change to have the bridge working
+> > > > during runtime suspend to be able to detect the connection state.
+> > > > 
+> > > > Note that if HPD_DISABLE is set the HPD bit always returns connected
+> > > > independent of the actual state of the hot plug pin. Thus
+> > > > currently bridge->detect() always returns connected.
+> > > 
+> > > If that's true, it feels like this needs:
+> > > 
+> > > Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge
+> > > connector operations for DP")
+> > > 
+> > > ...and it would be nice to get Laurent to confirm. Seems weird that he
+> > > wouldn't have noticed that.
+> > 
+> > I retested by adding a print in ti_sn_bridge_detect().
+> > With the HPD_DISABLE bit set the HPD_DEBOUNCED_STATE is always true
+> > resulting in reporting always connected.
+> > 
+> > When one does not set the HPD_DISABLE bit and is in runtime suspend
+> > (i.e. detect() enables the bridge with its call to
+> > pm_runtime_get_sync() ) then the HPD_DEBOUNCED_STATE is only set
+> > after the debounce time. As it is immediately read here detect()
+> > always reports disconnected.
+> > 
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/mgag200/mgag200_drv.h    |  4 +-
->   drivers/gpu/drm/mgag200/mgag200_g200er.c |  4 +-
->   drivers/gpu/drm/mgag200/mgag200_g200ev.c |  4 +-
->   drivers/gpu/drm/mgag200/mgag200_g200se.c |  4 +-
->   drivers/gpu/drm/mgag200/mgag200_mode.c   | 78 ++++++++++--------------
->   5 files changed, 40 insertions(+), 54 deletions(-)
+> I have same observations on my end.
 > 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 819a7e9381e3..7d481e11f9d6 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -382,8 +382,8 @@ int mgag200_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
->   	.destroy = drm_plane_cleanup, \
->   	DRM_GEM_SHADOW_PLANE_FUNCS
->   
-> -void mgag200_crtc_set_gamma_linear(struct mga_device *mdev, const struct drm_format_info *format);
-> -void mgag200_crtc_set_gamma(struct mga_device *mdev,
-> +void mgag200_crtc_fill_gamma(struct mga_device *mdev, const struct drm_format_info *format);
-> +void mgag200_crtc_load_gamma(struct mga_device *mdev,
->   			    const struct drm_format_info *format,
->   			    struct drm_color_lut *lut);
->   
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> index c20ed0ab50ec..23debc70dc54 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> @@ -200,9 +200,9 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	mgag200_g200er_reset_tagfifo(mdev);
->   
->   	if (crtc_state->gamma_lut)
-> -		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-> +		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
->   	else
-> -		mgag200_crtc_set_gamma_linear(mdev, format);
-> +		mgag200_crtc_fill_gamma(mdev, format);
->   
->   	mgag200_enable_display(mdev);
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> index 78be964eb97c..f8796e2b7a0f 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> @@ -201,9 +201,9 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	mgag200_g200ev_set_hiprilvl(mdev);
->   
->   	if (crtc_state->gamma_lut)
-> -		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-> +		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
->   	else
-> -		mgag200_crtc_set_gamma_linear(mdev, format);
-> +		mgag200_crtc_fill_gamma(mdev, format);
->   
->   	mgag200_enable_display(mdev);
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> index 7a32d3b1d226..e80da12ba1fe 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> @@ -332,9 +332,9 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   	mgag200_g200se_set_hiprilvl(mdev, adjusted_mode, format);
->   
->   	if (crtc_state->gamma_lut)
-> -		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-> +		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
->   	else
-> -		mgag200_crtc_set_gamma_linear(mdev, format);
-> +		mgag200_crtc_fill_gamma(mdev, format);
->   
->   	mgag200_enable_display(mdev);
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 6067d08aeee3..39bfb9f4b205 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -13,6 +13,7 @@
->   
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_color_mgmt.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_edid.h>
->   #include <drm/drm_format_helper.h>
-> @@ -30,35 +31,37 @@
->    * This file contains setup code for the CRTC.
->    */
->   
-> -void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
-> -				   const struct drm_format_info *format)
-> +static void mgag200_set_gamma_lut(struct drm_crtc *crtc, unsigned int index,
-> +				  u16 red, u16 green, u16 blue)
->   {
-> -	int i;
-> +	struct drm_device *dev = crtc->dev;
-> +	struct mga_device *mdev = to_mga_device(dev);
-> +	u8 i8 = index & 0xff;
-> +	u8 r8 = red >> 8;
-> +	u8 g8 = green >> 8;
-> +	u8 b8 = blue >> 8;
-> +
-> +	if (drm_WARN_ON_ONCE(dev, index != i8))
-> +		return; /* driver bug */
-> +
-> +	WREG8(DAC_INDEX + MGA1064_INDEX, i8);
-> +	WREG8(DAC_INDEX + MGA1064_COL_PAL, r8);
-> +	WREG8(DAC_INDEX + MGA1064_COL_PAL, g8);
-> +	WREG8(DAC_INDEX + MGA1064_COL_PAL, b8);
-> +}
->   
-> -	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
-> +void mgag200_crtc_fill_gamma(struct mga_device *mdev,
-> +			     const struct drm_format_info *format)
-> +{
-> +	struct drm_crtc *crtc = &mdev->crtc;
->   
->   	switch (format->format) {
->   	case DRM_FORMAT_RGB565:
-> -		/* Use better interpolation, to take 32 values from 0 to 255 */
-> -		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-> -		}
-> -		/* Green has one more bit, so add padding with 0 for red and blue. */
-> -		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-> -		}
-> +		drm_crtc_fill_gamma_565(crtc, mgag200_set_gamma_lut);
->   		break;
->   	case DRM_FORMAT_RGB888:
->   	case DRM_FORMAT_XRGB8888:
-> -		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-> -		}
-> +		drm_crtc_fill_gamma_888(crtc, mgag200_set_gamma_lut);
->   		break;
->   	default:
->   		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-> @@ -67,36 +70,19 @@ void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
->   	}
->   }
->   
-> -void mgag200_crtc_set_gamma(struct mga_device *mdev,
-> +void mgag200_crtc_load_gamma(struct mga_device *mdev,
->   			    const struct drm_format_info *format,
->   			    struct drm_color_lut *lut)
->   {
-> -	int i;
-> -
-> -	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
-> +	struct drm_crtc *crtc = &mdev->crtc;
->   
->   	switch (format->format) {
->   	case DRM_FORMAT_RGB565:
-> -		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
-> -		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].red >> 8);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].blue >> 8);
-> -		}
-> -		/* Green has one more bit, so add padding with 0 for red and blue. */
-> -		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-> -		}
-> +		drm_crtc_load_gamma_565_from_888(crtc, lut, mgag200_set_gamma_lut);
->   		break;
->   	case DRM_FORMAT_RGB888:
->   	case DRM_FORMAT_XRGB8888:
-> -		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
-> -			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
-> -		}
-> +		drm_crtc_load_gamma_888(crtc, lut, mgag200_set_gamma_lut);
->   		break;
->   	default:
->   		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-> @@ -642,9 +628,9 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
->   		const struct drm_format_info *format = mgag200_crtc_state->format;
->   
->   		if (crtc_state->gamma_lut)
-> -			mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-> +			mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
->   		else
-> -			mgag200_crtc_set_gamma_linear(mdev, format);
-> +			mgag200_crtc_fill_gamma(mdev, format);
->   	}
->   }
->   
-> @@ -665,9 +651,9 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
->   		funcs->pixpllc_atomic_update(crtc, old_state);
->   
->   	if (crtc_state->gamma_lut)
-> -		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-> +		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
->   	else
-> -		mgag200_crtc_set_gamma_linear(mdev, format);
-> +		mgag200_crtc_fill_gamma(mdev, format);
->   
->   	mgag200_enable_display(mdev);
->   }
+> > > 
+> > > 
+> > > > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> > > > 
+> > > > ---
+> > > > 
+> > > >   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 13 +++++++++++--
+> > > >   1 file changed, 11 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > index 01d456b955ab..c7496bf142d1 100644
+> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > > @@ -333,9 +333,11 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
+> > > >           * If HPD somehow makes sense on some future panel we'll have to
+> > > >           * change this to be conditional on someone specifying that HPD should
+> > > >           * be used.
+> > > > +        * Only disable HDP if used for eDP.
+> > > >           */
+> > > > -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> > > > -                          HPD_DISABLE);
+> > > > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
+> > > > +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> > > > +                                  HPD_DISABLE, HPD_DISABLE);
+> > > > 
+> > > >          pdata->comms_enabled = true;
+> > > > 
+> > > > @@ -357,6 +359,10 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+> > > >          struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
+> > > >          int ret;
+> > > > 
+> > > > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort &&
+> > > > +           pdata->comms_enabled)
+> > > > +               return 0;
+> > > > +
+> > > 
+> > > I don't understand this part of the patch. You're basically making
+> > > suspend/resume a no-op for the DP case? I don't think that's right...
+> > 
+> > That is what I wanted to do as nothing else worked ...
+> > Probably there are better solutions.
+> > 
+> > > 
+> > > First, I don't _think_ you need it, right? ...since "detect" is
+> > > already grabbing the pm_runtime reference this shouldn't be needed
+> > > from a correctness point of view.
+> > 
+> > Correct, it shouldn't. However if the bridge is coming out of
+> > powerup/reset then we have to wait the debounce time time to get the
+> > current state of HPD. The bridge starts with disconnected and only
+> > sets connected after it seen has the HPD pin at '1' for the debounce
+> > time.
+> > 
+> > Adding a 400ms sleep would fix that.
+> > 
+> 
+> 
+> While adding this delay fixes the detect issue, it could lead to other
+> problems.
+> Detect hook is called every 10 sec and considering that, 400ms is a
+> considerable amount of time. And it could cause performance issues like
+> frame drops and glitches in display.
+> 
+> For 1920x1080@60fps resolution, when I run weston application, I see
+> around ~24 frames being dropped every 10 sec with visual glitch in
+> display. This seems consistent with 400ms delay for 60fps or 16.67ms per
+> frame (24*16.67ms).
+> 
+> root@j784s4-evm:~# weston-simple-egl
+> libEGL warning: MESA-LOADER: failed to open tidss:
+> /usr/lib/dri/tidss_dri.so: cannot open shared object file: No such file or
+> directory (search paths /usr/lib/dri, suffix _dri)
+> 
+> 276 frames in 5 seconds: 55.200001 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 277 frames in 5 seconds: 55.400002 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 277 frames in 5 seconds: 55.400002 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 277 frames in 5 seconds: 55.400002 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 277 frames in 5 seconds: 55.400002 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 277 frames in 5 seconds: 55.400002 fps
+> 301 frames in 5 seconds: 60.200001 fps
+> 278 frames in 5 seconds: 55.599998 fps
+> ^Csimple-egl exiting
+> root@j784s4-evm:~#
+> 
+> > > 
+> > > Second, if you're looking to eventually make the interrupt work, I
+> > > don't think this is the right first step. I think in previous
+> > > discussions about this it was agreed that if we wanted the interrupt
+> > > to work then we should just do a "pm_runtime_get_sync()" before
+> > > enabling the interrupt and then a "pm_runtime_put()" after disabling
+> > > it. That'll keep things from suspending.
+> > 
+> > The HW I use doesn't has the interrupt pin connected. So for me that is
+> > out of scope but should of course work.
+> > 
+> > > 
+> > > Does that sound correct, or did I goof up on anything?
+> > 
+> > If I remove disabling suspend/resume and fix detect() to report the
+> > 'correct' HPD state in both runtime pm states I now get another issue
+> > after disconnecting and then reconnecting the monitor:
+> > 
+> > [   50.035964] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read lane count (-110); assuming 4
+> > [   50.212976] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read eDP rev (-110), assuming 1.1
+> > [   50.389802] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read max rate (-110); assuming 5.4 GHz
+> > [   50.686572] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Link training failed, link is off (-5)
+> > 
+> > monitor stays black without signals.
+> > 
+> > So it seems the bridges internal state is not completely restored by
+> > the current code. Looking into that now.
+> > 
+> 
+> I have seen such link training failures occasionally when the
+> display connector is not connected but the state is not reflected
+> correctly.
+> Maybe it could be attributed to long polling duration???
+> Are you observing it even on re-runs?
 
+I think it is caused by the used hardware allowing to control the enable
+signal but not controlling the power supplies.
+If that is really true I have yet to find out.
+
+> 
+> 
+> > > -Doug
+> > 
+> > Regards
+> > Max
+> 
+> 
+> Warm Regards,
+> Jayesh
+
+In my opinion we should drop this patch in favour of Jayesh's V2 [1].
+I will comment there.
+
+Regards
+Max
+
+[1] https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.com/
