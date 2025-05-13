@@ -2,103 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C50AAB58A1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 17:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB90BAB58CA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 17:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 306D210E24C;
-	Tue, 13 May 2025 15:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED2510E1D9;
+	Tue, 13 May 2025 15:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IcLS/IgQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CKc2lG+e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162A510E24C;
- Tue, 13 May 2025 15:32:01 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54DDMLCR012669;
- Tue, 13 May 2025 15:31:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PxNGkPwqf4jFKyBd+vcrwJOzNsytgO6jsGrOuaIb9gw=; b=IcLS/IgQ3br9kThE
- tZany4kbp8qRehTskrCS3dz2Au8p4Je9QiCxlJ/7RICTRiJKvA8YBITCNquTHwAL
- Hg5Dk0GA6lNGl/D1PtvFYxdNsmBouq1U7AeEURVAhtcFmOcKiQ5Fkj5RIrFAEqd3
- YrTfGs2E7ZdGogWcKflXvpgBNT/pr66IVmP23J5jeeAk2VjrhF6++qd5vAYaQfF6
- DsmxLlmbO/yYOR/+rNeChcCo7smCoxffXTJxkzuDDke5hiM0GgEAPRyVXthF7S3O
- pXkMQBzYOqPfD9wfHh2f77TyYLjpgx7qxFpwJv8bSxoHRpEuDD/vQBVUV0/u/mBh
- PLSi0w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46hwt989aw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 May 2025 15:31:49 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54DFVTu3006696
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 May 2025 15:31:29 GMT
-Received: from [10.216.46.67] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 May
- 2025 08:31:23 -0700
-Message-ID: <1db93ab7-3974-49a7-8816-a495ed52888f@quicinc.com>
-Date: Tue, 13 May 2025 21:01:20 +0530
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E23810E1D9;
+ Tue, 13 May 2025 15:37:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=8VLfqWGZva5vbjazqXd8l1ztwlFRbsW1JyPV97W6SZk=; b=CKc2lG+e1pCKBr7VYXIooeSYMh
+ azCPHOq3UddswYSAHOH5buTzmmuUxqxEEOM4oP8uMJwlctkyHcM4VaAnaA6D0/AwTBtMjq78TUoer
+ AfurJ2vt24Db0VxXF2J0nGCK/POSOjTqZYb0Ashklcf8LJ6cP86eXATMjFHnEKERPZS/3PMcm56ZN
+ +BneY1Z6xrNN7av2bE3syO/A/vPbbPsWUHLz9tc+Gu7AjzBDTkmyxrQBDoTu4WtfOb5PVbAgs+NXh
+ nkEJHdJICmPbYYQoZ5OzDkku8nGk+VkAWK/Fb8Ef4lNbDIy5d8hKzraooWD4pCoNGiQopIXeD3i+1
+ EGSp8Twg==;
+Received: from [189.6.16.79] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uErbd-007g8G-1C; Tue, 13 May 2025 17:37:21 +0200
+Date: Tue, 13 May 2025 12:36:57 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, 
+ leo.liu@amd.com, ville.syrjala@linux.intel.com, contact@emersion.fr, 
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V9 26/43] drm/amd/display: Add support for sRGB EOTF in
+ DEGAM block
+Message-ID: <sb544qlewpslcvcgofer762puac5bjd5w67ldisi6pkcpkuboj@33lwudjvd6xr>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <20250430011115.223996-27-alex.hung@amd.com>
+ <twwndnvjm6rmxdt4cs747fixvplpeuy3yh3ho6d4yq3y3prhub@fag4kafh2xct>
+ <20250513104213.1c5d905a@eldfell>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "Marijn Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, Jie Zhang <quic_jiezh@quicinc.com>
-References: <20250509-a623-gpu-support-v4-0-d4da14600501@quicinc.com>
- <20250509-a623-gpu-support-v4-2-d4da14600501@quicinc.com>
- <24173d3b-272d-4cfd-8519-ad5c9cf7c555@oss.qualcomm.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <24173d3b-272d-4cfd-8519-ad5c9cf7c555@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDE0OCBTYWx0ZWRfX4qnxRPIIwT/N
- uqRTXu/TL260pxU5SPjhrztjudmqs4QFhyZezSSivLVupY1YxxXLZGp+4jf6Lr5beNmCylr+yvy
- e6NIrr2BzQ/5kq/AeQfDJHFOc+IfBaHdfGUFk/sdq5gjfawILhmnIyvRKYckyILFqkxWdZmpgHF
- qU8EHPNFkhTrD1LLPBSocQf6lg1fbwTotpqLAT62p6YnTKGdtbMl9fJAgDuJZXHH5+g7i0kXB3b
- 85XxY1ala4pqskEVTHDIEyX+bu4kXDqkQ+sVuwFZuDQO/wvD0YjJ/XcT9qfrNuBOo8swRNjH1HF
- 7qOwqsxXSoP2Q9mwq/jvMlxIIG3Kqoi00C7bOzzfdbtdfxln6zZ1+3xRcHHrDqIECtP/58KGx9G
- H9L+pQv8gYEw+wCckpbbgOxEQHFO/rJxxCTNAn7ROVuXkuKS7oFLyeRFHLm4QtyoyugMGF/n
-X-Proofpoint-ORIG-GUID: 0Rh83Zr8MejUAvZDE7Zt2TGAPBBSHPXD
-X-Proofpoint-GUID: 0Rh83Zr8MejUAvZDE7Zt2TGAPBBSHPXD
-X-Authority-Analysis: v=2.4 cv=a58w9VSF c=1 sm=1 tr=0 ts=682365e5 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=sOY6sp4eF24iVwk-jeYA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-13_03,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999 malwarescore=0
- clxscore=1015 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505130148
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250513104213.1c5d905a@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,49 +73,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/2025 2:18 AM, Konrad Dybcio wrote:
-> On 5/9/25 9:21 AM, Akhil P Oommen wrote:
->> From: Jie Zhang <quic_jiezh@quicinc.com>
->>
->> Add gpu and gmu nodes for qcs8300 chipset.
->>
->> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
+On 05/13, Pekka Paalanen wrote:
+> On Mon, 12 May 2025 15:50:17 -0300
+> Melissa Wen <mwen@igalia.com> wrote:
 > 
+> > On 04/29, Alex Hung wrote:
+> > > Expose one 1D curve colorop with support for
+> > > DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+> > > the sRGB transform when the colorop is not in bypass.
+> > > 
+> > > With this change the following IGT test passes:
+> > > kms_colorop --run plane-XR30-XR30-srgb_eotf
+> > > 
+> > > The color pipeline now consists of a single colorop:
+> > > 1. 1D curve colorop w/ sRGB EOTF
+> > > 
+> > > Signed-off-by: Alex Hung <alex.hung@amd.com>
+> > > Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > > Reviewed-by: Daniel Stone <daniels@collabora.com>
+> > > ---
+> > > V9:
+> > >  - Update function names by _plane_ (Chaitanya Kumar Borah)
+> > >  - Update replace cleanup code by drm_colorop_pipeline_destroy (Simon Ser)
+> > > 
+> > > v8:
+> > >  - Fix incorrect && by || in __set_colorop_in_tf_1d_curve (Leo Li)
+> > > 
+> > > v7:
+> > >  - Fix checkpatch warnings
+> > >   - Change switch "{ }" position
+> > >   - Delete double ";"
+> > >   - Delete "{ }" for single-line if-statement
+> > >   - Add a new line at EOF
+> > >   - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
+> > > 
+> > > v6:
+> > >  - cleanup if colorop alloc or init fails
+> > > 
+> > >  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 69 +++++++++++++++
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
+> > >  5 files changed, 201 insertions(+), 1 deletion(-)
+> > >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> > >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> > > 
+> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > > index ab2a97e354da..46158d67ab12 100644
+> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > > @@ -38,7 +38,8 @@ AMDGPUDM = \
+> > >  	amdgpu_dm_pp_smu.o \
+> > >  	amdgpu_dm_psr.o \
+> > >  	amdgpu_dm_replay.o \
+> > > -	amdgpu_dm_wb.o
+> > > +	amdgpu_dm_wb.o \
+> > > +	amdgpu_dm_colorop.o
+> > >  
+> > >  ifdef CONFIG_DRM_AMD_DC_FP
+> > >  AMDGPUDM += dc_fpu.o
+> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > > index ebabfe3a512f..0b513ab5050f 100644
+> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > > @@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
+> > >  	}
+> > >  }
+> > >  
+> > > +static enum dc_transfer_func_predefined
+> > > +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
+> > > +{
+> > > +	switch (tf) {
+> > > +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> > > +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> > > +		return TRANSFER_FUNCTION_SRGB;
+> > > +	default:
+> > > +		return TRANSFER_FUNCTION_LINEAR;
+> > > +	}
+> > > +}
+> > > +
+> > >  static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+> > >  				const struct drm_color_lut lut,
+> > >  				int bit_precision)
+> > > @@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static int
+> > > +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+> > > +		       struct drm_colorop_state *colorop_state)
+> > > +{
+> > > +	struct dc_transfer_func *tf = &dc_plane_state->in_transfer_func;
+> > > +	struct drm_colorop *colorop = colorop_state->colorop;
+> > > +	struct drm_device *drm = colorop->dev;
+> > > +
+> > > +	if (colorop->type != DRM_COLOROP_1D_CURVE ||
+> > > +	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (colorop_state->bypass) {
+> > > +		tf->type = TF_TYPE_BYPASS;
+> > > +		tf->tf = TRANSFER_FUNCTION_LINEAR;
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+> > > +
+> > > +	tf->type = TF_TYPE_PREDEFINED;
+> > > +	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int
+> > > +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+> > > +			       struct dc_plane_state *dc_plane_state,
+> > > +			       struct drm_colorop *colorop)
+> > > +{
+> > > +	struct drm_colorop *old_colorop;
+> > > +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+> > > +	struct drm_atomic_state *state = plane_state->state;
+> > > +	int i = 0;
+> > > +
+> > > +	old_colorop = colorop;
+> > > +
+> > > +	/* 1st op: 1d curve - degamma */
+> > > +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> > > +		if (new_colorop_state->colorop == old_colorop &&
+> > > +		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
+> > > +			colorop_state = new_colorop_state;
+> > > +			break;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	if (!colorop_state)
+> > > +		return -EINVAL;
+> > > +
+> > > +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);  
+> > 
+> > I wonder what will happen if plane degamma isn't set, but CRTC degamma
+> > LUT or legacy CRTC regamma LUT (with its implicity sRGB degamma) is used
+> > together with other plane color ops.
+> > 
+> > I can imagine the mess, so I think CRTC degamma LUT and legacy CRTC
+> > regamma LUT should be somehow entirely disabled (or rejected) if plane
+> > color pipeline is in use.
 > 
->>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 91 +++++++++++++++++++++++++++++++++++
->>  1 file changed, 91 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> index 40771b062e8d7010dd93d7cc7b3db73cfa16bfdb..1dbccb9a0c75366aa6986b6adb4feb6164ee8845 100644
->> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> @@ -2660,6 +2660,97 @@ serdes0: phy@8909000 {
->>  			status = "disabled";
->>  		};
->>  
->> +		gpu: gpu@3d00000 {
->> +			compatible = "qcom,adreno-623.0", "qcom,adreno";
->> +			reg = <0x0 0x03d00000 0x0 0x40000>,
+> Hi Melissa,
 > 
-> I haven't noticed it up until now.. this should be moved up in the file
-> to sort the nodes by unit address (the serdes node above is 0x089.., gpu
-> is 0x03d..)
+> if using a plane color pipeline means that a CRTC LUT cannot be used, it
+> will severely limit the usefulness of the whole KMS color processing. In
+> Weston's case it would prohibit *all* KMS off-loading when color
+> management is in use.
+> 
+> Weston chooses to do composition and blending in an optical space. This
+> means that plane color pipelines are required to convert incoming
+> pixels into the optical space, and a CRTC LUT (a CRTC color pipeline in
+> the future) is required to convert from the optical space to the
+> monitor signalling (electrical space).
 
-Looks like GPUCC block got misplaced too. Will fix.
+Hi Pekka,
+
+IIRC, Weston needs one post-blending 1D LUT and with my suggestion the
+atomic CRTC regamma LUT works fine and can be this 1D LUT.
+So, instead of an atomic post-blending/CRTC color pipeline with:
+
+[blending] -> CRTC 1D LUT -> CRTC CTM -> CRTC 1D LUT
+
+when plane color pipeline is in use, the driver accepts only:
+
+[blending] -> CRTC CTM -> CRTC 1D LUT
+
+If AMD driver continues accepting/exposing CRTC degamma LUT plus plane
+color pipeline, and userpace wants something like:
+
+Plane shaper LUT -> Plane 3D LUT -> Plane Blnd LUT -> [blending] -> **CRTC** degamma LUT
+
+I understand that this weird sequence is what will actually happen:
+
+**CRTC** degamma LUT -> Plane shaper LUT -> Plane 3D LUT -> Plane Blnd LUT -> [blending]
+
+Because userspace doesn't care if this is a "degamma" or "regamma" LUT
+and they will probably pick the first 1D LUT in the post-blending color
+pipeline, which currently means CRTC degamma LUT. So, better if it takes
+the CRTC regamma LUT that is actually a post-blending 1D LUT. Where I
+expected this result:
+
+Plane shaper LUT -> PLane 3D LUT -> PLane Blnd LUT -> [blending] -> CRTC regamma LUT
+
+You can vizualize better this degamma issue in this diagram:
+https://raw.githubusercontent.com/melissawen/melissawen.github.io/master/img/xdc-2023-colors-talk/rainbow-treasure-xdc-2023-17.png
+
+In the current driver-specific implementation, driver rejects atomic commits
+in case of collision, i.e., Plane degamma LUT + CRTC degamma LUT, but
+IIRC, the driver doesn't handle it if it doesn't clash.
 
 > 
-> Otherwise, please check if there are freq fuses on this platform, if not,
-> feel free to add:
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> I don't know what "with its implicity sRGB degamma" means, but there
+> cannot be any implicit curves at all. The driver has no knowledge of
+> how the framebuffer pixels are encoded, nor about what the blending
+> space should be.
 
-Thanks. We have the SKU related data available. We will add those too in
-the next revision.
+It targets the legacy CRTC regamma LUT (256 size), not the atomic CRTC
+color pipeline.
 
--Akhil
+Melissa
+
 > 
-> Konrad
 > 
+> Thanks,
+> pq
+
 
