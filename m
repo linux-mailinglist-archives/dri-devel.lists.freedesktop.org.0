@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD89AB4CAE
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 09:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56563AB4CF8
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 09:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B021D10E322;
-	Tue, 13 May 2025 07:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F24810E32E;
+	Tue, 13 May 2025 07:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ian51G5k";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oWHmfKA2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F3710E185;
- Tue, 13 May 2025 07:26:38 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6206910E16C;
+ Tue, 13 May 2025 07:42:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1747122163;
+ bh=lfE9Fx0YxcY7+yid9yq30xLGb7KlsukHQPwIvTdg3sk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=oWHmfKA2raFKnyFoK3lyWorBRxA55B585Yzbh1aCtbgVMXhY93+4VWjcSo8epFozE
+ 92KQ9lCcZ/wZMdMqTPwW1aQnetVeIft8lH7WwmTKKYiKGISnfEF61i5jHkKvVzDeTD
+ ryw5fI53phe0igoxbTyrm8XObgoxTy3+0HWLeqOxajLywKZQVzjT3/HAsqFuJNZSDG
+ +rTPJZMp/uR6MYVfFcl/lUpOJ++Ouqouamcu1T2x4mJeUgvprBH4PXCqUqpO+wRNcv
+ PybfxoUMLk+lWxqZ11GVg3J14DE/wVGkoN14SlFhWkjmj6astem0F3YeuMKMabrTj0
+ 10HMqbmLghG4g==
+Received: from eldfell (unknown [194.136.85.206])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ZxShW4hHrz9t0P;
- Tue, 13 May 2025 09:26:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1747121195; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mNmwAkSnfw+w1OKveL1a0Jo6BOCqrScRFDDxPNp+wzQ=;
- b=ian51G5kbw1mhpH2smtCkWsLsV97r/gTKNX8PfPlNXS8suCH/1aSQKsO+CCMs7EMn34uZN
- ziHbKY1+rJusZ4TmGp9VDHIJvZpCF9lHDDp55tEnUvpllyxe4fWmBS2ereG3Ua52Jq0hcA
- uGSa8ubyZRYryUDVcxsX+/bP+sHFR8+QkPjf0zXvR4GobJXadobRn99HP7g8Za9P7SilvX
- BNhXCTHzExrpAttVwMc90xwof/Oth7gRZreAb5LG1pApfgS4zYLRim9gFX5P/w0S6gT25P
- oF8Tyh+98Fc8a9E2M/PQZu9WvMzn8QpKYWqYVFaBZ8kmQgkQe/H3uQoMWfIDyw==
-Message-ID: <4242fd242c7e16d0ecdf11c5d0ad795efda727a5.camel@mailbox.org>
-Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
- on running
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, Melissa Wen
- <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,  Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,  Boris Brezillon
- <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Tue, 13 May 2025 09:26:26 +0200
-In-Reply-To: <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B5E9417E1220;
+ Tue, 13 May 2025 09:42:42 +0200 (CEST)
+Date: Tue, 13 May 2025 10:42:12 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Melissa Wen <mwen@igalia.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ contact@emersion.fr, jadahl@redhat.com, sebastian.wick@redhat.com,
+ shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
+ mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com, Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V9 26/43] drm/amd/display: Add support for sRGB EOTF in
+ DEGAM block
+Message-ID: <20250513104213.1c5d905a@eldfell>
+In-Reply-To: <twwndnvjm6rmxdt4cs747fixvplpeuy3yh3ho6d4yq3y3prhub@fag4kafh2xct>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <20250430011115.223996-27-alex.hung@amd.com>
+ <twwndnvjm6rmxdt4cs747fixvplpeuy3yh3ho6d4yq3y3prhub@fag4kafh2xct>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-META: nrojh7mieh5kkoyaze1s3iqc8q1nzzyi
-X-MBO-RS-ID: 486999be8300fda9a79
+Content-Type: multipart/signed; boundary="Sig_/A0x/3fzY+c_Yy3jqOjxoPnx";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,157 +70,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2025-05-03 at 17:59 -0300, Ma=C3=ADra Canal wrote:
-> When the DRM scheduler times out, it's possible that the GPU isn't
-> hung;
-> instead, a job may still be running, and there may be no valid reason
-> to
-> reset the hardware. This can occur in two situations:
+--Sig_/A0x/3fzY+c_Yy3jqOjxoPnx
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 12 May 2025 15:50:17 -0300
+Melissa Wen <mwen@igalia.com> wrote:
+
+> On 04/29, Alex Hung wrote:
+> > Expose one 1D curve colorop with support for
+> > DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+> > the sRGB transform when the colorop is not in bypass.
+> >=20
+> > With this change the following IGT test passes:
+> > kms_colorop --run plane-XR30-XR30-srgb_eotf
+> >=20
+> > The color pipeline now consists of a single colorop:
+> > 1. 1D curve colorop w/ sRGB EOTF
+> >=20
+> > Signed-off-by: Alex Hung <alex.hung@amd.com>
+> > Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > Reviewed-by: Daniel Stone <daniels@collabora.com>
+> > ---
+> > V9:
+> >  - Update function names by _plane_ (Chaitanya Kumar Borah)
+> >  - Update replace cleanup code by drm_colorop_pipeline_destroy (Simon S=
+er)
+> >=20
+> > v8:
+> >  - Fix incorrect && by || in __set_colorop_in_tf_1d_curve (Leo Li)
+> >=20
+> > v7:
+> >  - Fix checkpatch warnings
+> >   - Change switch "{ }" position
+> >   - Delete double ";"
+> >   - Delete "{ }" for single-line if-statement
+> >   - Add a new line at EOF
+> >   - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
+> >=20
+> > v6:
+> >  - cleanup if colorop alloc or init fails
+> >=20
+> >  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 69 +++++++++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
+> >  5 files changed, 201 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_col=
+orop.c
+> >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_col=
+orop.h
+> >=20
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/g=
+pu/drm/amd/display/amdgpu_dm/Makefile
+> > index ab2a97e354da..46158d67ab12 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > @@ -38,7 +38,8 @@ AMDGPUDM =3D \
+> >  	amdgpu_dm_pp_smu.o \
+> >  	amdgpu_dm_psr.o \
+> >  	amdgpu_dm_replay.o \
+> > -	amdgpu_dm_wb.o
+> > +	amdgpu_dm_wb.o \
+> > +	amdgpu_dm_colorop.o
+> > =20
+> >  ifdef CONFIG_DRM_AMD_DC_FP
+> >  AMDGPUDM +=3D dc_fpu.o
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > index ebabfe3a512f..0b513ab5050f 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > @@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function t=
+f)
+> >  	}
+> >  }
+> > =20
+> > +static enum dc_transfer_func_predefined
+> > +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
+> > +{
+> > +	switch (tf) {
+> > +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> > +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> > +		return TRANSFER_FUNCTION_SRGB;
+> > +	default:
+> > +		return TRANSFER_FUNCTION_LINEAR;
+> > +	}
+> > +}
+> > +
+> >  static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+> >  				const struct drm_color_lut lut,
+> >  				int bit_precision)
+> > @@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *p=
+lane_state,
+> >  	return 0;
+> >  }
+> > =20
+> > +static int
+> > +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+> > +		       struct drm_colorop_state *colorop_state)
+> > +{
+> > +	struct dc_transfer_func *tf =3D &dc_plane_state->in_transfer_func;
+> > +	struct drm_colorop *colorop =3D colorop_state->colorop;
+> > +	struct drm_device *drm =3D colorop->dev;
+> > +
+> > +	if (colorop->type !=3D DRM_COLOROP_1D_CURVE ||
+> > +	    colorop_state->curve_1d_type !=3D DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+> > +		return -EINVAL;
+> > +
+> > +	if (colorop_state->bypass) {
+> > +		tf->type =3D TF_TYPE_BYPASS;
+> > +		tf->tf =3D TRANSFER_FUNCTION_LINEAR;
+> > +		return 0;
+> > +	}
+> > +
+> > +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+> > +
+> > +	tf->type =3D TF_TYPE_PREDEFINED;
+> > +	tf->tf =3D amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+> > +			       struct dc_plane_state *dc_plane_state,
+> > +			       struct drm_colorop *colorop)
+> > +{
+> > +	struct drm_colorop *old_colorop;
+> > +	struct drm_colorop_state *colorop_state =3D NULL, *new_colorop_state;
+> > +	struct drm_atomic_state *state =3D plane_state->state;
+> > +	int i =3D 0;
+> > +
+> > +	old_colorop =3D colorop;
+> > +
+> > +	/* 1st op: 1d curve - degamma */
+> > +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> > +		if (new_colorop_state->colorop =3D=3D old_colorop &&
+> > +		    new_colorop_state->curve_1d_type =3D=3D DRM_COLOROP_1D_CURVE_SRG=
+B_EOTF) {
+> > +			colorop_state =3D new_colorop_state;
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> > +	if (!colorop_state)
+> > +		return -EINVAL;
+> > +
+> > +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state); =
+=20
 >=20
-> =C2=A0 1. The GPU exposes some mechanism that ensures the GPU is still
-> making
-> =C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism, we can saf=
-ely skip the
-> reset,
-> =C2=A0=C2=A0=C2=A0=C2=A0 rearm the timeout, and allow the job to continue=
- running until
-> =C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d and Etnaviv=
-.
-> =C2=A0 2. TDR has fired before the IRQ that signals the fence.
-> Consequently,
-> =C2=A0=C2=A0=C2=A0=C2=A0 the job actually finishes, but it triggers a tim=
-eout before
-> signaling
-> =C2=A0=C2=A0=C2=A0=C2=A0 the completion fence.
+> I wonder what will happen if plane degamma isn't set, but CRTC degamma
+> LUT or legacy CRTC regamma LUT (with its implicity sRGB degamma) is used
+> together with other plane color ops.
 >=20
-> These two scenarios are problematic because we remove the job from
-> the
-> `sched->pending_list` before calling `sched->ops->timedout_job()`.
-> This
-> means that when the job finally signals completion (e.g. in the IRQ
-> handler), the scheduler won't call `sched->ops->free_job()`. As a
-> result,
-> the job and its resources won't be freed, leading to a memory leak.
+> I can imagine the mess, so I think CRTC degamma LUT and legacy CRTC
+> regamma LUT should be somehow entirely disabled (or rejected) if plane
+> color pipeline is in use.
 
-We have discussed this and discovered another, related issue. See
-below.
+Hi Melissa,
 
->=20
-> To resolve this issue, we create a new `drm_gpu_sched_stat` that
-> allows a
-> driver to skip the reset. This new status will indicate that the job
-> should be reinserted into the pending list, and the driver will still
-> signal its completion.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> =C2=A02 files changed, 16 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index
-> 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881
-> 135dbc639a9b4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct
-> work_struct *work)
+if using a plane color pipeline means that a CRTC LUT cannot be used, it
+will severely limit the usefulness of the whole KMS color processing. In
+Weston's case it would prohibit *all* KMS off-loading when color
+management is in use.
 
-So, the fundamental design problem we have is that the scheduler
-assumes that when a timeout occurs, the GPU is completely hung. Your
-patch addresses another aspect of that very problem.
+Weston chooses to do composition and blending in an optical space. This
+means that plane color pipelines are required to convert incoming
+pixels into the optical space, and a CRTC LUT (a CRTC color pipeline in
+the future) is required to convert from the optical space to the
+monitor signalling (electrical space).
 
-But if the GPU is not hung, it can signal the hardware fence at any
-moment. So that's racy.
-
-It could, theoretically, lead to backend_ops.timedout_job() being
-called with a signaled job, i.e., a job that is not really timed out.
-
-Would you say this is *the same* issue you're describing, or a separate
-one? It seems to me that it's a separate one.
-
-Anyways. What I propose is that we wait until your series here has been
-merged. Once that's done, we should document that drivers should expect
-that backend_ops.timedout_job() can get called with a job that has not
-actually timed out, and tell the scheduler about it through
-DRM_GPU_SCHED_STAT_NOT_HANGING. Then the scheduler reverts the
-timeout's actions, as you propose here.
+I don't know what "with its implicity sRGB degamma" means, but there
+cannot be any implicit curves at all. The driver has no knowledge of
+how the framebuffer pixels are encoded, nor about what the blending
+space should be.
 
 
-> =C2=A0			job->sched->ops->free_job(job);
-> =C2=A0			sched->free_guilty =3D false;
-> =C2=A0		}
-> +
-> +		/*
-> +		 * If the driver indicated that the GPU is still
-> running and wants to skip
-> +		 * the reset, reinsert the job back into the pending
-> list and realarm the
-> +		 * timeout.
-> +		 */
-> +		if (status =3D=3D DRM_GPU_SCHED_STAT_RUNNING) {
-> +			spin_lock(&sched->job_list_lock);
-> +			list_add(&job->list, &sched->pending_list);
-> +			spin_unlock(&sched->job_list_lock);
-> +		}
+Thanks,
+pq
 
-btw, if you go for Matt's requeue work item approach, it'll be better
-to write a helper function with a clear name for all that.
+--Sig_/A0x/3fzY+c_Yy3jqOjxoPnx
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-drm_sched_job_reinsert_on_false_timout() maybe.
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgi99UACgkQI1/ltBGq
+qqcP7w//e9mBTAMdftuA5HbVW2htz/qP7+y50Sst2XG7y6OdP7NIkq8XRLvN+ug4
+e1+GzFWMn2TunSfuf62SGk26V5jeaU3Uj3QIwZz1WPccHpRI0WE6g+7BkPNbwwnt
+3TFljsw/t8hRZXYJKz02LRrkPb7+ZpgidDyOexIrothMjURtMsHb+wLOBYlmzEqC
+C7hEFU17BertdhQzttiWZDghusZFE9247IBQxQ1qv5DyxZtgkVPrWrRaPvdhPSgX
+U6zKHy6gDPna0528ILfR+Ivqg2Yy4wsIxRkSvHT2BnCqv/l5CxftnB2TyFdmgGlD
++ctGTr2oTNXKzDar1TKWktNvzZpS9tDbB9/kaoClu/eZYOeR02APVI3ulnsxsWj4
+WwYNnyCQq5eIYgLLZB5n57bs7D61sJKm5cGyyQCH3cCTUyxUIK7mS30qNvmsAnBe
+3XHT6RxjIowYDkh/jkg5D87CRlwJUVF+nARDoCU5jHGE2H/ig1CUXcLuZErrxHeF
+MbYvY5xP4eIkhhfdDgEO5Xlaxjj0KS6B6g89SsRFdC0AjnegMJNevzlGicfhYHp8
+RcYRyR4wVTopkA6onoq2UuGjw6Bh9Vu8JNAdoHh27im5ISsBEenUSV52Scbo2W0Z
+3T8lM6qShNwh9BBhKM+VcOuxO4XxPBE0ttd7tpC90aYVZX0TPV4=
+=TUkI
+-----END PGP SIGNATURE-----
 
-P.
-
-
-> =C2=A0	} else {
-> =C2=A0		spin_unlock(&sched->job_list_lock);
-> =C2=A0	}
-> @@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct
-> work_struct *work)
-> =C2=A0 * This function is typically used for reset recovery (see the docu
-> of
-> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
-t
-> for
-> =C2=A0 * scheduler teardown, i.e., before calling drm_sched_fini().
-> + *
-> + * As it's used for reset recovery, drm_sched_stop() shouldn't be
-> called
-> + * if the scheduler skipped the timeout (DRM_SCHED_STAT_RUNNING).
-> =C2=A0 */
-> =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
-> drm_sched_job *bad)
-> =C2=A0{
-> diff --git a/include/drm/gpu_scheduler.h
-> b/include/drm/gpu_scheduler.h
-> index
-> 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b
-> 927202a507d51 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -389,11 +389,13 @@ struct drm_sched_job {
-> =C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-> =C2=A0 * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-> =C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
-> anymore.
-> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the
-> reset.
-> =C2=A0 */
-> =C2=A0enum drm_gpu_sched_stat {
-> =C2=A0	DRM_GPU_SCHED_STAT_NONE,
-> =C2=A0	DRM_GPU_SCHED_STAT_NOMINAL,
-> =C2=A0	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_RUNNING,
-> =C2=A0};
-> =C2=A0
-> =C2=A0/**
->=20
-
+--Sig_/A0x/3fzY+c_Yy3jqOjxoPnx--
