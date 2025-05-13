@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DEEAB51FD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 12:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826FFAB51FF
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 12:23:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF0110E55D;
-	Tue, 13 May 2025 10:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6163410E562;
+	Tue, 13 May 2025 10:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id F38E410E37F
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03C4610E383
  for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 10:23:07 +0000 (UTC)
-X-AuditID: a67dfc5b-669ff7000002311f-4a-682319eeafcf
+X-AuditID: a67dfc5b-669ff7000002311f-5b-682319ee0be8
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -36,45 +36,44 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
  yskelg@gmail.com, yunseong.kim@ericsson.com, yeoreum.yun@arm.com,
  netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com
-Subject: [PATCH v15 09/43] arm64,
- dept: add support CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64
-Date: Tue, 13 May 2025 19:06:56 +0900
-Message-Id: <20250513100730.12664-10-byungchul@sk.com>
+Subject: [PATCH v15 10/43] dept: distinguish each work from another
+Date: Tue, 13 May 2025 19:06:57 +0900
+Message-Id: <20250513100730.12664-11-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20250513100730.12664-1-byungchul@sk.com>
 References: <20250513100730.12664-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSXUxTdxjG/f/P6TmHatlJZ7YDGKc14KbIZBHzXuhivPE/P6IJ8WLuYjZy
- snaWjxX5mjOCogGxBGsQsaAVtVRaKrbq2AaEYai0OtYhK9jwMcgGNnw0QVpFENdivHnzy/Pk
- ed6bh6PkXZJYTp1xTNRmKDUKRkpLp1bUbZqOWafa3OPdCsHZEhpq7lgZ8NgsCKz3ijD4O3dB
- X2gSwfwff1JQVelBcH1kkIJ7ziEEreZTDDz9Nxp6gwEGXJVlDJy+cYeBvyYWMAxc0mOw2PfB
- sGmMhscVdRiq/AwYqk7j8HmOYc7UwIKpMB5GzVdYWBhJBteQVwKtvo1QfXWAgZZWFw3O5lEM
- T3+tYWDI+lYCj51dNITK48BzQSeBxuk6BiZCJgpMwQALPe1GDE7jR9BUHC48+2JRAo907RjO
- 3ryLoffZbwjaSv7BYLd6GXgYnMTgsFdS8Lq+E8Fo+RQLZ87PsWAoKkdQduYSDcUDKTD/Kvy5
- djYZiq410dD4xot2bCfWq1ZEHk4GKFLsyCOvg38zpDVkpIm7TiC/XBlkSXGbjyVGew5xmDeQ
- Gy1+TK7PBCXE3lDKEPuMniXnpnoxme7uZg+sOiTdliZq1Lmi9vMvD0tVj2YbcZZLnj/epseF
- qPyDcyiKE/gtwpOq+5L37K/2LTHDrxf6++eoCK/k1wgO3VhYl3IU710u9NU+QxHjQ/5rYcw/
- sRSg+XjBrXPjCMv4rcJtt416V/qJYGlqX+KosP6mvpuOsJxPESqMFjpSKvCGKKF2McC+C8QI
- v5v76QokM6JlDUiuzshNV6o1W5JUBRnq/KQjmel2FN6X6cTCN81oxpPagXgOKVbIuvxrVXKJ
- Mje7IL0DCRylWCkr+jksydKUBT+K2sxvtTkaMbsDxXG04mPZF6G8NDn/nfKYeFQUs0Ttexdz
- UbGFqPTmQH7Z/ltNr2wJjlDO3a/aFLXeRN7wsiSlRIjbhOoPG+KHO/sCR3fquNjS5FRdQqpX
- 7Y9Vm6T64xcX9+TPW+4ntgQTPws4Nfs+Pb76ZHRSjbPZ5llHNJfdjZsP+nf7EsYeNO/+/r8K
- s/xA994037WTNv1zy0/VPzxoCY5nuqIVdLZKmbyB0mYr/wde5NToWwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTHfZ77VuoqN5XAVbOw1VTju8RhTrLFmPnBZ0u2LNkHlX2QRi+2
- aUHXKhN1EWw1KoMVNiAqaC1aGC2KF40v0IYURVsiQ6mgCCjE4BoQDOvtBKquddmXk19+/5z/
- +XIUlLqBWagw5O0VzXk6k4ZV0spvP7eumliwWL+280I6yJHjNFRf9rDQfcmNwHO1CEP4zmbo
- i44jmL3/JwVVFd0Izg8PUnC1YwiBt/4ICz0v5kFInmQhUFHMgrX2MgsPxmIYBirLMbilb+CZ
- a5SGTrsTQ1WYhTNVVhwff2GYdjVw4CrUwkj9aQ5iwxkQGOploL0mwIC3fwWcOjvAQqs3QEPH
- jREMPbeqWRjyvGegs+MeDdHSRdBdVsJA44SThbGoiwKXPMnBwzYHhg5HKjTZ4q3H/n7HwN2S
- NgzHLlzBEHrSgsB3/DkGydPLQrs8jqFZqqBgpu4OgpHSVxwc/WWagzNFpQiKj1bSYBvIhNk3
- 8cs1kQwoOtdEQ+PbXrRxA/Gc9SDSPj5JEVvzT2RGfsQSb9RBk6BTIDdPD3LE5uvniEPaR5rr
- l5Pa1jAm56dkhkgNJ1giTZVz5OSrECYTXV3cdx9nKb/YKZoM+aJ5zYZspf5upBHvCaj3v/SV
- 40JUmnwSJSkE/jMhfKqfSTDLLxUeP56mEpzCfyI0l4zGvVJB8b1zhb6aJygRzOe3CaPhsQ8L
- NK8VgiVBnGAVv174I3iJ+q80XXA3tX3gpLh/W9dFJ1jNZwp2h5u2I6UDzWlAKYa8/FydwZS5
- 2mLUF+QZ9q/esTtXQvEPcv0cK7uBIj2b/YhXIM1HqnvhT/VqRpdvKcj1I0FBaVJURdfjSrVT
- V3BANO/ebt5nEi1+tEhBa9JUX28Rs9X8Lt1e0SiKe0Tz/ylWJC0sRKllOVqb1R6Sd1QbWyTn
- uf7gVjk9+cWCylrr6MybLOO0ZcKdbW/duCZ6KCeNDGuviWkH5m6Sbr8v9ldkBZfEvj+Y7E/7
- 6ktlrM6W80+bpZZZ96vu9dOth5nfQibfyvynqc6LwqBN1TJ5c3YqtS9S4zP+OBZa553R/r5p
- 2fMr8g8a2qLXZSynzBbdvxjrewk9AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTdxjG9z/n9H8Olc6TejvWTbFIjExQprLXxJFFP/jng4nGgIox2MjZ
+ WrlaoMimC53FOBwNYhDBC+WSUqEKFo3gwDHACqiIglAN4sDFrOGmnW1A8NJi/PLml+d53+f5
+ 8nK03C5RcJqkNFGbpEpQYikjHfMvDZlYHKheO2nE4H5zgoHzNVYM3VeqEViv6Slw3t4K/Z5R
+ BNP3H9BQWNCNoHToGQ3X7IMImiy/Yej590vodU9g6Cg4ieFYeQ2GhyMzFAycyaeg2rYNnptf
+ MnA3r4yCQieGc4XHKO/4j4IpcxUL5qwgGLYUszAzFAYdg30SaHr6DRRdHMDQ2NTBgL1+mIKe
+ m+cxDFo/SOCuvZ0Bj3EJdJ/KlcDl8TIMIx4zDWb3BAuPmk0U2E0LodbgDTz+/3sJ3MltpuB4
+ xVUKep/8ieDWiX8osFn7MLS6RymosxXQ8LbyNoJh4xgL2X9MsXBOb0RwMvsMA4aBDTA96W2+
+ 8CYM9CW1DFx+14d++J5YL1oRaR2doImhLoO8dT/GpMljYkhnmUAaip+xxHDrKUtMtnRSZwkm
+ 5Y1OipS63BJiq/odE5srnyU5Y70UGe/qYrd/FSPdFCcmaHSidk3Efqm6NluXMs4ermh5RWWh
+ RpyD/DiBXy8M1/TTOYib5Uud6T4Z8ysFh2OK9vF8PkCoy30pyUFSjub75gj9F54gnzGP3yIY
+ W7MYHzN8kHDvZsksy/hwwZHfS3/KXyZU1zbPsp9Xf1fZNbsj5zcIeaZqxhcq8Kf9BL1hnPl0
+ sFj42+Jg8pDMhL6oQnJNki5RpUlYH6rOTNIcDj2QnGhD3u8yH53ZW49c3TtbEM8hpb+s3blc
+ LZeodKmZiS1I4GjlfJn+hleSxakyfxa1ybHa9AQxtQUt4RjlItm3now4Of+TKk2MF8UUUfvZ
+ pTg/RRbSrUxb8MKFi2JTmPplI/bvkn85FGCJj/1V8XBV1KXl6q8PrtvXVkGmw44qUGjDgbP0
+ 5rYdR2RzN/V01qwIWR2c4hh67oxeuita2YYiwq83GKObY6I2NkRGf3i9elK7W9FunRMU9JdF
+ meEfGFPiKS7fG7H7CBe4JzfSODX0Y7i65FCokklVq8KCaW2q6iN1Dzi1WQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSfSzUcRzH+/6eXV37Tapfer7Qes6W+mxatfrDb22sh5Wtf3Lxq7t5qN2h
+ znoglIjQEFJHdeROOJQ8lLl1dSkUnYdQzMQ8tbiLiI6tfz577f3+vD/vfz4Mbp9HOjLyoGBB
+ ESQNkFAiQuTlHrltZMUG2c4fY5vAMh5DwP1CHQWNz7QIdKURGAy88YAW6xCCqY8NOKSlNCLI
+ 7u7EodTYhaA67zoFTb2LodkySoEpJY6CyEeFFHwanMagIzUZA63eE75p+gioS8zBIG2Agsy0
+ SMw2+jGY1OTToAl3hp68DBqmu13B1GUmwZBlIqG6fQukP+igoKraRICxvAeDpor7FHTpZkmo
+ M74jwJqwEhqT4kkoGMmhYNCqwUFjGaXhc40aA6N6GRRF2a7eGJsh4W18DQY3Hhdj0NxWieBV
+ zHcM9DozBQbLEAYl+hQc/uS+QdCTMExD9O1JGjIjEhDERacSENXhBlMTtuascVeIeFhEQMFf
+ Mzqwj9c90CHeMDSK81ElF/k/li8UX21VE/z7HI5/mdFJ81Gv2mlerQ/hS/I284+qBjA++5eF
+ 5PX5tyhe/yuZ5mOHmzF+pL6ePrL6lGivnxAgDxUUO/b5iGRF0aEXRuhLj2t/YuGoiopFDMOx
+ u7in70NikR1DsRu51tZJfI4d2HVcSXwfGYtEDM6aF3ItWW1ozljCHuISDOHEHBOsM/eh4uE8
+ i9ndXGty83yYY9dy2qKaebaz6X9z6+d37Fk3LlGtJRKRSI0W5CMHeVBooFQe4LZd6S9TBckv
+ bfc9H6hHtv/RXJlOKkfjTR61iGWQZJH43cB6mT0pDVWqAmsRx+ASB3HEC5sk9pOqwgTF+dOK
+ kABBWYtWMoRkufiwt+Bjz56TBgv+gnBBUPx3McbOMRwVutet0p1Msha7HDte37ZfhaeW3Szr
+ 9bzp4uTsEtcNCi+t/5rfo7Izn9OHm5K82cvs0rRpS9escSJr/9djpYwiX/W6d6Kh5vnEjNDe
+ 8Lpgx70M87P+03uuMqb4mF2EqMf3YOW2UieHO0enrj2p6zfc3brQaWvu2RPnGrON7clhWm8J
+ oZRJXTfjCqX0H7RVwqA7AwAA
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,82 +90,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dept needs to notice every entrance from user to kernel mode to treat
-every kernel context independently when tracking wait-event dependencies.
-Roughly, system call and user oriented fault are the cases.
+Workqueue already provides concurrency control.  By that, any wait in a
+work doesn't prevents events in other works with the control enabled.
+Thus, each work would better be considered a different context.
 
-Make dept aware of the entrances of arm64 and add support
-CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64.
+So let dept assign a different context id to each work.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- arch/arm64/Kconfig          | 1 +
- arch/arm64/kernel/syscall.c | 7 +++++++
- arch/arm64/mm/fault.c       | 7 +++++++
- 3 files changed, 15 insertions(+)
+ kernel/workqueue.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index a182295e6f08..6c69598a6423 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -279,6 +279,7 @@ config ARM64
- 	select HAVE_SOFTIRQ_ON_OWN_STACK
- 	select USER_STACKTRACE_SUPPORT
- 	select VDSO_GETRANDOM
-+	select ARCH_HAS_DEPT_SUPPORT
- 	help
- 	  ARM 64-bit (AArch64) Linux support.
- 
-diff --git a/arch/arm64/kernel/syscall.c b/arch/arm64/kernel/syscall.c
-index c442fcec6b9e..bbd306335179 100644
---- a/arch/arm64/kernel/syscall.c
-+++ b/arch/arm64/kernel/syscall.c
-@@ -7,6 +7,7 @@
- #include <linux/ptrace.h>
- #include <linux/randomize_kstack.h>
- #include <linux/syscalls.h>
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index cf6203282737..5a6ab354c416 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -55,6 +55,7 @@
+ #include <linux/kvm_para.h>
+ #include <linux/delay.h>
+ #include <linux/irq_work.h>
 +#include <linux/dept.h>
  
- #include <asm/debug-monitors.h>
- #include <asm/exception.h>
-@@ -96,6 +97,12 @@ static void el0_svc_common(struct pt_regs *regs, int scno, int sc_nr,
- 	 * (Similarly for HVC and SMC elsewhere.)
- 	 */
+ #include "workqueue_internal.h"
  
-+	/*
-+	 * This is a system call from user mode.  Make dept work with a
-+	 * new kernel mode context.
-+	 */
+@@ -3155,6 +3156,8 @@ __acquires(&pool->lock)
+ 
+ 	lockdep_copy_map(&lockdep_map, &work->lockdep_map);
+ #endif
 +	dept_update_cxt();
 +
- 	if (flags & _TIF_MTE_ASYNC_FAULT) {
- 		/*
- 		 * Process the asynchronous tag check fault before the actual
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index ec0a337891dd..0fcc3dc9c2a9 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -26,6 +26,7 @@
- #include <linux/pkeys.h>
- #include <linux/preempt.h>
- #include <linux/hugetlb.h>
-+#include <linux/dept.h>
- 
- #include <asm/acpi.h>
- #include <asm/bug.h>
-@@ -616,6 +617,12 @@ static int __kprobes do_page_fault(unsigned long far, unsigned long esr,
- 	if (!(mm_flags & FAULT_FLAG_USER))
- 		goto lock_mmap;
- 
-+	/*
-+	 * This fault comes from user mode.  Make dept work with a new
-+	 * kernel mode context.
-+	 */
-+	dept_update_cxt();
-+
- 	vma = lock_vma_under_rcu(mm, addr);
- 	if (!vma)
- 		goto lock_mmap;
+ 	/* ensure we're on the correct CPU */
+ 	WARN_ON_ONCE(!(pool->flags & POOL_DISASSOCIATED) &&
+ 		     raw_smp_processor_id() != pool->cpu);
 -- 
 2.17.1
 
