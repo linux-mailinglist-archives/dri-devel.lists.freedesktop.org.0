@@ -2,166 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E378AB55D4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 15:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47134AB55E0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 15:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A60B10E59A;
-	Tue, 13 May 2025 13:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF6610E3A0;
+	Tue, 13 May 2025 13:21:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SzFvDVRk";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0zH8ZBS4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2059.outbound.protection.outlook.com [40.107.102.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7659310E3A0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 13:18:11 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7FC10E3A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 13:21:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ml6+QTm8JMgFPk+9X4UiQXUr5yJgmaWz2770xpuNgUT0L6UbeuDn82GBZuf+gJbMvJWVOjnhwj43d219TAB8t+OBAmagCacpHik6K3Yr1vaRVpVfsC9lhDx+EDJLhsk2VF6UwzkuCr3Er0duCAO+tTaEU3QhHtM6iB62zo1945J/iIT9KppTwzgyBl9nWWrz+f5eIBob6fhnnbmMgQoydIesfHsz4BqmJU5pjjS24Wu01kZrY+dQUVPDliORtg5tBcE4W8dlQ8bVqkRYwCV5hBHuXNELTCuOSqJBCejruJ6qi6xGstHPaBAf6qnfHV1Lw7v2bzN8JjIegow3fCfkaw==
+ b=lmYs0UuCiGj1jDOvbjXo7qsbvjVYA+Aw71dBKanmC+5Ggj57utVYbUCaie4D0q68zaZqX6RFs5uhwFMWLAdK1FPlpQHk587le2NAHtwVcC8+RlROTMBvFnHrbZQ4XRrjrHI9rHLZjQ0Q5fg1ZGOP746ny4fCePs2TJP2gkIWz87BQVaITkJIx0kdVdXHKKFo6TB8i+B02oqCH4MftBUPwKDQQAOx2L7/HGg2xsLPs5qwMiKHGoBReVUxvpQv4IdeaVZE8pQpYh3coTw7gMZ28KT+niKHpQiVl4GBBlMZ+sQ1W3XOgZQxkljT0ve5ydH4on3CpRH3VgDnPNNjUY7OZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D0XYqoDLKn1X8U042JbzEqsU7/9qTxfLm7/S6JhoPo4=;
- b=QTFILjsad6dETWKvH7ec30gFubO4sOiWYmgTAbc7WCFdAV5c27tq55MrELDVm/fsp3quBzO8YFxZFnCIlwGSiaqu1uPGmnGqM+IBb66e6vG1Wv9TWb03fuv1nl/61PanliiBpdztQQgwy9nmCHy0+cincimNKwFozV/FqvPvN4QlEmWVud5h5fJl2jMRjEiPihKSo100QUpndKlPwxaOsM5IbS3wczbztI2Y+ZQwZDxKoSguzeLuytY5wKFyrsQR/a5Eg+aV7yuH4xi8Sqfoksb2xcpcNMnDHGmauRd8DwVRi/PcptFhHmPc26AK0cYdBMN0uoX619oYouavCRSQVw==
+ bh=jxPXzanJ9J7V0C93bb6gwqbcQfO/pxFBOih6GrZoWXQ=;
+ b=Gaof6WRKT/MjEN5HZhElpMuPyPgnA+xVpUPYcrvsR2arSbT7v0LF9cThuIULyY8eypHUMWaO0bDJTopxp4FF7GCWRlhwkDIaGyYJoMxJeZyZmf65RRTqNYkca1bYlBQDs8jt6tBfZuBUkrPEh09KrSQBdb7NM8txeS5gKcI4Lptdj6YmimjjBn780TKzWKgxJQCq00+ercSZ/Vr2bF/qnFzqDqowC9sjtEbpuZkUn1XCYmBcI+9u7H0M3pYVEqzJthS/va0yAgwItSqLhufoj9h8Jr1xMIYOiHLuVclE4yEAWguH1GQ/epsdNC8ci/7bS1z8qY23NTh9XmG+sBJ82g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D0XYqoDLKn1X8U042JbzEqsU7/9qTxfLm7/S6JhoPo4=;
- b=SzFvDVRkHHelc+9fd8VlJ5Bgybnw9pi70J9T/4N5RdI4mzMvXW+9d/6i6qASXLwdSiKT5yxCYL6FZi+yQXiMx74ggr5D7nm0yy1SUv1jZ4SZOUddMRPAPz4m+FEifrB/yI61LjGLwQYI83j+cbVJ3G49Yoz+C9BigQfBvEUw7W4=
+ bh=jxPXzanJ9J7V0C93bb6gwqbcQfO/pxFBOih6GrZoWXQ=;
+ b=0zH8ZBS4N0RxXwDCbXCW8PoniaxyE/XvKPC9pDU7i/V7tP4O46viXC9Mbp7fVJmGuB1rqRcPV/8avUjUKNH7Ac7w0jIh62qrhg01IykFVU8AyHd3/WFn6oa2GHtnp25vThVUEJFj7RqY07dqcNeFNsQsk0W1cuwMMBvHtARmAeM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6248.namprd12.prod.outlook.com (2603:10b6:208:3c0::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Tue, 13 May
- 2025 13:18:07 +0000
+ by DM4PR12MB6614.namprd12.prod.outlook.com (2603:10b6:8:bb::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Tue, 13 May
+ 2025 13:21:32 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Tue, 13 May 2025
- 13:18:06 +0000
-Message-ID: <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
-Date: Tue, 13 May 2025 15:17:59 +0200
+ 13:21:32 +0000
+Message-ID: <5aae4982-4ad0-4d31-a8d6-6392ff48bc53@amd.com>
+Date: Tue, 13 May 2025 15:21:26 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-To: wangtao <tao.wangtao@honor.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+Subject: Re: [PATCH 6/7] amdgpu: add support for memcg integration
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+References: <20250512061913.3522902-1-airlied@gmail.com>
+ <20250512061913.3522902-7-airlied@gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+In-Reply-To: <20250512061913.3522902-7-airlied@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN0PR02CA0028.namprd02.prod.outlook.com
- (2603:10b6:208:530::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN0P220CA0007.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:52e::25) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 811ec9b9-bd77-4831-1e4a-08dd92209922
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6614:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c0feebc-21fd-4360-17fb-08dd922113e0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MkN0NkhDbWNKam9RWU9UVHRFSTlxOWg4SkdBUDk4cWVtM3RxcG1vanppN0R1?=
- =?utf-8?B?K2hxREFUcGwxWGNDYSszSUhtclVUbnU2L2xqRnVFaGZnb0ljMGs0enRIWE0r?=
- =?utf-8?B?Zk5Cb1hPR1hZL05LYThBUmxXQmYzL0g4OVJTZ0wvU2pIMHd6bXFpYUViM3RL?=
- =?utf-8?B?aTUxNFhCWVNDVXFVeEY2TjJtRVk5VldNREFadDNkbUNRTlpHSHNTdWR0aURM?=
- =?utf-8?B?djVXMVd1YVJiTE1ZZFlPaEpVMzdlaHhJY29BclBqajYzV1ZKYWhoR0tPaFcz?=
- =?utf-8?B?TEVVSFBCeXYwenVLd1NyaTR2YU45blBRSUIvZ3FWSXBnb0dvb0piQ0RSTkdJ?=
- =?utf-8?B?b2Q0dGRhaG9tekYxVDNTNWV6N2hRbXFIbzRYRjA4OWhqN1kzRTBnRG4wWklw?=
- =?utf-8?B?NFVVd3h0NCtRVG9xalMrZXlmb01LU0pHL1hDZlpDUnpxcFNyMnFiTGxOZVpF?=
- =?utf-8?B?dEErK1QvNHFFd2Vod3ozUERjZ2ptQit6N3BNbjZhRUprcE05bUF0WlJtblI2?=
- =?utf-8?B?UFlRVEVmVFU2Si9JcWVCMnU0Qy91QXByNlB1ZDI2eWdTQlEya1k4NTQ3RW43?=
- =?utf-8?B?SkExL1JaVlRSaVdkdWg5WmlHKzdYbEcxWXo2Umh6aThCY2RuQXEvYU1MUkQz?=
- =?utf-8?B?eWpLVnZGNFluNXo0enFGUzJta3dwY2lzSE9kTmtJWXd5V0Zob2dzc0M1em9W?=
- =?utf-8?B?RXVyMXc3M2F0bGN0eTQwUHRqaEJLWW1ySllGbGl0UzlsdDljMFJrb3FEWHBn?=
- =?utf-8?B?WWh5KzFINnZMZGVMdnl6aENtVk84RVNpZGp5d09rZDJNQS9wcC9IYjRKazkz?=
- =?utf-8?B?NEkxRXA4VDc3cmFuYW5tRXhSc2VjeUxMdG1CSU55YWNldUpBZEI3L3llUmRB?=
- =?utf-8?B?VWk0TStGRDdDamp2Ry9mM1JWZjBKY2dxUm9HMTBrRnZ5WXA2VDF0RTYzWFZj?=
- =?utf-8?B?ektSc1J6TzR4dXdyc3dMcXZsVFdaV00zaHJnd2loc1hjbkpNd0JVTVQxekht?=
- =?utf-8?B?eUZjcVNhRnhnTGZNWk8rcFR2SlZoLzFRdFMva2phSXpTSzZpMEQySHJlMjBl?=
- =?utf-8?B?bk83aVQ4cUNpWFRROW1meEtxeVM5ajJZL3lmaUhhTldQR25STjBJK2cyV0xS?=
- =?utf-8?B?d0dPZ1l6aUd4R0dNVTFVNkxvUUZoTDM3Sk5iQ1ExNVRxL1p6SHEzdTVGeTU0?=
- =?utf-8?B?OFA1YkJXK3IzQ1MzYXY0cGlCUis3d2MxM0k2bzNNOUVyMXNISG9UUVMwK3Fq?=
- =?utf-8?B?VXR6V3JEenJPdTh2Ny9VRHdTZUIyZ3ZXMlFwUW1ITE1iTFV1S3FpbjBXVDdO?=
- =?utf-8?B?RVV2aEJpR0VQQ0tNSWZPRi9UNm92OTlvMEcrSWpjLy9MSVY2SUU2eVZrczBj?=
- =?utf-8?B?RndlOVd2ZFI5dGNVV3AwY3REL2M5T3BXMzRMY2pMYmhWekJZei9yK3dSeGZJ?=
- =?utf-8?B?RlhrMmNCWFRvQ2xFaHRGb3BwOCtJM1V6VEhvTTR0M2drNG9kL3dhZWZrdE5o?=
- =?utf-8?B?N3MrZUc2MHlyWHg0djNtNzdQb2hIU2pPMlZmVmliOVdvRGRwUUhFRGx5bGY5?=
- =?utf-8?B?Z0R1Y3hiTWh2Tm1jbHFxZG5aeFVmSUl5U01JZGViQkJKL2F1MGxlbVFYa3Bh?=
- =?utf-8?B?YjJxYVdIZW8yaCtqLzV4WnRLckwxR2pUMFJTZVVQQ1FabXdaMUNRUWhuMHVK?=
- =?utf-8?B?ajUvTDY4aytsbVdqYlMwL3A0Smt6ZVNLMW1iOFJuWm1rZHYrVlN2V1lxbEJC?=
- =?utf-8?B?MXRLcFRUZHF6bDNZZ0JLWVoxQSsxMk5SWFZvWURaR0FXd3BGNGVFekIxSFVW?=
- =?utf-8?B?UWJRSlRMZWZsWHVGWmZKeDFSa0FTamtWN1djV0tBclhMYWF3MHN3NVlRN0pB?=
- =?utf-8?B?dlhmWjh6YlBwSFlabmtHZUhHWmtWczNDVWFIazRLYlppNFViaUgrVjdmUHJU?=
- =?utf-8?Q?XVLKVNV+b6g=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YjU4WlVMNC91Y2pUL3c2cFIxNE9IVnpvNGMyaVpPak9iVjRpR21MRVJwWjVQ?=
+ =?utf-8?B?SDNDemo3VkJOdU45UmdWY1BEQXlhbHZZQWVIUlg2S2w3OENnVSs0dGY2UUdr?=
+ =?utf-8?B?RFNKZ2JJVUx3dnc4czIyNTlMeExGZzY0VnhkVTkwaDZxT29KTnZnRjAweHBw?=
+ =?utf-8?B?Y2Y3b2dvODNEUUJLL2ZUeFFYVnhyRllYU282UlMvQ1MwL2JscS9ZWVJMUUhJ?=
+ =?utf-8?B?SE9jMTRxQ0NmeUlPK3pXRjJHRzQ0RTZlUSt1V1pydFduZVV6N2NORkRzbGxJ?=
+ =?utf-8?B?SlpVcjhqZ3krVU0zV1JFKzdoaDNtQXN2QlZaWGxlZ2lSaFlvclV5S0NVc2pD?=
+ =?utf-8?B?R1I1REZrUUQ3cTVRZlhiZ214VkQ0ckdKT0FjZVFPTjFTVWdacU4rMzF4SkND?=
+ =?utf-8?B?OXlhQXhhOUZtVks2Nzh5MWFHdlNBTWZSdXF3c0F1Wm9oT0w3SDl1Qmp3WFcx?=
+ =?utf-8?B?RVlPYW5TZGhUdUxTWURoN3FnR2tDaHR6MStaY0hVempaVkhEVm5lNXR2ZE5z?=
+ =?utf-8?B?cjBYUkNKM2F3ekl5ZkF5SGtZdHpYVkNLVGUyUWNENHBWczhQQ1M1RVBCTytT?=
+ =?utf-8?B?cUVJSnNzaWRwMWkvNy8vT3RWNWlSUGdZWm0vckR5ZVphWDhKL3M1NUxBWGZJ?=
+ =?utf-8?B?N1EwbDFSVXJGd0ZoRGlVOGRVMkVMN2tud2YrYnZ4OVRwcTQ2TWJPZTBBUXc3?=
+ =?utf-8?B?YVpNcDBwWmcyNkFpMTJSVXgzcC9weE5WMnRCcXFETEVZUGgyMmJGNW5VdDZE?=
+ =?utf-8?B?YUNiZUZnTUN4WjRMZlFxWHVkand5NWtZWmtjdmFsNzZGVmN6M01rYjNNeXZN?=
+ =?utf-8?B?bXdQbVRrT0prRmtzcW9ycGJjWS9iT1h1VVJZbktzRjlHNU5sK21waUp4TjNN?=
+ =?utf-8?B?N2tRUElyN0ZudFRDZ2V5ZlJKWHBoSWN0MW9EU1AwUlVDNW9XY3NNOWVNK3hP?=
+ =?utf-8?B?S3EyNEFWRmRGZnc2SHRIZnRCaDlCN2pqN3BBZlZ1a3FBQkMycDA3NkljUkNr?=
+ =?utf-8?B?Y21qRnZxbEo5OW5qU0lCb25BckJqT3d0QzZzamNhRmRkQXJNMzJkcU84cjNR?=
+ =?utf-8?B?cDd0L1dkWUpoNGlYYVRFeUtoenlNMW1XUzBXN0VmU2JkdVYweW05V2VyZml6?=
+ =?utf-8?B?cCtEUU5EYXUzRFZFNXh1TlNKL0ltN1l3Z2RraWk5am5wc25zN2VqaHpOU2Vs?=
+ =?utf-8?B?SC9Lb1BURHhTbFE0NEMvb09seUxHS1g0VU1hak56SEV4VFhSMGJlQ2lIQmRt?=
+ =?utf-8?B?QkJrWUc5RWFBdGxmU2JlWHNZK2lRYk9STVk3RTZLZk44LytZQmh3djZ1UFBy?=
+ =?utf-8?B?T2hmVUU2aEZoME1JTTB3YWZFdVhMNjk3UThYVmtmdDljczhIWlhtVVpZdTds?=
+ =?utf-8?B?VkFMY3dJNitIQnQ0WmxOdDJKcGpKdEc4Q3lrNUNZTkF6NUQ3MGZXdHhqT0o0?=
+ =?utf-8?B?MG5pak1KZ0liaEw1Q05GdWpWNjl5Q3lWMGRtZVkrNGlxc3ZBQ1BqemRseDMx?=
+ =?utf-8?B?Ry8xZ01vSnlHNVQvc0FxV0NoYTA4b1B3akRWTVNpNHNTRGxQOXUrR1c3UWVN?=
+ =?utf-8?B?Z2pCUStpNkVJbGw5N2NERC9MQlhwL2tkSW9PR2g2a3R5OE1BVllnMTAybzdw?=
+ =?utf-8?B?SXR3UEYvZ0dXN0V2bnQ5TjlkYWxvRmFiemFsT2RHYnZoRVBVVkhNYzNNYy8x?=
+ =?utf-8?B?a1YwT0RQbTgrNENCNWlhOEpBcHEyZW5Md3Q0RzlTTktXZHpsZGdzN3dKRjBJ?=
+ =?utf-8?B?V2JHckQ0NUEydWEwM3E0OS9LQ2Q1NWgyb1B6WXRXN0Evem9tZEdHSWdYZlNC?=
+ =?utf-8?B?UExmVFp1UXoyUGdDanZMTS90OGtqa2d4SFdBeFl6TWxZelBkOVFPT2s0ajdo?=
+ =?utf-8?B?aTZMc0tIMEcySHhuOXNwTm9YN0NXWlB4ZlA1Qmpha0dveldYWjRid2thQmRB?=
+ =?utf-8?Q?QVXUluiQag8=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVNHaU5KbjBQSm5VQVc5RVlndW5JZE9ST3FQMjA2MHVPTmplNjhwNlNCaVcx?=
- =?utf-8?B?Mmg0R2RtdjlFYStkSlozS09ybmp6WUE1R0UvUTlyQnFnNWE4M0I2SVM3cGpk?=
- =?utf-8?B?MUE5R1lXVk9VQ3crdTNicmNaTUZpaXhmemJMVmtqdkQvaHo3dFFBM0dpQUlo?=
- =?utf-8?B?Q2NIOGlrcTB0cEFpbjFoUDhFRFZreE9valAvdHkxRjk4aWc2cHRINEY0alZj?=
- =?utf-8?B?eDIwcTlsaHZDK1VtVytOODF4dVppNFphWHVNR1VNazl3QUZaM3ZMUGxlU2dt?=
- =?utf-8?B?NzZVZlRmMkUybTQwU0lKQnA4cjk0SEk1aThiRzVmL1BCdWFKKy90blk2a0lU?=
- =?utf-8?B?SzBMZHhyYk5haG9uMEJFbnVmTkxhcmE0SmZTeVJMeERWL2dtV0grTWFDczdJ?=
- =?utf-8?B?bHU4cWVvd3Z6cGQ0QUUrV05UN1JyaGxFZ1JwMWM1bFIwdldMbjFPSWdVYWps?=
- =?utf-8?B?V0dEdXl3blM2ZHBGR29rbVdDT3ZxNUdqdmhpODRhb0N6MVJ2WGZjTW1RY2Qv?=
- =?utf-8?B?Yyt6VFNMcDczQnNFUXJldXA4SFFFU21kWFJXbmFmL3IwTi9PY3pJdFlXM1R6?=
- =?utf-8?B?TmtvNGd4NkVueWd3U3NmU2FQQmxGMW0rM2FjcHc4QXM2YURVcThFbmFlWG9L?=
- =?utf-8?B?Y2Y4eVVWclZlSlVVckgrcEFVZlFRUGxyNVVqT29NVzJiRER1eGZjcDZJMms5?=
- =?utf-8?B?LzZUd1luTE9TaVpHMHlRRW1zQ1ZVT2N6a043OWw0WUJIeWVaN1lpUndHSjd2?=
- =?utf-8?B?clNTVWo1cityMHlrelptVkFVOGVCb3JiZTNiNlRIVFNjZ1JoUDlxUldyeEFh?=
- =?utf-8?B?VERvb3I5UlYrb0xtc1pnNGRhdnVWWWdCQnUwWmJoRHZrTUhlUXhkZElRUzRj?=
- =?utf-8?B?Q3VJZGZIaHN6OVVjSFI0bzQ3QXBHMUE1Z1dPZk5jM0cydGZQcHI5YVU0WS9J?=
- =?utf-8?B?N3VpbzdBR3Vvb2ZLb0RRcDlvN3JwOGR4Ti9NdGdQOEZMV1NtNWtMdzA1cGhG?=
- =?utf-8?B?OFdRNHZsSFl6ZnhzK3AwVWpIMGdrYkhucTU2dC9OQlVDMmF3Z2UyZ3RFNGdu?=
- =?utf-8?B?YmtPM2JDb0R3aWZ1RHRTalQxeWtUakZ1dDZmSGE0MG5UMGoybm9GMStRQnZt?=
- =?utf-8?B?b0pnZjdZWThpeVl2YWJxTDNjak5GVzdMM2syQ0ZlY2FXdGMyN3Nyd0g5U2lu?=
- =?utf-8?B?SW43Sjhva2lmdERyWFJxUFZjK3JSZmdubnpTbll2Snd2Ujh6cThLYks2aTdj?=
- =?utf-8?B?Q05YR2hLZUhkYmE5ZWRlMUI1ZUgweE9reHM0Z1poQUtTa1dKSUppeHBORFRL?=
- =?utf-8?B?SFN5SmExWmhvbVV2Z3YxU2tEZW0zckVWdkpTQWpIWEdIL3NmKy9GWmR2MHdK?=
- =?utf-8?B?cnRLazhtSUpNWUZQbmdnRExpTmgwYUJmWVdiWlhzd0d6alF3ZEEyWll0cmg2?=
- =?utf-8?B?ZnhuYUt3QjgxeElLUURqakQ5dnRCdWNPZ2dDNUVrVWo4VkdxU1p0VkFsUzFn?=
- =?utf-8?B?Um5SVHF1V0tjNVd5WCtlRnAzK2pOUjJSQjNrZVlnbnduMXgyN0xrYk9nUE1s?=
- =?utf-8?B?L1BickRMRi90cERhdC9CZmtHZnptU2txN1NDSDJvblJEcDBuTWRCL1RLZmVW?=
- =?utf-8?B?WU9jMDhhMTdHakVzRTVkeW41Mk1OR3FsUUJaOHA0UjVET2lHQ252ck1mOWRi?=
- =?utf-8?B?RmNlc3dvZW5sdkl0WmdkTkViSVhxZ1kwTWIrM25RWWhabllLZnRJR3BNRnJC?=
- =?utf-8?B?YjA5b3BGVDkzbFUrSHBGeWFqVkV1MTZka2NLNnVoeXlOU3MyOXBiTHY1Q2lU?=
- =?utf-8?B?ZGZVTjd5cGJJTjJnL2c4S2loMVdhSkhRc2FrUUVJc0pkdm5Bb2NRRTVWMnd1?=
- =?utf-8?B?RlpUbFVkalhwM2FIMmNrVjN4TnVjNHJyUm5hdHdDWkd0T2R6UjBYVlNjeC9t?=
- =?utf-8?B?N2pNUUp2ZlloMitxc0ZaV0ZUVEhUN1o0R1MxL1lNcThhdlZubUxPSDJ3bkM2?=
- =?utf-8?B?OXdZRWx1a2VxZ0ozNWJBSjVGRzlJbUlJYWZ0MGtoSHI5V0x2RHZmNnJ3RUxE?=
- =?utf-8?B?bHo0ZEk2TTVyRnM5bGJxTm9kNXR4Uk85Y1hQbjJVdG95M3pCaHdBcHArN0xD?=
- =?utf-8?Q?mTd8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFZsSXBnRDZxM204eDdYYk9XZ200VXFodlVuckNNbTRucjZ2c1RYNEhOM2d1?=
+ =?utf-8?B?c0xNRmJJZmZRNVNyelluanJwdjNpaEhyd3REaWM3VWdWWExSOWtVN29VSXFw?=
+ =?utf-8?B?aXFORzVROFNUbEc1TkNTdExER3N5ZDhpL2l1Q0ZpNGYyZS9keXBMT1R0M3RI?=
+ =?utf-8?B?NnJmN0pXSzc2S3lkTmM0eUxmNHlNTVl2cktvSStlQkd5TGhGRE0yS01YNm5G?=
+ =?utf-8?B?cWo1N1JoRG93L2ZZa25jYTU3cFM0MHhhYnozeU9yUkFnaStSUGdYNUlaSFBv?=
+ =?utf-8?B?VFhsWFVMdXJuOU9lc1dXdzZ0bWpiVVJwcHVyTHo5bWl3ZXpsRU5ZK2lMSVZ5?=
+ =?utf-8?B?eU80dzVjKzdoOTV6RSttRFlMOHlSSkRjNnpmSm40TGVuWFZYcy9RVWJKTVJo?=
+ =?utf-8?B?eXdVRnNYM0srUnRmaVVsc1RJT21MY2FaUVNNUEhSdW8yaUZNSTVaZzJWOWxT?=
+ =?utf-8?B?STJrWXczcTNmMW1FZ0gyMnJmRExicDhIa040ZFNUR3BiaFRPQ0YxYmhJdVZV?=
+ =?utf-8?B?ejlsNzVCcTc4KzZoY3I4WWh3ZkRtK0xSYWhrWmwvMDMvcmZvdEg0RDEwSTcz?=
+ =?utf-8?B?dzRCc1h0dVR3ZVJneWRwUFI2Mm9UTkpRMndFTzhSOE9BRko0THlwcEp2TVpG?=
+ =?utf-8?B?YlRHN3g3dStaZzJCeXExbytGbkFmRlZ4ZllTQkpQb1dmSGRSL3pZUXFDYnVp?=
+ =?utf-8?B?VFZhRWUzMVcya3h4UVpRZVFQYW5YTld6ajJTdk0yS3RneFZhNGRiYThXVTNa?=
+ =?utf-8?B?VHpXbVB3NGF1RkNaUnovcUhvcXlTUlNqRWV6R3gwa2poNnhGeUhtSlV2WVc2?=
+ =?utf-8?B?R2RhdUw2WERIaFl5SEhOR0tYNkRMbXlyTkkxTytFcERrUEl3ano1SXRrN1NL?=
+ =?utf-8?B?OEt0VW4wTU1KUTdvVDFsU0RWN3pIQUNidGtCTVpXZ0VCWGJtSjBneGIwQ25L?=
+ =?utf-8?B?SjNEZThWL3pGS29HbW5tN0x0L2pCUVdTS2tibHdMdXlnbVEvcDFQNEdoM3Ri?=
+ =?utf-8?B?UzAwY3lCVHpZVEpKVTAxUlBEWEd6ZFNyVjNmdDQwajJUTVh5QUs0cWRQZ3N1?=
+ =?utf-8?B?REVQNnJ0MUFxdGdpTVVwRDdzVFRhaW1FRmUwRnNpY0c5eU0xaEhBRE90Q3Ba?=
+ =?utf-8?B?U1NxY2tnVWdKY2tBeGFKUUJkcnl0Q3g3U0Z0RFhuZmZCcHJhVGMweWNiOCtW?=
+ =?utf-8?B?bGozUUx4S3JzV2J2b3diSks1SmI2TVRwR250MzY3QmlDN1VnZU5nb3h2UThS?=
+ =?utf-8?B?bHRoaU9jZVEyK1B2bVYrVkx2b0p3T3B0Nkx2K0hHL2I2V2w4TXFFWDZPWU5i?=
+ =?utf-8?B?Ulo3TDBOWkhldnJYZkwrMDZZbHh0dVdPZzMwa2V1a2FDUE1ld21STUtOZ1FG?=
+ =?utf-8?B?bzdkQmQ5MmM2eHltamJGTk9ibDAyeWhYdHBwQUcrOTJXWGFMTVRVeUlLOWUv?=
+ =?utf-8?B?MEp3YXI2QmJlWVQxbGpRc1loMVBrWXdXbTl4T1RxS1JjRmVQbGRGcU5LV3cr?=
+ =?utf-8?B?aGhvVW53c1Q5Ukpqamp6UzZIYjBHRjNMaXZibUFONXZaQm5YZHJYU2xKMWJ1?=
+ =?utf-8?B?c21vVFRmQ2ljVWZLUGFLVkQxd1kyVXBaOTRob3NEbjVETTBNMTRqdkNxa3Rl?=
+ =?utf-8?B?L0t0Kzh0c284anBVMHVnVUtsL0FCN1h3NEZzUVI3K2ZUYWhMVmVzZmFVSkJO?=
+ =?utf-8?B?MEJwc0FacmdLRE1rMWVEK2xZZG4yamM3NUhxeHJvdCsrRUJTSXZyRk05eUUr?=
+ =?utf-8?B?ajVNTnBXbE1sYndKd1V1TWpkYitmSUpSZWNoWWx6dXBYZnRraE5KL1YvT2ZX?=
+ =?utf-8?B?cnpCRUpCQi92OFVIOU5LdlZTOTBTM2JZSERLSmVGcno2T2ZDbE1Za0NmMHhO?=
+ =?utf-8?B?VklMT2duTG93QWV5OVVONlhhanJ6bVpHekpBMGRPbmcxT0Nvc2M4WjlHZ2Q0?=
+ =?utf-8?B?VUVveWFzeEdvY3kvMXdVcm43VkRSL0N2VEhGUUhMRUpORG5PYWYzYVVIYUNG?=
+ =?utf-8?B?S2x4a1BlVlR1dUtseTJEM2ZBYnByQldtUGFOeGMwQmlRbTdpczJmcTQ4QWd5?=
+ =?utf-8?B?RU5CUkhWL0xlUmpPTWVlOWlVS3BYVmxDOTRxcnExSC9QL09uRHYwZFdFc0ty?=
+ =?utf-8?Q?tE615YWwNejI0tAMbcI/uS1N/?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 811ec9b9-bd77-4831-1e4a-08dd92209922
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c0feebc-21fd-4360-17fb-08dd922113e0
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 13:18:06.4111 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 13:21:32.3502 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B3ttb9eyjmpMYQsbj/F5jnXwVcKCS3NoOu2YK63IpyxrDNmbasaAQmtMtsO2k2Sh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6248
+X-MS-Exchange-CrossTenant-UserPrincipalName: lo9RQ0AZzhpDYZOcOHFhUwn9YNoAc+Oe7uck2cBfIebJTSSpvPBzK7w/5+s8jpLU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6614
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,211 +165,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/25 14:30, wangtao wrote:
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Tuesday, May 13, 2025 7:32 PM
->> To: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
->> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
->> jstultz@google.com; tjmercier@google.com
->> Cc: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-
->> mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org;
->> wangbintian(BintianWang) <bintian.wang@honor.com>; yipengxiang
->> <yipengxiang@honor.com>; liulu 00013167 <liulu.liu@honor.com>; hanfeng
->> 00012985 <feng.han@honor.com>
->> Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
->> DMA_BUF_IOCTL_RW_FILE for system_heap
->>
->> On 5/13/25 11:28, wangtao wrote:
->>> Support direct file I/O operations for system_heap dma-buf objects.
->>> Implementation includes:
->>> 1. Convert sg_table to bio_vec
->>
->> That is usually illegal for DMA-bufs.
-> [wangtao] The term 'convert' is misleading in this context. The appropriate phrasing should be: Construct bio_vec from sg_table.
+On 5/12/25 08:12, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This adds the memcg object for any user allocated objects,
+> add uses the MEMCG placement flags in the correct places.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     |  5 ++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 16 +++++++++++-----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
+>  5 files changed, 20 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index 82df06a72ee0..1684a7e6d6cd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -839,7 +839,10 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+>  				union drm_amdgpu_cs *cs)
+>  {
+>  	struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
+> -	struct ttm_operation_ctx ctx = { true, false };
+> +	struct ttm_operation_ctx ctx = {
+> +		.interruptible = true,
+> +		.no_wait_gpu = false,
+> +	};
 
-Well it doesn't matter what you call it. Touching the page inside an sg table of a DMA-buf is illegal, we even have code to actively prevent that.
+In general this change here is very welcomed, but should probably be in a separate patch.
 
-Once more: This approach was already rejected multiple times! Please use udmabuf instead!
+Looks likely a leftover from when the flag was in the context.
 
-The hack you came up here is simply not necessary.
+Apart from that the patch series looks totally fine to me.
 
 Regards,
 Christian.
 
-
-> Appreciate your feedback.
->>
->> Regards,
->> Christian.
->>
->>> 2. Set IOCB_DIRECT when O_DIRECT is supported 3. Invoke
->>> vfs_iocb_iter_read()/vfs_iocb_iter_write() for actual I/O
->>>
->>> Performance metrics (UFS 4.0 device @4GB/s, Arm64 CPU @1GHz):
->>>
->>> | Metric             |    1MB |    8MB |    64MB |   1024MB |   3072MB |
->>> |--------------------|-------:|-------:|--------:|---------:|---------
->>> |--------------------|:|
->>> | Buffer Read (us)   |   1658 |   9028 |   69295 |  1019783 |  2978179 |
->>> | Direct Read (us)   |    707 |   2647 |   18689 |   299627 |   937758 |
->>> | Buffer Rate (MB/s) |    603 |    886 |     924 |     1004 |     1032 |
->>> | Direct Rate (MB/s) |   1414 |   3022 |    3425 |     3418 |     3276 |
->>>
->>> Signed-off-by: wangtao <tao.wangtao@honor.com>
->>> ---
->>>  drivers/dma-buf/heaps/system_heap.c | 118
->>> ++++++++++++++++++++++++++++
->>>  1 file changed, 118 insertions(+)
->>>
->>> diff --git a/drivers/dma-buf/heaps/system_heap.c
->>> b/drivers/dma-buf/heaps/system_heap.c
->>> index 26d5dc89ea16..f7b71b9843aa 100644
->>> --- a/drivers/dma-buf/heaps/system_heap.c
->>> +++ b/drivers/dma-buf/heaps/system_heap.c
->>> @@ -20,6 +20,8 @@
->>>  #include <linux/scatterlist.h>
->>>  #include <linux/slab.h>
->>>  #include <linux/vmalloc.h>
->>> +#include <linux/bvec.h>
->>> +#include <linux/uio.h>
->>>
->>>  static struct dma_heap *sys_heap;
->>>
->>> @@ -281,6 +283,121 @@ static void system_heap_vunmap(struct dma_buf
->> *dmabuf, struct iosys_map *map)
->>>  	iosys_map_clear(map);
->>>  }
->>>
->>> +static struct bio_vec *system_heap_init_bvec(struct
->> system_heap_buffer *buffer,
->>> +			size_t offset, size_t len, int *nr_segs) {
->>> +	struct sg_table *sgt = &buffer->sg_table;
->>> +	struct scatterlist *sg;
->>> +	size_t length = 0;
->>> +	unsigned int i, k = 0;
->>> +	struct bio_vec *bvec;
->>> +	size_t sg_left;
->>> +	size_t sg_offset;
->>> +	size_t sg_len;
->>> +
->>> +	bvec = kvcalloc(sgt->nents, sizeof(*bvec), GFP_KERNEL);
->>> +	if (!bvec)
->>> +		return NULL;
->>> +
->>> +	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
->>> +		length += sg->length;
->>> +		if (length <= offset)
->>> +			continue;
->>> +
->>> +		sg_left = length - offset;
->>> +		sg_offset = sg->offset + sg->length - sg_left;
->>> +		sg_len = min(sg_left, len);
->>> +
->>> +		bvec[k].bv_page = sg_page(sg);
->>> +		bvec[k].bv_len = sg_len;
->>> +		bvec[k].bv_offset = sg_offset;
->>> +		k++;
->>> +
->>> +		offset += sg_len;
->>> +		len -= sg_len;
->>> +		if (len <= 0)
->>> +			break;
->>> +	}
->>> +
->>> +	*nr_segs = k;
->>> +	return bvec;
->>> +}
->>> +
->>> +static int system_heap_rw_file(struct system_heap_buffer *buffer, bool
->> is_read,
->>> +		bool direct_io, struct file *filp, loff_t file_offset,
->>> +		size_t buf_offset, size_t len)
->>> +{
->>> +	struct bio_vec *bvec;
->>> +	int nr_segs = 0;
->>> +	struct iov_iter iter;
->>> +	struct kiocb kiocb;
->>> +	ssize_t ret = 0;
->>> +
->>> +	if (direct_io) {
->>> +		if (!(filp->f_mode & FMODE_CAN_ODIRECT))
->>> +			return -EINVAL;
->>> +	}
->>> +
->>> +	bvec = system_heap_init_bvec(buffer, buf_offset, len, &nr_segs);
->>> +	if (!bvec)
->>> +		return -ENOMEM;
->>> +
->>> +	iov_iter_bvec(&iter, is_read ? ITER_DEST : ITER_SOURCE, bvec,
->> nr_segs, len);
->>> +	init_sync_kiocb(&kiocb, filp);
->>> +	kiocb.ki_pos = file_offset;
->>> +	if (direct_io)
->>> +		kiocb.ki_flags |= IOCB_DIRECT;
->>> +
->>> +	while (kiocb.ki_pos < file_offset + len) {
->>> +		if (is_read)
->>> +			ret = vfs_iocb_iter_read(filp, &kiocb, &iter);
->>> +		else
->>> +			ret = vfs_iocb_iter_write(filp, &kiocb, &iter);
->>> +		if (ret <= 0)
->>> +			break;
->>> +	}
->>> +
->>> +	kvfree(bvec);
->>> +	return ret < 0 ? ret : 0;
->>> +}
->>> +
->>> +static int system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
->>> +			struct dma_buf_rw_file *back)
->>> +{
->>> +	struct system_heap_buffer *buffer = dmabuf->priv;
->>> +	int ret = 0;
->>> +	__u32 op = back->flags & DMA_BUF_RW_FLAGS_OP_MASK;
->>> +	bool direct_io = back->flags & DMA_BUF_RW_FLAGS_DIRECT;
->>> +	struct file *filp;
->>> +
->>> +	if (op != DMA_BUF_RW_FLAGS_READ && op !=
->> DMA_BUF_RW_FLAGS_WRITE)
->>> +		return -EINVAL;
->>> +	if (direct_io) {
->>> +		if (!PAGE_ALIGNED(back->file_offset) ||
->>> +			!PAGE_ALIGNED(back->buf_offset) ||
->>> +			!PAGE_ALIGNED(back->buf_len))
->>> +		return -EINVAL;
->>> +	}
->>> +	if (!back->buf_len || back->buf_len > dmabuf->size ||
->>> +		back->buf_offset >= dmabuf->size ||
->>> +		back->buf_offset + back->buf_len > dmabuf->size)
->>> +		return -EINVAL;
->>> +	if (back->file_offset + back->buf_len < back->file_offset)
->>> +		return -EINVAL;
->>> +
->>> +	filp = fget(back->fd);
->>> +	if (!filp)
->>> +		return -EBADF;
->>> +
->>> +	mutex_lock(&buffer->lock);
->>> +	ret = system_heap_rw_file(buffer, op ==
->> DMA_BUF_RW_FLAGS_READ, direct_io,
->>> +			filp, back->file_offset, back->buf_offset, back-
->>> buf_len);
->>> +	mutex_unlock(&buffer->lock);
->>> +
->>> +	fput(filp);
->>> +	return ret;
->>> +}
->>> +
->>>  static void system_heap_dma_buf_release(struct dma_buf *dmabuf)  {
->>>  	struct system_heap_buffer *buffer = dmabuf->priv; @@ -308,6
->> +425,7
->>> @@ static const struct dma_buf_ops system_heap_buf_ops = {
->>>  	.mmap = system_heap_mmap,
->>>  	.vmap = system_heap_vmap,
->>>  	.vunmap = system_heap_vunmap,
->>> +	.rw_file = system_heap_dma_buf_rw_file,
->>>  	.release = system_heap_dma_buf_release,  };
->>>
-> 
+>  	struct amdgpu_vm *vm = &fpriv->vm;
+>  	struct amdgpu_bo_list_entry *e;
+>  	struct drm_gem_object *obj;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index 69429df09477..bdad9a862ed3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -89,6 +89,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+>  	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
+>  
+>  	amdgpu_hmm_unregister(aobj);
+> +	mem_cgroup_put(aobj->tbo.memcg);
+>  	ttm_bo_put(&aobj->tbo);
+>  }
+>  
+> @@ -116,6 +117,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
+>  	bp.domain = initial_domain;
+>  	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
+>  	bp.xcp_id_plus1 = xcp_id_plus1;
+> +	bp.memcg = get_mem_cgroup_from_mm(current->mm);
+>  
+>  	r = amdgpu_bo_create_user(adev, &bp, &ubo);
+>  	if (r)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 0b9987781f76..1d930421354a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -158,7 +158,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
+>  		places[c].mem_type =
+>  			abo->flags & AMDGPU_GEM_CREATE_PREEMPTIBLE ?
+>  			AMDGPU_PL_PREEMPT : TTM_PL_TT;
+> -		places[c].flags = 0;
+> +		places[c].flags = TTM_PL_FLAG_MEMCG;
+>  		/*
+>  		 * When GTT is just an alternative to VRAM make sure that we
+>  		 * only use it as fallback and still try to fill up VRAM first.
+> @@ -173,7 +173,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
+>  		places[c].fpfn = 0;
+>  		places[c].lpfn = 0;
+>  		places[c].mem_type = TTM_PL_SYSTEM;
+> -		places[c].flags = 0;
+> +		places[c].flags = TTM_PL_FLAG_MEMCG;
+>  		c++;
+>  	}
+>  
+> @@ -657,16 +657,21 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+>  		size = ALIGN(size, PAGE_SIZE);
+>  	}
+>  
+> -	if (!amdgpu_bo_validate_size(adev, size, bp->domain))
+> +	if (!amdgpu_bo_validate_size(adev, size, bp->domain)) {
+> +		mem_cgroup_put(bp->memcg);
+>  		return -ENOMEM;
+> +	}
+>  
+>  	BUG_ON(bp->bo_ptr_size < sizeof(struct amdgpu_bo));
+>  
+>  	*bo_ptr = NULL;
+>  	bo = kvzalloc(bp->bo_ptr_size, GFP_KERNEL);
+> -	if (bo == NULL)
+> +	if (bo == NULL) {
+> +		mem_cgroup_put(bp->memcg);
+>  		return -ENOMEM;
+> +	}
+>  	drm_gem_private_object_init(adev_to_drm(adev), &bo->tbo.base, size);
+> +	bo->tbo.memcg = bp->memcg;
+>  	bo->tbo.base.funcs = &amdgpu_gem_object_funcs;
+>  	bo->vm_bo = NULL;
+>  	bo->preferred_domains = bp->preferred_domain ? bp->preferred_domain :
+> @@ -1341,7 +1346,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+>  vm_fault_t amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+>  {
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+> -	struct ttm_operation_ctx ctx = { false, false };
+> +	struct ttm_operation_ctx ctx = { .interruptible = false,
+> +					 .no_wait_gpu = false };
+>  	struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
+>  	int r;
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> index 375448627f7b..9a4c506cfb76 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -55,6 +55,7 @@ struct amdgpu_bo_param {
+>  	enum ttm_bo_type		type;
+>  	bool				no_wait_gpu;
+>  	struct dma_resv			*resv;
+> +	struct mem_cgroup               *memcg;
+>  	void				(*destroy)(struct ttm_buffer_object *bo);
+>  	/* xcp partition number plus 1, 0 means any partition */
+>  	int8_t				xcp_id_plus1;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 53b71e9d8076..f40b0c0a820b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -151,11 +151,13 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+>  			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT |
+>  							AMDGPU_GEM_DOMAIN_CPU);
+>  		}
+> +		abo->placements[0].flags &= ~TTM_PL_FLAG_MEMCG;
+>  		break;
+>  	case TTM_PL_TT:
+>  	case AMDGPU_PL_PREEMPT:
+>  	default:
+>  		amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_CPU);
+> +		abo->placements[0].flags &= ~TTM_PL_FLAG_MEMCG;
+>  		break;
+>  	}
+>  	*placement = abo->placement;
 
