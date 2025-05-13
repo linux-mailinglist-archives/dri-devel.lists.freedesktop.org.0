@@ -2,62 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0974AB5B05
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 19:20:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F89AB5B1D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 19:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7650A10E267;
-	Tue, 13 May 2025 17:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFA1C10E20A;
+	Tue, 13 May 2025 17:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VKfFUr6X";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3e/uOPua";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28D7610E267;
- Tue, 13 May 2025 17:20:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 33FE5A4DADF;
- Tue, 13 May 2025 17:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CF0C4CEE4;
- Tue, 13 May 2025 17:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747156803;
- bh=MQuhWpdzL93g7rThL0qxlaSL6Ket9ASq4jJ/RLoxeI8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VKfFUr6XKjwZWWOe1h2dm2026+ajtQ08OViaXvJUs32VjY9pNgCDp3vdLArWlg/ug
- puZwKFsV0jOk0iacJI6p36/oeQziVIxeiSJAUyKnqq/fBml6h8WOzbMgT2/zUegqoy
- B4fHJgF8FL0ohX1wmj5VJ4avHzsU1GTK1pwn4i0gDw5oFh/urFsYch6R3cXUojWqDX
- KJnzl3Kr6WGFJ9Lb92Rj/xUgjOsndgggZdhKrDOsqNtIsCqskFcnAFLHJarQIC1ORk
- D40A/u3s2+8SpfFgxm5uPh7YMDge5lXgrYnokS5rdcBYcNVgn3EY3M+HxeobdcBAaI
- b3saKvA8f5miA==
-Date: Tue, 13 May 2025 19:19:56 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Shirish Baskaran <sbaskaran@nvidia.com>
-Subject: Re: [PATCH v3 16/19] nova-core: Add support for VBIOS ucode
- extraction for boot
-Message-ID: <aCN_PIYEEzs73AqT@pollux>
-References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
- <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8AF310E204;
+ Tue, 13 May 2025 17:24:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SslTxG0KCEM72e+SeNrS0kZqZBDugNW5R0QVdIDFH2Mvu3WLvIzzA87cpf9eo/yQYk3Cf0uJVapKoPMowhIx00uvJ743EcPl9BCedGR3ELjKmatSRqOZhkJdBqlBUtMuuyxYTzyNStM6OJqEjbnOnAfaZMXDJ8LQg5PRBkpkNgxUYcUZMCiiLc46VdfFMxbZsU5jOEzx94uL9ZdTLVEKj04Gvn6PA9TZEBnOPwjrCyYn514EU/HNS082X7hjU1uvBAR9c1jGMx8JXXi2otBNvSpIbxX0euLyZiJQ8agqTyDqd3N8bdUn0x29LXQnP1K2vMEEQopE34vu52Wcu7Z0Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BI2JeV5bN39BugKoujGqm3YWaQ3YZV3yXIKf/TgxXt8=;
+ b=IlpvM9pcWApU3y+LINSqNdoKgrE17H2TU9HSW2lrKA6lt0O90slUh2HQSw9xMA2hVbd+nEJLDXol7hGRbx/LZuIllhPcpr277tT4wTa4x1CnXRgly2t0PN20sy0oa+LU4DEAVnEzg4h/RWRqNMk7+YiRcE6EAPZbYtDyH9+/38ZQIuQJJMUlVd5R6W5WhULdUHKVLD5RBZqO1JyLM46blt4D8f7hRO5LI6xc62nc+2gyqYl5VL2kVEkTEl0ZqFpaHAZzS+dTUz0x7+hQcCfru/p/0uWfml+bUCH0ojrYdYUHjUJcx9joDQEg65CM6eb9MPrPi2wUJV61x2zjkrYDow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BI2JeV5bN39BugKoujGqm3YWaQ3YZV3yXIKf/TgxXt8=;
+ b=3e/uOPuaMmc0DiI4Ee4Prtoi6PU0xHH3uaSO2D6+p/uFfLTOxgBWAZC8Jpm8Poq58AJNjylfihoKeHb/VApO6wDDcXlFBcTmlrNqo9ZRDtE97vC0Ze9QFik98VsTVZ8f/FUjkS+4nuz63DIJBFUEtFf9JqXK2j8dzm+DBz/x7lQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by CH0PR12MB8506.namprd12.prod.outlook.com (2603:10b6:610:18a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Tue, 13 May
+ 2025 17:24:13 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%4]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 17:24:13 +0000
+Message-ID: <2ec3e1ef-16fd-4a4a-a54e-96b762f033d2@amd.com>
+Date: Tue, 13 May 2025 11:24:08 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm/amd/display: Hardware cursor changes color
+ when switched to software cursor"
+To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
+ Aurabindo Pillai <Aurabindo.Pillai@amd.com>,
+ Nevenko Stupar <Nevenko.Stupar@amd.com>, Roman Li <roman.li@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20250422150427.59679-1-mwen@igalia.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250422150427.59679-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0201.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:67::7) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|CH0PR12MB8506:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7494cae8-d751-4b9b-2d4f-08dd9242fae2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TXo3bXV1WkZJRTFJYWptaWlnTzRPV2tyQjlxaXdhNDZlWVpreVN2TEJrajlW?=
+ =?utf-8?B?TjN2aGZML0dMRS83ZGtGZm5LcThZa0NUZER3TWY5a3lIWXJqb0Nsdld1NWRx?=
+ =?utf-8?B?V1RTYnJXekFnOVpnTFVRNDFXS3RjY0lGc3FieTNsZmtMSXM3d01LajB5dTNV?=
+ =?utf-8?B?NzJiTHNGeU41R1kyQlhYaTQ2cjAvb0NpQlc0Mnd4R09TNGhxT0p1a3JKRFh5?=
+ =?utf-8?B?RHRMQ3B3OXpLN24xQmpaM0M3aUFFZHRUUUtGMWhRd0VQZGxhbnZ5d3RwbVh0?=
+ =?utf-8?B?VFA4WDRvTnZSVDUwOUpqVTRuT09tQVlaZlovSXJhWWJZN3Z3WC9SWTFPQUVn?=
+ =?utf-8?B?ajhiK1A5SmJKQWRBVFZia0dKV2MzTkZ3VEpWck8zNnFBdWFzNGVpZ3QyT2ZC?=
+ =?utf-8?B?bnNGWDZIZXMwbHRJTlFYZ2JENTZCblo5NUJ3citHUUUvKzhwSEtOZFFCejAv?=
+ =?utf-8?B?K0habk1lUnR1WVdlYXM4ZkhLUllRZmE4eHU2bm9qc1FJV1ErUldqUTBzQXNt?=
+ =?utf-8?B?YmNKcndTTlBqVkdoUnBsbUJGc3JST3pVNGd1eHZOait4dGVsNDFVMGN5RVpv?=
+ =?utf-8?B?dTEyS1JMY1QzczdNb3U4bC9wYVpYYWM5dEpEV1FtSXVGSFFKM1I2SlVLSFha?=
+ =?utf-8?B?a1JxL1djYkZ6VER6UE9MN0NLa2ZJS1FETkYrSlduQXVqUzVnOVVGVDBrRENL?=
+ =?utf-8?B?d3pWMVg1Rjk0UnVYWnlNSjB6TFZMRWh5T3VISGZnSTFxT2hhQTNQRjhxWFA3?=
+ =?utf-8?B?VkZYVlFxWDhuVVVHL0p1NGNJeCt6R1I4ek9rV252NXZ6NU1XVFh5eTdMMUpF?=
+ =?utf-8?B?d0ZpN3ByZTVIQXVEVzN5bWRVNjBGQ3BOZlB2R0J3ZE9Zb04zQTA4ZEllcjJD?=
+ =?utf-8?B?U1JXZk5VY2JFY1pjdGFvaGZjQlkrVjhhN2MvUWdHQmsrVFd2TDYxYUpOaW5I?=
+ =?utf-8?B?RmNBazZ5YWhuMlp5bEx5Tzl5RHN2WXlaRS9NUk1rZTlNa1h6SFJSa3k5UHpE?=
+ =?utf-8?B?bklvNmp0MktVSmVSS2p0YXFBNzFHaFdjdkNIbjZhZlBqTmhZbUhPdjQ4RGRu?=
+ =?utf-8?B?enVtTStndzdtOEtCRkJtMHBxTExUUWpjZFhkeWZSVDdXaGpqbkFZRzAyTERW?=
+ =?utf-8?B?bVF4TkVqTVJDQmtkWXRaaHpieWFWOXkvZlZROTZVeGtyb0d6RGRHelIwb2lj?=
+ =?utf-8?B?WXdvYitnb2FMaVh1Vkg1TkJYQ3pjakFKQW1Xei9raEk0aXlLNlNpS2RnM1Ux?=
+ =?utf-8?B?MjNKREhZdWFtZDIvTWtFOUlWNGtZeHZnb3QrMFRnbi9SL0JSb1Z4V3duT0VU?=
+ =?utf-8?B?WGdIeVZNVFREUm9jdXR6cEtZSHFHVFFESGdlVUtDRDVWTEhjRUxQWGsxMzU1?=
+ =?utf-8?B?MzdLR3NWc1RrYjlzeUZiRjNFN1JlaUxyOWpCeGVvWnBjRi9aakpFVE9QcE8r?=
+ =?utf-8?B?RkJwaHBVM0VvOCtTTG50dVc5b0kwT2s0WFFEQ1RNNkxwSkdaa1BLQWJWejcy?=
+ =?utf-8?B?aHNycWZVUThhUlJoQjN2SEVoZk8zeXkvTkVZYUg4dXJBRkVXeC9EdmN0OS9o?=
+ =?utf-8?B?NTFjQWJsUzBhMEdXemNVMHY5eHVmSzA3QUd4TEExdXlJZGdWN01ublhxSG1X?=
+ =?utf-8?B?bmdlQ2lIMytiNS9TTW4ya1hFRHdpbmxxU1F4Wjl5cTE1bnVGUWxBZWJIcjRV?=
+ =?utf-8?B?dWdCckIwOWFqNmNEcXh3cXNUMWd4YlJCV2s1by9BN1lSSUNtVkpoUzlrcmtX?=
+ =?utf-8?B?SW5rNFJ2amRlaXBJbTc2cjVkVnlOOUc2Skc1Q0NqSDhCb1REZWxTVm84c1Zv?=
+ =?utf-8?Q?FCqVzch54t33Zt6TCiRpTJ3BNzhwHr7J95bnY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWdaOUsvaE15bW5saEYrWnVSZEhOcWZkR0ZIa3VmeHRRYytic1h4VzNubnZF?=
+ =?utf-8?B?bFIvTTRKZkdRWndmSGlTWkNuWHlPVlhBOGorenlXeFVoSFQ2d2hZcDdKWXNu?=
+ =?utf-8?B?QVA0ODhGQXJMOEZ5LzFIY2krcjY5Ynk0MlNHWjgwTU9mT2lqV1VEYU0xSTQv?=
+ =?utf-8?B?Q0xsTGlpbVB4UGhNdU8rRTFGRXhWZHpNV0J5bEhZWUtTMytPckxUKzBjT2I5?=
+ =?utf-8?B?M1VyTlJISDg2Z2hiblU4WTFaS1JWZXVTZXZSN3F1SUVxVERBR0xWY3BoR2dB?=
+ =?utf-8?B?VC9wVHkvTG9JazJMVDZUZmMrUCtnallxWVFCQzF6Q2hwWmdaczJqcHB3elFo?=
+ =?utf-8?B?cDFYTXp6ZUtLTmVtRlEzVG9SbGRpV1BrWmUwRXprOTVoRFBWK0xIaUVwMWcv?=
+ =?utf-8?B?V0VJTW5qWEl6aHI0QlRxN01FQ25PMS9xWjkzMjRKZHNWckl2UHRYcFdjQ1Ew?=
+ =?utf-8?B?emRXRVNRc0wyMXlkbnNlRVhuRURWd05KaDBzZkIzWlFBMTVWZG1xZkp3cFJr?=
+ =?utf-8?B?emJDcXZodUZlRzh4cGNvTVpqcmlCTkFtNEJZWWdDZzUxSWRlUkR6ektycC9r?=
+ =?utf-8?B?T2w0elNhU1BMcVR3YUd5NkxyQ0krT282eE9LM3VnS0FDQzh4ZFRGMjUvQkQx?=
+ =?utf-8?B?RG5SRmxZTmlyUWh6OVltVWtWQmFpTTlHRUtVR0JGdkhxYzF1RDNJMkZ1MzdK?=
+ =?utf-8?B?WWxUV0NtMnkrTThLZE5TSHJQcmJlY0Npc2ZWSm4xai9IVFlJdlJtRURhQ0Fn?=
+ =?utf-8?B?QytTaFFFN3BzaXVrekRNSFJCcXMzWSt0dUJLcm8vbW1EMk1FeVJaM3dERS9k?=
+ =?utf-8?B?YjBrakk5TzY2T290b3V4Q2xKV0ZhUlVtUldacEdmWnlITlVjUzBKMk4zQVVN?=
+ =?utf-8?B?S1ZKQlBXWkw5Y3o2M2piWVRjaVBPSFlHWXU0OUx0YzFpM1A4WjMxUTZQS3BK?=
+ =?utf-8?B?dmY5RXBKOE55YmI1QnArK00vWU5NSXNFdW5aRzlobXd0QUlpQ25oUG04eTFU?=
+ =?utf-8?B?UVBZUXh1RldZOTZqM1JPcFdiWFl2YTFONTdGRDlNS1ZvaDF2bVZqK0k5RzY1?=
+ =?utf-8?B?RzdIc0QrRGdOcm41VUxFd3J3OGs5OGcraTNDSnpPTHNkY0FYQVpEWW0zMFNU?=
+ =?utf-8?B?WXlHVE5TcllBWEw0WEhoL3I2Zi9ubXNBRG82ZFJvc25uUTlQdHAzMi9iS0J1?=
+ =?utf-8?B?UmNyT2I1ZlhOZkRWT25kU1pXamVCQ2UxcWRWTU0xazNqOGpZeFQyVHpybTlZ?=
+ =?utf-8?B?NlJlNnRpU20vRGo2NU1LeEJzM2g1QmdOOWNzU054dW9uclhlYmVxQXovQzBp?=
+ =?utf-8?B?NUIxalFmOHRjRFRqeVR5a09xSHA2cEhnUHpNVU5ZNmZQRmZNeU43T0piU1lp?=
+ =?utf-8?B?amxscFVXbGwzMURXclROcjdUMGNLNXlVZXBkZC95cmZHd1VJWkNBNFdMSkJj?=
+ =?utf-8?B?RnZRb0xjZStOdFpNVjFMeWxiRXlGSENPeENqL1didTc0RVFZN1JDZjVUcmJK?=
+ =?utf-8?B?dFk1T0IyOXVGUUVhVzFmVWJUWHU1b1c2cEJkZGFLZjNkTkJKc0NHOHRoRzg2?=
+ =?utf-8?B?WDMzaE5tS3FsUTc5dHFlT2ZleTA3NHFRS0lnUWlKU3B2SlhIUW9sZkRZM01Q?=
+ =?utf-8?B?T0VZT3ZHZ1VwWUdKTmZOOGNLQmFhaTUyS2dvQ2c0WWFKZEV1TUJsY1lVaENT?=
+ =?utf-8?B?Z0N2OExJTEoxdmx1NUZXR3E5allxK2JLRE1lV1FZSXFTRkR6OHRkT0t4ZVZH?=
+ =?utf-8?B?S2JRb1ZyM096SXhDak9VRm9CdnA1d3BBNWFzTlkwelM3aEM1WVdZcmk0SUVP?=
+ =?utf-8?B?L0sycmpLMmZyQ0JuTXhxTk4rSUVkdGM3dmtGSnp4OHdlcGgrK25hZ3RlN0hT?=
+ =?utf-8?B?dzc5MlowbmhLbUQrV2dWNEhPcERaa1pSUnFnZkxmYjdHTS8rRHRmcjZxQjlG?=
+ =?utf-8?B?cFhxNW4xd0JLaVExUGo1K0szdVdoK1FzUUJISUtNc3BEMk5rWWdSWTQza2NW?=
+ =?utf-8?B?aGpuU1dZRmtwOHQrcVcxdTdXQ1hOUFlOelRKV0FtcmUvbHFoL1JJNFZFNHhi?=
+ =?utf-8?B?aklIMVlqVG5YQkZwbDBCeGlBQzhZQ2d2Q0N0SEhlbndyMDk1bDRVblBVaVlr?=
+ =?utf-8?Q?PSC5Esf2LiLavCLPrkeIMcB7/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7494cae8-d751-4b9b-2d4f-08dd9242fae2
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 17:24:13.3962 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HdeNLHhPzqcBbo6VDzid2pOCyNfSRqlBRswvteQvd0QxheKqvn4EyQIkJjNLC44kldOWSd6eB1Q9h4g8iSh4Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8506
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,430 +167,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 07, 2025 at 10:52:43PM +0900, Alexandre Courbot wrote:
-> From: Joel Fernandes <joelagnelf@nvidia.com>
+Reviewed-by: Alex Hung <alex.hung@amd.com>
+
+On 4/22/25 08:58, Melissa Wen wrote:
+> This reverts commit 272e6aab14bbf98d7a06b2b1cd6308a02d4a10a1.
 > 
-> Add support for navigating and setting up vBIOS ucode data required for
-> GSP to boot. The main data extracted from the vBIOS is the FWSEC-FRTS
-> firmware which runs on the GSP processor. This firmware runs in high
-> secure mode, and sets up the WPR2 (Write protected region) before the
-> Booter runs on the SEC2 processor.
+> Applying degamma curve to the cursor by default breaks Linux userspace
+> expectation.
 > 
-> Also add log messages to show the BIOS images.
+> On Linux, AMD display manager enables cursor degamma ROM just for
+> implict sRGB on HW versions where degamma is split into two blocks:
+> degamma ROM for pre-defined TFs and `gamma correction` for user/custom
+> curves, and degamma ROM settings doesn't apply to cursor plane.
 > 
-> [102141.013287] NovaCore: Found BIOS image at offset 0x0, size: 0xfe00, type: PciAt
-> [102141.080692] NovaCore: Found BIOS image at offset 0xfe00, size: 0x14800, type: Efi
-> [102141.098443] NovaCore: Found BIOS image at offset 0x24600, size: 0x5600, type: FwSec
-> [102141.415095] NovaCore: Found BIOS image at offset 0x29c00, size: 0x60800, type: FwSec
-> 
-> Tested on my Ampere GA102 and boot is successful.
-> 
-> [applied changes by Alex Courbot for fwsec signatures]
-> [applied feedback from Alex Courbot and Timur Tabi]
-> [applied changes related to code reorg, prints etc from Danilo Krummrich]
-> [acourbot@nvidia.com: fix clippy warnings]
-> [acourbot@nvidia.com: remove now-unneeded Devres acquisition]
-> [acourbot@nvidia.com: fix read_more to read `len` bytes, not u32s]
-> 
-> Cc: Alexandre Courbot <acourbot@nvidia.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: Shirish Baskaran <sbaskaran@nvidia.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Timur Tabi <ttabi@nvidia.com>
-> Cc: Ben Skeggs <bskeggs@nvidia.com>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1513
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2803
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4144
+> Reported-by: Michel Dänzer <michel.daenzer@mailbox.org>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 > ---
->  drivers/gpu/nova-core/firmware.rs  |    2 -
->  drivers/gpu/nova-core/gpu.rs       |    3 +
->  drivers/gpu/nova-core/nova_core.rs |    1 +
->  drivers/gpu/nova-core/vbios.rs     | 1147 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 1151 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-> index 1eb216307cd01d975b3d5beda1dc516f34b4b3f2..960982174d834c7c66a47ecfb3a15bf47116b2c5 100644
-> --- a/drivers/gpu/nova-core/firmware.rs
-> +++ b/drivers/gpu/nova-core/firmware.rs
-> @@ -80,8 +80,6 @@ pub(crate) struct FalconUCodeDescV3 {
->      _reserved: u16,
->  }
->  
-> -// To be removed once that code is used.
-> -#[expect(dead_code)]
->  impl FalconUCodeDescV3 {
->      pub(crate) fn size(&self) -> usize {
->          ((self.hdr & 0xffff0000) >> 16) as usize
-> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-> index ece13594fba687f3f714e255b5436e72d80dece3..4bf7f72247e5320935a517270b5a0e1ec2becfec 100644
-> --- a/drivers/gpu/nova-core/gpu.rs
-> +++ b/drivers/gpu/nova-core/gpu.rs
-> @@ -9,6 +9,7 @@
->  use crate::firmware::Firmware;
->  use crate::regs;
->  use crate::util;
-> +use crate::vbios::Vbios;
->  use core::fmt;
->  
->  macro_rules! define_chipset {
-> @@ -238,6 +239,8 @@ pub(crate) fn new(
->  
->          let _sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
->  
-> +        let _bios = Vbios::new(pdev, bar)?;
+> Hi,
+> 
+> I suspect there is a conflict of interest between OSes here, because
+> this is not the first time this mechanism has been removed from the
+> DC shared-code and after reintroduced [1].
+> 
+> I'd suggest that other OSes set the `dc_cursor_attributes
+> attribute_flags.bits.ENABLE_CURSOR_DEGAMMA` to true by default, rather
+> than removing the mechanism that is valid for the Linux driver. Similar
+> to what the Linux AMD DM does for the implicit sRGB [2][3], but in their
+> case, they just need to initialize with 1.
+> 
+> Finally, thanks Michel for pointing this issue out to me and noticing
+> the similarity to previous solution.
+> 
+> [1] https://gitlab.freedesktop.org/agd5f/linux/-/commit/d9fbd64e8e317
+> [2] https://gitlab.freedesktop.org/agd5f/linux/-/commit/857b835f
+> [3] https://gitlab.freedesktop.org/agd5f/linux/-/commit/66eba12a
+> 
+> Best Regards,
+> 
+> Melissa
+> 
+>   drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+> index 1236e0f9a256..712aff7e17f7 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+> @@ -120,10 +120,11 @@ void dpp401_set_cursor_attributes(
+>   	enum dc_cursor_color_format color_format = cursor_attributes->color_format;
+>   	int cur_rom_en = 0;
+>   
+> -	// DCN4 should always do Cursor degamma for Cursor Color modes
+>   	if (color_format == CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA ||
+>   		color_format == CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA) {
+> -		cur_rom_en = 1;
+> +		if (cursor_attributes->attribute_flags.bits.ENABLE_CURSOR_DEGAMMA) {
+> +			cur_rom_en = 1;
+> +		}
+>   	}
+>   
+>   	REG_UPDATE_3(CURSOR0_CONTROL,
 
-Please add a comment why, even though unused, it is important to create this
-instance.
-
-Also, please use `_` if it's not intended to ever be used.
-
-> +
->          Ok(pin_init!(Self {
->              spec,
->              bar: devres_bar,
-> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-> index 8342482a1aa16da2e69f7d99143c1549a82c969e..ff6d0b40c18f36af4c7e2d5c839fdf77dba23321 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -10,6 +10,7 @@
->  mod gpu;
->  mod regs;
->  mod util;
-> +mod vbios;
->  
->  kernel::module_pci_driver! {
->      type: driver::NovaCore,
-> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..cd55d8dbf8e12d532f776d7544c7e5f2a865d6f8
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/vbios.rs
-> @@ -0,0 +1,1147 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! VBIOS extraction and parsing.
-> +
-> +// To be removed when all code is used.
-> +#![expect(dead_code)]
-> +
-> +use crate::driver::Bar0;
-> +use crate::firmware::FalconUCodeDescV3;
-> +use core::convert::TryFrom;
-> +use kernel::device;
-> +use kernel::error::Result;
-> +use kernel::num::NumAlign;
-> +use kernel::pci;
-> +use kernel::prelude::*;
-> +
-> +/// The offset of the VBIOS ROM in the BAR0 space.
-> +const ROM_OFFSET: usize = 0x300000;
-> +/// The maximum length of the VBIOS ROM to scan into.
-> +const BIOS_MAX_SCAN_LEN: usize = 0x100000;
-> +/// The size to read ahead when parsing initial BIOS image headers.
-> +const BIOS_READ_AHEAD_SIZE: usize = 1024;
-> +/// The bit in the last image indicator byte for the PCI Data Structure that
-> +/// indicates the last image. Bit 0-6 are reserved, bit 7 is last image bit.
-> +const LAST_IMAGE_BIT_MASK: u8 = 0x80;
-> +
-> +// PMU lookup table entry types. Used to locate PMU table entries
-> +// in the Fwsec image, corresponding to falcon ucodes.
-> +#[expect(dead_code)]
-> +const FALCON_UCODE_ENTRY_APPID_FIRMWARE_SEC_LIC: u8 = 0x05;
-> +#[expect(dead_code)]
-> +const FALCON_UCODE_ENTRY_APPID_FWSEC_DBG: u8 = 0x45;
-> +const FALCON_UCODE_ENTRY_APPID_FWSEC_PROD: u8 = 0x85;
-> +
-> +/// Vbios Reader for constructing the VBIOS data
-> +struct VbiosIterator<'a> {
-> +    pdev: &'a pci::Device,
-> +    bar0: &'a Bar0,
-> +    // VBIOS data vector: As BIOS images are scanned, they are added to this vector
-> +    // for reference or copying into other data structures. It is the entire
-> +    // scanned contents of the VBIOS which progressively extends. It is used
-> +    // so that we do not re-read any contents that are already read as we use
-> +    // the cumulative length read so far, and re-read any gaps as we extend
-> +    // the length.
-> +    data: KVec<u8>,
-> +    current_offset: usize, // Current offset for iterator
-> +    last_found: bool,      // Whether the last image has been found
-> +}
-> +
-> +impl<'a> VbiosIterator<'a> {
-> +    fn new(pdev: &'a pci::Device, bar0: &'a Bar0) -> Result<Self> {
-> +        Ok(Self {
-> +            pdev,
-> +            bar0,
-> +            data: KVec::new(),
-> +            current_offset: 0,
-> +            last_found: false,
-> +        })
-> +    }
-> +
-> +    /// Read bytes from the ROM at the current end of the data vector
-> +    fn read_more(&mut self, len: usize) -> Result {
-> +        let current_len = self.data.len();
-> +        let start = ROM_OFFSET + current_len;
-> +
-> +        // Ensure length is a multiple of 4 for 32-bit reads
-> +        if len % core::mem::size_of::<u32>() != 0 {
-> +            dev_err!(
-> +                self.pdev.as_ref(),
-> +                "VBIOS read length {} is not a multiple of 4\n",
-> +                len
-> +            );
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        self.data.reserve(len, GFP_KERNEL)?;
-> +        // Read ROM data bytes and push directly to vector
-> +        for i in (0..len).step_by(core::mem::size_of::<u32>()) {
-> +            // Read 32-bit word from the VBIOS ROM
-> +            let word = self.bar0.try_read32(start + i)?;
-> +
-> +            // Convert the u32 to a 4 byte array and push each byte
-> +            word.to_ne_bytes()
-> +                .iter()
-> +                .try_for_each(|&b| self.data.push(b, GFP_KERNEL))?;
-> +        }
-> +
-> +        Ok(())
-> +    }
-> +
-> +    /// Read bytes at a specific offset, filling any gap
-> +    fn read_more_at_offset(&mut self, offset: usize, len: usize) -> Result {
-> +        if offset > BIOS_MAX_SCAN_LEN {
-> +            dev_err!(self.pdev.as_ref(), "Error: exceeded BIOS scan limit.\n");
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        // If offset is beyond current data size, fill the gap first
-> +        let current_len = self.data.len();
-> +        let gap_bytes = offset.saturating_sub(current_len);
-> +
-> +        // Now read the requested bytes at the offset
-> +        self.read_more(gap_bytes + len)
-> +    }
-> +
-> +    /// Read a BIOS image at a specific offset and create a BiosImage from it.
-> +    /// self.data is extended as needed and a new BiosImage is returned.
-> +    /// @context is a string describing the operation for error reporting
-> +    fn read_bios_image_at_offset(
-> +        &mut self,
-> +        offset: usize,
-> +        len: usize,
-> +        context: &str,
-> +    ) -> Result<BiosImage> {
-> +        let data_len = self.data.len();
-> +        if offset + len > data_len {
-> +            self.read_more_at_offset(offset, len).inspect_err(|e| {
-> +                dev_err!(
-> +                    self.pdev.as_ref(),
-> +                    "Failed to read more at offset {:#x}: {:?}\n",
-> +                    offset,
-> +                    e
-> +                )
-> +            })?;
-> +        }
-> +
-> +        BiosImage::new(self.pdev, &self.data[offset..offset + len]).inspect_err(|err| {
-> +            dev_err!(
-> +                self.pdev.as_ref(),
-> +                "Failed to {} at offset {:#x}: {:?}\n",
-> +                context,
-> +                offset,
-> +                err
-> +            )
-> +        })
-> +    }
-> +}
-> +
-> +impl<'a> Iterator for VbiosIterator<'a> {
-> +    type Item = Result<BiosImage>;
-> +
-> +    /// Iterate over all VBIOS images until the last image is detected or offset
-> +    /// exceeds scan limit.
-> +    fn next(&mut self) -> Option<Self::Item> {
-> +        if self.last_found {
-> +            return None;
-> +        }
-> +
-> +        if self.current_offset > BIOS_MAX_SCAN_LEN {
-> +            dev_err!(
-> +                self.pdev.as_ref(),
-> +                "Error: exceeded BIOS scan limit, stopping scan\n"
-> +            );
-> +            return None;
-> +        }
-> +
-> +        // Parse image headers first to get image size
-> +        let image_size = match self
-> +            .read_bios_image_at_offset(
-> +                self.current_offset,
-> +                BIOS_READ_AHEAD_SIZE,
-> +                "parse initial BIOS image headers",
-> +            )
-> +            .and_then(|image| image.image_size_bytes())
-> +        {
-> +            Ok(size) => size,
-> +            Err(e) => return Some(Err(e)),
-> +        };
-> +
-> +        // Now create a new BiosImage with the full image data
-> +        let full_image = match self.read_bios_image_at_offset(
-> +            self.current_offset,
-> +            image_size,
-> +            "parse full BIOS image",
-> +        ) {
-> +            Ok(image) => image,
-> +            Err(e) => return Some(Err(e)),
-> +        };
-> +
-> +        self.last_found = full_image.is_last();
-> +
-> +        // Advance to next image (aligned to 512 bytes)
-> +        self.current_offset += image_size;
-> +        self.current_offset = self.current_offset.align_up(512);
-> +
-> +        Some(Ok(full_image))
-> +    }
-> +}
-> +
-> +pub(crate) struct Vbios {
-> +    pub fwsec_image: Option<FwSecBiosImage>,
-
-Please use pub(crate) instead or provide an accessor.
-
-Also, this shouldn't be an Option, see below comment in Vbios::new().
-
-> +}
-> +
-> +impl Vbios {
-> +    /// Probe for VBIOS extraction
-> +    /// Once the VBIOS object is built, bar0 is not read for vbios purposes anymore.
-> +    pub(crate) fn new(pdev: &pci::Device, bar0: &Bar0) -> Result<Vbios> {
-> +        // Images to extract from iteration
-> +        let mut pci_at_image: Option<PciAtBiosImage> = None;
-> +        let mut first_fwsec_image: Option<FwSecBiosImage> = None;
-> +        let mut second_fwsec_image: Option<FwSecBiosImage> = None;
-> +
-> +        // Parse all VBIOS images in the ROM
-> +        for image_result in VbiosIterator::new(pdev, bar0)? {
-> +            let full_image = image_result?;
-> +
-> +            dev_info!(
-
-Let's use dev_dbg!() instaed.
-
-> +                pdev.as_ref(),
-> +                "Found BIOS image: size: {:#x}, type: {}, last: {}\n",
-> +                full_image.image_size_bytes()?,
-> +                full_image.image_type_str(),
-> +                full_image.is_last()
-> +            );
-> +
-> +            // Get references to images we will need after the loop, in order to
-> +            // setup the falcon data offset.
-> +            match full_image {
-> +                BiosImage::PciAt(image) => {
-> +                    pci_at_image = Some(image);
-> +                }
-> +                BiosImage::FwSec(image) => {
-> +                    if first_fwsec_image.is_none() {
-> +                        first_fwsec_image = Some(image);
-> +                    } else {
-> +                        second_fwsec_image = Some(image);
-> +                    }
-> +                }
-> +                // For now we don't need to handle these
-> +                BiosImage::Efi(_image) => {}
-> +                BiosImage::Nbsi(_image) => {}
-> +            }
-> +        }
-> +
-> +        // Using all the images, setup the falcon data pointer in Fwsec.
-> +        // We need mutable access here, so we handle the Option manually.
-> +        let final_fwsec_image = {
-> +            let mut second = second_fwsec_image; // Take ownership of the option
-> +
-> +            if let (Some(second), Some(first), Some(pci_at)) =
-> +                (second.as_mut(), first_fwsec_image, pci_at_image)
-> +            {
-> +                second
-> +                    .setup_falcon_data(pdev, &pci_at, &first)
-> +                    .inspect_err(|e| {
-> +                        dev_err!(pdev.as_ref(), "Falcon data setup failed: {:?}\n", e)
-> +                    })?;
-> +            } else {
-> +                dev_err!(
-> +                    pdev.as_ref(),
-> +                    "Missing required images for falcon data setup, skipping\n"
-> +                );
-> +                return Err(EINVAL);
-
-This means that if second == None we fail, which makes sense, so why store an
-Option in Vbios? All methods of Vbios fail if fwsec_image == None.
-
-> +            }
-> +            second
-> +        };
-
-I think this should be:
-
-	let mut second = second_fwsec_image;
-	
-	if let (Some(second), Some(first), Some(pci_at)) =
-	    (second.as_mut(), first_fwsec_image, pci_at_image)
-	{
-	    second
-	        .setup_falcon_data(pdev, &pci_at, &first)
-	        .inspect_err(|e| {
-	            dev_err!(pdev.as_ref(), "Falcon data setup failed: {:?}\n", e)
-	        })?;
-	
-	    Ok(Vbios(second)
-	} else {
-	    dev_err!(
-	        pdev.as_ref(),
-	        "Missing required images for falcon data setup, skipping\n"
-	    );
-	
-	    Err(EINVAL)
-	}
-
-where Vbios can just be
-
-	pub(crate) struct Vbios(FwSecBiosImage);
-
-> +
-> +        Ok(Vbios {
-> +            fwsec_image: final_fwsec_image,
-> +        })
-> +    }
-> +
-> +    pub(crate) fn fwsec_header(&self, pdev: &device::Device) -> Result<&FalconUCodeDescV3> {
-> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
-> +        image.fwsec_header(pdev)
-> +    }
-> +
-> +    pub(crate) fn fwsec_ucode(&self, pdev: &device::Device) -> Result<&[u8]> {
-> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
-> +        image.fwsec_ucode(pdev, image.fwsec_header(pdev)?)
-> +    }
-> +
-> +    pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> Result<&[u8]> {
-> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
-> +        image.fwsec_sigs(pdev, image.fwsec_header(pdev)?)
-> +    }
-
-Those then become infallible, e.g.
-
-	pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> &[u8] {
-	    self.0.fwsec_sigs(pdev, self.fwsec_header(pdev))
-	}
-
-> +}
-
-<snip>
-
-I have to continue with the rest of this patch later on.
-
-- Danilo
