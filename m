@@ -2,117 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6DAB5D90
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 22:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A40CAB5DDB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 22:40:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4607D10E21C;
-	Tue, 13 May 2025 20:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 666DE10E5E7;
+	Tue, 13 May 2025 20:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DcwF8CSh";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pSefZObk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B4E10E21C
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 20:12:17 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54DIRouD008524
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 20:12:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 6YBJCD9+B6LIXJcqML7tKi4Ri1Pgc2hPfbnQ4bC5It0=; b=DcwF8CSh/yvlKrnG
- 36bvZLsDpSMWnbX+MV+5ykXfr7QWoFFS+p4lXMRPwX/e2DMaPJ/g71QmbSD8y2cN
- E6kHo/BP5XZOVNah9HfDW627oVJdZ5OIsvhkUciTyHsZXWCkqvO0JJyoeuj+Q7GC
- RY8c+sb7W878Qw49GA599YPuXeFNnBhfPe//AFTnCBlx0n32AKJ0nYenpF4OsIoV
- zZZq9nNZ6RPXSbT7UUuW76s06sKp0k2KIHHOxbWPin2ydnQrqEns4u9ap3H1jegq
- Mc931020xb0mSxKT5ekGzsR7HrizVkkpwVNMWY9eIlisTlw4E4g6NmWdYcTGWtcm
- tFu5Rg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcr09mu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 20:12:10 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-7395d07a3dcso4046853b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 May 2025 13:12:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747167129; x=1747771929;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6YBJCD9+B6LIXJcqML7tKi4Ri1Pgc2hPfbnQ4bC5It0=;
- b=Vs7vL9G/k80rTS0eJ7uV9JPivZrsEtqj/OIxJ17gAZs0tosrmZh+7F+mZ8+Ut8cLe3
- 3HXpeifMfhIMEjuYCH72sJsEyR0qqPnzl6YMjeGrZbnkdBgXIjYDbYO+GYkyatUwtwg7
- IhVB+O3AY7gdZsNl5ktaG71FXP2PRzWcAe1d48gK0ZZHFi5UeIrlEsi8C5LWMb2Kf0+y
- EFcVd2IfiNGNVlwQA6O9jUwm5w52rWNza1eWe4Byxk12U/FgLPyXPCvFDbgwVIReNXXA
- 4MWfm/cRpejsxFxISiilohlhQBKzLdtVPdPkukiqFZUlm+/4eoTpDZbg6nfuh6MJRhBH
- RisQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1h3rqnBHm+yJYLVjPb7qbkJokFoByhUwqDVYuRrmL003DvIhsVlShTu04izgU8cghjNKykFJz2zs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIsEPAuIfKmC9l+WWwZerFOOQkSgX8TcLmHRfxmzhayudjTgJo
- o+Fmm7FxsMBmZTQkU6DVJMZAmkQ1R7ZP7g2rCvzKLfZaQgsdy42Qa8QFGxcdUOZhR5pM/Ddry8r
- CFtkGxRuyoCbLx/XjcCMOeTYr2O3o1cc9vll0Ta+B9QEY/JqGDpQ1W6ro04f7vdIXTB8=
-X-Gm-Gg: ASbGncvyb0+az+MHK1o6uiYXcv19Kg29SVmT6i8VBqXgRazz0jR5URwuQBMDQkBrSF1
- hWOysCa7J9FAy+pGHmQuCS7j+Vym3q1G5/dT/MjGVSkaipUuxuBSqf8ielSxkddMMAfBVWrpZXk
- o3+T+Xz+ehAUw1z0zucLwuwfNDgkKQan6DDaBijhS3kxTFc87FdRFAuPohCGsfWhG6r7jsj8aG2
- duZp9i+Le+8KFPbz88HhQjlo3cP9zQr6oL8qIeroUu07T+w5Vq4/0yndZYGvzIgk0CNyMWwxtTs
- TsNU7bpKaYV7QNm9dHY67qiVmr9A1Gsu1JufOIhxwPVIEzeuVRyY+pmsAzfVNg==
-X-Received: by 2002:a05:6a20:b40b:b0:215:d4be:b0b2 with SMTP id
- adf61e73a8af0-215ff194438mr1020786637.34.1747167129378; 
- Tue, 13 May 2025 13:12:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2l7/XM3uuOT0jAka0OlH0GEvd8R+fhnrWvHSfV23dTxhF+Jpc2ojMeLtPKNDqRaYlORHQjQ==
-X-Received: by 2002:a05:6a20:b40b:b0:215:d4be:b0b2 with SMTP id
- adf61e73a8af0-215ff194438mr1020728637.34.1747167128803; 
- Tue, 13 May 2025 13:12:08 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b2350ddb6e8sm7696744a12.57.2025.05.13.13.12.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 May 2025 13:12:08 -0700 (PDT)
-Message-ID: <02feecf5-100b-46b5-8935-f75ffd77b493@oss.qualcomm.com>
-Date: Tue, 13 May 2025 14:12:06 -0600
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2056.outbound.protection.outlook.com [40.107.236.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40CAC10E5E7;
+ Tue, 13 May 2025 20:40:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F+tZuKYJINjM6ozg/jH5TbB0uiVCPJGBs1/hKiSBsYnHuvZi+c6itcE2wkxW0bdlpCmeIAMpBT1dzmZ8Pfmw1xdCGAfrkoOTce7f8ydV37lfttCKUs8TSFwrJ5BpSNs02vbtWbwJzyk+zdeseFpSk562oFRkaOaD9GtuK2q4v5kkyPghLMcGLTQ0agG5V6Z/c/Z+Z8LNTyDRgZKB6IYRXCotAUIQJKfc1Sq/Xx2JGQfwlw9IysR25KWDevreIOYOTfMO98gNuWPO+tKh/v4LSPUsrhrZ/EiujI4meZ/UXc1oZEIKPQZnLKVkmZ0qu8xH8oKmxz+fNMqAzx88Dt39iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iPtAiEe1El6DY7Flr+fPNDz7fajbUVEXbQY0O1ByEJY=;
+ b=H8i2DItp4wS8bNZjAcuJ/5nJBysomSPPPFKq0DM+eJ+LdH/qClPi39Rza0sH2IW4a7kFhmALtlzCS4HXgwKDqxqOjFtW1zGwlC1eN6VSArnezZHLiMnjlby45mYjQE1s5WDykTXIElv/OC2UnDAinHlFzhZDuzZv6nQshvBiLnkMuVrkgqNwJnnNC+qEUy9tlVQM8i7/olfgVfYSPdrlYNiZe6wZ0af+5TU4gyTlel8RmKSJHG2gTHjDAh/94bWP6YI17yuffFHjYA3DKBZEm2nJCeKV7GJKpbAK2gSRtXY6t6CUjj/g+OEh/OTviWmdj9JPmV3N3EQauizkbsYIrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iPtAiEe1El6DY7Flr+fPNDz7fajbUVEXbQY0O1ByEJY=;
+ b=pSefZObkoS0vHHXt+xifTB+OwHVhKSSUUQ7RKXBt12Df/dXpFR6WUMhp8qUiWs/YBLznH7prj2K3m/oJKtVkzhlIXArZKUglx6pvYkJ/EL8j4YtrkCDroR/Oz3dI2CI9nCfn+zNv1ly1w+Z2zw+Jx+tfYksI1pcPxGuZhgNYfNw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by PH0PR12MB8097.namprd12.prod.outlook.com (2603:10b6:510:295::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Tue, 13 May
+ 2025 20:39:58 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%7]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 20:39:58 +0000
+Message-ID: <13fffc5d-21e6-4207-9f65-ae2c4edba1c1@amd.com>
+Date: Tue, 13 May 2025 16:39:51 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Add Reliability, Accessibility,
- Serviceability (RAS)
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- quic_carlv@quicinc.com, quic_thanson@quicinc.com, lizhi.hou@amd.com,
- quic_yabdulra@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250512194937.3530774-1-jeff.hugo@oss.qualcomm.com>
- <8f4b977d-7846-416b-bae4-ac52665fe79c@linux.intel.com>
- <712eb205-a35a-49f4-a91f-ceebb3626108@oss.qualcomm.com>
- <157c5d01-e75f-4708-a1c2-0cbec292f671@linux.intel.com>
+Subject: Re: [PATCH V9 26/43] drm/amd/display: Add support for sRGB EOTF in
+ DEGAM block
+To: Melissa Wen <mwen@igalia.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com, contact@emersion.fr,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com, Daniel Stone <daniels@collabora.com>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <20250430011115.223996-27-alex.hung@amd.com>
+ <twwndnvjm6rmxdt4cs747fixvplpeuy3yh3ho6d4yq3y3prhub@fag4kafh2xct>
+ <20250513104213.1c5d905a@eldfell>
+ <sb544qlewpslcvcgofer762puac5bjd5w67ldisi6pkcpkuboj@33lwudjvd6xr>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <157c5d01-e75f-4708-a1c2-0cbec292f671@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Y_BaXkEA4rahBhwPPjEPvaTFdpT4xR9x
-X-Authority-Analysis: v=2.4 cv=Auju3P9P c=1 sm=1 tr=0 ts=6823a79a cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=vltyD8lluLRAM6EOmQMA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uI6tdtgMuqcA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-GUID: Y_BaXkEA4rahBhwPPjEPvaTFdpT4xR9x
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDE5MyBTYWx0ZWRfX1Zv/KsE7iQxV
- FCZqUmONZuhUbqhLPMTjtPgsMnSQ9RO1/abmoatqMC32qmIG/RMKFMLZGnVaOg/XOf3DWvKPRbD
- e+FHGxev8nVIZoNJYfrrIj+keXHS/8i7/t7iiinlx0hWYGdxXxsHk98Mtgkunwwe3l5GE1DPlCX
- 5CNSzAUEIYXWcmwovIhQU3eJex6AczCbhWKUmZPxHaijanT0BSNwcJc5q6ugVqcib4fUE156YmQ
- AnQMNcd70sAZApjRNDuVV5MdhQp8SHnbGwPtZ5c/f8QndpVzhLMOTIMKS3ikV1kfcOz4qfRAqQN
- A/gLc/k8gVwH1V4aFkrGjVsODUAgBwScIsLu0zUSmYF//2rboC8MheHsPkhUHRgav1VKnLmDWxT
- 7jOHMAD2VCKrqgGAdiv3eDds3pzFEQsJ3dlw0BqXK6tdl8/J1TxLlz8ekejurYy+6vj83H4l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-13_03,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 spamscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 mlxscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
- phishscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505130193
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <sb544qlewpslcvcgofer762puac5bjd5w67ldisi6pkcpkuboj@33lwudjvd6xr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0279.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:109::17) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|PH0PR12MB8097:EE_
+X-MS-Office365-Filtering-Correlation-Id: 117af136-c653-4f11-d607-08dd925e537f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3RPOXFpU1N6QWM0eGFFUGZsQ2s0MTdNS1dXTGhWdFZVeU1rbVAvNG9iWFJF?=
+ =?utf-8?B?Y2Ewb1QwQ3JJUUZuWEZ4Vi9neTVtdnZia0dOVG1mQWNSTmNlVnpjT3l5bXhm?=
+ =?utf-8?B?VmF1YU1JTWQzZ2diejh0THc3QURjSkJPbGpDWExFVFdSbmVob2pPWWN6Qis2?=
+ =?utf-8?B?Q2NJU1ZBd2FmLzFka3VLTzYrMUJXYlJoT21UZHhjQmJTcVBnWlZwVUV3QmI0?=
+ =?utf-8?B?OWdnaGtIaE0vNUlQOVFRTmxJK3BnbFplZ3VOazl3dnYvNVhUTHg2cy9TUEcz?=
+ =?utf-8?B?Q3AzRlA3S3ljRllVZVpFSnNvNFFrd3VNZzh5UkZrTlRrNkJpUklLWUZyWHpH?=
+ =?utf-8?B?QXlEY3B0V0tLcXk0a3RUSjBseEVlS2YyMEdZZzFQQWVlSnRseEdpVGxKdUdY?=
+ =?utf-8?B?NUk4eWgwR2x0S2tjM1g2WmZpM0hLQVBuNjBRSllFQkt5Q3ZjNkUyRFN2RDBn?=
+ =?utf-8?B?bE5wUnluajMzb2NON0JCU3F4K0VORTlNZVRPSWdiWDRLSUpnUlRZaElOR2hY?=
+ =?utf-8?B?UmtrTWZBTGVLc09pMGhjU1ZtdU1oOVJRc21ib1pxOUpvNmRMN3I2WDhFc0tH?=
+ =?utf-8?B?eHF4c281dHVERmkxaFhrVkh4QUNYMlFQZXFCdUxtVUlUVFh6UUp0a1BOc251?=
+ =?utf-8?B?L2RZVm10T0QwRlZyU1BZRTliQmlDTUhZdlRaRC80UThFSFQ2K0dQRXNzdEN4?=
+ =?utf-8?B?b0hrbUpPLyttK2tFSy9heVl1UUlzejFNbjk4M1M0aTY5TGZGV1VKNkp4TitM?=
+ =?utf-8?B?Y3k0eHFoWVFxVytEMmtkbktKVlNsdDZpN2VYTFBzWTdrUTl6RWhXNHViM2ZL?=
+ =?utf-8?B?R3dBdWZxUXpmVzNGN1VPQ1liUDcrNFNlVHdLT2g2cUpHdTVUc0J1RmJBZ0V5?=
+ =?utf-8?B?N1JsQjlDL3pHbTlmQ1NzaU5kV1JpN0JlVUUyaGQ2Y2IzbGNJZVZtUGtTOEpr?=
+ =?utf-8?B?dkFMdmxlWnRiVTNxRThxWERmS1lzZVVxMXBRMHdRK0tybWdkaFlRTkpEckVN?=
+ =?utf-8?B?TlZmWExaTUhyRHBoeXRPOXVyaVJtblV2L0VjeCt0YWJJT0lydXc2VW9uV05Y?=
+ =?utf-8?B?bXUzOXBmLzJEcXU5T2dBNVpEVWRsRmJwbTJMSitEQ3ZOZityeHUvbTdPLzYw?=
+ =?utf-8?B?TU42OVY0TlhJcHcrMGlBdmZxOVB6c3Nlc1haOEF1SGFxazY4VUhlblRyb1Uz?=
+ =?utf-8?B?SCtUS2VtWEx2ZG1sS1o3NW1BOW9KNmtYS0NHd3FJRlFsMlAzMjlIOURMQXVS?=
+ =?utf-8?B?eFI5OWE5Z0MveUtodDI2UlZWK3RVZnpOdWZISitpSFFoQVQ1OTRlMHBOVnNi?=
+ =?utf-8?B?V3d1QjBBVmhQVUUzSkYxbjlnaWpna0RKUTFsT3ErNWZuNHlKaUNNRW9PcDNl?=
+ =?utf-8?B?dTlDNHp4Q0RLdjcyL2lLV1BCVElscHM1SjAreVVQOUJjL3o4MUs5R2FMdXJw?=
+ =?utf-8?B?OC9KUmFDQytUdkVXUzJlVVp2SmFvZnI4WldRbHJIanpUTVZvWENBVDVyQXhh?=
+ =?utf-8?B?RmFmTEQvMWdJWEVpdDlpSXZhWE52dWcwRkpwVlBGSjRxblc3WHRxNXlKN2gz?=
+ =?utf-8?B?dUFkSjJZeHdnd3VwOE11SnFvSlhvZTlPOSsyM0ZvZndqY1JpOHVYUE5pdTM3?=
+ =?utf-8?B?cEJqcm80bTNDNkdpQzRYSXBUSENYOGErUzFqSFlwaHd0WE15YXQ0SHBFWk1I?=
+ =?utf-8?B?ZVZGNEVvaE1NdzZHQy9VSFdjZjRrSWxOZHlzVDZCK3E2QVNYcEsybEdjR201?=
+ =?utf-8?B?eWVGNjgrbnZOYU1pTlVmYkpOQVNmL09FS2srcmpBekUxRkZhSE9QenlZTkxH?=
+ =?utf-8?Q?LW8vIoQcxHWH1J8+K5iMWrsVXfEJcfDAGGi+Q=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGk2THNkMlppaXBOcHZ4Vmd3R1ROR0RLcWszcG9zTUpyZWZPUWZwYStWbmVm?=
+ =?utf-8?B?WC9nNjI4eVZvWDhoMVZLL096QnBXeTg5QW55WmEzV2pKZ1NibVpNU3lCTGdH?=
+ =?utf-8?B?aXN6MnNRQ2I3VUQxd2VzRXNWWFBZTVRHSktIb3QwelJqam9JZmlGZGRweWhu?=
+ =?utf-8?B?TDgyYTdrUFI5cFJXdGJ4RXRDWkdUQlVDUkZOVTd1Vk8rbWx1b2hGK2FmZ0dN?=
+ =?utf-8?B?Q0ROQmpDQ2JFNUg0WUtMOUdkRWpDYTlCWStjU1RMMVFTOFRiSEVpWWZJcGhy?=
+ =?utf-8?B?RXQzOU8wMVo2NUx5N1E5VitCNW16bG1pTjZ0RTNIeUpwY09kVnhDeWUvODdp?=
+ =?utf-8?B?aWlCVVpJVUdYeHYwMXBNN21VcWhVQTZqa3VJSWtITDFQcmhsVkluNS9WUnZE?=
+ =?utf-8?B?RVNiMS9uMGU1V1VYMXErdTJhalBXcmwvejJvY2hPc3A1S1JCc0diNm11SUNl?=
+ =?utf-8?B?Z0lMaWo2b3U3ZE5lRmlpNGdiU2V3QTB4Tm1ZaThWbmVuYmJSdnpZcTBQRURI?=
+ =?utf-8?B?dmpLd3MzOEhrWjRaRGgxaGRxNGw3Mmo5Rk16MW1RNlFvQ2FyMmlnZHlma3FZ?=
+ =?utf-8?B?Y1lJQnFub282VWRFSFJpVXhKelA3ZU10aGxITkh3NmROeTJoL1RVcERNZTFu?=
+ =?utf-8?B?Y3Q2Smw3RHl1cnFHNHVWZ2l5SzBWZE1UOVdtdzRXWFdrcy9pRmpEVi9pZ2g3?=
+ =?utf-8?B?ZGVrVnB0dWRCWnRLZ2k3TFBWSmd6cGxxc2ZLY25PMkFLcy94d1cxYXNPQWly?=
+ =?utf-8?B?QkdmUlhGeUZVay81VDd3YXhLaHhuVVYrZlZzR0VRbFhWUUJiVThZQVRSZnVz?=
+ =?utf-8?B?aFR1dExjWnV3NXlOR3Q0N1hjdzNoUHdsUVcvVWU2NGVWY200MlNmVERnbnAr?=
+ =?utf-8?B?N1dEZEJyd2lVTk9TaUo4ZHZKM1pBYlQ5RVJMbVA1bWo3UVRtcEJQM0hjai9P?=
+ =?utf-8?B?cFI2bzg2UkZBd0xWZ1hpRWg1RWJxb1hsNXJiRUZrUVEyL3Z2NlVDbEx1eWFj?=
+ =?utf-8?B?VUZCaG9rV3BLSVJuNGZEeFJYYTJza0xSR3ZyakpVaUt2N2M2WDRaa1Uva2xK?=
+ =?utf-8?B?ajNrZXl0eDhuSFZqR2RXRlV5VWl4OCt4L3VlVHN4d3RRYk9UWHNlWjcvWCtT?=
+ =?utf-8?B?Q0xYR1FnZnZ2VlNBWXJ0V3l1ZmhTR0JIRC81ejJEaGFxTEJXRitkVXBnTDNL?=
+ =?utf-8?B?WlhoR0VrVzFncG5TVlpCbzh5Y3dsRVEwOWx5MHYwdWRFN2pOMGxXQzV4NG0w?=
+ =?utf-8?B?Z1Y5T1ZoeE1HdjJXR0M0Ymw4d3ptYjdFV2FWQk9EQ1p0akhWUURLcEtlVVBv?=
+ =?utf-8?B?blpBbEVWNVc1eXB5d1Myc1Rkckp2YjA0WGJDTEtkMk9ZaTg0UElWOVQ2aklY?=
+ =?utf-8?B?Y25kd3pWTk9pS3RZdHFFQ2JQOXUrMFcxMG4ybjg1Ykt0OEVTakRGajNCREwz?=
+ =?utf-8?B?QWpUNGcreUdRVWJkNXpKODUxRXlLcHZkdkRkS1BXM21jTWhwQnlsUSsvbytY?=
+ =?utf-8?B?ekdkVDgzek5tK015TWFkUGdROVJyZ2FSQUpTQVJIWkRISjg5OW50ckxCRVcw?=
+ =?utf-8?B?YlF4b280ekNPTmoyU3kvSnlWRERPQ3E1NTY5MTd6Ukc3NnVUS0V6Ync0WDRN?=
+ =?utf-8?B?VEN3OVVrbThDcFBEY3hLczVTVnhjZ2I2UlNlSHg0MXN1NWlhMVZuRVhXUEJk?=
+ =?utf-8?B?QnFxbmVtQkVNZGdFYit3ZkUwK25aZ0I3L0dvQzlDNDQxYzlWR3REdXRwZXJY?=
+ =?utf-8?B?dk42R2FJaGs0UnR5dWNha0pNWnI4aVBBaWtGa3RYN2wrZFQrK1pHdjJEYmY5?=
+ =?utf-8?B?YTc3MHR6b3NUbExFZGVBL0I4eGZjbjNjcVpKNkw2anEwcVRPTlY5Qy9lWFVW?=
+ =?utf-8?B?aktiUHlWR3lTdDhTR3dHMGlQeEYyRHFrMTkzbnpzRzRyczNoVDJ5VElXVmxF?=
+ =?utf-8?B?QVU0V2pINzBhRzV5cTd1UmxXS2MvekhXd3MxTGk5MU5SNEdZaVlPUTQ3SnQ1?=
+ =?utf-8?B?QUxxNnIrMVJoVUxzNy81WTIwbEp2Q0dPU0kra0djUkg0UFVsU0h5bVJTR1M4?=
+ =?utf-8?B?THFLNllsSE9XYXJkUzU0bFpTNmtGNzdBaEJuTXpNQU5iL2ZtOGlYckxXdmNE?=
+ =?utf-8?Q?nN0yY7SHP5/fdtyK0biF++b1/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 117af136-c653-4f11-d607-08dd925e537f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 20:39:58.4200 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: deVx/Wib84QM76XS7aEq2PU+44m9CUuqTNt8PRogut+w/hIvZKzD+l73HZOpwn1XUBynYI7bDEQRdve934LdCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,189 +176,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/2025 10:13 AM, Jacek Lawrynowicz wrote:
-> Hi,
-> 
-> On 5/13/2025 5:05 PM, Jeff Hugo wrote:
->> On 5/13/2025 3:53 AM, Jacek Lawrynowicz wrote:
->>> Hi,
->>>
->>> On 5/12/2025 9:49 PM, Jeff Hugo wrote:
->>>> diff --git a/drivers/accel/qaic/qaic_ras.c b/drivers/accel/qaic/qaic_ras.c
->>>> new file mode 100644
->>>> index 000000000000..2f8c1f08dbc0
->>>> --- /dev/null
->>>> +++ b/drivers/accel/qaic/qaic_ras.c
->>>> @@ -0,0 +1,629 @@
->>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>> +
->>>> +/* Copyright (c) 2020-2021, The Linux Foundation. All rights reserved. */
->>>> +/* Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
->>>
->>> 2025?
->>
->> No, we haven't made any changes to this file this year, so our policy would be to omit 2025.  Historically we've experienced that the community wants the file markings like this to track any copyright prior to the inclusion of the code into upstream/mainline, and then to rely on git metadata to track copyright after inclusion. Therefore that is the policy we follow.  However, these markings might be changing based the rest of your feedback.
->>
->>>> +struct ras_data {
->>>> +    /* header start */
->>>> +    /* Magic number to validate the message */
->>>> +    u16 magic;
->>>> +    /* RAS version number */
->>>> +    u16 ver;
->>>> +    u32 seq_num;
->>>> +    /* RAS message type */
->>>> +    u8  type;
->>>> +    u8  id;
->>>> +    /* Size of RAS message without the header in byte */
->>>> +    u16 len;
->>>> +    /* header end */
->>>> +    s32 result;
->>>> +    /*
->>>> +     * Error source
->>>> +     * 0 : SoC Memory
->>>> +     * 1 : PCIE
->>>> +     * 2 : DDR
->>>> +     * 3 : System Bus source 1
->>>> +     * 4 : System Bus source 2
->>>> +     * 5 : NSP Memory
->>>> +     * 6 : Temperature Sensors
->>>> +     */
->>>> +    u32 source;
->>>> +    /*
->>>> +     * Stores the error type, there are three types of error in RAS
->>>> +     * 0 : correctable error (CE)
->>>> +     * 1 : uncorrectable error (UE)
->>>> +     * 2 : uncorrectable error that is non-fatal (UE_NF)
->>>> +     */
->>>> +    u32 err_type;
->>>> +    u32 err_threshold;
->>>
->>> This is unused. Maybe it could be useful?
->>
->> The device can be configured to only make a RAS report to the host after a threshold of events has occured - say every 10 DDR ECC events, report to the host (qaic driver). This field basically restates what that configured limit is. I suppose we can include it in the logged reports to signify that this report really represents N incidents on the device.
->>
->>>> +    case PCIE:
->>>> +        pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\n",
->>>> +               err_class_str[msg->err_type],
->>>> +               err_type_str[msg->err_type],
->>>> +               "error from",
->>>> +               err_src_str[msg->source]);
->>>> +
->>>> +        switch (msg->err_type) {
->>>> +        case CE:
->>>> +            printk(KERN_WARNING pr_fmt("Syndrome:\n    Bad TLP count %d\n    Bad DLLP count %d\n    Replay Rollover count %d\n    Replay Timeout count %d\n    Recv Error count %d\n    Internal CE count %d\n"),
->>>> +                   pcie_syndrome->bad_tlp,
->>>> +                   pcie_syndrome->bad_dllp,
->>>> +                   pcie_syndrome->replay_rollover,
->>>> +                   pcie_syndrome->replay_timeout,
->>>> +                   pcie_syndrome->rx_err,
->>>> +                   pcie_syndrome->internal_ce_count);
->>>
->>> Why not pci_printk() that would be conistent with the rest of logging?
->>> It there is a reson I would prefer pr_warn/pr_err style logs.
->>
->> This is a special case. This is a continuation of the pci_printk() a few lines up. If we do pci_printk() here, then the entire message gets broken up is a weird way. In the middle of the report, you'll have the "header" that pci_printk() adds (PCI device, driver, etc) repeted.
->>
->> The way to avoid that would be to restructure this bit of the code to have all the switches/ifs resolved, and have a single pci_printk() for the entire decoded report.  That means we'll have a lot of duplicated code since the common "report header" for the different PCIe reports would need to be duplicated for each report variant.
->>
->> This felt like the cleaner solution, although it does have its quirks.
->>
->> Would a comment help?
-> 
-> Sure, comment would make this more readable. I would still consider using a single pci_printk() per event anyway because you could get these messages broken up if there is a lot of dmesg output from other places.
-> printk() takes a global lock in case there is VGA or serial console connected, so the messages wouldn't be split but it is up to you if you prefer cleaner code or cleaner logs.
 
-Just for reference, these reports are similar to AER, and I recall 
-seeing AER messages split in some instances. I don't recall difficulty 
-in correlating such logs. I think I will go the cleaner code route. 
-Luckily this rather internal to the driver so if we end up hating the 
-logs, we can make adjustments later.
 
-Will add a comment.
-
-> 
->>>> +static void qaic_ras_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
+On 2025-05-13 11:36, Melissa Wen wrote:
+> On 05/13, Pekka Paalanen wrote:
+>> On Mon, 12 May 2025 15:50:17 -0300
+>> Melissa Wen <mwen@igalia.com> wrote:
+>>
+>>> On 04/29, Alex Hung wrote:
+>>>> Expose one 1D curve colorop with support for
+>>>> DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+>>>> the sRGB transform when the colorop is not in bypass.
+>>>>
+>>>> With this change the following IGT test passes:
+>>>> kms_colorop --run plane-XR30-XR30-srgb_eotf
+>>>>
+>>>> The color pipeline now consists of a single colorop:
+>>>> 1. 1D curve colorop w/ sRGB EOTF
+>>>>
+>>>> Signed-off-by: Alex Hung <alex.hung@amd.com>
+>>>> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+>>>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+>>>> Reviewed-by: Daniel Stone <daniels@collabora.com>
+>>>> ---
+>>>> V9:
+>>>>  - Update function names by _plane_ (Chaitanya Kumar Borah)
+>>>>  - Update replace cleanup code by drm_colorop_pipeline_destroy (Simon Ser)
+>>>>
+>>>> v8:
+>>>>  - Fix incorrect && by || in __set_colorop_in_tf_1d_curve (Leo Li)
+>>>>
+>>>> v7:
+>>>>  - Fix checkpatch warnings
+>>>>   - Change switch "{ }" position
+>>>>   - Delete double ";"
+>>>>   - Delete "{ }" for single-line if-statement
+>>>>   - Add a new line at EOF
+>>>>   - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
+>>>>
+>>>> v6:
+>>>>  - cleanup if colorop alloc or init fails
+>>>>
+>>>>  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 69 +++++++++++++++
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
+>>>>  5 files changed, 201 insertions(+), 1 deletion(-)
+>>>>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+>>>>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>>>> index ab2a97e354da..46158d67ab12 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>>>> @@ -38,7 +38,8 @@ AMDGPUDM = \
+>>>>  	amdgpu_dm_pp_smu.o \
+>>>>  	amdgpu_dm_psr.o \
+>>>>  	amdgpu_dm_replay.o \
+>>>> -	amdgpu_dm_wb.o
+>>>> +	amdgpu_dm_wb.o \
+>>>> +	amdgpu_dm_colorop.o
+>>>>  
+>>>>  ifdef CONFIG_DRM_AMD_DC_FP
+>>>>  AMDGPUDM += dc_fpu.o
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> index ebabfe3a512f..0b513ab5050f 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> @@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
+>>>>  	}
+>>>>  }
+>>>>  
+>>>> +static enum dc_transfer_func_predefined
+>>>> +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
 >>>> +{
->>>> +    struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
->>>> +    struct ras_data *msg = mhi_result->buf_addr;
->>>> +    int ret;
+>>>> +	switch (tf) {
+>>>> +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+>>>> +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+>>>> +		return TRANSFER_FUNCTION_SRGB;
+>>>> +	default:
+>>>> +		return TRANSFER_FUNCTION_LINEAR;
+>>>> +	}
+>>>> +}
 >>>> +
->>>> +    if (mhi_result->transaction_status) {
->>>> +        kfree(msg);
->>>> +        return;
->>>> +    }
+>>>>  static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+>>>>  				const struct drm_color_lut lut,
+>>>>  				int bit_precision)
+>>>> @@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int
+>>>> +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+>>>> +		       struct drm_colorop_state *colorop_state)
+>>>> +{
+>>>> +	struct dc_transfer_func *tf = &dc_plane_state->in_transfer_func;
+>>>> +	struct drm_colorop *colorop = colorop_state->colorop;
+>>>> +	struct drm_device *drm = colorop->dev;
 >>>> +
->>>> +    ras_msg_to_cpu(msg);
->>>> +    decode_ras_msg(qdev, msg);
+>>>> +	if (colorop->type != DRM_COLOROP_1D_CURVE ||
+>>>> +	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+>>>> +		return -EINVAL;
 >>>> +
->>>> +    ret = mhi_queue_buf(qdev->ras_ch, DMA_FROM_DEVICE, msg, sizeof(*msg), MHI_EOT);
->>>> +    if (ret) {
->>>> +        dev_err(&mhi_dev->dev, "Cannot requeue RAS recv buf %d\n", ret);
->>>> +        kfree(msg);
+>>>> +	if (colorop_state->bypass) {
+>>>> +		tf->type = TF_TYPE_BYPASS;
+>>>> +		tf->tf = TRANSFER_FUNCTION_LINEAR;
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>>> +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+>>>> +
+>>>> +	tf->type = TF_TYPE_PREDEFINED;
+>>>> +	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int
+>>>> +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+>>>> +			       struct dc_plane_state *dc_plane_state,
+>>>> +			       struct drm_colorop *colorop)
+>>>> +{
+>>>> +	struct drm_colorop *old_colorop;
+>>>> +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+>>>> +	struct drm_atomic_state *state = plane_state->state;
+>>>> +	int i = 0;
+>>>> +
+>>>> +	old_colorop = colorop;
+>>>> +
+>>>> +	/* 1st op: 1d curve - degamma */
+>>>> +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+>>>> +		if (new_colorop_state->colorop == old_colorop &&
+>>>> +		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
+>>>> +			colorop_state = new_colorop_state;
+>>>> +			break;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>> +	if (!colorop_state)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);  
 >>>
->>> Woudn't error here prevent any future messages from being received?
->>
->> Sadly, yes. This should only happen if there is some issue with the underlying PCIe link.
->>
->>>> diff --git a/drivers/accel/qaic/qaic_ras.h b/drivers/accel/qaic/qaic_ras.h
->>>> new file mode 100644
->>>> index 000000000000..5df6cb9dae80
->>>> --- /dev/null
->>>> +++ b/drivers/accel/qaic/qaic_ras.h
->>>> @@ -0,0 +1,11 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0-only
+>>> I wonder what will happen if plane degamma isn't set, but CRTC degamma
+>>> LUT or legacy CRTC regamma LUT (with its implicity sRGB degamma) is used
+>>> together with other plane color ops.
 >>>
->>> Should be:
->>> /* SPDX-License-Identifier: GPL-2.0-only */
->>> or
->>> // SPDX-License-Identifier: GPL-2.0-only
+>>> I can imagine the mess, so I think CRTC degamma LUT and legacy CRTC
+>>> regamma LUT should be somehow entirely disabled (or rejected) if plane
+>>> color pipeline is in use.
 >>
->> The "//" syntax is for C source files (foo.c) and this is a header file, so I don't think that suggestion applies.
+>> Hi Melissa,
 >>
->> https://docs.kernel.org/process/license-rules.html
+>> if using a plane color pipeline means that a CRTC LUT cannot be used, it
+>> will severely limit the usefulness of the whole KMS color processing. In
+>> Weston's case it would prohibit *all* KMS off-loading when color
+>> management is in use.
 >>
->> C style comment ( /* */ ) is the correct syntax for header files. It is unclear to me that the marking needs to be its own comment, instead of included in the body of another comment. I would say that it is typical to have license markings and copyright markings in the same comment block.
->>
->> Do you have a reference you can point me to that would clarify this? Perhaps a different file in Documentation or another email thread?
+>> Weston chooses to do composition and blending in an optical space. This
+>> means that plane color pipelines are required to convert incoming
+>> pixels into the optical space, and a CRTC LUT (a CRTC color pipeline in
+>> the future) is required to convert from the optical space to the
+>> monitor signalling (electrical space).
 > 
-> This is a little bit pedantic but the docs you pointed to and every other .h file in the driver seem to close the comment on the same line.
+> Hi Pekka,
+> 
+> IIRC, Weston needs one post-blending 1D LUT and with my suggestion the
+> atomic CRTC regamma LUT works fine and can be this 1D LUT.
+> So, instead of an atomic post-blending/CRTC color pipeline with:
+> 
+> [blending] -> CRTC 1D LUT -> CRTC CTM -> CRTC 1D LUT
+> 
+> when plane color pipeline is in use, the driver accepts only:
+> 
+> [blending] -> CRTC CTM -> CRTC 1D LUT
+> 
+> If AMD driver continues accepting/exposing CRTC degamma LUT plus plane
+> color pipeline, and userpace wants something like:
+> 
+> Plane shaper LUT -> Plane 3D LUT -> Plane Blnd LUT -> [blending] -> **CRTC** degamma LUT
+> 
+> I understand that this weird sequence is what will actually happen:
+> 
+> **CRTC** degamma LUT -> Plane shaper LUT -> Plane 3D LUT -> Plane Blnd LUT -> [blending]
+> 
 
-I guess I interpret the doc is being specific to SPDX, therefore its 
-outside of scope to bring copyright into the documentation.
+Right, and this is quirky behavior by the AMD driver because
+historically we only had the CRTC LUTs and had to use the CRTC
+degamma LUT to program degamma, which technically needs to happen
+pre-blending, i.e., on the plane.
 
-Looking at the qaic driver, it appears we've made a bit of a mess.  This 
-patch would align with-
-mhi_controller.h
-qaic.h
-qaic_timesync.h
+The degamma LUT never really made sense on a crtc, but here
+we are.
 
-However, sahara.h and qaic_debugfs.h appear to follow what you are 
-recommending here.
+> Because userspace doesn't care if this is a "degamma" or "regamma" LUT
+> and they will probably pick the first 1D LUT in the post-blending color
+> pipeline, which currently means CRTC degamma LUT. So, better if it takes
 
-I think we'll update this patch per your suggestion, and do a cleanup to 
-the driver to pick a style.
+Ideally a userspace implementation would be the correct LUT
+but not sure that would always happen.
 
->>>> + *
->>>> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
->>>
->>> 2025?
+> the CRTC regamma LUT that is actually a post-blending 1D LUT. Where I
+> expected this result:
+> 
+> Plane shaper LUT -> PLane 3D LUT -> PLane Blnd LUT -> [blending] -> CRTC regamma LUT
+> 
+> You can vizualize better this degamma issue in this diagram:
+> https://raw.githubusercontent.com/melissawen/melissawen.github.io/master/img/xdc-2023-colors-talk/rainbow-treasure-xdc-2023-17.png
+> 
+> In the current driver-specific implementation, driver rejects atomic commits
+> in case of collision, i.e., Plane degamma LUT + CRTC degamma LUT, but
+> IIRC, the driver doesn't handle it if it doesn't clash.
+> 
+
+Yeah, I agree the most straight-forward way to avoid problems
+going forward is to not advertise the CRTC degamma LUT for HW
+generations where we'll advertise the plane pipeline.
+
+I talked to Alex to make that change.
+
+Harry
+
 >>
->> No, per the above reasons.
+>> I don't know what "with its implicity sRGB degamma" means, but there
+>> cannot be any implicit curves at all. The driver has no knowledge of
+>> how the framebuffer pixels are encoded, nor about what the blending
+>> space should be.
+> 
+> It targets the legacy CRTC regamma LUT (256 size), not the atomic CRTC
+> color pipeline.
+> 
+> Melissa
+> 
 >>
->>>> + */
->>>> +
->>>> +#ifndef __QAIC_RAS_H__
->>>> +#define __QAIC_RAS_H__
->>>> +
->>>> +int qaic_ras_register(void);
->>>> +void qaic_ras_unregister(void);
->>>
->>> new line?
 >>
->> Ok.
->>
->>>> +#endif /* __QAIC_RAS_H__ */
->>>
->>
+>> Thanks,
+>> pq
+> 
 > 
 
