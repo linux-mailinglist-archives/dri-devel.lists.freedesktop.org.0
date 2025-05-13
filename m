@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD32AB5C54
-	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 20:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FB2AB5C5D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 May 2025 20:38:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 135B289C68;
-	Tue, 13 May 2025 18:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABAB110E5D6;
+	Tue, 13 May 2025 18:38:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ppRqP9Es";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="H6cDZAvR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E690810E5D6;
- Tue, 13 May 2025 18:36:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D10D10E5D3;
+ Tue, 13 May 2025 18:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,32 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=p+BB1luhuQHDOx6lpxsYRVAq29eYgZUe8EmzaYANxx0=; b=ppRqP9EsSXVNDjDTVsjwpw7wEX
- KIq0OIPduVFpaylAv77smqYsy1Uz/8iFteTl09eIeOkMzuag889w+5y0r3pDOQTAFDp5zOvTI3q4T
- WiQYlq26TkpHeBIOW8n1arWJsiUTKc1IxruigoFRvR0CRKnwbQcl3WU/9mguG+UCgZAgVKVgcjmVa
- sCboI5WwEPrSRvN792ErnPdv52KZ8VGLhRCeGnbKZHfOBKS2NlJkGA86OIOun5VqeQZi0N8A4MXXL
- 5ZrBU84wcpTs40MpcMOBVA2ooI+I0E9tBhqVI1eouzEDcBnnPfsj14bhziMGaq9eIhylcVzp94Ae+
- qAVoNkHg==;
+ bh=QhfAGnuvDJzqnrtxEie7hKmneaYnXiuHS//L4LziLpQ=; b=H6cDZAvRwRYuj37mXVFrm0AZoD
+ HbLMDAm14CHCGrYvsqhQdli6XhVy/o/YhnKsGug4tsMb0wevclO5tUQfmQvXj4jqFn0Wf/K+OzUKa
+ l0jMlvKu/d24AOXs/dQIYhHXUZKE1japckpkhKWRhbNxNRbAOQ6t+Nn6Ldl/iCsWuy1LXUHBbw4N4
+ QlUyltPvZcriVblNzTXZmbADKjbbKZ/GXte2ljIis5DGkVoOosFAPb2kFHU3S0e0Ajc0FfznHL9yp
+ P5N+3s4gkJYShBbGKF6agGWyAVynuiaLvPUVFiibQNWZ4OqP5TO8Vd6ODh0ZRbdB7ODsrYobV1Uhr
+ tyOhyBew==;
 Received: from [189.6.16.79] (helo=[192.168.0.55])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uEuPK-007kq4-F0; Tue, 13 May 2025 20:36:50 +0200
-Message-ID: <eb6a22bd-ca83-4836-8a6d-28577f1ba042@igalia.com>
-Date: Tue, 13 May 2025 15:36:42 -0300
+ id 1uEuQl-007ktH-NM; Tue, 13 May 2025 20:38:19 +0200
+Message-ID: <e0460dd3-1e13-4118-857a-a21b2cfb476b@igalia.com>
+Date: Tue, 13 May 2025 15:38:14 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: only collect data if debug gamut_remap
- is available
-To: Alex Hung <alex.hung@amd.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH 0/5] drm/amd/display: remove code duplication on dcn401
+To: Alex Hung <alex.hung@amd.com>, airlied@gmail.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, harry.wentland@amd.com,
+ simona@ffwll.ch, sunpeng.li@amd.com
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  kernel-dev@igalia.com
-References: <20250425205133.317843-1-mwen@igalia.com>
- <37014944-2ed8-4b54-8136-b2e9b174b4f0@amd.com>
+References: <20250430142549.829861-1-mwen@igalia.com>
+ <c1f3aec6-aa50-4a86-b44c-5db16a37a14d@amd.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <37014944-2ed8-4b54-8136-b2e9b174b4f0@amd.com>
+In-Reply-To: <c1f3aec6-aa50-4a86-b44c-5db16a37a14d@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,145 +66,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 13/05/2025 15:27, Alex Hung wrote:
+On 12/05/2025 14:38, Alex Hung wrote:
+> Hi Melissa,
 >
+> The patchset looks good to me but there is WIP dcn401 code, meaning 
+> dcn20 and dcn401 are different.
 >
-> On 4/25/25 14:49, Melissa Wen wrote:
->> Color gamut_remap state log may be not avaiable for some hw versions, so
->> prevent null pointer dereference by checking it there is a function to
->> collect data for this hw version.
->>
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>   .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   | 26 +++++++++++++------
->>   .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   | 24 ++++++++++++-----
->>   2 files changed, 35 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c 
->> b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
->> index 5e78b553adbd..b0f9e46e202a 100644
->> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
->> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
->> @@ -76,6 +76,7 @@ void dcn20_log_color_state(struct dc *dc,
->>   {
->>       struct dc_context *dc_ctx = dc->ctx;
->>       struct resource_pool *pool = dc->res_pool;
->> +    bool is_gamut_remap_available;
->>       int i;
->>         DTN_INFO("DPP:  DGAM mode  SHAPER mode  3DLUT mode 3DLUT bit 
->> depth"
->> @@ -89,15 +90,15 @@ void dcn20_log_color_state(struct dc *dc,
->>           struct dcn_dpp_state s = {0};
->>             dpp->funcs->dpp_read_state(dpp, &s);
->> -        dpp->funcs->dpp_get_gamut_remap(dpp, &s.gamut_remap);
->> +        if (dpp->funcs->dpp_get_gamut_remap) {
->> +            dpp->funcs->dpp_get_gamut_remap(dpp, &s.gamut_remap);
->> +            is_gamut_remap_available = true;
->> +        }
->>             if (!s.is_enabled)
->>               continue;
->>   -        DTN_INFO("[%2d]:  %8s  %11s  %10s  %15s  %10s  %9s %12s  "
->> -             "%010lld %010lld %010lld %010lld "
->> -             "%010lld %010lld %010lld %010lld "
->> -             "%010lld %010lld %010lld %010lld",
->> +        DTN_INFO("[%2d]:  %8s  %11s  %10s  %15s  %10s  %9s",
->>               dpp->inst,
->>               (s.dgam_lut_mode == 0) ? "Bypass" :
->>                ((s.dgam_lut_mode == 1) ? "sRGB" :
->> @@ -114,10 +115,17 @@ void dcn20_log_color_state(struct dc *dc,
->>               (s.lut3d_bit_depth <= 0) ? "12-bit" : "10-bit",
->>               (s.lut3d_size == 0) ? "17x17x17" : "9x9x9",
->>               (s.rgam_lut_mode == 1) ? "RAM A" :
->> -             ((s.rgam_lut_mode == 1) ? "RAM B" : "Bypass"),
->> +             ((s.rgam_lut_mode == 1) ? "RAM B" : "Bypass"));
->> +
->> +        if (is_gamut_remap_available) {
->
-> is_gamut_remap_available can be uninitialized before used.
+> I will check how to refactor code so this patchset can fit better.
 
-Ops. Let me send a new version.
+I see. Let's wait a bit so.
+
+Anyway, thanks for taking a look.
+
+Melissa
+
 >
->> +            DTN_INFO("  %12s  "
->> +                 "%010lld %010lld %010lld %010lld "
->> +                 "%010lld %010lld %010lld %010lld "
->> +                 "%010lld %010lld %010lld %010lld",
->> +
->>               (s.gamut_remap.gamut_adjust_type == 0) ? "Bypass" :
->> -             ((s.gamut_remap.gamut_adjust_type == 1) ? "HW" :
->> -                                   "SW"),
->> +                ((s.gamut_remap.gamut_adjust_type == 1) ? "HW" :
->> +                                      "SW"),
->>               s.gamut_remap.temperature_matrix[0].value,
->>               s.gamut_remap.temperature_matrix[1].value,
->>               s.gamut_remap.temperature_matrix[2].value,
->> @@ -130,6 +138,8 @@ void dcn20_log_color_state(struct dc *dc,
->>               s.gamut_remap.temperature_matrix[9].value,
->>               s.gamut_remap.temperature_matrix[10].value,
->>               s.gamut_remap.temperature_matrix[11].value);
->> +        }
->> +
->>           DTN_INFO("\n");
->>       }
->>       DTN_INFO("\n");
->> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c 
->> b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
->> index e89ebfda4873..931cd2e886b8 100644
->> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
->> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
->> @@ -74,6 +74,7 @@ void dcn30_log_color_state(struct dc *dc,
->>   {
->>       struct dc_context *dc_ctx = dc->ctx;
->>       struct resource_pool *pool = dc->res_pool;
->> +    bool is_gamut_remap_available;
->>       int i;
->>         DTN_INFO("DPP:  DGAM ROM  DGAM ROM type  DGAM LUT SHAPER mode"
->> @@ -88,16 +89,16 @@ void dcn30_log_color_state(struct dc *dc,
->>           struct dcn_dpp_state s = {0};
->>             dpp->funcs->dpp_read_state(dpp, &s);
->> -        dpp->funcs->dpp_get_gamut_remap(dpp, &s.gamut_remap);
->> +
->> +        if (dpp->funcs->dpp_get_gamut_remap) {
->> +            dpp->funcs->dpp_get_gamut_remap(dpp, &s.gamut_remap);
->> +            is_gamut_remap_available = true;
->> +        }
->>             if (!s.is_enabled)
->>               continue;
->>   -        DTN_INFO("[%2d]:  %7x  %13s  %8s  %11s  %10s  %15s %10s  %9s"
->> -             "  %12s  "
->> -             "%010lld %010lld %010lld %010lld "
->> -             "%010lld %010lld %010lld %010lld "
->> -             "%010lld %010lld %010lld %010lld",
->> +        DTN_INFO("[%2d]:  %7x  %13s  %8s  %11s  %10s  %15s %10s  %9s",
->>               dpp->inst,
->>               s.pre_dgam_mode,
->>               (s.pre_dgam_select == 0) ? "sRGB" :
->> @@ -121,7 +122,14 @@ void dcn30_log_color_state(struct dc *dc,
->>               (s.lut3d_size == 0) ? "17x17x17" : "9x9x9",
->>               (s.rgam_lut_mode == 0) ? "Bypass" :
->>                ((s.rgam_lut_mode == 1) ? "RAM A" :
->> -                           "RAM B"),
->> +                           "RAM B"));
->> +
->> +        if (is_gamut_remap_available) {
+> Thanks
 >
-> is_gamut_remap_available can be uninitialized before used.
->
->> +            DTN_INFO("  %12s  "
->> +                 "%010lld %010lld %010lld %010lld "
->> +                 "%010lld %010lld %010lld %010lld "
->> +                 "%010lld %010lld %010lld %010lld",
->> +
->>               (s.gamut_remap.gamut_adjust_type == 0) ? "Bypass" :
->>                   ((s.gamut_remap.gamut_adjust_type == 1) ? "HW" :
->>                                         "SW"),
->> @@ -137,6 +145,8 @@ void dcn30_log_color_state(struct dc *dc,
->>               s.gamut_remap.temperature_matrix[9].value,
->>               s.gamut_remap.temperature_matrix[10].value,
->>               s.gamut_remap.temperature_matrix[11].value);
->> +        }
->> +
->>           DTN_INFO("\n");
->>       }
->>       DTN_INFO("\n");
+> On 4/30/25 08:20, Melissa Wen wrote:
+>> Hi,
+>>
+>> I've been examining dcn401 code to figure out what is causing a wrong
+>> cursor gamma on HDR issue reported in [1], and I found unnecessary code
+>> duplications during this inspection. I don't have the HW, so I'd
+>> appreciate if someone can validate this series (if it makes sense to you
+>> ofc).
+>>
+>> This series basically adds some hooks to dcn20 base functions that are
+>> usually used in other hw versions and reuses those functions on dcn401
+>> so that we can reduce many lines of code and also increase the coverage
+>> of bug fixes by avoiding the kind of issue of [2]. Better for debugging
+>> and maintainability too.
+>>
+>> [1] https://gitlab.freedesktop.org/drm/amd/-/issues/4176
+>> [2] 
+>> https://lore.kernel.org/amd-gfx/20250430141156.827763-1-mwen@igalia.com/
+>>
+>> Melissa Wen (5):
+>>    drm/amd/display: add hook for program_tg
+>>    drm/amd/display: hook up program_tg for dcn401
+>>    drm/amd/display: remove duplicated program_front_end_for_ctx code
+>>    drm/amd/display: remove duplicated post_unlock_program_front_end code
+>>      on dcn401
+>>    drm/amd/display: remove duplicated program_pipe code on dcn401
+>>
+>>   .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  40 +-
+>>   .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 436 +-----------------
+>>   .../amd/display/dc/hwss/dcn401/dcn401_hwseq.h |  10 +-
+>>   .../amd/display/dc/hwss/dcn401/dcn401_init.c  |   5 +-
+>>   .../drm/amd/display/dc/hwss/hw_sequencer.h    |   4 +
+>>   5 files changed, 45 insertions(+), 450 deletions(-)
+>>
 >
 
