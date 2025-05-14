@@ -2,188 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A895AB6A15
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 13:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E24AB6A45
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 13:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737B310E3B9;
-	Wed, 14 May 2025 11:33:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ehz8YxW2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485A910E613;
+	Wed, 14 May 2025 11:41:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6010E10E2AA;
- Wed, 14 May 2025 11:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747222399; x=1778758399;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zzXLz4QgrpoV3JCgHnuQ3kmkcMepPPL64N7sndvp+fg=;
- b=ehz8YxW2aAXuJ0+Y2gQyPGBdTsPrlavxhbMLXUYLCiVDlh1+1NxfZoFj
- uHtlob9jeJFE07qvmPir22XNCyvn7Y0CvTx4Ig83pVc9Ot2TRtIaG58C/
- 4o6DFVcAL31dyMnyrAWQBKr1vCZSsYYhPAJaD/KRauTOzyBuZ8BczZbRc
- AD1tsNEj/uCc2E1CzF5IDFaCVbuM6Ty556WF1PYhm/jvmBFdrRyWXgfB8
- V+ErfQB0pOegra+xjCSCsm4dcXWJWaqve6he7MIXfPl0dZyFYMHCe5moU
- VGrXRYPYwvBQwJL7e5VVGu0AmbCR5MOpoY5Br83lC8iAs+sexqCzcb358 w==;
-X-CSE-ConnectionGUID: dFBg46KaTZy1AB75M+xBGA==
-X-CSE-MsgGUID: Pkx0HIxPSaed/rAdfLUdIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="59746248"
-X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; d="scan'208";a="59746248"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2025 04:33:16 -0700
-X-CSE-ConnectionGUID: +Q3uLaPuQNaVDGoO89bRmg==
-X-CSE-MsgGUID: jQr+GlbbQymlOWKx3Dic5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; d="scan'208";a="138507704"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2025 04:33:16 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 14 May 2025 04:33:16 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 14 May 2025 04:33:16 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 14 May 2025 04:33:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kt4lskFqWGQMXnKwzXEPYBjR4rj2mOGPrONujkEVFzDhMsP5MoY4DcBAiKZkeBTupDX/oUT000xEmWuRWHVrPMac4BHj/zf+PfMzfWzseQfmwJ/btBBnBxPrHdJAtaj7nVHAD97B1bikDc0Kc8paCBO+7GuKE76UIOyBU31eF9HL3y74CKil8ICbneW+3+dkYgKFIm/2YMcY1NdPCY3gVzBVoHOVAQ5zLWqDRGNTLyNWEzAsMHjfJVokY0pQkIOK0lkpZiLrgR7604ip1zbe0JKqKyNUQuIjvwPbUbLFLWAjo9J1/DJjnokdWYJKSHC6Eo0K7z5K8jpv6J9w0QO4RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c4SJa+n9dtiQWLfCXAlhcZFJ507bHF6pdmPf7qNLI0A=;
- b=eKr+PM5q+clqDzrgvjkde0AWqQhIjOory8R/QTu1QalN+2aIGbKvR8/lMb9WJ4GApgckvnAshZ9+YzNPQP/GsRAwniXLJ7GMOn1NIQRgisvqSi76fKo0HjQDsZ5eJboieNPUHSTYNm1vA5yReK8TZfo1m7yiqQqqXTjjIsTwNZAEmjSaT7HE1awLkhicjsYVSZKvqUImXEZDEuHFou8rwJg/WoHCbLb85JRdFbshqPAjBUs7y93NmRoZSdXUEceScLIw7bqIkrgoZpkVT9dqgtID/LbrnPgIPyEOZJiebL+6yOie1YabUyrbaKyS7KkdBWv0DtLQWJR23Wg3DgpfTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by CO1PR11MB4915.namprd11.prod.outlook.com (2603:10b6:303:93::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Wed, 14 May
- 2025 11:33:12 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839%2]) with mapi id 15.20.8722.027; Wed, 14 May 2025
- 11:33:12 +0000
-Message-ID: <f058def6-32d5-4690-98ca-03f4d7dfef0f@intel.com>
-Date: Wed, 14 May 2025 17:03:04 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Revert "drm/i915/dp: Reject HBR3 when sink doesn't
- support TPS4"
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
-CC: <ville.syrjala@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-References: <20250514084356.1558407-1-ankit.k.nautiyal@intel.com>
- <20250514084356.1558407-2-ankit.k.nautiyal@intel.com>
- <87v7q3h5nb.fsf@intel.com> <87r00rh3kp.fsf@intel.com>
-Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <87r00rh3kp.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0105.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::19) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F0410E613
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 11:41:06 +0000 (UTC)
+Content-Type: multipart/alternative;
+ boundary="------------c4iwY8l2KMegcSdOGcU8JU7H"
+Message-ID: <ea70e6fa-22a1-4adc-927a-5e9c2563f784@lankhorst.se>
+Date: Wed, 14 May 2025 13:41:06 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|CO1PR11MB4915:EE_
-X-MS-Office365-Filtering-Correlation-Id: 730006f1-cd7f-40a2-d698-08dd92db1ba3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|13003099007|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0xUWjJCc21SVm9XV3B2c1IwYUhCcCtRNVJySE01dTlaNW9BZDlueWN3Y1FJ?=
- =?utf-8?B?Y0ljc1pySFcwZEh0OExEMmRLTGF2RzlXWVdheHliaTB5NU9tQVhTTE4vbzZ2?=
- =?utf-8?B?Y1NxUDhxVnFwRXRnK2FqTG1CV3ROY2Ztb1pWb21yN2ZPNjlvbG1jTHRWcFRC?=
- =?utf-8?B?c1NFdllWRzNLMWkvTVoxR1pOVUFQWHRHazIxWERnUS9wSkNIWS9XZ2EySFpl?=
- =?utf-8?B?aGRpbnVBR0l5VnVVdEVjV29DeXNKYnJWN3FtWXljYTd6UW1LdHdEdk82MHAw?=
- =?utf-8?B?OWZISWZGV2hNZmVwNHFqSWs5WFZBNUlqaVVlYk1palpCUEZaMFhtSlNYOUQy?=
- =?utf-8?B?ZEZpMkc2ZElra0ROQVpPUEpkbVJneUdWTldMUkp1V1dWY2VUa3Y5T2FLUkVa?=
- =?utf-8?B?UHpTWXkySEJZTTd6NTRkVjk2YWQ3b3FXMFZNWDlLeldXM3I3ZG9pcVFTOFJw?=
- =?utf-8?B?TTdyK3gzUWtaTkVIc2tRUE52QTFnUlVJbzRRd1l2ekNTNkc3aDJVWDZpNTFi?=
- =?utf-8?B?SnlQV2xZdGxNWGduQSs2RVdta1JXci8rUGhlMWlRZTNDaSsyUUY5U21XTDRG?=
- =?utf-8?B?UEU1MkErQ2EzVGE5QXM3OUtwa05kOXRMMkgraGZHQlhDeTRGcXdkOTM4LzZk?=
- =?utf-8?B?OWZ0T2d0Q0tNSHpENkhXT2lvN0NaQTZaM1l5bS9ST0xPcjVTb242ZkhJQXE3?=
- =?utf-8?B?UVZEUW5ZaGNoVGRPaHAvQ1YxeGFVSUF0VXcwVTlndjQwdWNoUVBBUGh2NnJw?=
- =?utf-8?B?cFk0bGZ1eDVYZUNHU2hyVVQyR0dTd21hMG9qK1k5bWNzM1I1NFdvNWJTdGxp?=
- =?utf-8?B?UWZ5V2tkZ3FpY0JYWTBXbjh1cy9NVzB0OUVBaTVkZ0xaOXp2NGdEUEJaUjJt?=
- =?utf-8?B?UGNrVGNDMkE1Nk0wRVJxZmM3OUhicVRaeU1uaVJpZGtjWFdFTzBGWDFjOWdQ?=
- =?utf-8?B?QzVYcnNtNVBmZHFqRm5NSEtrWkZORXVWSzc2d1lmNndJZWFIdlNCaDR6M0RB?=
- =?utf-8?B?bWYvdW5RSWZqcjREVXd6Z2JMcjdsMW9nMlcrYTBETHY2RmE5cDRMQ3l0a0ZU?=
- =?utf-8?B?NnFSMm9Kb0NISnFlNENwQVRkQnJzWjN6elhUREFBekR1bGZ6REp6OEl2SWQx?=
- =?utf-8?B?NUVITHVqMnlwVzAzSCtMMlhwQTRPTzloR084ZnNmK3ExVEd5Mzk3RFNZTXBT?=
- =?utf-8?B?anpwd2hmeWZHZTc3Q0dEajYwa3JQbm54empZNytmamUzdUJvNkgyZDBiUmdM?=
- =?utf-8?B?K1JZWkJ5b2Y2Qm16NmdxSjN6STVXSVIzNEMxMXh4Q0hFckUyZFJpdTNOZFBs?=
- =?utf-8?B?azlpVG11Nm5XMjFUZ2U1REl4RG9YNkRnL0FZN29HSDl5eG1oZjBGV1BXbXV3?=
- =?utf-8?B?T2xKRU5Dc1NOOGtmTWlqR0JWd21LRkF5eG10Wnp5a0VsK2N1cGZKMWk2VGFp?=
- =?utf-8?B?NVBGOVpUR2hTUTRpQWVicHIzQytwL3N0NWZwZ0EvaUZ4M3VteTU3VVNFOU8v?=
- =?utf-8?B?K2hUaksxRjRGaW4vdDlHM3lMMWJOdDVyczB3dXFJRFNUSndQM3RBanowWG1y?=
- =?utf-8?B?aFoyZ01qMVRNNE1CM0JKU3U1Q3BOQmVURUJlV1VQTjQxSmlaWDJHaC95Ujlt?=
- =?utf-8?B?TVc5ZGh0M1BldXQ5UGFHL0tHdzYza1ZXOGM1UmlaSHVlSUxqY1hhT0sxVVY5?=
- =?utf-8?B?b0h1ZSt5Q1lvZGg5Z2V2NHFJOXZZNmt5YjdleWVQRlQ0Z005VkNkY3ByclFM?=
- =?utf-8?B?MmpaZ1VvTlFadHFBK0NKSnZpNGJ3ZlJIc29MWHBBQXI5WS9ZMnEyVVZ4WldO?=
- =?utf-8?Q?JgbXtDtpIUTUZWjfKFoPRtG1512sTfB1HWXoA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b29mNnhkVjhPa0Rpa3RjWW41UkdZVmx2T0IxNTZ3K3g3YmVDTW5IMzB5OGdn?=
- =?utf-8?B?MkNJQityTXZidEJEOERoMWlxZTBkRnhOUUIvVTJPMmRaTzZQYmpScHZ4QnJa?=
- =?utf-8?B?Y1Z6bmdhMnFTTTEwQWFIL3lvUHpZOURYZkhxcis5bXVsL0FSZTdLR0FWd3pv?=
- =?utf-8?B?ZUQ2eU5WR2tYc1hPZTRuZ3dRZlRaNTIxTmpDMHkzcFFzZWpUd1VMOVdvaUZl?=
- =?utf-8?B?ZjhjQnN3Y2UwYUhkSHVpbXRhNk9WdG41UlFoakZyQXltV3RNSmRPOE5RbG5Y?=
- =?utf-8?B?WHl4QUx2MFhYZVh3RmQzWllLdU9tbm9lSzVFMElSVkxaQzljSUlkekxvTzVo?=
- =?utf-8?B?dzdOMUFacm1pSW16S3pIVG8xbHBoUE43S28zNHg3ZUZ5NC9UVXh0TFYrc1VP?=
- =?utf-8?B?Sm1LVXlRNFhzNXk1akgyWHlRM1kydllwY3lEcVZVVEFzYitsRTF5Y1haN3dh?=
- =?utf-8?B?WjdvcGJpTnJqOTRnMElTeEpUVXN3WUN6OXhOUUlOblpmUHBlTW05SVhKN2lL?=
- =?utf-8?B?V3QwRVI3Q0FMQmJQMUpDcjNkK21sRFBCTWRWTEFXOUhraldUQU1KRkVlRTZo?=
- =?utf-8?B?cElLeFo4MlNlcWVxM1V0OS9GL1JhSWZHQ3dBMG1yMmtYdVpoU3A5ZndiQzBU?=
- =?utf-8?B?QmZoVC83WHlSV3JoQ0tjMUxqNVc4TVhDYWozN3JJb1FNTlVHeXZhb2QwbHdB?=
- =?utf-8?B?ZHR5N1ZTSzB5azAydVJKN0tCODVVcGZlTHhoYUZTOWFZS1JBNG9GVitnSWJW?=
- =?utf-8?B?eGVQZm94V0NGcFJWSjZxcnl4WnJoZEdta3dmbDBmZkNqcmF2ckJTK2diTWNF?=
- =?utf-8?B?UTBoL3kvVFdzMmpHWTgyd0lscERZeHc4QkNKMExGdmMvMlBmUEladVJuWWpM?=
- =?utf-8?B?blF4V2s1eFYyWERNdmdUK0E4UHJvVEFuYjJQSGNEYXR0V082OXBidk1WaVNr?=
- =?utf-8?B?VUoxUFFvdFFpUk1IK1lpcUZjeFhlZ0FQQ0Vna3ZnUmZteUZpRkxIREZycnlu?=
- =?utf-8?B?emExYUkxNndDZGV2YWlyWkNhYTJzZGlhbzl0TkNscWZkWlhDNlkybTd1aDR0?=
- =?utf-8?B?ZzJXTGx0OWkwSWh4NWQzUXYzSzloN1pDc3hpbFYrQm5JMVNVY3pST3R5eTRS?=
- =?utf-8?B?eVozSUhVdFdEZjVrRDh1bzZ4eG80bE55Q0wxb3c4V2l5VURpdGJ3Z3B3dFFp?=
- =?utf-8?B?Q3M1TjJsRkZRZ3VNeXUwZWtpMjdSMmZoanA4UVN5NUFXb1FIdHpMMjBCTnVm?=
- =?utf-8?B?Q1JibVdiNmgyMWQyTklzdG1GUDMydW1FVDU4S3lyR1lMeFB1WUNHRjR2aWQ4?=
- =?utf-8?B?cHBFV05pdjA0WmRkQWZBQlgrTmlqL0hucEE0TzdoaGRndWxMMmRTTXh0YTI2?=
- =?utf-8?B?VzNnMlVFbjZ5ZURqa1NmeEpvRzY0SHlTczJHUkthWXY4VExsOUcyU0NTaDM3?=
- =?utf-8?B?KzJyZndIOUZiV1hxODVsa1p0dUNFZC9JUWUvUnZFQmMrcDhQVFBDTVlWR1Zy?=
- =?utf-8?B?Z1ZMUFQ3RGlHbjNrWVdIN3o0c2RmN1JxYXRna2lIUUxrZk5NRHRsUVJkaEFs?=
- =?utf-8?B?REZxVE10ekhRem0yZFZOQ2MzUm8vbHZQV09SK2duOERxUk1jZHVidnp2L2V0?=
- =?utf-8?B?MUJwcks2djFLREpLbDIrVit1VGM5UTNYNUcrR3k3dSswcUV6WTlOaGxvRkV5?=
- =?utf-8?B?eUt0SkEzQk1TUW5yREp4cWE1VUJvdFo0T3RNTTBHU1E3cXptbjhIcFRKSmJt?=
- =?utf-8?B?MHZGOG01YlpTSmpPSHg2YTVDOURoL0hLTDRXaU4ybG5OUHVPZ1pCcU1PWmZV?=
- =?utf-8?B?VXpwWXFram1wQzRCamhEOWFucC9xRVNIKy9Fa2YvN1p3L3BuK3hEdnRCcU1q?=
- =?utf-8?B?bmlEWm1lSkh0VmNGVEkrazM1Ukc5OVFoWVRpa0VFQnRtTFArR01sS0FiS0Ro?=
- =?utf-8?B?QlJJVVBTNHd1ZFY0NDRSa3g0RmRmMkdUL09sM0dGZG1TQlQvM1d1K29yU3V1?=
- =?utf-8?B?Si82Ly9MZ0xhZ0xxZld4bVZuOWhJM3drVnh1bEIwcjFhdWRhUDM0UjNuWmJa?=
- =?utf-8?B?alhZZTNwNjQveHlOTjMvaWp1eGVUc2VYVFZ6ZTIzcGJ6ZjlEU2pBa3lrRlJG?=
- =?utf-8?B?dFhHZ0Z3ZERDclZFTFEzd1J3Z2MyaTRCRldtdDhVVFhPVElmclZabmFsU2pM?=
- =?utf-8?B?U1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 730006f1-cd7f-40a2-d698-08dd92db1ba3
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 11:33:11.9371 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 36qKRCdudF3BugS4Beud8KnDRRqidJ/nJ7bzlYTopWD4PCojRhUyppoqDcaLOL2N9Zlh3UqyNb8J8xjc2aTelL7IE+mCU0mkyqwW1wtbv+4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4915
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [5/7] ttm: add initial memcg integration. (v4)
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, christian.koenig@amd.com, Johannes Weiner
+ <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+References: <20250512061913.3522902-6-airlied@gmail.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20250512061913.3522902-6-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,151 +44,582 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+--------------c4iwY8l2KMegcSdOGcU8JU7H
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 5/14/2025 4:17 PM, Jani Nikula wrote:
-> On Wed, 14 May 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->> On Wed, 14 May 2025, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
->>> This reverts commit 584cf613c24a4250d9be4819efc841aa2624d5b6.
->>>
->>> Some eDP panels support HBR3 but not TPS4 and rely on a fixed mode that
->>> requires HBR3. After the original commit, these panels go blank due to
->>> the rejection of HBR3.
->>>
->>> To restore functionality for such panels, this commit reverts the change.
->> Which panels? References? Bugs?
-> Regardless, on another reading of the specs, I think the commit being
-> reverted was misguided. TPS4 seems to be required for HBR3 on DPRX, but
-> not eDPRX.
+Hi Dave,
 
-Yeah TPS4_Supported bit seems to be not defined for eDP.
+We've had a small discussion on irc, so I wanted to summarize it here: All memory allocated should be accounted, even memory that is being evicted from VRAM. This may cause the process that originally allocated the VRAM to go over the memcg limit,that should be solved by invoking OOM condition on the original process, which may have ways to solve it like purging purgeable memory, or as last resort OOM killing. The VRAM evicter is already memcg aware, so it should be possible to do the same for the shrinker. I created a patch to use the same cgroup for memcg as for dmem, we shouldprobably extract the cgroup from mm->owner, and create a function to charge dmemcg and memcg with a specified cgroup. For applications that use a centralised allocator, it might be needed to charge a different cgroup when exporting.
 
-For the gitlab issue 5969 [1], the rejecting of HBR3 rate avoided the 
-10bpc which I guess is not supported for the panel mentioned in the issue.
+Kind regards, Maarten
 
- From logs, the VBT had capped the bpp to 18, but GOP used 24 bpp. Edid 
-advertised support for 36 bpp.
-
-Without the commit, 30 bpp gets picked up and the issue was seen.
-
-With the commit (After rejecting HBR3) 24 bpp was used and the issue was 
-resolved.
-
-I am wondering if we should limit bpp or the rate for the panel 
-mentioned in gitlab issue 5969[1].
-
-Also should this be an i915 specific quirk? Or something like quirk 
-introduced in patch#2 [2] of the series?
-
-[1] https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/5969
-
-[2] https://patchwork.freedesktop.org/patch/653510/?series=149005&rev=1
-
-Regards,
-
-Ankit
-
+On 2025-05-12 08:12, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
 >
+> Doing proper integration of TTM system memory allocations with
+> memcg is a difficult ask, primarily due to difficulties around
+> accounting for evictions properly.
 >
-> BR,
-> Jani.
+> However there are systems where userspace will be allocating
+> objects in system memory and they won't be prone to migrating
+> or evicting and we should start with at least accounting those.
 >
->>> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/5969
->> This is a reference to a bug that got closed by the commit being
->> reverted. This now breaks it again, can't use the Closes: tag here.
->>
->> Since the original commit was backported to stable, I think we're
->> probably going to be screwed if we do the revert + fix in two
->> steps. Maybe we want a fix in one go, and backport that to stable. Idk.
->>
->> BR,
->> Jani.
->>
->>
->>> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/display/intel_dp.c | 49 ++++---------------------
->>>   1 file changed, 7 insertions(+), 42 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->>> index 91a34d474463..97cf80372264 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->>> @@ -175,28 +175,10 @@ int intel_dp_link_symbol_clock(int rate)
->>>   
->>>   static int max_dprx_rate(struct intel_dp *intel_dp)
->>>   {
->>> -	struct intel_display *display = to_intel_display(intel_dp);
->>> -	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
->>> -	int max_rate;
->>> -
->>>   	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
->>> -		max_rate = drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
->>> -	else
->>> -		max_rate = drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
->>> +		return drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
->>>   
->>> -	/*
->>> -	 * Some broken eDP sinks illegally declare support for
->>> -	 * HBR3 without TPS4, and are unable to produce a stable
->>> -	 * output. Reject HBR3 when TPS4 is not available.
->>> -	 */
->>> -	if (max_rate >= 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
->>> -		drm_dbg_kms(display->drm,
->>> -			    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
->>> -			    encoder->base.base.id, encoder->base.name);
->>> -		max_rate = 540000;
->>> -	}
->>> -
->>> -	return max_rate;
->>> +	return drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
->>>   }
->>>   
->>>   static int max_dprx_lane_count(struct intel_dp *intel_dp)
->>> @@ -4272,9 +4254,6 @@ static void intel_edp_mso_init(struct intel_dp *intel_dp)
->>>   static void
->>>   intel_edp_set_sink_rates(struct intel_dp *intel_dp)
->>>   {
->>> -	struct intel_display *display = to_intel_display(intel_dp);
->>> -	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
->>> -
->>>   	intel_dp->num_sink_rates = 0;
->>>   
->>>   	if (intel_dp->edp_dpcd[0] >= DP_EDP_14) {
->>> @@ -4285,7 +4264,10 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
->>>   				 sink_rates, sizeof(sink_rates));
->>>   
->>>   		for (i = 0; i < ARRAY_SIZE(sink_rates); i++) {
->>> -			int rate;
->>> +			int val = le16_to_cpu(sink_rates[i]);
->>> +
->>> +			if (val == 0)
->>> +				break;
->>>   
->>>   			/* Value read multiplied by 200kHz gives the per-lane
->>>   			 * link rate in kHz. The source rates are, however,
->>> @@ -4293,24 +4275,7 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
->>>   			 * back to symbols is
->>>   			 * (val * 200kHz)*(8/10 ch. encoding)*(1/8 bit to Byte)
->>>   			 */
->>> -			rate = le16_to_cpu(sink_rates[i]) * 200 / 10;
->>> -
->>> -			if (rate == 0)
->>> -				break;
->>> -
->>> -			/*
->>> -			 * Some broken eDP sinks illegally declare support for
->>> -			 * HBR3 without TPS4, and are unable to produce a stable
->>> -			 * output. Reject HBR3 when TPS4 is not available.
->>> -			 */
->>> -			if (rate >= 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
->>> -				drm_dbg_kms(display->drm,
->>> -					    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
->>> -					    encoder->base.base.id, encoder->base.name);
->>> -				break;
->>> -			}
->>> -
->>> -			intel_dp->sink_rates[i] = rate;
->>> +			intel_dp->sink_rates[i] = (val * 200) / 10;
->>>   		}
->>>   		intel_dp->num_sink_rates = i;
->>>   	}
+> This adds a memcg group to ttm bo and tt objects.
+>
+> This memcg is used when:
+> a) when a tt is populated (and unpopulated)
+> b) the TTM_PL_FLAG_MEMCG is set on the placement for the
+> bo when the tt is allocated.
+>
+> The placement flag is set for all non-eviction placements.
+>
+> This version moves back from the resource to the tt layer,
+> when accounting at the resource layer, if an object is swapped
+> out there was no way to remove it from the accounting, whereas
+> the tt layer has more info for this.
+>
+> v4: move back to the tt layer from the resource layer to
+> handle swap, but keep the memcg charging hooks for now.
+> v3: moves from having a flags on the op ctx to the using a
+> placement flag.
+> v2: moved the charging up a level and also no longer used
+> __GFP_ACCOUNT, or attached the memcg to object pages, it instead
+> uses the same approach as socket memory and just charges/uncharges
+> at the object level. This was suggested by Christian.
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c      |  6 ++++--
+>  drivers/gpu/drm/ttm/ttm_bo_util.c |  6 +++---
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c   |  4 +++-
+>  drivers/gpu/drm/ttm/ttm_tt.c      | 17 ++++++++++++++++-
+>  include/drm/ttm/ttm_bo.h          |  7 +++++++
+>  include/drm/ttm/ttm_placement.h   |  3 +++
+>  include/drm/ttm/ttm_tt.h          |  9 ++++++++-
+>  7 files changed, 44 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 5bf3c969907c..1630ef28e5a8 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -140,7 +140,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>  			goto out_err;
+>  
+>  		if (mem->mem_type != TTM_PL_SYSTEM) {
+> -			ret = ttm_bo_populate(bo, ctx);
+> +			ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, ctx);
+>  			if (ret)
+>  				goto out_err;
+>  		}
+> @@ -1237,6 +1237,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>  /**
+>   * ttm_bo_populate() - Ensure that a buffer object has backing pages
+>   * @bo: The buffer object
+> + * @memcg_account: account this memory with memcg if needed
+>   * @ctx: The ttm_operation_ctx governing the operation.
+>   *
+>   * For buffer objects in a memory type whose manager uses
+> @@ -1250,6 +1251,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>   * is set to true.
+>   */
+>  int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    bool memcg_account,
+>  		    struct ttm_operation_ctx *ctx)
+>  {
+>  	struct ttm_tt *tt = bo->ttm;
+> @@ -1262,7 +1264,7 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
+>  		return 0;
+>  
+>  	swapped = ttm_tt_is_swapped(tt);
+> -	ret = ttm_tt_populate(bo->bdev, tt, ctx);
+> +	ret = ttm_tt_populate(bo->bdev, tt, memcg_account, ctx);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 15cab9bda17f..7d599d0707e4 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>  	src_man = ttm_manager_type(bdev, src_mem->mem_type);
+>  	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
+>  		    dst_man->use_tt)) {
+> -		ret = ttm_bo_populate(bo, ctx);
+> +		ret = ttm_bo_populate(bo, dst_mem->placement & TTM_PL_FLAG_MEMCG, ctx);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+>  
+>  	BUG_ON(!ttm);
+>  
+> -	ret = ttm_bo_populate(bo, &ctx);
+> +	ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>  		pgprot_t prot;
+>  		void *vaddr;
+>  
+> -		ret = ttm_bo_populate(bo, &ctx);
+> +		ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
+>  		if (ret)
+>  			return ret;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index a194db83421d..02aea23a34e7 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -224,7 +224,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+>  		};
+>  
+>  		ttm = bo->ttm;
+> -		err = ttm_bo_populate(bo, &ctx);
+> +		err = ttm_bo_populate(bo,
+> +				      bo->resource->placement & TTM_PL_FLAG_MEMCG,
+> +				      &ctx);
+>  		if (err) {
+>  			if (err == -EINTR || err == -ERESTARTSYS ||
+>  			    err == -EAGAIN)
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 698cd4bf5e46..81c4cbbeb130 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -161,6 +161,7 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>  	ttm->caching = caching;
+>  	ttm->restore = NULL;
+>  	ttm->backup = NULL;
+> +	ttm->memcg = bo->memcg;
+>  }
+>  
+>  int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> @@ -365,7 +366,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+>  EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
+>  
+>  int ttm_tt_populate(struct ttm_device *bdev,
+> -		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+> +		    struct ttm_tt *ttm,
+> +		    bool memcg_account_tt,
+> +		    struct ttm_operation_ctx *ctx)
+>  {
+>  	int ret;
+>  
+> @@ -376,6 +379,14 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>  		return 0;
+>  
+>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+> +		if (ttm->memcg && memcg_account_tt) {
+> +			gfp_t gfp_flags = GFP_USER;
+> +			if (ctx->gfp_retry_mayfail)
+> +				gfp_flags |= __GFP_RETRY_MAYFAIL;
+> +			if (!mem_cgroup_charge_gpu(ttm->memcg, ttm->num_pages, gfp_flags))
+> +				return -ENOMEM;
+> +			ttm->page_flags |= TTM_TT_FLAG_ACCOUNTED;
+> +		}
+>  		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
+>  		if (bdev->pool.use_dma32)
+>  			atomic_long_add(ttm->num_pages,
+> @@ -437,6 +448,10 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>  		ttm_pool_free(&bdev->pool, ttm);
+>  
+>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+> +		if (ttm->page_flags & TTM_TT_FLAG_ACCOUNTED) {
+> +			mem_cgroup_uncharge_gpu(ttm->memcg, ttm->num_pages);
+> +			ttm->page_flags &= ~TTM_TT_FLAG_ACCOUNTED;
+> +		}
+>  		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+>  		if (bdev->pool.use_dma32)
+>  			atomic_long_sub(ttm->num_pages,
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index 903cd1030110..d7c0dd9e0746 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -135,6 +135,12 @@ struct ttm_buffer_object {
+>  	 * reservation lock.
+>  	 */
+>  	struct sg_table *sg;
+> +
+> +	/**
+> +	 * @memcg: memory cgroup to charge this to if it ends up using system memory.
+> +	 * NULL means don't charge.
+> +	 */
+> +	struct mem_cgroup *memcg;
+>  };
+>  
+>  #define TTM_BO_MAP_IOMEM_MASK 0x80
+> @@ -486,6 +492,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+>  		     pgprot_t tmp);
+>  void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+>  int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    bool memcg_account,
+>  		    struct ttm_operation_ctx *ctx);
+>  
+>  /* Driver LRU walk helpers initially targeted for shrinking. */
+> diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
+> index b510a4812609..668798072292 100644
+> --- a/include/drm/ttm/ttm_placement.h
+> +++ b/include/drm/ttm/ttm_placement.h
+> @@ -70,6 +70,9 @@
+>  /* Placement is only used during eviction */
+>  #define TTM_PL_FLAG_FALLBACK	(1 << 4)
+>  
+> +/* Placement causes memcg accounting */
+> +#define TTM_PL_FLAG_MEMCG	(1 << 5)
+> +
+>  /**
+>   * struct ttm_place
+>   *
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 406437ad674b..2790fc82edc3 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -90,6 +90,8 @@ struct ttm_tt {
+>  	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
+>  	 * struct ttm_tt has been (possibly partially) backed up.
+>  	 *
+> +	 * TTM_TT_FLAG_ACCOUNTED: TTM internal. This tt has been accounted.
+> +	 *
+>  	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+>  	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+>  	 * then unset when TTM calls ttm_tt_unpopulate().
+> @@ -101,8 +103,9 @@ struct ttm_tt {
+>  #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+>  #define TTM_TT_FLAG_DECRYPTED		BIT(4)
+>  #define TTM_TT_FLAG_BACKED_UP	        BIT(5)
+> +#define TTM_TT_FLAG_ACCOUNTED	        BIT(6)
+>  
+> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
+> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(7)
+>  	uint32_t page_flags;
+>  	/** @num_pages: Number of pages in the page array. */
+>  	uint32_t num_pages;
+> @@ -126,6 +129,8 @@ struct ttm_tt {
+>  	enum ttm_caching caching;
+>  	/** @restore: Partial restoration from backup state. TTM private */
+>  	struct ttm_pool_tt_restore *restore;
+> +	/** @memcg: Memory cgroup for this TT allocation */
+> +	struct mem_cgroup *memcg;
+>  };
+>  
+>  /**
+> @@ -245,11 +250,13 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+>   *
+>   * @bdev: the ttm_device this object belongs to
+>   * @ttm: Pointer to the ttm_tt structure
+> + * @mem_account_tt: Account this population to the memcg
+>   * @ctx: operation context for populating the tt object.
+>   *
+>   * Calls the driver method to allocate pages for a ttm
+>   */
+>  int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
+> +		    bool mem_account_tt,
+>  		    struct ttm_operation_ctx *ctx);
+>  
+>  /**
+--------------c4iwY8l2KMegcSdOGcU8JU7H
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre><font face="monospace">Hi Dave,</font></pre>
+    <pre><font face="monospace">We've had a small discussion on irc, so I wanted to summarize it here:
+
+</font><font face="monospace">All memory allocated should be accounted, even memory that is being
+evicted from VRAM.
+
+This may cause the process that originally allocated
+the VRAM to go over the memcg limit,</font><font face="monospace"> that should be solved by invoking
+OOM condition on the original process, which may have ways to solve it
+like purging purgeable memory, or as last resort OOM killing.
+
+</font><font face="monospace">The VRAM evicter is already memcg aware, so it should be possible to do
+the same for the shrinker. I created a patch to use the same cgroup for
+memcg as for dmem, we should</font><font face="monospace"> probably extract the cgroup from mm-&gt;owner,
+and create a function to charge dmemcg and memcg with a specified cgroup.
+
+For applications that use a centralised allocator, </font><font
+    face="monospace">it might be needed to
+charge a different cgroup when exporting.</font></pre>
+    <pre><font face="monospace">Kind regards,
+</font><font face="monospace">Maarten</font></pre>
+    <div class="moz-cite-prefix">On 2025-05-12 08:12, Dave Airlie wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20250512061913.3522902-6-airlied@gmail.com">
+      <pre wrap="" class="moz-quote-pre">From: Dave Airlie <a class="moz-txt-link-rfc2396E" href="mailto:airlied@redhat.com">&lt;airlied@redhat.com&gt;</a>
+
+Doing proper integration of TTM system memory allocations with
+memcg is a difficult ask, primarily due to difficulties around
+accounting for evictions properly.
+
+However there are systems where userspace will be allocating
+objects in system memory and they won't be prone to migrating
+or evicting and we should start with at least accounting those.
+
+This adds a memcg group to ttm bo and tt objects.
+
+This memcg is used when:
+a) when a tt is populated (and unpopulated)
+b) the TTM_PL_FLAG_MEMCG is set on the placement for the
+bo when the tt is allocated.
+
+The placement flag is set for all non-eviction placements.
+
+This version moves back from the resource to the tt layer,
+when accounting at the resource layer, if an object is swapped
+out there was no way to remove it from the accounting, whereas
+the tt layer has more info for this.
+
+v4: move back to the tt layer from the resource layer to
+handle swap, but keep the memcg charging hooks for now.
+v3: moves from having a flags on the op ctx to the using a
+placement flag.
+v2: moved the charging up a level and also no longer used
+__GFP_ACCOUNT, or attached the memcg to object pages, it instead
+uses the same approach as socket memory and just charges/uncharges
+at the object level. This was suggested by Christian.
+
+Signed-off-by: Dave Airlie <a class="moz-txt-link-rfc2396E" href="mailto:airlied@redhat.com">&lt;airlied@redhat.com&gt;</a>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c      |  6 ++++--
+ drivers/gpu/drm/ttm/ttm_bo_util.c |  6 +++---
+ drivers/gpu/drm/ttm/ttm_bo_vm.c   |  4 +++-
+ drivers/gpu/drm/ttm/ttm_tt.c      | 17 ++++++++++++++++-
+ include/drm/ttm/ttm_bo.h          |  7 +++++++
+ include/drm/ttm/ttm_placement.h   |  3 +++
+ include/drm/ttm/ttm_tt.h          |  9 ++++++++-
+ 7 files changed, 44 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 5bf3c969907c..1630ef28e5a8 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -140,7 +140,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 			goto out_err;
+ 
+ 		if (mem-&gt;mem_type != TTM_PL_SYSTEM) {
+-			ret = ttm_bo_populate(bo, ctx);
++			ret = ttm_bo_populate(bo, mem-&gt;placement &amp; TTM_PL_FLAG_MEMCG, ctx);
+ 			if (ret)
+ 				goto out_err;
+ 		}
+@@ -1237,6 +1237,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+ /**
+  * ttm_bo_populate() - Ensure that a buffer object has backing pages
+  * @bo: The buffer object
++ * @memcg_account: account this memory with memcg if needed
+  * @ctx: The ttm_operation_ctx governing the operation.
+  *
+  * For buffer objects in a memory type whose manager uses
+@@ -1250,6 +1251,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+  * is set to true.
+  */
+ int ttm_bo_populate(struct ttm_buffer_object *bo,
++		    bool memcg_account,
+ 		    struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_tt *tt = bo-&gt;ttm;
+@@ -1262,7 +1264,7 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
+ 		return 0;
+ 
+ 	swapped = ttm_tt_is_swapped(tt);
+-	ret = ttm_tt_populate(bo-&gt;bdev, tt, ctx);
++	ret = ttm_tt_populate(bo-&gt;bdev, tt, memcg_account, ctx);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 15cab9bda17f..7d599d0707e4 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 	src_man = ttm_manager_type(bdev, src_mem-&gt;mem_type);
+ 	if (ttm &amp;&amp; ((ttm-&gt;page_flags &amp; TTM_TT_FLAG_SWAPPED) ||
+ 		    dst_man-&gt;use_tt)) {
+-		ret = ttm_bo_populate(bo, ctx);
++		ret = ttm_bo_populate(bo, dst_mem-&gt;placement &amp; TTM_PL_FLAG_MEMCG, ctx);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ 
+ 	BUG_ON(!ttm);
+ 
+-	ret = ttm_bo_populate(bo, &amp;ctx);
++	ret = ttm_bo_populate(bo, mem-&gt;placement &amp; TTM_PL_FLAG_MEMCG, &amp;ctx);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+ 		pgprot_t prot;
+ 		void *vaddr;
+ 
+-		ret = ttm_bo_populate(bo, &amp;ctx);
++		ret = ttm_bo_populate(bo, mem-&gt;placement &amp; TTM_PL_FLAG_MEMCG, &amp;ctx);
+ 		if (ret)
+ 			return ret;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index a194db83421d..02aea23a34e7 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -224,7 +224,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 		};
+ 
+ 		ttm = bo-&gt;ttm;
+-		err = ttm_bo_populate(bo, &amp;ctx);
++		err = ttm_bo_populate(bo,
++				      bo-&gt;resource-&gt;placement &amp; TTM_PL_FLAG_MEMCG,
++				      &amp;ctx);
+ 		if (err) {
+ 			if (err == -EINTR || err == -ERESTARTSYS ||
+ 			    err == -EAGAIN)
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 698cd4bf5e46..81c4cbbeb130 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -161,6 +161,7 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ 	ttm-&gt;caching = caching;
+ 	ttm-&gt;restore = NULL;
+ 	ttm-&gt;backup = NULL;
++	ttm-&gt;memcg = bo-&gt;memcg;
+ }
+ 
+ int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+@@ -365,7 +366,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+ EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
+ 
+ int ttm_tt_populate(struct ttm_device *bdev,
+-		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
++		    struct ttm_tt *ttm,
++		    bool memcg_account_tt,
++		    struct ttm_operation_ctx *ctx)
+ {
+ 	int ret;
+ 
+@@ -376,6 +379,14 @@ int ttm_tt_populate(struct ttm_device *bdev,
+ 		return 0;
+ 
+ 	if (!(ttm-&gt;page_flags &amp; TTM_TT_FLAG_EXTERNAL)) {
++		if (ttm-&gt;memcg &amp;&amp; memcg_account_tt) {
++			gfp_t gfp_flags = GFP_USER;
++			if (ctx-&gt;gfp_retry_mayfail)
++				gfp_flags |= __GFP_RETRY_MAYFAIL;
++			if (!mem_cgroup_charge_gpu(ttm-&gt;memcg, ttm-&gt;num_pages, gfp_flags))
++				return -ENOMEM;
++			ttm-&gt;page_flags |= TTM_TT_FLAG_ACCOUNTED;
++		}
+ 		atomic_long_add(ttm-&gt;num_pages, &amp;ttm_pages_allocated);
+ 		if (bdev-&gt;pool.use_dma32)
+ 			atomic_long_add(ttm-&gt;num_pages,
+@@ -437,6 +448,10 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+ 		ttm_pool_free(&amp;bdev-&gt;pool, ttm);
+ 
+ 	if (!(ttm-&gt;page_flags &amp; TTM_TT_FLAG_EXTERNAL)) {
++		if (ttm-&gt;page_flags &amp; TTM_TT_FLAG_ACCOUNTED) {
++			mem_cgroup_uncharge_gpu(ttm-&gt;memcg, ttm-&gt;num_pages);
++			ttm-&gt;page_flags &amp;= ~TTM_TT_FLAG_ACCOUNTED;
++		}
+ 		atomic_long_sub(ttm-&gt;num_pages, &amp;ttm_pages_allocated);
+ 		if (bdev-&gt;pool.use_dma32)
+ 			atomic_long_sub(ttm-&gt;num_pages,
+diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+index 903cd1030110..d7c0dd9e0746 100644
+--- a/include/drm/ttm/ttm_bo.h
++++ b/include/drm/ttm/ttm_bo.h
+@@ -135,6 +135,12 @@ struct ttm_buffer_object {
+ 	 * reservation lock.
+ 	 */
+ 	struct sg_table *sg;
++
++	/**
++	 * @memcg: memory cgroup to charge this to if it ends up using system memory.
++	 * NULL means don't charge.
++	 */
++	struct mem_cgroup *memcg;
+ };
+ 
+ #define TTM_BO_MAP_IOMEM_MASK 0x80
+@@ -486,6 +492,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+ 		     pgprot_t tmp);
+ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+ int ttm_bo_populate(struct ttm_buffer_object *bo,
++		    bool memcg_account,
+ 		    struct ttm_operation_ctx *ctx);
+ 
+ /* Driver LRU walk helpers initially targeted for shrinking. */
+diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
+index b510a4812609..668798072292 100644
+--- a/include/drm/ttm/ttm_placement.h
++++ b/include/drm/ttm/ttm_placement.h
+@@ -70,6 +70,9 @@
+ /* Placement is only used during eviction */
+ #define TTM_PL_FLAG_FALLBACK	(1 &lt;&lt; 4)
+ 
++/* Placement causes memcg accounting */
++#define TTM_PL_FLAG_MEMCG	(1 &lt;&lt; 5)
++
+ /**
+  * struct ttm_place
+  *
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 406437ad674b..2790fc82edc3 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -90,6 +90,8 @@ struct ttm_tt {
+ 	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
+ 	 * struct ttm_tt has been (possibly partially) backed up.
+ 	 *
++	 * TTM_TT_FLAG_ACCOUNTED: TTM internal. This tt has been accounted.
++	 *
+ 	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+ 	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+ 	 * then unset when TTM calls ttm_tt_unpopulate().
+@@ -101,8 +103,9 @@ struct ttm_tt {
+ #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+ #define TTM_TT_FLAG_DECRYPTED		BIT(4)
+ #define TTM_TT_FLAG_BACKED_UP	        BIT(5)
++#define TTM_TT_FLAG_ACCOUNTED	        BIT(6)
+ 
+-#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
++#define TTM_TT_FLAG_PRIV_POPULATED	BIT(7)
+ 	uint32_t page_flags;
+ 	/** @num_pages: Number of pages in the page array. */
+ 	uint32_t num_pages;
+@@ -126,6 +129,8 @@ struct ttm_tt {
+ 	enum ttm_caching caching;
+ 	/** @restore: Partial restoration from backup state. TTM private */
+ 	struct ttm_pool_tt_restore *restore;
++	/** @memcg: Memory cgroup for this TT allocation */
++	struct mem_cgroup *memcg;
+ };
+ 
+ /**
+@@ -245,11 +250,13 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
+  *
+  * @bdev: the ttm_device this object belongs to
+  * @ttm: Pointer to the ttm_tt structure
++ * @mem_account_tt: Account this population to the memcg
+  * @ctx: operation context for populating the tt object.
+  *
+  * Calls the driver method to allocate pages for a ttm
+  */
+ int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
++		    bool mem_account_tt,
+ 		    struct ttm_operation_ctx *ctx);
+ 
+ /**
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------c4iwY8l2KMegcSdOGcU8JU7H--
