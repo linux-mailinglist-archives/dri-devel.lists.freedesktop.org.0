@@ -2,58 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B87AB67AE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 11:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B57AB6800
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 11:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD7C10E5FC;
-	Wed, 14 May 2025 09:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69BC110E3A1;
+	Wed, 14 May 2025 09:52:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HpBpenUJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xp3ySUz6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B89F10E2BC
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 09:37:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 64613A4C85B;
- Wed, 14 May 2025 09:37:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0193C4CEEB;
- Wed, 14 May 2025 09:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747215442;
- bh=avleXqFdRiHvr/nv0iuJrbDTjUHK6V3QXiYtGVW87k4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HpBpenUJfwFge/x8Pqj6VQG9zPiPfjmW9I+3aewe0J8ufh5Oy8t9z8i5D6DXzrVco
- 25Hdku+wKOcb8AaMF/UVFwk3jC0VIDnN7RtUmYkQ1kQ7ReojJdAatHfzMj0JNs1lbU
- pNaKvpAxXi8reY1IsHoxn65gQGZZrGRSZ6pINFiJIebod1BRlzEs+54w0ePUTqwaVE
- a3VxZvR/FVtjwuDav1JUbeL3KUlo1W9Own5EnOcWEu0q1knabx8vPohF42tHxBQumx
- JrrKxeCNzNUAFej808sqGsnAwic6ZeFRSi57o+IepkdIH7TfGFWOMnCG/fb1xCY4FH
- xaIQZeP0H9EWQ==
-Date: Wed, 14 May 2025 15:07:09 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Cc: Jens Wiklander <jens.wiklander@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 05/11] firmware: qcom: scm: add support for object
- invocation
-Message-ID: <aCRkRTMFi65zBODh@sumit-X1>
-References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
- <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-5-6a143640a6cb@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A163810E2D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 09:52:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747216372; x=1778752372;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=DlDgEjTIw8VY2y5DvL0wFj1k14fF3hRHHDZCoRPLVMY=;
+ b=Xp3ySUz6q9qtPP+5sTiRQAgBhy8FmmJHhYuMp9dYgdMo6WJpUNMR6oGr
+ 9TyBKumXOm2Lki68qA4+Mvmav9NZIQywgV7fq0YF1UT204l8NrRSOc/6w
+ lToMb8yh4RY8sMQ2UY2Pk8x/XYGlLOccH3OVwp+a5rqnbWOH1MrnwRjdf
+ bR0ws3VtItHwUQy8qIdRJFlqm9Duk56xOv6bPxXn8OQZHoklR00It39vL
+ L+CDr7zp37XJELeV0KPF9t8ThV8R8ZOwKZIj6L11yPLDuMR9LMtsOMfcL
+ OgiYj9DXhjDuYuXxNhPPy9AVw+/su1fsaC9ylKMRcjwSyZ9s7AoHamrwK Q==;
+X-CSE-ConnectionGUID: IyOj2tJSQa+t9C9aXU2seQ==
+X-CSE-MsgGUID: 1xS62G2/StyDH99ANxiuCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="52911884"
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="52911884"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2025 02:52:51 -0700
+X-CSE-ConnectionGUID: 1vGlQfU6TTiVJ/FihayGEA==
+X-CSE-MsgGUID: vcaR5YHEQmC6RgOptATxfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="142866085"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by fmviesa005.fm.intel.com with ESMTP; 14 May 2025 02:52:46 -0700
+Date: Wed, 14 May 2025 17:47:12 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Zhi Wang <zhiw@nvidia.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
+References: <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
+ <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+ <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
+ <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+ <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
+ <20250509184318.GD5657@nvidia.com>
+ <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
+ <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
+ <20250512140617.GA285583@nvidia.com>
+ <20250513130315.0158a626.zhiw@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-5-6a143640a6cb@oss.qualcomm.com>
+In-Reply-To: <20250513130315.0158a626.zhiw@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,245 +85,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amir,
-
-On Mon, Apr 28, 2025 at 11:06:26PM -0700, Amirreza Zarrabi wrote:
-> Qualcomm TEE (QTEE) hosts Trusted Applications (TAs) and services in
-> the secure world, accessed via objects. A QTEE client can invoke these
-> objects to request services. Similarly, QTEE can request services from
-> the nonsecure world using objects exported to the secure world.
+On Tue, May 13, 2025 at 01:03:15PM +0300, Zhi Wang wrote:
+> On Mon, 12 May 2025 11:06:17 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
 > 
-> Add low-level primitives to facilitate the invocation of objects hosted
-> in QTEE, as well as those hosted in the nonsecure world.
+> > On Mon, May 12, 2025 at 07:30:21PM +1000, Alexey Kardashevskiy wrote:
+> > 
+> > > > > I'm surprised by this.. iommufd shouldn't be doing PCI stuff,
+> > > > > it is just about managing the translation control of the device.
+> > > > 
+> > > > I have a little difficulty to understand. Is TSM bind PCI stuff?
+> > > > To me it is. Host sends PCI TDISP messages via PCI DOE to put the
+> > > > device in TDISP LOCKED state, so that device behaves differently
+> > > > from before. Then why put it in IOMMUFD?
+> > > 
+> > > 
+> > > "TSM bind" sets up the CPU side of it, it binds a VM to a piece of
+> > > IOMMU on the host CPU. The device does not know about the VM, it
+> > > just enables/disables encryption by a request from the CPU (those
+> > > start/stop interface commands). And IOMMUFD won't be doing DOE, the
+> > > platform driver (such as AMD CCP) will. Nothing to do for VFIO here.
+> > > 
+> > > We probably should notify VFIO about the state transition but I do
+> > > not know VFIO would want to do in response.
+> > 
+> > We have an awkward fit for what CCA people are doing to the various
+> > Linux APIs. Looking somewhat maximally across all the arches a "bind"
+> > for a CC vPCI device creation operation does:
+> > 
+> >  - Setup the CPU page tables for the VM to have access to the MMIO
+> >  - Revoke hypervisor access to the MMIO
+> >  - Setup the vIOMMU to understand the vPCI device
+> >  - Take over control of some of the IOVA translation, at least for
+> > T=1, and route to the the vIOMMU
+> >  - Register the vPCI with any attestation functions the VM might use
+> >  - Do some DOE stuff to manage/validate TDSIP/etc
+> > 
+> > So we have interactions of things controlled by PCI, KVM, VFIO, and
+> > iommufd all mushed together.
+> > 
+> > iommufd is the only area that already has a handle to all the required
+> > objects:
+> >  - The physical PCI function
+> >  - The CC vIOMMU object
+> >  - The KVM FD
+> >  - The CC vPCI object
+> > 
+> > Which is why I have been thinking it is the right place to manage
+> > this.
+> > 
+> > It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
+> > stays in VFIO.
+> > 
+> > > > > So your issue is you need to shoot down the dmabuf during vPCI
+> > > > > device destruction?
+> > > > 
+> > > > I assume "vPCI device" refers to assigned device in both shared
+> > > > mode & prvate mode. So no, I need to shoot down the dmabuf during
+> > > > TSM unbind, a.k.a. when assigned device is converting from
+> > > > private to shared. Then recover the dmabuf after TSM unbind. The
+> > > > device could still work in VM in shared mode.
+> > 
+> > What are you trying to protect with this? Is there some intelism where
+> > you can't have references to encrypted MMIO pages?
+> > 
 > 
-> If support for object invocation is available, the qcom_scm allocates
-> a dedicated child platform device. The driver for this device communicates
-> with QTEE using low-level primitives.
+> I think it is a matter of design choice. The encrypted MMIO page is
+> related to the TDI context and secure second level translation table
+> (S-EPT). and S-EPT is related to the confidential VM's context.
 > 
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
->  drivers/firmware/qcom/qcom_scm.c       | 128 +++++++++++++++++++++++++++++++++
->  drivers/firmware/qcom/qcom_scm.h       |   7 ++
->  include/linux/firmware/qcom/qcom_scm.h |  27 +++++++
->  3 files changed, 162 insertions(+)
+> AMD and ARM have another level of HW control, together
+> with a TSM-owned meta table, can simply mask out the access to those
+> encrypted MMIO pages. Thus, the life cycle of the encrypted mappings in
+> the second level translation table can be de-coupled from the TDI
+> unbound. They can be reaped un-harmfully later by hypervisor in another
+> path.
 > 
-> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
-> index fc4d67e4c4a6..bff1b0d3306e 100644
-> --- a/drivers/firmware/qcom/qcom_scm.c
-> +++ b/drivers/firmware/qcom/qcom_scm.c
-> @@ -2084,6 +2084,124 @@ static int qcom_scm_qseecom_init(struct qcom_scm *scm)
->  
->  #endif /* CONFIG_QCOM_QSEECOM */
->  
-> +#ifdef CONFIG_QCOMTEE
-> +
-> +/**
-> + * qcom_scm_qtee_invoke_smc() - Invoke a QTEE object.
-> + * @inbuf: start address of memory area used for inbound buffer.
-> + * @inbuf_size: size of the memory area used for inbound buffer.
-> + * @outbuf: start address of memory area used for outbound buffer.
-> + * @outbuf_size: size of the memory area used for outbound buffer.
-> + * @result: result of QTEE object invocation.
-> + * @response_type: response type returned by QTEE.
-> + *
-> + * @response_type determines how the contents of @inbuf and @outbuf
-> + * should be processed.
-> + *
-> + * Return: On success, return 0 or <0 on failure.
-> + */
-> +int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
-> +			     phys_addr_t outbuf, size_t outbuf_size,
-> +			     u64 *result, u64 *response_type)
-> +{
-> +	struct qcom_scm_desc desc = {
-> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
-> +		.cmd = QCOM_SCM_SMCINVOKE_INVOKE,
-> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
-> +		.args[0] = inbuf,
-> +		.args[1] = inbuf_size,
-> +		.args[2] = outbuf,
-> +		.args[3] = outbuf_size,
-> +		.arginfo = QCOM_SCM_ARGS(4, QCOM_SCM_RW, QCOM_SCM_VAL,
-> +					 QCOM_SCM_RW, QCOM_SCM_VAL),
-> +	};
-> +	struct qcom_scm_res res;
-> +	int ret;
-> +
-> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*response_type = res.result[0];
-> +	*result = res.result[1];
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(qcom_scm_qtee_invoke_smc);
-> +
-> +/**
-> + * qcom_scm_qtee_callback_response() - Submit response for callback request.
-> + * @buf: start address of memory area used for outbound buffer.
-> + * @buf_size: size of the memory area used for outbound buffer.
-> + * @result: Result of QTEE object invocation.
-> + * @response_type: Response type returned by QTEE.
-> + *
-> + * @response_type determines how the contents of @buf should be processed.
-> + *
-> + * Return: On success, return 0 or <0 on failure.
-> + */
-> +int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
-> +				    u64 *result, u64 *response_type)
-> +{
-> +	struct qcom_scm_desc desc = {
-> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
-> +		.cmd = QCOM_SCM_SMCINVOKE_CB_RSP,
-> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
-> +		.args[0] = buf,
-> +		.args[1] = buf_size,
-> +		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_RW, QCOM_SCM_VAL),
-> +	};
-> +	struct qcom_scm_res res;
-> +	int ret;
-> +
-> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*response_type = res.result[0];
-> +	*result = res.result[1];
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(qcom_scm_qtee_callback_response);
-> +
-> +static void qcom_scm_qtee_free(void *data)
-> +{
-> +	struct platform_device *qtee_dev = data;
-> +
-> +	platform_device_unregister(qtee_dev);
-> +}
-> +
-> +static int qcom_scm_qtee_init(struct qcom_scm *scm)
-> +{
-> +	struct platform_device *qtee_dev;
-> +	int ret;
-> +
+> While on Intel platform, it doesn't have that additional level of
+> HW control by design. Thus, the cleanup of encrypted MMIO page mapping
+> in the S-EPT has to be coupled tightly with TDI context destruction in
+> the TDI unbind process.
 
-I am still unable to get the QCOMTEE driver to work on db845c. As I can
-see machine: "qcom,sdm845" is not supported for tzmem based on SHM
-brigde here: drivers/firmware/qcom/qcom_tzmem.c +81. I am still seeing
-following logs from userspace:
+Thanks for the accurate explanation. Yes, in TDX, the references/mapping
+to the encrypted MMIO page means a CoCo-VM owns the MMIO page. So TDX
+firmware won't allow the CC vPCI device (which physically owns the MMIO
+page) unbind/freed from a CoCo-VM, while the VM still have the S-EPT mapping.
 
-# /mnt/unittest -d
-[test_print_diagnostics_info][31] test_get_client_env_object.
-[test_supplicant_release][65] test_supplicant_worker killed.
+AMD doesn't use KVM page table to track CC ownership, so no need to
+interact with KVM.
 
-I think you should first check here for SHM bridge support. If available
-then only add a QTEE platform device.
+Thanks,
+Yilun
 
--Sumit
-
-> +	/* Setup QTEE interface device. */
-> +	qtee_dev = platform_device_alloc("qcomtee", -1);
-> +	if (!qtee_dev)
-> +		return -ENOMEM;
-> +
-> +	qtee_dev->dev.parent = scm->dev;
-> +
-> +	ret = platform_device_add(qtee_dev);
-> +	if (ret) {
-> +		platform_device_put(qtee_dev);
-> +		return ret;
-> +	}
-> +
-> +	return devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
-> +}
-> +
-> +#else
-> +
-> +static int qcom_scm_qtee_init(struct qcom_scm *scm)
-> +{
-> +	return 0;
-> +}
-> +
-> +#endif /* CONFIG_QCOMTEE */
-> +
->  /**
->   * qcom_scm_is_available() - Checks if SCM is available
->   */
-> @@ -2319,6 +2437,16 @@ static int qcom_scm_probe(struct platform_device *pdev)
->  	ret = qcom_scm_qseecom_init(scm);
->  	WARN(ret < 0, "failed to initialize qseecom: %d\n", ret);
->  
-> +	/*
-> +	 * Initialize the QTEE object interface.
-> +	 *
-> +	 * This only represents the availability for QTEE object invocation
-> +	 * and callback support. On failure, ignore the result. Any subsystem
-> +	 * depending on it may fail if it tries to access this interface.
-> +	 */
-> +	ret = qcom_scm_qtee_init(scm);
-> +	WARN(ret < 0, "failed to initialize qcomtee: %d\n", ret);
-> +
->  	return 0;
->  
->  err:
-> diff --git a/drivers/firmware/qcom/qcom_scm.h b/drivers/firmware/qcom/qcom_scm.h
-> index 097369d38b84..a25202e99f7c 100644
-> --- a/drivers/firmware/qcom/qcom_scm.h
-> +++ b/drivers/firmware/qcom/qcom_scm.h
-> @@ -152,6 +152,13 @@ struct qcom_tzmem_pool *qcom_scm_get_tzmem_pool(void);
->  #define QCOM_SCM_SVC_GPU			0x28
->  #define QCOM_SCM_SVC_GPU_INIT_REGS		0x01
->  
-> +/* ARM_SMCCC_OWNER_TRUSTED_OS calls */
-> +
-> +#define QCOM_SCM_SVC_SMCINVOKE			0x06
-> +#define QCOM_SCM_SMCINVOKE_INVOKE_LEGACY	0x00
-> +#define QCOM_SCM_SMCINVOKE_CB_RSP		0x01
-> +#define QCOM_SCM_SMCINVOKE_INVOKE		0x02
-> +
->  /* common error codes */
->  #define QCOM_SCM_V2_EBUSY	-12
->  #define QCOM_SCM_ENOMEM		-5
-> diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
-> index 983e1591bbba..bf5e64f6deba 100644
-> --- a/include/linux/firmware/qcom/qcom_scm.h
-> +++ b/include/linux/firmware/qcom/qcom_scm.h
-> @@ -176,4 +176,31 @@ static inline int qcom_scm_qseecom_app_send(u32 app_id,
->  
->  #endif /* CONFIG_QCOM_QSEECOM */
->  
-> +#ifdef CONFIG_QCOMTEE
-> +
-> +int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
-> +			     phys_addr_t outbuf, size_t outbuf_size,
-> +			     u64 *result, u64 *response_type);
-> +int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
-> +				    u64 *result, u64 *response_type);
-> +
-> +#else /* CONFIG_QCOMTEE */
-> +
-> +static inline int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
-> +					   phys_addr_t outbuf,
-> +					   size_t outbuf_size, u64 *result,
-> +					   u64 *response_type)
-> +{
-> +	return -EINVAL;
-> +}
-> +
-> +static inline int qcom_scm_qtee_callback_response(phys_addr_t buf,
-> +						  size_t buf_size, u64 *result,
-> +						  u64 *response_type)
-> +{
-> +	return -EINVAL;
-> +}
-> +
-> +#endif /* CONFIG_QCOMTEE */
-> +
->  #endif
 > 
-> -- 
-> 2.34.1
+> If the TDI unbind is triggered in VFIO/IOMMUFD, there has be a
+> cross-module notification to KVM to do cleanup in the S-EPT.
 > 
+> So shooting down the DMABUF object (encrypted MMIO page) means shooting
+> down the S-EPT mapping and recovering the DMABUF object means
+> re-construct the non-encrypted MMIO mapping in the EPT after the TDI is
+> unbound. 
+> 
+> Z.
+> 
+> > > > What I really want is, one SW component to manage MMIO dmabuf,
+> > > > secure iommu & TSM bind/unbind. So easier coordinate these 3
+> > > > operations cause these ops are interconnected according to secure
+> > > > firmware's requirement.
+> > >
+> > > This SW component is QEMU. It knows about FLRs and other config
+> > > space things, it can destroy all these IOMMUFD objects and talk to
+> > > VFIO too, I've tried, so far it is looking easier to manage. Thanks,
+> > 
+> > Yes, qemu should be sequencing this. The kernel only needs to enforce
+> > any rules required to keep the system from crashing.
+> > 
+> > Jason
+> > 
 > 
