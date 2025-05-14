@@ -2,118 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A42AB7718
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 22:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECD2AB771D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 22:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1513E10E734;
-	Wed, 14 May 2025 20:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8C5910E73C;
+	Wed, 14 May 2025 20:33:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mltkatwe";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Q0+M0nkY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C9610E734
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 20:32:42 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EAuoeo012655
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 20:32:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=XxPdt9cqTUOBy/MQknWD34Qy
- 9JQbrEE6AdpEjUZi4wY=; b=MltkatweJY4EspyZRwcEgq0QjsOCbL+hMj2X8lvL
- MC5913jkkE0xXE3F8a275nrpNqkgzGtEpJdaq6Jt8MORVO4Zu4SWCdiD+UDc17BS
- XQ1ZtgArq6YvvXWGq8eGhoAMIJLOUmeNvpB7LTmox9ImonGcb0iFBmr2PlNv4XJq
- GLEKwyYCJ/boTRjvcfHof9eP5DPN+Dwnxmd+BvX9YyyDUkJS9dO7PsEfvy0klB3Q
- z13BN8ZqM70TguWGi8JUDddvPtP9vDgORCiLNiHCir9MMaZao2VoCWlHUe29GqTJ
- 8lgTQ7zAQhJYNcvcXtAifjbP3xt8sm4oJS+L93Rs0N4/4g==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcym21d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 20:32:41 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-47b36edcdb1so7307731cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 13:32:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747254758; x=1747859558;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XxPdt9cqTUOBy/MQknWD34Qy9JQbrEE6AdpEjUZi4wY=;
- b=k1Gdun1ZYDC2KVHWhpQUcLQgWAGLv4zN/cZNCt01SOqJ8YmNhXbCw8+9+d2dlvC3zl
- 1yZDA9JwJN26YaMPnyh9f8WBs1jUvh51+E0ba+DTfn0o+4XdbJGEW9xpnIUXJI1g0t7W
- At0Q4Dx59jarwTt1ppwwnt7+0z3b7dDvhLgL3eAWw8zTgCOSBWazU21V/jHIKkVdx023
- GSNQ5oK7NwAw7Td8Us6dtRrhKRRFVmsa34DEebzFVfuzYbPjTKbg9U7QdR8SMgzFzT1J
- kniSTs/dfPIn2xa7iRh9Ptso07+DfS1PeHaRxAu+QG9qmcTnYWSYXSeIRrnnArBrq0xU
- U7bg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW546/HsJsgxc8g0ErZmqQo4VsVvWEezDdytMRw+dUYImrvAv69KxA+kfyaaSh04GPPIqmiHmuedf0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7qJHu3DAuEk8kXGAg0w2gX2L4FJew/SO+RN8o17YQRuav8Ogz
- WgAlS77jPYJ9vLiQlrzQoVoG1D9m61spnjnknyQQGaTt93apYMbgAmaWEGjg4qBzb3cEE+B/lZ/
- pypQclf0Iv5lx5rD4U3NvFAPJnfizsxfKw/o4xdY64bCxdsz1Ds2LN/bnTPMHQUXisnwUHCUbeA
- M=
-X-Gm-Gg: ASbGncvqHIu79D1P/KnRj2ZDsywnGhE5B72Izqi8SBq6AP4tn/dNMgrA3rGfTW63su1
- FqluQ9prJIxoCx5HpY4AidEHzMvnsF6SFUYzGvEsBVZbnB+lQK4dzaef7zfyoJvukZ0eTyNInUF
- fKUpGSqhoRyWdvcHkxiFwJF/j/oYnzUs2qslYgfxtWfzkmHczjq1A0V+HBHiKVS455+vrN+zkuZ
- /xoQQUUm2Z4v+C+oinywOLsOIkMjhLs+Ul2cFU/SUyZBXPjYG7POmxSojbMC85ogueYVsRv3e7C
- cT3UkiD22uQlOz5xhoCk0VpeOoIGGpntqL63dkqUJJlggsm1MMXRoTwg3LyacoVc1DPxTqgir3U
- =
-X-Received: by 2002:a05:622a:6110:b0:494:78d5:c8cb with SMTP id
- d75a77b69052e-494a32ba633mr1027581cf.4.1747254758132; 
- Wed, 14 May 2025 13:32:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFjaViNcmlJtAKHvgfVZ3CjaBKnxNHVGmEtfw379yfKxDhn5w+VxEmOu10Ygw0Vu93zhM+Xg==
-X-Received: by 2002:a05:622a:a0e:b0:494:78db:1e55 with SMTP id
- d75a77b69052e-494a32bade9mr1639071cf.11.1747254746920; 
- Wed, 14 May 2025 13:32:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-326c358ae30sm20781661fa.94.2025.05.14.13.32.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 13:32:26 -0700 (PDT)
-Date: Wed, 14 May 2025 23:32:24 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFT v2 12/15] drm/msm/a6xx: Drop cfg->ubwc_swizzle override
-Message-ID: <3uflij5hthurgt67rdnfhqtcoconybsnykirrwnk7idtz6672n@26qdq2e2ehtz>
-References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
- <20250514-topic-ubwc_central-v2-12-09ecbc0a05ce@oss.qualcomm.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408A810E739;
+ Wed, 14 May 2025 20:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CAnLRsQo89uQfQAI6NVigjappG+KeeuIMhp4mSOEY9w=; b=Q0+M0nkYfkyQ4M3G7FMZkW2Xq/
+ Si1FsSVnaXiEewVH/y8cimGj/zkQiahyUiTkmmYkA0h58tvjbivfr2wyJVhfC4AOZGAI3bIgnFTvD
+ akw+CQB3eiZSOj91JvDPimNqhJ4NbGLBY1ug6b4KpVpdoYNtwamde160T5Wpq8hgzX1tUf7g0FRmc
+ OX99Vzw/fFJPoIblwpWcysb3QASEaVLmQE0P1Rh75vkFFAQlWOkmYdOzNDXnc7cant8h+saPVStk3
+ 7mUeBeVmiKbu0KjvWhoT7sffTKi+OZsnRvX9pR3Rf2sjdWZwUQVUmSak3CVj5ujI2yDRsTqv+2lqZ
+ RgvgV+Ew==;
+Received: from [189.6.16.79] (helo=[192.168.0.55])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uFIh0-008L6m-5h; Wed, 14 May 2025 22:32:55 +0200
+Message-ID: <1a623ab1-5d98-4ee0-a621-c79d4fe10635@igalia.com>
+Date: Wed, 14 May 2025 17:32:48 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514-topic-ubwc_central-v2-12-09ecbc0a05ce@oss.qualcomm.com>
-X-Proofpoint-GUID: 1ZdsHLmDvNLEyotTBRH7YYuXYaqPOHI3
-X-Proofpoint-ORIG-GUID: 1ZdsHLmDvNLEyotTBRH7YYuXYaqPOHI3
-X-Authority-Analysis: v=2.4 cv=JszxrN4C c=1 sm=1 tr=0 ts=6824fde9 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=YFUBf4FbcCgwuu9kWHgA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDE4OSBTYWx0ZWRfX38jHja5YPw9C
- Sseu5lWxjobKXTdLQZnCPa/CeHb6GKpISuPc1hj289ZUhCyS4pDC8X+pctSMAq6oZoNcfPzOcrQ
- /DvN5Jx5ncI+4maxVFI9QtffXEFI8bi7caRz2hH+RQCtOr/NQaBd1xHHikfdaTXnB+1vRMFzAkU
- RtCK3G+jV8bHjFqMjZVGL8iSy4GCzn3ROeR5HQ/Zsupy7AFs6NzHsRTUOEjBZ4teGMJIid0QcnW
- t4X/EaLk+JWVyUQ+e87PoJqjGjWxM2Zs6W7xv33uEG2+6pNDodPu2vnUlgU3TBb1QvOQzpqzzgh
- aqBPwaKTz47aDMEyYNyKCKt+09hUMTb9TjfsZDU1mDaJX742lg5lXqNNFJoDXzG0NcKZ4UtgXXa
- mpjHQeFxaNkI0yhb65PPfQzGZgeccltnMBuoVxah2I8E9supDb7BtZyxw+zUki8TWRpnLDhV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-14_04,2025-05-14_03,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=933 bulkscore=0
- malwarescore=0 mlxscore=0 adultscore=0 phishscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505140189
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/14] drm/amd/display: simplify
+ dm_helpers_parse_edid_caps signature
+From: Melissa Wen <mwen@igalia.com>
+To: Alex Hung <alex.hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250514202130.291324-1-mwen@igalia.com>
+ <20250514202130.291324-9-mwen@igalia.com>
+Content-Language: en-US
+In-Reply-To: <20250514202130.291324-9-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,25 +68,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 14, 2025 at 05:10:32PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> On A663 (SA8775P) the value matches exactly.
-> 
-> On A610, the value matches on SM6115, but is different on SM6125. That
-> turns out not to be a problem, as the bits that differ aren't even
-> interpreted.
 
-We also don't set swizzle for a lot of UBWC 1.0 targets (as MDSS wasn't
-programming those). Should we fix all of them to use 6 by default? Or 7?
 
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On 14/05/2025 17:19, Melissa Wen wrote:
+> Pass dc_sink to dm_helpers_parse_edid_caps(), since it already contains
+> edid info. It's a groundwork to get rid of raw edid stored as dc_edid.
+>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
-> 
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  5 +----
+>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 18 +++++++-----------
+>   drivers/gpu/drm/amd/display/dc/dm_helpers.h    |  7 ++-----
+>   .../drm/amd/display/dc/link/link_detection.c   |  5 +----
+>   4 files changed, 11 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 6a85d0ea20dc..0650866dfb6d 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7384,10 +7384,7 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>   		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
+>   		memmove(dc_em_sink->dc_edid.raw_edid, edid,
+>   			(edid->extensions + 1) * EDID_LENGTH);
+> -		dm_helpers_parse_edid_caps(
+> -			dc_link,
+> -			&dc_em_sink->dc_edid,
+> -			&dc_em_sink->edid_caps);
+> +		dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index e7cfbee6c67f..6e42b610cdea 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -95,23 +95,22 @@ static void apply_edid_quirks(struct drm_device *dev,
+>    *
+>    * Return: void
+>    */
+Ugh.. I forgot to update the kernel-doc for dm_helpers_parse_edid_caps().
+But I'll wait a bit for comments before sending a another version with 
+this fix.
 
--- 
-With best wishes
-Dmitry
+Melissa
+> -enum dc_edid_status dm_helpers_parse_edid_caps(
+> -		struct dc_link *link,
+> -		const struct dc_edid *edid,
+> -		struct dc_edid_caps *edid_caps)
+> +enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
+> +					       struct dc_sink *sink)
+>   {
+>   	struct amdgpu_dm_connector *aconnector = link->priv;
+>   	struct drm_connector *connector = &aconnector->base;
+>   	struct drm_device *dev = connector->dev;
+> -	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+> +	struct edid *edid_buf;
+>   	const struct drm_edid *drm_edid;
+>   	struct drm_edid_product_id product_id;
+> +	struct dc_edid_caps *edid_caps = &sink->edid_caps;
+>   	int sad_count;
+>   	int i = 0;
+>   	enum dc_edid_status result = EDID_OK;
+>   
+> -
+> -	if (!edid_caps || !edid)
+> +	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
+> +	if (!edid_caps || !edid_buf)
+>   		return EDID_BAD_INPUT;
+>   
+>   	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
+> @@ -1030,10 +1029,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
+>   		/* We don't need the original edid anymore */
+>   		drm_edid_free(drm_edid);
+>   
+> -		edid_status = dm_helpers_parse_edid_caps(
+> -						link,
+> -						&sink->dc_edid,
+> -						&sink->edid_caps);
+> +		edid_status = dm_helpers_parse_edid_caps(link, sink);
+>   
+>   	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
+>   
+> diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+> index 9d160b39e8c5..ce6a70368bd0 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+> @@ -59,11 +59,8 @@ void dm_helpers_free_gpu_mem(
+>   		enum dc_gpu_mem_alloc_type type,
+>   		void *pvMem);
+>   
+> -enum dc_edid_status dm_helpers_parse_edid_caps(
+> -	struct dc_link *link,
+> -	const struct dc_edid *edid,
+> -	struct dc_edid_caps *edid_caps);
+> -
+> +enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
+> +					       struct dc_sink *sink);
+>   
+>   /*
+>    * Update DP branch info
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> index cc9191a5c9e6..8c7a00c1ad2b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> @@ -1429,10 +1429,7 @@ struct dc_sink *link_add_remote_sink(
+>   			dc_sink))
+>   		goto fail_add_sink;
+>   
+> -	edid_status = dm_helpers_parse_edid_caps(
+> -			link,
+> -			&dc_sink->dc_edid,
+> -			&dc_sink->edid_caps);
+> +	edid_status = dm_helpers_parse_edid_caps(link, dc_sink);
+>   
+>   	/*
+>   	 * Treat device as no EDID device if EDID
+
