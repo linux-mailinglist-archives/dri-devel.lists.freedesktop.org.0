@@ -2,74 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D17BAB77AF
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 23:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD88AB7852
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 23:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A490310E742;
-	Wed, 14 May 2025 21:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F28A10E746;
+	Wed, 14 May 2025 21:59:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lUju4G0d";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Y+31NJDo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3099210E742;
- Wed, 14 May 2025 21:08:00 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-b1faa09bae7so23069a12.1; 
- Wed, 14 May 2025 14:08:00 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCDB10E746
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 21:59:10 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43d5f10e1aaso22145e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 14:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747256880; x=1747861680; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1747259949; x=1747864749;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lx4Dn1t84Y1ja4KtBsaQ9M4LGHTcfm3gj7O9Xg07aZQ=;
- b=lUju4G0dXTtqfex7tvN/gln2TPZdDZVqLLuQr0nd1rXNXlDCKcqwdcc5CmHHk7qcrv
- M7ckrsryooa8Gm/5jWbK2CBN1nwmqdRZnHdpZJdqXvFBqrWR8lN4DK4ocdNJKK7exEf5
- Tdg9WsnDecjHdzGpc0wucTys6rko1ykjE2lQioVWMLJQywgroHmzO0CmCJ5sXkcduRnA
- 4I8N0e6iWnBaWaM0x9hTb4ScIRvz/8vunxAQ1keWSMWX5hwVR3ZjEnAo8fosmlwPt8lu
- VTXoVLdsCDSd/f59Ud+Zo/Vyg9B5/JHYefe6Ew9TtEZXcf3S0HhZxkiSSdzwkJQQcluF
- iyeg==
+ bh=N6BjLggY6RYhBduHWEU2r/0qSGTtOcmp2Rv7SfgPX2c=;
+ b=Y+31NJDo8BfSKRxT0mvj0SM4VsJfQR/T1i1eRGzulrwLbaHsy96d97kgP5C/lptZWd
+ Hi9WRqhR3V9Jo4poNwQa0WgdchkV7X4VE+9FzZl6+IYGRSghpuzNpxH3ZjXK2ONbO0UV
+ TYzCFl7CBln4X7Q/Q4cvEVcIMLMwoe7MZnllomXif4Ho9a6dsJd+W6iGm7IcszAuWQpO
+ DChdBKddT+jwvv9VVziPPVHhbPTvjgedqDo5fZLC+lBgjeG000srYVvgh10pJ5J8ltqk
+ 4qDLyS/1lqSlnQLbSNaLIq3DWYJEoCVCO8H06my7XqMbIDujI+oUyQ9ba/rgc+KM+fdW
+ R+iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747256880; x=1747861680;
+ d=1e100.net; s=20230601; t=1747259949; x=1747864749;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lx4Dn1t84Y1ja4KtBsaQ9M4LGHTcfm3gj7O9Xg07aZQ=;
- b=tGNDGsAHTXTYwoct8my1Net2ruS01Z1Cz+x1rb16YOn1BeRhjLAPONmG/XQKq2r7vA
- LYB7CiIm4FTj1ChY481SHNOlDgWrsiLrKJeNCe1fyub+rBjUdCsoefvAfIMrlLZogTnq
- 8cuV1ulEWsHl6pHVCpCRgSg4ipfatujwF2M+LTyCePpnR7++DPXIJ8BopJk6Q1m4k8Iv
- NxJCuKtWWnN3+CkUwOqS5uVMqiSWJnHqQ1OTPpCXeKW5EIroSXUciv5VmAqWtOh7XXcT
- r+asOpz9V5AnAwHflDOWQxNecHapBAIoVdtj7ovVQz8kIAmn/dPMiD/NaL4/rTfISDZ+
- /AYQ==
+ bh=N6BjLggY6RYhBduHWEU2r/0qSGTtOcmp2Rv7SfgPX2c=;
+ b=GrpbRsVJOpAkeQbZT2bTqU3g3kgduIgwwnzygX97L7eOHkDGTQjpi6VMj4/Cb3fI8b
+ 55WLGenWlunWtdX/9le7nydw9nntXhx/pweJk9b95Hyn5F68izhDRMstih9h/ZxYycYD
+ BUSRsvd8UdHaWrIttJ8jAOpC68dCijntplcqsip1Tx6sUfQkkzgY9ELOgdiBmx3+0l5I
+ qq9moGHjilFJn1y2KpkmcdQSVjp+jk5mK2b+QU1m2mWxYoraxxEmujMrXk9qu+K3u4co
+ r8qkD8wQfpQ1T2HxRSP/2a+Rg98nA3P3zU+OxNEfae4PIaz2UXXZmLX8B9SeJCEXSpXG
+ nD7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWflULdp35zPWWJVTRHOs0sMaYpm+XRTanhZ1wTYGk9PG5F8DHMkBv2nejNeK8lUCf2JMQ5y1LD@lists.freedesktop.org,
- AJvYcCWiRs4jsgQiaE0hyCV64VhgT3byrW4xUdXA6MOz+pF6xy5Jzyn0RvfJwrys0e6qc+ckbaNguSgow05+@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdSt3VNIvU1U7LxIW7GeFIyXxRRiNrT5Xsd3B28stBbOKwELFB
- H2hdOTrT6fo6utK684cKDxMGfLrHtWQ44t2VaDOrLVXSYezVfBBcaI9sd60yezvqAjFe5uWbV89
- Sss7EhXJa01uHQRGehLs1ubxRt6Q=
-X-Gm-Gg: ASbGncuUhoHOldQKN0KIdoGle//xJihcVpU4ZVgy01ttQyF2/+2E7IJdVHRUT9W367R
- 1OcEwU5NxWDr4bLSawyIqQ9ypqAz7tmQ5Y/NLAhgDHq0zE5XR+auYzrno3iOxfTAMKzOkN3qOmj
- xZYvrt38jzZeVUzgSLNolUucNPBl5ZJmss
-X-Google-Smtp-Source: AGHT+IGBU4AnxaGdz3+W/aZ/NsTQmZSGDLIi9hu4RjfGwB+OV3yHSxSABfZO+2VHj6lusvHJdZvi0Bis/Bvqs6c+QUk=
-X-Received: by 2002:a17:903:2a8d:b0:230:413c:d46b with SMTP id
- d9443c01a7336-2319813852amr29202835ad.6.1747256879647; Wed, 14 May 2025
- 14:07:59 -0700 (PDT)
+ AJvYcCWD7S2Bur5Tq+gR1217Xq/ZMoJUh42RU37Yl+F5i2JayhSONSFVaDOcQnDEqpMoRviFeV/n2hxZi/I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHRQ+dYbJUiJRfaKkn4lYAOiFJcPnS7kRXSCAl4lCBFPXVd5kb
+ orxhXl5JJmyMn3OX/topoC1H5tqouf9ENlDDlfcdpwRke0U7VoMzrcWhuMFR0aFkNw6xgpriGze
+ Fz0FcusHKMuKMJoRmGV0pU5b19lluxPuamLAaaTF2
+X-Gm-Gg: ASbGncvMdlsYWWFEXGOpTwsOD8P/rxWuutuAXh/gGmBmkDis6B+pwba4FNZ9BTwqbC9
+ lVdON/s90TBSInvLenDlrpq4O5NTr5QTUkjqeo6HwlSc2wRCgS0BOweBM9oTL9MIc40OeNYDu3k
+ BttKlh7A/L+KyisdgGKOFWTFMhNiezuN2A0PNJOIo8g995XAWXYqCFBMTOr56qg3s=
+X-Google-Smtp-Source: AGHT+IF9CkMy8uQHae8tBwjfZQnl2xTDU2FaaHSwjDP6uOoyICX4dbqTYj1/pDGgkaVhdrmo/aPKYQuBWpB4B9m3R6w=
+X-Received: by 2002:a05:600c:6095:b0:441:aaa8:312e with SMTP id
+ 5b1f17b1804b1-442f8b45ad1mr472635e9.6.1747259949004; Wed, 14 May 2025
+ 14:59:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
-In-Reply-To: <20250514174306.82693-1-leonardodasigomes@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 14 May 2025 17:07:48 -0400
-X-Gm-Features: AX0GCFunWWT3CDxNB8ETZKOU5bde5b4Ig1OLZGL5DpGwcWxDzL3eZnVxm427R20
-Message-ID: <CADnq5_OEdpRvpfL9+aCQOfRGUW-vOGzXq3ts5buWXoOTxtHr6Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
- with prefix to help in ftrace
-To: Leonardo Gomes <leonardodasigomes@gmail.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- derick.william.moraes@gmail.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
+References: <20250513163601.812317-1-tjmercier@google.com>
+ <20250513163601.812317-5-tjmercier@google.com>
+ <CAPhsuW4uKxFP=i2KgaKPvezD5sBcVheQRBF1fY5DyYafin_yFQ@mail.gmail.com>
+In-Reply-To: <CAPhsuW4uKxFP=i2KgaKPvezD5sBcVheQRBF1fY5DyYafin_yFQ@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 14 May 2025 14:58:57 -0700
+X-Gm-Features: AX0GCFvBkYq3GWDHm1043uOPWEQY2osVY6pw6Ua9BcA8wU905Xni8mQWiWzsG7M
+Message-ID: <CABdmKX3Q5+bfbBBndSS6mxUhapFGY5zLr9CV-p0+CfNPOzuvGA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 4/5] selftests/bpf: Add test for dmabuf_iter
+To: Song Liu <song@kernel.org>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,49 +93,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 14, 2025 at 4:48=E2=80=AFPM Leonardo Gomes
-<leonardodasigomes@gmail.com> wrote:
+On Wed, May 14, 2025 at 1:53=E2=80=AFPM Song Liu <song@kernel.org> wrote:
 >
-> Adjust get_value function in hw_hpd.c file to have
-> prefix to help in ftrace, the name change from
-> 'get_value' to 'dal_hw_gpio_get_value'
+> On Tue, May 13, 2025 at 9:36=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > This test creates a udmabuf, and a dmabuf from the system dmabuf heap,
+> > and uses a BPF program that prints dmabuf metadata with the new
+> > dmabuf_iter to verify they can be found.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> Acked-by: Song Liu <song@kernel.org>
 
-This won't compile.  dal_hw_gpio_get_value is already defined in
-drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c.
-
-Alex
+Thanks.
 
 >
-> Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
-> Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
-> Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> With one more comment below.
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gpu/d=
-rm/amd/display/dc/gpio/hw_hpd.c
-> index 3f13a744d07d..b11ed1089589 100644
-> --- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-> +++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-> @@ -62,7 +62,7 @@ static void dal_hw_hpd_destroy(
->         *ptr =3D NULL;
->  }
+> [...]
 >
-> -static enum gpio_result get_value(
-> +static enum gpio_result dal_hw_gpio_get_value(
->         const struct hw_gpio_pin *ptr,
->         uint32_t *value)
->  {
-> @@ -104,7 +104,7 @@ static enum gpio_result set_config(
->  static const struct hw_gpio_pin_funcs funcs =3D {
->         .destroy =3D dal_hw_hpd_destroy,
->         .open =3D dal_hw_gpio_open,
-> -       .get_value =3D get_value,
-> +       .get_value =3D dal_hw_gpio_get_value,
->         .set_value =3D dal_hw_gpio_set_value,
->         .set_config =3D set_config,
->         .change_mode =3D dal_hw_gpio_change_mode,
-> --
-> 2.43.0
+> > diff --git a/tools/testing/selftests/bpf/progs/dmabuf_iter.c b/tools/te=
+sting/selftests/bpf/progs/dmabuf_iter.c
+> > new file mode 100644
+> > index 000000000000..2a1b5397196d
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/bpf/progs/dmabuf_iter.c
+> > @@ -0,0 +1,53 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright (c) 2025 Google LLC */
+> > +#include <vmlinux.h>
+> > +#include <bpf/bpf_core_read.h>
+> > +#include <bpf/bpf_helpers.h>
+> > +
+> > +/* From uapi/linux/dma-buf.h */
+> > +#define DMA_BUF_NAME_LEN 32
+> > +
+> > +char _license[] SEC("license") =3D "GPL";
+> > +
+> > +/*
+> > + * Fields output by this iterator are delimited by newlines. Convert a=
+ny
+> > + * newlines in user-provided printed strings to spaces.
+> > + */
+> > +static void sanitize_string(char *src, size_t size)
+> > +{
+> > +       for (char *c =3D src; *c && (size_t)(c - src) < size; ++c)
 >
+> We should do the size check first, right? IOW:
+>
+> for (char *c =3D src; (size_t)(c - src) < size && *c; ++c)
+
+Yeah if you call the function with size =3D 0, which is kinda
+questionable and not possible with the non-zero array size that is
+tied to immutable UAPI. Let's change it like you suggest.
+
+
+>
+> > +               if (*c =3D=3D '\n')
+> > +                       *c =3D ' ';
+> > +}
+> > +
+> [...]
