@@ -2,35 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E363AB725E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430B8AB7287
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8646110E6A8;
-	Wed, 14 May 2025 17:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4187E10E6BA;
+	Wed, 14 May 2025 17:13:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L9XzHt3o";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BC810E6A8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 17:08:08 +0000 (UTC)
-Message-ID: <7a070692-c6e6-4dfa-aae8-5155988ca3eb@lankhorst.se>
-Date: Wed, 14 May 2025 19:07:59 +0200
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+ [209.85.166.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E3F10E6D2;
+ Wed, 14 May 2025 17:13:37 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id
+ ca18e2360f4ac-86135ae2a29so663731939f.2; 
+ Wed, 14 May 2025 10:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747242816; x=1747847616; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YfVONBHVtRTPlHRwr1fa3nrvIurV0bZBwrMg9aBjdsY=;
+ b=L9XzHt3ocilHIc5xFBET+FBWoMixbh2hX5ShIcOQ0LYoSDBUKZygxll49kYuvgENFw
+ zfHBN1Psvd6cpT189f8nR/WSDOU/OY5r5WPKN8V8hmAy3p2vtKwgq7y2FXyHcJOVIIS2
+ igsMe9chzs4HTzI3/rkxfSOkZZbkV7OOhToA8BzJ5iA0bjtK8jjEP6kGTd3X1M9YwR9x
+ BEamsRuDWdgFPK9MexbeBSSKl7Ldz2/QeE/fEUrUcmTVu2R8ZnpxWG0c7SqyZQA6Wo5I
+ 2rPDvb2aaz/p/m2m+hQrH3Ylqw2pUWVzFj8bRHKx6kgGcSuFftTsYSum5xtaXTYH+M3F
+ yyHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747242816; x=1747847616;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YfVONBHVtRTPlHRwr1fa3nrvIurV0bZBwrMg9aBjdsY=;
+ b=bq2F/nAkoJtdCKCxQyY+GYWwwcl6azvYUUFq/ocjnT8rrW+D3hwG3GG79uZT6/0mta
+ 7NNIxCFLopwW0d0+KoflivHhpDFvRG1QGeb4kZMVZ9pBW2S87ZYG9vCPXCuO28OpAonc
+ UCgNLAmeGKtzGkzH5yjy6kVuImIVeD7ZhQa3UUeuqbNjKFaSLM+JHjRNrAynDilLql4l
+ yek34KXj0HcH3ik/qtAG151lG/zVEgY6D+bzl20aDkK6wm8JjvSW42zRTXkpBT6PZ99i
+ EHSss7/FkKlATzQOkdhgZPg3M4ktYOlKDpZaIsXlbIT8k8DGP1TlF7cSmx+h8tmGuCK0
+ 9ykw==
+X-Gm-Message-State: AOJu0YwR+JHIoYbK5YGDuulAMfJDyCkKVXAvRkH6AK0oHThA2ekaoZtt
+ XVgqU9hbuTsJjGr0KoQkw7HJPgrusoJsxXPiGVHGWkTwBtrWteXnhjxiGd/e9YlWEw+xZWgg4dB
+ nuigSiyC+zh49CFcVu5Ha/qfSBERiQviq
+X-Gm-Gg: ASbGncuRyRxZSkAX8hNETCDagYblZTWIQSjVYfP6Khu1MgasEa1xjtg5V0NjIg7F6pI
+ zHomcXtkh7GIVAY6OqjfuGYaELYBgnfRLZHHoMSI4/foTLPkE+NErcz0vFEs+uc2mTN4otrS9g5
+ DGQBBCn2w0IuLh4gIUNq0k5Z5AFtlcph4u1ILEVvqp9cD3rLSerPdVlKzVc/tJrsw=
+X-Google-Smtp-Source: AGHT+IGdnAsVW3kt1rSy4GKPI8bMIOEfIFvsaubQbJQ7eRiduk9GI/aaU1w3nrEUXuN5lOaJKQ2zh99tpo1qR+67hEs=
+X-Received: by 2002:a05:6e02:1707:b0:3db:72f7:d7b3 with SMTP id
+ e9e14a558f8ab-3db72f7dc1dmr29424625ab.4.1747242815480; Wed, 14 May 2025
+ 10:13:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [5/7] ttm: add initial memcg integration. (v4)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
-Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
-References: <20250512061913.3522902-6-airlied@gmail.com>
- <ea70e6fa-22a1-4adc-927a-5e9c2563f784@lankhorst.se>
- <6a41fa3e-6ca7-4791-b491-4908971275a5@amd.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <6a41fa3e-6ca7-4791-b491-4908971275a5@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250514170118.40555-1-robdclark@gmail.com>
+In-Reply-To: <20250514170118.40555-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 14 May 2025 10:13:22 -0700
+X-Gm-Features: AX0GCFvpGGezYiytY2MOS6dtC60ihdSd-WE1u91XYjWUz5Y9tDHJIetJpvazfio
+Message-ID: <CAF6AEGvEsB9F4=qnSvQkiAGdn=60ae-uGLbZVf2qFwfGof2Nkw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/40] drm/msm: sparse / "VM_BIND" support
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Christopher Snowhill <chris@kode54.net>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, 
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Joao Martins <joao.m.martins@oracle.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Kevin Tian <kevin.tian@intel.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>, 
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nicolin Chen <nicolinc@nvidia.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Sean Paul <sean@poorly.run>,
+ Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,310 +105,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+hmm, looks like git-send-email died with a TLS error a quarter of the
+way thru this series.. I'll try to resend later
 
-On 2025-05-14 13:55, Christian König wrote:
-> On 5/14/25 13:41, Maarten Lankhorst wrote:
->> Hi Dave,
->>
->> We've had a small discussion on irc, so I wanted to summarize it here:
->>
->> All memory allocated should be accounted, even memory that is being
->> evicted from VRAM.
-> 
-> That sounds like a really bad idea to me.
-> 
->> This may cause the process that originally allocated
->> the VRAM to go over the memcg limit, that should be solved by invoking
->> OOM condition on the original process, which may have ways to solve it
->> like purging purgeable memory, or as last resort OOM killing.
-> 
-> You are basically suggesting to kill an application for something it never requested in the first place.
-> 
-> In other words when an application requested a buffer to be placed in VRAM we can't make it responsible that the buffer had to be moved to system memory because of over allocation.
-> 
-> As far as I can see and have discussed with others so far this approach is a clear no-go.
-There is absolutely no need to kill an application. You can set dmem limits in such a way that a buffer will never be evicted.
-Killing would be an absolute last resort, and only happens when maximum amount of memory is set.
+BR,
+-R
 
-Alternatively we could count memory in VRAM similar to swapped out memory, since it's just another placement of allocated memory. :)
-
-> 
-> 
->> The VRAM evicter is already memcg aware, so it should be possible to do
->> the same for the shrinker. I created a patch to use the same cgroup for
->> memcg as for dmem, we should probably extract the cgroup from mm->owner,
->> and create a function to charge dmemcg and memcg with a specified cgroup.
->>
->> For applications that use a centralised allocator, it might be needed to
->> charge a different cgroup when exporting.
->>
->> Kind regards,
->> Maarten
->>
->> On 2025-05-12 08:12, Dave Airlie wrote:
->>> From: Dave Airlie <airlied@redhat.com>
->>>
->>> Doing proper integration of TTM system memory allocations with
->>> memcg is a difficult ask, primarily due to difficulties around
->>> accounting for evictions properly.
->>>
->>> However there are systems where userspace will be allocating
->>> objects in system memory and they won't be prone to migrating
->>> or evicting and we should start with at least accounting those.
->>>
->>> This adds a memcg group to ttm bo and tt objects.
->>>
->>> This memcg is used when:
->>> a) when a tt is populated (and unpopulated)
->>> b) the TTM_PL_FLAG_MEMCG is set on the placement for the
->>> bo when the tt is allocated.
->>>
->>> The placement flag is set for all non-eviction placements.
->>>
->>> This version moves back from the resource to the tt layer,
->>> when accounting at the resource layer, if an object is swapped
->>> out there was no way to remove it from the accounting, whereas
->>> the tt layer has more info for this.
->>>
->>> v4: move back to the tt layer from the resource layer to
->>> handle swap, but keep the memcg charging hooks for now.
->>> v3: moves from having a flags on the op ctx to the using a
->>> placement flag.
->>> v2: moved the charging up a level and also no longer used
->>> __GFP_ACCOUNT, or attached the memcg to object pages, it instead
->>> uses the same approach as socket memory and just charges/uncharges
->>> at the object level. This was suggested by Christian.
->>>
->>> Signed-off-by: Dave Airlie <airlied@redhat.com>
->>> ---
->>>  drivers/gpu/drm/ttm/ttm_bo.c      |  6 ++++--
->>>  drivers/gpu/drm/ttm/ttm_bo_util.c |  6 +++---
->>>  drivers/gpu/drm/ttm/ttm_bo_vm.c   |  4 +++-
->>>  drivers/gpu/drm/ttm/ttm_tt.c      | 17 ++++++++++++++++-
->>>  include/drm/ttm/ttm_bo.h          |  7 +++++++
->>>  include/drm/ttm/ttm_placement.h   |  3 +++
->>>  include/drm/ttm/ttm_tt.h          |  9 ++++++++-
->>>  7 files changed, 44 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->>> index 5bf3c969907c..1630ef28e5a8 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->>> @@ -140,7 +140,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->>>  			goto out_err;
->>>  
->>>  		if (mem->mem_type != TTM_PL_SYSTEM) {
->>> -			ret = ttm_bo_populate(bo, ctx);
->>> +			ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, ctx);
->>>  			if (ret)
->>>  				goto out_err;
->>>  		}
->>> @@ -1237,6 +1237,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
->>>  /**
->>>   * ttm_bo_populate() - Ensure that a buffer object has backing pages
->>>   * @bo: The buffer object
->>> + * @memcg_account: account this memory with memcg if needed
->>>   * @ctx: The ttm_operation_ctx governing the operation.
->>>   *
->>>   * For buffer objects in a memory type whose manager uses
->>> @@ -1250,6 +1251,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
->>>   * is set to true.
->>>   */
->>>  int ttm_bo_populate(struct ttm_buffer_object *bo,
->>> +		    bool memcg_account,
->>>  		    struct ttm_operation_ctx *ctx)
->>>  {
->>>  	struct ttm_tt *tt = bo->ttm;
->>> @@ -1262,7 +1264,7 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
->>>  		return 0;
->>>  
->>>  	swapped = ttm_tt_is_swapped(tt);
->>> -	ret = ttm_tt_populate(bo->bdev, tt, ctx);
->>> +	ret = ttm_tt_populate(bo->bdev, tt, memcg_account, ctx);
->>>  	if (ret)
->>>  		return ret;
->>>  
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> index 15cab9bda17f..7d599d0707e4 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
->>>  	src_man = ttm_manager_type(bdev, src_mem->mem_type);
->>>  	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
->>>  		    dst_man->use_tt)) {
->>> -		ret = ttm_bo_populate(bo, ctx);
->>> +		ret = ttm_bo_populate(bo, dst_mem->placement & TTM_PL_FLAG_MEMCG, ctx);
->>>  		if (ret)
->>>  			return ret;
->>>  	}
->>> @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
->>>  
->>>  	BUG_ON(!ttm);
->>>  
->>> -	ret = ttm_bo_populate(bo, &ctx);
->>> +	ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
->>>  	if (ret)
->>>  		return ret;
->>>  
->>> @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
->>>  		pgprot_t prot;
->>>  		void *vaddr;
->>>  
->>> -		ret = ttm_bo_populate(bo, &ctx);
->>> +		ret = ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
->>>  		if (ret)
->>>  			return ret;
->>>  
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> index a194db83421d..02aea23a34e7 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> @@ -224,7 +224,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->>>  		};
->>>  
->>>  		ttm = bo->ttm;
->>> -		err = ttm_bo_populate(bo, &ctx);
->>> +		err = ttm_bo_populate(bo,
->>> +				      bo->resource->placement & TTM_PL_FLAG_MEMCG,
->>> +				      &ctx);
->>>  		if (err) {
->>>  			if (err == -EINTR || err == -ERESTARTSYS ||
->>>  			    err == -EAGAIN)
->>> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
->>> index 698cd4bf5e46..81c4cbbeb130 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_tt.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
->>> @@ -161,6 +161,7 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
->>>  	ttm->caching = caching;
->>>  	ttm->restore = NULL;
->>>  	ttm->backup = NULL;
->>> +	ttm->memcg = bo->memcg;
->>>  }
->>>  
->>>  int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
->>> @@ -365,7 +366,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->>>  EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
->>>  
->>>  int ttm_tt_populate(struct ttm_device *bdev,
->>> -		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
->>> +		    struct ttm_tt *ttm,
->>> +		    bool memcg_account_tt,
->>> +		    struct ttm_operation_ctx *ctx)
->>>  {
->>>  	int ret;
->>>  
->>> @@ -376,6 +379,14 @@ int ttm_tt_populate(struct ttm_device *bdev,
->>>  		return 0;
->>>  
->>>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
->>> +		if (ttm->memcg && memcg_account_tt) {
->>> +			gfp_t gfp_flags = GFP_USER;
->>> +			if (ctx->gfp_retry_mayfail)
->>> +				gfp_flags |= __GFP_RETRY_MAYFAIL;
->>> +			if (!mem_cgroup_charge_gpu(ttm->memcg, ttm->num_pages, gfp_flags))
->>> +				return -ENOMEM;
->>> +			ttm->page_flags |= TTM_TT_FLAG_ACCOUNTED;
->>> +		}
->>>  		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
->>>  		if (bdev->pool.use_dma32)
->>>  			atomic_long_add(ttm->num_pages,
->>> @@ -437,6 +448,10 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->>>  		ttm_pool_free(&bdev->pool, ttm);
->>>  
->>>  	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
->>> +		if (ttm->page_flags & TTM_TT_FLAG_ACCOUNTED) {
->>> +			mem_cgroup_uncharge_gpu(ttm->memcg, ttm->num_pages);
->>> +			ttm->page_flags &= ~TTM_TT_FLAG_ACCOUNTED;
->>> +		}
->>>  		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
->>>  		if (bdev->pool.use_dma32)
->>>  			atomic_long_sub(ttm->num_pages,
->>> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
->>> index 903cd1030110..d7c0dd9e0746 100644
->>> --- a/include/drm/ttm/ttm_bo.h
->>> +++ b/include/drm/ttm/ttm_bo.h
->>> @@ -135,6 +135,12 @@ struct ttm_buffer_object {
->>>  	 * reservation lock.
->>>  	 */
->>>  	struct sg_table *sg;
->>> +
->>> +	/**
->>> +	 * @memcg: memory cgroup to charge this to if it ends up using system memory.
->>> +	 * NULL means don't charge.
->>> +	 */
->>> +	struct mem_cgroup *memcg;
->>>  };
->>>  
->>>  #define TTM_BO_MAP_IOMEM_MASK 0x80
->>> @@ -486,6 +492,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
->>>  		     pgprot_t tmp);
->>>  void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
->>>  int ttm_bo_populate(struct ttm_buffer_object *bo,
->>> +		    bool memcg_account,
->>>  		    struct ttm_operation_ctx *ctx);
->>>  
->>>  /* Driver LRU walk helpers initially targeted for shrinking. */
->>> diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
->>> index b510a4812609..668798072292 100644
->>> --- a/include/drm/ttm/ttm_placement.h
->>> +++ b/include/drm/ttm/ttm_placement.h
->>> @@ -70,6 +70,9 @@
->>>  /* Placement is only used during eviction */
->>>  #define TTM_PL_FLAG_FALLBACK	(1 << 4)
->>>  
->>> +/* Placement causes memcg accounting */
->>> +#define TTM_PL_FLAG_MEMCG	(1 << 5)
->>> +
->>>  /**
->>>   * struct ttm_place
->>>   *
->>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
->>> index 406437ad674b..2790fc82edc3 100644
->>> --- a/include/drm/ttm/ttm_tt.h
->>> +++ b/include/drm/ttm/ttm_tt.h
->>> @@ -90,6 +90,8 @@ struct ttm_tt {
->>>  	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
->>>  	 * struct ttm_tt has been (possibly partially) backed up.
->>>  	 *
->>> +	 * TTM_TT_FLAG_ACCOUNTED: TTM internal. This tt has been accounted.
->>> +	 *
->>>  	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
->>>  	 * set by TTM after ttm_tt_populate() has successfully returned, and is
->>>  	 * then unset when TTM calls ttm_tt_unpopulate().
->>> @@ -101,8 +103,9 @@ struct ttm_tt {
->>>  #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
->>>  #define TTM_TT_FLAG_DECRYPTED		BIT(4)
->>>  #define TTM_TT_FLAG_BACKED_UP	        BIT(5)
->>> +#define TTM_TT_FLAG_ACCOUNTED	        BIT(6)
->>>  
->>> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
->>> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(7)
->>>  	uint32_t page_flags;
->>>  	/** @num_pages: Number of pages in the page array. */
->>>  	uint32_t num_pages;
->>> @@ -126,6 +129,8 @@ struct ttm_tt {
->>>  	enum ttm_caching caching;
->>>  	/** @restore: Partial restoration from backup state. TTM private */
->>>  	struct ttm_pool_tt_restore *restore;
->>> +	/** @memcg: Memory cgroup for this TT allocation */
->>> +	struct mem_cgroup *memcg;
->>>  };
->>>  
->>>  /**
->>> @@ -245,11 +250,13 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->>>   *
->>>   * @bdev: the ttm_device this object belongs to
->>>   * @ttm: Pointer to the ttm_tt structure
->>> + * @mem_account_tt: Account this population to the memcg
->>>   * @ctx: operation context for populating the tt object.
->>>   *
->>>   * Calls the driver method to allocate pages for a ttm
->>>   */
->>>  int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
->>> +		    bool mem_account_tt,
->>>  		    struct ttm_operation_ctx *ctx);
->>>  
->>>  /**
-> 
-
+On Wed, May 14, 2025 at 10:03=E2=80=AFAM Rob Clark <robdclark@gmail.com> wr=
+ote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
+> Memory[2] in the form of:
+>
+> 1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
+>    MAP_NULL/UNMAP commands
+>
+> 2. A new VM_BIND ioctl to allow submitting batches of one or more
+>    MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
+>
+> I did not implement support for synchronous VM_BIND commands.  Since
+> userspace could just immediately wait for the `SUBMIT` to complete, I don=
+'t
+> think we need this extra complexity in the kernel.  Synchronous/immediate
+> VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
+>
+> The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/mer=
+ge_requests/32533
+>
+> Changes in v4:
+> - Various locking/etc fixes
+> - Optimize the pgtable preallocation.  If userspace sorts the VM_BIND ops
+>   then the kernel detects ops that fall into the same 2MB last level PTD
+>   to avoid duplicate page preallocation.
+> - Add way to throttle pushing jobs to the scheduler, to cap the amount of
+>   potentially temporary prealloc'd pgtable pages.
+> - Add vm_log to devcoredump for debugging.  If the vm_log_shift module
+>   param is set, keep a log of the last 1<<vm_log_shift VM updates for
+>   easier debugging of faults/crashes.
+> - Link to v3: https://lore.kernel.org/all/20250428205619.227835-1-robdcla=
+rk@gmail.com/
+>
+> Changes in v3:
+> - Switched to seperate VM_BIND ioctl.  This makes the UABI a bit
+>   cleaner, but OTOH the userspace code was cleaner when the end result
+>   of either type of VkQueue lead to the same ioctl.  So I'm a bit on
+>   the fence.
+> - Switched to doing the gpuvm bookkeeping synchronously, and only
+>   deferring the pgtable updates.  This avoids needing to hold any resv
+>   locks in the fence signaling path, resolving the last shrinker related
+>   lockdep complaints.  OTOH it means userspace can trigger invalid
+>   pgtable updates with multiple VM_BIND queues.  In this case, we ensure
+>   that unmaps happen completely (to prevent userspace from using this to
+>   access free'd pages), mark the context as unusable, and move on with
+>   life.
+> - Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclar=
+k@gmail.com/
+>
+> Changes in v2:
+> - Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
+>   merged.
+> - Pre-allocate all the things, and drop HACK patch which disabled shrinke=
+r.
+>   This includes ensuring that vm_bo objects are allocated up front, pre-
+>   allocating VMA objects, and pre-allocating pages used for pgtable updat=
+es.
+>   The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, th=
+at
+>   were initially added for panthor.
+> - Add back support for BO dumping for devcoredump.
+> - Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.4105=
+56-1-robdclark@gmail.com/T/#t
+>
+> [1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
+> [2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
+> [3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=3D=
+909700
+>
+> Rob Clark (40):
+>   drm/gpuvm: Don't require obj lock in destructor path
+>   drm/gpuvm: Allow VAs to hold soft reference to BOs
+>   drm/gem: Add ww_acquire_ctx support to drm_gem_lru_scan()
+>   drm/sched: Add enqueue credit limit
+>   iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
+>   drm/msm: Rename msm_file_private -> msm_context
+>   drm/msm: Improve msm_context comments
+>   drm/msm: Rename msm_gem_address_space -> msm_gem_vm
+>   drm/msm: Remove vram carveout support
+>   drm/msm: Collapse vma allocation and initialization
+>   drm/msm: Collapse vma close and delete
+>   drm/msm: Don't close VMAs on purge
+>   drm/msm: drm_gpuvm conversion
+>   drm/msm: Convert vm locking
+>   drm/msm: Use drm_gpuvm types more
+>   drm/msm: Split out helper to get iommu prot flags
+>   drm/msm: Add mmu support for non-zero offset
+>   drm/msm: Add PRR support
+>   drm/msm: Rename msm_gem_vma_purge() -> _unmap()
+>   drm/msm: Drop queued submits on lastclose()
+>   drm/msm: Lazily create context VM
+>   drm/msm: Add opt-in for VM_BIND
+>   drm/msm: Mark VM as unusable on GPU hangs
+>   drm/msm: Add _NO_SHARE flag
+>   drm/msm: Crashdump prep for sparse mappings
+>   drm/msm: rd dumping prep for sparse mappings
+>   drm/msm: Crashdec support for sparse
+>   drm/msm: rd dumping support for sparse
+>   drm/msm: Extract out syncobj helpers
+>   drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
+>   drm/msm: Add VM_BIND submitqueue
+>   drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
+>   drm/msm: Support pgtable preallocation
+>   drm/msm: Split out map/unmap ops
+>   drm/msm: Add VM_BIND ioctl
+>   drm/msm: Add VM logging for VM_BIND updates
+>   drm/msm: Add VMA unmap reason
+>   drm/msm: Add mmu prealloc tracepoint
+>   drm/msm: use trylock for debugfs
+>   drm/msm: Bump UAPI version
+>
+>  drivers/gpu/drm/drm_gem.c                     |   14 +-
+>  drivers/gpu/drm/drm_gpuvm.c                   |   15 +-
+>  drivers/gpu/drm/msm/Kconfig                   |    1 +
+>  drivers/gpu/drm/msm/Makefile                  |    1 +
+>  drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
+>  drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
+>  drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
+>  drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   99 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
+>  .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   14 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   18 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   14 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    4 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   12 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   12 +-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
+>  drivers/gpu/drm/msm/msm_drv.c                 |  184 +--
+>  drivers/gpu/drm/msm/msm_drv.h                 |   35 +-
+>  drivers/gpu/drm/msm/msm_fb.c                  |   18 +-
+>  drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
+>  drivers/gpu/drm/msm/msm_gem.c                 |  494 +++---
+>  drivers/gpu/drm/msm/msm_gem.h                 |  247 ++-
+>  drivers/gpu/drm/msm/msm_gem_prime.c           |   15 +
+>  drivers/gpu/drm/msm/msm_gem_shrinker.c        |  104 +-
+>  drivers/gpu/drm/msm/msm_gem_submit.c          |  295 ++--
+>  drivers/gpu/drm/msm/msm_gem_vma.c             | 1471 ++++++++++++++++-
+>  drivers/gpu/drm/msm/msm_gpu.c                 |  214 ++-
+>  drivers/gpu/drm/msm/msm_gpu.h                 |  144 +-
+>  drivers/gpu/drm/msm/msm_gpu_trace.h           |   14 +
+>  drivers/gpu/drm/msm/msm_iommu.c               |  302 +++-
+>  drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
+>  drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
+>  drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
+>  drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.c          |   10 +-
+>  drivers/gpu/drm/msm/msm_submitqueue.c         |   96 +-
+>  drivers/gpu/drm/msm/msm_syncobj.c             |  172 ++
+>  drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
+>  drivers/gpu/drm/scheduler/sched_entity.c      |   16 +-
+>  drivers/gpu/drm/scheduler/sched_main.c        |    3 +
+>  drivers/iommu/io-pgtable-arm.c                |   27 +-
+>  include/drm/drm_gem.h                         |   10 +-
+>  include/drm/drm_gpuvm.h                       |   12 +-
+>  include/drm/gpu_scheduler.h                   |   13 +-
+>  include/linux/io-pgtable.h                    |    8 +
+>  include/uapi/drm/msm_drm.h                    |  149 +-
+>  63 files changed, 3484 insertions(+), 1251 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
+>  create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
+>
+> --
+> 2.49.0
+>
