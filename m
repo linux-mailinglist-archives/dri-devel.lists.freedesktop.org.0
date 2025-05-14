@@ -2,60 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0398CAB7785
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 23:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D17BAB77AF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 23:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF68310E743;
-	Wed, 14 May 2025 21:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A490310E742;
+	Wed, 14 May 2025 21:08:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X6TEX1oP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lUju4G0d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FEB10E743;
- Wed, 14 May 2025 21:04:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9E8D1629E1;
- Wed, 14 May 2025 21:04:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B46C4CEED;
- Wed, 14 May 2025 21:04:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747256649;
- bh=nBKq0fnl7GX0Xdg3KAXTnjZGOSVlR3+3JM+SvFRRZRM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X6TEX1oPBZVhaInSUt889t/j6ZeYnPaOWwM42ijIRu1qRj/1EgRC1WHbWos/7iN7d
- W9wrBO8tLC5hJ0kbZ7sqD/mzFKOf3w8w6xr6XOCC35J3H6nb0pFQRRuxYAlZBXBgyq
- NUKWiomaUZhk3swQWfvr+mZSf/3NPiaeBHVG69OZ0mRuKm+ofsi2OH/CybMOKYaxRn
- gxYFKLoW+yf+ybaboqjpa7oo9wD88K4hEtAid4Ihtg8eT7eo4IIowSW1okzkvW5462
- dQua3x9UQwR+Xi8W1uUiBGqM07T8A2bQXuiMTqTk/rk4g3rBvfrjIhvonrhpgYhCyY
- gnfOuYOaB2dgA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v4 0/7] drm/msm/mdp4: rework LVDS/LCDC panel
- support
-Date: Wed, 14 May 2025 22:03:44 +0100
-Message-ID: <174725663055.90041.6507924250877502931.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250425-fd-mdp4-lvds-v4-0-6b212160b44c@oss.qualcomm.com>
-References: <20250425-fd-mdp4-lvds-v4-0-6b212160b44c@oss.qualcomm.com>
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3099210E742;
+ Wed, 14 May 2025 21:08:00 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-b1faa09bae7so23069a12.1; 
+ Wed, 14 May 2025 14:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747256880; x=1747861680; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lx4Dn1t84Y1ja4KtBsaQ9M4LGHTcfm3gj7O9Xg07aZQ=;
+ b=lUju4G0dXTtqfex7tvN/gln2TPZdDZVqLLuQr0nd1rXNXlDCKcqwdcc5CmHHk7qcrv
+ M7ckrsryooa8Gm/5jWbK2CBN1nwmqdRZnHdpZJdqXvFBqrWR8lN4DK4ocdNJKK7exEf5
+ Tdg9WsnDecjHdzGpc0wucTys6rko1ykjE2lQioVWMLJQywgroHmzO0CmCJ5sXkcduRnA
+ 4I8N0e6iWnBaWaM0x9hTb4ScIRvz/8vunxAQ1keWSMWX5hwVR3ZjEnAo8fosmlwPt8lu
+ VTXoVLdsCDSd/f59Ud+Zo/Vyg9B5/JHYefe6Ew9TtEZXcf3S0HhZxkiSSdzwkJQQcluF
+ iyeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747256880; x=1747861680;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lx4Dn1t84Y1ja4KtBsaQ9M4LGHTcfm3gj7O9Xg07aZQ=;
+ b=tGNDGsAHTXTYwoct8my1Net2ruS01Z1Cz+x1rb16YOn1BeRhjLAPONmG/XQKq2r7vA
+ LYB7CiIm4FTj1ChY481SHNOlDgWrsiLrKJeNCe1fyub+rBjUdCsoefvAfIMrlLZogTnq
+ 8cuV1ulEWsHl6pHVCpCRgSg4ipfatujwF2M+LTyCePpnR7++DPXIJ8BopJk6Q1m4k8Iv
+ NxJCuKtWWnN3+CkUwOqS5uVMqiSWJnHqQ1OTPpCXeKW5EIroSXUciv5VmAqWtOh7XXcT
+ r+asOpz9V5AnAwHflDOWQxNecHapBAIoVdtj7ovVQz8kIAmn/dPMiD/NaL4/rTfISDZ+
+ /AYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWflULdp35zPWWJVTRHOs0sMaYpm+XRTanhZ1wTYGk9PG5F8DHMkBv2nejNeK8lUCf2JMQ5y1LD@lists.freedesktop.org,
+ AJvYcCWiRs4jsgQiaE0hyCV64VhgT3byrW4xUdXA6MOz+pF6xy5Jzyn0RvfJwrys0e6qc+ckbaNguSgow05+@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdSt3VNIvU1U7LxIW7GeFIyXxRRiNrT5Xsd3B28stBbOKwELFB
+ H2hdOTrT6fo6utK684cKDxMGfLrHtWQ44t2VaDOrLVXSYezVfBBcaI9sd60yezvqAjFe5uWbV89
+ Sss7EhXJa01uHQRGehLs1ubxRt6Q=
+X-Gm-Gg: ASbGncuUhoHOldQKN0KIdoGle//xJihcVpU4ZVgy01ttQyF2/+2E7IJdVHRUT9W367R
+ 1OcEwU5NxWDr4bLSawyIqQ9ypqAz7tmQ5Y/NLAhgDHq0zE5XR+auYzrno3iOxfTAMKzOkN3qOmj
+ xZYvrt38jzZeVUzgSLNolUucNPBl5ZJmss
+X-Google-Smtp-Source: AGHT+IGBU4AnxaGdz3+W/aZ/NsTQmZSGDLIi9hu4RjfGwB+OV3yHSxSABfZO+2VHj6lusvHJdZvi0Bis/Bvqs6c+QUk=
+X-Received: by 2002:a17:903:2a8d:b0:230:413c:d46b with SMTP id
+ d9443c01a7336-2319813852amr29202835ad.6.1747256879647; Wed, 14 May 2025
+ 14:07:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
+In-Reply-To: <20250514174306.82693-1-leonardodasigomes@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 14 May 2025 17:07:48 -0400
+X-Gm-Features: AX0GCFunWWT3CDxNB8ETZKOU5bde5b4Ig1OLZGL5DpGwcWxDzL3eZnVxm427R20
+Message-ID: <CADnq5_OEdpRvpfL9+aCQOfRGUW-vOGzXq3ts5buWXoOTxtHr6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
+ with prefix to help in ftrace
+To: Leonardo Gomes <leonardodasigomes@gmail.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
+ derick.william.moraes@gmail.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +87,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, May 14, 2025 at 4:48=E2=80=AFPM Leonardo Gomes
+<leonardodasigomes@gmail.com> wrote:
+>
+> Adjust get_value function in hw_hpd.c file to have
+> prefix to help in ftrace, the name change from
+> 'get_value' to 'dal_hw_gpio_get_value'
 
-On Fri, 25 Apr 2025 12:51:50 +0300, Dmitry Baryshkov wrote:
-> The LCDC controller uses pixel clock provided by the multimedia clock
-> controller (mmcc) instead of using LVDS PHY clock directly. Link LVDS
-> clocks properly, taking MMCC into account.
-> 
-> MDP4 uses custom code to handle LVDS panel. It predates handling
-> EPROBE_DEFER, it tries to work when the panel device is not available,
-> etc. Switch MDP4 LCDC code to use drm_panel_bridge/drm_bridge_connector
-> to follow contemporary DRM practices.
-> 
-> [...]
+This won't compile.  dal_hw_gpio_get_value is already defined in
+drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c.
 
-Applied, thanks!
+Alex
 
-[7/7] arm: dts: qcom: apq8064: link LVDS clocks
-      commit: d8dc4889afc92bd8757fcab607b734c684fce167
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+>
+> Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
+> Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
+> Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gpu/d=
+rm/amd/display/dc/gpio/hw_hpd.c
+> index 3f13a744d07d..b11ed1089589 100644
+> --- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> +++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> @@ -62,7 +62,7 @@ static void dal_hw_hpd_destroy(
+>         *ptr =3D NULL;
+>  }
+>
+> -static enum gpio_result get_value(
+> +static enum gpio_result dal_hw_gpio_get_value(
+>         const struct hw_gpio_pin *ptr,
+>         uint32_t *value)
+>  {
+> @@ -104,7 +104,7 @@ static enum gpio_result set_config(
+>  static const struct hw_gpio_pin_funcs funcs =3D {
+>         .destroy =3D dal_hw_hpd_destroy,
+>         .open =3D dal_hw_gpio_open,
+> -       .get_value =3D get_value,
+> +       .get_value =3D dal_hw_gpio_get_value,
+>         .set_value =3D dal_hw_gpio_set_value,
+>         .set_config =3D set_config,
+>         .change_mode =3D dal_hw_gpio_change_mode,
+> --
+> 2.43.0
+>
