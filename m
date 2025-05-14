@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A5AB6854
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 12:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B499AB6858
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 12:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2A010E607;
-	Wed, 14 May 2025 10:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924C910E605;
+	Wed, 14 May 2025 10:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Am3ybjKg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NFi/spBl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7B6510E5FD;
- Wed, 14 May 2025 10:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=e9DzE2b+0+EPHIGM4XP87LuxDvJ8yQfz8YtW+QxjxY8=; b=Am3ybjKgdpTXQq8oTBxlNJpuNd
- KuA4pYUPdX3VLAvjbxwLWXBzNCbmnD2bjO6Cywlb55oQpZRDAm6MvPolrT5c7J91skpX3o6JlUUTL
- lzL1TF8g5NqjG9+NTB0bFMGHOAPKlU0r41+vN/TDMbJwo9q0cfIJiqIgPQaNmmBQ5+NpIFvM9IAqq
- oM5cMwetKMcv/P4Tx3kCgqz2AA/0kBTr5XuNho08+mCWviiAGDKg/5+0f3eeeBfqSHgDIlKYNCDYB
- xYwypK6uQdB08anq6KfupQYoBgHBtYIqst6TiwdZILPvuExAAIxe8b9HEwlcytOwnFNvjhIm/3Odb
- g/e8BIpA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uF8qL-0085Qn-O6; Wed, 14 May 2025 12:01:49 +0200
-Message-ID: <dddebe25-9fe2-4c3d-89ee-c90168b5a017@igalia.com>
-Date: Wed, 14 May 2025 11:01:48 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B255810E605;
+ Wed, 14 May 2025 10:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747216941; x=1778752941;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=UXRLkDs26YY6vFRUpaW/DVAkJeIn/T6ufMpMC6bqkn8=;
+ b=NFi/spBlUt5t15H3xYVIjlNkKjjhmpn+XpigO5nbIJx6CgAxAvXrSWf4
+ Rjtx5eXa2GPcoGdQSE7t6Hn2u2NuAYpTRJlO9H2/kzy87k4/gFyVGA02u
+ Zd35evE0Dk7HLXoeB9YAmj4xzEpywTJMvapjXfB02evWSLGOYe1P0mull
+ J/mOl2oB9XetOW0txraC8/0VigJNAiG8rax3fqxZYiagvAaNY2HBf84aQ
+ Nieq6mxw3l+ilS86bg4rhwWPRehl5qv2/ebUIWBJF6U1o1jZTxvYdAQ/0
+ AWS0nnK+QRRsXHyGG5Chck9laXCPfiLKQaPONYuwfeaa+6jeGUekj20Sc g==;
+X-CSE-ConnectionGUID: a0nRQMzhSvyUanJHGjq2Aw==
+X-CSE-MsgGUID: wi3SwAIWTz2du9kLvRjxZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="60114881"
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="60114881"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2025 03:02:21 -0700
+X-CSE-ConnectionGUID: 8uphkAXMTLeFgnb7iERznA==
+X-CSE-MsgGUID: JtLDhiwkS2qmi4ro9z0BbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="142024096"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.180])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2025 03:02:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: ville.syrjala@linux.intel.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] Revert "drm/i915/dp: Reject HBR3 when sink doesn't
+ support TPS4"
+In-Reply-To: <20250514084356.1558407-2-ankit.k.nautiyal@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250514084356.1558407-1-ankit.k.nautiyal@intel.com>
+ <20250514084356.1558407-2-ankit.k.nautiyal@intel.com>
+Date: Wed, 14 May 2025 13:02:16 +0300
+Message-ID: <87v7q3h5nb.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 10/13] dma-fence: Add safe access helpers and document
- the rules
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com, Rob Clark <robdclark@chromium.org>
-References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
- <20250509153352.7187-11-tvrtko.ursulin@igalia.com>
- <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <CAF6AEGuOC4NnSTQexvD5tk8VLfOR_gGq-cqs3gnJcS1qNtMjQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,239 +71,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 14 May 2025, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
+> This reverts commit 584cf613c24a4250d9be4819efc841aa2624d5b6.
+>
+> Some eDP panels support HBR3 but not TPS4 and rely on a fixed mode that
+> requires HBR3. After the original commit, these panels go blank due to
+> the rejection of HBR3.
+>
+> To restore functionality for such panels, this commit reverts the change.
 
-On 13/05/2025 15:16, Rob Clark wrote:
-> On Fri, May 9, 2025 at 8:34 AM Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->>
->> Dma-fence objects currently suffer from a potential use after free problem
->> where fences exported to userspace and other drivers can outlive the
->> exporting driver, or the associated data structures.
->>
->> The discussion on how to address this concluded that adding reference
->> counting to all the involved objects is not desirable, since it would need
->> to be very wide reaching and could cause unloadable drivers if another
->> entity would be holding onto a signaled fence reference potentially
->> indefinitely.
->>
->> This patch enables the safe access by introducing and documenting a
->> contract between fence exporters and users. It documents a set of
->> contraints and adds helpers which a) drivers with potential to suffer from
->> the use after free must use and b) users of the dma-fence API must use as
->> well.
->>
->> Premise of the design has multiple sides:
->>
->> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
->> signalling a fence and freeing the driver private data associated with it.
->>
->> The grace period does not have to follow the signalling immediately but
->> HAS to happen before data is freed.
->>
->> 2. Users of the dma-fence API marked with such requirement MUST contain
->> the complete access to the data within a single code block guarded by the
->> new dma_fence_access_begin() and dma_fence_access_end() helpers.
->>
->> The combination of the two ensures that whoever sees the
->> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
->> valid fence->lock and valid data potentially accessed by the fence->ops
->> virtual functions, until the call to dma_fence_access_end().
->>
->> 3. Module unload (fence->ops) disappearing is for now explicitly not
->> handled. That would required a more complex protection, possibly needing
->> SRCU instead of RCU to handle callers such as dma_fence_wait_timeout(),
->> where race between dma_fence_enable_sw_signaling, signalling, and
->> dereference of fence->ops->wait() would need a sleeping SRCU context.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> ---
->>   drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++++++++++++++
->>   include/linux/dma-fence.h   | 32 ++++++++++++-----
->>   2 files changed, 93 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index dc2456f68685..cfe1d7b79c22 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -533,6 +533,7 @@ void dma_fence_release(struct kref *kref)
->>          struct dma_fence *fence =
->>                  container_of(kref, struct dma_fence, refcount);
->>
->> +       dma_fence_access_begin();
->>          trace_dma_fence_destroy(fence);
->>
->>          if (WARN(!list_empty(&fence->cb_list) &&
->> @@ -560,6 +561,8 @@ void dma_fence_release(struct kref *kref)
->>                  fence->ops->release(fence);
->>          else
->>                  dma_fence_free(fence);
->> +
->> +       dma_fence_access_end();
->>   }
->>   EXPORT_SYMBOL(dma_fence_release);
->>
->> @@ -982,11 +985,13 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
->>    */
->>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>   {
->> +       dma_fence_access_begin();
->>          seq_printf(seq, "%s %s seq %llu %ssignalled\n",
->>                     dma_fence_driver_name(fence),
->>                     dma_fence_timeline_name(fence),
->>                     fence->seqno,
->>                     dma_fence_is_signaled(fence) ? "" : "un");
->> +       dma_fence_access_end();
->>   }
->>   EXPORT_SYMBOL(dma_fence_describe);
->>
->> @@ -1033,3 +1038,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>          __set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
->>   }
->>   EXPORT_SYMBOL(dma_fence_init64);
->> +
->> +/**
->> + * dma_fence_driver_name - Access the driver name
->> + * @fence: the fence to query
->> + *
->> + * Returns a driver name backing the dma-fence implementation.
->> + *
->> + * IMPORTANT CONSIDERATION:
->> + * Dma-fence contract stipulates that access to driver provided data (data not
->> + * directly embedded into the object itself), such as the &dma_fence.lock and
->> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
->> + * after the fence has been signalled. Drivers are allowed to free that data,
->> + * and some do.
->> + *
->> + * To allow safe access drivers are mandated to guarantee a RCU grace period
->> + * between signalling the fence and freeing said data.
->> + *
->> + * As such access to the driver name is only valid inside a RCU locked section.
->> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
->> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
->> + */
->> +const char *dma_fence_driver_name(struct dma_fence *fence)
->> +{
->> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->> +                        "rcu_read_lock() required for safe access to returned string");
->> +
->> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->> +               return fence->ops->get_driver_name(fence);
->> +       else
->> +               return "detached-driver";
->> +}
->> +EXPORT_SYMBOL(dma_fence_driver_name);
->> +
->> +/**
->> + * dma_fence_timeline_name - Access the timeline name
->> + * @fence: the fence to query
->> + *
->> + * Returns a timeline name provided by the dma-fence implementation.
->> + *
->> + * IMPORTANT CONSIDERATION:
->> + * Dma-fence contract stipulates that access to driver provided data (data not
->> + * directly embedded into the object itself), such as the &dma_fence.lock and
->> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
->> + * after the fence has been signalled. Drivers are allowed to free that data,
->> + * and some do.
->> + *
->> + * To allow safe access drivers are mandated to guarantee a RCU grace period
->> + * between signalling the fence and freeing said data.
->> + *
->> + * As such access to the driver name is only valid inside a RCU locked section.
->> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
->> + * by the &dma_fence_access_being and &dma_fence_access_end pair.
->> + */
->> +const char *dma_fence_timeline_name(struct dma_fence *fence)
->> +{
->> +       RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->> +                        "rcu_read_lock() required for safe access to returned string");
->> +
->> +       if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->> +               return fence->ops->get_driver_name(fence);
->> +       else
->> +               return "signaled-timeline";
-> 
-> This means that trace_dma_fence_signaled() will get the wrong
-> timeline/driver name, which probably screws up perfetto and maybe
-> other tools.
+Which panels? References? Bugs?
 
-Do you think context and seqno are not enough for those tools and they 
-actually rely on the names? It would sound weird if they decided to 
-index anything on the names which are non-standardised between drivers, 
-but I guess anything is possible.
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/5969
 
-> Maybe it would work well enough just to move the
-> trace_dma_fence_signaled() call ahead of the test_and_set_bit()?  Idk
-> if some things will start getting confused if they see that trace
-> multiple times.
+This is a reference to a bug that got closed by the commit being
+reverted. This now breaks it again, can't use the Closes: tag here.
 
-Another alternative is to make this tracepoint access the names 
-directly. It is under the lock so guaranteed not to get freed with 
-drivers which will be made compliant with the documented rules.
+Since the original commit was backported to stable, I think we're
+probably going to be screwed if we do the revert + fix in two
+steps. Maybe we want a fix in one go, and backport that to stable. Idk.
 
-Regards,
+BR,
+Jani.
 
-Tvrtko
 
-> 
-> Maybe a better solution would be to add a new bit for this purpose,
-> which is set after the tracepoint in
-> dma_fence_signal_timestamp_locked().
-> 
-> (trace_dma_fence_destroy() will I guess be messed up regardless.. it
-> doesn't look like perfetto cares about this tracepoint, so maybe that
-> is ok.  It doesn't seem so useful.)
-> 
-> BR,
-> -R
-> 
-> 
->> +}
->> +EXPORT_SYMBOL(dma_fence_timeline_name);
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index c814a86087f8..c8a9915eb360 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -387,15 +387,31 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
->>                                 struct dma_fence_cb *cb);
->>   void dma_fence_enable_sw_signaling(struct dma_fence *fence);
->>
->> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
->> -{
->> -       return fence->ops->get_driver_name(fence);
->> -}
->> +/**
->> + * DOC: Safe external access to driver provided object members
->> + *
->> + * All data not stored directly in the dma-fence object, such as the
->> + * &dma_fence.lock and memory potentially accessed by functions in the
->> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
->> + * because after that point drivers are allowed to free it.
->> + *
->> + * All code accessing that data via the dma-fence API (or directly, which is
->> + * discouraged), MUST make sure to contain the complete access within a
->> + * &dma_fence_access_begin and &dma_fence_access_end pair.
->> + *
->> + * Some dma-fence API handles this automatically, while other, as for example
->> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
->> + * responsibility to the caller.
->> + *
->> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
->> + * between signalling the fence and freeing the said data.
->> + *
->> + */
->> +#define dma_fence_access_begin rcu_read_lock
->> +#define dma_fence_access_end   rcu_read_unlock
->>
->> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
->> -{
->> -       return fence->ops->get_timeline_name(fence);
->> -}
->> +const char *dma_fence_driver_name(struct dma_fence *fence);
->> +const char *dma_fence_timeline_name(struct dma_fence *fence);
->>
->>   /**
->>    * dma_fence_is_signaled_locked - Return an indication if the fence
->> --
->> 2.48.0
->>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 49 ++++---------------------
+>  1 file changed, 7 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 91a34d474463..97cf80372264 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -175,28 +175,10 @@ int intel_dp_link_symbol_clock(int rate)
+>  
+>  static int max_dprx_rate(struct intel_dp *intel_dp)
+>  {
+> -	struct intel_display *display = to_intel_display(intel_dp);
+> -	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> -	int max_rate;
+> -
+>  	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
+> -		max_rate = drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
+> -	else
+> -		max_rate = drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
+> +		return drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
+>  
+> -	/*
+> -	 * Some broken eDP sinks illegally declare support for
+> -	 * HBR3 without TPS4, and are unable to produce a stable
+> -	 * output. Reject HBR3 when TPS4 is not available.
+> -	 */
+> -	if (max_rate >= 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
+> -		drm_dbg_kms(display->drm,
+> -			    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
+> -			    encoder->base.base.id, encoder->base.name);
+> -		max_rate = 540000;
+> -	}
+> -
+> -	return max_rate;
+> +	return drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
+>  }
+>  
+>  static int max_dprx_lane_count(struct intel_dp *intel_dp)
+> @@ -4272,9 +4254,6 @@ static void intel_edp_mso_init(struct intel_dp *intel_dp)
+>  static void
+>  intel_edp_set_sink_rates(struct intel_dp *intel_dp)
+>  {
+> -	struct intel_display *display = to_intel_display(intel_dp);
+> -	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> -
+>  	intel_dp->num_sink_rates = 0;
+>  
+>  	if (intel_dp->edp_dpcd[0] >= DP_EDP_14) {
+> @@ -4285,7 +4264,10 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
+>  				 sink_rates, sizeof(sink_rates));
+>  
+>  		for (i = 0; i < ARRAY_SIZE(sink_rates); i++) {
+> -			int rate;
+> +			int val = le16_to_cpu(sink_rates[i]);
+> +
+> +			if (val == 0)
+> +				break;
+>  
+>  			/* Value read multiplied by 200kHz gives the per-lane
+>  			 * link rate in kHz. The source rates are, however,
+> @@ -4293,24 +4275,7 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
+>  			 * back to symbols is
+>  			 * (val * 200kHz)*(8/10 ch. encoding)*(1/8 bit to Byte)
+>  			 */
+> -			rate = le16_to_cpu(sink_rates[i]) * 200 / 10;
+> -
+> -			if (rate == 0)
+> -				break;
+> -
+> -			/*
+> -			 * Some broken eDP sinks illegally declare support for
+> -			 * HBR3 without TPS4, and are unable to produce a stable
+> -			 * output. Reject HBR3 when TPS4 is not available.
+> -			 */
+> -			if (rate >= 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
+> -				drm_dbg_kms(display->drm,
+> -					    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
+> -					    encoder->base.base.id, encoder->base.name);
+> -				break;
+> -			}
+> -
+> -			intel_dp->sink_rates[i] = rate;
+> +			intel_dp->sink_rates[i] = (val * 200) / 10;
+>  		}
+>  		intel_dp->num_sink_rates = i;
+>  	}
 
+-- 
+Jani Nikula, Intel
