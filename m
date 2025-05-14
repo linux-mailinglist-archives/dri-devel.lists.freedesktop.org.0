@@ -2,118 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223B8AB75DB
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 21:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7C1AB7652
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 22:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D6710E6F2;
-	Wed, 14 May 2025 19:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23AFA10E63B;
+	Wed, 14 May 2025 20:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BCUubKSw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TlSOT3Al";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56FDB10E700
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 19:25:24 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EJAC11003112
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 19:25:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=guHnDjTo7eaE/yughOao688D
- Svp7ZoZj4rGyk6Vz4vg=; b=BCUubKSwIOu6HQnrADk5Mgq6zf5I997Ecg93/dmd
- xd1QBGAMiLWOXQ1bqg/HCb24sbvcH+e9XL7EU38I7WpU4Nir5OBKVfE4pOi3fY6d
- du7y5imUF/1Q/Q25GZt3Qr4hWnb9idQAu+vUT51+yoryQ8QAPxd8p4qX6iLnLNnI
- BbVc9HIiTqReQ/R0PfLN+0D8f8VSdfG579608VqC9EWvsUMFfQ2Qp/muTlahieWg
- nAoIbPnEGB5puSTqSF9xeiVrBQbuPUGVNUJ+nvyNBvhkpgKAlAfRtYub1ZS2T5Bi
- dGlKA20ShaX/St5TEZyci0yr4FyBD5YWDGITJdQA44ACdQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcrbt9v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 19:25:23 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c5750ca8b2so14238385a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 12:25:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747250722; x=1747855522;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CD110E710;
+ Wed, 14 May 2025 20:03:09 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3d91db4f0c3so960895ab.3; 
+ Wed, 14 May 2025 13:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747252988; x=1747857788; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=guHnDjTo7eaE/yughOao688DSvp7ZoZj4rGyk6Vz4vg=;
- b=f0um/7Y9mkS3nmqrc+VvvcLp/1V5BG8QoHfqbRyEgEtTP7T4kMQ5Q/uCZe+APujpXy
- /1hq+vfbnL1KLhj9QcGGGnSNV/BKicpwtlmRZlNsuEMHgsf4ejEz7UcKOgMg80pqr5rP
- ATGZQpuOjQEgQU9/Bn14G7vX3x+iEsWASCJQL76j+yNPUZu0Mw2tAqVBVABWIxkH+C7z
- EDKeq9+x4pp2/yaxewtyWhwt6nlKHf6tXOm9I+PVxJkX5zWZu8a7jx+SqgLsbmAMPn+r
- CNeC4wzep/V4k8pFRVsPVlcVflAHELXbkD1ROGffoqRFNdFN82zVBlhvAZ+6pGzDHOR5
- wXtQ==
+ bh=f1E2sT5R2SmFJKKgIXZwDEjvPjG1MOjyIT8KeOeX6Ys=;
+ b=TlSOT3AlDhKkfSyYAgg1SUWYF/DjDY7Rf/c6Tm9dJT/KWDSpY1l/sAA60bJULwZln5
+ kteXBAvATWzdbXMWv3IZb5m6sHM78rJ2JhWAQYwOBWMmVgUBf9pbdYgq8RFvsnOb5YVo
+ IFWsGtmIstapj+vpne+HhaznIGY48bAjoDlgyg5SlHoDIxSG6xt7JUOx5GpjkCqOYZDr
+ uGi9b3/1O4FTo7mYZ41w02eQycq6JhpSxDbELl9sOjRQsUw3qCT6iryCv1EV45mOMm36
+ dKaJA9Si2uL98TOeDii0sw5TXYBoPJD1UH8qitRwezFJrOXZ+2IcJdxgi64w4uwMbgN0
+ Q2pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747252988; x=1747857788;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f1E2sT5R2SmFJKKgIXZwDEjvPjG1MOjyIT8KeOeX6Ys=;
+ b=fiG0VtaSoODRe4fpf5hnGEkru9JVEK15oZyXFixSDcUoqclhZ1OpJRzaA6q6GcaUXA
+ FaKmOXoiwWre0OlQ2XcMTiSuVyeuZz0j59RQ7PBEBOP+tfRQVWJZDI1aZE4lMe9bOpP/
+ YVp7LZizJf4ZtN6QIYTp8o9cK+AmpYo1i+qdJDzAut6GkM/OhmpcQcfP0gLxSZtvANd4
+ NOz6Ye1gamt2RR+C9zyXmuRUIV8uzUiDyS/BcOM7klx0NXTa7P70EJwKE+x2BhT2NOie
+ ehP4gpLjK9EYSUGRjhfRvsz0uLC8yRxYJnOd+T4DJzfL0WZO2Camjjr45I5abnZ/btuN
+ phbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVFtidKsCZ0W1b2CexLLEWrARXt55zKdZ8i04RSKgZMjc8CGED0yFX3foXRwQLzqqpMRHKroczi5X4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIn3kaxcDKMr2tX/dR9aktkKKKEb1cLlvF8DUvSCnMQbd4++kX
- nTg6MEap7LMCirQnXVKIwKta6yIA2/8xPlPwrEP85yamOOhc5lipBXpnmnlZFcxSsQdPy4bKlqw
- E4Chrz4Y4czpSc/2GQB6OKJdkicPabR/TjL4RswqmDYD2ViPBRi4M35dNxG/m06AKeIE=
-X-Gm-Gg: ASbGncumPrNLfDv3zC/dscqRS3kPzawkN0wVS7RrJ1JbHJ/ja+9kXm6TTT9aQIkaWIZ
- WQWSjIsM2VI8hexXDXFJ6u/ANIxjT1FYipnJ6c+Guonk6oRhB35Txm8EAIj2P0OZjH2+rya5AbP
- ifU5Ha4h7g5stvIBeIP6iR2LSP1naE+7SpN76qUuO+ioOZoI14WP0ownX4LbZgoWQi5m4StJEXC
- akUtvCVZ6GeIvHbTtaVNU4R9XcABzcApBDYRCeaH5eM9Yjnkw5k4vix8VY+cVpIpAjf1ANeuAWN
- 9/65mkXqG9YQ2izODij4u2FJJHutkTcbsdunCCRAyj6QAG2xWMAX6dvDLZyDU+wtMTlh23y4V9w
- =
-X-Received: by 2002:a05:620a:1a8f:b0:7c5:a25a:f0f3 with SMTP id
- af79cd13be357-7cd287defa6mr638172085a.8.1747250722296; 
- Wed, 14 May 2025 12:25:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqYspBX7D3lylLVnQVlBe+b6tLYtEGKb07awj3O663BvMry8yeZxkF53c9zpzvl/w4Clu/Ag==
-X-Received: by 2002:a05:620a:1a8f:b0:7c5:a25a:f0f3 with SMTP id
- af79cd13be357-7cd287defa6mr638167385a.8.1747250721720; 
- Wed, 14 May 2025 12:25:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54fc64cbf3fsm2333073e87.211.2025.05.14.12.25.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 12:25:19 -0700 (PDT)
-Date: Wed, 14 May 2025 22:25:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFC RFT v2 15/15] drm/msm/a6xx: Warn if the
- highest_bank_bit value is overwritten
-Message-ID: <wb46vfuegw2d4mj6pqx6o5my7ii4fhkrzrgte4hvey5ywiszpt@oe3qsptmanuu>
-References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
- <20250514-topic-ubwc_central-v2-15-09ecbc0a05ce@oss.qualcomm.com>
+ AJvYcCVS9fJnssHn6+tSdUr+e7sdZja04ytHHtq04iCAbnLBzDZMsW+lIfoUKdS2wYjtvhATIcj69S3LJuXd@lists.freedesktop.org,
+ AJvYcCXP+NilxfCu1QR9daG973RpLfKCWPFlboDyIeR2gO2KGJAf8JRWhtgE8NRMz00vVBcu4H4OpWjBjUw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZtoSA9H50diWJ932PQMk5Tus8TyoLrSlYGaiMoEjSaLU3D6Fh
+ jZI4ot3EaXH8vtk1c5oeExNbxabFIi9wqp8vbBjExtL/hDcMlpFgg2GRFpSdEiJvSHIhliUX0MW
+ rHEeUdEZB4TdV7p/8v6WeBPtyjp4=
+X-Gm-Gg: ASbGncv59ZsoSOA/QM+jKtOBiQEzreSjfp4/YGVrUeRWwb7/CEBZIlMPAV86Vj5DfDl
+ 7tBGV0PGIzlaAjd1XEPhWaFWUTDeccejXqhAqerKeZWbDj5GxnVQ715P45d/yQ9FmLZMIdfLJtm
+ ZSNwMO4iSECi69w43aO9fiBZBcjxQxCKmt1sEZigOcKItECpqkn4JSphF3w0V71Q==
+X-Google-Smtp-Source: AGHT+IF1g7w//ZlnlwapkYnOdaFxYkXwOpQfaU8H1YRFOI08stCn05hzEkMX+xpM9tacO9lTlvp9BUPHgpCDRjYnKhU=
+X-Received: by 2002:a05:6e02:1909:b0:3d4:3fbf:967d with SMTP id
+ e9e14a558f8ab-3db6f79feefmr55448475ab.7.1747252988035; Wed, 14 May 2025
+ 13:03:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514-topic-ubwc_central-v2-15-09ecbc0a05ce@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: vKdmrMp5zqllGd7_Rx72-Ft-M-oFknnS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDE3NyBTYWx0ZWRfXxOOcQecz4a9n
- /wMslY9BGUKTIwegBxKGAGgR9bg89yrqsl91GgpxsI2aNKI3xAVKPcVVai3YZkRcZ7x7H8M2Ojh
- A7MqegLKE4pyJIS0KGI9yB9a1ssSTQBkPqUeE/4zXAST4O304EylX79NwxmNkvE5gIJYwrxFLlW
- a28sAzlKIr3Vc1SB8asi8QalXQKSLw3hATalCAXHUM/uk1Y4LJAngOHDajHljUNVmA96piNOFGV
- 8ubDUSRGmlsw0lsV3TSTS5k7kbPqWMds4E2vRBJPcjKQHbxNDfp6rjCw2jctkL/4CMbmPGkDFf2
- AS8R53zr4mkiDLzvRkuuKUxJNB3pvshSpUjOqgBV02nJ/O16W2LGPDmr6blTzR1nyjZlKipe0Aa
- Y7mNZ29oA9Q2uIQOLpMczrzFOBVd5ETPNQyR0s7Ac3iMR1o+AqJLe5AICvNyA+ZyWNdfUpzw
-X-Authority-Analysis: v=2.4 cv=K7UiHzWI c=1 sm=1 tr=0 ts=6824ee23 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=hUL5GJU7K_37AAI6negA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: vKdmrMp5zqllGd7_Rx72-Ft-M-oFknnS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-14_04,2025-05-14_03,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 malwarescore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505140177
+References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
+ <20250514-topic-ubwc_central-v2-7-09ecbc0a05ce@oss.qualcomm.com>
+ <xzmvy6ulog67b5ibzg5gm37rvxerbwszoq3qr47kapj2rbjeuf@wr25nsuasa4d>
+In-Reply-To: <xzmvy6ulog67b5ibzg5gm37rvxerbwszoq3qr47kapj2rbjeuf@wr25nsuasa4d>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 14 May 2025 13:02:56 -0700
+X-Gm-Features: AX0GCFvdoWfmNFmJ9co0T0z7-_QRhBMytxeVDMg9fsi5B81FFmjxiQU2kryYTjI
+Message-ID: <CAF6AEGu45fsHVxDa5s0Q2XiaYBBaD14nJq3e0UYr3EpOn+188g@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 07/15] drm/msm/a6xx: Resolve the meaning of
+ UBWC_MODE
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,51 +95,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 14, 2025 at 05:10:35PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> In preparation to resolve the issue of hardcoding HBB, throw a warning
-> if the value is being overwritten in the GPU driver.
-> 
-> The HBB value is directly correlated with the memory configuration.
-> On platforms where more than one is supported, the value must differ
-> for proper functioning of the hardware, but it also must be consistent
-> across all UBWC producers/consumers.
-> 
-> On platforms supporting only a single DRAM setup, the value may still
-> be wrong, or at least inconsistent.
-> 
-> Print a warning to help catch such cases, until we declare full trust
-> to the central database.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index eaf468b67f97ff153e92a73a45581228fcf75e46..ab812338739568d5908ca439e5c53e230a02de5d 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -637,6 +637,10 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->  	if (adreno_is_a702(gpu))
->  		cfg->highest_bank_bit = 14;
->  
-> +	if (cfg->highest_bank_bit != common_cfg->highest_bank_bit)
-> +		DRM_WARN_ONCE("Inconclusive highest_bank_bit value: %u (GPU) vs %u (UBWC_CFG)\n",
-> +			      cfg->highest_bank_bit, common_cfg->highest_bank_bit);
-> +
+On Wed, May 14, 2025 at 12:15=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Wed, May 14, 2025 at 05:10:27PM +0200, Konrad Dybcio wrote:
+> > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >
+> > This bit is set iff the UBWC version is 1.0. That notably does not
+> > include QCM2290's "no UBWC".
+> >
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
+m/adreno/a6xx_gpu.c
+> > index e7c89f9c7d89798699848743843eed6a58b94bd3..6af4e70c1b936a30c1934dd=
+49f2889be13c9780d 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -669,10 +669,10 @@ static void a6xx_set_ubwc_config(struct msm_gpu *=
+gpu)
+> >        */
+> >       BUG_ON(adreno_gpu->ubwc_config.highest_bank_bit < 13);
+> >       u32 hbb =3D adreno_gpu->ubwc_config.highest_bank_bit - 13;
+> > +     bool ubwc_mode =3D qcom_ubwc_get_ubwc_mode(cfg);
+>
+> I'd really prefer if the function came in this patch rather than being
+> added at some earlier point. I understand that you want to simplify
+> cross-tree merging, but I think we should also simplify reviewing.
 
-This really should come in an earlier patch...
+Also, since it is so far just used by display and gpu, we probably
+don't need to care about cross tree too much... we could just land via
+drm
 
->  	gpu->ubwc_config = &gpu->_ubwc_config;
->  
->  	return 0;
-> 
-> -- 
-> 2.49.0
-> 
+BR,
+-R
 
--- 
-With best wishes
-Dmitry
+> >       bool amsbc =3D cfg->ubwc_enc_version >=3D UBWC_3_0;
+> >       u32 hbb_hi =3D hbb >> 2;
+> >       u32 hbb_lo =3D hbb & 3;
+> > -     u32 ubwc_mode =3D adreno_gpu->ubwc_config.ubwc_swizzle & 1;
+> >       u32 level2_swizzling_dis =3D !(adreno_gpu->ubwc_config.ubwc_swizz=
+le & 2);
+> >
+> >       gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
+> >
+> > --
+> > 2.49.0
+> >
+>
+> --
+> With best wishes
+> Dmitry
