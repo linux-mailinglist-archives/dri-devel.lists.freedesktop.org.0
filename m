@@ -2,80 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84EDAB7E82
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 09:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3782FAB7E80
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 09:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15BD510E76E;
-	Thu, 15 May 2025 07:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A9210E769;
+	Thu, 15 May 2025 07:09:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a2A/HFyf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OR5NtyQ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05A610E64A;
- Wed, 14 May 2025 17:43:28 +0000 (UTC)
-Received: by mail-vk1-f180.google.com with SMTP id
- 71dfb90a1353d-527a2b89a11so3111765e0c.2; 
- Wed, 14 May 2025 10:43:28 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE69A10E025;
+ Wed, 14 May 2025 21:36:18 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-30a99cff4feso349532a91.0; 
+ Wed, 14 May 2025 14:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747244608; x=1747849408; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5wcfHvWJFauA36svF44VDjuYHPwmu90HBftFvY1FZng=;
- b=a2A/HFyf/OP2XGiHX70d+inzA4FIaPPI+X0ul+0VUAm55eHSRgRw2gXa2i6beG2PuU
- jdHVODS3H7kiUHJ0EimUPLTosgqMsXlPBO4ovcJAG6wZIqjUao+wC31/SYcHJTY0kZn7
- dIgdhaIHtKpE1fV1YfYHB5DkwgZun0d4A1YSV8cqDhx3lh1Tbi2d3/MrtF557Y4acm0Q
- +6qD7WJBcI0ctotQYOjxWrIa3RNqD/FdcUzsApg+q0IpOxtpcWIAeFXArcI6VBDP07Kt
- jv2L2ylVTd48ylv55wNn0SmyheEr3CKirnM0LUpLKAhYpZjWzdOa8tdxhZz08G/bnH8X
- wbww==
+ d=gmail.com; s=20230601; t=1747258578; x=1747863378; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
+ b=OR5NtyQ+e5d71Q3CAIAfHOWhmaVqxeYVWMkQDdvL7m6eIjGQjS8xxSirbXrh/PIe6N
+ 6BmRO4SGKYkqOGLTvj7AKjjrkskbzR2AdFcNIrz06HR4szD8ZKSv1mPSsEaYAh+2E9Td
+ 7FRq2m/2drN0z+qUyH+VHNR3sMRp/z+aJJhA4q2waEjOai8ADnMn6SfZ9nvmvxt3PIuo
+ UhM3NEVdSFWdVyhZwawLyic+JA6xdEfSVeXU7TVBx/yW4taLgwcuFrF5ePwpXlRxuQnt
+ QrOjpEa5H7dI5EGb18JPc/MNalyjXl51LogyL2W7KIqI19aaBG5u910hYqeMDUBd5txC
+ A3BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747244608; x=1747849408;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5wcfHvWJFauA36svF44VDjuYHPwmu90HBftFvY1FZng=;
- b=Dyh9tbBfRflfuAHtpZqaKY+YbsyLSKu6nXM8w94TwAr50qkxJhUfWknF0E6GSrCpFT
- mida/5nmiIS1ufehN6Sv+2zh/8skQmhqLKADuaaZPadWohL7wuoD/4TcAZ6U2CxHoDCd
- Z3plbwMGv0AQ7W0hddW3Qut9jIketgdOQIvDt1kDzA6tQ8BpghxTjhssyg0mOBAH/qbv
- IYDiZHM2mYbCXmQPWSEybwU8Mr4wDY6ZPeGN955s6nL+39gw8EqR/E6LccFcWNRdMO11
- M9ztc/F+u31jODCd5jm/oVCXpDk/2ZMsBL2oqfa4lj40Fck0qITVSKpty3k5+U3OljkH
- StzQ==
+ d=1e100.net; s=20230601; t=1747258578; x=1747863378;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
+ b=HFcWG/RKIyNjVr3WHCBGEmTr9TxRm/5LnS+MnpSI858PCB33kyM6BmzjhKBl/nlMAK
+ z9NA5HlC1mHoxvYw3Ax3S9vbVAeiCykIsQ+nadgGD/4EJexaO9/bABpJ4pgNC4hNdjNf
+ uJuoqNtUudnPV6X0is9AEbXSMxx4ddhxCuuCTTwGSBOtUQ1eYKQX9flyhM8qxjuO3y94
+ Feu5DM+mXBNHCRa09QyOkLW0e1Ao6fL17r43mJxp5dsYhmmWrHEahQOgFx7BaaRTgRrP
+ BZq3Sgf7ptw9cfP0aJs+FV8rkGwh7gJy0mSxKrjby+U29/Lg5+ZEi6JGZkrRL2zx+FZH
+ BM+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVIBgzyn+M6XzvqR/rufikqPibTbBA5Zy6NW9a4m8yUOmrdlQ4JPnoM+bBVhG15BOU24QpiqsW@lists.freedesktop.org,
- AJvYcCXPwJ5yZFE60ZaqfeNGSGGi8aTwUr/4SEGaObwopNdab6Qn4WJ+CRiT6B2Qv6ckCj9e0WP0Rs261Js3@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzu82ExFdK40o8etY0/d1Y7qV/7p8Ntj63Fv9i85IwpiHAWmV9S
- 6BEgpP/urTkVL195Jfdomw1HMwGL1XGftl/2sEdyRIzls6CO/F0l
-X-Gm-Gg: ASbGncsKleVVitX69MbE4JrhkbwYd4qResHv01YuGOyHsjZ4Hw6a5p844H56T+alXyc
- Qt8MEg153KgczDJ8ZTuRdpcG0Fc9XtX+BiAFrAz+4lS/ldrT48Q8UfYo8gM4A9EgxsrwGa6/xJk
- agyj6MCr1PznAXRrEfaB5Kth/Lsk+LgHGNDz0EfRAV8Ejjcp+iiClQM2X5x+7J2hcmGrBB4IzQV
- J38kP8N+Ls224k0fgTUbLNN/Tz9UkQoNTkhcvZWi7WUkVoYBMYDrcaLnl2kNgQJlrxelQuBggXl
- cnpMFOCU4/cqVHYkUgKCdCU9JkZZJgxR13M5RPAIO7LG4DeiNWN3gfZ6rJQnz2NtTJa7z8/SnhR
- +DODmYRkbCZ8=
-X-Google-Smtp-Source: AGHT+IHJOUCwnoPs0Er/5BjlK81uKphJbPONtR4Fdu7amF7p0jxbjHodh/F+0864Ygyec23YzKbIGQ==
-X-Received: by 2002:a05:6122:1d0a:b0:52a:916e:91cf with SMTP id
- 71dfb90a1353d-52d9c5a5dccmr4227515e0c.3.1747244607830; 
- Wed, 14 May 2025 10:43:27 -0700 (PDT)
-Received: from xodo-linux.semfio.usp.br ([143.107.45.1])
+ AJvYcCXPtGoFZWDT8pDNHiKQYqkzWnikz54gQyAXoxTO0hWZN7EKzbfmLdkq5Fqs0gUPoL/L6isQH2P8PMg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCD5idBm3y6l6He0r/9bBjpFkBOMbjChGZAXDCiAPHJZPdKDMO
+ LUuwvD1Etn2vPpbTSDVNiws1nF7cbUAfU+sEH0IXcCBMlleRXJ5o
+X-Gm-Gg: ASbGnctgrN4bVFLSYUjYhFf9M8nAH+W/2yo+86M0HHWc3iqGR1jy8rhSKg26xSW8NQI
+ ApBcVYpprXDo1VRpRNn0J9VXfPq1zfPh+SQh44Z18YPeQacNj0wW+OnlbvEtLUx7KCR2R9Ni+in
+ IsFsB7+7jbcfWjcnNmSehmtld9Z1pY3eE2PtRSciULbUcZ1xl0yiRJyN+9ocnQ14nxddGODBVO9
+ NFx4NEuwm+YhMXrdH2dBtgO6cQMIZVQg3XPRNjJWupG8UUPX9tG/T7eQofFmyMp9pBxQVqtpzOv
+ 8AuCxuO+ymicIOSkdKnPyeuUbkJGhT921yukzr0xTDA/RO1ag+KZpSZJTutngkMwjA==
+X-Google-Smtp-Source: AGHT+IHOlcKTEqpmbbwYa6fymXr66iLa7UzzLeEx4mTbWzk9LmvInpwWaQApBbo8ZP8SyJLL2+etOQ==
+X-Received: by 2002:a17:90b:1c09:b0:30c:540b:99e with SMTP id
+ 98e67ed59e1d1-30e2e5b678cmr7925932a91.13.1747258578130; 
+ Wed, 14 May 2025 14:36:18 -0700 (PDT)
+Received: from rahul-mintos.ban-spse ([165.204.156.251])
  by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-52c727f5d86sm6401595e0c.10.2025.05.14.10.43.23
+ 98e67ed59e1d1-30e33425194sm2026770a91.14.2025.05.14.14.36.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 10:43:27 -0700 (PDT)
-From: Leonardo Gomes <leonardodasigomes@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: derick.william.moraes@gmail.com,
- Leonardo Gomes <leonardodasigomes@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2 RESEND] drm/amd/display: Adjust set_value function with
- prefix to help in ftrace
-Date: Wed, 14 May 2025 14:42:11 -0300
-Message-ID: <20250514174306.82693-2-leonardodasigomes@gmail.com>
+ Wed, 14 May 2025 14:36:17 -0700 (PDT)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ rk0006818@gmail.com
+Subject: [PATCH] docs: fix doc warning for DC_HDCP_LC_ENABLE_SW_FALLBACK in
+ amd_shared.h
+Date: Thu, 15 May 2025 03:05:11 +0530
+Message-ID: <20250514213511.380890-1-rk0006818@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250514174306.82693-1-leonardodasigomes@gmail.com>
-References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 15 May 2025 07:09:42 +0000
@@ -94,39 +89,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adjust set_value function in hw_hpd.c file to have
-prefix to help in ftrace, the name change from
-'set_value' to 'dal_hw_gpio_set_value'
+Fixes a kernel-doc warning by correctly documenting the enum value
+`DC_HDCP_LC_ENABLE_SW_FALLBACK` in the DC_DEBUG_MASK enum.
 
-Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
-Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
-Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
+The previous documentation was incorrectly formatted and incomplete.
+Updated to follow proper kernel-doc syntax with a full description.
+
+Verified fix using `make htmldocs`, and the warning is no longer present.
+
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 ---
- drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-index b11ed1089589..03e773136189 100644
---- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-+++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-@@ -85,7 +85,7 @@ static enum gpio_result dal_hw_gpio_get_value(
- 	return dal_hw_gpio_get_value(ptr, value);
- }
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 4c95b885d1d0..ebe0caf1fda4 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+ 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
  
--static enum gpio_result set_config(
-+static enum gpio_result dal_hw_gpio_set_config(
- 	struct hw_gpio_pin *ptr,
- 	const struct gpio_config_data *config_data)
- {
-@@ -106,7 +106,7 @@ static const struct hw_gpio_pin_funcs funcs = {
- 	.open = dal_hw_gpio_open,
- 	.get_value = dal_hw_gpio_get_value,
- 	.set_value = dal_hw_gpio_set_value,
--	.set_config = set_config,
-+	.set_config = dal_hw_gpio_set_config,
- 	.change_mode = dal_hw_gpio_change_mode,
- 	.close = dal_hw_gpio_close,
- };
+ 	/**
+-	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
++	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: Enables software fallback for HDCP locality check if the firmware fails.
+ 	 * path failure, retry using legacy SW path.
+ 	 */
+ 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
 -- 
 2.43.0
 
