@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE85AB7219
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D09FAB721A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C25010E6A3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C685E10E6A4;
 	Wed, 14 May 2025 17:03:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VTLPQrFt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PPGogIjJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBF110E6A4;
- Wed, 14 May 2025 17:03:12 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-74251cb4a05so133029b3a.3; 
- Wed, 14 May 2025 10:03:12 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D63610E6A3;
+ Wed, 14 May 2025 17:03:14 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b0db0b6a677so6322340a12.2; 
+ Wed, 14 May 2025 10:03:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747242192; x=1747846992; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747242193; x=1747846993; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6Pxupw0mnheBn4UC0J0PHtfsiWVwGvSizaV6fVHNumo=;
- b=VTLPQrFtgLbuR9rgUW8O7qvN9pew9cWILsIYXeqtlvnRRq3FVEntstJ0w2AACOLdaR
- fUkPXxkL04netQ67fnB/PAFehM/xSJYHvjVEXILn1GOB66CaruojJ4xrewjNtv119PK/
- jkK0HFrUDitywOO0eW+VdtvTAq5SWSJDe0AeL4opUeb8I73W18y4Arq57Nf56vMJsQMj
- eElk4uvkmMDbUARo8HaMAilDm0eBwHUXP7KfNiPfzEkivyqeaD5ESlWRT3Au11xGeimR
- Nf/9cQyBk3/gqYVBqU0a8tnZXu5vRddIRvQpUJGmo3EBgR2LmVIQBzjBQEPHpQGbmdzd
- KoFw==
+ bh=erym78Mhl39hRTn49O0kNbTLtbQnHd2bEe+DJwYFpbg=;
+ b=PPGogIjJOMQvd5zl7F1VvCOS0Kvi0OZCCDyCDdN2hJa72QnTAPWS7ttDf2SwDaIj1F
+ JqVTUcpj5vZSWfnt64k7lq3cFFTs98+Dec8MpbgzKTh2svdCnTW0AjosBdXecsb+FmIV
+ GWzDdWUYCIbH9vp+ni4ZPTbeCmb8atZAJyx59divLLlpwSZ/auL82Lk63rSwWihUn30x
+ l0c5GRAyaBUENm1w9SmCSTq/JvCXKfbI6Mb1Pl0xxlj6WMElFHPJ+fXVjj8dtLp0gIst
+ TTsooKhEtqpGnx5V/tXa/Gy/trpR8e9EDPGd0R/z9ZPBP/H8AOJf7lP5q8FkJ2D80KL3
+ 1HPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747242192; x=1747846992;
+ d=1e100.net; s=20230601; t=1747242193; x=1747846993;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6Pxupw0mnheBn4UC0J0PHtfsiWVwGvSizaV6fVHNumo=;
- b=wdyxL7CmZIC1vfotKqpdulmEkd+b7pTkUqtVryjB9TcunH5cVdBW5tIcZnJaIMQO9h
- aqEMLjZRGtAdGA72zd1hegK5QUoF4DGgd5zA8qiuNp4Bab0Lq5mu84yNJZ8iWETCS/qI
- lj4KW95jzMt8Dmtrb8n80rJh+M4F2d6nwWfoDURB2vgI6xUDmZyTjNPKbGFVFLjTQr6U
- ACeNGJISeS3kHsW+yylE5RnzSGwQ0YWFq3Fwue6OpIRN8H7lwBefWLagwPiuVO/YEKLF
- 4g7v7oQT/OZMA/6/CfNWWxf6LEAL3yUhWQOITD6j5oTrYNhyFkVptC0DV2NpBPd5WlPU
- ZNfg==
-X-Gm-Message-State: AOJu0Yzp/lXpTFi2ZbotfsjSateId4wavD2ffMycR4RHSMuyxfJyFNNk
- s9OxcXTzLrcx0czqo5yZxOXN9paTDnBJsN7royE2HVCEHLqj2MFXJwgAkA==
-X-Gm-Gg: ASbGnct1/UgU0DCikJUGURlopQzY4sZ3KGhp+DhqIhb36wNqdEiTOrAKZjhgH2MQytc
- HU4ErwKubJfFANJDPZMcYFLyCUGdWRul3S518623hMx0z9AbStZaye7pxoyRSMqb/fn6tg6MQNh
- uUIqVrBu4sTccXSFbFFlZ8abGPl3Ud26Y+KNCEyw28Sm9XevPGnPvSWLFrMNWRgxhkBky9P+jrx
- tKotP0TNL4QZaSprHjxIYdn2Mt9bUb9AY1zpG9NJxLj0hERRQttpFoc0cWtsqj6B9j5m9cHB6qN
- iQ9Yd97KzUbcif9B0/LSWg9udhDZYvWlk5WW0QkUevG2w/7Givw2aXNkDnftJ82Ch1GlWZ+7b45
- b3M0C+Bmcb2AlHrcDDfwmgbkoLTBsIt1Umgdg
-X-Google-Smtp-Source: AGHT+IEenEE0TDJYGjpoad0MaXzpg4coPrwhIFddIk4z7RGaH0tq5EifEZh9tMcraEV0o9p+MEDF5g==
-X-Received: by 2002:a05:6a00:91d6:b0:742:95a3:b000 with SMTP id
- d2e1a72fcca58-74295a3b144mr559866b3a.17.1747242191636; 
- Wed, 14 May 2025 10:03:11 -0700 (PDT)
+ bh=erym78Mhl39hRTn49O0kNbTLtbQnHd2bEe+DJwYFpbg=;
+ b=gLEM9LJpShe6OtxfISwbMQbNosIO0s+8YeRYjDt/pTW9W5df6xdS4OaiG2lIFL8MvN
+ YRMj7Iat6+G/bfYSOp/CT4MEuFPWSlBYuqEYf61FLanw0kohZ0SV0+eZX1hUccN4cOIe
+ Qn3UpsgLiPCpsdb4tbHnTxRofDPOAG+0gQ/KqiyhlB6UwMUCz4s1TlyWOjyVOFiNqZiD
+ fLiFqAmDB/fUCddXaifSgAn+lqp9OFe9y1oHPjpwoHCWH2RgdqoJX4lmboWdXr9jDcvq
+ ZTdtgFxU3z+7EkvvETtLZknpk9j9+BHByFTllQB3P8iN+atst18U/NN7J2tcJcoj38bk
+ A/Kg==
+X-Gm-Message-State: AOJu0YwxHvdjmj0a6CfzHsy6YKki8u45bodHJ7YqG2A74JsdmI7HQSTA
+ S2iVoJSjowPyVqR3a9p5AV0uSkI2U0iWh1aT8Rw1tFm9CkpO21PDi52mmg==
+X-Gm-Gg: ASbGncv7DtTBp3P7D4XfSOCjnxFRW/xXJ8Zi1vASBnqi1yvzdIjsYe2vRzIkvF2ZUQ+
+ JCCAZd6fgNxF/SdNq+MDFDOpbKmT5FczBl+u6F6E0JcJDdejtnvhnYjrP34bm4orVWNVIXsGO03
+ vD2p+63nLYvqdyG5Ut2ZWBDAjgjsWUl4pmmlrYuysuzu59JXkItGWsvJSYgIJYx7W6kYD1TRNj/
+ ai82qiSfCqp2tYWHNj7lxXgCGWnAyyg3Dc191RkcyplEwcD7Dpdqdqd3yDuzd+LI2VcZluxhdFK
+ WPav4Dfh9ox9hPfCReBb2qOEz3v3uBDEYDPNgP1/6kdVlurrPClFlDoj8UbwhOyt9DEmPxO0kKz
+ s2WQ3kZ1Ejgusg5vYrhxahvmaUrGTXxG107Cy
+X-Google-Smtp-Source: AGHT+IGP0e/1t+rY7vKORMPwfWNUz/Uslz1/hDTpvMSA09KmiV/ipKMfDI5ZIDJPsIMFdNfzOhK20w==
+X-Received: by 2002:a17:903:2d0:b0:215:a179:14ca with SMTP id
+ d9443c01a7336-231980bbf6fmr61743115ad.2.1747242193168; 
+ Wed, 14 May 2025 10:03:13 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74237a10608sm10022046b3a.101.2025.05.14.10.03.10
+ d9443c01a7336-22fc7548d29sm101268635ad.35.2025.05.14.10.03.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 10:03:10 -0700 (PDT)
+ Wed, 14 May 2025 10:03:12 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -68,9 +68,9 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 01/40] drm/gpuvm: Don't require obj lock in destructor path
-Date: Wed, 14 May 2025 09:59:00 -0700
-Message-ID: <20250514170118.40555-2-robdclark@gmail.com>
+Subject: [PATCH v4 02/40] drm/gpuvm: Allow VAs to hold soft reference to BOs
+Date: Wed, 14 May 2025 09:59:01 -0700
+Message-ID: <20250514170118.40555-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250514170118.40555-1-robdclark@gmail.com>
 References: <20250514170118.40555-1-robdclark@gmail.com>
@@ -93,39 +93,89 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-See commit a414fe3a2129 ("drm/msm/gem: Drop obj lock in
-msm_gem_free_object()") for justification.
+Eases migration for drivers where VAs don't hold hard references to
+their associated BO, avoiding reference loops.
+
+In particular, msm uses soft references to optimistically keep around
+mappings until the BO is distroyed.  Which obviously won't work if the
+VA (the mapping) is holding a reference to the BO.
+
+By making this a per-VM flag, we can use normal hard-references for
+mappings in a "VM_BIND" managed VM, but soft references in other cases,
+such as kernel-internal VMs (for display scanout, etc).
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/drm_gpuvm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gpuvm.c |  8 ++++++--
+ include/drm/drm_gpuvm.h     | 12 ++++++++++--
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index f9eb56f24bef..1e89a98caad4 100644
+index 1e89a98caad4..f1d521dc1fb0 100644
 --- a/drivers/gpu/drm/drm_gpuvm.c
 +++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -1511,7 +1511,9 @@ drm_gpuvm_bo_destroy(struct kref *kref)
- 	drm_gpuvm_bo_list_del(vm_bo, extobj, lock);
- 	drm_gpuvm_bo_list_del(vm_bo, evict, lock);
+@@ -1482,7 +1482,9 @@ drm_gpuvm_bo_create(struct drm_gpuvm *gpuvm,
  
--	drm_gem_gpuva_assert_lock_held(obj);
-+	if (kref_read(&obj->refcount) > 0)
-+		drm_gem_gpuva_assert_lock_held(obj);
+ 	vm_bo->vm = drm_gpuvm_get(gpuvm);
+ 	vm_bo->obj = obj;
+-	drm_gem_object_get(obj);
 +
- 	list_del(&vm_bo->list.entry.gem);
++	if (!(gpuvm->flags & DRM_GPUVM_VA_WEAK_REF))
++		drm_gem_object_get(obj);
  
- 	if (ops && ops->vm_bo_free)
-@@ -1871,7 +1873,8 @@ drm_gpuva_unlink(struct drm_gpuva *va)
- 	if (unlikely(!obj))
- 		return;
+ 	kref_init(&vm_bo->kref);
+ 	INIT_LIST_HEAD(&vm_bo->list.gpuva);
+@@ -1504,6 +1506,7 @@ drm_gpuvm_bo_destroy(struct kref *kref)
+ 	const struct drm_gpuvm_ops *ops = gpuvm->ops;
+ 	struct drm_gem_object *obj = vm_bo->obj;
+ 	bool lock = !drm_gpuvm_resv_protected(gpuvm);
++	bool unref = !(gpuvm->flags & DRM_GPUVM_VA_WEAK_REF);
  
--	drm_gem_gpuva_assert_lock_held(obj);
-+	if (kref_read(&obj->refcount) > 0)
-+		drm_gem_gpuva_assert_lock_held(obj);
- 	list_del_init(&va->gem.entry);
+ 	if (!lock)
+ 		drm_gpuvm_resv_assert_held(gpuvm);
+@@ -1522,7 +1525,8 @@ drm_gpuvm_bo_destroy(struct kref *kref)
+ 		kfree(vm_bo);
  
- 	va->vm_bo = NULL;
+ 	drm_gpuvm_put(gpuvm);
+-	drm_gem_object_put(obj);
++	if (unref)
++		drm_gem_object_put(obj);
+ }
+ 
+ /**
+diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+index 00d4e43b76b6..13ab087a45fa 100644
+--- a/include/drm/drm_gpuvm.h
++++ b/include/drm/drm_gpuvm.h
+@@ -205,10 +205,18 @@ enum drm_gpuvm_flags {
+ 	 */
+ 	DRM_GPUVM_RESV_PROTECTED = BIT(0),
+ 
++	/**
++	 * @DRM_GPUVM_VA_WEAK_REF:
++	 *
++	 * Flag indicating that the &drm_gpuva (or more correctly, the
++	 * &drm_gpuvm_bo) only holds a weak reference to the &drm_gem_object.
++	 */
++	DRM_GPUVM_VA_WEAK_REF = BIT(1),
++
+ 	/**
+ 	 * @DRM_GPUVM_USERBITS: user defined bits
+ 	 */
+-	DRM_GPUVM_USERBITS = BIT(1),
++	DRM_GPUVM_USERBITS = BIT(2),
+ };
+ 
+ /**
+@@ -651,7 +659,7 @@ struct drm_gpuvm_bo {
+ 
+ 	/**
+ 	 * @obj: The &drm_gem_object being mapped in @vm. This is a reference
+-	 * counted pointer.
++	 * counted pointer, unless the &DRM_GPUVM_VA_WEAK_REF flag is set.
+ 	 */
+ 	struct drm_gem_object *obj;
+ 
 -- 
 2.49.0
 
