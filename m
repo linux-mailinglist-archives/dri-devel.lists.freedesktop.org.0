@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECA1AB6F32
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 17:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370EBAB6F35
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 17:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3951410E66D;
-	Wed, 14 May 2025 15:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADF910E66A;
+	Wed, 14 May 2025 15:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ne11gRYW";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="OFks2jKq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA8410E66A;
- Wed, 14 May 2025 15:12:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B5D0DA4DE40;
- Wed, 14 May 2025 15:12:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7831CC4CEE3;
- Wed, 14 May 2025 15:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747235520;
- bh=Hf3yeg1WG/z7INDo4b2QRGGuu17lQVYeFJrtiNhG/f4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Ne11gRYWj3lgEpcZrYSohDydfOYZvORQ1fzMRn23X7XgnG5NBJu5ZptVagwkDDdWB
- 77mnYKrnKHaO/0a7UIUGmw12f13ew0CjDDoOgdvdLoi0Zsz/armAGlQL02TKvHS4bX
- qQtnX1PE5cJ8ahIAEPBwl0FF1I9J7EgZUMgMmxJ2Nvo6dVY0muBQYrdJXH/a8qzG4V
- fVSsnfpEkoDSacxo2OUEAlSGPgc43vNl1txhBeTvO4eBgnbyY85bx3awQi0W520EpZ
- K4ThhfSrDds0sCys1P8rOo/Ny3zyBJLVEx4iCX2mSiFnQ6QFwM2iLMppH5OSqNlrtn
- 4Q9syGAR98YxA==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Wed, 14 May 2025 17:10:35 +0200
-Subject: [PATCH RFC RFT v2 15/15] drm/msm/a6xx: Warn if the
- highest_bank_bit value is overwritten
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6396710E67D
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 15:11:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1747235515; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gHhgKGMkINZRwkgtvPyk7jl+9+RGKYKOEPFZv2RmZTVwaACphhcVCC4jjsquEeM3tPfi0fxzhuqSuhcJOln237TkZbdRISVe4Due47hUcFGvZ1rpJRnUF1rdiUVx6cFdr7X/G1kpANpDXVBm+V6WbfjRUGni5g7yPfIhVW0zzBg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1747235515;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=IdbOwjzl/dP/AJG9zsxUggZZiS2o7tTH2Q9ix44y1bE=; 
+ b=DUl7lFdEgUN46ClmYZ3l+pphcP7iNwyhNr3dJUITnhermZH4T983bhXrMgN5dMI8kYuUypM1Y1+E3ur9N11+/tf30rsrs232n5SUVxMnv1f3EfKfkzQv+Kn3VXlXOKQUICLtne0Sr/OnlFMg7HFy82f49MfVpO888iarx7l67Us=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747235515; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+ bh=IdbOwjzl/dP/AJG9zsxUggZZiS2o7tTH2Q9ix44y1bE=;
+ b=OFks2jKqEggHamUz8URxK49Mq+GHBoNdHzWDr27XEcFzFYnkKDcfTgw1C/a3YUmQ
+ otK836el/bXN0V+DlmmcLb0Ymnsj6g0d97Knza5LgskdrBQc6AYJ70HAMewzxBh6Sj1
+ ecMfZx52qu332qHg0Vqk2d8iwibmVXo5FMDdJ9Us=
+Received: by mx.zohomail.com with SMTPS id 1747235514529417.96970363160244;
+ Wed, 14 May 2025 08:11:54 -0700 (PDT)
+Message-ID: <ae1c2cb0-af29-4dfc-b2d8-224a44a7c6f7@collabora.com>
+Date: Wed, 14 May 2025 18:11:51 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] Virtio-GPU suspend and resume
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+References: <20250418232949.1032604-1-dongwon.kim@intel.com>
+ <7f334c99-fe86-4e53-86d6-e8473c76ff3e@collabora.com>
+ <PH8PR11MB6879A6238EAD527704B8C994FA8E2@PH8PR11MB6879.namprd11.prod.outlook.com>
+ <28584e91-6320-431d-afae-9f10e1eca86d@collabora.com>
+ <PH8PR11MB68792B11430CF12E9B7A525CFA96A@PH8PR11MB6879.namprd11.prod.outlook.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <PH8PR11MB68792B11430CF12E9B7A525CFA96A@PH8PR11MB6879.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250514-topic-ubwc_central-v2-15-09ecbc0a05ce@oss.qualcomm.com>
-References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
-In-Reply-To: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747235442; l=1451;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=NNwmHE/NXY7JNBB9ewjFIbDQ2ogaNlnpROm0GZClv6g=;
- b=c2HWY6JbvvY3r20QpOfuIVaoNxVaYPVeIJTkCQio4TyRUikHhSB6rqKK5+IfpP8nIUNZkkGbk
- 03TnjpR85eqAiGlt0YgcL7Dc/g0lQUQA6bnpCfJUs4vsAjvI2pUmGSK
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +72,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On 5/13/25 22:23, Kim, Dongwon wrote:
+> Hi Dmitry,
+> 
+> Can you share some details about your test setup?
+> How do I replicate the problem you saw? And is "suspend and resume" working by default in your case?
 
-In preparation to resolve the issue of hardcoding HBB, throw a warning
-if the value is being overwritten in the GPU driver.
+My testing setup:
 
-The HBB value is directly correlated with the memory configuration.
-On platforms where more than one is supported, the value must differ
-for proper functioning of the hardware, but it also must be consistent
-across all UBWC producers/consumers.
+- QEMU staging tree
+- Guest kernel 6.14.6 + your patches
+- Using "-serial mon:stdio -device virtio-vga -display gtk" in QEMU cmdline
 
-On platforms supporting only a single DRAM setup, the value may still
-be wrong, or at least inconsistent.
+I'm booting guest into VT and running "rtcwake -mmem -s5" from serial
+console. On resume from suspend I see those driver error messages.
+Without your patches there are no errors.
 
-Print a warning to help catch such cases, until we declare full trust
-to the central database.
-
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index eaf468b67f97ff153e92a73a45581228fcf75e46..ab812338739568d5908ca439e5c53e230a02de5d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -637,6 +637,10 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
- 	if (adreno_is_a702(gpu))
- 		cfg->highest_bank_bit = 14;
- 
-+	if (cfg->highest_bank_bit != common_cfg->highest_bank_bit)
-+		DRM_WARN_ONCE("Inconclusive highest_bank_bit value: %u (GPU) vs %u (UBWC_CFG)\n",
-+			      cfg->highest_bank_bit, common_cfg->highest_bank_bit);
-+
- 	gpu->ubwc_config = &gpu->_ubwc_config;
- 
- 	return 0;
+After resume from suspend display not working in both cases with/without
+your patches.
 
 -- 
-2.49.0
-
+Best regards,
+Dmitry
