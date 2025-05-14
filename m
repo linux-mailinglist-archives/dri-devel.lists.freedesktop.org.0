@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70C3AB6EE8
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 17:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40344AB6EE9
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 17:08:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DA910E03F;
-	Wed, 14 May 2025 15:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A601D10E26F;
+	Wed, 14 May 2025 15:08:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KAVtp2mj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IrXsS288";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AEE510E03F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 15:07:57 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A273210E26F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 15:08:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E063CA4DDE7;
- Wed, 14 May 2025 15:07:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D76F3C4CEE3;
- Wed, 14 May 2025 15:07:51 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7660F4A609;
+ Wed, 14 May 2025 15:08:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C29C4CEE9;
+ Wed, 14 May 2025 15:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747235272;
- bh=Je7z9K7ymRrYfxtdg0xKNmBIQNr0pJcc9qkLjyd7sDI=;
+ s=k20201202; t=1747235280;
+ bh=jMsr9BmmdCkE0Abau89NyQKZWBTl9u7x3Di10p0ErLQ=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=KAVtp2mj5jVTvUPkfQvXVYs5GBS/tfo0+4jmu/du+cJOJe816t7PMik1ZpRyi68aX
- o2aZMaDoLKyhncXAMp8odvjJpLxnlc7yVwYcZm20rtV/QCKI7zfhlM2ts5xzsy0ccq
- dYUi4qYrvP1WSsgqUZ4cWYiKQZZ4L0T9+jVtMUTy3XYYhWo/U2nTN6qBi5VnJWCq3j
- Vq0RX9/KG/qagXke2tspF1B42xo0ONN0DqFXBn6N0YXFc2FQCoTCdU/U4Yhej1HOEo
- qST+5BBXFrMOBCymjT6Xftdn959wvPiEqbXZDn6B3AmslVQkL/ENE5hjtXLIn0QD/K
- Sj9GWsgrKK7rA==
-Message-ID: <4d4c8f0ec82bba6bea02dd2ec5f2dc39@kernel.org>
-Date: Wed, 14 May 2025 15:07:48 +0000
+ b=IrXsS288P1rcLWS/VkVu7VWFpLKe+W0B7IBNPDv/SlK5ZOyMzwjwRE+WH/LgbnGJX
+ bQiEP8Zjc5dlI4OtebcC84iMHhVqXtBobKBa+M4jnKDyJdb2/SseMITsI2dTDfGiOU
+ GFZAJtp5k367KcBV9uvsXw4IaQJhSGDrX0DUMZtWa+yMGvT+mFVUkZ4TQ3ebaWHZb0
+ EwYILOpGhGitFujf2Pm9d2IR3kwGWO7nmGOGK7l+7iIKvnsCGRxn5KMpT4QXyovHuu
+ oUYLTIoAqdNHEmV2yT4HL+sB65H776f8ZWtR1Sq2ML3qP4/AOZZEzOcwsuU7FNvY4J
+ xsd+re7szMYgQ==
+Message-ID: <e6065744c7d70b5b93bd8f9ffe720771@kernel.org>
+Date: Wed, 14 May 2025 15:07:57 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Ryan Walklin" <ryan@testtoast.com>
-Subject: Re: [PATCH v10 11/11] drm: sun4i: de33: mixer: add mixer
- configuration for the H616
-In-Reply-To: <20250511104042.24249-12-ryan@testtoast.com>
-References: <20250511104042.24249-12-ryan@testtoast.com>
+Subject: Re: [PATCH v10 09/11] drm: sun4i: de33: vi_scaler: add Display
+ Engine 3.3 (DE33) support
+In-Reply-To: <20250511104042.24249-10-ryan@testtoast.com>
+References: <20250511104042.24249-10-ryan@testtoast.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-sunxi@lists.linux.dev, "Andre
@@ -69,11 +69,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 11 May 2025 22:31:20 +1200, Ryan Walklin wrote:
+On Sun, 11 May 2025 22:31:18 +1200, Ryan Walklin wrote:
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 > 
-> The H616 (and related SoC packages sharing the same die) carry the new
-> DE33 display engine.
+> The vi_scaler appears to be used in preference to the ui_scaler module
+> for hardware video scaling in the DE33.
 > 
 > 
 > [ ... ]
