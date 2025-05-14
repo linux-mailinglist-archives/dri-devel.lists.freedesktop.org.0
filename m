@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B21DAB6699
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 10:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E306AB6658
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 10:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0420610E38E;
-	Wed, 14 May 2025 08:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 376E010E148;
+	Wed, 14 May 2025 08:46:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GBa4QasR";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XZ94Gkbn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB4910E2BB;
- Wed, 14 May 2025 08:55:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747212911; x=1778748911;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BhsK9YIVD4Ra8qRyMSmXInX7M0/tqFLMCQp0JRjCJ4c=;
- b=GBa4QasR0zwSus1wKgaIWWQDX+F3i/4g2s8hHoMazLW8XnYh6NsBBvTn
- /sBrUcFjn9mDbavRTTdIOlF+MMxIgfaYxWaZbdwp9vnwTBofnEUtbT1Yz
- TH7Pd2bf1hRLTK/GoHr1RIOGf5vdeTrjmBhIKm1F0VeA1IqTFBinnj89r
- iDl7w2y/tipemzaS1QKE0HULoB8WyB/5bzVPJhxljHYwPYRxLFYvt0ANf
- BKKLngIzPcKU0FwRr46xKzKhRE1euBdDD/f6j8aMc3efiHqrikmbgYuNK
- mhtpeSEmwLUrpBv06kj+oD8/ZkHQyPPOzzX0I+PYRL45JqrDO7FFYCOoO A==;
-X-CSE-ConnectionGUID: lctgA7BmTMCo9TjBAlu24w==
-X-CSE-MsgGUID: +udXLfSHQ0qvccTlEXtmzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="60106630"
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="60106630"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2025 01:55:11 -0700
-X-CSE-ConnectionGUID: dOtL+ANsTUurPVvAFryp7w==
-X-CSE-MsgGUID: XdswrYNRQlCmG9Bv4Ki8lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="138399193"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2025 01:55:08 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: ville.syrjala@linux.intel.com, jani.nikula@linux.intel.com,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/dp: Add quirk for panel with HBR3 without TPS4
-Date: Wed, 14 May 2025 14:13:56 +0530
-Message-ID: <20250514084356.1558407-3-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250514084356.1558407-1-ankit.k.nautiyal@intel.com>
-References: <20250514084356.1558407-1-ankit.k.nautiyal@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 995B210E148;
+ Wed, 14 May 2025 08:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=aiGJMJ+H0PhVMrW5qhCGY7ZHfFuvBjMjJikZvkA7Mr0=; b=XZ94Gkbn3GC3u+7RWk83k5SrlL
+ OQY7YXGnVOQ9wip8SPqnEGuxHX8dybibmeu+aO4K7FOoLcmnXuaJtTeo+IeRxy0M1QDCiSsF2KCGl
+ 0sPNQ2imqdU7vf5o8K00g3uWmkCWjVHw+qjtUfurEquaEWF3tmeiUw4HgU1l+QgntxlZXDAuXXdan
+ YisSXYvoY4P+k8OMXOZCVABSpOrHsKzTsfXO2DKtXQmMLUR5fQsRx4dAHNyk+qB2A4egM4Ahq+wz1
+ Y+gY06Z4h7DA+hePDJMTD2oeFCNF4Ps1EsPCgQg6TmvJLJeCCxi6idY8kSfz+cHL3k9cB1h+DWh7t
+ njq/pbGQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uF7f3-0083aw-PE; Wed, 14 May 2025 10:46:04 +0200
+Message-ID: <2de0c446-e521-408c-a0e2-1c1b1d85f830@igalia.com>
+Date: Wed, 14 May 2025 09:46:04 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v4 04/16] drm/sched: Avoid double re-lock on the job free
+ path
+To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
+ <20250425102034.85133-5-tvrtko.ursulin@igalia.com>
+ <657c053d7cd443ff310dfff19d03ab11e0f17289.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <657c053d7cd443ff310dfff19d03ab11e0f17289.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,160 +66,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For DP, TPS4 is a requirement for supporting HBR3, but for eDP its a
-bit ambiguous. Some broken eDP sinks declare support for HBR3 without
-TPS4, but are unable to produce a stable output. For these panels
-add a quirk to reject HBR3 rate if TPS4 is not supported.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/display/drm_dp_helper.c |  2 +
- drivers/gpu/drm/i915/display/intel_dp.c | 74 ++++++++++++++++++++++---
- include/drm/display/drm_dp_helper.h     |  8 +++
- 3 files changed, 77 insertions(+), 7 deletions(-)
+On 12/05/2025 13:49, Philipp Stanner wrote:
+> On Fri, 2025-04-25 at 11:20 +0100, Tvrtko Ursulin wrote:
+>> Currently the job free work item will lock sched->job_list_lock first
+>> time
+>> to see if there are any jobs, free a single job, and then lock again
+>> to
+>> decide whether to re-queue itself if there are more finished jobs.
+>>
+>> Since drm_sched_get_finished_job() already looks at the second job in
+>> the
+>> queue we can simply add the signaled check and have it return the
+>> presence
+>> of more jobs to free to the caller. That way the work item does not
+>> have
+>> to lock the list again and repeat the signaled check.
+> 
+> Are you convinced that this is worth it?
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 56c7e3318f01..6f849146dd98 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2519,6 +2519,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
- 	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
- 	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
- 	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
-+	/* Novatek panel */
-+	{ OUI(0x38, 0xEC, 0x11), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBR3_WITHOUT_TPS4) },
- };
- 
- #undef OUI
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 97cf80372264..6c5debc8310d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -173,12 +173,53 @@ int intel_dp_link_symbol_clock(int rate)
- 	return DIV_ROUND_CLOSEST(rate * 10, intel_dp_link_symbol_size(rate));
- }
- 
-+static bool detected_hbr3_tps4_quirk(struct intel_dp *intel_dp)
-+{
-+	struct intel_connector *connector = intel_dp->attached_connector;
-+	struct intel_display *display = to_intel_display(intel_dp);
-+	struct drm_dp_aux *aux = &intel_dp->aux;
-+	struct drm_dp_desc desc;
-+
-+	if (drm_dp_read_desc(aux, &desc, drm_dp_is_branch(intel_dp->dpcd)) < 0)
-+		return false;
-+
-+	if (!drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_HBR3_WITHOUT_TPS4))
-+		return false;
-+
-+	drm_dbg_kms(display->drm,
-+		    "[CONNECTOR:%d:%s] HBR3 without TPS4 quirk detected\n",
-+		    connector->base.base.id, connector->base.name);
-+
-+	return true;
-+}
-+
- static int max_dprx_rate(struct intel_dp *intel_dp)
- {
-+	struct intel_display *display = to_intel_display(intel_dp);
-+	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-+	int max_rate;
-+
- 	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
--		return drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
-+		max_rate = drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
-+	else
-+		max_rate = drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
- 
--	return drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
-+	/*
-+	 * For DP TPS4 is a requirement for supporting HBR3, but for eDP its a
-+	 * bit ambiguous. Some broken eDP sinks declare support for HBR3 without
-+	 * TPS4, but are unable to produce a stable output. For these panels
-+	 * reject HBR3 when TPS4 is not available.
-+	 */
-+	if (max_rate >= 810000 &&
-+	    !drm_dp_tps4_supported(intel_dp->dpcd) &&
-+	    detected_hbr3_tps4_quirk(intel_dp)) {
-+		drm_dbg_kms(display->drm,
-+			    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
-+			    encoder->base.base.id, encoder->base.name);
-+		max_rate = 540000;
-+	}
-+
-+	return max_rate;
- }
- 
- static int max_dprx_lane_count(struct intel_dp *intel_dp)
-@@ -4254,6 +4295,9 @@ static void intel_edp_mso_init(struct intel_dp *intel_dp)
- static void
- intel_edp_set_sink_rates(struct intel_dp *intel_dp)
- {
-+	struct intel_display *display = to_intel_display(intel_dp);
-+	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-+
- 	intel_dp->num_sink_rates = 0;
- 
- 	if (intel_dp->edp_dpcd[0] >= DP_EDP_14) {
-@@ -4264,10 +4308,7 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
- 				 sink_rates, sizeof(sink_rates));
- 
- 		for (i = 0; i < ARRAY_SIZE(sink_rates); i++) {
--			int val = le16_to_cpu(sink_rates[i]);
--
--			if (val == 0)
--				break;
-+			int rate;
- 
- 			/* Value read multiplied by 200kHz gives the per-lane
- 			 * link rate in kHz. The source rates are, however,
-@@ -4275,7 +4316,26 @@ intel_edp_set_sink_rates(struct intel_dp *intel_dp)
- 			 * back to symbols is
- 			 * (val * 200kHz)*(8/10 ch. encoding)*(1/8 bit to Byte)
- 			 */
--			intel_dp->sink_rates[i] = (val * 200) / 10;
-+			rate = le16_to_cpu(sink_rates[i]) * 200 / 10;
-+
-+			if (rate == 0)
-+				break;
-+			/*
-+			 * For DP TPS4 is a requirement for supporting HBR3, but for eDP its a
-+			 * bit ambiugous. Some broken eDP sinks declare support for HBR3 without
-+			 * TPS4, but are unable to produce a stable output. For these panels
-+			 * reject HBR3 when TPS4 is not available.
-+			 */
-+			if (rate >= 810000 &&
-+			    !drm_dp_tps4_supported(intel_dp->dpcd) &&
-+			    detected_hbr3_tps4_quirk(intel_dp)) {
-+				drm_dbg_kms(display->drm,
-+					    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
-+					    encoder->base.base.id, encoder->base.name);
-+				break;
-+			}
-+
-+			intel_dp->sink_rates[i] = rate;
- 		}
- 		intel_dp->num_sink_rates = i;
- 	}
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 7b19192c7031..8021e9db67f2 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -809,6 +809,14 @@ enum drm_dp_quirk {
- 	 * requires enabling DSC.
- 	 */
- 	DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC,
-+
-+	/**
-+	 * @DP_DPCD_QUIRK_HBR3_WITHOUT_TPS4:
-+	 *
-+	 * The device supports HBR3 without TPS4 but is unable to produce
-+	 * stable output.
-+	 */
-+	DP_DPCD_QUIRK_HBR3_WITHOUT_TPS4,
- };
- 
- /**
--- 
-2.45.2
+I cannot see a reason for the lazy code which re-locks only to get the 
+same boolean state it already peeked at so yes, I am. Maybe CPU vendors 
+don't mind burning extra cycles to sell us faster chips, I don't know. :D
+
+More interesting angle is that the patch removes the potential 
+opportunistic signaling from the fence worker (the bad old
+evil dma_fence_is_signaled).
+
+> I'm torn. It's rare that one returns a status through a boolean by
+> reference. >
+> Independently from that, this is a candidate which certainly can be
+> branched out from this series, to make the series completely about the
+> new scheduling policy, not general other improvements.
+
+If I get an r-b I can easily send it standalone. Until then I let it simmer.
+
+Regards,
+
+Tvrtko
+
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 39 +++++++++++-------------
+>> --
+>>   1 file changed, 16 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 86e40157b09b..a45b02fd2af3 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -365,22 +365,6 @@ static void __drm_sched_run_free_queue(struct
+>> drm_gpu_scheduler *sched)
+>>   		queue_work(sched->submit_wq, &sched->work_free_job);
+>>   }
+>>   
+>> -/**
+>> - * drm_sched_run_free_queue - enqueue free-job work if ready
+>> - * @sched: scheduler instance
+>> - */
+>> -static void drm_sched_run_free_queue(struct drm_gpu_scheduler
+>> *sched)
+>> -{
+>> -	struct drm_sched_job *job;
+>> -
+>> -	spin_lock(&sched->job_list_lock);
+>> -	job = list_first_entry_or_null(&sched->pending_list,
+>> -				       struct drm_sched_job, list);
+>> -	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+>> -		__drm_sched_run_free_queue(sched);
+>> -	spin_unlock(&sched->job_list_lock);
+>> -}
+>> -
+>>   /**
+>>    * drm_sched_job_done - complete a job
+>>    * @s_job: pointer to the job which is done
+>> @@ -1097,12 +1081,13 @@ drm_sched_select_entity(struct
+>> drm_gpu_scheduler *sched)
+>>    * drm_sched_get_finished_job - fetch the next finished job to be
+>> destroyed
+>>    *
+>>    * @sched: scheduler instance
+>> + * @have_more: are there more finished jobs on the list
+>>    *
+>>    * Returns the next finished job from the pending list (if there is
+>> one)
+>>    * ready for it to be destroyed.
+>>    */
+>>   static struct drm_sched_job *
+>> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool
+>> *have_more)
+>>   {
+>>   	struct drm_sched_job *job, *next;
+>>   
+>> @@ -1110,22 +1095,27 @@ drm_sched_get_finished_job(struct
+>> drm_gpu_scheduler *sched)
+>>   
+>>   	job = list_first_entry_or_null(&sched->pending_list,
+>>   				       struct drm_sched_job, list);
+>> -
+>>   	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>>   		/* remove job from pending_list */
+>>   		list_del_init(&job->list);
+>>   
+>>   		/* cancel this job's TO timer */
+>>   		cancel_delayed_work(&sched->work_tdr);
+>> -		/* make the scheduled timestamp more accurate */
+>> +
+>> +		*have_more = false;
+>>   		next = list_first_entry_or_null(&sched-
+>>> pending_list,
+>>   						typeof(*next),
+>> list);
+>> -
+>>   		if (next) {
+>> +			/* make the scheduled timestamp more
+>> accurate */
+>>   			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>   				     &next->s_fence-
+>>> scheduled.flags))
+>>   				next->s_fence->scheduled.timestamp =
+>>   					dma_fence_timestamp(&job-
+>>> s_fence->finished);
+>> +
+>> +			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>> +				     &next->s_fence-
+>>> finished.flags))
+>> +				*have_more = true;
+>> +
+>>   			/* start TO timer for next job */
+>>   			drm_sched_start_timeout(sched);
+>>   		}
+>> @@ -1184,12 +1174,15 @@ static void drm_sched_free_job_work(struct
+>> work_struct *w)
+>>   	struct drm_gpu_scheduler *sched =
+>>   		container_of(w, struct drm_gpu_scheduler,
+>> work_free_job);
+>>   	struct drm_sched_job *job;
+>> +	bool have_more;
+>>   
+>> -	job = drm_sched_get_finished_job(sched);
+>> -	if (job)
+>> +	job = drm_sched_get_finished_job(sched, &have_more);
+>> +	if (job) {
+>>   		sched->ops->free_job(job);
+>> +		if (have_more)
+>> +			__drm_sched_run_free_queue(sched);
+>> +	}
+>>   
+>> -	drm_sched_run_free_queue(sched);
+>>   	drm_sched_run_job_queue(sched);
+>>   }
+>>   
+> 
 
