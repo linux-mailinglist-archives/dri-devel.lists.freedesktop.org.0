@@ -2,54 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94831AB6744
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 11:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988E9AB6750
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 11:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B3A10E601;
-	Wed, 14 May 2025 09:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01FA510E5FB;
+	Wed, 14 May 2025 09:22:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PsyVtx5k";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EQ3A/Wbv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431FB10E600;
- Wed, 14 May 2025 09:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+xvjV0ZvkAHR6+EKITxHt18cGf4b/7h8Ucecf/qFrAc=; b=PsyVtx5kKZ1UZq8psx+rKU1+FK
- YVinzp3LhbRPRiDC1qQYVinRqKU6j0rjV5iP91PZknxsmmTD6mvCx01743vTJrxRZLiUPTFhsNRgD
- 6cdXjqXPSKR9wFWB01cqVOvqcFLGKr1mSaKTRFCNpTvjftQltqTwN280lpwA74lmcm3fi4C020kFJ
- o1vRF2VhNvakkNfvvZUaczyzHtgpKNrPVn4UPZHXJ66qL5qOhVkpMq/O0wMwP3YXgJ7t/xDwm5sHX
- oy0lLwomDTnVJAGZN3IqnKcKtYrsjxiI0acCkd1SM0oQhhC0FlMV1Di8XVNT4FA46zuKIm6FxWohG
- x7+QOpPA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uF8Dq-0084Pw-8p; Wed, 14 May 2025 11:22:01 +0200
-Message-ID: <bb12359a-a6d5-43fb-8a31-3aec1dcb7a52@igalia.com>
-Date: Wed, 14 May 2025 10:22:00 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83F4910E5FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 09:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747214567; x=1778750567;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=W3S2OiT06z/aURe88CpR1sR58hRxxjm3pRwdRHodc0M=;
+ b=EQ3A/WbvWLnStdtb/gD05MYQqTqs0CROrTZ5PAoWSkQbtVXYRQYwZE//
+ Y69zO3pryTw8is6KWKLkdXHUvqRrNZ5GDsZWDvv0SFqCyBdUyT0d4arty
+ HAf/2eGxr6HfiEdWPfu/xx/wGjITZxDUow94UzVUhB0+oGyEWpNiqRpZC
+ alDClB/D4F+tnz/XSE0x8P1jgC2fIVoV4cpubiaicG+29JngqcSu0O9eD
+ kPw7oS9TJ7l+UMG+DqM1VUIhRYVwu/BGZHbjd/Y7j23bxg7dHk90VgxDo
+ 617lqj/+P9hneCLNcljDjlFYCONyvC0X9FkuS+2r31GvshACuU4AVb09+ Q==;
+X-CSE-ConnectionGUID: FXOUjqGQQ8uS/wbaUk1xQw==
+X-CSE-MsgGUID: CmANWL9oTlugAuSXaCXW2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48787181"
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="48787181"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2025 02:22:47 -0700
+X-CSE-ConnectionGUID: Ell0xXsaSSKsFb3LRRuIkw==
+X-CSE-MsgGUID: SQZXwv9QSdm0OwxGsUE3/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; d="scan'208";a="137859874"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.180])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2025 02:22:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
+In-Reply-To: <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
+ <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+ <87y0vkw8ll.fsf@intel.com>
+ <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
+ <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
+ <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
+ <874ixvtbxy.fsf@intel.com>
+ <20250509-rapid-flounder-of-devotion-6b26bb@houat>
+ <87r00yj6kv.fsf@intel.com>
+ <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
+Date: Wed, 14 May 2025 12:22:40 +0300
+Message-ID: <875xi3im1r.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v4 12/16] drm/sched: Remove idle entity from tree
-To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
- <20250425102034.85133-13-tvrtko.ursulin@igalia.com>
- <0d94533502890e345a08fafc00919041c2f4b80d.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <0d94533502890e345a08fafc00919041c2f4b80d.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,100 +82,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 13 May 2025, Maxime Ripard <mripard@kernel.org> wrote:
+> Is it really surprising you get some pushback when you are using a
+> design that is the complete opposite to what every user of it for the
+> last decade has been doing?
 
-On 12/05/2025 14:03, Philipp Stanner wrote:
-> On Fri, 2025-04-25 at 11:20 +0100, Tvrtko Ursulin wrote:
->> There is no need to keep entities with no jobs in the tree so lets
->> remove
->> it once the last job is consumed. This keeps the tree smaller which
->> is
->> nicer and more efficient as entities are removed and re-added on
->> every
->> popped job.
-> 
-> That there is no need to do so doesn't imply that you can't keep them
-> around. The commit message doesn't make the motivation clear
-> 
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_rq.c | 24 +++++++++++++-----------
->>   1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> Since this doesn't simplify the code base, I think the only
-> justification would be a somewhat decent performance gain. Does this
-> patch result in that?
-> 
-> Otherwise it's probably better to keep git-blame intact here.
+The opposite is also true.
 
-I needed this for one of the earlier approaches and I *think* what 
-remains with the latest is just the fact it makes the run-queue contain 
-only runnable entities (which makes sense and is logical; run-queue <-> 
-runnable). And that rb-tree re-balancing is cheaper with smaller trees 
-but in the grand scheme of things it is not something I even considered 
-attempting to measure.
+If you create a design that does not cleanly fit the model of the
+biggest drivers in the subsystem, and expect massive refactors just for
+the sake of conforming to the design to be able to use any of it, you'll
+also get pushback.
 
-I will re-consider the fate of this patch once more feedback on the 
-series as overall is received. Until then I don't think it makes sense 
-to churn it.
+> This one is usable, but you rule out the way you could use it.
 
-Btw another angle to this, which we touched upon with Christian before 
-is, if we end up not pruning the tree from unrunnable entities, then we 
-could drop the drm_sched_rq->entities list. Making a handful of caller 
-which walk it walk the tree instead.
+I think you're off-hand and completely dismissing the amount of work it
+would be. And still I'm not even ruling it out, but there has to be a
+way to start off in small incremental steps, and use the parts that
+work. And it's not like we're averse to refactoring in the least,
+everyone knows that.
 
-Regards,
+> I guess it's clear now that you won't consider anything else. I wonder
+> why you started that discussion in the first place if you already have
+> a clear mind on how to get things moving forward.
 
-Tvrtko
+I pointed out what I think is a bug in drm_panel, with nothing but good
+intentions, and everything snowballed from there.
 
->> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c
->> b/drivers/gpu/drm/scheduler/sched_rq.c
->> index d477a027feb9..2cde89cf25fb 100644
->> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->> @@ -149,25 +149,27 @@ void drm_sched_rq_pop_entity(struct
->> drm_sched_entity *entity)
->>   {
->>   	struct drm_sched_job *next_job;
->>   	struct drm_sched_rq *rq;
->> -	ktime_t ts;
->>   
->>   	/*
->>   	 * Update the entity's location in the min heap according to
->>   	 * the timestamp of the next job, if any.
->>   	 */
->> +	spin_lock(&entity->lock);
->> +	rq = entity->rq;
->> +	spin_lock(&rq->lock);
->>   	next_job = drm_sched_entity_queue_peek(entity);
->> -	if (!next_job)
->> -		return;
->> +	if (next_job) {
->> +		ktime_t ts;
->>   
->> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> -		ts = next_job->submit_ts;
->> -	else
->> -		ts = drm_sched_rq_get_rr_deadline(rq);
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> +			ts = next_job->submit_ts;
->> +		else
->> +			ts = drm_sched_rq_get_rr_deadline(rq);
->>   
->> -	spin_lock(&entity->lock);
->> -	rq = entity->rq;
->> -	spin_lock(&rq->lock);
->> -	drm_sched_rq_update_fifo_locked(entity, rq, ts);
->> +		drm_sched_rq_update_fifo_locked(entity, rq, ts);
->> +	} else {
->> +		drm_sched_rq_remove_fifo_locked(entity, rq);
->> +	}
->>   	spin_unlock(&rq->lock);
->>   	spin_unlock(&entity->lock);
->>   }
-> 
+There has to be a middle ground instead of absolutes. Otherwise we'll
+just end up in deeper silos. And more arguments.
 
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
