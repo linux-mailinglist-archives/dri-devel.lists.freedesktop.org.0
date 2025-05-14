@@ -2,78 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D46AB7225
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640BEAB7227
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:03:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 358C110E6B0;
-	Wed, 14 May 2025 17:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B172110E6B3;
+	Wed, 14 May 2025 17:03:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m46MNGYK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ETGrhRRF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9AB10E6AD;
- Wed, 14 May 2025 17:03:25 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-af91fc1fa90so5889440a12.0; 
- Wed, 14 May 2025 10:03:25 -0700 (PDT)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB10010E6B1;
+ Wed, 14 May 2025 17:03:27 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7398d65476eso77636b3a.1; 
+ Wed, 14 May 2025 10:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747242205; x=1747847005; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747242207; x=1747847007; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kXQcDRAe4EWVXNL5yTAKMixST4qgC4DZfdrTRe+HbCQ=;
- b=m46MNGYKpuUB5zg+1IbuiFfc0+krD0PQK+nPWscMcwN0mUFmHxYdGnzuBTnrlt0Xw9
- iitymGUTzF4XL0H+5IcsEzYEw7gqR4acs0K2KoNeZqBNg8sczcetU4IHlBnRjvNhJmsD
- RqN1mgNh/Op4bSGMmM302dIGVbMjIrWVwbFVcZ9wusGvlPr/PkkUaxpBA3orUgYnVHpF
- ln67KeD5ivWgU+aqriQXRVR6/678w2c32sJYQF/dmhceR4yIx0OlBj70M1LYqzkCRhty
- 57Hl1a3YfJAANec3MABEsV9YmaLvasuu0hfF/VbAPTG8QnxgHm3Bin5SIKqs2zU+/om2
- NUBQ==
+ bh=VGhcQ/fy/hmclhpR5rasTswfoNP/qpOgVwTGbov3td0=;
+ b=ETGrhRRFB7OFeumJp1pvwOdCVS9+JOlEJby2uLPuUPSbG+veDelyTj+FIaKp4OAyC6
+ e2RXhcr9Zy7P4SxHvfk1isXqkFoLG4AO9aQHQt6uq4Cu0zhMPgtGzP4hVqrdWtjhnPtq
+ 1tHQpokngTkLrUn03d9MSNBliMtWZ0VWf+kFR1TvaukfbeNCUSzobl4qAAb5CECOx5pg
+ +ubvdI2FLdNZhj9N1wl0ACZP2h5/lnzsLXgThEjngczZzFJU54CsOUe/wnpo/Q1r3wH7
+ oVBRuaq0glvdy+aTRGZY6IlQ+e4hjruIIzbbbDycsBsCIsAe90je2pd1Y7UNIRhPU8S0
+ OvLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747242205; x=1747847005;
+ d=1e100.net; s=20230601; t=1747242207; x=1747847007;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kXQcDRAe4EWVXNL5yTAKMixST4qgC4DZfdrTRe+HbCQ=;
- b=LuYsmw82sjBQ8qHhtsbDi1JUZSp47s7ChoPFd3xi8VPCM7cpjfl/DdKgww3u+eYzRD
- JEDtnk8rvYgotaAjIxncwX+XGt9ed5F00g0T6enE16qYx5RCMi77WHRM3RwAaJJUtiza
- xloL2gGml+D4vnzMOWobDn6/ZE1N7plMfDKCXf+cTtnxFvhzF1K3VWKrDDahpduA32n7
- mlsUz1bEvpV9Pd6n3OaTnDV/OcZPbF/PLW/D6yOaK7zVhHzrrUPWvUWHwCQep6Qn8Gl0
- 56fTDqnipcP9jJbD88ZEdCmhh6QIrneho5Yc896UoeqBDLCziTf6SFeBmDNlPqvSg5W9
- 3vkw==
-X-Gm-Message-State: AOJu0YyFH1MMyhs0HCy9QPjmgYNQYCpGX3r8h3TzNAnF4d8xnvz+O/He
- dCNueIK588pkdXE7m/gcJMMhI52sx+/i4af7D6DCxyUtU+JJtcQK331uOQ==
-X-Gm-Gg: ASbGnctuQu163drNykcCMe1+Eu2HTEhwnwTm7rA9Zgb2uZlP0/VFwCOU0uMx2OuO/zD
- YEMwuOsj92BT5V6NMG4kL3e8kKvvbh1tp1nkRxYTa9gbHU/Gr5twic2GtAwTDQKFQeb9/T9kXpX
- yLWeiZueTtU+C+G0TLU5cgoD03Ej1f/im6JPM/k4cKRS+6veRNu1htLW0DBzDxNoRbzqBQ5P3sD
- CO1MmH+zhHijhkthJajuqaN3vTSF9gkzPbMt29wLHayjkWjRlBVpzq+eUqyBAHn3vkhrqkTcQKi
- Ti7EciDwqCZwM1/PvhA29uYM4CdMwFQSdicjzYmHZe/D+wXSmFwrT0tJKC8UB1Qd5wqdnyD4oCk
- HFsGiMAoiw6UDQTZXTYIZQnhpkg==
-X-Google-Smtp-Source: AGHT+IHksyKHL/cAj2IBPQcufM/sbeYjbaaEX1F8jd2jD7SBpRllEzRc2mShwfdtPSsMevJvYm3ogQ==
-X-Received: by 2002:a17:903:1aef:b0:220:c164:6ee1 with SMTP id
- d9443c01a7336-23198129cd1mr71866655ad.32.1747242204951; 
- Wed, 14 May 2025 10:03:24 -0700 (PDT)
+ bh=VGhcQ/fy/hmclhpR5rasTswfoNP/qpOgVwTGbov3td0=;
+ b=p9q4kaKlinSyQW5WtI/5oqlZX6S5209i6S8C3F3jQUsDPacs3SV6xvHOCMLhgKNdFu
+ Fzid6JMDfD+0M2ZL1Qbo0ErkMACvUDvjpL93eCjpMDk+KuGdT6IJA0tACFCn8Hntz0O5
+ Khcl8vnRMAQXhfSsyZ3SMFdof/RSfojny+3kuspIqfIEoxITfK8gQFFr6iFN+zBhmqe+
+ 3f7WVjQsbefXKLEi3qNNXCI5UMGHu2as9S83ecgi3kI89E2mtXwzITIxaFI+Q3bOZcWf
+ 5ANNZCxf4bXLZ9TtdulLR2A04Ty2AhNVWrPooyksojyiePHIQdTbq+fCdrn5F1nPpgJy
+ vvAg==
+X-Gm-Message-State: AOJu0YwAPApSdu06GHZcOegAPaamAfcYsocMLBiumtnPLFHXqec3+wyj
+ EpE4BGbyPDdDxNYsTCwzf4M3DsEAcpGvsSXJrSP7ife0uHtVgv7aZ086dA==
+X-Gm-Gg: ASbGncv1G+6Ezu4H4jyje0LuNW6IS4etBbnjv5OkQLVPyNTCFVInArOJRFNsCZe2DXx
+ zq4VGEflJqHDesasJK4PHxxvMX7xXG9R+RtOpZTK5VUVh1HazMtLdxVgvx8HVjJ91Fro4wDOq7W
+ 9ik0OY2x4yUx97LattEYfZjtNFai8NZRul2l7PhRZkLbofr0kZnrfHebnIvELQ4CWc2P1JVOzAe
+ n8pYWSlt6uXUxLqsvRfzSCLmfRgjFdRdMfm6qCtquw7OVXIe1FFP211Snyvq8E/6eZfnYYmmVXA
+ Hh0GVV/tK5pyWEBlYxxYs2h79SJyPYEGTNpKPinrtJD/av3Hdb28vZ2bmlxPzMGk9cqenJ0DM2R
+ m9wdZykS02waoaFM8Y0FSqmta2A==
+X-Google-Smtp-Source: AGHT+IEjvwbjeLsyfMA7k6lBXU3UrNDL1yjCwpPPIlp4p0kAcSJ4buS/u4zDtwgNgMPUf8zWC8VbNQ==
+X-Received: by 2002:a05:6a00:1907:b0:740:58d3:71a8 with SMTP id
+ d2e1a72fcca58-742961b982amr447333b3a.1.1747242206607; 
+ Wed, 14 May 2025 10:03:26 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22fc828b445sm101230955ad.181.2025.05.14.10.03.24
+ d2e1a72fcca58-74237704713sm9889024b3a.2.2025.05.14.10.03.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 10:03:24 -0700 (PDT)
+ Wed, 14 May 2025 10:03:26 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
- iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 05/40] iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
-Date: Wed, 14 May 2025 09:59:04 -0700
-Message-ID: <20250514170118.40555-6-robdclark@gmail.com>
+Subject: [PATCH v4 06/40] drm/msm: Rename msm_file_private -> msm_context
+Date: Wed, 14 May 2025 09:59:05 -0700
+Message-ID: <20250514170118.40555-7-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250514170118.40555-1-robdclark@gmail.com>
 References: <20250514170118.40555-1-robdclark@gmail.com>
@@ -96,156 +97,395 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In situations where mapping/unmapping sequence can be controlled by
-userspace, attempting to map over a region that has not yet been
-unmapped is an error.  But not something that should spam dmesg.
-
-Now that there is a quirk, we can also drop the selftest_running
-flag, and use the quirk instead for selftests.
+This is a more descriptive name.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/iommu/io-pgtable-arm.c | 27 ++++++++++++++-------------
- include/linux/io-pgtable.h     |  8 ++++++++
- 2 files changed, 22 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  6 ++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h |  4 +--
+ drivers/gpu/drm/msm/msm_drv.c           | 14 ++++-----
+ drivers/gpu/drm/msm/msm_gem.c           |  2 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c    |  2 +-
+ drivers/gpu/drm/msm/msm_gpu.c           |  4 +--
+ drivers/gpu/drm/msm/msm_gpu.h           | 39 ++++++++++++-------------
+ drivers/gpu/drm/msm/msm_submitqueue.c   | 27 +++++++++--------
+ 9 files changed, 49 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index f27965caf6a1..a535d88f8943 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -253,8 +253,6 @@ static inline bool arm_lpae_concat_mandatory(struct io_pgtable_cfg *cfg,
- 	       (data->start_level == 1) && (oas == 40);
- }
- 
--static bool selftest_running = false;
--
- static dma_addr_t __arm_lpae_dma_addr(void *pages)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 129c33f0b027..a32cce8b0c5c 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -111,7 +111,7 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+ 		struct msm_ringbuffer *ring, struct msm_gem_submit *submit)
  {
- 	return (dma_addr_t)virt_to_phys(pages);
-@@ -373,7 +371,7 @@ static int arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
- 	for (i = 0; i < num_entries; i++)
- 		if (iopte_leaf(ptep[i], lvl, data->iop.fmt)) {
- 			/* We require an unmap first */
--			WARN_ON(!selftest_running);
-+			WARN_ON(!(data->iop.cfg.quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
- 			return -EEXIST;
- 		} else if (iopte_type(ptep[i]) == ARM_LPAE_PTE_TYPE_TABLE) {
- 			/*
-@@ -475,7 +473,7 @@ static int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
- 		cptep = iopte_deref(pte, data);
- 	} else if (pte) {
- 		/* We require an unmap first */
--		WARN_ON(!selftest_running);
-+		WARN_ON(!(cfg->quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
- 		return -EEXIST;
- 	}
- 
-@@ -649,8 +647,10 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
- 	unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
- 	ptep += unmap_idx_start;
- 	pte = READ_ONCE(*ptep);
--	if (WARN_ON(!pte))
--		return 0;
-+	if (!pte) {
-+		WARN_ON(!(data->iop.cfg.quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
-+		return -ENOENT;
-+	}
- 
- 	/* If the size matches this level, we're in the right place */
- 	if (size == ARM_LPAE_BLOCK_SIZE(lvl, data)) {
-@@ -660,8 +660,10 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
- 		/* Find and handle non-leaf entries */
- 		for (i = 0; i < num_entries; i++) {
- 			pte = READ_ONCE(ptep[i]);
--			if (WARN_ON(!pte))
-+			if (!pte) {
-+				WARN_ON(!(data->iop.cfg.quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
- 				break;
-+			}
- 
- 			if (!iopte_leaf(pte, lvl, iop->fmt)) {
- 				__arm_lpae_clear_pte(&ptep[i], &iop->cfg, 1);
-@@ -976,7 +978,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
- 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
- 			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
- 			    IO_PGTABLE_QUIRK_ARM_OUTER_WBWA |
--			    IO_PGTABLE_QUIRK_ARM_HD))
-+			    IO_PGTABLE_QUIRK_ARM_HD |
-+			    IO_PGTABLE_QUIRK_NO_WARN_ON))
- 		return NULL;
- 
- 	data = arm_lpae_alloc_pgtable(cfg);
-@@ -1079,7 +1082,8 @@ arm_64_lpae_alloc_pgtable_s2(struct io_pgtable_cfg *cfg, void *cookie)
- 	struct arm_lpae_io_pgtable *data;
- 	typeof(&cfg->arm_lpae_s2_cfg.vtcr) vtcr = &cfg->arm_lpae_s2_cfg.vtcr;
- 
--	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_S2FWB))
-+	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_S2FWB |
-+			    IO_PGTABLE_QUIRK_NO_WARN_ON))
- 		return NULL;
- 
- 	data = arm_lpae_alloc_pgtable(cfg);
-@@ -1320,7 +1324,6 @@ static void __init arm_lpae_dump_ops(struct io_pgtable_ops *ops)
- #define __FAIL(ops, i)	({						\
- 		WARN(1, "selftest: test failed for fmt idx %d\n", (i));	\
- 		arm_lpae_dump_ops(ops);					\
--		selftest_running = false;				\
- 		-EFAULT;						\
- })
- 
-@@ -1336,8 +1339,6 @@ static int __init arm_lpae_run_tests(struct io_pgtable_cfg *cfg)
- 	size_t size, mapped;
- 	struct io_pgtable_ops *ops;
- 
--	selftest_running = true;
--
- 	for (i = 0; i < ARRAY_SIZE(fmts); ++i) {
- 		cfg_cookie = cfg;
- 		ops = alloc_io_pgtable_ops(fmts[i], cfg, cfg);
-@@ -1426,7 +1427,6 @@ static int __init arm_lpae_run_tests(struct io_pgtable_cfg *cfg)
- 		free_io_pgtable_ops(ops);
- 	}
- 
--	selftest_running = false;
+ 	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+-	struct msm_file_private *ctx = submit->queue->ctx;
++	struct msm_context *ctx = submit->queue->ctx;
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	phys_addr_t ttbr;
+ 	u32 asid;
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index e80db01a01c0..25c939b3367a 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -356,7 +356,7 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
  	return 0;
  }
  
-@@ -1448,6 +1448,7 @@ static int __init arm_lpae_do_selftests(void)
- 		.tlb = &dummy_tlb_ops,
- 		.coherent_walk = true,
- 		.iommu_dev = &dev,
-+		.quirks = IO_PGTABLE_QUIRK_NO_WARN_ON,
- 	};
+-int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
++int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		     uint32_t param, uint64_t *value, uint32_t *len)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -444,7 +444,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 	}
+ }
  
- 	/* __arm_lpae_alloc_pages() merely needs dev_to_node() to work */
-diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index bba2a51c87d2..639b8f4fb87d 100644
---- a/include/linux/io-pgtable.h
-+++ b/include/linux/io-pgtable.h
-@@ -88,6 +88,13 @@ struct io_pgtable_cfg {
- 	 *
- 	 * IO_PGTABLE_QUIRK_ARM_HD: Enables dirty tracking in stage 1 pagetable.
- 	 * IO_PGTABLE_QUIRK_ARM_S2FWB: Use the FWB format for the MemAttrs bits
-+	 *
-+	 * IO_PGTABLE_QUIRK_NO_WARN_ON: Do not WARN_ON() on conflicting
-+	 *	mappings, but silently return -EEXISTS.  Normally an attempt
-+	 *	to map over an existing mapping would indicate some sort of
-+	 *	kernel bug, which would justify the WARN_ON().  But for GPU
-+	 *	drivers, this could be under control of userspace.  Which
-+	 *	deserves an error return, but not to spam dmesg.
+-int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
++int adreno_set_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		     uint32_t param, uint64_t value, uint32_t len)
+ {
+ 	struct drm_device *drm = gpu->dev;
+@@ -490,7 +490,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 	case MSM_PARAM_SYSPROF:
+ 		if (!capable(CAP_SYS_ADMIN))
+ 			return UERR(EPERM, drm, "invalid permissions");
+-		return msm_file_private_set_sysprof(ctx, gpu, value);
++		return msm_context_set_sysprof(ctx, gpu, value);
+ 	default:
+ 		return UERR(EINVAL, drm, "%s: invalid param: %u", gpu->name, param);
+ 	}
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 2366a57b280f..fed9516da365 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -603,9 +603,9 @@ static inline int adreno_is_a7xx(struct adreno_gpu *gpu)
+ /* Put vm_start above 32b to catch issues with not setting xyz_BASE_HI */
+ #define ADRENO_VM_START 0x100000000ULL
+ u64 adreno_private_address_space_size(struct msm_gpu *gpu);
+-int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
++int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		     uint32_t param, uint64_t *value, uint32_t *len);
+-int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
++int adreno_set_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		     uint32_t param, uint64_t value, uint32_t len);
+ const struct firmware *adreno_request_fw(struct adreno_gpu *adreno_gpu,
+ 		const char *fwname);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index c3588dc9e537..29ca24548c67 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -333,7 +333,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ {
+ 	static atomic_t ident = ATOMIC_INIT(0);
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_file_private *ctx;
++	struct msm_context *ctx;
+ 
+ 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+@@ -363,23 +363,23 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
+ 	return context_init(dev, file);
+ }
+ 
+-static void context_close(struct msm_file_private *ctx)
++static void context_close(struct msm_context *ctx)
+ {
+ 	msm_submitqueue_close(ctx);
+-	msm_file_private_put(ctx);
++	msm_context_put(ctx);
+ }
+ 
+ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_file_private *ctx = file->driver_priv;
++	struct msm_context *ctx = file->driver_priv;
+ 
+ 	/*
+ 	 * It is not possible to set sysprof param to non-zero if gpu
+ 	 * is not initialized:
  	 */
- 	#define IO_PGTABLE_QUIRK_ARM_NS			BIT(0)
- 	#define IO_PGTABLE_QUIRK_NO_PERMS		BIT(1)
-@@ -97,6 +104,7 @@ struct io_pgtable_cfg {
- 	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA		BIT(6)
- 	#define IO_PGTABLE_QUIRK_ARM_HD			BIT(7)
- 	#define IO_PGTABLE_QUIRK_ARM_S2FWB		BIT(8)
-+	#define IO_PGTABLE_QUIRK_NO_WARN_ON		BIT(9)
- 	unsigned long			quirks;
- 	unsigned long			pgsize_bitmap;
- 	unsigned int			ias;
+ 	if (priv->gpu)
+-		msm_file_private_set_sysprof(ctx, priv->gpu, 0);
++		msm_context_set_sysprof(ctx, priv->gpu, 0);
+ 
+ 	context_close(ctx);
+ }
+@@ -511,7 +511,7 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
+ 		uint64_t *iova)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_file_private *ctx = file->driver_priv;
++	struct msm_context *ctx = file->driver_priv;
+ 
+ 	if (!priv->gpu)
+ 		return -EINVAL;
+@@ -531,7 +531,7 @@ static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
+ 		uint64_t iova)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_file_private *ctx = file->driver_priv;
++	struct msm_context *ctx = file->driver_priv;
+ 
+ 	if (!priv->gpu)
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index d2f38e1df510..fdeb6cf7eeb5 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -48,7 +48,7 @@ static void update_device_mem(struct msm_drm_private *priv, ssize_t size)
+ 
+ static void update_ctx_mem(struct drm_file *file, ssize_t size)
+ {
+-	struct msm_file_private *ctx = file->driver_priv;
++	struct msm_context *ctx = file->driver_priv;
+ 	uint64_t ctx_mem = atomic64_add_return(size, &ctx->ctx_mem);
+ 
+ 	rcu_read_lock(); /* Locks file->pid! */
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index d4f71bb54e84..3aabf7f1da6d 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -651,7 +651,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct drm_msm_gem_submit *args = data;
+-	struct msm_file_private *ctx = file->driver_priv;
++	struct msm_context *ctx = file->driver_priv;
+ 	struct msm_gem_submit *submit = NULL;
+ 	struct msm_gpu *gpu = priv->gpu;
+ 	struct msm_gpu_submitqueue *queue;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index c380d9d9f5af..d786fcfad62f 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -148,7 +148,7 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+ 	return 0;
+ }
+ 
+-void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
++void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_context *ctx,
+ 			 struct drm_printer *p)
+ {
+ 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+@@ -339,7 +339,7 @@ static void retire_submits(struct msm_gpu *gpu);
+ 
+ static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
+ {
+-	struct msm_file_private *ctx = submit->queue->ctx;
++	struct msm_context *ctx = submit->queue->ctx;
+ 	struct task_struct *task;
+ 
+ 	WARN_ON(!mutex_is_locked(&submit->gpu->lock));
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index e25009150579..957d6fb3469d 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -22,7 +22,7 @@
+ struct msm_gem_submit;
+ struct msm_gpu_perfcntr;
+ struct msm_gpu_state;
+-struct msm_file_private;
++struct msm_context;
+ 
+ struct msm_gpu_config {
+ 	const char *ioname;
+@@ -44,9 +44,9 @@ struct msm_gpu_config {
+  *    + z180_gpu
+  */
+ struct msm_gpu_funcs {
+-	int (*get_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
++	int (*get_param)(struct msm_gpu *gpu, struct msm_context *ctx,
+ 			 uint32_t param, uint64_t *value, uint32_t *len);
+-	int (*set_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
++	int (*set_param)(struct msm_gpu *gpu, struct msm_context *ctx,
+ 			 uint32_t param, uint64_t value, uint32_t len);
+ 	int (*hw_init)(struct msm_gpu *gpu);
+ 
+@@ -347,7 +347,7 @@ struct msm_gpu_perfcntr {
+ #define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_LOW - DRM_SCHED_PRIORITY_HIGH)
+ 
+ /**
+- * struct msm_file_private - per-drm_file context
++ * struct msm_context - per-drm_file context
+  *
+  * @queuelock:    synchronizes access to submitqueues list
+  * @submitqueues: list of &msm_gpu_submitqueue created by userspace
+@@ -357,7 +357,7 @@ struct msm_gpu_perfcntr {
+  * @ref:          reference count
+  * @seqno:        unique per process seqno
+  */
+-struct msm_file_private {
++struct msm_context {
+ 	rwlock_t queuelock;
+ 	struct list_head submitqueues;
+ 	int queueid;
+@@ -512,7 +512,7 @@ struct msm_gpu_submitqueue {
+ 	u32 ring_nr;
+ 	int faults;
+ 	uint32_t last_fence;
+-	struct msm_file_private *ctx;
++	struct msm_context *ctx;
+ 	struct list_head node;
+ 	struct idr fence_idr;
+ 	struct spinlock idr_lock;
+@@ -608,33 +608,32 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 reg, u64 val)
+ int msm_gpu_pm_suspend(struct msm_gpu *gpu);
+ int msm_gpu_pm_resume(struct msm_gpu *gpu);
+ 
+-void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
++void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_context *ctx,
+ 			 struct drm_printer *p);
+ 
+-int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
+-struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
++int msm_submitqueue_init(struct drm_device *drm, struct msm_context *ctx);
++struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_context *ctx,
+ 		u32 id);
+ int msm_submitqueue_create(struct drm_device *drm,
+-		struct msm_file_private *ctx,
++		struct msm_context *ctx,
+ 		u32 prio, u32 flags, u32 *id);
+-int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
++int msm_submitqueue_query(struct drm_device *drm, struct msm_context *ctx,
+ 		struct drm_msm_submitqueue_query *args);
+-int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id);
+-void msm_submitqueue_close(struct msm_file_private *ctx);
++int msm_submitqueue_remove(struct msm_context *ctx, u32 id);
++void msm_submitqueue_close(struct msm_context *ctx);
+ 
+ void msm_submitqueue_destroy(struct kref *kref);
+ 
+-int msm_file_private_set_sysprof(struct msm_file_private *ctx,
+-				 struct msm_gpu *gpu, int sysprof);
+-void __msm_file_private_destroy(struct kref *kref);
++int msm_context_set_sysprof(struct msm_context *ctx, struct msm_gpu *gpu, int sysprof);
++void __msm_context_destroy(struct kref *kref);
+ 
+-static inline void msm_file_private_put(struct msm_file_private *ctx)
++static inline void msm_context_put(struct msm_context *ctx)
+ {
+-	kref_put(&ctx->ref, __msm_file_private_destroy);
++	kref_put(&ctx->ref, __msm_context_destroy);
+ }
+ 
+-static inline struct msm_file_private *msm_file_private_get(
+-	struct msm_file_private *ctx)
++static inline struct msm_context *msm_context_get(
++	struct msm_context *ctx)
+ {
+ 	kref_get(&ctx->ref);
+ 	return ctx;
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 7fed1de63b5d..1acc0fe36353 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -7,8 +7,7 @@
+ 
+ #include "msm_gpu.h"
+ 
+-int msm_file_private_set_sysprof(struct msm_file_private *ctx,
+-				 struct msm_gpu *gpu, int sysprof)
++int msm_context_set_sysprof(struct msm_context *ctx, struct msm_gpu *gpu, int sysprof)
+ {
+ 	/*
+ 	 * Since pm_runtime and sysprof_active are both refcounts, we
+@@ -46,10 +45,10 @@ int msm_file_private_set_sysprof(struct msm_file_private *ctx,
+ 	return 0;
+ }
+ 
+-void __msm_file_private_destroy(struct kref *kref)
++void __msm_context_destroy(struct kref *kref)
+ {
+-	struct msm_file_private *ctx = container_of(kref,
+-		struct msm_file_private, ref);
++	struct msm_context *ctx = container_of(kref,
++		struct msm_context, ref);
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(ctx->entities); i++) {
+@@ -73,12 +72,12 @@ void msm_submitqueue_destroy(struct kref *kref)
+ 
+ 	idr_destroy(&queue->fence_idr);
+ 
+-	msm_file_private_put(queue->ctx);
++	msm_context_put(queue->ctx);
+ 
+ 	kfree(queue);
+ }
+ 
+-struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
++struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_context *ctx,
+ 		u32 id)
+ {
+ 	struct msm_gpu_submitqueue *entry;
+@@ -101,7 +100,7 @@ struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
+ 	return NULL;
+ }
+ 
+-void msm_submitqueue_close(struct msm_file_private *ctx)
++void msm_submitqueue_close(struct msm_context *ctx)
+ {
+ 	struct msm_gpu_submitqueue *entry, *tmp;
+ 
+@@ -119,7 +118,7 @@ void msm_submitqueue_close(struct msm_file_private *ctx)
+ }
+ 
+ static struct drm_sched_entity *
+-get_sched_entity(struct msm_file_private *ctx, struct msm_ringbuffer *ring,
++get_sched_entity(struct msm_context *ctx, struct msm_ringbuffer *ring,
+ 		 unsigned ring_nr, enum drm_sched_priority sched_prio)
+ {
+ 	static DEFINE_MUTEX(entity_lock);
+@@ -155,7 +154,7 @@ get_sched_entity(struct msm_file_private *ctx, struct msm_ringbuffer *ring,
+ 	return ctx->entities[idx];
+ }
+ 
+-int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
++int msm_submitqueue_create(struct drm_device *drm, struct msm_context *ctx,
+ 		u32 prio, u32 flags, u32 *id)
+ {
+ 	struct msm_drm_private *priv = drm->dev_private;
+@@ -200,7 +199,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 
+ 	write_lock(&ctx->queuelock);
+ 
+-	queue->ctx = msm_file_private_get(ctx);
++	queue->ctx = msm_context_get(ctx);
+ 	queue->id = ctx->queueid++;
+ 
+ 	if (id)
+@@ -221,7 +220,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+  * Create the default submit-queue (id==0), used for backwards compatibility
+  * for userspace that pre-dates the introduction of submitqueues.
+  */
+-int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
++int msm_submitqueue_init(struct drm_device *drm, struct msm_context *ctx)
+ {
+ 	struct msm_drm_private *priv = drm->dev_private;
+ 	int default_prio, max_priority;
+@@ -261,7 +260,7 @@ static int msm_submitqueue_query_faults(struct msm_gpu_submitqueue *queue,
+ 	return ret ? -EFAULT : 0;
+ }
+ 
+-int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
++int msm_submitqueue_query(struct drm_device *drm, struct msm_context *ctx,
+ 		struct drm_msm_submitqueue_query *args)
+ {
+ 	struct msm_gpu_submitqueue *queue;
+@@ -282,7 +281,7 @@ int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
+ 	return ret;
+ }
+ 
+-int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id)
++int msm_submitqueue_remove(struct msm_context *ctx, u32 id)
+ {
+ 	struct msm_gpu_submitqueue *entry;
+ 
 -- 
 2.49.0
 
