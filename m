@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578D6AB717C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 18:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED6AAB7179
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 18:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2A610E6A2;
-	Wed, 14 May 2025 16:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBC210E694;
+	Wed, 14 May 2025 16:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KjhxOGa9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RfPPAF+f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7170810E69C;
- Wed, 14 May 2025 16:33:48 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-22e7eff58a0so106265ad.3; 
- Wed, 14 May 2025 09:33:48 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F099410E691;
+ Wed, 14 May 2025 16:33:43 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-30c54b40112so36996a91.2; 
+ Wed, 14 May 2025 09:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747240422; x=1747845222; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747240423; x=1747845223; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I8NFmJ8VaC2SUZH7esKNt2Ms7nN1mYBgEnYL3nIvpM4=;
- b=KjhxOGa9G2C11aisG8NwLNEoJIEno1JbhEoqvv4KviRrE4jiq9x2E+pW6Vhngx1mWc
- p0jFucQxzs6mxNuZr8E+OOuJGlb1kf2GYFVWmEfWgbaEWPyNTf+g8PhXgKscmZn70N4I
- woD647I/MaOGb0oMyTTQEOQObbVbA1HvflQD+Q2vURV2qKSb4aQ62O32ZxKBnkKQvKLs
- Tjgb35SU8fuwLYpAl9GgeSFomB6B2N7CKdeX0aW2DjOaUhowxDVt/AJqrbWWOS0QIyf8
- QyYhGhemZm575JYgOQlPsQKrEf/EvjuyI9NpkhPSr9wU6xwDnWTa31RzyFQZJ1FfIp/Z
- LTWQ==
+ bh=giCrtqk56/EbDcVLPZnFActrlq6d0kOfsWi+ZhZMU1A=;
+ b=RfPPAF+foT7pzZKkqUYdm/eefqdBsBQ9yOJ1kI8pDCa/rzfAWigWusT373rF4LsmbC
+ J7PUTwbt2CoDQBdkpqX2uqk4otO93341yHVCuQ7gP9hKzlO8SxbeEkLX14Et60dIBBuh
+ eLrtKELrGGHLcO/ktJqPGynONLWmCohs+qNwcuK9gvWnKwBV+kxZeCH7CQ2lV40dimui
+ USkTUwE3H08axVIHvCI7WJ8jPse1yrC3QG7JpeSDgPQ9oCoyZRsmb+Njv34AWBZ4HRQE
+ 6QH5icCGN1ptwzA4uXsKomEhesHTc56NRbl98+LUnd4ogXoJU3yQ7FrHVQQAzzENVnlR
+ OTQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747240422; x=1747845222;
+ d=1e100.net; s=20230601; t=1747240423; x=1747845223;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I8NFmJ8VaC2SUZH7esKNt2Ms7nN1mYBgEnYL3nIvpM4=;
- b=cNkiI1xHP2SQm8fDsYVrmQv+l1u9pIM+CJADZfbmHEDZzAARQUeVz6jO0Na+q5A54V
- iNhx8/WRq+/JQeieo68u5Di7Byvng66tK+/CIML6JvCesGb3kR54aHmLUPVjH2kHFjG5
- ueLnGZD7BKj0RYn39V4/TcVkjlmNbr8ohYYkLhUZinGZpK1WUyoaXJYukHJQaBF8ghaj
- h+nwzwHrto8EFt2M61N6XmKOa0cslnhhrjIDoKgVdzQ2nrAnoEhR11cCzIoMVUe9Wxmx
- EOQdI5zhyQkY1lCJyXVwSHHQDKQnuYzhuzDa6EqiW3mjjsFOJgeFucgdC609xiy6d/JA
- TA1w==
+ bh=giCrtqk56/EbDcVLPZnFActrlq6d0kOfsWi+ZhZMU1A=;
+ b=DEC+vKXTssKTCEu5Ee4RB9Z5F60gPy1ZnyUhWQzTsSoCNa87BaVGsAol5s2umBIDux
+ nyEy/31IQrf8/jcvH10rMTrVAZz0qd/6TGY1Epj1WQsNUjCwKHzm5nfQvwybZPJpR8c6
+ Iwofp3H0tSzMX5Snb1BN4SsAOZADYIEH0RT+kLRTlUj5vrv3wR/1BiUMsbhvuT9c4TCN
+ T4Yp4kdj1nZOtwNAtqbO1kgfDnaqj1x1SKSTKhtJAGF1z4zZg66eCxRQ7mlaz/2W//GL
+ mxoMbHE0FydMiCC81BwhKNaZhvpxLT8caw1oIiDM5Gw7zwk0ts0X7+0t2pBA7ROViiiC
+ CQBg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXI+S++01q4NcLsHOMu3M7rKs7cdof4+DBbR4TGm8tKdsP2qiQtZjKbkf9bAacGHEw6jsw9I3rUJlo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWAl+RxcjNkz6JUyjwgoK8F8NbXMlCGh6/39QJzUwr6tUK1kRT
- CYglKiMjzeYDz+qmm4N7HWnbGVBkZC8c8MTYRfkpyfSNeJqM2U0F9ETEvQ==
-X-Gm-Gg: ASbGnctmUbDpi3dv7yg8tq8jCJPcvbBiZzH2YusiCEmo0OyoNaFWMzpr1+71sYADVKi
- nZ2CagyBPEZnT8Jl7adUX2aqNoOW1jAlCBd0ckunrBDfPGz9FVmIjF22/v71ZCJgF9qLHYD4g2Y
- 9YgOt5CeilQHQkcyYgdm1bhEZIAwfzEZfAXO1hPR9zyy/Q2c0Q4/HbK6P3mM0bbboS8FniA/mXE
- LFDfHcz1Ftu1mYrj3nzU1RN3JoXbQCc4rIqYDffHnXE795EX7tJozsVaXwDCSsU/9bYsH+v7a4B
- 6P5LU/IZGPyDDqbOXl92WfNvTlGoRwLMQKufH0BEmSSJ0u1/UuhaWx9nZG+v23IUu/2oSRUZaN+
- RJGlmmz3sc+cUhtgEHRIisDS7rg==
-X-Google-Smtp-Source: AGHT+IERCtCWMPp273Pn/kSesFNut1YmKeS7V26pT+IIXOt9MSp5ENJ0CmcVrJLH9gRNLdpIfbkHPw==
-X-Received: by 2002:a17:903:1aef:b0:21f:6a36:7bf3 with SMTP id
- d9443c01a7336-23198126227mr68599475ad.12.1747240421020; 
- Wed, 14 May 2025 09:33:41 -0700 (PDT)
+ AJvYcCWbRNbOlMUlVg/h3G8RghwRyUrhK7YyoO69w0kvFO6dGPMio+N5uOkgo0j3BZgKi0P5RPd8I5GW9iw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDwwBlQMYDrGY3FEssmU9WuEyj2kI+c1GJwNVGU2Fa3c4lufKK
+ lFBlbPEWC1E17XdG/VAHJMMdorcRFiWnD0IWpSR+2sKQ30BFJzmrWcv56w==
+X-Gm-Gg: ASbGnctOMXQOSL4ygHr9TFT3ReZ6iW2yRNswRr8tlpZ3RzKNSfKVmbrgY5xr4MYn1TT
+ QZcGHetE1zgRsItp/Pvznb8YN4mLyn57/nRGoe8qCNqFqpdL7OO5MyxKMsAQT8snKGbmvySvkB4
+ yd3J02BaN+gJYP+RWV6y+FTi7eglsSgq1xdPHBJbKsh7qPrzQ/EbGk+w8kGzQwPmAUoLcn5oU04
+ YL57MM8m1GoCtFQezGqraJ6/rYma4SMpYsckbVKi3va/f/sSW5aN85c6PsE2WN550t2FQ7PWgQa
+ q6pSvaBshWc/BBPGDVdbNHxmZesbMhexsJFtNX+DIgyhr094kjgkLPAkqem7rYf0aOaOrATocPv
+ vDPLguYRfCD7V2uLm/t4UMsUirg==
+X-Google-Smtp-Source: AGHT+IEKDLVaJTyQcdwmJsHMQpLOYV6IU6ZnpNJqxuawDUSfC4gUx33wXl6ykdcJH394EGz/IhSStQ==
+X-Received: by 2002:a17:90b:2f4b:b0:2ff:784b:ffe with SMTP id
+ 98e67ed59e1d1-30e2e5e5a8fmr6693177a91.11.1747240422852; 
+ Wed, 14 May 2025 09:33:42 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22fc773f225sm99788915ad.89.2025.05.14.09.33.40
+ 98e67ed59e1d1-30e334018c2sm1810665a91.4.2025.05.14.09.33.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 09:33:40 -0700 (PDT)
+ Wed, 14 May 2025 09:33:42 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -71,9 +71,9 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] drm/msm: Fix a fence leak in submit error path
-Date: Wed, 14 May 2025 09:33:32 -0700
-Message-ID: <20250514163334.23544-2-robdclark@gmail.com>
+Subject: [PATCH 2/2] drm/msm: Fix another leak in the submit error path
+Date: Wed, 14 May 2025 09:33:33 -0700
+Message-ID: <20250514163334.23544-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250514163334.23544-1-robdclark@gmail.com>
 References: <20250514163334.23544-1-robdclark@gmail.com>
@@ -96,36 +96,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In error paths, we could unref the submit without calling
-drm_sched_entity_push_job(), so msm_job_free() will never get
-called.  Since drm_sched_job_cleanup() will NULL out the
-s_fence, we can use that to detect this case.
+put_unused_fd() doesn't free the installed file, if we've already done
+fd_install().  So we need to also free the sync_file.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/msm/msm_gem_submit.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 3e9aa2cc38ef..b2aeaecaa39b 100644
+index b2aeaecaa39b..d4f71bb54e84 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -85,6 +85,15 @@ void __msm_gem_submit_destroy(struct kref *kref)
- 			container_of(kref, struct msm_gem_submit, ref);
+@@ -658,6 +658,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	struct msm_ringbuffer *ring;
+ 	struct msm_submit_post_dep *post_deps = NULL;
+ 	struct drm_syncobj **syncobjs_to_reset = NULL;
++	struct sync_file *sync_file = NULL;
+ 	int out_fence_fd = -1;
  	unsigned i;
+ 	int ret;
+@@ -867,7 +868,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	}
  
-+	/*
-+	 * In error paths, we could unref the submit without calling
-+	 * drm_sched_entity_push_job(), so msm_job_free() will never
-+	 * get called.  Since drm_sched_job_cleanup() will NULL out
-+	 * s_fence, we can use that to detect this case.
-+	 */
-+	if (submit->base.s_fence)
-+		drm_sched_job_cleanup(&submit->base);
-+
- 	if (submit->fence_id) {
- 		spin_lock(&submit->queue->idr_lock);
- 		idr_remove(&submit->queue->fence_idr, submit->fence_id);
+ 	if (ret == 0 && args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+-		struct sync_file *sync_file = sync_file_create(submit->user_fence);
++		sync_file = sync_file_create(submit->user_fence);
+ 		if (!sync_file) {
+ 			ret = -ENOMEM;
+ 		} else {
+@@ -901,8 +902,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ out_unlock:
+ 	mutex_unlock(&queue->lock);
+ out_post_unlock:
+-	if (ret && (out_fence_fd >= 0))
++	if (ret && (out_fence_fd >= 0)) {
+ 		put_unused_fd(out_fence_fd);
++		if (sync_file)
++			fput(sync_file->file);
++	}
+ 
+ 	if (!IS_ERR_OR_NULL(submit)) {
+ 		msm_gem_submit_put(submit);
 -- 
 2.49.0
 
