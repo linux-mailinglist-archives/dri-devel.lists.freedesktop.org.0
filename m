@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1C1AB794D
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 01:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA990AB7975
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 01:37:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B181D10E755;
-	Wed, 14 May 2025 23:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C68410E040;
+	Wed, 14 May 2025 23:36:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kxjrv8qo";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB56E10E755
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 23:07:36 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1uFLCA-0003Tq-OO; Thu, 15 May 2025 01:07:26 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1uFLC9-002maB-16;
- Thu, 15 May 2025 01:07:25 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1uFLC9-004f9s-28;
- Thu, 15 May 2025 01:07:25 +0200
-Date: Thu, 15 May 2025 01:07:25 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de
-Subject: Re: [PATCH 3/3] drm/bridge: fsl-ldb: simplify device_node error
- handling
-Message-ID: <20250514230725.fmqnrxrr3odwzn4a@pengutronix.de>
-References: <20250514222453.440915-1-m.felsch@pengutronix.de>
- <20250514222453.440915-4-m.felsch@pengutronix.de>
- <20250514224410.GL23592@pendragon.ideasonboard.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CFE10E040
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 23:36:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 4C65C4A0CE;
+ Wed, 14 May 2025 23:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A7B3C4CEE3;
+ Wed, 14 May 2025 23:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747265811;
+ bh=e/UzKf6Tf3n1PZqopATSUBunyUSvZ+piJc7LAnSV1hY=;
+ h=From:To:Subject:Date:From;
+ b=Kxjrv8qocEX9jhv8LsAFYqilY7EgKEGjr5GP49/deIVYCt7fYlzLjyWGKTkP7cUtB
+ GVJ3/KkgLybE5a8ibiHWdlMfKzs+zhCAsjHHlxvmK2ztEW0/l/jVaOOSjzx7BD2mst
+ QDtDh0rotyW0CAZ/h1rgNbV76Pf35s8TBbrrWAZV49sjuNHEMnF8E+LXDc/xGpF2Y6
+ oGQwd+G6cgf4jM2U+SxFNaduIeJdgR9nTzH9uKWhOThG0iGKOXMP5KCvtBp/dbYfAi
+ BQ0j/k3RdB0cuTitFTFEboOnz/Xp05wHXWRst7LnOhKtYamOBh46DfOKoyu81XTjae
+ bdZwqi/qCY33w==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Guillaume Ranquet <granquet@baylibre.com>,
+ Tang Dongxing <tang.dongxing@zte.com.cn>
+Subject: [GIT PULL] mediatek drm next - 20250515
+Date: Wed, 14 May 2025 23:36:47 +0000
+Message-Id: <20250514233647.15907-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514224410.GL23592@pendragon.ideasonboard.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +58,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Hi, Dave & Daniel:
 
-On 25-05-15, Laurent Pinchart wrote:
-> Hi Marco,
-> 
-> On Thu, May 15, 2025 at 12:24:53AM +0200, Marco Felsch wrote:
-> > Make use of __free(device_node) to simplify the of_node_put() error
-> > handling paths. No functional changes.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/bridge/fsl-ldb.c | 24 +++++++++---------------
-> >  1 file changed, 9 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > index e0a229c91953..cea9ddaa5e01 100644
-> > --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> > +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > @@ -287,8 +287,9 @@ static const struct drm_bridge_funcs funcs = {
-> >  static int fsl_ldb_probe(struct platform_device *pdev)
-> >  {
-> >  	struct device *dev = &pdev->dev;
-> > -	struct device_node *panel_node;
-> > -	struct device_node *remote1, *remote2;
-> > +	struct device_node *panel_node __free(device_node) = NULL;
-> > +	struct device_node *remote1 __free(device_node) = NULL;
-> > +	struct device_node *remote2 __free(device_node) = NULL;
-> >  	struct drm_panel *panel;
-> >  	struct fsl_ldb *fsl_ldb;
-> >  	int dual_link;
-> > @@ -321,21 +322,16 @@ static int fsl_ldb_probe(struct platform_device *pdev)
-> >  	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
-> >  	fsl_ldb->ch0_enabled = (remote1 != NULL);
-> >  	fsl_ldb->ch1_enabled = (remote2 != NULL);
-> > -	panel_node = of_node_get(remote1 ? remote1 : remote2);
-> > -	of_node_put(remote1);
-> > -	of_node_put(remote2);
-> > +	panel_node = remote1 ? remote1 : remote2;
-> 
-> This will cause a double put of panel_node, once due to __free() on
-> remote1 or remote2, and the second time due to __free() on panel_node.
+This includes:
+1. Prepare for support MT8195/88 HDMIv2 and DDCv2
+2. DPI: Cleanups and add support for more formats
+3. Cleanups and sanitization
+4. Replace custom compare_dev with component_compare_of
 
-Argh.. you're right. I drop the __free() from the panel_node.
+Regards,
+Chun-Kuang.
 
-Thanks,
-  Marco
+The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
 
-> 
-> >  
-> > -	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled) {
-> > -		of_node_put(panel_node);
-> > +	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled)
-> >  		return dev_err_probe(dev, -ENXIO, "No panel node found");
-> > -	}
-> >  
-> >  	dev_dbg(dev, "Using %s\n",
-> >  		fsl_ldb_is_dual(fsl_ldb) ? "dual-link mode" :
-> >  		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
-> >  
-> >  	panel = of_drm_find_panel(panel_node);
-> > -	of_node_put(panel_node);
-> >  	if (IS_ERR(panel))
-> >  		return dev_err_probe(dev, PTR_ERR(panel), "drm panel not found\n");
-> >  
-> > @@ -345,14 +341,12 @@ static int fsl_ldb_probe(struct platform_device *pdev)
-> >  				     "drm panel-bridge add failed\n");
-> >  
-> >  	if (fsl_ldb_is_dual(fsl_ldb)) {
-> > -		struct device_node *port1, *port2;
-> > +		struct device_node *port1 __free(device_node) =
-> > +			of_graph_get_port_by_id(dev->of_node, 1);
-> > +		struct device_node *port2 __free(device_node) =
-> > +			of_graph_get_port_by_id(dev->of_node, 2);
-> >  
-> > -		port1 = of_graph_get_port_by_id(dev->of_node, 1);
-> > -		port2 = of_graph_get_port_by_id(dev->of_node, 2);
-> >  		dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
-> > -		of_node_put(port1);
-> > -		of_node_put(port2);
-> > -
-> >  		if (dual_link < 0)
-> >  			return dev_err_probe(dev, dual_link,
-> >  					     "Error getting dual link configuration\n");
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-20250515
+
+for you to fetch changes up to 07c39476a75bf2541dbdb37815b60cc134cf9aff:
+
+  drm/mediatek: Replace custom compare_dev with component_compare_of (2025-05-14 23:12:24 +0000)
+
+----------------------------------------------------------------
+Mediatek DRM Next - 20250515
+
+1. Prepare for support MT8195/88 HDMIv2 and DDCv2
+2. DPI: Cleanups and add support for more formats
+3. Cleanups and sanitization
+4. Replace custom compare_dev with component_compare_of
+
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (20):
+      dt-bindings: display: mediatek: Add binding for HDMIv2 DDC
+      dt-bindings: display: mediatek: Add binding for MT8195 HDMI-TX v2
+      drm/mediatek: mtk_cec: Switch to register as module_platform_driver
+      drm/mediatek: mtk_hdmi_ddc: Switch to register as module_platform_driver
+      drm/mediatek: mtk_hdmi: Convert to module_platform_driver macro
+      drm/mediatek: mtk_hdmi: Disgregate function mtk_hdmi_audio_set_param()
+      drm/mediatek: mtk_hdmi: Move audio params selection to new function
+      drm/mediatek: mtk_hdmi: Move plugged_cb/codec_dev setting to new function
+      drm/mediatek: mtk_hdmi: Move N/CTS setting to new function
+      drm/mediatek: mtk_hdmi: Use dev_err_probe() in mtk_hdmi_dt_parse_pdata()
+      drm/mediatek: mtk_hdmi: Move CEC device parsing in new function
+      drm/mediatek: mtk_hdmi: Move output init to mtk_hdmi_register_audio_driver()
+      drm/mediatek: mtk_dpi: Use switch in mtk_dpi_config_color_format()
+      drm/mediatek: mtk_dpi: Add local helpers for bus format parameters
+      drm/mediatek: mtk_dpi: Add support for additional output formats
+      drm/mediatek: mtk_dpi: Allow additional output formats on MT8195/88
+      drm/mediatek: mtk_dpi: Rename output fmts array for MT8195 DP_INTF
+      drm/mediatek: mtk_drm_drv: Fix kobject put for mtk_mutex device ptr
+      drm/mediatek: Fix kobject put for component sub-drivers
+      drm/mediatek: mtk_drm_drv: Unbind secondary mmsys components on err
+
+Guillaume Ranquet (1):
+      drm/mediatek: hdmi: Use regmap instead of iomem for main registers
+
+Krzysztof Kozlowski (1):
+      drm/mediatek/hdmi: Use syscon_regmap_lookup_by_phandle_args
+
+Tang Dongxing (1):
+      drm/mediatek: Replace custom compare_dev with component_compare_of
+
+ .../display/mediatek/mediatek,mt8195-hdmi-ddc.yaml |  41 +++
+ .../display/mediatek/mediatek,mt8195-hdmi.yaml     | 151 ++++++++
+ drivers/gpu/drm/mediatek/Makefile                  |   8 +-
+ drivers/gpu/drm/mediatek/mtk_cec.c                 |   7 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |   7 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 | 117 +++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  31 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                | 410 +++++++++------------
+ drivers/gpu/drm/mediatek/mtk_hdmi.h                |  14 -
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c            |   2 +-
+ 10 files changed, 497 insertions(+), 291 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi.h
