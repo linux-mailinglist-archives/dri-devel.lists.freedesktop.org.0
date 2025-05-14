@@ -2,78 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B60AB7397
-	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72372AB7393
+	for <lists+dri-devel@lfdr.de>; Wed, 14 May 2025 19:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46EE910E6F7;
-	Wed, 14 May 2025 17:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9F610E6EA;
+	Wed, 14 May 2025 17:57:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="np4jp5NU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="exTE5VVK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6396910E6F3;
- Wed, 14 May 2025 17:57:09 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-742596d8b95so187556b3a.1; 
- Wed, 14 May 2025 10:57:09 -0700 (PDT)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD2E910E6EF;
+ Wed, 14 May 2025 17:57:10 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-7425bd5a83aso224859b3a.0; 
+ Wed, 14 May 2025 10:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747245428; x=1747850228; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747245430; x=1747850230; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mQObzJ/G5smai1eIvIjNkPePS5oTUL5f/3qh2v6cVDU=;
- b=np4jp5NUiv0oidwYq2BZ93cw0AyMD4bmHzEawgsc00hvgckweBv4tMt85xsbqG7zqh
- itGV4iwiP6ZD9Gb89GdYO3jht0CaPrhRtL4xosjMsrcDvkjFbC8lCW+tpAGPHw+7Sxks
- hEKueg9t1eelrTJ0k3YF6BHpV3PedbMPB2+zNA39+wvsmZUZcWGhOflWNrDAxtfHDJpP
- Vxhk5wiKSig8owlbDzIP96tH5287Jc9PQgaZt6f29A38bX+anw5mhuNiwFSuylYmiuCP
- 19GEEYemgRjAb12Qzv++ArOc383dbz1F+ansCbsefLQXF9L8sdImfJ8Zabd+77ugXPzE
- IZkw==
+ bh=2kT0TmtBcaT0OVTnm09Euq5X3LcvTa/vRpQlqBQDIOE=;
+ b=exTE5VVKHT4OlGemPCOvb0vDY2ZFF72igowLM+sbSj2H6MEtvcIhzWXtTXsa+Rp8WW
+ UfygHSaect+Mj8nFhKi4xHQKCWn7rdmmgl5UWn3ClC8gAZaGh+e0Cu9ldb34Db0w1Te4
+ 2YiNbfobr60+zGSRts2p0mkhHLChhsZnfE36oOcwgUiADZSZxHL8kfafeTwHYdpJB3Y6
+ 1OEgWSrPTnTB9vOVJauvqU34AQUHS+grxoEjpd45yh1x8XPVJJAeDWTs/jXwA3LVNq0+
+ CvA3esXDOjLTHnGZcgH92Y/9ssAh5ehGrV4xzoOZKUc8+0y/XTGRaKGGh7iNxpbr8uu+
+ cTPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747245428; x=1747850228;
+ d=1e100.net; s=20230601; t=1747245430; x=1747850230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mQObzJ/G5smai1eIvIjNkPePS5oTUL5f/3qh2v6cVDU=;
- b=Lv2tIUC/q8BLc2Cj877aT3wEhDCabvtCBZhGpgBeMhkv4IYT+uGjCLn/UQ6F+dRdJh
- TvpSjAQli5xUnZxDZY+PEQGDK9hQf49Y6P30ll4qAPuBh3PjZdIm+iADVRx45iyIxZC/
- tpfO5LEKwbXJ1mhlCs7wUe8OGfnoGbmPwWTc2oaL7CAJ0k+aPLnF4iuJoK397/ViuKVV
- fqOuzajOjiLaRqlvdDY7TQGNzTxNCIbjeoPmiGIz7EI+uceyB3/yXwmCLKEuo3OxW8Rv
- 4GQdqZf1+6xtpVjc6KlkNvKi23+SylP18rXTizDWnMqvnTztY1U83H/iii+ILso48BgC
- f/qw==
-X-Gm-Message-State: AOJu0YxdlSWf0HJm2wUCGO2P00yUQfdi9tLqrhAb9ARWyfkV+69h358y
- fItKeFy0MVu1ESHt/hYzeLJJBwy0duYJs+CoZ8361Z6IwWo7VfFwXs1BNw==
-X-Gm-Gg: ASbGncspCHSZDnzoWihxDta9F9REVkEaa1CIbxf/r5HplcD73TSHIlQjeI7U8E3ng7u
- xPu3dAKxXdCxgpXmE9WrGayJH4/aOswehcPTH27n7LsEqxRrrzs6t5pJzCwmT7SNBYFUEe/7MNy
- hTb/AnxgdAzRMmEoPDJWAjQW5eejn/jcj0orv4vW1q66HJgEkNooQwiZUwLIoHLz+0BP1qEkyGI
- Ac7BST0Ak/zaAIkNes9Z8JdyajfIQKA1ktMifH7RQBOHG5j1T6JJRXD4cehSXKdBVlaBdvG7xXf
- 60PrFCAJYPb1VpUhtlzm4NRjKRdj213XgVah/SjPmLU/6BKuGJ//lSpGH0LCdDYgrn3dxi14gS4
- LpSzBfKTUde/VT3lgPkt5I+IzQA==
-X-Google-Smtp-Source: AGHT+IFvqGDDbKYn/ol2Sh9+UeUz8WXB4kWezbNzsAEeALL/EHqt45gf7BNh7xw8UU3lGlwevYccsQ==
-X-Received: by 2002:a05:6a00:ac0a:b0:736:692e:129 with SMTP id
- d2e1a72fcca58-7428936236emr6894905b3a.24.1747245428509; 
- Wed, 14 May 2025 10:57:08 -0700 (PDT)
+ bh=2kT0TmtBcaT0OVTnm09Euq5X3LcvTa/vRpQlqBQDIOE=;
+ b=Iii0I3ewGe+gbED+lEfdNecvdi+Xsbhm5SvkTrPSqFyY3c4dIN0m61ETZk2bwqylLY
+ FV2JziCiJokT421T6VCHJLJ/yv018Eyr/uNkKclWEwerHTgc1A9y7fHJc9Bi7ZTEWZG7
+ zzwTQlbKCFZB2iBTFHuL60gZgvfq1zQZC1KLIhhgijdWZgQ0JP4IdzBbGmdWItDmvEms
+ Adz19z2rQ6fZQrPYzbkmHfuc11+QUkBA6JBNXhY81py2BRPbq7PaUL6b1NaJK8/I+irj
+ VGFpAUfUMpxxok938mU/4LKA0B4FUkr6DJj4fT/EYCCpv/rrQuSBf8MeCAnhhDjozXwk
+ SwXg==
+X-Gm-Message-State: AOJu0YycEphxWHCQdXIihB+sUjEyPEWyL1FEYPVGhP8z6rpcTtyhSvle
+ URxYUrqXytBRgrz/htIAQB3UjvLY0+U/FeChmRDqSGdCAZsvwsM0w5Jg5Q==
+X-Gm-Gg: ASbGncti+GO4yk2lM3hjKJ1VNTTa9t74CPLLRgyF8bsNVUbDBumTT0Yo6tesb9SevIP
+ 8AcIVQZIW0Hjltt1b/K2yfDAP03eTeBSGKmvb7NSjsijxxow0MHwHn9uagVuUCNd0j8ZE+ydRlN
+ m1Ny3i1MENB4kGImpdx1tHcjMZ0chK1q3BV1R+AbnAeh3lKFmRSGRrQi3CwGmFiZ9vvU3ozkX+0
+ 1Teh3S+dkb9gkZDZw1yknsz/+tJwJZC/pFU34pzejb68rcZsZwt2E2st8yHUTFwzdxtnOqtzpxw
+ t1ExilTudrm+r3lQhS81YYBopcBVVyEWPtxS+F1M6L0AKuIyuOCFmg52fdyXbTvJrewPvlo7lVw
+ GhdWH5hgnpaNsE9Z1h6wxT+UQCA==
+X-Google-Smtp-Source: AGHT+IERdBLJnsCnw0JeOkTwexRLqCKnv6uxUFKnFKJqf9D0Ew2AiXRI1GIuglRISh+thcuyBqTkHQ==
+X-Received: by 2002:a05:6a00:13a1:b0:740:b372:be5 with SMTP id
+ d2e1a72fcca58-74289290623mr5862001b3a.9.1747245429872; 
+ Wed, 14 May 2025 10:57:09 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7423770424bsm9657937b3a.30.2025.05.14.10.57.07
+ d2e1a72fcca58-7423770510asm9662944b3a.26.2025.05.14.10.57.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 10:57:07 -0700 (PDT)
+ Wed, 14 May 2025 10:57:09 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 25/40] drm/msm: Crashdump prep for sparse mappings
-Date: Wed, 14 May 2025 10:53:39 -0700
-Message-ID: <20250514175527.42488-26-robdclark@gmail.com>
+Subject: [PATCH v4 26/40] drm/msm: rd dumping prep for sparse mappings
+Date: Wed, 14 May 2025 10:53:40 -0700
+Message-ID: <20250514175527.42488-27-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250514175527.42488-1-robdclark@gmail.com>
 References: <20250514175527.42488-1-robdclark@gmail.com>
@@ -96,73 +94,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In this case, userspace could request dumping partial GEM obj mappings.
-Also drop use of should_dump() helper, which really only makes sense in
-the old submit->bos[] table world.
+Similar to the previous commit, add support for dumping partial
+mappings.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.h | 10 ---------
+ drivers/gpu/drm/msm/msm_rd.c  | 38 ++++++++++++++++-------------------
+ 2 files changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 6503ce655b10..2eaca2a22de9 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -219,13 +219,14 @@ static void msm_gpu_devcoredump_free(void *data)
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 67f845213810..f7b85084e228 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -402,14 +402,4 @@ static inline void msm_gem_submit_put(struct msm_gem_submit *submit)
+ 
+ void msm_submit_retire(struct msm_gem_submit *submit);
+ 
+-/* helper to determine of a buffer in submit should be dumped, used for both
+- * devcoredump and debugfs cmdstream dumping:
+- */
+-static inline bool
+-should_dump(struct msm_gem_submit *submit, int idx)
+-{
+-	extern bool rd_full;
+-	return rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
+-}
+-
+ #endif /* __MSM_GEM_H__ */
+diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
+index 39138e190cb9..edbcb93410a9 100644
+--- a/drivers/gpu/drm/msm/msm_rd.c
++++ b/drivers/gpu/drm/msm/msm_rd.c
+@@ -308,21 +308,11 @@ void msm_rd_debugfs_cleanup(struct msm_drm_private *priv)
+ 	priv->hangrd = NULL;
  }
  
- static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
--		struct drm_gem_object *obj, u64 iova, bool full)
-+				      struct drm_gem_object *obj, u64 iova,
-+				      bool full, size_t offset, size_t size)
+-static void snapshot_buf(struct msm_rd_state *rd,
+-		struct msm_gem_submit *submit, int idx,
+-		uint64_t iova, uint32_t size, bool full)
++static void snapshot_buf(struct msm_rd_state *rd, struct drm_gem_object *obj,
++			 uint64_t iova, bool full, size_t offset, size_t size)
  {
- 	struct msm_gpu_state_bo *state_bo = &state->bos[state->nr_bos];
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+-	struct drm_gem_object *obj = submit->bos[idx].obj;
+-	unsigned offset = 0;
+ 	const char *buf;
  
- 	/* Don't record write only objects */
--	state_bo->size = obj->size;
-+	state_bo->size = size;
- 	state_bo->flags = msm_obj->flags;
- 	state_bo->iova = iova;
+-	if (iova) {
+-		offset = iova - submit->bos[idx].iova;
+-	} else {
+-		iova = submit->bos[idx].iova;
+-		size = obj->size;
+-	}
+-
+ 	/*
+ 	 * Always write the GPUADDR header so can get a complete list of all the
+ 	 * buffers in the cmd
+@@ -333,10 +323,6 @@ static void snapshot_buf(struct msm_rd_state *rd,
+ 	if (!full)
+ 		return;
  
-@@ -236,7 +237,7 @@ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
- 	if (full) {
- 		void *ptr;
+-	/* But only dump the contents of buffers marked READ */
+-	if (!(submit->bos[idx].flags & MSM_SUBMIT_BO_READ))
+-		return;
+-
+ 	buf = msm_gem_get_vaddr_active(obj);
+ 	if (IS_ERR(buf))
+ 		return;
+@@ -352,6 +338,7 @@ static void snapshot_buf(struct msm_rd_state *rd,
+ void msm_rd_dump_submit(struct msm_rd_state *rd, struct msm_gem_submit *submit,
+ 		const char *fmt, ...)
+ {
++	extern bool rd_full;
+ 	struct task_struct *task;
+ 	char msg[256];
+ 	int i, n;
+@@ -385,16 +372,25 @@ void msm_rd_dump_submit(struct msm_rd_state *rd, struct msm_gem_submit *submit,
  
--		state_bo->data = kvmalloc(obj->size, GFP_KERNEL);
-+		state_bo->data = kvmalloc(size, GFP_KERNEL);
- 		if (!state_bo->data)
- 			goto out;
+ 	rd_write_section(rd, RD_CMD, msg, ALIGN(n, 4));
  
-@@ -249,7 +250,7 @@ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
- 			goto out;
- 		}
+-	for (i = 0; i < submit->nr_bos; i++)
+-		snapshot_buf(rd, submit, i, 0, 0, should_dump(submit, i));
++	for (i = 0; i < submit->nr_bos; i++) {
++		struct drm_gem_object *obj = submit->bos[i].obj;
++		bool dump = rd_full || (submit->bos[i].flags & MSM_SUBMIT_BO_DUMP);
++
++		snapshot_buf(rd, obj, submit->bos[i].iova, dump, 0, obj->size);
++	}
  
--		memcpy(state_bo->data, ptr, obj->size);
-+		memcpy(state_bo->data, ptr + offset, size);
- 		msm_gem_put_vaddr(obj);
- 	}
- out:
-@@ -279,6 +280,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 	state->fault_info = gpu->fault_info;
+ 	for (i = 0; i < submit->nr_cmds; i++) {
+ 		uint32_t szd  = submit->cmd[i].size; /* in dwords */
++		int idx = submit->cmd[i].idx;
++		bool dump = rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
  
- 	if (submit) {
-+		extern bool rd_full;
- 		int i;
- 
- 		if (state->fault_info.ttbr0) {
-@@ -294,9 +296,10 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
- 		for (i = 0; state->bos && i < submit->nr_bos; i++) {
--			msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
--						  submit->bos[i].iova,
--						  should_dump(submit, i));
-+			struct drm_gem_object *obj = submit->bos[i].obj;
-+			bool dump = rd_full || (submit->bos[i].flags & MSM_SUBMIT_BO_DUMP);
-+			msm_gpu_crashstate_get_bo(state, obj, submit->bos[i].iova,
-+						  dump, 0, obj->size);
+ 		/* snapshot cmdstream bo's (if we haven't already): */
+-		if (!should_dump(submit, i)) {
+-			snapshot_buf(rd, submit, submit->cmd[i].idx,
+-					submit->cmd[i].iova, szd * 4, true);
++		if (!dump) {
++			struct drm_gem_object *obj = submit->bos[idx].obj;
++			size_t offset = submit->cmd[i].iova - submit->bos[idx].iova;
++
++			snapshot_buf(rd, obj, submit->cmd[i].iova, true,
++				     offset, szd * 4);
  		}
  	}
  
