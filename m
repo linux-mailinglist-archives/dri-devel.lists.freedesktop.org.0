@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C47AB82D0
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 11:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1038FAB82D1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 11:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B93BC10E7ED;
-	Thu, 15 May 2025 09:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 185D710E7EE;
+	Thu, 15 May 2025 09:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="aau/idRp";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="FtZudCx8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF65210E7E2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:35:20 +0000 (UTC)
-X-UUID: e5fa3732316f11f082f7f7ac98dee637-20250515
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD5510E7EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:35:17 +0000 (UTC)
+X-UUID: e5f76174316f11f0813e4fe1310efc19-20250515
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Delouw9xeUf2OJGeRxpbVRpzgy9K/EkXLOsmW6ZrQtQ=; 
- b=aau/idRpwMSapbz8gdLUeK46GzTMGHjJU2YCqAs5CwbFMerRpp4PudDDNwkYAm0/qZh0joCKPaJdHSMfgvBkwdVFcADijQsz0uJnbqFahFrf9zKfjYcILQD4EnfisAhuKCHvAOA6zr+g8t9gZuPz+znSU3ffVq2ephhi91W5ZMw=;
+ bh=nxPGKgHl8CDQ+wEKQDyOKmdyZ4bgpTYi2mPwNGB15/s=; 
+ b=FtZudCx8Hrq+y6g3kmr3glyClIbJ57k2S0ZKtJdTVkCcA+dGjkXyilyiXJe5E/p3z3xn19Q5H00Zod8r1WgLlwlP8Rt7fpn7bM7u6LiEx4S3ktHyFh3PzSMgZDe2Vr/55PHjPVZhI/D5/HvIQPSQT6v7sqKx7c1trmL7CsCt5q8=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1, REQID:20c57eeb-6059-4923-a69a-8a87146bbf08, IP:0,
+X-CID-O-INFO: VERSION:1.2.1, REQID:e8ad27dc-cf92-4e1c-8e80-776211712e9a, IP:0,
  UR
  L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
  elease,TS:0
-X-CID-META: VersionHash:0ef645f, CLOUDID:ace504c0-eade-4d5b-9f81-31d7b5452436,
+X-CID-META: VersionHash:0ef645f, CLOUDID:b1e504c0-eade-4d5b-9f81-31d7b5452436,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
  :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: e5fa3732316f11f082f7f7ac98dee637-20250515
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
+X-UUID: e5f76174316f11f0813e4fe1310efc19-20250515
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 539590568; Thu, 15 May 2025 17:35:11 +0800
+ with ESMTP id 1209373319; Thu, 15 May 2025 17:35:11 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Thu, 15 May 2025 17:35:07 +0800
+ 15.2.1258.39; Thu, 15 May 2025 17:35:08 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Thu, 15 May 2025 17:35:07 +0800
+ 15.2.1258.39 via Frontend Transport; Thu, 15 May 2025 17:35:08 +0800
 From: paul-pl.chen <paul-pl.chen@mediatek.com>
 To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
  <chunkuang.hu@kernel.org>, <angelogioacchino.delregno@collabora.com>
@@ -58,9 +58,10 @@ CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v3 09/17] soc: mediatek: mutex: add mutex support for MT8196
-Date: Thu, 15 May 2025 17:34:21 +0800
-Message-ID: <20250515093454.1729720-10-paul-pl.chen@mediatek.com>
+Subject: [PATCH v3 10/17] drm/mediatek: Export OVL formats definitions and
+ format conversion API
+Date: Thu, 15 May 2025 17:34:22 +0800
+Message-ID: <20250515093454.1729720-11-paul-pl.chen@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250515093454.1729720-1-paul-pl.chen@mediatek.com>
 References: <20250515093454.1729720-1-paul-pl.chen@mediatek.com>
@@ -84,253 +85,432 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Nancy Lin <nancy.lin@mediatek.com>
 
-Add mutex support for the main and external displays in MT8196:
-- Introduce a new DVO0 output component for the new mutex
-  settings of MT8196.
-- Add a need_sof_mof flag to configure both SOF and MOD settings
-  for the output component.
+In upcoming SoCs, the OVL component will be divided into multiple
+smaller hardware units to enhance flexibility. To facilitate this
+transition, the OVL format definitions and format conversion API
+should be exported for reuse across these units.
 
 Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
 Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-mutex.c | 140 ++++++++++++++++++++++++++++++-
- 1 file changed, 138 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 214 ++++++++++++++----------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.h |  28 ++++
+ 2 files changed, 150 insertions(+), 92 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl.h
 
-diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-index b2a9992fb232..183f3abcd7dd 100644
---- a/drivers/soc/mediatek/mtk-mutex.c
-+++ b/drivers/soc/mediatek/mtk-mutex.c
-@@ -19,6 +19,7 @@
- #define MT2701_MUTEX0_SOF0			0x30
- #define MT8183_MUTEX0_MOD0			0x30
- #define MT8183_MUTEX0_SOF0			0x2c
-+#define MT8196_MUTEX0_MOD0			0x34
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index d0581c4e3c99..a516b7c82b5a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -3,8 +3,6 @@
+  * Copyright (c) 2015 MediaTek Inc.
+  */
  
- #define DISP_REG_MUTEX_EN(n)			(0x20 + 0x20 * (n))
- #define DISP_REG_MUTEX(n)			(0x24 + 0x20 * (n))
-@@ -237,6 +238,47 @@
- #define MT8195_MUTEX_MOD_MDP_WROT2             32
- #define MT8195_MUTEX_MOD_MDP_WROT3             33
+-#include <drm/drm_blend.h>
+-#include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
  
-+/* OVLSYS */
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA2		2
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA3		3
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA4		4
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA5		5
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA6		6
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA7		7
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA8		8
-+#define MT8196_MUTEX_MOD0_OVL_EXDMA9		9
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER1		11
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER2		12
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER3		13
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER4		14
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER5		15
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER6		16
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER7		17
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER8		18
-+#define MT8196_MUTEX_MOD0_OVL_BLENDER9		19
-+#define MT8196_MUTEX_MOD0_OVL_OUTPROC0		20
-+#define MT8196_MUTEX_MOD0_OVL_OUTPROC1		21
-+#define MT8196_MUTEX_MOD0_OVL_OUTPROC2		22
-+#define MT8196_MUTEX_MOD1_OVL_DLO_ASYNC5	(32 + 16)
-+#define MT8196_MUTEX_MOD1_OVL_DLO_ASYNC6	(32 + 17)
+ #include <linux/clk.h>
+@@ -18,6 +16,7 @@
+ #include "mtk_crtc.h"
+ #include "mtk_ddp_comp.h"
+ #include "mtk_disp_drv.h"
++#include "mtk_disp_ovl.h"
+ #include "mtk_drm_drv.h"
+ 
+ #define DISP_REG_OVL_INTEN			0x0004
+@@ -62,22 +61,15 @@
+ /* OVL_CON_RGB_SWAP works only if OVL_CON_CLRFMT_MAN is enabled */
+ #define OVL_CON_RGB_SWAP	BIT(25)
+ 
+-#define OVL_CON_CLRFMT_RGB	(1 << 12)
+-#define OVL_CON_CLRFMT_ARGB8888	(2 << 12)
+-#define OVL_CON_CLRFMT_RGBA8888	(3 << 12)
+-#define OVL_CON_CLRFMT_ABGR8888	(OVL_CON_CLRFMT_ARGB8888 | OVL_CON_BYTE_SWAP)
+-#define OVL_CON_CLRFMT_BGRA8888	(OVL_CON_CLRFMT_RGBA8888 | OVL_CON_BYTE_SWAP)
+-#define OVL_CON_CLRFMT_UYVY	(4 << 12)
+-#define OVL_CON_CLRFMT_YUYV	(5 << 12)
+-#define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
+-#define OVL_CON_CLRFMT_PARGB8888 ((3 << 12) | OVL_CON_CLRFMT_MAN)
+-#define OVL_CON_CLRFMT_PABGR8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_RGB_SWAP)
+-#define OVL_CON_CLRFMT_PBGRA8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_BYTE_SWAP)
+-#define OVL_CON_CLRFMT_PRGBA8888 (OVL_CON_CLRFMT_PABGR8888 | OVL_CON_BYTE_SWAP)
+-#define OVL_CON_CLRFMT_RGB565(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+-					0 : OVL_CON_CLRFMT_RGB)
+-#define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+-					OVL_CON_CLRFMT_RGB : 0)
++#define OVL_CON_CLRFMT_RGB565(shift)	(0 << (shift))
++#define OVL_CON_CLRFMT_RGB888(shift)	(1 << (shift))
++#define OVL_CON_CLRFMT_ARGB8888(shift)	(2 << (shift))
++#define OVL_CON_CLRFMT_RGBA8888(shift)	(3 << (shift))
++#define OVL_CON_CLRFMT_UYVY(shift)	(4 << (shift))
++#define OVL_CON_CLRFMT_YUYV(shift)	(5 << (shift))
++#define OVL_CON_MTX_YUV_TO_RGB		(6 << 16)
++#define OVL_CON_CLRFMT_PARGB8888(shift, man) ((3 << (shift)) | (man))
 +
-+/* DISP0 */
-+#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC0	16
-+#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC1	17
-+#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC8	24
-+#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC1	(32 + 1)
-+#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC2	(32 + 2)
-+#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC3	(32 + 3)
-+
-+/* DISP1 */
-+#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC21	1
-+#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC22	2
-+#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC23	3
-+#define MT8196_MUTEX_MOD0_DISP1_DP_INTF0	13
-+#define MT8196_MUTEX_MOD0_DISP1_DP_INTF1	14
-+#define MT8196_MUTEX_MOD0_DISP1_DSI0		23
-+#define MT8196_MUTEX_MOD0_DISP1_DVO		29
-+
- #define MT8365_MUTEX_MOD_DISP_OVL0		7
- #define MT8365_MUTEX_MOD_DISP_OVL0_2L		8
- #define MT8365_MUTEX_MOD_DISP_RDMA0		9
-@@ -297,6 +339,12 @@
- #define MT8195_MUTEX_SOF_DP_INTF1		4
- #define MT8195_MUTEX_SOF_DPI0			6 /* for HDMI_TX */
- #define MT8195_MUTEX_SOF_DPI1			5 /* for digital video out */
-+#define MT8196_MUTEX_SOF_DSI0			1
-+#define MT8196_MUTEX_SOF_DSI1			2
-+#define MT8196_MUTEX_SOF_DSI2			4
-+#define MT8196_MUTEX_SOF_DPI0			5
-+#define MT8196_MUTEX_SOF_DPI1			6
-+#define MT8196_MUTEX_SOF_DVO0			7
+ #define	OVL_CON_AEN		BIT(8)
+ #define	OVL_CON_ALPHA		0xff
+ #define	OVL_CON_VIRT_FLIP	BIT(9)
+@@ -85,23 +77,7 @@
  
- #define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
- #define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
-@@ -310,6 +358,12 @@
- #define MT8195_MUTEX_EOF_DP_INTF1		(MT8195_MUTEX_SOF_DP_INTF1 << 7)
- #define MT8195_MUTEX_EOF_DPI0			(MT8195_MUTEX_SOF_DPI0 << 7)
- #define MT8195_MUTEX_EOF_DPI1			(MT8195_MUTEX_SOF_DPI1 << 7)
-+#define MT8196_MUTEX_EOF_DSI0			(MT8196_MUTEX_SOF_DSI0 << 7)
-+#define MT8196_MUTEX_EOF_DSI1			(MT8196_MUTEX_SOF_DSI1 << 7)
-+#define MT8196_MUTEX_EOF_DSI2			(MT8196_MUTEX_SOF_DSI2 << 7)
-+#define MT8196_MUTEX_EOF_DPI0			(MT8196_MUTEX_SOF_DPI0 << 7)
-+#define MT8196_MUTEX_EOF_DPI1			(MT8196_MUTEX_SOF_DPI1 << 7)
-+#define MT8196_MUTEX_EOF_DVO0			(MT8196_MUTEX_SOF_DVO0 << 7)
+ #define OVL_COLOR_ALPHA		GENMASK(31, 24)
  
- struct mtk_mutex {
- 	u8 id;
-@@ -326,6 +380,7 @@ enum mtk_mutex_sof_id {
- 	MUTEX_SOF_DSI3,
- 	MUTEX_SOF_DP_INTF0,
- 	MUTEX_SOF_DP_INTF1,
-+	MUTEX_SOF_DVO0,
- 	DDP_MUTEX_SOF_MAX,
+-static inline bool is_10bit_rgb(u32 fmt)
+-{
+-	switch (fmt) {
+-	case DRM_FORMAT_XRGB2101010:
+-	case DRM_FORMAT_ARGB2101010:
+-	case DRM_FORMAT_RGBX1010102:
+-	case DRM_FORMAT_RGBA1010102:
+-	case DRM_FORMAT_XBGR2101010:
+-	case DRM_FORMAT_ABGR2101010:
+-	case DRM_FORMAT_BGRX1010102:
+-	case DRM_FORMAT_BGRA1010102:
+-		return true;
+-	}
+-	return false;
+-}
+-
+-static const u32 mt8173_formats[] = {
++const u32 mt8173_ovl_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_BGRX8888,
+@@ -115,7 +91,9 @@ static const u32 mt8173_formats[] = {
+ 	DRM_FORMAT_YUYV,
  };
  
-@@ -336,6 +391,7 @@ struct mtk_mutex_data {
- 	const u16 mutex_mod_reg;
- 	const u16 mutex_sof_reg;
- 	const bool no_clk;
-+	const bool need_sof_mod;
- };
- 
- struct mtk_mutex_ctx {
-@@ -625,6 +681,64 @@ static const u8 mt8195_mutex_table_mod[MUTEX_MOD_IDX_MAX] = {
- 	[MUTEX_MOD_IDX_MDP_WROT3] = MT8195_MUTEX_MOD_MDP_WROT3,
- };
- 
-+static const u8 mt8196_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-+	[DDP_COMPONENT_OVL0_EXDMA2] = MT8196_MUTEX_MOD0_OVL_EXDMA2,
-+	[DDP_COMPONENT_OVL0_EXDMA3] = MT8196_MUTEX_MOD0_OVL_EXDMA3,
-+	[DDP_COMPONENT_OVL0_EXDMA4] = MT8196_MUTEX_MOD0_OVL_EXDMA4,
-+	[DDP_COMPONENT_OVL0_EXDMA5] = MT8196_MUTEX_MOD0_OVL_EXDMA5,
-+	[DDP_COMPONENT_OVL0_EXDMA6] = MT8196_MUTEX_MOD0_OVL_EXDMA6,
-+	[DDP_COMPONENT_OVL0_EXDMA7] = MT8196_MUTEX_MOD0_OVL_EXDMA7,
-+	[DDP_COMPONENT_OVL0_EXDMA8] = MT8196_MUTEX_MOD0_OVL_EXDMA8,
-+	[DDP_COMPONENT_OVL0_EXDMA9] = MT8196_MUTEX_MOD0_OVL_EXDMA9,
-+	[DDP_COMPONENT_OVL0_BLENDER1] = MT8196_MUTEX_MOD0_OVL_BLENDER1,
-+	[DDP_COMPONENT_OVL0_BLENDER2] = MT8196_MUTEX_MOD0_OVL_BLENDER2,
-+	[DDP_COMPONENT_OVL0_BLENDER3] = MT8196_MUTEX_MOD0_OVL_BLENDER3,
-+	[DDP_COMPONENT_OVL0_BLENDER4] = MT8196_MUTEX_MOD0_OVL_BLENDER4,
-+	[DDP_COMPONENT_OVL0_BLENDER5] = MT8196_MUTEX_MOD0_OVL_BLENDER5,
-+	[DDP_COMPONENT_OVL0_BLENDER6] = MT8196_MUTEX_MOD0_OVL_BLENDER6,
-+	[DDP_COMPONENT_OVL0_BLENDER7] = MT8196_MUTEX_MOD0_OVL_BLENDER7,
-+	[DDP_COMPONENT_OVL0_BLENDER8] = MT8196_MUTEX_MOD0_OVL_BLENDER8,
-+	[DDP_COMPONENT_OVL0_BLENDER9] = MT8196_MUTEX_MOD0_OVL_BLENDER9,
-+	[DDP_COMPONENT_OVL0_OUTPROC0] = MT8196_MUTEX_MOD0_OVL_OUTPROC0,
-+	[DDP_COMPONENT_OVL0_OUTPROC1] = MT8196_MUTEX_MOD0_OVL_OUTPROC1,
-+	[DDP_COMPONENT_OVL0_DLO_ASYNC5] = MT8196_MUTEX_MOD1_OVL_DLO_ASYNC5,
-+	[DDP_COMPONENT_OVL0_DLO_ASYNC6] = MT8196_MUTEX_MOD1_OVL_DLO_ASYNC6,
-+	[DDP_COMPONENT_OVL1_EXDMA2] = MT8196_MUTEX_MOD0_OVL_EXDMA2,
-+	[DDP_COMPONENT_OVL1_EXDMA3] = MT8196_MUTEX_MOD0_OVL_EXDMA3,
-+	[DDP_COMPONENT_OVL1_EXDMA4] = MT8196_MUTEX_MOD0_OVL_EXDMA4,
-+	[DDP_COMPONENT_OVL1_EXDMA5] = MT8196_MUTEX_MOD0_OVL_EXDMA5,
-+	[DDP_COMPONENT_OVL1_EXDMA6] = MT8196_MUTEX_MOD0_OVL_EXDMA6,
-+	[DDP_COMPONENT_OVL1_EXDMA7] = MT8196_MUTEX_MOD0_OVL_EXDMA7,
-+	[DDP_COMPONENT_OVL1_EXDMA8] = MT8196_MUTEX_MOD0_OVL_EXDMA8,
-+	[DDP_COMPONENT_OVL1_EXDMA9] = MT8196_MUTEX_MOD0_OVL_EXDMA9,
-+	[DDP_COMPONENT_OVL1_BLENDER1] = MT8196_MUTEX_MOD0_OVL_BLENDER1,
-+	[DDP_COMPONENT_OVL1_BLENDER2] = MT8196_MUTEX_MOD0_OVL_BLENDER2,
-+	[DDP_COMPONENT_OVL1_BLENDER3] = MT8196_MUTEX_MOD0_OVL_BLENDER3,
-+	[DDP_COMPONENT_OVL1_BLENDER4] = MT8196_MUTEX_MOD0_OVL_BLENDER4,
-+	[DDP_COMPONENT_OVL1_BLENDER5] = MT8196_MUTEX_MOD0_OVL_BLENDER5,
-+	[DDP_COMPONENT_OVL1_BLENDER6] = MT8196_MUTEX_MOD0_OVL_BLENDER6,
-+	[DDP_COMPONENT_OVL1_BLENDER7] = MT8196_MUTEX_MOD0_OVL_BLENDER7,
-+	[DDP_COMPONENT_OVL1_BLENDER8] = MT8196_MUTEX_MOD0_OVL_BLENDER8,
-+	[DDP_COMPONENT_OVL1_BLENDER9] = MT8196_MUTEX_MOD0_OVL_BLENDER9,
-+	[DDP_COMPONENT_OVL1_OUTPROC0] = MT8196_MUTEX_MOD0_OVL_OUTPROC0,
-+	[DDP_COMPONENT_OVL1_OUTPROC1] = MT8196_MUTEX_MOD0_OVL_OUTPROC1,
-+	[DDP_COMPONENT_OVL1_DLO_ASYNC5] = MT8196_MUTEX_MOD1_OVL_DLO_ASYNC5,
-+	[DDP_COMPONENT_OVL1_DLO_ASYNC6] = MT8196_MUTEX_MOD1_OVL_DLO_ASYNC6,
-+	[DDP_COMPONENT_DLI_ASYNC0] = MT8196_MUTEX_MOD0_DISP_DLI_ASYNC0,
-+	[DDP_COMPONENT_DLI_ASYNC1] = MT8196_MUTEX_MOD0_DISP_DLI_ASYNC1,
-+	[DDP_COMPONENT_DLI_ASYNC8] = MT8196_MUTEX_MOD0_DISP_DLI_ASYNC8,
-+	[DDP_COMPONENT_DLO_ASYNC1] = MT8196_MUTEX_MOD1_DISP_DLO_ASYNC1,
-+	[DDP_COMPONENT_DLO_ASYNC2] = MT8196_MUTEX_MOD1_DISP_DLO_ASYNC2,
-+	[DDP_COMPONENT_DLO_ASYNC3] = MT8196_MUTEX_MOD1_DISP_DLO_ASYNC3,
-+	[DDP_COMPONENT_DLI_ASYNC21] = MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC21,
-+	[DDP_COMPONENT_DLI_ASYNC22] = MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC22,
-+	[DDP_COMPONENT_DLI_ASYNC23] = MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC23,
-+	[DDP_COMPONENT_DVO0] = MT8196_MUTEX_MOD0_DISP1_DVO,
-+	[DDP_COMPONENT_DP_INTF0] = MT8196_MUTEX_MOD0_DISP1_DP_INTF0,
-+	[DDP_COMPONENT_DP_INTF1] = MT8196_MUTEX_MOD0_DISP1_DP_INTF1,
-+	[DDP_COMPONENT_DSI0] = MT8196_MUTEX_MOD0_DISP1_DSI0,
-+};
+-static const u32 mt8195_formats[] = {
++const size_t mt8173_ovl_formats_len = ARRAY_SIZE(mt8173_ovl_formats);
 +
- static const u8 mt8365_mutex_mod[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_AAL0] = MT8365_MUTEX_MOD_DISP_AAL,
- 	[DDP_COMPONENT_CCORR] = MT8365_MUTEX_MOD_DISP_CCORR,
-@@ -710,6 +824,17 @@ static const u16 mt8195_mutex_sof[DDP_MUTEX_SOF_MAX] = {
- 		MT8195_MUTEX_SOF_DP_INTF1 | MT8195_MUTEX_EOF_DP_INTF1,
++const u32 mt8195_ovl_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB2101010,
+@@ -139,6 +117,8 @@ static const u32 mt8195_formats[] = {
+ 	DRM_FORMAT_YUYV,
  };
  
-+static const u16 mt8196_mutex_sof[DDP_MUTEX_SOF_MAX] = {
-+	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-+	[MUTEX_SOF_DSI0] = MT8196_MUTEX_SOF_DSI0 | MT8196_MUTEX_EOF_DSI0,
-+	[MUTEX_SOF_DSI1] = MT8196_MUTEX_SOF_DSI1 | MT8196_MUTEX_EOF_DSI1,
-+	[MUTEX_SOF_DP_INTF0] =
-+		MT8196_MUTEX_SOF_DPI0 | MT8196_MUTEX_EOF_DPI0,
-+	[MUTEX_SOF_DP_INTF1] =
-+		MT8196_MUTEX_SOF_DPI1 | MT8196_MUTEX_EOF_DPI1,
-+	[MUTEX_SOF_DVO0] = MT8196_MUTEX_SOF_DVO0 | MT8196_MUTEX_EOF_DVO0,
-+};
++const size_t mt8195_ovl_formats_len = ARRAY_SIZE(mt8195_ovl_formats);
 +
- static const struct mtk_mutex_data mt2701_mutex_driver_data = {
- 	.mutex_mod = mt2701_mutex_mod,
- 	.mutex_sof = mt2712_mutex_sof,
-@@ -803,6 +928,14 @@ static const struct mtk_mutex_data mt8195_vpp_mutex_driver_data = {
- 	.mutex_table_mod = mt8195_mutex_table_mod,
+ struct mtk_disp_ovl_data {
+ 	unsigned int addr;
+ 	unsigned int gmc_bits;
+@@ -167,6 +147,22 @@ struct mtk_disp_ovl {
+ 	void				*vblank_cb_data;
  };
  
-+static const struct mtk_mutex_data mt8196_mutex_driver_data = {
-+	.mutex_mod = mt8196_mutex_mod,
-+	.mutex_sof = mt8196_mutex_sof,
-+	.mutex_mod_reg = MT8196_MUTEX0_MOD0,
-+	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
-+	.need_sof_mod = true,
-+};
++bool mtk_ovl_is_10bit_rgb(unsigned int fmt)
++{
++	switch (fmt) {
++	case DRM_FORMAT_XRGB2101010:
++	case DRM_FORMAT_ARGB2101010:
++	case DRM_FORMAT_RGBX1010102:
++	case DRM_FORMAT_RGBA1010102:
++	case DRM_FORMAT_XBGR2101010:
++	case DRM_FORMAT_ABGR2101010:
++	case DRM_FORMAT_BGRX1010102:
++	case DRM_FORMAT_BGRA1010102:
++		return true;
++	}
++	return false;
++}
 +
- static const struct mtk_mutex_data mt8365_mutex_driver_data = {
- 	.mutex_mod = mt8365_mutex_mod,
- 	.mutex_sof = mt8183_mutex_sof,
-@@ -872,6 +1005,8 @@ static int mtk_mutex_get_output_comp_sof(enum mtk_ddp_comp_id id)
- 		return MUTEX_SOF_DP_INTF0;
- 	case DDP_COMPONENT_DP_INTF1:
- 		return MUTEX_SOF_DP_INTF1;
-+	case DDP_COMPONENT_DVO0:
-+		return MUTEX_SOF_DVO0;
+ static irqreturn_t mtk_disp_ovl_irq_handler(int irq, void *dev_id)
+ {
+ 	struct mtk_disp_ovl *priv = dev_id;
+@@ -295,7 +291,7 @@ static void mtk_ovl_set_bit_depth(struct device *dev, int idx, u32 format,
+ 	if (!ovl->data->supports_clrfmt_ext)
+ 		return;
+ 
+-	if (is_10bit_rgb(format))
++	if (mtk_ovl_is_10bit_rgb(format))
+ 		bit_depth = OVL_CON_CLRFMT_10_BIT;
+ 
+ 	mtk_ddp_write_mask(cmdq_pkt, OVL_CON_CLRFMT_BIT_DEPTH(bit_depth, idx),
+@@ -394,10 +390,8 @@ void mtk_ovl_layer_off(struct device *dev, unsigned int idx,
+ 		      DISP_REG_OVL_RDMA_CTRL(idx));
+ }
+ 
+-static unsigned int mtk_ovl_fmt_convert(struct mtk_disp_ovl *ovl,
+-					struct mtk_plane_state *state)
++unsigned int mtk_ovl_get_blend_mode(struct mtk_plane_state *state, unsigned int blend_modes)
+ {
+-	unsigned int fmt = state->pending.format;
+ 	unsigned int blend_mode = DRM_MODE_BLEND_COVERAGE;
+ 
+ 	/*
+@@ -412,52 +406,102 @@ static unsigned int mtk_ovl_fmt_convert(struct mtk_disp_ovl *ovl,
+ 	 * will get an error return from drm_plane_create_blend_mode_property() and
+ 	 * state->base.pixel_blend_mode should not be used.
+ 	 */
+-	if (ovl->data->blend_modes & BIT(DRM_MODE_BLEND_PREMULTI))
++	if (blend_modes & BIT(DRM_MODE_BLEND_PREMULTI))
+ 		blend_mode = state->base.pixel_blend_mode;
+ 
++	return blend_mode;
++}
++
++unsigned int mtk_ovl_fmt_convert(unsigned int fmt, unsigned int blend_mode,
++				 bool fmt_rgb565_is_0, bool color_convert,
++				 u8 clrfmt_shift, u32 clrfmt_man, u32 byte_swap, u32 rgb_swap)
++{
++	unsigned int con = 0;
++	bool need_byte_swap = false, need_rgb_swap = false;
++
+ 	switch (fmt) {
  	default:
- 		break;
+ 	case DRM_FORMAT_RGB565:
+-		return OVL_CON_CLRFMT_RGB565(ovl);
++		con = fmt_rgb565_is_0 ?
++			OVL_CON_CLRFMT_RGB565(clrfmt_shift) : OVL_CON_CLRFMT_RGB888(clrfmt_shift);
++	break;
+ 	case DRM_FORMAT_BGR565:
+-		return OVL_CON_CLRFMT_RGB565(ovl) | OVL_CON_BYTE_SWAP;
++		con = fmt_rgb565_is_0 ?
++			OVL_CON_CLRFMT_RGB565(clrfmt_shift) : OVL_CON_CLRFMT_RGB888(clrfmt_shift);
++		need_byte_swap = true;	/* RGB565 -> BGR565 */
++	break;
+ 	case DRM_FORMAT_RGB888:
+-		return OVL_CON_CLRFMT_RGB888(ovl);
++		con = fmt_rgb565_is_0 ?
++			OVL_CON_CLRFMT_RGB888(clrfmt_shift) : OVL_CON_CLRFMT_RGB565(clrfmt_shift);
++	break;
+ 	case DRM_FORMAT_BGR888:
+-		return OVL_CON_CLRFMT_RGB888(ovl) | OVL_CON_BYTE_SWAP;
++		con = fmt_rgb565_is_0 ?
++			OVL_CON_CLRFMT_RGB888(clrfmt_shift) : OVL_CON_CLRFMT_RGB565(clrfmt_shift);
++		need_byte_swap = true;	/* RGB888 -> BGR888 */
++	break;
+ 	case DRM_FORMAT_RGBX8888:
+ 	case DRM_FORMAT_RGBA8888:
+ 	case DRM_FORMAT_RGBX1010102:
+ 	case DRM_FORMAT_RGBA1010102:
+-		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+-		       OVL_CON_CLRFMT_RGBA8888 :
+-		       OVL_CON_CLRFMT_PRGBA8888;
++		if (blend_mode == DRM_MODE_BLEND_COVERAGE) {
++			con = OVL_CON_CLRFMT_RGBA8888(clrfmt_shift);
++		} else {
++			con = OVL_CON_CLRFMT_PARGB8888(clrfmt_shift, clrfmt_man);
++			need_byte_swap = true;	/* PARGB8888 -> PBGRA8888 */
++			need_rgb_swap = true;	/* PBGRA8888 -> PRGBA8888 */
++		}
++	break;
+ 	case DRM_FORMAT_BGRX8888:
+ 	case DRM_FORMAT_BGRA8888:
+ 	case DRM_FORMAT_BGRX1010102:
+ 	case DRM_FORMAT_BGRA1010102:
+-		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+-		       OVL_CON_CLRFMT_BGRA8888 :
+-		       OVL_CON_CLRFMT_PBGRA8888;
++		if (blend_mode == DRM_MODE_BLEND_COVERAGE) {
++			con = OVL_CON_CLRFMT_RGBA8888(clrfmt_shift);
++			need_byte_swap = true;	/* RGB8888 -> BGR8888 */
++		} else {
++			con = OVL_CON_CLRFMT_PARGB8888(clrfmt_shift, clrfmt_man);
++			need_byte_swap = true;	/* PARGB8888 -> PBGRA8888 */
++		}
++	break;
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_ARGB8888:
+ 	case DRM_FORMAT_XRGB2101010:
+ 	case DRM_FORMAT_ARGB2101010:
+-		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+-		       OVL_CON_CLRFMT_ARGB8888 :
+-		       OVL_CON_CLRFMT_PARGB8888;
++		if (blend_mode == DRM_MODE_BLEND_COVERAGE)
++			con = OVL_CON_CLRFMT_ARGB8888(clrfmt_shift);
++		else
++			con = OVL_CON_CLRFMT_PARGB8888(clrfmt_shift, clrfmt_man);
++	break;
+ 	case DRM_FORMAT_XBGR8888:
+ 	case DRM_FORMAT_ABGR8888:
+ 	case DRM_FORMAT_XBGR2101010:
+ 	case DRM_FORMAT_ABGR2101010:
+-		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+-		       OVL_CON_CLRFMT_ABGR8888 :
+-		       OVL_CON_CLRFMT_PABGR8888;
++		if (blend_mode == DRM_MODE_BLEND_COVERAGE) {
++			con = OVL_CON_CLRFMT_ARGB8888(clrfmt_shift);
++			need_rgb_swap = true;	/* ARGB8888 -> ABGR8888 */
++		} else {
++			con = OVL_CON_CLRFMT_PARGB8888(clrfmt_shift, clrfmt_man);
++			need_rgb_swap = true;	/* PARGB8888 -> PABGR8888 */
++		}
++	break;
+ 	case DRM_FORMAT_UYVY:
+-		return OVL_CON_CLRFMT_UYVY | OVL_CON_MTX_YUV_TO_RGB;
++		con = OVL_CON_CLRFMT_UYVY(clrfmt_shift);
++	break;
+ 	case DRM_FORMAT_YUYV:
+-		return OVL_CON_CLRFMT_YUYV | OVL_CON_MTX_YUV_TO_RGB;
++		con = OVL_CON_CLRFMT_YUYV(clrfmt_shift);
++	break;
  	}
-@@ -929,7 +1064,7 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
++
++	if (color_convert)
++		con |= OVL_CON_MTX_YUV_TO_RGB;
++
++	if (need_byte_swap)
++		con |= byte_swap;
++
++	if (need_rgb_swap)
++		con |= rgb_swap;
++
++	return con;
+ }
  
- 	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+ static void mtk_ovl_afbc_layer_config(struct mtk_disp_ovl *ovl,
+@@ -504,7 +548,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 		return;
+ 	}
  
--	if (!is_output_comp) {
-+	if (!is_output_comp || mtx->data->need_sof_mod) {
- 		if (mtx->data->mutex_mod[id] < 32) {
- 			offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
- 						    mutex->id);
-@@ -960,7 +1095,7 @@ void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
+-	con = mtk_ovl_fmt_convert(ovl, state);
++	con = mtk_ovl_fmt_convert(fmt, blend_mode, ovl->data->fmt_rgb565_is_0, true,
++				  12, OVL_CON_CLRFMT_MAN, OVL_CON_BYTE_SWAP, OVL_CON_RGB_SWAP);
+ 	if (state->base.fb) {
+ 		con |= state->base.alpha & OVL_CON_ALPHA;
  
- 	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+@@ -514,15 +559,6 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 		 */
+ 		if (blend_mode || state->base.fb->format->has_alpha)
+ 			con |= OVL_CON_AEN;
+-
+-		/*
+-		 * Although the alpha channel can be ignored, CONST_BLD must be enabled
+-		 * for XRGB format, otherwise OVL will still read the value from memory.
+-		 * For RGB888 related formats, whether CONST_BLD is enabled or not won't
+-		 * affect the result. Therefore we use !has_alpha as the condition.
+-		 */
+-		if (blend_mode == DRM_MODE_BLEND_PIXEL_NONE || !state->base.fb->format->has_alpha)
+-			ignore_pixel_alpha = OVL_CONST_BLEND;
+ 	}
  
--	if (!is_output_comp) {
-+	if (!is_output_comp || mtx->data->need_sof_mod) {
- 		if (mtx->data->mutex_mod[id] < 32) {
- 			offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
- 						    mutex->id);
-@@ -1169,6 +1304,7 @@ static const struct of_device_id mutex_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt8192-disp-mutex", .data = &mt8192_mutex_driver_data },
- 	{ .compatible = "mediatek,mt8195-disp-mutex", .data = &mt8195_mutex_driver_data },
- 	{ .compatible = "mediatek,mt8195-vpp-mutex",  .data = &mt8195_vpp_mutex_driver_data },
-+	{ .compatible = "mediatek,mt8196-disp-mutex", .data = &mt8196_mutex_driver_data },
- 	{ .compatible = "mediatek,mt8365-disp-mutex", .data = &mt8365_mutex_driver_data },
- 	{ /* sentinel */ },
+ 	/*
+@@ -660,8 +696,8 @@ static const struct mtk_disp_ovl_data mt2701_ovl_driver_data = {
+ 	.gmc_bits = 8,
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = false,
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
  };
+ 
+ static const struct mtk_disp_ovl_data mt8173_ovl_driver_data = {
+@@ -669,8 +705,8 @@ static const struct mtk_disp_ovl_data mt8173_ovl_driver_data = {
+ 	.gmc_bits = 8,
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = true,
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
+ };
+ 
+ static const struct mtk_disp_ovl_data mt8183_ovl_driver_data = {
+@@ -678,8 +714,8 @@ static const struct mtk_disp_ovl_data mt8183_ovl_driver_data = {
+ 	.gmc_bits = 10,
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = true,
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
+ };
+ 
+ static const struct mtk_disp_ovl_data mt8183_ovl_2l_driver_data = {
+@@ -687,8 +723,8 @@ static const struct mtk_disp_ovl_data mt8183_ovl_2l_driver_data = {
+ 	.gmc_bits = 10,
+ 	.layer_nr = 2,
+ 	.fmt_rgb565_is_0 = true,
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
+ };
+ 
+ static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
+@@ -697,11 +733,9 @@ static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = true,
+ 	.smi_id_en = true,
+-	.blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
+-		       BIT(DRM_MODE_BLEND_COVERAGE) |
+-		       BIT(DRM_MODE_BLEND_PIXEL_NONE),
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.blend_modes = MTK_OVL_SUPPORT_BLEND_MODES,
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
+ };
+ 
+ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
+@@ -710,11 +744,9 @@ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
+ 	.layer_nr = 2,
+ 	.fmt_rgb565_is_0 = true,
+ 	.smi_id_en = true,
+-	.blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
+-		       BIT(DRM_MODE_BLEND_COVERAGE) |
+-		       BIT(DRM_MODE_BLEND_PIXEL_NONE),
+-	.formats = mt8173_formats,
+-	.num_formats = ARRAY_SIZE(mt8173_formats),
++	.blend_modes = MTK_OVL_SUPPORT_BLEND_MODES,
++	.formats = mt8173_ovl_formats,
++	.num_formats = mt8173_ovl_formats_len,
+ };
+ 
+ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
+@@ -724,11 +756,9 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
+ 	.fmt_rgb565_is_0 = true,
+ 	.smi_id_en = true,
+ 	.supports_afbc = true,
+-	.blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
+-		       BIT(DRM_MODE_BLEND_COVERAGE) |
+-		       BIT(DRM_MODE_BLEND_PIXEL_NONE),
+-	.formats = mt8195_formats,
+-	.num_formats = ARRAY_SIZE(mt8195_formats),
++	.blend_modes = MTK_OVL_SUPPORT_BLEND_MODES,
++	.formats = mt8195_ovl_formats,
++	.num_formats = mt8195_ovl_formats_len,
+ 	.supports_clrfmt_ext = true,
+ };
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.h b/drivers/gpu/drm/mediatek/mtk_disp_ovl.h
+new file mode 100644
+index 000000000000..3f7d7d54479d
+--- /dev/null
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2025 MediaTek Inc.
++ */
++
++#ifndef __MTK_DISP_OVL_H__
++#define __MTK_DISP_OVL_H__
++
++#include <drm/drm_blend.h>
++#include <drm/drm_fourcc.h>
++
++#define MTK_OVL_SUPPORT_BLEND_MODES \
++	(BIT(DRM_MODE_BLEND_PREMULTI) | \
++	 BIT(DRM_MODE_BLEND_COVERAGE) | \
++	 BIT(DRM_MODE_BLEND_PIXEL_NONE))
++
++extern const u32 mt8173_ovl_formats[];
++extern const size_t mt8173_ovl_formats_len;
++extern const u32 mt8195_ovl_formats[];
++extern const size_t mt8195_ovl_formats_len;
++
++bool mtk_ovl_is_10bit_rgb(unsigned int fmt);
++unsigned int mtk_ovl_get_blend_mode(struct mtk_plane_state *state, unsigned int blend_modes);
++unsigned int mtk_ovl_fmt_convert(unsigned int fmt, unsigned int blend_mode,
++				 bool fmt_rgb565_is_0, bool color_convert,
++				 u8 clrfmt_shift, u32 clrfmt_man, u32 byte_swap, u32 rgb_swap);
++
++#endif
 -- 
 2.45.2
 
