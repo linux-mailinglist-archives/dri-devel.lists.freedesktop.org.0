@@ -2,53 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C65AB89E5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 16:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30370AB8A16
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 16:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FE910E8DC;
-	Thu, 15 May 2025 14:52:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC3210E8E1;
+	Thu, 15 May 2025 14:59:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dBhyPu62";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EHpgWPn1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA3110E8DC
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 14:52:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E02F861126;
- Thu, 15 May 2025 14:52:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB25C4CEE7;
- Thu, 15 May 2025 14:52:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747320730;
- bh=hZDYOdxvakc1x6FXmTGmDIipla/+VXcOKRnwGlndQ2A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dBhyPu62roivi4KAZ4+eM+ZlxVoYrn38XVK0ALZqFsxIA1+wHzyTCs8UAwuqbn6f6
- BQs/BxUiDUKNSYChrXrXnFdSksdRa80m1m86xWbOO/MkBitMmiMVpd1bzVCaY51oq1
- 2duykOu70MC6nOcgJYwj7KerCowVEjaRrcBmD+cXILcDi5qLcd07GqYWNRMbra2P5i
- eZRtsathUnZUSz8kqDgZyqAzqiJs8KlMLGZ33Wb1mPR8tZnqNaxIq2KVFb+qZdbltZ
- 68WvrMZVPkzM0TwEfEaW7+3TO2uGthlWLzhkT6AKP34QIhubNd2dvD4Q1p7MCyAdim
- v+rIIHtCjUWpA==
-Date: Thu, 15 May 2025 16:52:06 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/23] drm/connector: hdmi: Use YUV420 output format
- as an RGB fallback
-Message-ID: <etqrbspmy2s75b7lxj3frcjxfnyciawzlxm7im4gvnj6t7z3fx@vx3dfsxitwdn>
-References: <7729efd6-fa88-4022-b8d8-b32fe49bf4aa@collabora.com>
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+ [209.85.166.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C4510E8F0;
+ Thu, 15 May 2025 14:59:30 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id
+ e9e14a558f8ab-3db703f0fe7so2424575ab.3; 
+ Thu, 15 May 2025 07:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747321169; x=1747925969; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ai3JE2gRuo1DcIeGYlU0Q0agCFDCnQ/jtzqrbDxw6yY=;
+ b=EHpgWPn1JmgvnpIz66g9YmPC4queEC6hXuMLDJjJjWohpbgqzrUixuQO+/etoUZUkH
+ UpfUwNzY/9BxLMQ+iaWQgEkWrh14QP9qvTIvBDTN9edhtp39Wd0g1X2zrs5KsCtlnlzA
+ VS0dEfaXHIvJ6Pqo8KJjfIHxGc9vswjMaBdY8dHchGnwA9L2YCc/bZCitTv293P2+hjf
+ HlK/0/EDwi0Ijh6xA8WNTmR/oaAUbrPbZOY2EA6Ff7MNXFlsU5iPJR1Wst8OOzdnSjlc
+ UYVhjg8G/DTUgV7ee9oT1XEPiF7DpWiYYEqHCMcqGCQoXWc2LdSfQRpYoxibTHQruciR
+ wyjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747321169; x=1747925969;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ai3JE2gRuo1DcIeGYlU0Q0agCFDCnQ/jtzqrbDxw6yY=;
+ b=fgXD/HVzBpaRmbkzJ/GVfXUlHLHuet2I8FsKpo8sBqxYivI7yy8eiy4UU8+XcU0Ik0
+ mtPufVWxxXYAsbVXdgofbPY1x75ZQcT/fnwBSQLmdRZ1mheCsiN6PxTVxUavS9ij+Ti6
+ rD++sSVp+DzIB9ZNXk6HBO4p3x6gaaeJARqBWqoLFhfh89cKtCxhAlGrZ7sb4GBKM2ev
+ +rEcLyV8t5AlGkE/cUxnQAHSNpSlN8L6w9MlDzdfP9Y90TWGIBJ2SzV7qLyoCJoSGGYb
+ PIHTL2wubCUjoxkJt2RJOBKsorRl1SL8X3nSnsfM9atV2wNXngrgYwgvyY5Rea7DXABW
+ nuQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrgADPjNHUJeVtwPxzmmItKi3a1+P50juUsLX0N46vfrP41s/eOUiVoOay7UNITijQW1s8U+cCGhE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwyEa3/vgRhQJNuA7UuGgeLWbVh1WjktVPEyhNaxE1+I+AUQYGo
+ O71oJ9JVaGvroSQhGP9aZVZ76C3sPnADXMS7z8NnVvMQGA0yrowbqZrdGJXUwAhNnSsTNuw0NvK
+ OQ4IUMB2lEiUQnXx+smvsxZ0XN18=
+X-Gm-Gg: ASbGncundmfq1p3ZxIWVV4K+4WxQp+m/gb667zoxjQiMbXR+WqQO1CHrodcrO+hEWub
+ 2rOSdk+FgLigRjo68Uq1Aqda+3sflySjFWUlvmjqz4v4pFmtDut954/4xwB5Df6i7tpBwbs440u
+ pmpyP+9ZH0tFpSdvGzfFPctJk+PQb8R78pmf+/NB5To3PFQL99U0EZVG48b4ir1SijT3WxZwQt
+X-Google-Smtp-Source: AGHT+IFhwb1aHVDWQT2DotxPddMrIXAsyc7GtSwGLdaPnNhe4mmVsOhHkzr0eOCiBxROadLks/dyF/DiJSTcnVlhE4c=
+X-Received: by 2002:a05:6e02:b4c:b0:3d9:6c9a:f35d with SMTP id
+ e9e14a558f8ab-3db6f7ad066mr76962555ab.10.1747321169233; Thu, 15 May 2025
+ 07:59:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="pjfx5ef52ycqbxy3"
-Content-Disposition: inline
-In-Reply-To: <7729efd6-fa88-4022-b8d8-b32fe49bf4aa@collabora.com>
+References: <20250514175527.42488-1-robdclark@gmail.com>
+ <20250514175527.42488-3-robdclark@gmail.com>
+ <aCWtINcOUWciwx8L@pollux>
+In-Reply-To: <aCWtINcOUWciwx8L@pollux>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 15 May 2025 07:59:16 -0700
+X-Gm-Features: AX0GCFvg3Gk9PZrr9NChGdOFWYav5BAv3wwqizYexi8V7IxD4FVYadqwmvbUzQM
+Message-ID: <CAF6AEGsm6JgK6QQe7se6bzv6QLnm-sxsJRmv=r3OWKhf6rfOSA@mail.gmail.com>
+Subject: Re: [PATCH v4 02/40] drm/gpuvm: Allow VAs to hold soft reference to
+ BOs
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Connor Abbott <cwabbott0@gmail.com>, 
+ Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,86 +91,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, May 15, 2025 at 2:00=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Wed, May 14, 2025 at 10:53:16AM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Eases migration for drivers where VAs don't hold hard references to
+> > their associated BO, avoiding reference loops.
+> >
+> > In particular, msm uses soft references to optimistically keep around
+> > mappings until the BO is distroyed.  Which obviously won't work if the
+> > VA (the mapping) is holding a reference to the BO.
+>
+> Ick! This is all complicated enough. Allow drivers to bypass the proper
+> reference counting for GEM objects in the context of VM_BO structures see=
+ms like
+> an insane footgun.
+>
+> I don't understand why MSM would need weak references here. Why does msm =
+need
+> that, but nouveau, Xe, panthor, PowerVR do not?
 
---pjfx5ef52ycqbxy3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 06/23] drm/connector: hdmi: Use YUV420 output format
- as an RGB fallback
-MIME-Version: 1.0
+Most of those drivers were designed (and had their UABI designed) with
+gpuvm, or at least sparse, in mind from the get go.  I'm not sure
+about nouveau, but I guess it just got lucky that it's UABI semantics
+fit having the VMA hold a reference to the BO.
 
-On Thu, May 15, 2025 at 03:44:18PM +0300, Cristian Ciocaltea wrote:
-> Hi Maxime,
->=20
-> On 5/13/25 4:35 PM, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Apr 25, 2025 at 01:26:57PM +0300, Cristian Ciocaltea wrote:
-> >> Try to make use of YUV420 when computing the best output format and
-> >> RGB cannot be supported for any of the available color depths.
-> >>
-> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 22 ++++++++++++++++=
-+-----
-> >>  1 file changed, 17 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers=
-/gpu/drm/display/drm_hdmi_state_helper.c
-> >> index 9e0a468073acbb2477eff1abef1c09d63620afaa..1fba10b92a6baa49150b6f=
-f1e96bf2c2739bf269 100644
-> >> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >> @@ -648,14 +648,26 @@ hdmi_compute_config(const struct drm_connector *=
-connector,
-> >>  				       8, connector->max_bpc);
-> >>  	int ret;
-> >> =20
-> >> -	/*
-> >> -	 * TODO: Add support for YCbCr420 output for HDMI 2.0 capable
-> >> -	 * devices, for modes that only support YCbCr420.
-> >> -	 */
-> >>  	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> >>  				      HDMI_COLORSPACE_RGB);
-> >> +	if (!ret)
-> >> +		return 0;
-> >=20
-> > Sorry, I missed it on the previous iteration, but this condition
-> > inversion compared to the rest of the function is throwing me off :)
-> >=20
-> > I believe something like
-> >=20
-> > If (ret) {
-> >    if (connector->ycbcr_420_allowed) {
-> >       hdmi_compute_format_bpc(..., HDMI_COLORSPACE_YUV420)
-> >    } else {
-> >      drm_dbg_kms("Can't use YUV420")
-> >    }
-> > }
-> >=20
-> > Would be more natural
->=20
-> Yep, will do.
->=20
-> Please let me know if I can start preparing v5, as I'm not sure if you
-> managed to also check the test-related patches.
+Unfortunately, msm pre-dates sparse.. and in the beginning there was
+only a single global VM, multiple VMs was something retrofitted ~6yrs
+(?) back.  For existing msm, the VMA(s) are implicitly torn down when
+the GEM obj is freed.  This won't work with the VMA(s) holding hard
+references to the BO.
 
-I haven't gotten through the whole series yet, sorry. I hope to finish
-it by ~ the middle of next week.
+When userspace opts-in to "VM_BIND" mode, which it has to do before
+the VM is created, then we don't set this flag, the VMA holds a hard
+reference to the BO as it does with other drivers.  But consider this
+use-case, which is perfectly valid for old (existing) userspace:
 
-Maxime
+1) Userspace creates a BO
+2) Submits rendering referencing the BO
+3) Immediately closes the BO handle, without waiting for the submit to comp=
+lete
 
---pjfx5ef52ycqbxy3
-Content-Type: application/pgp-signature; name="signature.asc"
+In this case, the submit holds a reference to the BO which holds a
+reference to the VMA.  Everything is torn down gracefully when the
+submit completes.  But if the VMA held a hard reference to the BO then
+you'd have a reference loop.
 
------BEGIN PGP SIGNATURE-----
+So there really is no other way to use gpuvm _and_ maintain backwards
+compatibility with the semantics of the pre-VM_BIND UAPI without this
+flag.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCX/lgAKCRAnX84Zoj2+
-dljkAX9k8e33BoB5CKna9kwtem7pAB+YOUyyEWaDIaS3EhQOa6oqmhEnRjMkkkOM
-yoUkb/ABgP0kalwCj+x/n4gfJrJGjX33tipO9CI7D/R95N22lK0gBgaRcnQrO2jG
-yFiwra4Ffw==
-=4wat
------END PGP SIGNATURE-----
+Fortunately DRM_GPUVM_VA_WEAK_REF is minimally intrusive.  Otherwise I
+probably would have had to fork my own copy of gpuvm.
 
---pjfx5ef52ycqbxy3--
+BR,
+-R
