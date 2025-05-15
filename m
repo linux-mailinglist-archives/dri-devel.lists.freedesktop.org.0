@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9004BAB83EC
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 12:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FBFAB83E8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 12:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE73710E82C;
-	Thu, 15 May 2025 10:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B0210E82A;
+	Thu, 15 May 2025 10:33:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IOggzQSL";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="kj00T6U1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A43510E82B;
- Thu, 15 May 2025 10:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747305219; x=1778841219;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xCYQ6WOiz9cUOPIBQEVZI/wwHsBuLl5q9YtMNp2XXEw=;
- b=IOggzQSLJZPAU60PEgS72ruuWNm22sqxK7kNSa0QPcTOX/EzQqWvl0hB
- izKaVuMT54emDLZLqtlF5bQbnn4zQbG41pnsOqCkW3ifuu9b/DN6b+Pec
- vQGwJutk44PlWC/CggQMoJVQ06Y36lmtzxaVjp20QTXl21hZZcEwkENwt
- EmQ/ZCkQz5xrHf5y8sK7+K3EddVcyshKWBVzGz0eQQosfRwMwUP0dPcgW
- 7fVKtW5uWucFIOFFwCytbHlrhNxbh7tBv2GyAinjiOT0Fr7ahx9onh5sM
- SDkQtcaZgTN4B8yV2lGF8W9lYFLNOY0G7fUDIIxtG2yNfyvAxhRJVO+sI Q==;
-X-CSE-ConnectionGUID: lrIkIdefTlyruLfb2K4RGg==
-X-CSE-MsgGUID: 5qlwplMMS8eIxA2UPmjTPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="48351619"
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; d="scan'208";a="48351619"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 03:33:30 -0700
-X-CSE-ConnectionGUID: isaNyDEPQLy1etpJfSyzrw==
-X-CSE-MsgGUID: qKdApXCJTRCaDS+AROvpwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; d="scan'208";a="138733577"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 03:33:27 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uFVu1-000IHP-13;
- Thu, 15 May 2025 10:33:25 +0000
-Date: Thu, 15 May 2025 18:32:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D677B10E82A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 10:33:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1747305204; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=eNaZ7RWGgKlEcIpnXfQASf7ZtEaVuagBnyKCwWMynDnDtXoIiiHPgtoG7fsVxByQGNVIih74aBxGXeKzcExCLCxm23nykdS/PjbC+eCeNlaIDyQzate45f0tDWB2tHsbwPuR/huY/G/l529z4j4OF46XvSmDzPtqzqrSWcRjTqI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1747305204;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=IzhJq/KI+z8Y+0dsDs/7LMPucBSPLRXhlb7t+uypEPE=; 
+ b=PvqiFdV+SisuTA+4b7ioQHkOq/LlIQPMzdwhSgGkR5F2A9s1V9CPRSjCVUcN3tpZFG5hFnMw3iHOvudLxxNTvMZE+3UAwk3y3Ee6JX758N6zLnZCTYmt2G5+19IAuH0qRNEhaj+1uLpckZST+C4GtDKk5fCkDMQsBgJcVnDaYGU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ashley.smith@collabora.com;
+ dmarc=pass header.from=<ashley.smith@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747305204; 
+ s=zohomail; d=collabora.com; i=ashley.smith@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=IzhJq/KI+z8Y+0dsDs/7LMPucBSPLRXhlb7t+uypEPE=;
+ b=kj00T6U1H9gIyY2OZkB3vvNTxkKvzcLfF0gAvoZYQZ1cQgLevinPfwaQor8mYI5W
+ sJLE3IaAR0+PQ4Kat7qCFFZe38YVwr4X9eaBZLiYuz0aVH/G/tOG/3/AUGTdmkwKatj
+ WekdMzgtVxFv83nA/8wjLEltWgQoSYZaBI3crfOs=
+Received: by mx.zohomail.com with SMTPS id 174730520201961.4224475817598;
+ Thu, 15 May 2025 03:33:22 -0700 (PDT)
+From: Ashley Smith <ashley.smith@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFT v2 03/15] drm/msm: Use the central UBWC config database
-Message-ID: <202505151822.QNn0FQXs-lkp@intel.com>
-References: <20250514-topic-ubwc_central-v2-3-09ecbc0a05ce@oss.qualcomm.com>
+Cc: kernel@collabora.com, Ashley Smith <ashley.smith@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panthor: Reset queue slots if termination fails
+Date: Thu, 15 May 2025 11:33:05 +0100
+Message-ID: <20250515103314.1682471-1-ashley.smith@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514-topic-ubwc_central-v2-3-09ecbc0a05ce@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,36 +68,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad,
+This fixes a bug where if we timeout after a suspend and the termination
+fails, due to waiting on a fence that will never be signalled for
+example, we do not resume the group correctly. The fix forces a reset
+for groups that are not terminated correctly.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-[auto build test ERROR on edef457004774e598fc4c1b7d1d4f0bcd9d0bb30]
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 43ee57728de5..1f4a5a103975 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -2727,8 +2727,17 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+ 			 * automatically terminate all active groups, so let's
+ 			 * force the state to halted here.
+ 			 */
+-			if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED)
++			if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED) {
+ 				csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
++
++				/* Reset the queue slots manually if the termination
++				 * request failed.
++				 */
++				for (i = 0; i queue_count; i++) {
++					if (group->queues[i])
++						cs_slot_reset_locked(ptdev, csg_id, i);
++				}
++			}
+ 			slot_mask &= ~BIT(csg_id);
+ 		}
+ 	}
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/soc-qcom-Add-UBWC-config-provider/20250514-231354
-base:   edef457004774e598fc4c1b7d1d4f0bcd9d0bb30
-patch link:    https://lore.kernel.org/r/20250514-topic-ubwc_central-v2-3-09ecbc0a05ce%40oss.qualcomm.com
-patch subject: [PATCH RFT v2 03/15] drm/msm: Use the central UBWC config database
-config: arm64-randconfig-002-20250515 (https://download.01.org/0day-ci/archive/20250515/202505151822.QNn0FQXs-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151822.QNn0FQXs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505151822.QNn0FQXs-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> drivers/soc/qcom/ubwc_config.c:41:40: warning: unused variable 'sar2130p_data' [-Wunused-const-variable]
-41 | static const struct qcom_ubwc_cfg_data sar2130p_data = {
-|                                        ^~~~~~~~~~~~~
-1 warning generated.
---
-ERROR: modpost: missing MODULE_LICENSE() in drivers/soc/qcom/ubwc_config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/ubwc_config.o
->> ERROR: modpost: "qcom_ubwc_config_get_data" [drivers/gpu/drm/msm/msm.ko] undefined!
-
+base-commit: 9934ab18051118385c7ea44d8e14175edbe6dc9c
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
