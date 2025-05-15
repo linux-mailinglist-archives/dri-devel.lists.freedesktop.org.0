@@ -2,117 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69684AB8D4A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 19:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F9AAB8D68
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 19:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E95510E2A6;
-	Thu, 15 May 2025 17:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E5910E313;
+	Thu, 15 May 2025 17:15:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y5GcOq9j";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SvgXaPuC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0191410E1A8
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:13:21 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54FEFDpt007863
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:13:21 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD32410E313
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:15:41 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54FEFCoV020821
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:15:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yYY5LgPRLIrcdKBo4sFGaqpoE0nGNKtVE2RVccwfFlg=; b=Y5GcOq9jFeWOZVDD
- Wp0cXL7yUw4LnTspT78KA03rujBHrF7cXUO/6KD3mzlgkEHiicB0Ytq2lQtoQad8
- 4N1SAwIhxX3Aa/Gc1l6xPR1ZVa6Vp8idrnEOYmgSDkv3HAWUZYbnuNF5z4voWMAP
- hd1ei+t35uiJmG9EHY5U8Mqds8UbUKC6b7oGUpGjU8Kld0SbCP/qna4vc4jsApIP
- vc85l6eaNVSYhHGxJcl3qDn5/lkIpNwKx8Op+w696lD4gX5ihJd+t4LKP4CjnwXm
- oK20wWCxR7rVJgqVnKKMzTPBNC5eJ0hv3LGC205kIEfZTh1TjBjuQjiCePRfru+/
- nAn7Lg==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcpy0y2-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=5fr5L04Jvh0L/+a57XtjIN1m
+ EM6WQNUjAaFjioBMZNo=; b=SvgXaPuCTs3wDo9dlvBivEkH1Y+z1XI1YdbwV5CA
+ vNKugsrGqNDqaFLpNYiwe0c6Xweww5MgON8Gw/LXV5XEkFDM/GM54ofNSrJw7zu3
+ HufKmIYJNR+MOCVhF/R+CT+xMNvDuEamtcDkLc9TKneC6JvGtfbjR0stUPatw4sL
+ SJ/dpJrOtJ54W9QshS1H3yobMaaxl9RBWrcMCfIp3sC+BoHNQ8lCSkytbYlE6hEu
+ 4U7SWezwFm9KfcozgU06KHkkjRFssaHL9o3fx7pNltiC8QvusFki3PHFExG82wk0
+ PnrfGl71gQmrW+AbnMpTv3f1Ic1g5G+XHTwWp7z2AfAUBA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbew6x1f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:13:20 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-30a80fe759bso1943596a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 10:13:20 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:15:40 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-22fba10f55eso10713015ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 10:15:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747329200; x=1747934000;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yYY5LgPRLIrcdKBo4sFGaqpoE0nGNKtVE2RVccwfFlg=;
- b=PTphlNgE7hFb5pwEozjoksRmE025YsOHlK46VffLtmrm81bNsPYDPvJsalUASxkbh6
- toTNr9NaSgmP+eJYBMG6h41iOQ2XkvjfS5Dg8qjk8O0B4gkmMjL1U8x+UhleepD4Fsk0
- lpfo7GRKOQS+B0Nd0QTp/iYMagBl1eaUwqEOfr8P8Vr7Sj6DvjMO+56LebC5bGrFLkW0
- GHvTSY3Etb6glyUiuIVMHepEmjl4SV4ew13bqYlalEIdRlaxenColugIDhQaSC06Rf5K
- HtENKUtKuWgL28UNKjFIdptJYchzoba0Q28swrKBdTDMU+FoaBELTN6h0JvcxbOPEJv5
- BiKQ==
+ d=1e100.net; s=20230601; t=1747329339; x=1747934139;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5fr5L04Jvh0L/+a57XtjIN1mEM6WQNUjAaFjioBMZNo=;
+ b=MwlnoM4HOn/srzogT/xtsquLbYBIOdwJlHycDmjGWIJGRdYkVQyUyF5DEKcZJZbKUH
+ tvrhL8xv7MjrVXXP4iTipDTvQLeZMuLlNbpKr86hKJgbh2gUiHRvDxDR20zTWtb4cIax
+ sDqR80mcR7S03jMAUrhj9+FND4bZeViqiHGISNAhgRS+ItzQKu3DWMwrRSvtk4Yi5tee
+ BVj/yV3rp0kIQVH6sSgD608yhSrbdtIOROlGgGRAMTRq9wChC42XNxFxZiN6R96T3laf
+ yQW1mkxvdcajR679DwkAPMbMD5kQhB//dQt7wzqKNmDUz/+niZaTWgrdw/eZz+lOnj0p
+ 0iGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIecUka0G0V9/jxcDlktKsvP1lEzFtIk1kjJ1wyQ54Kmujw98atAAMkFhSHERQ9wYxuNhTrMaidZw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTthM1yyi8x9LBgtEpSSf/ZLhO6Uc0kyP1N+1vJWNhDNiy6P/E
- 8n4KF6VAKZM49NouI6HQVyCzWb/V/NENGksA+1DaRRCYow2o+P0CNe3UAJzjUYdYFtEEYVEO02G
- YO1xFDBkQWMMUHn5bO+rv95rckWn1bZD5Ppg/KRI4DYIGNH3Ge4vHRTY0rj8QcCSczRkNdiA=
-X-Gm-Gg: ASbGncsh1/V+UGFDAHMnW8/WlFnvgxdybOKPxT35AGnQ8+OZVx7Gp6R/XLfO3GSJA8y
- sUxADHC2oFTg6TYnPtV+toldYIWmjje4rYmyKWC0n5MpHArVeOjc/ij6cr3reN4pxbYunodeGpU
- OAfXeP9OcRFOKZYrtAy/lZvnVhJCfxTiMkB//riRPFFGEzJNIwo5Sj9vnxrXrOtlYKF/8CMCLev
- OeBEyfsNjDzguLy187krVm0nt+fpaP9Ym3ezubS+lEU7on4m3cQl5fBA6aL1xwU3xbcS/fq6MLX
- d3lRCskwcVOAYm8ckDuVutdOuIff7g+p2ei8mje3GqRhR06BxU9QqlgqAFegox6DyhOYlQ==
-X-Received: by 2002:a17:90b:33c2:b0:2ff:6608:78cd with SMTP id
- 98e67ed59e1d1-30e7d544fd4mr288089a91.9.1747329199744; 
- Thu, 15 May 2025 10:13:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNDu7NvHwl9BxUYwJis4ASPQgBchI/AV8+LYPCkrCV2kofbKQRnSnmom5F9mPfzufGWwElaA==
-X-Received: by 2002:a17:90b:33c2:b0:2ff:6608:78cd with SMTP id
- 98e67ed59e1d1-30e7d544fd4mr288065a91.9.1747329199310; 
- Thu, 15 May 2025 10:13:19 -0700 (PDT)
-Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30e7d5918aesm64070a91.49.2025.05.15.10.13.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 May 2025 10:13:19 -0700 (PDT)
-Message-ID: <abc767ff-acb9-47c3-8b6e-6c6150f7b19e@oss.qualcomm.com>
-Date: Thu, 15 May 2025 10:13:17 -0700
+ AJvYcCXAWiWKiDBeeeNQU9YIGtD0MiqYtKlsTv0/ipnL0izrxzcJpXTrO+JrDN6MF58gmx2lblBAHP6foAE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxfEIo5TNe19qr8uXocrVTUY9+RiRx5bvatWFmtK/ziu83HcfzX
+ MzNVLfb61dvFfv9v+bLRW1kkF/rjQSQudBtOUYn/WFuMOXMefGUuiDmJBzRyldQpcQqILr8Stxx
+ ZIG2nk57RySzgQ2ZHPqO5L/blSzuv+4PMSRurjcohdc2BZ3DMNb2927/x/Cqd9i/PZNi3IO7xF5
+ D5PsgfSuh+6X8PJ9yG9fPnSwHHaDGMTXIDiuyE+W8YcYzCkw==
+X-Gm-Gg: ASbGncsx9yswFdwHBfySmjvSAKSFq05Rmh15vS8H8rWfWUpwbNKOKjRIajo4v2bdcto
+ 5lhtm/rPtd1e8gsn72d0qmjY0g/cvC9gnie7AdpJa9JUaqAQsf6SPQBy/1B6mmGqhCMslZlOcO4
+ JH1qkALq4=
+X-Received: by 2002:a17:902:c40f:b0:22f:c568:e691 with SMTP id
+ d9443c01a7336-231d43b5ed7mr3651735ad.21.1747329339291; 
+ Thu, 15 May 2025 10:15:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFyQ1lJRTrt0ixFwqDSorfu+vOM+xntr4u295e30D5QXpP221Ji0k3vGu3cCZvb1L1HAwi1LOMYcxCv1yN+h2Q=
+X-Received: by 2002:a17:902:c40f:b0:22f:c568:e691 with SMTP id
+ d9443c01a7336-231d43b5ed7mr3651465ad.21.1747329338912; Thu, 15 May 2025
+ 10:15:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/msm/dpu: Add max pingpong and dsc width to HW
- catalog
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
+ <20250514-topic-ubwc_central-v2-13-09ecbc0a05ce@oss.qualcomm.com>
+ <lkkwnmnk32igcev3gykmtxsohyskj6ehylaypg2dyxbedvksee@lnuc4lfmzrkm>
+ <9a05d545-1bf2-4f66-8838-b6969ba37baa@oss.qualcomm.com>
+ <d7417290-a245-422c-ba00-3532661ea02d@oss.qualcomm.com>
+ <466148c9-2461-4140-9ba9-5a3427ec6461@oss.qualcomm.com>
+ <4ec678b4-9e69-4ba0-a59d-f2e0948a73ce@oss.qualcomm.com>
+ <d0a036e7-605b-4475-8ddc-69482e16f0b3@oss.qualcomm.com>
+In-Reply-To: <d0a036e7-605b-4475-8ddc-69482e16f0b3@oss.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Thu, 15 May 2025 20:15:27 +0300
+X-Gm-Features: AX0GCFt-coIgQ4I7VsKEP66vB_wjYiKvOLkHEJKM4dcQPFJlqXqrj14tgrxzUJg
+Message-ID: <CAO9ioeWHMUf66Vb0XPw9eHRoAXzroSSqQRzW1o+e509-BK+Y7Q@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 13/15] soc: qcom: ubwc: Fix SM6125's ubwc_swizzle
+ value
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250514-max-mixer-width-v1-0-c8ba0d9bb858@oss.qualcomm.com>
- <20250514-max-mixer-width-v1-2-c8ba0d9bb858@oss.qualcomm.com>
- <txn2anohfbrymaseeo55slmzimstietsrmhx3mhigw4fcx3ow4@b42b3n53et6l>
-Content-Language: en-US
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-In-Reply-To: <txn2anohfbrymaseeo55slmzimstietsrmhx3mhigw4fcx3ow4@b42b3n53et6l>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ierd1rY0dBxkxiYLfywbIW2VcnzGnzos
-X-Proofpoint-ORIG-GUID: ierd1rY0dBxkxiYLfywbIW2VcnzGnzos
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDE3MCBTYWx0ZWRfX+41zla+fTYFw
- vHFIUiuO2SDo9hzqkoyDtCOPC0k55DMaLF1MgyT16iNAeu5uHRYtKt/8wa86xeyV0VpwEzqUl2e
- N+oATRQ92YqrhG76eb48Ufb7y11vAWOgyIFC2OYKbahRphF1oZ6OmKxqmJCS89pBo3Y0CK+UiCz
- RD3+v574CNyiQRknazlQgOPl82syzAlyk5l/lHcUBEub35klWUKXol8nnsvLTr3+h/2V5qllvAS
- anyhFg+BofxloN/l1guw4wdeUgm//q7HGNg0LN59bYb1GZkNFOYlii8qwISYW7VQqQ3GvEZ5Zzs
- 9/WjTHXwY3hff20jvhJe1qQn67kacwhsnZRoHgo3I/JSwAMb7r4z27pSRLHLrjE0Bt9z8NfQhem
- 3Wc9Tsf+W0XHcDLbMio0DrqoxV+O2CmeOlUBkdMybT2mSAp05Xt8j3j8+q+bHzWQwjijPnzd
-X-Authority-Analysis: v=2.4 cv=KcvSsRYD c=1 sm=1 tr=0 ts=682620b0 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=_YleJFLcT2wxSgV-J2oA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: oeENTbK3t4dLAEKFujBu5e_yVVFfCbal
+X-Proofpoint-ORIG-GUID: oeENTbK3t4dLAEKFujBu5e_yVVFfCbal
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDE3MCBTYWx0ZWRfXxU+pi1rLFExi
+ RHUTTuZs9OeDu4z6KgTk09TrgZymivbWTxDrCtpu9/vpG2xUKKtD5MJRBHlPm7v2s3ejX8d/yvE
+ 3M1spnn+rAR7tmDvIjxwxETL4hoHW7vJrJiBxjZmx6wbAW2cNX39E2TECTFPqngdFVb1HWXwqbW
+ ggGCGSln2vLv2loDKZiqbXo3P3EgeXSBO8GCRnSdysabsN/WO1F+HveYrRnBk2deJeTgWFDOB8N
+ 8gpCv+EQDU/2eRQ7w6ihkvARH9BJodzM5lWORBsme6x6Jt6Fcwxpi+Bh0sXGfPH5Hba9bC87Six
+ 5wEgQM1PSxxD7QrpL2OsMiNWPXNDFGixG8Mfrehc8O5GDQBYpOkLkbl7I70lcVRND3thV5gPS8y
+ 1OAfm8AFOHKrPMmG62WmlogDXSh6li+BgO/LUNEtj/dn1JX8oThXYQFAr1I3aj/MQ/urcRR2
+X-Authority-Analysis: v=2.4 cv=LOFmQIW9 c=1 sm=1 tr=0 ts=6826213c cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=EUspDBNiAAAA:8 a=2fJ-P6yaMz0-y6Gko3wA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-15_07,2025-05-15_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 impostorscore=0
- mlxscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ lowpriorityscore=0 spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
+ clxscore=1015 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
  definitions=main-2505150170
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -130,56 +127,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 15 May 2025 at 19:36, Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 5/15/25 6:21 PM, Dmitry Baryshkov wrote:
+> > On 15/05/2025 19:18, Konrad Dybcio wrote:
+> >> On 5/14/25 10:33 PM, Dmitry Baryshkov wrote:
+> >>> On 14/05/2025 23:05, Konrad Dybcio wrote:
+> >>>> On 5/14/25 9:23 PM, Dmitry Baryshkov wrote:
+> >>>>> On Wed, May 14, 2025 at 05:10:33PM +0200, Konrad Dybcio wrote:
+> >>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>>>
+> >>>>>> The value of 7 (a.k.a. GENMASK(2, 0), a.k.a. disabling levels 1-3 of
+> >>>>>> swizzling) is what we want on this platform (and others with a UBWC
+> >>>>>> 1.0 encoder).
+> >>>>>>
+> >>>>>> Fix it to make mesa happy (the hardware doesn't care about the 2 higher
+> >>>>>> bits, as they weren't consumed on this platform).
+> >>>>>>
+> >>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>>> ---
+> >>>>>>    drivers/soc/qcom/ubwc_config.c | 2 +-
+> >>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
+> >>>>>> index 9caecd071035ccb03f14464e9b7129ba34a7f862..96b94cf01218cce2dacdba22c7573ba6148fcdd1 100644
+> >>>>>> --- a/drivers/soc/qcom/ubwc_config.c
+> >>>>>> +++ b/drivers/soc/qcom/ubwc_config.c
+> >>>>>> @@ -103,7 +103,7 @@ static const struct qcom_ubwc_cfg_data sm6115_data = {
+> >>>>>>    static const struct qcom_ubwc_cfg_data sm6125_data = {
+> >>>>>>        .ubwc_enc_version = UBWC_1_0,
+> >>>>>>        .ubwc_dec_version = UBWC_3_0,
+> >>>>>> -    .ubwc_swizzle = 1,
+> >>>>>> +    .ubwc_swizzle = 7,
+> >>>>>>        .highest_bank_bit = 14,
+> >>>>>>    };
+> >>>>>
+> >>>>> Add a comment and squash into the patch 1.
+> >>>>
+> >>>> I don't think that's a good idea, plus this series should be merged
+> >>>> together anyway
+> >>>
+> >>> Well... Granted Rob's comment, I really think the patches should be reordered a bit:
+> >>>
+> >>> - MDSS: offset HBB by 13 (patch 2)
+> >>> - switch drm/msm/mdss and display to common DB (patches 1+3 squashed)
+> >>> - get a handle (patch 4)
+> >>> - resolve / simplify (patches 5-10, not squashed)
+> >>> - fix sm6125 (patch 13)
+> >>> - WARN_ON (swizzle != swizzle) or (HBB != HBB)
+> >>> - switch to common R/O config, keeping WARN_ON for the calculated values (with the hope to drop them after testing)
+> >>
+> >> Does this bring any functional benefit? This series is unfun to remix
+> >
+> > I know the pain.
+> >
+> > The functional benefit is to have the WARN_ON and side-by-side comparison of common_ubwc_config vs computed ubwc_config for HBB and swizzle.
+>
+> HBB I agree, since we'll be outsourcing it to yet another driver, swizzle
+> should be good enough (tm) - I scanned through the values in the driver
+> and couldn't find anything wrong just by eye
+
+Well. What is the ubwc_swizzle value used for SDM845? I think it
+should be 6 according to a6xx_gpu.c and 0 according to msm_mdss.c.
+Yes, higher bits are most likely ignored. Still, we'd better have one
+correct value.
+
+>
+> I realize this sounds funny, but all in all I don't think it's worth the
+> effort just for that one
+>
+> Konrad
 
 
-On 5/14/2025 5:21 PM, Dmitry Baryshkov wrote:
-> On Wed, May 14, 2025 at 04:52:30PM -0700, Jessica Zhang wrote:
->> Add max_dsc_encoder_width to dpu_caps struct and max_linewidth to
->> dpu_pingpong_cfg for all chipsets within the HW catalog.
->>
->> Note: The max supported PINGPONG width was 4096 but increased to 5120
->> after DPU 6.x. In addition, DPU 8.x+ increases the max supported width
->> of PINGPONG_0 specifically to 8960.
->>
->> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 11 +++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h |  1 +
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   |  6 ++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  |  6 ++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   |  3 +++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   |  6 ++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h   |  1 +
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   |  2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h  |  1 +
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h   |  1 +
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  7 +++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  5 +++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h |  7 +++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  9 +++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  |  9 +++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  9 +++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h |  9 +++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           | 10 ++++++++++
-> 
-> This needs to be rebased on top of linux-next, otherwise you've missed
-> dpu_9_1_sar2130p.h .
 
-Ah yes, forgot to update my local working branch.
-
-Thanks,
-
-Jessica Zhang
-
-> 
-
+-- 
+With best wishes
+Dmitry
