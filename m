@@ -2,78 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3782FAB7E80
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 09:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8E0AB7D95
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 08:11:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A9210E769;
-	Thu, 15 May 2025 07:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D472810E158;
+	Thu, 15 May 2025 06:11:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OR5NtyQ+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FnR2lEy3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE69A10E025;
- Wed, 14 May 2025 21:36:18 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-30a99cff4feso349532a91.0; 
- Wed, 14 May 2025 14:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747258578; x=1747863378; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
- b=OR5NtyQ+e5d71Q3CAIAfHOWhmaVqxeYVWMkQDdvL7m6eIjGQjS8xxSirbXrh/PIe6N
- 6BmRO4SGKYkqOGLTvj7AKjjrkskbzR2AdFcNIrz06HR4szD8ZKSv1mPSsEaYAh+2E9Td
- 7FRq2m/2drN0z+qUyH+VHNR3sMRp/z+aJJhA4q2waEjOai8ADnMn6SfZ9nvmvxt3PIuo
- UhM3NEVdSFWdVyhZwawLyic+JA6xdEfSVeXU7TVBx/yW4taLgwcuFrF5ePwpXlRxuQnt
- QrOjpEa5H7dI5EGb18JPc/MNalyjXl51LogyL2W7KIqI19aaBG5u910hYqeMDUBd5txC
- A3BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747258578; x=1747863378;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
- b=HFcWG/RKIyNjVr3WHCBGEmTr9TxRm/5LnS+MnpSI858PCB33kyM6BmzjhKBl/nlMAK
- z9NA5HlC1mHoxvYw3Ax3S9vbVAeiCykIsQ+nadgGD/4EJexaO9/bABpJ4pgNC4hNdjNf
- uJuoqNtUudnPV6X0is9AEbXSMxx4ddhxCuuCTTwGSBOtUQ1eYKQX9flyhM8qxjuO3y94
- Feu5DM+mXBNHCRa09QyOkLW0e1Ao6fL17r43mJxp5dsYhmmWrHEahQOgFx7BaaRTgRrP
- BZq3Sgf7ptw9cfP0aJs+FV8rkGwh7gJy0mSxKrjby+U29/Lg5+ZEi6JGZkrRL2zx+FZH
- BM+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPtGoFZWDT8pDNHiKQYqkzWnikz54gQyAXoxTO0hWZN7EKzbfmLdkq5Fqs0gUPoL/L6isQH2P8PMg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCD5idBm3y6l6He0r/9bBjpFkBOMbjChGZAXDCiAPHJZPdKDMO
- LUuwvD1Etn2vPpbTSDVNiws1nF7cbUAfU+sEH0IXcCBMlleRXJ5o
-X-Gm-Gg: ASbGnctgrN4bVFLSYUjYhFf9M8nAH+W/2yo+86M0HHWc3iqGR1jy8rhSKg26xSW8NQI
- ApBcVYpprXDo1VRpRNn0J9VXfPq1zfPh+SQh44Z18YPeQacNj0wW+OnlbvEtLUx7KCR2R9Ni+in
- IsFsB7+7jbcfWjcnNmSehmtld9Z1pY3eE2PtRSciULbUcZ1xl0yiRJyN+9ocnQ14nxddGODBVO9
- NFx4NEuwm+YhMXrdH2dBtgO6cQMIZVQg3XPRNjJWupG8UUPX9tG/T7eQofFmyMp9pBxQVqtpzOv
- 8AuCxuO+ymicIOSkdKnPyeuUbkJGhT921yukzr0xTDA/RO1ag+KZpSZJTutngkMwjA==
-X-Google-Smtp-Source: AGHT+IHOlcKTEqpmbbwYa6fymXr66iLa7UzzLeEx4mTbWzk9LmvInpwWaQApBbo8ZP8SyJLL2+etOQ==
-X-Received: by 2002:a17:90b:1c09:b0:30c:540b:99e with SMTP id
- 98e67ed59e1d1-30e2e5b678cmr7925932a91.13.1747258578130; 
- Wed, 14 May 2025 14:36:18 -0700 (PDT)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30e33425194sm2026770a91.14.2025.05.14.14.36.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 14:36:17 -0700 (PDT)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, skhan@linuxfoundation.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- rk0006818@gmail.com
-Subject: [PATCH] docs: fix doc warning for DC_HDCP_LC_ENABLE_SW_FALLBACK in
- amd_shared.h
-Date: Thu, 15 May 2025 03:05:11 +0530
-Message-ID: <20250514213511.380890-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6917C10E158
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 06:11:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D30AD5C06A5;
+ Thu, 15 May 2025 06:08:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFB8C4CEE7;
+ Thu, 15 May 2025 06:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747289458;
+ bh=uwAvIOKiGNt0V7PmuDj4HchROm9VjBjY9WBKCBQ84Vo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FnR2lEy3OYI8L29u3+QfR6kLHNYG5uKVEXFva5ImXpzBPvUaO6my2Aw3g3HOBWdlk
+ Uf3VH8l98Ytodmjo29W9o3aHMa7N4L4CHr3H1aLyt2aeedcu8pYXLEHde9ihwiugD3
+ F87YccKQCix44dQYaFuguQYij4bpo2xQ1czzJDceerUYkpZG1Tna25e5M8OYarjLDS
+ FxcR3pTAC5l+fp6mesqZz9wJKoqwoBjqBb9LKjmudVy15r3PXs4Y8xg+Opyc6dS0/P
+ LeeknhiFPRP+nli03LtsMR04uyawJKPPGjCH0Ldj3HvxNdyEdU3JLnmYaeKWjJEGJw
+ OyOUetgHd11Dw==
+Date: Thu, 15 May 2025 11:40:45 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 05/11] firmware: qcom: scm: add support for object
+ invocation
+Message-ID: <aCWFZchX9nbZOC89@sumit-X1>
+References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
+ <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-5-6a143640a6cb@oss.qualcomm.com>
+ <aCRkRTMFi65zBODh@sumit-X1>
+ <CACMJSev2qqnxLN6OiSEKhUqxeewY09to0Jd2oPNoE39YFS6i3A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 15 May 2025 07:09:42 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACMJSev2qqnxLN6OiSEKhUqxeewY09to0Jd2oPNoE39YFS6i3A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,32 +71,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes a kernel-doc warning by correctly documenting the enum value
-`DC_HDCP_LC_ENABLE_SW_FALLBACK` in the DC_DEBUG_MASK enum.
+On Wed, May 14, 2025 at 05:27:44PM +0200, Bartosz Golaszewski wrote:
+> On Wed, 14 May 2025 at 11:37, Sumit Garg <sumit.garg@kernel.org> wrote:
+> >
+> > Hi Amir,
+> >
+> > I am still unable to get the QCOMTEE driver to work on db845c. As I can
+> > see machine: "qcom,sdm845" is not supported for tzmem based on SHM
+> > brigde here: drivers/firmware/qcom/qcom_tzmem.c +81. I am still seeing
+> > following logs from userspace:
+> >
+> > # /mnt/unittest -d
+> > [test_print_diagnostics_info][31] test_get_client_env_object.
+> > [test_supplicant_release][65] test_supplicant_worker killed.
+> >
+> > I think you should first check here for SHM bridge support. If available
+> > then only add a QTEE platform device.
+> >
+> 
+> On platforms not supporting SHM Bridge, the module should fall back to
+> non-SHM mode. Isn't it the case?
 
-The previous documentation was incorrectly formatted and incomplete.
-Updated to follow proper kernel-doc syntax with a full description.
+Okay, I see. Amir clarified offline how the non-SHM mode works.
+IIUC, the memory registration with QTEE is not required and instead QTEE
+can directly work with memory references being passed as part of object
+invocation.
 
-Verified fix using `make htmldocs`, and the warning is no longer present.
+So it looks like the user space app not working on db845c is another
+issue with QTEE which needs to be fixed. 
 
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
- drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-index 4c95b885d1d0..ebe0caf1fda4 100644
---- a/drivers/gpu/drm/amd/include/amd_shared.h
-+++ b/drivers/gpu/drm/amd/include/amd_shared.h
-@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
- 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
- 
- 	/**
--	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
-+	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: Enables software fallback for HDCP locality check if the firmware fails.
- 	 * path failure, retry using legacy SW path.
- 	 */
- 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
--- 
-2.43.0
-
+-Sumit
