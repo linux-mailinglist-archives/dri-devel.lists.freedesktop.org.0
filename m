@@ -2,126 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70308AB7B67
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 04:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158DBAB7BE1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 05:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 308CB10E096;
-	Thu, 15 May 2025 02:07:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="blZHCTv0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D60210E0EE;
+	Thu, 15 May 2025 03:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F6B10E096;
- Thu, 15 May 2025 02:07:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V7I+Hh8pQ21JY5cT7ZTAvTW75EfcXVrhJbroBxhLLGfn0tDeHubD2qbPY3TC/Ck+ggrSmbxNmC1JTYOH3+vx6dxW3UOTtYhQuebDwK7vLCEdJK1JZkcdUer5Xkj3MG+0XAzHxQW9sf3YNyQTTgQ5ohylaGfoijVjxqkATHhhJYSkVlp3oQuxMxyB/bLJJvkWeiJ9x/xBWe2Q6LhIcJRMqRmlACeBKGhODAEv3TA6t0XxsITnVaUMNhSwDsdZ8kZXQwvboyUSQLVMlq3qxslB2mjrPOe4UHkrDt5cucEtZAcUdTh0/oJwaGsAvLKqPi/ZlQehMrjtjFwx6ZRp2SNZng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EwhPKggD2Jqnhrs9wKNp6xBJXGpuAEVgpTYNI2W1fzg=;
- b=nL/tc+D+v+A3pdmtceN2F2a+g9Sb1r3VCyrQxCVIQOIPCdSbXn5UvDv59to4iMIvUwPrzDHt1rrn1vxUFvFD6c6mEdnfnz0doI6DREV12l2AHOKXSNvUrWCiCBO8y8FX0o1JHIxd1xeDEAHKZAmv3ZG4nqoV6r/hULspFbOIge3xhNagALd+ttb59TmyccfJApvvkMVNZeorjqVzN04UDVBFsjVbp3mHQYpO6nClzDm2n4e16brA2NqgCskuiHtLN8zr0KB9zRxZOi+WAcZwVQfnDbpguH3RGE9QbfIfajGXP9ZwaC5lcbT76gvsdgYzjHjswCcCuGy6I0kCpSWMFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EwhPKggD2Jqnhrs9wKNp6xBJXGpuAEVgpTYNI2W1fzg=;
- b=blZHCTv09kpOeoIorSALlAVnZmuJ5YNsOyAW085GHfbyjA4t8m2pzuVxSWX1n0avino4QolWcnKJTlwjdUwlCZS7A4iLNY5Wn9ejwD8jg5TPz/WZXiGh2bYw31Eb0DnZPgTrCChPZedufwM71nRzl1QFH7GsFnWGqufZMsur5ak=
-Received: from SN7PR04CA0162.namprd04.prod.outlook.com (2603:10b6:806:125::17)
- by SJ2PR12MB8955.namprd12.prod.outlook.com (2603:10b6:a03:542::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Thu, 15 May
- 2025 02:07:20 +0000
-Received: from SN1PEPF0002636A.namprd02.prod.outlook.com
- (2603:10b6:806:125:cafe::e4) by SN7PR04CA0162.outlook.office365.com
- (2603:10b6:806:125::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Thu,
- 15 May 2025 02:07:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- SN1PEPF0002636A.mail.protection.outlook.com (10.167.241.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.18 via Frontend Transport; Thu, 15 May 2025 02:07:19 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
- 2025 21:07:18 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
- 2025 21:07:17 -0500
-Received: from lcaoubuntu-server.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
- via Frontend Transport; Wed, 14 May 2025 21:07:16 -0500
-From: Lin.Cao <lincao12@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <aamd-gfx@lists.freedesktop.org>
-CC: <haijun.chang@amd.com>, <zhenguo.yin@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Lin.Cao
- <lincao12@amd.com>
-Subject: [PATCH] drm/scheduler: signal scheduled fence when kill job
-Date: Thu, 15 May 2025 10:07:13 +0800
-Message-ID: <20250515020713.1110476-1-lincao12@amd.com>
-X-Mailer: git-send-email 2.46.1
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 17C6C10E0EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 03:01:05 +0000 (UTC)
+X-AuditID: a67dfc5b-669ff7000002311f-13-682558e73367
+Date: Thu, 15 May 2025 12:00:50 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Waiman Long <llong@redhat.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+ joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+ duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+ tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ yskelg@gmail.com, yunseong.kim@ericsson.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com
+Subject: Re: [PATCH v15 01/43] llist: move llist_{head,node} definition to
+ types.h
+Message-ID: <20250515030050.GB1851@system.software.com>
+References: <20250513100730.12664-1-byungchul@sk.com>
+ <20250513100730.12664-2-byungchul@sk.com>
+ <5f412ff9-c6a3-4eb1-9c02-44d7c493327d@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636A:EE_|SJ2PR12MB8955:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1310e6e0-cd85-4e33-cabe-08dd935538fa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?I06OWkPB2YA/c1cnCuYf3Hg8NQXog+zxT9Rrqr30e+ujx9OnYoHpySLzO7ob?=
- =?us-ascii?Q?nKX5sBt/gVGlmAypcuOtL7c7bBS4YHIPWKVQ4shEb2x0DfqaVh2ij6bYjNoh?=
- =?us-ascii?Q?nVqOyIyD8hcqLr+46+ytG7lFwbvGaR9BXwJjGUFXLMULoJYGgm7IfL0QzNid?=
- =?us-ascii?Q?pgxNXKeCLPIW1i3P18wZgpvpLaDXPK249RDSxWvZgxixF5zamHGjG9YLZupT?=
- =?us-ascii?Q?ue5kocw3WPZUgiV4SjVU0GGOTDcvYga74frJSGcVxIg8hBURRUYD1+id4879?=
- =?us-ascii?Q?NlOrWeWPC9HRw4LhUiY66gMSP9c4ZQu2oXDfviGY60hTmX6lCSWJ98hvXWAR?=
- =?us-ascii?Q?MA+k0qwzAlYMZ2lpompjkqSra5cLR6m6NP3NGxtV7gxCUn0DG3YzBzP+wg4e?=
- =?us-ascii?Q?viZhcCZsvmCi5FiQqmANvYWjzym04Oyg0U++1fajNcT7M4t1t0IyCJx5QoAL?=
- =?us-ascii?Q?I5Le41ekssg9a7oPM4S36pT9qIzbKTiG/pcm1A2hESfyM5DFP3/mKjYHQknn?=
- =?us-ascii?Q?4UUUzi8sOL/H6+vukB5UhR7P/Q2yFZ9Du60JKnrdR8OjnS6pBNls1mCPqC0R?=
- =?us-ascii?Q?cJOxdFDIoW6ObsdB1b1sXRnmSLmwqL+TZaSHs4SvDJg6zhScsVhakTmZwlZd?=
- =?us-ascii?Q?Oij+5+v2bJe+VKPo5yaiTmuy49w/31zauZXGIacGi+nmsnnwVb4DR05bY8BQ?=
- =?us-ascii?Q?8Lnd3Q1MqqgvJBumhGZm8B5nYQWiyGUQ7hpFMIj23W/51umdfKcc8FtSL1i9?=
- =?us-ascii?Q?BekbE/Hj47B8TqxJH24BkFUXeGVbf/6tbpMsEpsSAdf50EULZRvgYeV7F0kS?=
- =?us-ascii?Q?OXKNhImtu25jldtlMqEisZDEvWrsyYdm8OVztOP1IDIj1n57RQ/Qj71fCLMQ?=
- =?us-ascii?Q?PlkUvepgjOuvKmnvAewkcGNgk4tlmrM5X103OZ/6KglJUo7aSm4jKF+TNAeB?=
- =?us-ascii?Q?lUks2q27XttHB7Sll9PWWoKyAk+La79YuRgjQshxn9sfRnP+yKqX1gAK3qBh?=
- =?us-ascii?Q?hnAICQvtLytUZFz9IwX/aeH6deGpielRH1YO84Gw912+QGL9dVscSBPl1iW8?=
- =?us-ascii?Q?f+WgB7KX19WKYI2Ajc5XBHfDCQlnDthvX2pdfq5P6bFVVE8tj1jr3rk3bXfH?=
- =?us-ascii?Q?oyIM6fs5qmIpnDpcOb8RgO0I0ocWpg97XySAkPsSDHxIhM6Jwc+uX5U5ijja?=
- =?us-ascii?Q?mvxQYEkm+WK08ZgfmpQw0rq2HOp3pP86Z+JOCqGmQYKl16yib3LE6ur/W/kF?=
- =?us-ascii?Q?j1ajVq8i91YUHvhPCDcz974KVRvgJYP+kNyJ+paO0y0QXeeCPxjTluBkmO/x?=
- =?us-ascii?Q?/10UBnX+lniTEQN+vlYXxnzF5t1GgjEvdicwofULRvyoRYCEOREKpAvJGUHk?=
- =?us-ascii?Q?/ELBgEGLSGIGllh4RnYUNP6moAPVHQ902k7EZgiFuHfB7WLpiWg4Qbxd/JdV?=
- =?us-ascii?Q?jxGlv2m4IFWVsByI5i7lX4VefHzv/UfB2h4Y9FbWT6ytmIQfb8t8FoJ657gA?=
- =?us-ascii?Q?ZCog98hAWCoznbrSOa39J67oXB0J52iLRjiq?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 02:07:19.3194 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1310e6e0-cd85-4e33-cabe-08dd935538fa
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8955
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f412ff9-c6a3-4eb1-9c02-44d7c493327d@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVxjHd+69vfe2WnYtOo+w+aHCZnBzQnA8SzZDsmU7ydhm4kwWt0SL
+ XNe6Aq68CM4l5TUKkyBbYRQmtWyVYFUsxlQFZBhqOh1WCxUdoDI0QHlf2w0FXCkx88uTX57/
+ //zO+XB4WlHGRvCatExRl6bSKlkZIxtfbn5j+PNo9aaH5RLw+w4xUHvGyoLr9EkE1nN5FIx0
+ fgi3A2MInvxxg4YqgwvB8Qf9NJxzDCBobchnwT0UBt3+SRachlIWCurPsHDTO0dBX2UFBSdt
+ H8M9yyMGrpWbKagaYaGmqoAKjmEKZi2NHFj00TDYYORg7kEsOAc8Emi9uwGqj/Wx0NLqZMBh
+ H6TAfbGWhQHrUwl4S6ZoCJRFguvoEQmcmjCz4A1YaLD4Jzm41W6iwGF6CZoKg8LivxckcPVI
+ OwXFv5yloPvOJQRth+5TYLN6WLjiH6Og2Wag4fGJTgSDZeMcFH0/y0FNXhmC0qJKBgr7NsOT
+ f4M3/+yLhby6JgZOzXtQ4rvEesyKyJWxSZoUNu8nj/09LGkNmBjyuxmTC8Z+jhS23eWIyZZF
+ mhtiSH3LCEWOz/glxNZ4mCW2mQqOlIx3U2Siq4vb+vIO2TspolaTLere3LJLpm50VDD7fg3L
+ 6fT10HpUs6wESXksxGP9+I/cMz5a5ZYsMiNE474KO73IrPAa7u2dDfFKQYn9sy6mBMl4Wqhc
+ hi84pqnFIFz4DI9N94dEciEBm53uUEkhGBAuzR9lloIV2Fk9FGJaiMG9CyPBw3yQI/GJBX5x
+ LRW24LbAvVBllbAOt5+/Si09ziPF1Y6DS7wG/9bQy5Qjwfic1fic1fi/1YToRqTQpGWnqjTa
+ +I3q3DRNzsbd6ak2FPyllu/mvrCjGde2DiTwSLlc3l4UpVZIVNkZuakdCPO0cqX89t51aoU8
+ RZV7QNSl79RlacWMDhTJM8rV8rjA/hSF8JUqU/xaFPeJumcpxUsj9EgkOZ9OuV9Izg9cb1o9
+ H/uR95/3kwt++ivrh2tR2ydHrdtPh492vBr39sSu9w4nXg//oL9+TVwX3jN/48/zL+qmkg0p
+ tZsuZ3ter9PefMuZ7ttb882X9rUJO3w9ez5Zsap4fdh0XkTCxcGknYneAweTpVGZzLf37S1J
+ w3rV5qd1Q91rI+JfUTIZalVsDK3LUP0HPfruQ6EDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH8zz3tZWau47pjY1+qMMXFlFU4llc0CVm3Cxz0czERU1moze2
+ k1ZtEekUB1KMg0mEBYhFsZZZCJThilNQSwhIsahYLSIqoBAyh60CjttZYbCWZZlfTn45//M7
+ 58thCeUYNY/VGdJEo0GTqqblpPzLtTnLnn8dp11x5dxikMZPkHCmzkmD75caBM5L2RiG21Lg
+ YSiIYOLOXQJKi30Izg/0EXDJ04/AXXWMBv/QbOiSRmjwFufTkFNRR8O9wCSG3pIiDDWujfDU
+ 8TsJt07ZMZQO01BWmoMj5Q8MYUc1A46sOBissjIwOZAI3v5uClrPeilwP/4ITpf30nDd7SXB
+ 0zCIwX/1DA39zmkKAnmjBIQKVOArPElB7Ss7DYGQgwCHNMLA/WYbBo9tDly0RLYe/3OKgvaT
+ zRiO//wrhq5H1xA0nXiGweXspqFVCmKodxUT8LayDcFgwUsGcn8MM1CWXYAgP7eEBEtvEky8
+ iVw+O54I2ecuklD7dzdanyw4y51IaA2OEIKl/pDwVnpAC+6QjRQ67LzQaO1jBEvTY0awuQ4K
+ 9VXxQsX1YSycfy1Rgqv6B1pwvS5ihLyXXVh41dnJbJq/Tf7JbjFVly4alyfvlGurPUXk/guz
+ M9rGHxBZqGxWHpKxPLeaLyz1U1EmuTi+t6iBiDLNLeZ7esIzHMupeSnsI/OQnCW4kll8o2cM
+ R4P3uS18cKyPibKCW8Pbvf6ZISVXjPj8Yy/If4P3eO/poRkmuHi+Z2o4IrMRVvGVU2y0LeOS
+ +abQ05mRD7iFfPPldnwKKazv2NZ3bOv/tg0R1ShWZ0jXa3SpSQmmvVqzQZeRsGuf3oUij+jI
+ nCxsQOP+lBbEsUgdo2jO/VCrpDTpJrO+BfEsoY5VPPx2oVap2K0xfyca931jPJgqmlqQiiXV
+ cxWfbxV3Krk9mjRxryjuF43/pZiVzctCGQ5WVT+Qu6UirSCY5V4w+mR95tYL4dCiUN9vgcwb
+ n/o87WMbhj6eeF65Y/rQEfFNjP3A6Lru0a7bc/LL//rKeXWHbEVj50+fLf3+cswG87Tqi5WG
+ joHDSVZ9x2CK8eaqmtrtCds23lh5WMJlC1TBJUH9UUtd+sRmySzLsQZxYEndajVp0moS4wmj
+ SfMPr7iiAoQDAAA=
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,27 +100,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously we only signaled finished fence which may cause some
-submission's dependency cannot be cleared the cause benchmark hang.
-Signal both scheduled fence and finished fence could fix this issue.
+On Wed, May 14, 2025 at 08:14:26PM -0400, Waiman Long wrote:
+> On 5/13/25 6:06 AM, Byungchul Park wrote:
+> > llist_head and llist_node can be used by very primitives. For example,
+> 
+> I suppose you mean "every primitives". Right? However, the term "primitive"
+> may sound strange. Maybe just saying that it is used by some other header
+> files.
 
-Signed-off-by: Lin.Cao <lincao12@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you.  I will apply it.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index bd39db7bb240..e671aa241720 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -176,6 +176,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
- {
- 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
- 
-+	drm_sched_fence_scheduled(job->s_fence, NULL);
- 	drm_sched_fence_finished(job->s_fence, -ESRCH);
- 	WARN_ON(job->s_fence->parent);
- 	job->sched->ops->free_job(job);
--- 
-2.46.1
-
+	Byungchul
+> 
+> Cheers,
+> Longman
+> 
+> > dept for tracking dependencies uses llist in its header. To avoid header
+> > dependency, move those to types.h.
+> > 
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> > ---
+> >   include/linux/llist.h | 8 --------
+> >   include/linux/types.h | 8 ++++++++
+> >   2 files changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/linux/llist.h b/include/linux/llist.h
+> > index 2c982ff7475a..3ac071857612 100644
+> > --- a/include/linux/llist.h
+> > +++ b/include/linux/llist.h
+> > @@ -53,14 +53,6 @@
+> >   #include <linux/stddef.h>
+> >   #include <linux/types.h>
+> > -struct llist_head {
+> > -	struct llist_node *first;
+> > -};
+> > -
+> > -struct llist_node {
+> > -	struct llist_node *next;
+> > -};
+> > -
+> >   #define LLIST_HEAD_INIT(name)	{ NULL }
+> >   #define LLIST_HEAD(name)	struct llist_head name = LLIST_HEAD_INIT(name)
+> > diff --git a/include/linux/types.h b/include/linux/types.h
+> > index 49b79c8bb1a9..c727cc2249e8 100644
+> > --- a/include/linux/types.h
+> > +++ b/include/linux/types.h
+> > @@ -204,6 +204,14 @@ struct hlist_node {
+> >   	struct hlist_node *next, **pprev;
+> >   };
+> > +struct llist_head {
+> > +	struct llist_node *first;
+> > +};
+> > +
+> > +struct llist_node {
+> > +	struct llist_node *next;
+> > +};
+> > +
+> >   struct ustat {
+> >   	__kernel_daddr_t	f_tfree;
+> >   #ifdef CONFIG_ARCH_32BIT_USTAT_F_TINODE
+> 
