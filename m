@@ -2,71 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4BBAB8877
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 15:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C196BAB88F0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 16:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B1810E8B6;
-	Thu, 15 May 2025 13:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8666A10E8B8;
+	Thu, 15 May 2025 14:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OwzQP0I4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y7BnI1GB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B464F10E8AE;
- Thu, 15 May 2025 13:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747316925; x=1778852925;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LJ2HDZgEz5i6+AG7w6DQbfs58vUkTdzP0X8ii4qnXiQ=;
- b=OwzQP0I4DwLBd8nnn/6o/RAimo6ZMPVWxVE/ArDmkygkGn007IhjF7zh
- syHQOX4r3800FbLiKgHfVFTin6Fm4PwwCkejIZhY67SI1gkczQiUKJmZM
- FU8uXcip6GI/g3PrxwRXbswI2T28gwcB8qWwciYRJCCHM9cGqJkJNNNmL
- KpQF4O8S6UXuZsR3VgHePD2cWc6GEiWDEarO2UNTwB3iE7d8SQlBaeUou
- i+XMyAjHzTCec6Xxx+tixUJ/8/NJPCgt+spgj48RgKbnPsXQe1fo96N/i
- ePMq2++F8RXU7e4n2cbdz6k+S/yB55uS75PJhyDvh3gPH2e+g3ToMQlPr w==;
-X-CSE-ConnectionGUID: sP52xJvzQDyRO0jpgyapmA==
-X-CSE-MsgGUID: cm5zQ21dT7SgsMCKMhnrZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="66660924"
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="66660924"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 06:48:45 -0700
-X-CSE-ConnectionGUID: SvKDvQvlQpiL+vVHCLjysw==
-X-CSE-MsgGUID: eahkBH5yQ6GHGWH473PfqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="138428390"
-Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 06:48:38 -0700
-From: Alexander Usyskin <alexander.usyskin@intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>, Raag Jadav <raag.jadav@intel.com>
-Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
- Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [PATCH v10 10/10] drm/xe/nvm: add support for non-posted erase
-Date: Thu, 15 May 2025 16:33:45 +0300
-Message-ID: <20250515133345.2805031-11-alexander.usyskin@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250515133345.2805031-1-alexander.usyskin@intel.com>
-References: <20250515133345.2805031-1-alexander.usyskin@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEBE10E8B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 14:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1747318240;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+lcYxqOygs7CrsNUkbbofsVji7C7nAqeA5usDI/rqf4=;
+ b=Y7BnI1GB3Ezn2p707Drz1zuoncyB3+mReoNvL9BSJ+YXGcFQIw0ejXgICRP+jTt/mHu1e3
+ A3yyRCeR/T9xyeuuLaHtXaZqyMRvBoj1V2VYlEStCbbx12tl1kaSS8zHxpCmBHio74cGiP
+ N6ID2/WLtJoP60z06Jv0yLxspyEGNLE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-612-9Kva182ZPD6kv9-O6euv3w-1; Thu, 15 May 2025 10:10:38 -0400
+X-MC-Unique: 9Kva182ZPD6kv9-O6euv3w-1
+X-Mimecast-MFC-AGG-ID: 9Kva182ZPD6kv9-O6euv3w_1747318237
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43cf446681cso6388015e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 07:10:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747318237; x=1747923037;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:from:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+lcYxqOygs7CrsNUkbbofsVji7C7nAqeA5usDI/rqf4=;
+ b=sYH9AMlhzWshMTFjbNJM2hdbjupZHexqR9X37IifCyN8izP4tB6yI6FweuF/Zu+UMG
+ zqem1qyvcZJAhfuGHFiiVtqXccM6YVj18nLTa/qbIhZx9TDiLDs7rqv1syC2E91tck+6
+ 1eFU2pgr7Ztbml87MEsVlpppaqVBUP8xjv4Ao/I3FIcV1n64zqkQP4yfGn3ealKPdIXO
+ TAlHwKln8n7YFN/qzaK/RljWShx4nzGiRj64TRkJtVooTzO/aFojsexTx8Inu7+C6Vlg
+ 2OH8BIs5xnBe7gxJN9D51ozdyDB6A0IhzzyOlalykv+wv6EmMPdm5T6UtXSHut6f64jq
+ 3dSw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4TzzENLyuz69+z5WE3htflAP87t3J2MufCPTFJ67ya8HPQ3oy/X6GUaJClFUOc9QHwhQykasEgTA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFoqMuK/VwfctoJwKQuadGom7IAKol3QYASsRresoKOhw4AzT4
+ km/o9o0rl89WVHPuA/AC0gyZJkDR/l4Vs10gtCNrPosy/zHQaamyzmL/7j0B/K6CTUc+y4n2PeL
+ Inmdm3z0tTvDtf982BJKrMre2QMjYuLAX0cYr3vgpBE5H7oYbaKZjePyes78Jb3KMKA==
+X-Gm-Gg: ASbGncuIog1jaoeTV2NOQnbQRbpN+ahT/N3yEcsFxifisneeq/VrYLFOmKBXUFqTtAw
+ yOG5eAmSIvqq1aC395WNYiauzU6Vq6lM8ktICaogjQGqCzUEnyRVvTgaehv9sdCIHXms9RTOMZd
+ 1l3yR5oU1RGzSpACRvAwVR8D8BupuKD+suN+hW+mNb82RBTPo+JuOVEpRP03p9IQ6xYXMRqoJTr
+ 0SuNTh2KOe7sZmfK+b7p6StwkI9jxOcbhuwmXQyL7C7fQ2+odgXrQVx/h9ZW8pZen/Ng5W5cj67
+ 9gTL/G7jgdCY79P9OUW6JiTZKPcqdMysVLcysAvnk0uPn4gYUFY56QEboQ/M+YedPFBw6GNSKop
+ qEoLTvLvDO4OszP1uVTLlAY3fmBiIsRrZdrg9BIE=
+X-Received: by 2002:a05:600c:a378:b0:43c:f050:fed3 with SMTP id
+ 5b1f17b1804b1-442f20d9d37mr71948375e9.11.1747318237203; 
+ Thu, 15 May 2025 07:10:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFAAk6HBarDrhds/XnLscSfSUgJMlH8mkC/3Viy6Za4wwJO/FV/AHxO4WRJqQ2pQFZ1DlGaMw==
+X-Received: by 2002:a05:600c:a378:b0:43c:f050:fed3 with SMTP id
+ 5b1f17b1804b1-442f20d9d37mr71947325e9.11.1747318236560; 
+ Thu, 15 May 2025 07:10:36 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f4a:8900:884a:b3af:e3c9:ec88?
+ (p200300d82f4a8900884ab3afe3c9ec88.dip0.t-ipconnect.de.
+ [2003:d8:2f4a:8900:884a:b3af:e3c9:ec88])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442f33691bbsm74868695e9.7.2025.05.15.07.10.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 May 2025 07:10:35 -0700 (PDT)
+Message-ID: <4ff30707-99ea-472a-9f16-517f52d7729a@redhat.com>
+Date: Thu, 15 May 2025 16:10:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/11] x86/mm/pat: remove MEMTYPE_*_MATCH
+From: David Hildenbrand <david@redhat.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, Dave Hansen
+ <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+ Ingo Molnar <mingo@kernel.org>
+References: <20250512123424.637989-1-david@redhat.com>
+ <20250512123424.637989-9-david@redhat.com>
+ <f2bxgy5tmb3cpk457lay3hl4wejj5dvttswnvzi2uudxtkkbsm@ktcytlgv64nn>
+ <18d502c8-7bbe-470e-863c-7c2f42ea2487@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <18d502c8-7bbe-470e-863c-7c2f42ea2487@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: z_gqm0A_LXE2O_y61u7hCBxLPWCFK044T6351q8BOSk_1747318237
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,197 +168,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Reuven Abliyev <reuven.abliyev@intel.com>
+On 14.05.25 19:53, David Hildenbrand wrote:
+> On 13.05.25 19:48, Liam R. Howlett wrote:
+>> * David Hildenbrand <david@redhat.com> [250512 08:34]:
+>>> The "memramp() shrinking" scenario no longer applies, so let's remove
+>>> that now-unnecessary handling.
+>>>
+>>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> Acked-by: Ingo Molnar <mingo@kernel.org> # x86 bits
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>
+>> small comment, but this looks good.
+>>
+>> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+> 
+> Thanks!
+> 
+>>
+>>> ---
+>>>    arch/x86/mm/pat/memtype_interval.c | 44 ++++--------------------------
+>>>    1 file changed, 6 insertions(+), 38 deletions(-)
+>>>
+>>> diff --git a/arch/x86/mm/pat/memtype_interval.c b/arch/x86/mm/pat/memtype_interval.c
+>>> index 645613d59942a..9d03f0dbc4715 100644
+>>> --- a/arch/x86/mm/pat/memtype_interval.c
+>>> +++ b/arch/x86/mm/pat/memtype_interval.c
+>>> @@ -49,26 +49,15 @@ INTERVAL_TREE_DEFINE(struct memtype, rb, u64, subtree_max_end,
+>>>    
+>>>    static struct rb_root_cached memtype_rbroot = RB_ROOT_CACHED;
+>>>    
+>>> -enum {
+>>> -	MEMTYPE_EXACT_MATCH	= 0,
+>>> -	MEMTYPE_END_MATCH	= 1
+>>> -};
+>>> -
+>>> -static struct memtype *memtype_match(u64 start, u64 end, int match_type)
+>>> +static struct memtype *memtype_match(u64 start, u64 end)
+>>>    {
+>>>    	struct memtype *entry_match;
+>>>    
+>>>    	entry_match = interval_iter_first(&memtype_rbroot, start, end-1);
+>>>    
+>>>    	while (entry_match != NULL && entry_match->start < end) {
+>>
+>> I think this could use interval_tree_for_each_span() instead.
+> 
+> Fancy, let me look at this. Probably I'll send another patch on top of
+> this series to do that conversion. (as you found, patch #9 moves that code)
 
-Erase command is slow on discrete graphics storage
-and may overshot PCI completion timeout.
-BMG introduces the ability to have non-posted erase.
-Add driver support for non-posted erase with polling
-for erase completion.
+Hmmm, I think interval_tree_for_each_span() does not apply here.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Reuven Abliyev <reuven.abliyev@intel.com>
-Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
----
- drivers/gpu/drm/xe/xe_nvm.c        | 25 ++++++++++++++++++
- drivers/mtd/devices/mtd_intel_dg.c | 42 ++++++++++++++++++++++++++++--
- include/linux/intel_dg_nvm_aux.h   |  2 ++
- 3 files changed, 67 insertions(+), 2 deletions(-)
+Unless I am missing something important, interval_tree_for_each_span() 
+does not work in combination with INTERVAL_TREE_DEFINE where we want to 
+use a custom type as tree nodes (-> struct memtype).
 
-diff --git a/drivers/gpu/drm/xe/xe_nvm.c b/drivers/gpu/drm/xe/xe_nvm.c
-index 8aec20bc629a..dd91f2e37661 100644
---- a/drivers/gpu/drm/xe/xe_nvm.c
-+++ b/drivers/gpu/drm/xe/xe_nvm.c
-@@ -14,7 +14,15 @@
- #include "xe_sriov.h"
- 
- #define GEN12_GUNIT_NVM_BASE 0x00102040
-+#define GEN12_DEBUG_NVM_BASE 0x00101018
-+
-+#define GEN12_CNTL_PROTECTED_NVM_REG 0x0010100C
-+
- #define GEN12_GUNIT_NVM_SIZE 0x80
-+#define GEN12_DEBUG_NVM_SIZE 0x4
-+
-+#define NVM_NON_POSTED_ERASE_CHICKEN_BIT BIT(13)
-+
- #define HECI_FW_STATUS_2_NVM_ACCESS_MODE BIT(3)
- 
- static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
-@@ -28,6 +36,16 @@ static void xe_nvm_release_dev(struct device *dev)
- {
- }
- 
-+static bool xe_nvm_non_posted_erase(struct xe_device *xe)
-+{
-+	struct xe_gt *gt = xe_root_mmio_gt(xe);
-+
-+	if (xe->info.platform != XE_BATTLEMAGE)
-+		return false;
-+	return !(xe_mmio_read32(&gt->mmio, XE_REG(GEN12_CNTL_PROTECTED_NVM_REG)) &
-+		 NVM_NON_POSTED_ERASE_CHICKEN_BIT);
-+}
-+
- static bool xe_nvm_writable_override(struct xe_device *xe)
- {
- 	struct xe_gt *gt = xe_root_mmio_gt(xe);
-@@ -85,6 +103,7 @@ void xe_nvm_init(struct xe_device *xe)
- 	nvm = xe->nvm;
- 
- 	nvm->writable_override = xe_nvm_writable_override(xe);
-+	nvm->non_posted_erase = xe_nvm_non_posted_erase(xe);
- 	nvm->bar.parent = &pdev->resource[0];
- 	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
- 	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
-@@ -92,6 +111,12 @@ void xe_nvm_init(struct xe_device *xe)
- 	nvm->bar.desc = IORES_DESC_NONE;
- 	nvm->regions = regions;
- 
-+	nvm->bar2.parent = &pdev->resource[0];
-+	nvm->bar2.start = GEN12_DEBUG_NVM_BASE + pdev->resource[0].start;
-+	nvm->bar2.end = nvm->bar2.start + GEN12_DEBUG_NVM_SIZE - 1;
-+	nvm->bar2.flags = IORESOURCE_MEM;
-+	nvm->bar2.desc = IORES_DESC_NONE;
-+
- 	aux_dev = &nvm->aux_dev;
- 
- 	aux_dev->name = "nvm";
-diff --git a/drivers/mtd/devices/mtd_intel_dg.c b/drivers/mtd/devices/mtd_intel_dg.c
-index 2f32ed311ffd..4d96b1421148 100644
---- a/drivers/mtd/devices/mtd_intel_dg.c
-+++ b/drivers/mtd/devices/mtd_intel_dg.c
-@@ -25,6 +25,9 @@ struct intel_dg_nvm {
- 	struct mtd_info mtd;
- 	struct mutex lock; /* region access lock */
- 	void __iomem *base;
-+	void __iomem *base2;
-+	bool non_posted_erase;
-+
- 	size_t size;
- 	unsigned int nregions;
- 	struct {
-@@ -41,6 +44,7 @@ struct intel_dg_nvm {
- #define NVM_VALSIG_REG        0x00000010
- #define NVM_ADDRESS_REG       0x00000040
- #define NVM_REGION_ID_REG     0x00000044
-+#define NVM_DEBUG_REG         0x00000000
- /*
-  * [15:0]-Erase size = 0x0010 4K 0x0080 32K 0x0100 64K
-  * [23:16]-Reserved
-@@ -72,6 +76,9 @@ struct intel_dg_nvm {
- #define NVM_FREG_ADDR_SHIFT 12
- #define NVM_FREG_MIN_REGION_SIZE 0xFFF
- 
-+#define NVM_NON_POSTED_ERASE_DONE BIT(23)
-+#define NVM_NON_POSTED_ERASE_DONE_ITER 3000
-+
- static inline void idg_nvm_set_region_id(struct intel_dg_nvm *nvm, u8 region)
- {
- 	iowrite32((u32)region, nvm->base + NVM_REGION_ID_REG);
-@@ -375,11 +382,30 @@ idg_erase(struct intel_dg_nvm *nvm, u8 region, loff_t from, u64 len, u64 *fail_a
- {
- 	u64 i;
- 	const u32 block = 0x10;
-+	u32 reg;
-+	u32 iter = 0;
- 	void __iomem *base = nvm->base;
-+	void __iomem *base2 = nvm->base2;
- 
- 	for (i = 0; i < len; i += SZ_4K) {
- 		iowrite32(from + i, base + NVM_ADDRESS_REG);
- 		iowrite32(region << 24 | block, base + NVM_ERASE_REG);
-+		if (nvm->non_posted_erase) {
-+			/* Wait for Erase Done */
-+			reg = ioread32(base2 + NVM_DEBUG_REG);
-+			while (!(reg & NVM_NON_POSTED_ERASE_DONE) &&
-+			       ++iter < NVM_NON_POSTED_ERASE_DONE_ITER) {
-+				msleep(10);
-+				reg = ioread32(base2 + NVM_DEBUG_REG);
-+			}
-+			if (reg & NVM_NON_POSTED_ERASE_DONE) {
-+				/* Clear Erase Done */
-+				iowrite32(reg, base2 + NVM_DEBUG_REG);
-+			} else {
-+				*fail_addr = from + i;
-+				return -ETIME;
-+			}
-+		}
- 		/* Since the writes are via sguint
- 		 * we cannot do back to back erases.
- 		 */
-@@ -388,7 +414,8 @@ idg_erase(struct intel_dg_nvm *nvm, u8 region, loff_t from, u64 len, u64 *fail_a
- 	return len;
- }
- 
--static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device)
-+static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device,
-+			     bool non_posted_erase)
- {
- 	int ret;
- 	unsigned int i, n;
-@@ -448,7 +475,10 @@ static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device)
- 			n++;
- 	}
- 
-+	nvm->non_posted_erase = non_posted_erase;
-+
- 	dev_dbg(device, "Registered %d regions\n", n);
-+	dev_dbg(device, "Non posted erase %d\n", nvm->non_posted_erase);
- 
- 	/* Need to add 1 to the amount of memory
- 	 * so it is reported as an even block
-@@ -731,7 +761,15 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
- 		goto err;
- 	}
- 
--	ret = intel_dg_nvm_init(nvm, device);
-+	if (invm->non_posted_erase) {
-+		nvm->base2 = devm_ioremap_resource(device, &invm->bar2);
-+		if (IS_ERR(nvm->base2)) {
-+			ret = PTR_ERR(nvm->base2);
-+			goto err;
-+		}
-+	}
-+
-+	ret = intel_dg_nvm_init(nvm, device, invm->non_posted_erase);
- 	if (ret < 0) {
- 		dev_err(device, "cannot initialize nvm %d\n", ret);
- 		goto err;
-diff --git a/include/linux/intel_dg_nvm_aux.h b/include/linux/intel_dg_nvm_aux.h
-index 53193fda55eb..efeefd96f9df 100644
---- a/include/linux/intel_dg_nvm_aux.h
-+++ b/include/linux/intel_dg_nvm_aux.h
-@@ -19,7 +19,9 @@ struct intel_dg_nvm_region {
- struct intel_dg_nvm_dev {
- 	struct auxiliary_device aux_dev;
- 	bool writable_override;
-+	bool non_posted_erase;
- 	struct resource bar;
-+	struct resource bar2;
- 	const struct intel_dg_nvm_region *regions;
- };
- 
+interval_tree_for_each_span() only works with the basic "struct 
+interval_tree_node" implementation ... which is probably also why there 
+are only a handful (3) of interval_tree_for_each_span() users, all in 
+iommufd context?
+
+But staring at interval_tree.h vs. interval_tree_generic.h, I am a bit 
+confused ...
+
 -- 
-2.43.0
+Cheers,
+
+David / dhildenb
 
