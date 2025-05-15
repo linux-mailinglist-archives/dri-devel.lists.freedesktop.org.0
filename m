@@ -2,81 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81260AB8C20
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E447AAB8C26
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B97C810E902;
-	Thu, 15 May 2025 16:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1AB310E909;
+	Thu, 15 May 2025 16:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="IdC08KrN";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BF3cvFgJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73DB910E902
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:17:30 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-43cec5cd73bso7972825e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747325849; x=1747930649;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=i+Sz/wPLjTyMxHsvfmdAFUak8pThYrdMgG0BLTFvjMo=;
- b=IdC08KrNpeqMizf2RRaJQHh/zQwMCx3lwdcLKxWCi56I/ub75n+/z+c8pYcQpYkIX1
- O9Vi0UX1j6A/0x76oa7ta/FULdOh+ZT2UUIV8EKAJ2Weo+RvYnfCZ6qyqZXhaKBcmecT
- 7CTFkwLnyTrqL/tPfq9F8pRL97PENxQpwtRrSUPN2Vr3+Misqgvf1x4GSaduL56+PCvK
- kH9ygOqdz3btiapEipTRnBbnHQVaFXWx6JnVown5YZqz4xK6zneLjfQJ5LWORIbub7G3
- 6L6FL4z3dj7bdiKSShAGrGcd5Rjv610zOMcRg50NZvd4EIM/tGM53Vk6JRSjZ9asj8cp
- pSEg==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA9F10E909
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:18:36 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54FEFNiY032701
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:18:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ qX+FKmvWae7qk6ZxShDL/DRRc09xp5kjpRbX5MzVt+8=; b=BF3cvFgJQh0FUiNG
+ Ha8PNY81gbzM3nBFoNq6K4IgbvECb3TRxgAcOYMl7gfyB3IPggYT6NQGz0z9iNjK
+ C5wniCpHjaCmOw3V6Mv2HrL67z+CAKVcpInvglt7fpmpun1aMHVux4pjFBYy5xEN
+ wnv77ppz+7FvqJzhA5T/EUghYpQfRXf0X1BstFeUqYdmfhdBY8PrqVNQC1thF3Xx
+ tek/PPOqSgp5qE5SESZE+3YGyhEw6HZO0JwzI748WpvJ/2Aq9V4vtiDTAk11wrx7
+ N6c8TyJZXt0frd/NXNaWuPlil6Aeu4qwVe3KAA/i38ydmfcoBjwM0ObufZmJt9wX
+ k2HJPw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcnxscb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:18:34 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6f899c646afso3651876d6.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:18:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747325849; x=1747930649;
+ d=1e100.net; s=20230601; t=1747325913; x=1747930713;
  h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i+Sz/wPLjTyMxHsvfmdAFUak8pThYrdMgG0BLTFvjMo=;
- b=Mvwl+IS/Z+cA6p9jh23/OnD6zd8rrpvWoYc+MK9XfgDAh/p0yotQF4+X4TAaH5JGSA
- /dYAdN7OuxTnpW/GuO4H6dlO0Sqmq9t08VYYQQZH7vhiGdtrmQfr/Woz4yIk8jcdDNJH
- xUhFoVuP9MX2wQkNf1rmsNWqBzCUl91nhCeryKcP3GYH/o5q2zEbAsTAtBKsfeA5K1Id
- IkrLCO7QnZ2MMZyLrsfokcbPbAKz9mYv/766Umnc0leo6On2BC7RMSzEwnu2DKyTEo0L
- DmdGz4TGLNw+qibab1cBcsOf6519vT0HL3mxxQjv7nkFfCSkODLLMnaXyWKUu3IUESdK
- vY0Q==
+ bh=qX+FKmvWae7qk6ZxShDL/DRRc09xp5kjpRbX5MzVt+8=;
+ b=m1ykt8//GbAx1JpTFovzhcKn9ZZpR516cSMXiUwrbVgjeI44AlpXMXqxpX8D1bh3lQ
+ /OtezkYoMUoXe1oLwRVo/GfvQ1cZgqXcDmNPwF/8QgTmGpLstwGPAhIxzvvnePUutDdt
+ q+Z7WxGS0yOQcl1QeqH8qQ9gjvy1Y6yM5VLfTHw59klFg+U3+KXqoXBwZgw3qTGu91MW
+ Kjs3GDfxhzUdh4W1vBbRMrsGi5NGV2VInIVCt+PvRBWdPrd/psHnQ3njoqTR5hgUv46q
+ 7Sk7GVbSbVBS8Wa05qs6E83RmBfNjYXSWZRdtiRjWBqecNu+xlLxcq5Y9b6HySeJSwDR
+ mgEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeL9vLT5QlivdgIoQU7OSjp8Fmfw6OuSTbCTdhqZ//1+gN8Y76XgixvVZiXRBgfpGPSu1X7LA7k2E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycCn7bqc5mchguRh84b8/39EbYP92VJELwVyAOSg54opmBURXE
- xRJz/CPSrz99wfsV6zwaLKtcb86dh5qMG07vhvw3Qgx8Nl0melUq+6Ri9MhYVsXTM04=
-X-Gm-Gg: ASbGncvKTRjC6C1IQUnjXqqWtAfBy4Wqz9qiEjeoAMuDueLEGmEo32OZOmKs0Fts/3q
- 9ZV6FGS2wxWvpju2syeZlwbnPfqB1LBzEOzADXgnklilD976n4MiCBhPluLFqQx4sq26zs7WWVZ
- 78ygecVIuuFTg7KM2YfU5tgw/jd1edlxSKM7n6UFs8ag08N5ySs23jt/5pM0sVvef59pVFEOpgd
- +9J2rkwkhI3vVJZ0NqKdv+AdiDP2aQK6zVUZdPdYGIyA69Y9dsw3scyTZYAZw84POCK73jcQUkv
- O0g4nwX2jttspED6+CPXK1iipYQ5owhpXQaw0YND/rR3Ftgm3rStyTy/ykgXL4nSag==
-X-Google-Smtp-Source: AGHT+IFHUu/X4DlP68bFGVXWbvzDTMg+zLRptiiOX/lnXBeH+8YqwAsWA8jCo13PhMvHpzvtSWNisA==
-X-Received: by 2002:a05:600c:c13:b0:43d:79:ae1b with SMTP id
- 5b1f17b1804b1-442fd627416mr1635965e9.14.1747325848599; 
- Thu, 15 May 2025 09:17:28 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442f39ef832sm73288165e9.40.2025.05.15.09.17.27
+ AJvYcCW3ciDk7CdLdZhn3f/vEYzwo8cvfq/W5w+vJx5KXNmGi7tsw0vf7jOHPDnUJCDGq95+PouruKs/+Jo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbXNz5jLvL+sVr8tprV936WrDG5ejyAC+jBSSHQNjgsyyLm7ie
+ hiOV3KAFgX5ZkGfvD2fBWx4ZC/vCP9emp9B+pqHvr+5Yyjkju4J2UxjvRiE+mat+MuzeSSzqZSz
+ sAoKg75E98wfa7AIZbPPE1P9FsiXfivG9I16uDSbm3hKJ/yFinC3con5kK1ZLp3Bc2AWkRwI=
+X-Gm-Gg: ASbGncuk/h55PF1v/rjnt/12bIjI9bHK4ehUKn8Xt9af0IPGz8UCv8ynikvaf+Vdm0m
+ WfLEyq/L0RSzwPwP7895qoViIh+R/4uRTrJ8OEXSg6aC7M/hpLWdBbFHlcm3bGMe5KdT/L5Rh2C
+ wdVNzIj+GPmMgE2GMB+CaGZ1eRd0v02QG5UpGdEjKX2g/G1Tuu3sdTC6rOMN8cWahwKXgmP/1Oe
+ +npfiDfVB8J0i1vWQLJLMmcrm81qykPdyt2us3c39Kv6FVEEVQBhiRgaO2r4kKamdxLaxGd3fN8
+ ad1IE7GfAWpjKyLk+zXMRgaSmawh47giYJfaeZVOwRVNyBrKFEV3i0XkXP3ZqhsGhQ==
+X-Received: by 2002:a05:6214:f0c:b0:6e4:501d:4129 with SMTP id
+ 6a1803df08f44-6f8b09398f4mr1585856d6.11.1747325913509; 
+ Thu, 15 May 2025 09:18:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEs5o7TMvuHlAVqEVKuzoLrDE2O7PdxwnnYC6+0RPVnhmYXHkLwqwBcqjjj6lsYHcU9JpqmmA==
+X-Received: by 2002:a05:6214:f0c:b0:6e4:501d:4129 with SMTP id
+ 6a1803df08f44-6f8b09398f4mr1585516d6.11.1747325912806; 
+ Thu, 15 May 2025 09:18:32 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad52d441fb5sm9987466b.108.2025.05.15.09.18.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 May 2025 09:17:28 -0700 (PDT)
-Message-ID: <a5e53b34-c247-4193-b4ab-551693ad089a@ursulin.net>
-Date: Thu, 15 May 2025 17:17:26 +0100
+ Thu, 15 May 2025 09:18:32 -0700 (PDT)
+Message-ID: <466148c9-2461-4140-9ba9-5a3427ec6461@oss.qualcomm.com>
+Date: Thu, 15 May 2025 18:18:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/sched: add drm_sched_prealloc_dependency_slots v3
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, phasta@mailbox.org, dakr@kernel.org,
- amd-gfx@lists.freedesktop.org
-References: <20250515150038.4615-1-christian.koenig@amd.com>
- <20250515150038.4615-2-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250515150038.4615-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH RFT v2 13/15] soc: qcom: ubwc: Fix SM6125's ubwc_swizzle
+ value
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com>
+ <20250514-topic-ubwc_central-v2-13-09ecbc0a05ce@oss.qualcomm.com>
+ <lkkwnmnk32igcev3gykmtxsohyskj6ehylaypg2dyxbedvksee@lnuc4lfmzrkm>
+ <9a05d545-1bf2-4f66-8838-b6969ba37baa@oss.qualcomm.com>
+ <d7417290-a245-422c-ba00-3532661ea02d@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <d7417290-a245-422c-ba00-3532661ea02d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 43yw5JpucxWJ3Nl9GWkD7e4Wkxhz8zzy
+X-Proofpoint-ORIG-GUID: 43yw5JpucxWJ3Nl9GWkD7e4Wkxhz8zzy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDE2MiBTYWx0ZWRfX27qpOoUfE/CJ
+ cqbiFPsNK36vjjykvoqzflSmtESgcTLrLEfoPC4o/PlKqMJuctXaRn23e1CZhYkEbHvfQ2+9h8t
+ w2TemjZLM4s+jZtueiZVmGzQuxpNTvlgcwCjIfwCrduqMwUg+H4pr+MlhEBPsMtmt5VcfLRFBke
+ FyobXLSewhbfB9MKHKNstNyXdZoGsao/93z+HQv72YTCXuMeO9UWBwO3UJ+Fax7gDy6XWoWr9Dl
+ RAnOMzlbHdVxGVsAAx9W3xVfwlRfQtC9fEOIHGP4N93qnoxOFCiy5yqYdk89VJFTScMaLYHpxKJ
+ tQQir46jaCaP34g+Ue/WwEL2E1znvKxlfCZm+/4eD6IW9P+u4nd92qffkS5pMJL5e7MyS2aQtBQ
+ DSeuMVpjbRrnKbWWAb4K57gF6pZazDTJRKpxKA53V268os6YvUJ3pQE1o+WSD2rWRdFOlziH
+X-Authority-Analysis: v=2.4 cv=Gp9C+l1C c=1 sm=1 tr=0 ts=682613da cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=4UHGY1WjEP5fiMyc6oEA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-15_07,2025-05-15_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 impostorscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505150162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,104 +134,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 15/05/2025 16:00, Christian König wrote:
-> Sometimes drivers need to be able to submit multiple jobs which depend on
-> each other to different schedulers at the same time, but using
-> drm_sched_job_add_dependency() can't fail any more after the first job is
-> initialized.
+On 5/14/25 10:33 PM, Dmitry Baryshkov wrote:
+> On 14/05/2025 23:05, Konrad Dybcio wrote:
+>> On 5/14/25 9:23 PM, Dmitry Baryshkov wrote:
+>>> On Wed, May 14, 2025 at 05:10:33PM +0200, Konrad Dybcio wrote:
+>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>
+>>>> The value of 7 (a.k.a. GENMASK(2, 0), a.k.a. disabling levels 1-3 of
+>>>> swizzling) is what we want on this platform (and others with a UBWC
+>>>> 1.0 encoder).
+>>>>
+>>>> Fix it to make mesa happy (the hardware doesn't care about the 2 higher
+>>>> bits, as they weren't consumed on this platform).
+>>>>
+>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>> ---
+>>>>   drivers/soc/qcom/ubwc_config.c | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
+>>>> index 9caecd071035ccb03f14464e9b7129ba34a7f862..96b94cf01218cce2dacdba22c7573ba6148fcdd1 100644
+>>>> --- a/drivers/soc/qcom/ubwc_config.c
+>>>> +++ b/drivers/soc/qcom/ubwc_config.c
+>>>> @@ -103,7 +103,7 @@ static const struct qcom_ubwc_cfg_data sm6115_data = {
+>>>>   static const struct qcom_ubwc_cfg_data sm6125_data = {
+>>>>       .ubwc_enc_version = UBWC_1_0,
+>>>>       .ubwc_dec_version = UBWC_3_0,
+>>>> -    .ubwc_swizzle = 1,
+>>>> +    .ubwc_swizzle = 7,
+>>>>       .highest_bank_bit = 14,
+>>>>   };
+>>>
+>>> Add a comment and squash into the patch 1.
+>>
+>> I don't think that's a good idea, plus this series should be merged
+>> together anyway
 > 
-> This function preallocate memory for dependency slots so that no ENOMEM
-> can come later while adding dependencies.
+> Well... Granted Rob's comment, I really think the patches should be reordered a bit:
 > 
-> v2: rework implementation an documentation
-> v3: rework from scratch, use separate function to add preallocated deps
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 45 ++++++++++++++++++++++++++
->   include/drm/gpu_scheduler.h            |  4 +++
->   2 files changed, 49 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index f7118497e47a..b95e7089aa70 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -858,6 +858,51 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->   }
->   EXPORT_SYMBOL(drm_sched_job_arm);
->   
-> +/**
-> + * drm_sched_job_prealloc_dependency_slot - avoid ENOMEM on adding dependencies
-> + * @job: scheduler job where dependencies will be added
-> + * @id: id for the allocated slot
-> +  *
-> + * Sometimes drivers need to be able to submit multiple jobs which depend on
-> + * each other to different schedulers at the same time, but using
-> + * drm_sched_job_add_dependency() can't fail any more after the first job is
-> + * initialized.
-> + *
-> + * This function preallocate memory for a dependency slot so that no ENOMEM can
-> + * come later while adding dependencies. The index of the preallocated slot is
-> + * returned in @id.
-> + *
-> + * Return:
-> + * 0 on success, or an error on failing to expand the array.
-> + */
-> +int drm_sched_job_prealloc_dependency_slot(struct drm_sched_job *job,
-> +					   u32 *id)
-> +{
-> +	return xa_alloc(&job->dependencies, id, NULL, xa_limit_32b, GFP_KERNEL);
-> +}
-> +EXPORT_SYMBOL(drm_sched_job_prealloc_dependency_slot);
-> +
-> +/**
-> + * drm_sched_job_add_prealloc_dep - add dependency to preallocated slot
-> + * @job: scheduler job where dependencies will be added
-> + * @id: the preallocated slot index
-> + * @fence: the dependency to add
-> + *
-> + * Consumes @fence and adds it to the preallocated slot dependency.
-> + */
-> +void drm_sched_job_add_prealloc_dep(struct drm_sched_job *job, u32 id,
-> +				    struct dma_fence *fence)
-> +{
-> +	fence = xa_store(&job->dependencies, id, fence, GFP_ATOMIC);
+> - MDSS: offset HBB by 13 (patch 2)
+> - switch drm/msm/mdss and display to common DB (patches 1+3 squashed)
+> - get a handle (patch 4)
+> - resolve / simplify (patches 5-10, not squashed)
+> - fix sm6125 (patch 13)
+> - WARN_ON (swizzle != swizzle) or (HBB != HBB)
+> - switch to common R/O config, keeping WARN_ON for the calculated values (with the hope to drop them after testing)
 
-Add assert that the passed id exists (was preallocated) and is NULL?
+Does this bring any functional benefit? This series is unfun to remix
 
-Also, if someone preallocates and does not consume the slot will that 
-confuse the iteration in drm_sched_job_dependency()?
-
-Regards,
-
-Tvrtko
-
-> +	/*
-> +	 * Be defensive just in case driver messed it up and used preallocated
-> +	 * slot twice.
-> +	 */
-> +	if (WARN_ON(fence))
-> +		dma_fence_put(fence);
-> +}
-> +EXPORT_SYMBOL(drm_sched_job_add_prealloc_dep);
-> +
->   /**
->    * drm_sched_job_add_dependency - adds the fence as a job dependency
->    * @job: scheduler job to add the dependencies to
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index d860db087ea5..0286e0934317 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -632,6 +632,10 @@ int drm_sched_job_init(struct drm_sched_job *job,
->   		       u32 credits, void *owner);
->   void drm_sched_job_arm(struct drm_sched_job *job);
->   void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
-> +int drm_sched_job_prealloc_dependency_slot(struct drm_sched_job *job,
-> +					   u32 *id);
-> +void drm_sched_job_add_prealloc_dep(struct drm_sched_job *job, u32 id,
-> +				    struct dma_fence *fence);
->   int drm_sched_job_add_dependency(struct drm_sched_job *job,
->   				 struct dma_fence *fence);
->   int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
-
+Konrad
