@@ -2,117 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C78AAB7A9E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 02:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70308AB7B67
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 04:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B17C10E754;
-	Thu, 15 May 2025 00:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 308CB10E096;
+	Thu, 15 May 2025 02:07:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FyRGtW8F";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="blZHCTv0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5249110E754
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 00:32:48 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EJspEo009098
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 00:32:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=jMX8MEuNbqB8c/F1/VjebPfy
- Bmoob4q2DgIFRmEpoZY=; b=FyRGtW8FJBxPZRuJS3HpFlnhHAVvxQb6Cx0f+4Du
- KvVR/9+TUAAOJnv8aVF0fjOfElZ4ooF1XRaPdjZkjATsKe+GNPdpORQgr/WocG8m
- Lmo6jOa6DcSqNGWLdeDbC/11ukij0qsmCpBk5gKZTaCNtTOb1w4+DaLWoD7+oFDN
- ZLxnVcAA6fr7HtQunJ1uKjd2386a2oqaS2FHRGEkOlszFw4yWRHDF5ae6sV2Ur4r
- OcNGUEsOhkiCEvyPWYTK8yBFPNnmWfJYD+Btnq6dzXmHL8rH4NZEkq7c//+CrN7V
- cEs/slPKYsALcfbzXVHc8Vqm6fdNpVUvwGhR/gKiRI9+zA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcpvf9j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 00:32:47 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5bb68b386so92909185a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 May 2025 17:32:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747269167; x=1747873967;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jMX8MEuNbqB8c/F1/VjebPfyBmoob4q2DgIFRmEpoZY=;
- b=dGP2Wh2VjWawwuCS/ZMzrX6znDAYo+tvr0e1Xm5lMFYV5q5wBIVtXtSjVpj7y1n/hP
- 0koAsGd5RTy68FyjZ4kBSCSrOT/1YdHYA3D6nPW3qTdRxvgpbSMbd7MZwN5GRx7S6mPE
- IeVW5plW699BpAWXG99gEkSDrTNuCS+Fk65eYXyGgtRaCRpPtSO84s+ix9zQvRXOJ3jn
- 18Lck//G7pUfLrllKQTT9tgayrujrUPn2p6p3W1inaA0xDKbGwf8q7SAc8BlXiDgqaWD
- s7Njt3WWxbnR07meosO1I0cmhdie5K/uqwADq37/JV22fu5vNS4cFg/zFkIS06wvyV/i
- O8SQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUGb8i5Jx1DJdpC3Wk4I6R9feP+DhUDM9FdrUoQeOxRolckH625a2V/8bKrhnqX/ImaeAgWCdvN3r0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaT/hp4gJgeBdEZDtuZFZs8AhoojX4l3bWsAQClEaFP4JV2iLs
- 5m5+0BuYm2LbnvYJDr+mXRp+ab8CFgyfHi2EQhTwoqPzNFvoyJAZWQyxUtqWrgEqZ2BKn13kob9
- QEhdidViGYzxqe+M/u6vE9QPIElP3y+NoSY053n83AzRZlHDADL2jaG000sp0fq6g8L25v4faNn
- o=
-X-Gm-Gg: ASbGncv6zyRYJHtGPA+oQThRlDcJIjPn/Um2qvc0mubTGvl8og/QB8fv+GrVGlhI+4K
- 767KyWMOgJS7U9HVZxG0Qo+c2Ly+JItolfp4UFmdWLuljCZCi/bxBISDIvcg5XJ34YhVxpyAAW0
- lP+oaxHvr+hcgCnR604LnaGFIn1gL/8WiUUeTKtOHXxT/Uk0WsCw9MWzy/X88MBN14yHdIMMksf
- AkPwphAJfD6RBg9S8fEECa5PtmAC6ywcKMD0pXMV/xQLF6uDeLWuES0ktWti+ZEgjIIL1nz62PG
- +1OhtS2194x8HLYZmKoM15kh+BGaFVUVaBlEEcblYTH0DzT0e+Zuixb+jDmCuf3t8qLmmNAXheo
- =
-X-Received: by 2002:a05:620a:404d:b0:7c9:6d26:91b9 with SMTP id
- af79cd13be357-7cd3c80a6cbmr61022385a.36.1747269166826; 
- Wed, 14 May 2025 17:32:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE1frL1HZd5yd5hFRUBJhSomzVm57HGiu4Y7gzv+uda4Y1bA5fiAlWFerS/koCTLMIP76ifNg==
-X-Received: by 2002:a05:620a:404d:b0:7c9:6d26:91b9 with SMTP id
- af79cd13be357-7cd3c80a6cbmr61018085a.36.1747269166342; 
- Wed, 14 May 2025 17:32:46 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54fc645cf90sm2401020e87.71.2025.05.14.17.32.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 May 2025 17:32:45 -0700 (PDT)
-Date: Thu, 15 May 2025 03:32:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm/msm/dpu: Drop maxwidth from dpu_lm_sub_blks struct
-Message-ID: <2x3wyi2pfyax236zuixmk6xi2agooy77cn4goaejirlms4f7l5@7bhybz5llqtt>
-References: <20250514-max-mixer-width-v1-0-c8ba0d9bb858@oss.qualcomm.com>
- <20250514-max-mixer-width-v1-1-c8ba0d9bb858@oss.qualcomm.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54F6B10E096;
+ Thu, 15 May 2025 02:07:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V7I+Hh8pQ21JY5cT7ZTAvTW75EfcXVrhJbroBxhLLGfn0tDeHubD2qbPY3TC/Ck+ggrSmbxNmC1JTYOH3+vx6dxW3UOTtYhQuebDwK7vLCEdJK1JZkcdUer5Xkj3MG+0XAzHxQW9sf3YNyQTTgQ5ohylaGfoijVjxqkATHhhJYSkVlp3oQuxMxyB/bLJJvkWeiJ9x/xBWe2Q6LhIcJRMqRmlACeBKGhODAEv3TA6t0XxsITnVaUMNhSwDsdZ8kZXQwvboyUSQLVMlq3qxslB2mjrPOe4UHkrDt5cucEtZAcUdTh0/oJwaGsAvLKqPi/ZlQehMrjtjFwx6ZRp2SNZng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EwhPKggD2Jqnhrs9wKNp6xBJXGpuAEVgpTYNI2W1fzg=;
+ b=nL/tc+D+v+A3pdmtceN2F2a+g9Sb1r3VCyrQxCVIQOIPCdSbXn5UvDv59to4iMIvUwPrzDHt1rrn1vxUFvFD6c6mEdnfnz0doI6DREV12l2AHOKXSNvUrWCiCBO8y8FX0o1JHIxd1xeDEAHKZAmv3ZG4nqoV6r/hULspFbOIge3xhNagALd+ttb59TmyccfJApvvkMVNZeorjqVzN04UDVBFsjVbp3mHQYpO6nClzDm2n4e16brA2NqgCskuiHtLN8zr0KB9zRxZOi+WAcZwVQfnDbpguH3RGE9QbfIfajGXP9ZwaC5lcbT76gvsdgYzjHjswCcCuGy6I0kCpSWMFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EwhPKggD2Jqnhrs9wKNp6xBJXGpuAEVgpTYNI2W1fzg=;
+ b=blZHCTv09kpOeoIorSALlAVnZmuJ5YNsOyAW085GHfbyjA4t8m2pzuVxSWX1n0avino4QolWcnKJTlwjdUwlCZS7A4iLNY5Wn9ejwD8jg5TPz/WZXiGh2bYw31Eb0DnZPgTrCChPZedufwM71nRzl1QFH7GsFnWGqufZMsur5ak=
+Received: from SN7PR04CA0162.namprd04.prod.outlook.com (2603:10b6:806:125::17)
+ by SJ2PR12MB8955.namprd12.prod.outlook.com (2603:10b6:a03:542::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Thu, 15 May
+ 2025 02:07:20 +0000
+Received: from SN1PEPF0002636A.namprd02.prod.outlook.com
+ (2603:10b6:806:125:cafe::e4) by SN7PR04CA0162.outlook.office365.com
+ (2603:10b6:806:125::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Thu,
+ 15 May 2025 02:07:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SN1PEPF0002636A.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8722.18 via Frontend Transport; Thu, 15 May 2025 02:07:19 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
+ 2025 21:07:18 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
+ 2025 21:07:17 -0500
+Received: from lcaoubuntu-server.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
+ via Frontend Transport; Wed, 14 May 2025 21:07:16 -0500
+From: Lin.Cao <lincao12@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <aamd-gfx@lists.freedesktop.org>
+CC: <haijun.chang@amd.com>, <zhenguo.yin@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Lin.Cao
+ <lincao12@amd.com>
+Subject: [PATCH] drm/scheduler: signal scheduled fence when kill job
+Date: Thu, 15 May 2025 10:07:13 +0800
+Message-ID: <20250515020713.1110476-1-lincao12@amd.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514-max-mixer-width-v1-1-c8ba0d9bb858@oss.qualcomm.com>
-X-Proofpoint-GUID: NNpg38jTWw1qQjRKh_GjoFDgsYGY4_07
-X-Proofpoint-ORIG-GUID: NNpg38jTWw1qQjRKh_GjoFDgsYGY4_07
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDAwMyBTYWx0ZWRfX3bcp+jkHmQkS
- XJqrXBOWVgrW66UZk+AGoYboWAbwANCXx1altwrZmXA0+UvQ/VUbIxTl7gGK5HIOjg9++zl5Nbt
- CIDsTBKV3K4+Zs+lnaksoTmtQdHKAydAX2zA7rAp6qW4ln67AJ5/SnAT3rYB1dXJ3LO119TwBOu
- QHuGQVss7kMkiUrI773eL9V5WrCSgsQJmMpriFhnOZPJapZDfqqrTZcqEbp3CJm1/VkueLgAcvC
- VIcS5jy8P4EL1Ms7joe+j4WpMfP8xGCBjxAgh/iznt/gx7rgAq6MZqITPn+Eo9KDhEP0Q6l4vEb
- HNt8IPTJ0cDDBXnbIb70BnpFsE1rNSpFAzZP8K3r0X16cFPdFaor+b/vNKIPLQiEeeWTjpjGBfy
- X6PPjYBQkFBARANfLW6vQdT5W3+avUfLUOxoa/xK3cBiG0JXjS52a+/5hMx8aLF64syQWfKk
-X-Authority-Analysis: v=2.4 cv=KcvSsRYD c=1 sm=1 tr=0 ts=6825362f cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=ABbDsRMl8xt5kB7kq2cA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-14_05,2025-05-14_03,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=782 spamscore=0 malwarescore=0 impostorscore=0
- mlxscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505150003
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636A:EE_|SJ2PR12MB8955:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1310e6e0-cd85-4e33-cabe-08dd935538fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?I06OWkPB2YA/c1cnCuYf3Hg8NQXog+zxT9Rrqr30e+ujx9OnYoHpySLzO7ob?=
+ =?us-ascii?Q?nKX5sBt/gVGlmAypcuOtL7c7bBS4YHIPWKVQ4shEb2x0DfqaVh2ij6bYjNoh?=
+ =?us-ascii?Q?nVqOyIyD8hcqLr+46+ytG7lFwbvGaR9BXwJjGUFXLMULoJYGgm7IfL0QzNid?=
+ =?us-ascii?Q?pgxNXKeCLPIW1i3P18wZgpvpLaDXPK249RDSxWvZgxixF5zamHGjG9YLZupT?=
+ =?us-ascii?Q?ue5kocw3WPZUgiV4SjVU0GGOTDcvYga74frJSGcVxIg8hBURRUYD1+id4879?=
+ =?us-ascii?Q?NlOrWeWPC9HRw4LhUiY66gMSP9c4ZQu2oXDfviGY60hTmX6lCSWJ98hvXWAR?=
+ =?us-ascii?Q?MA+k0qwzAlYMZ2lpompjkqSra5cLR6m6NP3NGxtV7gxCUn0DG3YzBzP+wg4e?=
+ =?us-ascii?Q?viZhcCZsvmCi5FiQqmANvYWjzym04Oyg0U++1fajNcT7M4t1t0IyCJx5QoAL?=
+ =?us-ascii?Q?I5Le41ekssg9a7oPM4S36pT9qIzbKTiG/pcm1A2hESfyM5DFP3/mKjYHQknn?=
+ =?us-ascii?Q?4UUUzi8sOL/H6+vukB5UhR7P/Q2yFZ9Du60JKnrdR8OjnS6pBNls1mCPqC0R?=
+ =?us-ascii?Q?cJOxdFDIoW6ObsdB1b1sXRnmSLmwqL+TZaSHs4SvDJg6zhScsVhakTmZwlZd?=
+ =?us-ascii?Q?Oij+5+v2bJe+VKPo5yaiTmuy49w/31zauZXGIacGi+nmsnnwVb4DR05bY8BQ?=
+ =?us-ascii?Q?8Lnd3Q1MqqgvJBumhGZm8B5nYQWiyGUQ7hpFMIj23W/51umdfKcc8FtSL1i9?=
+ =?us-ascii?Q?BekbE/Hj47B8TqxJH24BkFUXeGVbf/6tbpMsEpsSAdf50EULZRvgYeV7F0kS?=
+ =?us-ascii?Q?OXKNhImtu25jldtlMqEisZDEvWrsyYdm8OVztOP1IDIj1n57RQ/Qj71fCLMQ?=
+ =?us-ascii?Q?PlkUvepgjOuvKmnvAewkcGNgk4tlmrM5X103OZ/6KglJUo7aSm4jKF+TNAeB?=
+ =?us-ascii?Q?lUks2q27XttHB7Sll9PWWoKyAk+La79YuRgjQshxn9sfRnP+yKqX1gAK3qBh?=
+ =?us-ascii?Q?hnAICQvtLytUZFz9IwX/aeH6deGpielRH1YO84Gw912+QGL9dVscSBPl1iW8?=
+ =?us-ascii?Q?f+WgB7KX19WKYI2Ajc5XBHfDCQlnDthvX2pdfq5P6bFVVE8tj1jr3rk3bXfH?=
+ =?us-ascii?Q?oyIM6fs5qmIpnDpcOb8RgO0I0ocWpg97XySAkPsSDHxIhM6Jwc+uX5U5ijja?=
+ =?us-ascii?Q?mvxQYEkm+WK08ZgfmpQw0rq2HOp3pP86Z+JOCqGmQYKl16yib3LE6ur/W/kF?=
+ =?us-ascii?Q?j1ajVq8i91YUHvhPCDcz974KVRvgJYP+kNyJ+paO0y0QXeeCPxjTluBkmO/x?=
+ =?us-ascii?Q?/10UBnX+lniTEQN+vlYXxnzF5t1GgjEvdicwofULRvyoRYCEOREKpAvJGUHk?=
+ =?us-ascii?Q?/ELBgEGLSGIGllh4RnYUNP6moAPVHQ902k7EZgiFuHfB7WLpiWg4Qbxd/JdV?=
+ =?us-ascii?Q?jxGlv2m4IFWVsByI5i7lX4VefHzv/UfB2h4Y9FbWT6ytmIQfb8t8FoJ657gA?=
+ =?us-ascii?Q?ZCog98hAWCoznbrSOa39J67oXB0J52iLRjiq?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 02:07:19.3194 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1310e6e0-cd85-4e33-cabe-08dd935538fa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,18 +137,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 14, 2025 at 04:52:29PM -0700, Jessica Zhang wrote:
-> Drop the unused maxwidth field from the dpu_lm_sub_blks struct
-> 
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 -
->  2 files changed, 5 deletions(-)
-> 
+Previously we only signaled finished fence which may cause some
+submission's dependency cannot be cleared the cause benchmark hang.
+Signal both scheduled fence and finished fence could fix this issue.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Lin.Cao <lincao12@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index bd39db7bb240..e671aa241720 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -176,6 +176,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ {
+ 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+ 
++	drm_sched_fence_scheduled(job->s_fence, NULL);
+ 	drm_sched_fence_finished(job->s_fence, -ESRCH);
+ 	WARN_ON(job->s_fence->parent);
+ 	job->sched->ops->free_job(job);
 -- 
-With best wishes
-Dmitry
+2.46.1
+
