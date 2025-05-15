@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E87AB82E7
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 11:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DDBAB8312
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 11:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD9810E7F3;
-	Thu, 15 May 2025 09:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E99510E1D3;
+	Thu, 15 May 2025 09:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Zf1AtNm1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cTdMXQoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch
- [79.135.106.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2277410E7F2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1747301842; x=1747561042;
- bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=Zf1AtNm1xZ6Ot+kF6W9yFVtMvi/O9g54AY8bA6ZZncPy1uqmhVXgD2OoFtkpAMwx+
- jiIgRMUbNq9ILDkui/q2fRwn0RNPlNMRYesbBF0qeLj+iUzl0nmWV7H2TLospyg1cW
- mMFsCjipwnQQDxmaQ9a+T7lpLKLxH3TNigMpqaJ/tgAeJ5BEgV9gaRrlgBH4xRMCEN
- Cf+4k7QKs0tDlPyy/s5lDv4UizXa9qTleMpNkUM/EH/ed7xLuuwkRk/mlEfUef21t+
- kF5W1vnkV+QIjq7WM4BL0SNaruT8zCZ6IC+L6kHtnZgiIr6oUIzDfB2MBHXXJwqJO2
- gi/h8df3t0rLA==
-Date: Thu, 15 May 2025 09:37:16 +0000
-To: Alex Hung <alex.hung@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com, Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH V9 40/43] drm/colorop: allow non-bypass colorops
-Message-ID: <_P-ce65VbC0wayDmolw8t002K2DjoC1KuHqEPCRPOd2efOUnovsbPRLyHszwboRs55PDjsQwSMZ17pMlSyvtraq1GPGDi_e4_iBq43v4CTM=@emersion.fr>
-In-Reply-To: <20250430011115.223996-41-alex.hung@amd.com>
-References: <20250430011115.223996-1-alex.hung@amd.com>
- <20250430011115.223996-41-alex.hung@amd.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 38e07c1f4b15b64dd926ce324a0e48a893019db0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE4610E1D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:41:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747302089; x=1778838089;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Oc9q8630Fb+uduiqTYszuY7m3DLcjau3kFFcH3sUqwM=;
+ b=cTdMXQoYScq0Gyv0lCuPJEpty2JNU/affnVqKVSePl810HCB91Hhg1X5
+ lC5b/EAauJLVRDPPFBO/EDZU/gZarKxn9vkw/wNPqnGzROVDwYm8yBSfi
+ u4BqHh25VPRtW6ObcEapVV+eEWGuTW01cDf7GUtK99i8o3olCbf2xutTN
+ 4U/zF+/XDAZV43Jvwe458Vayrbiexnx74qNl3jlrFBOtI2UTmiBlszIcm
+ FfyymOaLBN2xirt0lJGWeHvaKmB/2/eiHoqwTKx0K/yYZRcN6P9DJzXRX
+ iu592ZA2kYUBMDA9KS95NnGRKLYPV81SoSwSgJ8lTCQ8oUAK6t8mMYRkO Q==;
+X-CSE-ConnectionGUID: VZkZmUg3RzWuOzxWVwXjbA==
+X-CSE-MsgGUID: lQmAVHGHQU6rxvGE1funWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49388997"
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; d="scan'208";a="49388997"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2025 02:41:28 -0700
+X-CSE-ConnectionGUID: YYFg8TUhRl6HfZU89WnIeA==
+X-CSE-MsgGUID: w/qNDBzcRSeU5CP74LnSaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; d="scan'208";a="138815861"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2025 02:41:26 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
+ Karol Wachowski <karol.wachowski@intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Reorder Doorbell Unregister and Command Queue
+ Destruction
+Date: Thu, 15 May 2025 11:41:24 +0200
+Message-ID: <20250515094124.255141-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,4 +68,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+From: Karol Wachowski <karol.wachowski@intel.com>
+
+Refactor ivpu_cmdq_unregister() to ensure the doorbell is unregistered
+before destroying the command queue. The NPU firmware requires doorbells
+to be unregistered prior to command queue destruction.
+
+If doorbell remains registered when command queue destroy command is sent
+firmware will automatically unregister the doorbell, making subsequent
+unregister attempts no-operations (NOPs).
+
+Ensure compliance with firmware expectations by moving the doorbell
+unregister call ahead of the command queue destruction logic,
+thus preventing unnecessary NOP operation.
+
+Fixes: 465a3914b254 ("accel/ivpu: Add API for command queue create/destroy/submit")
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_job.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index b28da35c30b67..1c8e283ad9854 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -247,6 +247,10 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
+ 	if (!cmdq->db_id)
+ 		return 0;
+ 
++	ret = ivpu_jsm_unregister_db(vdev, cmdq->db_id);
++	if (!ret)
++		ivpu_dbg(vdev, JOB, "DB %d unregistered\n", cmdq->db_id);
++
+ 	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW) {
+ 		ret = ivpu_jsm_hws_destroy_cmdq(vdev, file_priv->ctx.id, cmdq->id);
+ 		if (!ret)
+@@ -254,10 +258,6 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
+ 				 cmdq->id, file_priv->ctx.id);
+ 	}
+ 
+-	ret = ivpu_jsm_unregister_db(vdev, cmdq->db_id);
+-	if (!ret)
+-		ivpu_dbg(vdev, JOB, "DB %d unregistered\n", cmdq->db_id);
+-
+ 	xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+ 	cmdq->db_id = 0;
+ 
+-- 
+2.45.1
+
