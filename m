@@ -2,89 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64874AB8BEA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1493AB8BFC
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6ED710E8F9;
-	Thu, 15 May 2025 16:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE6310E8FB;
+	Thu, 15 May 2025 16:11:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="SH8Gw1z8";
+	dkim=pass (1024-bit key; unprotected) header.d=att.net header.i=@att.net header.b="mQHNBCzd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
- [209.85.161.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7B1C10E8F9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:09:02 +0000 (UTC)
-Received: by mail-oo1-f45.google.com with SMTP id
- 006d021491bc7-6066c02cd92so751722eaf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1747325342; x=1747930142;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=91NKOSTv5YT/1qhPptldg9b2q5Yv92CmJPsNir2fXYw=;
- b=SH8Gw1z81nsvCyEGLRy9ty6MfzFCV9zdcTXLzqbb5Bi32UVvnDsEc4Chw6QPSucP+L
- uPj+GmcBjvAPZM03urE4BR7asLhZ5UH4nAIE23d0ueaOpuBgEAuPYjJbEcFIc+yWL4Aq
- iKop9DCYwpEtM2EedS/zbLJzqU3Y0MKj0c/GzNfPuL+gZe13y8TYdruIi0IMfvFn0Xbf
- ubWUtlsi+NG+6Zrq4TZSO/U7bNO9hz+hYOlJ38EjAId2Bl66oQY9ggGpFQkoW5SHjA6Y
- uFJ3mcxeb6z1T7UpU0wS6kSYrqUWR+gsKndtj/iL9dkPyI7URsqLf8doVTmpwe5L9+bS
- HhHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747325342; x=1747930142;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=91NKOSTv5YT/1qhPptldg9b2q5Yv92CmJPsNir2fXYw=;
- b=ScNFhwo7tpKnyoYciR2/QpEX4oQY1Nn4e7LR+q2akdpx+ITLlfiST9PxDoG4sIAHxK
- sGt5njODkOn5FmLZXea5cbCWdJ8XOQzgzBAZ2yaSCkqa/MSYnEDBmjFPkKlN8l8msJXC
- +6pwV2mqjHN359oCI2+yvKiINCpgFHRLqUWsscdpu+hVdym+gnIojZ2NVbbAO9qZ5yzV
- BLoN4dMKgrqmtaWS9rs0HvD0N+XqoW0SaHV4aIaKipTkm78BG6zinzrvrqUKAiP5vL3G
- ZqB0x1H9k7hImCwq1ov1M+jM5abgQbYGHAzjuK89k5jvAAL9S78D8pi560wUCcbm9Xgg
- wI7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKXWCfWzANT1XxSZI63Amz/1PLAS+0tJReMIAann2mCqNAX03iz0HbDbu9WOesIP3VTZudCVwU5lo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxO9E0QNIDvBo4ij+t5+uVEJ7Mtlt4Wpn41rFNRQIYQyhrCE1hV
- z3MqhJGSzlXHawgblBrLnJnrP0hAbgtAOkLjJLx72TmsxCSHDjT2PXAQwa9xN3y+QFBQxeAWTMw
- tapU=
-X-Gm-Gg: ASbGncsnbPRwq7pNqqDHqe3eKjkN09wZ0fG9+p9GYvjoQ8H5e/DGQd/Sv0jPgfV6Gbw
- zq3WZnWos0QF9XzKjkZSCv9dcA3fCS0ZiyM/V0BEmbL6wzXfDo2Njn9EyYqrgA793vHqUEeGdqx
- sQXIwxrWrDIvoXDOEfpu0EfdLfNYIi4dHF/01/GYrK5peGs5BkBn8uErmCtGO2Zy6dButYepsj8
- M7G9L2PjvhP7EmVc0wI0eKxQL2lSPLbhIuFomWMfhs1QzMlxo+/Vy6Y8sHRhI89AgiE2RQqaJdm
- Kb8YC5/NbWCeWXwZIb728Zfu9/6C/rtFDbHiVxJB7U1l3vjyLw==
-X-Google-Smtp-Source: AGHT+IGpkpYl6XAu5rX0wJRFiMGQkB9re0fNH5Pwjd+2ZxwedWGAjP2jcG+V3KGtIv5tIrXRqvrUIA==
-X-Received: by 2002:a05:620a:1726:b0:7c5:f696:f8e5 with SMTP id
- af79cd13be357-7cd4672499amr14457785a.14.1747325330931; 
- Thu, 15 May 2025 09:08:50 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
- by smtp.gmail.com with UTF8SMTPSA id
- af79cd13be357-7cd467bde34sm2281085a.8.2025.05.15.09.08.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 May 2025 09:08:49 -0700 (PDT)
-Date: Thu, 15 May 2025 12:08:42 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-Message-ID: <20250515160842.GA720744@cmpxchg.org>
-References: <20250502034046.1625896-1-airlied@gmail.com>
- <20250507175238.GB276050@cmpxchg.org>
- <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
- <20250513075446.GA623911@cmpxchg.org>
- <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
- <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
+Received: from sonic307-12.consmr.mail.ne1.yahoo.com
+ (sonic307-12.consmr.mail.ne1.yahoo.com [66.163.190.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC8710E8FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=att.net; s=s1024;
+ t=1747325485; bh=O76SHHXQZgA+EpWomFALQCHjcEYdFJfVnrFAlAf4t7w=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From:Subject:Reply-To;
+ b=mQHNBCzdlBK3VojoYcIVR7jCtbAn2VSWk8cVQeWgtednz2/ru9MwL+HCQ45hD7qobXCcEwNiaAZQ3uWu6Un5cXjN70vQdwu/wJwwm65Fcn5W3mSVR0Vg7Sh/kLfn5WLpLdKpczubW1glW6nUeMLhch/jwjBo78/q4P/9JcJVWxE=
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1747325485; bh=HoJ3fQFWk0ELs3ubb6mo58ut2kaYPS6JmQHlupsEMsO=;
+ h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
+ b=EiQ9yEbK69NZKPTzTokCCwxjQLD9EA7oyOFEpwAfj9Tttq6Mp/h8skX1i5pTpyYTYS/NzZVTgoSCpE++mZflbMzkQkIpQ2aormqe0uQKf/TqJbapmqs743fG+cPofLGE9MeyLWGPT9wIis1KaGRm2d/MYBcK4wS/oTCwphF9M5ZCefMcCxKQDNSED9yx05sz/a4+oL7WN4FX2q1AMke8P17DsCFGr/ssUE9zII1ZWpCNRQomYL2ajwZNo7U1ieduX4lxJAPprRBVGDzf/9a8BHk3tflIwElvUuhQutHHcCWI4G+OtfIl29u7IZopv+Nd0trKDBOffvSLrzNPYFiVOA==
+X-YMail-OSG: ADZlCpAVM1kHtMlANVU4dAY5uHPlE26ysqdYexDs9S2lT9lXJHjL4YSOAR9tdxl
+ iOSRt0HoZ1AYP3IBJ12DztmGwm4OKlU1c_pcJZmzFMIrr52AsUFNhpgctzqdDioNr5Hn.L1NuAbp
+ 8LTUmSQ7tuztN9IksHSsYri08n8D.snMkMj.41ZRdJzfLc3XyiiBEDHNg2idC0UNHaJBY27wBQLz
+ JPyLkp8n0NjIDLKZWTFtlqullSZomRrjO.RceHAK_vSwMKLH_NI2FUf95_1dXGQztwnPB5VgZrXH
+ WuffrjKXanA9ZDYZNV_tsZnZlgb44RGBp8VOA7d6V.dARCpkAvW7kuntCm0m.0ofIXV1I1pZyjKO
+ Afz0AMm4rPy69KgtkZ4LKi.9mhWh3MB3_zIVGIpXJ5Y9zi5bIl8vPofL2BzVBGyfRW4OHDBa2UP9
+ pmj5VBpaHMe3OGYHEgFwXN77f3qdbfqr3WrFsgD4bbs99iK8vIMAw3R88l0GeAPsDRjPM5sivQHR
+ jayOl5QKUNuk.jlwzRMB0BHUPNE8723y5et26hnZGhyvdOU73dtzzL_yEKd4pRj83lA8_ElIRvAq
+ xCdljtSRZkYwM7qpaRzgagY7pfvuKnlMKnvH6MgMNcmZIPMaMOAjwwJRZt9TM4qYkqpF1_55qUB0
+ 1GV_mzBIk0.vESgZvcomFGF64v0GRt9bLnPOV6gU85gFdtZQIE9e2Dra5Pp8E.z12XnmUOeiSotp
+ KDF4NO7jAgV2T.s4GjdIAfEjLNnzamEoJALlS.bjFd1u2thghTDm82bq_coK370T4sivvVjosiT4
+ pa2LOGO1eO0meT.AXQ8KAYtfLeCQYDIOJ0HbCSNLsdr2fIopD5i.fI56urspWKNAqEPWlvPUVQ1h
+ eWoGcpNldCukZ0FPhAimemXDVYPzx2K6mbx1laZ6n4JUfBgxzGRI.U5mQ8MH0aY3nOgKFrVTjGRm
+ G0jIvZNnsLEXoH1ORAi_OMVi1tJGRqSWfHG.Sm7DBT9.ibDx1v1.WXkVGMUIlKU6xSBUjvr7o5a4
+ Voqd_PIPp_ExuWE0_Ft_ouoH8utR11fm7BiZBYQ7WkryYcxlXo97lp7dpVzTXDA9Csxwx_Fx6es.
+ yjjiIAuJHo9kiKIe8vO5IqCviPigi0UA_KHHiJrI1rdd1wsUPN2XPf.xXmhdqwoIa4NEUcZ3EJWD
+ 4Y1mD4Xz.fRRoHxr95GUDV7B7ehHWl56Z2MbHP59ucffA_Gw5HeIkykBoIq.CeUlYauIb5w53Yig
+ Vc_X6FJDlJ64ncff8r1k8AtekW7XqgrUyrqJOHe5GVLQD4ToBa6LpKhCdb2k5ZmhZK1rHD7xbTy9
+ gEAifZN_QnRecfaoeB5dkNmP5SwC6a4nXiAP1LdubBEBMDV5m6a2KVQ.tMpadt1lTDPnDycTgN6G
+ uCYOazOiB1qVfamVY0nzuIFJEWhhfufhV7MQ.q7FNmq0.3B4M_PStVSn7XI3H0drG8JC1BnuTGV5
+ rqg8_kSVM7HfpBDodHBHeHZVbYC4XhYculfI4812kXoVbjxveKKhqwTp9wWDnsNvJzYVN4UJunLR
+ k0Rp40R7PmWOFLiG0NuL6jUt_pp9VzKA9e13G1P03KkOmDTjrk8ZwxZunAvKRlg0faPXSYeD7W53
+ 9X5W2upx04_nI9rgbP.HLcylun6qOAl_1aC5AgxTUXB3bJlm1FT1yaCc6FR096DsBGw.LXS5nupA
+ HegqwAkid4rkbe0YvK_PodisneChWr9b8zlF.he3tnX6OgmKitn_vpIqLZ51Uu8adRJK24MHf61c
+ VzN2GPOtNYv_vSB3e5EQXv7sZOAb_e1He24rq2E0Vy1VRmrPOFpDC1QfzSJkcKqtXJwlmHenFSu8
+ dOQXCqj58.3HEeuNqgWOOVWES6nLQ10h.yeJ9abJyYz.1b7zSkDFQqnKiOKefunEeSZlNEcyY3qs
+ hFkdjDvNkfDdzKEZFi_PwrOqQw_3G8Do9B_s6mrXZqLo0JePeKdOqgoJAfc2Sq5vdxLCG4UlB7NG
+ wp02PgXX5rgL.4_oabtyZzku8ALJVAMozwuReleb_lszixw5s1OeZd2S2FwS.TpKzHt_aHlWx3A9
+ nrJ4t3GPYHuQep_Q3F7PeO089oP1YM3Z9D2C1wUP509BKQMjJf.lWvMZOvV2XQruiZZWxGTmcnFq
+ DVa1RLqNEKdKX8HvskZYOMdPt
+X-Sonic-MF: <pheonix.sja@att.net>
+X-Sonic-ID: 6a98b255-e2ff-4986-b4f1-3fd111e879ca
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic307.consmr.mail.ne1.yahoo.com with HTTP; Thu, 15 May 2025 16:11:25 +0000
+Received: by hermes--production-ne1-9495dc4d7-9mdbh (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 43d5d9edef7359cb552bcf57ec7b14fb; 
+ Thu, 15 May 2025 16:11:19 +0000 (UTC)
+Date: Thu, 15 May 2025 12:11:12 -0400
+From: Steven J Abner <pheonix.sja@att.net>
+Subject: Re: Kernels >= 6.3 disable video output
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Message-Id: <OY8BWS.OAO65CCC74TY1@att.net>
+In-Reply-To: <CADnq5_PbeZCPD7WWO0i5HSVMepka7Ao6byfkx3zHkiBfg4amwg@mail.gmail.com>
+References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
+ <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
+ <GXXZVS.Q1GIIU1M9VBL1@att.net>
+ <CADnq5_NvoPfgTxOxjBCc-iGR7k8w7oR7VKkXQtWga8VP7vBViQ@mail.gmail.com>
+ <1Q10WS.BHBZBX486I3M2@att.net> <EWZ5WS.K2DTZM5DEZCL2@att.net>
+ <CADnq5_PbeZCPD7WWO0i5HSVMepka7Ao6byfkx3zHkiBfg4amwg@mail.gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
+Content-Type: text/plain; charset=us-ascii; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,90 +92,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 10:55:51AM +0200, Christian König wrote:
-> On 5/15/25 05:02, Dave Airlie wrote:
-> >> I have to admit I'm pretty clueless about the gpu driver internals and
-> >> can't really judge how feasible this is. But from a cgroup POV, if you
-> >> want proper memory isolation between groups, it seems to me that's the
-> >> direction you'd have to take this in.
-> > 
-> > Thanks for this insight, I think you have definitely shown me where
-> > things need to go here, and I agree that the goal should be to make
-> > the pools and the shrinker memcg aware is the proper answer,
-> > unfortunately I think we are long way from that at the moment, but
-> > I'll need to do a bit more research. I wonder if we can agree on some
-> > compromise points in order to move things forward from where they are
-> > now.
-> > 
-> > Right now we have 0 accounting for any system memory allocations done
-> > via GPU APIs, never mind the case where we have pools and evictions.
-> > 
-> > I think I sort of see 3 stages:
-> > 1. Land some sort of accounting so you can at least see the active GPU
-> > memory usage globally, per-node and per-cgroup - this series mostly
-> > covers that, modulo any other feedback I get.
-> > 2. Work on making the ttm subsystem cgroup aware and achieve the state
-> > where we can shrink inside the cgroup first.
-> > 3. Work on what to do with evicted memory for VRAM allocations, and
-> > how best to integrate with dmem to possibly allow userspace to define
-> > policy for this.
-> > 
-> >> Ah, no need to worry about it. The name is just a historical memcgism,
-> >> from back when we first started charging "kernel" allocations, as
-> >> opposed to the conventional, pageable userspace memory. It's no longer
-> >> a super meaningful distinction, tbh.
-> >>
-> >> You can still add a separate counter for GPU memory.
-> > 
-> > Okay that's interesting, so I guess the only question vs the bespoke
-> > ones is whether we use __GFP_ACCOUNT and whether there is benefit in
-> > having page->memcg set.
-> > 
-> >>
-> >> I agree this doesn't need to be a goal in itself. It would just be a
-> >> side effect of charging through __GFP_ACCOUNT and uncharging inside
-> >> __free_pages(). What's more important is that the charge lifetime is
-> >> correlated with the actual memory allocation.
-> > 
-> > How much flexibility to do we have to evolve here, like if we start
-> > with where the latest series I posted gets us (maybe with a CONFIG
-> > option), then work on memcg aware shrinkers for the pools, then with
-> > that in place it might make more sense to account across the complete
-> > memory allocation. I think I'm also not sure if passing __GFP_ACCOUNT
-> > to the dma allocators is supported, which is also something we need to
-> > do, and having the bespoke API allows that to be possible.
-> 
-> Stop for a second.
-> 
-> As far as I can see the shrinker for the TTM pool should *not* be
-> memcg aware. Background is that pages who enter the pool are
-> considered freed by the application.
+On Mon, May 12 2025 at 08:10:40 PM +0000, Alex Deucher 
+<alexdeucher@gmail.com> wrote:
+> See:
+> https://docs.kernel.org/admin-guide/bug-bisect.html
+> ... identify the exact commit which broke caused your issue.
 
-They're not free from a system POV until they're back in the page
-allocator.
+ One heck of a journey! But tested the solution on the first broken 
+kernel 6.3. Too chicken to force revert attempts of 6.12 and 6.6 since 
+I really didn't understand why revert spewed out 'nah-ah' for a one 
+liner. 6.3 passed simple test of no blackouts for 8 in a row boots.
+ Firstly let me qualify the revert, cause it's how i got it to work:
+git show c76e483cd9163138e8fc44d829c986819f072d4f | patch --fuzz=999 
+-p1 -R
+ It seems simple enough of code which appears to set 8 bits of color 
+for rgb as maximum, but with struct changes and me having a 
+'historical' processor :) didn't want to have a non-expert speak that 
+this is the full solution.
+ Also note that I didn't 100% follow the bug-bisect guide as mine was 
+apparently a unique situation where it had to first learn to connect to 
+the internet and I don't use intrd images among other oddities. Also 
+did this from last working kernel (6.2.16) to verify it was the last. 
+PS had to patch amdgpu Makefile to allow the 6.2 series to compile with 
+new gcc (-Wno-error).
+ If need other info or need me to test actual patched 'upstream' 
+kernel, I'm here.
+Thank you!
+Steve
 
-> The only reason we have the pool is to speed up allocation of
-> uncached and write combined pages as well as work around for
-> performance problems of the coherent DMA API.
-> 
-> The shrinker makes sure that the pages can be given back to the core
-> memory management at any given time.
 
-That's work. And it's a direct result of some cgroup having allocated
-this memory. Why should somebody else have to clean it up?
-
-The shrinker also doesn't run in isolation. It's invoked in the
-broader context of there being a memory shortage, along with all the
-other shrinkers in the system, along with file reclaim, and
-potentially even swapping.
-
-Why should all of this be externalized to other containers?
-
-For proper memory isolation, the cleanup cost needs to be carried by
-the cgroup that is responsible for it in the first place - not some
-other container that's just trying to read() a file or malloc().
-
-This memory isn't special. The majority of memcg-tracked memory is
-shrinkable/reclaimable. In every single case it stays charged until
-the shrink work has been completed, and the pages are handed back to
-the allocator.
