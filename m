@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD05EAB8DE2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 19:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632F7AB8DE7
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 19:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B7310E930;
-	Thu, 15 May 2025 17:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A722310E943;
+	Thu, 15 May 2025 17:36:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q2TnIda0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="idlKlKom";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
- [209.85.166.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D852210E92F;
- Thu, 15 May 2025 17:35:35 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id
- e9e14a558f8ab-3db6d399491so8490535ab.3; 
- Thu, 15 May 2025 10:35:35 -0700 (PDT)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E36010E933;
+ Thu, 15 May 2025 17:36:41 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id
+ e9e14a558f8ab-3d8fc9dbce4so8268365ab.0; 
+ Thu, 15 May 2025 10:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747330535; x=1747935335; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747330600; x=1747935400; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6PSWCzGj/sFmI0Io82xchkWTY2rx5nyZZObNQUeNmKM=;
- b=Q2TnIda0K7AvvfWQiTVVhPuzQXg4lsJH7mVusfCs9uGoVF09OsFagGWTp42NjbyY3/
- K3ytETTWB9qCHNtdvoua4WxawrgBnImzW5lRN/+qxm5NaZ6XvQab62x2azL30ULbBuje
- fJ/MXqog0pQ8kU2nQjEQlBkObgUyKspjuQI1NEIyQTeAHCajvJr9+udI8LxB64tYuBLZ
- YmLCdvrpPZ6ZrA/SVMzeV80EniaNXcMs8uuI4Kw1fUh6pGV76i4iP/kpNEh8HPPs4Pco
- JtO6Q3gf5pFo2a85NbRiqErrVKtjZjTGbYAf/FE9khmSlBAnanK6a6HZ/EbeajZrIl1b
- 1UAQ==
+ bh=vqHcNXrLgFH+FE/dQ/7Jqx//cnQWyh3PmPGZhUVuq2M=;
+ b=idlKlKomiDhT8N0lfBkc0o/QczuuVWozBrLWRnMEz+DveUwRbRIUl4TvtqEBIbLx/b
+ ikTkO8xtgV2QCRUdZpSMCjNS+eOud0JEv942q+/3lb0HJOhtqjaH57fIuh7LE6DrvtPC
+ t9ujEl3A0seOTZlqMwYrQzZs3fl/gcQcZzr+xpBZYN1Nrm7jkjoKKquiztekHZMQoaKg
+ HSe4kV4BXwU8diNjE4SORqLLLmr8jTo4q3BYXYolshbDLQErP7WtIyP/gNcdsT7bf9kO
+ P/QXaOFaddUnIk0cxXYl2DhguAgXnvSQGlZ2n3Oz3XVIpzrf7Ow3cn+IipEKv1t1xkhX
+ w7kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747330535; x=1747935335;
+ d=1e100.net; s=20230601; t=1747330600; x=1747935400;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6PSWCzGj/sFmI0Io82xchkWTY2rx5nyZZObNQUeNmKM=;
- b=I6YeLraPwhq6UqBAUblsohg7KjMPQ+/dIoHVao9UrVqToTsWr0tu95eHtB4EkDnJ1a
- CghLltjps+r2FKQL8axAtoltc9CTymuuqeWqQbWgBHE6c7u6igY0pOSIp6JdWVeAiltb
- I5hxFTvxVUoujvzCo7C4GPbYnwM1yx6rYPEktCJuLt1AUArRAGcvRMsQwmyvcxeNHvhY
- joTFX5DUKrN5wIlMrseQzsZfmxOQrKAydOZ/F7bmHSK+0yUzAW4QlrGGzcN103tkCwY4
- A5Q99/bHhZj9xyzo3kg2xdxOM9+FiBKJMrqWI4Gcpknbzqf5zPGWw+M9jpAe+/tanuMX
- wwMg==
+ bh=vqHcNXrLgFH+FE/dQ/7Jqx//cnQWyh3PmPGZhUVuq2M=;
+ b=qoonat5Tu8XMCxgmhILTxtumEIS6iH3tuEhK84QGZxvnV9vzPPk8wTFCvC2/gNFpAw
+ 9ITpZsKUEw8L6ZhQfOghmVrweCUCFbGfGNVzQDo46rho5C8WP5gwTzGL1tQEo2aISW7p
+ zIqmqUNfz1nTGVxRI2SxzLycSS5om77evUZq6cSF9LJ06ebQCxBpqbbHgDCRl/FQE5jV
+ Tyvtz4YajuA2Ossaf5C0sfEEislI4kqJqrqAJk7jXUhLrNylh9tFqHekQGgv62VqCZpW
+ xOXsyoCqrTosiT1ckEowhpjiX/UkAD8DmRfhxBb7aTcQnb8oN0ZvT1sIqCCA22qAOK2i
+ GBQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXl1/+Muimg2Fav6e5Vy8qpAqZaqFytYNK0h1vdqlsKjPfhncbHEBW42E506AQpvwxGj0DkqkAZGs8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyh+q1vQz4Q0FTtw540jx0nH8mtg/mNWTbWv6bKhLTA7xJ+mh2X
- 46lvb1kxJwaGsALE5XglLSeeqJbUqRw43hkToMf/NeFnLp59iHgQ5BH5IDRYr02Fhy0upb2YbFM
- yoq2gjRbqxNRXEe//wPgEX7s4ZpNsE3U=
-X-Gm-Gg: ASbGnctbaHp956RPYdEoHB1d79zmXLEv9i2y2dqwwnfPuA5ox9FWGMydAIGtKsbZZal
- sb+r0hHfR0G3CLQuZtFmrqosY9ULyEJNQ5sFfnnrhLab6wvUkN/O8GLKu/b9uH5CQDbssqexNd7
- 1OXNYRBM0HQ2Ta6m/CiHOwbLGLe+/+wUyDM9JqORty+eGmxFC1yOeEvqTa2Ll0dxQ=
-X-Google-Smtp-Source: AGHT+IFnaHJhSF+qXjOEZChRhVJP0IqHwViZVyYjv9k8vn50TZKP4xP35nskjmikmzxxjX7AMj6ULqg71EZXsTUnIzQ=
-X-Received: by 2002:a05:6e02:1745:b0:3db:6c09:a60d with SMTP id
- e9e14a558f8ab-3db84334772mr8200605ab.19.1747330534821; Thu, 15 May 2025
- 10:35:34 -0700 (PDT)
+ AJvYcCX1zyP2xGmIQ86mbT29xtaeGeM2gZt/Q6ftH/67vfIRSizIJ+VuvbtDlWFV0Osp6r6l/mWqOTPuDUs=@lists.freedesktop.org,
+ AJvYcCXunb1L7vO/Wn7Ri9SGh3eJxJmJyaWCZGzgR4fK6fvAwk6d5OVJG9ftpmgNOds8mAB0sOahvSRs2dF4@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGiGUwAiP8ZO/2teXRqU4O7xwToEp5uOVB0M51COuRCX4dj8ME
+ CtkxspaoeVv2TaH35GMnoDTa1ZlakteQ/rNBOaeNYk9GEhV968xNT1thshVoHarh4rLGpJe1pvY
+ 4fs00a8nK+OZm0m79X4vxctwz8fmgsp4=
+X-Gm-Gg: ASbGncvZISxPREoVjgc3LjyLBhHNsj7cou3Hx2ZHHYbVOSHBlQQxwbxT4SOGUUMudfD
+ g8awVYa6JoZycvMNsMqmvXcArb4vmSsDAPBV9lX40jiUv4An9VUPO0GD1O+0yhaL3Pdq35F6j/l
+ NkBg7VQ+jZ+Xta5YQm9cPIs51iarHtZLg/2yjAtdtuYLD3DlD2u9xbEfMy1zgWEF0Gb9IEzZGh9
+ g==
+X-Google-Smtp-Source: AGHT+IFE+JBnt1NPTvRR6pHLKFY0JDRYFTVuXW5ZgFpZdNHczNUdwTdzRDEMxhVRO9gP3eWJ4OQwNuIlrSKjsez6h/k=
+X-Received: by 2002:a05:6e02:1c07:b0:3db:7434:a8cc with SMTP id
+ e9e14a558f8ab-3db8490530amr2645855ab.8.1747330600475; Thu, 15 May 2025
+ 10:36:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250514175527.42488-1-robdclark@gmail.com>
- <20250514175527.42488-2-robdclark@gmail.com>
- <aCWrwz2IF6VBUi4e@pollux> <aCWueFzx2QzF7LVg@pollux>
-In-Reply-To: <aCWueFzx2QzF7LVg@pollux>
+References: <20250514170118.40555-1-robdclark@gmail.com>
+ <20250514170118.40555-5-robdclark@gmail.com>
+ <51f87f358fa1b7ef8db8b67ee6cde38ae071fbe8.camel@mailbox.org>
+ <CAJs_Fx771FFVDVFMn8YJkR9f9Ad-UQspJ9KKQw4u6Cu4TA7YPA@mail.gmail.com>
+ <aCYi_mkv47ckB6ox@pollux>
+In-Reply-To: <aCYi_mkv47ckB6ox@pollux>
 From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 15 May 2025 10:35:21 -0700
-X-Gm-Features: AX0GCFumvveyUAOWs_iSbi5WGXb00N8fVXFXgYWhep6HNXGCfYgtjmCwkBKdiEY
-Message-ID: <CAF6AEGu9MPxKnkHo45gSRxaCP+CTzqsKZjiLuy4Ne4GbrsStGA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/40] drm/gpuvm: Don't require obj lock in destructor
- path
+Date: Thu, 15 May 2025 10:36:27 -0700
+X-Gm-Features: AX0GCFtCmghLHobPptzNOWUCvf5wIEoct66-fDcHcf80I6aFdxoL6tqmJhNttBg
+Message-ID: <CAF6AEGt8LXUwCiin5Z0Tab-9U66N22aZBVXM5aLFw8pjMXRgNQ@mail.gmail.com>
+Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
 To: Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+Cc: Rob Clark <robdclark@chromium.org>, phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-arm-msm@vger.kernel.org, Connor Abbott <cwabbott0@gmail.com>, 
- Rob Clark <robdclark@chromium.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -91,73 +96,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 2:06=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+On Thu, May 15, 2025 at 10:23=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
 >
-> On Thu, May 15, 2025 at 10:54:27AM +0200, Danilo Krummrich wrote:
-> > Hi Rob,
-> >
-> > Can you please CC me on patches for GPUVM?
-> >
-> > On Wed, May 14, 2025 at 10:53:15AM -0700, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > See commit a414fe3a2129 ("drm/msm/gem: Drop obj lock in
-> > > msm_gem_free_object()") for justification.
-> >
-> > Please write a proper commit message that explains the problem and the =
-solution.
-> > Please don't just refer to another commit and leave it to the reviewer =
-of the
-> > patch to figure this out.
-> >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_gpuvm.c | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> >
-> > > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.=
-c
-> > > index f9eb56f24bef..1e89a98caad4 100644
-> > > --- a/drivers/gpu/drm/drm_gpuvm.c
-> > > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> > > @@ -1511,7 +1511,9 @@ drm_gpuvm_bo_destroy(struct kref *kref)
-> > >     drm_gpuvm_bo_list_del(vm_bo, extobj, lock);
-> > >     drm_gpuvm_bo_list_del(vm_bo, evict, lock);
-> > >
-> > > -   drm_gem_gpuva_assert_lock_held(obj);
-> > > +   if (kref_read(&obj->refcount) > 0)
-> > > +           drm_gem_gpuva_assert_lock_held(obj);
-> > > +
-> > >     list_del(&vm_bo->list.entry.gem);
-> >
-> > This seems wrong.
-> >
-> > A VM_BO object keeps a reference of the underlying GEM object, so this =
-should
-> > never happen.
-> >
-> > This function calls drm_gem_object_put() before it returns.
+> On Thu, May 15, 2025 at 09:15:08AM -0700, Rob Clark wrote:
+> > Basically it is a way to throttle userspace to prevent it from OoM'ing
+> > itself.  (I suppose userspace could throttle itself, but it doesn't
+> > really know how much pre-allocation will need to be done for pgtable
+> > updates.)
 >
-> I noticed your subsequent patch that allows VM_BO structures to have weak
-> references to GEM objects.
->
-> However, even with that this seems wrong. If the reference count of the G=
-EM
-> object is zero when drm_gpuvm_bo_destroy() is called it means that the GE=
-M
-> object is dead. However, until drm_gpuvm_bo_destroy() is called the GEM o=
-bject
-> potentially remains to be on the extobj and eviced list, which means that=
- other
-> code paths might fetch it from those lists and consider it to be a valid =
-GEM
-> object.
+> I assume you mean prevent a single process from OOM'ing itself by queuing=
+ up
+> VM_BIND requests much faster than they can be completed and hence
+> pre-allocations for page tables get out of control?
 
-We only iterate extobj or evicted in VM_BIND mode, where we aren't
-using WEAK_REF.  I suppose some WARN_ON()s or BUG_ON()s could make
-this more clear.
-
-BR,
--R
+Yes
