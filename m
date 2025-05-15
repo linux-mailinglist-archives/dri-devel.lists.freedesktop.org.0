@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549E1AB8E80
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 20:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E721AB8F35
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 20:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F11B010E955;
-	Thu, 15 May 2025 18:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 744B010E094;
+	Thu, 15 May 2025 18:40:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="it4p5Hh5";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="VP/6qjWP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C81E10E94C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 18:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747332502; x=1778868502;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AgsXEgybKJC5NgUaI+KPLkWpvyHX1LAfCpawBKt7gHA=;
- b=it4p5Hh5YJ+rjjs3gWvB4akbNIbamtbXwUeMdii/Q9fhYMwzqS0MBYE9
- 9avIM5VCN33yoT3pZ8otDW53lCqtzpExRbci7NuUV6RFPxWCMmsfgkmp2
- HMme5ohEFtaNA7xHUNe9gYxpRlcN39iMtBwB3xU0pHZ1MZ37hUar27QCM
- EIuZ4OAbHIXV2w2/w4qMaSCFKdo/XuF3r65ha1kfC/LTjXBw55yNuFbUT
- kgoAqA5CUfaJelW24VCiXPHPuVJDjDaoIzFA0i8c3rr0xEajSJ6H086D2
- TzxZon9Q5OEw9MDdy0unz0HOk4HsOYZR97oCK28yp53HTr2OYz0ABt4ZH Q==;
-X-CSE-ConnectionGUID: rzJBfL0TSheWy2pK1xADrQ==
-X-CSE-MsgGUID: ny+zqTyWSp64VN+7m3LNfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="60304172"
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="60304172"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 11:08:21 -0700
-X-CSE-ConnectionGUID: 0qlDoZHvQuWXHzOv/4v1hg==
-X-CSE-MsgGUID: wC3Reo/iRc6O5IOzpxZAKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="138841415"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 11:08:09 -0700
-Date: Fri, 16 May 2025 02:02:29 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Zhi Wang <zhiw@nvidia.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050>
-References: <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
- <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <20250513130315.0158a626.zhiw@nvidia.com>
- <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
- <20250514230502.6b64da7f.zhiw@nvidia.com>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C71710E094
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 18:40:07 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-476f4e9cf92so10177521cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 11:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1747334406; x=1747939206;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dDypHbRCXFhh+gE+eLYD2ci6LuMgc0UbLezpd4fsfOE=;
+ b=VP/6qjWPuXlq0a8NzbszdD2inLOJLOMYGELykmKtjQSMmm97jgjw28F0eF53CEkK+H
+ 7lJbnEyPDo5SPMCfTclCd+WNO6/8y+BeBtI9njnnptHvIdNwUpWCdFSYhHz3+B13L2/H
+ AiMAV8tbWhNFUGMPwTru9ydoPreHjXah3uqfAhdCOYIpzGoEDLYB4ya6TOvmm8JSi0Go
+ KCS7E8aDwOeIInPtB2lQfsmUtVggbo81JLzxddOm6P6mf6C3EDIvQ8aFjMf112wMmJGc
+ NZeg2RIBy+9XZT52MXlOw+ysTbm1Zf243EUxI7fxopiEvB92QXCyJ3CRCEsiBMkFXI+y
+ sMqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747334406; x=1747939206;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dDypHbRCXFhh+gE+eLYD2ci6LuMgc0UbLezpd4fsfOE=;
+ b=bJhWJ0d47xCt1IOnRjb6G4VPJq7DWDyjbBifNVIJtm8eMoSpX58pzC9jsRHTFktmY+
+ qPjKP3wKXRzxiFdDK5ZS+sWYyg2I3oCL2MEBuczz0o+NvrkTMOEVnZRvK2WmhG7C+FZ0
+ bQz1AoUjb8yLe8/4UyJ6euM1ADFSZitItFrB4OoCKcaqpp/eSiHXuizL58uauCQhDd4J
+ PT+z5lEAAF5WTqx6ThvQ+IPSBXBwQiAbYiRfV62+MG8xjRvmwlg/FkeL8+mwT0IZsfCc
+ d4LY6PxzG+TSns3d0/zeMcrg4IFbxwWJsq41M3X25scuBOrVj3u1xY03+FxFAaO9K9F+
+ Dyqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbtbsCJCXpqWjuM2n/CTwpmAJRWEaotAItNF/3OODczg9EAH4r/rDFZuaGa0+0CGQ/soX6FSQFZVI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7S52OvHBVG6V/26bbpZq1a9JoXpXve1Rf420FUvttXxtLCbxH
+ AkN+YmGHOBY1PrfCn5cRQhbyhsQbRVyfC98/iS05V+1dein+5DTIaGD6XqkU5OqWArJKzPN4wj6
+ 8GDNmeUqf70YX79y3fSNdO+U0wnluT6qrT9/0sJNWlg==
+X-Gm-Gg: ASbGncuVuzCrpKCJqzzy3/C6ZefrLlvDzBqNi0qdaI8R3hakqPWKDNv7ufO+vBhMvos
+ wTfYSk6g+pmMU75IfPO4xWpSzZixnPbBYPJbjxq2mSdUt8gunmScApihCI1m2VHU/YzSt+0Y9rM
+ 3XJYYd0eOwzAnqA0OXIoFszL/NcTeE7Vs=
+X-Google-Smtp-Source: AGHT+IEW+k67ZfpS+J3/wp/4JCp6+6vYFpvIr8xvAB+OJkafpOK3HPN7Q4etcl0cOnVnCaeJp+ZVA1ZbCQmHT7b8bEU=
+X-Received: by 2002:a05:622a:2b09:b0:494:a4ad:a0e3 with SMTP id
+ d75a77b69052e-494ae34cfa8mr8202551cf.2.1747334406176; Thu, 15 May 2025
+ 11:40:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514230502.6b64da7f.zhiw@nvidia.com>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <o4MtjqyDUjuFR4Y9Q1IEZlvVQ7Nkggq0v-KtBcH0aM3pTvEq8UcSoUDxefSBVdTmLj_1_a6GmbjU_mRSFinOb44B4bu1u3mMIckuQhhZWCc=@emersion.fr>
+ <3bbd4bd7-7217-4a14-b7bb-383226f44f55@amd.com>
+ <CAPj87rNUDdDEopPH+iAF-a=Or6eXH4cMRU8eOj81g_40cq8gdA@mail.gmail.com>
+ <f7e9cd32-3e2b-4f06-aa13-049c8b7ba29b@amd.com>
+In-Reply-To: <f7e9cd32-3e2b-4f06-aa13-049c8b7ba29b@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 15 May 2025 19:39:55 +0100
+X-Gm-Features: AX0GCFvAr-BNSL5Hu5zJXYmm46R_d21aCzPhSkuPS6SGYMztLmX_1WYRq2chYfE
+Message-ID: <CAPj87rMbcZKy2ARe_tp_-+-tMu3FpS0C9R1BHVzjsUpOsU9M4g@mail.gmail.com>
+Subject: Re: [PATCH V9 00/43] Color Pipeline API w/ VKMS
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Simon Ser <contact@emersion.fr>, Alex Hung <alex.hung@amd.com>,
+ Misyl Toad <misyl@froggi.es>, 
+ Xaver Hugl <xaver.hugl@gmail.com>, Ribeiro <leandro.ribeiro@collabora.com>, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, leo.liu@amd.com, 
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com, 
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, 
+ Arthur Grillo <arthurgrillo@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,88 +97,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> IMHO, I think it might be helpful that you can picture out what are the
-> minimum requirements (function/life cycle) to the current IOMMUFD TSM
-> bind architecture:
-> 
-> 1.host tsm_bind (preparation) is in IOMMUFD, triggered by QEMU handling
-> the TVM-HOST call.
-> 2. TDI acceptance is handled in guest_request() to accept the TDI after
-> the validation in the TVM)
+Hi,
 
-I'll try my best to brainstorm and make a flow in ASCII. 
+On Thu, 15 May 2025 at 19:02, Harry Wentland <harry.wentland@amd.com> wrote:
+> On 2025-05-15 13:19, Daniel Stone wrote:
+> > Yeah, the Weston patches are marching on. We've still been doing a
+> > little bit of cleanup and prep work in the background to land them,
+> > but we also can't land them until the kernel lands. None of that work
+> > is material to the uAPI though: as said previously, the uAPI looks
+> > completely solid and it's something we can definitely beneficially use
+> > in Weston. (Even if we do need the obvious follow-ons for
+> > post-blending as well ...)
+>
+> We can't merge kernel uAPI without canonical userspace that uses it.
+> To move forward we'll need a userspace to at least publish a branch
+> that shows the use of this new uAPI.
+>
+> Do you have a public branch for the Weston work for this?
 
-(*) means new feature
+Yeah, https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1702
+has been around for a little while now. There are some driver bugs
+that Leandro commented on, but they don't seem material to the uAPI as
+such?
 
-
-      Guest          Guest TSM       QEMU           VFIO            IOMMUFD       host TSM          KVM 
-      -----          ---------       ----           ----            -------       --------          ---
-1.                                                                               *Connect(IDE)
-2.                                 Init vdev            
-3.                                *create dmabuf   
-4.                                               *export dmabuf                              
-5.                                create memslot
-6.                                                                                              *import dmabuf
-7.                                setup shared DMA
-8.                                                                 create hwpt
-9.                                               attach hwpt
-10.                                  kvm run
-11.enum shared dev
-12.*Connect(Bind)
-13.                  *GHCI Bind
-14.                                  *Bind
-15                                                                 CC viommu alloc
-16.                                                                vdevice allloc
-16.                                              *attach vdev
-17.                                                               *setup CC viommu
-18                                                                 *tsm_bind
-19.                                                                                  *bind
-20.*Attest
-21.               *GHCI get CC info
-22.                                 *get CC info
-23.                                                                *vdev guest req
-24.                                                                                 *guest req
-25.*Accept
-26.             *GHCI accept MMIO/DMA
-27.                                *accept MMIO/DMA
-28.                                                               *vdev guest req
-29.                                                                                 *guest req
-30.                                                                                              *map private MMIO
-31.             *GHCI start tdi
-32.                                *start tdi
-33.                                                               *vdev guest req
-34.                                                                                 *guest req
-35.Workload...
-36.*disconnect(Unbind)
-37.              *GHCI unbind
-38.                                *Unbind
-39.                                            *detach vdev
-40.                                                               *tsm_unbind
-41.                                                                                 *TDX stop tdi
-42.                                                                                 *TDX disable mmio cb
-43.                                            *cb dmabuf revoke
-44.                                                                                               *unmap private MMIO
-45.                                                                                 *TDX disable dma cb
-46.                                                              *cb disable CC viommu
-47.                                                                                 *TDX tdi free
-48.                                                                                 *enable mmio
-49.                                            *cb dmabuf recover
-50.workable shared dev
-
-TSM unbind is a little verbos & specific to TDX Connect, but SEV TSM could
-ignore these callback. Just implement an "unbind" tsm ops.
-
-Thanks,
-Yilun
-
-> 
-> and which part/where need to be modified in the current architecture to
-> reach there. Try to fold vendor-specific knowledge as much as possible,
-> but still keep them modular in the TSM driver and let's see how it looks
-> like. Maybe some example TSM driver code to demonstrate together with
-> VFIO dma-buf patch.
-> 
-> If some where is extremely hacky in the TSM driver, let's see how they
-> can be lift to the upper level or the upper call passes more parameters
-> to them.
-> 
+Cheers,
+Daniel
