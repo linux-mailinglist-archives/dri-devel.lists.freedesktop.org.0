@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A06AB95A9
+	by mail.lfdr.de (Postfix) with ESMTPS id 3238BAB95A5
 	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 07:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD68810E9A1;
-	Fri, 16 May 2025 05:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87AAB10E99B;
+	Fri, 16 May 2025 05:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B4B10E85B;
- Thu, 15 May 2025 12:11:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45E7D10E86B
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 12:36:15 +0000 (UTC)
 Received: from mxde.zte.com.cn (unknown [10.35.20.121])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZypwM75cDz57f2;
- Thu, 15 May 2025 20:11:31 +0800 (CST)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZyqSl3BGRzW88
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 20:36:07 +0800 (CST)
 Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZypwF56zxzBRHKN;
- Thu, 15 May 2025 20:11:25 +0800 (CST)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZyqSm15rszBRHKQ
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 20:36:08 +0800 (CST)
 Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Zypvz3HpXz5B1Gr;
- Thu, 15 May 2025 20:11:11 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
- by mse-fl1.zte.com.cn with SMTP id 54FCB49i003322;
- Thu, 15 May 2025 20:11:04 +0800 (+08)
- (envelope-from zhang.enpei@zte.com.cn)
-Received: from mapi (xaxapp05[null]) by mapi (Zmail) with MAPI id mid32;
- Thu, 15 May 2025 20:11:08 +0800 (CST)
-Date: Thu, 15 May 2025 20:11:08 +0800 (CST)
-X-Zmail-TransId: 2afc6825d9dc093-d077f
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZyqSY3sJvz5B1Gq;
+ Thu, 15 May 2025 20:35:57 +0800 (CST)
+Received: from njy2app04.zte.com.cn ([10.40.12.64])
+ by mse-fl1.zte.com.cn with SMTP id 54FCZoE7025362;
+ Thu, 15 May 2025 20:35:50 +0800 (+08)
+ (envelope-from long.yunjian@zte.com.cn)
+Received: from mapi (njy2app01[null]) by mapi (Zmail) with MAPI id mid201;
+ Thu, 15 May 2025 20:35:54 +0800 (CST)
+Date: Thu, 15 May 2025 20:35:54 +0800 (CST)
+X-Zmail-TransId: 2af96825dfaaffffffffa32-c85aa
 X-Mailer: Zmail v1.0
-Message-ID: <20250515201108576jof-gkjSxRfMaGDgKo-pc@zte.com.cn>
+Message-ID: <20250515203554564-j1jBXUXR6bdiN6zARicC@zte.com.cn>
 Mime-Version: 1.0
-From: <zhang.enpei@zte.com.cn>
-To: <lyude@redhat.com>
-Cc: <dakr@kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <airlied@redhat.com>, <zhang.enpei@zte.com.cn>,
- <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBkcm0vbm91dmVhdS9kcDogY29udmVydCB0byB1c2UgRVJSX0NBU1QoKQ==?=
+From: <long.yunjian@zte.com.cn>
+To: <hjc@rock-chips.com>
+Cc: <heiko@sntech.de>, <andy.yan@rock-chips.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <fang.yumeng@zte.com.cn>, <mou.yi@zte.com.cn>, <xu.lifeng1@zte.com.cn>,
+ <ouyang.maochun@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vcm9ja2NoaXA6IFVzZSBkZXZfZXJyX3Byb2JlKCkgdG8gc2ltcGxpZnkgY29kZQ==?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 54FCB49i003322
+X-MAIL: mse-fl1.zte.com.cn 54FCZoE7025362
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6825D9F2.000/4ZypwM75cDz57f2
+X-Fangmail-MID-QID: 6825DFB6.000/4ZyqSl3BGRzW88
 X-Mailman-Approved-At: Fri, 16 May 2025 05:50:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,27 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhang Enpei <zhang.enpei@zte.com.cn>
-As opposed to open-code, use ERR_CAST to clearly indicate that this is a
-pointer to an error value and a type conversion is performed.
+From: Yumeng Fang <fang.yumeng@zte.com.cn>
 
-Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
+In the probe path, dev_err() can be replaced with dev_err_probe()
+which will check if error code is -EPROBE_DEFER and prints the
+error name. It also sets the defer probe reason which can be
+checked later through debugfs.
+
+Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-index 99110ab2f44d..43ad467d09db 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-@@ -646,7 +646,7 @@ r535_conn_new(struct nvkm_disp *disp, u32 id)
-        ctrl = nvkm_gsp_rm_ctrl_get(&disp->rm.objcom,
-                                    NV0073_CTRL_CMD_SPECIFIC_GET_CONNECTOR_DATA, sizeof(*ctrl));
-        if (IS_ERR(ctrl))
--               return (void *)ctrl;
-+               return ERR_CAST(ctrl);
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index f737e7d46e66..acb59b25d928 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -213,17 +213,13 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
 
-        ctrl->subDeviceInstance = 0;
-        ctrl->displayId = BIT(id);
+ 	if (IS_ERR(hdmi->ref_clk)) {
+ 		ret = PTR_ERR(hdmi->ref_clk);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(hdmi->dev, "failed to get reference clock\n");
+-		return ret;
++		return dev_err_probe(hdmi->dev, ret, "failed to get reference clock\n");
+ 	}
+
+ 	hdmi->grf_clk = devm_clk_get_optional(hdmi->dev, "grf");
+ 	if (IS_ERR(hdmi->grf_clk)) {
+ 		ret = PTR_ERR(hdmi->grf_clk);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(hdmi->dev, "failed to get grf clock\n");
+-		return ret;
++		return dev_err_probe(hdmi->dev, ret, "failed to get grf clock\n");
+ 	}
+
+ 	ret = devm_regulator_get_enable(hdmi->dev, "avdd-0v9");
+@@ -573,17 +569,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+
+ 	ret = rockchip_hdmi_parse_dt(hdmi);
+ 	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(hdmi->dev, "Unable to parse OF data\n");
+-		return ret;
++		return dev_err_probe(hdmi->dev, ret, "Unable to parse OF data\n");
+ 	}
+
+ 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
+ 	if (IS_ERR(hdmi->phy)) {
+ 		ret = PTR_ERR(hdmi->phy);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(hdmi->dev, "failed to get phy\n");
+-		return ret;
++		return dev_err_probe(hdmi->dev, ret, "failed to get phy\n");
+ 	}
+
+ 	if (hdmi->phy) {
 -- 
 2.25.1
