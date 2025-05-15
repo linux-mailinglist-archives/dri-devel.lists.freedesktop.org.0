@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BA9AB8E6E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 20:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549E1AB8E80
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 20:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F315A10E946;
-	Thu, 15 May 2025 18:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11B010E955;
+	Thu, 15 May 2025 18:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="lHRZ55ix";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="it4p5Hh5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 999FB10E946
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 18:04:56 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-47662449055so7997991cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 11:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1747332295; x=1747937095;
- darn=lists.freedesktop.org; 
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SqENoL4aMLDUtpJ6J41zIxw9AQzbwBrm9u1/bZHdjuY=;
- b=lHRZ55ix0rpWBPejetRjSUDsmH+ths9TLE6WTc50Z+f1lpKlW6hbvGeLUT3Vhn9ybC
- VE6PamzzaHPYFglBMedcd8OXLHQR3ObXt2nG/Z9unyJveWe7ZItG5ZthxEedpKjkbjkN
- B0wUlqOqkjtS75M2G3GqjYZE3+CfjK0b8QOAsc3/VETIkuhTqC8xosJtccdQxZrBxqQk
- o+K3dzB3qOgtFK5Gu6qVJloWEBYv+v8kp2/sAh4+j1wofCr5QCI6/cCK0QvUjjL5JJgI
- mYnClz9PwWdwncdcqFXuDdxBWaejW3cEWwblynYv9iLXZipT1esDPDg37V2OPpOqYK8b
- ClhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747332295; x=1747937095;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SqENoL4aMLDUtpJ6J41zIxw9AQzbwBrm9u1/bZHdjuY=;
- b=CYEXxEOpb3HrztLMQz6JWxoza4NmN3D6enXrgdPeQDwRwSSr/yz3psbZRH1lu0wjDt
- x68aH8SgCSzMw/GGqumSWU7JUXc3pEQtu4xAxqeGyHAvltMTos7RhwMA71Cktx8nzk8J
- djgOcIaIi7RRFwZ/fRoElj1GWX4Be9yQpurMwgCYn1uOSPjfhBgmxhYW6Kgm0T/6SMzJ
- 2xWq9ZA0yWOS9hcxKS7U0MVDaP58Q6B5iReqo7CHXeTx9pITf/C5uQtTxYxlKd5vG4ji
- AmpjPSl32UsvwqE21fkWlSflJltgzgQgaxoJhWFn8XGsYMHzdZdkD4141sc4rQMbsYdb
- 3bBQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2wjtJc24T2VtPjPS4dC5puUXW8Ha25fHktl7O0g+uUwAqXgFUD2mh4yodHmm06naN9tG23D0iSCE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxmIwwl5sum8nG1L22j/wLtih/SFL1YgOSnooBORT/62RhLNPJ
- e8xOkf89IjW5KUi6VAswXuwOWdLo3LTqeGAbnrZeY52RT/oE+qiUkSNsi6Hr8+MBL54wwLRSe7I
- i6Q+33tZtNkiSQasaYdXYl4Hi91h/Jh08niLK7qKNgA==
-X-Gm-Gg: ASbGncvEBPB4AFBD76pemq2UKQRGNdQ2byc807+azDZf6445BW6X7BgnauDY3qVwvw5
- rVJrngLA0OYBqG7ZPeFFJlGVWugjR1dL+GkdMe9qKz/hRcpG5IoJRCmyXcYLYikN8wtIcQQegHb
- LCDn5k8pTeYflBxkfOmJREf1vNKp6pb9M=
-X-Google-Smtp-Source: AGHT+IGFQP++c9XJDNDJpVGCGwvgZpf4fTxFvv688y33OjFyfYfYLK9l//bZATh/43rI6k4OFGCYqhyQBM5SOYRCBtA=
-X-Received: by 2002:a05:622a:59ca:b0:476:9b40:c2cd with SMTP id
- d75a77b69052e-494ae49f4e0mr5251951cf.47.1747332295147; Thu, 15 May 2025
- 11:04:55 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C81E10E94C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 18:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747332502; x=1778868502;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AgsXEgybKJC5NgUaI+KPLkWpvyHX1LAfCpawBKt7gHA=;
+ b=it4p5Hh5YJ+rjjs3gWvB4akbNIbamtbXwUeMdii/Q9fhYMwzqS0MBYE9
+ 9avIM5VCN33yoT3pZ8otDW53lCqtzpExRbci7NuUV6RFPxWCMmsfgkmp2
+ HMme5ohEFtaNA7xHUNe9gYxpRlcN39iMtBwB3xU0pHZ1MZ37hUar27QCM
+ EIuZ4OAbHIXV2w2/w4qMaSCFKdo/XuF3r65ha1kfC/LTjXBw55yNuFbUT
+ kgoAqA5CUfaJelW24VCiXPHPuVJDjDaoIzFA0i8c3rr0xEajSJ6H086D2
+ TzxZon9Q5OEw9MDdy0unz0HOk4HsOYZR97oCK28yp53HTr2OYz0ABt4ZH Q==;
+X-CSE-ConnectionGUID: rzJBfL0TSheWy2pK1xADrQ==
+X-CSE-MsgGUID: ny+zqTyWSp64VN+7m3LNfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="60304172"
+X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="60304172"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2025 11:08:21 -0700
+X-CSE-ConnectionGUID: 0qlDoZHvQuWXHzOv/4v1hg==
+X-CSE-MsgGUID: wC3Reo/iRc6O5IOzpxZAKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="138841415"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 11:08:09 -0700
+Date: Fri, 16 May 2025 02:02:29 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Zhi Wang <zhiw@nvidia.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050>
+References: <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
+ <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+ <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
+ <20250509184318.GD5657@nvidia.com>
+ <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
+ <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
+ <20250512140617.GA285583@nvidia.com>
+ <20250513130315.0158a626.zhiw@nvidia.com>
+ <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
+ <20250514230502.6b64da7f.zhiw@nvidia.com>
 MIME-Version: 1.0
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
- <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
-In-Reply-To: <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 15 May 2025 19:04:44 +0100
-X-Gm-Features: AX0GCFuRDimE2NPezlvg51LNRrQrl-sYF337fsjOpF63sMhVPLZez7fPK-61IS0
-Message-ID: <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com, 
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250514230502.6b64da7f.zhiw@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,43 +85,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
+> IMHO, I think it might be helpful that you can picture out what are the
+> minimum requirements (function/life cycle) to the current IOMMUFD TSM
+> bind architecture:
+> 
+> 1.host tsm_bind (preparation) is in IOMMUFD, triggered by QEMU handling
+> the TVM-HOST call.
+> 2. TDI acceptance is handled in guest_request() to accept the TDI after
+> the validation in the TVM)
 
-On Thu, 8 May 2025 at 11:42, Steven Price <steven.price@arm.com> wrote:
-> I'm also seeing a splat when running this, see below. I haven't got my
-> head around how this is happening, but I see it when glmark quits at the
-> end of the test.
->
-> [  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
-> [...]
-> [  399.882216] Call trace:
-> [  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
-> [  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
-> [  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
-> [  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+I'll try my best to brainstorm and make a flow in ASCII. 
 
-Soooo. Let's assume it has to actually occur in
-panfrost_gem_debugfs_bo_rm(), since that's all that's changed here.
+(*) means new feature
 
-I don't think pfdev can be NULL here, because we've already
-dereferenced ptdev and written to a structure member earlier in
-panfrost_gem_free_object(). I don't think it can be the debugfs mutex,
-because a) that's initialised with the device, and b) wouldn't be
-offset 0x4.
 
-I'm looking then at list_del_init(&bo->debugfs.node), which would
-effectively execute bo->debugfs.node->next->prev =
-bo->debugfs.node->prev. So if bo->debugfs.node->next was NULL, that
-would explain a write to 0x4 on 32-bit systems.
+      Guest          Guest TSM       QEMU           VFIO            IOMMUFD       host TSM          KVM 
+      -----          ---------       ----           ----            -------       --------          ---
+1.                                                                               *Connect(IDE)
+2.                                 Init vdev            
+3.                                *create dmabuf   
+4.                                               *export dmabuf                              
+5.                                create memslot
+6.                                                                                              *import dmabuf
+7.                                setup shared DMA
+8.                                                                 create hwpt
+9.                                               attach hwpt
+10.                                  kvm run
+11.enum shared dev
+12.*Connect(Bind)
+13.                  *GHCI Bind
+14.                                  *Bind
+15                                                                 CC viommu alloc
+16.                                                                vdevice allloc
+16.                                              *attach vdev
+17.                                                               *setup CC viommu
+18                                                                 *tsm_bind
+19.                                                                                  *bind
+20.*Attest
+21.               *GHCI get CC info
+22.                                 *get CC info
+23.                                                                *vdev guest req
+24.                                                                                 *guest req
+25.*Accept
+26.             *GHCI accept MMIO/DMA
+27.                                *accept MMIO/DMA
+28.                                                               *vdev guest req
+29.                                                                                 *guest req
+30.                                                                                              *map private MMIO
+31.             *GHCI start tdi
+32.                                *start tdi
+33.                                                               *vdev guest req
+34.                                                                                 *guest req
+35.Workload...
+36.*disconnect(Unbind)
+37.              *GHCI unbind
+38.                                *Unbind
+39.                                            *detach vdev
+40.                                                               *tsm_unbind
+41.                                                                                 *TDX stop tdi
+42.                                                                                 *TDX disable mmio cb
+43.                                            *cb dmabuf revoke
+44.                                                                                               *unmap private MMIO
+45.                                                                                 *TDX disable dma cb
+46.                                                              *cb disable CC viommu
+47.                                                                                 *TDX tdi free
+48.                                                                                 *enable mmio
+49.                                            *cb dmabuf recover
+50.workable shared dev
 
-What I _can't_ see is how that would be. Even a double-free calls
-list_del_init() so we're all good. If the shmem alloc failed then this
-would splat because panfrost_gem_debugfs_bo_add() happens too late,
-and we end up with an uninitialised list head - so that's one to fix.
-But I assume that isn't what happens here. I wonder if it's the import
-path, and the panfrost_gem_debugfs_bo_add() call instead needs to be
-in the panfrost_gem_create_object() callback rather than only
-panfrost_gem_create() which is called through the ioctl?
+TSM unbind is a little verbos & specific to TDX Connect, but SEV TSM could
+ignore these callback. Just implement an "unbind" tsm ops.
 
-Cheers,
-Daniel
+Thanks,
+Yilun
+
+> 
+> and which part/where need to be modified in the current architecture to
+> reach there. Try to fold vendor-specific knowledge as much as possible,
+> but still keep them modular in the TSM driver and let's see how it looks
+> like. Maybe some example TSM driver code to demonstrate together with
+> VFIO dma-buf patch.
+> 
+> If some where is extremely hacky in the TSM driver, let's see how they
+> can be lift to the upper level or the upper call passes more parameters
+> to them.
+> 
