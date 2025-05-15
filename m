@@ -2,47 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E64AB9113
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 22:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84EEAB912A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 23:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC51110E95D;
-	Thu, 15 May 2025 20:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E7B10E961;
+	Thu, 15 May 2025 21:06:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ll452mrt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LkFEV/Pi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA5F10E961
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 20:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=45wQNnJmoBc0gDz8oo9wigSxzRC3B83s4hb1tE7XWno=; b=Ll452mrtISSlNtGDdjGPVWmroE
- wKsw7TQn7bDqGUhkSTceBMu9Cg8a727IhFWWjrlpAdIgQMuPD07wHwhd9Mwlhio6IO+jBQ8CEGEUI
- yUp92cLJlGRy1yykCUIgBeh64pQyYTbFM3eUWa/pjpMhtO3DeFhxlWm7BQfLgcMYo7WPgd5qgLED5
- B56Nbn3Ch58ywMmLyuyPsMRYbPhZxIGplLy9x/SMxaTAgbqsZs8oE5rA95nr1oeNplQ0oTcwIWFa+
- TFXU4xQVxvjg0nPJwL8WQS2WldeWZG73gTLuZKw+4ZKTdTVcoTdULznFmi3090W1CXgytmNdkUI3u
- 7Mmo6wbw==;
-Received: from [81.79.92.254] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uFfYj-008ne1-4Y; Thu, 15 May 2025 22:58:03 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E3510E961
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 21:06:25 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2317d94c9cdso14095765ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 14:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747343184; x=1747947984; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=glVvTUmZ1lEPqkPsZ0IswYkeh0jiUIOqzVPrPGI5vCQ=;
+ b=LkFEV/PiGnBFNY/k/vjdPu35xIHjwC5qgV4bwZWqUliMeYHJIpxdwx4yvpoueaIX+D
+ ABk+9Z3iQ7uVKNy1tnqn7WGE0qbUnO3901ArZVb4xsbFCQvpE9UYjGypg1FedZtX8/VK
+ SnaJFZbTSTBYEpGOzinNZzJG1lGARAWhoZZXzGJ/oE8QunUzySVObEWrrDJQHcaS9rDA
+ maOsUTk283f+RitQAGZuZi2q3yaY45thO/WwqiL/0PvFkHzKq9qTOtsaST64YSQqtBco
+ oExkx4fy4ZiVus92pklyq+6diUP2ZWRgdFupk5v81U5po6g/yi2hAwf8IW8b+ZGGknBw
+ oQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747343184; x=1747947984;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=glVvTUmZ1lEPqkPsZ0IswYkeh0jiUIOqzVPrPGI5vCQ=;
+ b=QJnpt6UM0fyVtTIVqhd8DO3RwqUtdw1t/lotsbng7QyxplbvhD/mHco1+Mx0vZSOA0
+ BUnL5m+zdndrY46Ifd11/PCFDujdNn/IpDqJ9idRsbV8CabD6C2vFT4xoiqnODlfPivZ
+ LR/17ogVcv5tjJ7V2E6rFzV7KxLBh5/cGExklyk7kJN89DO+HeTgqjHMneXg7xjKYGeK
+ zdOmeA+8KHpYVXxBk0LWzuiLpXeFVuyaaN3oxSLKy4g0BrR+aYyNZVyHmZBHpEaHea5h
+ sf3Hhb87AqGeXzagZ1x+oVenKo3G76/nweFcwHGhVy0IUINfitePxBUAo6kbcAOw2/iG
+ XS8g==
+X-Gm-Message-State: AOJu0Yw0OZuNyVQ3rH2VXGOLWnTDaJhzp9nnD8XKUgMSMV1xOogjB5dR
+ hBfBkjD3nc53RWTqgbd6lh+RtT5ARzKeZdjm3sfpbwVj+9B2mm4Ows2Kbl0X+g==
+X-Gm-Gg: ASbGnctmQNIzKMgq98SwPYvfjalKG3YGEjy2Z9cMcU118vSepfTO/hfSNQIUCecX/94
+ BrJy4WwZDinVbKswEXnS8tqc5m+3AtJ4x0JSlo41Br/d5HyIuLvrJn8nPe+HPwMIs7P+zFs/MZo
+ 39TCL8Wx5mUnxtXUrnPY9NsCVYES0lYXjcrD31ZT+zjyxDHXThD3sGQY1jVXOFVeIaq7UdlDijs
+ 7A7inwVKmuFoCSHPZYVqZ8ihFjGxHa4hR6wNpIIRLlozErSAwm1jsT9hF1B9mXHjglGMFUtA+/J
+ kxXVA2b2mD1w3iNi+gjqAtTpUnUKIbbHMwNghw94+Ks56A5xT0LAlvBGV7Gc5vPD+0xkzwSpYTQ
+ 8cayZINd4vr36fxiWSyzbuWKF/w==
+X-Google-Smtp-Source: AGHT+IGtCDa8JGGZEv5Fo4WJTmdj8+IdkuqNCkKpY6C/TQ/oUVVGOm13unafuIogtRfF2mhwQf2RYw==
+X-Received: by 2002:a17:902:f543:b0:210:fce4:11ec with SMTP id
+ d9443c01a7336-231d43d7f23mr11109175ad.1.1747343184344; 
+ Thu, 15 May 2025 14:06:24 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-231d4adb733sm2146485ad.63.2025.05.15.14.06.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 May 2025 14:06:23 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH] drm/ttm: Make pool shrinker more responsive
-Date: Thu, 15 May 2025 21:57:51 +0100
-Message-ID: <20250515205751.37268-1-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
+Cc: linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/panel-edp: Add BOE NV133WUM-N61 panel entry
+Date: Thu, 15 May 2025 14:06:20 -0700
+Message-ID: <20250515210621.7753-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,134 +90,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the TTM pool shrinker ensures it frees at least something every
-time it is invoked, but it also lies to the core a bit on how hard it
-tried.
+From: Rob Clark <robdclark@chromium.org>
 
-For example core will ask it to free SHRINK_BATCH pages but the shrinker
-can, due how it walks the LRU list of pools, free just a single page and
-still leave the core thinking it expended the full SHRINK_BATCH effort.
+Add an eDP panel for BOE NV133WUM-N61, which appears to be a 3rd panel
+option on the lenevo x13s laptop.
 
-Apart from being inefficient in terms of number of calls to the TTM pool
-shrinker required, another consquence of this is that the core can abandon
-the shrinking attempt too early due thinking that the whole set of
-freeable pages has been scanned.
+edid:
+00 ff ff ff ff ff ff 00 09 e5 64 09 00 00 00 00
+16 1e 01 04 a5 1d 12 78 03 55 8e a7 51 4c 9c 26
+0f 52 53 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 74 3c 80 a0 70 b0 28 40 30 20
+36 00 1e b3 10 00 00 1a 5d 30 80 a0 70 b0 28 40
+30 20 36 00 1e b3 10 00 00 1a 00 00 00 fe 00 42
+4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 56 31 33 33 57 55 4d 2d 4e 36 31 0a 00 7d
 
-We fix this last part by correctly reporting how many out of potentially
-freeable pages have been scanned.
+datasheet: https://datasheet4u.com/pdf-down/N/V/1/NV133WUM-N61-BOE.pdf
 
-We also do the freeing in an aggressive manner, considering the scan
-target as a free target, to ensure walks over pools with unfreeable pages
-do not cause no-op calls into our callback.
-
-And finally we customise the shrinker batch size based on the median pool
-order and the total number of pools, with the aim of searching more
-possible pools on an average invocation.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 39 +++++++++++++++++++++-------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index c2ea865be657..a76fe5f95781 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -368,7 +368,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
- }
- 
- /* Free pages using the global shrinker list */
--static unsigned int ttm_pool_shrink(void)
-+static unsigned int ttm_pool_shrink(unsigned long *nr_scanned)
- {
- 	struct ttm_pool_type *pt;
- 	unsigned int num_pages;
-@@ -380,16 +380,15 @@ static unsigned int ttm_pool_shrink(void)
- 	list_move_tail(&pt->shrinker_list, &shrinker_list);
- 	spin_unlock(&shrinker_lock);
- 
-+	num_pages = 1 << pt->order;
-+	(*nr_scanned) += num_pages;
-+
- 	p = ttm_pool_type_take(pt);
--	if (p) {
-+	if (p)
- 		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
--		num_pages = 1 << pt->order;
--	} else {
--		num_pages = 0;
--	}
- 	up_read(&pool_shrink_rwsem);
- 
--	return num_pages;
-+	return p ? num_pages : 0;
- }
- 
- /* Return the allocation order based for a page */
-@@ -881,10 +880,12 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
-  */
- void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
- {
-+	unsigned long nr_scanned = 0;
-+
- 	ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
- 
- 	while (atomic_long_read(&allocated_pages) > page_pool_size)
--		ttm_pool_shrink();
-+		ttm_pool_shrink(&nr_scanned);
- }
- EXPORT_SYMBOL(ttm_pool_free);
- 
-@@ -1132,17 +1133,21 @@ void ttm_pool_fini(struct ttm_pool *pool)
- }
- EXPORT_SYMBOL(ttm_pool_fini);
- 
--/* As long as pages are available make sure to release at least one */
- static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
- 					    struct shrink_control *sc)
- {
--	unsigned long num_freed = 0;
-+	unsigned long to_scan, freed = 0;
- 
--	do
--		num_freed += ttm_pool_shrink();
--	while (!num_freed && atomic_long_read(&allocated_pages));
-+	sc->nr_scanned = 0;
-+	to_scan = min_t(unsigned long,
-+			sc->nr_to_scan, atomic_long_read(&allocated_pages));
-+	while (freed < to_scan) {
-+		freed += ttm_pool_shrink(&sc->nr_scanned);
-+		to_scan = min_t(unsigned long,
-+				to_scan, atomic_long_read(&allocated_pages));
-+	}
- 
--	return num_freed;
-+	return sc->nr_scanned ? freed : SHRINK_STOP;
- }
- 
- /* Return the number of pages available or SHRINK_EMPTY if we have none */
-@@ -1266,7 +1271,10 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
- /* Test the shrinker functions and dump the result */
- static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
- {
--	struct shrink_control sc = { .gfp_mask = GFP_NOFS };
-+	struct shrink_control sc = {
-+		.gfp_mask = GFP_NOFS,
-+		.nr_to_scan = 1,
-+	};
- 
- 	fs_reclaim_acquire(GFP_KERNEL);
- 	seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(mm_shrinker, &sc),
-@@ -1324,6 +1332,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 
- 	mm_shrinker->count_objects = ttm_pool_shrinker_count;
- 	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
-+	mm_shrinker->batch = (1 << (MAX_PAGE_ORDER / 2)) * NR_PAGE_ORDERS;
- 	mm_shrinker->seeks = 1;
- 
- 	shrinker_register(mm_shrinker);
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 52028c8f8988..aa7b58204523 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1916,6 +1916,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x094b, &delay_200_500_e50, "NT116WHM-N21"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0951, &delay_200_500_e80, "NV116WHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x095f, &delay_200_500_e50, "NE135FBM-N41 v8.1"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0964, &delay_200_500_e50, "NV116WUM-N61"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x096e, &delay_200_500_e50_po2e200, "NV116WHM-T07 V8.0"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0979, &delay_200_500_e50, "NV116WHM-N49 V8.0"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x098d, &boe_nv110wtm_n61.delay, "NV110WTM-N61"),
 -- 
-2.48.0
+2.49.0
 
