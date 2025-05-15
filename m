@@ -2,74 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84877AB8BEF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64874AB8BEA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 May 2025 18:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA2310E904;
-	Thu, 15 May 2025 16:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6ED710E8F9;
+	Thu, 15 May 2025 16:09:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PM8jnPb2";
+	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="SH8Gw1z8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A1C10E904
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747325389; x=1778861389;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tpCgJy/zSCkczp+40MhbYRBqr/P+RllTPVB7OGZpVXc=;
- b=PM8jnPb2sDI24UjVyi30CRQkKtzglquMR7LboPylKCgsZD3w6944Hepx
- uRqmSoxeUk694i46gnGCvmY/guqvEB1+Ymn5l3pUN5nJKKfI/3SKqDMAi
- uCZsjVEzi0Ww1DZfOrOiM3KrVzuzzyfi7tyLMwZ9X0gglhu//1CDgbjpB
- oZ2LXjVI5RuduSBvXQ4A9xljlMLOnyj0lTD30brMdvvLaIXG5ngdWxKfQ
- Z4XHKXRoRzojwdaNBQkkgBUU17UI9FblM6jOyLsj+t+3aHU0SQ32c+vEV
- EYAg8Ny/oUUeFS4U9b1ebQZFJafwYw8UsMqRljMvNmXzQ6g+jeNr4GP3Q g==;
-X-CSE-ConnectionGUID: dzY/tE7ORquhnT3o+mIOqg==
-X-CSE-MsgGUID: uuJoZho/TKOT3N65JpSKng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="74678605"
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="74678605"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 09:09:47 -0700
-X-CSE-ConnectionGUID: UlvHWocqSc21JeBS3puygw==
-X-CSE-MsgGUID: nodxmg8eSV+502A0s6JSLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; d="scan'208";a="143370749"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa004.jf.intel.com with ESMTP; 15 May 2025 09:09:42 -0700
-Date: Fri, 16 May 2025 00:04:04 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
-References: <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
- <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
- <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
- <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
- <20250514163339.GD382960@nvidia.com>
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
+ [209.85.161.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B1C10E8F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 16:09:02 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id
+ 006d021491bc7-6066c02cd92so751722eaf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 09:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1747325342; x=1747930142;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=91NKOSTv5YT/1qhPptldg9b2q5Yv92CmJPsNir2fXYw=;
+ b=SH8Gw1z81nsvCyEGLRy9ty6MfzFCV9zdcTXLzqbb5Bi32UVvnDsEc4Chw6QPSucP+L
+ uPj+GmcBjvAPZM03urE4BR7asLhZ5UH4nAIE23d0ueaOpuBgEAuPYjJbEcFIc+yWL4Aq
+ iKop9DCYwpEtM2EedS/zbLJzqU3Y0MKj0c/GzNfPuL+gZe13y8TYdruIi0IMfvFn0Xbf
+ ubWUtlsi+NG+6Zrq4TZSO/U7bNO9hz+hYOlJ38EjAId2Bl66oQY9ggGpFQkoW5SHjA6Y
+ uFJ3mcxeb6z1T7UpU0wS6kSYrqUWR+gsKndtj/iL9dkPyI7URsqLf8doVTmpwe5L9+bS
+ HhHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747325342; x=1747930142;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=91NKOSTv5YT/1qhPptldg9b2q5Yv92CmJPsNir2fXYw=;
+ b=ScNFhwo7tpKnyoYciR2/QpEX4oQY1Nn4e7LR+q2akdpx+ITLlfiST9PxDoG4sIAHxK
+ sGt5njODkOn5FmLZXea5cbCWdJ8XOQzgzBAZ2yaSCkqa/MSYnEDBmjFPkKlN8l8msJXC
+ +6pwV2mqjHN359oCI2+yvKiINCpgFHRLqUWsscdpu+hVdym+gnIojZ2NVbbAO9qZ5yzV
+ BLoN4dMKgrqmtaWS9rs0HvD0N+XqoW0SaHV4aIaKipTkm78BG6zinzrvrqUKAiP5vL3G
+ ZqB0x1H9k7hImCwq1ov1M+jM5abgQbYGHAzjuK89k5jvAAL9S78D8pi560wUCcbm9Xgg
+ wI7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKXWCfWzANT1XxSZI63Amz/1PLAS+0tJReMIAann2mCqNAX03iz0HbDbu9WOesIP3VTZudCVwU5lo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxO9E0QNIDvBo4ij+t5+uVEJ7Mtlt4Wpn41rFNRQIYQyhrCE1hV
+ z3MqhJGSzlXHawgblBrLnJnrP0hAbgtAOkLjJLx72TmsxCSHDjT2PXAQwa9xN3y+QFBQxeAWTMw
+ tapU=
+X-Gm-Gg: ASbGncsnbPRwq7pNqqDHqe3eKjkN09wZ0fG9+p9GYvjoQ8H5e/DGQd/Sv0jPgfV6Gbw
+ zq3WZnWos0QF9XzKjkZSCv9dcA3fCS0ZiyM/V0BEmbL6wzXfDo2Njn9EyYqrgA793vHqUEeGdqx
+ sQXIwxrWrDIvoXDOEfpu0EfdLfNYIi4dHF/01/GYrK5peGs5BkBn8uErmCtGO2Zy6dButYepsj8
+ M7G9L2PjvhP7EmVc0wI0eKxQL2lSPLbhIuFomWMfhs1QzMlxo+/Vy6Y8sHRhI89AgiE2RQqaJdm
+ Kb8YC5/NbWCeWXwZIb728Zfu9/6C/rtFDbHiVxJB7U1l3vjyLw==
+X-Google-Smtp-Source: AGHT+IGpkpYl6XAu5rX0wJRFiMGQkB9re0fNH5Pwjd+2ZxwedWGAjP2jcG+V3KGtIv5tIrXRqvrUIA==
+X-Received: by 2002:a05:620a:1726:b0:7c5:f696:f8e5 with SMTP id
+ af79cd13be357-7cd4672499amr14457785a.14.1747325330931; 
+ Thu, 15 May 2025 09:08:50 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
+ by smtp.gmail.com with UTF8SMTPSA id
+ af79cd13be357-7cd467bde34sm2281085a.8.2025.05.15.09.08.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 May 2025 09:08:49 -0700 (PDT)
+Date: Thu, 15 May 2025 12:08:42 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
+Message-ID: <20250515160842.GA720744@cmpxchg.org>
+References: <20250502034046.1625896-1-airlied@gmail.com>
+ <20250507175238.GB276050@cmpxchg.org>
+ <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
+ <20250513075446.GA623911@cmpxchg.org>
+ <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
+ <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250514163339.GD382960@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,148 +100,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 14, 2025 at 01:33:39PM -0300, Jason Gunthorpe wrote:
-> On Wed, May 14, 2025 at 03:02:53PM +0800, Xu Yilun wrote:
-> > > We have an awkward fit for what CCA people are doing to the various
-> > > Linux APIs. Looking somewhat maximally across all the arches a "bind"
-> > > for a CC vPCI device creation operation does:
-> > > 
-> > >  - Setup the CPU page tables for the VM to have access to the MMIO
+On Thu, May 15, 2025 at 10:55:51AM +0200, Christian König wrote:
+> On 5/15/25 05:02, Dave Airlie wrote:
+> >> I have to admit I'm pretty clueless about the gpu driver internals and
+> >> can't really judge how feasible this is. But from a cgroup POV, if you
+> >> want proper memory isolation between groups, it seems to me that's the
+> >> direction you'd have to take this in.
 > > 
-> > This is guest side thing, is it? Anything host need to opt-in?
-> 
-> CPU hypervisor page tables.
-> 
-> > >  - Revoke hypervisor access to the MMIO
+> > Thanks for this insight, I think you have definitely shown me where
+> > things need to go here, and I agree that the goal should be to make
+> > the pools and the shrinker memcg aware is the proper answer,
+> > unfortunately I think we are long way from that at the moment, but
+> > I'll need to do a bit more research. I wonder if we can agree on some
+> > compromise points in order to move things forward from where they are
+> > now.
 > > 
-> > VFIO could choose never to mmap MMIO, so in this case nothing to do?
-> 
-> Yes, if you do it that way.
->  
-> > >  - Setup the vIOMMU to understand the vPCI device
-> > >  - Take over control of some of the IOVA translation, at least for T=1,
-> > >    and route to the the vIOMMU
-> > >  - Register the vPCI with any attestation functions the VM might use
-> > >  - Do some DOE stuff to manage/validate TDSIP/etc
+> > Right now we have 0 accounting for any system memory allocations done
+> > via GPU APIs, never mind the case where we have pools and evictions.
 > > 
-> > Intel TDX Connect has a extra requirement for "unbind":
+> > I think I sort of see 3 stages:
+> > 1. Land some sort of accounting so you can at least see the active GPU
+> > memory usage globally, per-node and per-cgroup - this series mostly
+> > covers that, modulo any other feedback I get.
+> > 2. Work on making the ttm subsystem cgroup aware and achieve the state
+> > where we can shrink inside the cgroup first.
+> > 3. Work on what to do with evicted memory for VRAM allocations, and
+> > how best to integrate with dmem to possibly allow userspace to define
+> > policy for this.
 > > 
-> > - Revoke KVM page table (S-EPT) for the MMIO only after TDISP
-> >   CONFIG_UNLOCK
-> 
-> Maybe you could express this as the S-EPT always has the MMIO mapped
-> into it as long as the vPCI function is installed to the VM?
-
-Yeah.
-
-> Is KVM responsible for the S-EPT?
-
-Yes.
-
-> 
-> > Another thing is, seems your term "bind" includes all steps for
-> > shared -> private conversion. 
-> 
-> Well, I was talking about vPCI creation. I understand that during the
-> vPCI lifecycle the VM will do "bind" "unbind" which are more or less
-> switching the device into a T=1 mode. Though I understood on some
-
-I want to introduce some terms about CC vPCI.
-
-1. "Bind", guest requests host do host side CC setup & put device in
-CONFIG_LOCKED state, waiting for attestation. Any further change which
-has secuity concern breaks "bind", e.g. reset, touch MMIO, physical MSE,
-BAR addr...
-
-2. "Attest", after "bind", guest verifies device evidences (cert,
-measurement...).
-
-3. "Accept", after successful attestation, guest do guest side CC setup &
-switch the device into T=1 mode (TDISP RUN state)
-
-4. "Unbind", guest requests host put device in CONFIG_UNLOCK state +
-remove all CC setup.
-
-> arches this was mostly invisible to the hypervisor?
-
-Attest & Accept can be invisible to hypervisor, or host just help pass
-data blobs between guest, firmware & device.
-
-Bind cannot be host agnostic, host should be aware not to touch device
-after Bind.
-
-> 
-> > But in my mind, "bind" only includes
-> > putting device in TDISP LOCK state & corresponding host setups required
-> > by firmware. I.e "bind" means host lockes down the CC setup, waiting for
-> > guest attestation.
-> 
-> So we will need to have some other API for this that modifies the vPCI
-> object.
-
-IIUC, in Alexey's patch ioctl(iommufd, IOMMU_VDEVICE_TSM_BIND) does the
-"Bind" thing in host.
-
-> 
-> It might be reasonable to have VFIO reach into iommufd to do that on
-> an already existing iommufd VDEVICE object. A little weird, but we
-> could probably make that work.
-
-Mm, Are you proposing an uAPI in VFIO, and a kAPI from VFIO -> IOMMUFD like:
-
- ioctl(vfio_fd, VFIO_DEVICE_ATTACH_VDEV, vdev_id)
- -> iommufd_device_attach_vdev()
-    -> tsm_tdi_bind()
-
-> 
-> But you have some weird ordering issues here if the S-EPT has to have
-> the VFIO MMIO then you have to have a close() destruction order that
-
-Yeah, by holding kvm reference.
-
-> sees VFIO remove the S-EPT and release the KVM, then have iommufd
-> destroy the VDEVICE object.
-
-Regarding VM destroy, TDX Connect has more enforcement, VM could only be
-destroyed after all assigned CC vPCI devices are destroyed.
-
-Nowadays, VFIO already holds KVM reference, so we need
-
-close(vfio_fd)
--> iommufd_device_detach_vdev()
-   -> tsm_tdi_unbind()
-      -> tdi stop
-      -> callback to VFIO, dmabuf_move_notify(revoke)
-         -> KVM unmap MMIO
-      -> tdi metadata remove
--> kvm_put_kvm()
-   -> kvm_destroy_vm()
-
-
-> 
-> > > It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
-> > > stays in VFIO.
+> >> Ah, no need to worry about it. The name is just a historical memcgism,
+> >> from back when we first started charging "kernel" allocations, as
+> >> opposed to the conventional, pageable userspace memory. It's no longer
+> >> a super meaningful distinction, tbh.
+> >>
+> >> You can still add a separate counter for GPU memory.
 > > 
-> > I'm not sure if Alexey's patch [1] illustates your idea. It calls
-> > tsm_tdi_bind() which directly does device stuff, and impacts MMIO.
-> > VFIO doesn't know about this.
+> > Okay that's interesting, so I guess the only question vs the bespoke
+> > ones is whether we use __GFP_ACCOUNT and whether there is benefit in
+> > having page->memcg set.
 > > 
-> > I have to interpret this as VFIO firstly hand over device CC features
-> > and MMIO resources to IOMMUFD, so VFIO never cares about them.
+> >>
+> >> I agree this doesn't need to be a goal in itself. It would just be a
+> >> side effect of charging through __GFP_ACCOUNT and uncharging inside
+> >> __free_pages(). What's more important is that the charge lifetime is
+> >> correlated with the actual memory allocation.
 > > 
-> > [1] https://lore.kernel.org/all/20250218111017.491719-15-aik@amd.com/
+> > How much flexibility to do we have to evolve here, like if we start
+> > with where the latest series I posted gets us (maybe with a CONFIG
+> > option), then work on memcg aware shrinkers for the pools, then with
+> > that in place it might make more sense to account across the complete
+> > memory allocation. I think I'm also not sure if passing __GFP_ACCOUNT
+> > to the dma allocators is supported, which is also something we need to
+> > do, and having the bespoke API allows that to be possible.
 > 
-> There is also the PCI layer involved here and maybe PCI should be
-> participating in managing some of this. Like it makes a bit of sense
-> that PCI would block the FLR on platforms that require this?
-
-FLR to a bound device is absolutely fine, just break the CC state.
-Sometimes it is exactly what host need to stop CC immediately.
-The problem is in VFIO's pre-FLR handling so we need to patch VFIO, not
-PCI core.
-
-Thanks,
-Yilun
-
+> Stop for a second.
 > 
-> Jason
+> As far as I can see the shrinker for the TTM pool should *not* be
+> memcg aware. Background is that pages who enter the pool are
+> considered freed by the application.
+
+They're not free from a system POV until they're back in the page
+allocator.
+
+> The only reason we have the pool is to speed up allocation of
+> uncached and write combined pages as well as work around for
+> performance problems of the coherent DMA API.
+> 
+> The shrinker makes sure that the pages can be given back to the core
+> memory management at any given time.
+
+That's work. And it's a direct result of some cgroup having allocated
+this memory. Why should somebody else have to clean it up?
+
+The shrinker also doesn't run in isolation. It's invoked in the
+broader context of there being a memory shortage, along with all the
+other shrinkers in the system, along with file reclaim, and
+potentially even swapping.
+
+Why should all of this be externalized to other containers?
+
+For proper memory isolation, the cleanup cost needs to be carried by
+the cgroup that is responsible for it in the first place - not some
+other container that's just trying to read() a file or malloc().
+
+This memory isn't special. The majority of memcg-tracked memory is
+shrinkable/reclaimable. In every single case it stays charged until
+the shrink work has been completed, and the pages are handed back to
+the allocator.
