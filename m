@@ -2,150 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9878AB9C92
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DD7AB9C9C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:52:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2575B10EAAD;
-	Fri, 16 May 2025 12:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C135510EAAC;
+	Fri, 16 May 2025 12:52:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VzYcp7dU";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sblV4PvA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A75010EAAD
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 12:50:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bZZGRSanTmg6iwhMe7oGyogTjem71pdxHlLOOL+MI3a6k74CiXRp2pkrlnuuG24oTVp+Ow7cFHG8tz0xuMZs0v/PKeNH3XssoFBPvJPdWItWvCAk4BwgDh69+NQoQuTmqR8B93cS7c4DM20gZlLXXBk+DeIGNZiIcm79qSQnPncqyrcOZavAUg3Htj/pP9F1yczmDxHwl7XK8qnttj3Kb4uG2/KGuRNmWLW5Y7ROJVgCHqAkjYOIdektCjyjd7PJhBAasjrT2lXRIQ7NLempbSsJ0Gk4vcb+YE16+i7gFLvIPvt5sd+5z1LE2nKWaFlFjVUUvGBctdhpjcCQrCKvAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HCOliCDFiza2YXF/6yogjX8ZCITtgDW9sZwjVVE5EJQ=;
- b=O/ueFMTl93ZP2vrB5a2lYu6b8yBJEdPvZ8LGVx3pTM62Z09c5aMxzSscNufXNLMMwHlS0PFDCHQUMFtIsVxzhtSVMSUBmdmuR00fZBaBv+GUWsMKYOo1yXeYTnP2yU8hNzWln2ZeDFkP33veMbV0FGO1ZUrTgIqtZjENPJf5AvhRC42pHpFvd5Evtva0yV6wa5NCIyFcoKda5UwAqVtxGOaA9pikK9fLaKWLxQGDj4JoD+5oLvconJ0RJ8c5Y347ytDMPGzpcMpufGZH2LWMDHAwWoAq3LAQldzcdUwti/1x7XS02vSmwb3mhpNd6nqu3Wj6GvtKn3VBbNj0MJsvGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HCOliCDFiza2YXF/6yogjX8ZCITtgDW9sZwjVVE5EJQ=;
- b=VzYcp7dUV9Y4FZj6pXoQyafuHXBXOBavJbhc3wi1ffK87mk9w9WsAWOterkCyuCqApVxQBjBn7kC+hdtjZ9rfbEFr49dPXOIyxHegT4PdvGxFBSmHMCcza8VqNWZQcbLa20LFLMk/Zpbu6jai8yzqjm71pVYUcQX9dh/4avCtr+BOnfAz8prX27T/PC6sxRxZjBcrKciVNW5jgJZqukse4rJAHQmLNYkvY2PikSZthLFwFzg1ZOG4hIJjBT31gjI+iYeudUH6eUPVPM3ROAvW0GWhh46B2Wlqhx33eHjvajwsMHbbUH6O+JIds0CCYvF09RDXeR45kMzMRhXs6Rkfw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV8PR12MB9407.namprd12.prod.outlook.com (2603:10b6:408:1f9::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.21; Fri, 16 May
- 2025 12:49:55 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8722.031; Fri, 16 May 2025
- 12:49:54 +0000
-Date: Fri, 16 May 2025 09:49:53 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Zhi Wang <zhiw@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <20250516124953.GD613512@nvidia.com>
-References: <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <20250513130315.0158a626.zhiw@nvidia.com>
- <aCRmoDupzK9zTqFL@yilunxu-OptiPlex-7050>
- <20250514230502.6b64da7f.zhiw@nvidia.com>
- <aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050>
- <20250515192127.GA580805@nvidia.com>
- <aCbZATrK7EPyH4qt@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aCbZATrK7EPyH4qt@yilunxu-OptiPlex-7050>
-X-ClientProxiedBy: BLAPR05CA0008.namprd05.prod.outlook.com
- (2603:10b6:208:36e::11) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE79010EAAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 12:52:02 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3a1f5d2d91eso1342311f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 05:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747399921; x=1748004721;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SkhtV/yR70PbpptRrqkkbeTOl+tTltOONXJo2gqzfWw=;
+ b=sblV4PvA8sxUoimdH5XnodCUq7COHc0rvomj9F527paXT+3XY0uDdFegZiKytIO5nT
+ Qnadu8vEdyZ8d4y05nfvq+JSoASdVrn6G2xv0zZtlSfgBEvWdo3N0sVY/F+rFAaODlh9
+ yw0HFZSF8pS6s+HDUsMmeSOn6QSmGJXMOLgM4FSa/17f2QHO7O6I3XWne2bfSjkmlzG8
+ NrfZdEtML/FmBEsH9YKmKtzmmR9gdtEllYb67u2293yKJIbUZG5s3+ZP5i4o2nKhAXL2
+ 2z+1kewLyLP8s9Uq6ghuL4klVJMtKoPhdjMW3jFXT6iD6pQ0ORMFpf5lwt0zBEZj3/TM
+ Iu0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747399921; x=1748004721;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SkhtV/yR70PbpptRrqkkbeTOl+tTltOONXJo2gqzfWw=;
+ b=Y8oppt13KLsrxWpw5trQ5RrxaxkKH6TAHr1oS7VCqLdlDN4Q1XvLSKcWxv0m3NQ829
+ 7RVugxP0kQBnNow2mvvxlUx75S+aSOZB/HZ0XNnb7wXNjkkF7wtwc/f36Kd5dQrlvVyj
+ vcx7p81lcV3wU0Z4DYEsBp9I/GyuhNkQW5uMRFCrxWojY8xo4ZPPcJ4iZsGNesuX/gQt
+ KraAlePTrBMNvuW8gL0Zae76BQ98hGBIoMzfUpN0Hf9HcEsR88QGkVJ1YD96xgCF4B0A
+ 6NfYIkYtQaz0FUd0aEX/5VeY9eZMGBoZHQmrA8WukRLGsMvYGhXx/WfCuJa8D+sr6YRY
+ 9Gvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhCOEa8kt0nAvroCth9gG3IHRLDCRiKTB9Wl74K5g5sYE5em3+/L4noZ7ckwhSpfnBKpxuG6+eQoQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxngPZUD2klVrWRKA3rZzWeYasLr+Ne2Fn/YkMK2gpNYfhaXCLY
+ 82cEBx2EJxeu5saPeuq6lA0RP9XIHdlz/1L2AvY/l7aeU+Ey8CkrH2iPJwS6Ul4+Rq8=
+X-Gm-Gg: ASbGnct7kRhYWYmRiNHa94FUleDD0V8xttnO/Ki+P7AKtkM8Kr4RG+iwC595ouN0wgl
+ z4p7issGBbqe6Gv4KgoLAUebmvRjl6DWR7qnTh46oMGolDtlztE6rRBbjDNRVJKeGvt4wAZ3koB
+ 7s5sz3RXTN3s7WWWgEbWdKoBWt1vB5xEI4YllQ34o2u9LJ4TQ70W1dqST6d3xYUvyVeH7ZumaQR
+ jhS/sINwaMLe1fpe7kCUk3nicK6kEc3o+a4+JiBeVwkYgXMhpyLh0XYMSKCsZMW9tUz4ybgWEFP
+ mvByS50cjJdBE4Bhw1KIyb+/WT1aqQWiXTRg4uHQyg0EMxDC0CfI8ItC1+SPnLaOawh4RQyFL3H
+ XoQRTjSwXmjWo090=
+X-Google-Smtp-Source: AGHT+IGdhc6dnDwS4Qe34zF+uosmrtcYAXvlLyhDqwPhuUphw4e3Teapb5H1D+3BckztCOlzhLPH+g==
+X-Received: by 2002:a5d:5849:0:b0:3a1:f654:b84e with SMTP id
+ ffacd0b85a97d-3a35c845c23mr3359297f8f.55.1747399921028; 
+ Fri, 16 May 2025 05:52:01 -0700 (PDT)
+Received: from [192.168.5.157] (88-127-185-231.subs.proxad.net.
+ [88.127.185.231]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a35ca88985sm2819043f8f.63.2025.05.16.05.51.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 May 2025 05:52:00 -0700 (PDT)
+Message-ID: <94982f07-504e-439a-89b4-02a73d69bf7c@baylibre.com>
+Date: Fri, 16 May 2025 14:51:59 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9407:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99866117-8bb5-455c-7975-08dd947827de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0A88D7Xk+4Dbcoa0kk5LY4CRSr3WKbN1QYlt1yWoEDxXzPBhjfJVtp2Yy70Y?=
- =?us-ascii?Q?zUz11APEe6lFpVGs+yeUiSpTj0mIgBnpo/kfpGHEvYtoZKUhLbQKjZMl1sEE?=
- =?us-ascii?Q?CV9td+Qee3912GrSa7VjI2rwSX37M+KjgE7QlYbf0dVRrlwuzIX2fDEJfAmE?=
- =?us-ascii?Q?5U9i+jOQiSLuQgiRai82kf/cVWWIqbxaWR8ZuzPZOtbO4E0sZmdR0VTzMH8h?=
- =?us-ascii?Q?vz00nwGeg+ZGvc++i5/wu2CfNwCOFwLRlCJu8/9OwprXgJAdqz/8x9TCL7OD?=
- =?us-ascii?Q?51JuCuxp+vntQSDica86aKKREJnGpWDKPXX2dw8CYdZosK72MgXpHl8JVC0d?=
- =?us-ascii?Q?73Wsoc2Pilt/JKr4GCTSVMnsPgmZLMQi3Q3pE1ksHyjgRqs5sKl7h9/dZHHZ?=
- =?us-ascii?Q?5oZuF7m7bNPfFIBFU3P2Q9gv5d+wWDT+elyxQaCGYVk/ruzEvhAViQYTa47C?=
- =?us-ascii?Q?LDAKS1AYyzvz5nuKNCgYmIBJESsoMtI5OHZ39/+gzegWQszJGjSGQcVFfgfd?=
- =?us-ascii?Q?WKE0cRbY/MqDFENIrh4rYFoW8lj0IqnDdnfPhh2yD0+AoDppCsbQCkLq4nb1?=
- =?us-ascii?Q?QCwz7GORKJhNmbdhaSAftCzGHZi0SbkzOMhdvJEyA+QqZ8jPInkU98tLCJez?=
- =?us-ascii?Q?T2XFOX5VT2YyKO19J6lyXJnH0w3qr8IXbQy6/0ahKikb4aR6pOWLb6xvwDRY?=
- =?us-ascii?Q?F4yzjvQwN0qOQ0x0MVEhuRcWmeLbeshyh7/cKS+ZFP6KZ/j9FeeM1FMJtdhE?=
- =?us-ascii?Q?iGCDCVQyHFX96jSaU9l2huSIWbADOrU+5mfZ8CpMcwtU+soxueEHNyQl1Von?=
- =?us-ascii?Q?91t7lvYpBAQcf+ggO99EH5zWblwNgQCAzwYt1Z8voCDoahtrYUZks9M+FVIK?=
- =?us-ascii?Q?0t3jUkYT0vcnzTPz3h35Kgaq4WyR0eC9UjMTJ0nCnNyxwXokkkljBUKv42Ib?=
- =?us-ascii?Q?ki1o2CZOB783irbyzS1V2znb1kKx/Y4oGXWemCEBtJeR46eHlwW5IoA/jDYr?=
- =?us-ascii?Q?6EZy0Heb5j+okEOeprp2jGHS5lc1zLFv4blKBKcO1J21NJNfhZtCAxqYIzUF?=
- =?us-ascii?Q?wSwZec69g0bUMaXurPv3Je/LObXvsc6NiCWF50VH14WlfGK2uGFe4M50UGYW?=
- =?us-ascii?Q?MiymA/rokXkXwNtIeroSNDxt2ZxIIS375xPBo1xvaa6kfhYWEmUZ6ydiHHU/?=
- =?us-ascii?Q?vqb8BL20SyMOGUFfZxn0Tv+eVHmwHe5e1nGJYlWCqX2fDe+sgfXVDFkDqlRo?=
- =?us-ascii?Q?RD4rPqzOmq/v9zJB+rBvZFw43UeANuyjyYGHOclcW5vjcefxgghj4jb16Har?=
- =?us-ascii?Q?U8NlWa40wQv7DEVMslb0BXpUYZoAs1tXRWmb/K1j2oxUmw/4QziHBawfyIBB?=
- =?us-ascii?Q?Fidxp8MS1VqMllg4fyYc3nJ71ed1KgCsFvQ2GlSUpuYR1zkaSY/tjtJrVnBh?=
- =?us-ascii?Q?N0a533mpn3g=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LGVK2F8W0Wm3fJq3ZH963qAVxDpJoZRHn4o5ndnnNZH/Njvb7ymARfuw+Czd?=
- =?us-ascii?Q?rU6fY25yEtam3E6LXUVvmWcc2WylEzpf83sB+Ot4GwHFAIfMQSTR8nhWrgnb?=
- =?us-ascii?Q?m4rcBXdsv/PpVq7jqo0JZ+FlzoZd9RBFiIUp04odOR5kP3cA3Ku5ktCoxQrd?=
- =?us-ascii?Q?7mhCdLGNWPpfqLMOCwfpg1OfUWqESkMMIkuYetsGuN9Jf0Wj6c3mcnKwCiR7?=
- =?us-ascii?Q?OBVvHfUewD9FCZgpEtyDWW23nIyf4bfXYNwQpzfF3mgaicWutsgnVjWijEAT?=
- =?us-ascii?Q?50AtqDWBGt8Fa2kDU0CxnG8+BhudVe4R9mAiQX0cwapU8d3PnE5Ah8QhheO9?=
- =?us-ascii?Q?DXaE3QJcSPZmXpqMd5U92ecN2js83z0bcqyjaVBxnTyj7FU4KZsX5Sp7yDDy?=
- =?us-ascii?Q?u/FqbiWlIpZbI366Z9ev41YeQJsutysF/QLqv/MRUmD5N50zSJ2fxaVIw4EH?=
- =?us-ascii?Q?b9EZ1X/TcKmlFiMMXl73xRRYsLPu3IRNpJAQKhqSlOq1g0sjCrWh4rBhuS08?=
- =?us-ascii?Q?PC8XBkHmJO1f26bx2egFq9nonFXHwHItp6ALJE+Nj8LO8IgbYgim5HVbeVcQ?=
- =?us-ascii?Q?4fRrMQX6vPrR0MaOFP7CuzXuCgt/B87G3VAxfOS0wS/70YcUwaiFOITqjsqs?=
- =?us-ascii?Q?jMavqJ+D+qHlv+5bFlxLfiVz1vStPbR2H4GNmPPdydSxbfXvryRPupu83J2I?=
- =?us-ascii?Q?jtNVn70+3k1iDTkw4vSBEHYcizEoP0My4+bCWy8nC0EvQEjLdRyB5MqC1B3c?=
- =?us-ascii?Q?gSdUEi1ZvExUQaicrVVJ7CKG4ltYW6sA0+3NT9wf4qJmFmGvvKQR8Bu02Bx2?=
- =?us-ascii?Q?5uu235zAA1l4xNl0mlWiqam3dZxIx+ZLzbdp1i6N8pLIgtcPbzYKISQVrhwj?=
- =?us-ascii?Q?GASA5nc30bbVRL2QveY7fym+ItFOVXaN94HuucZGS5YrtU/+j0ddVFomRgZ/?=
- =?us-ascii?Q?P/VMNInvVl57yJDsY4Q2CiI0WEYPgcDTzG+MgX9VWZsGjekLiPWciAQnkm0X?=
- =?us-ascii?Q?58aQYmpPpvG+EumBIVsOt5/Ak1OsQkrmsMSpNOouQQ3bmYRSbI64C5YnhU0o?=
- =?us-ascii?Q?qNkrR9ikpV5BdFDYb1sBzbQojEbYikYKjyjRA137a8Kbr1Xbm8yGwgFTVaKf?=
- =?us-ascii?Q?kCbHlZz3qLhe0jrKnNTVE063hrrdF2yfIwJ//DKtwFM1GPakbnRKf3GgItcK?=
- =?us-ascii?Q?LycW0tLTZ0rePXdEL+YO4tHUy1oe5P5BkTtPQZvLqHZduOrDq2SXa4Gekigk?=
- =?us-ascii?Q?bzusr7gpP6c65BVxD4papYI7WmyvyCLujluSuMgrOTBWw8HiWnymc9cwV0kH?=
- =?us-ascii?Q?f6QScR0RRbujCtJw/DXa4w/XlETbpurBKkU4c2rkncq+yrHRykYYo8zATLT2?=
- =?us-ascii?Q?1LnlXep6JKSLfE89xAuqC0dHsgdglZ6bfVjQE2E2BqaZYfTYIuDpE3KfJvB4?=
- =?us-ascii?Q?tvAmTjkCs/qHQTW7Yk6ZwiOFT7EU9kzThORcgcymRezw/RvVXY3gGB2C7pP3?=
- =?us-ascii?Q?zobk7N238b4zs5M+gHQ99tl8UlHsR1Krmf54uyVPdigca/LG9gx7Qe9fXD94?=
- =?us-ascii?Q?bxnKHikjOdKIOq/6oXWPQ0tdT31QZF7G3xm500mz?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99866117-8bb5-455c-7975-08dd947827de
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 12:49:54.4226 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qHDieHybEthLyfPYmZGKux0H70WkxopgOQkWV1RZOpH6ipjgKvxAGwv7uUgjSCwU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9407
+User-Agent: Mozilla Thunderbird
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH v8 2/3] drm/panel: startek-kd070fhfid015: add another init
+ step
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+References: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
+ <20231023-display-support-v8-2-c2dd7b0fb2bd@baylibre.com>
+ <d70b62f8-e24e-4a10-8c6b-18d2e19f1337@collabora.com>
+ <fb72f1f5-dc94-4e33-a20c-d46a081091bc@baylibre.com>
+ <1ed38e6b-8d43-4cbc-9c27-58ec3c0e4dbc@baylibre.com>
+ <d38921cc-a565-4a79-9ecb-bfba85c3ab25@collabora.com>
+Content-Language: en-US
+In-Reply-To: <d38921cc-a565-4a79-9ecb-bfba85c3ab25@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,20 +107,273 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 02:19:45PM +0800, Xu Yilun wrote:
-> > I don't know why you'd disable a viommu while the VM is running,
-> > doesn't make sense.
+Hi Angelo,
+
+On 15/04/2025 16:46, AngeloGioacchino Del Regno wrote:
+> Il 15/04/25 16:13, Alexandre Mergnat ha scritto:
+>> Hi Angelo,
+>>
+>> Gentle ping
+>>
+>> Let me shortly summarize my problem: I see the panel driver sending commands to the display before 
+>> it is ready. My approach to prevent that is to delay sending commands until bridge enable. Your 
+>> concern was that during the panel's .prepare() the panel driver should already be able to send 
+>> commands through the bridge. Can you please clarify what you think should be the approach to fix 
+>> that?
+>>
 > 
-> Here it means remove the CC setup for viommu, shared setup is still
-> kept.
+> Please don't top post.
+> 
+> Anyway - sorry but I missed your reply, that wasn't intentional - thanks for the
+> ping (or I wouldn't have replied, duh!).
+> 
+> What is not ready? The Startek display or the MediaTek display controller?
+> 
 
-That might makes sense for the vPCI function, but not the vIOMMU. A
-secure VIOMMU needs to be running at all times while the guest is
-running. Perhaps it has no devices it can be used with, but it's
-functionality has to be there because a driver in the VM will be
-connected to it.
+MediaTek display controller (DSI)
 
-At most "bind" should only tell the already existing secure vIOMMU
-that it is allowed to translate for a specific vPCI function.
+> The display controller shall be able to send commands when the *panel*'s .prepare()
+> callback gets executed - if not, there's something wrong at the display controller
+> side (driver).
+> 
 
-Jason
+It's explained at the end.
+
+> You're probably getting confused by the bridge en/disable callbacks, btw... please
+> check include/drm/drm_panel.h, struct drm_panel_funcs.
+> 
+
+panel_bridge_atomic_pre_enable => drm_panel_prepare => (drm_panel_funcs.prepare) stk_panel_prepare
+panel_bridge_atomic_enable => drm_panel_enable => (drm_panel_funcs.enable) stk_panel_enable
+
+The bridge en/disable callbacks call panel and DSI enable/disable callbacks, they are linked.
+
+> In short, the panel's prepare() should be used for whatever setup is required by
+> the panel to become available to *receive the video transmission* from the display
+> controller: this implies that if the panel needs DSI commands for setup, this is
+> allowed and it's a perfectly fine case.
+> 
+> So, if you are unable to "turn the panel on and wait for it to become ready" in
+> the panel's .prepare() callback, there's something wrong either in your panel
+> driver, on in the display controller (the DSI driver) instead.
+> 
+> Since this wasn't happening before your mtk_dsi cleanup, this probably means that
+> the cleanup is done wrong - and that removing the .start/.stop custom callbacks
+> from that driver needs you to do something more than just that in order to avoid
+> regressions.
+> 
+
+Here the current call order:
+[   13.715959] mtk_dsi_ddp_start ( => dsi poweron)
+[   13.716797] stk_panel_prepare ( => panel poweron + enable)
+[   13.939473] mtk_dsi_bridge_atomic_pre_enable ( => dsi poweron)
+[   13.939488] mtk_output_dsi_enable ( => dsi enable)
+
+As you can see, dsi poweron is called twice. According to your comment [1] asking me to remove
+custom init function in favor of DRM API call, I've removed "mtk_dsi_ddp_start". Since I don't
+find any API to poweron DSI before stk_panel_prepare call, it has been split to do enable
+sequence after DSI poweron+enable, because it requiere mipi dsi interface enabled to do
+panel enable.
+
+Patched solution:
+[   14.164136] stk_panel_prepare ( => panel poweron)
+[   14.213300] mtk_dsi_bridge_atomic_pre_enable ( => dsi poweron)
+[   14.213623] mtk_output_dsi_enable ( => dsi enable)
+[   14.215116] stk_panel_enable ( => panel enable)
+
+The prepare/enable order is fixed by the DRM framework [2]
+
+We still misaligned about the panel's prepare() should be, but even if I try to implement
+whatever setup is required by the panel to become available to *receive the video
+transmission* from the display controller, the DRM init order doesn't allow it.
+I can move stk_panel_prepare content into stk_panel_enable if you prefer, but it's less clean
+IMHO because I like to have a first callback for HW/power setup, and a second callback for SW
+setup, which fit with bridge callback descriptions.
+I don't see a better way to cleanup custom init, and my apologies for your time if I missed something.
+
+[1]: https://lore.kernel.org/all/c2154240-efa1-4c73-aabe-74e938a75af1@collabora.com/
+[2]: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/drm_bridge.c#n769
+
+> Unfortunately, I'm pretty busy these days, otherwise I would've gladly made some
+> research to try and give you some more hints.. but eh :-)
+> 
+> Cheers,
+> Angelo
+> 
+>> Regards,
+>> Alexandre
+>>
+>> On 21/03/2025 10:19, Alexandre Mergnat wrote:
+>>> Hi Angelo,
+>>> Thanks for the fast feedback :)
+>>>
+>>> On 20/03/2025 13:37, AngeloGioacchino Del Regno wrote:
+>>>> Il 20/03/25 09:48, Alexandre Mergnat ha scritto:
+>>>>> Currently, the panel set power, set gpio and enable the display link
+>>>>> in stk_panel_prepare, pointed by drm_panel_funcs.prepare, called by
+>>>>> panel_bridge_atomic_pre_enable, pointed by
+>>>>> drm_bridge_funcs.atomic_pre_enable. According to the drm_bridge.h,
+>>>>> atomic_pre_enable must not enable the display link
+>>>>>
+>>>>> Since the DSI driver is properly inited by the DRM, the panel try to
+>>>>> communicate with the panel before DSI is powered on.
+>>>>>
+>>>>
+>>>> The panel driver shall still be able to send commands in the .prepare() callback
+>>>> and if this is not happening anymore... well, there's a problem!
+>>>
+>>> Sorry I don't think so, according to that def:
+>>>      /**
+>>>       * @pre_enable:
+>>>       *
+>>>       * This callback should enable the bridge. It is called right before
+>>>       * the preceding element in the display pipe is enabled. If the
+>>>       * preceding element is a bridge this means it's called before that
+>>>       * bridge's @pre_enable function. If the preceding element is a
+>>>       * &drm_encoder it's called right before the encoder's
+>>>       * &drm_encoder_helper_funcs.enable, &drm_encoder_helper_funcs.commit or
+>>>       * &drm_encoder_helper_funcs.dpms hook.
+>>>       *
+>>>       * The display pipe (i.e. clocks and timing signals) feeding this bridge
+>>>       * will not yet be running when this callback is called. The bridge must
+>>>       * not enable the display link feeding the next bridge in the chain (if
+>>>       * there is one) when this callback is called.
+>>>       *
+>>>       * The @pre_enable callback is optional.
+>>>       *
+>>>       * NOTE:
+>>>       *
+>>>       * This is deprecated, do not use!
+>>>       * New drivers shall use &drm_bridge_funcs.atomic_pre_enable.
+>>>       */
+>>>      void (*pre_enable)(struct drm_bridge *bridge);
+>>>
+>>>      /**
+>>>       * @enable:
+>>>       *
+>>>       * This callback should enable the bridge. It is called right after
+>>>       * the preceding element in the display pipe is enabled. If the
+>>>       * preceding element is a bridge this means it's called after that
+>>>       * bridge's @enable function. If the preceding element is a
+>>>       * &drm_encoder it's called right after the encoder's
+>>>       * &drm_encoder_helper_funcs.enable, &drm_encoder_helper_funcs.commit or
+>>>       * &drm_encoder_helper_funcs.dpms hook.
+>>>       *
+>>>       * The bridge can assume that the display pipe (i.e. clocks and timing
+>>>       * signals) feeding it is running when this callback is called. This
+>>>       * callback must enable the display link feeding the next bridge in the
+>>>       * chain if there is one.
+>>>       *
+>>>       * The @enable callback is optional.
+>>>       *
+>>>       * NOTE:
+>>>       *
+>>>       * This is deprecated, do not use!
+>>>       * New drivers shall use &drm_bridge_funcs.atomic_enable.
+>>>       */
+>>>      void (*enable)(struct drm_bridge *bridge);
+>>>
+>>> => "The bridge must not enable the display link feeding the next bridge in the
+>>> => chain (if there is one) when this callback is called."
+>>>
+>>> Additionally, you ask for something impossible because here is the init order
+>>> fixed by the framework:
+>>>
+>>> [   10.753139] panel_bridge_atomic_pre_enable
+>>> [   10.963505] mtk_dsi_bridge_atomic_pre_enable
+>>> [   10.963518] mtk_dsi_bridge_atomic_enable
+>>> [   10.963527] panel_bridge_atomic_enable
+>>> [   10.963532] drm_panel_enable
+>>>
+>>> If panel want to use the DSI link in panel_bridge_atomic_pre_enable, nothing
+>>> will happen and  you will get a timeout.
+>>>
+>>> So, IMHO, this patch make sense.
+>>>
+>>>>
+>>>>> To solve that, use stk_panel_enable to enable the display link because
+>>>>> it's called after the mtk_dsi_bridge_atomic_pre_enable which is power
+>>>>> on the DSI.
+>>>>>
+>>>>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>>>> ---
+>>>>>   .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 25 +++++++++++++---------
+>>>>>   1 file changed, 15 insertions(+), 10 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c b/drivers/gpu/ 
+>>>>> drm/panel/panel-startek-kd070fhfid015.c
+>>>>> index c0c95355b7435..bc3c4038bf4f5 100644
+>>>>> --- a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
+>>>>> +++ b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
+>>>>> @@ -135,19 +135,9 @@ static int stk_panel_prepare(struct drm_panel *panel)
+>>>>>       gpiod_set_value(stk->enable_gpio, 1);
+>>>>>       mdelay(20);
+>>>>>       gpiod_set_value(stk->reset_gpio, 1);
+>>>>> -    mdelay(10);
+>>>>> -    ret = stk_panel_init(stk);
+>>>>> -    if (ret < 0)
+>>>>> -        goto poweroff;
+>>>>
+>>>> Also, you're moving both init and set_display_on to the enable callback...
+>>>> this is suboptimal.
+>>>>
+>>>> You should do the DrIC setup in .prepare() (can include SLEEP OUT), and then you
+>>>> should have a .enable() callback that calls DISP ON, a .disable() callback that
+>>>> calls DISP OFF, and .unprepare() that turns everything off.
+>>>
+>>> This is not what I understand from the pre_enable's definition above, and also
+>>> the function call order by the framework. :)
+>>>
+>>>>
+>>>> Cheers,
+>>>> Angelo
+>>>>
+>>>>> -
+>>>>> -    ret = stk_panel_on(stk);
+>>>>> -    if (ret < 0)
+>>>>> -        goto poweroff;
+>>>>>       return 0;
+>>>>> -poweroff:
+>>>>> -    regulator_disable(stk->supplies[POWER].consumer);
+>>>>>   iovccoff:
+>>>>>       regulator_disable(stk->supplies[IOVCC].consumer);
+>>>>>       gpiod_set_value(stk->reset_gpio, 0);
+>>>>> @@ -156,6 +146,20 @@ static int stk_panel_prepare(struct drm_panel *panel)
+>>>>>       return ret;
+>>>>>   }
+>>>>> +static int stk_panel_enable(struct drm_panel *panel)
+>>>>> +{
+>>>>> +    struct stk_panel *stk = to_stk_panel(panel);
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    ret = stk_panel_init(stk);
+>>>>> +    if (ret < 0)
+>>>>> +        return ret;
+>>>>> +
+>>>>> +    ret = stk_panel_on(stk);
+>>>>> +
+>>>>> +    return ret;
+>>>>> +}
+>>>>> +
+>>>>>   static const struct drm_display_mode default_mode = {
+>>>>>           .clock = 163204,
+>>>>>           .hdisplay = 1200,
+>>>>> @@ -239,6 +243,7 @@ drm_panel_create_dsi_backlight(struct mipi_dsi_device *dsi)
+>>>>>   }
+>>>>>   static const struct drm_panel_funcs stk_panel_funcs = {
+>>>>> +    .enable = stk_panel_enable,
+>>>>>       .unprepare = stk_panel_unprepare,
+>>>>>       .prepare = stk_panel_prepare,
+>>>>>       .get_modes = stk_panel_get_modes,
+>>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Regards,
+Alexandre
