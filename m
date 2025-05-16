@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A81ABA51F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 23:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196FDABA523
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 23:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68DBA10E298;
-	Fri, 16 May 2025 21:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E81AF10EB95;
+	Fri, 16 May 2025 21:30:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="enltfvD+";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="na93+EQq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com
- [209.85.210.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C7E10E298
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 21:30:03 +0000 (UTC)
-Received: by mail-pf1-f201.google.com with SMTP id
- d2e1a72fcca58-7420109e56dso2117686b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:30:03 -0700 (PDT)
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com
+ [209.85.214.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD7510E298
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 21:30:05 +0000 (UTC)
+Received: by mail-pl1-f202.google.com with SMTP id
+ d9443c01a7336-231d13ac4d4so22282955ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1747431003; x=1748035803;
+ d=google.com; s=20230601; t=1747431005; x=1748035805;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:reply-to:from:to:cc
- :subject:date:message-id:reply-to;
- bh=16vfcjowGUMTa5d9+ULCqQIsoViPLGh6MjBdiOthySQ=;
- b=enltfvD+K1uiOGiOfWA2HRFxAmjOPL3asM0aQ/HGTnSLyLDwsE4P2biakaW3TY1+1h
- LxujnT5Zq7CABQW0pH1yUkh2ROQqR3WSjxNaCe2P56w4SUu8PMGpb6dzygTZPDaYUyQ+
- LgZKeyPOrf2cHtHZKp1zapKcYU5ue7Keap6bOoBizb+zW7KfF8W58eiEYIdsQlFle3De
- ywmgkMXe5L1oTZMxwS2DfCL/57tY+AZWQk8uz36YoxUoJECZ9bf2k3XDY96ztKCkFft5
- 9IBLWghAljks3Yckj2O111g17eFdM1FcssgO8AQNRwHnG1yPn6UXCFxqYvwg85D4Ez2r
- 1f1A==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cl8sKId1p4fnSWsbXS5nPLz/0J3dr2L1BPCgdcqnxp0=;
+ b=na93+EQqmLYrs2tVnDUkFb+UXqno0IwXxYz7d1NaZqq1kzYKRMJRfGI5BeNO5ZNh4l
+ tTF8n5WX7S6V/G+3rEozY0Z5kvjClIRc1n5K3yfTdDf8FHoHt2l4/NzBRDhMuaunnD8m
+ MkHinqLT0OEcltY9bF1BY84S19kPr87vbbblkN/9q3pbrfWwDe151tsQYAHDLojwfz2a
+ H5WKWXgFlUJ6iGzQnU/zsf80/u7nrhXAZsWGKaOUWRxhyoYUMDQSFOm0RsGXN96dmFkj
+ m7WaQMzNgx/L/h8fvN58kYPfbIf5oySbYhbhDKJEjMKbk8fgCOap3Y/SOgnhWkIypNMO
+ tBLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747431003; x=1748035803;
- h=cc:to:from:subject:message-id:mime-version:date:reply-to
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=16vfcjowGUMTa5d9+ULCqQIsoViPLGh6MjBdiOthySQ=;
- b=dVvBViFEj+gHts5ri/k03khERf3DUocD/tVMQmqG4ioVPEfYRbAeStSODVhlVb02j+
- 8aNxde2+ZV8KMXHEZRb4XlgoC+M7Di4baWOEk01AQo3GbpTeLYQCWRGxSJAoeJ6Mqxm/
- SoiFoL4NiHf949+woSBAsUQHprxvYQpCy7GzWiv5IJ0V59z9YnvQ3Pnr/vGHoGxJpjt2
- lG7dB8w+GTxD1idqDCMWOOYSy5shBDJQX5mCZU0Mg+GCszBazqRaZeEOn+vVqVA1oIO8
- uOg2FREmT+dXitnx49VIui/ICVa9E+7RpRhy1jgE0upiSrNx3jZWw+7oouMyeKDl3u65
- oW3Q==
+ d=1e100.net; s=20230601; t=1747431005; x=1748035805;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Cl8sKId1p4fnSWsbXS5nPLz/0J3dr2L1BPCgdcqnxp0=;
+ b=Zjgu8cidpewPHi85RFP/BEtrX8aDe5Fxn8MJt6l38c+qbC3AwLcWrOUWUTjIw0R+lE
+ LkykH2gS3Hyn9G45G+AipYo/WWyXBKuekMVB80IDnv44TkqlLbjCgRr8/kWiz1rZwUpu
+ n1knLS57KuEthlyJPGQ0l6NtmbAo8nPLKiVcQkQM5HCYf8TA2psItK4ArNLI9P8Rw1jC
+ knqRsZXKxh0tAH2VCBRvBOwNoS9uMdGqcLXq+MJlPqWEJZtDDGY9sVzii2AwV0q1nhSd
+ W6M42RjYZLLToFk8cWqp2YuTfJJ1Hda2fLtb4IBvYgLaxMYX/3Rv+tCcQlteGdrsPFnM
+ rcgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2bKxsCvDQJbTgaO9UQdkUHj6KYgazZYi/Lws8Kc5zFGKytYizgFAcSv7S2/9ho6uASDvTKQY0epM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfEhKipiCcAfWhpGVlO0+0Sy8C5eC7X4Di4K7I8QvpLBEW8Evx
- aL4GxWiiTLMRzzgPGJwkaQQtLUFsRuJai+dVQTQtH6cDsLB0UVSfw2kYOcJIA4vDt78zdoLHNNn
- CNDi4oA==
-X-Google-Smtp-Source: AGHT+IHAOqNtgLvjhczBzscm3RgIFYldzuw2M2zw628mwDpHkkpQXjnCtK0C58qctj3mP1IxalTn5fBd2FM=
-X-Received: from pfbjt23.prod.google.com
- ([2002:a05:6a00:91d7:b0:736:38af:afeb])
+ AJvYcCVIzQbBKD2fGUEYZw3A4C6T3Ozz+9bCuDpRCjWA7Jr+g+ptU1pizOSJngoV6BtVbsrmJUZithrxSwU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqorekBVcuTyvUsr4DVMeWbQcH7BefjpydhHywOpcANlAAaD5+
+ muTF9MNuxn8Gqa5XlpJwwwnvv1Bs9fQ73s8XdyI+rIhhk7ojSRgQKD6c6C5d5KoEcSkGNyNo+Tb
+ Rtcuffw==
+X-Google-Smtp-Source: AGHT+IF6I89C9mEIARSlw1bcJepJA60kvrJai+jIj3fEWudVeM5rH1kouHgj/taWzfpRfkrGgw+/t4fBuRo=
+X-Received: from pjbsw16.prod.google.com ([2002:a17:90b:2c90:b0:2ff:84e6:b2bd])
  (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:894:b0:736:4ebd:e5a
- with SMTP id d2e1a72fcca58-742a98b4e97mr6495370b3a.20.1747431003224; Fri, 16
- May 2025 14:30:03 -0700 (PDT)
-Date: Fri, 16 May 2025 14:28:25 -0700
+ 2002:a17:903:3d07:b0:224:a96:e39
+ with SMTP id d9443c01a7336-231d438b420mr68386655ad.9.1747431004975; Fri, 16
+ May 2025 14:30:04 -0700 (PDT)
+Date: Fri, 16 May 2025 14:28:26 -0700
+In-Reply-To: <20250516212833.2544737-1-seanjc@google.com>
 Mime-Version: 1.0
+References: <20250516212833.2544737-1-seanjc@google.com>
 X-Mailer: git-send-email 2.49.0.1112.g889b7c5bd8-goog
-Message-ID: <20250516212833.2544737-1-seanjc@google.com>
-Subject: [PATCH v2 0/8] x86, KVM: Optimize SEV cache flushing
+Message-ID: <20250516212833.2544737-2-seanjc@google.com>
+Subject: [PATCH v2 1/8] KVM: SVM: Remove wbinvd in sev_vm_destroy()
 From: Sean Christopherson <seanjc@google.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, 
@@ -90,52 +92,39 @@ Reply-To: Sean Christopherson <seanjc@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the combination of Kevin's WBNOINVD series[1] with Zheyun's targeted
-flushing series[2].  The combined goal is to use WBNOINVD instead of WBINVD
-when doing cached maintenance to prevent data corruption due to C-bit aliasing,
-and to reduce the number of cache invalidations by only performing flushes on
-CPUs that have entered the relevant VM since the last cache flush.
+From: Zheyun Shen <szy0127@sjtu.edu.cn>
 
-Assuming I get the appropate acks (and that I didn't manage to break anything
-when rebasing), my plan is to take this through the kvm-x86 tree in the 6.17
-timeframe.
+Before sev_vm_destroy() is called, kvm_arch_guest_memory_reclaimed()
+has been called for SEV and SEV-ES and kvm_arch_gmem_invalidate()
+has been called for SEV-SNP. These functions have already handled
+flushing the memory. Therefore, this wbinvd_on_all_cpus() can
+simply be dropped.
 
-v2:
- - Add a missing -ENOMEM in __sev_guest_init(). [Tom]
- - Collect reviews. [Kai, Tom]
- - Fix stub prototypes. [Zheyun]
- - Kill off dead pr_err() code on DRM's wbinvd_on_all_cpus() usage.
+Suggested-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Zheyun Shen <szy0127@sjtu.edu.cn>
+Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/svm/sev.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-v1: https://lore.kernel.org/all/20250227014858.3244505-1-seanjc@google.com
-
-[1] https://lore.kernel.org/all/20250201000259.3289143-1-kevinloughlin@google.com
-[2] https://lore.kernel.org/all/20250128015345.7929-1-szy0127@sjtu.edu.cn
-
-Kevin Loughlin (2):
-  x86, lib: Add WBNOINVD helper functions
-  KVM: SEV: Prefer WBNOINVD over WBINVD for cache maintenance efficiency
-
-Sean Christopherson (3):
-  drm/gpu: Remove dead checks on wbinvd_on_all_cpus()'s return value
-  x86, lib: Drop the unused return value from wbinvd_on_all_cpus()
-  KVM: x86: Use wbinvd_on_cpu() instead of an open-coded equivalent
-
-Zheyun Shen (3):
-  KVM: SVM: Remove wbinvd in sev_vm_destroy()
-  x86, lib: Add wbinvd and wbnoinvd helpers to target multiple CPUs
-  KVM: SVM: Flush cache only on CPUs running SEV guest
-
- arch/x86/include/asm/smp.h           | 23 ++++++--
- arch/x86/include/asm/special_insns.h | 19 ++++++-
- arch/x86/kvm/svm/sev.c               | 81 +++++++++++++++++++---------
- arch/x86/kvm/svm/svm.h               |  1 +
- arch/x86/kvm/x86.c                   | 11 +---
- arch/x86/lib/cache-smp.c             | 26 ++++++++-
- drivers/gpu/drm/drm_cache.c          |  9 ++--
- 7 files changed, 125 insertions(+), 45 deletions(-)
-
-
-base-commit: 7ef51a41466bc846ad794d505e2e34ff97157f7f
+diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+index 978a0088a3f1..e9fd3bcec37a 100644
+--- a/arch/x86/kvm/svm/sev.c
++++ b/arch/x86/kvm/svm/sev.c
+@@ -2883,12 +2883,6 @@ void sev_vm_destroy(struct kvm *kvm)
+ 		return;
+ 	}
+ 
+-	/*
+-	 * Ensure that all guest tagged cache entries are flushed before
+-	 * releasing the pages back to the system for use. CLFLUSH will
+-	 * not do this, so issue a WBINVD.
+-	 */
+-	wbinvd_on_all_cpus();
+ 
+ 	/*
+ 	 * if userspace was terminated before unregistering the memory regions
 -- 
 2.49.0.1112.g889b7c5bd8-goog
 
