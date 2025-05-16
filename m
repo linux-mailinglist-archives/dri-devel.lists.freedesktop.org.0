@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C38AB933E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 02:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73B1AB934F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 02:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E824910E989;
-	Fri, 16 May 2025 00:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A70410E98B;
+	Fri, 16 May 2025 00:48:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dhWIqLhA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aoarfBbP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC0810E989
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:39:10 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54FEFLAx009277
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:39:10 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DF310E986
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:48:13 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54FEFB1p018190
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:48:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GlqhZcs+erk3iBh+80fphQbFA+uOB/LMqliG0REwbBc=; b=dhWIqLhAtjrxwtE2
- pPBq6XHxgW9JdIiD1TWG0LkoytjCi2O4joojeUGxcMzCW5YfWAuWuxlidB3ZCaLE
- AtamsNgvWmIJtIGm/SOEQCWpX8F88vPLs0yNxK1Bw2HZ+R380ZJbvqlNaY+OPOaY
- Np1gumqPX7sYhMznsiZuKrxFvWQafOFTY3/c78erAGmsyRq3vIWz5j+WhOGIDdRn
- QdmKDxsWRK2OyxMTc8dtvvdFKbyBknu4TTxelCJD6tGR/pjk+juLUrHTtSmSHjYr
- ERK8JrINMKfa7rgA0SZASrpsiucWkln624roJfPHnhr4ZH1deH2OFTJGLX5mYi/2
- Z2nxIA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbex83cb-1
+ eJwe0WaTATjPuDQBRpYRk46bCtNvD5nI4hYmgIuJ90M=; b=aoarfBbPpBtN8svj
+ 4epA/14KwUKec8F93WrbzmB9VNHXsMWyZyJYJvAmjmWE3C3cFDvoIxX130g9bC3K
+ 5hIgnTbhZns/4STZmAD7SGzUN0uYGUIuRu3vlL/CVK7Y7p9V7Op8a7xtBH67lWVf
+ GvESWPew7YPB3PloZSVZ75GUIqxUEPtJz9O/Vza6n6QM4n5kvhD52o9jPAiACobW
+ t2NAcmjCMT8TQOZnIh4sc3lfdmtDtT2WcLcCrsz9pHnjVRvHstHzNhD0g6nK/BAP
+ 07ELv9TW6ZGz03+tVwYEiiLPxAYGrzJudZYeMPUgJwnAXUoBCiQ69EOm0yO9WRel
+ YgVZvw==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcnr1tp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:39:09 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-22fafbbe51fso21504385ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:39:09 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 00:48:12 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b0f807421c9so879497a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 May 2025 17:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747355949; x=1747960749;
+ d=1e100.net; s=20230601; t=1747356491; x=1747961291;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GlqhZcs+erk3iBh+80fphQbFA+uOB/LMqliG0REwbBc=;
- b=KHzROJgEn7yn9MshSfUPPWUte/G55htEkVS6VMQjTRS8MdVFESTddbvGR0WvcmFiLO
- gpE46qAjA/VfNX0Tg2kCFDIeMF6SGOzn31YoruCKc84p3qlbKLz+5OijcYZWfeoO38pm
- El+AaQaWZiMPzzG/6P5h2cSTx7Q3S8lvzoJK/7T9SzObXmhK101lVrHNCQYvlGT2JS60
- 2POILlOAGbOwJHyIDgfWGyvxuqvD1jERJzGw/3lVG3O3i0FuvS4zyPF93YD88dQrVD0R
- kPAgZsZv8grSNfPkfFkdwP+GquPLQKGZP6FxgDqhou0FeJkbT2uf/fBuA7BTQfRA6Yuh
- VlPw==
+ bh=eJwe0WaTATjPuDQBRpYRk46bCtNvD5nI4hYmgIuJ90M=;
+ b=obnDqR9wG3SPxkuPqI7gXOKunaxmaTfSW3JwHODFHcV6hZasYZioOlDzrLZb3GYlid
+ ijr6PPh1Hy1ye3Pva4rxcWxa7MzZGiu7H662/5kURpSX4sMKOgzRon8Uj2w9erV5u1Wo
+ u+U676H8MmW+DsCjq1F3yBwZGiaCRbeGo8X18Z83gNNTSRryVkt5X0pUcDVc4bHqV9UK
+ WnuCIyJ4CIA3GZyh8tLyupg/MadmepVrzOOsPdoHe1HUsiA8ARlkhKpAkH/6m6NveuAx
+ VCy5TSUmqmyQL0GUQI6G+YWYAskLd99B/MeWH4raHh6SXXKo7s3FbEnEKWvcOffPcDFp
+ IMQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURY+DZWCw8sWhb15e5yChiDMaV00+SWLlHBQbfwjLzIbLE733AyQcuwyhT42wqTVX0Idcm4LiWrDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yznf8ldgDh7vTcKUNiEN7s8gxx9oOqJPPwt+ISPCmq9FgY/Ml18
- qBQRaFkFAlAGondOJNR2odVoKp6B77xLlruFnSWZpW58OJS1jGi3hQKlMBQnhII/vTTQI2WEv16
- jc5w6MwwF4wqRHRAcqA3UEbERAefKtJhhQqGewhnEKcwZyH7oIiU4Qcq7DKylBdMEqfUBO0M=
-X-Gm-Gg: ASbGnctwB/N19lbwH4Pxi80Fb/HPdSyuK5TGYskjCyJHC0EpvsjH4k68mzDWDqvyy9T
- qv2joMfI9UbeaqNd206b5K2xTOMd+y3K9N7gXClhHnGJJ4U8Rk5RLN1XVn8nSOSzZbCjlt0PofL
- GiIf52mRgdZ+8Kff2JBLmhBXP76JqQCbi1eCgzxlHt6yc0LW4lBpCepKJGRsq49wm0z0NWLMsAp
- zHNuVby1w568uyzGNEXcKUet9BRSUnp3W/gRcUrZr5MmERDpwQVVJg1M0H35Q0a8rWxWE3Fb/eP
- oiCs2kDOTid6INQMhq4MunzkXRoWC4Q15faiifsqK8cNBeZKVBlQ5PS46lEfC7s4VYTZKg==
-X-Received: by 2002:a17:903:f8d:b0:224:f12:3734 with SMTP id
- d9443c01a7336-231d43d36ffmr15463015ad.30.1747355948945; 
- Thu, 15 May 2025 17:39:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFCIxa42I2fd9QBBq3jcy1OxAa7Gi6L2HevXKicZ0G0GjWZp48BnGCRKieCJE4fuG/o3RumIg==
-X-Received: by 2002:a17:903:f8d:b0:224:f12:3734 with SMTP id
- d9443c01a7336-231d43d36ffmr15462825ad.30.1747355948541; 
- Thu, 15 May 2025 17:39:08 -0700 (PDT)
+ AJvYcCXdK/FFO86uc8uYWC1aiWrUKqv2wF8KnXr8mkAO79OrqXCCZX7XVmwIGp0EBKwTlyHlc+SMmMvwHNA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1tT0QWmLj/3U5AJO4oO1AWBqG4XDD53fmSeoDFnlRJJn7XyZp
+ 69Wj9l4ILXn5P7lw9wfy863Q6mR1BjGLLuWzcVYLBGaAvlcWHSVacBggyBTPgImSJ98LeNNjr36
+ WzjcfaGC8v6Ge8XJWdX1XQcVRW5EiGEXHAVl6jPCcQ92gx54fWO3XBieKQx6xbP6QaJsVuhI=
+X-Gm-Gg: ASbGncvvSchz0dS5FnJg7vGaSIzBUx7roDZTV14hyD0XIQf69KpfzfJfzeQ0NV2hLcA
+ 7/iyS0VWSVkQ2Olx1KLQlMIPX3mwORZPNxg46mmVNynZwEw36WR0QUDecEix4Flffq9E7tbVUyQ
+ 27dMMw6ktno1EXXxRFts/DD3C2O+myh6CtxMMAU/15FyR2wSFwn5EF/ntrQRuvujRmxtB28NHI0
+ gzMykgi58pDpXIlOd2r21suBw8sziKpI7nvrDpjjoylJH8ahaSDxVM2T7NJJjqqcfnx7Z/QNVNN
+ vkbblrwWg+rvJXPul3zWe4fOfdSbOyLIBQqvn6XlnoYnzxx+g1YLG5V9nZvkiuG8zR3m9w==
+X-Received: by 2002:a05:6a20:9143:b0:1ee:c7c8:ca4 with SMTP id
+ adf61e73a8af0-216219f8d84mr2191394637.36.1747356491306; 
+ Thu, 15 May 2025 17:48:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IElOJZvNSsuOCJC5gbWoMAaCBBEQUY+Qd1QGBRr8weuXx6OAJxIlMvUCJtTtrI6xCzlhuO7Gg==
+X-Received: by 2002:a05:6a20:9143:b0:1ee:c7c8:ca4 with SMTP id
+ adf61e73a8af0-216219f8d84mr2191369637.36.1747356490958; 
+ Thu, 15 May 2025 17:48:10 -0700 (PDT)
 Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-231e069c592sm755765ad.100.2025.05.15.17.39.07
+ d2e1a72fcca58-742a9877056sm420384b3a.143.2025.05.15.17.48.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 May 2025 17:39:08 -0700 (PDT)
-Message-ID: <24e419da-71f8-4b0d-9416-0fe4c63eed0f@oss.qualcomm.com>
-Date: Thu, 15 May 2025 17:39:06 -0700
+ Thu, 15 May 2025 17:48:10 -0700 (PDT)
+Message-ID: <65cb9653-e315-4b8c-ad21-14cabb7d2ac0@oss.qualcomm.com>
+Date: Thu, 15 May 2025 17:48:09 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/msm/dpu: Check mode against PINGPONG or DSC max
- width
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH 4/5] drm/msm/dpu: Filter writeback modes using writeback
+ maxlinewidth
+To: Dmitry Baryshkov <lumag@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -86,35 +86,35 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250514-max-mixer-width-v1-0-c8ba0d9bb858@oss.qualcomm.com>
- <20250514-max-mixer-width-v1-3-c8ba0d9bb858@oss.qualcomm.com>
- <f2brfgvsnwqu5rudr32fkjx6qiuut2im546mjqrk2ouego4npx@g6avls6o7kws>
+ <20250514-max-mixer-width-v1-4-c8ba0d9bb858@oss.qualcomm.com>
+ <CALT56yPxcsLhA2eigirjvNiWR5JBFW4jsOAi7QWkgmJgbMnKXw@mail.gmail.com>
 Content-Language: en-US
 From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-In-Reply-To: <f2brfgvsnwqu5rudr32fkjx6qiuut2im546mjqrk2ouego4npx@g6avls6o7kws>
+In-Reply-To: <CALT56yPxcsLhA2eigirjvNiWR5JBFW4jsOAi7QWkgmJgbMnKXw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDAwMyBTYWx0ZWRfXyqasNWsZooIN
- 6rc2dSz01XuQZZZIDB0TodzFe+1lm8Rmje7OOQ72+iHqltGJo3jvBRekMhcInDRpfROE4rmN9IF
- +w+VAAQ0nrp7a8tFz8uwyOmtYto4elheDWTMJIW8E1lkAbKRgjwUTqFs1PMZzAFJ8LSTQjvpDeI
- ZfP4RsKSqGOx5H1V01sbm0MuFURJerREATnjrVVC+iNfKu6cSKNFOPmEvZ+4v17sami/xdDKX2h
- /2jPnDHpoQx5oLrz1qm7RQoyNzmbzFJsS5x1Dv+HIZK5w7DjweCuJEJrD+YtF//6DrFM+oD9fEJ
- zO1XgCKUoveYvQncTyQtx5l8c2PP0TsHQH8/Rmi0qPYY91y4t6mCDmF5f1FqrLu/yHm8js2dWap
- T2Jiufv7F3wrv6f0ckc84uehzAEJBQOCFwW6sADLbj33CQvUyjqB5JAjsg0HJAo+2QrGHyZh
-X-Proofpoint-ORIG-GUID: 9rCGgmQWX4rQ0ERSI8yHuPh86AH_t2y3
-X-Proofpoint-GUID: 9rCGgmQWX4rQ0ERSI8yHuPh86AH_t2y3
-X-Authority-Analysis: v=2.4 cv=IcuHWXqa c=1 sm=1 tr=0 ts=6826892d cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=lZyNh1K7jJI6hNXvg3QA:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: KZjAjE2y1eDl6UJ5tCYzV5X7_NhLdJn6
+X-Authority-Analysis: v=2.4 cv=aIbwqa9m c=1 sm=1 tr=0 ts=68268b4c cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=TtJqN5EYLmW1Dglx0zoA:9
+ a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: KZjAjE2y1eDl6UJ5tCYzV5X7_NhLdJn6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDAwNSBTYWx0ZWRfX66EuCvLDpg2s
+ ySdsFp71Vuc+f3yCAchL0aF5yJ3Nyec/MgkJA7PJ/kh8jdwWJ55yPRU84ybzo/jUCA/Aa3+8vMh
+ XcY/uvHHjvB+VCpeFd2MQ1Z4QguOAp7MA0+glXyzWQ2IVWXE4yMfLnHpVSzIABWEVquYYkUtezB
+ /NlaJrYS7P4sn9v3QYblZUCnO+cZbPDNIhwoNQEDwc3AALC5LY/wrB5+OL1xr47BpNkgFWp0oIC
+ QJq/NcyxKxnz5lCqPV4IpTjvZDqMLlAFrBFPcdEnW17ClO5DzpZJ4LTtWXg6dhCIhlmHTtzTRBm
+ R6Txljn6KovNHK94/1tWhKl+dhOVSm2DZryFhD67RA08QmkLdYoJYuGmsp+TVkOqOtPzze6KNWx
+ GKvZ5VetW0+1Bp9Ex/EoBSvmoAh58s2fggHaqsR2w+Ix+Gs10RdoK6eSbiMgklN/MTKsWL4H
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-15_11,2025-05-15_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
- clxscore=1015 spamscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 classifier=spam authscore=0 authtc=n/a
+ adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 impostorscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505160003
+ engine=8.19.0-2505070000 definitions=main-2505160005
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,90 +132,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/14/2025 5:28 PM, Dmitry Baryshkov wrote:
-> On Wed, May 14, 2025 at 04:52:31PM -0700, Jessica Zhang wrote:
->> Validate requested mode and topology based on the PINGPONG or DSC encoder
->> max width. In addition, drop MAX_HDISPLAY_SPLIT and base LM reservation
->> off of PINGPONG or DSC encoder max width
+On 5/14/2025 5:17 PM, Dmitry Baryshkov wrote:
+> On Thu, 15 May 2025 at 02:52, Jessica Zhang
+> <jessica.zhang@oss.qualcomm.com> wrote:
+>>
+>> Since the max mixer width is not a strict hardware limit, use the actual
 > 
-> Separate commit for num_lm, please.
+> Is it? What is the actual max width that the mixer can support?
 
 Hi Dmitry,
 
-Ack.
+By hardware limit, I mean restrictions based on the size of buffers 
+within the hardware block itself.
 
-> 
->>
->> As noted in the patch, while DPU 8.x+ supports a max linewidth of 8960
->> for PINGPONG_0, there is some additional logic that needs to be added to
->> the resource manager to specifically try and reserve PINGPONG_0 for
->> modes that are greater than 5k.
->>
->> Since this is out of the scope of this series, add a helper that will
->> get the overall minimum PINGPONG max linewidth for a given chipset.
->>
->> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 46 +++++++++++++++++++++++++++-----
->>   1 file changed, 39 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index 0714936d8835..6131d071b051 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -723,6 +723,31 @@ void dpu_crtc_complete_commit(struct drm_crtc *crtc)
->>   	_dpu_crtc_complete_flip(crtc);
->>   }
->>   
->> +static int msm_display_get_max_pingpong_width(struct dpu_kms *dpu_kms)
->> +{
->> +	const struct dpu_pingpong_cfg *pingpong;
->> +	u32 max_pingpong_width = dpu_kms->catalog->pingpong[0].max_linewidth;
->> +
->> +	/*
->> +	 * Find the smallest overall PINGPONG max_linewidth in the catalog since
->> +	 * max_linewidth can differ between PINGPONGs even within the same
->> +	 * chipset.
->> +	 *
->> +	 * Note: While, for DPU 8.x+, PINGPONG_0 can technically support up to
->> +	 * 8k resolutions, this requires reworking the RM to try to reserve
->> +	 * PINGPONG_0 for modes greater than 5k.
->> +	 *
->> +	 * Once this additional logic is implemented, we can drop this helper
->> +	 * and use the reserved PINGPONG's max_linewidth
->> +	 */
->> +	for (int i = 1; i < dpu_kms->catalog->pingpong_count; i++) {
->> +		pingpong = &dpu_kms->catalog->pingpong[i];
->> +		max_pingpong_width = min(max_pingpong_width, pingpong->max_linewidth);
->> +	}
-> 
-> Since we are skipping PINGPONG_0, wouldn't it be enough to return
-> max_linewidth of PP_1 ?
+PINGPONG, DSC encoder, and WB blocks all have buffers, so they do have a 
+max supported width based on the size of their hardware buffers. On the 
+other hand, LM doesn't so it isn't necessarily restricted by a max width.
 
-I don't think we're skipping PINGPONG_0 here since `u32 
-max_pingpong_width = dpu_kms->catalog->pingpong[0].max_linewidth;` at 
-the top of the function.
-
-> 
-> I think, it would be easier to follow .max_dsc_encoder_width and store
-> .max_pingpong_linewidth in dpu_caps (and later add special
-> .max_pp0_linewidth).
-
-Ack. I think my only concern for this is that max_pp0_linewidth won't be 
-set for all chipsets. But if you're fine with that I'll go ahead and 
-make this change.
+I can clarify this in the commit message and cover letter.
 
 Thanks,
 
 Jessica Zhang
 
 > 
->> +
->> +	return max_pingpong_width;
->> +}
->> +
->>   static int _dpu_crtc_check_and_setup_lm_bounds(struct drm_crtc *crtc,
->>   		struct drm_crtc_state *state)
->>   {
-> 
+>> hardware limit (the writeback maxlinewidth) to filter modes.
+>>
+>> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 9 +--------
+>>   1 file changed, 1 insertion(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+>> index 8ff496082902..0a198896f656 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+>> @@ -14,14 +14,7 @@ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+>>          struct msm_drm_private *priv = dev->dev_private;
+>>          struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+>>
+>> -       /*
+>> -        * We should ideally be limiting the modes only to the maxlinewidth but
+>> -        * on some chipsets this will allow even 4k modes to be added which will
+>> -        * fail the per SSPP bandwidth checks. So, till we have dual-SSPP support
+>> -        * and source split support added lets limit the modes based on max_mixer_width
+>> -        * as 4K modes can then be supported.
+>> -        */
+>> -       return drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_mixer_width,
+>> +       return drm_add_modes_noedid(connector, dpu_kms->catalog->wb->maxlinewidth,
+>>                          dev->mode_config.max_height);
+>>   }
+>>
+>>
+>> --
+>> 2.49.0
+>>
 
