@@ -2,106 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762CFAB9A8D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8D0AB9A93
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D392F10EA4D;
-	Fri, 16 May 2025 10:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA9310EA6A;
+	Fri, 16 May 2025 10:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="V8cO4/4j";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="NYjJvXj7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QFxwAOXh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b8-smtp.messagingengine.com
- (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C11910EA4D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:52:43 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal
- [10.202.2.46])
- by mailfhigh.stl.internal (Postfix) with ESMTP id E0110254009B;
- Fri, 16 May 2025 06:52:41 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-06.internal (MEProxy); Fri, 16 May 2025 06:52:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm3; t=1747392761; x=
- 1747479161; bh=SPH/wuuGSMdDk2e/1NsetZyGIDEN5dTgWZ7weWTf6ag=; b=V
- 8cO4/4jd1Oo2Gyyy4YdH3j4kYVAXb5UvJKM6HcuI8GXNgiyTrUSn+c2xvvFHm4UE
- pEClPzdI8o9T6Bk46WMb3XljNsYRmEXRVJwX5nuTA3yfCKTLx1jAsMsOTOxPSxCD
- HLD7A028rx/q0p3yzQYGrOB6dZHhqErUbTZ95/cUyUMYh4gTKBRQNdyBtd7LMNG3
- cbUC9aoGW1D6NgBVGN9aui+EGUTu2Rfc2EzDIpmyEvC2PcB9fRcIw/vb1g2IDg2W
- 1imbUbyFmkLgMHDq2jH4fguTbM+COMuu06yHQdw0RWlhDXZEB5D9FHEkm4WDs1YC
- lysUraTdFALc1vMyVi1rQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1747392761; x=1747479161; bh=S
- PH/wuuGSMdDk2e/1NsetZyGIDEN5dTgWZ7weWTf6ag=; b=NYjJvXj7K1BE/DYBb
- u6BLWi/bE64JsV6kiHSMX56MACqtZG04d4YXfb3GCgsPngMBHoGoCyI+bsxNu5L3
- kARfCDrgq6/hcAZEGOpX20tPKcSVioQmcVFMuux2oagpE24WHJI0BeJpgUpOiDCk
- qG+tNz6i+fjc5sTXJizQheZlykBSH/Q1typXKzI6Z1vTBurm8zB7iw5SkMV7DWqw
- G49qWaHkiAKTLNgCsU6ZlypRlfDPqyALE9Qw2OhGxOBndAvCHCwPza6k5FFiZ+i/
- /5rX8A4IWnfgoXlFun8wm1vBGGl6LPBf7aXpAN9Jtyv5S2yvNuzVJp3IwQ4DUMeO
- wzG5Q==
-X-ME-Sender: <xms:-RgnaHz_HMZZYk6M6myIyrPfgni-vaSMk4R1ZjpXDkpWBI3IDf4Hyw>
- <xme:-RgnaPRLKL5qcgsM2RTrxp9F94ufCAgzLAr9fqB13Zmoo9MsIvNPsg7USx3vR_XkG
- RtE-qFR_GIzwpFl4A>
-X-ME-Received: <xmr:-RgnaBXntb_rnGp0IU4zTXor5pk9OU7AOGdS7ZvMrtWlCOX1RXLUBpeyef0kEU60NVsHq80rE6IaEONn7QW4S4UtYMACn2lIMoHjrGy78D9a>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvheehucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
- tdenucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrsh
- htrdgtohhmqeenucggtffrrghtthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieel
- keevueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpedunecurfgrrh
- grmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghr
- tghpthhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrh
- gusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhr
- tghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlh
- drtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghp
- thhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlh
- esfhhffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgr
- ihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprh
- gtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:-RgnaBiuT5D7c82SZbe9Hv1PVZ_ub9B3K4UbC2n5Ga-eIprm41RjVg>
- <xmx:-RgnaJB0upJvoVTtfHZFgU_muHgb8llwE8QvOGha_bYMnrKffH1rZA>
- <xmx:-RgnaKKdw9OzykW46A2UIAES9fUP1N69mafKzHAL8O7a2chNeASk2w>
- <xmx:-RgnaIA73yl5Ih0axGp3IsaV6tN1PEIttC_7le2z5rH0ChslkCmi5Q>
- <xmx:-RgnaGqs6-aWhtdXRoxRf59iPMtTSnJRKPIaX-Rkr8viAnS_2rVyDjd_>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 May 2025 06:52:35 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B1889CCE;
+ Fri, 16 May 2025 10:54:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 9ADC1629F7;
+ Fri, 16 May 2025 10:54:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D00BC4CEE4;
+ Fri, 16 May 2025 10:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747392849;
+ bh=ohc7DfDIiQvdNb0dPe1MlJPp2M1+sDApTZIAeaQEVZs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QFxwAOXhSLpKcmSjFxSe38/EmugB/y4Bof2khjyqSZjTgTgG3bJnpHuSnPP/TDfgj
+ kPvyQGxJSB7MabEM4bmwq/hh2Pf+g3lfH0zah2/RnbZYTXu1SfSDFxCK14iUVzh1zu
+ ItMge9aGk/Pvsgl0R83sOOQdzgjdUw2fLO2+IKOxod6OLRTIckCBFjHLRyn3UU3+bH
+ 4zfNRkJvMurCXhZuoXhMDziFQqslOwY0Op6eBGGY3NN83tBliHoNYNnLk5Z+pEaIuC
+ rWRjhY0kHGlVexot5A3c/WXIRXeE8xI//D4C9dVJMpFWp0qY2TtMILV3nV3Oo0Bic2
+ QUmPwcorDjuug==
+Date: Fri, 16 May 2025 12:54:00 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v11 8/8] drm: sun4i: de33: mixer: add mixer configuration for
- the H616
-Date: Fri, 16 May 2025 22:44:25 +1200
-Message-ID: <20250516105101.11650-9-ryan@testtoast.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250516105101.11650-1-ryan@testtoast.com>
-References: <20250516105101.11650-1-ryan@testtoast.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v2 2/6] drm/sched: Prevent teardown waitque from blocking
+ too long
+Message-ID: <aCcZSA79X9Nk2mzh@pollux>
+References: <20250424095535.26119-2-phasta@kernel.org>
+ <20250424095535.26119-4-phasta@kernel.org>
+ <1297389f-70f6-4813-8de8-1a0c4f92250a@igalia.com>
+ <aCcLMhS5kyD60PEX@pollux>
+ <e152d20b-c62e-47d9-a891-7910d1d24c6a@igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e152d20b-c62e-47d9-a891-7910d1d24c6a@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,61 +69,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Fri, May 16, 2025 at 11:19:50AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 16/05/2025 10:53, Danilo Krummrich wrote:
+> > On Fri, May 16, 2025 at 10:33:30AM +0100, Tvrtko Ursulin wrote:
+> > > On 24/04/2025 10:55, Philipp Stanner wrote:
+> > > > +	 * @kill_fence_context: kill the fence context belonging to this scheduler
+> > > 
+> > > Which fence context would that be? ;)
+> > 
+> > There's one one per ring and a scheduler instance represents a single ring. So,
+> > what should be specified here?
+> 
+> I was pointing out the fact not all drivers are 1:1 sched:entity.
 
-The H616 (and related SoC packages sharing the same die) carry the new
-DE33 display engine.
+I'm well aware, but how is that relevant? Entities don't have an associated
+fence context, but a GPU Ring (either hardware or software) has, which a
+scheduler instance represents.
 
-Add the mixer configuration and a compatible string for the H616 to the
-mixer.
+> Thought it would be obvious from the ";)".
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
+I should read from ";)" that you refer to a 1:N-sched:entity relationship (which
+doesn't seem to be related)?
 
---
-Changelog v7..v8:
-- Separate DE33 support and H616 enablement in the mixer.
+> > > Also, "fence context" would be a new terminology in gpu_scheduler.h API
+> > > level. You could call it ->sched_fini() or similar to signify at which point
+> > > in the API it gets called and then the fact it takes sched as parameter
+> > > would be natural.
+> > 
+> > The driver should tear down the fence context in this callback, not the while
+> > scheduler. ->sched_fini() would hence be misleading.
+> 
+> Not the while what? Not while drm_sched_fini()?
 
-Changelog v10..v11:
-- Convert de_type enum to uppercase
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+*whole
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 13e712382010..31a8409b98f4 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -799,6 +799,17 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.vi_num		= 1,
- };
- 
-+static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.de_type	= SUN8I_MIXER_DE33,
-+	.mod_rate	= 600000000,
-+	.scaler_mask	= 0xf,
-+	.scanline_yuv	= 4096,
-+	.ui_num		= 3,
-+	.vi_num		= 1,
-+	.map		= {0, 6, 7, 8},
-+};
-+
- static const struct of_device_id sun8i_mixer_of_table[] = {
- 	{
- 		.compatible = "allwinner,sun8i-a83t-de2-mixer-0",
-@@ -844,6 +855,10 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-mixer-0",
- 		.data = &sun50i_h6_mixer0_cfg,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-mixer-0",
-+		.data = &sun50i_h616_mixer0_cfg,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
--- 
-2.49.0
+> Could call it sched_kill()
+> or anything. My point is that we dont' have "fence context" in the API but
+> entities so adding a new term sounds sub-optimal.
 
+In the callback the driver should neither tear down an entity, nor the whole
+scheduler, hence we shouldn't call it like that. sched_kill() is therefore
+misleading as well.
+
+It should be named after what it actually does (or should do). Feel free to
+propose a different name that conforms with that.
+
+> > > We also probably want some commentary on the topic of indefinite (or very
+> > > long at least) blocking a thread exit / SIGINT/TERM/KILL time.
+> > 
+> > You mean in case the driver does implement the callback, but does *not* properly
+> > tear down the fence context? So, you ask for describing potential consequences
+> > of drivers having bugs in the implementation of the callback? Or something else?
+> 
+> I was proposing the kerneldoc for the vfunc should document the callback
+> must not block, or if blocking is unavoidable, either document a guideline
+> on how long is acceptable. Maybe even enforce a limit in the scheduler core
+> itself.
+
+Killing the fence context shouldn't block.
