@@ -2,172 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922E8AB97C8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 10:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183B9AB97EE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 10:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCA510E9F6;
-	Fri, 16 May 2025 08:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7A610E9F2;
+	Fri, 16 May 2025 08:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LNyG/mH6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="XxRRWVvL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C2810E9F9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 08:36:24 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2068.outbound.protection.outlook.com [40.107.96.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEFB10E9F2;
+ Fri, 16 May 2025 08:44:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kO88bcHneD/w28DOD/9jVoGRu8iIFwDzGlWj8lW6mY+EEz9I/8PMenDhs5rQpiHgaCGtyKZezg1msmU8xTe+TgELnwOXWzsEu7qXlPNTqeDptaL6DvN8vPsvJBs163ZZu2VyWorf8BMEspzpchYZVSPTOtVglSGayoUyLszMTKbXyqsEEObqwwTWpDJ2nnI8oj65tTPDIb5NnjIkNqJS0aN5zwomYlyTVafxmXnY1Bq/uCVnmtJADtOp15OYIIIyEyS5AvRot2k+/jjBJDhn4YNSFdYrZwI+4fQDjm4dzl1O3riCR5jNVef5xSBU1ve4DuNqlW3cV7c410RkAgLXKw==
+ b=dH9u2+EZMvucsH3ZbaKDRIucgKposq8gtFs0Wlj99asKexnyMhEAUP/1aidPNQFX9PCwstJFlTQOZkpiNYdiYx5s4KZix3wbawNk8mxYnFeQ0aPzK/y/SC0l8wyjwjllGvUEa1gfTg2UHd4uo2qDFzI+2+xU9aZD2D58BA7ZpCG2kej6aFyUhSsQcDgzB6Kcq2nz0J3QabrUa0PvcCIyQh2eS4pDHzS6VVbRMx6G0fWu4iU03gzxvsk0JNcVyoR5TecyODQ6BlReZxBG3g/rSRLkz+5UT+1mq4amMt7LxJJhcB1aXDHUo5b9djLh0+mk3n5jASZUsQUMgGzXH2d6bQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y/cRNckzpJFd40AMTLZEfNweRtQ1ySIqGKLG4b7Mr9k=;
- b=OkRff4pRYMRrDxOYHbiukQMihtsqHFNl4lmOR5LEiI15TFOF/2ZAPXww9C5/nTcLAOOT4hUSe7RWdvYLYnCp195PMKZWLJpEcO+sccnbpXpN9myYgul0MADO888pj3ZEqcmkYs5Q9tmCkTzi/ks2tdErgUY2tkYqGp6u7zU6fsYSS8YgyJxf0yNSHldAp0rhC3pWmQRAHxgGVJt2/IXM6taRkRNOINt001O4uL/TVPx6UgTw5TfCUPdELlcGr2Q5hSqfjwcPMpq36mbjaGDjUQHlhHDyXodhbHp9woeyV0R0hylM+NRhBjtoxlqJnqDihwyL7Mo22mqJ8mJFo7XY+g==
+ bh=KuJxrYO0o2oIfN/HxFGxvjxilNuqm5HCVblmGV9JltA=;
+ b=PM98d/1CIRriR8XWHPGVyMU6258iYuazaL90a9RgNldlcK66wG2Wq1OG3aSoTPZZ2WIRPTUfhlt+zOEza5CVq660vX6w745S6xi4YKvP7fqTArokX9FMkjcuByJNXQMB20D0U9+lXZhvbgF4hqktKlku6lHzLxIIr11dD2wzIyOzUXkX8EkaHk5Kxupg1fXz1jAGtDSGIT6SXfeWJSPJXC6ruJRxJslOOoxGnFsE0PGkLkBxGO4lmfqDfy/8KIZmbh2I7TMBDNV/8NxQ7Rz24cqX0Xtfbq7L773znRCW4YOKFrf8JHfJ2/dWKllJkonWic4occqfQv/pqxz2GUhzYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y/cRNckzpJFd40AMTLZEfNweRtQ1ySIqGKLG4b7Mr9k=;
- b=LNyG/mH6/1KsgYXl6uijfm/HKsfhe8st/kPJ489JS8gvQ/ty5JmDJbzv5DNvpbCmFjs9CkY33Gtsg7bG5wpA6vC/0XydVS1lUqtyAAE6vslhdgmIxiEWpIcqToOvQqAiKpou9t2nfMlAlVlWfjn9IAsHmZS6/ErFWIypXTEzwZQ=
+ bh=KuJxrYO0o2oIfN/HxFGxvjxilNuqm5HCVblmGV9JltA=;
+ b=XxRRWVvLBOwJNr38G67fcNbYODIx5TnfN00pi7M3g+SlvPbakyCkz7EFL8EBo6zxy3vPwqQmUqNZ+biQ1Dq0KGbFqx2ahURRJ+HSJqF41Ro7hDs+oPx3bDqChdDS2RQNvK2m4qkx58SlfYS9cXF+zXWU9UUKkplXYnsvmIHJ870=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB7596.namprd12.prod.outlook.com (2603:10b6:610:14b::5)
+ by MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Fri, 16 May
- 2025 08:36:17 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Fri, 16 May
+ 2025 08:44:13 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Fri, 16 May 2025
- 08:36:17 +0000
-Message-ID: <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
-Date: Fri, 16 May 2025 10:36:11 +0200
+ 08:44:12 +0000
+Message-ID: <0a890d19-27a1-4525-83e6-cfc082dfab37@amd.com>
+Date: Fri, 16 May 2025 10:44:07 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-To: wangtao <tao.wangtao@honor.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
- <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
- <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
- <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
- <2755aae2f1674b239569bf1acad765dc@honor.com>
- <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
- <a3f57102bc6e4588bc7659485feadbc1@honor.com>
+Subject: Re: Sharing dma-bufs using a driver-private interconnect
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ DMA BUFFER SHARING FRAMEWORK <linaro-mm-sig@lists.linaro.org>
+References: <703610a4db0324db05ece8e83fff864717c2e6c2.camel@linux.intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a3f57102bc6e4588bc7659485feadbc1@honor.com>
+In-Reply-To: <703610a4db0324db05ece8e83fff864717c2e6c2.camel@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0200.namprd13.prod.outlook.com
- (2603:10b6:208:2be::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR16CA0023.namprd16.prod.outlook.com
+ (2603:10b6:208:134::36) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7596:EE_
-X-MS-Office365-Filtering-Correlation-Id: f130d784-1e91-4827-5acf-08dd9454b9e4
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8048866c-b221-457c-87b3-08dd9455d4fa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SzR0UEpLZUNaWGgzRk12Z3JPcnhYRnNlTk5VelVGVmpFTDY1cytnOWxZTy9q?=
- =?utf-8?B?cW9DZ1FLSkJLRkdmcjJuL1JxWVluMmZiWmJ6dHYzSWJJaFZIUCs5UDhzZWYx?=
- =?utf-8?B?OGhFeEVwYUZXamdVVjFYS3ZNQ1BWcXNSYVJFbERnbGsyMFhTa29yMEgyMEc1?=
- =?utf-8?B?VGllQnpnSDhyUUZnTG9oU3BUZDBGL2hHc3VqU2Y5QXhyZTNrQnRPaHhYOVkx?=
- =?utf-8?B?aTdQR25jUWdkRmxwdE4rVDIzYWx2YWVYOUU3dnozRXNiRzc5NWJnaXI2MGhY?=
- =?utf-8?B?MHR3aHVBanhLUncrMmpleWVhY1RlNFRTUjRHZU4rT1FHZHlVTHA1YzJsTk44?=
- =?utf-8?B?YmZwV1I1b2pVa29maG1BN0lCSjhZV2RwbUJlMkJ1aFBWb3QvbkhxVnR4Sm5z?=
- =?utf-8?B?eWloMmc4Y0VXcFJHUll3c3V2YWJSWTVoYXNVWVFTV1VlTjRvL21uQ0g5bjJC?=
- =?utf-8?B?Q1JRanVxUlhpUXFsMHI1c0hlR29vcGc3bzY2djhNZVY3T3V5eFoydTlROGh2?=
- =?utf-8?B?QkdzQnpTamdpVU5OUEZ3MWw1YkwwTDNrMkVZL0hXU3V3cEN3YlRPMGRtZUs1?=
- =?utf-8?B?d0w3WjlMRndmMC95aytFc1NMc0R6NDZrRURpRDBiTHNUNDdjTGs2M0dkbmpU?=
- =?utf-8?B?NitHeUJLang2dmFLdThhMHl6MkQwTnVJRndNSzZJVW9DdjFYdTVsMG5NQ0Rs?=
- =?utf-8?B?V2ZaUml5QXEwUGsrVkpEaWsvYllrdEtMdTFLTWNZK1krQkJVb21xYU1mbUVX?=
- =?utf-8?B?Vld0bEhBdUpvR1QyMXFjYkVUTWFzYXNwK1BpcmF1ZXpiUTRXbjgvMVljK0Fu?=
- =?utf-8?B?NS9qN29qaENvRUFZQXdONjg1VlBETnFmbGt0MlJFZGVvdm82Rm5ESWEvd2hs?=
- =?utf-8?B?eGcwb29tNlJ6bmpKa2d2MWpTWkdWTm1KdXN2b2dTQzBXdEs0MEZjRHN0M1A4?=
- =?utf-8?B?Ymhlc1pxM2F2RnJTWFh1bkVLb00yekJ6UkpOTE1mT1cyUXVtZ2FqclUwUUw3?=
- =?utf-8?B?VFJQVkZLcUpOMm1rcytPVTV1MWZ4SU5ieDVEcmhsSlBJQlI2dUphY0VsZm9O?=
- =?utf-8?B?c056NjJIN3NhL1Y2Tkx2emFGU051QXYvTHhFRUNoNVR4Um8rRHliS1UxeXBa?=
- =?utf-8?B?a2lhMElZOXdQRXRYdVBkMXl2WE5OQWVXUEYxZ255elkvNGEvVTJGWDNma2lB?=
- =?utf-8?B?M2xpbXdaNDV4MFNSdEdFZGlEbmh0anNBK0I4TlZJU1ViZERGMERlK1V1VFVH?=
- =?utf-8?B?V1A4TEZCUnZLRjhwUW1JT0hLbEszTTJQYms4eHllU1ZvR0VyeHBDYVc2Tm96?=
- =?utf-8?B?Z1NiSlAwRURyVk5JTks0MmQyQ2U4ZVI5bTBPcjBwOE1QSlhvUDdDalR4RWRD?=
- =?utf-8?B?RHBWWGx1QUlhdjdrbmVtenNDc1Z0Y01ncUhJd0NHWUxVNmhqZXpDQkM2MDUy?=
- =?utf-8?B?cW5qN3JJVFl6QytSb3BSZ055UDVGaHdPR09MeTVKdzJyRkU1WnZDTHZQVlJy?=
- =?utf-8?B?MlhReGUvbTdrMGkreDI1TFhuQis3dFBWMVFuU3kxWW5kMkJhUmdzc1pNb2lL?=
- =?utf-8?B?SzZKb21xVWIwRUlPcGZIdGhUT1krdy9xNmEzTEUrT3R3V0ZOcTdYMkdVUzJX?=
- =?utf-8?B?RW1jSFFXMytsdkkvUzJ2ajlETzM4eGgzY2U0dXo4NjZPUlBWZTM5YWFabEgy?=
- =?utf-8?B?Sy9BMFpONktMSHdka1g5UzJYQnJ1cnQwTDFvVHAxcm5mYys5dHN0MFZ6S3Nm?=
- =?utf-8?B?bTZGY1hicXBCNzRhMmxKd0ZMNjBUVHZ3M0QzSnJ0V1FSWkpoenJIdzZ1dkZJ?=
- =?utf-8?B?M3NBUjFjS0xHYjAzaEVSUzI1L04vZ091eFh5UUtaTTBvNmFHcHN5cGF2cDdB?=
- =?utf-8?B?YkFRRkRHd3ZpakZSaUZLdFRVa2hGTmE2K01uSEZzWHV0K1hFTktKTXd6d2FW?=
- =?utf-8?Q?/+So//fcDyo=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dVRjS0I5M3FyYnFGclErOVVYM0w2RHZWbktDOTVFdVlsbTl4NW0rMERxT3hE?=
+ =?utf-8?B?eU5ibEMrN0pXQUpaRkV0aHlQckU3aTRLUURJL2hOR0pFb01JbHMrNStoRUVn?=
+ =?utf-8?B?WENjSzJIem9UanNLWThOMWR6Sm1uc3duOXBBWTZ2SGJhU3lXa1V4Y2RUVXFN?=
+ =?utf-8?B?dVROTlRobkJlVHk2WkhMWnllQTNPanNFL3RDckZqNDRqRVJocjA5cXpBS1ZK?=
+ =?utf-8?B?MGRHZ1JJSmFuaHhjQ3BoRnJTSzJmSjZwbVJGRG0wVzZJK2lhemlWamtoSE8x?=
+ =?utf-8?B?OEY0K2tlVm1FbE43MndtbVNhb0JKUHlyTnFmUHoyT1JjSlFub2h4bGxsUG1i?=
+ =?utf-8?B?MVRTbzlrUGVoa3NJTW54MlkyQUhaZlJwVCs3SDFhUXJrbGtMN0ZQejZBUjlC?=
+ =?utf-8?B?MldMdnVDY00veUdWMTRCMURFcVdmMHMvMEIzT2RKYmc5RlExSjk3QUxaNjEr?=
+ =?utf-8?B?TEpOZUd2QkZBb1RRcGRpNU5vSDBoVDF5QmNZbExwMHNiKzErWk81ejZDR25T?=
+ =?utf-8?B?MzJ4cy9xSmQvNVZZWEQ4SDk5dXpzMGpMY0N5c3A3TklkOVFxcFAzb3RsOUZC?=
+ =?utf-8?B?ODBJU0d1cWZWbzRQbmJiVE5WcVIyQ3R3a2FLQ1NsYUxnYXExakFsNHBKUFg3?=
+ =?utf-8?B?V1l0Zk9IUzY4UVdtREErWXVmRGMzcGgxWnllRVlIV3J2NFQ0eTZFZUtKMm5l?=
+ =?utf-8?B?clZmZldWSTJ0QWViMjhxcG5Ebmp5NHdDQnJlVmtWdnBmbXFQekdaMUtVck8y?=
+ =?utf-8?B?NEtwR0EyT1VsakhJeFJKZk14Rk9ZNWxzamo4SytsMDVsanJoMy9wWWpvbjhq?=
+ =?utf-8?B?aDlPZDVjVExpSjBqNFdVdGJLL0w3bksvNjVpclN4ZDVUeUNWYTkzK1Z0Nzlp?=
+ =?utf-8?B?ZW5RWmJqS0VVbXc0VDNPNmVrRTZkbWFqeDUrdXJYVm0yd21naWVrdVBhYTdh?=
+ =?utf-8?B?NmkyNktzS2ZLSTQ4NVJzd3dvaUJLMWJ1bUpoRXdsa2hBMUo3NGQxN1dWWjdh?=
+ =?utf-8?B?LzlDWncxbmJnTCtVTm5MQWswWXJ5MDlQNDZyMGgxTzB0cXp0MWxScm1CY2tT?=
+ =?utf-8?B?SnZLZmh2RkVhczNxWWFBK0dSaWd1V3RKQ1pEQi9uZk5QSzZWUUNSU0s5bWxn?=
+ =?utf-8?B?ZktoNUhLYWtKOEl2Z29tandJR1pWZ1VVbTZjSHFjS0NzaHJQRWNmM0U5TDdX?=
+ =?utf-8?B?U3o4VWF1eHZDZ1N3aSt5NUYxbGsvRzkwT3FCdEtlM0xIMmUrNzZrK3NqWFJj?=
+ =?utf-8?B?RVFuWDhWdWZsUnBuNm9pTFVQQXJUNUo3NzdJTUNLV3Y2cjU4T1orV1RYQTMw?=
+ =?utf-8?B?ajJVbmRwd2ppQXNBa0p4OVNqTjBheXpQL3B6S0JyR3ZaSkdjYzR3YkFxREFX?=
+ =?utf-8?B?eFcxZ3dNdjNCNDJBTXRoaFpyR1Brc0ZvUlR6NEZoK0hLVWtmZnNpRjVjVndV?=
+ =?utf-8?B?UWFCVytzbHZrQ2ErMHNtbFBSNUFDS1kxVVE1U1dEVFU0UW80bXNjSUhJTzhS?=
+ =?utf-8?B?YzdzeVkvN1MyOVpVK3dRdmlHeWpsTDVRNnU1cFZUdXV0Yzg4SCtRbksrY2Mw?=
+ =?utf-8?B?eUVMQ3hhbS9UY3g2M0JhVlVaSVViR3BMbVF1QTFmNFRuRElLR1ZUa3VpclpB?=
+ =?utf-8?B?bklkb1VqM3pxTUhSTDFCVDIxeDJMQkRVYjV1bVBRdEk2SklkV2RGeUE2MmVM?=
+ =?utf-8?B?TktlNXFHdGxTYWxTTWw3cVdreVdHbzVDaTN3ZUtRNWZvbnlvd3RCd3pYenh1?=
+ =?utf-8?B?NWRQWURzSnRIWmZsNy81dHk3VWE4UFBOVENtY1ppdVByNU1lMU9RQ0wxWUF1?=
+ =?utf-8?B?NU4rUUkrRjhMWUN0VlU3ZUcyMlJjek1SUjE4emVYRjB4bWU1UG1NOVpIUmY3?=
+ =?utf-8?B?UHdvZ09sakkxQWxOWFgyT1l2ZE5vTm9xVlRtWE1vdFVTZS9saTdnd295bmpF?=
+ =?utf-8?Q?NNFKzdlTeLc=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0dsd3ZHM0hhVlpDZXVObG15TjM4VU5lYnV4ZHBINjBmVzIwUWVyanp2NVBN?=
- =?utf-8?B?cTBpYVVWcFc0SU9Kd2RpMEt4YTZ6d1h6SkIydjZNZWdYeVhHeUtUU2wrYmdY?=
- =?utf-8?B?Sy9lNU40MEhFUmdvSUt4azJmTHdsMURRWmNNb1FLU1NVdUF3bmErRFlGVFhW?=
- =?utf-8?B?bTh3S0F4dGlwWDJHUWtTby92VnhPZS82YTBmSzVYWjluZzZoM2d5ZkVDNXdU?=
- =?utf-8?B?WGJvUllpVzdtYkdmdzVtbFU2eFVMMENpaFV0WkpOcUd0WWE2UXdkZzY1Ullr?=
- =?utf-8?B?b1FRa05RSlZialNTbzVNa1VTc012R1dkMjdiNk1FY04zZ1VVMDZwU1JYamtB?=
- =?utf-8?B?MWlLei9pRjNlSC9NSUdhU2V6eUh1MWhaRmdUbHExeVNlcHR0SDhHWitvQ3pv?=
- =?utf-8?B?U1QzVnpaczJFd20zWTlIWjRaa0JlN2VRSm9UY2NuL2NTSVZpZmkvNis0aldi?=
- =?utf-8?B?UkY4RUJjNVVLc01yYXZvZ1hKanFMV1V6OENGR21CUGQyclRDZ254TFYxcy80?=
- =?utf-8?B?eUdjakYyQUIrODlncEZsRlRNZ2crVkhNcGN0Z283MWRxcmd1RmJzNWl4V1Vm?=
- =?utf-8?B?MVFKNlZVbGNURS9nSERLaDMwMDBsQmFXNWhaMGJQUk5wZE40a0ZWQ0c3a0hI?=
- =?utf-8?B?djQ5RHVkK1ZUYzB2R3hwTjA0MkNuQkNXdkoxNlV0YmpZbFpScXlvSThVM1hr?=
- =?utf-8?B?Uy9xQzlld1hpUS9BcnVXSDQ4L3FoSFpIYVlIcElZem0vbU83Z28yamhBRGNI?=
- =?utf-8?B?M1NsT2w2aWd0THZnMWJBemEvTURVUXhJT3Q2L0J5TUZ0RXpTZnY1Q1IxaTZ5?=
- =?utf-8?B?ck1HRE1rUFBRWlp2ZGwvWHNncFdsNnNRcTNVOHJsTWNiWkQ5emNZN3d4VUJw?=
- =?utf-8?B?NS9PQnUwL3FPdzI5aXNkTjBIeTNITytlZS80WUc4Q2VQdm5uYUxjUjBJZ3hw?=
- =?utf-8?B?c3RqUkZNc2t4b0cvYmNBbTBiOEhlY3pid3cwRUJvc3AzRWxDcjM2RHRzVG9n?=
- =?utf-8?B?M0VKcTZsSkNycnNoM0w2Z2pkdnYwN0tzL1lUUk9FT0o1SWgwa2I4ZGMraUJS?=
- =?utf-8?B?S25hRkRUQUdvNlFpS3V3eS9Bc2dXZDJvMnZNUlpCNmkxZU1MNTIxQ0NRQ3R6?=
- =?utf-8?B?R2RrVkNvMXJCdmNuSWozWEtHREczbUNTZHk0c1hqRVhRaFpuS1VoSGpxdlp3?=
- =?utf-8?B?dzg0UEpFUTJUczYwMTg0VXZHV1pwcGl0UlU1N2Q5cG8wNFNZcWxSdjdvZThm?=
- =?utf-8?B?dGR1Y0ZjNGZMMU9HaGF3RUxqM0h1WGcycXhFTi9pKzUrV1hkczdHRjA0d2o0?=
- =?utf-8?B?UDhDeXVXSkp3TjczbStDU3JrUzNrOUxRR2wzMlRLckNjYTk5TzUzMmhXa1ZW?=
- =?utf-8?B?RVF3My90d3U2TUEweVpjTldBdFhXUXRreExJK3Z4RDJabVZxR25OcDZtNlBR?=
- =?utf-8?B?OXd0OEJyTSs3OTQrakJzTWI2T1UxbjRwNkNwLy9KRHA3MzFXTWhFanlDaUNx?=
- =?utf-8?B?ZVVYa3YvRFluWEdhTlNVMk54dDlLUm1LZG01S1lLVlJlMXdWL2pVbm1CNW52?=
- =?utf-8?B?Tis3ZXJLYjZ3RUNCY2JrbjIzT0FqZGt1UVB2c1dWZjlvRGV0bXdPL3R1TlVB?=
- =?utf-8?B?MVcrK1BxS3JLSmNLU0ZpbWdWWnIvQmhGOWlhc3MxeGVmY3A1SHRJMzFaQnR4?=
- =?utf-8?B?NTJ4aUN2SFY4TThwNDZLVU1sdDZ3dUhVSFNsMWRMcjZQNDZldGdncTZnYnFH?=
- =?utf-8?B?YXJUMjlXT1lHKzFob1BXZnVMbnJpa25OQ084L1hmWXhla2hHR0UyQXkvOHI5?=
- =?utf-8?B?V0w4bG9XMS9iSTJjV2RmN2xJNG9FdHFmRWVta2RDYXVaVHBQRHRTalBsSjlm?=
- =?utf-8?B?RDNDcHcrM0VjcWRwMy96NCs3K1N2QlkwTDU1VEMreDNKSXg5Rm9sMDlIdVgx?=
- =?utf-8?B?enk0VGpTZVhUUHZOdlh4clBWK1BkcTNpYmdhK3Z5dWFYZVlJL1pXL1QyZHZB?=
- =?utf-8?B?M1lFOTFvbElVWDhNUmhqU2VnSnh3ZGYvekExZG9DaytKZ09EOHZmTVA0Rldt?=
- =?utf-8?B?Rk0wbzVBK2hiTGhmdThNbmtDWUk2d1E2Z2JtbDdZcXloQVh0dUdzOW1hMVRL?=
- =?utf-8?Q?rooByNgDMOf8HTvCqkjBDAbBd?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnhmdVBtQThSVG1LWDA1aU1lSzUvUFQ3K0tST1hXbEFRSk1PK3k1S3ZlR3du?=
+ =?utf-8?B?VEpGY3hmOGx1TFFMc2pYZmZFQnRsa0Zjdm1CUXFKSi9acGREV0hqUTJmVW5i?=
+ =?utf-8?B?SXhiSEYyWGdYQkRUa0xNeXFVMmc3dGczWU85SXovY3VqeDBDUThYNjJWU3ps?=
+ =?utf-8?B?dXpPTWczWW5QT3BoeENya0dEN0pQOU12QktjbUczSzRVUjMvU25iK3BkUm11?=
+ =?utf-8?B?anZQcXFjQ3ZCMTZaYk9VeUhYNUdqR1hyUXE1T3ZrbXd4aFlhT0NuVHE4WlNE?=
+ =?utf-8?B?dWR0UWd0aWplWGpocThJdnZRQ0VRNjNQZkZLS2l4TVpHSDRNa1lUbkxPMVUr?=
+ =?utf-8?B?ZldVRkdFYzdqYzQ2ejFDZENZK0dSRzF1NGdmY29ORmR2SXNIemRWMldGVktW?=
+ =?utf-8?B?NjNSVXhnelhWbm4vTCtGS3pOSVZNS3RVMm1GSHRoYTNYZDR2c0EyTnFFRnAr?=
+ =?utf-8?B?Q3hPQW1sUUtTSlRSUWdaTjlYTTJEdDU5UmRHQlFFS2tRcVJnZTRsMTdtWDVV?=
+ =?utf-8?B?U3ZueW1ZNmJka2lkc2pxejNTaThkbnhJTUdyMmtOWFBYOVJFOWhianBpUkR5?=
+ =?utf-8?B?WW8yNTlBY3BONFgwVUd3cVZMeDg5TFVGcW1TM0x6Si9zcm1WSGh4S2xrVHYy?=
+ =?utf-8?B?V2xnWHh1T0lOMkRSVUhkY3pGUXhPUHFJV29QY09jYW4zckt3aUFCR3lsNVBi?=
+ =?utf-8?B?RDlrbmxUVWZLSUh2dlVDb3g0cHF3bU12WXFOZkY2N1BqVXlNZ3crcWxaeFBO?=
+ =?utf-8?B?YTNHL1NYUVFDSWtIajRaQTEwc282SDlvdUtPRkdvZnlOeDQrNDBsaDFLSjkv?=
+ =?utf-8?B?dUYyYWZsMXBVMEg0dU93di9kaFZaV3NHeXk1YzhYaDNYTC9VckZvbGtvTytX?=
+ =?utf-8?B?SVZ5RnFLVW94UTQ1dXlrM1hvRHQxVDc0YjNpRlEwTmJWZDRzR25kM01mM0p4?=
+ =?utf-8?B?YUFhaUFMQWUzNDZwTDQ1V0NRUTJDUW1WcmtmbGQ5OHRGREkvOWdzTnpFVXpa?=
+ =?utf-8?B?dERKTGRLZlhmUk1kbXhlNjhCR3BMS1B2endrMVJmQ3JpRm5SV2N4TTBVMVRW?=
+ =?utf-8?B?amVBY2J0NWJDdE1Wa2ExVkg2NlZKcGFBR2VpTVJ4Tzh2SmRzdHVqN0hhWDJO?=
+ =?utf-8?B?V1dVYjlxeGZVamQ1M042N3Bndm50VWR6RHV0eE85eEE1SHk3QXUyQmpzcEUx?=
+ =?utf-8?B?dWFyaUtzS3NoVlV4V1lqMFUwMXZZdUJnRUpjbmdZa1ZiVCs5MFJrVy9mSU1M?=
+ =?utf-8?B?djJjdXJ2Z2h2MDhNZ2ZzdDNxZDdmQ0o4Y0pYM0ZyWHpZMnB2K09XeTFIZjg2?=
+ =?utf-8?B?UDV1QytEbkgzQ1VYNStsVGRxekkxeTVMdzNDbExJUzlGVjhQN3dORXRiNjFj?=
+ =?utf-8?B?c0VSOGhRNU8yclFmRjV3RHBEemNVaTlhMkhRbE0vUk4vY1JQcEIydkJwbHFs?=
+ =?utf-8?B?aE1ZVGgyZVlVVDBNdE8xZmt5N3NZdTc2MlBZOThDZWR3cTlkL2hnb3g3TElJ?=
+ =?utf-8?B?RTZQR1p1MlE2M05OV2dNV0JzZmRjeUlOMG9NQ0R4KzBSMkQyWWpmN1c5dDM0?=
+ =?utf-8?B?c09nZkxlUWlCV3JpQmFpY1ZHVER6bUxjQ3FpbnpMOTh4TEpVUFg4T3pYVDZw?=
+ =?utf-8?B?V0NZZjloWHhmMDRzZk5vSFpCNGcrdGhFM05GbnRmT05ROHFRWmpGTHVqWTEw?=
+ =?utf-8?B?YUlRMXhpaVZwdnpsNm1sZG1MSDRoUUtTTUVsUHg3TGpTOHoxaS9rbzNVTEVp?=
+ =?utf-8?B?VDBXbUVMWkFIbWxtMVhBSm9OYzFNWE9NajQrdHlKL1cwOGZ0MWtwa2V3RVFX?=
+ =?utf-8?B?dWRBU2hheHhjUHlCNi9OUUIzbUc5am5iejdQVFNHYVgveFpQVWxsb1c5QWlI?=
+ =?utf-8?B?ZVgvMTBSUVB6Q0NKNEpzYmpSb3BaaklWTExPOC9pMEZTTzd5WjBtczVMbjJ4?=
+ =?utf-8?B?QklaV3ozcmhESkE1UGJxTENVaSt3ZFAxUW1XZHhYakZGQk1ldWpsYVBXSmRX?=
+ =?utf-8?B?bE1lQ2xLdWZpRGRDK2J6TUpGeGY4RUNQTE96RnhSWFN0azdxekVianRSazFZ?=
+ =?utf-8?B?aDVLQTZZYlFjYkxTOHE5bUxrei9TR2orU3VDRVY0bW9vd01SYTI3b1M3eU5t?=
+ =?utf-8?Q?ppS+1qs7ZNQFgexL+xHKZuT1e?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f130d784-1e91-4827-5acf-08dd9454b9e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8048866c-b221-457c-87b3-08dd9455d4fa
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 08:36:17.5463 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 08:44:12.4872 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rbVl6POnh5jYjT/7jYo4vPpWbG3fIT9GeOEjzHbB7U63sfANNtjNHWPp2oEgu8Ev
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7596
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZaRUho641igiUwKIAW2wuSQn5CeNDmtjI7aDBFpE1LCzMpXt3/rVsLoFhENgBKfL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,88 +163,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/16/25 09:40, wangtao wrote:
-> 
-> 
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Thursday, May 15, 2025 10:26 PM
->> To: wangtao <tao.wangtao@honor.com>; sumit.semwal@linaro.org;
->> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
->> jstultz@google.com; tjmercier@google.com
->> Cc: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-
->> mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org;
->> wangbintian(BintianWang) <bintian.wang@honor.com>; yipengxiang
->> <yipengxiang@honor.com>; liulu 00013167 <liulu.liu@honor.com>; hanfeng
->> 00012985 <feng.han@honor.com>
->> Subject: Re: [PATCH 2/2] dmabuf/heaps: implement
->> DMA_BUF_IOCTL_RW_FILE for system_heap
->>
->> On 5/15/25 16:03, wangtao wrote:
->>> [wangtao] My Test Configuration (CPU 1GHz, 5-test average):
->>> Allocation: 32x32MB buffer creation
->>> - dmabuf 53ms vs. udmabuf 694ms (10X slower)
->>> - Note: shmem shows excessive allocation time
->>
->> Yeah, that is something already noted by others as well. But that is
->> orthogonal.
->>
->>>
->>> Read 1024MB File:
->>> - dmabuf direct 326ms vs. udmabuf direct 461ms (40% slower)
->>> - Note: pin_user_pages_fast consumes majority CPU cycles
->>>
->>> Key function call timing: See details below.
->>
->> Those aren't valid, you are comparing different functionalities here.
->>
->> Please try using udmabuf with sendfile() as confirmed to be working by T.J.
-> [wangtao] Using buffer IO with dmabuf file read/write requires one memory copy.
-> Direct IO removes this copy to enable zero-copy. The sendfile system call
-> reduces memory copies from two (read/write) to one. However, with udmabuf,
-> sendfile still keeps at least one copy, failing zero-copy.
+Hi Thomas,
 
+On 5/16/25 10:33, Thomas Hellström wrote:
+> Hi!
+> 
+> I previously discussed this with Simona on IRC but would like to get
+> some feedback also from a wider audience:
+> 
+> We're planning to share dma-bufs using a fast interconnect in a way
+> similar to pcie-p2p:
+> 
+> The rough plan is to identify dma-bufs capable of sharing this way by
+> looking at the address of either the dma-buf ops and / or the
+> importer_ops to conclude it's a device using the same driver (or
+> possibly child driver) and then take special action when the dma-
+> addresses are obtained. Nothing visible outside of the xe driver or its
+> child driver.
 
-Then please work on fixing this.
+As far as I can see that should work and we have recommended doing exactly that to multiple people in the past.
+ 
+> Are there any absolute "DON'T"s or recommendations to keep in mind WRT
+> to this approach?
+
+My only requirement is that you write up some documentation (preferable either in drivers/dma-buf/dma-buf.c or Documentation/driver-api/dma-buf.rst) how drivers should do this, what the implications with the rest of the DMA-buf interface is etc... etc...
+
+The goal is to nail down how to do driver private interfaces without breaking interoperability with drivers who don't participate in that.
 
 Regards,
 Christian.
 
-
 > 
-> If udmabuf sendfile uses buffer IO (file page cache), read latency matches
-> dmabuf buffer read, but allocation time is much longer.
-> With Direct IO, the default 16-page pipe size makes it slower than buffer IO.
+> Thanks,
+> Thomas
 > 
-> Test data shows:
-> udmabuf direct read is much faster than udmabuf sendfile.
-> dmabuf direct read outperforms udmabuf direct read by a large margin.
-> 
-> Issue: After udmabuf is mapped via map_dma_buf, apps using memfd or
-> udmabuf for Direct IO might cause errors, but there are no safeguards to
-> prevent this.
-> 
-> Allocate 32x32MB buffer and read 1024 MB file Test:
-> Metric                 | alloc (ms) | read (ms) | total (ms)
-> -----------------------|------------|-----------|-----------
-> udmabuf buffer read    | 539        | 2017      | 2555
-> udmabuf direct read    | 522        | 658       | 1179
-> udmabuf buffer sendfile| 505        | 1040      | 1546
-> udmabuf direct sendfile| 510        | 2269      | 2780
-> dmabuf buffer read     | 51         | 1068      | 1118
-> dmabuf direct read     | 52         | 297       | 349
-> 
-> udmabuf sendfile test steps:
-> 1. Open data file(1024MB), get back_fd
-> 2. Create memfd(32MB) # Loop steps 2-6
-> 3. Allocate udmabuf with memfd
-> 4. Call sendfile(memfd, back_fd)
-> 5. Close memfd after sendfile
-> 6. Close udmabuf
-> 7. Close back_fd
-> 
->>
->> Regards,
->> Christian.
-> 
-
+)
