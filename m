@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ED0AB9703
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 09:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F28DAB9785
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 10:27:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 216D710E9C9;
-	Fri, 16 May 2025 07:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFB510E9E5;
+	Fri, 16 May 2025 08:26:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U3xEd25L";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="KKMfGHsI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49E710E9D6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:59:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E9BFF43AB1;
- Fri, 16 May 2025 07:59:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50609C4CEE4;
- Fri, 16 May 2025 07:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747382374;
- bh=51UiwAtTBw1xtOTx6e1Pp64GJoZ4L5WSxUxJDmEN9Kg=;
- h=Date:Cc:From:To:Subject:References:In-Reply-To:From;
- b=U3xEd25LCeI5ukSRK+khUpX/7FrIdv7pmsPIoVDcXd977W94/6EfEvi7labDdNvg7
- 89SxW/GpepKxBL5ot2BIQ51iRgEMwULni7ZiUz3AFh3MVjC7zEUbWXuJzzjUVvxoIK
- CfsX2IzFCTgcmg74kg8SnZ64ckcp9pFGw6cKBf4SczEUSqn/Y1khXtZ2mOe1LDiXhE
- blgmYVgSOJehRAknA1OoYmdfQGvU4whBtwlBWF3TsUN8wumFBZkCt7f6AsDwatq/CY
- Fde1crnHIujZ1oW/M9gwSEx3LwfmIiqHQwp1XNkS5zgLUM//OSXAghtYvJbbeopjRV
- cniiO3aZVFuLg==
-Content-Type: multipart/signed;
- boundary=d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 16 May 2025 09:59:30 +0200
-Message-Id: <D9XFCQYPTRMX.3AKZYI2Z5SV2Y@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>, "Maxime Ripard" <mripard@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Nishanth Menon" <nm@ti.com>, "Vignesh Raghavendra" <vigneshr@ti.com>,
- "Devarsh Thakkar" <devarsht@ti.com>, "Praneeth Bajjuri" <praneeth@ti.com>,
- "Udit Kumar" <u-kumar1@ti.com>, "Jayesh Choudhary" <j-choudhary@ti.com>,
- "Francesco Dolcini" <francesco@dolcini.it>, "Alexander Sverdlin"
- <alexander.sverdlin@siemens.com>, "DRI Development List"
- <dri-devel@lists.freedesktop.org>, "Devicetree List"
- <devicetree@vger.kernel.org>, "Linux Kernel List"
- <linux-kernel@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Aradhya Bhatia" <aradhya.bhatia@linux.dev>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Jyri Sarha" <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v7 4/4] drm/tidss: Add OLDI bridge support
-X-Mailer: aerc 0.16.0
-References: <20250329133943.110698-1-aradhya.bhatia@linux.dev>
- <20250329133943.110698-5-aradhya.bhatia@linux.dev>
-In-Reply-To: <20250329133943.110698-5-aradhya.bhatia@linux.dev>
+X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
+ Fri, 16 May 2025 08:26:55 UTC
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.79.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2AB10E2E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 08:26:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1747384009;
+ bh=S0PrBBNUmPF0/VUKoPDwa6DRC4/MgFY2Rud98UsTCS0=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version;
+ b=KKMfGHsIsgk/rjb95n9WguV6GVpSXKXtNeWPNrg0ofUdIFTkw4rpd8atmFfx9d+PY
+ OR2ePRIS2pXcsfTzOnGAbAMoRMtYIVr2iHOlOljqzWINyVP22IKiQcNpY1vacisSDX
+ 4PBHcCut3HibsdWO37z3qcZUwJVJ8SHwOWQOIEGM=
+X-QQ-mid: zesmtpip2t1747383497tebe5a470
+X-QQ-Originating-IP: oVR+fB3ysdBKMb25LfrLr81tepBsowisO14Xq4W9Tmw=
+Received: from localhost.localdomain ( [localhost])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 16 May 2025 16:18:15 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17368668951825700443
+EX-QQ-RecipientCnt: 7
+From: hongao <hongao@uniontech.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	hongao <hongao@uniontech.com>
+Subject: [PATCH] drm: sysfs: Replace magic number with DRM_FORCE_UNSPECIFIED
+ macro
+Date: Fri, 16 May 2025 16:18:13 +0800
+Message-Id: <20250516081813.3241129-1-hongao@uniontech.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: N7zE+17nr98TTN1EwvBSNgVkC6RU6vQSvd2XZkYMii8N3/zCjK200udh
+ 64OEifZmnKFOhZ811J3Jeoj3iH4z4ZeM0LWe8SqGlyl8Z/EOhcvrZujNQnrNHmV4odrZyQ0
+ E1igbPARQPiZZXOCoyYekh6bbifc/OpCX0ecy6lD3vsdCvb8g3u2M8ntOco3CQboq/b+MYq
+ Yd+xnQSDi0si6s0ya1OlMR4nx7SlSK2PHEQpc4E8HYnieYdJQPNKVyglcuH3CMhTs1Ajr9i
+ tH6MhJG1ZNWuM0HpR2i4JP3YTnDDk35OkGEOCdNa6iT/2jzEy0G6Gkftdk6xOOHMCIMxZAr
+ eO6rTpQq6KvPFjuciiTeHYFV2RKMe63Gpuwr0sSkqn0t6uJSv2Pkf8/y3xlShewahjgJLOs
+ 44ev7+NF+Qfk0kD+vqtTWSohtBvaDaw4mzjnlyWCI4lsoUSaAwrYRAYLJLxfTJl1V1xp4sl
+ 9KoiIObOzEKsfTpRgyoeS/ZNZRZK/Z49pIVu1/Kgof9+D1TDkh4M4AnrxcMWHr0cf4/t0dC
+ pXWnnpNGs+SnZjpqGI+PjF7859oL2Sgq6FL9eMvT6XL/nmBJTKL8RG04S+5uctosMIAEhe+
+ cjiL1XkT7C+7GrsIyjFt8eOB1/xy1Aem79pVkbFMlpwaHcLmx3X/47EZplir0CAIibGbtOy
+ BFdR4hbVmKqdgQ70PA/sI4KVh9/86wtP60TYdJcOMYAsnvnKpkAxE/c8Fk6w0RSbTyjyi7l
+ EUWKz1SQGSTqjX6cx1hcMl2ZSqRiyUossB34fdMBeLXLiiEG3dh8GNeTRJt9wUY16+gwCOv
+ +DRpPVCCeOwWaUW/6ZMkDkNE2U9dRD9HuiG/ABNQEqS/9j/mLGs8+thpb4J+LLBUFszWiVP
+ uLjj5PuqjSOqI8DtVa/rAK3GXC4S9wOCg4YVfAGKWpAeBHQhryxj3IzxQ83WHqNaEU/ugvR
+ 3Gm84/c3po8wJv6WS1H8p1Aui/2xHjOWnvkAST2Md3VpjL91k9gkm6P0UZeVgtjnbWZK9wF
+ T7IotuQpE5dVJZhjzo
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +80,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Replace the direct use of magic number '0' with the DRM_FORCE_UNSPECIFIED
+macro to improve code readability.
 
-On Sat Mar 29, 2025 at 2:39 PM CET, Aradhya Bhatia wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
->
-> The AM62x and AM62Px SoCs feature 2 OLDI TXes each, which makes it
-> possible to connect them in dual-link or cloned single-link OLDI display
-> modes. The current OLDI support in tidss_dispc.c can only support for
-> a single OLDI TX, connected to a VP and doesn't really support
-> configuration of OLDIs in the other modes. The current OLDI support in
-> tidss_dispc.c also works on the principle that the OLDI output can only
-> be served by one, and only one, DSS video-port. This isn't the case in
-> the AM62Px SoC, where there are 2 DSS controllers present that share the
-> OLDI TXes.
->
-> Having their own devicetree and their own bridge entity will help
-> support the various display modes and sharing possiblilities of the OLDI
-> hardware.
->
-> For all these reasons, add support for the OLDI TXes as DRM bridges.
->
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Tested-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Signed-off-by: hongao <hongao@uniontech.com>
 
-Tested-by: Michael Walle <mwalle@kernel.org> # on a j722s/am67a
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index 60c1f26edb6f..e9e67ef0904d 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -198,7 +198,7 @@ static ssize_t status_store(struct device *device,
+ 	old_force = connector->force;
+ 
+ 	if (sysfs_streq(buf, "detect"))
+-		connector->force = 0;
++		connector->force = DRM_FORCE_UNSPECIFIED;
+ 	else if (sysfs_streq(buf, "on"))
+ 		connector->force = DRM_FORCE_ON;
+ 	else if (sysfs_streq(buf, "on-digital"))
+-- 
+2.33.1
 
-FWIW, I have a few downstream patches to get the DSS on j722s
-running.
-
--michael
-
---d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaCbwYhIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/hj6gF/Wusj103bkQJ0s/qoyxRDcMUItzGDi4DS
-o3U2g+BCnLNbwlPXUphnJlSKimOAS8ynAX9WTLPfNmCmAVDU8f08fakCPkJUot0x
-tdNCXLNt5WYI5Hj5jUV6ysIYmadhcu0rjv8=
-=GNXG
------END PGP SIGNATURE-----
-
---d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902--
