@@ -2,30 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFE0AB98E5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EF8AB98DB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACEA10EA11;
-	Fri, 16 May 2025 09:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2293810EA0E;
+	Fri, 16 May 2025 09:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A0F10EA11
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:32:24 +0000 (UTC)
-Received: from mta20.hihonor.com (unknown [172.31.8.5])
- by mta22.hihonor.com (SkyGuard) with ESMTPS id 4ZzMHy4StZzYl5yN
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 17:30:22 +0800 (CST)
-Received: from w002.hihonor.com (unknown [10.68.28.120])
- by mta20.hihonor.com (SkyGuard) with ESMTPS id 4ZzMGh2Tt6zYlfv7;
- Fri, 16 May 2025 17:29:16 +0800 (CST)
-Received: from a010.hihonor.com (10.68.16.52) by w002.hihonor.com
- (10.68.28.120) with Microsoft SMTP Server (version=TLS1_2,
+Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78FCC10EA0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:31:53 +0000 (UTC)
+Received: from w001.hihonor.com (unknown [10.68.25.235])
+ by mta22.hihonor.com (SkyGuard) with ESMTPS id 4ZzMH21lMmzYl1GJ;
+ Fri, 16 May 2025 17:29:34 +0800 (CST)
+Received: from a010.hihonor.com (10.68.16.52) by w001.hihonor.com
+ (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 16 May
- 2025 17:31:21 +0800
+ 2025 17:31:23 +0800
 Received: from localhost.localdomain (10.144.18.117) by a010.hihonor.com
  (10.68.16.52) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 16 May
- 2025 17:31:20 +0800
+ 2025 17:31:23 +0800
 From: wangtao <tao.wangtao@honor.com>
 To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
  <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
@@ -34,9 +31,10 @@ CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
  <bintian.wang@honor.com>, <yipengxiang@honor.com>, <liulu.liu@honor.com>,
  <feng.han@honor.com>, wangtao <tao.wangtao@honor.com>
-Subject: [PATCH v2 1/2] dmabuf: add DMA_BUF_IOCTL_RW_FILE
-Date: Fri, 16 May 2025 17:21:47 +0800
-Message-ID: <20250516092148.12778-2-tao.wangtao@honor.com>
+Subject: [PATCH v2 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+Date: Fri, 16 May 2025 17:21:48 +0800
+Message-ID: <20250516092148.12778-3-tao.wangtao@honor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20250516092148.12778-1-tao.wangtao@honor.com>
 References: <20250516092148.12778-1-tao.wangtao@honor.com>
@@ -60,123 +58,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DMA_BUF_IOCTL_RW_FILE to save/restore data to/from a dma-buf.
+Support direct file I/O operations for system_heap dma-buf objects.
+Implementation includes:
+- Check no other drivers use the dmabuf
+- Construct bio_vec
+- Set IOCB_DIRECT when O_DIRECT is supported
+- Invoke vfs_iocb_iter_read()/vfs_iocb_iter_write() for actual I/O
 
-For large dmabuf operations (model loading, real-time data capture,
-task snapshots), Direct I/O with zero-copy boosts performance
-by avoiding file cache/memory copies, cuts CPU/power use. On UFS 4.0
-(@4GB/s): dmabuf Direct I/O hits 3776MB/s read speed.
+Performance metrics (UFS 4.0 device @4GB/s, Arm64 CPU @1GHz):
+
+| Metric             |    1MB |    8MB |    64MB |   1024MB |   3072MB |
+|--------------------|--------|--------|---------|----------|----------|
+| Buffer Read (us)   |   1658 |   9028 |   69295 |  1019783 |  2978179 |
+| Direct Read (us)   |    707 |   2647 |   18689 |   299627 |   937758 |
+| Buffer Rate (MB/s) |    603 |    886 |     924 |     1004 |     1032 |
+| Direct Rate (MB/s) |   1414 |   3022 |    3425 |     3418 |     3276 |
 
 Signed-off-by: wangtao <tao.wangtao@honor.com>
 ---
- drivers/dma-buf/dma-buf.c    |  8 ++++++++
- include/linux/dma-buf.h      | 15 +++++++++++++++
- include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ drivers/dma-buf/heaps/system_heap.c | 121 ++++++++++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 5baa83b85515..95d8b0158ffd 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -460,6 +460,7 @@ static long dma_buf_ioctl(struct file *file,
- 	struct dma_buf *dmabuf;
- 	struct dma_buf_sync sync;
- 	enum dma_data_direction direction;
-+	struct dma_buf_rw_file kfile;
- 	int ret;
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 26d5dc89ea16..5ae219ad0d72 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -20,6 +20,8 @@
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
++#include <linux/bvec.h>
++#include <linux/uio.h>
  
- 	dmabuf = file->private_data;
-@@ -504,6 +505,13 @@ static long dma_buf_ioctl(struct file *file,
- 		return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
- #endif
+ static struct dma_heap *sys_heap;
  
-+	case DMA_BUF_IOCTL_RW_FILE:
-+		if (copy_from_user(&kfile, (void __user *) arg, sizeof(kfile)))
-+			return -EFAULT;
-+		if (!dmabuf->ops->rw_file)
+@@ -281,6 +283,124 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	iosys_map_clear(map);
+ }
+ 
++static struct bio_vec *system_heap_init_bvec(struct system_heap_buffer *buffer,
++			size_t offset, size_t len, int *nr_segs)
++{
++	struct sg_table *sgt = &buffer->sg_table;
++	struct scatterlist *sg;
++	size_t length = 0;
++	unsigned int i, k = 0;
++	struct bio_vec *bvec;
++	size_t sg_left;
++	size_t sg_offset;
++	size_t sg_len;
++
++	bvec = kvcalloc(sgt->nents, sizeof(*bvec), GFP_KERNEL);
++	if (!bvec)
++		return NULL;
++
++	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
++		length += sg->length;
++		if (length <= offset)
++			continue;
++
++		sg_left = length - offset;
++		sg_offset = sg->offset + sg->length - sg_left;
++		sg_len = min(sg_left, len);
++
++		bvec[k].bv_page = sg_page(sg);
++		bvec[k].bv_len = sg_len;
++		bvec[k].bv_offset = sg_offset;
++		k++;
++
++		offset += sg_len;
++		len -= sg_len;
++		if (len <= 0)
++			break;
++	}
++
++	*nr_segs = k;
++	return bvec;
++}
++
++static int system_heap_rw_file(struct system_heap_buffer *buffer, bool is_read,
++		bool direct_io, struct file *filp, loff_t file_offset,
++		size_t buf_offset, size_t len)
++{
++	struct bio_vec *bvec;
++	int nr_segs = 0;
++	struct iov_iter iter;
++	struct kiocb kiocb;
++	ssize_t ret = 0;
++
++	if (!list_empty(&buffer->attachments) || buffer->vmap_cnt)
++		return -EBUSY;
++
++	if (direct_io) {
++		if (!(filp->f_mode & FMODE_CAN_ODIRECT))
 +			return -EINVAL;
-+		return dmabuf->ops->rw_file(dmabuf, &kfile);
++	}
 +
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 36216d28d8bd..6d2e6eae0611 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -22,6 +22,7 @@
- #include <linux/fs.h>
- #include <linux/dma-fence.h>
- #include <linux/wait.h>
-+#include <uapi/linux/dma-buf.h>
- 
- struct device;
- struct dma_buf;
-@@ -285,6 +286,20 @@ struct dma_buf_ops {
- 
- 	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
- 	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
++	bvec = system_heap_init_bvec(buffer, buf_offset, len, &nr_segs);
++	if (!bvec)
++		return -ENOMEM;
 +
-+	/**
-+	 * @rw_file:
-+	 *
-+	 * If an Exporter needs to support Direct I/O file operations, it can
-+	 * implement this optional callback. The exporter must verify that no
-+	 * other objects hold the sg_table, ensure exclusive access to the
-+	 * dmabuf's sg_table, and only then proceed with the I/O operation.
-+	 *
-+	 * Returns:
-+	 *
-+	 * 0 on success or a negative error code on failure.
-+	 */
-+	int (*rw_file)(struct dma_buf *dmabuf, struct dma_buf_rw_file *file);
++	iov_iter_bvec(&iter, is_read ? ITER_DEST : ITER_SOURCE, bvec, nr_segs, len);
++	init_sync_kiocb(&kiocb, filp);
++	kiocb.ki_pos = file_offset;
++	if (direct_io)
++		kiocb.ki_flags |= IOCB_DIRECT;
++
++	while (kiocb.ki_pos < file_offset + len) {
++		if (is_read)
++			ret = vfs_iocb_iter_read(filp, &kiocb, &iter);
++		else
++			ret = vfs_iocb_iter_write(filp, &kiocb, &iter);
++		if (ret <= 0)
++			break;
++	}
++
++	kvfree(bvec);
++	return ret < 0 ? ret : 0;
++}
++
++static int system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
++			struct dma_buf_rw_file *back)
++{
++	struct system_heap_buffer *buffer = dmabuf->priv;
++	int ret = 0;
++	__u32 op = back->flags & DMA_BUF_RW_FLAGS_OP_MASK;
++	bool direct_io = back->flags & DMA_BUF_RW_FLAGS_DIRECT;
++	struct file *filp;
++
++	if (op != DMA_BUF_RW_FLAGS_READ && op != DMA_BUF_RW_FLAGS_WRITE)
++		return -EINVAL;
++	if (direct_io) {
++		if (!PAGE_ALIGNED(back->file_offset) ||
++		    !PAGE_ALIGNED(back->buf_offset) ||
++		    !PAGE_ALIGNED(back->buf_len))
++			return -EINVAL;
++	}
++	if (!back->buf_len || back->buf_len > dmabuf->size ||
++		back->buf_offset >= dmabuf->size ||
++		back->buf_offset + back->buf_len > dmabuf->size)
++		return -EINVAL;
++	if (back->file_offset + back->buf_len < back->file_offset)
++		return -EINVAL;
++
++	filp = fget(back->fd);
++	if (!filp)
++		return -EBADF;
++
++	mutex_lock(&buffer->lock);
++	ret = system_heap_rw_file(buffer, op == DMA_BUF_RW_FLAGS_READ, direct_io,
++			filp, back->file_offset, back->buf_offset, back->buf_len);
++	mutex_unlock(&buffer->lock);
++
++	fput(filp);
++	return ret;
++}
++
+ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+ {
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+@@ -308,6 +428,7 @@ static const struct dma_buf_ops system_heap_buf_ops = {
+ 	.mmap = system_heap_mmap,
+ 	.vmap = system_heap_vmap,
+ 	.vunmap = system_heap_vunmap,
++	.rw_file = system_heap_dma_buf_rw_file,
+ 	.release = system_heap_dma_buf_release,
  };
  
- /**
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index 5a6fda66d9ad..9b33279fef00 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -167,6 +167,28 @@ struct dma_buf_import_sync_file {
- 	__s32 fd;
- };
- 
-+/**
-+ * struct dma_buf_rw_file - read/write file associated with a dma-buf
-+ *
-+ * Userspace can performs a DMA_BUF_IOCTL_BACK to save data from a dma-buf or
-+ * restore data to a dma-buf.
-+ */
-+struct dma_buf_rw_file {
-+	/** @flags: Flags indicating read/write for this dma-buf. */
-+	__u32 flags;
-+	/** @fd: File descriptor of the file associated with this dma-buf. */
-+	__s32 fd;
-+	/** @file_offset: Offset within the file where this dma-buf starts.
-+	 *
-+	 *  Offset and Length must be page-aligned for direct I/O.
-+	 */
-+	__u64 file_offset;
-+	/** @buf_offset: Offset within this dma-buf where the read/write starts. */
-+	__u64 buf_offset;
-+	/** @buf_len: Length of this dma-buf read/write. */
-+	__u64 buf_len;
-+};
-+
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
- 
-@@ -179,4 +201,10 @@ struct dma_buf_import_sync_file {
- #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
- #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE	_IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
- 
-+#define DMA_BUF_RW_FLAGS_OP_MASK (0xFF << 0)
-+#define DMA_BUF_RW_FLAGS_READ (1 << 0) /* Restore dma-buf data */
-+#define DMA_BUF_RW_FLAGS_WRITE (2 << 0) /* Save dma-buf data */
-+#define DMA_BUF_RW_FLAGS_DIRECT (1u << 31) /* Direct read/write file */
-+#define DMA_BUF_IOCTL_RW_FILE	_IOW(DMA_BUF_BASE, 4, struct dma_buf_rw_file)
-+
- #endif
 -- 
 2.17.1
 
