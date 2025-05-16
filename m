@@ -2,120 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE460ABA4D3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 22:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44851ABA509
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 23:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3730110EB8B;
-	Fri, 16 May 2025 20:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7597810E060;
+	Fri, 16 May 2025 21:24:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rr4k6OdT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C9RaaFJn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DD110EB8B;
- Fri, 16 May 2025 20:46:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RUiR4NCMZXnA1WOfYiiixC3HrUlX+iz4MfL4feGSvdYY0fvUnhMd3MeLo0Sswi0A3Kw2JN6O/R0QjRTltAa9QFjBMHhZDWrc03d9XooKPNpuIkV9+ca7CbNyYQ234gUOVOiQFvTzRYu4CUURtCVe8TNvNORgpHbUCIaNFst52FECP0fRL672WYulUgPS9a9Zu771JUCJLYrz+9c6bnTJHpCwWt/l3s9dVG9DZKePkc6AytYk0XOByawFfpug5NbEli31CNAIT8voFsCSUPoVFo0ojN1RWxTiJYqv7YVQ1ISiHGlXGEOy/Yh2wI+UBvGOclPCH4BkGWbNvtM//NkEaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JB2gfQ1wwBxE3/a+5aF9dY4zM3J63bD04WLCLbeeqOY=;
- b=E4BYq0x+95R/AVdLaAwJYlMu7cIiHPeK861tUUcbFcyHh4zOGlPjgzso2MleSC80K7X9sSIPEEmMv6t+Rfpu9gdiY4hoyyhWgWE3nKHnb3sZcZ+iyBP/L6wN1PJQhXEWa/M9LUEOCqfJMtiW4jqvHD/AlX8oUwFVaUhwOADS8kyCkxDj4jwY/wwZcW12IOT6lq2C/gg3Q3w3W3yEn5u9Sxn7pNQlf095D+eVgBVkjWLMWVqsDsJDzzQ9X/J+fbPBPB+QKuHTMn6D0n2+rum3sYiSziFJErMYO6cIMJ9dqFeeY+xjarL+Gm0Kz+am+rQFKkxSkE1uHAAn34aUYnHwVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JB2gfQ1wwBxE3/a+5aF9dY4zM3J63bD04WLCLbeeqOY=;
- b=rr4k6OdTxKis1EVfzGoRX3zWAYACpgWyOIuzv9m5vcoNkX7oTRLo1vSw6z8NK72kVkNBbXyne0e1pjy7fx2Dn4ByIjdVKXeZ1VGITYmWV2jxPfAW58rTQy3LXVSuAxZ44nZd9lL1vE10Nn8qXwb2ykWbeKib2uZoaIuNHWh3A3Y=
-Received: from MW4PR04CA0198.namprd04.prod.outlook.com (2603:10b6:303:86::23)
- by CY1PR12MB9628.namprd12.prod.outlook.com (2603:10b6:930:105::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.31; Fri, 16 May
- 2025 20:46:26 +0000
-Received: from CO1PEPF000042A7.namprd03.prod.outlook.com
- (2603:10b6:303:86:cafe::bf) by MW4PR04CA0198.outlook.office365.com
- (2603:10b6:303:86::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Fri,
- 16 May 2025 20:46:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000042A7.mail.protection.outlook.com (10.167.243.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8746.27 via Frontend Transport; Fri, 16 May 2025 20:46:26 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 16 May
- 2025 15:46:24 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd, radeon drm-next-6.16
-Date: Fri, 16 May 2025 16:46:09 -0400
-Message-ID: <20250516204609.2437472-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.49.0
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FE2F10E060;
+ Fri, 16 May 2025 21:24:23 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id
+ ca18e2360f4ac-86142446f3fso66658839f.2; 
+ Fri, 16 May 2025 14:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747430662; x=1748035462; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hunQ4H8lTiSGjqzJkC/Ab+nMJU3/VnMxmp9TrDpedc8=;
+ b=C9RaaFJnwf/QWBL9CXT1t3lETnpH+Afgmi2othY56Uz2p3NK/UCGCix21aMkhOiFTb
+ L5T1uWD21tOkwqdyO+V5IHKUIqHBmNw/I4HkLxSjpQfVPVdoBUti5F+SKmvkd389kpwc
+ v9LYY6otDx3xitfVPPB4gYRJTYl7wNR6UgIxTCBcosdoGTsTD9TQJvpIGj8WrnQMjMsE
+ SI2XerCeEXsOJ/DUcw0r26ZieowkAQVU9FerBD3qbBRCZjT2fILVov/j0amriL89Bn5k
+ WSUu447VWopNtR4Ek/PhpfeI25ZODc0qXk5r3cu3hjmnoDPwnztb6DWPFMRyodz/iE87
+ +MJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747430662; x=1748035462;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hunQ4H8lTiSGjqzJkC/Ab+nMJU3/VnMxmp9TrDpedc8=;
+ b=nf/BqDR+aJNJCHB5FsYEQYkxIhuCOCdlWbHQQZaQ9zTDYRpUJceqKT0XP6bRjYXLb1
+ ifAS3CcYIG9tE10brzUaYu7oCQm1L5e7GbY8DaQA793dWWkWHzItASUjYEHM+kIN4X4d
+ fTn1595hWOcPV9wtxG+ly3k/QcWf+SLZMUZj09Ilz2wbflTR2Px6e3muz5Q/AL/GDz9j
+ RhGxwzh8iUha8YtX0O8KT50f2xaiLVtbAT3p+RKDIimxvaV95/dF1QehW9ZnN56fCtCH
+ xzC7USpIYBucv/RT+5LuGZ3ZZ1UG95/phJESb4B6SGbZtf9043RIWj7pWU/bkg54aw9S
+ GpMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoGUWIV3bmxBExzS8B6Ygt7k0Z0xJ2Lmh2NfSvO/EF0Yw8A7NFVYVZYtpRgCfOCl+IZYKDtpIMMbM=@lists.freedesktop.org,
+ AJvYcCVvZFnjNNmSXNYANgtIfTWRymaA4Rq+3XC7qP3xRVPWu1o4WEZaLjXa9QBwq7czgnfdRNYHC6408eSD@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmRFe1mRg7TD8ubCebXns6m2uOLx+Z11llhCzTA2zRUN7m2kYs
+ LfNiGGKUDBnuJvvqTejPr/DytCyBUGrt9KYbZXukFUt7ziEr4UF0snNbW1LyO6lSitGLrb1mKAb
+ KsY6KNwQUyuXAk9K49ulByLHKJPI4ZDk=
+X-Gm-Gg: ASbGncshjrRrTCP+fyN68IZGU/j89tpiWcgT8QrF2pw7b0bZC/CpmFjOdm7XdeMKe1z
+ Biul4lFQunhSz4Vqow+onV0m7so25nhwX5641ljUZ7JfVs6b7CmN7vCrpzh1CEXAbswDM9CZaYK
+ 5TpY10BLeTNA/XzJsihX2RgCSTtyNqsEvi//KAcEBgs7lCfWY+N6qOF1D9vcgavQT2nmg=
+X-Google-Smtp-Source: AGHT+IGjdEO/w3gIhDVBeeFTdrysqgOxyuo+RYwDrAXCZDpJPU96mUtcQdg57oSVoKaM/mKy1IloXCJ4GHTlv4pID58=
+X-Received: by 2002:a05:6602:371b:b0:85b:3f1a:30aa with SMTP id
+ ca18e2360f4ac-86a23229aabmr680256739f.9.1747430662007; Fri, 16 May 2025
+ 14:24:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042A7:EE_|CY1PR12MB9628:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fb90748-7174-47d7-aa52-08dd94baba07
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|376014|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3OYhBvGDJSUdizJQvv0RWUF5d7h3DskyI03ecCm8qPdCNMK0LVas8rVtc2F6?=
- =?us-ascii?Q?tw4MulSOkLTSun/ixn5NjRHpApdWGoBb87NzNwoharBPgbvkxCj7johOj7LI?=
- =?us-ascii?Q?x2gcFMcqLudrY/NHxWorWdNWCrIdSi1XMm2FbXKudq9iReq9qRDZ49HqlA9q?=
- =?us-ascii?Q?aJCVm7Tidjrl/QIf4LiLrU/fqe+mg+EzUQYpc+eHkykaWUdN/MvGz93f9Abp?=
- =?us-ascii?Q?ccsHUyXl+u1tkY0kpVOLTz+V82MFKtdpK1b+x5zWKTj6aHnIPgqlHlRlBJ25?=
- =?us-ascii?Q?H+DGvgMpLtvQ8yJip5at3LCIvXfoSHGaCzhMy+iYGpky8kzCyAvB+CzJbAqz?=
- =?us-ascii?Q?HDglZPhUd0yqv0gTRcvrWXCogu5lG7lFw9mhhhxpbVPKzjzvb53qIST9+k0G?=
- =?us-ascii?Q?ZYDxFd6s9vEUIuT4nY8aIavurEWRahMo/bOhal4J9HomFs9zb0b742Qt7tXE?=
- =?us-ascii?Q?WAVfhvV60/AGMYqtr/fonIHeGd4EdS2FNaDbSV3iThwIFbf02xos1T+dMyZF?=
- =?us-ascii?Q?Sl4B5a6eVk9cDS5eF5BuOmUTsVeFzvt7P4AiAHsrJ7Oy1ujh5glwjtGZzKwP?=
- =?us-ascii?Q?dVyQyh1RFUji/A6yJ3UvlB915hRwrWFyB9n7Tm+DajHQJNmv9Pf4yhhZKqXx?=
- =?us-ascii?Q?1fbFZPghhr3ufrPSmdF2ekdCmjmU2ssuMSIxQbZQkgFiDbjY/jxGxHrW3kJp?=
- =?us-ascii?Q?o6ncwR9Oi8S1rHNzRtkqFz3sjjdUSqQeNJq7Q7sJa0PnXHX8kghNZ3UGUxrG?=
- =?us-ascii?Q?GIXR7Gm1WsByfEWcM3FM//T+Ej4kPrj0T/osHc0u7D3FrHGgQSdPpg0D5LcB?=
- =?us-ascii?Q?gsf75GeE7NaplKXVRCGtZ8xvlFN+FVxWs0JgGzq3ONYdcnC0q9jdpeWO3qlD?=
- =?us-ascii?Q?BQFq+Ri3ubMi1lzOinWO+ufArKv+auZ4PnKkzd04WeiMmuAih+h4HeDpPYBG?=
- =?us-ascii?Q?LBNEEHsTJnufffBv6KmUWUcfRRjxKnYsiMZCa81skp8RuuQnVxJhLj8a4d9L?=
- =?us-ascii?Q?huqpXf8Ead+KfvkXeFiFTTkID2zhPvqy/nY9njq0lrQLxr/D3vMV6aSbVaKs?=
- =?us-ascii?Q?V4/TWohNBLrxBtbU36y3DRYTdN5+PyPSGSVsSOWLgBXGoXN2yWE+fY8TPmgE?=
- =?us-ascii?Q?1OK0k9+0sY7mqEgt4Ibv4vY9TYY2dLOoGNO2vqA/Ds/M1ECFDvR+VJQ7kxFm?=
- =?us-ascii?Q?bI/uyedZxIOFXJYV/DgbPOBj8nnk+7A1PbU9sXLOz4+lowhe1ojDfkM8cIPt?=
- =?us-ascii?Q?w350aGa+jsUcZ7zCDDkUOozN9NR7pPKK9RUE5zv1ZHmXC6aucaUB8jpz4fQ/?=
- =?us-ascii?Q?bQWXoGeVVCiQ/PM3h+mkmMvgKUDbkrc4TaVUUlyOYhHrqw2kaM2rTRFjRoNy?=
- =?us-ascii?Q?GvN1ka0OvZz3+a6i46SPaQLSZWTNeZsrqLVdV3jM88YxTtBnD4I78lHg0gRl?=
- =?us-ascii?Q?Dm6t1pr7gYFU6GCA25byhjRnCiTurb+m?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 20:46:26.0929 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb90748-7174-47d7-aa52-08dd94baba07
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042A7.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9628
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 16 May 2025 14:24:10 -0700
+X-Gm-Features: AX0GCFtP7DvImGIA2Ku6TTPV3B-2Yia4D2Tnclm3a819MTvBpglGhA8TuDsVtaw
+Message-ID: <CAF6AEGv2Go+nseaEwRgeZbecet-h+Pf2oBKw1CobCF01xu2XVg@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2025-05-16 for v6.16
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,307 +84,289 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Dave, Simona,
 
-Last few updates for 6.16.
+Pull for v6.16 as described below.  There are a pair of x1e80100 dts
+patches, ack'd by Bjorn, to preserve ordering (the driver part needs
+to land before the dts part).  These should not conflict with any
+other dts patches in flight this cycle.
 
-The following changes since commit 1faeeb315fdbd005bbc1bc74214e39087971dda9:
+The following changes since commit 0d607a59a0f6593e72630854a8bcb8b01b8dce40:
 
-  Merge tag 'amd-drm-next-6.16-2025-05-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-05-12 07:14:34 +1000)
+  drm/panel-edp: Add support for CSW MNE007QS3-8 panel (2025-04-29
+09:20:32 -0700)
 
 are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.16-2025-05-16
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2025-05-16
 
-for you to fetch changes up to 2f0268ca1cac4561b4710882c2d27afa32e42cb3:
+for you to fetch changes up to fc5c669c902c3039aa41731b6c58c0960d0b1bbf:
 
-  drm/amdgpu/jpeg: sriov support for jpeg_v5_0_1 (2025-05-16 13:39:14 -0400)
-
-----------------------------------------------------------------
-amdgpu:
-- Misc code cleanups
-- UserQ fixes
-- MALL reporting fix
-- DP AUX fixes
-- DCN 3.5 fixes
-- DP MST fixes
-- DC DMI quirks cleanup
-- RAS fixes
-- SR-IOV updates
-- GC 9.5 updates
-- Misc display fixes
-- VCN 4.0.5 powergating race fix
-- SMU 13.x updates
-- Paritioning fixes
-- VCN 5.0.1 SR-IOV updates
-- JPEG 5.0.1 SR-IOV updates
-
-amdkfd:
-- Fix spurious warning in interrupt code
-- XNACK fixes
-
-radeon:
-- CIK doorbell cleanup
+  dt-bindings: display: msm: correct example in SM8350 MDSS schema
+(2025-05-13 21:53:34 +0300)
 
 ----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdkfd: drop warning in event_interrupt_isr_v1*()
+Updates for v6.16
 
-Amber Lin (1):
-      drm/amdkfd: Support chain runlists of XNACK+/XNACK-
+CI:
+- uprev mesa
 
-Arunpravin Paneer Selvam (3):
-      drm/amdgpu/userq: Fix lock contention in userq fence
-      drm/amdgpu: Fix userq ttm_bo_pin and ttm_bo_unpin lockdep warnings
-      drm/amdgpu/userq: Fix DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+GPU:
+- ACD (Adaptive Clock Distribution) support for X1-85.  This is required
+  enable the higher frequencies.
+- Drop fictional `address_space_size`.  For some older devices, the address
+  space size is limited to 4GB to avoid potential 64b rollover math problems
+  in the fw.  For these, an `ADRENO_QUIRK_4GB_VA` quirk is added.  For
+  everyone else we get the address space size from the SMMU `ias` (input
+  address sizes), which is usually 48b.
+- Improve robustness when GMU HFI responses time out
+- Fix crash when throttling GPU immediately during boot
+- Fix for rgb565_predicator on Adreno 7c3
+- Remove `MODULE_FIRMWARE()`s for GPU, the GPU can load the firmware after
+  probe and having partial set of fw (ie. sqe+gmu but not zap) causes problems
 
-Arvind Yadav (3):
-      drm/amdgpu: Fix NULL dereference in amdgpu_userq_restore_worker
-      drm/amdgpu: Fix amdgpu_userq_wait_ioctl() warn missing error code 'r'
-      drm/amdgpu: fix use-after-unlock in eviction fence destroy
+MDSS:
+- Added SAR2130P support to MDSS driver
 
-Asad Kamal (1):
-      drm/amdgpu: Add pldm version reporting
+DPU:
+- Changed to use single CTL path for flushing on DPU 5.x+
+- Improved SSPP allocation code to allow sharing of SSPP between planes
+- Enabled SmartDMA on SM8150, SC8180X, SC8280XP, SM8550
+- Added SAR2130P support
+- Disabled DSC support on MSM8937, MSM8917, MSM8953, SDM660
+- Misc fixes
 
-Aurabindo Pillai (2):
-      drm/amd/display: use drm_dbg_driver() in amdgpu_dm.c
-      drm/amd/display: check stream id dml21 wrapper to get plane_id
+DP:
+- Switch to use new helpers for DP Audio / HDMI codec handling
+- Fixed LTTPR handling
 
-Bagas Sanjaya (1):
-      Documentation/gpu: Disambiguate SPI term
+DSI:
+- Added support for SA8775P
+- Added SAR2130P support
 
-Ce Sun (2):
-      drm/amdgpu: Fix the kernel panic caused by RAS records exceed threshold
-      drm/amdgpu: Modify the count method of defer error
+MDP4:
+- Fixed LCDC / LVDS controller on
 
-Chiawen Huang (1):
-      drm/amd/display: Skip backend validation for virtual monitors
+HDMI:
+- Switched to use new helpers for ACR data
+- Fixed old standing issue of HPD not working in some cases
 
-Cruise Hung (1):
-      drm/amd/display: Support external tunneling feature
+----------------------------------------------------------------
+Akhil P Oommen (7):
+      drm/msm/adreno: Add support for ACD
+      drm/msm/a6xx: Increase HFI response timeout
+      drm/msm: a6x: Rework qmp_get() error handling
+      drm/msm/adreno: Add module param to disable ACD
+      dt-bindings: opp: Add v2-qcom-adreno vendor bindings
+      arm64: dts: qcom: x1e80100: Add ACD levels for GPU
+      arm64: dts: qcom: x1e80100: Add OPPs up to Turbo L3 for GPU
 
-David (Ming Qiang) Wu (1):
-      drm/amdgpu: read back register after written for VCN v4.0.5
+Aleksandrs Vinarskis (4):
+      drm/msm/dp: Fix support of LTTPR initialization
+      drm/msm/dp: Account for LTTPRs capabilities
+      drm/msm/dp: Prepare for link training per-segment for LTTPRs
+      drm/msm/dp: Introduce link training per-segment for LTTPRs
 
-Dillon Varone (3):
-      drm/amd/display: Backup and restore plane configuration only on update
-      drm/amd/display: Fix race in dmub_srv_wait_for_pending
-      drm/amd/display: Modify DCN401 DMUB reset & halt sequence
+Ayushi Makhija (5):
+      dt-bindings: display: msm-dsi-phy-7nm: document the SA8775P DSI PHY
+      dt-bindings: msm: dsi-controller-main: document the SA8775P DSI CTRL
+      dt-bindings: display: msm: document DSI controller and phy on SA8775P
+      drm/msm/dsi: add DSI PHY configuration on SA8775P
+      drm/msm/dsi: add DSI support for SA8775P
 
-Dr. David Alan Gilbert (4):
-      drm/amd/pm/smu13: Remove unused smu_v13_0_init_display_count
-      drm/amd/pm: Remove unused smu_mode2_reset_is_support
-      drm/amd/pm: Remove remainder of mode2_reset_is_support
-      drm/radeon/cik: Clean up doorbells
+Chen Ni (1):
+      drm/msm: Convert comma to semicolon
 
-Gabe Teeger (1):
-      Revert: "drm/amd/display: Enable urgent latency adjustment on DCN35"
+Connor Abbott (1):
+      drm/msm: Be more robust when HFI response times out
 
-George Shen (1):
-      drm/amd/display: fix link_set_dpms_off multi-display MST corner case
+Dmitry Baryshkov (51):
+      drm/msm/dpu: don't overwrite CTL_MERGE_3D_ACTIVE register
+      drm/msm/dpu: program master INTF value
+      drm/msm/dpu: pass master interface to CTL configuration
+      drm/msm/dpu: use single CTL if it is the only CTL returned by RM
+      drm/msm/dpu: don't select single flush for active CTL blocks
+      drm/msm/dpu: allocate single CTL for DPU >= 5.0
+      drm/msm/dpu: remove DPU_CTL_SPLIT_DISPLAY from CTL blocks on DPU >= 5.0
+      drm/msm/dpu: drop now-unused condition for has_legacy_ctls
+      dt-bindings: display: msm: mdp4: add LCDC clock and PLL source
+      drm/msm/mdp4: drop mpd4_lvds_pll_init stub
+      drm/msm/mdp4: register the LVDS PLL as a clock provider
+      drm/msm/mdp4: use parent_data for LVDS PLL
+      drm/msm/mdp4: move move_valid callback to lcdc_encoder
+      drm/msm/mdp4: switch LVDS to use drm_bridge/_connector
+      drm/msm/dpu: allow sharing SSPP between planes
+      drm/msm/dpu: enable SmartDMA on SM8150
+      drm/msm/dpu: enable SmartDMA on SC8180X
+      drm/msm/dpu: enable SmartDMA on SC8280XP
+      drm/msm/dpu: enable SmartDMA on SM8550
+      drm/msm/dpu: rename non-SmartDMA feature masks to be more explicit
+      dt-bindings: display/msm: dp-controller: describe SAR2130P
+      dt-bindings: display/msm: dsi-controller-main: describe SAR2130P
+      dt-bindings: display/msm: dsi-phy-7nm: describe SAR2130P
+      dt-bindings: display/msm: qcom,sc7280-dpu: describe SAR2130P
+      dt-bindings: display/msm: Add Qualcomm SAR2130P
+      drm/msm/mdss: add SAR2130P device configuration
+      drm/msm/dsi/phy: add configuration for SAR2130P
+      drm/msm/dpu: add catalog entry for SAR2130P
+      drm/msm/hdmi: move msm_hdmi_audio_update() out of msm_hdmi_set_timings()
+      drm/msm/hdmi: use new helper for ACR tables
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8937
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8917
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on MSM8953
+      drm/msm/dpu: drop TE2 definitions
+      drm/msm/dpu: remove DSC feature bit for PINGPONG on SDM630
+      drm/msm/dp: reuse generic HDMI codec implementation
+      dt-bindings: display/msm/hdmi: drop obsolete GPIOs from schema
+      drm/msm/hdmi: convert clock and regulator arrays to const arrays
+      drm/msm/hdmi: move the alt_iface clock to the hpd list
+      drm/msm/hdmi: simplify extp clock handling
+      drm/msm/hdmi: drop clock frequency assignment
+      drm/msm/hdmi: switch to clk_bulk API
+      drm/msm/hdmi: switch to pm_runtime_resume_and_get()
+      drm/msm/hdmi: add runtime PM calls to DDC transfer function
+      drm/msm/hdmi: implement proper runtime PM handling
+      drm/msm/hdmi: rename hpd_clks to pwr_clks
+      drm/msm/hdmi: expand the HDMI_CFG macro
+      drm/msm/hdmi: ensure that HDMI is up if HPD is requested
+      drm/msm/hdmi: wire in hpd_enable/hpd_disable bridge ops
+      drm/msm/dpu: remove DPU_CTL_SPLIT_DISPLAY from SAR2130P CTL blocks
+      dt-bindings: display: msm: correct example in SM8350 MDSS schema
 
-Jesse.Zhang (3):
-      drm/amdgpu: Fix user queue deadlock by reordering mutex locking
-      drm/amdgpu: Add GFX 9.5.0 support for per-queue/pipe reset
-      drm/amdgpu: Fix circular locking in userq creation
+Konrad Dybcio (2):
+      dt-bindings: display: msm: sm8350-mdss: Describe the CPU-CFG icc path
+      drm/msm/a6xx: Disable rgb565_predicator on Adreno 7c3
 
-John Olender (1):
-      drm/amd/display: Defer BW-optimization-blocked DRR adjustments
+Krzysztof Kozlowski (7):
+      drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on mixer reset
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on ctl_path reset
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE before blend setup
+      drm/msm/dpu: Drop useless comments
+      drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+      drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
 
-Karthi Kandasamy (1):
-      drm/amd/display: Move mcache allocation programming from DML to resource
+Luca Weiss (1):
+      dt-bindings: msm: qcom,mdss: Document interconnect paths
 
-Lijo Lazar (4):
-      drm/amdgpu: Log RAS errors during load
-      drm/amd/pm: Move SMUv13.0.12 function declarations
-      drm/amdgpu: Use compatible NPS mode info
-      drm/amdgpu: Allow NPS2-CPX combination for VFs
+Rob Clark (3):
+      Merge remote-tracking branch 'drm-misc/drm-misc-next' into msm-next
+      drm/msm/adreno: Drop fictional address_space_size
+      drm/msm/adreno: Remove MODULE_FIRMWARE()'s
 
-Mario Limonciello (1):
-      drm/amd/display: Restructure DMI quirks
+Rob Herring (Arm) (1):
+      dt-bindings: display/msm: hdmi: Fix constraints on additional
+'port' properties
 
-Melissa Wen (2):
-      drm/amd/display: Fix null check of pipe_ctx->plane_state for update_dchubp_dpp
-      Revert "drm/amd/display: Hardware cursor changes color when switched to software cursor"
+Stephan Gerhold (1):
+      drm/msm/gpu: Fix crash when throttling GPU immediately during boot
 
-Michael Strauss (1):
-      drm/amd/display: Add early 8b/10b channel equalization test pattern sequence
+Vignesh Raman (1):
+      drm/ci: uprev mesa
 
-Nevenko Stupar (1):
-      drm/amd/display: Fix the typo in dcn401 Hubp block
-
-Ovidiu Bunea (1):
-      drm/amd/display: Add GPINT retries to ips_query_residency_info
-
-Philip Yang (1):
-      drm/amdgpu: csa unmap use uninterruptible lock
-
-Prike Liang (1):
-      drm/amdgpu: fix userq resource double freed
-
-Samson Tam (2):
-      drm/amd/display: disable EASF narrow filter sharpening
-      drm/amd/display: add support for 2nd sharpening range
-
-Sebastian Aguilera Novoa (1):
-      drm/amd/display/dc/irq: Remove duplications of hpd_ack function from IRQ
-
-Shiwu Zhang (1):
-      drm/amdgpu: add debugfs for spirom IFWI dump
-
-Sung Lee (1):
-      drm/amd/display: Program triplebuffer on all pipes
-
-Taimur Hassan (4):
-      drm/amd/display: [FW Promotion] Release 0.1.10.0
-      drm/amd/display: Promote DC to 3.2.333
-      drm/amd/display: [FW Promotion] Release 0.1.11.0
-      drm/amd/display: Promote DAL to 3.2.334
-
-Tao Zhou (7):
-      drm/amd: add definition for new memory type
-      drm/amdgpu: adjust high bits for RAS retired page
-      drm/amdgpu: add get_retire_flip_bits for UMC
-      drm/amdgpu: implement get_retire_flip_bits for UMC v12
-      drm/amdgu: get RAS retire flip bits for new type of HBM
-      drm/amdgpu: set flip bits for RAS bad pages
-      drm/amdgpu: set vram type for GC 9.5.0
-
-Tim Huang (1):
-      drm/amdgpu: fix incorrect MALL size for GFX1151
-
-Tomasz Siemek (1):
-      drm/amd/display: Extend dc_plane_get_status with flags
-
-Wayne Lin (3):
-      drm/amd/display: Correct the reply value when AUX write incomplete
-      drm/amd/display: Return the exact value for debugging
-      drm/amd/display: Avoid flooding unnecessary info messages
-
-Yihan Zhu (1):
-      drm/amd/display: init local variable to fix format errors
-
-fanhuang (4):
-      drm/amdgpu: add vcn v5_0_0 ip headers
-      drm/amdgpu/mmsch: Add MMSCH v5_0 support for sriov
-      drm/amdgpu/vcn: sriov support for vcn_v5_0_1
-      drm/amdgpu/jpeg: sriov support for jpeg_v5_0_1
-
-ganglxie (1):
-      Refine RAS bad page records counting and parsing in eeprom V3
-
- Documentation/gpu/amdgpu/amdgpu-glossary.rst       |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  17 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            | 104 ++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  29 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  71 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |  17 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          |  35 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |   8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         | 105 ++++----
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |  41 +++-
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |  12 +
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_1.c           | 142 ++++++++++-
- drivers/gpu/drm/amd/amdgpu/mmsch_v5_0.h            | 144 +++++++++++
- drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |  44 +++-
- drivers/gpu/drm/amd/amdgpu/umc_v12_0.c             | 136 +++++++----
- drivers/gpu/drm/amd/amdgpu/umc_v12_0.h             |   3 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c            |   8 +
- drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c            | 265 +++++++++++++++++++--
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c   |   3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c   |   3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c    |  56 ++++-
- drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c |   2 +
- drivers/gpu/drm/amd/amdkfd/kfd_pm4_headers_ai.h    |   3 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/Makefile     |   1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 194 ++-------------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   9 +
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  16 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c   | 178 ++++++++++++++
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  53 +++--
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  13 +
- drivers/gpu/drm/amd/display/dc/core/dc_surface.c   |  22 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |   2 +-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  19 +-
- drivers/gpu/drm/amd/display/dc/dc_dp_types.h       |  21 ++
- drivers/gpu/drm/amd/display/dc/dc_plane.h          |  13 +-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   4 +-
- .../dc/dml2/dml21/dml21_translation_helper.c       |  20 +-
- .../dc/dml2/dml21/dml21_translation_helper.h       |   2 +
- .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.c  |  40 ++++
- .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.h  |  64 +++++
- drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h |   2 +
- .../drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c  |   5 +-
- .../drm/amd/display/dc/hubp/dcn401/dcn401_hubp.c   |   2 +-
- .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |   2 +-
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |   2 +-
- .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  |  24 +-
- drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   5 +
- drivers/gpu/drm/amd/display/dc/inc/link.h          |   3 +
- drivers/gpu/drm/amd/display/dc/inc/resource.h      |   8 +
- .../amd/display/dc/irq/dce120/irq_service_dce120.c |  29 +--
- .../amd/display/dc/irq/dce60/irq_service_dce60.c   |  31 +--
- .../amd/display/dc/irq/dce80/irq_service_dce80.c   |  31 +--
- .../amd/display/dc/irq/dcn10/irq_service_dcn10.c   |  29 +--
- .../amd/display/dc/irq/dcn20/irq_service_dcn20.c   |  29 +--
- .../amd/display/dc/irq/dcn201/irq_service_dcn201.c |  29 +--
- .../amd/display/dc/irq/dcn21/irq_service_dcn21.c   |  29 +--
- .../amd/display/dc/irq/dcn30/irq_service_dcn30.c   |  30 +--
- .../amd/display/dc/irq/dcn302/irq_service_dcn302.c |  19 +-
- .../amd/display/dc/irq/dcn303/irq_service_dcn303.c |  19 +-
- .../amd/display/dc/irq/dcn31/irq_service_dcn31.c   |  29 +--
- .../amd/display/dc/irq/dcn314/irq_service_dcn314.c |  29 +--
- .../amd/display/dc/irq/dcn315/irq_service_dcn315.c |  29 +--
- .../amd/display/dc/irq/dcn32/irq_service_dcn32.c   |  29 +--
- .../amd/display/dc/irq/dcn35/irq_service_dcn35.c   |  29 +--
- .../amd/display/dc/irq/dcn351/irq_service_dcn351.c |  29 +--
- .../amd/display/dc/irq/dcn36/irq_service_dcn36.c   |  29 +--
- .../amd/display/dc/irq/dcn401/irq_service_dcn401.c |  29 +--
- drivers/gpu/drm/amd/display/dc/irq/irq_service.c   |  64 +++++
- drivers/gpu/drm/amd/display/dc/irq/irq_service.h   |   8 +
- .../gpu/drm/amd/display/dc/link/link_detection.c   |  21 +-
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c    |  19 +-
- drivers/gpu/drm/amd/display/dc/link/link_factory.c |   1 +
- .../display/dc/link/protocols/link_dp_capability.c |  16 +-
- .../display/dc/link/protocols/link_dp_capability.h |   3 +
- .../amd/display/dc/link/protocols/link_dp_dpia.c   |  54 ++++-
- .../amd/display/dc/link/protocols/link_dp_dpia.h   |   6 +
- .../display/dc/link/protocols/link_dp_dpia_bw.c    |  70 ++----
- .../display/dc/link/protocols/link_dp_dpia_bw.h    |   4 +-
- .../dc/link/protocols/link_dp_irq_handler.c        |   4 +-
- .../display/dc/link/protocols/link_dp_training.c   |   1 -
- .../dc/link/protocols/link_dp_training_8b_10b.c    |  52 +++-
- drivers/gpu/drm/amd/display/dc/sspl/dc_spl.c       |   4 +-
- drivers/gpu/drm/amd/display/dc/sspl/dc_spl_types.h |   4 +
- drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |  14 ++
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  84 ++++++-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn401.c |  16 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |  58 ++---
- .../drm/amd/display/include/link_service_types.h   |   2 +
- .../amd/include/asic_reg/vcn/vcn_5_0_0_offset.h    |  16 ++
- .../amd/include/asic_reg/vcn/vcn_5_0_0_sh_mask.h   |  23 ++
- drivers/gpu/drm/amd/include/atomfirmware.h         |   1 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  13 -
- drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |   6 -
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  11 -
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   6 -
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |   6 -
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  12 -
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |   6 -
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.h   |   8 +
- drivers/gpu/drm/radeon/cik.c                       |  42 +++-
- include/uapi/drm/amdgpu_drm.h                      |   1 +
- 114 files changed, 2043 insertions(+), 1128 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdgpu/mmsch_v5_0.h
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c
+ .../bindings/display/msm/dp-controller.yaml        |   1 +
+ .../bindings/display/msm/dsi-controller-main.yaml  |   4 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   2 +
+ .../devicetree/bindings/display/msm/hdmi.yaml      |  19 +-
+ .../devicetree/bindings/display/msm/mdp4.yaml      |   9 +-
+ .../devicetree/bindings/display/msm/qcom,mdss.yaml |  12 +
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 181 ++++++++-
+ .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 439 +++++++++++++++++++++
+ .../bindings/display/msm/qcom,sc7280-dpu.yaml      |   1 +
+ .../bindings/display/msm/qcom,sm8350-mdss.yaml     |  13 +-
+ .../bindings/opp/opp-v2-qcom-adreno.yaml           |  96 +++++
+ MAINTAINERS                                        |   1 +
+ arch/arm64/boot/dts/qcom/x1e80100.dtsi             |  27 +-
+ drivers/gpu/drm/ci/build-igt.sh                    |   2 +-
+ drivers/gpu/drm/ci/build.sh                        |   6 +-
+ drivers/gpu/drm/ci/gitlab-ci.yml                   |   6 +-
+ drivers/gpu/drm/ci/image-tags.yml                  |   2 +-
+ drivers/gpu/drm/ci/lava-submit.sh                  |   2 +-
+ drivers/gpu/drm/msm/Kconfig                        |   1 +
+ drivers/gpu/drm/msm/Makefile                       |   1 -
+ drivers/gpu/drm/msm/adreno/a2xx_catalog.c          |   5 -
+ drivers/gpu/drm/msm/adreno/a3xx_catalog.c          |   5 -
+ drivers/gpu/drm/msm/adreno/a4xx_catalog.c          |   3 -
+ drivers/gpu/drm/msm/adreno/a5xx_catalog.c          |   9 -
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  44 +--
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  96 ++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  11 +-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  73 +++-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.h              |  21 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  19 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   4 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |   5 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   |   4 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   |   2 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   |   5 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    |  12 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |   8 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |  11 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |   8 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |   8 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  21 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  20 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h |  14 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h |   6 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |   5 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |   8 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   4 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h |   8 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   2 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h |   4 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |   5 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  21 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |   5 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    |   5 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  25 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h   | 433 ++++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  13 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   2 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  43 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          | 230 ++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  25 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |   2 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |  34 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h           |  16 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c  |  50 ++-
+ .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    | 121 ------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_pll.c      |  51 ++-
+ drivers/gpu/drm/msm/dp/dp_audio.c                  | 131 +-----
+ drivers/gpu/drm/msm/dp/dp_audio.h                  |  27 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 126 ++++--
+ drivers/gpu/drm/msm/dp/dp_display.c                |  55 ++-
+ drivers/gpu/drm/msm/dp/dp_display.h                |   6 -
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |   8 +
+ drivers/gpu/drm/msm/dp/dp_link.h                   |   4 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  12 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  18 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   4 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  50 +++
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    | 133 ++++---
+ drivers/gpu/drm/msm/hdmi/hdmi.h                    |  26 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_audio.c              | 107 +----
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |  63 ++-
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c                |  89 +----
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c                |  14 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c                |   6 +-
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |   2 +-
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |   7 +
+ 101 files changed, 2272 insertions(+), 1064 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml
+ create mode 100644
+Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
