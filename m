@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A64AB9991
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747BAAB99FA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:20:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7648010EA26;
-	Fri, 16 May 2025 09:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157D810EA37;
+	Fri, 16 May 2025 10:20:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="KyESI/2J";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sNDE4mXN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B95410EA26
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:58:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC68810EA33;
+ Fri, 16 May 2025 10:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=QVfxvrCQXv1stWTNGX4NXG+vcy75UugbfRcy9FAUof4=; b=KyESI/2J9ezWNblBEXm8WCY5Vx
- N0U6K8cowUXXXmvRS21Yz3CFNQF01H2tUlXEnlpnSymSWijOPM4wuA18OBysE8g3XQMj4yFYRJTBs
- VJ6WcqCkCQK2BXggU71M67bIiMNvzg//sKECW9IUOuIFZUkbzkZWfB3XyM4iG4H+RPlX0Yw12AXFi
- VAZkVGylkbqpe+685ZOX7YOaL+MSIrvGMk95uxNPsNxtRG18D3YZ+a5Z/HFWL1yQI+BDxJmln1pl/
- Mtk/ViNcfB4w0c47ve5aE54sxZ+w9iBxM0roTDImQ4HzIYBlmWBVfBcx1S7RreM67pjt4/poXXeBG
- ZqDNxL9w==;
-Received: from i53875a50.versanet.de ([83.135.90.80] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uFrpU-00016q-Dg; Fri, 16 May 2025 11:58:12 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: long.yunjian@zte.com.cn, hjc@rock-chips.com,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- fang.yumeng@zte.com.cn, mou.yi@zte.com.cn, xu.lifeng1@zte.com.cn,
- ouyang.maochun@zte.com.cn
-Subject: Re: [PATCH] drm/rockchip: Use dev_err_probe() to simplify code
-Date: Fri, 16 May 2025 11:58:11 +0200
-Message-ID: <2022996.jZfb76A358@diego>
-In-Reply-To: <94e0951b-46e1-439b-9dbc-c2009a78b04b@kernel.org>
-References: <20250515203554564-j1jBXUXR6bdiN6zARicC@zte.com.cn>
- <94e0951b-46e1-439b-9dbc-c2009a78b04b@kernel.org>
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=33LuOT6Rs2ct5V7e47Ggg4e4lle/qv4GOK0Jy+JLNwY=; b=sNDE4mXNb34yqHpGtSOGcd2ULX
+ F9UZNajD15nRSf4+OjQAwpFnsbclblsRBBZD+aHrJIJL8rZgrKQ5ypKWLWVfipWoIujIIPV3svJB/
+ wH9QDmZEiqZxkBa9m7PHAbpgfiPhJA1zjC7D2dQjdddJNHJ/9bQE5XQgNfVsYooOfkcO4dxZ3Yqe/
+ u4HuNwJJTJVYFOPRXyd2UX1LLbCXZ8fZOtbFyEy45I5kvv2g3m0N0bAJk5zTuO+k997UD19QkCh1s
+ jzuUTQZCE2PWtpw0WuLEiXvzbYG8rroPiTzVTT3yuYtXQ5DoPyrspbJytaz79LfCbveKNeHb3kgBt
+ ETe3wRPA==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uFs4f-0092Pg-3K; Fri, 16 May 2025 12:19:51 +0200
+Message-ID: <e152d20b-c62e-47d9-a891-7910d1d24c6a@igalia.com>
+Date: Fri, 16 May 2025 11:19:50 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] drm/sched: Prevent teardown waitque from blocking
+ too long
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+References: <20250424095535.26119-2-phasta@kernel.org>
+ <20250424095535.26119-4-phasta@kernel.org>
+ <1297389f-70f6-4813-8de8-1a0c4f92250a@igalia.com> <aCcLMhS5kyD60PEX@pollux>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <aCcLMhS5kyD60PEX@pollux>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +70,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, 15. Mai 2025, 17:54:20 Mitteleurop=C3=A4ische Sommerzeit sch=
-rieb Krzysztof Kozlowski:
-> On 15/05/2025 14:35, long.yunjian@zte.com.cn wrote:
-> > From: Yumeng Fang <fang.yumeng@zte.com.cn>
-> >=20
-> > In the probe path, dev_err() can be replaced with dev_err_probe()
->=20
-> That's not probe path. I am not sure if you really understand this code.
 
-I think that is somewhat debateable.
+On 16/05/2025 10:53, Danilo Krummrich wrote:
+> On Fri, May 16, 2025 at 10:33:30AM +0100, Tvrtko Ursulin wrote:
+>> On 24/04/2025 10:55, Philipp Stanner wrote:
+>>> +	 * @kill_fence_context: kill the fence context belonging to this scheduler
+>>
+>> Which fence context would that be? ;)
+> 
+> There's one one per ring and a scheduler instance represents a single ring. So,
+> what should be specified here?
 
-dw_hdmi_rockchip_bind() is part of the rockchip-drm component device,
-so part of its probe-path. Also I think just the presence of EPROBE_DEFER
-which causes the device to re-try probing later is a nice indicator that the
-code in question is _a_ probe path. (and usage of EPROBE_DEFER is an
-established pattern to make that component device re-try probing later)
+I was pointing out the fact not all drivers are 1:1 sched:entity. So 
+plural at least. Thought it would be obvious from the ";)".
 
-And the parse_dt function itself is part of that path too.
+>> Also, "fence context" would be a new terminology in gpu_scheduler.h API
+>> level. You could call it ->sched_fini() or similar to signify at which point
+>> in the API it gets called and then the fact it takes sched as parameter
+>> would be natural.
+> 
+> The driver should tear down the fence context in this callback, not the while
+> scheduler. ->sched_fini() would hence be misleading.
 
+Not the while what? Not while drm_sched_fini()? Could call it 
+sched_kill() or anything. My point is that we dont' have "fence context" 
+in the API but entities so adding a new term sounds sub-optimal.
 
-> > which will check if error code is -EPROBE_DEFER and prints the
-> > error name. It also sets the defer probe reason which can be
-> > checked later through debugfs.
-> >=20
-> > Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
->=20
-> Incomplete chain.
+>> We also probably want some commentary on the topic of indefinite (or very
+>> long at least) blocking a thread exit / SIGINT/TERM/KILL time.
+> 
+> You mean in case the driver does implement the callback, but does *not* properly
+> tear down the fence context? So, you ask for describing potential consequences
+> of drivers having bugs in the implementation of the callback? Or something else?
 
-Yep, the patch needs a 2nd Signed-off-by line from
-long.yunjian@zte.com.cn please.
+I was proposing the kerneldoc for the vfunc should document the callback 
+must not block, or if blocking is unavoidable, either document a 
+guideline on how long is acceptable. Maybe even enforce a limit in the 
+scheduler core itself.
 
+Regards,
 
-Heiko
-
+Tvrtko
 
