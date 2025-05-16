@@ -2,62 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F20AB9BFE
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0CFAB9C8A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D57BC10EAA3;
-	Fri, 16 May 2025 12:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2DF10EAAA;
+	Fri, 16 May 2025 12:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dzaRKeVJ";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hGDbX8C1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B911A10EAA3;
- Fri, 16 May 2025 12:27:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 244605C06B3;
- Fri, 16 May 2025 12:24:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220A5C4CEEF;
- Fri, 16 May 2025 12:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747398416;
- bh=TX+Wwl4Yd2tT6bg4p7073jpIxrMoUEsu9J9aOBrP3Sg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dzaRKeVJ2hDWwNIgqtJRmFC26lWiPQGzMvBW85mTgx+EAiRp/S8r7MRd4VlwD+d1n
- CAXBSGdNkbvayF+7EzEx/VnKpbv1n5ZQFwQRQ1pq+uCsKqjt67zRbh9DO2DEyn5zty
- LdVlT+PIDPEZWbMMUC7lohMXeRR8/pbovOaTwAPeRpPyZw6HcqXWe+mCOGqfG4qjsO
- aA2aw5wZGFay4sJs9e34PMuvX2sgq0RdifJNh9GzZNTvABCATqYAMwMkc8Kgwt7A/8
- kVPYHQ/Pj1iJe6CYMUTD5KhrHpTXHv7pz4hWTtJqgYPPETdCpDOyIntIr9ZPvRFrGY
- DzKH9iF9x3xww==
-Date: Fri, 16 May 2025 14:26:39 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 13/19] gpu: nova-core: add falcon register definitions
- and base code
-Message-ID: <aCcu_42cM2c-Koxu@pollux>
-References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
- <20250507-nova-frts-v3-13-fcb02749754d@nvidia.com>
- <aCNxFc3Z3TMi5rYt@pollux> <D9XKW0NFY922.5HTPCXGGUGQT@nvidia.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B24AA10EAAA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 12:47:12 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-442ccf0e1b3so23592365e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 05:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747399631; x=1748004431;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=It4olg+vj/PaVXUOML7Uwtxb8afmv0kwgYzH/XkHr3k=;
+ b=hGDbX8C1xlRtL+4NzUB1gGTLog/Bex20ovjLVv65iwZcsp+7gRC7w2sGGsp7it6fZC
+ l+uyp15Rz0EzpZu+JUs81DO8iCEONMGA51VfVko82yytpAFwm1GQL6LTmjz7QFKJUFBk
+ sbtPrMu9UR8r9F/Y662JDbIOSlgmVK2OqlLSd/HDbfwP9ydgXZ7Odb7pkFutdW+e5KZR
+ TqveJ4dVHQBBWALc3c1E0fwRzcIVzoJruM7irlhf2Y2BnEXFDTwIN+/OW92szyp/OLi5
+ j7UiAB/QvqXnKnk/zGRC+bkvVk6UjFt8uEeK5K58O6kIZc4vTdl+SQRjkwAhw2CpRhFG
+ nYCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747399631; x=1748004431;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=It4olg+vj/PaVXUOML7Uwtxb8afmv0kwgYzH/XkHr3k=;
+ b=aic93ni5N2xNzXRJV7dw0k9uchM3jONI50xRmkyBwA9r2SqhXHK8qZKMrP5x6M0pN0
+ Gs6Kw8RqYYZ42O3TH5uvvPT98DaqLpRnI4eLaiW4dxSj80AGxp8s+X+dZSjvJAYvW06H
+ JhGK/wZLP+X8kq9oiDa6Sn6xhkcIBFE+MiikXPoS8WI9GqwRHNO1L7vKBkYhf96SmQCm
+ f9mbCmFU5hK8u6DR0J2Re1pcpWOKuMMXUoTFeJrCrpGBJTPGfdwloI67BFFy0ZTjeP8+
+ Fv1uyt5cSnho39HB6B/XdUFOXEK5Z+rQ1tYRuvSfFF3LxLnr8tYR6o2L/8VedgPSCr2v
+ MMvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8NF9mTFctSDAHiA2h9eKmy7UWD+gyV6hxrC32ao9ffFkDfOHNRXntMW2/PcV4Q6TdDRamKyP7hYk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTSvgNRm8FU2eEHUi36pXliuCtedYfYG1r9sjWUGfNvlqF9T6O
+ 3C6EtlxrJX2iTDRP33blrLgVx+z+2x2C0D36r7UJjWfjez3JaThzivUz8XtIFKd9hpg=
+X-Gm-Gg: ASbGnctr8/ytXmTl4IgFhC8+iVog8uEyc68fZ9wqqiVlkRH5TCxWw8aCzJhycZiEWcY
+ y3cYQMdkWi9Xzr6R086G65rM2dZig1U5zSZdl5aO6jkrcsZ/sxezkeP7+dmFfYRVzOWekBqRkIM
+ BQBfAUXsT2wqVoUb+g8nJYMFqMTAiZJ/5dbpbKE2gov9/ZENeiiW/IBqu5rZLEN0aZBiSr0Uceb
+ 9gvnPmZStpbCShxMo9jhXonPZZS6UfyDBzMKWcxQSwMVMgEsIfPXCVBfG5TGfQbxfzBfwXlel4/
+ pD/BZBemoIKjZb9EW+pcZIe7QV+tMLVSPRBNoKbB/+rxHwgVNlYx+bEuqBkEzqGCw3PauiXboWn
+ zoPxdD7vgkAHApt0=
+X-Google-Smtp-Source: AGHT+IH5gScMrCCTGF//8JROzSasDHWVQYCYlgMKE4a0wf2w3fuKAyBSQp+DJif8kHEnseMXKCoH5g==
+X-Received: by 2002:a05:6000:144c:b0:3a3:62c6:d2cd with SMTP id
+ ffacd0b85a97d-3a362c6d48emr1641333f8f.14.1747399631142; 
+ Fri, 16 May 2025 05:47:11 -0700 (PDT)
+Received: from [192.168.5.157] (88-127-185-231.subs.proxad.net.
+ [88.127.185.231]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a35ca62b5dsm2792986f8f.55.2025.05.16.05.47.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 May 2025 05:47:10 -0700 (PDT)
+Message-ID: <70da4bf0-a36b-474c-8057-1ad056573e01@baylibre.com>
+Date: Fri, 16 May 2025 14:47:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D9XKW0NFY922.5HTPCXGGUGQT@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/3] arm64: defconfig: enable display support for
+ mt8365-evk
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
+ <20231023-display-support-v8-1-c2dd7b0fb2bd@baylibre.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20231023-display-support-v8-1-c2dd7b0fb2bd@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,94 +104,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 09:19:45PM +0900, Alexandre Courbot wrote:
-> On Wed May 14, 2025 at 1:19 AM JST, Danilo Krummrich wrote:
-> <snip>
-> >> +        util::wait_on(Duration::from_millis(20), || {
-> >> +            let r = regs::NV_PFALCON_FALCON_HWCFG2::read(bar, E::BASE);
-> >> +            if r.mem_scrubbing() {
-> >> +                Some(())
-> >> +            } else {
-> >> +                None
-> >> +            }
-> >> +        })
-> >> +    }
-> >> +
-> >> +    /// Reset the falcon engine.
-> >> +    fn reset_eng(&self, bar: &Bar0) -> Result<()> {
-> >> +        let _ = regs::NV_PFALCON_FALCON_HWCFG2::read(bar, E::BASE);
-> >> +
-> >> +        // According to OpenRM's `kflcnPreResetWait_GA102` documentation, HW sometimes does not set
-> >> +        // RESET_READY so a non-failing timeout is used.
-> >
-> > Should we still warn about it?
+Hello
+
+On 20/03/2025 09:48, Alexandre Mergnat wrote:
+> Enable the DRM HDMI connector support and the MIPI-DSI display
+> Startek KD070FHFID015 panel to have HDMI and DSI display working
+> on the mt8365-evk board.
 > 
-> OpenRM does not (as this is apparently a workaround to a HW bug?) so I
-> don't think we need to.
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>   arch/arm64/configs/defconfig | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> >
-> >> +        let _ = util::wait_on(Duration::from_micros(150), || {
-> >
-> > Do we know for sure that if RESET_READY is not set after 150us, it won't ever be
-> > set? If the answer to that is yes, and we also do not want to warn about
-> > RESET_READY not being set, why even bother trying to read it in the first place?
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index c62831e615863..1e2963a13500b 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -897,9 +897,11 @@ CONFIG_DRM_PANEL_NOVATEK_NT36672E=m
+>   CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
+>   CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=m
+>   CONFIG_DRM_PANEL_SITRONIX_ST7703=m
+> +CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+>   CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
+>   CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
+>   CONFIG_DRM_FSL_LDB=m
+> +CONFIG_DRM_DISPLAY_CONNECTOR=m
+>   CONFIG_DRM_LONTIUM_LT8912B=m
+>   CONFIG_DRM_LONTIUM_LT9611=m
+>   CONFIG_DRM_LONTIUM_LT9611UXC=m
 > 
-> My guess is because this would the expected behavior if the bug wasn't
-> there. My GPU (Ampere) does wait until the timeout, but we can expect
-> newer GPUs to not have this problem and return earlier.
 
-Ok, let's keep it then.
+Gentle ping.
+Is that patch can be applied please ? The remaining patches in this serie
+do cleanup only, then shouldn't block this one.
 
-> >
-> >> +            let r = regs::NV_PFALCON_FALCON_HWCFG2::read(bar, E::BASE);
-> >> +            if r.reset_ready() {
-> >> +                Some(())
-> >> +            } else {
-> >> +                None
-> >> +            }
-> >> +        });
-> >> +
-> >> +        regs::NV_PFALCON_FALCON_ENGINE::alter(bar, E::BASE, |v| v.set_reset(true));
-> >> +
-> >> +        let _: Result<()> = util::wait_on(Duration::from_micros(10), || None);
-> >
-> > Can we please get an abstraction for udelay() for this?
-> 
-> Should it be local to nova-core, or be generally available? I refrained
-> from doing this because there is work going on regarding timer and I
-> thought it would cover things like udelay() as well. I'll add a TODO
-> item for now but please let me know if you have something different in
-> mind.
-
-Not local to nova-core, but in the generic abstraction. I don't think the
-generic abstraction posted on the mailing list contains udelay(). Should be
-trivial to add it with a subsequent patch though.
-
-A TODO should be fine for now.
-
-> >> +    let reg_fuse_version = bar.read32(reg_fuse);
-> >
-> > I feel like the calculation of reg_fuse should be abstracted with a dedicated
-> > type in regs.rs. that takes the magic number derived from the engine_id_mask
-> > (which I assume is chip specific) and the ucode_id.
-> 
-> We would need proper support for register arrays to manage the ucode_id
-> offset, so I'm afraid this one will be hard to get rid of. What kind of
-> type did you have in mind?
-> 
-> One thing we can do though, is expose the offset of each register as a
-> register type constant, and use that instead of the hardcoded values
-> currently in this code - that part at least will be cleaner.
-
-Let's do that then for now.
-
-> >> +        let _sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
-> >
-> > Just `_` instead? Also, please add a comment why it is important to create this
-> > instance even though it's never used.
-> 
-> It is not really important now, more a way to exercise the code until
-> we need to run Booter. The variable will be renamed to `sec2_falcon`
-> eventually, so I'd like to keep that name in the placeholder.
-
-Ok, seems reasonable.
+-- 
+Regards,
+Alexandre
