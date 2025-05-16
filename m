@@ -2,84 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3219EAB9B7F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 13:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7D3AB9B97
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1085510E135;
-	Fri, 16 May 2025 11:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0378010E139;
+	Fri, 16 May 2025 12:00:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="DMmoEwQB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z5JTBLi8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A95610E122
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 11:53:23 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-442f9043f56so9438245e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 04:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747396402; x=1748001202;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ch/Rj/4SdVJXjJR99ndnnvzfGLGPgBeB9n9xS7Ien3E=;
- b=DMmoEwQBEO3HDYDU23xvNv8Jl6wRraU59uPG7gv4Eh6L9SH6Uy/nYFRDl9OiFlSVYM
- zQJRzX/TywMSolUVro0A72YnhUL2pFoB3Hn28tuG8iMmhdv3m6KNs6C96TSf6uAxyAvy
- 9BxSKGOP3dzmOMfMfJluvnaXtesQZ/WahBMyA7/JkD/fas9nHIRZzCCjtKO4ZKiy0OcW
- OwCu4sLDAw92zFjhHXN9kSnCycP/RTlvMolNm8p66xC96Gb87hLWPQ0D+lhHK5JNlAqN
- UoBfSkfVSdR9haLCu+dqE966yrlmNixwPunZGeDoET0yAhgc1Sqs7kFKOIDoFRQkRCg/
- ayUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747396402; x=1748001202;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ch/Rj/4SdVJXjJR99ndnnvzfGLGPgBeB9n9xS7Ien3E=;
- b=LMczHbTDFbblCei7kzxi/O1X4vZwI0/Xe/dgf22eQKaXvACGbInnkSuEblt7hbdGXw
- hflU1mrqvVnneiQZefIJcoeG+cTFf6fm5tQR2jUAdJEIw/aoHOltdoFd+dQW4WwYrwKm
- Fv8ewN76FIN4LxaGNf1DzWo/hZSDkS4+K+omt2VONc35EYeSu43EpuRLk72VLZBIagT/
- HfsI89HM8Npaz6KdaIAOSSpECK2U3zQ4Rt19VmqH/lUpaB+BnJbgKaLj/ihFATGABQk9
- qjJCknILB4ILB/SoGX5HQ4Cm5spEYOQ/2kfdqZCzhOYo1kcHfu/pxgoH3WjholoXh4Gh
- 8a7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3YCkDxwVYrxbLj9C2d31ksmVHcnsgZn6g+fVmzv7cxZzAJ8N18QKAenqWqlJM6/iOfnuC1CDxcG0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy73I378K+wM62JU2OwR+mWgOxDhflBgcndWkbc74sDy+3x+D8d
- notTFBzl8EZc4jxBv00Tk5hAMDKDLFh5fibb+ylM3mofDp2Ybb7pT3z284bG0f2S3D8=
-X-Gm-Gg: ASbGncuwVB60cuHo6fg4+bJbu3a1Qc45D6QeTaMSUeSSTioDzM9Lxk82+SwY+EZtrEf
- Rq9vUMMDH4NRTM7oQ2gZBnjqXU+V4jCUEESfL3lYI+guHsmRYybtJt4pYapERi6V4CDycfkNZSH
- f6fVCcBdMUwN5JuFtIY1KQpj6ny6CXrVuZjMBjkPNikq+pm0zHSy0jdL1eMUDVyvQtXIoQ+sTbm
- YkQ9oR02Eo54FYe2D9pV42uLK38kCgma6vS+/nd1Gppcp3/4zXZ50dZQlhPGysXF94j7+f9+FJe
- HLjeaClx04YBvmDlpOuId5735OwKYen5qAYxdXu/sWZ+FDVu9Zy79BPojsoM9N+s7cF99o1H0gk
- j
-X-Google-Smtp-Source: AGHT+IHQsiIPvOFAJlqSMsIWnhuK/gUiucGTkaZKv3CGdN8sUyHAnOxOXDFebOG3iH+aAxlsz6g+fg==
-X-Received: by 2002:a05:600c:1e87:b0:43d:585f:ebf5 with SMTP id
- 5b1f17b1804b1-442fd60b4c2mr28328285e9.1.1747396401644; 
- Fri, 16 May 2025 04:53:21 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442ebda7d2csm73546695e9.3.2025.05.16.04.53.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 May 2025 04:53:20 -0700 (PDT)
-Message-ID: <6e5ab077-77ff-443b-b345-7d99fcd01a73@ursulin.net>
-Date: Fri, 16 May 2025 12:53:20 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F344610E139;
+ Fri, 16 May 2025 12:00:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BC44149C10;
+ Fri, 16 May 2025 12:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9940C4CEE4;
+ Fri, 16 May 2025 12:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747396823;
+ bh=Qa4y3GKkOrdDTRVqctWigtG5EuAl1QVHRyJ3XDg5GgQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z5JTBLi86om3e1ktFqyK9J1w3qVtyTj4drUlCJ8fOOfIx22CBRF4gOwlHPds/Czn1
+ 3OaBhbxhIQwbEkKsJhIN5bpGxzWvoSdzxPejoxiERNzhFhfZBCcAkFiWB4f7jFg3x6
+ jQ5PQyvsC/nu6Le9Jr3VhGgfsVgsl5lPWBE5Apfx0l8uM0NZDjtscqdk/ItWcqcPGq
+ gkC8JYIjdrL36c3jrbKiI2bFaRizn6N85qfESnYYyQd1PjZESLKbUxmlaK8lwecnY4
+ AlVxKcNpvN4/27iLfqLYqe946Du1Npgrw3LUnd1rXyA+mQN9SPlT4SIlqXL5MxaPlz
+ 0LdXI6nFfW6NQ==
+Date: Fri, 16 May 2025 14:00:17 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v2 2/6] drm/sched: Prevent teardown waitque from blocking
+ too long
+Message-ID: <aCco0RFRVM1POr6J@pollux>
+References: <20250424095535.26119-2-phasta@kernel.org>
+ <20250424095535.26119-4-phasta@kernel.org>
+ <1297389f-70f6-4813-8de8-1a0c4f92250a@igalia.com>
+ <aCcLMhS5kyD60PEX@pollux>
+ <e152d20b-c62e-47d9-a891-7910d1d24c6a@igalia.com>
+ <aCcZSA79X9Nk2mzh@pollux>
+ <24173faf-c2f0-4d08-93db-587891dc8b5d@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/sched: add drm_sched_prealloc_dependency_slots v3
-To: phasta@kernel.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, amd-gfx@lists.freedesktop.org
-References: <20250515150038.4615-1-christian.koenig@amd.com>
- <20250515150038.4615-2-christian.koenig@amd.com>
- <a5e53b34-c247-4193-b4ab-551693ad089a@ursulin.net>
- <5c93f114a58e84796f239b9e0f4a13e9c223e45b.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <5c93f114a58e84796f239b9e0f4a13e9c223e45b.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24173faf-c2f0-4d08-93db-587891dc8b5d@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,145 +71,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 16/05/2025 08:28, Philipp Stanner wrote:
-> On Thu, 2025-05-15 at 17:17 +0100, Tvrtko Ursulin wrote:
->>
->> On 15/05/2025 16:00, Christian König wrote:
->>> Sometimes drivers need to be able to submit multiple jobs which
->>> depend on
->>> each other to different schedulers at the same time, but using
->>> drm_sched_job_add_dependency() can't fail any more after the first
->>> job is
->>> initialized.
->>>
->>> This function preallocate memory for dependency slots so that no
->>> ENOMEM
->>> can come later while adding dependencies.
->>>
->>> v2: rework implementation an documentation
->>> v3: rework from scratch, use separate function to add preallocated
->>> deps
+On Fri, May 16, 2025 at 12:35:52PM +0100, Tvrtko Ursulin wrote:
 > 
-> I think we agreed to not put change logs into commit messages anymore
-> :)
+> On 16/05/2025 11:54, Danilo Krummrich wrote:
+> > On Fri, May 16, 2025 at 11:19:50AM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 16/05/2025 10:53, Danilo Krummrich wrote:
+> > > > On Fri, May 16, 2025 at 10:33:30AM +0100, Tvrtko Ursulin wrote:
+> > > > > On 24/04/2025 10:55, Philipp Stanner wrote:
+> > > > > > +	 * @kill_fence_context: kill the fence context belonging to this scheduler
+> > > > > 
+> > > > > Which fence context would that be? ;)
+> > > > 
+> > > > There's one one per ring and a scheduler instance represents a single ring. So,
+> > > > what should be specified here?
+> > > 
+> > > I was pointing out the fact not all drivers are 1:1 sched:entity.
+> > 
+> > I'm well aware, but how is that relevant? Entities don't have an associated
+> > fence context, but a GPU Ring (either hardware or software) has, which a
+> > scheduler instance represents.
 > 
-> They aren't useful for any reader. Who needs the changelog afterwards
-> can retreive it through the mail thread link that we add.
+> Aha! Well.. how it is relevant and do entities not have an associated fence
+> context? Well, entity->fence_context.. that was my first association this
+> whole time. Never it crossed my mind this is talking about the hardware
+> fence context. Proof in the pudding naming should be improved.
+
+It says "fence context belonging to this scheduler", which should be
+unambiguous, however I agree that we could mark out the difference even more.
+
+> But I also don't think there is a requirement for fences returned from
+> ->run_job() to have a single context. Which again makes it not the best
+> naming.
+
+It's implied by the fact that a scheduler instance represents a ring. Having
+multiple fence contexts per ring doesn't make any sense.
+
+But it's indeed not written down -- we should do that then.
+
+> > In the callback the driver should neither tear down an entity, nor the whole
+> > scheduler, hence we shouldn't call it like that. sched_kill() is therefore
+> > misleading as well.
 > 
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 45
->>> ++++++++++++++++++++++++++
->>>    include/drm/gpu_scheduler.h            |  4 +++
->>>    2 files changed, 49 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index f7118497e47a..b95e7089aa70 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -858,6 +858,51 @@ void drm_sched_job_arm(struct drm_sched_job
->>> *job)
->>>    }
->>>    EXPORT_SYMBOL(drm_sched_job_arm);
->>>    
->>> +/**
->>> + * drm_sched_job_prealloc_dependency_slot - avoid ENOMEM on adding
->>> dependencies
->>> + * @job: scheduler job where dependencies will be added
->>> + * @id: id for the allocated slot
->>> +  *
->>> + * Sometimes drivers need to be able to submit multiple jobs which
->>> depend on
->>> + * each other to different schedulers at the same time, but using
->>> + * drm_sched_job_add_dependency() can't fail any more after the
->>> first job is
->>> + * initialized.
->>> + *
->>> + * This function preallocate memory for a dependency slot so that
->>> no ENOMEM can
->>> + * come later while adding dependencies. The index of the
->>> preallocated slot is
->>> + * returned in @id.
->>> + *
->>> + * Return:
->>> + * 0 on success, or an error on failing to expand the array.
->>> + */
->>> +int drm_sched_job_prealloc_dependency_slot(struct drm_sched_job
->>> *job,
->>> +					   u32 *id)
->>> +{
->>> +	return xa_alloc(&job->dependencies, id, NULL,
->>> xa_limit_32b, GFP_KERNEL);
->>> +}
->>> +EXPORT_SYMBOL(drm_sched_job_prealloc_dependency_slot);
->>> +
->>> +/**
->>> + * drm_sched_job_add_prealloc_dep - add dependency to preallocated
->>> slot
->>> + * @job: scheduler job where dependencies will be added
->>> + * @id: the preallocated slot index
->>> + * @fence: the dependency to add
->>> + *
->>> + * Consumes @fence and adds it to the preallocated slot
->>> dependency.
->>> + */
->>> +void drm_sched_job_add_prealloc_dep(struct drm_sched_job *job, u32
->>> id,
->>> +				    struct dma_fence *fence)
->>> +{
->>> +	fence = xa_store(&job->dependencies, id, fence,
->>> GFP_ATOMIC);
->>
->> Add assert that the passed id exists (was preallocated) and is NULL?
+>  ->sched_exit()? ->sched_stop()? ->sched_cleanup()?
+
+I think this all would throw up questions like "What does {exit,stop,cleanup}
+mean in this context?". And the answer would be "kill the fence context of the
+ring represented by the scheduler".
+
+I think we want a name that represents that without an indirection that we have
+to define.
+
+> > It should be named after what it actually does (or should do). Feel free to
+> > propose a different name that conforms with that.
+> > 
+> > > > > We also probably want some commentary on the topic of indefinite (or very
+> > > > > long at least) blocking a thread exit / SIGINT/TERM/KILL time.
+> > > > 
+> > > > You mean in case the driver does implement the callback, but does *not* properly
+> > > > tear down the fence context? So, you ask for describing potential consequences
+> > > > of drivers having bugs in the implementation of the callback? Or something else?
+> > > 
+> > > I was proposing the kerneldoc for the vfunc should document the callback
+> > > must not block, or if blocking is unavoidable, either document a guideline
+> > > on how long is acceptable. Maybe even enforce a limit in the scheduler core
+> > > itself.
+> > 
+> > Killing the fence context shouldn't block.
 > 
-> You
+> Cool. And maybe convert the wait_event to wait_event_timeout with a warning
+> to be robust.
 
-Hm?
-
->>
->> Also, if someone preallocates and does not consume the slot will that
->> confuse the iteration in drm_sched_job_dependency()?
-> 
-> drm_sched_job_add_dependency() you mean.
-
-I was actually thinking of drm_sched_job_dependency() because that 
-looked it would skip dependencies upon encountering an unconsumed 
-preallocated slot, but yes, drm_sched_job_add_dependency() could explode 
-even earlier if adding a normal dependency after preallocating a slot.
-
-> Yes, it would. All operations simply give you NULL for those slots. So
-> seems to me you have to check for NULL wherever a preallocated slot
-> might drop out. That would then be a bug.
-> 
-> It's kind of tricky, all that. It's a pity that Wilcox didn't answer
-> our questions about the idiomatic way to do it.
-> 
-> Maybe reserving slots with already signaled fences wasn't such a bad
-> idea after all?
-> 
-> If we go for the NULL approach, it's probably the only sane way to then
-> check for NULL wherever dependencies are accessed :(
-> 
-> Opinions?
-
-Well if the xarray API returns the NULL consistently the approach from 
-this patch is fine I think.
-
-We just need to add two more checks to the above mentioned functions, 
-some more unit tests probably to make sure, and that should be fine for now.
-
-On the bikeshedding front I would perhaps suggest:
-
-  - drm_sched_job_preallocate_dependency()
-  - drm_sched_job_replace_dependency()
-
-Reads a little bit more aligned with the rest of the API and a bit 
-easier on the eyes, to my eyes at least.
-
-Regards,
-
-Tvrtko
-
+That would make sense if it could deadlock, but even if the driver does nothing
+it should terminate eventually. The rule that we always rely on is that we
+guarantee throughout the kernel that fences are signalled eventually.
