@@ -2,155 +2,207 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91634AB9E1F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 16:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFDDAB9E29
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 16:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9510310EAC8;
-	Fri, 16 May 2025 14:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1178B10EACF;
+	Fri, 16 May 2025 14:06:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sQLneyBE";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="YLrSgRwZ";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YLrSgRwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C6210EAC8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:04:05 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com
+ (mail-am0eur02on2055.outbound.protection.outlook.com [40.107.247.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3751410EACE
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:06:19 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=TZUZOS+MTrqHfgoSEIQjxJBLfZnD8sBlxlcdreWGB8AvskWW63ugbjDcsgtBSA3Gc7nT3Ii68i2eUerB3PAZaCx4PSWFK3iWu8aIxfb7yB+lq1d10PNbiHhhMY2EOb0Uo1L2NybwCL5Tpik7rl5KuXWch0K68mCC4pMo+mulHW9KHqYZPM5Tv2jrqMnRhcaT60FnRY1fPfLVKOvjjrabeciWLDDjtsfQKLndciGXIa9jM+NIhS2oBd8DaZP7WGSfHMLBD82dWdLpi93wBlmrwq34bqoZuU2CW5+zuKkq1kSz08Q5xA4CCIPWnh8JLJJBEnKgjofUl5cR9hxXL5hhSQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7GRS+jTPIdwdfCuVoJxmVAopdtSiXYEt9BnBLB0mVt0=;
+ b=rF9s95qkkGiRg8s9M90CncEzX57tbYXdsuoFbaUefZCT8k0QuYiQ2Vm7hlljbrlBfO6P6ff7EPT2Yy4fQsxtF8CueS/LlworgxD3zwqhJc9xxUB6qskBpYVNaUOFGkvHc0K/7j61mSCgxVjvzOGayoIJe34cfRus1nUTqsl5AgCmujLxiBkfiDk6dZwcO1JhfDhZO3p7kvMF3ETdTaaZeIOfEiI70AQdKDu1Eyhy2dKR/KLug3T2Fo2CVBt1MuzbhmmND3uJWUV829EpM8b5b8pVX/EBHlC+fkwNtpa+UJj9LMRZR+sOeWzmP6cHhZ7eHhbRyOAj8fhtk9vF7FC02Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7GRS+jTPIdwdfCuVoJxmVAopdtSiXYEt9BnBLB0mVt0=;
+ b=YLrSgRwZE6d9KXRfnw2efO7Foer9kJzH6q6aT4QbODX74L+WeWld3iAVYPQffFqAqzTVbvCCzAucawfdHuPqT2vw0RCuW4K+GlYIUJQ5/xtsKDMPuKwxbKo6I1iBV9ByQr4/TwM8C9ppdiPVN/LyfvwI+YMVVBH5XLihdLjl/ss=
+Received: from PR3P191CA0056.EURP191.PROD.OUTLOOK.COM (2603:10a6:102:55::31)
+ by DBAPR08MB5751.eurprd08.prod.outlook.com (2603:10a6:10:1a0::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Fri, 16 May
+ 2025 14:06:15 +0000
+Received: from AMS1EPF00000045.eurprd04.prod.outlook.com
+ (2603:10a6:102:55:cafe::e0) by PR3P191CA0056.outlook.office365.com
+ (2603:10a6:102:55::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.18 via Frontend Transport; Fri,
+ 16 May 2025 14:06:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS1EPF00000045.mail.protection.outlook.com (10.167.16.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.27
+ via Frontend Transport; Fri, 16 May 2025 14:06:14 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zEm1wGA80XDli72E7AsN3cRwapz6/ZaihOUbiAeytf38lStg9MyuB8GOmlt/HlMv7XsN+xceqB1xZQ+dj1HK2fEJxEjAJlIzSzNrdOJA8ujcnzLKxETi//7wu9ynxUFndDJ4EofQZOwG//PlQbILkWYiq5X6zR2xR9TH5VlguLPaWZtvmi8Nw16DTy5MpNmZ2N+Z7xo29F8HvlgpPdwiya+yX32Mf0qVx7mWI3y3sVnVnCn6MeCWg0DIy+zrgHcEz2lQI/yuufllR1jNOdtpmN8E0MSS9REGoIF6cD0PD85eDvbHAMmPeM1UPhDrczLWGjLwkqs6EVmKRRTyEOPQ6w==
+ b=YjaVL+YEoG8UCucpn5wDTeJAbYdzowUxFDwKk5baQpEgsunNk2HEmGKQWVAJhKyGvb3gbnqUVRPejV0ZAaEW/CnDMD+BnPVOAbzcQnZwwYxAHBKpl6MvxGapRhBW1yUAX3ff7chCdEd5jDzXqoOd1G7NCq4fSQ2JjOBjKgxIsavCZ1iPsInj79EOLRyK4KahWrXs8eX7UEXjNsPrPrMyyr2WAqUeJNQalE9bKsK0zgULb8/g+lbvVzXM06hshG+j/dydN4pubZ7JSiXtAFJlOlqUa8KkOSnKclA+JITyi3hN1AxCWEWO9Sf3dBbTkWLgfH1PaeeJU5RJFDMAI/sS4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uo6UzatNf73yIJKrWZ17DB1S1eQGg+5JEAUWBkaF1QE=;
- b=E5z0Q2ugEM/ZQk6d/oE+ZmMVhj3+224u8C3mS0Np4wZQ6oF7V1cS5hrrkt1iQMw9oG78cSYn79rX+GhghJbaN90PnE7tuumIU6Std/F5UyEiWx9FpyWqQK8tZBGB7Um2FsFph3L8F1kHnpBiYrH4tdpC18crFvBpFEiWDHL+DHg7MOuKz57A/s4I+G0n17giFTA4819i1OcIt6tNe9gA+3TydM+Hz7RnXX9VB6odzeNOkfgl2VtNKvw8qK78whAlSHkhALaBrnNz+Epbm6y5jBfpPkBQtDWIOCot+Q4F3J+6GYLVJ+bQ13OFlckggpQwSaVgUohK7S5AbPNM6P6hgA==
+ bh=7GRS+jTPIdwdfCuVoJxmVAopdtSiXYEt9BnBLB0mVt0=;
+ b=jPij5qnH1nZtW2Q4+Kz6yGZ/fSBQrSFcWJe3RDgSEEgTlZvYH8hXixE9GnLplEkbw+n+RyDCH/mH1J0M9kE+LIBGwngM58U4CoTxLa04qKWACkIQ4hVVPlDLyyPjZqD2d3lvugQjh39bfCKYdCTqk2xL9bkWS40JI4zXb41mhW94kBnAbHa6X2W3dJBtH0mEPFr++jhgBXZyk9RkaaKcEudubxBDrH+kZWF3ZfwkBIS+XfrJNqRni+xzt2r7nTOD2tZP+OSAh5H2gVdDP6uWbSXnrUyJeWtBZhiUrjCbHpkQ7Sy1FLWS4R4+Lw3TGVZ4dq6+2WZEGBQL/B5nh/IBFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uo6UzatNf73yIJKrWZ17DB1S1eQGg+5JEAUWBkaF1QE=;
- b=sQLneyBEFonrcX/zUH/EEktMVZesCftu45MYZMT0rU1iELD75P6dsivSpwAyWgiVQqy8xvp2W/VKVqQnpJ6fWupPBzOSDcG0qUt945Pt090qyiDoJ4sxCk5S4P7ttNG72v9trYBLo3pd+ImwILTs7bw8ii9dH8sd1GlIBjNDU5M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ1PR12MB6337.namprd12.prod.outlook.com (2603:10b6:a03:456::20)
+ bh=7GRS+jTPIdwdfCuVoJxmVAopdtSiXYEt9BnBLB0mVt0=;
+ b=YLrSgRwZE6d9KXRfnw2efO7Foer9kJzH6q6aT4QbODX74L+WeWld3iAVYPQffFqAqzTVbvCCzAucawfdHuPqT2vw0RCuW4K+GlYIUJQ5/xtsKDMPuKwxbKo6I1iBV9ByQr4/TwM8C9ppdiPVN/LyfvwI+YMVVBH5XLihdLjl/ss=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM0PR08MB3315.eurprd08.prod.outlook.com (2603:10a6:208:5c::16)
+ by AS8PR08MB8224.eurprd08.prod.outlook.com (2603:10a6:20b:52b::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Fri, 16 May
- 2025 14:04:02 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Fri, 16 May 2025
- 14:04:02 +0000
-Message-ID: <31ee0be4-d6e5-49a7-8db2-bbcc895db575@amd.com>
-Date: Fri, 16 May 2025 16:03:58 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.31; Fri, 16 May
+ 2025 14:05:42 +0000
+Received: from AM0PR08MB3315.eurprd08.prod.outlook.com
+ ([fe80::42a0:1b6e:cf98:d8fc]) by AM0PR08MB3315.eurprd08.prod.outlook.com
+ ([fe80::42a0:1b6e:cf98:d8fc%4]) with mapi id 15.20.8722.031; Fri, 16 May 2025
+ 14:05:42 +0000
+Message-ID: <7ae5cc02-d969-41f3-b531-9efcf4cf93df@arm.com>
+Date: Fri, 16 May 2025 15:05:41 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: Make pool shrinker more responsive
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>
-References: <20250515205751.37268-1-tvrtko.ursulin@igalia.com>
- <d4892d91-7562-4391-93fe-4b2ec159bb69@amd.com>
- <b453ccd4-b783-4314-8cc0-ed372d833ff1@igalia.com>
- <d3afe944-9a5d-4cf2-83ab-f32da4d59464@amd.com>
- <991d0b4c-dc74-4864-9560-f2b04f551550@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <991d0b4c-dc74-4864-9560-f2b04f551550@igalia.com>
+Subject: Re: [PATCH v3 0/7] drm/panthor: Add performance counters with manual
+ sampling mode
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1743517880.git.lukas.zapolskas@arm.com>
+ <xqxyuzrerw5b3rndifpyklkarzio2j7ioe7nyedvhli55teevf@kb6lkfueeypf>
+From: Lukas Zapolskas <lukas.zapolskas@arm.com>
+In-Reply-To: <xqxyuzrerw5b3rndifpyklkarzio2j7ioe7nyedvhli55teevf@kb6lkfueeypf>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0062.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: LO4P265CA0083.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::20) To AM0PR08MB3315.eurprd08.prod.outlook.com
+ (2603:10a6:208:5c::16)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6337:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35c6c28e-ad77-40e2-6242-08dd948282df
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3315:EE_|AS8PR08MB8224:EE_|AMS1EPF00000045:EE_|DBAPR08MB5751:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8d4cb78-80e2-4b77-b94a-08dd9482d1d4
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cER0cmM2WHhoeVRlYVNuVnlNY3FXMXhBQktVTDkvb3cyWFZuMm1jejF1VW1p?=
- =?utf-8?B?cnA3WHB6QTJSUEtmN2pzbWZ0akVIcDU0YUdrRHRjcGdBY1MxM29pZEUxMVor?=
- =?utf-8?B?a04rY2RPVndVSDF6MHJzWHZZNXFWQStwaUErZExtVno5OUlhR01mSS83blVU?=
- =?utf-8?B?aXBSeXBIdW0ya1pRcDc1ai9ON1p1MjhDZjY3T0NOTWV1Z3kydnNXSmtzdjBM?=
- =?utf-8?B?MFJjTEZLMWFWMXN6WGtlaTZ0NGNSeStDK0RMamRQT3BPb0dsRnFOMlB0OWVi?=
- =?utf-8?B?bGF2K1Yxd25seitrQlp2blNpTnFkdGFmZXVLbURDVXFaRForZ3lNNkdCOXZK?=
- =?utf-8?B?bU9GdmRkTHRiNyt6NmRkQnRESVkvN2RneXEwVUkzZkNXeFJ5RzlaOEsyTHFN?=
- =?utf-8?B?UDN2UEptY29RSVpmNGEwRGJ3UGV3bVdwK1ZsVm84SktpUGpkWDZFQ3Zyc05C?=
- =?utf-8?B?cTFvSC93SDdNT1JHTzB3c2NwYzA5VlR3NnlBTnN5aUVZRTFUME03amdvU0hx?=
- =?utf-8?B?YTBtVEJGZWE1SkxmVFQ5SnhJb04xRnRTMVlnT21Mbm9vTWdnZVNGTlpEaWhl?=
- =?utf-8?B?NWZTWUl0NmhFMVFxUU85dVlvK0dYM2cxbnVSQ29PTVNvYkVrV2J6TkRlWEdR?=
- =?utf-8?B?WkZxd0s1YVhYYUVsT1ZpeXF5UUM2M0x2cVpNNnpHcnlKTTBac3IwN3NELzM4?=
- =?utf-8?B?V0tGaWJFam8xTERSWVVOWUlHRmwwVE1ray8xWXNqbFZ3S1ZabFJzbld4Qjh0?=
- =?utf-8?B?R2hxRC9iZ2dSUWNvaU5MUURxZVNTdFEwdGd2MkdST1hlRXFnS0tOb0hLMWty?=
- =?utf-8?B?cllIdUhaNDFLNkE3WGZ3RkJVdkJJRkdsZzdTVTEvclRTcktJNWQrckwzQ2tv?=
- =?utf-8?B?dzI3SXF3aVhBZzM2blhaUUx1NElvc25CZHQ0QzN4dFFHVFFxK010K2V6MmM3?=
- =?utf-8?B?dFI5MkluL1FtWFE4U0xnTzhsRXRJNHovWVlvM2FjKytTS2l1OFVCN3gycW9p?=
- =?utf-8?B?NHB5UFJRcStTSThSUC9xOUVkSzY1K1pkcW9FN0N1cExCOEs2WE02Y3NYQ01p?=
- =?utf-8?B?SUR4bWZNWXVYRis2SFdhS1p5WjZqaGk4MHFzT09XS28rK2g1ODNYNDl5ZlNT?=
- =?utf-8?B?MzVtVm16TmNTZXRmdTRhOUxiYTBTNCs5V2dROEgwT2VjS3FOdFpTSGhIU1Iy?=
- =?utf-8?B?c2g3b2lQQzlKM0psdm1TUCtHeTMwOFpOZzdPeEJSbFRyb1lEUXAveVd1NGJK?=
- =?utf-8?B?c3JzQXQzY0xmZ2xPWFhtOGVKU0d3VUhUVEQzb1ZITjNqZ2hPbURqQzBIeUo3?=
- =?utf-8?B?NitIVVFsaDIrRXdYSnJkL1hiY3BYUjIrS1B4RnNkSytVajZwQlNMR3pUS1Fh?=
- =?utf-8?B?em50S2xUVEpEMlZYdGVqOFBQaDNuRGNpSnlvWEtNSGg1Y2dHUDNCc0Q5d1B0?=
- =?utf-8?B?OXFOeXZTbjBFRFIrRlByVXVaVkluVGJuSUx5bzVmalVuV2p1U004a0ZiRDY0?=
- =?utf-8?B?aGQwZjFoZGptWEl1TjJlUEJST05uR204Q2ZpTEswWTdUang0a3pSTUJ0R0tT?=
- =?utf-8?B?VVFsVVVvbmJWTHBXMnFjMmtIK0taOS9ycW15NC8yVS82aHJxY0YzSUlJUzlH?=
- =?utf-8?B?Z09XTHlZdk9WVXFKaFBwaitLczZjYUFBWjNheE0xYXNBVDZqYkV1emhKYlFQ?=
- =?utf-8?B?eGJjb0UvWFNHRXBvMEgyTWRRY1Z1RUxvdnNSWUR0Vnl1Yy9Kc2diclpEZXkz?=
- =?utf-8?B?bE10b1pPT3d4Y2VYZi9xTENvT2hUM0gvVEYrQlZHWnRRWUk4ZCtzb2ErYzA3?=
- =?utf-8?B?NEdyVzhZa2lmOGRwSlJPTFNCQlVCc2hkRTlRYm5tN2xmdlVOTTR4bFBUc3Uy?=
- =?utf-8?B?WXRGejRrTnF5UG5ubXVrRTZWckZhWHkwUE9XUnNNcXhhVGdGWVNLcEUyeEF2?=
- =?utf-8?Q?GK8IHDAklpg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVEzQnBIbmxJUDAxZVE5Mnd4UldoUVZaaVN0L293dG5heVpDVGYwUW5PRGF3?=
- =?utf-8?B?eEZtSWJTbmorbnpQSGFSVW1qQW1pUzBoblR6bW9oT1RIYm9FTy9nVXRlNmFS?=
- =?utf-8?B?N1BjbGZ1cVdiTTBTMWptRTBEaExlZTJsZHRtVllCMUVQSGxpaWFzVFg5RURl?=
- =?utf-8?B?UW1kbnRKb2VFS1BoNFBua3h4ODFoUkh5UGJTOUJpaUJmbXgrc24xV2RtSmNO?=
- =?utf-8?B?VitVemNJTnRYMk1OT1BlaE1wVkVqY292THBkRWkwSFFDZktnME0rZU1kdEtK?=
- =?utf-8?B?UFgzaGdmUndyQkxuZ2ZpTU5uMHc3YVNWTXJyNGREODZSeTVhRHhXZGVDNnh2?=
- =?utf-8?B?MTA4ZC81SXk1aHZCajQ0WWxSeU05M0tPQ3pzTzkrcmNFaEFaMnQ0NUlKUldy?=
- =?utf-8?B?dWJoSzRuTmw4QTJ1OFJBbFMyR3ZkN2E0dmx5QUZJdk5mSlFDdUliRHptcUR1?=
- =?utf-8?B?RW5zQUc3N0NlazlyeVBZZTQ5VTd4RStLK2pUM3NDNHB3RWZGYUNQUEVCVjVQ?=
- =?utf-8?B?SVJQdTFMVk10TXNsR0NVVCt4NnF2c2dxeDMxbWNJakFtd3FTQi9udW55RzVT?=
- =?utf-8?B?QUoxWnVmUE1qSnN2bGJndWNTdTVhdys1SHE5NUZFTksrZTNHVml1VGJRYVZE?=
- =?utf-8?B?aUlFTFFnVko0ZUZ6dzRZTXVoMml4ck9xTDdKNFByUlEyYnpOUE9WeEpSckY5?=
- =?utf-8?B?SkJUUmZscFlPN1hoMXMwSm11TU1VYUNibFNXazlxSFNtYTNkV3RoWTJyK0VF?=
- =?utf-8?B?QWJjUHE3emFCTHlLR2d4aGphNHRqN05kbU1CL0NOa1VOQUhSNzBoMVI1dVZm?=
- =?utf-8?B?U1hhMldCdEVMTlA4T0hlckRjTDRVU292ckxBdmc1YUR3RnFCVUk4TWJFQTRO?=
- =?utf-8?B?Qldhekd4R1VLZUpnaWtWOERYUUovTFNCUURUQlpsSmlsYmpHNTA0Z1Nsc3pR?=
- =?utf-8?B?dnFQd0h1dkhpZkp1a2V4dWxqdmFTd2JjTGJob1FBTFJ0RVAzcW1OMmVvaVl5?=
- =?utf-8?B?SmQzNlBhRFBiQXJybUhoR3RibWcwTXV3TEc1TndxNTNrSjMyS0ZJQ1ZPQjBD?=
- =?utf-8?B?OVN5d29sN29ZZUVrZXFXczYzVk1JTmp2VSt1Z3NicFFISzZJdWF3VHJpYnl5?=
- =?utf-8?B?cXhoYVJ0c2pKYVlKN2ZHc1ZDNWdNTmpsa2piZ0VvdDdxOWF5Zmhpci9IcG8x?=
- =?utf-8?B?b21zUVdLei9peklCbXBTU0JaOWpjMENneGp2d21JeW1UdnFFR0U3cDVtMU9n?=
- =?utf-8?B?bkFzNHROczVFRFlLYWViMFlGaVdRUHU0OExLT09BcDZYNDZEY3k4SWZ4dE1M?=
- =?utf-8?B?NlBhVWs1dHhjN1NKajJLdWZRZnNFc0RzMnN1LzBabFFxWHBPM0c4QllUbDBN?=
- =?utf-8?B?UTg1dHhENmdiMno3TkpiMHFHN0d0VWVEK0FmQVVIQjlnbklWcXRKUzJyQWZo?=
- =?utf-8?B?bzJJaHlwdmlwMjQ1RzdwS1BZNTF2S3RaSGFweWJmOFViekh1dm95N2dqUXpp?=
- =?utf-8?B?RTB2cGJhNjJ1bXkwVXYxenNoK25GQUdheDJHNGY3dE9QVEt3Sy9hQkNCb1J5?=
- =?utf-8?B?ZVpHVVg0K3QrQS84YnlRRngwM2w0UHlXM2J4MXZmbjcxSHlpSWcwNXMxRXlt?=
- =?utf-8?B?YkpaMi85YmtuYkF4ZkdFRFZDTEVTRVdUWTB0bjFwYU04aUZtdFVnL3JZKzVv?=
- =?utf-8?B?YWdMRUtJdThoamljVWliWmpOdnFLV2hYa1h3ZVFzaGRZSWZlZy9aS3llQllM?=
- =?utf-8?B?MEwzd3R2YTU2c240VkdLQVp5VmZiMi9nbVJuZzlSQUwyZ2VVT3dZNzlNUWdO?=
- =?utf-8?B?dGcyWFJoc0k1VU9qUUU1R2hLTUZBOWhZMFFSenhQMzd1ajVMVDVNNlpsOWhL?=
- =?utf-8?B?Vit6MENCRTA4eG1PdTFIRDI3ZjRoYUtKQTRhcG9mUlNWQzVBSlE1N1FUWFhP?=
- =?utf-8?B?OUthemc4ZkZ3WWl1cjVBUTAyVTZBOVRPZnlGUkhCVHZXK1JFNnV0YUJqcnZw?=
- =?utf-8?B?YzVSM0M4THg3TEh1clo1ZC9xc2JrMk1Mcjd1aTJXTm5yNWhscFZUSHFDb05M?=
- =?utf-8?B?eWZsQUhhdWl3RUNUTGM1a2k3TWcvdW5HR1N5eXh1T0V6RjBIQzFxRTdGc0ZJ?=
- =?utf-8?Q?3WtPct+GtpRhQNd+jiaxgPEDE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35c6c28e-ad77-40e2-6242-08dd948282df
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 14:04:02.2113 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lWT3yxvlIQNmiU5Q2KSThoXGNuaDbiIT3+JZl2uQ5I83MjgnG8zQkecKHz2DXB5t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6337
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?Y2QrcUtwcHB1aGVkZitBanRieUYvclVNOTMrWGhzTzdwYlViWnhpSURHTXRu?=
+ =?utf-8?B?WVI1WU1pQ3VadFMyRU0zTlFhaUw3TFB1VEFyRUw0T1gxUHUzTllYZG41WnE0?=
+ =?utf-8?B?Sm9RNW02WXBudktEMkpEUVJPckYybmxIUnVEMHBhRGRHcFRQaFozS1RUYk10?=
+ =?utf-8?B?T1RhendoV3JUT2I4LzFKMVJPdEc3SHdRbXkrSnZxQXh5a3BMVWhBem54Tk1J?=
+ =?utf-8?B?cWw1WmxKVkhaNkdFSmtLUjMzNVJrV1h4cjdSR2pwY0Z3aVk3MTAwYkU0Wk9j?=
+ =?utf-8?B?VEE2Qi8zYzF6eC9VUXk1MGU5YUwwck1wYzVPelVGS3dKQWVEWHR6UTVnbEpa?=
+ =?utf-8?B?MlpScVhna2Y5RUpzd2xPZEFxZjB1b2I2VFlZNGlCMm5KNitPaE9qNUliTjVG?=
+ =?utf-8?B?ZHZ0c1pFS2lPV2FPcXAwWWkzVnJneEJ6di9keEdhbDVpc0tiN0l4L2dkWXZE?=
+ =?utf-8?B?bjZhb2QxYmtaQ1FJVXIvanAwa1Q5UElQbFNhTitVZTRPOWYya0dMWnVocktx?=
+ =?utf-8?B?ekZ5bTUwbWcyd2w0bkkwSGEvY0RYMUJpUFNuanhFalVYZEVtMVdPOEs2V3NP?=
+ =?utf-8?B?OUNvT1FLcVFZTCtRZDBqRWljMlp0VlFJaU5xYld0d0ZSbmtZdTVSSFdyZ2ND?=
+ =?utf-8?B?azAxaUdOVDMzcFI3RDFUV3JaNWdpV3RwWlhaV2p6ellLUDYvYUgveGVNZTVS?=
+ =?utf-8?B?Qk9wOVBURkx5UkIrWEs2dUpUTTFEdm5FckFVVmJWS2g1QnlLRTRPdnU1RDZ2?=
+ =?utf-8?B?ZStvWmY3cFlxRGRnTmlyaUExM0dYdUJMSW1pVkpPQjVzMS8zWHVMWnRQMlJP?=
+ =?utf-8?B?WEJoN2NEMmN3ZS9CZW8yZWxkKzFOMVZuR09jMld6bkY0QWo3b081NklxdDVk?=
+ =?utf-8?B?NjdnMGdzT0Z1a3R5L0tQazgrR0ZlVTdYQ2twS050Ui9pNG1kZW02QzZpUlN3?=
+ =?utf-8?B?Zmt0VCsvTmNSKzVWRkpVeGJvdEhTMXg4aXRnNmJoR25hNm5RRC9WQlFidWdV?=
+ =?utf-8?B?NVp5Y2F1UFBIclVMS1lSbGt1QzY0eFo0aGc3dDVRdnBNV05qQ1VGQ2VTVzd3?=
+ =?utf-8?B?c3c2V3RyWWFPNmkrRWRaTU1uNnNZbzUvcFZldmxFVDNhQjQwOUVEMnM0aFBW?=
+ =?utf-8?B?VlVuYnhUSkNYbzdFSHpjWWM3UUpjK1RrUkhFc3NFd2t6RjExWnZpQ1ZvVTQ1?=
+ =?utf-8?B?R0k3RzBiYUcvOURkMVJqdXo3K3VJS3dEQzZ1Q2JRejNnV0dRNU81S0Y0a2wy?=
+ =?utf-8?B?MnM3R0tYT1k2cWlnVHJkdEFCWENYMXpxd1owZzhIS2lwZVRqbm1DT0sxRHpU?=
+ =?utf-8?B?VUh0UCtrSE92eDdDTnJZcTd1WXZrY00xKzVLbnJaaWZ1VzFwUVA0elFOb3hm?=
+ =?utf-8?B?a2tscTBlVWViUk1hbDVEb2V1U1Z1bllNZTVDTU14OGZjL0xzY1pLQVJqMzEx?=
+ =?utf-8?B?WjZ6WW93d1JBUWdNMjFqaUZXNFpRM2laY2ZjdkV2Q2k4V1FJMFc3MUNBRGJM?=
+ =?utf-8?B?MWMxQjJ6OTZaZUNnc1VsVmVzN296Q3doRTNDUjU3dFAvN0craEFDTDdRYkd3?=
+ =?utf-8?B?Z0VCT3NTNnVGMnlRUDNENzNySUJJSVdhYmJCSWFhd2FNQUlSL2ZJNVhMS0Z1?=
+ =?utf-8?B?cTYrV291cmtlbTVXUXM5YlA1VldRak5kcEREZzlIL1ZZOXlpYUlTZ1BrMmpa?=
+ =?utf-8?B?T2JVSFZZalkvWnlQeHdVaXA5QUsyLzFwM2t2c3Z6QitPMTZidUxWQ0FvOXFL?=
+ =?utf-8?B?V0phSENVY0ZLSnFHK254ZUNlaTdkTDk0V0Y2N3docllPNTl3TFRLRUYxNU05?=
+ =?utf-8?B?azRoeE9YOFkyK0FDVFRKZVNuZXNKV1QyN0d3S2ZDc0x1bmZmMG9UaExMbkpD?=
+ =?utf-8?B?cytlb2RTRXVxdHQ0TFp2N2dLODJFTUliUU5sQWhXUkxTcllqZ3hRTDljbTZQ?=
+ =?utf-8?Q?E6440SIlNR8=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM0PR08MB3315.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8224
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS1EPF00000045.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 773e8e90-2027-42b1-4420-08dd9482be9b
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|35042699022|36860700013|82310400026|1800799024|14060799003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YjEyRXNaaXJWbEJWVkkyZUpTL05pTmFYd1JyRVJnODFZQkZ5dmlLQWtnVUln?=
+ =?utf-8?B?M1pWdHRjT2prakdYUlRtTUl4d295cEVVVXhIbzIzYkROaEttOTZVNHcydnR3?=
+ =?utf-8?B?UWpYeGlMK0JHNHUxdGRFRGFBVGRzL21XdnlIL0dFYVBoaFRZbHo1VVdaZWEx?=
+ =?utf-8?B?dFppUGlNdjNhNmkzdjFXVFFsSU9nNXVoaVMwTzRkYkJGRU04RkhvRHZRT2U0?=
+ =?utf-8?B?Q051czhNeFQ5R21KN1ZXNWc2eVUrcWJSeUp2SmF4Qlh4OXc3SXUvMFRUU3VG?=
+ =?utf-8?B?Z2hqalU3S1FMRkE0Qk9ZSGt6MjNYVmdYSmg4bWk5NGY0WFdGUkRXOHJENXRN?=
+ =?utf-8?B?VndiQkRKNWhnS0R4d1FRVDRkT3ArbHBsNUFRTVN1N09Wd3dxYjV4dDNheXpi?=
+ =?utf-8?B?dkdmUVJoMHI3MFFaUGlaKy9Wd3czSWd3T2xMSzJqRnR3SFRIZVdrZ0hmWkxC?=
+ =?utf-8?B?UjAxNXVpTlZscGMxWWhaNlgyYzkwakt6QzQ4eUhYL01xNnBkQVVGczFOaC9K?=
+ =?utf-8?B?MG1UWTcrYitrSUI0cm5FSzNYTjNOUkNKY2dPVlh4Wng5Vzc3emdlRGVQVHlU?=
+ =?utf-8?B?QTAzc3U1WnVHMmNBYW9MVEhwc3dLNkZ4Z1NlcXNEaWpSdEdEWStGb2FrL1NO?=
+ =?utf-8?B?eFlOeUpjTVUwZjUzUDdTQUFsU3VicXV2T1ZYMzdyQmdleml3KzVoUmdpc2ZE?=
+ =?utf-8?B?VWZrNWdZQnVydzNlZVk5SWxwcVhHVXBzTW1yajg2b2cyMmNSeSs4RlhqM0xn?=
+ =?utf-8?B?OTNpUnd3cFBxTGgzRXZPdXVIZ3JNby9sRmtINW84MDZacVpBOVZxZmlJZTYy?=
+ =?utf-8?B?WUdFbmZISlZ6dHNINUUzWkxGTlRVSzl2YlhlTzM2d1AwMkxwUDdQWHZRWjNG?=
+ =?utf-8?B?Wng5N0Z0OE9ueWhNMU1NYzJPelljUHNocnhBQmYwdElweVRDcnhaaGY4bk5z?=
+ =?utf-8?B?REh2TTlWQStzaUxWV0ZkZnpGTGp1U3V4QlQ2S0h1K3B4OUg0UTFWMm56OE1Y?=
+ =?utf-8?B?LzRRN2JSNzBlK1ptWXQxdTJQbWNIR2dKSnJoWlVwbGluZVVDdVp0aDcxODN6?=
+ =?utf-8?B?K29lZTRJY2plbS85NlB2UEwxbnBWWXVKVEZTZkFOKzZzeGN5dE9iTTN4cDlZ?=
+ =?utf-8?B?bWFsMEJFTXhQc3R2UmtnaG0rdEZpRzZjVm5VdXRiUmtiOGcxdlNsemhYQUsr?=
+ =?utf-8?B?emwvQVRyMktURG5NN284b3hIaEdWS2grTDdLenhqUjEzdlpZYzA0cG5XazAy?=
+ =?utf-8?B?OVFNSDhCZEszayswMkJHS1ZEamZzUHgxMG4ra2VzdjhDcGRnRlpTaHk1RElq?=
+ =?utf-8?B?ckREYkFYclFrWVNsSVhndEFPVzRYYWVWTWRWd2xCWFBVZXREQnJHWUorRUdV?=
+ =?utf-8?B?RE40Y0tsNzFFN0krcGxMQkVHSU1BVVZnb1AzM3QvbG1sRXcyM1RFUjdVNFhq?=
+ =?utf-8?B?NjFYN080UngyT3NRb2xqQXp5a3pjUEUrWmQzT04vSythYzlyN0JISmgxZnZw?=
+ =?utf-8?B?L2hFMUQxd3R0WVVGRnpiZHl0RGtFekl1VU1aamRJUGo2VE0wOVJVNGdwZWZJ?=
+ =?utf-8?B?bXdZMmNSRW1XMHE3ckQ4Wm5odWMwN1dhQUFCK21iVngwVUhMaThrMnI4djdw?=
+ =?utf-8?B?SFUrQ3hob0F5U3U3Q2NwOEdMbDlxcVFIOHRaK2tkQkdXR0hzcUJnUTZuUFpC?=
+ =?utf-8?B?MGZCQy9vdmlzOWZyUFBHUmsvS01DYThwSDJNcjFXbkRoUWRMSXJjbzhpL3Nj?=
+ =?utf-8?B?Zm1IaGxGdjEwTWFrUVhJVjhMUktCa2RlYm9rc2VtR0xrQXRnZDVaeXRhUTRK?=
+ =?utf-8?B?czVsUHF2aG1UL0lGZWx2U21VN1dxTTZlZDdZcXgxNUVhNm8wczV4QUxoV1Nx?=
+ =?utf-8?B?QkVsb3ZNemsweDM3TjBsa0V1T0pvSEQ1VjFsUUVrN1drVyt4cFBlbXQwZ0Er?=
+ =?utf-8?B?WU1TRXVuT1pRODROU0pIL1lCc1ZxbHRjNGV4RmVVelViT2xWeWJhb0Ryc3po?=
+ =?utf-8?B?dFJXOHhQcVpaVzBzeEQwbFVUTTZKZUhtRy9rcXhNOXBMT0wvTUEwOFVPRHhJ?=
+ =?utf-8?B?bzZBWGZuQ05GTzFubUI4MURaSGREM3Z2b0Zldz09?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(35042699022)(36860700013)(82310400026)(1800799024)(14060799003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 14:06:14.2599 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8d4cb78-80e2-4b77-b94a-08dd9482d1d4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AMS1EPF00000045.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5751
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,191 +218,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/16/25 15:41, Tvrtko Ursulin wrote:
->>> But because TTM shrinker does not currently update shrinkerctl->nr_scanned, shrinker core assumes TTM looked at full SHRINK_BATCH pages with every call, and adds and decrements that value to the counters it uses to determine when to stop trying the TTM shrinker and move to the next one.
->>
->> Yeah that was intentional as well.
-> 
-> What was the reason do you remember?
+Hello Adrián,
 
-Uff I think it hat something to do with fairness between the different pool types.
+Thank you for reaching out about the matter. Could you please clarify what you would like
+me to elaborate on? I have responded to most, if not all, of the comments you raised in that 
+review, including providing more information about the approach (please see [1] for more details 
+on the uAPI apprach).
 
-> 
->>> Therefore the exit condition can trigger too early in relation to the number of shrinkable pages in TTM pools. Or it can require too many calls to ttm_pool_shrinker_scan.
->>
->> Oh, that is indeed problematic.
->>
->>> Depending on the distribution of freeable pages per pools.
->>
->> No, that should be completely unrelated.
->>
->>> This patch:
->>>
->>> 1. Fixes the TTM shrinker to correctly report shrinkctl->nr_scanned.
->>
->> No it doesn't. The nr_scanned for the TTM pool is not related to the number of pool types scanned.
-> 
-> Not sure what you mean here.
-> 
-> Ttm_pool_shrinker_count() reports in number of pages which shrinker core then uses to set nr_to_scan. But as ttm_pool_shrinker_scan() does not update nr_scanned the core shrinker logic is foiled. If that is by design I would like to understand why.
-> 
-> But as nr_scanned is currently not updated at all, it is obviously not related to pools, or anything really.
-> 
-> And in my patch it is still not related to the pools. I made it report the number of _pages_ scanned to align with ttm_pool_shrinker_count() and what the shrinker core expects.
+I am also in the process of publishing a Mesa MR corresponding to the v4 of the patch series,
+which will be available. It includes additional fixes discussed in RFC v2, 
+and I will provide a more detailed change log.
 
-Exactly that's the point, you are not using the number of pages scanned, but rather the order of the pool type. And that is clearly incorrect.
+Kind regards,
+Lukas Zapolskas
 
->>> This way the break condition in shrinker core works correctly.
->>>
->>> 2. Makes TTM shrinker actually scan as much as the core requested from it (respecting shrinkerctl->nr_to_scan).
->>>
->>> This avoids only scanning say one page when shrinker core asked to scan 128. This reduces the number of calls into the TTM shrinker from the core to free same amount of pages.
->>
->> That should be easy, you just need to adjust the while loop in ttm_pool_shrinker_scan().
-> 
-> Yes I think this part would be simple on its own.
-> 
->>> 3. Tunes the batch size away from the default 128 (SHRINK_BATCH) into a value based on the median size of the TTM pools.
->>>
->>> This ensures that on average TTM shrinker tries to actually free _something_ more often than it does now. Otherwise it can happen to try a few pools (depending LRU order) and give up, while the freeable pages are actually in the pools not yet looked at. By tuning the batch size it ensures that on average more pools are looked at.
->>
->> That doesn't make sense. The number of pools looked at is completely irrelevant for the shrinker.
-> 
-> Nr_to_scan the shrinker core asks for is default at most 128 pages.
-> 
-> This means TTM shrinker can look at the few small order pools, find nothing, and exit.
+[1]: https://lore.kernel.org/dri-devel/55fb6aa6-89dc-404c-89fc-5c56d15d8c98@arm.com/
 
-No, that is not what the code does. See here:
-
-        do
-                num_freed += ttm_pool_shrink();
-        while (!num_freed && atomic_long_read(&allocated_pages));
-
-We scan until we find at least one page to free or the global allocated pages counter says that we don't have any pages to free.
-
-Looking at empty pools actually doesn't make much sense, so they are just skipped until we find the one which contains the pages.
-
-> Shrinker core may then call into it again to try again. Or maybe it can even move on the the next shrinker (away from TTM) if the distribution of free pages between pools is right.
+On 07/05/2025 20:54, Adrián Larumbe wrote:
+> I wanted to review this series for quite some time but lately have found myself caught up in quite
+> a few other things. I've had a look into it last week, but before I delve into it any further, I was
+> wondering whether you could take some time to go over the questions and comments I left in the review
+> for the previous patch series version.
 > 
-> The exact behaviour here will depend on whether TTM shrinker starts respecting nr_to_scan and reporting nr_scanned so it is a bit premature to discuss in detail until those two are settled.
-
-Then it is probably a good idea to separate that.
-
-> Anyway, by tweaking the batch_size from 128 to 352 we can make the same effect in fewer iterations.
+> That way I could know what changes you introduced in response to issues I raised, and which ones are
+> due to a rethinking of the whole design.
 > 
->> We should just look at all pools round robin until the number of objects/pages the shrinker wants to free has been freed.
+> I remember some of the questions I posed dealt with a genuine lack of understanding of the way
+> performance counters in CSF GPUs operate, so if you could find some time to answer them or else
+> point me to the right sections of the TRM I'd find the review of this latest revision a lot easier.
 > 
-> I thought that was what the patch does.
-> 
-> Although on a second look I think am missing an exit condition for the case where requested amount cannot be freed.
-> 
->>> Now mind you I looked at this two months ago, which is when I first sent this patch out, but haven't went through this today again, it still makes sense to me. So I am curious why you think it totally does not. It looks obvious to me it is not respecting the contract with the core so I would be surprised if I was missing some obvious gotcha.
->>
->> It sounds like you are assuming that the pool type structure are the objects to scan and we abort when we have scanned a certain amount. But that isn't true, we abort when we can't find any page to free any more.
-> 
-> Maybe I am blind but AFAICT it currently exits as soon as it frees at least one page:
-> 
-> static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
->                         struct shrink_control *sc)
-> {
->     unsigned long num_freed = 0;
-> 
->     do
->         num_freed += ttm_pool_shrink();
->     while (!num_freed && atomic_long_read(&allocated_pages));
-> 
->     return num_freed;
-> }
-> 
-> Or you mean from the point of view of the core shrinker? Again, that one is complicated since it currently always decrements total_scan by SHRINK_BATCH. And total_scan is set to at most half of pool pages. So it can scan order0 find nothing -> total_scan -= 128, order1 find nothing -> total_scan -= 128, etc, and it soon accumulates a false positive large number of scanned pages and exits from TTM shrinker if freeable is low, but actually shrinkable pages are in the high order pool it did not even get to try.
-
-That is not what happens. See the loop tries to free pages from all pools until it finds at least one.
-
-After one page is freed the pool type is put at the end of the LRU, so with each new call to ttm_pool_shrink() we will keep going over different pool types.
-
-See this here:
-
-        pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
-        list_move_tail(&pt->shrinker_list, &shrinker_list);
-
-
-Regards,
-Christian.
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>>>>      /* Return the allocation order based for a page */
->>>>> @@ -881,10 +880,12 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->>>>>     */
->>>>>    void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
->>>>>    {
->>>>> +    unsigned long nr_scanned = 0;
->>>>> +
->>>>>        ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
->>>>>          while (atomic_long_read(&allocated_pages) > page_pool_size)
->>>>> -        ttm_pool_shrink();
->>>>> +        ttm_pool_shrink(&nr_scanned);
->>>>>    }
->>>>>    EXPORT_SYMBOL(ttm_pool_free);
->>>>>    @@ -1132,17 +1133,21 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>>>>    }
->>>>>    EXPORT_SYMBOL(ttm_pool_fini);
->>>>>    -/* As long as pages are available make sure to release at least one */
->>>>>    static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
->>>>>                            struct shrink_control *sc)
->>>>>    {
->>>>> -    unsigned long num_freed = 0;
->>>>> +    unsigned long to_scan, freed = 0;
->>>>>    -    do
->>>>> -        num_freed += ttm_pool_shrink();
->>>>> -    while (!num_freed && atomic_long_read(&allocated_pages));
->>>>> +    sc->nr_scanned = 0;
->>>>> +    to_scan = min_t(unsigned long,
->>>>> +            sc->nr_to_scan, atomic_long_read(&allocated_pages));
->>>>> +    while (freed < to_scan) {
->>>>> +        freed += ttm_pool_shrink(&sc->nr_scanned);
->>>>> +        to_scan = min_t(unsigned long,
->>>>> +                to_scan, atomic_long_read(&allocated_pages));
->>>>> +    }
->>>>>    -    return num_freed;
->>>>> +    return sc->nr_scanned ? freed : SHRINK_STOP;
->>>>
->>>> That again doesn't make sense. That we only find pool types which don't have pages doesn't mean we have scanned them.
->>>>
->>>> As far as I can see the existing code was correct after all.
->>>>
->>>>>    }
->>>>>      /* Return the number of pages available or SHRINK_EMPTY if we have none */
->>>>> @@ -1266,7 +1271,10 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
->>>>>    /* Test the shrinker functions and dump the result */
->>>>>    static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
->>>>>    {
->>>>> -    struct shrink_control sc = { .gfp_mask = GFP_NOFS };
->>>>> +    struct shrink_control sc = {
->>>>> +        .gfp_mask = GFP_NOFS,
->>>>> +        .nr_to_scan = 1,
->>>>> +    };
->>>>>          fs_reclaim_acquire(GFP_KERNEL);
->>>>>        seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(mm_shrinker, &sc),
->>>>> @@ -1324,6 +1332,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>>>>          mm_shrinker->count_objects = ttm_pool_shrinker_count;
->>>>>        mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
->>>>> +    mm_shrinker->batch = (1 << (MAX_PAGE_ORDER / 2)) * NR_PAGE_ORDERS;
->>>>
->>>> Since we install only one global shrinker for all pool types, which might contain everything from 1 page till 512 pages, this seems to not make sense at all either.
->>>>
->>>> What exactly are you trying to do here?
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>        mm_shrinker->seeks = 1;
->>>>>          shrinker_register(mm_shrinker);
->>>>
->>>
->>
-> 
+> Kind Regards,
+> Adrian Larumbe
 
