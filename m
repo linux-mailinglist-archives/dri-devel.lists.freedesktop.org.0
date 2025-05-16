@@ -2,93 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0CFAB9C8A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0041CAB9C8D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 14:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2DF10EAAA;
-	Fri, 16 May 2025 12:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67A510EAA9;
+	Fri, 16 May 2025 12:49:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hGDbX8C1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YT+EYV87";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24AA10EAAA
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 12:47:12 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-442ccf0e1b3so23592365e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 05:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747399631; x=1748004431;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=It4olg+vj/PaVXUOML7Uwtxb8afmv0kwgYzH/XkHr3k=;
- b=hGDbX8C1xlRtL+4NzUB1gGTLog/Bex20ovjLVv65iwZcsp+7gRC7w2sGGsp7it6fZC
- l+uyp15Rz0EzpZu+JUs81DO8iCEONMGA51VfVko82yytpAFwm1GQL6LTmjz7QFKJUFBk
- sbtPrMu9UR8r9F/Y662JDbIOSlgmVK2OqlLSd/HDbfwP9ydgXZ7Odb7pkFutdW+e5KZR
- TqveJ4dVHQBBWALc3c1E0fwRzcIVzoJruM7irlhf2Y2BnEXFDTwIN+/OW92szyp/OLi5
- j7UiAB/QvqXnKnk/zGRC+bkvVk6UjFt8uEeK5K58O6kIZc4vTdl+SQRjkwAhw2CpRhFG
- nYCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747399631; x=1748004431;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=It4olg+vj/PaVXUOML7Uwtxb8afmv0kwgYzH/XkHr3k=;
- b=aic93ni5N2xNzXRJV7dw0k9uchM3jONI50xRmkyBwA9r2SqhXHK8qZKMrP5x6M0pN0
- Gs6Kw8RqYYZ42O3TH5uvvPT98DaqLpRnI4eLaiW4dxSj80AGxp8s+X+dZSjvJAYvW06H
- JhGK/wZLP+X8kq9oiDa6Sn6xhkcIBFE+MiikXPoS8WI9GqwRHNO1L7vKBkYhf96SmQCm
- f9mbCmFU5hK8u6DR0J2Re1pcpWOKuMMXUoTFeJrCrpGBJTPGfdwloI67BFFy0ZTjeP8+
- Fv1uyt5cSnho39HB6B/XdUFOXEK5Z+rQ1tYRuvSfFF3LxLnr8tYR6o2L/8VedgPSCr2v
- MMvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8NF9mTFctSDAHiA2h9eKmy7UWD+gyV6hxrC32ao9ffFkDfOHNRXntMW2/PcV4Q6TdDRamKyP7hYk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTSvgNRm8FU2eEHUi36pXliuCtedYfYG1r9sjWUGfNvlqF9T6O
- 3C6EtlxrJX2iTDRP33blrLgVx+z+2x2C0D36r7UJjWfjez3JaThzivUz8XtIFKd9hpg=
-X-Gm-Gg: ASbGnctr8/ytXmTl4IgFhC8+iVog8uEyc68fZ9wqqiVlkRH5TCxWw8aCzJhycZiEWcY
- y3cYQMdkWi9Xzr6R086G65rM2dZig1U5zSZdl5aO6jkrcsZ/sxezkeP7+dmFfYRVzOWekBqRkIM
- BQBfAUXsT2wqVoUb+g8nJYMFqMTAiZJ/5dbpbKE2gov9/ZENeiiW/IBqu5rZLEN0aZBiSr0Uceb
- 9gvnPmZStpbCShxMo9jhXonPZZS6UfyDBzMKWcxQSwMVMgEsIfPXCVBfG5TGfQbxfzBfwXlel4/
- pD/BZBemoIKjZb9EW+pcZIe7QV+tMLVSPRBNoKbB/+rxHwgVNlYx+bEuqBkEzqGCw3PauiXboWn
- zoPxdD7vgkAHApt0=
-X-Google-Smtp-Source: AGHT+IH5gScMrCCTGF//8JROzSasDHWVQYCYlgMKE4a0wf2w3fuKAyBSQp+DJif8kHEnseMXKCoH5g==
-X-Received: by 2002:a05:6000:144c:b0:3a3:62c6:d2cd with SMTP id
- ffacd0b85a97d-3a362c6d48emr1641333f8f.14.1747399631142; 
- Fri, 16 May 2025 05:47:11 -0700 (PDT)
-Received: from [192.168.5.157] (88-127-185-231.subs.proxad.net.
- [88.127.185.231]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca62b5dsm2792986f8f.55.2025.05.16.05.47.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 May 2025 05:47:10 -0700 (PDT)
-Message-ID: <70da4bf0-a36b-474c-8057-1ad056573e01@baylibre.com>
-Date: Fri, 16 May 2025 14:47:09 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4C610EAA9;
+ Fri, 16 May 2025 12:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747399786; x=1778935786;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/8f/jSS6gLVAzhPFW0vE1+5UJ8HssoY0+ZN5Yf2qqIo=;
+ b=YT+EYV87ciCIXSzUscS3u8E7RWok7mAURlU1/ndu2qfuSlIaHB3ZDs6/
+ OVLtyYwXptHa8uv6tkbF6+ZOWSkmP2lNDukT19/SBsz4V75Mm7PmvuHC8
+ WWpFhYgy1koRH1393QicwurLKwX4ycappAlFVoB+mqa13ykeRJJZ5fdbd
+ sHLDEWnLVgtJ6z2/D+ojsIycVuWAQYwd+s+BZi5U9tOXU+8tDzPNk9FBU
+ 6xGpzCBLEop5R1YPa4iVQPob1HUs00SuoaFw3eukF1wh64yQl/H5P2oW5
+ weLxaezwiOA4Kfo29MOqHkx5r+g/EnG51r9gNmUmiOALWfYtokJlhrE7w w==;
+X-CSE-ConnectionGUID: BDHlNEy+Qc2ln7wv4txBog==
+X-CSE-MsgGUID: faJ9XtL5Tr6ScFlRcSQyrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49526764"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="49526764"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2025 05:49:46 -0700
+X-CSE-ConnectionGUID: vir2mYIiQrOA2wDbVj7+LQ==
+X-CSE-MsgGUID: a070JebaRO+dCo493+BkhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="169623060"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 16 May 2025 05:49:42 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uFuVQ-000JLv-0y;
+ Fri, 16 May 2025 12:49:40 +0000
+Date: Fri, 16 May 2025 20:48:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leonardo Gomes <leonardodasigomes@gmail.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, derick.william.moraes@gmail.com,
+ Leonardo Gomes <leonardodasigomes@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
+ with prefix to help in ftrace
+Message-ID: <202505162041.ftJ48E6X-lkp@intel.com>
+References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/3] arm64: defconfig: enable display support for
- mt8365-evk
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
- <20231023-display-support-v8-1-c2dd7b0fb2bd@baylibre.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20231023-display-support-v8-1-c2dd7b0fb2bd@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250514174306.82693-1-leonardodasigomes@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,42 +74,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello
+Hi Leonardo,
 
-On 20/03/2025 09:48, Alexandre Mergnat wrote:
-> Enable the DRM HDMI connector support and the MIPI-DSI display
-> Startek KD070FHFID015 panel to have HDMI and DSI display working
-> on the mt8365-evk board.
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->   arch/arm64/configs/defconfig | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index c62831e615863..1e2963a13500b 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -897,9 +897,11 @@ CONFIG_DRM_PANEL_NOVATEK_NT36672E=m
->   CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
->   CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=m
->   CONFIG_DRM_PANEL_SITRONIX_ST7703=m
-> +CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
->   CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
->   CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
->   CONFIG_DRM_FSL_LDB=m
-> +CONFIG_DRM_DISPLAY_CONNECTOR=m
->   CONFIG_DRM_LONTIUM_LT8912B=m
->   CONFIG_DRM_LONTIUM_LT9611=m
->   CONFIG_DRM_LONTIUM_LT9611UXC=m
-> 
+kernel test robot noticed the following build errors:
 
-Gentle ping.
-Is that patch can be applied please ? The remaining patches in this serie
-do cleanup only, then shouldn't block this one.
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc6 next-20250515]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Gomes/drm-amd-display-Adjust-set_value-function-with-prefix-to-help-in-ftrace/20250515-151114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250514174306.82693-1-leonardodasigomes%40gmail.com
+patch subject: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function with prefix to help in ftrace
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250516/202505162041.ftJ48E6X-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505162041.ftJ48E6X-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505162041.ftJ48E6X-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c:65:25: error: static declaration of 'dal_hw_gpio_get_value' follows non-static declaration
+      65 | static enum gpio_result dal_hw_gpio_get_value(
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c:30:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_gpio.h:122:18: note: previous declaration of 'dal_hw_gpio_get_value' with type 'enum gpio_result(const struct hw_gpio_pin *, uint32_t *)' {aka 'enum gpio_result(const struct hw_gpio_pin *, unsigned int *)'}
+     122 | enum gpio_result dal_hw_gpio_get_value(
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/dal_hw_gpio_get_value +65 drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c
+
+    64	
+  > 65	static enum gpio_result dal_hw_gpio_get_value(
+    66		const struct hw_gpio_pin *ptr,
+    67		uint32_t *value)
+    68	{
+    69		struct hw_hpd *hpd = HW_HPD_FROM_BASE(ptr);
+    70		uint32_t hpd_delayed = 0;
+    71	
+    72		/* in Interrupt mode we ask for SENSE bit */
+    73	
+    74		if (ptr->mode == GPIO_MODE_INTERRUPT) {
+    75	
+    76			REG_GET(int_status,
+    77				DC_HPD_SENSE_DELAYED, &hpd_delayed);
+    78	
+    79			*value = hpd_delayed;
+    80			return GPIO_RESULT_OK;
+    81		}
+    82	
+    83		/* in any other modes, operate as normal GPIO */
+    84	
+    85		return dal_hw_gpio_get_value(ptr, value);
+    86	}
+    87	
 
 -- 
-Regards,
-Alexandre
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
