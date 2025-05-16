@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2FEABA5FC
-	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 00:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF1AABA5DB
+	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 00:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E812910E083;
-	Fri, 16 May 2025 22:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C675610EB9E;
+	Fri, 16 May 2025 22:19:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="gkwgkjXl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U8qMxHzF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49229.qiye.163.com (mail-m49229.qiye.163.com
- [45.254.49.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D41210E9CF
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:44:48 +0000 (UTC)
-Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-1-entmail-virt204.gy.ntes
- [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 15447ed97;
- Fri, 16 May 2025 15:44:39 +0800 (GMT+08:00)
-Message-ID: <e86fec57-de90-4663-9a32-7c50a97cde67@rock-chips.com>
-Date: Fri, 16 May 2025 15:44:14 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B53C710E14A;
+ Fri, 16 May 2025 22:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747433971; x=1778969971;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pNQgrf3kHx9tBSk5s9dabdfvWxeLz9IouCzZLXtswm8=;
+ b=U8qMxHzFhRVn+Ao8ylNAwLBUsqyOwxJq33dfzHAPT7zl4aVFDSI6WDXd
+ UDZaThxKPApmWL8hNPT5dmV51C0rUFWM7cz1ASxUERE5+OB6I6Udc6SCk
+ OdK7CiM5Hda4nKU8F7v1wVxyvAT5eNMghO69zwdb5YzGcXjvpRkM56cSN
+ 5rnKSZI/s/sNKdrD07u+JyfTwVl3D9Npfxe60Q/0fZf208/8md0YNB3nK
+ FBwBTUTAFrdSl4qCpE1hCTgsmtSj0cAeX9j5/PdJQfDkWl9pD3QXJu+Vw
+ 6e/gDI07hme6cy2Vik7Z++vELx90Y+Lhu+vJoS9W2kLcWHjhMimTGMbB5 w==;
+X-CSE-ConnectionGUID: AMxY/jdxQXSbr21yzrI+tg==
+X-CSE-MsgGUID: F+pnEVhHQ/SQP9uRPt7wKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="71922651"
+X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; d="scan'208";a="71922651"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2025 15:19:28 -0700
+X-CSE-ConnectionGUID: zhBWBYrtT3y3PomN/O1Ofw==
+X-CSE-MsgGUID: Y0x76TZKR5mErtlBiwu4Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; d="scan'208";a="175946731"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2025 15:19:23 -0700
+Date: Sat, 17 May 2025 01:19:19 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chaoyi Chen <kernel@airkyi.com>
-Cc: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250513011904.102-1-kernel@airkyi.com>
- <20250513011904.102-3-kernel@airkyi.com> <2745929.KRxA6XjA2N@diego>
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <2745929.KRxA6XjA2N@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk1CSVYfSkIdGBlLTh1JTx5WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a96d80d673803abkunm2d3213c01ca95b
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nz46DAw6PzExCDYqMTgUPBhC
- ExAKFDJVSlVKTE9MSENKT0NNSExLVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
- WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSU9CTzcG
-DKIM-Signature: a=rsa-sha256;
- b=gkwgkjXlmwVOg3emov54bWNmQ1ubniLLIoSOjKfg5mEc2hU3kFdn4I0DELqTTHGZzUfzNtVeSguuROWSIs1v6ZOmVpJ6jgtcIbG7x7OJVOObwxO0Tig8aeQYt4seLgQYX2Mqt0TfWExTJl7lmSJgHfz6iavTQYvq2y6wMuO+jiU=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=FmRZQYKpsA98XcslpEE/kRwKmHDbWxw0f+hVuWfJG/g=;
- h=date:mime-version:subject:message-id:from;
-X-Mailman-Approved-At: Fri, 16 May 2025 22:39:47 +0000
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>,
+ Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tomas Winkler <tomasw@gmail.com>
+Subject: Re: [PATCH v10 01/10] mtd: add driver for intel graphics
+ non-volatile memory device
+Message-ID: <aCe55yrAsAGsRMM2@black.fi.intel.com>
+References: <20250515133345.2805031-1-alexander.usyskin@intel.com>
+ <20250515133345.2805031-2-alexander.usyskin@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515133345.2805031-2-alexander.usyskin@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +86,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+On Thu, May 15, 2025 at 04:33:36PM +0300, Alexander Usyskin wrote:
+> Add auxiliary driver for intel discrete graphics
+> non-volatile memory device.
 
-On 2025/5/15 21:00, Heiko Stübner wrote:
-> Hi,
->
-> Am Dienstag, 13. Mai 2025, 03:19:04 Mitteleuropäische Sommerzeit schrieb Chaoyi Chen:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Input of the CDN DP
->> +        properties:
->> +          endpoint@0:
->> +            description: Connection to the VOPB
->> +          endpoint@1:
->> +            description: Connection to the VOPL
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Output of the CDN DP
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
-> you're adding the 2nd port (port@1) as output port, which has not been
-> part of the old binding. I think this warrants an explanation in the
-> commit message on what it is meant to contain.
+A few nits below but we're good to go.
 
-This is mainly to keep consistent with the binding style of other 
-display interfaces, which all have an Input (port@0) and Output (port@1).
+Reviewed-by: Raag Jadav <raag.jadav@intel.com>
 
-This change has no effect on the driver.  I will explain this in v4.
+...
 
+> +static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
+> +			      const struct auxiliary_device_id *aux_dev_id)
+> +{
+> +	struct intel_dg_nvm_dev *invm = auxiliary_dev_to_intel_dg_nvm_dev(aux_dev);
+> +	struct device *device;
+> +	struct intel_dg_nvm *nvm;
+> +	unsigned int nregions;
+> +	unsigned int i, n;
+> +	int ret;
 
+Reverse xmas order (and same for all other patches for consistency).
+
+...
+
+> diff --git a/include/linux/intel_dg_nvm_aux.h b/include/linux/intel_dg_nvm_aux.h
+> new file mode 100644
+> index 000000000000..53193fda55eb
+> --- /dev/null
+> +++ b/include/linux/intel_dg_nvm_aux.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright(c) 2019-2025, Intel Corporation. All rights reserved.
+> + */
+> +
+> +#ifndef __INTEL_DG_NVM_AUX_H__
+> +#define __INTEL_DG_NVM_AUX_H__
+> +
+> +#include <linux/auxiliary_bus.h>
+> +#include <linux/container_of.h>
+> +#include <linux/types.h>
+
+Missing ioport.h
+
+> +#define INTEL_DG_NVM_REGIONS 13
+> +
+> +struct intel_dg_nvm_region {
+> +	const char *name;
+> +};
+> +
+> +struct intel_dg_nvm_dev {
+> +	struct auxiliary_device aux_dev;
+> +	bool writable_override;
+> +	struct resource bar;
+> +	const struct intel_dg_nvm_region *regions;
+> +};
+> +
+> +#define auxiliary_dev_to_intel_dg_nvm_dev(auxiliary_dev) \
+> +	container_of(auxiliary_dev, struct intel_dg_nvm_dev, aux_dev)
+> +
+> +#endif /* __INTEL_DG_NVM_AUX_H__ */
+> -- 
+> 2.43.0
+> 
