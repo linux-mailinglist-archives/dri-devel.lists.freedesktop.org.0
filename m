@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DE8ABA11E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 18:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EE5ABA11F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 18:53:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE2410EB2E;
-	Fri, 16 May 2025 16:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E147E10EB38;
+	Fri, 16 May 2025 16:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD7E10EB2E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 16:53:45 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-442d146a1aaso20749425e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:53:45 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C11910EB38
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 16:53:47 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-442e9c00bf4so16923595e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:53:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747414424; x=1748019224;
+ d=1e100.net; s=20230601; t=1747414426; x=1748019226;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hkJKBkDUJRJ7bEb2VzWEqCdNMs8+V5XyH/wwMnfIh5o=;
- b=aTLuqnrymDiEc6XDzASWQELKLeKMKGsRk+VKhJX2J8zSNvhFObblxK+KiUZoELZ5P5
- Mlmyd0XsdDeWtMz1pq088kO6uYi8WNq5GWjtFrQjy2DFBp//TrLRCMaM5yH+KaAPU6JK
- 8UwgvkdkZT4+yAhDf1ElPn//3TKWpTrkC89BR89dlbrOBAO5XXFww6KDpegScC/JLNQY
- bFSAmoDgC170ClYQTlA2i6YbUdQtDnQF7QMA9hR9pIc563Y5hVwR0drtDHdnTjvh2FY6
- vX8j887XZrq14Tpl3DGy32crwUJHnVttDuPcM4btnwvOO3JUZoUFtWzeeGm58bjrBdjJ
- wd2g==
+ bh=DTsKYei0TKRuiGpGV/2kNvyJqAo04bcMiePh7aZi7j0=;
+ b=KW70HlFNnnSTQtCzPXW3RTvPkGO/oPybUU0UaAQzd3JxdjWihOsP40Dhf7a9r1SXiT
+ icyShEGWGgQ9CStI+8PRCPmXhhIXFKdZ3nw7nQ4lePdcCxLS0t+x2Z0kWhj3H1tCYZ7L
+ rFt+0FEJuYZZz9FAH4Kgk3TeZD5Dfu1Ulix2tTr+ZH9313H4PlWM3gEd+z5Jl89nhRPn
+ VZR9ll2ESLLUrtfmks5Bqmk1Gb7IkzgUbklE9rUUtOviVyQPdIqOhWxNIlHzNnhw1PPX
+ 8aROipzgfH+YJ8aHMqe4ZWEppR/2Vy/Jyr971VyXrhLRducGsuC/K0na+hPs2dUv1JK4
+ uzLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXm3TGGV1R71AJZNajaP5MNKrMoYbNUkZFCM8veqPvY88h1wuw5ZWnSCQ8E8NqsaQ34QA8zKHez5No=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKgUyv6Sg62VdgfuWVZuTBir+Wfh8CnJYtixOV0C2pRxzZY0ht
- cA/MblkGmTQKHl9NUqBLu7gQ6mrT+W5qS69LHev2M2ZkUGQNyBdAJNcI
-X-Gm-Gg: ASbGnctJQd/IHDR82mipDVrVQWTJdRrDzP2AbI4MoHR7o6s0HRIlhF30QXnzf4XpBLj
- CEPiD6bbboLAL0VjP2XIgkjihqeO8RSkXQ2NigWyDi01uOGxPm57pFhFZhq42/xS8fc+QV63bv1
- 3aFHveO+AtyUxsChceTzw1hRl/1Sc8ELs0A6BURnIE8nd/Bce3IG8mt3Zxd1Mp6H0sd3TrWWJkd
- HdqkJv9xFh7BKE7NDJ5cuuOBJvf85w2+lOEdQExNZqt+h+xGTpDoIC8feT12sFQFxTcfoFMgHTb
- wpUco1w8oZCB16GfCRrgvFN0bJmZZlyhqbsGJg2N0bfgiLQ74qH6ef6HLFaFHvYSr21hxZIAvdl
- G1DeBX17fUA==
-X-Google-Smtp-Source: AGHT+IGw5JIgx7HqIbGrEYnlEsefAk1beGSNisgnRK7qNU0koGoWWuj6HFwKCOCyrDxBWxPyXARd6A==
-X-Received: by 2002:a05:600c:3ba1:b0:43d:762:e0c4 with SMTP id
- 5b1f17b1804b1-442ff03bbaemr34135475e9.27.1747414423883; 
- Fri, 16 May 2025 09:53:43 -0700 (PDT)
+ AJvYcCX0LEvIO/vE4qhDe/WoFaIZtZnhZxw2KucenCq31KnXMEUpltuivZmLDMk+oZFFWkAnf6+Z3727S8M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxU3MICLMUkaEnWIwdAnuLKlvXx4BxA/UL+5nHkZFy2Vf5MwJa1
+ rWryvgaM7I7q8zHvHKLcqXVPeD0RdXfRGK+XTRfHkdCCszZr69VRbtqN
+X-Gm-Gg: ASbGncu6llQGayG0x5P0PkTVe5zp3mwG8YhfQlSUrsuYDxhIWFUxltdPjhdAJtQdiK9
+ hLMLV9BzlZrJLCr5ZlBBi8SrnrQzKr5+If/nsD7D0E8MS424ZtpQCbrtEY91WJR17qhPhAFhYtz
+ 6W9tS2bcN62y5FgxlkKb9KbW6yTNpHIHRoogQyB5B16TsLIuhfAW60uAaPuiWFON+Ut+XNBZT9n
+ 5Hfqd4EjBf0IcsOxinS9AewJ2Ma97ZmtZ50qKZ+bIGl/y3HmgEVsXTdpR8dmJj2JhxE3MJ7iyeK
+ MDczwcYpcbjLtC+ndh83n5jGjV5+2noM2UdN9R9q4tJzJYSY+OveScjN1wyg4kcHbhu4Sj72PUt
+ rPfQJ6O58+g==
+X-Google-Smtp-Source: AGHT+IG6xhwGZJzajazwVgVx2jcHoh4QWUUDGiZvS1m1Ru92pKqvh+bIatIT9YOQeA0bqa0UskoGJA==
+X-Received: by 2002:a05:600c:5491:b0:440:6a1a:d8a0 with SMTP id
+ 5b1f17b1804b1-442fefd6da8mr27032725e9.7.1747414425710; 
+ Fri, 16 May 2025 09:53:45 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442f3380498sm116511755e9.11.2025.05.16.09.53.41
+ 5b1f17b1804b1-442f3380498sm116511755e9.11.2025.05.16.09.53.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 May 2025 09:53:43 -0700 (PDT)
+ Fri, 16 May 2025 09:53:45 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 16 May 2025 18:53:22 +0200
-Subject: [PATCH v3 08/10] accel/rocket: Add IOCTLs for synchronizing memory
- accesses
+Date: Fri, 16 May 2025 18:53:23 +0200
+Subject: [PATCH v3 09/10] arm64: dts: rockchip: add pd_npu label for RK3588
+ power domains
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250516-6-10-rocket-v3-8-7051ac9225db@tomeuvizoso.net>
+Message-Id: <20250516-6-10-rocket-v3-9-7051ac9225db@tomeuvizoso.net>
 References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
 In-Reply-To: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -89,210 +89,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The NPU cores have their own access to the memory bus, and this isn't
-cache coherent with the CPUs.
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Add IOCTLs so userspace can mark when the caches need to be flushed, and
-also when a writer job needs to be waited for before the buffer can be
-accessed from the CPU.
+The NPU of the RK3588 has an external supply. This supply also affects
+the power domain of the NPU, not just the NPU device nodes themselves.
+Since correctly modelled boards will want the power domain to be aware
+of the regulator so that it doesn't always have to be on, add a label to
+the NPU power domain node so board files can reference it.
 
-Initially based on the same IOCTLs from the Etnaviv driver.
-
-v2:
-- Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
-
-v3:
-- Check that padding fields in IOCTLs are zero (Jeff Hugo)
-
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- drivers/accel/rocket/rocket_drv.c |  2 +
- drivers/accel/rocket/rocket_gem.c | 80 +++++++++++++++++++++++++++++++++++++++
- drivers/accel/rocket/rocket_gem.h |  5 +++
- include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
- 4 files changed, 124 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
-index 18ff051c336a14b7dda72d235faffb7a55a0a8ee..75ccf6e14b2bed80005a70b8cc06925b7c3ac405 100644
---- a/drivers/accel/rocket/rocket_drv.c
-+++ b/drivers/accel/rocket/rocket_drv.c
-@@ -58,6 +58,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 7b961ab838212fad8e4a70390fdc917a828433a9..d7eebaab78255d34d4bf57d430f4a902e6c1f110 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -837,7 +837,7 @@ power: power-controller {
+ 			status = "okay";
  
- 	ROCKET_IOCTL(CREATE_BO, create_bo),
- 	ROCKET_IOCTL(SUBMIT, submit),
-+	ROCKET_IOCTL(PREP_BO, prep_bo),
-+	ROCKET_IOCTL(FINI_BO, fini_bo),
- };
- 
- DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/rocket_gem.c
-index 8a8a7185daac4740081293aae6945c9b2bbeb2dd..cdc5238a93fa5978129dc1ac8ec8de955160dc18 100644
---- a/drivers/accel/rocket/rocket_gem.c
-+++ b/drivers/accel/rocket/rocket_gem.c
-@@ -129,3 +129,83 @@ int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *
- 
- 	return ret;
- }
-+
-+static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
-+{
-+	if (op & ROCKET_PREP_READ)
-+		return DMA_FROM_DEVICE;
-+	else if (op & ROCKET_PREP_WRITE)
-+		return DMA_TO_DEVICE;
-+	else
-+		return DMA_BIDIRECTIONAL;
-+}
-+
-+int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_rocket_prep_bo *args = data;
-+	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
-+	struct rocket_device *rdev = to_rocket_device(dev);
-+	struct drm_gem_object *gem_obj;
-+	struct drm_gem_shmem_object *shmem_obj;
-+	bool write = !!(args->op & ROCKET_PREP_WRITE);
-+	long ret = 0;
-+
-+	if (args->op & ~(ROCKET_PREP_READ | ROCKET_PREP_WRITE))
-+		return -EINVAL;
-+
-+	gem_obj = drm_gem_object_lookup(file, args->handle);
-+	if (!gem_obj)
-+		return -ENOENT;
-+
-+	ret = dma_resv_wait_timeout(gem_obj->resv, dma_resv_usage_rw(write),
-+				    true, timeout);
-+	if (!ret)
-+		ret = timeout ? -ETIMEDOUT : -EBUSY;
-+
-+	shmem_obj = &to_rocket_bo(gem_obj)->base;
-+
-+	for (unsigned int core = 1; core < rdev->num_cores; core++) {
-+		dma_sync_sgtable_for_cpu(rdev->cores[core].dev, shmem_obj->sgt,
-+					 rocket_op_to_dma_dir(args->op));
-+	}
-+
-+	to_rocket_bo(gem_obj)->last_cpu_prep_op = args->op;
-+
-+	drm_gem_object_put(gem_obj);
-+
-+	return ret;
-+}
-+
-+int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct rocket_device *rdev = to_rocket_device(dev);
-+	struct drm_rocket_fini_bo *args = data;
-+	struct drm_gem_shmem_object *shmem_obj;
-+	struct rocket_gem_object *rkt_obj;
-+	struct drm_gem_object *gem_obj;
-+
-+	if (args->reserved != 0) {
-+		drm_dbg(dev, "Reserved field in drm_rocket_fini_bo struct should be 0.\n");
-+		return -EINVAL;
-+	}
-+
-+	gem_obj = drm_gem_object_lookup(file, args->handle);
-+	if (!gem_obj)
-+		return -ENOENT;
-+
-+	rkt_obj = to_rocket_bo(gem_obj);
-+	shmem_obj = &rkt_obj->base;
-+
-+	WARN_ON(rkt_obj->last_cpu_prep_op == 0);
-+
-+	for (unsigned int core = 1; core < rdev->num_cores; core++) {
-+		dma_sync_sgtable_for_device(rdev->cores[core].dev, shmem_obj->sgt,
-+					    rocket_op_to_dma_dir(rkt_obj->last_cpu_prep_op));
-+	}
-+
-+	rkt_obj->last_cpu_prep_op = 0;
-+
-+	drm_gem_object_put(gem_obj);
-+
-+	return 0;
-+}
-diff --git a/drivers/accel/rocket/rocket_gem.h b/drivers/accel/rocket/rocket_gem.h
-index 41497554366961cfe18cf6c7e93ab1e4e5dc1886..2caa268f7f496f782996c6ad2c4eb851a225a86f 100644
---- a/drivers/accel/rocket/rocket_gem.h
-+++ b/drivers/accel/rocket/rocket_gem.h
-@@ -11,12 +11,17 @@ struct rocket_gem_object {
- 
- 	size_t size;
- 	u32 offset;
-+	u32 last_cpu_prep_op;
- };
- 
- struct drm_gem_object *rocket_gem_create_object(struct drm_device *dev, size_t size);
- 
- int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *file);
- 
-+int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file);
-+
-+int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file);
-+
- static inline
- struct  rocket_gem_object *to_rocket_bo(struct drm_gem_object *obj)
- {
-diff --git a/include/uapi/drm/rocket_accel.h b/include/uapi/drm/rocket_accel.h
-index cb1b5934c201160e7650aabd1b3a2b1c77b1fd7b..b5c80dd767be56e9720b51e4a82617a425a881a1 100644
---- a/include/uapi/drm/rocket_accel.h
-+++ b/include/uapi/drm/rocket_accel.h
-@@ -13,9 +13,13 @@ extern "C" {
- 
- #define DRM_ROCKET_CREATE_BO			0x00
- #define DRM_ROCKET_SUBMIT			0x01
-+#define DRM_ROCKET_PREP_BO			0x02
-+#define DRM_ROCKET_FINI_BO			0x03
- 
- #define DRM_IOCTL_ROCKET_CREATE_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_ROCKET_CREATE_BO, struct drm_rocket_create_bo)
- #define DRM_IOCTL_ROCKET_SUBMIT			DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_SUBMIT, struct drm_rocket_submit)
-+#define DRM_IOCTL_ROCKET_PREP_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_PREP_BO, struct drm_rocket_prep_bo)
-+#define DRM_IOCTL_ROCKET_FINI_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_FINI_BO, struct drm_rocket_fini_bo)
- 
- /**
-  * struct drm_rocket_create_bo - ioctl argument for creating Rocket BOs.
-@@ -39,6 +43,39 @@ struct drm_rocket_create_bo {
- 	__u64 offset;
- };
- 
-+#define ROCKET_PREP_READ        0x01
-+#define ROCKET_PREP_WRITE       0x02
-+
-+/**
-+ * struct drm_rocket_prep_bo - ioctl argument for starting CPU ownership of the BO.
-+ *
-+ * Takes care of waiting for any NPU jobs that might still use the NPU and performs cache
-+ * synchronization.
-+ */
-+struct drm_rocket_prep_bo {
-+	/** Input: GEM handle of the buffer object. */
-+	__u32 handle;
-+
-+	/** Input: mask of ROCKET_PREP_x, direction of the access. */
-+	__u32 op;
-+
-+	/** Input: Amount of time to wait for NPU jobs. */
-+	__s64 timeout_ns;
-+};
-+
-+/**
-+ * struct drm_rocket_fini_bo - ioctl argument for finishing CPU ownership of the BO.
-+ *
-+ * Synchronize caches for NPU access.
-+ */
-+struct drm_rocket_fini_bo {
-+	/** Input: GEM handle of the buffer object. */
-+	__u32 handle;
-+
-+	/** Reserved, must be zero. */
-+	__u32 reserved;
-+};
-+
- /**
-  * struct drm_rocket_task - A task to be run on the NPU
-  *
+ 			/* These power domains are grouped by VD_NPU */
+-			power-domain@RK3588_PD_NPU {
++			pd_npu: power-domain@RK3588_PD_NPU {
+ 				reg = <RK3588_PD_NPU>;
+ 				#power-domain-cells = <0>;
+ 				#address-cells = <1>;
 
 -- 
 2.49.0
