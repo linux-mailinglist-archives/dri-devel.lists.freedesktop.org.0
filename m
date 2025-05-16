@@ -2,93 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B1ABA0E2
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 18:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C71ABA101
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 18:48:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8236410EB23;
-	Fri, 16 May 2025 16:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8683510EB24;
+	Fri, 16 May 2025 16:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="Zrk0+xoX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="p6mv6D9G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA5010EB23
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 16:41:56 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id
- af79cd13be357-7c5675dec99so233637085a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1747413716; x=1748018516;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5J2wC9tTnCntXNvDVkFSqpJ+5OZHuJw2jDGcRFbaOU0=;
- b=Zrk0+xoXhf1gEumOx2M6XvwmB0H4wgly7MO0UWQKSHqi28+lP8SUK8cDCB3WkT6RbU
- 2Up/nfi4d7d7lnToKukyg0BhfoB3VxMdCEiDvwAhTZ7csAHUZDyYSY0W00yz5mhPCr2x
- dkCFTu57l6yggWrzTMftHcu6d2u/sJgnn4Y3o9QGMik+JZ3ga1mlNHqzrH0HgMPac+op
- AtTO2bUnkf82hnmDZmvuYu/zVHXjhpCOz/QO7pY14965Tlq6BnsUxKLgPpJKdRzOFIBm
- AZhdlXfSrmB9BRMH/C4uzF2QrQ2Rni5AiIm11V8ujzMyFnaa0ixU23KH/NoMup8Zj4cQ
- PCoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747413716; x=1748018516;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5J2wC9tTnCntXNvDVkFSqpJ+5OZHuJw2jDGcRFbaOU0=;
- b=omdogVOc4bm292OICkeMkYAz995jiWPEKgN6QnFiwnxJgQqXlw209XtnONmWGX3GIn
- SVBEKpsQRBLs5QpkIHyVHrVmePbjJc2tZzXHCFer3yjz/dfuQVKhlVK5Zt63s6hRF7pY
- YS3gpeLvUtbW46KjvUtIXXjaGc0cNaT/cde6fyvSWHfWCWgpEpe88Cg6q/rUO8wRpUN2
- Juku79mDUiQb/ITj6nYEZkgJAca0idgiNrJ2ndStMPzmpnRiICJoVlFpQaQmXBsEQFRo
- XSkKd5udLeniKHpGWZntAvLvUFcUHtH7MgdTf5Fdfa+kXbkXuqhevBnPmBXND1CP0Ft0
- pmoQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqMr893STq4kMASdYNUYx0XBPy3vPNsHdSZxugZVYoLwdeh+dwR/LGABo0VE6T6wzQ3ZowxP2Xtj8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxijqb4MBkh0fuZqrQtoa/XOwynFGMMp1q7sD2SAJ0GZuT6jKYT
- jvnBcPM0pBiHkEPDfm/wdZ4bFkxs4fd+xQE01KP3TROZSlPr2Pd6pUmn6zhb7SXCFv6SE5s19N5
- W9fZqtr8=
-X-Gm-Gg: ASbGncvPBzsXTlfralqsg7iJZGDGId8NEv52YrfAexBv66XoKg6Qivzj+Azvq0P10+p
- XsjBBIIYFbl/5193qsDCNe2KGUI9Eequjji71uW6YwYVkJOLC3AxNDaSjxwl5FtENlG3JljQIbK
- rbA7TWhfVyzcw9VATdf8thwzEVTGNO2Ex+Kos7Fz3ZAHH/+JEUf71AcYcwKfOvtmEMOSb3koa/h
- Rw2YcraRk5dxCAbw4Y1PchNKBYOIfr5HfF8ldjH0/71l5MOSWkg1fUu0oRhAjz6+Lp6U8aPimRj
- cc1FtgC0NdE/Ez1dCFoIoCFHnl0WGT0jWaZGT7PcFBXW6wbHeA==
-X-Google-Smtp-Source: AGHT+IEtBMFIFAv7ssiv8r9xyjjpS4y6HGWSwusporLTNbSdncvwuVbb9EkCbAuPsKwJEg/pHlYsqQ==
-X-Received: by 2002:a05:620a:4015:b0:7c7:c772:7442 with SMTP id
- af79cd13be357-7cd4672dbd2mr523716785a.20.1747413715739; 
- Fri, 16 May 2025 09:41:55 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
- by smtp.gmail.com with UTF8SMTPSA id
- 6a1803df08f44-6f8b0966098sm13924376d6.82.2025.05.16.09.41.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 May 2025 09:41:54 -0700 (PDT)
-Date: Fri, 16 May 2025 12:41:50 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-Message-ID: <20250516164150.GD720744@cmpxchg.org>
-References: <20250502034046.1625896-1-airlied@gmail.com>
- <20250507175238.GB276050@cmpxchg.org>
- <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
- <20250513075446.GA623911@cmpxchg.org>
- <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
- <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
- <20250515160842.GA720744@cmpxchg.org>
- <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
- <20250516145318.GB720744@cmpxchg.org>
- <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1532610EB24
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 16:48:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 427F6439B2;
+ Fri, 16 May 2025 16:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1747414120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u67y+PxjqNGnhDEAS0aXR4UPt8Hc/le9hjcGHqYdEHU=;
+ b=p6mv6D9GJeRLeZED5h3yANz4ZPQLeix8vhRp1vxligLK4ImCq07Ci8X3eap0IMVpypq6Td
+ ZiR84hhLwi83tKGUaMKTqbdCVboLErpoliz4difn2vqIHdACf3kIGlAzm42YkQlHpZ7SNU
+ m4qp6q+b2hDVdQrwx8fMIYuPDzxKKas//d9DEOytowPTvJeDJRaPDLLgm+h5Aq7n9AMq5y
+ Dcp1a/jQaRfKt/t5cSKFy1kruQjl4pe9OfBEBsL0H15KvH0jHPryWsy9kgdXheJnuK3dpe
+ qbsczp1/UHJgzXKV9oFnywZwDSETs1qHD9guOotjZnIKeFayAq73rbWzPf6y4A==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v8 0/3] drm/bridge: add kunit tests for devm_drm_bridge_alloc()
+Date: Fri, 16 May 2025 18:48:36 +0200
+Message-Id: <20250516-drm-bridge-alloc-doc-test-v8-0-7e356fd58ba5@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
+X-B4-Tracking: v=1; b=H4sIAGRsJ2gC/32NQQ6CMBBFr0Jm7ZgGwRZX3sOwKO1UJgFK2qbRE
+ O5uJXHrYhbv//w3G0QKTBFu1QaBMkf2SwF1qsCMenkSsi0Mtahb0QiFNsw4BLal0dPkDdpyiWL
+ C+iqtE5acUgLKfg3k+HW4H33hkWPy4X28yvKb/qzdH2uWKFBfjG6GTraddPfB+zTxcjZ+hn7f9
+ w/8ZL2BxAAAAA==
+X-Change-ID: 20250408-drm-bridge-alloc-doc-test-267df0def880
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudefvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejjefhgfffleevhefhfeduhedtfedttedtkefgkeeuieehtdeifeduveejffevgeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhis
+ hhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehprghulhhksehshihsqdgsrghsvgdrihhopdhrtghpthhtohephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,43 +76,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 05:35:12PM +0200, Christian K�nig wrote:
-> On 5/16/25 16:53, Johannes Weiner wrote:
-> > On Fri, May 16, 2025 at 08:53:07AM +0200, Christian K�nig wrote:
-> >> The cgroup who originally allocated it has no reference to the
-> >> memory any more and also no way of giving it back to the core
-> >> system.
-> > 
-> > Of course it does, the shrinker LRU.
-> 
-> No it doesn't. The LRU handling here is global and not per cgroup.
+This small series adds a few kunit tests for the new DRM bridge allocation
+flow, based on the recently introduced devm_drm_bridge_alloc() [0].
 
-Well, the discussion at hand is that it should be.
+It is part of the work towards removal of bridges from a still existing DRM
+pipeline without use-after-free.
 
-> > Listen, none of this is even remotely new. This isn't the first cache
-> > we're tracking, and it's not the first consumer that can outlive the
-> > controlling cgroup.
-> 
-> Yes, I knew about all of that and I find that extremely questionable
-> on existing handling as well.
+The steps in the grand plan [1] are:
 
-This code handles billions of containers every day, but we'll be sure
-to consult you on the next redesign.
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+ 2. handle gracefully atomic updates during bridge removal
+ 3. avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
 
-> Memory pools which are only used to improve allocation performance
-> are something the kernel handles transparently and are completely
-> outside of any cgroup tracking whatsoever.
+This series is part of step 1 of the grand plan.
 
-You're describing a cache. It doesn't matter whether it's caching CPU
-work, IO work or network packets.
+Current tasks in step 1 of the grand plan:
 
-What matters is what it takes to recycle those pages for other
-purposes - especially non-GPU purposes.
+ A. ✔ add new alloc API and refcounting -> (now in drm-misc-next)
+ B. … convert all bridge drivers to new API (in progress)
+ C. ➜ kunit tests (this series)
+ D. after (B), add get/put to drm_bridge_add/remove() + attach/detech()
+ E. after (B), convert accessors; this is a large work and can be done
+    in chunks
+ F. debugfs improvements
 
-And more importantly, *what other memory in other cgroups they
-displace in the meantime*.
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
 
-It's really not that difficult to see an isolation issue here.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v8:
+- Remove documentation patch
+- Add patch to convert existing kunit tests to use devm_drm_bridge_alloc()
+- Add tests for bridge deallocation (based on adding a .destroy callback)
+- Link to v7: https://lore.kernel.org/r/20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com
 
-Anyway, it doesn't look like there is a lot of value in continuing
-this conversation, so I'm going to check out of this subthread.
+---
+Luca Ceresoli (3):
+      drm/tests: bridge: convert to devm_drm_bridge_alloc() API
+      dmr/bridge: add a .destroy func
+      drm/tests: bridge: add KUnit tests for devm_drm_bridge_alloc()
+
+ drivers/gpu/drm/drm_bridge.c            |   2 +
+ drivers/gpu/drm/tests/drm_bridge_test.c | 179 +++++++++++++++++++++++++-------
+ include/drm/drm_bridge.h                |  10 ++
+ 3 files changed, 151 insertions(+), 40 deletions(-)
+---
+base-commit: aec8a40228acb385d60feec59b54573d307e60f3
+change-id: 20250408-drm-bridge-alloc-doc-test-267df0def880
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
