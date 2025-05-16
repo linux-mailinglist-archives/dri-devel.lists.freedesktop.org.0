@@ -2,86 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45C0AB9E9F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 16:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455C0AB9EAD
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 16:34:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B9F10EAE6;
-	Fri, 16 May 2025 14:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4EC10EAE8;
+	Fri, 16 May 2025 14:34:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Lc0WVCUe";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZjtCsj3d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E1610EAE6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:30:55 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3a0b9e2d640so1884377f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747405854; x=1748010654;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=c4wvw18aCRTZtC+Q6NWNiH1YReQVKr/g1/5hAXp/LsI=;
- b=Lc0WVCUeLuYhSkcyr8yXIf59lK6UU9EChLaQfXlQK7eyFXJG7FPU2qm26ntA5gynWH
- mu+cHXwKqCeaQkn6Y+haulZAjNLOQlVAFiUVAifcmgIThsFuAs5ltCWOuUXvcVmAWAct
- WpVbZbZlR8lhsapJW4xAUUDN5h9/NiG8ADWMoBoWV6ahgwOanZ/xQH5pVoZ2KRftsUU9
- 8Sv806LJhyRDYPw6Y8xn7NuwVmNXtcGFI+n0Aqy/NalCn7CIOgAKZ6sQA3BGh3RdYW/z
- BP3Ss6kJiJtMeqj1KmqQYlG4zh02YjQQhzQqvYfvp3VheOmpDsl/5hC7sjx5qzFZBWhM
- NSkA==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8935310EAE8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:34:00 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54GBsUjx024687
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:34:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ PjGl9L++T4IHfDVjPTSIhpe79DGyJHfbJ52WneRyrUw=; b=ZjtCsj3duBH937v9
+ TVXm4++pM90TizNYnZfTukBvhVwbnjnSOHedeux0nBtVHh+PKIh/MWhWzWJWlC9y
+ lR3n7ZRQI20zDGQhmAwGbZUe63io+VNgJ4eAMkLMNyed+XsoZ3nj2JqcWqWlUHrP
+ j41dQ8NXmgbQFnbja90SocV/H3ddj1Xhd1Im0WbzgMADXI8ey9LurxbsQO7b9tbe
+ EcttxauTln/5pL9JHqTGRUxlgogS+8yB0riorktFHWRuzpaEY1p05ZBdrv7+Wv0j
+ pBwPT/EjOP/ktE4iYE5nJxOfmdg9uUSBgNGu2X6yp69Y4htw88sDk7S522Riu+oj
+ 3V0VIA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcp27yn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 14:33:59 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-30e86c46eadso663833a91.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:33:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747405854; x=1748010654;
+ d=1e100.net; s=20230601; t=1747406039; x=1748010839;
  h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c4wvw18aCRTZtC+Q6NWNiH1YReQVKr/g1/5hAXp/LsI=;
- b=RNht8t1dzbygQN1sC9FC8opbof3SEO2CJW2KjeB9bGNQKJfQIwPEEHfMVhjuZfZTzD
- IIcc3lh1jfWmK0G2YuwbcdUzY0GCy85ktwTcHj26cujohZKHC/CFDGWRHET+OhskiOZU
- ZnTGgxJuK11TovbJ3ho/fqzOvfbt+Jz5/BDnkf7c9y5puYTidZkY02az182HGxfOvtfV
- MZwmwxf2it5/ERmahsd7ATGalN59ChbJbZMdZN5c9FbmHC7kaZF5db/Q6y8Too4DayiI
- BBgx3Ub8DI1kGlaF27YFaKSSM09IBSXsnr4oD9ckzvipPLy0n+BtkBrVRzYhSGtGwwRg
- EdRw==
+ bh=PjGl9L++T4IHfDVjPTSIhpe79DGyJHfbJ52WneRyrUw=;
+ b=qvPGthjEGUU5yejj6+QFc8bF6ll7KRslRz8AzhENISWvyFH5xnmlW45ia9s6CGdgHW
+ cKF2iXZq37z1jhJrMQ49Cd3AMD1jvtmQ5p3bQ8KyK4wN0124J9nvEhwNprbbUMJAH70n
+ eff3KNMn0Rq3tSMv2sVntk+q2EhVEZlLgdOBsGm3ZrT54S+XWkrqrnp+4xL00HNDvSoR
+ lQZvQ47/02+S/uTOc0LjjpuCIHYPjT85gP3M9EKp+rBxAZPOGHRwxing439sD1nbkTCQ
+ /zWqQqRsrAiKWMlaLOl12Vp0tg31UPDvd1smqaeL8TXeAXsl3DMb2aYoyFac+O9gD06t
+ rJzA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWTqqEZoUq3mt5h19bdNsRM7vBUbe/NN35BSWMUsm59el0YmRDgF1JeUun5UAs7apgr3IWMF9XsnQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXHEMQAyNR6aeBLnu5lA6ev/t+tyTdgPJFZyqi89Yinsi2xIGA
- cO37+ztG5TvP9TV6Flly2XhC/PrBDD/He3PUfZIV5ar9TZXg9w02EqshCsADDerbG8U=
-X-Gm-Gg: ASbGncvv/nvtD3DhDQSiv0R4TLa8NzGCpn1KQwefSUm/XmcGbmmaAfl6Ya60CUS65QA
- EbXo7ROYMoy0hJPaVIiybjOPbdWXE4I+k3gKxo9NyyNOhGTgKBN0LkKEN6Aef2zZ3avATwvRCOF
- +LML3q8CowwBtXSjR4xXh9Y/NHgDAzpSxZ8bkWwI2Nj74ADsUDNP61YK2M1QxSEIAuLLoZ/Wnox
- iwfIqVlVFLZxJAa9OlZEhR0CgR0bw+Alp2hwsuydUURQ8+CY2CV9zXQ7AIcJwDm19Z8C0qIeTm8
- Ayx38CFIsM8MNhdgLfBFH8mkbyLVedhnhfD/WGEqIXDpicWjlSfVHPJs2HL7ZJgE4Q==
-X-Google-Smtp-Source: AGHT+IGcBtj5Je8eljzvos0HznnEVfHBZc4FKjI3ImFroFRX6a7GkghigHyWX7YGD43THm0JdYBcdQ==
-X-Received: by 2002:a05:6000:4020:b0:3a3:64c8:1fa7 with SMTP id
- ffacd0b85a97d-3a364c822admr183351f8f.55.1747405854094; 
- Fri, 16 May 2025 07:30:54 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
+ AJvYcCVSkBhaFARZSaqQ/8/JNNOzkm55DUFYGgAF4rPt/ns0LgF7IX/vVFxRasFEzCse05eDCVf+mLpemZU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+1Smovx99hWji1xT/7urXUVKUNkpjNPshFGSz9vTDKtJGyDr3
+ T5gw8/KSG3lcwR4jZUzbKHt0Hv/3xp7TuyUofgPFd51ky7FbGcb5tIhjPUPvlljqjzgxXRxocO3
+ d1LDseqZOtXd0Qz0V3PfWZWYSh7AjcvqS/aPLaFaEfUJ+OAJp3FaAmJ3/at7Mi5jYZ6cyarM=
+X-Gm-Gg: ASbGnctB6jO5R/WGg1y6LWdc8zardc/WIcxvicLcRVuJauuriKBaNuPKPw08lY8QLfS
+ LEC8OfawsVSbRoeSU7MmfjcPq4oW/nhqBQJcMeaQY3sfyNbtcC61yCV+u/taW15z04zeOfZBeNL
+ PxPhYNLxM2jPTX+9Fw6PuWkEee3kHRk7UwvzWiE4wKqDlV8jLu92GRRMzIHYl6fcTtpRlfalBz7
+ XVW8osCKiWHnSSDzH28fl2IFXQC47Hf5OmHbK8ut9XocJcsngVpXiMg1VpG/55sXOV1U1w+yM4v
+ 0/O3RYnFQLRRVFB91K1vJp6aXSbjIbIeYxfe5MwMh4xFK/8gU4V9Z/BpO1q02A==
+X-Received: by 2002:a17:90b:4a50:b0:2fe:e9c6:689e with SMTP id
+ 98e67ed59e1d1-30e7d509f14mr5306815a91.8.1747406038623; 
+ Fri, 16 May 2025 07:33:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkrlgYH8+1wlShJNDSSHaFOAA60bb6BFvZEaEaYbBJPGOpmu8xbmDyRKNDYFOkwVQ0gbDx8w==
+X-Received: by 2002:a17:90b:4a50:b0:2fe:e9c6:689e with SMTP id
+ 98e67ed59e1d1-30e7d509f14mr5306761a91.8.1747406038067; 
+ Fri, 16 May 2025 07:33:58 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca889d9sm3032336f8f.77.2025.05.16.07.30.53
+ 98e67ed59e1d1-30e7d46ef5bsm1652405a91.1.2025.05.16.07.33.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 May 2025 07:30:53 -0700 (PDT)
-Message-ID: <01cce810-7303-4c92-b138-d8a647f3dcee@ursulin.net>
-Date: Fri, 16 May 2025 15:30:52 +0100
+ Fri, 16 May 2025 07:33:57 -0700 (PDT)
+Message-ID: <4ab8aca0-6bcd-4ff1-9ead-11a88f5e3e87@oss.qualcomm.com>
+Date: Fri, 16 May 2025 08:33:56 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/sched: add drm_sched_prealloc_dependency_slots v3
-To: phasta@kernel.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, amd-gfx@lists.freedesktop.org
-References: <20250515150038.4615-1-christian.koenig@amd.com>
- <20250515150038.4615-2-christian.koenig@amd.com>
- <a5e53b34-c247-4193-b4ab-551693ad089a@ursulin.net>
- <5c93f114a58e84796f239b9e0f4a13e9c223e45b.camel@mailbox.org>
- <6e5ab077-77ff-443b-b345-7d99fcd01a73@ursulin.net>
- <6a361f21-1ba2-4084-b85c-0db30c9b01cc@ursulin.net>
- <fc617b712c5937c02be89f7ba068ce0de1512027.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <fc617b712c5937c02be89f7ba068ce0de1512027.camel@mailbox.org>
+Subject: Re: [PATCH] accel/ivpu: Reorder Doorbell Unregister and Command Queue
+ Destruction
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>
+References: <20250515094124.255141-1-jacek.lawrynowicz@linux.intel.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250515094124.255141-1-jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: gLIXxVrZdcT7cp3wLWd_UX-nb_2iG0c8
+X-Authority-Analysis: v=2.4 cv=D8dHKuRj c=1 sm=1 tr=0 ts=68274cd7 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
+ a=6K0cCaTcvt06gOM4fTEA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDE0MSBTYWx0ZWRfX5jwcEwLSM5Jf
+ +8aPlTNQ0NPYihxuj6uxHLG0iTegumJaJoS7L4gEXG58t+nWfH2vf21CGYva2Tj/Vvlev1tpF6q
+ YzEhfXOKtee42YueUl2dWivLUq6eNhttvfkbDX9mx35cFFeOUfFXsUwOMyz4w03+Lm74/oLZbaP
+ i9Syu0MZ5JCFRG5cx50JPmXQKW5WoJZi06X5Ba/YF0C8GreJf7pvbwHvcNOXnsKwSn/uL7JxA0i
+ 8HN9yiAfCI9qt+PEc6vUq/iJdIC9nGINKh54yeXfz3R0WIANwqBWKRETChgkH9ylxbFD+lOFTpF
+ O5fp7fv1om/0yyVPo4H4ohg1NKf/+HSMlAkyoKscbjo8WLRRm509MydC5ApMunG4pCHmju0G72e
+ 4zIdPK6Q5GwFVSdhU89l1cf/uJ6GLDz0q9+duB8DIrrD6RWmCWuh06s+meV8GzI/qUBSI3M4
+X-Proofpoint-GUID: gLIXxVrZdcT7cp3wLWd_UX-nb_2iG0c8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-16_05,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505070000 definitions=main-2505160141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,238 +123,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 5/15/2025 3:41 AM, Jacek Lawrynowicz wrote:
+> From: Karol Wachowski <karol.wachowski@intel.com>
+> 
+> Refactor ivpu_cmdq_unregister() to ensure the doorbell is unregistered
+> before destroying the command queue. The NPU firmware requires doorbells
+> to be unregistered prior to command queue destruction.
+> 
+> If doorbell remains registered when command queue destroy command is sent
+> firmware will automatically unregister the doorbell, making subsequent
+> unregister attempts no-operations (NOPs).
+> 
+> Ensure compliance with firmware expectations by moving the doorbell
+> unregister call ahead of the command queue destruction logic,
+> thus preventing unnecessary NOP operation.
+> 
+> Fixes: 465a3914b254 ("accel/ivpu: Add API for command queue create/destroy/submit")
+> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-On 16/05/2025 14:38, Philipp Stanner wrote:
-> On Fri, 2025-05-16 at 13:10 +0100, Tvrtko Ursulin wrote:
->>
->> On 16/05/2025 12:53, Tvrtko Ursulin wrote:
->>>
->>> On 16/05/2025 08:28, Philipp Stanner wrote:
->>>> On Thu, 2025-05-15 at 17:17 +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 15/05/2025 16:00, Christian König wrote:
->>>>>> Sometimes drivers need to be able to submit multiple jobs
->>>>>> which
->>>>>> depend on
->>>>>> each other to different schedulers at the same time, but
->>>>>> using
->>>>>> drm_sched_job_add_dependency() can't fail any more after the
->>>>>> first
->>>>>> job is
->>>>>> initialized.
->>>>>>
->>>>>> This function preallocate memory for dependency slots so that
->>>>>> no
->>>>>> ENOMEM
->>>>>> can come later while adding dependencies.
->>>>>>
->>>>>> v2: rework implementation an documentation
->>>>>> v3: rework from scratch, use separate function to add
->>>>>> preallocated
->>>>>> deps
->>>>
->>>> I think we agreed to not put change logs into commit messages
->>>> anymore
->>>> :)
->>>>
->>>> They aren't useful for any reader. Who needs the changelog
->>>> afterwards
->>>> can retreive it through the mail thread link that we add.
->>>>
->>>>>>
->>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/scheduler/sched_main.c | 45
->>>>>> ++++++++++++++++++++++++++
->>>>>>     include/drm/gpu_scheduler.h            |  4 +++
->>>>>>     2 files changed, 49 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> index f7118497e47a..b95e7089aa70 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> @@ -858,6 +858,51 @@ void drm_sched_job_arm(struct
->>>>>> drm_sched_job
->>>>>> *job)
->>>>>>     }
->>>>>>     EXPORT_SYMBOL(drm_sched_job_arm);
->>>>>> +/**
->>>>>> + * drm_sched_job_prealloc_dependency_slot - avoid ENOMEM on
->>>>>> adding
->>>>>> dependencies
->>>>>> + * @job: scheduler job where dependencies will be added
->>>>>> + * @id: id for the allocated slot
->>>>>> +  *
->>>>>> + * Sometimes drivers need to be able to submit multiple jobs
->>>>>> which
->>>>>> depend on
->>>>>> + * each other to different schedulers at the same time, but
->>>>>> using
->>>>>> + * drm_sched_job_add_dependency() can't fail any more after
->>>>>> the
->>>>>> first job is
->>>>>> + * initialized.
->>>>>> + *
->>>>>> + * This function preallocate memory for a dependency slot so
->>>>>> that
->>>>>> no ENOMEM can
->>>>>> + * come later while adding dependencies. The index of the
->>>>>> preallocated slot is
->>>>>> + * returned in @id.
->>>>>> + *
->>>>>> + * Return:
->>>>>> + * 0 on success, or an error on failing to expand the array.
->>>>>> + */
->>>>>> +int drm_sched_job_prealloc_dependency_slot(struct
->>>>>> drm_sched_job
->>>>>> *job,
->>>>>> +                       u32 *id)
->>>>>> +{
->>>>>> +    return xa_alloc(&job->dependencies, id, NULL,
->>>>>> xa_limit_32b, GFP_KERNEL);
->>>>>> +}
->>>>>> +EXPORT_SYMBOL(drm_sched_job_prealloc_dependency_slot);
->>>>>> +
->>>>>> +/**
->>>>>> + * drm_sched_job_add_prealloc_dep - add dependency to
->>>>>> preallocated
->>>>>> slot
->>>>>> + * @job: scheduler job where dependencies will be added
->>>>>> + * @id: the preallocated slot index
->>>>>> + * @fence: the dependency to add
->>>>>> + *
->>>>>> + * Consumes @fence and adds it to the preallocated slot
->>>>>> dependency.
->>>>>> + */
->>>>>> +void drm_sched_job_add_prealloc_dep(struct drm_sched_job
->>>>>> *job, u32
->>>>>> id,
->>>>>> +                    struct dma_fence *fence)
->>>>>> +{
->>>>>> +    fence = xa_store(&job->dependencies, id, fence,
->>>>>> GFP_ATOMIC);
->>>>>
->>>>> Add assert that the passed id exists (was preallocated) and is
->>>>> NULL?
->>>>
->>>> You
->>>
->>> Hm?
->>>
->>>>>
->>>>> Also, if someone preallocates and does not consume the slot
->>>>> will that
->>>>> confuse the iteration in drm_sched_job_dependency()?
->>>>
->>>> drm_sched_job_add_dependency() you mean.
->>>
->>> I was actually thinking of drm_sched_job_dependency() because that
->>> looked it would skip dependencies upon encountering an unconsumed
->>> preallocated slot, but yes, drm_sched_job_add_dependency() could
->>> explode
->>> even earlier if adding a normal dependency after preallocating a
->>> slot.
->>>
->>>> Yes, it would. All operations simply give you NULL for those
->>>> slots. So
->>>> seems to me you have to check for NULL wherever a preallocated
->>>> slot
->>>> might drop out. That would then be a bug.
->>>>
->>>> It's kind of tricky, all that. It's a pity that Wilcox didn't
->>>> answer
->>>> our questions about the idiomatic way to do it.
->>>>
->>>> Maybe reserving slots with already signaled fences wasn't such a
->>>> bad
->>>> idea after all?
->>>>
->>>> If we go for the NULL approach, it's probably the only sane way
->>>> to then
->>>> check for NULL wherever dependencies are accessed :(
->>>>
->>>> Opinions?
->>>
->>> Well if the xarray API returns the NULL consistently the approach
->>> from
->>> this patch is fine I think.
->>>
->>> We just need to add two more checks to the above mentioned
->>> functions,
->>
->> I need to correct myself, drm_sched_job_dependency() wouldn't be able
->> to
->> just skip NULLs since it relies on NULL for "no more dependencies".
->> We
->> would need to track something like job->max_dependency and terminate
->> on
->> job->last_dependency > job->max_dependency or so.
-> 
-> Agreed, that would have to be fixed.
-> 
-> I believe we should reconsider Christian's first idea [1].
-> 
-> Thinking about it some more:
->   * With the NULL version, suddenly the xarray containing only valid
->     dependencies can sometimes contain NULL entries.
->   * If we could create our own tag, entries could be returned that were
->     neither NULL nor valid fences, also requiring checks 'everywhere'.
->   * Only the "signaled fence as prealloc reservation" approach is fully
->     backwards compatible and will never cause anyone to block after
->     later reworks.
-> 
-> So maybe it's actually the best idea?
-> 
-> Sorry for the zigg-zagg. No hard requirements intended from my side,
-> I'm willing to go with what you guys think.
-> 
-> Just saying, at least now I think that the already-signaled fence seems
-> the most elegant solution. And since there's a function
-> (dma_fence_get_stub()) for that, it seems to be in alignment with
-> official dma_fence rules.
-
-Potential problem there was dma_fence_is_signaled() and fence signaling 
-annotations. In case some driver is holding a lock over the arm+push 
-pair. I wish we had a non-signaling is_signaled helper..
-
-Anyway, I think both options are passable. I even like the NULL entry 
-slightly more since it is simpler in a way and I don't mind some extra 
-checks completely hidden in scheduler internals.
-
-Regards,
-
-Tvrtko
-
-> 
-> 
-> Philipp
-> 
-> 
-> [1]https://lore.kernel.org/all/20250318120313.19099-2-christian.koenig@amd.com/
-> 
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> some more unit tests probably to make sure, and that should be fine
->>> for
->>> now.
->>>
->>> On the bikeshedding front I would perhaps suggest:
->>>
->>>    - drm_sched_job_preallocate_dependency()
->>>    - drm_sched_job_replace_dependency()
->>>
->>> Reads a little bit more aligned with the rest of the API and a bit
->>> easier on the eyes, to my eyes at least.
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>
-> 
-
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
