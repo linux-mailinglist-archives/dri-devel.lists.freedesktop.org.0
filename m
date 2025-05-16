@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EF8AB98DB
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE82AB98B2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:24:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2293810EA0E;
-	Fri, 16 May 2025 09:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA43E10EA02;
+	Fri, 16 May 2025 09:24:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ohFhW1oB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78FCC10EA0E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:31:53 +0000 (UTC)
-Received: from w001.hihonor.com (unknown [10.68.25.235])
- by mta22.hihonor.com (SkyGuard) with ESMTPS id 4ZzMH21lMmzYl1GJ;
- Fri, 16 May 2025 17:29:34 +0800 (CST)
-Received: from a010.hihonor.com (10.68.16.52) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 16 May
- 2025 17:31:23 +0800
-Received: from localhost.localdomain (10.144.18.117) by a010.hihonor.com
- (10.68.16.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 16 May
- 2025 17:31:23 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
- <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
- <jstultz@google.com>, <tjmercier@google.com>
-CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
- <bintian.wang@honor.com>, <yipengxiang@honor.com>, <liulu.liu@honor.com>,
- <feng.han@honor.com>, wangtao <tao.wangtao@honor.com>
-Subject: [PATCH v2 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-Date: Fri, 16 May 2025 17:21:48 +0800
-Message-ID: <20250516092148.12778-3-tao.wangtao@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250516092148.12778-1-tao.wangtao@honor.com>
-References: <20250516092148.12778-1-tao.wangtao@honor.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4646D10EA02
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:24:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=HT
+ Nhmctmjx4Z/bGQiWHj5z1Zlft6woH0PtPOT4ao6Qo=; b=ohFhW1oBCY9KWubs99
+ QZ+/ZhJcN8vxocqeGvn5kO4cUuHjX1eNq0jog+ptxQnx1kU9e3NDHzndkK7Wj93d
+ FaUud4rsrqOwzlhTc2+gXc6M/AjQARW3/X0et8NMFQY3PtKGZrUgG/ia9yA/SRij
+ N9YyU56Uq9a+diF9UJFj25x4Q=
+Received: from ProDesk.. (unknown [])
+ by gzsmtp4 (Coremail) with SMTP id PygvCgD3_3UgBCdo+HWMAw--.22577S2;
+ Fri, 16 May 2025 17:23:48 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: tzimmermann@suse.de
+Cc: airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andy Yan <andyshrk@163.com>
+Subject: [PATCH] drm: Fix one indentation issue in drm_auth.h
+Date: Fri, 16 May 2025 17:23:38 +0800
+Message-ID: <20250516092343.3206846-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.144.18.117]
-X-ClientProxiedBy: w002.hihonor.com (10.68.28.120) To a010.hihonor.com
- (10.68.16.52)
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PygvCgD3_3UgBCdo+HWMAw--.22577S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtrWrAr4xZry5XrWrJFWxXrb_yoWxCrc_Aa
+ 4xW3W8Wry8u343Ar1xZa95Aryaga4rXan0qFn5XF47AF1kJr4Yqas5GFyUta4rWr18GrZ3
+ Wan8Jr9xAr13KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRpVbqPUUUUU==
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBFPXmgnAPF43gAAsw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,173 +57,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support direct file I/O operations for system_heap dma-buf objects.
-Implementation includes:
-- Check no other drivers use the dmabuf
-- Construct bio_vec
-- Set IOCB_DIRECT when O_DIRECT is supported
-- Invoke vfs_iocb_iter_read()/vfs_iocb_iter_write() for actual I/O
+This should be one space.
 
-Performance metrics (UFS 4.0 device @4GB/s, Arm64 CPU @1GHz):
-
-| Metric             |    1MB |    8MB |    64MB |   1024MB |   3072MB |
-|--------------------|--------|--------|---------|----------|----------|
-| Buffer Read (us)   |   1658 |   9028 |   69295 |  1019783 |  2978179 |
-| Direct Read (us)   |    707 |   2647 |   18689 |   299627 |   937758 |
-| Buffer Rate (MB/s) |    603 |    886 |     924 |     1004 |     1032 |
-| Direct Rate (MB/s) |   1414 |   3022 |    3425 |     3418 |     3276 |
-
-Signed-off-by: wangtao <tao.wangtao@honor.com>
+Signed-off-by: Andy Yan <andyshrk@163.com>
 ---
- drivers/dma-buf/heaps/system_heap.c | 121 ++++++++++++++++++++++++++++
- 1 file changed, 121 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 26d5dc89ea16..5ae219ad0d72 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -20,6 +20,8 @@
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/bvec.h>
-+#include <linux/uio.h>
+ include/drm/drm_auth.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+index 50131383ed81..830386804f91 100644
+--- a/include/drm/drm_auth.h
++++ b/include/drm/drm_auth.h
+@@ -86,7 +86,7 @@ struct drm_master {
+ 	 * ID for lessees. Owners (i.e. @lessor is NULL) always have ID 0.
+ 	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
+ 	 */
+-	int	lessee_id;
++	int lessee_id;
  
- static struct dma_heap *sys_heap;
- 
-@@ -281,6 +283,124 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	iosys_map_clear(map);
- }
- 
-+static struct bio_vec *system_heap_init_bvec(struct system_heap_buffer *buffer,
-+			size_t offset, size_t len, int *nr_segs)
-+{
-+	struct sg_table *sgt = &buffer->sg_table;
-+	struct scatterlist *sg;
-+	size_t length = 0;
-+	unsigned int i, k = 0;
-+	struct bio_vec *bvec;
-+	size_t sg_left;
-+	size_t sg_offset;
-+	size_t sg_len;
-+
-+	bvec = kvcalloc(sgt->nents, sizeof(*bvec), GFP_KERNEL);
-+	if (!bvec)
-+		return NULL;
-+
-+	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+		length += sg->length;
-+		if (length <= offset)
-+			continue;
-+
-+		sg_left = length - offset;
-+		sg_offset = sg->offset + sg->length - sg_left;
-+		sg_len = min(sg_left, len);
-+
-+		bvec[k].bv_page = sg_page(sg);
-+		bvec[k].bv_len = sg_len;
-+		bvec[k].bv_offset = sg_offset;
-+		k++;
-+
-+		offset += sg_len;
-+		len -= sg_len;
-+		if (len <= 0)
-+			break;
-+	}
-+
-+	*nr_segs = k;
-+	return bvec;
-+}
-+
-+static int system_heap_rw_file(struct system_heap_buffer *buffer, bool is_read,
-+		bool direct_io, struct file *filp, loff_t file_offset,
-+		size_t buf_offset, size_t len)
-+{
-+	struct bio_vec *bvec;
-+	int nr_segs = 0;
-+	struct iov_iter iter;
-+	struct kiocb kiocb;
-+	ssize_t ret = 0;
-+
-+	if (!list_empty(&buffer->attachments) || buffer->vmap_cnt)
-+		return -EBUSY;
-+
-+	if (direct_io) {
-+		if (!(filp->f_mode & FMODE_CAN_ODIRECT))
-+			return -EINVAL;
-+	}
-+
-+	bvec = system_heap_init_bvec(buffer, buf_offset, len, &nr_segs);
-+	if (!bvec)
-+		return -ENOMEM;
-+
-+	iov_iter_bvec(&iter, is_read ? ITER_DEST : ITER_SOURCE, bvec, nr_segs, len);
-+	init_sync_kiocb(&kiocb, filp);
-+	kiocb.ki_pos = file_offset;
-+	if (direct_io)
-+		kiocb.ki_flags |= IOCB_DIRECT;
-+
-+	while (kiocb.ki_pos < file_offset + len) {
-+		if (is_read)
-+			ret = vfs_iocb_iter_read(filp, &kiocb, &iter);
-+		else
-+			ret = vfs_iocb_iter_write(filp, &kiocb, &iter);
-+		if (ret <= 0)
-+			break;
-+	}
-+
-+	kvfree(bvec);
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
-+			struct dma_buf_rw_file *back)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+	int ret = 0;
-+	__u32 op = back->flags & DMA_BUF_RW_FLAGS_OP_MASK;
-+	bool direct_io = back->flags & DMA_BUF_RW_FLAGS_DIRECT;
-+	struct file *filp;
-+
-+	if (op != DMA_BUF_RW_FLAGS_READ && op != DMA_BUF_RW_FLAGS_WRITE)
-+		return -EINVAL;
-+	if (direct_io) {
-+		if (!PAGE_ALIGNED(back->file_offset) ||
-+		    !PAGE_ALIGNED(back->buf_offset) ||
-+		    !PAGE_ALIGNED(back->buf_len))
-+			return -EINVAL;
-+	}
-+	if (!back->buf_len || back->buf_len > dmabuf->size ||
-+		back->buf_offset >= dmabuf->size ||
-+		back->buf_offset + back->buf_len > dmabuf->size)
-+		return -EINVAL;
-+	if (back->file_offset + back->buf_len < back->file_offset)
-+		return -EINVAL;
-+
-+	filp = fget(back->fd);
-+	if (!filp)
-+		return -EBADF;
-+
-+	mutex_lock(&buffer->lock);
-+	ret = system_heap_rw_file(buffer, op == DMA_BUF_RW_FLAGS_READ, direct_io,
-+			filp, back->file_offset, back->buf_offset, back->buf_len);
-+	mutex_unlock(&buffer->lock);
-+
-+	fput(filp);
-+	return ret;
-+}
-+
- static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- {
- 	struct system_heap_buffer *buffer = dmabuf->priv;
-@@ -308,6 +428,7 @@ static const struct dma_buf_ops system_heap_buf_ops = {
- 	.mmap = system_heap_mmap,
- 	.vmap = system_heap_vmap,
- 	.vunmap = system_heap_vunmap,
-+	.rw_file = system_heap_dma_buf_rw_file,
- 	.release = system_heap_dma_buf_release,
- };
- 
+ 	/**
+ 	 * @lessee_list:
 -- 
-2.17.1
+2.43.0
+
+base-commit: a4f3be422d87958ef9f17d96df142e5d573d2f23
+branch: drm-misc-next
 
