@@ -2,67 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0A6AB9A1A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B042AB9A26
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDC510EA34;
-	Fri, 16 May 2025 10:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFBC10EA35;
+	Fri, 16 May 2025 10:29:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JB1cbKT7";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UcbmLly/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1734B10EA34
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:25:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1747391146; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bemhvM9pwc8lCTJ7XG1tyEEogtDBUUEZ41R2u5OYVFdWR9MOMZskgudhQ3OsgdJO9qjTiLycp/YDRQ8yMEzBwBAwIhN66m/UvH3eoL6WsNwtaduS5/XHC/BWuGmjdXY9vtyRIvW41BGUyo13vMCmBOD/rFbR6pyOkdqIOjZ0FEA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1747391146;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=7ufq7J+dS4vCBPvGzC6/ZAkxwKyIeNhF3xU0c1WaRyU=; 
- b=bUS/5eaIuaigVKEH3qqBDvXf5I2A9R4xE8DqK+/1KGO6mC4zhLQLWCc+mDKecABgyufYYTFnZMHmWG1rf1ncsVdFk1s3JPPySHXSInhxKmIzXpf3h+DM2AGOLKRIukfrVZ+Zt/IWFxAq8fA+w725ywuw8g54OfCoLoNgMbH4FpI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747391146; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=7ufq7J+dS4vCBPvGzC6/ZAkxwKyIeNhF3xU0c1WaRyU=;
- b=JB1cbKT7TU5UV3Ld8nZuGxkJHP3cleYuTIvTef8FpJFjK8fYRWPCM+r/1kBImbrj
- HVMBehTCRnncUQKVNuhcnj/F05QRYNtjQjeEH8tjJ9wuaSxKQNNuwcb+G2R4iP0yRmM
- ACYHzsfKj0H8AQMBslE47Ai8jzFBAm6A1nehUxAk=
-Received: by mx.zohomail.com with SMTPS id 1747391144724792.7392507526358;
- Fri, 16 May 2025 03:25:44 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
-Date: Fri, 16 May 2025 12:25:37 +0200
-Message-ID: <6549034.lOV4Wx5bFT@workhorse>
-In-Reply-To: <CAAObsKDYpDt15NePk7DZbfwXnn5uaJxCu-pwZd-+PDEi56C73A@mail.gmail.com>
-References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <3628015.iIbC2pHGDl@workhorse>
- <CAAObsKDYpDt15NePk7DZbfwXnn5uaJxCu-pwZd-+PDEi56C73A@mail.gmail.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A56C410EA44
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:29:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j6onwqZMUnnBfpQ9lr/ixBayJxfdYu5FGgpWa0yE5c1HqpSXf22FXe5rOczwhMIYEl+E11blFc9HciXy5NE5zVK054plr9hDzJNl945c/xbUPOqkIt0U8PFJ1NwfMvY+GNwQiwrYCTiDbxZccUFHux2EHTtTLxGU11b1yWRMFVx8zdNg9MmdmJypkHSfd8NG1KrdEfWC/OjJ6aOGM8hlNQqSAOzzjSBjvgIQ/gwowB7K6DE3Dtv3b9wSfuQU8KJhCJqHmZmole6Ne/gdJ4Xvc7Q3rFEaJjMS5TUp50tt+t5iYykQ59K7Xv1PGouUMh7FuRDvQ2XlssJh6TQhXQJYSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T0auLDBfFqmnfBh2huJORrmmDimULMTpSsR/gjfpMhQ=;
+ b=gnOxfciFBfzCuhvP6n1khpZEbYQfS/dHLCwuhdmkC207xXVbc3sYRfAeWyyEnoRM5tToZWyeM59VGfD3EYXrG0izNXGGhfyf21q215WSterz8TTc3cHQ3aTFexdDzG9nE+nb3NXlazFdWFxuGhRzSsE9LJRttSFbDYEthLbz709WLJueTfn2PSGhEKFyaY3NzzpFkoCO9Q0VUfWwoRsH5O4APW4Y9V1bhxfqbO7E3xu1jCNOhr10VgC0fTwK1Va4CI3dwuG08xen5NsnJTSGZM8pYdjEmseCMHqME+b1d/WOoMXYVNnQwlowxoFAOzIDVIWnF/3S5FmXACw+BfUNeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T0auLDBfFqmnfBh2huJORrmmDimULMTpSsR/gjfpMhQ=;
+ b=UcbmLly/3YcFB7VbMu+92biRd8Znv/KRpwF7GfWdfWnc7Tf6fCruEIVBm8Cl99joZMIrJYlcfqwusf7S3nNVR4K8iBKlibGPCwrtRpZ84DGIpxWC2BSL5SshhHnBeTNgqkF1feeFPMTF9VpRtB1SlQmqTbHBmnB0lYJwQZRQDGA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BL3PR12MB6619.namprd12.prod.outlook.com (2603:10b6:208:38e::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Fri, 16 May
+ 2025 10:29:11 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.027; Fri, 16 May 2025
+ 10:29:10 +0000
+Message-ID: <772d694e-706a-4d98-a236-43d59094e8d6@amd.com>
+Date: Fri, 16 May 2025 12:29:04 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+To: wangtao <tao.wangtao@honor.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "tjmercier@google.com" <tjmercier@google.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "wangbintian(BintianWang)" <bintian.wang@honor.com>,
+ yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
+ hanfeng 00012985 <feng.han@honor.com>
+References: <20250513092803.2096-1-tao.wangtao@honor.com>
+ <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
+ <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+ <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
+ <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
+ <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
+ <2755aae2f1674b239569bf1acad765dc@honor.com>
+ <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
+ <a3f57102bc6e4588bc7659485feadbc1@honor.com>
+ <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
+ <e23bfe917c8744aa9162744bdd8ac458@honor.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e23bfe917c8744aa9162744bdd8ac458@honor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL0PR01CA0006.prod.exchangelabs.com (2603:10b6:208:71::19)
+ To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL3PR12MB6619:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cbd2b59-fa7a-4310-0530-08dd94647ed8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?T0s5OEFiMkY5ZGc2dG9TS01LYk5FYkJqVnRWdHBjQlNWTnNObnpOVGJkYjFM?=
+ =?utf-8?B?WlRrMW9ISm1NUDVjS0xuNGVoaEFSZHhhTjV1WnJrdWhlS3FxMEpDbUtGRmpD?=
+ =?utf-8?B?WkxwMlp6RHdkeWkxTjM3N3N2T3BPcC8yUVV1eFJ4dWVyNXV0QmQySkFFeGh2?=
+ =?utf-8?B?Q1NJWXRRU0JmeDU3MmV6MlcvSFc2LytBNHViRG1UM0FDcXUrY0RPbjJCeXk4?=
+ =?utf-8?B?Ri9yK0hSejZPRkIxclFiV3ZtbEdXaHhvRHVvTWFJbXdCZXlpNFEyZnhxSms3?=
+ =?utf-8?B?R0VOdnNaZmd2Z0FqaUJyNTdLN3ZMUTIvQzV1MUppVGdLTVRqTzhxQnA1L3ly?=
+ =?utf-8?B?eWIwc0VvM1h6cExpbDFqSy81cy9RLzlabmRDTzBuaGhtWlhkbTJneVgxN0ZQ?=
+ =?utf-8?B?UzM4WlBjWTlISUpraklPSmxGaVFBS2JyUWo0bFEveWIrK0oyWXpGcGJPV0VD?=
+ =?utf-8?B?QXUxV1VvY3FKU0JqMVZ0dkhUTUMwbVpLaUVVSG9yVWlBdFF2bm5KY1RaYnA5?=
+ =?utf-8?B?LzdDdExXNDlDbHF4cVVaU1FUMXlKbGdKcXdIUW0wekQ2S0FQQTVwYThxczJV?=
+ =?utf-8?B?dnA3eDhqVk83UkNyblVFaloycTY4V2lPeHBMOStZWmt2cEFYSHJNMU53QW51?=
+ =?utf-8?B?bnJQalE2UHJNV25FMVlDdURWNE9iT3RpdUdERTZwb1J0MUNvVXN5SXYzWFZj?=
+ =?utf-8?B?cnc4VTVXZHBIVjd4bmdBb1M1OTZhWmFtbTYrbDVMbFFSSnZUK2dTUTlhbllT?=
+ =?utf-8?B?SHdobElBR3I1enRFeWV4citRSloxb1dWS0pCQ2NYTUp1b2o1TTFCbVpmajdZ?=
+ =?utf-8?B?ZWNQSU5oazhLNVhScm5OaElLRVJPdk9xSkIxYTBNOFYwdXN0dXJ2WSt2d1Vp?=
+ =?utf-8?B?SjFLTTdieDlIK1M2R2JNVnV2Ti9sSnhYUHAxSVljelRrWkMwczlQL2dFaFMv?=
+ =?utf-8?B?OTVBTVE3dGR3SkdRRTRUdk13bjB5RDNBSHAyNGhGYjJSWWFIeFJoUWJMS2hU?=
+ =?utf-8?B?bWdOUGJxRi9mUnZ6NXJSd05JSnZMalBEMkw3WHBwZzMyeEI2Zk13MmN4N1d1?=
+ =?utf-8?B?ZE9wNENrVWp0Y0FITkhOdDcveXJTcC8wbWlrY3c3TGpRaEJIOGU2bVgvbFRL?=
+ =?utf-8?B?RnhRaXFocmRNQy95dk85dFM2RzlzZ1BlTlBOTzVHZXpIL1AyVWFJVlp6MTlY?=
+ =?utf-8?B?U0lseW5JUXBkZk9xRUJmSTgzOE5ONjN4TjZhejVUY28yaVlOYy9oQ016Q2ZZ?=
+ =?utf-8?B?dUxYREE0OHhHVFg5VWlxd1JkVWVCemVWTCtnU0M3OTJZVTVrbmpCaytReGRm?=
+ =?utf-8?B?dHhpZ3BHYjVTOXhCeDVMNWhKZzF6UVlYNW9CR0tYNXpPSnBVQXBURXExYjQ0?=
+ =?utf-8?B?ajVWL2N4RytQVFRIK3NONksyeXYrVlZXanVqajBGVDFZQnd5c3k5L3p6Q2Rn?=
+ =?utf-8?B?MG5MQW9Dd09Ra05IU0hlanJJcXp4aEgyTzd4TWY4L1RiV0JqRG1yR2hWaGRV?=
+ =?utf-8?B?THhBVXQzSDZuVWo2V1N2NVBGUERqYk1Fc0RZS0R0UUU3R094NXdqSzBEZ0VI?=
+ =?utf-8?B?UGhhSHdVbWZuMVZtTDJLNDRQVDJTL1ZxbXZML3ZMUGlsMGEwUUgyZ0pDcG5O?=
+ =?utf-8?B?VDZYVmJ4L0txeVV3eXpkSjhFTVpJZGJha1dDMXBPSGVlUk4xRU9nSWdhczZC?=
+ =?utf-8?B?V2c5b0ZlVXZ0UXZLS29sdmJIakJPM1lEYnkvNEphVWlCZU9LRGJUZmpGbG9a?=
+ =?utf-8?B?QkYxYXVWRVd4aHkzU2lZYlRlT0YxWTRaWVluUDVQZGloL1M1bzZJMm9JL2xM?=
+ =?utf-8?B?MENvMmphdVNSZ3FIZk1xbEJ5cU1JK3NQSjhoTXU2QmxrWFBOTHo4ZFdqYU9Z?=
+ =?utf-8?B?a3NiSWZGVG9HVWJrWkE3L29RSTA4UHlJSlVJTUtxaXlXN3Y4Y2Q1anJJejU0?=
+ =?utf-8?Q?uHjKgC6ezHs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cCt2TkNTV3RDUlk5TU0wdEkyZXNmcFFmSzdDbWRlOWZxcEpYWlhZSklBZjBn?=
+ =?utf-8?B?UmNMUUxWYWZPWXc5cWo2WlBXa3FmakNSbWhYaU5GQkRJSitYRGRNTzlER3E3?=
+ =?utf-8?B?S2NTbTErckJHb2c0ZTg0MmZUQXFYL0hmN01WNDFYalRGcHJJaVZUVitDRTd6?=
+ =?utf-8?B?aHBEM0NpbGRJbDFEVUxwMUtCcEp2d3BPNG81RVMvTWVzRWdDYlJrS2lRNWhE?=
+ =?utf-8?B?Vm1IUDhmTytmN2FPdTlZK2JsSjg2NFRtYWREbUxkQXFPT0x5aGFwZHFjQVcw?=
+ =?utf-8?B?YU92U3MzcldleEJYZmVMOEI5aGFOMlBlTktRcDNZN01kbjdBUk54OEdnTHZJ?=
+ =?utf-8?B?Q2hGSVRpZkRJWGtMNGNlNitLdk5BbkErTWFBOFhQMHZ5Vm5XVkZaRTdPNUZR?=
+ =?utf-8?B?Nitsc2p0OGQrMFl1a05uTHJ2RGJ0K2ttaDhlYkQ2VEg3dUpXOFR2aXFZekFD?=
+ =?utf-8?B?cmlUYnA1K2dyc3cyNDB3d2lzcDdFMDdEZU82VDhhQkVkbHRvQm42UG9yZUVC?=
+ =?utf-8?B?OGowekY0cHZNMnFxN0U1bWVKRmQrWk9kakt0dCs4Wnk5YmM3b3U3L3dVaTdJ?=
+ =?utf-8?B?MVhkYmNVRC9KMmNZNUwwZ3NSbWxmNGg5MVk0b3JSUlZEK1hpdjU1WHc1MFJE?=
+ =?utf-8?B?d3dPcytZaUNZMHg5QlI4NVdpNnVvYmE4OEtCRDZ1UlhkOGNWYXNBRXh4RDJD?=
+ =?utf-8?B?WHhIQ09oODc0Qjg2Q3lBRU9PZUwrbmxSbXdPSG41a25sWXZLd3VZY3NhVTNJ?=
+ =?utf-8?B?REF0L05pT0ZYdkRCbWROMS85MWJLV1VzSnFqQ0FaamhuU0M0cU9kTjZrQmdS?=
+ =?utf-8?B?ZTI4MVpZdVRyeHR6UTVheXJ0bWxsakVJVzI4WTRreXhQWUVpNGIweENRemFF?=
+ =?utf-8?B?RlFUS0wzQ0llK0NiQmRCdjd5YW8wb0I5d1A4NStNZTFjMGxoTVFvWGxpaEpw?=
+ =?utf-8?B?aU41Qk44ZnMvUFJIdXNmcmNMM2JnYUZLMUlpSkI1T3puWUVXRVFheFBmMjBx?=
+ =?utf-8?B?L0lPUE55WHJma1lxRENGRXBXUUVRRlc5dFdxSmpQc1RPOFhKWlIrV3pYSmpD?=
+ =?utf-8?B?TWtMazFlVUh6dXg4SDdHTTY4d2xHbE1IOVQ5VndDZnJzZmVOT0o0TTZ6MFRn?=
+ =?utf-8?B?TFVMMHZaR0JsdklwbzVKZGt2bEYwdjgxc1ZIT2dWdEtDUUFyd1g1dGFQdlRu?=
+ =?utf-8?B?TGgveXE3emxsRzlRSElmaU93YS9GL2NSOXlIalhHMGhkTTJpUzNpY29WZzBN?=
+ =?utf-8?B?UUYweVIvSTNRUWhOQm5iVVRYbTBRZFBYNE1yaVh5cDVOSGdQb3ZKUlB2MmMy?=
+ =?utf-8?B?NStyRnJLNlF0QjhNSnFmQjNyTjE2TkllUk1laktQNWt6Y3J4VU54Y0ZQYUd0?=
+ =?utf-8?B?bzRCOHc1M01Oanp1dFRmOFdaOWsrSlBZcEc5OWwzOURvVWhxQTNxMzJSdFJx?=
+ =?utf-8?B?VVl4WHhHS09FeHRjL1FteithVXh5RHRubGpQcmpZdzhJSXNadS9nUHA2SGYx?=
+ =?utf-8?B?amwvWDBDM3lDeFQ3M2lUWGpPcmdlWEVaakE1dTFaVWdRQUpTbUp2cnlYTTdr?=
+ =?utf-8?B?RFRneDlRVnBrNktoQ2hXR3VZc1hNdXdoTERWU0RnQWJrWjlGK2FCOStyVXBy?=
+ =?utf-8?B?VGRPeXJWOHROU21yRFNFME1GRWVtbFdIc0hPZmhyM2JIbnZQVWFPM0puRzVD?=
+ =?utf-8?B?SmV0aEhWRGc2dHl3Um5DK2hEL2tmQ2tZc3hUYUhIaDZSZHdCMkgwN21wN3dO?=
+ =?utf-8?B?UzVXMVRvd1l3QjNWbHlWQVNGaEZBYlJGbzBSN2RHUDRSYVE0ZDFqc1M5dXFU?=
+ =?utf-8?B?SHRHZSs0YmNTWjdyaUJrc20ydmhsbXJRVXRSaEFOdThhbENHK2hBdFgwQ2c1?=
+ =?utf-8?B?ZHUyd0FYbmg4UHplVGFWcm9nMUUxMnRwZUM3M0tVVnlVa1lSTGZNRERnWEFM?=
+ =?utf-8?B?Nllub2EvWnZyV1EwZzNzeXk0bHArNEpEN1k0cUhLRGNndnpoWmlaMXZWS2JB?=
+ =?utf-8?B?WWE5bUl4RU9UWm1tTVB2bCtIRTE5Q1c2YkwzMVZGTHFRSS9pWWYxb1pCTS9h?=
+ =?utf-8?B?NlpPZy9aT2lWZ0FhcllkdkhYT0FaS21zMklzcDJLN3plRUg4S2dhZlNJMkxl?=
+ =?utf-8?Q?qKmZHUR90VvEC4rTZGQs7cAb8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cbd2b59-fa7a-4310-0530-08dd94647ed8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 10:29:10.4470 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IpTYxXVtQRZRLz7T/leCuNkxktXa7+Hw+lc0YsyjRgr5ufP3Ct8bi4KDdwTMqRIS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6619
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,272 +183,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 15 May 2025 10:30:14 Central European Summer Time Tomeu Vizoso=
- wrote:
-> On Wed, May 14, 2025 at 7:50=E2=80=AFPM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> >
-> > On Wednesday, 14 May 2025 17:18:22 Central European Summer Time Tomeu V=
-izoso wrote:
-> > > Hi Nicolas,
-> > >
-> > > Thanks for looking at this. Some thoughts below:
-> > >
-> > > On Fri, Apr 25, 2025 at 8:50=E2=80=AFPM Nicolas Frattaroli
-> > > <nicolas.frattaroli@collabora.com> wrote:
-> > > >
-> > > > On Tuesday, 25 February 2025 08:55:47 Central European Summer Time =
-Tomeu Vizoso wrote:
-> > > > > Add the bindings for the Neural Processing Unit IP from Rockchip.
-> > > > >
-> > > > > v2:
-> > > > > - Adapt to new node structure (one node per core, each with its o=
-wn
-> > > > >   IOMMU)
-> > > > > - Several misc. fixes from Sebastian Reichel
-> > > > >
-> > > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > > > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > > > > ---
-> > > > >  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++=
-++++++++++++++
-> > > > >  1 file changed, 152 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-=
-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> > > > > new file mode 100644
-> > > > > index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f16=
-6cf13a9f4aa7c1901362a3f
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.ya=
-ml
-> > > > > @@ -0,0 +1,152 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Neural Processing Unit IP from Rockchip
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > > > +
-> > > > > +description:
-> > > > > +  Rockchip IP for accelerating inference of neural networks, bas=
-ed on NVIDIA's
-> > > > > +  open source NVDLA IP.
-> > > > > +
-> > > > > +properties:
-> > > > > +  $nodename:
-> > > > > +    pattern: '^npu-core@[a-f0-9]+$'
-> > > > > +
-> > > > > +  compatible:
-> > > > > +    oneOf:
-> > > > > +      - items:
-> > > > > +          - enum:
-> > > > > +              - rockchip,rk3588-rknn-core-top
-> > > > > +          - const: rockchip,rknn-core-top
-> > > > > +      - items:
-> > > > > +          - enum:
-> > > > > +              - rockchip,rk3588-rknn-core
-> > > > > +          - const: rockchip,rknn-core
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > >
-> > > > Hi Tomeu,
-> > > >
-> > > > as you probably know, RK3576 has quite a similar NPU. This is why I=
-'m currently
-> > > > poking at this patch series. One of the differences I ran into was =
-that the
-> > > > IOMMU of each NPU core now sits within the reg address space range =
-of the core
-> > > > as described by the single reg item binding and assumed by the driv=
-er.
-> > >
-> > > But this is not a difference, right?
-> >
-> > It is. E.g. on RK3588, you use reg =3D <0x0 0xfdab0000 0x0 0x9000>; for
-> > rknn_core_top, and rknn_mmu_top then sits at 0xfdab9000, which is just
-> > outside the reg range of the rknn_core_top node. That means acquiring t=
-he
-> > iomem as a resource succeeds for you, whereas for me it fails.
->=20
-> Ah, got it now, thanks.
->=20
-> > >
-> > > > This seemed weird to me at first, since I would've guessed the core=
-s would be
-> > > > exactly the same, but I noticed that they kind of still are; the RK=
-3588's NPU
-> > > > also has a "hole" between 0x2000 and 0x2fff on each core, which is =
-where RK3576
-> > > > put its IOMMU.
-> > >
-> > > So this is the same in both RK3576 and RK3588, right?
-> >
-> > Yes, both RK3576 and RK3588 have a hole in the same area. RK3562 also h=
-as
-> > the same hole. RK3568 doesn't have the offsets for the individual parts=
- of
-> > the NPU in the TRM, making all the relative register offsets the TRM th=
-en
-> > goes on to document completely pointless as it omits what those offsets
-> > are based on, so we don't know if it has a hole there. I vaguely recall
-> > that it has the IOMMU either before or past the global range (not sure =
-if
-> > I wrote these findings down anywhere?), so if it has a hole at 0x2000
-> > then it's unused like on the RK3588. I don't have access to the RV1106
-> > Part 2 TRM where the NPU is described, so I don't know whether that has=
- a
-> > hole there unless we dig into the downstream code.
-> >
-> > >
-> > > > This is some information I gleaned from the RK3588 TRM, specificall=
-y section
-> > > > 36.4.1 "Internal Address Mapping", which shows where each "part" of=
- the NPU core
-> > > > has its address space.
-> > > >
-> > > > Right now we just represent this as a single reg item per core. I'v=
-e played
-> > > > with the idea of splitting this up into the distinct ranges the TRM=
- lists and
-> > > > giving each a reg-names entry, but this would require a major rewor=
-k of the
-> > > > driver from what I can tell, including to the auto-generated regist=
-er header.
-> > > >
-> > > > For now, my hack on RK3576 is to just ioremap the range defined by =
-resource
-> > > > start to resource end inside rocket manually if I get -EBUSY trying=
- to ioremap
-> > > > the resource proper. This is quite an ugly hack though, it means th=
-e IOMMU node
-> > > > still has its address overlapping with another node in the DT, and =
-it also means
-> > > > we have an unavoidable error message printed into the kernel log. T=
-his is also
-> > > > what the vendor driver seems to do.
-> > > >
-> > > > What do you reckon is a reg setup in the binding that is both reaso=
-nable to
-> > > > implement in the driver while accurately describing the hardware?
-> > >
-> > > Guess we could go with some smaller granularity and have 3 register
-> > > areas per core, instead of 10:
-> > >
-> > > - CORE: PC+CNA (0x0000 ~ 0x1fff)
-> > > - AUX: CORE+DPU+PPU+DDMA+SDMA (0x3000 ~ 0x9fff)
-> > > - GLOBAL (0xf000 ~ 0xf004)
-> > >
-> > > So the IOMMU on all the known SoCs can have its own regmap. I have
-> > > chosen to call the first one CORE because these are the components
-> > > that are absolutely needed in any NPU that is oriented towards
-> > > convolutional networks (convolutions, basically). I have named the
-> > > second AUX because it contains hardware units that are optional and
-> > > are used to implement operations that may be common but that aren't as
-> > > computational expensive as convolutions and thus might be skipped in
-> > > lower-end versions of the IP.
-> > >
-> > > What do you think?
-> >
-> > I'm personally fine with this approach. I've floated a two-area approach
-> > to Sebastian Reichel before who, as far as I can recall, expressed his
-> > distaste for  it as it seemed like an arbitrary division. I do concur in
-> > that, it seems very arbitrary, so it's hard to say whether the bindings
-> > maintainers would let us get away with it if they get wind of it.
-> > Unfortunately they are Cc'd on this E-Mail, so the cat is out of the bag
-> > in this regard.
->=20
-> Actually, after thinking a bit more about it I'm leaning towards only
-> having the PC, CNA and CORE areas in the DT, as those are the only
-> ones that should be accessible from the CPU.
+On 5/16/25 11:49, wangtao wrote:
+>>>> Please try using udmabuf with sendfile() as confirmed to be working by
+>> T.J.
+>>> [wangtao] Using buffer IO with dmabuf file read/write requires one
+>> memory copy.
+>>> Direct IO removes this copy to enable zero-copy. The sendfile system
+>>> call reduces memory copies from two (read/write) to one. However, with
+>>> udmabuf, sendfile still keeps at least one copy, failing zero-copy.
+>>
+>>
+>> Then please work on fixing this.
+> [wangtao] What needs fixing? Does sendfile achieve zero-copy?
+> sendfile reduces memory copies (from 2 to 1) for network sockets,
+> but still requires one copy and cannot achieve zero copies.
 
-That does make sense to me. I've just checked the RK3576 specific reg
-fiddling code I hacked in and it doesn't appear to be writing to any
-other areas either.
+Well why not? See sendfile() is the designated Linux uAPI for moving data between two files, maybe splice() is also appropriate.
 
->=20
-> The registers for the other units should be set by the PC, as it reads
-> the command stream.
->=20
-> So three register areas that can be set to wherever Rockchip has
-> placed them, and we just ignore the others in the kernel, as we don't
-> have any business messing with them ourselves.
->=20
-> What do you think?
+The memory file descriptor and your destination file are both a files. So those uAPIs apply.
 
-This seems like a good solution. Any further reg ranges that are used in
-other variants (e.g. RK3562/RK3576 and maybe RV1106) introduce something
-called "CBUF" and I'm not yet sure if that'll need any writes to its regs
-from the driver, but if it does then it's easy to add another range for it
-in the binding for just those compatibles.
+Now what you suggest is to add a new IOCTL to do this in a very specific manner just for the system DMA-buf heap. And as far as I can see that is in general a complete no-go.
 
->=20
-> Thanks,
->=20
-> Tomeu
+I mean I understand why you do this. Instead of improving the existing functionality you're just hacking something together because it is simple for you.
 
-Kind regards,
-Nicolas Frattaroli
+It might be possible to implement that generic for DMA-buf heaps if udmabuf allocation overhead can't be reduced, but that is then just the second step.
 
->=20
-> > What speaks for the 3 register area split is that anything that brings
-> > more holes and doubly mapped things into the AUX area is probably going
-> > to be so radically different it'll ideally have its own binding anyway,
-> > or needs more than just a compatible added to the binding.
-> >
-> > I think as far as arbitrary splits goes, the one you propose is probably
-> > the one most closely aligned with reality. Certain register areas do
-> > seem like something they'd never move away from its corresponding
-> > companion, whereas adding parts to the AUX area or removing from it is
-> > probably going to be quite common. So it can essentially be treated as
-> > the area where optional things will most likely land as you pointed out,
-> > which then don't need more bindings fiddling to add those optional thin=
-gs
-> > as explicitly named areas in the bindings as long as we treat it as just
-> > one opaque area s far as the binding is concerned.
-> >
-> > Also, unless there's some virtual combined sparse iomem API in the kern=
-el
-> > that I'm not aware of, that's probably the easiest path forward for the
-> > driver as well.
-> >
-> > >
-> > > Regards,
-> > >
-> > > Tomeu
-> >
-> > Kind regards,
-> > Nicolas Frattaroli
-> >
-> > >
-> > > > The RK3568, which uses a similar NPU design has the IOMMU at an off=
-set of 0xb000
-> > > > from the core's start of PC, so probably after any core specifics b=
-ut before the
-> > > > global registers if I hazard a guess.
-> > > >
-> > > > For those without access to the TRM: splitting this up into multipl=
-e reg items
-> > > > per core precisely the way the TRM does it would result in no less =
-than 10 reg
-> > > > items on RK3588, if I count correctly.
-> > > >
-> > > > Kind regards,
-> > > > Nicolas Frattaroli
-> > > >
-> > > >
-> > >
-> >
-> >
-> >
-> >
->=20
-
-
-
-
+Regards,
+Christian.
