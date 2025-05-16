@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7841BABA14A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 18:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC3CABA1A8
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 19:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E289C10EB36;
-	Fri, 16 May 2025 16:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF39B10EB42;
+	Fri, 16 May 2025 17:10:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IMIICsw2";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZtviVyyU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05C710EB2A;
- Fri, 16 May 2025 16:56:13 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-231ba912ba1so1971735ad.2; 
- Fri, 16 May 2025 09:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747414572; x=1748019372; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L3zjIN44WdrgRJ0p45DFbKQteVUcMZJqboan4WrhKoI=;
- b=IMIICsw2x66BZWtbOjKFtFdFtjsDq0GMhJ9i9VkdhgYLYPu83Uj46pSqBYhxGmsQQt
- Pyv27pBjSGlu9Oi8QlXXmLw+RwN3lbXoisS/uDNCkQPHpUGCNjWR3MGZcxoYx/rrvvhm
- LZZPlj2dlW3e0a7Ah5omCDvD8yb0DMQRyFm3yMD4LKlQsl5+6NAHB8FCki2Ul78/kBak
- JSPgIZNVUrzbTUHWFROLGbGHxTuNAmc7SxgTnCHSq6frl9XuIweoq3t7986AmRIllrkI
- v4qOQa5uiBW1BgafUfvNuwI9OVdX/jEJ0uDmN7YLIxFZl/mtsKlAJuOPU8sCq053dzG3
- 7lwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747414572; x=1748019372;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L3zjIN44WdrgRJ0p45DFbKQteVUcMZJqboan4WrhKoI=;
- b=wA9fdzak+vYccxq9OWzlITxofWBHCJcSw3iAa+oX35Ca8/KlH0iuhqmZcdZF7p+Vnp
- OAqUr8M+3d0DHvRvuasTI95wg8DiLUQw5iXxZ5xGENnbtBJ+tEqF0dj1kvSmznbjMxSK
- qerhMkrpHU1LgQQxBCRfZPgWiL21SNNShQXONrROR/xL/SZLgw9efkSxkPD9VRxnIIsd
- 8G2F7T5L6sgPz5Om/M7qQ+maz0rceUe9O80MVfDRDLSgvNL18V+MxRw4IiAUgfIaQPVY
- LpoynBtyW8nRSsxhnB3Co4cszoflpMtbiDspZr/KdY97T80mQqmc4Bmqe3XyWiF8PhWA
- /vjg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFbB9LOcuKfY1FUhpy0eLolx+xTD8DtSnRG+XGgPrLmClQOOx8fl4J/tbSLRxpJ00zkNJHKg/L5CxE@lists.freedesktop.org,
- AJvYcCX1FKJWfGpUiLBL38j3NdmN/CoYJJ65TgF8OcX9fLevdoW+W7+kuhkSOe9CFqKjyanpEketEz5s@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRja6HeKObz73kIa4lt98lml9HmoHRW51lvnKoqZ6Ts5cEGaXH
- K3q6Afh9cYbr/IShmuQBVOG99SF+hu+G79ELx0pe79i/aPgJ5csKxH1/hFDVrsLTaGDxm4F3uy9
- gnklm4EmmJd76oBS7YWBSTd/Xrtifapxv9A==
-X-Gm-Gg: ASbGncuRexSrkS/iaZYDEuhsTDYoLOZvny4dhu1HMMW56IHt2WEMrxz7GXT1r/go0CF
- 8iF8xL/pUoWRLSXfnJTlDofJgn5puFJPlutpU5x3jLemhsSSA4NxiNAa9ITOc94XU/ngfL4ICcp
- CWwvK3Pwq7UlNrChyHkMqEHwk7cLon1lWlzQ==
-X-Google-Smtp-Source: AGHT+IEWlWBmVIodl6llwj4Bj+K/fNf77PKDKqvaxTt6U89Q80b+JhFpTXaO68RpWBDsmlFdo7+vtIbfmGy656k1DBQ=
-X-Received: by 2002:a17:903:41d0:b0:22f:d4e7:e7ca with SMTP id
- d9443c01a7336-231d43b2377mr21507425ad.6.1747414571854; Fri, 16 May 2025
- 09:56:11 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3855510EB42
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 17:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1747415441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SqqXQ0u/im929/mMLP9js8oD6omAmYTkJ6vuyxHmHR4=;
+ b=ZtviVyyUPHrGDa7VEbeUXKM/2w9dSE26ebyoXnU010n8TCpqIV8+hkJO3iLWOC05EHgVLy
+ 5HJUR8ZxdQWzOX3hB+oW+NdizS+RLlN1IxyfYbOH26yGpZ5J/RwnuCFWBXj5IAxgEsvyhg
+ uplI68ZARHCLD3O0vgBRMGZMm04yKEw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-202-ByzUrL92O02iX4Q4pNUlyQ-1; Fri,
+ 16 May 2025 13:10:38 -0400
+X-MC-Unique: ByzUrL92O02iX4Q4pNUlyQ-1
+X-Mimecast-MFC-AGG-ID: ByzUrL92O02iX4Q4pNUlyQ_1747415436
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 94E54180087B; Fri, 16 May 2025 17:10:35 +0000 (UTC)
+Received: from chopper.redhat.com (unknown [10.22.82.40])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id AD28719560AE; Fri, 16 May 2025 17:10:32 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 0/4] rust: drm: gem: More (and final) cleanup
+Date: Fri, 16 May 2025 13:09:15 -0400
+Message-ID: <20250516171030.776924-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
- <CADnq5_OEdpRvpfL9+aCQOfRGUW-vOGzXq3ts5buWXoOTxtHr6Q@mail.gmail.com>
- <CABtyycTNz7dmir5Ydc=VDiTUsLy0tryBgGmtWCJQZSauuaSJwg@mail.gmail.com>
-In-Reply-To: <CABtyycTNz7dmir5Ydc=VDiTUsLy0tryBgGmtWCJQZSauuaSJwg@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 May 2025 12:56:00 -0400
-X-Gm-Features: AX0GCFsTGKrT9PhcWdiE08jFRAeRukVdsqXEoFc-fFm5wIZ90cJJ3z96Mq-p87U
-Message-ID: <CADnq5_P7m_a2CToL5JAkDSZDvUgx1LWGaS158CLMBr8xyGtVkw@mail.gmail.com>
-Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
- with prefix to help in ftrace
-To: Leonardo Gomes <leonardodasigomes@gmail.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- derick.william.moraes@gmail.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,72 +74,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 9:23=E2=80=AFPM Leonardo Gomes
-<leonardodasigomes@gmail.com> wrote:
->
-> Thanks for your reply Alex,
->
-> I just realize with your comment that drivers/gpu/drm/amd/display/dc/gpio=
-/hw_gpio.c import dal_hw_gpio_get_value and dal_hw_gpio_set_value.
-> So to make those functions inside drivers/gpu/drm/amd/display/dc/gpio/hw_=
-hpd.c  more clear what do you think to change them to dal_hw_hpd_get_config=
- and dal_hw_hpd_set_config, making clear that this is a function from the f=
-ile hw_hpd?
->
+Look mom, no generic soup!
 
-Right.  It needs a different name to avoid the conflict with the other func=
-tion.
+Anyway - this is just the last of the cleanup stuff I ended up while
+working on cleaning up the gem shmem patch series. It simplifies the use
+of generics and also adds a type alias for some very long types
+currently in use. Also, drop one unused constant I noticed.
 
-Alex
+Applies on top of nova/nova-next:
+  https://gitlab.freedesktop.org/drm/nova/-/tree/nova-next
 
-> Leonardo Gomes
->
-> Em qua., 14 de mai. de 2025 =C3=A0s 18:08, Alex Deucher <alexdeucher@gmai=
-l.com> escreveu:
->>
->> On Wed, May 14, 2025 at 4:48=E2=80=AFPM Leonardo Gomes
->> <leonardodasigomes@gmail.com> wrote:
->> >
->> > Adjust get_value function in hw_hpd.c file to have
->> > prefix to help in ftrace, the name change from
->> > 'get_value' to 'dal_hw_gpio_get_value'
->>
->> This won't compile.  dal_hw_gpio_get_value is already defined in
->> drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c.
->>
->> Alex
->>
->> >
->> > Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
->> > Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
->> > Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
->> > ---
->> >  drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--
->> >  1 file changed, 2 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gp=
-u/drm/amd/display/dc/gpio/hw_hpd.c
->> > index 3f13a744d07d..b11ed1089589 100644
->> > --- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
->> > +++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
->> > @@ -62,7 +62,7 @@ static void dal_hw_hpd_destroy(
->> >         *ptr =3D NULL;
->> >  }
->> >
->> > -static enum gpio_result get_value(
->> > +static enum gpio_result dal_hw_gpio_get_value(
->> >         const struct hw_gpio_pin *ptr,
->> >         uint32_t *value)
->> >  {
->> > @@ -104,7 +104,7 @@ static enum gpio_result set_config(
->> >  static const struct hw_gpio_pin_funcs funcs =3D {
->> >         .destroy =3D dal_hw_hpd_destroy,
->> >         .open =3D dal_hw_gpio_open,
->> > -       .get_value =3D get_value,
->> > +       .get_value =3D dal_hw_gpio_get_value,
->> >         .set_value =3D dal_hw_gpio_set_value,
->> >         .set_config =3D set_config,
->> >         .change_mode =3D dal_hw_gpio_change_mode,
->> > --
->> > 2.43.0
->> >
+Lyude Paul (4):
+  rust: drm: gem: Simplify use of generics
+  rust: drm: gem: Add DriverObject type alias
+  rust: drm: gem: Add ObjectFile type alias
+  rust: drm: gem: Drop Object::SIZE
+
+ rust/kernel/drm/gem/mod.rs | 102 ++++++++++++++++---------------------
+ 1 file changed, 44 insertions(+), 58 deletions(-)
+
+
+base-commit: 38cb08c3fcd3f3b1d0225dcec8ae50fab5751549
+-- 
+2.49.0
+
