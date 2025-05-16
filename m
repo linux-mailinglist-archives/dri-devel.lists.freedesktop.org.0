@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E8AAB95A6
+	by mail.lfdr.de (Postfix) with ESMTPS id B6ED1AB95A7
 	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 07:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE0210E99E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8044810E104;
 	Fri, 16 May 2025 05:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XJkz7Kca";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dp/bTmqk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E2810E986;
- Thu, 15 May 2025 23:52:24 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id
- 5614622812f47-3fb3f4bf97aso867704b6e.2; 
- Thu, 15 May 2025 16:52:24 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82AAE10E054;
+ Fri, 16 May 2025 01:23:44 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-30c1c4a8224so1320051a91.0; 
+ Thu, 15 May 2025 18:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747353144; x=1747957944; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Dvu88ev1VdWU5DxXw0FZJRoIRYMo1iE9Ijw3Gfebd28=;
- b=XJkz7KcaOvksuF5Hs1lPzVqppTcr034gqoZLGfedobgakqPhJpPKrUTiEKPg6dGOnv
- 9/2fQDVFlLXvmDsDpoe/ff+iYBsmmKsZS7xyrzCuoITi3amXfvFD+Moc/VPPEmBqSoz4
- kBY/rqMXUR0gMoUj5RgPq/NlJvW4czOFy5V/wkcvs9VpXbBQelxkb1C32Kq7MT/XC3bJ
- 0TbsVOmhGMrGF/knjFvRW1cxCQUpCFlYRTayTfUvJAkgBOOQdn/ltlBdMQZ3ecQTO5jL
- SkYBcTIPG+bMnLqR9xNmkdB9TL6XS6qBIGnklv53MH38QjNG1ltKBbiQh81NbGoUtbgT
- wcpQ==
+ d=gmail.com; s=20230601; t=1747358624; x=1747963424; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RABf2HYAiUJcvyUGs60HaCG9k0Cil314tRcPOU+eWQM=;
+ b=dp/bTmqkJ29x9rmpXcKE020uTC6xqac9WlOAMuRfyHXjsUzc7gvbj7Oipzu45IN+mm
+ vyUxkqbH6vLN2Nnxtd3QUIf4tG1wWJ4fIPo6a7A8EsKeIWyjXE+RJzPDXKsg4F2gEYYH
+ silVHoon2sVnkT4P8MijlCRiD9MSouU42CckQvq5Xnk9BGCpB3uDnePpd0zP1OQ7ySrs
+ J8yE1kx624+A1wTqE3tHoyS/multl2WKkJqWBxE3DkZ4Oet9HGYA3I08MdtOGslXnbi/
+ ApzkWgwWE0bUYoJL9/Fa5bSDiV9SipBaH4eALLpgOKOHcJ0TvrLd/ry9vSYq2APJDnlh
+ ALsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747353144; x=1747957944;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Dvu88ev1VdWU5DxXw0FZJRoIRYMo1iE9Ijw3Gfebd28=;
- b=Fl/dzs1eWPpUrQZpa0vDF1E82ITgjQWUlRJah9J8ltTK0ZhjZLje+jBp3MMUVFczn5
- 9WkvnO2dDbLKeW7/YckG/7cEo8uoaoLe6VYgk/0gq+kAZ9j762mBZejn+yg897mevE1r
- l5GebG1zz6Xxxhb+ShQRE8tQZU0u+bKRQ9l1tYPzX63JARsb2/pqv3SpT+nxP8r3mY7z
- Ct0TqVEvLz55lIvKRUZLDqaYuERrUocWqfTX16dQ7RGO0UHQXL2g0VGHLFQycGsa77iK
- swKounWM49520IKh2LIszLqBVVrfMFZavsCynITHvDhK/oB5g8iaz8jRg4ry9Z3H76Wv
- tZEA==
+ d=1e100.net; s=20230601; t=1747358624; x=1747963424;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RABf2HYAiUJcvyUGs60HaCG9k0Cil314tRcPOU+eWQM=;
+ b=TSYjJ79jSMsN8hEt6hjAERm235LvxjAV/l2jxyt5/jGrUV/KYXRjavdP6TTlMLxPfF
+ HE5OMluWz5yxqijlfmhnQHdVvgJ9Y0ufvlQUKFsSDJc8kNKz4fywbIHneSbVhI5UJTjP
+ ssQYOCZ8Uu+oFgEKHxUrnHKdy1Ck9UxINYsyaes0+3tMZ/dq4R5zfDcX0JPjYt+taXSb
+ 8zBdLUsq7ru//lxknvODoK4wQ972vsBRWmVGWjdVkvCKM4m8WMkk7MV+ZoMVjeUUWCdk
+ s422fQkeyfKq3ek/f6DoxfLBIFn+20Fxx3MVbCMas7+w2hzxFYw5P2djVUB1nyw0Fn7p
+ w77A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNQWF1zU4LKMtM3rqjuqYmpNWsSYfXYpeeJ83yzb3MlyKWdkunszxdZPMfYda4wu9lLGYf1a8y/Tw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzH8Htd/S/906tF1gssN6Fer+9Msk2cWhywAeAqRcH6R1Wg1156
- rMOpbDfBu6Gs0tIKqCuVVZvgH2fx+Hz3ZuJf+VtjYOJVn8ougqiclpbtW9CuWS0K94XLhr9Z58Z
- 5syTaFr+A7OeBEvhRrS/NKglssdkL7OU=
-X-Gm-Gg: ASbGncuXirV11Fh/IX4ACdg7zf/A7g/QxhVGECJtcKaBpTWbo+h18ImG8SnqxzrFwg2
- F+tR6tjLsC9FVT6eemhPEYfRUVoAq2hjbjUhhD43rrfuvu9Zi8LGs6NSX45TyUkYAGMVluFCOR2
- feN1Rc8F87stwQg6Aekh4eIc+G0jA0Ufc=
-X-Google-Smtp-Source: AGHT+IF7l+OfeWDxmtMQ/n0NGjONLriHzg84x+VxoXL/MEoU+nBi+ArpmI1jmKMqH8iuRgHL5o1427WBgaE5H/loxm8=
-X-Received: by 2002:a05:6808:2f18:b0:403:6fd2:d97c with SMTP id
- 5614622812f47-404d869dcc3mr1361963b6e.14.1747353144041; Thu, 15 May 2025
- 16:52:24 -0700 (PDT)
+ AJvYcCU29Y9v0LjD0IObfRsI37zBI5JEyepBfemiw9Gu14jwUjxRqc2adgrhXOaQOfqWRQCFvrVrC7D6Bw4J@lists.freedesktop.org,
+ AJvYcCWIM0UQh+2gAvLXk2UDN34HrHOVYJcmUTuSoonNye2HWGzA9GfRmiplECrcKeTgiAXL4TXxCGlU@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoziTMyQoajKWDh79lzK0dfN8AY0nXItuepwHZjPfHrtB3jTQk
+ 2Ma6ev6AeYkIX3gAMKxfqWEgK72glrZ1oYP67D28iseJ3eN57/Sz2twmxUUp7vugITswutYOd0k
+ tP7OzErMbKKrySJgCojcWzBEXZ+ydJ/8=
+X-Gm-Gg: ASbGncs680L19jCQVif6WcE8y3g7HQ2lRF+QU9aaQnNLVBSUv5JJSWcmzcq9rOS7Ihn
+ gbvS03VGj6JjRsnYnX5bV4cjuoMSRaowEb8oaCU+4EToAFZyViwXeZhlsKY+MCSPn4ffPzHiqeC
+ 8WPcvwTqUnr7rGIjsKxcO0Rum5iv8Y1NG7hPQNYspbfW3Go8+uQNCBpPBN9wa3jspVlQ==
+X-Google-Smtp-Source: AGHT+IGR7paf7BjQb3wScAbnTJMOdm+L+6Jo/HoYF9TI8h8o0r13tGzqxRFJcB3lzVQc9bB5YzvN/9pQZ89xbX/dXpw=
+X-Received: by 2002:a17:90b:2d47:b0:2f8:b2c:5ef3 with SMTP id
+ 98e67ed59e1d1-30e7d520bfemr1889874a91.14.1747358623962; Thu, 15 May 2025
+ 18:23:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <dfe6e774883e6ef93cfaa2b6fe92b804061ab9d9.1737644530.git.jani.nikula@intel.com>
- <98201050-82eb-453d-a669-036eeefa354e@gmail.com>
-In-Reply-To: <98201050-82eb-453d-a669-036eeefa354e@gmail.com>
-From: Bill Wendling <isanbard@gmail.com>
-Date: Thu, 15 May 2025 16:52:12 -0700
-X-Gm-Features: AX0GCFsG1lMUbV8e9u6zQamu0DG4uq2UWcnglLtzwznz1X3UhF0PTDEVH-90KBk
-Message-ID: <CAEzuVAdfY-KiLF7AArQ2Wkw=qP1hnyuG1UmSsv_ZtgrUpfm-3A@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/print: require struct drm_device for drm_err()
- and friends
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, gustavo.sousa@intel.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, linux-kernel@vger.kernel.org, 
- kees@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
+ <CADnq5_OEdpRvpfL9+aCQOfRGUW-vOGzXq3ts5buWXoOTxtHr6Q@mail.gmail.com>
+In-Reply-To: <CADnq5_OEdpRvpfL9+aCQOfRGUW-vOGzXq3ts5buWXoOTxtHr6Q@mail.gmail.com>
+From: Leonardo Gomes <leonardodasigomes@gmail.com>
+Date: Thu, 15 May 2025 22:23:32 -0300
+X-Gm-Features: AX0GCFs4w4xq-tFk-r_bnv1c--x5-ws9BGrSOte2ZKGV9q3Ghg8usGcJqzEzYqs
+Message-ID: <CABtyycTNz7dmir5Ydc=VDiTUsLy0tryBgGmtWCJQZSauuaSJwg@mail.gmail.com>
+Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
+ with prefix to help in ftrace
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
+ derick.william.moraes@gmail.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000139f09063536a28d"
 X-Mailman-Approved-At: Fri, 16 May 2025 05:50:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,197 +87,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 1:18=E2=80=AFPM Bill Wendling <isanbard@gmail.com> =
-wrote:
-> On 1/23/25 7:09 AM, Jani Nikula wrote:
-> > The expectation is that the struct drm_device based logging helpers get
-> > passed an actual struct drm_device pointer rather than some random
-> > struct pointer where you can dereference the ->dev member.
+--000000000000139f09063536a28d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Thanks for your reply Alex,
+
+I just realize with your comment that
+*drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c* import *dal_hw_gpio_get_val=
+ue
+*and *dal_hw_gpio_set_value*.
+So to make those functions inside
+*drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c*  more clear what do you
+think to change them to *dal_hw_hpd_get_config* and *dal_hw_hpd_set_config*=
+,
+making clear that this is a function from the file hw_hpd?
+
+Leonardo Gomes
+
+Em qua., 14 de mai. de 2025 =C3=A0s 18:08, Alex Deucher <alexdeucher@gmail.=
+com>
+escreveu:
+
+> On Wed, May 14, 2025 at 4:48=E2=80=AFPM Leonardo Gomes
+> <leonardodasigomes@gmail.com> wrote:
 > >
-> > Add a static inline helper to convert struct drm_device to struct
-> > device, with the main benefit being the type checking of the macro
-> > argument.
+> > Adjust get_value function in hw_hpd.c file to have
+> > prefix to help in ftrace, the name change from
+> > 'get_value' to 'dal_hw_gpio_get_value'
+>
+> This won't compile.  dal_hw_gpio_get_value is already defined in
+> drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c.
+>
+> Alex
+>
 > >
-> > As a side effect, this also reduces macro argument double references.
-> >
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> > Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
+> > Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
+> > Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
 > > ---
-> >   include/drm/drm_print.h | 41 +++++++++++++++++++++++-----------------=
--
-> >   1 file changed, 23 insertions(+), 18 deletions(-)
+> >  drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> > index 9732f514566d..f31eba1c7cab 100644
-> > --- a/include/drm/drm_print.h
-> > +++ b/include/drm/drm_print.h
-> > @@ -584,9 +584,15 @@ void __drm_dev_dbg(struct _ddebug *desc, const str=
-uct device *dev,
-> >    * Prefer drm_device based logging over device or prink based logging=
-.
-> >    */
+> > diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> > index 3f13a744d07d..b11ed1089589 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
+> > @@ -62,7 +62,7 @@ static void dal_hw_hpd_destroy(
+> >         *ptr =3D NULL;
+> >  }
 > >
-> > +/* Helper to enforce struct drm_device type */
-> > +static inline struct device *__drm_to_dev(const struct drm_device *drm=
-)
-> > +{
-> > +     return drm ? drm->dev : NULL;
-> > +}
-> > +
-> >   /* Helper for struct drm_device based logging. */
-> >   #define __drm_printk(drm, level, type, fmt, ...)                    \
-> > -     dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA=
-_ARGS__)
-> > +     dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
+> > -static enum gpio_result get_value(
+> > +static enum gpio_result dal_hw_gpio_get_value(
+> >         const struct hw_gpio_pin *ptr,
+> >         uint32_t *value)
+> >  {
+> > @@ -104,7 +104,7 @@ static enum gpio_result set_config(
+> >  static const struct hw_gpio_pin_funcs funcs =3D {
+> >         .destroy =3D dal_hw_hpd_destroy,
+> >         .open =3D dal_hw_gpio_open,
+> > -       .get_value =3D get_value,
+> > +       .get_value =3D dal_hw_gpio_get_value,
+> >         .set_value =3D dal_hw_gpio_set_value,
+> >         .set_config =3D set_config,
+> >         .change_mode =3D dal_hw_gpio_change_mode,
+> > --
+> > 2.43.0
 > >
-> >
-> >   #define drm_info(drm, fmt, ...)                                     \
-> > @@ -620,25 +626,25 @@ void __drm_dev_dbg(struct _ddebug *desc, const st=
-ruct device *dev,
-> >
-> >
-> >   #define drm_dbg_core(drm, fmt, ...)                                 \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_A=
-RGS__)
-> > -#define drm_dbg_driver(drm, fmt, ...)                                 =
-               \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA=
-_ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> > +#define drm_dbg_driver(drm, fmt, ...)                                 =
-       \
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_kms(drm, fmt, ...)                                  \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_AR=
-GS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_prime(drm, fmt, ...)                                 =
-       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_=
-ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_atomic(drm, fmt, ...)                                =
-       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA=
-_ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_vbl(drm, fmt, ...)                                  \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_AR=
-GS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_state(drm, fmt, ...)                                 =
-       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_=
-ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_lease(drm, fmt, ...)                                 =
-       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_=
-ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_dp(drm, fmt, ...)                                   \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARG=
-S__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_drmres(drm, fmt, ...)                                =
-       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA=
-_ARGS__)
-> > +     drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-> >
-> >   #define drm_dbg(drm, fmt, ...)      drm_dbg_driver(drm, fmt, ##__VA_A=
-RGS__)
-> >
-> > @@ -727,10 +733,9 @@ void __drm_err(const char *format, ...);
-> >   #define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)        =
-                               \
-> >   ({                                                                   =
-                       \
-> >       static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DE=
-FAULT_RATELIMIT_BURST);\
-> > -     const struct drm_device *drm_ =3D (drm);                         =
-                         \
-> >                                                                        =
-                       \
-> >       if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_)) =
-                       \
-> > -             drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, =
-## __VA_ARGS__);       \
-> > +             drm_dev_printk(__drm_to_dev(drm), KERN_DEBUG, fmt, ## __V=
-A_ARGS__);             \
-> >   })
-> >
-> >   #define drm_dbg_ratelimited(drm, fmt, ...) \
-> > @@ -752,13 +757,13 @@ void __drm_err(const char *format, ...);
-> >   /* Helper for struct drm_device based WARNs */
-> >   #define drm_WARN(drm, condition, format, arg...)                    \
-> >       WARN(condition, "%s %s: [drm] " format,                         \
-> > -                     dev_driver_string((drm)->dev),                  \
-> > -                     dev_name((drm)->dev), ## arg)
-> > +                     dev_driver_string(__drm_to_dev(drm)),           \
-> > +                     dev_name(__drm_to_dev(drm)), ## arg)
-> >
-> >   #define drm_WARN_ONCE(drm, condition, format, arg...)                =
-       \
-> >       WARN_ONCE(condition, "%s %s: [drm] " format,                    \
-> > -                     dev_driver_string((drm)->dev),                  \
-> > -                     dev_name((drm)->dev), ## arg)
-> > +                     dev_driver_string(__drm_to_dev(drm)),           \
-> > +                     dev_name(__drm_to_dev(drm)), ## arg)
-> >
-> Hi Jani,
 >
-> These two changes introduce undefined behavior into these macros. The fin=
-al
-> code generation becomes this (from 'bxt_port_to_phy_channel'):
->
->         __warn_printk("%s %s: [drm] " "PHY not found for PORT %c",
->                       dev_driver_string(__drm_to_dev(display->drm)),
->                       dev_name(__drm_to_dev(display->drm)),
->                       (port + 'A'));
->
-> The issue lies in 'dev_name(__drm_to_dev(display->drm))'. After inlining,=
- it
-> becomes this (pseudo code):
->
->         struct device *device =3D display->drm ? display->drm->dev : NULL=
-;
->         const char *name =3D device->init_name ? device->init_name
->                                              : kobject_name(&device->kobj=
-);
->
->         __warn_printk("%s %s: [drm] " "PHY not found for PORT %c",
->                       dev_driver_string(device), name, (port + 'A'));
->
-> The issue, of course, is that the 'device' may be NULL when attempting
-> to get
-> 'device->init_name'. The compiler sees this as undefined behavior, which =
-may
-> lead to unexpected outcomes, especially with Clang where paths
-> determined to be
-> undefined are removed entirely under certain conditions.
->
-> (Note, I'm working on making this behavior less draconian by adopting a G=
-CC
-> pass, but this will take time to filter out to Linux devs.)
->
-I potential fix for this would be something like this (untested). I'm
-not familiar with how 'dev_name' is used to know whether or not this
-could cause issues:
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 79e49fe494b7..ea20d439fe8e 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -778,6 +778,9 @@ static inline bool device_iommu_mapped(struct device *d=
-ev)
-  */
- static inline const char *dev_name(const struct device *dev)
- {
-+       if (!dev)
-+               return "default";
-+
-        /* Use the init name until the kobject becomes available */
-        if (dev->init_name)
-                return dev->init_name;
+--000000000000139f09063536a28d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--bw
+<div dir=3D"ltr">Thanks for your reply Alex,<div><br></div><div>I just real=
+ize with your comment that=C2=A0<i>drivers/gpu/drm/amd/display/dc/gpio/hw_g=
+pio.c</i> import <i>dal_hw_gpio_get_value </i>and <i>dal_hw_gpio_set_value<=
+/i>.</div><div>So to make those functions inside <i>drivers/gpu/drm/amd/dis=
+play/dc/gpio/hw_hpd.c</i>=C2=A0 more clear what do you think to change them=
+ to=C2=A0<i>dal_hw_<b>hpd</b>_get_config</i> and <i>dal_hw_<b>hpd</b>_set_c=
+onfig</i>, making clear that this is a function from the file hw_hpd?</div>=
+<div><br></div><div>Leonardo Gomes</div></div><br><div class=3D"gmail_quote=
+ gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Em qua., 14 d=
+e mai. de 2025 =C3=A0s 18:08, Alex Deucher &lt;<a href=3D"mailto:alexdeuche=
+r@gmail.com">alexdeucher@gmail.com</a>&gt; escreveu:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">On Wed, May 14, 2025 at 4:48=E2=80=AFP=
+M Leonardo Gomes<br>
+&lt;<a href=3D"mailto:leonardodasigomes@gmail.com" target=3D"_blank">leonar=
+dodasigomes@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Adjust get_value function in hw_hpd.c file to have<br>
+&gt; prefix to help in ftrace, the name change from<br>
+&gt; &#39;get_value&#39; to &#39;dal_hw_gpio_get_value&#39;<br>
+<br>
+This won&#39;t compile.=C2=A0 dal_hw_gpio_get_value is already defined in<b=
+r>
+drivers/gpu/drm/amd/display/dc/gpio/hw_gpio.c.<br>
+<br>
+Alex<br>
+<br>
+&gt;<br>
+&gt; Signed-off-by: Leonardo da Silva Gomes &lt;<a href=3D"mailto:leonardod=
+asigomes@gmail.com" target=3D"_blank">leonardodasigomes@gmail.com</a>&gt;<b=
+r>
+&gt; Co-developed-by: Derick Frias &lt;<a href=3D"mailto:derick.william.mor=
+aes@gmail.com" target=3D"_blank">derick.william.moraes@gmail.com</a>&gt;<br=
+>
+&gt; Signed-off-by: Derick Frias &lt;<a href=3D"mailto:derick.william.morae=
+s@gmail.com" target=3D"_blank">derick.william.moraes@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gp=
+u/drm/amd/display/dc/gpio/hw_hpd.c<br>
+&gt; index 3f13a744d07d..b11ed1089589 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c<br>
+&gt; +++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c<br>
+&gt; @@ -62,7 +62,7 @@ static void dal_hw_hpd_destroy(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*ptr =3D NULL;<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; -static enum gpio_result get_value(<br>
+&gt; +static enum gpio_result dal_hw_gpio_get_value(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct hw_gpio_pin *ptr,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t *value)<br>
+&gt;=C2=A0 {<br>
+&gt; @@ -104,7 +104,7 @@ static enum gpio_result set_config(<br>
+&gt;=C2=A0 static const struct hw_gpio_pin_funcs funcs =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.destroy =3D dal_hw_hpd_destroy,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.open =3D dal_hw_gpio_open,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0.get_value =3D get_value,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.get_value =3D dal_hw_gpio_get_value,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.set_value =3D dal_hw_gpio_set_value,=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.set_config =3D set_config,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.change_mode =3D dal_hw_gpio_change_m=
+ode,<br>
+&gt; --<br>
+&gt; 2.43.0<br>
+&gt;<br>
+</blockquote></div>
+
+--000000000000139f09063536a28d--
