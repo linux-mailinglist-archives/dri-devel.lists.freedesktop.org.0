@@ -2,89 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5012BABA212
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 19:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E35ABA2D4
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 20:31:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C0910EB4E;
-	Fri, 16 May 2025 17:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4419310EB65;
+	Fri, 16 May 2025 18:30:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="oEFK3ZLO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NpfJnmbW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C6A10EB51
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 17:43:13 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-741b3e37a1eso2693917b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1747417387; x=1748022187;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+KFX83QNItwP0IuJnpM+8MJlz755t87bEyDF8uRue2k=;
- b=oEFK3ZLOaZMt1jA3BsxRBc6WJ75C4riHc4WAaLYKJ9YxlVkr+T5Ii/indbG1eEUKcU
- 7aCOX1AwmEfIyeoFaJhri/RB6v4veRibFqpZ7k/J5P8F2f+TxfHEq/rd8HsPe4NPLUti
- 4JQxTXHhtnL2s55t6pVZVEpqvQrpf6oeeqoGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747417387; x=1748022187;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+KFX83QNItwP0IuJnpM+8MJlz755t87bEyDF8uRue2k=;
- b=qUG19Cu33V90HykHkXACids12fuLBIq96P4NhC1BO/+Oz3QbY4ssPiWmS7j1urm/IF
- TjLPXDrcGcTAtYmd/q6Fk1QtfQnbcuMxDu6CnHBq4oDsEAicmcewqCRjSQg4LaumZeYb
- EENQMANwom4GLH2GoSKjlDoY0ZSCKeTPCKdfoE6y0LlJi/SGGrmlULuD44MQ0NZ7Lsv2
- n5OF8X41Sc8GWOTbKDFrmYMoP3D396nqkrXqTfJ/TKMnmOt0EZr403XrfHEbfpF5UGj5
- gxCj3VcnOl5puysEyEv//Df1q9K+H4X9roJpGgkOa9H79r9eES8r+LjwwNRVKzh7Gy7g
- IntA==
-X-Gm-Message-State: AOJu0YyosZ9uARAzCqJQT+bZFI2UIT9M7oQreaNZGTB/Z/bx0sYdadQe
- RrH/3joMu34wfn2Hshfpz7vr37pwCl3AuIAgkIPa+RpMHke1llJtKNxikTAJdMjabPNJSVf7rn7
- wWnY=
-X-Gm-Gg: ASbGnctbpY3+REbGJjs72LJtc12+Ox/DB83drYk2UM3r5reJV9ylC3sNmwra5pC50Ks
- 2lhA2d5Yfu/POOZxFD4d1dMhrLNz8Gf4wQP0PJnlVuFP5OGv2HhHh9fRGqU6exh7Z8ywAcDQpUh
- uxJM/nMZ2aKpcj1jPQ67O6/03e9u5E3vKNcpeYwoSH/KXV3ldSIQ+oATH/6wkpy8kNZVYMCWm5Z
- OLAm8jBTZoE6rlPf3iujvWR0gX5fsyrEAX3JmNfF/K4rR6sKv4nQzRjkuygHirrguOg6O4U/ODy
- OHiEIzXVUXg+n8uFOi+t0lW8yYyotyBorLuy0/M73e7OxciRnKrJpRk0xl79Xy8OkXGdCOHU/48
- CcUHh3R8fSXotQJbXeNI=
-X-Google-Smtp-Source: AGHT+IGxA4Q0ZvYI4rbpltZYgmyhxT006S6xGExfwtS65Nnsn94JgCeCVtKlLaTOZL5i0h68xfdUBA==
-X-Received: by 2002:a05:6a20:430f:b0:215:db66:2a28 with SMTP id
- adf61e73a8af0-216218f7e47mr6758282637.22.1747417387587; 
- Fri, 16 May 2025 10:43:07 -0700 (PDT)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com.
- [209.85.215.182]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b26eaf5abedsm1852348a12.3.2025.05.16.10.43.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 May 2025 10:43:05 -0700 (PDT)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-b1a1930a922so1680925a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:43:05 -0700 (PDT)
-X-Received: by 2002:a17:903:3d0f:b0:231:7e15:f7a with SMTP id
- d9443c01a7336-231d453469cmr47600355ad.27.1747417384710; Fri, 16 May 2025
- 10:43:04 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A34F10EB65
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 18:30:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0D7A8A4E800;
+ Fri, 16 May 2025 18:30:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F32DC4CEE4;
+ Fri, 16 May 2025 18:30:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747420252;
+ bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=NpfJnmbWyUqyMYoLy35vtxm0N29rgijba7ENUDqS7YmsKZUjUSF9tmwKOrEJMV3sh
+ BOJ+AttBuVq8cSt48iOr9mkb3Lh54y/rA743ERhn9bavTxA66G9K4nY+vqUMYyvrUq
+ pMuoisg9g1acwcd2Ohpqspyw4DZ3Bs72y9MVjchH2UnMlcG7PCQmnOvi7ptszJrLzd
+ 6loH1rBQKNyR4iKiDuf1m96yLUTX/I7GK7ZCZF7FTeW+XK5ihU9YtAH7p8jresWjGY
+ FFvdQ3mTfy2XP+gLjQR2Cvrb6Xai9RjaFlkRc6wAgftsA5qwcTnVWIpNoT5D17ix6a
+ YQGHmGwBWpsNw==
+Date: Fri, 16 May 2025 13:30:50 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <20250515211110.8806-1-robdclark@gmail.com>
-In-Reply-To: <20250515211110.8806-1-robdclark@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 16 May 2025 10:42:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VhOhGHnHZKBmzFKAFG-WnGhWRyqPm=FwK5mxUJ-ChWGQ@mail.gmail.com>
-X-Gm-Features: AX0GCFsvr22QrX8yE42n8nz9bH4x0JASq7vWnUdqtPzSrItPo7-Ymzm-4RYVtfc
-Message-ID: <CAD=FV=VhOhGHnHZKBmzFKAFG-WnGhWRyqPm=FwK5mxUJ-ChWGQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add BOE NV133WUM-N61 panel entry
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- Rob Clark <robdclark@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,38 +72,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, May 15, 2025 at 2:11=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Add an eDP panel for BOE NV133WUM-N61, which appears to be a 3rd panel
-> option on the lenevo x13s laptop.
->
-> edid:
-> 00 ff ff ff ff ff ff 00 09 e5 64 09 00 00 00 00
-> 16 1e 01 04 a5 1d 12 78 03 55 8e a7 51 4c 9c 26
-> 0f 52 53 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 74 3c 80 a0 70 b0 28 40 30 20
-> 36 00 1e b3 10 00 00 1a 5d 30 80 a0 70 b0 28 40
-> 30 20 36 00 1e b3 10 00 00 1a 00 00 00 fe 00 42
-> 4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 56 31 33 33 57 55 4d 2d 4e 36 31 0a 00 7d
->
-> datasheet: https://datasheet4u.com/pdf-down/N/V/1/NV133WUM-N61-BOE.pdf
->
-> v2: Actually get the panel name correct in the table
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Pushed to drm-misc-next
+yamllint warnings/errors:
 
-[1/1] drm/panel-edp: Add BOE NV133WUM-N61 panel entry
-      commit: 3330b71caff6cdc387fdad68a895c9c81cc2f477
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
