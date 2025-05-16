@@ -2,105 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0983EAB98B1
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9836AB9897
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 11:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E856C10EA10;
-	Fri, 16 May 2025 09:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1E610EA03;
+	Fri, 16 May 2025 09:20:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="0CtsKsz0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qwE7cMKt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4B610EA06
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 09:23:28 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-476977848c4so21110721cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 02:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1747387408;
- x=1747992208; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ghCVBFohCqPYMNm54QVPyhJ+LtBlN+TIFH3Qtc52S1A=;
- b=0CtsKsz0UXBMrpJEO3zKz01342c3sJUoxPbYbQ64+SDfuntOV4HKAhAvuOKFZNULAU
- DnLk7DO5LzRxfNDOE2X2bLxfUC3qBxvNDmCFp4/CIEAd2yG2LEUnIaYDt6xeMcZVC5Tt
- HpnjaCLskG9fmUEBYUzof1UpJhkSW9UrXEXOsbWLbA3BM9k/cN5xboigTh3GxUrWVwoJ
- PUiJQooJbKfnV7Rb+pmLddFzjmEqbFSgKMEgrN95nGxSg+DVR5lUynQYZU5UQJeN1hMT
- aku9i9JS8J4BS6dCFuua10M43q76PbD6XBdaSzRGIO/LnRz6QqzMz7UZi3chCliwtN2X
- ke6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747387408; x=1747992208;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ghCVBFohCqPYMNm54QVPyhJ+LtBlN+TIFH3Qtc52S1A=;
- b=chZC1r2db06tJH9lvuNbtn1dy2JR3cPTRskX/B0dltQZDXV3XraiWCXtiEAW0H1/ig
- N/HVXXiIMcn3kX+dnbU2GFiPIrU1nDiNEaY/DUHUBxyKOJz6ZtOww3Kvzy5fAR74E+YT
- E3rfcyR2lS7sS/y7Y9MHrVfvtR83KDxN6YVde0FGYKGySw3ADCWPBQyAk88jKol9Qnvm
- 1oxCiXyL4xDsYSVsoeIJI3usSfGXuC36RecLi2dhJtJtLB8kTtrlITPXw605HVe9gWe6
- fs0uvCR56WoYgIou1Pn4Y49CLLBy8I+jtLUEQibpt15/00RLVrBms4kHqfN2rM0M1BBR
- t33Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWjr33WkoSHVFRwV2A90eZlY3LQ7+2e/8wLdZXnUrJmHtVMfm+AhQw4upu59eghx0KFP5sF8uQIt+g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLFPa5F0pqEo3pSPTO2MYqK/CAiubGjad2zIatGXt+S7/1n/L2
- qWZRoV7yt2j93z+k6htHFmUnAjqy3bDq5XQc1cUgBWdhTYWb8AfdZKujsRXL7sRW/jozCCCNTPk
- SKYdMrwXHfw==
-X-Gm-Gg: ASbGncsKVEQ8aAyC3n44h7EyWafM1lojMyk4/P1vcoBiqSe6hOrcHAK0eaACyo8sfKu
- kUwRI/PiZMF0UXivGTkCMl6aJZErirekfZ1Pl1DJrXGSygYfF1GhbzO38Cjl+CT8bWOe0W8Ifei
- jiYzqBgEP6YGF7kbzydXKsaCukigcY+NPuJuNbjhxGsdiQVweWBRQaXT7S/pnJvTWWmV005v1BP
- lPbeQD8XAUjLTdK/4l1LU2Rj1bp6IPsz3nTAC6HQSgPtzh2e/6/umlUG8Pb6NIFUnZaV0Ry9ivD
- PMgESXzJI0bKBpHVbqguZptOQzcQnwRESU5o6Zn9XMWUNYZxrzD6hTw9WsylpKWwxH5EMMaindF
- hFDsn/SdfD5nkh6XeJjM=
-X-Google-Smtp-Source: AGHT+IGU4q2wYLiG5SX6kg63ufR9Mt/Y31jnbAZzNe6VBOGETyUicKmwNvE2LeX2UepuTb984ueGNg==
-X-Received: by 2002:a05:622a:1b29:b0:477:1f2f:1717 with SMTP id
- d75a77b69052e-494ae3ba064mr41858491cf.20.1747387407614; 
- Fri, 16 May 2025 02:23:27 -0700 (PDT)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
- [209.85.160.170]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-494ae4277a0sm9231871cf.43.2025.05.16.02.23.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 May 2025 02:23:27 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-47686580529so20198231cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 02:23:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVfZT2ZUVb1N6wAUkCSnP9s5RpnXRs8dIqpeRnPu5NYotDFVIt74enwvEqXtmKOcj/k4K6JQExbpk=@lists.freedesktop.org
-X-Received: by 2002:a05:6902:4888:b0:e7a:b59a:e99 with SMTP id
- 3f1490d57ef6-e7b6a08f866mr3989501276.22.1747386940957; Fri, 16 May 2025
- 02:15:40 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31DF10EA03;
+ Fri, 16 May 2025 09:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/bayzPCeERRTY97sgYjY8EAqdfhEth5fc6iSSEu/y+c=; b=qwE7cMKtbIKKJ0oaa+pNqLiKnD
+ ynwCjc3CLmaOaCm/7GKYetwT1bmr2mpOYcNOP0rxXRNiwqSsOf6DRktIGjKeMdrV2e6JiO3gJ5S7B
+ dTXqWtcA86qkc/eVVwBrgkqOVpPgnJP9C6jynyqvQBYJ+LIYEm7zo1u6SEweNJ8TMSAZppgJavZMb
+ MS2P26cMeN4yepBPKwXYDeQiOlgXVM1sGUd+mWpvaYmkR8OqsQJNrQjdTtQFGznJGGebdrc2pphKj
+ ZT81UlkOpSebuyj6sFbElYazwTe7nVQ5IGdazv0ZP1DZxZhsW1RZFJOJshJ03VYC8aqIrSy1lW6qv
+ TTAjicXQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uFr8Y-0090yq-Bw; Fri, 16 May 2025 11:19:49 +0200
+Message-ID: <d8251048-5ee7-4f4c-9f2e-22505e2635b3@igalia.com>
+Date: Fri, 16 May 2025 10:19:48 +0100
 MIME-Version: 1.0
-References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
- <2950819.ElGaqSPkdT@workhorse>
-In-Reply-To: <2950819.ElGaqSPkdT@workhorse>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 16 May 2025 11:15:29 +0200
-X-Gmail-Original-Message-ID: <CAAObsKBrXZscvhjYnSb2DBL1KGsaMHpPVfB_QrFUPihd2+srdw@mail.gmail.com>
-X-Gm-Features: AX0GCFs7JNRTyA51Mp_5c2sfGP8DF36VD9y5YcZK4C0Caod07VePTbyWDenldvk
-Message-ID: <CAAObsKBrXZscvhjYnSb2DBL1KGsaMHpPVfB_QrFUPihd2+srdw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] accel/rocket: Add a new driver for Rockchip's NPU
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, 
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] drm/sched: Fix teardown leaks with waitqueue
+To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+References: <20250424095535.26119-2-phasta@kernel.org>
+ <20250424095535.26119-3-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250424095535.26119-3-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,134 +67,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 25, 2025 at 8:22=E2=80=AFPM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> On Tuesday, 25 February 2025 08:55:50 Central European Summer Time Tomeu =
-Vizoso wrote:
-> > This initial version supports the NPU as shipped in the RK3588 SoC and
-> > described in the first part of its TRM, in Chapter 36.
-> >
-> > This NPU contains 3 independent cores that the driver can submit jobs
-> > to.
-> >
-> > This commit adds just hardware initialization and power management.
-> >
-> > v2:
-> > - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> > - Add some documentation (Jeffrey Hugo)
-> > - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> > - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> > - Repack structs (Jeffrey Hugo)
-> > - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> > - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> > - Use probe log helper (Jeffrey Hugo)
-> > - Introduce UABI header in a later patch (Jeffrey Hugo)
-> >
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  Documentation/accel/index.rst           |    1 +
-> >  Documentation/accel/rocket/index.rst    |   19 +
-> >  MAINTAINERS                             |    8 +
-> >  drivers/accel/Kconfig                   |    1 +
-> >  drivers/accel/Makefile                  |    1 +
-> >  drivers/accel/rocket/Kconfig            |   25 +
-> >  drivers/accel/rocket/Makefile           |    8 +
-> >  drivers/accel/rocket/rocket_core.c      |   71 +
-> >  drivers/accel/rocket/rocket_core.h      |   29 +
-> >  drivers/accel/rocket/rocket_device.c    |   29 +
-> >  drivers/accel/rocket/rocket_device.h    |   29 +
-> >  drivers/accel/rocket/rocket_drv.c       |  273 ++
-> >  drivers/accel/rocket/rocket_drv.h       |   13 +
-> >  drivers/accel/rocket/rocket_registers.h | 4425 +++++++++++++++++++++++=
-++++++++
-> >  14 files changed, 4932 insertions(+)
-> >
-> > [...]
-> > diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/r=
-ocket_drv.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..c22d965f20f1239a36b1d82=
-3d5fe5f372713555d
-> > --- /dev/null
-> > +++ b/drivers/accel/rocket/rocket_drv.c
-> > @@ -0,0 +1,273 @@
-> > [...]
-> > +static int rocket_probe(struct platform_device *pdev)
-> > +{
-> > +     struct component_match *match =3D NULL;
-> > +     struct device_node *core_node;
-> > +
-> > +     if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk358=
-8-rknn-core"))
-> > +             return component_add(&pdev->dev, &rocket_core_ops);
-> > +
-> > +     for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-c=
-ore") {
-> > +             if (!of_device_is_available(core_node))
-> > +                     continue;
-> > +
-> > +             drm_of_component_match_add(&pdev->dev, &match,
-> > +                                        component_compare_of, core_nod=
-e);
-> > +     }
-> > +
-> > +     return component_master_add_with_match(&pdev->dev, &rocket_drm_op=
-s, match);
-> > +}
->
-> Hi Tomeu,
->
-> something I've noticed while playing with this: currently, it doesn't see=
-m like
-> it's possible to support 1-core NPUs. rknn-core-top is a real core, but i=
-f no
-> rknn-core is enabled beside it, it'll call component_master_add_with_matc=
-h with
-> match being NULL. This causes a kernel Oops.
->
-> I'm not sure what the proper fix is, since the component API doesn't seem=
- to
-> really have a consideration for a master with no other components.
 
-Yeah, I think we could add a code path for single-core NPUs that
-doesn't make use of the component API at all.
+Hi,
 
-> I ran into this when I was trying to debug why I get job timeouts followe=
-d by
-> a full SoC lock-up on RK3576 by running with only one of the two cores en=
-abled.
->
-> As an aside note, my throwaway rocket-on-RK3576-hacking-branch is at [1] =
-and
-> contains some changes you may want to consider for v3, e.g. [2] and [3]+[=
-4]. In
-> [4], specifically the `domain-supply` part which means the NPU regulators=
- don't
-> have to be always-on. Though feel free to pull in my entire ROCK 5B enabl=
-ement
-> patch.
+Some review comments below, with a caveat that does not imply support 
+for the approach just yet.
 
-Ok, [2] I already had in my WIP branch. Will pick up [3] and [4],
-though I cannot test them myself.
+On 24/04/2025 10:55, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
+> 
+> The GPU scheduler currently does not ensure that its pending_list is
+> empty before performing various other teardown tasks in
+> drm_sched_fini().
+> 
+> If there are still jobs in the pending_list, this is problematic because
+> after scheduler teardown, no one will call backend_ops.free_job()
+> anymore. This would, consequently, result in memory leaks.
+> 
+> One way to solve this is to implement a waitqueue that drm_sched_fini()
+> blocks on until the pending_list has become empty.
+> 
+> Add a waitqueue to struct drm_gpu_scheduler. Wake up waiters once the
+> pending_list becomes empty. Wait in drm_sched_fini() for that to happen.
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 72 ++++++++++++++++++++------
+>   include/drm/gpu_scheduler.h            |  6 +++
+>   2 files changed, 63 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 829579c41c6b..ea82e69a72a8 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -367,7 +367,7 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>    */
+>   static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   {
+> -	if (!READ_ONCE(sched->pause_submit))
+> +	if (!READ_ONCE(sched->pause_free))
+>   		queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+>   
+> @@ -556,6 +556,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>   		 * is parked at which point it's safe.
+>   		 */
+>   		list_del_init(&job->list);
+> +
+>   		spin_unlock(&sched->job_list_lock);
+>   
+>   		status = job->sched->ops->timedout_job(job);
+> @@ -1119,6 +1120,12 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>   		/* remove job from pending_list */
+>   		list_del_init(&job->list);
+>   
+> +		/*
+> +		 * Inform tasks blocking in drm_sched_fini() that it's now safe to proceed.
+> +		 */
+> +		if (list_empty(&sched->pending_list))
+> +			wake_up(&sched->pending_list_waitque);
+
+Typo in queue.
+
+wake_up could go on the else branch of the if (next) block below.
+
+Also, another micro-advantage to the ->cancel_job() approach is that it 
+doesn't add executing stuff at runtime which is only relevant for the 
+teardown.
+
+> +
+>   		/* cancel this job's TO timer */
+>   		cancel_delayed_work(&sched->work_tdr);
+>   		/* make the scheduled timestamp more accurate */
+> @@ -1324,6 +1331,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   	init_waitqueue_head(&sched->job_scheduled);
+>   	INIT_LIST_HEAD(&sched->pending_list);
+>   	spin_lock_init(&sched->job_list_lock);
+> +	init_waitqueue_head(&sched->pending_list_waitque);
+>   	atomic_set(&sched->credit_count, 0);
+>   	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>   	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+> @@ -1331,6 +1339,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   	atomic_set(&sched->_score, 0);
+>   	atomic64_set(&sched->job_id_count, 0);
+>   	sched->pause_submit = false;
+> +	sched->pause_free = false;
+>   
+>   	sched->ready = true;
+>   	return 0;
+> @@ -1348,6 +1357,39 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   }
+>   EXPORT_SYMBOL(drm_sched_init);
+>   
+> +/**
+> + * drm_sched_submission_and_timeout_stop - stop everything except for free_job()
+> + * @sched: scheduler instance
+> + *
+> + * Only needed to cleanly tear down the scheduler in drm_sched_fini().
+> + */
+> +static inline void
+> +drm_sched_submission_and_timeout_stop(struct drm_gpu_scheduler *sched)
+> +{
+> +	WRITE_ONCE(sched->pause_submit, true);
+> +	cancel_work_sync(&sched->work_run_job);
+> +	cancel_delayed_work_sync(&sched->work_tdr);
+> +}
+
+This one and the two below it: I think best known practice is to leave 
+out the inline keyword and let the compiler decide.
+
+> +
+> +static inline void
+> +drm_sched_free_stop(struct drm_gpu_scheduler *sched)
+> +{
+> +	WRITE_ONCE(sched->pause_free, true);
+> +	cancel_work_sync(&sched->work_free_job);
+> +}
+> +
+> +static inline bool
+> +drm_sched_no_jobs_pending(struct drm_gpu_scheduler *sched)
+> +{
+> +	bool empty;
+> +
+> +	spin_lock(&sched->job_list_lock);
+> +	empty = list_empty(&sched->pending_list);
+> +	spin_unlock(&sched->job_list_lock);
+> +
+> +	return empty;
+> +}
+> +
+>   /**
+>    * drm_sched_fini - Destroy a gpu scheduler
+>    *
+> @@ -1355,26 +1397,24 @@ EXPORT_SYMBOL(drm_sched_init);
+>    *
+>    * Tears down and cleans up the scheduler.
+>    *
+> - * This stops submission of new jobs to the hardware through
+> - * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
+> - * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
+> - * There is no solution for this currently. Thus, it is up to the driver to make
+> - * sure that:
+> - *
+> - *  a) drm_sched_fini() is only called after for all submitted jobs
+> - *     drm_sched_backend_ops.free_job() has been called or that
+> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
+> - *     after drm_sched_fini() ran are freed manually.
+> - *
+> - * FIXME: Take care of the above problem and prevent this function from leaking
+> - * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
+> + * Note that this function blocks until all the fences returned by
+> + * &struct drm_sched_backend_ops.run_job have been signalled.
+>    */
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_entity *s_entity;
+>   	int i;
+>   
+> -	drm_sched_wqueue_stop(sched);
+> +	/*
+> +	 * Jobs that have neither been scheduled or which have timed out are
+> +	 * gone by now, but jobs that have been submitted through
+> +	 * backend_ops.run_job() and have not yet terminated are still pending.
+> +	 *
+> +	 * Wait for the pending_list to become empty to avoid leaking those jobs.
+> +	 */
+> +	drm_sched_submission_and_timeout_stop(sched);
+> +	wait_event(sched->pending_list_waitque, drm_sched_no_jobs_pending(sched));
+
+I think this is a patch ordering issue. To avoid blocking indefinitely 
+after patch 1, you probably should swap patches 1 and 2, or maybe just 
+squash them.
 
 Regards,
 
-Tomeu
+Tvrtko
 
-> Kind regards,
-> Nicolas Frattaroli, who discovered that his cat is apparently 5% space he=
-ater
-> according to mobilenet while playing with this patch series.
->
-> [1]: https://gitlab.collabora.com/fratti/linux/-/commits/tomeu-npu?ref_ty=
-pe=3Dheads
-> [2]: https://gitlab.collabora.com/fratti/linux/-/commit/73aba31a00b34c254=
-be575b524da568e115d985d
-> [3]: https://gitlab.collabora.com/fratti/linux/-/commit/bd3a7bf5054c54c29=
-15a9dc0396730d0f24b3b7c
-> [4]: https://gitlab.collabora.com/fratti/linux/-/commit/5da44d61b09c34530=
-9f76159574d447d071c295d
->
->
->
+> +	drm_sched_free_stop(sched);
+>   
+>   	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+>   		struct drm_sched_rq *rq = sched->sched_rq[i];
+> @@ -1471,6 +1511,7 @@ EXPORT_SYMBOL(drm_sched_wqueue_ready);
+>   void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, true);
+> +	WRITE_ONCE(sched->pause_free, true);
+>   	cancel_work_sync(&sched->work_run_job);
+>   	cancel_work_sync(&sched->work_free_job);
+>   }
+> @@ -1488,6 +1529,7 @@ EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>   void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, false);
+> +	WRITE_ONCE(sched->pause_free, false);
+>   	queue_work(sched->submit_wq, &sched->work_run_job);
+>   	queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 1a7e377d4cbb..d0b1f416b4d9 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -29,6 +29,7 @@
+>   #include <linux/completion.h>
+>   #include <linux/xarray.h>
+>   #include <linux/workqueue.h>
+> +#include <linux/wait.h>
+>   
+>   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>   
+> @@ -533,6 +534,8 @@ struct drm_sched_backend_ops {
+>    *            timeout interval is over.
+>    * @pending_list: the list of jobs which are currently in the job queue.
+>    * @job_list_lock: lock to protect the pending_list.
+> + * @pending_list_waitque: a waitqueue for drm_sched_fini() to block on until all
+> + *		          pending jobs have been finished.
+>    * @hang_limit: once the hangs by a job crosses this limit then it is marked
+>    *              guilty and it will no longer be considered for scheduling.
+>    * @score: score to help loadbalancer pick a idle sched
+> @@ -540,6 +543,7 @@ struct drm_sched_backend_ops {
+>    * @ready: marks if the underlying HW is ready to work
+>    * @free_guilty: A hit to time out handler to free the guilty job.
+>    * @pause_submit: pause queuing of @work_run_job on @submit_wq
+> + * @pause_free: pause queuing of @work_free_job on @submit_wq
+>    * @own_submit_wq: scheduler owns allocation of @submit_wq
+>    * @dev: system &struct device
+>    *
+> @@ -562,12 +566,14 @@ struct drm_gpu_scheduler {
+>   	struct delayed_work		work_tdr;
+>   	struct list_head		pending_list;
+>   	spinlock_t			job_list_lock;
+> +	wait_queue_head_t		pending_list_waitque;
+>   	int				hang_limit;
+>   	atomic_t                        *score;
+>   	atomic_t                        _score;
+>   	bool				ready;
+>   	bool				free_guilty;
+>   	bool				pause_submit;
+> +	bool				pause_free;
+>   	bool				own_submit_wq;
+>   	struct device			*dev;
+>   };
+
