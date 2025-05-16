@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10FCAB960A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 08:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337F7AB960B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 08:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1829810E9AA;
-	Fri, 16 May 2025 06:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE87710E9AC;
+	Fri, 16 May 2025 06:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FTbiYbQf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JbqquFFh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC3A10E9AA
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 06:35:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2588D10E9AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 06:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747377312; x=1778913312;
+ t=1747377314; x=1778913314;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=QCZtNJW2TAKa87VLFt4NbNEoeK4ppmMpbEoMRvqP0Vc=;
- b=FTbiYbQfSXy0eLbt9ulIMdrSQw9HL8aZF+EKgFB+VFRA6BHnlgH0F4L0
- dTM3nYZvZwZ59fyR8wodYG4aapj6lAs0aD7HfthXM8+coeNUTOrUsvKG4
- K7FaPRW/TFku0B5YV3NtUvH5DPrZelJ3c4NE96s96ujQER798IPvH4ygs
- mvgOPdr7jz9QtbyludwcdDvgBRVU4HaOWDXNMF2TbmaiUr8uOzgmskBwW
- p4teuT0w/k8UchPdscyi5P4NfUPLSTedGWr5ALwxVCJiNgBjdTNEUEZkq
- 6vXVTkPMYu9SuvksV212JzVxkf3mcTX5iYjvHo9aGlNe3sYyU2npHflHz A==;
-X-CSE-ConnectionGUID: fOMJV6nASCm1zKxjh49sPg==
-X-CSE-MsgGUID: niqtDwsrQva8v/xSMB6eWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53011097"
-X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="53011097"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2025 23:35:12 -0700
-X-CSE-ConnectionGUID: 6i7joXiyRzyfNlAd6YLpEQ==
-X-CSE-MsgGUID: CRTgF/3RRkWobcHHH2vTlA==
+ bh=EWO6CZzwsD8bIRRFpNMF4OS0mHTBB1Wpe5eviDCIk8E=;
+ b=JbqquFFh9xA0jdxALp0pS4LemT/FLd3B1VClT8EJ4OuSjqlWR/rUDWbl
+ K0Kb6DQJiivozyW9+4e/9/pfRmuurZI1n3ov90thvY+LdMTDErpVsoyKN
+ bGc2RyEZy4eqKvTMuldb+t/jz0fJb8aMUjtkoyDJvbPE3fGvIARzLd+v4
+ +m32UT6yZeTbNPL9GWrYnkKa+Sx7FaLZrEubSePM8MaYstYmVO9zC7zcP
+ XO0pROfGYI5dHa8TVFVkId2IxkpV0t/hmrNYX81voRD+hULnSNoLIm1kF
+ bEXEkG4V62Rg7aogwQ/tgKwtwBQb5KxmQs82HOD/hhx6ZfDIDFnQSbdJS Q==;
+X-CSE-ConnectionGUID: rZ8nM/9+RKWJ2349deIVjw==
+X-CSE-MsgGUID: wCZIN7PASpGnzecSZX1pRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49323336"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="49323336"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2025 23:35:14 -0700
+X-CSE-ConnectionGUID: FdBqF5OARzSE8VaoJNoetw==
+X-CSE-MsgGUID: 4TNMa49+RSqU+LxFVGFPHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="169661158"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; d="scan'208";a="138990800"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 15 May 2025 23:35:09 -0700
+ by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 23:35:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uFoew-000J3L-2d;
+ (envelope-from <lkp@intel.com>) id 1uFoew-000J3N-2g;
  Fri, 16 May 2025 06:35:06 +0000
-Date: Fri, 16 May 2025 14:34:45 +0800
+Date: Fri, 16 May 2025 14:34:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashley Smith <ashley.smith@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- Ashley Smith <ashley.smith@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: Reset queue slots if termination fails
-Message-ID: <202505161417.tAUp1jmc-lkp@intel.com>
-References: <20250515103314.1682471-1-ashley.smith@collabora.com>
+To: "paul-pl.chen" <paul-pl.chen@mediatek.com>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, chunkuang.hu@kernel.org,
+ angelogioacchino.delregno@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, matthias.bgg@gmail.com,
+ p.zabel@pengutronix.de, jason-jh.lin@mediatek.com,
+ nancy.lin@mediatek.com, singo.chang@mediatek.com,
+ xiandong.wang@mediatek.com, sirius.wang@mediatek.com,
+ paul-pl.chen@mediatek.com, sunny.shen@mediatek.com,
+ fshao@chromium.org, treapking@chromium.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3 15/17] drm/mediatek: add ovlsys_adaptor support for
+ MT8196
+Message-ID: <202505161422.JeAeW3Pd-lkp@intel.com>
+References: <20250515093454.1729720-16-paul-pl.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250515103314.1682471-1-ashley.smith@collabora.com>
+In-Reply-To: <20250515093454.1729720-16-paul-pl.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,169 +81,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ashley,
+Hi paul-pl.chen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 9934ab18051118385c7ea44d8e14175edbe6dc9c]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.15-rc6 next-20250515]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashley-Smith/drm-panthor-Reset-queue-slots-if-termination-fails/20250515-183502
-base:   9934ab18051118385c7ea44d8e14175edbe6dc9c
-patch link:    https://lore.kernel.org/r/20250515103314.1682471-1-ashley.smith%40collabora.com
-patch subject: [PATCH] drm/panthor: Reset queue slots if termination fails
-config: sparc-randconfig-002-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161417.tAUp1jmc-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161417.tAUp1jmc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/paul-pl-chen/dt-bindings-soc-mediatek-add-mutex-yaml-for-MT8196/20250515-173733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250515093454.1729720-16-paul-pl.chen%40mediatek.com
+patch subject: [PATCH v3 15/17] drm/mediatek: add ovlsys_adaptor support for MT8196
+config: arm64-randconfig-001-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161422.JeAeW3Pd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161422.JeAeW3Pd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161417.tAUp1jmc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161422.JeAeW3Pd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_sched_suspend':
->> drivers/gpu/drm/panthor/panthor_sched.c:2736:18: error: expected ';' before 'queue_count'
-        for (i = 0; i queue_count; i++) {
-                     ^~~~~~~~~~~~
-                     ;
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c: In function 'mtk_drm_ovl_adaptor_probe':
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:1071:32: error: storage size of 'ovlsys_priv' isn't known
+    1071 |  struct mtk_drm_ovlsys_private ovlsys_priv;
+         |                                ^~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:1071:32: warning: unused variable 'ovlsys_priv' [-Wunused-variable]
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c: In function 'mtk_drm_probe':
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c:1145:50: error: 'DDP_COMPONENT_DRM_OVLSYS_ADAPTOR2' undeclared (first use in this function); did you mean 'DDP_COMPONENT_DRM_OVLSYS_ADAPTOR0'?
+    1145 |  mtk_drm_ovl_adaptor_probe(dev, private, &match, DDP_COMPONENT_DRM_OVLSYS_ADAPTOR2);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  DDP_COMPONENT_DRM_OVLSYS_ADAPTOR0
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c:1145:50: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +2736 drivers/gpu/drm/panthor/panthor_sched.c
+vim +1071 drivers/gpu/drm/mediatek/mtk_drm_drv.c
 
-  2666	
-  2667	void panthor_sched_suspend(struct panthor_device *ptdev)
-  2668	{
-  2669		struct panthor_scheduler *sched = ptdev->scheduler;
-  2670		struct panthor_csg_slots_upd_ctx upd_ctx;
-  2671		struct panthor_group *group;
-  2672		u32 suspended_slots;
-  2673		u32 i;
-  2674	
-  2675		mutex_lock(&sched->lock);
-  2676		csgs_upd_ctx_init(&upd_ctx);
-  2677		for (i = 0; i < sched->csg_slot_count; i++) {
-  2678			struct panthor_csg_slot *csg_slot = &sched->csg_slots[i];
-  2679	
-  2680			if (csg_slot->group) {
-  2681				csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, i,
-  2682							group_can_run(csg_slot->group) ?
-  2683							CSG_STATE_SUSPEND : CSG_STATE_TERMINATE,
-  2684							CSG_STATE_MASK);
-  2685			}
-  2686		}
-  2687	
-  2688		suspended_slots = upd_ctx.update_mask;
-  2689	
-  2690		csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
-  2691		suspended_slots &= ~upd_ctx.timedout_mask;
-  2692	
-  2693		if (upd_ctx.timedout_mask) {
-  2694			u32 slot_mask = upd_ctx.timedout_mask;
-  2695	
-  2696			drm_err(&ptdev->base, "CSG suspend failed, escalating to termination");
-  2697			csgs_upd_ctx_init(&upd_ctx);
-  2698			while (slot_mask) {
-  2699				u32 csg_id = ffs(slot_mask) - 1;
-  2700				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
-  2701	
-  2702				/* If the group was still usable before that point, we consider
-  2703				 * it innocent.
-  2704				 */
-  2705				if (group_can_run(csg_slot->group))
-  2706					csg_slot->group->innocent = true;
-  2707	
-  2708				/* We consider group suspension failures as fatal and flag the
-  2709				 * group as unusable by setting timedout=true.
-  2710				 */
-  2711				csg_slot->group->timedout = true;
-  2712	
-  2713				csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
-  2714							CSG_STATE_TERMINATE,
-  2715							CSG_STATE_MASK);
-  2716				slot_mask &= ~BIT(csg_id);
-  2717			}
-  2718	
-  2719			csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
-  2720	
-  2721			slot_mask = upd_ctx.timedout_mask;
-  2722			while (slot_mask) {
-  2723				u32 csg_id = ffs(slot_mask) - 1;
-  2724				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
-  2725	
-  2726				/* Terminate command timedout, but the soft-reset will
-  2727				 * automatically terminate all active groups, so let's
-  2728				 * force the state to halted here.
-  2729				 */
-  2730				if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED) {
-  2731					csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
-  2732	
-  2733					/* Reset the queue slots manually if the termination
-  2734					 * request failed.
-  2735					 */
-> 2736					for (i = 0; i queue_count; i++) {
-  2737						if (group->queues[i])
-  2738							cs_slot_reset_locked(ptdev, csg_id, i);
-  2739					}
-  2740				}
-  2741				slot_mask &= ~BIT(csg_id);
-  2742			}
-  2743		}
-  2744	
-  2745		/* Flush L2 and LSC caches to make sure suspend state is up-to-date.
-  2746		 * If the flush fails, flag all queues for termination.
-  2747		 */
-  2748		if (suspended_slots) {
-  2749			bool flush_caches_failed = false;
-  2750			u32 slot_mask = suspended_slots;
-  2751	
-  2752			if (panthor_gpu_flush_caches(ptdev, CACHE_CLEAN, CACHE_CLEAN, 0))
-  2753				flush_caches_failed = true;
-  2754	
-  2755			while (slot_mask) {
-  2756				u32 csg_id = ffs(slot_mask) - 1;
-  2757				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
-  2758	
-  2759				if (flush_caches_failed)
-  2760					csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
-  2761				else
-  2762					csg_slot_sync_update_locked(ptdev, csg_id);
-  2763	
-  2764				slot_mask &= ~BIT(csg_id);
-  2765			}
-  2766		}
-  2767	
-  2768		for (i = 0; i < sched->csg_slot_count; i++) {
-  2769			struct panthor_csg_slot *csg_slot = &sched->csg_slots[i];
-  2770	
-  2771			group = csg_slot->group;
-  2772			if (!group)
-  2773				continue;
-  2774	
-  2775			group_get(group);
-  2776	
-  2777			if (group->csg_id >= 0)
-  2778				sched_process_csg_irq_locked(ptdev, group->csg_id);
-  2779	
-  2780			group_unbind_locked(group);
-  2781	
-  2782			drm_WARN_ON(&group->ptdev->base, !list_empty(&group->run_node));
-  2783	
-  2784			if (group_can_run(group)) {
-  2785				list_add(&group->run_node,
-  2786					 &sched->groups.idle[group->priority]);
-  2787			} else {
-  2788				/* We don't bother stopping the scheduler if the group is
-  2789				 * faulty, the group termination work will finish the job.
-  2790				 */
-  2791				list_del_init(&group->wait_node);
-  2792				group_queue_work(group, term);
-  2793			}
-  2794			group_put(group);
-  2795		}
-  2796		mutex_unlock(&sched->lock);
-  2797	}
-  2798	
+  1066	
+  1067	static void mtk_drm_ovl_adaptor_probe(struct device *dev, struct mtk_drm_private *private,
+  1068					      struct component_match **match, enum mtk_ddp_comp_id id)
+  1069	{
+  1070		struct platform_device *ovl_adaptor;
+> 1071		struct mtk_drm_ovlsys_private ovlsys_priv;
+  1072		bool is_ovlsys = (id != DDP_COMPONENT_DRM_OVL_ADAPTOR);
+  1073		char *dev_name = is_ovlsys ? "mediatek-disp-ovlsys-adaptor" : "mediatek-disp-ovl-adaptor";
+  1074		void *drv_data = is_ovlsys ? (void *)&ovlsys_priv : (void *)private->mmsys_dev;
+  1075		size_t data_size = is_ovlsys ? sizeof(ovlsys_priv) : sizeof(*private->mmsys_dev);
+  1076	
+  1077		if (mtk_drm_find_mmsys_comp(private, id, &ovlsys_priv.use_path)) {
+  1078			ovlsys_priv.mmsys_dev = private->mmsys_dev;
+  1079			ovl_adaptor = platform_device_register_data(dev, dev_name, PLATFORM_DEVID_AUTO,
+  1080								    drv_data, data_size);
+  1081			private->ddp_comp[id].dev = &ovl_adaptor->dev;
+  1082			mtk_ddp_comp_init(NULL, &private->ddp_comp[id], id);
+  1083			component_match_add(dev, match, compare_dev, &ovl_adaptor->dev);
+  1084		}
+  1085	}
+  1086	
 
 -- 
 0-DAY CI Kernel Test Service
