@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583ADAB9704
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 09:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5ED0AB9703
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 09:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF4E10E9D6;
-	Fri, 16 May 2025 07:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 216D710E9C9;
+	Fri, 16 May 2025 07:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="CgXcYEZX";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="cr+6076D";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U3xEd25L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 934B410E9D6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1747382182;
- bh=YPy+tEZL6apKgfvAMCRSsSk
- 8zKBxHWC7t2m1Vfn3jPs=; b=CgXcYEZX8hN/Q2e8M/80XSvSboXrdC5slsIEaxO8MEjbT6Mt06
- NdM43xSHHG2AVxLNrAJ4Z/rw82f8ujBNTnDLilcOjG59X7I7rVHF//JMltYERkh69ySJFndsqSx
- 2HhmYqvQC7SUV5omtgvmMwLo0ARUefbpfAS/r+YYeQl/GundzUUsICBAzgrplwocwNIoenYkdiW
- goHq/TnW15uWBkrP31QDMpLX2C8+q4Gm30YK12rfwlU0W2q4vIPu1XLqmwTw79bf5dWhsKd/qJi
- RepcAKpFb9Gsi4geYsjwp19Die7hbGY4GrXm9agLG5xJ3BpvoG7HBdb1iKUDvsec6cQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1747382182; bh=YPy+tEZL6apKgfvAMCRSsSk
- 8zKBxHWC7t2m1Vfn3jPs=; b=cr+6076Dkxypklpp92ebvSZPCsy2GPT7BKIzpqigg57qRQwr/u
- kl/P0+TezIcHj+VIk3KIKeqKsYydjFqRI+Aw==;
-Message-ID: <7f04847e-9549-47cc-9b61-7b32df24ef8e@damsy.net>
-Date: Fri, 16 May 2025 09:56:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
-To: phasta@kernel.org,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
- <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
- <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49E710E9D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 07:59:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E9BFF43AB1;
+ Fri, 16 May 2025 07:59:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50609C4CEE4;
+ Fri, 16 May 2025 07:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747382374;
+ bh=51UiwAtTBw1xtOTx6e1Pp64GJoZ4L5WSxUxJDmEN9Kg=;
+ h=Date:Cc:From:To:Subject:References:In-Reply-To:From;
+ b=U3xEd25LCeI5ukSRK+khUpX/7FrIdv7pmsPIoVDcXd977W94/6EfEvi7labDdNvg7
+ 89SxW/GpepKxBL5ot2BIQ51iRgEMwULni7ZiUz3AFh3MVjC7zEUbWXuJzzjUVvxoIK
+ CfsX2IzFCTgcmg74kg8SnZ64ckcp9pFGw6cKBf4SczEUSqn/Y1khXtZ2mOe1LDiXhE
+ blgmYVgSOJehRAknA1OoYmdfQGvU4whBtwlBWF3TsUN8wumFBZkCt7f6AsDwatq/CY
+ Fde1crnHIujZ1oW/M9gwSEx3LwfmIiqHQwp1XNkS5zgLUM//OSXAghtYvJbbeopjRV
+ cniiO3aZVFuLg==
+Content-Type: multipart/signed;
+ boundary=d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Fri, 16 May 2025 09:59:30 +0200
+Message-Id: <D9XFCQYPTRMX.3AKZYI2Z5SV2Y@kernel.org>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "Maxime Ripard" <mripard@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Nishanth Menon" <nm@ti.com>, "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Devarsh Thakkar" <devarsht@ti.com>, "Praneeth Bajjuri" <praneeth@ti.com>,
+ "Udit Kumar" <u-kumar1@ti.com>, "Jayesh Choudhary" <j-choudhary@ti.com>,
+ "Francesco Dolcini" <francesco@dolcini.it>, "Alexander Sverdlin"
+ <alexander.sverdlin@siemens.com>, "DRI Development List"
+ <dri-devel@lists.freedesktop.org>, "Devicetree List"
+ <devicetree@vger.kernel.org>, "Linux Kernel List"
+ <linux-kernel@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Aradhya Bhatia" <aradhya.bhatia@linux.dev>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Jyri Sarha" <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v7 4/4] drm/tidss: Add OLDI bridge support
+X-Mailer: aerc 0.16.0
+References: <20250329133943.110698-1-aradhya.bhatia@linux.dev>
+ <20250329133943.110698-5-aradhya.bhatia@linux.dev>
+In-Reply-To: <20250329133943.110698-5-aradhya.bhatia@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,116 +72,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Le 14/05/2025 à 14:53, Philipp Stanner a écrit :
-> On Thu, 2025-04-24 at 10:38 +0200, Pierre-Eric Pelloux-Prayer wrote:
->> This commit adds a document section in drm-uapi.rst about
->> tracepoints,
->> and mark the events gpu_scheduler_trace.h as stable uAPI.
->>
->> The goal is to explicitly state that tools can rely on the fields,
->> formats and semantics of these events.
->>
->> Acked-by: Lucas Stach <l.stach@pengutronix.de>
->> Acked-by: Maíra Canal <mcanal@igalia.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer
->> <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   Documentation/gpu/drm-uapi.rst                | 19
->> +++++++++++++++++++
->>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19
->> +++++++++++++++++++
->>   2 files changed, 38 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-
->> uapi.rst
->> index 69f72e71a96e..4863a4deb0ee 100644
->> --- a/Documentation/gpu/drm-uapi.rst
->> +++ b/Documentation/gpu/drm-uapi.rst
->> @@ -693,3 +693,22 @@ dma-buf interoperability
->>   
->>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst
->> for
->>   information on how dma-buf is integrated and exposed within DRM.
->> +
->> +
->> +Trace events
->> +============
->> +
->> +See Documentation/trace/tracepoints.rst for information about using
->> +Linux Kernel Tracepoints.
->> +In the DRM subsystem, some events are considered stable uAPI to
->> avoid
->> +breaking tools (e.g.: GPUVis, umr) relying on them. Stable means
->> that fields
->> +cannot be removed, nor their formatting updated. Adding new fields
->> is
->> +possible, under the normal uAPI requirements.
->> +
->> +Stable uAPI events
->> +------------------
->> +
->> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
->> +
->> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +   :doc: uAPI trace events
->> \ No newline at end of file
->> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> index 781b20349389..7e840d08ef39 100644
->> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> @@ -32,6 +32,25 @@
->>   #define TRACE_SYSTEM gpu_scheduler
->>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->>   
->> +/**
->> + * DOC: uAPI trace events
->> + *
->> + * ``drm_sched_job_queue``, ``drm_sched_job_run``,
->> ``drm_sched_job_add_dep``,
->> + * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are
->> considered
->> + * stable uAPI.
->> + *
->> + * Common trace events attributes:
->> + *
->> + * * ``dev``   - the dev_name() of the device running the job.
->> + *
->> + * * ``ring``  - the hardware ring running the job. Together with
->> ``dev`` it
->> + *   uniquely identifies where the job is going to be executed.
->> + *
->> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
->> + *   &drm_sched_fence.finished
->> + *
->> + */
-> 
-> For my understanding, why do you use the double apostrophes here?
+On Sat Mar 29, 2025 at 2:39 PM CET, Aradhya Bhatia wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
+>
+> The AM62x and AM62Px SoCs feature 2 OLDI TXes each, which makes it
+> possible to connect them in dual-link or cloned single-link OLDI display
+> modes. The current OLDI support in tidss_dispc.c can only support for
+> a single OLDI TX, connected to a VP and doesn't really support
+> configuration of OLDIs in the other modes. The current OLDI support in
+> tidss_dispc.c also works on the principle that the OLDI output can only
+> be served by one, and only one, DSS video-port. This isn't the case in
+> the AM62Px SoC, where there are 2 DSS controllers present that share the
+> OLDI TXes.
+>
+> Having their own devicetree and their own bridge entity will help
+> support the various display modes and sharing possiblilities of the OLDI
+> hardware.
+>
+> For all these reasons, add support for the OLDI TXes as DRM bridges.
+>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Tested-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 
-To get similar formatting to function arguments and make the output a bit nicer to read.
+Tested-by: Michael Walle <mwalle@kernel.org> # on a j722s/am67a
 
-> 
-> Also, the linking for the docu afair here two requires you to write
-> 
-> &struct dma_fence.seqno
-> 
-> If I am not mistaken
-> 
-> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highlights-and-cross-references
+FWIW, I have a few downstream patches to get the DSS on j722s
+running.
 
-Indeed, thanks. I fixed this.
+-michael
 
-Pierre-Eric
+--d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> 
-> P.
-> 
->> +
->>   DECLARE_EVENT_CLASS(drm_sched_job,
->>   	    TP_PROTO(struct drm_sched_job *sched_job, struct
->> drm_sched_entity *entity),
->>   	    TP_ARGS(sched_job, entity),
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaCbwYhIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/hj6gF/Wusj103bkQJ0s/qoyxRDcMUItzGDi4DS
+o3U2g+BCnLNbwlPXUphnJlSKimOAS8ynAX9WTLPfNmCmAVDU8f08fakCPkJUot0x
+tdNCXLNt5WYI5Hj5jUV6ysIYmadhcu0rjv8=
+=GNXG
+-----END PGP SIGNATURE-----
+
+--d7312f90523e3e5483928f25794944ee2c9f0b4081e939bb716620953902--
