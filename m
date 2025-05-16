@@ -2,58 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F89AB9A40
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6A2AB9A77
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 12:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EAB110EA4C;
-	Fri, 16 May 2025 10:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3194D10EA45;
+	Fri, 16 May 2025 10:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r/DU9WND";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="Mq2Xes4D";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="d5jsWcQx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFA710EA44;
- Fri, 16 May 2025 10:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BJf7n8meUFE1D7xOQ8/mGDyCpXfo3hlFKbxw8pTZT+U=; b=r/DU9WNDGhjYMULtQaU0d2tcf2
- pZKf3WrysA9bhojOYYposAfWyV93LQL51bP4+zy3COFl2XHstZQrCoJmVo5+poP3rKfEkx8KcFt7F
- yNA8mXSs4DJEK5PDev0BbilMhymIr2b2cV5seVWwLskJg9Mv+1JVhvIDFo4/jbK30nbD3+oymV/81
- /NGz+y0+kHA5foEMf+Kei/4wuQlYw5kdvKVUPNfk1iNncPGdMxhjakS+b9ypB3RFIC0tcmii26a60
- cTbzTSk3y8Ycu68MDrmonOR18/S/db7HSUfKDRxT2Ixn/w+HKIBFKSRzI+G1kG7TswSO/bGJAFZST
- wo59B8fw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uFsIQ-0092iv-LR; Fri, 16 May 2025 12:34:05 +0200
-Message-ID: <d66518e3-8670-454b-a290-21ecb5d57702@igalia.com>
-Date: Fri, 16 May 2025 11:34:04 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] drm/sched: Prevent teardown waitque from blocking
- too long
-To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Received: from fhigh-b8-smtp.messagingengine.com
+ (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B867A10EA45
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 10:51:41 +0000 (UTC)
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal
+ [10.202.2.51])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 942AC25400CA;
+ Fri, 16 May 2025 06:51:40 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-11.internal (MEProxy); Fri, 16 May 2025 06:51:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to; s=fm3; t=1747392700; x=1747479100; bh=VDIJz6NdPv
+ TlCQzLO6Any5IgSGj4IrnIRIKUGoRE4mw=; b=Mq2Xes4DOqZnt5ARvIMrtukCSh
+ o1lse6IBACUjEI+dCsYWzX2lMK6aSWcFE5YGfwKhgso1XOwwfxgUIbqNq3lyRttd
+ 2f5JyykPa1bOlOcUrohw4ApejqYhAsHDejhl8XXjm7J7/Qe5JtDwWTMgltfLdgBe
+ nYaKXeG3fHMXQLe3ZuQXWdmBG0boGZYn2+xhfPylPU7GaWvdpkBHemmd4bLiEGdn
+ hYX+ueH8xqpB6UXf/9Wsl6vTsMgVu9116hr/NVH6AZPzznLoQ9UGLN3fNPIzDZSY
+ M9Mi9O3D5Blik/M0VP5u+i2CwEmC+LkIS0SSx0ms+ypUrdWDzAx7frA56S7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1747392700; x=1747479100; bh=VDIJz6NdPvTlCQzLO6Any5IgSGj4IrnIRIK
+ UGoRE4mw=; b=d5jsWcQxrSuFwjW3PLzPF0TlzQZqlUFPtRJEczugJeQdCjiMDtb
+ GoNHBKVsL7kn2/BaQYGfKAInWofZh+92vR7OLZtBgajYskU+SKbUYaF3i1Ib//K6
+ WU2IYDm1LJtuJjnRtkKM5nJvHKxQFU+tXu/fnX6pY/I81SLiseizo4tiiJlGbmdv
+ nP0QyQ8xGxQS/EU0X/Sa+BhaAkEEY9RfqhYQMygE7jiNY1xr00OXjsssd/qrgdMw
+ RN03cFOZLnct4k2FmJ4kkyRO1YcWEIWCRGZ8HaNQTE3EkOH2GsjKlQkIjRiPHokT
+ vRDF7j4XhobAnuoLTbs7IfoDEh8i2A6YSUA==
+X-ME-Sender: <xms:uhgnaNx_E6CsIQuXTqjaobD7SZ-QvV4EWQ7E6jsNWL5M80Mtx6U5Ow>
+ <xme:uhgnaNQ085vmWY7-ufybl7hRs6Zep_yiCrYg152TGwePZSvOFWgNex--sqhWqXHEP
+ PAa3zFjJ6lFlCsypQ>
+X-ME-Received: <xmr:uhgnaHVO1GomO0V8nhD3Mas5GYuQdkAySNsx6-8o9QP79PuMbec05HcUALerxD2w2idqz_iEWoYcyZ-xtfiXXyhKaeJzr9G1W8rpf7nPj0hY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvheeiucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttden
+ ucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrd
+ gtohhmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfedu
+ udevkefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghp
+ thhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrhguse
+ hkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghp
+ thhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtg
+ homhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthht
+ oheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlhesfh
+ hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
+ rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
+ htthhopehrohgshheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:uhgnaPjxoUkt5Gc7CSQPRzJnS2DiXt6cP8dLgxcQRkPo8O1tPWTFag>
+ <xmx:uhgnaPCaPDZcTBHjD_2oDvBeJAp2YLE2guSS-cyT2XOkg2q4ld09kw>
+ <xmx:uhgnaII0KAHY0I5mqHh_ivc6FzgX4XgdjK0Ix1XUI_B_tHhPIE94MQ>
+ <xmx:uhgnaOC4wDM2qZmhgVxKytBKC0VLQJp9NqCSA5W-b3zk-3_-O1CgzQ>
+ <xmx:vBgnaMp5bLmDEHIomjrq1tVcTwhYrwSgV_kFW35yLIvda4lMQpVzOukY>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 16 May 2025 06:51:32 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
-References: <20250424095535.26119-2-phasta@kernel.org>
- <20250424095535.26119-4-phasta@kernel.org>
- <1297389f-70f6-4813-8de8-1a0c4f92250a@igalia.com>
- <e627335ea7d0cbb1f8b92ad5fd936466b19c3ec7.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <e627335ea7d0cbb1f8b92ad5fd936466b19c3ec7.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v11 0/8] drm: sun4i: add Display Engine 3.3 (DE33) support
+Date: Fri, 16 May 2025 22:44:17 +1200
+Message-ID: <20250516105101.11650-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,232 +112,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi All,
 
-On 16/05/2025 10:54, Philipp Stanner wrote:
-> On Fri, 2025-05-16 at 10:33 +0100, Tvrtko Ursulin wrote:
->>
->> On 24/04/2025 10:55, Philipp Stanner wrote:
->>> The waitqueue that ensures that drm_sched_fini() blocks until the
->>> pending_list has become empty could theoretically cause that
->>> function to
->>> block for a very long time. That, ultimately, could block userspace
->>> procesess and prevent them from being killable through SIGKILL.
->>>
->>> When a driver calls drm_sched_fini(), it is safe to assume that all
->>> still pending jobs are not needed anymore anyways. Thus, they can
->>> be
->>> cancelled and thereby it can be ensured that drm_sched_fini() will
->>> return relatively quickly.
->>>
->>> Implement a new helper to stop all work items / submission except
->>> for
->>> the drm_sched_backend_ops.run_job().
->>>
->>> Implement a driver callback, kill_fence_context(), that instructs
->>> the
->>> driver to kill the fence context associated with this scheduler,
->>> thereby
->>> causing all pending hardware fences to be signalled.
->>>
->>> Call those new routines in drm_sched_fini() and ensure backwards
->>> compatibility if the new callback is not implemented.
->>>
->>> Suggested-by: Danilo Krummrich <dakr@redhat.com>
->>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 47 +++++++++++++++++----
->>> -----
->>>    include/drm/gpu_scheduler.h            | 11 ++++++
->>>    2 files changed, 42 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index ea82e69a72a8..c2ad6c70bfb6 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1390,31 +1390,46 @@ drm_sched_no_jobs_pending(struct
->>> drm_gpu_scheduler *sched)
->>>    	return empty;
->>>    }
->>>    
->>> +/**
->>> + * drm_sched_cancel_jobs_and_wait - trigger freeing of all pending
->>> jobs
->>> + * @sched: scheduler instance
->>> + *
->>> + * Must only be called if &struct
->>> drm_sched_backend_ops.kill_fence_context is
->>> + * implemented.
->>> + *
->>> + * Instructs the driver to kill the fence context associated with
->>> this scheduler,
->>> + * thereby signalling all pending fences. This, in turn, will
->>> trigger
->>> + * &struct drm_sched_backend_ops.free_job to be called for all
->>> pending jobs.
->>> + * The function then blocks until all pending jobs have been
->>> freed.
->>> + */
->>> +static inline void
->>> +drm_sched_cancel_jobs_and_wait(struct drm_gpu_scheduler *sched)
->>> +{
->>> +	sched->ops->kill_fence_context(sched);
->>> +	wait_event(sched->pending_list_waitque,
->>> drm_sched_no_jobs_pending(sched));
->>> +}
->>> +
->>>    /**
->>>     * drm_sched_fini - Destroy a gpu scheduler
->>>     *
->>>     * @sched: scheduler instance
->>>     *
->>> - * Tears down and cleans up the scheduler.
->>> - *
->>> - * Note that this function blocks until all the fences returned by
->>> - * &struct drm_sched_backend_ops.run_job have been signalled.
->>> + * Tears down and cleans up the scheduler. Might leak memory if
->>> + * &struct drm_sched_backend_ops.kill_fence_context is not
->>> implemented.
->>>     */
->>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>>    {
->>>    	struct drm_sched_entity *s_entity;
->>>    	int i;
->>>    
->>> -	/*
->>> -	 * Jobs that have neither been scheduled or which have
->>> timed out are
->>> -	 * gone by now, but jobs that have been submitted through
->>> -	 * backend_ops.run_job() and have not yet terminated are
->>> still pending.
->>> -	 *
->>> -	 * Wait for the pending_list to become empty to avoid
->>> leaking those jobs.
->>> -	 */
->>> -	drm_sched_submission_and_timeout_stop(sched);
->>> -	wait_event(sched->pending_list_waitque,
->>> drm_sched_no_jobs_pending(sched));
->>> -	drm_sched_free_stop(sched);
->>> +	if (sched->ops->kill_fence_context) {
->>> +		drm_sched_submission_and_timeout_stop(sched);
->>> +		drm_sched_cancel_jobs_and_wait(sched);
->>> +		drm_sched_free_stop(sched);
->>> +	} else {
->>> +		/* We're in "legacy free-mode" and ignore
->>> potential mem leaks */
->>> +		drm_sched_wqueue_stop(sched);
->>> +	}
->>>    
->>>    	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs;
->>> i++) {
->>>    		struct drm_sched_rq *rq = sched->sched_rq[i];
->>> @@ -1502,7 +1517,7 @@ bool drm_sched_wqueue_ready(struct
->>> drm_gpu_scheduler *sched)
->>>    EXPORT_SYMBOL(drm_sched_wqueue_ready);
->>>    
->>>    /**
->>> - * drm_sched_wqueue_stop - stop scheduler submission
->>> + * drm_sched_wqueue_stop - stop scheduler submission and freeing
->>
->> Looks like the kerneldoc corrections (below too) belong to the
->> previous
->> patch. Irrelevant if you decide to squash them though.
->>
->>>     * @sched: scheduler instance
->>>     *
->>>     * Stops the scheduler from pulling new jobs from entities. It
->>> also stops
->>> @@ -1518,7 +1533,7 @@ void drm_sched_wqueue_stop(struct
->>> drm_gpu_scheduler *sched)
->>>    EXPORT_SYMBOL(drm_sched_wqueue_stop);
->>>    
->>>    /**
->>> - * drm_sched_wqueue_start - start scheduler submission
->>> + * drm_sched_wqueue_start - start scheduler submission and freeing
->>>     * @sched: scheduler instance
->>>     *
->>>     * Restarts the scheduler after drm_sched_wqueue_stop() has
->>> stopped it.
->>> diff --git a/include/drm/gpu_scheduler.h
->>> b/include/drm/gpu_scheduler.h
->>> index d0b1f416b4d9..8630b4a26f10 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -509,6 +509,17 @@ struct drm_sched_backend_ops {
->>>             * and it's time to clean it up.
->>>    	 */
->>>    	void (*free_job)(struct drm_sched_job *sched_job);
->>> +
->>> +	/**
->>> +	 * @kill_fence_context: kill the fence context belonging
->>> to this scheduler
->>
->> Which fence context would that be? ;)
->>
->> Also, "fence context" would be a new terminology in gpu_scheduler.h
->> API
->> level. You could call it ->sched_fini() or similar to signify at
->> which
->> point in the API it gets called and then the fact it takes sched as
->> parameter would be natural.
->>
->> We also probably want some commentary on the topic of indefinite (or
->> very long at least) blocking a thread exit / SIGINT/TERM/KILL time.
->> Cover letter touches upon that problem but I don't see you address
->> it.
->> Is the idea to let drivers shoot themselves in the foot or what?
-> 
-> You didn't seriously just write that, did you?
-> 
-> Yes, my intention clearly has been since September to make things
-> worse, more ambiguous and destroy drivers. That's why I'm probably the
-> only individual after Sima (who added some of the FIXMEs) who ever
-> bothered documenting all this mess here, and warning people about the
-> five hundred pitfalls, like three different start and stop functions,
-> implicit refcount rules and God knows which other insane hacks that
-> simply move driver problems into common infrastructure.
-> 
-> Reconsider your attitude.
+v11 of this patch adding support for the Allwinner DE33 display engine. This version removes the clock dt-binding and ccu driver support that Chen-Yu has also taken as a subset, and as suggested removes the bus dt-binding patch which will be sent with the device-tree changes to enable downstream device support subsequently.
 
-I don't know what kind of attitude you think I was expressing. If the 
-last sentence was a hyperbole too much for you then sorry. Point was in 
-the paragraph ending with that - to document callback must not block, or 
-if it has to to discuss for how long. And to perhaps discuss if 
-scheduler code should impose a limit. Otherwise the indefinite block on 
-thread exit from the cover letter can still happen. I don't see raising 
-those point is a criticism of your overall work. (Fact that we don't see 
-eye to eye regarding more state machine vs the ->cancel_job() 
-alternative aside.)
+Use of lower-case for an enum is also corrected and Maxime's Acked-by added. I also noticed a couple of other ordering issues while fixing the enum, and have also corrected these so that the intermediate patches all compile, but no code changes, so the end result of applying this series (now on top of clk-next) is unchanged.
 
 Regards,
 
-Tvrtko
+Ryan
 
+Jernej Skrabec (7):
+  drm: sun4i: de2/de3: add mixer version enum
+  drm: sun4i: de2/de3: refactor mixer initialisation
+  drm: sun4i: de2/de3: add generic blender register reference function
+  drm: sun4i: de2/de3: use generic register reference function for layer
+    configuration
+  drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: mixer: add mixer configuration for the H616
 
-> 
-> P.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +	 *
->>> +	 * Needed to cleanly tear the scheduler down in
->>> drm_sched_fini(). This
->>> +	 * callback will cause all hardware fences to be signalled
->>> by the driver,
->>> +	 * which, ultimately, ensures that all jobs get freed
->>> before teardown.
->>> +	 *
->>> +	 * This callback is optional, but it is highly recommended
->>> to implement it.
->>> +	 */
->>> +	void (*kill_fence_context)(struct drm_gpu_scheduler
->>> *sched);
->>>    };
->>>    
->>>    /**
->>
-> 
+Ryan Walklin (1):
+  dt-bindings: allwinner: add H616 DE33 mixer binding
+
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  34 +++-
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 168 ++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  30 +++-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  27 ++-
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  14 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       |   6 +-
+ 8 files changed, 223 insertions(+), 62 deletions(-)
+
+-- 
+2.49.0
 
