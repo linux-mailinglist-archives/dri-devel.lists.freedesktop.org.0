@@ -2,92 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F016ABA473
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 22:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91601ABA4D5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 22:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E40A710EB79;
-	Fri, 16 May 2025 20:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E8210EB8D;
+	Fri, 16 May 2025 20:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="AV537H82";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SzRsmzTu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7589510EB79
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 20:04:28 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6f8c2e87757so4273806d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 13:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1747425868; x=1748030668;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=8WVNeAvgjN69jytbH8Oyi2JZGwt4O3Tx5zhyeq1d3A8=;
- b=AV537H82xTNKGGLkvkd9GxHknMmoYINmPD+VvHoEpKgvHjg5ZPpU74OBctn6BecntN
- T+EY9yByuZD0+bXfh5D52GMQ+kVbM6fIM46BfYf7XVv+9hj9tH/CPmBj5KOM0+wuamcW
- vJlTO7rK+faBkM4t+PVUa3mtqw6rTgA7n7GHAkKpAJ+sqiIfZZpXYn1B18xXRZ+iVxut
- 9x5C4+ds5x/C8s5I/BoQlRNhbp2bI1mWrYZX/4ExgurfofXSyH1rpTAAFKq7ZW6i7fzQ
- 1wKh0VL052bQHNHFV/pBjXS97M94QLpf2xmUOyF1FZdbQztUPtAVyIjFEpIg0no6g6xN
- eolA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F24A10EB8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 20:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1747428400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/d2H/dJ+ueHGN57q+kr0/dTSql3iOudtgpvop490dy0=;
+ b=SzRsmzTuf0aU9zoQcJKqUTY9LcjJTBto3Cz+vQKv5MJE6/GMd7/Cze5KCiHxoL3L/xmJJV
+ 5+eAJoZ37ioHji4Rm7uAekcE8hzbqIWusqNPz7WNEfqvqW4fRYihU9Ab5EzehFjsAPzWXu
+ 0LEIb8Nx3ymcD5D01SY5WGZyjqdfspM=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-453-E1uaqHgWPbeJtKQ0PEUeDQ-1; Fri, 16 May 2025 16:46:38 -0400
+X-MC-Unique: E1uaqHgWPbeJtKQ0PEUeDQ-1
+X-Mimecast-MFC-AGG-ID: E1uaqHgWPbeJtKQ0PEUeDQ_1747428398
+Received: by mail-yb1-f198.google.com with SMTP id
+ 3f1490d57ef6-e7b5b9174d2so3173402276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 13:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747425868; x=1748030668;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8WVNeAvgjN69jytbH8Oyi2JZGwt4O3Tx5zhyeq1d3A8=;
- b=RyLWMK5bH9TyD8zAIQWuLNRRXnNVI5MgK0i72fFhBptZQchZwLaH8FQnJwuzNC5EC3
- cJm1bacEd7CA8SeOaPtL3Uu9GyqvMa+Z2w6BYxEbpqGuOaNzg21i/tGeNBMo4YEJ02bp
- CfW+wqlRvaLar3h8zg0y0N0dr7l88ksOaxt7CbfmgdEH1alIj2ZLFeDzU8KDXNsUGUsR
- FPLmeVkKY1hShvGLJTdTFK9dL37Ar5dJbGGqzhx1r7XxPokVlwQoZv2f+7SoO1CFM8wI
- c4ZAbCNtZUHb/F9zSeGwBEcooIlWFf5urI6zxZ0nUS/1thViTWv37mA8Fg/a+ZcKgMq2
- HFkQ==
+ d=1e100.net; s=20230601; t=1747428398; x=1748033198;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/d2H/dJ+ueHGN57q+kr0/dTSql3iOudtgpvop490dy0=;
+ b=VzJNnhVed3gHddL7+fcTUNl1xiPjoSdTM01tSrdsC+hjlF9hFzllECWymnHIbGH0ld
+ UkAmpIQRq26rLaatUBwRvyV/AtPJLcPDyHHXsoWG/CDEhyUfaelAkOril0ZAtoIUyBzd
+ dPJ1XmqtX4GHASc8eZuNtJzqYHYCRuloi63CasDGi+DuMrRjwH0YrLSz2UNygYfXQ62T
+ +EL2qf8chz3AL9s1n2rGYYrz1pyZc+hbitU+ApkUsWr6c0Pnt54Pji4CbzPy4+tr7E3k
+ 2/dZa9DWwxyooUQFlDKkfHrW8Q0hS37OgmKLtLPWMT+Gnd2yb/Jymb06mnCnMB7Et907
+ T0Cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/hvHGECu0tmsAuKh55kDLNeomFlGjW3dgo8mmGeWN1AJw4oDkcB43OBgLJ3WJvygli0CSrWmUTag=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKzKohB50lzK8BeQUtiICSIEspWap+rXNlq/fF3pehOOQZ32dt
- VlAX7amtEL7Snk+x3jFsneOxe7BJfGatGbjs0mAzoB/O0A79/rwDHFDacInepI50BJo=
-X-Gm-Gg: ASbGnctzbAGcN7UpZPBvV1j05zje6WMO7RvfoSqKOgsPkTj1dCNXW3ukJpcHicH0K0Q
- rWplJrgHqz6HK990sDFfQuqcVFvvIBxUVw84pU81lxcG9OCasqP06iq3EEYLoRWQ1cZTiVoPmlQ
- Y6+mKjOziqRTK/1ANdvFj7X7gfwAvqfwBBrUEHDa5ZBh5AMCu9KCo0U7F0wNBqt8dZYK7Px/nKz
- x9KedTUsy2mPlHLzw/T9eiDC5cDXMsEOSSttz4HYvQyTmr8mbuV6sdsjA+gW5guvXnM7S2iJq/E
- 0xGZCgSz9q8D4+51VoFP5Byqcsi5pIlHniSLj7JHfz//3nZ3ghY6OvkFmGdW
-X-Google-Smtp-Source: AGHT+IHoSbYUjRY2GvaB1qQU1qbRqS+cGcuO/bhESiyT5BI93s8Li1RydfrUi/T/LchFh37Q3LKbyg==
-X-Received: by 2002:a05:6214:2341:b0:6f2:b7cd:7cac with SMTP id
- 6a1803df08f44-6f8b08aad53mr80048916d6.31.1747425867618; 
- Fri, 16 May 2025 13:04:27 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
- by smtp.gmail.com with UTF8SMTPSA id
- 6a1803df08f44-6f8b08af48fsm16087966d6.47.2025.05.16.13.04.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 May 2025 13:04:26 -0700 (PDT)
-Date: Fri, 16 May 2025 16:04:23 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-Message-ID: <20250516200423.GE720744@cmpxchg.org>
-References: <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
- <20250513075446.GA623911@cmpxchg.org>
- <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
- <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
- <20250515160842.GA720744@cmpxchg.org>
- <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
- <20250516145318.GB720744@cmpxchg.org>
- <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
- <20250516164150.GD720744@cmpxchg.org>
- <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
+ AJvYcCXJoSfQTHvRTs1G5IoVF2/MlDzZudn5uMjyxoASUyN1fxWG4ggP/9SJpcMziDDri0l/q19bp4GGtP4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyBmb78FZJiKn0vqT1K3aqsTRzarsgRNBKlxjz8KRfNHvjEwgIL
+ y4wNmdqxMtKWj/NiRxPvKk/Y3jeAXB0rTfinCo7b2/jmV4SeCJy3teXPYYPqtS2PqPVcq8yYZi8
+ DenLz+/wsWW15I7uKV95A+RUyq0caYjmla+Tu9dXBN1lc4s3QqS4d1sEbpFsNTfEvtcfHxC+vPt
+ OVmNFWxyORHaaLQye+rkkvqC55SyhxH5ecUlTakULrclB6
+X-Gm-Gg: ASbGncsrMoYV/+BtJ6CqXZctlf8cx5TuhlQQR12dGbEF+WY5h7A6sHAX+R2ykAKERLh
+ rUOBJGJgtB6ONEuiwxnyaXxMaQgdwwL75hYNGV77VhcMhSRlnfCYIRu21Y2TLTAVhSdY=
+X-Received: by 2002:a05:6902:990:b0:e75:b6c9:fc2c with SMTP id
+ 3f1490d57ef6-e7b69d546eemr7092184276.8.1747428398168; 
+ Fri, 16 May 2025 13:46:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE4gNvjNDTzMJO7YNUxc1L5p7z3ng2k7lx6Vn/OJ3/oi8DTA+Q1nD5K3QvExW4Yxww+vk7Cq2ZxGo7HtzXL6PU=
+X-Received: by 2002:a05:6902:990:b0:e75:b6c9:fc2c with SMTP id
+ 3f1490d57ef6-e7b69d546eemr7092162276.8.1747428397889; Fri, 16 May 2025
+ 13:46:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
+References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
+ <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+ <87y0vkw8ll.fsf@intel.com>
+ <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
+ <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
+ <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
+ <874ixvtbxy.fsf@intel.com> <20250509-rapid-flounder-of-devotion-6b26bb@houat>
+ <87r00yj6kv.fsf@intel.com>
+ <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
+ <875xi3im1r.fsf@intel.com>
+In-Reply-To: <875xi3im1r.fsf@intel.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Fri, 16 May 2025 15:43:10 -0400
+X-Gm-Features: AX0GCFtr0WkuOHdpE1CNg84eR4hlSm7n8yb0dbHhxcO2BOYdxEs1te_AN3GgLks
+Message-ID: <CAN9Xe3QHqPDPUQ7gsf278Nj0GC1fO-sGxoW3Ln4=h52QUM804g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
+To: Jani Nikula <jani.nikula@linux.intel.com>, 
+ "uma.shankar@intel.com" <uma.shankar@intel.com>, ville.syrjala@linux.intel.com
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: YqjcRsuw_lzAur85r4FVU-3hUBcf0_R6a_uMdk3yh20_1747428398
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000ed51cd063546e05e"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,170 +107,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 07:42:08PM +0200, Christian König wrote:
-> On 5/16/25 18:41, Johannes Weiner wrote:
-> >>> Listen, none of this is even remotely new. This isn't the first cache
-> >>> we're tracking, and it's not the first consumer that can outlive the
-> >>> controlling cgroup.
-> >>
-> >> Yes, I knew about all of that and I find that extremely questionable
-> >> on existing handling as well.
-> > 
-> > This code handles billions of containers every day, but we'll be sure
-> > to consult you on the next redesign.
-> 
-> Well yes, please do so. I'm working on Linux for around 30 years now and halve of that on device memory management.
-> 
-> And the subsystems I maintain is used by literally billion Android devices and HPC datacenters
-> 
-> One of the reasons we don't have a good integration between device memory and cgroups is because specific requirements have been ignored while designing cgroups.
-> 
-> That cgroups works for a lot of use cases doesn't mean that it does for all of them.
-> 
-> >> Memory pools which are only used to improve allocation performance
-> >> are something the kernel handles transparently and are completely
-> >> outside of any cgroup tracking whatsoever.
-> > 
-> > You're describing a cache. It doesn't matter whether it's caching CPU
-> > work, IO work or network packets.
-> 
-> A cache description doesn't really fit this pool here.
-> 
-> The memory properties are similar to what GFP_DMA or GFP_DMA32
-> provide.
+--000000000000ed51cd063546e05e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 14, 2025 at 5:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com>
+wrote:
+
+> On Tue, 13 May 2025, Maxime Ripard <mripard@kernel.org> wrote:
+> > Is it really surprising you get some pushback when you are using a
+> > design that is the complete opposite to what every user of it for the
+> > last decade has been doing?
 >
-> The reasons we haven't moved this into the core memory management is
-> because it is completely x86 specific and only used by a rather
-> specific group of devices.
-
-I fully understand that. It's about memory properties.
-
-What I think you're also saying is that the best solution would be
-that you could ask the core MM for pages with a specific property, and
-it would hand you pages that were previously freed with those same
-properties. Or, if none such pages are on the freelists, it would grab
-free pages with different properties and convert them on the fly.
-
-For all intents and purposes, this free memory would then be trivially
-fungible between drm use, non-drm use, and different cgroups - except
-for a few CPU cycles when converting but that's *probably* negligible?
-And now you could get rid of the "hack" in drm and didn't have to hang
-on to special-property pages and implement a shrinker at all.
-
-So far so good.
-
-But that just isn't the implementation of today. And the devil is very
-much in the details with this:
-
-Your memory attribute conversions are currently tied to a *shrinker*.
-
-This means the conversion doesn't trivially happen in the allocator,
-it happens from *reclaim context*.
-
-Now *your* shrinker is fairly cheap to run, so I do understand when
-you're saying in exasperation: We give this memory back if somebody
-needs it for other purposes. What *is* the big deal?
-
-The *reclaim context* is the big deal. The problem is *all the other
-shrinkers that run at this time as well*. Because you held onto those
-pages long enough that they contributed to a bonafide, general memory
-shortage situation. And *that* has consequences for other cgroups.
-
-> > What matters is what it takes to recycle those pages for other
-> > purposes - especially non-GPU purposes.
-> 
-> Exactly that, yes. From the TTM pool pages can be given back to the
-> core OS at any time. It's just a bunch of extra CPU cycles.
+> The opposite is also true.
 >
-> > And more importantly, *what other memory in other cgroups they
-> > displace in the meantime*.
-> 
-> What do you mean with that?
-> 
-> Other cgroups are not affected by anything the allocating cgroup
-> does, except for the extra CPU overhead while giving pages back to
-> the core OS, but that is negligible we haven't even optimized this
-> code path.
+> If you create a design that does not cleanly fit the model of the
+> biggest drivers in the subsystem, and expect massive refactors just for
+> the sake of conforming to the design to be able to use any of it, you'll
+> also get pushback.
+>
+> > This one is usable, but you rule out the way you could use it.
+>
+> I think you're off-hand and completely dismissing the amount of work it
+> would be. And still I'm not even ruling it out, but there has to be a
+> way to start off in small incremental steps, and use the parts that
+> work. And it's not like we're averse to refactoring in the least,
+> everyone knows that.
+>
+> > I guess it's clear now that you won't consider anything else. I wonder
+> > why you started that discussion in the first place if you already have
+> > a clear mind on how to get things moving forward.
+>
+> I pointed out what I think is a bug in drm_panel, with nothing but good
+> intentions, and everything snowballed from there.
+>
+> There has to be a middle ground instead of absolutes. Otherwise we'll
+> just end up in deeper silos. And more arguments.
+>
+> BR,
+> Jani.
+>
+>
+Jani, Maxime,
 
-I hope the answer to this question is apparent now.
+Thinking out loud of different solutions we can have to make sure we take
+this forward.
 
-But to illustrate the problem better, let's consider the following
-container setup.
+Is it possible to have a variant of drm_panel_follower for the non ARM
+devices? That way if at any point in
+the future, the drm_panel_follower infrastructure has to be used, the
+refcounting allocation can be bypassed?
 
-A system has 10G of memory. You run two cgroups on it that each have a
-a limit of 5G:
+Adding Uma and VIlle to the thread here.
 
-             system (10G)
-            /      \
-           A (5G)   B (5G)
+Thanks!
+Anusha
 
-Let's say A is running some database and is using its full 5G.
 
-B is first doing some buffered IO, instantiating up to 5G worth of
-file cache. Since the file cache is cgroup-aware, those pages will go
-onto the private LRU list of B. And they will remain there until those
-cache pages are fully reclaimed.
+> --
+> Jani Nikula, Intel
+>
+>
 
-B then malloc()s. Because it's at the cgroup limit, it's forced into
-cgroup reclaim on its private LRUs, where it recycles some of its old
-page cache to satisfy the heap request.
+--000000000000ed51cd063546e05e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A was not affected by anything that occurred in B.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 14,=
+ 2025 at 5:22=E2=80=AFAM Jani Nikula &lt;<a href=3D"mailto:jani.nikula@linu=
+x.intel.com">jani.nikula@linux.intel.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Tue, 13 May 2025, Maxime Ripard =
+&lt;<a href=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.=
+org</a>&gt; wrote:<br>
+&gt; Is it really surprising you get some pushback when you are using a<br>
+&gt; design that is the complete opposite to what every user of it for the<=
+br>
+&gt; last decade has been doing?<br>
+<br>
+The opposite is also true.<br>
+<br>
+If you create a design that does not cleanly fit the model of the<br>
+biggest drivers in the subsystem, and expect massive refactors just for<br>
+the sake of conforming to the design to be able to use any of it, you&#39;l=
+l<br>
+also get pushback.<br>
+<br>
+&gt; This one is usable, but you rule out the way you could use it.<br>
+<br>
+I think you&#39;re off-hand and completely dismissing the amount of work it=
+<br>
+would be. And still I&#39;m not even ruling it out, but there has to be a<b=
+r>
+way to start off in small incremental steps, and use the parts that<br>
+work. And it&#39;s not like we&#39;re averse to refactoring in the least,<b=
+r>
+everyone knows that.<br>
+<br>
+&gt; I guess it&#39;s clear now that you won&#39;t consider anything else. =
+I wonder<br>
+&gt; why you started that discussion in the first place if you already have=
+<br>
+&gt; a clear mind on how to get things moving forward.<br>
+<br>
+I pointed out what I think is a bug in drm_panel, with nothing but good<br>
+intentions, and everything snowballed from there.<br>
+<br>
+There has to be a middle ground instead of absolutes. Otherwise we&#39;ll<b=
+r>
+just end up in deeper silos. And more arguments.<br>
+<br>
+BR,<br>
+Jani.<br>
+<br></blockquote><div><br></div><div>Jani, Maxime,</div><div><br></div><div=
+>Thinking out loud of different solutions we can have to make sure we take =
+this forward.</div><div><br></div><div>Is it possible to have a variant of =
+drm_panel_follower for the non ARM devices? That way if at any point in</di=
+v><div>the future, the drm_panel_follower infrastructure has to be used, th=
+e refcounting allocation can be bypassed?</div><div><br></div><div>Adding U=
+ma and VIlle to the thread here.</div><div><br></div><div>Thanks!</div><div=
+>Anusha</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+<br>
+-- <br>
+Jani Nikula, Intel<br>
+<br>
+</blockquote></div></div>
 
----
+--000000000000ed51cd063546e05e--
 
-Now let's consider the same starting scenario, but instead B is
-interacting with the gpu driver and creates 5G worth of ttm objects.
-
-Once its done with them, you put the pages into the pool and uncharge
-the memory from B.
-
-Now B mallocs() again. The cgroup is not maxed out - it's empty in
-fact. So no cgroup reclaim happens.
-
-However, at this point, A has 5G allocated, and there are still 5G in
-the drm driver. The *system itself* is out of memory now.
-
-So B enters *global* reclaim to find pages for its heap request.
-
-It invokes all the shrinkers and runs reclaim on all cgroups.
-
-In the process, it will claw back some pages from ttm; but it will
-*also* reclaim all kinds of caches, maybe even swap stuff, from A!
-
-Now *A* starts faulting due to the pages that were stolen and tries to
-allocate. But memory is still full, because B backfilled it with heap.
-
-So now *A* goes into global reclaim as well: it takes some pages from
-the ttm pool, some from B, *and some from itself*.
-
-It can take several iterations of this until the ttm pool has been
-fully drained, and A has all its memory faulted back in and is running
-at full speed again.
-
-In this scenario, A was directly affected, potentially quite severely,
-by B's actions.
-
-This is the definition of containment failure.
-
-Consider two aggravating additions to this scenario:
-
-1. While A *could* in theory benefit from the pool pages too, let's
-   say it never interacts with the GPU at all. So it's paying the cost
-   for something that *only benefits B*.
-
-2. B is malicious. It does the above sequence - interact with ttm, let
-   the pool escape its cgroup, then allocate heap - rapidly over and
-   over again. It effectively DoSes A.
-
----
-
-So as long as the pool is implemented as it is today, it should very
-much be per cgroup.
-
-Reclaim lifetime means it can displace other memory with reclaim
-lifetime.
-
-You cannot assume other cgroups benefit from this memory.
-
-You cannot trust other cgroups to play nice.
