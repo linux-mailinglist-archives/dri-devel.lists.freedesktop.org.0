@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E31FAB9DB4
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 15:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9805AB9DE2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 15:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E921210EAC0;
-	Fri, 16 May 2025 13:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7B810EAC2;
+	Fri, 16 May 2025 13:48:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pJleDk4W";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UVDhcUvK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356B110EAC0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 13:41:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD17910EAC2;
+ Fri, 16 May 2025 13:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,34 +22,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xpUQ4N5UR1ATvQ6cRCQfL9sZ21DWZGhJcsJing7iutk=; b=pJleDk4WdmFG6Q3eXdItPN9szJ
- flrGRKNgwhSj2GBkdwH90kb/v3NrXcICKNiUUShh/KfMys1eJOa31xrC3amYod/ZrCmc2bGmQzcNH
- fWdjOiTYhwZSIuBxbLn2f8pATjeJ3td3KH3PFwVWg7W6nXmswezcELyeIsRQC81pnEZQX62uxGeBF
- WbBGSqjlT2MIkU2b6AUccZa7hw1/eQQX91Jct+MQZeDURqV/EF/NxqKdtrZmW+H1qbC9aPsPENtMu
- IzBXINbjWsLcsee6OmlRypLPREXuq8t1s2CWZ9IQSsxX1+Scobl8JD2JmAZdAnNlKq3sWFXvK4z0y
- V3aADZiw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
+ bh=Hkbeh72Y0ucq/iJdWN5aU8aatswoMTC6+WwiWepvQvA=; b=UVDhcUvKoxA8PncS3akl1v1GSQ
+ b34xI5NT8Q5z28EX3kAMIYvVsVmI7FhwsIf1Z7cV8lfPlW3j0Czw5KNBsxyCjGhBRb8k8i5GjhRov
+ 9XljFAjG4qH5+n5mdW7Yw8uxa85a6DHOlSsgXLu8H4SNoNutHNI32bCLN54ayYtUzPW5q6+Kw3drU
+ PJCMKk0YdP7MBl/7+OQoqV3nwodlm7lXpswuu6qxqfro2qOq2SybpiZFHcZNWvIh2xdjAXGFy0NJW
+ wiOMTOTCfteuukjPsd/dQoMIOcRCS4H09pCJ/eHMTIDKlNYM3NvSg1cNxzCxUnmePaHZsazEBn5Dp
+ m+4w9jJg==;
+Received: from [179.180.238.246] (helo=[192.168.68.116])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uFvE7-0096Zp-OA; Fri, 16 May 2025 15:41:50 +0200
-Message-ID: <991d0b4c-dc74-4864-9560-f2b04f551550@igalia.com>
-Date: Fri, 16 May 2025 14:41:49 +0100
+ id 1uFvKL-0096fp-4V; Fri, 16 May 2025 15:48:15 +0200
+Message-ID: <80673b87-792b-49f9-a68e-657c16a9b04a@igalia.com>
+Date: Fri, 16 May 2025 10:48:09 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: Make pool shrinker more responsive
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>
-References: <20250515205751.37268-1-tvrtko.ursulin@igalia.com>
- <d4892d91-7562-4391-93fe-4b2ec159bb69@amd.com>
- <b453ccd4-b783-4314-8cc0-ed372d833ff1@igalia.com>
- <d3afe944-9a5d-4cf2-83ab-f32da4d59464@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <d3afe944-9a5d-4cf2-83ab-f32da4d59464@amd.com>
+Subject: Re: [PATCH] drm: ci: skip msm_mapping@shadow on SM8350
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Helen Koike <helen.fornazier@gmail.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250513-msm-ci-fixes-v1-1-baba185529a2@oss.qualcomm.com>
+Content-Language: en-US
+From: Helen Koike <koike@igalia.com>
+In-Reply-To: <20250513-msm-ci-fixes-v1-1-baba185529a2@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,260 +70,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 16/05/2025 12:46, Christian König wrote:
-> On 5/16/25 13:21, Tvrtko Ursulin wrote:
->>
->> On 16/05/2025 09:23, Christian König wrote:
->>> On 5/15/25 22:57, Tvrtko Ursulin wrote:
->>>> Currently the TTM pool shrinker ensures it frees at least something every
->>>> time it is invoked, but it also lies to the core a bit on how hard it
->>>> tried.
->>>>
->>>> For example core will ask it to free SHRINK_BATCH pages but the shrinker
->>>> can, due how it walks the LRU list of pools, free just a single page and
->>>> still leave the core thinking it expended the full SHRINK_BATCH effort.
->>>>
->>>> Apart from being inefficient in terms of number of calls to the TTM pool
->>>> shrinker required, another consquence of this is that the core can abandon
->>>> the shrinking attempt too early due thinking that the whole set of
->>>> freeable pages has been scanned.
->>>>
->>>> We fix this last part by correctly reporting how many out of potentially
->>>> freeable pages have been scanned.
->>>>
->>>> We also do the freeing in an aggressive manner, considering the scan
->>>> target as a free target, to ensure walks over pools with unfreeable pages
->>>> do not cause no-op calls into our callback.
->>>>
->>>> And finally we customise the shrinker batch size based on the median pool
->>>> order and the total number of pools, with the aim of searching more
->>>> possible pools on an average invocation.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> ---
->>>>    drivers/gpu/drm/ttm/ttm_pool.c | 39 +++++++++++++++++++++-------------
->>>>    1 file changed, 24 insertions(+), 15 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->>>> index c2ea865be657..a76fe5f95781 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>>> @@ -368,7 +368,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
->>>>    }
->>>>      /* Free pages using the global shrinker list */
->>>> -static unsigned int ttm_pool_shrink(void)
->>>> +static unsigned int ttm_pool_shrink(unsigned long *nr_scanned)
->>>>    {
->>>>        struct ttm_pool_type *pt;
->>>>        unsigned int num_pages;
->>>> @@ -380,16 +380,15 @@ static unsigned int ttm_pool_shrink(void)
->>>>        list_move_tail(&pt->shrinker_list, &shrinker_list);
->>>>        spin_unlock(&shrinker_lock);
->>>>    +    num_pages = 1 << pt->order;
->>>> +    (*nr_scanned) += num_pages;
->>>> +
->>>>        p = ttm_pool_type_take(pt);
->>>> -    if (p) {
->>>> +    if (p)
->>>>            ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
->>>> -        num_pages = 1 << pt->order;
->>>> -    } else {
->>>> -        num_pages = 0;
->>>> -    }
->>>>        up_read(&pool_shrink_rwsem);
->>>>    -    return num_pages;
->>>> +    return p ? num_pages : 0;
->>>>    }
->>>
->>> That change here doesn't make any sense.
->>>
->>> Scanning a pool type for pages and not finding anything doesn't mean we have scanned for freeable pages and then not freed them.
->>
->> I couldn't quite understand this sentence but let me try and explain.
->>
->> I have empirically observed when looking at a different bug that the TTM shrinking does not work as efficiently as it could, and as efficiently as the shrinker core expects it to work.
+
+On 5/13/25 15:49, Dmitry Baryshkov wrote:
+> The msm_mapping@shadow test fails on SM8350, which means that the write
+> might get through (hopefully not though). Disable the test completely
+> for now until we can fix the issue.
 > 
-> Yeah, that could be quite likely.
+> Link: https://gitlab.freedesktop.org/drm/msm/-/issues/77
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+Acked-by: Helen Koike <koike@igalia.com>
+
+Thanks
+Helen
+
+> ---
+>   drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
->> Currently shrinker asks TTM to shrink SHRINK_BATCH pages.
->>
->> Lets say ttm_pool_shrinks happens to try order 0 pool first so frees one page. It returns 1 to the shrinker core.
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+> index 9450f2a002fd7e68f0f674ac6ac84aeebf28347f..a8b535abc8ef0d996d0c73ece1c7a9622250928e 100644
+> --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+> +++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+> @@ -210,3 +210,8 @@ msm/msm_mapping@ring
+>   # [  229.752499] CPU features: 0x18,00000017,00200928,4200720b
+>   # [  229.758095] Memory Limit: none
+>   # [  229.761291] ---[ end Kernel panic - not syncing: softlockup: hung tasks ]---
+> +
+> +# Protection doesn't seem to be enforced, don't perform write which might get through
+> +# https://gitlab.freedesktop.org/drm/msm/-/issues/77
+> +msm/msm_mapping@shadow
+> +
 > 
-> That's intentional. We have gone back and forth over if we should just scan one pool or multiple.
+> ---
+> base-commit: 8f5264d302e803e7ef82a61f9632a0d2ef67413f
+> change-id: 20250513-msm-ci-fixes-3e7ce259d1d9
 > 
->> But because TTM shrinker does not currently update shrinkerctl->nr_scanned, shrinker core assumes TTM looked at full SHRINK_BATCH pages with every call, and adds and decrements that value to the counters it uses to determine when to stop trying the TTM shrinker and move to the next one.
-> 
-> Yeah that was intentional as well.
-
-What was the reason do you remember?
-
->> Therefore the exit condition can trigger too early in relation to the number of shrinkable pages in TTM pools. Or it can require too many calls to ttm_pool_shrinker_scan.
-> 
-> Oh, that is indeed problematic.
-> 
->> Depending on the distribution of freeable pages per pools.
-> 
-> No, that should be completely unrelated.
-> 
->> This patch:
->>
->> 1. Fixes the TTM shrinker to correctly report shrinkctl->nr_scanned.
-> 
-> No it doesn't. The nr_scanned for the TTM pool is not related to the number of pool types scanned.
-
-Not sure what you mean here.
-
-Ttm_pool_shrinker_count() reports in number of pages which shrinker core 
-then uses to set nr_to_scan. But as ttm_pool_shrinker_scan() does not 
-update nr_scanned the core shrinker logic is foiled. If that is by 
-design I would like to understand why.
-
-But as nr_scanned is currently not updated at all, it is obviously not 
-related to pools, or anything really.
-
-And in my patch it is still not related to the pools. I made it report 
-the number of _pages_ scanned to align with ttm_pool_shrinker_count() 
-and what the shrinker core expects.
-
->> This way the break condition in shrinker core works correctly.
->>
->> 2. Makes TTM shrinker actually scan as much as the core requested from it (respecting shrinkerctl->nr_to_scan).
->>
->> This avoids only scanning say one page when shrinker core asked to scan 128. This reduces the number of calls into the TTM shrinker from the core to free same amount of pages.
-> 
-> That should be easy, you just need to adjust the while loop in ttm_pool_shrinker_scan().
-
-Yes I think this part would be simple on its own.
-
->> 3. Tunes the batch size away from the default 128 (SHRINK_BATCH) into a value based on the median size of the TTM pools.
->>
->> This ensures that on average TTM shrinker tries to actually free _something_ more often than it does now. Otherwise it can happen to try a few pools (depending LRU order) and give up, while the freeable pages are actually in the pools not yet looked at. By tuning the batch size it ensures that on average more pools are looked at.
-> 
-> That doesn't make sense. The number of pools looked at is completely irrelevant for the shrinker.
-
-Nr_to_scan the shrinker core asks for is default at most 128 pages.
-
-This means TTM shrinker can look at the few small order pools, find 
-nothing, and exit. Shrinker core may then call into it again to try 
-again. Or maybe it can even move on the the next shrinker (away from 
-TTM) if the distribution of free pages between pools is right.
-
-The exact behaviour here will depend on whether TTM shrinker starts 
-respecting nr_to_scan and reporting nr_scanned so it is a bit premature 
-to discuss in detail until those two are settled.
-
-Anyway, by tweaking the batch_size from 128 to 352 we can make the same 
-effect in fewer iterations.
-
-> We should just look at all pools round robin until the number of objects/pages the shrinker wants to free has been freed.
-
-I thought that was what the patch does.
-
-Although on a second look I think am missing an exit condition for the 
-case where requested amount cannot be freed.
-
->> Now mind you I looked at this two months ago, which is when I first sent this patch out, but haven't went through this today again, it still makes sense to me. So I am curious why you think it totally does not. It looks obvious to me it is not respecting the contract with the core so I would be surprised if I was missing some obvious gotcha.
-> 
-> It sounds like you are assuming that the pool type structure are the objects to scan and we abort when we have scanned a certain amount. But that isn't true, we abort when we can't find any page to free any more.
-
-Maybe I am blind but AFAICT it currently exits as soon as it frees at 
-least one page:
-
-static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
-					    struct shrink_control *sc)
-{
-	unsigned long num_freed = 0;
-
-	do
-		num_freed += ttm_pool_shrink();
-	while (!num_freed && atomic_long_read(&allocated_pages));
-
-	return num_freed;
-}
-
-Or you mean from the point of view of the core shrinker? Again, that one 
-is complicated since it currently always decrements total_scan by 
-SHRINK_BATCH. And total_scan is set to at most half of pool pages. So it 
-can scan order0 find nothing -> total_scan -= 128, order1 find nothing 
--> total_scan -= 128, etc, and it soon accumulates a false positive 
-large number of scanned pages and exits from TTM shrinker if freeable is 
-low, but actually shrinkable pages are in the high order pool it did not 
-even get to try.
-
-Regards,
-
-Tvrtko
-
->>>>      /* Return the allocation order based for a page */
->>>> @@ -881,10 +880,12 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->>>>     */
->>>>    void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
->>>>    {
->>>> +    unsigned long nr_scanned = 0;
->>>> +
->>>>        ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
->>>>          while (atomic_long_read(&allocated_pages) > page_pool_size)
->>>> -        ttm_pool_shrink();
->>>> +        ttm_pool_shrink(&nr_scanned);
->>>>    }
->>>>    EXPORT_SYMBOL(ttm_pool_free);
->>>>    @@ -1132,17 +1133,21 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>>>    }
->>>>    EXPORT_SYMBOL(ttm_pool_fini);
->>>>    -/* As long as pages are available make sure to release at least one */
->>>>    static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
->>>>                            struct shrink_control *sc)
->>>>    {
->>>> -    unsigned long num_freed = 0;
->>>> +    unsigned long to_scan, freed = 0;
->>>>    -    do
->>>> -        num_freed += ttm_pool_shrink();
->>>> -    while (!num_freed && atomic_long_read(&allocated_pages));
->>>> +    sc->nr_scanned = 0;
->>>> +    to_scan = min_t(unsigned long,
->>>> +            sc->nr_to_scan, atomic_long_read(&allocated_pages));
->>>> +    while (freed < to_scan) {
->>>> +        freed += ttm_pool_shrink(&sc->nr_scanned);
->>>> +        to_scan = min_t(unsigned long,
->>>> +                to_scan, atomic_long_read(&allocated_pages));
->>>> +    }
->>>>    -    return num_freed;
->>>> +    return sc->nr_scanned ? freed : SHRINK_STOP;
->>>
->>> That again doesn't make sense. That we only find pool types which don't have pages doesn't mean we have scanned them.
->>>
->>> As far as I can see the existing code was correct after all.
->>>
->>>>    }
->>>>      /* Return the number of pages available or SHRINK_EMPTY if we have none */
->>>> @@ -1266,7 +1271,10 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
->>>>    /* Test the shrinker functions and dump the result */
->>>>    static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
->>>>    {
->>>> -    struct shrink_control sc = { .gfp_mask = GFP_NOFS };
->>>> +    struct shrink_control sc = {
->>>> +        .gfp_mask = GFP_NOFS,
->>>> +        .nr_to_scan = 1,
->>>> +    };
->>>>          fs_reclaim_acquire(GFP_KERNEL);
->>>>        seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(mm_shrinker, &sc),
->>>> @@ -1324,6 +1332,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>>>          mm_shrinker->count_objects = ttm_pool_shrinker_count;
->>>>        mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
->>>> +    mm_shrinker->batch = (1 << (MAX_PAGE_ORDER / 2)) * NR_PAGE_ORDERS;
->>>
->>> Since we install only one global shrinker for all pool types, which might contain everything from 1 page till 512 pages, this seems to not make sense at all either.
->>>
->>> What exactly are you trying to do here?
->>>
->>> Regards,
->>> Christian.
->>>
->>>>        mm_shrinker->seeks = 1;
->>>>          shrinker_register(mm_shrinker);
->>>
->>
-> 
+> Best regards,
 
