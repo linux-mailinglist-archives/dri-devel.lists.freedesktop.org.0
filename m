@@ -2,96 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91601ABA4D5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 22:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362EFABA4A6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 May 2025 22:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E8210EB8D;
-	Fri, 16 May 2025 20:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFD0310EB86;
+	Fri, 16 May 2025 20:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SzRsmzTu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XSNiOtnS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F24A10EB8D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 20:46:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747428400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/d2H/dJ+ueHGN57q+kr0/dTSql3iOudtgpvop490dy0=;
- b=SzRsmzTuf0aU9zoQcJKqUTY9LcjJTBto3Cz+vQKv5MJE6/GMd7/Cze5KCiHxoL3L/xmJJV
- 5+eAJoZ37ioHji4Rm7uAekcE8hzbqIWusqNPz7WNEfqvqW4fRYihU9Ab5EzehFjsAPzWXu
- 0LEIb8Nx3ymcD5D01SY5WGZyjqdfspM=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-453-E1uaqHgWPbeJtKQ0PEUeDQ-1; Fri, 16 May 2025 16:46:38 -0400
-X-MC-Unique: E1uaqHgWPbeJtKQ0PEUeDQ-1
-X-Mimecast-MFC-AGG-ID: E1uaqHgWPbeJtKQ0PEUeDQ_1747428398
-Received: by mail-yb1-f198.google.com with SMTP id
- 3f1490d57ef6-e7b5b9174d2so3173402276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 13:46:38 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C99A10EB86
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 20:25:15 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-ad2216ef31cso436430266b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 May 2025 13:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747427114; x=1748031914; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SJtI08ZdLCcw6bkpJ+rEQSFFcud7levmwZFe8IxZZO0=;
+ b=XSNiOtnSfcMrXRcknbre0mro10JH4rMsVWGCuRCkYam960Zpq/7H7BtLDXtBbBp24F
+ Pd8la6aECfH9ElfRMh0zHlQcvrxCOo2jAwRGmB0si1WAxPIbwnNV5oVF4nm/nOwjs+l2
+ NNGqhH+tIKk8R/bxZp8xUdyKCY/+W1bMzSPvQiNbQRB9dCXa2ahihD86qzbwQCNn5oVk
+ dBB+edBsXiubkvbR0QWV/QPvSFjdzmpCR5Biu1I+gsrbBwP/YCjz6KiMf0LusyGQ2iER
+ qpL9ogchtdGdzQEuD0xwN7ukjuNlIna1p7IAPWsTy222rdaeYKw1aNBycWt56epVS5ty
+ sXgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747428398; x=1748033198;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/d2H/dJ+ueHGN57q+kr0/dTSql3iOudtgpvop490dy0=;
- b=VzJNnhVed3gHddL7+fcTUNl1xiPjoSdTM01tSrdsC+hjlF9hFzllECWymnHIbGH0ld
- UkAmpIQRq26rLaatUBwRvyV/AtPJLcPDyHHXsoWG/CDEhyUfaelAkOril0ZAtoIUyBzd
- dPJ1XmqtX4GHASc8eZuNtJzqYHYCRuloi63CasDGi+DuMrRjwH0YrLSz2UNygYfXQ62T
- +EL2qf8chz3AL9s1n2rGYYrz1pyZc+hbitU+ApkUsWr6c0Pnt54Pji4CbzPy4+tr7E3k
- 2/dZa9DWwxyooUQFlDKkfHrW8Q0hS37OgmKLtLPWMT+Gnd2yb/Jymb06mnCnMB7Et907
- T0Cw==
+ d=1e100.net; s=20230601; t=1747427114; x=1748031914;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SJtI08ZdLCcw6bkpJ+rEQSFFcud7levmwZFe8IxZZO0=;
+ b=t1vBOpN4gYpAU3Vb+S1JmrBnHBS9SgjEqr4VEiSMGYiYy+9IRpHFv9xRsqbAzn1Ur4
+ nWqhphfeUZjRYIbtEvU9ZEihiNw19ZFZMSIK3198fja1wK1bBpJ8D5zRsdf1FdgybGVU
+ l4ZpKrJIUhqGFI86WxHy3iQBZRAtFKK0qZB7r+z2AcPwxqAI0hxwEo4KvxP1Gg9ddojK
+ OZ0/p+PlNO17Wvkzy0ZDAgwUkbIjkLMKYW8CGReUBHfaWXWkLcx+ghDAj6CC4uqryVn7
+ O2W94yHQ4VfTECwkxGHNkEtEzRGo3FGpf/X6cp7a37MS0olNPQtUfHZNjHlpf8SH/IiB
+ bpqQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJoSfQTHvRTs1G5IoVF2/MlDzZudn5uMjyxoASUyN1fxWG4ggP/9SJpcMziDDri0l/q19bp4GGtP4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBmb78FZJiKn0vqT1K3aqsTRzarsgRNBKlxjz8KRfNHvjEwgIL
- y4wNmdqxMtKWj/NiRxPvKk/Y3jeAXB0rTfinCo7b2/jmV4SeCJy3teXPYYPqtS2PqPVcq8yYZi8
- DenLz+/wsWW15I7uKV95A+RUyq0caYjmla+Tu9dXBN1lc4s3QqS4d1sEbpFsNTfEvtcfHxC+vPt
- OVmNFWxyORHaaLQye+rkkvqC55SyhxH5ecUlTakULrclB6
-X-Gm-Gg: ASbGncsrMoYV/+BtJ6CqXZctlf8cx5TuhlQQR12dGbEF+WY5h7A6sHAX+R2ykAKERLh
- rUOBJGJgtB6ONEuiwxnyaXxMaQgdwwL75hYNGV77VhcMhSRlnfCYIRu21Y2TLTAVhSdY=
-X-Received: by 2002:a05:6902:990:b0:e75:b6c9:fc2c with SMTP id
- 3f1490d57ef6-e7b69d546eemr7092184276.8.1747428398168; 
- Fri, 16 May 2025 13:46:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE4gNvjNDTzMJO7YNUxc1L5p7z3ng2k7lx6Vn/OJ3/oi8DTA+Q1nD5K3QvExW4Yxww+vk7Cq2ZxGo7HtzXL6PU=
-X-Received: by 2002:a05:6902:990:b0:e75:b6c9:fc2c with SMTP id
- 3f1490d57ef6-e7b69d546eemr7092162276.8.1747428397889; Fri, 16 May 2025
- 13:46:37 -0700 (PDT)
+ AJvYcCW46HgV2kJfP+MLKS+iLrcVvYwLt4GP7RVGL4MeXEPueE35xeHsEXWtxi83PslDuspaThKgPrOJjJU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxMKclRneS9MwABqdrC+0FVs5/Lw3jZB+hLsYF3PC/m0h+kiDx
+ yW6TM+gzHqHXqMCjo5lm363uxdCQUsraf7+LeM9gDewbHO19q6jFYHatwI4RwqYg+yA5RIqbCip
+ 4B22JT2Zuh8QGp079LHQG7Bja3+qiHrU=
+X-Gm-Gg: ASbGncsPLF/pgWS7519LM42v694kN/mOR2dMNSPttltKkDWlNZbLJxqUdBUe5onZxW+
+ vkZMS3VreO2+7klvtRzZcKEDwg0moq8OCtzR/0GlPYLPhNVzDqfC5xjHt2y6o588WcCgfPRlZkE
+ +h/dJb52qGfRYvmk2Y4l1hmZGlmh80q2I=
+X-Google-Smtp-Source: AGHT+IF6IesSsloSzfaxg/M64Zjm1vE5MlDFW1s1cX1z2megWPE7Es4e+n2QFcDLhy0sKjm5auuB7s7yMTSxPsfEPL8=
+X-Received: by 2002:a17:907:7d89:b0:ad2:5408:bf1a with SMTP id
+ a640c23a62f3a-ad52d64216fmr467700466b.61.1747427113583; Fri, 16 May 2025
+ 13:25:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
- <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
- <87y0vkw8ll.fsf@intel.com>
- <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
- <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
- <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
- <874ixvtbxy.fsf@intel.com> <20250509-rapid-flounder-of-devotion-6b26bb@houat>
- <87r00yj6kv.fsf@intel.com>
- <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
- <875xi3im1r.fsf@intel.com>
-In-Reply-To: <875xi3im1r.fsf@intel.com>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Fri, 16 May 2025 15:43:10 -0400
-X-Gm-Features: AX0GCFtr0WkuOHdpE1CNg84eR4hlSm7n8yb0dbHhxcO2BOYdxEs1te_AN3GgLks
-Message-ID: <CAN9Xe3QHqPDPUQ7gsf278Nj0GC1fO-sGxoW3Ln4=h52QUM804g@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- "uma.shankar@intel.com" <uma.shankar@intel.com>, ville.syrjala@linux.intel.com
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: YqjcRsuw_lzAur85r4FVU-3hUBcf0_R6a_uMdk3yh20_1747428398
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ed51cd063546e05e"
+References: <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
+ <20250513075446.GA623911@cmpxchg.org>
+ <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
+ <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
+ <20250515160842.GA720744@cmpxchg.org>
+ <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
+ <20250516145318.GB720744@cmpxchg.org>
+ <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
+ <20250516164150.GD720744@cmpxchg.org>
+ <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
+ <20250516200423.GE720744@cmpxchg.org>
+In-Reply-To: <20250516200423.GE720744@cmpxchg.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 17 May 2025 06:25:02 +1000
+X-Gm-Features: AX0GCFtasG3sWnbvC4qlI42fwzXP33Z7Y2iUUh9fyHDZOgHKzoSPu0dwVStFEkg
+Message-ID: <CAPM=9txLaTjfjgC_h9PLR4H-LKpC9_Fet7=HYBpyeoCL6yAQJg@mail.gmail.com>
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, tj@kernel.org, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,135 +96,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ed51cd063546e05e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 14, 2025 at 5:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com>
-wrote:
-
-> On Tue, 13 May 2025, Maxime Ripard <mripard@kernel.org> wrote:
-> > Is it really surprising you get some pushback when you are using a
-> > design that is the complete opposite to what every user of it for the
-> > last decade has been doing?
+On Sat, 17 May 2025 at 06:04, Johannes Weiner <hannes@cmpxchg.org> wrote:
 >
-> The opposite is also true.
+> On Fri, May 16, 2025 at 07:42:08PM +0200, Christian K=C3=B6nig wrote:
+> > On 5/16/25 18:41, Johannes Weiner wrote:
+> > >>> Listen, none of this is even remotely new. This isn't the first cac=
+he
+> > >>> we're tracking, and it's not the first consumer that can outlive th=
+e
+> > >>> controlling cgroup.
+> > >>
+> > >> Yes, I knew about all of that and I find that extremely questionable
+> > >> on existing handling as well.
+> > >
+> > > This code handles billions of containers every day, but we'll be sure
+> > > to consult you on the next redesign.
+> >
+> > Well yes, please do so. I'm working on Linux for around 30 years now an=
+d halve of that on device memory management.
+> >
+> > And the subsystems I maintain is used by literally billion Android devi=
+ces and HPC datacenters
+> >
+> > One of the reasons we don't have a good integration between device memo=
+ry and cgroups is because specific requirements have been ignored while des=
+igning cgroups.
+> >
+> > That cgroups works for a lot of use cases doesn't mean that it does for=
+ all of them.
+> >
+> > >> Memory pools which are only used to improve allocation performance
+> > >> are something the kernel handles transparently and are completely
+> > >> outside of any cgroup tracking whatsoever.
+> > >
+> > > You're describing a cache. It doesn't matter whether it's caching CPU
+> > > work, IO work or network packets.
+> >
+> > A cache description doesn't really fit this pool here.
+> >
+> > The memory properties are similar to what GFP_DMA or GFP_DMA32
+> > provide.
+> >
+> > The reasons we haven't moved this into the core memory management is
+> > because it is completely x86 specific and only used by a rather
+> > specific group of devices.
 >
-> If you create a design that does not cleanly fit the model of the
-> biggest drivers in the subsystem, and expect massive refactors just for
-> the sake of conforming to the design to be able to use any of it, you'll
-> also get pushback.
+> I fully understand that. It's about memory properties.
 >
-> > This one is usable, but you rule out the way you could use it.
+> What I think you're also saying is that the best solution would be
+> that you could ask the core MM for pages with a specific property, and
+> it would hand you pages that were previously freed with those same
+> properties. Or, if none such pages are on the freelists, it would grab
+> free pages with different properties and convert them on the fly.
 >
-> I think you're off-hand and completely dismissing the amount of work it
-> would be. And still I'm not even ruling it out, but there has to be a
-> way to start off in small incremental steps, and use the parts that
-> work. And it's not like we're averse to refactoring in the least,
-> everyone knows that.
+> For all intents and purposes, this free memory would then be trivially
+> fungible between drm use, non-drm use, and different cgroups - except
+> for a few CPU cycles when converting but that's *probably* negligible?
+> And now you could get rid of the "hack" in drm and didn't have to hang
+> on to special-property pages and implement a shrinker at all.
 >
-> > I guess it's clear now that you won't consider anything else. I wonder
-> > why you started that discussion in the first place if you already have
-> > a clear mind on how to get things moving forward.
+> So far so good.
 >
-> I pointed out what I think is a bug in drm_panel, with nothing but good
-> intentions, and everything snowballed from there.
+> But that just isn't the implementation of today. And the devil is very
+> much in the details with this:
 >
-> There has to be a middle ground instead of absolutes. Otherwise we'll
-> just end up in deeper silos. And more arguments.
+> Your memory attribute conversions are currently tied to a *shrinker*.
 >
-> BR,
-> Jani.
+> This means the conversion doesn't trivially happen in the allocator,
+> it happens from *reclaim context*.
 >
+> Now *your* shrinker is fairly cheap to run, so I do understand when
+> you're saying in exasperation: We give this memory back if somebody
+> needs it for other purposes. What *is* the big deal?
 >
-Jani, Maxime,
+> The *reclaim context* is the big deal. The problem is *all the other
+> shrinkers that run at this time as well*. Because you held onto those
+> pages long enough that they contributed to a bonafide, general memory
+> shortage situation. And *that* has consequences for other cgroups.
 
-Thinking out loud of different solutions we can have to make sure we take
-this forward.
+I think this is where we have 2 options:
+(a) moving this stuff into core mm and out of shrinker context
+(b) fix our shrinker to be cgroup aware and solve that first.
 
-Is it possible to have a variant of drm_panel_follower for the non ARM
-devices? That way if at any point in
-the future, the drm_panel_follower infrastructure has to be used, the
-refcounting allocation can be bypassed?
+The main question I have for Christian, is can you give me a list of
+use cases that this will seriously negatively effect if we proceed
+with (b).
 
-Adding Uma and VIlle to the thread here.
+From my naive desktop use case and HPC use case scenarios, I'm not
+seeing a massive hit, now maybe I see more consistency from an
+application overheads inside a cgroup.
 
-Thanks!
-Anusha
+Desktop use-case:
+The user session and everything inside the user-session, compositor,
+apps are all in a single cgroup, any pools memory usage will be
+reusable between all the users active session, if there are multiple
+users, they won't have the benefit of pages from others but their own
+pool will be available.
 
+HPC use-case:
+One cgroup per application running in some sort of batch system. There
+will be a downside at app launch if there has already been a bunch of
+other applications launched on the machine the have filled the pool,
+but by default in the cold start case the app won't get any worse
+behaviour than it's current worst case, it will get consistent
+behaviour of initial allocations being worst case in a new cgroup vs
+now where they might benefit from previously running cgroups having
+allocated pooled memory, but I'm not sure the benefit outweighs the
+upside here since they reallly want containers contained.
 
-> --
-> Jani Nikula, Intel
->
->
+Android? I've no idea.
 
---000000000000ed51cd063546e05e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Like what can we live with here, vs what needs to be a Kconfig option
+vs what needs to be a kernel command line option,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 14,=
- 2025 at 5:22=E2=80=AFAM Jani Nikula &lt;<a href=3D"mailto:jani.nikula@linu=
-x.intel.com">jani.nikula@linux.intel.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Tue, 13 May 2025, Maxime Ripard =
-&lt;<a href=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.=
-org</a>&gt; wrote:<br>
-&gt; Is it really surprising you get some pushback when you are using a<br>
-&gt; design that is the complete opposite to what every user of it for the<=
-br>
-&gt; last decade has been doing?<br>
-<br>
-The opposite is also true.<br>
-<br>
-If you create a design that does not cleanly fit the model of the<br>
-biggest drivers in the subsystem, and expect massive refactors just for<br>
-the sake of conforming to the design to be able to use any of it, you&#39;l=
-l<br>
-also get pushback.<br>
-<br>
-&gt; This one is usable, but you rule out the way you could use it.<br>
-<br>
-I think you&#39;re off-hand and completely dismissing the amount of work it=
-<br>
-would be. And still I&#39;m not even ruling it out, but there has to be a<b=
-r>
-way to start off in small incremental steps, and use the parts that<br>
-work. And it&#39;s not like we&#39;re averse to refactoring in the least,<b=
-r>
-everyone knows that.<br>
-<br>
-&gt; I guess it&#39;s clear now that you won&#39;t consider anything else. =
-I wonder<br>
-&gt; why you started that discussion in the first place if you already have=
-<br>
-&gt; a clear mind on how to get things moving forward.<br>
-<br>
-I pointed out what I think is a bug in drm_panel, with nothing but good<br>
-intentions, and everything snowballed from there.<br>
-<br>
-There has to be a middle ground instead of absolutes. Otherwise we&#39;ll<b=
-r>
-just end up in deeper silos. And more arguments.<br>
-<br>
-BR,<br>
-Jani.<br>
-<br></blockquote><div><br></div><div>Jani, Maxime,</div><div><br></div><div=
->Thinking out loud of different solutions we can have to make sure we take =
-this forward.</div><div><br></div><div>Is it possible to have a variant of =
-drm_panel_follower for the non ARM devices? That way if at any point in</di=
-v><div>the future, the drm_panel_follower infrastructure has to be used, th=
-e refcounting allocation can be bypassed?</div><div><br></div><div>Adding U=
-ma and VIlle to the thread here.</div><div><br></div><div>Thanks!</div><div=
->Anusha</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-<br>
--- <br>
-Jani Nikula, Intel<br>
-<br>
-</blockquote></div></div>
+I'm also happy to look at (a) but I think for (a) it's not just
+uncached pool that is the problem, the dma pools will be harder to
+deal with.
 
---000000000000ed51cd063546e05e--
-
+Dave.
