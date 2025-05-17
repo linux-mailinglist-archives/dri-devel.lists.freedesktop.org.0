@@ -2,105 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895BBABA757
-	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 02:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D2DABA787
+	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 03:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF2910E1B9;
-	Sat, 17 May 2025 00:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3065F10E06D;
+	Sat, 17 May 2025 01:23:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UYJSOIm9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TA+R+Nn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B303C10E1B9;
- Sat, 17 May 2025 00:17:22 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54GCHouU002120;
- Sat, 17 May 2025 00:08:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kTk7xRffMswbzTXuCCq8zid0YNK/PoGynlrIilTSHtQ=; b=UYJSOIm9XrMznxGv
- PKX5+m2/91QCG52MSgmxGrifK2NCdeqGD9rDMyIhxvccV80N442w39RfVsbaoG5a
- K5K+xX2MwGmblyN4zAIQZwuaui5+hagJ1N82o0fFLDDzqUnMxKH1P/xS5ZEW+Tqz
- 79YWjwgo+vBsn7N6ORkpTCAMZL9I/VRR9zVDIQi+xl69YnjFgLevQzr1iRNGw6q7
- +GffuUqQfHPxoY+stGEhzwchYXpoXBsenBz/QOw6QxURwV3TqTK78hWvJYI+y8Jo
- A0mNH18wxnvinCxGZ4q2AJUuBo1liaFyiB3euOKiZvXCgyJbS+ZWAV3scSACL4E/
- Obss8g==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcrk93c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 17 May 2025 00:08:30 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54H08TBm016475
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 17 May 2025 00:08:29 GMT
-Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 May
- 2025 17:08:28 -0700
-Message-ID: <75f503ea-e8cf-48f3-b39e-388ac456821f@quicinc.com>
-Date: Fri, 16 May 2025 17:08:28 -0700
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47A5710E06D;
+ Sat, 17 May 2025 01:23:11 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-acbb85ce788so527722466b.3; 
+ Fri, 16 May 2025 18:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747444989; x=1748049789; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=25iFNJ5FYOB28Ks45PjA86xu93MkwtBe+kaVmwZePmc=;
+ b=TA+R+Nn3UUhA63XkQu7AVVbjgjJ4ozvOpe0o9O2sprlGs14cppd8gzdPTNIBvGGuoe
+ xG53YZmCK9e2Uru0khKSdtV4IB6hIsgG3SkzF1Mo98wCoLgMHMPmfhhwYipKga2VurLL
+ vyo4y5UOOCyP2UAC/WFz6n/LBFYaFlIeWF6ABkaz7liqJ5ACu0Pz9G8pmvu150bh063w
+ 3bPQfYSm8akS1QaRlOyJYWGkkZ5LtO7enP+yiXyUdRNI0xHxolnFAFG60UBMM32l9m5h
+ /Z5fhXfE3LCZJC2lKR2FMt1gDUNjnVu9YjjuNjiYq+Sgj+yRLPfxm9HMSaJ8Q1xeeX7H
+ M1XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747444989; x=1748049789;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=25iFNJ5FYOB28Ks45PjA86xu93MkwtBe+kaVmwZePmc=;
+ b=CSNH0j12WCN6PMJZHFA/ht8S7acYH3bZsuRcmsFoTO9cCvBRLWCJ13Z2LRDcT/pR+/
+ ORR1JFgVr+JZe9r4hJDPcy/2E5YQJW6gA606gM9B9oOUL3VDDdZ15wH+rn2B9dqDVsN8
+ USGBoQUk/32393q4c2c1gITbzDVVv7BiB+1ssL5nHDXiphs0U6rP1nVQXdCCWLrx3gss
+ +QHWR2qohV4xJq8SVakTuXCgyEDEuiMbU261q1YlzLW6VNtFoB6QwxbGDVjZTXgAHjN+
+ LF+98p2LXsGUQ3zoFrHMaJ3sxENOur9BhSL5NUCteX/F2l8/nYoxMKZ3pmSYSKH7pveY
+ agvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmu3C1s3jKju+warmZNeKVsoyTHL2TGE5ry+PrNmIDeJLLHR31ckr8zkiGsLMO+yhQ90l915eQEMhqJYHapQ==@lists.freedesktop.org,
+ AJvYcCWPoMe9TXfSE7BXZePhFZ1c7TiQyXmtu1Ypu4zHjZ4zzh4D7fnaS7OO+d0K240rvOk022moVhxZ@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+mg7r4e77SZ9D0aWmeN47TEu+x3D6axdHzdybTHVwhpRZEr87
+ n1QFKk0FV94Ql7eMkSg9eFnTkpYL0TrFv9uWxvw/zU64ad1YpO+j7m4anRir2OGaXnrKx0PKSUP
+ MFDIjuIW0gcPmJpEoybqcV/Qnk0Fd35Q=
+X-Gm-Gg: ASbGncu4gC+j6NQQM36eohMeWE1BBSxXkDy7w7SSrGNwsiM2iebWgZuKxn9AhgIjUxp
+ U9ozIzsG3T2ugsou9bbU8oWtQuBBrBIMDSP64xqsui0b7rdoXEJaQ1mrNU52MM/JaUm/Wh3ygm8
+ M3yvw7fMhHG6bAgki40yhqMksngI1KXoh2FX4AMymrRehlmrYm99rV1fuo5eRg0q0BXA==
+X-Google-Smtp-Source: AGHT+IGJZZYvjvNgphG6zPo450tizZ0G45jOjPvl7iZI4z2BBNA5YMtn+7uFPFYF8eBndJAzXugGC3fw9GHpEwFqMZ8=
+X-Received: by 2002:a17:907:7ba3:b0:ad4:d0b7:c990 with SMTP id
+ a640c23a62f3a-ad52d4df2d5mr472506066b.26.1747444989393; Fri, 16 May 2025
+ 18:23:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/24] drm/msm: Add support for SM8750
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
- <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Dmitry Baryshkov <lumag@kernel.org>, Rob Clark
- <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>, "Michael
- Turquette" <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
- <linux-clk@vger.kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: qHZxSWgUZHAJEnbr4A_2uY0OfozDuEx9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDIzNSBTYWx0ZWRfX8++ol42qIIV8
- PXzgLMQuPf6306r81xIAqfBTAdYXO6UmdhZQxPc7oSOu9WeisyuCQJsE1gvbWLz8G4HxuYqYjv1
- a2otz8Ay1NjWTyGXtHpHUZE71o2N58r8vzFRdAnoI9zchrIFfFxqmeCTKTj3/QtyVXzM1OG9Abc
- 6+SQ/q0jWmKperUPLbFid3uG/J9VZ3VHlroFg3eIt1S8IzmqAKHUaig6nTu5ywWR1KWiANMTQEc
- qRNimJVIWXA+ml0Mu8eFjCVpt9Mu8h84x9Wvlr59QOY/OC10NyfgYEycYTcpsMPoVgLspe1+l2x
- HJBmX4ErHh/2U8jeymUnkf1Kvl2azfdCPWiO8qs2GJIf3XxcEcpB09R8L8Z+MqZAwc76zfiVw04
- FGbw44RN7dMklaQwPWNklJCkTByt6O2DQXx7qoWq3+CbW9yN+tCTK/Jfrgk2Vysn7G7/iBIj
-X-Authority-Analysis: v=2.4 cv=K7UiHzWI c=1 sm=1 tr=0 ts=6827d37e cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8 a=k5wYIqEnLEkAo4cnzkIA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: qHZxSWgUZHAJEnbr4A_2uY0OfozDuEx9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-16_08,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 malwarescore=0
- phishscore=0 mlxlogscore=999 clxscore=1011 bulkscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505160235
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-41-alex.hung@amd.com>
+In-Reply-To: <20250326234748.2982010-41-alex.hung@amd.com>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Sat, 17 May 2025 03:22:58 +0200
+X-Gm-Features: AX0GCFuvD3OsCGzAPf7Ov-LvC6QAawQsojy7fJfqOKgGdwWusDq4JeBH8jLa7d0
+Message-ID: <CAFZQkGwrP39REsvZwQ_Uaq+cHR_pH2EPuv_POXRO7Hxj9u4Xsw@mail.gmail.com>
+Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
+To: Alex Hung <alex.hung@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com, 
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, 
+ contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com, 
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,162 +93,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/30/2025 6:00 AM, Krzysztof Kozlowski wrote:
-> Hi,
-> 
-> Dependency / Rabased on top of
-> ==============================
-> https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
-
-Hey Krzysztof,
-
-JFYI, I think there was some discussion on IRC (specifically #linux-msm) 
-about having the feature bit dependency back in February.
-
-I believe both Abhinav and Dmitry agreed that you can keep the changes 
-to do version checks and drop this dependency.
-
-There are still some ongoing discussions regarding the feature bit 
-series, so this way your series isn't blocked by that.
-
-Thanks,
-
-Jessica Zhang
-
-> 
-> Merging
-> =======
-> DSI works! With the fixes here and debugging help from Jessica and
-> Abhinav, the DSI panel works properly.
-> 
-> The display clock controller patch can go separately.
-> 
-> Changes in v5:
-> =============
-> - Add ack/rb tags
-> - New patches:
->    #6: clk: qcom: dispcc-sm8750: Fix setting rate byte and pixel clocks
->    #14: drm/msm/dsi/phy: Toggle back buffer resync after preparing PLL
->    #15: drm/msm/dsi/phy: Define PHY_CMN_CTRL_0 bitfields
->    #16: drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared
->    #17: drm/msm/dsi/phy: Fix missing initial VCO rate
-> 
-> - Patch drm/msm/dsi: Add support for SM8750:
->    - Only reparent byte and pixel clocks while PLLs is prepared. Setting
->      rate works fine with earlier DISP CC patch for enabling their parents
->      during rate change.
-> 
-> - Link to v4: https://lore.kernel.org/r/20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org
-> 
-> Changes in v4
-> =============
-> - Add ack/rb tags
-> - Implement Dmitry's feedback (lower-case hex, indentation, pass
->    mdss_ver instead of ctl), patches:
->    drm/msm/dpu: Implement 10-bit color alpha for v12.0 DPU
->    drm/msm/dpu: Implement CTL_PIPE_ACTIVE for v12.0 DPU
-> 
-> - Rebase on latest next
-> - Drop applied two first patches
-> - Link to v3: https://lore.kernel.org/r/20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org
-> 
-> Changes in v3
-> =============
-> - Add ack/rb tags
-> - #5: dt-bindings: display/msm: dp-controller: Add SM8750:
->    Extend commit msg
-> 
-> - #7: dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750:
->    - Properly described interconnects
->    - Use only one compatible and contains for the sub-blocks (Rob)
-> 
-> - #12: drm/msm/dsi: Add support for SM8750:
->    Drop 'struct msm_dsi_config sm8750_dsi_cfg' and use sm8650 one.
-> - drm/msm/dpu: Implement new v12.0 DPU differences
->    Split into several patches
-> - Link to v2: https://lore.kernel.org/r/20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org
-> 
-> Changes in v2
-> =============
-> - Implement LM crossbar, 10-bit alpha and active layer changes:
->    New patch: drm/msm/dpu: Implement new v12.0 DPU differences
-> - New patch: drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
-> - Add CDM
-> - Split some DPU patch pieces into separate patches:
->    drm/msm/dpu: Drop useless comments
->    drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
->    drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
-> - Split DSI and DSI PHY patches
-> - Mention CLK_OPS_PARENT_ENABLE in DSI commit
-> - Mention DSI PHY PLL work:
->    https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
-> - DPU: Drop SSPP_VIG4 comments
-> - DPU: Add CDM
-> - Link to v1: https://lore.kernel.org/r/20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org
-> 
-> Best regards,
-> Krzysztof
-> 
+Am Do., 27. M=C3=A4rz 2025 um 00:58 Uhr schrieb Alex Hung <alex.hung@amd.co=
+m>:
+>
+> It is to be used to enable HDR by allowing userpace to create and pass
+> 3D LUTs to kernel and hardware.
+>
+> new drm_colorop_type: DRM_COLOROP_3D_LUT.
+>
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
 > ---
-> Krzysztof Kozlowski (24):
->        dt-bindings: display/msm: dsi-phy-7nm: Add SM8750
->        dt-bindings: display/msm: dsi-controller-main: Add SM8750
->        dt-bindings: display/msm: dp-controller: Add SM8750
->        dt-bindings: display/msm: qcom,sm8650-dpu: Add SM8750
->        dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750
->        clk: qcom: dispcc-sm8750: Fix setting rate byte and pixel clocks
->        drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
->        drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on mixer reset
->        drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on ctl_path reset
->        drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE before blend setup
->        drm/msm/dpu: Drop useless comments
->        drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
->        drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
->        drm/msm/dsi/phy: Toggle back buffer resync after preparing PLL
->        drm/msm/dsi/phy: Define PHY_CMN_CTRL_0 bitfields
->        drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared
->        drm/msm/dsi/phy: Fix missing initial VCO rate
->        drm/msm/dsi/phy: Add support for SM8750
->        drm/msm/dsi: Add support for SM8750
->        drm/msm/dpu: Add support for SM8750
->        drm/msm/dpu: Implement 10-bit color alpha for v12.0 DPU
->        drm/msm/dpu: Implement CTL_PIPE_ACTIVE for v12.0 DPU
->        drm/msm/dpu: Implement LM crossbar for v12.0 DPU
->        drm/msm/mdss: Add support for SM8750
-> 
->   .../bindings/display/msm/dp-controller.yaml        |   4 +
->   .../bindings/display/msm/dsi-controller-main.yaml  |  54 ++-
->   .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
->   .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
->   .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 470 +++++++++++++++++++
->   drivers/clk/qcom/dispcc-sm8750.c                   |   4 +-
->   .../drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h    | 496 +++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  58 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  12 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  71 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  19 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          | 210 ++++++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  18 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->   drivers/gpu/drm/msm/dsi/dsi.h                      |   2 +
->   drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  14 +
->   drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c                 |  81 ++++
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   2 +
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 157 ++++++-
->   drivers/gpu/drm/msm/msm_mdss.c                     |  33 ++
->   drivers/gpu/drm/msm/msm_mdss.h                     |   1 +
->   .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |  25 +-
->   27 files changed, 1730 insertions(+), 49 deletions(-)
-> ---
-> base-commit: 4ec6605d1f7e5df173ffa871cce72567f820a9c2
-> change-id: 20250109-b4-sm8750-display-6ea537754af1
-> 
-> Best regards,
+> v8:
+>  - Fix typo in subject (Simon Ser)
+>  - Update documentation for DRM_COLOROP_3D_LUT (Simon Ser)
+>  - Delete empty lines (Simon Ser)
+>
+> v7:
+>  - Simplify 3D LUT by removing lut_3d_modes and related functions (Simon =
+Ser)
+>
+>  drivers/gpu/drm/drm_atomic.c      |  6 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c |  6 +++
+>  drivers/gpu/drm/drm_colorop.c     | 72 +++++++++++++++++++++++++++++++
+>  include/drm/drm_colorop.h         | 21 +++++++++
+>  include/uapi/drm/drm_mode.h       | 33 ++++++++++++++
+>  5 files changed, 138 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 0efb0ead204a..ef47a06344f3 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -806,6 +806,12 @@ static void drm_atomic_colorop_print_state(struct dr=
+m_printer *p,
+>         case DRM_COLOROP_MULTIPLIER:
+>                 drm_printf(p, "\tmultiplier=3D%llu\n", state->multiplier)=
+;
+>                 break;
+> +       case DRM_COLOROP_3D_LUT:
+> +               drm_printf(p, "\tsize=3D%d\n", colorop->lut_size);
+> +               drm_printf(p, "\tinterpolation=3D%s\n",
+> +                          drm_get_colorop_lut3d_interpolation_name(color=
+op->lut3d_interpolation));
+> +               drm_printf(p, "\tdata blob id=3D%d\n", state->data ? stat=
+e->data->base.id : 0);
+> +               break;
+>         default:
+>                 break;
+>         }
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index 947c18e8bf9b..d5d464b4d0f6 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -719,6 +719,10 @@ static int drm_atomic_color_set_data_property(struct=
+ drm_colorop *colorop,
+>         case DRM_COLOROP_CTM_3X4:
+>                 size =3D sizeof(struct drm_color_ctm_3x4);
+>                 break;
+> +       case DRM_COLOROP_3D_LUT:
+> +               size =3D colorop->lut_size * colorop->lut_size * colorop-=
+>lut_size *
+> +                      sizeof(struct drm_color_lut);
+> +               break;
+>         default:
+>                 /* should never get here */
+>                 return -EINVAL;
+> @@ -771,6 +775,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *c=
+olorop,
+>                 *val =3D state->multiplier;
+>         } else if (property =3D=3D colorop->lut_size_property) {
+>                 *val =3D colorop->lut_size;
+> +       } else if (property =3D=3D colorop->lut3d_interpolation_property)=
+ {
+> +               *val =3D colorop->lut3d_interpolation;
+>         } else if (property =3D=3D colorop->data_property) {
+>                 *val =3D (state->data) ? state->data->base.id : 0;
+>         } else {
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.=
+c
+> index e03706e7179b..224c6be237d2 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -67,6 +67,7 @@ static const struct drm_prop_enum_list drm_colorop_type=
+_enum_list[] =3D {
+>         { DRM_COLOROP_1D_LUT, "1D LUT" },
+>         { DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
+>         { DRM_COLOROP_MULTIPLIER, "Multiplier"},
+> +       { DRM_COLOROP_3D_LUT, "3D LUT"},
+>  };
+>
+>  static const char * const colorop_curve_1d_type_names[] =3D {
+> @@ -82,6 +83,11 @@ static const struct drm_prop_enum_list drm_colorop_lut=
+1d_interpolation_list[] =3D
+>         { DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR, "Linear" },
+>  };
+>
+> +
+> +static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_l=
+ist[] =3D {
+> +       { DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL, "Tetrahedral" },
+> +};
+> +
+>  /* Init Helpers */
+>
+>  static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *=
+colorop,
+> @@ -349,6 +355,51 @@ int drm_colorop_mult_init(struct drm_device *dev, st=
+ruct drm_colorop *colorop,
+>  }
+>  EXPORT_SYMBOL(drm_colorop_mult_init);
+>
+> +int drm_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *c=
+olorop,
+> +                          struct drm_plane *plane,
+> +                          uint32_t lut_size,
+> +                          enum drm_colorop_lut3d_interpolation_type inte=
+rpolation,
+> +                          bool allow_bypass)
+> +{
+> +       struct drm_property *prop;
+> +       int ret;
+> +
+> +       ret =3D drm_colorop_init(dev, colorop, plane, DRM_COLOROP_3D_LUT,=
+ allow_bypass);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /* LUT size */
+> +       prop =3D drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE  =
+| DRM_MODE_PROP_ATOMIC,
+> +                                        "SIZE", 0, UINT_MAX);
+> +       if (!prop)
+> +               return -ENOMEM;
+> +
+> +       colorop->lut_size_property =3D prop;
+> +       drm_object_attach_property(&colorop->base, colorop->lut_size_prop=
+erty, lut_size);
+> +       colorop->lut_size =3D lut_size;
+> +
+> +       /* interpolation */
+> +       prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "=
+LUT3D_INTERPOLATION",
 
+Do we ever expect this to be something with multiple options that
+userspace could select? I think it would be good to keep our options
+open and make this property not immutable (properties that are
+sometimes but not always immutable are more annoying to deal with in
+userspace).
+
+Same applies to 1D LUTs as well.
