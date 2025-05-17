@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1109CABA802
-	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 05:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA242ABA889
+	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 08:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E50F10E0F4;
-	Sat, 17 May 2025 03:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE30210E059;
+	Sat, 17 May 2025 06:47:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HmJ8yckV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OM7++1gd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D0110E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 17 May 2025 03:33:45 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F0E10E059
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 May 2025 06:47:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4FA2A60EDF;
- Sat, 17 May 2025 03:33:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CC6C4CEE4;
- Sat, 17 May 2025 03:33:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1415B44650;
+ Sat, 17 May 2025 06:47:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECB2C4CEE3;
+ Sat, 17 May 2025 06:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747452818;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=HmJ8yckV02na2BlMCmeVWnJjkGQj3zmQIiH34ixgqwRY4AhiFG48HX9ludo2KuTnq
- okvf4QqPNMVvOAQ9ptKll0delkhvBYl/9h+8W+fs+8U4b7PwXeZFtWBghG8+nzEvK5
- NQXEfG6uQ4XPkiLSNCq98xCbYGj6WugNRJ2yTFi32x2lBJuKrfo5W22QRz111O46M/
- qo9z9IYxdwV7t8fFTP7ichoBu1WP5EXFpAT0MbbJkPEvt7fuI9Fn4vrv+JbfTbeuXI
- MqxyVRTeIaQQvoG3oS07JNGfE8c/49/ehsjzjhcKCkfE3ecb6c/ljTDkFDwUl3YJf/
- HzjrAh0sYgUDQ==
-Date: Fri, 16 May 2025 22:33:37 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1747464433;
+ bh=RHK4CtJGH2p06WOpFgy9zdi60XoyDOOf/9Jg0eJNxR0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OM7++1gdM4gVt7G7V4rBgQVdky8Cd43RBI4rk4vpM1SIP+vJWrMuYsMUVcgqF2BkT
+ Wmf/Te1qMODBePzh2uxrxk5QOIaKt0EFN4rLbUZ1CxWw3jsFsUdtSf2clwDo3RyVrV
+ mKlHUHwzC0Oa0OGiVl0FZB6fGY0tKn5QWHVUoymYdm5vL0l6six0AFyyI5mPO/dsVA
+ ZdXShhtauTw0M1a7RKRPqL+KNdNvwurPp6kiRItc0w0VdvwJPHQHUQWF+tJ9Lh1oBT
+ Pe6KiTR233c620DnlDcywLHVI+KTOPwbiDs3ado0i+P5E2/ubNZr4abgYysRb+dvrb
+ ciaIckKYW3rcA==
+Date: Sat, 17 May 2025 08:47:06 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zheyun Shen <szy0127@sjtu.edu.cn>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Kevin Loughlin <kevinloughlin@google.com>,
+ Kai Huang <kai.huang@intel.com>, Mingwei Zhang <mizhang@google.com>
+Subject: Re: [PATCH v2 4/8] x86, lib: Add WBNOINVD helper functions
+Message-ID: <aCgw6sbpE6f42sC_@gmail.com>
+References: <20250516212833.2544737-1-seanjc@google.com>
+ <20250516212833.2544737-5-seanjc@google.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250516212833.2544737-5-seanjc@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,67 +70,87 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+* Sean Christopherson <seanjc@google.com> wrote:
+
+> From: Kevin Loughlin <kevinloughlin@google.com>
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
+> In line with WBINVD usage, add WBONINVD helper functions.  Fall back to
+> WBINVD (via alternative()) if WBNOINVD isn't supported, as WBINVD provides
+> a superset of functionality, just more slowly.
 > 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
+> Note, alternative() ensures compatibility with early boot code as needed.
 > 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Kevin Loughlin <kevinloughlin@google.com>
+> Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+> [sean: massage changelog and comments, use ASM_WBNOINVD and _ASM_BYTES]
+> Reviewed-by: Kai Huang <kai.huang@intel.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
+>  arch/x86/include/asm/smp.h           |  6 ++++++
+>  arch/x86/include/asm/special_insns.h | 19 ++++++++++++++++++-
+>  arch/x86/lib/cache-smp.c             | 11 +++++++++++
+>  3 files changed, 35 insertions(+), 1 deletion(-)
 > 
+> diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
+> index 028f126018c9..e08f1ae25401 100644
+> --- a/arch/x86/include/asm/smp.h
+> +++ b/arch/x86/include/asm/smp.h
+> @@ -113,6 +113,7 @@ void native_play_dead(void);
+>  void play_dead_common(void);
+>  void wbinvd_on_cpu(int cpu);
+>  void wbinvd_on_all_cpus(void);
+> +void wbnoinvd_on_all_cpus(void);
+>  
+>  void smp_kick_mwait_play_dead(void);
+>  void __noreturn mwait_play_dead(unsigned int eax_hint);
+> @@ -153,6 +154,11 @@ static inline void wbinvd_on_all_cpus(void)
+>  	wbinvd();
+>  }
+>  
+> +static inline void wbnoinvd_on_all_cpus(void)
+> +{
+> +	wbnoinvd();
+> +}
+> +
+>  static inline struct cpumask *cpu_llc_shared_mask(int cpu)
+>  {
+>  	return (struct cpumask *)cpumask_of(0);
+> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+> index 6266d6b9e0b8..46b3961e3e4b 100644
+> --- a/arch/x86/include/asm/special_insns.h
+> +++ b/arch/x86/include/asm/special_insns.h
+> @@ -117,7 +117,24 @@ static inline void wrpkru(u32 pkru)
+>  
+>  static __always_inline void wbinvd(void)
+>  {
+> -	asm volatile("wbinvd": : :"memory");
+> +	asm volatile("wbinvd" : : : "memory");
+> +}
+> +
+> +/* Instruction encoding provided for binutils backwards compatibility. */
+> +#define ASM_WBNOINVD _ASM_BYTES(0xf3,0x0f,0x09)
+> +
+> +/*
+> + * Cheaper version of wbinvd(). Call when caches need to be written back but
+> + * not invalidated.
+> + */
+> +static __always_inline void wbnoinvd(void)
+> +{
+> +	/*
+> +	 * If WBNOINVD is unavailable, fall back to the compatible but
+> +	 * more destructive WBINVD (which still writes the caches back
+> +	 * but also invalidates them).
+> +	 */
+> +	alternative("wbinvd", ASM_WBNOINVD, X86_FEATURE_WBNOINVD);
+>  }
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Would be nice here to use the opportunity and document both WBINVD and 
+WBNOINVD a bit more comprehensively, to point out that WBINVD writes 
+back and flushes the caches (and point out which level of caches this 
+affects typically), and to point out that the 'invalidate' part of the 
+WBNOINVD name is a misnomer, as it doesn't invalidate anything, it only 
+writes back dirty cachelines.
 
-yamllint warnings/errors:
+Thanks,
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+	Ingo
