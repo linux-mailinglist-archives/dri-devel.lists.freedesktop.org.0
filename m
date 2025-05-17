@@ -2,68 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C69ABA908
-	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 10:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8E4ABA931
+	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 11:44:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B165610E152;
-	Sat, 17 May 2025 08:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEAE10E242;
+	Sat, 17 May 2025 09:44:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nn7xlfo4";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="Lvm3OhZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3964510E152
- for <dri-devel@lists.freedesktop.org>; Sat, 17 May 2025 08:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747472244; x=1779008244;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wa0AvHkjwezpx8OoGdRvdZZ/3qzIMnEuZXauHsK4oX0=;
- b=Nn7xlfo4ZL30Ea86IyBt0QecfKxdYugRjz6AAfB/Rht0vqU5KhS/VMWj
- pime1g+OQwTwhms7PhW+opbWeqjDKCO2PQEk6pBoAnyQBdz1I01uqbFH8
- wX5jELjgHT9ehAnKQH65Xf+Sop691njlZit8CNCPyYrj9rwluSR1DcIWw
- BRcagdl4+i7W5RhMqxuyAZDZ2mrUyM54PDijaa2kUjnWnyaogQpJpwCTK
- dE81bf0CL1RA8YTwcmGmeQRTV1whxnBeL4Uld5HayrcB6iZYQJdijaPxZ
- a+O8eBZ7CDm813w7QS6UcggHt36+cgku9L41vWIS/2NLx4dbJ51wUxPeS Q==;
-X-CSE-ConnectionGUID: juOSCKjJR8m1v01hQ4QsUQ==
-X-CSE-MsgGUID: T0J8By+jTiuYQ1LHj+FJWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49140364"
-X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; d="scan'208";a="49140364"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2025 01:57:24 -0700
-X-CSE-ConnectionGUID: DF6Ut8pDRF2sGI12i8T6mg==
-X-CSE-MsgGUID: rEEAtEDYSWeWOVKmwVFEyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; d="scan'208";a="142896842"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 17 May 2025 01:57:20 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uGDM6-000K2J-0n;
- Sat, 17 May 2025 08:57:18 +0000
-Date: Sat, 17 May 2025 16:56:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- Lukas Zapolskas <lukas.zapolskas@arm.com>
-Subject: Re: [PATCH v4 5/7] drm/panthor: Implement the counter sampler and
- sample handling
-Message-ID: <202505171601.i0qhMG1O-lkp@intel.com>
-References: <7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas@arm.com>
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
+ [136.143.188.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5760810E182
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 May 2025 09:44:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1747475095; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=E3hsNnMirw24IYSxZEfdsmVbo2bW+dMUC/egdw8wM+RP0MMHD2YmOcNu3MTXvS3KTvkEPzmdC2YJKDG0pQo+HBwql1PXee3Lsd/FUHkzw7zkmK1IvQyFwtV8rGiaiMfZ/lpmiFWP3VrE5pnftJwgx5CueyQypPlS9ROkV1lkXDo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1747475095;
+ h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=p71+aGQRV9aorniQkc4/bt8eyHFDYZ85ArQzwy0CCxo=; 
+ b=Ic0qPHzTuAjKjLP7IQA2+5Cq/0a9D1HIp1Bsbd/Uf6zI3ERbhQnb9JLhGXX/BFRsWxBExhbme9aCv5z5Z0u6eNYzhaR8lA0B/WLGVlNZr/Gr2AwXg5RK6AnQF4MlteAwkhr4fzwnTh1Np1knWtZ+OyGNUoYylWNtyDe6cTJdp2g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747475095; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=p71+aGQRV9aorniQkc4/bt8eyHFDYZ85ArQzwy0CCxo=;
+ b=Lvm3OhZmNapiDD90l4fT/q3MJXoHl90Ry0SUT69dXATeTpC7do+u1zNGiblc8cCG
+ XrOowdtWRYxRe6ehOd2dJL1AhqhQGn10Rx/nC6brgieJ3XcoRwwVWbumPreWmtcpmE0
+ B6wUWKYvL+fot5ifUbiTOfXIxhDdYM0Rmd6LK4dc=
+Received: by mx.zohomail.com with SMTPS id 1747475093043820.3820028333478;
+ Sat, 17 May 2025 02:44:53 -0700 (PDT)
+Message-ID: <32754e8e93f986f41c5eec63815d3821a1b56525.camel@collabora.com>
+Subject: 2025 X.Org Foundation Election results
+From: Mark Filion <mark.filion@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Date: Sat, 17 May 2025 11:44:48 +0200
+Content-Type: multipart/alternative; boundary="=-VyRgG4u/MrWhNJhqpict"
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas@arm.com>
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +61,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lukas,
+--=-VyRgG4u/MrWhNJhqpict
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build errors:
+Hello all,
 
-[auto build test ERROR on 96c85e428ebaeacd2c640eba075479ab92072ccd]
+The Board of Directors election concluded at 23:59 UTC on 14 May 2025.
+For this election, we had 77 members who could cast a vote. 72 did, so
+the turnout was 92.5%. This is the 3rd highest turnout in the last 10
+elections, with only 2021 (93.8%) and 2016 (98.8%) being higher. It is
+also a 147% increase from last year's turnout (62.9%). Thank you to
+everyone who took the time to vote!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Add-performance-counter-uAPI/20250517-000257
-base:   96c85e428ebaeacd2c640eba075479ab92072ccd
-patch link:    https://lore.kernel.org/r/7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas%40arm.com
-patch subject: [PATCH v4 5/7] drm/panthor: Implement the counter sampler and sample handling
-config: i386-buildonly-randconfig-002-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171601.i0qhMG1O-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171601.i0qhMG1O-lkp@intel.com/reproduce)
+In the election of the Directors to the Board of the X.Org Foundation,
+the results were that Lyude Paul, Andres Gomez, Arkadiusz Hiler and
+Harry Wentland were elected for two year terms.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505171601.i0qhMG1O-lkp@intel.com/
+The old full board is: Erik Faye-Lund, Mark Filion, Neal Gompa,
+Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Simon Ser.
 
-All errors (new ones prefixed by >>):
+The new full board is: Erik Faye-Lund, Mark Filion, Andres Gomez, Neal
+Gompa, Arkadiusz Hiler, Lyude Paul, Simon Ser, and Harry Wentland.
 
-   drivers/gpu/drm/panthor/panthor_perf.c:381:8: error: redefinition of 'panthor_perf_counter_block'
-     381 | struct panthor_perf_counter_block {
-         |        ^
-   drivers/gpu/drm/panthor/panthor_perf.c:126:8: note: previous definition is here
-     126 | struct panthor_perf_counter_block {
-         |        ^
->> drivers/gpu/drm/panthor/panthor_perf.c:651:15: error: redefinition of 'session_get_user_sample_size'
-     651 | static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-         |               ^
-   drivers/gpu/drm/panthor/panthor_perf.c:391:15: note: previous definition is here
-     391 | static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-         |               ^
->> drivers/gpu/drm/panthor/panthor_perf.c:1038:19: error: incompatible pointer types passing '__u64 (*)[2]' (aka 'unsigned long long (*)[2]') to parameter of type 'u64 *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-    1038 |                 bitmap_to_arr64(&blk->header.enable_mask, blk_em, PANTHOR_PERF_EM_BITS);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:313:27: note: passing argument to parameter 'buf' here
-     313 | void bitmap_to_arr64(u64 *buf, const unsigned long *bitmap, unsigned int nbits);
-         |                           ^
-   3 errors generated.
+Mark Filion, on behalf of the X.Org elections committee
 
+--=-VyRgG4u/MrWhNJhqpict
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-vim +/session_get_user_sample_size +651 drivers/gpu/drm/panthor/panthor_perf.c
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
+ 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
+art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
+ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
+oke-width: 0px; text-decoration: none;">Hello all,</div><div style=3D"caret=
+-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&=
+quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; text-align: start; text-indent: 0px; text-transform: n=
+one; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: r=
+gba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">=
+<br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fon=
+t-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: =
+normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
+ndent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -=
+webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: =
+0px; text-decoration: none;">The Board of Directors election concluded at 2=
+3:59 UTC on 14 May 2025. For this election, we had 77 members who could cas=
+t a vote. 72 did, so the turnout was 92.5%. This is the 3rd highest turnout=
+ in the last 10 elections, with only 2021 (93.8%) and 2016 (98.8%) being hi=
+gher. It is also a 147% increase from last year's turnout (62.9%). Thank yo=
+u to everyone who took the time to vote!</div><div style=3D"caret-color: rg=
+b(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; fon=
+t-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacin=
+g: normal; text-align: start; text-indent: 0px; text-transform: none; white=
+-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, =
+0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div>=
+<div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: =
+&quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; fo=
+nt-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px=
+; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap=
+-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-=
+decoration: none;">In the election of the Directors to the Board of the X.O=
+rg Foundation, the results were that Lyude Paul, Andres Gomez, Arkadiusz Hi=
+ler and Harry Wentland were elected for two year terms.</div><div style=3D"=
+caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita =
+Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400=
+; letter-spacing: normal; text-align: start; text-indent: 0px; text-transfo=
+rm: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-col=
+or: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: no=
+ne;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0)=
+; font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-c=
+aps: normal; font-weight: 400; letter-spacing: normal; text-align: start; t=
+ext-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0=
+px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-wi=
+dth: 0px; text-decoration: none;">The old full board is: Erik Faye-Lund, Ma=
+rk Filion, Neal Gompa, Arkadiusz Hiler, Christopher Michael, Lyude Paul, an=
+d Simon Ser.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0,=
+ 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-varian=
+t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: normal; word-spacing=
+: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke=
+-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-color: r=
+gb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; fo=
+nt-style: normal; font-variant-caps: normal; font-weight: 400; letter-spaci=
+ng: normal; text-align: start; text-indent: 0px; text-transform: none; whit=
+e-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0,=
+ 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">The new f=
+ull board is: Erik Faye-Lund, Mark Filion, Andres Gomez, Neal Gompa, Arkadi=
+usz Hiler, Lyude Paul, Simon Ser, and Harry Wentland.</div><div style=3D"ca=
+ret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sa=
+ns&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; =
+letter-spacing: normal; text-align: start; text-indent: 0px; text-transform=
+: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color=
+: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none=
+;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); =
+font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-cap=
+s: normal; font-weight: 400; letter-spacing: normal; text-align: start; tex=
+t-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px=
+; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-widt=
+h: 0px; text-decoration: none;">Mark Filion, on behalf of the X.Org electio=
+ns committee</div><div><span></span></div></body></html>
 
-   650	
- > 651	static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-   652	{
-   653		const size_t block_size = get_annotated_block_size(info->counters_per_block);
-   654		const size_t block_nr = info->cshw_blocks + info->fw_blocks +
-   655			info->tiler_blocks + info->memsys_blocks + info->shader_blocks;
-   656	
-   657		return sizeof(struct drm_panthor_perf_sample_header) + (block_size * block_nr);
-   658	}
-   659	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=-VyRgG4u/MrWhNJhqpict--
