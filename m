@@ -2,61 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36845ABAC61
-	for <lists+dri-devel@lfdr.de>; Sat, 17 May 2025 22:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C878ABACCB
+	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 00:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DE710E0D0;
-	Sat, 17 May 2025 20:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD8910E16A;
+	Sat, 17 May 2025 22:32:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qqm9uzjH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="REFTROYa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F23CE10E0D0
- for <dri-devel@lists.freedesktop.org>; Sat, 17 May 2025 20:23:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1E149A4E921;
- Sat, 17 May 2025 20:22:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E558C4CEE3;
- Sat, 17 May 2025 20:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747513377;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=Qqm9uzjHX3E3Tkba0SIwo+dHYvchdHyrS9w0HmsSqMTrFW33pa6KOeJ4Iea68h2eU
- D6TbH7GEuMGIgSLA6VZ5O4+UVvE/wnR/mLIszDIMlLqE+yqVgyVfhz1KkrJCkl7cML
- YcMyTYJhBbZN7BWxuUOyEwfgBsymCbRM4La4MemLak7ZDAOEDFvryhDMZEq0a85j5B
- IZ+3S5vmFLAuo7GCDc8X2KnIc+y3dLq4ZbpVCs7Y4Bptl1LNeByDLCweulplxso4R1
- PZOTvIez9c5CzOWftnhE4zP4xw3Ougnu0YlWSe2ocoXUXkdfc9mmK+3f8z3hLGbJx4
- FQtmHkJy2Rk9g==
-Date: Sat, 17 May 2025 15:22:55 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDA0C10E168;
+ Sat, 17 May 2025 22:32:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-ad24b7e0331so485818666b.0; 
+ Sat, 17 May 2025 15:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747521168; x=1748125968; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+Q8GiGwI07IVqiWqNBHYMW+ExmUEnIUfs7vQs+IrKVU=;
+ b=REFTROYahR5M3/sTnl0JBy9NplPBW+UpUlHKEzlGC9MswgT6ByeHmV6MgRdRKQLLlL
+ AeFJv9ro7pmLAOg3zaU8vxyAkmh1Bl8y+dSqhLVMWT5IhoOJTzMhBT6eRMnE/foS4Kcv
+ 73/FYphxPWQgRVOa/ZRG6SM87NP7hLHxI9fwi00bkhOlrlxGCDOvxUxgv9zMbVZyVpv3
+ Vb4eHCumsVJZM+D9jlnO50PfCaq/hFT87O7TWQ2owcvGmxadaRfK0pL7ImvAlQjnGcN8
+ QYHw9QZzPpkI+O7IfwJSW9Zf5/z9Z5O2OpwWByE7822WyOmEqT3nDmHVufaIEEIXB9pF
+ A7Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747521168; x=1748125968;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+Q8GiGwI07IVqiWqNBHYMW+ExmUEnIUfs7vQs+IrKVU=;
+ b=V2gQZ/FirI+UdUtS6hLJx8v0NQuE8ns5i2i8n0iuOKDp3SvkZYeqyahmYdVuIyk5AG
+ eVG89j5L5r0GjLrJSM4BbTPLueQ5Yk2KsjRuHy0PyyiOhRWebf3jwZJgyr7Hv6JSMy2Q
+ 1rq/sdm0QPeX/VuLGg7jW0WB55R4CPgny5CA7CNKJD4IwPDclTDY1KovnZsfY881TF+p
+ xYHug1iMkE/3pCjqlExVfWSGPrKOszsx96C2Afvh/G2nsbFZuVS/QsiW+fb4+NJgCXrZ
+ 5z7nc6CPAvy+m5sFz5UNm2uOAHC37w7lRkVS9mGeaO+7YK9K1mxG06JwdzSzo3Pua75/
+ jk5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyCVjOsiDmTLHcnSHIOb72+7DU6FwlWaZTSkDoalBbGTSJdDvG1CiBSFf3QnmFGDp3yDJ6F1lDymmR737YQg==@lists.freedesktop.org,
+ AJvYcCVnLkQTNuTyu0s3ujmMOfqhdI1vU3G1PoUUdr3LA8na2c7pTvYcHwGysKm0289bRb4nPrDCGiecOB4e@lists.freedesktop.org,
+ AJvYcCXAvXWjAyE6xMNyZWsC7d8Vgnrn08hl9DBDN0bTvY8gGPI460gmpirBqduMofYhXWoT3QHEZjbj@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwF2pCxx8WO+wikG+X4AdodXZBn9z5xWa455Wm/wwTLrijquato
+ Ad0znfPfjAwE6g9peK2EYp7o6eGqepsg0aH6w4md4mRcQtBGKbQhNkpmk7Zk8vZ4HFviMih1cLl
+ PZZbhWnrUvHThODY7d8PANdxSPVkI2Rk=
+X-Gm-Gg: ASbGnctK5KDzjGqnhKZTSI3nlG99tNcVD0l+yVaDATTdGFbSI9wQHHC8XXUlqXdVfwp
+ t8GWfk9c2eZpeaLfdSxKb2kQMcpzap4AWmMROdrgfg+fkZ5MxlT+vR/RSDzpgD+iKaC0zUhcPPH
+ TZIdwGEwraqBW/8hfhenva8hgUkVSdHLAXTnuchilQhNdobMMs4AuJEbevxkoO2udqfA==
+X-Google-Smtp-Source: AGHT+IEXUbx9G36j8YjZDly+X1MF9h6MXqkhnX04yMkz2yPALji4nO7eKGCwA+y7c7VXmp77beXLxYpFQwY+qVfkUtc=
+X-Received: by 2002:a17:907:1c11:b0:ac3:f1dc:f3db with SMTP id
+ a640c23a62f3a-ad52d4b2e34mr785164966b.13.1747521168115; Sat, 17 May 2025
+ 15:32:48 -0700 (PDT)
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-41-alex.hung@amd.com>
+ <CAFZQkGwrP39REsvZwQ_Uaq+cHR_pH2EPuv_POXRO7Hxj9u4Xsw@mail.gmail.com>
+ <vyX7bdPppc_pDUQBeKeZNyy69WUl_XKExs-I7dfuDJJy6SKXWoBL7B-IRMZKxuktNMQCIg0lP56Xj0qLidKOlBJQJjUYHOQ5Id6yw5k8Q10=@emersion.fr>
+In-Reply-To: <vyX7bdPppc_pDUQBeKeZNyy69WUl_XKExs-I7dfuDJJy6SKXWoBL7B-IRMZKxuktNMQCIg0lP56Xj0qLidKOlBJQJjUYHOQ5Id6yw5k8Q10=@emersion.fr>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Sun, 18 May 2025 00:32:36 +0200
+X-Gm-Features: AX0GCFtiFMdoRuUqUiuYglljhX7JAPco07x17e8Pk-swDwhD_So_SthsbllaKZ4
+Message-ID: <CAFZQkGxXJe=FGdymMRevbtU+jKre6PdthAu33Qz+kVsR_OVpJg@mail.gmail.com>
+Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
+To: Simon Ser <contact@emersion.fr>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org, 
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com, 
+ pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com, 
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +94,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> We can always make the property mutable on drivers that support it in
+> the future, much like the zpos property. I think we should keep it
+> immutable for now.
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Sure, but I don't see any reason for immutability with an enum
+property - it can just limit the possible values to what it supports,
+and that can be only one value. Either way, it's not a big issue.
