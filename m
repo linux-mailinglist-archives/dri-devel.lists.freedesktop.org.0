@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD56ABB0EA
-	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 18:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B47ABB0EE
+	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 18:46:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C207810E0B4;
-	Sun, 18 May 2025 16:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5B410E0C6;
+	Sun, 18 May 2025 16:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
- [209.85.166.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF6F10E0B4
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 16:45:33 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id
- e9e14a558f8ab-3db8356ee37so10497155ab.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:45:33 -0700 (PDT)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+ [209.85.166.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF7A10E0C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 16:46:29 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id
+ ca18e2360f4ac-861525e9b0aso290979539f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:46:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747586728; x=1748191528;
+ d=1e100.net; s=20230601; t=1747586784; x=1748191584;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=16lKLKeXiKEhT1aqzPTlfh1MfJCWJqXdbVQD33iMWeM=;
- b=mLVQSpfxkEmyawAIqy4Lh8o9VrbH9AuHTGtBpAAsBaCJ0YmUwOcl3vT6e8a4LHEtBS
- ijocmqef/D3C/ntU7e2w1TR3YXcECrOCFWF9kTMzeybXOYAZF2q2t3k2eOZEzsjhmMpf
- LGfP8G+rgSPxKmpZiNZz7ucXfVYWNh5P/Gtx3lgoh0QDQR4T2Or2cxtO7S/h4QDs4ocP
- MwFDKZ3DMNAY/YoiKTLJMgfCR+p/42pOMe1ntUxW16+Z/4yyWBnMf8aek+6BFn3tGfvq
- 4/WNdqF14jceSROSPv2XGVM2armTSafaKMDreaeEiJcbDUveYZ/vm9Rs2qfTk0FFxV2e
- qbEg==
+ bh=H8auBAsWmzOyx9AlQEKXQW3lYZT3R7zY1mzxA5CFuTA=;
+ b=rPcADgHCLgyhms3sU4hdnfSBtJIwu/d5jNAUUwPQrpkFYTSe7bPE+ZOKFRvjbQ3LJi
+ dx1GMjARU8P6ViTHJN3HXOxZzI1fJ/iGNDCwG1Yc+ay0lRSrmLgxL9+MnjLXG01Tg46Z
+ F12YZnHauUoiAOyL85M9iRR/+Sr6SQtjOAfNmTJCSCSpQCFMe97ho7WHt5XD9TEiNSM0
+ hQV2VqyoUbzGj2gAtema4qBvb79Xub+EXREZ7mURawG6BKXjSlQsKvhVsZgg7RxZXfUF
+ kU/5a2DA/4Nz++LNNXf8QTbnrouq1j2BmjcWVh6M0tYIF6f81qJWunap4cx0662+krhj
+ VCUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVAH9z1AY/1q7YG5UAXbZgUxA0hFY8ARtvrSAMYltfI5XsB6CNBHI3O19qe9SMpSyUgvCvc5rQQRzg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHsUkt44ojmg4hTz5Svq+o7Aj7AE4lZRYokw6zqvw5Axg2Pn/A
- OvOdH5oWXbh+SyzD1IpokFA5BJ88DrohrSy0erRsmEF7k7tTxPNLF4KGqfuHdyLs9Kc=
-X-Gm-Gg: ASbGnctLulyFmdppMp1f5qN/IEhUdCEQsCfmxzpxiWO7E2ts9QsHeRhccaE6oFI35Q/
- 3RkXZAdP0hV/z1P/DmZBs5261n7zQ6wqykKXOQ35dm/uIoEJKokS2Fd0B3jvCjAvCxZ6JKQ+V7L
- rpl/L8nYP7KJtYyo7HtU+Y4TBLHfPK7TyurfNLLo53z/d2SB1sGpoyx/J6T8jo2FLZNYZOhpeCF
- 0COZO/k03bZqFwVkugVZwu764B7AAOVvGDKQAnDQ4o9EO6xg/cqK8M2y1I38zHlW68srz+E13Vj
- 3NP+/nn1oksexUHn53YlnJtcRUgIGeJVVFgdAkW39vqHjcLed2RV/Yl28jU4ufhBOtUwKSxCz0G
- +U3P7KEwIxP+obtn2UXs=
-X-Google-Smtp-Source: AGHT+IGWwc0I7E+hypT9Slqja8t41BZC3h1aCess5Hxu4HTkzPEZTizATQQRwqrxCM41/dFj9VS9ow==
-X-Received: by 2002:a05:6e02:1a02:b0:3db:6fb4:b7e5 with SMTP id
- e9e14a558f8ab-3db85739455mr84754295ab.10.1747586728140; 
- Sun, 18 May 2025 09:45:28 -0700 (PDT)
+ AJvYcCVTIJBocA/ygQofn/fLUWuiDZcZhYQG5j6nPyZhLz+YbAGJwr1zZuKIYavK/DvypS2/jzXJdEXnYhs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywFMJJlwazWi/wJwyDOjHGnoRaHmQFfkUXYOh7+BF66SD6O8cv
+ PZO1cJmA1JdqZkTSwZj/UGToHoGSyeFLNYrvEPHe2XkMwnReE9a6uT+VhpImjk2NC48=
+X-Gm-Gg: ASbGncssscILFfqaoQ30iJLqmQOQXLIDCSwt76rOmdAQVoJ+bX7UJU2NW2NULmbJ7rN
+ 6tOEEL41FDpIf1rwEdV6wqaPptL6cKmd7J6nnQwd8B5mAwS0+sFx+nkO7WQuijj58yK+dXb77FM
+ UD+KDiVJpo2FhnAUVuN7dRiqGCIiHwfK4ICZhW4sFenc/YALasY8FTblUHilbjryXpaFOLOuoca
+ Dk5B0e2HRqn1/jqI1CmZJopyEqnKc3IM8NoIZyREc6VidFnbcyROS/uUXzftm840cnTyz0de02t
+ EjcBvboogVH9I3imMIP9ANDvDBtDAzvCi2sZJor8JuNuJv8BQKpcd4NrrHGThf6koLCa14XsAt2
+ m69lWaLVC
+X-Google-Smtp-Source: AGHT+IH3Iaudi0g3tDaoS5jgD+XGcFYjtnR7rGxe304Fz16t83X+6YWWncOa2QXHH6Mn/qGWvhdhvw==
+X-Received: by 2002:a05:6e02:b4a:b0:3da:7cbe:f47b with SMTP id
+ e9e14a558f8ab-3db843348fbmr108941265ab.21.1747586783683; 
+ Sun, 18 May 2025 09:46:23 -0700 (PDT)
 Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
  [209.85.166.182]) by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-4fbcc3b199fsm1350643173.42.2025.05.18.09.45.26
+ e9e14a558f8ab-3db843d471fsm15500965ab.10.2025.05.18.09.46.23
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 May 2025 09:45:26 -0700 (PDT)
+ Sun, 18 May 2025 09:46:23 -0700 (PDT)
 Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-3dc6b2a8647so1491365ab.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:45:26 -0700 (PDT)
+ e9e14a558f8ab-3da73df6c4eso33241685ab.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:46:23 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVFXISGC8yKzDpuJfHUnSjzrUxgeJoR/SN3WwT/GZ+Dys0z3dV76c8bIRZshAD+F1wTEr3PGF8Qpow=@lists.freedesktop.org
-X-Received: by 2002:a05:6e02:351d:b0:3d0:47cf:869c with SMTP id
- e9e14a558f8ab-3db857b6555mr99202655ab.19.1747586726194; Sun, 18 May 2025
- 09:45:26 -0700 (PDT)
+ AJvYcCUvcGU+aF6GPBjRZfP8PdgD29QsV9MtCGpAsilCw5a0eu4oSCSOAclh9q++LpDEn6r/WTQ1wfd9ox8=@lists.freedesktop.org
+X-Received: by 2002:a05:6e02:3c02:b0:3d8:1dc7:ca7a with SMTP id
+ e9e14a558f8ab-3db84296d9amr115461995ab.5.1747586782845; Sun, 18 May 2025
+ 09:46:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250516105101.11650-1-ryan@testtoast.com>
- <20250516105101.11650-7-ryan@testtoast.com>
-In-Reply-To: <20250516105101.11650-7-ryan@testtoast.com>
+ <20250516105101.11650-8-ryan@testtoast.com>
+In-Reply-To: <20250516105101.11650-8-ryan@testtoast.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 00:45:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65S2B2tatzJP3fJKcEYaoX-UGG2MtQX1VbUoTK4xTsyxg@mail.gmail.com>
-X-Gm-Features: AX0GCFslyTJW3_SklNq3JULGeTuerD-gifQjm7kfUwjIWTbHbiDIUF58cpuqmoU
-Message-ID: <CAGb2v65S2B2tatzJP3fJKcEYaoX-UGG2MtQX1VbUoTK4xTsyxg@mail.gmail.com>
-Subject: Re: [PATCH v11 6/8] drm: sun4i: de33: mixer: add Display Engine 3.3
- (DE33) support
+Date: Mon, 19 May 2025 00:46:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66Lw9bne9Zch4kyAbWx4Zz=VPh3EJAta0M6XxdaSi-d7w@mail.gmail.com>
+X-Gm-Features: AX0GCFt32y8vwGnO09UOLDY6RStkxid4HewGHZjKOLQgFiYtO_lDbLwjct7FmIQ
+Message-ID: <CAGb2v66Lw9bne9Zch4kyAbWx4Zz=VPh3EJAta0M6XxdaSi-d7w@mail.gmail.com>
+Subject: Re: [PATCH v11 7/8] drm: sun4i: de33: vi_scaler: add Display Engine
+ 3.3 (DE33) support
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -81,8 +81,7 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Philippe Simons <simons.philippe@gmail.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
- Chris Morgan <macromorgan@hotmail.com>
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,31 +105,13 @@ rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> The DE33 is a newer version of the Allwinner Display Engine IP block,
-> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-> supported by the mainline driver.
+> The vi_scaler appears to be used in preference to the ui_scaler module
+> for hardware video scaling in the DE33.
 >
-> Notable features (from the H616 datasheet and implemented):
-> - 4096 x 2048 (4K) output support
->
-> Other features (implemented but not in this patchset):
-> - AFBC ARM Frame Buffer Compression support
-> - YUV pipeline support
->
-> The DE2 and DE3 engines have a blender register range within the
-> mixer engine register map, whereas the DE33 separates this out into
-> a separate display group, and adds a top register map.
->
-> The DE33 also appears to remove the global double buffer control
-> register, present in the DE2 and DE3.
->
-> Extend the mixer to support the DE33.
+> Enable support for this scaler.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-
-Code looks OK, though I have not tried to check the register offsets.
