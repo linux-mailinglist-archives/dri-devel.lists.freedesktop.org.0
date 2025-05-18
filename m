@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A057ABAE09
-	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 07:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FA3ABAE6E
+	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 09:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2256410E0B7;
-	Sun, 18 May 2025 05:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8BC10E201;
+	Sun, 18 May 2025 07:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uddf+1di";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kufke6ES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 999DF10E0B7
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 05:25:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C20910E201
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 07:26:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B4BB443F39;
- Sun, 18 May 2025 05:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5340BC4CEE7;
- Sun, 18 May 2025 05:25:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0A6A943CDC;
+ Sun, 18 May 2025 07:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9831BC4CEE7;
+ Sun, 18 May 2025 07:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747545918;
+ s=k20201202; t=1747553153;
  bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=Uddf+1dieisNoH5HrzBDXIHf+XM/7yA77U2KRhS2q6tR81GDcVB9v/mYh2h62VqaD
- WTib9Ay53Y38HQv8TLgBawwLp7oz+us2AswrD2zSr8m5xFh0y7/oihlt4vWTbJ10tH
- 0CbPcK0vEmciqRnw1GgZ9yTKetxtG5j/7qnutrwu9q6tWgEDaA8c3HBOYLsm3jtnbn
- g7y18sq64MRK10QUcXvN4ufwWBBFUN9R3Su6qXvNNeebYXuGCm8NY04ZlLW6FWJ+9S
- 0huaTBXXSON7Szj16/+FuQDS90G59z8qRvp2eokPZt8XQYzpavBIy23PGf+6nR7Nqd
- YVLFdoAHoDDZw==
-Date: Sun, 18 May 2025 00:25:16 -0500
+ b=kufke6ESM6tyRA28p3vAhIDHUrDl05myEbDuPao+H1K8lXInFo29/LfAFDFpjbTXM
+ 9vxrqjlfrXgYq0NsclGRBqx0WqVUI9AUfTVdMU2Jjve1KXQia/V2qJ1KbmwYlRvz1w
+ BYUiy0CfbAFfCyQugZIC/pEFYruOs6oSiz1TLzlpExcAFvUSE9pDgOOfYMIfOGLIJD
+ TQtEHZjteF1OplCYJY5ie49vZ1VPcK6qDeiHan3dUyXmGXo5jKh9Bsz+hYOQBY2aPs
+ pHOtKynCxFfDeY6nqP5N7reSSZba9JhxWLqSvwU/jQMoP8mXApmhjNhkH5fZV87lf5
+ 1O6qjBq4OcC4Q==
+Date: Sun, 18 May 2025 02:25:52 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
