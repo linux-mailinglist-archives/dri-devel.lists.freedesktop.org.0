@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C988BABB0DB
-	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 18:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDB5ABB0DF
+	for <lists+dri-devel@lfdr.de>; Sun, 18 May 2025 18:41:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB44310E0A8;
-	Sun, 18 May 2025 16:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E01A10E0AE;
+	Sun, 18 May 2025 16:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC44310E0A8
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 16:40:52 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-328b943ae7bso11537671fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:40:52 -0700 (PDT)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1EC210E0AE
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 16:41:55 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-30e8feb1886so1873051a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:41:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747586450; x=1748191250;
+ d=1e100.net; s=20230601; t=1747586511; x=1748191311;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/hg4XOiM8dzAP+sj3OctfJb8nVC7grXLEYczEbyGvks=;
- b=AqvKnTLilgXTiQUfXhdiGxiQnR7wOODX8zFatNS6n7a2WslHqV+hRQYrOxznQrOheu
- Dr2HkVq4Jp+UtoHPa6DA8GNFTrN5lIDAdNc+FBvACWxxUo4QsxqqaNuu1N7wRpyflyYs
- kCw2vKXc/lQp7wN5FCb7WnuLDNYJqM+0QbCIc9qccHtVoBYLV9lUT1cv+pTTkyxKaA6j
- kVLodbZrNra6v11SWsvDwJs+Ecpnt+nQlmoomUcK/yf/Bb6nnxgDv7+Z/sNs+VqzddVK
- ADCTnLuFS2GQHZyjR/r0qi8sYWGwwPiONeKx/uHnICDQO/wS5TLjXaPopedo4hca2Aha
- KRFg==
+ bh=aZDebBuIwhQGKIA5zH7FXUsKlBBCwxUk5Cqi9xBTjTY=;
+ b=hE17CEUak3+GGtzXAsm1pHwYjVvmqqj65SDDyrFFMox80yLzCJRHJiiTNUZm9wucW+
+ Ran9n8003XWEQ/E8Kilru6yolcTYGhf/eom34v6N9wJnMYnyg4uwoftCsNhYmUr7yCyS
+ 8tVA4J7o+ytquUTdO3QzzYi9PeY8nAKz8PiEqRwu0Qefb8huI6N8JZMGnLKRQoCZT0po
+ tzBycxRdo3NTABTNLvlDKBFYNogmV3xP3hT0bS4FQIoeDx8SljSu6PLgofEXT6zWzMn9
+ wuNHQGZay8CKmCq44P+ahy3ASd92R0jLxscnMTqFbeI+5/8facrSgeWLRhJun5ung3j6
+ 8J/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjxVdMEs8reckX9l02In6Ii2QHf9otXsgfL855Sil8H2dYthOSPM+YZVKqJ6AuNA1weua9aUZ5YhA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwoJw8knSVXZEBQYfsdghidGjyMc5EqzeLAMLZv+4XAKHMnRUP9
- 1n7v7TPQOU4GzrVFSm4nAg2T5bH7lalvuZpplxtrZHvduMFDrgsz6eVjBN77eY7n9F0=
-X-Gm-Gg: ASbGncssBu0N2pT7S3bzaqncFJSJXvhIfc+SzZKE15wz91Z8DSFplokh7tIn4sedOlf
- hd+m3WGlTc/hbHBJkOa8Mx+YirnnIe8wfgpoYA3PulbXPBnYOGquFG0OhrYg4rlj8/YHRMumYiV
- R+uaO10LAl6p32N0JdYIFhqhy7KaQA7NSqHAkgWDr5lqEpNVuXGvcv/GwSqFvxEkr3JAYIUCqGK
- a/v2RTqquVbUJkh/okQqA5TOmnlJ7jHjyLr9+2aP5k/IidcdnkV7r3VfU/zAQI4cj6+k7CFX5dt
- /GmCDpyn1y0tE6/JjxVkznGjSXcZ5SJcF3q+XrqbbgZQNu+OZCHZ/85lBbyevNh04mC4jxnFNCw
- kAzJftjZ+
-X-Google-Smtp-Source: AGHT+IHWcfFyjqk2EsxscqCQfGY7vms+XwXeFeXg3RiUQJvm8pup3JptyFF4SLe2Tz7pLgHMFlHNHw==
-X-Received: by 2002:a2e:a001:0:b0:328:1365:87e1 with SMTP id
- 38308e7fff4ca-328136588e7mr10724001fa.23.1747586449902; 
- Sun, 18 May 2025 09:40:49 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-328085cdf48sm15188331fa.90.2025.05.18.09.40.49
+ AJvYcCV3LG4EiUSSuCvkuS5cLqz3+7KkmxeMHZAO7yPsFyh3kjQDVq1RzBeeXLSXJDJxTEpJj8KKwLB+8eE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6D9+jqH2CznkvzFREvXqoOFiZnfWZs/jgKMP9wjbLZfFBBZHC
+ QUO0uruOe+Wa1Lvw7o3KanhqBLqnAvhphrjO7cVM7PpzfxyvkGuz0+JlVNoMkTaPCiw=
+X-Gm-Gg: ASbGncvoh9VdorHrwkuFsIdEllbVuj/3rgxVm5CFyI/NJlbyV6efLMbJ4fwyo3sYtgQ
+ /X9klxoM2XFoaNZzyopXnjSrP+ImC1UmBehudJWbPRNGWiYKLl+Dy0nNqGYnA7wtVQD6tcI5DMx
+ F8QXiZkIcckDK8vZLRDJDI4bvuMoUV5xxdj1LvNsBsnw/W88HpYA6laB9tb33C3JeGqs2Jd/nWA
+ EQUWjqBfWaImlwxkQg9JcmFBBVRsWX/MkWN/3FZ+xbRwzhQ3TNyRQ/J8+tdS/W2MtOc259QAj1B
+ 0dmO7QMacIV7tcILNzW8KE1Pd4XraYDwrilVzbKG/TePPIaFyR9f4khcNorYxvRbGTFaqHClLhB
+ DssQc
+X-Google-Smtp-Source: AGHT+IF7B5+LtKReVbiT8xx6NNdh6qLn5BOzpKOGkRnyyv0+Qy9ONQAaGjEEakd8LjeQyPMrMoM0jA==
+X-Received: by 2002:a05:6e02:1a48:b0:3d4:6ff4:2608 with SMTP id
+ e9e14a558f8ab-3db842d139emr116847315ab.12.1747586501014; 
+ Sun, 18 May 2025 09:41:41 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46]) by smtp.gmail.com with ESMTPSA id
+ e9e14a558f8ab-3db843f7fbfsm15418975ab.43.2025.05.18.09.41.39
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 May 2025 09:40:49 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-328b943ae7bso11537501fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:40:49 -0700 (PDT)
+ Sun, 18 May 2025 09:41:39 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-86135af1045so469667139f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 09:41:39 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVosqPAxmoI1C+iu5MQ7hAUEetKqtt+cDDCkcjtiPgCuhNcIJKczN5sHmaep6TaUQvC82tcIp025zs=@lists.freedesktop.org
-X-Received: by 2002:a2e:b8d2:0:b0:307:e368:6bd6 with SMTP id
- 38308e7fff4ca-328077cc6eemr39628791fa.32.1747586449458; Sun, 18 May 2025
- 09:40:49 -0700 (PDT)
+ AJvYcCWu0b5iQNtkTDa1O9B2v7wObPOREpdPeTY7r6Jlees8q7l9lDcp/av7Nf3yaqelkMxNsU58su874ZE=@lists.freedesktop.org
+X-Received: by 2002:a05:6602:6cce:b0:86a:93c:f5fb with SMTP id
+ ca18e2360f4ac-86a231901efmr1346917139f.1.1747586498864; Sun, 18 May 2025
+ 09:41:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250516105101.11650-1-ryan@testtoast.com>
- <20250516105101.11650-3-ryan@testtoast.com>
-In-Reply-To: <20250516105101.11650-3-ryan@testtoast.com>
+ <20250516105101.11650-4-ryan@testtoast.com>
+In-Reply-To: <20250516105101.11650-4-ryan@testtoast.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 00:40:36 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67jfZx4gxhBh9cc5SRknzwc0jX_148v2p0HAV5+adL9aQ@mail.gmail.com>
-X-Gm-Features: AX0GCFtGZP94oDImPioaa5-NKNR-5OiIQ3Lm0O3X3TZCX6x7PwMx49wsoQ0m4fQ
-Message-ID: <CAGb2v67jfZx4gxhBh9cc5SRknzwc0jX_148v2p0HAV5+adL9aQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/8] drm: sun4i: de2/de3: refactor mixer initialisation
+Date: Mon, 19 May 2025 00:41:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66nwNrL1bJjqeLaUKxntPbbL=amao=3fLQnVwKt6bFyFw@mail.gmail.com>
+X-Gm-Features: AX0GCFvPNTkEIdX7vf-6v-hZnL1kJZY7vaEnvAF5rZAuePObHWHQncZKVmFJnYo
+Message-ID: <CAGb2v66nwNrL1bJjqeLaUKxntPbbL=amao=3fLQnVwKt6bFyFw@mail.gmail.com>
+Subject: Re: [PATCH v11 3/8] drm: sun4i: de2/de3: add generic blender register
+ reference function
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -99,17 +100,20 @@ Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 6:51=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
+On Fri, May 16, 2025 at 6:52=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> Now that the DE variant can be selected by enum, take the oppportunity
-> to factor out some common initialisation code to a separate function.
+> The DE2 and DE3 engines have a blender register range within the
+> mixer engine register map, whereas the DE33 separates this out into
+> a separate display group.
+>
+> Prepare for this by adding a function to look the blender reference up,
+> with a subsequent patch to add a conditional based on the DE type.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
