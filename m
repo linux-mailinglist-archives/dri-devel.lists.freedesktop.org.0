@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1476ABBC2E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 13:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE92ABBC52
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 13:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB47410E075;
-	Mon, 19 May 2025 11:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B14C410E048;
+	Mon, 19 May 2025 11:29:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OqEK+6AK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HTPtGTA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99EE10E075
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 11:20:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9DA596112E;
- Mon, 19 May 2025 11:19:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5E7C4CEE4;
- Mon, 19 May 2025 11:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747653596;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=OqEK+6AK2uKE5zFJ+ALrpE14Q1x4tmTRKdHQRiEIIeMXqx8lH+/s5jA6qvCHCFltt
- 9nWavAaEmqZmIIcbH5j5cPrIo5bUj7KjPQwBE9+qYujQ085zEsh/wbjKUlAzpwdtDG
- +g/a7aGMFjqCbNbqV0HrondaxTr+NzieLf4nGbYCN4PUu5VivlxwMePgQqz73Jrw4s
- Q+FX3VSmtdiiTs3H1ZcUwkEwpMB9Yn19l+bLYYDC4E5zoJki3feFBcoQHjA/Uvo6Ei
- hgvITtxOfJzZnv9GzbsBA0saW/NIRVKO5E6AN5hWxHKq7CyzBqvsE+yXFQiJQrRXpE
- NhiwlGpI5Xvzw==
-Date: Mon, 19 May 2025 06:19:54 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5A910E21F;
+ Mon, 19 May 2025 11:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747654147; x=1779190147;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=djiksAnqZwvzPy7TLldAG5o/JGve1C7K9hm3pAmhXsY=;
+ b=HTPtGTA7rlMUc3C3eAh1JBPgee7xQwzfNiIyFECvLmhueZMgVY8i7vI7
+ GJrO8TuP8yJAgO40wm8osQkn44AHAZOeQDzxUgAaNZTrwj7d0SYKgQq98
+ 1vTvu4k7ktzx2GVYPoTycGl8H5kBlXmTvzSN9KQXlyJk2RMm28UbIbVqd
+ LLRjL1XJm6aIvlQZpdXwnMigQpWFheW+lyWkMUAB6cLJL8h5gK474UOyE
+ LXuwD84a9qV6eZY0NTK2w314nCH9lRFy47NZQUbc1VoHpn99LmHhec7Kd
+ h3BR1nE7snPG9V1pNzKktyXOhCj2d5CYVQaffntHlwvRTL1QLVucbXoCO A==;
+X-CSE-ConnectionGUID: yuExgI/wRh+wacWDpI8paQ==
+X-CSE-MsgGUID: MrGs8sW6QZatJpoJW07+ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="67105508"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="67105508"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 04:29:04 -0700
+X-CSE-ConnectionGUID: 3UfPtCAjTSiBT/xITUCBlQ==
+X-CSE-MsgGUID: QOu3h5rwTyS+TGTR7DZWeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="139836580"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.201])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 04:29:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH] drm/connector: move HDR sink metadata to display info
+Date: Mon, 19 May 2025 14:29:00 +0300
+Message-Id: <20250519112900.1383997-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +68,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Information parsed from the display EDID should be stored in display
+info. Move HDR sink metadata there.
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+---
 
-yamllint warnings/errors:
+This depends on commit 6692dbc15e5e ("drm/edid: fixed the bug that hdr
+metadata was not reset") in drm-misc-fixes. Will need to wait for
+backmerge.
+---
+ drivers/gpu/drm/display/drm_hdmi_helper.c     |  2 +-
+ drivers/gpu/drm/drm_connector.c               |  2 +-
+ drivers/gpu/drm/drm_edid.c                    | 19 ++++++++++---------
+ .../drm/i915/display/intel_dp_aux_backlight.c |  2 +-
+ include/drm/drm_connector.h                   |  8 +++++---
+ 5 files changed, 18 insertions(+), 15 deletions(-)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+index 855cb02b827d..45af1cf55973 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+@@ -44,7 +44,7 @@ int drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+ 
+ 	/* Sink EOTF is Bit map while infoframe is absolute values */
+ 	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
+-	    connector->hdr_sink_metadata.hdmi_type1.eotf))
++			       connector->display_info.hdr_sink_metadata.hdmi_type1.eotf))
+ 		DRM_DEBUG_KMS("Unknown EOTF %d\n", hdr_metadata->hdmi_metadata_type1.eotf);
+ 
+ 	err = hdmi_drm_infoframe_init(frame);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 48b08c9611a7..f7de3bb911c4 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1645,7 +1645,7 @@ EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
+  *	structure from userspace. This is received as blob and stored in
+  *	&drm_connector_state.hdr_output_metadata. It parses EDID and saves the
+  *	sink metadata in &struct hdr_sink_metadata, as
+- *	&drm_connector.hdr_sink_metadata.  Driver uses
++ *	&drm_connector.display_info.hdr_sink_metadata.  Driver uses
+  *	drm_hdmi_infoframe_set_hdr_metadata() helper to set the HDR metadata,
+  *	hdmi_drm_infoframe_pack() to pack the infoframe as per spec, in case of
+  *	HDMI encoder.
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 74e77742b2bd..c6c61afeaa31 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5373,7 +5373,8 @@ static void fixup_detailed_cea_mode_clock(struct drm_connector *connector,
+ 
+ static void drm_calculate_luminance_range(struct drm_connector *connector)
+ {
+-	struct hdr_static_metadata *hdr_metadata = &connector->hdr_sink_metadata.hdmi_type1;
++	const struct hdr_static_metadata *hdr_metadata =
++		&connector->display_info.hdr_sink_metadata.hdmi_type1;
+ 	struct drm_luminance_range_info *luminance_range =
+ 		&connector->display_info.luminance_range;
+ 	static const u8 pre_computed_values[] = {
+@@ -5434,21 +5435,21 @@ static uint8_t hdr_metadata_type(const u8 *edid_ext)
+ static void
+ drm_parse_hdr_metadata_block(struct drm_connector *connector, const u8 *db)
+ {
++	struct hdr_static_metadata *hdr_metadata =
++		&connector->display_info.hdr_sink_metadata.hdmi_type1;
+ 	u16 len;
+ 
+ 	len = cea_db_payload_len(db);
+ 
+-	connector->hdr_sink_metadata.hdmi_type1.eotf =
+-						eotf_supported(db);
+-	connector->hdr_sink_metadata.hdmi_type1.metadata_type =
+-						hdr_metadata_type(db);
++	hdr_metadata->eotf = eotf_supported(db);
++	hdr_metadata->metadata_type = hdr_metadata_type(db);
+ 
+ 	if (len >= 4)
+-		connector->hdr_sink_metadata.hdmi_type1.max_cll = db[4];
++		hdr_metadata->max_cll = db[4];
+ 	if (len >= 5)
+-		connector->hdr_sink_metadata.hdmi_type1.max_fall = db[5];
++		hdr_metadata->max_fall = db[5];
+ 	if (len >= 6) {
+-		connector->hdr_sink_metadata.hdmi_type1.min_cll = db[6];
++		hdr_metadata->min_cll = db[6];
+ 
+ 		/* Calculate only when all values are available */
+ 		drm_calculate_luminance_range(connector);
+@@ -6596,7 +6597,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
+ 	info->has_hdmi_infoframe = false;
+ 	info->rgb_quant_range_selectable = false;
+ 	memset(&info->hdmi, 0, sizeof(info->hdmi));
+-	memset(&connector->hdr_sink_metadata, 0, sizeof(connector->hdr_sink_metadata));
++	memset(&info->hdr_sink_metadata, 0, sizeof(info->hdr_sink_metadata));
+ 
+ 	info->edid_hdmi_rgb444_dc_modes = 0;
+ 	info->edid_hdmi_ycbcr444_dc_modes = 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index 271b27c9de51..5537136c367a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -145,7 +145,7 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+ 	 * ranges for such panels.
+ 	 */
+ 	if (display->params.enable_dpcd_backlight != INTEL_DP_AUX_BACKLIGHT_FORCE_INTEL &&
+-	    !(connector->base.hdr_sink_metadata.hdmi_type1.metadata_type &
++	    !(connector->base.display_info.hdr_sink_metadata.hdmi_type1.metadata_type &
+ 	      BIT(HDMI_STATIC_METADATA_TYPE1))) {
+ 		drm_info(display->drm,
+ 			 "[CONNECTOR:%d:%s] Panel is missing HDR static metadata. Possible support for Intel HDR backlight interface is not used. If your backlight controls don't work try booting with i915.enable_dpcd_backlight=%d.\n",
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index f13d597370a3..1e7b8074564c 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -799,6 +799,11 @@ struct drm_display_info {
+ 	 */
+ 	struct drm_hdmi_info hdmi;
+ 
++	/**
++	 * @hdr_sink_metadata: HDR Metadata Information read from sink
++	 */
++	struct hdr_sink_metadata hdr_sink_metadata;
++
+ 	/**
+ 	 * @non_desktop: Non desktop display (HMD).
+ 	 */
+@@ -2241,9 +2246,6 @@ struct drm_connector {
+ 	 */
+ 	struct llist_node free_node;
+ 
+-	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
+-	struct hdr_sink_metadata hdr_sink_metadata;
+-
+ 	/**
+ 	 * @hdmi: HDMI-related variable and properties.
+ 	 */
+-- 
+2.39.5
 
