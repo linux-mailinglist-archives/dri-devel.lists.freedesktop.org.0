@@ -2,101 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2A7ABB4ED
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D77DABB4FE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59A8210E317;
-	Mon, 19 May 2025 06:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 503A910E248;
+	Mon, 19 May 2025 06:18:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jYxN50iA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g5i9VPw5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25AAA10E317
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:16:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D81A2A401B0;
- Mon, 19 May 2025 06:16:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E9BAC4CEED;
- Mon, 19 May 2025 06:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747635405;
- bh=dlgLA40Szymf/zFAS7OTwhjGxh9yBOb/OBp5HVJ7YXY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jYxN50iAznMC4SOuGKU6QigD0ZBuxgVp2sLNOYwxdPon0c8yiePSLSddq6KLLzRRM
- rqrdKD3G/1lu+BuK27/S88EsuGVkvte9JGMsEghOZtzqq1L1z/Yll2EkkOOZ8idHy6
- N0wXHKCZxQBr2uMs1WtA1t+CEmzFNPGejxXrktzvphIOEhJM9h3cLarUvMTLRh7LBO
- 1Jn3UxXx4hS0GR8ghlJAk1o3il7B4yYCmK8BtR5EHGejLXeCD4Va9umyzIj23jD0LD
- b1mVTyfKYzbCmBSPthFi7TpzJJAPJNlElq0OSCk1kI0DoQw177rlFoJqzqhbmlsOpX
- Pkkb0rmwnw9xw==
-Message-ID: <20a565da-296c-4920-b962-e9de9af464d9@kernel.org>
-Date: Mon, 19 May 2025 08:16:39 +0200
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACC610E248
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:18:51 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-acb5ec407b1so672283266b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 23:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747635530; x=1748240330; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vK0gx1ykqEks3iig04qjuy13U8xSjbAqQzrJA0P4uP4=;
+ b=g5i9VPw5agYHyEePOT2/AO+XspB6YQLQopR7J/HiTDyg3WI9SHjcY6U7CKb1Drqf7o
+ 54sPP0G1t/znLr6PfcDt5yhagF6XAFhE/Y/zsRF1tBv07z46irICU3kl5as7jNheqGM2
+ CIrSoCI/WtyYsi0HzTeLlvbGxXJzwDxvampPQOXS3Ef++DdinA135ROXTD/w8wCjAQip
+ 0HNtP4GUGzOonR1r+/sSUMq8n8MV87sWiZSyYqe3tnF8HMD2PKxmeOqvYdQQneq7YPGj
+ k2alfFpPkredvzws/ql7TGDgdbsgIWnGJHrz0o3Fox95KPJfNGzvbYFwgRrMU42/r6VD
+ V3kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747635530; x=1748240330;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vK0gx1ykqEks3iig04qjuy13U8xSjbAqQzrJA0P4uP4=;
+ b=WmMKTvrptCYSY3JEWM67ZIsPu/TY90sqYtm6IHFECyU+20RjjMHbFRSei9gGtBHXer
+ 09uzONtY3hI8/LVDwOabl0HrV1PMaOom/7AM8wlSHGGhXHIZgWUs6/kQBVEzb0mm7SVG
+ CatbLExsxl6cfN0+dvyljyaG4BsuXCw1hRDpuQjcSfmRxVycWpiktJXAiqtj/PU1Eqqo
+ R0HuVPsgPr+0FBLdshLCNdElP5up/oNThyabNkO+sbpZX3DV5jdZk0khstjE5bcwpRvs
+ cBpmfo3PA53qJo9AV3w46zqyBqhyvZb8eF0GURKhsqzfP3EBbmlFOSEC8dusfOHjd87T
+ STLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmi7l9k39OLPoITyw+G0GpcE2lhFhe+cK1HXvCHt6P4KdhaUeD5VW22UIBWWFlaa1S95Br51HLhNE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzR/aj4QSmjUDFI/wyC/vU77+3DffRHlb2ZYnBjS5bvx/4Isb/o
+ eR9iasEWFdTxMV+AqzVe+dAooOTHXcoF/q/hk7YxRYUKD59p9Y3kp86LghjtAniU7YPAE9ptM9H
+ dFbQUCs3vPyNuN6HHKv34G+Ayc3VX+sI=
+X-Gm-Gg: ASbGncvExqvJ92RvpSblEHvalwpduhLOcO/lD7CZsgU+y9OZT4ODqCCh/AX5PKRfTTs
+ Z5XRT0/b/rzwXMD2S8Hs88kZ0Q2NDZFqTg6C7dxMoeas05tf4V6g5GZP7SXWTfES7aNRtUKkkIy
+ zcaBzizCSv3A8+YZ2JjP4oTR4neGsEy2M=
+X-Google-Smtp-Source: AGHT+IED1MGrTJUgDiXAUoxy2ZS37P5iCwFTBvVZgDuAbwR2oTt4wpSQ5cSDfGjdU1nNJ3yVKy67BGxv6DklZhbROQ0=
+X-Received: by 2002:a17:907:1c2a:b0:ad2:3fa9:751f with SMTP id
+ a640c23a62f3a-ad536dce3demr987314466b.38.1747635529329; Sun, 18 May 2025
+ 23:18:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-To: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250519012632.94-1-kernel@airkyi.com>
- <20250519012632.94-3-kernel@airkyi.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250519012632.94-3-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
+ <20250513075446.GA623911@cmpxchg.org>
+ <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
+ <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
+ <20250515160842.GA720744@cmpxchg.org>
+ <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
+ <20250516145318.GB720744@cmpxchg.org>
+ <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
+ <20250516164150.GD720744@cmpxchg.org>
+ <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
+ <20250516200423.GE720744@cmpxchg.org>
+ <CAPM=9txLaTjfjgC_h9PLR4H-LKpC9_Fet7=HYBpyeoCL6yAQJg@mail.gmail.com>
+ <5c0df728-2100-4078-8020-4aac8eb31d2b@amd.com>
+In-Reply-To: <5c0df728-2100-4078-8020-4aac8eb31d2b@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 19 May 2025 16:18:37 +1000
+X-Gm-Features: AX0GCFuphdrkbUIehiBml6CnXJWdoRvQjaJ47FArohPiypk3t12x3bE1pnOOt84
+Message-ID: <CAPM=9tysB4iNkGViN1iaGXjPC7y=YwB05ReHdUVR_-4zHahEFg@mail.gmail.com>
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,123 +98,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2025 03:26, Chaoyi Chen wrote:
-> +maintainers:
-> +  - Andy Yan <andy.yan@rock-chip.com>
-> +  - Heiko Stuebner <heiko@sntech.de>
-> +  - Sandy Huang <hjc@rock-chips.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/sound/dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: rockchip,rk3399-cdn-dp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: DP core work clock
-> +      - description: APB clock
-> +      - description: SPDIF interface clock
-> +      - description: GRF clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core-clk
-> +      - const: pclk
-> +      - const: spdif
-> +      - const: grf
-> +
-> +  extcon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      maxItems: 1
-> +    maxItems: 2
+On Mon, 19 May 2025 at 02:28, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> On 5/16/25 22:25, Dave Airlie wrote:
+> > On Sat, 17 May 2025 at 06:04, Johannes Weiner <hannes@cmpxchg.org> wrot=
+e:
+> >>> The memory properties are similar to what GFP_DMA or GFP_DMA32
+> >>> provide.
+> >>>
+> >>> The reasons we haven't moved this into the core memory management is
+> >>> because it is completely x86 specific and only used by a rather
+> >>> specific group of devices.
+> >>
+> >> I fully understand that. It's about memory properties.
+> >>
+> >> What I think you're also saying is that the best solution would be
+> >> that you could ask the core MM for pages with a specific property, and
+> >> it would hand you pages that were previously freed with those same
+> >> properties. Or, if none such pages are on the freelists, it would grab
+> >> free pages with different properties and convert them on the fly.
+> >>
+> >> For all intents and purposes, this free memory would then be trivially
+> >> fungible between drm use, non-drm use, and different cgroups - except
+> >> for a few CPU cycles when converting but that's *probably* negligible?
+> >> And now you could get rid of the "hack" in drm and didn't have to hang
+> >> on to special-property pages and implement a shrinker at all.
+> >>
+> >> So far so good.
+> >>
+> >> But that just isn't the implementation of today. And the devil is very
+> >> much in the details with this:
+> >>
+> >> Your memory attribute conversions are currently tied to a *shrinker*.
+> >>
+> >> This means the conversion doesn't trivially happen in the allocator,
+> >> it happens from *reclaim context*.
+>
+> Ah! At least I now understand your concern here.
+>
+> >> Now *your* shrinker is fairly cheap to run, so I do understand when
+> >> you're saying in exasperation: We give this memory back if somebody
+> >> needs it for other purposes. What *is* the big deal?
+> >>
+> >> The *reclaim context* is the big deal. The problem is *all the other
+> >> shrinkers that run at this time as well*. Because you held onto those
+> >> pages long enough that they contributed to a bonafide, general memory
+> >> shortage situation. And *that* has consequences for other cgroups.
+>
+> No it doesn't, or at least not as much as you think.
+>
+> We have gone back and forth on this multiple times already when discussio=
+n the shrinker implementations. See the DRM mailing list about both the TTM=
+ and the GEM shared mem shrinker.
+>
+> The TTM pool shrinker is basically just a nice to have feature which is u=
+sed to avoid deny of service attacks and allows to kick in when use cases c=
+hange. E.g. between installing software (gcc) and running software (Blender=
+, ROCm etc..).
+>
+> In other words the TTM shrinker is not even optimized and spends tons of =
+extra CPU cycles because the expectation is that it never really triggers i=
+n practice.
+>
+> > I think this is where we have 2 options:
+> > (a) moving this stuff into core mm and out of shrinker context
+> > (b) fix our shrinker to be cgroup aware and solve that first.
+>
+> (c) give better priorities to the shrinker API.
+>
+> E.g. the shrinker for example assumes that the users of the API must scan=
+ the pages to be able to clean them up.
 
-Instead of this, list the items. Old binding said only "specifier", so
-this is technically a change, which should be explained in commit msg.
+Well my again naive approach is to just add simpler low-overhead
+shrinkers to the start of the shrinker list and if they free up enough
+memory then win, otherwise we were in reclaim anyways,
 
-> +    description:
-> +      List of phandle to the extcon device providing the cable state for the DP PHY.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  phys:
-> +    items:
-> +      maxItems: 1
-> +    maxItems: 2
-> +    description: |
-> +      List of phandle to the PHY device for DP output.
-> +      RK3399 have two DP-TPYEC PHY, specifying one PHY which want to use,
-> +      or specify two PHYs here to let the driver determine which PHY to use.
+however this asks the question if just going into reclaim and having
+to touch any shrinkers at all is bad, if the overheads of just doing
+that aren't acceptable then we would need to come up with a better way
+I suspect?
 
+adding a single shrinker flag to put the ttm shrinker at the top of
+the list is pretty trivial.
 
-You do not allow one phy, so your description is not accurate. OTOH,
-original binding did not allow two phandles, so that's another change in
-the binding. You need to document all changes done to the binding in the
-commit msg.
+Thanks for use-cases that probably matter, I can see the online gaming
+workloads being useful overhead reduction.
 
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input of the CDN DP
-> +        properties:
-> +          endpoint@0:
-> +            description: Connection to the VOPB
-> +          endpoint@1:
-> +            description: Connection to the VOPL
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Output of the CDN DP
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 4
-> +
-> +  reset-names:
-> +    items:
-> +      - const: spdif
-> +      - const: dptx
-> +      - const: apb
-> +      - const: core
-> +
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to GRF register to control HPD.
-> +
-> +  "#sound-dai-cells":
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - phys
-> +  - ports
-> +  - resets
-> +  - reset-names
-> +  - rockchip,grf
+There probably isn't much appetite to just migrate the ttm pools into
+the core mm, I see a couple of other users like sound do set_memory_*
+calls, but I doubt they are on the radar for how much it costs.
 
-
-sound-dai-cells was a required property.
-
-Best regards,
-Krzysztof
+Dave.
