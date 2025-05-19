@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C67ABBE93
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 15:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF04DABBEE6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 15:16:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0A6910E0AB;
-	Mon, 19 May 2025 13:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2ADF10E20C;
+	Mon, 19 May 2025 13:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CfwEZQeY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZlwiaEIG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2905910E348
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 13:06:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422FB10E20C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 13:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747659977;
+ s=mimecast20190719; t=1747660583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MYVxcq0nwtZpEAI/P9GEnl1/qOhd/68cDUTPGPM/WOo=;
- b=CfwEZQeYoc12efyXnMGA0akswoN1GZtpBkK2bWm15K4gb+JaVlS6sjltxhuEOU88t9LpRj
- BNBhKOe1jBu1mpKM/5yA3ERapYdWSbjakpIY2Be8u7tLtJIoaalTdizfsPSyEu8UIK8jyq
- UGYQo+WPF0hyePqQX55oHQZy0EqwMfU=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=t2ifl+DhAh3+IKlVta3rnMPgH4VEUb4mPmr0zBuodfM=;
+ b=ZlwiaEIG35I9PakN8XTONjyUxWxdAOQxq81oe74heYcYbt2MXEyr3rzfne93dhCNeEofzC
+ bijTyluGi1Urk1btSKHhDd1xs5zzzkaAublza2ZpSckzBSxcMZt9tiPMLcNPKxQ0hHr012
+ zJy88hWghN10mmgIiDIfbzF4h0L4Kqw=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-vsh5AsCBPJ-umrumtK_olg-1; Mon, 19 May 2025 09:06:16 -0400
-X-MC-Unique: vsh5AsCBPJ-umrumtK_olg-1
-X-Mimecast-MFC-AGG-ID: vsh5AsCBPJ-umrumtK_olg_1747659975
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-551b1dc724aso250145e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:06:16 -0700 (PDT)
+ us-mta-668-4krqLkPxMLO5wwO4rqHu_A-1; Mon, 19 May 2025 09:16:17 -0400
+X-MC-Unique: 4krqLkPxMLO5wwO4rqHu_A-1
+X-Mimecast-MFC-AGG-ID: 4krqLkPxMLO5wwO4rqHu_A_1747660576
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6f8dd95985dso15429586d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:16:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747659974; x=1748264774;
+ d=1e100.net; s=20230601; t=1747660576; x=1748265376;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MYVxcq0nwtZpEAI/P9GEnl1/qOhd/68cDUTPGPM/WOo=;
- b=bXccP0U5mwPpkXB7hhYHJPZ/Jfed6mkaW2UUPValcqzHPHsOWEHqmYCIyKQFZmgqdh
- uQdB0SJ4FbJrKV916AsRxULDuOuMm5NV/QIQuxi45OfO9SKnG4aG6v97CAVg5cvTy58Q
- t49BokdrWghj+KEjJ0RoiP5rabdQ9TkUEoP1/a8I+IlOr1eIRfouBXpkmr22CPSdw0cY
- K/+J7zvgC+HKobNJdRw8wjFY71ItvrRDw0ctgCnIJBwVT1wlL+vgzHjPEGqmwNzwFxbd
- hK5/Nfg93UhZpoGiwZEEFP9MR0G18mPJVr+lO3scMkDplwMxHUIS3fd7Jt0Qs/62HvZ8
- Ygdg==
-X-Gm-Message-State: AOJu0Ywztj4WcvzVGjSkWnDOzJeUUiIfXM1/dXwWsX/fhg4iB9grrgGh
- hzZFnfM7oYlwR5Ljq+UjJ6hB0t6a72aH3m08Hy7Uz0siaw0QoXKUPx56xtmqaNOUTgQzzzRpuDx
- v/9+OTHvcKpucNIdaHTC+k3dO7qaNhee/XnmDpUHjEvU++VZA8ox7+rRiRSKuxKPAr5X2qKEJ1G
- GWcw==
-X-Gm-Gg: ASbGncvzUxbHcOpqcsERHQZISuy89WYlHPCTsfhy9bxUBIV/G/z9+81+yXabqnPumhj
- 9hnYRpMBf2RYggl8939FaFFywvmZRZjAHbXycAOC37Om/zVriaIq3SFajFtf4eTRITIrAknvUlp
- 1b/pzwFzkJ9L+j8ASZiUneQpOeuH4VebK+894CWEf4e0eJZX6f9xucfg14ZWBesIh5NiAQqoqIr
- 5d/vp1DMqSREkoaXvGI34WYst5zlCbWIG0FRuLmX9JKF9HgZxy/ene3AaWRjAW65NqyqA9v1L/q
- YVOVtUPudnCXeoMwq+5igJ0bdUqcFFxZnwaXM8XZMQ==
-X-Received: by 2002:a05:6512:670e:b0:54f:cc0b:158f with SMTP id
- 2adb3069b0e04-550e7222314mr3439585e87.40.1747659974023; 
- Mon, 19 May 2025 06:06:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmjKKDKsb76wg1PQxHdOKjq2RanhhqehyZUq08fKsyX2SU26AMbr+tDLxQ7rEENVBNtY3KLw==
-X-Received: by 2002:a05:6000:2211:b0:3a3:70ec:e1fb with SMTP id
- ffacd0b85a97d-3a370ece386mr2626806f8f.29.1747659962223; 
- Mon, 19 May 2025 06:06:02 -0700 (PDT)
+ bh=t2ifl+DhAh3+IKlVta3rnMPgH4VEUb4mPmr0zBuodfM=;
+ b=p+oo/qZDx6DPLksrbt3evfIVhTQWasz5DWH/YlZF2w/vc/MSu/f2IwlC5qWEw5hoon
+ sv6FjCVjfV8dQ9mmh1j7Q2RWAjhl52e+/qCjoh18vPRuc0cRlhtVzlrEa1TOXLaoJLdI
+ jJrt7uA3XimS+aATzipS72exoITmZiiHM8fkWmv52roFBnIqk2UIRXdBsuMHJ57w1QWN
+ PxJqNZInC3baXpwFKbjKZnFRZtuwn9HaR4yRBEPCCti98C4GTaVbOgQ7O9VE6cm02e0e
+ s21MuLE+etWeDa52dnCz0KXW2GgR09u5Ns+GPG5TRZg83qKjIQYDPlmeDbQSnkG2VCIu
+ FQyQ==
+X-Gm-Message-State: AOJu0YxolU96uCrjPoK9Irk0ZyWtac6gKTb2DpAAvGxodEpyKccBpadB
+ rAyC+3NCWlMXDwglyFD74fzGSVl5X2/eBK+twcf10YEw8/02kIjblSLc810dwdIYqt1zl7wofIu
+ HfDaa9UHB5EXy09rGItwgTKh00nn2FQmp+BRmxOAJQwUsQOPFl6HBIsapPhv/0Gw8jOabUQ==
+X-Gm-Gg: ASbGncvH/wA+HSUtC+jQt8zjTe/9HpeMYSGGt1YLcUuTQKhuU7srvBWiCpX0QJJ0U9v
+ EDEfaFVYBw/iegecP2rd6+8+EsiEl/FWVwtN7DzcdGhhpR+4Sw/xsmdytwmuaXUZC9DnPfavogd
+ OZbvg3nxddRdal/WsesddDpd9cPUnR04MVjaOR2wS0Hv5WGoLmS/fcRMb5Uc+MNHv+sO017RCZp
+ st4Nn22+atXkAwGHePkWKD0v5Or+QASLN5cqChKdX0F9nHwF7dzye79XU/fU5e1TVaIB5IfHHuA
+ cj4UBDwjuYdVvpkMsGZg/kp3wewADnQ4eu5MyWWk7A==
+X-Received: by 2002:a05:6214:1c09:b0:6e8:9957:e705 with SMTP id
+ 6a1803df08f44-6f8b2d0d894mr231877546d6.34.1747660576118; 
+ Mon, 19 May 2025 06:16:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsjP73o30Bjf4q6T71MmIbcTWtdvh62oUrf5UHySz5FIafK9VNGnWMnmQ3dVDWbcMpP+BpdQ==
+X-Received: by 2002:a05:6214:1c09:b0:6e8:9957:e705 with SMTP id
+ 6a1803df08f44-6f8b2d0d894mr231877076d6.34.1747660575615; 
+ Mon, 19 May 2025 06:16:15 -0700 (PDT)
 Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca888fcsm13272645f8f.78.2025.05.19.06.06.01
+ 6a1803df08f44-6f8b097a93csm56052206d6.114.2025.05.19.06.16.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 May 2025 06:06:01 -0700 (PDT)
+ Mon, 19 May 2025 06:16:15 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
  airlied@redhat.com, simona@ffwll.ch, airlied@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/5] drm: Add helpers for programming hardware gamma LUTs
-In-Reply-To: <20250509083911.39018-2-tzimmermann@suse.de>
+Subject: Re: [PATCH 4/5] drm/ofdrm: Use helpers for programming gamma ramps
+In-Reply-To: <20250509083911.39018-5-tzimmermann@suse.de>
 References: <20250509083911.39018-1-tzimmermann@suse.de>
- <20250509083911.39018-2-tzimmermann@suse.de>
-Date: Mon, 19 May 2025 15:06:00 +0200
-Message-ID: <871pskpx6v.fsf@minerva.mail-host-address-is-not-set>
+ <20250509083911.39018-5-tzimmermann@suse.de>
+Date: Mon, 19 May 2025 15:16:12 +0200
+Message-ID: <87y0usoi5f.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ogIi1jE4OvyyMxQNorwOt8QZBByUna11jFQgPSJVEl0_1747659975
+X-Mimecast-MFC-PROC-ID: rDTY1zCvFzfBR0dfcYsLSVNc4KIJHKeqhNrVClD_x5I_1747660576
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,50 +97,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Provide helpers that program hardware gamma LUTs. Tha gamma ramp is
-> either provided by the driver or generated by the helper.
+> Replace ofdrm's code for programming the hardware gamma LUT with
+> DRM helpers. Either load a provided gamma ramp or program a default.
+> Set the individual entries with a callback.
 >
-> The DRM driver exports the GAMMA_LUT property with a fixed number of
-> entries per color component, such as 256 on 8-bit-wide components. The
-> entries describe the gamma ramp of each individual component. The new
-> helper drm_crtc_load_gamma_888() loads such gamma ramp to hardware. The
-> hardware uses each displayed pixel's individial components as indeces
-
-I think the correct plural form is either "indexes" and "indices".
-
-> into the hardware gamma table.
->
-> For color modes with less than 8 bits per color component, the helpers
-> drm_crtc_load_gamma_565_from() and drm_crtc_load_gamma_555_from_888()
-> interpolate the provided gamma ramp to reduce it to the correct number
-> of entries; 5/6/5 for RGB565-like formats and 5/5/5 for RGB1555-like
-> formats.
->
-> If no gamma ramp has been provided, drivers can use the new helper
-> drm_crtc_fill_gamma_888() to load a default gamma ramp with 256 entries
-> per color component. For color modes with less bits, the new helpers
-> drm_crtc_fill_gamma_565() and drm_crtc_fill_gamma_555() are available.
-> The default gamma ramp uses a gamma factor of 1. Later patches can
-> change this. For PCs, a gamma factor of 2.2 is common.
->
-> For color modes with palette, drm_crtc_load_palette_8() load an 8-bit
-> palette into the hardware. If no palette has been specified,
-> drm_crtc_fill_palette_8() load a system-specific default palette. This
-> is currently only a grey-scale palette with increasing luminance, but
-> later patches can change this. For PCs, a VGA default palette could
-> be used.
+> Each gamma value is given as 3 individual 16-bit values for red,
+> green and blue. The driver reduces them to 8 bit to make them fit
+> into hardware registers.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_color_mgmt.c | 206 +++++++++++++++++++++++++++++++
->  include/drm/drm_color_mgmt.h     |  27 ++++
->  2 files changed, 233 insertions(+)
+>  drivers/gpu/drm/sysfb/ofdrm.c | 78 +++++++++++++----------------------
+>  1 file changed, 29 insertions(+), 49 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
+> index fddfe8bea9f7..96fafdc8dd5e 100644
+> --- a/drivers/gpu/drm/sysfb/ofdrm.c
+> +++ b/drivers/gpu/drm/sysfb/ofdrm.c
+> @@ -8,6 +8,7 @@
 
-Thanks a lot for adding all these helpers. I'm not an expert on gamma LUTs
-but the patch looks good to me.
+Looks good to me.
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
