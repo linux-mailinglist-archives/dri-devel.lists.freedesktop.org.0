@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05325ABBB2F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 12:34:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684D5ABBB3A
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 12:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4526510E081;
-	Mon, 19 May 2025 10:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C823A10E013;
+	Mon, 19 May 2025 10:35:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XTr36NzD";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i31B5qxi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA08910E081
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 10:34:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8D7684A2EA;
- Mon, 19 May 2025 10:34:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25B38C4CEE4;
- Mon, 19 May 2025 10:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747650878;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=XTr36NzDbtffNGFv46VY4I7hwVU0ohx9KYN63WxtbmVKBLwZKctG8tZidKFtLjjid
- CGAV5lVg/vHsoNvAL//H2geZMXvOw4wQxRg9O6+jmAkhW6oTQR3gyI1wZzjZQfZJ5V
- uJq/lMOtXJZm+o8NxA5+hTcDYSWLgXJw3E6atC8wtbhGg9v1qBBIn69KByeA9aIhAE
- bgJluY6ondFAtHKQ4V+utkzkSyp/0gTf+9A1/MZH83XqB40tdim0QV1MxqE9irYIeP
- /885NguXhiqtJ2rXqDauzf9V6jxIDId/9oroyKIKKoz0DOKo/1fAYriWUVu+Ki4eLt
- DVw6DJlD37L8A==
-Date: Mon, 19 May 2025 05:34:36 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5FBA10E013
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 10:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1747650947;
+ bh=jtB7PHlQfSBY3IYgiJFF4EXqqJieedjKydBtE/22bS0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=i31B5qxibamcvqdrVJ599/69s9CrJ0SXjU1hObfJQEuCm8NTZEKYSV7ywgLxRgZ/2
+ 3faSMVr6V+aYuhHZlSkjUD8KP8OSCnDAlJqna6cftQ93xAfAUw/p84vRpO7zwH+rhK
+ Hm3I0VHHnQ/e+si5+mdgwYKCspcyL/kl13HJiVhtWYHYYIxo236ipGfvKMn4U7GYiV
+ IM1hW2X1rWgoq5WAeGRt3oSMAc3zDg9HHT3k18KJblucbbwXMp0RP3wip9ech+2u+0
+ LKPc8QQOgCpyZljlTEPmuaqB8DEPT/bRedG91LVNwvtP5wAgU75aEV+9+OMaoqQWzz
+ NOlIUPMdqbDUw==
+Received: from [192.168.1.90] (unknown [82.76.59.134])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1773717E0F47;
+ Mon, 19 May 2025 12:35:47 +0200 (CEST)
+Message-ID: <7ce1a2d1-f4cb-4975-be24-b47e184ce1a8@collabora.com>
+Date: Mon, 19 May 2025 13:35:46 +0300
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/23] drm/tests: hdmi: Add macro to support EDEADLK
+ handling
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
+ <20250425-hdmi-conn-yuv-v4-14-5e55e2aaa3fa@collabora.com>
+ <20250519-sturdy-cyan-mouse-6bd0f1@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250519-sturdy-cyan-mouse-6bd0f1@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +69,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+On 5/19/25 10:22 AM, Maxime Ripard wrote:
+> Hi,
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
+> On Fri, Apr 25, 2025 at 01:27:05PM +0300, Cristian Ciocaltea wrote:
+>> In preparation to improve error handling throughout all test cases,
+>> introduce a macro to check for EDEADLK and automate the restart of the
+>> atomic sequence.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> index c8969ee6518954ab4496d3a4398f428bf4104a36..c8bb131d63ea6d0c9e166c8d9ba5e403118cd9f1 100644
+>> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> @@ -224,6 +224,16 @@ drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+>>  				test_edid_hdmi_1080p_rgb_max_200mhz);
+>>  }
+>>  
+>> +#define drm_kunit_atomic_restart_on_deadlock(ret, state, ctx, start) do {	\
+>> +	if (ret == -EDEADLK) {							\
+>> +		if (state)							\
+>> +			drm_atomic_state_clear(state);				\
+>> +		ret = drm_modeset_backoff(ctx);					\
+>> +		if (!ret)							\
+>> +			goto start;						\
+>> +	}									\
+>> +} while (0)
+>> +
 > 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
+> I'm not sure here either, for pretty much the same reason. As far as
+> locking goes, I really think we should prefer something explicit even if
+> it means a bit more boilerplate.
 > 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+> If you still want to push this forward though, this has nothing to do
+> with kunit so it should be made a common helper. 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Ack.
 
-yamllint warnings/errors:
+> I do think it should be
+> done in a separate series though. Ever-expanding series are a nightmare,
+> both to contribute and to review :)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+Indeed, let me take this separately.
 
-doc reference errors (make refcheckdocs):
+If you agree, I'd prefer to drop EDEADLK handling from the new tests as
+well, to allow sorting this out for all in a consistent manner.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks,
+Cristian
