@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84D7ABB5FF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 09:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF814ABB616
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 09:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9020310E365;
-	Mon, 19 May 2025 07:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 564CC10E171;
+	Mon, 19 May 2025 07:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VTELbrBI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NhufkVMz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE5F10E365
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 07:18:14 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFA610E171
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 07:22:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0ADEB43AAF;
- Mon, 19 May 2025 07:18:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C78C4CEE4;
- Mon, 19 May 2025 07:18:12 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6339761147;
+ Mon, 19 May 2025 07:22:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DC7C4CEE4;
+ Mon, 19 May 2025 07:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747639092;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=VTELbrBISofftmki5GL5K5nGm+lxjdgs5GkfKNFZ1DAL4fqNFwwJw0MioLwU5rfp9
- jA4zz2b+jc/kOXPU0fsIJSOpw+7Wc1oST5tlUCfG/CttzNA0AAp/1yi6IElOjtRWQB
- +vhtQhkCWpr8ak7UayLarOZHSfQcOgC4h7XoqvRDhVfVoxGtHUmQxXklmq/uP1MUv6
- Xd2PRMxocR0bYmpVo3j9QuAvctorvp4ItO4+m5qmiMHs7Exoedc+kgGAjuyF4/5l/r
- gcSS7pO8DmFlMmRsBiZQaag6LaONO6UszngnZtBA3XwzYY7f5qZv8yfoXvMFcVVvwK
- qUB0be5VuahNw==
-Date: Mon, 19 May 2025 02:18:10 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1747639356;
+ bh=iG2zu/8gwjcJEossKts202i0rn38gtgdkMf4FgLTH6w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NhufkVMz/LAmcrM5WN7k+R8FOb/9INZiOMkQcub8BGzQLatCAV9wdm4Wp5K7doS69
+ wrAFgXc/j+7iXBI4dVfcPZ6vouIzPNlbJ68ef/acJog53AdNhNUWyzlOaD2YYqMaod
+ fbDrcoTxqVXvO1nQMAOBw5ym7X1ZQz3AmWgfx03Zv0QKZPaiJ1qvK2Bq0+C2mIJvrF
+ 0M/zs6vlu4Ca1oCykmMViL1pmpdFjjVDIMp7I17q+7TGRHX3AG2R/NcKxw+y2tn6I7
+ B8t1H5YwId8aYIsBstY3IsSpDSmt4utmRAanIvMARBvDp7ESt39NIa9+fN6NXIwmm0
+ LYIFbSS0bqzzg==
+Date: Mon, 19 May 2025 09:22:32 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 14/23] drm/tests: hdmi: Add macro to support EDEADLK
+ handling
+Message-ID: <20250519-sturdy-cyan-mouse-6bd0f1@houat>
+References: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
+ <20250425-hdmi-conn-yuv-v4-14-5e55e2aaa3fa@collabora.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="fg7l2vzngw5vx72e"
+Content-Disposition: inline
+In-Reply-To: <20250425-hdmi-conn-yuv-v4-14-5e55e2aaa3fa@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,67 +66,70 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+--fg7l2vzngw5vx72e
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 14/23] drm/tests: hdmi: Add macro to support EDEADLK
+ handling
+MIME-Version: 1.0
+
+Hi,
+
+On Fri, Apr 25, 2025 at 01:27:05PM +0300, Cristian Ciocaltea wrote:
+> In preparation to improve error handling throughout all test cases,
+> introduce a macro to check for EDEADLK and automate the restart of the
+> atomic sequence.
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index c8969ee6518954ab4496d3a4398f428bf4104a36..c8bb131d63ea6d0c9e166c8d9=
+ba5e403118cd9f1 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -224,6 +224,16 @@ drm_kunit_helper_connector_hdmi_init(struct kunit *t=
+est,
+>  				test_edid_hdmi_1080p_rgb_max_200mhz);
+>  }
+> =20
+> +#define drm_kunit_atomic_restart_on_deadlock(ret, state, ctx, start) do =
+{	\
+> +	if (ret =3D=3D -EDEADLK) {							\
+> +		if (state)							\
+> +			drm_atomic_state_clear(state);				\
+> +		ret =3D drm_modeset_backoff(ctx);					\
+> +		if (!ret)							\
+> +			goto start;						\
+> +	}									\
+> +} while (0)
+> +
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I'm not sure here either, for pretty much the same reason. As far as
+locking goes, I really think we should prefer something explicit even if
+it means a bit more boilerplate.
 
-yamllint warnings/errors:
+If you still want to push this forward though, this has nothing to do
+with kunit so it should be made a common helper. I do think it should be
+done in a separate series though. Ever-expanding series are a nightmare,
+both to contribute and to review :)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+Maxime
 
-doc reference errors (make refcheckdocs):
+--fg7l2vzngw5vx72e
+Content-Type: application/pgp-signature; name="signature.asc"
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+-----BEGIN PGP SIGNATURE-----
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCrcNAAKCRAnX84Zoj2+
+dj9MAX9qfGQq296WzIqiz9klWhV3+6ue9kHaJets7hEX63eAUpq3tifBygp6/wB4
+hvIoneABgKoxz41rKUDONkovSXhMDUP74r2zmJC3qvBOBi0O/b2b6LiZXWM6ebhp
+lbqiM/yMVQ==
+=k0qq
+-----END PGP SIGNATURE-----
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--fg7l2vzngw5vx72e--
