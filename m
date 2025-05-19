@@ -2,82 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A592CABC687
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 19:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA03ABC6D3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 20:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E08AF10E4B7;
-	Mon, 19 May 2025 17:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD3410E31B;
+	Mon, 19 May 2025 18:07:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UBxp5gS7";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Is3AyBGr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC0410E4C8;
- Mon, 19 May 2025 17:58:55 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7399838db7fso4519737b3a.0; 
- Mon, 19 May 2025 10:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747677535; x=1748282335; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F/hXTxlFJMrvU7CPa2JHrx2ogSsPgBPZqjeavvvUR14=;
- b=UBxp5gS7zRtXGJP+Kb4+x3vaAq2HNpwLhK5qbWkeDaEjvLE4llJtU8Wh+mMMrEWvea
- mYj7AO/rovfb/if9wS8ErRyYgOZd4SHFJ7KkvpZYiApUtPEwLAecd0ySWTg7ux+Ednes
- F8pwOg/ea4bXh9Tbh5XPjfDivGHcCIIoP/b7f343N9f1h9pw3Cnq7pHgcubMfv7do4oJ
- eShCf4qKWvbxA5NEMEOehi4M1U1NPYPOYePOEfDbMf8QrQbLQ6uiyc/dVZrEhYWt3vyR
- dvPz0HWYwlIOLPcfF0yaGuKZGFVG3Q4LcultjutDKudzITAUWF4a+Bo4eDrOKw23R6xw
- a7Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747677535; x=1748282335;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F/hXTxlFJMrvU7CPa2JHrx2ogSsPgBPZqjeavvvUR14=;
- b=JDgn0xPMy0Wawf1bGM4fe9Z3WUUAs3Sy84aJUMKraNbG/aArSTOCfZE+K3Ky+uUBVk
- nKuhghQWQ75N1+9mOEO4TRznJc0MdA3h0UAZP+nqPD9hBVtP9QJsbnsiRQF/N0+qpR6s
- 3nuIC8RShjJ45EdsUoqQU6+en6ul0lxzwih0t1VJ2QzZrmslgojPbq0AbwG8SqwukOnj
- WndfT74g2plND9RXoyelJ+OmAVXYMqYhKQSOE+L/QCWSHsTqm50Mxu8OLBD+hQ5GU6Da
- 9gMc8VjxTvWmXK1Ar1xsGcyfWyIdeVaa5/g+uZb4Ef74Kw6FpHEX8vVLjlik9XeET4gg
- N1yw==
-X-Gm-Message-State: AOJu0YzYXtGl6mDqLsTHBL9cxY8KeHzgzk08RmKNSeE4is9dsF3LUXvg
- rtKWzkmpl3mGH5krCfLybSAL7tpAn5ki+3VqKCbSdpcHifejpHlf1ePQ4RKxaQ==
-X-Gm-Gg: ASbGncsM2L8SAKiD/CUULJWSXeTRyy/YmJnURR6zxVK3BdW8jzf1R8z/WOsLNWCL+L9
- LXjKTFV00RRA0nM/q2GksSl3eiWtPFW9cs7K1qIKa0jr4NREo9CKbaN3tu2sLLp6lQ5BQ7Y5vPY
- 4acM95fzX58hftbP8OHuSgoYiY6gC9rc9yqQnrna+Ne3++Hqz0g+BFySDtXMnmuyYPJh1bqqb3n
- ypnwYAmqbWlpbUFY2sYJPKGIQHz6cSLeGzf+hljFd1gNEKbs9NAjPbzL4xxz28/zDHNWB0kpO+S
- rKfTBPq/to9c9uuU4qC+vjdG3oNVNrufWcfXyJc8YAsbOfoGFa954GnBjhQUAxUrKLwOxnaEpU4
- kK6/T78ebFG+ayRFcciIoObXMAw==
-X-Google-Smtp-Source: AGHT+IHO7vUmfXPvZMeyKDWjNf4LOGaBf9hXJlFDwffRUWBX2ZxfXn1HguqoFF3TkkZafBez0mFjWA==
-X-Received: by 2002:a05:6a00:e06:b0:742:cdf2:62c7 with SMTP id
- d2e1a72fcca58-742cdf26398mr7819210b3a.4.1747677534937; 
- Mon, 19 May 2025 10:58:54 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-742a9709293sm6466435b3a.37.2025.05.19.10.58.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 May 2025 10:58:54 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v5 40/40] drm/msm: Bump UAPI version
-Date: Mon, 19 May 2025 10:57:37 -0700
-Message-ID: <20250519175755.13037-28-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250519175755.13037-1-robdclark@gmail.com>
-References: <20250519175348.11924-1-robdclark@gmail.com>
- <20250519175755.13037-1-robdclark@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA72410E31B
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 18:07:46 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J9SPfF022937;
+ Mon, 19 May 2025 18:07:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ l639tUWh+0RZLX+q5axulTBd10Rg0ePBWLEURnGTyTo=; b=Is3AyBGrP+7yYCFq
+ +81/lCLvNea66UPAYZmFUeTTleYo70JyS1ahcD9+SMCxu44TsHjnBDx80Tq+EtCp
+ EtDYSNWERi72I03xXrPk/5iTwU4+YBEoJVQ2lPATHAGoGzcSpT8zxVnLs9finvcf
+ W7ITDVXfVsTTlZcpyzKDvWEUgnD24RCbpIdTRwjP0uph0jfOIoWXo4IrY8LHcYrd
+ KLp6a1z2GQj6Bh9KIN4URPfpB0KO2IbtAqc1698zvHBmQVDq8bC9vKlXsSeVc+Pv
+ F4wrbm/ZGONqVHv9yS5GjY0XaODq9SxrAtfrsAEp5UZjLGzyHnfInawZojhTkb16
+ KnYt6g==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pju7d7x0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 May 2025 18:07:41 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54JI7e9L006397
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 May 2025 18:07:40 GMT
+Received: from [10.111.163.198] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 19 May
+ 2025 11:07:39 -0700
+Message-ID: <5395856b-92d6-4860-8ad6-0a82d679b514@quicinc.com>
+Date: Mon, 19 May 2025 14:07:37 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] accel/qaic: Add Reliability, Accessibility,
+ Serviceability (RAS)
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, <quic_carlv@quicinc.com>,
+ <lizhi.hou@amd.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <quic_yabdulra@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20250516160634.1408309-1-jeff.hugo@oss.qualcomm.com>
+Content-Language: en-US
+From: Troy Hanson <quic_thanson@quicinc.com>
+In-Reply-To: <20250516160634.1408309-1-jeff.hugo@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=XKEwSRhE c=1 sm=1 tr=0 ts=682b736d cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=53wffJMIMOjkZiTugjoA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: zKWHiBvtjU_dbQCry3tqLM7N5N26Iqvd
+X-Proofpoint-GUID: zKWHiBvtjU_dbQCry3tqLM7N5N26Iqvd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDE2OCBTYWx0ZWRfX/woEjXpYkU7h
+ UDUCCUcQ4pdHX3Hd1VkZ1fO8TuloIypSyATLjf2nqTE2FJjzLboXsneWYi7Xc7ra0ZlFo3JQyM0
+ LlsDND3XBD5Ke6WKP1NDeliDO8xj6YH2NbFO4Nvn5BBxQ1ut71DRImmxMRN3FhLuF2WNB6zx/by
+ rpR13L/VE18zK3MI1J6GSO38gWkpG2CG1a0V3fuFxjBgHhrsavnE94sPYnLJdPWJIGp1bst571e
+ //p0jehIy7x5cE+4hYyoog0RjNmA+BLBPazZxSbsnz0pNInoQycFlnmIAMKiGvol9eXbBUWITnS
+ Yo5GCnEnTL9yZGZM3PPSFkH6+8+jCr7lgMNWgPVOBXeOgyLcEei8rKU9bRCwG+6q286+cBDp/aE
+ mkI9iJGUwDES9ddcZCcKAFMpGa54N9v5sX30MT5761XzeD3OlMvrEtyryjY2LBXVVR/EEysq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-19_07,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 clxscore=1011
+ spamscore=0 suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505070000 definitions=main-2505190168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +103,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-Bump version to signal to userspace that VM_BIND is supported.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 5/16/25 12:06 PM, Jeff Hugo wrote:
+> AIC100 devices generates Reliability, Availability, Serviceability events
+> via MHI QAIC_STATUS channel. Support such events and print a structured
+> log with details of the events, and if the event describes an uncorrected
+> error, reset the device to put it back into service. As these events may
+> not all be reported via other mechanisms like AER, maintain counts of
+> the number of errors observed for each type.
+> 
+> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index bdf775897de8..710046906229 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -41,9 +41,10 @@
-  * - 1.10.0 - Add MSM_SUBMIT_BO_NO_IMPLICIT
-  * - 1.11.0 - Add wait boost (MSM_WAIT_FENCE_BOOST, MSM_PREP_BOOST)
-  * - 1.12.0 - Add MSM_INFO_SET_METADATA and MSM_INFO_GET_METADATA
-+ * - 1.13.0 - Add VM_BIND
-  */
- #define MSM_VERSION_MAJOR	1
--#define MSM_VERSION_MINOR	12
-+#define MSM_VERSION_MINOR	13
- #define MSM_VERSION_PATCHLEVEL	0
- 
- bool dumpstate;
--- 
-2.49.0
-
+Reviewed-by: Troy Hanson <quic_thanson@quicinc.com>
