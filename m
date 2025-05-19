@@ -2,133 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8707DABC4EE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B0BABC5DD
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 19:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6784210E43F;
-	Mon, 19 May 2025 16:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F1D310E26A;
+	Mon, 19 May 2025 17:49:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="L3IWVzl4";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="id4UoQBe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAA8410E439
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:53:10 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J8dkG9002941
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:53:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- mb4xLfXZNKPtfn9wmLcWyrskW+Yx8ILVuk5MPBj/GR8=; b=L3IWVzl42QPTsvqb
- hCmT8q7X/25zGTL2aMN3lLVLS1K+IxsKT4F7nzx1yTuXlqM8kfS1lduqhVdTM8zd
- zoxRxc3BmMrj5J5K6gchQzCskuPmr8cJE3MTxbODocuzCeZXFKj9jOZfmVNXvqES
- FTQNY+sbyk04EXbf6GtGO/42+UCcNjgJCz7Qw6O9rnWcPrpbykvUiMtpkKTraTZY
- itQuSPzRKAelUHUuv8LckKQ+gayHYEZC2Oo6QYkeGcBNmQ8RhIv6OdoStXYqskSg
- OqGKk3qdP+cCkzYT4hPq10ybt6c+hRZ8wX7AUEtX0i1t2Sy54uiTs4sCDfGcYKiv
- cijs5A==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46r1athcjf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:53:09 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-6f8d8f77d4fso22283636d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:53:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747673589; x=1748278389;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mb4xLfXZNKPtfn9wmLcWyrskW+Yx8ILVuk5MPBj/GR8=;
- b=O5PzV+DxzUtriW+u7TBXrS1qnL50tqFZdg7URmK01NIQ+wJzyPasOtoKsIcFZKVOau
- H+O+gkpOdZm8J5blkR7RN8dFCboUjDX3u1U/UVkiVunZHnRzpmclpeKWGKtNMuy7Dal7
- erKjvjpcvYof+T6i5pkeCYzI+MhGxB5U5xySuHh9slFNmGg/s+OGlPIo/aABM1/KWMgj
- ck4W6+483yXLDhhlk78FlfKLBmSTG2AvwEu+i8mPudq44aKciu4TwV6MgKnZLKajF67B
- 8kuIOA4nJxMjdf/Ul/OExv38kvYIl1/yoPF2xl0aqY4xPh6+FdJyyS8Um5Ag0D3BIliR
- 0ZEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQFsJ9Ozp90pOPb4iIkVFJfRGUsFhS5bmfvaKKXLi30tqX4FvPsJE7i22AQynozI3lNtI9jnWVF68=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzN10+rOSaezXolUL4aFt8ssI41tHGzcZ+6alG687oFN17Rd23F
- JD8Z3rpe0eHizAxUCt61PCf3MxmF0r3fMnqjqDsUG6QvRSQi+3cI4J16/i7rgz96gtEJrl75hCw
- rIwlho/qJrJqOiA39wW9zCMVetYqFfT7RAYBg8ZC2/wDaZlYgfhRgae5HrlZfpdE8ZJlQGcE=
-X-Gm-Gg: ASbGnctCSMOYdGRBOPhs+Z22jZQBdCLyZuNTA9598KP6VsdR1CEQ1qgJqW8Z0DBKUxx
- Va6SEQwNTscSp3WhPvmSTGkMRrRibW4qZcBb4JV6csPcRT+Y5HBMbLhwJkDbHS+Ph0L5UCVs9/3
- ZLqfKmUq+aegMZ5Ucq8mjnYbWG9g2rN4ZkX8FOzp1tt/P/BmRrVl/gl4mx8thUP57W/hLrIsuH3
- aWyvLXE5hS7S1pAxmG9/uCKijMFAe2seI/PxZkyoQ69xgUc2DoIJaV/WWTHGslKBPlXcFWpMxfr
- aQowtuDXYIi6oGYn774veiRDsxoI33dsUY0TCSfw/7plLXJx2y+Vcdrnr/us+Ejqk7BR
-X-Received: by 2002:a05:6214:405:b0:6f5:3e46:63eb with SMTP id
- 6a1803df08f44-6f8b0833007mr195921966d6.13.1747673588594; 
- Mon, 19 May 2025 09:53:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHvIqC4SYEoxg7ld+LNMo4kHLPjNfRWk0GWcdCnLzJRTGyDzMhLlP7Cr3xiD3OkNvOQg+196A==
-X-Received: by 2002:a05:6214:405:b0:6f5:3e46:63eb with SMTP id
- 6a1803df08f44-6f8b0833007mr195921246d6.13.1747673587898; 
- Mon, 19 May 2025 09:53:07 -0700 (PDT)
-Received: from [10.153.41.224] (176-93-133-115.bb.dnainternet.fi.
- [176.93.133.115]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e702da4dsm1935650e87.202.2025.05.19.09.53.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 May 2025 09:53:06 -0700 (PDT)
-Message-ID: <7d7f1712-b037-4f47-96a3-e57a13b58295@oss.qualcomm.com>
-Date: Mon, 19 May 2025 19:53:05 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 21/24] drm/msm/dpu: Implement 10-bit color alpha for
- v12.0 DPU
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, linux-clk@vger.kernel.org,
- Srinivas Kandagatla <srini@kernel.org>
-References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
- <20250430-b4-sm8750-display-v5-21-8cab30c3e4df@linaro.org>
- <ygd6givaigkmypmaufpeidkqauoujcndm2xemi5pm5zue6ou7j@zonusie3tuap>
- <b4dace94-afa1-4910-b77d-20de08b5a6b9@quicinc.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B1910E26D
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 17:49:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KFcjVzmG9xvOPZukhD+zAxgS77+uDR8lzN2CT1eYRaS7nFTf6eeK8Sy942/dpg3Plc6sXp3cBdDz70/DjCiV8mWjK/gNqew+m2YNlu6spEsC9fo8EsAopuImiMdykRWC1G6Boy0PXtIO2nhxRoyfG98Rw4FtksswzPYWQvsAuV3Q5tdMCjEMfIUKhk3ju/7ES93EMRj0XUKOXYBEVscYCKN2ezHac8kmkyNhb6JRNqvz4HSlC29KNgLrQQWlNvECEZ7JR7fPvL6L6WctQbERIKuRy1fY/4zYQ1zFCvMMu72R7YCPwEqEeRLm/mGvdgQcq5HNSPRyG/CiXGxNAU+oaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+KJwhrby/eMNwIEDmvgeg7W4JkyF2GiInAXUSJNYjvY=;
+ b=NN/2AR4hbjFMs3tKg28PxsAcmvVCt8rMdQBcJeFk9HbRSNc61DRn1t4HphCjL8xknUdYb6F78EuqYkuaWjdP8CI1QK/sAVn0tb1+U1WpOqABrfWOr7SQ2y+CojxwyahW2mEh/cqOf2GYQUsp7ryMqUEDdFW1D/q2vXoMosVqysJACYuv/G9v8TditnbBcEi6lasxGNFHruZJIHV6J7emQXJG0JYRjav5y2P74ZUfO9TJ8n6cPYTbPgC9mI5i68Caexov6zrCLXINFVhN9YGuu8Qi0oPzDcBCx7RwvsN+KE46MUpgvAYSadVBdBQ5Bh5O7l03PIuNceIIyo6GSnSORg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+KJwhrby/eMNwIEDmvgeg7W4JkyF2GiInAXUSJNYjvY=;
+ b=id4UoQBenMubCXEfnMiSEBTsJehCgmCGncLi3GVAKWOHPhhvUvVfe7Evt/0+rx7FKTRJp6EFgpu1+4wWReaZdZaTg13KluvAQO1zEWfSIkRI+Wz/TSiM0bGbu9VZD443MeWd1u+eP5CXxIY7by8tw6h/0pjNeBRecVmiui/SKaI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com (2603:10b6:5:389::22)
+ by CH1PR12MB9717.namprd12.prod.outlook.com (2603:10b6:610:2b2::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Mon, 19 May
+ 2025 17:48:57 +0000
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e]) by DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e%5]) with mapi id 15.20.8746.030; Mon, 19 May 2025
+ 17:48:57 +0000
+Message-ID: <8a16978a-2f02-a9bb-05b0-368e3ee8e284@amd.com>
+Date: Mon, 19 May 2025 12:48:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 8/8] KVM: SVM: Flush cache only on CPUs running SEV
+ guest
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <b4dace94-afa1-4910-b77d-20de08b5a6b9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=OfqYDgTY c=1 sm=1 tr=0 ts=682b61f5 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=wJfVPMc1y4yLOrLMgEZDyw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=QqOX20ToenTIRIA7GcIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: vta6CdO_xdU0kMVNNCfawmYWJRgd75uZ
-X-Proofpoint-GUID: vta6CdO_xdU0kMVNNCfawmYWJRgd75uZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDE1NiBTYWx0ZWRfX3uOk/QcTt1U4
- B3PxaqSNhqnr0ahh97Rlj3UVH1GWmtnsdWDNhAhnMCCECU/bJg70P5xQvj6q9lDe0PDO1TmTE6z
- M4z0tBMDJXU1sHKrNLRlXbX/G6RiiBP01w1XPKzrw9vLMwamhcIFgVt6fSW+xuQcZ5VxxF5oAX7
- vrhppLSZWi56ZTNw/9r/874Iudpu5SHG27F1AjHMwQlyWduTD7gxroLRkQNV1YjgtKjLB3K/xoL
- +3sqfGk5q+KB6U1wsz08ut7AgYn5QZxt0pvL+qidaEf3BFSGVUbDorXKtohD1l2zS0x6nTJFJI2
- reC6smTvm9wriXT6Ql6oTqNq+0aDc/iUHp5iRXVWau6lV4ju9DzQC7F3Da1E3k6l6Sr9HWLGWKb
- KhmwM1E3/s3Eey9xR3tUsNdmXFvRuml9fs30LLQctPz1skto7qmuztGoBvI2CqwUHjskaZHo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-19_07,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505190156
+To: Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zheyun Shen <szy0127@sjtu.edu.cn>,
+ Kevin Loughlin <kevinloughlin@google.com>, Kai Huang <kai.huang@intel.com>,
+ Mingwei Zhang <mizhang@google.com>
+References: <20250516212833.2544737-1-seanjc@google.com>
+ <20250516212833.2544737-9-seanjc@google.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <20250516212833.2544737-9-seanjc@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR18CA0020.namprd18.prod.outlook.com
+ (2603:10b6:5:15b::33) To DM4PR12MB5070.namprd12.prod.outlook.com
+ (2603:10b6:5:389::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5070:EE_|CH1PR12MB9717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e415860-d1c9-49fe-3883-08dd96fd6dd6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?em1taFNPcFk3djJwOW1pdHdDUnlBQVN5QUw1ZHNTVVFuNm52VnV1U0s0Mkhl?=
+ =?utf-8?B?R1MrUDY1NmgzeDZPRkY1cThCeHN6MXJjWDBaMGNaL0o2NjBqam40bXMvRnU5?=
+ =?utf-8?B?NXFCV3U5MGwzWXBiQnFiSmI5SG9Ld040MTFDOHkrY1ltMzF6NDJWcExBZGNz?=
+ =?utf-8?B?UGQrdndoSlJVVy91SGR0dmF2K3NxZElpZzQ0U1ZIZGprOWpMMDM3RDBnMWlD?=
+ =?utf-8?B?b2dYb0dQcmsvanJsMUxRT2xVTEJ5dGdVcldCM2cyU2I4ZnlXeVh5QVFTRDY5?=
+ =?utf-8?B?eXBORnlON0k3VlQ1OHZ6c2Rxc2FwZS9iUXh0NVRyMEQwMXNJTTdWVkt4b3B1?=
+ =?utf-8?B?NHdCVWI4NEZXQ2pSclFqRVZNTTdGKzRRUU1vTjVQNVV6Q3J2L0hJYzJIZGdy?=
+ =?utf-8?B?eTRCWGtENFBkY29ielR0ellRTGpBQXRrSmk2OGM0ZVQwZkRiR1pvMUF0ODc2?=
+ =?utf-8?B?bFhCeWhKZlB1YzlBTFI2SHNHOFAvUnNOZkhOUWFmaVVYYXBBMld2d1hCSmhj?=
+ =?utf-8?B?bkU2UmVPN1h0Z3pzSWZkMnMyQnVmV0U2RHZ4YXVrMzZleVcvb3JnYUZXeVRn?=
+ =?utf-8?B?REVQTmNTZmUyb1h5Y0ZtcjltVS9sWmhyUHdRMWhzS1oxT3Z0VVRxSFd3T3Bz?=
+ =?utf-8?B?eEVJV2s4ZGRpTG9CejZWWE1QRXluS1JLU0twazhnUW5WVTAxWjZJcElEQ1lB?=
+ =?utf-8?B?YnRaZUI2UDZ2enV0WGx3Qm5CakpDWG1QRjVXRGVTc0tGYk9pZS8yY2ZVaE5r?=
+ =?utf-8?B?TlUyZFIyU2hHa1RjQ1lMYzE0ZDdkenM4YUZxNU1NcVZVRFpkZUFTTlBtb2dC?=
+ =?utf-8?B?bVVZM0ZBdGVZczZGZ24vb05KbUdUVDhwK1JmTHpuU1VYN0ZpNHlSRzNGTHE2?=
+ =?utf-8?B?QldRNW9hWXdUQ21RQmJRUkxra3B3UUVvSlhhc3F5UjJuNXQrUGFhN2N0Smww?=
+ =?utf-8?B?MTFDVmVoTnNZOGpWRUtYWVVVdW9TSEM2eUtjbWo1TEJCakEwRENvTlhBK2pU?=
+ =?utf-8?B?YkR2NWJOK251azMwS1d3ZmUxaGo5SXQxclpIVVEzRTlZQnlzeHBKMzY1a01Q?=
+ =?utf-8?B?cEVZWGtpREtBQi84OElhcURSWFdNL0NCdFV6dVV6d283RkF1Y2hlWDl6aXpp?=
+ =?utf-8?B?L3FQdktzbXR1Y2o0SjRVT0lOa2h6OHdHWmU0TGNnWm43N2ZrZzNTbm1EVml3?=
+ =?utf-8?B?Z2NnNVpDZjFnd0E4M1dYdjFuUFJpSzl1OS84MHU3bzZ5Y1dXWTBkSTNKek45?=
+ =?utf-8?B?WWF2UGVTVStMS2JLUHkzNjNEZ2x4MlRFcEZ3eVBBdWdOQjJLRXJwaU1kWDRl?=
+ =?utf-8?B?OG5Ja0xSNllxaWo0cUtDNGlXZkNURjY3SFhHUzJFbUcvTDlKVDc3MjR4OVN4?=
+ =?utf-8?B?akd5UW12c3cxMUtZUExhOWMxNmlRa0gyVVhCSEZHZVBLUk1GNXk3OEhxVE9k?=
+ =?utf-8?B?Z0N5aU9lVWNpOFk5TjJtbmVsUFpScExhUU9QZmVVUUoxdHZ4cVRiRXJqZ1R5?=
+ =?utf-8?B?QUxLWUFXU1ZOYTRYVXpQQkR3NmhnOTQ3bGQxekN5NisrS011ZmdGV3hvWE9r?=
+ =?utf-8?B?c2tEVVJEaTJSU2tUVXRRU21FSU5MS1ZCa0EvdTVMVHNTb1dNTXNlSGwzUDZr?=
+ =?utf-8?B?OWdPYytiUk1RbHJlK2toS1V1RVJ5Mm5aMnB1UE9sbmFsS3o5Mi9mc3VnLy9x?=
+ =?utf-8?B?bEErRklsdDJRTVYzd2JEaEtWZjlzTkJobWx2Z1YyRjF4RjRoNGVEcGVQY2t2?=
+ =?utf-8?B?OEZzaTZzSU9rZkFwOTFtRGR5N0l4dDRoQ1RCd2N6M0VEdWFFS0RCN0l3dzd2?=
+ =?utf-8?B?MDNkRHlldlkyTDZ2UjBVOTlEZFd2VVBLU3d4UG9QRW9Od0Y3RllhcGRGaGFt?=
+ =?utf-8?B?cWJvVjgrOFNQSUdHUFJTRHVOZWxNb3FzeXozZ0hKbklOcFdrN0V0Y0VxbGhu?=
+ =?utf-8?B?UUtoUWp3RXZINVNMRThCcDI4WW5HaWdtUjVIZUlmcWRrSS9lcDhmRms3Mjc3?=
+ =?utf-8?B?c2FLYzdqdStRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5070.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDg2dDJEM1ZTWFE5RU5TWUFqYnFvOUJ4dWx2YTdNb3ZMbFBhWTBvMWhUVkt3?=
+ =?utf-8?B?RmthMWY3Q1h3R1hHcVdQQUhqby9OWW1PT0hOQlRWZGt1SFZVRWR6MzJJTkNC?=
+ =?utf-8?B?d0Y0MEhhYmFBRG1pbEhxZGxXdWN5cm9Sb1dWYjFrS0NGSm93eDJJME1lN1Fx?=
+ =?utf-8?B?UGlScno3TGxXMW5ONDFJcHVEWk15clF1YVdla2QyVmQvRENTR3hmSi83eWds?=
+ =?utf-8?B?SGxRLy95dTB5TjJ2bjZSTmdxOGdZc01wUW95VG84ZGxWMWNSOVFITjB5Y0NY?=
+ =?utf-8?B?Ymk1ekJQVUhjRGxVNFp5M1dUVXpTUVZhdnUwMUdCNE5CUjZ2cVI3cm1KY2tn?=
+ =?utf-8?B?Z1JOOXQxQUhJeFJRNEV5dW1YUkJwbWlNdFBSVllpSEE5WDNjcUgydDcyOTdF?=
+ =?utf-8?B?Y3VZMWpHTTdMYWlEOVdkMXNadGhNMXI1bm5aVzZwZ0lsR2tRQ1RHUDhHSWxq?=
+ =?utf-8?B?c045clE3WjBPcE5DNzJJVUJzZzdOZ3B5UnNvRUtaRkVhWHhIY1dFUVMwS0Z6?=
+ =?utf-8?B?ekxkNGR4b0ZiajlMaTJkdFVtdm8rSExqTnI1eGdZOU1waXczemgwb3c4bG5Z?=
+ =?utf-8?B?ZHU2M2sySmhGdFhjdkVhaFNhL2VPU3ZFbFE5VzlWb1dwdkhCbGZqQ1JHTk85?=
+ =?utf-8?B?eHRybjY1L1NndE9TVGJHRk5qUmI2eGpwT0RKSEhTUTJwOW13Q0lnUm5zU29P?=
+ =?utf-8?B?bjhqR0F6Z1hraHdsQkg1ZzRSZGVSSStUd2wrMmFaN24vREN2U3o2YnJyNGsz?=
+ =?utf-8?B?SnlPeFNKeEFTZm1IeEh2Mm5UVFhwTXVRL2p0aUppRGEwbUhNdk9SMUFJaitI?=
+ =?utf-8?B?NE1LdUtXMnZoUXM3OWE0V3dHZHl6cnpvNVBONGpwNTNrSXdTVXFUNUJEOHU2?=
+ =?utf-8?B?eUpyRk1IM3RkeGE2d0pUS3ZqL0dUZWEwS0hNeHUrRnJpckJiaU1ESGc0c1k1?=
+ =?utf-8?B?cDZWMDJZWHByVDdkai9HNkhGT2NMNTNWLzcxc3dTYlBuMjJpMEU2dDV0Z2Ja?=
+ =?utf-8?B?WjhaL1YreU5FL3JtTlZDK2xqSzZjNTZNZ3BodVdCZmRnMVN3cW9ER1g5bkZ0?=
+ =?utf-8?B?bG1yQVNJSEhKWHV5VnNuanNkL1hHeis4L2xWanRPSFNPbG41cEFZQ050YVJD?=
+ =?utf-8?B?cmtpSVpBWkcyNk9XZHFUZVhHRmNzWTBVK210SFR1bUlqUmJmcE1mdGVyT2d3?=
+ =?utf-8?B?MSs5bjkvQVV1MjFxSENpUjErL2RER1lGRmc2dlF0c3ZqZ2xNbmV5aEdrWS93?=
+ =?utf-8?B?ZTg2TmFaTEEwd045NmM2NTJRbnlTQVgwZmNnSmFjZllYTG9Yb3d3emxuVFZI?=
+ =?utf-8?B?UHZUbmIwV1dmVHN0WUVtQmxidldHODVlRXNPQ0x5ZjBhTTQ5cDdaWWR1ZndP?=
+ =?utf-8?B?RXRUSjRmT3dsVVI4eGNJbWUySXA3SzlPbHlVbzVKK0Y1ODNscUxGZnhLbitw?=
+ =?utf-8?B?NlV0K3FTWEE2M1N6UUVtd1MwSHNlM3I1eFB2ckcweFY2NEw1QXk3WS9HclNW?=
+ =?utf-8?B?czk1T3FoUmdjUytRZ1VjZlV0N04wT0ZGL2pabEFRM2ZlS0E1VithTHp6SEtM?=
+ =?utf-8?B?UEk3T1JUWUxLb3dTeFRuSWxOemdSKzVEVzkwcFFsRzJVazRXa25tSXNYVG9v?=
+ =?utf-8?B?R1VMNG1pY0ZLRGJUbzloVFVna0FTVi9VMDNFbFMwbzNWSHpTUGsvVTcrYjk3?=
+ =?utf-8?B?YUNhWUExUkdlbit3RHVXckdpZzdxNGN6Mk9ic3FxSGo5SHJhOWpGLys4TmhC?=
+ =?utf-8?B?K2ZmWHkvZTdRTHMrakpEWWNGM0dNeDcvc1p2Slh6a21xbmhqVnl4S2poQnYw?=
+ =?utf-8?B?VWhnT3I3OFEzQnpTRzdlY2k2azZaSkRKWFd5dHd6VjkyNFFPUm5pb2lSWTQy?=
+ =?utf-8?B?QWpnNEFSczdSemViN1VDZCtTUVJNdjJqNUJtdmxvTXQ5cFU1WEw0NFlhcGd6?=
+ =?utf-8?B?WXJFMEY3RmgyL1k4UGV5dGc4cXBRSFlpQUVMYi9mWEE0NWdIVDBFbWl4Y3po?=
+ =?utf-8?B?WXBSNWx3ajBuSTNkZmJsTndHVEZXeFdDY1hrdmxpd21aODQ4Z09ZSnNoNHlI?=
+ =?utf-8?B?SVZUUFRiQlgvdFE0alM2dTIvWG82UzN4VkVXRlB2TzJ2aXhaL1htSVFnNEc2?=
+ =?utf-8?Q?NLafyca4QrLJXWZB4IujIPFtQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e415860-d1c9-49fe-3883-08dd96fd6dd6
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5070.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 17:48:57.2416 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bUZmr+mtbDg6mipb05rlrWHzeKAauQgC9LtIQwb+bnXIDFH0FwI12XT3RolbxP3iBTAbf7zJ+490rGmlOuui1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9717
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,82 +176,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2025 19:49, Abhinav Kumar wrote:
+On 5/16/25 16:28, Sean Christopherson wrote:
+> From: Zheyun Shen <szy0127@sjtu.edu.cn>
 > 
+> On AMD CPUs without ensuring cache consistency, each memory page
+> reclamation in an SEV guest triggers a call to do WBNOINVD/WBINVD on all
+> CPUs, thereby affecting the performance of other programs on the host.
 > 
-> On 5/5/2025 5:24 AM, Dmitry Baryshkov wrote:
->> On Wed, Apr 30, 2025 at 03:00:51PM +0200, Krzysztof Kozlowski wrote:
->>> v12.0 DPU on SM8750 comes with 10-bit color alpha.  Add register
->>> differences and new implementations of setup_alpha_out(),
->>> setup_border_color() and setup_blend_config().
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>
->>> ---
->>>
->>> Changes in v4:
->>> 1. Lowercase hex, use spaces for define indentation
->>> 2. _dpu_crtc_setup_blend_cfg(): pass mdss_ver instead of ctl
->>>
->>> Changes in v3:
->>> 1. New patch, split from previous big DPU v12.0.
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 19 ++++---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c | 84 ++++++++++++++++++++ 
->>> +++++++++--
->>>   2 files changed, 94 insertions(+), 9 deletions(-)
->>>
->>> @@ -175,12 +246,19 @@ struct dpu_hw_mixer *dpu_hw_lm_init(struct 
->>> drm_device *dev,
->>>       c->idx = cfg->id;
->>>       c->cap = cfg;
->>>       c->ops.setup_mixer_out = dpu_hw_lm_setup_out;
->>> -    if (mdss_ver->core_major_ver >= 4)
->>> +    if (mdss_ver->core_major_ver >= 12)
->>> +        c->ops.setup_blend_config = 
->>> dpu_hw_lm_setup_blend_config_combined_alpha_v12;
->>> +    else if (mdss_ver->core_major_ver >= 4)
->>>           c->ops.setup_blend_config = 
->>> dpu_hw_lm_setup_blend_config_combined_alpha;
->>>       else
->>>           c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config;
->>> -    c->ops.setup_alpha_out = dpu_hw_lm_setup_color3;
->>> -    c->ops.setup_border_color = dpu_hw_lm_setup_border_color;
->>> +    if (mdss_ver->core_major_ver < 12) {
->>> +        c->ops.setup_alpha_out = dpu_hw_lm_setup_color3;
->>> +        c->ops.setup_border_color = dpu_hw_lm_setup_border_color;
->>> +    } else {
->>> +        c->ops.setup_alpha_out = dpu_hw_lm_setup_color3_v12;
->>> +        c->ops.setup_border_color = dpu_hw_lm_setup_border_color_v12;
->>> +    }
->>
->> I tried picking up these patches, and choked on this one. This heavility
->> depends on the DPU fetures bits rework patchset (mentioned in the cover
->> letter, it's fine), but granted the lack of the reviews / updates on
->> that patchset I can neither apply this patch (and its dependencies) nor
->> steer Krzysztof away from basing on that patchset (this patch provides a
->> perfect example of why that series is useful and correct).
->>
->> Abhinav, could you please continue reviewing that patch series?
->>
+> Typically, an AMD server may have 128 cores or more, while the SEV guest
+> might only utilize 8 of these cores. Meanwhile, host can use qemu-affinity
+> to bind these 8 vCPUs to specific physical CPUs.
 > 
-> I think we could have continued this series on top of the current 
-> feature bits model and I thought we were doing that based on #linux-arm- 
-> msm chats in Feb between you and me. Not sure what happened there.
-
-I'm also not so sure. Krzysztof has been posting it on top of the 
-feature-removal series, so be it. Let's see, how many patches of that 
-series would be acceptable in the end and decide the fate of this series 
-afterwards.
-
+> Therefore, keeping a record of the physical core numbers each time a vCPU
+> runs can help avoid flushing the cache for all CPUs every time.
 > 
-> Regarding the review, myself and Jessica have discussed this last week 
-> and Jessica will take over the review of that series and please work 
-> with addressing the comments provided there by her.
+> Signed-off-by: Zheyun Shen <szy0127@sjtu.edu.cn>
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
 
-Ack
+Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
 
--- 
-With best wishes
-Dmitry
+> ---
+>  arch/x86/kvm/svm/sev.c | 46 +++++++++++++++++++++++++++++++++++-------
+>  arch/x86/kvm/svm/svm.h |  1 +
+>  2 files changed, 40 insertions(+), 7 deletions(-)
+> 
