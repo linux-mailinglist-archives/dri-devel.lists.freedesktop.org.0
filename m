@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B66ABB877
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 11:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D2EABB89F
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 11:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF0510E283;
-	Mon, 19 May 2025 09:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755BE10E388;
+	Mon, 19 May 2025 09:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6BF3910E23E
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:18:42 +0000 (UTC)
-X-AuditID: a67dfc5b-681ff7000002311f-94-682af76e9ead
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9D6410E24F
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:18:43 +0000 (UTC)
+X-AuditID: a67dfc5b-681ff7000002311f-a4-682af76e43e1
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -36,45 +36,45 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
  yskelg@gmail.com, yunseong.kim@ericsson.com, yeoreum.yun@arm.com,
  netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com
-Subject: [PATCH v16 12/42] dept: record the latest one out of consecutive
- waits of the same class
-Date: Mon, 19 May 2025 18:17:56 +0900
-Message-Id: <20250519091826.19752-13-byungchul@sk.com>
+Subject: [PATCH v16 13/42] dept: apply sdt_might_sleep_{start,
+ end}() to wait_for_completion()/complete()
+Date: Mon, 19 May 2025 18:17:57 +0900
+Message-Id: <20250519091826.19752-14-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20250519091826.19752-1-byungchul@sk.com>
 References: <20250519091826.19752-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTHfZ772krNTWHbHSyZqXMqRicLbmdTlsUvPkt8mVkWI27ZbuTG
- VqGwVlCWmICik3ZU0RUmUCw4L7Wtii2J3bQGKYJocCgMgQGbuJEhb47ZOpC9lM59OfnlnPP/
- nS+Hp7StTCJvMO6RTUYpU8eqafV4XM0K45Nk/arSxkUQfnyEhqoLXhY6znsQeBsKMYxcXw/3
- ImMInrZ/T0G5vQNBzf0BChpaBhEEXQdY6PxlAXSFJ1los1tZOHj6Agt3Rmcx9Jcdx+DxbYSf
- lGEabh2rxVA+wkJl+UEcLb9hmFbcHCgFi2HIVcHB7P0UaBvsZiDYtxxOVvezcCXYRkNLYAhD
- 53dVLAx6/2HgVssNGiK2JOgoLWHg3EQtC6MRhQIlPMnB3UYnhhbn81BfFBUe/uNvBlpLGjEc
- /uYihq7eywiuHvkZg8/bzUIoPIbB77NTMFN3HcGQbZyDQ19Oc1BZaENgPVRGQ1H/anj6Z/Sy
- 43EKFJ6qp+HcX93o3TTirfYiEhqbpEiRfy+ZCf/AkmDESZObtSL5tmKAI0VX+zji9OUSvyuZ
- nL4ygknNVJghPncxS3xTxzliGe/CZOL2be79l9LVazPkTEOebHrtnU/V+puFE2zOr/P3Wdoc
- uAA1qyyI50UhVaxyr7UgVQzPTHWiOWaFJWJPzzQ1xwnCQtFfMsxYkJqnhO754j1Hb2wpXpDE
- R4FRPMe0sFisc/0eY43whtg7aGf+k74seuobYyJVtN9nDcWyWmG12OWppuekolCpEuvOhp4F
- XhSvuXroY0jjRPPcSGsw5mVJhszUlfp8o2Hfyh3ZWT4UfS9l/+z2AJrq+KAJCTzSxWnqg8v0
- WkbKM+dnNSGRp3QJGrd/qV6ryZDyP5dN2Z+YcjNlcxNK4mndC5rXI3sztMJOaY+8W5ZzZNP/
- U8yrEgtQ+nROgdknzTzkS3PHHvz4qCwQP7puc25OXOtXCWknh1tfbU74MGNm6NIrbzJvbWh+
- zt5uDoR3vbftRFCudG2puGaLJ8oG5evdb/eHbZ60Jw8+2nVpgfVjTXrSQKkju26N1bDuqEO5
- XLxp05qt3tq+s+3FiUyq2PBZ8fg27YH0/FD5FzrarJdSkimTWfoXSiC0w1oDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0yTZxTHfZ73VorV10r0VbY4m4BaL4PEmmM2jZ/w2ZI5wxcUb7yZ72wj
- FNMKAw0LCBqEQdCl4gVYBS2kLYgtS5hSJKDVghc2ugoIKMQZG24OaRnK1ILxy8kv53/O73w5
- MkppZZbLdPqjkkEvJqtYOS3f8VXuev2UWhvT7scQmMynoeyanYXOOhsCe0MOBv+d7fA4OILg
- 7YNHFJSaOhFcHuynoME9gMBVc4KFrucLwBsYZ8FjKmQht+oaC38Oz2DoO3cWg83xHTy1vKCh
- o6QSQ6mfhUuluThUXmKYtlg5sGRHwVDNRQ5mBmPBM+BjoK3cw4Crdy1cqOhjocnlocHdOISh
- 60YZCwP29wx0uO/RECyOhM4zRQzUjlWyMBy0UGAJjHPwV4sZg9u8BOrzQtZTr98xcLeoBcOp
- K9cxeHtuImjOf4bBYfex0BYYweB0mCh4U30HwVDxKAcnf5nm4FJOMYLCk+doyOvTwNv/QpfL
- J2Mh57d6Gmr/96FtW4m9wo5I28g4RfKcP5E3gb9Z4gqaadJeKZA/LvZzJK+5lyNmRxpx1qhJ
- VZMfk8sTAYY4rKdZ4pg4y5GCUS8mYw8fcjs/T5R/fVBK1qVLhi+3Jsm17Tlj7JF/wjMKPOU4
- G90OK0BhMoHfKFyd6EKzzPKrhO7uaWqWI/gvBGfRC6YAyWUU7wsXHpf3zA0t5kXhVeMwnmWa
- jxKqa/6dYwW/SegZMDEfpSsEW33LnCgs1O8tbJvbVfIawWuroEuQ3IzmWVGETp+eIuqSNRuM
- h7WZel3Ghh9SUxwo9EGWrJkzjWiya3sr4mVINV9R71qjVTJiujEzpRUJMkoVobA6V2uVioNi
- 5jHJkHrAkJYsGVtRpIxWLVV8myAlKflD4lHpsCQdkQyfUiwLW56NqvjwFUkxC33rEjc/9930
- H890T+Tf/6abMVmzdL/GNzzxxHk7VtqyprLT5+8e3a9hv/feqt5ML/OfJ4diftTsrV3irfy9
- LGJL9C2XxbNI68zw1/Xrd0TeiCsJuqJvi1WJa3xxi2eCjHyQ01urK3JPpFqebNrzc7R6n5CQ
- GP/ZLrWKNmrFWDVlMIofAJeO0hA9AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH9zz39t5LZ/Xaod6BZqzxFSOKojnZpjHGZY8mbMaRJc4P8zpu
+ druValpBWLKNjkK0CPGtoKKsFlOatghrTWRqCYOAMAPr8IrQIFM2iUSQCLQMYW4F45eTX845
+ /9/5cjhKe1uVwOmNRySTUTToGDWtHpnnXGecTJY39JQuh8jEMRou1voYCF31IvBds2AYavkI
+ 7keHEUx3/E5BuT2E4PKjBxRca+1HEHT/yMDdv+eDEhlloN1ezEBBVS0DfzydwdBXdhqD158O
+ f7oGabhz0omhfIiBivICHCtPMEy5PCy48lfAgPsCCzOPUqG9v1sFwfBaOF/Zx8CtYDsNrfUD
+ GO7euMhAv+8/FdxpbaMhWpoIoVMlKqh55mTgadRFgSsyykJXowNDq2Mx1FljwqLxlyq4XdKI
+ oejKzxiU3psIGo49xOD3dTPQHBnGEPDbKXhR3YJgoHSEhcITUyxUWEoRFBeW0WDt2wzT/8Qu
+ X5pIBctPdTTU/NuNtm8lvkofIs3DoxSxBo6SF5F7DAlGHTT5zSmQXy48YIm1IcwShz+bBNzJ
+ pOrWECaXxyIq4vccZ4h/7DRLbCMKJs86O9k9Sz9Xf5ApGfQ5kmn9tgNqebrJhg8HF+Y+uRdC
+ +Sgw34biOIFPE5wtN6nXXHBiEM0yw68Senqm5vrxfJIQKBlU2ZCao/juN4X7l3rnlt7iZeGU
+ vYqdZZpfITy+0hZjjtPwW4Si6ytfOd8RvHWNc564WDtc3DwX1fKbBcVbSc86Bb4iThhVXrKv
+ Am8Lv7p76JNI40BveJBWb8zJEvWGtBQ5z6jPTfnyUJYfxd7L9d3M/no0Fvq0CfEc0s3T1AXX
+ yFqVmGPOy2pCAkfp4jWewGpZq8kU876VTIe+MGUbJHMTSuRo3RLNxujRTC3/lXhE+kaSDkum
+ 11PMxSXko2VtwarkFMb6mKOaTQcXTe7tqH6eJH8ibhW2LFqdF1bSf9jpsHTYupSMsc9qPuxa
+ suPc2gXbJhzjSbkG847wROL6so74dHd/b+/XmQ2WNFKbsvv7eGVPtlK9a+b9xfJf19/L+HgS
+ nx2ub9ugT9jnWXfGC+PLVoo1V1sKM97dtMDeqaPNspiaTJnM4v/IgWivWgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0yTZxTH9zzvlWrJa0V9I3FbOtkcDFaimBM1xLkYnyxx2TcTv8wqb2xj
+ KaRVpCYq2EKwCAGTFpXLCjSVQbmsJRleylgZ1c6JXCooQxSCBCJKghRF8FIwfjn55fzP+Z0v
+ h6cUvzMbea3+uGTQq3VKVkbLft5pTtS/iteobMUyCM8V0FDR7Gahp6kBgbs1F8NU1z4YnJ9G
+ sHj3HgVlth4E1aOPKGgNjCDw1Z1joX88GkLhGRaCtkIWzLXNLPQ+W8IwbL+IocGzHx67Jmi4
+ U1KDoWyKhfIyM46USQwLrnoOXDlxMFZ3hYOl0WQIjgww0FkZZMA3lACXq4ZZuOkL0hBoG8PQ
+ f72ChRH3ewbuBG7TMF8cCz2lRQw0vqhh4dm8iwJXeIaDvg4HhoBjPbRYItb8l+8YuFXUgSHf
+ +QeG0MMbCNoLnmDwuAdY6AxPY/B6bBS8udqFYKz4OQd5FxY4KM8tRlCYZ6fBMpwCi68jlyvn
+ kiH3txYaGt8OoN2pxF3lRqRzeoYiFu9J8iZ8nyW+eQdN/q0RybUrjzhiaR/iiMNzgnjr4knt
+ zSlMqmfDDPHUn2eJZ/YiR6zPQ5i86O7mftl0ULYrTdJpsyTD96mHZJpFvxVn+tZkT97vQTnI
+ G21FUbwobBPNFybQMrPCN+KDBwvUMscIX4reognGimQ8JQysEgcrH64MrRU0YqmtlltmWogT
+ nzpvR5jn5cJ2Mf/Prz86vxAbWjpWPFGR9lBh58qqQkgRQw1VdAmSOdBn9ShGq89KV2t1KUnG
+ YxqTXpuddCQj3YMiD+Q6vVTahub69/mRwCPlanmL71uNglFnGU3pfiTylDJGXu/dolHI09Sm
+ U5Ih41fDCZ1k9KNYnlZukP90QDqkEI6qj0vHJClTMnxKMR+1MQflv8pzdv/N6kx7MlWXNs3G
+ SRomsfXHrvH/3QmmJ18xaUOLTZ7RaWe7dLZ1whm95od1ZpWpuuRdwa5AwKo6nNWU2rg/ru1w
+ KDaI24823zqTtGXr5b0laxNtvXfRjVVocLxg82QGcR+4/p89z96XvQNZ/+m2+PZGv/Zf/fw7
+ e4LqLyVt1KiT4ymDUf0B+5bOWzwDAAA=
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,54 +91,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code records all the waits for later use to track relation
-between waits and events within each context.  However, since the same
-class is handled the same way, it'd be okay to record only one on behalf
-of the others if they all have the same class.
-
-Even though it's the ideal to search the whole history buffer for that,
-since it'd cost too high, alternatively, let's keep the latest one when
-the same class'ed waits consecutively appear.
+Make dept able to track dependencies by wait_for_completion()/complete().
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- kernel/dependency/dept.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ include/linux/completion.h | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index ad443e063fdc..a2384f3148c5 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -1486,9 +1486,28 @@ static struct dept_wait_hist *new_hist(void)
- 	return wh;
- }
+diff --git a/include/linux/completion.h b/include/linux/completion.h
+index fb2915676574..bd2c207481d6 100644
+--- a/include/linux/completion.h
++++ b/include/linux/completion.h
+@@ -10,6 +10,7 @@
+  */
  
-+static struct dept_wait_hist *last_hist(void)
+ #include <linux/swait.h>
++#include <linux/dept_sdt.h>
+ 
+ /*
+  * struct completion - structure used to maintain state for a "completion"
+@@ -26,14 +27,33 @@
+ struct completion {
+ 	unsigned int done;
+ 	struct swait_queue_head wait;
++	struct dept_map dmap;
+ };
+ 
++#define init_completion(x)				\
++do {							\
++	sdt_map_init(&(x)->dmap);			\
++	__init_completion(x);				\
++} while (0)
++
++/*
++ * XXX: No use cases for now. Fill the body when needed.
++ */
+ #define init_completion_map(x, m) init_completion(x)
+-static inline void complete_acquire(struct completion *x) {}
+-static inline void complete_release(struct completion *x) {}
++
++static inline void complete_acquire(struct completion *x)
 +{
-+	int pos_n = hist_pos_next();
-+	struct dept_wait_hist *wh_n = hist(pos_n);
-+
-+	/*
-+	 * This is the first try.
-+	 */
-+	if (!pos_n && !wh_n->wait)
-+		return NULL;
-+
-+	return hist(pos_n + DEPT_MAX_WAIT_HIST - 1);
++	sdt_might_sleep_start(&x->dmap);
 +}
 +
- static void add_hist(struct dept_wait *w, unsigned int wg, unsigned int ctxt_id)
- {
--	struct dept_wait_hist *wh = new_hist();
-+	struct dept_wait_hist *wh;
-+
-+	wh = last_hist();
-+
-+	if (!wh || wh->wait->class != w->class || wh->ctxt_id != ctxt_id)
-+		wh = new_hist();
++static inline void complete_release(struct completion *x)
++{
++	sdt_might_sleep_end();
++}
  
- 	if (likely(wh->wait))
- 		put_wait(wh->wait);
+ #define COMPLETION_INITIALIZER(work) \
+-	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait) }
++	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait), \
++	  .dmap = DEPT_MAP_INITIALIZER(work, NULL), }
+ 
+ #define COMPLETION_INITIALIZER_ONSTACK_MAP(work, map) \
+ 	(*({ init_completion_map(&(work), &(map)); &(work); }))
+@@ -75,13 +95,13 @@ static inline void complete_release(struct completion *x) {}
+ #endif
+ 
+ /**
+- * init_completion - Initialize a dynamically allocated completion
++ * __init_completion - Initialize a dynamically allocated completion
+  * @x:  pointer to completion structure that is to be initialized
+  *
+  * This inline function will initialize a dynamically created completion
+  * structure.
+  */
+-static inline void init_completion(struct completion *x)
++static inline void __init_completion(struct completion *x)
+ {
+ 	x->done = 0;
+ 	init_swait_queue_head(&x->wait);
 -- 
 2.17.1
 
