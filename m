@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A7BABC90C
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 23:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F616ABC90E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 23:22:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD9610E432;
-	Mon, 19 May 2025 21:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF21410E40F;
+	Mon, 19 May 2025 21:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XkZDV/dd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hgUqBMV4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D74410E430
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 21:22:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD32210E436
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 21:22:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CBFC7A40B82;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 308685C55B9;
+ Mon, 19 May 2025 21:19:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA98CC4CEE9;
  Mon, 19 May 2025 21:22:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36AC4C4CEEB;
- Mon, 19 May 2025 21:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747689721;
- bh=OL9uX6XWCNIhFu+QC1BZNccZr8I8iotFPDBJYOKGEPU=;
+ s=k20201202; t=1747689723;
+ bh=EAmgiyPFV5c9rJFBaTMy007/kWYs/PDsFSDsIkiOCqE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XkZDV/ddErizL3Aqftqbbg+6iGdtptAx3NKWO53BkerNHxMh+ZisNkBZW5VqLie8f
- 9rmdnizjXepZ+RVdFolvnVYs3x1ggCdMOQuycjRSbdkwakSY8yIFLaynzEplrEatfg
- S7HEmHVRCnraUaSkXPyKV8kkLILuHJ2HAwxmA0QM/y3mV4OUCPVyY32wxKUnsxKi3A
- b+FJh85ayX3IOgfg7eRFlrm+jYotG/3ey9mwBPZdRFOItcVuUdpZHcezqkIedAs7Lv
- gKt5+EPEJR6Vm77+mxsha3YcWUTJOUpH818RLnX6dagJZDZ3kYpfCTBtUPcb5hDSD7
- 49PrmkZYScv4g==
+ b=hgUqBMV49KSjJpD6AUXJra0syGwXEDqAIfct8aDIs/GMjDrbrwhuqSzZAp8tXL08l
+ BLVB14GwlT4ny59FIZGq3MXUXifoSNzMbWIISJLzN5/uyGtYlb8O9V/DHnGQNUVZqo
+ qInZ0YGLAvrok+KufwjkyW2eGfs9ivJjm+uyA+oxK4SNxos0Wih1wkBoM+WoLdEj9j
+ /dmEV1kEI8iEfME7p3B8TzuenUX+stueIFKY5kR4JsC5H8PnRSmAIs+pr+0pGgAIbz
+ 5NSK+eULWSUWsH08wUlHqmOv5uJVp3poUoxXgCQUtJxSVAkJ7Ofe5XyvD2zm0gSU6M
+ fVAcZWBci6EiA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Aradhya Bhatia <aradhya.bhatia@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Sasha Levin <sashal@kernel.org>, airlied@linux.ie, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 19/23] drm/xe/xe2hpg: Add Wa_22021007897
-Date: Mon, 19 May 2025 17:21:26 -0400
-Message-Id: <20250519212131.1985647-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 20/23] drm/xe: Save the gt pointer in lrc and
+ drop the tile
+Date: Mon, 19 May 2025 17:21:27 -0400
+Message-Id: <20250519212131.1985647-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250519212131.1985647-1-sashal@kernel.org>
 References: <20250519212131.1985647-1-sashal@kernel.org>
@@ -66,53 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <aradhya.bhatia@intel.com>
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 
-[ Upstream commit b1f704107cf27906a9cea542b626b96019104663 ]
+[ Upstream commit ce15563e49fb0b5c802564433ff8468acd1339eb ]
 
-Add Wa_22021007897 for the Xe2_HPG (graphics version: 20.01) IP. It is
-a permanent workaround, and applicable on all the steppings.
+Save the gt pointer in the lrc so that it can used for gt based helpers.
 
-Reviewed-by: Gustavo Sousa <gustavo.sousa@intel.com>
-Reviewed-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
-Signed-off-by: Aradhya Bhatia <aradhya.bhatia@intel.com>
-Link: https://lore.kernel.org/r/20250512065004.2576-1-aradhya.bhatia@intel.com
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-(cherry picked from commit e5c13e2c505b73a8667ef9a0fd5cbd4227e483e6)
+Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Link: https://lore.kernel.org/r/20250509161159.2173069-7-umesh.nerlige.ramappa@intel.com
+(cherry picked from commit 741d3ef8b8b88fab2729ca89de1180e49bc9cef0)
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/regs/xe_gt_regs.h | 1 +
- drivers/gpu/drm/xe/xe_wa.c           | 4 ++++
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/xe/xe_lrc.c       | 4 ++--
+ drivers/gpu/drm/xe/xe_lrc_types.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_gt_regs.h b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-index d0ea8a55fd9c2..ab95d3545a72c 100644
---- a/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-@@ -157,6 +157,7 @@
- #define XEHPG_SC_INSTDONE_EXTRA2		XE_REG_MCR(0x7108)
+diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
+index bbb9ffbf63672..64e36830fd03d 100644
+--- a/drivers/gpu/drm/xe/xe_lrc.c
++++ b/drivers/gpu/drm/xe/xe_lrc.c
+@@ -864,7 +864,7 @@ static void *empty_lrc_data(struct xe_hw_engine *hwe)
  
- #define COMMON_SLICE_CHICKEN4			XE_REG(0x7300, XE_REG_OPTION_MASKED)
-+#define   SBE_PUSH_CONSTANT_BEHIND_FIX_ENABLE	REG_BIT(12)
- #define   DISABLE_TDC_LOAD_BALANCING_CALC	REG_BIT(6)
+ static void xe_lrc_set_ppgtt(struct xe_lrc *lrc, struct xe_vm *vm)
+ {
+-	u64 desc = xe_vm_pdp4_descriptor(vm, lrc->tile);
++	u64 desc = xe_vm_pdp4_descriptor(vm, gt_to_tile(lrc->gt));
  
- #define COMMON_SLICE_CHICKEN3				XE_REG(0x7304, XE_REG_OPTION_MASKED)
-diff --git a/drivers/gpu/drm/xe/xe_wa.c b/drivers/gpu/drm/xe/xe_wa.c
-index 65bfb2f894d00..56257430b3642 100644
---- a/drivers/gpu/drm/xe/xe_wa.c
-+++ b/drivers/gpu/drm/xe/xe_wa.c
-@@ -801,6 +801,10 @@ static const struct xe_rtp_entry_sr lrc_was[] = {
- 	  XE_RTP_RULES(GRAPHICS_VERSION(2001), ENGINE_CLASS(RENDER)),
- 	  XE_RTP_ACTIONS(SET(CHICKEN_RASTER_1, DIS_CLIP_NEGATIVE_BOUNDING_BOX))
- 	},
-+	{ XE_RTP_NAME("22021007897"),
-+	  XE_RTP_RULES(GRAPHICS_VERSION(2001), ENGINE_CLASS(RENDER)),
-+	  XE_RTP_ACTIONS(SET(COMMON_SLICE_CHICKEN4, SBE_PUSH_CONSTANT_BEHIND_FIX_ENABLE))
-+	},
+ 	xe_lrc_write_ctx_reg(lrc, CTX_PDP0_UDW, upper_32_bits(desc));
+ 	xe_lrc_write_ctx_reg(lrc, CTX_PDP0_LDW, lower_32_bits(desc));
+@@ -895,6 +895,7 @@ static int xe_lrc_init(struct xe_lrc *lrc, struct xe_hw_engine *hwe,
+ 	int err;
  
- 	/* Xe3_LPG */
- 	{ XE_RTP_NAME("14021490052"),
+ 	kref_init(&lrc->refcount);
++	lrc->gt = gt;
+ 	lrc->flags = 0;
+ 	lrc_size = ring_size + xe_gt_lrc_size(gt, hwe->class);
+ 	if (xe_gt_has_indirect_ring_state(gt))
+@@ -913,7 +914,6 @@ static int xe_lrc_init(struct xe_lrc *lrc, struct xe_hw_engine *hwe,
+ 		return PTR_ERR(lrc->bo);
+ 
+ 	lrc->size = lrc_size;
+-	lrc->tile = gt_to_tile(hwe->gt);
+ 	lrc->ring.size = ring_size;
+ 	lrc->ring.tail = 0;
+ 	lrc->ctx_timestamp = 0;
+diff --git a/drivers/gpu/drm/xe/xe_lrc_types.h b/drivers/gpu/drm/xe/xe_lrc_types.h
+index 71ecb453f811a..cd38586ae9893 100644
+--- a/drivers/gpu/drm/xe/xe_lrc_types.h
++++ b/drivers/gpu/drm/xe/xe_lrc_types.h
+@@ -25,8 +25,8 @@ struct xe_lrc {
+ 	/** @size: size of lrc including any indirect ring state page */
+ 	u32 size;
+ 
+-	/** @tile: tile which this LRC belongs to */
+-	struct xe_tile *tile;
++	/** @gt: gt which this LRC belongs to */
++	struct xe_gt *gt;
+ 
+ 	/** @flags: LRC flags */
+ #define XE_LRC_FLAG_INDIRECT_RING_STATE		0x1
 -- 
 2.39.5
 
