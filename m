@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EDDABB769
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 10:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FB2ABB77A
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 10:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508FE10E233;
-	Mon, 19 May 2025 08:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5811A10E227;
+	Mon, 19 May 2025 08:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fS1FVU2U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X4YIcMTb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC56510E233
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 08:38:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8A410E227
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 08:40:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7D04644C5A;
- Mon, 19 May 2025 08:38:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EB9C4CEE4;
- Mon, 19 May 2025 08:38:19 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7667F40BDE;
+ Mon, 19 May 2025 08:40:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046C1C4CEED;
+ Mon, 19 May 2025 08:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747643900;
- bh=2IsWKQAwKOCR7PFthlqk1dlpSS9+LEI+zhI50buMEn0=;
+ s=k20201202; t=1747644041;
+ bh=rPOc4Bft5rRhKxCkLHq9mBdyIs9V3hmodAMn3Tb++2c=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=fS1FVU2UK6je3qeLzUHnyYgFWWQvqTC0nW3p/wGESAZ0FZed8UVitWgo4rfc8QNbL
- dtsoEs2mCkK0phl1M4aMtrfhdzGm5oyntnIYP8fc+z/xxxFcV+kAgZQk5q88SQC4wb
- LDsqPVxe9WeB3x57LFlGsMLX9+4FIKGQafQ33cNwULr8GfqRgrGp/OBrvGPwyiZkvT
- iOJ9jlemMHeEjhIqaw65wrGnqIexHx/rCD5uqmYiUafp542llINkeBnB/MHtUFC0e3
- Arq8yqJZGcTA/MaIJxPI07VQfzd4kotYoMD4vL65/5M9cwDIDPw8ksj2FdfriGmcmH
- VNZxzD8bU+lCg==
-Message-ID: <d2608056aadd6bf146cb5ffb2ff6668f@kernel.org>
-Date: Mon, 19 May 2025 08:38:17 +0000
+ b=X4YIcMTbloLlAe/KN7RJ7bnGvjuYxZm6DylStXWQkYmxiCAvjIsb1Qn6wo1y1Bp42
+ ZBQ7Y3wbFc2ABpU9JfIyTZIE4DFWpBdqvD/gkCAKuTOWf/CZzTI5WMxhlfZc/0TfdZ
+ ldewday9tTzVelEHBwePLvRpLhF3vFnKjLA9obphGjDMQPkn3rG63GplhH9PLvqrGx
+ dVH9zusCDejRfWrOvvPdbUL36Nh2X4gI6xuO5Jxq9R9qsuABHV5kSuP2uG1YAhZVx2
+ 7kwts8uLlsrYPW/pVGmO4JwF9MIONq23bvVYazWv/JAT/lKAVDmZAhgd35kL2DHqVv
+ D5t3QJynVp5Dw==
+Message-ID: <b80e4b6d963e65584661f38fcb0a1781@kernel.org>
+Date: Mon, 19 May 2025 08:40:38 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v4 19/23] drm/tests: hdmi: Rename max TMDS rate fallback
- tests
-In-Reply-To: <20250425-hdmi-conn-yuv-v4-19-5e55e2aaa3fa@collabora.com>
-References: <20250425-hdmi-conn-yuv-v4-19-5e55e2aaa3fa@collabora.com>
+Subject: Re: [PATCH v4 21/23] drm/tests: hdmi: Add max TMDS rate fallback
+ tests for YUV420 mode
+In-Reply-To: <20250425-hdmi-conn-yuv-v4-21-5e55e2aaa3fa@collabora.com>
+References: <20250425-hdmi-conn-yuv-v4-21-5e55e2aaa3fa@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
  linux-kernel@vger.kernel.org, "Dave
  Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>,
@@ -62,14 +62,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 25 Apr 2025 13:27:10 +0300, Cristian Ciocaltea wrote:
-> In preparation to extend the max TMDS rate fallback tests for covering
-> YUV420 output, update the rather generic function names
-> drm_test_check_max_tmds_rate_{bpc|format}_fallback() to properly
-> indicate the intended test cases.
+On Fri, 25 Apr 2025 13:27:12 +0300, Cristian Ciocaltea wrote:
+> Provide tests to verify drm_atomic_helper_connector_hdmi_check() helper
+> fallback behavior when using YUV420 output format.
 > 
-> 
-> [ ... ]
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
