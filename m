@@ -2,61 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA96ABB52B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D7AABB546
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 221DC10E2F2;
-	Mon, 19 May 2025 06:33:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZhMR1wU/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C798A10E137;
+	Mon, 19 May 2025 06:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE3510E22F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:33:04 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2A710E137
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:41:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3F9B35C0767;
- Mon, 19 May 2025 06:30:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8470C4CEE4;
- Mon, 19 May 2025 06:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747636375;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=ZhMR1wU/X0Ftyf6ohXFPrJXQwhkWzueNT8/spvuGLMldbiR4tGeBv435mgPBDj2fh
- h25+ZLh+a/oVqqUA5g0Ccm5c9J0tXEjJbDzOuHGcX5mBwdxO8AhQpofalAsMrAtDuI
- BvQN/BzF702ipIzpZ5PzL79fM7+EJ84LPtubD4wh4tD8ilYMNr5f3dWQJEDjpyzcBY
- m1aFqPnt6pLdPNgeIhHQD+2RALGu6wORmSWzaoT8REybCVfUD8Tb+snf3J9uDFIM3Z
- xyh3qQx4S/YK7PS+R2D1lczDI7cXCS5I1PU6CR1Ve2TSAfIiSA1ftZ1WaugAZ9Mt6H
- VqjHQ+lP7NuqA==
-Date: Mon, 19 May 2025 01:32:53 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ by nyc.source.kernel.org (Postfix) with ESMTP id 50DCBA42DE8;
+ Mon, 19 May 2025 06:41:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63780C4CEE4;
+ Mon, 19 May 2025 06:41:03 +0000 (UTC)
+Date: Mon, 19 May 2025 08:41:01 +0200
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: "paul-pl.chen" <paul-pl.chen@mediatek.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ chunkuang.hu@kernel.org, angelogioacchino.delregno@collabora.com,
+ matthias.bgg@gmail.com, 
+ p.zabel@pengutronix.de, jason-jh.lin@mediatek.com, nancy.lin@mediatek.com, 
+ singo.chang@mediatek.com, xiandong.wang@mediatek.com, sirius.wang@mediatek.com,
+ sunny.shen@mediatek.com, fshao@chromium.org, treapking@chromium.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3 03/17] dt-bindings: display: mediatek: add BLENDER
+ yaml for MT8196
+Message-ID: <20250519-orthodox-wolf-of-piety-7cecfd@kuoka>
+References: <20250515093454.1729720-1-paul-pl.chen@mediatek.com>
+ <20250515093454.1729720-4-paul-pl.chen@mediatek.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250515093454.1729720-4-paul-pl.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +54,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+On Thu, May 15, 2025 at 05:34:15PM GMT, paul-pl.chen wrote:
+> From: Paul-pl Chen <paul-pl.chen@mediatek.com>
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
+> Add mediatek,blender.yaml to support BLENDER for MT8196.
+> MediaTek display overlap blender, namely OVL_BLENDER or BLENDER,
+> executes the alpha blending function for overlapping layers
+> from different sources.
 > 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+No blank line between tags, wrong order of tags.
 
-yamllint warnings/errors:
+> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+If you are the author, what does this SoB mean? When was this patch
+written, by whom and when was the review given?
 
-doc reference errors (make refcheckdocs):
+Can you start using b4?
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+You did not provide proper lore links to previous versions and tags are
+not correctly added.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+Krzysztof
 
