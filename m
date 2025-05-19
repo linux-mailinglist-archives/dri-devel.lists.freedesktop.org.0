@@ -2,166 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137CAABCB39
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 01:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EA5ABCB52
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 01:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD1110E2F0;
-	Mon, 19 May 2025 23:00:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="gcRFQV87";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1955E10E342;
+	Mon, 19 May 2025 23:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1ACE10E2F0;
- Mon, 19 May 2025 23:00:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ib0/s8n1CLZwVwTXaQcfBHU6t8DSBEmiC+9xsQXHGJ23EWDVjxSm/SX29ratlnmKh9fohzzz+amqgLNijsOSBKu6idlr9tFHZPtVAx322HhNEiwvb1s/MPOvBKurn1xyvr2YeNdjfzjx62pLedv/tTTSF3ETR9tTeADfK3mK8CDHMHhViRf/WSJD8ksNaFLlpFati9S6pWCutBt62cL3oKJnMkZ39TiCjhGCtq4kbboNSHmAzdx6oLBvh4S+wIRSAICfBxAt224dUbg7NpPI8IoecAOantgfjSePK0KdyJQf0ah9YS+edvcSqBogQkRMx+6XIL07ZTNR06VdglS90Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fwuHCo6wfWwXQUaETwyhZviG+hpnJuNOl0PxeudkUxs=;
- b=V55++A6FtvuoRTu3aIFf0Uv3yxwXQDtxSQAFX3rBzcmkMPCwnaDUrwravJ1GEbd+NXLAUkbOCXJbQi3AzRFdWZNi12oWLgr//wFn6qtOIZD+1j/K2OfQZkT+uEH1vIyoftqBxbAfrhDanUdQ3Ona5LLqREyNRuJUKoHawaRIL2SVETSkwECGRfss8cJgER6uX8eA2vWj4Jf/1mJCKaZ73AejpnYOItmuuDWrPeNplEOxhwNP0mtBx3/EyO/Bbak9TSTKiis7tpE6Qi/vC+jYeNQM8SEvzjr701e5dLj19Tt7N5FsusQLw3oKjiP6SrOblOq7y/KFfRnRo4j4NRAwOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fwuHCo6wfWwXQUaETwyhZviG+hpnJuNOl0PxeudkUxs=;
- b=gcRFQV87JK6OsSvb5YWqdN4+rQ/aHOJAKI+IsYBeMP2HtuGA4/ZJdI7wUdzWkuzrj96bqY0Rxfz2mtQgY6KeOfGCA8/5Wcu1geggXRIoJ7WsG0eVYI3wYwMxLZq/UhFsC53AYmBUzTYT00+8gKJrPA+h8HvEv/SjRoS6abi0T5QCIbHCyD0cq4cFmqZ3981er+gIOXpdCVs9774oKk8ohJv7aNCDEIl9MxBobt99n4/MMqtX5aR/QmGLcfWTP5l9a0OnuWtCdm+azBTOYfSGYSVyqzuy24yVrsLcTNRvUvFKL/G9ldz85cHEHwPpDVwHNMYTtIEIfZ/z6Ao5xVDYnA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by SA3PR12MB8024.namprd12.prod.outlook.com (2603:10b6:806:312::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Mon, 19 May
- 2025 22:59:58 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8746.030; Mon, 19 May 2025
- 22:59:58 +0000
-Message-ID: <d79dd1dd-8660-4e67-8d44-a49b1a4a3add@nvidia.com>
-Date: Mon, 19 May 2025 18:59:55 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/19] nova-core: Add support for VBIOS ucode
- extraction for boot
-To: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, John Hubbard <jhubbard@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Shirish Baskaran <sbaskaran@nvidia.com>
-References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
- <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com> <aCTDk9UKRWHWYexR@pollux>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <aCTDk9UKRWHWYexR@pollux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0PR05CA0017.namprd05.prod.outlook.com
- (2603:10b6:208:52c::21) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com
+ [209.85.166.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6F410E442
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 23:14:29 +0000 (UTC)
+Received: by mail-io1-f79.google.com with SMTP id
+ ca18e2360f4ac-86a50b5f5bdso110102939f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:14:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747696468; x=1748301268;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0XIGhr+70ZjBiKQAvfrcT5pp0xw6sX0iOPNQPiN0Vb0=;
+ b=IYycBszEng0s7fNvi0BUBC57It8QsMqxk974VrRP5z5oIJ2Jg4AYn31NkXP9mnnYFy
+ 4iOjOFU3MAnvxmnHSl3hnqi6+aNb4Gp59da/Looa2URuOlZNn1BUfAyLhTJvR83RF2si
+ Ru72E/0xtXXsuhp3C12KyhFSglLNbgfww2ZpVb6iBiVGA9HwSOsiV7/zz63Ri1sUVZXl
+ QaLm1VP9GogF6pdNaXQR1+HuvR+VZwjdTTU5QaakQN0RmDsQ0HSVTlZ9p1rPvS7d4NAh
+ QI82Ym5aR7UhIa8mx4KYLAcIkeQaG1wViVEFc725ExsREN1qipnmFjUcQrW0Qz9z0AFf
+ LE1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWds0QJqPB77C4Ju1qOctY3hFXEdPyN0NIuev8tKFvovqVYiiNtsThKA97hIBZMgG+w6Y1mc/XkhbU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9p5Ob5nZkxQFyoOG9IPzdL05mKz6azWSTUUwTdK7uTF3DVlCg
+ 3GYwM5wjRmgVoo04xRbZ/7J+zoXgaD8v1IEm7qEpR8rhnWEXbZtGe0E9qDR31aLMjMDjmaFbwwY
+ VxpTjA30Hi4dhDBt6mFzTqUEGKFs1oyxHrJVeycW6U4L1fEdXEdegUUzO8Bc=
+X-Google-Smtp-Source: AGHT+IF+x8PQs5YczeEHe0/iHfsUhNVhWl21Aps0XFE3qKQvN4JknBGGqb8VyGaivuRgkrMO90kQN01RMIlDc68g6KNgbfzFQCD6
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SA3PR12MB8024:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fb911b4-1e30-4b6b-747e-08dd9728e0dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aFl0R04wVTVEVFMwZFJ2cHRKL0V1N3VnZzMvSmtVL3REbEFQdk5Oa3hCRW54?=
- =?utf-8?B?N21FL1VZWW1FZUg4amgwajdWdzd1QUhZVjVwYm5Ud2g1ZWl1cWljejJuQ2lI?=
- =?utf-8?B?M1dkR1ZYNndDWi9ua08xQmJXNWxIMjZSNkZqNHNTNHFwNnh5M2tCeXpCcUFD?=
- =?utf-8?B?aWtSWllNV0gxWVM4eTNORGdEaGxkZTFjQXNGdEtPd1cwQTE1VUdRVXVPYnpX?=
- =?utf-8?B?U2pCeEdXa0s3VndlaCszZ2gzZURONUpXbU5LdTVqdFBCeTdkTlBQOTJuZEF1?=
- =?utf-8?B?a2FSaHNVNjV0bmREeGFXUG9xNUxZYTRTTVBGU0xhSDRwM0piL0VDMkZFSWxO?=
- =?utf-8?B?bjc4ejBIL0t6eEhjaHlvYXpnZ1RCdFIxbGFzUnFCZ3V2aFA4TG1CWlF5VDVp?=
- =?utf-8?B?OTJ1YjJxWEUyNWhEL01ZWXM5czJqVzl3bngxMWJZUHFGcXRTbklKWmp0VDFG?=
- =?utf-8?B?SEtxSVJ1SnB2ZitDLzdLOEJIV085NjhnbHZQa2tWMWZZWnJleUNoY2QyQzR1?=
- =?utf-8?B?VmVZck9sVnorNXBycWR0T1R0d2p1TGV1MXZ3QXFLWVRHbzNKOEF2Q1dNN2VC?=
- =?utf-8?B?dzVsOFRXWEdtV0NFdndUUmt1ZitSU3VQWVlWS3JLWGpTMXM3WURrRnFmMVY0?=
- =?utf-8?B?S0R6Qyt2bXU2dTFxNUxLTTQwY1IrbHdiRzVORUp1Y1lQbGF5ZnhuM2t3amFK?=
- =?utf-8?B?YUhERTY3MmtxRHp2T0ova2FoNFNHWElUVmJpY0gwNlZPemNzaXNWd3NuMFJF?=
- =?utf-8?B?SHB6UGpQRk5halE0KzdPQjk5MWM1YlRKYUN0eUphdnpyamtidm80WVUzUVdx?=
- =?utf-8?B?aDJ0TW1lMW0vZUM3aDExdnF5NFl4S0I5ZHlUckUxWEMyNEpNV1U5YmMzVVh5?=
- =?utf-8?B?c3Q2RzJFNUExM0hvbmo4NXdUZ1doa3hFUFhnRmxxWVZxQjhyazlGNmc0by83?=
- =?utf-8?B?ZWJ3dm5neVM4cENBSnFqZW11ZkViangvd2lWdXd1Tlh6VE1RWFJnM1V5ZVd3?=
- =?utf-8?B?T3k2bE80UnV6ZFkrK05heDhLNDU3VjZIR2x1K3Z4RzE4QzFkYm82d3RRVFAz?=
- =?utf-8?B?ejdTSnJrNzRuMVYrRmkyT1dKS2lmTDVZQ2JRaDJ1RktoMy9GZTBYT3h4dGh4?=
- =?utf-8?B?UUd4dkdQQzd6d2pJRElTK1JadzVySTVTUzRCY3BoYUc3TUU3cXdWU2tXclJF?=
- =?utf-8?B?RVkwTVlZZXZFdUJSemtWcXVCUU0yL1dVTXJBa0dDWU5XOTFicXRxdGJjM3dq?=
- =?utf-8?B?UGplTTNVNGNyVGw5VlFBQzIzc0hXMGZtRlgxQTN1V1lLNUlwWFhaSVk4S0M3?=
- =?utf-8?B?OFloSHNNcjZTZnpxNXhQQkRGc3hRSVNJL1J1TXhQYnp6YzBUZ2hIRmNTcWg5?=
- =?utf-8?B?c2dUeGI2bWhEeGhwMXU4cWhwR25DWmYzeE9BOUtkWk1uUkQ4RlJOMnhXQm1m?=
- =?utf-8?B?YVgwVy9YSmJ6Rkc3OWFlOXRPSFdNUVhRdTVIdUIyOVkvdVNRM2M2VGRFdUlr?=
- =?utf-8?B?OC9NQy9IbE1idWx6dWNvUkREUDhmbEl3Y1BMbnRUOEpuREhZZCtETEFrcVc1?=
- =?utf-8?B?N2Z3TWFOVzI5RXByZWVla21KU3EvVEpDaFRMOGk5VWt0T2hvUHUzRFAxTGJX?=
- =?utf-8?B?ZEVITGVmZkR0M29GVXR1RUtFdGRCTjk0STR3VGY5K3VpOVZrZEI5QWhUaC95?=
- =?utf-8?B?aUpPclFXNkZiWVdWWW5uZTY5WVZ0MVpWZVcwdFMvVCtIREUrL05wa2YycnJo?=
- =?utf-8?B?VDJ6UEEvaEFzYThCUjkvaVh3cU5ydTlyek9mU1pOWXZndi9mQ0hyUnNEdFRn?=
- =?utf-8?B?MUhicGt5UUsya3gzZmdOK2NzcGJ0amxMT1lqOWpFcm5WdlQvK0RNc1k3QWlq?=
- =?utf-8?B?TWxnTExJaU5nRkdVN3Z6SGdKZnlUOHQ1d3krVy9ZbUtEYlJwVVA2Wnd6dTVn?=
- =?utf-8?Q?ajeaY61etI8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDBmZzNSYVByZ3NxTjB5QVYzd1BoZDFWc2sydkN2eXJCZUNoYnllUjd0SUtC?=
- =?utf-8?B?ZHUwQ1Rmc015b3gybmV3bUFlUXowSCtVc0R6Z0k3OStjOTR5U3F1M2ovZy9N?=
- =?utf-8?B?SmxiOXZpTnRNdTNuME9KVVJNbGx0VFk5Q1ltaXhFMU1pR2J4bGVmZDBsclRK?=
- =?utf-8?B?NlBoT0hUTWFJenF0dGhQc2gySWNhN0duU0ZDYVFHN3BHZTIzY2pVdkJhbXV2?=
- =?utf-8?B?V0RibzBFbHA0VS9oQ2ZBUGxsZEZXTnpFUXpHd1hzUW1sZ1BpcTgzOThqTGIw?=
- =?utf-8?B?V3RYU1A5NkFHdGtFTWFQVXdqRVY0WHN5MkJ1VFFuQ2JoMjFmV2wvWVZUdmht?=
- =?utf-8?B?dUcvRks4TklmOG9PRFVDSDhObmpsTHB6MGRIUWtPbjBsVUI5dVZkM2lyRHhu?=
- =?utf-8?B?N1lWN05yRHFwLytPSjBOZy9XOWhocEErK005WjROTStDMEZnMC81OEhIUzFt?=
- =?utf-8?B?ckZRUG50dVR1bkNsMU9qUWo2K0oxbFF0RUdBUzF0NFVoOE0xZWQyaFdmRTBO?=
- =?utf-8?B?N21jUE9la2RBakU4V2lXbzUvV1RFdGQvYnpoNm5BaWx2ZVI1c1pkMjNta09I?=
- =?utf-8?B?bEJsMkZVVGpaOE1uZWpjditUcUNGN1NXc1dzNm9xenFMS1NUQ3lJdlRCclhM?=
- =?utf-8?B?dUhnMk5QYUVWM1hSNzhxMUtWRnNTRjRDaUx4UUdUREVLYUVGTWxkTmo1TUdo?=
- =?utf-8?B?ek9TZjA0TU82UWNnbUtDL0JwdzE5R0twYStqM21QMzM0eWVCUk45TnVjRGJQ?=
- =?utf-8?B?UFF1NVBhZUxzRzQwK2FxVkJ2a0hTQXQxZ1FxcDNia09UdW13bEZwYnRsdy9S?=
- =?utf-8?B?bG92N25ETkwyRkxJdm9oL00reFFzTktxS1ZKSXBlUFI1WkRIOVhQMCt3ajEx?=
- =?utf-8?B?cG45Q0ZJL3AwdHBmd0E3QmZQbmk3MDhndlRodDRPL2pOZXloY2tLenFORzUz?=
- =?utf-8?B?QmpTWUlMVVZmVkVONml6bk9PSS9TOG1IbGhZZXdsVlpkTVRTQTlLWVZpK1Ew?=
- =?utf-8?B?RnkvUUJyK21OcTNrVzBLSnhBVGkycGc3S215ODIwa2dIa2VTWnlkZWtmSHBH?=
- =?utf-8?B?YzJWYmo0Ry9udE13REs0UnFTMHhLSlM3QVNRNnpnMGdsSGhXNXhxdmtHQTcx?=
- =?utf-8?B?WkdTMS83TndydnZ2ekNyRHA1cUVTWXpITmhuWUJpMUNsVmVTMzhLdmdncGhB?=
- =?utf-8?B?VFYxc2QzZXNsbUJzRVNmZS9RSXplUzBlZDNXZFY5TE41eFoyQlhRNk5uRXJE?=
- =?utf-8?B?UE1nUUJRY0hWV3YxN1lGYUJ3d0JrUXNacm1TS3BYd3dNdFBwK1RVbHZjOXQy?=
- =?utf-8?B?enM2RW9QZHZVQUtDTmRacDIzdFBkVGY2N3U2ZkRTY2tkMVhaREtHVitVZkFr?=
- =?utf-8?B?cDF2RUVpS0pGQ2E5SHZzM2JHRGhCZVBYb1k3bFZrbVp3alZaYnRtdkNTMlZD?=
- =?utf-8?B?TGRMT2U0VGxnNnZqcEptZzRYSHQ0UThiNU5nYTZtWnNLZmdaK1FoSG1qcFB3?=
- =?utf-8?B?cHZJM3B6YU90QXZXVmVZQXg0MmtzVEVaY2xucnJDRURqaUphbXZXTlpqdGxY?=
- =?utf-8?B?UkI0aHVCbjRjWEJZQUNrUVdzdmlJdWhOc21WWlUwbWk3YnZWNGpvK1k3ZjZL?=
- =?utf-8?B?NTBCSVpKVmFlVHhVQmcwNlJGZWhMT1gzYi82d3YyL3hOYTJLdXhTcHFhcGZG?=
- =?utf-8?B?Zkp1QmYxZGtVYk1NZkpIeXIwcVpkQkpSK1BnNTBKY2ZsMkR3ZHUyZnExd2dw?=
- =?utf-8?B?ZTJ1YWU3SXBnV28xM2pKTTd2MUhKc1U1OFFldXhsd21xY3pSM3FwLy9lQ1hM?=
- =?utf-8?B?V1BaN0VsZXpLb3ZyeVdPQVpDeDRlVW1ORjZsaFBSaEpMd2dQR2UyTDBCNm9u?=
- =?utf-8?B?MkE3QkF0eCtmbmhOODhDTERoZUw5a0l3bHM0eVpnSTgzZ3k1Ris2THFpbGlL?=
- =?utf-8?B?M3I2YkxaVVJHTzNTSytmR1NCNkRwNGprMERPMlc1aWg4dWlUUlpHWVQ3RXJ5?=
- =?utf-8?B?YzNJSHRZaFVwQ0N0c1NrT2NEU25waU1NVXNxNnJLWGc0R2lsdjluZVJkVElC?=
- =?utf-8?B?di9oUDl2TW5aSDJsM0lScFNBdSs2ZkwzcnptbDBQS2pYWjMvUi9GcUVNbm9U?=
- =?utf-8?Q?dpmHiEunyCJikY4ZsJ6924zjN?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb911b4-1e30-4b6b-747e-08dd9728e0dc
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 22:59:58.5094 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tuDoM6F83dYeRsraIRr/qAbfSPar0Jo5LlPpuRH94tjHcw0bh3HV0RjdOCuIGfB3bisEIqa92/JjrpJadYfUFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8024
+X-Received: by 2002:a05:6602:2983:b0:864:4911:f463 with SMTP id
+ ca18e2360f4ac-86a24c976c3mr1601576039f.10.1747696468455; Mon, 19 May 2025
+ 16:14:28 -0700 (PDT)
+Date: Mon, 19 May 2025 16:14:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <682bbb54.a00a0220.7a43a.007f.GAE@google.com>
+Subject: [syzbot] [dri?] possible deadlock in drm_getunique
+From: syzbot <syzbot+2e9aa2a09550887c9d40@syzkaller.appspotmail.com>
+To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, simona@ffwll.ch, syzkaller-bugs@googlegroups.com, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,308 +63,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+Hello,
 
-On 5/14/2025 12:23 PM, Danilo Krummrich wrote:
-> On Wed, May 07, 2025 at 10:52:43PM +0900, Alexandre Courbot wrote:
->> +/// PCI Data Structure as defined in PCI Firmware Specification
->> +#[derive(Debug, Clone)]
->> +#[repr(C)]
->> +struct PcirStruct {
->> +    /// PCI Data Structure signature ("PCIR" or "NPDS")
->> +    pub signature: [u8; 4],
->> +    /// PCI Vendor ID (e.g., 0x10DE for NVIDIA)
->> +    pub vendor_id: u16,
->> +    /// PCI Device ID
->> +    pub device_id: u16,
->> +    /// Device List Pointer
->> +    pub device_list_ptr: u16,
->> +    /// PCI Data Structure Length
->> +    pub pci_data_struct_len: u16,
->> +    /// PCI Data Structure Revision
->> +    pub pci_data_struct_rev: u8,
->> +    /// Class code (3 bytes, 0x03 for display controller)
->> +    pub class_code: [u8; 3],
->> +    /// Size of this image in 512-byte blocks
->> +    pub image_len: u16,
->> +    /// Revision Level of the Vendor's ROM
->> +    pub vendor_rom_rev: u16,
->> +    /// ROM image type (0x00 = PC-AT compatible, 0x03 = EFI, 0x70 = NBSI)
->> +    pub code_type: u8,
->> +    /// Last image indicator (0x00 = Not last image, 0x80 = Last image)
->> +    pub last_image: u8,
->> +    /// Maximum Run-time Image Length (units of 512 bytes)
->> +    pub max_runtime_image_len: u16,
->> +}
-> 
-> Here and in a couple more cases below, please don't use pub for fields of
-> private structures.
+syzbot found the following issue on:
 
-Fixed thanks.
+HEAD commit:    c919f08732cc Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=122dbcd4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2727a5e5fea443ee
+dashboard link: https://syzkaller.appspot.com/bug?extid=2e9aa2a09550887c9d40
+compiler:       Debian clang version 20.1.2 (++20250402124445+58df0ef89dd6-1~exp1~20250402004600.97), Debian LLD 20.1.2
+userspace arch: arm64
 
->> +
->> +impl PcirStruct {
->> +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
->> +        if data.len() < core::mem::size_of::<PcirStruct>() {
->> +            dev_err!(pdev.as_ref(), "Not enough data for PcirStruct\n");
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        let mut signature = [0u8; 4];
->> +        signature.copy_from_slice(&data[0..4]);
->> +
->> +        // Signature should be "PCIR" (0x52494350) or "NPDS" (0x5344504e)
->> +        if &signature != b"PCIR" && &signature != b"NPDS" {
->> +            dev_err!(
->> +                pdev.as_ref(),
->> +                "Invalid signature for PcirStruct: {:?}\n",
->> +                signature
->> +            );
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        let mut class_code = [0u8; 3];
->> +        class_code.copy_from_slice(&data[13..16]);
->> +
->> +        Ok(PcirStruct {
->> +            signature,
->> +            vendor_id: u16::from_le_bytes([data[4], data[5]]),
->> +            device_id: u16::from_le_bytes([data[6], data[7]]),
->> +            device_list_ptr: u16::from_le_bytes([data[8], data[9]]),
->> +            pci_data_struct_len: u16::from_le_bytes([data[10], data[11]]),
->> +            pci_data_struct_rev: data[12],
->> +            class_code,
->> +            image_len: u16::from_le_bytes([data[16], data[17]]),
->> +            vendor_rom_rev: u16::from_le_bytes([data[18], data[19]]),
->> +            code_type: data[20],
->> +            last_image: data[21],
->> +            max_runtime_image_len: u16::from_le_bytes([data[22], data[23]]),
->> +        })
-> 
-> Quite some of those fields seem unused, do we still want to have them? Same for
-> other structures below.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-I think we discussed this in the previous posting as well. As such, I am not
-keen on removing unused fields of structures part of 'standard' specifications
-since I only see drawbacks of doing so:
-1. Obfuscation
-2. Replacement of the fields with some kind of padding so that size_of() works.
-3. Goes in the opposite direction of documentation and transparency in how the
-structures work.
-4. Partially filling structures.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/fedefc1f300a/disk-c919f087.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a2d33f61744a/vmlinux-c919f087.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2fda6bb2e321/Image-c919f087.gz.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2e9aa2a09550887c9d40@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.15.0-rc6-syzkaller-gc919f08732cc #0 Not tainted
+------------------------------------------------------
+syz.0.923/9180 is trying to acquire lock:
+ffff0000c89056d0 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault+0x9c/0x124 mm/memory.c:7150
+
+but task is already holding lock:
+ffff0000c9d441b0 (&dev->master_mutex){+.+.}-{4:4}, at: drm_getunique+0x48/0x2e0 drivers/gpu/drm/drm_ioctl.c:121
+
+which lock already depends on the new lock.
 
 
->> +
->> +    /// Check if this is the last image in the ROM
->> +    fn is_last(&self) -> bool {
->> +        self.last_image & LAST_IMAGE_BIT_MASK != 0
->> +    }
->> +
->> +    /// Calculate image size in bytes
->> +    fn image_size_bytes(&self) -> Result<usize> {
->> +        if self.image_len > 0 {
->> +            // Image size is in 512-byte blocks
->> +            Ok(self.image_len as usize * 512)
->> +        } else {
->> +            Err(EINVAL)
->> +        }
->> +    }
->> +}
->> +
->> +/// BIOS Information Table (BIT) Header
->> +/// This is the head of the BIT table, that is used to locate the Falcon data.
->> +/// The BIT table (with its header) is in the PciAtBiosImage and the falcon data
->> +/// it is pointing to is in the FwSecBiosImage.
->> +#[derive(Debug, Clone, Copy)]
->> +#[expect(dead_code)]
->> +struct BitHeader {
->> +    /// 0h: BIT Header Identifier (BMP=0x7FFF/BIT=0xB8FF)
->> +    pub id: u16,
->> +    /// 2h: BIT Header Signature ("BIT\0")
->> +    pub signature: [u8; 4],
->> +    /// 6h: Binary Coded Decimal Version, ex: 0x0100 is 1.00.
->> +    pub bcd_version: u16,
->> +    /// 8h: Size of BIT Header (in bytes)
->> +    pub header_size: u8,
->> +    /// 9h: Size of BIT Tokens (in bytes)
->> +    pub token_size: u8,
->> +    /// 10h: Number of token entries that follow
->> +    pub token_entries: u8,
->> +    /// 11h: BIT Header Checksum
->> +    pub checksum: u8,
->> +}
->> +
->> +impl BitHeader {
->> +    fn new(data: &[u8]) -> Result<Self> {
->> +        if data.len() < 12 {
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        let mut signature = [0u8; 4];
->> +        signature.copy_from_slice(&data[2..6]);
->> +
->> +        // Check header ID and signature
->> +        let id = u16::from_le_bytes([data[0], data[1]]);
->> +        if id != 0xB8FF || &signature != b"BIT\0" {
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        Ok(BitHeader {
->> +            id,
->> +            signature,
->> +            bcd_version: u16::from_le_bytes([data[6], data[7]]),
->> +            header_size: data[8],
->> +            token_size: data[9],
->> +            token_entries: data[10],
->> +            checksum: data[11],
->> +        })
->> +    }
->> +}
->> +
->> +/// BIT Token Entry: Records in the BIT table followed by the BIT header
->> +#[derive(Debug, Clone, Copy)]
->> +#[expect(dead_code)]
->> +struct BitToken {
->> +    /// 00h: Token identifier
->> +    pub id: u8,
->> +    /// 01h: Version of the token data
->> +    pub data_version: u8,
->> +    /// 02h: Size of token data in bytes
->> +    pub data_size: u16,
->> +    /// 04h: Offset to the token data
->> +    pub data_offset: u16,
->> +}
->> +
->> +// Define the token ID for the Falcon data
->> +pub(in crate::vbios) const BIT_TOKEN_ID_FALCON_DATA: u8 = 0x70;
-> 
-> This can just be private.
+the existing dependency chain (in reverse order) is:
 
-Yep, fixed.
+-> #5 (&dev->master_mutex){+.+.}-{4:4}:
+       __mutex_lock_common+0x1d0/0x2190 kernel/locking/mutex.c:601
+       __mutex_lock kernel/locking/mutex.c:746 [inline]
+       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:798
+       drm_master_internal_acquire+0x24/0x78 drivers/gpu/drm/drm_auth.c:452
+       drm_client_modeset_commit+0x40/0x7c drivers/gpu/drm/drm_client_modeset.c:1205
+       __drm_fb_helper_restore_fbdev_mode_unlocked+0x94/0x198 drivers/gpu/drm/drm_fb_helper.c:237
+       drm_fb_helper_set_par+0xa4/0x108 drivers/gpu/drm/drm_fb_helper.c:1359
+       fbcon_init+0xe4c/0x1d18 drivers/video/fbdev/core/fbcon.c:1112
+       visual_init+0x27c/0x540 drivers/tty/vt/vt.c:1011
+       do_bind_con_driver+0x7b8/0xdd8 drivers/tty/vt/vt.c:3831
+       do_take_over_console+0x824/0x97c drivers/tty/vt/vt.c:4397
+       do_fbcon_takeover+0x158/0x25c drivers/video/fbdev/core/fbcon.c:548
+       do_fb_registered drivers/video/fbdev/core/fbcon.c:2989 [inline]
+       fbcon_fb_registered+0x354/0x4c8 drivers/video/fbdev/core/fbcon.c:3009
+       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
+       register_framebuffer+0x44c/0x5ec drivers/video/fbdev/core/fbmem.c:515
+       __drm_fb_helper_initial_config_and_unlock+0x103c/0x159c drivers/gpu/drm/drm_fb_helper.c:1851
+       drm_fb_helper_initial_config+0x3c/0x58 drivers/gpu/drm/drm_fb_helper.c:1916
+       drm_fbdev_client_hotplug+0x154/0x22c drivers/gpu/drm/clients/drm_fbdev_client.c:52
+       drm_client_register+0x13c/0x1d4 drivers/gpu/drm/drm_client.c:140
+       drm_fbdev_client_setup+0x194/0x3d0 drivers/gpu/drm/clients/drm_fbdev_client.c:159
+       drm_client_setup+0x78/0x140 drivers/gpu/drm/clients/drm_client_setup.c:39
+       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:218 [inline]
+       vkms_init+0x4b8/0x5ac drivers/gpu/drm/vkms/vkms_drv.c:242
+       do_one_initcall+0x250/0x990 init/main.c:1257
+       do_initcall_level+0x154/0x214 init/main.c:1319
+       do_initcalls+0x84/0xf4 init/main.c:1335
+       do_basic_setup+0x8c/0xa0 init/main.c:1354
+       kernel_init_freeable+0x2dc/0x444 init/main.c:1567
+       kernel_init+0x24/0x1dc init/main.c:1457
+       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:847
 
->> +
->> +impl BitToken {
->> +    /// Find a BIT token entry by BIT ID in a PciAtBiosImage
->> +    pub(in crate::vbios) fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
-> 
-> Same here.
+-> #4 (&helper->lock){+.+.}-{4:4}:
+       __mutex_lock_common+0x1d0/0x2190 kernel/locking/mutex.c:601
+       __mutex_lock kernel/locking/mutex.c:746 [inline]
+       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:798
+       __drm_fb_helper_restore_fbdev_mode_unlocked+0x74/0x198 drivers/gpu/drm/drm_fb_helper.c:228
+       drm_fb_helper_set_par+0xa4/0x108 drivers/gpu/drm/drm_fb_helper.c:1359
+       fbcon_init+0xe4c/0x1d18 drivers/video/fbdev/core/fbcon.c:1112
+       visual_init+0x27c/0x540 drivers/tty/vt/vt.c:1011
+       do_bind_con_driver+0x7b8/0xdd8 drivers/tty/vt/vt.c:3831
+       do_take_over_console+0x824/0x97c drivers/tty/vt/vt.c:4397
+       do_fbcon_takeover+0x158/0x25c drivers/video/fbdev/core/fbcon.c:548
+       do_fb_registered drivers/video/fbdev/core/fbcon.c:2989 [inline]
+       fbcon_fb_registered+0x354/0x4c8 drivers/video/fbdev/core/fbcon.c:3009
+       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
+       register_framebuffer+0x44c/0x5ec drivers/video/fbdev/core/fbmem.c:515
+       __drm_fb_helper_initial_config_and_unlock+0x103c/0x159c drivers/gpu/drm/drm_fb_helper.c:1851
+       drm_fb_helper_initial_config+0x3c/0x58 drivers/gpu/drm/drm_fb_helper.c:1916
+       drm_fbdev_client_hotplug+0x154/0x22c drivers/gpu/drm/clients/drm_fbdev_client.c:52
+       drm_client_register+0x13c/0x1d4 drivers/gpu/drm/drm_client.c:140
+       drm_fbdev_client_setup+0x194/0x3d0 drivers/gpu/drm/clients/drm_fbdev_client.c:159
+       drm_client_setup+0x78/0x140 drivers/gpu/drm/clients/drm_client_setup.c:39
+       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:218 [inline]
+       vkms_init+0x4b8/0x5ac drivers/gpu/drm/vkms/vkms_drv.c:242
+       do_one_initcall+0x250/0x990 init/main.c:1257
+       do_initcall_level+0x154/0x214 init/main.c:1319
+       do_initcalls+0x84/0xf4 init/main.c:1335
+       do_basic_setup+0x8c/0xa0 init/main.c:1354
+       kernel_init_freeable+0x2dc/0x444 init/main.c:1567
+       kernel_init+0x24/0x1dc init/main.c:1457
+       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:847
 
-Fixed.
+-> #3 (console_lock){+.+.}-{0:0}:
+       console_lock+0x194/0x1ec kernel/printk/printk.c:2849
+       __bch2_print_string_as_lines fs/bcachefs/util.c:267 [inline]
+       bch2_print_string_as_lines+0x34/0x150 fs/bcachefs/util.c:286
+       bucket_ref_update_err+0x1c8/0x21c fs/bcachefs/buckets.c:417
+       bch2_bucket_ref_update+0x3d8/0x888 fs/bcachefs/buckets.c:-1
+       __mark_pointer fs/bcachefs/buckets.c:572 [inline]
+       bch2_trigger_pointer fs/bcachefs/buckets.c:618 [inline]
+       __trigger_extent+0xd90/0x35fc fs/bcachefs/buckets.c:763
+       bch2_trigger_extent+0x3e4/0x78c fs/bcachefs/buckets.c:881
+       run_one_trans_trigger fs/bcachefs/btree_trans_commit.c:-1 [inline]
+       bch2_trans_commit_run_triggers fs/bcachefs/btree_trans_commit.c:550 [inline]
+       __bch2_trans_commit+0x7e8/0x62d0 fs/bcachefs/btree_trans_commit.c:990
+       bch2_trans_commit fs/bcachefs/btree_update.h:195 [inline]
+       bch2_extent_update+0x2d8/0x7e8 fs/bcachefs/io_write.c:353
+       bch2_fpunch_at+0x4dc/0x98c fs/bcachefs/io_misc.c:187
+       bch2_fpunch+0x104/0x1b8 fs/bcachefs/io_misc.c:206
+       bchfs_fpunch+0x204/0x404 fs/bcachefs/fs-io.c:575
+       bch2_fallocate_dispatch+0x378/0x4e0 fs/bcachefs/fs-io.c:838
+       vfs_fallocate+0x5cc/0x73c fs/open.c:338
+       ioctl_preallocate fs/ioctl.c:290 [inline]
+       file_ioctl fs/ioctl.c:-1 [inline]
+       do_vfs_ioctl+0x1d4c/0x2218 fs/ioctl.c:885
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl fs/ioctl.c:892 [inline]
+       __arm64_sys_ioctl+0xe4/0x1c4 fs/ioctl.c:892
+       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+       el0_svc+0x58/0x17c arch/arm64/kernel/entry-common.c:767
+       el0t_64_sync_handler+0x78/0x108 arch/arm64/kernel/entry-common.c:786
+       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
 
-> <snip>
-> 
->> +struct PciAtBiosImage {
->> +    base: BiosImageBase,
->> +    bit_header: Option<BitHeader>,
->> +    bit_offset: Option<usize>,
-> 
-> Why are those Options? AFAICS, this structure is only ever created from
-> 
-> 	impl TryFrom<BiosImageBase> for PciAtBiosImage
-> 
-> and there you fail if you can't find the bit header anyways.
-> 
-> Also BitToken::from_id fails if bit_header == None, and it doesn't seem to be
-> used anywhere else.
-> 
-> I think we should remove the Option wrapper for both.
+-> #2 (bcachefs_btree){+.+.}-{0:0}:
+       trans_set_locked+0x94/0x200 fs/bcachefs/btree_locking.h:198
+       bch2_trans_begin+0x6f8/0xa40 fs/bcachefs/btree_iter.c:3282
+       bch2_read_err_msg_trans+0x64/0x298 fs/bcachefs/io_read.c:346
+       __bch2_read_extent+0x21fc/0x3694 fs/bcachefs/io_read.c:975
+       bch2_read_extent fs/bcachefs/io_read.h:140 [inline]
+       bchfs_read+0x1178/0x17dc fs/bcachefs/fs-io-buffered.c:226
+       bch2_readahead+0xa18/0xd88 fs/bcachefs/fs-io-buffered.c:316
+       read_pages+0x13c/0x4c8 mm/readahead.c:160
+       page_cache_ra_order+0x7b8/0xb34 mm/readahead.c:515
+       do_sync_mmap_readahead+0x2f0/0x660 mm/filemap.c:-1
+       filemap_fault+0x600/0x1278 mm/filemap.c:3403
+       bch2_page_fault+0x2cc/0x700 fs/bcachefs/fs-io-pagecache.c:594
+       __do_fault+0xf8/0x498 mm/memory.c:5098
+       do_read_fault mm/memory.c:5518 [inline]
+       do_fault mm/memory.c:5652 [inline]
+       do_pte_missing mm/memory.c:4160 [inline]
+       handle_pte_fault mm/memory.c:5997 [inline]
+       __handle_mm_fault mm/memory.c:6140 [inline]
+       handle_mm_fault+0x2c00/0x4cf0 mm/memory.c:6309
+       faultin_page mm/gup.c:1193 [inline]
+       __get_user_pages+0x1da4/0x30cc mm/gup.c:1491
+       populate_vma_page_range+0x218/0x2e8 mm/gup.c:1929
+       __mm_populate+0x208/0x330 mm/gup.c:2032
+       mm_populate include/linux/mm.h:3487 [inline]
+       vm_mmap_pgoff+0x378/0x43c mm/util.c:584
+       ksys_mmap_pgoff+0x394/0x5b8 mm/mmap.c:607
+       __do_sys_mmap arch/arm64/kernel/sys.c:28 [inline]
+       __se_sys_mmap arch/arm64/kernel/sys.c:21 [inline]
+       __arm64_sys_mmap+0xf8/0x110 arch/arm64/kernel/sys.c:21
+       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+       el0_svc+0x58/0x17c arch/arm64/kernel/entry-common.c:767
+       el0t_64_sync_handler+0x78/0x108 arch/arm64/kernel/entry-common.c:786
+       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
 
-Yes, thanks. That does simplify the code, I made the change and it works.
+-> #1 (mapping.invalidate_lock#3){.+.+}-{4:4}:
+       down_read+0x58/0x2f8 kernel/locking/rwsem.c:1524
+       filemap_invalidate_lock_shared include/linux/fs.h:922 [inline]
+       filemap_fault+0x564/0x1278 mm/filemap.c:3391
+       bch2_page_fault+0x2cc/0x700 fs/bcachefs/fs-io-pagecache.c:594
+       __do_fault+0xf8/0x498 mm/memory.c:5098
+       do_read_fault mm/memory.c:5518 [inline]
+       do_fault mm/memory.c:5652 [inline]
+       do_pte_missing mm/memory.c:4160 [inline]
+       handle_pte_fault mm/memory.c:5997 [inline]
+       __handle_mm_fault mm/memory.c:6140 [inline]
+       handle_mm_fault+0x2c00/0x4cf0 mm/memory.c:6309
+       faultin_page mm/gup.c:1193 [inline]
+       __get_user_pages+0x1da4/0x30cc mm/gup.c:1491
+       populate_vma_page_range+0x218/0x2e8 mm/gup.c:1929
+       __mm_populate+0x208/0x330 mm/gup.c:2032
+       mm_populate include/linux/mm.h:3487 [inline]
+       vm_mmap_pgoff+0x378/0x43c mm/util.c:584
+       ksys_mmap_pgoff+0x394/0x5b8 mm/mmap.c:607
+       __do_sys_mmap arch/arm64/kernel/sys.c:28 [inline]
+       __se_sys_mmap arch/arm64/kernel/sys.c:21 [inline]
+       __arm64_sys_mmap+0xf8/0x110 arch/arm64/kernel/sys.c:21
+       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+       el0_svc+0x58/0x17c arch/arm64/kernel/entry-common.c:767
+       el0t_64_sync_handler+0x78/0x108 arch/arm64/kernel/entry-common.c:786
+       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
+
+-> #0 (&mm->mmap_lock){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3166 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+       validate_chain kernel/locking/lockdep.c:3909 [inline]
+       __lock_acquire+0x1728/0x3058 kernel/locking/lockdep.c:5235
+       lock_acquire+0x14c/0x2e0 kernel/locking/lockdep.c:5866
+       __might_fault+0xc4/0x124 mm/memory.c:7151
+       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+       copy_to_user include/linux/uaccess.h:223 [inline]
+       drm_getunique+0x114/0x2e0 drivers/gpu/drm/drm_ioctl.c:124
+       drm_ioctl_kernel+0x238/0x310 drivers/gpu/drm/drm_ioctl.c:796
+       drm_ioctl+0x65c/0xa5c drivers/gpu/drm/drm_ioctl.c:893
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:906 [inline]
+       __se_sys_ioctl fs/ioctl.c:892 [inline]
+       __arm64_sys_ioctl+0x14c/0x1c4 fs/ioctl.c:892
+       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+       el0_svc+0x58/0x17c arch/arm64/kernel/entry-common.c:767
+       el0t_64_sync_handler+0x78/0x108 arch/arm64/kernel/entry-common.c:786
+       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
+
+other info that might help us debug this:
+
+Chain exists of:
+  &mm->mmap_lock --> &helper->lock --> &dev->master_mutex
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&dev->master_mutex);
+                               lock(&helper->lock);
+                               lock(&dev->master_mutex);
+  rlock(&mm->mmap_lock);
+
+ *** DEADLOCK ***
+
+1 lock held by syz.0.923/9180:
+ #0: ffff0000c9d441b0 (&dev->master_mutex){+.+.}-{4:4}, at: drm_getunique+0x48/0x2e0 drivers/gpu/drm/drm_ioctl.c:121
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 9180 Comm: syz.0.923 Not tainted 6.15.0-rc6-syzkaller-gc919f08732cc #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call trace:
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
+ __dump_stack+0x30/0x40 lib/dump_stack.c:94
+ dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
+ dump_stack+0x1c/0x28 lib/dump_stack.c:129
+ print_circular_bug+0x324/0x32c kernel/locking/lockdep.c:2079
+ check_noncircular+0x154/0x174 kernel/locking/lockdep.c:2211
+ check_prev_add kernel/locking/lockdep.c:3166 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+ validate_chain kernel/locking/lockdep.c:3909 [inline]
+ __lock_acquire+0x1728/0x3058 kernel/locking/lockdep.c:5235
+ lock_acquire+0x14c/0x2e0 kernel/locking/lockdep.c:5866
+ __might_fault+0xc4/0x124 mm/memory.c:7151
+ _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+ copy_to_user include/linux/uaccess.h:223 [inline]
+ drm_getunique+0x114/0x2e0 drivers/gpu/drm/drm_ioctl.c:124
+ drm_ioctl_kernel+0x238/0x310 drivers/gpu/drm/drm_ioctl.c:796
+ drm_ioctl+0x65c/0xa5c drivers/gpu/drm/drm_ioctl.c:893
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl fs/ioctl.c:892 [inline]
+ __arm64_sys_ioctl+0x14c/0x1c4 fs/ioctl.c:892
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+ el0_svc+0x58/0x17c arch/arm64/kernel/entry-common.c:767
+ el0t_64_sync_handler+0x78/0x108 arch/arm64/kernel/entry-common.c:786
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
 
 
-> 
->> +/// The PmuLookupTableEntry structure is used to find the PmuLookupTableEntry
->> +/// for a given application ID. The table of entries is pointed to by the falcon
->> +/// data pointer in the BIT table, and is used to locate the Falcon Ucode.
->> +#[expect(dead_code)]
->> +struct PmuLookupTable {
->> +    version: u8,
->> +    header_len: u8,
->> +    entry_len: u8,
->> +    entry_count: u8,
->> +    table_data: KVec<u8>,
->> +}
->> +
->> +impl PmuLookupTable {
->> +    fn new(data: &[u8]) -> Result<Self> {
->> +        if data.len() < 4 {
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        let header_len = data[1] as usize;
->> +        let entry_len = data[2] as usize;
->> +        let entry_count = data[3] as usize;
->> +
->> +        let required_bytes = header_len + (entry_count * entry_len);
->> +
->> +        if data.len() < required_bytes {
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        // Create a copy of only the table data
->> +        let mut table_data = KVec::new();
->> +
->> +        // "last_entry_bytes" is a debugging aid.
->> +        let mut last_entry_bytes: Option<KVec<u8>> = if cfg!(debug_assertions) {
->> +            Some(KVec::new())
->> +        } else {
->> +            None
->> +        };
->> +
->> +        for &byte in &data[header_len..required_bytes] {
->> +            table_data.push(byte, GFP_KERNEL)?;
-> 
-> This should just be
-> 
-> 	table_data.extend_from_slice(&data[header_len..required_bytes], GFP_KERNEL)?;
-> 
-> so you don't need the loop and potentially lots of re-allocations.
-> 
-> Subsequently you can implement the debugging stuff as
-> 
-> 	if cfg!(debug_assertions) {
-> 	    let mut last_entry_bytes = KVec::new();
-> 	
-> 	    for &byte in &data[header_len..required_bytes] {
-> 	        // Debugging (dumps the table data to dmesg):
-> 	        last_entry_bytes.push(byte, GFP_KERNEL)?;
-> 	
-> 	        let last_entry_bytes_len = last_entry_bytes.len();
-> 	        if last_entry_bytes_len == entry_len {
-> 	            pr_info!("Last entry bytes: {:02x?}\n", &last_entry_bytes[..]);
-> 	            last_entry_bytes = KVec::new();
-> 	        }
-> 	    }
-> 	}
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Ok, that's better, I took the opportunity to replace this code with:
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-(Sorry for wrapping)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-        // Create a copy of only the table data
-        let data_entries = &data[header_len..required_bytes];
-        let table_data = {
-            let mut ret = KVec::new();
-            ret.extend_from_slice(&data_entries, GFP_KERNEL)?;
-            ret
-        };
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-        // Debug logging of entries (dumps the table data to dmesg)
-        if cfg!(debug_assertions) {
-            for i in 0..entry_count {
-                pr_info!("PMU entry: {:02x?}\n", &data_entries[i * entry_len..(i
-+ 1) * entry_len]);
-            }
-        }
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-
-> In general, I feel like this patch utilizes the Option type way too much and
-> often without actual need. Can you please also double check?
-
-Yeah, sorry, I'm somewhat new to rust. :-D. I am going through all my Options now.
-
-I will continue addressing the rest of the comments and those in the other email
-and will reply soon. Thanks!
-
- - Joel
-
+If you want to undo deduplication, reply with:
+#syz undup
