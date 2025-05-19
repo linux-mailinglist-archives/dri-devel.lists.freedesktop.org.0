@@ -2,51 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807D1ABC367
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4345ABC36D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBD410E2B0;
-	Mon, 19 May 2025 16:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111AC10E0CF;
+	Mon, 19 May 2025 16:03:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZUAyiSj4";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 432EF10E2B0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:02:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67ADF153B;
- Mon, 19 May 2025 09:02:02 -0700 (PDT)
-Received: from [10.57.24.231] (unknown [10.57.24.231])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD20F3F5A1;
- Mon, 19 May 2025 09:02:12 -0700 (PDT)
-Message-ID: <6a00017f-89dd-47b9-a4db-ceedd63f456f@arm.com>
-Date: Mon, 19 May 2025 17:02:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-To: Daniel Stone <daniel@fooishbar.org>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com
+ [209.85.216.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1629110E0CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:03:01 +0000 (UTC)
+Received: by mail-pj1-f73.google.com with SMTP id
+ 98e67ed59e1d1-30ebf91d150so2550166a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1747670580; x=1748275380;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ebJzx1LorPbf1NWqtTpnidvsrFRDAcdzNorkYWG1GY4=;
+ b=ZUAyiSj48xNDiZ9cfNBcfBnyDY3Kiy1lztnQtnFbjAMIZqM4FiOexl+un2l8fSideI
+ KQBdqI4P4y9QiXqXBGoYm4Lurw73A7/0m+xl0h7XB8vfKPtdEgPy2x8DEsewTpGOyEs7
+ d6tXu510XowtAy57GlHWgyqcVqwhY7OFeEq+jMCqCxblbmEIiGYwGbp2qb4dcPK5ZcaQ
+ IoFLObXVADUWiWnxapKNpYrJSpF/MXtIXqaSZ6ZEPZh6j8wDm58mlrMG+ntTC/he/2Lb
+ +wlbqexxEmSggTCQM3f12x9LXdacR1uKLdxJ3fSbMU94TF5Rf7jgcz446vUbFTxQAeOW
+ Lvsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747670580; x=1748275380;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ebJzx1LorPbf1NWqtTpnidvsrFRDAcdzNorkYWG1GY4=;
+ b=DKuUxkM3kz4g0M9j6G+2fFr0Ss1asXbaX0YTIJff44XFYpB8z8QNXCqA3o1ckG7dl5
+ uxLQFxyqzFs6UfQHl9JwwcYnya+UGYa3VBMGXm2ZtqtIyELSWyGWqnMat8ZJt829s1d+
+ PBwec/NPK4h1XNm+7a0D2FhouHV73weqKwy68yWQCEgPWqyt8KYH5OdWxbTlmMS6yZUm
+ cXDfTke4JL9eAzd50sJipeOnnJsNp7F4RTjS6kX5UFQksTOSbzvg35/t4zoCFzJp5iik
+ Y0S6cD2iABJA10ItoytjURWBVauTlDhs66Vr3EL3Ic3OPSVXJ1iUNwOWPccJ7DyyjfwA
+ SJZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUVeJZ69gYOV7rKV2d56pvlPCQOh3MD8fg60ia7s6/cQEEJmmJfbJha2xaVaR76PwEbYeCU90S53Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpPwixGupTa5nIrPT6W63zoi/OGOUFwjsBdq6HBW9dkqHwJyaf
+ nZcvm8H1tOA0WM2A9LPOEwCvIixyP4CebX/PrXaluTuSbdkCTK2orkcqUqmbA32YVTzY7zJkbX/
+ yVvL1DA==
+X-Google-Smtp-Source: AGHT+IGgPwGOMBLaCWE5KFajgM1k5GAAtbgHFzAkvoKLZILtRQoRL0lrXZ29F1zNrZz+oqAiBi5JJlM1Uas=
+X-Received: from pja16.prod.google.com ([2002:a17:90b:5490:b0:30a:3021:c1af])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90a:d888:b0:30e:823f:ef3c
+ with SMTP id 98e67ed59e1d1-30e823ff09dmr21512162a91.25.1747670580528; Mon, 19
+ May 2025 09:03:00 -0700 (PDT)
+Date: Mon, 19 May 2025 09:02:59 -0700
+In-Reply-To: <aCg0Xc9fEB2Qn5Th@gmail.com>
+Mime-Version: 1.0
+References: <20250516212833.2544737-1-seanjc@google.com>
+ <20250516212833.2544737-8-seanjc@google.com>
+ <aCg0Xc9fEB2Qn5Th@gmail.com>
+Message-ID: <aCtWM63FyQKMJzqE@google.com>
+Subject: Re: [PATCH v2 7/8] x86, lib: Add wbinvd and wbnoinvd helpers to
+ target multiple CPUs
+From: Sean Christopherson <seanjc@google.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
- <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
- <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAPj87rOiEa1bTOPqyauYhoVoXEtNeDjE+DkLbzeGVJ1tW9fJcQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ linux-kernel@vger.kernel.org, 
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Zheyun Shen <szy0127@sjtu.edu.cn>, Tom Lendacky <thomas.lendacky@amd.com>, 
+ Kevin Loughlin <kevinloughlin@google.com>, Kai Huang <kai.huang@intel.com>, 
+ Mingwei Zhang <mizhang@google.com>
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,83 +92,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2025 19:04, Daniel Stone wrote:
-> Hi Steven,
+On Sat, May 17, 2025, Ingo Molnar wrote:
 > 
-> On Thu, 8 May 2025 at 11:42, Steven Price <steven.price@arm.com> wrote:
->> I'm also seeing a splat when running this, see below. I haven't got my
->> head around how this is happening, but I see it when glmark quits at the
->> end of the test.
->>
->> [  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
->> [...]
->> [  399.882216] Call trace:
->> [  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
->> [  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
->> [  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
->> [  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+> * Sean Christopherson <seanjc@google.com> wrote:
 > 
-> Soooo. Let's assume it has to actually occur in
-> panfrost_gem_debugfs_bo_rm(), since that's all that's changed here.
+> > From: Zheyun Shen <szy0127@sjtu.edu.cn>
+> > 
+> > Extract KVM's open-coded calls to do writeback caches on multiple CPUs to
+> > common library helpers for both WBINVD and WBNOINVD (KVM will use both).
+> > Put the onus on the caller to check for a non-empty mask to simplify the
+> > SMP=n implementation, e.g. so that it doesn't need to check that the one
+> > and only CPU in the system is present in the mask.
+> > 
+> > Signed-off-by: Zheyun Shen <szy0127@sjtu.edu.cn>
+> > Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+> > Link: https://lore.kernel.org/r/20250128015345.7929-2-szy0127@sjtu.edu.cn
+> > [sean: move to lib, add SMP=n helpers, clarify usage]
+> > Acked-by: Kai Huang <kai.huang@intel.com>
+> > Signed-off-by: Sean Christopherson <seanjc@google.com>
+> > ---
+> >  arch/x86/include/asm/smp.h | 12 ++++++++++++
+> >  arch/x86/kvm/x86.c         |  8 +-------
+> >  arch/x86/lib/cache-smp.c   | 12 ++++++++++++
+> >  3 files changed, 25 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
+> > index e08f1ae25401..fe98e021f7f8 100644
+> > --- a/arch/x86/include/asm/smp.h
+> > +++ b/arch/x86/include/asm/smp.h
+> > @@ -113,7 +113,9 @@ void native_play_dead(void);
+> >  void play_dead_common(void);
+> >  void wbinvd_on_cpu(int cpu);
+> >  void wbinvd_on_all_cpus(void);
+> > +void wbinvd_on_many_cpus(struct cpumask *cpus);
+> >  void wbnoinvd_on_all_cpus(void);
+> > +void wbnoinvd_on_many_cpus(struct cpumask *cpus);
 > 
-> I don't think pfdev can be NULL here, because we've already
-> dereferenced ptdev and written to a structure member earlier in
-> panfrost_gem_free_object(). I don't think it can be the debugfs mutex,
-> because a) that's initialised with the device, and b) wouldn't be
-> offset 0x4.
+> Let's go with the _on_cpumask() suffix:
 > 
-> I'm looking then at list_del_init(&bo->debugfs.node), which would
-> effectively execute bo->debugfs.node->next->prev =
-> bo->debugfs.node->prev. So if bo->debugfs.node->next was NULL, that
-> would explain a write to 0x4 on 32-bit systems.
+>     void wbinvd_on_cpu(int cpu);
+>    +void wbinvd_on_cpumask(struct cpumask *cpus);
+>     void wbinvd_on_all_cpus(void);
+> 
+> And the wb*invd_all_cpus() methods should probably be inlined wrappers 
+> with -1 as the cpumask, or so - not two separate functions?
 
-So I finally got some time to do some debugging on this. And you are
-absolutely correct on where the fault is triggered.
+Using two separate functions allows _on_all_cpus() to defer the mask generation
+to on_each_cpu(), i.e. avoids having to duplicate the passing of cpu_online_mask.
+IMO, duplicating passing __wbinvd is preferable to duplicating the use of
+cpu_online_mask.
+ 
+> In fact it would be nice to have the DRM preparatory patch and all the 
+> x86 patches at the beginning of the next version of the series, so 
+> those 4 patches can be applied to the x86 tree. Can make it a separate 
+> permanent branch based on v6.15-rc6/rc7.
 
-The cause of it is that panfrost_gem_debugfs_bo_add() is called from
-panfrost_gem_create(), but that isn't the only place that Panfrost GEM
-objects are created - it turns out panfrost_perfcnt_enable_locked() also
-calls drm_gem_shmem_create(). And in that case the list next/prev
-pointers are left set to NULL, causing things to blow up when the GEM
-object is freed.
-
-The below patch gets things working, or alternatively just init the list
-in panfrost_gem_create_object() if we don't want to include the perfcnt
-buffer in the list.
-
-Steve
-
----8<--
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c
-b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index fe2cdbe8baf0..51da13cd81f0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -297,13 +297,14 @@ struct drm_gem_object
-*panfrost_gem_create_object(struct drm_device *dev, size_t
-        obj->base.map_wc = !pfdev->coherent;
-        mutex_init(&obj->label.lock);
-
-+       panfrost_gem_debugfs_bo_add(pfdev, obj);
-+
-        return &obj->base.base;
- }
-
- struct panfrost_gem_object *
- panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
- {
--       struct panfrost_device *pfdev = dev->dev_private;
-        struct drm_gem_shmem_object *shmem;
-        struct panfrost_gem_object *bo;
-
-@@ -319,8 +320,6 @@ panfrost_gem_create(struct drm_device *dev, size_t
-size, u32 flags)
-        bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
-        bo->is_heap = !!(flags & PANFROST_BO_HEAP);
-
--       panfrost_gem_debugfs_bo_add(pfdev, bo);
--
-        return bo;
- }
-
-
+Can do, assuming there's no lurking dependency I'm missing.
