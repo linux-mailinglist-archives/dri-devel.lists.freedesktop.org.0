@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D77DABB4FE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA96ABB52B
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503A910E248;
-	Mon, 19 May 2025 06:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 221DC10E2F2;
+	Mon, 19 May 2025 06:33:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g5i9VPw5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZhMR1wU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACC610E248
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:18:51 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-acb5ec407b1so672283266b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 May 2025 23:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747635530; x=1748240330; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vK0gx1ykqEks3iig04qjuy13U8xSjbAqQzrJA0P4uP4=;
- b=g5i9VPw5agYHyEePOT2/AO+XspB6YQLQopR7J/HiTDyg3WI9SHjcY6U7CKb1Drqf7o
- 54sPP0G1t/znLr6PfcDt5yhagF6XAFhE/Y/zsRF1tBv07z46irICU3kl5as7jNheqGM2
- CIrSoCI/WtyYsi0HzTeLlvbGxXJzwDxvampPQOXS3Ef++DdinA135ROXTD/w8wCjAQip
- 0HNtP4GUGzOonR1r+/sSUMq8n8MV87sWiZSyYqe3tnF8HMD2PKxmeOqvYdQQneq7YPGj
- k2alfFpPkredvzws/ql7TGDgdbsgIWnGJHrz0o3Fox95KPJfNGzvbYFwgRrMU42/r6VD
- V3kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747635530; x=1748240330;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vK0gx1ykqEks3iig04qjuy13U8xSjbAqQzrJA0P4uP4=;
- b=WmMKTvrptCYSY3JEWM67ZIsPu/TY90sqYtm6IHFECyU+20RjjMHbFRSei9gGtBHXer
- 09uzONtY3hI8/LVDwOabl0HrV1PMaOom/7AM8wlSHGGhXHIZgWUs6/kQBVEzb0mm7SVG
- CatbLExsxl6cfN0+dvyljyaG4BsuXCw1hRDpuQjcSfmRxVycWpiktJXAiqtj/PU1Eqqo
- R0HuVPsgPr+0FBLdshLCNdElP5up/oNThyabNkO+sbpZX3DV5jdZk0khstjE5bcwpRvs
- cBpmfo3PA53qJo9AV3w46zqyBqhyvZb8eF0GURKhsqzfP3EBbmlFOSEC8dusfOHjd87T
- STLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmi7l9k39OLPoITyw+G0GpcE2lhFhe+cK1HXvCHt6P4KdhaUeD5VW22UIBWWFlaa1S95Br51HLhNE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzR/aj4QSmjUDFI/wyC/vU77+3DffRHlb2ZYnBjS5bvx/4Isb/o
- eR9iasEWFdTxMV+AqzVe+dAooOTHXcoF/q/hk7YxRYUKD59p9Y3kp86LghjtAniU7YPAE9ptM9H
- dFbQUCs3vPyNuN6HHKv34G+Ayc3VX+sI=
-X-Gm-Gg: ASbGncvExqvJ92RvpSblEHvalwpduhLOcO/lD7CZsgU+y9OZT4ODqCCh/AX5PKRfTTs
- Z5XRT0/b/rzwXMD2S8Hs88kZ0Q2NDZFqTg6C7dxMoeas05tf4V6g5GZP7SXWTfES7aNRtUKkkIy
- zcaBzizCSv3A8+YZ2JjP4oTR4neGsEy2M=
-X-Google-Smtp-Source: AGHT+IED1MGrTJUgDiXAUoxy2ZS37P5iCwFTBvVZgDuAbwR2oTt4wpSQ5cSDfGjdU1nNJ3yVKy67BGxv6DklZhbROQ0=
-X-Received: by 2002:a17:907:1c2a:b0:ad2:3fa9:751f with SMTP id
- a640c23a62f3a-ad536dce3demr987314466b.38.1747635529329; Sun, 18 May 2025
- 23:18:49 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE3510E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:33:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3F9B35C0767;
+ Mon, 19 May 2025 06:30:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8470C4CEE4;
+ Mon, 19 May 2025 06:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747636375;
+ bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=ZhMR1wU/X0Ftyf6ohXFPrJXQwhkWzueNT8/spvuGLMldbiR4tGeBv435mgPBDj2fh
+ h25+ZLh+a/oVqqUA5g0Ccm5c9J0tXEjJbDzOuHGcX5mBwdxO8AhQpofalAsMrAtDuI
+ BvQN/BzF702ipIzpZ5PzL79fM7+EJ84LPtubD4wh4tD8ilYMNr5f3dWQJEDjpyzcBY
+ m1aFqPnt6pLdPNgeIhHQD+2RALGu6wORmSWzaoT8REybCVfUD8Tb+snf3J9uDFIM3Z
+ xyh3qQx4S/YK7PS+R2D1lczDI7cXCS5I1PU6CR1Ve2TSAfIiSA1ftZ1WaugAZ9Mt6H
+ VqjHQ+lP7NuqA==
+Date: Mon, 19 May 2025 01:32:53 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
- <20250513075446.GA623911@cmpxchg.org>
- <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
- <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
- <20250515160842.GA720744@cmpxchg.org>
- <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
- <20250516145318.GB720744@cmpxchg.org>
- <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
- <20250516164150.GD720744@cmpxchg.org>
- <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
- <20250516200423.GE720744@cmpxchg.org>
- <CAPM=9txLaTjfjgC_h9PLR4H-LKpC9_Fet7=HYBpyeoCL6yAQJg@mail.gmail.com>
- <5c0df728-2100-4078-8020-4aac8eb31d2b@amd.com>
-In-Reply-To: <5c0df728-2100-4078-8020-4aac8eb31d2b@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 19 May 2025 16:18:37 +1000
-X-Gm-Features: AX0GCFuphdrkbUIehiBml6CnXJWdoRvQjaJ47FArohPiypk3t12x3bE1pnOOt84
-Message-ID: <CAPM=9tysB4iNkGViN1iaGXjPC7y=YwB05ReHdUVR_-4zHahEFg@mail.gmail.com>
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,95 +72,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 May 2025 at 02:28, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> On 5/16/25 22:25, Dave Airlie wrote:
-> > On Sat, 17 May 2025 at 06:04, Johannes Weiner <hannes@cmpxchg.org> wrot=
-e:
-> >>> The memory properties are similar to what GFP_DMA or GFP_DMA32
-> >>> provide.
-> >>>
-> >>> The reasons we haven't moved this into the core memory management is
-> >>> because it is completely x86 specific and only used by a rather
-> >>> specific group of devices.
-> >>
-> >> I fully understand that. It's about memory properties.
-> >>
-> >> What I think you're also saying is that the best solution would be
-> >> that you could ask the core MM for pages with a specific property, and
-> >> it would hand you pages that were previously freed with those same
-> >> properties. Or, if none such pages are on the freelists, it would grab
-> >> free pages with different properties and convert them on the fly.
-> >>
-> >> For all intents and purposes, this free memory would then be trivially
-> >> fungible between drm use, non-drm use, and different cgroups - except
-> >> for a few CPU cycles when converting but that's *probably* negligible?
-> >> And now you could get rid of the "hack" in drm and didn't have to hang
-> >> on to special-property pages and implement a shrinker at all.
-> >>
-> >> So far so good.
-> >>
-> >> But that just isn't the implementation of today. And the devil is very
-> >> much in the details with this:
-> >>
-> >> Your memory attribute conversions are currently tied to a *shrinker*.
-> >>
-> >> This means the conversion doesn't trivially happen in the allocator,
-> >> it happens from *reclaim context*.
->
-> Ah! At least I now understand your concern here.
->
-> >> Now *your* shrinker is fairly cheap to run, so I do understand when
-> >> you're saying in exasperation: We give this memory back if somebody
-> >> needs it for other purposes. What *is* the big deal?
-> >>
-> >> The *reclaim context* is the big deal. The problem is *all the other
-> >> shrinkers that run at this time as well*. Because you held onto those
-> >> pages long enough that they contributed to a bonafide, general memory
-> >> shortage situation. And *that* has consequences for other cgroups.
->
-> No it doesn't, or at least not as much as you think.
->
-> We have gone back and forth on this multiple times already when discussio=
-n the shrinker implementations. See the DRM mailing list about both the TTM=
- and the GEM shared mem shrinker.
->
-> The TTM pool shrinker is basically just a nice to have feature which is u=
-sed to avoid deny of service attacks and allows to kick in when use cases c=
-hange. E.g. between installing software (gcc) and running software (Blender=
-, ROCm etc..).
->
-> In other words the TTM shrinker is not even optimized and spends tons of =
-extra CPU cycles because the expectation is that it never really triggers i=
-n practice.
->
-> > I think this is where we have 2 options:
-> > (a) moving this stuff into core mm and out of shrinker context
-> > (b) fix our shrinker to be cgroup aware and solve that first.
->
-> (c) give better priorities to the shrinker API.
->
-> E.g. the shrinker for example assumes that the users of the API must scan=
- the pages to be able to clean them up.
 
-Well my again naive approach is to just add simpler low-overhead
-shrinkers to the start of the shrinker list and if they free up enough
-memory then win, otherwise we were in reclaim anyways,
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
 
-however this asks the question if just going into reclaim and having
-to touch any shrinkers at all is bad, if the overheads of just doing
-that aren't acceptable then we would need to come up with a better way
-I suspect?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-adding a single shrinker flag to put the ttm shrinker at the top of
-the list is pretty trivial.
+yamllint warnings/errors:
 
-Thanks for use-cases that probably matter, I can see the online gaming
-workloads being useful overhead reduction.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
 
-There probably isn't much appetite to just migrate the ttm pools into
-the core mm, I see a couple of other users like sound do set_memory_*
-calls, but I doubt they are on the radar for how much it costs.
+doc reference errors (make refcheckdocs):
 
-Dave.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
