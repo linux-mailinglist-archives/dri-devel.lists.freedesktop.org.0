@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF9ABC3AF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517B5ABC3AE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3EF10E333;
-	Mon, 19 May 2025 16:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A246A10E257;
+	Mon, 19 May 2025 16:05:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nHuOlQl5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AX5e04hD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D138710E372
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:08 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54JDhRtq010804
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:08 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1D410E257
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:12 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J8fefu031683
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3pz7HlReriWF25jopz5eMN8UYw3ZSgBqgcWROhc0jZA=; b=nHuOlQl5t8tjFieL
- WIzHxr6i7U0DmfvRn5ASfk93UcPR/OxnjZsazAegjBJjDehnJln42UjDZM2flUUY
- DvTdXJ+X81I3/ikB3jdsxDtugJQhubA2xNFWw3W6EFN4qWiI3qsrmwq+4KzaakU1
- xiDzFjJMBSguE1n3gxG23BRK26GBKfcg8KEzGtkCncaL+YxSA0pXSL3nEkja6dQH
- 45ueFl0g23LK8d3uT/cT3/VsZl1jlNbwmencwX2g7/ZgFK0abbaT+BoBGAkV4Zlq
- xWHkSWOoUX4u8MfU1sytyPJp6EFsO0Qd7o4ZfyIDRqxpltXsHA9BtajQm1kR7LTm
- YsJr0A==
+ uOxgkiB0mTNl61F0HDHh6KUW8/O6/rYpHORLV22YI+8=; b=AX5e04hD2x+AkY2G
+ rpFMaqa5edaARzSCM3tBaDuJMEBU6/D3t+4r+RtjDC6XRw+Iemm08ewoaV2sRHaF
+ EqbR0FYWFs6EMiLEc52wYFZEqb5mdX/GnkLChmaxjGcZeGpdFTahrfWFM0s9nNP3
+ GI0RxFQ4xy6AH7gzIhAKFLt50r6UHrDlm3E5S+IqiasSB/Epelj3E1uXSrYRtczK
+ bdEuZuk3AXwYTizGTEmc2Ttw7RJ+80OAWKgZedvHuLklbpQtLoNLM5oyrW3kirQS
+ jD4mtFVcGJRwHJe7W+qWI8Jo3uocPaAOCnhvVPCTLfc2aPazD7GDkD50ey9J6gNQ
+ mX6TBA==
 Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
  [209.85.167.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjm4mu9m-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjkyn17q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:07 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 16:05:11 +0000 (GMT)
 Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-4033c872b60so5170477b6e.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:05:07 -0700 (PDT)
+ 5614622812f47-400a20ffed7so4282896b6e.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:05:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747670706; x=1748275506;
+ d=1e100.net; s=20230601; t=1747670710; x=1748275510;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3pz7HlReriWF25jopz5eMN8UYw3ZSgBqgcWROhc0jZA=;
- b=Uuh+fbh4VRSsvpWISVBjpxDVS9hr6NNLi9yyA8MLQ3h51xOXrMvLmIHUgxJw1k30Ld
- TGywNFR7AyBh79U10t4WhN73PShKTNQIKlXsVWqfsWg0QZtXJPhAL1RRBpLlhS31TJzP
- 76V0MHFNueF4a8EBtp/vbLQBocYRSkQiVUL3IUChcxWE3CMMII1vKL1uR9/x7SJ6S33v
- gkrRjKKtns/gWu6ZsliMTx6siBqFuLPZ3+sK1VIlBtNFjrwzn1MjcBXt6UUHjenDOWvs
- JqUQi2OH37027j/9/gREJgLv6tMnprLZx8suumfESwIBkHFRC0NfbVqeJg/KqgCyvPUh
- 6L9w==
+ bh=uOxgkiB0mTNl61F0HDHh6KUW8/O6/rYpHORLV22YI+8=;
+ b=HAzptgF8ys7KoIKhFm9/D/0xOy2D5DXmnwbfJ9/jsqPVbWQejkFzLoiXiCC3wQNvTI
+ A+tY+O4oQ8/vkxPXfAcP9j68NaW6M0xmdeGgNQWqs1oXccoFRB7rr/NUfIxulj7Zqd54
+ pAay9EWL8vv+/Rw8EsC1oJVG0DaYlYtbpXuVGAkPXpk9TsM9NxLoelb8M30RKIv3vCDL
+ SH/PwHA6YN1onfNl/I6YlfP/LRzz/xnhnGbLpUXjSuEo0O4fqeXz1Zs6Heq1hOWwTWxI
+ G/0arPYni17+qiV5/uub2fdG2KkfwpXTwG7cIq2Q37HjDZU/69Y9sFkTrc0avfOi02gd
+ so0w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX45miYfSE5TQp/mNv8QhwSnC0ygrReAUd0XxPtlIvqc7VgtTMwqLFPFAQ2icW0Qp8KFj5Z2CaHl7s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6PiGPM+lTo4/fNHl3dgTdys5MpZShG4PdFdwJ52o2gJXYh+Hj
- VBfDZnZn5/fhZxND0RfTRhtGcU5dSCLY5U9sdu81yPaAGdosrRDnVEAQ4RvRxh/0eYDvnYhvwho
- duwYbE6/VjHCzZBEIkmzFMkiYECxxvXz3lnDTr0EBKeRIrWIXr/undXl788G9AJ6uF+dhtV8=
-X-Gm-Gg: ASbGncugeJUuuL0kraP2R8lyvB7ZkrDbO4b+ROxzMB+4+2nE1g4j48NCNuNLpDppxXi
- 8gVoXIzndTB7yze3Pq4icRpSfzSW6tKYwuDYihz/efebE6AFYfATPbFjPdUpfr+9iuT23Z0tDGo
- mq849YDQzvbQF1ouR9RljLJCi81rYPBxQoRdNgKlwBujNZJMsx/OH2lXPClSg48kq5ID9sdkfGF
- FQVU4NANX+VrTlgi3O2dGlNLktO3fBfGM68o6bS1cBjOWOvhaylP0rmMnaheHUmw/mr3siS288q
- XPeu/c9grORC8n9snsyKNpN4jvGwKkHwznDIXaIs6KW9+vziyFNeOAIJd+gFFcoCVwjawyBmYQx
- 6kHOfVR3v9Y0P4WXVptup8D9g
-X-Received: by 2002:a05:6808:640e:b0:404:e317:7694 with SMTP id
- 5614622812f47-404e31777f0mr7240152b6e.15.1747670705700; 
- Mon, 19 May 2025 09:05:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGlxD63pQ7cn7HczkmKw8RS7Tg3zS6lHXCeIYsnXgHH//BdE2PFXNPBEz/4NWLHpZVJx8nIsA==
-X-Received: by 2002:a05:6808:640e:b0:404:e317:7694 with SMTP id
- 5614622812f47-404e31777f0mr7240110b6e.15.1747670705263; 
- Mon, 19 May 2025 09:05:05 -0700 (PDT)
+ AJvYcCWhksan6EoK2HDVGrvK09DcG+fvJbFOIhvWsk/aAp3p5q7oSq6XrygdguavY+Q+0ClNHDV6URemJfA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzAlOZpMOCQCPSXMcf1JnxUY8eXE5q49WqqRTBZQdjDwcwnZQXx
+ xlDbRaIAX6acQtGFgQ4zzcbh/4/uwLtSuh1wiywifE4gWBCeoacaJvKNYjGAjzGzgPNPU6oEn1P
+ lXfW2sCluLX0IXCEC07AuDPABlt+pdZO1uxR0J1nTDI6nYVzHis66SBfhhAbcPDSxtiWdHM8=
+X-Gm-Gg: ASbGncuzxFtp8QM+jSdeUlOJVvXEP5dLiXmE+7TN5TWa4Dlysvv3SF+8flewRFV3OM+
+ h1nVWI4q9NHbzyDFCFxeCbhozpnr+6JJTGlk9fUaTrFk3ZKTqeOjFEjNaSIK406ZPcKDP5E8Kwq
+ 12IV13maKXyats78mc5K7AdeOHY5gCmCKGlVckRN+NY5stOPjBKaI+ZmxfzOizw5GlmkBblvqGD
+ +IPPiFM38F8id9fM517oVYGO1rp13ZV1+BflvT1E2CWxF+xDFVUFqhdFOvsOuI1hx4zG+fEwrf/
+ Op/2vbvRNeA3SpXepU8GQT/e2UllTUncW0Vbk9/TipmyI70/BI3yL3zhggRmzqScKBEjnhGNsjr
+ Tyd5jN0kLSEBt3ZvaacDRNiiE
+X-Received: by 2002:a05:6808:1250:b0:3f6:a851:fe56 with SMTP id
+ 5614622812f47-404cd7430b3mr7429371b6e.12.1747670710401; 
+ Mon, 19 May 2025 09:05:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNNAdWljPmoXA+vmz1zu3H5qDTiJdykIj41bLw/Vsp5s5fa6WWdvtunpGUT+2A47vfzTKJ2Q==
+X-Received: by 2002:a05:6808:1250:b0:3f6:a851:fe56 with SMTP id
+ 5614622812f47-404cd7430b3mr7429292b6e.12.1747670709145; 
+ Mon, 19 May 2025 09:05:09 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e703f6f1sm1919378e87.248.2025.05.19.09.05.04
+ 2adb3069b0e04-550e703f6f1sm1919378e87.248.2025.05.19.09.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 May 2025 09:05:04 -0700 (PDT)
+ Mon, 19 May 2025 09:05:06 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 19 May 2025 19:04:25 +0300
-Subject: [PATCH v4 23/30] drm/msm/dpu: get rid of DPU_DSC_HW_REV_1_2
+Date: Mon, 19 May 2025 19:04:26 +0300
+Subject: [PATCH v4 24/30] drm/msm/dpu: get rid of DPU_DSC_OUTPUT_CTRL
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250519-dpu-drop-features-v4-23-6c5e88e31383@oss.qualcomm.com>
+Message-Id: <20250519-dpu-drop-features-v4-24-6c5e88e31383@oss.qualcomm.com>
 References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
 In-Reply-To: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -92,38 +92,38 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14150;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9006;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=Syvj40vEuJlSxTVe6WKq8cUSBMNDsZlz0IOPCiPVsMY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoK1Z9x2VDMlwPm920HCcbod65AFDIZCTTAJ4R8
- 8UAWAnVdQGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaCtWfQAKCRCLPIo+Aiko
- 1Q/QB/wLXNssxFXWoXF2tER+bQ/N+DK6LK3O4ZKXla8TFU2b67Ucvhph/TmNaiwP1RU/rIjH7gT
- h7L1pvDX8Cy8qnVNExAnHsFuabclsg9p0oZs257SmSSiiN9VObT9qtU7gOdud93qpGWE8Ii0ENM
- nmWqVj9z+fKFtgWBuMTijF+56OfwZgprf20aCDnWCkzd5cceuHgPo9cILCtd7HfVDc5c2qJ5YYh
- MXNyNHSFwAMFr+p5CRKUufbJlqZj2h0WzLzpIIoStwPDGLhjnDKcbfSXf6k31jEZqFcCKqnl9Du
- Jkg61JPhtHnOHxl0qX9EG746PuqYlQWgz87f1Jzj2Nahmw22
+ bh=IW4d4xBKTgHyNVii0QUGpaeTXsIQim6e/aNBlVdX5gA=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoK1Z9pdyh7FLdsFH4gMuj7uy4N88VsmsoCxYC2
+ SZpwA4/8ZqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaCtWfQAKCRCLPIo+Aiko
+ 1RBKB/944p5xRYZlhXU+OIqgwJKrO2ner/qjoHkT0qpR77B3YzfIg7Ptbr0pL/Y4VOWBIa+KCal
+ J2tMaWJpvNkkxaadvcmIP+bMg267D7HNpTlM+B68GjJJfgzVpl55FvL5o3F6GnLy9QFaUfc4+EK
+ XOkI/TNl/9neZR/UmPMR0ppujGltfLG4gbrfZy9aCwxC6rRd893Q1QM8ayvWuafGpihqXy631zz
+ JqZ94oWmwHBolxkl8oGgTMBSeU8I7DhmBDqvDkggK3z8TSYqRSUM2MbGYvXbF8s6bvOdZVwk/ri
+ dhdL3LoDML6PKszkUOpwft4ikQLqL4/xsRoxJ6hO6qSAe6MS
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: Ye9I5ugRDALP4M4I7KkjOCCIn9-HDWF_
-X-Authority-Analysis: v=2.4 cv=C4bpyRP+ c=1 sm=1 tr=0 ts=682b56b3 cx=c_pps
+X-Proofpoint-GUID: EBSbdqRXwr7B2iGrmhk3wHyng2zMpu0X
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDE1MCBTYWx0ZWRfX43dzG80fnx+Z
+ w7Wm9GS6wFfRQjlDIgDZA7Ulj70IWExWoLUBJJm53i+iYG3X3R0vZIzlur4CD6atiS8jmWwDEM9
+ kSkImJFcRgycZIWrK5AVNblEhgkXB927Ihm9qyQhJwiE93j1OzAI7Z6uAMggTPkupgrnyjvuWG6
+ qF1WHqYYGKYGNPfi0M43LAun86bB0S14JVHYPL7hNCwPC7IjK20x4uD/uTLhfs8q42BoSRrzQH3
+ Hu1dw1yXbVXFwhCR63/MIs+lVD4ClCZpt524DjPtYhUvOss4EOqX10hLe1X85FHgHKM8T+ZIXR/
+ /k6Ih5iHaFmtBJ3rMviMsisTKAsmlvs18+JFfh9Rwvbm3F9LQXDWhL6xtV+/U3Ao331YNY24JEp
+ 9lFdN8sozXmz983s5HmTBBFDDU3RLQV2wGAr0TGqZTNKoDbojbKkX+Suy76lAjE7Z8kD7R9j
+X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=682b56b7 cx=c_pps
  a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=NuLJBD-5AyVUfQYi_k8A:9
+ a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=Vb8ASh8KX3Dd0k_o0G4A:9
  a=QEXdDO2ut3YA:10 a=pF_qn-MSjDawc0seGVz6:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: Ye9I5ugRDALP4M4I7KkjOCCIn9-HDWF_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDE1MCBTYWx0ZWRfX22DI4SR465sR
- tm+wg4xuLakrdSSZpPIHgeshIT0JlOwc/z2PaMvB2dH37Lbs5mVR0gdNKROhZVjJLPe9S9FQidl
- RGczOaBWV+45gtpIUnxypT/4dQOFs+JrqLqX0UIZDUAqd6G1etFA9B27N35uvjycEwLZs81CmHX
- 3ldEl58QfqR8TyukWi3GjsnSGGBr0qu9YW2DLb/Gw+X7hKnn3JDIcgAkLycZccIE3DXVLRgfLpL
- 1MpkPtvSr4v9CqBxCeuAxgUS0X5tt35N+hrrYbHO5OZG7Vcza2uMHrZkTrU9hI4MDgXzFv5tAJz
- 7bgDzMWpwjBxjorxN5ZKthJhfLWUduaAJgAQdR3huWk7lvjHott+bvFjZPN8ee39JVSVbjIajte
- J4uaroWNFp69BgZmh6lAXBYJP6q16m5ao4UbUfj/HvZz/u7ppzg5X5aJH+JoNoNnc2wRdkTX
+X-Proofpoint-ORIG-GUID: EBSbdqRXwr7B2iGrmhk3wHyng2zMpu0X
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-19_06,2025-05-16_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
- bulkscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999 adultscore=0
+ phishscore=0 mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
  definitions=main-2505190150
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -144,346 +144,218 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 Continue migration to the MDSS-revision based checks and replace
-DPU_DSC_HW_REV_1_2 feature bit with the core_major_ver >= 7 check.
+DPU_DSC_OUTPUT_CTRL feature bit with the core_major_ver >= 5 check.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 10 ++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  6 ++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h |  8 ++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  6 ++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  |  8 ++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  6 ++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h |  6 ++----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h |  6 ++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c                  |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c                   |  2 +-
- 12 files changed, 21 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 4 ----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 6 ------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  | 2 --
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  | 4 ----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h  | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 5 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c              | 6 ++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h              | 3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c                  | 2 +-
+ 10 files changed, 8 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-index 9a8f6043370997cb12414c4132eb68cc73f7030a..013314b2e716a6d939393b77b0edc87170dba27b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-@@ -286,32 +286,30 @@ static const struct dpu_dsc_cfg sm8650_dsc[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index 8e37c40620b62aacdcb47c7a04bcfce944ab0b4c..5d3b864d28a86fb86fc4576210c9418604afd844 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -259,19 +259,15 @@ static const struct dpu_dsc_cfg sm8150_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_1", .id = DSC_1,
+ 		.base = 0x80400, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_2", .id = DSC_2,
+ 		.base = 0x80800, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_2_0", .id = DSC_4,
- 		.base = 0x82000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_2_1", .id = DSC_5,
- 		.base = 0x82000, .len = 0x6,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_3", .id = DSC_3,
+ 		.base = 0x80c00, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index e81a2a02e0a6379382058fd89500cf2064a2193f..b4d41e2644349bdbdbdacbe1e9b3748f90df4f3b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -263,22 +263,20 @@ static const struct dpu_dsc_cfg sm8350_dsc[] = {
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index a05d2ef8fc9d217898b8c12d4639563b28b4477b..a6e9dfc583f283d752545b3f700c3d509e2a2965 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -259,27 +259,21 @@ static const struct dpu_dsc_cfg sc8180x_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_1", .id = DSC_1,
+ 		.base = 0x80400, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_2", .id = DSC_2,
+ 		.base = 0x80800, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_3", .id = DSC_3,
+ 		.base = 0x80c00, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+ 	}, {
+ 		.name = "dsc_4", .id = DSC_4,
+ 		.base = 0x81000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+ 	}, {
+ 		.name = "dsc_5", .id = DSC_5,
+ 		.base = 0x81400, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index b0e94ccf7f83e9c3c41f1df363cb6a8c24f1503d..5d88f0261d8320a78f8d64c9bb68b938f83160a0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -150,7 +150,7 @@ static const struct dpu_dsc_cfg sc7280_dsc[] = {
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+index cb0b5687b5239418f50c539447f9cfa56e81fcc6..fe9c9301e3d9d2d3a0a34ab9aed0f307d08c34ca 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+@@ -193,11 +193,9 @@ static const struct dpu_dsc_cfg sm7150_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+ 	}, {
+ 		.name = "dsc_1", .id = DSC_1,
+ 		.base = 0x80400, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index 2cf30234e45da8a7776d61c49c26abd75d070941..303d33dc7783ac91a496fa0a19860564ad0b6d5d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -262,32 +262,28 @@ static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+index 17fa0ef9ac03e4649a218cd837b296211ef4506c..9ceff398fd6f554085440f509b6f8398b4fbf304 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+@@ -258,19 +258,15 @@ static const struct dpu_dsc_cfg sm8250_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_1", .id = DSC_1,
+ 		.base = 0x80400, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
+ 		.name = "dsc_2", .id = DSC_2,
+ 		.base = 0x80800, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_2_0", .id = DSC_4,
- 		.base = 0x82000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_2_1", .id = DSC_5,
- 		.base = 0x82000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_3", .id = DSC_3,
+ 		.base = 0x80c00, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index dcef56683224b5715c2608b5472d2d5a0da62010..3c0728a4b37ea6af25ab64315cfe63ba6f8d2774 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -276,22 +276,20 @@ static const struct dpu_dsc_cfg sm8450_dsc[] = {
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+index 06bcaf4d8b0db74c349112af6884f7f3139a7ff8..a46e9e3ff565ba5ef233af76f1c6cebb1d0c318a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+@@ -135,7 +135,6 @@ static const struct dpu_dsc_cfg sm6350_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-index 5f5987d5fc602df29c5eb289823de5dd359df014..b8a1646395916fde04b9750cf548edca5729d9c2 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-@@ -275,32 +275,28 @@ static const struct dpu_dsc_cfg sa8775p_dsc[] = {
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+index 9c4e8450b67760c880d9bd2528c6a954a0282e08..98190ee7ec7aca6835376b030379a5a3d8b0859b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+@@ -87,7 +87,6 @@ static const struct dpu_dsc_cfg sm6375_dsc[] = {
  	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_2_0", .id = DSC_4,
- 		.base = 0x82000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_2_1", .id = DSC_5,
- 		.base = 0x82000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
+ 		.name = "dsc_0", .id = DSC_0,
+ 		.base = 0x80000, .len = 0x140,
+-		.features = BIT(DPU_DSC_OUTPUT_CTRL),
  	},
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index 6f310216fbccb985308f617db20c1878e622340a..ef22a9adf43ddc9d15be5f1359ea5f6690e9f27c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -272,22 +272,20 @@ static const struct dpu_dsc_cfg sm8550_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-index ba8a2c5dc5e2b3474b295c86afbbbe8f8d416ccd..2e7d4403835353927bc85a5acd3e6c5967cac455 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-@@ -272,22 +272,20 @@ static const struct dpu_dsc_cfg sar2130p_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-index 77986a7bd62c1b6323482426e596e5974ba40865..ac95d46b3ecf2d95ec0d516a79567fe9c204b5f6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -272,22 +272,20 @@ static const struct dpu_dsc_cfg x1e80100_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
- 		.base = 0x80000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
- 		.base = 0x81000, .len = 0x4,
--		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.features = BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
- };
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index cc17b20a7d4c15b0cd9c5dc8b9a4b78d4cb78315..01430ff90ab0988bdaa91b85458dd649aab543b3 100644
+index 01430ff90ab0988bdaa91b85458dd649aab543b3..41906dadff5a8ef39b2e90f3e80bb699a5cf59b7 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -176,13 +176,11 @@ enum {
+@@ -174,14 +174,11 @@ enum {
+ 
+ /**
   * DSC sub-blocks/features
-  * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
-  *                            the pixel output from this DSC.
-- * @DPU_DSC_HW_REV_1_2        DSC block supports DSC 1.1 and 1.2
+- * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
+- *                            the pixel output from this DSC.
   * @DPU_DSC_NATIVE_42x_EN     Supports NATIVE_422_EN and NATIVE_420_EN encoding
   * @DPU_DSC_MAX
   */
  enum {
- 	DPU_DSC_OUTPUT_CTRL = 0x1,
--	DPU_DSC_HW_REV_1_2,
- 	DPU_DSC_NATIVE_42x_EN,
+-	DPU_DSC_OUTPUT_CTRL = 0x1,
+-	DPU_DSC_NATIVE_42x_EN,
++	DPU_DSC_NATIVE_42x_EN = 0x1,
  	DPU_DSC_MAX
  };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 80ffd46cbfe69fc90afcdc1a144fc5de7bb6af42..d478a7bce7568ab000d73467bcad91e29f049abc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1043,7 +1043,7 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		msm_disp_snapshot_add_block(disp_state, cat->dsc[i].len, base,
- 					    "%s", cat->dsc[i].name);
  
--		if (cat->dsc[i].features & BIT(DPU_DSC_HW_REV_1_2)) {
-+		if (cat->mdss_ver->core_major_ver >= 7) {
- 			struct dpu_dsc_blk enc = cat->dsc[i].sblk->enc;
- 			struct dpu_dsc_blk ctl = cat->dsc[i].sblk->ctl;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+index c7db917afd27e3daf1e8aad2ad671246bf6c8fbf..3a149caa7ff4f20dc7a902033cf29a168268839e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+@@ -186,11 +186,13 @@ static void dpu_hw_dsc_bind_pingpong_blk(
+  * @dev:  Corresponding device for devres management
+  * @cfg:  DSC catalog entry for which driver object is required
+  * @addr: Mapped register io address of MDP
++ * @mdss_ver: dpu core's major and minor versions
+  * Return: Error code or allocated dpu_hw_dsc context
+  */
+ struct dpu_hw_dsc *dpu_hw_dsc_init(struct drm_device *dev,
+ 				   const struct dpu_dsc_cfg *cfg,
+-				   void __iomem *addr)
++				   void __iomem *addr,
++				   const struct dpu_mdss_version *mdss_ver)
+ {
+ 	struct dpu_hw_dsc *c;
  
+@@ -207,7 +209,7 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(struct drm_device *dev,
+ 	c->ops.dsc_disable = dpu_hw_dsc_disable;
+ 	c->ops.dsc_config = dpu_hw_dsc_config;
+ 	c->ops.dsc_config_thresh = dpu_hw_dsc_config_thresh;
+-	if (c->caps->features & BIT(DPU_DSC_OUTPUT_CTRL))
++	if (mdss_ver->core_major_ver >= 5)
+ 		c->ops.dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk;
+ 
+ 	return c;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+index fc171bdeca488f6287cf2ba7362ed330ad55b28f..b7013c9822d23238eb5411a5e284bb072ecc3395 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+@@ -64,7 +64,8 @@ struct dpu_hw_dsc {
+ 
+ struct dpu_hw_dsc *dpu_hw_dsc_init(struct drm_device *dev,
+ 				   const struct dpu_dsc_cfg *cfg,
+-				   void __iomem *addr);
++				   void __iomem *addr,
++				   const struct dpu_mdss_version *mdss_ver);
+ 
+ struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(struct drm_device *dev,
+ 				       const struct dpu_dsc_cfg *cfg,
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 7bcb1e057b143a5512aafbd640199c8f3b436527..c2a659512cb747e1dd5ed9e28534286ff8d67f4f 100644
+index c2a659512cb747e1dd5ed9e28534286ff8d67f4f..a2219c4f55a45db894ff18c1fd0a810c1a3cf811 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -168,7 +168,7 @@ int dpu_rm_init(struct drm_device *dev,
- 		struct dpu_hw_dsc *hw;
- 		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
- 
--		if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
-+		if (cat->mdss_ver->core_major_ver >= 7)
+@@ -171,7 +171,7 @@ int dpu_rm_init(struct drm_device *dev,
+ 		if (cat->mdss_ver->core_major_ver >= 7)
  			hw = dpu_hw_dsc_init_1_2(dev, dsc, mmio);
  		else
- 			hw = dpu_hw_dsc_init(dev, dsc, mmio);
+-			hw = dpu_hw_dsc_init(dev, dsc, mmio);
++			hw = dpu_hw_dsc_init(dev, dsc, mmio, cat->mdss_ver);
+ 
+ 		if (IS_ERR(hw)) {
+ 			rc = PTR_ERR(hw);
 
 -- 
 2.39.5
