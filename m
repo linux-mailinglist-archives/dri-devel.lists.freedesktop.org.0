@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EEEABB4CA
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2A7ABB4ED
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 08:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB43B10E300;
-	Mon, 19 May 2025 06:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59A8210E317;
+	Mon, 19 May 2025 06:16:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kqMlFdjA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jYxN50iA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80CBA10E300
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:08:23 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25AAA10E317
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 06:16:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id EAB3744A5F;
- Mon, 19 May 2025 06:08:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A5B9C4CEE4;
- Mon, 19 May 2025 06:08:17 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D81A2A401B0;
+ Mon, 19 May 2025 06:16:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E9BAC4CEED;
+ Mon, 19 May 2025 06:16:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747634902;
- bh=khkf5Hr6A+z9H+5JhtMustxbwzXDheZ5mS+ZycrSGtg=;
+ s=k20201202; t=1747635405;
+ bh=dlgLA40Szymf/zFAS7OTwhjGxh9yBOb/OBp5HVJ7YXY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kqMlFdjAFSoaoseE+qIrSM1echp3RB4YyUbnNq9UoKz7zP8M+jbai7sUhda+zIAER
- aFj5hoM+AthVfBTRDR5Uw+wGKYQjHdZHbAJWQkjMTht0XYcuH/eFuK2NasiUBduvyz
- 1gLfAXnYMhfbSQNXfC1mx+AEXpJIIvY4Df5l+cpcZgh/Z3ZxJwbvZubztkyQFLOTAs
- LWHJ3Up7FD4XcdwuHra6yIHERSQhsR5m/zls1YEU2GhTC4zdH5qcNwFC0ztxciqMs5
- SXfxVo2HV8DYRX0ZfmWgvEs85gijPDY1JLTWoKWgeM3Z4ga8xKhrtWEom5wIg8roWC
- TLbePYHrlHV/g==
-Message-ID: <4bd79c88-7da5-4bf0-9300-cfdb296c8919@kernel.org>
-Date: Mon, 19 May 2025 08:08:15 +0200
+ b=jYxN50iAznMC4SOuGKU6QigD0ZBuxgVp2sLNOYwxdPon0c8yiePSLSddq6KLLzRRM
+ rqrdKD3G/1lu+BuK27/S88EsuGVkvte9JGMsEghOZtzqq1L1z/Yll2EkkOOZ8idHy6
+ N0wXHKCZxQBr2uMs1WtA1t+CEmzFNPGejxXrktzvphIOEhJM9h3cLarUvMTLRh7LBO
+ 1Jn3UxXx4hS0GR8ghlJAk1o3il7B4yYCmK8BtR5EHGejLXeCD4Va9umyzIj23jD0LD
+ b1mVTyfKYzbCmBSPthFi7TpzJJAPJNlElq0OSCk1kI0DoQw177rlFoJqzqhbmlsOpX
+ Pkkb0rmwnw9xw==
+Message-ID: <20a565da-296c-4920-b962-e9de9af464d9@kernel.org>
+Date: Mon, 19 May 2025 08:16:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/10] arm64: dts: rockchip: Add nodes for NPU and its
- MMU to rk3588s
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH v4 2/2] dt-bindings: display: rockchip: Convert
+ cdn-dp-rockchip.txt to yaml
+To: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-2-7051ac9225db@tomeuvizoso.net>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250519012632.94-1-kernel@airkyi.com>
+ <20250519012632.94-3-kernel@airkyi.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250516-6-10-rocket-v3-2-7051ac9225db@tomeuvizoso.net>
+In-Reply-To: <20250519012632.94-3-kernel@airkyi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,50 +112,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/05/2025 18:53, Tomeu Vizoso wrote:
-> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
-> 
-> This is a derivative of NVIDIA's NVDLA, but with its own front-end
-> processor.
-> 
-> The IP is divided in three cores, programmed independently. The first
-> core though is special, requiring to be powered on before any of the
-> others can be used.
-> 
-> The IOMMU of the first core is also special in that it has two subunits
-> (read/write?) that need to be programmed in sync.
-> 
-> v2:
-> - Have one device for each NPU core (Sebastian Reichel)
-> - Have one device for each IOMMU (Sebastian Reichel)
-> - Correctly sort nodes (Diederik de Haas)
-> - Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
-> 
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 85 +++++++++++++++++++++++++++
->  1 file changed, 85 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> index 1e18ad93ba0ebdad31642b88ff0f90ef4e8dc76f..7b961ab838212fad8e4a70390fdc917a828433a9 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> @@ -1136,6 +1136,91 @@ power-domain@RK3588_PD_SDMMC {
->  		};
->  	};
->  
-> +	rknn_core_top: npu-core@fdab0000 {
+On 19/05/2025 03:26, Chaoyi Chen wrote:
+> +maintainers:
+> +  - Andy Yan <andy.yan@rock-chip.com>
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +  - Sandy Huang <hjc@rock-chips.com>
+> +
+> +allOf:
+> +  - $ref: /schemas/sound/dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: rockchip,rk3399-cdn-dp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: DP core work clock
+> +      - description: APB clock
+> +      - description: SPDIF interface clock
+> +      - description: GRF clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core-clk
+> +      - const: pclk
+> +      - const: spdif
+> +      - const: grf
+> +
+> +  extcon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      maxItems: 1
+> +    maxItems: 2
 
-npu@
+Instead of this, list the items. Old binding said only "specifier", so
+this is technically a change, which should be explained in commit msg.
 
-> +		compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
+> +    description:
+> +      List of phandle to the extcon device providing the cable state for the DP PHY.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  phys:
+> +    items:
+> +      maxItems: 1
+> +    maxItems: 2
+> +    description: |
+> +      List of phandle to the PHY device for DP output.
+> +      RK3399 have two DP-TPYEC PHY, specifying one PHY which want to use,
+> +      or specify two PHYs here to let the driver determine which PHY to use.
 
-You never tested this. Test before sending instead of relying on us or
-after merging.
+
+You do not allow one phy, so your description is not accurate. OTOH,
+original binding did not allow two phandles, so that's another change in
+the binding. You need to document all changes done to the binding in the
+commit msg.
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input of the CDN DP
+> +        properties:
+> +          endpoint@0:
+> +            description: Connection to the VOPB
+> +          endpoint@1:
+> +            description: Connection to the VOPL
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output of the CDN DP
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 4
+> +
+> +  reset-names:
+> +    items:
+> +      - const: spdif
+> +      - const: dptx
+> +      - const: apb
+> +      - const: core
+> +
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to GRF register to control HPD.
+> +
+> +  "#sound-dai-cells":
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - phys
+> +  - ports
+> +  - resets
+> +  - reset-names
+> +  - rockchip,grf
+
+
+sound-dai-cells was a required property.
 
 Best regards,
 Krzysztof
