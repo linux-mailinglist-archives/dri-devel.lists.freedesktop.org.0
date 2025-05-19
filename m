@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A066ABBD3B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 14:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B94ABBDA2
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 14:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DFFA10E429;
-	Mon, 19 May 2025 12:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 547EB10E069;
+	Mon, 19 May 2025 12:24:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZIbIilgT";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1657B10E420
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 12:03:43 +0000 (UTC)
-Received: from w001.hihonor.com (unknown [10.68.25.235])
- by mta21.hihonor.com (SkyGuard) with ESMTPS id 4b1GWF6gK9zYlGZh;
- Mon, 19 May 2025 20:01:45 +0800 (CST)
-Received: from a006.hihonor.com (10.68.23.242) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
- 2025 20:03:38 +0800
-Received: from a010.hihonor.com (10.68.16.52) by a006.hihonor.com
- (10.68.23.242) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 May
- 2025 20:03:37 +0800
-Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
- a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
- Mon, 19 May 2025 20:03:37 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: "T.J. Mercier" <tjmercier@google.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com"
- <jstultz@google.com>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "wangbintian(BintianWang)"
- <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
- <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
-Subject: RE: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-Thread-Topic: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
- system_heap
-Thread-Index: AQHbw+qMldEo/aUx7kiLwLLmDDhXfrPP52GAgACTfSD//4oVgIAB7nTg//+OJQCAAiukIP//j3cAADMZG0D//5fGgIAAp/oA//s1a9A=
-Date: Mon, 19 May 2025 12:03:37 +0000
-Message-ID: <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
-References: <20250513092803.2096-1-tao.wangtao@honor.com>
- <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
- <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
- <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
- <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
- <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
- <2755aae2f1674b239569bf1acad765dc@honor.com>
- <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
- <a3f57102bc6e4588bc7659485feadbc1@honor.com>
- <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
- <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
-In-Reply-To: <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.163.18.240]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668B310E069
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 12:24:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747657441; x=1779193441;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=HoFLCZy0HTDqPxQVyQIXnPh72r3ZaQ4VSSvkWrBe4AE=;
+ b=ZIbIilgTe7GV3LzUt2mTmCuGa2K38JD7fq2RDZ3WUAnE9VT2hcia4yH9
+ 87GoFYTtqFFp78ZkWcvMsv0/PaZ02/yhB96R4cfi2VssqhLjzg7Oi7ZbS
+ BTCgQdBPwUlqcbQbhg3V+7okGx59sM/GqjmdDL5/pMn+eu8mUiJG1yCUf
+ OMSFNr3UMTUWaL1RkHvKXn7rWINo3Cz4Nb4ZMjOhOMV46gHmlxABt8888
+ pqKkztbYP1xfF2+6vi0/FL0EndMtE0wATO+edsg1wE3PLP+OCp5q0leDf
+ 5lX+SFAwkh2sUyvWKSnI+L4Xs4DAVSDyVCaEjTSbnODHerisqlH8d7pNR g==;
+X-CSE-ConnectionGUID: 1r9y/DU4StC5ejcfsKhS7w==
+X-CSE-MsgGUID: TIvVqmQ2Sy+Apwkf9LelxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="60585302"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="60585302"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 05:24:01 -0700
+X-CSE-ConnectionGUID: rpeWH2fDRRmy9Oy0kppDog==
+X-CSE-MsgGUID: rpvn2Y8CQeuRyBQeHHQIxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="143361984"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.201])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 05:23:57 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>, "uma.shankar@intel.com"
+ <uma.shankar@intel.com>, ville.syrjala@linux.intel.com
+Cc: Maxime Ripard <mripard@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
+In-Reply-To: <CAN9Xe3QHqPDPUQ7gsf278Nj0GC1fO-sGxoW3Ln4=h52QUM804g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
+ <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+ <87y0vkw8ll.fsf@intel.com>
+ <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
+ <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
+ <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
+ <874ixvtbxy.fsf@intel.com>
+ <20250509-rapid-flounder-of-devotion-6b26bb@houat>
+ <87r00yj6kv.fsf@intel.com>
+ <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
+ <875xi3im1r.fsf@intel.com>
+ <CAN9Xe3QHqPDPUQ7gsf278Nj0GC1fO-sGxoW3Ln4=h52QUM804g@mail.gmail.com>
+Date: Mon, 19 May 2025 15:23:54 +0300
+Message-ID: <87jz6cvlet.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,103 +86,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVC5KLiBNZXJjaWVyIDx0
-am1lcmNpZXJAZ29vZ2xlLmNvbT4NCj4gU2VudDogU2F0dXJkYXksIE1heSAxNywgMjAyNSAyOjM3
-IEFNDQo+IFRvOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
-IENjOiB3YW5ndGFvIDx0YW8ud2FuZ3Rhb0Bob25vci5jb20+OyBzdW1pdC5zZW13YWxAbGluYXJv
-Lm9yZzsNCj4gYmVuamFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBh
-cm0uY29tOw0KPiBqc3R1bHR6QGdvb2dsZS5jb207IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
-ZzsgZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbmFyby1tbS1zaWdAbGlz
-dHMubGluYXJvLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHdhbmdiaW50
-aWFuKEJpbnRpYW5XYW5nKQ0KPiA8YmludGlhbi53YW5nQGhvbm9yLmNvbT47IHlpcGVuZ3hpYW5n
-IDx5aXBlbmd4aWFuZ0Bob25vci5jb20+OyBsaXVsdQ0KPiAwMDAxMzE2NyA8bGl1bHUubGl1QGhv
-bm9yLmNvbT47IGhhbmZlbmcgMDAwMTI5ODUgPGZlbmcuaGFuQGhvbm9yLmNvbT4NCj4gU3ViamVj
-dDogUmU6IFtQQVRDSCAyLzJdIGRtYWJ1Zi9oZWFwczogaW1wbGVtZW50DQo+IERNQV9CVUZfSU9D
-VExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gDQo+IE9uIEZyaSwgTWF5IDE2LCAyMDI1IGF0
-IDE6MzbigK9BTSBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
-IHdyb3RlOg0KPiA+DQo+ID4gT24gNS8xNi8yNSAwOTo0MCwgd2FuZ3RhbyB3cm90ZToNCj4gPiA+
-DQo+ID4gPg0KPiA+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPj4gRnJvbTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiA+ID4+IFNlbnQ6
-IFRodXJzZGF5LCBNYXkgMTUsIDIwMjUgMTA6MjYgUE0NCj4gPiA+PiBUbzogd2FuZ3RhbyA8dGFv
-Lndhbmd0YW9AaG9ub3IuY29tPjsgc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7DQo+ID4gPj4gYmVu
-amFtaW4uZ2FpZ25hcmRAY29sbGFib3JhLmNvbTsgQnJpYW4uU3RhcmtleUBhcm0uY29tOw0KPiA+
-ID4+IGpzdHVsdHpAZ29vZ2xlLmNvbTsgdGptZXJjaWVyQGdvb2dsZS5jb20NCj4gPiA+PiBDYzog
-bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnOw0KPiA+ID4+IGxpbmFyby0gbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc7IGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPj4gd2FuZ2JpbnRpYW4oQmludGlhbldhbmcpIDxiaW50
-aWFuLndhbmdAaG9ub3IuY29tPjsgeWlwZW5neGlhbmcNCj4gPiA+PiA8eWlwZW5neGlhbmdAaG9u
-b3IuY29tPjsgbGl1bHUgMDAwMTMxNjcgPGxpdWx1LmxpdUBob25vci5jb20+Ow0KPiA+ID4+IGhh
-bmZlbmcNCj4gPiA+PiAwMDAxMjk4NSA8ZmVuZy5oYW5AaG9ub3IuY29tPg0KPiA+ID4+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggMi8yXSBkbWFidWYvaGVhcHM6IGltcGxlbWVudA0KPiA+ID4+IERNQV9C
-VUZfSU9DVExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gPiA+Pg0KPiA+ID4+IE9uIDUvMTUv
-MjUgMTY6MDMsIHdhbmd0YW8gd3JvdGU6DQo+ID4gPj4+IFt3YW5ndGFvXSBNeSBUZXN0IENvbmZp
-Z3VyYXRpb24gKENQVSAxR0h6LCA1LXRlc3QgYXZlcmFnZSk6DQo+ID4gPj4+IEFsbG9jYXRpb246
-IDMyeDMyTUIgYnVmZmVyIGNyZWF0aW9uDQo+ID4gPj4+IC0gZG1hYnVmIDUzbXMgdnMuIHVkbWFi
-dWYgNjk0bXMgKDEwWCBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogc2htZW0gc2hvd3MgZXhjZXNz
-aXZlIGFsbG9jYXRpb24gdGltZQ0KPiA+ID4+DQo+ID4gPj4gWWVhaCwgdGhhdCBpcyBzb21ldGhp
-bmcgYWxyZWFkeSBub3RlZCBieSBvdGhlcnMgYXMgd2VsbC4gQnV0IHRoYXQNCj4gPiA+PiBpcyBv
-cnRob2dvbmFsLg0KPiA+ID4+DQo+ID4gPj4+DQo+ID4gPj4+IFJlYWQgMTAyNE1CIEZpbGU6DQo+
-ID4gPj4+IC0gZG1hYnVmIGRpcmVjdCAzMjZtcyB2cy4gdWRtYWJ1ZiBkaXJlY3QgNDYxbXMgKDQw
-JSBzbG93ZXIpDQo+ID4gPj4+IC0gTm90ZTogcGluX3VzZXJfcGFnZXNfZmFzdCBjb25zdW1lcyBt
-YWpvcml0eSBDUFUgY3ljbGVzDQo+ID4gPj4+DQo+ID4gPj4+IEtleSBmdW5jdGlvbiBjYWxsIHRp
-bWluZzogU2VlIGRldGFpbHMgYmVsb3cuDQo+ID4gPj4NCj4gPiA+PiBUaG9zZSBhcmVuJ3QgdmFs
-aWQsIHlvdSBhcmUgY29tcGFyaW5nIGRpZmZlcmVudCBmdW5jdGlvbmFsaXRpZXMgaGVyZS4NCj4g
-PiA+Pg0KPiA+ID4+IFBsZWFzZSB0cnkgdXNpbmcgdWRtYWJ1ZiB3aXRoIHNlbmRmaWxlKCkgYXMg
-Y29uZmlybWVkIHRvIGJlIHdvcmtpbmcgYnkNCj4gVC5KLg0KPiA+ID4gW3dhbmd0YW9dIFVzaW5n
-IGJ1ZmZlciBJTyB3aXRoIGRtYWJ1ZiBmaWxlIHJlYWQvd3JpdGUgcmVxdWlyZXMgb25lDQo+IG1l
-bW9yeSBjb3B5Lg0KPiA+ID4gRGlyZWN0IElPIHJlbW92ZXMgdGhpcyBjb3B5IHRvIGVuYWJsZSB6
-ZXJvLWNvcHkuIFRoZSBzZW5kZmlsZSBzeXN0ZW0NCj4gPiA+IGNhbGwgcmVkdWNlcyBtZW1vcnkg
-Y29waWVzIGZyb20gdHdvIChyZWFkL3dyaXRlKSB0byBvbmUuIEhvd2V2ZXIsDQo+ID4gPiB3aXRo
-IHVkbWFidWYsIHNlbmRmaWxlIHN0aWxsIGtlZXBzIGF0IGxlYXN0IG9uZSBjb3B5LCBmYWlsaW5n
-IHplcm8tY29weS4NCj4gPg0KPiA+DQo+ID4gVGhlbiBwbGVhc2Ugd29yayBvbiBmaXhpbmcgdGhp
-cy4NCj4gPg0KPiA+IFJlZ2FyZHMsDQo+ID4gQ2hyaXN0aWFuLg0KPiA+DQo+ID4NCj4gPiA+DQo+
-ID4gPiBJZiB1ZG1hYnVmIHNlbmRmaWxlIHVzZXMgYnVmZmVyIElPIChmaWxlIHBhZ2UgY2FjaGUp
-LCByZWFkIGxhdGVuY3kNCj4gPiA+IG1hdGNoZXMgZG1hYnVmIGJ1ZmZlciByZWFkLCBidXQgYWxs
-b2NhdGlvbiB0aW1lIGlzIG11Y2ggbG9uZ2VyLg0KPiA+ID4gV2l0aCBEaXJlY3QgSU8sIHRoZSBk
-ZWZhdWx0IDE2LXBhZ2UgcGlwZSBzaXplIG1ha2VzIGl0IHNsb3dlciB0aGFuIGJ1ZmZlcg0KPiBJ
-Ty4NCj4gPiA+DQo+ID4gPiBUZXN0IGRhdGEgc2hvd3M6DQo+ID4gPiB1ZG1hYnVmIGRpcmVjdCBy
-ZWFkIGlzIG11Y2ggZmFzdGVyIHRoYW4gdWRtYWJ1ZiBzZW5kZmlsZS4NCj4gPiA+IGRtYWJ1ZiBk
-aXJlY3QgcmVhZCBvdXRwZXJmb3JtcyB1ZG1hYnVmIGRpcmVjdCByZWFkIGJ5IGEgbGFyZ2UgbWFy
-Z2luLg0KPiA+ID4NCj4gPiA+IElzc3VlOiBBZnRlciB1ZG1hYnVmIGlzIG1hcHBlZCB2aWEgbWFw
-X2RtYV9idWYsIGFwcHMgdXNpbmcgbWVtZmQgb3INCj4gPiA+IHVkbWFidWYgZm9yIERpcmVjdCBJ
-TyBtaWdodCBjYXVzZSBlcnJvcnMsIGJ1dCB0aGVyZSBhcmUgbm8NCj4gPiA+IHNhZmVndWFyZHMg
-dG8gcHJldmVudCB0aGlzLg0KPiA+ID4NCj4gPiA+IEFsbG9jYXRlIDMyeDMyTUIgYnVmZmVyIGFu
-ZCByZWFkIDEwMjQgTUIgZmlsZSBUZXN0Og0KPiA+ID4gTWV0cmljICAgICAgICAgICAgICAgICB8
-IGFsbG9jIChtcykgfCByZWFkIChtcykgfCB0b3RhbCAobXMpDQo+ID4gPiAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLXwtLS0tLS0tLS0tLS18LS0tLS0tLS0tLS18LS0tLS0tLS0tLS0NCj4gPiA+IHVk
-bWFidWYgYnVmZmVyIHJlYWQgICAgfCA1MzkgICAgICAgIHwgMjAxNyAgICAgIHwgMjU1NQ0KPiA+
-ID4gdWRtYWJ1ZiBkaXJlY3QgcmVhZCAgICB8IDUyMiAgICAgICAgfCA2NTggICAgICAgfCAxMTc5
-DQo+IA0KPiBJIGNhbid0IHJlcHJvZHVjZSB0aGUgcGFydCB3aGVyZSB1ZG1hYnVmIGRpcmVjdCBy
-ZWFkcyBhcmUgZmFzdGVyIHRoYW4NCj4gYnVmZmVyZWQgcmVhZHMuIFRoYXQncyB0aGUgb3Bwb3Np
-dGUgb2Ygd2hhdCBJJ2QgZXhwZWN0LiBTb21ldGhpbmcgc2VlbXMNCj4gd3Jvbmcgd2l0aCB0aG9z
-ZSBidWZmZXJlZCByZWFkcy4NCj4gDQo+ID4gPiB1ZG1hYnVmIGJ1ZmZlciBzZW5kZmlsZXwgNTA1
-ICAgICAgICB8IDEwNDAgICAgICB8IDE1NDYNCj4gPiA+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxl
-fCA1MTAgICAgICAgIHwgMjI2OSAgICAgIHwgMjc4MA0KPiANCj4gSSBjYW4gcmVwcm9kdWNlIHRo
-ZSAzLjV4IHNsb3dlciB1ZGFtYnVmIGRpcmVjdCBzZW5kZmlsZSBjb21wYXJlZCB0bw0KPiB1ZG1h
-YnVmIGRpcmVjdCByZWFkLiBJdCdzIGEgcHJldHR5IGRpc2FwcG9pbnRpbmcgcmVzdWx0LCBzbyBp
-dCBzZWVtcyBsaWtlDQo+IHNvbWV0aGluZyBjb3VsZCBiZSBpbXByb3ZlZCB0aGVyZS4NCj4gDQo+
-IDFHIGZyb20gZXh0NCBvbiA2LjEyLjE3IHwgcmVhZC9zZW5kZmlsZSAobXMpDQo+IC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tLS0tDQo+IHVkbWFidWYgYnVmZmVyIHJl
-YWQgICAgIHwgMzUxDQo+IHVkbWFidWYgZGlyZWN0IHJlYWQgICAgIHwgNTQwDQo+IHVkbWFidWYg
-YnVmZmVyIHNlbmRmaWxlIHwgMjU1DQo+IHVkbWFidWYgZGlyZWN0IHNlbmRmaWxlIHwgMTk5MA0K
-PiANClt3YW5ndGFvXSBCeSB0aGUgd2F5LCBkaWQgeW91IGNsZWFyIHRoZSBmaWxlIGNhY2hlIGR1
-cmluZyB0ZXN0aW5nPw0KTG9va2luZyBhdCB5b3VyIGRhdGEgYWdhaW4sIHJlYWQgYW5kIHNlbmRm
-aWxlIGJ1ZmZlcnMgYXJlDQpmYXN0ZXIgdGhhbiBEaXJlY3QgSS9PLCB3aGljaCBzdWdnZXN0cyB0
-aGUgZmlsZSBjYWNoZSB3YXNu4oCZdA0KY2xlYXJlZC4gSWYgeW91IGRpZG7igJl0IGNsZWFyIHRo
-ZSBmaWxlIGNhY2hlLCB0aGUgdGVzdCByZXN1bHRzDQphcmUgdW5mYWlyIGFuZCB1bnJlbGlhYmxl
-IGZvciByZWZlcmVuY2UuIE9uIGVtYmVkZGVkIGRldmljZXMsDQppdOKAmXMgbmVhcmx5IGltcG9z
-c2libGUgdG8gbWFpbnRhaW4gc3RhYmxlIGNhY2hpbmcgZm9yIG11bHRpLUdCDQpmaWxlcy4gSWYg
-c3VjaCBmaWxlcyBjb3VsZCBiZSBjYWNoZWQsIHdlIG1pZ2h0IGFzIHdlbGwgY2FjaGUNCmRtYWJ1
-ZnMgZGlyZWN0bHkgdG8gc2F2ZSB0aW1lIG9uIGNyZWF0aW5nIGRtYWJ1ZnMgYW5kIHJlYWRpbmcN
-CmZpbGUgZGF0YS4NCllvdSBjYW4gY2FsbCBwb3NpeF9mYWR2aXNlKGZpbGVfZmQsIDAsIGxlbiwg
-UE9TSVhfRkFEVl9ET05UTkVFRCkNCmFmdGVyIG9wZW5pbmcgdGhlIGZpbGUgb3IgYmVmb3JlIGNs
-b3NpbmcgaXQgdG8gY2xlYXIgdGhlIGZpbGUgY2FjaGUsDQplbnN1cmluZyBhY3R1YWwgZmlsZSBJ
-L08gb3BlcmF0aW9ucyBhcmUgdGVzdGVkLg0KDQo+IA0KPiA+ID4gZG1hYnVmIGJ1ZmZlciByZWFk
-ICAgICB8IDUxICAgICAgICAgfCAxMDY4ICAgICAgfCAxMTE4DQo+ID4gPiBkbWFidWYgZGlyZWN0
-IHJlYWQgICAgIHwgNTIgICAgICAgICB8IDI5NyAgICAgICB8IDM0OQ0KPiA+ID4NCj4gPiA+IHVk
-bWFidWYgc2VuZGZpbGUgdGVzdCBzdGVwczoNCj4gPiA+IDEuIE9wZW4gZGF0YSBmaWxlKDEwMjRN
-QiksIGdldCBiYWNrX2ZkIDIuIENyZWF0ZSBtZW1mZCgzMk1CKSAjIExvb3ANCj4gPiA+IHN0ZXBz
-IDItNiAzLiBBbGxvY2F0ZSB1ZG1hYnVmIHdpdGggbWVtZmQgNC4gQ2FsbCBzZW5kZmlsZShtZW1m
-ZCwNCj4gPiA+IGJhY2tfZmQpIDUuIENsb3NlIG1lbWZkIGFmdGVyIHNlbmRmaWxlIDYuIENsb3Nl
-IHVkbWFidWYgNy4gQ2xvc2UNCj4gPiA+IGJhY2tfZmQNCj4gPiA+DQo+ID4gPj4NCj4gPiA+PiBS
-ZWdhcmRzLA0KPiA+ID4+IENocmlzdGlhbi4NCj4gPiA+DQo+ID4NCg0K
+On Fri, 16 May 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
+> On Wed, May 14, 2025 at 5:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
+tel.com>
+> wrote:
+>
+>> On Tue, 13 May 2025, Maxime Ripard <mripard@kernel.org> wrote:
+>> > Is it really surprising you get some pushback when you are using a
+>> > design that is the complete opposite to what every user of it for the
+>> > last decade has been doing?
+>>
+>> The opposite is also true.
+>>
+>> If you create a design that does not cleanly fit the model of the
+>> biggest drivers in the subsystem, and expect massive refactors just for
+>> the sake of conforming to the design to be able to use any of it, you'll
+>> also get pushback.
+>>
+>> > This one is usable, but you rule out the way you could use it.
+>>
+>> I think you're off-hand and completely dismissing the amount of work it
+>> would be. And still I'm not even ruling it out, but there has to be a
+>> way to start off in small incremental steps, and use the parts that
+>> work. And it's not like we're averse to refactoring in the least,
+>> everyone knows that.
+>>
+>> > I guess it's clear now that you won't consider anything else. I wonder
+>> > why you started that discussion in the first place if you already have
+>> > a clear mind on how to get things moving forward.
+>>
+>> I pointed out what I think is a bug in drm_panel, with nothing but good
+>> intentions, and everything snowballed from there.
+>>
+>> There has to be a middle ground instead of absolutes. Otherwise we'll
+>> just end up in deeper silos. And more arguments.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+> Jani, Maxime,
+>
+> Thinking out loud of different solutions we can have to make sure we take
+> this forward.
+>
+> Is it possible to have a variant of drm_panel_follower for the non ARM
+> devices? That way if at any point in
+> the future, the drm_panel_follower infrastructure has to be used, the
+> refcounting allocation can be bypassed?
+
+Please let's not conflate two orthogonal matters. Refcounting or
+allocation is not related to platforms in any way. I see no reason to
+have that kind of dependency. It would just complicate matters more.
+
+
+BR,
+Jani.
+
+
+>
+> Adding Uma and VIlle to the thread here.
+>
+> Thanks!
+> Anusha
+>
+>
+>> --
+>> Jani Nikula, Intel
+>>
+>>
+
+--=20
+Jani Nikula, Intel
