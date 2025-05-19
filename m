@@ -2,143 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C49ABC1CB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 17:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B69ABC202
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 17:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB19610E2FD;
-	Mon, 19 May 2025 15:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507F210E02E;
+	Mon, 19 May 2025 15:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sJk9TNtS";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="frnhOcHk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98EDB10E278
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 15:11:40 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-6006cf5000aso597107a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 08:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747667499; x=1748272299; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Yv2jL2CIgoQgCOrnHWOAEQ/yU7hN35XKLb9t90BK5zA=;
- b=sJk9TNtSDlvycQOhso4Q4VHt/k2jeW1O5rivvXXam6untUjQYltPxz7Kw7S8Zn2Zbg
- XuI25n2c1qSD4coZqz5/gvtzNZlfrqQaevInHRVu9HzQpa/BRxsBe1N/aAa0Cc7aWpRr
- +W9QkR5jSCVdcD54Ftn1qlPOFtIukkPB84BItSqj04aH5nirbX94bf0TjORmvJe/iPYz
- nDQKxHqOR7ZUazi/WpdVoPbJROjkN8yb6Icnv+je+yarCzK9+A0uD1UK0cf+k6iAKuFo
- tYn5cN1wtV77MADDw9yvUDQ79sxK6SVtB2JhfpHeZV0vKmvmoa5P4ABJtxOmsQ/JJQE0
- BLwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747667499; x=1748272299;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yv2jL2CIgoQgCOrnHWOAEQ/yU7hN35XKLb9t90BK5zA=;
- b=GJWWgEZdWJdE73iKXJpufgfvfn2+Dum8fM3sVjIMa/Phfvhspcz4KFcPbL/NLUdCCq
- 5eeOgn8f4+/BQfgPccq3c/tgx1WwdEWzLqBBSA7ovv1ZcVRZgz+HliE/brGcug+dvOVF
- b6kZhkofCjhCWEpB5EwCbq0sk5rXi7eaR4aV3s1qq6Z55uxd5IbHy0vsqH9yq2GGMLM2
- kmljogZZFqk8Z+gK0rogaMTlPl9EfiE0SbTR3oAxNTuKsSlJRT/CqG44KJPb21r2amDN
- 6c2FR4t/b8QUw5hNMIRUrAcKj2TZ65cfvq5/hePUzGMCqDBAQ4BtbR4y3xBb5SADmAn5
- nzfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW1UU8ebur07zv1Ylam2jvHmDopio4zFqIlr26vAAp1VXj40KYbhSKWatHahTSfScGJjvpe3GUB6gk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbHw5kS3bNn2Kiz8KGtUQl9BuIyIxbVGXbSYeizSD17CHavItf
- 2BGLw5zoMubxXPIkV3vyX6s26zczEAudQzTjAaoOzZY+YP4h6mgj8jMUzh+v4Ep7PlY=
-X-Gm-Gg: ASbGncviOZv2Vbk2lvf9Nb2hvtVKzEp0wmnF1B/OfhmSXpVhSxezuhx+XKyaUD3chGl
- zvbGf1aWi0gaOf2ye6wYBvbCxYsrFq1EIO15eYtYO15aheN04JVtSCGrSw8J8f3QXd3By77k5Qx
- XIuM2Ermc/IqL/PdzUKsRRMLH9efvihmKXKDRZ5Qb3s5PxtnGuGHnOL/2+cUF632t0rNbggRWgL
- o1Q9ScJumfasEGKb1Db54uGxKZB5zIckgDX4O8pX+p/2DVEKX+UfN+v/xcs9WRKUoq5NGMUROtn
- 36KhvXuI1olida5dDRmJGmjvxUkI6NejuUHBsLqyHOJ+DJoh2v6rW+DZoOfFJ1uVHT7Jv0w=
-X-Google-Smtp-Source: AGHT+IEJp0HK+RclBsl7yhDxHBPPtCcr2CtN7uGmWtAaF+rtTBS/afg6uPSghq1UwkKLGWMcmuWwWw==
-X-Received: by 2002:a05:6402:270c:b0:600:caf:51e5 with SMTP id
- 4fb4d7f45d1cf-6009010e282mr4547796a12.8.1747667499003; 
- Mon, 19 May 2025 08:11:39 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad52d4381d5sm611186666b.99.2025.05.19.08.11.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 May 2025 08:11:38 -0700 (PDT)
-Message-ID: <c557a0a9-4505-4abf-87e2-448a1598c0c9@linaro.org>
-Date: Mon, 19 May 2025 17:11:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 19/24] drm/msm/dsi: Add support for SM8750
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921A210E02E
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 15:16:33 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 06A8443A2F;
+ Mon, 19 May 2025 15:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1747667791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2wQIT894SQnF9B43BAXvpVRW81bs6p0fZUPIOxbNKi4=;
+ b=frnhOcHkyXiwP6GvtKz99dhW7VYYrYNx7PpnkUB0nIG7MfN5HyqajRVS9TdcLY14i8gKWs
+ 8wAWcqLiVTDzZUC0WpPOWLOzvTYuC34UTtjUStslX4fTDku+OQXynL+sb25vu/3HryI8CY
+ Lpskap2J9FdH5evionIK+RwIF6l+mLZ4BDUvG4jYYG5IbfK1iBNyeC/UrrjVkYg3ts4z0T
+ wvGJoqX9gUSu5RtRDqijsiLH4mqvqUBjVuOeqOb9VLsIXnX/nojv+0OplD3rRoNrKLxjTw
+ 8o9dZHy7e6W4BY1ClOUHTyUOEOFyiW7ckAibvmXDHg0cjozHJS48TeT8kKddsg==
+Date: Mon, 19 May 2025 17:16:26 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Saravana Kannan
+ <saravanak@google.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, Jingoo
+ Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, Paul Kocialkowski
+ <contact@paulk.fr>, =?UTF-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, linux-clk@vger.kernel.org,
- Srinivas Kandagatla <srini@kernel.org>
-References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
- <20250430-b4-sm8750-display-v5-19-8cab30c3e4df@linaro.org>
- <hobn3fq647z54q6uqrooapokipr4zoxfb3tztg46lwzcsof3jd@5bwn34r2v7ks>
- <65710c50-9bfc-42e8-afad-ac01c7f96a9e@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <65710c50-9bfc-42e8-afad-ac01c7f96a9e@quicinc.com>
+ dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 6/8] backlight: led-backlight: add devlink to
+ supplier LEDs
+Message-ID: <20250519171626.2885902f@booty>
+In-Reply-To: <20240920144113.427606a7@booty>
+References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
+ <20240917-hotplug-drm-bridge-v4-6-bc4dfee61be6@bootlin.com>
+ <20240919124323.GB28725@aspen.lan> <20240920144113.427606a7@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvddujeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepteekieeihfevhfffieehiefgfeeutdduueeggeffieejgeefhfdthfeugeefvdegnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmpdhkvghrnhgvlhdrohhrghenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefgedprhgtphhtthhopegurghnihgvlhdrthhhohhmphhsohhnsehlihhnrghrohdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodguthesk
+ hgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,44 +85,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/05/2025 23:28, Abhinav Kumar wrote:
->>>   static int dsi_clk_init(struct msm_dsi_host *msm_host)
->>>   {
+Hello Daniel,
 
-Dmitry,
+I wonder whether you remember about this conversation...
 
-Please kindly trim the replies from unnecessary context. It makes it
-much easier to find new content.
+On Fri, 20 Sep 2024 14:41:13 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
->>>   	struct platform_device *pdev = msm_host->pdev;
->>> @@ -370,6 +411,46 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
->>>   	return 0;
->>>   }
->>>   
->>> +int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host)
->>> +{
->>> +	struct device *dev = &msm_host->pdev->dev;
->>> +	int ret;
->>> +
->>> +	/*
->>> +	 * DSI PHY PLLs have to be enabled to allow reparenting to them and
->>> +	 * setting the rates of pixel/byte clocks.
->>> +	 */
->>
->> According to the docs this should be handled by the
->> CLK_OPS_PARENT_ENABLE flag. Please correct me if I'm wrong.
->>
-> 
-> I am also interested to know that if we are indeed setting 
-> CLK_OPS_PARENT_ENABLE flag, do we need this logic in the dsi driver.
-> 
-> If CLK_OPS_PARENT_ENABLE flag is not working as expected, shouldnt this 
-> be something fixed on the clk fwk side?
-> 
+> Hello Daniel,
+>=20
+> On Thu, 19 Sep 2024 14:43:23 +0200
+> Daniel Thompson <daniel.thompson@linaro.org> wrote:
+>=20
+> > On Tue, Sep 17, 2024 at 10:53:10AM +0200, Luca Ceresoli wrote: =20
+> > > led-backlight is a consumer of one or multiple LED class devices, but=
+ no
+> > > devlink is created for such supplier-producer relationship. One conse=
+quence
+> > > is that removal ordered is not correctly enforced.
+> > >
+> > > Issues happen for example with the following sections in a device tree
+> > > overlay:
+> > >
+> > >     // An LED driver chip
+> > >     pca9632@62 {
+> > >         compatible =3D "nxp,pca9632";
+> > >         reg =3D <0x62>;
+> > >
+> > > 	// ...
+> > >
+> > >         addon_led_pwm: led-pwm@3 {
+> > >             reg =3D <3>;
+> > >             label =3D "addon:led:pwm";
+> > >         };
+> > >     };
+> > >
+> > >     backlight-addon {
+> > >         compatible =3D "led-backlight";
+> > >         leds =3D <&addon_led_pwm>;
+> > >         brightness-levels =3D <255>;
+> > >         default-brightness-level =3D <255>;
+> > >     };
+> > >
+> > > On removal of the above overlay, the LED driver can be removed before=
+ the
+> > > backlight device, resulting in:
+> > >
+> > >     Unable to handle kernel NULL pointer dereference at virtual addre=
+ss 0000000000000010
+> > >     ...
+> > >     Call trace:
+> > >      led_put+0xe0/0x140
+> > >      devm_led_release+0x6c/0x98   =20
+> >=20
+> > This looks like the object became invalid whilst we were holding a refe=
+rence
+> > to it. Is that reasonable? Put another way, is using devlink here fixin=
+g a
+> > bug or merely hiding one? =20
+>=20
+> Thanks for your comment.
+>=20
+> Herv=C3=A9 and I just had a look at the code and there actually might be a
+> bug here, which we will be investigating (probably next week).
+>=20
+> Still I think the devlink needs to be added to describe the
+> relationship between the supplier (LED) and consumer (backlight).
 
-You are both right - CLK_OPS_PARENT_ENABLE handles this and I just did
-not test that exact case (fixed dispcc driver, here dropping
-clk_prepare_enable).
+It took "slightly more" than "next week", but we are here finally. In
+reality this topics went pretty much forgotten until Alexander
+Sverdlin's feedback [0].
+
+About your concern, I'm not totally sure devlink is the tool expected
+to solve this issue, but if it isn't I don't know any other tool that
+should.
+
+In other words, because devlink is exactly meant to represent
+supplier-consumer relationships and enforce them to be respected, it
+seems the appropriate tool. Moreover devlink already handles such
+relationships quite well in many cases, and takes care of removing
+consumers before their suppliers, when suppliers get removed.
+
+One missing piece in devlink is it doesn't (yet) handle class devices
+correctly. When the supplier is a class device (such as the LED device
+in this case), then devlink creates a link to the parent of the
+supplier, and not the supplier itself.
+
+This problem is well known and it is under Saravana's radar. Adding
+such devlinks at the device core level would be of course be the best
+and most generic solution, but it seems to be much more tricky that it
+may look. So other drivers and subsystems are "manually" creating
+devlinks, to have the right links in place until devlink can figure
+them out automatically. Some examples ('git grep device_link_add' for
+more):
+
+  https://elixir.bootlin.com/linux/v6.14.7/source/drivers/pwm/core.c#L1660
+  https://elixir.bootlin.com/linux/v6.14.7/source/drivers/iio/industrialio-=
+backend.c#L710
+  https://elixir.bootlin.com/linux/v6.14.7/source/drivers/pmdomain/imx/gpc.=
+c#L204
+
+I hope this clarifies the need for this patch.
+
+I am going to send this patch alone in a moment, detached from the
+entire series because it is orthogonal.
+
+[0]
+https://lore.kernel.org/all/fa87471d31a62017067d4c3ba559cf79d6c3afec.camel@=
+siemens.com/
 
 Best regards,
-Krzysztof
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
