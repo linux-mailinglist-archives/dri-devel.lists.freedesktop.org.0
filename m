@@ -2,109 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E2DABC4E1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82EEABC4F6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 18:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 790C210E330;
-	Mon, 19 May 2025 16:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B35BC10E44C;
+	Mon, 19 May 2025 16:53:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cwtgEw+0";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="YX5NqJwO";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="eFY4E8Qf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D4510E31E;
- Mon, 19 May 2025 16:49:48 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J98DuI029025;
- Mon, 19 May 2025 16:49:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oZ4KJU6pMiFKqlXmXnMZZy0gJKEw8GKPjiTifWRBlKQ=; b=cwtgEw+0C1wCpSM1
- O0NPxRbe/5FnA1aq8ZaHytCEo/h0BmFtL46NGIFIBCTbLTsDlK0laUCetS2c5bXg
- +I7bkiABA75pDEqgARdjiAubUxAxNsHD0BamKuTSbc2apmSFrIyxmp9NTejuL+0Z
- E6GlMHFjVXDw+TIJsnE1qVYhWmXSHqctPkzHeQhp+QgpsapB+qgcfaupDXe+ACRL
- fVB4bxkut+71STLsLNQ7eJkNCSbkHqIITv3BX/VUwvio29xd1VrrT3YAIN1JIux8
- 5VygBj6fcgF1CASORfnzGnClvTZx0p/4QBCWo6gNA0d7AVtv/an912v9yoSc5XMe
- vudhBQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjm4w327-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 May 2025 16:49:39 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54JGnc0t016671
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 May 2025 16:49:38 GMT
-Received: from [10.110.123.42] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 19 May
- 2025 09:49:35 -0700
-Message-ID: <b4dace94-afa1-4910-b77d-20de08b5a6b9@quicinc.com>
-Date: Mon, 19 May 2025 09:49:33 -0700
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B2910E44C;
+ Mon, 19 May 2025 16:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1747673494;
+ bh=rFGYO5VlgvAFnqh4hYCkTRF
+ lXY7iXBH3Jn+O+PlF9/s=; b=YX5NqJwOm/Ig9+N7uduUg6uOtSB5XLPgCfMi3rWYqVPj1LN2XC
+ Yv9A1v3N74h6vVPjfsLQwZEsdZlFEF3a7Lykuc04oVvB/3x9Q3O8u83dWbsB252J/LUF5+TQZzE
+ /x6dnsRcw0uqMAjbHYfoWTulqku6gO7vdWAc4FJjl8oSH0tmJMKEuyBDIs9g7w3cZebGoj2A0Tc
+ DGgv81w6RNacM6j+lpQOTJSIDL3cBTd5aUQfLNS5EKlAAtssGkmIkKurugzFAw7zjfS1cT1pqR+
+ 1agSy6lFXyocE6LJ6kctJ3U8CoZ4VhrHs97yl4cPE+nptlI/vQ3/VteaVOhIetFba1w==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1747673494; bh=rFGYO5VlgvAFnqh4hYCkTRF
+ lXY7iXBH3Jn+O+PlF9/s=; b=eFY4E8QfnYvBQ3Y1a17b06IN78TymdBRLpLQ8Yp97lx1RisKe2
+ U5Hcf51KMTdFjiZgeMtet3RLHMIQD6AgYaAg==;
+Message-ID: <c004f585-389b-4630-827d-e76f52a3d55e@damsy.net>
+Date: Mon, 19 May 2025 18:51:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 21/24] drm/msm/dpu: Implement 10-bit color alpha for
- v12.0 DPU
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-CC: Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
- <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, "Stephen
- Boyd" <sboyd@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Rob Clark
- <robdclark@chromium.org>, <linux-clk@vger.kernel.org>, Srinivas Kandagatla
- <srini@kernel.org>
-References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
- <20250430-b4-sm8750-display-v5-21-8cab30c3e4df@linaro.org>
- <ygd6givaigkmypmaufpeidkqauoujcndm2xemi5pm5zue6ou7j@zonusie3tuap>
+Subject: Re: [RFC v4 00/16] Fair DRM scheduler
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Leo Liu <Leo.Liu@amd.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+References: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ygd6givaigkmypmaufpeidkqauoujcndm2xemi5pm5zue6ou7j@zonusie3tuap>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=dIimmPZb c=1 sm=1 tr=0 ts=682b6123 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8
- a=KKAkSRfTAAAA:8 a=RYIdb7-JugdFDdxw8Q4A:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: kGf-vTGCYjKfVf56vLkVOy0PBWSSLkJH
-X-Proofpoint-GUID: kGf-vTGCYjKfVf56vLkVOy0PBWSSLkJH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDE1NiBTYWx0ZWRfX/0kBB49Fvegz
- 1zbigi/xjTdccxjGw+n0Gh6hkTgxxT9EG5xce8Cjuuk1Y6HkFUmCDDJ9mr/AHS49oFRckBrpfB1
- jxwrwBpQBVlZKE1Lk2oWFsBS3IwATCEgV8q6DdHJbyA1jAdYR0XA2AmauXqCFmZmfTC2tcy2je1
- rX1aLCAG366e51T1NRLKDJiZo+R4A2TBUO5U56BULMmfVP0zCAwYTbx3F+22cKQrR9TR6nuacWZ
- WZ5ds3wfP9lnpQqKQMKIGaDU3TxwoPLyR5HKM6//D6/QseDYB6XioyVdxnb2+d3zrS9PKypkgq1
- TQZ/oqb1OyxS8jM4gHefCaTGgWGgLAxyZleak5HPcN2Z6oA+cO4LxEY189M0grOsTpddyJODdBX
- sv97YTZNtySb9XWmUoAiHexdkhG1EyW5F1Rini0/o1auIHjiBdGJjd+6ZBje57in83Ic7OxY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-19_07,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505190156
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,66 +63,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+Le 25/04/2025 à 12:20, Tvrtko Ursulin a écrit :
+> V4 is quite different from v3 in that I have replaced the deadline + queue-depth
+> approach with a fair GPU time based approach. This is because Pierre-Eric found
+> a viewperf workload which showed queue-depth based approach regressing and
+> without it there was a regression on one of my synthetic workloads I was not
+> happy with.
 
-On 5/5/2025 5:24 AM, Dmitry Baryshkov wrote:
-> On Wed, Apr 30, 2025 at 03:00:51PM +0200, Krzysztof Kozlowski wrote:
->> v12.0 DPU on SM8750 comes with 10-bit color alpha.  Add register
->> differences and new implementations of setup_alpha_out(),
->> setup_border_color() and setup_blend_config().
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Changes in v4:
->> 1. Lowercase hex, use spaces for define indentation
->> 2. _dpu_crtc_setup_blend_cfg(): pass mdss_ver instead of ctl
->>
->> Changes in v3:
->> 1. New patch, split from previous big DPU v12.0.
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 19 ++++---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c | 84 +++++++++++++++++++++++++++++--
->>   2 files changed, 94 insertions(+), 9 deletions(-)
->>
->> @@ -175,12 +246,19 @@ struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
->>   	c->idx = cfg->id;
->>   	c->cap = cfg;
->>   	c->ops.setup_mixer_out = dpu_hw_lm_setup_out;
->> -	if (mdss_ver->core_major_ver >= 4)
->> +	if (mdss_ver->core_major_ver >= 12)
->> +		c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha_v12;
->> +	else if (mdss_ver->core_major_ver >= 4)
->>   		c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha;
->>   	else
->>   		c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config;
->> -	c->ops.setup_alpha_out = dpu_hw_lm_setup_color3;
->> -	c->ops.setup_border_color = dpu_hw_lm_setup_border_color;
->> +	if (mdss_ver->core_major_ver < 12) {
->> +		c->ops.setup_alpha_out = dpu_hw_lm_setup_color3;
->> +		c->ops.setup_border_color = dpu_hw_lm_setup_border_color;
->> +	} else {
->> +		c->ops.setup_alpha_out = dpu_hw_lm_setup_color3_v12;
->> +		c->ops.setup_border_color = dpu_hw_lm_setup_border_color_v12;
->> +	}
+I've did some testing with this version and the regression I had is gone.
+
+This branch performs better than drm-next and a bit worse than my own hacky implementation of a CFS 
+scheduler.
+
+For context my test case is: running glxgears and a GPU-heavy Viewperf test, and then monitoring the 
+FPS of glxgears. The closest to 60 Hz glxgears runs, the better because it means the scheduler 
+successfully ran glxgears jobs between the multiple jobs that build a single Viewperf frame.
+
 > 
-> I tried picking up these patches, and choked on this one. This heavility
-> depends on the DPU fetures bits rework patchset (mentioned in the cover
-> letter, it's fine), but granted the lack of the reviews / updates on
-> that patchset I can neither apply this patch (and its dependencies) nor
-> steer Krzysztof away from basing on that patchset (this patch provides a
-> perfect example of why that series is useful and correct).
+> In my experiments the fair scheduler looks solid so lets see how it fares after
+> wider testing.
 > 
-> Abhinav, could you please continue reviewing that patch series?
+> On the high level main advantages of the series are:
 > 
+>   1. Scheduling quality - schedules better than FIFO.
+>   2. Code simplification - no more multiple run queues.
+> 
+> First patches add some unit tests which allow for easy evaluation of scheduling
+> behaviour against different client submission patterns. From there onwards it is
+> hopefully a natural progression of cleanups, enablers, adding the fair policy,
+> and finally removing FIFO and RR and simplifying the code base due not more need
+> for multiple run queues.
+> 
+> As a headline result I have tested three simultaneous clients on the Steam Deck:
+> 
+> One instance of a deferredmultisampling Vulkan demo running with low priority,
+> one normal priority instance of the same demo, and the Unigine Heaven benchmark.
+> 
+> With the FIFO scheduler we can see that the low priority client is completely
+> starved and the GPU time distribution between the other two clients is uneven:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/fifo-starvation.png
+> 
+> Switching to the fair scheduler, GPU time distribution is almost equal and the
+> low priority client does get a small share of the GPU:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/fair-no-starvation.png
+> 
+> Moving onto the synthetic submission patterns, they are about two simultaneous
+> clients which broadly cover the following categories:
+> 
+>   * Deep queue clients
+>   * Hogs versus interactive
+>   * Priority handling
+> 
+> Lets look at the results:
+> 
+> 1. Two normal priority deep queue clients.
+> 
+> These ones submit one second worth of 8ms jobs. As fast as they can, no
+> dependencies etc. There is no difference in runtime between FIFO and fair but
+> the latter allows both clients to progress with work more evenly:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/normal-normal.png
+> 
+> (X axis is time, Y is submitted queue-depth, hence lowering of qd corresponds
+>    with work progress for both clients, tested with both schedulers separately.)
+> 
+> 2. Same two clients but one is now low priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/normal-low.png
+> 
+> Normal priority client is a solid line, low priority dotted. We can see how FIFO
+> completely starves the low priority client until the normal priority is fully
+> done. Only then the low priority client gets any GPU time.
+> 
+> In constrast, fair scheduler allows some GPU time to the low priority client.
+> 
+> 3. Same clients but now high versus normal priority.
+> 
+> Similar behaviour as in the previous one with normal a bit less de-prioritised
+> relative to high, than low was against normal.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/high-normal.png
+> 
+> 4. Heavy load vs interactive client.
+> 
+> Heavy client emits a 75% GPU load in the format of 3x 2.5ms jobs followed by a
+> 2.5ms wait. Interactive client emits a 10% GPU load in the format of 1x 1ms job
+> followed by a 9ms wait.
+> 
+> This simulates an interactive graphical client used on top of a relatively heavy
+> background load but no GPU oversubscription.
+> 
+> Graphs show the interactive client only and from now on, instead of looking at
+> the client's queue depth, we look at its "fps".
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/heavy-interactive.png
+> 
+> We can see that fair scheduler allows a higher fps for the interactive client
+> which is good.
+> 
+> 5. An even heavier load vs interactive client.
+> 
+> This one is oversubscribing the GPU by submitting 4x 50ms jobs and waiting for
+> only one microsecond before repeating the cycle. Interactive client is thje same
+> 10% as above.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/veryheavy-interactive.png
+> 
+> Here the difference is even more dramatic with fair scheduler enabling ~3x the
+> framerate for the interactive client.
+> 
+> 6. Low priority GPU hog versus heavy-interactive.
+> 
+> Low priority client: 3x 2.5ms jobs client followed by a 0.5ms wait.
+> Interactive client: 1x 0.5ms job followed by a 10ms wait.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/lowhog-interactive.png
+> 
+> Slight win for the fair scheduler but could be just noise.
+> 
+> 7. Last set of test scenarios will have three subgroups.
+> 
+> In all cases we have two interactive (synchronous, single job at a time) clients
+> with a 50% "duty cycle" GPU time usage.
+> 
+> Client 1: 1.5ms job + 1.5ms wait (aka short bursty)
+> Client 2: 2.5ms job + 2.5ms wait (aka long bursty)
+> 
+> a) Both normal priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-short.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-long.png
+> 
+> Both schedulers favour the higher frequency duty cycle with fair giving it a
+> little bit more which should be good for interactivity.
+> 
+> b) Normal vs low priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-normal-low-normal.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-normal-low-low.png
+> 
+> Fair scheduler gives a bit more GPU time to the normal priority client which is
+> again good.
+> 
+> c) High vs normal priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-high-normal-high.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-high-normal-normal.png
+> 
+> Again, fair scheduler gives a bit more share to the higher priority client.
+> 
+> On the overall fair looks like a potential improvement in terms of fairness,
+> especially avoiding priority starvation. There do not appear to be any
+> regressions with the tested workloads.
+> 
+> As before, I am looking for feedback, ideas for what kind of submission
+> scenarios to test. Testers on different GPUs would be very welcome too.
 
-I think we could have continued this series on top of the current 
-feature bits model and I thought we were doing that based on 
-#linux-arm-msm chats in Feb between you and me. Not sure what happened 
-there.
+There's room for improvement (eg: I believe the scheduler would benefit from having a logic to 
+postpone the entity selection when it detects that one app will oversubscribe the GPU), but
+overall if no regressions are found I think this series is already a solid first step.
 
-Regarding the review, myself and Jessica have discussed this last week 
-and Jessica will take over the review of that series and please work 
-with addressing the comments provided there by her.
+Thanks,
+Pierre-Eric
+
+> 
+> And I should probably test round-robin at some point, to see if we are maybe
+> okay to drop unconditionally, it or further work improving fair would be needed
+> if some use cases rely on round-robin.
+> 
+> v2:
+>   * Fixed many rebase errors.
+>   * Added some new patches.
+>   * Dropped single shot dependecy handling.
+> 
+> v3:
+>   * Added scheduling quality unit tests.
+>   * Refined a tiny bit by adding some fairness.
+>   * Dropped a few patches for now.
+> 
+> v4:
+>   * Replaced deadline with fair!
+>   * Refined scheduling quality unit tests.
+>   * Pulled one cleanup patch earlier.
+>   * Fixed "drm/sched: Avoid double re-lock on the job free path".
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> CC: Leo Liu <Leo.Liu@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+> 
+> Tvrtko Ursulin (16):
+>    drm/sched: Add some scheduling quality unit tests
+>    drm/sched: Add some more scheduling quality unit tests
+>    drm/sched: De-clutter drm_sched_init
+>    drm/sched: Avoid double re-lock on the job free path
+>    drm/sched: Consolidate drm_sched_job_timedout
+>    drm/sched: Consolidate drm_sched_rq_select_entity_rr
+>    drm/sched: Implement RR via FIFO
+>    drm/sched: Consolidate entity run queue management
+>    drm/sched: Move run queue related code into a separate file
+>    drm/sched: Free all finished jobs at once
+>    drm/sched: Account entity GPU time
+>    drm/sched: Remove idle entity from tree
+>    drm/sched: Add fair scheduling policy
+>    drm/sched: Remove FIFO and RR and simplify to a single run queue
+>    drm/sched: Queue all free credits in one worker invocation
+>    drm/sched: Embed run queue singleton into the scheduler
+> 
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  27 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   5 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |   8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |   8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |   8 +-
+>   drivers/gpu/drm/scheduler/Makefile            |   2 +-
+>   drivers/gpu/drm/scheduler/sched_entity.c      | 121 +--
+>   drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
+>   drivers/gpu/drm/scheduler/sched_internal.h    | 114 ++-
+>   drivers/gpu/drm/scheduler/sched_main.c        | 570 +++---------
+>   drivers/gpu/drm/scheduler/sched_rq.c          | 214 +++++
+>   drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
+>   .../gpu/drm/scheduler/tests/tests_scheduler.c | 815 ++++++++++++++++++
+>   include/drm/gpu_scheduler.h                   |  23 +-
+>   15 files changed, 1348 insertions(+), 578 deletions(-)
+>   create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+>   create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+> 
