@@ -2,94 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF892ABC8F1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 23:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB24ABC907
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 23:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F2F10E105;
-	Mon, 19 May 2025 21:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D093C10E3E9;
+	Mon, 19 May 2025 21:21:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LXMrWx3B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WFn9euy1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6F710E105;
- Mon, 19 May 2025 21:15:51 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-ace333d5f7bso795008866b.3; 
- Mon, 19 May 2025 14:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747689345; x=1748294145; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xfCxvNrNXH6YMvxiBWl55URv30Vk5ImyK9KqXeiCoPg=;
- b=LXMrWx3BlUyVLL11cXxLjg/mewvFbizQ0ViV55k9/ZYE94pmJzNRj9TFYp4ciLj+5m
- hWGAB9wlcJVQHY7SemWjiqo8CgWBQ/8lJhirJ4F6gYiMqt6QOnAF+KRWCb3AVWProhv9
- ui/TbnjS1nF+DxKHPr3owt+j2eCU2/RjAgGas1Ny0rI1RP/FdqhbraA93B4So3d7ab3M
- beaFQ7nt5WBlAqnTmeoFCjVM5O7Q5HSbBc/F5cNsnNVRabxvE0Rb3VTPE0kdVk4e0V0d
- XldchAIrzu1LYy+1mj/BYT4vAipMTgtAOQoe2xsYEg6NhleCYdBkRRkvHHsrKZfD4WkH
- WJQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747689345; x=1748294145;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xfCxvNrNXH6YMvxiBWl55URv30Vk5ImyK9KqXeiCoPg=;
- b=L686qWzmvO5KWw3xZnU1RuqWIbiJ8VxRfdQUKV9HEHHygGiULZulx+JOgKAmj3BLEO
- gseWIwg5OYBWiH0aozA4K60iT9pNPbcEnwqvUuQbFKLTEBWdSOZd6WEZL0ijcrIEdSf8
- AkXspHlrX4vrkvu7Y4LcN/XiJmcV0hKX6gSkq1gw3anRPhdjhved+IcIqLgb9AxAB2Rm
- 586p8uqEAqWuvv7AMWyWRy7KRAd1bZqGdLFss6MTXmvG5D34jDzLMJ41DS/4uDeYJCxf
- MNVJlQcNlGNO6ytmGJXGgAhjoZ+gjhqLCCj/ragv9HdT9A1vBCa2bWjDUCMyjCqfr6VP
- 9JRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlutNEizLq+uTm+UtJ7HnLPXI/1I+4qW7C0q/f1px6QH4pJ8C3MT+5ZAQMZ8oLVTt9BsV2GxEXyBQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTBqpwdNzdUwJ2LptE3cnjnRhS2r3tm/s/e66hXx1VveDCqIFh
- j7Yljn5sJu7QkKRpO2BSyTJXX51gWDuGZkfCFWsK0hnk4oDORiacc01AAwMXr6g0brGQEnxiIla
- 77cZX7lpx18RJyboSNfZI7c9+LS0lnsw=
-X-Gm-Gg: ASbGnctxXHscA+tijLlSPfg50RzuXUsN/bWs/J4s89wsyRkqpjN7axvQw6tDXJsAwyu
- g+4v+7FpuElpqko0HfPR27Xe5hb2X/JFHQjjpYnuqb9fAt+/YYaRPOyybcD3/4NCVc4Bx3GVCFw
- HCPSsTddLvaEpAFs7ft5yJmdbzydcbu00=
-X-Google-Smtp-Source: AGHT+IEdHJ5TsiYJUOSilPNO+z3JABvgvB65Ct1aB4PjJ2fABaDgZlQuvx2XmPkklIghfrLSC+0u0HMeQGgesMbdSWY=
-X-Received: by 2002:a17:907:94d0:b0:ad2:2949:bdfc with SMTP id
- a640c23a62f3a-ad536b7ca51mr1349013266b.3.1747689344467; Mon, 19 May 2025
- 14:15:44 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035E610E3E9;
+ Mon, 19 May 2025 21:21:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A86C05C05CD;
+ Mon, 19 May 2025 21:19:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D127DC4CEE4;
+ Mon, 19 May 2025 21:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747689707;
+ bh=H23H+mpcL8SHm2I4A3L8pf8bltvgAwtxp/DyOc76IU4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WFn9euy1Xux7tU6/4R2PJ3V0uR7Bq1eGZXthwOd1hwAM9PTtMdSLE9yb5uS9loWRP
+ rmEikdPc/ZpwZx1LPTPbX6PJT5sRvjx3wn6WR2x837JmYzMGmEG+aFyg/JS6vIt2G6
+ 4kxwU2XeWGyOAVEHC+MwwOrZwvrQBt4lli3shCbPKRNtkZL/BOrBobnSANsysU/7m3
+ fJOKEP0vpSlqAovN3EVj3/UB92rtpoIGKwATGvcAYXilQpzm5CJ+Ati5VF0NKoMreR
+ Oki+obGN8Wq7qQx30iPnb7aQ58HJGUJAUp3BewAqYKpKsz47pCO4zSZ1zivdCBzkA1
+ nyFhJSvUrhy8Q==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: George Shen <george.shen@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Ray Wu <ray.wu@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ David1.Zhou@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 10/23] drm/amd/display: fix link_set_dpms_off
+ multi-display MST corner case
+Date: Mon, 19 May 2025 17:21:17 -0400
+Message-Id: <20250519212131.1985647-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250519212131.1985647-1-sashal@kernel.org>
+References: <20250519212131.1985647-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20250519175348.11924-1-robdclark@gmail.com>
-In-Reply-To: <20250519175348.11924-1-robdclark@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 20 May 2025 07:15:32 +1000
-X-Gm-Features: AX0GCFs4JnXwsJdajW1l7s7toaeaNTWjF5f0e497pSZ8wodPL0eA75PFrE0O5i4
-Message-ID: <CAPM=9tw183FMOT8uUacqegnb5CREAyr8KbXxO2mCuFK-SmUB1A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v5 00/40] drm/msm: sparse / "VM_BIND"
- support
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Connor Abbott <cwabbott0@gmail.com>, 
- Rob Clark <robdclark@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>, 
- Christopher Snowhill <chris@kode54.net>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Eugene Lepshy <fekz115@gmail.com>, 
- "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Joao Martins <joao.m.martins@oracle.com>, 
- Jonathan Marek <jonathan@marek.ca>, Jun Nie <jun.nie@linaro.org>, 
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
- <linaro-mm-sig@lists.linaro.org>, 
- "m oderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
- <linux-media@vger.kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Nicolin Chen <nicolinc@nvidia.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Sean Paul <sean@poorly.run>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.7
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,26 +67,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 May 2025 at 03:54, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
-> Memory[2] in the form of:
->
-> 1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
->    MAP_NULL/UNMAP commands
->
-> 2. A new VM_BIND ioctl to allow submitting batches of one or more
->    MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
->
-> I did not implement support for synchronous VM_BIND commands.  Since
-> userspace could just immediately wait for the `SUBMIT` to complete, I don't
-> think we need this extra complexity in the kernel.  Synchronous/immediate
-> VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
+From: George Shen <george.shen@amd.com>
 
-This seems suboptimal for Vulkan userspaces. non-sparse binds are all
-synchronous, you are adding an extra ioctl to wait, or do you manage
-these via a different mechanism?
+[ Upstream commit 3c1a467372e0c356b1d3c59f6d199ed5a6612dd1 ]
 
-Dave.
+[Why & How]
+When MST config is unplugged/replugged too quickly, it can potentially
+result in a scenario where previous DC state has not been reset before
+the HPD link detection sequence begins. In this case, driver will
+disable the streams/link prior to re-enabling the link for link
+training.
+
+There is a bug in the current logic that does not account for the fact
+that current_state can be released and cleared prior to swapping to a
+new state (resulting in the pipe_ctx stream pointers to be cleared) in
+between disabling streams.
+
+To resolve this, cache the original streams prior to committing any
+stream updates.
+
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: George Shen <george.shen@amd.com>
+Signed-off-by: Ray Wu <ray.wu@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+(cherry picked from commit 1561782686ccc36af844d55d31b44c938dd412dc)
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+index ec7de9c01fab0..e95ec72b4096c 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+@@ -148,6 +148,7 @@ void link_blank_dp_stream(struct dc_link *link, bool hw_init)
+ void link_set_all_streams_dpms_off_for_link(struct dc_link *link)
+ {
+ 	struct pipe_ctx *pipes[MAX_PIPES];
++	struct dc_stream_state *streams[MAX_PIPES];
+ 	struct dc_state *state = link->dc->current_state;
+ 	uint8_t count;
+ 	int i;
+@@ -160,10 +161,18 @@ void link_set_all_streams_dpms_off_for_link(struct dc_link *link)
+ 
+ 	link_get_master_pipes_with_dpms_on(link, state, &count, pipes);
+ 
++	/* The subsequent call to dc_commit_updates_for_stream for a full update
++	 * will release the current state and swap to a new state. Releasing the
++	 * current state results in the stream pointers in the pipe_ctx structs
++	 * to be zero'd. Hence, cache all streams prior to dc_commit_updates_for_stream.
++	 */
++	for (i = 0; i < count; i++)
++		streams[i] = pipes[i]->stream;
++
+ 	for (i = 0; i < count; i++) {
+-		stream_update.stream = pipes[i]->stream;
++		stream_update.stream = streams[i];
+ 		dc_commit_updates_for_stream(link->ctx->dc, NULL, 0,
+-				pipes[i]->stream, &stream_update,
++				streams[i], &stream_update,
+ 				state);
+ 	}
+ 
+-- 
+2.39.5
+
