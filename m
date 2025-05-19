@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BADDABBA04
-	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 11:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43B6ABBA51
+	for <lists+dri-devel@lfdr.de>; Mon, 19 May 2025 11:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB98710E027;
-	Mon, 19 May 2025 09:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 433CA10E012;
+	Mon, 19 May 2025 09:55:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nPuhYqwj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RsVkv8QR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78D5710E027
- for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:49:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D5EC5A48E0F;
- Mon, 19 May 2025 09:49:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E635C4CEE4;
- Mon, 19 May 2025 09:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747648158;
- bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=nPuhYqwj8v/tc/7qY5bU12RGUyTz/xO6Ql3LT74ISSeq7WZoLRR+VNfpx7PLosa8j
- I4mqqESu2fgtWqh1hHc0AxkBIE6xybCKMWICzlbmf7bmzSSQ0uuQW1quP0BXUoxnRG
- zK/0ewt2JP1JguFmBG7lWJoNZoSheONy/RM9FuHoqD3QMBG8aDjJewYj/0ZiTr+1Hm
- exIduw0kwbx5Pccf/AWDIyoT1o2DO6SKfVD/N9Xi4DDkrODxTRgoE4NVQAra3jdqbE
- Y3A+nAIoEXk8lJH8Nk+dAfx9jP9gxmlheBCQgUbn6S1B7gTZTxzx76QdIw4j7x6aZw
- rOexiIGSWWjeQ==
-Date: Mon, 19 May 2025 04:49:16 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A7610E012
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 May 2025 09:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747648518; x=1779184518;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=x962P5jjhfK06VJoGYfXsOxsJ0DuLlZs6GC+F00vyj4=;
+ b=RsVkv8QRW5aplchtk2FdsFMEIJwnD2ZOQ1hHRn6L1OzgFYLrJWSU2PDD
+ UBf3XmvQCXl9YFGyD4hr0YUw2EUfepPKlTnFPmwTyCyi9Q2wtrMYLzwEy
+ LJoUd+Jij9CFH0c2LbapBzgJHtrMRW65nRMcK7MyQ12V5mOQyjnswZB8I
+ LrIp43lDKwALaRo/H44qI8XoEq5JO3K6wC8er0wjfWv0FpGSNCuTxMTHO
+ 4mhw+ssxm/SX34pkee9RHkapgm4fST+0BMt/GkEi3RiCqfC//zu5QU8+l
+ etU3jL76e3glMpSorUXH+6QhoQ+0j7oUKMo3GEwU1MlDM7VIsK9mesIuU A==;
+X-CSE-ConnectionGUID: ft7l6lxeT3mLnsEz9nsOHg==
+X-CSE-MsgGUID: +9egL/S+TlKQPsIct0iOoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49240587"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="49240587"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 02:55:18 -0700
+X-CSE-ConnectionGUID: vb+tJycCR4iZf8sl7kTbtg==
+X-CSE-MsgGUID: jeWBbJfySr2WrSbuB9lHMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; d="scan'208";a="144089755"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.201])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2025 02:55:14 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "feijuan.li" <feijuan.li@samsung.com>, jingoohan1@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: feijuan.li@samsung.com, hongfei.tang@samsung.com,
+ minggui.yan@samsung.com, qilin.wang@samsung.com
+Subject: Re: [PATCH v3] drm/edid: fixed the bug that hdr metadata was not reset
+In-Reply-To: <878qmzio16.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CGME20250514063420epcas5p2bdd64000965a5ceffa196f123db8fb2e@epcas5p2.samsung.com>
+ <20250514063511.4151780-1-feijuan.li@samsung.com>
+ <878qmzio16.fsf@intel.com>
+Date: Mon, 19 May 2025 12:55:12 +0300
+Message-ID: <87r00kvsan.fsf@intel.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +74,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 14 May 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Wed, 14 May 2025, "feijuan.li" <feijuan.li@samsung.com> wrote:
+>> When DP connected to a device with HDR capability,
+>> the hdr structure was filled.Then connected to another
+>> sink device without hdr capability, but the hdr info
+>> still exist.
+>>
+>> Signed-off-by: feijuan.li <feijuan.li@samsung.com>
+>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+And pushed to drm-misc-fixes, with
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Fixes: e85959d6cbe0 ("drm: Parse HDR metadata info from EDID")
+Cc: <stable@vger.kernel.org> # v5.3+
 
-yamllint warnings/errors:
+Thanks for the patch.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+BR,
+Jani.
 
-doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+>
+>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 13bc4c290b17..9edb3247c767 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -6596,6 +6596,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
+>>  	info->has_hdmi_infoframe = false;
+>>  	info->rgb_quant_range_selectable = false;
+>>  	memset(&info->hdmi, 0, sizeof(info->hdmi));
+>> +	memset(&connector->hdr_sink_metadata, 0, sizeof(connector->hdr_sink_metadata));
+>>  
+>>  	info->edid_hdmi_rgb444_dc_modes = 0;
+>>  	info->edid_hdmi_ycbcr444_dc_modes = 0;
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Jani Nikula, Intel
