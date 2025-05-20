@@ -2,166 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9DAABD02F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FDBABD039
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D294810E498;
-	Tue, 20 May 2025 07:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3586C10E0E4;
+	Tue, 20 May 2025 07:20:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y+hvRCCH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nfIOg4t4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2069.outbound.protection.outlook.com [40.107.93.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312A710E498;
- Tue, 20 May 2025 07:19:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i+v5pgyaZKdnZrQBWqGYAS6LeZQ0fna+zbIiwtZopt3fx/N3hFalyQNdD5Nlq+6PNjopvPutohy6i7QgaZ21eBNAwrNvwLzQe94sOjJOX9ErEWgnjo1113Py6SPAiDvkfBKnE1Hv16zxv5VaKHWT2fZMKc22+1QJa1K1ynbWzOcc/TLfBfn64yi4iMUl3jmgDYjFf0oZe3Lp1ozpE3qQUdLyNXUXYyd7meUqLO+ouBdx4Wtb73+JxmJMvVseFRYWGRGGa4PIU/H4fu+LHTXvleCJ3HFYFwKwebu5jWDzzGJq98cJxLJq64Gs5/OnatLMLoi+9XO/IUyW3016umNQ6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tte1qcuz31vL9cZjjSCDOu9AG4+icAPmcVaRWmurd+Y=;
- b=TFfXohs1ET9kikG1BoyMQyd8OVOO7FKI+aS/cFoxDCd5zgsAyew66okN5mbAY/jntn7X7aVpcXmSt4q+5Ux692pTmqpwzfFOuwAF5HOFHAODKXcqtx3/6HvHfK3c12X05JHmAIG/8poYPfTrKX+RbhiPABq+nfYILOr2CWyHZmMfmmmc0/yVE7ZievfYxxKwqGo3LUUfRtqm99HdFtXzwN3/fZf6UY/ZW6rRbYRC5gbwG3fjnyhCu491Syb/HZ/N5OmQ9GI9ZQhJHruA/qVmRD0gYigkCaY+fpTnFrOV3OM6O/KHU1BQgppPWBPDCLYU/xgEtEx7kFtoiwphAVd9sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tte1qcuz31vL9cZjjSCDOu9AG4+icAPmcVaRWmurd+Y=;
- b=Y+hvRCCH0x+khLz+jrbG0ZstZoftHWB2vnlP3emuUc9mPd1jPzwwWVXWPmBRz766hCmtqzXfT6pjF1HpbYSUgU2ZNIx1q8IjlnFc1hU6dNZgPL+6DNNC/wt+wSKWKkkzP3MJNCCuzUdU4ldQMi6y1X5iup1SzWDSrx56j3biKe4pU0xLehCTaOO8LZ1iBJrmn/Y6JH4mFbQ0/S69NjD83Ef+tYMx5qjiUMPPT5PUQOFnbwd35M1ecQ+ooWy9NcRIpUJYt7B1uPg7SmA3mhWcy7796OeEyYO7iVw17OoMfqo4qp0/jpdLNdd4JQbSLA56V+WVvwR/FDHkJtculoz+wg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by LV3PR12MB9186.namprd12.prod.outlook.com (2603:10b6:408:197::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Tue, 20 May
- 2025 07:19:00 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8746.030; Tue, 20 May 2025
- 07:19:00 +0000
-Message-ID: <b5d608e6-34dd-49e8-8cdf-fabc2ab78fb0@nvidia.com>
-Date: Tue, 20 May 2025 03:18:56 -0400
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E788410E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:19:56 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-442ccf0e1b3so64489115e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 00:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1747725595; x=1748330395; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=KrzFoxLHFMtpD5f0JYG/xNNGE+0bd6VyS7moHsbEFaQ=;
+ b=nfIOg4t4ZvctrmcR926NS/VREgiQL02dhfOcZZrOM/IEfkjre1LoTDwzqWwW2YD/d/
+ HcYQ1Rc72g51E9rb5N4Bd5S/8MG51Mn5kj3dbQi2Ilowh1TBol7PqYLP90CQ+33bxCPC
+ 9jjcmkJxP+zXMJzyYXuO3BmXTHah6ya8mbR/pOIWI6x9TlpRVGt+xBXV+FOPwJ1+TiBF
+ /LIfZIhKet1cYT2771Z3ienYB3FPa7kjHW9+I9V9Svy/e0R5YuZd0lXAilHZZD5riClx
+ Qg4ipgILusmDQHLS2NoMja+g6lLxIVKQVFLR9j0yBwWR88/3oBnwEbmZhDQSKGn1U3kA
+ ShlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747725595; x=1748330395;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=KrzFoxLHFMtpD5f0JYG/xNNGE+0bd6VyS7moHsbEFaQ=;
+ b=VWjxTIKYSRJqW1l0y8p7MPIwQ2bxFFjwBewIQkEZhK0xqTlIQSVywhlnNU4x3FGCLE
+ 2W1giJtHvJPE0g6OrKPSf4qV3Fy+I8miGuXeWyOgLLPt61u3sG0OlRgg+Y7anxtYzDxC
+ ttzCHodoTDTJj59iCmXdj3eVYhTjgUU5QVSas6Ha8vaW5aiOQU7ldZ7IaLJG9ECK+pSk
+ nl0iLASvTVDgaDA6pKNCxkfs89UlDvOkJFIr5KRNdiVrSY7djoDjUuAgmOR8mrAnCPl5
+ QL+ra7hOuTyiJOC7yP6X5/W2ccsi2JEqlqEGcWHuzczu4sJ7W6Vq3oRtnvLrNhudA6jQ
+ i3Sg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXc8VQyugc1CfP2yrKqhKGRokOVC6VftyEg36kOjNK1RNHEff16rpb2MrAew2Mhni18jbkBuWUVFp0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypU2DfQ19fg6QnOLsahw7ARhb04HQVRNKKxeZGGDEp6E1L963r
+ 7jPlaLspZjqxKA6WqVt8bh9pcVas7bJdoNKzFt7QqO7nPFjWA4q8h2SeKDv4sKGhpvE=
+X-Gm-Gg: ASbGncsNhQS36bfw6+WtW5xAMOPztSCMTeNU7BxLqoe4IqLEELfUZ4kQhrZqCXomua4
+ r+QQgDe7e8ThM9Ucv7Hw8TD4kqGJVqA6IzZxugfANTJlfQ+BU87Vjpo2Bz6VaK+Mp2KRVLYQTLh
+ Che/BJfekLhyaU2ZU21c18CJskP2r3Ip6RrLppUS3CkIF+bubW94WogWO+sQzY6965eVra7ZVLP
+ S2N3fEPvxHivt1wo9FxTYAh3cKFB22xZK4NVUJnqdMJOstWuo7OR3X7EreU0pgIWNQiiyRO2SFW
+ eVv+fxe5rGbtHaZY8FbdtgjghvAX/XKazD3Hsh+gomonFSKHoN1fYDVt7clvakjrFStgCQTgo+d
+ nGZxRuuc5dfFyzrF6jGlmmCSbWK5Q
+X-Google-Smtp-Source: AGHT+IHiApHaQJ4HFVBUIlA5T8VIa8bCmFRMDdvIVfP4Qk5/4i3Sipi25obZe09eKCMes1lvmIHC3Q==
+X-Received: by 2002:a05:600c:5026:b0:43c:fdbe:4398 with SMTP id
+ 5b1f17b1804b1-442fd60a4eemr135516505e9.6.1747725595393; 
+ Tue, 20 May 2025 00:19:55 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68?
+ ([2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442ffaa75cfsm91300275e9.1.2025.05.20.00.19.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 May 2025 00:19:55 -0700 (PDT)
+Message-ID: <228f4064-6e6b-487b-b599-e8f65e3d8506@linaro.org>
+Date: Tue, 20 May 2025 09:19:54 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/19] nova-core: Add support for VBIOS ucode
- extraction for boot
-To: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v1 1/1] drm/panel: ili9341: Remove unused member from
+ struct ili9341
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Abhishek Tamboli <abhishektamboli9@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, John Hubbard <jhubbard@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Shirish Baskaran <sbaskaran@nvidia.com>
-References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
- <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com> <aCTDk9UKRWHWYexR@pollux>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <aCTDk9UKRWHWYexR@pollux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL0PR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:91::12) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|LV3PR12MB9186:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea2ed721-8eca-41a5-6328-08dd976e97be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?elZMalJ6VE90VDh0QUh4Zkp3cGNtci8zbW1rUVFWUDVEdVhmaFpwYVFHc1ds?=
- =?utf-8?B?WkZyNnF6VlNqZVNNb3RERjNVTHc4K0xUQmorZ1JSbEdzVzB2d2lBbGdYdzNU?=
- =?utf-8?B?VStWSzd1K2NSRVNsaFFGaDNiUkFQdGdtdU40NG5LVms0SjR6b240WUtHRmwx?=
- =?utf-8?B?ekg2MXQzaVBUcFk2NzhXVDVYanNDY1B3TXFINE1JWlozbnNYZEdaSXVRelc1?=
- =?utf-8?B?dWMzTVdXR21OWlplSTB1RDJpZElzZ0tOeDZGeXhMVFJSZkMvMFdJNlI0Wi9Q?=
- =?utf-8?B?ejBKbmhkRFpRc2xPc2ZQU2NlTnE3S2UyVno3VDZFMTVaRUdPZENkRG5ab1pp?=
- =?utf-8?B?WHBGSVI2U2dCRXM0eWdBSkU2eUFaNXhnOXJ1UW5WZ1ZZWVllNVdkQ3JoNFM1?=
- =?utf-8?B?S1pzVFlETVJHU21mN1ltOW1TejZ1K0JnSzVvbi9JQ3FzNmlIT2YyUHA1eWZI?=
- =?utf-8?B?Nm40eDNuMnYwbGlIaEpmRWtsOUNYM2E1cVdvbFJzbUk5UkpVNmN1NGd2MGJI?=
- =?utf-8?B?Y3BUK0Z3Wm42Y3NFR242OThwWFI3bXRGYUI1QUhEeGNyMzduY2hVbWpTQ2Z1?=
- =?utf-8?B?alluWUxJUS9aQ3JOa3RKWEdqMWprclpUUjJuR1pQYTZKbzYzSFZaa3gwQkM5?=
- =?utf-8?B?cU8wS3BEbmxpOUV3ZjAzV3NRSXBzMUdKK3IzWDUrWDhDRGJEUDlVOHdiemtC?=
- =?utf-8?B?dzk2cG1aRTY1clRDdzFsdzBLZXY3eExSWDZ2Ykt3SHJMbGkrTE1xcmtOekNl?=
- =?utf-8?B?V0EvQnBnakszTEM5djQvYkc0VllRdkJZSTNPTzVyMTlxdUFpM1BUMWNhNEo2?=
- =?utf-8?B?cWtrdEtPUHdqM3NXend3Qld6NXhpdzJoRlZhRUpxMVBRVzhVMWdmdHJPTU14?=
- =?utf-8?B?ejY1UGplcmZiVWR1R3RicHU0US9XWkFGejhqRnduNEhyaG53eS83eGZrYU1k?=
- =?utf-8?B?SnpQQVJDMGg0cGRrWFY5WWlTd0JtVVVlam5lWWZNanM2TWtRU3c3Z2Y5amNN?=
- =?utf-8?B?OXRoUTJxRDhPQmdpY0U2dG9sN1ZydzJpRkliR3c3bW1DdjhjV2Y1Z2k4WEJv?=
- =?utf-8?B?SnZaa2FpdlpBdGwwajRDZEFiSkFzdFBYL1g3V3diTGlwVGt3c2hRTkFWRTk3?=
- =?utf-8?B?cEhhQ1JkeWJNRDVvSXpDTEYwa1VQSzVVWnc0TG43MGRGWGNKdlJYZXpscGpv?=
- =?utf-8?B?dXVUSmwvcmJYUWRSTnRwSC9jZldldll3NlA3NDZlTWFOUFNLQUJxTVBBOWRU?=
- =?utf-8?B?Z1ppNFovMTZPbmRnY21rSjZOMUZqZDhMUFc0eW11eXpjd1R2TURKL1dxN09N?=
- =?utf-8?B?YXk5Ukc0OVhpR1BENzdvYjJCYmM5WTlNMUFBRUNQdHlzNEdwMnorNHpoSGtn?=
- =?utf-8?B?UU92Z1dBS1NCcFQxenJGbWp1WHhUODc1bVdzeXVJaFRZbVFFbVdZVkRpMHJO?=
- =?utf-8?B?MGlseG1LNzhmK1Z2QkRISTl0N0ZjeTl0aGMvVnJIdVBrcXZQbmJkWFNBSkNI?=
- =?utf-8?B?VzE1TU01RjRicjBpM2tyd3c1WDFoVWt0bjdaaytUbnJKS25jVHFacHdDTkIr?=
- =?utf-8?B?R3M1YkU3M1ErN3hLbC9wSlRZWVFYUTVGejBKRC85Umc5ZWRhOVVPRU55QWU2?=
- =?utf-8?B?d2Y4SnRaUnJGcVdTbG5Gc2pOOSszTmJ0L1YxdDVHZVR4d1pPVlJPbldRK3lK?=
- =?utf-8?B?ejQ4TmZFRm91cGxqbGxWSWROSHl2bCtBemhld0NoNC9vTk9CQWltdm5mNk9x?=
- =?utf-8?B?VU0xcDd2SDYvRlQyUGFudHExQ0pYSXpqQ1F1aG5KNmZ6bEo2emNjWjltSzV3?=
- =?utf-8?B?OVBBak9VSTVaUFJkM1NRUGY3V1FIMTBiamgxSUd4SmZUVkFlKzZzK1lJVUVF?=
- =?utf-8?B?elk5ci9keEtxZVdIYWdiRERxNCs4cGlxaFY3clBCNlhwZFZZYzkrRUFHUC9s?=
- =?utf-8?Q?lwrwz6VD0MA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1NSK2tJRDhGTHJ5ZlFsUlZ0NEg2ZG5tdmtacmZBQjhpejdWQi80cmMrWHlY?=
- =?utf-8?B?UzBxYjVyV3ZudVFlb0taZ1lhWk9xUzloenpJY3JiZjJEMVRUOTMxVFdCUGpB?=
- =?utf-8?B?TjFucXEyUHBuZ3ovQWdLY1RObkdFVFdqUDRBUnN2T2VPVmFScXpvbHcxb0RQ?=
- =?utf-8?B?N2xxQkNVVjRHV1NtODVRdENlRERkT0lZTlQvOURRbnZVTjFEaG03NjlkejQv?=
- =?utf-8?B?L20reTQ1VWt3VittUjMybmw5T09ySStnd3Y4OVQzNWFhMTA1RFRRaXF2YlVQ?=
- =?utf-8?B?VjBlSjk3YnNPeWx5cDg0dTFZTG9adUhtL3Yxa1R2bVpaeGRWZk9aQkNvZW1u?=
- =?utf-8?B?Q2h3UWxsRUZSTXFETDh5OVBrTTNUU2JmeUNsY0ZKSXEvSnRUUG1LbjE4SENm?=
- =?utf-8?B?YmphQm0zdzhFOGtSVHcwVXJLcWE3K0x2V1dpU2E3SStEQVlLbThvam52cDFH?=
- =?utf-8?B?U0pMa1NydFA2Zy9qUlFiZklzYWg3dGVrcERHbUJYR1V5TG1md2E3TjRjaHJV?=
- =?utf-8?B?cldnYncvMGUzN0RpUXRNSEVpOFMweW8ycVhOSUhoZS9pbWprYnRUcC92dy9H?=
- =?utf-8?B?a1dSbWo4N0oxVldTUjlnSXRMb0dmS3ZpUWNlZm8rU2xYMG1Yek1kUWJEaGF3?=
- =?utf-8?B?TkZIYlNkTEtiZzFGenFUUUx2MEF1Q2tPcFJiNzhCQVBwWGRUZDNrRWk5MDB5?=
- =?utf-8?B?VUsvNWE1blprNTkybEJRRmNUcTMzWlM2elk5TlI0aVFvQnMwSDRoSU9TT3Rh?=
- =?utf-8?B?V0V2Sys3NDF2N2ZWMU80R2lYTXpLaW80dW9nUzhDSjJsbGY5WEEyamJQWHlK?=
- =?utf-8?B?cTBqMFMzSzdIbHpBb3M1YTllUE1oTVNrMW9xck9ZRzAvU1ZCTXlscktiUUVi?=
- =?utf-8?B?dU1qSEpDN3M3MmxUenlVTzFYV2ZKZzJhczQ5Z3RwUE1MOGhGTERFRWVCZlll?=
- =?utf-8?B?K09GVkhIaXNONEVLV2ExaG1oSkNVc3d1dDlLak03a2EvN3hGM0dwTnltejI0?=
- =?utf-8?B?SU4rZEpnVE5oR1ZLbEE4ckdjQUNwMVQvNFVoeDBLb280NElMMmlwQ2s1aUtX?=
- =?utf-8?B?NEtFYUFYcEMwNmpEYXB1MXBGQlZRUzdBVHpaMmVXZTI4c2ZDejNIWi9jeHpj?=
- =?utf-8?B?WUNzN1lRSEEyUUZFVjBGKzdnU1FJTElHaHZFcm9tclJrdlVnSVN5Q1ZtN1k1?=
- =?utf-8?B?eG9UUzRQcm9TT0lmeEt3ajh5ZTN2UFpUNk9ZVldjVjVkeENtN3RuTFNwRUQz?=
- =?utf-8?B?cXZxRGFabzVIYkROaTk4U3NBanhDZnFjTGdIenFFQnJMTUJMZVh0Y3VCSEZQ?=
- =?utf-8?B?Q2RabHpUZ0l5VHR3VzRSVGVVQ05tQ1dwUWE5aGd1UGNkU2o5UVVvMzlsdkhC?=
- =?utf-8?B?eU9iRUxoTUdDMStkVFZ5YWNoMzBxRUdmQU10VDFYWmdhbE4zcWZvRzNHSEFo?=
- =?utf-8?B?QlVHalp2QXBlMFdZZWFNc2FocEdxKy9RSzFjc1dPSXkwSnFMTGdLVVY4NUR0?=
- =?utf-8?B?aEVUWjU4ZnExQXh5VnpDTlpyNG03MG9qbGphMkFmT0hITmpyOHJBSWplT3l3?=
- =?utf-8?B?R1UxbTRjR3VCWFFUdGRncFJXMU01VFVYWjV3MjNxSllxRVRjMTh1TERQL3h0?=
- =?utf-8?B?REVRdGhEV3ZxTXM1bmgwVUF3Q2tHd1hFNFBDa1owUzZTSVM0bmlNMUxjcURO?=
- =?utf-8?B?eFFvS0hhcUh2Zyt3ZDVMSFZMUUtQQWhFTVcyWi9kUjVaWUZNeWRFSFV2M285?=
- =?utf-8?B?d2lCQkdRR0o2dVE4aVhiUCtCclpHRXRub0orQUhDWXk4L3NpUWVHK2l6ZldJ?=
- =?utf-8?B?MFFPT3lrWjhqd0JDQjBESndMUVRsRWlNdWhGVVhWdHpWZHFMTlRpUjZ4Zkd6?=
- =?utf-8?B?WW5WVHYrU1hVN1VGUC9lVktTTkdFTTB3YXJDcU9scS9nZ0ZQNTRTRHB4Sit6?=
- =?utf-8?B?bXZMSGgzUWdPTlFWbDlTemFuSUMwM2FFTWxXdGdFUjA0cGFTZkJtdnl2SUw5?=
- =?utf-8?B?U1ZzQkJsTXp1WHh3M1Mxc2tNRHhVdlI5KzBzVmJhM1o5YXBCUVdCSnpYeTdz?=
- =?utf-8?B?NTNHbkloQnFXR0NwZG4xOTZRN0d2MkhHRmZRQmlEdkhoR25nc1hQNEpFSEpB?=
- =?utf-8?Q?w+0fVFHVuqEHwRC2IM+RlUYlc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea2ed721-8eca-41a5-6328-08dd976e97be
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 07:19:00.6161 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WAYQ7cFDjJ+n+/Sn+TQuidgOkfNzka5/+6Jt9i3AmkEiCEFeQSpgmEEldNbfYsISanS+xKTh7cFmdLGyR2qxmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9186
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250519133345.257138-1-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250519133345.257138-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,144 +120,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
-
-On 5/14/2025 12:23 PM, Danilo Krummrich wrote:
->  I feel like this patch utilizes the Option type way too much and
-> often without actual need. Can you please also double check?
+On 19/05/2025 15:33, Andy Shevchenko wrote:
+> struct device *dev from struct ili9341 is not used anywhere, remove it.
 > 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> index ff39f5dd4097..2b5bd83933e3 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> @@ -173,7 +173,6 @@ struct ili9341_config {
+>   };
+>   
+>   struct ili9341 {
+> -	struct device *dev;
+>   	const struct ili9341_config *conf;
+>   	struct drm_panel panel;
+>   	struct gpio_desc *reset_gpio;
 
-I found one other instance (vbios.fwsec_image). Other than that, all others are
-required AFAICS.
-
->> +
->> +            if cfg!(debug_assertions) {
->> +                // Debugging (dumps the table data to dmesg):
->> +                if let Some(ref mut last_entry_bytes) = last_entry_bytes {
->> +                    last_entry_bytes.push(byte, GFP_KERNEL)?;
->> +
->> +                    let last_entry_bytes_len = last_entry_bytes.len();
->> +                    if last_entry_bytes_len == entry_len {
->> +                        pr_info!("Last entry bytes: {:02x?}\n", &last_entry_bytes[..]);
->
-> Please use dev_dbg!().
->
-
-This required passing down the pdev here, but did that, thanks.
-
->> +                        *last_entry_bytes = KVec::new();
->> +                    }
->> +                }
->> +            }
->> +        }
->> +
->> +        Ok(PmuLookupTable {
->> +            version: data[0],
->> +            header_len: header_len as u8,
->> +            entry_len: entry_len as u8,
->> +            entry_count: entry_count as u8,
->> +            table_data,
->> +        })
->> +    }
->> +
->> +    fn lookup_index(&self, idx: u8) -> Result<PmuLookupTableEntry> {
->> +        if idx >= self.entry_count {
->> +            return Err(EINVAL);
->> +        }
->> +
->> +        let index = (idx as usize) * self.entry_len as usize;
->> +        PmuLookupTableEntry::new(&self.table_data[index..])
->> +    }
->> +
->> +    // find entry by type value
->> +    fn find_entry_by_type(&self, entry_type: u8) -> Result<PmuLookupTableEntry> {
->> +        for i in 0..self.entry_count {
->> +            let entry = self.lookup_index(i)?;
->> +            if entry.application_id == entry_type {
->> +                return Ok(entry);
->> +            }
->> +        }
->> +
->> +        Err(EINVAL)
->> +    }
->> +}
->> +
->> +/// The FwSecBiosImage structure contains the PMU table and the Falcon Ucode.
->> +/// The PMU table contains voltage/frequency tables as well as a pointer to the
->> +/// Falcon Ucode.
->> +impl FwSecBiosImage {
->> +    fn setup_falcon_data(
->> +        &mut self,
->> +        pdev: &pci::Device,
->> +        pci_at_image: &PciAtBiosImage,
->> +        first_fwsec_image: &FwSecBiosImage,
->> +    ) -> Result<()> {
->
-> Just Result will do.
->
-
-Fixed.
-
->> +        let mut offset = pci_at_image.falcon_data_ptr(pdev)? as usize;
->> +
->> +        // The falcon data pointer assumes that the PciAt and FWSEC images
->> +        // are contiguous in memory. However, testing shows the EFI image sits in
->> +        // between them. So calculate the offset from the end of the PciAt image
->> +        // rather than the start of it. Compensate.
->> +        offset -= pci_at_image.base.data.len();
->> +
->> +        // The offset is now from the start of the first Fwsec image, however
->> +        // the offset points to a location in the second Fwsec image. Since
->> +        // the fwsec images are contiguous, subtract the length of the first Fwsec
->> +        // image from the offset to get the offset to the start of the second
->> +        // Fwsec image.
->> +        offset -= first_fwsec_image.base.data.len();
->> +
->> +        self.falcon_data_offset = Some(offset);
->> +
->> +        // The PmuLookupTable starts at the offset of the falcon data pointer
->> +        self.pmu_lookup_table = Some(PmuLookupTable::new(&self.base.data[offset..])?);
->> +
->> +        match self
->> +            .pmu_lookup_table
->> +            .as_ref()
->> +            .ok_or(EINVAL)?
->> +            .find_entry_by_type(FALCON_UCODE_ENTRY_APPID_FWSEC_PROD)
->> +        {
->> +            Ok(entry) => {
->> +                let mut ucode_offset = entry.data as usize;
->> +                ucode_offset -= pci_at_image.base.data.len();
->> +                ucode_offset -= first_fwsec_image.base.data.len();
->> +                self.falcon_ucode_offset = Some(ucode_offset);
->> +                if cfg!(debug_assertions) {
->> +                    // Print the v3_desc header for debugging
->> +                    let v3_desc = self.fwsec_header(pdev.as_ref())?;
->> +                    pr_info!("PmuLookupTableEntry v3_desc: {:#?}\n", v3_desc);
->> +                }
->> +            }
->> +            Err(e) => {
->> +                dev_err!(
->> +                    pdev.as_ref(),
->> +                    "PmuLookupTableEntry not found, error: {:?}\n",
->> +                    e
->> +                );
->> +            }
->> +        }
->> +        Ok(())
->> +    }
->> +
->> +    /// TODO: These were borrowed from the old code for integrating this module
->> +    /// with the outside world. They should be cleaned up and integrated properly.
->
-> Okay, won't review for now then. 🙂
-
-In the next revision, we are removing this TODO and can continue review. :)
-
-thanks,
-
- - Joel
-
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
