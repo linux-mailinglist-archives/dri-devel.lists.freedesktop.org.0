@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A9FABDA87
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 15:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACE4ABDB08
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5CB10E605;
-	Tue, 20 May 2025 13:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1558F10E50F;
+	Tue, 20 May 2025 14:05:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="irkDxLfo";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VspSBnyQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4066B10E5F1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 13:58:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55B310E4CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:05:21 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E47474C;
- Tue, 20 May 2025 15:58:06 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC7952EC;
+ Tue, 20 May 2025 16:04:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1747749486;
- bh=cm5wVB1zkoN7qTN0thweIU/9ukqLpIMprRnoqNWzwd0=;
+ s=mail; t=1747749900;
+ bh=aFjA4hr5J+CI0Kp3gKA3bDQFHu0RiCSC/H0GYSVxbnA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=irkDxLfokkR8JHr7+faQlFKUx6GtK4yylbKoAkYPCZMmIA/D/tsQCxCFOYIYcjan9
- 59yA9y/rRUi8eckwercodkDWcQtxGqS9Oe9jE3zFNaQiIQFkqvRNqT/R0z7z/0hd7U
- q5p4gUp9tqRIO4SnXrNURgGo4u7O/udoVpltWbDk=
-Date: Tue, 20 May 2025 15:58:20 +0200
+ b=VspSBnyQktAx62F++sBRhCIQrHY3QVApCMawDHNAb7OAt+yH+f47X4xsKznjuBxLg
+ +yBhzgWmYYk4Z5svrKbV7gq1ecAEzKOB8Sw2bhyHJUQCXtJfaU9DhLFDT8TybHbgxL
+ jlqbkAGVNh6cpphXkatdqYF8c6XcJRXDP2ciqcro=
+Date: Tue, 20 May 2025 16:05:14 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
@@ -43,15 +43,15 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v5 03/12] drm: renesas: rz-du: mipi_dsi: Add min check
- for VCLK range
-Message-ID: <20250520135820.GC13321@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 04/12] drm: renesas: rz-du: mipi_dsi: Simplify HSFREQ
+ calculation
+Message-ID: <20250520140514.GD13321@pendragon.ideasonboard.com>
 References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512182330.238259-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512182330.238259-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250512182330.238259-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512182330.238259-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,21 +69,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Prabhakar,
 
-On Mon, May 12, 2025 at 07:23:21PM +0100, Prabhakar wrote:
+Thank you for the patch.
+
+On Mon, May 12, 2025 at 07:23:22PM +0100, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> The VCLK range for Renesas RZ/G2L SoC is 148.5 MHz to 5.803 MHz. Add a
-
-I would write "5.803 MHz to 148.5 MHz" as ranges are usually expressed
-in increasing order.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> minimum clock check in the mode_valid callback to ensure that the clock
-> value does not fall below the valid range.
+> Simplify the high-speed clock frequency (HSFREQ) calculation by removing
+> the redundant multiplication and division by 8. The updated equation:
 > 
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>     hsfreq = (mode->clock * bpp) / (dsi->lanes);
+
+You can drop the parentheses around the second factor. You can actuall
+drop all prentheses.
+
+> 
+> produces the same result while improving readability and clarity.
+> 
+> Additionally, update the comment to clarify the relationship between HS
+> clock bit frequency, HS byte clock frequency, and HSFREQ.
+> 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
@@ -97,25 +101,33 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > - No changes
 > 
 > v1->v2:
-> - Added reviewed tag from Biju 
+> - Added Reviewed-by tag from Biju
 > ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 4550c6d84796..ec8baecb9ba5 100644
+> index ec8baecb9ba5..c5f698cd74f1 100644
 > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -584,6 +584,9 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
->  	if (mode->clock > 148500)
->  		return MODE_CLOCK_HIGH;
+> @@ -277,10 +277,10 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	 *       hsclk: DSI HS Byte clock frequency (Hz)
+>  	 *       lanes: number of data lanes
+>  	 *
+> -	 * hsclk(bit) = hsclk(byte) * 8
+> +	 * hsclk(bit) = hsclk(byte) * 8 = hsfreq
+>  	 */
+>  	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -	hsfreq = (mode->clock * bpp * 8) / (8 * dsi->lanes);
+> +	hsfreq = (mode->clock * bpp) / dsi->lanes;
+
+You can drop the parentheses here too.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 >  
-> +	if (mode->clock < 5803)
-> +		return MODE_CLOCK_LOW;
-> +
->  	return MODE_OK;
->  }
->  
+>  	ret = pm_runtime_resume_and_get(dsi->dev);
+>  	if (ret < 0)
 
 -- 
 Regards,
