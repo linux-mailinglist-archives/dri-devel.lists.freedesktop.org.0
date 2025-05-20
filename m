@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90628ABD7F1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 14:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7D6ABD829
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 14:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03AA010E0BF;
-	Tue, 20 May 2025 12:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5598D10E509;
+	Tue, 20 May 2025 12:25:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FjNVV3IF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HfUmK4ms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB1210E0BF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 12:09:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 871894A100;
- Tue, 20 May 2025 12:09:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1407DC4CEE9;
- Tue, 20 May 2025 12:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747742993;
- bh=fVy0/x4yZndAeN03YdmNVuKaiMZZdGzPNITKbbzeS1g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FjNVV3IF1gPVthta/ehZUhGd4FMCgvGQSj8FeYWilDBEtE+vrMH9g7RoUILxqY+pQ
- 0ouCrfbWFvtmrGIVJNxIZcT6xHIp7S7vbeX+TpwJAyZc9AKnMkDf2TW5fdqN0zL7Sp
- +vkzziSalyjl63sCFQocjQuClVaMaMD+ss7MCcbAeFxyt3A/OFpPweVtqALz85/pFL
- 59vg/nc1rJY7/LKtKMU51xkfla+QpEwxYvZVyygpsqX+Pa1jhiAT3we3brLj4AC+qw
- o/pwft2DptgxH2UeGdUaV7I7rJfVHjUJboM8a/dvfPRrEQRUbLY1aMzLi7JmKXRTQ6
- I71ILU4vjGngw==
-Date: Tue, 20 May 2025 14:09:50 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
- Rae Moar <rmoar@google.com>, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
-Message-ID: <20250520-enchanted-spirited-lorikeet-05f0fd@houat>
-References: <20250220132537.2834168-1-mripard@kernel.org>
- <Z_95jWM2YMTGy3pi@arm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8456D10E4CB;
+ Tue, 20 May 2025 12:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747743955; x=1779279955;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=0NHPkCk3tWvkekT2v/09VO9uplyB315so8ejz4VmUj0=;
+ b=HfUmK4msPTLIVaJbplqMeKgM0FczainWYa4KP7IL8kV6oWFeaLHWvvMs
+ PPanC8OVZyG6VC4H7pRiu9KeSUGfoUiXhAI6cOlxm9dCgtdLlVUAXbwGP
+ USDfvL+TM8wG9K47At5Df4fwNSjNzWlRjoCJsMWC0X0NdZXgzo3IsnA6c
+ 2DNfbXNXU7aSRraUUUN8hW/U5kLDFCcVnY/6Agaf1j646/ffdu5UocG1b
+ TLoKpgRUCvcJ3gN2rJK78u7KTGgsMWP3oqhgjPEE9S3HjMaAgo9lndsyU
+ 6vV9dmIX3kNYCTWSZAT4K4++Ju5kOnNG/qcXNTTfxZKQp8PZ1/ikFlE8b w==;
+X-CSE-ConnectionGUID: tQTrhvy7RWCReX7PELLCWA==
+X-CSE-MsgGUID: Hh/qYSEMTw+pHrnl7RmH0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="59905232"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="59905232"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2025 05:25:51 -0700
+X-CSE-ConnectionGUID: wuSkxgcNTaWmaXtuFXZZbQ==
+X-CSE-MsgGUID: CVn6Bo5HS7uNttvZ6aY6pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="140597397"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.168])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2025 05:25:49 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: ville.syrjala@linux.intel.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/dp: Allow HBR3 without TPS4 support for eDP
+ panels
+In-Reply-To: <20250520072023.1661211-1-ankit.k.nautiyal@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250520072023.1661211-1-ankit.k.nautiyal@intel.com>
+Date: Tue, 20 May 2025 15:25:47 +0300
+Message-ID: <87jz6btqno.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="u6r6j7zf67sbxmzv"
-Content-Disposition: inline
-In-Reply-To: <Z_95jWM2YMTGy3pi@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,146 +71,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 20 May 2025, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
+> Commit 584cf613c24a ("drm/i915/dp: Reject HBR3 when sink doesn't support
+> TPS4") introduced a blanket rejection of HBR3 link rate when the sink does
+> not support TPS4. While this was intended to address instability observed
+> on certain eDP panels [1], the TPS4 requirement is only mandated for DPRX
+> and not for eDPRX.
+>
+> This change inadvertently causes blank screens on some eDP panels that do
+> not advertise TPS4 support, and require HBR3 to operate at their fixed
+> native resolution.
+>
+> To restore functionality for such panels do not reject HBR3 when sink
+> doesn't support TPS4. Instead reject HBR3 for specific panel that are
+> not able to handle HBR3 [1].
+>
+> [1] https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/5969
+>
+> Fixes: 584cf613c24a ("drm/i915/dp: Reject HBR3 when sink doesn't support =
+TPS4")
+> Cc: stable@vger.kernel.org
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c |  2 ++
+>  drivers/gpu/drm/i915/display/intel_dp.c | 21 ++++++++++-----------
+>  include/drm/display/drm_dp_helper.h     |  7 +++++++
+>  3 files changed, 19 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
+splay/drm_dp_helper.c
+> index f2a6559a2710..bf66489c9202 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2526,6 +2526,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] =
+=3D {
+>  	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK=
+_EXPANSION_REQUIRES_DSC) },
+>  	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MA=
+X_LINK_RATE */
+>  	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BI=
+T(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
+> +	/* Novatek panel */
+> +	{ OUI(0x38, 0xEC, 0x11), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBR3) =
+},
+>  };
+>=20=20
+>  #undef OUI
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 21297bc4cc00..0bfc84cbd50d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -184,13 +184,13 @@ static int max_dprx_rate(struct intel_dp *intel_dp)
+>  		max_rate =3D drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RA=
+TE]);
+>=20=20
+>  	/*
+> -	 * Some broken eDP sinks illegally declare support for
+> -	 * HBR3 without TPS4, and are unable to produce a stable
+> -	 * output. Reject HBR3 when TPS4 is not available.
+> +	 * Some broken eDP sinks declare support for HBR3 but are unable to
+> +	 * produce a stable output. For these panel reject HBR3.
+>  	 */
+> -	if (max_rate >=3D 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
+> +	if (max_rate >=3D 810000 &&
+> +	    drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_HBR3)) {
 
---u6r6j7zf67sbxmzv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
-MIME-Version: 1.0
+This does work, but I was thinking the quirk would be that the max is
+HBR2. Same thing, but more generic? DP_DPCD_QUIRK_MAX_HBR2 maybe?
 
-Hi Catalin,
+With that, you could drop the max_rate >=3D 810000 from here. (Though the
+next check below does need the rate check as it stops the loop.)
 
-On Wed, Apr 16, 2025 at 10:34:05AM +0100, Catalin Marinas wrote:
-> On Thu, Feb 20, 2025 at 02:25:37PM +0100, Maxime Ripard wrote:
-> > lockdep complains when a lock is released in a separate thread the
-> > lock is taken in, and it turns out that kunit does run its actions in a
-> > separate thread than the test ran in.
-> >=20
-> > This means that drm_kunit_helper_acquire_ctx_alloc() just cannot work as
-> > it's supposed to, so let's just get rid of it.
-> >=20
-> > Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
->=20
-> My scripts for running all possible kunit tests (under arm64 qemu)
-> started failing with 6.15-rc1. I bisected it to commit 30188df0c387
-> ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()"). No idea
-> whether it fails on other architectures but it's fairly easy to
-> reproduce on arm64. Starting from defconfig, enable CONFIG_KUNIT=3Dm and
-> CONFIG_DRM_VC4_KUNIT_TEST=3Dm, build the kernel with gcc. Once a prompt is
-> reached, "modprobe vc4" and the most noticeable thing is the kernel
-> panic with stack protector enabled (by default on arm64):
->=20
->   Kernel panic - not syncing: stack-protector: Kernel stack is corrupted =
-in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4]
->   CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W      =
-  N  6.15.0-rc2 #1 PREEMPT
->   Tainted: [W]=3DWARN, [N]=3DTEST
->   Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
->   Call trace:
->    show_stack+0x18/0x24 (C)
->    dump_stack_lvl+0x60/0x80
->    dump_stack+0x18/0x24
->    panic+0x168/0x360
->    __ktime_get_real_seconds+0x0/0x20
->    vc4_test_pv_muxing_gen_params+0x0/0x94 [vc4]
->    kunit_try_run_case+0x6c/0x160 [kunit]
->    kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
->    kthread+0x12c/0x204
->    ret_from_fork+0x10/0x20
->   SMP: stopping secondary CPUs
->   Kernel Offset: 0x431a85f00000 from 0xffff800080000000
->   PHYS_OFFSET: 0xfff0e8f3c0000000
->   CPU features: 0x0002,00000268,01002640,82004203
->   Memory Limit: none
->   ---[ end Kernel panic - not syncing: stack-protector: Kernel stack is c=
-orrupted in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4] ]---
->=20
-> Scrolling through the log, I also get a lot of warnings before the
-> panic:
->=20
->   WARNING: CPU: 14 PID: 311 at drivers/gpu/drm/drm_modeset_lock.c:296 drm=
-_modeset_lock+0xbc/0xfc [drm]
->   Modules linked in: vc4 snd_soc_hdmi_codec drm_kunit_helpers drm_exec ce=
-c drm_display_helper drm_client_lib drm_dma_helper kunit drm_kms_helper drm=
- backlight dm_mod ip_tables x_tables ipv6
->   CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W      =
-  N  6.15.0-rc2 #1 PREEMPT
->   Tainted: [W]=3DWARN, [N]=3DTEST
->   Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
->   pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->   pc : drm_modeset_lock+0xbc/0xfc [drm]
->   lr : drm_atomic_get_private_obj_state+0x78/0x180 [drm]
->   sp : ffff800080b0bbd0
->   x29: ffff800080b0bbd0 x28: 0000000000000004 x27: ffff170d4829a480
->   x26: ffff170d42968000 x25: ffff170d4829a480 x24: ffff170d40eaf540
->   x23: 0000000000000038 x22: ffff170d42964400 x21: ffff170d4829a480
->   x20: ffff170d42968958 x19: ffff800080b0bd58 x18: 00000000ffffffff
->   x17: 0000000000000000 x16: ffffc31b065888a0 x15: 0000000000000000
->   x14: 0000000000000040 x13: 01e0000002800280 x12: 0000000000000000
->   x11: 0000000000000000 x10: 000001e001e001e0 x9 : 0000000000000020
->   x8 : ffff170d40b70148 x7 : 0000000000000021 x6 : 0000000000000fdf
->   x5 : 0000000000000fdf x4 : 0000000000000004 x3 : ffff170d429688f0
->   x2 : ffff170d40eaf540 x1 : 0000000000000000 x0 : ffff800080b0be10
->   Call trace:
->    drm_modeset_lock+0xbc/0xfc [drm] (P)
->    drm_atomic_get_private_obj_state+0x78/0x180 [drm]
->    vc4_atomic_check+0x47c/0x754 [vc4]
->    drm_atomic_check_only+0x4d4/0x914 [drm]
->    drm_vc4_test_pv_muxing+0xe0/0x2a4 [vc4]
->    kunit_try_run_case+0x6c/0x160 [kunit]
->    kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
->    kthread+0x12c/0x204
->    ret_from_fork+0x10/0x20
->=20
-> Reverting the above commit makes these go away. I did not have time to
-> look deeper, I thought I'd report it here first.
->=20
-> The panic is with gcc 14.2.0 from Debian unstable. I tried with gcc
-> 12.2.0 in Debian stable and I don't get the stack protector panic, only
-> the lock warnings.
->=20
-> With clang 14 and 19, I get NULL pointer dereferences with this call
-> trace (decoded):
->=20
->   Unable to handle kernel NULL pointer dereference at virtual address 000=
-0000000000008
->   [...]
->   drm_modeset_lock (include/linux/list.h:153 include/linux/list.h:169 dri=
-vers/gpu/drm/drm_modeset_lock.c:318 drivers/gpu/drm/drm_modeset_lock.c:396)=
- drm (P)
->   drm_atomic_get_connector_state (drm.mod.c:?) drm
->   vc4_mock_atomic_add_output (drivers/gpu/drm/vc4/tests/vc4_mock_output.c=
-:?) vc4
->   drm_vc4_test_pv_muxing (drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c:=
-688) vc4
->   kunit_try_run_case (lib/kunit/test.c:400) kunit
->   kunit_generic_run_threadfn_adapter (lib/kunit/try-catch.c:31) kunit
->   kthread (kernel/kthread.c:466)
->   ret_from_fork (arch/arm64/kernel/entry.S:863)
->=20
-> I can run more tests if you'd like, decode the stack traces.
+>  		drm_dbg_kms(display->drm,
+> -			    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
+> +			    "[ENCODER:%d:%s] Rejecting HBR3 due to DP_DPCD_QUIRK_HBR3\n",
+>  			    encoder->base.base.id, encoder->base.name);
+>  		max_rate =3D 540000;
+>  	}
+> @@ -4296,15 +4296,14 @@ intel_edp_set_sink_rates(struct intel_dp *intel_d=
+p)
+>=20=20
+>  			if (rate =3D=3D 0)
+>  				break;
+> -
+>  			/*
+> -			 * Some broken eDP sinks illegally declare support for
+> -			 * HBR3 without TPS4, and are unable to produce a stable
+> -			 * output. Reject HBR3 when TPS4 is not available.
+> +			 * Some broken eDP sinks declare support for HBR3 but are unable to
+> +			 * produce a stable output. For these panel reject HBR3.
+>  			 */
+> -			if (rate >=3D 810000 && !drm_dp_tps4_supported(intel_dp->dpcd)) {
+> +			if (rate >=3D 810000 &&
+> +			    drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_HBR3)) {
+>  				drm_dbg_kms(display->drm,
+> -					    "[ENCODER:%d:%s] Rejecting HBR3 due to missing TPS4 support\n",
+> +					    "[ENCODER:%d:%s] Rejecting HBR3 due to DP_DPCD_QUIRK_HBR3\n",
+>  					    encoder->base.base.id, encoder->base.name);
+>  				break;
+>  			}
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/dr=
+m_dp_helper.h
+> index e4ca35143ff9..5e60a37b61ce 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -814,6 +814,13 @@ enum drm_dp_quirk {
+>  	 * requires enabling DSC.
+>  	 */
+>  	DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC,
+> +
+> +	/**
+> +	 * @DP_DPCD_QUIRK_HBR3:
+> +	 *
+> +	 * The device supports HBR3 but is unable to produce stable output.
 
-Sorry I couldn't get to this sooner, and thanks for the awesome report.
+I think DP_DPCD_QUIRK_MAX_HBR2 is easier to explain too.
 
-I've just sent a fix, let me know if it also works for you:
-https://lore.kernel.org/dri-devel/20250520-drm-vc4-kunit-fixes-v1-1-ca281e4=
-85f8e@kernel.org/
+What do you think?
 
-Maxime
+BR,
+Jani.
 
---u6r6j7zf67sbxmzv
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCxxDgAKCRAnX84Zoj2+
-dvJRAYDN5tln1A+fpx7jD9NVXxhZT5/TuqyhABS2uqasQaOapQKhvbsg1xbL1JQ1
-z82sTKcBewZN6z0WvNvhyR0By4RGzNH7jat9q7u2ZRyMZz+ogjr/5luHPAFi1T5G
-OEtlHirWKQ==
-=mHMv
------END PGP SIGNATURE-----
+> +	 */
+> +	DP_DPCD_QUIRK_HBR3,
+>  };
+>=20=20
+>  /**
 
---u6r6j7zf67sbxmzv--
+--=20
+Jani Nikula, Intel
