@@ -2,88 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4E0ABDD78
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A35ABDDA9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468D710E4DF;
-	Tue, 20 May 2025 14:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7624810E4F8;
+	Tue, 20 May 2025 14:47:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xw8XW/D7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="m4biKI6j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A5410E506
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747752131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BUukwfEnSXPmCGvCdBvi67igzNFP2XiJNFPtM3ycw68=;
- b=Xw8XW/D7Yya6mvzUNA6EZfQMTinAlwdDPNvCvrtPb4yLZkfn4yDNzdUFv7A9okjXpHBko8
- mUHwirOrX8/n2GGMIb1cTAy5Dhm3m3mOtwsgMPY1yiNqnIeAJAc108EQ/wVPyTv6sAgG01
- T1qFJJsHqCJxuxljX+27FyXOcp6+hiE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-393-GekqgyheNIeoxOq9aDYDrA-1; Tue, 20 May 2025 10:42:09 -0400
-X-MC-Unique: GekqgyheNIeoxOq9aDYDrA-1
-X-Mimecast-MFC-AGG-ID: GekqgyheNIeoxOq9aDYDrA_1747752129
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43cf172ffe1so43098845e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:42:09 -0700 (PDT)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 229D110E4F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:47:02 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-b26ee6be1ecso3023982a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1747752418; x=1748357218;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G4vJaDxoDG9WGh9CletqNGUQTpz+mcDhT/atRFz9AQ4=;
+ b=m4biKI6jCvP7s1OGosvArHKxyZXlBm76Ntu1x60/FyUN1rsZhshN/UON+A4B0fo2N4
+ DOwsutibbc4lDRkiYj8iWPdXVw21tjoAss4c6NfQu655u7EKll2/xx46CBkyIIdMCBrB
+ HhD59IMiLf6HNCgNUVdV87CvYQh+qCyQ4VcJY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747752128; x=1748356928;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BUukwfEnSXPmCGvCdBvi67igzNFP2XiJNFPtM3ycw68=;
- b=byZ6lTU6vCkoV9pgGZ1QZeSSKlfbT+eixjHB9R+z1Pok6sCPVnVp64ZDUEr8ESZLNz
- iqMk6SOLYctZwOshrEUXm5YygxwF5byqalZCPzAEzVgaJAhyVEIfsu4lyEVDR9QQ7Hd4
- wz+jbn3cl6lLR8sINgTzpPx757FhrSQlgec8ZI8JfoUuzmyhmr3oUbiJwBoRqqm35yXt
- Oqi6gwXAfRD7irEcwLdL7W0pbOUim+XVZJQPSEMLAtTK95EGpiIOVhGzJf7RaEeFVEzB
- 4EENdH9e8jO2lCjV2P3XN4f0s0Zl1jd4VSrD3PxyUV98bWEcrW7JS8CcprT56Flcbo27
- Uwxg==
-X-Gm-Message-State: AOJu0Yy1J0ybdzOB9MiYZekLXarcwPkewoRLEt+60cbALiS+5dTOmJ83
- e433FImrCkZMEXI0gni+9H6XZA1lDAq250uV7FkmePKUkm7W65SwAIyRy6GxEOZHHz5Po43H5gC
- bzdeOfAaFvlqSFJBltmQrJs5UTicGaS9eQq7+NwpJtkrMfEqMi06MdjP5ZFATeWpNUam9EA==
-X-Gm-Gg: ASbGncth8wFZHYRe2XMJoZaBxtjlrNME8/kc1tgBTkwdZMQjvU2O4LqRPv8sxbJv8JO
- 1GdCr8D0lcK1bCYoNcnSVRphnX4JgY+ZR1ohdyWgsQPda3byXNNJyw1tIbCq71H8ec3kjGBq2t0
- Mg3c48wYWPnnB+oiN37ApsMW+lD43Gpbk2jPubr0/6+YziAuL50q3sbEHyyT6LIvJ+qBMHHosq2
- GJzPESpVgNhrc0TyK+aKXrGAvxTqX+IIt3gMGYTMuwLr3J7INbNH5pT5/DfEUwr7aZC8v90ozwy
- GtaUZGLmu/aETxn2ltC3BPN+t26PDaQl47Ka/BsDjNiPl5ItitGm1qE7lJkmK7MeNl5Y8Q==
-X-Received: by 2002:a05:600c:1e1c:b0:43c:fffc:7855 with SMTP id
- 5b1f17b1804b1-442feffb6damr179864185e9.15.1747752128639; 
- Tue, 20 May 2025 07:42:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNEuQwcOFxv9bPRsE9EPoajonwSbszaR/pW3Z0ORoLRovxfk8Z15ual0SZVnipzIpeRyHUvA==
-X-Received: by 2002:a05:600c:1e1c:b0:43c:fffc:7855 with SMTP id
- 5b1f17b1804b1-442feffb6damr179863805e9.15.1747752128231; 
- Tue, 20 May 2025 07:42:08 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca8874bsm16831518f8f.67.2025.05.20.07.42.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 May 2025 07:42:07 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Geert
- Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] drm/sitronix: Remove broken backwards-compatibility
- layer
-In-Reply-To: <20395b14effe5e2e05a4f0856fdcda51c410329d.1747751592.git.geert+renesas@glider.be>
-References: <20395b14effe5e2e05a4f0856fdcda51c410329d.1747751592.git.geert+renesas@glider.be>
-Date: Tue, 20 May 2025 16:42:06 +0200
-Message-ID: <87msb7ny2p.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20230601; t=1747752418; x=1748357218;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=G4vJaDxoDG9WGh9CletqNGUQTpz+mcDhT/atRFz9AQ4=;
+ b=hA7k49451gEPxCT9tatisGj6hyswUhJAl4HCPjrPdJpZIi4wVqRWrqCxm0fLoHk7c8
+ jCp485QJF/96jZh31/R9ZP2zLCQXxGuEDckeqqH/zStfDSBH4XA4V7C5vbPE5fJlBOv6
+ mwHEciwvjZly4Uz7lUK+JAJJNCIM3bwt8Tah8pbkMrzO9LnL+CxKXiD4KGeftnQG/C17
+ LWipw8M53AG7boUoMBt784YrBxMqShf0byzROhabNJuHeFSNfoOv2UeuMgzPAJRHlv4q
+ Pq46UHnKUJqM3l+qbfFB2BvvnX1YBtE7Qb6/62ba0jxauUfMJmKi63afP4G9/EVGOULy
+ /MJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVdjIqtd670Vmqyh5iiDr+BzHRHaMPkRqmkVtCbntF2eDlbfgxzXtXqmjBy8IxnHqzSh2zd1/Qb9Pc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUfKdxXYCICFQvGrvsqGAA/33xscEXz3NvOfln0Ciz0ADHhdRJ
+ MArY77RttlU0aBId48Wt3UgPeFg4KaywuTSylTHrYJTC6iZ9kZ3m8yzdV1zwqKVnEhvz3AddPcu
+ G31k=
+X-Gm-Gg: ASbGncuEpwTJp756A4dunY6bgLhMvO6ExO5cHX9uvz/Rkj5rUGEbQR5NWlk7m4up3Rn
+ Hve9VVogcgasSOnVvgaK/qUNvY+2q66g7b9JDkb1j4W/EhaprC+qKes2kccSkUg2YRcS9La0f06
+ qB8WV9tClisiN8lkm+TdrVHc/OIouADOUt4n73bI6LlXSruH5kBCii/cBmqcut8729bbx7g4GTG
+ nqdalHfIRoKLdXcxbC/TkopPizRc6Rh6HeSDvYqvvShiqaSzASHJmmLcs2UPIda4BzzdxqPI1IP
+ WobEdccKEwsiHJRlYRajWt5rgM2VOzROMtNSb8WC4JQSyb5oAwTxBqVmlztkhpgJ61KHzYitHIv
+ uPBS2TPpzK/uVj3SgErg=
+X-Google-Smtp-Source: AGHT+IE/VKYbeXKZx8E38mkA3nxmO4HGcsSGIuw5atGPIt57aBzcIft9Qp6ZJN2CnhJey82Szlesxw==
+X-Received: by 2002:a17:903:1988:b0:21b:d2b6:ca7f with SMTP id
+ d9443c01a7336-231de3ada46mr218560215ad.32.1747752418430; 
+ Tue, 20 May 2025 07:46:58 -0700 (PDT)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com.
+ [209.85.215.172]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b26eaf70df5sm8067323a12.28.2025.05.20.07.46.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 May 2025 07:46:56 -0700 (PDT)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-b26ee6be1ecso3023863a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:46:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzfWUx/Gyx2wUQCLM6+azzJQuHUSGAc9sQAHz14j0ZvMgBH8RvSkvB+YjsqJl5RUZJJeHXnepNkyU=@lists.freedesktop.org
+X-Received: by 2002:a17:902:ea05:b0:223:f9a4:3fa8 with SMTP id
+ d9443c01a7336-231de36a90cmr233267205ad.19.1747752415759; Tue, 20 May 2025
+ 07:46:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LFVXlSQAojgQUv8tMXFUIbLr_y7sSymj-qNhm_37ERc_1747752129
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20250520124332.71705-1-ernest.vanhoecke@toradex.com>
+In-Reply-To: <20250520124332.71705-1-ernest.vanhoecke@toradex.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 20 May 2025 07:46:43 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vwu=Oy_HA3Noj0bLX_GcqHLnrRd6kTRZFe0R7Z8-JD2Q@mail.gmail.com>
+X-Gm-Features: AX0GCFviZ27GtZgXi5xqwESNlGLrxUC3PhVAhYxJBxB4B6ZFxbz3vrPQhk_NcqI
+Message-ID: <CAD=FV=Vwu=Oy_HA3Noj0bLX_GcqHLnrRd6kTRZFe0R7Z8-JD2Q@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/panel-edp: Add support for AUO G156HAN03.0 panel
+To: ernestvanhoecke@gmail.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,30 +106,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+Hi,
 
-Hello Geert,
-
-> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
-> the old symbols were kept, aiming to provide a seamless migration path
-> when running "make olddefconfig" or "make oldconfig".
+On Tue, May 20, 2025 at 5:43=E2=80=AFAM <ernestvanhoecke@gmail.com> wrote:
 >
-> However, the old compatibility symbols are not visible.  Hence unless
-> they are selected by another symbol (which they are not), they can never
-> be enabled, and no backwards compatibility is provided.
+> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
 >
-> Drop the broken mechanism and the old symbols.
+> AUO G156HAN03.0 EDID:
 >
-> Fixes: 9b8f32002cddf792 ("drm/sitronix: move tiny Sitronix drivers to their own subdir")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 00 ff ff ff ff ff ff 00 06 af ed 30 00 00 00 00
+> 1a 1c 01 04 a5 22 13 78 02 05 b5 94 59 59 92 28
+> 1d 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 78 37 80 b4 70 38 2e 40 6c 30
+> aa 00 58 c1 10 00 00 18 00 00 00 0f 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 20 00 00 00 fe 00 41
+> 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+> 00 47 31 35 36 48 41 4e 30 33 2e 30 20 0a 00 bb
+>
+> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
 > ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
--- 
-Best regards,
+Pushed to drm-misc-next:
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+[1/1] drm/panel-edp: Add support for AUO G156HAN03.0 panel
+      commit: a4b4e3fd536763b3405c70ef97a6e7f9af8a00dc
