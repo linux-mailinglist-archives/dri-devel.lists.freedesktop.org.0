@@ -2,113 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE04ABD278
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 10:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66190ABD362
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 11:31:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A808F10E440;
-	Tue, 20 May 2025 08:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1CC310E44B;
+	Tue, 20 May 2025 09:31:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VDX78YsA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IXBc2pGq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44C310E440
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 08:57:07 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-441d1ed82dbso53784375e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 01:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747731426; x=1748336226; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=pA6QLGwRrJdjtu/QYKul6KHwTkpIcoSd75MMlyAB2zA=;
- b=VDX78YsA2aig/I8HGCh1iMehv2iCc06kmv0kbybkoRduCIg5sUDkzGvGTtLNL/4QNV
- k9YY5JsqGmkOf5x1Ubb27WMtFqQ6obWHjeG+R1kJqVxH44wI1oCGy36Jz8TDxvqYBctA
- u432OCUnWCw0falXy/Qk+tJXaMljkR+C/1qWypUgCaU9ajHse+WdfTkqkVd/LwzENKtn
- 9nrbmgDCPxHSl32Jo/VT6P45IX0Gv6u3gaHx8EvYSyQ3zOl/VDvsD2Nk8xjcoZ2mlaAW
- jbv0MSlLS08FVneyVbN/Aj9Htv/6IGUt4I8Zr2Wwxbe6YjGCm51WadmTIAhq/2Yc6e4z
- V7qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747731426; x=1748336226;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=pA6QLGwRrJdjtu/QYKul6KHwTkpIcoSd75MMlyAB2zA=;
- b=pYYHeHWeIQO21qE1On6eCEEpUmyKvUo4FXHI4vJ9rBKv3urH6Q448Fx9bDM/W7Vhcu
- 4MkZxoy9EYTWinQlHdorR9rR65rUT6+bBte98zJKIOfpcIeyZVAB3I7mhwrnXPjqAA4o
- F2uUkg4WyBdGynHw8/Vrrcp3pX+0zMTAnJBb72eBfq/wsgOXNH/ylMTWkxXvbrjKrZro
- 4EwlRdhwayELKPAMpqOAo0T+fRExax5E+sXu/V0j6DQWTJJMlFDtkzD0mDeqeBjRSfiJ
- gkGXca4I64uRXcb5w4wJtJTYI9ltOFZvUhJ07z/cOX+fwOvGnvWMO3YDyIg7CPvoXGBE
- borg==
-X-Gm-Message-State: AOJu0YyZiOWYrRlBJ6fCIGbq4X+yh1mUXsQD1mi70VPHGX3rtxVh6Px8
- +bcx8crqC+LBPcJW4EF+S1maLzkdkOcoKuBQ+CFRtvBcc1Ow9a7V7XVYiKsQnfeG0yc=
-X-Gm-Gg: ASbGncvnsl//tfTpAPB/c0NhdY4HN3rzlv6FDDsUGfjsvcLGY3kFb2JSntZuQo/SUGu
- sOTKv1ZFwHNtJQBO/wrktGYgVWNOL9Tw8E9YGhCFB3ReHF0wWBbr+IVew68RDyn2c9pkQm4zq2d
- qjZolwJkISwQ7JwszmC5FcmBZzH+F5ex45Ctb0b1crkKA6KcoiNeUNH2E5G43HgfmIKMEHGG0B9
- pL9t5FumA2G60ND+wU0f5y+28p3dRyRiktZ7kmisOb6rixiUOJOmxzot4w4kkpLzEeSrtlMbJ51
- VrU4AvUQRegl42CJBUi8aWXOZ3UKcT5C4h85puENkEfhdRJ0Q6s2fe748P/4LQry74Oj1rWq3an
- kh6Cu3E4gRZ21ETB/OX2r8HlA+inT
-X-Google-Smtp-Source: AGHT+IFbtVVMSZ+fpznQMGHkKUKbSTe4C1qJjVDbXUGkHv0z1uMwtIjTYIadxx/YhwGJBwF3TwZwOw==
-X-Received: by 2002:a05:600c:8288:b0:43c:efed:733e with SMTP id
- 5b1f17b1804b1-442fd6102cdmr142540875e9.14.1747731426327; 
- Tue, 20 May 2025 01:57:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68?
- ([2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442ebd6fe86sm184664845e9.0.2025.05.20.01.57.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 May 2025 01:57:06 -0700 (PDT)
-Message-ID: <405accea-0b4c-4891-9022-425ddc886902@linaro.org>
-Date: Tue, 20 May 2025 10:57:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] drm/panel-simple: add AUO P238HAN01 panel entry
-To: Michael Walle <mwalle@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C55410E44B;
+ Tue, 20 May 2025 09:31:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 931D4A4C865;
+ Tue, 20 May 2025 09:30:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E36C4CEE9;
+ Tue, 20 May 2025 09:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747733459;
+ bh=jcb4aPAbKPsWRg6KidM3qub1Bb9HpbBNOe12kNEXwSU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IXBc2pGqp+VVik11Y7jfvML+CkrotItGRoxjZZGTMo5og35cO210IyMChrOKrfY7c
+ dysWNOqI39ZDurXZ9RHWc/LOhAm3EQIcmorx05+Z6zWEDRKFwFMiK7xRvH8kCgDwJU
+ X9x/X4UVhK9JqYuFF1ed3w4IAtuMM+T9wwNcKCIFkg5UcK/qsYlBkDLUBnoCKHaFj6
+ FGxxEPzdpyH2O4HYQXhq/Fn5b50S297R9OaR7SkYtCeEpdio2q16uw3/ooM1QLkAVi
+ ONhWUU9/6Lnup0BcTlsA4fIbqCTRj4QQZQSxFVA+8itV+AZbiTGzB47zWPXnk7qLMh
+ UwdOgr9LG2HeA==
+Date: Tue, 20 May 2025 11:30:51 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250520074439.655749-1-mwalle@kernel.org>
- <20250520074439.655749-2-mwalle@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250520074439.655749-2-mwalle@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Shirish Baskaran <sbaskaran@nvidia.com>
+Subject: Re: [PATCH v3 16/19] nova-core: Add support for VBIOS ucode
+ extraction for boot
+Message-ID: <aCxLyxcERNHKzfvI@cassiopeiae>
+References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
+ <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com>
+ <aCN_PIYEEzs73AqT@pollux>
+ <4fee85be-a8c5-4a99-8397-c93e79d72d15@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4fee85be-a8c5-4a99-8397-c93e79d72d15@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,84 +72,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/05/2025 09:44, Michael Walle wrote:
-> Timings taken from the datasheet and the display is working in DE mode,
-> thus the datasheet only specifies the blanking period. sync, back porch
-> and front porch are arbitrarily chosen.
+On Tue, May 20, 2025 at 03:55:06AM -0400, Joel Fernandes wrote:
+> On 5/13/2025 1:19 PM, Danilo Krummrich wrote:
+> > On Wed, May 07, 2025 at 10:52:43PM +0900, Alexandre Courbot wrote:
+> >> @@ -238,6 +239,8 @@ pub(crate) fn new(
+> >>  
+> >>          let _sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
+> >>  
+> >> +        let _bios = Vbios::new(pdev, bar)?;
+> > 
+> > Please add a comment why, even though unused, it is important to create this
+> > instance.
+> > 
+> > Also, please use `_` if it's not intended to ever be used.
 > 
-> The datasheet can be found at [1] but for reference these are the
-> relevant timings:
-> 
->   sym  |              | min  | typ  | max  | unit |
-> ------|--------------+------+------+------+------+
->     Tv | V period     | 1094 | 1130 | 1836 | Th   |
->        | V active     | 1080 | 1080 | 1080 | Th   |
->        | V blanking   |   14 |   50 |  756 | Th   |
->     Fv | V frequency  |   49 |   60 |   76 | Hz   |
->     Th | H period     | 1000 | 1050 | 1678 | Tclk |
->        | H active     |  960 |  960 |  960 | Tclk |
->        | H blanking   |   40 |   90 |  718 | Tclk |
->     Fh | H frequency  | 53.7 | 67.8 | 90.0 | kHz  |
->   Tclk | LVDS clock   | 53.7 | 71.2 | 90.0 | MHz  |
-> 
-> Keep in mind that this is a dual link LVDS panel and the horizontal
-> timings are only for one half of the panel.
-> 
-> [1] https://www.fortec-integrated.de/fileadmin/pdf/produkte/TFT-Displays/AUO/P238HAN01.0_Datasheet.pdf
-> 
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 0a3b26bb4d73..47222d2d8129 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1268,6 +1268,30 @@ static const struct panel_desc auo_g190ean01 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->   };
->   
-> +static const struct display_timing auo_p238han01_timings = {
-> +	.pixelclock = { 107400000, 142400000, 180000000 },
-> +	.hactive = { 1920, 1920, 1920 },
-> +	.hfront_porch = { 30, 70, 650 },
-> +	.hback_porch = { 30, 70, 650 },
-> +	.hsync_len = { 20, 40, 136 },
-> +	.vactive = { 1080, 1080, 1080 },
-> +	.vfront_porch = { 5, 19, 318 },
-> +	.vback_porch = { 5, 19, 318 },
-> +	.vsync_len = { 4, 12, 120 },
-> +};
-> +
-> +static const struct panel_desc auo_p238han01 = {
-> +	.timings = &auo_p238han01_timings,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 527,
-> +		.height = 296,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct display_timing auo_p320hvn03_timings = {
->   	.pixelclock = { 106000000, 148500000, 164000000 },
->   	.hactive = { 1920, 1920, 1920 },
-> @@ -4938,6 +4962,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "auo,g190ean01",
->   		.data = &auo_g190ean01,
-> +	}, {
-> +		.compatible = "auo,p238han01",
-> +		.data = &auo_p238han01,
->   	}, {
->   		.compatible = "auo,p320hvn03",
->   		.data = &auo_p320hvn03,
+> If I add a comment, it will simply be removed by the next patch. I can add that
+> though so it makes it more clear.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+I recommend to add such comments, because then reviewers don't stumble over it.
+:-)
+
+> >> +impl Vbios {
+> >> +    /// Probe for VBIOS extraction
+> >> +    /// Once the VBIOS object is built, bar0 is not read for vbios purposes anymore.
+> >> +    pub(crate) fn new(pdev: &pci::Device, bar0: &Bar0) -> Result<Vbios> {
+> >> +        // Images to extract from iteration
+> >> +        let mut pci_at_image: Option<PciAtBiosImage> = None;
+> >> +        let mut first_fwsec_image: Option<FwSecBiosImage> = None;
+> >> +        let mut second_fwsec_image: Option<FwSecBiosImage> = None;
+> >> +
+> >> +        // Parse all VBIOS images in the ROM
+> >> +        for image_result in VbiosIterator::new(pdev, bar0)? {
+> >> +            let full_image = image_result?;
+> >> +
+> >> +            dev_info!(
+> > 
+> > Let's use dev_dbg!() instaed.
+> 
+> Done.
+> 
+> > 
+> >> +                pdev.as_ref(),
+> >> +                "Found BIOS image: size: {:#x}, type: {}, last: {}\n",
+> >> +                full_image.image_size_bytes()?,
+> >> +                full_image.image_type_str(),
+> >> +                full_image.is_last()
+> >> +            );
+> >> +
+> >> +            // Get references to images we will need after the loop, in order to
+> >> +            // setup the falcon data offset.
+> >> +            match full_image {
+> >> +                BiosImage::PciAt(image) => {
+> >> +                    pci_at_image = Some(image);
+> >> +                }
+> >> +                BiosImage::FwSec(image) => {
+> >> +                    if first_fwsec_image.is_none() {
+> >> +                        first_fwsec_image = Some(image);
+> >> +                    } else {
+> >> +                        second_fwsec_image = Some(image);
+> >> +                    }
+> >> +                }
+> >> +                // For now we don't need to handle these
+> >> +                BiosImage::Efi(_image) => {}
+> >> +                BiosImage::Nbsi(_image) => {}
+> >> +            }
+> >> +        }
+> >> +
+> >> +        // Using all the images, setup the falcon data pointer in Fwsec.
+> >> +        // We need mutable access here, so we handle the Option manually.
+> >> +        let final_fwsec_image = {
+> >> +            let mut second = second_fwsec_image; // Take ownership of the option
+> >> +
+> >> +            if let (Some(second), Some(first), Some(pci_at)) =
+> >> +                (second.as_mut(), first_fwsec_image, pci_at_image)
+> >> +            {
+> >> +                second
+> >> +                    .setup_falcon_data(pdev, &pci_at, &first)
+> >> +                    .inspect_err(|e| {
+> >> +                        dev_err!(pdev.as_ref(), "Falcon data setup failed: {:?}\n", e)
+> >> +                    })?;
+> >> +            } else {
+> >> +                dev_err!(
+> >> +                    pdev.as_ref(),
+> >> +                    "Missing required images for falcon data setup, skipping\n"
+> >> +                );
+> >> +                return Err(EINVAL);
+> > 
+> > This means that if second == None we fail, which makes sense, so why store an
+> > Option in Vbios? All methods of Vbios fail if fwsec_image == None.
+> > 
+> 
+> Well, if first and pci_at are None, we will fail as well. Not just second. But
+> we don't know until we finish parsing all the images in the prior loop, if we
+> found all the images. So we store it as Option during the prior loop, and check
+> it later. Right?
+
+My point is not that second is an option within this function -- that's fine. I
+don't want the Vbios type to store an Option, because that doesn't make sense.
+I.e. it should be
+
+	struct Vbios {
+	   fwsec_image: FwSecBiosImage,
+	}
+
+or just
+
+	struct Vbios(FwSecBiosImage);
+
+which is the same, rather than
+
+	struct Vbios {
+	   fwsec_image: Option<FwSecBiosImage>,
+	}
+
+because Vbios::new() fails anyways if any of the images is None, i.e.
+vbios.fwsec_image can't ever be None.
+
+The code below does that for you, i.e. it returns an instance of Vbios without
+the inner Option.
+
+> >> +            }
+> >> +            second
+> >> +        };
+> > 
+> > I think this should be:
+> > 
+> > 	let mut second = second_fwsec_image;
+> > 	
+> > 	if let (Some(second), Some(first), Some(pci_at)) =
+> > 	    (second.as_mut(), first_fwsec_image, pci_at_image)
+> > 	{
+> > 	    second
+> > 	        .setup_falcon_data(pdev, &pci_at, &first)
+> > 	        .inspect_err(|e| {
+> > 	            dev_err!(pdev.as_ref(), "Falcon data setup failed: {:?}\n", e)
+> > 	        })?;
+> > 	
+> > 	    Ok(Vbios(second)
+> > 	} else {
+> > 	    dev_err!(
+> > 	        pdev.as_ref(),
+> > 	        "Missing required images for falcon data setup, skipping\n"
+> > 	    );
+> > 	
+> > 	    Err(EINVAL)
+> > 	}
+> > 
+> > where Vbios can just be
+> > 
+> > 	pub(crate) struct Vbios(FwSecBiosImage);
+> 
+> But your suggestion here still considers second as an Option? That's why you
+> wrote 'Some(second)' ?
+
+Yes, that's fine, see above. The difference is that the code returns you an
+instance of
+
+	struct Vbios(FwSecBiosImage);
+
+rather than
+
+	struct Vbios {
+	   fwsec_image: Option<FwSecBiosImage>,
+	}
+
+which is unnecessary.
+
+> 
+> > 
+> >> +
+> >> +        Ok(Vbios {
+> >> +            fwsec_image: final_fwsec_image,
+> >> +        })
+> >> +    }
+> >> +
+> >> +    pub(crate) fn fwsec_header(&self, pdev: &device::Device) -> Result<&FalconUCodeDescV3> {
+> >> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
+> >> +        image.fwsec_header(pdev)
+> >> +    }
+> >> +
+> >> +    pub(crate) fn fwsec_ucode(&self, pdev: &device::Device) -> Result<&[u8]> {
+> >> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
+> >> +        image.fwsec_ucode(pdev, image.fwsec_header(pdev)?)
+> >> +    }
+> >> +
+> >> +    pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> Result<&[u8]> {
+> >> +        let image = self.fwsec_image.as_ref().ok_or(EINVAL)?;
+> >> +        image.fwsec_sigs(pdev, image.fwsec_header(pdev)?)
+> >> +    }
+> > 
+> > Those then become infallible, e.g.
+> > 
+> > 	pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> &[u8] {
+> > 	    self.0.fwsec_sigs(pdev, self.fwsec_header(pdev))
+> > 	}
+> > 
+> 
+> Nope, I think you are wrong there. fwsec_sigs() of the underlying .0 returns a
+> Result.
+
+That's true, I confused self.fwsec_sigs() with self.0.fwsec_sigs(). It seems
+that you may want to implement Deref for Vbios.
+
+Also, can you please double check the Options in FwSecBiosImage (in case we
+didn't talk about them yet)? They look quite suspicious too.
+
+In general, I feel like a lot of those Option come from a programming pattern
+that is very common in C, i.e. allocate a structure (stack or heap) and then
+initialize its fields.
+
+In Rust you should aim to initialize all the fields of a structure when you
+create the instance. Option as a return type of a function is common, but it's
+always a bit suspicious when there is an Option field in a struct.
+
+I understand that there are cases where we can't omit it, and for obvious
+reasons the Vbios code is probably a perfect example for that.
+
+However, I recommend looking at this from top to bottom: Do the "final"
+structures that we expose to the driver from the Vbios module have fields that
+are *really* optional? Or is the Option type just a result from the parsing
+process?
+
+If it's the latter, we should get rid of it and work with a different type
+during the parsing process and then create the final instance that is exposed to
+the driver at the end.
+
+For instance FwSecBiosImage is defined as:
+
+	pub(crate) struct FwSecBiosImage {
+	    base: BiosImageBase,
+	    falcon_data_offset: Option<usize>,
+	    pmu_lookup_table: Option<PmuLookupTable>,
+	    falcon_ucode_offset: Option<usize>,
+	}
+
+Do only *some* FwSecBiosImage instances have a falcon_ucode_offset?
+
+If the answer is 'no' then it shouldn't be an Option. If the answer is 'yes',
+then this indicates that FwSecBiosImage is probably too generic and should be
+split into more specific types of a FwSecBiosImage which instead share a common
+trait in order to treat the different types generically.
+
+> Also in Vbios::new(), I extract the Option when returning:
+> 
+>         Ok(Vbios {
+>             fwsec_image: final_fwsec_image.ok_or(EINVAL)?,
+>         })
+
+Maybe you do so in your tree? v3 of the patch series has:
+
+	pub(crate) struct Vbios {
+	   pub fwsec_image: Option<FwSecBiosImage>,
+	}
+
+and
+
+	Ok(Vbios {
+	   fwsec_image: final_fwsec_image,
+	})
