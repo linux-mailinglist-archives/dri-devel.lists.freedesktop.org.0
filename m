@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CE5ABD4A0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 12:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF52BABD4A1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 12:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9393210E4A5;
-	Tue, 20 May 2025 10:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD6610E4B0;
+	Tue, 20 May 2025 10:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B6110E1C0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 10:27:28 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43cfe63c592so60006155e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 03:27:28 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4CFE10E4A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 10:27:29 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-442fda876a6so36007215e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 03:27:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747736847; x=1748341647;
+ d=1e100.net; s=20230601; t=1747736848; x=1748341648;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PXhoVUi0+m1gZCgJKohaV7IW2GiBpameMIg/gICe73c=;
- b=jrQAmPAMt4wBNUjPy+o9+Xb0nO0eBESPDMravhsBmJQQR92SEjBsNNVUE5aFUn6OZk
- VNiw/cHSRJ7nrB6idpPcOc/QYEwnoCfrAya5UCCLWekSHmNaIIIEI0kCN6sr8Cou26Dm
- a4XirtSlmbQjetg00NYBs9rEsbEJSfeWlHWHXKWpNYFc4O01tl7nRFOZILz/de0fO3z4
- kkmjk/8PMsr6P7KftMbtXexxRJyGWLkYYM2wQSjbpoM1mF6FuFpL9r3MGnFOj56Ae23c
- GJ8IJW2UtPEDAp1pZAmJ/0Lo4q+oA7hJTNVUwmUG7Ul+0vynI1W4AL26Gyj/Va0gwCYR
- tMdA==
+ bh=laEkWWVQjQ2oI3CZqHqG5uO1wLsoJjXKyEWBV14uYNg=;
+ b=amG32+pU4ttk4kH6AxRpTFK/CTmI441wcjSveMh1Esszm6PBlP2CMi66ZhXGWPZIp6
+ 2IZ1zuHNaUQxlwH0VrzDQvtlEAPWv2ohKgyD4yrqRSlqgcYE8JxRDgOrJ541AHtx98sR
+ pC1fsGe6wKHE7RGWQX4UkFvocKvhAKcd0REeElI56Vvj9mmqoCbYd4Fit2ZJy2TPawYw
+ GROTEKAQArxAB+YUjaCzGIzuCdI60PL3g/IDTN/Vg10R75TjpftkwKqtnqZHzv6jzXyl
+ zCgj3ThrGfN3a/w+lNSAtSVTSTcVRf3TkfYDwkwf+M3k0BllXreqQYGeXEtwyNutmNEc
+ 41Uw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+nbmjfVoM4oHnrOzSD9LLgduvxvmBJ+OJKwHYqxFf5+0gqtpHQrLzPiP7RbOW+XPkq/G1rTl9u2A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxNscJtJSVfORTvsxUxXAb43GFc0Xc/eso+y6oacs9NLtI2oyhy
- zZpXv0QfrLWDXiwJDHQXKr4QYVrf/byhgFKL1L03owdTs93fyf2j/Hx5
-X-Gm-Gg: ASbGnctk5LCGX/o9YPfPY85k8X6+aFPIz/sR7s8Ic7WLdFqtrF04YaXEz1A9nNhzbDD
- ddoZ79NVu6nIBqIrCiiZBs77C/bCoiWHCO8JoAD5H3d2BhGmhnwMpmuRNJLjqoBaM04horvGCaV
- diTFaQTXvNC1sDL0PM/v1GP5ItLTTJZEtcUMGq3uAMa6AHCUDSyPOks0i2PA4+oRx1z4Bd4reZh
- 6WaB3wc/wxGIQNSsFJhnHE3T+fzL0ER8/FSSP9EdrvGIsSjz8+Vqj0m8tp65+FKoVDBRmbwAKac
- SsvI+2NehzwFx8OVAv3UwoMkt8EH5BZ5uKMxsw+D23mdd7MXbqKWBf8qSj5pormSy0wedP73zwG
- wmR+CLSAENA==
-X-Google-Smtp-Source: AGHT+IHv94G5hkxtUwn1EnqN1XVOVVJksOTAOYoYtlVyJF0D9UTpIdTOo1WTTeXt5HNCSsUqmuSgjw==
-X-Received: by 2002:a05:600c:1d8d:b0:43c:f44c:72a6 with SMTP id
- 5b1f17b1804b1-442fd60a41cmr168843945e9.2.1747736846693; 
- Tue, 20 May 2025 03:27:26 -0700 (PDT)
+ AJvYcCWpkJDchJdSSdwz//mxyS8O8OPdz5Xpy/xY2IMeyGGJoGuv/RiEXJy6AeQdzIOxkQjW/TZlTkIQZmA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0DXO3qvmyeAn432Hj78l94UDT9M929qtPzxyG4hmOyb9evdB0
+ vhq0WHobiqsm+FA3l5S2YbJL3aaBUTH6FrzbKZbDOMY2bEZcea1v6ZOh
+X-Gm-Gg: ASbGncvwY6d/SPJ8iqhcQFjCuLP/eDSQ28BgBTKk0pnjzC9OBNAW3Ykmefkik/jFRBd
+ SDsx+ekneEsheyX6t1VH7qRX9mkVYOHHD8GHT4FHAzLvRuG51GgFyKk7MGpWVjLpTNM/1ogQIJc
+ J7PUa6mvxGlg4AWWAqdk6Tr4eEaJr1gUa5Z3Va5ckmuuJ5jmGbmr/9Tnoeq5cBVmfjofoBbB96r
+ PCM23zvMp8TwYPnmYJvbvT5Zifg9RBC578drRIdgI45L3iauLI2FyEuhtbcgpbwaCM2Dzfcw+9J
+ DGH+RAwvm6N0aWYPhzFmVrsVmbzO8U2xW7ptBP4DPX1V7o2C9crF109LVKFt/lWAxh5Lbo4wjdC
+ iqHWBNCIKIw==
+X-Google-Smtp-Source: AGHT+IE5Bxm/E8r67kmDtvflrTA0WsP6FuXs0GnBPgIeKU2e5T6lT8BURuMuEsuYnHCevSt98CcBpQ==
+X-Received: by 2002:a05:600c:6806:b0:43c:fb95:c76f with SMTP id
+ 5b1f17b1804b1-442fd618ee7mr138062635e9.9.1747736848247; 
+ Tue, 20 May 2025 03:27:28 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-447f73d3defsm24680025e9.18.2025.05.20.03.27.25
+ 5b1f17b1804b1-447f73d3defsm24680025e9.18.2025.05.20.03.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 May 2025 03:27:26 -0700 (PDT)
+ Tue, 20 May 2025 03:27:27 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Tue, 20 May 2025 12:26:54 +0200
-Subject: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Date: Tue, 20 May 2025 12:26:55 +0200
+Subject: [PATCH v5 02/10] arm64: dts: rockchip: Add nodes for NPU and its
+ MMU to rk3588s
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net>
+Message-Id: <20250520-6-10-rocket-v5-2-18c9ca0fcb3c@tomeuvizoso.net>
 References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
 In-Reply-To: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -88,189 +89,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the bindings for the Neural Processing Unit IP from Rockchip.
+See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
+
+This is a derivative of NVIDIA's NVDLA, but with its own front-end
+processor.
+
+The IP is divided in three cores, programmed independently. The first
+core though is special, requiring to be powered on before any of the
+others can be used.
+
+The IOMMU of the first core is also special in that it has two subunits
+(read/write?) that need to be programmed in sync.
 
 v2:
-- Adapt to new node structure (one node per core, each with its own
-  IOMMU)
-- Several misc. fixes from Sebastian Reichel
+- Have one device for each NPU core (Sebastian Reichel)
+- Have one device for each IOMMU (Sebastian Reichel)
+- Correctly sort nodes (Diederik de Haas)
+- Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
 
 v3:
-- Split register block in its constituent subblocks, and only require
-  the ones that the kernel would ever use (Nicolas Frattaroli)
-- Group supplies (Rob Herring)
-- Explain the way in which the top core is special (Rob Herring)
+- Adapt to a split of the register block in the DT bindings (Nicolas
+  Frattaroli)
 
 v4:
-- Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
-- Remove unneeded items: (Krzysztof Kozlowski)
-- Fix use of minItems/maxItems (Krzysztof Kozlowski)
-- Add reg-names to list of required properties (Krzysztof Kozlowski)
-- Fix example (Krzysztof Kozlowski)
+- Adapt to changes in bindings
 
-v5:
-- Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-- Streamline compatible property (Krzysztof Kozlowski)
-
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 85 +++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43c4b8250cdd1b9ee86
---- /dev/null
-+++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-@@ -0,0 +1,147 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 1e18ad93ba0ebdad31642b88ff0f90ef4e8dc76f..f5e58851047e80b23f9ff3244692ad868ddc1ff6 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -1136,6 +1136,91 @@ power-domain@RK3588_PD_SDMMC {
+ 		};
+ 	};
+ 
++	rknn_core_top: npu@fdab0000 {
++		compatible = "rockchip,rk3588-rknn-core-top";
++		reg = <0x0 0xfdab0000 0x0 0x1000>,
++		      <0x0 0xfdab1000 0x0 0x1000>,
++		      <0x0 0xfdab3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>,
++			 <&cru ACLK_NPU0>, <&cru HCLK_NPU0>;
++		clock-names = "aclk", "hclk", "npu", "pclk";
++		assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++		assigned-clock-rates = <200000000>;
++		resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPUTOP>;
++		iommus = <&rknn_mmu_top>;
++		status = "disabled";
++	};
 +
-+title: Neural Processing Unit IP from Rockchip
++	rknn_mmu_top: iommu@fdab9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdab9000 0x0 0x100>,
++		      <0x0 0xfdaba000 0x0 0x100>;
++		interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPUTOP>;
++		status = "disabled";
++	};
 +
-+maintainers:
-+  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
++	rknn_core_1: npu@fdac0000 {
++		compatible = "rockchip,rk3588-rknn-core";
++		reg = <0x0 0xfdac0000 0x0 0x1000>,
++		      <0x0 0xfdac1000 0x0 0x1000>,
++		      <0x0 0xfdac3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
++		clock-names = "aclk", "hclk";
++		resets = <&cru SRST_A_RKNN1>, <&cru SRST_H_RKNN1>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPU1>;
++		iommus = <&rknn_mmu_1>;
++		status = "disabled";
++	};
 +
-+description:
-+  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
-+  open source NVDLA IP.
++	rknn_mmu_1: iommu@fdac9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdaca000 0x0 0x100>;
++		interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPU1>;
++		status = "disabled";
++	};
 +
-+  There is to be a node per each core in the NPU. In Rockchip's design there
-+  will be one core that is special and needs to be powered on before any of the
-+  other cores can be used. This special core is called the top core and should
-+  have the compatible string that corresponds to top cores.
++	rknn_core_2: npu@fdad0000 {
++		compatible = "rockchip,rk3588-rknn-core";
++		reg = <0x0 0xfdad0000 0x0 0x1000>,
++		      <0x0 0xfdad1000 0x0 0x1000>,
++		      <0x0 0xfdad3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU2>, <&cru HCLK_NPU2>;
++		clock-names = "aclk", "hclk";
++		resets = <&cru SRST_A_RKNN2>, <&cru SRST_H_RKNN2>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPU2>;
++		iommus = <&rknn_mmu_2>;
++		status = "disabled";
++	};
 +
-+properties:
-+  $nodename:
-+    pattern: '^npu@[a-f0-9]+$'
++	rknn_mmu_2: iommu@fdad9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdada000 0x0 0x100>;
++		interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU2>, <&cru HCLK_NPU2>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPU2>;
++		status = "disabled";
++	};
 +
-+  compatible:
-+    enum:
-+      - rockchip,rk3588-rknn-core-top
-+      - rockchip,rk3588-rknn-core
-+
-+  reg:
-+    maxItems: 3
-+
-+  reg-names:
-+    items:
-+      - const: pc
-+      - const: cna
-+      - const: core
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: hclk
-+      - const: npu
-+      - const: pclk
-+    minItems: 2
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+  npu-supply: true
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 2
-+
-+  reset-names:
-+    items:
-+      - const: srst_a
-+      - const: srst_h
-+
-+  sram-supply: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - iommus
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - npu-supply
-+  - sram-supply
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - rockchip,rknn-core-top
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 4
-+
-+        clock-names:
-+          minItems: 4
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - rockchip,rknn-core
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 2
-+        clock-names:
-+          maxItems: 2
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/rk3588-power.h>
-+    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-+
-+    bus {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      npu@fdab0000 {
-+        compatible = "rockchip,rk3588-rknn-core-top";
-+        reg = <0x0 0xfdab0000 0x0 0x1000>,
-+              <0x0 0xfdab1000 0x0 0x1000>,
-+              <0x0 0xfdab3000 0x0 0x1000>;
-+        reg-names = "pc", "cna", "core";
-+        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-+        assigned-clock-rates = <200000000>;
-+        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-+                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-+        clock-names = "aclk", "hclk", "npu", "pclk";
-+        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-+        iommus = <&rknn_mmu_top>;
-+        npu-supply = <&vdd_npu_s0>;
-+        power-domains = <&power RK3588_PD_NPUTOP>;
-+        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-+        reset-names = "srst_a", "srst_h";
-+        sram-supply = <&vdd_npu_mem_s0>;
-+      };
-+    };
-+...
+ 	vpu121: video-codec@fdb50000 {
+ 		compatible = "rockchip,rk3588-vpu121", "rockchip,rk3568-vpu";
+ 		reg = <0x0 0xfdb50000 0x0 0x800>;
 
 -- 
 2.49.0
