@@ -2,91 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4255CABDFF9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 18:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CB0ABE049
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 18:15:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF0A10E011;
-	Tue, 20 May 2025 16:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3638F10E518;
+	Tue, 20 May 2025 16:15:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GZMOJ1kd";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="aK7rnonF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
- [209.85.166.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C3210E011;
- Tue, 20 May 2025 16:07:18 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id
- ca18e2360f4ac-85b3f92c8f8so559037139f.1; 
- Tue, 20 May 2025 09:07:18 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F9C10E568
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 16:15:41 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43cfdc2c8c9so34983515e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 09:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747757238; x=1748362038; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lIlNhHqv93GvQWrqGB3ZPQbb3QiLFh5pTwSkFYPcNvg=;
- b=GZMOJ1kdF6ETlWZMba42S/KqGO8cnCsMkEpXBF4Tf0UAXQQ4IyOLVsVvyvK+rNs9rm
- MkJ1Ea592U4SgAqZOaPEhOUl1WKOfIaviuxe1Z59i+nETrQdZugh/dMx7n4FZiPUCzeZ
- MN4QGj+VnJ8lVM5QC51/0MBEnFohKS1xiHPH9+qkOhlnMNdmpCV/vvA4HJluvMgaYPNZ
- yI2NTH9JkFtZlxXenTU5TmoLbnXJxEByCe5SWSY/vthqfaPvPhDznO+X2LyqsU1tNBxC
- +MZ9+tpcCUxxPHcBaniRnzyNdHM+B4DHyRElVvUgnKBapIq5+mU1NTh1+za4396rSQBM
- SJfw==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747757740; x=1748362540;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=s8CzE081NADV7dJH88t6emjucLeu/93WMG3ve6ghEMo=;
+ b=aK7rnonFoGPqPXvVB6EDM3jaNrIJPNzIRw5+bPQXsVQzFtsJTSZlcOcdAnA+9xoSxz
+ q+bj/X+kG6yGTazaMkDh5r+3JKZXZ56vT9vPfBiVxmv/eRFZuyao5pM0U1fViJH+1Yfd
+ NVfArcN4Yjtj+OvZy9Q4j3YDtFjpmGDv9o0VgAhK9XMz2nCZ65E7QX2qnj9QkgANxGnv
+ PzbXhc22oaUzABGkZvGM2MwnHsSFi3mUcswYgIyLQ4dQgjCrFODumN8WpE1JnOyzNthw
+ OKLj+HsD3A/gWPxOlnPOqzD/YGCZY7Z6msWiNL3n1G3sgyNoqsxVeRTknOD2KYAb+K+t
+ Do5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747757238; x=1748362038;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lIlNhHqv93GvQWrqGB3ZPQbb3QiLFh5pTwSkFYPcNvg=;
- b=O7zjBH2qho1TLUTT2PqPYWTEsuYRBgbS+XHlHUPVSUtxT8q6QuDD7qxIqniMubs3/A
- ZGNtJvUaaArUwhFGA2qJfu7M1RnyaflX2BvdWRLvsV4GaMaIQBU7jG3HPC9ZYFZ1E766
- 0FuBRrrnk12sSfM6LLfahsdwey2CU6lLEp/Hv2zyf3II8HbvoM1QT4C5OHnvrPQg9UMW
- z6xWT3FXAsm1ToF7nm+zTVL7Kdpl01GgzoXuiSMSoYzJvdILSDd+WD1Fdd622TIr0C4B
- u7Yy1xSqWjrj/9/Fxu/QlbYyUW18QuZ1f3VpKdPHeJf3yKYc8PRJCyKrVi2kRrncEF7/
- 8fhw==
+ d=1e100.net; s=20230601; t=1747757740; x=1748362540;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s8CzE081NADV7dJH88t6emjucLeu/93WMG3ve6ghEMo=;
+ b=sa9xhQ+s9FpU3aCS2pu2pshKmmYscvMA/42P4ykmJjeh421g6X6GjsQu9pR81ahS23
+ SmoGjanzyNkKNo20G3cFE9tyWGF/Hkf55WN6S/OPuAZx3HZiII4nGCbh/9zxWrO0zdAi
+ 7qC3DheDd2lz8VOmzRh4atKUM+iTQuzT9RYcqWpJn+WuQvvuPUgq29Qf1eDjKAnQUVj1
+ X6Gr8Bqa1kdRaGkT5Sd0mS1h7VydEQq1gciA43aPt2eVi9KmAmlboBLyh0Qck2GDLDMb
+ GpFw1GYVyAqSxBWAJjEYFX88ILTWn4dtUpL9toXDise8rilMlHtiZWBS5/y7sMXya8Bq
+ +Ilg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUkSBf/ZF8mCIVCL6dVxATsQ2rEkirRZawesJYrx8DKSvSpA6dzEMu4yWEx+FmiwTEy3yFQax0hMlM=@lists.freedesktop.org,
- AJvYcCWxgjENP1BZUtM5F8RPwWBpY/Om3DGXhF6/hrQNdEQ0iBWesIu7wiS7p2A1cyE3Rdxji/c3za03ASDG@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRPI6qE40PcF+uIoZtqjfodR6awT6IhwXm8WoX+HFx1MtRjJDC
- v+YIKYMBbUgf6iZ9YvylhrhDWzxLB1PBkGZGwXgPNQbbx8Q8zZhY8Kf4Dr++4dPIjjeG8AjoA+w
- 19tWn0PmOnvtE4WxZA5OyIfVViGlhxsQ=
-X-Gm-Gg: ASbGncsdG+8s5fUPaluNapwFGlHEgW25LGgIJabnpyNACdt8IdW4QsI6oRcgTyq7y9o
- T+ZS+xyAaP3gS0so2Sw0MGo1BB+j/MLFFgc9kKw/m4o10d+5PbwO1xcJzdFi012DLpGv0zLxnA0
- rHVoqYKJiaQUtqQ95V9J2idsJJGifkf4orevpUJxdmvjDxtPXvNqPJcBJ2N6EiMlA=
-X-Google-Smtp-Source: AGHT+IFKjqLjdxKN137jXayMzSnHUHC3u3SlHWSxPDUnqzAx/6aHZ9mgDTFP7BV1sTPkWNww7XgabgYxTfCrrozjj6s=
-X-Received: by 2002:a05:6602:4186:b0:85c:c7f9:9a1c with SMTP id
- ca18e2360f4ac-86a23283c78mr2385708639f.13.1747757237853; Tue, 20 May 2025
- 09:07:17 -0700 (PDT)
+ AJvYcCVnIFvBlAOCxGL1RCKQKazRvJCAIKHbnFlMSN3WoCa25Fp8bzHEUyEbfy19hlXqC8+uuAlvjFihdBE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzN6419O8Ejzlu6cdRxqmGyc0fMjeVpe/d3piXTUrOVM6fIpJDy
+ mun6PJxTJSbudeOE43PNCQB8rFAEWFekizC7YkohxFrKBvA33aG7ncL6kpAQ4jjm4hs=
+X-Gm-Gg: ASbGncuHZ9dN6UHPV1ubaSa2IcdgMxxyOiTFZAEJr3hSxOlyR/Ha+utTBTLwQ9gt4wn
+ UoMkiLQ3ZtnaRTZRnyRw8uvu7x4RpEcWHHH77irZTNdaddz6CYc1aWRzKz2BY5Gjrp0M8m3XMX7
+ Kg19E+8jvQVTL2F6tCJM4QpkJI2ZpRT2/WC8NeNKq4nGL7iq/S2LxRQjhpOehnS9YZ49pNIUeYT
+ 0lSmeITKFAX7/jDJqfLIAUPQLpaquoNNAUWNfQb7vvKWiwHe78EkWM15zaH8ToQS+Szxo5Nwy4e
+ PUKu1DiTIQbuNirA/E9g4M11NH4vgJpvjtoHcfJzuQmCfhwZpXWvhW5OBGKDVIrrEA==
+X-Google-Smtp-Source: AGHT+IHUXReM0aaWZWNtVQf19kLqYU2YN2wS194+mWwuidtrxnfYosa7PXJImeea4E8/iehtft0Y0w==
+X-Received: by 2002:a05:600c:3e88:b0:43d:94:2d1e with SMTP id
+ 5b1f17b1804b1-442fd627303mr166341735e9.13.1747757739460; 
+ Tue, 20 May 2025 09:15:39 -0700 (PDT)
+Received: from [192.168.0.101] ([81.79.92.254])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442ffaa75cfsm100927495e9.1.2025.05.20.09.15.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 May 2025 09:15:38 -0700 (PDT)
+Message-ID: <8b975d5f-eafd-4b25-8629-69fd71dcd4d9@ursulin.net>
+Date: Tue, 20 May 2025 17:15:38 +0100
 MIME-Version: 1.0
-References: <20250514170118.40555-1-robdclark@gmail.com>
- <20250514170118.40555-5-robdclark@gmail.com>
- <51f87f358fa1b7ef8db8b67ee6cde38ae071fbe8.camel@mailbox.org>
- <CAJs_Fx771FFVDVFMn8YJkR9f9Ad-UQspJ9KKQw4u6Cu4TA7YPA@mail.gmail.com>
- <CACu1E7EL+E-M0N-EAN9Bx7u9O6_pECQQdPE2ph575idhVb2Szg@mail.gmail.com>
- <aCYkk4Y7feltfp79@pollux>
- <CAF6AEGsoG_W3A3+BHV4n5EKZQazFubrCyfrtxVUH7+H4-j7i5A@mail.gmail.com>
- <aCY42rgJC4sQ4tp4@pollux>
- <CAF6AEGubHkdhfJz=bAZvctO1aTKDLwRsRyPzkoVrQ7tA6dRbKw@mail.gmail.com>
- <aCwqAGLLCC2ZLSBK@pollux>
-In-Reply-To: <aCwqAGLLCC2ZLSBK@pollux>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 20 May 2025 09:07:05 -0700
-X-Gm-Features: AX0GCFuJB8HyZPWl9Jg_jf4wMyFY6rVV8-Xlv-hqm4CZrVysg_4nnA4WGO4qoKc
-Message-ID: <CAF6AEGspvuTHU0t9z__p_HkdRNi=cXir3t453AbR6DFNzDpgvw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- phasta@kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- open list <linux-kernel@vger.kernel.org>, 
- Boris Brezillon <boris.brezillon@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/sched: add drm_sched_prealloc_dependency_slots v3
+To: phasta@kernel.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org, amd-gfx@lists.freedesktop.org
+References: <20250515150038.4615-1-christian.koenig@amd.com>
+ <20250515150038.4615-2-christian.koenig@amd.com>
+ <a5e53b34-c247-4193-b4ab-551693ad089a@ursulin.net>
+ <5c93f114a58e84796f239b9e0f4a13e9c223e45b.camel@mailbox.org>
+ <6e5ab077-77ff-443b-b345-7d99fcd01a73@ursulin.net>
+ <6a361f21-1ba2-4084-b85c-0db30c9b01cc@ursulin.net>
+ <fc617b712c5937c02be89f7ba068ce0de1512027.camel@mailbox.org>
+ <01cce810-7303-4c92-b138-d8a647f3dcee@ursulin.net>
+ <a36fdcf31fa0ca7d9e1a24f60ba4c5bf78c7ae87.camel@mailbox.org>
+ <da8cfddf-6cb9-4ddd-9345-16d065663d4b@ursulin.net>
+ <25363de0e88f750fe70a7b7629113f93f12f47e7.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <25363de0e88f750fe70a7b7629113f93f12f47e7.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,153 +101,309 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 20, 2025 at 12:06=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
- wrote:
->
-> On Thu, May 15, 2025 at 12:56:38PM -0700, Rob Clark wrote:
-> > On Thu, May 15, 2025 at 11:56=E2=80=AFAM Danilo Krummrich <dakr@kernel.=
-org> wrote:
-> > >
-> > > On Thu, May 15, 2025 at 10:40:15AM -0700, Rob Clark wrote:
-> > > > On Thu, May 15, 2025 at 10:30=E2=80=AFAM Danilo Krummrich <dakr@ker=
-nel.org> wrote:
-> > > > >
-> > > > > (Cc: Boris)
-> > > > >
-> > > > > On Thu, May 15, 2025 at 12:22:18PM -0400, Connor Abbott wrote:
-> > > > > > For some context, other drivers have the concept of a "synchron=
-ous"
-> > > > > > VM_BIND ioctl which completes immediately, and drivers implemen=
-t it by
-> > > > > > waiting for the whole thing to finish before returning.
-> > > > >
-> > > > > Nouveau implements sync by issuing a normal async VM_BIND and sub=
-sequently
-> > > > > waits for the out-fence synchronously.
-> > > >
-> > > > As Connor mentioned, we'd prefer it to be async rather than blockin=
-g,
-> > > > in normal cases, otherwise with drm native context for using native
-> > > > UMD in guest VM, you'd be blocking the single host/VMM virglrender
-> > > > thread.
-> > > >
-> > > > The key is we want to keep it async in the normal cases, and not ha=
-ve
-> > > > weird edge case CTS tests blow up from being _too_ async ;-)
-> > >
-> > > I really wonder why they don't blow up in Nouveau, which also support=
- full
-> > > asynchronous VM_BIND. Mind sharing which tests blow up? :)
-> >
-> > Maybe it was dEQP-VK.sparse_resources.buffer.ssbo.sparse_residency.buff=
-er_size_2_24,
->
-> The test above is part of the smoke testing I do for nouveau, but I haven=
-'t seen
-> such issues yet for nouveau.
 
-nouveau is probably not using async binds for everything?  Or maybe
-I'm just pointing to the wrong test.
+On 19/05/2025 10:04, Philipp Stanner wrote:
+> On Mon, 2025-05-19 at 09:51 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 16/05/2025 18:16, Philipp Stanner wrote:
+>>> On Fri, 2025-05-16 at 15:30 +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 16/05/2025 14:38, Philipp Stanner wrote:
+>>>>> On Fri, 2025-05-16 at 13:10 +0100, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 16/05/2025 12:53, Tvrtko Ursulin wrote:
+>>>>>>>
+>>>>>>>
+> 
+> [snip]
+> 
+>>>>>>>>>> +
+>>>>>>>>>> +/**
+>>>>>>>>>> + * drm_sched_job_add_prealloc_dep - add dependency
+>>>>>>>>>> to
+>>>>>>>>>> preallocated
+>>>>>>>>>> slot
+>>>>>>>>>> + * @job: scheduler job where dependencies will be
+>>>>>>>>>> added
+>>>>>>>>>> + * @id: the preallocated slot index
+>>>>>>>>>> + * @fence: the dependency to add
+>>>>>>>>>> + *
+>>>>>>>>>> + * Consumes @fence and adds it to the preallocated
+>>>>>>>>>> slot
+>>>>>>>>>> dependency.
+>>>>>>>>>> + */
+>>>>>>>>>> +void drm_sched_job_add_prealloc_dep(struct
+>>>>>>>>>> drm_sched_job
+>>>>>>>>>> *job, u32
+>>>>>>>>>> id,
+>>>>>>>>>> +                    struct dma_fence *fence)
+>>>>>>>>>> +{
+>>>>>>>>>> +    fence = xa_store(&job->dependencies, id, fence,
+>>>>>>>>>> GFP_ATOMIC);
+>>>>>>>>>
+>>>>>>>>> Add assert that the passed id exists (was preallocated)
+>>>>>>>>> and
+>>>>>>>>> is
+>>>>>>>>> NULL?
+>>>>>>>>
+>>>>>>>> You
+>>>>>>>
+>>>>>>> Hm?
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Also, if someone preallocates and does not consume the
+>>>>>>>>> slot
+>>>>>>>>> will that
+>>>>>>>>> confuse the iteration in drm_sched_job_dependency()?
+>>>>>>>>
+>>>>>>>> drm_sched_job_add_dependency() you mean.
+>>>>>>>
+>>>>>>> I was actually thinking of drm_sched_job_dependency()
+>>>>>>> because
+>>>>>>> that
+>>>>>>> looked it would skip dependencies upon encountering an
+>>>>>>> unconsumed
+>>>>>>> preallocated slot, but yes, drm_sched_job_add_dependency()
+>>>>>>> could
+>>>>>>> explode
+>>>>>>> even earlier if adding a normal dependency after
+>>>>>>> preallocating
+>>>>>>> a
+>>>>>>> slot.
+>>>>>>>
+>>>>>>>> Yes, it would. All operations simply give you NULL for
+>>>>>>>> those
+>>>>>>>> slots. So
+>>>>>>>> seems to me you have to check for NULL wherever a
+>>>>>>>> preallocated
+>>>>>>>> slot
+>>>>>>>> might drop out. That would then be a bug.
+>>>>>>>>
+>>>>>>>> It's kind of tricky, all that. It's a pity that Wilcox
+>>>>>>>> didn't
+>>>>>>>> answer
+>>>>>>>> our questions about the idiomatic way to do it.
+>>>>>>>>
+>>>>>>>> Maybe reserving slots with already signaled fences wasn't
+>>>>>>>> such a
+>>>>>>>> bad
+>>>>>>>> idea after all?
+>>>>>>>>
+>>>>>>>> If we go for the NULL approach, it's probably the only
+>>>>>>>> sane
+>>>>>>>> way
+>>>>>>>> to then
+>>>>>>>> check for NULL wherever dependencies are accessed :(
+>>>>>>>>
+>>>>>>>> Opinions?
+>>>>>>>
+>>>>>>> Well if the xarray API returns the NULL consistently the
+>>>>>>> approach
+>>>>>>> from
+>>>>>>> this patch is fine I think.
+>>>>>>>
+>>>>>>> We just need to add two more checks to the above mentioned
+>>>>>>> functions,
+>>>>>>
+>>>>>> I need to correct myself, drm_sched_job_dependency() wouldn't
+>>>>>> be
+>>>>>> able
+>>>>>> to
+>>>>>> just skip NULLs since it relies on NULL for "no more
+>>>>>> dependencies".
+>>>>>> We
+>>>>>> would need to track something like job->max_dependency and
+>>>>>> terminate
+>>>>>> on
+>>>>>> job->last_dependency > job->max_dependency or so.
+>>>>>
+>>>>> Agreed, that would have to be fixed.
+>>>>>
+>>>>> I believe we should reconsider Christian's first idea [1].
+>>>>>
+>>>>> Thinking about it some more:
+>>>>>     * With the NULL version, suddenly the xarray containing only
+>>>>> valid
+>>>>>       dependencies can sometimes contain NULL entries.
+>>>>>     * If we could create our own tag, entries could be returned
+>>>>> that
+>>>>> were
+>>>>>       neither NULL nor valid fences, also requiring checks
+>>>>> 'everywhere'.
+>>>>>     * Only the "signaled fence as prealloc reservation" approach
+>>>>> is
+>>>>> fully
+>>>>>       backwards compatible and will never cause anyone to block
+>>>>> after
+>>>>>       later reworks.
+>>>>>
+>>>>> So maybe it's actually the best idea?
+>>>>>
+>>>>> Sorry for the zigg-zagg. No hard requirements intended from my
+>>>>> side,
+>>>>> I'm willing to go with what you guys think.
+>>>>>
+>>>>> Just saying, at least now I think that the already-signaled
+>>>>> fence
+>>>>> seems
+>>>>> the most elegant solution. And since there's a function
+>>>>> (dma_fence_get_stub()) for that, it seems to be in alignment
+>>>>> with
+>>>>> official dma_fence rules.
+>>>>
+>>>> Potential problem there was dma_fence_is_signaled() and fence
+>>>> signaling
+>>>> annotations. In case some driver is holding a lock over the
+>>>> arm+push
+>>>> pair. I wish we had a non-signaling is_signaled helper..
+>>>>
+>>>
+>>> Yes! +1!
+>>>
+>>> But Christian doesn't like that direction:
+>>>
+>>> https://lore.kernel.org/all/20250409120640.106408-2-phasta@kernel.org/
+>>
+>> Thanks, I read this but ended up uncertain on the conclusion.
+>>
+>> For instance Christian at the end comments like this:
+>>
+>> """
+>> You can test the flag if you know what the fence means to you, that
+>> is
+>> not a problem at all.
+>> """
+>>
+>> That was in the context of testing the signaled bit without
+>> opportunistic signaling.
+>>
+>> For me, from the scheduler dependencies side, that should exactly
+>> apply.
+>> Scheduler knows it does not need to add a signaled fence to the dep
+>> array so AFAICS it is fine to skip it. And it may easily be
+>> opportunistic signaling ends up a problem for the scheduler.
+>>
+>> So maybe such helper would be okay after all.
+> 
+> The thing is that, if I understand him correctly, Christian doesn't
+> want a helper. He wants "us" to just use test_bit().
 
-> > but I might be mixing that up, I'd have to back out this patch and see
-> > where things blow up, which would take many hours.
->
-> Well, you said that you never had this issue with "real" workloads, but o=
-nly
-> with VK CTS, so I really think we should know what we are trying to fix h=
-ere.
->
-> We can't just add new generic infrastructure without reasonable and *well
-> understood* justification.
+I suspected it may be only about not renaming into some variant of 
+check_and_signal etc. With which I agree with, that the name should be 
+left alone, because...
 
-What is not well understood about this?  We need to pre-allocate
-memory that we likely don't need for pagetables.
+> My point is just that dma_fence_is_signaled() is a horrible name.
 
-In the worst case, a large # of async PAGE_SIZE binds, you end up
-needing to pre-allocate 3 pgtable pages (4 lvl pgtable) per one page
-of mapping.  Queue up enough of those and you can explode your memory
-usage.
+... as dodgy as it is, and despite me also failing to really understand 
+the reason why it _has_ to be have opportunistic signaling, I think 
+those semantics are by now pretty much ingrained into people dealing 
+with this API so I would leave it as is.
 
-> > There definitely was one where I was seeing >5k VM_BIND jobs pile up,
-> > so absolutely throttling like this is needed.
->
-> I still don't understand why the kernel must throttle this? If userspace =
-uses
-> async VM_BIND, it obviously can't spam the kernel infinitely without runn=
-ing
-> into an OOM case.
+What I was thinking was the double underscore version of the helper and 
+some kerneldoc to say when it is safe to use. For me a helper is better 
+than poking directly.
 
-It is a valid question about whether the kernel or userspace should be
-the one to do the throttling.
+> The function pci_is_enabled() tells you whether the PCI device is
+> enabled. What it doesn't do is
+> 
+> bool pci_is_enabled(pdev)
+> {
+>     if (crazy_callback_is_implemented()) {
+>        pci_enable_device();
+>        return true;
+>     }
+> 
+>    ...
+> }
+> 
+> It's not intuitive that a function called "{something}_is_signaled()"
+> does signal that thing. Although I get that the syntactical idea
+> probably is that from the GPUs POV the fence is already signaled when
+> this or that seqno has been reached.
+> 
+> Anyways, judging aside, if a wrapper for test_bit(dma_fence) were
+> acceptable, then it would need to steal dma_fence_is_signaled()'s name,
+> and dma_fence_is_signaled() would have to get a new name. Which is
+> precisely what was rejected, as I see it.
 
-I went for doing it in the kernel because the kernel has better
-knowledge of how much it needs to pre-allocate.
+__dma_fence_is_signaled() is what I would do and leave the existing one 
+as is.
 
-(There is also the side point, that this pre-allocated memory is not
-charged to the calling process from a PoV of memory accounting.  So
-with that in mind it seems like a good idea for the kernel to throttle
-memory usage.)
+Regards,
 
-> But let's assume we agree that we want to avoid that userspace can ever O=
-OM itself
-> through async VM_BIND, then the proposed solution seems wrong:
->
-> Do we really want the driver developer to set an arbitrary boundary of a =
-number
-> of jobs that can be submitted before *async* VM_BIND blocks and becomes
-> semi-sync?
->
-> How do we choose this number of jobs? A very small number to be safe, whi=
-ch
-> scales badly on powerful machines? A large number that scales well on pow=
-erful
-> machines, but OOMs on weaker ones?
+Tvrtko
 
-The way I am using it in msm, the credit amount and limit are in units
-of pre-allocated pages in-flight.  I set the enqueue_credit_limit to
-1024 pages, once there are jobs queued up exceeding that limit, they
-start blocking.
+>> Or if the concern is helper might encourage some potentially unsafe
+>> usage, in that case it should come with kerneldoc describing. It is
+>> not
+>> like review is guaranteed to catch someone using test_bit directly
+>> anyway so for me, on balance, helper is always better.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>
+>>
+>>
+>>>
+>>> P.
+>>>
+>>>>
+>>>>
+>>>
+>>>
+>>>>
+>>>>
+>>>> Anyway, I think both options are passable. I even like the NULL
+>>>> entry
+>>>> slightly more since it is simpler in a way and I don't mind some
+>>>> extra
+>>>> checks completely hidden in scheduler internals.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>>
+>>>>>
+>>>>> Philipp
+>>>>>
+>>>>>
+>>>>> [1]
+>>>>> https://lore.kernel.org/all/20250318120313.19099-2-christian.koenig@amd.com
+>>>>> /
+>>>>>
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Tvrtko
+>>>>>>
+>>>>>>> some more unit tests probably to make sure, and that should
+>>>>>>> be
+>>>>>>> fine
+>>>>>>> for
+>>>>>>> now.
+>>>>>>>
+>>>>>>> On the bikeshedding front I would perhaps suggest:
+>>>>>>>
+>>>>>>>      - drm_sched_job_preallocate_dependency()
+>>>>>>>      - drm_sched_job_replace_dependency()
+>>>>>>>
+>>>>>>> Reads a little bit more aligned with the rest of the API
+>>>>>>> and a
+>>>>>>> bit
+>>>>>>> easier on the eyes, to my eyes at least.
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>>
+>>>>>>> Tvrtko
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
 
-The number of _jobs_ is irrelevant, it is # of pre-alloc'd pages in flight.
-
-> I really think, this isn't the correct solution, but more a workaround.
->
-> > Part of the VM_BIND for msm series adds some tracepoints for amount of
-> > memory preallocated vs used for each job.  That plus scheduler
-> > tracepoints should let you see how much memory is tied up in
-> > prealloc'd pgtables.  You might not be noticing only because you are
-> > running on a big desktop with lots of RAM ;-)
-> >
-> > > > > > But this
-> > > > > > doesn't work for native context, where everything has to be
-> > > > > > asynchronous, so we're trying a new approach where we instead s=
-ubmit
-> > > > > > an asynchronous bind for "normal" (non-sparse/driver internal)
-> > > > > > allocations and only attach its out-fence to the in-fence of
-> > > > > > subsequent submits to other queues.
-> > > > >
-> > > > > This is what nouveau does and I think other drivers like Xe and p=
-anthor do this
-> > > > > as well.
-> > > >
-> > > > No one has added native context support for these drivers yet
-> > >
-> > > Huh? What exactly do you mean with "native context" then?
-> >
-> > It is a way to use native usermode driver in a guest VM, by remoting
-> > at the UAPI level, as opposed to the vk or gl API level.  You can
-> > generally get equal to native performance, but the guest/host boundary
-> > strongly encourages asynchronous to hide the guest->host latency.
->
-> For the context we're discussing this isn't different to other drivers su=
-pporing
-> async VM_BIND utilizing it from the host, rather than from a guest.
->
-> So, my original statement about nouveau, Xe, panthor doing the same thing
-> without running into trouble should be valid.
-
-Probably the difference is that we don't do any _synchronous_ binds.
-And that is partially motivated by the virtual machine case.
-
-BR,
--R
