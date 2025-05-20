@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA76ABD506
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 12:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B99AABD555
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 12:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E932110E546;
-	Tue, 20 May 2025 10:33:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r3jQok0J";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BC610E490;
+	Tue, 20 May 2025 10:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FF910E576
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 10:33:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 27BB86115D;
- Tue, 20 May 2025 10:33:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D36FC4CEE9;
- Tue, 20 May 2025 10:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1747737201;
- bh=SUs1RitnYb9I4OFECkOOjxZu/Vs5+PTf7NDYBu242tg=;
- h=Subject:To:Cc:From:Date:From;
- b=r3jQok0JOCJ1dtih0TE+gQ5WPf92LgfSZ05E+u3Ni6rUnLN9X33tzMwnHuZ1ElRJb
- voirLzvwm4hSNahx8o2DZUs6fQl3QdY3AOcEtiOTNRTbUuXQ1NpklUzBqmiXcVgm5+
- UQzRLfeSPCLGW6Z5v3LBzH/KqSi8IDfOKaq2e0Zg=
-Subject: Patch "drm/vmwgfx: Fix a deadlock in dma buf fence polling" has been
- added to the 5.10-stable tree
-To: Zhi.Yang@windriver.com, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
- zack.rusin@broadcom.com, zhe.he@windriver.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 20 May 2025 12:33:19 +0200
-Message-ID: <2025052018-rut-bonnet-a547@gregkh>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388E810E490
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 10:42:26 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uHKPz-0001aN-MM; Tue, 20 May 2025 12:41:55 +0200
+Message-ID: <e7c08305612e7323ca9d9ff6c44f3e2b63f171ff.camel@pengutronix.de>
+Subject: Re: [PATCH v5 08/10] accel/rocket: Add IOCTLs for synchronizing
+ memory accesses
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay
+ <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Sebastian
+ Reichel <sebastian.reichel@collabora.com>,  Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date: Tue, 20 May 2025 12:41:47 +0200
+In-Reply-To: <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,131 +64,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomeu,
 
-This is a note to let you know that I've just added the patch titled
+Am Dienstag, dem 20.05.2025 um 12:27 +0200 schrieb Tomeu Vizoso:
+> The NPU cores have their own access to the memory bus, and this isn't
+> cache coherent with the CPUs.
+>=20
+> Add IOCTLs so userspace can mark when the caches need to be flushed, and
+> also when a writer job needs to be waited for before the buffer can be
+> accessed from the CPU.
+>=20
+> Initially based on the same IOCTLs from the Etnaviv driver.
+>=20
+> v2:
+> - Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
+>=20
+> v3:
+> - Check that padding fields in IOCTLs are zero (Jeff Hugo)
+>=20
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  drivers/accel/rocket/rocket_drv.c |  2 +
+>  drivers/accel/rocket/rocket_gem.c | 80 +++++++++++++++++++++++++++++++++=
+++++++
+>  drivers/accel/rocket/rocket_gem.h |  5 +++
+>  include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
+>  4 files changed, 124 insertions(+)
+>=20
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/roc=
+ket_drv.c
+> index fef9b93372d3f65c41c1ac35a9bfa0c01ee721a5..c06e66939e6c39909fe08bef3=
+c4f301b07bf8fbf 100644
+> --- a/drivers/accel/rocket/rocket_drv.c
+> +++ b/drivers/accel/rocket/rocket_drv.c
+> @@ -59,6 +59,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_io=
+ctls[] =3D {
+> =20
+>  	ROCKET_IOCTL(CREATE_BO, create_bo),
+>  	ROCKET_IOCTL(SUBMIT, submit),
+> +	ROCKET_IOCTL(PREP_BO, prep_bo),
+> +	ROCKET_IOCTL(FINI_BO, fini_bo),
+>  };
+> =20
+>  DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
+> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
+ket_gem.c
+> index 8a8a7185daac4740081293aae6945c9b2bbeb2dd..cdc5238a93fa5978129dc1ac8=
+ec8de955160dc18 100644
+> --- a/drivers/accel/rocket/rocket_gem.c
+> +++ b/drivers/accel/rocket/rocket_gem.c
+> @@ -129,3 +129,83 @@ int rocket_ioctl_create_bo(struct drm_device *dev, v=
+oid *data, struct drm_file *
+> =20
+>  	return ret;
+>  }
+> +
+> +static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
+> +{
+> +	if (op & ROCKET_PREP_READ)
+> +		return DMA_FROM_DEVICE;
+> +	else if (op & ROCKET_PREP_WRITE)
+> +		return DMA_TO_DEVICE;
+> +	else
+> +		return DMA_BIDIRECTIONAL;
+> +}
 
-    drm/vmwgfx: Fix a deadlock in dma buf fence polling
+This has copied over the bug fixed in etnaviv commit 58979ad6330a
+("drm/etnaviv: fix DMA direction handling for cached RW buffers")
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
-and it can be found in the queue-5.10 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From e58337100721f3cc0c7424a18730e4f39844934f Mon Sep 17 00:00:00 2001
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 22 Jul 2024 14:41:13 -0400
-Subject: drm/vmwgfx: Fix a deadlock in dma buf fence polling
-
-From: Zack Rusin <zack.rusin@broadcom.com>
-
-commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
-
-Introduce a version of the fence ops that on release doesn't remove
-the fence from the pending list, and thus doesn't require a lock to
-fix poll->fence wait->fence unref deadlocks.
-
-vmwgfx overwrites the wait callback to iterate over the list of all
-fences and update their status, to do that it holds a lock to prevent
-the list modifcations from other threads. The fence destroy callback
-both deletes the fence and removes it from the list of pending
-fences, for which it holds a lock.
-
-dma buf polling cb unrefs a fence after it's been signaled: so the poll
-calls the wait, which signals the fences, which are being destroyed.
-The destruction tries to acquire the lock on the pending fences list
-which it can never get because it's held by the wait from which it
-was called.
-
-Old bug, but not a lot of userspace apps were using dma-buf polling
-interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
-
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.2+
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
-[Minor context change fixed]
-Signed-off-by: Zhi Yang <Zhi.Yang@windriver.com>
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
-
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -32,7 +32,6 @@
- #define VMW_FENCE_WRAP (1 << 31)
- 
- struct vmw_fence_manager {
--	int num_fence_objects;
- 	struct vmw_private *dev_priv;
- 	spinlock_t lock;
- 	struct list_head fence_list;
-@@ -113,13 +112,13 @@ static void vmw_fence_obj_destroy(struct
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
--
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 
--	spin_lock(&fman->lock);
--	list_del_init(&fence->head);
--	--fman->num_fence_objects;
--	spin_unlock(&fman->lock);
-+	if (!list_empty(&fence->head)) {
-+		spin_lock(&fman->lock);
-+		list_del_init(&fence->head);
-+		spin_unlock(&fman->lock);
-+	}
- 	fence->destroy(fence);
- }
- 
-@@ -250,7 +249,6 @@ static const struct dma_fence_ops vmw_fe
- 	.release = vmw_fence_obj_destroy,
- };
- 
--
- /**
-  * Execute signal actions on fences recently signaled.
-  * This is done from a workqueue so we don't have to execute
-@@ -353,7 +351,6 @@ static int vmw_fence_obj_init(struct vmw
- 		goto out_unlock;
- 	}
- 	list_add_tail(&fence->head, &fman->fence_list);
--	++fman->num_fence_objects;
- 
- out_unlock:
- 	spin_unlock(&fman->lock);
-@@ -402,7 +399,7 @@ static bool vmw_fence_goal_new_locked(st
- {
- 	u32 goal_seqno;
- 	u32 *fifo_mem;
--	struct vmw_fence_obj *fence;
-+	struct vmw_fence_obj *fence, *next_fence;
- 
- 	if (likely(!fman->seqno_valid))
- 		return false;
-@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
- 		return false;
- 
- 	fman->seqno_valid = false;
--	list_for_each_entry(fence, &fman->fence_list, head) {
-+	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (!list_empty(&fence->seq_passed_actions)) {
- 			fman->seqno_valid = true;
- 			vmw_mmio_write(fence->base.seqno,
-
-
-Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
-
-queue-5.10/drm-vmwgfx-fix-a-deadlock-in-dma-buf-fence-polling.patch
+Regards,
+Lucas
