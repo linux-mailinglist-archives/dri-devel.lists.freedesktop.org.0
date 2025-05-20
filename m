@@ -2,134 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A344CABD8C3
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 15:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A22ABD8CE
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 15:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13CA110E4AB;
-	Tue, 20 May 2025 13:04:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ic323Jp9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uvwfVruy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ic323Jp9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uvwfVruy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47BC310E527;
+	Tue, 20 May 2025 13:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E45C10E4AB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 13:04:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2F8DD206EB;
- Tue, 20 May 2025 13:04:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747746277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aoa4owdDkMNuo4sf7rn6DI1L1+1vIZIYWS2/SXMMrrU=;
- b=Ic323Jp9mhAVGO24Fpr0vCQAW1CK0CWnveqcipDPNKwMUlmLdrkFQ480fHtT927xmBB4EG
- 64Xoqh5yp9MdecK5bG1flV1a2DnWtssO34UnF+xbvtrR38Wl3WXDHt1kfPT3W1AjBjviJa
- JZmBgRSGPD7n0MPsco5tZRDxbbksyh0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747746277;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aoa4owdDkMNuo4sf7rn6DI1L1+1vIZIYWS2/SXMMrrU=;
- b=uvwfVruyBiInWdtkhXSgZ8q41G8W9uFWlH+CxYO7Wl02owCIvFYlaOnc0zGmoERKKAZTfq
- p8Tc0VmGJ+C3kYCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747746277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aoa4owdDkMNuo4sf7rn6DI1L1+1vIZIYWS2/SXMMrrU=;
- b=Ic323Jp9mhAVGO24Fpr0vCQAW1CK0CWnveqcipDPNKwMUlmLdrkFQ480fHtT927xmBB4EG
- 64Xoqh5yp9MdecK5bG1flV1a2DnWtssO34UnF+xbvtrR38Wl3WXDHt1kfPT3W1AjBjviJa
- JZmBgRSGPD7n0MPsco5tZRDxbbksyh0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747746277;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aoa4owdDkMNuo4sf7rn6DI1L1+1vIZIYWS2/SXMMrrU=;
- b=uvwfVruyBiInWdtkhXSgZ8q41G8W9uFWlH+CxYO7Wl02owCIvFYlaOnc0zGmoERKKAZTfq
- p8Tc0VmGJ+C3kYCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB38D13888;
- Tue, 20 May 2025 13:04:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id UPErNOR9LGiIEAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 20 May 2025 13:04:36 +0000
-Message-ID: <07088966-73f4-4b5d-898d-b596dede53e4@suse.de>
-Date: Tue, 20 May 2025 15:04:36 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BA8DE10E4F7;
+ Tue, 20 May 2025 13:06:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD1FB1516;
+ Tue, 20 May 2025 06:06:04 -0700 (PDT)
+Received: from [10.57.79.215] (unknown [10.57.79.215])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0CB13F5A1;
+ Tue, 20 May 2025 06:06:15 -0700 (PDT)
+Message-ID: <def13dd2-3a23-4091-a732-e4c079df7f41@arm.com>
+Date: Tue, 20 May 2025 14:06:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sitronix: Fix broken backwards-compatibility layer
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1682cd80989f9ab98a7a9910a086a3a4d9769cc6.1747744752.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <1682cd80989f9ab98a7a9910a086a3a4d9769cc6.1747744752.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v4 05/40] iommu/io-pgtable-arm: Add quirk to quiet
+ WARN_ON()
+To: Will Deacon <will@kernel.org>, Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Connor Abbott <cwabbott0@gmail.com>,
+ Rob Clark <robdclark@chromium.org>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Joao Martins <joao.m.martins@oracle.com>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250514175527.42488-1-robdclark@gmail.com>
+ <20250514175527.42488-6-robdclark@gmail.com>
+ <20250515143309.GA12165@willie-the-truck>
+ <CAF6AEGsnOD8fZmTXAEZZNrdK-NXdUJF51s51EhYQ6Ed7dCFM0A@mail.gmail.com>
+ <20250520113146.GA18435@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250520113146.GA18435@willie-the-truck>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.20
-X-Spamd-Result: default: False [0.20 / 50.00]; SUSPICIOUS_RECIPS(1.50)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TAGGED_RCPT(0.00)[renesas];
- FREEMAIL_TO(0.00)[glider.be,gmail.com,redhat.com,linux.intel.com,kernel.org,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,91 +58,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 2025-05-20 12:31 pm, Will Deacon wrote:
+> On Thu, May 15, 2025 at 07:48:39AM -0700, Rob Clark wrote:
+>> On Thu, May 15, 2025 at 7:33 AM Will Deacon <will@kernel.org> wrote:
+>>>
+>>> On Wed, May 14, 2025 at 10:53:19AM -0700, Rob Clark wrote:
+>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>
+>>>> In situations where mapping/unmapping sequence can be controlled by
+>>>> userspace, attempting to map over a region that has not yet been
+>>>> unmapped is an error.  But not something that should spam dmesg.
+>>>>
+>>>> Now that there is a quirk, we can also drop the selftest_running
+>>>> flag, and use the quirk instead for selftests.
+>>>>
+>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>> Acked-by: Robin Murphy <robin.murphy@arm.com>
+>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>> ---
+>>>>   drivers/iommu/io-pgtable-arm.c | 27 ++++++++++++++-------------
+>>>>   include/linux/io-pgtable.h     |  8 ++++++++
+>>>>   2 files changed, 22 insertions(+), 13 deletions(-)
+>>>
+>>> [...]
+>>>
+>>>> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+>>>> index bba2a51c87d2..639b8f4fb87d 100644
+>>>> --- a/include/linux/io-pgtable.h
+>>>> +++ b/include/linux/io-pgtable.h
+>>>> @@ -88,6 +88,13 @@ struct io_pgtable_cfg {
+>>>>         *
+>>>>         * IO_PGTABLE_QUIRK_ARM_HD: Enables dirty tracking in stage 1 pagetable.
+>>>>         * IO_PGTABLE_QUIRK_ARM_S2FWB: Use the FWB format for the MemAttrs bits
+>>>> +      *
+>>>> +      * IO_PGTABLE_QUIRK_NO_WARN_ON: Do not WARN_ON() on conflicting
+>>>> +      *      mappings, but silently return -EEXISTS.  Normally an attempt
+>>>> +      *      to map over an existing mapping would indicate some sort of
+>>>> +      *      kernel bug, which would justify the WARN_ON().  But for GPU
+>>>> +      *      drivers, this could be under control of userspace.  Which
+>>>> +      *      deserves an error return, but not to spam dmesg.
+>>>>         */
+>>>>        #define IO_PGTABLE_QUIRK_ARM_NS                 BIT(0)
+>>>>        #define IO_PGTABLE_QUIRK_NO_PERMS               BIT(1)
+>>>> @@ -97,6 +104,7 @@ struct io_pgtable_cfg {
+>>>>        #define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA         BIT(6)
+>>>>        #define IO_PGTABLE_QUIRK_ARM_HD                 BIT(7)
+>>>>        #define IO_PGTABLE_QUIRK_ARM_S2FWB              BIT(8)
+>>>> +     #define IO_PGTABLE_QUIRK_NO_WARN_ON             BIT(9)
+>>>
+>>> This feels a bit fragile to me:
+>>>    * IOMMU-API users of io-pgtable shouldn't be passing this quirk
+>>>      but might end up doing so to paper over driver bugs.
+>>>
+>>>    * Low-level users of io-pgtable who expose page-table operations to
+>>>      userspace need to pass the quirk, but might well not bother because
+>>>      well-behaved userspace doesn't trigger the warning.
+>>>
+>>> So overall, it's all a bit unsatisfactory. Is there a way we could have
+>>> the warnings only when invoked via the IOMMU API?
+>>
+>> iommu drivers _not_ setting this flag seems like a good way to achieve that ;-)
+>>
+>> The alternative is to move the warns to the iommu driver... but they
+>> could just as easily remove the WARN_ON()s as they could set the
+>> NO_WARN_ON quirk, so :shrug:?
+> 
+> Bah, I also don't have a good idea to improve this, so I guess I'll take
+> what you have for now.
 
-Am 20.05.25 um 14:40 schrieb Geert Uytterhoeven:
-> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
-> the old symbols were kept, aiming to provide a seamless migration path
-> when running "make olddefconfig" or "make oldconfig".
->
-> However, the old compatibility symbols are not visible.  Hence unless
-> they are selected by another symbol (which they are not), they can never
-> be enabled, and no backwards compatibility is provided.
->
-> Fix this by making them visible, and inverting the selection logic.
-> Add comments to make it clear why there are two symbols with the same
-> description.
+Hmm, just a nit on reflection, how about fixing up the name to just 
+IO_PGTABLE_QUIRK_NO_WARN? Given that it's already quite long, and we 
+have a well-established DMA_ATTR_NO_WARN with equivalent semantics over 
+in the DMA API.
 
-These symbols were only meant for variants of 'make oldconfig' to pick 
-up th enew symbols. They where never for being selected manually.
-
-Best regards
-Thomas
-
->
-> Fixes: 9b8f32002cddf792 ("drm/sitronix: move tiny Sitronix drivers to their own subdir")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> arch/arm/configs/davinci_all_defconfig must be updated after this has
-> hit upstream.
-> ---
->   drivers/gpu/drm/sitronix/Kconfig | 14 ++++++++------
->   1 file changed, 8 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
-> index c069d0d417753bcf..8b3565b8eca3918e 100644
-> --- a/drivers/gpu/drm/sitronix/Kconfig
-> +++ b/drivers/gpu/drm/sitronix/Kconfig
-> @@ -10,9 +10,11 @@ config DRM_ST7571_I2C
->   
->   	  if M is selected the module will be called st7571-i2c.
->   
-> +# To be removed once all users have updated their (def)configs
->   config TINYDRM_ST7586
-> -	tristate
-> -	default n
-> +	tristate "DRM support for Sitronix ST7586 display panels"
-> +	depends on DRM && SPI
-> +	select DRM_ST7586
->   
->   config DRM_ST7586
->   	tristate "DRM support for Sitronix ST7586 display panels"
-> @@ -21,16 +23,17 @@ config DRM_ST7586
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	select DRM_MIPI_DBI
-> -	default TINYDRM_ST7586
->   	help
->   	  DRM driver for the following Sitronix ST7586 panels:
->   	  * LEGO MINDSTORMS EV3
->   
->   	  If M is selected the module will be called st7586.
->   
-> +# To be removed once all users have updated their (def)configs
->   config TINYDRM_ST7735R
-> -	tristate
-> -	default n
-> +	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
-> +	depends on DRM && SPI
-> +	select DRM_ST7735R
->   
->   config DRM_ST7735R
->   	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
-> @@ -40,7 +43,6 @@ config DRM_ST7735R
->   	select DRM_GEM_DMA_HELPER
->   	select DRM_MIPI_DBI
->   	select BACKLIGHT_CLASS_DEVICE
-> -	default TINYDRM_ST7735R
->   	help
->   	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
->   	  LCDs:
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Cheers,
+Robin.
