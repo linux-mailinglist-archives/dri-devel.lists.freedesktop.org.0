@@ -2,113 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBC4ABD139
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3047ABD143
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 10:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DE510E4D0;
-	Tue, 20 May 2025 07:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A51E10E1A5;
+	Tue, 20 May 2025 08:00:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BdlSX2Z/";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="aKbU4aXS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2005110E4DB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:59:03 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3a375d758a0so1076612f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 00:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747727942; x=1748332742; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=I6f8cvNKScSNadpgBa20vfxx/XekVxFGIBj3EsSWOMg=;
- b=BdlSX2Z/J9aHuv9i+sS4rnxQINbkUx+AAQJijpsFWf1558dojGS9Z6s+aYckYRkYhR
- 82tDQe27fE6iemCg8rooICzj/fkKIoLBK889v5F7EAOlmY5oRva1ntdpQvlMpj+O+0HD
- x/h7nPnXzQHse1tnem965VPWtHFo3OzNArcM3X+He0yfcmKo1Uo61wiw/Hfl+49hv5vN
- 06yeO6WfDCIeLoE2flB4q14zHW/1HzfwXMped/Rbbd6JaVYDiXKMy5iN8yHU9kwyg2jA
- stxCxdIw05kfSrsQEYT2bcskW6zvBPilreQt/9CPj1thU1nLoZnr14OBeOS8wWIUnXWh
- RreA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747727942; x=1748332742;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=I6f8cvNKScSNadpgBa20vfxx/XekVxFGIBj3EsSWOMg=;
- b=aqRysUuYlC5JFROgcXh3uB4i7dLHqS/onUXwbxMG64t2hRkxyV4p7ULIAeG6CNaXQa
- D1J9leRjEL6qZg9ndoQlsj1t8RaY2H74/mMOU0buFCp0eeB68c/Fe8NBUnmJXf9njeTg
- +ksXO8md3hBGzwZ9eBbTsA8PbQYM5INx5uCHUm8WI2WFV7syMG8o6lw4RI9MqQYP4kRk
- PxboXy+2n2gq3A2SNJFhkhzfZuF9xiKdbYJB9vM0PemoS/GYPFhLBA7D/wz38Nv2geTX
- szm1dUxp/x1Xn7U+ohjsC8oai7WUDeQSa/k++kBTAdVlLXBFLnhaVRr5sNDOGMj7MdhR
- 63jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBI26kSsMhgTczynkNnQZWpT1hp5N/v+fi2pEeO19eQfCxwTniBiQqVFOmBWhfMyjP1AbSQ/qUvn0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxOOD+PNjUujGocDol5jgTsGprsEnRXOZ6dG0F2tXuVgKlP3CR2
- YSQGFo+yDU7kk4A/jT+/RNMzZyYTVBZ1p3vaZQMaQI4cO4Nso7TCk/8643/hvGgJoDs=
-X-Gm-Gg: ASbGncvaG1M+uGuHA3p5KTeN0jXWu7tRSplfk/iDjrPUUM9N3mZ7q3IyDwpIrmdMrKW
- iOnhCob8ZhU7Tx8uzaGRe1zhso6bqSUjKGvA9U986PMgIIEykaOkNK9M/jGvlvyWFkMf27LNB+M
- u7WDm5F3O+gRB+G8M6p7X2f1J6M30l9vaG5F2IxCL7kN1L6yGxkEE2fYe58bVaJNdwNW2S8+Rus
- zYQhUvlTQEWnnsViPf8ECfcOnIkI52Rpps+C38/eupIl4R7FXZQEb+FXhplMD9HmIMz7+kK1Y0W
- Np0b1PcSzVMAY0jsUaG4b6AXxPT9aRGZI0jCJHfTsHRv2G/q8H0kGZZx27jUwb+02sxksMpNgUh
- Vhf9YjuwGXLtXns41LcxH2YBKtCzLoykSgtYjmUI=
-X-Google-Smtp-Source: AGHT+IED7tfL2FyGE5Lx6JVPqKxoExtJjE4z4w7pOPtfZkvCIYhusb4i851hfqw7B3k/wFuOclLfSw==
-X-Received: by 2002:a5d:64cc:0:b0:3a3:5ae4:6e9e with SMTP id
- ffacd0b85a97d-3a35c8092dcmr14763199f8f.1.1747727941503; 
- Tue, 20 May 2025 00:59:01 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68?
- ([2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca4d230sm15229306f8f.4.2025.05.20.00.59.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 May 2025 00:59:01 -0700 (PDT)
-Message-ID: <61f3e509-328a-4484-961d-f02f37c2c014@linaro.org>
-Date: Tue, 20 May 2025 09:59:00 +0200
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5165410E1A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 08:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=t9
+ 1xLNzhSyKaUPe8nvM+uV+kqDwLnPCNYZZUO0q5FJ4=; b=aKbU4aXSlrUWK2LLEe
+ VA+aulr/2SddWVis/G6dZSThJ53NZ61i9A/5utGy9gl7P7T13WEJKbx/XD92dAfE
+ tMpVHbEQMV0p7zd7bu+cxVG1QymPG3AFgS7v5cPY39Tyb4Co+V0fXgeoa7TUEFZv
+ liIUYq7u+zW8hC9+Ipxd1LWRo=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
+ _____wAn5Tt7NixoSfCGCg--.55132S2; 
+ Tue, 20 May 2025 15:59:57 +0800 (CST)
+From: oushixiong1025@163.com
+To: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>,
+ Baihan Li <libaihan@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Yongbang Shi <shiyongbang@huawei.com>, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/hisilicon: Fix a NULL pointer access when hibmc_load
+ failed
+Date: Tue, 20 May 2025 15:59:48 +0800
+Message-Id: <20250520075948.399272-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 21/30] drm/msm/dpu: get rid of DPU_MIXER_COMBINED_ALPHA
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
- <20250519-dpu-drop-features-v4-21-6c5e88e31383@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250519-dpu-drop-features-v4-21-6c5e88e31383@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wAn5Tt7NixoSfCGCg--.55132S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGF1UuF45Kr1kCr17Xr1kKrg_yoW5Zw15pF
+ 47XFWakr4vq393JF45JrW09an8Ca1ava429Fn2y3s3ur4qkr1DXr18trW8GF1rJrWkJas5
+ ZF4xGw4UZr1DZw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jSlksUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXBtTD2gsLiHUmAAAsc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,116 +66,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2025 18:04, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Continue migration to the MDSS-revision based checks and replace
-> DPU_MIXER_COMBINED_ALPHA feature bit with the core_major_ver >= 4 check.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 --
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c      | 6 ++++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h      | 3 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         | 2 +-
->   5 files changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 4777a4a852da0d65e20cebc31fd05647e0b4c4b2..d64ebc729bfb589bf90af89c094181f879d5b1ef 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -90,10 +90,10 @@
->   	(BIT(DPU_MIXER_SOURCESPLIT))
->   
->   #define MIXER_SDM845_MASK \
-> -	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
-> +	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER))
->   
->   #define MIXER_QCM2290_MASK \
-> -	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
-> +	(BIT(DPU_DIM_LAYER))
->   
->   #define WB_SDM845_MASK (BIT(DPU_WB_LINE_MODE) | \
->   			 BIT(DPU_WB_UBWC) | \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 9ba9e273f81ab1966db1865b4ce28f8c18f750b8..5e4608d10c6d4fee387c9a599a73b15661148430 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -85,7 +85,6 @@ enum {
->    * @DPU_MIXER_SOURCESPLIT     Layer mixer supports source-split configuration
->    * @DPU_MIXER_GC              Gamma correction block
->    * @DPU_DIM_LAYER             Layer mixer supports dim layer
-> - * @DPU_MIXER_COMBINED_ALPHA  Layer mixer has combined alpha register
->    * @DPU_MIXER_MAX             maximum value
->    */
->   enum {
-> @@ -93,7 +92,6 @@ enum {
->   	DPU_MIXER_SOURCESPLIT,
->   	DPU_MIXER_GC,
->   	DPU_DIM_LAYER,
-> -	DPU_MIXER_COMBINED_ALPHA,
->   	DPU_MIXER_MAX
->   };
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> index 4f57cfca89bd3962e7e512952809db0300cb9baf..3bfb61cb83672dca4236bdbbbfb1e442223576d2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> @@ -150,10 +150,12 @@ static void dpu_hw_lm_setup_color3(struct dpu_hw_mixer *ctx,
->    * @dev:  Corresponding device for devres management
->    * @cfg:  mixer catalog entry for which driver object is required
->    * @addr: mapped register io address of MDP
-> + * @mdss_ver: DPU core's major and minor versions
->    */
->   struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
->   				    const struct dpu_lm_cfg *cfg,
-> -				    void __iomem *addr)
-> +				    void __iomem *addr,
-> +				    const struct dpu_mdss_version *mdss_ver)
->   {
->   	struct dpu_hw_mixer *c;
->   
-> @@ -173,7 +175,7 @@ struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
->   	c->idx = cfg->id;
->   	c->cap = cfg;
->   	c->ops.setup_mixer_out = dpu_hw_lm_setup_out;
-> -	if (test_bit(DPU_MIXER_COMBINED_ALPHA, &c->cap->features))
-> +	if (mdss_ver->core_major_ver >= 4)
->   		c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha;
->   	else
->   		c->ops.setup_blend_config = dpu_hw_lm_setup_blend_config;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-> index 6f60fa9b3cd78160699a97dc7a86a5ec0b599281..fff1156add683fec8ce6785e7fe1d769d0de3fe0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-> @@ -95,6 +95,7 @@ static inline struct dpu_hw_mixer *to_dpu_hw_mixer(struct dpu_hw_blk *hw)
->   
->   struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
->   				    const struct dpu_lm_cfg *cfg,
-> -				    void __iomem *addr);
-> +				    void __iomem *addr,
-> +				    const struct dpu_mdss_version *mdss_ver);
->   
->   #endif /*_DPU_HW_LM_H */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index d728e275ac427f7849dad4f4a055c56840ca2d23..7bcb1e057b143a5512aafbd640199c8f3b436527 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -60,7 +60,7 @@ int dpu_rm_init(struct drm_device *dev,
->   		struct dpu_hw_mixer *hw;
->   		const struct dpu_lm_cfg *lm = &cat->mixer[i];
->   
-> -		hw = dpu_hw_lm_init(dev, lm, mmio);
-> +		hw = dpu_hw_lm_init(dev, lm, mmio, cat->mdss_ver);
->   		if (IS_ERR(hw)) {
->   			rc = PTR_ERR(hw);
->   			DPU_ERROR("failed lm object creation: err %d\n", rc);
-> 
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+[WHY]
+If Calling hibmc_mm_init() failed in hibmc_load(), the hibmc_unload()
+will access a NULL pointer, as it don't call ww_mutex_init() to
+initialize mode_config.connection_mutex but try to lock it when
+calling drm_atomic_helper_shutdown().
+
+[   50.939211][  0] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000018
+	......
+[   51.149882][  0] Call trace:
+[   51.152750][  0]  ww_mutex_lock+0xf0/0x1e0
+[   51.156829][  0]  drm_modeset_lock+0x184/0x2c0
+[   51.161254][  0]  drm_modeset_lock_all_ctx+0x98/0x188
+[   51.166284][  0]  drm_atomic_helper_shutdown+0xa4/0x128
+[   51.171487][  0]  hibmc_unload+0x50/0x2f0
+[   51.175479][  0]  hibmc_load+0x5d8/0x888
+[   51.179386][  0]  drm_dev_register+0x280/0x558
+[   51.183811][  0]  drm_get_pci_dev+0x140/0x3c8
+[   51.188150][  0]  hibmc_pci_probe+0x148/0x190
+[   51.192489][  0]  local_pci_probe+0xc4/0x180
+[   51.196742][  0]  pci_device_probe+0x328/0x530
+[   51.201167][  0]  really_probe+0x498/0x9a0
+[   51.205248][  0]  driver_probe_device+0x224/0x308
+[   51.209932][  0]  device_driver_attach+0xec/0x128
+[   51.214616][  0]  __driver_attach+0x144/0x280
+[   51.218955][  0]  bus_for_each_dev+0x120/0x1a0
+[   51.223380][  0]  driver_attach+0x48/0x60
+[   51.227372][  0]  bus_add_driver+0x328/0x578
+[   51.231625][  0]  driver_register+0x148/0x398
+[   51.235965][  0]  __pci_register_driver+0x15c/0x1c8
+[   51.240823][  0]  hibmc_init+0x2c/0x34
+[   51.244557][  0]  do_one_initcall+0xc8/0x4a8
+[   51.248810][  0]  kernel_init_freeable+0x678/0x75c
+[   51.253582][  0]  kernel_init+0x18/0x128
+[   51.257489][  0]  ret_from_fork+0x10/0x18
+
+[HOW]
+Do not call drm_atomic_helper_shutdown() if drmm_mode_config_init() failed.
+
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 768b97f9e74a..8edc83db2afb 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -323,29 +323,29 @@ static int hibmc_load(struct drm_device *dev)
+ 
+ 	ret = hibmc_hw_init(priv);
+ 	if (ret)
+-		goto err;
++		goto err_return;
+ 
+ 	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
+ 				    pci_resource_len(pdev, 0));
+ 	if (ret) {
+ 		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+-		goto err;
++		goto err_return;
+ 	}
+ 
+ 	ret = hibmc_kms_init(priv);
+ 	if (ret)
+-		goto err;
++		goto err_return;
+ 
+ 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+ 	if (ret) {
+ 		drm_err(dev, "failed to initialize vblank: %d\n", ret);
+-		goto err;
++		goto err_unload;
+ 	}
+ 
+ 	ret = hibmc_msi_init(dev);
+ 	if (ret) {
+ 		drm_err(dev, "hibmc msi init failed, ret:%d\n", ret);
+-		goto err;
++		goto err_unload;
+ 	}
+ 
+ 	/* reset all the states of crtc/plane/encoder/connector */
+@@ -353,8 +353,9 @@ static int hibmc_load(struct drm_device *dev)
+ 
+ 	return 0;
+ 
+-err:
++err_unload:
+ 	hibmc_unload(dev);
++err_return:
+ 	drm_err(dev, "failed to initialize drm driver: %d\n", ret);
+ 	return ret;
+ }
+-- 
+2.17.1
+
