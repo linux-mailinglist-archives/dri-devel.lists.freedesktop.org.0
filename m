@@ -2,116 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B524ABE474
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 22:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F718ABE48D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 22:13:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43FF10E5BA;
-	Tue, 20 May 2025 20:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F9210E0EB;
+	Tue, 20 May 2025 20:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zo+n/FMs";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xZrKxpq6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA27810E5BA
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 20:07:08 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54KGfbW5004263
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 20:07:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=4+TilPmXDGw/Gtk0BqOASle1
- /UOmT/X4bq+tNDck6q8=; b=Zo+n/FMszjKFBUWpEfP52eZJPyhg4y7h1VjyQptn
- 9X1oEHTRtb/0U2ZF5HaCpX3xq4i0JAX1yB5ZmxqXyKSBliCiigqjulOhXff3qJcc
- /JdtG9DuzWUM2DYKZR5aRquMgfE+Rzow5zwtpHbN8llRmKPpqJ4INUe6k+CmWabu
- YEkNKSuTQsIp7oLRHDO3DBSS5kPpQTAP2gLg8K6avYEhLg86cQQc0jddhdm+vL0o
- qz4L76TeOq9SjQ6V/NsS5wiGmqHuHCvc24JhdSEHwIYWEc8jc19EeM5zFj9+dHnh
- WevVPQU6n/7qtHLVAryGlXgb4E2z5572+nZcaEzo6x+izQ==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6rgwf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 20:07:07 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id
- a1e0cc1a2514c-8782db80711so4195967241.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 13:07:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747771626; x=1748376426;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4+TilPmXDGw/Gtk0BqOASle1/UOmT/X4bq+tNDck6q8=;
- b=tOTAQnlFwuvipFgWmLzJduqV4r1FeaP/m7wJXt1d6dcag9i4AtVdZ+ofDmr/NG+1cM
- 8yLG+KsFC9H1V2AokcylovsI+Wl0qQPntm7arhTbZ3qKEWJATUusI1WTNIanvoH8IRkm
- vloX6fGIInjelA+5EB1XiDookSNzBVXmNDNQHmf5RK1+uKI1Ojeoz2h+Ebt26CwbFTb3
- d8F0d90LXeqJPNquBxWyMmOEPnESejKuPkIAHg9XN87MGkJ+8zI9X0EYYd/rjrBvYdUN
- yK0MOloBjVuGxInhESOOlceF88+uq98tNJfTwEP7Rc8cF1qJ2bBVdsF3jZsRCHYKVOpq
- 5f/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX0VlpMn38xSQnI/QDZK+kCnPY3EmnjYOd+DYCk3T7nR/P5U9eDuObfj64pAe+X2vjE0eRTk4hn3Xc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxM1hn4Ay/Ox5XqiL3OLEH8q4YuTkqlw8pCn3GNm05hFkBfFUQK
- ff82GC2HSw2lb461697JCOMga6aAj83vCIKTdaPYhgWQeve6KAqL2t0Y5DqvA0jW5+BCqNHoYU+
- 8Cmc2LrP83E3zNYBT8gerR/ebxaL4HXWPuRIb+jZ2PvfgTg15JcqHRqFdgtSY8NCAadP2oTId5L
- zobiLVUw==
-X-Gm-Gg: ASbGnct3KX52NSUoWbmBBPMtv5QKpv5+R+NBAACpumvVgpYNLhDwjpUc87g7Elxv8UA
- AOG7PiweIPYAvVKpLknC4r6o3+zvyfS9i8Yytygwj4ay4Hsm7I/h9M7rAa3NytcSu0QTfROus88
- NX4+sYdSguV5wIO5W6KjEj0c/pHxyMFWmtvY1VjaUXe9oN+yei6zBEAIMEVUpiWIKnoYllc1b9W
- 9s/ZkOi8L5hSE8cL48MxQgpRRDEXWvH2Yp+IsuMPWoZpSt0ufkjtrulEVuhbCawY/7H8eJMSyLK
- c+ayKQuzuQZjb1Dz6IbdTbCxqOwSWAiS4iyDnZyIQ4NpdEVPkfVR4YVhugCSt/XGjbK5jUoEYso
- =
-X-Received: by 2002:a05:6102:1628:b0:4da:e629:5c6a with SMTP id
- ada2fe7eead31-4dfa6aae329mr16623238137.5.1747771625647; 
- Tue, 20 May 2025 13:07:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHZ0ooob77YB33x3sc9TZXU71R5l2H/nFxJ6YO2AEHokNTU7hQE0QXzh10z0MZ3u3nyRxcaMg==
-X-Received: by 2002:a05:6214:1251:b0:6e6:6964:ca77 with SMTP id
- 6a1803df08f44-6f8b09023b4mr282754806d6.28.1747771614002; 
- Tue, 20 May 2025 13:06:54 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e7017f18sm2485042e87.158.2025.05.20.13.06.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 May 2025 13:06:53 -0700 (PDT)
-Date: Tue, 20 May 2025 23:06:51 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dsi/dsi_phy_10nm: Fix missing initial VCO rate
-Message-ID: <3ywacd4x23zadvwikw4hdprgbgxxdmbcar3lyayy4ezmd5lcyw@3h2oosmbk6yb>
-References: <20250520111325.92352-2-krzysztof.kozlowski@linaro.org>
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D62DB10E0EB;
+ Tue, 20 May 2025 20:13:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dZPXZpT/6+6jbWSyaP4TK9VNqmhQQVQUX+C+67akZ/Qt4ZhHNH2Lab15yzZjizua5nIVLbrKfxhFCF0WZBxfnj/8K3on6o1mcSNzJg61KXEdCS58q7AondzHjTrT4/67ItiT/OHq5bkAdke5Z6wBYzIYY9m7kqm+OlX/eozC/Qm6+BE+l1rghYs1cyCtU+jQTpsMcND7hLdd+ogZCdeKMCse6L2MkLy7MB6iYZZxI1ptc5YaZL/zIt5U+3R8Snm5cdmDn/RM0r4HbQ3OUOx0uV8UJBZG15Irwq4eZFYKr07O3CtUkQ8WDtxD8fTZcjzczP6wFCno9fsifw4CYBW+kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i4MCWKF7Cc3qxdkSmy09nG1i2jcdlS33m0VucfazWOg=;
+ b=pIbRazpdPkfMxs+UrnAlvO9EtjYcb38+hF4+Sd1Nikn2KDOBbdc9YN2JRstDXkTEjd8C4Dw5ictNi1LPiZGq4tJXPk8/EOmWHwvQBWfpBaJkm/SB5eyAbEmUzgqwTd3dSlrehv44lr/KyCkWNzm4FDNnfGqLekIlIOQw1FIqlw8EWk8ny0pejmmE+mWcRUnCiNsqOaxr/yEEfvsyEWIjIJzcn1h+4UFKfRO3FFynr+Hgycw78MjrTc9FqUUrk41RjsDMwDhdBgggfkfh/OHiprSEttM5PvGkL74BI9gk7Y4MmdYkIkCsQVUAZTJYQtdNvOsiRBpv32G6N3ko1JGzbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i4MCWKF7Cc3qxdkSmy09nG1i2jcdlS33m0VucfazWOg=;
+ b=xZrKxpq6Y7YYmoMKdcT9gJHZ51ieSKuALulh9WypQeg3DD0pw3YGj0KQBs7as3X3U2DaO3VY3Hj1AbAOeq16uqIrQAL531LEb3vwUB8iGbBCRvwusy2gd1W/oU3uiemus89m/QyGoNCSwTWHviWVr7FngwZ9eHcRicLlQzhfb0A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by LV8PR12MB9359.namprd12.prod.outlook.com (2603:10b6:408:1fe::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Tue, 20 May
+ 2025 20:13:20 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%7]) with mapi id 15.20.8769.019; Tue, 20 May 2025
+ 20:13:19 +0000
+Message-ID: <b3bf99cc-f6f4-46ce-aa00-fea74b3179b1@amd.com>
+Date: Tue, 20 May 2025 16:13:14 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
+To: Simon Ser <contact@emersion.fr>, Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-41-alex.hung@amd.com>
+ <CAFZQkGwrP39REsvZwQ_Uaq+cHR_pH2EPuv_POXRO7Hxj9u4Xsw@mail.gmail.com>
+ <vyX7bdPppc_pDUQBeKeZNyy69WUl_XKExs-I7dfuDJJy6SKXWoBL7B-IRMZKxuktNMQCIg0lP56Xj0qLidKOlBJQJjUYHOQ5Id6yw5k8Q10=@emersion.fr>
+ <CAFZQkGxXJe=FGdymMRevbtU+jKre6PdthAu33Qz+kVsR_OVpJg@mail.gmail.com>
+ <BqFABawLqkjFjPvuKwfsFBKt2A6KcEIeJU289qnX9Try6dV0nhXeXF3vxJUK_xUP5a1gfARBt3wY0lpOV2Nbmcmj5WXCw6fsZjPNT39KAu4=@emersion.fr>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <BqFABawLqkjFjPvuKwfsFBKt2A6KcEIeJU289qnX9Try6dV0nhXeXF3vxJUK_xUP5a1gfARBt3wY0lpOV2Nbmcmj5WXCw6fsZjPNT39KAu4=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0128.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::31) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520111325.92352-2-krzysztof.kozlowski@linaro.org>
-X-Proofpoint-GUID: 6KWeukH7Bt8uPmD101B3cDeqGeFz2jDE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDE2MiBTYWx0ZWRfX1FOwYCHtgPsi
- jEqaKGqLtHjjaJOQpw9hF/mG+IDAAAHlDRVOOA/W7BO2rVa6N9pPnpnp5cgoixqkCwQR7NbFJaY
- SrPzrDZ36siIuJbIjD9XNdTUcFrYGXH42W+lEWNwwwFKcnHOc9Bt1RlwJOFgUE4PkkAWvjEKPXU
- PwSsxcoazts1370euVZoAzmY9Edg/9zK1/kYj1PvB7YVr1hfPM6blqu9LzyECSjP83mfuc0vijm
- +4Pm/Rr2viR8cnChGhuhlJr21dNycfldaWOZp2uNmOtAraaJoAU259Ps/apZPqNTfNfJviPLnH5
- SAi9oYw/9Pc6KDoRB2jB1lWIO8iwqfORMK8MXdE3yoQEkgsvFesVQi93zw85TEKRIhJTWUlKswK
- ht/GspSu9xqtas3fwT5Ra2Kz8wnF6bAy8FA3OVKc779o3aJ6p2bDEbY0ot6NNJHE+MnGCeK6
-X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682ce0eb cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=qeqVY09uaiYIOShEJ-EA:9 a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: 6KWeukH7Bt8uPmD101B3cDeqGeFz2jDE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_09,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505200162
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|LV8PR12MB9359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 200dc07d-b463-436c-be56-08dd97dac39a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SVBFZjI5c09FY2lzYVhsRzRGWjEzdURab0U2aVpuQ0lSbm9FS2IxYm1sdkhi?=
+ =?utf-8?B?WHhqbkZJK2F3MkZpNGJGa3YwNzNVRUV3d203YWJlTEZxcEhPNW53RVdXS3BK?=
+ =?utf-8?B?ZVJUdDJHNTBkVUI3THZ0cWxLUnlrR29OT0I2K0pWQmp6WTBYQVg3OVM1Zyt1?=
+ =?utf-8?B?SWRjZzJnSmtiRkMwdENRNjhNS3NUUzhFd2tLUDVGL2I2WVNpSFNScmFObkY1?=
+ =?utf-8?B?MGkreEc4ZkVhWEg5WmNQSFo5emcybVNWeW9LMUcyNk93QlcybXlkYVhYREpq?=
+ =?utf-8?B?Z0FqK2VFQmFOeTFzcHV2cTR0ZzYyQjRibm5sRTEwR1FVeVhadFVZa2paWVZk?=
+ =?utf-8?B?WnBDQjVxbXgxTU1rMkN6OHdKdjJPa3ZMeHVwY21NeGc4K2UrMm0wTjRlemNy?=
+ =?utf-8?B?QUNDZVp2UVRKblRsYTBPQ2dRUkdjWUVqWVVVR1dzcUd6TVdJNmJGU2tQdXYr?=
+ =?utf-8?B?TGJFZjVqWExTSU9nN3FMZktkR21lRHJybjlKdTlXWVdNWnl3N1dKS0ptOElt?=
+ =?utf-8?B?NmJMT242RjI2Um1XbjN1bU8wRWNRenNFU2lTY3RoWDE2U0NMYm5jb1RCMm1h?=
+ =?utf-8?B?TDFpQ1dQNkIrRG1za29TUUhkcDRiTWhjdmtGaUFHTXJnSGxSUElEMUF0bnVo?=
+ =?utf-8?B?SWV0VHJLTzdnb3lkWU9RdDJUSmI4bUptL3Bpa2ZneEx1OUdpSUY4MkNJTVVP?=
+ =?utf-8?B?YTJvVU0weFFLcjJWWThpM3RoWHViTy9uZVB4ZjcrOVhPazVEeDJHM3NuZCtF?=
+ =?utf-8?B?WVZNOEMzMXdLR2xaa1BMT044dkdLU25zQXJIZHJIR1Byai9mdnVwRkxsQWRD?=
+ =?utf-8?B?bDNnRS9EMVV6elQ3Q1lXWU5rMUw1VkduZWhRcmM2R0F0M0lldlcvZUx1RTND?=
+ =?utf-8?B?Y0JEUlRiYnZGbVpKT0xhZ2tDbWI0QTZmMTFaZFlMMjdHdGQ0c0VNcUc1VXp6?=
+ =?utf-8?B?V1dHT1ptUmpqS01kVFJ0cEQ2WDNoYkV0dTJEWjZCT2tjejFEMGs0WmhYaUpz?=
+ =?utf-8?B?VDRXQTRwQjFqVUFrRVJ4dGdISFF6TStHTXR2akV4UndWckpSdXVoMnpsNVRD?=
+ =?utf-8?B?b1V6QW5aWGt1ZTRWQ040SUpMRzBVQ3dDZU9XTit1MFl2M2VpajV5SUF6MUdy?=
+ =?utf-8?B?VnVaNnRvSzBwUXlzZkZwRFBNUDFxcklHMFhBVGRLZ0Irb2ZseUVsUmVURGxj?=
+ =?utf-8?B?UUp4Z0lQK0w3Z3ZhSEF6Y1l2TzY3eUdZS2VUOXFZOFJ1VTlFUUVlOWNHczBX?=
+ =?utf-8?B?dWM1NnE0eVhLNWxrd2ZYdkI4MWtzWEZSa1h2cktQM2t4WE5hSDM4Q0JxR3BP?=
+ =?utf-8?B?dFlIdU5QTVI5REJMSzdQbW90ZEx4VmkyV2w1S0RlTlpzVGQrWm0ra1ppNDlP?=
+ =?utf-8?B?UEFpVDF2bGVGMVNKOEk2SWtoVHlYQ0N6M0w4YTI2Q0ROaXFRUXVCNUF4WVNa?=
+ =?utf-8?B?aVBJM3RYRGU0VkJVeE5uUzEvdWNmM2FrdGVQd1IyMXovaHR3L1VtZjhDMUpo?=
+ =?utf-8?B?TnhCVDAra01HSDhxNWtsUW95UUdnb1lJQUNUaHliQzZDVHJqbW5KT2V4NVF5?=
+ =?utf-8?B?eFg4VmJMMHplRGJadDZzZWhYV0s4eWorNGJSZ0ZPMmtnNFNJYm1Pa0hxb3ZL?=
+ =?utf-8?B?WWs0dU1yTWdnMEw3dFVtT01QUktYL1hQcVZhSlRwd1p2UWhUc0kxejMvZnlt?=
+ =?utf-8?B?Z0E4YittbEwzelJ5ZmtISEhONndheDFsL0laZ2ZWZU9nOXpEWlhGbU1BWGJH?=
+ =?utf-8?B?a0FUMTNTRW1SNUJYdS9CTWQ2a0RqOWxFNGVGNU0xNFhUd2ZDWXhBZGhWaVNV?=
+ =?utf-8?B?YlNRdEgwdzdOUnN5OE9lRFNrd054OERlYUowWFprWG5GaXJrTkh0RGxtcGRl?=
+ =?utf-8?B?bDUvMTFNZmdyUkFFTHJqczhtTjB2REErcjcxRldRQ0hrcGY5WFp4RU5NS0hM?=
+ =?utf-8?Q?g9q4IYqBRec=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWdkUVBYZ1ZjY1htdHlxVkZBV2tGTTlPenp5a0RXZ0tJS2N5ZCsxVkJwcHhE?=
+ =?utf-8?B?cG5uZFRncFBxMFdORjhBWnhFbnJOSDZzemlBRjkxaCtFSW92bXBZY0l0Q1hj?=
+ =?utf-8?B?Z1VybGs1Qys0VXhwK3BRdzhTNFR4aUc3NWVRdnNienFSUlZQUXo1VjRaaUg4?=
+ =?utf-8?B?MnhPWkZ0b1pGLy9QMElnczRTUUIzSXhNKzM0S0dPaHBjbEE0UDhzaXY5T1Fw?=
+ =?utf-8?B?dFhzRWwzaHFxMlc0QmxUNHo4SzdaUy9qWTZyK3FQYVk1c3AvRTA1cW5BOXVy?=
+ =?utf-8?B?TnhsU1NlaXg3RmRnVjJxeHAvUmhZMGd3cjdrMmhuUnJmZlp5dytBWmlieWVM?=
+ =?utf-8?B?QnVlSHJ3ZFl0MFVOazA0N1RWT3YvTG5xdmYxV3VFMk45eWlVUjYvYWVNVFpm?=
+ =?utf-8?B?Nmc0eC8vcTZOS1lOa3Azc0NXRzRWaE80cTIyWUxGOTBwV3grZVhUZ213V2dz?=
+ =?utf-8?B?NHN3N1pTOHgvcnZjZ1VVbzFJeDlYdHpVY3JTU2ZhTDRJc1ZwczAwbVJHKzhV?=
+ =?utf-8?B?c0NQazZQSDVOM3RxU285UTJCMUx5WTMydmJhUXBzMEVpd05xNHU1MWxuRVZF?=
+ =?utf-8?B?YTQ2eTB4SDBDRVVvMmk1djBxT2U1UGlmYWg0Mm1LWnZ3MWFDM2FlSU5WMm9w?=
+ =?utf-8?B?dFRTUkg0S1NUZzE3aDVEREJRVGU3YUY3TnpMN2hRV1VyWFBmNnBBUE5YbXdF?=
+ =?utf-8?B?SXduenZBNHJwa3Y5Q09NR0R1QW51c2NmQU14aENoNDJ2ek5xdXA0cmJxNzBP?=
+ =?utf-8?B?dGNEV0JKL1UybTRjZW56NzhJbWsvYkRvU2RSRy84QkY2c0l3NFBLR2UvQWVt?=
+ =?utf-8?B?clowSStUUzAvemxRcnBEeXJNNzdiL3RyNmsvTE5ubVgxSU9kVWdSVTNOSTl6?=
+ =?utf-8?B?b09LNWhkSFZreitrbVEwaFhyaHluYmxzVE9yejBYcU5qeEpNQVBaajlrOTdh?=
+ =?utf-8?B?aW9PS0Y1ZFlTZDFOTzVQSEl3ejdUTzdvaWVzTFl2aEZpR3UxTVRTMTl4UCtU?=
+ =?utf-8?B?aXppejFzRlJFdWlPZHdIb05WdzNaNWpiVlNzRnFXV3NWYXFTS0FjbGNpZnly?=
+ =?utf-8?B?aUtzeXdSRTRsYzJIdDNzMnNvZ0tCa0l3aVBDQmF5K2IzbHZHVUk4cmJJNnJR?=
+ =?utf-8?B?ZVZYS096YVAwazhlMDNiNUkxT3RuQ29JUVoxL2VTTjFWcU1MN0h2VWdjaVYw?=
+ =?utf-8?B?UXFrSkROK3E0OU00ZlZhYTJpaWJRdGE0UU1OaUJSSmJKeVZ3bVNSTWwxajA4?=
+ =?utf-8?B?NGZ0eGxSYWh3bFErWWpqMnBqci94d044NktPYlZ3YnVXWWErZXB4SVlseDBZ?=
+ =?utf-8?B?Mktac3ZVZGFXQmxGYmJmQ1Frc2hnWDRMUXlGNmZQQzNpVS9HM0p6c1ROaVB1?=
+ =?utf-8?B?VUZzaFlGSUFvU1I1V2t0RlI0dmQwU2VLRkFBWnFmbEZDakxQM3hsOG5VaGw3?=
+ =?utf-8?B?a2w4T01XTDZUbnJmZFdhRzFqYms3bUhiRUx3aElRWGhSN3BTV1YvZCtucDJE?=
+ =?utf-8?B?V0JVMnFsV2RCRVJlUlVsSStVTWtaQyszOXU1YTJQWkl2cFVTcUdyMWVXQzN5?=
+ =?utf-8?B?SlJGYkRnWjh4bTBqNFljOGZkckpwb24rbllzZ0pqNUV6YnlOU3pXZzdXOGox?=
+ =?utf-8?B?Yld6MkdGQ0xNY3dBSjgwM3JZWE5XZWViMU54c2dzSHBWVHE5emxOcHppbzdG?=
+ =?utf-8?B?M0RNMmdYWFYwVnhQdVBLRFYvMEVLdHpoYnM4MUNTbE1RSXhkcVp0QlV4YTdR?=
+ =?utf-8?B?M1h6UTlZZStXdmp4TVIyeGE3RFVSK3Z6dkRoUFk3UzBhdDc5ZXBya09lUFlJ?=
+ =?utf-8?B?bTFBdDV1VUxvQVpNazJjcVVhZE01RzFRZDVwUERCY0YvVkZETXFxT1hjUm1l?=
+ =?utf-8?B?MnFoQUxMUitzTWdiTVhCcXBEa0N2bEQzWGY5ekJTUnQ1ZmwxZ3pXSys2R3dR?=
+ =?utf-8?B?VnhVMnBTeUc0aG9CZ0hFbEw1d3E4MWcyVHY5bC9RWUZ2d1NsNEdqenVUeTZp?=
+ =?utf-8?B?eDVhL0MzZUdlQ0ZtemVEak5Wakwxa09PUUdMN0FreVBSak9ZaXBUSzJzRVdB?=
+ =?utf-8?B?NFQzVzkvelhDUENyczBIUXZMWjFaNHNsS3YwVzIrN2hWckd0R2ducTc0cVMw?=
+ =?utf-8?Q?G0/SHFdzJ6YG8oFFv0baLGKqL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 200dc07d-b463-436c-be56-08dd97dac39a
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 20:13:19.8998 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EkcPEl0JQFMrQPzzMqD1LBQf7R59Hx/rNu3z/l/eFwI8gWr2c4W16rakbmwF7G2DcUcYyVdkefq3fEeNrCqwKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,58 +175,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 20, 2025 at 01:13:26PM +0200, Krzysztof Kozlowski wrote:
-> Driver unconditionally saves current state on first init in
-> dsi_pll_10nm_init(), but does not save the VCO rate, only some of the
-> divider registers.  The state is then restored during probe/enable via
-> msm_dsi_phy_enable() -> msm_dsi_phy_pll_restore_state() ->
-> dsi_10nm_pll_restore_state().
-> 
-> Restoring calls dsi_pll_10nm_vco_set_rate() with
-> pll_10nm->vco_current_rate=0, which basically overwrites existing rate of
-> VCO and messes with clock hierarchy, by setting frequency to 0 to clock
-> tree.  This makes anyway little sense - VCO rate was not saved, so
-> should not be restored.
-> 
-> If PLL was not configured configure it to minimum rate to avoid glitches
-> and configuring entire in clock hierarchy to 0 Hz.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Link: https://lore.kernel.org/r/sz4kbwy5nwsebgf64ia7uq4ee7wbsa5uy3xmlqwcstsbntzcov@ew3dcyjdzmi2/
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fixes?
 
+On 2025-05-19 19:43, Simon Ser wrote:
+> On Sunday, May 18th, 2025 at 00:32, Xaver Hugl <xaver.hugl@gmail.com> wrote:
 > 
-> ---
+>>> We can always make the property mutable on drivers that support it in
+>>
+>>> the future, much like the zpos property. I think we should keep it
+>>> immutable for now.
+>>
+>> Sure, but I don't see any reason for immutability with an enum
+>> property - it can just limit the possible values to what it supports,
+>> and that can be only one value. Either way, it's not a big issue.
 > 
-> Not tested on hardware.
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> index 9812b4d69197..af2e30f3f842 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-> @@ -704,6 +704,13 @@ static int dsi_pll_10nm_init(struct msm_dsi_phy *phy)
->  	/* TODO: Remove this when we have proper display handover support */
->  	msm_dsi_phy_pll_save_state(phy);
->  
-> +	/*
-> +	 * Store also proper vco_current_rate, because its value will be used in
-> +	 * dsi_10nm_pll_restore_state().
-> +	 */
-> +	if (!dsi_pll_10nm_vco_recalc_rate(&pll_10nm->clk_hw, VCO_REF_CLK_RATE))
-> +		pll_10nm->vco_current_rate = pll_10nm->phy->cfg->min_pll_rate;
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.45.2
-> 
+> Immutability is a clear indication that a property has a fixed read-only
+> value which can't be switched by user-space. That's also the pattern
+> used everywhere in the KMS uAPI, so I think it's better to remain
+> consistent here.
 
--- 
-With best wishes
-Dmitry
+I was envisioning this to be a driver-caps thing, but I agree
+if we make this mutable it can still serve that function but with
+different/future HW possibly support other interpolation schemes.
+
+Harry
