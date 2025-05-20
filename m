@@ -2,91 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C27ABDBD1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBF2ABDBD6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851CC10E4BB;
-	Tue, 20 May 2025 14:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 588E210E4AA;
+	Tue, 20 May 2025 14:16:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="duUtg9kT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XiSHIfOB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53DEB10E4AA
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747750593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=61iPeRzvAixq/R6SwHKeq0ei0vc55YLY4T4B2HYFAlE=;
- b=duUtg9kT+GZ/BbU8euQIK48OKF3qIBXJBMJ7TP9d/uMhw7pW9/GwX/gvt3MyRBC082ytcx
- 8mavr2CfZaYgnUBEm+RrLA4J4yaX71u9TyfeaUQCM6GHR4g4JvupDEKsEkzvOuCuPyEGYJ
- QRpVJ8iEQD0AFNsJ0d/jj9ZBV37SRIg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-203-H55gPYQeOz-NMuFvoF-Ldg-1; Tue, 20 May 2025 10:16:30 -0400
-X-MC-Unique: H55gPYQeOz-NMuFvoF-Ldg-1
-X-Mimecast-MFC-AGG-ID: H55gPYQeOz-NMuFvoF-Ldg_1747750590
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3a362939f61so2051652f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:16:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747750589; x=1748355389;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=61iPeRzvAixq/R6SwHKeq0ei0vc55YLY4T4B2HYFAlE=;
- b=CY+zStmSvWZYcEZdRJxeGWUd0ZQFLSDMHMFD+TQwmF0HhkOGLWWYovEDEMwk6G0V/e
- gIrM4+JLqogecht1zTCjg0+6Fl7X2fozVODhIFEj9X66o1/X93hoK44dw3PJxlcqoEEM
- 21xt4QzWY5eNkzFJXIxqcJaDWb18MPcnvF7Ygt2HyoUNu88TjEOyw3SQafWa3riJ1o/F
- 6CblUjIL0BNg5jXiyxxVViXoJNuJjYmXia7FwUkJG/sb9dG6Vgx1zaysl2sFKHAP0ydL
- VZNPqTjvbgndonoy9h38bLG4UsAJxaX1KFrbS7XCNR8ygm7izJSMZKtcjKYnirysRsCT
- 2wTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtUrglqETl2q+V6Ek1YQsAbOFNy9KG9mT6LE8ISaIWTMICO11Nv2zt2NLgsbaprfg8dsOj5jTxR+c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxopy2u5M0H3E/djB2+Jv+OIuVoTCT/m0sKWu9ymS5jss43IqK3
- 3nfl9+o4MIG9sWG0rXD5/KyH8J8a2eVUGoela9aCw1+lAtJlMlfJmxtLKdTZaxKLMJWTjbYUhX+
- aajbGFtt/KlIpwIzcFHYR3wqvNcTX3y0rxebifBUHdxOIG9UDRYpLjXwMfcurImF/u6/u6A==
-X-Gm-Gg: ASbGncuH24Ua3YMCU3y9UhDSITLnnPH3UK9zFSXjF8QU2gVlJGrWdG4Ulsek8gaFPhU
- s2JL5e6LGxGzYLwyPeNV/vOwhoFyTLGqoYHN/UijJETZE77qz2JlszWdGsjDIePD0jVjlbEi3T5
- Oj9vSRX1NOHobYIYJ1zn65TxFmJFHVBElLDSOdq439oHNK6IZdxqPzIZfkp49nLEmkaoaD1C36Y
- oYetjlCPdSBg37KsQcErrI+5EANpnZ/OYvbn9YN51eOhxDgvhoWuHnPm9CQ3lxVe1JKcGPzvmip
- /cqetgRp+PZi5hWeWV1cDU80c5LWfn9jbrVm9JWaGaQF4cgxpAjoG/V/nMv+ZgGZpHIBsQ==
-X-Received: by 2002:a05:6000:430d:b0:3a1:fed3:7108 with SMTP id
- ffacd0b85a97d-3a3600da40fmr14525826f8f.40.1747750589610; 
- Tue, 20 May 2025 07:16:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHrGDGNPueP8M5oY1rssyDAAoA7kWAMi94I273UUlkBQWltVoKwRePTOwwFy/ypnlP9yt8vbw==
-X-Received: by 2002:a05:6000:430d:b0:3a1:fed3:7108 with SMTP id
- ffacd0b85a97d-3a3600da40fmr14525794f8f.40.1747750589210; 
- Tue, 20 May 2025 07:16:29 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a35ca6254bsm16931304f8f.52.2025.05.20.07.16.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 May 2025 07:16:28 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Cc: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sitronix: Fix broken backwards-compatibility layer
-In-Reply-To: <990c04a5-6477-42c0-986d-9b63a30ac90b@suse.de>
-References: <1682cd80989f9ab98a7a9910a086a3a4d9769cc6.1747744752.git.geert+renesas@glider.be>
- <07088966-73f4-4b5d-898d-b596dede53e4@suse.de>
- <CAMuHMdU6XD_tqXaf4-h9KeC58XDOodUWa0d-Wmp6zcr2BHTA1w@mail.gmail.com>
- <990c04a5-6477-42c0-986d-9b63a30ac90b@suse.de>
-Date: Tue, 20 May 2025 16:16:27 +0200
-Message-ID: <87plg3nz9g.fsf@minerva.mail-host-address-is-not-set>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5CA310E4AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:16:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 270AF2EC;
+ Tue, 20 May 2025 16:16:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1747750590;
+ bh=gkT4V1A9YIzLoquF17ziKdUbQs45WRMfVuzK5FJTRPQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XiSHIfOBd0ZZ7snWo+U0XvacrEZtosU6cHhiXHV+0l4j2Hx1G+IWahP4Qf6Qbt0My
+ H8uXsO7Rzya0Z7HQCu6TRnNmB9oy7RbIuoXQKbXhXPkUeRMecW/LgrSuOP6bbx2KH6
+ hY75ZMWkXf+6FQhx2Rjch9li0k+z1JGYmzhJMUw8=
+Date: Tue, 20 May 2025 16:16:45 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
+ HSFREQ calculation
+Message-ID: <20250520141645.GE13321@pendragon.ideasonboard.com>
+References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: o-xYCabVtMLd6HCgi6mI-MyIHQ0JdG3TduRIEUAB3-M_1747750590
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,49 +67,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Prabhakar,
 
-> Hi
->
-> Am 20.05.25 um 15:09 schrieb Geert Uytterhoeven:
->> Hi Thomas,
->>
->> On Tue, 20 May 2025 at 15:04, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> Am 20.05.25 um 14:40 schrieb Geert Uytterhoeven:
->>>> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
->>>> the old symbols were kept, aiming to provide a seamless migration path
->>>> when running "make olddefconfig" or "make oldconfig".
->>>>
->>>> However, the old compatibility symbols are not visible.  Hence unless
->>>> they are selected by another symbol (which they are not), they can never
->>>> be enabled, and no backwards compatibility is provided.
->>>>
->>>> Fix this by making them visible, and inverting the selection logic.
->>>> Add comments to make it clear why there are two symbols with the same
->>>> description.
->>> These symbols were only meant for variants of 'make oldconfig' to pick
->>> up th enew symbols. They where never for being selected manually.
->> But that pick-up does not work, unfortunately...
->> (I know, I had one of them enabled in one of my configs ;-)
->
-> I see.
->
->>
->> The alternative is to just drop the old symbols, and ignore current users.
->> Which is not that uncommon...
->
-> If there's no easy fix for the current setup, I'd prefer removing the 
-> old symbols.
->
+On Mon, May 12, 2025 at 07:23:23PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
+> VCLK rate instead of the mode clock. The relationship between HSCLK and
+> VCLK is:
+> 
+>     vclk * bpp <= hsclk * 8 * lanes
+> 
+> Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
+> HSFREQ accurately reflects the clock rate set in hardware, leading to
+> better precision in data transmission.
+> 
+> Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
+> when computing `hsfreq`. Also, update unit conversions to use correct
+> scaling factors for better clarity and correctness.
+> 
+> Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
+> threshold comparisons to use Hz instead of kHz to ensure correct behavior.
+> 
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v4->v5:
+> - Added dev_info() to print the VCLK rate if it doesn't match the
+>   requested rate.
+> - Added Reviewed-by tag from Biju
+> 
+> v3->v4:
+> - Used MILLI instead of KILO
+> 
+> v2->v3:
+> - No changes
+> 
+> v1->v2:
+> - No changes
+> ---
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 30 +++++++++++--------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> index c5f698cd74f1..3f6988303e63 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/math.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+> @@ -15,6 +16,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  #include <linux/slab.h>
+> +#include <linux/units.h>
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -199,7 +201,7 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+>  	/* All DSI global operation timings are set with recommended setting */
+>  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
+>  		dphy_timings = &rzg2l_mipi_dsi_global_timings[i];
+> -		if (hsfreq <= dphy_timings->hsfreq_max)
+> +		if (hsfreq <= (dphy_timings->hsfreq_max * MILLI))
 
-I agree. When this was discussed, I argued that we should just remove the
-old symbols and let kernel packagers to deal with it. As Geert said, it's
-not uncommon for Kconfig symbols names to change over time...
+No need for the inner parentheses.
+
+>  			break;
+>  	}
+>  
+> @@ -258,7 +260,7 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+>  static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  				  const struct drm_display_mode *mode)
+>  {
+> -	unsigned long hsfreq;
+> +	unsigned long hsfreq, vclk_rate;
+>  	unsigned int bpp;
+>  	u32 txsetr;
+>  	u32 clstptsetr;
+> @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	u32 golpbkt;
+>  	int ret;
+>  
+> +	ret = pm_runtime_resume_and_get(dsi->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	clk_set_rate(dsi->vclk, mode->clock * MILLI);
+> +
+>  	/*
+>  	 * Relationship between hsclk and vclk must follow
+>  	 * vclk * bpp = hsclk * 8 * lanes
+> @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	 * hsclk(bit) = hsclk(byte) * 8 = hsfreq
+>  	 */
+>  	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -	hsfreq = (mode->clock * bpp) / dsi->lanes;
+> -
+> -	ret = pm_runtime_resume_and_get(dsi->dev);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	clk_set_rate(dsi->vclk, mode->clock * 1000);
+> +	vclk_rate = clk_get_rate(dsi->vclk);
+> +	if (vclk_rate != mode->clock * MILLI)
+> +		dev_info(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
+> +			 mode->clock * MILLI, vclk_rate);
+
+There's a high risk that the requested rate won't be achieved exactly.
+Do we really want to print a non-debug message to the kernel log every
+time ?
+
+> +	hsfreq = DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+
+I doubt DIV_ROUND_CLOSEST_ULL() will make any difference in practice
+given that you can't have more than 4 lanes, but that's fine.
+
+>  
+>  	ret = rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
+>  	if (ret < 0)
+> @@ -304,12 +310,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	 * - data lanes: maximum 4 lanes
+>  	 * Therefore maximum hsclk will be 891 Mbps.
+>  	 */
+> -	if (hsfreq > 445500) {
+> +	if (hsfreq > 445500000) {
+>  		clkkpt = 12;
+>  		clkbfht = 15;
+>  		clkstpt = 48;
+>  		golpbkt = 75;
+> -	} else if (hsfreq > 250000) {
+> +	} else if (hsfreq > 250000000) {
+>  		clkkpt = 7;
+>  		clkbfht = 8;
+>  		clkstpt = 27;
+> @@ -753,7 +759,7 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  	 * mode->clock and format are not available. So initialize DPHY with
+>  	 * timing parameters for 80Mbps.
+>  	 */
+> -	ret = rzg2l_mipi_dsi_dphy_init(dsi, 80000);
+> +	ret = rzg2l_mipi_dsi_dphy_init(dsi, 80000000);
+>  	if (ret < 0)
+>  		goto err_phy;
+>  
 
 -- 
-Best regards,
+Regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Laurent Pinchart
