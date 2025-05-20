@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805E7ABE0E0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 18:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A04CABE12D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 18:53:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3DBC10E5AC;
-	Tue, 20 May 2025 16:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4AC10E5DE;
+	Tue, 20 May 2025 16:53:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="lQgFj9Ud";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h8G5hz88";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8748A10E085
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 16:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
- :From:subject:date:message-id:reply-to;
- bh=sP2rVu5jnwxUO72jmL6eSd4CMirYzTBwpx/d+gSHvDY=; b=lQgFj9Ud336mdN2YdkQiAbXomX
- j+UkugqROqKTXD7steKhTMXk1RF7D1wS+bRH6yJq9FGOvkVnWh0eKPsqE9PFgnn3X7okq3Hvu8yBF
- jja3KVKMU2NTjeA3iTmcFmQvUK66ffJYB6Ve6tNe/ylsqkALYq1yQEMTtpy1HbKjBaB4=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:50854
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1uHQ16-0006BF-8o; Tue, 20 May 2025 12:40:36 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: biju.das.jz@bp.renesas.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, hugo@hugovil.com,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Tue, 20 May 2025 12:40:32 -0400
-Message-Id: <20250520164034.3453315-1-hugo@hugovil.com>
-X-Mailer: git-send-email 2.39.5
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3567E10E085;
+ Tue, 20 May 2025 16:53:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747760023; x=1779296023;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0YHiEm+Lu718zLVBOyGfqS/sj/qaDdil73gVp2bj9Ic=;
+ b=h8G5hz88ZTu57zw7RbNTCfK7GNRJ4y0ZBmefBCTaxIVGAsL2eS/tth5V
+ 8544iKCMu0vT4YnhuLbvBKRcPhAmwVOO0gACH3oTIGaal1Jvff/KwGnKS
+ yEqaeaoC3tKo6gEkvWqL39W8KGlL/O7Cc7BmVXjXOCL5q6LicGgCUtY9s
+ ZMwf+k0ijlGA93MIhD8QABmlovWE2JFz/ESfhYVLXjGZsOnKv3WvbYTA7
+ A5aXV4Ipi0Zq2E+Utv3+hxdhNZiSKLgH5dq4JBuoaowoYzmiVI1hWSrIa
+ QTO4/7b5DFtBuUNylV9R0RmU4/ZRuOhoP+PWgJQhHjODUOH+fMVIB8a1M Q==;
+X-CSE-ConnectionGUID: QeqGZURIQ4C5MsdFbHeyqQ==
+X-CSE-MsgGUID: 7CzD0kqNTd+//zZkNYo0RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="37322148"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="37322148"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2025 09:53:42 -0700
+X-CSE-ConnectionGUID: YmtzLOKVSmm9lhr580J9dQ==
+X-CSE-MsgGUID: KxC+KyG+TjuIDF/MIEGFaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="163038098"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO jhogande-mobl1..)
+ ([10.245.245.130])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2025 09:53:40 -0700
+From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+Subject: [PATCH v2 00/12] Panel Replay + Adaptive sync
+Date: Tue, 20 May 2025 19:53:14 +0300
+Message-ID: <20250520165326.1631330-1-jouni.hogander@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
- autolearn_force=no version=3.4.2
-Subject: [PATCH 0/2] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI command support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +69,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+This patch set is adding missing configuration to have Panel Replay
+and Adaptive Sync enabled simultaneously. Also some issues identified
+while debugging are fixed:
 
-Hello,
-this patch series add support for sending MIPI DSI command packets to the
-Renesas RZ/G2L MIPI DSI driver.
+1. Source PORT ALPM configuration has to made during modeset.
+2. PHY_CMN1_CONTROL is not written according to HAS document
+3. Wrong register field definitions for PORT_ALPM_LFPS_CTL.
 
-Tested on a custom board with a SolidRun RZ/G2L SOM, with two different LCD
-panels using the jd9365da and st7703 drivers.
+Patches are tested on LunarLake and PantheLake using our reference panel supporting
+Adaptive Sync and Panel Replay.
 
-Tested short and long writes.
+EMP_AS_SDP_TL is currently missing completely from drm-tip. There is a patch for that which is needed if testing these patches:
 
-Tested read of 1 byte, 2 bytes and long reads.
+https://patchwork.freedesktop.org/series/148421/
 
-Thank you.
+Otherwise "PSR idle timeout" errors are seen while testing.
 
-Hugo Villeneuve (2):
-  drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
-  drm: rcar-du: rzg2l_mipi_dsi: Set DCS maximum return packet size
+v2:
+  - rework Panel Replay DPCD register definitions
+  - do not use hardcoded indices while accessing intel_dp->pr_dpcd
+  - ensure ALPM registers are not written on platform where they do
+    not exist
+  - remove kerneldoc comments
 
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 184 ++++++++++++++++++
- .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  60 ++++++
- 2 files changed, 244 insertions(+)
+Jouni Högander (12):
+  drm/panelreplay: Panel Replay capability DPCD register definitions
+  drm/dp: Add Panel Replay capability bits from DP2.1 specification
+  drm/i915/psr: Read all Panel Replay capability registers from DPCD
+  drm/i915/alpm: Add PR_ALPM_CTL register definitions
+  drm/i915/alpm: Write PR_ALPM_CTL register
+  drm/i915/psr: Add interface to check if AUXLess ALPM is needed by PSR
+  drm/i915/alpm: Add new interface to check if AUXLess ALPM is used
+  drm/i915/alpm: Move port alpm configuration
+  drm/i915/display: Add PHY_CMN1_CONTROL register definitions
+  drm/i915/display: Add function to configure LFPS sending
+  drm/i915/psr: Fix using wrong mask in REG_FIELD_PREP
+  drm/i915/psr: Do not disable Panel Replay in case VRR is enabled
 
+ drivers/gpu/drm/i915/display/intel_alpm.c     | 72 +++++++++++++------
+ drivers/gpu/drm/i915/display/intel_alpm.h     |  4 ++
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c  | 32 +++++++++
+ drivers/gpu/drm/i915/display/intel_cx0_phy.h  |  2 +
+ .../gpu/drm/i915/display/intel_cx0_phy_regs.h |  3 +
+ drivers/gpu/drm/i915/display/intel_ddi.c      | 12 ++++
+ .../drm/i915/display/intel_display_types.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      | 44 +++++++-----
+ drivers/gpu/drm/i915/display/intel_psr.h      |  2 +
+ drivers/gpu/drm/i915/display/intel_psr_regs.h | 14 +++-
+ include/drm/display/drm_dp.h                  | 18 +++--
+ 11 files changed, 163 insertions(+), 44 deletions(-)
 
-base-commit: 7c1a9408ce5f34ded5a85db81cf80e0975901685
 -- 
-2.39.5
+2.43.0
 
