@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC37BABD0A7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B011BABD0B5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1D710E46E;
-	Tue, 20 May 2025 07:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BCF10E127;
+	Tue, 20 May 2025 07:44:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VN3W+A/z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JMbN3d8D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF5F10E46E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:41:27 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDDE10E127
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:44:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5F0C56113B;
- Tue, 20 May 2025 07:41:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E563C4CEE9;
- Tue, 20 May 2025 07:41:24 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7014EA4DF93;
+ Tue, 20 May 2025 07:44:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064D7C4CEE9;
+ Tue, 20 May 2025 07:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747726887;
- bh=r4jX8Azs8v5DrAXiFmtO9nabjgP5A44o2RnL8fPrWS0=;
+ s=k20201202; t=1747727086;
+ bh=2XGlz9R8H+zhZDJ5kNa0PjUKq77CWh9IQL8V2XTDtw8=;
  h=From:To:Cc:Subject:Date:From;
- b=VN3W+A/zNLw3hbn2mYfVm8M2mhK4jjRrbg1rD16Y+KOcsugzsq81QflRKhkRXK8YY
- GJznMwZZ4h8U8C6z0mEmRn6i/PWXZ3LYzWO76PiDl9XN4SnEacBXlKIdjVyVtVnum1
- VvWQVotMJn7KAD9EXxY0br9afo9BZ+lbhbPaYfAUO1tirIBor5IhyW7BujYtpia7hS
- fLUvVkGb0FFvSDMWCgzLyvPQgG+onRkHBntwf/HImijHJus40H6QEfoGGfIhW+ijRH
- VQS1KBiu4cbl8TMczJz5rEtNqFAlsKFVNz/OpekFapfjv32pGhgqnRnbXfXeeNEMLC
- aF1Rl0KLq+z9Q==
+ b=JMbN3d8DC8scld5c7jdCdayYQkAyNvArAuJCNCr6X8yEvCHsZOje861OunHeqkq05
+ kR3CCwYXYG4y3XZaVuuYV/N5XZjNflV/Fy7P/P5ttuX0RtEjBitLPmR9LeWqfs1HfX
+ 9QJLowFXp6606GR3T32V9hqHKEK4qkerzd4OGW/Zaevn7KTpw1HDal2adE+GR/EJEg
+ sRdCmeNMdZ6IUhOBoB7q5VtM2Msnqgwn2iTGdBlQ1a9t/pkgKCxdV3ft6XyVj7eujH
+ Oy7thN/SuZpn3g8maPPSfXWqmFoyEj5VKPy4dHq1HdJzhrttZRa9ts1GHJbfhdLkCJ
+ SgXncVH5xJxjQ==
 From: Michael Walle <mwalle@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Michael Walle <mwalle@kernel.org>
-Subject: [PATCH] drm/panel-simple: fix the warnings for the Evervision
- VGG644804
-Date: Tue, 20 May 2025 09:41:10 +0200
-Message-Id: <20250520074110.655114-1-mwalle@kernel.org>
+ devicetree@vger.kernel.org, Michael Walle <mwalle@kernel.org>
+Subject: [PATCH 1/2] dt-bindings: display: simple: add AUO P238HAN01 panel
+Date: Tue, 20 May 2025 09:44:38 +0200
+Message-Id: <20250520074439.655749-1-mwalle@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,37 +63,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel lacked the connector type which causes a warning. Adding the
-connector type reveals wrong bus_flags and bits per pixel. Fix all of
-it.
+Add AUO P238HAN01 23.8" 1920x1080 LVDS panel compatible string.
 
-Fixes: 1319f2178bdf ("drm/panel-simple: add Evervision VGG644804 panel entry")
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 82ee2f12b8d2..0a3b26bb4d73 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2198,13 +2198,14 @@ static const struct display_timing evervision_vgg644804_timing = {
- static const struct panel_desc evervision_vgg644804 = {
- 	.timings = &evervision_vgg644804_timing,
- 	.num_timings = 1,
--	.bpc = 8,
-+	.bpc = 6,
- 	.size = {
- 		.width = 115,
- 		.height = 86,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct display_timing evervision_vgg804821_timing = {
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 5542c9229d54..1ac1f0219079 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -57,6 +57,8 @@ properties:
+       - auo,g121ean01
+         # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
+       - auo,g156xtn01
++        # AU Optronics Corporation 23.8" FHD (1920x1080) TFT LCD panel
++      - auo,p238han01
+         # AU Optronics Corporation 31.5" FHD (1920x1080) TFT LCD panel
+       - auo,p320hvn03
+         # AU Optronics Corporation 21.5" FHD (1920x1080) color TFT LCD panel
 -- 
 2.39.5
 
