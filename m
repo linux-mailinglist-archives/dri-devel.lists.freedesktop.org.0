@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5029ABDE11
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 17:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E61BABDE13
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 17:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1498F10E606;
-	Tue, 20 May 2025 15:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7405410E658;
+	Tue, 20 May 2025 15:01:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PRQjx1oV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oPyjeJGc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A9510E5FC;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5B010E65F;
+ Tue, 20 May 2025 15:01:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 37C72A4EBC2;
+ Tue, 20 May 2025 15:01:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B931C4CEE9;
  Tue, 20 May 2025 15:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747753279; x=1779289279;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=A0fPgotI3HW28kJ/L+KMDYDKmRLgtpvg3MtXO5K9tIo=;
- b=PRQjx1oVSBH4JEfQxd05tIdjNcft7CTiBkYo756W6cy2jMMEcWE5b5lq
- bpo7wSnZEEW3J026vJUyRxfZNowrOh2FZm9yd2gilgtl9j/zClfs4LKrr
- zynUwzfGtcY6T6No+gfdmXWBUEL5UFF5trtd0C88TRxK1fojOFmfWsVcx
- kP+Z6mnTOMpBv2XWPS4wca+hae4ruUBOeYjbmBu57oFuNiO0L/ME4hn3o
- bDd+tBhlhCID+I3r2PkCrRAY2Q+PcMjpZj8VSL+FbCb5c8fmW1EMbHeOS
- 3+98gOoirS32SROFcL+DnFtSGm1IiXAiSF407W8Js53GATybPfeHlCgG2 A==;
-X-CSE-ConnectionGUID: DxhxCp+MQzul3YE3YoDZ1g==
-X-CSE-MsgGUID: hyANYBNsTgSLGWpcYEnvcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="67101688"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="67101688"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2025 08:01:19 -0700
-X-CSE-ConnectionGUID: vuZ0H/pARPCEcEGhR6Utmg==
-X-CSE-MsgGUID: DNTG2NPtRkSWmtZ0S47/BQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="176851517"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.165])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2025 08:01:15 -0700
-Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747753284;
+ bh=JXYMAkvj/vNiCk438wP3usUMpigmdkQBoAWrzqqiPxo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oPyjeJGcL4wWmhLv9mYckwIt//FsPF0uVP927y59OhlFrG6w8DlDaTFA/0oEEKPex
+ BpULEI41kTjn1Xvdk6JCqfB81lKme9hOYL5y1qmUqi/8JfGgVNGWDdfejU8mTammlY
+ ygphQufAE1kUFtKHG/7Vj7eSp/GKSAxVP/0xTyT4Y+iCcGpeYEHL9O29bJ/pDMeN7T
+ aNMknS2rzjZvu9BcB7C2g3wfJ8naFN2qREUgQ0H0M731NSH8H1HNsTkoKJzzpzmo6g
+ wbbdSCKGWrQ1uQPYZ6kgpf6HAW5um6D5dbpFFkYQd5LhuAHPtSiYLSN3IgQ3duaECG
+ FfFtCadsO2/1w==
+Date: Tue, 20 May 2025 17:01:17 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Shirish Baskaran <sbaskaran@nvidia.com>
+Subject: Re: [PATCH v3 16/19] nova-core: Add support for VBIOS ucode
+ extraction for boot
+Message-ID: <aCyZPUaPSks_DhTn@cassiopeiae>
+References: <20250507-nova-frts-v3-0-fcb02749754d@nvidia.com>
+ <20250507-nova-frts-v3-16-fcb02749754d@nvidia.com>
+ <aCN_PIYEEzs73AqT@pollux>
+ <4fee85be-a8c5-4a99-8397-c93e79d72d15@nvidia.com>
+ <aCxLyxcERNHKzfvI@cassiopeiae>
+ <3cfb7a8c-467e-44d0-9874-361f719748b8@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250519153418.44543-1-krzysztof.niemiec@intel.com>
-References: <20250519153418.44543-1-krzysztof.niemiec@intel.com>
-Subject: Re: [RFC 0/2] Introduce a sysfs interface for lmem information
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- intel-gfx@lists.freedesktop.org
-Date: Tue, 20 May 2025 18:01:12 +0300
-Message-ID: <174775327260.81385.8059929394366685323@jlahtine-mobl>
-User-Agent: alot/0.12.dev7+g16b50e5f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3cfb7a8c-467e-44d0-9874-361f719748b8@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,83 +77,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(+ Tvrtko, Rodrigo and Jani)
+On Tue, May 20, 2025 at 09:43:42AM -0400, Joel Fernandes wrote:
+> On 5/20/2025 5:30 AM, Danilo Krummrich wrote:
+> > On Tue, May 20, 2025 at 03:55:06AM -0400, Joel Fernandes wrote:
+> >> On 5/13/2025 1:19 PM, Danilo Krummrich wrote:
+> >>> On Wed, May 07, 2025 at 10:52:43PM +0900, Alexandre Courbot wrote:
+> 
+> So the code here now looks like the below, definitely better, thanks! :
+> 
+>             if let (Some(second_ref), Some(first), Some(pci_at)) =
+>                 (second.as_mut(), first_fwsec_image, pci_at_image)
+>             {
+>                 second_ref
+>                     .setup_falcon_data(pdev, &pci_at, &first)
+>                     .inspect_err(|e| {
+>                         dev_err!(..)
+>                     })?;
+>                 Ok(Vbios { fwsec_image: second.take().ok_or(EINVAL)? })
+>             } else {
+>                 dev_err!(
+>                     pdev.as_ref(),
+>                     "Missing required images for falcon data setup, skipping\n"
+>                 );
+>                 Err(EINVAL)
+>             }
 
-Quoting Krzysztof Niemiec (2025-05-19 18:34:14)
-> Hi,
->=20
-> This series introduces a way for applications to read local memory
-> information via files in the sysfs. So far the only way to do this was
-> via i915_query ioctl. This is slightly less handy than sysfs for
-> external users. Additionally, the ioctl has a capability check which
-> limits which users of a system might use it to get information.
->=20
-> The goals of this series are:
->=20
->         1) Introduce a simpler interface to access lmem information,
->         2) Lift the CAP_PERFMON check on that information, OR provide
->            the administrator with a way to optionally lift it.
->=20
-> The first patch introduces the general mechanism without protections.
-> This will effectively lift a capability check on obtaining the memory
-> information. The second patch introduces that check back inside the
-> _show() functions, but also adds a sysctl parameter allowing to override
-> the checks, if an administrator so decides.
->=20
-> I'm sending this as RFC because I have a feeling that there's no
-> consensus whether memory information exposed in the patch should be
-> protected or not. Showing it to any user is strictly speaking an info
-> leak, but the severity thereof might be considered not that high, so I'd
-> rather leave it up to discussion first.
->=20
-> If we decide for lifting the check, the first patch is sufficient.
+Sorry, my code-snipped was incorrect indeed. Let me paste what I actually
+intended (and this time properly compile checked) and should be even better:
 
-Nack on that.
+	if let (Some(mut second), Some(first), Some(pci_at)) =
+	    (second_fwsec_image, first_fwsec_image, pci_at_image)
+	{
+	    second
+	        .setup_falcon_data(pdev, &pci_at, &first)
+	        .inspect_err(|e| {
+	            dev_err!(pdev.as_ref(), "Falcon data setup failed: {:?}\n", e)
+	        })?;
+	
+	    Ok(Vbios(second))
+	} else {
+	    dev_err!(
+	        pdev.as_ref(),
+	        "Missing required images for falcon data setup, skipping\n"
+	    );
+	
+	    Err(EINVAL)
+	}
 
-CPU memory footprint and GPU memory footprint have a very different
-nature. This was discussed to quite a length, please refer to mailing
-list archives.
+So, with this second is the actual value and not just a reference. :)
 
-> If we
-> decide against it, the second patch protects the information by default,
-> but with a way to expose it as a conscious decision of the admin. I find
-> it a decent compromise.
+And the methods can become:
 
-No need for the added complexity if we were to add a sysfs.
+	pub(crate) fn fwsec_header(&self, pdev: &device::Device) -> Result<&FalconUCodeDescV3> {
+	    self.0.fwsec_header(pdev)
+	}
+	
+	pub(crate) fn fwsec_ucode(&self, pdev: &device::Device) -> Result<&[u8]> {
+	    self.0.fwsec_ucode(pdev, self.fwsec_header(pdev)?)
+	}
+	
+	pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> Result<&[u8]> {
+	    self.0.fwsec_sigs(pdev, self.fwsec_header(pdev)?)
+	}
 
-If a sysfs is added, it can be made root readable by default but system
-admin is free to chown or chmod the file for more relaxed access. Back
-in the original discussion time, this was omitted for lack of users.
+However, I don't understand why they're not just implemented for FwSecBiosImage
+itself this way. You can just implement Deref for Vbios then.
 
-Even now, userspace/sysadmin could already essentially use setuid helper
-process that will only report the memory statistics.
+> > In general, I feel like a lot of those Option come from a programming pattern
+> > that is very common in C, i.e. allocate a structure (stack or heap) and then
+> > initialize its fields.
+> > 
+> > In Rust you should aim to initialize all the fields of a structure when you
+> > create the instance. Option as a return type of a function is common, but it's
+> > always a bit suspicious when there is an Option field in a struct.
+> 
+> I looked into it, I could not git rid of those ones because we need to
+> initialize in the "impl TryFrom<BiosImageBase> for BiosImage {"
+> 
+>             0xE0 => Ok(BiosImage::FwSec(FwSecBiosImage {
+>                 base,
+>                 falcon_data_offset: None,
+>                 pmu_lookup_table: None,
+>                 falcon_ucode_offset: None,
+>             })),
+> 
+> And these fields will not be determined until much later, because as is the case
+> with the earlier example, these fields cannot be determined until all the images
+> are parsed.
 
-So I'm not really fully convinced this is needed at all.
+You should not use TryFrom, but instead use a normal constructor, such as
 
-And if it is to be added for the convenience of usersppace, it should
-probably then be considered to be a standard interface across DRM drivers
-ala fdinfo or cgroups.
+	BiosImage::new(base_bios_image)
 
-Regards, Joonas
+and do the parsing within this constructor.
 
->=20
-> This change has been requested in these parallel issues for i915 and Xe:
->=20
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14153
-> https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/4861
->=20
-> Thanks
-> Krzysztof
->=20
-> Krzysztof Niemiec (2):
->   drm/i915: Expose local memory information via sysfs
->   drm/i915: Add protections to sysfs local memory information
->=20
->  drivers/gpu/drm/i915/i915_sysfs.c          |   6 +
->  drivers/gpu/drm/i915/intel_memory_region.c | 136 +++++++++++++++++++++
->  drivers/gpu/drm/i915/intel_memory_region.h |   3 +
->  3 files changed, 145 insertions(+)
->=20
-> --=20
-> 2.45.2
-> _
+If you want a helper type with Options while parsing that's totally fine, but
+the final result can clearly be without Options. For instance:
+
+	struct Data {
+	   image: KVec<u8>,
+	}
+
+	impl Data {
+	   fn new() -> Result<Self> {
+	      let parser = DataParser::new();
+
+	      Self { image: parser.parse()? }
+	   }
+
+	   fn load_image(&self) {
+	      ...
+	   }
+	}
+
+	struct DataParser {
+	   // Only some images have a checksum.
+	   checksum: Option<u64>,
+	   // Some images have an extra offset.
+	   offset: Option<u64>,
+	   // Some images need to be patched.
+	   patch: Option<KVec<u8>>,
+	   image: KVec<u8>,
+	}
+
+	impl DataParser {
+	   fn new() -> Self {
+	      Self {
+	         checksum: None,
+	         offset: None,
+	         patch: None,
+	         bytes: KVec::new(),
+	      }
+	   }
+
+	   fn parse(self) -> Result<KVec<u8>> {
+	      // Fetch all the required data.
+	      self.fetch_checksum()?;
+	      self.fetch_offset()?;
+	      self.fetch_patch()?;
+	      self.fetch_byes()?;
+
+	      // Doesn't do anything if `checksum == None`.
+	      self.validate_checksum()?;
+
+	      // Doesn't do anything if `offset == None`.
+	      self.apply_offset()?;
+
+	      // Doesn't do anything if `patch == None`.
+	      self.apply_patch()?;
+
+	      // Return the final image.
+	      self.image
+	   }
+	}
+
+I think the pattern here is the same, but in this example you keep working with
+the DataParser, instead of a new instance of Data.
+
+> > I understand that there are cases where we can't omit it, and for obvious
+> > reasons the Vbios code is probably a perfect example for that.
+> > 
+> > However, I recommend looking at this from top to bottom: Do the "final"
+> > structures that we expose to the driver from the Vbios module have fields that
+> > are *really* optional? Or is the Option type just a result from the parsing
+> > process?
+> > 
+> > If it's the latter, we should get rid of it and work with a different type
+> > during the parsing process and then create the final instance that is exposed to
+> > the driver at the end.
+> > 
+> > For instance FwSecBiosImage is defined as:
+> > 
+> > 	pub(crate) struct FwSecBiosImage {
+> > 	    base: BiosImageBase,
+> > 	    falcon_data_offset: Option<usize>,
+> > 	    pmu_lookup_table: Option<PmuLookupTable>,
+> > 	    falcon_ucode_offset: Option<usize>,
+> > 	}
+> > 
+> > Do only *some* FwSecBiosImage instances have a falcon_ucode_offset?
+> > 
+> > If the answer is 'no' then it shouldn't be an Option. If the answer is 'yes',
+> > then this indicates that FwSecBiosImage is probably too generic and should be
+> > split into more specific types of a FwSecBiosImage which instead share a common
+> > trait in order to treat the different types generically.
+> 
+> Understood, thanks.
