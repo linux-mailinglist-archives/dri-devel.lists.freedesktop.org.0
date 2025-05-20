@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E42DABE219
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 19:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7827ABE212
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 19:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8605C10E61B;
-	Tue, 20 May 2025 17:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985EA10E603;
+	Tue, 20 May 2025 17:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="FFN7t7jW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sBfZRIzE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764ED10E5EF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 17:47:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1747763247; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Gj+qZAv1Vqas2D98HrTYTtX89THlnMYIEfYTU0DhJoiemf23tl5gojB3h8JP+C/ieaIbFoExlbPfHXulqeHN89BUVGgtnVuIoP856ZNvykew2y2pa2NVZLXpKrvKaJGb3SJArWH7dE/+eDrG6lrrkxFnFSGdsEHskiy+iSwJDpc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1747763247;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ZwJNqE4R8o0XNFwOgoDwfufMDYbnprYPjqqiSXm7UnQ=; 
- b=QZB6YlLvqqaCoPwp6nH5ec3+dVntvqV9bTKGlEJBi0wrzfIGw57a65rieMKvoc+DQQHJ1KHVDSq1Uxxov1hkxVQGP4nsEtEtMIqUwy7V54s9JDyv6R/uthp7FbbF+AC99zYNqI5HWSGoXRufYvhpRJAz8pZzfEE+QIX79wLxb1A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747763247; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=ZwJNqE4R8o0XNFwOgoDwfufMDYbnprYPjqqiSXm7UnQ=;
- b=FFN7t7jW7JXxfT2X9a/iFHT5l2V8K99/2qWlDo0CBDq8dDxEEoI+mGqOP+EQ7MTH
- CcSral/3aOm6hetBVbClLW7IEaWxZ+RkxDqQOV3XZjjrOZ4LVAXSijZK7CgrJNasg5+
- ZmjBTuxFPrh0aoOAwBMkOLwaMlm0gcHLu7HYNsLY=
-Received: by mx.zohomail.com with SMTPS id 1747763247490239.94632075864706;
- Tue, 20 May 2025 10:47:27 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v3 5/5] drm/panfrost: Fix panfrost device variable name in
- devfreq
-Date: Tue, 20 May 2025 18:44:02 +0100
-Message-ID: <20250520174634.353267-6-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250520174634.353267-1-adrian.larumbe@collabora.com>
-References: <20250520174634.353267-1-adrian.larumbe@collabora.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAA910E5E2;
+ Tue, 20 May 2025 17:46:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D6B88A4EDBC;
+ Tue, 20 May 2025 17:46:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C07C4CEE9;
+ Tue, 20 May 2025 17:46:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747763212;
+ bh=epFj9ameUkoKhotMXUPaBgkx49wIoRJSBD61YLTqtVM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sBfZRIzE4v7CL3HkV72lw/fz0AUs5vRFYf6K/RemCVLWrl4xqKVJdF3grWH16tgTV
+ 8Trl5e9btU7ak0JC2AbkH3G7whYXVZMJ7lcebS/oJPIU5Bt19ama76kr7mYBE+LvIh
+ 1oRGlipphrGNzbmuPqTso8eZUq4VLkT3GUjzgwnO8MMGYx2CuuxP0ovvpsmLwhnX31
+ Z7903FKatq3Hl9Vv4ke1EfJENUWOL1jimMrsS1r3S1wEoUEwPHo68J0KjfViqk2MSy
+ Ojzxq0sdIS+mYGzVJ1XCKJUvOrk3IsIPPn/U7LQCpA/Bo92B1+4VuN2+qrVQeeqhwF
+ 28eKIdFs5a/7w==
+Date: Tue, 20 May 2025 19:46:48 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Krzysztof Niemiec <krzysztof.niemiec@intel.com>, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>, 
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>, 
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RFC 0/2] Introduce a sysfs interface for lmem information
+Message-ID: <wmejfsw4evmyg2apuo2dwlt4i44eduzhkcyqsi6x7erq7udbnn@t5pwllrdmh6u>
+References: <20250519153418.44543-1-krzysztof.niemiec@intel.com>
+ <174775327260.81385.8059929394366685323@jlahtine-mobl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <174775327260.81385.8059929394366685323@jlahtine-mobl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,40 +66,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 64111a0e22a9 ("drm/panfrost: Fix incorrect updating of current
-device frequency") was a Panfrost port of a similar fix in Panthor.
+Hi,
 
-Fix the Panfrost device pointer variable name so that it follows
-Panfrost naming conventions.
+On Tue, May 20, 2025 at 06:01:12PM +0300, Joonas Lahtinen wrote:
+> Quoting Krzysztof Niemiec (2025-05-19 18:34:14)
+> > This series introduces a way for applications to read local memory
+> > information via files in the sysfs. So far the only way to do this was
+> > via i915_query ioctl. This is slightly less handy than sysfs for
+> > external users. Additionally, the ioctl has a capability check which
+> > limits which users of a system might use it to get information.
+> > 
+> > The goals of this series are:
+> > 
+> >         1) Introduce a simpler interface to access lmem information,
+> >         2) Lift the CAP_PERFMON check on that information, OR provide
+> >            the administrator with a way to optionally lift it.
+> > 
+> > The first patch introduces the general mechanism without protections.
+> > This will effectively lift a capability check on obtaining the memory
+> > information. The second patch introduces that check back inside the
+> > _show() functions, but also adds a sysctl parameter allowing to override
+> > the checks, if an administrator so decides.
+> > 
+> > I'm sending this as RFC because I have a feeling that there's no
+> > consensus whether memory information exposed in the patch should be
+> > protected or not. Showing it to any user is strictly speaking an info
+> > leak, but the severity thereof might be considered not that high, so I'd
+> > rather leave it up to discussion first.
+> > 
+> > If we decide for lifting the check, the first patch is sufficient.
+> 
+> Nack on that.
+> 
+> CPU memory footprint and GPU memory footprint have a very different
+> nature. This was discussed to quite a length, please refer to mailing
+> list archives.
+> 
+> > If we
+> > decide against it, the second patch protects the information by default,
+> > but with a way to expose it as a conscious decision of the admin. I find
+> > it a decent compromise.
+> 
+> No need for the added complexity if we were to add a sysfs.
+> 
+> If a sysfs is added, it can be made root readable by default but system
+> admin is free to chown or chmod the file for more relaxed access. Back
+> in the original discussion time, this was omitted for lack of users.
+> 
+> Even now, userspace/sysadmin could already essentially use setuid helper
+> process that will only report the memory statistics.
+> 
+> So I'm not really fully convinced this is needed at all.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Fixes: 64111a0e22a9 ("drm/panfrost: Fix incorrect updating of current device frequency")
----
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+yeah! What is the real use case? Who is the userspace client?
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 3385fd3ef41a..5d0dce10336b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -29,7 +29,7 @@ static void panfrost_devfreq_update_utilization(struct panfrost_devfreq *pfdevfr
- static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
- 				   u32 flags)
- {
--	struct panfrost_device *ptdev = dev_get_drvdata(dev);
-+	struct panfrost_device *pfdev = dev_get_drvdata(dev);
- 	struct dev_pm_opp *opp;
- 	int err;
- 
-@@ -40,7 +40,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
- 
- 	err = dev_pm_opp_set_rate(dev, *freq);
- 	if (!err)
--		ptdev->pfdevfreq.current_frequency = *freq;
-+		pfdev->pfdevfreq.current_frequency = *freq;
- 
- 	return err;
- }
--- 
-2.48.1
+There are already ways to read out the GPU memory footprint so
+that we need to know whether we need for another uAPI.
 
+Andi
+
+> And if it is to be added for the convenience of usersppace, it should
+> probably then be considered to be a standard interface across DRM drivers
+> ala fdinfo or cgroups.
+> 
+> Regards, Joonas
+> 
+> > 
+> > This change has been requested in these parallel issues for i915 and Xe:
+> > 
+> > https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14153
+> > https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/4861
+> > 
+> > Thanks
+> > Krzysztof
+> > 
+> > Krzysztof Niemiec (2):
+> >   drm/i915: Expose local memory information via sysfs
+> >   drm/i915: Add protections to sysfs local memory information
+> > 
+> >  drivers/gpu/drm/i915/i915_sysfs.c          |   6 +
+> >  drivers/gpu/drm/i915/intel_memory_region.c | 136 +++++++++++++++++++++
+> >  drivers/gpu/drm/i915/intel_memory_region.h |   3 +
+> >  3 files changed, 145 insertions(+)
+> > 
+> > -- 
+> > 2.45.2
+> > _
