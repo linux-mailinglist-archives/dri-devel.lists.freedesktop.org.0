@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A04CABE12D
+	by mail.lfdr.de (Postfix) with ESMTPS id 06280ABE12C
 	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 18:53:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4AC10E5DE;
-	Tue, 20 May 2025 16:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BC410E5BF;
+	Tue, 20 May 2025 16:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h8G5hz88";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FXIGFIWl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3567E10E085;
- Tue, 20 May 2025 16:53:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E63510E592;
+ Tue, 20 May 2025 16:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747760023; x=1779296023;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=0YHiEm+Lu718zLVBOyGfqS/sj/qaDdil73gVp2bj9Ic=;
- b=h8G5hz88ZTu57zw7RbNTCfK7GNRJ4y0ZBmefBCTaxIVGAsL2eS/tth5V
- 8544iKCMu0vT4YnhuLbvBKRcPhAmwVOO0gACH3oTIGaal1Jvff/KwGnKS
- yEqaeaoC3tKo6gEkvWqL39W8KGlL/O7Cc7BmVXjXOCL5q6LicGgCUtY9s
- ZMwf+k0ijlGA93MIhD8QABmlovWE2JFz/ESfhYVLXjGZsOnKv3WvbYTA7
- A5aXV4Ipi0Zq2E+Utv3+hxdhNZiSKLgH5dq4JBuoaowoYzmiVI1hWSrIa
- QTO4/7b5DFtBuUNylV9R0RmU4/ZRuOhoP+PWgJQhHjODUOH+fMVIB8a1M Q==;
-X-CSE-ConnectionGUID: QeqGZURIQ4C5MsdFbHeyqQ==
-X-CSE-MsgGUID: 7CzD0kqNTd+//zZkNYo0RQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="37322148"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="37322148"
+ t=1747760024; x=1779296024;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=1S2ydYisaMnbAqaa9+txhCPmkV3M81a/SPrZHwsxdag=;
+ b=FXIGFIWlcm6aTFcSDaYsCAK9783zXVqPqWqTvHfZQuVXPdV/pqk7Ok6S
+ GemwjcIekuhyuWT8Bxo/bU/4vlf6+ys7G/9FJRLszIey9r3U866YpcF6y
+ /ECXkHZL+RpCk28Zg8sxKCVVbo8cnRENKmVNctCpNPf/UPzWsSlIboO/X
+ Z6LIqg0yNVGuO9ViRo6S3rpGCfJL7v8GiC5I1w2VgTphqRslTkavWZOl9
+ kiLs2C0TREBuFwYcmVbmyWHDEPoyGSLU4bftzGEnDOHNFR1ab7nKrJ05F
+ H82BWDlTDEBwQmqz/RJzReltqHULSkraF3lEHVVYvKe2W9M2bOSFLdoFS g==;
+X-CSE-ConnectionGUID: earIWq/0T5iEdocpaX7kXQ==
+X-CSE-MsgGUID: ZKikSgaHTeCcEj/RlGXW3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="37322158"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="37322158"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2025 09:53:42 -0700
-X-CSE-ConnectionGUID: YmtzLOKVSmm9lhr580J9dQ==
-X-CSE-MsgGUID: KxC+KyG+TjuIDF/MIEGFaw==
+ 20 May 2025 09:53:44 -0700
+X-CSE-ConnectionGUID: mFY5Okg4Ta+zX1ViV6Wjzg==
+X-CSE-MsgGUID: pczP8xlKSAianjPYNHrAQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="163038098"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; d="scan'208";a="163038108"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO jhogande-mobl1..)
  ([10.245.245.130])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2025 09:53:40 -0700
+ 20 May 2025 09:53:42 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-Subject: [PATCH v2 00/12] Panel Replay + Adaptive sync
-Date: Tue, 20 May 2025 19:53:14 +0300
-Message-ID: <20250520165326.1631330-1-jouni.hogander@intel.com>
+Subject: [PATCH v2 01/12] drm/panelreplay: Panel Replay capability DPCD
+ register definitions
+Date: Tue, 20 May 2025 19:53:15 +0300
+Message-ID: <20250520165326.1631330-2-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250520165326.1631330-1-jouni.hogander@intel.com>
+References: <20250520165326.1631330-1-jouni.hogander@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
@@ -69,57 +72,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch set is adding missing configuration to have Panel Replay
-and Adaptive Sync enabled simultaneously. Also some issues identified
-while debugging are fixed:
+Add new definition for size of Panel Replay DPCD capability registers
+area. Rename existing definitions to group capability registers together.
 
-1. Source PORT ALPM configuration has to made during modeset.
-2. PHY_CMN1_CONTROL is not written according to HAS document
-3. Wrong register field definitions for PORT_ALPM_LFPS_CTL.
+Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_psr.c |  8 ++++----
+ include/drm/display/drm_dp.h             | 12 +++++++-----
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-Patches are tested on LunarLake and PantheLake using our reference panel supporting
-Adaptive Sync and Panel Replay.
-
-EMP_AS_SDP_TL is currently missing completely from drm-tip. There is a patch for that which is needed if testing these patches:
-
-https://patchwork.freedesktop.org/series/148421/
-
-Otherwise "PSR idle timeout" errors are seen while testing.
-
-v2:
-  - rework Panel Replay DPCD register definitions
-  - do not use hardcoded indices while accessing intel_dp->pr_dpcd
-  - ensure ALPM registers are not written on platform where they do
-    not exist
-  - remove kerneldoc comments
-
-Jouni Högander (12):
-  drm/panelreplay: Panel Replay capability DPCD register definitions
-  drm/dp: Add Panel Replay capability bits from DP2.1 specification
-  drm/i915/psr: Read all Panel Replay capability registers from DPCD
-  drm/i915/alpm: Add PR_ALPM_CTL register definitions
-  drm/i915/alpm: Write PR_ALPM_CTL register
-  drm/i915/psr: Add interface to check if AUXLess ALPM is needed by PSR
-  drm/i915/alpm: Add new interface to check if AUXLess ALPM is used
-  drm/i915/alpm: Move port alpm configuration
-  drm/i915/display: Add PHY_CMN1_CONTROL register definitions
-  drm/i915/display: Add function to configure LFPS sending
-  drm/i915/psr: Fix using wrong mask in REG_FIELD_PREP
-  drm/i915/psr: Do not disable Panel Replay in case VRR is enabled
-
- drivers/gpu/drm/i915/display/intel_alpm.c     | 72 +++++++++++++------
- drivers/gpu/drm/i915/display/intel_alpm.h     |  4 ++
- drivers/gpu/drm/i915/display/intel_cx0_phy.c  | 32 +++++++++
- drivers/gpu/drm/i915/display/intel_cx0_phy.h  |  2 +
- .../gpu/drm/i915/display/intel_cx0_phy_regs.h |  3 +
- drivers/gpu/drm/i915/display/intel_ddi.c      | 12 ++++
- .../drm/i915/display/intel_display_types.h    |  4 +-
- drivers/gpu/drm/i915/display/intel_psr.c      | 44 +++++++-----
- drivers/gpu/drm/i915/display/intel_psr.h      |  2 +
- drivers/gpu/drm/i915/display/intel_psr_regs.h | 14 +++-
- include/drm/display/drm_dp.h                  | 18 +++--
- 11 files changed, 163 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index cd833b63ea6b..0cfdeff268f9 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -516,7 +516,7 @@ static u8 intel_dp_get_su_capability(struct intel_dp *intel_dp)
+ 
+ 	if (intel_dp->psr.sink_panel_replay_su_support)
+ 		drm_dp_dpcd_readb(&intel_dp->aux,
+-				  DP_PANEL_PANEL_REPLAY_CAPABILITY,
++				  DP_PANEL_REPLAY_CAP_CAPABILITY,
+ 				  &su_capability);
+ 	else
+ 		su_capability = intel_dp->psr_dpcd[1];
+@@ -528,7 +528,7 @@ static unsigned int
+ intel_dp_get_su_x_granularity_offset(struct intel_dp *intel_dp)
+ {
+ 	return intel_dp->psr.sink_panel_replay_su_support ?
+-		DP_PANEL_PANEL_REPLAY_X_GRANULARITY :
++		DP_PANEL_REPLAY_CAP_X_GRANULARITY :
+ 		DP_PSR2_SU_X_GRANULARITY;
+ }
+ 
+@@ -536,7 +536,7 @@ static unsigned int
+ intel_dp_get_su_y_granularity_offset(struct intel_dp *intel_dp)
+ {
+ 	return intel_dp->psr.sink_panel_replay_su_support ?
+-		DP_PANEL_PANEL_REPLAY_Y_GRANULARITY :
++		DP_PANEL_REPLAY_CAP_Y_GRANULARITY :
+ 		DP_PSR2_SU_Y_GRANULARITY;
+ }
+ 
+@@ -676,7 +676,7 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
+ {
+ 	drm_dp_dpcd_read(&intel_dp->aux, DP_PSR_SUPPORT, intel_dp->psr_dpcd,
+ 			 sizeof(intel_dp->psr_dpcd));
+-	drm_dp_dpcd_readb(&intel_dp->aux, DP_PANEL_REPLAY_CAP,
++	drm_dp_dpcd_readb(&intel_dp->aux, DP_PANEL_REPLAY_CAP_SUPPORT,
+ 			  &intel_dp->pr_dpcd);
+ 
+ 	if (intel_dp->pr_dpcd & DP_PANEL_REPLAY_SUPPORT)
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index 3001c0b6e7bb..3371e2edd9e9 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -547,16 +547,18 @@
+ /* DFP Capability Extension */
+ #define DP_DFP_CAPABILITY_EXTENSION_SUPPORT	0x0a3	/* 2.0 */
+ 
+-#define DP_PANEL_REPLAY_CAP				0x0b0  /* DP 2.0 */
++#define DP_PANEL_REPLAY_CAP_SUPPORT			0x0b0  /* DP 2.0 */
+ # define DP_PANEL_REPLAY_SUPPORT			(1 << 0)
+ # define DP_PANEL_REPLAY_SU_SUPPORT			(1 << 1)
+ # define DP_PANEL_REPLAY_EARLY_TRANSPORT_SUPPORT	(1 << 2) /* eDP 1.5 */
+ 
+-#define DP_PANEL_PANEL_REPLAY_CAPABILITY		0xb1
+-# define DP_PANEL_PANEL_REPLAY_SU_GRANULARITY_REQUIRED	(1 << 5)
++#define DP_PANEL_REPLAY_CAP_SIZE	7
+ 
+-#define DP_PANEL_PANEL_REPLAY_X_GRANULARITY		0xb2
+-#define DP_PANEL_PANEL_REPLAY_Y_GRANULARITY		0xb4
++#define DP_PANEL_REPLAY_CAP_CAPABILITY			0xb1
++# define DP_PANEL_REPLAY_SU_GRANULARITY_REQUIRED	(1 << 5)
++
++#define DP_PANEL_REPLAY_CAP_X_GRANULARITY		0xb2
++#define DP_PANEL_REPLAY_CAP_Y_GRANULARITY		0xb4
+ 
+ /* Link Configuration */
+ #define	DP_LINK_BW_SET		            0x100
 -- 
 2.43.0
 
