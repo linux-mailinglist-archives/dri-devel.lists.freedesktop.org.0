@@ -2,137 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840EAABD9EB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 15:49:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E42FABD9F1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 15:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B66A10E608;
-	Tue, 20 May 2025 13:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066F910E27D;
+	Tue, 20 May 2025 13:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Mly2KS3I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LRU268jS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mly2KS3I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LRU268jS";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="X0dJXIpk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81CE810E5CF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 13:49:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6921F21FD1;
- Tue, 20 May 2025 13:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747748954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZM3TBrxZ9gV4DGlqhfK6QoDDrye6xmauHV1rnGmWSo=;
- b=Mly2KS3I0NbyhSJJz7h6ruYYwaHp/fHXCq11O1fT8DP7aV/C/Y30EYo2uiVDHJueRowmFb
- w/jClxindqho6mWfikBzmJmqhlH98/sDYtKKI8FzOrqJIQDJBL9g6hygCXICADEpJPc8wm
- 6yY96T0WsokpVXC5hrrPFeyQD0AipKs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747748954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZM3TBrxZ9gV4DGlqhfK6QoDDrye6xmauHV1rnGmWSo=;
- b=LRU268jSD4WF+otrYrdGkTmH1eEoo/LZA++Bp0MzsNwIrUiKyjnHWzB1py/+OzeGrz6CtB
- 0x16ubzzcNnE0cBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747748954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZM3TBrxZ9gV4DGlqhfK6QoDDrye6xmauHV1rnGmWSo=;
- b=Mly2KS3I0NbyhSJJz7h6ruYYwaHp/fHXCq11O1fT8DP7aV/C/Y30EYo2uiVDHJueRowmFb
- w/jClxindqho6mWfikBzmJmqhlH98/sDYtKKI8FzOrqJIQDJBL9g6hygCXICADEpJPc8wm
- 6yY96T0WsokpVXC5hrrPFeyQD0AipKs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747748954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZM3TBrxZ9gV4DGlqhfK6QoDDrye6xmauHV1rnGmWSo=;
- b=LRU268jSD4WF+otrYrdGkTmH1eEoo/LZA++Bp0MzsNwIrUiKyjnHWzB1py/+OzeGrz6CtB
- 0x16ubzzcNnE0cBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C7EB13A3E;
- Tue, 20 May 2025 13:49:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id TgiGCVqILGgbGwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 20 May 2025 13:49:14 +0000
-Message-ID: <990c04a5-6477-42c0-986d-9b63a30ac90b@suse.de>
-Date: Tue, 20 May 2025 15:49:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sitronix: Fix broken backwards-compatibility layer
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Marcus Folkesson <marcus.folkesson@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E7710E27D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 13:52:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B09774C;
+ Tue, 20 May 2025 15:51:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1747749112;
+ bh=ZDjBBWFIQA5TZm7fBQOM+u77NmrDVlIPEV0NfNuXhVE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X0dJXIpksjlZMPkvvk3a6hltmrXJXIaHgucfduWdCeBtOUPdv7HRJfdJCzfcC561y
+ fHgGsks5LQJfsve1YpejJhm/lc8hcPxXvVUNxWJKkO6UZnno8OJflJAiHbb8QUTzvh
+ 3v+T+5s0jBmydcrScOAblH1sXeVTyvpMVKVMrR5A=
+Date: Tue, 20 May 2025 15:52:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <1682cd80989f9ab98a7a9910a086a3a4d9769cc6.1747744752.git.geert+renesas@glider.be>
- <07088966-73f4-4b5d-898d-b596dede53e4@suse.de>
- <CAMuHMdU6XD_tqXaf4-h9KeC58XDOodUWa0d-Wmp6zcr2BHTA1w@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMuHMdU6XD_tqXaf4-h9KeC58XDOodUWa0d-Wmp6zcr2BHTA1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.20
-X-Spamd-Result: default: False [0.20 / 50.00]; SUSPICIOUS_RECIPS(1.50)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TAGGED_RCPT(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[gmail.com,redhat.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:email,
- suse.de:mid]
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v5 01/12] dt-bindings: display: renesas,rzg2l-du: Add
+ support for RZ/V2H(P) SoC
+Message-ID: <20250520135206.GA13321@pendragon.ideasonboard.com>
+References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512182330.238259-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250512182330.238259-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,53 +68,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Prabhakar,
 
-Am 20.05.25 um 15:09 schrieb Geert Uytterhoeven:
-> Hi Thomas,
->
-> On Tue, 20 May 2025 at 15:04, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Am 20.05.25 um 14:40 schrieb Geert Uytterhoeven:
->>> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
->>> the old symbols were kept, aiming to provide a seamless migration path
->>> when running "make olddefconfig" or "make oldconfig".
->>>
->>> However, the old compatibility symbols are not visible.  Hence unless
->>> they are selected by another symbol (which they are not), they can never
->>> be enabled, and no backwards compatibility is provided.
->>>
->>> Fix this by making them visible, and inverting the selection logic.
->>> Add comments to make it clear why there are two symbols with the same
->>> description.
->> These symbols were only meant for variants of 'make oldconfig' to pick
->> up th enew symbols. They where never for being selected manually.
-> But that pick-up does not work, unfortunately...
-> (I know, I had one of them enabled in one of my configs ;-)
+Thank you for the patch.
 
-I see.
+On Mon, May 12, 2025 at 07:23:19PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The DU block on the RZ/V2H(P) SoC is identical to the one found on the
+> RZ/G2L SoC. However, it only supports the DSI interface, whereas the
+> RZ/G2L supports both DSI and DPI interfaces.
+> 
+> Due to this difference, a SoC-specific compatible string
+> 'renesas,r9a09g057-du' is added for the RZ/V2H(P) SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
->
-> The alternative is to just drop the old symbols, and ignore current users.
-> Which is not that uncommon...
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-If there's no easy fix for the current setup, I'd prefer removing the 
-old symbols.
-
-Best regards
-Thomas
-
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
+> ---
+> v4->v5:
+> - Added reviewed tag from Biju
+> 
+> v3->v4:
+> - No changes
+> 
+> v2->v3:
+> - Collected reviewed tag from Krzysztof
+> 
+> v1->v2:
+> - Kept the sort order for schema validation
+> - Added  `port@1: false` for RZ/V2H(P) SoC
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 23 ++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> index 95e3d5e74b87..1e32d14b6edb 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - enum:
+>            - renesas,r9a07g043u-du # RZ/G2UL
+>            - renesas,r9a07g044-du # RZ/G2{L,LC}
+> +          - renesas,r9a09g057-du # RZ/V2H(P)
+>        - items:
+>            - enum:
+>                - renesas,r9a07g054-du    # RZ/V2L
+> @@ -101,7 +102,12 @@ allOf:
+>  
+>            required:
+>              - port@0
+> -    else:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g044-du
+> +    then:
+>        properties:
+>          ports:
+>            properties:
+> @@ -113,6 +119,21 @@ allOf:
+>            required:
+>              - port@0
+>              - port@1
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-du
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DSI
+> +            port@1: false
+> +
+> +          required:
+> +            - port@0
+>  
+>  examples:
+>    # RZ/G2L DU
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Regards,
 
+Laurent Pinchart
