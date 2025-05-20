@@ -2,113 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DDCABD173
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 10:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 349E9ABD17B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 10:06:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A6E10E41B;
-	Tue, 20 May 2025 08:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9926610E40C;
+	Tue, 20 May 2025 08:06:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y4KXpCcI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IuyomNKA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6648B10E40C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 08:06:12 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-3a36f26584bso1128671f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 01:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747728371; x=1748333171; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=f53RxOyUNbfIYGKYJrh6m3a+cJ+2EHowRMXuSk1JA5w=;
- b=Y4KXpCcI47SX0fMBPRdWFFXxu9Q1iVr6YsQTZ+mtEbKZZUp6zQPJIWzmAvRAVCtbsS
- pyJAgzhRAzWMsjctoCmFq7ycotnXxob8aQOd1w5ny1DVA/WBrfkjD9v8cD8SHN6lYd5d
- qIse7LD2GrYHpr+UcujppT8R6Cp7O/rMc64Lc9CfqNMLUCuqYAqPsaIN36TB4Ou9aOWz
- XBRgCdhMcAoIuRnn57BsIN1fKX2YihtBkqJtHd15fUOWW41YD4q9r4IXqIhpeHWBem0X
- 5yRJbrweoX8tyy0Z3LHPX8er0pwgZVzT83s6uEGDSZfDpvK8GScAk9ytgF0hp08V+fvn
- dS2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747728371; x=1748333171;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=f53RxOyUNbfIYGKYJrh6m3a+cJ+2EHowRMXuSk1JA5w=;
- b=AjpuhorrO976at/ok0N7WyH4U2znua2jiG5L7S3dNh6kvni3JWQprYdertT/TMYWX2
- oom4nodmQMCQYRfHLs6Htf2Z2o5e6GfR0SBTWqFW4QrGEZE0KfzCYN1ujggbrbIdu0xM
- bmlfLWsEKj0ZEiyntytxetAi8PNuEkhhBncg4qtXcI0600gCYvaSf+XhdDLJOE5dGioQ
- BQEEpAEF3nmHwKz45bb3QFvlsrnOGQ0OJkHW8Aasd9xlEruuF6prnUBN0R356/rBJXQd
- QPhTDgu0KFpfc7ZDqQBg6d2cr9pcYIs8EIQLBfSKkKOrjMhIEUevLPfKtu2KASn8b2lK
- ZOJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMh9wFXzTMwqAILWDxTtCqU4EsLXr0DGMhwwTV9qPV3lLK52WLCOoPvsDQiZgXF8f2PNSYFSWVGAM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyT027LJA909SWltcuyMd2pBhmgOUf8v8xfM9hfIqOnAu4y6Ptn
- 4L/RPtPyNh7yMwMqcwHXtD8FpMWIxLHTE4oKSpqeKgNpFSSBaZ+hpZgiR6YwTE9dciA=
-X-Gm-Gg: ASbGncuwGg3zM2c6zSj2Tq0h02acSUldZ6qjKWsP0LDG7ITFxylfYekmtoSEweQyTQn
- kmWacs3s8hHFAWIZNMDnySvkrn0NDj4j2nZ6e6nTPuO4QYrWQvMTxZoR61brJE3gyJby5UQYtNM
- TWinIEuR0RSwH0pTAihz1sfgW6yhBx6k5eQRGp2P3ttuX5dBWWXraXBh8bOAGBRqXURigg4uQbw
- xEyyQirUxptowaVy/2Iib3ptMkERdWNIVJoE/pYLSr0Iy5DBudc8G/CT0m3LonWVZAUJAiJvgPc
- hslMG/mEjcDuYVeIHWUw1WTfMK/3aDCfkb+Gc8/wQJA03R2ujymsYRRJKCpwTYjAfaNESKc5kGG
- yNhlJ7bQQzj+Wo/mFjzH7qqyG8TI7
-X-Google-Smtp-Source: AGHT+IFU/KqkjaZqWA96xVqbCJbAg44BaTwi9c9qATMvcmY51YXkMbr1hDQrWO7pjZhFY+VTnRD6RQ==
-X-Received: by 2002:a05:6000:4284:b0:3a3:5da4:d80b with SMTP id
- ffacd0b85a97d-3a3601db731mr12950882f8f.49.1747728370901; 
- Tue, 20 May 2025 01:06:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68?
- ([2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-447f23bfdd9sm20643995e9.18.2025.05.20.01.06.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 May 2025 01:06:10 -0700 (PDT)
-Message-ID: <193195a8-1e84-4ec6-aa3e-a02d00bd142c@linaro.org>
-Date: Tue, 20 May 2025 10:06:10 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 05/30] drm/msm/dpu: inline _setup_dspp_ops()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A8410E40C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 08:06:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AC75E5C48B7;
+ Tue, 20 May 2025 08:04:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82479C4CEE9;
+ Tue, 20 May 2025 08:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747728404;
+ bh=4M0Wi4/rDNAqAc2ojTcRtkCg6Ys4WEmngIzOvggZSro=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IuyomNKA7cMDwiaQ2dkXWTkhV66p/cDqE8Noh7B1tcDLMfTllYYp4BijkpHM66g2c
+ 3RPStAgo9ktIu5krmFVcmGaeF6KfyvWjP1zzfQD0iJXgfQ+QrJ8/9ZglDwg0HLBGHs
+ mz6GIO1BE21p/Tl1PNRBQjCYHaEyDUo0fB2hzGKTmANWi+wuuHHa33xVRGXKCOYoMg
+ Gk5x7ofLGlehl5ssT8M9e7L16/hHIb2J5RLNfLDfd6s6ZWMWKPY8GLQKz7+JYue9Ls
+ tvLainUR86mt5o9LUfZuKJMHag+je1TeK8mYvMqwDbjdQfZLVTy9bF+X+4GvFH+1D/
+ ozaPQ7+QyOOWA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1uHHzk-000000001ZQ-2U7N;
+ Tue, 20 May 2025 10:06:40 +0200
+Date: Tue, 20 May 2025 10:06:40 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Christopher Obbard <christopher.obbard@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
- <20250519-dpu-drop-features-v4-5-6c5e88e31383@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250519-dpu-drop-features-v4-5-6c5e88e31383@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>
+Subject: Re: [PATCH v6] drm/dp: clamp PWM bit count to advertised MIN and MAX
+ capabilities
+Message-ID: <aCw4EK_8C1KLb6MD@hovoldconsulting.com>
+References: <20250330-wip-obbardc-qcom-t14s-oled-panel-brightness-v6-1-84ad1cd1078a@linaro.org>
+ <Z-pTcB0L33bozxjl@hovoldconsulting.com>
+ <CACr-zFAiKRTHyRAF5HkM2drCMD7Q_Z3ZUFAsSnevy38yD8XMwg@mail.gmail.com>
+ <Z--eRHaYw_vbgK2f@hovoldconsulting.com>
+ <CACr-zFA77ogDSNEOGd32Rdh3geqkL25T0BKtNdKzUdjrL0+9RA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACr-zFA77ogDSNEOGd32Rdh3geqkL25T0BKtNdKzUdjrL0+9RA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,50 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2025 18:04, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Inline the _setup_dspp_ops() function, it makes it easier to handle
-> different conditions involving DSPP configuration.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c | 10 ++--------
->   1 file changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> index 829ca272873e45b122c04bea7da22dc569732e10..0f5a74398e66642fba48c112db41ffc75ae2a79f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> @@ -63,13 +63,6 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->   	DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
->   }
->   
-> -static void _setup_dspp_ops(struct dpu_hw_dspp *c,
-> -		unsigned long features)
-> -{
-> -	if (test_bit(DPU_DSPP_PCC, &features))
-> -		c->ops.setup_pcc = dpu_setup_dspp_pcc;
-> -}
-> -
->   /**
->    * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
->    * should be called once before accessing every DSPP.
-> @@ -97,7 +90,8 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
->   	/* Assign ops */
->   	c->idx = cfg->id;
->   	c->cap = cfg;
-> -	_setup_dspp_ops(c, c->cap->features);
-> +	if (test_bit(DPU_DSPP_PCC, &c->cap->features))
-> +		c->ops.setup_pcc = dpu_setup_dspp_pcc;
->   
->   	return c;
->   }
-> 
+Hi Chris,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Fri, Apr 04, 2025 at 02:24:32PM +0100, Christopher Obbard wrote:
+> On Fri, 4 Apr 2025 at 09:54, Johan Hovold <johan@kernel.org> wrote:
+> > On Fri, Apr 04, 2025 at 08:54:29AM +0100, Christopher Obbard wrote:
+> > > On Mon, 31 Mar 2025 at 09:33, Johan Hovold <johan@kernel.org> wrote:
+> > > > > @@ -4035,6 +4036,32 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
+> > > > >       }
+> > > > >
+> > > > >       pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
+> > > > > +
+> > > > > +     ret = drm_dp_dpcd_read_byte(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
+> > > > > +     if (ret < 0) {
+> > > > > +             drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
+> > > > > +                         aux->name, ret);
+> > > > > +             return -ENODEV;
+> > > > > +     }
+> > > > > +     pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
+> > > > > +
+> > > > > +     ret = drm_dp_dpcd_read_byte(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
+> > > > > +     if (ret < 0) {
+> > > > > +             drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
+> > > > > +                         aux->name, ret);
+> > > > > +             return -ENODEV;
+> > > > > +     }
+> > > > > +     pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
+> > > > > +
+> > > > > +     /*
+> > > > > +      * Per VESA eDP Spec v1.4b, section 3.3.10.2:
+> > > > > +      * If DP_EDP_PWMGEN_BIT_COUNT is less than DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN,
+> > > > > +      * the sink must use the MIN value as the effective PWM bit count.
+> > > > > +      * Clamp the reported value to the [MIN, MAX] capability range to ensure
+> > > > > +      * correct brightness scaling on compliant eDP panels.
+> > > > > +      */
+> > > > > +     pn = clamp(pn, pn_min, pn_max);
+> > > >
+> > > > You never make sure that pn_min <= pn_max so you could end up with
+> > > > pn < pn_min on broken hardware here. Not sure if it's something you need
+> > > > to worry about at this point.
+> > >
+> > > I am honestly not sure. I would hope that devices follow the spec and
+> > > there is no need to be too paranoid, but then again we do live in the
+> > > real world where things are... not so simple ;-).
+> > > I will wait for further feedback from someone who has more experience
+> > > with eDP panels than I have.
+> >
+> > There's always going to be buggy devices and input should always be
+> > sanitised so I suggest adding that check before calling clamp() (which
+> > expects min <= max) so that the result here is well-defined.
+> 
+> Makes sense, I will do so in the next revision.
+
+It seems you never got around to respinning this one so sending a
+reminder.
+
+Johan
