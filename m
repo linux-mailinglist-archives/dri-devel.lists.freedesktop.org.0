@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40463ABD5EC
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 13:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B634ABD5F2
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 13:07:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B25F10E120;
-	Tue, 20 May 2025 11:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A17310E49A;
+	Tue, 20 May 2025 11:07:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hHtOELO2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d2GfKWDw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7790210E23B;
- Tue, 20 May 2025 11:07:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94FD110E465;
+ Tue, 20 May 2025 11:07:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D899E629F7;
- Tue, 20 May 2025 11:07:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB435C4CEEB;
- Tue, 20 May 2025 11:07:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0644A629E1;
+ Tue, 20 May 2025 11:07:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 445CAC4CEEF;
+ Tue, 20 May 2025 11:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747739249;
- bh=nXhts44DJSFVNWOv7eyyjkedMSmvClEXtW/SL9iykC0=;
+ s=k20201202; t=1747739253;
+ bh=S0gFRqwqyWebIBa10cVloL4jrwymzDu/HHVSfMUQrHk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hHtOELO2xNSkrlmUjvtzGHvf3IzbirD2em/YD2rNgIFihAuic1KLA+nTuuUvn4nfx
- 82+GdDVMtAIlKxVT9snznLGsNDfJ64vpRFgYt1RqbRO4fkeA/qog95sAJKnDHCHPHI
- zM+XSwrVLPf3VJDbWSoc8VJ6tDAFqcZbYeeudCOfNDx0zVM2zRRnhz1/my/HZLtykW
- J0IRJvOYj+x5OjdQ8uuM1jv2mpGxPVGIv5ToS6KJRz+tv3k71RJJRsBEzjSm4DWRc6
- /TOCdNmNz46MJNCi2+NHyUHDZ1+1QQ/gde8X9umrtJgOjS/nvQOyPpbrnDxk7owraK
- mdp95M137wV1A==
+ b=d2GfKWDwQ/cMiHljmohwdwNIOkhmOHyh42ukVMc54BbJOCGYKtABuH6W53EE6Abhr
+ vE07k/eiQTeZJlDytbcaUNiE4AEQD4vLOXyf4gOz4S0+h2vYABk8+SvOgHYIP0cBYm
+ ev7tcQS3fazaOWQeeLJGMuuGfT6FP+WFiz9q/smzKKobapRnPuqwTzODjqDoQ0Z0hy
+ 2d1nZg0dmb1dLNFvwyFdu1+ygdcgiMzG5gBYs9d9JR5x/zQkXQbkfXF1T0+jsGBXWa
+ IwixnwhDmRfakv8q7wrF9HVbCXK6yMarVaf2PCNOn8dyh/w39AA+NZdPdFCtsLCq40
+ 5jzgUL+Y/RINw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Tue, 20 May 2025 13:07:07 +0200
-Subject: [PATCH RFT v4 02/14] drm/msm: Offset MDSS HBB value by 13
+Date: Tue, 20 May 2025 13:07:08 +0200
+Subject: [PATCH RFT v4 03/14] drm/msm: Use the central UBWC config database
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-topic-ubwc_central-v4-2-2a461d32234a@oss.qualcomm.com>
+Message-Id: <20250520-topic-ubwc_central-v4-3-2a461d32234a@oss.qualcomm.com>
 References: <20250520-topic-ubwc_central-v4-0-2a461d32234a@oss.qualcomm.com>
 In-Reply-To: <20250520-topic-ubwc_central-v4-0-2a461d32234a@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -51,11 +51,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747739235; l=7343;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747739235; l=21731;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=gqK2qyDk6eVe/cm6cG252hpkdQutV874QkaDB+MOsmQ=;
- b=7db4sej4sHGJu/MqbJH4MHjond2tUAbDr3M6LQVSrkZ/xaMpKDXNizHqG/jsleRUIcOX89/h4
- EixaX2fWI2zAYyUFtAirqUmwjeLpcSaNbQb/bt0Jxy+Xmgpxi9QnxFQ
+ bh=ETEqzd4kDS+2gOyH8Dye3S0cy/sKMwj5eU+UbMRrnQ8=;
+ b=ifFiOBAp2787GCWcaRIUsohTlWthjFxhQl4kBzWqiAb/sHk+kAXjocA91s8NX9cH0mQn0bR+D
+ G1qwDWy4FlhCU72jl8olnkxSuUrLEs2qHj/lZHs34yJRxc4w5r31bNG
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,232 +75,625 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-The Adreno part of the driver exposes this value to userspace, and the
-SMEM data source also presents a x+13 value. Keep things coherent and
-make the value uniform across them.
+As discussed a lot in the past, the UBWC config must be coherent across
+a number of IP blocks (currently display and GPU, but it also may/will
+concern camera/video as the drivers evolve).
+
+So far, we've been trying to keep the values reasonable in each of the
+two drivers separately, but it really make sense to do so centrally,
+especially given certain fields (e.g. HBB) may need to be gathered
+dynamically.
+
+To reduce room for error, move to fetching the config from a central
+source, so that the data programmed into the hardware is consistent
+across all multimedia blocks that request it.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 50 +++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/msm/Kconfig                 |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |   2 +-
+ drivers/gpu/drm/msm/msm_mdss.c              | 327 +++++-----------------------
+ drivers/gpu/drm/msm/msm_mdss.h              |  28 ---
+ 10 files changed, 73 insertions(+), 309 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+index 7f127e2ae44292f8f5c7ff6a9251c3d7ec8c9f58..aa317677b6a8960406635fda058a6b7d76256a51 100644
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -30,6 +30,7 @@ config DRM_MSM
+ 	select SHMEM
+ 	select TMPFS
+ 	select QCOM_SCM
++	select QCOM_UBWC_CONFIG
+ 	select WANT_DEV_COREDUMP
+ 	select SND_SOC_HDMI_CODEC if SND_SOC
+ 	select SYNC_FILE
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 32c7c80845533d720683dbcde3978d98f4972cce..54ccb1e5a89c75452ac6d53d201999d1124be8cd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -10,11 +10,11 @@
+ #include "dpu_hw_sspp.h"
+ #include "dpu_kms.h"
+ 
+-#include "msm_mdss.h"
+-
+ #include <drm/drm_file.h>
+ #include <drm/drm_managed.h>
+ 
++#include <linux/soc/qcom/ubwc.h>
++
+ #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
+ 
+ /* SSPP registers */
+@@ -684,7 +684,7 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+ struct dpu_hw_sspp *dpu_hw_sspp_init(struct drm_device *dev,
+ 				     const struct dpu_sspp_cfg *cfg,
+ 				     void __iomem *addr,
+-				     const struct msm_mdss_data *mdss_data,
++				     const struct qcom_ubwc_cfg_data *mdss_data,
+ 				     const struct dpu_mdss_version *mdss_rev)
+ {
+ 	struct dpu_hw_sspp *hw_pipe;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index 56a0edf2a57c6dcef7cddf4a1bcd6f6df5ad60f6..7957a3ab6b68cbbd2fd9e1f48673b42d1c8a225a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -308,7 +308,7 @@ struct dpu_hw_sspp_ops {
+ struct dpu_hw_sspp {
+ 	struct dpu_hw_blk base;
+ 	struct dpu_hw_blk_reg_map hw;
+-	const struct msm_mdss_data *ubwc;
++	const struct qcom_ubwc_cfg_data *ubwc;
+ 
+ 	/* Pipe */
+ 	enum dpu_sspp idx;
+@@ -323,7 +323,7 @@ struct dpu_kms;
+ struct dpu_hw_sspp *dpu_hw_sspp_init(struct drm_device *dev,
+ 				     const struct dpu_sspp_cfg *cfg,
+ 				     void __iomem *addr,
+-				     const struct msm_mdss_data *mdss_data,
++				     const struct qcom_ubwc_cfg_data *mdss_data,
+ 				     const struct dpu_mdss_version *mdss_rev);
+ 
+ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 1fd82b6747e9058ce11dc2620729921492d5ebdd..6667de3154e078b74f797ce1b92d4625c1503f9e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -20,9 +20,10 @@
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_writeback.h>
+ 
++#include <linux/soc/qcom/ubwc.h>
++
+ #include "msm_drv.h"
+ #include "msm_mmu.h"
+-#include "msm_mdss.h"
+ #include "msm_gem.h"
+ #include "disp/msm_disp_snapshot.h"
+ 
+@@ -1189,10 +1190,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		goto err_pm_put;
+ 	}
+ 
+-	dpu_kms->mdss = msm_mdss_get_mdss_data(dpu_kms->pdev->dev.parent);
++	dpu_kms->mdss = qcom_ubwc_config_get_data();
+ 	if (IS_ERR(dpu_kms->mdss)) {
+ 		rc = PTR_ERR(dpu_kms->mdss);
+-		DPU_ERROR("failed to get MDSS data: %d\n", rc);
++		DPU_ERROR("failed to get UBWC config data: %d\n", rc);
+ 		goto err_pm_put;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index a57ec2ec106083e8f93578e4307e8b13ae549c08..993cf512f8c509ac4e28a60a1a31b262f4a54f98 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -60,7 +60,7 @@ struct dpu_kms {
+ 	struct msm_kms base;
+ 	struct drm_device *dev;
+ 	const struct dpu_mdss_cfg *catalog;
+-	const struct msm_mdss_data *mdss;
++	const struct qcom_ubwc_cfg_data *mdss;
+ 
+ 	/* io/register spaces: */
+ 	void __iomem *mmio, *vbif[VBIF_MAX];
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 421138bc3cb779c45fcfd5319056f0d31c862452..ba5a46c5c1b501d22c6b28dd82ac761c26d08541 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -17,8 +17,9 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ 
++#include <linux/soc/qcom/ubwc.h>
++
+ #include "msm_drv.h"
+-#include "msm_mdss.h"
+ #include "dpu_kms.h"
+ #include "dpu_hw_sspp.h"
+ #include "dpu_hw_util.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index 2e296f79cba1437470eeb30900a650f6f4e334b6..cae85812fe273ba12ef9215e1881f59986bbf969 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -40,7 +40,7 @@ static inline bool reserved_by_other(uint32_t *res_map, int idx,
+ int dpu_rm_init(struct drm_device *dev,
+ 		struct dpu_rm *rm,
+ 		const struct dpu_mdss_cfg *cat,
+-		const struct msm_mdss_data *mdss_data,
++		const struct qcom_ubwc_cfg_data *mdss_data,
+ 		void __iomem *mmio)
+ {
+ 	int rc, i;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+index aa62966056d489d9c94c61f24051a2f3e7b7ed89..ccd64404f12d3ca3956c8e6df7d1ffddd4f20642 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+@@ -69,7 +69,7 @@ struct msm_display_topology {
+ int dpu_rm_init(struct drm_device *dev,
+ 		struct dpu_rm *rm,
+ 		const struct dpu_mdss_cfg *cat,
+-		const struct msm_mdss_data *mdss_data,
++		const struct qcom_ubwc_cfg_data *mdss_data,
+ 		void __iomem *mmio);
+ 
+ int dpu_rm_reserve(struct dpu_rm *rm,
 diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 709979fcfab6062c0f316f7655823e888638bfea..2c9531217eca7ac2308c6d1fa78287363ca652f9 100644
+index 2c9531217eca7ac2308c6d1fa78287363ca652f9..41b4d3708a77523c27cdd8b17e5ffa44bc8ca0b4 100644
 --- a/drivers/gpu/drm/msm/msm_mdss.c
 +++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -167,7 +167,7 @@ static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss)
- {
- 	const struct msm_mdss_data *data = msm_mdss->mdss_data;
- 	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
--		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
+@@ -16,14 +16,17 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
  
- 	if (data->ubwc_bank_spread)
- 		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
-@@ -182,7 +182,7 @@ static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss)
+-#include "msm_mdss.h"
++#include <linux/soc/qcom/ubwc.h>
++
+ #include "msm_kms.h"
+ 
+ #include <generated/mdss.xml.h>
+ 
+ #define MIN_IB_BW	400000000UL /* Min ib vote 400MB */
+ 
+-#define DEFAULT_REG_BW	153600 /* Used in mdss fbdev driver */
++struct msm_mdss_data {
++	u32 reg_bus_bw;
++};
+ 
+ struct msm_mdss {
+ 	struct device *dev;
+@@ -36,7 +39,8 @@ struct msm_mdss {
+ 		unsigned long enabled_mask;
+ 		struct irq_domain *domain;
+ 	} irq_controller;
+-	const struct msm_mdss_data *mdss_data;
++	const struct qcom_ubwc_cfg_data *mdss_data;
++	u32 reg_bus_bw;
+ 	struct icc_path *mdp_path[2];
+ 	u32 num_mdp_paths;
+ 	struct icc_path *reg_bus_path;
+@@ -165,7 +169,7 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+ 
+ static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss)
  {
- 	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+-	const struct msm_mdss_data *data = msm_mdss->mdss_data;
++	const struct qcom_ubwc_cfg_data *data = msm_mdss->mdss_data;
+ 	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
+ 		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
+ 
+@@ -180,7 +184,7 @@ static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss)
+ 
+ static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss)
+ {
+-	const struct msm_mdss_data *data = msm_mdss->mdss_data;
++	const struct qcom_ubwc_cfg_data *data = msm_mdss->mdss_data;
  	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle & 0x1) |
--		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
+ 		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
  
- 	if (data->macrotile_mode)
- 		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
-@@ -200,7 +200,7 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+@@ -198,7 +202,7 @@ static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss)
+ 
+ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
  {
- 	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+-	const struct msm_mdss_data *data = msm_mdss->mdss_data;
++	const struct qcom_ubwc_cfg_data *data = msm_mdss->mdss_data;
  	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
--		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
+ 		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit - 13);
  
- 	if (data->ubwc_bank_spread)
- 		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
-@@ -259,9 +259,9 @@ static const struct msm_mdss_data *msm_mdss_generate_mdp5_mdss_data(struct msm_m
- 
- 	if (hw_rev == MDSS_HW_MSM8996 ||
- 	    hw_rev == MDSS_HW_MSM8998)
--		data->highest_bank_bit = 2;
-+		data->highest_bank_bit = 15;
- 	else
--		data->highest_bank_bit = 1;
-+		data->highest_bank_bit = 14;
- 
- 	return data;
+@@ -222,69 +226,6 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+ 	}
  }
-@@ -572,13 +572,13 @@ static void mdss_remove(struct platform_device *pdev)
- static const struct msm_mdss_data msm8998_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_1_0,
--	.highest_bank_bit = 2,
-+	.highest_bank_bit = 15,
- 	.reg_bus_bw = 76800,
- };
  
- static const struct msm_mdss_data qcm2290_data = {
- 	/* no UBWC */
--	.highest_bank_bit = 0x2,
-+	.highest_bank_bit = 15,
- 	.reg_bus_bw = 76800,
- };
+-#define MDSS_HW_MAJ_MIN		\
+-	(MDSS_HW_VERSION_MAJOR__MASK | MDSS_HW_VERSION_MINOR__MASK)
+-
+-#define MDSS_HW_MSM8996		0x1007
+-#define MDSS_HW_MSM8937		0x100e
+-#define MDSS_HW_MSM8953		0x1010
+-#define MDSS_HW_MSM8998		0x3000
+-#define MDSS_HW_SDM660		0x3002
+-#define MDSS_HW_SDM630		0x3003
+-
+-/*
+- * MDP5 platforms use generic qcom,mdp5 compat string, so we have to generate this data
+- */
+-static const struct msm_mdss_data *msm_mdss_generate_mdp5_mdss_data(struct msm_mdss *mdss)
+-{
+-	struct msm_mdss_data *data;
+-	u32 hw_rev;
+-
+-	data = devm_kzalloc(mdss->dev, sizeof(*data), GFP_KERNEL);
+-	if (!data)
+-		return NULL;
+-
+-	hw_rev = readl_relaxed(mdss->mmio + REG_MDSS_HW_VERSION);
+-	hw_rev = FIELD_GET(MDSS_HW_MAJ_MIN, hw_rev);
+-
+-	if (hw_rev == MDSS_HW_MSM8996 ||
+-	    hw_rev == MDSS_HW_MSM8937 ||
+-	    hw_rev == MDSS_HW_MSM8953 ||
+-	    hw_rev == MDSS_HW_MSM8998 ||
+-	    hw_rev == MDSS_HW_SDM660 ||
+-	    hw_rev == MDSS_HW_SDM630) {
+-		data->ubwc_dec_version = UBWC_1_0;
+-		data->ubwc_enc_version = UBWC_1_0;
+-	}
+-
+-	if (hw_rev == MDSS_HW_MSM8996 ||
+-	    hw_rev == MDSS_HW_MSM8998)
+-		data->highest_bank_bit = 15;
+-	else
+-		data->highest_bank_bit = 14;
+-
+-	return data;
+-}
+-
+-const struct msm_mdss_data *msm_mdss_get_mdss_data(struct device *dev)
+-{
+-	struct msm_mdss *mdss;
+-
+-	if (!dev)
+-		return ERR_PTR(-EINVAL);
+-
+-	mdss = dev_get_drvdata(dev);
+-
+-	/*
+-	 * We could not do it at the probe time, since hw revision register was
+-	 * not readable. Fill data structure now for the MDP5 platforms.
+-	 */
+-	if (!mdss->mdss_data && mdss->is_mdp5)
+-		mdss->mdss_data = msm_mdss_generate_mdp5_mdss_data(mdss);
+-
+-	return mdss->mdss_data;
+-}
+-
+ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+ {
+ 	int ret, i;
+@@ -297,12 +238,8 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+ 	for (i = 0; i < msm_mdss->num_mdp_paths; i++)
+ 		icc_set_bw(msm_mdss->mdp_path[i], 0, Bps_to_icc(MIN_IB_BW));
  
-@@ -587,7 +587,7 @@ static const struct msm_mdss_data sa8775p_data = {
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = 4,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 0,
-+	.highest_bank_bit = 13,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
-@@ -597,7 +597,7 @@ static const struct msm_mdss_data sar2130p_data = {
- 	.ubwc_dec_version = UBWC_4_3,
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 0,
-+	.highest_bank_bit = 13,
- 	.macrotile_mode = 1,
- 	.reg_bus_bw = 74000,
- };
-@@ -607,7 +607,7 @@ static const struct msm_mdss_data sc7180_data = {
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 0x1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
+-	if (msm_mdss->mdss_data && msm_mdss->mdss_data->reg_bus_bw)
+-		icc_set_bw(msm_mdss->reg_bus_path, 0,
+-			   msm_mdss->mdss_data->reg_bus_bw);
+-	else
+-		icc_set_bw(msm_mdss->reg_bus_path, 0,
+-			   DEFAULT_REG_BW);
++	icc_set_bw(msm_mdss->reg_bus_path, 0,
++		   msm_mdss->reg_bus_bw);
  
-@@ -616,7 +616,7 @@ static const struct msm_mdss_data sc7280_data = {
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
-@@ -624,7 +624,7 @@ static const struct msm_mdss_data sc7280_data = {
- static const struct msm_mdss_data sc8180x_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
-@@ -634,7 +634,7 @@ static const struct msm_mdss_data sc8280xp_data = {
- 	.ubwc_dec_version = UBWC_4_0,
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
-@@ -642,14 +642,14 @@ static const struct msm_mdss_data sc8280xp_data = {
- static const struct msm_mdss_data sdm670_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
+ 	ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
+ 	if (ret) {
+@@ -438,6 +375,7 @@ static int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_d
  
- static const struct msm_mdss_data sdm845_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
--	.highest_bank_bit = 2,
-+	.highest_bank_bit = 15,
- 	.reg_bus_bw = 76800,
- };
+ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5)
+ {
++	const struct msm_mdss_data *mdss_data;
+ 	struct msm_mdss *msm_mdss;
+ 	int ret;
+ 	int irq;
+@@ -450,7 +388,15 @@ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5
+ 	if (!msm_mdss)
+ 		return ERR_PTR(-ENOMEM);
  
-@@ -658,21 +658,21 @@ static const struct msm_mdss_data sm6350_data = {
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
+-	msm_mdss->mdss_data = of_device_get_match_data(&pdev->dev);
++	msm_mdss->mdss_data = qcom_ubwc_config_get_data();
++	if (IS_ERR(msm_mdss->mdss_data))
++		return ERR_CAST(msm_mdss->mdss_data);
++
++	mdss_data = of_device_get_match_data(&pdev->dev);
++	if (!mdss_data)
++		return ERR_PTR(-EINVAL);
++
++	msm_mdss->reg_bus_bw = mdss_data->reg_bus_bw;
  
- static const struct msm_mdss_data sm7150_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
+ 	msm_mdss->mmio = devm_platform_ioremap_resource_byname(pdev, is_mdp5 ? "mdss_phys" : "mdss");
+ 	if (IS_ERR(msm_mdss->mmio))
+@@ -569,205 +515,48 @@ static void mdss_remove(struct platform_device *pdev)
+ 	msm_mdss_destroy(mdss);
+ }
  
- static const struct msm_mdss_data sm8150_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
--	.highest_bank_bit = 2,
-+	.highest_bank_bit = 15,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -681,7 +681,7 @@ static const struct msm_mdss_data sm6115_data = {
- 	.ubwc_dec_version = UBWC_2_0,
- 	.ubwc_swizzle = 7,
- 	.ubwc_bank_spread = true,
--	.highest_bank_bit = 0x1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -689,13 +689,13 @@ static const struct msm_mdss_data sm6125_data = {
- 	.ubwc_enc_version = UBWC_1_0,
- 	.ubwc_dec_version = UBWC_3_0,
- 	.ubwc_swizzle = 1,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- };
- 
- static const struct msm_mdss_data sm6150_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_dec_version = UBWC_2_0,
--	.highest_bank_bit = 1,
-+	.highest_bank_bit = 14,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -705,7 +705,7 @@ static const struct msm_mdss_data sm8250_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
-@@ -716,7 +716,7 @@ static const struct msm_mdss_data sm8350_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
-@@ -727,7 +727,7 @@ static const struct msm_mdss_data sm8550_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
+-static const struct msm_mdss_data msm8998_data = {
+-	.ubwc_enc_version = UBWC_1_0,
+-	.ubwc_dec_version = UBWC_1_0,
+-	.highest_bank_bit = 15,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data qcm2290_data = {
+-	/* no UBWC */
+-	.highest_bank_bit = 15,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sa8775p_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_0,
+-	.ubwc_swizzle = 4,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 13,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 74000,
+-};
+-
+-static const struct msm_mdss_data sar2130p_data = {
+-	.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
+-	.ubwc_dec_version = UBWC_4_3,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 13,
+-	.macrotile_mode = 1,
+-	.reg_bus_bw = 74000,
+-};
+-
+-static const struct msm_mdss_data sc7180_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sc7280_data = {
+-	.ubwc_enc_version = UBWC_3_0,
+-	.ubwc_dec_version = UBWC_4_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 14,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 74000,
+-};
+-
+-static const struct msm_mdss_data sc8180x_data = {
+-	.ubwc_enc_version = UBWC_3_0,
+-	.ubwc_dec_version = UBWC_3_0,
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sc8280xp_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sdm670_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sdm845_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.highest_bank_bit = 15,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm6350_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm7150_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm8150_data = {
+-	.ubwc_enc_version = UBWC_3_0,
+-	.ubwc_dec_version = UBWC_3_0,
+-	.highest_bank_bit = 15,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm6115_data = {
+-	.ubwc_enc_version = UBWC_1_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.ubwc_swizzle = 7,
+-	.ubwc_bank_spread = true,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm6125_data = {
+-	.ubwc_enc_version = UBWC_1_0,
+-	.ubwc_dec_version = UBWC_3_0,
+-	.ubwc_swizzle = 1,
+-	.highest_bank_bit = 14,
+-};
+-
+-static const struct msm_mdss_data sm6150_data = {
+-	.ubwc_enc_version = UBWC_2_0,
+-	.ubwc_dec_version = UBWC_2_0,
+-	.highest_bank_bit = 14,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm8250_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 76800,
+-};
+-
+-static const struct msm_mdss_data sm8350_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_0,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+-	.reg_bus_bw = 74000,
+-};
+-
+-static const struct msm_mdss_data sm8550_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_3,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
++static const struct msm_mdss_data data_57k = {
  	.reg_bus_bw = 57000,
  };
-@@ -738,7 +738,7 @@ static const struct msm_mdss_data x1e80100_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
--	.highest_bank_bit = 3,
-+	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- 	/* TODO: Add reg_bus_bw with real value */
+ 
+-static const struct msm_mdss_data x1e80100_data = {
+-	.ubwc_enc_version = UBWC_4_0,
+-	.ubwc_dec_version = UBWC_4_3,
+-	.ubwc_swizzle = 6,
+-	.ubwc_bank_spread = true,
+-	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+-	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+-	/* TODO: Add reg_bus_bw with real value */
++static const struct msm_mdss_data data_74k = {
++	.reg_bus_bw = 74000,
++};
++
++static const struct msm_mdss_data data_76k8 = {
++	.reg_bus_bw = 76800,
++};
++
++static const struct msm_mdss_data data_153k6 = {
++	.reg_bus_bw = 153600,
  };
+ 
+ static const struct of_device_id mdss_dt_match[] = {
+-	{ .compatible = "qcom,mdss" },
+-	{ .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
+-	{ .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
+-	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
+-	{ .compatible = "qcom,sar2130p-mdss", .data = &sar2130p_data },
+-	{ .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
+-	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
+-	{ .compatible = "qcom,sc7180-mdss", .data = &sc7180_data },
+-	{ .compatible = "qcom,sc7280-mdss", .data = &sc7280_data },
+-	{ .compatible = "qcom,sc8180x-mdss", .data = &sc8180x_data },
+-	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
+-	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
+-	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
+-	{ .compatible = "qcom,sm6150-mdss", .data = &sm6150_data },
+-	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
+-	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
+-	{ .compatible = "qcom,sm7150-mdss", .data = &sm7150_data },
+-	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
+-	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
+-	{ .compatible = "qcom,sm8350-mdss", .data = &sm8350_data },
+-	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
+-	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
+-	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
+-	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
++	{ .compatible = "qcom,mdss", .data = &data_153k6 },
++	{ .compatible = "qcom,msm8998-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,qcm2290-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sa8775p-mdss", .data = &data_74k },
++	{ .compatible = "qcom,sar2130p-mdss", .data = &data_74k },
++	{ .compatible = "qcom,sdm670-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sdm845-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sc7180-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sc7280-mdss", .data = &data_74k },
++	{ .compatible = "qcom,sc8180x-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sc8280xp-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm6115-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm6125-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm6150-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm6350-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm6375-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm7150-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm8150-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm8250-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,sm8350-mdss", .data = &data_74k },
++	{ .compatible = "qcom,sm8450-mdss", .data = &data_74k },
++	{ .compatible = "qcom,sm8550-mdss", .data = &data_57k },
++	{ .compatible = "qcom,sm8650-mdss", .data = &data_57k },
++	/* TODO: x1e8: Add reg_bus_bw with real value */
++	{ .compatible = "qcom,x1e80100-mdss", .data = &data_153k6 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, mdss_dt_match);
+diff --git a/drivers/gpu/drm/msm/msm_mdss.h b/drivers/gpu/drm/msm/msm_mdss.h
+deleted file mode 100644
+index 14dc53704314558841ee1fe08d93309fd2233812..0000000000000000000000000000000000000000
+--- a/drivers/gpu/drm/msm/msm_mdss.h
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * Copyright (c) 2018, The Linux Foundation
+- */
+-
+-#ifndef __MSM_MDSS_H__
+-#define __MSM_MDSS_H__
+-
+-struct msm_mdss_data {
+-	u32 ubwc_enc_version;
+-	/* can be read from register 0x58 */
+-	u32 ubwc_dec_version;
+-	u32 ubwc_swizzle;
+-	u32 highest_bank_bit;
+-	bool ubwc_bank_spread;
+-	bool macrotile_mode;
+-	u32 reg_bus_bw;
+-};
+-
+-#define UBWC_1_0 0x10000000
+-#define UBWC_2_0 0x20000000
+-#define UBWC_3_0 0x30000000
+-#define UBWC_4_0 0x40000000
+-#define UBWC_4_3 0x40030000
+-
+-const struct msm_mdss_data *msm_mdss_get_mdss_data(struct device *dev);
+-
+-#endif /* __MSM_MDSS_H__ */
 
 -- 
 2.49.0
