@@ -2,86 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8239ABDDE8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD432ABDDFB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:57:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7685410E47F;
-	Tue, 20 May 2025 14:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1304610E50E;
+	Tue, 20 May 2025 14:57:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LJ8rbh3F";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDA310E47F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:55:13 +0000 (UTC)
-Received: by mail-vk1-f180.google.com with SMTP id
- 71dfb90a1353d-528ce9730cfso1255313e0c.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:55:13 -0700 (PDT)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+ [209.85.166.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569C710E4FC;
+ Tue, 20 May 2025 14:57:49 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id
+ ca18e2360f4ac-86a55400875so74259839f.3; 
+ Tue, 20 May 2025 07:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747753068; x=1748357868; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ei0ZtzeEerH4n95EU2nYvZiHQHmnnzxXV15jRRTIMlc=;
+ b=LJ8rbh3F9LQ4mNCmz+WZK1zRzCgIXb7zb2ouotnRQg/cp2EoUOIL8XB7+BdCO6Y5KW
+ xq3yi/2l4PFH7skSz05G338YU0yjmt9Oky0SLaWKLOAn3OFQiHo7G5gQhNPbh+/uoAiw
+ rGHBWvYjQE96nmeMLeeQo1ZLANESZqhDHEC7UtKOiWFOPWJvcvPEmQVfS6yRfbxr7mMn
+ T/kULmQJlFGyWd8+TmW4GmP+wlCJKBBreCSCELGqVQWyveO1feqL+3hAvbyCP1o1m5fY
+ x4FV7x1xL+jWfIrk09AYGLL3BLgloPqamZghwN75YwofKn79HdFezDdrEggMcclPG3+l
+ Vpqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747752912; x=1748357712;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ttxhK6Ti/XQOTqH6UODUStCIPGw0sZp98YSCtYewY44=;
- b=LOQPA3YzaNPo7Mxynq1kmXoKMABdEqJUtqHqc2bfYcpBdaBKNpl4+ASts4k2/NXXFd
- kHVbswBz1aJJFdA/txjpP8Zheo9EgIVNLdCIo+nSM3SbN/slIyo91FR01/7aufBeHBUz
- ga/LAGYTv4DTDR1zzvqf/yA1CI0uYdzm8OuGrs3nnLr1Ikha9A53XWd82Hv7ZfqaVqLN
- XyXtNDFWZRx3zk/osPpG/nvWXOHumgR5U6nLsxS2mRLJriXheRvqPlhdNS6VjfmzmnyW
- adFr39KMKKVXgZp+H/L95F0DITj9lGHfqtqfJpr8fN91VpmbIO9hrsY35x78t+3ZHuon
- 64WA==
+ d=1e100.net; s=20230601; t=1747753068; x=1748357868;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ei0ZtzeEerH4n95EU2nYvZiHQHmnnzxXV15jRRTIMlc=;
+ b=BfT5xKu59i29eU1YivlMcu69D1NS05yXIV+Jybn670huHX7unb0hhCP0VL1nBtpaw/
+ gUSp0aBS9HCa7pUmfKKCTM4iemooeulq3VU4d67yuobWV2TcXHnT1tk70wwtrsfgfczH
+ vEw7BysuRp/t4POfPO1uC6GDP5LmlncYngTwU1Rg064BmI9LTZDz0ZXkDFHBuGvGO/x9
+ fnwoeBfh8AVCjJ5a6jD69doRW2mdNRfxbTU13xb5j49ICrWcmjW1FOTTd9E9Z7fbX2at
+ ylKjbm0x1/f3IxMrqWqz9Z771BS2gKrwU4mVaH5Om/umo+NAafyGNqPKsKWEo7hLuDml
+ kElw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWybuwPuXckgHYzpMviPg5R4geqmiBQQ4XNYP1GdS+cb/KynxhXr75vomgoCSwu+y4ZQR7VnXKNxR8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzG+HKuDzJqnXF9SKT1/pmWGdcsGkApdZjv2QV8Y4+uVm+Eal+
- vM15Tzf+dxtU8hTGdkk38Sg12bgRnoUiKp4MaJJMoOGeqTeWMvptsWVg2a4zTYwD
-X-Gm-Gg: ASbGncsUbWNGeuRO+kFH56/h+2UkyWAsAoaMxjY51jBvUTMZOemEAU5JQeCF7Ub7Za0
- UP1aiAUCHhXoZ/qNb00UeX8Qec9TueSKF1YKY+OikHGWmrKx8ecvHR0TbgZ3c/wPqECj7ieW9A8
- jVf+0UnZcHB8+mTxuIR3za05kCgpP5f7vupHN+XDqD72djTE5owTqD96qqNW5w84jOlg4dmnDg/
- 5U8vQHn++nLzMCYSP5PBkhxaiptERIWD4sMTEQLxz6rYphFLM7KqwTSSdpThBIue7jLAtrfpvr0
- xBdWE2jalJoHlL0DaO/DxpjEZDCo+fvlXnPy34Eil7zGBXA5+ZvGcJn4qxdGA8Pf+JPcumGtg46
- P11P1Tnjzl6mS2g==
-X-Google-Smtp-Source: AGHT+IHuE9Qg8ZPLY7VLldZr6cTTEaj5+KD3F0Y6SEapycMnq49bYfnoolWcwzBxNclwO3yARo0g4g==
-X-Received: by 2002:a05:6122:a1f:b0:527:8771:2d39 with SMTP id
- 71dfb90a1353d-52dbcd6d66dmr13785832e0c.7.1747752911544; 
- Tue, 20 May 2025 07:55:11 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-52dbab6d250sm8550977e0c.48.2025.05.20.07.55.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 May 2025 07:55:10 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id
- ada2fe7eead31-4dfc11e2520so1781181137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:55:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3yNiS1Iu6J2bDPJWweJQSGMg6CLINuelDfWbLIo+F3n8zVoEpV1YeclgJnRSH7xQvE7aI/4EdHds=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:1528:b0:4c1:76a4:aee4 with SMTP id
- ada2fe7eead31-4e05375dcb2mr14690410137.19.1747752910647; Tue, 20 May 2025
- 07:55:10 -0700 (PDT)
+ AJvYcCUvZNG1MC48i1vMpY74qp9XZnlev4mlb6+65xTDafGe544mGqsPpSyZQ/9Ad5ZbgIwxhZ4h0ls4VPY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzbjPn7FogFWUyZ91pLb+KQBLwfx+BT8kpcmv8bFXClvCeVOwTT
+ 6MsKRmtBzPtK3avt+T4z83a7REzyXq47scnsjUn7PIvm8oN3FE5E3E39I8M00INCuOiR/Apj2IW
+ mCwZ0yglWfTvHyeZ2tUeG9eag1thEcsY=
+X-Gm-Gg: ASbGnct5+bO+6frMo/ompxWwMRjSZtHsH1ci588PMe4BNQD61o3rByYFijrp6dO5GZO
+ DrYy9ry+uA3Q6bd0bvZ+7b5r+3bvArbEfeaGUTybCqJZdVnH4SJMVbfimBo7W2qwHPa0PgBoB2a
+ e8oaK2eRZjcC6mhlofB5XQcXmDQzy1+vXdzxiGpdmd10Ar7mgquFWFzixqd0Y5efqRcwk=
+X-Google-Smtp-Source: AGHT+IGo54Ph3lgCr2HThw2nynX0CfUtauGHA+UWZQjPIR4SenpHhKIQf4v2aZNtBDgA8aoC9oBCpwohCLzgA971GNc=
+X-Received: by 2002:a05:6602:7284:b0:86a:26c8:4ba0 with SMTP id
+ ca18e2360f4ac-86a26c84ca2mr1970379239f.8.1747753068536; Tue, 20 May 2025
+ 07:57:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 May 2025 16:54:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVEgTo7V-gzzpVVNqxnDMSdTC1ew70gbJ=Sb5Qr4asryA@mail.gmail.com>
-X-Gm-Features: AX0GCFv8LYK03_9WrEiJFFzvjW_0fJJk_EmmURtGv-joA1Jov8I_4pZ3KpumSj4
-Message-ID: <CAMuHMdVEgTo7V-gzzpVVNqxnDMSdTC1ew70gbJ=Sb5Qr4asryA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
- HSFREQ calculation
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250519175348.11924-1-robdclark@gmail.com>
+ <20250519175348.11924-2-robdclark@gmail.com>
+ <aCwt20O7SH1zQLlV@pollux>
+In-Reply-To: <aCwt20O7SH1zQLlV@pollux>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 20 May 2025 07:57:36 -0700
+X-Gm-Features: AX0GCFv7Ss4yKUe43JHrMItzf4ycbR76G6yDyHTTaHf43qdoHHxEMm7hFngKuk8
+Message-ID: <CAF6AEGvhxeCAz41F72hq=V3aD38jm+aUQqX3GwaOR4uzZGn6hg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/40] drm/gpuvm: Don't require obj lock in destructor
+ path
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Connor Abbott <cwabbott0@gmail.com>, 
+ Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,92 +91,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
-
-On Mon, 12 May 2025 at 20:23, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, May 20, 2025 at 12:23=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
 >
-> Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
-> VCLK rate instead of the mode clock. The relationship between HSCLK and
-> VCLK is:
+> On Mon, May 19, 2025 at 10:51:24AM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > See commit a414fe3a2129 ("drm/msm/gem: Drop obj lock in
+> > msm_gem_free_object()") for justification.
 >
->     vclk * bpp <= hsclk * 8 * lanes
+> I asked for a proper commit message in v4.
+
+Sorry, I forgot that, here is what I am adding:
+
+Destroying a GEM object is a special case.  Acquiring the resv lock
+when the object is being freed can cause a locking order inversion
+between reservation_ww_class_mutex and fs_reclaim.
+
+This deadlock is not actually possible, because no one should be
+already holding the lock when free_object() is called.
+Unfortunately lockdep is not aware of this detail.  So when the
+refcount drops to zero, we pretend it is already locked.
+
+> Only referring to a driver commit and let the people figure out how the d=
+river
+> works and what it does in order to motivate a change in the generic
+> infrastructure is simply unreasonable.
 >
-> Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
-> HSFREQ accurately reflects the clock rate set in hardware, leading to
-> better precision in data transmission.
+> > Cc: Danilo Krummrich <dakr@kernel.org>
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/drm_gpuvm.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> > index f9eb56f24bef..1e89a98caad4 100644
+> > --- a/drivers/gpu/drm/drm_gpuvm.c
+> > +++ b/drivers/gpu/drm/drm_gpuvm.c
+> > @@ -1511,7 +1511,9 @@ drm_gpuvm_bo_destroy(struct kref *kref)
+> >       drm_gpuvm_bo_list_del(vm_bo, extobj, lock);
+> >       drm_gpuvm_bo_list_del(vm_bo, evict, lock);
+> >
+> > -     drm_gem_gpuva_assert_lock_held(obj);
+> > +     if (kref_read(&obj->refcount) > 0)
+> > +             drm_gem_gpuva_assert_lock_held(obj);
 >
-> Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
-> when computing `hsfreq`. Also, update unit conversions to use correct
-> scaling factors for better clarity and correctness.
+> Again, this is broken. What if the reference count drops to zero right af=
+ter
+> the kref_read() check, but before drm_gem_gpuva_assert_lock_held() is cal=
+led?
+
+No, it is not.  If you find yourself having this race condition, then
+you already have bigger problems.  There are only two valid cases when
+drm_gpuvm_bo_destroy() is called.  Either:
+
+1) You somehow hold a reference to the GEM object, in which case the
+refcount will be a positive integer.  Maybe you race but on either
+side of the race you have a value that is greater than zero.
+2) Or, you are calling this in the GEM object destructor path, in
+which case no one else should have a reference to the object, so it
+isn't possible to race
+
+If the refcount drops to zero after the check, you are about to blow
+up regardless.
+
+BR,
+-R
+
+> Putting conditionals on a refcount is always suspicious.
 >
-> Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
-> threshold comparisons to use Hz instead of kHz to ensure correct behavior.
+> If you still really want this, please guard it with
 >
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
-> - Added dev_info() to print the VCLK rate if it doesn't match the
->   requested rate.
-> - Added Reviewed-by tag from Biju
+>         if (unlikely(gpuvm->flags & DRM_GPUVM_MSM_LEGACY_QUIRK))
 >
-> v3->v4:
-> - Used MILLI instead of KILO
-
-Thanks for the update!
-
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-
-> @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->         u32 golpbkt;
->         int ret;
+> and get an explicit waiver from Dave / Sima.
 >
-> +       ret = pm_runtime_resume_and_get(dsi->dev);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       clk_set_rate(dsi->vclk, mode->clock * MILLI);
-
-drm_display_mode.clock is in kHz, so s/MILLI/KILO/
-
-> +
->         /*
->          * Relationship between hsclk and vclk must follow
->          * vclk * bpp = hsclk * 8 * lanes
-> @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->          * hsclk(bit) = hsclk(byte) * 8 = hsfreq
->          */
->         bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-> -       hsfreq = (mode->clock * bpp) / dsi->lanes;
-> -
-> -       ret = pm_runtime_resume_and_get(dsi->dev);
-> -       if (ret < 0)
-> -               return ret;
-> -
-> -       clk_set_rate(dsi->vclk, mode->clock * 1000);
-> +       vclk_rate = clk_get_rate(dsi->vclk);
-> +       if (vclk_rate != mode->clock * MILLI)
-> +               dev_info(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
-> +                        mode->clock * MILLI, vclk_rate);
-
-Likewise.
-
-> +       hsfreq = DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
->
->         ret = rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
->         if (ret < 0)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
