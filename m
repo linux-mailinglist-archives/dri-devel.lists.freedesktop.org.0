@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F30ABD0F8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D275EABD0FB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 09:54:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B68B10E2CA;
-	Tue, 20 May 2025 07:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40E6610E1A6;
+	Tue, 20 May 2025 07:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oJCNwa+3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DxYHFBXe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4CD10E1A6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:53:45 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3a36e0d22c1so1424217f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 00:53:45 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1C7B10E1A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 07:54:03 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43d0618746bso41693915e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 00:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747727624; x=1748332424; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1747727642; x=1748332442; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=pqIA/ECFbgjRZMqQH31Wh+NeKgfBysFqVWpEKA5YoBA=;
- b=oJCNwa+3o07/cyl1GJZjsmys0uF51cdh3ow3s2c3b1XJiignm29CE7nmHtd5xZS73g
- Vt6MfcboYfKhJic7jvEyPohj6Ysrir1US/El2axSVu4zlmOVF9mSejO1LfYBjY95lI+g
- DG4HxcWp1Z9IjYMEyfczqY0hh+hxMmMWqw4Cm0xHo2VIfAhh0a79PuCJC54qBsL9swSY
- l6tc/vstC/7o8zzl5OgvOc3Hl8ETnFUJdHyZtTylo3Gne3xzWQ/x7FC5BTra2MpfwAP5
- +PGlUkfpDSR7OHFD8lcENs35R1pcn6E5PiLmLISmJLeYPCsKPT3u/NMIfWLQAv4AAeHk
- NvHg==
+ :reply-to; bh=iwxXhJDiipz/57dudIGfdbcWOZE/F3Ufyh9hAR1d1X4=;
+ b=DxYHFBXeFp73HgMMcGS+VOMi4jEgoJv5KzJ24BcUyxV/e6VnPxjtSgEjYd38DkDLW3
+ o1Al4foUHlgyDZRmZZxe/g5xqbXhbyfumanVLyXSyb3OHsG/YY7wKvar8KfTwBzKaKYL
+ UMjzmcVa2KBX7tnpKQ1SSik8siWHK+mUaEYF3SljnHji+Af563NmcB7ep2Gh3t7b/FxM
+ nfUo1ktlo4jIlMhRFVTHx3zWUXX3USLFtwksmNqk0o3y3zMlZ3sw6HNXX8NT88x3bwYx
+ SgUbSDFXg0ScxU7sDe9oRVdQD0l49hmNAZ8aZ8yj89OLGfOESSV6WiEvS+u+nRHiG05k
+ bQ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747727624; x=1748332424;
+ d=1e100.net; s=20230601; t=1747727642; x=1748332442;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=pqIA/ECFbgjRZMqQH31Wh+NeKgfBysFqVWpEKA5YoBA=;
- b=ipak9C7ZxVkzfWYXLkOWrpEHda9COH5yWW6MpUE6j+KoTPQ91coIIjTIwYkCMxVb6R
- gH9uINfok3VwIinacPXv/oIo+oluFEwC3qqaQw0P9Aeq53qHRMM2x6AV8A5N53oB3kEi
- jaiXo5GPqN4fyEb6oOvf2lXNTFa1WNHgp/foR43t1kl58BB3MtvPgSk5EQxuJ7ChH4kc
- sxs1a1cY53MXDkDpnvMXrhGHLry8a64FF5SO0OXjF1jza4NSzj7pBqKktxjNpX/lJarj
- RM4hhSNUz0bUkYkDbfDOBoHJuxd1lHtToD2L0lPdgdktAH8n0oOPPWveMqWlLzCwD/IY
- fgBA==
+ bh=iwxXhJDiipz/57dudIGfdbcWOZE/F3Ufyh9hAR1d1X4=;
+ b=l41w8Pz8yHS2HiNnHGiECKxDJLHqp+aZHaDEzfZBPjiEtwBmRrXuwDTqS8nz9dQ//4
+ S5Meb5skErYVQozh7N0ACMGVLcWPDtuTCaYcoTzm66UweyvEzB04zzX6WYNo5Ec/3g1d
+ UKrfcizAqZuXO0n1MylBFtSjvNudCVxBlgH90RqEDtcUYTK+CHRDQmJfMMz33I7sWm9s
+ UqzS+r2yNt48suaMwfy8J63jNV5QOn8oxaT9UJpOIOXyqgU3sb0sd1oRw/Yq3mcZ0WcA
+ kg9PwYetM7PZk3UUQbLNOdQOh2qIvgQjbVvv3B8ADfi8PykwKwn4LlSv3OVBzdUX7CBf
+ VWsg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYWHNba8GM1jrauwpQ4o77po+5jt717NYzM4VxZ+esy0tMpBL/TfOrnS32Jp8fFzItJWWNGLAI+lo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7TloBxOELERt+2D2BLyOAaYlRo+cp8+O/66wf9A7QT77upVDj
- dN+pv5PcY0uv3MsuStaGZuNYeLMrEFd5nTfVf8iwuzPo+u1smO3iKlRQs3kPvo3nk7Q=
-X-Gm-Gg: ASbGncsY9WAJV1QNoeLSQ1g+H92RyI6e9A5C8mOxMZcFGz0cl9rYu2hwqEP5gyJ1asC
- Vk/9nhVjL8MiI6o3htyC8WlwrIhW+El9BrPFgVnhXo+Q5qOlKM8EQNJXU5WKHZoBSa3t+3m5dKD
- QM+yhLkwxGWaSUhpMw4W86Nl35rWTu8jl9+Tmp9k8zIalfzU5FhXGsau6GrggzmOqvIOxQit51y
- KAmX5aAmaM4dcnmfMn4QQC/rSPyvEWP4wKdpJaOR5hu9648xGzRC9bp1Jnlha1y+Ndk+kNp53o+
- r7Jfm1q6p70ilXf5Am1ddFDBulvbA6csC1+YvcJPQ6u7aKiq+69iTXnK+LHwoWJSvzQYZG8Yrv1
- J0tVNN77qpdPuZZXgOmIxWdXcWJM1
-X-Google-Smtp-Source: AGHT+IEI12u+0JzU8Dw2TE1yYstJIWJV0XyjXtSQP5XMbSxjpixoaVXb0TBg8cX4ao3XbPRrbWp9BA==
-X-Received: by 2002:a05:6000:178a:b0:3a3:79cb:8aec with SMTP id
- ffacd0b85a97d-3a379cb8cd7mr1160622f8f.58.1747727624072; 
- Tue, 20 May 2025 00:53:44 -0700 (PDT)
+ AJvYcCUOAn1lO0yPHyAj0B1fCw1xJglTIid6C1sQTS5/1HRt2e970nqgKJSQlrO6WBuU51M7c2sArozGnb0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBmGwSzxs0lJtZl7YhU1mrtizABZJ4hzRCJjeKeh8z1DyKp5Cc
+ +WcvR+H48iPLGhumE46ngbuke/+0k6LLY5gJ7Bjr+VDWHsKbfMlbPHGwP9M7i1Vxbms=
+X-Gm-Gg: ASbGnctu+PkMY1cZ6xbPVjCtbPXY45JTNM/XfPfF6r4z4TVvLusGyuYUugQfyfkPHyY
+ 5fQLiMI1IieotOc7uVUaTML92kdTroIfVt+++o+3G4vlb6rSMTC08CSy5MdNjmIbCpZOFPWIzcI
+ j8pE+O9olHYRIuvBMOlYjFn3BNWzvPjLAQASRGVPKfsEO/IHyqzrVnwrDxe8FWf6kG8MgOMZr9Y
+ Kxs/W9DsEJ8lFGnNZnmw3CF/us7fzQmTjpQVVBNG7LdV34rTwnNjNZRwbFE6R2i9TMmh0J7nGzs
+ /vWBBVQOxTez52kJUbvDSXlpp48Y3UGRpl8cXdzaFIMot07idPCt4gtYx4xzyhxOR5BdepJAX97
+ Lj7l2WnVj5mCGBDLZQrbB7S4Yykj/
+X-Google-Smtp-Source: AGHT+IHChTSQJWbolNv/DcCddwZO2Jlvl4QPMM9JW8HH7kkMA3qIuYI8odpu3mJa0ymgEqyC2nap8A==
+X-Received: by 2002:a05:600c:3acb:b0:440:9b1a:cd78 with SMTP id
+ 5b1f17b1804b1-442fefee292mr145813695e9.10.1747727642169; 
+ Tue, 20 May 2025 00:54:02 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68?
  ([2a01:e0a:3d9:2080:fb2e:6266:4e39:ce68])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-447f1ef035csm20152255e9.11.2025.05.20.00.53.43
+ 5b1f17b1804b1-447f1ef0b20sm20801145e9.14.2025.05.20.00.54.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 May 2025 00:53:43 -0700 (PDT)
-Message-ID: <ab430c92-ac4f-47a9-9808-ebf5c77f5a86@linaro.org>
-Date: Tue, 20 May 2025 09:53:42 +0200
+ Tue, 20 May 2025 00:54:01 -0700 (PDT)
+Message-ID: <33f10e0b-bc7b-42d2-a3d8-67c18bab3c59@linaro.org>
+Date: Tue, 20 May 2025 09:54:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 20/30] drm/msm/dpu: get rid of DPU_MDP_AUDIO_SELECT
+Subject: Re: [PATCH v4 19/30] drm/msm/dpu: get rid of DPU_MDP_PERIPH_0_REMOVED
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
@@ -79,7 +79,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
- <20250519-dpu-drop-features-v4-20-6c5e88e31383@oss.qualcomm.com>
+ <20250519-dpu-drop-features-v4-19-6c5e88e31383@oss.qualcomm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250519-dpu-drop-features-v4-20-6c5e88e31383@oss.qualcomm.com>
+In-Reply-To: <20250519-dpu-drop-features-v4-19-6c5e88e31383@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -129,113 +129,154 @@ On 19/05/2025 18:04, Dmitry Baryshkov wrote:
 > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
 > Continue migration to the MDSS-revision based checks and replace
-> DPU_MDP_AUDIO_SELECT feature bit with the core_major_ver == 8 ||
-> core_major_ver == 5 check.
+> DPU_MDP_PERIPH_0_REMOVED feature bit with the core_major_ver >= 8 check.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c              | 3 ++-
->   7 files changed, 2 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           | 3 ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c               | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c                  | 2 +-
+>   10 files changed, 2 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> index 3e66feb3e18dcc1d9ed5403a42989d97f84a8edc..72a7257b4d7ba5bfe89ec76bac19550e023a2b50 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> @@ -23,7 +23,6 @@ static const struct dpu_caps sdm845_dpu_caps = {
->   static const struct dpu_mdp_cfg sdm845_mdp = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+> index 37c88b393c12d8a04395b6e5dffb67211d2db9cd..ae66c338250664f9306a7d431cfa18ca07a916a5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
+> @@ -21,7 +21,6 @@ static const struct dpu_caps sm8650_dpu_caps = {
+>   static const struct dpu_mdp_cfg sm8650_mdp = {
 >   	.name = "top_0",
->   	.base = 0x0, .len = 0x45c,
-> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+>   	.base = 0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
+>   	.clk_ctrls = {
+>   		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+>   	},
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> index 785ca2b2e60f073b0a2db0c0c4ed3b2722de033c..85778071bc1347008dbe4522aeb9ca4fd21aa097 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> @@ -21,7 +21,6 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
+>   static const struct dpu_mdp_cfg sc8280xp_mdp = {
+>   	.name = "top_0",
+>   	.base = 0x0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
 >   	.clk_ctrls = {
 >   		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
 >   		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-> index 3a60432a758a942eb1541f143018bd466b2bdf20..ce169a610e195cbb6f0fee1362bcaaf05df777cb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h
-> @@ -11,7 +11,6 @@
->   static const struct dpu_mdp_cfg sdm670_mdp = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> index 1401a84e0da5754fd2a3661d1421bb9b998271ca..f9676f804f9132296467bc751e11036696afa942 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> @@ -21,7 +21,6 @@ static const struct dpu_caps sm8450_dpu_caps = {
+>   static const struct dpu_mdp_cfg sm8450_mdp = {
 >   	.name = "top_0",
->   	.base = 0x0, .len = 0x45c,
-> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+>   	.base = 0x0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
 >   	.clk_ctrls = {
 >   		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
 >   		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> index e07c2cc4188bb12e2253068ca8666ce9364c69c1..23a3a458dd5c260399a42e5f4d4361b3c4e82c4f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> @@ -23,7 +23,6 @@ static const struct dpu_caps sm8150_dpu_caps = {
->   static const struct dpu_mdp_cfg sm8150_mdp = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+> index fbbdce36f0ad99d0b1d32d90627ff5b7f3fc2fc9..7462cfc4cf8de4a10326c83d3341dbee76e437e8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+> @@ -20,7 +20,6 @@ static const struct dpu_caps sa8775p_dpu_caps = {
+>   static const struct dpu_mdp_cfg sa8775p_mdp = {
 >   	.name = "top_0",
->   	.base = 0x0, .len = 0x45c,
-> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+>   	.base = 0x0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
 >   	.clk_ctrls = {
 >   		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
 >   		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> index b350dba28caed77e542d6a41ceac191a93e165a7..75f8f69123a4a6afe8234a9de21ce68b23c11605 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> @@ -23,7 +23,6 @@ static const struct dpu_caps sc8180x_dpu_caps = {
->   static const struct dpu_mdp_cfg sc8180x_mdp = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> index cc4413432cfdc636e38a56011d39f18d7e94c23a..695ae7581a88b36fa1f28aa3cd0c9166090e940c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> @@ -21,7 +21,6 @@ static const struct dpu_caps sm8550_dpu_caps = {
+>   static const struct dpu_mdp_cfg sm8550_mdp = {
 >   	.name = "top_0",
->   	.base = 0x0, .len = 0x45c,
-> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+>   	.base = 0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
 >   	.clk_ctrls = {
->   		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
->   		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
-> index 27c71a8a1f31921e5e1f4b6b15e0efc25fb63537..6b895eca2fac53505f7a1d857d30bb8a5d23d4c8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
-> @@ -23,7 +23,6 @@ static const struct dpu_caps sm7150_dpu_caps = {
->   static const struct dpu_mdp_cfg sm7150_mdp = {
+>   		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+>   	},
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+> index 32f88533154584dc98a515b1ddef27ab2005fecd..9a25113df5aec527baa514aaa61f2b47c2443d27 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+> @@ -21,7 +21,6 @@ static const struct dpu_caps sar2130p_dpu_caps = {
+>   static const struct dpu_mdp_cfg sar2130p_mdp = {
 >   	.name = "top_0",
->   	.base = 0x0, .len = 0x45c,
-> -	.features = BIT(DPU_MDP_AUDIO_SELECT),
+>   	.base = 0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
 >   	.clk_ctrls = {
->   		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
->   		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
+>   		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+>   	},
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+> index e053324d76a2e5020e6a7477ddadc9f7d94fe57e..54815c613f087454aa7b4befc84462265d8dfc23 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+> @@ -20,7 +20,6 @@ static const struct dpu_caps x1e80100_dpu_caps = {
+>   static const struct dpu_mdp_cfg x1e80100_mdp = {
+>   	.name = "top_0",
+>   	.base = 0, .len = 0x494,
+> -	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
+>   	.clk_ctrls = {
+>   		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+>   	},
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index d3a7f46488a21e81a24a9af5071a9a7f5f48cdac..9ba9e273f81ab1966db1865b4ce28f8c18f750b8 100644
+> index 92dfbb5e7f916bf32afeffdb6b843f1da3f3fd44..d3a7f46488a21e81a24a9af5071a9a7f5f48cdac 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -38,7 +38,6 @@
->   enum {
+> @@ -32,8 +32,6 @@
+>    * MDP TOP BLOCK features
+>    * @DPU_MDP_PANIC_PER_PIPE Panic configuration needs to be done per pipe
+>    * @DPU_MDP_10BIT_SUPPORT, Chipset supports 10 bit pixel formats
+> - * @DPU_MDP_PERIPH_0_REMOVED Indicates that access to periph top0 block results
+> - *			   in a failure
+>    * @DPU_MDP_MAX            Maximum value
+>   
+>    */
+> @@ -41,7 +39,6 @@ enum {
 >   	DPU_MDP_PANIC_PER_PIPE = 0x1,
 >   	DPU_MDP_10BIT_SUPPORT,
-> -	DPU_MDP_AUDIO_SELECT,
+>   	DPU_MDP_AUDIO_SELECT,
+> -	DPU_MDP_PERIPH_0_REMOVED,
 >   	DPU_MDP_MAX
 >   };
 >   
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-> index c49a67da86b0d46d12c32466981be7f00519974c..5c811f0142d5e2a012d7e9b3a918818f22ec11cf 100644
+> index cebe7ce7b258fc178a687770906f7c4c20aa0d4c..c49a67da86b0d46d12c32466981be7f00519974c 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-> @@ -280,7 +280,8 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
->   	if (mdss_rev->core_major_ver >= 5)
->   		ops->dp_phy_intf_sel = dpu_hw_dp_phy_intf_sel;
+> @@ -272,7 +272,7 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
 >   
-> -	if (cap & BIT(DPU_MDP_AUDIO_SELECT))
-> +	if (mdss_rev->core_major_ver == 4 ||
-> +	    mdss_rev->core_major_ver == 5)
-
-Commit message says: core_major_ver == 8 || core_major_ver == 5
-
-Which one is right ?
-
-Neil
-
->   		ops->intf_audio_select = dpu_hw_intf_audio_select;
->   }
+>   	if (mdss_rev->core_major_ver < 5)
+>   		ops->setup_vsync_source = dpu_hw_setup_vsync_sel;
+> -	else if (!(cap & BIT(DPU_MDP_PERIPH_0_REMOVED)))
+> +	else if (mdss_rev->core_major_ver < 8)
+>   		ops->setup_vsync_source = dpu_hw_setup_wd_timer;
 >   
+>   	ops->get_safe_status = dpu_hw_get_safe_status;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 1fd82b6747e9058ce11dc2620729921492d5ebdd..80ffd46cbfe69fc90afcdc1a144fc5de7bb6af42 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1022,7 +1022,7 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+>   				dpu_kms->mmio + cat->wb[i].base, "%s",
+>   				cat->wb[i].name);
+>   
+> -	if (cat->mdp[0].features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
+> +	if (dpu_kms->catalog->mdss_ver->core_major_ver >= 8) {
+>   		msm_disp_snapshot_add_block(disp_state, MDP_PERIPH_TOP0,
+>   				dpu_kms->mmio + cat->mdp[0].base, "top");
+>   		msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len - MDP_PERIPH_TOP0_END,
 > 
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
