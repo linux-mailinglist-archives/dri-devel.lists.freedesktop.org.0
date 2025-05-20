@@ -2,56 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF04ABDCC9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BFDABDD23
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 16:34:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B6C10E517;
-	Tue, 20 May 2025 14:28:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AcGVRCBQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8C810E04E;
+	Tue, 20 May 2025 14:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424C610E517
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:28:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A63262EC;
- Tue, 20 May 2025 16:28:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1747751280;
- bh=To839h9GABdkq17dtAEeZRfQrFBVJpTujeZieRb2WRg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AcGVRCBQonYOMCs2KAdyYSnTFxRMRUVFDFkB1jgtRngy9MWqnGeCZdFrq3u/RnCcp
- cPeE04kwyXV8/dWZOJwVkXJ+lGKA3usJOrgICgLMYVd8DucNXE3u6he7AzQ2mumyiB
- sOuL9ntg/2TAMbDdaqFi/oE4TouHzdl+h7KOGhAY=
-Date: Tue, 20 May 2025 16:28:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A7610E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 14:34:07 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2bba:d77b:9240:3c4e])
+ by laurent.telenet-ops.be with cmsmtp
+ id rSa32E00R4GqtyW01Sa4as; Tue, 20 May 2025 16:34:04 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.97)
+ (envelope-from <geert@linux-m68k.org>) id 1uHO2R-00000002bgm-1Jt7;
+ Tue, 20 May 2025 16:34:03 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+ (envelope-from <geert@linux-m68k.org>) id 1uHO2d-00000002Nn4-3LGJ;
+ Tue, 20 May 2025 16:34:03 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v5 10/12] drm: renesas: rz-du: mipi_dsi: Add
- dphy_late_init() callback for RZ/V2H(P)
-Message-ID: <20250520142815.GJ13321@pendragon.ideasonboard.com>
-References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512182330.238259-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] drm/sitronix: Remove broken backwards-compatibility layer
+Date: Tue, 20 May 2025 16:33:59 +0200
+Message-ID: <20395b14effe5e2e05a4f0856fdcda51c410329d.1747751592.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250512182330.238259-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +52,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
+the old symbols were kept, aiming to provide a seamless migration path
+when running "make olddefconfig" or "make oldconfig".
 
-Thank you for the patch.
+However, the old compatibility symbols are not visible.  Hence unless
+they are selected by another symbol (which they are not), they can never
+be enabled, and no backwards compatibility is provided.
 
-On Mon, May 12, 2025 at 07:23:28PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Introduce the `dphy_late_init` callback in `rzg2l_mipi_dsi_hw_info` to
-> allow additional D-PHY register configurations after enabling data and
-> clock lanes. This is required for the RZ/V2H(P) SoC but not for the
-> RZ/G2L SoC.
-> 
-> Modify `rzg2l_mipi_dsi_startup()` to invoke `dphy_late_init` if defined,
-> ensuring SoC-specific initialization is performed only when necessary.
-> 
-> This change prepares for RZ/V2H(P) SoC support while maintaining
-> compatibility with existing platforms.
-> 
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
-> - Added Reviewed tag from Biju
-> 
-> v3->v4:
-> - No changes
-> 
-> v2->v3:
-> - No changes
-> 
-> v1->v2:
-> - No changes
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 55a1c1b043c8..e1ce21a9ddb3 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -34,6 +34,7 @@ struct rzg2l_mipi_dsi;
->  
->  struct rzg2l_mipi_dsi_hw_info {
->  	int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, u64 hsfreq_millihz);
-> +	void (*dphy_late_init)(struct rzg2l_mipi_dsi *dsi);
+Drop the broken mechanism and the old symbols.
 
-As this is called at startup time I would have called it dphy_startup.
-Up to you.
+Fixes: 9b8f32002cddf792 ("drm/sitronix: move tiny Sitronix drivers to their own subdir")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Drop backwards-compatibility instead of fixing it.
+---
+ drivers/gpu/drm/sitronix/Kconfig | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  	void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
->  	u32 phy_reg_offset;
->  	u32 link_reg_offset;
-> @@ -320,6 +321,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->  	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
->  	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
->  
-> +	if (dsi->info->dphy_late_init)
-> +		dsi->info->dphy_late_init(dsi);
-> +
->  	hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
->  	/*
->  	 * Global timings characteristic depends on high speed Clock Frequency
-
+diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
+index c069d0d417753bcf..25cae32e5c3ec113 100644
+--- a/drivers/gpu/drm/sitronix/Kconfig
++++ b/drivers/gpu/drm/sitronix/Kconfig
+@@ -10,10 +10,6 @@ config DRM_ST7571_I2C
+ 
+ 	  if M is selected the module will be called st7571-i2c.
+ 
+-config TINYDRM_ST7586
+-	tristate
+-	default n
+-
+ config DRM_ST7586
+ 	tristate "DRM support for Sitronix ST7586 display panels"
+ 	depends on DRM && SPI
+@@ -21,17 +17,12 @@ config DRM_ST7586
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_MIPI_DBI
+-	default TINYDRM_ST7586
+ 	help
+ 	  DRM driver for the following Sitronix ST7586 panels:
+ 	  * LEGO MINDSTORMS EV3
+ 
+ 	  If M is selected the module will be called st7586.
+ 
+-config TINYDRM_ST7735R
+-	tristate
+-	default n
+-
+ config DRM_ST7735R
+ 	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
+ 	depends on DRM && SPI
+@@ -40,7 +31,6 @@ config DRM_ST7735R
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_MIPI_DBI
+ 	select BACKLIGHT_CLASS_DEVICE
+-	default TINYDRM_ST7735R
+ 	help
+ 	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
+ 	  LCDs:
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
