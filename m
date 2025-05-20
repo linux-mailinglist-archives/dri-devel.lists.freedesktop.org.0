@@ -2,76 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C57ABCD6E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 04:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE67DABCDB9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 05:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E10910E491;
-	Tue, 20 May 2025 02:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A250510E3F5;
+	Tue, 20 May 2025 03:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="hZILU21v";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="Kj3oEG8Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 91247 seconds by postgrey-1.36 at gabe;
- Tue, 20 May 2025 02:48:46 UTC
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.64.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6479810E48E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 02:48:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1747709279;
- bh=0FmmGTT7/kkpo68LJtWYV6x4TUVBTBuFVK+exAKFKeg=;
- h=From:To:Subject:Date:Message-Id;
- b=hZILU21vfhR4lSohELg9hcdh+ySZFFlZfht9yoouDIvJIZEi/FW7eK62x2M3FElTm
- 9pqko348SaHwIgHF++oc4o+BAywLb+YEd7T3RAoGHaLF3jI90kIl4LKpaNFWKkNQDu
- KuPvxo3g1ou/9w9Ikk9bDyT927mmOQscjEeDQ7Z4=
-X-QQ-mid: zesmtpgz1t1747709277t3ccaccd6
-X-QQ-Originating-IP: WX5ZmZyYWICN6Vqork4Xt6+hfJpYFO7s+3xRsU6gpoA=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 20 May 2025 10:47:55 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15235635931531597864
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-Date: Tue, 20 May 2025 10:47:18 +0800
-Message-Id: <20250520024718.142-3-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250520024718.142-1-kernel@airkyi.com>
-References: <20250520024718.142-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: MB5+LsFw85NozL2HVEmoswXUY6YRhBzAM6fZxWee0X7zsCwlLOjQuetM
- g+j+fQaWABw8/+vpJsUDBaS1nq8XGKsUFBG0EDPS8hBlrmRAt3bUxgXQ+w79uM2kTd+EIt3
- mzSxyOBsgfxdUAQxt+/nvd+w4RdFd+LiRVnFamQVuCTAJ6bUAZZItC87EkVXgvlfeuYqrPv
- dKKfCutKWuwcylLOr1rrk++rhne2nol54iiKp78RPtKhKLD5pGKNclv8dH3V/fqZ4cQrZob
- 9qpuhfAMkQi3Md7y7QF3KVxpYDUd0ulV+O1Z4zO2XFVCyjr19wtdlx3rbEHYFjOdwFDO2vJ
- rJ47AXo8GB1v4jJrg9Bf9PBYe9FqjY7EIOwGKEW3fjlXxTpKr9Fns+UqTUon/n3+5aRoUYa
- Z/DXM7YJA91qDRp0OP48gUwdqBoqoP5ul+GHYdO/egqhZzgmW4ncuHqVPU87C3rZEAf7+VR
- TUtNnrEL1YBE/6bO7Gg2+0gE4xqDsbY3XEuFT8jTc1j6iodrgnT6Dqqa1ox9cBB7ntG8uxh
- ySbi2EYTwsKDL1ne7z59GLRofxbrFsGN3hDexM/SuIEuT4cPGVYiUCPVCpKQanUqRqvjub+
- v3qkT7eitKyZHM7nVZp0XchhntJA+7Ayb2nEVLPPxHpav8u8pK5PfpMY1kxWTA8JBmNNHMP
- 82VZo1q8WA0r/XJRWbil/9VTpLtLZfNBH6Me+WdfaXOZ70OiXioWbWPkxRkRniNQ10oHpAV
- qEmbEHT/E2zPUlDrUgWN+EJSnXtE35d7wS9YoprMdDX55RDoqDWYzqj754R268YECkLQVGA
- vPnvajd+cutcVpjbqvsbZMrTB7lkPZLgQirWbaj6No2kWnv4EqoEvj3e5K25J6u5hXRYQpp
- osaDAIldXpqDSUCkk7rgMI2al9YBEMTGiuvLjqMvojEfKvJJcTazRgg+9x9AZtxCvvKN4H4
- +ZcBVHOSWjgxBWQIr4tlV0T3TNCzbx2RedSmZGqS+Y7h+gaY3sslUTllbihSHIF7LE2FILw
- /FxHhaLckJixyD3n26
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85D210E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 03:17:03 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54JIpEfs014715;
+ Tue, 20 May 2025 03:16:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:to; s=pp1; bh=xRNW2qW1smiQezb5Sx/OQ
+ 7BYDGOGl6a7HMDvHs1fpoc=; b=Kj3oEG8QwNHzI2wrvLGFwQGMSRvyD4YyqZpEx
+ 7qepJ1xBOaBWr6MxzKizw9iryEcFbjOpNdbx613YsHdTgJkVcWZ9ni6OReI8poFk
+ qIk+Sz/vU1qKiFHUn4MeaD9DXDI3Er/bc60n8SH/jNP1yWXd6kyhPW6aCFI8yTS1
+ dLaG3Z/LBaPMmuTorWVRFFIxd2Nd2GZzEtGM8RSBy+1T03PqZKBqYU/w3T64yjQX
+ IPBSzQ4QExCwqiCkJue/IZgmTAjoDNcfUT2x5YT9kgLQM/dPb97XH6LR3yegugl0
+ N4i5q5cxgSV2S2ldgj6qS8kSu2W+m26duLTfWuiVeRLxpPbEA==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46ra99hq57-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 May 2025 03:16:43 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54K3GMYb014854;
+ Tue, 20 May 2025 03:16:42 GMT
+Received: from ppma13.dal12v.mail.ibm.com
+ (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46ra99hq54-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 May 2025 03:16:42 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54JN6uQp007225;
+ Tue, 20 May 2025 03:16:41 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 46q70k9jq4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 May 2025 03:16:41 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 54K3GdVH56689032
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 20 May 2025 03:16:39 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C16882037A;
+ Tue, 20 May 2025 03:16:39 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE21C20382;
+ Tue, 20 May 2025 03:16:34 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.124.218.163])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 20 May 2025 03:16:34 +0000 (GMT)
+Date: Tue, 20 May 2025 08:46:32 +0530
+From: Mahesh J Salgaonkar <mahesh@linux.ibm.com>
+To: Markus Burri <markus.burri@mt.com>
+Cc: linux-kernel@vger.kernel.org, "Oliver O'Halloran" <oohall@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Nuno Sa <nuno.sa@analog.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ linux-iio@vger.kernel.org, Markus Burri <markus.burri@bbv.ch>
+Subject: Re: [PATCH v4 5/6] powerpc/eeh: fix potential OoB
+Message-ID: <6wwxc7nnl5avjcxelmzzkmae47fyzl7jo33u72ulyne5mgqn2j@wtgtd7vr26zy>
+References: <20250508130612.82270-1-markus.burri@mt.com>
+ <20250508130612.82270-6-markus.burri@mt.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508130612.82270-6-markus.burri@mt.com>
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=J/mq7BnS c=1 sm=1 tr=0 ts=682bf41b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=02EIq6OHAAAA:8 a=VnNF1IyMAAAA:8
+ a=HUMLOfCe0dNcxKgz96gA:9 a=CjuIK1q_8ugA:10
+ a=vbqWBO59iwVkzqU4rnh-:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDAyNCBTYWx0ZWRfXyVWn3DE4DIfT
+ 8not9p+kUmqSzfk1Hw7leidvumDjj7RHQvXVaWP/ZZ/kBLTeiP8kyCv67mxhphMZ7avI7yRWX+j
+ pv7ilFFGgHGc/kaVh1yiGBOQ5gFvzj9vM/OrXWpZgLMCkqIsjWdqwx4K2Nk6Rl7QuqwOwfREiS6
+ o2pCYikMOMyko4p73dNFgcKJk0q6tS7YN/IKcq2MJRihYUB6DvQOnmQRS02zzhHUoVkWNs2R2u2
+ t5ofHtkSJp8jvMW0Ia0DLf38KF4Ne6qBpBoL0+vS+Fs27XVfTk+cO/toI4FQ2nDGYO/cCn2Sfwa
+ uo4mJttZiOpMbQMlGb1kSeUhMWkMVwK1qQqpSpFRByCHdi61rpERHJNEAaU2jCCL8lB+L63yuNb
+ l9/X6Gx66s6ApzWaKvijhgqc9ZIpt5YDJJWr8/pLZuQN5xGGSWNe8St+p6KDrTJg7Fi0oB22
+X-Proofpoint-ORIG-GUID: JbfiaSV11r8h2-OmHVfSkNOv6PDWC8sy
+X-Proofpoint-GUID: GzZO1AaHhALGF7ZvY8skL4oPIShzbuFR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_02,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ clxscore=1011 phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505200024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,304 +124,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mahesh@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On 2025-05-08 15:06:11 Thu, Markus Burri wrote:
+> The buffer is set to 20 characters. If a caller write more characters,
+> count is truncated to the max available space in "simple_write_to_buffer".
+> To protect from OoB access, check that the input size fit into buffer and
+> add a zero terminator after copy to the end of the copied data.
+> 
+> Signed-off-by: Markus Burri <markus.burri@mt.com>
 
-Convert cdn-dp-rockchip.txt to yaml.
+Thanks for the fix.
 
-Add new "port@1" property which represents the CDN DP output to keep
-the same style as the other display interfaces.
+Acked-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
 
-This patch also changes the constraints for "phys" and "extcon". For
-the original binding, only one phy and the corresponding extcon can
-be specified. In the new binding, one or two phys can be specified.
-Since the RK3399 has two DP-USB PHYs, specifying one allows output
-via the corresponding PHY, while specifying two lets the driver
-choose one PHY for output. This rule also applies to extcon, which
-provides the cable state for the corresponding PHY.
+Thanks,
+-Mahesh.
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+> ---
+>  arch/powerpc/kernel/eeh.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/powerpc/kernel/eeh.c b/arch/powerpc/kernel/eeh.c
+> index 83fe99861eb1..92ef05d3678d 100644
+> --- a/arch/powerpc/kernel/eeh.c
+> +++ b/arch/powerpc/kernel/eeh.c
+> @@ -1734,10 +1734,15 @@ static ssize_t eeh_force_recover_write(struct file *filp,
+>  	char buf[20];
+>  	int ret;
+>  
+> -	ret = simple_write_to_buffer(buf, sizeof(buf), ppos, user_buf, count);
+> +	if (count >= sizeof(buf))
+> +		return -EINVAL;
+> +
+> +	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, user_buf, count);
+>  	if (!ret)
+>  		return -EFAULT;
+>  
+> +	buf[ret] = '\0';
+> +
+>  	/*
+>  	 * When PE is NULL the event is a "special" event. Rather than
+>  	 * recovering a specific PE it forces the EEH core to scan for failed
+> -- 
+> 2.39.5
+> 
+> 
 
-Changes in v5:
-- Fix constraints on extcon and phys
-- Add commit about changes to extcon and phys
-- Add "#sound-dai-cells" to required properties
-
-Changes in v4:
-- Add commit about port@1 node
-
-Changes in v3:
-- Add more description about phy/extcon
-- Fix some coding style
-
-Changes in v2:
-- Rename binding file name to match compatible
-- Add more description about grf/phy/extcon
-- Fix coding style
-
- .../display/rockchip/cdn-dp-rockchip.txt      |  74 --------
- .../rockchip/rockchip,rk3399-cdn-dp.yaml      | 168 ++++++++++++++++++
- 2 files changed, 168 insertions(+), 74 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
-deleted file mode 100644
-index 8df7d2e393d6..000000000000
---- a/Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
-+++ /dev/null
-@@ -1,74 +0,0 @@
--Rockchip RK3399 specific extensions to the cdn Display Port
--================================
--
--Required properties:
--- compatible: must be "rockchip,rk3399-cdn-dp"
--
--- reg: physical base address of the controller and length
--
--- clocks: from common clock binding: handle to dp clock.
--
--- clock-names: from common clock binding:
--	       Required elements: "core-clk" "pclk" "spdif" "grf"
--
--- resets : a list of phandle + reset specifier pairs
--- reset-names : string of reset names
--		Required elements: "apb", "core", "dptx", "spdif"
--- power-domains : power-domain property defined with a phandle
--		  to respective power domain.
--- assigned-clocks: main clock, should be <&cru SCLK_DP_CORE>
--- assigned-clock-rates : the DP core clk frequency, shall be: 100000000
--
--- rockchip,grf: this soc should set GRF regs, so need get grf here.
--
--- ports: contain a port nodes with endpoint definitions as defined in
--	 Documentation/devicetree/bindings/media/video-interfaces.txt.
--	 contained 2 endpoints, connecting to the output of vop.
--
--- phys: from general PHY binding: the phandle for the PHY device.
--
--- extcon: extcon specifier for the Power Delivery
--
--- #sound-dai-cells = it must be 1 if your system is using 2 DAIs: I2S, SPDIF
--
---------------------------------------------------------------------------------
--
--Example:
--	cdn_dp: dp@fec00000 {
--		compatible = "rockchip,rk3399-cdn-dp";
--		reg = <0x0 0xfec00000 0x0 0x100000>;
--		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cru SCLK_DP_CORE>, <&cru PCLK_DP_CTRL>,
--			 <&cru SCLK_SPDIF_REC_DPTX>, <&cru PCLK_VIO_GRF>;
--		clock-names = "core-clk", "pclk", "spdif", "grf";
--		assigned-clocks = <&cru SCLK_DP_CORE>;
--		assigned-clock-rates = <100000000>;
--		power-domains = <&power RK3399_PD_HDCP>;
--		phys = <&tcphy0_dp>, <&tcphy1_dp>;
--		resets = <&cru SRST_DPTX_SPDIF_REC>;
--		reset-names = "spdif";
--		extcon = <&fusb0>, <&fusb1>;
--		rockchip,grf = <&grf>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--		#sound-dai-cells = <1>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			dp_in: port {
--				#address-cells = <1>;
--				#size-cells = <0>;
--				dp_in_vopb: endpoint@0 {
--					reg = <0>;
--					remote-endpoint = <&vopb_out_dp>;
--				};
--
--				dp_in_vopl: endpoint@1 {
--					reg = <1>;
--					remote-endpoint = <&vopl_out_dp>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-new file mode 100644
-index 000000000000..5649e008f14a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-@@ -0,0 +1,168 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip RK3399 specific extensions to the CDN Display Port
-+
-+maintainers:
-+  - Andy Yan <andy.yan@rock-chip.com>
-+  - Heiko Stuebner <heiko@sntech.de>
-+  - Sandy Huang <hjc@rock-chips.com>
-+
-+allOf:
-+  - $ref: /schemas/sound/dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: rockchip,rk3399-cdn-dp
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: DP core work clock
-+      - description: APB clock
-+      - description: SPDIF interface clock
-+      - description: GRF clock
-+
-+  clock-names:
-+    items:
-+      - const: core-clk
-+      - const: pclk
-+      - const: spdif
-+      - const: grf
-+
-+  extcon:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    minItems: 1
-+    items:
-+      - description: Extcon device providing the cable state for DP PHY device 0
-+      - description: Extcon device providing the cable state for DP PHY device 1
-+    description:
-+      List of phandle to the extcon device providing the cable state for the DP PHY.
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  phys:
-+    minItems: 1
-+    items:
-+      - description: DP output to the DP PHY device 0
-+      - description: DP output to the DP PHY deivce 1
-+    description: |
-+      List of phandle to the PHY device for DP output.
-+      RK3399 have two DP-USB PHY, specifying one PHY which want to use,
-+      or specify two PHYs here to let the driver determine which PHY to use.
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input of the CDN DP
-+        properties:
-+          endpoint@0:
-+            description: Connection to the VOPB
-+          endpoint@1:
-+            description: Connection to the VOPL
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output of the CDN DP
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 4
-+
-+  reset-names:
-+    items:
-+      - const: spdif
-+      - const: dptx
-+      - const: apb
-+      - const: core
-+
-+  rockchip,grf:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to GRF register to control HPD.
-+
-+  "#sound-dai-cells":
-+    const: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - phys
-+  - ports
-+  - resets
-+  - reset-names
-+  - rockchip,grf
-+  - "#sound-dai-cells"
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3399-cru.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/rk3399-power.h>
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        dp@fec00000 {
-+            compatible = "rockchip,rk3399-cdn-dp";
-+            reg = <0x0 0xfec00000 0x0 0x100000>;
-+            assigned-clocks = <&cru SCLK_DP_CORE>;
-+            assigned-clock-rates = <100000000>;
-+            interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cru SCLK_DP_CORE>, <&cru PCLK_DP_CTRL>, <&cru SCLK_SPDIF_REC_DPTX>,
-+                    <&cru PCLK_VIO_GRF>;
-+            clock-names = "core-clk", "pclk", "spdif", "grf";
-+            power-domains = <&power RK3399_PD_HDCP>;
-+            phys = <&tcphy0_dp>, <&tcphy1_dp>;
-+            resets = <&cru SRST_DPTX_SPDIF_REC>, <&cru SRST_P_UPHY0_DPTX>,
-+                    <&cru SRST_P_UPHY0_APB>, <&cru SRST_DP_CORE>;
-+            reset-names = "spdif", "dptx", "apb", "core";
-+            rockchip,grf = <&grf>;
-+            #sound-dai-cells = <1>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                dp_in: port@0 {
-+                    reg = <0>;
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    dp_in_vopb: endpoint@0 {
-+                        reg = <0>;
-+                        remote-endpoint = <&vopb_out_dp>;
-+                    };
-+
-+                    dp_in_vopl: endpoint@1 {
-+                        reg = <1>;
-+                        remote-endpoint = <&vopl_out_dp>;
-+                    };
-+                };
-+
-+                dp_out: port@1 {
-+                    reg = <1>;
-+                };
-+            };
-+        };
-+    };
---
-2.49.0
-
+-- 
+Mahesh J Salgaonkar
