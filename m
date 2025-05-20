@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC83ABD5F9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 13:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F3AABD5FF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 13:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C347810E448;
-	Tue, 20 May 2025 11:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3BD10E417;
+	Tue, 20 May 2025 11:07:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hLFt65tK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rIyOyvAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E89610E417;
- Tue, 20 May 2025 11:07:47 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6762310E47B;
+ Tue, 20 May 2025 11:07:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B3574629EC;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3920DA4E7D8;
+ Tue, 20 May 2025 11:07:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3EECC4CEF1;
  Tue, 20 May 2025 11:07:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6C7C4CEEB;
- Tue, 20 May 2025 11:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747739266;
- bh=jxaLDwvhxhHhe2Dlk/JNwXqifIcjXM0y7MqVXFsgXW4=;
+ s=k20201202; t=1747739270;
+ bh=9E2qhR1XaU3B9sjO9pEDTpnqS+zWbcGow6sqQsSeS1Q=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hLFt65tK/K4AvjgS0bQhqqQzx5CpsglfBpr+1hduLg3ii+AjTlpHIyhwDpp+MBfX+
- EfhwudBYGB4PDU8ILSZ6cajRWRFx3p5zv2fcmpvbbE41pGhpQyfmDmegTxv7DYQ8G8
- gBNFAcjJbOHeQWNXdt0Y84zzRveJwga1N2lG390qXeE9xOirspX2Ygzj7BM8gn3u4i
- egn4ZBTlHdhhriH8nwPMFUWaUBanQrk2JBypzMk7bRzYofG7B35SDR0E6GQvG8MTak
- AeYyR5nkZKjbxP5HY/ltczzLPL93R8QMbtx1/LfmMgDV315BToEgMaEd5FljgMbHEe
- s5m0wFNplH3HQ==
+ b=rIyOyvAS+6Ygf1rHnGexlesngyts/GS1KtBdCFlfvOXlsiWaWdmQ1BFiFb1VJHubm
+ QPyWnoQig39shqyg5kZ0FIgjxXe7kHhdj3InQKsNHQTx9WWc63bKcCar0xo1zxBBHQ
+ aICVv8dTvL3eEYHfKjqN6aL6VxnD6qRMkIFDJAtuKXy7widBJiKBBfqc+cpeBXtVeD
+ J4AYKH0XVyMq1q6s8/LffZpZW2RrGVJi8krxNjBEeuQHTtfbjnNPWdw8uih9H3bW4O
+ 1IPy6vCGhbrBsWpgXPzxVA9JIEXSAhTERZuv9kNjStVbmEjb3CisqYqlmtu7HC/2jx
+ 1nQI7TUH+CHQw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Tue, 20 May 2025 13:07:11 +0200
-Subject: [PATCH RFT v4 06/14] drm/msm/a6xx: Simplify uavflagprd_inv detection
+Date: Tue, 20 May 2025 13:07:12 +0200
+Subject: [PATCH RFT v4 07/14] drm/msm/a6xx: Resolve the meaning of
+ UBWC_MODE
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-topic-ubwc_central-v4-6-2a461d32234a@oss.qualcomm.com>
+Message-Id: <20250520-topic-ubwc_central-v4-7-2a461d32234a@oss.qualcomm.com>
 References: <20250520-topic-ubwc_central-v4-0-2a461d32234a@oss.qualcomm.com>
 In-Reply-To: <20250520-topic-ubwc_central-v4-0-2a461d32234a@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -51,11 +52,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747739235; l=3256;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747739235; l=2107;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=Md8EpFO+hlcidoswn8bZLiqpgux7zLaGkuRsqCEl+zg=;
- b=rTvb9tSpWnF7imERsv5uZc+uU7KyhONNyX+N8afXGal5r0bGDF88jg/vk+zVKWjxfnbq2Lv6M
- HM7cp1FYpwZCAonewSoskaYoOr3C636GgZhFiMuetJ0KbNz8E4iBqFC
+ bh=WkH2SlmLcTrbMzzovYIdalcdD3bgOciNzfnRMkMKcOQ=;
+ b=chOh+BQDrbE20xh5knam9+Hcg0ktabJdn9z51zEGoNifSXSQv58/xzXCFTQJtRhYdW3EMRejp
+ 0DkaHB4wIqWAVgL1S6rhhSnpbxkryHE8N5FFXYULkYt+/f92MySuqu0
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,91 +76,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Instead of setting it on a gpu-per-gpu basis, converge it to the
-intended "is A650 family or A7xx".
+This bit is set iff the UBWC version is 1.0. That notably does not
+include QCM2290's "no UBWC".
+
+This commit is intentionally cross-subsystem to ease review, as the
+patchset is intended to be merged together, with a maintainer
+consensus.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  2 +-
+ include/linux/soc/qcom/ubwc.h         | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7570ead904adfea13b22a63d57d55d7412abb4b8..00a928fee07290951b69263dd1d902ce85400fc0 100644
+index 00a928fee07290951b69263dd1d902ce85400fc0..154346591365f3f89d467674952abb2f067e7ce3 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -593,7 +593,6 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
- 		return PTR_ERR(gpu->common_ubwc_cfg);
- 
- 	gpu->ubwc_config.rgb565_predicator = 0;
--	gpu->ubwc_config.uavflagprd_inv = 0;
- 	gpu->ubwc_config.min_acc_len = 0;
- 	gpu->ubwc_config.ubwc_swizzle = 0x6;
- 	gpu->ubwc_config.macrotile_mode = 0;
-@@ -615,15 +614,12 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
- 	if (adreno_is_a619_holi(gpu))
- 		gpu->ubwc_config.highest_bank_bit = 13;
- 
--	if (adreno_is_a621(gpu)) {
-+	if (adreno_is_a621(gpu))
- 		gpu->ubwc_config.highest_bank_bit = 13;
--		gpu->ubwc_config.uavflagprd_inv = 2;
--	}
- 
- 	if (adreno_is_a623(gpu)) {
- 		gpu->ubwc_config.highest_bank_bit = 16;
- 		gpu->ubwc_config.rgb565_predicator = 1;
--		gpu->ubwc_config.uavflagprd_inv = 2;
- 		gpu->ubwc_config.macrotile_mode = 1;
- 	}
- 
-@@ -638,21 +634,18 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
- 		/* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
- 		gpu->ubwc_config.highest_bank_bit = 16;
- 		gpu->ubwc_config.rgb565_predicator = 1;
--		gpu->ubwc_config.uavflagprd_inv = 2;
- 		gpu->ubwc_config.macrotile_mode = 1;
- 	}
- 
- 	if (adreno_is_a663(gpu)) {
- 		gpu->ubwc_config.highest_bank_bit = 13;
- 		gpu->ubwc_config.rgb565_predicator = 1;
--		gpu->ubwc_config.uavflagprd_inv = 2;
- 		gpu->ubwc_config.macrotile_mode = 1;
- 		gpu->ubwc_config.ubwc_swizzle = 0x4;
- 	}
- 
- 	if (adreno_is_7c3(gpu)) {
- 		gpu->ubwc_config.highest_bank_bit = 14;
--		gpu->ubwc_config.uavflagprd_inv = 2;
- 		gpu->ubwc_config.macrotile_mode = 1;
- 	}
- 
-@@ -676,11 +669,15 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+@@ -668,11 +668,11 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+ 	 */
  	BUG_ON(adreno_gpu->ubwc_config.highest_bank_bit < 13);
  	u32 hbb = adreno_gpu->ubwc_config.highest_bank_bit - 13;
++	bool ubwc_mode = qcom_ubwc_get_ubwc_mode(cfg);
  	bool amsbc = cfg->ubwc_enc_version >= UBWC_3_0;
-+	u8 uavflagprd_inv = 0;
+ 	u8 uavflagprd_inv = 0;
  	u32 hbb_hi = hbb >> 2;
  	u32 hbb_lo = hbb & 3;
- 	u32 ubwc_mode = adreno_gpu->ubwc_config.ubwc_swizzle & 1;
+-	u32 ubwc_mode = adreno_gpu->ubwc_config.ubwc_swizzle & 1;
  	u32 level2_swizzling_dis = !(adreno_gpu->ubwc_config.ubwc_swizzle & 2);
  
-+	if (adreno_is_a650_family(adreno_gpu) || adreno_is_a7xx(adreno_gpu))
-+		uavflagprd_inv = 2;
+ 	if (adreno_is_a650_family(adreno_gpu) || adreno_is_a7xx(adreno_gpu))
+diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.h
+index d0ef22fb04c5b5549a86f450a687d9ff477c871f..7f87a0981fe19eea3373ee2cc79cd11c84ddbc8c 100644
+--- a/include/linux/soc/qcom/ubwc.h
++++ b/include/linux/soc/qcom/ubwc.h
+@@ -61,4 +61,14 @@ static inline const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void)
+ }
+ #endif
+ 
++static inline bool qcom_ubwc_get_ubwc_mode(const struct qcom_ubwc_cfg_data *cfg)
++{
++	bool ret = cfg->ubwc_enc_version == UBWC_1_0;
 +
- 	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
- 		  level2_swizzling_dis << 12 |
- 		  adreno_gpu->ubwc_config.rgb565_predicator << 11 |
-@@ -695,7 +692,7 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 
- 	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
- 		  level2_swizzling_dis << 12 | hbb_hi << 10 |
--		  adreno_gpu->ubwc_config.uavflagprd_inv << 4 |
-+		  uavflagprd_inv << 4 |
- 		  adreno_gpu->ubwc_config.min_acc_len << 3 |
- 		  hbb_lo << 1 | ubwc_mode);
- 
++	if (ret && !(cfg->ubwc_swizzle & BIT(0)))
++		pr_err("UBWC config discrepancy - level 1 swizzling disabled on UBWC 1.0\n");
++
++	return ret;
++}
++
+ #endif /* __QCOM_UBWC_H__ */
 
 -- 
 2.49.0
