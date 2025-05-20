@@ -2,90 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22F8ABE7AF
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 00:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E453FABE7EA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 01:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAB210E672;
-	Tue, 20 May 2025 22:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B21810E62F;
+	Tue, 20 May 2025 23:13:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XGDCK/jk";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Ea3shUd0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
- [209.85.166.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6395710E66D;
- Tue, 20 May 2025 22:56:28 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id
- ca18e2360f4ac-85b41281b50so205726339f.3; 
- Tue, 20 May 2025 15:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747781787; x=1748386587; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xfbTmppHxOLXCmtZNJSatt4EkTAJlAlHVYpSJyOZFfg=;
- b=XGDCK/jkVhCljpSz4S/HMujlUklSOiWQksG7fPQx45UMJyuYYhE9J6Mt+FwEV47rSk
- 5vhcPgNd/CkHWDSvGMvspTjA3upplxJtu2M3jKBslfgBjjUt/juKGNpXImiBLx/BAKUp
- +oSaqQjR5qO9zJ2XESU0klEb3Oq5DYMm8ppm7fQJYnqlSMwluB1edS3ej9D8dpirnXrO
- qr+x62cxHPLH1GJChsKeT94DV3DEIBlpYQAyOMhJklTGA4zjrHX4o9XTAClpTvdbmcNP
- Ta9EupgSbnJ3YwnbeBokvz/M9M0LeGxA0nJ6e0ow/bbXzHdWL6YTryBP8Ul3994ca1l4
- BnEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747781787; x=1748386587;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xfbTmppHxOLXCmtZNJSatt4EkTAJlAlHVYpSJyOZFfg=;
- b=ooFEFUPhfnIUO4un3bmeXceZdQXpRwx1Xuo7IoqAv0EMZXQ3i8L/j+BaWUWfYORKfR
- 4j5KbFkyxz/GWrNq+pkEhN3EL+S22/nTfhKBq165aBwipkK8DZAFhrSTRrT1o/XXk/9s
- OG+pp1Sug0nOxsf1RJbHjhnCGAxqks0gz8YgPCWZH+ZQ3FCGdRRtSPOj+Mgl3DX7gnTe
- myj/OGBehNhzxA48ahRrrIPgirQ2ihO0h+hEtqQxzqi2TEuDNwmR4p0pKON299P6W4vq
- Y4rMP6mo/DMIJpGf92IrxTnX/qPgydtrxi3w6rtbSNESHy36AI5rSR7s+1t4n1dHWrRH
- KOZg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLIV8vy+uMLxdzyITBnK01vD+QWOwHsGqxNFlUVKEmJ9FycdkCcpGdeEU2MlsjJopAeO13XN/+k9s3@lists.freedesktop.org,
- AJvYcCVUk8ci/y2uLAw2/ZYz4OJH7eHBLpacGXooNXxPPb85IHd5Zid/vF1mn2RYEkJ/70eAQSHs1155t1Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz6N6Ks/dqv0uSs+jZdYdSXSVvaSoIv8YrUVBlFSvJfA6eVjNFL
- XAmonfsuCeKXiVyi41AMlDWFyDOSDrYNDU0i2bfEkmeyXNvsqJ2FSc1q3ayIGsYlAgw/eF7ZJYW
- TMSzlhomy55ZCaKYn7GBBhB5RdShz8g8=
-X-Gm-Gg: ASbGnctLxhD18Ku9bJv0Sx2OjNpnEgXxWsNbx98hGJZfTEsELa8z1A6dg6JTYrqf3ff
- dH77bg3CsHnT4as0WjjazAGokbpXOjcusJ6y2SF/+3Vu53PaM6MXwyEZzvnBkjJsY2UAJDkgV+T
- wn1MWR5o9QkOeYIsPgZxN2OUpSXGjU/RsKSAp8rbFhKR1x09S7s2rujX25ixvyyett1HrLN6NPk
- lI=
-X-Google-Smtp-Source: AGHT+IGOPI/jkR0SE4Ah18tEgrGyD13jj9I35eWxSMfqfHBJtXz1Ptp5VDoU4Ml5gVYvLQqXk4RTcbwN8ZBaSDzk14Q=
-X-Received: by 2002:a05:6602:3e82:b0:867:6c90:4867 with SMTP id
- ca18e2360f4ac-86a23256cadmr2998450939f.14.1747781787455; Tue, 20 May 2025
- 15:56:27 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2079.outbound.protection.outlook.com [40.107.92.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E423B10E5E4;
+ Tue, 20 May 2025 23:13:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H25qH040RgecXdYMVHkTqgsrqZLeNRmQnRhEGP66MTWV3FONuXgjEjTbSKbfd1Fh72FFBXiw+vg1soyt76om5WXS4iVhn4Jh8k0ZMfFgKMAESAqz3BXjuR2LIN5nGj4zU1vpS7hrwa4xK6lJ2ctR/SaIiWiEZGNL4yaRaSNMYUBCTxtAiAWtZ5v4cjps7U3pFxndGWlXKaYrySRlFWhCUv3MX7LnEeuC/+pU54N9rY4Fv4qJrsVINUgai0EWIKEqq01y2Y+dGYyiCEI7WnJiLI5EjZ20FJ6OvyYp6M7TVYBl6j+RxISrsUb8Jya528sinqIXcA+ktnAPRXr25ni+uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U6/vhJO1f5tQvKcAqYPGfLl3GBt3yjTuQcRG4mf7eIo=;
+ b=W2zsAhwFuWUVYZSVhuyNNOjHjiQqwWpnJq004NyB9x5athcR332xAjCG0vSVOqvBiXyq9bcO8HBDpuuBulxHNZv09XGJaGAzvDCWX8PcGP4gHktfeI+d4bsxbltNvTSvIis++yDjnsOkuOl5WdMzN5LzUO9OvgCSC9JuewWfqHeI1Gzic4QXYnuwV9HMa9XC/jEMj5uVEF1TKCPQlMhhEnO78UtBNnaJu/XeyB8/ZiVobHmStGjDoE7ucTsmjTfNXqfHUMfkrUgrFnuDEoC/PdxxEaxDZDBFvOkTZ75OX9k/cietN8s5S5mOCVwKtVX+nL0s2n/PpuWth/FY2e95Pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U6/vhJO1f5tQvKcAqYPGfLl3GBt3yjTuQcRG4mf7eIo=;
+ b=Ea3shUd05LvmKDClN/Z19Fh7d8zQuLUd/Uxwh4/EGlXeHJLl+3hwDt8ZtwE1qUjGKjG3TiCZn3ANN+e+kxgZPhLftaVNq68yfuayFGx4o5MLdf2c/BOh0xplFaQgzZVLjyCdBfA8BEmChkTSH935/Rom7137RDMtbUc9Dl2qeZs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by SJ1PR12MB6267.namprd12.prod.outlook.com (2603:10b6:a03:456::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
+ 2025 23:13:49 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%5]) with mapi id 15.20.8746.030; Tue, 20 May 2025
+ 23:13:48 +0000
+Message-ID: <24bbb5b6-6812-471b-af0d-2b16ff964078@amd.com>
+Date: Tue, 20 May 2025 17:13:44 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: no 3D and blnd LUT as DPP color caps for
+ DCN401
+To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
+ Simon Ser <contact@emersion.fr>, Xaver Hugl <xaver.hugl@gmail.com>,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20250425205236.318520-1-mwen@igalia.com>
+ <83af5681-7061-427b-a429-785b70a14652@igalia.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <83af5681-7061-427b-a429-785b70a14652@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQXPR0101CA0046.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::23) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 MIME-Version: 1.0
-References: <20250514175527.42488-1-robdclark@gmail.com>
- <20250514175527.42488-2-robdclark@gmail.com>
- <aCWrwz2IF6VBUi4e@pollux> <aCWueFzx2QzF7LVg@pollux>
- <CAF6AEGu9MPxKnkHo45gSRxaCP+CTzqsKZjiLuy4Ne4GbrsStGA@mail.gmail.com>
- <aCYqlvp_T77LyuMa@pollux>
- <CAF6AEGsOTNedZhuBzipSQgNpG0SyVObaeq+g5U1hGUFfRYjw8w@mail.gmail.com>
- <aCb-72KH-NrzvGXy@pollux>
- <CAF6AEGu=KzCnkxuUsYvCHBGwo-e2W16u_cRT1NFAXLphty1_ig@mail.gmail.com>
- <CAPM=9tzcvDVDOM88O8oqDHURR1nbR7KsFStavNnT1CN6C6kGgg@mail.gmail.com>
- <CAF6AEGuv3GXTBcU99sBjAa5gPOSNoxwY+eiPy=Q--cLYHVn+cw@mail.gmail.com>
- <CAPM=9tykCXSKOH0BcMkNLKyCWfEN-kCjs0U7UA+C1pPqFr1jLA@mail.gmail.com>
-In-Reply-To: <CAPM=9tykCXSKOH0BcMkNLKyCWfEN-kCjs0U7UA+C1pPqFr1jLA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 20 May 2025 15:56:15 -0700
-X-Gm-Features: AX0GCFsoUmkG3s3L14GoLEL15C4sCyP3V1E3Uragg5_xADxJ_pxuus52D_2x7-E
-Message-ID: <CAF6AEGvr6-9af9ZyccYF-g56j5-4sHocH+9JPk=cKfgdMTAjLg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/40] drm/gpuvm: Don't require obj lock in destructor
- path
-To: Dave Airlie <airlied@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SJ1PR12MB6267:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6989d8b-3d49-46e6-ec7d-08dd97f3fa2f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Zk1vK3lpQmJRZTdiV2QrVllaK242ZndWTkRmUzI0OVZjVFFxOEt2eE9UUjk3?=
+ =?utf-8?B?clFaVGlUUFk4ZTJldGx0a00zeFZCZnI1eEhJYm1nSmFJMHB5a0Q1aFo0OWZw?=
+ =?utf-8?B?NEQwZG1Tc2lBdktqc2pPNVhXaVBmdGdDamVHT1ZQaC9QQnVqeFM0dG5CcVlh?=
+ =?utf-8?B?Y2hzOUhxVHRvREYwQk52R1UzeG1yK1JUSlpwNVMxN1RXQWNNcEliTUxEZk52?=
+ =?utf-8?B?WkQ1cDVXazdxMitVOVNRZmoyWG81TDNZZVRka1pRUVpLWEdTZk11WVRUQ3Nr?=
+ =?utf-8?B?anptdFp0VW4wVzAzMG92c2F2YzJPbkN3ZUlYcitIOHFGVDhpL0VRaHBXS3l2?=
+ =?utf-8?B?NytjWXUxUk5FaVdrTUIzc0txcjVxTCthYVdaaEJiWXN5Q2JaYUZBQTZFRTc5?=
+ =?utf-8?B?SHZDN3NjM003VzJ3ZVpRYVZMbHlaeTdNbFVVNmZ5SU1rVXd5QkFRSTJRWHl2?=
+ =?utf-8?B?RzhpSHVKcUpjYXA1NHJxT2hhcXVzR0FLSzFoSnNVNXJhRFpjaWNrNVJ3WVY0?=
+ =?utf-8?B?Y1hnZUdLdXFsWmFUTzk4ekhxMzk0M2NJOXYyd3ZLUXpTcklJQmlINy9naGcz?=
+ =?utf-8?B?V3BKaWNlNG5KcUMwOEh0Q1pvelQvTXJvNzgwMFhGWXdkQVhjV1Rub042akdL?=
+ =?utf-8?B?eDFwZXdNNGh0NXdidmhZMFB2SE1LRnVsb3RnYkJ4dXBSYkIrTy8zN3BiV09U?=
+ =?utf-8?B?WnBxTmU2U2p6ZUFub05UWmtrcThKVDFwZkJBc3lzenRKL004SkhzalF2VG04?=
+ =?utf-8?B?R29WYUtLUkcwSEt3UFpuQ1IyNWFkcjlMN1RkaDE0cXNjcUxSVHVaRVhmOTY0?=
+ =?utf-8?B?UGc2THpHSHVwZGtPVWZmZ0Z1TVdnK1YzZmFZeWFUbi9Yd0VnYThaV3RUaXVY?=
+ =?utf-8?B?UExYUC8zTndkbENGczVBUVRUeFJyQkU3UTlvanBJWDIreVhQZk55anUxNDBi?=
+ =?utf-8?B?WGtST2wxSTBDdWhNajZ3K09NTTJlYUZwNDkydm0xV0RyVVQyQmdERDNTdkp5?=
+ =?utf-8?B?Vk5iUDRjcy8xTjJLdWhHY3REY0VSNk8vQ3hWc25oSEZKZEhxZ1VjaUMreWJX?=
+ =?utf-8?B?NUJGdGp6TE9IS3p4VzJrazVUZkh5dUxhZktDRDJkTzdLYTdMNzFrenVCRHRD?=
+ =?utf-8?B?YnMwZUJjUmhRVHNMa2Q5VHVSeEU3WVU4T0tHMitlN1JoY2habnkrckdOTWJp?=
+ =?utf-8?B?citNMG9ycEUwemNKUlQ4dk1CNmwyZk1ZY3VCWXpKOWpBdDNxQXNtM1hRUE4r?=
+ =?utf-8?B?Nk9Pc0RqVUJFUzVuanBwc1pYa0RTSkRpZVN6QXY5NUgxNE04QXk3N2Fmd2RY?=
+ =?utf-8?B?WFZyZE1uVXlSdTFNdWJqTXErK2ZJRXlzdXpkMllmVHdUQkVsQzU3Q3kzckly?=
+ =?utf-8?B?dmQ3TEhZM2MxRUEyNGVVMG5uemRjRDdENnBpNExEeXltMEtacnZXZzA1QWNQ?=
+ =?utf-8?B?bFdxL0h3ZnRuT0F1aGdDNm5EaFRXWUZiTTEvVjJxZUMvMDI5Zk4vYzhIaS84?=
+ =?utf-8?B?dCs0NnpENVRpK1JlMWgxdDR4OUJJT0hvNDNyQkxuVVhvUXBOQTBDUTBhbFZJ?=
+ =?utf-8?B?eTBZdE9GWkV1RXVhRDZYZkV5WXRXZktjNDZLcURrUncrTjh6L0wvdVlsTlRM?=
+ =?utf-8?B?aFNHSDJqOUU0TkxBMlAzSTZBYkJQclROTXpyK3JXakpZYUVpRWxidnJnQklL?=
+ =?utf-8?B?UnFDLzBSNnpGVzNZSVVDNGl5YitRQ29xZ0JHQ0xLZ1A1QTBqK1ptY0ZIT213?=
+ =?utf-8?B?bDRMdEdjMjFiVVNkRkZWdWxsa21qb1NQVjVqN0c3c0kxRHNPdDVHZlJ4TGo5?=
+ =?utf-8?B?NExKUjV2SFRES08wcVJMdm5LKytNaDFFZjZjZ0djbWsrSzRISzZNdmFIbzIv?=
+ =?utf-8?B?UEEzNzZNMzVkckdFbUJZNFlRSjJES21nbDNrWFQ5bWJUU3VNSTd2MHdaeTUz?=
+ =?utf-8?Q?fHreijoA/GQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFVSS2VGazBYMzVmc2hPQWZnNmxlWXJlb0tLTU85OTBRdWIxVXg1Ti8vTm9w?=
+ =?utf-8?B?bG1UWVFsUWZ6a3grRTNOTHc2NHdxNGptc1M3em5nb240T2I2bWtmc29JbnVW?=
+ =?utf-8?B?aEtVM25wTDY2TW0rY3ZhOEZoYXUvd2RRV0RxaE5PRDU2N0pjckFYN0hZWHdY?=
+ =?utf-8?B?THF4bEtwdDlHYXJqR2s4b3BVZSsyWGFDOWtoeHFFMGllZ1RBTEd2dVJFb3dv?=
+ =?utf-8?B?TUdFYzNtKzcvQW92ZlB5a3hjYzFwY2NZKzYrRHAxNHErNXozenpjQ05WL29p?=
+ =?utf-8?B?Qmp4bEVtdEJzbnltdGNlVmtia2loTDBPbzcrbHdjcVUyc2YzTjJZdkdmTjJE?=
+ =?utf-8?B?ZFNKUUl4Mm5WK0x1N3dwK0tXOTJwaklITGRydXlqb0dpL3Nja0dJd2Y2Wlp6?=
+ =?utf-8?B?RmNuWkpxUm81ZHZ4bndtNHRsOHg3ekhYUmlLSEdNZHpMVFZLWUhLRVAzbyt5?=
+ =?utf-8?B?bGJSRjVqL3p6YzUvTkhSaElVTXk3MGI3YlptRTVMYUJ4Y1VKQVRITlJxNnY4?=
+ =?utf-8?B?YklGb29YSHE5bW5laUVza1V4UDBseHU5UlNjUDRXUUtzVnRSeG1tNW9nbWo4?=
+ =?utf-8?B?MFZqZHhYZjNLeTFsTVV4aGF5anpzUWw0MzMxN1hJVXg1SThNOE9hNWZDNXVK?=
+ =?utf-8?B?YXYrQUFXL3o2VUlXTjRHcmdQN3FCRTU1L2hNTFRaQzM3TTFpU1RwSjY4NDBr?=
+ =?utf-8?B?aGFkZHNTZ08xeGUrR0FpZlg1VXdoZzV3MEMxMUtTQjF4WVh3SEVoZE5JMXVw?=
+ =?utf-8?B?TFVreXpuQ3YxVEkzdHVOLzEyUXdCK1pxL29US0pxazhBbVRpT3ExRzZLSkJ0?=
+ =?utf-8?B?MHhiWGdlcGw3dmZ5Y2dhc21mMWFNWVYyQkg1Z3VFWDZsNk5qOWF6UUN3N3VL?=
+ =?utf-8?B?czdieU9PcTlpZWdtbjZKZGVJdUpUa3lLQTFtTGx6K3FLN3BTUFVZMW9lZFRq?=
+ =?utf-8?B?ZmQ5SHZSclh1MGgzOXBtcmVkUkZubVRVY054SVVuN2VPWm1aUGVhWWxNOHZv?=
+ =?utf-8?B?TDdraFYvdFJPTUFkUWNkK1BLMTRFZlZkMUNwT3M0T24vSGNraXpVbk12YWFt?=
+ =?utf-8?B?aUMrc2I2bEtGWS92azBPdlhBNG9rQW5yNTIyUmlORENSL2JJN0tGVkhYRk1F?=
+ =?utf-8?B?TDZ5d3ovb1pXcnFrb0lDSG9DaTRmRUJ1SEpvRUVTcitoUnUrV083cG9rcXky?=
+ =?utf-8?B?cG0zMVVRZncySDJSNGJSL3cxeVA4RW1wSTFDNFlQSDV0bCtoemh1OHJrL2hO?=
+ =?utf-8?B?SVZlWWNsZ1MzR0d6TlZOZFJuQ28xVXIrQWt6T1hGaUJKaGQ3bUl2S2svVGhK?=
+ =?utf-8?B?U2Y1bXlJb0gvN1E4KzFoMUJvV25jQmRyaEhTbmk4WU02VXB4M0Q5bmJRWHBp?=
+ =?utf-8?B?TkVUUDR5UTNPNzVwajgrUVAvZmlVcXNMajZIZzFpd3R1d0pRbEwvVHkzaXBK?=
+ =?utf-8?B?RDJrbVNja21wZUNuYS9wcHh3Y0kvMkx0Y3BZR3liT2tDMU91c29MR05Hd01U?=
+ =?utf-8?B?dXc0Z2F5U29TM2FVR0lkWktxdDluaFVXQmcvTWxGMHFkUk16WTFvalFpc1l2?=
+ =?utf-8?B?MjJDTHEwczdnRUtkOUtySTJ5bldsRDlEYXBUNjRETnJpUHB2dnowUkplQnRQ?=
+ =?utf-8?B?T2ZYNDdLOThxQmNyVTAwMy9VUDdHREFMaTYvWEU1a05wcnhpMmxxS2tKSnl4?=
+ =?utf-8?B?R0s2alpoM0gyUTg2dlc3VmN1TE1XVFEraFViQ2w5YkJwaHowSGVjQmtTZG9a?=
+ =?utf-8?B?c1BsTm10Nm1WYVM3clcxVjlzYUNjWFdydFBpbnBNN1hkdi8yQkdHNjd2M1oy?=
+ =?utf-8?B?bGR2VE5KT0pMejNTOFNLZmdHeXd0R1RsUWthVmdxTktiSkEyWUx6OVNYbTJx?=
+ =?utf-8?B?TFh4QmRQeEFDRHJHcnZHR1IrNS9lL1lOTXp0RjJnYXMxTnhUSHF3MlBSS0xu?=
+ =?utf-8?B?Wk5qRy9QSm8rbHc3c002WDIvLzlsOHpSU2VNb0ZIbUFHQlk1cHAzSkVEY01R?=
+ =?utf-8?B?S0k0bXdlaXZVN1VoYTJMRmJoUjVDOUVXMFh1QVN5WERLSjJRYUVtRm1kREto?=
+ =?utf-8?B?THpRb29CbUNuQ3h2NldjTUY3K1VnME1kUzUzdTlNWEQ4dFRncGJFWTEwRjgy?=
+ =?utf-8?Q?HeAtExHFZur8izdw/rnl6zWWK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6989d8b-3d49-46e6-ec7d-08dd97f3fa2f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 23:13:48.8862 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bRwg6GPYPpMqhBVLJhKNUYh6CgBPKlvfYp9pXW7fzbhe036Rv6B5Xq9tHCX47idEEIYxdzETZg9AF/p4QlzAMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6267
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,125 +168,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 20, 2025 at 3:31=E2=80=AFPM Dave Airlie <airlied@gmail.com> wro=
-te:
->
-> On Wed, 21 May 2025 at 07:53, Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Tue, May 20, 2025 at 2:25=E2=80=AFPM Dave Airlie <airlied@gmail.com>=
- wrote:
-> > >
-> > > On Sat, 17 May 2025 at 02:20, Rob Clark <robdclark@gmail.com> wrote:
-> > > >
-> > > > On Fri, May 16, 2025 at 2:01=E2=80=AFAM Danilo Krummrich <dakr@kern=
-el.org> wrote:
-> > > > >
-> > > > > On Thu, May 15, 2025 at 02:57:46PM -0700, Rob Clark wrote:
-> > > > > > On Thu, May 15, 2025 at 10:55=E2=80=AFAM Danilo Krummrich <dakr=
-@kernel.org> wrote:
-> > > > > > > Anyways, I don't agree with that. Even if you can tweak your =
-driver to not run
-> > > > > > > into trouble with this, we can't introduce a mode that violat=
-es GOUVM's internal
-> > > > > > > lifetimes and subsequently fix it up with WARN_ON() or BUG_ON=
-().
-> > > > > > >
-> > > > > > > I still don't see a real technical reason why msm can't be re=
-worked to follow
-> > > > > > > those lifetime rules.
-> > > > > >
-> > > > > > The basic issue is that (a) it would be really awkward to have =
-two
-> > > > > > side-by-side VM/VMA management/tracking systems.  But in legacy=
- mode,
-> > > > > > we have the opposite direction of reference holding.  (But at t=
-he same
-> > > > > > time, don't need/use most of the features of gpuvm.)
-> > > > >
-> > > > > Ok, let's try to move this forward; I see three options (in order=
- of descending
-> > > > > preference):
-> > > > >
-> > > > >   1) Rework the legacy code to properly work with GPUVM.
-> > > > >   2) Don't use GPUVM for the legacy mode.
-> > > > >   .
-> > > > >   .
-> > > > >   .
-> > > > >   3) Get an ACK from Dave / Sima to implement those workarounds f=
-or MSM in
-> > > > >      GPUVM.
-> > > > >
-> > > > > If you go for 3), the code introduced by those two patches should=
- be guarded
-> > > > > with a flag that makes it very clear that this is a workaround sp=
-ecifically
-> > > > > for MSM legacy mode and does not give any guarantees in terms of =
-correctness
-> > > > > regarding lifetimes etc., e.g. DRM_GPUVM_MSM_LEGACY_QUIRK.
-> > > >
-> > > > I'm not even sure how #2 would work, other than just copy/pasta all=
- of
-> > > > drm_gpuvm into msm, which doesn't really seem great.
-> > > >
-> > > > As for #1, even if I could get it to work, it would still be a lot
-> > > > more mmu map/unmap (like on every pageflip, vs the current state th=
-at
-> > > > the vma is kept around until the object is freed).  For the
-> > > > non-VM_BIND world, there are advantages to the BO holding the ref t=
-o
-> > > > the VMA, rather than the other way around.  Even at just a modest
-> > > > single layer 1080p the map takes ~.2ms and unmap ~.3ms (plus the un=
-map
-> > > > costs a tlbinv).  So from that standpoint, #3 is the superior optio=
-n.
-> > > >
-> > >
-> > > Before we get to #3, I'll need a bit more info here on why you have t=
-o
-> > > map/unmap the VMA on every pageflip.
-> >
-> > Previously we'd keep the VMA hanging around until the GEM obj is
-> > freed.  But that can't work if the VMA (via the VM_BO) is holding a
-> > reference to the GEM obj.
-> >
-> > I was kinda thinking about keeping the VMA around until the handle is
-> > closed.. but that doesn't cover the dma-buf case (ie. when you
-> > re-import the dma-buf fd each frame.. I know android does this, unsure
-> > about other wsi's).
-> >
-> > > But actually I think 2 is the best option, I think in nouveau this is
-> > > where we ended up, we didn't modify the old submission paths at all
-> > > and kept the old bo/vm lifetimes.
-> > >
-> > > We just added completely new bind/exec ioctls and you can only use on=
-e
-> > > method once you've opened an fd.
-> >
-> > hmm, but that means tracking VMAs against a single BO differently..
-> > which.. at least seems ugly..
->
-> I don't think it is if you already have the code to do that, and just
-> add gpuvm support in parallel.
->
-> You also have to figure out that the world is moving towards Vulkan
-> for everything so any optimisations you've made for particular legacy
-> paths will need to be dealt with in the future picture anyways.
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 
-fwiw, the case I'm more worried about is the kms vm for scanout, that
-won't be using vk
+On 4/29/25 16:39, Melissa Wen wrote:
+> 
+> 
+> On 25/04/2025 17:52, Melissa Wen wrote:
+>> Match what is declared as DPP color caps with hw caps. DCN401 has MPC
+>> shaper+3D+blnd LUTs that are movable before and after blending (get from
+>> plane or stream), but no DPP shaper+3D+blend LUTs.
+> Correction: shaper+3D LUTs movable, and no DPP blend LUT.
+>>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> ---
+>>   .../gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c  | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn401/ 
+>> dcn401_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn401/ 
+>> dcn401_resource.c
+>> index 5b7148bb1701..3b142e662c7b 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+>> @@ -1937,8 +1937,8 @@ static bool dcn401_resource_construct(
+>>       dc->caps.color.dpp.gamma_corr = 1;
+>>       dc->caps.color.dpp.dgam_rom_for_yuv = 0;
+>> -    dc->caps.color.dpp.hw_3d_lut = 1;
+>> -    dc->caps.color.dpp.ogam_ram = 1;
+>> +    dc->caps.color.dpp.hw_3d_lut = 0;
+>> +    dc->caps.color.dpp.ogam_ram = 0;
+>>       // no OGAM ROM on DCN2 and later ASICs
+>>       dc->caps.color.dpp.ogam_rom_caps.srgb = 0;
+>>       dc->caps.color.dpp.ogam_rom_caps.bt2020 = 0;
+> 
 
-BR,
--R
-
-> But I'd rather not hack gpuvm into being something it isn't, if there
-> is a meaningful commonality in legacy bo/vm bindings across drivers,
-> we could create something new, but the ref counting and handling is
-> pretty fundamental to gpuvm architecture.
->
-> There should only be two paths, legacy and gpuvm, and you shouldn't
-> ever be mixing them on a particular exec path, since you should only
-> have a vm per userspace fd, and can pick which way to use it the first
-> time someone calls it.
->
-> Dave.
-> Dave.
