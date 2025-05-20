@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120D9ABD3CC
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 11:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FB8ABD3CF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 11:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C50010E462;
-	Tue, 20 May 2025 09:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E13910E46B;
+	Tue, 20 May 2025 09:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="PIvwgGo/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JNaZLsyH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PIvwgGo/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JNaZLsyH";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="d6N0Y5fJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="42MdlycN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d6N0Y5fJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="42MdlycN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D18210E43D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 09:45:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2B910E46B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 09:45:27 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F2C3320656;
- Tue, 20 May 2025 09:45:11 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 432FB20659;
+ Tue, 20 May 2025 09:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1747734312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tBMKU6J0ofBbqH+4oJE/byUz/Xjqus3wx5ybuxsnhWE=;
- b=PIvwgGo/2K9lCehWQ0vR//OA3ThyVGZhgtTpPBgGvB4Qm1LIbq8oEdI53F+xIjG2DfU4vZ
- vcUEa9bqbj/nHur4BVWdly1gvo6GFIWHcst9XNSyxFj+EWoNbrg6uulXktdgk8FmBKaXpa
- 9ZUWPFy4A672EYbl3C6MbZ7Vq5vRdr8=
+ bh=q3MNPjYYisLyMj7hd+WhpKqMSCxXBHWbI9aHJGjNmDI=;
+ b=d6N0Y5fJNYXFl4lCbG+2WtmVZH5jsYoFHCzJm8w4lPs6JfOfCOv3UEXFYKJ89+bzciX7K0
+ qCdok4rWGcmiRS/RJH+fYV/k2xQWtAxtUCieKIU+IxKTa3iM666DAp5lbHGjuOo+r3EJsl
+ cuAZqz8d/dznKMoywxtvEwI8BNnV1Gs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1747734312;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tBMKU6J0ofBbqH+4oJE/byUz/Xjqus3wx5ybuxsnhWE=;
- b=JNaZLsyH4u/sUKSb0I4AQPu7NU8jxRwWINiJ1rbV3OjMQXj2QiaHbI1UeBp7REoA42xlih
- Vgv5JWd17xwO0lCQ==
+ bh=q3MNPjYYisLyMj7hd+WhpKqMSCxXBHWbI9aHJGjNmDI=;
+ b=42MdlycNpbNvBEm11Kn1dWQO6vjtuWnL7c+bpjo3iXMflmzmPuQuqjZ39UvxlwBA+qGyfj
+ bfS4zWd1h7R4+2BQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -49,27 +49,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tBMKU6J0ofBbqH+4oJE/byUz/Xjqus3wx5ybuxsnhWE=;
- b=PIvwgGo/2K9lCehWQ0vR//OA3ThyVGZhgtTpPBgGvB4Qm1LIbq8oEdI53F+xIjG2DfU4vZ
- vcUEa9bqbj/nHur4BVWdly1gvo6GFIWHcst9XNSyxFj+EWoNbrg6uulXktdgk8FmBKaXpa
- 9ZUWPFy4A672EYbl3C6MbZ7Vq5vRdr8=
+ bh=q3MNPjYYisLyMj7hd+WhpKqMSCxXBHWbI9aHJGjNmDI=;
+ b=d6N0Y5fJNYXFl4lCbG+2WtmVZH5jsYoFHCzJm8w4lPs6JfOfCOv3UEXFYKJ89+bzciX7K0
+ qCdok4rWGcmiRS/RJH+fYV/k2xQWtAxtUCieKIU+IxKTa3iM666DAp5lbHGjuOo+r3EJsl
+ cuAZqz8d/dznKMoywxtvEwI8BNnV1Gs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1747734312;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tBMKU6J0ofBbqH+4oJE/byUz/Xjqus3wx5ybuxsnhWE=;
- b=JNaZLsyH4u/sUKSb0I4AQPu7NU8jxRwWINiJ1rbV3OjMQXj2QiaHbI1UeBp7REoA42xlih
- Vgv5JWd17xwO0lCQ==
+ bh=q3MNPjYYisLyMj7hd+WhpKqMSCxXBHWbI9aHJGjNmDI=;
+ b=42MdlycNpbNvBEm11Kn1dWQO6vjtuWnL7c+bpjo3iXMflmzmPuQuqjZ39UvxlwBA+qGyfj
+ bfS4zWd1h7R4+2BQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B647D13A3F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0543513A3E;
  Tue, 20 May 2025 09:45:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MBMyKydPLGhVXwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2OiPOydPLGhVXwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 20 May 2025 09:45:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, javierm@redhat.com, airlied@redhat.com,
@@ -77,9 +77,9 @@ To: jfalempe@redhat.com, javierm@redhat.com, airlied@redhat.com,
  mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 3/5] drm/mgag200: Use helpers for programming gamma ramps
-Date: Tue, 20 May 2025 11:40:05 +0200
-Message-ID: <20250520094203.30545-4-tzimmermann@suse.de>
+Subject: [PATCH v2 4/5] drm/ofdrm: Use helpers for programming gamma ramps
+Date: Tue, 20 May 2025 11:40:06 +0200
+Message-ID: <20250520094203.30545-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250520094203.30545-1-tzimmermann@suse.de>
 References: <20250520094203.30545-1-tzimmermann@suse.de>
@@ -98,7 +98,7 @@ X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
  TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  RCPT_COUNT_SEVEN(0.00)[9];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
  FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Flag: NO
 X-Spam-Score: -6.80
@@ -118,7 +118,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace mgag200's code for programming the hardware gamma LUT with
+Replace ofdrm's code for programming the hardware gamma LUT with
 DRM helpers. Either load a provided gamma ramp or program a default.
 Set the individual entries with a callback.
 
@@ -130,106 +130,34 @@ v2:
 - fix coding style
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h    |  8 +--
- drivers/gpu/drm/mgag200/mgag200_g200er.c |  4 +-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c |  4 +-
- drivers/gpu/drm/mgag200/mgag200_g200se.c |  4 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c   | 82 ++++++++++--------------
- 5 files changed, 44 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/sysfb/ofdrm.c | 80 +++++++++++++----------------------
+ 1 file changed, 30 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 819a7e9381e3..f4bf40cd7c88 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -382,10 +382,10 @@ int mgag200_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
- 	.destroy = drm_plane_cleanup, \
- 	DRM_GEM_SHADOW_PLANE_FUNCS
- 
--void mgag200_crtc_set_gamma_linear(struct mga_device *mdev, const struct drm_format_info *format);
--void mgag200_crtc_set_gamma(struct mga_device *mdev,
--			    const struct drm_format_info *format,
--			    struct drm_color_lut *lut);
-+void mgag200_crtc_fill_gamma(struct mga_device *mdev, const struct drm_format_info *format);
-+void mgag200_crtc_load_gamma(struct mga_device *mdev,
-+			     const struct drm_format_info *format,
-+			     struct drm_color_lut *lut);
- 
- enum drm_mode_status mgag200_crtc_helper_mode_valid(struct drm_crtc *crtc,
- 						    const struct drm_display_mode *mode);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index c20ed0ab50ec..23debc70dc54 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -200,9 +200,9 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 	mgag200_g200er_reset_tagfifo(mdev);
- 
- 	if (crtc_state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
- 	else
--		mgag200_crtc_set_gamma_linear(mdev, format);
-+		mgag200_crtc_fill_gamma(mdev, format);
- 
- 	mgag200_enable_display(mdev);
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index 78be964eb97c..f8796e2b7a0f 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -201,9 +201,9 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 	mgag200_g200ev_set_hiprilvl(mdev);
- 
- 	if (crtc_state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
- 	else
--		mgag200_crtc_set_gamma_linear(mdev, format);
-+		mgag200_crtc_fill_gamma(mdev, format);
- 
- 	mgag200_enable_display(mdev);
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index 7a32d3b1d226..e80da12ba1fe 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -332,9 +332,9 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 	mgag200_g200se_set_hiprilvl(mdev, adjusted_mode, format);
- 
- 	if (crtc_state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
- 	else
--		mgag200_crtc_set_gamma_linear(mdev, format);
-+		mgag200_crtc_fill_gamma(mdev, format);
- 
- 	mgag200_enable_display(mdev);
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 6067d08aeee3..951d715dea30 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -13,6 +13,7 @@
- 
+diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
+index fddfe8bea9f7..c9415f0cb3ed 100644
+--- a/drivers/gpu/drm/sysfb/ofdrm.c
++++ b/drivers/gpu/drm/sysfb/ofdrm.c
+@@ -8,6 +8,7 @@
+ #include <drm/clients/drm_client_setup.h>
  #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_state_helper.h>
 +#include <drm/drm_color_mgmt.h>
+ #include <drm/drm_connector.h>
  #include <drm/drm_damage_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_format_helper.h>
-@@ -30,35 +31,37 @@
-  * This file contains setup code for the CRTC.
-  */
+ #include <drm/drm_device.h>
+@@ -644,36 +645,36 @@ static void ofdrm_qemu_cmap_write(struct ofdrm_device *odev, unsigned char index
+ 	writeb(b, data);
+ }
  
--void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
--				   const struct drm_format_info *format)
-+static void mgag200_set_gamma_lut(struct drm_crtc *crtc, unsigned int index,
-+				  u16 red, u16 green, u16 blue)
- {
--	int i;
+-static void ofdrm_device_set_gamma_linear(struct ofdrm_device *odev,
+-					  const struct drm_format_info *format)
++static void ofdrm_set_gamma_lut(struct drm_crtc *crtc, unsigned int index,
++				u16 red, u16 green, u16 blue)
++{
 +	struct drm_device *dev = crtc->dev;
-+	struct mga_device *mdev = to_mga_device(dev);
++	struct ofdrm_device *odev = ofdrm_device_of_dev(dev);
 +	u8 i8 = index & 0xff;
 +	u8 r8 = red >> 8;
 +	u8 g8 = green >> 8;
@@ -238,112 +166,106 @@ index 6067d08aeee3..951d715dea30 100644
 +	if (drm_WARN_ON_ONCE(dev, index != i8))
 +		return; /* driver bug */
 +
-+	WREG8(DAC_INDEX + MGA1064_INDEX, i8);
-+	WREG8(DAC_INDEX + MGA1064_COL_PAL, r8);
-+	WREG8(DAC_INDEX + MGA1064_COL_PAL, g8);
-+	WREG8(DAC_INDEX + MGA1064_COL_PAL, b8);
++	odev->funcs->cmap_write(odev, i8, r8, g8, b8);
 +}
- 
--	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
-+void mgag200_crtc_fill_gamma(struct mga_device *mdev,
-+			     const struct drm_format_info *format)
-+{
-+	struct drm_crtc *crtc = &mdev->crtc;
++
++static void ofdrm_device_fill_gamma(struct ofdrm_device *odev,
++				    const struct drm_format_info *format)
+ {
+ 	struct drm_device *dev = &odev->sysfb.dev;
+-	int i;
++	struct drm_crtc *crtc = &odev->crtc;
  
  	switch (format->format) {
  	case DRM_FORMAT_RGB565:
+ 	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
 -		/* Use better interpolation, to take 32 values from 0 to 255 */
--		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
+-		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE / 8; i++) {
+-			unsigned char r = i * 8 + i / 4;
+-			unsigned char g = i * 4 + i / 16;
+-			unsigned char b = i * 8 + i / 4;
+-
+-			odev->funcs->cmap_write(odev, i, r, g, b);
 -		}
 -		/* Green has one more bit, so add padding with 0 for red and blue. */
--		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
+-		for (i = OFDRM_GAMMA_LUT_SIZE / 8; i < OFDRM_GAMMA_LUT_SIZE / 4; i++) {
+-			unsigned char r = 0;
+-			unsigned char g = i * 4 + i / 16;
+-			unsigned char b = 0;
+-
+-			odev->funcs->cmap_write(odev, i, r, g, b);
 -		}
-+		drm_crtc_fill_gamma_565(crtc, mgag200_set_gamma_lut);
++		drm_crtc_fill_gamma_565(crtc, ofdrm_set_gamma_lut);
  		break;
- 	case DRM_FORMAT_RGB888:
  	case DRM_FORMAT_XRGB8888:
--		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
--		}
-+		drm_crtc_fill_gamma_888(crtc, mgag200_set_gamma_lut);
+ 	case DRM_FORMAT_BGRX8888:
+-		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE; i++)
+-			odev->funcs->cmap_write(odev, i, i, i, i);
++		drm_crtc_fill_gamma_888(crtc, ofdrm_set_gamma_lut);
  		break;
  	default:
- 		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-@@ -67,36 +70,19 @@ void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
+ 		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
+@@ -682,42 +683,21 @@ static void ofdrm_device_set_gamma_linear(struct ofdrm_device *odev,
  	}
  }
  
--void mgag200_crtc_set_gamma(struct mga_device *mdev,
--			    const struct drm_format_info *format,
--			    struct drm_color_lut *lut)
-+void mgag200_crtc_load_gamma(struct mga_device *mdev,
-+			     const struct drm_format_info *format,
-+			     struct drm_color_lut *lut)
+-static void ofdrm_device_set_gamma(struct ofdrm_device *odev,
+-				   const struct drm_format_info *format,
+-				   struct drm_color_lut *lut)
++static void ofdrm_device_load_gamma(struct ofdrm_device *odev,
++				    const struct drm_format_info *format,
++				    struct drm_color_lut *lut)
  {
+ 	struct drm_device *dev = &odev->sysfb.dev;
 -	int i;
--
--	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
-+	struct drm_crtc *crtc = &mdev->crtc;
++	struct drm_crtc *crtc = &odev->crtc;
  
  	switch (format->format) {
  	case DRM_FORMAT_RGB565:
+ 	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
 -		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
--		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].red >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].blue >> 8);
+-		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE / 8; i++) {
+-			unsigned char r = lut[i * 8 + i / 4].red >> 8;
+-			unsigned char g = lut[i * 4 + i / 16].green >> 8;
+-			unsigned char b = lut[i * 8 + i / 4].blue >> 8;
+-
+-			odev->funcs->cmap_write(odev, i, r, g, b);
 -		}
 -		/* Green has one more bit, so add padding with 0 for red and blue. */
--		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
+-		for (i = OFDRM_GAMMA_LUT_SIZE / 8; i < OFDRM_GAMMA_LUT_SIZE / 4; i++) {
+-			unsigned char r = 0;
+-			unsigned char g = lut[i * 4 + i / 16].green >> 8;
+-			unsigned char b = 0;
+-
+-			odev->funcs->cmap_write(odev, i, r, g, b);
 -		}
-+		drm_crtc_load_gamma_565_from_888(crtc, lut, mgag200_set_gamma_lut);
++		drm_crtc_load_gamma_565_from_888(crtc, lut, ofdrm_set_gamma_lut);
  		break;
- 	case DRM_FORMAT_RGB888:
  	case DRM_FORMAT_XRGB8888:
--		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
+ 	case DRM_FORMAT_BGRX8888:
+-		for (i = 0; i < OFDRM_GAMMA_LUT_SIZE; i++) {
+-			unsigned char r = lut[i].red >> 8;
+-			unsigned char g = lut[i].green >> 8;
+-			unsigned char b = lut[i].blue >> 8;
+-
+-			odev->funcs->cmap_write(odev, i, r, g, b);
 -		}
-+		drm_crtc_load_gamma_888(crtc, lut, mgag200_set_gamma_lut);
++		drm_crtc_load_gamma_888(crtc, lut, ofdrm_set_gamma_lut);
  		break;
  	default:
- 		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-@@ -642,9 +628,9 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
- 		const struct drm_format_info *format = mgag200_crtc_state->format;
+ 		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
+@@ -753,9 +733,9 @@ static void ofdrm_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_ato
+ 		const struct drm_format_info *format = sysfb_crtc_state->format;
  
  		if (crtc_state->gamma_lut)
--			mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+			mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
+-			ofdrm_device_set_gamma(odev, format, crtc_state->gamma_lut->data);
++			ofdrm_device_load_gamma(odev, format, crtc_state->gamma_lut->data);
  		else
--			mgag200_crtc_set_gamma_linear(mdev, format);
-+			mgag200_crtc_fill_gamma(mdev, format);
+-			ofdrm_device_set_gamma_linear(odev, format);
++			ofdrm_device_fill_gamma(odev, format);
  	}
  }
  
-@@ -665,9 +651,9 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
- 		funcs->pixpllc_atomic_update(crtc, old_state);
- 
- 	if (crtc_state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+		mgag200_crtc_load_gamma(mdev, format, crtc_state->gamma_lut->data);
- 	else
--		mgag200_crtc_set_gamma_linear(mdev, format);
-+		mgag200_crtc_fill_gamma(mdev, format);
- 
- 	mgag200_enable_display(mdev);
- }
 -- 
 2.49.0
 
