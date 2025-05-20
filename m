@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356A4ABD7E6
-	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 14:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90628ABD7F1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 May 2025 14:09:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F7610E572;
-	Tue, 20 May 2025 12:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AA010E0BF;
+	Tue, 20 May 2025 12:09:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XE/0GPzI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FjNVV3IF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B226E10E572
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 12:08:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB1210E0BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 12:09:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 521EF4A58B;
- Tue, 20 May 2025 12:08:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABEB0C4CEE9;
- Tue, 20 May 2025 12:08:41 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 871894A100;
+ Tue, 20 May 2025 12:09:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1407DC4CEE9;
+ Tue, 20 May 2025 12:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747742922;
- bh=ZQfsFVX5UD/XSRwAU4E/sTwO70gFfISTPfGjtIaP3xg=;
- h=From:Date:Subject:To:Cc:From;
- b=XE/0GPzIkKGDpNRmePgSqqJhADflIro7oL9sMYg+dynvngh9eLWKPlrt2AaxRzq/R
- BLykpXA2nzdqRlF0njgAM/WXR3AOo8HvTOFA/uEIPiw1fLSgWaYqwHyeOKacE/rKk+
- W0JD+0Ui6nlMIwteO/N3p3600EeT5aY6aw5yeamhnwSawiispjcoacMPxk70RNNDbo
- /aiRZArItRRXoBBMBXG/6vz6KCgOX++RZx60QPdFRC3JCdRgfItwgts2uUeVZ2/83x
- bVgWVbWvMmxFAPfiWEiIq8E6JC9qUs4I3uVMgC5olZ8E81ZQoh4vW86lYcEjxg4GrH
- TyfjZNIexbCoQ==
+ s=k20201202; t=1747742993;
+ bh=fVy0/x4yZndAeN03YdmNVuKaiMZZdGzPNITKbbzeS1g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FjNVV3IF1gPVthta/ehZUhGd4FMCgvGQSj8FeYWilDBEtE+vrMH9g7RoUILxqY+pQ
+ 0ouCrfbWFvtmrGIVJNxIZcT6xHIp7S7vbeX+TpwJAyZc9AKnMkDf2TW5fdqN0zL7Sp
+ +vkzziSalyjl63sCFQocjQuClVaMaMD+ss7MCcbAeFxyt3A/OFpPweVtqALz85/pFL
+ 59vg/nc1rJY7/LKtKMU51xkfla+QpEwxYvZVyygpsqX+Pa1jhiAT3we3brLj4AC+qw
+ o/pwft2DptgxH2UeGdUaV7I7rJfVHjUJboM8a/dvfPRrEQRUbLY1aMzLi7JmKXRTQ6
+ I71ILU4vjGngw==
+Date: Tue, 20 May 2025 14:09:50 +0200
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 20 May 2025 14:08:36 +0200
-Subject: [PATCH] drm/vc4: tests: pv_muxing: Fix locking
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-drm-vc4-kunit-fixes-v1-1-ca281e485f8e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAMNwLGgC/x3LTQqAIBBA4avIrBtQ0f6uEi3CphoiCy0JorsnL
- T8e74FIgSlCKx4IlDjy7jNUIcAtg58JecwGLbWVVkscw4bJGVwvzydOfFPEoaxVpawzRjaQzyP
- QH/LY9e/7AfOzWshlAAAA
-X-Change-ID: 20250520-drm-vc4-kunit-fixes-a681715c4409
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4976; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ZQfsFVX5UD/XSRwAU4E/sTwO70gFfISTPfGjtIaP3xg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBk6BcdSl9wz29U2I+F104yYpTzrasNk/razpm+uqJasE
- UzRKvrYMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACYy+Sdjwwmu+rmmJksnPyr9
- +4rX+GOn99R3Xx++0N2/NiX8xNmDr9S0lvx8LR5aE+UoO1+/nmlKGGOtjLqvrJ7YY8vnG1X8PP8
- cYhScfEBKb4vS9fzSWX9WpIuXZeRPffvpXYDQrlQR55hZL7cCAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ Rae Moar <rmoar@google.com>, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
+Message-ID: <20250520-enchanted-spirited-lorikeet-05f0fd@houat>
+References: <20250220132537.2834168-1-mripard@kernel.org>
+ <Z_95jWM2YMTGy3pi@arm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="u6r6j7zf67sbxmzv"
+Content-Disposition: inline
+In-Reply-To: <Z_95jWM2YMTGy3pi@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,152 +64,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 30188df0c387 ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()")
-removed a kunit-managed function to get a drm_modeset_acquire_ctx.
 
-It converted the vc4_pv_muxing_test_init() function, used by
-drm_vc4_test_pv_muxing() and drm_vc4_test_pv_muxing_invalid(). However,
-during that conversion, it went from being kzalloc'd to being allocated
-on the stack.
+--u6r6j7zf67sbxmzv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
+MIME-Version: 1.0
 
-vc4_pv_muxing_test_init() then uses that context to allocate a
-drm_atomic_state using drm_kunit_helper_atomic_state_alloc(), which
-stores a pointer to the locking context in the allocated state.
+Hi Catalin,
 
-However, since vc4_pv_muxing_test_init() is a test init function, the
-context is then cleared when we leave the function, and before executing
-the test. We're then running the test with a dangling pointer, which
-then leads to various crashes.
+On Wed, Apr 16, 2025 at 10:34:05AM +0100, Catalin Marinas wrote:
+> On Thu, Feb 20, 2025 at 02:25:37PM +0100, Maxime Ripard wrote:
+> > lockdep complains when a lock is released in a separate thread the
+> > lock is taken in, and it turns out that kunit does run its actions in a
+> > separate thread than the test ran in.
+> >=20
+> > This means that drm_kunit_helper_acquire_ctx_alloc() just cannot work as
+> > it's supposed to, so let's just get rid of it.
+> >=20
+> > Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>=20
+> My scripts for running all possible kunit tests (under arm64 qemu)
+> started failing with 6.15-rc1. I bisected it to commit 30188df0c387
+> ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()"). No idea
+> whether it fails on other architectures but it's fairly easy to
+> reproduce on arm64. Starting from defconfig, enable CONFIG_KUNIT=3Dm and
+> CONFIG_DRM_VC4_KUNIT_TEST=3Dm, build the kernel with gcc. Once a prompt is
+> reached, "modprobe vc4" and the most noticeable thing is the kernel
+> panic with stack protector enabled (by default on arm64):
+>=20
+>   Kernel panic - not syncing: stack-protector: Kernel stack is corrupted =
+in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4]
+>   CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W      =
+  N  6.15.0-rc2 #1 PREEMPT
+>   Tainted: [W]=3DWARN, [N]=3DTEST
+>   Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
+>   Call trace:
+>    show_stack+0x18/0x24 (C)
+>    dump_stack_lvl+0x60/0x80
+>    dump_stack+0x18/0x24
+>    panic+0x168/0x360
+>    __ktime_get_real_seconds+0x0/0x20
+>    vc4_test_pv_muxing_gen_params+0x0/0x94 [vc4]
+>    kunit_try_run_case+0x6c/0x160 [kunit]
+>    kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
+>    kthread+0x12c/0x204
+>    ret_from_fork+0x10/0x20
+>   SMP: stopping secondary CPUs
+>   Kernel Offset: 0x431a85f00000 from 0xffff800080000000
+>   PHYS_OFFSET: 0xfff0e8f3c0000000
+>   CPU features: 0x0002,00000268,01002640,82004203
+>   Memory Limit: none
+>   ---[ end Kernel panic - not syncing: stack-protector: Kernel stack is c=
+orrupted in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4] ]---
+>=20
+> Scrolling through the log, I also get a lot of warnings before the
+> panic:
+>=20
+>   WARNING: CPU: 14 PID: 311 at drivers/gpu/drm/drm_modeset_lock.c:296 drm=
+_modeset_lock+0xbc/0xfc [drm]
+>   Modules linked in: vc4 snd_soc_hdmi_codec drm_kunit_helpers drm_exec ce=
+c drm_display_helper drm_client_lib drm_dma_helper kunit drm_kms_helper drm=
+ backlight dm_mod ip_tables x_tables ipv6
+>   CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W      =
+  N  6.15.0-rc2 #1 PREEMPT
+>   Tainted: [W]=3DWARN, [N]=3DTEST
+>   Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
+>   pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+>   pc : drm_modeset_lock+0xbc/0xfc [drm]
+>   lr : drm_atomic_get_private_obj_state+0x78/0x180 [drm]
+>   sp : ffff800080b0bbd0
+>   x29: ffff800080b0bbd0 x28: 0000000000000004 x27: ffff170d4829a480
+>   x26: ffff170d42968000 x25: ffff170d4829a480 x24: ffff170d40eaf540
+>   x23: 0000000000000038 x22: ffff170d42964400 x21: ffff170d4829a480
+>   x20: ffff170d42968958 x19: ffff800080b0bd58 x18: 00000000ffffffff
+>   x17: 0000000000000000 x16: ffffc31b065888a0 x15: 0000000000000000
+>   x14: 0000000000000040 x13: 01e0000002800280 x12: 0000000000000000
+>   x11: 0000000000000000 x10: 000001e001e001e0 x9 : 0000000000000020
+>   x8 : ffff170d40b70148 x7 : 0000000000000021 x6 : 0000000000000fdf
+>   x5 : 0000000000000fdf x4 : 0000000000000004 x3 : ffff170d429688f0
+>   x2 : ffff170d40eaf540 x1 : 0000000000000000 x0 : ffff800080b0be10
+>   Call trace:
+>    drm_modeset_lock+0xbc/0xfc [drm] (P)
+>    drm_atomic_get_private_obj_state+0x78/0x180 [drm]
+>    vc4_atomic_check+0x47c/0x754 [vc4]
+>    drm_atomic_check_only+0x4d4/0x914 [drm]
+>    drm_vc4_test_pv_muxing+0xe0/0x2a4 [vc4]
+>    kunit_try_run_case+0x6c/0x160 [kunit]
+>    kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
+>    kthread+0x12c/0x204
+>    ret_from_fork+0x10/0x20
+>=20
+> Reverting the above commit makes these go away. I did not have time to
+> look deeper, I thought I'd report it here first.
+>=20
+> The panic is with gcc 14.2.0 from Debian unstable. I tried with gcc
+> 12.2.0 in Debian stable and I don't get the stack protector panic, only
+> the lock warnings.
+>=20
+> With clang 14 and 19, I get NULL pointer dereferences with this call
+> trace (decoded):
+>=20
+>   Unable to handle kernel NULL pointer dereference at virtual address 000=
+0000000000008
+>   [...]
+>   drm_modeset_lock (include/linux/list.h:153 include/linux/list.h:169 dri=
+vers/gpu/drm/drm_modeset_lock.c:318 drivers/gpu/drm/drm_modeset_lock.c:396)=
+ drm (P)
+>   drm_atomic_get_connector_state (drm.mod.c:?) drm
+>   vc4_mock_atomic_add_output (drivers/gpu/drm/vc4/tests/vc4_mock_output.c=
+:?) vc4
+>   drm_vc4_test_pv_muxing (drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c:=
+688) vc4
+>   kunit_try_run_case (lib/kunit/test.c:400) kunit
+>   kunit_generic_run_threadfn_adapter (lib/kunit/try-catch.c:31) kunit
+>   kthread (kernel/kthread.c:466)
+>   ret_from_fork (arch/arm64/kernel/entry.S:863)
+>=20
+> I can run more tests if you'd like, decode the stack traces.
 
-Rework the context initialization and state allocation to move them to
-drm_vc4_test_pv_muxing() and drm_vc4_test_pv_muxing_invalid().
+Sorry I couldn't get to this sooner, and thanks for the awesome report.
 
-Fixes: 30188df0c387 ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()")
-Reported-by: Catalin Marinas <catalin.marinas@arm.com>
-Closes: https://lore.kernel.org/r/Z_95jWM2YMTGy3pi@arm.com/
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 38 ++++++++++++++++----------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+I've just sent a fix, let me know if it also works for you:
+https://lore.kernel.org/dri-devel/20250520-drm-vc4-kunit-fixes-v1-1-ca281e4=
+85f8e@kernel.org/
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-index 992e8f5c5c6ea8d92338a8fe739fa1115ff85338..a79b152f8b97add449cffc9674abec0df95239e3 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-@@ -18,11 +18,10 @@
- 
- #include "vc4_mock.h"
- 
- struct pv_muxing_priv {
- 	struct vc4_dev *vc4;
--	struct drm_atomic_state *state;
- };
- 
- static bool check_fifo_conflict(struct kunit *test,
- 				const struct drm_atomic_state *state)
- {
-@@ -675,14 +674,22 @@ KUNIT_ARRAY_PARAM(vc5_test_pv_muxing_invalid,
- 
- static void drm_vc4_test_pv_muxing(struct kunit *test)
- {
- 	const struct pv_muxing_param *params = test->param_value;
- 	const struct pv_muxing_priv *priv = test->priv;
--	struct drm_atomic_state *state = priv->state;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_atomic_state *state;
-+	struct drm_device *drm;
- 	unsigned int i;
- 	int ret;
- 
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+	drm = &priv->vc4->base;
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
- 	for (i = 0; i < params->nencoders; i++) {
- 		enum vc4_encoder_type enc_type = params->encoders[i];
- 
- 		ret = vc4_mock_atomic_add_output(test, state, enc_type);
- 		KUNIT_ASSERT_EQ(test, ret, 0);
-@@ -698,56 +705,59 @@ static void drm_vc4_test_pv_muxing(struct kunit *test)
- 		enum vc4_encoder_type enc_type = params->encoders[i];
- 
- 		KUNIT_EXPECT_TRUE(test, check_channel_for_encoder(test, state, enc_type,
- 								  params->check_fn));
- 	}
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- static void drm_vc4_test_pv_muxing_invalid(struct kunit *test)
- {
- 	const struct pv_muxing_param *params = test->param_value;
- 	const struct pv_muxing_priv *priv = test->priv;
--	struct drm_atomic_state *state = priv->state;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_atomic_state *state;
-+	struct drm_device *drm;
- 	unsigned int i;
- 	int ret;
- 
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+	drm = &priv->vc4->base;
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
- 	for (i = 0; i < params->nencoders; i++) {
- 		enum vc4_encoder_type enc_type = params->encoders[i];
- 
- 		ret = vc4_mock_atomic_add_output(test, state, enc_type);
- 		KUNIT_ASSERT_EQ(test, ret, 0);
- 	}
- 
- 	ret = drm_atomic_check_only(state);
- 	KUNIT_EXPECT_LT(test, ret, 0);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
- }
- 
- static int vc4_pv_muxing_test_init(struct kunit *test)
- {
- 	const struct pv_muxing_param *params = test->param_value;
--	struct drm_modeset_acquire_ctx ctx;
- 	struct pv_muxing_priv *priv;
--	struct drm_device *drm;
- 	struct vc4_dev *vc4;
- 
- 	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 	test->priv = priv;
- 
- 	vc4 = params->mock_fn(test);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
- 	priv->vc4 = vc4;
- 
--	drm_modeset_acquire_init(&ctx, 0);
--
--	drm = &vc4->base;
--	priv->state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->state);
--
--	drm_modeset_drop_locks(&ctx);
--	drm_modeset_acquire_fini(&ctx);
--
- 	return 0;
- }
- 
- static struct kunit_case vc4_pv_muxing_tests[] = {
- 	KUNIT_CASE_PARAM(drm_vc4_test_pv_muxing,
+Maxime
 
----
-base-commit: a5806cd506af5a7c19bcd596e4708b5c464bfd21
-change-id: 20250520-drm-vc4-kunit-fixes-a681715c4409
+--u6r6j7zf67sbxmzv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
--- 
-Maxime Ripard <mripard@kernel.org>
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCxxDgAKCRAnX84Zoj2+
+dvJRAYDN5tln1A+fpx7jD9NVXxhZT5/TuqyhABS2uqasQaOapQKhvbsg1xbL1JQ1
+z82sTKcBewZN6z0WvNvhyR0By4RGzNH7jat9q7u2ZRyMZz+ogjr/5luHPAFi1T5G
+OEtlHirWKQ==
+=mHMv
+-----END PGP SIGNATURE-----
+
+--u6r6j7zf67sbxmzv--
