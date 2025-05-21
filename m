@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6353EABF687
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A259ABF6C7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2353F10F6D0;
-	Wed, 21 May 2025 13:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11E510F7A5;
+	Wed, 21 May 2025 13:53:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ngYDWRvQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bmddWd+x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE96D14B8A0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 13:02:05 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-442ccf0e1b3so84065065e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 06:02:05 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D20112822
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 13:03:34 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3a3758b122cso1782985f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 06:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747832524; x=1748437324; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747832613; x=1748437413; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bmXU8KBDB233JjIK1ODnuLy3coNih7UFHZ8VsOcgN+0=;
- b=ngYDWRvQzGsdPNU7Zyu063zcMh+MJsHBSNWGXmwQbOrMiglOxk5gPQ9W+/jC69nvwD
- EA44b/ZkazZvSeSDGYuzTAgP0TP+IzTlbwJIgL83t3zjVdd6anwgAMYbXz60yGm4dGVR
- RJFSarmmxExAgtPh8KEG5OSe2AUpqhH0LMTqGKQz6UuBTocRXDy+/dmTcZK9cB8aDIEI
- bNqjkT5K/xlGPTrC/FQ9TUoFU4BK13qup5nxkLKIdHTjxP2rd2bY1CGUJQw4cN+hPAbi
- Y6eu2irC49/cZyJVFf4lJe5iqI4QZ4Y3e0RQ4phkxoBqsdpBxB7AQ2uCyhpzJVTh9Rl4
- ZrqQ==
+ bh=wxUCNKcIAtTYLrDekvN1ZxlXpxO8icS4vzE5Gw13lAc=;
+ b=bmddWd+xZSb9f1hUbC20axBHsEyVmFk5A5TN/M7k/qtU6OpElYWr/GmimHrtvE28E7
+ gRY2JXafGpGLbRynU50ZmlQIIV785VBsIjNVm09x1tng/AdXcXOCzcDftWTjv6KO40B0
+ o5Rqpu/aoLJimttqKAqyG4ezeMw0n/bouVT8hGMV3dz1dOCCR9A0ZZGztz4OVqsg82Dc
+ Vdi2YKnjC2Qb8D91lF0Kl6XFohFxKv+INE8cMLQa6j9Bi9TzYK9A1ln5UH8aMIhjWge+
+ dMxPVxKK5YAFiHxf54UbWG9rOPeBIEbb76v2hah6Sl/Wgv6hEGkeZP4oRZnKnSXh/EZE
+ +9rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747832524; x=1748437324;
+ d=1e100.net; s=20230601; t=1747832613; x=1748437413;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bmXU8KBDB233JjIK1ODnuLy3coNih7UFHZ8VsOcgN+0=;
- b=acB5U3ViPuwcJIf8sivKjPKUvG9Wqp+tiNe2QxEuKcVM4SNiiXBMKbUclvZG115wzW
- /QymoG6ulYC8uJ3E8snkQ1ZW4TnuT5fybguSBUbCi614YWfMv9PA7yZkXHiGW3RJQs74
- 5SpuB6/D1jqnKinNCUN3vhvLhETHh3saLAylTIkz+EtY2aZijlPE6axlHABtbJPWGfq0
- F5u+QmFx9iXQl1wm06fVbuRRVX8IC0XOggpXmMjHNJ6aJNxTWlE/ByNj0SH4K6jVIdqT
- gx599aDRGaGkRYVwKqY/6DQPnYGP1mEQ5BCzbwJDJ2CQHCeYXPWhvvNN36ixPi9dA8jX
- /21w==
+ bh=wxUCNKcIAtTYLrDekvN1ZxlXpxO8icS4vzE5Gw13lAc=;
+ b=gy31h/Tm9aZUxd9KnpQ+rZtZMZJxLbx9qufMYpQTeRFtvt+3X2i4N89wHrmKr2Htuk
+ kBRJ02L8v0ieLLNvNYGpJc/5AAm6DsyXJasyxIpwORp+Tokw096p9PMuQRK0K1a6ex+F
+ NDILoWiEjX3Wnx237h+oyhuIDRGT1PEfBkZqZo1seJzEoW+rRqUnUyWtY1qVYFflm91X
+ uf3pIAfQXEyVGeFtq85bxzDwVX7rvIA9U+fNhipUOMb4OKFXKt31lEnU3YlZgq0PK3t2
+ RnQtw8aOfJE/JfPSD6r3nBQMT1A9y67dQZkmMdyjXIcNwEb9ZSQcmaAcYAZhT0Sft+G4
+ Ba2w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3Zfan4p4QGU2j4D6TZ3aynhA77bxhg/TBgvWkclJOiGQirgWmaAKaqO0dtMXsjN4i2G6McbCYtfA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyg3u36N/vRKTYu/iyr+vREz2uHZvleRpXmA8WUUYzBsN2gRWcM
- qo6aEP9e2GhlnPEXtvZncDt351GyTCFROtqk8HEKgpkXvlzDy1wSKPtujP+HH84cUFp+VJec4HG
- /VL1WyhNoDdiR8xZ0juYtFdmeaiqDrug=
-X-Gm-Gg: ASbGnctyzPZABYME20wM4GKW4LzaghTn6XawiyqEyAyV5D37w4VwDrxgrsHS1VmB1ZQ
- x/YoNNkKgOtnkOOcrqrp76NfeXRb2poo1VgLHQDVPUXNrrLDH5VGs6mMyjRE4ZI3JB9dq0+O8Sy
- CAnqmM1wdDovsXLzwUfhThxj3j2eZ7Tzt/3uFJIw==
-X-Google-Smtp-Source: AGHT+IFoWwKL0JlRqJiqoNHNvz66aPp7wIa51xRehBMoBO1ScvekUMbPVG/LKrbcj5M69N6ry5MNkYl3/sR/JqNxWuE=
-X-Received: by 2002:a05:600c:6487:b0:43c:fe15:41c9 with SMTP id
- 5b1f17b1804b1-442fd622e97mr179727585e9.9.1747832523172; Wed, 21 May 2025
- 06:02:03 -0700 (PDT)
+ AJvYcCXn2He89DmXSHTPZvCD4BWjqXkePcFQDLZLbFYY790lIIfL2le5IE5xtdL65/t7zc0C7b+ztCsfPB4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvrFxU8rxJn+z2Od3oGn1sG4juzteR6IziLAw6QSUyVhQhV/nd
+ 4iswPIVL7mgMLnK9OJQZRm0Rl3q9S/adnAAeNifna8jG1aLib35aJ9B17qe1xmDogSuNtua4JrH
+ q/SEDZ2EJoBvKSE7q1/P5EfAEui0TNpw=
+X-Gm-Gg: ASbGncuTy6sm2e9H0//gUeDSTiqBeLVMaJMbelyZNAH2E4ox2w7DqvcV7OJVIZzQspj
+ Gng5Lx0cSdDSqMac204PCrinoyHfqDLDuBeSf83besJtAg44gj5GayuJWlwTokyeP6ZDqWR955L
+ ELPktTppx/ruMVtCZz9tQS49eWhPs=
+X-Google-Smtp-Source: AGHT+IF/naWSKz9Iv0UJNgBSgjeRcEZZGj46F7Ju4nJrrYSa1meUmDtFjbIVglIeqEAVFZYHjaKdytI2+lWr5HTtIkE=
+X-Received: by 2002:a05:6000:1a88:b0:3a3:63d3:36a7 with SMTP id
+ ffacd0b85a97d-3a363d33916mr16104984f8f.33.1747832612802; Wed, 21 May 2025
+ 06:03:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512182330.238259-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250520135820.GC13321@pendragon.ideasonboard.com>
-In-Reply-To: <20250520135820.GC13321@pendragon.ideasonboard.com>
+ <20250512182330.238259-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250520140514.GD13321@pendragon.ideasonboard.com>
+In-Reply-To: <20250520140514.GD13321@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 21 May 2025 14:01:35 +0100
-X-Gm-Features: AX0GCFt7GSGvdoA8i47pvJvno_4NO5uT_BXI_Lak85lev8oBUTuihwtydPWscd8
-Message-ID: <CA+V-a8swf=LeUxmEFkMCOK-rJ8w+yZK_ALG=GvFRq7VRF_NW+Q@mail.gmail.com>
-Subject: Re: [PATCH v5 03/12] drm: renesas: rz-du: mipi_dsi: Add min check for
- VCLK range
+Date: Wed, 21 May 2025 14:03:05 +0100
+X-Gm-Features: AX0GCFvSCItvyC7zSPBsFZ7h_B5ndgyUu6UlDl1R2XH7TowgSYTkizcIkSlL3n0
+Message-ID: <CA+V-a8vn46BLWyn0DCp-6h3eZD8ef+r7vLCy6vkfkyehdM8d7g@mail.gmail.com>
+Subject: Re: [PATCH v5 04/12] drm: renesas: rz-du: mipi_dsi: Simplify HSFREQ
+ calculation
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>,
@@ -101,31 +101,33 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Tue, May 20, 2025 at 2:58=E2=80=AFPM Laurent Pinchart
+On Tue, May 20, 2025 at 3:05=E2=80=AFPM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Prabhakar,
 >
-> On Mon, May 12, 2025 at 07:23:21PM +0100, Prabhakar wrote:
+> Thank you for the patch.
+>
+> On Mon, May 12, 2025 at 07:23:22PM +0100, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > The VCLK range for Renesas RZ/G2L SoC is 148.5 MHz to 5.803 MHz. Add a
->
-> I would write "5.803 MHz to 148.5 MHz" as ranges are usually expressed
-> in increasing order.
->
-Ok, I will update the commit message as above.
-
-Cheers,
-Prabhakar
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> > minimum clock check in the mode_valid callback to ensure that the clock
-> > value does not fall below the valid range.
+> > Simplify the high-speed clock frequency (HSFREQ) calculation by removin=
+g
+> > the redundant multiplication and division by 8. The updated equation:
 > >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> >     hsfreq =3D (mode->clock * bpp) / (dsi->lanes);
+>
+> You can drop the parentheses around the second factor. You can actuall
+> drop all prentheses.
+>
+Agreed, I will drop the parentheses.
+
+> >
+> > produces the same result while improving readability and clarity.
+> >
+> > Additionally, update the comment to clarify the relationship between HS
+> > clock bit frequency, HS byte clock frequency, and HSFREQ.
+> >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > ---
@@ -139,29 +141,31 @@ Prabhakar
 > > - No changes
 > >
 > > v1->v2:
-> > - Added reviewed tag from Biju
+> > - Added Reviewed-by tag from Biju
 > > ---
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
 pu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > index 4550c6d84796..ec8baecb9ba5 100644
+> > index ec8baecb9ba5..c5f698cd74f1 100644
 > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > @@ -584,6 +584,9 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge =
-*bridge,
-> >       if (mode->clock > 148500)
-> >               return MODE_CLOCK_HIGH;
-> >
-> > +     if (mode->clock < 5803)
-> > +             return MODE_CLOCK_LOW;
-> > +
-> >       return MODE_OK;
-> >  }
-> >
+> > @@ -277,10 +277,10 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mi=
+pi_dsi *dsi,
+> >        *       hsclk: DSI HS Byte clock frequency (Hz)
+> >        *       lanes: number of data lanes
+> >        *
+> > -      * hsclk(bit) =3D hsclk(byte) * 8
+> > +      * hsclk(bit) =3D hsclk(byte) * 8 =3D hsfreq
+> >        */
+> >       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> > -     hsfreq =3D (mode->clock * bpp * 8) / (8 * dsi->lanes);
+> > +     hsfreq =3D (mode->clock * bpp) / dsi->lanes;
 >
-> --
-> Regards,
+> You can drop the parentheses here too.
 >
-> Laurent Pinchart
+OK, I'll drop the parentheses.
+
+Cheers,
+Prabhakar
