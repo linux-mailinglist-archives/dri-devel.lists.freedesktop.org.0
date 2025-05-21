@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BFCABE9D1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 04:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC5FABEA04
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 04:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5723910E5FE;
-	Wed, 21 May 2025 02:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0367D10E246;
+	Wed, 21 May 2025 02:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AAPN657f";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="KMcywqlX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6764310E5FE
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 02:24:11 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-acbb85ce788so1234495466b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 19:24:11 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35DE410E246
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 02:46:55 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30db1bc464dso59277771fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 May 2025 19:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747794250; x=1748399050; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Zep8jUyVWRqWdl1ySZ1IMmitiQ9Bx2l2/3z+6CoOAyQ=;
- b=AAPN657fAwmk1aPFv68WdxgRcdHfaa7rFHAn5ZPOeAmv5QM6Qa3N3I66akH195jt1M
- H3vuk970ydPHzLXJFqrVuBhuKAF2AinbNn7t8Emf58b6dTeGHMZmkAYZTPW5x6T/Y9Eu
- QpXOwsGg6CNFZTWRg4FLNCJyYGGp55Y+jFlO/w+Mq7vLCttm+VDmHE6vaZK3kTRg/eUM
- xMnDu1q/d167LJFkgKczdt2yIP+5Q7GwNvWjTKVT641qsOgXfKYZ64FTRp0bTd0bR3vO
- uHqHgl85JbuTqef5MSx+K4LnJIxizS/YZnOGDvoWf6LDmfnI8eyIiCrtg2NOHbyjmR2G
- Jmhg==
+ d=google.com; s=20230601; t=1747795611; x=1748400411;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
+ b=KMcywqlX600kW4JE/omBkuBtnJryti73BLhp4Tnj1a5I2KJbQT/fbfjkE7Udv3ljqV
+ dRYWLyYST0BfW6f4K8yq7RBK67kI/QRa5Yv73nfI0SlddgCesKXfPsbASzRKgsZXbShZ
+ DYGQFcsmBHmNS/5tJa52oScnjzX6HtTF7EhabWwJzFNfHc4a1QeFBbfKmw3U7U83nVSD
+ qGGqH1Ce/yOQ7b10LocUOMlKd9suDhQROqwkDtEt2pGjkYvUlXIOlti7C0cT1sME9tPW
+ yHMcBGQO+KwrhhWS9Ev08qgcutJNlHQEPlQCK30HaoyIA5So8WVvWvOoXLRT1+V6LuNd
+ ivjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747794250; x=1748399050;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Zep8jUyVWRqWdl1ySZ1IMmitiQ9Bx2l2/3z+6CoOAyQ=;
- b=D6ncKP1XOvrg96HeBrdur7ka2AuiXB+vrWizlRfYzilNPFBv4baSUAqCGbPfdVwaxZ
- FUvtvW+5sodjlmRCk13ZP4HOzSCUOLvvt5sV3qNJ2K4F6j07NRvMU/QCtdzRzbH5Up4O
- lt+IA5VjPXGLRQebtz2pam6kDgQEM4LYRhH2WXLJFFOQlG17KGXUxa9H0l/+DHdDnfQh
- wV3zvRu7qCq2LLtfnjsSU4ciqwvsH4teCAKMxWMGjap5zuNULVC8FHJROIJPha8fmG9N
- Aebu5cnCoRtx4/CAI6oFPaTWbRuzF7O27s55iEodMjfL4HrkkWEeXnRG1bIEtoaU8EBn
- uBMw==
-X-Gm-Message-State: AOJu0YwfjKXN4nOHKn3LntRmTwFREXCa8pbEIkXrb5sYlZQKpCol7a9l
- GUBrPsbNxSism9h/wcICXsp+dIejrwcEaBciZPNfBBJ9MGeUKgPmqtj6tvO6fI47IqX5MHgsA9Q
- VWKs6nYjAkIfHKxKNnzRdgHecaQsZRs4=
-X-Gm-Gg: ASbGnctbKK/tWwSW5MEl8JYo7PQ7FZm4MVwC+Bx4PlgdDpfyVLVV+b1hm6iYGYIqgns
- 3LV4cLXziyRLoLR6buL25QXXdOx93JzojkT1Vxy27D2UtLXzqaO3hPvSR9YXYQ/idnJJWcUDmCc
- 6zwfZKR9MmDmhvdhmemfG89zV/trgE7K4=
-X-Google-Smtp-Source: AGHT+IEqmUUUARaTWdPbScfW/UOOWhQFAMlTlqruo8FR5l5jgD1WE6rjs2FuMs+sRKIX0Z3QLcywUcEUaMDJj70Wk7Y=
-X-Received: by 2002:a17:907:2da1:b0:ad5:7bc4:84b5 with SMTP id
- a640c23a62f3a-ad57bc48ff6mr861511966b.57.1747794249742; Tue, 20 May 2025
- 19:24:09 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1747795611; x=1748400411;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Nxt6arEcdTzqN2aNV7xZMthDenOsecbhCIniDpCb5w8=;
+ b=uY40MPZ8dK4woeg4zo1A+tzLtZOEPNFXYAcvOWVDeNllT7DwmxuVYwrnJ3pcKvQbsj
+ GD6ccf1sSARpRkudEz8rTLhxTLVQBIJ3LtsnjW9u683sG/LBunOijdzkdDpElqtuFcwD
+ nEXIZPl4WYKA1scTTxfZ1n/I4QKWJThWBSB4/yKN6OrKn8kUoJx8/ZHjo+6hT490X1SX
+ khbVxHTCjm+KRDDqoxTisE+wJ/ERo67R0eMMVYgSvkCX4j01UJxQ5uUQ2sGZy5aHbF/y
+ oq6NEmxlklGFJW8vqhhRmdyWt3o72ViMf404u2g8ZOiWxBiFsKElAGuVK4Idwv/lm2Cd
+ 93Xg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmIOvxFYbnq3zdVz20LrWze7FSJLQJyYi+KqkeB0RHGlUdmXIj3TNjhuZqkU9SuDJopRLo9U68yBM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxS8Sp+7lm5+j2zIkzIeFzE7DDZZANbpejcx7/dLWxXEaoAQZwA
+ vhUBqcSbMH+4r2xecQTuHJJIhsi1H6G6MlBhnm72Rkd2ko/C4mT/qsNX2m9GGcj90ctelYUvECX
+ 5L9ZM9Vjz4M7oCfT55/H7wNiCXPxNV+DWaOJdXaM=
+X-Gm-Gg: ASbGncvehMW9gFUYlCSBBqkGOmjikH2wzpyTRPaG2pBIeVX0QEg0EL16I7HjF6SkQSA
+ DoB235FiOVGBnOK/OnSWZ+1mWQtYnRxolqfVGD8SXDnSj31AkUjNAhmjNfrEzgelC4FdASkcFz7
+ P14qJSLmDtpdwVC0nfdp9emM6m2W9O5gVP3EMYXY3KWCMiT9OYxRRWLZ5Mbqj7sN5X9oZZ9MA=
+X-Google-Smtp-Source: AGHT+IHPiBTH/IUONoliZXjExrOKudiG9XvffXjRUKLNtiXlLaXy9m8H+bx6CRbSWTdibiF38hi9o5vXfOGfvKq6xdY=
+X-Received: by 2002:a05:651c:54c:b0:30c:201a:149a with SMTP id
+ 38308e7fff4ca-328077a9f1bmr71629351fa.25.1747795611095; Tue, 20 May 2025
+ 19:46:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250502034046.1625896-1-airlied@gmail.com>
- <20250507175238.GB276050@cmpxchg.org>
- <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
- <20250513075446.GA623911@cmpxchg.org>
-In-Reply-To: <20250513075446.GA623911@cmpxchg.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 21 May 2025 12:23:58 +1000
-X-Gm-Features: AX0GCFt2XDDsnmfi-Qx3KaucN19nBAb-rbHv-O-eZqS1qgLB8WI-6u1buY6AC_Y
-Message-ID: <CAPM=9tw+DE5-q2o6Di2POEPcXq2kgE4DXbn_uoN+LAXYKMp06g@mail.gmail.com>
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, christian.koenig@amd.com, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+References: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
+In-Reply-To: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 20 May 2025 19:46:39 -0700
+X-Gm-Features: AX0GCFvaIAnE0yZNsTcLxjSWVR6RvkV3hbcw5IoUnGn4QI2anEO8q4-VMGo9Bvw
+Message-ID: <CANDhNCoQ=V5Uk0ThmeHdn20xmUucPb-mjCjX5pbM94EvzGRZMw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add naming guidelines
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +89,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, May 20, 2025 at 3:00=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
 >
-> So in the GPU case, you'd charge on allocation, free objects into a
-> cgroup-specific pool, and shrink using a cgroup-specific LRU
-> list. Freed objects can be reused by this cgroup, but nobody else.
-> They're reclaimed through memory pressure inside the cgroup, not due
-> to the action of others. And all allocated memory is accounted for.
+> We've discussed a number of times of how some heap names are bad, but
+> not really what makes a good heap name.
 >
-> I have to admit I'm pretty clueless about the gpu driver internals and
-> can't really judge how feasible this is. But from a cgroup POV, if you
-> want proper memory isolation between groups, it seems to me that's the
-> direction you'd have to take this in.
+> Let's document what we expect the heap names to look like.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/userspace-api/dma-buf-heaps.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
+n/userspace-api/dma-buf-heaps.rst
+> index 535f49047ce6450796bf4380c989e109355efc05..b24618e360a9a9ba0bd85135d=
+8c1760776f1a37f 100644
+> --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -21,5 +21,24 @@ following heaps:
+>     usually created either through the kernel commandline through the
+>     `cma` parameter, a memory region Device-Tree node with the
+>     `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+>     `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+>     might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> +
+> +Naming Convention
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A good heap name is a name that:
+> +
+> +- Is stable, and won't change from one version to the other;
+> +
+> +- Describes the memory region the heap will allocate from, and will
+> +  uniquely identify it in a given platform;
+> +
+> +- Doesn't use implementation details, such as the allocator;
+> +
+> +- Can describe intended usage.
+> +
 
-I've been digging into this a bit today, to try and work out what
-various paths forward might look like and run into a few impedance
-mismatches.
+Thanks again for sending this out. Sorry I've been spotty in some of
+the discussions (I'm really trying to step back from this area).
 
-1. TTM doesn't pool objects, it pools pages. TTM objects are varied in
-size, we don't need to keep any sort of special allocator that we
-would need if we cached sized objects (size buckets etc). list_lru
-doesn't work on pages, if we were pooling the ttm objects I can see
-being able to enable list_lru. But I'm seeing increased complexity for
-no major return, but I might dig a bit more into whether caching
-objects might help.
+I might only suggest you provide a bit more "why" to the list of
+qualities you highlight here, just to communicate more of the
+spirit/philosophy of how these might be judged or reviewed in the
+future.
 
-2. list_lru isn't suitable for pages, AFAICS we have to stick the page
-into another object to store it in the list_lru, which would mean we'd
-be allocating yet another wrapper object. Currently TTM uses the page
-LRU pointer to add it to the shrinker_list, which is simple and low
-overhead.
+> +For example, assuming a platform with a reserved memory region located
+> +at the RAM address 0x42000000, intended to allocate video framebuffers,
+> +and backed by the CMA kernel allocator. Good names would be
+> +`memory@42000000` or `video@42000000`, but `cma-video` wouldn't.
 
-If we wanted to stick with keeping pages in the pool, I do feel moving
-the pool code closer to the mm core and having some sort of more
-tightly integrated reclaim to avoid the overheads. Now in an ideal
-world we'd get a page flag like PG_uncached, and we can keep an
-uncached inactive list per memcg/node and migrate pages off it, but I
-don't think anyone is willing to give us a page flag for this, so I
-think we do need to find a compromise that isn't ideal but works for
-us now. I've also played a bit with the idea of MEMCG_LOWOVERHEAD
-which adds a shrinker to start of shrinker list instead of end and
-registering TTM pool shrinker as one of those.
+The point about avoiding the allocator details, just so I better
+understand the criteria: Would distinguishing from a contiguous pool
+vs non-contiguous in the name be considered ok? As it's a property of
+the buffer returned, and one that is critically important for some
+devices. Or do you intend that to be opaque, and the usage->heap
+mapping logic to provide that itself? (Effectively avoiding folks from
+being able to make potentially problematic assumptions from the name?)
 
-Have I missed anything here that might make this easier?
+Similarly, how would you suggest naming a heap that provides 32bit
+allocations?   Similarly for "protected' allocations, which are being
+proposed?
 
-Dave.
+thanks
+-john
