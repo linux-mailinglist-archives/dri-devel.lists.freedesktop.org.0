@@ -2,115 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6627EABF6CB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34EBABF6C0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCB610EB7D;
-	Wed, 21 May 2025 13:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D89C510E787;
+	Wed, 21 May 2025 13:56:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r+NtCRJw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OHLUsocq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498EC14A77A
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 12:51:25 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-442f5b3c710so55383225e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 05:51:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747831884; x=1748436684; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=e/jHmzzVj7avj1EieVfvkWdGnf23YVTEruZCNzw90qE=;
- b=r+NtCRJwTKE6nDX/Gy8wIbHNcH3ONXlVUD1a4zYd4b4lw16FkrO6w3w5NgG6HRh5Y9
- xLovgAZAE6WAIVQRM1cod4uScn5zaw+Tm7cm4zWo22X4d1fQz2tmCcKA658lzCCLqJvr
- 5WIdCjV6y+1K8jAjY35TnhVH/7jwTVm5uUeaiWVpLd4Cx/tXHw3taU4a8/U5DnsA2gGo
- ac2LwqQ1+xvO6IgPrzmu1nOXlXlGL4bnqVf4BHuZsSYOqpiz1trHRQgvhAj/15nIBQUM
- ULUGBy6XB66wjkGb3AKMXpKj1jy/+uSeWkSlHk2cWmrJCqtrPhW7vBk6Rm2+W3NsP5NM
- sy9g==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47A2B14B4E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 12:59:46 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L9XM31029063
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 12:59:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=PQ8FelBJqVusuKqI01bafP6p
+ gE/hxiJzISLHy0HpwSk=; b=OHLUsocqu+9QxrOtGR5b1KSyVIms2jesL2go7drl
+ 2ooIQ74FhKamY66Q2+4rbF/CcVtFhncW+d7IjQGlfS/6WxyhWco7BJM/fZfSbJSQ
+ /jtP+SKQFdAmBjeaHs4qKhYeafhEr8G0H0NOpSco7EhBK61YtcRHRiy6zORt3dFA
+ R9jpsIOb9YKPn99a/MzAs5bTku9R5dGOMcCVGZxnRFu/ajVq87JZRvC8SmJaygPo
+ TturjWUKQhInUc8Xt0Jqc29IZc4VAv/Iq++KpDV7DW0hmSWfAULknkUOFReShf3y
+ 1wbqL4KTNLWE2IJXFHKjvMkZuXuJTuF077AiM2JOiy1cwg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf431ft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 12:59:44 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6f8aaba2f62so128336986d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 05:59:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747831884; x=1748436684;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=e/jHmzzVj7avj1EieVfvkWdGnf23YVTEruZCNzw90qE=;
- b=RmW1EbgdFz2BAbNu2tjxV44EZyuyaNQrH//WTYSzyzEACiFjYwr2f0RfoB0OiVVYC6
- m9R1xbuoCm/4U9Rb2bNTBSineFrO1NqBGuYzwBx/QVZ9giNOmXNaNKiWoC0gOfP0P+c+
- F6WzDUhEcw8x7bYVifBwNMy0jzrXY1sgD3U8IrWCRMcLC0dUsRyUPBdEjCJOCxAxDkj6
- jAT0ANxzIDMAGKwbZOE0F8e+gWlV/AgPuBBkz3FYhFdzJYdXUUHW+uCm3YW55zk8GIK7
- MVk/A6AcFUwxKA+0YWlv81Nqn4gBZ1TUbZMZS63iROYnBn+rDLVAm+Nx+Oybczt01d1+
- 6uMQ==
+ d=1e100.net; s=20230601; t=1747832383; x=1748437183;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PQ8FelBJqVusuKqI01bafP6pgE/hxiJzISLHy0HpwSk=;
+ b=pbqxIjBsn1NVve8wHZp8q+xD71l0EIXLB5KP9sacNgh/ivWqa3FBs1pfKeyFNAuhMZ
+ 5LeuHwKkbwByZlM8B4xpVLHk7DM5t8iCqg0mUutOlUQHm0dIvvZaOXLr+4rd9q5rKti1
+ FkZg0ebp2SHTGRxEHfzhc1q7AbzHUU2fPtYHbQ7rq7sYHKAt9IN/msz0jCewNLnZK2pN
+ G6PlHg7Akx2VI8N1ZT2KG6lwvVJqShSw5fnTPTt7UYP3D1seUzDpL0Ka8HGoGXs6F7T6
+ STa+csM/CcltMJ/brx181OHs6AJnG/VHZ0ytKUIHSa0vTQNTRuwRVaR2eO/mCC8uMjeo
+ qGug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVMUSZe8tH2p6RcA1LVjWldyoK/IPXWoqoHHw4P48FxN2yuda60TDSN9UtKkJoFSIGEZzp8Vc1vTdU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7q29AiC4aG7SRS0OAFUSe/1sgDtvlR6czIdjxLEDGZ/9yf1hK
- JdoDjk8eqY4tJafSiEyBznvBtaDAZ21qKg6tUmfN30lT/i6XJQfYIRgl4XC/V3bNiZY=
-X-Gm-Gg: ASbGncvxL+ikDgFINlGpFw/NFpf6CdyRi077ASIlROnpqBSAvItRXSFeCRWLtWv8oGD
- V+AcLEPm2pB+P4IuXzvc/5nQxz1tbQisj12BgnWCEtevoaNl0769b3vzeu3FhUmbA6UdDKr+4gb
- Hb4MIQd2RZWx6ldlQrvFUHR8Nv7r6azG0vpMcvifhrBLwi58okPOfTsxc5f4qgilTdEfctQxDGj
- qDM5u2rXRugC/8hYDVLRnfgc1f0t+y5xdpHN0NK7Udd9kWTdUdTpCXdZF6kHtGHpxdzq914D0DR
- h2qXNZ09Xam5JsFJkcvB572hsdPfwDTUcd8GNQDcnRWbTXfOgyxdrHSn5zDuxQ/8j9pbceY0imO
- rV+ZcFA56JLVl7QdgSDId2ChI50r5
-X-Google-Smtp-Source: AGHT+IFnVyqqduGLFeoeuylj/zZQ1NZU8qcb9cwDLm6nbxo5hFKroW6gCdx5Z9rdFWlJAbhHaS7W0A==
-X-Received: by 2002:a05:600c:a016:b0:441:d2d8:bd8b with SMTP id
- 5b1f17b1804b1-442fd622c81mr210080505e9.8.1747831883562; 
- Wed, 21 May 2025 05:51:23 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:80b6:c1af:bc94:958d?
- ([2a01:e0a:3d9:2080:80b6:c1af:bc94:958d])
+ AJvYcCXmjGR/qTsf7g3XMvhFvCFgTRpVQtEuyjl9FnJr9r+ojhF5d9SVuJ9xIMPsZVEz7ofWcobV+ddA4Bo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywfb8FhweDvMTV0V0hnEN2GzvytY8aiqN1ZF/G/KYA4uxbpd+zi
+ TiUEs3KyRoRRGEuLQyXCMkbFL4VO3dxGC3bsQj8ULH+FAD6HEFv0BV2jPihIMHdsRMZxOlEdIYv
+ rocdVbowonE2W5wOztdkbCWwpb1tjZVkRsWLJjkfdxPXWIwl138YDMpAn/23YjdHMgISOyGw=
+X-Gm-Gg: ASbGncs6SzaHvtZXaa8g2HxY0uTVLuZAvDiOS0qKn4JL94gO2Qr2RX5YrfX9/LGjw3b
+ 3egJU1UIQpSAa30CLSRbVZBNKxr/ia5tvQUTJE7dyUo2lk5DOKPwoA6/qRZGHvg9F4vssRMKlAl
+ UQoetyrrnNeD8riw7eZsIWPSLAUtR4hUjmWxHnqLUfKvij8W8aIdFe1NRfvepsz8SAns3CtuJfa
+ Gr4g6dLUSCWHo9na7pj86TyyQeztbMq6iZcJ9OZ7WZbsCjXmH7bm+VP0yGzN4XFSswceGDD+BS2
+ M9LYxgbkkgUCJipXmOTlCL8pvQ2ql2aNM6ZmbVmfj3FpwlNRKoXIzzaaYPaw113yD+CdzbdYFZs
+ =
+X-Received: by 2002:a05:6214:226d:b0:6f8:d035:7222 with SMTP id
+ 6a1803df08f44-6f8d03572a0mr205090426d6.15.1747832383567; 
+ Wed, 21 May 2025 05:59:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHUhnGy4gCGjXLtSemtXuIIR5DTpA42yEm9njhcNzOkanHSgLeUZ3VEd2gBEl+hjJ8sTmWA7w==
+X-Received: by 2002:a05:6214:226d:b0:6f8:d035:7222 with SMTP id
+ 6a1803df08f44-6f8d03572a0mr205090066d6.15.1747832383172; 
+ Wed, 21 May 2025 05:59:43 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-447f3ce483bsm67820435e9.33.2025.05.21.05.51.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 May 2025 05:51:23 -0700 (PDT)
-Message-ID: <e2173a8f-db10-4fd3-8bdb-ea5e6664237e@linaro.org>
-Date: Wed, 21 May 2025 14:51:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 09/30] drm/msm/dpu: get rid of DPU_CTL_ACTIVE_CFG
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ 2adb3069b0e04-550e702c9d8sm2856946e87.181.2025.05.21.05.59.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 May 2025 05:59:42 -0700 (PDT)
+Date: Wed, 21 May 2025 15:59:40 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
- <20250519-dpu-drop-features-v4-9-6c5e88e31383@oss.qualcomm.com>
- <f6a10e14-de53-43e1-a887-4a4ba4aa0d63@linaro.org>
- <w3i22a7magzaseje3j7o4qjvkxeslj7wm2uhdcn3o3nrotsrzs@gzdgfrl55qsz>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <w3i22a7magzaseje3j7o4qjvkxeslj7wm2uhdcn3o3nrotsrzs@gzdgfrl55qsz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] drm/msm/dsi/dsi_phy_10nm: Fix missing initial VCO rate
+Message-ID: <ybbyhri7vydiyowr3iqrizefblrfpedk5it723o254vyklcd5c@cdx7rhx2f3rn>
+References: <20250520111325.92352-2-krzysztof.kozlowski@linaro.org>
+ <3ywacd4x23zadvwikw4hdprgbgxxdmbcar3lyayy4ezmd5lcyw@3h2oosmbk6yb>
+ <87af51dd-a35c-460a-af4c-813427cdaf84@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87af51dd-a35c-460a-af4c-813427cdaf84@linaro.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDEyNiBTYWx0ZWRfX4MEVosvhdHbT
+ psEtkEkzwKtBnwvQiwMleorMsg10QMDzVDpPDWoCQghL/jzGLRVMKVmetnylEKbZYmPkbmu6oJp
+ 8K/K8s8ffGmXuwtTUOjCYUDLUgW3dxpTNnPtT4Aju3jaii6oguqtNGfUClxS6ExL8jruMpB0MrB
+ 79U8uKEHhSmw1FyzYc5XH7IalLimd3l+gZyQTN+wTOPENJ3qZCipWvAB7JqpCeVfNVxNin8BzSU
+ IKlTxogwVEWhpTK46Jcx8hOOpdA4Dsn/jcJ507UUkSfdvi0iAbzNgGZSbQvER05kEg5YGUZxEgZ
+ 9bbqNUjZEaSMMD4y0lwPW95O//w/E/WDSduCL2bRd/NkcrBnR4mTYwAjAnD4Lw9585xp8jQ9H0e
+ BqCdMePaUFG7Rz6TeUpD6yzcPhQUShmjXsdCbFGpEB+w4Wo9XeNmhzITGrSVwQ+qo5eT4Rje
+X-Proofpoint-GUID: Hx05JYCEki3tmNDiwFUYpwysgxkf5FVT
+X-Authority-Analysis: v=2.4 cv=Ws8rMcfv c=1 sm=1 tr=0 ts=682dce41 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=afxxqWxysUDinfw8BOsA:9 a=CjuIK1q_8ugA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Hx05JYCEki3tmNDiwFUYpwysgxkf5FVT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=735 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505210126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,58 +125,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/05/2025 23:29, Dmitry Baryshkov wrote:
-> On Tue, May 20, 2025 at 09:57:38AM +0200, neil.armstrong@linaro.org wrote:
->> On 19/05/2025 18:04, Dmitry Baryshkov wrote:
->>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>
->>> Continue migration to the MDSS-revision based checks and replace
->>> DPU_CTL_ACTIVE_CFG feature bit with the core_major_ver >= 5 check.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h  | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h  | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  | 6 ------
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h  | 3 ---
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h  | 1 -
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h  | 4 ----
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h | 1 -
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h  | 1 -
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c    | 2 +-
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 2 +-
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c     | 7 ++-----
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 3 +--
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 1 -
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c              | 2 +-
->>>    17 files changed, 6 insertions(+), 57 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> index a0ba55ab3c894c200225fe48ec6214ae4135d059..25ba5d9bfff2b3f7a5054ae26511d05917f72d8b 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> @@ -69,7 +69,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->>>    	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
->>>    	/* setup which pp blk will connect to this intf */
->>> -	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
->>> +	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
->>
->> Why did you drop the version test here ?
+On Wed, May 21, 2025 at 08:09:14AM +0200, Krzysztof Kozlowski wrote:
+> On 20/05/2025 22:06, Dmitry Baryshkov wrote:
+> > On Tue, May 20, 2025 at 01:13:26PM +0200, Krzysztof Kozlowski wrote:
+> >> Driver unconditionally saves current state on first init in
+> >> dsi_pll_10nm_init(), but does not save the VCO rate, only some of the
+> >> divider registers.  The state is then restored during probe/enable via
+> >> msm_dsi_phy_enable() -> msm_dsi_phy_pll_restore_state() ->
+> >> dsi_10nm_pll_restore_state().
+> >>
+> >> Restoring calls dsi_pll_10nm_vco_set_rate() with
+> >> pll_10nm->vco_current_rate=0, which basically overwrites existing rate of
+> >> VCO and messes with clock hierarchy, by setting frequency to 0 to clock
+> >> tree.  This makes anyway little sense - VCO rate was not saved, so
+> >> should not be restored.
+> >>
+> >> If PLL was not configured configure it to minimum rate to avoid glitches
+> >> and configuring entire in clock hierarchy to 0 Hz.
+> >>
+> >> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >> Link: https://lore.kernel.org/r/sz4kbwy5nwsebgf64ia7uq4ee7wbsa5uy3xmlqwcstsbntzcov@ew3dcyjdzmi2/
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > 
+> > Fixes?
 > 
-> bind_pingpong_blk is only available since DPU 5.x, the same set of
-> hardware as the DPU having DPU_CTL_ACTIVE_CFG.
-> 
+> Probably:
+> Fixes: a4ccc37693a2 ("drm/msm/dsi_pll_10nm: restore VCO rate during
+> restore_state")
 
-I think it deserves a comment in the code or the commit msg.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Neil
+> But CC stable would not be appropriate, since this was never reproduced
+> on this PHY/hardware and we only guess a visible issue being fixed here.
 
+Agreed.
+
+-- 
+With best wishes
+Dmitry
