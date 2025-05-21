@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF0CABEAB0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 06:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2303DABEAB1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 06:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7F5510E68C;
-	Wed, 21 May 2025 04:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813E310E67B;
+	Wed, 21 May 2025 04:11:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="B6h/s71m";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K4BYI/Xf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E684310E684
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 04:11:03 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B74C710E67B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 04:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747800663;
+ s=mimecast20190719; t=1747800668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BkrNono46FWWXHPun5vhX1sWscczaQ6pvGc2N+Rnu7o=;
- b=B6h/s71mc0Qau/CC2S2Rer/x7sMMZHLKm2j753m/e1TAOGrROFb4Z4iLVjn3TH0LlcbEX0
- pd0bFEgyiXsdRot6HDss/np5CAzlHtCltSz4xbbnc9kwXdW+gPNKgDu54d16wpM+oJ9UGN
- hxq9khKVUtLuH+fIvA6lk6zW4baoKrI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=GcJPsD4yEb7C8prq3SYtzfKqzvCWxOEm2tcvbSNIBrQ=;
+ b=K4BYI/XfgXQh8kiiRSuN14TR0vJ2CvUAYUrTKnORbZSqsWJEmRoweoeP6ekyWU1spbdmmF
+ dKMZ44wgqxH2JAcmu2SScacUDDki7tm8qEGZgyYrAz1anaZbvuloW6+p9DEk2Po59pjd3N
+ SR3yFAGLAXDDotUzoAjSpuOzTYhxM2M=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-304-wWLvSrvUN0C1cTbQ5QgpxA-1; Wed,
- 21 May 2025 00:10:57 -0400
-X-MC-Unique: wWLvSrvUN0C1cTbQ5QgpxA-1
-X-Mimecast-MFC-AGG-ID: wWLvSrvUN0C1cTbQ5QgpxA_1747800655
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-491-uxgxbs_tP2S1oLT5H6ikLw-1; Wed,
+ 21 May 2025 00:11:03 -0400
+X-MC-Unique: uxgxbs_tP2S1oLT5H6ikLw-1
+X-Mimecast-MFC-AGG-ID: uxgxbs_tP2S1oLT5H6ikLw_1747800661
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id ECA11180045C; Wed, 21 May 2025 04:10:54 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EC4391955DAD; Wed, 21 May 2025 04:11:00 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.184])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7ACAE1956095; Wed, 21 May 2025 04:10:49 +0000 (UTC)
+ id 6596C195608F; Wed, 21 May 2025 04:10:55 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 20 May 2025 22:03:50 -0500
-Subject: [PATCH v3 19/30] panel/magnachip-d53e6ea8966: Use refcounted
+Date: Tue, 20 May 2025 22:03:51 -0500
+Subject: [PATCH v3 20/30] panel/mantix-mlaf057we51: Use refcounted
  allocation in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-drivers-mass-convert-part2-v3-19-f7ae7b723c68@redhat.com>
+Message-Id: <20250520-drivers-mass-convert-part2-v3-20-f7ae7b723c68@redhat.com>
 References: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
 In-Reply-To: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -70,9 +70,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Anusha Srivatsa <asrivats@redhat.com>
 X-Developer-Signature: v=1; a=ed25519-sha256; t=1747796667; l=1519;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=IH9ycYv2vALU35t6qzJFEdusmSs6ZiL2JiuFJt9f6u8=;
- b=V8i+FJ1X2qKIPOOWZ6e+9RKnMYwwi8NK/Ic3G68z8k43k2UvR2Wg5hoXluygznVo5koT0gxJm
- LPiZ8QgNWj/DzmAxYyoK3kYCrl7HTKQ3sJIMouVMf/+MoBg+7CPLqYe
+ bh=INslf17n5W1TThwlKDQd0lUPUT10LhJ3yE6an0iMCGw=;
+ b=o2n2imLQ3YoBmonq/HDarSlR4hr9PHS4xlYqKen3F4KuniVSfR75MmQfSS9WsSLyErwhsZMcX
+ vC1o9MdHdfMBWW1wyXkYzImBqjpxqhZDfx1LHSVF/aVkVmeDFAIpLFo
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -97,41 +97,41 @@ panel.
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v3: fix compilation.
+v3: none.
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-index 799c2161fc85b24e1fb236fd63b397bf66fc15c8..cde168ec631c43cef2a8180bff55d00331426d86 100644
---- a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-+++ b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-@@ -370,9 +370,11 @@ static int d53e6ea8966_probe(struct spi_device *spi)
- 		.node = NULL,
- 	};
+diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+index 4db852ffb0f619a398c04ba2358e503733db108f..55664f5d5aa5d4c45ad3974119a3da492db4bdad 100644
+--- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
++++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+@@ -234,9 +234,11 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
+ 	struct mantix *ctx;
+ 	int ret;
  
--	db = devm_kzalloc(dev, sizeof(*db), GFP_KERNEL);
--	if (!db)
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	db = devm_drm_panel_alloc(dev, struct d53e6ea8966, panel,
-+				  &d53e6ea8966_panel_funcs,
-+				  DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(db))
-+		return PTR_ERR(db);
++	ctx = devm_drm_panel_alloc(dev, struct mantix, panel, &mantix_drm_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
++
+ 	ctx->default_mode = of_device_get_match_data(dev);
  
- 	spi_set_drvdata(spi, db);
+ 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+@@ -271,9 +273,6 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
+ 	if (IS_ERR(ctx->vddi))
+ 		return dev_err_probe(dev, PTR_ERR(ctx->vddi), "Failed to request vddi regulator\n");
  
-@@ -425,9 +427,6 @@ static int d53e6ea8966_probe(struct spi_device *spi)
- 	db->dsi_dev->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
- 
--	drm_panel_init(&db->panel, dev, &d53e6ea8966_panel_funcs,
+-	drm_panel_init(&ctx->panel, dev, &mantix_drm_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
 -
- 	if (db->panel_info->backlight_register) {
- 		ret = db->panel_info->backlight_register(db);
- 		if (ret < 0)
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.48.1
