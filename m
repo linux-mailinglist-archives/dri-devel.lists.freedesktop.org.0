@@ -2,74 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2161AABFDDD
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 22:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F1AABFE32
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 22:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CBB10E71C;
-	Wed, 21 May 2025 20:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E260410E759;
+	Wed, 21 May 2025 20:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B8ll0sz1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TV8mT1hO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CC710E71C;
- Wed, 21 May 2025 20:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747859195; x=1779395195;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aLtQzNGu5/O0fU0Cv03GWH9zFR3LL3UOULcLPG921iI=;
- b=B8ll0sz15ZI3mvmH1qqLzz3/IhozoSgdr1c0bg2GpamWRNsoIXcaCVTK
- Gk0K+2ajlzJz7xv5abYkFjOrvw+K2rdT0nSXzPaS7v42JBjl2k5waI7T0
- btri9NJ92lAVE7DWy/2h5RK1ByqVZzJ0AYaW4l45plnsFJZ/tdEhZ2JGC
- nn45i69uCwgcSOMOxEh5aV62jKpkoApt2cy8XadbxXnqH0Ho4622x+iw9
- 9KMkMFQhoHXjDPxSU0h2knYBrHW3I6BWqHcXn4fS0AQnPBRp1IuTzqxQj
- uHf9TNyfehz/NnuhjOXh064OUuZ5qa/q2SXAGzH+NPuoqf5k1t3CZWqtz A==;
-X-CSE-ConnectionGUID: drXq0x/RSFK6PH+PxopASw==
-X-CSE-MsgGUID: hbDkEoDXQqiiZgjvKcxi/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49762884"
-X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; d="scan'208";a="49762884"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 13:26:35 -0700
-X-CSE-ConnectionGUID: qZCX3NfvRmW5MjpehmDrkQ==
-X-CSE-MsgGUID: D1ORkfQ1S9OCFvbKBj7yjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; d="scan'208";a="140088834"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 13:26:29 -0700
-Date: Wed, 21 May 2025 23:26:24 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>,
- Reuven Abliyev <reuven.abliyev@intel.com>,
- Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomas Winkler <tomasw@gmail.com>, Vitaly Lubart <lubvital@gmail.com>
-Subject: Re: [PATCH v10 03/10] mtd: intel-dg: implement access functions
-Message-ID: <aC428Ak5j_x6Cr2o@black.fi.intel.com>
-References: <20250515133345.2805031-1-alexander.usyskin@intel.com>
- <20250515133345.2805031-4-alexander.usyskin@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4A310E759
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 20:47:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1747860443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gFQBf3kZxhcw4apyjcJ1zWnId76v45p2hqlMqonSnO8=;
+ b=TV8mT1hOvKeP91Eb2GQAJqRT2Op9VzkjRaIDwRZ1gu9XZsjmHsHTod/0XhvF7qnCgf201K
+ 1MC4LoXXHl+atPRXCD1AteOVWn6j+IHqQMPRpzExoIKRJmoGQyiAyawOroWJX8ktg056f+
+ REZ139XYfhigv+CAk+g3iYw0PSO7wUQ=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-596-w1o_npdaN4S7qmHN0LBCVg-1; Wed,
+ 21 May 2025 16:47:17 -0400
+X-MC-Unique: w1o_npdaN4S7qmHN0LBCVg-1
+X-Mimecast-MFC-AGG-ID: w1o_npdaN4S7qmHN0LBCVg_1747860435
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4CF7B1800361; Wed, 21 May 2025 20:47:15 +0000 (UTC)
+Received: from chopper.redhat.com (unknown [10.22.80.100])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A0F3019560B7; Wed, 21 May 2025 20:47:10 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
+ linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v2 00/12] Rust abstractions for shmem-backed GEM objects
+Date: Wed, 21 May 2025 16:29:07 -0400
+Message-ID: <20250521204654.1610607-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250515133345.2805031-4-alexander.usyskin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +79,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 04:33:38PM +0300, Alexander Usyskin wrote:
-> Implement read(), erase() and write() functions.
+This is the next version of the shmem backed GEM objects series
+originally from Asahi, previously posted by Daniel Almeida. Along with
+bindings for shmem backed GEM objects, it also adds a few features that
+various users like Tyr and Asahi are interested in:
 
-...
+* The ability to pass custom arguments to new GEM objects (needed by
+  Tyr)
+* OpaqueObject (to enable the use of custom private GEM objects, which I
+  believe asahi wanted)
 
-> +__maybe_unused
-> +static ssize_t idg_write(struct intel_dg_nvm *nvm, u8 region,
-> +			 loff_t to, size_t len, const unsigned char *buf)
-> +{
-> +	size_t i;
-> +	size_t len8;
-> +	size_t len4;
-> +	size_t to4;
-> +	size_t to_shift;
-> +	size_t len_s = len;
-> +	ssize_t ret;
-> +
-> +	idg_nvm_set_region_id(nvm, region);
-> +
-> +	to4 = ALIGN_DOWN(to, sizeof(u32));
-> +	to_shift = min(sizeof(u32) - ((size_t)to - to4), len);
-> +	if (to - to4) {
-> +		ret = idg_nvm_rewrite_partial(nvm, to4, to - to4, to_shift, (uint32_t *)&buf[0]);
+And replaces some of the hand-rolled API bindings (sg_table mainly) with
+some of the WIP patch series for adding kernel-wide bindings. It also
+addresses the comments from the code review of the last version of this
+patch series.
 
-Forgot to add, you're using both uint32_t and u32.
-Perhaps make it consistent?
+Currently doesn't apply on an upstream branch, but should very soon as
+all of the dependencies in this series are on a mailing list already.
 
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		buf += to_shift;
-> +		to += to_shift;
-> +		len_s -= to_shift;
-> +	}
-> +
-> +	len8 = ALIGN_DOWN(len_s, sizeof(u64));
-> +	for (i = 0; i < len8; i += sizeof(u64)) {
-> +		u64 data;
-> +
-> +		memcpy(&data, &buf[i], sizeof(u64));
-> +		idg_nvm_write64(nvm, to + i, data);
-> +		if (idg_nvm_error(nvm))
-> +			return -EIO;
-> +	}
-> +
-> +	len4 = len_s - len8;
-> +	if (len4 >= sizeof(u32)) {
-> +		u32 data;
-> +
-> +		memcpy(&data, &buf[i], sizeof(u32));
-> +		idg_nvm_write32(nvm, to + i, data);
-> +		if (idg_nvm_error(nvm))
-> +			return -EIO;
-> +		i += sizeof(u32);
-> +		len4 -= sizeof(u32);
-> +	}
-> +
-> +	if (len4 > 0) {
-> +		ret = idg_nvm_rewrite_partial(nvm, to + i, 0, len4, (uint32_t *)&buf[i]);
+The current branch this can be applied on top of is here:
+  https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust%2Fgem-shmem-base
 
-Ditto (and also in all other places if any).
+Which is based on top of nova/nova-next with the following patch series
+applied:
+  * My (hopefully final) gem bindings cleanup:
+    https://lkml.org/lkml/2025/5/20/1541
+  * Benno's derive Zeroable series:
+    https://lkml.org/lkml/2025/5/20/1446
+  * Abdiel's sg_table series:
+    https://lwn.net/Articles/1020986/
+    Also, there is one FIXES patch on top of Abdiel's work to fix some
+    iterator bugs. These fixes have already been mentioned on the
+    mailing list and should not be needed for their V2 version
 
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	return len;
-> +}
+Asahi Lina (3):
+  rust: helpers: Add bindings/wrappers for dma_resv_lock
+  rust: drm: gem: shmem: Add DRM shmem helper abstraction
+  rust: drm: gem: shmem: Add share_dma_resv to ObjectConfig
 
-Raag
+Lyude Paul (9):
+  rust: drm: gem: Add raw_dma_resv() function
+  drm/gem/shmem: Extract drm_gem_shmem_init() from
+    drm_gem_shmem_create()
+  drm/gem/shmem: Extract drm_gem_shmem_release() from
+    drm_gem_shmem_free()
+  rust: gem: Introduce BaseDriverObject::Args
+  rust: drm: gem: Add OpaqueObject
+  rust: drm: gem: Introduce OwnedSGTable
+  rust: Add dma_buf stub bindings
+  rust: drm: gem: Add export() callback
+  rust: drm: gem: Add BaseObject::prime_export()
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  98 +++++--
+ drivers/gpu/drm/nova/gem.rs            |   6 +-
+ include/drm/drm_gem_shmem_helper.h     |   2 +
+ rust/bindings/bindings_helper.h        |   4 +
+ rust/helpers/dma-resv.c                |  13 +
+ rust/helpers/drm.c                     |  48 +++-
+ rust/helpers/helpers.c                 |   1 +
+ rust/kernel/dma_buf.rs                 |  39 +++
+ rust/kernel/drm/gem/mod.rs             | 187 ++++++++++++-
+ rust/kernel/drm/gem/shmem.rs           | 370 +++++++++++++++++++++++++
+ rust/kernel/lib.rs                     |   1 +
+ 11 files changed, 727 insertions(+), 42 deletions(-)
+ create mode 100644 rust/helpers/dma-resv.c
+ create mode 100644 rust/kernel/dma_buf.rs
+ create mode 100644 rust/kernel/drm/gem/shmem.rs
+
+-- 
+2.49.0
+
