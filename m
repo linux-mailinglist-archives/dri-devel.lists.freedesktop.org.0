@@ -2,131 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B5BABF6B0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6627EABF6CB
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EBC14A8E2;
-	Wed, 21 May 2025 13:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCB610EB7D;
+	Wed, 21 May 2025 13:51:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jKJ3C3FX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r+NtCRJw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0931124DD;
- Wed, 21 May 2025 12:45:11 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-6f8b0fdd5ffso66358846d6.0; 
- Wed, 21 May 2025 05:45:11 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498EC14A77A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 12:51:25 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-442f5b3c710so55383225e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 05:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747831510; x=1748436310; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vhnzj3NnJO366VT/ATwYapAPa7ylDj+dwVk+TFu/WXo=;
- b=jKJ3C3FXpzIExSP0AuiXYfjceEI2df8wbzfX0dfDrY73QDwQH9N2cJ1PD7wdPfR6BX
- zrAqgY9zhVNPbtLNWFFWUoKgRgBihNWpiNq0+HfifsR1SBwWUkqn6OP2Xu3obJu6ki6/
- 9v2e1+8STX0Hxhwg6T8pa3QL6QbgDyNRnZ31lm6pcEAmuf8xkanvSRBGn18FGlpmb240
- B5M9oQGaMYzCMldd9v2Dm2w7JOiP7mQ2uNulMOmfB3oFnlPMsOzlauyRw1blRU9ugi5n
- Fb43n8rPpgJe3/bCy7OPkuXQwb5yZ6CldWPPrPdhJNy4NcJnFY3qauifO30lrW5VCoiP
- Yc6w==
+ d=linaro.org; s=google; t=1747831884; x=1748436684; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=e/jHmzzVj7avj1EieVfvkWdGnf23YVTEruZCNzw90qE=;
+ b=r+NtCRJwTKE6nDX/Gy8wIbHNcH3ONXlVUD1a4zYd4b4lw16FkrO6w3w5NgG6HRh5Y9
+ xLovgAZAE6WAIVQRM1cod4uScn5zaw+Tm7cm4zWo22X4d1fQz2tmCcKA658lzCCLqJvr
+ 5WIdCjV6y+1K8jAjY35TnhVH/7jwTVm5uUeaiWVpLd4Cx/tXHw3taU4a8/U5DnsA2gGo
+ ac2LwqQ1+xvO6IgPrzmu1nOXlXlGL4bnqVf4BHuZsSYOqpiz1trHRQgvhAj/15nIBQUM
+ ULUGBy6XB66wjkGb3AKMXpKj1jy/+uSeWkSlHk2cWmrJCqtrPhW7vBk6Rm2+W3NsP5NM
+ sy9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747831510; x=1748436310;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vhnzj3NnJO366VT/ATwYapAPa7ylDj+dwVk+TFu/WXo=;
- b=wzPhx08hOdfI/F2Qb+XjPTItdoPYQTDyj7I1Ad3G4NnK7wllUH75sF3+MfCSs8NsOZ
- binM668JAdW5U4Zc+j1TT0aylzUA5aebiKRsW6kUa+D1Rh2pJ46CvJLBcM2nJ/kShKc8
- rnbojG2r33rdErG1vyKROHyW9hPAD4XMOVlUx4PchpbaeL7DmCffPSTvDNlTwFFX/jFF
- Rb3Os6lFtHQTjktN+PP5AXLVHyyIRodNnO03vo++xk/7gu2eImDNsyQepRSZhVxDEG4w
- nQ1P3SqK3b9+SH+Q1T0sSv9FN/2dJ0B+46ZBZGz5y2PZyg3Q8zsddRlOI7xAxgXGLmIZ
- IWpQ==
+ d=1e100.net; s=20230601; t=1747831884; x=1748436684;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=e/jHmzzVj7avj1EieVfvkWdGnf23YVTEruZCNzw90qE=;
+ b=RmW1EbgdFz2BAbNu2tjxV44EZyuyaNQrH//WTYSzyzEACiFjYwr2f0RfoB0OiVVYC6
+ m9R1xbuoCm/4U9Rb2bNTBSineFrO1NqBGuYzwBx/QVZ9giNOmXNaNKiWoC0gOfP0P+c+
+ F6WzDUhEcw8x7bYVifBwNMy0jzrXY1sgD3U8IrWCRMcLC0dUsRyUPBdEjCJOCxAxDkj6
+ jAT0ANxzIDMAGKwbZOE0F8e+gWlV/AgPuBBkz3FYhFdzJYdXUUHW+uCm3YW55zk8GIK7
+ MVk/A6AcFUwxKA+0YWlv81Nqn4gBZ1TUbZMZS63iROYnBn+rDLVAm+Nx+Oybczt01d1+
+ 6uMQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcla+kpNyWPFuKiFosC9Yy+e0jvT3VP9fHQHWAE85NLBHMMPidOFCE+MG+4eq4qCegQc8LcfhNJw==@lists.freedesktop.org,
- AJvYcCVPHoOs1eQVG0dXIY0fjaP/e5v6U9JqlHSnKLQ7dX8RZH7oX0+vI7ZPlhAfCfGsa9qDBdVMuycjN18=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7bJJ/YF3XprC0U5CFak+NkdOnPeuJtsZqvn+sdIbd33HhqUm/
- 2U8cC8L1R9nxF6ST4e2kJJDkQUpSKMTnYTtf5x7mlqhsvyXZxcbzh3u2wudQdA==
-X-Gm-Gg: ASbGncskXl18P5wdy3mOLRaADb6TaYz2yhkbn2gRhe+E4B2QjuCdXktqIe9GsPt2bqr
- joNjrkc9+E5u6dMSNt5oP+sWZTLYkhmL2P1SDSm9jKGARodimDwQFcxW5Nz0XYRp0NgsFQkQGBp
- OdOUcdQwqeqQ1tquBhJ/RboInU36E3uYJLAlo+ZMdyBKH/JRBFw6QCA40A5uqX5FxbKcdNNtX2r
- ntSQoDftKIpHaeK1g4Y+K2o8LRlyWNxbA7LgAe7gPYV43FQAXlJqzpfKbfBzq31FVKnmsie1y+7
- UcPIdlm6M9GpDYn100v2VgQ7iK+J4zG05FYs2AkehSdIrfEtTPGrI5cpDZt/9KD073DSCtZd3b2
- 0FNBlihvSMLbzcosELlT1K/lxE9kFViGsEaBK1S8tpA==
-X-Google-Smtp-Source: AGHT+IEfRSqcGJ5t4rcRxmzM2k920FXsaJwu1wxt9D1Hfdpn8uKSN3fb6OCq2dNh4iOIGz1TYtv/Hg==
-X-Received: by 2002:a05:6214:cac:b0:6fa:864f:87cc with SMTP id
- 6a1803df08f44-6fa864f8a4fmr18904046d6.33.1747831510427; 
- Wed, 21 May 2025 05:45:10 -0700 (PDT)
-Received: from fauth-a1-smtp.messagingengine.com
- (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+ AJvYcCVMUSZe8tH2p6RcA1LVjWldyoK/IPXWoqoHHw4P48FxN2yuda60TDSN9UtKkJoFSIGEZzp8Vc1vTdU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7q29AiC4aG7SRS0OAFUSe/1sgDtvlR6czIdjxLEDGZ/9yf1hK
+ JdoDjk8eqY4tJafSiEyBznvBtaDAZ21qKg6tUmfN30lT/i6XJQfYIRgl4XC/V3bNiZY=
+X-Gm-Gg: ASbGncvxL+ikDgFINlGpFw/NFpf6CdyRi077ASIlROnpqBSAvItRXSFeCRWLtWv8oGD
+ V+AcLEPm2pB+P4IuXzvc/5nQxz1tbQisj12BgnWCEtevoaNl0769b3vzeu3FhUmbA6UdDKr+4gb
+ Hb4MIQd2RZWx6ldlQrvFUHR8Nv7r6azG0vpMcvifhrBLwi58okPOfTsxc5f4qgilTdEfctQxDGj
+ qDM5u2rXRugC/8hYDVLRnfgc1f0t+y5xdpHN0NK7Udd9kWTdUdTpCXdZF6kHtGHpxdzq914D0DR
+ h2qXNZ09Xam5JsFJkcvB572hsdPfwDTUcd8GNQDcnRWbTXfOgyxdrHSn5zDuxQ/8j9pbceY0imO
+ rV+ZcFA56JLVl7QdgSDId2ChI50r5
+X-Google-Smtp-Source: AGHT+IFnVyqqduGLFeoeuylj/zZQ1NZU8qcb9cwDLm6nbxo5hFKroW6gCdx5Z9rdFWlJAbhHaS7W0A==
+X-Received: by 2002:a05:600c:a016:b0:441:d2d8:bd8b with SMTP id
+ 5b1f17b1804b1-442fd622c81mr210080505e9.8.1747831883562; 
+ Wed, 21 May 2025 05:51:23 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:80b6:c1af:bc94:958d?
+ ([2a01:e0a:3d9:2080:80b6:c1af:bc94:958d])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6f8b08bf66bsm84578696d6.63.2025.05.21.05.45.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 May 2025 05:45:09 -0700 (PDT)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailfauth.phl.internal (Postfix) with ESMTP id 5CD34120007A;
- Wed, 21 May 2025 08:45:09 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-11.internal (MEProxy); Wed, 21 May 2025 08:45:09 -0400
-X-ME-Sender: <xms:1cotaFbzhLa-AVxwpQ35d8kX6hIq-ZwWislwhChbDGrE886dcXNkqg>
- <xme:1cotaMb7eFhXctyLi7ci4R4k3tFn2T2VAuphJPlupRodTcGwYg19z8qCxeIB3OiXg
- GoUBfDa8naZrFuR_A>
-X-ME-Received: <xmr:1cotaH9vnyOR6XHBgx3dt1S-54GBmy0ro27iatwvJnw6GrIg8QlhdE-Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefuddvucdltddurdegfedvrddttd
- dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
- nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
- enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhgg
- tggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunh
- drfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeehudfgudffffet
- uedtvdehueevledvhfelleeivedtgeeuhfegueevieduffeivdenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgr
- uhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsoh
- hquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghr
- tghpthhtohepvdehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrtghouhhrsg
- hothesnhhvihguihgrrdgtohhmpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdho
- rhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtph
- htthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegp
- ghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvghnnhhordhlohhssh
- hinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggsohhrgheskhgvrhhn
- vghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhmpd
- hrtghpthhtohepthhmghhrohhsshesuhhmihgthhdrvgguuh
-X-ME-Proxy: <xmx:1cotaDr_BZnTBO2ZZrxy5srrQmZLzeo9gWXnSOIXgNKffweWuOxofg>
- <xmx:1cotaAqMl1zRLe7L77t9gwX1n54-xBKwNgVE1PMBxXFMnUOO50bscw>
- <xmx:1cotaJQ4dtper7JsxvJG39LklNMIPguYPvErgkSuMnOiT_alNE6wdA>
- <xmx:1cotaIqgOC4ilrO4JZb18O9O6GbSlFri46ozj22VjBeOFxpIB5P63g>
- <xmx:1cotaJ4jQULX3Xw0qsN9n-dwPqENjGgYpRv_JvJUfS2Dt1RcyknYAt6Z>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 May 2025 08:45:08 -0400 (EDT)
-Date: Wed, 21 May 2025 05:45:07 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 03/20] rust: sizes: add constants up to SZ_2G
-Message-ID: <aC3K0-z7JARmg7Cc@Mac.home>
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-3-05dfd4f39479@nvidia.com>
+ 5b1f17b1804b1-447f3ce483bsm67820435e9.33.2025.05.21.05.51.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 May 2025 05:51:23 -0700 (PDT)
+Message-ID: <e2173a8f-db10-4fd3-8bdb-ea5e6664237e@linaro.org>
+Date: Wed, 21 May 2025 14:51:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250521-nova-frts-v4-3-05dfd4f39479@nvidia.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 09/30] drm/msm/dpu: get rid of DPU_CTL_ACTIVE_CFG
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250519-dpu-drop-features-v4-0-6c5e88e31383@oss.qualcomm.com>
+ <20250519-dpu-drop-features-v4-9-6c5e88e31383@oss.qualcomm.com>
+ <f6a10e14-de53-43e1-a887-4a4ba4aa0d63@linaro.org>
+ <w3i22a7magzaseje3j7o4qjvkxeslj7wm2uhdcn3o3nrotsrzs@gzdgfrl55qsz>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <w3i22a7magzaseje3j7o4qjvkxeslj7wm2uhdcn3o3nrotsrzs@gzdgfrl55qsz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,57 +123,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 21, 2025 at 03:44:58PM +0900, Alexandre Courbot wrote:
-> nova-core will need to use SZ_1M, so make the remaining constants
-> available.
+On 20/05/2025 23:29, Dmitry Baryshkov wrote:
+> On Tue, May 20, 2025 at 09:57:38AM +0200, neil.armstrong@linaro.org wrote:
+>> On 19/05/2025 18:04, Dmitry Baryshkov wrote:
+>>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>
+>>> Continue migration to the MDSS-revision based checks and replace
+>>> DPU_CTL_ACTIVE_CFG feature bit with the core_major_ver >= 5 check.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h  | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h  | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h  | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  | 6 ------
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h  | 3 ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h  | 1 -
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h  | 4 ----
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h | 1 -
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h  | 1 -
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c    | 2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c     | 7 ++-----
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 3 +--
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          | 1 -
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c              | 2 +-
+>>>    17 files changed, 6 insertions(+), 57 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> index a0ba55ab3c894c200225fe48ec6214ae4135d059..25ba5d9bfff2b3f7a5054ae26511d05917f72d8b 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> @@ -69,7 +69,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>>>    	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+>>>    	/* setup which pp blk will connect to this intf */
+>>> -	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
+>>> +	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
+>>
+>> Why did you drop the version test here ?
 > 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> bind_pingpong_blk is only available since DPU 5.x, the same set of
+> hardware as the DPU having DPU_CTL_ACTIVE_CFG.
+> 
 
-Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+I think it deserves a comment in the code or the commit msg.
 
-Regards,
-Boqun
+Neil
 
-> ---
->  rust/kernel/sizes.rs | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/rust/kernel/sizes.rs b/rust/kernel/sizes.rs
-> index 834c343e4170f507821b870e77afd08e2392911f..661e680d9330616478513a19fe2f87f9521516d7 100644
-> --- a/rust/kernel/sizes.rs
-> +++ b/rust/kernel/sizes.rs
-> @@ -24,3 +24,27 @@
->  pub const SZ_256K: usize = bindings::SZ_256K as usize;
->  /// 0x00080000
->  pub const SZ_512K: usize = bindings::SZ_512K as usize;
-> +/// 0x00100000
-> +pub const SZ_1M: usize = bindings::SZ_1M as usize;
-> +/// 0x00200000
-> +pub const SZ_2M: usize = bindings::SZ_2M as usize;
-> +/// 0x00400000
-> +pub const SZ_4M: usize = bindings::SZ_4M as usize;
-> +/// 0x00800000
-> +pub const SZ_8M: usize = bindings::SZ_8M as usize;
-> +/// 0x01000000
-> +pub const SZ_16M: usize = bindings::SZ_16M as usize;
-> +/// 0x02000000
-> +pub const SZ_32M: usize = bindings::SZ_32M as usize;
-> +/// 0x04000000
-> +pub const SZ_64M: usize = bindings::SZ_64M as usize;
-> +/// 0x08000000
-> +pub const SZ_128M: usize = bindings::SZ_128M as usize;
-> +/// 0x10000000
-> +pub const SZ_256M: usize = bindings::SZ_256M as usize;
-> +/// 0x20000000
-> +pub const SZ_512M: usize = bindings::SZ_512M as usize;
-> +/// 0x40000000
-> +pub const SZ_1G: usize = bindings::SZ_1G as usize;
-> +/// 0x80000000
-> +pub const SZ_2G: usize = bindings::SZ_2G as usize;
-> 
-> -- 
-> 2.49.0
-> 
