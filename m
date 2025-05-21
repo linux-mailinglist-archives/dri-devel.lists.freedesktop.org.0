@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB55ABEABA
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 06:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DD7ABEABC
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 06:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5001410E69E;
-	Wed, 21 May 2025 04:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D9610E6A2;
+	Wed, 21 May 2025 04:11:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VYvldqz0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O1J7r2P8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACBE10E6A2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 04:11:37 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC36010E6A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 04:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1747800696;
+ s=mimecast20190719; t=1747800703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=31siUvGKFeQUvfWKZYsz5RRkJbynL6zodiKjVJATUHE=;
- b=VYvldqz07KarLXjZ0lxn4gDS6p+IIqHYS+gHTzF6MbNEQAz1dX4j3usXB9zHnE3z/3kMXm
- aw6/o8CuH6VSp3MstymWCik645ASOZldOWjin7L1JlYF5DAaCHawSWHpyQU/M7EdSKpysS
- hsl3+5qkg38R7fuVl4tmOJ3lMLYzSw0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ bh=oL7SlnkhsPmebPVGgeh23UyvU970ZL+30m1yQoHzkFA=;
+ b=O1J7r2P8FGVqCrx73vrifRPG2txDmbwIRY14g5QxnA3Gx0FcgCKB6JBkuUsVts8RzLOWue
+ V5+jQ8iWliNnBIs6K/MOyGc41yeOXkpwPZKEKHhx+skXzYGO2JFqvKrLPXfwIZSeL+8gsS
+ nMKv37WLbgfX1H46BlztPyQv45wdnyM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-296-F-C2BPSTOqyBCyLC7BQ7xw-1; Wed,
- 21 May 2025 00:11:32 -0400
-X-MC-Unique: F-C2BPSTOqyBCyLC7BQ7xw-1
-X-Mimecast-MFC-AGG-ID: F-C2BPSTOqyBCyLC7BQ7xw_1747800690
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-KeeQW65nNDaadjQDPIB70Q-1; Wed,
+ 21 May 2025 00:11:38 -0400
+X-MC-Unique: KeeQW65nNDaadjQDPIB70Q-1
+X-Mimecast-MFC-AGG-ID: KeeQW65nNDaadjQDPIB70Q_1747800696
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 339EE1800446; Wed, 21 May 2025 04:11:30 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 040E3180036E; Wed, 21 May 2025 04:11:36 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.184])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id D554B195608F; Wed, 21 May 2025 04:11:24 +0000 (UTC)
+ id 9D41B195608F; Wed, 21 May 2025 04:11:30 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 20 May 2025 22:03:56 -0500
-Subject: [PATCH v3 25/30] panel/novatek-nt35950: Use refcounted allocation
+Date: Tue, 20 May 2025 22:03:57 -0500
+Subject: [PATCH v3 26/30] panel/novatek-nt36523: Use refcounted allocation
  in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-drivers-mass-convert-part2-v3-25-f7ae7b723c68@redhat.com>
+Message-Id: <20250520-drivers-mass-convert-part2-v3-26-f7ae7b723c68@redhat.com>
 References: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
 In-Reply-To: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747796667; l=1422;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747796667; l=1478;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=tf+dpHrX0zZW8IBXm+99Ul8HeuGpSrsFRL1YM0ceWIw=;
- b=joCFOC1kyHiTqok5E+8fzEBBRQCDYndIC8fOCpLbaJsZHhUn+fgFWpGnclIXrexrCNrk59EPK
- 2cWAqYXbz66DuBi6UIxdwSwy0hwxFe3Ny8ers0SJUJNZkHFJx/3wDym
+ bh=YzQjtEvN9ymir8VFYHgoEq2vF7epV11oXmwsE3JCyQA=;
+ b=n/1hxpIRYthTBLFzhjVtZepQyMt5MJk0DHrubLivKZTQCR2g51lxLIEYAAw8sOe3NOswBCniL
+ pdnhA6ljlh8D51a8X/XSen/F7sr7toRuY/xeFLes6sBlOQuBXVn3Qtw
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -100,37 +100,36 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 v3: none.
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-novatek-nt35950.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index 08b22b592ab0452973aa7373dd0692a9bf98e5f2..94aa6489d99fc88f1602c4dbbf4f7f78c04799a9 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -449,9 +449,10 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+index 116d67bfa1140073cc537ec967b77195beeec051..32cf64c7c18be061fc3d38689529f039bf7cea55 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+@@ -1171,9 +1171,11 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
  	const struct mipi_dsi_device_info *info;
- 	int i, num_dsis = 1, ret;
+ 	int i, ret;
  
--	nt = devm_kzalloc(dev, sizeof(*nt), GFP_KERNEL);
--	if (!nt)
+-	pinfo = devm_kzalloc(dev, sizeof(*pinfo), GFP_KERNEL);
+-	if (!pinfo)
 -		return -ENOMEM;
-+	nt = devm_drm_panel_alloc(dev, struct nt35950, panel, &nt35950_panel_funcs,
-+				  DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(nt))
-+		return PTR_ERR(nt);
++	pinfo = devm_drm_panel_alloc(dev, struct panel_info, panel,
++				     &nt36523_panel_funcs,
++				     DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(pinfo))
++		return PTR_ERR(pinfo);
  
- 	ret = nt35950_sharp_init_vregs(nt, dev);
- 	if (ret)
-@@ -491,9 +492,6 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
- 	nt->dsi[0] = dsi;
- 	mipi_dsi_set_drvdata(dsi, nt);
+ 	pinfo->vddio = devm_regulator_get(dev, "vddio");
+ 	if (IS_ERR(pinfo->vddio))
+@@ -1211,7 +1213,6 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
  
--	drm_panel_init(&nt->panel, dev, &nt35950_panel_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
--
- 	ret = drm_panel_of_backlight(&nt->panel);
- 	if (ret) {
- 		if (num_dsis == 2)
+ 	pinfo->dsi[0] = dsi;
+ 	mipi_dsi_set_drvdata(dsi, pinfo);
+-	drm_panel_init(&pinfo->panel, dev, &nt36523_panel_funcs, DRM_MODE_CONNECTOR_DSI);
+ 
+ 	ret = of_drm_get_panel_orientation(dev->of_node, &pinfo->orientation);
+ 	if (ret < 0) {
 
 -- 
 2.48.1
