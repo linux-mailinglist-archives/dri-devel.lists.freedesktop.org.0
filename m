@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E789DABF36E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 13:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA51ABF370
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 13:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6016112E5A;
-	Wed, 21 May 2025 11:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D6011B53D;
+	Wed, 21 May 2025 11:53:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a+LT42CS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XsGhcgg8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4EF112E64;
- Wed, 21 May 2025 11:53:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A855811B522;
+ Wed, 21 May 2025 11:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747828433; x=1779364433;
+ t=1747828435; x=1779364435;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=r7OC49p3dtDWWDLgsPHkvDsHMTTVpbWyvWudLlKi/RU=;
- b=a+LT42CSE5c4Ao4wf60jnJ2NbvdN3F8maThKXdN8MS+/X1gwSLxmLtAA
- kldV+7PoXkBKt81mPILz6Bp6Sc/Z2vclvJZCe9FlbqjH/JoJ6rN4/LXsM
- XfuNi5jBrtGnHaMxfIQ2qZNgOUYyLdAV8g8r7e2qXlzZKKngxPixAAct2
- xFlBvHqjxhFYiwhKlbudAiYVrz5SK+sGIF+GmprsET/MoQ38zLWu5sJpA
- 9OCaPs0+TBhxbgNHJu9NxXuEJvNNYXj9OEGN6WD7hp8yNOmw6Nr6hh1Rl
- spZvZJ8u5AuKmsQ0CTLJZ1b3ViCQPrMWfEpbGKUtV0N6JzHz1C3Egd98x A==;
-X-CSE-ConnectionGUID: /+YEcwKwT/CfyyLQupEEkw==
-X-CSE-MsgGUID: jbX7IZdPQ46bUxPw6lAcVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="67217815"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="67217815"
+ bh=tcM8cY0JJjbM/QZC+XwC8i8LRRKwQ/0rk7Rq3VyzC4w=;
+ b=XsGhcgg8hAL/7SADL+WT6GXnkStyJrf84UN6keyITemTva/cOoeUIMfm
+ CryLMS8RVvOthgjRoXZQZQ+zAl8qtTJTyufQeex/a74Oy6N6FzYJreFJX
+ hc2UPfSNmzDHojBIXRMEHbEpJUw4lQvRsyqJ/mea0t+LFO4u6auEnUI5t
+ muTiPPsh205SjQwXJrA/mjlqEdgu4n0VmD6StV5PHw6L8uSiHlQDCbnui
+ Xb3zAx08dMfDrFYnwNF8Pdr/bvP68ifEZD84mDBp4qRipz34ehPbaZDpA
+ 7yBaZPe9U6IuOrlqF14yQ5WT0am97VBWl5ndY3oeYBBVz6dovXichdv23 g==;
+X-CSE-ConnectionGUID: HnTJwrL9SDCkxuXvgRj5ug==
+X-CSE-MsgGUID: hYb7DK+fRp+o8aO7OIgu0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="67217828"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="67217828"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 04:53:53 -0700
-X-CSE-ConnectionGUID: rQZULmOJTxuPG/an2wrBLA==
-X-CSE-MsgGUID: aRraigPrRIK1X89LURWsgg==
+ 21 May 2025 04:53:55 -0700
+X-CSE-ConnectionGUID: pF5VbhfLRy6IZNpTYHkVYg==
+X-CSE-MsgGUID: sy4bx6ZrQkadd3yt1wR1MQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="140452903"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="140452915"
 Received: from abityuts-desk.ger.corp.intel.com (HELO jhogande-mobl1..)
  ([10.245.244.119])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 04:53:51 -0700
+ 21 May 2025 04:53:52 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
  Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: [PATCH v4 07/12] drm/i915/alpm: Add new interface to check if AUXLess
- ALPM is used
-Date: Wed, 21 May 2025 14:53:14 +0300
-Message-ID: <20250521115319.2380655-8-jouni.hogander@intel.com>
+Subject: [PATCH v4 08/12] drm/i915/alpm: Move port alpm configuration
+Date: Wed, 21 May 2025 14:53:15 +0300
+Message-ID: <20250521115319.2380655-9-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250521115319.2380655-1-jouni.hogander@intel.com>
 References: <20250521115319.2380655-1-jouni.hogander@intel.com>
@@ -73,60 +72,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-we need to know if AUXLess ALPM is used when preparing for link
-training. Add new interface for this and use it in existing code where
-possible.
+It is specified in Bspec where port alpm configuration is supposed to be
+performed. Change accordingly.
 
-v2: remove kerneldoc comment
+v2:
+  - drop HAS reference
+  - ensure PORT_ALPM registers are not writen on older platform
 
+Bspec: 68849
 Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_alpm.c | 10 ++++++++--
- drivers/gpu/drm/i915/display/intel_alpm.h |  2 ++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_alpm.c    | 48 ++++++++++++--------
+ drivers/gpu/drm/i915/display/intel_alpm.h    |  2 +
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c |  1 +
+ drivers/gpu/drm/i915/display/intel_ddi.c     |  6 +++
+ 4 files changed, 39 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index 0890247085a7..bbcf510b0c25 100644
+index bbcf510b0c25..dfdde8e4eabe 100644
 --- a/drivers/gpu/drm/i915/display/intel_alpm.c
 +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -26,6 +26,13 @@ bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp)
- 	return intel_dp->alpm_dpcd & DP_ALPM_AUX_LESS_CAP;
+@@ -336,7 +336,6 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+ {
+ 	struct intel_display *display = to_intel_display(intel_dp);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+-	enum port port = dp_to_dig_port(intel_dp)->base.port;
+ 	u32 alpm_ctl;
+ 
+ 	if (DISPLAY_VER(display) < 20 || (!intel_psr_needs_alpm(intel_dp, crtc_state) &&
+@@ -368,23 +367,6 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+ 				       pr_alpm_ctl);
+ 		}
+ 
+-		intel_de_write(display,
+-			       PORT_ALPM_CTL(port),
+-			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
+-			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
+-			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
+-			       PORT_ALPM_CTL_SILENCE_PERIOD(
+-				       intel_dp->alpm_parameters.silence_period_sym_clocks));
+-
+-		intel_de_write(display,
+-			       PORT_ALPM_LFPS_CTL(port),
+-			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
+-			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
+-				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
+-			       PORT_ALPM_LFPS_CTL_FIRST_LFPS_HALF_CYCLE_DURATION(
+-				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
+-			       PORT_ALPM_LFPS_CTL_LAST_LFPS_HALF_CYCLE_DURATION(
+-				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms));
+ 	} else {
+ 		alpm_ctl = ALPM_CTL_EXTENDED_FAST_WAKE_ENABLE |
+ 			ALPM_CTL_EXTENDED_FAST_WAKE_TIME(intel_dp->alpm_parameters.fast_wake_lines);
+@@ -408,6 +390,36 @@ void intel_alpm_configure(struct intel_dp *intel_dp,
+ 	intel_dp->alpm_parameters.transcoder = crtc_state->cpu_transcoder;
  }
  
-+bool intel_alpm_is_alpm_aux_less(struct intel_dp *intel_dp,
-+				 const struct intel_crtc_state *crtc_state)
++void intel_alpm_port_configure(struct intel_dp *intel_dp,
++			       const struct intel_crtc_state *crtc_state)
 +{
-+	return intel_psr_needs_alpm_aux_less(intel_dp, crtc_state) ||
-+		(crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp));
++	struct intel_display *display = to_intel_display(intel_dp);
++	enum port port = dp_to_dig_port(intel_dp)->base.port;
++	u32 alpm_ctl_val = 0, lfps_ctl_val = 0;
++
++	if (DISPLAY_VER(display) < 20)
++		return;
++
++	if (intel_alpm_is_alpm_aux_less(intel_dp, crtc_state)) {
++		alpm_ctl_val = PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
++			PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
++			PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
++			PORT_ALPM_CTL_SILENCE_PERIOD(
++				intel_dp->alpm_parameters.silence_period_sym_clocks);
++		lfps_ctl_val = PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
++			PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
++				intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
++			PORT_ALPM_LFPS_CTL_FIRST_LFPS_HALF_CYCLE_DURATION(
++				intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
++			PORT_ALPM_LFPS_CTL_LAST_LFPS_HALF_CYCLE_DURATION(
++				intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms);
++	}
++
++	intel_de_write(display, PORT_ALPM_CTL(port), alpm_ctl_val);
++
++	intel_de_write(display, PORT_ALPM_LFPS_CTL(port), lfps_ctl_val);
 +}
 +
- void intel_alpm_init(struct intel_dp *intel_dp)
+ void intel_alpm_pre_plane_update(struct intel_atomic_state *state,
+ 				 struct intel_crtc *crtc)
  {
- 	u8 dpcd;
-@@ -341,8 +348,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
- 	 * Panel Replay on eDP is always using ALPM aux less. I.e. no need to
- 	 * check panel support at this point.
- 	 */
--	if ((crtc_state->has_panel_replay && intel_dp_is_edp(intel_dp)) ||
--	    (crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp))) {
-+	if (intel_alpm_is_alpm_aux_less(intel_dp, crtc_state)) {
- 		alpm_ctl = ALPM_CTL_ALPM_ENABLE |
- 			ALPM_CTL_ALPM_AUX_LESS_ENABLE |
- 			ALPM_CTL_AUX_LESS_SLEEP_HOLD_TIME_50_SYMBOLS |
 diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
-index c9fe21e3e72c..86f4d5ab1981 100644
+index 86f4d5ab1981..a861c20b5d79 100644
 --- a/drivers/gpu/drm/i915/display/intel_alpm.h
 +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
-@@ -32,6 +32,8 @@ void intel_alpm_post_plane_update(struct intel_atomic_state *state,
+@@ -27,6 +27,8 @@ void intel_alpm_enable_sink(struct intel_dp *intel_dp,
+ 			    const struct intel_crtc_state *crtc_state);
+ void intel_alpm_pre_plane_update(struct intel_atomic_state *state,
+ 				 struct intel_crtc *crtc);
++void intel_alpm_port_configure(struct intel_dp *intel_dp,
++			       const struct intel_crtc_state *crtc_state);
+ void intel_alpm_post_plane_update(struct intel_atomic_state *state,
+ 				  struct intel_crtc *crtc);
  void intel_alpm_lobf_debugfs_add(struct intel_connector *connector);
- bool intel_alpm_aux_wake_supported(struct intel_dp *intel_dp);
- bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp);
-+bool intel_alpm_is_alpm_aux_less(struct intel_dp *intel_dp,
-+				 const struct intel_crtc_state *crtc_state);
- void intel_alpm_disable(struct intel_dp *intel_dp);
- bool intel_alpm_get_error(struct intel_dp *intel_dp);
- #endif
+diff --git a/drivers/gpu/drm/i915/display/intel_cx0_phy.c b/drivers/gpu/drm/i915/display/intel_cx0_phy.c
+index a82b93cbc81d..91118d115fd3 100644
+--- a/drivers/gpu/drm/i915/display/intel_cx0_phy.c
++++ b/drivers/gpu/drm/i915/display/intel_cx0_phy.c
+@@ -10,6 +10,7 @@
+ 
+ #include "i915_reg.h"
+ #include "i915_utils.h"
++#include "intel_alpm.h"
+ #include "intel_cx0_phy.h"
+ #include "intel_cx0_phy_regs.h"
+ #include "intel_ddi.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 0e6d618b5356..65ab012c3eae 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3743,6 +3743,12 @@ static void mtl_ddi_prepare_link_retrain(struct intel_dp *intel_dp,
+ 
+ 	intel_ddi_buf_enable(encoder, intel_dp->DP);
+ 	intel_dp->DP |= DDI_BUF_CTL_ENABLE;
++
++	/*
++	 * 6.k If AUX-Less ALPM is going to be enabled
++	 *     i. Configure PORT_ALPM_CTL and PORT_ALPM_LFPS_CTL here
++	 */
++	intel_alpm_port_configure(intel_dp, crtc_state);
+ }
+ 
+ static void intel_ddi_prepare_link_retrain(struct intel_dp *intel_dp,
 -- 
 2.43.0
 
