@@ -2,64 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2738ABFD09
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 20:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E464CABFD3D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 21:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3A610E76E;
-	Wed, 21 May 2025 18:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00FA10E7C4;
+	Wed, 21 May 2025 19:18:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="LJjflFB6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="D7813NlK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62EB10E76E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 18:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=pLajyTKvSnjIeuhbiBRiqcZn2G1t4YqZMJu2Cek90Gc=; b=LJjflFB6AayCbZwPaANqL6treh
- acw9Gk8X7GrVLSN+graw1u0fxSTvULAwfZurT3Zbo0eKQP2swDTGMcYWoGWKr9A/R3OKBQQHd2jQt
- C/QFaEalCaJ2XeyvHfkKQcoLWeF4qJBT2Tt67U8GF7AJDzBnU1s8DPFutKrIKfr1x7wM=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:43264
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1uHoX9-0004sc-Id; Wed, 21 May 2025 14:51:20 -0400
-Date: Wed, 21 May 2025 14:51:19 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Chris Brandt <Chris.Brandt@renesas.com>
-Message-Id: <20250521145119.7b842eed340b403c024dff6b@hugovil.com>
-In-Reply-To: <TYCPR01MB113329D284B9AFDD68F9E64A3869EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20250520171034.3488482-2-hugo@hugovil.com>
- <TYCPR01MB113329D284B9AFDD68F9E64A3869EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2068.outbound.protection.outlook.com [40.107.95.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42FC10E79F;
+ Wed, 21 May 2025 19:18:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pCghwVROmBpeHcX/lh/GZDsaCqp4cNV9/orFfWkeW+fdR5S6Ubgz1teKeEimQY5vlfX/7kolOqGIS6QMPgfEZzWsL/kIVODp3QYLC8m4Wwnx7ClXcKzIv0COrBexM/bqHcVQmTmC6XRmsEedz8c2eDBtWMtxOJI7bnBfMULDw1U0yeOazAsl5T3unr9hkLnfXYB0rSoK8Bu3+o1dXKn0UMmrVE5MuOguJJcTBdPVCKjtJYbTnZS5qHCm1DcaEs2Vk7Fqp1S1420Kagd0M6fliNrW7jAF3WRGjknEzmcZRcz1RoGq7UfSx/Mq+adcyUqBAH2z0xR9TiRX0biiJy0Q1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=prB4qEc8Y8wgfpxShijy57l+YjcbSI+CCOxNCpW11vs=;
+ b=ZY+mUoh6yB5CHIxKdRHR+CLiptVfhMXAeO6nibgM/kZn/+HOdr3Gitw2B1dYv/qoShdjP+qKvKrm0UslmkKnnhsjArQvk4SjYjc7vTpQUgGwIqapDV3iHbsCVO0JrrUYt2R6tA3Fp9Z/32D1q5vlUaON4gK2l9IwywuCJ/lEbiMA9uYXrmsx7cBqph1OokHApUFjQ5ciPlI541MoYjkuf5jJ5fD9E7mXGXYI/SFgvwiFdvw/8oHfT87GYGgcr0Q+mKedtTE8HUnZesAfIZDzkcObB4iDeGYp9AXcDW9AjfDDeGNsAk386d5Gu82ToKIKQbskM/qOG6dNJRB8FlJFcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=prB4qEc8Y8wgfpxShijy57l+YjcbSI+CCOxNCpW11vs=;
+ b=D7813NlKtWH7zFSQrFsGY+5SYJN3taxfN1aTwoZTjA1Rpd3w3NWtyl+IXDbFswjO8ZCcP6gPkiNXVCRsSfF9SuBSSobpQuXnVFf//Yz11tSqr0XATLO9OrL79RWPRnTwtchmHjLQ1QbcOjj9udnNUD09RYOWB/04Fl69Jlk/38w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5438.namprd12.prod.outlook.com (2603:10b6:a03:3ba::23)
+ by DM4PR12MB6469.namprd12.prod.outlook.com (2603:10b6:8:b6::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8746.30; Wed, 21 May 2025 19:18:17 +0000
+Received: from SJ0PR12MB5438.namprd12.prod.outlook.com
+ ([fe80::65b2:12d5:96ba:dd44]) by SJ0PR12MB5438.namprd12.prod.outlook.com
+ ([fe80::65b2:12d5:96ba:dd44%6]) with mapi id 15.20.8746.030; Wed, 21 May 2025
+ 19:18:17 +0000
+Message-ID: <f92df258-653d-49ba-b8f6-a1b677744a1e@amd.com>
+Date: Wed, 21 May 2025 15:18:12 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
+From: Harry Wentland <harry.wentland@amd.com>
+To: Simon Ser <contact@emersion.fr>, Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-41-alex.hung@amd.com>
+ <CAFZQkGwrP39REsvZwQ_Uaq+cHR_pH2EPuv_POXRO7Hxj9u4Xsw@mail.gmail.com>
+ <vyX7bdPppc_pDUQBeKeZNyy69WUl_XKExs-I7dfuDJJy6SKXWoBL7B-IRMZKxuktNMQCIg0lP56Xj0qLidKOlBJQJjUYHOQ5Id6yw5k8Q10=@emersion.fr>
+ <CAFZQkGxXJe=FGdymMRevbtU+jKre6PdthAu33Qz+kVsR_OVpJg@mail.gmail.com>
+ <BqFABawLqkjFjPvuKwfsFBKt2A6KcEIeJU289qnX9Try6dV0nhXeXF3vxJUK_xUP5a1gfARBt3wY0lpOV2Nbmcmj5WXCw6fsZjPNT39KAu4=@emersion.fr>
+ <b3bf99cc-f6f4-46ce-aa00-fea74b3179b1@amd.com>
+Content-Language: en-US
+In-Reply-To: <b3bf99cc-f6f4-46ce-aa00-fea74b3179b1@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
- *      blocklist *      [URIs: hugovil.com]
- *  0.1 URIBL_CSS Contains an URL's NS IP listed in the Spamhaus CSS
- *      blocklist *      [URIs: hugovil.com]
- * -0.3 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-1.1 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A,
- URIBL_CSS,URIBL_CSS_A autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+X-ClientProxiedBy: YT4PR01CA0312.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10e::24) To SJ0PR12MB5438.namprd12.prod.outlook.com
+ (2603:10b6:a03:3ba::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5438:EE_|DM4PR12MB6469:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94526576-04f6-41ef-9a20-08dd989c3d71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3VvYzkxS0VQayt5UzBJZGNXNXpSUW1nbHY5c2xRbklQVWxldGthUVB2R2Z4?=
+ =?utf-8?B?dGlNQy85c0tKS2lVTDNXMlJUdFAzNVhOZGNwV3V4d2FUVmNvNEpFMkYrb2hG?=
+ =?utf-8?B?R0pQcmEybS9vbERMenJEYitWQ1BhRDFOZXdVTjJvMy9rbVFMN2pXd0NnOWFr?=
+ =?utf-8?B?enlTYlNUbHpXOGhkWWNZVDVxYWRnZ3JmemtqQzdGa1ZwbmVndTVRNTY5SHdO?=
+ =?utf-8?B?UXlVV0YxenpkVW1iRWIxa0J2Zm4yOUdpTUNiNzFVRktvOXFpM29oWVNOaWtT?=
+ =?utf-8?B?VDdHUk5kcXVZZFkvOTNTdkpvem1JQ2U0K2ZtZTIvMnRLWUIvQXFZMzlMK0ZY?=
+ =?utf-8?B?VDR4Y2lzVDRSbTFYL3k5aWVjTzloVm5IbGxhTDhvOUJoLzB3cm5rSXROcDdp?=
+ =?utf-8?B?Wlh0c1p3dm1zUnI5Vzc0eUxGZnp6K2RRQ3o3OGJFSG01aFpLY3ZUQVNmREdN?=
+ =?utf-8?B?QjMvMjhQeWQ3VG1kU2E0QVJia05Cd1lzYnlGOGxkRThOVkFSQm9RcW00NllX?=
+ =?utf-8?B?RUl5UDV6RVBCQ3YvTHVWdXB0WFBISlhCcHVkNUs5QUoyV3prU1NaZG1DR0s4?=
+ =?utf-8?B?dkUrSjVyajd2N0ZUNGdhU2kzUkQ0NzhtZkQ3MHFObGhvNjVUWHVwVlhHWS9N?=
+ =?utf-8?B?ZmVreWxPbERTRzhqL3UyTVoyNEFPSDh2OFN3ZHVuSERpQlVaNG5mTWQ0LzAv?=
+ =?utf-8?B?OWtZYmp6UzI5OFBPUVdRc3VxMXJvdjE1S1MwVzl5c3JxWHVkMmJLelY1b0x3?=
+ =?utf-8?B?NEVrN0FoOGZ6Ymg1REFNTk5JQW84RzR1akswb2orUDhkektxQzdqMlFnV21S?=
+ =?utf-8?B?OHFPWjJTTnJrajRub3NvbS9jWXc5dWxZRnEzdWEyOXFkY1RndU1ubFNnYVBF?=
+ =?utf-8?B?eDdPNFRZQWxHekRNczNLdjZjSGdXOGNDMFpQeTIwZ21jRGQ2dzREQkVkRkJn?=
+ =?utf-8?B?OHBLRUdjelB5bDN2c0N0RGh5T1JJbEFZcjFlYTU2anA0N1B6SDZoMXpPbi9W?=
+ =?utf-8?B?WTdKZ1J2bnhzcGNEMFV6VUhuYXJvL2E4b1hpOUd6bFRsZWdOczlPV0lYdHNE?=
+ =?utf-8?B?UlMxYlBsd3kwcUlpQTU3Zm10VGhQbVJBTkNSakJVMDlpdUYwMSt1cnJVTGVq?=
+ =?utf-8?B?VUl2TUNmOGpiY0JqZDIxREMwREc0UGtOWGhsZUdwUDQwdGIraFk1TkVxWkkr?=
+ =?utf-8?B?WWx6aStyVTdiT21sSHhUdHgvZkc3K0wrOHd1QWIrTnBPazNzSHhvVVFKRzZL?=
+ =?utf-8?B?b1pZRXJXZmhtZExSSElQQ1lOZTVIYlVoWVJGcW95c0hURnVKb2hQN0pXRkpW?=
+ =?utf-8?B?QkdDTUtnVFF6cVdyVFNiTFV3R3h4YVJpbC9PemZFa3Q0UXZiUEhKZC9XcVRT?=
+ =?utf-8?B?MzlXdEdjUksxdzcyVVhDVzZETHV6Nmp3S1FvaFA2azF4QzI4SjFQZ3NrZ3U4?=
+ =?utf-8?B?QzVlK1cxU3AyalF6MTZBZkJUQWpUQzlHOC9MSVFXSWZXS01MWnNDcmpCaXBI?=
+ =?utf-8?B?R1VZY0NndlpwWG9ob2tCUS96cFpkM016bk55Z0hFSTRKclhySDVqOW55SGZv?=
+ =?utf-8?B?YjhUNGxmcjJoMFNTL0NWUHdyK3A3N1NPQy9DRjg0N1pjZVd6ZDRSUGpiWjJ4?=
+ =?utf-8?B?WUJLOVFnS3pjaW91ZGFub0pwSmVTV0kzV0tjTm02K2lETU9ubFVpRy8yZGlw?=
+ =?utf-8?B?K0w0WDFKN1g2NFdzTDk2eHBXcVNHY0RCc3RyTUFlbmdVN2F3a0dCc0JaRjhj?=
+ =?utf-8?B?UDRMUU9BNWdJV0ZaRUs3LzJvelRka0RjeFoxRVkwR0Q0RGNmMHJzcmtvUzVU?=
+ =?utf-8?B?SjA1ZGczQnBqczl3NXgyaGs3eHk5SngvVzFER3hIbGlKVGI4TGo4bmVXZmxR?=
+ =?utf-8?B?UG0rekdBTVZ0VDByemx3aHRGcWhOZHZJNjVrOTNKZDdMeU5qeDhIRTFaZG1F?=
+ =?utf-8?Q?y9gYb5VGLnY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5438.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkRSbXhoWVladlMybmxNdmFFSHE0U1JXNUg1eU91elg0OGhOT25pNzdKVHhG?=
+ =?utf-8?B?K3Q5NS9Ma21qSzRpbUw3MHlISkJTK2xSOEJkbWF0YW1kS3hhQld4VWdVM2JY?=
+ =?utf-8?B?bEtKdFVrVjhFd3V0WVRwRmRhYmswZmh0WlNtTjF6QzZXZ1Nxd3ZES0VtNm5M?=
+ =?utf-8?B?WWpnZm9qNnBoMkVnTUNNajNYNXd0UWllYWpFVjRkSWJQbWkwTVFuRUFMMkI0?=
+ =?utf-8?B?TEVtRWllUHhqYWMvVUtoUUJ6UUh4YkhsTmF6Ry9LV1JGTXNQZmJBbUUxOHJp?=
+ =?utf-8?B?ZWc0YXMxekpoQ1JtNS9xdU5EN2R6MUZqMnBjaHhNR253QmhXWmV6WHROSndW?=
+ =?utf-8?B?V1F5MDNjTTRNZms5Z0RZUzN0c3dkb2hsQ3FqSXdLaFJGTnE2NDRNOTVPVEpt?=
+ =?utf-8?B?RGYrZkpqOFVnZzRaVTJWYjNPcG9BTVBFYjAwSDlWRTdhcTFnNHZsaHA1anN2?=
+ =?utf-8?B?b3BRUVBjVGpuMm12QVlpNG1pVUJoaG9mNllwa1IyUzBHdnFuRVJXbzE2WHhr?=
+ =?utf-8?B?WTZUU2MwU2pWMUFyd2JVU1kwOFJseUNxN0ZMZEdHalV0Umo2S21PdnNmY2t4?=
+ =?utf-8?B?VXFCbkVQN0dFZ3plZTZ1cUh4b0dRNk5iUnAxV0RueXc2S2ErWFZUbDVjc3cy?=
+ =?utf-8?B?cFp3aDE2dEFwSVZTNjdMNHRyQTRUL0dMNnNaSklsV1hIVmZvV1FjYnZnMWxn?=
+ =?utf-8?B?SndmRTFjRnEzRk5kcjZHREdKVEhycFpxYWsvSXBQZWErMVJMQTJ5QWNzRW9J?=
+ =?utf-8?B?M29Qc2pNTVpyTWJ3QS9JUk1ZN0liK3B1cTVUZzZYVDhsVjhhdjdmL1l5VnVj?=
+ =?utf-8?B?K0g4S0NLTElrVStpTUtMMFZFOXVSNTNxUkEwM2hxS2FNcm5yV09kbmNtaTZr?=
+ =?utf-8?B?T0U5U2ZLMHYxY3VOdkhWcEJTZHN3V0lhVjQ0c3ZCUkpKVnlZOTA5WTAzQll6?=
+ =?utf-8?B?dTRpVUlKeGg4M3VEb2ZqbUNEU2RyL0FkVEFUbWpLTkJpbTIvR2RzR05OKzV3?=
+ =?utf-8?B?ZGg1c0ZQV0lvVFIyYlRDUVpqSUtMZ2thM0pGNmNKbTE1cUV2YXBKdzJ2OHNv?=
+ =?utf-8?B?YTRDYyt3RGZ5VnJobithQlBtNUJId1NhOGFNZGZaRHIrYTdiY2l1bUNpNFcv?=
+ =?utf-8?B?ZTUvOTJ1NHEwTExKN3YxZEM1ek1meHZXNlFkaS9MeU13cmZFOUhVL0ZBS3dM?=
+ =?utf-8?B?Y3M1ajRrVHpseHcxNEdLU2dROEVNdEczRlRGY2RUQ3Z1MHdZbEQvVzd2TWww?=
+ =?utf-8?B?bkJqSDV6NlRoZEs5c253dHFnNG9HRWdMcGZDZitobityeXNpbEphdFNTeXlK?=
+ =?utf-8?B?NEl5VnlzdEthenpDQ2xxQ0lDT0pSVngvL1N4Vno5MGMyY2tDczhxc250N3d2?=
+ =?utf-8?B?Qk50UjdEWGxrVERJc1hzb0RKL3huazJhRUYrMzdqSUtTbmlqZ3FEb2I2Y2l3?=
+ =?utf-8?B?UXcxNm44WkVNUTJ1S0pycUJDaWxjY1JCdzNjbXpLcFdLKzZsdmVKN1YwRHky?=
+ =?utf-8?B?c0tGL0NTL1NZSFEvRGY1QlRJS2RqYjJzSnZoRzJyUnFSbk92aVFJa3dvZ0o4?=
+ =?utf-8?B?aThKbFlUblBNd0hQcGRkMENTL0FFMGtCc2xITWl6NGZ4UEpYVFRsZG9VMy9z?=
+ =?utf-8?B?SVp5NnBNdmhWTmhNbndET09DeVIxM21yTWpRSkxkbXFGRlFpVlFhRTdCOTIv?=
+ =?utf-8?B?YlNqbFhNdzg3RStTZCtnWGpTRnMxeWZEdytuQmNHSnpBRlRGcWg1ck5OQ2ZS?=
+ =?utf-8?B?NjhXdkJIZE8xR09neEJXbDE0OVBkR3hXRG5hN3E2WkNHZXJYeG1VMlNuY1lT?=
+ =?utf-8?B?MnJiZWkwWnhvZk1CRzJmUXU0VERHU1Qrc2pXRWJXSVh6YnAvU0tocWNKQVFy?=
+ =?utf-8?B?cmNEdytPKy9CamJBQkdFYkUwSnpaeGkrTmN4WFZGSmZDN3BzL1kzajFIbVJE?=
+ =?utf-8?B?K0NnbnlQYURFZi80bFJ6L0R6Y1ZzRUFnTHVGdWdtaWdSdm9NSVptbU5FL05G?=
+ =?utf-8?B?dGhtZkx1OHhjK0NKa0xscTB5SW5FL2xRNGFvY216UzZ1TFNwbnZYNU5YSWNX?=
+ =?utf-8?B?RitPTGRsVGlRQmZINm9CbEdsdWkzUnhBZTJCNzQrUkZQRTU3RkxvcUpLcVAx?=
+ =?utf-8?Q?g5GXf4BfkHOHMJZ0baLHDwDJ1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94526576-04f6-41ef-9a20-08dd989c3d71
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5438.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 19:18:17.2308 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mrzrR94zGWzreOAfbd9w3ZeaFmriL2twddQrOBmShDZgcQSJAhDoSE7TPaCfBo9OlrpKp6LxMPRhWZ+Q6x5JuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6469
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,377 +176,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
-
-On Wed, 21 May 2025 07:43:08 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
-
-> Hi Hugo,
-> 
-> Thanks for the patch.
-> 
-> For some reason, your cover letter is not showing link to this patch
-> [1] https://lore.kernel.org/all/20250520164034.3453315-1-hugo@hugovil.com/
-
-My server had problems, and only sent the cover letter, forcing me to
-manually send the two remaining patches thinking it would be ok :)
-
-> 
-> > -----Original Message-----
-> > From: Hugo Villeneuve <hugo@hugovil.com>
-> > Sent: 20 May 2025 18:11
-> > Subject: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
-> 
-> rcar-du->rz-du
-
-Yes, and other commits use "drm: renesas: rz-du:", so I will change it
-to this prefix.
 
 
-> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > 
-> > Add support for sending MIPI DSI command packets from the host to a peripheral. This is required for
-> > panels that need configuration before they accept video data.
-> > 
-> > Based on Renesas Linux kernel v5.10 repos [1].
+On 2025-05-20 16:13, Harry Wentland wrote:
 > 
-> > 
-> > Link: https://github.com/renesas-rz/rz_linux-cip.git
-> > Cc: Biju Das <biju.das.jz@bp.renesas.com>
-> > Cc: Chris Brandt <chris.brandt@renesas.com>
-> > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > ---
-> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 174 ++++++++++++++++++
-> >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  56 ++++++
-> >  2 files changed, 230 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-
-> > du/rzg2l_mipi_dsi.c
-> > index dc6ab012cdb69..77d3a31ff8e35 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >  #include <linux/clk.h>
-> >  #include <linux/delay.h>
-> > +#include <linux/dma-mapping.h>
-> >  #include <linux/io.h>
-> >  #include <linux/iopoll.h>
-> >  #include <linux/module.h>
-> > @@ -23,9 +24,12 @@
-> >  #include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> >  #include <drm/drm_probe_helper.h>
-> > +#include <video/mipi_display.h>
-> > 
-> >  #include "rzg2l_mipi_dsi_regs.h"
-> > 
-> > +#define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
-> > +
-> >  struct rzg2l_mipi_dsi {
-> >  	struct device *dev;
-> >  	void __iomem *mmio;
-> > @@ -44,6 +48,10 @@ struct rzg2l_mipi_dsi {
-> >  	unsigned int num_data_lanes;
-> >  	unsigned int lanes;
-> >  	unsigned long mode_flags;
-> > +
-> > +	/* DCS buffer pointers when using external memory. */
-> > +	dma_addr_t dcs_buf_phys;
-> > +	u8 *dcs_buf_virt;
-> >  };
-> > 
-> >  static inline struct rzg2l_mipi_dsi *
-> > @@ -651,9 +659,168 @@ static int rzg2l_mipi_dsi_host_detach(struct mipi_dsi_host *host,
-> >  	return 0;
-> >  }
-> > 
-> > +static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
-> > +					    const struct mipi_dsi_msg *msg) {
-> > +	u8 *msg_rx = msg->rx_buf;
-> > +	u16 size;
-> > +	u8 datatype;
-> > +	u32 result;
 > 
-> Please arrange the variables in reverse xmas tree fashion.
-
-Ok.
-
-  
-> > +
-> > +	result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
-> > +	if (result & RXRSS0R_RXPKTDFAIL) {
-> > +		dev_err(dsi->dev, "packet rx data did not save correctly\n");
-> > +		return -EPROTO;
-> > +	}
-> > +
-> > +	if (result & RXRSS0R_RXFAIL) {
-> > +		dev_err(dsi->dev, "packet rx failure\n");
-> > +		return -EPROTO;
-> > +	}
-> > +
-> > +	if (!(result & RXRSS0R_RXSUC))
-> > +		return -EPROTO;
-> > +
-> > +	datatype = FIELD_GET(RXRSS0R_DT, result);
-> > +
-> > +	switch (datatype) {
-> > +	case 0:
-> > +		dev_dbg(dsi->dev, "ACK\n");
-> > +		return 0;
-> > +	case MIPI_DSI_RX_END_OF_TRANSMISSION:
-> > +		dev_dbg(dsi->dev, "EoTp\n");
-> > +		return 0;
-> > +	case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
-> > +		dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
-> > +			(u8)FIELD_GET(RXRSS0R_DATA1, result),
-> > +			(u8)FIELD_GET(RXRSS0R_DATA0, result));
-> > +		return 0;
-> > +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
-> > +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
-> > +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
-> > +		return 1;
-> > +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
-> > +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
-> > +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
-> > +		msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
-> > +		return 2;
-> > +	case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
-> > +	case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
-> > +		size = FIELD_GET(RXRSS0R_WC, result);
-> > +
-> > +		if (size > msg->rx_len) {
-> > +			dev_err(dsi->dev, "rx buffer too small");
-> > +			return -ENOSPC;
-> > +		}
-> > +
-> > +		memcpy(msg_rx, dsi->dcs_buf_virt, size);
-> > +		return size;
-> > +	default:
-> > +		dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
-> > +		return -EPROTO;
-> > +	}
-> > +}
-> > +
-> > +static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-> > +					    const struct mipi_dsi_msg *msg) {
-> > +	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
-> > +	struct mipi_dsi_packet packet;
-> > +	bool need_bta;
-> > +	u32 value;
-> > +	int ret;
-> > +
-> > +	ret = mipi_dsi_create_packet(&packet, msg);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	/* Terminate operation after this descriptor is finished */
-> > +	value = SQCH0DSC0AR_NXACT_TERM;
-> > +
-> > +	if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-> > +		need_bta = true; /* Message with explicitly requested ACK */
-> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
-> > +	} else if (msg->rx_buf && msg->rx_len > 0) {
-> > +		need_bta = true; /* Read request */
-> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
-> > +	} else {
-> > +		need_bta = false;
-> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
-> > +	}
-> > +
-> > +	/* Set transmission speed */
-> > +	if (msg->flags & MIPI_DSI_MSG_USE_LPM)
-> > +		value |= SQCH0DSC0AR_SPD_LOW;
-> > +	else
-> > +		value |= SQCH0DSC0AR_SPD_HIGH;
-> > +
-> > +	/* Write TX packet header */
-> > +	value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
-> > +		FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
-> > +		FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
-> > +
-> > +	if (mipi_dsi_packet_format_is_long(msg->type)) {
-> > +		value |= SQCH0DSC0AR_FMT_LONG;
-> > +
-> > +		if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
-> > +			dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
-> > +				(unsigned int)packet.payload_length);
-> > +			return -ENOSPC;
-> > +		}
-> > +
-> > +		/* Copy TX packet payload data to memory space */
-> > +		memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
-> > +	} else {
-> > +		value |= SQCH0DSC0AR_FMT_SHORT;
-> > +	}
-> > +
-> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
-> > +
-> > +	/*
-> > +	 * Write: specify payload data source location, only used for
-> > +	 *        long packet.
-> > +	 * Read:  specify payload data storage location of response
-> > +	 *        packet. Note: a read packet is always a short packet.
-> > +	 *        If the response packet is a short packet or a long packet
-> > +	 *        with WC = 0 (no payload), DTSEL is meaningless.
-> > +	 */
-> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR,
-> > +SQCH0DSC0BR_DTSEL_MEM_SPACE);
-> > +
-> > +	/*
-> > +	 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
-> > +	 * Read: set Rx result save slot number to 0 (ACTCODE).
-> > +	 */
-> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
-> > +
-> > +	/* Set rx/tx payload data address, only relevant for long packet. */
-> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
-> > +
-> > +	/* Start sequence 0 operation */
-> > +	value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
-> > +	value |= SQCH0SET0R_START;
-> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
-> > +
-> > +	/* Wait for operation to finish */
-> > +	ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
-> > +				value, value & SQCH0SR_ADESFIN,
-> > +				2000, 20000, false, dsi, SQCH0SR);
-> > +	if (ret == 0) {
-> > +		/* Success: clear status bit */
-> > +		rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
-> > +
-> > +		if (need_bta)
-> > +			ret = rzg2l_mipi_dsi_read_response(dsi, msg);
-> > +		else
-> > +			ret = packet.payload_length;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static const struct mipi_dsi_host_ops rzg2l_mipi_dsi_host_ops = {
-> >  	.attach = rzg2l_mipi_dsi_host_attach,
-> >  	.detach = rzg2l_mipi_dsi_host_detach,
-> > +	.transfer = rzg2l_mipi_dsi_host_transfer,
-> >  };
-> > 
-> >  /* -----------------------------------------------------------------------------
-> > @@ -771,6 +938,11 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
-> >  	if (ret < 0)
-> >  		goto err_pm_disable;
-> > 
-> > +	dsi->dcs_buf_virt = dma_alloc_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE,
-> > +					       &dsi->dcs_buf_phys, GFP_KERNEL);
-> > +	if (!dsi->dcs_buf_virt)
-> > +		return -ENOMEM;
-> > +
-> >  	return 0;
-> > 
-> >  err_phy:
-> > @@ -785,6 +957,8 @@ static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)  {
-> >  	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
-> > 
-> > +	dma_free_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE, dsi->dcs_buf_virt,
-> > +			  dsi->dcs_buf_phys);
-> >  	mipi_dsi_host_unregister(&dsi->host);
-> >  	pm_runtime_disable(&pdev->dev);
-> >  }
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-
-> > du/rzg2l_mipi_dsi_regs.h
-> > index 1dbc16ec64a4b..33cd669bc74b1 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> > @@ -81,6 +81,16 @@
-> >  #define RSTSR_SWRSTLP			(1 << 1)
-> >  #define RSTSR_SWRSTHS			(1 << 0)
-> > 
-> > +/* Rx Result Save Slot 0 Register */
-> > +#define RXRSS0R				0x240
-> > +#define RXRSS0R_RXPKTDFAIL		BIT(28)
-> > +#define RXRSS0R_RXFAIL			BIT(27)
-> > +#define RXRSS0R_RXSUC			BIT(25)
-> > +#define RXRSS0R_DT			GENMASK(21, 16)
-> > +#define RXRSS0R_DATA1			GENMASK(15, 8)
-> > +#define RXRSS0R_DATA0			GENMASK(7, 0)
-> > +#define RXRSS0R_WC			GENMASK(15, 0) /* Word count for long packet. */
-> > +
-> >  /* Clock Lane Stop Time Set Register */
-> >  #define CLSTPTSETR			0x314
-> >  #define CLSTPTSETR_CLKKPT(x)		((x) << 24)
-> > @@ -148,4 +158,50 @@
-> >  #define VICH1HPSETR_HFP(x)		(((x) & 0x1fff) << 16)
-> >  #define VICH1HPSETR_HBP(x)		(((x) & 0x1fff) << 0)
-> > 
-> > +/* Sequence Channel 0 Set 0 Register */
-> > +#define SQCH0SET0R			0x5c0
-> > +#define SQCH0SET0R_START		BIT(0)
-> > +
-> > +/* Sequence Channel 0 Set 1 Register */
-> > +#define SQCH0SET1R			0x5c4
+> On 2025-05-19 19:43, Simon Ser wrote:
+>> On Sunday, May 18th, 2025 at 00:32, Xaver Hugl <xaver.hugl@gmail.com> wrote:
+>>
+>>>> We can always make the property mutable on drivers that support it in
+>>>
+>>>> the future, much like the zpos property. I think we should keep it
+>>>> immutable for now.
+>>>
+>>> Sure, but I don't see any reason for immutability with an enum
+>>> property - it can just limit the possible values to what it supports,
+>>> and that can be only one value. Either way, it's not a big issue.
+>>
+>> Immutability is a clear indication that a property has a fixed read-only
+>> value which can't be switched by user-space. That's also the pattern
+>> used everywhere in the KMS uAPI, so I think it's better to remain
+>> consistent here.
 > 
-> Unused. Drop it.
-
-Ok, will remove all unused macros.
-
-> 
-> > +
-> > +/* Sequence Channel 0 Status Register */
-> > +#define SQCH0SR				0x5d0
-> > +#define SQCH0SR_RUNNING			BIT(2)
-> Unused
-> 
-> > +#define SQCH0SR_ADESFIN			BIT(8)
-> > +
-> > +/* Sequence Channel 0 Status Clear Register */
-> > +#define SQCH0SCR			0x5d4
-> > +#define SQCH0SCR_ADESFIN		BIT(8)
-> > +
-> > +/* Sequence Channel 0 Descriptor 0-A Register */
-> > +#define SQCH0DSC0AR			0x780
-> > +#define SQCH0DSC0AR_NXACT_TERM		0
-> > +#define SQCH0DSC0AR_NXACT_OPER		BIT(28)
-> Unused
-> 
-> > +#define SQCH0DSC0AR_BTA			GENMASK(27, 26)
-> > +#define SQCH0DSC0AR_BTA_NONE		0
-> > +#define SQCH0DSC0AR_BTA_NON_READ	1
-> > +#define SQCH0DSC0AR_BTA_READ		2
-> > +#define SQCH0DSC0AR_BTA_ONLY		3
-> > +#define SQCH0DSC0AR_SPD_HIGH		0
-> > +#define SQCH0DSC0AR_SPD_LOW		BIT(25)
-> > +#define SQCH0DSC0AR_FMT_SHORT		0
-> > +#define SQCH0DSC0AR_FMT_LONG		BIT(24)
-> > +#define SQCH0DSC0AR_DT			GENMASK(21, 16)
-> > +#define SQCH0DSC0AR_DATA1		GENMASK(15, 8)
-> > +#define SQCH0DSC0AR_DATA0		GENMASK(7, 0)
-> > +
-> > +/* Sequence Channel 0 Descriptor 0-B Register */
-> > +#define SQCH0DSC0BR			0x784
-> > +#define SQCH0DSC0BR_DTSEL_PAYLOAD_DR	0	/* Use packet payload data register */
-> Unused
-> 
-> > +#define SQCH0DSC0BR_DTSEL_MEM_SPACE	BIT(24)	/* Use external memory */
-> > +
-> > +/* Sequence Channel 0 Descriptor 0-C Register */
-> > +#define SQCH0DSC0CR			0x788
-> > +#define SQCH0DSC0CR_FINACT		BIT(0)
-> > +#define SQCH0DSC0CR_AUXOP		BIT(22)
-> Unused
-> 
-> > +
-> > +/* Sequence Channel 0 Descriptor 0-D Register */
-> > +#define SQCH0DSC0DR			0x78c
-> > +
-> 
-> Cheers,
-> Biju
-> 
-> >  #endif /* __RZG2L_MIPI_DSI_REGS_H__ */
-> > --
-> > 2.39.5
-> 
+> I was envisioning this to be a driver-caps thing, but I agree
+> if we make this mutable it can still serve that function but with
+> different/future HW possibly support other interpolation schemes.
 > 
 
+Would changing this enum property from IMMUTABLE to MUTABLE
+in the future (for drivers that support multiple types) break
+any userspace that assumes IMMUTABLE?
 
--- 
-Hugo Villeneuve
+If not, maybe it's best to leave it IMMUTABLE now and change
+it only in the future if needed.
+
+Harry
+
+> Harry
+
