@@ -2,117 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA6ABF912
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 17:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA56ABF90B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 17:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA0B18AF85;
-	Wed, 21 May 2025 15:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F4D18B111;
+	Wed, 21 May 2025 15:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="PiMrmf1h";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UiV707An";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
- Wed, 21 May 2025 15:19:42 UTC
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B3A10F171
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 15:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1747840776; x=1748445576; i=markus.elfring@web.de;
- bh=C5LycQNaw8orMGc+wS8N/VpLe9ZnVwajk9V2DYFxJTI=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=PiMrmf1hAR8cSPEVvagODUWe42rDW1+UkXZEbmSPUS2W4X3F61C9Qlp1WZh0c8nd
- ANOvhxObZLaeO5WLipnudmZMjQDmBHbHTFZzBCtAztw3YuI5HbwE1oXfKb2jK5Vfj
- NFQB8Cv/ZwuRtKiuDBsLQwS2owDfq3dVXSS6o8CD0T+KFPWTKl55FLADWiagudu4G
- DBZgSe9Gs9N3ohEPleq3+NwH7vbBThN3GG4R6Ib4xMq7zcSNYV+dyxbyfVOZA2cC+
- +LxiMnhaM8A8qNco21LB+/b6VGGujYoSMgh5UiqamoXVb7Q473xAtaWYF/xKEccPH
- PNT+FSUL7mviANdUww==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.179]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQxo5-1ucsWE39cN-00KZz5; Wed, 21
- May 2025 17:13:05 +0200
-Message-ID: <94b0548b-e48a-4bff-8611-116ed89baec3@web.de>
-Date: Wed, 21 May 2025 17:13:00 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F16318B0F6;
+ Wed, 21 May 2025 15:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CvdYKerDHmNMlOHDfBEif1LCoHW5CK6Ve9E47JRA324=; b=UiV707Anfw4FxyUfIIfSuvfglL
+ JSMS9Aus6VK/4DKu9DCBDGzY77I7IpWQTY6mr4faSyyCl46m+5E6rzj4twy8m2pdKy3KsQPvK0QX/
+ p/BJWyplWiHjbCHgg2Hby8t4x5qCkbx2hmPVgc5V8v9lv7K4Fe6RBuVuKYMuEshjyjO+t0wXm6oJB
+ 9zOscoSKevURZBW+VVIR0iLPH1UTLVdLAf5PFPI9B9xuREOHo5I1zM1xMB0nUsDoFx1La2rcu8yq9
+ WumBS8h76eo8tetfe9WEVz+MuSwKB2E4I2krFOPI6SnJJVguGCXGEL6lLV8AxjJejMpHFf/3TkxKk
+ TpeeXeYg==;
+Received: from [191.204.192.64] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uHlCg-00BGaE-Qz; Wed, 21 May 2025 17:17:59 +0200
+Message-ID: <39acb89b-c376-4e12-aa86-2b78e8842334@igalia.com>
+Date: Wed, 21 May 2025 12:17:53 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Anusha Srivatsa <asrivats@redhat.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Guido_G=C3=BCnther?=
- <agx@sigxcpu.org>, Icenowy Zheng <icenowy@aosc.io>,
- Jagan Teki <jagan@amarulasolutions.com>, Jagan Teki <jagan@edgeble.ai>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jianhua Lu <lujianhua000@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Michael Walle <mwalle@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>,
- Simona Vetter <simona@ffwll.ch>, Stefan Mavrodiev <stefan@olimex.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel@puri.sm
-References: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
-Subject: Re: [PATCH v3 00/30] drm/panel: Use refcounted allocation in place of
- devm_kzalloc() - Part2
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250520-drivers-mass-convert-part2-v3-0-f7ae7b723c68@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pIYsPsnqjhlvG+MZMM0Mt09AD7/edQVHm6fNlQ92k7YSphn40AE
- i7RgsJ6NvjGconXxuFxsFv4cFK24I3XoN9L/gpGWxB7xusG8UyvRfsWi2tr0jCU1OUGKi5C
- JA4M6/RvXaVkpcFc88WiEKre6WqRMbZCSVcR3TLxscVWmTpZ8Ees2yTWsjdoA7mG+Vkwoea
- JiF3vxSLKyt1FJHiCDZNA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ondSsjl1MiI=;Jdukn4AZBw5zT55Zk54PUYa00ZA
- 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
- UYWI=
+Subject: Re: [PATCH v5 1/3] drm: Create a task info option for wedge events
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ siqueira@igalia.com, airlied@gmail.com, simona@ffwll.ch,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20250520163243.328746-1-andrealmeid@igalia.com>
+ <20250520163243.328746-2-andrealmeid@igalia.com>
+ <aC2Yq89IL5tx8MY3@black.fi.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <aC2Yq89IL5tx8MY3@black.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,55 +70,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> There are a lot of occurences of the panel allocation across the
-> subsystem. Much thanks to Maxime for the semanic patch which actually
-> gives a list of panels allocated unsafely.
+Em 21/05/2025 06:11, Raag Jadav escreveu:
+> On Tue, May 20, 2025 at 01:32:41PM -0300, André Almeida wrote:
+>> When a device get wedged, it might be caused by a guilty application.
+>> For userspace, knowing which task was the cause can be useful for some
+>> situations, like for implementing a policy, logs or for giving a chance
+>> for the compositor to let the user know what task caused the problem.
+>> This is an optional argument, when the task info is not available, the
+>> PID and TASK string won't appear in the event string.
+>>
+>> Sometimes just the PID isn't enough giving that the task might be already
+>> dead by the time userspace will try to check what was this PID's name,
+>> so to make the life easier also notify what's the task's name in the user
+>> event.
+> 
+> ...
+> 
+>> -int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
+>> +int drm_dev_wedged_event(struct drm_device *dev, unsigned long method,
+>> +			 struct drm_wedge_task_info *info)
+>>   {
+>>   	const char *recovery = NULL;
+>>   	unsigned int len, opt;
+>> -	/* Event string length up to 28+ characters with available methods */
+>> -	char event_string[32];
+>> -	char *envp[] = { event_string, NULL };
+>> +	char event_string[WEDGE_STR_LEN], pid_string[PID_LEN] = "", comm_string[TASK_COMM_LEN] = "";
+>> +	char *envp[] = { event_string, NULL, NULL, NULL };
+>>   
+>>   	len = scnprintf(event_string, sizeof(event_string), "%s", "WEDGED=");
+>>   
+>> @@ -582,6 +586,13 @@ int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
+>>   	drm_info(dev, "device wedged, %s\n", method == DRM_WEDGE_RECOVERY_NONE ?
+>>   		 "but recovered through reset" : "needs recovery");
+>>   
+>> +	if (info && ((info->comm && info->comm[0] != '\0'))) {
+> 
+> Thanks for adding this. Should we check if pid > 0?
+> 
 
-I imagine that the shown SmPL code can be improved another bit
-(like the following).
+Ack, added this for the v6.
 
+> Also, I was wondering what if the driver only has info on one of the
+> given members? Should we allow it to be flagged independently?
 
-@find_add@
-identifier add_f, b, c;
-type T;
-@@
- add_f(...)
- {
- ... when any
- T *c;
- ... when any
- drm_panel_add(&c->b);
- ... when any
- }
+I think we can allow it, but for now I would say that we can wait for a 
+driver that works like that to settle that.
 
-@find_allocation@
-identifier alloc_f, cal;
-position p;
-type find_add.T;
-@@
- alloc_f(...)
- {
- ... when any
- T *cal;
- ... when any
- cal =3D
-(      kzalloc
-|      devm_kzalloc
-)(...)@p;
- ... when any
- }
+> 
+>> +		snprintf(pid_string, sizeof(pid_string), "PID=%u", info->pid);
+>> +		snprintf(comm_string, sizeof(comm_string), "TASK=%s", info->comm);
+>> +		envp[1] = pid_string;
+>> +		envp[2] = comm_string;
+>> +	}
+>> +
+>>   	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+>>   }
+>>   EXPORT_SYMBOL(drm_dev_wedged_event);
+> 
+> ...
+> 
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index e2f894f1b90a..c13fe85210f2 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -30,6 +30,14 @@ struct pci_controller;
+>>   #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
+>>   #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
+>>   
+>> +/**
+>> + * struct drm_wedge_task_info - information about the guilty app of a wedge dev
+> 
+> s/app/task, missed an instance ;)
+> 
+>> + */
+>> +struct drm_wedge_task_info {
+>> +	pid_t pid;
+>> +	char *comm;
+>> +};
+> 
+> Raag
+> _______________________________________________
+> Kernel-dev mailing list -- kernel-dev@igalia.com
+> To unsubscribe send an email to kernel-dev-leave@igalia.com
 
-@script:python@
-add_f << find_add.add_f;
-alloc_f << find_allocation.alloc_f;
-alloc_p << find_allocation.p;
-@@
-coccilib.report.print_report(alloc_p[0],
-                             "ERROR: Panel driver is unsafely allocated in=
- %s and added in %s"
-                             % (alloc_f, add_f))
-
-
-Regards,
-Markus
