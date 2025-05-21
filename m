@@ -2,65 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16F9ABED26
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 09:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FFCABED28
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 09:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6EF10E69D;
-	Wed, 21 May 2025 07:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66B310E69F;
+	Wed, 21 May 2025 07:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="FKikR/vx";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1BSd2bJp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E89A10E69D;
- Wed, 21 May 2025 07:35:09 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4b2NVb2z3rz9sl8;
- Wed, 21 May 2025 09:35:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1747812903; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6NY0zoUUPANEqEDkUiizEzoJ+FxJPoDDMffZIzxI7P0=;
- b=FKikR/vx4FERbwsA7/A2o2fAGljiiQfaAZ9C6G+CgvBxwZJ8FiIcgK5WJczcbzhF8xgJf4
- YBhCBZsVO85ljSgkP0EkykVZ1PVaEmFXTqNfFmPPhkvxbIEFdKQySEyy0jWa3D+zgkMyDD
- o4UsEzLLVV0FUjBHmH52zVu6AWLe9Dlwhj4AFvqAeyd8W7Pm95HvsaQ0Cq09rGeAirk+kZ
- CiB6foBUSgOFvpcseVU4WTvUdoT0sRAEwjZctxdWIuCbvr3vdItxvBGVKn70559k5vG/Bw
- brfDNg358aQF3FQK88fXnU1ZTm/2XfjHI47+RKajeN5cja1ioAof+41W2UByCw==
-Message-ID: <a7b30c595fffd63a5558226a9c372e503fea22d0.camel@mailbox.org>
-Subject: Re: [PATCH 1/3] drm/sched: add drm_sched_prealloc_dependency_slots v3
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tursulin@ursulin.net>, phasta@kernel.org, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, dakr@kernel.org, 
- amd-gfx@lists.freedesktop.org
-Date: Wed, 21 May 2025 09:35:00 +0200
-In-Reply-To: <8b975d5f-eafd-4b25-8629-69fd71dcd4d9@ursulin.net>
-References: <20250515150038.4615-1-christian.koenig@amd.com>
- <20250515150038.4615-2-christian.koenig@amd.com>
- <a5e53b34-c247-4193-b4ab-551693ad089a@ursulin.net>
- <5c93f114a58e84796f239b9e0f4a13e9c223e45b.camel@mailbox.org>
- <6e5ab077-77ff-443b-b345-7d99fcd01a73@ursulin.net>
- <6a361f21-1ba2-4084-b85c-0db30c9b01cc@ursulin.net>
- <fc617b712c5937c02be89f7ba068ce0de1512027.camel@mailbox.org>
- <01cce810-7303-4c92-b138-d8a647f3dcee@ursulin.net>
- <a36fdcf31fa0ca7d9e1a24f60ba4c5bf78c7ae87.camel@mailbox.org>
- <da8cfddf-6cb9-4ddd-9345-16d065663d4b@ursulin.net>
- <25363de0e88f750fe70a7b7629113f93f12f47e7.camel@mailbox.org>
- <8b975d5f-eafd-4b25-8629-69fd71dcd4d9@ursulin.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2058.outbound.protection.outlook.com [40.107.100.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80A2210E69F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 07:35:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MFAgb/D2WpohGnljE22aT+nlBXF5FzpNs/q5ZTfT38u0Ebt+maK3Bl6V0IOGVqQAxKtT4eDwnbqbqiG6wnl7TbQcd5E5e+rGLay1Ccmke5XkMXI24CzsOBjYmF26KvnSkwL4/krn4wErtB06BmlNB8/b+Deh7HbPY6VkXauBnCvFhdra/BVroTtxvrcJaJ+YGQW9xNPxtW/a+ng9nBcJRDPzT9jUTFYytEv9LQqoQIJNnlHJPBpSaXff3+Vn7KDy8u1S7+nfDte2LEX0RSjOMVs/s5G01vQmpG2oO0yFQzxvV1Vx1ITQGCNECaIRH28EV17WJhndaXPdTZcgETdDtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WVayEbzVGL9QmUYMLfp6Ko64LfvzLHI4s2Ill8mpCmo=;
+ b=pJze0SfWXW/9ig8D7NLVw38ACEjwxZdvl7XaLCDzPoZj5d7fGZcAb9Io7S/g2bfzp2bwL0fkLixExlsyF85dmLKKknQrNriiJRXcis2fi/G5QsCh4izorwhJTsFP8PX8TPlqCHTCsv/3kka8D+hgkyhEY70SjLqr3nr6oIoOusKeHkrcAL33M2DPz5FDCzqhj8ORiWM/gI6zypLyA1mCD41OiD0E/6Zm0JqgsKmj1S69+SuzZnontEChM7MiWzdLA9Azi96LWQrcDDw0H+9uAONT6GaetgNi0srV2JLn6Jr66tycjgy08RMKcJRUMZR0DQvxSvEmtBX1PFwInDlP7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WVayEbzVGL9QmUYMLfp6Ko64LfvzLHI4s2Ill8mpCmo=;
+ b=1BSd2bJpUwKrDKz+ZW30sYhcmVE+SUmo+nOyWPloINdkhtFGFPwbMnFSOSiP0skEqM3VBPssqj26X6Y9FR5tk+FfUxz8Hwne16mabm2PZPLPHneqae6LS2dv6vGpspv+gj7gxOmiGN1imbTmv43uXM8aEZANVAPiSMMThypcN6E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB7319.namprd12.prod.outlook.com (2603:10b6:806:2b5::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Wed, 21 May
+ 2025 07:35:43 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 21 May 2025
+ 07:35:43 +0000
+Message-ID: <fdd7a11b-140c-40bd-a1c1-334d69256b92@amd.com>
+Date: Wed, 21 May 2025 09:35:34 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+To: wangtao <tao.wangtao@honor.com>, "T.J. Mercier" <tjmercier@google.com>
+Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "wangbintian(BintianWang)" <bintian.wang@honor.com>,
+ yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
+ hanfeng 00012985 <feng.han@honor.com>
+References: <20250513092803.2096-1-tao.wangtao@honor.com>
+ <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
+ <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+ <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
+ <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
+ <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
+ <2755aae2f1674b239569bf1acad765dc@honor.com>
+ <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
+ <a3f57102bc6e4588bc7659485feadbc1@honor.com>
+ <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
+ <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
+ <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
+ <38aa6cf19ce245578264aaa9062aa6dd@honor.com>
+ <CABdmKX0nAYDdgq-PHv0HxucfYQzvvTAJjVCo7nQ0UtjwcF02aQ@mail.gmail.com>
+ <7198873a044143c7be12f727b469649b@honor.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <7198873a044143c7be12f727b469649b@honor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0367.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-MBO-RS-ID: 4b2d89cee6a20845148
-X-MBO-RS-META: 53fafizi1hz1nxq3nho3js1iur6se3j9
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7319:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76806982-49ad-4a1c-c838-08dd983a17e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cFN6SEhvRnpxRTJGMWVTTDgrS3pBQ3VNVlhzR2x1NEJQVEE0UzRmYkVhQWsw?=
+ =?utf-8?B?aUljTjVOcWpmL0ZGbFVVV3JMWGp0dnBHaFRKZ2gxWkJVWVVPekFsUktxZ1k2?=
+ =?utf-8?B?NndlNmlSZ2dLVXhqRE5KUFJnNTh2SGZrRlh0QkdWL3VnZFV1TnhPQ2wyN1lK?=
+ =?utf-8?B?WEFxaFZsOGZsTS9lbG5XSnhUTXYzeEZKSnljY3ArbWwvck1NblQ1MWp1eHZX?=
+ =?utf-8?B?b3U0NjdBazg0UTBSNll0U3I4SHJtaS9ndU5zUDFUQlZVbHdESWU3MXNJWkEv?=
+ =?utf-8?B?MXJhejl2T0t4cXFKQ0pSSkJuNmZqcEdqaHUzcldCcndqQzNKWVVielpjV3J1?=
+ =?utf-8?B?WWlOY3c1ektOMVZDdFJIOUFvSFUwNHNKVFBidlRJTS9SNW5MMENBSmYrMGlo?=
+ =?utf-8?B?KytocEI0T25aLzNkUkZYbVhGOUl3eG5jbTlGUktLVVlCeHdlL3RheXV2YURH?=
+ =?utf-8?B?UTBnbGgzZ3ppSHBCaUJmVi9QWDdyV0JGd3pteHY0R3BmODcyN2RRZ2c5NGQv?=
+ =?utf-8?B?SUZUa2tUWmkySHBjd1gxM2RzUVRYaGZLLytSSDdlZ2JlcVlBMGVjL0dpV1Vt?=
+ =?utf-8?B?cURCUVQzTExuSVU2VWJySVgvWldBR1g5ZkhvenRmdG54MXdBSDJuaHBGKzEy?=
+ =?utf-8?B?ZDB6ZW45c0E5Z3NZTisxNDQ4V0w0cmxsVm1qb2M1NWVnM3FEWC9VdlEzNEJU?=
+ =?utf-8?B?blhFWWF4TW1UK3lOTXRyZkkxb3pRM2FtdG51eW9maVRtRUNId0ExMElZZCtR?=
+ =?utf-8?B?YWUwRkpvMDdzaVNsYUFMcUJkSWd4ZUhUYlZ1aHBhZUxnV2IvcjhaQVJxaG81?=
+ =?utf-8?B?OUJmY3RHY0JLVFUxM1VERzVrZTNCcUZRZzJ4dFhHT0JNWGF3aGUvZGJZL3BW?=
+ =?utf-8?B?YUtMeUpPRlRDMXF1K1VtOGVqaVQ1ZFRwcjhoTWxlc250Ni9yMVN1VnQzc1cr?=
+ =?utf-8?B?bldDVkZTMk1UaHE4eVdObktHNmlIZy9weUYxa1VySDlrYUVSamNNWUkwQk5R?=
+ =?utf-8?B?UE55Y2N2Sm1FNVcrN3F3T3drcUw2VjVFTm9LVUwwYjE5VnBkUnVEU1l0ZVow?=
+ =?utf-8?B?NzFIWmJYTWR3ZjdtR2dqWEZYS1RiVEZJS0l2UFNoNW1Qejh3cmdDNUJBTHBz?=
+ =?utf-8?B?ZE9JcnB6b0Q3Vko5K2cyanl0S21mdEkrdkc0cWtBYitKTEgzQTFhWSt2VHYw?=
+ =?utf-8?B?bTFLeHFEcjVkcjMrRjNNZXFhL3FCS3BQWGh4VkI0b2JkcEhtWm5OK05XNTVX?=
+ =?utf-8?B?dDl6Ym80YXBtbjA5aG5TLy9UWVVjb1BWMWlyY3ROZ2ZOVnZja3VtNGFuN2V4?=
+ =?utf-8?B?OEw5MGs3Y2VORVBob3VMaGVGK2U0TFovaEo3ajAxRU1UcEJPVzA5eVV4bGs0?=
+ =?utf-8?B?NFpXa2Q4dkdzQWo5b2g0am0vRnh6aDVlc3Y4WE0wdWRWSXJSSHo1Z2p0RjZw?=
+ =?utf-8?B?U2V1bGNtN1h4VndWcVhVbGQ1WXg2TlJweEVKVEl2M1pHaVVpajByZGM0SEph?=
+ =?utf-8?B?QjZpZHRuOFVkVDBSaTZ6eVdvS2RMUTZvS213eHFxYTh0TXBoQlIrNUVKZU1i?=
+ =?utf-8?B?alFyMTJTNzk0UDV0TVRQSkRtaldZWWtYelF5ZGFMa0xoZ2I0ZmowNVNHZS9n?=
+ =?utf-8?B?Ry8rcTBxd2JFUndhVkdDdlV4eHM2bzVNeXNkaFkzVDZRc2JyRGJwaUh0YkdO?=
+ =?utf-8?B?VUN3UW1SbDJBbmUybjBCdHAwZmF6R1dBYS9kRzJFQVA0c1JrVEpvdkUxNUVE?=
+ =?utf-8?B?bWJ2SFkxNVc5NjVYNGJ5a2d4cWJWaGN4amZLakhPU3RlSlVpTDlYOFQwbnha?=
+ =?utf-8?B?OGNmTXJMUjB5RXRXWmtJK2QraTJna3IxOGMyUGZMTWQxMkFxNUNWQ0Nsb290?=
+ =?utf-8?B?dGVpV1RhOEZLc2lodmNISytVTFRROE5BU0RHS2NZY1BDczNwRVhVQklsNWFD?=
+ =?utf-8?Q?rr7dmZOpCng=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTFaeU1NZnFIYWtwZlVUbnBBV2dadnE5c3ZvTEtBdS9lWEVaSXhFMjVDcDBN?=
+ =?utf-8?B?V1Rsc3BWZmlDVHFwdy9MY3A4NnFpeG5NOFBWakhsS1FNcXBtY2Rmb2t3TjRS?=
+ =?utf-8?B?dTgxWmY4eWJuWjFHRmlEaWl3cUxDUXJUYlZDYnd5dVFCd29HYlE5RVdIaita?=
+ =?utf-8?B?ZTFsaUV4NjJVbTR1bzJqbUlFc2xITGNmdEZwclN0L2dCOTc4bTBMMmRrTDJD?=
+ =?utf-8?B?UmJzZ3RZdm5pblUzeFdKVEd6ekh6azBrbmh2ZzJXS2JRQW1XUkVrOGU0YmNo?=
+ =?utf-8?B?UnB6Mkt0K3ozOWI2MUliMUZUNnJ1Rzk3cm51VHFZL0VFNi9BcjBsUFdQUktr?=
+ =?utf-8?B?SDdZSXlOckkxbnVRa2h4VlluTjBoaVN3eGRtaVhRODEzREwyOXdETk1ycWV4?=
+ =?utf-8?B?R2xIblVqWTZqQjkwNzdxZVpFMzVmcXNyNTByY2UvWndnenRhL25jVWc5M2Ex?=
+ =?utf-8?B?MGFwYnd4dnVsdzM0VVVmTWJTZ29zZnNTT3BCb1VqbmhFKzc5VG5Fd1JreUpF?=
+ =?utf-8?B?QTJpRkNTd0ZlSjFvSDhvMUlheWd3bU9raTIycFFoT3hoWFdhN09Wa211anJk?=
+ =?utf-8?B?VStPcy9XQ2xZVGFydzZtYkp5VC9ZWlZVUDhiTTRmVm5NSElLbVpxall4cUpG?=
+ =?utf-8?B?RjJJcTBlQzVHL01XNzRhRDkrQlhrL3d3a2RBaVBMRUVQTmx6b0tzMms2cU5H?=
+ =?utf-8?B?NGd3Z3FFcG1qL3RsRlYwV09qN2dzMzN5bWw5eWtiR3d4V1Rwb0RxNWc2MHJz?=
+ =?utf-8?B?bFZ5MUdRbnRZWlpaQ2ZXZUIwNHJFOTBUaEVXSVU3elNBRlJKU3pGREJKU3J5?=
+ =?utf-8?B?dzZWcnBPUVlqVW92cytKbC8waHJEeXRMVEpNRVo0Z25BY3ZLU2NkUnVRSUh0?=
+ =?utf-8?B?Z2xVSUNNVmZXOEpoY3JrbnIvNDJoQmxwckZmMkhBbXREbXVkZUVtVjVaRitx?=
+ =?utf-8?B?OXNseTd5SDJxN0JNdUNSYWRGdGJkdFhYcUhKd0xrZzhUbDVyM3hMT0QrdjJ4?=
+ =?utf-8?B?Qi8yYS9xcXE2QTVZc0ZpU3lIbFdrd2F5cWZJNE9rK0xaSDZ6b09iMkNtKytF?=
+ =?utf-8?B?dm44QWhrd3FNcW5HTXRZSU9hKy9hVk1BMXdSdDRMQkhWYzJuNzhOL3Rza1BY?=
+ =?utf-8?B?UlJqenBZNy9FejZpUGJGSkdpOGhwUC9xcTlXdHBVTjVBNm4wMmlBV1ZzVGhC?=
+ =?utf-8?B?Q0oxYTNBeTdmdGtiakhObUU3NThEUkcxRTlnSDUzaTJNRTJvSGJOSGpibmY0?=
+ =?utf-8?B?cEtFamRnUkFHZXY5ZUtRRVNpNVVkblhOMVdlM00vNDdUTTVJa0V0MktqK1gr?=
+ =?utf-8?B?YmliV2wwbTZDQnBhalR0UDVDaUNqV0JEbURQaENQZEdQaUJBSHVVaFZ2akhE?=
+ =?utf-8?B?WWRiUUd6aFZKVkx4OFVGTnBuSXRwdG4xQVExV3FvQ3lyT21tUUtSaGhSdEto?=
+ =?utf-8?B?TmpwTnZsZ1B0N20wZkRzM2NrRG13VUZSd0k5YzZLRjdpOEF4SUVJS0NSL2R3?=
+ =?utf-8?B?dUVLSUFUT2RYYlpMcDgyTnAwK0d1M3RmL1RIWHFSZlozTHpZOXl6dkYvL3RI?=
+ =?utf-8?B?MlBaZ251eE1RQ0R1TU9ZZ041eS9COFhKc0pHVFQyYkR1dWl3OXdnMDJnamtQ?=
+ =?utf-8?B?K1hoM2U5YkZUSldVeTRkTFo2V2oyb0NZVzVNUkhCWVRLbVhtRFdGaDU1RVVu?=
+ =?utf-8?B?TDV4cjZYR1E1dFZHblhWV1JEOGRnK2VvMUlCVHA5S2FFc29ZTW9iVTF4eE9a?=
+ =?utf-8?B?UVBkTmhxV1JZWkVBVm1TOTUwdlcydXRHa0FsaTNYelFJTkxJRGZnNXdlRHFw?=
+ =?utf-8?B?VkJYUndSNjlaR2ZYVGxOSDFudE5OVmNzWFFFN2Q5d28zZFl3ZGZLOU5FVXpD?=
+ =?utf-8?B?K002eWxQZW5CVGtaTlhiNmU0d045NTZkZCtFQStVc05uRXk5Q0VVM1FRNXQx?=
+ =?utf-8?B?TzJZR0k0QzVtZllicUFLV2U1NjMvVWxpUVlOd3BtTkRSL0NxL3J4K2xKMUhr?=
+ =?utf-8?B?cm5sbWVweHBjRkpXaFN3Sno0VHJhb1A3cXhhVURhV0ltSFdnYWVFei9XSnB1?=
+ =?utf-8?B?S0d0SkRsbHh0aWR6OVNwTkI1V1JXUzRieXJ3TVhVbXhXaFVySU5WUjdKTW1a?=
+ =?utf-8?Q?CuwUd2wUY4pw0lpQFXu4eCtDJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76806982-49ad-4a1c-c838-08dd983a17e7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 07:35:43.5294 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i3aorFQWZy4m2slOVITzeScrC5NJdeHnV13gqle6T1qoW926WcB12u1YNAGLNEPg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7319
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,373 +183,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-05-20 at 17:15 +0100, Tvrtko Ursulin wrote:
->=20
-> On 19/05/2025 10:04, Philipp Stanner wrote:
-> > On Mon, 2025-05-19 at 09:51 +0100, Tvrtko Ursulin wrote:
-> > >=20
-> > > On 16/05/2025 18:16, Philipp Stanner wrote:
-> > > > On Fri, 2025-05-16 at 15:30 +0100, Tvrtko Ursulin wrote:
-> > > > >=20
-> > > > > On 16/05/2025 14:38, Philipp Stanner wrote:
-> > > > > > On Fri, 2025-05-16 at 13:10 +0100, Tvrtko Ursulin wrote:
-> > > > > > >=20
-> > > > > > > On 16/05/2025 12:53, Tvrtko Ursulin wrote:
-> > > > > > > >=20
-> > > > > > > >=20
-> >=20
-> > [snip]
-> >=20
-> > > > > > > > > > > +
-> > > > > > > > > > > +/**
-> > > > > > > > > > > + * drm_sched_job_add_prealloc_dep - add
-> > > > > > > > > > > dependency
-> > > > > > > > > > > to
-> > > > > > > > > > > preallocated
-> > > > > > > > > > > slot
-> > > > > > > > > > > + * @job: scheduler job where dependencies will
-> > > > > > > > > > > be
-> > > > > > > > > > > added
-> > > > > > > > > > > + * @id: the preallocated slot index
-> > > > > > > > > > > + * @fence: the dependency to add
-> > > > > > > > > > > + *
-> > > > > > > > > > > + * Consumes @fence and adds it to the
-> > > > > > > > > > > preallocated
-> > > > > > > > > > > slot
-> > > > > > > > > > > dependency.
-> > > > > > > > > > > + */
-> > > > > > > > > > > +void drm_sched_job_add_prealloc_dep(struct
-> > > > > > > > > > > drm_sched_job
-> > > > > > > > > > > *job, u32
-> > > > > > > > > > > id,
-> > > > > > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 struct dma_fence=
- *fence)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +=C2=A0=C2=A0=C2=A0 fence =3D xa_store(&job->dependen=
-cies, id,
-> > > > > > > > > > > fence,
-> > > > > > > > > > > GFP_ATOMIC);
-> > > > > > > > > >=20
-> > > > > > > > > > Add assert that the passed id exists (was
-> > > > > > > > > > preallocated)
-> > > > > > > > > > and
-> > > > > > > > > > is
-> > > > > > > > > > NULL?
-> > > > > > > > >=20
-> > > > > > > > > You
-> > > > > > > >=20
-> > > > > > > > Hm?
-> > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Also, if someone preallocates and does not consume
-> > > > > > > > > > the
-> > > > > > > > > > slot
-> > > > > > > > > > will that
-> > > > > > > > > > confuse the iteration in
-> > > > > > > > > > drm_sched_job_dependency()?
-> > > > > > > > >=20
-> > > > > > > > > drm_sched_job_add_dependency() you mean.
-> > > > > > > >=20
-> > > > > > > > I was actually thinking of drm_sched_job_dependency()
-> > > > > > > > because
-> > > > > > > > that
-> > > > > > > > looked it would skip dependencies upon encountering an
-> > > > > > > > unconsumed
-> > > > > > > > preallocated slot, but yes,
-> > > > > > > > drm_sched_job_add_dependency()
-> > > > > > > > could
-> > > > > > > > explode
-> > > > > > > > even earlier if adding a normal dependency after
-> > > > > > > > preallocating
-> > > > > > > > a
-> > > > > > > > slot.
-> > > > > > > >=20
-> > > > > > > > > Yes, it would. All operations simply give you NULL
-> > > > > > > > > for
-> > > > > > > > > those
-> > > > > > > > > slots. So
-> > > > > > > > > seems to me you have to check for NULL wherever a
-> > > > > > > > > preallocated
-> > > > > > > > > slot
-> > > > > > > > > might drop out. That would then be a bug.
-> > > > > > > > >=20
-> > > > > > > > > It's kind of tricky, all that. It's a pity that
-> > > > > > > > > Wilcox
-> > > > > > > > > didn't
-> > > > > > > > > answer
-> > > > > > > > > our questions about the idiomatic way to do it.
-> > > > > > > > >=20
-> > > > > > > > > Maybe reserving slots with already signaled fences
-> > > > > > > > > wasn't
-> > > > > > > > > such a
-> > > > > > > > > bad
-> > > > > > > > > idea after all?
-> > > > > > > > >=20
-> > > > > > > > > If we go for the NULL approach, it's probably the
-> > > > > > > > > only
-> > > > > > > > > sane
-> > > > > > > > > way
-> > > > > > > > > to then
-> > > > > > > > > check for NULL wherever dependencies are accessed :(
-> > > > > > > > >=20
-> > > > > > > > > Opinions?
-> > > > > > > >=20
-> > > > > > > > Well if the xarray API returns the NULL consistently
-> > > > > > > > the
-> > > > > > > > approach
-> > > > > > > > from
-> > > > > > > > this patch is fine I think.
-> > > > > > > >=20
-> > > > > > > > We just need to add two more checks to the above
-> > > > > > > > mentioned
-> > > > > > > > functions,
-> > > > > > >=20
-> > > > > > > I need to correct myself, drm_sched_job_dependency()
-> > > > > > > wouldn't
-> > > > > > > be
-> > > > > > > able
-> > > > > > > to
-> > > > > > > just skip NULLs since it relies on NULL for "no more
-> > > > > > > dependencies".
-> > > > > > > We
-> > > > > > > would need to track something like job->max_dependency
-> > > > > > > and
-> > > > > > > terminate
-> > > > > > > on
-> > > > > > > job->last_dependency > job->max_dependency or so.
-> > > > > >=20
-> > > > > > Agreed, that would have to be fixed.
-> > > > > >=20
-> > > > > > I believe we should reconsider Christian's first idea [1].
-> > > > > >=20
-> > > > > > Thinking about it some more:
-> > > > > > =C2=A0=C2=A0=C2=A0 * With the NULL version, suddenly the xarray=
- containing
-> > > > > > only
-> > > > > > valid
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dependencies can sometimes conta=
-in NULL entries.
-> > > > > > =C2=A0=C2=A0=C2=A0 * If we could create our own tag, entries co=
-uld be
-> > > > > > returned
-> > > > > > that
-> > > > > > were
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 neither NULL nor valid fences, a=
-lso requiring checks
-> > > > > > 'everywhere'.
-> > > > > > =C2=A0=C2=A0=C2=A0 * Only the "signaled fence as prealloc reser=
-vation"
-> > > > > > approach
-> > > > > > is
-> > > > > > fully
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backwards compatible and will ne=
-ver cause anyone to
-> > > > > > block
-> > > > > > after
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 later reworks.
-> > > > > >=20
-> > > > > > So maybe it's actually the best idea?
-> > > > > >=20
-> > > > > > Sorry for the zigg-zagg. No hard requirements intended from
-> > > > > > my
-> > > > > > side,
-> > > > > > I'm willing to go with what you guys think.
-> > > > > >=20
-> > > > > > Just saying, at least now I think that the already-signaled
-> > > > > > fence
-> > > > > > seems
-> > > > > > the most elegant solution. And since there's a function
-> > > > > > (dma_fence_get_stub()) for that, it seems to be in
-> > > > > > alignment
-> > > > > > with
-> > > > > > official dma_fence rules.
-> > > > >=20
-> > > > > Potential problem there was dma_fence_is_signaled() and fence
-> > > > > signaling
-> > > > > annotations. In case some driver is holding a lock over the
-> > > > > arm+push
-> > > > > pair. I wish we had a non-signaling is_signaled helper..
-> > > > >=20
-> > > >=20
-> > > > Yes! +1!
-> > > >=20
-> > > > But Christian doesn't like that direction:
-> > > >=20
-> > > > https://lore.kernel.org/all/20250409120640.106408-2-phasta@kernel.o=
-rg/
-> > >=20
-> > > Thanks, I read this but ended up uncertain on the conclusion.
-> > >=20
-> > > For instance Christian at the end comments like this:
-> > >=20
-> > > """
-> > > You can test the flag if you know what the fence means to you,
-> > > that
-> > > is
-> > > not a problem at all.
-> > > """
-> > >=20
-> > > That was in the context of testing the signaled bit without
-> > > opportunistic signaling.
-> > >=20
-> > > For me, from the scheduler dependencies side, that should exactly
-> > > apply.
-> > > Scheduler knows it does not need to add a signaled fence to the
-> > > dep
-> > > array so AFAICS it is fine to skip it. And it may easily be
-> > > opportunistic signaling ends up a problem for the scheduler.
-> > >=20
-> > > So maybe such helper would be okay after all.
-> >=20
-> > The thing is that, if I understand him correctly, Christian doesn't
-> > want a helper. He wants "us" to just use test_bit().
->=20
-> I suspected it may be only about not renaming into some variant of=20
-> check_and_signal etc. With which I agree with, that the name should
-> be=20
-> left alone, because...
->=20
-> > My point is just that dma_fence_is_signaled() is a horrible name.
->=20
-> ... as dodgy as it is, and despite me also failing to really
-> understand=20
-> the reason why it _has_ to be have opportunistic signaling, I think=20
-> those semantics are by now pretty much ingrained into people dealing=20
-> with this API so I would leave it as is.
->=20
-> What I was thinking was the double underscore version of the helper
-> and=20
-> some kerneldoc to say when it is safe to use. For me a helper is
-> better=20
-> than poking directly.
->=20
-> > The function pci_is_enabled() tells you whether the PCI device is
-> > enabled. What it doesn't do is
-> >=20
-> > bool pci_is_enabled(pdev)
-> > {
-> > =C2=A0=C2=A0=C2=A0 if (crazy_callback_is_implemented()) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_enable_device();
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return true;
-> > =C2=A0=C2=A0=C2=A0 }
-> >=20
-> > =C2=A0=C2=A0 ...
-> > }
-> >=20
-> > It's not intuitive that a function called
-> > "{something}_is_signaled()"
-> > does signal that thing. Although I get that the syntactical idea
-> > probably is that from the GPUs POV the fence is already signaled
-> > when
-> > this or that seqno has been reached.
-> >=20
-> > Anyways, judging aside, if a wrapper for test_bit(dma_fence) were
-> > acceptable, then it would need to steal dma_fence_is_signaled()'s
-> > name,
-> > and dma_fence_is_signaled() would have to get a new name. Which is
-> > precisely what was rejected, as I see it.
->=20
-> __dma_fence_is_signaled() is what I would do and leave the existing
-> one=20
-> as is.
+On 5/21/25 06:17, wangtao wrote:
+>>> Reducing CPU overhead/power consumption is critical for mobile devices.
+>>> We need simpler and more efficient dmabuf direct I/O support.
+>>>
+>>> As Christian evaluated sendfile performance based on your data, could
+>>> you confirm whether the cache was cleared? If not, please share the
+>>> post-cache-clearing test data. Thank you for your support.
+>>
+>> Yes sorry, I was out yesterday riding motorcycles. I did not clear the cache for
+>> the buffered reads, I didn't realize you had. The IO plus the copy certainly
+>> explains the difference.
+>>
+>> Your point about the unlikelihood of any of that data being in the cache also
+>> makes sense.
+> [wangtao] Thank you for testing and clarifying.
+> 
+>>
+>> I'm not sure it changes anything about the ioctl approach though.
+>> Another way to do this would be to move the (optional) support for direct IO
+>> into the exporter via dma_buf_fops and dma_buf_ops. Then normal read()
+>> syscalls would just work for buffers that support them.
+>> I know that's more complicated, but at least it doesn't require inventing new
+>> uapi to do it.
+>>
+> [wangtao] Thank you for the discussion. I fully support any method that enables
+> dmabuf direct I/O.
+> 
+> I understand using sendfile/splice with regular files for dmabuf
+> adds an extra CPU copy, preventing zero-copy. For example:
+> sendfile path: [DISK] → DMA → [page cache] → CPU copy → [memory file].
 
-Fine by me. If you provide a patch for dma_fence, I can do a review.
+Yeah, but why can't you work on improving that?
 
+> The read() syscall can't pass regular file fd parameters, so I added
+> an ioctl command.
+> While copy_file_range() supports two fds (fd_in/fd_out), it blocks cross-fs use.
+> Even without this restriction, file_out->f_op->copy_file_range
+> only enables dmabuf direct reads from regular files, not writes.
+> 
+> Since dmabuf's direct I/O limitation comes from its unique
+> attachment/map/fence model and lacks suitable syscalls, adding
+> an ioctl seems necessary.
 
-P.
+I absolutely don't see that. Both splice and sendfile can take two regular file descriptors.
 
->=20
-> Regards,
->=20
-> Tvrtko
->=20
-> > > Or if the concern is helper might encourage some potentially
-> > > unsafe
-> > > usage, in that case it should come with kerneldoc describing. It
-> > > is
-> > > not
-> > > like review is guaranteed to catch someone using test_bit
-> > > directly
-> > > anyway so for me, on balance, helper is always better.
-> > >=20
-> > > Regards,
-> > >=20
-> > > Tvrtko
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > > >=20
-> > > > P.
-> > > >=20
-> > > > >=20
-> > > > >=20
-> > > >=20
-> > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > Anyway, I think both options are passable. I even like the
-> > > > > NULL
-> > > > > entry
-> > > > > slightly more since it is simpler in a way and I don't mind
-> > > > > some
-> > > > > extra
-> > > > > checks completely hidden in scheduler internals.
-> > > > >=20
-> > > > > Regards,
-> > > > >=20
-> > > > > Tvrtko
-> > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > Philipp
-> > > > > >=20
-> > > > > >=20
-> > > > > > [1]
-> > > > > > https://lore.kernel.org/all/20250318120313.19099-2-christian.ko=
-enig@amd.com
-> > > > > > /
-> > > > > >=20
-> > > > > >=20
-> > > > > > >=20
-> > > > > > > Regards,
-> > > > > > >=20
-> > > > > > > Tvrtko
-> > > > > > >=20
-> > > > > > > > some more unit tests probably to make sure, and that
-> > > > > > > > should
-> > > > > > > > be
-> > > > > > > > fine
-> > > > > > > > for
-> > > > > > > > now.
-> > > > > > > >=20
-> > > > > > > > On the bikeshedding front I would perhaps suggest:
-> > > > > > > >=20
-> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- drm_sched_job_preallocate_d=
-ependency()
-> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- drm_sched_job_replace_depen=
-dency()
-> > > > > > > >=20
-> > > > > > > > Reads a little bit more aligned with the rest of the
-> > > > > > > > API
-> > > > > > > > and a
-> > > > > > > > bit
-> > > > > > > > easier on the eyes, to my eyes at least.
-> > > > > > > >=20
-> > > > > > > > Regards,
-> > > > > > > >=20
-> > > > > > > > Tvrtko
-> > > > > > > >=20
-> > > > > > >=20
-> > > > > >=20
-> > > > >=20
-> > > >=20
-> > >=20
-> >=20
->=20
+That the underlying fops currently can't do that is not a valid argument for adding new uAPI. It just means that you need to work on improving those fops.
+
+As long as nobody proves to me that the existing uAPI isn't sufficient for this use case I will systematically reject any approach to adding new one.
+
+Regards,
+Christian.
+
+> When system exporters return a duplicated sg_table via map_dma_buf
+> (used exclusively like a pages array), they should retain control
+> over it.
+> 
+> I welcome all solutions to achieve dmabuf direct I/O! Your feedback
+> is greatly appreciated.
+>  
+>> 1G from ext4 on 6.12.20 | read/sendfile (ms) w/ 3 > drop_caches
+>> ------------------------|-------------------
+>> udmabuf buffer read     | 1210
+>> udmabuf direct read     | 671
+>> udmabuf buffer sendfile | 1096
+>> udmabuf direct sendfile | 2340
+>>
+>>
+>>
+>>>
+>>>>>
+>>>>>>> dmabuf buffer read     | 51         | 1068      | 1118
+>>>>>>> dmabuf direct read     | 52         | 297       | 349
+>>>>>>>
+>>>>>>> udmabuf sendfile test steps:
+>>>>>>> 1. Open data file(1024MB), get back_fd 2. Create memfd(32MB) #
+>>>>>>> Loop steps 2-6 3. Allocate udmabuf with memfd 4. Call
+>>>>>>> sendfile(memfd,
+>>>>>>> back_fd) 5. Close memfd after sendfile 6. Close udmabuf 7.
+>>>>>>> Close back_fd
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Christian.
+>>>>>>>
+>>>>>>
+>>>
 
