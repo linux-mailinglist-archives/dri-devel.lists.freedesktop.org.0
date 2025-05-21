@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EEBABEB3E
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC66ABEB3D
 	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 07:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D30B110E5F7;
-	Wed, 21 May 2025 05:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6139910E5F0;
+	Wed, 21 May 2025 05:23:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DDtku3ao";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dIS8HPpX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93DB310E5F0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 05:23:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2400B10E5F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 05:23:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747805005; x=1779341005;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5D4JFwFWlsVSItofs+vUC95lY3B/S1pTOTOoHAxgPXI=;
- b=DDtku3ao93ImXuTL3+q0KbHmwYEAdXjQmLjFU3HS7d+npcMg5H2Utbpo
- lkhlpcfT25kerjW0BpJ0C4ayGK9tazxkLYbM/f/PVD0LAl5nl7uGvgY6r
- kVoKr65U/3N9KJAGKiX/v8Gu5P8QXhbQbyptOZqxnNnLwBUiOH1Oz0vTY
- WRyFlEoj7PkDS2Yt+18vuSqPNVswLidY91MT9XkLTU9JKFldYZWW7BSNi
- 0Rhf/kWB/CovqGLa2SeaKzX8jAC0m/zbtNq+xg2M0+S0ArcC1EzQaOf10
- 5/wvWsPY46CH90VjjyxXYuOOM3FdnruyTHDI7s8P/iRSTczrHaY9o383p w==;
-X-CSE-ConnectionGUID: qE0bPxV7TFWEzkhOzJgrCg==
-X-CSE-MsgGUID: Nt/+ppUjRrWt42drgSdUGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49638987"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="49638987"
+ t=1747805007; x=1779341007;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=l31XNRo8KI41uE4zOhXFi6rKnP37VgXQ4y+S+FAKKPc=;
+ b=dIS8HPpXyoizHASFsjv/9Qo0ZnE8HuP5dhm0KI331QdUzbXHKv66Bul9
+ w4IxFalm7B6KpfFOU60W3XcdFcJtX7X2Q5ar/NRkDMcMqmehX7I1NWM5o
+ 5JehYo0AzVyLv7iJeVsMglBfVDqqFrMuadVe4B0skr2dTRoagd30NL0zB
+ 130ihzAcepHDUx51RuQbP2It/btZ67EFGuuC5ExiP3HduW7hIs10z79yD
+ RFrFjrLaQPq+kRM4mYBDwBAI11AC26hjiVcfCMSPWVb253PmnQNvti071
+ ZczOpFoAs0bacmoEfZzXVnmtUVJNrraFPnf9jCJFPAoGIBJ7w9DdZAqUi A==;
+X-CSE-ConnectionGUID: frtJregMQDi+9IXPhoiHOA==
+X-CSE-MsgGUID: 9oe9eYJwQOmtws+m9DPODg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49638993"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="49638993"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 May 2025 22:23:24 -0700
-X-CSE-ConnectionGUID: W1aGyqDzRBaCz8WzOF+5xQ==
-X-CSE-MsgGUID: yor5D6xMTuCBwDI4bLWJtw==
+X-CSE-ConnectionGUID: 4TUVXEbDRxm1SXeutiiJ5g==
+X-CSE-MsgGUID: mf16ue/6RlCpTs5bL9k1dw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="163188660"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="163188662"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 May 2025 22:23:23 -0700
@@ -45,14 +45,16 @@ From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
  Steve Sistare <steven.sistare@oracle.com>,
  Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 0/3] mm/memfd: Reserve hugetlb folios before allocation
-Date: Tue, 20 May 2025 22:19:34 -0700
-Message-ID: <20250521052119.1105530-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 1/3] mm/hugetlb: Make hugetlb_reserve_pages() return nr of
+ entries updated
+Date: Tue, 20 May 2025 22:19:35 -0700
+Message-ID: <20250521052119.1105530-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250521052119.1105530-1-vivek.kasireddy@intel.com>
+References: <20250521052119.1105530-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,61 +72,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are cases where we try to pin a folio but discover that it has
-not been faulted-in. So, we try to allocate it in memfd_alloc_folio()
-but there is a chance that we might encounter a crash/failure
-(VM_BUG_ON(!h->resv_huge_pages)) if there are no active reservations
-at that instant. This issue was reported by syzbot.
+Currently, hugetlb_reserve_pages() returns a bool to indicate whether
+the reservation map update for the range [from, to] was successful or
+not. This is not sufficient for the case where the caller needs to
+determine how many entries were updated for the range.
 
-Therefore, to avoid this situation and fix this issue, we just need
-to make a reservation (by calling hugetlb_reserve_pages()) before
-we try to allocate the folio. This will ensure that we are properly
-doing region/subpool accounting associated with our allocation.
+Therefore, have hugetlb_reserve_pages() return the number of entries
+updated in the reservation map associated with the range [from, to].
+Also, update the callers of hugetlb_reserve_pages() to handle the new
+return value.
 
------------------------------
-
-Patchset overview:
-
-Patch 1: Return nr of updated entries from hugetlb_reserve_pages()
-Patch 2: Fix for VM_BUG_ON(!h->resv_huge_pages) crash reported by syzbot
-Patch 3: New udmabuf selftest to invoke memfd_alloc_folio()
-
-This series is tested by running the new udmabuf selftest introduced
-in patch #3 along with the other selftests.
-
-Changelog:
-v2 -> v3:
-- Call hugetlb_unreserve_pages() only if the reservation was actively
-  (and successfully) made from memfd_alloc_folio() (David)
-
-v1 -> v2:
-- Replace VM_BUG_ON() with WARN_ON_ONCE() in the function
-  alloc_hugetlb_folio_reserve() (David)
-- Move the inline function subpool_inode() from hugetlb.c into the
-  relevant header (hugetlb.h)
-- Call hugetlb_unreserve_pages() if the folio cannot be added to
-  the page cache as well
-- Added a new udmabuf selftest to exercise the same path as that
-  of syzbot
-
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Steve Sistare <steven.sistare@oracle.com>
 Cc: Muchun Song <muchun.song@linux.dev>
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ fs/hugetlbfs/inode.c    |  8 ++++----
+ include/linux/hugetlb.h |  2 +-
+ mm/hugetlb.c            | 19 +++++++++++++------
+ 3 files changed, 18 insertions(+), 11 deletions(-)
 
-Vivek Kasireddy (3):
-  mm/hugetlb: Make hugetlb_reserve_pages() return nr of entries updated
-  mm/memfd: Reserve hugetlb folios before allocation
-  selftests/udmabuf: Add a test to pin first before writing to memfd
-
- fs/hugetlbfs/inode.c                          |  8 ++---
- include/linux/hugetlb.h                       |  7 +++-
- mm/hugetlb.c                                  | 33 +++++++++++--------
- mm/memfd.c                                    | 17 ++++++++--
- .../selftests/drivers/dma-buf/udmabuf.c       | 20 ++++++++++-
- 5 files changed, 62 insertions(+), 23 deletions(-)
-
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index e4de5425838d..00b2d1a032fd 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -150,10 +150,10 @@ static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+ 	if (inode->i_flags & S_PRIVATE)
+ 		vm_flags |= VM_NORESERVE;
+ 
+-	if (!hugetlb_reserve_pages(inode,
++	if (hugetlb_reserve_pages(inode,
+ 				vma->vm_pgoff >> huge_page_order(h),
+ 				len >> huge_page_shift(h), vma,
+-				vm_flags))
++				vm_flags) < 0)
+ 		goto out;
+ 
+ 	ret = 0;
+@@ -1561,9 +1561,9 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
+ 	inode->i_size = size;
+ 	clear_nlink(inode);
+ 
+-	if (!hugetlb_reserve_pages(inode, 0,
++	if (hugetlb_reserve_pages(inode, 0,
+ 			size >> huge_page_shift(hstate_inode(inode)), NULL,
+-			acctflag))
++			acctflag) < 0)
+ 		file = ERR_PTR(-ENOMEM);
+ 	else
+ 		file = alloc_file_pseudo(inode, mnt, name, O_RDWR,
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 8f3ac832ee7f..793d8390d3e4 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -148,7 +148,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 			     uffd_flags_t flags,
+ 			     struct folio **foliop);
+ #endif /* CONFIG_USERFAULTFD */
+-bool hugetlb_reserve_pages(struct inode *inode, long from, long to,
++long hugetlb_reserve_pages(struct inode *inode, long from, long to,
+ 						struct vm_area_struct *vma,
+ 						vm_flags_t vm_flags);
+ long hugetlb_unreserve_pages(struct inode *inode, long start, long end,
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 7ae38bfb9096..cba9d60a4e28 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -7241,8 +7241,15 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
+ 	return pages > 0 ? (pages << h->order) : pages;
+ }
+ 
+-/* Return true if reservation was successful, false otherwise.  */
+-bool hugetlb_reserve_pages(struct inode *inode,
++/*
++ * Update the reservation map for the range [from, to].
++ *
++ * Returns the number of entries that would be added to the reservation map
++ * associated with the range [from, to].  This number is greater or equal to
++ * zero. -EINVAL or -ENOMEM is returned in case of any errors.
++ */
++
++long hugetlb_reserve_pages(struct inode *inode,
+ 					long from, long to,
+ 					struct vm_area_struct *vma,
+ 					vm_flags_t vm_flags)
+@@ -7257,7 +7264,7 @@ bool hugetlb_reserve_pages(struct inode *inode,
+ 	/* This should never happen */
+ 	if (from > to) {
+ 		VM_WARN(1, "%s called with a negative range\n", __func__);
+-		return false;
++		return -EINVAL;
+ 	}
+ 
+ 	/*
+@@ -7272,7 +7279,7 @@ bool hugetlb_reserve_pages(struct inode *inode,
+ 	 * without using reserves
+ 	 */
+ 	if (vm_flags & VM_NORESERVE)
+-		return true;
++		return 0;
+ 
+ 	/*
+ 	 * Shared mappings base their reservation on the number of pages that
+@@ -7379,7 +7386,7 @@ bool hugetlb_reserve_pages(struct inode *inode,
+ 			hugetlb_cgroup_put_rsvd_cgroup(h_cg);
+ 		}
+ 	}
+-	return true;
++	return chg;
+ 
+ out_put_pages:
+ 	spool_resv = chg - gbl_reserve;
+@@ -7407,7 +7414,7 @@ bool hugetlb_reserve_pages(struct inode *inode,
+ 		kref_put(&resv_map->refs, resv_map_release);
+ 		set_vma_resv_map(vma, NULL);
+ 	}
+-	return false;
++	return chg < 0 ? chg : add < 0 ? add : -EINVAL;
+ }
+ 
+ long hugetlb_unreserve_pages(struct inode *inode, long start, long end,
 -- 
 2.49.0
 
