@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE2DABEDDB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 10:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36ED8ABEE0F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 10:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D6810E6BB;
-	Wed, 21 May 2025 08:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65CFF10E6C6;
+	Wed, 21 May 2025 08:37:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Ls98qlBa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JOF9PUkn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id E6CF010E6BB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 08:27:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=JISsKWMI+Mu3IJtcvxk9p0FcmVda2VN3lDglUK3yl18=; b=L
- s98qlBa7lFQ0m1Pl4Y3JZweBHmTl6eXQKQv+NCWjwmpJxJ4ObYWz/129wWVuzGlh
- Zt0vUmetzxUzeso59adApkOV7bKU1TDvxwZcCK8p3+RxBqRcoj1bVlLyTIC0KQN5
- weKeVX1lrNu9cqmN4aI524/JPmI7O7oXJ4INRUCCR0=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-123 (Coremail) ; Wed, 21 May 2025 16:26:30 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 21 May 2025 16:26:30 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Jayesh Choudhary" <j-choudhary@ti.com>
-Cc: dianders@chromium.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ideasonboard.com, alexander.stein@ew.tq-group.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lumag@kernel.org, jani.nikula@intel.com, andy.yan@rock-chips.com,
- mordan@ispras.ru, linux@treblig.org, viro@zeniv.linux.org.uk,
- yamonkar@cadence.com, sjakhade@cadence.com,
- quentin.schulz@free-electrons.com, jsarha@ti.com,
- linux-kernel@vger.kernel.org, devarsht@ti.com
-Subject: Re:Re:[RFC PATCH v2 1/3] drm/bridge: cadence: cdns-mhdp8546-core:
- Remove legacy support for connector initialisation in bridge
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <6202fa6.78f2.196f1e97ccc.Coremail.andyshrk@163.com>
-References: <20250521073237.366463-1-j-choudhary@ti.com>
- <20250521073237.366463-2-j-choudhary@ti.com>
- <6202fa6.78f2.196f1e97ccc.Coremail.andyshrk@163.com>
-X-NTES-SC: AL_Qu2fBfSaukEi5iSZZekfmkcVgOw9UcO5v/Qk3oZXOJF8jAnp4h0vRHlFF0T18sKdCjuCnh6Rezd+48txc5VhR4MFPyBsaf5azR6Uahp/Y6Crfg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E3310E6C6;
+ Wed, 21 May 2025 08:37:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BE6FE443D9;
+ Wed, 21 May 2025 08:37:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00873C4CEE4;
+ Wed, 21 May 2025 08:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747816640;
+ bh=vHs0uFXE4QDWJyTB2uO5NgtTvDkhWOmq0wYfhjspCDU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JOF9PUknCG3XoxV5ePcPOdk+//R8CCQdYie0iZpzXV9MI8mwqXJiisyPEfgZ5UbxN
+ GyG/z+L6of5ZHzq4P9yJCLudMmVhuzFD8DHgXnixz5aJ0KyNYlhZt+EZAXTkHj76o1
+ o1pDTYiv8VAAkd+OclJ2Mqidu/qzBW7p6cDSGegP6wvun74nrcTJhqSwegsF098jvU
+ yvOzCfxkO6bZCTSoFVbCl7ngiZr+jzN9sIej5xoYo7974GCsTZ/mVs8SPYJpQsCvMv
+ yBdxP7RLYSfPnTPmhXnIe0aYj3/mRM9ZaxzvdnpXgGXCti8TrDXaovXCEpEy1P4qdg
+ uvwm6TjHcdDlw==
+Date: Wed, 21 May 2025 10:37:13 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 08/20] gpu: nova-core: allow register aliases
+Message-ID: <aC2Quag3HYN70D8p@pollux>
+References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-8-05dfd4f39479@nvidia.com>
 MIME-Version: 1.0
-Message-ID: <6c97bbb3.7c88.196f1f3848d.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: eygvCgD3f0E2ji1o4KsJAA--.8526W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0g5UXmgtiQakMgACsI
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250521-nova-frts-v4-8-05dfd4f39479@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,148 +71,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIEpheWVzaCwKCkF0IDIwMjUtMDUtMjEgMTY6MTU6MzMsICJBbmR5IFlhbiIgPGFuZHlz
-aHJrQDE2My5jb20+IHdyb3RlOgo+Cj4KPkhlbGxvIEphdmVzaCwKPgo+QXQgMjAyNS0wNS0yMSAx
-NTozMjozNSwgIkpheWVzaCBDaG91ZGhhcnkiIDxqLWNob3VkaGFyeUB0aS5jb20+IHdyb3RlOgo+
-Pk5vdyB0aGF0IHdlIGhhdmUgREJBTkMgZnJhbWV3b3JrLCByZW1vdmUgdGhlIGNvbm5lY3RvciBp
-bml0aWFsaXNhdGlvbiBjb2RlCj4+YXMgdGhhdCBwaWVjZSBvZiBjb2RlIGlzIG5vdCBjYWxsZWQg
-aWYgRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SIGZsYWcKPj5pcyB1c2VkLiBPbmx5IFRJ
-IEszIHBsYXRmb3JtcyBjb25zdW1lIHRoaXMgZHJpdmVyIGFuZCB0aWRzcyAodGhlaXIgZGlzcGxh
-eQo+PmNvbnRyb2xsZXIpIGhhcyB0aGlzIGZsYWcgc2V0LiBTbyB0aGlzIGxlZ2FjeSBzdXBwb3J0
-IGNhbiBiZSBkcm9wcGVkLgo+Pgo+PlNpZ25lZC1vZmYtYnk6IEpheWVzaCBDaG91ZGhhcnkgPGot
-Y2hvdWRoYXJ5QHRpLmNvbT4KPj4tLS0KPj4gLi4uL2RybS9icmlkZ2UvY2FkZW5jZS9jZG5zLW1o
-ZHA4NTQ2LWNvcmUuYyAgIHwgMTg2ICsrKy0tLS0tLS0tLS0tLS0tLQo+PiAxIGZpbGUgY2hhbmdl
-ZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTYxIGRlbGV0aW9ucygtKQo+Pgo+PmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2NhZGVuY2UvY2Rucy1taGRwODU0Ni1jb3JlLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL2NhZGVuY2UvY2Rucy1taGRwODU0Ni1jb3JlLmMKPj5pbmRleCBi
-NDMxZTdlZmQxZjAuLjY2YmQ5MTZjMmZlOSAxMDA2NDQKPj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2NhZGVuY2UvY2Rucy1taGRwODU0Ni1jb3JlLmMKPj4rKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYnJpZGdlL2NhZGVuY2UvY2Rucy1taGRwODU0Ni1jb3JlLmMKPj5AQCAtMTQ0NCw1NiArMTQ0
-NCw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2VkaWQgKmNkbnNfbWhkcF9lZGlkX3JlYWQo
-c3RydWN0IGNkbnNfbWhkcF9kZXZpY2UgKm1oZHAsCj4+IAlyZXR1cm4gZHJtX2VkaWRfcmVhZF9j
-dXN0b20oY29ubmVjdG9yLCBjZG5zX21oZHBfZ2V0X2VkaWRfYmxvY2ssIG1oZHApOwo+PiB9Cj4+
-IAo+Pi1zdGF0aWMgaW50IGNkbnNfbWhkcF9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvcikKPj4tewo+Pi0Jc3RydWN0IGNkbnNfbWhkcF9kZXZpY2UgKm1oZHAgPSBjb25u
-ZWN0b3JfdG9fbWhkcChjb25uZWN0b3IpOwo+Pi0JY29uc3Qgc3RydWN0IGRybV9lZGlkICpkcm1f
-ZWRpZDsKPj4tCWludCBudW1fbW9kZXM7Cj4+LQo+Pi0JaWYgKCFtaGRwLT5wbHVnZ2VkKQo+Pi0J
-CXJldHVybiAwOwo+Pi0KPj4tCWRybV9lZGlkID0gY2Ruc19taGRwX2VkaWRfcmVhZChtaGRwLCBj
-b25uZWN0b3IpOwo+Pi0KPj4tCWRybV9lZGlkX2Nvbm5lY3Rvcl91cGRhdGUoY29ubmVjdG9yLCBk
-cm1fZWRpZCk7Cj4+LQo+Pi0JaWYgKCFkcm1fZWRpZCkgewo+Pi0JCWRldl9lcnIobWhkcC0+ZGV2
-LCAiRmFpbGVkIHRvIHJlYWQgRURJRFxuIik7Cj4+LQkJcmV0dXJuIDA7Cj4+LQl9Cj4+LQo+Pi0J
-bnVtX21vZGVzID0gZHJtX2VkaWRfY29ubmVjdG9yX2FkZF9tb2Rlcyhjb25uZWN0b3IpOwo+Pi0J
-ZHJtX2VkaWRfZnJlZShkcm1fZWRpZCk7Cj4+LQo+Pi0JLyoKPj4tCSAqIEhBQ0s6IFdhcm4gYWJv
-dXQgdW5zdXBwb3J0ZWQgZGlzcGxheSBmb3JtYXRzIHVudGlsIHdlIGRlYWwKPj4tCSAqICAgICAg
-IHdpdGggdGhlbSBjb3JyZWN0bHkuCj4+LQkgKi8KPj4tCWlmIChjb25uZWN0b3ItPmRpc3BsYXlf
-aW5mby5jb2xvcl9mb3JtYXRzICYmCj4+LQkgICAgIShjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5j
-b2xvcl9mb3JtYXRzICYKPj4tCSAgICAgIG1oZHAtPmRpc3BsYXlfZm10LmNvbG9yX2Zvcm1hdCkp
-Cj4+LQkJZGV2X3dhcm4obWhkcC0+ZGV2LAo+Pi0JCQkgIiVzOiBObyBzdXBwb3J0ZWQgY29sb3Jf
-Zm9ybWF0IGZvdW5kICgweCUwOHgpXG4iLAo+Pi0JCQlfX2Z1bmNfXywgY29ubmVjdG9yLT5kaXNw
-bGF5X2luZm8uY29sb3JfZm9ybWF0cyk7Cj4+LQo+Pi0JaWYgKGNvbm5lY3Rvci0+ZGlzcGxheV9p
-bmZvLmJwYyAmJgo+Pi0JICAgIGNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLmJwYyA8IG1oZHAtPmRp
-c3BsYXlfZm10LmJwYykKPj4tCQlkZXZfd2FybihtaGRwLT5kZXYsICIlczogRGlzcGxheSBicGMg
-b25seSAlZCA8ICVkXG4iLAo+Pi0JCQkgX19mdW5jX18sIGNvbm5lY3Rvci0+ZGlzcGxheV9pbmZv
-LmJwYywKPj4tCQkJIG1oZHAtPmRpc3BsYXlfZm10LmJwYyk7Cj4+LQo+Pi0JcmV0dXJuIG51bV9t
-b2RlczsKPj4tfQo+Pi0KPj4tc3RhdGljIGludCBjZG5zX21oZHBfY29ubmVjdG9yX2RldGVjdChz
-dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubiwKPj4tCQkJCSAgICAgIHN0cnVjdCBkcm1fbW9kZXNl
-dF9hY3F1aXJlX2N0eCAqY3R4LAo+Pi0JCQkJICAgICAgYm9vbCBmb3JjZSkKPj4tewo+Pi0Jc3Ry
-dWN0IGNkbnNfbWhkcF9kZXZpY2UgKm1oZHAgPSBjb25uZWN0b3JfdG9fbWhkcChjb25uKTsKPj4t
-Cj4+LQlyZXR1cm4gY2Ruc19taGRwX2RldGVjdChtaGRwKTsKPj4tfQo+Pi0KPj4gc3RhdGljIHUz
-MiBjZG5zX21oZHBfZ2V0X2JwcChzdHJ1Y3QgY2Ruc19taGRwX2Rpc3BsYXlfZm10ICpmbXQpCj4+
-IHsKPj4gCXUzMiBicHA7Cj4+QEAgLTE1NDcsMTE0ICsxNDk3LDYgQEAgYm9vbCBjZG5zX21oZHBf
-YmFuZHdpZHRoX29rKHN0cnVjdCBjZG5zX21oZHBfZGV2aWNlICptaGRwLAo+PiAJcmV0dXJuIHRy
-dWU7Cj4+IH0KPj4gCj4+LXN0YXRpYwo+Pi1lbnVtIGRybV9tb2RlX3N0YXR1cyBjZG5zX21oZHBf
-bW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubiwKPj4tCQkJCQkgIGNvbnN0IHN0
-cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKQo+Pi17Cj4+LQlzdHJ1Y3QgY2Ruc19taGRwX2Rl
-dmljZSAqbWhkcCA9IGNvbm5lY3Rvcl90b19taGRwKGNvbm4pOwo+Pi0KPj4tCW11dGV4X2xvY2so
-Jm1oZHAtPmxpbmtfbXV0ZXgpOwo+Pi0KPj4tCWlmICghY2Ruc19taGRwX2JhbmR3aWR0aF9vayht
-aGRwLCBtb2RlLCBtaGRwLT5saW5rLm51bV9sYW5lcywKPj4tCQkJCSAgICBtaGRwLT5saW5rLnJh
-dGUpKSB7Cj4+LQkJbXV0ZXhfdW5sb2NrKCZtaGRwLT5saW5rX211dGV4KTsKPj4tCQlyZXR1cm4g
-TU9ERV9DTE9DS19ISUdIOwo+Pi0JfQo+Pi0KPj4tCW11dGV4X3VubG9jaygmbWhkcC0+bGlua19t
-dXRleCk7Cj4+LQlyZXR1cm4gTU9ERV9PSzsKPj4tfQo+Pi0KPj4tc3RhdGljIGludCBjZG5zX21o
-ZHBfY29ubmVjdG9yX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubiwKPj4t
-CQkJCQkgICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQo+Pi17Cj4+LQlzdHJ1Y3Qg
-Y2Ruc19taGRwX2RldmljZSAqbWhkcCA9IGNvbm5lY3Rvcl90b19taGRwKGNvbm4pOwo+Pi0Jc3Ry
-dWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKm9sZF9zdGF0ZSwgKm5ld19zdGF0ZTsKPj4tCXN0cnVj
-dCBkcm1fY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZTsKPj4tCXU2NCBvbGRfY3AsIG5ld19jcDsKPj4t
-Cj4+LQlpZiAoIW1oZHAtPmhkY3Bfc3VwcG9ydGVkKQo+Pi0JCXJldHVybiAwOwo+Pi0KPj4tCW9s
-ZF9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9jb25uZWN0b3Jfc3RhdGUoc3RhdGUsIGNvbm4p
-Owo+Pi0JbmV3X3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2Nvbm5lY3Rvcl9zdGF0ZShzdGF0
-ZSwgY29ubik7Cj4+LQlvbGRfY3AgPSBvbGRfc3RhdGUtPmNvbnRlbnRfcHJvdGVjdGlvbjsKPj4t
-CW5ld19jcCA9IG5ld19zdGF0ZS0+Y29udGVudF9wcm90ZWN0aW9uOwo+Pi0KPj4tCWlmIChvbGRf
-c3RhdGUtPmhkY3BfY29udGVudF90eXBlICE9IG5ld19zdGF0ZS0+aGRjcF9jb250ZW50X3R5cGUg
-JiYKPj4tCSAgICBuZXdfY3AgIT0gRFJNX01PREVfQ09OVEVOVF9QUk9URUNUSU9OX1VOREVTSVJF
-RCkgewo+Pi0JCW5ld19zdGF0ZS0+Y29udGVudF9wcm90ZWN0aW9uID0gRFJNX01PREVfQ09OVEVO
-VF9QUk9URUNUSU9OX0RFU0lSRUQ7Cj4+LQkJZ290byBtb2RlX2NoYW5nZWQ7Cj4+LQl9Cj4+LQo+
-Pi0JaWYgKCFuZXdfc3RhdGUtPmNydGMpIHsKPj4tCQlpZiAob2xkX2NwID09IERSTV9NT0RFX0NP
-TlRFTlRfUFJPVEVDVElPTl9FTkFCTEVEKQo+Pi0JCQluZXdfc3RhdGUtPmNvbnRlbnRfcHJvdGVj
-dGlvbiA9IERSTV9NT0RFX0NPTlRFTlRfUFJPVEVDVElPTl9ERVNJUkVEOwo+Pi0JCXJldHVybiAw
-Owo+Pi0JfQo+Pi0KPj4tCWlmIChvbGRfY3AgPT0gbmV3X2NwIHx8Cj4+LQkgICAgKG9sZF9jcCA9
-PSBEUk1fTU9ERV9DT05URU5UX1BST1RFQ1RJT05fREVTSVJFRCAmJgo+Pi0JICAgICBuZXdfY3Ag
-PT0gRFJNX01PREVfQ09OVEVOVF9QUk9URUNUSU9OX0VOQUJMRUQpKQo+Pi0JCXJldHVybiAwOwo+
-Pi0KPj4tbW9kZV9jaGFuZ2VkOgo+Pi0JY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19j
-cnRjX3N0YXRlKHN0YXRlLCBuZXdfc3RhdGUtPmNydGMpOwo+Pi0JY3J0Y19zdGF0ZS0+bW9kZV9j
-aGFuZ2VkID0gdHJ1ZTsKPj4tCj4+LQlyZXR1cm4gMDsKPj4tfQo+Pi0KPj4tc3RhdGljIGNvbnN0
-IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyBjZG5zX21oZHBfY29ubl9oZWxwZXJf
-ZnVuY3MgPSB7Cj4+LQkuZGV0ZWN0X2N0eCA9IGNkbnNfbWhkcF9jb25uZWN0b3JfZGV0ZWN0LAo+
-Pi0JLmdldF9tb2RlcyA9IGNkbnNfbWhkcF9nZXRfbW9kZXMsCj4+LQkubW9kZV92YWxpZCA9IGNk
-bnNfbWhkcF9tb2RlX3ZhbGlkLAo+Pi0JLmF0b21pY19jaGVjayA9IGNkbnNfbWhkcF9jb25uZWN0
-b3JfYXRvbWljX2NoZWNrLAo+Pi19Owo+Pi0KPj4tc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29u
-bmVjdG9yX2Z1bmNzIGNkbnNfbWhkcF9jb25uX2Z1bmNzID0gewo+Pi0JLmZpbGxfbW9kZXMgPSBk
-cm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMsCj4+LQkuYXRvbWljX2R1cGxp
-Y2F0ZV9zdGF0ZSA9IGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kdXBsaWNhdGVfc3RhdGUs
-Cj4+LQkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3Jf
-ZGVzdHJveV9zdGF0ZSwKPj4tCS5yZXNldCA9IGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9y
-ZXNldCwKPj4tCS5kZXN0cm95ID0gZHJtX2Nvbm5lY3Rvcl9jbGVhbnVwLAo+Pi19Owo+Pi0KPj4t
-c3RhdGljIGludCBjZG5zX21oZHBfY29ubmVjdG9yX2luaXQoc3RydWN0IGNkbnNfbWhkcF9kZXZp
-Y2UgKm1oZHApCj4+LXsKPj4tCXUzMiBidXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0IxMjEy
-MTJfMVgzNjsKPj4tCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uID0gJm1oZHAtPmNvbm5lY3Rv
-cjsKPj4tCXN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UgPSAmbWhkcC0+YnJpZGdlOwo+Pi0JaW50
-IHJldDsKPj4tCj4+LQljb25uLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfSFBEOwo+Pi0K
-Pj4tCXJldCA9IGRybV9jb25uZWN0b3JfaW5pdChicmlkZ2UtPmRldiwgY29ubiwgJmNkbnNfbWhk
-cF9jb25uX2Z1bmNzLAo+Pi0JCQkJIERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCk7Cj4+
-LQlpZiAocmV0KSB7Cj4+LQkJZGV2X2VycihtaGRwLT5kZXYsICJGYWlsZWQgdG8gaW5pdGlhbGl6
-ZSBjb25uZWN0b3Igd2l0aCBkcm1cbiIpOwo+Pi0JCXJldHVybiByZXQ7Cj4+LQl9Cj4+LQo+Pi0J
-ZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNvbm4sICZjZG5zX21oZHBfY29ubl9oZWxwZXJfZnVu
-Y3MpOwo+Pi0KPj4tCXJldCA9IGRybV9kaXNwbGF5X2luZm9fc2V0X2J1c19mb3JtYXRzKCZjb25u
-LT5kaXNwbGF5X2luZm8sCj4+LQkJCQkJICAgICAgICZidXNfZm9ybWF0LCAxKTsKPj4tCWlmIChy
-ZXQpCj4+LQkJcmV0dXJuIHJldDsKPj4tCj4+LQlyZXQgPSBkcm1fY29ubmVjdG9yX2F0dGFjaF9l
-bmNvZGVyKGNvbm4sIGJyaWRnZS0+ZW5jb2Rlcik7Cj4+LQlpZiAocmV0KSB7Cj4+LQkJZGV2X2Vy
-cihtaGRwLT5kZXYsICJGYWlsZWQgdG8gYXR0YWNoIGNvbm5lY3RvciB0byBlbmNvZGVyXG4iKTsK
-Pj4tCQlyZXR1cm4gcmV0Owo+Pi0JfQo+Pi0KPj4tCWlmIChtaGRwLT5oZGNwX3N1cHBvcnRlZCkK
-Pj4tCQlyZXQgPSBkcm1fY29ubmVjdG9yX2F0dGFjaF9jb250ZW50X3Byb3RlY3Rpb25fcHJvcGVy
-dHkoY29ubiwgdHJ1ZSk7Cj4+LQo+Pi0JcmV0dXJuIHJldDsKPj4tfQo+Pi0KPj4gc3RhdGljIGlu
-dCBjZG5zX21oZHBfYXR0YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4+IAkJCSAgICBz
-dHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIsCj4+IAkJCSAgICBlbnVtIGRybV9icmlkZ2VfYXR0
-YWNoX2ZsYWdzIGZsYWdzKQo+PkBAIC0xNjcxLDkgKzE1MTMsMTEgQEAgc3RhdGljIGludCBjZG5z
-X21oZHBfYXR0YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4+IAkJcmV0dXJuIHJldDsK
-Pj4gCj4+IAlpZiAoIShmbGFncyAmIERSTV9CUklER0VfQVRUQUNIX05PX0NPTk5FQ1RPUikpIHsK
-Pj4tCQlyZXQgPSBjZG5zX21oZHBfY29ubmVjdG9yX2luaXQobWhkcCk7Cj4+LQkJaWYgKHJldCkK
-Pj4tCQkJZ290byBhdXhfdW5yZWdpc3RlcjsKPj4rCQlyZXQgPSAtRUlOVkFMOwo+PisJCWRldl9l
-cnIobWhkcC0+ZGV2LAo+PisJCQkiQ29ubmVjdG9yIGluaXRpYWxpc2F0aW9uIG5vdCBzdXBwb3J0
-ZWQgaW4gYnJpZGdlX2F0dGFjaCAlZFxuIiwKPj4rCQkJcmV0KTsKPj4rCQlnb3RvIGF1eF91bnJl
-Z2lzdGVyOwo+PiAJfQo+PiAKPj4gCXNwaW5fbG9jaygmbWhkcC0+c3RhcnRfbG9jayk7Cj4+QEAg
-LTIxNTgsNiArMjAwMiwyNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9lZGlkICpjZG5zX21o
-ZHBfYnJpZGdlX2VkaWRfcmVhZChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZAo+PiAJcmV0dXJuIGNk
-bnNfbWhkcF9lZGlkX3JlYWQobWhkcCwgY29ubmVjdG9yKTsKPj4gfQo+PiAKPj4rc3RhdGljIGVu
-dW0gZHJtX21vZGVfc3RhdHVzCj4+K2NkbnNfbWhkcF9icmlkZ2VfbW9kZV92YWxpZChzdHJ1Y3Qg
-ZHJtX2JyaWRnZSAqYnJpZGdlLAo+PisJCQkgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X2lu
-Zm8gKmluZm8sCj4+KwkJCSAgICBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkK
-Pj4rewo+PisJc3RydWN0IGNkbnNfbWhkcF9kZXZpY2UgKm1oZHAgPSBicmlkZ2VfdG9fbWhkcChi
-cmlkZ2UpOwo+PisKPj4rCW11dGV4X2xvY2soJm1oZHAtPmxpbmtfbXV0ZXgpOwo+PisKPj4rCWlm
-ICghY2Ruc19taGRwX2JhbmR3aWR0aF9vayhtaGRwLCBtb2RlLCBtaGRwLT5saW5rLm51bV9sYW5l
-cywKPj4rCQkJCSAgICBtaGRwLT5saW5rLnJhdGUpKSB7Cj4+KwkJbXV0ZXhfdW5sb2NrKCZtaGRw
-LT5saW5rX211dGV4KTsKPj4rCQlyZXR1cm4gTU9ERV9DTE9DS19ISUdIOwo+PisJfQo+PisKPj4r
-CW11dGV4X3VubG9jaygmbWhkcC0+bGlua19tdXRleCk7Cj4+KwlyZXR1cm4gTU9ERV9PSzsKPj4r
-fQo+PisKPj4gc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fYnJpZGdlX2Z1bmNzIGNkbnNfbWhkcF9i
-cmlkZ2VfZnVuY3MgPSB7Cj4+IAkuYXRvbWljX2VuYWJsZSA9IGNkbnNfbWhkcF9hdG9taWNfZW5h
-YmxlLAo+PiAJLmF0b21pY19kaXNhYmxlID0gY2Ruc19taGRwX2F0b21pY19kaXNhYmxlLAo+PkBA
-IC0yMTcyLDYgKzIwMzUsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3Mg
-Y2Ruc19taGRwX2JyaWRnZV9mdW5jcyA9IHsKPj4gCS5lZGlkX3JlYWQgPSBjZG5zX21oZHBfYnJp
-ZGdlX2VkaWRfcmVhZCwKPj4gCS5ocGRfZW5hYmxlID0gY2Ruc19taGRwX2JyaWRnZV9ocGRfZW5h
-YmxlLAo+PiAJLmhwZF9kaXNhYmxlID0gY2Ruc19taGRwX2JyaWRnZV9ocGRfZGlzYWJsZSwKPj4r
-CS5tb2RlX3ZhbGlkID0gY2Ruc19taGRwX2JyaWRnZV9tb2RlX3ZhbGlkLAo+Cj5EbyB3ZSBuZWVk
-IHRoZSBkZXRlY3QgaG9vayBmb3IgYnJpZGdlIGFmdGVyIGNkbnNfbWhkcF9jb25uZWN0b3JfZGV0
-ZWN0IHJlbW92ZWQgPwoKU29ycnksIEkgZGlkbid0IG5vdGljZSBiZWZvcmUuIEl0J3MgYWxyZWFk
-eSBoZXJlLgoKClJldmlld2VkLWJ5OiBBbmR5IFlhbiA8YW5keXNocmtAMTYzLmNvbT4KCj4KPgo+
-Cj4+IH07Cj4+IAo+PiBzdGF0aWMgYm9vbCBjZG5zX21oZHBfZGV0ZWN0X2hwZChzdHJ1Y3QgY2Ru
-c19taGRwX2RldmljZSAqbWhkcCwgYm9vbCAqaHBkX3B1bHNlKQo+Pi0tIAo+PjIuMzQuMQo=
+On Wed, May 21, 2025 at 03:45:03PM +0900, Alexandre Courbot wrote:
+> Some registers (notably scratch registers) don't have a definitive
+> purpose, but need to be interpreted differently depending on context.
+> 
+> Expand the register!() macro to support a syntax indicating that a
+> register type should be at the same offset as another one, but under a
+> different name, and with different fields and documentation.
+> 
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/regs/macros.rs | 40 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+> index 7cd013f3c90bbd8ca437d4072cae8f11d7946fcd..64dda1d4d93d3c7022ef02b6f6fb81b58e90dd44 100644
+> --- a/drivers/gpu/nova-core/regs/macros.rs
+> +++ b/drivers/gpu/nova-core/regs/macros.rs
+> @@ -71,6 +71,20 @@
+>  /// pr_info!("CPU CTL: {:#x}", cpuctl);
+>  /// cpuctl.set_start(true).write(&bar, CPU_BASE);
+>  /// ```
+> +///
+> +/// It is also possible to create a alias register by using the `=> PARENT` syntax. This is useful
+> +/// for cases where a register's interpretation depends on the context:
+> +///
+> +/// ```no_run
+> +/// register!(SCRATCH_0 @ 0x0000100, "Scratch register 0" {
+> +///    31:0     value as u32, "Raw value";
+> +///
+> +/// register!(SCRATCH_0_BOOT_STATUS => SCRATCH_0, "Boot status of the firmware" {
+
+NIT: I'd put the arrow the other way around, i.e. SCRATCH_0_BOOT_STATUS is
+derived from SCRATCH_0, not the other way around.
