@@ -2,79 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB51ABF6E1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D4DABF72A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 16:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0D010E151;
-	Wed, 21 May 2025 13:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2C110E7B3;
+	Wed, 21 May 2025 14:07:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RpKFK8B1";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ovY1S0+z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B5710E156;
- Wed, 21 May 2025 13:59:46 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id
- 71dfb90a1353d-5290be1aedcso5311998e0c.1; 
- Wed, 21 May 2025 06:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747835986; x=1748440786; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xw9g/u+PTutmpr92tmdCCF0EI8aDcB/IZ4deCZgUTAY=;
- b=RpKFK8B1Ban5njQku7QN3kG+5vSK2vUJD6DSuHb0s5hnCgdRPQ2N56Q3gEd3hAs9UE
- j6A+1ZfaJpCJTSLigX3g25ibVV1tXh5l3TTAjiUhyhHnXiqY+ECEHLB96r2f3tDaBbs1
- wQJ/69rkeJzKclREin3WCsxnwJH4OpLhvfTpPzyiurYWoHMnPSPQJjJ1Nk2VcEeMkcfW
- +YjI76dEfvBkr8ZQgJV8V+CnDfFWJAxhMA3bLLHtdBhNFlOj6DUhg1dI366AJQeqd2KS
- +sx9ja69rx8KIg7vnMMN4f1UpwxrG2mlBTSi2fFC9Ok/piz/FrRN6ysH6kPpTfThZC73
- ZWwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747835986; x=1748440786;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xw9g/u+PTutmpr92tmdCCF0EI8aDcB/IZ4deCZgUTAY=;
- b=CJCeNzTn6d7VPGmJakiEIw3uRod+oAlsFomNcpnTnQRmBmmPgfR/OAeZEGtTKkM/dQ
- A9c8l7kquSv4UZBvvkLAUoSYGWkp982xzYSkby5+bsWpCGp/xOtuZ5kO/Xqgl6bv7BbG
- wDSeuxYh9tdJqncWb2HvTileJuKIcboppLewGdvZgTIB6HmjnPoW4Cv94f/1goNJU5qv
- SXZP7o/3saL52uo38Boifa7cxKvdEWZkAAxo5wF/tj4kfDT9gt/vI5lc22cewNkH0POp
- Rv7PF0gP47FblhU6gs02SWidZrgl0oy+DvN/aYN4RM5H14g8/KvcY67mKVjiKBYrEFYR
- 10lg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvVAf2VvXlqYnWsbjDHfe+khnP5z3kwidZO7iyOlXDDVveTIxLttTOhdeMltOBTvxLzVTBCinJ@lists.freedesktop.org,
- AJvYcCVSau4wbFAU420dJC/M1tncIOsgo301w91u9sZd3IZaOD69xpZIY74x5k/714DPOjVj7Lr99YuHFsJw@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMNIbYNKlXh3toByEbgigZdIrEqkQAa5ZiMy7rjDVOPMRzPFU4
- i7N2xcRu/R5wh5hsn/YxELRDepYdzmygdlKmtGsnWXs94CLnIk5UpAy9
-X-Gm-Gg: ASbGncuigXZ8aNZm5qy4Dn8diqFyGulJPVWmG2o2KkBo6wTYTq2DqBoyl+/xbiYaF99
- S6SDxiA4SwtPHJsXj12P/NGwtNl1c0AS9HI5Z76fBx6Cc+VcsnpyL9EjX50v+vQq/sFS8I3x7fS
- Nm9nsSoPjCbZgRmnh4a0tKCY8YW44dr/fEM/OJD8aoZz7pPvCmZidWggziHJdYMJl2Dm1/KJgYf
- kVh1yn/e7Z+IsOk2sibf3ZH/zbm/DYTCZygO+FbSKZQWfwqkAcShDG6aBmp65w8eaIsf+6jxB3f
- Hfq9sC5MuDB9qUEHgUJdcdQ6f7aqBpQhggyGuz8P63neru1jbqI9eaG4vSPZ0SIxFB+yFcwpgBj
- gnpK6bQ==
-X-Google-Smtp-Source: AGHT+IGU3Zp/2zebyqDel2Xw4rWlOVSOhsahtwHujXtuc/Itm9qXDr93dFezj+gD4xSXz9L53Jo9sg==
-X-Received: by 2002:a05:6122:2c2f:b0:52d:bcd1:ab55 with SMTP id
- 71dfb90a1353d-52dbcd1aba9mr13953246e0c.2.1747835985890; 
- Wed, 21 May 2025 06:59:45 -0700 (PDT)
-Received: from xodo-linux.tailb46509.ts.net ([143.107.45.1])
- by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-52dba940919sm10156170e0c.17.2025.05.21.06.59.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 May 2025 06:59:45 -0700 (PDT)
-From: Leonardo Gomes <leonardodasigomes@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: derick.william.moraes@gmail.com,
- Leonardo da Silva Gomes <leonardodasigomes@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND] drm/amd/display: Adjust prefix of dcn31_apg construct
- function name
-Date: Wed, 21 May 2025 10:58:40 -0300
-Message-ID: <20250521135851.11110-1-leonardodasigomes@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2042.outbound.protection.outlook.com [40.107.244.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE56110E7B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 14:07:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CU/ZpgDPrRLwwKHbu/5ZkcDdwOq8nB4USUk5gh6SEjThaMQKrmWMOfowPoE3OCPNByuOd1pbEDFWVU2p6chWnYe9wv+lPlfqRGhQGOAqJYISkQd+zSbed5OKdQLu6MdnBTv2WZJJHhdCVBSY+uOmXmtnfmAh292Cr2cR6gy15GTZ2uahDtQfMuKaM6C2RgulcNhw32GvH4cw1N5IGgg2u7VvFVfleWONxjMDVFzWk/CWeeOU5cBEZbBic5SUg2tWW9bqc00U3vRQHF2g141Mh1uxU5vpZQ7EFUBwmYxJEoF62g1xAmNbYjHabOaq12OwXl4LSH7VLXR/UnNJUDMcYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bfYglIx7aN2zR3opEhHypO5gxpNUOoyY3KMqw/Vztxw=;
+ b=ZHjR74QI8P+RDDzNAQ2GKkJ/9PCxHGa6dyD+uBAvq/Sz8JnyDs5tEBZQv476y3WSYXSSIBEAfLozYNkffPQe7gqbSOOnZThYy02YBvPol1WPYvKPTXZeq+wWB7rmZMfMUCgMVMWE9qLxvm1A0XLYLflKL8yWH/dt7p3bqZvAAAaaJRjuJ2OGIrakLpyoVO7txeityYOuve3ZrSs2ODfYDMvLb66r4dGb+piKD4/NmX0y8WIyGHFcg6tLGc5qFBdM+G5BzWq8CE37snvypUrlCocbi0KqroGr3n+hputVjkk4iqHtHSf/w3ZM8cyTEwpkVy87tCDfS7iRutaq0Xj8tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bfYglIx7aN2zR3opEhHypO5gxpNUOoyY3KMqw/Vztxw=;
+ b=ovY1S0+zyPZtkgGkh6Qh4R5xJ1xuPXz9qNX7jnnif2ZdyFIqyWdWQZ95mhVy3mt0ZyKUro1LLbACvd7UXSSX0mAQus+qtigETFvZCkeK4FixVv5WJXO8HkoagjkQeFpVylUJqByQ1MaAUdwpq2oc4uawyXHkQLcsiSu7k6F+2mI=
+Received: from BL1PR13CA0259.namprd13.prod.outlook.com (2603:10b6:208:2ba::24)
+ by IA1PR12MB6282.namprd12.prod.outlook.com (2603:10b6:208:3e6::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Wed, 21 May
+ 2025 14:07:10 +0000
+Received: from MN1PEPF0000ECDA.namprd02.prod.outlook.com
+ (2603:10b6:208:2ba:cafe::92) by BL1PR13CA0259.outlook.office365.com
+ (2603:10b6:208:2ba::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.19 via Frontend Transport; Wed,
+ 21 May 2025 14:07:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MN1PEPF0000ECDA.mail.protection.outlook.com (10.167.242.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 14:07:10 +0000
+Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 May
+ 2025 09:07:06 -0500
+From: David Francis <David.Francis@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: <tvrtko.ursulin@igalia.com>, <Felix.Kuehling@amd.com>,
+ <David.YatSin@amd.com>, <Chris.Freehill@amd.com>, <Christian.Koenig@amd.com>, 
+ <dcostantino@meta.com>, <sruffell@meta.com>, <simona@ffwll.ch>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>
+Subject: [PATCH v5] Add CRIU support for amdgpu dmabuf
+Date: Wed, 21 May 2025 10:06:46 -0400
+Message-ID: <20250521140649.4058526-1-David.Francis@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDA:EE_|IA1PR12MB6282:EE_
+X-MS-Office365-Filtering-Correlation-Id: e841a0d4-5f0e-4f83-f7de-08dd9870c774
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?q0P+pvk2DWtxylf0NCJjXmktuTbscj/NepX5Tn3GZS/kisANk9aiSKp6rhhC?=
+ =?us-ascii?Q?L7lc5o8roYCF0/It+85ovnSlzfnkdstMgsMo4TV4wllyR3465WODe44pbWfV?=
+ =?us-ascii?Q?DM09OS8vIB9cI+Q2ouhFai2t6mLQK8K2RO+CRIeY8vIpbYUeKKn2Iq2PEZtN?=
+ =?us-ascii?Q?5xKqOeQNDVd9Zh75L51BWz+hv33h+Sig56LEKyFgyhuYciEkT+m2/CpfVlf2?=
+ =?us-ascii?Q?TciFQesGDHUdWKe5OGdI1evxXF4ff0SoAU6BF3M1bgnfQmXewtqBicCH8dwM?=
+ =?us-ascii?Q?ZMwZtQ57s1zPXZ0rEcTfKmsdTHhcjrADW2gvF4WeqKPiiPsnbwKUbRza9663?=
+ =?us-ascii?Q?iadmQWRuPokQCldyxieYB3EwNQyqhFaEnzqLrOD1UUIpIkYdTYRP5cr/eVSY?=
+ =?us-ascii?Q?jlCr1E3bB2mJK269WoQaG9/XcZBcSfPcIyCWFfa6RETs3duCEcOagVVxk8/A?=
+ =?us-ascii?Q?WcCnD9t/j1rv6leRuE1pzal4v72DdI7EZPqGjwuU1kYfAUeVctINrZAqQkVh?=
+ =?us-ascii?Q?JW18lRIVi8v/eKU7yERpdna88h9um9lC2zlAdela/QkVG50h/KSOBNrQIhFL?=
+ =?us-ascii?Q?uNGaN/d4IFaxNbivNf54VmqCNc/V/5OYhJCU9V8STDPuNie5yYYfpOj9VMbI?=
+ =?us-ascii?Q?Nhlp6V18iK+d00Gndx/MovZeaIhg7w9fGvHoVqSIPuoHF43XHGcPZV5hkRi6?=
+ =?us-ascii?Q?DEeQZk4YQ565Kpv0Gi5kvix7Ink4onT1NDM+zxn/GACakK1ihafq2FHN+ZUl?=
+ =?us-ascii?Q?rtT1WNHH7EpFXFdqAC2l6hQBItrtb5yc05ftRSg4w9gzAngO6GD7OGd60GU7?=
+ =?us-ascii?Q?zbwv0HQi5c//OHltVszi6QvPhaEDEwtSIhmrRNdqPI0hPtkzaP61+jCJ9WKk?=
+ =?us-ascii?Q?CGrpd5OHrhDEn9ttW4IvykLBunByFpaqOq32TBQn/OwKrPwOTfJwJqRdnRCE?=
+ =?us-ascii?Q?bwTfuZcL53jCnPMoHzwrsPTUleXDT6NIxr5ttNUykPnuFlETQEXcWfUKEueq?=
+ =?us-ascii?Q?vX1EAF7cZRTknMBwqhc93+QEsRCw+7kUx62XAjjDtOhsBh6H+fBHWXR7O4cX?=
+ =?us-ascii?Q?U6INHYWHmm+5lOIa1SbIUkPAM23e88ZdJyGlmf5cmmBsyAsXSF+xTfEmTUp5?=
+ =?us-ascii?Q?YwQJMP3U3LB+WSlkDO8hxq2VXrZRVqNdBrMZ4/KEa3V2i6ct+XK/5i0Dgh+c?=
+ =?us-ascii?Q?UVdVKRwGf9kM1yBTVVBwwvPmlbILxlO0AgwiH6CiNEGKVPVRXuN9Qted633O?=
+ =?us-ascii?Q?UL8iUsokwSDQnanhaEaodMhdHt67v0Elva1+M1FV/ss/kNLBI+q0XkE4Z+zR?=
+ =?us-ascii?Q?dP1gQoN53xE0jQQvvrp+hEE4R5ij4XYTi2U4DCtrfywOsiDX7Lxl8b8scoy7?=
+ =?us-ascii?Q?8569GQRj/l5a3AJa7oc0S+C5w384hl5r8iHPme9j2F9xu8PXd0TVJaUOH58r?=
+ =?us-ascii?Q?zbDxJ8AmP1URWaXeuJk3Dj+RmY/Nxwv3U0jpV/UzTQz3tHzh9ZFICtVx5rlL?=
+ =?us-ascii?Q?j1fMPjoOcGyoi3LMzc06ljN7g9B1MiB10rZ8?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:07:10.6102 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e841a0d4-5f0e-4f83-f7de-08dd9870c774
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECDA.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6282
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,186 +134,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
+(previous patches were incorrectly called v3 but were actually the 4th version)
 
-Adjust the dcn31_apg construct function name from
-'apg31_construct' to 'dcn31_apg_construct'.
-This helps the ftrace to detect the file by the function name.
+This patch series adds support for CRIU checkpointing of processes that
+share memory with the amdgpu dmabuf interface.
 
-Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
-Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
-Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c                | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h                | 2 +-
- drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c  | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c    | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c    | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c    | 2 +-
- drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c  | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c    | 2 +-
- drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c  | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c    | 2 +-
- drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c  | 2 +-
- .../gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c    | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
+In this v5, the drm interfaces have been changed from creating buffer objects
+with specified gem handles to changing the gem handle of an existing buffer
+object. This new ioctl (AMDGPU_GEM_CHANGE_HANDLE) is in drm_gem.c
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-index 05aac3e444b4..d1ccc9a34b2e 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-@@ -101,7 +101,7 @@ static struct apg_funcs dcn31_apg_funcs = {
- 	.disable_apg			= apg31_disable,
- };
- 
--void apg31_construct(struct dcn31_apg *apg31,
-+void dcn31_apg_construct(struct dcn31_apg *apg31,
- 	struct dc_context *ctx,
- 	uint32_t inst,
- 	const struct dcn31_apg_registers *apg_regs,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-index 1b81f6773c53..54c6b62195c2 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-@@ -100,7 +100,7 @@ struct dcn31_apg {
- 	const struct dcn31_apg_mask *apg_mask;
- };
- 
--void apg31_construct(struct dcn31_apg *apg3,
-+void dcn31_apg_construct(struct dcn31_apg *apg3,
- 	struct dc_context *ctx,
- 	uint32_t inst,
- 	const struct dcn31_apg_registers *apg_regs,
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-index dddddbfef85f..b3553ae26d7c 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-@@ -1207,7 +1207,7 @@ static struct apg *dcn31_apg_create(
- 	if (!apg31)
- 		return NULL;
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-index 26becc4cb804..be55a3c36a78 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-@@ -1263,7 +1263,7 @@ static struct apg *dcn31_apg_create(
- 	if (!apg31)
- 		return NULL;
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-index 6c2bb3f63be1..b9847b4bb0f3 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-@@ -1205,7 +1205,7 @@ static struct apg *dcn31_apg_create(
- 	if (!apg31)
- 		return NULL;
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-index 568094827212..b6cf2a296ab4 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-@@ -1200,7 +1200,7 @@ static struct apg *dcn31_apg_create(
- 	if (!apg31)
- 		return NULL;
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-index 2a59cc61ed8c..66fef6f6000e 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-@@ -1187,7 +1187,7 @@ static struct apg *dcn31_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-index 38d76434683e..9be23da216d0 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-@@ -1170,7 +1170,7 @@ static struct apg *dcn321_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-index ffd2b816cd02..27affafb14f1 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-@@ -1252,7 +1252,7 @@ static struct apg *dcn31_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-index 98f5bc1b929e..d5341b0d59f3 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-@@ -1232,7 +1232,7 @@ static struct apg *dcn31_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-index b6468573dc33..6fb2261c554d 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-@@ -1233,7 +1233,7 @@ static struct apg *dcn31_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-index 7436dfbdf927..ef4d758bfb5a 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-@@ -1162,7 +1162,7 @@ static struct apg *dcn401_apg_create(
- 	apg_regs_init(2),
- 	apg_regs_init(3);
- 
--	apg31_construct(apg31, ctx, inst,
-+	dcn31_apg_construct(apg31, ctx, inst,
- 			&apg_regs[inst],
- 			&apg_shift,
- 			&apg_mask);
--- 
-2.43.0
+In the accompanying CRIU patch set, the sockets used by CRIU to exchange dmabuf
+fds between restoring processes have been refactored to be created within the
+amdgpu plugin itself.
+
 
