@@ -2,187 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B13ABF408
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 14:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7E0ABF5B7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 15:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483E311B5CC;
-	Wed, 21 May 2025 12:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA03112891;
+	Wed, 21 May 2025 13:06:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fvHC3sPh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WQrD2BfL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22BD711B5BC;
- Wed, 21 May 2025 12:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747829819; x=1779365819;
- h=message-id:date:subject:to:references:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=Navm3tv5n/RUStJQWqE7FxZ7PxNxHMFKfnao8UkocJE=;
- b=fvHC3sPh9paFuy3cdnSrkgrIjzA9ZMTRgtP08tLcuBmM4Sjg8VF5vxDr
- q8qmptXYafesSf+W/pnjgA51gmEHCIRAN3l/zDEsyQj8sfW8z096PcPLl
- sPY5068NCW6ash3/vSr/PPdy2LE+obwVr/pZkX9e8+ZfgJpkjSYFv+MHR
- FF70wttMhMVbdkeuMpXzf7QFAr2bX0qwINMvLrTkZHd/AfoY8/UI7lYYo
- HnO0aSKBFaDIItH9z/SoMjCRT2nXP9c2Ms+fEy1WhSN83LVEd+Xd79yNc
- sVgbTKNRvYYEpRvZHU/6p0UWc75ycbhhePBEoEG/rtWZ4zF8Em8iydMjf Q==;
-X-CSE-ConnectionGUID: /fNtribmSEGM3JBc3AvQzw==
-X-CSE-MsgGUID: SFqeWDZwRVyS17wA6rQZ5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49679319"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="49679319"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 05:16:59 -0700
-X-CSE-ConnectionGUID: QcAz+kvMTU2bWh48Fk8u7Q==
-X-CSE-MsgGUID: iOrQoY1hTESQnccEzF1mOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="140560862"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 05:16:59 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 21 May 2025 05:16:58 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 21 May 2025 05:16:58 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Wed, 21 May 2025 05:16:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ieY+rL0MmDVOGlg+SPCcFS0ZP3dzNs/r0psPKIjxR0zxfKwtXTOhTM+WoRao/CzPfsCCueBrOOg1+0hbzmE499Fkv6crOzXiNVoclFtSUXpsU/odkZC5JYOW6CA2E0gL5d7oFnkKClz7y4n6f4Q/x0CW9VWTm/D/FH+CTkIC8/WhTXd0K2dF01+eJebWdGROA5md77C3OsrXl7fAWisyY9L7Soq7Y70C8vVQSCxj13TtCc/iwsMqlVH6QjiLy9gLtMgmOlvIngN+X9qZDFyjrwYx0A6+LKIEFXdg2AVaqr1cOx62Qj5J4HUeck23hERxehA5W0HAfNxFb5XG7tNc7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2LCVGwV3ZhLeMfcTGdAuc4lXkKKugQvwLHujOj+loZE=;
- b=MDlEysGYvi+N1+zuFzEMgrelhaVXVJohH4fizNx9ZzYbE3d8UUMIWhEHtZ4HDCKYhIFl9LH08dYvm/Ycr3yNPkI2tIVzRTNBbObyGIdnrDHY4zrhXfReBzUb3twuJzDnybtTyRow/RjKAqBEW4afZ/MgDPiCMPmQ1CBMbGrPv09g6XKJHr6Eb+Jm2HZ1rihZSwsR1+C0uloEzlbyImRIOw3Jst1LLzJHf8zUKYcTmwJ4gybWLgmIWt83vKCFRu1W0DLsCjUz6H4jv/tOb9utlP9L2mF3kgmausH/xwmaQoOBl4GQBcfsfN5CXhEmjxYoXk0NQ/Aq573/XGVoy7XvSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SA2PR11MB5193.namprd11.prod.outlook.com (2603:10b6:806:fa::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.19; Wed, 21 May
- 2025 12:16:24 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839%3]) with mapi id 15.20.8769.019; Wed, 21 May 2025
- 12:16:23 +0000
-Message-ID: <0c2140c2-46ec-4641-acc3-b1c4d78c5b8d@intel.com>
-Date: Wed, 21 May 2025 17:46:16 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/12] drm/dp: Add Panel Replay capability bits from
- DP2.1 specification
-To: =?UTF-8?Q?Jouni_H=C3=B6gander?= <jouni.hogander@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20250521115319.2380655-1-jouni.hogander@intel.com>
- <20250521115319.2380655-3-jouni.hogander@intel.com>
-Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <20250521115319.2380655-3-jouni.hogander@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MAXPR01CA0112.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:5d::30) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0500712BBFF;
+ Wed, 21 May 2025 12:43:28 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-47691d82bfbso131187961cf.0; 
+ Wed, 21 May 2025 05:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747831408; x=1748436208; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hgjwFdM2k5sCslQZdWwlZbIspHEoXzqe2FcVDJivI+o=;
+ b=WQrD2BfLb7xgYSsuJ83dg2UPLqYzcJqz28V9iOBg7XznJou387i79UdViIvxVvI6dx
+ tLOWSx1DKGdrrbe9BncyTgFyZS4DJmGYLN24PpVCs/99Us//3DzCp81DG/KXPdVflqLI
+ cwYJ9RROMirJz7Zeu+YF9u4wJySjnZPfV/y5C4aRBzTmRts32xcc9y2NPS41zQ3orqSt
+ nCpPjDI+LN4nYoSOWCffGZe3VDp6TB9WhBQtBI9ZcAiMGggC9IQKeZV/7QAI8fuJ4SHL
+ r4vl11GgKdIDijWAP94qrr5Z+KUYBvrl5BjPwJPqTIUxNnr/UNJm4DPFQCLM7bY631gH
+ rUJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747831408; x=1748436208;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hgjwFdM2k5sCslQZdWwlZbIspHEoXzqe2FcVDJivI+o=;
+ b=A3oufzoI4y3DZX6D9/5VylbrwkwgexXgb5/ebDAte5epEjeKoAnb3VQ8Ittladm8h1
+ VScICaBgHQt+MujbMAXwgnNJgbr22ibY1vM6og39qfr6IS67XPz1HMspxSKRBQnzmO2N
+ NawrY6KmloFt718OVPJwVdsSXQ/azJjSAWFD9RQ9gqURi9RNMJL/dkhYJVOUv+6Z1tQu
+ qBaz0Gj4p5ZUSCYU+c4E2nh417XRaibiiZ6Vqkj5pIjC7YP/XSETA2ufHBG9bvht5TCa
+ b133i23jrotOpDcFXWfA3//PmAtTO0m8N6Pdz5AboAJO/+GsJPZZRSemIffTxyEjGWyt
+ y/Ig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQGd6dxFoBfGHImZOoUvccI7x+IcC08K+R5Ccd79TOPXfIai4GIoQCtVY5A4jqKCFULOKyfqILM8o=@lists.freedesktop.org,
+ AJvYcCXVK3/pXLLj6c6mtQTB2+F53QnOD5LYaXY8lFFtQMFoDL38KWGz33EIIss6q+qT6FcpF0gLMZyYrA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXlY6AS0Hwh1jhlACdkwiKx+CP46smVB2vcSpyZJrWqYg8hEpZ
+ G5bRzf0nGJ8FUXv60TaJWYESI8OShxN7nuoLjc8m9SBHN68dEZwHo00m
+X-Gm-Gg: ASbGncuY6LMSNJShDoCqgPX4b2deytelUoov95NzR3pr67i7TlB7co9Ob6f/+o/Hkqx
+ CiRePIlTKJsC5Xd9Jz/jh5PTtY1JFvvNPPmazXH6fH5kaIjzzFjAANXvfAuV6UIWUyZnvsF7Ctb
+ zVpqUv8bJysx8cICHTu6UBYBj3aoncVtCVHiXH5MjN7lkfBWXMOSq6kCIADhh/J/pCJn/Z7azNh
+ xrVMT257VSUnzkM9FbKRss/lMxJmwpyKmyMtV4Q4oWwZrBTpP4V5HZ5JlTT+ql05eIkLmJAJGqY
+ IMP+8s6Kbr4U0+Q89uVAkfDSuoQCL4wNOkH7pOK3P3Y2bfm9EMEPqXFFc0nYwVW+veoLC1cqjzy
+ lzj06xuWqojIZrcxGi/kePSdYVrhfn7lm2sYUJwDu6K47RPv0yOw2
+X-Google-Smtp-Source: AGHT+IErCuCfRGil1ejhob4xg9yF6HudkK+JCsZ+ou6hegKIPEwSjezrXHPPDMBGZDMU5QdCutpJMw==
+X-Received: by 2002:a05:622a:5a92:b0:474:fee1:7915 with SMTP id
+ d75a77b69052e-494b0804fccmr351306121cf.31.1747831408000; 
+ Wed, 21 May 2025 05:43:28 -0700 (PDT)
+Received: from fauth-a1-smtp.messagingengine.com
+ (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-494b2de7adesm78612461cf.17.2025.05.21.05.43.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 May 2025 05:43:27 -0700 (PDT)
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal
+ [10.202.2.49])
+ by mailfauth.phl.internal (Postfix) with ESMTP id C0F0E120007A;
+ Wed, 21 May 2025 08:43:26 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-09.internal (MEProxy); Wed, 21 May 2025 08:43:26 -0400
+X-ME-Sender: <xms:bsotaDmo6rPZ2tXj80tjivOzXA9zUk6xy3r7BaxKDzBH9Tl7SYB8Jw>
+ <xme:bsotaG3yjjhGuEA2SFUFzXmthWJxpZLhxozreZrqF_Mh0IiDABi6OW1yzmMv1Uc1B
+ 1yS-xMRrtdJYAqDgQ>
+X-ME-Received: <xmr:bsotaJp-h3wu69T1xoojOOr2UB59J6teF9TmX8dDoOrOvdDnOJQiPFLq>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefudduucdltddurdegfedvrddttd
+ dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
+ nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
+ enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhgg
+ tggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunh
+ drfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeehudfgudffffet
+ uedtvdehueevledvhfelleeivedtgeeuhfegueevieduffeivdenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgr
+ uhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsoh
+ hquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghr
+ tghpthhtohepvdehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrtghouhhrsg
+ hothesnhhvihguihgrrdgtohhmpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdho
+ rhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtph
+ htthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegp
+ ghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvghnnhhordhlohhssh
+ hinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggsohhrgheskhgvrhhn
+ vghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhmpd
+ hrtghpthhtohepthhmghhrohhsshesuhhmihgthhdrvgguuh
+X-ME-Proxy: <xmx:bsotaLmvSkg2Q06ODnYxXBUDGpip6DQk3VTw7K4qMb2reqkkcSWrVA>
+ <xmx:bsotaB3MfIrt8FFge-AucHIiw6NaEDMgIfwaMG4fS9t1kft0C04zuA>
+ <xmx:bsotaKuSJ-iPW_ldhIxNCQ2UxEf5EaZ56wZOLmaLS1G0rcJmTJ2YgA>
+ <xmx:bsotaFWm4FiQy945-CSPTPkSXQlvyTnVjbb8iPWajXkBDIE068QB1g>
+ <xmx:bsotaA39I8JQdG94Oyw-Ah8xDMPX_twLC3gAiGlTsg415qakz7IrijV3>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 May 2025 08:43:25 -0400 (EDT)
+Date: Wed, 21 May 2025 05:43:24 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 01/20] rust: dma: expose the count and size of
+ CoherentAllocation
+Message-ID: <aC3KbKeEVlHggi5l@Mac.home>
+References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-1-05dfd4f39479@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SA2PR11MB5193:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a637fe7-f2a4-4555-47e8-08dd98614d79
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RzY3L2ZtT3BKVFFIRXBtcU82cVlhaGh4ajJtdmF4RG9RVEgyeEcwdEVKTmov?=
- =?utf-8?B?NTZNSlhaZXB2NHNINWhvTXlRMXlHajB6Vkt3cDRsMEh6N1Vic1BTRGQxNEk2?=
- =?utf-8?B?WjQ4WDFxT3h1K0VUK0dnRVN1K3Zpcm9RWHEyVCsyY1hxKys2S0h4UkRQMXh1?=
- =?utf-8?B?MjFNbVNQV1ZQT3p6QVVXRFFJTHBBR2xvVkxvUjRlYlNOV1JDRHpPVlZiUUQ0?=
- =?utf-8?B?czYzWlpiV2xGQkR0OE9maWhEUG1mYS9PajBSUnE0QkpLRFVSSlBuQVkvRXkz?=
- =?utf-8?B?cjhuYm52cU9YUm5VNVUrWnB4TVpYL2tDN01jdlZPL1luY0tPZCtkTDcrT3RS?=
- =?utf-8?B?LzhaWjVUbjYwSTJRRDBlWnE1L3ZJcmdQWUk5ZDk0dVdxbnMrWnIvNS84MjNj?=
- =?utf-8?B?bnp1NHBNek1SZ2FzdktGQWxXdFIwS24wUXEzVHZIczNpckZpcEluODkvL2Fv?=
- =?utf-8?B?bEZ6L1BVbURSZ1hpWTBnL3NsUFpIaG5aUUIxelI2QlMwRHpkbUVmOGhRc0xL?=
- =?utf-8?B?azVyb29adUFuRDhnbzJiOHZ2VjExR0dITklpR0dzTld5VFdNT1dEeXlRNW11?=
- =?utf-8?B?U0ZRTitKdU5vbDI3YW1zanhhQkhKdE04S2NZVDdCQTNqZTczMm96RnlHM2Np?=
- =?utf-8?B?MnhpVE1tWTAxYTVIVU1BeldZQmp2enlhMUtoR3JxSDJybUdkZlYwbUx4OWgr?=
- =?utf-8?B?S2d5SXVKbzIxMEplRkhrRHdPdUNZclF6YlM5cWJ4T0RFK3kwU0RZMUxxRHBj?=
- =?utf-8?B?WGhUVjRaVWRZbjIzRlJPZytFWi9oT3dmYk9QQ2FjRFpnUHpUSUUxOUVHM0w5?=
- =?utf-8?B?TjBqREkvL3NiLzgxOE4xcEovVE9QQ3FodFhEZDUzK1RNeXFYRE0vSmZTb3Fk?=
- =?utf-8?B?MTg4b0hZMzVDSlpJdDBtaHNRTjF6azBSSEpKVWZKQ09UamlBZFRvdHhDbmcz?=
- =?utf-8?B?emU1cWYxTHM5V0M3VEZ0aGJPaUs5LzJubHRYcjQxTWxhTTVZekNMYW9vUkFt?=
- =?utf-8?B?NWhZTW0vN1BkdGFrNGpTV1RnM3ltVzBrZHhzMEtuazg0eDJheDNuRzRQS2tX?=
- =?utf-8?B?NEp1clU5QXV2OS9HaHpBQnpRdjFjdmEwaml2YUxDbzQ0M3Q0KzZaZnd4NDFa?=
- =?utf-8?B?R3FxUGNtR3ROTHc1YloyR0Y0SktOenVyS2c2cjU5SUlGV1AzakVnYkh5SUdF?=
- =?utf-8?B?UFAwS0d5MDFtT2xIS1RSTU0xK2hlOEFOMTdoRVB2eVFpb0pEdHdHTm5rUWZ0?=
- =?utf-8?B?Y2p2YU43YjM3VHRkaHBJeDYzYWdwL21xZ0xucUxyY3RNYytDdnRsKytPSDRq?=
- =?utf-8?B?dE52eVZXN3dKNFJxcHBRdHU3cVZDVzA3VnhYRXdJMVE1dGZsTHJhS0l2Nmgy?=
- =?utf-8?B?cytkZ3pXT1lJMC8zeU5RUTlBdnRqWkdoYUx0azVEYm9jOFlRd0MyQ0Y3ejB3?=
- =?utf-8?B?SXJoUlJUclR2UGpNWVJwdWowMCtBbVQ5cHZ1dzZHWmdCRS9CTnZqTkxic2hy?=
- =?utf-8?B?REtjS0JRZFZUSVhWTDRqN2ZCMGExS1NLTUxRTzVHRHc0QjhXeEc2Y1NBQkxV?=
- =?utf-8?B?Yzg5Vkd5ZmZWNTVHOElLQm9MNU9aZ1RUWFVWNStqbnkrdHFDWGRBcHRCM0lx?=
- =?utf-8?B?RXJiWUlQQTN0eU9ZbXNYQTRjcVY1a0pKUERieEo5WE5kU2QrNUJrQkhDRUs5?=
- =?utf-8?B?WWZmZUxBcWF0QysreFh5NE9ack1ZZGxjSkVGYmg1cXg4elJZQlRBTytYcEhE?=
- =?utf-8?B?SklPbFc4V0RyYnN6ZTBoOW5ScU4veXFLVUoyWmY1eVd4c2I5aEpMMTV4c0wx?=
- =?utf-8?B?SllTQ05tWXhJZVFMRnNXS3FNUEw4bEp4OFVEWGVXcHh1dG96dWZhMVIrL1JR?=
- =?utf-8?B?eVh1STdaaGFKTjJTVGk5RDBXNEF4VFJMRkhBNlQreXltWEFxZGdoM2VIbEZm?=
- =?utf-8?Q?FfsvJvpyhUE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXUrQys4WTZ2bk5TT2pldUxXZ2YyQWk5bWx3ZStxVWdYM25mUG1WWFRBUHd4?=
- =?utf-8?B?Z0NEQ0JpSkxuNnZXMHhCYW5WRlU5N3RpMjIwMUVCOUFyanRHUEZmK1RQM3Zr?=
- =?utf-8?B?bENFYTR4K0puQjB5cXIramR1UkQxVzBzTFJoNENEZ29rZzE4dERJdWpURVY3?=
- =?utf-8?B?eHdLL2tXdnluSXlZdHdUOFRnTUVlY3FqbG1VVEFnT2dNZWNXZlJxMWJqNE41?=
- =?utf-8?B?enpxVXMvMzhEWFlnWENUcm9wbVVhMWlmNmhlcTg0V0wyMmxxZVpnc1VZL1N4?=
- =?utf-8?B?ZGlYY29qRWxLbFdVelo4UkhLdmtwMllFQzJBdFhMMFhtK1VvOVZ5U2Y2d1dp?=
- =?utf-8?B?REdlNGRTdUNoMWFqaE0xRkpIemZnTVIvSlF4TVgzOHRtWEsraDdERVZBVUlP?=
- =?utf-8?B?T3d0eEpNazNuaWdMT0ZBY1p1T2Vjd0QycTY1ZGJvQVpVK3hrSkIrcytoTVZY?=
- =?utf-8?B?Wm9jcW5UaXBaUmw5ZzlMMURwWHFWaTU2eWFKSzRVSUFwUzluUGp6emJEK0I2?=
- =?utf-8?B?QUQ0TFRHUjFtSnVYd3lkbEFHLzAwUkV6VkJPSHFFZGx4YmVBbnI1M1B4cWV6?=
- =?utf-8?B?NEZVaEJ4ejh3UUxGNnVVbkFWa1JCdEJqUm84S2tjSlcwVzNEam1CVjV0VDN2?=
- =?utf-8?B?RC9BY1JiUW5YMWw2TzVGdlRqd3g3d1VmTWRjdnVjK3piRlRzUUM0SG1TZmtG?=
- =?utf-8?B?RFk4SUhIdTFQTFpXc2FmVEdyclUzSXNTaVdWcWRteTRnSnZTM2gyckxOWmFv?=
- =?utf-8?B?VGZ5ckN0ZTNDZWFTdGVhQVJpVGJrckE3ZklaOUlZNFRBclVhbmF1NnRXK3hx?=
- =?utf-8?B?Ym5PUXBGNGc1N2NSdnVzK003VWFncEZUTkVYbjBzMEVpY0NvckUwUUQ1Zk04?=
- =?utf-8?B?V3RGa3A2RFVpVjMrM0p4VitJY2tjWDZOekw1cjdteHMwbTNzb2o5MzVoeHQr?=
- =?utf-8?B?eGw5M2JxWjI2Q2Z3SHVaelpHWTU1SnliY3ZFTTBTUkM1ak5WbkpoSzhtaWc0?=
- =?utf-8?B?WVplRVpEZVdYSWhmd2FlQWZUQXp4UFRiNkRxZHhDR1BhTngvZXlOcjBkSHRQ?=
- =?utf-8?B?R1MwWHE1RnRRQzlpM3QrZmJKT3h6ZGZBTXdFSTJYYTZjbkxQR3VjV3hvbG9V?=
- =?utf-8?B?NWFOUXVPanliNWwydlh6YnUwZzlhSmV5Y2krMzg0UDlZMVFsem0rT0dobG9l?=
- =?utf-8?B?a3NoaUhTUE1lc1F1VGMzMTFHUnhZU2NFbjhCbWRVR0RwSjVFMmlYL29YTlVR?=
- =?utf-8?B?cGZSSmQ4WFBHd2FxcS9nQ0JPL2h5UnBtWlFUT3Rqa1lvc09rUGZQZHZodStF?=
- =?utf-8?B?MEZtajY1QlVUKytwMWsxdFBTS29ERElad0cxK2VVZ3UwU2pWeFZRMWFLQ0lK?=
- =?utf-8?B?SWFHNUFucVRHSnZpeHllUkVHeDJjZWZ4R1lnMCtBME9ZOW9yZTFrTFdXR3VT?=
- =?utf-8?B?SDJOTnU5cHc5a1IzTkx0WnlFUnRDNEpQVUNHU0pQTUhJNUl0OWNtcVltaVFN?=
- =?utf-8?B?cVNmV0FFWVFuaTc2aDRpVWFtK0RwOHpFY3h1UGRKRXY4T0NlNFVqSVFMOGV4?=
- =?utf-8?B?clBOdTV5YVkyVzRJTVI1UWpFNllNRmFDVWgrcHFTa2JlU0QyYVIwQXZtN1dz?=
- =?utf-8?B?NEdiWExIM3VHSjhHMXZpWE13Qm1SaitiSUNjU05GL2cxT2NVQ2FaQzEyYnBm?=
- =?utf-8?B?ZU1CcFM2N3hRZ2NkN3lPNjFycnVzZWJBZ25xbkJJTGpSMFFNUVVkR2tRcFFY?=
- =?utf-8?B?eThyVTgrM1IzSGJjU3VmUnNKVU8xZFZPdzNIWkl5OVNXdUplUVUxVnQzSDFh?=
- =?utf-8?B?UGVTQUVCTUQ4UUVsMFk5QU9aTXZXanlTZTdQSFl3cEkydEVZUWM3eUV3ZGE4?=
- =?utf-8?B?cm5HOFVqYmdLZ1FDWkNJNGgwL1NJbFBxWG1zUnFFZVorVlJ5eDAxRkhrMTNy?=
- =?utf-8?B?b09vVTU2b3NlbFRucndLQTZZVGlnM21UQ2NQc214Rm5IZlVneU1PM2g5bGw5?=
- =?utf-8?B?YnZEQiswTlkxQ0ZDaTUzVnc4RENnL25oWjFBYXk4VEZkVDFRaUpReTVmNWND?=
- =?utf-8?B?ZmVZS2dTWkpxZmh5MC9ta2Yya0FvTHlJZEJoVkRzWXZKR05xSTl4aTdOcERO?=
- =?utf-8?B?THF2Tkl6NXZ5T2NaS2ZzaXZTa3ZRaTRiMUtIZ0pEZjN2amJaRkxaUFVPOEIw?=
- =?utf-8?B?b2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a637fe7-f2a4-4555-47e8-08dd98614d79
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 12:16:23.8807 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ej6q13c4Ju9mnBIO8Vg1VkaChnpCHRzCsEg/n1IsZXif7harRW5SJlB+B4VoGUglG0hYbDk5eWZ23l0MEqnrOgu2TC880Wp3t58SD5bN6bg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5193
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250521-nova-frts-v4-1-05dfd4f39479@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,46 +143,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 5/21/2025 5:23 PM, Jouni Högander wrote:
-> Add PANEL REPLAY CAPABILITY register (0xb1) bits.
->
-> v3:
->    - added DP_DSC_DECODE_CAPABILITY definitions
->    - use defined shift instead of hardcoded value
-> v2: comment about DP2.1 changed as DP2.1a
->
-> Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
-
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-
-
+On Wed, May 21, 2025 at 03:44:56PM +0900, Alexandre Courbot wrote:
+> These properties are very useful to have and should be accessible.
+> 
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 > ---
->   include/drm/display/drm_dp.h | 14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 3371e2edd9e9..811e9238a77c 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -554,8 +554,18 @@
->   
->   #define DP_PANEL_REPLAY_CAP_SIZE	7
->   
-> -#define DP_PANEL_REPLAY_CAP_CAPABILITY			0xb1
-> -# define DP_PANEL_REPLAY_SU_GRANULARITY_REQUIRED	(1 << 5)
-> +#define DP_PANEL_REPLAY_CAP_CAPABILITY					0xb1
-> +# define DP_PANEL_REPLAY_DSC_DECODE_CAPABILITY_IN_PR_SHIFT			1 /* DP 2.1a */
-> +# define DP_PANEL_REPLAY_DSC_DECODE_CAPABILITY_IN_PR_MASK			(3 << DP_PANEL_REPLAY_DSC_DECODE_CAPABILITY_IN_PR_SHIFT)
-> +# define DP_DSC_DECODE_CAPABILITY_IN_PR_SUPPORTED				0x00
-> +# define DP_DSC_DECODE_CAPABILITY_IN_PR_FULL_FRAME_ONLY				0x01
-> +# define DP_DSC_DECODE_CAPABILITY_IN_PR_NOT_SUPPORTED				0x02
-> +# define DP_DSC_DECODE_CAPABILITY_IN_PR_RESERVED				0x03
-> +# define DP_PANEL_REPLAY_ASYNC_VIDEO_TIMING_NOT_SUPPORTED_IN_PR			(1 << 3)
-> +# define DP_PANEL_REPLAY_DSC_CRC_OF_MULTIPLE_SUS_SUPPORTED			(1 << 4)
-> +# define DP_PANEL_REPLAY_SU_GRANULARITY_REQUIRED				(1 << 5)
-> +# define DP_PANEL_REPLAY_SU_Y_GRANULARITY_EXTENDED_CAPABILITY_SUPPORTED		(1 << 6)
-> +# define DP_PANEL_REPLAY_LINK_OFF_SUPPORTED_IN_PR_AFTER_ADAPTIVE_SYNC_SDP	(1 << 7)
->   
->   #define DP_PANEL_REPLAY_CAP_X_GRANULARITY		0xb2
->   #define DP_PANEL_REPLAY_CAP_Y_GRANULARITY		0xb4
+>  rust/kernel/dma.rs | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index 605e01e35715667f93297fd9ec49d8e7032e0910..2a60eefa47dfc1f836c30ee342e26c6ff3e9b13a 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -129,6 +129,10 @@ pub mod attrs {
+>  //
+>  // Hence, find a way to revoke the device resources of a `CoherentAllocation`, but not the
+>  // entire `CoherentAllocation` including the allocated memory itself.
+> +//
+> +// # Invariants
+> +//
+> +// The size in bytes of the allocation is equal to `size_of::<T> * count()`.
+>  pub struct CoherentAllocation<T: AsBytes + FromBytes> {
+>      dev: ARef<Device>,
+>      dma_handle: bindings::dma_addr_t,
+> @@ -201,6 +205,20 @@ pub fn alloc_coherent(
+>          CoherentAllocation::alloc_attrs(dev, count, gfp_flags, Attrs(0))
+>      }
+>  
+> +    /// Returns the number of elements `T` in this allocation.
+> +    ///
+> +    /// Note that this is not the size of the allocation in bytes, which is provided by
+> +    /// [`Self::size`].
+> +    pub fn count(&self) -> usize {
+> +        self.count
+> +    }
+> +
+> +    /// Returns the size in bytes of this allocation.
+> +    pub fn size(&self) -> usize {
+> +        // As per the invariants of `CoherentAllocation`.
+> +        self.count * core::mem::size_of::<T>()
+
+I think we need a comment or even an invariant saying this multiply
+cannot overflow.
+
+Regards,
+Boqun
+
+> +    }
+> +
+>      /// Returns the base address to the allocated region in the CPU's virtual address space.
+>      pub fn start_ptr(&self) -> *const T {
+>          self.cpu_addr
+> 
+> -- 
+> 2.49.0
+> 
