@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34341ABF367
+	by mail.lfdr.de (Postfix) with ESMTPS id E789DABF36E
 	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 13:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30EB9112E60;
-	Wed, 21 May 2025 11:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6016112E5A;
+	Wed, 21 May 2025 11:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nLMoWGcq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a+LT42CS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FCD112E64;
- Wed, 21 May 2025 11:53:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA4EF112E64;
+ Wed, 21 May 2025 11:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747828431; x=1779364431;
+ t=1747828433; x=1779364433;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iDxAY40fZG0hlx2yCC15l+Na+ZJjf1gGJMCSSGjMoLo=;
- b=nLMoWGcqk2mUKxAiwK9rt3oyRXmCcfavY4dzzq2Atvx95WFe9FwWZsJ2
- eCmdja4OhVEsuU3A+AWFAGw68C0dtGlsXqhBVMBvI+srMxYs+4YiZb5nJ
- f3A3GOYswyal5OGkxlRY1RVMo5SO4yjqzR6985HooCcHzad6QR+wWi1T2
- bitv9nJnbZvoKPO/ijV/L4ZzbDXwr5jB0+LLh0kEYcuxpXq+kUOAixsDU
- dB6BBgZf2xgC3eZ5zS94bXOQmSZtddF0YuDUW+lBygLVA+/8xV8Z+lNI8
- O8E5e+OOdWndWHlnyQ2tFjrDTmOy9AtEjRKNSAGFjO7lX3kOTtQjQiwG6 g==;
-X-CSE-ConnectionGUID: u7FuCMJITrS4ac78DEZLAg==
-X-CSE-MsgGUID: 7ceRhyATQtiSqhtnqmjMNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="67217809"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="67217809"
+ bh=r7OC49p3dtDWWDLgsPHkvDsHMTTVpbWyvWudLlKi/RU=;
+ b=a+LT42CSE5c4Ao4wf60jnJ2NbvdN3F8maThKXdN8MS+/X1gwSLxmLtAA
+ kldV+7PoXkBKt81mPILz6Bp6Sc/Z2vclvJZCe9FlbqjH/JoJ6rN4/LXsM
+ XfuNi5jBrtGnHaMxfIQ2qZNgOUYyLdAV8g8r7e2qXlzZKKngxPixAAct2
+ xFlBvHqjxhFYiwhKlbudAiYVrz5SK+sGIF+GmprsET/MoQ38zLWu5sJpA
+ 9OCaPs0+TBhxbgNHJu9NxXuEJvNNYXj9OEGN6WD7hp8yNOmw6Nr6hh1Rl
+ spZvZJ8u5AuKmsQ0CTLJZ1b3ViCQPrMWfEpbGKUtV0N6JzHz1C3Egd98x A==;
+X-CSE-ConnectionGUID: /+YEcwKwT/CfyyLQupEEkw==
+X-CSE-MsgGUID: jbX7IZdPQ46bUxPw6lAcVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="67217815"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="67217815"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 04:53:51 -0700
-X-CSE-ConnectionGUID: wcwPJYY2TgC7lmOPwex6+g==
-X-CSE-MsgGUID: jnBd+3k3SYOrL3KqAuWp0w==
+ 21 May 2025 04:53:53 -0700
+X-CSE-ConnectionGUID: rQZULmOJTxuPG/an2wrBLA==
+X-CSE-MsgGUID: aRraigPrRIK1X89LURWsgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="140452896"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; d="scan'208";a="140452903"
 Received: from abityuts-desk.ger.corp.intel.com (HELO jhogande-mobl1..)
  ([10.245.244.119])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 04:53:49 -0700
+ 21 May 2025 04:53:51 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
  Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: [PATCH v4 06/12] drm/i915/psr: Add interface to check if AUXLess ALPM
- is needed by PSR
-Date: Wed, 21 May 2025 14:53:13 +0300
-Message-ID: <20250521115319.2380655-7-jouni.hogander@intel.com>
+Subject: [PATCH v4 07/12] drm/i915/alpm: Add new interface to check if AUXLess
+ ALPM is used
+Date: Wed, 21 May 2025 14:53:14 +0300
+Message-ID: <20250521115319.2380655-8-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250521115319.2380655-1-jouni.hogander@intel.com>
 References: <20250521115319.2380655-1-jouni.hogander@intel.com>
@@ -73,45 +73,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently we spread ugly PSR details into ALPM code to check if AUXLess
-ALPM is needed. Prepare to hide these details to PSR code by adding new
-interface for checking if AUXLess ALPM is needed.
+we need to know if AUXLess ALPM is used when preparing for link
+training. Add new interface for this and use it in existing code where
+possible.
 
 v2: remove kerneldoc comment
 
 Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_psr.c | 6 ++++++
- drivers/gpu/drm/i915/display/intel_psr.h | 2 ++
- 2 files changed, 8 insertions(+)
+ drivers/gpu/drm/i915/display/intel_alpm.c | 10 ++++++++--
+ drivers/gpu/drm/i915/display/intel_alpm.h |  2 ++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 1072549649cd..38535e0d2496 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -4246,3 +4246,9 @@ bool intel_psr_needs_alpm(struct intel_dp *intel_dp, const struct intel_crtc_sta
- 	return intel_dp_is_edp(intel_dp) && (crtc_state->has_sel_update ||
- 					     crtc_state->has_panel_replay);
+diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
+index 0890247085a7..bbcf510b0c25 100644
+--- a/drivers/gpu/drm/i915/display/intel_alpm.c
++++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+@@ -26,6 +26,13 @@ bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp)
+ 	return intel_dp->alpm_dpcd & DP_ALPM_AUX_LESS_CAP;
  }
-+
-+bool intel_psr_needs_alpm_aux_less(struct intel_dp *intel_dp,
-+				   const struct intel_crtc_state *crtc_state)
-+{
-+	return intel_dp_is_edp(intel_dp) && crtc_state->has_panel_replay;
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
-index 73c3fa40844b..0cf53184f13f 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr.h
-@@ -77,5 +77,7 @@ int intel_psr_min_vblank_delay(const struct intel_crtc_state *crtc_state);
- void intel_psr_connector_debugfs_add(struct intel_connector *connector);
- void intel_psr_debugfs_register(struct intel_display *display);
- bool intel_psr_needs_alpm(struct intel_dp *intel_dp, const struct intel_crtc_state *crtc_state);
-+bool intel_psr_needs_alpm_aux_less(struct intel_dp *intel_dp,
-+				   const struct intel_crtc_state *crtc_state);
  
- #endif /* __INTEL_PSR_H__ */
++bool intel_alpm_is_alpm_aux_less(struct intel_dp *intel_dp,
++				 const struct intel_crtc_state *crtc_state)
++{
++	return intel_psr_needs_alpm_aux_less(intel_dp, crtc_state) ||
++		(crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp));
++}
++
+ void intel_alpm_init(struct intel_dp *intel_dp)
+ {
+ 	u8 dpcd;
+@@ -341,8 +348,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+ 	 * Panel Replay on eDP is always using ALPM aux less. I.e. no need to
+ 	 * check panel support at this point.
+ 	 */
+-	if ((crtc_state->has_panel_replay && intel_dp_is_edp(intel_dp)) ||
+-	    (crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp))) {
++	if (intel_alpm_is_alpm_aux_less(intel_dp, crtc_state)) {
+ 		alpm_ctl = ALPM_CTL_ALPM_ENABLE |
+ 			ALPM_CTL_ALPM_AUX_LESS_ENABLE |
+ 			ALPM_CTL_AUX_LESS_SLEEP_HOLD_TIME_50_SYMBOLS |
+diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
+index c9fe21e3e72c..86f4d5ab1981 100644
+--- a/drivers/gpu/drm/i915/display/intel_alpm.h
++++ b/drivers/gpu/drm/i915/display/intel_alpm.h
+@@ -32,6 +32,8 @@ void intel_alpm_post_plane_update(struct intel_atomic_state *state,
+ void intel_alpm_lobf_debugfs_add(struct intel_connector *connector);
+ bool intel_alpm_aux_wake_supported(struct intel_dp *intel_dp);
+ bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp);
++bool intel_alpm_is_alpm_aux_less(struct intel_dp *intel_dp,
++				 const struct intel_crtc_state *crtc_state);
+ void intel_alpm_disable(struct intel_dp *intel_dp);
+ bool intel_alpm_get_error(struct intel_dp *intel_dp);
+ #endif
 -- 
 2.43.0
 
