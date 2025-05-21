@@ -2,74 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46079ABF024
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 11:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A76BABF0C3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 12:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5296C10E6F8;
-	Wed, 21 May 2025 09:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78FC910E744;
+	Wed, 21 May 2025 10:05:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="xk/h56i+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Nb/7Ly5G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D2210E6F8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 09:37:56 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-7426c44e014so6560704b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 02:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1747820273; x=1748425073; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LO1gHHlVF6gGZvRY9viyv0hbKtAsLTQwKpaodCCIfU8=;
- b=xk/h56i+H1y4KQlc5oydxoEXBrdavR5IKQfrWh0sI/d9BYyvOUVz1fz7LphL9SHr3f
- YA4twahXVbTjuIubEgRaFQF16rI+0lCCgmHvQD6s4XgssMBMlQPAJSg4s8cwiY+gT1hY
- PQ80TJ3M+lPAdMVGqK+8V14LpnNc9M27X0P5gPNuOYflnCpbuLRZLHmkt2dldNFf4Bvg
- ZIu7WCnX4i4oHCSZFRRb+PwKXR3PMfZG4Gkr1CMzLuxO3MtvwcXsbRd+873NQBDlkRfy
- 2e19TzZsYEHx2OJS+rzGAueZSrMWKrurJqX+y50jKQIkZ1eKrXPj8HQKX/w3qvC3um8M
- S3Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747820273; x=1748425073;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LO1gHHlVF6gGZvRY9viyv0hbKtAsLTQwKpaodCCIfU8=;
- b=NaldVUHSyEzYz7WuZbnarOkcW7kgHLf5/bDhrXtQXnhPHKPEZhg4k1cJS79VMDrUNH
- BM0LVqMj5mfTBk+N+CmXiZecvb1F9X3kGd0Xb2oU82/bE2AuKNFwj+pTMQIquOOVDUH8
- ZIhXlpgKf8WhSnsVczmTPw7Q+mWWdKWgfgOgIHdLRNS1335YwOqjz40TsX5s5QclUnd0
- sj5JhmDTvRZspOOxN0WhOj/jQW7FpjeAFjqobbkIpL21vmyKXsDQCB/7MXm22xIgDdvG
- iJhlsxFJXJIJ5vRQSQ0V43YH9aq3PCk3g19NaD8f2WN1xvdJ/D5VSAMNgcJWN3xYyEze
- rhnA==
-X-Gm-Message-State: AOJu0YxJsZTgQTVal89COhRjrwh0fXQiO24dIcacUOgfGEGsEbitb2tD
- Awwz2N3hqwKWaWUeP9KskVT0Eh/kX+aZ0QpouUt78cmwf8r7blYqmdW5pvQrDf0qPoY=
-X-Gm-Gg: ASbGncvoNk1goErjOe0Pu9mdMPUoUXqlhru3mWyBn8rn8BfSe7/C8vA2GLcB3wJHx1H
- nLqK/Y67sanPl+Bd+8hk/yqdV48Q2tgiIoJOVXf/yGGW1gZLptHGMBm2IYuee0hj4n581b8R6rH
- fEK2ExjLTuAhBOvboLIdv/5N5cwY4CusiuEpRGxLBAq3f01bH766KnQp1+Wb2fgbkaCz1SVIMK2
- 7GwTWqbspZgLxP1YE+AF1HveNYRKRGX6nbLins6f3eU5CS3u5uxTiNrJLMLauXVW+F7giZ9iTKx
- NTfv3NWMIBWomkr2zZiIasZ2P8J/2AolF2xqE7Q/GVUJFTYgmNNTKkX5MCyLTCBp8fyo5KER0y4
- 18w+fdseMqPP1/Y3c879o1f17y4tU17Gc5CY+/1W2036C
-X-Google-Smtp-Source: AGHT+IGj9/GHt1Rkhv1de4jt6AZ2GtCQzoZhDnZ4wR++SUUYWHHoHoOcBO/UQQls4RGHP/cLUW/uhg==
-X-Received: by 2002:a05:6a00:ab87:b0:73d:fefb:325 with SMTP id
- d2e1a72fcca58-742a9787708mr27488901b3a.5.1747820272879; 
- Wed, 21 May 2025 02:37:52 -0700 (PDT)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-742a970c6b1sm9575827b3a.59.2025.05.21.02.37.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 May 2025 02:37:52 -0700 (PDT)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, neil.armstrong@linaro.org,
- quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFF610E744
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 10:05:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DF2F15C5403;
+ Wed, 21 May 2025 10:03:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6271FC4CEE4;
+ Wed, 21 May 2025 10:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747821918;
+ bh=jYCPLpmjCZwqIjzIBMh5UL0q6Ebpw9E0czo06+AzlDA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Nb/7Ly5GTdimYBFDrmhATZWGMNLPs1ulWJrOcXiMRXFzeUS0BKDbxVvTUvK1a762g
+ h+T2uKG4cdbhuKNHikUMRhnFTq/WC8xRlfvW91+MFc61xA59Z0s96ywzTCkfngdfBg
+ TbS0zxsojUzlXhw4gLROxtwIfUiYOzNlN6sSOUO9zJV/UlbWwzB5rmYxYSB7CBTC+/
+ KD1DB93jJX/65DIEQSKyDO3HViRIvM2eojKEttRpfYZ+c5/fb4j0J0ZvvqjPgWKa5/
+ 6y4bZKb+Tb0WU6U40Mdejgt1agx2u3bHKAW4UVJ6URJJY19wd+OvfJq1K3gcN7VTwD
+ r9xvU5DbVZhYA==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel-edp: Add KDC KD116N3730A05
-Date: Wed, 21 May 2025 17:37:43 +0800
-Message-Id: <20250521093743.1057466-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+ linux-media@vger.kernel.org
+Subject: [PATCH] drm/sched/tests: Use one lock for fence context
+Date: Wed, 21 May 2025 12:04:41 +0200
+Message-ID: <20250521100440.110019-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,35 +62,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the KDC KD116N3730A05, pleace the EDID here for
-subsequent reference.
+When the unit tests were implemented, each scheduler job got its own,
+distinct lock. This is not how dma_fence context locking rules are to be
+implemented. All jobs belonging to the same fence context (in this case:
+scheduler) should share a lock for their dma_fences. This is to comply
+to various dma_fence rules, e.g., ensuring that only one fence gets
+signaled at a time.
 
-00 ff ff ff ff ff ff 00 2c 83 20 12 00 00 00 00
-30 22 01 04 95 1a 0e 78 03 3a 75 9b 5d 5b 96 28
-19 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
-36 00 00 90 10 00 00 1a 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
-00 4b 44 31 31 36 4e 33 37 33 30 41 30 35 00 e2
+Use the fence context (scheduler) lock for the jobs.
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 5 ++---
+ drivers/gpu/drm/scheduler/tests/sched_tests.h    | 1 -
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 9adbe0f11421..5426648e7116 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -2007,6 +2007,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x044f, &delay_200_500_e50, "KD116N9-30NH-F3"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "KD116N5-30NV-G7"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x0809, &delay_200_500_e50, "KD116N2930A15"),
-+	EDP_PANEL_ENTRY('K', 'D', 'C', 0x1220, &delay_200_500_e50, "KD116N3730A05"),
+diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+index f999c8859cf7..17023276f4b0 100644
+--- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
++++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+@@ -64,7 +64,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
  
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0000, &delay_200_500_e200_d200, "Unknown"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x048d, &delay_200_500_e200_d200, "Unknown"),
+ 	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
+ 	list_move_tail(&job->link, &sched->done_list);
+-	dma_fence_signal(&job->hw_fence);
++	dma_fence_signal_locked(&job->hw_fence);
+ 	complete(&job->done);
+ }
+ 
+@@ -123,7 +123,6 @@ drm_mock_sched_job_new(struct kunit *test,
+ 	job->test = test;
+ 
+ 	init_completion(&job->done);
+-	spin_lock_init(&job->lock);
+ 	INIT_LIST_HEAD(&job->link);
+ 	hrtimer_setup(&job->timer, drm_mock_sched_job_signal_timer,
+ 		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
+@@ -169,7 +168,7 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+ 
+ 	dma_fence_init(&job->hw_fence,
+ 		       &drm_mock_sched_hw_fence_ops,
+-		       &job->lock,
++		       &sched->lock,
+ 		       sched->hw_timeline.context,
+ 		       atomic_inc_return(&sched->hw_timeline.next_seqno));
+ 
+diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+index 27caf8285fb7..fbba38137f0c 100644
+--- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
++++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+@@ -106,7 +106,6 @@ struct drm_mock_sched_job {
+ 	unsigned int		duration_us;
+ 	ktime_t			finish_at;
+ 
+-	spinlock_t		lock;
+ 	struct dma_fence	hw_fence;
+ 
+ 	struct kunit		*test;
 -- 
-2.34.1
+2.49.0
 
