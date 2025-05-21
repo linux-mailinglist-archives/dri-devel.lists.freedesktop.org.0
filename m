@@ -2,126 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55D5ABF72C
-	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 16:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BB2ABF7AE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 May 2025 16:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF9510E855;
-	Wed, 21 May 2025 14:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813E210E96A;
+	Wed, 21 May 2025 14:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SWzwukWM";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fYSLMVVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2086.outbound.protection.outlook.com [40.107.93.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1F910E7B3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 14:07:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Al5rpiClbpi0ZdNJYI2RoLIF2xd7aNHIcBWt9qsZj6x47DaidSxrdeFv1scRQiifAE6zI/e7LfWh2z5+4//ZtPzkSbrMIrd74TPXkuY5yIw6G/uUh51b3aglyZrTdObip1gk7CZvLkqA6MSZKoJeZbXP0RxA7rRdQBnVTv54sLC91y8xxuMSd/2ovzmiJclsFnUW6DzQfk9Gi1tLf90K5w+FGCTwLj2PeQh6OfFlJkq7yAWo2yBFSNzqOWGnNfXDEvqvbzTqh/xpSeQW2dn66URCOIInFzIZKx/bR15KkeGlq29h7yQW4pHYKjeXC8e9cWmXrKJhfsNgROj+tNt4Ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fizyO18cp3oJuQ6sj3NB+ujQQFeSpGcL5r8M57i/E+Y=;
- b=J5sevAwrR3doeMTDzUUKQO9ShxogjbSHw2Rm9bg+XTVhf1BhY8X8rgm5fqKRUo3XN4+pGFZ2mu+MscErJIJo/EZ7WasvIDUDzGgj3bGkxeHrzCkmSpav9akgXSNWWwy3u4xk1uqDqd5p7uM/Hkvyn9PNWE6v9537c9x1MkBFNj6yJeQVjxwmRvT9X4IB30vpvnP24T2qpwSJuayMMFh1QsgSEs+IfkJ3aUEaID4he5uRrzqqhvux7Zeu9Jc762qOETf2ArpCkLm6xdscCvcbCGpVR+SIZY7zrlJtiKPi0Jx+Pxk3J5kTbb6+O4dC/hsHKndRMgj/btBOsnAKcPKGpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fizyO18cp3oJuQ6sj3NB+ujQQFeSpGcL5r8M57i/E+Y=;
- b=SWzwukWMPLHTQqK4cRiPSbMU5nrTbTHIJKc9B8zMSBGtONtoY1EA5eAaGL5LtnD2X0s19P7QDe1zPSH4kC4HoWWbq4lz9+gYUUMK1l024vJhBMkxoxR10SZT+VyjfZpc+WVSZmEraazp0X39bjPseJsh3ugAaCV7Wdapl6JYtCA=
-Received: from BL1PR13CA0270.namprd13.prod.outlook.com (2603:10b6:208:2ba::35)
- by CH0PR12MB8507.namprd12.prod.outlook.com (2603:10b6:610:189::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Wed, 21 May
- 2025 14:07:12 +0000
-Received: from MN1PEPF0000ECDA.namprd02.prod.outlook.com
- (2603:10b6:208:2ba:cafe::97) by BL1PR13CA0270.outlook.office365.com
- (2603:10b6:208:2ba::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.16 via Frontend Transport; Wed,
- 21 May 2025 14:07:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000ECDA.mail.protection.outlook.com (10.167.242.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 14:07:12 +0000
-Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 May
- 2025 09:07:11 -0500
-From: David Francis <David.Francis@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <tvrtko.ursulin@igalia.com>, <Felix.Kuehling@amd.com>,
- <David.YatSin@amd.com>, <Chris.Freehill@amd.com>, <Christian.Koenig@amd.com>, 
- <dcostantino@meta.com>, <sruffell@meta.com>, <simona@ffwll.ch>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, David Francis
- <David.Francis@amd.com>
-Subject: [PATCH 3/3] drm/amdgpu: Allow kfd CRIU with no buffer objects
-Date: Wed, 21 May 2025 10:06:49 -0400
-Message-ID: <20250521140649.4058526-4-David.Francis@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250521140649.4058526-1-David.Francis@amd.com>
-References: <20250521140649.4058526-1-David.Francis@amd.com>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A43210E98A;
+ Wed, 21 May 2025 14:22:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FD7443B3F;
+ Wed, 21 May 2025 14:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1747837350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vyPpXbcuqSIPDBMFEqspo4iXigHvW7uXfydpRN7Xbhk=;
+ b=fYSLMVVsQYfpq0UfcQjtXHhEeq5bfCS6ZfFtSy9WALjrRzfOI1oCmQiRh9/p/2Tov1lqL6
+ 6hd7ysvk/ltTNuZ3CAlJ8hxNJb1U4hh9oDe0vFEV7Qmtyyl2jnGS6vHAh+CJjT02k5hPnx
+ /8mrP78Ua2u8o332sEOuGFEL01a6KTHTgbKtJYOaO92+nm28+YzX+fKLT5azjlVWA6wd7P
+ QGZK2iH33WbGHOFi2Bk+4Ix+bA6ASPEQH4bi0kJlvRry4ViIVwFyHbkOYow1fiiPEcPty3
+ 9UYIHe6MjbBN6AI7Wu+J/2jCVZHKny42qJOnl6aqWr/VeHDBSzrL8xxwzk+UAA==
+Date: Wed, 21 May 2025 16:22:16 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
+ <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Louis Chauvet <louis.chauvet@bootlin.com>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>, Adam Ford
+ <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
+ Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Christoph Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
+ <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
+ <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250521162216.79dd3290@booty>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDA:EE_|CH0PR12MB8507:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0623cc0f-aa4c-48f1-5a48-08dd9870c8c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wZUEwJ05Z6oyxBSKrc44PZnURQqhMKY1w3Kyr1OO8xlZErZ8h/OdLps3PdNZ?=
- =?us-ascii?Q?CR/updrIFe4X9Oya4RZMiCz9qyfM9qM374WakPHOcSLrNB9G00sKAQfNGJ7z?=
- =?us-ascii?Q?vG7vyDa+RDtBEz8eMbaz1KAPkogKFz6kHnSMtl5LPvDtVu5P5Yevx6wKUhwF?=
- =?us-ascii?Q?Qa86wTRF+CsvS6LxY3fuWyqkNiCWt5JqCHsInvy8lW21NURmrwTS+6ABHQ9B?=
- =?us-ascii?Q?BwF6HEkpNO0EfqiOVNroW3/nEmaJFvrAxuvwrcuHk4WURDT58I6eTudLrKgK?=
- =?us-ascii?Q?5VlA2XNoFCQHf8phFtGu5wxSIuxBOd1FxPAAO9afbqpbGy4iAR/ZNG829njh?=
- =?us-ascii?Q?nsJ+uGFFBqzFRwS4uLpGwhE/I9P2PEpT1j0AkF3qTJYrXwcx4wkXLr3UrxEm?=
- =?us-ascii?Q?9IUzsxdSsUAWtQ442t1Uv/Q9qFTNM9FL/ZF5dre+htmAyafyakRD65GCd5lf?=
- =?us-ascii?Q?aubCmHP/ZKXv4gbIF7lIh3abqDJca6+j9qU0uWO2FbNaWJOMSMvooTwWOv9V?=
- =?us-ascii?Q?O8kJ2It6Y+tyepU4WBKp+/KRKZemU7xGsmWM/cdI8C52EhblCsH/p5bzW7nf?=
- =?us-ascii?Q?BSgoHEVN5LJu5Q83mgpbRQNp7B0EqxW8fs2YtxFDyWdcx4CkqqB5SV4h2OA4?=
- =?us-ascii?Q?ufYWk7NWPVaLTC57UCeE+ziTcYNhvKYiZ4MTm4HOEaIEAZE+SAFFZPGNKBgV?=
- =?us-ascii?Q?j3UH7KFslFHAtwkqX+hk2+AT2DTq3hS+X/WgQdvcZUam9Jbq0MFkC4PeLFUe?=
- =?us-ascii?Q?Kf+DHQYQfEDCBLa9i5f46v/E6mCrtGxI0kMaLKAtNBaFgJcj0KWn1ebgs0mZ?=
- =?us-ascii?Q?x4DWfVV44HZcgVZ07jDQFB6JYCuvrbpQpinyED00JMTfUmkCbYmXkoK6tZYX?=
- =?us-ascii?Q?q4rkFNGtMcRQxjpW3hYWR6nqO9PAmHFiu4dO45kEm2o8yZ6VZ2r0ls1do3wg?=
- =?us-ascii?Q?Z7Ho2+I6fTFqBlTI7o3rBimcSuayVNp+uwUmF5W1WAxrRc5GO2wywCBYdeZX?=
- =?us-ascii?Q?g3AD2qaozXjgi1UKMAmnhIHJMQvyFuGJge/Pa9l1/sBUxVhm7d5qaYG/7TzV?=
- =?us-ascii?Q?+uFReUqNb+CAoWjJS6j750z2eQYCed5MEOhTrcu0AF+L/AFksOL99NEQ6xxJ?=
- =?us-ascii?Q?MFLwSmyiO+98q2Iy9fFzcsF7gw/+JraXuftPzRknObxJ6o6BiMNpX32hT4e6?=
- =?us-ascii?Q?ayEhjOTHvK8sp5RdDAVs0o2X5kTxo5DiqFbjFxCmfNaZKSxWXTpBtbkwC7uT?=
- =?us-ascii?Q?RqFVOUCfXnC31kteACb4AK8aW+T9afTiIsf5/6BxeGc5eaiUv10oXN6awG5p?=
- =?us-ascii?Q?lY2owzPHIKVBYHs2/kP+J12xmz/dwszAh9B3iu3Vr1XoKkm0nEqUUI2WV5L9?=
- =?us-ascii?Q?8ph3EU8lOcRyqVF9ByqoLfM8zzdPL9KUrBcz4CyvCpsFUZoYWFPpV9CkD58m?=
- =?us-ascii?Q?0xGcCddX3boA00FBHuZyd290jJaxln50POfupICtOaQk3OBmUTjedAhNAZ28?=
- =?us-ascii?Q?YuaM8YOEGvQzupOgXSkS6k67co0hVj/5Ztjo?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:07:12.8232 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0623cc0f-aa4c-48f1-5a48-08dd9870c8c6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECDA.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8507
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdeffedtucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheelfeevlefgkeekvdffveehudeihfdtjefhieehgfejveduieffgffhjeejleevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeelhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
+ hepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,29 +120,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kfd CRIU checkpoint ioctl would return an error if trying
-to checkpoint a process with no kfd buffer objects.
+Hello Maxime, Shawn, Liu, all,
 
-This is a normal case and should not be an error.
+On Fri, 09 May 2025 15:53:26 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-Signed-off-by: David Francis <David.Francis@amd.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
+> bridge, and the only one supported from now on. It is the first milestone
+> towards removal of bridges from a still existing DRM pipeline without
+> use-after-free.
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index a8cf2d4580cc..7aa34bd15958 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -2570,7 +2570,7 @@ static int criu_restore(struct file *filep,
- 		 args->num_devices, args->num_bos, args->num_objects, args->priv_data_size);
- 
- 	if (!args->bos || !args->devices || !args->priv_data || !args->priv_data_size ||
--	    !args->num_devices || !args->num_bos)
-+	    !args->num_devices)
- 		return -EINVAL;
- 
- 	mutex_lock(&p->mutex);
+I applied on drm-misc-next patches 3-17,20-21 as they match all the
+criteria:
+ - At least a Acked-by (or R-by maintainers)
+ - patch is for drm-misc
+
+Being my very first commits to drm-misc, I tried to be careful, and
+double checked all the patches with Louis (thanks!).
+
+Here are the pending questions and plan for the remaining patches.
+
+>       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
+
+This reverts the commit applied my mistake:
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
+
+Neither the  original patch nor the revert has been reviewed/acked.
+
+As the commit was a mistake, I'm applying the revert by the end of this
+week (i.e. on Friday) unless there are better instructions.
+
+>       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_bridge_alloc() API
+
+This patch affects multiple drivers. Running get_maintainers.pl
+points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
+this looks like due to the 'N:' line in:
+
+ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
+M:	Shawn Guo <shawnguo@kernel.org>
+M:	Sascha Hauer <s.hauer@pengutronix.de>
+R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+...
+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
+N:	imx
+...
+
+(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L2511-2528)
+
+Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
+file that is touched by the patch. That regexp appears overly generic to me.
+
+Shawn, can it be fixed by making it less generic?
+
+If not, can we at least add a band-aid 'X:' entry for
+drivers/gpu/drm/bridge/imx?
+
+I think the other matching entry is the one to consider:
+
+DRM DRIVERS FOR FREESCALE IMX BRIDGE
+M:	Liu Ying <victor.liu@nxp.com>
+L:	dri-devel@lists.freedesktop.org
+S:	Maintained
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+F:	drivers/gpu/drm/bridge/imx/
+
+(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L7940-7948)
+
+However it does not list any trees. I _guess_ drm-misc applies here as
+a fallback as well as common sense.
+
+Liu, should this entry have a 'T:' line for drm/misc?
+
+>       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
+
+Not acked/reviewed, some discussion happened. I am resending it in v4,
+possibly with updates based on the discussion.
+
+But it has the same issue discussed above, with get_maintiners.pl
+pointing at Shawn Guo's tree, so in the future I'm assuming this goes
+to drm-misc unless there are news about that.
+
+>       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
+
+No feedback, resending in v4.
+
+>       drm/todo: add entry to remove devm_drm_put_bridge()
+
+This involves documentation maintained on another tree. Where should it
+be applied? There are two matching entries in MAINTAINERS:
+
+ * DRM DRIVERS -> the drm tree
+ * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
+
+To me it looks like the second is obviously the closest match as we are
+dealing with DRM bridges, so I'm applying this as well on Friday unless
+there are better instructions.
+
+Best regards,
+Luca
+
 -- 
-2.34.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
