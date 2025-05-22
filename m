@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F56AC0D1A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3772AC0D3B
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:50:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCBD10EB01;
-	Thu, 22 May 2025 13:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E3C10ECA8;
+	Thu, 22 May 2025 13:50:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="j/4N1Uj1";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="tq8ZQxM5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB5B10EB01;
- Thu, 22 May 2025 13:44:02 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b38dq2Y6Dz9tm8;
- Thu, 22 May 2025 15:43:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1747921439; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bIJnvIa/3Jg8aseopOpG6NZGewhauVo4xSa65DTl6Lc=;
- b=j/4N1Uj1pxTvp+9++CpwUW7n6iU3QIss/sZ4y2driv53w6ZAboqFy7Yn8LU0pT+8306Tdn
- E8FcvGFLbqVGO+xe8uPHXCWPgJBK+9ubVj4isn/agviHD2QSCfo7O+j9eEfVpsCjZ9kIzk
- Q4xnIWGnQ1Yc2OTtX0fNw5az4sntOkaXBNPDZZMMUmTncb6xkRQBiw6fZN3rSAJ0DVkMy3
- r5moh98TLUsbWuRQCLidncXcRao4r5gcFwkhzfEsHVcGZR0JG43xF0oYFoloXp9kGHwgw6
- H2tuMB4u4+nZC3AQ5yREkvO/QAGbJBmf/bflePZfEH1pJ8EwRdZbW55vYYUK4A==
-Message-ID: <3dda25c3108747bf1c7ab2974b2429a26f0762d0.camel@mailbox.org>
-Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
- context
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Date: Thu, 22 May 2025 15:43:56 +0200
-In-Reply-To: <dcc9f52a-4f46-4f24-bb33-b3af583a1956@amd.com>
-References: <20250522112540.161411-2-phasta@kernel.org>
- <20250522112540.161411-3-phasta@kernel.org>
- <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
- <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
- <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com> <aC8fpEXYWZ9Oy41J@pollux>
- <ebedece4-9758-47e9-b621-37b40e3f0fc3@amd.com>
- <282de2b9251e3a1b793e02ef23675dace248725b.camel@mailbox.org>
- <dcc9f52a-4f46-4f24-bb33-b3af583a1956@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch
+ [109.224.244.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749A810EA10;
+ Thu, 22 May 2025 13:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1747921796; x=1748180996;
+ bh=53NO6dKMuJgvQDYYdblmZR+3Hz0N1aZ3tQGKCgGafU0=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=tq8ZQxM5S2EZrjSsY0qYZQ8Zw9RMP6mEOxQjzuh1m/lN2ltE+ziA7K+owa2zWstjY
+ Demcmk9W8QlP9M0xZUYijSXtCVeJNbODpE6zuZxzZf1JVzingiHKUkG9FZc4SkkMY9
+ u01lgHPqWg4Y5h+pNsWItn9qrsp/fwHbAURXk17eZgP5IJtTdPqOxOrqkaKjJC1O1J
+ mEA5dzT4hX9qteyE2LhBUfuN9lro2AwdojLAgZP+C6sR3FEmbX1u66BIhsfCppsPJa
+ N83V3rXOWpw0lFZlwPGKPjQ63s/JjBz9poHETN3iPg6/JP8ZrOcf1geioCQI3FuITb
+ c4PHChKn4TdKQ==
+Date: Thu, 22 May 2025 13:49:51 +0000
+To: Harry Wentland <harry.wentland@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>, Alex Hung <alex.hung@amd.com>,
+ Misyl Toad <misyl@froggi.es>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH V9 00/43] Color Pipeline API w/ VKMS
+Message-ID: <GU-BDO4CzKoaYho7e7l7uEcE32cTt406VF-JQN50yxsvw0g6xGWuQhQDXPANhy9_71s7P6vduHxXsHned9-FCdKqEv80c7HHuNsRAdcwnKs=@emersion.fr>
+In-Reply-To: <d1f0e3ac-a030-4763-a112-adca30e9ab08@amd.com>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <CAPj87rNUDdDEopPH+iAF-a=Or6eXH4cMRU8eOj81g_40cq8gdA@mail.gmail.com>
+ <f7e9cd32-3e2b-4f06-aa13-049c8b7ba29b@amd.com>
+ <CAPj87rMbcZKy2ARe_tp_-+-tMu3FpS0C9R1BHVzjsUpOsU9M4g@mail.gmail.com>
+ <5921076d-0150-4e0f-a3ef-1b8dec021630@collabora.com>
+ <CAFZQkGymi1XY7m0Ghs8R2HaNRQptE_0NO-5J5Z2c61gDJRho3Q@mail.gmail.com>
+ <63e934e6-3c27-4128-801b-f1189f12f8f0@amd.com>
+ <20250522105741.6aafc955@eldfell>
+ <d1f0e3ac-a030-4763-a112-adca30e9ab08@amd.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: a600b7c2c2f83f42fce34b79b2dae6f2280ecbc8
 MIME-Version: 1.0
-X-MBO-RS-ID: c2dc99f67bb1c59b743
-X-MBO-RS-META: aew4iha5nipx3gxxwrb9xtkauejjr1xe
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,160 +74,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-05-22 at 15:24 +0200, Christian K=C3=B6nig wrote:
-> On 5/22/25 15:16, Philipp Stanner wrote:
-> > On Thu, 2025-05-22 at 15:09 +0200, Christian K=C3=B6nig wrote:
-> > > On 5/22/25 14:59, Danilo Krummrich wrote:
-> > > > On Thu, May 22, 2025 at 02:34:33PM +0200, Christian K=C3=B6nig
-> > > > wrote:
-> > > > > See all the functions inside include/linux/dma-fence.h can be
-> > > > > used by everybody. It's basically the public interface of the
-> > > > > dma_fence object.
-> > > >=20
-> > > > As you write below, in certain cases it is valid to call this
-> > > > from
-> > > > drivers, so
-> > > > it's not unreasonable to have it as part of the public API.
-> > >=20
-> > > The question is from which drivers?
-> > >=20
-> > > > > So testing if a fence is signaled without calling the
-> > > > > callback is
-> > > > > only allowed by whoever implemented the fence.
-> > > > >=20
-> > > > > In other words nouveau can test nouveau fences, i915 can test
-> > > > > i915 fences, amdgpu can test amdgpu fences etc... But if you
-> > > > > have
-> > > > > the wrapper that makes it officially allowed that nouveau
-> > > > > starts
-> > > > > testing i915 fences and that would be problematic.
-> > > >=20
-> > > > In general, I like the=C2=A0 __dma_fence_is_signaled() helper,
-> > > > because
-> > > > this way we
-> > > > can document in which cases it is allowed to be used, i.e. the
-> > > > ones
-> > > > you descibe
-> > > > above.
-> > > >=20
-> > > > test_bit() can be called by anyone and there is no
-> > > > documentation
-> > > > comment
-> > > > explaining that it is only allowed under certain conditions.
-> > >=20
-> > > That's a rather good argument.
-> > >=20
-> > > > Having the __dma_fence_is_signaled() helper properly documented
-> > > > could get you
-> > > > rid of having to explain in which case the test_bit() dance is
-> > > > allowed to do
-> > > > over and over again. :-)
-> > >=20
-> > > That's an even better argument.=20
-> > >=20
-> > > > I also think the name is good, since the '__' prefix already
-> > > > implies that there
-> > > > are some restrictions on the use of this helper.
-> > >=20
-> > > I'm still hesitating. Adding something to the API always made it
-> > > usable by everybody.
-> > >=20
-> > > Now suddenly saying we add that to the include/linux/dma-fence.h
-> > > header but only certainly code can use it still sounds
-> > > questionable
-> > > to me.
+On Thursday, May 22nd, 2025 at 15:28, Harry Wentland <harry.wentland@amd.co=
+m> wrote:
+
+> > > What we should
+> > > do is reject YCbCr-type buffers with the color pipeline until we
+> > > implement support for COLOR_ENCODING and COLOR_RANGE as a new
+> > > CSC colorop.
 > >=20
-> > If I understand the current code correctly, the documentation state
-> > and
-> > the question "which driver is allowed to do it?" is the same,
-> > because
-> > the documentation for the signaled callback doesn't specify that:
+> > Rejecting is fine, but is implementing COLOR_ENCODING and COLOR_RANGE
+> > really a good idea instead of making the color pipelines handle them?
 > >=20
-> >=20
-> > 	/**
-> > 	 * @signaled:
-> > 	 *
-> > 	 * Peek whether the fence is signaled, as a fastpath
-> > optimization for
-> > 	 * e.g. dma_fence_wait() or dma_fence_add_callback(). Note
-> > that this
-> > 	 * callback does not need to make any guarantees beyond
-> > that a fence
-> > 	 * once indicates as signalled must always return true
-> > from this
-> > 	 * callback. This callback may return false even if the
-> > fence has
-> > 	 * completed already, in this case information hasn't
-> > propogated throug
-> > 	 * the system yet. See also dma_fence_is_signaled().
-> > 	 *
-> > 	 * May set &dma_fence.error if returning true.
-> > 	 *
-> > 	 * This callback is optional.
-> > 	 */
-> > 	bool (*signaled)(struct dma_fence *fence);
-> >=20
-> >=20
-> > "optional". What if I don't ipmlement it? Who should implement it?
-> >=20
-> > If the callback is optional, then dma_fence_is_signaled() is the
-> > same
-> > as __dma_fence_is_signaled().
-> >=20
-> > IOW, it already needs to be better documented who needs to
-> > implement
-> > the callback and who doesn't. If we get clarity on that, we also
-> > get
-> > clarity on who may use __dma_fence_is_signaled().
+> > Wasn't the original plan to hide all such legacy plane properties when
+> > userspace signals color pipeline support?
 >=20
-> Well there is no need to implement it, but when it is implemented the
-> caller *must* call it when polling.
+> It still is. But handling the color-space conversion via a new
+> colorop with two properties: COLOR_ENCODING and COLOR_RANGE
+> seemed to be the most straight-forward way of dealing with this.
 
-I don't understand. Please elaborate on that a bit more. If there's no
-need to implement it, then why can't one have a
-__dma_fence_is_signaled(), which is then identical?
+I think everybody in this thread is suggesting that the old plane
+COLOR_ENCODING and COLOR_RANGE properties are rejected and will never
+be accepted again with the color pipeline. I think Harry is just saying
+that a new colorop can be introduced with encoding/range properties, but
+this is completely separate from the old props?
 
->=20
-> IIRC the background that we didn't allowed this was that we already
-> had the case that users only looked at the signaling bit and then
-> where surprised that it never changed.
-
-Why would anyone expect that a fence gets signaled by calling a
-function with the name "dma_fence_is_signaled()"? :-)
-
-That was my original point, the name is not intuitive at all.
-
-For example, if a driver doesn't implement that callback but signals
-fences in interrupt handlers, and then forgets to (re-)activate the
-interrupt, fences will never get signaled and callers to
-dma_fence_is_signaled() will never read 'true', which isn't surprising.
-
-Again, the point remains the same: the driver must guarantee that
-fences will get signaled. Independently from how consumers of the fence
-check it. Consumers could just stop calling dma_fence_is_signaled()
-after the point in time T alltogether and then the driver would still
-have to signal everything.
-
-
-P.
-
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> >=20
-> > P.
-> >=20
-> > >=20
-> > > Regards,
-> > > Christian.
-> >=20
->=20
-
+Simon
