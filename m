@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BAAAC1817
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 01:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79186AC1815
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 01:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243A210E768;
-	Thu, 22 May 2025 23:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A9B10E75B;
+	Thu, 22 May 2025 23:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zL5yUVN/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PYUb2DXr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
  [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E337210E196
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 23:37:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E72310E196
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 23:37:45 +0000 (UTC)
 Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-30a39fa0765so12863627a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 16:37:43 -0700 (PDT)
+ 98e67ed59e1d1-30e7c25aedaso5755492a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 16:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1747957063; x=1748561863;
+ d=google.com; s=20230601; t=1747957065; x=1748561865;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
- bh=uPxUrn14vuCfCMnKXPuJKpCi+RnH/dlPI+aSAjTgJIQ=;
- b=zL5yUVN/m1DfAdL+K5feDNiDffXDRh9cY1I0L+RkTl3MEWM9fixV5/TbP2vmihEz3d
- 2cE0pMTMA4jps+d9uyVQzcL3zhvJMiy+lzO1LKbg09nFMXqBYxuxApmwL2GylMuU8bxv
- AmvSYnyaXZyUpEM6rkEqD7O58B7jlG9LU6dgy6xflHeYpdqnSP3GwMBXs0QDC6lBqHir
- g62zS2G36CVlvokyUbq+14fkIzbO2ygh3JjOSHzSSPeFCKC0f4/V9z2pqk1yG3+w3IRP
- nf/wVqXJJraf8uqD+GqKfR9rH/IchnKGQ08BH1DwJEVW74IKO2pR6Tp5KPnBwqwUoMmF
- LYqA==
+ bh=bZZENoThSq2WPUG3cA9ljTtD8JyVh5aqU2sA4XXQXGM=;
+ b=PYUb2DXrTGjKeUbe/6KaWN+3P0oxCBYeSrMvMoIpisbZ0QDTKb8InuwRHwOrG2ZwCJ
+ TCsdVqY7hpGMlv4nDHQQjhJjWv7H9V+AjR11GlU9yBztpJu+1d75PYFxBXo9cI+fx0Up
+ jVVrJAp1a7fZ7SEogiTTwr0jbuWFlcDEwFEOvrve/1l3E7zBs//KAmH0cykExZSMWlsP
+ EGci0wQhO4t8t9oR4Fnvwa149J0UTeM5ID3gtuKaod7Sn0CR/UaIn47jLGwJkT3Q9uaV
+ qXTu92MyRfmQUHaVDX1TfSoh0sKlio/o8K2a9UbstSwS9Wfd/YvvHZnDOQ6MzfQM08bp
+ rUxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747957063; x=1748561863;
+ d=1e100.net; s=20230601; t=1747957065; x=1748561865;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=uPxUrn14vuCfCMnKXPuJKpCi+RnH/dlPI+aSAjTgJIQ=;
- b=tZfiQ5OkNHtTpGz439r3GIRjZaczCRTk0oP9M2kAXWt3icJ8mrKY1a1BnpTvcjyUQb
- EXoluq88nL9KoFwixtvfcDh/YKhK8B0NywIIZXBpmmmSAHQ55b8lOjFw00jYIBc7p68M
- ReSNkd6pHrchtqHiYzpCBOgp/GT+hvXT7n1EChaiGlzh3iJeCVjAYn+32KxEpgZEdfsb
- KxlnI050zUHFc13/YA1/Xv6wh6EPI2IYY7jhyViVVVriYkt2D7MaeDi1LEDBt+Vc58oB
- 0m4ummPIXavUjx5YucK7N9MDO0n6dsD84AJ72dGuknfu0oYa0bjfHX8QqU0mflx/qkXp
- OmSQ==
+ bh=bZZENoThSq2WPUG3cA9ljTtD8JyVh5aqU2sA4XXQXGM=;
+ b=mCO/yNhzQsk4StA73FxZXqZWY3Hzb9Ji3z7ek9LCpiqxwsJTSc6Y6U5kbHFynE7/po
+ li33JH1nRoIMfR9Ky5Ef1P7Ie0zDv9wYM5O1bZjmFzZlIueuNwiH+WWJMggoAE4/aswd
+ H1LPW7BAWqrrufQofzIAF3de4yuVmqpp8Sw3jHRabm7UoN420trCMX9vYNH2pGp9VQ/t
+ qEKgfBKo6gv9MsDnbByWSQ0DMaKHbMsNNdc8Ghg87ZaUrpRTjLMyz3nnbYwdXnlTG2Kn
+ I/5kV7ynRF7A1Y1JDBP3pXGu4138dtAy7ynEDpY0PJBdKQI87l2h/MrBssDdLkvxB+eG
+ eH1g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLBlg/hSAK5TI24ZJdWVIJ3AX/lh05cxujRLtaGQz3T3jN2q6KBiEYfy4z9izbnbAehw63etNuuUY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyoc9K48BP/sfXgffh+OuYBgwanmfc5h5318E3YOgdx96rXVFQQ
- Hw+/8N21CtPjfdJVFOqFVs4yxWZUlWqkL1WG5hvBntWU221rsp/UUVdBDSMXOnqZHgeMTd8Dh22
- Dgli+cw==
-X-Google-Smtp-Source: AGHT+IGI69KyPY1At0pbvO9taKFOli2nLHw8tUa/zK4co4eocqDHMTFbGsbKlwZf9ojX+OImaEWTLGTboac=
-X-Received: from pjbsw15.prod.google.com ([2002:a17:90b:2c8f:b0:301:4260:4d23])
+ AJvYcCUH3FMyTcyrRcC6g+26v5UyjAzcLlaa7X2yp0i5tGhNb+ktJNPP8tO+ujK/nshJeRXjzfr0VoqQeTc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzR6ZtJsFfbjdheDMKeIA2xgCV6bvIHwz0kGjmbkclcGZ0bv2Gc
+ +Fvi866Gg6sLDn81JO2IWxviJMFoQX1c6lZ2ooJC/WbIN2y/UUfpWzK3CVfYueUb8yKeSzxevHC
+ jE3/ACQ==
+X-Google-Smtp-Source: AGHT+IFExGJrdJE3NdFkvdN8xCuUi0nMv/3Dpb1wQbh8E9OJ+IjqmD6ZkqC1r2VP7vreaPIjC/XPdl8z9gU=
+X-Received: from pjbok18.prod.google.com ([2002:a17:90b:1d52:b0:30e:7f04:f467])
  (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2c8c:b0:2fe:8c22:48b0
- with SMTP id 98e67ed59e1d1-30e7d555a3bmr38071711a91.15.1747957063457; Thu, 22
- May 2025 16:37:43 -0700 (PDT)
-Date: Thu, 22 May 2025 16:37:25 -0700
+ 2002:a17:90a:d44e:b0:2ee:d63f:d8f
+ with SMTP id 98e67ed59e1d1-310e96c9598mr1434238a91.13.1747957065045; Thu, 22
+ May 2025 16:37:45 -0700 (PDT)
+Date: Thu, 22 May 2025 16:37:26 -0700
 In-Reply-To: <20250522233733.3176144-1-seanjc@google.com>
 Mime-Version: 1.0
 References: <20250522233733.3176144-1-seanjc@google.com>
 X-Mailer: git-send-email 2.49.0.1151.ga128411c76-goog
-Message-ID: <20250522233733.3176144-2-seanjc@google.com>
-Subject: [PATCH v3 1/8] drm/gpu: Remove dead checks on wbinvd_on_all_cpus()'s
- return value
+Message-ID: <20250522233733.3176144-3-seanjc@google.com>
+Subject: [PATCH v3 2/8] x86,
+ lib: Drop the unused return value from wbinvd_on_all_cpus()
 From: Sean Christopherson <seanjc@google.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, 
@@ -94,50 +94,55 @@ Reply-To: Sean Christopherson <seanjc@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the checks and associated pr_err() on wbinvd_on_all_cpus() failure,
-as the helper has unconditionally returned 0/success since commit
-caa759323c73 ("smp: Remove smp_call_function() and on_each_cpu() return
-values").
+Drop wbinvd_on_all_cpus()'s return value; both the "real" version and the
+stub always return '0', and none of the callers check the return.
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- drivers/gpu/drm/drm_cache.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ arch/x86/include/asm/smp.h | 5 ++---
+ arch/x86/lib/cache-smp.c   | 3 +--
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index 7051c9c909c2..ea1d2d5d2c66 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -93,8 +93,7 @@ drm_clflush_pages(struct page *pages[], unsigned long num_pages)
- 		return;
- 	}
+diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
+index 0c1c68039d6f..028f126018c9 100644
+--- a/arch/x86/include/asm/smp.h
++++ b/arch/x86/include/asm/smp.h
+@@ -112,7 +112,7 @@ void __noreturn hlt_play_dead(void);
+ void native_play_dead(void);
+ void play_dead_common(void);
+ void wbinvd_on_cpu(int cpu);
+-int wbinvd_on_all_cpus(void);
++void wbinvd_on_all_cpus(void);
  
--	if (wbinvd_on_all_cpus())
--		pr_err("Timed out waiting for cache flush\n");
-+	wbinvd_on_all_cpus();
+ void smp_kick_mwait_play_dead(void);
+ void __noreturn mwait_play_dead(unsigned int eax_hint);
+@@ -148,10 +148,9 @@ static inline struct cpumask *cpu_l2c_shared_mask(int cpu)
  
- #elif defined(__powerpc__)
- 	unsigned long i;
-@@ -139,8 +138,7 @@ drm_clflush_sg(struct sg_table *st)
- 		return;
- 	}
+ #else /* !CONFIG_SMP */
+ #define wbinvd_on_cpu(cpu)     wbinvd()
+-static inline int wbinvd_on_all_cpus(void)
++static inline void wbinvd_on_all_cpus(void)
+ {
+ 	wbinvd();
+-	return 0;
+ }
  
--	if (wbinvd_on_all_cpus())
--		pr_err("Timed out waiting for cache flush\n");
-+	wbinvd_on_all_cpus();
- #else
- 	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
- #endif
-@@ -172,8 +170,7 @@ drm_clflush_virt_range(void *addr, unsigned long length)
- 		return;
- 	}
+ static inline struct cpumask *cpu_llc_shared_mask(int cpu)
+diff --git a/arch/x86/lib/cache-smp.c b/arch/x86/lib/cache-smp.c
+index 7af743bd3b13..079c3f3cd32c 100644
+--- a/arch/x86/lib/cache-smp.c
++++ b/arch/x86/lib/cache-smp.c
+@@ -14,9 +14,8 @@ void wbinvd_on_cpu(int cpu)
+ }
+ EXPORT_SYMBOL(wbinvd_on_cpu);
  
--	if (wbinvd_on_all_cpus())
--		pr_err("Timed out waiting for cache flush\n");
-+	wbinvd_on_all_cpus();
- #else
- 	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
- #endif
+-int wbinvd_on_all_cpus(void)
++void wbinvd_on_all_cpus(void)
+ {
+ 	on_each_cpu(__wbinvd, NULL, 1);
+-	return 0;
+ }
+ EXPORT_SYMBOL(wbinvd_on_all_cpus);
 -- 
 2.49.0.1151.ga128411c76-goog
 
