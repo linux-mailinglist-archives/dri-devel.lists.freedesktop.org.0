@@ -2,60 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519E2AC0F27
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1402FAC0F40
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 17:01:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 858F810E193;
-	Thu, 22 May 2025 14:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37CC10E937;
+	Thu, 22 May 2025 15:01:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IWvWyL2e";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ok3bcYAY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57CDC10E193;
- Thu, 22 May 2025 14:59:43 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4b3BK81Wh9z9sm6;
- Thu, 22 May 2025 16:59:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1747925980; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9hIgVgAiYv5vVjOkhA8xQvDe3ANpNjv4wOvq4t4WLpw=;
- b=IWvWyL2eylEhzKYLqRvx37xxF0K39+Y1KjagxvStpljHNSnVQw6Y2oWfQVruXmiEWzIliH
- JT8yK42yp2jwPCe6k0H4BlAWkwdserfNxKdrST09RjotvtB5PhZkWuO1AfqdirdVntY7C4
- ze2aLUcCpyo5xJbdayKHTqq2ZGS9s1rwu9UQZ71D+X6UnlBA5AJCei1Hk5Txrd4he6QpmD
- DZrJu9cuNE4LUL0DG0Ijo0fZG+3iKp2rH/CEwU2M7a1jfpMZHMuK0mhyP0iuWKG3Hyv9gj
- LeLMjVODuVDg2w/tyQbwwbJZ/0O0ZhSn1NY2W8Ac7fy0aVyrkzgJFJrrqW/bdw==
-Message-ID: <a637755cb96de8415b51feb1ae61b8c651e94295.camel@mailbox.org>
-Subject: Re: [PATCH v3 2/5] drm/sched/tests: Port tests to new cleanup method
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Philipp Stanner
- <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Thu, 22 May 2025 16:59:35 +0200
-In-Reply-To: <b24d5c5e-8a9e-4dfb-886b-b3ad70e62e76@igalia.com>
-References: <20250522082742.148191-2-phasta@kernel.org>
- <20250522082742.148191-4-phasta@kernel.org>
- <b24d5c5e-8a9e-4dfb-886b-b3ad70e62e76@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2041.outbound.protection.outlook.com [40.107.96.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8235610E88C;
+ Thu, 22 May 2025 15:01:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zLaUUpSHKXA2f0eQcyGGS4MOd00Ol8wCh3++R0I3OeWbs0WUHVygNupJqMQ4p3USicuAxFlWzKqRF2sQTTsN/bqZ1BnxflV3p+d5Fttd5EAH0Vq4G4XFdg1yq3GNKC72JqdRF69j+IqrFkoqyejtsIIPOU5Q4oOtbxreeL/AtEzjnijq9H9DOyigQj5c5tFbm+q3MZSmpwwaNyuGlAzpejzL3Bs5GaSXA4+ntKoXH20CXxg671oRjX6e8d7seEF2j0bzr7f8ACB+eIzwhWduaSs7/vD3XzKQY64qXdzeK/xlbfjTCeTNDBlzroxIV6v47jAA3UBPwKXFX6aTUzVdNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lbb0PNuDcNQX5IXLvKPOREyk28cjEP6Jln8Xh4/jL2k=;
+ b=jb+YJFuZkG6pv8u0pe2zQAzmH8/DNFyA2H8KeULjP+90TXSXbPvfC4dm6rgmQrY6okM5C8fPeJfiHCxIVK2b1B1mbUKGjBlFnkQnDHhyhYPllDpuLjFHi7wSKckP6fWrETQ6oa3g04aCOJB7V4ZbelAtow+nu3XYUpC1b2ZKeCOp5KMn0O6+rs7S1A8PfgZCvoce/MvgWcXi4hJDKtRoVdZ3lT1rdfnoH/R1eEOjFha4nhXlOuXcaUfQR4NB8OC0MJmrINrj3qy3XgWAriAJfrrrzFfpaCfj6kLp9xSFZFqKSGt21b09XnX2/uymq8qHYMHAn48bXUhxkXpsCXme0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lbb0PNuDcNQX5IXLvKPOREyk28cjEP6Jln8Xh4/jL2k=;
+ b=ok3bcYAY8hwlTg7JeEC5w3N1BVGIsRRZ0Fg6n1beY+D4dty5XBuCN5zodHDUDkWqaV7ttzNfckdbKN9vMAhuo+LJIGq3XpamUHyNicMQQzrXH+9vjuP/SClrbu620MBncTTT55WlOiPQAtssQ7BsdUBT8MEkej1MELVG3EE2WIE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6990.namprd12.prod.outlook.com (2603:10b6:a03:449::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Thu, 22 May
+ 2025 15:01:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Thu, 22 May 2025
+ 15:01:32 +0000
+Message-ID: <84a885ea-f49c-473e-9144-828260ebd615@amd.com>
+Date: Thu, 22 May 2025 17:01:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
+ context
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250522112540.161411-2-phasta@kernel.org>
+ <20250522112540.161411-3-phasta@kernel.org>
+ <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
+ <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
+ <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com>
+ <e5d74c0be68d641171271cdff2e71ec5eb312377.camel@mailbox.org>
+ <aac87a7e-5a45-4b54-a43b-cb92c5df669c@amd.com> <aC8rjBuqzst-SHMD@pollux>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aC8rjBuqzst-SHMD@pollux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0230.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-MBO-RS-ID: b9071dfc324416f6776
-X-MBO-RS-META: jpe4deru47jan9sex4qyichcktzu8sqo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5bd92a4b-6106-4ba3-fae6-08dd99418a33
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eU1NOUZpVHhlNGgyQkEwdCtQcUZIekpUSzg1dUJMdk0vNUpHZVMwdFEySmlX?=
+ =?utf-8?B?em83R0xVREE3M2FMdWhHMG12dCtzZkUrelh1dDRvdGx3NkkwblJSaHhyQUhN?=
+ =?utf-8?B?R0xkVzdVY3lHQmkreGtLeXM4K3BKSFhnMHR2NndHcDdwaGNZZ3Y4RVZxbTl1?=
+ =?utf-8?B?cjkzRy9jRU5TNVFiNHNVWnByWTd2NDlGWi9zZ0JMdUlpaUFTNU5RZHAyb0VU?=
+ =?utf-8?B?YlhnNEpJazhJZzI4bDRDQTFlUU5BdWphNWo0eFFsbyt3SnRKVUQ1R2FlNGtB?=
+ =?utf-8?B?RXNQOGhwdTRaQmttcDJTNCt4V2cwUTRManhNMlBuenpMSjExRHRiTnRWekNm?=
+ =?utf-8?B?SSs1TGpuOXhxenBIU1hiWkZTV2J0eXJmejZWd2lxWTFrZ1YvSmNIQUw0U05W?=
+ =?utf-8?B?RlYrMmF6WXllU0lhdTFZenRPRVphYlZhM0NrK2M4Y3JlZy9jL1JsdjJsYklX?=
+ =?utf-8?B?OXNUdytXKytSMkR1VGF2dm5lZDdmR1NiRjFmSHRJSzZWV0NUVldSZktDbXdn?=
+ =?utf-8?B?a0haWW0wWGp1aHg5dy92L0pXMy9pTWo4Y3lLSlgrREtZZ2RRZDIrdkNtMk5y?=
+ =?utf-8?B?dGpPckNZanQrRnV2cnc3djdLMytZb2NSRkNhRmNiRUNzQk5JQWpxNTEvWlMz?=
+ =?utf-8?B?Sk5oMTZuQjBZZVV1TWZ3SXgzYkhNYTNVMCtDTUdXYmVVaU9oOGZlSzFwdjlW?=
+ =?utf-8?B?VlZuVjIyRS9uemNiSy9IQ0JxMzVWSm5tZkZJYVV2emoxSFFUWHNEUUVqMlJN?=
+ =?utf-8?B?VWpaTVhuQ3NHSEl0dTJaU2RDdWRJcXhTcHdZNnBacjZaa2ErcHcwUThzYUx1?=
+ =?utf-8?B?THNKQVhQUjNoV1dIVEFKYzZGdHZjeFpXYUdmUDgwL3BkTmhwbC9wTTJONkpl?=
+ =?utf-8?B?SXZNYWVnSmNCQkZjKzhFeFl5aWRKaWxmdjBab3RxWGxGZWkvZXpkWWRGdlp1?=
+ =?utf-8?B?VWZab0lPa2U3b24yd1BCUTZ3SzBsY3Erc2t2SmIzbllXaStPUHFhVWppbXJT?=
+ =?utf-8?B?dnhwaDZlY3N6TWl1N2hNTFNGMnJpVlNUbjJsdS9xR2pxVCtqa3UreHpJNjRq?=
+ =?utf-8?B?K25taVpOQVB2KzQxOFdmZktDVUtMRGpUNkRXNlFCVXVsS2NOMzBEcWZocm9Q?=
+ =?utf-8?B?SkpyK1hlWERib1BoU2RrbHZMZVl3aUttQXRVQTkrUXVCd1VGamphYlUyOTRD?=
+ =?utf-8?B?NHVQaW5hekdBR2JMRURaWDlBajVqRWtXVHQ1ZDRhSzJsemFHVXlkOC9Qa1hH?=
+ =?utf-8?B?RDlYSVlObzZOOUVXbEdTalA1WFplOFQ0NTIxd1ZWMEJYdzRJODZ0K1RGVHpk?=
+ =?utf-8?B?ZEtDZ09iY3ZtMmxBNEJCTTduMzdST1ExZXVjZFkvL0FOcEF4cmlZaHVNWTA1?=
+ =?utf-8?B?S3A1dHdJNFQrNTFEMVRMWnI3eTRlWGhjMTlzczRKeVRyWDRQZlZXNTFZMTdW?=
+ =?utf-8?B?Y3orUUxTekorUHByeVJqU1ZEN1hvZGd2YzJ1NDcycHNaR2lLR09EdnR4RHhh?=
+ =?utf-8?B?UUdxdWhBVGYzbzJBOHAwa0lSNlhBcXh5VUJRaWZpZDdzQ3NXRFF4aGsxaHgr?=
+ =?utf-8?B?MDFpZ1FlcHVPdHVxQTN2Z0J5ejFwY0I0bFpLaXpPRmdsR0FmSVQrZTBqb1Rl?=
+ =?utf-8?B?YVpvcVFhQkMwTTBTdGZoV0p1TXpWU3lncE1SSHNoY1piWkhvR1Nlamd5S3VJ?=
+ =?utf-8?B?TEx4MWQ2ZGZoYTQvRGllRUFGWm10QXZOalY1bk5GaTExNjZWcm4vY2xSQ2N2?=
+ =?utf-8?B?ZGZPWGJJdVExUHlIQWZsakFleUp0dkJmSlZVN0s2VHZFblUyRFpsdVV2TERh?=
+ =?utf-8?B?UVlFSEdrcVVrWVZ2MkFrU054MGRTb1dLYnhPMWV3blB2RnJIeXJzeXR1YkYv?=
+ =?utf-8?B?NzZLeWZaR1FxcWdTc3dwVjRCc2ZSMVZzUDRSdVBNZ1Y0aFNMNis0T2h2N3Ru?=
+ =?utf-8?Q?YkJclsvselU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aEhpdk4rV00zSkFSRmY3TWtoZU1weVEzR2p0b0tQbHY3VkwzSlllcUo0TXRW?=
+ =?utf-8?B?V25QQzg5OHhuYmkvV3N4S2VVOURRTzBqYU1ZbGRHeDhyR2RWcHFNMWo3S3c4?=
+ =?utf-8?B?TXhSS3F3OUhTamJwWWFPa09oUVhobWQwSlRVeE9hQWVXanJjVldvMW5Qc3RW?=
+ =?utf-8?B?eGN2aTdUeHN1UzgrYWZ0dzZ2WHhKdysvSzVPclk1Unh4S2xJNVpieEVxUGps?=
+ =?utf-8?B?SGxyVVErNDBxZkVZdTBiYVZ6Rk1iNXNvYjRjZ0NqdGpUZnZLdEcvUmVibnJY?=
+ =?utf-8?B?ek1sTGxOOFRmb2NlL2VnWlY3UFgvRjdDU25mbm85MDVpZGRtTzkvZ1o4VCtZ?=
+ =?utf-8?B?Z3lSTUVHRXRRSHJBTGtGRDNYRFBFV3hCK1dCNVN2RzlHampON09PT3IvbTFI?=
+ =?utf-8?B?Skc2MjhpVjlsSTFOSjkxYThJU2Y2eDNxc3FFRENHVk9nb3B5L2l2dEQxNVhE?=
+ =?utf-8?B?SERmc2Z2eTVVNmZ6MFhFcUdEdDZRT09FZGd5QTI0bWlCYkNjMDNsUFlzQWRP?=
+ =?utf-8?B?M1Y1ZWhXQnFPVnVseVZIbTBBakZtd2VxUmE5S1d0WnVidlRUUWVrNURqb1d2?=
+ =?utf-8?B?NmQveDZSeTlCS0hEVnFNVS90dzNkZVFCN3l6OVM3WlU3Tlh1LzFWV2VHRmY1?=
+ =?utf-8?B?bWlCSlZlSjd0d2ZpOUJFVnZiY3NIOCtZWHUybzd2bnVuNnBPckpHdEhMRUp2?=
+ =?utf-8?B?RkMyWlZ1Q29idHVETlFxcTVOK09Gd3dsVlY3enlzZUNFTU50Rmw1dkE2aWZt?=
+ =?utf-8?B?MHVzU2JJZ3p4TGRLMlR1Y2JhbXk1bXRBNGcxc3ZVcXh1Rk9rY2EvdjZkeVZO?=
+ =?utf-8?B?SXU4RzZUajJVUzJqbTFzam5wWjNFZ29Od3RLTW5lU3hiMG9sSC9sNm1yVDN2?=
+ =?utf-8?B?elBSVnBUUVpNSXY3em5NM2pQWmVGVVI3eTRaMmtUZGpJY1lwcVRwcHlCL244?=
+ =?utf-8?B?S2QvV0RzOWdzYm5qUnZpaTQyVG1oczJJbUtrVE03MitmY1VuQjBDN25GcU5N?=
+ =?utf-8?B?VUdqK1M1WWZ4NEJzaFY2cnN5NDBVNjJjekFEOG1uRENCWFBUNlQxWXdJTmtZ?=
+ =?utf-8?B?RitUeUdGamV2dVpzVEM0aTNZazZBbnp0aTd5c1Vqa3piNC9MUE5mdkx1Vnlk?=
+ =?utf-8?B?QWt0eW1ELzlBYjMvV3VJcysyc1BaRkFiMjFGc2dQVkpJYS9vUnpYZ05ZNXFK?=
+ =?utf-8?B?aG03aGhtZU1Oa1FEU1pqd3pJUVlFbStneDZuL1NuRFBhRG5FRHJnMUtKMjdX?=
+ =?utf-8?B?RW5yTGVCaDZMS0VFY0xMNi9JcVZ3Nnh1NGV3KzRFUExOR1NBYkIrbTdtdWFw?=
+ =?utf-8?B?UDFONW5PcWd3YnJRT3dNdEZ1MVZUTjh5NVlhdFdvaFBxT1hVVER6WUY0elZr?=
+ =?utf-8?B?TnZUSExvOVJZK2cyV0JGUFZ5QU90eDNQTWhaYmpiMzRRZi9RZkQ4bHRyK3Av?=
+ =?utf-8?B?dnJKczdKeVBoblVYVG5qV1MwS0I5b2tPMzFFazAyR1pUczJVWXVrakJOWkVn?=
+ =?utf-8?B?Zm5yTWNjY09lWWxjYkhUNEYrQ1k3VThEaWhsVExRcVRiY2o1aFptUVRaam5Q?=
+ =?utf-8?B?c09URk8wdEJIZWVmdmxuRUNjbC95TDRET2xUN2ZZV2NnbWRxRWhDQ2liRk9D?=
+ =?utf-8?B?aWpDa3Y3Zk1iSEdpcWJCOE5WaXlUdGs0YU9tSVNocnZFZWhGWFhuaUI4eE5T?=
+ =?utf-8?B?Q3ZBVlhNRG1sRXdvRkxlcjRDcG04OTZ4bSt1alZNSnZSZUtKZzRxV0FJMGg5?=
+ =?utf-8?B?Wi9lSkxSMGZEUnBGeTI3dEczeTExdlMzd0p6b3NSVTVPMWVZcDRkeDNRdnVO?=
+ =?utf-8?B?b2FiWVd3QkVZV3FBeTVHYUN3T3FmUmN3R2Y4TENnajhENGJtSkdMYU51eSs0?=
+ =?utf-8?B?WmtRZGFHYWF5alI2R296aXlIL2w4V1RnOFUzUlpGZ3AyQ21YZU9FRFkzZHVW?=
+ =?utf-8?B?TUt2THJNbnk4RjdQdnhyY29Eb2xYeGJkYlBtdVZ0OG1aSmFCV2tocFVmL3U0?=
+ =?utf-8?B?c3ZWTHdnblhZTW1GTk1abDZMdnJyWUF3TjA0WE92UVRkcThybFQxN2t5UjlV?=
+ =?utf-8?B?N3d5cWJMbUJnaC9SNU5oN3FxOTk4T0tsMUhkN2xmRVdrTFlSTmM5aUxjQVdU?=
+ =?utf-8?Q?fQFeYfMVGJFYZuiPYKPKPFYwI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bd92a4b-6106-4ba3-fae6-08dd99418a33
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 15:01:32.8687 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 69z60KzmoCyY1nZQxSoHUp3+l/Ijo3toCxbWhvPckuE9rtZjNmN/RcR6hEFewX5v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6990
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,289 +169,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-05-22 at 15:06 +0100, Tvrtko Ursulin wrote:
->=20
-> On 22/05/2025 09:27, Philipp Stanner wrote:
-> > The drm_gpu_scheduler now supports a callback to help
-> > drm_sched_fini()
-> > avoid memory leaks. This callback instructs the driver to signal
-> > all
-> > pending hardware fences.
-> >=20
-> > Implement the new callback
-> > drm_sched_backend_ops.cancel_pending_fences().
-> >=20
-> > Have the callback use drm_mock_sched_job_complete() with a new
-> > error
-> > field for the fence error.
-> >=20
-> > Keep the job status as DRM_MOCK_SCHED_JOB_DONE for now, since there
-> > is
-> > no party for which checking for a CANCELED status would be useful
-> > currently.
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0 .../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 67 +++++++-=
-------
-> > -----
-> > =C2=A0 drivers/gpu/drm/scheduler/tests/sched_tests.h |=C2=A0 4 +-
-> > =C2=A0 2 files changed, 25 insertions(+), 46 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > index f999c8859cf7..eca47f0395bc 100644
-> > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > @@ -55,7 +55,7 @@ void drm_mock_sched_entity_free(struct
-> > drm_mock_sched_entity *entity)
-> > =C2=A0=C2=A0	drm_sched_entity_destroy(&entity->base);
-> > =C2=A0 }
-> > =C2=A0=20
-> > -static void drm_mock_sched_job_complete(struct drm_mock_sched_job
-> > *job)
-> > +static void drm_mock_sched_job_complete(struct drm_mock_sched_job
-> > *job, int err)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	struct drm_mock_scheduler *sched =3D
-> > =C2=A0=C2=A0		drm_sched_to_mock_sched(job->base.sched);
-> > @@ -63,7 +63,9 @@ static void drm_mock_sched_job_complete(struct
-> > drm_mock_sched_job *job)
-> > =C2=A0=C2=A0	lockdep_assert_held(&sched->lock);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	job->flags |=3D DRM_MOCK_SCHED_JOB_DONE;
-> > -	list_move_tail(&job->link, &sched->done_list);
-> > +	list_del(&job->link);
-> > +	if (err)
-> > +		dma_fence_set_error(&job->hw_fence, err);
-> > =C2=A0=C2=A0	dma_fence_signal(&job->hw_fence);
-> > =C2=A0=C2=A0	complete(&job->done);
-> > =C2=A0 }
-> > @@ -89,7 +91,7 @@ drm_mock_sched_job_signal_timer(struct hrtimer
-> > *hrtimer)
-> > =C2=A0=C2=A0			break;
-> > =C2=A0=20
-> > =C2=A0=C2=A0		sched->hw_timeline.cur_seqno =3D job-
-> > >hw_fence.seqno;
-> > -		drm_mock_sched_job_complete(job);
-> > +		drm_mock_sched_job_complete(job, 0);
-> > =C2=A0=C2=A0	}
-> > =C2=A0=C2=A0	spin_unlock_irqrestore(&sched->lock, flags);
-> > =C2=A0=20
-> > @@ -212,26 +214,33 @@ mock_sched_timedout_job(struct drm_sched_job
-> > *sched_job)
-> > =C2=A0=20
-> > =C2=A0 static void mock_sched_free_job(struct drm_sched_job *sched_job)
-> > =C2=A0 {
-> > -	struct drm_mock_scheduler *sched =3D
-> > -			drm_sched_to_mock_sched(sched_job->sched);
-> > =C2=A0=C2=A0	struct drm_mock_sched_job *job =3D
-> > drm_sched_job_to_mock_job(sched_job);
-> > -	unsigned long flags;
-> > =C2=A0=20
-> > -	/* Remove from the scheduler done list. */
-> > -	spin_lock_irqsave(&sched->lock, flags);
-> > -	list_del(&job->link);
-> > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > =C2=A0=C2=A0	dma_fence_put(&job->hw_fence);
-> > -
-> > =C2=A0=C2=A0	drm_sched_job_cleanup(sched_job);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/* Mock job itself is freed by the kunit framework. */
-> > =C2=A0 }
-> > =C2=A0=20
-> > +static void mock_sched_cancel_pending_fences(struct
-> > drm_gpu_scheduler *gsched)
->=20
-> "gsched" feels like a first time invention. Maybe drm_sched?
+On 5/22/25 15:50, Danilo Krummrich wrote:
+> On Thu, May 22, 2025 at 03:05:02PM +0200, Christian König wrote:
+>> E.g. when you don't know the implementation side use the defined API and don't mess with the internals. If you do know the implementation side then it's valid that you check the internals.
+> 
+> I assume you meant this as "bothering with the internals of you *own* fence is
+> fine, but not with foreign ones".
 
-Alright
+Yes, exactly that.
 
->=20
-> > +{
-> > +	struct drm_mock_sched_job *job, *next;
-> > +	struct drm_mock_scheduler *sched;
-> > +	unsigned long flags;
-> > +
-> > +	sched =3D container_of(gsched, struct drm_mock_scheduler,
-> > base);
-> > +
-> > +	spin_lock_irqsave(&sched->lock, flags);
-> > +	list_for_each_entry_safe(job, next, &sched->job_list,
-> > link)
-> > +		drm_mock_sched_job_complete(job, -ECANCELED);
-> > +	spin_unlock_irqrestore(&sched->lock, flags);
->=20
-> Canceling of the timers belongs in this call back I think. Otherwise=20
-> jobs are not fully cancelled.
+> And if the driver messes with the internals of its own fence code that's fine,
+> but in this case we talk about the generic dma_fence implementation, i.e. an
+> internal flag of the dma_fence implementation.
 
-I wouldn't say so =E2=80=93 the timers represent things like the hardware
-interrupts. And those must be deactivated by the driver itself.
+Well the flag is under the control of the fence implementation.
 
-See, one big reason why I like my approach is that the contract between
-driver and scheduler is made very simple:
+> In general, a driver should *never* bother with implementation details of a
+> generic component, regardless whether the author knows the internal details.
+> Things are *always* prone to change and then this may result into subtle bugs.
 
-"Driver, signal all fences that you ever returned through run_job() to
-this scheduler!"
+Yeah, I know what you mean. The implementation kind of sub-classes the dma_fence component to use it to implement it's specific function.
 
-That always works, and the driver always has all those fences. It's
-based on the most fundamental agreement regarding dma_fences: they must
-all be signaled.
+In C++ we would distinct the function between into private: protected: and public: sections, but we don't have that luxury here.
 
->=20
-> Hm, I also think, conceptually, the order of first canceling the
-> timer=20
-> and then signaling the fence should be kept.
+But you already convinced me with the argument that this needs to be better documented, I'm just not sure if adding the function documentation would do it.
 
-That's the case here, no?
-
-It must indeed be kept, otherwise the timers could fire after
-everything is torn down -> UAF
-
->=20
-> At the moment it does not matter hugely, since the timer does not
-> signal=20
-> the jobs directly and will not find unlinked jobs, but if that
-> changes=20
-> in the future, the reversed order could cause double signaling. So if
-> you keep it in the correct logical order that potential gotcha is=20
-> avoided. Basically just keep the two pass approach verbatim, as is in
-> the current drm_mock_sched_fini.
->=20
-> The rest of the conversion is I think good.
-
-:)
-
->=20
-> Only a slight uncertainty after I cross-referenced with my version=20
-> (->cancel_job()) around why I needed to add signaling to=20
-> mock_sched_timedout_job() and manual job cleanup to the timeout test.
-> It=20
-> was more than a month ago that I wrote it so can't remember right
-> now.=20
-> You checked for memory leaks and the usual stuff?
-
-Hm, it seems I indeed ran into that leak that you fixed (in addition to
-the other stuff) in your RFC, for the timeout tests.
-
-We should fix that in a separate patch, probably.
-
-
-P.
-
->=20
-> Regards,
->=20
-> Tvrtko
->=20
-> > +}
-> > +
-> > =C2=A0 static const struct drm_sched_backend_ops drm_mock_scheduler_ops
-> > =3D {
-> > =C2=A0=C2=A0	.run_job =3D mock_sched_run_job,
-> > =C2=A0=C2=A0	.timedout_job =3D mock_sched_timedout_job,
-> > -	.free_job =3D mock_sched_free_job
-> > +	.free_job =3D mock_sched_free_job,
-> > +	.cancel_pending_fences =3D mock_sched_cancel_pending_fences,
-> > =C2=A0 };
-> > =C2=A0=20
-> > =C2=A0 /**
-> > @@ -265,7 +274,6 @@ struct drm_mock_scheduler
-> > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > =C2=A0=C2=A0	sched->hw_timeline.context =3D dma_fence_context_alloc(1);
-> > =C2=A0=C2=A0	atomic_set(&sched->hw_timeline.next_seqno, 0);
-> > =C2=A0=C2=A0	INIT_LIST_HEAD(&sched->job_list);
-> > -	INIT_LIST_HEAD(&sched->done_list);
-> > =C2=A0=C2=A0	spin_lock_init(&sched->lock);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	return sched;
-> > @@ -280,38 +288,11 @@ struct drm_mock_scheduler
-> > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > =C2=A0=C2=A0 */
-> > =C2=A0 void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
-> > =C2=A0 {
-> > -	struct drm_mock_sched_job *job, *next;
-> > -	unsigned long flags;
-> > -	LIST_HEAD(list);
-> > +	struct drm_mock_sched_job *job;
-> > =C2=A0=20
-> > -	drm_sched_wqueue_stop(&sched->base);
-> > -
-> > -	/* Force complete all unfinished jobs. */
-> > -	spin_lock_irqsave(&sched->lock, flags);
-> > -	list_for_each_entry_safe(job, next, &sched->job_list,
-> > link)
-> > -		list_move_tail(&job->link, &list);
-> > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > -
-> > -	list_for_each_entry(job, &list, link)
-> > +	list_for_each_entry(job, &sched->job_list, link)
-> > =C2=A0=C2=A0		hrtimer_cancel(&job->timer);
-> > =C2=A0=20
-> > -	spin_lock_irqsave(&sched->lock, flags);
-> > -	list_for_each_entry_safe(job, next, &list, link)
-> > -		drm_mock_sched_job_complete(job);
-> > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > -
-> > -	/*
-> > -	 * Free completed jobs and jobs not yet processed by the
-> > DRM scheduler
-> > -	 * free worker.
-> > -	 */
-> > -	spin_lock_irqsave(&sched->lock, flags);
-> > -	list_for_each_entry_safe(job, next, &sched->done_list,
-> > link)
-> > -		list_move_tail(&job->link, &list);
-> > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > -
-> > -	list_for_each_entry_safe(job, next, &list, link)
-> > -		mock_sched_free_job(&job->base);
-> > -
-> > =C2=A0=C2=A0	drm_sched_fini(&sched->base);
-> > =C2=A0 }
-> > =C2=A0=20
-> > @@ -346,7 +327,7 @@ unsigned int drm_mock_sched_advance(struct
-> > drm_mock_scheduler *sched,
-> > =C2=A0=C2=A0		if (sched->hw_timeline.cur_seqno < job-
-> > >hw_fence.seqno)
-> > =C2=A0=C2=A0			break;
-> > =C2=A0=20
-> > -		drm_mock_sched_job_complete(job);
-> > +		drm_mock_sched_job_complete(job, 0);
-> > =C2=A0=C2=A0		found++;
-> > =C2=A0=C2=A0	}
-> > =C2=A0 unlock:
-> > diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > index 27caf8285fb7..22e530d87791 100644
-> > --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > @@ -32,9 +32,8 @@
-> > =C2=A0=C2=A0 *
-> > =C2=A0=C2=A0 * @base: DRM scheduler base class
-> > =C2=A0=C2=A0 * @test: Backpointer to owning the kunit test case
-> > - * @lock: Lock to protect the simulated @hw_timeline, @job_list
-> > and @done_list
-> > + * @lock: Lock to protect the simulated @hw_timeline and @job_list
-> > =C2=A0=C2=A0 * @job_list: List of jobs submitted to the mock GPU
-> > - * @done_list: List of jobs completed by the mock GPU
-> > =C2=A0=C2=A0 * @hw_timeline: Simulated hardware timeline has a @context=
-,
-> > @next_seqno and
-> > =C2=A0=C2=A0 *		 @cur_seqno for implementing a struct dma_fence
-> > signaling the
-> > =C2=A0=C2=A0 *		 simulated job completion.
-> > @@ -49,7 +48,6 @@ struct drm_mock_scheduler {
-> > =C2=A0=20
-> > =C2=A0=C2=A0	spinlock_t		lock;
-> > =C2=A0=C2=A0	struct list_head	job_list;
-> > -	struct list_head	done_list;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	struct {
-> > =C2=A0=C2=A0		u64		context;
->=20
+Regards,
+Christian.
 
