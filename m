@@ -2,170 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D40AC0383
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 06:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359EEAC0386
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 06:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEEFA10F816;
-	Thu, 22 May 2025 04:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B724010FD87;
+	Thu, 22 May 2025 04:45:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HUNAY3ng";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KLYrpJ3v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7821D95AB9;
- Thu, 22 May 2025 04:01:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OhH/7rE8RXP+hl6uYikLdfVnSUB1eWKJiohaqckIx2llkXOSh1jV3/2C4O/8ILwcLm8kqGDbSmxB6lMkrTapcDIHAMy4kDH1FzOtf3xELAchtybolRBQLhZO0hx+ZHD7KerXkjPhnHL+rdjjiG8WGVClJhgMkPbGhep7T8md04lwaa7aHOO014hrSoBu2RMDreSfNenJP7WVYr2npJRJ3QBpEHnsR6NMoIJYlnA0BA39tbH4RXI/lwpH/6f00c+H9hK12zWPNGfXU8NbCENg+jWZGP6KfAPsUfA3BZcFV4wc64BtkQfw7Qcsfi6wddq+EPWJorRvZGUuqP6YFkTX1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yv2qeM2BhPG3oLtA1XTo86pZQW+gCGIeUtBliEwnozQ=;
- b=oyHJL0CmGu/Q8zp3lvG0DhtaZ+6udcxhKXon4mImRb3JQUdWjNZzH6+8n0e8MqnnYxOsDo3bViw6Tp4+iwISqDH62Im5WjY9Pi+5s6JuZGAnY6fsO4ZhvQoNVVlJdb3o1SKYODkUZUdrHQi2d7JGvKJHo6hG4LSJe/iHLcVHBcTydYONHJqg7ZXKarwPuce3GYa/GGYoADt40nN4ctFSYcc6WoZdhXvcg2K/9Cd/ProfujEHnIJBGsTJ6Y1C2uV/R6C6uM6r9YpWDmlX1JMHFYH0WCE4NsH3Q5Q8PiXA1smTsgKqF4J+31egbKz1goYA8+r3ILFxAyQ0nWr8WebFtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yv2qeM2BhPG3oLtA1XTo86pZQW+gCGIeUtBliEwnozQ=;
- b=HUNAY3ngatHwEOepB4p0XeMhmB+lt90RaHK7x5EN84zoJjs5iRaub6gqfo00YT4lMxGdyuU2+hQ+Kj9HV112nuEuE7N38W3Gq2Q+y6LR1xFaKIT4C/kTwcr3abFnESPoMw7odBPhbaa+9v1C454YnNzcQRTlmcMD7d4rSFFjQaJlocybNGnUypCzBDbjp27MjRA28G8zdmI7OtxzLtf0BIrVO9eZVobDmtnIPnjC7SFy6DUZNsQKP+yKV6oyr0SWGj60X36Bav2QStI7G5od2RIK+YEnzLX+9+rptgulPiYjEzKS6PvvKWoNvG/d7kijq/zdVFVKIDZeZCWL+fkZvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH7PR12MB7842.namprd12.prod.outlook.com (2603:10b6:510:27a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Thu, 22 May
- 2025 04:01:01 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
- 04:00:57 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 22 May 2025 13:00:53 +0900
-Message-Id: <DA2E1BNC668R.MMCARZ3K2NTS@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 04/20] rust: add new `num` module with useful integer
- operations
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <benno.lossin@proton.me>, "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Daniel Almeida"
- <daniel.almeida@collabora.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
-In-Reply-To: <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
-X-ClientProxiedBy: TYCP301CA0085.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::7) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F99710E887
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 04:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747888021; x=1779424021;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pYPqpCs+wZJ2se/dDYL6AzIqkv5JEmLumwWmmFC+BEk=;
+ b=KLYrpJ3vN3ZGmEfFyBRrnqvGDbOLJx8EhCSzMORzpQ2xmqup7IfsoGH7
+ MtewPAH4a6SFyaSsy8IK2UHlj3NtRRYNAhmljqD85ZLcbltRu2B5efeFt
+ fZiFbNedZ4q1reZaDQBCjrRBvyCY1wbD0H/MLfClZ5tAD27TtXcJffhXU
+ bnOnD/ugWPGMyrHtYta73szZLcj8r+qutuMKeflf1XXftnMT2/hi05Iu7
+ K+BVQHnMj58f+tIpKyTBQKWgDmYUBFhkoyIpuKQJ+tQpDSi1j/c/gJjsR
+ tshF7qdn5kuEQ+Kll1BWjqFXR6XdNSrricxzXpLsencqSfZRJU+nMSOot Q==;
+X-CSE-ConnectionGUID: uifuabhmQBeNXJnMU/FOuQ==
+X-CSE-MsgGUID: PunM+OxdSE+lX3s6Kmg0cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="37513946"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="37513946"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2025 21:27:00 -0700
+X-CSE-ConnectionGUID: 8O9WDd3fSp+bh4VeJDLIbA==
+X-CSE-MsgGUID: 9l6/JDfuTBK4xlf7CvUNrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="145265186"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 21 May 2025 21:26:57 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uHxWA-000OuK-2V;
+ Thu, 22 May 2025 04:26:54 +0000
+Date: Thu, 22 May 2025 12:25:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hugo Villeneuve <hugo@hugovil.com>, biju.das.jz@bp.renesas.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ hugo@hugovil.com, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ Chris Brandt <chris.brandt@renesas.com>
+Subject: Re: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
+Message-ID: <202505221231.A6G8HqGd-lkp@intel.com>
+References: <20250520171034.3488482-2-hugo@hugovil.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7842:EE_
-X-MS-Office365-Filtering-Correlation-Id: 016863c0-ccdf-4a35-db00-08dd98e54115
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UnFmMk1IaXJZeDZURlZkcFN5U1FCcmVWVVdNMG9wbitheXpscHRucWRZaTJo?=
- =?utf-8?B?RklLMEo3T2pHUHM5cko1dUdITHVMYTBYNFZhcTQxM0g4UVEvVEViVWd6Ymxy?=
- =?utf-8?B?ZUNWa0E5dnhzVU1YbWQwKzdLTjhuQ1h6blBBbktVd3lmYUE1Y1FoK3dxMDJC?=
- =?utf-8?B?TkVyMGluem42QzBUNy9BV3VraTlxY1pQeE8vM2hsK1IzN2RUcTh2cWh1c0g3?=
- =?utf-8?B?MHZ6c2hLTkVRWDFqL1lOZnQ3RGptMzEzNzFFZklkbEYvMFcrOFc5SGNwYUNY?=
- =?utf-8?B?ZmxJY1BwcUh4Z2ZOempSNlduUDVLL3FIYmZjeVpZQmV4dWNDWE80Rm5ScTFo?=
- =?utf-8?B?MG1XTzNrSEk4RUdTakIxRXBJRmFmTWVUQnNZM3FGOGJoTUk5RTBOQktPN2xt?=
- =?utf-8?B?VW5FTjJiV2NtMXBnWC9hcFV2Z2s5dUtmZ3l6aFJ4L1FubCsvZUxPOGxsZlRh?=
- =?utf-8?B?QlR0K0R1V1JsQnR3NXFNWWdSeGZ0bnVraStOMkE3ZndsbWNzcEhjRnBkV3ps?=
- =?utf-8?B?RExWV1VDUXE2L0YwTHd3dE5UMU1JTEFYT2lDa2Z0dUswZk9BZXo5K1BYZ2tL?=
- =?utf-8?B?NDl0bzJ3d1ZkM1YrK2d1OHE0b1V3Q21FUkNaU1dNbEJaRmtJRldWOE5JY1B5?=
- =?utf-8?B?Zk5WaFpHQ2p2VGcvSDZJc2Z2dU84MGVTRDJRS3VTdFZoSVdleGZOaWVnYVpy?=
- =?utf-8?B?MVZHS01NTTMyNXRGL3VHN1ZtRklLWXU5YlpFaVh5TGZVU3U3R29Xa0gxVm42?=
- =?utf-8?B?ODlOcEFDNitJMFVrK1JnekhQWk5TSUlndTVMUDR4R0Z4RkxvOWlndUR0QjNK?=
- =?utf-8?B?Uzltd2lKQnQ5WW5mUFJXQ0p6WXJjVlFpOGZGeWttSXRMUHBYdkpqbzk3WExz?=
- =?utf-8?B?R3AyL1JvNE9BelZYa1NNNDdLWjhJWE4vZWlQMGc1Rm41dlhHbzVka3Z4NFMv?=
- =?utf-8?B?a0Vma0ZUekFRV1I4TDVEM2JleEQ5VGdUdXdOL2JpRzFUUjFZaXVUTlJBTGJy?=
- =?utf-8?B?R1hGc0tkWTIyU2J2c29LRmlVdWJCR0plZ256SGZocXNLNE91NUtxbTRDRUF2?=
- =?utf-8?B?QklyMkRvdU82VkI1bmkyV05xSG9oeU9odlAxNnR3RnptTHNyaFlWRmdWUHI0?=
- =?utf-8?B?cDY4L0V4NUgrcDI0NW1iQlVmWXQzRGRSc2lLd2k1YmlnODJBejhJY1JoU2Fr?=
- =?utf-8?B?UWRMYjlvZHJFbEo2aWxrTDVxa2Noako3VE5zUCtYZ1ExZjcydW5iYnhCVzdz?=
- =?utf-8?B?WjdoS3RCM2dxUThldytRQVB0KytIMkZ6Mk04cTZKMnBvRjE4bldoR2t0VW5L?=
- =?utf-8?B?cHBKU3lPeC9BZGk1Q0J4R0NnQ2pUa0NvLzNJZytzQXhrRFdEc0JBNkJWTkR4?=
- =?utf-8?B?YnpsblQrdTNvNTlNN3gzaEFUWksxVFdMNERlR0tKVWRTZDdtR1NRS3R4Tkh3?=
- =?utf-8?B?dFduU1RkYTJlcnQzcFFqeFdzV3Nja2VBUnVMQjh2S1pHWEFJMy9pSXo4cXBW?=
- =?utf-8?B?Z3lwMDlPL2t4NERneEF6NGhFd1BZUnk4eEJSaGJtQUpnRSs1RUYvZDdxUjRM?=
- =?utf-8?B?bGU2Nk1Ba1JrQzhoam93Vkt5NGhJdjdDeU96QUF4eW0xVDd6eVJiRTJDTkxn?=
- =?utf-8?B?aFpEcGhSVHNNYnlCaWs0VzcwclVPczUzTDRRc0dQQW5KTHNyRDFOenA5SXEx?=
- =?utf-8?B?V0NwcnpYcFB1dUZVQmliU0txNkVQNVJ0ZE5OZUFkelplcE5GRTdqK2wxMUJn?=
- =?utf-8?B?K3E2REhOWVlxNm5nbmxxU3dkZjJvVGZMcE5idWFrOG8vSVBWQUZCSHJEOE93?=
- =?utf-8?B?QWZGdGxCUlgzTFlJa0toVXNhRGRDRncyMGRVcHVyeWVRaGlTdkRoNElrUm5K?=
- =?utf-8?B?ODYxbnFDakcxV25ZaXlOUDZJa1RNRk9UVXhiNy9iRHdMaU9yelRSbGFZczJ3?=
- =?utf-8?B?a3lTSklHRkZPRVZVT1hqTGVta2VzWHgxbDVhcVoxcTJtWk8rS1QyN2c4cEZs?=
- =?utf-8?B?NXN1a3liMUZnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTl3SXJnYkVJYzZreWxLU0FScytwbnR3MGEzcTJmdXpVSXdoL01tWXBWK2Q5?=
- =?utf-8?B?VWRoaUhxQjUrU1BnY3BIU1I1QlBTNUVvM2ZVM0ZaWnNoNG1YNG5PQktCRHhw?=
- =?utf-8?B?ak5ORlhQb0ZhOEhwS09ZZXEydzZZMThMZStlREJkMjlTbDlOTUZDOFRMMGxx?=
- =?utf-8?B?ZVNQMTRycnJzS1BWN2xpOWZzRXVKMzF5b05xWjZ0U1lzLzN0SDU1dWs3NjNC?=
- =?utf-8?B?bTlYTTZSOEZsbThBTzFhNURCNUtSRGxJVXloQks2ODVGYU1lVG04cU5CQ0ZE?=
- =?utf-8?B?UVVFWFQ3RHZrSE1JMWl1T3Z6RjAxeG81YklWRExlU2c1NW1JWGJYeGhERGRs?=
- =?utf-8?B?bFZJbFZDZmxGWUE5QWN5ZE5CZ2RQVkFUTTNZY0Y3bFg1bzJ0cXNzcURDNC9O?=
- =?utf-8?B?b3d2ZzNZQjZNRld4Skd2Q2UrNlRLaWdWVHlLdFFRSFU2SGwrRW9EeWFkVE5w?=
- =?utf-8?B?R1RxdFRpb2FnL240aDBQNThqMm9qVk93U2N4enkvUGI1RmEvQTQ2ejIzbXda?=
- =?utf-8?B?bWZaYUJobWlxRG9mZllTRFQ2aHBQWDVSRFZ5dWs0TUlSTHZKNThZRFF0QTRO?=
- =?utf-8?B?SGdaRkdGMDBXOTMwS1dxMEhhekZqdGgzeU9rSVBDTzgzSDV2MlBTMVFDZmJh?=
- =?utf-8?B?WE5CWGhqb0tSajNXMzd5WHZBNXRpMkRhRTNhc0o2YzRYa1FOcDdnYnkwTGtM?=
- =?utf-8?B?aHh5TkJrSk9pNDRsU21hZkpJMjRIWEhlYldxOE8rbnV6MHdUZnlubzluRU41?=
- =?utf-8?B?YTZ5bFc2N1dWQ2YxbGQwajNBWnhub0UvTlc0ZUxJNjdZRFgwd0RFRSs3Q3FR?=
- =?utf-8?B?Si8rUUZBclhZdUttKzgvK1AxNmV4YWs2cGFlMWZFWisyNWo2cThmNTRjVHZh?=
- =?utf-8?B?c1psS0FnMTBWa0N4dUk0SXNxaGJWalRxWFllL2pDWXlzV0poQnFMYmJubzBq?=
- =?utf-8?B?TXREQmJVaXdZSTRoSVRQa3RvVmVNbllianBsT2R3SXZrL2VlQllSbmVRQ1E3?=
- =?utf-8?B?MXYveDMxK1lBN0NrbCtWQnlqOFdzVnNoUWN3WGFGMlJnMXU0ZUo4TTYrS0tS?=
- =?utf-8?B?bnRKVkF2a1dOL3RpOG5rTlRsbHZyMXdlRkJNZW1qdnR4Q2g0cG4xMWtFdTIy?=
- =?utf-8?B?UGk0L0pyTVlBa1ZibVNMU1BPOXVROGR4YWFLdWVLc0JHN0U4MC9qaUhxdHdR?=
- =?utf-8?B?UGExNTRHeVMxbmdnODgzZGVpS0UyYmdRNkdOYUFlOTFCMEtNT2FYVGVwVnlk?=
- =?utf-8?B?MkI0TkF1NzNGc1pDbmRzS1c4RWxyUEhpRjFLV1JpbDNLRlZRZ2FJYk9uNzdY?=
- =?utf-8?B?NUlPNW41RUR0WnBwbzVpdDVMNFR6Z2JqdnVDOVduTWNYSG5KUFVxcmhjTUZy?=
- =?utf-8?B?NEpmSjJwYkZWVTE2K2NyKzZlQmpyK3MwQlRJWTV1S3AyN290VEN0dUhWeEVN?=
- =?utf-8?B?SFo2eE5hRERCTVdjdTAweVVZbUw0cTh2aTI5c0FOajBab2Z2Z21YaU9kdDYr?=
- =?utf-8?B?VVVXbjVnQzhFQjZZZW84MFpSODNNNCtvTTZNbmtSa3FQOU5CTTRWMHpnWkd1?=
- =?utf-8?B?NHYxN2p5SEdpUFY2S0lJSGEzZmsxNDBTZTlCQ0NBZDltSGt0amtGbjBwTTlB?=
- =?utf-8?B?WEx3WVFZTzRLc0hVdlhCY0ZQd3BjUlc0ZVRyVkVJZW9ERjQvR1hjWCtNTGcr?=
- =?utf-8?B?NnpCbDJRdjBBUUpETkNFM05HQzdpalhVSHRKMmVYZ3pGdm5lZVdVVGlERU9X?=
- =?utf-8?B?TUJTUHFoYVVpbDRGb29pQlJHcXJ3TGNHTFRtV0hWSkIrSVF0M29MM1JXenZR?=
- =?utf-8?B?NkJieEtrenM2Uy9NM0djSXFCNVM2amtaWC8zWWNnRG1Ld0RWU3RKY1BXRDlW?=
- =?utf-8?B?THZyWUNhSGNMTnoxYzZHQzZSckVTUG8zYTJ4Z0NZMTJFWVFvR1VCSkZkVVRt?=
- =?utf-8?B?NW9GaWgvNDhHT1ltRWxJZURVckt3SWpsZUxNM1piSU5Ya2tMNW1sL3FZQms5?=
- =?utf-8?B?RjhjRDBodjkxOGYzTXZYbFo5b2pRSzdPcDZIc2NTK2EyTFE4MlhwOStqME8x?=
- =?utf-8?B?czhMdndiSytNNXp1RlMzV2kxQ1ZFQ3pGVmVTTHdPNFhyY1BENjJlTXhtV2J0?=
- =?utf-8?B?N3BncEU3NU8rb1hYTEFubUY5QTNKSWo3cDltS0NrY1RsSSttcWUyd3BxZWNW?=
- =?utf-8?Q?qKeYSy2cKSIZs8Ep8hCzwbN2NKXaJvmzVSdrjfjFe7NH?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 016863c0-ccdf-4a35-db00-08dd98e54115
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 04:00:57.5230 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IAOJ1kKPSPiEDzBDfiDHyRSL20HVGQ8z4AG0/uQAl7UXaBPDtgtDhegV17E05OBxoyraoGcdr+abWdTmJAboUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7842
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520171034.3488482-2-hugo@hugovil.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,34 +74,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed May 21, 2025 at 3:44 PM JST, Alexandre Courbot wrote:
-> Introduce the `num` module, featuring the `NumExt` extension trait
-> that expands unsigned integers with useful operations for the kernel.
->
-> These are to be used by the nova-core driver, but they are so ubiquitous
-> that other drivers should be able to take advantage of them as well.
->
-> The currently implemented operations are:
->
-> - align_down()
-> - align_up()
-> - fls()
->
-> But this trait is expected to be expanded further.
+Hi Hugo,
 
-A trait is nice, but prevents any use in const context... After looking
-at the genmask patch [1] I am now wondering (again) whether a set of
-const functions would not better serve the needs of the kernel.
+kernel test robot noticed the following build errors:
 
-Either that, or we enable `#![feature(const_trait_impl)]`. I just tried
-and with it we could indeed define and implement `NumExt` as const,
-which looks like the cleanest way to do this to me.
+[auto build test ERROR on 7c1a9408ce5f34ded5a85db81cf80e0975901685]
 
-The functions of [1] could then also be implemented as methods of that
-trait, which would allow them to leverage the macro generating the impl
-blocks for all supporting types, while having their examples/doc-tests
-in the trait declaration.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/drm-rcar-du-rzg2l_mipi_dsi-Implement-host-transfers/20250521-011613
+base:   7c1a9408ce5f34ded5a85db81cf80e0975901685
+patch link:    https://lore.kernel.org/r/20250520171034.3488482-2-hugo%40hugovil.com
+patch subject: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/reproduce)
 
-[1] https://lore.kernel.org/rust-for-linux/20250326-topic-panthor-rs-genmas=
-k-v5-1-bfa6140214da@collabora.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221231.A6G8HqGd-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_read_response':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:684:20: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     684 |         datatype = FIELD_GET(RXRSS0R_DT, result);
+         |                    ^~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_transfer':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:742:26: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     742 |                 value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+         |                          ^~~~~~~~~~
+
+
+vim +/FIELD_GET +684 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+
+   661	
+   662	static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
+   663						    const struct mipi_dsi_msg *msg)
+   664	{
+   665		u8 *msg_rx = msg->rx_buf;
+   666		u16 size;
+   667		u8 datatype;
+   668		u32 result;
+   669	
+   670		result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
+   671		if (result & RXRSS0R_RXPKTDFAIL) {
+   672			dev_err(dsi->dev, "packet rx data did not save correctly\n");
+   673			return -EPROTO;
+   674		}
+   675	
+   676		if (result & RXRSS0R_RXFAIL) {
+   677			dev_err(dsi->dev, "packet rx failure\n");
+   678			return -EPROTO;
+   679		}
+   680	
+   681		if (!(result & RXRSS0R_RXSUC))
+   682			return -EPROTO;
+   683	
+ > 684		datatype = FIELD_GET(RXRSS0R_DT, result);
+   685	
+   686		switch (datatype) {
+   687		case 0:
+   688			dev_dbg(dsi->dev, "ACK\n");
+   689			return 0;
+   690		case MIPI_DSI_RX_END_OF_TRANSMISSION:
+   691			dev_dbg(dsi->dev, "EoTp\n");
+   692			return 0;
+   693		case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
+   694			dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
+   695				(u8)FIELD_GET(RXRSS0R_DATA1, result),
+   696				(u8)FIELD_GET(RXRSS0R_DATA0, result));
+   697			return 0;
+   698		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
+   699		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
+   700			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+   701			return 1;
+   702		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
+   703		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
+   704			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+   705			msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
+   706			return 2;
+   707		case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
+   708		case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
+   709			size = FIELD_GET(RXRSS0R_WC, result);
+   710	
+   711			if (size > msg->rx_len) {
+   712				dev_err(dsi->dev, "rx buffer too small");
+   713				return -ENOSPC;
+   714			}
+   715	
+   716			memcpy(msg_rx, dsi->dcs_buf_virt, size);
+   717			return size;
+   718		default:
+   719			dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
+   720			return -EPROTO;
+   721		}
+   722	}
+   723	
+   724	static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+   725						    const struct mipi_dsi_msg *msg)
+   726	{
+   727		struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+   728		struct mipi_dsi_packet packet;
+   729		bool need_bta;
+   730		u32 value;
+   731		int ret;
+   732	
+   733		ret = mipi_dsi_create_packet(&packet, msg);
+   734		if (ret < 0)
+   735			return ret;
+   736	
+   737		/* Terminate operation after this descriptor is finished */
+   738		value = SQCH0DSC0AR_NXACT_TERM;
+   739	
+   740		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+   741			need_bta = true; /* Message with explicitly requested ACK */
+ > 742			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+   743		} else if (msg->rx_buf && msg->rx_len > 0) {
+   744			need_bta = true; /* Read request */
+   745			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
+   746		} else {
+   747			need_bta = false;
+   748			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
+   749		}
+   750	
+   751		/* Set transmission speed */
+   752		if (msg->flags & MIPI_DSI_MSG_USE_LPM)
+   753			value |= SQCH0DSC0AR_SPD_LOW;
+   754		else
+   755			value |= SQCH0DSC0AR_SPD_HIGH;
+   756	
+   757		/* Write TX packet header */
+   758		value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
+   759			FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
+   760			FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
+   761	
+   762		if (mipi_dsi_packet_format_is_long(msg->type)) {
+   763			value |= SQCH0DSC0AR_FMT_LONG;
+   764	
+   765			if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
+   766				dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
+   767					(unsigned int)packet.payload_length);
+   768				return -ENOSPC;
+   769			}
+   770	
+   771			/* Copy TX packet payload data to memory space */
+   772			memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
+   773		} else {
+   774			value |= SQCH0DSC0AR_FMT_SHORT;
+   775		}
+   776	
+   777		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+   778	
+   779		/*
+   780		 * Write: specify payload data source location, only used for
+   781		 *        long packet.
+   782		 * Read:  specify payload data storage location of response
+   783		 *        packet. Note: a read packet is always a short packet.
+   784		 *        If the response packet is a short packet or a long packet
+   785		 *        with WC = 0 (no payload), DTSEL is meaningless.
+   786		 */
+   787		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR, SQCH0DSC0BR_DTSEL_MEM_SPACE);
+   788	
+   789		/*
+   790		 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
+   791		 * Read: set Rx result save slot number to 0 (ACTCODE).
+   792		 */
+   793		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
+   794	
+   795		/* Set rx/tx payload data address, only relevant for long packet. */
+   796		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
+   797	
+   798		/* Start sequence 0 operation */
+   799		value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
+   800		value |= SQCH0SET0R_START;
+   801		rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
+   802	
+   803		/* Wait for operation to finish */
+   804		ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
+   805					value, value & SQCH0SR_ADESFIN,
+   806					2000, 20000, false, dsi, SQCH0SR);
+   807		if (ret == 0) {
+   808			/* Success: clear status bit */
+   809			rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
+   810	
+   811			if (need_bta)
+   812				ret = rzg2l_mipi_dsi_read_response(dsi, msg);
+   813			else
+   814				ret = packet.payload_length;
+   815		}
+   816	
+   817		return ret;
+   818	}
+   819	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
