@@ -2,96 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF46AC0833
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 11:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04918AC0889
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 11:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6CD10ECE1;
-	Thu, 22 May 2025 09:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4303310E866;
+	Thu, 22 May 2025 09:22:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ND3MxZ/t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GdtmkOia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E477810ECE1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 09:09:19 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3C3856D;
- Thu, 22 May 2025 11:08:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1747904930;
- bh=rxTDaiNJYwNwKKI2kaGugKm2yPS6ivdx+om4hngYV+Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ND3MxZ/t6SpNbNh1Uw+S2z4HcpS8HxfgWbbWxcSqzy3SmbdUoV9HI8neIpLGszBUF
- P0gld3phzuuFPDpgbjvGQjGpeuGrkEpeWjqxHEOHZnB47cbXbcXnsuxccoxfqG3rF8
- W7DygPkpknbNSecd5fOv3RMzjVbX6ECtZcLgF4zs=
-Message-ID: <546ef388-299b-4d97-8633-9508fab4475a@ideasonboard.com>
-Date: Thu, 22 May 2025 12:09:08 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9914E10E866
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 09:22:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747905767; x=1779441767;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=a80hXcGHLnEXqoaB3/i3Ak7XE5EBq2FHTMb5YZ4WKkU=;
+ b=GdtmkOiayKoe+ana5X7NIiJxgoA0U2aYQwC6CCahaWeQHgtoddMgMxGe
+ PARWlZCaN1ot+PQdUQgERP2JX0MNdYNZP3oyacpCladM9FaqJNbA//nwZ
+ nvYB7HJuI9Ej3b/gBiaRrSlW+AnQKinzuWVhZ2zx1U2qfnDh6DNkS7Zn9
+ /6ZPmPWEpsZoUnYs7G+f7cJbn9jiPXXjXxL7PSJrfSC1ILwKMBJEcUEUh
+ C3/inV/tXy5e8zBxcBVr+hIFBkqtdw4qn9IFYOpg1xHxs7McOPutjcN/c
+ 90k04OyV0h7rBsORLaRkFUA9glXqbG6OsGyn7Qk1OMEBKHtwlIMgoeX19 g==;
+X-CSE-ConnectionGUID: qDRNSBZRSIKCoWhFRR8j3A==
+X-CSE-MsgGUID: JRrQZszyTQSwi3nMMv13fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="72445578"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="72445578"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2025 02:22:39 -0700
+X-CSE-ConnectionGUID: ZF/aOTzKS164tKbdKmjWZQ==
+X-CSE-MsgGUID: udRzaoqjTj25RI1WnsRiSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="145661444"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.112])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2025 02:22:33 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, "Hajda, Andrzej"
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej
+ Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona
+ Vetter <simona@ffwll.ch>, Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/bridge: fix build with CONFIG_OF=n
+In-Reply-To: <SJ1PR11MB6129DAE64D41911F049AF98EB999A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250522-devm_drm_put_bridge-fix-non-of-build-v1-1-a05234dea046@bootlin.com>
+ <SJ1PR11MB6129DAE64D41911F049AF98EB999A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+Date: Thu, 22 May 2025 12:22:30 +0300
+Message-ID: <87zff5rodl.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/bridge: cdns-dsi: Replace deprecated
- UNIVERSAL_DEV_PM_OPS()
-To: Vitor Soares <ivitro@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Jayesh Choudhary <j-choudhary@ti.com>, stable@vger.kernel.org
-References: <20250512083215.436149-1-ivitro@gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250512083215.436149-1-ivitro@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,95 +82,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/05/2025 11:32, Vitor Soares wrote:
-> From: Vitor Soares <vitor.soares@toradex.com>
-> 
-> The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
-> for both runtime PM and system sleep. This causes the DSI clocks to be
-> disabled twice: once during runtime suspend and again during system
-> suspend, resulting in a WARN message from the clock framework when
-> attempting to disable already-disabled clocks.
-> 
-> [   84.384540] clk:231:5 already disabled
-> [   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
-> ...
-> [   84.579183] Call trace:
-> [   84.581624]  clk_core_disable+0xa4/0xac
-> [   84.585457]  clk_disable+0x30/0x4c
-> [   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
-> [   84.593651]  pm_generic_suspend+0x2c/0x44
-> [   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
-> [   84.601670]  dpm_run_callback+0x8c/0x14c
-> [   84.605588]  __device_suspend+0x1a0/0x56c
-> [   84.609594]  dpm_suspend+0x17c/0x21c
-> [   84.613165]  dpm_suspend_start+0xa0/0xa8
-> [   84.617083]  suspend_devices_and_enter+0x12c/0x634
-> [   84.621872]  pm_suspend+0x1fc/0x368
-> 
-> To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
-> SET_RUNTIME_PM_OPS(), enabling suspend/resume handling through the
-> _enable()/_disable() hooks managed by the DRM framework for both
-> runtime and system-wide PM.
-> 
-> Cc: <stable@vger.kernel.org> # 6.1.x
-> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-> Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
-> ---
-> v2 -> v3
->   - Fix warning: 'cdns_dsi_suspend' defined but not used [-Wunused-function]
->   - Fix warning: 'cdns_dsi_resume' defined but not used [-Wunused-function]
-> 
-> v1 -> v2
->   - Rely only on SET_RUNTIME_PM_OPS() for the PM.
-> 
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index b022dd6e6b6e..6429d541889c 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
->   	.transfer = cdns_dsi_transfer,
->   };
->   
-> -static int __maybe_unused cdns_dsi_resume(struct device *dev)
-> +static int cdns_dsi_resume(struct device *dev)
->   {
->   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->   
-> @@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
->   	return 0;
->   }
->   
-> -static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-> +static int cdns_dsi_suspend(struct device *dev)
->   {
->   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->   
-> @@ -1279,8 +1279,9 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
->   	return 0;
->   }
->   
-> -static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
-> -			    NULL);
-> +static const struct dev_pm_ops cdns_dsi_pm_ops = {
-> +	RUNTIME_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume, NULL)
-> +};
->   
->   static int cdns_dsi_drm_probe(struct platform_device *pdev)
->   {
-> @@ -1427,7 +1428,7 @@ static struct platform_driver cdns_dsi_platform_driver = {
->   	.driver = {
->   		.name   = "cdns-dsi",
->   		.of_match_table = cdns_dsi_of_match,
-> -		.pm = &cdns_dsi_pm_ops,
-> +		.pm = pm_ptr(&cdns_dsi_pm_ops),
->   	},
->   };
->   module_platform_driver(cdns_dsi_platform_driver);
+On Thu, 22 May 2025, "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.=
+com> wrote:
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of L=
+uca
+>> Ceresoli
+>> Sent: Thursday, May 22, 2025 12:43 PM
+>> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+>> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
+>> Hajda, Andrzej <andrzej.hajda@intel.com>; Neil Armstrong
+>> <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent
+>> Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman
+>> <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; David
+>> Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Ville Syrja=
+la
+>> <ville.syrjala@linux.intel.com>
+>> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>; dri-
+>> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Luca Ceresoli
+>> <luca.ceresoli@bootlin.com>
+>> Subject: [PATCH] drm/bridge: fix build with CONFIG_OF=3Dn
+>>=20
+>> Commit 5164553d739e ("drm/bridge: add devm_drm_put_bridge()") adds
+>> two declarations for devm_drm_put_bridge():
+>>=20
+>>  1) an inline declaration in the #else branch of
+>>     '#if defined(CONFIG_OF)...'
+>>  2) one outside of the same #if
+>>=20
+>> This results in a build failure with CONFIG_OF=3Dn:
+>>=20
+>>   ../drivers/gpu/drm/drm_bridge.c:1406:6: error: redefinition of
+>> =E2=80=98devm_drm_put_bridge=E2=80=99
+>>=20
+>> The function has nothing to do with OF, thus fix by removing declaration=
+ 1.
+>
+> LGTM. Fixes the build error.
+>
+> Tested-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Ditto. Please merge.
 
-  Tomi
+BR,
+Jani.
 
+>
+>
+>>=20
+>> Fixes: 5164553d739e ("drm/bridge: add devm_drm_put_bridge()")
+>> Reported-by: Ville Syrjala <ville.syrjala@linux.intel.com>
+>> Closes: https://oftc.catirclogs.org/dri-devel/2025-05-21#34288266;
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> ---
+>>  include/drm/drm_bridge.h | 2 --
+>>  1 file changed, 2 deletions(-)
+>>=20
+>> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h index
+>> 464da28f9134f0fcece5c72a8c5fe7f3e42c7e3d..0af5db244db8580ea0c9af1d9a
+>> 373b7bf62ee699 100644
+>> --- a/include/drm/drm_bridge.h
+>> +++ b/include/drm/drm_bridge.h
+>> @@ -1311,8 +1311,6 @@ static inline struct drm_bridge
+>> *devm_drm_of_get_bridge(struct device *dev,
+>>  	return ERR_PTR(-ENODEV);
+>>  }
+>>=20
+>> -static inline void devm_drm_put_bridge(struct device *dev, struct
+>> drm_bridge *bridge) {}
+>> -
+>>  static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device
+>> *drm,
+>>  						     struct device_node *node,
+>>  						     u32 port,
+>>=20
+>> ---
+>> base-commit: a3436f63aa4f93b043a970cc72a196a501191ecc
+>> change-id: 20250522-devm_drm_put_bridge-fix-non-of-build-fbb67d28494c
+>>=20
+>> Best regards,
+>> --
+>> Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+
+--=20
+Jani Nikula, Intel
