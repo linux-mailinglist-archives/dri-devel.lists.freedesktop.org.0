@@ -2,117 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748C7AC0F08
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519E2AC0F27
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C13110E9C0;
-	Thu, 22 May 2025 14:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 858F810E193;
+	Thu, 22 May 2025 14:59:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s3wma8Dg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IWvWyL2e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B077610E176;
- Thu, 22 May 2025 14:57:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8BA2C5C5D5C;
- Thu, 22 May 2025 14:55:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3816C4CEEA;
- Thu, 22 May 2025 14:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747925853;
- bh=5G+CU34zmKz9PE5a5J7jN90cu5Gxk5UtkArIIi8NlfY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s3wma8DglmgLQ+hMVFjvtfjc4AGN1CkhvK3aJgPdEeop7ZdSKHWrh+jFnDK9fS1Bt
- k4DPjLZirixi4RiNSCPaqTeQgbbYCGh34naxvV1r976lLS74g+aZn2NIJWPxU9Bk2h
- 5lhBFpwnMYqpXLlbfQyJNLBIPkBOwrbgXjydFtJry7hB5vIcXzHiBLTIOBsTw60ofP
- Sbe3oHlRv+SrSkLUAyO4OvF2SWUXfIQoAWSdBVx6gLBXEtHN69lIJ+ngwI0pTb/j5i
- 982RPFTGUmNJf2N7qI0n6pT07RfEnvluDICTfTYoG8Smrgr1WlqJE6p9LO4kvWBltm
- OmAchw1yswU2w==
-Date: Thu, 22 May 2025 16:57:30 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
- Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Inki Dae <inki.dae@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, 
- Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>,
- Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Vitalii Mordan <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
- Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Ian Ray <ian.ray@gehealthcare.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Peter Senna Tschudin <peter.senna@gmail.com>, 
- Helge Deller <deller@gmx.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-ID: <20250522-amphibian-shiny-chachalaca-cf05ba@houat>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250521162216.79dd3290@booty>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57CDC10E193;
+ Thu, 22 May 2025 14:59:43 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4b3BK81Wh9z9sm6;
+ Thu, 22 May 2025 16:59:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1747925980; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9hIgVgAiYv5vVjOkhA8xQvDe3ANpNjv4wOvq4t4WLpw=;
+ b=IWvWyL2eylEhzKYLqRvx37xxF0K39+Y1KjagxvStpljHNSnVQw6Y2oWfQVruXmiEWzIliH
+ JT8yK42yp2jwPCe6k0H4BlAWkwdserfNxKdrST09RjotvtB5PhZkWuO1AfqdirdVntY7C4
+ ze2aLUcCpyo5xJbdayKHTqq2ZGS9s1rwu9UQZ71D+X6UnlBA5AJCei1Hk5Txrd4he6QpmD
+ DZrJu9cuNE4LUL0DG0Ijo0fZG+3iKp2rH/CEwU2M7a1jfpMZHMuK0mhyP0iuWKG3Hyv9gj
+ LeLMjVODuVDg2w/tyQbwwbJZ/0O0ZhSn1NY2W8Ac7fy0aVyrkzgJFJrrqW/bdw==
+Message-ID: <a637755cb96de8415b51feb1ae61b8c651e94295.camel@mailbox.org>
+Subject: Re: [PATCH v3 2/5] drm/sched/tests: Port tests to new cleanup method
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Philipp Stanner
+ <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
+ <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 22 May 2025 16:59:35 +0200
+In-Reply-To: <b24d5c5e-8a9e-4dfb-886b-b3ad70e62e76@igalia.com>
+References: <20250522082742.148191-2-phasta@kernel.org>
+ <20250522082742.148191-4-phasta@kernel.org>
+ <b24d5c5e-8a9e-4dfb-886b-b3ad70e62e76@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="fe7madz4h5tk5u3n"
-Content-Disposition: inline
-In-Reply-To: <20250521162216.79dd3290@booty>
+X-MBO-RS-ID: b9071dfc324416f6776
+X-MBO-RS-META: jpe4deru47jan9sex4qyichcktzu8sqo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,157 +68,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 2025-05-22 at 15:06 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 22/05/2025 09:27, Philipp Stanner wrote:
+> > The drm_gpu_scheduler now supports a callback to help
+> > drm_sched_fini()
+> > avoid memory leaks. This callback instructs the driver to signal
+> > all
+> > pending hardware fences.
+> >=20
+> > Implement the new callback
+> > drm_sched_backend_ops.cancel_pending_fences().
+> >=20
+> > Have the callback use drm_mock_sched_job_complete() with a new
+> > error
+> > field for the fence error.
+> >=20
+> > Keep the job status as DRM_MOCK_SCHED_JOB_DONE for now, since there
+> > is
+> > no party for which checking for a CANCELED status would be useful
+> > currently.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0 .../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 67 +++++++-=
+------
+> > -----
+> > =C2=A0 drivers/gpu/drm/scheduler/tests/sched_tests.h |=C2=A0 4 +-
+> > =C2=A0 2 files changed, 25 insertions(+), 46 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > index f999c8859cf7..eca47f0395bc 100644
+> > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > @@ -55,7 +55,7 @@ void drm_mock_sched_entity_free(struct
+> > drm_mock_sched_entity *entity)
+> > =C2=A0=C2=A0	drm_sched_entity_destroy(&entity->base);
+> > =C2=A0 }
+> > =C2=A0=20
+> > -static void drm_mock_sched_job_complete(struct drm_mock_sched_job
+> > *job)
+> > +static void drm_mock_sched_job_complete(struct drm_mock_sched_job
+> > *job, int err)
+> > =C2=A0 {
+> > =C2=A0=C2=A0	struct drm_mock_scheduler *sched =3D
+> > =C2=A0=C2=A0		drm_sched_to_mock_sched(job->base.sched);
+> > @@ -63,7 +63,9 @@ static void drm_mock_sched_job_complete(struct
+> > drm_mock_sched_job *job)
+> > =C2=A0=C2=A0	lockdep_assert_held(&sched->lock);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	job->flags |=3D DRM_MOCK_SCHED_JOB_DONE;
+> > -	list_move_tail(&job->link, &sched->done_list);
+> > +	list_del(&job->link);
+> > +	if (err)
+> > +		dma_fence_set_error(&job->hw_fence, err);
+> > =C2=A0=C2=A0	dma_fence_signal(&job->hw_fence);
+> > =C2=A0=C2=A0	complete(&job->done);
+> > =C2=A0 }
+> > @@ -89,7 +91,7 @@ drm_mock_sched_job_signal_timer(struct hrtimer
+> > *hrtimer)
+> > =C2=A0=C2=A0			break;
+> > =C2=A0=20
+> > =C2=A0=C2=A0		sched->hw_timeline.cur_seqno =3D job-
+> > >hw_fence.seqno;
+> > -		drm_mock_sched_job_complete(job);
+> > +		drm_mock_sched_job_complete(job, 0);
+> > =C2=A0=C2=A0	}
+> > =C2=A0=C2=A0	spin_unlock_irqrestore(&sched->lock, flags);
+> > =C2=A0=20
+> > @@ -212,26 +214,33 @@ mock_sched_timedout_job(struct drm_sched_job
+> > *sched_job)
+> > =C2=A0=20
+> > =C2=A0 static void mock_sched_free_job(struct drm_sched_job *sched_job)
+> > =C2=A0 {
+> > -	struct drm_mock_scheduler *sched =3D
+> > -			drm_sched_to_mock_sched(sched_job->sched);
+> > =C2=A0=C2=A0	struct drm_mock_sched_job *job =3D
+> > drm_sched_job_to_mock_job(sched_job);
+> > -	unsigned long flags;
+> > =C2=A0=20
+> > -	/* Remove from the scheduler done list. */
+> > -	spin_lock_irqsave(&sched->lock, flags);
+> > -	list_del(&job->link);
+> > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > =C2=A0=C2=A0	dma_fence_put(&job->hw_fence);
+> > -
+> > =C2=A0=C2=A0	drm_sched_job_cleanup(sched_job);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/* Mock job itself is freed by the kunit framework. */
+> > =C2=A0 }
+> > =C2=A0=20
+> > +static void mock_sched_cancel_pending_fences(struct
+> > drm_gpu_scheduler *gsched)
+>=20
+> "gsched" feels like a first time invention. Maybe drm_sched?
 
---fe7madz4h5tk5u3n
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-MIME-Version: 1.0
+Alright
 
-On Wed, May 21, 2025 at 04:22:16PM +0200, Luca Ceresoli wrote:
-> Hello Maxime, Shawn, Liu, all,
 >=20
-> On Fri, 09 May 2025 15:53:26 +0200
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > +{
+> > +	struct drm_mock_sched_job *job, *next;
+> > +	struct drm_mock_scheduler *sched;
+> > +	unsigned long flags;
+> > +
+> > +	sched =3D container_of(gsched, struct drm_mock_scheduler,
+> > base);
+> > +
+> > +	spin_lock_irqsave(&sched->lock, flags);
+> > +	list_for_each_entry_safe(job, next, &sched->job_list,
+> > link)
+> > +		drm_mock_sched_job_complete(job, -ECANCELED);
+> > +	spin_unlock_irqrestore(&sched->lock, flags);
 >=20
-> > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a=
- DRM
-> > bridge, and the only one supported from now on. It is the first milesto=
-ne
-> > towards removal of bridges from a still existing DRM pipeline without
-> > use-after-free.
->=20
-> I applied on drm-misc-next patches 3-17,20-21 as they match all the
-> criteria:
->  - At least a Acked-by (or R-by maintainers)
->  - patch is for drm-misc
->=20
-> Being my very first commits to drm-misc, I tried to be careful, and
-> double checked all the patches with Louis (thanks!).
->=20
-> Here are the pending questions and plan for the remaining patches.
->=20
-> >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
->=20
-> This reverts the commit applied my mistake:
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b4=
-3b025bce6d790d3c79f4518
->=20
-> Neither the  original patch nor the revert has been reviewed/acked.
->=20
-> As the commit was a mistake, I'm applying the revert by the end of this
-> week (i.e. on Friday) unless there are better instructions.
+> Canceling of the timers belongs in this call back I think. Otherwise=20
+> jobs are not fully cancelled.
 
-Given the lack of answers, and that it looks correct to me, just leave
-it there. We can always revert later on if things turned out to be
-broken.
+I wouldn't say so =E2=80=93 the timers represent things like the hardware
+interrupts. And those must be deactivated by the driver itself.
 
-> >       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_=
-bridge_alloc() API
->=20
-> This patch affects multiple drivers. Running get_maintainers.pl
-> points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
-> this looks like due to the 'N:' line in:
->=20
-> ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-> M:	Shawn Guo <shawnguo@kernel.org>
-> M:	Sascha Hauer <s.hauer@pengutronix.de>
-> R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> ...
-> T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-> N:	imx
-> ...
->=20
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L2511-2528)
->=20
-> Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
-> file that is touched by the patch. That regexp appears overly generic to =
-me.
+See, one big reason why I like my approach is that the contract between
+driver and scheduler is made very simple:
 
-I agree, or at least, we shouldn't wait for Shawn or Sasha...
+"Driver, signal all fences that you ever returned through run_job() to
+this scheduler!"
 
-> Shawn, can it be fixed by making it less generic?
->=20
-> If not, can we at least add a band-aid 'X:' entry for
-> drivers/gpu/drm/bridge/imx?
->=20
-> I think the other matching entry is the one to consider:
->=20
-> DRM DRIVERS FOR FREESCALE IMX BRIDGE
-> M:	Liu Ying <victor.liu@nxp.com>
-> L:	dri-devel@lists.freedesktop.org
-> S:	Maintained
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-com=
-biner.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-lin=
-k.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.y=
-aml
-> F:	drivers/gpu/drm/bridge/imx/
->=20
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L7940-7948)
+That always works, and the driver always has all those fences. It's
+based on the most fundamental agreement regarding dma_fences: they must
+all be signaled.
 
-=2E.. As long as Ying is fine with it, because it does look like they are
-the actual maintainer.
+>=20
+> Hm, I also think, conceptually, the order of first canceling the
+> timer=20
+> and then signaling the fence should be kept.
 
-> However it does not list any trees. I _guess_ drm-misc applies here as
-> a fallback as well as common sense.
->=20
-> Liu, should this entry have a 'T:' line for drm/misc?
->=20
-> >       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_al=
-loc() API
->=20
-> Not acked/reviewed, some discussion happened. I am resending it in v4,
-> possibly with updates based on the discussion.
->=20
-> But it has the same issue discussed above, with get_maintiners.pl
-> pointing at Shawn Guo's tree, so in the future I'm assuming this goes
-> to drm-misc unless there are news about that.
->=20
-> >       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
->=20
-> No feedback, resending in v4.
->=20
-> >       drm/todo: add entry to remove devm_drm_put_bridge()
->=20
-> This involves documentation maintained on another tree. Where should it
-> be applied? There are two matching entries in MAINTAINERS:
->=20
->  * DRM DRIVERS -> the drm tree
->  * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
->=20
-> To me it looks like the second is obviously the closest match as we are
-> dealing with DRM bridges, so I'm applying this as well on Friday unless
-> there are better instructions.
+That's the case here, no?
 
-Yes, they should be applied to drm-misc.
+It must indeed be kept, otherwise the timers could fire after
+everything is torn down -> UAF
 
-That being said, putting a two days timeout on *any* email is really
-over-the-top. I doubt you reply to any of your mail in such a short
-timeframe. We have rules for a reason, I'd expect you to follow them, no
-matter how frustrating the lack of answers can be.
+>=20
+> At the moment it does not matter hugely, since the timer does not
+> signal=20
+> the jobs directly and will not find unlinked jobs, but if that
+> changes=20
+> in the future, the reversed order could cause double signaling. So if
+> you keep it in the correct logical order that potential gotcha is=20
+> avoided. Basically just keep the two pass approach verbatim, as is in
+> the current drm_mock_sched_fini.
+>=20
+> The rest of the conversion is I think good.
 
-Maxime
+:)
 
---fe7madz4h5tk5u3n
-Content-Type: application/pgp-signature; name="signature.asc"
+>=20
+> Only a slight uncertainty after I cross-referenced with my version=20
+> (->cancel_job()) around why I needed to add signaling to=20
+> mock_sched_timedout_job() and manual job cleanup to the timeout test.
+> It=20
+> was more than a month ago that I wrote it so can't remember right
+> now.=20
+> You checked for memory leaks and the usual stuff?
 
------BEGIN PGP SIGNATURE-----
+Hm, it seems I indeed ran into that leak that you fixed (in addition to
+the other stuff) in your RFC, for the timeout tests.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaC87WgAKCRAnX84Zoj2+
-do0iAYDmirWaXC3jRPAWe+k6egrSRuRKSb9T+TBMm48WnW6SNhJrwyOYhX8DpsOL
-IHaDlR4BfiFZ6a345YL/OKfebcrONxA8UY50Y3/kmzH9OdWsvkfvJSWcHiCEeu26
-nklxCgQuzA==
-=mXOq
------END PGP SIGNATURE-----
+We should fix that in a separate patch, probably.
 
---fe7madz4h5tk5u3n--
+
+P.
+
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> > +}
+> > +
+> > =C2=A0 static const struct drm_sched_backend_ops drm_mock_scheduler_ops
+> > =3D {
+> > =C2=A0=C2=A0	.run_job =3D mock_sched_run_job,
+> > =C2=A0=C2=A0	.timedout_job =3D mock_sched_timedout_job,
+> > -	.free_job =3D mock_sched_free_job
+> > +	.free_job =3D mock_sched_free_job,
+> > +	.cancel_pending_fences =3D mock_sched_cancel_pending_fences,
+> > =C2=A0 };
+> > =C2=A0=20
+> > =C2=A0 /**
+> > @@ -265,7 +274,6 @@ struct drm_mock_scheduler
+> > *drm_mock_sched_new(struct kunit *test, long timeout)
+> > =C2=A0=C2=A0	sched->hw_timeline.context =3D dma_fence_context_alloc(1);
+> > =C2=A0=C2=A0	atomic_set(&sched->hw_timeline.next_seqno, 0);
+> > =C2=A0=C2=A0	INIT_LIST_HEAD(&sched->job_list);
+> > -	INIT_LIST_HEAD(&sched->done_list);
+> > =C2=A0=C2=A0	spin_lock_init(&sched->lock);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	return sched;
+> > @@ -280,38 +288,11 @@ struct drm_mock_scheduler
+> > *drm_mock_sched_new(struct kunit *test, long timeout)
+> > =C2=A0=C2=A0 */
+> > =C2=A0 void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
+> > =C2=A0 {
+> > -	struct drm_mock_sched_job *job, *next;
+> > -	unsigned long flags;
+> > -	LIST_HEAD(list);
+> > +	struct drm_mock_sched_job *job;
+> > =C2=A0=20
+> > -	drm_sched_wqueue_stop(&sched->base);
+> > -
+> > -	/* Force complete all unfinished jobs. */
+> > -	spin_lock_irqsave(&sched->lock, flags);
+> > -	list_for_each_entry_safe(job, next, &sched->job_list,
+> > link)
+> > -		list_move_tail(&job->link, &list);
+> > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > -
+> > -	list_for_each_entry(job, &list, link)
+> > +	list_for_each_entry(job, &sched->job_list, link)
+> > =C2=A0=C2=A0		hrtimer_cancel(&job->timer);
+> > =C2=A0=20
+> > -	spin_lock_irqsave(&sched->lock, flags);
+> > -	list_for_each_entry_safe(job, next, &list, link)
+> > -		drm_mock_sched_job_complete(job);
+> > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > -
+> > -	/*
+> > -	 * Free completed jobs and jobs not yet processed by the
+> > DRM scheduler
+> > -	 * free worker.
+> > -	 */
+> > -	spin_lock_irqsave(&sched->lock, flags);
+> > -	list_for_each_entry_safe(job, next, &sched->done_list,
+> > link)
+> > -		list_move_tail(&job->link, &list);
+> > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > -
+> > -	list_for_each_entry_safe(job, next, &list, link)
+> > -		mock_sched_free_job(&job->base);
+> > -
+> > =C2=A0=C2=A0	drm_sched_fini(&sched->base);
+> > =C2=A0 }
+> > =C2=A0=20
+> > @@ -346,7 +327,7 @@ unsigned int drm_mock_sched_advance(struct
+> > drm_mock_scheduler *sched,
+> > =C2=A0=C2=A0		if (sched->hw_timeline.cur_seqno < job-
+> > >hw_fence.seqno)
+> > =C2=A0=C2=A0			break;
+> > =C2=A0=20
+> > -		drm_mock_sched_job_complete(job);
+> > +		drm_mock_sched_job_complete(job, 0);
+> > =C2=A0=C2=A0		found++;
+> > =C2=A0=C2=A0	}
+> > =C2=A0 unlock:
+> > diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > index 27caf8285fb7..22e530d87791 100644
+> > --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > @@ -32,9 +32,8 @@
+> > =C2=A0=C2=A0 *
+> > =C2=A0=C2=A0 * @base: DRM scheduler base class
+> > =C2=A0=C2=A0 * @test: Backpointer to owning the kunit test case
+> > - * @lock: Lock to protect the simulated @hw_timeline, @job_list
+> > and @done_list
+> > + * @lock: Lock to protect the simulated @hw_timeline and @job_list
+> > =C2=A0=C2=A0 * @job_list: List of jobs submitted to the mock GPU
+> > - * @done_list: List of jobs completed by the mock GPU
+> > =C2=A0=C2=A0 * @hw_timeline: Simulated hardware timeline has a @context=
+,
+> > @next_seqno and
+> > =C2=A0=C2=A0 *		 @cur_seqno for implementing a struct dma_fence
+> > signaling the
+> > =C2=A0=C2=A0 *		 simulated job completion.
+> > @@ -49,7 +48,6 @@ struct drm_mock_scheduler {
+> > =C2=A0=20
+> > =C2=A0=C2=A0	spinlock_t		lock;
+> > =C2=A0=C2=A0	struct list_head	job_list;
+> > -	struct list_head	done_list;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	struct {
+> > =C2=A0=C2=A0		u64		context;
+>=20
+
