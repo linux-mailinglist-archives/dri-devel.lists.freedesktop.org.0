@@ -2,50 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBEAAC04EB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 08:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D25AC04F3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 08:58:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E24A299B05;
-	Thu, 22 May 2025 06:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A9510EFAF;
+	Thu, 22 May 2025 06:58:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lpoCwTgM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75FD9AFCE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 06:55:53 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-116-lJ1ZJiI8PmGye1zVo6DHww-1; Thu,
- 22 May 2025 02:55:49 -0400
-X-MC-Unique: lJ1ZJiI8PmGye1zVo6DHww-1
-X-Mimecast-MFC-AGG-ID: lJ1ZJiI8PmGye1zVo6DHww_1747896948
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1AFAC180056F; Thu, 22 May 2025 06:55:48 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.70])
- by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 439C21958014; Thu, 22 May 2025 06:55:45 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de
-Cc: intel-xe@lists.freedesktop.org
-Subject: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
-Date: Thu, 22 May 2025 16:52:18 +1000
-Message-ID: <20250522065519.318013-10-airlied@gmail.com>
-In-Reply-To: <20250522065519.318013-1-airlied@gmail.com>
-References: <20250522065519.318013-1-airlied@gmail.com>
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 152249B05C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 06:56:44 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id
+ 46e09a7af769-73044329768so6170202a34.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 23:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1747897003; x=1748501803; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WeKMC6ZBMvoz5mZGPjKGgi0Ohr2T8fh1E4A0BZHhyCM=;
+ b=lpoCwTgMJZwAjiaLJ3B8rhgteR3g/DPxwtUGPHUp0Hr1JjL+IV23kdzm2vVI+ff7UH
+ mdiHvaVeqJFUOE+2Dukn1eZbkqxoZS3CSqXVBU9i8gN4vdkhArl2AIwRHHOdd1ybfNO+
+ W5lMT4ncJ7hd3v4WnMCW3Ae90AFm7+tDNzcJv/rLFSjc0wKhzYFgxdCsaD2iR7b1em9R
+ UitWtB8g7yCx+d6nTTlVrmNupY037sIE0tSSlcx3Gqv6wIO2om51cuwth21l0Z7BOuqa
+ B/ajYU4XSJ7M0YSgjXjhGOtDsQB8ElQSfQkCW8uhVdV/qCU4k5oO74Db6i2TG8gxUih9
+ hJfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747897003; x=1748501803;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WeKMC6ZBMvoz5mZGPjKGgi0Ohr2T8fh1E4A0BZHhyCM=;
+ b=lteFlbbI1EfNx/e1d8+/BkkLy/eWOVJRoMukOKjiGlY0RcNq06LoWgcFh0TJqMMYUK
+ H6NqxX89M9uZGkDIwTHABxiY1XWBJx0gzFBG/Q2WNWkdcdGtZJVZwL5AizdI+cpYHby1
+ 2hXqAmSbZ3exmjI3Fi1F1qgkzrgysDxqIvNQGcJG4BSHT3JbIbZhCH3xG8bSCiNW1RVz
+ f1vieHOtIkv7fQ2k4TL/05XmqLlCL8hqfpU1JpoLNv/8mzTEXh19ygJtJTOyCIIgdB4i
+ W55yk79HwFnAD4F6JsgkG7dyqGBntppbX+f/KnGY4yNNxOrfcvPmsPRyeEh95u6SSGF/
+ 3qnQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtSCOrIGR6VXfEzzCRCN0Qm4dX+JWWKKa1uXbKnB7SFZs+nK5KV3kmdH3/ABt8uo2hyIRk1c8Lxwk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwrjG+Dt4BmaSLzGTHK4EUUEQpv8NrNhNi01/DPT7R0OV2VvaP
+ FuB39ckD3e6sGE6M00rBLoReG+uMQ0oaqma56q3ArSYKk+BhC54MiFOKPbTmFiyiUizlXIRvd/7
+ UieSTHLjhuIUKRpYkIFfQIqo8ydInLLImZme36+siug==
+X-Gm-Gg: ASbGnctb1cK15Jx/woY6mEdOX/Ll4AZEr152orFIhTO2InyIRyNHnFH7pHLlGkLVFtR
+ eLRsxuQw9idjRQTNysJdlrf3xa2Eg3hmhFDf8NA4gTwwrQHJpGhh27WjpxcHkz4EVeKD3Y3h3xF
+ O2NXS/6g85/W/F2bIIBxVMka+G9zx7jETKXA==
+X-Google-Smtp-Source: AGHT+IHkFUemf1YsBa7Ra5vRLLSyYkClMUJvfuEYqOo7C5Q/HY7RUEskcqp+LiC0Z8m9NvJveoTaK0UdZlaYOd03Who=
+X-Received: by 2002:a05:6808:6410:b0:3f7:ff67:1d8c with SMTP id
+ 5614622812f47-404d88d532amr14478281b6e.36.1747897003075; Wed, 21 May 2025
+ 23:56:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5Z4HMl9Xf743Bn3sEUn6jqjqquasLPTlEDK7wVCFv1Y_1747896948
-X-Mimecast-Originator: gmail.com
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-3-jens.wiklander@linaro.org>
+ <dffbd709-def0-47af-93ff-a48686f04153@amd.com>
+In-Reply-To: <dffbd709-def0-47af-93ff-a48686f04153@amd.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 22 May 2025 08:56:31 +0200
+X-Gm-Features: AX0GCFsuHYqDh1JYpWH8r8xDir4J3V2XXHJjiARqLynYHFcDQxMIIZpQ5oYhZd4
+Message-ID: <CAHUa44Ec0+GPoDkcEG+Vg9_TY1NC=nh3yr0F=ezHMbaeX_A0Bg@mail.gmail.com>
+Subject: Re: [PATCH v9 2/9] dma-buf: dma-heap: export declared functions
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,127 +97,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Wed, May 21, 2025 at 9:13=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 5/20/25 17:16, Jens Wiklander wrote:
+> > Export the dma-buf heap functions declared in <linux/dma-heap.h>.
+>
+> That is what this patch does and that should be obvious by looking at it.=
+ You need to explain why you do this.
+>
+> Looking at the rest of the series it's most likely ok, but this commit me=
+ssage should really be improved.
 
-This reduces this struct from 16 to 8 bytes, and it gets embedded
-into a lot of things.
+I'm considering something like this for the next version:
+Export the dma-buf heap functions declared in <linux/dma-heap.h> to allow
+them to be used by kernel modules. This will enable drivers like the OP-TEE
+driver, to utilize these interfaces for registering and managing their
+specific DMA heaps.
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- include/linux/iosys-map.h | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+Thanks,
+Jens
 
-diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-index a6c2cc9ca756..44479966ce24 100644
---- a/include/linux/iosys-map.h
-+++ b/include/linux/iosys-map.h
-@@ -99,29 +99,27 @@
-  *=09iosys_map_incr(&map, len); // go to first byte after the memcpy
-  */
-=20
-+#define _IOSYS_MAP_IS_IOMEM 1
- /**
-  * struct iosys_map - Pointer to IO/system memory
-  * @vaddr_iomem:=09The buffer's address if in I/O memory
-  * @vaddr:=09=09The buffer's address if in system memory
-- * @is_iomem:=09=09True if the buffer is located in I/O memory, or false
-- *=09=09=09otherwise.
-  */
- struct iosys_map {
- =09union {
- =09=09void __iomem *_vaddr_iomem;
- =09=09void *_vaddr;
- =09};
--=09bool _is_iomem;
- };
-=20
- static inline bool iosys_map_is_iomem(const struct iosys_map *map)
- {
--=09return map->_is_iomem;
-+=09return ((unsigned long)map->_vaddr) & _IOSYS_MAP_IS_IOMEM;
- }
-=20
- static inline void __iomem *iosys_map_ioptr(const struct iosys_map *map)
- {
--=09return map->_vaddr_iomem;
-+=09return (void __iomem *)((unsigned long)map->_vaddr_iomem & ~_IOSYS_MAP_=
-IS_IOMEM);
- }
-=20
- static inline void *iosys_map_ptr(const struct iosys_map *map)
-@@ -136,7 +134,6 @@ static inline void *iosys_map_ptr(const struct iosys_ma=
-p *map)
- #define IOSYS_MAP_INIT_VADDR(vaddr_)=09\
- =09{=09=09=09=09\
- =09=09._vaddr =3D (vaddr_),=09\
--=09=09._is_iomem =3D false,=09\
- =09}
-=20
- /**
-@@ -145,8 +142,7 @@ static inline void *iosys_map_ptr(const struct iosys_ma=
-p *map)
-  */
- #define IOSYS_MAP_INIT_VADDR_IOMEM(vaddr_iomem_)=09\
- =09{=09=09=09=09=09=09\
--=09=09._vaddr_iomem =3D (vaddr_iomem_),=09=09\
--=09=09._is_iomem =3D true,=09=09=09\
-+=09=09._vaddr_iomem =3D (void __iomem *)(((unsigned long)(vaddr_iomem_) | =
-_IOSYS_MAP_IS_IOMEM)), \
- =09}
-=20
- /**
-@@ -198,7 +194,6 @@ static inline void *iosys_map_ptr(const struct iosys_ma=
-p *map)
- static inline void iosys_map_set_vaddr(struct iosys_map *map, void *vaddr)
- {
- =09map->_vaddr =3D vaddr;
--=09map->_is_iomem =3D false;
- }
-=20
- /**
-@@ -211,8 +206,7 @@ static inline void iosys_map_set_vaddr(struct iosys_map=
- *map, void *vaddr)
- static inline void iosys_map_set_vaddr_iomem(struct iosys_map *map,
- =09=09=09=09=09     void __iomem *vaddr_iomem)
- {
--=09map->_vaddr_iomem =3D vaddr_iomem;
--=09map->_is_iomem =3D true;
-+=09map->_vaddr_iomem =3D (void __iomem *)((unsigned long)vaddr_iomem | _IO=
-SYS_MAP_IS_IOMEM);
- }
-=20
- /**
-@@ -229,12 +223,9 @@ static inline void iosys_map_set_vaddr_iomem(struct io=
-sys_map *map,
- static inline bool iosys_map_is_equal(const struct iosys_map *lhs,
- =09=09=09=09      const struct iosys_map *rhs)
- {
--=09if (lhs->_is_iomem !=3D rhs->_is_iomem)
-+=09if (lhs->_vaddr !=3D rhs->_vaddr)
- =09=09return false;
--=09else if (lhs->_is_iomem)
--=09=09return lhs->_vaddr_iomem =3D=3D rhs->_vaddr_iomem;
--=09else
--=09=09return lhs->_vaddr =3D=3D rhs->_vaddr;
-+=09return true;
- }
-=20
- /**
-@@ -279,12 +270,7 @@ static inline bool iosys_map_is_set(const struct iosys=
-_map *map)
-  */
- static inline void iosys_map_clear(struct iosys_map *map)
- {
--=09if (map->_is_iomem) {
--=09=09map->_vaddr_iomem =3D NULL;
--=09=09map->_is_iomem =3D false;
--=09} else {
--=09=09map->_vaddr =3D NULL;
--=09}
-+=09map->_vaddr =3D NULL;
- }
-=20
- /**
---=20
-2.49.0
-
+>
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/dma-buf/dma-heap.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > index 3cbe87d4a464..cdddf0e24dce 100644
+> > --- a/drivers/dma-buf/dma-heap.c
+> > +++ b/drivers/dma-buf/dma-heap.c
+> > @@ -202,6 +202,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+> >  {
+> >       return heap->priv;
+> >  }
+> > +EXPORT_SYMBOL(dma_heap_get_drvdata);
+> >
+> >  /**
+> >   * dma_heap_get_name - get heap name
+> > @@ -214,6 +215,7 @@ const char *dma_heap_get_name(struct dma_heap *heap=
+)
+> >  {
+> >       return heap->name;
+> >  }
+> > +EXPORT_SYMBOL(dma_heap_get_name);
+> >
+> >  /**
+> >   * dma_heap_add - adds a heap to dmabuf heaps
+> > @@ -303,6 +305,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
+_export_info *exp_info)
+> >       kfree(heap);
+> >       return err_ret;
+> >  }
+> > +EXPORT_SYMBOL(dma_heap_add);
+> >
+> >  static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
+> >  {
+>
