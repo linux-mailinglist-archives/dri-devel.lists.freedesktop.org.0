@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0587AAC13F9
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 21:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82331AC13FB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 21:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B34910E81C;
-	Thu, 22 May 2025 19:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4145310E918;
+	Thu, 22 May 2025 19:04:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mPHlmqgd";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KhpLG+sq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED91C10E80D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:02 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MIA24X025025
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:02 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCFB10E8C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:13 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MI4tYh014544
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SAXuCHIXzob7I7yDg4by0JQEOARzxYVn7zXbtJ2VPvk=; b=mPHlmqgdOd+nPfI0
- NHDnL8hyhJjcyor/EpLFFA546rCa0gX5hsTTx8ACMqWiTlCdaRddg/py1jqfFpAI
- A/xxHkY8/2nn15WM/xohI9f+sn6+EQo8CloAE4LZRSrIVcZOorbBmzpXrLKVBDBv
- KOa466GL4dwwtsW1/gDsvcAcULvDIZClTN6epOhVRVbp8dLBbMzoxVopd7pP3jyg
- Jgc4CeFkg17280DBE2pFh7Eq3MqDCMdYrD/GE4T+Iz9EJos2NWUSFtE9PqdCdWEd
- xAaNGlBS+J6nq3XKyDT/TLjK8VLyUm2DvQ1IxeTP8to+JbhzLDEIWv1q9Ip4qT1a
- NtgdDA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6ybes-1
+ 520oFGgAVIHzUGYZ4vVIsy4Q9fI3b2Y3ZlgCsgK2yUc=; b=KhpLG+sqWiXdcRLC
+ BWyw2duimxDxkvLngJpTkpPY/00G1Wg9QUTYOT4JgSn8PuRUl8i0VwbnBVX0Abeu
+ 95MCov5VQ2xoH997/J/6O4Y+ZK+X27769+ZYtwFZ3SRA2IAQgAtz38TIwFRLfIMK
+ pcfKyxThBe/cpR6h8vGrE88eAyYNhVQuBaYm5IJmMCEYT3fJMiF3uZ2Zyjj0/0K9
+ 4eMPckThdV0Nbc/l1o4tLlkY/Fa34+ci7Uc8dM2gZBJHwVO6nYp8DYO/tBdTwMIa
+ K3zP3LnByqwPNpN9nJytwAbZesjgGc/B5CS9JeMsALr0ftkQToaxNIPlFzxIPV7U
+ TRAPCw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s8c264dp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:01 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c793d573b2so1453384485a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:04:01 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:04:12 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c54a6b0c70so751354185a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:04:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747940640; x=1748545440;
+ d=1e100.net; s=20230601; t=1747940643; x=1748545443;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SAXuCHIXzob7I7yDg4by0JQEOARzxYVn7zXbtJ2VPvk=;
- b=P+Q/t0ox1I5hk7xzVS79f38t9uUnOLWp1HQ8f0tLw6OAb1SQTQ8jb0f0zZlDvk4M+i
- ihPzGVOWCTZyiOSrwKxgQSc3V46yBIlGdB8rEM8Pot4hJcE1Xogq6mBTsLyvpFPE/ftR
- GA6DsFxgpRZFCtCtPLDto8BqaBuPqRm6z2DT0CSiQS/vemb9fXkfGjaJ2GyVpXsBpBO/
- Yq8hnZOW2edeap1QqXvoIOvadRfaGvhZ6OvfplF+OAeb1i+zvzbOFmkbQNo8DwV89mxa
- qBfwSGnt6Y7D/n5loJbU8rbM3VpPEjako3VELGLdWmJ6hPeP6RKt2PyqGyOCKq6yU4Bi
- ZSUg==
+ bh=520oFGgAVIHzUGYZ4vVIsy4Q9fI3b2Y3ZlgCsgK2yUc=;
+ b=APRZWfBLlZOK+QH9mQp3lgBZIFo5IvvqYa3z3kFE64v0FUa1FrkbEmNdKlkasp76s/
+ maNOXAUiUHfgPbRdCGKiKMqe1QOG9IBwbnIRs27lhayE3Ozva2H7mOgqS5MdsiavL1pf
+ hRjWXpgc8nsc4duJWwuzFhISgQZVH7xJw33X2Cv815FE/gU+WXJs/pXm9XMcXOnH0L8C
+ xZoEi0FgjX4z7/aFaSUe8ci0FsAG+LodlpP8ItU1cpEacqHlrIdo5pLimoBt7tcZkMMl
+ +BkFQzlUFutI3i/kZg5XBQiZ2SMxjs73p1hcf249ZeRWau+WJB4Zt8aSjAgIl2knlLdb
+ YeOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVrueIPqEyjwv2dtwHPeZdGYlbnUyatT54q4JDB4LoZEseZorRhn1frcElES+iFSK6perWRTktBsig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywu4Ua2hMZGtnlCrwuTlgu3ciTTYV4F4XRoGmHhHuAAls1Z7UEY
- rcYUr9YUd8mpcV3fLhy4iN+LmvRhw3U+XgAwOxbLbnJEP15o0x8+QiK4yIR/1yWFJSY+TBvVOvn
- EPK2TYg+q4l8MhPpPwhXXVLMtCMxse6PwK5F48S7klYd+y3uoNBgtS4UdDtEs+a9gpOO0dRk=
-X-Gm-Gg: ASbGncsBOBk7YazpXKlGcKuxD0PSRySV2rio1zy2cm792AcwVp4c5HIdZnrFQN1bJVe
- sldOrPkRKrbGiLeh4Gpt/eKU4K0i4Ry1VZIAXsjhunOxNVkJ5wgcfr9HOLvTRjDp1v3VLgLqgbr
- u1RYHdxa60jIFgRVcBKq8xyFo7PvBXZT7V632FiWA5tQ9JH/2BH3DmK1sYe6nEQBLgd9uOynPpv
- p3QeckOA22gqjzlLtZxYYS5LI5LnFUoqg3qp1cs+fzGjjkbYMcKgbV5+NEpDy5+8FWxMWyo08QY
- J9OZg1SikrZcqBmmuxulA626HYHHbqaehET6ofZkL+0Fhof5T/vmsEXn0ydejy5iXf4lK3Mr9+I
- EqdpjmjmUzTlbqedF6AdCQlxf
-X-Received: by 2002:a05:620a:400f:b0:7ce:d352:e2c0 with SMTP id
- af79cd13be357-7ced352e386mr1146829785a.25.1747940639727; 
- Thu, 22 May 2025 12:03:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtop1DYOBlB+JkelLga98KWOgpBTnz/VdiqX4EP3GRjMG13kaJhcMsqY3geHDRZhiht48xFA==
-X-Received: by 2002:a05:620a:400f:b0:7ce:d352:e2c0 with SMTP id
- af79cd13be357-7ced352e386mr1146825485a.25.1747940639378; 
- Thu, 22 May 2025 12:03:59 -0700 (PDT)
+ AJvYcCVJdCIQkj52wCoHOu24rH1HEfe5CTl2pz3Qi8IOu3UonheQbqA/TCC8haN2xmrGIg7UOXo720qKx/Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxtbyVQ/40rmlgoAm3pVj+qAe5dinlDNnMZgKDYVp1D0/8WD0wN
+ kmTel1qtRWPNj0j9SC0BSWzc2bOvF82FPa/i3WC8GdC9irCQ6qzsbZaLLlJbZlKARYqs1xh18Zy
+ DUoSMJGQ3xIFi725VuUOJh73bsscoEHpMtQ9+xkCeJCXSm6qr6tH2PtIpY5WSKe4t+Wc4jn8=
+X-Gm-Gg: ASbGncujHI0ho0//7iyZCBDuAkpKEdbGm3k+EeZ3FuoQrLrdS8w2mOBlFP5nd3K4G12
+ MvzfumUK1WGWMufsnkWxQLIeoydcfAnE0BPsFpPHMi1TkKK5kwvps38OWPRDzfCECaKhCguQz/6
+ kpRlkghnpQc1+VMCmoWFC4sfx3fHJVl2IHIIcXzSh4bM25nypljyBowEMWG+zBBssZjtbM208JR
+ a13lIoXN+dcXqzLzc7mX9Qd95P89bq9qQr41cJMKc89iK5J3FGxb1e9N3kMgUEDH110dYrkbF/u
+ ci/UPdQZ41LU36mNFzKL5/A6NuWIo0LcpXzkX5JsOmEu7QZYSeTsSBqZKQxtd+GyoHZv9G50Scj
+ q9a5uKv8tejBhCev0SbfpcSM/
+X-Received: by 2002:a05:620a:25c6:b0:7ca:df2c:e112 with SMTP id
+ af79cd13be357-7cee326c929mr6911685a.45.1747940642881; 
+ Thu, 22 May 2025 12:04:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFzxquIY8HhNhqWCNPDmBe+j5FWdsACOdAapT72f/I0iKVGXenxbZCexTv1LjK3ndZUkz5kFw==
+X-Received: by 2002:a05:620a:25c6:b0:7ca:df2c:e112 with SMTP id
+ af79cd13be357-7cee326c929mr6906585a.45.1747940642445; 
+ Thu, 22 May 2025 12:04:02 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e703c2f3sm3482506e87.214.2025.05.22.12.03.55
+ 2adb3069b0e04-550e703c2f3sm3482506e87.214.2025.05.22.12.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 May 2025 12:03:55 -0700 (PDT)
+ Thu, 22 May 2025 12:03:59 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 22 May 2025 22:03:29 +0300
-Subject: [PATCH v5 10/30] drm/msm/dpu: get rid of DPU_CTL_FETCH_ACTIVE
+Date: Thu, 22 May 2025 22:03:30 +0300
+Subject: [PATCH v5 11/30] drm/msm/dpu: get rid of DPU_CTL_DSPP_SUB_BLOCK_FLUSH
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-dpu-drop-features-v5-10-3b2085a07884@oss.qualcomm.com>
+Message-Id: <20250522-dpu-drop-features-v5-11-3b2085a07884@oss.qualcomm.com>
 References: <20250522-dpu-drop-features-v5-0-3b2085a07884@oss.qualcomm.com>
 In-Reply-To: <20250522-dpu-drop-features-v5-0-3b2085a07884@oss.qualcomm.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -93,41 +93,41 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2649;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2781;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=73PNb9U9hPhtgDIYoKDO+U5RvVBCB7fQuR7leMk88VQ=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoL3T9Ulgcc13VbVg3mZTLs57CraySRoXFZ3SMP
- Xnb3jmUDjiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaC90/QAKCRCLPIo+Aiko
- 1cwyB/0VZxlJnkCsz1D9/IronGDMdIKooY2W+C8xzh923SPBrMQs1H1xI2jVhTZx+u14OTyjE0R
- SNUFfR0RDAbgcVxRmjtHM2iQFpLNCfzZae+qPvsw4LhwZEI+dQN0Q0nmtaHUnCNiWt2cBtUni0E
- DB2ow8sHTIMbXq7vWcOgMFJ28Yn/ZDvsp24MMI4UO4uGoVmkT/h79xCSDZ29k3Olh61DreMw8a+
- +kC2lb4oW1WemQu1BMBLsgGzUHRr/bl4grnC1Ma7M8kZlUw/dT6Atug8bzxJyvgIPg+THdsEzH5
- Y0nlt3/br5DFL3aipAVNa/V+I1gIxso1XumVWcETHsAKxFaP
+ bh=R2pfqwbiufRy26Qr61RXns309s3JHy9UAH0Tqdyv7QE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoL3T95UgV39T4ep2h1SCm0PcapDyxtsT11KWVj
+ 05MDktyaQCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaC90/QAKCRCLPIo+Aiko
+ 1cgdCACccb8v+ZZmGPkgp6/u9+Y0q/lteJhu/gtu0N1swCzsf6TSIejBwxhN3hXB0QniQYc01ii
+ olrJpEPhQMDysiBdkPLX4+xicK3NOFy5Fgw+HGLgxKfN4/4dYS6/OWqYcfBC5d0N/fGZ9mtqlBF
+ CztSUKRQLC3wh7bkEjiPAcQwPn6N5Pcne2BobCrW7haNU4Fm3I2UMyoJ6l+N3gmED/NcyvjDQxj
+ +mTdZnPle9yLLA9OII/QQGYyQ+rFKIZtNRxjs82zYbw0xFY5Yvkahq/OHH4M8ILYzdWcMMd6GTI
+ zSCNJoTeh3AGRv5yiP/Q5A6tuXgQahGdG6LbOsOoAjpugz3O
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: HtvsXiwpy4lM9G-2L3a6bifDD_H4inbM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE5MSBTYWx0ZWRfX8UvW1cxM1bmb
- Hlg0QTBm1Q7NmnvMQs4rt0qaAZth2ytcLC9wEEghNvaeBIWvPersJhc4+z2jCfQbPFumEqJVy2Z
- C+ywvdiO1vRg5QkMTgY2G92xlvS5G9ZCBG3bJm0ojt9NDnCTuzJnmCwqZ4hmCB7wRuS+zjboJD4
- /rluenGh8p9W0fyY5aQRJ8hMXPdbAzywBFWXRmHhKaNO8uZEmYe7GL0nUO2e46XATQnjnnCGylj
- x7ydB3Aealza4HbraMYWZ7IuPbm18QA2yO0iKAMyfw5Fzop6d39Q23Ylc4jxsK3mMgVXBlsMLU5
- yuhwY8MDQol6+BQ5pKF4v/ei2yH2qf33ZU1yQ6DpOaMKNqyB5P5K9gaxlaKQ1/sIvcPyPRKjt3Q
- DFdVaM3M3OXKmihBeTnhES4YLGlJPi/2/TNnkiN3N536Zpf2u2Qao/9YXOUIBRpRNYzGNEjt
-X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682f7522 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE5MiBTYWx0ZWRfX3KheufxOtLnl
+ y5Zpl7voEVkK8clpFwlsDLK7/Q9zic9xZLLwlbMbrnHcj51o+XCpMbBfTixe2LcPgKTarFviBoY
+ tUxFz18+g4WfhS18F9eOFmZeRu7KnCujxtJA/60svFHm8tbkXCc1zAezwK0iQeXOEOH0ARyvOi5
+ qOCuYZGYKA4OGAuo8rnYeOE024rNH4dmzZQdIoI8bCHKa7EScvNVHVUY09lApdL/v/Wlp3doAtp
+ XokKMXFBUjdC27onSPV4cG9QtiuPyKs/7SchDL5UAFXmmxdexk2GfeDc8zXJyorXGNfuZbJ97dQ
+ 0iZAwVcGdfO+gVTYI/MG0q5/KNIvi5acWDz6bN2YbeuqP7tG8ypUbqq73ZxN4Kucu7IxSaoLImN
+ UGcoSqJ2dCzERhgpUC++13fKHvsmVAHP9xlFHCXEg4i5daLeMZiD7gaLQzBXMvHDcrovkk0o
+X-Authority-Analysis: v=2.4 cv=RIuzH5i+ c=1 sm=1 tr=0 ts=682f752c cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=1CFBwsujT04XwbEipTUA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=Yf7QHpgQJbPwferW474A:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
  a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: HtvsXiwpy4lM9G-2L3a6bifDD_H4inbM
+X-Proofpoint-ORIG-GUID: Lr8lO9nOVgIxl6QsrA4mK0r5O3EFjp5H
+X-Proofpoint-GUID: Lr8lO9nOVgIxl6QsrA4mK0r5O3EFjp5H
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-22_09,2025-05-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=980
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505220191
+ clxscore=1015 phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505220192
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,7 +146,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 Continue migration to the MDSS-revision based checks and replace
-DPU_CTL_FETCH_ACTIVE feature bit with the core_major_ver >= 7 check.
+DPU_CTL_DSPP_SUB_BLOCK_FLUSH feature bit with the core_major_ver >= 7
+check.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
@@ -159,51 +160,50 @@ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
  3 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 0863e5cfb3283ed32f61ddd4483220742df8633d..6fed2cce082c476c1f7f8ee683f2a6f3eeaa5231 100644
+index 6fed2cce082c476c1f7f8ee683f2a6f3eeaa5231..19a859e2a1f80c2321789af4ec7c5e299f0fb873 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 @@ -105,8 +105,7 @@
  	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_DSC))
  
  #define CTL_SC7280_MASK \
--	(BIT(DPU_CTL_FETCH_ACTIVE) | \
--	 BIT(DPU_CTL_VM_CFG) | \
-+	(BIT(DPU_CTL_VM_CFG) | \
- 	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
+-	(BIT(DPU_CTL_VM_CFG) | \
+-	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
++	(BIT(DPU_CTL_VM_CFG))
  
  #define INTF_SC7180_MASK \
+ 	(BIT(DPU_INTF_INPUT_CTRL) | \
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 9981d090b689b46bbc378d1965b0efd1df0efa8b..82f04de6300eca7d05ece3ac880c26f3a56505b9 100644
+index 82f04de6300eca7d05ece3ac880c26f3a56505b9..1e5fc1d5873975189a1759212b8a6c6078de22f9 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -132,14 +132,12 @@ enum {
- /**
+@@ -133,13 +133,11 @@ enum {
   * CTL sub-blocks
   * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
-- * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
   * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-  * @DPU_CTL_DSPP_BLOCK_FLUSH:	CTL config to support dspp sub-block flush
+- * @DPU_CTL_DSPP_BLOCK_FLUSH:	CTL config to support dspp sub-block flush
   * @DPU_CTL_MAX
   */
  enum {
  	DPU_CTL_SPLIT_DISPLAY = 0x1,
--	DPU_CTL_FETCH_ACTIVE,
  	DPU_CTL_VM_CFG,
- 	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+-	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
  	DPU_CTL_MAX
+ };
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 2dfb7db371a3915f663cf134e4dd62f92224185b..772df53bfc4fcc2ff976f66ef7339be1ae3da8f4 100644
+index 772df53bfc4fcc2ff976f66ef7339be1ae3da8f4..edb82c81b0a449b1a7273fc258961b9447be8d9d 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -809,7 +809,7 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(struct drm_device *dev,
+@@ -804,7 +804,7 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(struct drm_device *dev,
+ 	c->ops.setup_blendstage = dpu_hw_ctl_setup_blendstage;
+ 	c->ops.update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+ 	c->ops.update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+-	if (c->caps->features & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
++	if (mdss_ver->core_major_ver >= 7)
+ 		c->ops.update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_sub_blocks;
  	else
  		c->ops.update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
- 
--	if (c->caps->features & BIT(DPU_CTL_FETCH_ACTIVE))
-+	if (mdss_ver->core_major_ver >= 7)
- 		c->ops.set_active_fetch_pipes = dpu_hw_ctl_set_active_fetch_pipes;
- 
- 	c->idx = cfg->id;
 
 -- 
 2.39.5
