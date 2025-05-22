@@ -2,121 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A851AC0BB8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50004AC0BC3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8512A10E747;
-	Thu, 22 May 2025 12:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3160510E82F;
+	Thu, 22 May 2025 12:40:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jchA7C/t";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VgQalo+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81FB10E747
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:39:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337F410E82F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:40:14 +0000 (UTC)
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M7T4tT027699
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:39:01 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M8NV1R027725
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:40:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=19244OeHzQNxf5SDPlapadMw
- 0CElU62/QrqnAm04GGQ=; b=jchA7C/tYzQs3FSMKQFxdC+2jE3n4zIlVl/HdbX9
- n8tskfMryHGAmKxZ6NN8UAkxanofJJ1VJnP1CthR+8hAOE3UosADh9y9xCNSzMYk
- j0kZr37FN7+gTunVFYJu7rbofO1TOObyb0HrLl+tdJFy8wBSZ3MOhF/G6v1+iLOm
- h/arkBxRSwvR7USQsmLjjupau1ElYP7fqal2xhnEy00Dkqa1Bylmjz8VNkk48wsZ
- BAySQnq/YOExshiMcnDGfxX80OFBWRSfB7VHW02Di04MnD4abWSuFEzvy1LlP/lX
- pki7Pnd6/fAW8sv4iQBCRvzzDyeyYHF0ZJqBP+gUeTpVmA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf9e8cc-1
+ :references:subject:to; s=qcppdkim1; bh=+EqEHGQsGLV7fMWgFHiDCICo
+ 9owZC5//Pie9xhLsJeQ=; b=VgQalo+0oOyORAiuezYHZYJqlNe7dZ4MnpprEVb9
+ vwU8lKz3Z6m6Rli/ceqcyMqHNWDZTKZrwrQDJwEjJB9n+fQ46sFrHMYJy6UkK2oK
+ Ic1SkaBhS3pPYcbwBAFu0JcGLJPjaIdpZdtUMH6kbvPKNcsvLCTCQXf+lal7bZ3N
+ cWPNJJAgtyuEFAx4YeQ4+APzW/Gx9udZfw2ceEMM1W+v4rd2pz2qDK5tDkjtbBDK
+ OuNfLY0VCMBLzk27BTvpEZFCX+YMR6tg21W1/OTTQ0HHCxHl0ZuKyCoMyJnTfEl3
+ x0M0JcYU9q+VzC+xAp4bwjtdW7eHUWWOoG3bGigQivs1zg==
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf9e8f5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:39:01 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6f8e23d6657so67953066d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:39:00 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:40:13 +0000 (GMT)
+Received: by mail-oo1-f70.google.com with SMTP id
+ 006d021491bc7-604aa7573f9so6546805eaf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:40:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747917540; x=1748522340;
+ d=1e100.net; s=20230601; t=1747917611; x=1748522411;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=19244OeHzQNxf5SDPlapadMw0CElU62/QrqnAm04GGQ=;
- b=BahAHd+4EOvMllyRqP5wCSqnbM9ZNZ8qL12mxhv+fnSJ1o1A1q1zY9GDtMBKtQaDfl
- MpiQvK4lqS8RKP7FCDP/yPmDUiV2ImO0TLfQ3F0beSMcnyV025/l2tXcIW3Bj+48n/Vc
- k5uIwbnOrnix15jkW8GgK53fsjXAmTWBFEVE3X9MG1DsU4e5XwkwQ5RMQ2DiqZNgtJth
- W6w9nysGz1YRfgBixbQTwDVbDklnaEu2OwB0cF3ZyHfA1jZVKC2H6pN/H4v+kzJ5gq7W
- pGG9ePHS7qHUum3osqVgX8u6jfuZAea1gSGPPaMKQ6tWSOxb0OI6Mga/uKRSXYf5K6en
- 1dCQ==
+ bh=+EqEHGQsGLV7fMWgFHiDCICo9owZC5//Pie9xhLsJeQ=;
+ b=OQbYKirnzuo331trRlZhAsuBMlDbHBichM11TfZevGp5+aYvVaAy1LFnxqx/R+X7gX
+ lVgZqtf6RE/17hiKUblA5kXqrROivRYiuLX1RwAvPoXy1dIkTTAWd3lvf52+XrLf7WJd
+ VG+WlazvM0e1aKeRzqanaj0k6GIiW6/Yi6uKTxCvO+w8TvGaj8HWb5m6nFiPJR0eZDTh
+ eO1JMzB3//cp57RY5d94ZmxJ7rQfbrelus4+sZ1mi61bbrw3ktTbCPmk42UBf8ezmuN2
+ IPVzdGfnJ/iqFLrSebpPY/YzaBZVr5Z9DdIUBkeVu5rKm9xzP7j/kTHtAmaSiATTlfeR
+ 7Hxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxc7mLJSXKOMt9v/yyzMY6rbjXbbAu1k702slWM21lplyIKwsi4Ri2ZSL16wNNVSYgU4IcBptUpIQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQxXE2alKSXRZcowVnVZG9pHdadTjvEyte0oaH3+DW7Qee7BvB
- 9/PPMtAISZ52KjEnaOaRuEDuYPIcJS7j2/+NFz6H8djFzXUHmBDv/5mQN47JTEo4O3zVZSmgogX
- 9HjNZiq+WLLHqdVsQtBWOrgACkcXsO985nyiuL4OmiEWmVrYGTP1Zg2HRRk5LXsp5aM/8R4k=
-X-Gm-Gg: ASbGncuQCeTOhinVxDNlRiXjS+GTAMy9ZJ5k0lIe7c/OYRBl+5IeFotI3jaspS3POIG
- WgfxXzhZ21ecoDkRqVMgPP9hKhA4MMJmNGd5r7ZcaxLFz2nWL/bJHOO+T/9Z9+Ug45QGd/Mhw2a
- CAxhGmVFODOw+feCrN0CjWwt/9ulgpKy1BRNzw/fqr12F+Q5pQHhxyj3qT9IxiKDZHYzPzYOpBH
- 4O1B/2y4mgusovvzmPyxdYTHNf9ugwkGOKMgLeAeWX1wlwV6QIqujB7n8H8Llt18nOI5BTWwZRP
- qSZdRcgNVBvEguUFpiTMkEjTvtOvtnafs80oAmBE8zIRoT91DPPOFdz3LfEHXF+0SI29CdRm8nc
+ AJvYcCX/jsgAmhsIOAH/KRcTatyXPtA+4eFzjenF5hiMb77R++074C/FMFtk//5/zHMR34chwbye2gnwyKw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFAF9tZO1xtsuGleNeA3Hu/9jQhzVfFjTog+LiRcO+XtDKBrYV
+ fQbaLeub39X/7hA2F4FbcHsmjObZ/tLBlqjn9bxJK0rV3plfnpaScZueDl+4Dsf4VqUmrIqSdtu
+ D66TCeNcXm/rFycfGNyGcNkg/WX9UeuR6Xp0QCQl6nShp39wZoSLSO1Dl9zCqw3FE8b3zH6pRAd
+ wsOQQ=
+X-Gm-Gg: ASbGncvK8vxvNX++lNFEBs3+MAIPVYzKoU0xfgmOtMKbOMxhprDI3qejYZalVwZRyGH
+ PgRpaCMFnyKOFn9UDPoUBZRwochlj57ZwIt+JUC+YF+qJ+DACXc/j6vcK4m58qNP37HSD+9Rg5A
+ wmT7CxmECuXxNcDJFAD6s5gQfDnQauGXGLS1U9GawygVAre0WUlT2P+FmrVo/1Vx96ev/H+ijVq
+ Y5D/ir7fLMBG+NJ8hXiBpqb922+KHFjJAn/SIX/H8R303Gr/FirCALtffTDnu/11ZZRKUN+Aq+X
+ aIpd6Rav04glyGiFx4c46DnYmmeEbJQrxY3ziWwlWJn0PUiHrA01yQxzc5MpY3AbPH9PDN+IZy0
  =
-X-Received: by 2002:a05:6214:14aa:b0:6f8:c23c:5266 with SMTP id
- 6a1803df08f44-6f8c23c834amr265730916d6.3.1747917540258; 
- Thu, 22 May 2025 05:39:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHt3dD1d3o6Uh9VFUBMuETCUX8JC+Gh5YdI+vMkCsFQ+A6CYWX5t0w0CnMrGeqa/WbJpReveg==
-X-Received: by 2002:a05:6214:14aa:b0:6f8:c23c:5266 with SMTP id
- 6a1803df08f44-6f8c23c834amr265730536d6.3.1747917539880; 
- Thu, 22 May 2025 05:38:59 -0700 (PDT)
+X-Received: by 2002:a05:6820:a09:b0:60a:bee:497a with SMTP id
+ 006d021491bc7-60a0bee49fcmr9467389eaf.2.1747917610957; 
+ Thu, 22 May 2025 05:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFve+8mofNSpVKLWwuMYBvia/xh0sTk8FAf6wyF/tDiY8jaMMruPUXYmConthQlvyqWvXyIXA==
+X-Received: by 2002:ad4:5caa:0:b0:6f5:dd5:a594 with SMTP id
+ 6a1803df08f44-6f8b2cb94cemr428744686d6.5.1747917599863; 
+ Thu, 22 May 2025 05:39:59 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-328084b6c7csm32876471fa.2.2025.05.22.05.38.58
+ 2adb3069b0e04-550e7017e6esm3376695e87.136.2025.05.22.05.39.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 May 2025 05:38:59 -0700 (PDT)
-Date: Thu, 22 May 2025 15:38:57 +0300
+ Thu, 22 May 2025 05:39:58 -0700 (PDT)
+Date: Thu, 22 May 2025 15:39:57 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <swboyd@chromium.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>,
- Rob Clark <robdclark@chromium.org>,
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 04/45] drm/msm/dp: split msm_dp_panel_read_sink_caps()
- into two parts
-Message-ID: <smj62cjqy7ihd3ywnvwkqzczlg7op4rqy3yrwlibjvouqerofr@bnlpwl3j4jge>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-4-f8618d42a99a@quicinc.com>
- <osctzl3bgutcjt3hjvgxaq64imn2i67hagqm5slfozf33tnj66@5hlfmqmt7if5>
- <2a54ffe8-8e40-49f6-8735-96da47e1bbc6@quicinc.com>
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v4 1/5] drm/msm/hdmi: switch to generic PHY subsystem
+Message-ID: <tm2ogebkaxu3g6xdmrjkx3u6veac45qd7mtiruan4rcevs75xn@apubmfvg74nt>
+References: <20250520-fd-hdmi-phy-v4-0-fcbaa652ad75@oss.qualcomm.com>
+ <20250520-fd-hdmi-phy-v4-1-fcbaa652ad75@oss.qualcomm.com>
+ <a42b9cbb-2f85-40c4-8b40-6f84970aba86@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a54ffe8-8e40-49f6-8735-96da47e1bbc6@quicinc.com>
-X-Proofpoint-ORIG-GUID: APQzPIJ11elyz8OPKVv7RwGqUuDGRFlI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyNyBTYWx0ZWRfX8BRR1NB+wvmi
- 8rlIIW7wfwudOgMUFwhRlOpGygBjj5KSFFusrdpmV0dAt3KnQpzE0iMGLeti5vBtULbLSB9tzNv
- ANQKQk1i54SwZ3Eg2jV+e9CStaIAAUALB0PZfrEQw1qyh1l6yk+Gnp/7OJrO81moDiGQZbnT/oo
- GW6sy4jbdWO+vjSQ0eW7n3oAXkAv5PtsZ/ejmo6PFPn5oCYSr2J9XInKJ9tU00nRejNeGzChmsS
- D/wZMcqVwVb+Ccryj1GNYO2WKDALuo/71ECabCMy2gBldsAM8kUI96VvqiSY2o+vAjTs1GPRKWg
- zLEko0z8ejRcVymgfhliKYMKB1xiXwH5QoZ+STh7QauMmG37nsHxsy5FgZAJW4rw9V4PAcSDLyV
- Mxy9hrI4mIdXaPdQwzeG262RD1GzVdquebOmbB4XwM9zqAIPieeqJh9naQhdajl68zxGwl3E
-X-Authority-Analysis: v=2.4 cv=GawXnRXL c=1 sm=1 tr=0 ts=682f1ae5 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=YGB3awJd4VowHVBKth8A:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: APQzPIJ11elyz8OPKVv7RwGqUuDGRFlI
+In-Reply-To: <a42b9cbb-2f85-40c4-8b40-6f84970aba86@linaro.org>
+X-Proofpoint-ORIG-GUID: MI_8keBUII1Atjo1LBb8HB0GKMg4FYL7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyNyBTYWx0ZWRfX9uvf+7xWVz/w
+ HAHPb03MBGjDUC2Dkw/vN9WLjMlIBm+HcVg2u+4Aq/OhxoyYhiyN6Up+mdt+HJy/DAeyw3+QNEq
+ NjmsS4JAWGdiXeFRxFdmWiOnYd4SmbWhz4ZVtAVy6KR757lk9VAf89c4fIN1lMmnepYQUuJAS5r
+ vPSbHMBMpgP9LphA1WJcKwvggdWi4j5IqANS5dh4hDgeSl9ZbQI+w102PE3RKt32fpwJl/mZdXC
+ aTbanJzDNerigL4M2l5GsouN3UaT4V+di9MMRuBr/xsI8DQGUvYzrLZ766kqh6WCstZ/0NouY/G
+ ZzwsDn1S366W3XcG7cYWCzX0WW6ow03HeWJ0yqtKSXUkYr/MACS3J1qiTGcUFUyoOYl8lyHzkdp
+ 9KY3JXO++QKLuymogSU3H53seJ3HK6YqmQMD7f30BvtbpRzT2DBU0I/6RmtheLIO9/8/5/Y7
+X-Authority-Analysis: v=2.4 cv=GawXnRXL c=1 sm=1 tr=0 ts=682f1b2d cx=c_pps
+ a=lkkFf9KBb43tY3aOjL++dA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=kkxXnT2X172yt9C4ahEA:9
+ a=CjuIK1q_8ugA:10 a=k4UEASGLJojhI9HsvVT1:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: MI_8keBUII1Atjo1LBb8HB0GKMg4FYL7
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
@@ -141,28 +130,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 05:51:52PM +0800, Yongxing Mou wrote:
-> 
-> 
-> On 2024/12/6 16:51, Dmitry Baryshkov wrote:
-> > On Thu, Dec 05, 2024 at 08:31:35PM -0800, Abhinav Kumar wrote:
-> > > In preparation of DP MST where link caps are read for the
-> > > immediate downstream device and the edid is read through
-> > > sideband messaging, split the msm_dp_panel_read_sink_caps() into
-> > > two parts which read the link parameters and the edid parts
-> > > respectively.
+On Thu, May 22, 2025 at 09:38:34AM +0200, neil.armstrong@linaro.org wrote:
+> On 20/05/2025 22:44, Dmitry Baryshkov wrote:
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > 
-> > As you are touching this part, could you please refactor the code
-> > instead by dropping the msm_dp_panel->drm_edid? There should be no need
-> > to store EDID in the panel structure.
+> > Change the MSM HDMI driver to use generic PHY subsystem. Moving PHY
+> > drivers allows better code sharing with the rest of the PHY system.
 > > 
-> Hi, Dmitry, Abhinav will be leaving the company and will no longer be
-> responsible for updating and address the comments. I will take over handling
-> MST patch series. Regarding this comments, I don't got that where the
-> drm_edid should be stored. In MST cases, where multiple panels exist, i
-> think that there should be a separate drm_edid saved for each panel.
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >   drivers/gpu/drm/msm/Makefile                     |   7 -
+> >   drivers/gpu/drm/msm/hdmi/hdmi.c                  |  58 +-
+> >   drivers/gpu/drm/msm/hdmi/hdmi.h                  |  80 +--
+> >   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c           |  32 +-
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy.c              | 225 -------
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy_8960.c         |  51 --
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c         | 765 ----------------------
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c         | 769 -----------------------
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c         | 141 -----
+> >   drivers/gpu/drm/msm/hdmi/hdmi_phy_8x74.c         |  44 --
+> >   drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c         | 458 --------------
+> >   drivers/phy/qualcomm/Kconfig                     |  21 +
+> >   drivers/phy/qualcomm/Makefile                    |  14 +
+> >   drivers/phy/qualcomm/phy-qcom-hdmi-28hpm.c       |  71 +++
+> >   drivers/phy/qualcomm/phy-qcom-hdmi-28lpm.c       | 441 +++++++++++++
+> >   drivers/phy/qualcomm/phy-qcom-hdmi-45nm.c        | 186 ++++++
+> >   drivers/phy/qualcomm/phy-qcom-hdmi-preqmp.c      | 212 +++++++
+> >   drivers/phy/qualcomm/phy-qcom-hdmi-preqmp.h      |  81 +++
+> >   drivers/phy/qualcomm/phy-qcom-qmp-hdmi-base.c    | 185 ++++++
+> >   drivers/phy/qualcomm/phy-qcom-qmp-hdmi-msm8996.c | 442 +++++++++++++
+> >   drivers/phy/qualcomm/phy-qcom-qmp-hdmi-msm8998.c | 495 +++++++++++++++
+> >   drivers/phy/qualcomm/phy-qcom-qmp-hdmi.h         |  77 +++
+> >   22 files changed, 2259 insertions(+), 2596 deletions(-)
+> > 
+> 
+> <snip>
+> 
+> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > index 53a7ce8cc7bc7b6278eae2cbc42c3fda8d697f6d..1a00c26c1b40fc81623c9fb22ba25f448c27bffb 100644
+> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > @@ -5,6 +5,7 @@
+> >    */
+> >   #include <linux/delay.h>
+> > +#include <linux/phy/phy.h>
+> >   #include <drm/drm_bridge_connector.h>
+> >   #include <drm/drm_edid.h>
+> >   #include <drm/display/drm_hdmi_helper.h>
+> > @@ -286,11 +287,12 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> >   {
+> >   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >   	struct hdmi *hdmi = hdmi_bridge->hdmi;
+> > -	struct hdmi_phy *phy = hdmi->phy;
+> >   	struct drm_encoder *encoder = bridge->encoder;
+> >   	struct drm_connector *connector;
+> >   	struct drm_connector_state *conn_state;
+> >   	struct drm_crtc_state *crtc_state;
+> > +	union phy_configure_opts phy_opts;
+> > +	int ret;
+> >   	DBG("power up");
+> > @@ -304,7 +306,7 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> >   	mutex_lock(&hdmi->state_mutex);
+> >   	if (!hdmi->power_on) {
+> > -		msm_hdmi_phy_resource_enable(phy);
+> > +		phy_init(hdmi->phy);
+> >   		msm_hdmi_power_on(bridge);
+> >   		hdmi->power_on = true;
+> >   	}
+> > @@ -315,7 +317,23 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> >   	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
+> > -	msm_hdmi_phy_powerup(phy, hdmi->pixclock);
+> > +	phy_opts.hdmi.tmds_char_rate = conn_state->hdmi.tmds_char_rate;
+> > +	phy_opts.hdmi.bpc = 8;
+> > +	phy_configure(hdmi->phy, &phy_opts);
+> > +
+> > +	ret = phy_power_on(hdmi->phy);
+> > +	if (WARN_ON(ret))
+> > +		return;
+> > +
+> > +	if (hdmi->extp_clk) {
+> > +		ret = clk_set_rate(hdmi->extp_clk, hdmi->pixclock);
+> > +		if (ret)
+> > +			DRM_DEV_ERROR(bridge->dev->dev, "failed to set extp clk rate: %d\n", ret);
+> > +
+> > +		ret = clk_prepare_enable(hdmi->extp_clk);
+> > +		if (ret)
+> > +			DRM_DEV_ERROR(bridge->dev->dev, "failed to enable extp clk: %d\n", ret);
+> > +	}
+> 
+> Why do you again set the extp_clk since it's already set & enabled in msm_hdmi_power_on() ?
+> 
+> Perhaps I missed a change but it's like that on next-20250521
 
-Why do we need to store EDID at all?
+Yes. And it was a part of the series beforehand. I will check, why it
+was required or I will drop it.
+
+> 
+> >   	msm_hdmi_set_mode(hdmi, true);
+> > @@ -328,7 +346,6 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+> >   {
+> >   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >   	struct hdmi *hdmi = hdmi_bridge->hdmi;
+> > -	struct hdmi_phy *phy = hdmi->phy;
+> >   	if (hdmi->hdcp_ctrl)
+> >   		msm_hdmi_hdcp_off(hdmi->hdcp_ctrl);
+> > @@ -339,14 +356,17 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+> >   	mutex_lock(&hdmi->state_mutex);
+> >   	msm_hdmi_set_mode(hdmi, hdmi->hpd_enabled);
+> > -	msm_hdmi_phy_powerdown(phy);
+> > +	if (hdmi->extp_clk)
+> > +		clk_disable_unprepare(hdmi->extp_clk);
+> > +
+> > +	phy_power_off(hdmi->phy);
+> >   	if (hdmi->power_on) {
+> >   		power_off(bridge);
+> >   		hdmi->power_on = false;
+> >   		if (hdmi->connector->display_info.is_hdmi)
+> >   			msm_hdmi_audio_update(hdmi);
+> > -		msm_hdmi_phy_resource_disable(phy);
+> > +		phy_exit(hdmi->phy);
+> >   	}
+> >   	mutex_unlock(&hdmi->state_mutex);
+> >   }
+> <snip>
+> 
+> Otherwise it looks fine even there's a lot to digest and hard to figure out
+> the exact changes done to the PHY drivers.
+
+Yes. I have been trying to find other ways to handle such move, but I
+couldn't find any.
 
 -- 
 With best wishes
