@@ -2,143 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA26DAC0F90
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 17:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101CBAC0FAA
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 17:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2EC410E044;
-	Thu, 22 May 2025 15:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2AB10E0EF;
+	Thu, 22 May 2025 15:14:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JuHO7+K1";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="vn76lKQg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60B0410E044;
- Thu, 22 May 2025 15:12:03 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-6f8d663fa22so69100866d6.0; 
- Thu, 22 May 2025 08:12:03 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6612110ECB3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 15:14:11 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43cfe574976so59841815e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 08:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747926722; x=1748531522; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zBpkT+X12qTj4ZXFWwDHYvuVR5JkpgqcjljjqtTRTxw=;
- b=JuHO7+K1E33Sn9W3xtCFfX+RxKTg+R2C9tTjGN2ntFXEB/MgvgGLfzO5JwV5tv0iTl
- RAE19GeZ7F4BW+yE+B/zmpLw35l3lXFhxgdSdgWgBT2WFSWjFNZu30dIChtA8FU45vBJ
- A+xlp/7fdEwAqxC6LUI3gljPg5VA0MY+MMucmBaS2QQUVW/J1ahtL5d2WvikI8J1mrh2
- zftIlLzSWkjvgCdBR6iZDypTwnlR9H4zX8/0QPs28P4kl7L3ixE7OoTGXF+1G1seWZL1
- NQjKNSgydObEIOUNZMuOinKfZZZc8tFJSeQc6IBm1zy0zwRD23JJ/EmXq4UOoohU7THu
- fAZA==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1747926850; x=1748531650;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=a3sZiJ1HrIH0vvAPchdsYnMHjzF85vrKwPH62p4gbcs=;
+ b=vn76lKQgQlZ1c0abi/HrqdU9MhRu88ensxA5Ptz5th1Qgx71ryELnMGS0mDIoXPYE5
+ HKej5q8n5/88dKE+DU+yUfJET1jceJs3hwYmBoV3cgoHetuumpER/PqfESaYQB6S0/0K
+ AJxoYS+prZxP3T+aDGWMneoMyvQCw7FkQMSjaOSM7r5mCkLw7vM/Njnt7K65l4vyzMRK
+ f9/KqCwcpDQQzTBGuJNIh5i1IvDkzRos9HPRZf+8GDNDxPRHDB9e1yFsuLVwvSPSBlM3
+ rLRTQ7g73Tzek/gvmHCEwY9J3PdCqZ91J2OhhrB3CCCAg6hDk9q6LnYLeuVtt4Ylc+q1
+ AEXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747926722; x=1748531522;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zBpkT+X12qTj4ZXFWwDHYvuVR5JkpgqcjljjqtTRTxw=;
- b=dtc7U4kPDQmE1QFGt09HNIS5mb2tL2othC1uAot89iSDrzKIFnF8lusY7V+sxsP6iR
- niD0IGsvPQLm4yJcaypOsKzJsO5NSI3pE4jhpyNXVPA7i/RtV0bCiuntgVQEomo0yZce
- a7jnRlx/PkTX+sBJNwt6gWGi6fbgAI9XiJfIEw5RnsBXxL6FLF97bn2diQNMvHylf8aw
- TVxfQ+WjO5U35zwMPlLBN0jdAqR3rALq6AHpOX8QDFgHeYayOx6o2AZbQvXh/kGHzjC4
- 7+K1rBJB3XZM7T9xmBDVyuNU0FPRPTgFbRbiOSQZUBCOOJxV/XKlIHoEnsRiVhEfWZy+
- n6Kg==
+ d=1e100.net; s=20230601; t=1747926850; x=1748531650;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a3sZiJ1HrIH0vvAPchdsYnMHjzF85vrKwPH62p4gbcs=;
+ b=F2PhNmIKaRrlNJROj8RP3VXKdj5rebdk4x/koylDZ50rbeih77tfTf+8EzGytw7eKH
+ 4GlVhcgrRdaAneCjq8IgX1oX/kUa3V3+UWgCb9Q6RJPQl82KxL2eWL0g5yVMbHz8S3zn
+ /vjyDRyGKSa/pg/d+dMo49jNy3vINZxIrfJ4GxNdCOlEEhKDCg/7r4PN0o4qUEgg2R0i
+ Y7iwhCH7uduIkcfb3prg9AzkSxCZpj0AZG2Z4nKsg3WhQ/OLQOncty1VIrHsUxh4ZFej
+ MWYcGsmR0swjw69+wGXFz0IDjTYMe6o/HJbzUZnaOdbwPxoijIZVAP49jbnh7k5f6XOS
+ zqkw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDlqXXb28THlp639cb6hDLoGU1dk/x01hPDzZowLvUpCytO0KTS1LsLCv1wIJdDOTnh5r5MD5oi+qC@lists.freedesktop.org,
- AJvYcCX70YHxHW7TScu0FKgtYF97AnFDYSTDXIqyxNOHLdpbLXmrrAxwKPxx9eLHEKDh4+/Ei7uDIzpWZtM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQaWzt/vBWV5Ddkm+Rt5HMFIid6Qf4Vt0s5rnTk7mQNScljDTG
- 8BJ5UYhulAD2rXgbseN6QpBiy8ZK+kYe7zH78MfEn52I19dKesHCLBlRchqqEjmN7vsjZRXOamO
- GqeJUR/SBzkJ/7oqnEc2B2XnAaFzytPc=
-X-Gm-Gg: ASbGncuG2FaxiqQ8c/9gEDHw7/ar2Gn776gsdg7/yUG6UstELp8iHm26ShL9crtme5H
- lqyvxc5KOzXA3P/WjqVxpj2IaVahScusmaWnxW5NEF+rV3q8Awf5ZE42AaqDTSJX4efxWPMsIwJ
- x75ZHV8jAmGbM+9edFX6MMNE3/L2tzpno=
-X-Google-Smtp-Source: AGHT+IFlBlVnRPEejI7uEQI0m4iJ7XD5elQtat++i3WnHxfOw553GLb37rOpDc90WmrXZut9Lu8B9Qiwq9FX49Bc1Ek=
-X-Received: by 2002:a05:6214:f0c:b0:6eb:28e4:8519 with SMTP id
- 6a1803df08f44-6f8b2c7b1d5mr412061496d6.21.1747926722029; Thu, 22 May 2025
- 08:12:02 -0700 (PDT)
+ AJvYcCUaI6/AeM1z2t1nEyixIPwF2CjJkX5nAPu9pZBWqETyTj6oz+b1AngvhEhaDuYfsv5t3Ka+ezYGfHk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzeLyLv43Ik7kjDMnxshqwHOuuYLAdEw4Z6MLpLXLyDZFG8LNRB
+ 1/+QNxb9AoLGPKshqCeaY6mmrfORuPjhkc+zMa7JttEW5C0iNFhL/aGLyNuq/+E0ywQ=
+X-Gm-Gg: ASbGnctyFSsRpMX3FIHZBED3L3FUOa8rCN7i6XpiCn7cKwqDvyeP8OpJ5JdJdjAtppf
+ BAVJwp0bhWTQCA8J8I/Sdbnw/MCjz+OVErmEPdvosjbzvvcd0ggmqn0yoB9Ecs/EJzETuhxsIsj
+ YcM3gVyxKaY9/OJ9ryo3uCJSaIYrvTPZODGdlPs601tFnC97JdX0y5DSgdXzDONhA+6T2BtOHsK
+ i+rNj5zMFmUyjgplN5Or+eJCD4zbcbPZQVd+6v+m0PATEewatWqjk+Tw0YI7egB8YlXRorR5QfH
+ Ub2D8/kL+wG3yCk6WRdnz+a0iK1s4mULu86Q33R8/Jgpiri2MsknsWfighCptDEXM/XkoelIN6W
+ h
+X-Google-Smtp-Source: AGHT+IHxyrHzqdJsJGzH7io+zfHcLiRaL/zyrDyhiAQN8cuxqU+RSBZPjdjsoOzMCl94ecGzCN7yUQ==
+X-Received: by 2002:a05:600c:1e09:b0:43c:f616:f08 with SMTP id
+ 5b1f17b1804b1-442fd624854mr247610445e9.8.1747926849572; 
+ Thu, 22 May 2025 08:14:09 -0700 (PDT)
+Received: from [192.168.0.101] ([81.79.92.254])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-447f73d4b68sm110285975e9.23.2025.05.22.08.14.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 May 2025 08:14:09 -0700 (PDT)
+Message-ID: <c5a7ed00-cbae-490a-86ba-e94060097760@ursulin.net>
+Date: Thu, 22 May 2025 16:14:08 +0100
 MIME-Version: 1.0
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250521162216.79dd3290@booty>
-In-Reply-To: <20250521162216.79dd3290@booty>
-From: Inki Dae <daeinki@gmail.com>
-Date: Fri, 23 May 2025 00:11:24 +0900
-X-Gm-Features: AX0GCFtvRxj4ujyC4Z2jHUwkVIe890MFPlPN-fSj8wgEwb2IYi_zfj6mGd98q30
-Message-ID: <CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Liu Ying <victor.liu@nxp.com>, 
- Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Adam Ford <aford173@gmail.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, 
- Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>,
- Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>, 
- "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Ian Ray <ian.ray@gehealthcare.com>, Martyn Welch <martyn.welch@collabora.co.uk>,
- Peter Senna Tschudin <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Michal Simek <michal.simek@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/xe/bo: add GPU memory trace points
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Juston Li <justonli@chromium.org>
+Cc: intel-xe@lists.freedesktop.org, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Yiwei Zhang <zzyiwei@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org
+References: <20250521224239.856298-1-justonli@chromium.org>
+ <vvtskvjaqcorex5xpeyyyuvljgikpdyo2vbncgmsdlutpnfaeb@u5gtlafthvh2>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <vvtskvjaqcorex5xpeyyyuvljgikpdyo2vbncgmsdlutpnfaeb@u5gtlafthvh2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,138 +95,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Luca Ceresoli,
 
-2025=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 11:23, =
-Luca Ceresoli <luca.ceresoli@bootlin.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:
->
-> Hello Maxime, Shawn, Liu, all,
->
-> On Fri, 09 May 2025 15:53:26 +0200
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->
-> > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a=
- DRM
-> > bridge, and the only one supported from now on. It is the first milesto=
-ne
-> > towards removal of bridges from a still existing DRM pipeline without
-> > use-after-free.
->
-> I applied on drm-misc-next patches 3-17,20-21 as they match all the
-> criteria:
->  - At least a Acked-by (or R-by maintainers)
->  - patch is for drm-misc
->
-> Being my very first commits to drm-misc, I tried to be careful, and
-> double checked all the patches with Louis (thanks!).
->
-> Here are the pending questions and plan for the remaining patches.
->
-> >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
->
-> This reverts the commit applied my mistake:
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b4=
-3b025bce6d790d3c79f4518
->
-> Neither the  original patch nor the revert has been reviewed/acked.
->
-> As the commit was a mistake, I'm applying the revert by the end of this
-> week (i.e. on Friday) unless there are better instructions.
+On 22/05/2025 15:50, Lucas De Marchi wrote:
+> + dri-devel
+> 
+> On Wed, May 21, 2025 at 10:42:35PM +0000, Juston Li wrote:
+>> Add tracepoints behind CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS for tracking
+>> global and per-process GPU memory usage.
+>>
+>> These are required by VSR on Android 12+ for reporting GPU driver memory
+>> allocations.
+>>
+>> v2:
+>> - Use u64 as preferred by checkpatch (Tvrtko)
+>> - Fix errors in comments/Kconfig description (Tvrtko)
+>> - drop redundant "CONFIG_" in Kconfig
+>>
+>> Signed-off-by: Juston Li <justonli@chromium.org>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>> drivers/gpu/drm/xe/Kconfig.debug     | 12 +++++++
+>> drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
+>> drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
+>> 3 files changed, 75 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/Kconfig.debug b/drivers/gpu/drm/xe/ 
+>> Kconfig.debug
+>> index 01735c6ece8ba..2371eeda0afd5 100644
+>> --- a/drivers/gpu/drm/xe/Kconfig.debug
+>> +++ b/drivers/gpu/drm/xe/Kconfig.debug
+>> @@ -111,3 +111,15 @@ config DRM_XE_USERPTR_INVAL_INJECT
+>>
+>>      Recommended for driver developers only.
+>>      If in doubt, say "N".
+>> +
+>> +config DRM_XE_GPU_MEM_TRACEPOINTS
+> 
+> is there any particular reason to make this user-configurable per driver?
+> Why aren't we making CONFIG_TRACE_GPU_MEM configurable (if needed, but
+> could just depend on CONFIG_TRACEPOINTS) and then drivers just use it.
 
-Really sorry for late. I was made aware of it later through a
-colleague's remark. There is no need to proceed with the revert.
-Acked-by : Inki Dae <inki.dae@samsung.com>
+Could be done like that too. Msm does unconditional select TRACE_GPU_MEM 
+which I thought wouldn't be acceptable so I suggested making it 
+configurable.
 
-Thanks,
-Inki Dae
+>> +    bool "Enable Xe GPU memory usage tracepoints"
+>> +    default n
+>> +    select TRACE_GPU_MEM
+>> +    help
+>> +      Choose this option to enable tracepoints for tracking
+>> +      global and per-process GPU memory usage.
+>> +      Intended for performance profiling and required for
+>> +      Android.
+>> +
+>> +      If in doubt, say "N".
+>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>> index d99d91fe8aa98..49ee20d54ede6 100644
+>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>> @@ -19,6 +19,8 @@
+>>
+>> #include <kunit/static_stub.h>
+>>
+>> +#include <trace/events/gpu_mem.h>
+>> +
+>> #include "xe_device.h"
+>> #include "xe_dma_buf.h"
+>> #include "xe_drm_client.h"
+>> @@ -420,6 +422,35 @@ static void xe_ttm_tt_account_subtract(struct 
+>> ttm_tt *tt)
+>>         xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, -(long)tt- 
+>> >num_pages, 0);
+>> }
+>>
+>> +#if IS_ENABLED(CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS)
+>> +static void update_global_total_pages(struct ttm_device *ttm_dev, 
+>> long num_pages)
+>> +{
+>> +    struct xe_device *xe = ttm_to_xe_device(ttm_dev);
+>> +    u64 global_total_pages =
+>> +        atomic64_add_return(num_pages, &xe->global_total_pages);
+>> +
+>> +    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
+>> +}
+>> +
+>> +static void update_process_mem(struct drm_file *file, ssize_t size)
+>> +{
+>> +    struct xe_file *xef = to_xe_file(file);
+>> +    u64 process_mem = atomic64_add_return(size, &xef->process_mem);
+>> +
+>> +    rcu_read_lock(); /* Locks file->pid! */
+>> +    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)), 
+>> process_mem);
+>> +    rcu_read_unlock();
+>> +}
+>> +#else
+>> +static inline void update_global_total_pages(struct ttm_device 
+>> *ttm_dev, long num_pages)
+>> +{
+>> +}
+>> +
+>> +static inline void update_process_mem(struct drm_file *file, ssize_t 
+>> size)
+>> +{
+>> +}
+>> +#endif
+>> +
+>> static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+>>                        u32 page_flags)
+>> {
+>> @@ -528,6 +559,7 @@ static int xe_ttm_tt_populate(struct ttm_device 
+>> *ttm_dev, struct ttm_tt *tt,
+>>
+>>     xe_tt->purgeable = false;
+>>     xe_ttm_tt_account_add(tt);
+>> +    update_global_total_pages(ttm_dev, tt->num_pages);
+>>
+>>     return 0;
+>> }
+>> @@ -542,6 +574,7 @@ static void xe_ttm_tt_unpopulate(struct ttm_device 
+>> *ttm_dev, struct ttm_tt *tt)
+>>
+>>     ttm_pool_free(&ttm_dev->pool, tt);
+>>     xe_ttm_tt_account_subtract(tt);
+>> +    update_global_total_pages(ttm_dev, -(long)tt->num_pages);
+>> }
+>>
+>> static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct 
+>> ttm_tt *tt)
+>> @@ -1648,6 +1681,15 @@ static void xe_gem_object_free(struct 
+>> drm_gem_object *obj)
+>>     ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
+>> }
+>>
+>> +#if IS_ENABLED(CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS)
+>> +static int xe_gem_object_open(struct drm_gem_object *obj,
+>> +                  struct drm_file *file_priv)
+>> +{
+>> +    update_process_mem(file_priv, obj->size);
+>> +    return 0;
+>> +}
+>> +#endif
+>> +
+>> static void xe_gem_object_close(struct drm_gem_object *obj,
+>>                 struct drm_file *file_priv)
+>> {
+>> @@ -1660,6 +1702,8 @@ static void xe_gem_object_close(struct 
+>> drm_gem_object *obj,
+>>         ttm_bo_set_bulk_move(&bo->ttm, NULL);
+>>         xe_bo_unlock(bo);
+>>     }
+>> +
+>> +    update_process_mem(file_priv, -obj->size);
+>> }
+>>
+>> static vm_fault_t xe_gem_fault(struct vm_fault *vmf)
+>> @@ -1757,6 +1801,9 @@ static const struct vm_operations_struct 
+>> xe_gem_vm_ops = {
+>>
+>> static const struct drm_gem_object_funcs xe_gem_object_funcs = {
+>>     .free = xe_gem_object_free,
+>> +#if IS_ENABLED(CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS)
+> 
+> in future we may have other reasons for this, then we will need to
+> refactor these ifdefs. So, maybe just assign this without ifdef, which
+> allows to remove the ifdef around xe_gem_object_open. The impl of the
+> update_* functions could also be in the form
+> 
+> static void update_...()
+> {
+> #if IS_ENABLED(CONFIG_...)
+> #endif
+> }
 
+It was also my suggestion to do it like this to avoid having adding an 
+->open() callback which ends up an empty function call on all builds 
+expect Android kernels. I agree ifdef-ery is heavy like this, but in 
+this case it feels justified.
 
->
-> >       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_=
-bridge_alloc() API
->
-> This patch affects multiple drivers. Running get_maintainers.pl
-> points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
-> this looks like due to the 'N:' line in:
->
-> ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-> M:      Shawn Guo <shawnguo@kernel.org>
-> M:      Sascha Hauer <s.hauer@pengutronix.de>
-> R:      Pengutronix Kernel Team <kernel@pengutronix.de>
-> ...
-> T:      git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.=
-git
-> N:      imx
-> ...
->
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L2511-2528)
->
-> Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
-> file that is touched by the patch. That regexp appears overly generic to =
-me.
->
-> Shawn, can it be fixed by making it less generic?
->
-> If not, can we at least add a band-aid 'X:' entry for
-> drivers/gpu/drm/bridge/imx?
->
-> I think the other matching entry is the one to consider:
->
-> DRM DRIVERS FOR FREESCALE IMX BRIDGE
-> M:      Liu Ying <victor.liu@nxp.com>
-> L:      dri-devel@lists.freedesktop.org
-> S:      Maintained
-> F:      Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.=
-yaml
-> F:      Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixe=
-l-combiner.yaml
-> F:      Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixe=
-l-link.yaml
-> F:      Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2=
-dpi.yaml
-> F:      drivers/gpu/drm/bridge/imx/
->
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L7940-7948)
->
-> However it does not list any trees. I _guess_ drm-misc applies here as
-> a fallback as well as common sense.
->
-> Liu, should this entry have a 'T:' line for drm/misc?
->
-> >       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_al=
-loc() API
->
-> Not acked/reviewed, some discussion happened. I am resending it in v4,
-> possibly with updates based on the discussion.
->
-> But it has the same issue discussed above, with get_maintiners.pl
-> pointing at Shawn Guo's tree, so in the future I'm assuming this goes
-> to drm-misc unless there are news about that.
->
-> >       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
->
-> No feedback, resending in v4.
->
-> >       drm/todo: add entry to remove devm_drm_put_bridge()
->
-> This involves documentation maintained on another tree. Where should it
-> be applied? There are two matching entries in MAINTAINERS:
->
->  * DRM DRIVERS -> the drm tree
->  * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
->
-> To me it looks like the second is obviously the closest match as we are
-> dealing with DRM bridges, so I'm applying this as well on Friday unless
-> there are better instructions.
->
-> Best regards,
-> Luca
->
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+Regards,
+
+Tvrtko
+
+>> +    .open = xe_gem_object_open,
+>> +#endif
+>>     .close = xe_gem_object_close,
+>>     .mmap = drm_gem_ttm_mmap,
+>>     .export = xe_gem_prime_export,
+>> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/ 
+>> xe/xe_device_types.h
+>> index f81be293b260e..dd9d411e66dac 100644
+>> --- a/drivers/gpu/drm/xe/xe_device_types.h
+>> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+>> @@ -639,6 +639,14 @@ struct xe_device {
+>>         unsigned int fsb_freq, mem_freq, is_ddr3;
+>>     };
+>> #endif
+>> +
+>> +#if IS_ENABLED(CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS)
+>> +    /**
+>> +     * @global_total_pages: global GPU page usage tracked for gpu_mem
+>> +     * tracepoints
+>> +     */
+>> +    atomic64_t global_total_pages;
+>> +#endif
+>> };
+>>
+>> /**
+>> @@ -700,6 +708,14 @@ struct xe_file {
+>>
+>>     /** @refcount: ref count of this xe file */
+>>     struct kref refcount;
+>> +
+>> +#if IS_ENABLED(CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS)
+>> +    /**
+>> +     * @process_mem: per-process GPU memory usage tracked for gpu_mem
+>> +     * tracepoints
+>> +     */
+>> +    atomic64_t process_mem;
+>> +#endif
+>> };
+>>
+>> #endif
+>> -- 
+>> 2.49.0.1143.g0be31eac6b-goog
+>>
+
