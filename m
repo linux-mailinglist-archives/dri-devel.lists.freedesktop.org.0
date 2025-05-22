@@ -2,55 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7F8AC0C17
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6333AC0C1F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:01:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2B110EA09;
-	Thu, 22 May 2025 12:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7FA110EC2C;
+	Thu, 22 May 2025 13:01:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G3Cpqv5+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pk53UXSb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77BC810ECAE;
- Thu, 22 May 2025 12:59:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3BC0E5C58CC;
- Thu, 22 May 2025 12:57:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA56BC4CEE4;
- Thu, 22 May 2025 12:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747918762;
- bh=EzfhMIhRFIBM3Fwseht3BF96lg8TCY/2uetMvYqb0rk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G3Cpqv5+9gbs7tVHCLE4dTolFc/WK1cnGNOuDbi2r9P86s69Oibbw5EyCcXMS6caJ
- WF2MgwzXEYENObgeTtgmait9gV/geM0iIErCdC9w9t2prr0a7nSMvM2E1uXlEz4uIw
- UjMju2ewQ1/OHObhV5bHiXBMWphCoxXfOBCYApOJxc140kfTX1oOds+4Rgn2xeWOFF
- fC/9WL24/hZ/WzdszziEnBtKZHSzkQtg+a4JGqatBACIhv2Zc669QhHbTDm6M/Q3V7
- w8MYEdsWxNs/q9zTCxwo0XQp86Irgo1ZUjxjMKsSk4GM+O0UVpeNNvK5dT7mUlbIFm
- /Jkhuva4PkqeQ==
-Date: Thu, 22 May 2025 14:59:16 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
- context
-Message-ID: <aC8fpEXYWZ9Oy41J@pollux>
-References: <20250522112540.161411-2-phasta@kernel.org>
- <20250522112540.161411-3-phasta@kernel.org>
- <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
- <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
- <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC2A10EC2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:01:51 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M7RbuM006603
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:01:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=1Va7H0zGw1n7ohA8VR61LEvC
+ mrMBFOONi8NjfKB0iMM=; b=pk53UXSbEKVsByP6VaiTejrCCylvfjcm/S7v3MvD
+ IjTxJu66CMyQgoZ9QATWgfsWiOx1G6FcI9GjQlw2vgLpKhZhvk8WLquB5bgEls9U
+ lqsGKsLWxwx9SLOnDxVBPlXnJ4+kofQv0kLFHZfvwUFhLGBKqE6JdlCSlMtFG7pA
+ oixcbMM+M8CIwaV9WPfS1unOSm7XXaJYnAV9Ir9E0AFlAka3l2H/c8VISYsDGiAe
+ dJhtxqwL6uTSwEL/mc6sRfSbTNxYv7j+0Ulb7C/nARo7UQnZSvZEo7YDXkLOdTkb
+ eyVW83/nuJU/cGu2tVCCGnnjC1O6m3VPVvL7Zi3WUeqwvA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf0pg0s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:01:49 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-231d0c0fdedso48520155ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 06:01:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747918909; x=1748523709;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1Va7H0zGw1n7ohA8VR61LEvCmrMBFOONi8NjfKB0iMM=;
+ b=Po8As9txtOXC4nHZl46RDRbCivP9Pc39sxuCbYHWld0SQj0z09kJK2Yzcq5e4SBRxx
+ grct7yk2Py8ujCDb9SnPuw5M/EZvSjfEwml/+JJPW4GKi8+L6edf2k2TaInykc2CbQL3
+ 58NI0Q6v4pOxDiJN1rJL6oF3jeoIR+2DGgEYRLBk93AvV3jqUfJB44AfcfPtMqFDHxdr
+ eQn9LOjyaKm7NkzB6DXENP2Q4NjF427VVisIW1apCz6lhH0YJwgmWSaIdRsU56RF0jg4
+ 5tkxKZR3zPeQ2YuyUXfMXHwe3MS0aEaR6XBEhnK8X3JOcUoHaJfqElOEGRYs9tJxAoRR
+ +zcA==
+X-Gm-Message-State: AOJu0Yxa5blxOKd2mqor1yyZKUfk3lmOLL46Vwl8pTOEPEgHDfJtLU3L
+ hQirVMObEq8pMq7+/A2HGaDLw0bEKE1ajvkUXQlJrzD35QSdo0ZS5XZ983nxpQWIP1TG+p5vghD
+ DLGArAqnRhspBfZ/9URCt6pUjm16P0KByLhuZMSwyOhUSq3waOXw9KKeW8m+Q61XEur6rj38=
+X-Gm-Gg: ASbGncsxHJI2E39AkPlE6Ci3PD/kKYRDuRCk7nhj/CDB/U76Lz6eEj9nibbxPF2NW5T
+ DDyNs2loI8tKDknjwiAfeGpWH4TCrsg4daZMaKF5r/TI2gc99B2Vlprey9aNWZe407r2iSn5R8Q
+ Arq1WUGWVdsla998WKPHnReJT3rdxhByi3PHPVxuQolPePSkyzWhsEPuOa9WIuRKRWjixkrEhjo
+ 0CCmOhM6aD9K3tQ38w8BSQwFvFt7vqoQKijYhe4grXZ1fpjPhU2uxttJc0ThlbawS62WqQ3QMEn
+ 4WXooouaVAk36puj/4Ru5utuh8/+wtVdfZQiEmmRo9bXjHY9jxhytasOkv2HwMV/wMbvyPyTRVY
+ =
+X-Received: by 2002:a17:902:f78c:b0:220:d909:1734 with SMTP id
+ d9443c01a7336-231de35fd54mr352957505ad.14.1747918908948; 
+ Thu, 22 May 2025 06:01:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWcapviWpy6Ic0ZsxpD9ogTQFH4oSPBeizbZffsn9KaKLGOkePsZXqw/dIZjtdtfudXhxsKQ==
+X-Received: by 2002:a17:902:f78c:b0:220:d909:1734 with SMTP id
+ d9443c01a7336-231de35fd54mr352957035ad.14.1747918908510; 
+ Thu, 22 May 2025 06:01:48 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-328084ca4fasm32575851fa.39.2025.05.22.06.01.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 May 2025 06:01:47 -0700 (PDT)
+Date: Thu, 22 May 2025 16:01:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH] drm/panel: abstract of_panel_find()
+Message-ID: <bomzckpaxqthpwx4wqrxiywkz5qnoqoob4jfiguqag2gwwakfb@c3ek6rvkwkdm>
+References: <20250522100036.2529624-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com>
+In-Reply-To: <20250522100036.2529624-1-jani.nikula@intel.com>
+X-Proofpoint-GUID: 524LESCI5-Jj7Wf5nXOiOaqkZGscHWU3
+X-Authority-Analysis: v=2.4 cv=J/Sq7BnS c=1 sm=1 tr=0 ts=682f203d cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=nbWh89gfPRKmCwx2w1AA:9
+ a=CjuIK1q_8ugA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: 524LESCI5-Jj7Wf5nXOiOaqkZGscHWU3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEzMiBTYWx0ZWRfX0goF56Y3PFpW
+ ilIgkgBXgcjXx2x+V3wFJuigt1b6XzzLhuly5d/ldKeB4Wlj7dReOrQ8beWy3sg44zSLcOdd6Xq
+ WsNKHYVWTBsvcHSoRa4oKkIxahDSB0qaIueEJRdOCRDVq4witfDQX/A+SEeNS8QG8b0nmHpRKqk
+ wfofiRWQ0OqmGXAc68OO9DiT7iN1Vju5MnELZTeV7cHKh829+7FW+vU68c2HgtnP38HYyXmTrYU
+ w7DZkQ4e2sv9A4Ejh0rybJbvPbi1+lFjlJm6ap9qKAauxxrjlnF86WIWFVFrFyzX9BR7drI5C/a
+ oXpOiF0XTi9sFta7kfRmYgo4+oOlML0Mc8guilNMj7RswhKW/FaiCGNiIJsMaSzwAxaVagyE3aB
+ 9RQsIbR+1C62LBXx29WRyU81yyYzLxmCvA2GtJAHgJ8Npbqu7kZG2y/JnDPspOYNTiEvAO0y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015 mlxlogscore=928 suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +120,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 02:34:33PM +0200, Christian König wrote:
-> See all the functions inside include/linux/dma-fence.h can be used by everybody. It's basically the public interface of the dma_fence object.
-
-As you write below, in certain cases it is valid to call this from drivers, so
-it's not unreasonable to have it as part of the public API.
-
-> So testing if a fence is signaled without calling the callback is only allowed by whoever implemented the fence.
+On Thu, May 22, 2025 at 01:00:36PM +0300, Jani Nikula wrote:
+> Add a helper to wrap OF-specific calls in drm_panel_add_follower() in
+> preparation for adding an ACPI equivalent in the future. No functional
+> changes.
 > 
-> In other words nouveau can test nouveau fences, i915 can test i915 fences, amdgpu can test amdgpu fences etc... But if you have the wrapper that makes it officially allowed that nouveau starts testing i915 fences and that would be problematic.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_panel.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+> 
 
-In general, I like the  __dma_fence_is_signaled() helper, because this way we
-can document in which cases it is allowed to be used, i.e. the ones you descibe
-above.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-test_bit() can be called by anyone and there is no documentation comment
-explaining that it is only allowed under certain conditions.
-
-Having the __dma_fence_is_signaled() helper properly documented could get you
-rid of having to explain in which case the test_bit() dance is allowed to do
-over and over again. :-)
-
-I also think the name is good, since the '__' prefix already implies that there
-are some restrictions on the use of this helper.
+-- 
+With best wishes
+Dmitry
