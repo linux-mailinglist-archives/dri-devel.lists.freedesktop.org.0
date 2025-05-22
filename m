@@ -2,65 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8457AC04F8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 08:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA468AC0531
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 09:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A71310EF18;
-	Thu, 22 May 2025 06:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1FF10E715;
+	Thu, 22 May 2025 07:03:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ko2ZRKEw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Itvx5SIQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3E310E715;
- Thu, 22 May 2025 06:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747897161; x=1779433161;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=EaJTGfLSy5tBF5KqdT9Pas9+R9VheerSann76xC34oY=;
- b=ko2ZRKEwhS10NhK+G0BaOCDh7l+d+FBX6LEirnv4G1R32B5hCMYMQP75
- FkXG2OFCJykZXox4t+AtGpceQjIfqpVv2sYQ7MHUYmZTx0aVm2BnJ8Ksi
- tZfHiJc99GBL2XZs2BB/C2UCDmOsTdc6YEQQ+1AoaVMBAM+/JiGV7i3wl
- gskJR70eNYHEQpRVwlW2ZMO2nIoHH6GhLDAtebu8SR7HbecD1zhw1Tov2
- pgTcjvtE80KGJ+eCskPVORrtzFyRfRVUFoGaJqPOO1k7TIJWLGOOx3+xA
- o4YBPzhlfkw4hEUWEBerd8GSsMfqW1+duVErbZDES8pFcPmdQ14szobkl g==;
-X-CSE-ConnectionGUID: xCfnZ5tTTqGhxMMtEIH13A==
-X-CSE-MsgGUID: +FEkhHXVRwuOrgxlxLp/UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60954643"
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="60954643"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 23:59:20 -0700
-X-CSE-ConnectionGUID: HTA9Y1E6S26QqTNPiK+HUw==
-X-CSE-MsgGUID: 5MhUpty7RZirO0QwejX6qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="140975294"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost)
- ([10.245.245.66])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2025 23:59:16 -0700
-Date: Thu, 22 May 2025 09:59:13 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <aC7LQUtxXKgOVTVt@jlahtine-mobl>
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E4310E715
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 07:03:26 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5fff52493e0so8952757a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 00:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747897405; x=1748502205; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QASu0n7wbgfaqjcnh7zTxVQmk98xCzaXsu33gQpTePg=;
+ b=Itvx5SIQdr5TJ8+ceI39T8V7IIqOIsv0+ueexdPwOutnl1hDJoVTEBMFSmvXoojYh7
+ bIQ6O4Epp8dR7FS5E1tk7YEhABUOA6rripDZw+f+AaWIixJvXhp5rhkD1PFN5iFP4w9k
+ ppoG9s8XjNXH3IX07rsKXB8UUt5liTSjeKV8N0fB3x2x3F8E3V5r4Jbq4theoT5pbnsS
+ IxSwN9AmGokGh+O14zgLPntgdff1mSGAPGfy9J8hnzRvUrI5PRAUclM/X/bK+5ZSZoH1
+ wKuTULGg1NF947Wfar41/5fs7Ux/GILvNaFhbPjFpCYtyTaqqleQoz2nqCn8JRmE6B6Z
+ s4SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747897405; x=1748502205;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QASu0n7wbgfaqjcnh7zTxVQmk98xCzaXsu33gQpTePg=;
+ b=adB15R6ebeT9/nPL44iWzCzVhuYb6cdTSSz0FX+IY09/YlcY0U4H8QLBXfzw9NjPgf
+ c9Z53Lsffoe3M6xnHFC0Y2Ha0W56ehusU3lIbZyzXIokl8XZ+7CDN6zgqV0Ku0m5utM9
+ hlZJMdvcTwJD5rCsq3oVCHpuSG4IJusiCavCnEXAhTJyqaH7si11h5Un9sUCx9qW7XKI
+ 2iHwP0spAeeZbrviDZp+KK5sMm0kKQIuT7uLb6Du5meNqDI8FRpTryHeEq4CDQPxYGrM
+ mUTlqhr4BRBPoLUszIyqVe3xl0H0ogkUukSfvPNYvvQIKIQ7AmqBcQaTUp7UCu7G6nQa
+ 8YeA==
+X-Gm-Message-State: AOJu0YzjTQ3UMVKJ/9OSLmUkm/T6ngPjEV/mLd6Jp8I8gPJGN2OD7eeG
+ caJ8e798wzlNiqsGVErFaAM5pj0k+9DH1FQEBOEpYgCIaLdiHFlDVhHeUJyyi4L1BaswC18HWRJ
+ L284QFfwE9NMEQNfWGZLPWJPG77eUiXg=
+X-Gm-Gg: ASbGncsMzckDOsCPkIpbSNdBN/THTvA/hYF6l638i150ckpxqQd6O/0PX9qVpxIiqBE
+ 2weZll2fIWh8bs+t6FY0kZ/SmF475ZbBFLWokGvtVud84jvx482WplMSIdlsnQqhZdt2wcHpAzy
+ dJdiB/kogidU+3JjoOk18TDtVS2puAvYc=
+X-Google-Smtp-Source: AGHT+IGOqrSFnE61mkfV9ZVoYVqabTtnpohyYE6OV2be+ISriSKd2LqnnymMWj+mOfrDsjsGp8ZNCKBm0grKHEbHuRM=
+X-Received: by 2002:a17:907:7e87:b0:acb:5c83:25b with SMTP id
+ a640c23a62f3a-ad52d42bf0cmr2329462766b.7.1747897404339; Thu, 22 May 2025
+ 00:03:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250502034046.1625896-1-airlied@gmail.com>
+ <20250507175238.GB276050@cmpxchg.org>
+ <CAPM=9tw0hn=doXVdH_hxQMvUhyAQvWOp+HT24RVGA7Hi=nhwRA@mail.gmail.com>
+ <20250513075446.GA623911@cmpxchg.org>
+ <CAPM=9tw+DE5-q2o6Di2POEPcXq2kgE4DXbn_uoN+LAXYKMp06g@mail.gmail.com>
+ <20250521144312.GE773385@cmpxchg.org>
+In-Reply-To: <20250521144312.GE773385@cmpxchg.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 22 May 2025 17:03:12 +1000
+X-Gm-Features: AX0GCFvXFWotGY0gxOq3H1gGVQsCFG1oE3R-IrlQ6g1awmYaBT_6hd_z90A3vuk
+Message-ID: <CAPM=9tzMc18JzG3MD8hDY1hRDFEsBCHzKSNH_EqyZ-NYqMsBzw@mail.gmail.com>
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, christian.koenig@amd.com, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,53 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+On Thu, 22 May 2025 at 00:43, Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Wed, May 21, 2025 at 12:23:58PM +1000, Dave Airlie wrote:
+> > >
+> > > So in the GPU case, you'd charge on allocation, free objects into a
+> > > cgroup-specific pool, and shrink using a cgroup-specific LRU
+> > > list. Freed objects can be reused by this cgroup, but nobody else.
+> > > They're reclaimed through memory pressure inside the cgroup, not due
+> > > to the action of others. And all allocated memory is accounted for.
+> > >
+> > > I have to admit I'm pretty clueless about the gpu driver internals and
+> > > can't really judge how feasible this is. But from a cgroup POV, if you
+> > > want proper memory isolation between groups, it seems to me that's the
+> > > direction you'd have to take this in.
+> >
+> > I've been digging into this a bit today, to try and work out what
+> > various paths forward might look like and run into a few impedance
+> > mismatches.
+> >
+> > 1. TTM doesn't pool objects, it pools pages. TTM objects are varied in
+> > size, we don't need to keep any sort of special allocator that we
+> > would need if we cached sized objects (size buckets etc). list_lru
+> > doesn't work on pages, if we were pooling the ttm objects I can see
+> > being able to enable list_lru. But I'm seeing increased complexity for
+> > no major return, but I might dig a bit more into whether caching
+> > objects might help.
+> >
+> > 2. list_lru isn't suitable for pages, AFAICS we have to stick the page
+> > into another object to store it in the list_lru, which would mean we'd
+> > be allocating yet another wrapper object. Currently TTM uses the page
+> > LRU pointer to add it to the shrinker_list, which is simple and low
+> > overhead.
+>
+> Why wouldn't you be able to use the page LRU list_head with list_lru?
+>
+> list_lru_add(&ttm_pool_lru, &page->lru, page_to_nid(page), page_memcg(page));
 
-Here goes another drm-intel-next-fixes PR towards 6.16-rc1.
+I for some reason got it into my head that list_lru objects weren't
+list_head, not sure why, guess I shall spend next week exploring this
+possibility.
 
-Thunderbolt disconnect fix for MTL/ARL/LNL, DDI port clock fix for PTL+ and WQ
-allocation error check for display init code.
-
-Regards, Joonas
-
-PS. CI results were for one patch more, which I reverted during review
-of the automation picked patches, but results should still be valid.
-
-***
-
-drm-intel-next-fixes-2025-05-22:
-
-- Fix for Thunderbolt sink disconnect on MTL/ARL/LNL
-- Fix for DDI port clock select mask on PTL+
-- Add error checks for alloc_ordered_workqueue() and alloc_workqueue() in display
-
-The following changes since commit c4f8ac095fc91084108ec21117eb9c1fff64725d:
-
-  Merge tag 'nova-next-v6.16-2025-05-20' of https://gitlab.freedesktop.org/drm/nova into drm-next (2025-05-21 05:49:31 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2025-05-22
-
-for you to fetch changes up to f4c7baa0699b69edb6887a992283b389761e0e81:
-
-  drm/i915/display: Add check for alloc_ordered_workqueue() and alloc_workqueue() (2025-05-22 09:25:57 +0300)
-
-----------------------------------------------------------------
-- Fix for Thunderbolt sink disconnect on MTL/ARL/LNL
-- Fix for DDI port clock select mask on PTL+
-- Add error checks for alloc_ordered_workqueue() and alloc_workqueue() in display
-
-----------------------------------------------------------------
-Haoxiang Li (1):
-      drm/i915/display: Add check for alloc_ordered_workqueue() and alloc_workqueue()
-
-Imre Deak (2):
-      drm/i915/ptl: Use everywhere the correct DDI port clock select mask
-      drm/i915/dp_mst: Work around Thunderbolt sink disconnect after SINK_COUNT_ESI read
-
- drivers/gpu/drm/i915/display/intel_cx0_phy.c       | 27 ++++++++-----------
- drivers/gpu/drm/i915/display/intel_cx0_phy_regs.h  | 15 ++++++++---
- .../gpu/drm/i915/display/intel_display_driver.c    | 30 ++++++++++++++++++----
- drivers/gpu/drm/i915/display/intel_dp.c            | 17 ++++++++++++
- 4 files changed, 63 insertions(+), 26 deletions(-)
+Dave.
