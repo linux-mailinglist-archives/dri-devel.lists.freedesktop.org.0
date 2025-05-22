@@ -2,116 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D9BAC03D4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 07:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDBCAC03DC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 07:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 433039ADF4;
-	Thu, 22 May 2025 05:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D37549B296;
+	Thu, 22 May 2025 05:13:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TgEz0WyI";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Nte9RMJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B539ADF2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:11:49 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LJHZlK001758
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:11:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yH0tvCc3KicUvHT3d3nDCnjROeZOFwEqUxq5ncMRAaQ=; b=TgEz0WyINhyGWgPz
- HGsDvSNeAOndlR+CKWxEVyTPCzPDJmcKZFaADEXCk3a4ISnBj7345Tv1JKqwt96u
- 5P63qIIkXGcAck20iAxxQ5zGRPcDqspZ8zFqNVtSy/Eu5aJXKTLYcX0JJY02J32E
- zwRDrW62UrGJeFBN6o8t2sMxccNUgxTJ5AEvYsgggtCXNz4nD44jBHs2vnHs0Tqq
- TYdo5yEpLIzu3G4febfZ6XC5qKy/YMLVJ4IQPH6wOX0Um8bI44k8izE+bL1VayhL
- SBl9oPqRaVPiG9XgoJsNq5Racb8thhHeIzWnos3yNjD1J7FDyh473IFAnMYhtUBJ
- M9d4XQ==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6w1ka-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:11:48 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-7377139d8b1so6572076b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 22:11:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747890707; x=1748495507;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yH0tvCc3KicUvHT3d3nDCnjROeZOFwEqUxq5ncMRAaQ=;
- b=HBO0a9Q31n4Qu87q/d6H/e4UrDQ/aipeeKfOFZ8/qbOThvB9pqIAWkzPCyRydPoPE1
- c3x23s/JJVecXZMUWVsTwGxmu5Hy89Ta2wclqjniup9Qy2EcHgYWyGG12v1a5wDOAfOE
- vvjNz+5EIU+zaGV5EBloXMF92J3kKNMPCPG3/X75YMzj2uIXp8XJQnbJxeV6Wiu46S4P
- hQB8i2Ns78TM9rzjBAWBPuJfpKFWVN6I0Qqv6aDpEunu7WyI7hyDRrlcO/f87fqX3oeI
- bErS9M1w4+xqdIl7aYx6FnY7JJRNwB/xTt5a2tC5TNce+dSqGHRlgVYIMV8Zw/tQu8N3
- rrDg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNDBPo5B1CDnnrqTkG5Gj+41t6dCJq1UM+28ctm0FNALKZsIPcMiyR1Je6oE0vRHRUfK6S/S3WNAw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyvZLVwSNkHnVnFCjyrUkxc1tqRYDO4pf/XeFWG98Z75l7Wawnu
- eE/9q9lk4TuWy41ITnbRzhHBmgdNAS+3RkgnRv3CPqftkxyM+VMIZNUqq7iZ1Tu1J939AOMlAC7
- S2sQHGwc0lHKxx+V7UDVjUeWuKJ0CW6zeZaeCOBfQX12wVboYS7HyQRn766JJfN96Vz/h258=
-X-Gm-Gg: ASbGncsOqMGULmi/As66smbuokW9i6MqNUWXLYK6380nmj3fmR27+a05Vv5zdYVOzMJ
- Mdqh5KrlVBXvXVKxWBXjzcis9sHAhljpA2gESMmpGtbrpo+E7/cGSjkfe/W5/g3H15N7YzSnSa7
- nT5OE6JGnpXI1g9Aj68O9oSKu+eBniBO4mow3L44+BbnIIsoKdulrnNUj0aHdxz8U6EDhACBk1/
- 0ZEMt16//rrDsrfkNuwPnyWQlfQGNwW4SGijr5OAyjJ3tMmQ8gX990pitCQOYgMOynq4OZ+D/Xp
- YmZxobuymKD88OHDOkqsH4Jh7Kt+sZ8OHKbuWqk=
-X-Received: by 2002:a05:6a00:369a:b0:740:afda:a742 with SMTP id
- d2e1a72fcca58-742a9613980mr33868061b3a.0.1747890707060; 
- Wed, 21 May 2025 22:11:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHG/dTVa4GXPqwNUeSN0A0GCG5iVoz9ExoAxjf6/frJwSzFAr6YcpgnUtwrLlA4Z+C+vjNWhw==
-X-Received: by 2002:a05:6a00:369a:b0:740:afda:a742 with SMTP id
- d2e1a72fcca58-742a9613980mr33868031b3a.0.1747890706658; 
- Wed, 21 May 2025 22:11:46 -0700 (PDT)
-Received: from [10.206.107.125] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-742a982b853sm10824726b3a.98.2025.05.21.22.11.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 May 2025 22:11:46 -0700 (PDT)
-Message-ID: <e9f540ce-725f-4def-9b95-edb86429e96b@oss.qualcomm.com>
-Date: Thu, 22 May 2025 10:41:42 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 132349B25C;
+ Thu, 22 May 2025 05:13:37 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LIFefW013430;
+ Thu, 22 May 2025 05:13:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=godeQjSfZ3mm7u5AuFZu4jej25Ii63iNVRL
+ q0zaKXwg=; b=Nte9RMJDxM3RnnmC0muzTBrrSUvSTGEFFCNG6SoynZxTtCR/N3Y
+ Ap1i3gwfNnNcMJlukONZUYfti7mHudJIjSYZByxx2tLAYJTsqzhBDsAlumcn7m97
+ bO9YJVH0oz4EYP4e49ehmQCP2PcwCDphILnqUmYIRq5Lp8GW42W2Iw31UlOdxeBJ
+ uGnFrB1/KFoX594+3+ixxJ6BYadlxkiVMC+CO4vCsz0iqqO6CtVWJ6LrAytfrdsq
+ i7Kz+rHqPkByu0KJ55A+/qoZp3K63CGAiHir+HLXvtyhjdHFXDd8ZUPbB0Au88iZ
+ 3mQb1CJ/mO6ZFljU/PFYgY86NEg8GB5cA4Q==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwh5d5fy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 May 2025 05:13:24 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 54M5DLHU005556; 
+ Thu, 22 May 2025 05:13:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 46pkhmrbar-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 May 2025 05:13:21 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 54M5DKJt005541;
+ Thu, 22 May 2025 05:13:20 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
+ [10.213.99.91])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 54M5DKHF005535
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 May 2025 05:13:20 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
+ id EACD0580; Thu, 22 May 2025 10:43:19 +0530 (+0530)
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
+ dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com
+Subject: [PATCH v8 0/2] Add DSI display support for SA8775P target
+Date: Thu, 22 May 2025 10:43:16 +0530
+Message-Id: <20250522051318.1783905-1-quic_amakhija@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/5] misc: fastrpc: Fix initial memory allocation for
- Audio PD memory pool
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org
-References: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
- <20250513042825.2147985-4-ekansh.gupta@oss.qualcomm.com>
- <a277c632-1701-49d8-a7e0-80d28afd3a2d@oss.qualcomm.com>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <a277c632-1701-49d8-a7e0-80d28afd3a2d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: iK1CPSuVcuhwdZbUGwMgLTZg5--kJBZx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDA0OCBTYWx0ZWRfX4NmJyEh7drZN
- YV6+Dov0ZOL+iLhOoyFhtW59W/iwK2yarCfManoPk/d8a2cMK6fouVJm2Ujc/NwdVaF/Py1aW34
- E8NKVrS8tvxzi/WnBubCubRTL6elTlLXTkywkxWocOugOupm6fCO9JcEJf7og82BBzYxzklmgp0
- tKIyH+Cgpa0rGBVmdZbrsrPCX3DWaEilHUH6MpH3G1+cD5WtB4ypUbz8GW4H7nXu0rP7+3Ua+k7
- rc42NcxHZILsfYnB5wwWfZgjbedAy3eu8XVy1E9MDWdd9xSCd7yWrDj/79M+4PcBkuiN0B5krC+
- fUEASPZzbc0t8uaajHtGOgPE6MJqxjgNPrnt9kSBqp74AkJzs8wNMeTy+PIqmwBBTrz5HUTAQ+0
- NdwjWuhlmTmMZpjtS7vd1TP26yJeVGr4gljNl32fzZOlhcGCtcHkF6BYafYDZbhNHcYU7Bpy
-X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682eb214 cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=Z1Fpul6eystrl0X_OCAA:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-ORIG-GUID: iK1CPSuVcuhwdZbUGwMgLTZg5--kJBZx
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDA0OSBTYWx0ZWRfX+pSRTD5e36gO
+ c8NjfX+CURA5lQMBvMuGPH9jwtvOX5oZRQ0EQCJp48CZFFit18zYLlFS0SgvrxqXzmHNHnuAYhj
+ CpCh5AyhO4BCeaAqUaYsVYFydQpkOAHZIFHj0B0LbsU9Z5JSl8UfadAr+DifyFWBOvOlZZ1byow
+ kr6kQH3GaAYse4XYEe6iX3u2p26YfFxX7E6wEOByy3riS0u8m5LoPI2kyFaYKC2jMxMciN0Ggik
+ E708/nIR8uGxpMX7VZqo/Qj6lO4DGFEymw6+IFGBKfv4InG7dTiJdyb+47iR5N9V5kyZuCjFIyI
+ 6QrySMgEig6vKEn+JHvUduHRvOdIN9UGSc/OFM6okZBCQvXcy9G53oGJoAXxPO7QkLRdxR0DXZj
+ 6sMAG/IPYS7LC6hN5ZIscLILCmsc4Fj4ogm5RpEbxC/cccCQBdRp4Cm093t57yz8LAAvqJJ6
+X-Authority-Analysis: v=2.4 cv=XeWJzJ55 c=1 sm=1 tr=0 ts=682eb274 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=QlWjpmH-yOSsLRRY6RUA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: Y_1fPHHFusddgT-j52YZ335MJ4Bh7a4i
+X-Proofpoint-ORIG-GUID: Y_1fPHHFusddgT-j52YZ335MJ4Bh7a4i
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_02,2025-05-20_03,2025-03-28_01
+ definitions=2025-05-22_03,2025-05-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505220048
+ phishscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505220049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,59 +114,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series enables the support for DSI to DP bridge ports
+(labled as DSI0 and DSI1) of the Qualcomm's SA8775P Ride platform.
 
+SA8775P SoC has DSI controller v2.5.1 and DSI PHY v4.2.
+The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
 
-On 5/19/2025 5:11 PM, Srinivas Kandagatla wrote:
-> On 5/13/25 05:28, Ekansh Gupta wrote:
->> The initially allocated memory is not properly included in the pool,
->> leading to potential issues with memory management. Set the number
->> of pages to one to ensure that the initially allocated memory is
->> correctly added to the Audio PD memory pool.
->>
->> Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
->> Cc: stable@kernel.org
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>  drivers/misc/fastrpc.c | 7 ++++---
->>  1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index d4e38b5e5e6c..b629e24f00bc 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -1311,6 +1311,9 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->>  		goto err;
->>  	}
->>  
->> +	inbuf.client_id = fl->client_id;
->> +	inbuf.namelen = init.namelen;
-> inbuf is not used till the invoke call, why are we moving these two
-> lines here?
+---
+Changes in  v8: Fixed the review comments from Dmirty
+    - Renamed the opp table from dsi0_opp_table to mdss_dsi_opp_table in patch 1. [Dmitry]
+    - Referred the same mdss_dsi_opp_table opp table in mdss0_dsi1 node in patch 1. [Dmitry]
+    - Link to v7 : https://lore.kernel.org/all/20250513102611.1456868-1-amakhija@qti.qualcomm.com/ 
 
-I just moved it above so that the pagelen is updated properly.
+Changes in v7: Rebased and fixed the review comments from Dmitry
+    - Below four patches of v6 are merged. Removed them from this version.
+        - [08/11] drm/bridge: anx7625: enable HPD interrupts
+        - [09/11] drm/bridge: anx7625: fix drm_bridge ops flags to
+          support hot-plugging
+        - [10/11] drm/bridge: anx7625: fix anx7625_sink_detect() to
+          return correct hpd status
+        - [11/11] drm/bridge: anx7625: change the gpiod_set_value API
+    - Rebased the remaining two patches of the series. 
+    - Added anx7625 bridge supplies as fixed reulators, according to the power grid. [Dmitry]
+    - Link to v6 : https://lore.kernel.org/all/20250505094245.2660750-1-quic_amakhija@quicinc.com/
 
-Would you prefer storing pagelen to some local variable and then eventually
-assigning it to inbuf.pagelen before making the invoke call?
+Changes in v6: Fixed the review comments from konard.
+    - Added the reference voltage in patch 7 for vph-pwr. [Konard]
+    - Patches from 1 to 5 of version 5 of the series are accepted.
+      So removed from here.
+    - Link to v5 : https://lore.kernel.org/all/20250424062431.2040692-1-quic_amakhija@quicinc.com/ 
 
->
->> +	inbuf.pageslen = 0;
->
->
->>  	if (!fl->cctx->audio_init_mem) {
->>  		err = fastrpc_remote_heap_alloc(fl, fl->sctx->dev, init.memlen,
->>  						&buf);
->> @@ -1335,12 +1338,10 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->>  			list_add_tail(&buf->node, &fl->cctx->rhmaps);
->>  			spin_unlock_irqrestore(&fl->cctx->lock, flags);
->>  			fl->cctx->audio_init_mem = true;
->> +			inbuf.pageslen = 1;
->>  		}
->>  	}
->>  
->> -	inbuf.client_id = fl->client_id;
->> -	inbuf.namelen = init.namelen;
->> -	inbuf.pageslen = 0;
->>  	fl->pd = USER_PD;
->>  
->>  	args[0].ptr = (u64)(uintptr_t)&inbuf;
+Changes in v5: Fixed review comments from Dmitry
+    - Added reset gpio for io_expander(tca9539) in patch 7. [Dmitry]
+    - Updated the commit text of patch 10 for eDP configuration. [Dmitry]
+    - Link to v4 : https://lore.kernel.org/all/20250417053909.1051416-1-amakhija@qti.qualcomm.com/
+
+Changes in v4: Fixed review comments from Dmirty, Krzysztof and konard
+    - Add only single compatible string in dsi ctrl pattern properties
+      in patch 3. [Krzysztof/Dmitry]
+    - Move the io_expander RESET and INTR pinctrls from i2c18 node to
+      io_expander node in patch 7. [Dmitry]
+    - Remove the gpio-hogs from io_expander node, as we are already
+      configuring them under anx7625 bridge nodes. [Dmitry/Konard]
+    - Updated the commit message based on hpd_enable() and
+      hpd_disabled() recommendation in patch 8. [Dmitry]
+    - Split the patch 9 of vesrion 3 into two separate patches. [Dmirty]
+    - Updated the commit message and commit text in patch 9 and 
+      patch 10.
+    - Link to v3 : https://lore.kernel.org/all/20250404115539.1151201-1-quic_amakhija@quicinc.com/
+
+Changes in v3: Fixed review comments from Dmitry and Krzysztof
+    - Added qcom,sa8775p-dsi-ctrl compatible based on the set of clocks
+      which are associated with it in patch 2. [Krzysztof]
+    - Drop the blank line and add contains instead of items in pattern
+      properties of dsi ctrl and phy in patch 3. [Krzysztof]
+    - Updated the node name from anx7625@58 to bridge@58 for anx7625
+      dsi-dp bridge in patch 7. [Dmitry/Krzysztof]
+    - Updated endpoint label name for input output ports of analogix bridge chip in patch 7. 
+    - Check the DP or eDP confiuration based on the aux node in patch 9. [Dmitry]
+    - Link to v2 : https://lore.kernel.org/all/20250311122445.3597100-1-quic_amakhija@quicinc.com/
+
+Changes in v2: Fixed review comments from Rob, konard, Dmitry and Krzysztof
+    - Added additionalProperities in dsi and phy patternProperties in patch 3. [Rob's bot]
+    - Updated example in qcom,sa8775p-mdss.yaml of patch 3:
+        - Added port1 and port2 inside mdss0 ports.
+        - Renamed dsi ports from mdss_dsi0_in to mdss0_dsi0_in and mdss_dsi1_in to mdss0_dsi1_in.
+    - Updated the init load value for vdds supply of DSI PHY from
+      150000uA to 48000uA as per chipset power grid in patch 4. [Dmitry]
+    - Updated the init load value for vdda supply for DSI ctrl
+      from 30100uA to 8300uA as per chipset power grid in patch 5.[Dmitry]
+    - Rebase the series to use the header with DSI phy clock IDs to make code more
+      readable in patch 6. [konard]
+    - Added the interrupts-extended in patch 7. [konard]
+    - Fixed the warning from DT checker against DT binding in patch 7. [Krzysztof]
+    - Changed the connector node name from dsi0-connector to dp-dsi0-connector and dsi1-connector to dp-dsi1-connector
+      respectively in patch 7. [Dmitry]
+    - Added the vph_pwr for anx7625 vdda10, vdds18 and vdda33 supply to fix the warnings from DT checker in
+      patch 7. [Rob's bot]
+    - Addressed device tree comments in patch 7. [Konard]
+    - Squash the DT patch 8 into DT patch 7. [Dmitry]
+    - Added hpd_enable() and hpd_disable() bridge funcs in patch 9. [Dmitry]
+    - Update hpd detection bridge op flags logic based on eDP connector in patch 10. [Dmitry]
+    - Link to v1 : https://lore.kernel.org/linux-arm-msm/20250225121824.3869719-1-quic_amakhija@quicinc.com/
+
+Ayushi Makhija (2):
+  arm64: dts: qcom: sa8775p: add Display Serial Interface device nodes
+  arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to DP bridge nodes
+
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 232 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi      | 177 +++++++++++++++-
+ 2 files changed, 408 insertions(+), 1 deletion(-)
+
+-- 
+2.34.1
 
