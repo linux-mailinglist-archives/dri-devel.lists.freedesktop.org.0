@@ -2,217 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10134AC037B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 06:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59104AC0388
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 06:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5895012BF61;
-	Thu, 22 May 2025 04:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A39110E0F4;
+	Thu, 22 May 2025 04:46:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="DiIt7P13";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2076.outbound.protection.outlook.com [40.107.22.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFCE9010E;
- Thu, 22 May 2025 03:19:07 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2062.outbound.protection.outlook.com [40.107.93.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5A7D939F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 03:46:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fMwmiZSRjTnajDYWFfhgWlX9ykvbopA9F5sGSYEyEpagSbbY6Hs2bGE3N9MCEkt6S/kYDZtd1D+kzL5ou9hIHq9Ve+HfKFi2FGG/DtMol9/G2CiGBfHtJhAH10Myj9q2FreZm4A8NoDikceVQFkX+V+9tDiO/cg9wM7pRU2LLqBURR5iBYmwh6Lvhs8LtqK35f87CqSDRuT9L+OsHV1cUPkmAPr3o+ISZd/CSULEhns2ZKG7LYMsiTFw3k2YYhQ41h4ggdUeMuuCJEEiW0+fpwv2OlFJKCjE/vzXy0B2sHGDfDBMZH+goDLnhFd+u/9b3MDgaXIX78dnAtAdm4+Gmw==
+ b=ytDhEKwPUZzsCFUQToQs9uTTE6kKjpyrGfeixCZeiUHgGagwV4u1U5+SNy3L/FfeYEjR0oQNW8dic8RSZjNQAVq7Pd/cAW024o6BNROCumeRYVpSBM3nT58FcjK2j2yAW6UZlHHE+RceKvICdYuvl1s6ZqoFNDCZe7+/P1vI4UrWlKpbto+NOOrd5R+rQEys3cwNFDBrI4peDcJVK+tyVNnuSKvYcDSS0lSr9wyvhWQUpIgaYthofqxBbDXJ39Ukq05bvNiTyU5pbMF1uDviw7EABsTFKxQHi4a8Va2/POF+L9u5f8gWC/COX7gT0SJEg6ViywxZG9uOA0Bq9R6neg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rn1lqW+1XpL2TWwCE++wIy5AgGzhrn8cH/zoEtBffH4=;
- b=kY0LQItcyUCYX8NSYUjlC+kM+dT9TmtJO4d1KATL23OX1v7jtZrJ6+AeTfkkTPinvtFHD6FaLxMzqPKU82MRgm7naSVQDJ65DV++t1CKK+G9jiV0u6QwZxtM0NfxImiY7qIz/Nr1AFTvJu92oN/G+P468luWF5DCKag2B4YCYM+ENASjwR3Iy23yHsBKT0bUtamDl2E7/RjDc3Qpa24I1IFRDvWYcrnmKgndU73L07S/UngmRPN6Oai3/6gAcnYkHTIMDVpZjSguTzATFZesPDdhjJ3DH4l3cVRTN5fZKEzQItS2dbirYrqGC80PVb2bMXG1ZEQcS+TfMdYma+PmdA==
+ bh=Ls0szZOulcGIFeIwKfGaDJaLNfU9MaNvdBwJK/NlVA0=;
+ b=D/GIX7eOhbyr1op3K/rDhBNgA1yifvLcUddSs88Uh9+IoRyas2JVig32OXLpanGEJWLQ4iZVKUMYcd9bLZmzF5hMPyVPbnfHjTULO3HkXEvVAejOIcdpl42yhKjd4Y7ODWABsN3LRU8K+pVWhMWv+LGzJtXGvaUS2U2sa43vM0kIvFa8pcg/ITuNVOwfGO+HhWDUS1zE7jrkbf18KC1L+7mfVGIj5Yd1untLjM0n9rz8fEg0tLxLbt0sK3pQyXOvHgAqUeKcrx361ZSwxgjk47XhPA5BtpqkeGfiWWvss82yJ5IUDBbz3n9iCqVj/6zcphS4P7bIw8XrCEq8j9cFlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rn1lqW+1XpL2TWwCE++wIy5AgGzhrn8cH/zoEtBffH4=;
- b=cWaMYfU4KladVfFxy44v86Ll+cDpb4NOHtogPZ64mROvtuPZGjUbBWU4ild1gRRN1Et8R2dZINeM4YedFgyw9DdDSD26wMZyupECi9x4P8jJVUE7WAouuP0Br7K/nqcuDnn1SpYGUBT8BEq5b75NM9CNkIQGCQDS0zl6h/siMrrUyn4lyngyFVuB804Uwy7lbJz43sAjAQPege7NDv267ODG1vEr9Kw7wLG17ZwkXTFcMPzEey4EDtHwlWfSmkfbNyC8bbHF9PMrnhr/4wpklmjyfMdXTZtyHK50/LBAVT+xFAZs2nsmzUVfO0Hb0PxKofyVkCi/h5ZpskeO1hhO+Q==
+ bh=Ls0szZOulcGIFeIwKfGaDJaLNfU9MaNvdBwJK/NlVA0=;
+ b=DiIt7P13bA07UgiWdPUqUSHVCXbEn9GDGNsdaVA4FesYeWpwqYQiu+JzIIA+5NF0d6PYIBuV6V8uWDl4QrOWjIACdcv0dUvwDhtEuE0HZM2hZADa8tVwNOoe/ScC4Ctot12a4Li9stO6bvcsks6DcgmDBojoXM4YhTRPxn3Xc9U=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM9PR04MB8097.eurprd04.prod.outlook.com (2603:10a6:20b:3e9::18)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
+ by PH7PR12MB9126.namprd12.prod.outlook.com (2603:10b6:510:2f0::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Thu, 22 May
- 2025 03:19:03 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
- 03:19:01 +0000
-Message-ID: <36ade269-a590-4243-889c-006f37d9ae6e@nxp.com>
-Date: Thu, 22 May 2025 11:20:17 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>,
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>,
- Hsin-Te Yuan <yuanhsinte@chromium.org>, Pin-yen Lin
- <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Ian Ray <ian.ray@gehealthcare.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Peter Senna Tschudin <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250521162216.79dd3290@booty>
-From: Liu Ying <victor.liu@nxp.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Thu, 22 May
+ 2025 03:46:07 +0000
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f]) by CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
+ 03:46:07 +0000
+Message-ID: <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
+Date: Thu, 22 May 2025 13:45:57 +1000
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+To: Xu Yilun <yilun.xu@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
+ seanjc@google.com, alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+References: <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+ <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
+ <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+ <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050> <20250509184318.GD5657@nvidia.com>
+ <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
+ <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
+ <20250512140617.GA285583@nvidia.com> <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
+ <20250514163339.GD382960@nvidia.com> <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
 Content-Language: en-US
-In-Reply-To: <20250521162216.79dd3290@booty>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SG2P153CA0024.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::11)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+From: Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SY5PR01CA0041.ausprd01.prod.outlook.com
+ (2603:10c6:10:1f8::16) To CH3PR12MB9194.namprd12.prod.outlook.com
+ (2603:10b6:610:19f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM9PR04MB8097:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a96a2a8-9dd9-4a29-662f-08dd98df6634
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|PH7PR12MB9126:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e88cdd5-f7ec-4eff-020e-08dd98e32f06
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NUU4MVNFb05NVVdscXQzV09rblplWFJHL2lRN1hiVC9JQnNCelpPYnU2Tmc4?=
- =?utf-8?B?eThLZzRDdUhkdG8yUkRXYUVHYTNwTnYzbGRCM2xaa0NtaVNPV0tYdVV0M3FN?=
- =?utf-8?B?Vm5GVUgwWGFCa1RsYVhvVDJsTEsrTGpsNkRQUHcwcXBRUHYwRVFLN0E1Z2VZ?=
- =?utf-8?B?MkJsYmxlNWk3QmxyelRNKy9VVEhTZnB5N09LRVBuVEJmV1k1eGRVUnFXU012?=
- =?utf-8?B?aUNwU3A1clRtcVo1SlFxOXNPbFk4NThjRDh5RDVhdzFGaFJYNm0zNnowVkJO?=
- =?utf-8?B?cHlPREZGMjRPOTV3Z29EZlBiNlQ2RU1ZUmtaM2d0VW9PS3dJUm9aaElNcXdW?=
- =?utf-8?B?SkRFTUI1R25xMVNUOHEybHpwZk05QlBxbmtob1JLWHdWTFlhK2kyMDdXbWx3?=
- =?utf-8?B?YWFiazFsQy9rbi81RExNM0FmYi9oQUJwMThSUDBka25HMzBDZ2JKWGp6bklv?=
- =?utf-8?B?bzRPWnZldEF2WENTR2NUNGNRdlhid0svU1ZFa1lTWXpZRnFBNFpDaTkwcFV5?=
- =?utf-8?B?a2RrMytXZGFrbXcrZVdpVldOZWk3elBHa1VCU1h3a0M1VUtCdUZFaUZiMGIr?=
- =?utf-8?B?Z3U3d2JwbEtTSmVpNmp6UGoyc2N3M1d1RXE0eVFob3dwNGhBVzU2ZndBRFRi?=
- =?utf-8?B?NCtDWVdpKzZmbWszeDExVGQ0NmxXUitnN042eHVmdS9NV0h1V3NmOWdzZ2tK?=
- =?utf-8?B?aUJoUHFhTExlWmMycWN3MFhMcHNORWVaVGtHT2UzWlRQTTZxaWFIVThpdXEz?=
- =?utf-8?B?SmxFNzBBSE5vajhZNG5Wd1pwUU9sZ2VBV2dVRHZ5THlMclBmbVhPdmJjZGRy?=
- =?utf-8?B?ZmtoMlpzVUl0SXBmZ1haeEJhbytpN2s3VnY0dE5HdWs5akJPSHZ1cnE5U1Ez?=
- =?utf-8?B?clhhRmJXdDV3NjJRK2o4WGFUSlE0RUhLaitEKzNSMVBKWENVUVJNQk9JNEJ1?=
- =?utf-8?B?MmZwL2NFK0NDOThvaEE0VnhORHpFbXArMHdOWW1VZUNFWjcwVmhNYnJncS9L?=
- =?utf-8?B?aFEvMDF3K3BXKzMzSzFZZXFDam1hNUpuUVV6Wjh3NDNCOC9vajlTSVFKU09O?=
- =?utf-8?B?c28rU0JXTVlST3VtTjVZQWQzQytLZmVhL3c2K0kzV3pyOWNzblBCUXhOU3hs?=
- =?utf-8?B?NlhZVDFGeW44aHhaTndBZWJkQlE3Sm9qaFBXN2VYdzFDUjFUeUo2ZG81OXdX?=
- =?utf-8?B?bE9tNU9jaGFINFBmRjdnNzYxNXhlYnhTcDRQWVI4TW1LMXRvSWc3Rk1MVUVi?=
- =?utf-8?B?UDZwRkhaQmZVTm96dkg5SUdmSGJUT2Y1WkhhL0R1bEl5RkxTSEtqd0hwOGRa?=
- =?utf-8?B?S3hkaVlFMHpUZXNsTXZua0diakIvbGkvZGg1eXJySWxyb0I5eERBZEFGOFB0?=
- =?utf-8?B?MEJqNnV3SmVVRE1McUR0Q3VZeEZhbE5LNE1ydk1SdEEzRDRYZTc3RkZtVDVV?=
- =?utf-8?B?S2RqQ2JSZHJ1NS9sOWlFRWlWQ2xEdjRGTGZXRzk2ejRYV1kxT2pVenEzc0Uw?=
- =?utf-8?B?bGQ3L0NLUXo1Z3liNjl0ZUhDSExIY2cvOURsb3FUajJIL2hiZ0U0QXVGcHNj?=
- =?utf-8?B?UEovcnBVTXFBMVg5TmtIWTZRTzNVVVJCdk1idSs5eS9FRUI1dEhIS1U2LzF0?=
- =?utf-8?B?QzJ2b3BwaXFUYkpCem1rMURYbmNqSkN6RU9PdWJwbEt4RTB6OUVLM0IvNmow?=
- =?utf-8?B?WlVIQjJiaTltM1ZIblBhSk1OVGk2Rm1WK1Z6Y0RyT21VeW9EV0JjenFZckF0?=
- =?utf-8?B?WmxNb3A5NE02dzk3TlFXQkFIQ05JR0Z5c1ZWNDZScll5ckhNWnVBTUxlSlZa?=
- =?utf-8?B?akw2b1FrR3FibHFSUUloUEM4NkRwdW44UDFGdmRYaXpodDdBTEphRFFDSDVH?=
- =?utf-8?B?Q1FlOGVEdDJiSHIzNStCT3ZCanAvZGFHVW1xOGx4ZlRuRWc9PQ==?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dTFyL1pGYXVHbzQ3TmFQT2k1U3RPc0VKN2ZBQk04TG1QVTZ4QVE5ZE5WMUUx?=
+ =?utf-8?B?ZklEcmFsRnVYam40RkF1bS9sdmIvR0U5MGNxc3pnS2krMjF5OVRiOFJHd3Zi?=
+ =?utf-8?B?OHlJUERYOGNmYXVJWXRwai8vMGIyUTlLMkxuQy85Z2ZNKzJBUlhraUtSTDJu?=
+ =?utf-8?B?NnVxbkVnZmNyTFJSYlFrNncxUFVOMHpkV1VESzNiUnNISlR5TWxEZG5wb3R5?=
+ =?utf-8?B?cUVMU1I1OXJybWt3Z01YL1JsVUY2Y2JhOGltKy9teTI4RFFYUTFGaDRFbnhT?=
+ =?utf-8?B?UWg2WFdxdHM5dVAvMks0TkNES2J6U2kvb3VzdHhNeEFCT3d2M1V0bHlzZm5X?=
+ =?utf-8?B?TGs4ZHkyTm9Xd214UndSd2ovTGVqR244UTZLVVhXdnU4a1JmMTdiZHpMM3Rx?=
+ =?utf-8?B?QW45a3pUUmh2VUpiUkZaOW9GWHBoa2I0aXJUWWV1aVpNaWN0OUdnUGloRG1w?=
+ =?utf-8?B?aG5uVlBoMldLd28rWjNUYkRiNjVKcmpPaTV4MERycWQxbDV0bDlURWptY2dk?=
+ =?utf-8?B?aWQvNGppR3dLMnYrRXpQbWk0dFFIbERvSUZoTWVYWEdLK3RwSHBhc0xJTjZQ?=
+ =?utf-8?B?NVFTQ1RSUFlTa2l1UHJWQ09LRFBDSXVpODRySTY3UVd0KzI0OC9GSDNYVjF2?=
+ =?utf-8?B?bDlKU2xYNDNmZGlJbk1GcTJZOGZ3b1loZGVwLy9ibHR4bFVndmprYVpaN3ZZ?=
+ =?utf-8?B?WUczOFE2cTBJYWxnUlA1VFpNNEo0N2RWMjNMUFpabWxhTkhrSWdJcTlIZG02?=
+ =?utf-8?B?RVhNZk1nd3RQeERiZ3I5aFF1QXAxME81R2hua3FoUkxHbnJvcXlLUXQ0NWt6?=
+ =?utf-8?B?cGhITGlmN3BmTjVSYjBabVZkU1NpVGRzdXlHMVhxTU1ZNXJLeFZvd1lnQTBB?=
+ =?utf-8?B?SG9McUlRc3JEZGZ3TlZ5OHA4c3gwbDJlOW9LUEF2YyttS1k4UVZFVzF5czg5?=
+ =?utf-8?B?RXQwVEtvbkJFMGRDZG1Va2lBL3dqN3RTQ2NaSDc3VU1JZXBIUEZMU2w5WnBQ?=
+ =?utf-8?B?Z1c5SFpZRksxTTVxVTNPcUJwYkhnek5tSUlRUmR3bWJFOUlGb2VkVDBrZTQ2?=
+ =?utf-8?B?OGZrTytwdjRzVzY0QkpTQ0p2eTk3WmppWTI2K25iOEJDQ2lHTnc3Qk10UkNv?=
+ =?utf-8?B?eDNGZE13TUlmOVdxOHpPSVhrbE0zVkNaa0ZTZTFkWkhPL3RYcXlNZHZHM214?=
+ =?utf-8?B?aHJwVC9lbUp4bnBjRDFnYTV5cXVKanVrNU5Mejd3STA5NGpQSmlqTFZqbVox?=
+ =?utf-8?B?SWE3dlBpSUswcjMyR2NkV3RjZUY2M003TThyVmJsU3hpcSs4eXBDM3BrYjQ1?=
+ =?utf-8?B?L2c3VHFLSmlWM1lDVlBSb3N2Yit3STgzRGJEQi9JVCtWNEsvd0lKNmg5OStW?=
+ =?utf-8?B?N0VYUVJ3S2pKdDV2QVRiZVFSTGNTODNGL2x2TGFZSzRqNlQ0VkZyWGlHbXRS?=
+ =?utf-8?B?NE5OUGU3eUpyQlVVTmkxeWtMTU9rOHo4YVhZWWdHWWtVdFRDazR0MTlWYjRW?=
+ =?utf-8?B?ejFOdTBVZlNHbEhBcytEMFNadyt0emJGT28zT1Nnbkxib3dNZnNJUzJ3bUdL?=
+ =?utf-8?B?cG1UR1Nib2FlcmlFcUNpZjAyS0poemg4dE01MkNkMmgzZEN4WHdsbUtBWmww?=
+ =?utf-8?B?RC91a1E2VGpITm9jc2xIQzNaaGZjZVBkSXk1VmcwMjR5T2ZzV3ErR0hmTDJL?=
+ =?utf-8?B?Qzd1dmhzOHFpRVF1Q1h5NGJ3bUpSM3hIUHgxVU9hcEFOcDlhZXFiMjB4bkxQ?=
+ =?utf-8?B?UC9sZ2VLWnZMRUkxMzA3bXZid3R1ZDdXWUN6SlcxQ1dwK3puc3hkNW1VbCs1?=
+ =?utf-8?B?TnNIZHBrOTRSZDl1MFhvbnlkNDZmVzFTTkhLVXhtZ2M3K2JlTU5rcXp2Ky9B?=
+ =?utf-8?Q?Xw3/U/WLDX56d?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB9194.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ampJM3hXWndyL2tMNmlNNUNxblVlTlYyQUh5STlCeU9xRVh3b2YrbDIxQ014?=
- =?utf-8?B?K3QyV2lyU2tmaXY5UVphenYyMnJob1J5Ukg0N2dCczYxa0JNT29YcGZlVnV1?=
- =?utf-8?B?OCsvY3oyb1NUYzFxbW5nTFR0bHQ3SDE4WkxBeG1CR0lDNzVIMnA5U21UZEFW?=
- =?utf-8?B?Sk14Y1Jkb1pnOFNKYmYyZ3lhQlo0bWxJcUZtY0hMbUwxLzJIeHdoSEp1TlJ6?=
- =?utf-8?B?VHJ0RmphSGtvQ1BlWE9uSm5ySGRLaWVrVWx1Z2JYRldqOGJVVFA3N0p5MFhE?=
- =?utf-8?B?TkdjL1Q3ZExZa055VDZmaldhUTUyNmZML2tOVWJraVV3UXV3V1lzMXRaSDl4?=
- =?utf-8?B?VFM4R29pbXZLekg4TkdyMXR0a0o3L0hVMDNMUGJGZG1EUVdSV0xOQU8zcHhV?=
- =?utf-8?B?Y2lRTWl0ODRXQ3JjZEJEMmRVQkN2UzhWUDV1Q00yejJDWDZubEZxcnBTWi9E?=
- =?utf-8?B?OXpLMU9ZeXdqMzVnMVoyclBBM3dndTludDUrZkFBZm8yeEs2QUhINGFEcnNL?=
- =?utf-8?B?cys4c1IvTEd6UHlpRzdUc2ladzEwNk02RVZBK1BVMkZwekFTK1h2VzhoKzNE?=
- =?utf-8?B?eDF5RCtVSVhyTHFXMktBTGtRemZQTDVOdnJzbFVYQ2dTc3RzK0xiRC9FS0ty?=
- =?utf-8?B?c0dJSXpZK1JZbnUzbjlXTzFyd3AwL0tEK0YxOTQ4N2phRkhZVnJHV2E0RWkz?=
- =?utf-8?B?K3kzRWVBa1d1bWRJbXVoTFlkWW5oMXJWcEJtSy9QVzI0dlBvQk82ZmtKSEds?=
- =?utf-8?B?OThNZ1hXUjdrb3JaVVE5T0ZUOEhUQUdqVzFHSXNNbG1jc1h1RURzWlE4Q0Iw?=
- =?utf-8?B?aVluL05MQnpId0VqQWpJUGw4N0xQSHovcXp0bVJCV3VOYTUrUjN4Z280c2FE?=
- =?utf-8?B?bkFZbE56a1MwTCtFOWp5cnZHNnZjR0t3QnNRTngxR1J3bEVtZUoraFRiV0lC?=
- =?utf-8?B?bEhoYnlpYzBtd2h5eU9ibEJPdlpiWWVwUmI2MnlhSm9BTWV5c0Riazc1U0kv?=
- =?utf-8?B?L0pKNFJWaEZ1YXhlMno2ak5YMmppMWxReWhYQ3JhemJOYWM3TEp0OVlWeDdH?=
- =?utf-8?B?UCtTNGI1MkFrVEljcXFMN3plcTJQdFQ0QWRoWWc1NjhTMTBIeDJsYzZCVzR2?=
- =?utf-8?B?dVBsdjVXb1RwWW1LQ3FVc2RsT2lGdDc5ZmRnd214aW5XOUF0RzJvUDlRcUlO?=
- =?utf-8?B?SnFtK0UrVGV5L3ZtVk1KNkhPUS9SbnVTU2ZPSFhyK0dDM0haTXZ1S2k4d2NF?=
- =?utf-8?B?RnVDb3NJS0RzcWNwcW12eURXSkJKaFEybjlLRW9KVGJ2ejVQdEo5SmZyRnBQ?=
- =?utf-8?B?WWxLNHFXZXR4dVlIVGJVbTlob05oelp2Q21DR01nSmhoMUdLaGVNaW9NU1BW?=
- =?utf-8?B?ZFV1cUIvWEgwcE9DUVpxNHBXNUM2SGMyeDc1bXNYK0sxZHY2Tmo3MWRvaXEx?=
- =?utf-8?B?eHZoTHZLQ1V0MVl1aHYzdytvRGpZVXVQdDJqTHVVUGxta0JBYytsODd6OEpi?=
- =?utf-8?B?RjFkeDE4RzBOS3UxRCs2TzNFZzlyNWJEblVhRklzQVloZmpVb0V0Q0lkek50?=
- =?utf-8?B?TUcyWU5nVERoMEJhVWswbWNhNzFzeU5LZEhFaXNlMmgrazJhL2xiejdwWjZH?=
- =?utf-8?B?L1ltcUtNVTlTSUxJNTF3MUVJdDRFQnpwZlBpLzk2aElYa0hSQlNOZnI3WUY3?=
- =?utf-8?B?SGREZFpnK1JjekR6YWUvTnpESlZFcHpZcHdYYnVoTkVWZExFMERZbHVtNi8y?=
- =?utf-8?B?ckwwTmNSSDVCODZEcXNMaVpQTzQ4UEVDa2pRUVVKYkdDSkNQQXV5OHkxYXd2?=
- =?utf-8?B?Zlk2NzJhMlNhRlNocmZXMWptbEU3alhWSmRHMmc2ZWVpWVlralU4c2NvZHRK?=
- =?utf-8?B?bGs4M0R3YXQvd0ZxUHJPWHhMOWY0M1c2V1FCNTZIK2hZL1R2Y2drdG5qcVhj?=
- =?utf-8?B?dkpYQ0ZzZjczOEZRampVUW1zLzZxVkFjWjAzVmxtQS9xMFFjVXNROXgvMkx2?=
- =?utf-8?B?dVV1OHIwOU9IVWtHZHJ2QldIQTFBMW9zY3NGUlNkRGxlY1BYbXcyb1RzRFBl?=
- =?utf-8?B?R0kxL3BoRnE0TUswTU9rSlNuTTU2UEV2OW83K1lnRStCQnQzWURSVHNiY0k4?=
- =?utf-8?Q?hBpVouvfbZ3mzE7UpEaRn35zR?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a96a2a8-9dd9-4a29-662f-08dd98df6634
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?LzRSOWZIWVpZRHEyVXR5VEFWQmFoUGdKQitlNWd4T0FrV2R6bFFqb2JTRzJ5?=
+ =?utf-8?B?cWowbFR3UGc3WEh4RWVhOHpmVVExbEJJR1VsRTl1Q2xwajlXSW8vTjZIbXdC?=
+ =?utf-8?B?bTFmV01uYm9xQTY4Q1FGRHQzTER0aSsyZnNpVWdPeDczSDBGdHMzR0VLZlFr?=
+ =?utf-8?B?d3VXME9ZRWQ2bTBPWU5wNzdadXBxSDg3NWlYY3R3RVJVUExZa2NQSFAzRk9I?=
+ =?utf-8?B?VENPWVVLbmJsL2gzUDJHcTVnV0NsZWloNGFsTTZoY081MXFSRGVyVjhDUVNP?=
+ =?utf-8?B?NGNjSHh5VjdDWGFrbjFMZmc1OC9KTzJxV1JBdmxIbm9NOXJBOUhLYXh5OGFk?=
+ =?utf-8?B?d0pkT1ROSVZKSDlTdzF6SEVDSDk3MzNvaHRaUVVQbE5NenBPSmtWSXcvWjRJ?=
+ =?utf-8?B?cnhDckQzV1p0SGY0bmtKMHhvL3ZlaU01Q29PbnFhYm1DWU40d1kwaXR2ZCsr?=
+ =?utf-8?B?RUFPSy9zVkhNT1phS1BlVlRhOTlwWHNKS2ZIL3VTSm1DM1VuUEVtNGJiemVC?=
+ =?utf-8?B?TVhRQzZCR1JVZTZ4eDJFTW8wb2RsWndpTzMzY1JoWmRiWEIrbzlKL09jYTBq?=
+ =?utf-8?B?dmpPTnJPbFp2T2RKb0d1dzFVM0VTR1FOMWZoalR3VG1iUTZsMXc0ZXd0Vkgw?=
+ =?utf-8?B?bDh2bVNqRGYzS2k1RWF0NGhHT1YzZDV3Sy9UY2QxRnV3MnpnMDIxL3hna256?=
+ =?utf-8?B?YUVHNWxPUUt6eGtMV1J4cEd4ekJXOFpRVjRuL01SR0Vpb25UREJ5WUNmR0tY?=
+ =?utf-8?B?SGpFQy84RkU3S0R6V0h4N21LQWVMcVJaSGxmUXR4ZDFONUZ2b3ZIcWhNRkVi?=
+ =?utf-8?B?TmhFM2JLb2JJRjc5TVhIQkpKd0NVVmtMUXExSzdud0NtM1RtZlozenQ1Vnd1?=
+ =?utf-8?B?R25WTlpQaWI2NWt6Vmd3QllhYzFxaEFaaGVwWFRnU01Kcy9SaVREbzQrNXA1?=
+ =?utf-8?B?akhCNDdFSWZjTk9aR1dnclFJVHlMZ0h0dVNvS1NuUUpCM2p6dWhKVkQxYk1P?=
+ =?utf-8?B?bFBnS0hmdTZJeTZiU0xETFJOblA1WHNiLzhQK2JoanJsRkFFWVhwOEUxbFZB?=
+ =?utf-8?B?Z3oxalBNL2t3RDh4NkoxTGU0MTJpYkpDRVRKV2ErdmpLZ3I2WXpOYnNUT0tv?=
+ =?utf-8?B?UTlaUlFsYWZkRzNic1ZWblhCV3JaVjhzMWRNVWs3TURCVXZ3MzJQTGpESGp2?=
+ =?utf-8?B?azZSa0FJSEtSRGt6djkrSEl4OWJEWng2SUtoT3dLWDFKY2lmMkUzc0NQL2Nx?=
+ =?utf-8?B?WTc0SEYwYzViSHA4QVZtdlpiN0tnWWYvOUdqUURiQmJybnZBOHZUNHVsWTVX?=
+ =?utf-8?B?MjdKTytLUmo4bzFheUtrS1JIQmVNT3NQUWxBQzROMEtWV1VWODBpWVpRMXkx?=
+ =?utf-8?B?Si8wdldzRmJJTFdQTWxSS1JUaWhmbEI2NEdSSHdNMG91aE51eWR6UU45eG54?=
+ =?utf-8?B?bDh1eXBoNzdaT05ERTR2a0ZSRmNOZE96aG9mV3pqUTM3bld2RzcyQUMwZjBD?=
+ =?utf-8?B?Z2UvVGlkNXc5MzJ0WUoxYXVCQi9JbWtjR1ZCelkrblZnM1pWbjFKR2Y0aisz?=
+ =?utf-8?B?STRBalo0eFhxMTdXQlY1MnczZkVwMHNBc0pYVU12bjVWS0gyaWRGNXlxWVVl?=
+ =?utf-8?B?NjB6Y2RmcUNxcGkrc1JJazFqMnZNWm9kd0J4djlZYTFobGtBdzNBYzVnZnN6?=
+ =?utf-8?B?bkJtckoxdkppMkxTU0JuSlZjY043eThsd25ZdGg1eWNKOVBEN0RNcnpqWWFj?=
+ =?utf-8?B?UVpodGh1c0RjYkV5NGZ6eTh4cGZJbitiaU9ST01ISURTV05XUzFTcXNpaXNa?=
+ =?utf-8?B?SFNNVFVnaS9uOFcwVEVLdEhPaHRodjZIVGFqYjJkajJvM24zc1hNSE1md3kx?=
+ =?utf-8?B?REcrTzc3Q2ZucTNxVUUvUkxPZ05ZR3Biakl1aTZwSVFQQ3hYY2l2M2tud0th?=
+ =?utf-8?B?RnhkS3E0OGJHOWYzMW5lWDFsS2k3WnJyRVpxREFsdGszUUIyRWl3NzZCb0t1?=
+ =?utf-8?B?WkJOamhvcGpHczNleFRycktLS1NNdjM3QktSL3gvdDlDNFNkZ3hYU0VUempM?=
+ =?utf-8?B?TGtFTm9UUjFmMlFXcER1MFVYUWgzbGJPNEZIbmRUYXNJSmdrUTAvUEhlODNi?=
+ =?utf-8?Q?1gLQgpsIiNixBiU6CsSFKW7l6?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e88cdd5-f7ec-4eff-020e-08dd98e32f06
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 03:19:01.7992 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 03:46:07.3962 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M5syaNmxZRb7Up0NH9MN/uy19cHTpw3Is1kKlwm76rHtkJ05pgyp+tGl2WWCKJfWHWX6Urv/OcJ7SNiqjEbnMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8097
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Zl7PGXhqqzRVpS2suJpWEpJYMZW2GV6whMGqUXZDaQj8CQovzLEkAGWHeMq+JV+IKfQknG5r04D2hAS8c8u5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -228,132 +174,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/21/2025, Luca Ceresoli wrote:
-> Hello Maxime, Shawn, Liu, all,
-> 
-> On Fri, 09 May 2025 15:53:26 +0200
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> 
->> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
->> bridge, and the only one supported from now on. It is the first milestone
->> towards removal of bridges from a still existing DRM pipeline without
->> use-after-free.
-> 
-> I applied on drm-misc-next patches 3-17,20-21 as they match all the
-> criteria:
->  - At least a Acked-by (or R-by maintainers)
->  - patch is for drm-misc
-> 
-> Being my very first commits to drm-misc, I tried to be careful, and
-> double checked all the patches with Louis (thanks!).
-> 
-> Here are the pending questions and plan for the remaining patches.
-> 
->>       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
-> 
-> This reverts the commit applied my mistake:
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
-> 
-> Neither the  original patch nor the revert has been reviewed/acked.
-> 
-> As the commit was a mistake, I'm applying the revert by the end of this
-> week (i.e. on Friday) unless there are better instructions.
-> 
->>       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_bridge_alloc() API
-> 
-> This patch affects multiple drivers. Running get_maintainers.pl
-> points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
-> this looks like due to the 'N:' line in:
-> 
-> ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-> M:	Shawn Guo <shawnguo@kernel.org>
-> M:	Sascha Hauer <s.hauer@pengutronix.de>
-> R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> ...
-> T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-> N:	imx
-> ...
-> 
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L2511-2528)
-> 
-> Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
-> file that is touched by the patch. That regexp appears overly generic to me.
-> 
-> Shawn, can it be fixed by making it less generic?
-> 
-> If not, can we at least add a band-aid 'X:' entry for
-> drivers/gpu/drm/bridge/imx?
-> 
-> I think the other matching entry is the one to consider:
-> 
-> DRM DRIVERS FOR FREESCALE IMX BRIDGE
-> M:	Liu Ying <victor.liu@nxp.com>
-> L:	dri-devel@lists.freedesktop.org
-> S:	Maintained
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-> F:	drivers/gpu/drm/bridge/imx/
-> 
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L7940-7948)
-> 
-> However it does not list any trees. I _guess_ drm-misc applies here as
-> a fallback as well as common sense.
-> 
-> Liu, should this entry have a 'T:' line for drm/misc?
 
-These bridge drivers also don't have a 'T:' line:
 
-DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTER BRIDGE
-DRM DRIVER FOR PARADE PS8640 BRIDGE CHIP
-DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
-DRM DRIVER FOR TI SN65DSI86 BRIDGE CHIP
-LONTIUM LT8912B MIPI TO HDMI BRIDGE
-MEGACHIPS STDPXXXX-GE-B850V3-FW LVDS/DP++ BRIDGES
-MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
+On 16/5/25 02:04, Xu Yilun wrote:
+> On Wed, May 14, 2025 at 01:33:39PM -0300, Jason Gunthorpe wrote:
+>> On Wed, May 14, 2025 at 03:02:53PM +0800, Xu Yilun wrote:
+>>>> We have an awkward fit for what CCA people are doing to the various
+>>>> Linux APIs. Looking somewhat maximally across all the arches a "bind"
+>>>> for a CC vPCI device creation operation does:
+>>>>
+>>>>   - Setup the CPU page tables for the VM to have access to the MMIO
+>>>
+>>> This is guest side thing, is it? Anything host need to opt-in?
+>>
+>> CPU hypervisor page tables.
+>>
+>>>>   - Revoke hypervisor access to the MMIO
+>>>
+>>> VFIO could choose never to mmap MMIO, so in this case nothing to do?
+>>
+>> Yes, if you do it that way.
+>>   
+>>>>   - Setup the vIOMMU to understand the vPCI device
+>>>>   - Take over control of some of the IOVA translation, at least for T=1,
+>>>>     and route to the the vIOMMU
+>>>>   - Register the vPCI with any attestation functions the VM might use
+>>>>   - Do some DOE stuff to manage/validate TDSIP/etc
+>>>
+>>> Intel TDX Connect has a extra requirement for "unbind":
+>>>
+>>> - Revoke KVM page table (S-EPT) for the MMIO only after TDISP
+>>>    CONFIG_UNLOCK
+>>
+>> Maybe you could express this as the S-EPT always has the MMIO mapped
+>> into it as long as the vPCI function is installed to the VM?
+> 
+> Yeah.
+> 
+>> Is KVM responsible for the S-EPT?
+> 
+> Yes.
+> 
+>>
+>>> Another thing is, seems your term "bind" includes all steps for
+>>> shared -> private conversion.
+>>
+>> Well, I was talking about vPCI creation. I understand that during the
+>> vPCI lifecycle the VM will do "bind" "unbind" which are more or less
+>> switching the device into a T=1 mode. Though I understood on some
+> 
+> I want to introduce some terms about CC vPCI.
+> 
+> 1. "Bind", guest requests host do host side CC setup & put device in
+> CONFIG_LOCKED state, waiting for attestation. Any further change which
+> has secuity concern breaks "bind", e.g. reset, touch MMIO, physical MSE,
+> BAR addr...
+> 
+> 2. "Attest", after "bind", guest verifies device evidences (cert,
+> measurement...).
+> 
+> 3. "Accept", after successful attestation, guest do guest side CC setup &
+> switch the device into T=1 mode (TDISP RUN state)
 
-I think that they fallback to drm-misc since "DRM DRIVERS FOR BRIDGE CHIPS"
-covers them.  I don't have strong opinion on adding a "T" line to them, at
-least to "DRM DRIVERS FOR FREESCALE IMX BRIDGE".  Anyway, it would be good
-to know comments from maintainers for "DRM DRIVERS FOR BRIDGE CHIPS" and
-"DRM DRIVERS".
+(implementation note)
+AMD SEV moves TDI to RUN at "Attest" as a guest still can avoid encrypted MMIO access and the PSP keeps IOMMU blocked until the guest enables it.
+
+> 4. "Unbind", guest requests host put device in CONFIG_UNLOCK state +
+> remove all CC setup.
+> 
+>> arches this was mostly invisible to the hypervisor?
+> 
+> Attest & Accept can be invisible to hypervisor, or host just help pass
+> data blobs between guest, firmware & device.
+
+No, they cannot.
+
+> Bind cannot be host agnostic, host should be aware not to touch device
+> after Bind.
+
+Bind actually connects a TDI to a guest, the guest could not possibly do that alone as it does not know/have access to the physical PCI function#0 to do the DOE/SecSPDM messaging, and neither does the PSP.
+
+The non-touching clause (or, more precisely "selectively touching") is about "Attest" and "Accept" when the TDI is in the CONFIG_LOCKED or RUN state. Up to the point when we rather want to block the config space and MSIX BAR access after the TDI is CONFIG_LOCKED/RUN to prevent TDI from going to the ERROR state.
+
+
+>>
+>>> But in my mind, "bind" only includes
+>>> putting device in TDISP LOCK state & corresponding host setups required
+>>> by firmware. I.e "bind" means host lockes down the CC setup, waiting for
+>>> guest attestation.
+>>
+>> So we will need to have some other API for this that modifies the vPCI
+>> object.
+> 
+> IIUC, in Alexey's patch ioctl(iommufd, IOMMU_VDEVICE_TSM_BIND) does the
+> "Bind" thing in host.
+
+
+I am still not sure what "vPCI" means exactly, a passed through PCI device? Or a piece of vIOMMU handling such device?
+
+
+>> It might be reasonable to have VFIO reach into iommufd to do that on
+>> an already existing iommufd VDEVICE object. A little weird, but we
+>> could probably make that work.
+> 
+> Mm, Are you proposing an uAPI in VFIO, and a kAPI from VFIO -> IOMMUFD like:
+> 
+>   ioctl(vfio_fd, VFIO_DEVICE_ATTACH_VDEV, vdev_id)
+>   -> iommufd_device_attach_vdev()
+>      -> tsm_tdi_bind()
+> 
+>>
+>> But you have some weird ordering issues here if the S-EPT has to have
+>> the VFIO MMIO then you have to have a close() destruction order that
+> 
+> Yeah, by holding kvm reference.
+> 
+>> sees VFIO remove the S-EPT and release the KVM, then have iommufd
+>> destroy the VDEVICE object.
+> 
+> Regarding VM destroy, TDX Connect has more enforcement, VM could only be
+> destroyed after all assigned CC vPCI devices are destroyed.
+
+Can be done by making IOMMUFD/vdevice holding the kvm pointer to ensure tsm_tdi_unbind() is not called before the guest disappeared from the firmware. I seem to be just lucky with the current order of things being destroyed, hmm.
+
+
+> Nowadays, VFIO already holds KVM reference, so we need
+> 
+> close(vfio_fd)
+> -> iommufd_device_detach_vdev()
+>     -> tsm_tdi_unbind()
+>        -> tdi stop
+>        -> callback to VFIO, dmabuf_move_notify(revoke)
+>           -> KVM unmap MMIO
+>        -> tdi metadata remove
+> -> kvm_put_kvm()
+>     -> kvm_destroy_vm()
+> 
+> 
+>>
+>>>> It doesn't mean that iommufd is suddenly doing PCI stuff, no, that
+>>>> stays in VFIO.
+>>>
+>>> I'm not sure if Alexey's patch [1] illustates your idea. It calls
+>>> tsm_tdi_bind() which directly does device stuff, and impacts MMIO.
+>>> VFIO doesn't know about this.
+
+VFIO knows about this enough as we asked it to share MMIO via dmabuf's fd and not via mmap(), otherwise it is the same MMIO, exactly where it was, BARs do not change.
+
+>>>
+>>> I have to interpret this as VFIO firstly hand over device CC features
+>>> and MMIO resources to IOMMUFD, so VFIO never cares about them.
+>>>
+>>> [1] https://lore.kernel.org/all/20250218111017.491719-15-aik@amd.com/
+>>
+>> There is also the PCI layer involved here and maybe PCI should be
+>> participating in managing some of this. Like it makes a bit of sense
+>> that PCI would block the FLR on platforms that require this?
+> 
+> FLR to a bound device is absolutely fine, just break the CC state.
+> Sometimes it is exactly what host need to stop CC immediately.
+> The problem is in VFIO's pre-FLR handling so we need to patch VFIO, not
+> PCI core.
+
+What is a problem here exactly?
+FLR by the host which equals to any other PCI error? The guest may or may not be able to handle it, afaik it does not handle any errors now, QEMU just stops the guest.
+Or FLR by the guest? Then it knows it needs to do the dance with attest/accept, again.
+
+Thanks,
 
 > 
->>       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
+> Thanks,
+> Yilun
 > 
-> Not acked/reviewed, some discussion happened. I am resending it in v4,
-> possibly with updates based on the discussion.
-
-I still think the main structures in imx8qxp-pixel-combiner.c and imx*-ldb.c
-should have the same lifetime with the allocated bridges.  I added a new
-comment on this driver in v2 just now.
-
-> 
-> But it has the same issue discussed above, with get_maintiners.pl
-> pointing at Shawn Guo's tree, so in the future I'm assuming this goes
-> to drm-misc unless there are news about that.
-> 
->>       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
-> 
-> No feedback, resending in v4.
-> 
->>       drm/todo: add entry to remove devm_drm_put_bridge()
-> 
-> This involves documentation maintained on another tree. Where should it
-> be applied? There are two matching entries in MAINTAINERS:
-> 
->  * DRM DRIVERS -> the drm tree
->  * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
-> 
-> To me it looks like the second is obviously the closest match as we are
-> dealing with DRM bridges, so I'm applying this as well on Friday unless
-> there are better instructions.
-> 
-> Best regards,
-> Luca
-> 
+>>
+>> Jason
 
 -- 
-Regards,
-Liu Ying
+Alexey
+
