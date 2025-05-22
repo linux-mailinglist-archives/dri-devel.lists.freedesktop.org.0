@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1997AC1726
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 01:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D9AC1816
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 01:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A8C10E753;
-	Thu, 22 May 2025 23:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC0910E73C;
+	Thu, 22 May 2025 23:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NYpUziA0";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Es8oFlKB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B0D10E74A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 23:04:47 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-3108d5156e8so3320322a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 16:04:47 -0700 (PDT)
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com
+ [209.85.216.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA5E10E196
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 23:37:42 +0000 (UTC)
+Received: by mail-pj1-f73.google.com with SMTP id
+ 98e67ed59e1d1-30e810d6901so5616212a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 16:37:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1747955087; x=1748559887;
+ d=google.com; s=20230601; t=1747957062; x=1748561862;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=Sjvt2FSndoyzHpiTi00fqP3aNPbtMl1ng2ZPdHNNLQk=;
- b=NYpUziA0uU33/a5hPsg4wpy8RsBFcUiRPpc4patFXTHTHPULo6G/ijIB7bcWShHhT8
- osQnY80gBhN22d9P4enk1qg5nkfXEJmibcU5RlyYSExxYvCeUJLVbGu2cmEfy4rTfT1P
- NMXrbJ6Vas7wn/v8nhN82MFboOcqE2cXjtMeeZdA1yFgMqSrnyFQv+UhWUfrmxmLUvhY
- AK9g835vSIxrogXFvL7rTinknLDH2o8QAYvXcrLlXeLi7hkooD8KK2j42VLiOPapTd+V
- 5ZOp2anIdqEoCe32A8BbFimFQowhF1DSyfY0GiEx+qd9nlKIs/m+3ZcJZ/u4frfVdAK6
- u5DQ==
+ h=cc:to:from:subject:message-id:mime-version:date:reply-to:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C/GMxUFWnxczBclfWAPbx8KCz76D46/EtIUMIe5GBKE=;
+ b=Es8oFlKBB1jIAJrjbq/bOEcD29Sd4VEPzai0/zDwmazcQrAYNsJubAxSqt5MZl3dwV
+ xlPp9bCFZCnQrnjwc8GiNaOq0vuoBxMN/RZ0E14kUGX8jS52ssKq4F/pVWMBDWxdXEp2
+ 0gMBakRbMJvBqQEFya0m8JbhV23LNNF7wmR6GfeQP7GVXTijBOfDSExl6yscL8ab2Vqz
+ R84rHkzOaI2S0hZajNW5DH3uSspqJzOqWpYE9qcTDFlbbff4mY/54hNRFVQMBAkZcq61
+ hEN+zdYmUwdbZfW6ci8k52IkepXp7sWy4zlUj/9TBsk7AmKY3RdKQuldXFABQfmvMBl5
+ M/TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747955087; x=1748559887;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Sjvt2FSndoyzHpiTi00fqP3aNPbtMl1ng2ZPdHNNLQk=;
- b=gUfFBFZBFgf+QgorsT4QjlVJTBh3zsxt8GOLiaxUZJfvzZKweSjBFsBrqg3Lc6U6bu
- 5kG+C5ehkfBERN+2rO382pdpnAJ9xLg5g+skqaHulAgppoLTl4TlBr4q7qg6pbZ+q1dX
- V+lbK8SPxKcy9qC8COvKTkWdy0WjWhtGr7h4/A+UWfUNuoZvfFKvjVSuS3iJL7w5zKvO
- HNavrLqpDCyVRVN3lHN10F/SemB5DghZQFyN5t+lu72oWpnvyLsxsrVR3nESmBeK35O4
- ctgpVOESRkuZOqoDZP5n4vS4kHlTuTqx5D3rSH0H5G8RRnG2o3wjiZLAHgJk8hdZLhoK
- 82LA==
+ d=1e100.net; s=20230601; t=1747957062; x=1748561862;
+ h=cc:to:from:subject:message-id:mime-version:date:reply-to
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C/GMxUFWnxczBclfWAPbx8KCz76D46/EtIUMIe5GBKE=;
+ b=DPxd2hylvCJTczC6mu9vLCDyyN3Imyp6oHKNPnmM9ZdNDbgII31DlAHuGIBTULHthv
+ IHu8Da2UHJNv2woxinfs1GjidThe6PtoM5SKPZUjlTepAloYJcIgcU1FTjIarml9opjw
+ bJGauZBUK1KGM5tBoeYxuzAbDhp2d9gD6CxhCPZpAIu7uQfHvU6/6bzY82ox10GjwDyp
+ jZhVS+Y+uQDH+WFVy2CzWPGDnNwgqVDguqRsLXqWHm96WiLvn8iUEa0r5f41APAmi/+J
+ tN6R5HXEOrQeYhHw7LMS1eVIlTEmYg1NMs9m7UAbTstn+FmB1YDKyMkiQKlibe+57A14
+ Kquw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUavDSgHiuZmbvh8x1ooPFNCPcAmk+3rJd9MTTyN5vZEMD9QVw8pH/kcA5W4ZyiZ/PDDOAsnyN15zw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyuCVGsq5qMISpWh4PQ3y35THvQSJisfzpwjQgvsL2FRt446T6W
- iNIseb3nXExac0wmkxal6aqG7q875SjLLyYNCDCdHRoV0ojEf5r6osgZMsYq2PYjBDV9+P6dduz
- qeHuEMMChfRc+0HKcJA==
-X-Google-Smtp-Source: AGHT+IGmBEEC3D+iQhUBmXN1VONTwNdgdzLmg2mtljqXxgk37nf0oQytjH+Iy15NdK+asUPGlaAXITDgBdNduEE=
-X-Received: from pjur12.prod.google.com ([2002:a17:90a:d40c:b0:2ff:4be0:c675])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:1e01:b0:30c:540b:99e with SMTP id
- 98e67ed59e1d1-310e96cbff2mr1317193a91.13.1747955087546; 
- Thu, 22 May 2025 16:04:47 -0700 (PDT)
-Date: Thu, 22 May 2025 23:04:29 +0000
-In-Reply-To: <20250522230429.941193-1-tjmercier@google.com>
+ AJvYcCVxEIBUtCIaiQ7+P1rnD8Iii3yy7jwLP3361FJY5I5rz5eZZ1LCqnj6KVjLd/aylY0IthoCBSBzE+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQAUQNh3wF6DEBEUhtXj8jlBaTpcYQig1E3dUQlOF9sGOL/9L3
+ 2dUFAX/iFm+NUDe51sGnkqbujhlHJmDbdLMiJ/L3yu/9K4njYCJeILyVfG4e91ZhoyEEYpDNHB2
+ ns7bQ4A==
+X-Google-Smtp-Source: AGHT+IHSm7sbPUijyvF+pKq3GN2bRkSA6Knc8QK9FotWZGxL3nppVXhwWnhjgzynzLIZ6YqOyGWjDyGpsjI=
+X-Received: from pjbsw4.prod.google.com ([2002:a17:90b:2c84:b0:2fc:c98:ea47])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:5143:b0:310:cf8f:6724
+ with SMTP id 98e67ed59e1d1-310e9740405mr1477484a91.30.1747957061777; Thu, 22
+ May 2025 16:37:41 -0700 (PDT)
+Date: Thu, 22 May 2025 16:37:24 -0700
 Mime-Version: 1.0
-References: <20250522230429.941193-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.49.0.1151.ga128411c76-goog
-Message-ID: <20250522230429.941193-6-tjmercier@google.com>
-Subject: [PATCH bpf-next v7 5/5] selftests/bpf: Add test for open coded
- dmabuf_iter
-From: "T.J. Mercier" <tjmercier@google.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, alexei.starovoitov@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org, song@kernel.org, 
- "T.J. Mercier" <tjmercier@google.com>
+Message-ID: <20250522233733.3176144-1-seanjc@google.com>
+Subject: [PATCH v3 0/8] x86, KVM: Optimize SEV cache flushing
+From: Sean Christopherson <seanjc@google.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Kevin Loughlin <kevinloughlin@google.com>, 
+ Tom Lendacky <thomas.lendacky@amd.com>, Kai Huang <kai.huang@intel.com>, 
+ Ingo Molnar <mingo@kernel.org>, Zheyun Shen <szy0127@sjtu.edu.cn>, 
+ Mingwei Zhang <mizhang@google.com>,
+ Francesco Lavra <francescolavra.fl@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,180 +86,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Sean Christopherson <seanjc@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the same test buffers as the traditional iterator and a new BPF map
-to verify the test buffers can be found with the open coded dmabuf
-iterator.
+This is the combination of Kevin's WBNOINVD series[1] with Zheyun's targeted
+flushing series[2].  The combined goal is to use WBNOINVD instead of WBINVD
+when doing cached maintenance to prevent data corruption due to C-bit aliasing,
+and to reduce the number of cache invalidations by only performing flushes on
+CPUs that have entered the relevant VM since the last cache flush.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-Acked-by: Song Liu <song@kernel.org>
----
- .../testing/selftests/bpf/bpf_experimental.h  |  5 ++
- .../selftests/bpf/prog_tests/dmabuf_iter.c    | 41 ++++++++++++++++
- .../testing/selftests/bpf/progs/dmabuf_iter.c | 48 +++++++++++++++++++
- 3 files changed, 94 insertions(+)
+All of the non-KVM patches are frontloaded and based on v6.15-rc7, so that
+they can go through the tip tree (in a stable branch, please :-) ).
 
-diff --git a/tools/testing/selftests/bpf/bpf_experimental.h b/tools/testing=
-/selftests/bpf/bpf_experimental.h
-index 6535c8ae3c46..5e512a1d09d1 100644
---- a/tools/testing/selftests/bpf/bpf_experimental.h
-+++ b/tools/testing/selftests/bpf/bpf_experimental.h
-@@ -591,4 +591,9 @@ extern int bpf_iter_kmem_cache_new(struct bpf_iter_kmem=
-_cache *it) __weak __ksym
- extern struct kmem_cache *bpf_iter_kmem_cache_next(struct bpf_iter_kmem_ca=
-che *it) __weak __ksym;
- extern void bpf_iter_kmem_cache_destroy(struct bpf_iter_kmem_cache *it) __=
-weak __ksym;
-=20
-+struct bpf_iter_dmabuf;
-+extern int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it) __weak __ksym;
-+extern struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it) __=
-weak __ksym;
-+extern void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it) __weak __k=
-sym;
-+
- #endif
-diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/tools/t=
-esting/selftests/bpf/prog_tests/dmabuf_iter.c
-index dc740bd0e2bd..6c2b0c3dbcd8 100644
---- a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-+++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-@@ -219,14 +219,52 @@ static void subtest_dmabuf_iter_check_default_iter(st=
-ruct dmabuf_iter *skel)
- 	close(iter_fd);
- }
-=20
-+static void subtest_dmabuf_iter_check_open_coded(struct dmabuf_iter *skel,=
- int map_fd)
-+{
-+	LIBBPF_OPTS(bpf_test_run_opts, topts);
-+	char key[DMA_BUF_NAME_LEN];
-+	int err, fd;
-+	bool found;
-+
-+	/* No need to attach it, just run it directly */
-+	fd =3D bpf_program__fd(skel->progs.iter_dmabuf_for_each);
-+
-+	err =3D bpf_prog_test_run_opts(fd, &topts);
-+	if (!ASSERT_OK(err, "test_run_opts err"))
-+		return;
-+	if (!ASSERT_OK(topts.retval, "test_run_opts retval"))
-+		return;
-+
-+	if (!ASSERT_OK(bpf_map_get_next_key(map_fd, NULL, key), "get next key"))
-+		return;
-+
-+	do {
-+		ASSERT_OK(bpf_map_lookup_elem(map_fd, key, &found), "lookup");
-+		ASSERT_TRUE(found, "found test buffer");
-+	} while (bpf_map_get_next_key(map_fd, key, key));
-+}
-+
- void test_dmabuf_iter(void)
- {
- 	struct dmabuf_iter *skel =3D NULL;
-+	int map_fd;
-+	const bool f =3D false;
-=20
- 	skel =3D dmabuf_iter__open_and_load();
- 	if (!ASSERT_OK_PTR(skel, "dmabuf_iter__open_and_load"))
- 		return;
-=20
-+	map_fd =3D bpf_map__fd(skel->maps.testbuf_hash);
-+	if (!ASSERT_OK_FD(map_fd, "map_fd"))
-+		goto destroy_skel;
-+
-+	if (!ASSERT_OK(bpf_map_update_elem(map_fd, udmabuf_test_buffer_name, &f, =
-BPF_ANY),
-+		       "insert udmabuf"))
-+		goto destroy_skel;
-+	if (!ASSERT_OK(bpf_map_update_elem(map_fd, sysheap_test_buffer_name, &f, =
-BPF_ANY),
-+		       "insert sysheap buffer"))
-+		goto destroy_skel;
-+
- 	if (!ASSERT_OK(create_test_buffers(), "create_test_buffers"))
- 		goto destroy;
-=20
-@@ -237,8 +275,11 @@ void test_dmabuf_iter(void)
- 		subtest_dmabuf_iter_check_no_infinite_reads(skel);
- 	if (test__start_subtest("default_iter"))
- 		subtest_dmabuf_iter_check_default_iter(skel);
-+	if (test__start_subtest("open_coded"))
-+		subtest_dmabuf_iter_check_open_coded(skel, map_fd);
-=20
- destroy:
- 	destroy_test_buffers();
-+destroy_skel:
- 	dmabuf_iter__destroy(skel);
- }
-diff --git a/tools/testing/selftests/bpf/progs/dmabuf_iter.c b/tools/testin=
-g/selftests/bpf/progs/dmabuf_iter.c
-index e53d7646d07a..13cdb11fdeb2 100644
---- a/tools/testing/selftests/bpf/progs/dmabuf_iter.c
-+++ b/tools/testing/selftests/bpf/progs/dmabuf_iter.c
-@@ -9,6 +9,13 @@
-=20
- char _license[] SEC("license") =3D "GPL";
-=20
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(key_size, DMA_BUF_NAME_LEN);
-+	__type(value, bool);
-+	__uint(max_entries, 5);
-+} testbuf_hash SEC(".maps");
-+
- /*
-  * Fields output by this iterator are delimited by newlines. Convert any
-  * newlines in user-provided printed strings to spaces.
-@@ -51,3 +58,44 @@ int dmabuf_collector(struct bpf_iter__dmabuf *ctx)
- 	BPF_SEQ_PRINTF(seq, "%lu\n%llu\n%s\n%s\n", inode, size, name, exporter);
- 	return 0;
- }
-+
-+SEC("syscall")
-+int iter_dmabuf_for_each(const void *ctx)
-+{
-+	struct dma_buf *d;
-+
-+	bpf_for_each(dmabuf, d) {
-+		char name[DMA_BUF_NAME_LEN];
-+		const char *pname;
-+		bool *found;
-+		long len;
-+		int i;
-+
-+		if (bpf_core_read(&pname, sizeof(pname), &d->name))
-+			return 1;
-+
-+		/* Buffers are not required to be named */
-+		if (!pname)
-+			continue;
-+
-+		len =3D bpf_probe_read_kernel_str(name, sizeof(name), pname);
-+		if (len < 0)
-+			return 1;
-+
-+		/*
-+		 * The entire name buffer is used as a map key.
-+		 * Zeroize any uninitialized trailing bytes after the NUL.
-+		 */
-+		bpf_for(i, len, DMA_BUF_NAME_LEN)
-+			name[i] =3D 0;
-+
-+		found =3D bpf_map_lookup_elem(&testbuf_hash, name);
-+		if (found) {
-+			bool t =3D true;
-+
-+			bpf_map_update_elem(&testbuf_hash, name, &t, BPF_EXIST);
-+		}
-+	}
-+
-+	return 0;
-+}
---=20
+v3:
+ - Move the non-KVM patches to the front. [Ingo]
+ - Add comments to document WBINVD vs. WBNOINVD. [Ingo]
+ - Collect acks/reviews. [Ingo, Tom]
+ - Rename xx_wbinvd_on_many_cpus() to xx_on_cpus_mask(). [Ingo]
+ - Fix a repeated "be" in a comment. [Francesco]
+
+v2:
+ - https://lore.kernel.org/all/20250516212833.2544737-1-seanjc@google.com
+ - Add a missing -ENOMEM in __sev_guest_init(). [Tom]
+ - Collect reviews. [Kai, Tom]
+ - Fix stub prototypes. [Zheyun]
+ - Kill off dead pr_err() code on DRM's wbinvd_on_all_cpus() usage.
+
+v1: https://lore.kernel.org/all/20250227014858.3244505-1-seanjc@google.com
+
+[1] https://lore.kernel.org/all/20250201000259.3289143-1-kevinloughlin@google.com
+[2] https://lore.kernel.org/all/20250128015345.7929-1-szy0127@sjtu.edu.cn
+
+Kevin Loughlin (2):
+  x86, lib: Add WBNOINVD helper functions
+  KVM: SEV: Prefer WBNOINVD over WBINVD for cache maintenance efficiency
+
+Sean Christopherson (3):
+  drm/gpu: Remove dead checks on wbinvd_on_all_cpus()'s return value
+  x86, lib: Drop the unused return value from wbinvd_on_all_cpus()
+  KVM: x86: Use wbinvd_on_cpu() instead of an open-coded equivalent
+
+Zheyun Shen (3):
+  x86, lib: Add wbinvd and wbnoinvd helpers to target multiple CPUs
+  KVM: SVM: Remove wbinvd in sev_vm_destroy()
+  KVM: SVM: Flush cache only on CPUs running SEV guest
+
+ arch/x86/include/asm/smp.h           | 23 +++++++-
+ arch/x86/include/asm/special_insns.h | 32 ++++++++++-
+ arch/x86/kvm/svm/sev.c               | 85 +++++++++++++++++++---------
+ arch/x86/kvm/svm/svm.h               |  1 +
+ arch/x86/kvm/x86.c                   | 11 +---
+ arch/x86/lib/cache-smp.c             | 26 ++++++++-
+ drivers/gpu/drm/drm_cache.c          |  9 +--
+ 7 files changed, 140 insertions(+), 47 deletions(-)
+
+
+base-commit: a5806cd506af5a7c19bcd596e4708b5c464bfd21
+-- 
 2.49.0.1151.ga128411c76-goog
 
