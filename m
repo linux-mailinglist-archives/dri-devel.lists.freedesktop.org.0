@@ -2,104 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6C6AC0184
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 02:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43660AC01A9
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 03:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9A010EA7A;
-	Thu, 22 May 2025 00:49:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41171129E2;
+	Thu, 22 May 2025 01:11:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pX7qLKNi";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kAc2bhKM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C93B10EA7A;
- Thu, 22 May 2025 00:49:31 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LI33N0020978;
- Thu, 22 May 2025 00:49:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- E4n+yY9G+hpZCjGSQSEoCecbGc77mPtuOUGmJCXO2Yk=; b=pX7qLKNifY6+G2Af
- 9cJLPyPuJuA9oMBaBn/uKLlV3li8b1Y/cfjtueJymGwJRJKSCHMGly3YoZHbsSQW
- SKQoVkNqOA5hrz+f4p4DG4dM3F6FgDM/opkgkbPU8Ps9FUmjp5uN4UJmcC7TbXC9
- EdVgFdJ5RrMFP0h/p+gwI0ZblvIqZT/BTMCpSwJg/XdMVOS3NFGZ3P7F9PzJg+IQ
- wPqmHY6BsgEXFmCaJjgS+2+GSfAUD8O2P7iYHrAbEXu2ZtwqdupQ9t2I2JsJE1Do
- Ag9pYyvVg8I1NPYMo/KIgEWS5odmI2K6DyJhHs39S4fEmnHPc+X0C9aIiJL5IhMf
- uKa3SA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf04pjx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 May 2025 00:49:26 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54M0nPLI003984
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 May 2025 00:49:25 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 21 May
- 2025 17:49:24 -0700
-Message-ID: <049d9ccd-f313-4eef-9694-5e805982a754@quicinc.com>
-Date: Wed, 21 May 2025 17:49:24 -0700
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 903751129D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 01:11:15 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-231f325366eso55092595ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 18:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1747876273; x=1748481073;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3BXu5AhU668DeVMQXwhRYtvbb/ldwfvRhDhf9vXtb6o=;
+ b=kAc2bhKMKZA5lYO2qoP4TkHhHBsFOz2ZkG7RK8/0JWqiBhRANTRJDrWB0dZOlFEQS7
+ KtZIJ5MY0F9gzFk+cgNtWDF4Tj7thuNy8mgl0ZLdsc0WMuCdqJmeHStcIEWu138cZ5pz
+ TPf+fJiFspq0cOsYspO1KmKpJlZkft224xNfk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747876273; x=1748481073;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3BXu5AhU668DeVMQXwhRYtvbb/ldwfvRhDhf9vXtb6o=;
+ b=qeIZq8A0yUjOSQVfi+T2L4YY6Cgv0xlYaFg/zAOUTseggMXt1RfkkBYqDgnj1AIdlL
+ fuZJpDF1cwpTm5L/7zICz1SiVQv246te03kMZeAVQMyJpXkP8HVY0PIYKhWuBzeyIU4x
+ gjyQWZr8Mu6b4vjlCNYz8W+O6sHBB7Jf9/DqErfsPEy1pyJ0IlDv8HEAFv3XTWkLqn2H
+ 5vkMRsN3kycB7sWrsW/mh/mj4HucTLlzigEhT319D/7yXV1xYCkISAelWExPjgu0jQrD
+ XJddGa2c9yW6a5saAAZ1aEKKDsh2oqFWD8n3trcZnMiI2Krq9TCsdvlZYu+7uNQBZCyN
+ SU+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUBFp4nmcK2AqQAoB2dVDzT6IVNhZKIxvH31fIqgjy6wunikrtXhFvi2IxCHfu1mjMMGGG7jTrOqg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuMEoS4wV5/hBToFdKq0KG460tewtCBaaNZ6uzCEPZq55/csyd
+ lBVjGJU3+u7IAwH8fn9MV86sNYkct0u5Ei2piq2kfk2F8KMk/zVus3gv+xJj20BM9DhdaU6RO8o
+ ZlBs=
+X-Gm-Gg: ASbGncvka30R08uY7/nqiRl3AHrb4O3wGahXZP7OSg12FxKfswNYdairbVMAiFnygCy
+ 2FINlZOFrvHNEbNXKVJ+RUmUqKdOAStcPH2ZfOjiT4gAxF3eNEFW3djzJ2q/BMcsUbVQIo/xzQ/
+ qX9xbE+HlnDAXH9fkTi+Y7hSlIDvI3Xx2seWKxNTaewX1ZwSQ4P7J3C6EQ0a16d0ltPQ3ZNYXo+
+ xVAaqTYut3eh6vzrHuDAZyWlodUZk32gOI+cOvC5xECK+hDIKhLvDK/s0vp9ONpRtDaVIcCgOfv
+ rQY+DOetqEpVImGo9BSfTEq4N2oCFC8Wm9CwJQY2vlHjR5enzBhl0ZNrQ6NBxVy1nyb321Bb2po
+ 8cWFelTWHFz9AadtY4OA=
+X-Google-Smtp-Source: AGHT+IG/xy56arwNuiMzwFGLPj1VT8o0y7Rxm0tmJZdcEvXm1tvXnnid8JNyu4BEdM5hVkjiP0+a/Q==
+X-Received: by 2002:a17:902:d4cc:b0:232:119e:1433 with SMTP id
+ d9443c01a7336-232119e1945mr229881015ad.45.1747876273108; 
+ Wed, 21 May 2025 18:11:13 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com.
+ [209.85.215.179]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-231d4ebad26sm98828875ad.198.2025.05.21.18.11.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 May 2025 18:11:11 -0700 (PDT)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-b26d7ddbfd7so7677936a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 May 2025 18:11:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8cOJcV7XKx4W/5iSPMSmcEWHDlE8AQMnI774ZbQ4w1mfCY3+NkcbfCRGM4CWUGI6r91/2tG3IssI=@lists.freedesktop.org
+X-Received: by 2002:a17:902:c94f:b0:223:5ca8:5ecb with SMTP id
+ d9443c01a7336-231d45ab485mr292944705ad.42.1747876271067; Wed, 21 May 2025
+ 18:11:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: display/msm: add stream 1 pixel clock
- binding
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
- <39f8e20a-e8c3-4625-abb1-9f35f416705d@kernel.org>
- <50820e7b-b302-4f7f-baf9-778f3db6cfff@quicinc.com>
- <f7941d74-3856-4bd9-95db-0b7f09eb07fd@kernel.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <f7941d74-3856-4bd9-95db-0b7f09eb07fd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 9nMS-tCBBYXoXO0ddtveeosOItY_9TEN
-X-Proofpoint-ORIG-GUID: 9nMS-tCBBYXoXO0ddtveeosOItY_9TEN
-X-Authority-Analysis: v=2.4 cv=ZP3XmW7b c=1 sm=1 tr=0 ts=682e7496 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=fVyq4P6jECAiOkGLdwwA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDAwNSBTYWx0ZWRfXwR4Ez9KSzpaB
- YxtfghaQgahK+jJ+N3iLl/bnkBqGj+zjBFqoz7I7eCjfn8LODngJAvREyKluu5lRKNvxeqqevrx
- ba7wPMVBZ165n+zgiCdeOSV5t8sQLeF3aEa3GF5zW6hH3dFrrrJljhTfbqE1QBmQav1qE27UJh4
- MK3P5GCwRoQqbBOoB9bYTrkMi+O+yij7Uir444B2YTzOmQVv73F48rdE2LWBuk83ZIh9kbEY0qv
- l7IHU6Bgis8MBQEaofvdKoFsNLJ+or98OWTDhvWv5mpd32dw5rMuQdhdFdjgIcKb2ixwqJ3lqI3
- GggHgoReyP4glIQqElzhnBxdc1PBLegush+pYf9l0acy+BMCLbYGXEELeZSJ8rwW4/uuQuYnJ42
- r9D2WUQFNHttcDFL1uqSXsnGcmiYKIf8FRNxYtA48jC1uEs3NWzWWYYZyC0R6onaK1JO8kTW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_01,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- impostorscore=0 phishscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505220005
+References: <20250508115433.449102-1-j-choudhary@ti.com>
+In-Reply-To: <20250508115433.449102-1-j-choudhary@ti.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 21 May 2025 18:10:59 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V1mNX-WidTAaENH66-2ExN=F_ovuX818uQGfc+Gsym1Q@mail.gmail.com>
+X-Gm-Features: AX0GCFsfqtRg5gds9Yg2OcCBHplls8kkmTCilAH-BAWcG36UzmUn4pE-4UwIYNQ
+Message-ID: <CAD=FV=V1mNX-WidTAaENH66-2ExN=F_ovuX818uQGfc+Gsym1Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
+ connector type
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
+ tomi.valkeinen@ideasonboard.com, max.krummenacher@toradex.com, 
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ kieran.bingham+renesas@ideasonboard.com, linux-kernel@vger.kernel.org, 
+ max.oss.09@gmail.com, devarsht@ti.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,157 +105,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+On Thu, May 8, 2025 at 4:54=E2=80=AFAM Jayesh Choudhary <j-choudhary@ti.com=
+> wrote:
+>
+> By default, HPD was disabled on SN65DSI86 bridge. When the driver was
+> added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
+> call which was moved to other function calls subsequently.
+> Later on, commit "c312b0df3b13" added detect utility for DP mode. But wit=
+h
+> HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
+> state always return 1 (always connected state)
+>
+> Also, with the suspend and resume calls before every register access, the
+> bridge starts with disconnected state and the HPD state is reflected
+> correctly only after debounce time (400ms). However, adding this delay
+> in the detect function causes frame drop and visible glitch in display.
+>
+> So to get the detect utility working properly for DP mode without any
+> performance issues in display, instead of reading HPD state from the
+> register, rely on aux communication. Use 'drm_dp_dpcd_read_link_status'
+> to find if we have something connected at the sink.
+>
+> [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
+>
+> Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connecto=
+r operations for DP")
+> Cc: Max Krummenacher <max.krummenacher@toradex.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+>
+> v1 patch link which was sent as RFC:
+> <https://patchwork.kernel.org/project/dri-devel/patch/20250424105432.2553=
+09-1-j-choudhary@ti.com/>
+>
+> Changelog v1->v2:
+> - Drop additional property in bindings and use conditional.
+> - Instead of register read for HPD state, use dpcd read which returns 0
+>   for success and error codes for no connection
+> - Add relevant history for the required change in commit message
+> - Drop RFC subject-prefix in v2 as v2 is in better state after discussion
+>   in v1 and Max's mail thread
+> - Add "Cc:" tag
+>
+> This approach does not make suspend/resume no-op and no additional
+> delay needs to be added in the detect hook which causes frame drops.
+>
+> Here, I am adding conditional to HPD_DISABLE bit even when we are
+> not using the register read to get HPD state. This is to prevent
+> unnecessary register updates in every resume call.
+> (It was adding to latency and leading to ~2-3 frame drop every 10 sec)
+>
+> Tested and verified on TI's J784S4-EVM platform:
+> - Display comes up
+> - Detect utility works with a couple of seconds latency.
+>   But I guess without interrupt support, this is acceptable.
+> - No frame-drop observed
+>
+> Discussion thread for Max's patch:
+> <https://patchwork.kernel.org/project/dri-devel/patch/20250501074805.3069=
+311-1-max.oss.09@gmail.com/>
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+
+Sorry for the delay in responding. Things got a little crazy over the
+last few weeks.
 
 
-On 5/7/2025 11:18 PM, Krzysztof Kozlowski wrote:
-> On 23/04/2025 04:46, Abhinav Kumar wrote:
->> Hi Krzysztof
->>
->> On 12/3/2024 12:04 AM, Krzysztof Kozlowski wrote:
->>> On 03/12/2024 04:31, Abhinav Kumar wrote:
->>>> On some chipsets the display port controller can support more
->>>
->>> Which chipsets?
->>>
->>
->>   From the current list of chipsets which support DP, the following can
->> support more than one stream.
->>
->> qcom,sa8775p-dp
->> qcom,sc7280-dp
->> qcom,sc8180x-dp
->> qcom,sc8280xp-dp
->> qcom,sm8350-dp
->> qcom,sm8650-dp
->> qcom,sm8550-dp
->> qcom,sm8450-dp
->> qcom,sm8250-dp
->> qcom,sm8150-dp
->>
->> So do you also want all of these to be added in the same if block as
->> qcom,sa8775p-dp?
-> 
-> That was talk in 2024. Entire context is gone if you reply after three
-> months. I do not have even that emails in my inbox anymore.
-> 
-> Probably I expected commit msg to mention at least some, so everyone
-> knows which chipsets are affected here and one can verify the statements
-> from commit msg.
-> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index 60224f476e1d..9489e78b6da3 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -352,8 +352,10 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65=
+dsi86 *pdata,
+>          * change this to be conditional on someone specifying that HPD s=
+hould
+>          * be used.
+>          */
+> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE=
+,
+> -                          HPD_DISABLE);
+> +
+> +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_eDP)
+> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD=
+_DISABLE,
+> +                                  HPD_DISABLE);
 
-Sure will do.
+Given your an Max's testing, I'm totally on-board with the above.
 
->>
->>>> than one pixel stream (multi-stream transport). To support MST
->>>> on such chipsets, add the binding for stream 1 pixel clock for
->>>> display port controller. Since this mode is not supported on all
->>>> chipsets, add exception rules and min/max items to clearly mark
->>>> which chipsets support only SST mode (single stream) and which ones
->>>> support MST.
->>>>
->>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> ---
->>>>    .../bindings/display/msm/dp-controller.yaml        | 32 ++++++++++++++++++++++
->>>>    .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |  9 ++++--
->>>>    2 files changed, 38 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> index 9fe2bf0484d8..650d19e58277 100644
->>>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> @@ -50,30 +50,38 @@ properties:
->>>>        maxItems: 1
->>>>    
->>>>      clocks:
->>>> +    minItems: 5
->>>>        items:
->>>>          - description: AHB clock to enable register access
->>>>          - description: Display Port AUX clock
->>>>          - description: Display Port Link clock
->>>>          - description: Link interface clock between DP and PHY
->>>>          - description: Display Port stream 0 Pixel clock
->>>> +      - description: Display Port stream 1 Pixel clock
->>>>    
->>>>      clock-names:
->>>> +    minItems: 5
->>>>        items:
->>>>          - const: core_iface
->>>>          - const: core_aux
->>>>          - const: ctrl_link
->>>>          - const: ctrl_link_iface
->>>>          - const: stream_pixel
->>>> +      - const: stream_1_pixel
->>>>    
->>>>      assigned-clocks:
->>>> +    minItems: 2
->>>>        items:
->>>>          - description: link clock source
->>>>          - description: stream 0 pixel clock source
->>>> +      - description: stream 1 pixel clock source
->>>>    
->>>>      assigned-clock-parents:
->>>> +    minItems: 2
->>>>        items:
->>>>          - description: Link clock PLL output provided by PHY block
->>>>          - description: Stream 0 pixel clock PLL output provided by PHY block
->>>> +      - description: Stream 1 pixel clock PLL output provided by PHY block
->>>>    
->>>>      phys:
->>>>        maxItems: 1
->>>> @@ -175,6 +183,30 @@ allOf:
->>>>          required:
->>>>            - "#sound-dai-cells"
->>>>    
->>>
->>> Missing if: narrowing this to 5 items for other devices.
->>>
->>
->> OR would an else be better?
-> 
-> Usually not, although depends how this binding is written.
-> 
+>
+>         pdata->comms_enabled =3D true;
+>
+> @@ -1194,13 +1196,14 @@ static enum drm_connector_status ti_sn_bridge_det=
+ect(struct drm_bridge *bridge)
+>  {
+>         struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+>         int val =3D 0;
+> +       u8 link_status[DP_LINK_STATUS_SIZE];
+>
+> -       pm_runtime_get_sync(pdata->dev);
+> -       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> -       pm_runtime_put_autosuspend(pdata->dev);
+> +       val =3D drm_dp_dpcd_read_link_status(&pdata->aux, link_status);
+>
+> -       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> -                                        : connector_status_disconnected;
+> +       if (val < 0)
+> +               return connector_status_disconnected;
+> +       else
+> +               return connector_status_connected;
 
-Ok, let me try it.
+I'd really rather not do this. It took me a little while to realize
+why this was working and also not being slow like your 400ms delay
+was. I believe that each time you do the AUX transfer it grabs a
+pm_runtime reference and then puts it with "autosuspend". Then you're
+relying on the fact that detect is called often enough so that the
+autosuspend doesn't actually hit so the next time your function runs
+then it's fast. Is that accurate?
 
-> 
->>
->> +    else:
->> +      properties:
->> +        clocks:
->> +          maxItems: 5
->> +        clock-names:
->> +          items:
->> +            - const: core_iface
->> +            - const: core_aux
->> +            - const: ctrl_link
->> +            - const: ctrl_link_iface
->> +            - const: stream_pixel
->>
->>>> +  - if:
->>>> +      properties:
->>>> +        compatible:
->>>> +          contains:
->>>> +            enum:
->>>> +              - qcom,sa8775p-dp
->>>> +
->>>> +    then:
->>>> +      properties:
->>>> +        clocks:
->>>
->>> Missing minItems, otherwise it is pointless.
->>>
->>
->> I thought that since I have already specified the minItems as 5
->> in the clocks in the section above, I need to specify only the maxItems
->> here?
-> 
-> No, you need explicit constraints here.
-> 
+I'd rather see something like this in the bridge's probe (untested)
 
-Ack
+  if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
+    pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
 
-> 
-> 
-> Best regards,
-> Krzysztof
+    /*
+     * In order for DRM_BRIDGE_OP_DETECT to work in a reasonable
+     * way we need to keep the bridge powered on all the time.
+     * The bridge takes hundreds of milliseconds to debounce HPD
+     * and we simply can't wait that amount of time in every call
+     * to detect.
+     */
+    pm_runtime_get_sync(pdata->dev);
+  }
 
+...obviously you'd also need to find the right times to undo this in
+error handling and in remove.
+
+Nicely, this would be the same type of solution needed for if we ever
+enabled interrupts.
+
+-Doug
