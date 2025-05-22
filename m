@@ -2,171 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8388AC08BF
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 11:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12ECAC0915
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 11:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA1C10E200;
-	Thu, 22 May 2025 09:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2DBD10EFA5;
+	Thu, 22 May 2025 09:53:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qEXcKL4T";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KR3Kh0at";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2064.outbound.protection.outlook.com [40.107.92.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F3110E200;
- Thu, 22 May 2025 09:31:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vhxKcXLdILZ4L8HFHnovsfKOoLFYZMukjzOqEWARkZxgr8mtWZcgCPxvfbFslTjTqmjo2KtSweTQ7ojGbXF1HlGUwPNtR1MMLZjE1HwsZws7JclhTf0rPuE4vWmliDRechZkJmDBzJl8mkyYCgBeCV0H/J9uxu21348787OBBfkzO3Rs5GG2svdexZB1YyPW/+yKorkjJfTlO8ZsRF3dxV5Pqy062+dfmIjoBBI+yZKSP+94vYOjdOY5jFSivN1oAIiLCzER5jSl3UdXa05sxw8iGUfteVTSvcIzGGIPSHPJyBJP++XW0rsbIdVmHAApNF6D0/VyUMjdiz1jI3ZrCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7epp4AdYoBenimOmfcMrKkbbmlb68XyEvRatlPJiNiU=;
- b=zIj2IPi22zVnol8+9NAD4M1yV3vBSH535HkopOv17kyADWmoMk18u7ikQ0zKARZKenUwLB6XetpZV/npqw11FoN4rKg4Oapb5wUTS82AzHjNXQJvkKySBOhLtOoUSPbYYzdcbismtgI73QAPEbkpycVhG1PGIKclcETG723uxzvJlQ42h7qcwVxCh3sZUQhCpogzm0tMlxyv3pI31/hEcCnXbr3lhLEakq0c0jWFSaoFSRVqwkuiYf8jSReeIw2IbgIgYq/f0w8ivAVtNahvhz5v+E1C6bhc2w1Sua4oDSpfpTeyo1kFBh0P1FIb5S+LrUTWE7NjpevGaheLVXmKow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7epp4AdYoBenimOmfcMrKkbbmlb68XyEvRatlPJiNiU=;
- b=qEXcKL4TpEKiD/K8p9QmgnY+RCPbk4mwxIPIkuj8hccgdjErXbdiaUGaSepzUBQQNNb3U9Nk7UlBYhAO1P/CHlDXvx140svfmg6bZsGNlEsAUchxjkFSBFYHet6HfdiqjlQ4HadHfWdg+4+8/x5rTMmeKZW93QsFQ9DLGFluc7225K/k5puVhXNTsmhgUOUd7reRbWO7mjo9CTCVC6CwOat96XxT1xe6Lmdos3AYQ8T3T3E/2wcoVzRV8Hs94jnxaZSVAAuSou7RR5P+H3/E3fyprQOJAiK+Fe0O8Ib8K0zluscmfs60RzTU0EUCTrTICbxtOqTQxFTLBc/avO3YsA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH2PR12MB9544.namprd12.prod.outlook.com (2603:10b6:610:280::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Thu, 22 May
- 2025 09:31:33 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
- 09:31:33 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 22 May 2025 18:31:29 +0900
-Message-Id: <DA2L2GAOD145.RU9FFI13VWCK@nvidia.com>
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "John Hubbard" <jhubbard@nvidia.com>, "Ben
- Skeggs" <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 04/20] rust: add new `num` module with useful integer
- operations
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
- <DA2E1BNC668R.MMCARZ3K2NTS@nvidia.com>
- <CANiq72nQwxqeRGWBW2WSHijUKLs4c26UGQvJFjt-_SpnJJaaYQ@mail.gmail.com>
-In-Reply-To: <CANiq72nQwxqeRGWBW2WSHijUKLs4c26UGQvJFjt-_SpnJJaaYQ@mail.gmail.com>
-X-ClientProxiedBy: TYCP286CA0365.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:79::12) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D2910EA44;
+ Thu, 22 May 2025 09:53:22 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M8As42006659;
+ Thu, 22 May 2025 09:52:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vGNzBVStC/BD4Tl8xEFOQH7RDXdac8nIDWsJh1Bphwc=; b=KR3Kh0atXcoKaF0t
+ vcm4ecbyXgrB7zoc7ucD1EoBydPqogMDXyucSZ0rvmFEK8YiKkC0iFJp6FVKGRuq
+ K1qQ+WBXwy5W/epFv7Cj5t+BPfpPp6qPKbMU4dr7W5StwGkpfEPy921QB/QkbNDm
+ cAKAcTU4OR2s+H/GMx6dDrytHoWgjO86V1/o4h7tdhXHFoQFmwO6UxTz0NHekOJ7
+ LvsvRzhe09WnHErlpAQGQbjssKeDBFxb73iY921VTB/GLXODtyHCYbd2+1q6TxR9
+ dnAzqDLJ7yJhhQgyDyNZgr1Q7tgmKfeMXPerDL/UXSjQcrRCQcf6qGyStB96Pd5G
+ 4ga//Q==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf0nxxn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 May 2025 09:52:27 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54M9qQxZ006854
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 May 2025 09:52:26 GMT
+Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 22 May
+ 2025 02:52:19 -0700
+Message-ID: <2a54ffe8-8e40-49f6-8735-96da47e1bbc6@quicinc.com>
+Date: Thu, 22 May 2025 17:51:52 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH2PR12MB9544:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ae3274b-f3e0-4bc2-bbc2-08dd991370b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UThGcjZIR1E0UFdpUlYybjBneGZJT1VZR3pPb05QQkJVYm9WRlBjZWJCdm9u?=
- =?utf-8?B?QWhPMWVrcC9yd1IwVG5YTVhsQ2tkQ1Fta2pVQTVwZFZxNkJER1o2OEZwVEVz?=
- =?utf-8?B?V0dQa1JoNkIrVktyQ2FIWkFOSkZqMk1ZMW1haDFKT0U5L0hDMnVKZnlia283?=
- =?utf-8?B?ZXo3TFNqUUVqa1B1OEtTckxxMm1CRjQxRktKMUNkUlJiNHFjWTR0MlZWWlNU?=
- =?utf-8?B?ZEc1aGtPZkt6eHlKTU96eTlnNVZyRWZuUUoya3BIYkhiT0djZ1ZYMEZ5NGw4?=
- =?utf-8?B?RDZDNVdHZ1R0NkVkbWdrSnBpSlA3VGZYK0hkTW5scS94SDBrdlZrYXRTMURK?=
- =?utf-8?B?Zm40WE5vWTBSZjFQQXN1emI1ZEFTZm1FUEQ0MXoxSGZaT0pBejNTcTlzRklh?=
- =?utf-8?B?M1gxZkZLWUxRT0UwTFRDanlnek1tcHpvdzFNVW9NNG94V2lrK0hGM1NkUW5h?=
- =?utf-8?B?R0lvTnZIaUFFdVhvSmpGeWpRQ2t1MnFDMWwrbk94K0N0WXczdkRHZ1cyVDBT?=
- =?utf-8?B?Rmg5TTJJOTNvMWk4UEFyMDBWSEF6azlnT05IaDhIZ3ZTNHpHRU5iV0d1Tk9H?=
- =?utf-8?B?WlNvenpOaDIxMVN1RVEzVWdjMG9UNEpwNHRjeUxNWGVOZlBPVE10cWtjZjgz?=
- =?utf-8?B?OEE4am5hVklqM0grT20yZlNzVXBUaDk5L0FGQkcwa0VvNzVac1gwWThmT014?=
- =?utf-8?B?cmlLR0xJZlQzc3FWbkZyQVU5OUI1Vktrcnl6alNaZkE4dVhOcHNzYXhuQVl2?=
- =?utf-8?B?OEM0dkxlNnNPY1Vqc0ovck15eHdLdEw0TGlna3c2WmRUd3I1WWxzVzNLL0JY?=
- =?utf-8?B?M0w2azZZVEVmZ2lxZ29Eek10QVc0QThNLzNxcVNJcjJUVmlGMmxZR3dJcjlE?=
- =?utf-8?B?bUtKSGRiN3B4MlBsNk12SS92cE1vUUtFSmRXL3RlazVzNktWdExGQlVRdEhB?=
- =?utf-8?B?c0o5RlN0WlFCM2lZRnFLbnB6SVZpNUZuUDJMR2Z5c3I5MGNIdExRclBjeW95?=
- =?utf-8?B?c3ZxM3BGNVQ0d3lUK3dwWDlxQkE3a3dOQ2dnbXdld04ySXY0aXF6WmZocHZK?=
- =?utf-8?B?WjNsME5MK0NjRzN4UlA1dFI2UzMvMEE5b2VNVFNUZk9id2VEY21VSXNJbUdF?=
- =?utf-8?B?T1hBVTZHYjlBUGNTbUYxLzcweTU1clR2YS9iNGhuQnBnRmVHNjJHcXNTZncx?=
- =?utf-8?B?L2p1U0tJcFN0MlIyYlNHdlJrOWtSalZHZHpaeHYvQXZEY3ptbG5rclJad3VC?=
- =?utf-8?B?TU1PallmYUpndlBUTVUrQ2pNdWJCeSt5dmIrS0pGNU5xamNrVHZhMVRqOGR5?=
- =?utf-8?B?REV5NzJrVE9aT3BVQ1dSa2s2c0VBUWY2RE54b2ZJdVB5ZXhxTDBwSXRBNFRw?=
- =?utf-8?B?Y0VqRGdpN3ZYeUtUaHlCcVVhRnAza25CcXNyTHhwYnlDaU5ORk16RGF3MFkz?=
- =?utf-8?B?R2FIbFlTRG1hUFpCaEFJMmJ0REdXN2JQVzZtdWJYbFBRWkg0MER3QlhuTS9Q?=
- =?utf-8?B?ZXVpNXArb2phRkc3MzlLRWJiRExucDBMSmNSUlJpVUFDb2Z1SnM2anFmZWNv?=
- =?utf-8?B?WUcxUUdZcmtaYmFyMDVza1lRVCsxRjVzSFhKbGx6alB3UEIydmV5TFFwNlp4?=
- =?utf-8?B?dmZwQ1pVeC9ETUQzaVZsOHVleGRhR1krd1kvQ1g4NGNrOHIyMW9xOElFK1A0?=
- =?utf-8?B?VEllZ3I1d1lmL3JGdmVUUldpMWlCWUFiNG4zNXhJMTNYSFI2cU95Y1pTTUdO?=
- =?utf-8?B?WXNyNEp5ODJKaTF2ZnF5NDhYdlJjcENmdEYvSmV4YzlxcHhLQ3dOY01hNzh0?=
- =?utf-8?B?UGxpK3ErSlQwWEZQcEZDY2NmcVFrbko2cjN0VldlYmgxQmJsWjV1TGc0RUxs?=
- =?utf-8?B?SUNkN01nSXJMeGptS3hnQ1NKVGpCOVFLME1vUEFOdDdVNHh3NGl6QmhmQmdi?=
- =?utf-8?Q?wMv7elHsEFM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjgvSVlQcndhMG03QkxwOFA0U3NRcWRvU0xITXJPUExuSVhIaG5kd3ZmdGx0?=
- =?utf-8?B?VTRNSE9YSnhyZGgwQnF6cy9vZU15K0JRbFpWbS9scEpQRnc4TFNLSkFUeU01?=
- =?utf-8?B?MlphREp2bkdPSFU5RmEwTFI1dFJiWmMwaDRRcUtVUVVHdzljQkNxSy93d3c2?=
- =?utf-8?B?M3EvQWk3TzFRb2FxUTlkbzNIRjhvdERpNi9RUjJ5UGVTeDI1Vit1LzZUMTM3?=
- =?utf-8?B?aS9vZzVNalFONjlDWkcrRHBSaXBqanJCZ0tTbnc1TkpmSHR1Vk9jcC9IL0Fq?=
- =?utf-8?B?TEU3RXMrK2dPWVc5TENpVmcvVkNzOXI1MHBFbTk4SHNiLzErTksvUytHYmpu?=
- =?utf-8?B?cWtVU3FCdkJjdGxIM2dKZjk2UFhKOENmV3YvUWtIVW1ESDhvTlBXcWFIeXlH?=
- =?utf-8?B?V1pzSlVNVUJQUy81c3pBWHZjVnJxYSs1NDBCL1dCOGNET2xFTEZoNFJmempW?=
- =?utf-8?B?bTJjR25WTkpiNkljdWI1N0drWGlqOTdDU0lGYXUrU0tYNlR4MEVBaFFSblBK?=
- =?utf-8?B?eG9JQUt4MThGY3VIMXh0aEJKQjFlMVFaQkJQUE5VSnc3OUxXU0VpbFAvc3pj?=
- =?utf-8?B?NEY2TVplRzVRdXJscGJFNkwwbUpYM25PYVdGaWlzUmRwcE94ZHdzTmp2YnVN?=
- =?utf-8?B?Nm9VM3hZbEpoV09tM1h1RUtQMzV4VEkzUWx0MFhPNDhsSGRFbXJJUlNmbVBk?=
- =?utf-8?B?UitERjJnWWdrUkJxSG9NaUhvU2xNVHVUaGVEUXZOeldpRGNRczF5RVNveitF?=
- =?utf-8?B?WHE2NkZjUEtOeW93NEo4S2lhUHdDY1dLaEZOVzN1K0VtWFdNR29GRFdwVkdV?=
- =?utf-8?B?SlVNYWsxUGhIaFpsNUlxRGxrU1JTeDhiT0NJYU1JZVlYeEJHTXp0Q0ZhUy9p?=
- =?utf-8?B?aCtRcXZLUC9JQTJsRUpvck9oM1pUajB1VHZEalIwcVpBeCtjcE5CRDR0TmxK?=
- =?utf-8?B?STgvY0tvRGlTd2pQR3VvT0hob3BxRnMwWjQ4TmtmODJ5eitlMzBYaE5KTDFr?=
- =?utf-8?B?bU51Y0hYMmZNMGFYcWU0TERWT3R5azNzNllYanhNYWs1NWlNd0dCMndIV2ty?=
- =?utf-8?B?OGNJakwrSDZQMHBtRjZ0cXhtYlJZQVNYOTdsQXM5Tm5lRzVtN3JpK2hYaWlT?=
- =?utf-8?B?NmNtZ1c2eFhQcGtJd0FJY1psRHJ4S2NYa0hnWml4YkNnUFRib1I4L3d5UXN3?=
- =?utf-8?B?ci90L1R5Y0pWTGQ3eFYxVzV5TDZKWlROODlpV3gzT01ucU1DOVRRdklOZm9k?=
- =?utf-8?B?YjEwUzJQclAxK1RGYmhJNTlWUVZuOVJzSVNnK0tsQ3owektER2VvMUVody9y?=
- =?utf-8?B?YTdVLzU4NTk4bExYMnl1QUQ1dFZqZ3ZTSmJ3ckkrYzk0THZVOThWOXVnSDVl?=
- =?utf-8?B?UThLVmd0MmZSWVpqV3l3bVJsRnJVeVd6UTlGTjRzMWl1SjdhNE02bUVnN0JW?=
- =?utf-8?B?MDRsTHdueFpwdWg0YVE2cmtOYWphb1NNNEYyZzVkY3BvdzVXTjhVNkhJQWRx?=
- =?utf-8?B?S3pFZWpvMW9XMlRaOGhCRWIzQ1l2OUhrQ1hLV20xT1psbk12amtmcXZ1RnRt?=
- =?utf-8?B?V1YzTDJxVDZvQUxlSmxTY20wTFNMMVFaYzZsUWVWdGZkQ291d01sQjdiNUFP?=
- =?utf-8?B?azQ2bXVUT1VxQXFuNnZlUHgzMlB5aGNzZU1NRXhCU1VGUzM3aVAzWG5wY3Jl?=
- =?utf-8?B?LzBJcTU5YjVlRWM0Uzg1QU82ZlBQR2dGaDk0WkJzWkwxTmNzamNkQ0hIN29t?=
- =?utf-8?B?TnZQK0R0UGl5bHAzWHFQU1BKZ0JDczFJM3k0SG8xSUQrMENtdDZYYlNTcDZP?=
- =?utf-8?B?ayt6QWk0c3JZVnNPQ3BxWVd5TXpjK3UyR1F2MXFYN3RRUGpXZXZJM0IwTXYy?=
- =?utf-8?B?RkQ2K0ZSUVA1ZWw4S0ozc1doVURDN1ZqRXdVRE9DY2pMMjFjMC9uVVZubXJi?=
- =?utf-8?B?c1krOXkreUk4V0FMNnd4TTZSdmRMVUVlY1ZPb09qLzdxSkJrbTIzVG8vOFpH?=
- =?utf-8?B?SWZxVXdsRXdqR3F3clpmZDhYVGdJSFJWVFkxVTZWSGR1dGNnWW9NZFdwcTV3?=
- =?utf-8?B?L09wdTFwTFBLL1VGaitoaGQ4YnNQbVdtYVB2NlVDSzYrQ1J4ZjBkemZNelcv?=
- =?utf-8?B?aCsvYjY2WHRFYUhoWm8wNVRwVHJQUG5LT09ta3VNeWhiN2hYbU84WFQ1R0Na?=
- =?utf-8?Q?sGz7G2f14yks7x3sh5nj3+JddkqjqqubeIlsoimk6gD1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae3274b-f3e0-4bc2-bbc2-08dd991370b2
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 09:31:33.4957 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YwkgCpAbAe6Ul/7St+ueIkQz/zy9YyhQvqPZb/56HUsae0dySWLkgxE3E179duruk2SKYpoGZWdzh6cTZGNfNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9544
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/45] drm/msm/dp: split msm_dp_panel_read_sink_caps()
+ into two parts
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Stephen Boyd <swboyd@chromium.org>, "Chandan
+ Uddaraju" <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>, Rob Clark
+ <robdclark@chromium.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-4-f8618d42a99a@quicinc.com>
+ <osctzl3bgutcjt3hjvgxaq64imn2i67hagqm5slfozf33tnj66@5hlfmqmt7if5>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <osctzl3bgutcjt3hjvgxaq64imn2i67hagqm5slfozf33tnj66@5hlfmqmt7if5>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pjVLWMCjDjiUVndgGbzSwlZMhRbpFVbD
+X-Authority-Analysis: v=2.4 cv=J/Sq7BnS c=1 sm=1 tr=0 ts=682ef3db cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
+ a=D1FkwUkmBHUbuiOmTNcA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: pjVLWMCjDjiUVndgGbzSwlZMhRbpFVbD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDA5OSBTYWx0ZWRfX4jzYY1q+Vnuo
+ qJwDy56Mj/mGf7Ao2K117Ez5GuG0qT1XN6S/q29nIoAkKwANNEE1e0JeNKzlTLwHC3Dk4TZVpQa
+ AGPir4lQOrFv0vi4aKAOR/wJUPH8C6bHtDmy0aghokjwGW4tJNcubgrAVYh/SNaCsOGAcsr1cdv
+ n7ImjusMxsrZ07mWwHTwSzePq+Z129IRgvBDLTq40xeJ26o+ondc8KCLX1wbcjJEUO9eG9jW5J9
+ FzbqAEpWFl4a5YSgjAhsG+Juq4Aod6WiVf84CBd4X6/2hLnfoQMN4ppjE9YAmQM+NhAJPVLVWJr
+ JR12Omx/NzcFRu8eLDVX7vAQwshlMowAUJe/3eUlkl6th4YOyIymECxKUSSbxHefexGedBN/J7q
+ oW3BHQetelFPtLUu0xa5MQtT+37dk8iSueAbj9EkJSto7evvzyY9rAq7ALg3D9Cs72diSOEs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_05,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,19 +117,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu May 22, 2025 at 5:44 PM JST, Miguel Ojeda wrote:
-> On Thu, May 22, 2025 at 6:01=E2=80=AFAM Alexandre Courbot <acourbot@nvidi=
-a.com> wrote:
->>
->> Either that, or we enable `#![feature(const_trait_impl)]`. I just tried
->> and with it we could indeed define and implement `NumExt` as const,
->> which looks like the cleanest way to do this to me.
->
-> Hmm... I think that one is actively being worked on, with a possible
-> syntax change in the works. We would need to speak to upstream Rust to
-> see when we could reasonably stat to use it, and consider the older
-> compilers (e.g. if the syntax changes).
 
-Yeah that could be a problem. Which is a bit sad as with this approach
-we only need one method name instead of having multiple const functions
-suffixed with `_u8`, `_u16`, etc. for each type we want to extend.
+
+On 2024/12/6 16:51, Dmitry Baryshkov wrote:
+> On Thu, Dec 05, 2024 at 08:31:35PM -0800, Abhinav Kumar wrote:
+>> In preparation of DP MST where link caps are read for the
+>> immediate downstream device and the edid is read through
+>> sideband messaging, split the msm_dp_panel_read_sink_caps() into
+>> two parts which read the link parameters and the edid parts
+>> respectively.
+> 
+> As you are touching this part, could you please refactor the code
+> instead by dropping the msm_dp_panel->drm_edid? There should be no need
+> to store EDID in the panel structure.
+> 
+Hi, Dmitry, Abhinav will be leaving the company and will no longer be 
+responsible for updating and address the comments. I will take over 
+handling MST patch series. Regarding this comments, I don't got that 
+where the drm_edid should be stored. In MST cases, where multiple panels 
+exist, i think that there should be a separate drm_edid saved for each 
+panel.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c |  6 +++++-
+>>   drivers/gpu/drm/msm/dp/dp_panel.c   | 25 +++++++++++++++++--------
+>>   drivers/gpu/drm/msm/dp/dp_panel.h   |  5 ++++-
+>>   3 files changed, 26 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index be26064af9febf4f4761e21ea7db85ab1ac66081..052db80c6a365f53c2c0a37d3b69ea2b627aea1f 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -372,7 +372,11 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
+>>   	const struct drm_display_info *info = &connector->display_info;
+>>   	int rc = 0;
+>>   
+>> -	rc = msm_dp_panel_read_sink_caps(dp->panel, connector);
+>> +	rc = msm_dp_panel_read_link_caps(dp->panel, connector);
+>> +	if (rc)
+>> +		goto end;
+>> +
+>> +	rc = msm_dp_panel_read_edid(dp->panel, connector);
+>>   	if (rc)
+>>   		goto end;
+>>   
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> index 5d7eaa31bf3176566f40f01ff636bee64e81c64f..d277e9b2cbc03688976b6aa481ee724b186bab51 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> @@ -108,8 +108,8 @@ static u32 msm_dp_panel_get_supported_bpp(struct msm_dp_panel *msm_dp_panel,
+>>   	return min_supported_bpp;
+>>   }
+>>   
+>> -int msm_dp_panel_read_sink_caps(struct msm_dp_panel *msm_dp_panel,
+>> -	struct drm_connector *connector)
+>> +int msm_dp_panel_read_link_caps(struct msm_dp_panel *msm_dp_panel,
+>> +				struct drm_connector *connector)
+> 
+> This function doesn't require connector anymore.
+Right, will remove connector in function.
+> 
+>>   {
+>>   	int rc, bw_code;
+>>   	int count;
+>> @@ -150,8 +150,19 @@ int msm_dp_panel_read_sink_caps(struct msm_dp_panel *msm_dp_panel,
+>>   
+>>   	rc = drm_dp_read_downstream_info(panel->aux, msm_dp_panel->dpcd,
+>>   					 msm_dp_panel->downstream_ports);
+>> -	if (rc)
+>> -		return rc;
+>> +	return rc;
+>> +}
+>> +
+>> +int msm_dp_panel_read_edid(struct msm_dp_panel *msm_dp_panel, struct drm_connector *connector)
+>> +{
+>> +	struct msm_dp_panel_private *panel;
+>> +
+>> +	if (!msm_dp_panel || !connector) {
+>> +		DRM_ERROR("invalid input\n");
+>> +		return -EINVAL;
+>> +	}
+> 
+> Neither panel nor connector can be NULL here, please drop.
+> 
+>> +
+>> +	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+>>   
+>>   	drm_edid_free(msm_dp_panel->drm_edid);
+>>   
+>> @@ -163,13 +174,11 @@ int msm_dp_panel_read_sink_caps(struct msm_dp_panel *msm_dp_panel,
+>>   		DRM_ERROR("panel edid read failed\n");
+>>   		/* check edid read fail is due to unplug */
+>>   		if (!msm_dp_catalog_link_is_connected(panel->catalog)) {
+>> -			rc = -ETIMEDOUT;
+>> -			goto end;
+>> +			return -ETIMEDOUT;
+>>   		}
+>>   	}
+>>   
+>> -end:
+>> -	return rc;
+>> +	return 0;
+>>   }
+>>   
+>>   u32 msm_dp_panel_get_mode_bpp(struct msm_dp_panel *msm_dp_panel,
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+>> index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7a38655c443af597c84fb78c6702b2a3ef9822ed 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+>> @@ -59,7 +59,10 @@ void msm_dp_panel_dump_regs(struct msm_dp_panel *msm_dp_panel);
+>>   int msm_dp_panel_read_sink_caps(struct msm_dp_panel *msm_dp_panel,
+>>   		struct drm_connector *connector);
+>>   u32 msm_dp_panel_get_mode_bpp(struct msm_dp_panel *msm_dp_panel, u32 mode_max_bpp,
+>> -			u32 mode_pclk_khz);
+>> +			      u32 mode_pclk_khz);
+>> +int msm_dp_panel_read_link_caps(struct msm_dp_panel *dp_panel,
+>> +				struct drm_connector *connector);
+>> +int msm_dp_panel_read_edid(struct msm_dp_panel *dp_panel, struct drm_connector *connector);
+>>   int msm_dp_panel_get_modes(struct msm_dp_panel *msm_dp_panel,
+>>   		struct drm_connector *connector);
+>>   void msm_dp_panel_handle_sink_request(struct msm_dp_panel *msm_dp_panel);
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
+
