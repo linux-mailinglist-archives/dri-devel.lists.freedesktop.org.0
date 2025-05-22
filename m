@@ -2,79 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583B0AC105D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 17:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DF4AC105F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 17:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A656310E18A;
-	Thu, 22 May 2025 15:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2213810E18C;
+	Thu, 22 May 2025 15:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BwFSXU7G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oH12sr3I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E9D10E169;
- Thu, 22 May 2025 15:53:46 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-30eccc61eacso653912a91.3; 
- Thu, 22 May 2025 08:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747929226; x=1748534026; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zyjwD9WxvfAztnJW6BdDFn9aSoJOsoOwl9SlivsMP8E=;
- b=BwFSXU7GS5HOhf1EZWujabkHTs1b2VTTPw/udEPaRw+GNpOnBQZLZdKxou+GTs6gSN
- S/0iKR/Md2CjZVJ47otPnchbX5fjrylc8/b3z3H6koHe6K834zbkXQXBIQa1xRTmYkWd
- IrHsCvSkQFARMX/8Ayy2UrtxkkoIZiXHK5NuHOWArKpKcijDqdL2RBn4lZqee4Xs3sV+
- IUjVc1UKF71ahsqUp3AzCFrPqf1RvRJqHJ9f2kOXx4Fq35qI/LrV+QPmuMqfd/R3LDv0
- gyV73EtugaSnWdakJUpY0jACA2ZbTBlyJgVV/UBbqjXrPSGf/j38looIOzpiKW3dELYu
- LYLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747929226; x=1748534026;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zyjwD9WxvfAztnJW6BdDFn9aSoJOsoOwl9SlivsMP8E=;
- b=ant4pt17egWq4ZYWZSIrFgJT7BzpRGFxRF5DAHvahj8cPS1afu4ZII0ghvZK0OHP5z
- xOJeP9LQA8TGFkzGaBnz/VIsv9HomwRdXkr8A1Ah7JK8gZ7TNHi6Vw1SocxI4N9ZaFto
- WR8Jh5XSQNNpa9GC6z9GHR2KJ6KOilonPBBsqgHrpnMkgyUZ49FU48uzC+tzvC3oR771
- keAbqDn6RTVRt/+m+P3OzkNaHDARbFtQfQXI8Lb8bPJjfRBBzftgYuiJg2j2+lIpVA03
- uiba4RhMXC89fU8nGGpb1OQURmIQ7S898WFXqS7er02Ib5Diyonc1yKTcMQrIkrwqVCY
- dA8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUxR/CUtJXnoZgMfgxkTbG6dvxQ781VUi7R1QTDhBJ04krFk4WQoVU0CjxO8B9NZoRZmiX5NohuhYk=@lists.freedesktop.org,
- AJvYcCXNSEq7FmORn5WYEahSIQkoFTaTV/9sq4EGGvMOUJwtklnbl3dZr0detiARfnv7sdTDkoaQVD8vE3Rv@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJH9ZOLLa8WDA9UxZ8Gaw7r1zhAAEU8Tt5Bg7r9PbFuBvpYUBM
- bOpPuURxy7mxjkP3s8VXqddYouK6hPGaOSg0w/A97vfj8m6JA3AN8SdzbcXlMWc3KFXErlbMrZR
- XQqWOOz7t7gB8Gbtb7sbnmLawss91HW4=
-X-Gm-Gg: ASbGncuXFTY8l52+4F0QHgc8sPVLaIOWekq/rVINznbQlNIJ3XQzlVCtZ5TTg+OT+Ye
- 7DuCTjcj402kBHKgIjz8qg1L8CUi/4Xlo2ycNIEOHtcTVchwyQtFiZGCO1Q51vnynSseq3wjRvj
- xXcxsCQGk51WVQL4iFq3eLv1WZEEnqHUB6
-X-Google-Smtp-Source: AGHT+IGqpNwpo6t50ABPvARiR7Fav0e+v5y+U9NbZpvFNzFafggGWHSUUGlJMuVUvL72bltSz+/95O2W5z7oOWlw/9w=
-X-Received: by 2002:a17:90b:1648:b0:2fe:b972:a2c3 with SMTP id
- 98e67ed59e1d1-30e7d2f7897mr14780675a91.0.1747929226047; Thu, 22 May 2025
- 08:53:46 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CC310E18A;
+ Thu, 22 May 2025 15:53:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id BC1AB6135E;
+ Thu, 22 May 2025 15:53:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FBEC4CEE4;
+ Thu, 22 May 2025 15:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1747929232;
+ bh=j71Wtt6NGq/5NYiuM9Hwj8gMHucqRDMzopuT74X4AM4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oH12sr3IaektTamfX3zPxeOpJwWe63tAxuGU5406UZJvL69MldB6nQlktq0/nN88K
+ o9u2Swa4KI78b9LP2vEK6/LQ2748tCqV206mkbapEF4lM3cL/0nVoK1X9VKL//B0XE
+ uTaJ3j8mgQu3nFOpnyL7VG/rUKsqrcYMtzxbYR9M6b4baHMQHfz0wYYGW5STWnep1X
+ b3sNd9pk9AevMQ5gTCfjRhde8n7aP6T+jsZvg67TLTWQvpyHVlXiFcKUB2pDALjUcE
+ Aa9Z+ZiOKxnZSketlExbSaiv4VoKs5dGNPNJhXztMxl8Innh+KiiNV60QJarei3Wv2
+ Lqdm2Rn+NbwDg==
+Date: Thu, 22 May 2025 17:53:46 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ phasta@kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
+Message-ID: <aC9Iih1KN6xb9LrK@cassiopeiae>
+References: <aCYkk4Y7feltfp79@pollux>
+ <CAF6AEGsoG_W3A3+BHV4n5EKZQazFubrCyfrtxVUH7+H4-j7i5A@mail.gmail.com>
+ <aCY42rgJC4sQ4tp4@pollux>
+ <CAF6AEGubHkdhfJz=bAZvctO1aTKDLwRsRyPzkoVrQ7tA6dRbKw@mail.gmail.com>
+ <aCwqAGLLCC2ZLSBK@pollux>
+ <CAF6AEGspvuTHU0t9z__p_HkdRNi=cXir3t453AbR6DFNzDpgvw@mail.gmail.com>
+ <aCyzyAPbQ1SYbo4q@pollux>
+ <CAF6AEGs+WmTO_624A3Pek-1-SD6B4PFu4sDv3htko0ABhfHFzw@mail.gmail.com>
+ <aC8Dzgufa9E2MD6t@pollux>
+ <CAF6AEGvkrN8H1ZPzrCQF+d_Y_Y5kRdeQjohDqcgpNd-uDKo9yQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20250520-msm-reset-context-state-v1-0-b738c8b7d0b8@gmail.com>
- <20250520-msm-reset-context-state-v1-2-b738c8b7d0b8@gmail.com>
- <1d615331-2d60-415b-8f53-0d3a7b5d5fe4@oss.qualcomm.com>
-In-Reply-To: <1d615331-2d60-415b-8f53-0d3a7b5d5fe4@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Thu, 22 May 2025 11:53:32 -0400
-X-Gm-Features: AX0GCFtHldEUu2aNcjsdF8YTSF7emekKEp5F-5LgRGYvNhd2Y4t9DQNGuVnPHow
-Message-ID: <CACu1E7G2sYoGZcFG8YTHp+UXk1fLFTAG=uX+mdU==SxwPntmAQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/msm/a7xx: Call CP_RESET_CONTEXT_STATE
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGvkrN8H1ZPzrCQF+d_Y_Y5kRdeQjohDqcgpNd-uDKo9yQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,65 +76,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 11:46=E2=80=AFAM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
-> On 5/21/25 12:28 AM, Connor Abbott wrote:
-> > Calling this packet is necessary when we switch contexts because there
-> > are various pieces of state used by userspace to synchronize between BR
-> > and BV that are persistent across submits and we need to make sure that
-> > they are in a "safe" state when switching contexts. Otherwise a
-> > userspace submission in one context could cause another context to
-> > function incorrectly and hang, effectively a denial of service (althoug=
-h
-> > without leaking data). This was missed during initial a7xx bringup.
+On Thu, May 22, 2025 at 07:47:17AM -0700, Rob Clark wrote:
+> On Thu, May 22, 2025 at 4:00 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> > On Tue, May 20, 2025 at 10:22:54AM -0700, Rob Clark wrote:
+> > > On Tue, May 20, 2025 at 9:54 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> > > > On Tue, May 20, 2025 at 09:07:05AM -0700, Rob Clark wrote:
+> > > > > On Tue, May 20, 2025 at 12:06 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> > > > > > But let's assume we agree that we want to avoid that userspace can ever OOM itself
+> > > > > > through async VM_BIND, then the proposed solution seems wrong:
+> > > > > >
+> > > > > > Do we really want the driver developer to set an arbitrary boundary of a number
+> > > > > > of jobs that can be submitted before *async* VM_BIND blocks and becomes
+> > > > > > semi-sync?
+> > > > > >
+> > > > > > How do we choose this number of jobs? A very small number to be safe, which
+> > > > > > scales badly on powerful machines? A large number that scales well on powerful
+> > > > > > machines, but OOMs on weaker ones?
+> > > > >
+> > > > > The way I am using it in msm, the credit amount and limit are in units
+> > > > > of pre-allocated pages in-flight.  I set the enqueue_credit_limit to
+> > > > > 1024 pages, once there are jobs queued up exceeding that limit, they
+> > > > > start blocking.
+> > > > >
+> > > > > The number of _jobs_ is irrelevant, it is # of pre-alloc'd pages in flight.
+> > > >
+> > > > That doesn't make a difference for my question. How do you know 1024 pages is a
+> > > > good value? How do we scale for different machines with different capabilities?
+> > > >
+> > > > If you have a powerful machine with lots of memory, we might throttle userspace
+> > > > for no reason, no?
+> > > >
+> > > > If the machine has very limited resources, it might already be too much?
+> > >
+> > > It may be a bit arbitrary, but then again I'm not sure that userspace
+> > > is in any better position to pick an appropriate limit.
+> > >
+> > > 4MB of in-flight pages isn't going to be too much for anything that is
+> > > capable enough to run vk, but still allows for a lot of in-flight
+> > > maps.
 > >
-> > Fixes: af66706accdf ("drm/msm/a6xx: Add skeleton A7xx support")
-> > Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
+> > Ok, but what about the other way around? What's the performance impact if the
+> > limit is chosen rather small, but we're running on a very powerful machine?
 > >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gpu.c
-> > index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..f776e9ce43a7cdbb4ef7696=
-06ec851909b0c4cdd 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > @@ -130,6 +130,20 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6=
-xx_gpu,
-> >               OUT_RING(ring, lower_32_bits(rbmemptr(ring, fence)));
-> >               OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
-> >               OUT_RING(ring, submit->seqno - 1);
-> > +
-> > +             OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-> > +             OUT_RING(ring, CP_SET_THREAD_BOTH);
->
-> Downstream does CP_SYNC_THREADS | CP_SET_THREAD_BOTH, fwiw
->
-> Konrad
+> > Since you already have the implementation for hardware you have access to, can
+> > you please check if and how performance degrades when you use a very small
+> > threshold?
+> 
+> I mean, considering that some drivers (asahi, at least), _only_
+> implement synchronous VM_BIND, I guess blocking in extreme cases isn't
+> so bad.
 
-Unfortunately the rest of the sequence downstream is slightly
-different so I had to adapt this somewhat. Downstream does this as the
-very first thing whereas we have a CP_SYNC_THREADS | CP_SET_THREAD_BR
-beforehand so the threads are already synced, and there were a few
-other minor differences iirc.
+Which is not even upstream yet and eventually will support async VM_BIND too,
+AFAIK.
 
-Connor
+> But I think you are overthinking this.  4MB of pagetables is
+> enough to map ~8GB of buffers.
+> 
+> Perhaps drivers would want to set their limit based on the amount of
+> memory the GPU could map, which might land them on a # larger than
+> 1024, but still not an order of magnitude more.
 
->
-> > +
-> > +             /* Reset state used to synchronize BR and BV */
-> > +             OUT_PKT7(ring, CP_RESET_CONTEXT_STATE, 1);
-> > +             OUT_RING(ring,
-> > +                      CP_RESET_CONTEXT_STATE_0_CLEAR_ON_CHIP_TS |
-> > +                      CP_RESET_CONTEXT_STATE_0_CLEAR_RESOURCE_TABLE |
-> > +                      CP_RESET_CONTEXT_STATE_0_CLEAR_BV_BR_COUNTER |
-> > +                      CP_RESET_CONTEXT_STATE_0_RESET_GLOBAL_LOCAL_TS);
-> > +
-> > +             OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-> > +             OUT_RING(ring, CP_SET_THREAD_BR);
-> >       }
+Nouveau currently supports an address space width of 128TiB.
+
+In general, we have to cover the range of some small laptop or handheld devices
+to huge datacenter machines.
+
+> I don't really have a good setup for testing games that use this, atm,
+> fex-emu isn't working for me atm.  But I think Connor has a setup with
+> proton working?
+
+I just want to be sure that an arbitrary small limit doing the job for a small
+device to not fail VK CTS can't regress the performance on large machines.
+
+So, kindly try to prove that we're not prone to extreme performance regression
+with a static value as you propose.
+
+> > Also, I think we should probably put this throttle mechanism in a separate
+> > component, that just wraps a counter of bytes or rather pages that can be
+> > increased and decreased through an API and the increase just blocks at a certain
+> > threshold.
+> 
+> Maybe?  I don't see why we need to explicitly define the units for the
+> credit.  This wasn't done for the existing credit mechanism.. which,
+> seems like if you used some extra fences could also have been
+> implemented externally.
+
+If you are referring to the credit mechanism in the scheduler for ring buffers,
+that's a different case. Drivers know the size of their ring buffers exactly and
+the scheduler has the responsibility of when to submit tasks to the ring buffer.
+So the scheduler kind of owns the resource.
+
+However, the throttle mechanism you propose is independent from the scheduler,
+it depends on the available system memory, a resource the scheduler doesn't own.
+
+I'm fine to make the unit credits as well, but in this case we really care about
+the consumption of system memory, so we could just use an applicable unit.
+
+> > This component can then be called by a driver from the job submit IOCTL and the
+> > corresponding place where the pre-allocated memory is actually used / freed.
 > >
-> >       if (!sysprof) {
+> > Depending on the driver, this might not necessarily be in the scheduler's
+> > run_job() callback.
 > >
+> > We could call the component something like drm_throttle or drm_submit_throttle.
+> 
+> Maybe?  This still has the same complaint I had about just
+> implementing this in msm.. it would have to reach in and use the
+> scheduler's job_scheduled wait-queue.  Which, to me at least, seems
+> like more of an internal detail about how the scheduler works.
+
+Why? The component should use its own waitqueue. Subsequently, from your code
+that releases the pre-allocated memory, you can decrement the counter through
+the drm_throttle API, which automatically kicks its the waitqueue.
+
+For instance from your VM_BIND IOCTL you can call
+
+	drm_throttle_inc(value)
+
+which blocks if the increment goes above the threshold. And when you release the
+pre-allocated memory you call
+
+	drm_throttle_dec(value)
+
+which wakes the waitqueue and unblocks the drm_throttle_inc() call from your
+VM_BIND IOCTL.
+
+Another advantage is that, if necessary, we can make drm_throttle
+(automatically) scale for the machines resources, which otherwise we'd need to
+pollute the scheduler with.
