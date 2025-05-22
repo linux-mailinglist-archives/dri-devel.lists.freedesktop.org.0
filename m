@@ -2,97 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4890AAC0784
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 10:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77C2AC079D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 10:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B0010EA8E;
-	Thu, 22 May 2025 08:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA8610EAE4;
+	Thu, 22 May 2025 08:48:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IPehpjNq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f+RsEX2C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3132410EA8E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 08:45:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 85FF75C5792;
- Thu, 22 May 2025 08:42:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3374C4CEE4;
- Thu, 22 May 2025 08:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747903514;
- bh=dAKIS/SyGO4EUUI+9Ar6dI0ohAdSrKLFtebg+y8Y55o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IPehpjNqislBnS8rCMtBcA2ukVRx3gtn9llVd4hUzKwww4LWcg0Q+ubqahO1cC27M
- M2KJNHpcv+3bjRrQAhRgSbYzRR7ixFSMc9imuDpg2PAyVMywHRA9/ErWzGklj57uqU
- XuzLBNVuin36TjgIgx7vajurHIC8wn6x1kdD2+pqmMuwSrt9epjwNtUBkqaa9mRKqk
- EPLGBabBTt4hT+NmsmCs2tRmrmiFyTcHfhR0horPsKRef8EAzN1yatQUjdhB00oRyC
- kc9JldCLEoWjddZSxLE+a1HG+OP37GN5sJ8rEIjVMMzlJKR3Wtpz6d8CBvU5A7LHb/
- zGS5qSHSfqK/A==
-Message-ID: <ba9a49d5-132f-4be8-9f64-4904c91e26be@kernel.org>
-Date: Thu, 22 May 2025 10:45:08 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8F4010EAE4;
+ Thu, 22 May 2025 08:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747903718; x=1779439718;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=gPbmcoAhu21skBOvOw2Q8GnxCXe8UDdrh6x3Op/NBhI=;
+ b=f+RsEX2CDPwRnOX7KF/Cz9+LRD3UB0DCx66Fj+iVwFDc9NO4Yu2ZW9Nc
+ zyN2fC7qKqUgW966gt3HTiNKnKy7d8Kt12rDZvhWMFdyPF3vbLn8FVlxE
+ 9Ne2HAE4RpMd6wS26Cz/N7a0ThFbu9lyyQukDMhjroVDlAeNHA9yGCAmD
+ E1qqMRs+/hXJS5s39OkfnUyEfbLO1zmPpzfhtgeDzHcfp/9QflaZg7Evv
+ 7wCQl0+YnzK1VtuDUWfOU9t7WwEuLGj38dCKKK6LTePd9uOIbiTiOTu60
+ Zgih9eOmlVvUQ3WiuYxGFp4Mf/MTAfgNFKQG3a93JevUJoOhP6wklk5Kt w==;
+X-CSE-ConnectionGUID: SzFdS7LBSB+Ra0yK5jCH1Q==
+X-CSE-MsgGUID: cWQBWHyASLehcVF63YoiAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="50072535"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="50072535"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2025 01:48:32 -0700
+X-CSE-ConnectionGUID: gPVfa59BQ1WoXfA7yzoADg==
+X-CSE-MsgGUID: l/7nDzPMQy+zhd1qUSquew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; d="scan'208";a="140906517"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.112])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2025 01:48:30 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
+Cc: intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
+In-Reply-To: <20250522065519.318013-10-airlied@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250522065519.318013-1-airlied@gmail.com>
+ <20250522065519.318013-10-airlied@gmail.com>
+Date: Thu, 22 May 2025 11:48:28 +0300
+Message-ID: <8734cxt4ir.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/rockchip: Use dev_err_probe() to simplify code
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- long.yunjian@zte.com.cn, hjc@rock-chips.com
-Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- fang.yumeng@zte.com.cn, mou.yi@zte.com.cn, xu.lifeng1@zte.com.cn,
- ouyang.maochun@zte.com.cn
-References: <20250515203554564-j1jBXUXR6bdiN6zARicC@zte.com.cn>
- <94e0951b-46e1-439b-9dbc-c2009a78b04b@kernel.org> <2022996.jZfb76A358@diego>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <2022996.jZfb76A358@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,34 +70,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/05/2025 11:58, Heiko Stübner wrote:
-> Am Donnerstag, 15. Mai 2025, 17:54:20 Mitteleuropäische Sommerzeit schrieb Krzysztof Kozlowski:
->> On 15/05/2025 14:35, long.yunjian@zte.com.cn wrote:
->>> From: Yumeng Fang <fang.yumeng@zte.com.cn>
->>>
->>> In the probe path, dev_err() can be replaced with dev_err_probe()
->>
->> That's not probe path. I am not sure if you really understand this code.
-> 
-> I think that is somewhat debateable.
-> 
-> dw_hdmi_rockchip_bind() is part of the rockchip-drm component device,
-> so part of its probe-path. Also I think just the presence of EPROBE_DEFER
-> which causes the device to re-try probing later is a nice indicator that the
+On Thu, 22 May 2025, Dave Airlie <airlied@gmail.com> wrote:
+> From: Dave Airlie <airlied@redhat.com>
+>
+> This reduces this struct from 16 to 8 bytes, and it gets embedded
+> into a lot of things.
 
-No, that's not true. You can call every API like regulator_get from any
-context and you will get EPROBE_DEFER. This will not be a probe path.
-There are multiple cases of such drivers, I saw such patch even day ago.
+It's an abomination.
 
-> code in question is _a_ probe path. (and usage of EPROBE_DEFER is an
-> established pattern to make that component device re-try probing later)
-> 
-> And the parse_dt function itself is part of that path too.
+And i915 has helpers for it. Because of course it does.
 
-I quickly glanced and this was not obvious. The commit msg is poor here
-and does not explain that component_bind is ALWAYS probe path (unless it
-is clear for DRM folks).
+i915_utils.h contains ptr_mask_bits(), ptr_unmask_bits(),
+ptr_pack_bits() and ptr_unpack_bits() to do this, uh, cleanly.
+
+Should we try to promote the helpers somewhere in include/linux and use
+them here?
 
 
-Best regards,
-Krzysztof
+BR,
+Jani.
+
+
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  include/linux/iosys-map.h | 30 ++++++++----------------------
+>  1 file changed, 8 insertions(+), 22 deletions(-)
+>
+> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+> index a6c2cc9ca756..44479966ce24 100644
+> --- a/include/linux/iosys-map.h
+> +++ b/include/linux/iosys-map.h
+> @@ -99,29 +99,27 @@
+>   *	iosys_map_incr(&map, len); // go to first byte after the memcpy
+>   */
+>  
+> +#define _IOSYS_MAP_IS_IOMEM 1
+>  /**
+>   * struct iosys_map - Pointer to IO/system memory
+>   * @vaddr_iomem:	The buffer's address if in I/O memory
+>   * @vaddr:		The buffer's address if in system memory
+> - * @is_iomem:		True if the buffer is located in I/O memory, or false
+> - *			otherwise.
+>   */
+>  struct iosys_map {
+>  	union {
+>  		void __iomem *_vaddr_iomem;
+>  		void *_vaddr;
+>  	};
+> -	bool _is_iomem;
+>  };
+>  
+>  static inline bool iosys_map_is_iomem(const struct iosys_map *map)
+>  {
+> -	return map->_is_iomem;
+> +	return ((unsigned long)map->_vaddr) & _IOSYS_MAP_IS_IOMEM;
+>  }
+>  
+>  static inline void __iomem *iosys_map_ioptr(const struct iosys_map *map)
+>  {
+> -	return map->_vaddr_iomem;
+> +	return (void __iomem *)((unsigned long)map->_vaddr_iomem & ~_IOSYS_MAP_IS_IOMEM);
+>  }
+>  
+>  static inline void *iosys_map_ptr(const struct iosys_map *map)
+> @@ -136,7 +134,6 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
+>  #define IOSYS_MAP_INIT_VADDR(vaddr_)	\
+>  	{				\
+>  		._vaddr = (vaddr_),	\
+> -		._is_iomem = false,	\
+>  	}
+>  
+>  /**
+> @@ -145,8 +142,7 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
+>   */
+>  #define IOSYS_MAP_INIT_VADDR_IOMEM(vaddr_iomem_)	\
+>  	{						\
+> -		._vaddr_iomem = (vaddr_iomem_),		\
+> -		._is_iomem = true,			\
+> +		._vaddr_iomem = (void __iomem *)(((unsigned long)(vaddr_iomem_) | _IOSYS_MAP_IS_IOMEM)), \
+>  	}
+>  
+>  /**
+> @@ -198,7 +194,6 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
+>  static inline void iosys_map_set_vaddr(struct iosys_map *map, void *vaddr)
+>  {
+>  	map->_vaddr = vaddr;
+> -	map->_is_iomem = false;
+>  }
+>  
+>  /**
+> @@ -211,8 +206,7 @@ static inline void iosys_map_set_vaddr(struct iosys_map *map, void *vaddr)
+>  static inline void iosys_map_set_vaddr_iomem(struct iosys_map *map,
+>  					     void __iomem *vaddr_iomem)
+>  {
+> -	map->_vaddr_iomem = vaddr_iomem;
+> -	map->_is_iomem = true;
+> +	map->_vaddr_iomem = (void __iomem *)((unsigned long)vaddr_iomem | _IOSYS_MAP_IS_IOMEM);
+>  }
+>  
+>  /**
+> @@ -229,12 +223,9 @@ static inline void iosys_map_set_vaddr_iomem(struct iosys_map *map,
+>  static inline bool iosys_map_is_equal(const struct iosys_map *lhs,
+>  				      const struct iosys_map *rhs)
+>  {
+> -	if (lhs->_is_iomem != rhs->_is_iomem)
+> +	if (lhs->_vaddr != rhs->_vaddr)
+>  		return false;
+> -	else if (lhs->_is_iomem)
+> -		return lhs->_vaddr_iomem == rhs->_vaddr_iomem;
+> -	else
+> -		return lhs->_vaddr == rhs->_vaddr;
+> +	return true;
+>  }
+>  
+>  /**
+> @@ -279,12 +270,7 @@ static inline bool iosys_map_is_set(const struct iosys_map *map)
+>   */
+>  static inline void iosys_map_clear(struct iosys_map *map)
+>  {
+> -	if (map->_is_iomem) {
+> -		map->_vaddr_iomem = NULL;
+> -		map->_is_iomem = false;
+> -	} else {
+> -		map->_vaddr = NULL;
+> -	}
+> +	map->_vaddr = NULL;
+>  }
+>  
+>  /**
+
+-- 
+Jani Nikula, Intel
