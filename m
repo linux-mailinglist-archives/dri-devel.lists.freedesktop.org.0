@@ -2,169 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95929AC0CE2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E6AAC0CEE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:38:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB0A310EDB7;
-	Thu, 22 May 2025 13:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3F210E8FF;
+	Thu, 22 May 2025 13:38:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="azt+xpH+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gmDuA37j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E8810EDE2;
- Thu, 22 May 2025 13:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1747920902; x=1779456902;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=eO6FtNEr7VeK8kbtcgd+2b1jqH29fEU0rJFAn2yVjB0=;
- b=azt+xpH+/Runt9vZMmY8zf6V46yxjbYsBALUYxnfgANhTVlFiFVXyu/2
- weEaRC7aZ3CMPzzatkBTAnYG9zKZLjWC1uRdqw/uM3GqYrRXakF15IRQJ
- zkapAyjtlQVRN8TOqxgiGszi1GGWtGQUZQ45vnTZNHb3LdlTt0jb3uUNb
- FKqbuVGVu459BxKRm5wKHeH8/H/XU8M10I3TO8bt0xcDFROXtxUtuFvzt
- +spnQWJDMDwEdmCzRRXQ4geQHNqiAIlgtp7Z+cyA02l7PWdIN09n/CF8Y
- 1sO/iRllgPlBLIXVJ4Qro6AIOeMu6FNbrMC0Uu/xNwfi4CAV8wz883w35 Q==;
-X-CSE-ConnectionGUID: Zus5dGluQcKaXh//SY4mWA==
-X-CSE-MsgGUID: d5oggGyISrKPyvBkFJUXOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="53610058"
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; d="scan'208";a="53610058"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2025 06:34:43 -0700
-X-CSE-ConnectionGUID: nnutytN+T5aruoOXWWX5zw==
-X-CSE-MsgGUID: bng20pt+S+2s3HX/iO/tGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; d="scan'208";a="140475425"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2025 06:34:36 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 22 May 2025 06:34:35 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 22 May 2025 06:34:35 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Thu, 22 May 2025 06:34:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R2vrrgBUNOWlGSrR8yiLEW3iMnG2PDjfVbHlbGF3vuCeXv+ONFfrJC6X3o1KyMi3CoeMr3QrIHPsVEZLffYPrIT49aKEThmdVXgRC/Zuqp7JvnaCRjmR/qW9RykvHX71y3JYTS1EpYyvonG8gdL2gnkgQtjbHdRSJY/4AQr+wC/EUXTWP8z88aygQv01M8FydE/dOjqXcNTTmCvARBzgOp3/5YMSc8qTBhX366OyqDkiK77yet2mJTAhVz1O0a1P6+IhKADxZ9Q7UlOYPHI95v/kgXWWd8CAMtxy0r+XlPT5lKJm+Nvr7656fx86VKhoZ0nIGBuU2HAnjmT3b+qxDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DmXOKwvKbZO3izTwVcRVucdPMAoHmbo6ukcaKmOqZXk=;
- b=ai769TTOuVcK9vJ16y7b2esp2mEKVC59BTabS3pyMRwELU9p/RVTIrS4BDEsim2ggolztpLlz2TxZXhz91Gyj5Zmu5X0qhUuw4TBePX71vBtnohauZiJ/U7C65sosXoGoXX0Xs0ZieoI92yvCCm835hP6f95aTG+pG+Lk8ztYmWUmGu+zjNqzu1q0+yJYVu/PCCH4kHiNMrip+9QkbypPWbVeie2/qNZcVwT3EiDR0feNkuGVgnLIpbarEls6sS6xmdiHKSOdhH9F9IKvgkRPP111K3PIfIZdX7MNoXeUNqbdCP8svV/ihXPCUVNR42KbMgAuWfdSCTzQU8krrtH2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by BL1PR11MB5271.namprd11.prod.outlook.com (2603:10b6:208:31a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Thu, 22 May
- 2025 13:34:24 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.8746.029; Thu, 22 May 2025
- 13:34:24 +0000
-Date: Thu, 22 May 2025 08:34:22 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Dave Airlie <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>
-Subject: Re: [PATCH 1/9] iosys-map: add new accessor interfaces and use them
- internally.
-Message-ID: <f54h5mhkkcexf57vpyrzscjdetztqt3itg47fmlazsbo47zrcr@swwclbb7dkg7>
-References: <20250522065519.318013-1-airlied@gmail.com>
- <20250522065519.318013-2-airlied@gmail.com>
- <2cc885d5-adcf-46d1-abca-c50431ca8316@suse.de>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <2cc885d5-adcf-46d1-abca-c50431ca8316@suse.de>
-X-ClientProxiedBy: BY1P220CA0019.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5c3::15) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FF610E13F;
+ Thu, 22 May 2025 13:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Uv5y2Pd6d6oUu6mNNscyw99a8xJeJJ5c2czzgAekqvA=; b=gmDuA37jEgnN1x1xAU1rzNCgIo
+ 4G94lnHnEwdA+wXzX8zdjtMVJLBgz74laLlOCcB0AzflqX1sOkSa2FVn4gvPvR4Ww5S0zzmHV/hcY
+ DR7cyEOVfMYcQwGv3iG3kwm58DCjj3uIiGoir5+X5oxlRtWYORTtMonoZZHo85c3y4xhgbplQm33m
+ gAxpsy3HA8zPpOH8XZBkmR643oRcc6o1njuUxKe9EgZdq2/cxPzz8RX+jPEv3Ibp5idmKYSxRFihj
+ 1cW1yDF0sX501T6uODdmPv/1R9kw1pw16+LJicQE43x+mdltKBUyFKLFYZABZ2peWz58WBy3vljGb
+ UNkc03aw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uI67D-00BjRR-01; Thu, 22 May 2025 15:37:43 +0200
+Message-ID: <1a15598f-da02-46a0-8c41-ef8b765dc177@igalia.com>
+Date: Thu, 22 May 2025 14:37:41 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|BL1PR11MB5271:EE_
-X-MS-Office365-Filtering-Correlation-Id: e98c3af3-830a-4a47-cb77-08dd99355ddc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fydLf1KxhJYghCp5E67cMaI20j1V+gb1rYZJ5tZDLhu//F3fkdXfFUyB+1cx?=
- =?us-ascii?Q?CdueuIRY7iKONgQpsUrb6Z1W6QxhGWNzZhoL8b4U/SLRrooaRZYwW6iWzybP?=
- =?us-ascii?Q?BNuO2XDoc5Y1snNLSC3vIBlCw9D9xRHaMbizteyPpN/IZegIQgJrjyAUhC03?=
- =?us-ascii?Q?h0pdIQv96EsrX+zyWD0V8zmygHIeEoUGnWBhHCadUDBHH7zHGXT87fwd/lq8?=
- =?us-ascii?Q?akGgKUONqIbwbJw1FWsixX0Bx+M9IIwevpnOnz0/HQ8eyGqjD0IRId0QtvO7?=
- =?us-ascii?Q?FpJGxMRzpZlGSd98B00fWqIcpRxc2kozxPCUcCdQAuQwDFN67QUgTjAsIGRw?=
- =?us-ascii?Q?bNSMAhKuYko6yqRq7tXwfdZHisVA7Gr58LTmjbMpfwt8hvP3T2dK4HSKmTiY?=
- =?us-ascii?Q?6n7CSkULjTc6yXGJHj7dQf2sRmlRxzgqVwsrtF7CUk7kvwbGSzGQMRUIUfvc?=
- =?us-ascii?Q?rmpxN4nmqhMGqLKhvciOvN+xyplyWyvqLV/b3RsE0IQgzlF0KAxPTn2hSKNk?=
- =?us-ascii?Q?zboiWURy0jTVDM6p2m9qnHpI1Y3KcQEezxxrXgEqRxUuPSs0v4fz+BeMAM9g?=
- =?us-ascii?Q?4jsEg3hksH2k13E5wBOqpN5v2p1aSaX7a7plwpdn+Kg2KxsMZX1ZccPmiWVa?=
- =?us-ascii?Q?C6d0fLArC33ng4qEml6ivTZ3xpCCzjE0IGDlyGebQJm15ZFqhFsw3hioaeTi?=
- =?us-ascii?Q?yZ5X9ODdbFsR0HkT5DizfspW51e/Fcv/enORh+HXfUO3UgHITztHuHcQnCyt?=
- =?us-ascii?Q?LRHx5m4/tEkzj5SviuG14FM2boF9dBokx4eD/4q3/obn6W4F3E/R2lIBIMOq?=
- =?us-ascii?Q?/bxoHFgyc8E19pY/bZ3ZbMLBOdKed++wtQ2VtsZI9g5wU0daIlx9/5JjzxVY?=
- =?us-ascii?Q?xW4ycUbaKrWqzgTOAqGWIKyp7PzaZQ8JUOtRmGJyNKhyehQ21ZUiXKe+aTIw?=
- =?us-ascii?Q?r6tnL7hDO0oi10uJ7RrcC00SMVmQaU0IHCj7tvNcNW8x7PlCs5Wg57Gubdnu?=
- =?us-ascii?Q?tUrWf25DB34eCcufKGJxNAWs10OQjTHom2TE0yYmOPZDnjrCnOCfNWerSYxc?=
- =?us-ascii?Q?YKuUGoVbUbUrVX1CG1dO5vHEMU8GX/wIxLltGaimY4SYJd6CmaBEXUQ3XQGL?=
- =?us-ascii?Q?1C7fg+FIBF93W2bW5ceaLk4CipOapXBDPUvTDXj461lmzBeERmW1qceHbYD+?=
- =?us-ascii?Q?mqinl2a7832ihZBuGTnbZ/IrTpfK/ISqxTfDlPQY6fH2lPta7XaFSgIZpFBx?=
- =?us-ascii?Q?KKq2/6kiOYHD8HVR5Ky09GgtiG6FPEBlmN3yecIL2vMcNQZtOtYFwSObENid?=
- =?us-ascii?Q?37q9U7Wz5kiSJTIU0jYe8AN3zuFEfKnKo29zGu+HI4J4XXdIfkF8ZrxzUlwd?=
- =?us-ascii?Q?GwKgKsjxcE0l4jnS06YfwJz6AXg6M+sKMxEjh8k4M7txFoghPpySGssmd2tO?=
- =?us-ascii?Q?lv+yFmDxPn0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rmc2FQxHKhuswcyXKypk1enY6XwaMBuxvAd+vuKSr7Djm3oU34yAubvnif12?=
- =?us-ascii?Q?K2niczMK1Iv022PW/Te55V1sPM1AmC2r6cVXey1DaoBBZzj0DtJVvkKXBWCT?=
- =?us-ascii?Q?lxKczC3TTPz2PVxhFYmg1zMPI07P4VLJ7ox7Rgy2YT0vuKdSBaQ7js1kUOU5?=
- =?us-ascii?Q?CEppbCadI4ctBCRh5oDwUqO63wmnBdANLWVS5/ooRfp0zY26mVvdk42GbxJ9?=
- =?us-ascii?Q?v2qakB8TuAySF4YH4LIxQsVsztP+pP34y7++gH5+OnJIGJXqGoO13lX0BSoq?=
- =?us-ascii?Q?cffFO7e51aCIk5iRmokD7kH9p9FuX0Y/mzhjbtNCnLJue+74waC+aggaA5/J?=
- =?us-ascii?Q?q1BauxipvOsszzjho8Vev19FObQa5huFXJ0lrgtcKdscqoBbKI1RhuXDcqUA?=
- =?us-ascii?Q?Ehl2Lr+98XONI2YV21F9p1VS/136MO54jBxBBoOTy1TiNaJ87HCAzTJw2Ayx?=
- =?us-ascii?Q?bpVmCqu1Li7Wy1MMZuZQTsHhwUnmyPpD7gatXMJqlJYsGVe2eu0d/goouO+Y?=
- =?us-ascii?Q?9d+YsQqR+aLXg7lviUbiSd6SkEHCKOgyPaCop7OR9g1UW+aLFMbzWbN0Bo1O?=
- =?us-ascii?Q?qoudMLWZ73bgKpgV6lyX/p1mMnlYYGt0kv62kLknH2CuDoHoVRvjkbbahXoY?=
- =?us-ascii?Q?yYpmQZ+1VUHzSvWEyiI9eVReYT4fTyPX9wRJ4U0uOojXTU/VloAR/DvPfK2x?=
- =?us-ascii?Q?Ha+SCnbgIzxx/8Yt2iaxWLi6Yx0Pgd07M9oSOPBUf9FwbNzIhbGbySpEsRzH?=
- =?us-ascii?Q?9Dp5v8QWCJvlfAeFDgzMUhZ/vbgIerr1kXpTcVUtYwnxWf7cW6hRD7DbR0LR?=
- =?us-ascii?Q?SkLkwlVN7Oor6H6q4WNmRq7xcrJMzNNdQ8desYJohFN2w8yQLArI3MatYSVx?=
- =?us-ascii?Q?AEuPTosEReXGJnXr8gd+QCgCXpRRvnch4ormt0lEv4/XAsFfnGmXmXN6473R?=
- =?us-ascii?Q?Fhs1okKgq6XttzuHR5jUX13DMwVRICU2my84+EaD8WYi+GzhLvdmROsOF+VV?=
- =?us-ascii?Q?PBujDFYbrFeVgm5LEHKfeFil5QTKQ2S6Y018OrR96KrNh8Nm196CP3vaZusb?=
- =?us-ascii?Q?S0OZGgsZ3Du7QSdDXJ8zFmLlMa44Ec2ZZ8MI7uS7poE5wWAXxJaXz37s12oZ?=
- =?us-ascii?Q?a6aNY0tqoM1AAYX1GD6XaoADfkQmpQrUOoZO6iCGiKy/9GjENjCDatTQpdbd?=
- =?us-ascii?Q?EKvkZaO96Esjf8wCs+D5uL59zuKZjKfP13fzr0GMw/W6LTCYUrNbuB7n75YM?=
- =?us-ascii?Q?iUb21dzdsBGZs2XYKbwKmPGCQgLMJIYn7hzDVW3sHFTwwOvM+ZlIJJg5f1ZK?=
- =?us-ascii?Q?qUd7QArDTh3QpS23vbpOjJwqmX1gKVx/Knwl4mJot+FWUnbIUgaj01ulP0rk?=
- =?us-ascii?Q?Q2ILHHtB8R2URqvKpjQ188ixKmfJzAkPO8tBV7uApWmIt+rCxgOTa4mXcOik?=
- =?us-ascii?Q?B22JCqjrZuhvFXBHtb1w+H2t8Xdg7ku2Q21C3wQoDbPva5UmngI7N0HhKbFh?=
- =?us-ascii?Q?UKizQP38kxMhs4Mnyf08Sk2wRYTSH/XFBPSU1wB6OUAGKGwk/zLTwZNyQZFU?=
- =?us-ascii?Q?NpA/7G0yjLi8qUAKPEgiBELyETyye+EPXkh/worS6fJMu0xgPDpNjlQ11SgZ?=
- =?us-ascii?Q?LA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e98c3af3-830a-4a47-cb77-08dd99355ddc
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 13:34:24.5452 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nqzb0L3ijvN/OTOCJfvwnj4G/Fr84xBmknvTrAoiSNq+OhowSDsoRuKRS6tJUAKi0jTqU/9bEIOlIfW9nFvN2Rg1NxUBGirjKP5nYJyzXHI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5271
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] drm/sched: Fix teardown leaks with waitqueue
+To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+References: <20250522082742.148191-2-phasta@kernel.org>
+ <20250522082742.148191-3-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250522082742.148191-3-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,163 +67,307 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 01:58:54PM +0200, Thomas Zimmermann wrote:
->
->
->Am 22.05.25 um 08:52 schrieb Dave Airlie:
->>From: Dave Airlie <airlied@redhat.com>
->>
->>This adds accessors inlines to the iosys-map. The intent is to
->>roll the iomem flag into the lower bits of the vaddr eventually.
->>
->>First just add accessors to move all current in-tree users over to.
->>
->>Signed-off-by: Dave Airlie <airlied@redhat.com>
->>---
->>  include/linux/iosys-map.h | 53 +++++++++++++++++++++++++--------------
->>  1 file changed, 34 insertions(+), 19 deletions(-)
->>
->>diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
->>index 4696abfd311c..5ce5df1db60a 100644
->>--- a/include/linux/iosys-map.h
->>+++ b/include/linux/iosys-map.h
->>@@ -114,6 +114,21 @@ struct iosys_map {
->>  	bool is_iomem;
->>  };
->>+static inline bool iosys_map_is_iomem(const struct iosys_map *map)
->>+{
->>+	return map->is_iomem;
->>+}
->>+
->>+static inline void __iomem *iosys_map_ioptr(const struct iosys_map *map)
->>+{
->>+	return map->vaddr_iomem;
->>+}
->>+
->>+static inline void *iosys_map_ptr(const struct iosys_map *map)
->>+{
->>+       return map->vaddr;
->>+}
->>+
->
->These helpers need documentation.
 
-agreed
+On 22/05/2025 09:27, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
+> 
+> The GPU scheduler currently does not ensure that its pending_list is
+> empty before performing various other teardown tasks in
+> drm_sched_fini().
+> 
+> If there are still jobs in the pending_list, this is problematic because
+> after scheduler teardown, no one will call backend_ops.free_job()
+> anymore. This would, consequently, result in memory leaks.
+> 
+> One way to solve this is to implement a waitqueue that drm_sched_fini()
+> blocks on until the pending_list has become empty. That waitqueue must
+> obviously not block for a significant time. Thus, it's necessary to only
+> wait if it's guaranteed that all fences will get signaled quickly.
+> 
+> This can be ensured by having the driver implement a new backend ops,
+> cancel_pending_fences(), in which the driver shall signal all
+> unsignaled, in-flight fences with an error.
+> 
+> Add a waitqueue to struct drm_gpu_scheduler. Wake up waiters once the
+> pending_list becomes empty. Wait in drm_sched_fini() for that to happen
+> if cancel_pending_fences() is implemented.
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 105 ++++++++++++++++++++-----
+>   include/drm/gpu_scheduler.h            |  19 +++++
+>   2 files changed, 105 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index f7118497e47a..406572f5168e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -367,7 +367,7 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>    */
+>   static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   {
+> -	if (!READ_ONCE(sched->pause_submit))
+> +	if (!READ_ONCE(sched->pause_free))
+>   		queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+>   
+> @@ -1121,6 +1121,12 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>   		/* remove job from pending_list */
+>   		list_del_init(&job->list);
+>   
+> +		/*
+> +		 * Inform tasks blocking in drm_sched_fini() that it's now safe to proceed.
+> +		 */
+> +		if (list_empty(&sched->pending_list))
+> +			wake_up(&sched->pending_list_waitque);
 
->
->We should encourage users to the other helpers for interacting with 
->iosys-map structures instead of decoding them manually. OTOH there are 
->cases where decoding them by hand is clearly better. I'd suggest to 
->prefix the new helpers with __ so mark them an internal/special.
+Wait what? ;) (pun intended)
 
- From the other patches there are quite a few cases that would be using
-"internal"  API. From those there are just a few cases in which we'd
-have a direct translation to existing API... so I wouldn't make this
-internal when they are clearly needed externally.
+I think I mentioned in the last round that waitque looks dodgy. Either a 
+typo or a very unusual and novel shorthand? I suggest a typical wq or 
+waitqueue.
 
-Lucas De Marchi
+I also mentioned that one more advantage of the ->cancel_job() approach 
+is there is no need for these extra calls on the normal path (non 
+teardown) at all.
 
->
->Best regards
->Thomas
->
->>  /**
->>   * IOSYS_MAP_INIT_VADDR - Initializes struct iosys_map to an address in system memory
->>   * @vaddr_:	A system-memory address
->>@@ -234,9 +249,9 @@ static inline bool iosys_map_is_equal(const struct iosys_map *lhs,
->>   */
->>  static inline bool iosys_map_is_null(const struct iosys_map *map)
->>  {
->>-	if (map->is_iomem)
->>-		return !map->vaddr_iomem;
->>-	return !map->vaddr;
->>+	if (iosys_map_is_iomem(map))
->>+		return !iosys_map_ioptr(map);
->>+	return !iosys_map_ptr(map);
->>  }
->>  /**
->>@@ -286,10 +301,10 @@ static inline void iosys_map_clear(struct iosys_map *map)
->>  static inline void iosys_map_memcpy_to(struct iosys_map *dst, size_t dst_offset,
->>  				       const void *src, size_t len)
->>  {
->>-	if (dst->is_iomem)
->>-		memcpy_toio(dst->vaddr_iomem + dst_offset, src, len);
->>+	if (iosys_map_is_iomem(dst))
->>+		memcpy_toio(iosys_map_ioptr(dst) + dst_offset, src, len);
->>  	else
->>-		memcpy(dst->vaddr + dst_offset, src, len);
->>+		memcpy(iosys_map_ptr(dst) + dst_offset, src, len);
->>  }
->>  /**
->>@@ -306,10 +321,10 @@ static inline void iosys_map_memcpy_to(struct iosys_map *dst, size_t dst_offset,
->>  static inline void iosys_map_memcpy_from(void *dst, const struct iosys_map *src,
->>  					 size_t src_offset, size_t len)
->>  {
->>-	if (src->is_iomem)
->>-		memcpy_fromio(dst, src->vaddr_iomem + src_offset, len);
->>+	if (iosys_map_is_iomem(src))
->>+		memcpy_fromio(dst, iosys_map_ioptr(src) + src_offset, len);
->>  	else
->>-		memcpy(dst, src->vaddr + src_offset, len);
->>+		memcpy(dst, iosys_map_ptr(src) + src_offset, len);
->>  }
->>  /**
->>@@ -322,7 +337,7 @@ static inline void iosys_map_memcpy_from(void *dst, const struct iosys_map *src,
->>   */
->>  static inline void iosys_map_incr(struct iosys_map *map, size_t incr)
->>  {
->>-	if (map->is_iomem)
->>+	if (iosys_map_is_iomem(map))
->>  		map->vaddr_iomem += incr;
->>  	else
->>  		map->vaddr += incr;
->>@@ -341,10 +356,10 @@ static inline void iosys_map_incr(struct iosys_map *map, size_t incr)
->>  static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
->>  				    int value, size_t len)
->>  {
->>-	if (dst->is_iomem)
->>-		memset_io(dst->vaddr_iomem + offset, value, len);
->>+	if (iosys_map_is_iomem(dst))
->>+		memset_io(iosys_map_ioptr(dst) + offset, value, len);
->>  	else
->>-		memset(dst->vaddr + offset, value, len);
->>+		memset(iosys_map_ptr(dst) + offset, value, len);
->>  }
->>  #ifdef CONFIG_64BIT
->>@@ -393,10 +408,10 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
->>   */
->>  #define iosys_map_rd(map__, offset__, type__) ({					\
->>  	type__ val_;									\
->>-	if ((map__)->is_iomem) {							\
->>-		__iosys_map_rd_io(val_, (map__)->vaddr_iomem + (offset__), type__);	\
->>+	if (iosys_map_is_iomem(map__)) {						\
->>+		__iosys_map_rd_io(val_, iosys_map_ioptr(map__) + (offset__), type__);	\
->>  	} else {									\
->>-		__iosys_map_rd_sys(val_, (map__)->vaddr + (offset__), type__);		\
->>+		__iosys_map_rd_sys(val_, iosys_map_ptr(map__) + (offset__), type__);	\
->>  	}										\
->>  	val_;										\
->>  })
->>@@ -415,10 +430,10 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
->>   */
->>  #define iosys_map_wr(map__, offset__, type__, val__) ({					\
->>  	type__ val_ = (val__);								\
->>-	if ((map__)->is_iomem) {							\
->>-		__iosys_map_wr_io(val_, (map__)->vaddr_iomem + (offset__), type__);	\
->>+	if (iosys_map_is_iomem(map__)) {						\
->>+		__iosys_map_wr_io(val_, iosys_map_ioptr(map__) + (offset__), type__);	\
->>  	} else {									\
->>-		__iosys_map_wr_sys(val_, (map__)->vaddr + (offset__), type__);		\
->>+		__iosys_map_wr_sys(val_, iosys_map_ptr(map__) + (offset__), type__);	\
->>  	}										\
->>  })
->
->-- 
->--
->Thomas Zimmermann
->Graphics Driver Developer
->SUSE Software Solutions Germany GmbH
->Frankenstrasse 146, 90461 Nuernberg, Germany
->GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->HRB 36809 (AG Nuernberg)
->
+> +
+>   		/* cancel this job's TO timer */
+>   		cancel_delayed_work(&sched->work_tdr);
+>   		/* make the scheduled timestamp more accurate */
+> @@ -1326,6 +1332,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   	init_waitqueue_head(&sched->job_scheduled);
+>   	INIT_LIST_HEAD(&sched->pending_list);
+>   	spin_lock_init(&sched->job_list_lock);
+> +	init_waitqueue_head(&sched->pending_list_waitque);
+>   	atomic_set(&sched->credit_count, 0);
+>   	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>   	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+> @@ -1333,6 +1340,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   	atomic_set(&sched->_score, 0);
+>   	atomic64_set(&sched->job_id_count, 0);
+>   	sched->pause_submit = false;
+> +	sched->pause_free = false;
+>   
+>   	sched->ready = true;
+>   	return 0;
+> @@ -1350,33 +1358,90 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   }
+>   EXPORT_SYMBOL(drm_sched_init);
+>   
+> +/**
+> + * drm_sched_submission_and_timeout_stop - stop everything except for free_job
+> + * @sched: scheduler instance
+> + *
+> + * Helper for tearing down the scheduler in drm_sched_fini().
+> + */
+> +static void
+> +drm_sched_submission_and_timeout_stop(struct drm_gpu_scheduler *sched)
+> +{
+> +	WRITE_ONCE(sched->pause_submit, true);
+> +	cancel_work_sync(&sched->work_run_job);
+> +	cancel_delayed_work_sync(&sched->work_tdr);
+> +}
+> +
+> +/**
+> + * drm_sched_free_stop - stop free_job
+> + * @sched: scheduler instance
+> + *
+> + * Helper for tearing down the scheduler in drm_sched_fini().
+> + */
+> +static void drm_sched_free_stop(struct drm_gpu_scheduler *sched)
+> +{
+> +	WRITE_ONCE(sched->pause_free, true);
+> +	cancel_work_sync(&sched->work_free_job);
+> +}
+> +
+> +/**
+> + * drm_sched_no_jobs_pending - check whether jobs are pending
+> + * @sched: scheduler instance
+> + *
+> + * Checks if jobs are pending for @sched.
+> + *
+> + * Return: true if jobs are pending, false otherwise.
+> + */
+> +static bool drm_sched_no_jobs_pending(struct drm_gpu_scheduler *sched)
+> +{
+> +	bool empty;
+> +
+> +	spin_lock(&sched->job_list_lock);
+> +	empty = list_empty(&sched->pending_list);
+> +	spin_unlock(&sched->job_list_lock);
+> +
+> +	return empty;
+> +}
+> +
+> +/**
+> + * drm_sched_cancel_jobs_and_wait - trigger freeing of all pending jobs
+> + * @sched: scheduler instance
+> + *
+> + * Must only be called if &struct drm_sched_backend_ops.cancel_pending_fences is
+> + * implemented.
+> + *
+> + * Instructs the driver to kill the fence context associated with this scheduler,
+> + * thereby signaling all pending fences. This, in turn, will trigger
+> + * &struct drm_sched_backend_ops.free_job to be called for all pending jobs.
+> + * The function then blocks until all pending jobs have been freed.
+> + */
+> +static void drm_sched_cancel_jobs_and_wait(struct drm_gpu_scheduler *sched)
+> +{
+> +	sched->ops->cancel_pending_fences(sched);
+> +	wait_event(sched->pending_list_waitque, drm_sched_no_jobs_pending(sched));
+> +}
+> +
+>   /**
+>    * drm_sched_fini - Destroy a gpu scheduler
+>    *
+>    * @sched: scheduler instance
+>    *
+> - * Tears down and cleans up the scheduler.
+> - *
+> - * This stops submission of new jobs to the hardware through
+> - * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
+> - * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
+> - * There is no solution for this currently. Thus, it is up to the driver to make
+> - * sure that:
+> - *
+> - *  a) drm_sched_fini() is only called after for all submitted jobs
+> - *     drm_sched_backend_ops.free_job() has been called or that
+> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
+> - *     after drm_sched_fini() ran are freed manually.
+> - *
+> - * FIXME: Take care of the above problem and prevent this function from leaking
+> - * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
+> + * Tears down and cleans up the scheduler. Might leak memory if
+> + * &struct drm_sched_backend_ops.cancel_pending_fences is not implemented.
+>    */
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_entity *s_entity;
+>   	int i;
+>   
+> -	drm_sched_wqueue_stop(sched);
+> +	if (sched->ops->cancel_pending_fences) {
+> +		drm_sched_submission_and_timeout_stop(sched);
+> +		drm_sched_cancel_jobs_and_wait(sched);
+> +		drm_sched_free_stop(sched);
+> +	} else {
+> +		/* We're in "legacy free-mode" and ignore potential mem leaks */
+> +		drm_sched_wqueue_stop(sched);
+> +	}
+>   
+>   	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+>   		struct drm_sched_rq *rq = sched->sched_rq[i];
+> @@ -1464,7 +1529,7 @@ bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched)
+>   EXPORT_SYMBOL(drm_sched_wqueue_ready);
+>   
+>   /**
+> - * drm_sched_wqueue_stop - stop scheduler submission
+> + * drm_sched_wqueue_stop - stop scheduler submission and freeing
+>    * @sched: scheduler instance
+>    *
+>    * Stops the scheduler from pulling new jobs from entities. It also stops
+> @@ -1473,13 +1538,14 @@ EXPORT_SYMBOL(drm_sched_wqueue_ready);
+>   void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, true);
+> +	WRITE_ONCE(sched->pause_free, true);
+>   	cancel_work_sync(&sched->work_run_job);
+>   	cancel_work_sync(&sched->work_free_job);
+>   }
+>   EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>   
+>   /**
+> - * drm_sched_wqueue_start - start scheduler submission
+> + * drm_sched_wqueue_start - start scheduler submission and freeing
+>    * @sched: scheduler instance
+>    *
+>    * Restarts the scheduler after drm_sched_wqueue_stop() has stopped it.
+> @@ -1490,6 +1556,7 @@ EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>   void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+>   {
+>   	WRITE_ONCE(sched->pause_submit, false);
+> +	WRITE_ONCE(sched->pause_free, false);
+>   	queue_work(sched->submit_wq, &sched->work_run_job);
+>   	queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index d860db087ea5..d8bd5b605336 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -29,6 +29,7 @@
+>   #include <linux/completion.h>
+>   #include <linux/xarray.h>
+>   #include <linux/workqueue.h>
+> +#include <linux/wait.h>
+>   
+>   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>   
+> @@ -508,6 +509,19 @@ struct drm_sched_backend_ops {
+>            * and it's time to clean it up.
+>   	 */
+>   	void (*free_job)(struct drm_sched_job *sched_job);
+> +
+> +	/**
+> +	 * @cancel_pending_fences: cancel all unsignaled hardware fences
+> +	 *
+> +	 * This callback must signal all unsignaled hardware fences associated
+> +	 * with @sched with an appropriate error code (e.g., -ECANCELED). This
+> +	 * ensures that all jobs will get freed by the scheduler before
+> +	 * teardown.
+> +	 *
+> +	 * This callback is optional, but it is highly recommended to implement
+> +	 * it to avoid memory leaks.
+> +	 */
+> +	void (*cancel_pending_fences)(struct drm_gpu_scheduler *sched);
+
+I still don't understand why insist to use a new term in the backend 
+ops, and even the whole scheduler API. Nothing in the API so far has 
+fences in the name. Something like cancel(_all|pending)_jobs or 
+sched_fini would read more aligned with the rest to me.
+
+>   };
+>   
+>   /**
+> @@ -533,6 +547,8 @@ struct drm_sched_backend_ops {
+>    *            timeout interval is over.
+>    * @pending_list: the list of jobs which are currently in the job queue.
+>    * @job_list_lock: lock to protect the pending_list.
+> + * @pending_list_waitque: a waitqueue for drm_sched_fini() to block on until all
+> + *		          pending jobs have been finished.
+>    * @hang_limit: once the hangs by a job crosses this limit then it is marked
+>    *              guilty and it will no longer be considered for scheduling.
+>    * @score: score to help loadbalancer pick a idle sched
+> @@ -540,6 +556,7 @@ struct drm_sched_backend_ops {
+>    * @ready: marks if the underlying HW is ready to work
+>    * @free_guilty: A hit to time out handler to free the guilty job.
+>    * @pause_submit: pause queuing of @work_run_job on @submit_wq
+> + * @pause_free: pause queueing of @work_free_job on @submit_wq
+>    * @own_submit_wq: scheduler owns allocation of @submit_wq
+>    * @dev: system &struct device
+>    *
+> @@ -562,12 +579,14 @@ struct drm_gpu_scheduler {
+>   	struct delayed_work		work_tdr;
+>   	struct list_head		pending_list;
+>   	spinlock_t			job_list_lock;
+> +	wait_queue_head_t		pending_list_waitque;
+>   	int				hang_limit;
+>   	atomic_t                        *score;
+>   	atomic_t                        _score;
+>   	bool				ready;
+>   	bool				free_guilty;
+>   	bool				pause_submit;
+> +	bool				pause_free;
+>   	bool				own_submit_wq;
+>   	struct device			*dev;
+>   };
+
+And, as you know, another thing I don't understand is why would we 
+choose to add more of the state machine when I have shown how it can be 
+done more elegantly. You don't have to reply, this is more a for the 
+record against v3.
+
+Regards,
+
+Tvrtko
+
