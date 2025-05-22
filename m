@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8058AC0D0A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1E3AC0D0B
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F2110EE42;
-	Thu, 22 May 2025 13:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346A110EE38;
+	Thu, 22 May 2025 13:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FjtslFJS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ky7b/C0Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8347210EDFE;
- Thu, 22 May 2025 13:41:24 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-ac2bb7ca40bso1357888266b.3; 
- Thu, 22 May 2025 06:41:24 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4320810EE10;
+ Thu, 22 May 2025 13:41:25 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-601ab204085so8911463a12.1; 
+ Thu, 22 May 2025 06:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1747921283; x=1748526083; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1747921284; x=1748526084; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=d8qwrxuhG4XkPcoOdgSwGdIS8QW2hrRgCMU4VDYgvI4=;
- b=FjtslFJSgNe84wA9LybFDO8G3sQhw8PYt5mvRu2dpMxXU1Gxw8ZBPrpwml3gG8obwO
- LFo9u9Lz+CCmauqebbbSAMdDYZO3i5DRrgv80k2f1ODAkZLtW81KHXLLwhIjxtqfWgTB
- BHpBeAYJtmjFfORrPnC6QAyALuU+PVp9cZGRhOBxgc7n7ynFTukZ1HpLzKpipgTXt8m1
- jXj4WW/qDtWL4WBomtCFSNe4WfjXPqawWhY+WIp9Uyno9BrqR6pGA1OHwH63MumYxnZm
- 78YNNcttbxx4WwKBme+XwEZ1bAwtYtIzfCoSBnW4/F9k4VdMbTDzZFIkvgOxpA07x6gI
- fXwg==
+ :reply-to; bh=rqwkMrM5JL4EFpQh48JAg7ETFNDz+6d5oJlHLbW/gEc=;
+ b=ky7b/C0YOzBK4uqozmbotWdoVa+W2JgkIqkVOpqopduNJYfS7o/9dWv2w8SkyzGNkL
+ j+HWt0kSQPv+tmZiTW+MS7/d904A4UNXCXDAW+7cRUzsivkWuQlR2juwXjT7cxxIlfbj
+ 1YnBZchBX1+3Xtv7YbJEU8qYQFccUzagLaoPAW7/QqQhaCt4bE5XEcvddVkKcbWEiHC9
+ CqBCjsFmWj5r0X0f2me65tTN4ZLyvzwDf+BvQ6TUHGqqPhXgxVh+N5skG6AT8cbI6E5r
+ ufuSjMytS9Jp83/0GZitPNC0L0joejoZYRtP91N+d6R/rdU+QqwwQk0gGh6FVAQdwQsX
+ 62wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747921283; x=1748526083;
+ d=1e100.net; s=20230601; t=1747921284; x=1748526084;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d8qwrxuhG4XkPcoOdgSwGdIS8QW2hrRgCMU4VDYgvI4=;
- b=MDmrvh8u8VEGe1ckj7nF4lFis60YtnOlf8XWRpoO6kcBQ+JSWyj+UYhg7OVrAAdqHs
- /GSi1Jb9GH2xN8xM6Wj+K5CZUkUv6Ijv0IXWrZvz0Ld8MgyHEyXUy0Z7CNaLitHlfFP+
- KmSc7nh8G1DyXqIKOuAHUG9i5sv7i2gR1O6RfhuA9szz3MUHy7sOCRh8pZT66WQgg7HS
- nKhFwM0V1Iatb6OY4aGoN55lYXGjQuEBR3+ObSBxZRA3oulILq+F/5VLzHr1vG1sqGPH
- nrKAh4A7LQqr0o8E2DVr9Bt4jtp6gSViq47G+bQH/3Xkwv4H6lzRiFuo50s9wWqvJhMh
- KryQ==
+ bh=rqwkMrM5JL4EFpQh48JAg7ETFNDz+6d5oJlHLbW/gEc=;
+ b=WqwxnZ8DVRt+FsVkGG4GWw0CBJbbiG7OXEjDbFn8pC1hCYCVwKB/J1DAHcPwOcMVbd
+ AVphC7jFBKGlshXX38KTpC2RC3KFEA0CQIFK7EYwdDRxtvOpDgIB583cAntdzYKuLd2g
+ JEIt8Dc7MGfiK3vAgun0N+1/BREic9R91pQ5OK3qrkBJE3BH38ePTSfj90O3CGuHO/cE
+ KAeQxAJRlO9Otg8erXxsSuZLDhJ6TkZInfutu6rcUVsl61a8dQ1JqEvs1z8EtKkjHqEN
+ p5Il6uG2rpwUJuyQWylTfJiAFk6RrgIvZdoXZRRRhtrilrQbL+p3XQxbdbO6XhQ3w0Pa
+ 4NrQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVj/DAuxVVnpCUPBRTXTTuOLTktdwzOiJ+fRzw953Y0qIDOW2BHw6us4nfW7G7wWwTQrJFvd3w7@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7jWK4Id0TC+IWdO9qt9zW0jX+biWtAF0qZDxCh/qAH+vtUIq+
- 4sPICtdWbOP9sv1l9EByGSkPbOGKwMw7PAaJ89sXNXNgZzn/shMSsVsA7L/74Q==
-X-Gm-Gg: ASbGncvRXHeTQs1f4z0H/RQ6LLLo4Ng3aDaRjESreq1fE6CvA/o+0eE43E6hxH2EbQ2
- rIKvksDaPSLrCWjmf4PZVRaUXvK6EGtJCVztN49VxOt3vhUJAZ8/Jr1XvDZ1+P7I1i0ju4Lalvc
- OyJ92LNCT1S0nE9fz6+bddpiIBqtC2QKM7DIULSIxcpOiIt0MgTtkTlgU82QSqqvs01ndjUZ2hC
- 3w/KmL0Nm2XnVLzpRfDiECn8qXquJxTG3sfO/5+v+6DBJbabfjDz5aK4gBMO98zpdVagx/MMdp4
- JAxcNYFNhOmg2F9MULJ6TWnI7sKxh6FRI0hzCMZyPHo/87+T0j2TpJabfDuAwRc=
-X-Google-Smtp-Source: AGHT+IET3ZMQc4RHbeFOw3R7mFs+I0VaoKKqbtaJ/9oHwoofiZOYXLpUAkur1r33sUiNdret6YJd7Q==
-X-Received: by 2002:a17:906:f5a0:b0:ac2:2ba5:5471 with SMTP id
- a640c23a62f3a-ad52d4f8b8emr2050810366b.24.1747921282837; 
- Thu, 22 May 2025 06:41:22 -0700 (PDT)
+ AJvYcCUPylvVbOhBo6D39aAtgEWE8d97sgwLmDH8vF+7okVE8XZ2Z2vkvGREiwMYQGU7ejZN0fS5WV1R@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw975WY8LDd/Z0HrFIs5LPd/UKl4l6zn3E6TgPAr431og8HvA9i
+ 80ZpHbkas0MpzMwgllLm0qnWjcgfY4O6mZj4lnbfyycAv6rXsvvBdAY4XO+h2g==
+X-Gm-Gg: ASbGncs7/Zql3KMu7xXEz5LEXrZLLGIzBehSpBBFSffDoSYganPDGOpZ7yuxI+RVDea
+ t+xKO8mRUE67KbmJDbh8vWBFA8QPG+KiuTUYJ9+tQsCyelrF82utOrHgX5g9IuxuhutGoLBOCNQ
+ fXTChKdjsSlt9hPdZZESgF1wL1j7bAjjXdmF9S+14AUijMdN145/lUMs/iAjQx+GQVkCg7XozaZ
+ Sg5SPZ6NvM/AiAkSNA1GoYgbFIHZloGdPVpMqnUweFalETX7+B0aL4+BFZy4xcRDDOqLLb3onkC
+ peqwQpCeMPi2SY3w5PolTHMTwdC4GRDOFiu3Nyr/R/EA5zHYKN4hj2zx12aZznE=
+X-Google-Smtp-Source: AGHT+IGKQcznMRO8eRwQiL0cx5jGegvSLfWKKSFw4emte/WIEiLdu6cRH3nnkD/nOC8PMVKSKLyDaA==
+X-Received: by 2002:a17:907:960a:b0:ad3:e742:69ea with SMTP id
+ a640c23a62f3a-ad52f86c635mr2091109466b.14.1747921283473; 
+ Thu, 22 May 2025 06:41:23 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1533:800:9db1:9b52:19ec:8c5a])
  by smtp.gmail.com with ESMTPSA id
  a640c23a62f3a-ad52d04af40sm1082487566b.34.2025.05.22.06.41.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 May 2025 06:41:22 -0700 (PDT)
+ Thu, 22 May 2025 06:41:23 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org, phasta@mailbox.org, dakr@kernel.org,
  amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/sched: add drm_sched_prealloc_dependency_slots
-Date: Thu, 22 May 2025 15:41:15 +0200
-Message-Id: <20250522134117.7561-3-christian.koenig@amd.com>
+Subject: [PATCH 3/4] drm/sched: Add a test for prealloced fence slots
+Date: Thu, 22 May 2025 15:41:16 +0200
+Message-Id: <20250522134117.7561-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250522134117.7561-1-christian.koenig@amd.com>
 References: <20250522134117.7561-1-christian.koenig@amd.com>
@@ -89,81 +89,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sometimes drivers need to be able to submit multiple jobs which depend on
-each other to different schedulers at the same time, but using
-drm_sched_job_add_dependency() can't fail any more after the first job is
-initialized.
-
-This function preallocate memory for dependency slots so that no ENOMEM
-can come later while adding dependencies.
+Just to exercise the functionality.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 37 ++++++++++++++++++++++++++
- include/drm/gpu_scheduler.h            |  2 ++
- 2 files changed, 39 insertions(+)
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 56 ++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index d2d64bf17c96..84713214fbf3 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -858,6 +858,43 @@ void drm_sched_job_arm(struct drm_sched_job *job)
- }
- EXPORT_SYMBOL(drm_sched_job_arm);
+diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+index 7230057e0594..00dcee298100 100644
+--- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
++++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+@@ -469,8 +469,62 @@ static struct kunit_suite drm_sched_credits = {
+ 	.test_cases = drm_sched_credits_tests,
+ };
  
-+/**
-+ * drm_sched_job_prealloc_dependency_slots - avoid ENOMEM on adding dependencies
-+ * @job: scheduler job where dependencies will be added
-+ * @num_slots: number of slots to reserve
-+  *
-+ * Sometimes drivers need to be able to submit multiple jobs which depend on
-+ * each other to different schedulers at the same time, but using
-+ * drm_sched_job_add_dependency() can't fail any more after the first job is
-+ * initialized.
-+ *
-+ * This function preallocate memory for dependency slots so that no ENOMEM can
-+ * come later while adding dependencies.
-+ *
-+ * Return:
-+ * 0 on success, or an error on failing to expand the array.
-+ */
-+int drm_sched_job_prealloc_dependency_slots(struct drm_sched_job *job,
-+					    unsigned int num_slots)
++static void drm_sched_test_prealloc(struct kunit *test)
 +{
++	struct dma_fence *stub = dma_fence_get_stub();
++	struct drm_mock_sched_entity *entity;
++	struct drm_mock_scheduler *sched;
++	struct drm_mock_sched_job *job;
++	bool done;
 +	int ret;
-+	u32 id;
 +
 +	/*
-+	 * This works because NULL entries are not returned by xa_for_each. So
-+	 * drm_sched_job_add_dependency() will ignore those while checking for
-+	 * duplicates, but can then use the entry when storing the new fence.
++	 * Check if preallocation of dependency slots work
 +	 */
-+	while (num_slots--) {
-+		ret = xa_alloc(&job->dependencies, &id, NULL, xa_limit_32b,
-+			       GFP_KERNEL);
-+		if (ret)
-+			return ret;
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_sched_job_prealloc_dependency_slots);
 +
- /**
-  * drm_sched_job_add_dependency - adds the fence as a job dependency
-  * @job: scheduler job to add the dependencies to
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index d860db087ea5..a560a00c6275 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -632,6 +632,8 @@ int drm_sched_job_init(struct drm_sched_job *job,
- 		       u32 credits, void *owner);
- void drm_sched_job_arm(struct drm_sched_job *job);
- void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
-+int drm_sched_job_prealloc_dependency_slots(struct drm_sched_job *job,
-+					    unsigned int num_slots);
- int drm_sched_job_add_dependency(struct drm_sched_job *job,
- 				 struct dma_fence *fence);
- int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
++	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
++
++	entity = drm_mock_sched_entity_new(test,
++					   DRM_SCHED_PRIORITY_NORMAL,
++					   sched);
++
++	job = drm_mock_sched_job_new(test, entity);
++
++	ret = drm_sched_job_add_dependency(&job->base, dma_fence_get(stub));
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = drm_sched_job_prealloc_dependency_slots(&job->base, 2);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = drm_sched_job_add_dependency(&job->base, dma_fence_get(stub));
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = drm_sched_job_add_dependency(&job->base, dma_fence_get(stub));
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	drm_mock_sched_job_submit(job);
++
++	done = drm_mock_sched_job_wait_scheduled(job, HZ);
++	KUNIT_ASSERT_TRUE(test, done);
++
++	drm_mock_sched_entity_free(entity);
++	drm_mock_sched_fini(sched);
++	dma_fence_put(stub);
++}
++
++static struct kunit_case drm_sched_prealloc_tests[] = {
++	KUNIT_CASE(drm_sched_test_prealloc),
++	{}
++};
++
++static struct kunit_suite drm_sched_prealloc = {
++	.name = "drm_sched_basic_prealloc_tests",
++	.test_cases = drm_sched_prealloc_tests,
++};
++
+ kunit_test_suites(&drm_sched_basic,
+ 		  &drm_sched_timeout,
+ 		  &drm_sched_priority,
+ 		  &drm_sched_modify_sched,
+-		  &drm_sched_credits);
++		  &drm_sched_credits,
++		  &drm_sched_prealloc);
 -- 
 2.34.1
 
