@@ -2,74 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDD4AC0BB5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A77AC0B96
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0491510EBA7;
-	Thu, 22 May 2025 12:38:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=goosey.org header.i=@goosey.org header.b="p/OB0m58";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="lcQtCm3D";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DACA10E150;
+	Thu, 22 May 2025 12:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 728 seconds by postgrey-1.36 at gabe;
- Thu, 22 May 2025 12:38:30 UTC
-Received: from e240-8.smtp-out.eu-north-1.amazonses.com
- (e240-8.smtp-out.eu-north-1.amazonses.com [23.251.240.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53AA910E747;
- Thu, 22 May 2025 12:38:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=iuunfi4kzpbzwuqjzrd5q2mr652n55fx; d=goosey.org; t=1747916772;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
- bh=XTSbICosLaHaU9aRpnsLBowCzYh5rd17I756IGIFYiE=;
- b=p/OB0m58tvobh+L/qgu0pCCau5rR4TWRa0e6kDAgqx1r94eJFvDCv1heZHWH/1MG
- BhzvkwQzDBABFP4xhQv0tKcoFNbV49aEKC8zm5Ajq4dCH1FGUFpgzIh4vOfiCy7fxrg
- Gdf7Sw+uQjn/pppLadzml4dFrY5KJgF27TKWnLKAl5jo6+zGRT+sdFvKA60FR8aeJL5
- g85lGT7Exaa1s0HkKUUqityUZ5Q2kvfnMPLYDalP/0felFqLmRBuk5ArbAhsIrKsazz
- MbwixWPlOEIgDUklwnHtZcyC2T3L8dQBw2jpa3VqVp4xvcO+Lkc+MTivHjWewH9hdOo
- UER6zfO4Gg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=bw45wyq3hkghdoq32obql4uyexcghmc7; d=amazonses.com; t=1747916772;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=XTSbICosLaHaU9aRpnsLBowCzYh5rd17I756IGIFYiE=;
- b=lcQtCm3Ds/UtIyey1hoqhxcPZTKGd244OpAnsxqwFAtqbssQzz1FfjXNLAFG5IFf
- 1KHxI4sPFUdJnx5tfpRN4OfnFTFE3zCScXmF8abtTA3x9ePTCCDTAKAzB2EEBtSFS1J
- izLsoUEcWAh7c6bAFf97HvyKjUL+XJIO1WjyG2xg=
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2oHS/GfLNLty1p7nwH1DwDYbFByGhkfBnMRol3R0J/w3d01oOIympK4975RMatDrFFNgUbO2kXoTv@lists.freedesktop.org,
- AJvYcCVLBy/bthwVZhgwMEV9EGuRX4r4XGuv342Bbcw3h6RSEPyN7NOFESqct3B8iKKA2A3OzOfC6txR@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzh3ZLcgjXSBOk97Us4M5ClYiM2W/4gkgM0G2K18XTq8UOYYCei
- TE8Qmy+/XpYjjpRB+DXQtJKARi9kYPyatiV5jKkzn2OzXKfk+wPedzYfzqggUwLAb1dz+gyX4G+
- eOH6mvh1atu07uuqnWtHZGoGwQKtVXuo=
-X-Google-Smtp-Source: AGHT+IFnvCMK1Q+jo/7u8pQJvKjn2XW9lqSU5ELyGJ+Q2XTYVSnGqTYm8CaHXI61ZokxmvOk4GpNZP0+EL6XvWTWjQE=
-X-Received: by 2002:a17:903:4b4b:b0:22d:c605:a30c with SMTP id
- d9443c01a7336-231d43d5532mr374201045ad.11.1747916769730; Thu, 22 May 2025
- 05:26:09 -0700 (PDT)
+Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B9C10E150
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:29:54 +0000 (UTC)
+Received: from w003.hihonor.com (unknown [10.68.17.88])
+ by mta22.hihonor.com (SkyGuard) with ESMTPS id 4b36y32pW6zYqXmX;
+ Thu, 22 May 2025 20:27:55 +0800 (CST)
+Received: from a002.hihonor.com (10.68.31.193) by w003.hihonor.com
+ (10.68.17.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 May
+ 2025 20:29:46 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a002.hihonor.com
+ (10.68.31.193) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 May
+ 2025 20:29:46 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Thu, 22 May 2025 20:29:46 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, "T.J.
+ Mercier" <tjmercier@google.com>, "amir73il@gmail.com" <amir73il@gmail.com>,
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+ <brauner@kernel.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "hughd@google.com" <hughd@google.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com"
+ <jstultz@google.com>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "wangbintian(BintianWang)"
+ <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
+ <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Subject: RE: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+Thread-Topic: [PATCH 2/2] dmabuf/heaps: implement DMA_BUF_IOCTL_RW_FILE for
+ system_heap
+Thread-Index: AQHbw+qMldEo/aUx7kiLwLLmDDhXfrPP52GAgACTfSD//4oVgIAB7nTg//+OJQCAAiukIP//j3cAADMZG0D//5fGgIAAp/oA//s1a9D/9XOJ4IAWHEIA//9iivAAH1/SAP//V55A//8OowD//GU0UP/479+A//FUmtA=
+Date: Thu, 22 May 2025 12:29:46 +0000
+Message-ID: <b5aee3f3ac524f80b48f6e5266e792ca@honor.com>
+References: <20250513092803.2096-1-tao.wangtao@honor.com>
+ <fdc8f0a2-5b2f-4898-8090-0d7b888c15d8@amd.com>
+ <5b68b2a50d48444b93d97f5d342f37c8@honor.com>
+ <ef978301-6a63-451d-9ae6-171968b26a55@amd.com>
+ <9f732ac8b90e4e819e0a6a5511ac3f6d@honor.com>
+ <50092362-4644-4e47-9c63-fc82ba24e516@amd.com>
+ <2755aae2f1674b239569bf1acad765dc@honor.com>
+ <2487bad4-81d6-4ea2-96a7-a6ac741c9d9c@amd.com>
+ <a3f57102bc6e4588bc7659485feadbc1@honor.com>
+ <5c11b50c-2e36-4fd5-943c-086f55adffa8@amd.com>
+ <CABdmKX30c_5N34FYMre6Qx5LLLWicsi_XdUdu0QtsOmQ=RcYxQ@mail.gmail.com>
+ <375f6aac8c2f4b84814251c5025ae6eb@honor.com>
+ <38aa6cf19ce245578264aaa9062aa6dd@honor.com>
+ <CABdmKX0nAYDdgq-PHv0HxucfYQzvvTAJjVCo7nQ0UtjwcF02aQ@mail.gmail.com>
+ <7198873a044143c7be12f727b469649b@honor.com>
+ <fdd7a11b-140c-40bd-a1c1-334d69256b92@amd.com>
+ <e61fcdbf71ba4f9dbfef2f521d1b2fc1@honor.com>
+ <d786ff9f-9bf0-42e1-987f-f2091fd90279@amd.com>
+ <068cca07bc5a4e68be5355c884843b8a@honor.com>
+ <4a53b6bf-9273-4e77-9882-644faafa200a@amd.com>
+In-Reply-To: <4a53b6bf-9273-4e77-9882-644faafa200a@amd.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.163.18.240]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CABH-8xdaDFjWyQ40Nyo59Gm5kD3Qi5hh76o-uam1yC3wNtJNqQ@mail.gmail.com>
- <01100196f7d63f35-a7b596e2-fbb8-49e5-8645-e67ca6a0048d-000000@eu-north-1.amazonses.com>
- <CABH-8xdDjLv9c+E7OdTFjtoEHT5Q2-oQGouOpygi_5c-W3cyvQ@mail.gmail.com>
- <01100196f7e25204-35c40c23-8070-4aaf-ae45-7ac2625cbf90-000000@eu-north-1.amazonses.com>
- <CABH-8xd1Nr1PpsPJnoNsur1LEEhphX6+WzKE14rc-ub_N7eS7Q@mail.gmail.com>
-In-Reply-To: <CABH-8xd1Nr1PpsPJnoNsur1LEEhphX6+WzKE14rc-ub_N7eS7Q@mail.gmail.com>
-From: Ozgur Kara <ozgur@goosey.org>
-Date: Thu, 22 May 2025 12:26:12 +0000
-X-Gmail-Original-Message-ID: <CADvZ6ErJ+2wFwWpEiORPe+YUFDm3cqMb_r1PVAM3=b75BRYOjg@mail.gmail.com>
-X-Gm-Features: AX0GCFvCJYHUcwI3ftpqsdj2rmbV78za5rhEDeF6HqdDJPjBc_Zajx9EY_uS7UI
-Message-ID: <01100196f7f553bc-1cd7e537-430c-4138-b447-c432eaf77f33-000000@eu-north-1.amazonses.com>
-Subject: Re: Regression: RX 470 fails to boot with amdgpu.dpm=1 on kernel 6.7+
-To: =?UTF-8?Q?Durmu=C5=9F?= <dozaltay@gmail.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Tao Zhou <tao.zhou1@amd.com>, 
- Yan Zhen <yanzhen@vivo.com>, Greg KH <gregkh@linuxfoundation.org>, 
- Alper Nebi Yasak <alpernebiyasak@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Feedback-ID: ::1.eu-north-1.jZlAFvO9+f8tc21Z4t7ANdAU3Nw/ALd5VHiFFAqIVOg=:AmazonSES
-X-SES-Outgoing: 2025.05.22-23.251.240.8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,173 +93,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Durmu=C5=9F <dozaltay@gmail.com>, 22 May 2025 Per, 15:15 tarihinde =C5=9Fun=
-u yazd=C4=B1:
->
-> I'm using dual monitors. I disconnected the HDMI to test with a single
-> screen, but the result was the same. I also swapped the HDMI ports,
-> but the issue still persisted.
-> I'm not using DisplayPort =E2=80=94 in fact, it's a bit weird: I convert =
-VGA
-> to HDMI and connect it to the graphics card. I'm not an expert of
-> course, but since there were no issues on the LTS kernel and the
-> problems started with kernels after 6.7, it made me think it might be
-> a kernel issue.
-> If needed, I=E2=80=99ll set dpm=3D0 when I install (i don't know when) Li=
-nux
-> again and test it.
-> If I remember correctly, when I added amdgpu.dc=3D0 to GRUB, nothing
-> changed =E2=80=94 the system still froze after GRUB.
->
-
-Hello,
-
-i suspect this is related to latest patch rather than a kernel bug so
-i will add Aurabindo because you may be affected after cfb2d41831ee
-commit.
-first of all, is there any chance you can revert this commit and test kerne=
-l?
-
-$ git revert cfb2d41831ee
-
-So after commit, dmcub ring calls became much higher and some power
-states became unstable i dont know i'm not expert but  these usually
-have to do with things like dmcub firmware and  power gating (gfxoff)
-or post-reset ring buffer access.
-maybe this commit is that  vmin/vmax update call may now be made much
-more frequently and this may cause dmcub to not synchronize properly
-some power states to become unstable or firmware to crash.
-
-we might need to look at the contents of
-/sys/module/amdgpu/parameters/force_vmin_vmax_update but  vmin vmax
-potential call height might be giving an error.
-
-So I added Aurabindo Pillai, should have added you after 3 different
-bug reports.
-
-Regards
-
-Ozgur
-
-
-> On Thu, May 22, 2025 at 3:05=E2=80=AFPM Ozgur Kara <ozgur@goosey.org> wro=
-te:
-> >
-> > Durmu=C5=9F <dozaltay@gmail.com>, 22 May 2025 Per, 14:58 tarihinde =C5=
-=9Funu yazd=C4=B1:
-> > >
-> > > Hey, thanks for the reply, but I don't use Linux anymore, so I can't
-> > > provide any logs or test it further. Also, FYI, this bug has been
-> > > around since kernel v6.7. If I install Linux again soon, I'll try to
-> > > test it. Could you please advise what I should do about amdgpu.dpm?
-> > > Should it stay at 0 or be set to 1? When I try booting with 1, the PC
-> > > freezes right after the grub screen. I've used Linux for 2-3 months
-> > > but still don=E2=80=99t really know how to debug these kinds of error=
-s
-> > > properly. Thanks!
-> > >
-> >
-> > Hello,
-> >
-> > not problem maybe we should talk about this separately but kernel
-> > lists are progressing complicated with too many development patch
-> > content that is not very suitable for this.
-> > we can also see it as a problem with kernel, gpus or amd company and
-> > too many firmware and drivers.
-> >
-> > if it is hardware based especially gpu related, kernel doesnt
-> > intervene fully at this point.
-> > the system can be opened with amdgpu.dpm=3D0 but this is not correct an=
-d
-> > you did a very good job reporting it.
-> > maybe by adding amdgpu.dc=3D0 the display core is disabled but this
-> > prevents you from getting 144 mhz.
-> >
-> > we should make sure that there is the correct firmware under
-> > /lib/firmware/amdgpu.
-> > did you use DisplayPort and did you get 144 mhz output?
-> >
-> > $ journalctl -b -1 will give you some information.
-> > $ glxinfo | grep OpenGL can also give you the problem or error.
-> >
-> > So kernel developers and AMD developers should look into this issue
-> > but i think it is most likely a firmware blockage on the AMD side not
-> > a kernel side.
-> >
-> > Regards
-> >
-> > Ozgur
-> >
-> > > On Thu, May 22, 2025 at 2:52=E2=80=AFPM Ozgur Kara <ozgur@goosey.org>=
- wrote:
-> > > >
-> > > > Durmu=C5=9F <dozaltay@gmail.com>, 22 May 2025 Per, 14:27 tarihinde =
-=C5=9Funu yazd=C4=B1:
-> > > > >
-> > > > > Hello,
-> > > > >
-> > > >
-> > > > Hello,
-> > > >
-> > > > did you get a message in dmesg from kernel, for example an error li=
-ke this?
-> > > >
-> > > > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1106268
-> > > >
-> > > > The dmesg command will give you an output maybe journalctl output o=
-r
-> > > > mesa (glxinfo) output would also be sufficient because we need to k=
-now
-> > > > which upstream it is affected by.
-> > > > and thanks for report.
-> > > >
-> > > > Note: because there are two similar errors i added the necessary
-> > > > maintainers for upstream.
-> > > >
-> > > > Regards
-> > > >
-> > > > Ozgur
-> > > >
-> > > > > I'm experiencing a critical issue on my system with an AMD RX 470=
- GPU.
-> > > > > When booting with recent kernel versions (6.7.x or newer), the sy=
-stem
-> > > > > fails to boot properly unless I explicitly disable Dynamic Power
-> > > > > Management (DPM) via the `amdgpu.dpm=3D0` kernel parameter.
-> > > > >
-> > > > > When DPM is enabled (`amdgpu.dpm=3D1` or omitted, since it's the
-> > > > > default), the system either freezes during early boot or fails to
-> > > > > initialize the display. However, using the LTS kernel (6.6.x),
-> > > > > everything works as expected with DPM enabled.
-> > > > >
-> > > > > This seems to be a regression introduced in kernel 6.7 or later, =
-and
-> > > > > it specifically affects older GCN4 (Polaris) GPUs like the RX 470=
-.
-> > > > > Disabling DPM allows the system to boot, but significantly reduce=
-s GPU
-> > > > > performance.
-> > > > >
-> > > > > Things I=E2=80=99ve tried:
-> > > > > - Confirmed that the latest `linux-firmware` is installed.
-> > > > > - Verified correct firmware files exist under `/lib/firmware/amdg=
-pu/`.
-> > > > > - Tested multiple kernels (mainline and LTS).
-> > > > > - Using Mesa with ACO (Radeon open driver stack).
-> > > > > - System boots fine with LTS kernel (6.6.x) + DPM enabled.
-> > > > >
-> > > > > System info:
-> > > > > - GPU: AMD RX 470 (GCN 4 / Polaris)
-> > > > > - Distro: Arch Linux
-> > > > > - Kernel (working): linux-lts 6.6.x
-> > > > > - Kernel (broken): 6.7.x and newer (currently tested on 6.14.6)
-> > > > >
-> > > > > Thanks in advance,
-> > > > > Durmus Ozaltay
-> > > > >
-> > > > >
-> > > > >
-> > >
-> > >
->
->
+QXBvbG9naWVzIGZvciBpbnRlcnJ1cHRpbmcgdGhlIGZpbGVzeXN0ZW0vbWVtb3J5IGV4cGVydHMu
+IER1ZSB0byBkbWFidWYncw0KYXR0YWNobWVudC9tYXAvZmVuY2UgbW9kZWwsIGl0cyBtbWFwIGNh
+bGxiYWNrIHVzZXMgcmVtYXBfcGZuX3JhbmdlLCBtYWtpbmcNCnJlYWQoZmlsZV9mZCwgZG1hYnVm
+X3B0ciwgbGVuKSBzdXBwb3J0IGJ1ZmZlciBJL08gb25seSwgbm90IERpcmVjdCBJL08NCnplcm8t
+Y29weS4gRW1iZWRkZWQvbW9iaWxlIGRldmljZXMgdXJnZW50bHkgcmVxdWlyZSBkbWFidWYgRGly
+ZWN0IEkvTyBmb3INCmxhcmdlLWZpbGUgb3BlcmF0aW9ucywgd2l0aCBwcmlvciBwYXRjaGVzIGF0
+dGVtcHRpbmcgdGhpcy4NCg0KV2hpbGUgdG1wZnMvc2htZW0gc3VwcG9ydCBEaXJlY3QgSS9PIHpl
+cm8tY29weSwgZG1hYnVmIGRvZXMgbm90LiBNeSBwYXRjaA0KYWRkcyBhbiBpb2N0bCBjb21tYW5k
+IGZvciBkbWFidWYgRGlyZWN0IEkvTyB6ZXJvLWNvcHksIGFjaGlldmluZyA+ODAlDQpiYW5kd2lk
+dGggZXZlbiBvbiBsb3ctcG93ZXIgQ1BVcy4NCg0KQ2hyaXN0aWFuIGFyZ3VlcyB1ZG1hYnVmICsg
+c2VuZGZpbGUvc3BsaWNlL2NvcHlfZmlsZV9yYW5nZSBjb3VsZCBlbmFibGUNCnplcm8tY29weSwg
+YnV0IGFuYWx5c2lzIGFuZCB0ZXN0aW5nIChkZXRhaWxlZCBwcmlvciBlbWFpbCkgc2hvdyB0aGVz
+ZQ0Kc3lzY2FsbHMgZmFpbCBmb3IgaGlnaC1wZXJmb3JtYW5jZSBkbWFidWYgRGlyZWN0IEkvTzoN
+CjEuIHNlbmRmaWxlKGRzdF9tZW1maWxlLCBzcmNfZGlzayk6IFJlcXVpcmVzIHBhZ2UgY2FjaGUg
+Y29waWVzDQpbRElTS10gLS1ETUEtLT4gW3BhZ2UgY2FjaGVdIC0tQ1BVIGNvcHktLT4gW01FTU9S
+WSBmaWxlXQ0KMi4gc3BsaWNlOiBSZXF1aXJlcyBwaXBlIGVuZHBvaW50IChpbmNvbXBhdGlibGUg
+d2l0aCBmaWxlcy9kbWFidWYpDQozLiBjb3B5X2ZpbGVfcmFuZ2U6IENyb3NzLUZTIHByb2hpYml0
+ZWQNCg0KVGVjaG5pY2FsIHF1ZXN0aW9uOiBVbmRlciBmcy9tbSBsYXllciBjb25zdHJhaW50cywg
+Y2FuL2hvdyBzaG91bGQgd2UgbW9kaWZ5DQpzZW5kZmlsZS9zcGxpY2UvY29weV9maWxlX3Jhbmdl
+IChvciBvdGhlciBzeXNjYWxscykgdG8gYWNoaWV2ZSBlZmZpY2llbnQNCmRtYWJ1ZiBEaXJlY3Qg
+SS9PIHplcm8tY29weT8gWW91ciBpbnNpZ2h0cyBvbiByZXF1aXJlZCBzeXNjYWxsIG1vZGlmaWNh
+dGlvbnMNCndvdWxkIGJlIGludmFsdWFibGUuIFRoYW5rIHlvdSBmb3IgZ3VpZGFuY2UuDQoNCg0K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDaHJpc3RpYW4gS8O2bmlnIDxj
+aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBNYXkgMjIsIDIwMjUg
+Nzo1OCBQTQ0KPiBUbzogd2FuZ3RhbyA8dGFvLndhbmd0YW9AaG9ub3IuY29tPjsgVC5KLiBNZXJj
+aWVyDQo+IDx0am1lcmNpZXJAZ29vZ2xlLmNvbT4NCj4gQ2M6IHN1bWl0LnNlbXdhbEBsaW5hcm8u
+b3JnOyBiZW5qYW1pbi5nYWlnbmFyZEBjb2xsYWJvcmEuY29tOw0KPiBCcmlhbi5TdGFya2V5QGFy
+bS5jb207IGpzdHVsdHpAZ29vZ2xlLmNvbTsgbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOw0K
+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW5hcm8tbW0tc2lnQGxpc3RzLmxp
+bmFyby5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnOyB3YW5nYmludGlhbihC
+aW50aWFuV2FuZykNCj4gPGJpbnRpYW4ud2FuZ0Bob25vci5jb20+OyB5aXBlbmd4aWFuZyA8eWlw
+ZW5neGlhbmdAaG9ub3IuY29tPjsgbGl1bHUNCj4gMDAwMTMxNjcgPGxpdWx1LmxpdUBob25vci5j
+b20+OyBoYW5mZW5nIDAwMDEyOTg1IDxmZW5nLmhhbkBob25vci5jb20+Ow0KPiBhbWlyNzNpbEBn
+bWFpbC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAyLzJdIGRtYWJ1Zi9oZWFwczogaW1wbGVt
+ZW50DQo+IERNQV9CVUZfSU9DVExfUldfRklMRSBmb3Igc3lzdGVtX2hlYXANCj4gDQo+IE9uIDUv
+MjIvMjUgMTA6MDIsIHdhbmd0YW8gd3JvdGU6DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
+LS0tDQo+ID4+IEZyb206IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4NCj4gPj4gU2VudDogV2VkbmVzZGF5LCBNYXkgMjEsIDIwMjUgNzo1NyBQTQ0KPiA+PiBUbzog
+d2FuZ3RhbyA8dGFvLndhbmd0YW9AaG9ub3IuY29tPjsgVC5KLiBNZXJjaWVyDQo+ID4+IDx0am1l
+cmNpZXJAZ29vZ2xlLmNvbT4NCj4gPj4gQ2M6IHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnOyBiZW5q
+YW1pbi5nYWlnbmFyZEBjb2xsYWJvcmEuY29tOw0KPiA+PiBCcmlhbi5TdGFya2V5QGFybS5jb207
+IGpzdHVsdHpAZ29vZ2xlLmNvbTsNCj4gPj4gbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOw0KPiA+PiBsaW5hcm8tbW0tc2lnQGxpc3Rz
+LmxpbmFyby5vcmc7IGxpbnV4LSBrZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiA+PiB3YW5nYmlu
+dGlhbihCaW50aWFuV2FuZykgPGJpbnRpYW4ud2FuZ0Bob25vci5jb20+OyB5aXBlbmd4aWFuZw0K
+PiA+PiA8eWlwZW5neGlhbmdAaG9ub3IuY29tPjsgbGl1bHUNCj4gPj4gMDAwMTMxNjcgPGxpdWx1
+LmxpdUBob25vci5jb20+OyBoYW5mZW5nIDAwMDEyOTg1DQo+ID4+IDxmZW5nLmhhbkBob25vci5j
+b20+OyBhbWlyNzNpbEBnbWFpbC5jb20NCj4gPj4gU3ViamVjdDogUmU6IFtQQVRDSCAyLzJdIGRt
+YWJ1Zi9oZWFwczogaW1wbGVtZW50DQo+ID4+IERNQV9CVUZfSU9DVExfUldfRklMRSBmb3Igc3lz
+dGVtX2hlYXANCj4gPj4NCj4gPj4gT24gNS8yMS8yNSAxMjoyNSwgd2FuZ3RhbyB3cm90ZToNCj4g
+Pj4+IFt3YW5ndGFvXSBJIHByZXZpb3VzbHkgZXhwbGFpbmVkIHRoYXQNCj4gPj4+IHJlYWQvc2Vu
+ZGZpbGUvc3BsaWNlL2NvcHlfZmlsZV9yYW5nZQ0KPiA+Pj4gc3lzY2FsbHMgY2FuJ3QgYWNoaWV2
+ZSBkbWFidWYgZGlyZWN0IElPIHplcm8tY29weS4NCj4gPj4NCj4gPj4gQW5kIHdoeSBjYW4ndCB5
+b3Ugd29yayBvbiBpbXByb3ZpbmcgdGhvc2Ugc3lzY2FsbHMgaW5zdGVhZCBvZg0KPiA+PiBjcmVh
+dGluZyBhIG5ldyBJT0NUTD8NCj4gPj4NCj4gPiBbd2FuZ3Rhb10gQXMgSSBtZW50aW9uZWQgaW4g
+cHJldmlvdXMgZW1haWxzLCB0aGVzZSBzeXNjYWxscyBjYW5ub3QNCj4gPiBhY2hpZXZlIGRtYWJ1
+ZiB6ZXJvLWNvcHkgZHVlIHRvIHRlY2huaWNhbCBjb25zdHJhaW50cy4NCj4gDQo+IFllYWgsIGFu
+ZCB3aHkgY2FuJ3QgeW91IHdvcmsgb24gcmVtb3ZpbmcgdGhvc2UgdGVjaG5pY2FsIGNvbnN0cmFp
+bnM/DQo+IA0KPiBXaGF0IGlzIGJsb2NraW5nIHlvdSBmcm9tIGltcHJvdmluZyB0aGUgc2VuZGZp
+bGUgc3lzdGVtIGNhbGwgb3IgcHJvcG9zaW5nIGENCj4gcGF0Y2ggdG8gcmVtb3ZlIHRoZSBjb3B5
+X2ZpbGVfcmFuZ2UgcmVzdHJpY3Rpb25zPw0KPiANCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0K
+PiANCj4gIENvdWxkIHlvdQ0KPiA+IHNwZWNpZnkgdGhlIHRlY2huaWNhbCBwb2ludHMsIGNvZGUs
+IG9yIHByaW5jaXBsZXMgdGhhdCBuZWVkDQo+ID4gb3B0aW1pemF0aW9uPw0KPiA+DQo+ID4gTGV0
+IG1lIGV4cGxhaW4gYWdhaW4gd2h5IHRoZXNlIHN5c2NhbGxzIGNhbid0IHdvcms6DQo+ID4gMS4g
+cmVhZCgpIHN5c2NhbGwNCj4gPiAgICAtIGRtYWJ1ZiBmb3BzIGxhY2tzIHJlYWQgY2FsbGJhY2sg
+aW1wbGVtZW50YXRpb24uIEV2ZW4gaWYgaW1wbGVtZW50ZWQsDQo+ID4gICAgICBmaWxlX2ZkIGlu
+Zm8gY2Fubm90IGJlIHRyYW5zZmVycmVkDQo+ID4gICAgLSByZWFkKGZpbGVfZmQsIGRtYWJ1Zl9w
+dHIsIGxlbikgd2l0aCByZW1hcF9wZm5fcmFuZ2UtYmFzZWQgbW1hcA0KPiA+ICAgICAgY2Fubm90
+IGFjY2VzcyBkbWFidWZfYnVmIHBhZ2VzLCBmb3JjaW5nIGJ1ZmZlci1tb2RlIHJlYWRzDQo+ID4N
+Cj4gPiAyLiBzZW5kZmlsZSgpIHN5c2NhbGwNCj4gPiAgICAtIFJlcXVpcmVzIENQVSBjb3B5IGZy
+b20gcGFnZSBjYWNoZSB0byBtZW1vcnkgZmlsZSh0bXBmcy9zaG1lbSk6DQo+ID4gICAgICBbRElT
+S10gLS1ETUEtLT4gW3BhZ2UgY2FjaGVdIC0tQ1BVIGNvcHktLT4gW01FTU9SWSBmaWxlXQ0KPiA+
+ICAgIC0gQ1BVIG92ZXJoZWFkIChib3RoIGJ1ZmZlci9kaXJlY3QgbW9kZXMgaW52b2x2ZSBjb3Bp
+ZXMpOg0KPiA+ICAgICAgNTUuMDglIGRvX3NlbmRmaWxlDQo+ID4gICAgIHwtIDU1LjA4JSBkb19z
+cGxpY2VfZGlyZWN0DQo+ID4gICAgIHwtfC0gNTUuMDglIHNwbGljZV9kaXJlY3RfdG9fYWN0b3IN
+Cj4gPiAgICAgfC18LXwtIDIyLjUxJSBjb3B5X3NwbGljZV9yZWFkDQo+ID4gICAgIHwtfC18LXwt
+IDE2LjU3JSBmMmZzX2ZpbGVfcmVhZF9pdGVyDQo+ID4gICAgIHwtfC18LXwtfC0gMTUuMTIlIF9f
+aW9tYXBfZGlvX3J3DQo+ID4gICAgIHwtfC18LSAzMi4zMyUgZGlyZWN0X3NwbGljZV9hY3Rvcg0K
+PiA+ICAgICB8LXwtfC18LSAzMi4xMSUgaXRlcl9maWxlX3NwbGljZV93cml0ZQ0KPiA+ICAgICB8
+LXwtfC18LXwtIDI4LjQyJSB2ZnNfaXRlcl93cml0ZQ0KPiA+ICAgICB8LXwtfC18LXwtfC0gMjgu
+NDIlIGRvX2l0ZXJfd3JpdGUNCj4gPiAgICAgfC18LXwtfC18LXwtfC0gMjguMzklIHNobWVtX2Zp
+bGVfd3JpdGVfaXRlcg0KPiA+ICAgICB8LXwtfC18LXwtfC18LXwtIDI0LjYyJSBnZW5lcmljX3Bl
+cmZvcm1fd3JpdGUNCj4gPiAgICAgfC18LXwtfC18LXwtfC18LXwtIDE4Ljc1JSBfX3BpX21lbW1v
+dmUNCj4gPg0KPiA+IDMuIHNwbGljZSgpIHJlcXVpcmVzIG9uZSBlbmQgdG8gYmUgYSBwaXBlLCBp
+bmNvbXBhdGlibGUgd2l0aCByZWd1bGFyIGZpbGVzIG9yDQo+IGRtYWJ1Zi4NCj4gPg0KPiA+IDQu
+IGNvcHlfZmlsZV9yYW5nZSgpDQo+ID4gICAgLSBCbG9ja2VkIGJ5IGNyb3NzLUZTIHJlc3RyaWN0
+aW9ucyAoQW1pcidzIGNvbW1pdCA4NjhmOWYyZjhlMDApDQo+ID4gICAgLSBFdmVuIHdpdGhvdXQg
+dGhpcyByZXN0cmljdGlvbiwgRXZlbiB3aXRob3V0IHJlc3RyaWN0aW9ucywgaW1wbGVtZW50aW5n
+DQo+ID4gICAgICB0aGUgY29weV9maWxlX3JhbmdlIGNhbGxiYWNrIGluIGRtYWJ1ZiBmb3BzIHdv
+dWxkIG9ubHkgYWxsb3cgZG1hYnVmDQo+IHJlYWQNCj4gPiAJIGZyb20gcmVndWxhciBmaWxlcy4g
+VGhpcyBpcyBiZWNhdXNlIGNvcHlfZmlsZV9yYW5nZSByZWxpZXMgb24NCj4gPiAJIGZpbGVfb3V0
+LT5mX29wLT5jb3B5X2ZpbGVfcmFuZ2UsIHdoaWNoIGNhbm5vdCBzdXBwb3J0IGRtYWJ1Zg0KPiB3
+cml0ZQ0KPiA+IAkgb3BlcmF0aW9ucyB0byByZWd1bGFyIGZpbGVzLg0KPiA+DQo+ID4gVGVzdCBy
+ZXN1bHRzIGNvbmZpcm0gdGhlc2UgbGltaXRhdGlvbnM6DQo+ID4gVC5KLiBNZXJjaWVyJ3MgMUcg
+ZnJvbSBleHQ0IG9uIDYuMTIuMjAgfCByZWFkL3NlbmRmaWxlIChtcykgdy8gMyA+DQo+ID4gZHJv
+cF9jYWNoZXMNCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18LS0tLS0tLS0tLS0tLS0tLS0t
+LQ0KPiA+IHVkbWFidWYgYnVmZmVyIHJlYWQgICAgIHwgMTIxMA0KPiA+IHVkbWFidWYgZGlyZWN0
+IHJlYWQgICAgIHwgNjcxDQo+ID4gdWRtYWJ1ZiBidWZmZXIgc2VuZGZpbGUgfCAxMDk2DQo+ID4g
+dWRtYWJ1ZiBkaXJlY3Qgc2VuZGZpbGUgfCAyMzQwDQo+ID4NCj4gPiBNeSAzR0h6IENQVSB0ZXN0
+cyAoY2FjaGUgY2xlYXJlZCk6DQo+ID4gTWV0aG9kICAgICAgICAgICAgICAgIHwgYWxsb2MgfCBy
+ZWFkICB8IHZzLiAoJSkNCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLQ0KPiA+IHVkbWFidWYgYnVmZmVyIHJlYWQgICB8IDEzNSAgIHwgNTQ2ICAgfCAx
+ODAlDQo+ID4gdWRtYWJ1ZiBkaXJlY3QgcmVhZCAgIHwgMTU5ICAgfCAzMDAgICB8IDk5JQ0KPiA+
+IHVkbWFidWYgYnVmZmVyIHNlbmRmaWxlIHwgMTM0IHwgMzAzICAgfCAxMDAlDQo+ID4gdWRtYWJ1
+ZiBkaXJlY3Qgc2VuZGZpbGUgfCAxNDEgfCA5MTIgICB8IDMwMSUNCj4gPiBkbWFidWYgYnVmZmVy
+IHJlYWQgICAgfCAyMiAgICB8IDM2MiAgIHwgMTE5JQ0KPiA+IG15IHBhdGNoIGRpcmVjdCByZWFk
+ICB8IDI5ICAgIHwgMjY1ICAgfCA4NyUNCj4gPg0KPiA+IE15IDFHSHogQ1BVIHRlc3RzIChjYWNo
+ZSBjbGVhcmVkKToNCj4gPiBNZXRob2QgICAgICAgICAgICAgICAgfCBhbGxvYyB8IHJlYWQgIHwg
+dnMuICglKQ0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+ID4gdWRtYWJ1ZiBidWZmZXIgcmVhZCAgIHwgNTUyICAgfCAyMDY3ICB8IDE5OCUNCj4g
+PiB1ZG1hYnVmIGRpcmVjdCByZWFkICAgfCA1NDAgICB8IDYyNyAgIHwgNjAlDQo+ID4gdWRtYWJ1
+ZiBidWZmZXIgc2VuZGZpbGUgfCA0OTcgfCAxMDQ1ICB8IDEwMCUgdWRtYWJ1ZiBkaXJlY3Qgc2Vu
+ZGZpbGUgfA0KPiA+IDUyNyB8IDIzMzAgIHwgMjIzJQ0KPiA+IGRtYWJ1ZiBidWZmZXIgcmVhZCAg
+ICB8IDQwICAgIHwgMTExMSAgfCAxMDYlDQo+ID4gcGF0Y2ggZGlyZWN0IHJlYWQgICAgIHwgNDQg
+ICAgfCAzMTAgICB8IDMwJQ0KPiA+DQo+ID4gVGVzdCBvYnNlcnZhdGlvbnMgYWxpZ24gd2l0aCBl
+eHBlY3RhdGlvbnM6DQo+ID4gMS4gZG1hYnVmIGJ1ZmZlciByZWFkIHJlcXVpcmVzIHNsb3cgQ1BV
+IGNvcGllcyAyLiB1ZG1hYnVmIGRpcmVjdCByZWFkDQo+ID4gYWNoaWV2ZXMgemVyby1jb3B5IGJ1
+dCBoYXMgcGFnZSByZXRyaWV2YWwNCj4gPiAgICBsYXRlbmN5IGZyb20gdmFkZHINCj4gPiAzLiB1
+ZG1hYnVmIGJ1ZmZlciBzZW5kZmlsZSBzdWZmZXJzIENQVSBjb3B5IG92ZXJoZWFkIDQuIHVkbWFi
+dWYgZGlyZWN0DQo+ID4gc2VuZGZpbGUgY29tYmluZXMgQ1BVIGNvcGllcyB3aXRoIGZyZXF1ZW50
+IERNQQ0KPiA+ICAgIG9wZXJhdGlvbnMgZHVlIHRvIHNtYWxsIHBpcGUgYnVmZmVycyA1LiBkbWFi
+dWYgYnVmZmVyIHJlYWQgYWxzbw0KPiA+IHJlcXVpcmVzIENQVSBjb3BpZXMgNi4gTXkgZGlyZWN0
+IHJlYWQgcGF0Y2ggZW5hYmxlcyB6ZXJvLWNvcHkgd2l0aA0KPiA+IGJldHRlciBwZXJmb3JtYW5j
+ZQ0KPiA+ICAgIG9uIGxvdy1wb3dlciBDUFVzDQo+ID4gNy4gdWRtYWJ1ZiBjcmVhdGlvbiB0aW1l
+IHJlbWFpbnMgcHJvYmxlbWF0aWMgKGFzIHlvdeKAmXZlIG5vdGVkKS4NCj4gPg0KPiA+Pj4gTXkg
+Zm9jdXMgaXMgZW5hYmxpbmcgZG1hYnVmIGRpcmVjdCBJL08gZm9yIFtyZWd1bGFyIGZpbGVdIDwt
+LURNQS0tPg0KPiA+Pj4gW2RtYWJ1Zl0gemVyby1jb3B5Lg0KPiA+Pg0KPiA+PiBZZWFoIGFuZCB0
+aGF0IGZvY3VzIGlzIHdyb25nLiBZb3UgbmVlZCB0byB3b3JrIG9uIGEgZ2VuZXJhbCBzb2x1dGlv
+bg0KPiA+PiB0byB0aGUgaXNzdWUgYW5kIG5vdCBzcGVjaWZpYyB0byB5b3VyIHByb2JsZW0uDQo+
+ID4+DQo+ID4+PiBBbnkgQVBJIGFjaGlldmluZyB0aGlzIHdvdWxkIHdvcmsuIEFyZSB0aGVyZSBv
+dGhlciB1QVBJcyB5b3UgdGhpbmsNCj4gPj4+IGNvdWxkIGhlbHA/IENvdWxkIHlvdSByZWNvbW1l
+bmQgZXhwZXJ0cyB3aG8gbWlnaHQgb2ZmZXIgc3VnZ2VzdGlvbnM/DQo+ID4+DQo+ID4+IFdlbGwg
+b25jZSBtb3JlOiBFaXRoZXIgd29yayBvbiBzZW5kZmlsZSBvciBjb3B5X2ZpbGVfcmFuZ2Ugb3IN
+Cj4gPj4gZXZlbnR1YWxseSBzcGxpY2UgdG8gbWFrZSBpdCB3aGF0IHlvdSB3YW50IHRvIGRvLg0K
+PiA+Pg0KPiA+PiBXaGVuIHRoYXQgaXMgZG9uZSB3ZSBjYW4gZGlzY3VzcyB3aXRoIHRoZSBWRlMg
+cGVvcGxlIGlmIHRoYXQgYXBwcm9hY2gNCj4gPj4gaXMgZmVhc2libGUuDQo+ID4+DQo+ID4+IEJ1
+dCBqdXN0IGJ5cGFzc2luZyB0aGUgVkZTIHJldmlldyBieSBpbXBsZW1lbnRpbmcgYSBETUEtYnVm
+IHNwZWNpZmljDQo+ID4+IElPQ1RMIGlzIGEgTk8tR08uIFRoYXQgaXMgY2xlYXJseSBub3Qgc29t
+ZXRoaW5nIHlvdSBjYW4gZG8gaW4gYW55IHdheS4NCj4gPiBbd2FuZ3Rhb10gVGhlIGlzc3VlIGlz
+IHRoYXQgb25seSBkbWFidWYgbGFja3MgRGlyZWN0IEkvTyB6ZXJvLWNvcHkNCj4gPiBzdXBwb3J0
+LiBUbXBmcy9zaG1lbSBhbHJlYWR5IHdvcmsgd2l0aCBEaXJlY3QgSS9PIHplcm8tY29weS4gQXMN
+Cj4gPiBleHBsYWluZWQsIGV4aXN0aW5nIHN5c2NhbGxzIG9yIGdlbmVyaWMgbWV0aG9kcyBjYW4n
+dCBlbmFibGUgZG1hYnVmDQo+ID4gZGlyZWN0IEkvTyB6ZXJvLWNvcHksIHdoaWNoIGlzIHdoeSBJ
+IHByb3Bvc2UgYWRkaW5nIGFuIElPQ1RMIGNvbW1hbmQuDQo+ID4NCj4gPiBJIHJlc3BlY3QgeW91
+ciBwZXJzcGVjdGl2ZS4gQ291bGQgeW91IGNsYXJpZnkgc3BlY2lmaWMgdGVjaG5pY2FsDQo+ID4g
+YXNwZWN0cywgY29kZSByZXF1aXJlbWVudHMsIG9yIGltcGxlbWVudGF0aW9uIHByaW5jaXBsZXMg
+Zm9yIG1vZGlmeWluZw0KPiA+IHNlbmRmaWxlKCkgb3IgY29weV9maWxlX3JhbmdlKCk/IFRoaXMg
+d291bGQgaGVscCBhZHZhbmNlIG91ciBkaXNjdXNzaW9uLg0KPiA+DQo+ID4gVGhhbmsgeW91IGZv
+ciBlbmdhZ2luZyBpbiB0aGlzIGRpYWxvZ3VlLg0KPiA+DQo+ID4+DQo+ID4+IFJlZ2FyZHMsDQo+
+ID4+IENocmlzdGlhbi4NCg0K
