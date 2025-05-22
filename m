@@ -2,106 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4D5AC03DD
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 07:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4200EAC03E9
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 07:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F939B297;
-	Thu, 22 May 2025 05:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8898D9B32A;
+	Thu, 22 May 2025 05:15:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KEnXgHx9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="g/MMko53";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D1F9B25A;
- Thu, 22 May 2025 05:13:37 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LHp0Qi020601;
- Thu, 22 May 2025 05:13:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=ne/DRGIyKNE
- VWK8VpatIEjAtrIvy+aNgd7lx7Ccrnyo=; b=KEnXgHx9sJAuy3yvmCX1vx+/75W
- HyPFICvR6GjfR7zgkYTpLzEmy+ydKjw6U6Wc/bW18XamHFW7cXMUVXMGvx0b8l91
- K5U9kdMJIAwtS2pu8ip19/Eg56dMeOytkaIyWgAORRZ3YMTE0StCedJmIcsTNTeZ
- YIMbpgZsjYme2SrZkwKSWQa+AJr0xGHxKoJwLHWbK9OcsROt2SBpl20j80G8tjRF
- +vDn3YyTPQAkZF5SENGvm3LhTHtYdr/Ajkmok3+HPm7+8slulZwBXRACw67PKcCP
- NFstcmcNp3AUwBpR6rxEnZee/hXhXaa402Zh76ta1uYO2MYH3ZCOIihP9tA==
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s9pb3d6d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 May 2025 05:13:24 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 54M5DLmp005554; 
- Thu, 22 May 2025 05:13:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 46pkhmrbat-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 May 2025 05:13:21 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 54M5DKe0005540;
- Thu, 22 May 2025 05:13:20 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
- [10.213.99.91])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 54M5DK1D005536
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 May 2025 05:13:20 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
- id F401C592; Thu, 22 May 2025 10:43:19 +0530 (+0530)
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
- dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [PATCH v8 2/2] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to DP
- bridge nodes
-Date: Thu, 22 May 2025 10:43:18 +0530
-Message-Id: <20250522051318.1783905-3-quic_amakhija@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250522051318.1783905-1-quic_amakhija@quicinc.com>
-References: <20250522051318.1783905-1-quic_amakhija@quicinc.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 265459B32A;
+ Thu, 22 May 2025 05:15:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UMFIk+kgFmPcLUmjMYv70q5Jrv1UekZYccH5fzFGZAixOwR7pp+X7TFcnb1XwBXTrc7ClqDFn29WTuxSq1ePzUPlasGD4SWq2kpN4CtybWmepA55usw6ofEraFpj76X6uquVo1UP3LtoLiEIFL51cUGbDUBSAREZkJm9F+Ninw96YOo7O0EYFaIPht0bGTBpHPjv6PmFvlAjTab0vHtfWZNrw7yQo0iWEBN4NOZ6aTphDjrsEhI0XF5z1Zj2X3AHuno0fqzBqnjLbt7CijSXgl5IzfaIJ/I8V3gUkQS10NwRIZ+zWaDLF3tuX9MaYG3U4AjcwG6FXSFsPb+UyYDbug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wrtUuaZcBbDUoedQYOt45gG2wk8ovn3VH8gvd0xuDyQ=;
+ b=TAgq4v0JGPPfgjJ+D5chLmOaSN/LbhBgcfndbhNdcEq6C59EuXNu3gwgyreuafNK2db+SHujopgCkop2v0SBNv+a/KDhZ4pv/LwOTxl6kMbmkseVwausctHx5ZbHEKy/0e+YPh433jrQMt5Y5bL/elOOti9VLCx0VgKHTfTPMZO9ScZNBpfo4qTEkrlJ0j6joa0plaoq9y5+Eu+Tczc/7vISuoKk9K3QSozVQbmp3vjHNIyHrVn8iYK1m1x+NpsJrDYLclnOF95SDWFT2k150izGAL/gDjM+YM6gqN4WUl50/QwaCJx+iMXWAFEulN4p7acbIMtzQ46BAwkGCVNR7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wrtUuaZcBbDUoedQYOt45gG2wk8ovn3VH8gvd0xuDyQ=;
+ b=g/MMko53i3/kO+XbmdgIqdxkmGf4JDmGX8MgiNwaRML/dAHNYBxvlOdcsTfUfHBSAoEuSAZX/koO1X2W54ZYWcHfZE0yc7BsPh7QyMDBrfXMbPTJ/8o45+StIhHBMMfNhq6nFoN2GBGtRK2j/LHznOpJSfyOhtR8JKpw2YvcmaXS3Ai+q07rHbthlVVqB+sYp+IC1GrV+4ixGau6hybYKjnLvwKkrZ3YMIOmJgrUyMNUoUFouKzh0l/cjEYG75dhIVVkdKYs2VIud7RC4G+UYaCEVA27bZDITuUoFcLa+RKYIqK6Q8LOkynaO2bl2s1oZtzK0DJaA/+/4c5Dp83xig==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by MW3PR12MB4394.namprd12.prod.outlook.com (2603:10b6:303:54::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.33; Thu, 22 May
+ 2025 05:14:54 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
+ 05:14:54 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 May 2025 14:14:49 +0900
+Message-Id: <DA2FLXFS10I4.1VIQE3JHJMBLJ@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 08/20] gpu: nova-core: allow register aliases
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-8-05dfd4f39479@nvidia.com> <aC2Quag3HYN70D8p@pollux>
+In-Reply-To: <aC2Quag3HYN70D8p@pollux>
+X-ClientProxiedBy: TY2PR04CA0002.apcprd04.prod.outlook.com
+ (2603:1096:404:f6::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=WJl/XmsR c=1 sm=1 tr=0 ts=682eb274 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=LchG5PTgKyYevX63dD8A:9
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 5CvPBdwPtgyINDcR-G0kynIAhqsyTqE5
-X-Proofpoint-GUID: 5CvPBdwPtgyINDcR-G0kynIAhqsyTqE5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDA0OSBTYWx0ZWRfXwc9nyLOBdxNl
- I+tjnblFjq/mvrTJlNXms0rr6lpJQbvUchd1slQVT2GuBhIJJeWgL2kFjXOMuQmHYA/JrkgQctR
- ViG6K/SWyAKnf1DmCkO7SPe7VduQhmMf+uHuG+xofz/pIuNZQRZ9q91o2G3wIF9RV50qAKfBq5g
- WJqhAKKOLhoFCXbex0rNaEZ1Ru6SstbfH7okxITQ3XyDFa2MHg1l/FvNQjuJ3g1mFZW56vQo9Ns
- vs/71g4WE/xk2UvvvHgLTEGda3VbdnXaQIBrHIAuCUUXZ6/pCCDJWciaOL3Ccdla7ED5ByIxGvm
- rdm44UoCdaB0QolovhWJJ1e5E8xbM/KKBn3CEv6qFKrRmYduUbTyMBkt0OsZJWjSou5Z/zKkMEH
- yHcA/S0hhOstGSoMH7cNk+kQlClLPlS19cvgHDeaLvx60ME36ujCyOdsb0c7jJaSsESvk5Mv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_03,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 bulkscore=0
- malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505220049
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MW3PR12MB4394:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20e7b30b-7c25-422a-a5b3-08dd98ef950b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|1800799024|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?STZlcW8vSVdmY3FCTzJBMlhBaURHaXRSM0hjSVBraFEwMVJYc1BEM0U1WGo2?=
+ =?utf-8?B?Uk9wdHpjT1RvTkt6ZTV2VzdOd0dzK3VmRnpSTU5EV3IxSjlxYXZaUWIrRGlo?=
+ =?utf-8?B?ckw1bXJDS0QyYnpKY0dUOGhRdWVzU3VwTC9JbG84MFo2VmtqTklmZWxzMG1V?=
+ =?utf-8?B?NG5yRGlEdXFYeDNybDZRQWozZWw0RGkzcE5kaTVQZFF6cWxqeXJPdyszWTNP?=
+ =?utf-8?B?dldIMyt0WE1KSHI3d1hKRjVjVWlFMUFwMHExNDZMWWMrTkVOL1hHb2ZKemU3?=
+ =?utf-8?B?WVVTUzNNcy9UOVlhK1hpQnZBMFJCMGlMTlNNTUlBdy9NUWhEb1lwL2VoZk1Z?=
+ =?utf-8?B?MUlTQ05xOHoxdnkzS2hkT0piNHZSNUUzekFYM0lyT0hiNkFkRUF0K1p0R0M1?=
+ =?utf-8?B?OGxqcTRlKzMydWtjSzhJZ2h0RmQrVThKc0h5T2tEdFlpZlEwT3pxaFJJOUhk?=
+ =?utf-8?B?SlBsOENwYVZFYnV6cmRleFNTU1dmNWhlRFlmNGl6OTdQNms0MDJNZzl4RFZY?=
+ =?utf-8?B?UUF1SndERU1yQTBRcVJRM2hrb3NTcHhTTEoyRHZaamhkRG9rTnNIOXZFM3F0?=
+ =?utf-8?B?UlZwK0NuckY1R1NsbmVLcmk4V2NhdnZvR2hyaDZkVHRFVTY1TWRRL0lNRW1H?=
+ =?utf-8?B?dmhpSXN5Slp1Y1NWZEdMVHN6Rm95d2ZHWHBsUUkwVFdzeHZ2a2hiaVFxdnJ5?=
+ =?utf-8?B?c25OQUUydnFxUlVJYXZlTk1TRE9NQUxuYkg1T1dab2t1b2JKaWFuZWtUaFZO?=
+ =?utf-8?B?WjhNRXBNMDFwQjA4aU1JaUI4TzdhaTZ4cU1xVVcvekpHR09ZWDBIdVRlNWtQ?=
+ =?utf-8?B?YzFTYmZYYkYyazVqQWhDSEJoTXVYVEg4enErU2FzeEZVbTBmeFpkS081dUZz?=
+ =?utf-8?B?YUxFV1VJaS9vbTBmRzg5Q3g3c0xQZWY3VmlGRkFjeEd1SDlWYXRNaCtURUY5?=
+ =?utf-8?B?Y2wvL3hGZ254elpXakpONGFoVDE3TURBbmphanZHajNXY1NickZ6a2hnQUta?=
+ =?utf-8?B?d09kaHdwUmdTZ3ZtelJXMUpGZXFQS3Vlemw5NS9KV1MvbW5QUU45T0VmRXh5?=
+ =?utf-8?B?SzJMZHc1QW5kV1pidGQ4WmJ1ZXBIbnBrY2lCMG1iRW85aTlaNjFhMEthaXVy?=
+ =?utf-8?B?ZjY3bkJ6VmpmcWw4VEpPMSt4dGo3eXVnVnN4d2RodWpXMkx5aUQxM2dtMnQv?=
+ =?utf-8?B?ejhNUWVBd3dyVXBtNnJpTUhFcWdjWWx3MjNvS1VObmw3ZVVWSmQvdnhOcFlp?=
+ =?utf-8?B?eHE5RVRPNkp1QkJrcjJBUkdqbitBdFZsZStJRHQ5ZldORDlmSGdkem9GaUxv?=
+ =?utf-8?B?NnlCMHF6TWNRdmhjZUs3cUJxTlJONDNFU3JZNzZWL3BJY3NEeXlsOWQycFdS?=
+ =?utf-8?B?K3M1ZDE5UGRNOWt5Wm9zcEtrQ1QwamdXTXNWSWo3RSs0VkNhUzFiZC8zYkhT?=
+ =?utf-8?B?WnkrRmVDWXdPWEFzK25PNnZraFZOMnJ1K01NZjBxOGVXTncwNkNUSnRJNlBV?=
+ =?utf-8?B?NEN4cjZHRjZWbkRIWjBnTXNUODU3ZmZKVW1FUzBKK2xKTitzUHBsNFMrRTZT?=
+ =?utf-8?B?YWx6a1ZMNFZPaHllMVFyZy9Jc1Rtalk5NTYzdmJMYjY2eUxqVVZqQ2J2clk2?=
+ =?utf-8?B?azk3SDE1eitwbmFhbFJ1SkYwcmd3STRFRmo2NnBGSFNQQ2JmRmpkbk5wN1NQ?=
+ =?utf-8?B?eUxoY3ZBamtDRUxXMGZUQWxXMDJMdkFwV1dHMkl0UVVRV3NLNGJGOXQyQXhC?=
+ =?utf-8?B?Y1B4YThvT1hsNk9SdHRWUk5OZDdRaFNwNEQ5UG8wWm81WXFoYlR2RFJpak9R?=
+ =?utf-8?B?SVExS0lINVdwcFlhWXBsOWtQVzRLREs3eVBWNjVZTVcvYy9OSUh2ekRmeUZ6?=
+ =?utf-8?B?bFBqaDhITWFDV01VSE50ZWZ1dXFmQU4ralpkQ3Jsc0xzaXQrWTlZRHNVUXZx?=
+ =?utf-8?Q?dYLhRWwQGxg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHJXcDc1enNLcFVMRGRPem5MRmN5dTNSMW4yQjZweUxEeDZsMlV6dWNZaHlv?=
+ =?utf-8?B?ZFhmWnhIeDVTTWNDcU95SzhpeEpKUnZsdXVXZ2ZOMnhHYW5zKzRRNjB1bGw4?=
+ =?utf-8?B?K2NnSmU2RVdGTmFhUGJtSWJVYVNHZnVNekxIL1RXKzlQdWM4Tzh6RlFoWWtO?=
+ =?utf-8?B?UHpSdXJVSDFnOXBBRk5OSisyWDI5MFhJbTFaeWoxanlMQlFidGUrUFZIQmds?=
+ =?utf-8?B?bzA3WlBXbEZIdXRsOWhaaTkrZFNoazJuZVgvRk4zdW8yTEdJS1lNKytzUFBk?=
+ =?utf-8?B?ME93dVFzWFRvdDl5cktpc1N1MUxCQmpBTTlNRHhFYVZGSU9PNG4rT0pBelRz?=
+ =?utf-8?B?YmR3cFJ4TjU1SkhEVjc0d1preDhNbDFFVndaempZVFJVNHFxNUx2N0w2NUd5?=
+ =?utf-8?B?U1B5VmdHVUQ0cmJRZ0FhTnc2M08xdUhKWmlqWitVUjFCL3RCUnRPdFQwUTJ3?=
+ =?utf-8?B?aTFpa0hYODZYNDZJaWFBelFkUEtCOW9NRGdIbHJvdHFWaVVuKzdyT1VPaWdU?=
+ =?utf-8?B?SE0wODZPMUVoWEg4aVZVZVJpRkRFdmluZEZUS1pzQkFsdGFPQm9SRkJqa0FV?=
+ =?utf-8?B?eVN3NFdTRk5mcEFKYTZOSzVKSVQyWHNtampoQ1FyN1lDUTlqemdrTnRyQU1F?=
+ =?utf-8?B?MTFTZFFsM1R2S09qYXVuR1c5clU5aUNicUJlanR2UXplZjZrRXVBQzVxT3Aw?=
+ =?utf-8?B?VUpwSVVZQkNLNGNweUdQa0s3cUduNGEyZUY3Z3BleUhRRlBZK3VIVFJ2ai9D?=
+ =?utf-8?B?TEN0VGRpWCtpVmxkNHROdVZ2RGgwWk9lQWc0MktXOU4xZFJDZU9NSVk0VWpB?=
+ =?utf-8?B?RFYzTkp5YXlJaXNKUXZBRUx4L00yYXhUd0lnazJiT1JtNWE4T1RaRVNBSEVG?=
+ =?utf-8?B?N3BUUkZ0aUhTQUx1SnlBT2Z1M1M2WHdhQW9KMkx6VXh0ZWZOa0hGSnRzU0cz?=
+ =?utf-8?B?UDhpSjAvUzI5TmVYUmhjOGxjL0FZbDR4VWJmNlRuQnRvekpGQ3ZqaXhydTRa?=
+ =?utf-8?B?NkFKSXRVWW5xaVdNb1cxczIvT0xiTHpFSUhRZzVteUt4VHFYV3dLZnQ5ZTZh?=
+ =?utf-8?B?UXJ2YnVHZUlCZWF4UU9TcGJkbDRRb1gyeE5RelJaWWhoWENzOVhzcVhHVFBp?=
+ =?utf-8?B?SHJhNUlxZTJLYjcrUWwwZXVOUzRFb29oeXFnU2l4amxRWVhNMEY1aUsvVmNZ?=
+ =?utf-8?B?bDFUa2M0dGphV2t5Y0FXOXBMSE83OWZnbkd0RzdlRzZwUHBTQTY4MmhFcEVJ?=
+ =?utf-8?B?UWVZeHhMdkJwL3pYZUFvbW5xMDNOMTZjRDg5Q3hlS3VPb3UwS0VTUGFFWSt4?=
+ =?utf-8?B?ZmV3MEJYeVAvWE9CRjBmZFlZN2pGSUQ4MW5PREtRYnZTbUdOdTRrYWVJSXpa?=
+ =?utf-8?B?dGwrQ2ZGcERUZVJqc0VIcktHWW0vNmY4eXJ1Mm9TejYyTmpDMmpEaVJpcFRM?=
+ =?utf-8?B?M2ZxYzRLa3VvamJ6ZEJzVmI1cUJzK21xVE9FWm81REJ0VkMvTmlWSitpNVU2?=
+ =?utf-8?B?MXQxQ0xQWVdhTWdiVWxKV1pSbjU5ckNmWmhMQjMwV0NvUkFlUHByRTh3Vy9m?=
+ =?utf-8?B?NFFleWZacDRLYTFFNW1ydWNFZTBxTFJBWWtabnVxRmtQYjNHbVU2ZzJreTVR?=
+ =?utf-8?B?TXBTeEhvKzJpTXBHSlUwRHdnYlJVZWxxMXJpSlJQdXJPSER2ZDYzMVBHdjgz?=
+ =?utf-8?B?ZjBYdUZ2M0dZZ1ZoZUVSUjl4R2dVa0hudng1RzVHTG9URzcyYkE0RzJFSUkr?=
+ =?utf-8?B?ZmtCbDZqVkNTZGVoeTFRYW9YVVp6UW5UM29MSDFkR2E2dUVFdnQ2SmhtRTc4?=
+ =?utf-8?B?a3VJTUVTUXpubVpwWCtjd251MlN2em5rSjNtN1dBODlhaHFtMUtIR3FBSC9E?=
+ =?utf-8?B?MzF1REJXZmRWdTdlRFpSZThxZVBHQWRkOVBJZTBvSnRKUWMrRWN2U2lkM0la?=
+ =?utf-8?B?Y3E2WS85M1V4OE9xRXlsSU13eWRGbDVTOVFZUE9NK1QvTVl1Yzhtb2NjUy94?=
+ =?utf-8?B?dTdLREhIajBaeXNZQktzeExXSm1SZGdPbU93YnVTMGYrekpKb2svNmJDdUQ4?=
+ =?utf-8?B?VTVobWltMmFrZVFyd3hkd2t0NW5ZemlSbmpDWi8xTlhMM3NtRW8vRy9tWW02?=
+ =?utf-8?B?c2xsTTlZRExIZStla2M4bHpsSHpRQnpLUmlOSXZQU0hXOEJtZXRoazJXTFRC?=
+ =?utf-8?Q?uqqsMNxpIJEHyCgo2nGH7bEuPn+eBtsnTs513es+sxxt?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20e7b30b-7c25-422a-a5b3-08dd98ef950b
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 05:14:54.0822 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q1oTU6j2Cg+4KQ1Ey6SxY3biEGWxSmMvHwhfdQ5q/1Pw76WpIculv2bItpcM8XMe7Sq/yEGawStoRPdMss6iqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4394
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,287 +178,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add anx7625 DSI to DP bridge device nodes.
+On Wed May 21, 2025 at 5:37 PM JST, Danilo Krummrich wrote:
+> On Wed, May 21, 2025 at 03:45:03PM +0900, Alexandre Courbot wrote:
+>> Some registers (notably scratch registers) don't have a definitive
+>> purpose, but need to be interpreted differently depending on context.
+>>=20
+>> Expand the register!() macro to support a syntax indicating that a
+>> register type should be at the same offset as another one, but under a
+>> different name, and with different fields and documentation.
+>>=20
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/regs/macros.rs | 40 +++++++++++++++++++++++++++++=
++++++--
+>>  1 file changed, 38 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-cor=
+e/regs/macros.rs
+>> index 7cd013f3c90bbd8ca437d4072cae8f11d7946fcd..64dda1d4d93d3c7022ef02b6=
+f6fb81b58e90dd44 100644
+>> --- a/drivers/gpu/nova-core/regs/macros.rs
+>> +++ b/drivers/gpu/nova-core/regs/macros.rs
+>> @@ -71,6 +71,20 @@
+>>  /// pr_info!("CPU CTL: {:#x}", cpuctl);
+>>  /// cpuctl.set_start(true).write(&bar, CPU_BASE);
+>>  /// ```
+>> +///
+>> +/// It is also possible to create a alias register by using the `=3D> P=
+ARENT` syntax. This is useful
+>> +/// for cases where a register's interpretation depends on the context:
+>> +///
+>> +/// ```no_run
+>> +/// register!(SCRATCH_0 @ 0x0000100, "Scratch register 0" {
+>> +///    31:0     value as u32, "Raw value";
+>> +///
+>> +/// register!(SCRATCH_0_BOOT_STATUS =3D> SCRATCH_0, "Boot status of the=
+ firmware" {
+>
+> NIT: I'd put the arrow the other way around, i.e. SCRATCH_0_BOOT_STATUS i=
+s
+> derived from SCRATCH_0, not the other way around.
 
-Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 232 +++++++++++++++++++++
- 1 file changed, 232 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-index 3ae416ab66e8..6af7d1db81a1 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-@@ -28,6 +28,64 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	vreg_12p0: vreg-12p0-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VREG_12P0";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <12000000>;
-+		regulator-max-microvolt = <12000000>;
-+	};
-+
-+	vreg_5p0: vreg-5p0-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VREG_5P0";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+
-+		vin-supply = <&vreg_12p0>;
-+	};
-+
-+	vreg_1p8: vreg-1p8-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VREG_1P8";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+
-+		vin-supply = <&vreg_5p0>;
-+	};
-+
-+	vreg_1p0: vreg-1p0-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VREG_1P0";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <1000000>;
-+		regulator-max-microvolt = <1000000>;
-+
-+		vin-supply = <&vreg_1p8>;
-+	};
-+
-+	vreg_3p0: vreg-3p0-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VREG_3P0";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <3000000>;
-+		regulator-max-microvolt = <3000000>;
-+
-+		vin-supply = <&vreg_12p0>;
-+	};
-+
- 	vreg_conn_1p8: vreg_conn_1p8 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vreg_conn_1p8";
-@@ -128,6 +186,30 @@ dp1_connector_in: endpoint {
- 			};
- 		};
- 	};
-+
-+	dp-dsi0-connector {
-+		compatible = "dp-connector";
-+		label = "DSI0";
-+		type = "full-size";
-+
-+		port {
-+			dp_dsi0_connector_in: endpoint {
-+				remote-endpoint = <&dsi2dp_bridge0_out>;
-+			};
-+		};
-+	};
-+
-+	dp-dsi1-connector {
-+		compatible = "dp-connector";
-+		label = "DSI1";
-+		type = "full-size";
-+
-+		port {
-+			dp_dsi1_connector_in: endpoint {
-+				remote-endpoint = <&dsi2dp_bridge1_out>;
-+			};
-+		};
-+	};
- };
- 
- &apps_rsc {
-@@ -513,7 +595,108 @@ &i2c11 {
- 
- &i2c18 {
- 	clock-frequency = <400000>;
-+
- 	status = "okay";
-+
-+	io_expander: gpio@74 {
-+		compatible = "ti,tca9539";
-+		reg = <0x74>;
-+		interrupts-extended = <&tlmm 98 IRQ_TYPE_EDGE_BOTH>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		reset-gpios = <&tlmm 97 GPIO_ACTIVE_LOW>;
-+
-+		pinctrl-0 = <&io_expander_intr_active>,
-+			    <&io_expander_reset_active>;
-+		pinctrl-names = "default";
-+	};
-+
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9543";
-+		#address-cells = <1>;
-+
-+		#size-cells = <0>;
-+		reg = <0x70>;
-+
-+		i2c@0 {
-+			reg = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			bridge@58 {
-+				compatible = "analogix,anx7625";
-+				reg = <0x58>;
-+				interrupts-extended = <&io_expander 2 IRQ_TYPE_EDGE_FALLING>;
-+				enable-gpios = <&io_expander 1 GPIO_ACTIVE_HIGH>;
-+				reset-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
-+				vdd10-supply = <&vreg_1p0>;
-+				vdd18-supply = <&vreg_1p8>;
-+				vdd33-supply = <&vreg_3p0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						dsi2dp_bridge0_in: endpoint {
-+							remote-endpoint = <&mdss0_dsi0_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						dsi2dp_bridge0_out: endpoint {
-+							remote-endpoint = <&dp_dsi0_connector_in>;
-+						};
-+					};
-+				};
-+			};
-+		};
-+
-+		i2c@1 {
-+			reg = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			bridge@58 {
-+				compatible = "analogix,anx7625";
-+				reg = <0x58>;
-+				interrupts-extended = <&io_expander 10 IRQ_TYPE_EDGE_FALLING>;
-+				enable-gpios = <&io_expander 9 GPIO_ACTIVE_HIGH>;
-+				reset-gpios = <&io_expander 8 GPIO_ACTIVE_HIGH>;
-+				vdd10-supply = <&vreg_1p0>;
-+				vdd18-supply = <&vreg_1p8>;
-+				vdd33-supply = <&vreg_3p0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						dsi2dp_bridge1_in: endpoint {
-+							remote-endpoint = <&mdss0_dsi1_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						dsi2dp_bridge1_out: endpoint {
-+							remote-endpoint = <&dp_dsi1_connector_in>;
-+						};
-+					};
-+				};
-+			};
-+		};
-+	};
-+
- };
- 
- &mdss0 {
-@@ -560,6 +743,40 @@ &mdss0_dp1_phy {
- 	status = "okay";
- };
- 
-+&mdss0_dsi0 {
-+	vdda-supply = <&vreg_l1c>;
-+
-+	status = "okay";
-+};
-+
-+&mdss0_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&dsi2dp_bridge0_in>;
-+};
-+
-+&mdss0_dsi0_phy {
-+	vdds-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+};
-+
-+&mdss0_dsi1 {
-+	vdda-supply = <&vreg_l1c>;
-+
-+	status = "okay";
-+};
-+
-+&mdss0_dsi1_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&dsi2dp_bridge1_in>;
-+};
-+
-+&mdss0_dsi1_phy {
-+	vdds-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+};
-+
- &pmm8654au_0_gpios {
- 	gpio-line-names = "DS_EN",
- 			  "POFF_COMPLETE",
-@@ -753,6 +970,21 @@ ethernet0_mdio: ethernet0-mdio-pins {
- 		};
- 	};
- 
-+	io_expander_intr_active: io-expander-intr-active-state {
-+		pins = "gpio98";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	io_expander_reset_active: io-expander-reset-active-state {
-+		pins = "gpio97";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+		output-high;
-+	};
-+
- 	pcie0_default_state: pcie0-default-state {
- 		perst-pins {
- 			pins = "gpio2";
--- 
-2.34.1
-
+That's doable, but I read the current expression as
+"SCRATCH_0_BOOT_STATUS points to SCRATCH_0". Also `<=3D` will be rendered
+into an actual "inferior or equal" sign if ligature substitution is
+used in your text editor.
