@@ -2,54 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C5EAC0E67
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E626AAC0EA4
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8DD610EA8A;
-	Thu, 22 May 2025 14:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F32D210E9DB;
+	Thu, 22 May 2025 14:47:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="kmMxV6h8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e14xcmIw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD0710EA8A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 14:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
- :From:subject:date:message-id:reply-to;
- bh=37ltNrDm/SQxtBtReU+dzvAvwRTeydEOy/6HO4fUSEY=; b=kmMxV6h8CX6wWpsfmwF5Jl1o/c
- my7Q40vkqUzyx2Wcq+t0inyd950IfjagSp1WVY2a6c7z+42N9KDxfzn1elwidC2jI9uLj1LRnQUvx
- HyCSpoOG39SOw0aTDjVCCo0kAU9OVM0/LwQM94MqxkvQ1i/3ygMNiFiY66ipIi62sXOY=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:33178
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1uI74x-0006Gk-RM; Thu, 22 May 2025 10:39:28 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: biju.das.jz@bp.renesas.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, hugo@hugovil.com,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Chris Brandt <chris.brandt@renesas.com>
-Date: Thu, 22 May 2025 10:39:11 -0400
-Message-Id: <20250522143911.138077-3-hugo@hugovil.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250522143911.138077-1-hugo@hugovil.com>
-References: <20250522143911.138077-1-hugo@hugovil.com>
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583A610EE0C;
+ Thu, 22 May 2025 14:47:30 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3db6ddcef4eso69835735ab.2; 
+ Thu, 22 May 2025 07:47:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747925249; x=1748530049; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PPbDH3f6x3vtoaDskORYKv70NDHQV/hQjQjyBt3PCHg=;
+ b=e14xcmIwUzl1MwY6W9r6JtcIWt/wcSRSkb+mo4TlbKFQYxPVXf9BsqAGvs+krfqcQ2
+ xjVJ93D9CbwWXD0obi7bPyZ+nSP74BYaoRsuZXpIi5B4XgAnu1LJptI8POG5KWz8s+WW
+ Y7aV8RVaZ6QhYjdZtQZtEMME71N2i/KPh1ohgbLj26p9bk8zwJ1Li++Y8G3no5pkMU0z
+ GFC1MdpItINB58fH8/R3HNpxOp/IlqOH/QMtQpFRna1LEKBZBdyRsLB96MJ543ussutN
+ jswR975zsdxeHvV5JCXEYWPLJy7udZkxo8m+acislJBkLHxhR6J/UApwTHeiyxjF2iOX
+ zt6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747925249; x=1748530049;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PPbDH3f6x3vtoaDskORYKv70NDHQV/hQjQjyBt3PCHg=;
+ b=XRy0urgmlzjj8HmOqXAY8KpfGCaXRNQ42ja+54bcBBjcOBirJNazRKPzK8e5gwHwp1
+ Hu1ii5IeTLfPShwvBSJntfuX/nIaafD5P4nDhiFkJt+t5HMXeRp7FTEjp4013r53zFpU
+ csvPZJuSO9ETZFXAYUwV9rxXRqz9aQKa6CvrH+ojwuA5hdPJQ09l0+BGFdBj3lchI99O
+ Luc3z4OrN7EBJ2V8CVZVYkqHJS61MF7Xc1xW8TzeKrVwufhZmvT4JsUWndw6daaxh+wR
+ p1HLKLL93cMIM9RAJ7n0awyrohepTppIhmF4xWXdN0L4o/t+TXMjEB17pb8MEFyrC4Zy
+ 292g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0LgevhZqYsDhlXve3Hd3/6n0MOAogl4gXUk34mAZ4y2hn1bcW9tqToPZT0znloBBPql/tkDbOLVAt@lists.freedesktop.org,
+ AJvYcCVYksEIk1GWPvgNP4VZFQLQptaU1wgtG6uQ/UEgUhX4cPfYzG7LhLsHelcz/s1s4jKot1cvNV6EP3I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWkIWNkf+BPQ6kZqxrIpfNJbzlJr8LtHpMyPzn3n1hbj+TssZE
+ 1h7akpuX7clD6Y3ElYmoUMD46n6tqaZkijQxrQSP+Kmtg2gUZzFX57BR2gi72YZka62CO9dBF+P
+ TLv+VL96xE/Ral1ZkLb/oJbqxEokd/80=
+X-Gm-Gg: ASbGncsC9FFeRljlo8L4SVWi3hj2wYUDS4Xd64nebL1sD9A+YMHY80fAa6p4AJfqp9a
+ 7Yea7n/TtVtmbYmNamEa/pSZftfIq6F2cbRsmqFmJhSVEN1a0OetRFFvdmbfSrpCN1F9Yky6jpa
+ hcHzgUt+QaYGg6hYRO5Yqc3EWiAA7hmvnIxCch/IzxgTt/2NNwyhoNxsnLFPtxOYQ=
+X-Google-Smtp-Source: AGHT+IEarmDYe4t8X7TSNIy1n4puTKWpnIYwdtvdbi84YGnpxT6zLK1A0SzYuTIp9sqHj9wsknEjHcHutbq3FYUqlv4=
+X-Received: by 2002:a05:6e02:2501:b0:3dc:8423:543e with SMTP id
+ e9e14a558f8ab-3dc842356c2mr71268665ab.17.1747925249377; Thu, 22 May 2025
+ 07:47:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
- autolearn_force=no version=3.4.2
-Subject: [PATCH v3 2/2] drm: renesas: rz-du: Set DCS maximum return packet size
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+References: <CAJs_Fx771FFVDVFMn8YJkR9f9Ad-UQspJ9KKQw4u6Cu4TA7YPA@mail.gmail.com>
+ <CACu1E7EL+E-M0N-EAN9Bx7u9O6_pECQQdPE2ph575idhVb2Szg@mail.gmail.com>
+ <aCYkk4Y7feltfp79@pollux>
+ <CAF6AEGsoG_W3A3+BHV4n5EKZQazFubrCyfrtxVUH7+H4-j7i5A@mail.gmail.com>
+ <aCY42rgJC4sQ4tp4@pollux>
+ <CAF6AEGubHkdhfJz=bAZvctO1aTKDLwRsRyPzkoVrQ7tA6dRbKw@mail.gmail.com>
+ <aCwqAGLLCC2ZLSBK@pollux>
+ <CAF6AEGspvuTHU0t9z__p_HkdRNi=cXir3t453AbR6DFNzDpgvw@mail.gmail.com>
+ <aCyzyAPbQ1SYbo4q@pollux>
+ <CAF6AEGs+WmTO_624A3Pek-1-SD6B4PFu4sDv3htko0ABhfHFzw@mail.gmail.com>
+ <aC8Dzgufa9E2MD6t@pollux>
+In-Reply-To: <aC8Dzgufa9E2MD6t@pollux>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 22 May 2025 07:47:17 -0700
+X-Gm-Features: AX0GCFtxJW9BGpIGgy7w8A5mMXB_NlWAv7wuxAT1kInixMl7peXcsXdNONmduSE
+Message-ID: <CAF6AEGvkrN8H1ZPzrCQF+d_Y_Y5kRdeQjohDqcgpNd-uDKo9yQ@mail.gmail.com>
+Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,64 +103,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+On Thu, May 22, 2025 at 4:00=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Tue, May 20, 2025 at 10:22:54AM -0700, Rob Clark wrote:
+> > On Tue, May 20, 2025 at 9:54=E2=80=AFAM Danilo Krummrich <dakr@kernel.o=
+rg> wrote:
+> > > On Tue, May 20, 2025 at 09:07:05AM -0700, Rob Clark wrote:
+> > > > On Tue, May 20, 2025 at 12:06=E2=80=AFAM Danilo Krummrich <dakr@ker=
+nel.org> wrote:
+> > > > > But let's assume we agree that we want to avoid that userspace ca=
+n ever OOM itself
+> > > > > through async VM_BIND, then the proposed solution seems wrong:
+> > > > >
+> > > > > Do we really want the driver developer to set an arbitrary bounda=
+ry of a number
+> > > > > of jobs that can be submitted before *async* VM_BIND blocks and b=
+ecomes
+> > > > > semi-sync?
+> > > > >
+> > > > > How do we choose this number of jobs? A very small number to be s=
+afe, which
+> > > > > scales badly on powerful machines? A large number that scales wel=
+l on powerful
+> > > > > machines, but OOMs on weaker ones?
+> > > >
+> > > > The way I am using it in msm, the credit amount and limit are in un=
+its
+> > > > of pre-allocated pages in-flight.  I set the enqueue_credit_limit t=
+o
+> > > > 1024 pages, once there are jobs queued up exceeding that limit, the=
+y
+> > > > start blocking.
+> > > >
+> > > > The number of _jobs_ is irrelevant, it is # of pre-alloc'd pages in=
+ flight.
+> > >
+> > > That doesn't make a difference for my question. How do you know 1024 =
+pages is a
+> > > good value? How do we scale for different machines with different cap=
+abilities?
+> > >
+> > > If you have a powerful machine with lots of memory, we might throttle=
+ userspace
+> > > for no reason, no?
+> > >
+> > > If the machine has very limited resources, it might already be too mu=
+ch?
+> >
+> > It may be a bit arbitrary, but then again I'm not sure that userspace
+> > is in any better position to pick an appropriate limit.
+> >
+> > 4MB of in-flight pages isn't going to be too much for anything that is
+> > capable enough to run vk, but still allows for a lot of in-flight
+> > maps.
+>
+> Ok, but what about the other way around? What's the performance impact if=
+ the
+> limit is chosen rather small, but we're running on a very powerful machin=
+e?
+>
+> Since you already have the implementation for hardware you have access to=
+, can
+> you please check if and how performance degrades when you use a very smal=
+l
+> threshold?
 
-The default value of 1 will result in long read commands payload not being
-saved to memory.
+I mean, considering that some drivers (asahi, at least), _only_
+implement synchronous VM_BIND, I guess blocking in extreme cases isn't
+so bad.  But I think you are overthinking this.  4MB of pagetables is
+enough to map ~8GB of buffers.
 
-Fix by setting this value to the DMA buffer size.
+Perhaps drivers would want to set their limit based on the amount of
+memory the GPU could map, which might land them on a # larger than
+1024, but still not an order of magnitude more.
 
-Cc: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c      | 10 ++++++++++
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h |  4 ++++
- 2 files changed, 14 insertions(+)
+I don't really have a good setup for testing games that use this, atm,
+fex-emu isn't working for me atm.  But I think Connor has a setup with
+proton working?
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index a048d473db00b..745aae63af9d8 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -549,6 +549,7 @@ static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
- 	struct drm_crtc *crtc;
-+	u32 value;
- 	int ret;
- 
- 	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-@@ -561,6 +562,15 @@ static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 
- 	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
- 
-+	/*
-+	 * The default value of 1 will result in long read commands payload
-+	 * not being saved to memory. Set to the DMA buffer size.
-+	 */
-+	value = rzg2l_mipi_dsi_link_read(dsi, DSISETR);
-+	value &= ~DSISETR_MRPSZ;
-+	value |= FIELD_PREP(DSISETR_MRPSZ, RZG2L_DCS_BUF_SIZE);
-+	rzg2l_mipi_dsi_link_write(dsi, DSISETR, value);
-+
- 	ret = rzg2l_mipi_dsi_start_hs_clock(dsi);
- 	if (ret < 0)
- 		goto err_stop;
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-index 0e432b04188d0..26d8a37ee6351 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-@@ -81,6 +81,10 @@
- #define RSTSR_SWRSTLP			(1 << 1)
- #define RSTSR_SWRSTHS			(1 << 0)
- 
-+/* DSI Set Register */
-+#define DSISETR				0x120
-+#define DSISETR_MRPSZ			GENMASK(15, 0)
-+
- /* Rx Result Save Slot 0 Register */
- #define RXRSS0R				0x240
- #define RXRSS0R_RXPKTDFAIL		BIT(28)
--- 
-2.39.5
+But, flip it around.  It is pretty simple to create a test program
+that submits a flood of 4k (or whatever your min page size is)
+VM_BINDs, and see how prealloc memory usage blows up.  This is really
+the thing this patch is trying to protect against.
 
+> Also, I think we should probably put this throttle mechanism in a separat=
+e
+> component, that just wraps a counter of bytes or rather pages that can be
+> increased and decreased through an API and the increase just blocks at a =
+certain
+> threshold.
+
+Maybe?  I don't see why we need to explicitly define the units for the
+credit.  This wasn't done for the existing credit mechanism.. which,
+seems like if you used some extra fences could also have been
+implemented externally.
+
+> This component can then be called by a driver from the job submit IOCTL a=
+nd the
+> corresponding place where the pre-allocated memory is actually used / fre=
+ed.
+>
+> Depending on the driver, this might not necessarily be in the scheduler's
+> run_job() callback.
+>
+> We could call the component something like drm_throttle or drm_submit_thr=
+ottle.
+
+Maybe?  This still has the same complaint I had about just
+implementing this in msm.. it would have to reach in and use the
+scheduler's job_scheduled wait-queue.  Which, to me at least, seems
+like more of an internal detail about how the scheduler works.
+
+BR,
+-R
