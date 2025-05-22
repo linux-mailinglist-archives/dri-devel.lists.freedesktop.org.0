@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E14CAC14FC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 21:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB25AC1584
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 22:33:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E872510E197;
-	Thu, 22 May 2025 19:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D9510E053;
+	Thu, 22 May 2025 20:33:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EODVfA5c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mmHRsQDT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B7310E082
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 19:51:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 34B28A4F16E;
- Thu, 22 May 2025 19:51:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7763FC4CEE4;
- Thu, 22 May 2025 19:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747943471;
- bh=DFUCJtl+L58Pj5bTViEhxoTPuRVbbHuWRPjzQaORv1U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EODVfA5cjMTS33Uwal4E9GFZbFhGr1i450nJ++XjjSqQs+EiL9tYMdNvztifWtPsW
- Wo90bOgrqtIZtEcCCSOLRIuDQZX+p98Oh4ucQdMz+KyS889c1+bWPNAXLPIprOoCbO
- 1oNy78Y5mehLpWpxcYwfdX5Klhdjhlv9HHHz+BCXbhClCkA7QLUN+nvDlvlaT8IyNp
- j1YElZUWm89PHmz6b4i6DALedFYJc6KGfvSij5Aj9RR5vlfdFV1eAuSMnxvHueQ7OM
- OJORIbykFGJMXweofo+11WjqZRVTOX7xzvB6XN+EiGDQp9w4HdDnknhWIhzYfpFHbe
- 6TEHUJ8/bD6Zw==
-Date: Thu, 22 May 2025 09:51:10 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Dave Airlie <airlied@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-Message-ID: <aC-ALtcs8RF1yZ1y@slm.duckdns.org>
-References: <CAPM=9txLcFNt-5hfHtmW5C=zhaC4pGukQJ=aOi1zq_bTCHq4zg@mail.gmail.com>
- <b0953201-8d04-49f3-a116-8ae1936c581c@amd.com>
- <20250515160842.GA720744@cmpxchg.org>
- <bba93237-9266-4e25-a543-e309eb7bb4ec@amd.com>
- <20250516145318.GB720744@cmpxchg.org>
- <5000d284-162c-4e63-9883-7e6957209b95@amd.com>
- <20250516164150.GD720744@cmpxchg.org>
- <eff07695-3de2-49b7-8cde-19a1a6cf3161@amd.com>
- <20250516200423.GE720744@cmpxchg.org>
- <CAPM=9txLaTjfjgC_h9PLR4H-LKpC9_Fet7=HYBpyeoCL6yAQJg@mail.gmail.com>
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B218110E053;
+ Thu, 22 May 2025 20:33:00 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-ad52d9be53cso1075298066b.2; 
+ Thu, 22 May 2025 13:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747945976; x=1748550776; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QJkOx/dDvdJDVf5zaqpKhWQ4ZhXUcCkmy6d8HyLwmRI=;
+ b=mmHRsQDTAdJl9YC3wSuh5Wp8/CGrNCcdgbbpBTjfCxTPW7/hofvJLUQIQBQmulT+/Z
+ n+mSKBbVhtYqpTDExCw6iu+hiHo/xXfuoQsz82nv4bFQY/iSDk14bf6IPZiZk5XmZ/bs
+ ad9ggYpqOyuwlhWxd7Xm6coQVOr4OxVo83tTYG59pqF1hwa72Vv1sG2XmNqK/hgyCNcC
+ d10CAOJl7myAMxfbGf/C5c51v9f4EzyPBeAxZZYK98hf/jUKFJcTsWvd8esKvt0i2oph
+ UH0ErOfc3qNQ4yC9/twC0KhY2jUGX0MrvLAhczsthSj7A7Xb3uUG4kYw8AYg9JRjndT4
+ Pp4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747945976; x=1748550776;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QJkOx/dDvdJDVf5zaqpKhWQ4ZhXUcCkmy6d8HyLwmRI=;
+ b=lVLm43WVWeXGsrZnG2gx+5qMNga4qJfXClK6WK/xC7nHa80493VW/cuHuxQ5IgBuYB
+ s9TWJaxrim/Nc6IVj6Eu61KKG+hDAd6VeUYdwV+MlK5tdXsNBr2ap/QFg4K1BWKlH2NE
+ M5HibfaSrYS3hmGTdY4MIlLxZse/mywnMuSgr5jnzRzraeEA8ag2x4yK3x9xWhltLvNQ
+ PbCVv7XT6EisZOoQPeoaFJrYcZSBL+c4iXwaR86S+KF8dIaGTvkmPBouRQk8nKfXkDbM
+ xOxL8um+5rW4Lz01t3x9ba+jy53nUR2hAxE3mTvjTBRmG0Q/TUApl8I7HUPYDevO8aCy
+ QzPw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNojM4PdgGa1qX0wWCxvSEbp3w26EPlYIw/mNhf8nWrPSAxxgbnpwUThXVMRInVJYn96+RQ+M6Ew==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRErS2Ls7tlHsLeb4DmjD4Afmz6Bh+etD2N5MM62QnZlZdncZC
+ PsDE/b29cxRjNQEzKIPF/GGoTb8I0dObNsvywiSh+P0DKtf1nQk/I2+i7PnZz1vS4vgXhdnhIIF
+ ekYNVxb8zu/4kG9CrSIcPSyVRJC0m0Lk=
+X-Gm-Gg: ASbGncsRicOG2nDl9sxatbUmlU8KreJggaCTQusmbpkrKRhgebhIx+uZykEXPSQYj8h
+ gcrpAj+RlDuc92QfOZxkm0maDovTftLmRcFwMSokkDpuBUqDNoKQARtqalObM7c2RRYMjQpAuXI
+ OAtQbRSiJuNu2SB/VZi8jh4BK+8Sh64jVew1zhxl8QRA==
+X-Google-Smtp-Source: AGHT+IGTbjel2Lr4hTEugC15eElhwTHNI+ODqHHF5fxeOe6WTuw/RC9YnypCz5AbNONhtgVjMn/nv1xY5t5pN6G24a4=
+X-Received: by 2002:a17:907:9728:b0:ac3:bf36:80e2 with SMTP id
+ a640c23a62f3a-ad708449ef1mr30745866b.20.1747945975579; Thu, 22 May 2025
+ 13:32:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPM=9txLaTjfjgC_h9PLR4H-LKpC9_Fet7=HYBpyeoCL6yAQJg@mail.gmail.com>
+References: <20250522065519.318013-1-airlied@gmail.com>
+ <20250522065519.318013-10-airlied@gmail.com>
+ <wz6cduq6kh2n2pwxm3q75vjmrsht4rvnbjnch5t66kj773t2rj@kfk2bj7pewwm>
+In-Reply-To: <wz6cduq6kh2n2pwxm3q75vjmrsht4rvnbjnch5t66kj773t2rj@kfk2bj7pewwm>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 23 May 2025 06:32:43 +1000
+X-Gm-Features: AX0GCFuAi4EhJekjzqJTMCDXx4U_wVvSA2Eg5I_xZbWpgJJrhj5d0ScbTWnoYF0
+Message-ID: <CAPM=9twLXMbaTNhr0y52aA90sytE2-zb_zC4eZ5xLC0CE1_1dg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, 
+ intel-xe@lists.freedesktop.org, Michal.Wajdeczko@intel.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +83,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Fri, 23 May 2025 at 01:10, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>
+> On Thu, May 22, 2025 at 04:52:18PM +1000, Dave Airlie wrote:
+> >From: Dave Airlie <airlied@redhat.com>
+> >
+> >This reduces this struct from 16 to 8 bytes, and it gets embedded
+> >into a lot of things.
+> >
+> >Signed-off-by: Dave Airlie <airlied@redhat.com>
+>
+> Replied too early on cover. Chatting with Michal Wajdeczko today, this
+> may break things as we then can't byte-address anymore. It seems
+> particularly dangerous when using the iosys_map_wr/iosys_map_rd as
+> there's nothing preventing an unaligned address and we increment the map
+> with the sizeof() of a struct that could be __packed. Example: in
+> xe_guc_ads.c we use it to write packed structs like guc_gt_system_info.
+> In this particular case it doesn't give unaligned address, but we should
+> probably then protect iosys_map from doing the wrong thing.
+>
+> So, if we are keeping this patch, we should probably protect
+> initially-unaligned addresses and the iosys_map_incr() call?
 
-On Sat, May 17, 2025 at 06:25:02AM +1000, Dave Airlie wrote:
-> I think this is where we have 2 options:
-> (a) moving this stuff into core mm and out of shrinker context
-> (b) fix our shrinker to be cgroup aware and solve that first.
-> 
-> The main question I have for Christian, is can you give me a list of
-> use cases that this will seriously negatively effect if we proceed
-> with (b).
+oh interesting, my thoughts was of course nobody would want to use
+this for < 32-byte aligned ptrs :-)
 
-This thread seems to have gone a bit haywire and we may be losing some
-context. I'm not sure not doing (b) is an option for acceptable isolation. I
-think Johannes already raised the issue but please consider the following
-scenario:
+but I forgot about using the incr for stuff, I do wonder if the incr
+could be modelled on a base + offset, as I do think for a lot of stuff
+we'd want to retain the original vaddr for unmapping or other things,
 
-- There's a GPU workload which uses a sizable amount of system memory for
-  the pool being discussed in this thread. This GPU workload is very
-  important, so we want to make sure that other activities in the system
-  don't bother it. We give it plenty of isolated CPUs and protect its memory
-  with high enough memory.low.
+I'll play around a bit more next week with at least protecting against bad uses.
 
-- Because most CPUs are largely idling while GPU is busy, there are plenty
-  of CPU cycles which can be used without impacting the GPU workload, so we
-  decide to do some data preprocessing which involves scanning large data
-  set creating memory usage which is mostly streaming but still has enough
-  look backs to promote them in the LRU lists.
-
-IIUC, in the shared pool model, the GPU memory which isn't currently being
-used would sit outside the cgroup, and thus outside the protection of
-memory.low. Again, IIUC, you want to make this pool priority reclaimed
-because reclaiming is nearly free and you don't want to create undue
-pressure on other reclaimable resources.
-
-However, what would happen in the above scenario under such implementation
-is that the GPU workload would keep losing its memory pool to the background
-memory pressure created by the streaming memory usage. It's also easy to
-expand on scenarios like this with other GPU workloads with differing
-priorities and memory allotments and so on.
-
-There may be some basic misunderstanding here. If a resource is worth
-caching, that usually indicates that there's some significant cost
-associated with un-caching the resource. It doesn't matter whether that cost
-is on the creation or destruction path. Here, the alloc path is expensive
-and free path is nearly free. However, this doesn't mean that we can get
-free isolation while bunching them together for immediate reclaim as others
-would be able to force you into alloc operations that you wouldn't need
-otherwise. If someone else can make you pay for something that you otherwise
-wouldn't, that resource is not isolated.
-
-Thanks.
-
--- 
-tejun
+Dave.
