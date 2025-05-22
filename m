@@ -2,159 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BD6AC0C4D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CD2AC0C70
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 15:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9715C10E905;
-	Thu, 22 May 2025 13:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B3C10EBBF;
+	Thu, 22 May 2025 13:14:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xDLqeSHU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZpIPiPnc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2081.outbound.protection.outlook.com [40.107.96.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A74110E2AB;
- Thu, 22 May 2025 13:10:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VVUb4w3kAzofIuzHjGTbiF3qC2kVvGZN5iON8pqOU41Na/2mK7BG6F2wB6Lj/AVmPdOXoEGz1GFd8my6JiOZCwvxneqDimf/DhN7XzFUsSvgZmK6gkYH/lOvlvkElsa6Wdqu+5gF3/CMG/Rrs1Um+NCvZAvTx+n7ZdX6Yy2W7bCWU3LtJnrXQbyL42VZjYzVCrPavdWW8OEXFcdJYVXsWm+d+rVWpUHeOeYDJS6lC9mOry40tCOHEePynvHErYdy+WHVG2Inclixncz4RcUpxsXrSzdDuGBID4JqW0jH2E2lgOt0uBtevwkmHFRRl6oHh0j5XccuPzEJl6B+LXmuSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6MYzRybTptYaZMOUDQtlgQyY5V5axZWI2TscVvL0ye4=;
- b=TgMNfrZTMqLeZMpdNEQzCYwzPhrs7NAKHeHVHSC5UbGxjdCJZ70Suusf1Vdt2KeK1eDSz1Vcr4qxmtiwsiW56+5jkBtXM3Q7BFmshwCg233nCNIoFLxAl7dV3IB8fTW+ZTkjO44kaHn/okAqVnhFdHDG+Cx0km6NhMWX63jCuXxgN340pRjxfvsWH876BN9u+N3ixr9ev1GcHlaYC5wNmufa8+PKSaAoa8Rk10vVKK0IOIzcGWSZHFSLg5mlTseOYM+A0eZE//Y99f+ME+WjV0j3xmEmS3j4Oti875+oY//f0DUpWw+DrNYLYr1wY3jiv2R2G5+K2UaTDStjxGQbTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6MYzRybTptYaZMOUDQtlgQyY5V5axZWI2TscVvL0ye4=;
- b=xDLqeSHUgciX2Ko59cZYoHT3wVCmyGRyXIf3vQ4DJCjTjw/tNStujLFx333ToQokfsw1IbLo9sXPofvoP1korANY8eve8d13PTMJpVJ07VrNLA/rSKAjhy74bSZ9tgjek/PFyzvug02Wq0p/uV0aBPcRd9K4frsGAsk38jVhptQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB7832.namprd12.prod.outlook.com (2603:10b6:806:31f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Thu, 22 May
- 2025 13:09:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Thu, 22 May 2025
- 13:09:55 +0000
-Message-ID: <ebedece4-9758-47e9-b621-37b40e3f0fc3@amd.com>
-Date: Thu, 22 May 2025 15:09:49 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/nouveau: Don't signal when killing the fence
- context
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20250522112540.161411-2-phasta@kernel.org>
- <20250522112540.161411-3-phasta@kernel.org>
- <af03b541-0b69-4b3d-b498-b68e0beb3dcb@amd.com>
- <06210b9dc5e5ea8365295b77942c3ca030f02729.camel@mailbox.org>
- <eae0ff0f-31a6-433a-b255-9bdb4727a940@amd.com> <aC8fpEXYWZ9Oy41J@pollux>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aC8fpEXYWZ9Oy41J@pollux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0245.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CAC10EBBF
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:14:13 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M7XqGH029173
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:14:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ cHG/SgxMi3oa6P3Q/bDEut732xB9dlPlOoJPYxKUmKU=; b=ZpIPiPncn57n2+9R
+ OlN3Z+S9ZWfWqwrIXqEGCI7K5lYPuXgZaFQTGKGWncTkUV9PuCr2VJTejWZjW6bG
+ 9srjJY6PqL+DondgPoL0fkxGOG6kglXC7a4zZzUXwFhmiXdgQkZCIinP3n+41aJ+
+ RHeMF9WI70mYUmXH4VPrMSsaFWAFcDg0zCNDmTG7ucPQn1TVPu/o98MS12pUHLxv
+ 5Puw1xMT7kRNGqhTg8ag5LmzQgHldfPbDY4zQz7otFKeIL87zRuGpHp9ZDV3vY4G
+ CgebFaINB1lCxS3fwHmaf0d41OGhqWus1jtoxzuZWr5LG4ib1c/B5/IdokYAgsA8
+ +RXDwg==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf46g7j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 13:14:12 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6eeb5e86c5fso82202026d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 06:14:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747919651; x=1748524451;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cHG/SgxMi3oa6P3Q/bDEut732xB9dlPlOoJPYxKUmKU=;
+ b=rV8Vn3B53u6ywmmAGNW4+qa/WABGZOH1eSnG+l6annlg7wo1y0vkLDdLFxnidsRE4J
+ 57zoYss+M1J9xme2yaYvqDplRyblaoQ4TbBoPtCXu3GhDBHIIq99bzrfd9MyV31r5uFo
+ s8JwSLZs4Mh3mOtLxOnIOxrquo2e7WJlrdsfMyHeBCSMwMeZspKJClQZPlinR0OKW1Th
+ EauMwH/aXliuB8FZNT7bGgMvPi8n0V4iRCG8UwsM2MZq1WXcmq7DQeibS7bKnvvwd09S
+ ITtmrPqxxVAyqKGEzpI5BRSEJ2eBZ0f3sL6ECJxJ8Qs7WqPsBc2iltdbfm4EO4raCED9
+ d03A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpqcQ6K/clgw9JbzP4XjFgA4lSLTIZ4Ib8wB7+aNHQprl6qhPMoNv1de3KDNz92k/v8bFiQJKwdck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJLNiGpwEAU7tCVM/4NuqMqYCIlmuH1213B++QeTTLW0iVfXHG
+ Xg6IpQKcnrL+unHuuE3bZChypPEn0CeZW93bN+1fZsLSz9iUx7uXxyyuUnZZ3xSzOSAT3elgx8x
+ VXhRI7gf2tcdAlBtCXKrf/OmnmCKRXSi2Hi8BDuRWGkiMijBQ4kTMJz0qTZlpphiMuBgL/wQ=
+X-Gm-Gg: ASbGncsGwiRAdo9mhQdcstIg0rIekTRucFqxipSGlDR2nzCRTFT7WBjYiHlT716AmJZ
+ ZUBKv22PtEkYJFDh7SGALuO/CeT/xIZfb9IVcyK0ay+jvXCW3lA+UU0vf5QC+tJudhRuWZA8BY8
+ RcZX4W0Dap//WT4yYf5KCFavmvLwuheTWch9wR2iC9XAgA7q5M0BNSG/2HKrUwx6/JsLv0KdSqe
+ h3pzAV4wNCy4exywzYG7wQkdvTy+AKCsO8hQ6aNtcqw5Ank5hHOuo6ohjRoPlCy8mH2dz6qj/h1
+ mp8WrGDJeSKBAI8f40tHluNJUuQo1mUsHdx2saLMPT3yLHCxWHetuVaz37Y1i79B8W4HbjZ0LnU
+ =
+X-Received: by 2002:a05:6214:c68:b0:6ea:d033:2853 with SMTP id
+ 6a1803df08f44-6f8b0893f5emr409115246d6.16.1747919651217; 
+ Thu, 22 May 2025 06:14:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJaT9vIU6lEC2EHkfSU8H8PngKanzClUBBmQT9BP7n8XjOM+NYyXnmAucTS28a1j1VfaKGBQ==
+X-Received: by 2002:a05:6214:c68:b0:6ea:d033:2853 with SMTP id
+ 6a1803df08f44-6f8b0893f5emr409114776d6.16.1747919650722; 
+ Thu, 22 May 2025 06:14:10 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-328085d0dafsm32851611fa.109.2025.05.22.06.14.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 May 2025 06:14:09 -0700 (PDT)
+Date: Thu, 22 May 2025 16:14:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Jayesh Choudhary <j-choudhary@ti.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
+ tomi.valkeinen@ideasonboard.com, max.krummenacher@toradex.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ kieran.bingham+renesas@ideasonboard.com, linux-kernel@vger.kernel.org,
+ max.oss.09@gmail.com, devarsht@ti.com
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
+ connector type
+Message-ID: <cr7int6r6lnpgdyvhhqccccuyrh7ltw5qzh7kj5upznhea4pfh@rn6rwlf7ynqt>
+References: <20250508115433.449102-1-j-choudhary@ti.com>
+ <CAD=FV=V1mNX-WidTAaENH66-2ExN=F_ovuX818uQGfc+Gsym1Q@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7832:EE_
-X-MS-Office365-Filtering-Correlation-Id: 493a14e0-4ae9-4c60-e64b-08dd9931f208
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dk41K3g5U1ZaOXBMc1RNUGV0Ynp5d29OTmJaU1l3VmdsandaQ1FtNklMdnR2?=
- =?utf-8?B?Nk1LQVVNL096WEdWaDlXQjBQaEtETmpoMWMzd1U0TXYrOEtGakFqa3hOUDgx?=
- =?utf-8?B?NmJmQ01Qc3JIM0VreFd2emIvRERCdW5JakZvMGFlQTZtZFBXQ2FVU0tFMWNE?=
- =?utf-8?B?c3V2VDV6ZDVHelU1WU5VbHpLb1IrVHNxbnZiZ2QvL3lxRmdhYk5xWmFnSzY0?=
- =?utf-8?B?Q3JLVVNPZzJZWGR3WGVBOTdha0dWbHFhRWZMak5xNTdZQkJ2NVNlRGc3cEVG?=
- =?utf-8?B?NGc2bnBlR250WFY2TE1lUlA1azFWQXJZVjQrSkIzM2tMTUx6Tm9kQjhtamcv?=
- =?utf-8?B?WlE3Q1ZKWGhYQU1wQ0ZqNGtINGFNL0RGTGY0NERPNUk4ak4wTVNSRDhDdXVD?=
- =?utf-8?B?NTJobU84c04xWWZVUjhnajRSQ2ZUblROdzNlMkxvL0ovZ251ZTVYZjRnZFhQ?=
- =?utf-8?B?SWZoNGdrMlU5RXh6M0Uybmkvb2JHYndUeitZOWkxTDZBMHNkZGMwTDVRMGVG?=
- =?utf-8?B?NStrUS9FM29xclppOUtkZXB2WnJjT3hZdkFCY01sNHUvVGNsQzdCNVdaMEF1?=
- =?utf-8?B?dExrUVdWUW5BZ2QzOGt0ai9KOU1WdXhSU21lZ3hBWnc4dmQ5QWRva2R6MXc1?=
- =?utf-8?B?T1hka1RmVW1zVWthYUcrNnhFbDM4U2tFOGEveGoxdk5jdHMrKzA2bjU4SUsz?=
- =?utf-8?B?aTg4QnRUOTRsSXFZWDRwcjJ1YTRLRGpkMzRSK3ZsOEs2RlZqY1Qxc2xxaTNy?=
- =?utf-8?B?Q3kxc25mK2F4UmNLeDFRT0ZZdm9aczg2RVBPdmpmdEIwcEFVYnVuVUI1MitF?=
- =?utf-8?B?dkRsTkNoamJubHJubHA5YkpGY0EvbEwxM2s2SEMyTFFLbzVmYXJwWmp2cUhM?=
- =?utf-8?B?cEhCcHZBaVFXSnVZSzVWbFFVMTVYd2REK3A2OGR0bTgrS0Zrb0U3MUdrUFF1?=
- =?utf-8?B?eEdRUmIvMVVZL2NTNHNCcE9HQzVoNDRYR1ZXbCtYSFlMS1JwdFE5Rzc1Nkhh?=
- =?utf-8?B?Wm9GaTRKK3Fmb1hMTTNVQVhTVXNHMElVMklqNWt3N1FJRGM5ZTkyOFZ6UHdu?=
- =?utf-8?B?SzB6Y2NGcFRkdHBGYkdFSVJmazc4YmtXOGE5SUQ3U2VZc2lST0hUdWdqenFL?=
- =?utf-8?B?SWQ4TmFJa0UwOVZOYXdhUjNDQXZIRXJDRkM5QnhPQmFzRUp1MEhEVUVGVzdR?=
- =?utf-8?B?bCt4ZjZVYSsrK1RCd1kyZlQ3TU50UGhGdFdqNHF6c0RDa09kT084VXZ5S2Zi?=
- =?utf-8?B?SWtqS2Vrak56M1hSWm9IbXc3MXRJWVVkd2Fvc3JYVWw3WEdzZUpXWXRTWFpv?=
- =?utf-8?B?amhEZHhrdjhJN3Nvcmk3Z09vbDlEUTk0Ym9OeVluVTFWNkZ0R2xWdXMwVXpD?=
- =?utf-8?B?UnZsTnhsREU1eExYR1hsaHRLUGc2OUxPcHhsc1NKTGFneldrajBSNkpsenpu?=
- =?utf-8?B?cUJ6ZUNQQVZ6UmZ0WnhCZU1ZNXFGdGdRMG9GU0VGcXVTUXNnK1RLQ3c0alRj?=
- =?utf-8?B?N0RRdk9ka1p4RXA5Zk85dVIvR0V6SXJMcyszUjZZaEo3amcwR0kyMmNVa2pj?=
- =?utf-8?B?MFlpSU1IRnJCQTQyY05DdkJhMy93SWw3dlk0WitCODd2RUVvemN2Q3o4OERI?=
- =?utf-8?B?V3NuUlNPR2czN1d5dWJ5aktVdjg2dkVKd2hHSXZvR1VTWStIMmwxZTRObDhv?=
- =?utf-8?B?TzFvdzQ0ZVRQTzJFMTFwRWhKaFdTWlcwUlltOTBmOTJxdWwveVFKZ1ZBZ0sw?=
- =?utf-8?B?UFZKelcvSzZTemJqRjM3RjBkTzFIMm9vdWd5eTNLV3k4U1NtdkRmY3JNQW9M?=
- =?utf-8?B?dWNMZjNXQzJPRVNHRjdTVmdyRXNPc0dNTnJBZ01iQXFCS2dpdDlBY0lUWnhO?=
- =?utf-8?B?OGFsKzlBWTNuV1VXM3hQV3J1MlRSOVlpQTUvcXdXcW5STm90dWhsNHJiNUxs?=
- =?utf-8?Q?PMLDAKdB+jQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2VwT3paOHFnTTdZeHVqN2dlKzUySENjd01tMjU0a3k3eUVNTWpubGlZSHlX?=
- =?utf-8?B?QlNJbWRZNFNyTVBTbGFpd2M2OWQrUkNQWFRzaUwvcDRlNjFJUjBRandPYkFt?=
- =?utf-8?B?LzI2OVRMWFg0RHU1QlREWDBiSzVGQ0UvNStVSGYxUXNSQ3FZRmJ0L0JwdXhL?=
- =?utf-8?B?U1lhUUZ2WEV2eDVjMHl1TkdzcjZFMTNNYmg0SWF2OUU2ZzhpdVZMcHRIeGph?=
- =?utf-8?B?Q1hmN280TXpRMThzZ3hWRkZ4aXRySVpPU0VCQUZHcCsyaHQyRTJVL01ITjUr?=
- =?utf-8?B?L3l1YlJwbUgxdXZjU09oRTVJNmRHMjlMNmk2NnZmL05kUVJxUU1Vd3Vwb1dB?=
- =?utf-8?B?SzZxeDZBMC9KaWh2M1pDaW1yWHA0c1pZU2ZIakpXdm1HUTVHOTM0RDBteG5a?=
- =?utf-8?B?YkNhSWZ3ZFEwQXA2TXFjK2dNbEF6dWR1RWZaZVNMdWZZeG5aL1Y0KzNoaXVN?=
- =?utf-8?B?TjBwQWZOM21kRTgzaVl4OVpkV3piWlQyRmFwN3FSWDkybmtmV09iQytqNDZK?=
- =?utf-8?B?dHVVL3ovTFN0Yk5Zblg1d0ZwZ0RsQ3BwRzRoSk8yV0E5VkZpK1Q4bHIwN1BV?=
- =?utf-8?B?eWM1UGhYQldXaGk3UTBPQXNrb3c4OXVuamxGdHArMkdpWk9BMG1uQ0JoSkZu?=
- =?utf-8?B?UXBCL0dOK0grWmtEMzgxckVNSFdzVTRpM3RrYTEva014SEI2N2M1ekhSZzU0?=
- =?utf-8?B?WE5iZmZZZk5zalFrUDhabGRRZGhlZElvVDZKYzhGVS8zS09iTU0zVWFTVEZC?=
- =?utf-8?B?TVJMU1IrSEh3WmpWTEUwUjdBemVGZUUzT25JYXlsbEVxUnFnMjBlN1RsRGtT?=
- =?utf-8?B?anF0RHZsLyt5R3d1UjRrTUZMYW5GcFlGbXZkeWFPaWExNkpmUkFaQnJNWmVt?=
- =?utf-8?B?dnkvbEFVNXJEb0xHQXFGWWdzT2l1MEpvUGhWZEdhb0p0S2puQUJXNlI4QzRz?=
- =?utf-8?B?Q2sybHlxUEVpUUQvV21GeGhrb3Y5TGxtck1vTUplWmdjS1Evb2NZbTNYZnUy?=
- =?utf-8?B?cjFJdUxvOGN4VVFyMHdrckdIT0U0SlNnckhlWC9VeHQyYlhQWFV5TVg3eis3?=
- =?utf-8?B?cEdlV245djQ4VDBybDY1L0syYThTdmZGSjYwK2ZoMmQzU0dFVmJmQWFyVVp2?=
- =?utf-8?B?d3ZQVXFNNlZpWW9aUXFEM1JJMEFQVGQvc0I2Q2VsSVBhREZqUEcybmJrYzRB?=
- =?utf-8?B?UWVZby9tL01VUkNJWjljYzZYODVBV2s2ZGNQZjlxUG1vV1RoUFpGVWVmZVd0?=
- =?utf-8?B?QTVPT2Q5OFBPRW5sbGZER0d0WEI1Uy9CMWUwMElFUGpwU0tIWElNRHMwK2xw?=
- =?utf-8?B?RlJSOUQvWDZlaWxFdDlJUGZTRW53c2J6Nm9IR1lHT3hMRmRDOU1OOE1qV3VP?=
- =?utf-8?B?S3lCTU1xTzJGWVJ6aVpXbWR6aTUrM0Y2ZERVc3kzTGhIZnpNUnRXTnV2dm1w?=
- =?utf-8?B?dExtYW9qSTRTSHNrUDhjaVRLeFFxZEM5dVppTXJkd0NVOEtwaVRqUlFkRXEz?=
- =?utf-8?B?eHRkem5RVlVZb21CSVR1bkJqWk5EK1dFK3dGSGQ3OWF0ZWJxWWIzOXhQZGFa?=
- =?utf-8?B?cFpEbHpqeXRNdi9PdDY3TlJLdmgxY3g0WTJYZmhvT2U1RTNUcGREd2hCMWdG?=
- =?utf-8?B?bm10YlowYnB6a2NJQ295c1NDMkN2V1dhMHE0QzRFdzVoWnlWTzdNYXM2YW5x?=
- =?utf-8?B?bElrUFE0NThWb2NFUHVTelVLUHBZYXo5WjVROGVUT3ZUdjVCbEV0bC9lVWoz?=
- =?utf-8?B?dE1Fb1h6TCs3TEJESnBEbWw3cHlIeFZtY2Vtc1hmMGkzOENaZWh5UkFoVm11?=
- =?utf-8?B?NlpreElkRHd5VDRCM2ZSbWNJZks5ejcyd0lPbFU4MnFLMW95Ym1MWnpwOGpj?=
- =?utf-8?B?VmxXRG9GVXFFdFRDVG1uMVZtUHBWTyt3NHdpcHFoeXRiZTdnbG92OE1ZNVk3?=
- =?utf-8?B?SU8rbVY5Wjc2dk90a1E1eHVpV1diUHI5TVk5L1VmbERjdU56MTBPdllWL0FZ?=
- =?utf-8?B?ZEhqQUJNSVZZSUpFQ2YxNFFYeTFJVHAzYklEOVJRTmpqU3B3ODU0ZHFEV2Rz?=
- =?utf-8?B?RmY1alMyazNrOXRWOTFTaGw3aGpJK0JQTXFCRit6aWtMMjQ0ZmQ1VjZSdzhV?=
- =?utf-8?Q?fLSSprOz9e6PCp+qimc4r0Aur?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 493a14e0-4ae9-4c60-e64b-08dd9931f208
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 13:09:55.0969 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hg/9C8SvVYNahRxcFLnOD0N6u/7/WLe/iDlQYB0epGwnQU8dNke6BnPndGSK08H3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7832
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=V1mNX-WidTAaENH66-2ExN=F_ovuX818uQGfc+Gsym1Q@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEzNCBTYWx0ZWRfX7Ap2F/sVVEGW
+ mFJmxUvx+PbYNZsWSaucmTLVjNUherH72sDxpZ0fAuhU2Wd/RWTZJc7P/sGOIcxzxii3IIcWZ5+
+ 8Pt+p4Z/VYA48G6zfUjDqvvr9c0zAN0x0wMn2HPmDaX5z99Z8UOVK6WAC14ifGw71Uzv4nvKKjT
+ Eq6kUicjU/eVYytTsAiPpZPpHvRch5dET+/OKvdjIXAEYn9z2FHSL+LehtcjOWO2VFj+HauIl/8
+ IeIMVSgFXOpSTq5D3jPksxfFw726D+oECl3XnLoJ2PRlYEAvMWBH6azIhQx4uT/EuQyR4K4003r
+ ul+hdxAywkssj5jnLXJY14sj0d9qG1zyMI24Ydm40mMxwuBXkqtNJ9ZyXYj6b8GHg0WqqVz6MbY
+ 33O4pBElerV95e8lPa7++xyemaZ/1N4qG1s+kqWH68y4IfS5P7zb3XV9ZF359TFFvXxh6HTA
+X-Proofpoint-GUID: _xr2cowD-67uf7O2z5kfteYbIPCzwAT5
+X-Authority-Analysis: v=2.4 cv=Ws8rMcfv c=1 sm=1 tr=0 ts=682f2324 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=sozttTNsAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
+ a=m8ToADvmAAAA:8 a=PSi6YmJ-gjCoPkDBYnYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22 a=kCrBFHLFDAq2jDEeoMj9:22
+X-Proofpoint-ORIG-GUID: _xr2cowD-67uf7O2z5kfteYbIPCzwAT5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,40 +133,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/22/25 14:59, Danilo Krummrich wrote:
-> On Thu, May 22, 2025 at 02:34:33PM +0200, Christian König wrote:
->> See all the functions inside include/linux/dma-fence.h can be used by everybody. It's basically the public interface of the dma_fence object.
+On Wed, May 21, 2025 at 06:10:59PM -0700, Doug Anderson wrote:
+> Hi,
 > 
-> As you write below, in certain cases it is valid to call this from drivers, so
-> it's not unreasonable to have it as part of the public API.
-
-The question is from which drivers?
-
->> So testing if a fence is signaled without calling the callback is only allowed by whoever implemented the fence.
->>
->> In other words nouveau can test nouveau fences, i915 can test i915 fences, amdgpu can test amdgpu fences etc... But if you have the wrapper that makes it officially allowed that nouveau starts testing i915 fences and that would be problematic.
+> On Thu, May 8, 2025 at 4:54 AM Jayesh Choudhary <j-choudhary@ti.com> wrote:
+> >
+> > By default, HPD was disabled on SN65DSI86 bridge. When the driver was
+> > added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
+> > call which was moved to other function calls subsequently.
+> > Later on, commit "c312b0df3b13" added detect utility for DP mode. But with
+> > HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
+> > state always return 1 (always connected state)
+> >
+> > Also, with the suspend and resume calls before every register access, the
+> > bridge starts with disconnected state and the HPD state is reflected
+> > correctly only after debounce time (400ms). However, adding this delay
+> > in the detect function causes frame drop and visible glitch in display.
+> >
+> > So to get the detect utility working properly for DP mode without any
+> > performance issues in display, instead of reading HPD state from the
+> > register, rely on aux communication. Use 'drm_dp_dpcd_read_link_status'
+> > to find if we have something connected at the sink.
+> >
+> > [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
+> >
+> > Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP")
+> > Cc: Max Krummenacher <max.krummenacher@toradex.com>
+> > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> > ---
+> >
+> > v1 patch link which was sent as RFC:
+> > <https://patchwork.kernel.org/project/dri-devel/patch/20250424105432.255309-1-j-choudhary@ti.com/>
+> >
+> > Changelog v1->v2:
+> > - Drop additional property in bindings and use conditional.
+> > - Instead of register read for HPD state, use dpcd read which returns 0
+> >   for success and error codes for no connection
+> > - Add relevant history for the required change in commit message
+> > - Drop RFC subject-prefix in v2 as v2 is in better state after discussion
+> >   in v1 and Max's mail thread
+> > - Add "Cc:" tag
+> >
+> > This approach does not make suspend/resume no-op and no additional
+> > delay needs to be added in the detect hook which causes frame drops.
+> >
+> > Here, I am adding conditional to HPD_DISABLE bit even when we are
+> > not using the register read to get HPD state. This is to prevent
+> > unnecessary register updates in every resume call.
+> > (It was adding to latency and leading to ~2-3 frame drop every 10 sec)
+> >
+> > Tested and verified on TI's J784S4-EVM platform:
+> > - Display comes up
+> > - Detect utility works with a couple of seconds latency.
+> >   But I guess without interrupt support, this is acceptable.
+> > - No frame-drop observed
+> >
+> > Discussion thread for Max's patch:
+> > <https://patchwork.kernel.org/project/dri-devel/patch/20250501074805.3069311-1-max.oss.09@gmail.com/>
+> >
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 ++++++++++-------
+> >  1 file changed, 10 insertions(+), 7 deletions(-)
 > 
-> In general, I like the  __dma_fence_is_signaled() helper, because this way we
-> can document in which cases it is allowed to be used, i.e. the ones you descibe
-> above.
+> Sorry for the delay in responding. Things got a little crazy over the
+> last few weeks.
 > 
-> test_bit() can be called by anyone and there is no documentation comment
-> explaining that it is only allowed under certain conditions.
+> 
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index 60224f476e1d..9489e78b6da3 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -352,8 +352,10 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
+> >          * change this to be conditional on someone specifying that HPD should
+> >          * be used.
+> >          */
+> > -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> > -                          HPD_DISABLE);
+> > +
+> > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
+> > +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> > +                                  HPD_DISABLE);
+> 
+> Given your an Max's testing, I'm totally on-board with the above.
+> 
+> >
+> >         pdata->comms_enabled = true;
+> >
+> > @@ -1194,13 +1196,14 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
+> >  {
+> >         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> >         int val = 0;
+> > +       u8 link_status[DP_LINK_STATUS_SIZE];
+> >
+> > -       pm_runtime_get_sync(pdata->dev);
+> > -       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> > -       pm_runtime_put_autosuspend(pdata->dev);
+> > +       val = drm_dp_dpcd_read_link_status(&pdata->aux, link_status);
+> >
+> > -       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> > -                                        : connector_status_disconnected;
+> > +       if (val < 0)
+> > +               return connector_status_disconnected;
+> > +       else
+> > +               return connector_status_connected;
+> 
+> I'd really rather not do this. It took me a little while to realize
+> why this was working and also not being slow like your 400ms delay
+> was. I believe that each time you do the AUX transfer it grabs a
+> pm_runtime reference and then puts it with "autosuspend". Then you're
+> relying on the fact that detect is called often enough so that the
+> autosuspend doesn't actually hit so the next time your function runs
+> then it's fast. Is that accurate?
+> 
+> I'd rather see something like this in the bridge's probe (untested)
+> 
+>   if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
+>     pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
+> 
+>     /*
+>      * In order for DRM_BRIDGE_OP_DETECT to work in a reasonable
+>      * way we need to keep the bridge powered on all the time.
+>      * The bridge takes hundreds of milliseconds to debounce HPD
+>      * and we simply can't wait that amount of time in every call
+>      * to detect.
+>      */
+>     pm_runtime_get_sync(pdata->dev);
+>   }
+> 
+> ...obviously you'd also need to find the right times to undo this in
+> error handling and in remove.
 
-That's a rather good argument.
+What about:
+- keeping pm_runtime_get()/put_autosuspend() in detect, but..
+- also adding .hpd_enable() / .hpd_disable() callbacks which would also
+  get and put the runtime PM, making sure that there is no additional
+  delay in .detect()?
 
-> Having the __dma_fence_is_signaled() helper properly documented could get you
-> rid of having to explain in which case the test_bit() dance is allowed to do
-> over and over again. :-)
+> 
+> Nicely, this would be the same type of solution needed for if we ever
+> enabled interrupts.
 
-That's an even better argument. 
-
-> I also think the name is good, since the '__' prefix already implies that there
-> are some restrictions on the use of this helper.
-
-I'm still hesitating. Adding something to the API always made it usable by everybody.
-
-Now suddenly saying we add that to the include/linux/dma-fence.h header but only certainly code can use it still sounds questionable to me.
-
-Regards,
-Christian.
+-- 
+With best wishes
+Dmitry
