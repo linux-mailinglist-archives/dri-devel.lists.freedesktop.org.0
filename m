@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70AC8AC0D94
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7A6AC0DAE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 16:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B8310E732;
-	Thu, 22 May 2025 14:07:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K1dDjXeE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E4010EA65;
+	Thu, 22 May 2025 14:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB7810EF0F
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 14:06:59 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C5A6605;
- Thu, 22 May 2025 16:06:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1747922793;
- bh=Pp+0WI4KVMPMC1aLKziFoXuVm2ds8cB+cqIQ4CFIyMc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K1dDjXeEsU5I7iqBo5TqZyTpd4Y+AP7c+TEDSaP1oGmRaG/2fhPYRQp/vTa7oIRcA
- sVGb4O/3bjnuROtXV9pbE4nveQJjKbFCzzZIIN3GXgHjztTF8dFmhL9azh1c3iJt9h
- VR6SpmC3xQNMXU70VUeG0ueLO2/5OIsSkvQFrnxM=
-Message-ID: <cdb5ad54-c02a-420d-acf6-c11f39c6c58a@ideasonboard.com>
-Date: Thu, 22 May 2025 17:06:52 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] drm: renesas: rcar-du: use proper naming for R-Car
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4337D10EA65
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 14:09:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0CC3C45314;
+ Thu, 22 May 2025 14:09:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F182EC4CEE4;
+ Thu, 22 May 2025 14:09:45 +0000 (UTC)
+Date: Thu, 22 May 2025 15:09:43 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Dmitry Baryshkov <lumag@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/vc4: tests: pv_muxing: Fix locking
+Message-ID: <aC8wJ9EbkB0x5AUP@arm.com>
+References: <20250520-drm-vc4-kunit-fixes-v1-1-ca281e485f8e@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520-drm-vc4-kunit-fixes-v1-1-ca281e485f8e@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,33 +50,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 22/05/2025 13:34, Wolfram Sang wrote:
-> Not RCAR, but R-Car.
+On Tue, May 20, 2025 at 02:08:36PM +0200, Maxime Ripard wrote:
+> Commit 30188df0c387 ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()")
+> removed a kunit-managed function to get a drm_modeset_acquire_ctx.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> It converted the vc4_pv_muxing_test_init() function, used by
+> drm_vc4_test_pv_muxing() and drm_vc4_test_pv_muxing_invalid(). However,
+> during that conversion, it went from being kzalloc'd to being allocated
+> on the stack.
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> index f9893d7d6dfc..e9e59c5e70d5 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> @@ -16,7 +16,7 @@ struct rcar_du_format_info;
->  struct rcar_du_group;
->  
->  /*
-> - * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
-> + * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
->   * As using overlay planes requires at least one of the CRTCs being enabled, no
->   * more than 7 overlay planes can be available. We thus create 1 primary plane
->   * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
+> vc4_pv_muxing_test_init() then uses that context to allocate a
+> drm_atomic_state using drm_kunit_helper_atomic_state_alloc(), which
+> stores a pointer to the locking context in the allocated state.
+> 
+> However, since vc4_pv_muxing_test_init() is a test init function, the
+> context is then cleared when we leave the function, and before executing
+> the test. We're then running the test with a dangling pointer, which
+> then leads to various crashes.
+> 
+> Rework the context initialization and state allocation to move them to
+> drm_vc4_test_pv_muxing() and drm_vc4_test_pv_muxing_invalid().
+> 
+> Fixes: 30188df0c387 ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()")
+> Reported-by: Catalin Marinas <catalin.marinas@arm.com>
+> Closes: https://lore.kernel.org/r/Z_95jWM2YMTGy3pi@arm.com/
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Thanks, pushed to drm-misc-next.
+FWIW, I no longer get the kernel panic:
 
- Tomi
-
+Tested-by: Catalin Marinas <catalin.marinas@arm.com>
