@@ -2,129 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C121AC0B5E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A270AC0B63
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 14:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F4E10EB14;
-	Thu, 22 May 2025 12:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AEFC10EB29;
+	Thu, 22 May 2025 12:11:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gXO2NQde";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lotYrtLV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gXO2NQde";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lotYrtLV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FgaVWke/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96FDD10EB14
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:10:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6B6EA21A0F;
- Thu, 22 May 2025 12:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747915824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yI+puFaPnCBQg08J1D62RrSSlTu43LkV+1ZDrMTQpQE=;
- b=gXO2NQdeBUwU5WxHCMMCX7w0CDZtmkAZ8EQGQWfbsubxOax5zMEyE2PwuZZ+3O7YziEe0x
- lLSVN07992Yl47mjaTWm0WJ0SFzxkByQUJ+fxfonsTKywmZd2lBMrmINYWfFeGZQbVPoS9
- b15h0TagDaJeehjgNJEVCm7+/3HojSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747915824;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yI+puFaPnCBQg08J1D62RrSSlTu43LkV+1ZDrMTQpQE=;
- b=lotYrtLVGHbE2tbiYPlsUPunD+9/qCUbCFQi9QipeCr4s6zYu7Pvx0vn4gAPdPzoahGHW5
- +Jz5s/T+y/GkdoBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1747915824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yI+puFaPnCBQg08J1D62RrSSlTu43LkV+1ZDrMTQpQE=;
- b=gXO2NQdeBUwU5WxHCMMCX7w0CDZtmkAZ8EQGQWfbsubxOax5zMEyE2PwuZZ+3O7YziEe0x
- lLSVN07992Yl47mjaTWm0WJ0SFzxkByQUJ+fxfonsTKywmZd2lBMrmINYWfFeGZQbVPoS9
- b15h0TagDaJeehjgNJEVCm7+/3HojSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1747915824;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yI+puFaPnCBQg08J1D62RrSSlTu43LkV+1ZDrMTQpQE=;
- b=lotYrtLVGHbE2tbiYPlsUPunD+9/qCUbCFQi9QipeCr4s6zYu7Pvx0vn4gAPdPzoahGHW5
- +Jz5s/T+y/GkdoBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 55780137B8;
- Thu, 22 May 2025 12:10:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +zTFEzAUL2gkaQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 May 2025 12:10:24 +0000
-Message-ID: <76bf7f7a-01df-4941-baf0-0e527c71c881@suse.de>
-Date: Thu, 22 May 2025 14:10:23 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFCFB10E9A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:11:56 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M7K999013486
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:11:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=1OvU4OaQPAAxsTJt9AcdgBDD
+ Dut4RQiRmCJONEEZXas=; b=FgaVWke/p5ieGS5LDE2P/OYFDZd72vFGr1CTI5Kc
+ +ZdfaaElguxJ0CEye1JaW7EY43hMvLmBbzZUdMh9LOowzK9qJw/+IbBXgXZhHyYi
+ yV3LQDPV/IUGaikhVzjJnsi/bKD+Ny5Ov4qUkUhbsKp8aF1HpQQ/dDqFfph9bAUq
+ yAgf8cduT0NC3AHJak9km52QXudDz24OlBlkPNveP9EG98qIjM8bkQMULtUdLjuQ
+ DXTUSOd+a4F9gTpL20tdX5NagUlE9DCLqAYbs2NRkdpqgx7JoE6Fvhlkb0YPKK0Z
+ 2x8sKsIL7fcbILh+76tX0ZI2EOwIHoEeldX3Z5/Cx7NEpg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwh5ed52-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 12:11:56 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-23209d8ba1bso50169805ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 05:11:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747915915; x=1748520715;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1OvU4OaQPAAxsTJt9AcdgBDDDut4RQiRmCJONEEZXas=;
+ b=Z4ltXNqAr/DsiYqE5vwJ+o+PpNu3S3nvtlGJaBz1Jizd1HRyn2t1gIXSti1wyeFs6/
+ hUZ2boWRh9vcgi7K0PzMSOx/TdP52haIUMgg+H2D4hdYrgIj0U3s9114YqI6tEmG4If6
+ vfOu+B7IatWX28Vqv4dlPnwDwailrFtIeYgfkaV0eY7/L4223xnjbHNc773NdS9q+gqW
+ npCAX64zzAlnTXotZmu5Zf5gMiHXg9JIrL3YqU5tcSJdR3O2Xru03riTcjoIuUEopyyh
+ 0ILHXBDe067/B00Xq2Tsvd1tlMkxt0gXVOfOnCFwC6gjYZlTsE5cky2+orC6gOD032rS
+ Ym5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIoqWCz9XTH6bxhhbwcfg4HnP+1PzeISck0aQCRPQmXztbhNlMkXv92ZgCaDEobNt7fWaa68kj4Ak=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2oW9vJk3np8bbL4FO693DDNu1hmE8ZYKzvo0Lcs7YYXPacg7I
+ m8h8E6sqZ4KEEGh+ANsMyhv34ZFFf5ikfb6CzEHh6no3U3NOtVxCE02rQkYZBz9WCJLCKe16XXK
+ EfYM2XuAevDHGdYrMsOz0NPGPACDUsSEpLqXXCaJ2TYn17eURsaTL+qrJ6/8FBtL+DhIm05/nEs
+ cELBlyacNH8b3wdyaYxiL1weWAHjlN/55PbFxxm8XXCfroCw==
+X-Gm-Gg: ASbGncs2to0injLQqTmTTck3voIORwS5ahf9VR/PkuffsY8feSu/WHUnd3/ZmZ7d6EW
+ W52GjOiGppt/bmm07aSTp7lN99Ra4pjCQqlXO+XAaWqP2+O9dOEqnGznNL+xnyzAmhtwUAuFYX7
+ 00ducW57Q=
+X-Received: by 2002:a17:902:d4d2:b0:231:faf5:c1d0 with SMTP id
+ d9443c01a7336-231faf5c3ecmr354091895ad.24.1747915915321; 
+ Thu, 22 May 2025 05:11:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESIl+YAA+LmGGozI0lWLtu1kBwk65N5SNlCdpiBMOASwRP9Ac6amhIibfmRF/Rk9s+GFOqroMlir5kClZwazo=
+X-Received: by 2002:a17:902:d4d2:b0:231:faf5:c1d0 with SMTP id
+ d9443c01a7336-231faf5c3ecmr354091545ad.24.1747915914913; Thu, 22 May 2025
+ 05:11:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org
-References: <20250522065519.318013-1-airlied@gmail.com>
- <20250522065519.318013-10-airlied@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250522065519.318013-10-airlied@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_THREE(0.00)[3];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+References: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
+ <20250513042825.2147985-4-ekansh.gupta@oss.qualcomm.com>
+ <dgij4bftqzog6muu2tsaq7vxj2lpjh4ahwgrpt4ztsvch5juey@4ki5ly3pzuad>
+ <b1324d19-9a61-46d4-b7cd-5fffabf95685@oss.qualcomm.com>
+ <cqwvytawzuczg3drgojfddifsqjaxtzs4dcae2rjw7dag7n7b7@pa2mkmrlvqjb>
+ <36327516-3db9-4bc7-ae2d-162135466e7e@oss.qualcomm.com>
+In-Reply-To: <36327516-3db9-4bc7-ae2d-162135466e7e@oss.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Thu, 22 May 2025 15:11:43 +0300
+X-Gm-Features: AX0GCFvYuxPUpH8myXBy6T_C47lECUFkSMBFRBtjqAqbhfjKJulCyzwdkmj7MpI
+Message-ID: <CAO9ioeVCU50YX8jYdCxTZ066GjpKW3kL+4mA=PMrOEROb1szuA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] misc: fastrpc: Fix initial memory allocation for
+ Audio PD memory pool
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: srinivas.kandagatla@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyMyBTYWx0ZWRfXxzawDWLnCjE6
+ 1b12tSfDsIxvAkKfYSZoINFH//xO86xLN3UdmyNx1/QsTr0cNg++sVrnmzy+lxB8aFYFwEvy+WD
+ DVXVy8vtvMOwZVmbA+jV/HasmGOJVny5+vZt8ohsi3HQwlPJimCPg+7961Htr0rWUiu29ykIf3/
+ CFV92ujW01VSHuVeaFdEIMtcN4xlnYNaACoSgBm7hiFWJZnN6p7Umk9oR1L9sA1gPq5e7XJVAmN
+ J2wT2vdjNXeW4uQU+/pqPOPb0KV83wVKE84XwTMfAbI7Xa0s4vcnXpAoAG2W/2j+sKDKbX/fLNM
+ 9+19Q5xZeollT04qluz9G8HHydkdIdyu9WOgoDVku58zPsHoDLd8zCzuHUUzhGcQEtp3dlb2dzk
+ yDPe4r0FpymWpqpetxapLKQvIcnVGSGbTlkDHmrLVEXY16xBYTscCprAFYJXBz3mGcoZmrfT
+X-Authority-Analysis: v=2.4 cv=XeWJzJ55 c=1 sm=1 tr=0 ts=682f148c cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=vDpd8R7RqsPVAR_k8fEA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: L3RXXHK1ZSjYRLKRrS9K4Ozq-lwnv0Rt
+X-Proofpoint-ORIG-GUID: L3RXXHK1ZSjYRLKRrS9K4Ozq-lwnv0Rt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505220123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,144 +121,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 22.05.25 um 08:52 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
+On Thu, 22 May 2025 at 07:58, Ekansh Gupta
+<ekansh.gupta@oss.qualcomm.com> wrote:
 >
-> This reduces this struct from 16 to 8 bytes, and it gets embedded
-> into a lot of things.
-
-IIRC this has been discussed before. Makes sense to me.
-
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->   include/linux/iosys-map.h | 30 ++++++++----------------------
->   1 file changed, 8 insertions(+), 22 deletions(-)
 >
-> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-> index a6c2cc9ca756..44479966ce24 100644
-> --- a/include/linux/iosys-map.h
-> +++ b/include/linux/iosys-map.h
-> @@ -99,29 +99,27 @@
->    *	iosys_map_incr(&map, len); // go to first byte after the memcpy
->    */
->   
-> +#define _IOSYS_MAP_IS_IOMEM 1
+>
+> On 5/19/2025 7:01 PM, Dmitry Baryshkov wrote:
+> > On Mon, May 19, 2025 at 04:23:28PM +0530, Ekansh Gupta wrote:
+> >>
+> >> On 5/19/2025 3:47 PM, Dmitry Baryshkov wrote:
+> >>> On Tue, May 13, 2025 at 09:58:23AM +0530, Ekansh Gupta wrote:
+> >>>> The initially allocated memory is not properly included in the pool,
+> >>>> leading to potential issues with memory management. Set the number
+> >>> What is 'properly'? Which issues?
+> >> inbuf.pageslen is getting updated to 1 in case buffer is allocated,
+> > Is it a flag or some page count?
+>
+> This is page count,
 
-Two underscores would be preferable to me. And please use the BIT() 
-macro to define this constant.
+If it is page count, then why is it '1' instead of being calculated
+based on the init.memlen?
 
-Best regards
-Thomas
+> based on this count, DSP with add memory to audioPD
+> pool. If it is 0, the memory is not added.
+>
+> >
+> >> which only
+> >> happens if (!fl->cctx->audio_init_mem).
+> > You are describing patch behaviour.
+> >
+> >> Till now pageslen is always 0 irrespective of whether the memory is allocated
+> >> or not due to which audio PD is never able to use this memory.
+> > and the is current behaviour. So this answers the first question.
+> > 'properly'. Now, the second quesiton. 'Which issues?'
+>
+> The issues is actually memory leak as the initial memory is never
+> used by audio PD and it will immediately make a remote heap request
+> as no memory is added to the pool initially.
+>
+> I'll capture this also in the commit text.
+>
+> >
+> >> I'll update this to the commit in the next spin.
+> >>
+> >>>> of pages to one to ensure that the initially allocated memory is
+> >>>> correctly added to the Audio PD memory pool.
+> >>>>
+> >>>> Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
+> >>>> Cc: stable@kernel.org
+> >>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >>>> ---
+> >>>>  drivers/misc/fastrpc.c | 7 ++++---
+> >>>>  1 file changed, 4 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >>>> index d4e38b5e5e6c..b629e24f00bc 100644
+> >>>> --- a/drivers/misc/fastrpc.c
+> >>>> +++ b/drivers/misc/fastrpc.c
+> >>>> @@ -1311,6 +1311,9 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> >>>>            goto err;
+> >>>>    }
+> >>>>
+> >>>> +  inbuf.client_id = fl->client_id;
+> >>>> +  inbuf.namelen = init.namelen;
+> >>>> +  inbuf.pageslen = 0;
+> >>>>    if (!fl->cctx->audio_init_mem) {
+> >>>>            err = fastrpc_remote_heap_alloc(fl, fl->sctx->dev, init.memlen,
+> >>>>                                            &buf);
+> >>>> @@ -1335,12 +1338,10 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> >>>>                    list_add_tail(&buf->node, &fl->cctx->rhmaps);
+> >>>>                    spin_unlock_irqrestore(&fl->cctx->lock, flags);
+> >>>>                    fl->cctx->audio_init_mem = true;
+> >>>> +                  inbuf.pageslen = 1;
+> >>>>            }
+> >>>>    }
+> >>>>
+> >>>> -  inbuf.client_id = fl->client_id;
+> >>>> -  inbuf.namelen = init.namelen;
+> >>>> -  inbuf.pageslen = 0;
+> >>>>    fl->pd = USER_PD;
+> >>>>
+> >>>>    args[0].ptr = (u64)(uintptr_t)&inbuf;
+> >>>> --
+> >>>> 2.34.1
+> >>>>
+>
 
->   /**
->    * struct iosys_map - Pointer to IO/system memory
->    * @vaddr_iomem:	The buffer's address if in I/O memory
->    * @vaddr:		The buffer's address if in system memory
-> - * @is_iomem:		True if the buffer is located in I/O memory, or false
-> - *			otherwise.
->    */
->   struct iosys_map {
->   	union {
->   		void __iomem *_vaddr_iomem;
->   		void *_vaddr;
->   	};
-> -	bool _is_iomem;
->   };
->   
->   static inline bool iosys_map_is_iomem(const struct iosys_map *map)
->   {
-> -	return map->_is_iomem;
-> +	return ((unsigned long)map->_vaddr) & _IOSYS_MAP_IS_IOMEM;
->   }
->   
->   static inline void __iomem *iosys_map_ioptr(const struct iosys_map *map)
->   {
-> -	return map->_vaddr_iomem;
-> +	return (void __iomem *)((unsigned long)map->_vaddr_iomem & ~_IOSYS_MAP_IS_IOMEM);
-
-Macros for encoding and decoding the pointer+bit would be preferred. 
-Jani seems to have helpers for that.
-
-Best regards
-Thomas
-
->   }
->   
->   static inline void *iosys_map_ptr(const struct iosys_map *map)
-> @@ -136,7 +134,6 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
->   #define IOSYS_MAP_INIT_VADDR(vaddr_)	\
->   	{				\
->   		._vaddr = (vaddr_),	\
-> -		._is_iomem = false,	\
->   	}
->   
->   /**
-> @@ -145,8 +142,7 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
->    */
->   #define IOSYS_MAP_INIT_VADDR_IOMEM(vaddr_iomem_)	\
->   	{						\
-> -		._vaddr_iomem = (vaddr_iomem_),		\
-> -		._is_iomem = true,			\
-> +		._vaddr_iomem = (void __iomem *)(((unsigned long)(vaddr_iomem_) | _IOSYS_MAP_IS_IOMEM)), \
->   	}
->   
->   /**
-> @@ -198,7 +194,6 @@ static inline void *iosys_map_ptr(const struct iosys_map *map)
->   static inline void iosys_map_set_vaddr(struct iosys_map *map, void *vaddr)
->   {
->   	map->_vaddr = vaddr;
-> -	map->_is_iomem = false;
->   }
->   
->   /**
-> @@ -211,8 +206,7 @@ static inline void iosys_map_set_vaddr(struct iosys_map *map, void *vaddr)
->   static inline void iosys_map_set_vaddr_iomem(struct iosys_map *map,
->   					     void __iomem *vaddr_iomem)
->   {
-> -	map->_vaddr_iomem = vaddr_iomem;
-> -	map->_is_iomem = true;
-> +	map->_vaddr_iomem = (void __iomem *)((unsigned long)vaddr_iomem | _IOSYS_MAP_IS_IOMEM);
->   }
->   
->   /**
-> @@ -229,12 +223,9 @@ static inline void iosys_map_set_vaddr_iomem(struct iosys_map *map,
->   static inline bool iosys_map_is_equal(const struct iosys_map *lhs,
->   				      const struct iosys_map *rhs)
->   {
-> -	if (lhs->_is_iomem != rhs->_is_iomem)
-> +	if (lhs->_vaddr != rhs->_vaddr)
->   		return false;
-> -	else if (lhs->_is_iomem)
-> -		return lhs->_vaddr_iomem == rhs->_vaddr_iomem;
-> -	else
-> -		return lhs->_vaddr == rhs->_vaddr;
-> +	return true;
->   }
->   
->   /**
-> @@ -279,12 +270,7 @@ static inline bool iosys_map_is_set(const struct iosys_map *map)
->    */
->   static inline void iosys_map_clear(struct iosys_map *map)
->   {
-> -	if (map->_is_iomem) {
-> -		map->_vaddr_iomem = NULL;
-> -		map->_is_iomem = false;
-> -	} else {
-> -		map->_vaddr = NULL;
-> -	}
-> +	map->_vaddr = NULL;
->   }
->   
->   /**
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+With best wishes
+Dmitry
