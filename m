@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E508AC053D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 09:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB3FAC0551
+	for <lists+dri-devel@lfdr.de>; Thu, 22 May 2025 09:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D16D10F6FC;
-	Thu, 22 May 2025 07:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF0BB10EF6C;
+	Thu, 22 May 2025 07:13:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="oIgK5zXL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EjlVSen/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id D455610E8EE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 07:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=oS
- HaCqpmVSZUCNlkJRRPH5arZH3pbbqhuy+IBmltDeI=; b=oIgK5zXLDWhi7b0u04
- A73gTuhWH5THecc7SgmkJUtfJdAYNA2vghGQgaRjuEFR4xiM3BlI0+5I5AmD9KpP
- eQstfhQvTX5ZUdHrlUk6Wq1GMTR/xYXSzJ4mEv4JGWdFJvZYl9F6FCVV/3oFSja+
- GNugqQZ2Rx8F3N7l7OgwHLipY=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
- _____wC3TPQpzS5oHcJjDA--.17971S4; 
- Thu, 22 May 2025 15:07:27 +0800 (CST)
-From: oushixiong1025@163.com
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v5 RESEND 3/3] drm/udl: use DRM_GEM_SHMEM_DRIVER_OPS_NO_MAP_SGT
-Date: Thu, 22 May 2025 15:07:14 +0800
-Message-Id: <20250522070714.439824-3-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250522070714.439824-1-oushixiong1025@163.com>
-References: <20250522070714.439824-1-oushixiong1025@163.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23EEB10F8EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 May 2025 07:13:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2025A43A59;
+ Thu, 22 May 2025 07:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1747897984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vpUILtSYAH2sXWWKFYrv/0f+hDKiWRqqvwW165y3kL0=;
+ b=EjlVSen/cEbDVeaJcw5WCzKVVxn5txFTdpxiks7bkfo1UEi7ylEzp+2n5fJiTNB7uhMLnW
+ JpeZM0fvehi4M+bz+0Vsp1RU4VkdLqY0s/ZbPuY/BaGChC5/zMZm/r0bOCfm0Xqy+jn9+r
+ lG8CS1BR6p8vCHVqe1OOMNpSQYzIj0HGEXBOhVFXXpKa5cLA3x28hhcPeBDYwnpeFAVj5N
+ lXggT6vdYqhP4bud9Iuw18H0gN8dLelNnCQlTARG0SIVu5KPe+6wBboe6uz1GhIvvaQe4P
+ VdcsXQ+jX3bMmVp/6cI7NMl/HdeCx7fWH1/MmzS4xUYfsZe5cYwf/sezEFf4DA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Thu, 22 May 2025 09:12:58 +0200
+Subject: [PATCH] drm/bridge: fix build with CONFIG_OF=n
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wC3TPQpzS5oHcJjDA--.17971S4
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWDtrWrArykJF13Xw4fZrb_yoW3urg_uF
- 4ftwsrWFZ8u34Dur1IyFy5Zry29a4ruF4IgF4rta4Syw4xtw1jvryIvrs2v3WUKF4rCF9x
- J397XFsxAF4kCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8YsjUUUUUU==
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYxFVD2guxOrYlAAAsM
+Message-Id: <20250522-devm_drm_put_bridge-fix-non-of-build-v1-1-a05234dea046@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAHnOLmgC/x2NWwqDQAwAryL5bsAG7esqRZauybaBuivZKgXx7
+ g39HBhmNqhiKhVuzQYmq1Yt2eF4aGB8PfJTUNkZqKW+7YmQZZ0C2xTm5ROiKbuS9Iu5ZCwJ46J
+ vxhTj6cx06a7dCJ6aTdz5b+7Dvv8Al5xmmnYAAAA=
+X-Change-ID: 20250522-devm_drm_put_bridge-fix-non-of-build-fbb67d28494c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehfeefucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegvdevuddtleevueefhfdtvdevteefvdfgteejhfdvvdevtefhleffhfehueeigfenucffohhmrghinheptggrthhirhgtlhhoghhsrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhilhhlvgdrshihrhhjrghlrgeslhhinhhugidrihhnthgvlhdrtghom
+ hdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,29 +72,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+Commit 5164553d739e ("drm/bridge: add devm_drm_put_bridge()") adds two
+declarations for devm_drm_put_bridge():
 
-Import dmabuf without mapping its sg_table to avoid issues likes:
-   udl 2-1.4:1.0: swiotlb buffer is full (sz: 2097152 bytes), total 65536 (slots), used 1 (slots)
+ 1) an inline declaration in the #else branch of
+    '#if defined(CONFIG_OF)...'
+ 2) one outside of the same #if
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+This results in a build failure with CONFIG_OF=n:
+
+  ../drivers/gpu/drm/drm_bridge.c:1406:6: error: redefinition of ‘devm_drm_put_bridge’
+
+The function has nothing to do with OF, thus fix by removing declaration 1.
+
+Fixes: 5164553d739e ("drm/bridge: add devm_drm_put_bridge()")
+Reported-by: Ville Syrjala <ville.syrjala@linux.intel.com>
+Closes: https://oftc.catirclogs.org/dri-devel/2025-05-21#34288266;
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/udl/udl_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_bridge.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 1922988625eb..ce5ae7cacb90 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -57,7 +57,7 @@ static const struct drm_driver driver = {
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 464da28f9134f0fcece5c72a8c5fe7f3e42c7e3d..0af5db244db8580ea0c9af1d9a373b7bf62ee699 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1311,8 +1311,6 @@ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+ 	return ERR_PTR(-ENODEV);
+ }
  
- 	/* GEM hooks */
- 	.fops = &udl_driver_fops,
--	DRM_GEM_SHMEM_DRIVER_OPS,
-+	DRM_GEM_SHMEM_DRIVER_OPS_NO_MAP_SGT,
- 	DRM_FBDEV_SHMEM_DRIVER_OPS,
- 
- 	.name = DRIVER_NAME,
+-static inline void devm_drm_put_bridge(struct device *dev, struct drm_bridge *bridge) {}
+-
+ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+ 						     struct device_node *node,
+ 						     u32 port,
+
+---
+base-commit: a3436f63aa4f93b043a970cc72a196a501191ecc
+change-id: 20250522-devm_drm_put_bridge-fix-non-of-build-fbb67d28494c
+
+Best regards,
 -- 
-2.17.1
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
