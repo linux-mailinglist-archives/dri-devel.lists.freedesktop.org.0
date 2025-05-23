@@ -2,90 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311C3AC263F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E597FAC268D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC9210E819;
-	Fri, 23 May 2025 15:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B12910E826;
+	Fri, 23 May 2025 15:35:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VOK1pwMN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6209F10E819
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 15:19:03 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-742c3d06de3so109600b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:19:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748013542; x=1748618342;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KUlujxEaEdi/ZnXb2x/YmWYgGPLEJZ1h5LPkWsQToHU=;
- b=GocgFd/6yuTyhSqasUcz5y6L0FbfNcueRvIAhLbhibUb/ezQXopL+E06G70SbXFJ9l
- /OFQUJ/R03A3wNBLSqI01U4CWB0xRjWLclvjRjTtyyl75t625mrm9L47/NTMwZUjShsS
- +2BkUxpXAyOfzN1v/EIwGb/ZdhQq3bU7G2EdtZJ9joEP3yw4mio2q9aLyo3gcGpn0EUj
- p+SYWsARiHInQ+YPv1vNTVi/sC22qoWhRVjQVy/vBHxIhYI6Cu9URBvo6PRpmnGBZ3ye
- I7Of+flL7voyoIVJJUmFoyfD9sskJY7mM3GPuNRuxowI6wKi1N/1MpJXhlWtheeoujlc
- 9ydA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDkQawHu2QsWubXj4fbH6h/6kD23TOUbjIBcmmjovh3o5TX7V1vz6+bcKLFUjl+sSmMvqWhj+4d0o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpngQvnhh5XrL3Dv+UFOlYcbJHxdt8EwR197KhbGmFcayN7qHw
- BfGBrsn/UDdX34rmBrzstApk6GZR1fCYbMElTblfDrGuVN4iA2jsnR+KmRw+lzF4Q1E=
-X-Gm-Gg: ASbGncu6KjbHVc/WoMfYtSXwy9upz0LHWDwK/ynSEKMWxCcGnj9kx7fScI2LXbeOOTE
- BBGqojDmYDRhjMtE1k9IuEczjrJxh9hs3xgQlPl6bP2lcyGdzXevP1nbdgEmRahItEBp792vASx
- 9Ktkl3e1EOS9nJI65RK2EfzCxWZNXGAJ72SAZGFOqHEpsZuM9mwvAxm6NdqRlzInxdxrwBjvViG
- Zy4bUlUuXvxPcxOSkZQn43xIbagnp0pVvSTXaR2zQr8LKaqPb1PtR2N+Os4UFwn/rIu9uSXqCF7
- FtGinHU5jhrlclQGd+rOSwYOC6L3pHzWM3ozrXnpLdkiUH4uzTjbBU6pO8Z/N1cMTkvWiRKitsX
- HCJiDXamK3EOdtA==
-X-Google-Smtp-Source: AGHT+IGvbGWNL+tzVx6RcR3OFqgd9d7Oe7djujNei6saNl2xSvvUeXRYSlbUED9mCsrXZFGQMQl6fg==
-X-Received: by 2002:a05:620a:2545:b0:7ca:f04a:ab68 with SMTP id
- af79cd13be357-7cd47fd36f4mr3599804885a.58.1748013532035; 
- Fri, 23 May 2025 08:18:52 -0700 (PDT)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com.
- [209.85.219.46]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7cd468bdfb9sm1193327285a.85.2025.05.23.08.18.50
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 May 2025 08:18:50 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id
- 6a1803df08f44-6f2b04a6169so102859686d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:18:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJ9JvRDjR1NhYFMtTehel/S4dH5IZnK1e+ZUU4gryzbxUud1OW3fiKSnCQCZ03czIiUIevpHOQvxY=@lists.freedesktop.org
-X-Received: by 2002:a05:6214:1308:b0:6f8:a7c6:22ca with SMTP id
- 6a1803df08f44-6f8b2c5f2bbmr442981216d6.16.1748013530224; Fri, 23 May 2025
- 08:18:50 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B705210E2C0;
+ Fri, 23 May 2025 15:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fI8cvnf31gEuEY3hkPlTi1dDwqyiSA+yU/6dZPkYH2Y=; b=VOK1pwMNcMEB5Ztz6TR2WFgQTa
+ 35LLdLC5joZEu8sVOGLDZpa18NKlD+JVGBTSVP0qA0UtcluAuAISNvZOGLS0gUazm7aGOqgKMKI4r
+ gBx1McKZ8Mp/cr85qObH8ixV/ybS/Yw03XkCR1N1BKd7mKZrf6vqysckVMYOuNsJO6Ye89cWHpTPU
+ 1Jcym4QThHVWF4qnVpjZZXkuIfKnB95DA8dZD5ZoadFLtqTEquHw7Vj5swkLvrfADvMiws9oxaTiv
+ XMEbatnPnrKtzftifYg/loW93KJ9ALOhsDpgU0fk/9xAxm1/AUmlc6ywfDBV6P319X+MTowXQcVKh
+ zU00eXDg==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uIUQe-00CEoI-7a; Fri, 23 May 2025 17:35:24 +0200
+Message-ID: <f2edc29b-a9ae-46ac-bd4c-8b1cd20a4cd5@igalia.com>
+Date: Fri, 23 May 2025 16:35:23 +0100
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 17:18:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
-X-Gm-Features: AX0GCFsg_XSn4r6_gauahCGD7VbDyx79Ezig6sAhQFHM9qfPwmiMO6CmvkImCB0
-Message-ID: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] drm/sched: Fix teardown leaks with waitqueue
+To: Philipp Stanner <pstanner@redhat.com>, Philipp Stanner
+ <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250522082742.148191-2-phasta@kernel.org>
+ <20250522082742.148191-3-phasta@kernel.org>
+ <1a15598f-da02-46a0-8c41-ef8b765dc177@igalia.com>
+ <44c318c704960c0d0732598773fd256bdfac2fc1.camel@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <44c318c704960c0d0732598773fd256bdfac2fc1.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,234 +70,527 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar, Fabrizio,
 
-On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add DSI support for Renesas RZ/V2H(P) SoC.
->
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 22/05/2025 16:32, Philipp Stanner wrote:
+> On Thu, 2025-05-22 at 14:37 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 22/05/2025 09:27, Philipp Stanner wrote:
+>>> From: Philipp Stanner <pstanner@redhat.com>
+>>>
+>>> The GPU scheduler currently does not ensure that its pending_list
+>>> is
+>>> empty before performing various other teardown tasks in
+>>> drm_sched_fini().
+>>>
+>>> If there are still jobs in the pending_list, this is problematic
+>>> because
+>>> after scheduler teardown, no one will call backend_ops.free_job()
+>>> anymore. This would, consequently, result in memory leaks.
+>>>
+>>> One way to solve this is to implement a waitqueue that
+>>> drm_sched_fini()
+>>> blocks on until the pending_list has become empty. That waitqueue
+>>> must
+>>> obviously not block for a significant time. Thus, it's necessary to
+>>> only
+>>> wait if it's guaranteed that all fences will get signaled quickly.
+>>>
+>>> This can be ensured by having the driver implement a new backend
+>>> ops,
+>>> cancel_pending_fences(), in which the driver shall signal all
+>>> unsignaled, in-flight fences with an error.
+>>>
+>>> Add a waitqueue to struct drm_gpu_scheduler. Wake up waiters once
+>>> the
+>>> pending_list becomes empty. Wait in drm_sched_fini() for that to
+>>> happen
+>>> if cancel_pending_fences() is implemented.
+>>>
+>>> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_main.c | 105
+>>> ++++++++++++++++++++-----
+>>>    include/drm/gpu_scheduler.h            |  19 +++++
+>>>    2 files changed, 105 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index f7118497e47a..406572f5168e 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -367,7 +367,7 @@ static void drm_sched_run_job_queue(struct
+>>> drm_gpu_scheduler *sched)
+>>>     */
+>>>    static void __drm_sched_run_free_queue(struct drm_gpu_scheduler
+>>> *sched)
+>>>    {
+>>> -	if (!READ_ONCE(sched->pause_submit))
+>>> +	if (!READ_ONCE(sched->pause_free))
+>>>    		queue_work(sched->submit_wq, &sched-
+>>>> work_free_job);
+>>>    }
+>>>    
+>>> @@ -1121,6 +1121,12 @@ drm_sched_get_finished_job(struct
+>>> drm_gpu_scheduler *sched)
+>>>    		/* remove job from pending_list */
+>>>    		list_del_init(&job->list);
+>>>    
+>>> +		/*
+>>> +		 * Inform tasks blocking in drm_sched_fini() that
+>>> it's now safe to proceed.
+>>> +		 */
+>>> +		if (list_empty(&sched->pending_list))
+>>> +			wake_up(&sched->pending_list_waitque);
+>>
+>> Wait what? ;) (pun intended)
+>>
+>> I think I mentioned in the last round that waitque looks dodgy.
+>> Either a
+>> typo or a very unusual and novel shorthand? I suggest a typical wq or
+>> waitqueue.
+> 
+> Ah right, I forgot about that.
+> 
+>>
+>> I also mentioned that one more advantage of the ->cancel_job()
+>> approach
+>> is there is no need for these extra calls on the normal path (non
+>> teardown) at all.
+> 
+> Yes, agreed, that's a tiny performance gain. But it's running in a
+> workqueue, so no big deal. But see below, too
+> 
+>>
+>>> +
+>>>    		/* cancel this job's TO timer */
+>>>    		cancel_delayed_work(&sched->work_tdr);
+>>>    		/* make the scheduled timestamp more accurate */
+>>> @@ -1326,6 +1332,7 @@ int drm_sched_init(struct drm_gpu_scheduler
+>>> *sched, const struct drm_sched_init_
+>>>    	init_waitqueue_head(&sched->job_scheduled);
+>>>    	INIT_LIST_HEAD(&sched->pending_list);
+>>>    	spin_lock_init(&sched->job_list_lock);
+>>> +	init_waitqueue_head(&sched->pending_list_waitque);
+>>>    	atomic_set(&sched->credit_count, 0);
+>>>    	INIT_DELAYED_WORK(&sched->work_tdr,
+>>> drm_sched_job_timedout);
+>>>    	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+>>> @@ -1333,6 +1340,7 @@ int drm_sched_init(struct drm_gpu_scheduler
+>>> *sched, const struct drm_sched_init_
+>>>    	atomic_set(&sched->_score, 0);
+>>>    	atomic64_set(&sched->job_id_count, 0);
+>>>    	sched->pause_submit = false;
+>>> +	sched->pause_free = false;
+>>>    
+>>>    	sched->ready = true;
+>>>    	return 0;
+>>> @@ -1350,33 +1358,90 @@ int drm_sched_init(struct drm_gpu_scheduler
+>>> *sched, const struct drm_sched_init_
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_init);
+>>>    
+>>> +/**
+>>> + * drm_sched_submission_and_timeout_stop - stop everything except
+>>> for free_job
+>>> + * @sched: scheduler instance
+>>> + *
+>>> + * Helper for tearing down the scheduler in drm_sched_fini().
+>>> + */
+>>> +static void
+>>> +drm_sched_submission_and_timeout_stop(struct drm_gpu_scheduler
+>>> *sched)
+>>> +{
+>>> +	WRITE_ONCE(sched->pause_submit, true);
+>>> +	cancel_work_sync(&sched->work_run_job);
+>>> +	cancel_delayed_work_sync(&sched->work_tdr);
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_sched_free_stop - stop free_job
+>>> + * @sched: scheduler instance
+>>> + *
+>>> + * Helper for tearing down the scheduler in drm_sched_fini().
+>>> + */
+>>> +static void drm_sched_free_stop(struct drm_gpu_scheduler *sched)
+>>> +{
+>>> +	WRITE_ONCE(sched->pause_free, true);
+>>> +	cancel_work_sync(&sched->work_free_job);
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_sched_no_jobs_pending - check whether jobs are pending
+>>> + * @sched: scheduler instance
+>>> + *
+>>> + * Checks if jobs are pending for @sched.
+>>> + *
+>>> + * Return: true if jobs are pending, false otherwise.
+>>> + */
+>>> +static bool drm_sched_no_jobs_pending(struct drm_gpu_scheduler
+>>> *sched)
+>>> +{
+>>> +	bool empty;
+>>> +
+>>> +	spin_lock(&sched->job_list_lock);
+>>> +	empty = list_empty(&sched->pending_list);
+>>> +	spin_unlock(&sched->job_list_lock);
+>>> +
+>>> +	return empty;
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_sched_cancel_jobs_and_wait - trigger freeing of all pending
+>>> jobs
+>>> + * @sched: scheduler instance
+>>> + *
+>>> + * Must only be called if &struct
+>>> drm_sched_backend_ops.cancel_pending_fences is
+>>> + * implemented.
+>>> + *
+>>> + * Instructs the driver to kill the fence context associated with
+>>> this scheduler,
+>>> + * thereby signaling all pending fences. This, in turn, will
+>>> trigger
+>>> + * &struct drm_sched_backend_ops.free_job to be called for all
+>>> pending jobs.
+>>> + * The function then blocks until all pending jobs have been
+>>> freed.
+>>> + */
+>>> +static void drm_sched_cancel_jobs_and_wait(struct
+>>> drm_gpu_scheduler *sched)
+>>> +{
+>>> +	sched->ops->cancel_pending_fences(sched);
+>>> +	wait_event(sched->pending_list_waitque,
+>>> drm_sched_no_jobs_pending(sched));
+>>> +}
+>>> +
+>>>    /**
+>>>     * drm_sched_fini - Destroy a gpu scheduler
+>>>     *
+>>>     * @sched: scheduler instance
+>>>     *
+>>> - * Tears down and cleans up the scheduler.
+>>> - *
+>>> - * This stops submission of new jobs to the hardware through
+>>> - * drm_sched_backend_ops.run_job(). Consequently,
+>>> drm_sched_backend_ops.free_job()
+>>> - * will not be called for all jobs still in
+>>> drm_gpu_scheduler.pending_list.
+>>> - * There is no solution for this currently. Thus, it is up to the
+>>> driver to make
+>>> - * sure that:
+>>> - *
+>>> - *  a) drm_sched_fini() is only called after for all submitted
+>>> jobs
+>>> - *     drm_sched_backend_ops.free_job() has been called or that
+>>> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not
+>>> been called
+>>> - *     after drm_sched_fini() ran are freed manually.
+>>> - *
+>>> - * FIXME: Take care of the above problem and prevent this function
+>>> from leaking
+>>> - * the jobs in drm_gpu_scheduler.pending_list under any
+>>> circumstances.
+>>> + * Tears down and cleans up the scheduler. Might leak memory if
+>>> + * &struct drm_sched_backend_ops.cancel_pending_fences is not
+>>> implemented.
+>>>     */
+>>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>>>    {
+>>>    	struct drm_sched_entity *s_entity;
+>>>    	int i;
+>>>    
+>>> -	drm_sched_wqueue_stop(sched);
+>>> +	if (sched->ops->cancel_pending_fences) {
+>>> +		drm_sched_submission_and_timeout_stop(sched);
+>>> +		drm_sched_cancel_jobs_and_wait(sched);
+>>> +		drm_sched_free_stop(sched);
+>>> +	} else {
+>>> +		/* We're in "legacy free-mode" and ignore
+>>> potential mem leaks */
+>>> +		drm_sched_wqueue_stop(sched);
+>>> +	}
+>>>    
+>>>    	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs;
+>>> i++) {
+>>>    		struct drm_sched_rq *rq = sched->sched_rq[i];
+>>> @@ -1464,7 +1529,7 @@ bool drm_sched_wqueue_ready(struct
+>>> drm_gpu_scheduler *sched)
+>>>    EXPORT_SYMBOL(drm_sched_wqueue_ready);
+>>>    
+>>>    /**
+>>> - * drm_sched_wqueue_stop - stop scheduler submission
+>>> + * drm_sched_wqueue_stop - stop scheduler submission and freeing
+>>>     * @sched: scheduler instance
+>>>     *
+>>>     * Stops the scheduler from pulling new jobs from entities. It
+>>> also stops
+>>> @@ -1473,13 +1538,14 @@ EXPORT_SYMBOL(drm_sched_wqueue_ready);
+>>>    void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
+>>>    {
+>>>    	WRITE_ONCE(sched->pause_submit, true);
+>>> +	WRITE_ONCE(sched->pause_free, true);
+>>>    	cancel_work_sync(&sched->work_run_job);
+>>>    	cancel_work_sync(&sched->work_free_job);
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>>>    
+>>>    /**
+>>> - * drm_sched_wqueue_start - start scheduler submission
+>>> + * drm_sched_wqueue_start - start scheduler submission and freeing
+>>>     * @sched: scheduler instance
+>>>     *
+>>>     * Restarts the scheduler after drm_sched_wqueue_stop() has
+>>> stopped it.
+>>> @@ -1490,6 +1556,7 @@ EXPORT_SYMBOL(drm_sched_wqueue_stop);
+>>>    void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+>>>    {
+>>>    	WRITE_ONCE(sched->pause_submit, false);
+>>> +	WRITE_ONCE(sched->pause_free, false);
+>>>    	queue_work(sched->submit_wq, &sched->work_run_job);
+>>>    	queue_work(sched->submit_wq, &sched->work_free_job);
+>>>    }
+>>> diff --git a/include/drm/gpu_scheduler.h
+>>> b/include/drm/gpu_scheduler.h
+>>> index d860db087ea5..d8bd5b605336 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -29,6 +29,7 @@
+>>>    #include <linux/completion.h>
+>>>    #include <linux/xarray.h>
+>>>    #include <linux/workqueue.h>
+>>> +#include <linux/wait.h>
+>>>    
+>>>    #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>>>    
+>>> @@ -508,6 +509,19 @@ struct drm_sched_backend_ops {
+>>>             * and it's time to clean it up.
+>>>    	 */
+>>>    	void (*free_job)(struct drm_sched_job *sched_job);
+>>> +
+>>> +	/**
+>>> +	 * @cancel_pending_fences: cancel all unsignaled hardware
+>>> fences
+>>> +	 *
+>>> +	 * This callback must signal all unsignaled hardware
+>>> fences associated
+>>> +	 * with @sched with an appropriate error code (e.g., -
+>>> ECANCELED). This
+>>> +	 * ensures that all jobs will get freed by the scheduler
+>>> before
+>>> +	 * teardown.
+>>> +	 *
+>>> +	 * This callback is optional, but it is highly recommended
+>>> to implement
+>>> +	 * it to avoid memory leaks.
+>>> +	 */
+>>> +	void (*cancel_pending_fences)(struct drm_gpu_scheduler
+>>> *sched);
+>>
+>> I still don't understand why insist to use a new term in the backend
+>> ops, and even the whole scheduler API. Nothing in the API so far has
+>> fences in the name. Something like cancel(_all|pending)_jobs or
+>> sched_fini would read more aligned with the rest to me.
+> 
+> Nothing has fences in the name, but they are the central concept of the
+> API: run_job() returns them, and they are the main mechanism through
+> which scheduler and driver communicate.
+> 
+> As mentioned in the other mail, the idea behind the callback is to get
+> all hardware fences signaled. Just that. That's a simple, well
+> established concept, easy to understand by drivers. In contrast, it
+> would be far less clear what "cancel" even means. That's evident from
+> the other patch where we're suddenly wondering whether the driver
+> should also cancel timers etc. in the callback.
 
-Thanks for your patch!
+That mock scheduler uses the hrtimers to simulate a GPU and so that uses 
+hrtimer_cancel() to cancel a job is irrelevant for the discussion about 
+the name cancel in the DRM scheduler API. That is just implementation 
+detail. It could have been using a thread or a workqueue, or whatever.
 
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2022 Renesas Electronics Corporation
->   */
->  #include <linux/clk.h>
-> +#include <linux/clk/renesas-rzv2h-dsi.h>
->  #include <linux/delay.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
-> @@ -30,6 +31,9 @@
->
->  #define RZ_MIPI_DSI_FEATURE_16BPP      BIT(0)
->
-> +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA       (80 * MEGA)
-> +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA       (1500 * MEGA)
+Besides, I don't see how you can argue against the name cancel if I 
+propose cancel_(all|pending_)jobs() and you are proposing 
+cancel_pending_fences().
 
-RZV2H_MIPI_DPHY_FOUT_M{IN,AX}_IN_MHZ?
+> It should not. The contract is simple: "signal everything".
+> 
+> It's also more difficult to abuse, since signaling is always valid. But
+> when is canceling valid?
+> 
+> Considering how internal APIs have been abused in the past, I can very
+> well see some party using a cancel_job() callback in the future to
+> "cancel" single jobs, for example in our (still unsolved)
+> resubmit_jobs() problem.
 
-> +
->  struct rzg2l_mipi_dsi;
->
->  struct rzg2l_mipi_dsi_hw_info {
-> @@ -40,6 +44,7 @@ struct rzg2l_mipi_dsi_hw_info {
->                               u64 *hsfreq_millihz);
->         unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
->                                             unsigned long mode_freq);
-> +       const struct rzv2h_pll_div_limits *cpg_dsi_limits;
->         u32 phy_reg_offset;
->         u32 link_reg_offset;
->         unsigned long max_dclk;
-> @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
->         u8 features;
->  };
->
-> +struct rzv2h_dsi_mode_calc {
-> +       unsigned long mode_freq;
-> +       u64 mode_freq_hz;
+I don't know but this feels a bit of a stretch. It would not be 
+scheduler internal API, but a vfunc driver provided to the scheduler. If 
+the driver then decides to call it outside the scheduler paths it can do 
+that today with other vfuncs too. Or worse.
 
-Interesting... I guess mode_freq is not in Hz?
+And it would be well defined in the API contract as something scheduler 
+calls in order on scheduler shutdown.
+  >>>    };
+>>>    
+>>>    /**
+>>> @@ -533,6 +547,8 @@ struct drm_sched_backend_ops {
+>>>     *            timeout interval is over.
+>>>     * @pending_list: the list of jobs which are currently in the job
+>>> queue.
+>>>     * @job_list_lock: lock to protect the pending_list.
+>>> + * @pending_list_waitque: a waitqueue for drm_sched_fini() to
+>>> block on until all
+>>> + *		          pending jobs have been finished.
+>>>     * @hang_limit: once the hangs by a job crosses this limit then
+>>> it is marked
+>>>     *              guilty and it will no longer be considered for
+>>> scheduling.
+>>>     * @score: score to help loadbalancer pick a idle sched
+>>> @@ -540,6 +556,7 @@ struct drm_sched_backend_ops {
+>>>     * @ready: marks if the underlying HW is ready to work
+>>>     * @free_guilty: A hit to time out handler to free the guilty
+>>> job.
+>>>     * @pause_submit: pause queuing of @work_run_job on @submit_wq
+>>> + * @pause_free: pause queueing of @work_free_job on @submit_wq
+>>>     * @own_submit_wq: scheduler owns allocation of @submit_wq
+>>>     * @dev: system &struct device
+>>>     *
+>>> @@ -562,12 +579,14 @@ struct drm_gpu_scheduler {
+>>>    	struct delayed_work		work_tdr;
+>>>    	struct list_head		pending_list;
+>>>    	spinlock_t			job_list_lock;
+>>> +	wait_queue_head_t		pending_list_waitque;
+>>>    	int				hang_limit;
+>>>    	atomic_t                        *score;
+>>>    	atomic_t                        _score;
+>>>    	bool				ready;
+>>>    	bool				free_guilty;
+>>>    	bool				pause_submit;
+>>> +	bool				pause_free;
+>>>    	bool				own_submit_wq;
+>>>    	struct device			*dev;
+>>>    };
+>>
+>> And, as you know, another thing I don't understand is why would we
+>> choose to add more of the state machine when I have shown how it can
+>> be
+>> done more elegantly. You don't have to reply, this is more a for the
+>> record against v3.
+> 
+> I do like your approach to a degree, and I reimplemented and tested it
+> during the last days! Don't think I just easily toss aside a good idea;
+> in fact, weighing between both approaches did cause me some headache :)
+> 
+> The thing is that while implementing it for the unit tests (not even to
+> begin with Nouveau, where the implementation is a bit more difficult
+> because some helpers need to be moved), I ran into a ton of faults
+> because of how the tests are constructed. When do I have to cancel
+> which timer for which job, all before calling drm_sched_fini(), or each
+> one separately in cancel_job()? What about timedout jobs?
+> 
+> This [1] for exmaple is an implementation attempt I made which differs
+> only slightly from yours but does not work and causes all sorts of
+> issues with timer interrupts.
+> 
+> Now, that could obviously be fixed, and maybe I fail – but the thing
+> is, if I can fail, others can, too. And porting the unit tests is a
+> good beta-test.
 
-> +};
-> +
->  struct rzg2l_mipi_dsi {
->         struct device *dev;
->         void __iomem *mmio;
+Well you did not come up with the whole series also in a day, took quite 
+some time, so the fact converting unit tests also took some time is not 
+a red flag for any approach.
 
-> +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq)
-> +{
-> +       static const unsigned long hsfreq[] = {
-> +               1953125UL,
-> +               3906250UL,
-> +               7812500UL,
-> +               15625000UL,
-> +       };
-> +       static const u16 ulpsexit[] = {49, 98, 195, 391};
-> +       unsigned int i;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(hsfreq); i++) {
-> +               if (freq <= hsfreq[i])
-> +                       break;
-> +       }
-> +
-> +       if (i == ARRAY_SIZE(hsfreq))
-> +               i -= 1;
+> When you look at the waitqueue solution, it is easy to implement for
+> both Nouveau and sched/tests, with minimal adjustments. My approach
+> works for both and is already well tested in Nouveau.
+> 
+> The ease with which it can be used and the simplicity of the contract
+> ("signal all fences!") gives me confidence that this is, despite the
+> larger state machine, more maintainable and that it's easier to port
+> other drivers to the new cleanup method. I've had some success with
+> similar approaches when cleaning up 16 year old broken PCI code [2].
+> 
+> Moreover, our long term goal should anyways be to, ideally, port all
+> drivers to the new cleanup design and then make the callback mandatory.
+> Then some places in drm_sched_fini() can be cleaned up, too.
+> 
+> Besides, the above reasons like the resistence against abuse of a
+> cancel_job() also apply.
+> 
+> 
+> Does that sound convincing? :)
 
-i--
+Not yet I'm afraid.
 
-> +
-> +       return ulpsexit[i];
-> +}
-> +
-> +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
-> +{
-> +       const struct rzv2h_mipi_dsi_timings *timings;
-> +       u16 i;
-> +
-> +       timings = &rzv2h_dsi_timings_tables[index];
-> +       for (i = 0; i < timings->len; i++) {
-> +               unsigned long hsfreq = timings->hsfreq[i] * 10000000UL;
+If I look at the nouveau implementation I see eventually this:
 
-(I wanted to say "MEGA", but then I noticed the 7th zero ;-)
+nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+{
+	struct nouveau_fence *fence, *tmp;
+	unsigned long flags;
 
-10 * MEGA?
+	spin_lock_irqsave(&fctx->lock, flags);
+	list_for_each_entry_safe(fence, tmp, &fctx->pending, head) {
+		if (error && !dma_fence_is_signaled_locked(&fence->base))
+			dma_fence_set_error(&fence->base, error);
 
-> +
-> +               if (freq <= hsfreq)
-> +                       break;
-> +       }
-> +
-> +       if (i == timings->len)
-> +               i -= 1;
+		if (nouveau_fence_signal(fence))
+			nvif_event_block(&fctx->event);
+	}
+	fctx->killed = 1;
+	spin_unlock_irqrestore(&fctx->lock, flags);
+}
 
-i--
 
-> +
-> +       return timings->start_index + i;
-> +};
-> +
->  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 reg, u32 data)
->  {
->         iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
-> @@ -308,6 +479,158 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
->         return 0;
->  }
->
-> +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *dsi,
-> +                                             unsigned long mode_freq)
-> +{
-> +       struct rzv2h_plldsi_parameters *dsi_parameters = &dsi->dsi_parameters;
-> +       u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
-> +       struct rzv2h_plldsi_parameters cpg_dsi_parameters;
-> +       unsigned int bpp, i;
-> +
-> +       bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-> +
-> +       for (i = 0; i < 10; i += 1) {
-> +               unsigned long hsfreq;
-> +               bool parameters_found;
-> +
-> +               mode_freq_hz = mode_freq * MILLI + i;
+While my proposal was to have this in the scheduler core:
 
-KILO?
+  void drm_sched_fini(struct drm_gpu_scheduler *sched)
+  {
+@@ -1397,6 +1395,15 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+         /* Confirm no work left behind accessing device structures */
+         cancel_delayed_work_sync(&sched->work_tdr);
 
-And I guess you want to use mul_u32_u32(), as mode_freq_hz is u64?
++       if (sched->ops->cancel_job) {
++               struct drm_sched_job *job;
++
++               list_for_each_entry_reverse(job, &sched->pending_list, 
+list) {
++                       sched->ops->cancel_job(job);
++                       sched->ops->free_job(job);
++               }
++       }
 
-> +               mode_freq_millihz = mode_freq_hz * MILLI * 1ULL;
+Really similar loops. Would it be good match to make 
+nouveau_cancel_job() simply like:
 
-Why * 1ULL?
+	spin_lock_irqsave(&fctx->lock, flags);
+	if (!dma_fence_is_signaled_locked(&fence->base))
+		dma_fence_set_error(&fence->base, ECANCELED);
 
-> +               parameters_found = rzv2h_dsi_get_pll_parameters_values(dsi->info->cpg_dsi_limits,
-> +                                                                      &cpg_dsi_parameters,
-> +                                                                      mode_freq_millihz);
-> +               if (!parameters_found)
-> +                       continue;
-> +
-> +               hsfreq_millihz = DIV_ROUND_CLOSEST_ULL(cpg_dsi_parameters.freq_millihz * bpp,
-> +                                                      dsi->lanes);
-> +               parameters_found = rzv2h_dsi_get_pll_parameters_values(&rzv2h_plldsi_div_limits,
-> +                                                                      dsi_parameters,
-> +                                                                      hsfreq_millihz);
-> +               if (!parameters_found)
-> +                       continue;
-> +
-> +               if (abs(dsi_parameters->error_millihz) >= 500)
-> +                       continue;
-> +
-> +               hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
-> +               if (hsfreq >= RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA &&
-> +                   hsfreq <= RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA) {
-> +                       dsi->mode_calc.mode_freq_hz = mode_freq_hz;
-> +                       dsi->mode_calc.mode_freq = mode_freq;
-> +                       return MODE_OK;
-> +               }
-> +       }
-> +
-> +       return MODE_CLOCK_RANGE;
-> +}
+	if (nouveau_fence_signal(fence))
+		nvif_event_block(&fctx->event);
 
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> @@ -40,6 +40,39 @@
->  #define DSIDPHYTIM3_THS_TRAIL(x)       ((x) << 8)
->  #define DSIDPHYTIM3_THS_ZERO(x)                ((x) << 0)
->
-> +/* RZ/V2H DPHY Registers */
-> +#define PLLENR                         0x000
-> +#define PLLENR_PLLEN                   BIT(0)
-> +
-> +#define PHYRSTR                                0x004
-> +#define PHYRSTR_PHYMRSTN               BIT(0)
-> +
-> +#define PLLCLKSET0R                    0x010
-> +#define PLLCLKSET0R_PLL_S(x)           ((x) << 0)
+	spin_unlock_irqrestore(&fctx->lock, flags);
 
- #define PLLCLKSET0R_PLL_S GENMASK(2, 0)
+Assuming you can get to fctx from the fence. That doesn't work?
 
-and after that you can use FIELD_PREP(PLLCLKSET0R_PLL_S, x) in the code.
-More opportunities for masks below...
+Or those chan->killed and fctx->killed are critical and have to happen 
+before/after canceling jobs?
 
-> +#define PLLCLKSET0R_PLL_P(x)           ((x) << 8)
-> +#define PLLCLKSET0R_PLL_M(x)           ((x) << 16)
-> +
-> +#define PLLCLKSET1R                    0x014
-> +#define PLLCLKSET1R_PLL_K(x)           ((x) << 0)
-> +
-> +#define PHYTCLKSETR                    0x020
-> +#define PHYTCLKSETR_TCLKTRAILCTL(x)    ((x) << 0)
-> +#define PHYTCLKSETR_TCLKPOSTCTL(x)     ((x) << 8)
-> +#define PHYTCLKSETR_TCLKZEROCTL(x)     ((x) << 16)
-> +#define PHYTCLKSETR_TCLKPRPRCTL(x)     ((x) << 24)
-> +
-> +#define PHYTHSSETR                     0x024
-> +#define PHYTHSSETR_THSEXITCTL(x)       ((x) << 0)
-> +#define PHYTHSSETR_THSTRAILCTL(x)      ((x) << 8)
-> +#define PHYTHSSETR_THSZEROCTL(x)       ((x) << 16)
-> +#define PHYTHSSETR_THSPRPRCTL(x)       ((x) << 24)
-> +
-> +#define PHYTLPXSETR                    0x028
-> +#define PHYTLPXSETR_TLPXCTL(x)         ((x) << 0)
-> +
-> +#define PHYCR                          0x030
-> +#define PHYCR_ULPSEXIT(x)              ((x) << 0)
-> +
->  /* --------------------------------------------------------*/
->
->  /* Link Status Register */
+Regards,
 
-Gr{oetje,eeting}s,
+Tvrtko
 
-                        Geert
+> P.
+> 
+> 
+> [1] https://paste.debian.net/1376021/
+> [2] https://lore.kernel.org/linux-pci/20250520085938.GB261485@rocinante/T/#m6e28eabdb22286238545c1fa6026445a4001d8e2
+> 
+> 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+> 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
