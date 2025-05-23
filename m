@@ -2,65 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E05AC1D65
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 08:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13CCAC1D6C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 09:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E580710E7C1;
-	Fri, 23 May 2025 06:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D7C10E779;
+	Fri, 23 May 2025 07:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kBNzSzm7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="goDGI+/F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 429AB10E7A9;
- Fri, 23 May 2025 06:59:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6B5C562A6A;
- Fri, 23 May 2025 06:59:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0292C4CEE9;
- Fri, 23 May 2025 06:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1747983545;
- bh=oQB6Ln9MA/kBU//SsjcArG0iT9q+cUOskiIh8YOOv1w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kBNzSzm79lnwPHi4IveJs23sYMPLVjmZaelESuluDDtMVYGZi3YXSkKk3xSNSkhZf
- mHpunarmtrSaa4/8QJZ1Ka8CcpOJlmiwvkBGeo5i9HhpQ7YplJ+V+OKKMW8byhCCaj
- WRs9o77RPoMywOVEfAuZaJc38ia2UDymCfYv4nyC99vMKVWbfHdExG7Gr9KiNTebY2
- Gak1QoFa+VeyYhkrMp7QiYIwDsp/7VXcASN/rf1afmfO+LFv6hT5WhSaD5BwzAT/7y
- zvltuKTTpctBZ5Q5G/BGtu/BOPclpwBJsDyzfuudSR5Ga2Gg4DYN5QsB+pMsibBSIM
- AyEj5ujgcDYaQ==
-Date: Fri, 23 May 2025 08:58:58 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- phasta@kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8D510E779
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:02:08 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-442ed8a275fso111018475e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 00:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1747983726; x=1748588526; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=y3chgsoPjsxPJjeKJHvKUZQo0VoemKGDA7Ek6bDVj68=;
+ b=goDGI+/Fg6YLJP1ay0nRax041ndwC5ggLvA2hhzaPrN6OCyhMZR8rd0ht4qZBKWeAf
+ ucVCLnxSXfqJOykeg/YauS6z1SOWYmC1gvqXGldWoGXxuTSvRpmmNOjbs0zUfbjnKFz7
+ xo64ocLZuHL3W880EnZuWajd3wwhXCFCHKAdBb+keV3LunrJshHWKMnW0FfyfpvIAO/N
+ 82z7dLspXat67QUta4eygoEkEg/qbdbKmEwndi3PgbeqRmdUV+v/YrJqJDY/srBVRWa4
+ zbkPjFpjngPhbk9hsC45jUr2z34acUtlDkMk9VicfPoz6E/7FpE0eDDmq3qYY9lxUZKZ
+ urVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747983726; x=1748588526;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y3chgsoPjsxPJjeKJHvKUZQo0VoemKGDA7Ek6bDVj68=;
+ b=ZJavF2VXu2ucFU7i/QlJCkYRea+7gBzw0xhjCeUphLVfCZbV9WyECGdfn1B70Wk4DP
+ r9P678lGqIzgB81gyotOrg7W9hl6qumt9T0S83rvkDIU+WCm0S8gIUjfJWCUYQae32e7
+ TltCnAheSg5wnzgms2Y41s2MEmpgPxfRj8deN9BltX4eXAJGQqJZwCs7iMhoAXaXVEpR
+ CI7aE3emDLJrPK97+ZRGaMna2tghJ1qUP9i5x2buwJCgiGjj2DPw+wMGCupVCnNNznTz
+ D+U1IVqmLHYldv4NDsns1EeH66npc90mu4uK/IWhV56ID6DCdbp5wZFXgHxp0zy3WLgm
+ J72Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVaRD34ZW3FmWXz9bCgFLUa6IhmJUiNZQSj0HrsR2zKakbi+llP3gNKxk61Weq/EdsTuPbiuD1wqsQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyi8AV50lunS9A7sCiEtp09dyRdcrUqtQKMAoVf8GpGQLfROSXI
+ iA47c57LzdWQXs8rCDQfMoazIPlt3b2rgbUu41GHqyDaVzM0KBB3bDrkVFizNK0CFdA=
+X-Gm-Gg: ASbGncvBfm2UB+/szimasf202QOuSIewXNgc6XqXjLWlCAV+auA2oN6jbCNjY4W2mnN
+ 7S6VmagbRQ+glQlubbxCopTmBSGCDGjjI+SPy2KjJ5oEIHaw0ewEYNm626rcfQF++DmmgGk7D8J
+ BNz4VM8gTJJXLAbHhwuO6ZREmRBc7dYfRU2lsEW6DSct0gqeCFM8GcQ6xv6f2UncIcadPGC+mbd
+ AINxSrWmFaGahrc1Khakxa/ISg5y4Zzfc8LP+T47KD8mNHrvlVpjSOOoy8xY5buxy0cYGHVhA7g
+ 1LL+eLHUuLN1EYlrZ0L4H0Uf7WEwUcyxh8KmxR/dAgDee0s+
+X-Google-Smtp-Source: AGHT+IFY4y/ZUB1VKe4lNbsorjCqofEy8Oz5r/Dj6XfZyxk0qjzrM+uoTb7F1fSElFjmjBLoR4SC6w==
+X-Received: by 2002:a05:600c:8487:b0:43d:160:cd9e with SMTP id
+ 5b1f17b1804b1-44b6d6b1fdbmr13812575e9.17.1747983726219; 
+ Fri, 23 May 2025 00:02:06 -0700 (PDT)
+Received: from linaro.org ([62.231.96.41]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-447f18251adsm134886385e9.2.2025.05.23.00.02.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 May 2025 00:02:05 -0700 (PDT)
+Date: Fri, 23 May 2025 10:02:03 +0300
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
-Message-ID: <aDAcsvVaRQopkc6U@pollux>
-References: <aCY42rgJC4sQ4tp4@pollux>
- <CAF6AEGubHkdhfJz=bAZvctO1aTKDLwRsRyPzkoVrQ7tA6dRbKw@mail.gmail.com>
- <aCwqAGLLCC2ZLSBK@pollux>
- <CAF6AEGspvuTHU0t9z__p_HkdRNi=cXir3t453AbR6DFNzDpgvw@mail.gmail.com>
- <aCyzyAPbQ1SYbo4q@pollux>
- <CAF6AEGs+WmTO_624A3Pek-1-SD6B4PFu4sDv3htko0ABhfHFzw@mail.gmail.com>
- <aC8Dzgufa9E2MD6t@pollux>
- <CAF6AEGvkrN8H1ZPzrCQF+d_Y_Y5kRdeQjohDqcgpNd-uDKo9yQ@mail.gmail.com>
- <aC9Iih1KN6xb9LrK@cassiopeiae>
- <CAF6AEGvp6BCN14_n+Ot5KQrPbnDprKXcHT0s0ZLC2-JDV7D3TQ@mail.gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, linux-clk@vger.kernel.org,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v5 21/24] drm/msm/dpu: Implement 10-bit color alpha for
+ v12.0 DPU
+Message-ID: <aDAdax7xdeDsvQHB@linaro.org>
+References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
+ <20250430-b4-sm8750-display-v5-21-8cab30c3e4df@linaro.org>
+ <aDAbxAnCN1lGGcGH@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvp6BCN14_n+Ot5KQrPbnDprKXcHT0s0ZLC2-JDV7D3TQ@mail.gmail.com>
+In-Reply-To: <aDAbxAnCN1lGGcGH@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,140 +107,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 07:31:28PM -0700, Rob Clark wrote:
-> On Thu, May 22, 2025 at 8:53 AM Danilo Krummrich <dakr@kernel.org> wrote:
-> > On Thu, May 22, 2025 at 07:47:17AM -0700, Rob Clark wrote:
-> > > On Thu, May 22, 2025 at 4:00 AM Danilo Krummrich <dakr@kernel.org> wrote:
-> > > > Ok, but what about the other way around? What's the performance impact if the
-> > > > limit is chosen rather small, but we're running on a very powerful machine?
-> > > >
-> > > > Since you already have the implementation for hardware you have access to, can
-> > > > you please check if and how performance degrades when you use a very small
-> > > > threshold?
-> > >
-> > > I mean, considering that some drivers (asahi, at least), _only_
-> > > implement synchronous VM_BIND, I guess blocking in extreme cases isn't
-> > > so bad.
-> >
-> > Which is not even upstream yet and eventually will support async VM_BIND too,
-> > AFAIK.
+On 25-05-23 09:55:00, Abel Vesa wrote:
+> On 25-04-30 15:00:51, Krzysztof Kozlowski wrote:
+> > v12.0 DPU on SM8750 comes with 10-bit color alpha.  Add register
+> > differences and new implementations of setup_alpha_out(),
+> > setup_border_color() and setup_blend_config().
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > 
+> > ---
+> > 
+> > Changes in v4:
+> > 1. Lowercase hex, use spaces for define indentation
+> > 2. _dpu_crtc_setup_blend_cfg(): pass mdss_ver instead of ctl
+> > 
+> > Changes in v3:
+> > 1. New patch, split from previous big DPU v12.0.
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 19 ++++---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c | 84 +++++++++++++++++++++++++++++--
+> >  2 files changed, 94 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > index a4b0fe0d9899b32141928f0b6a16503a49b3c27a..90f47fc15ee5708795701d78a1380f4ab01c1427 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -320,14 +320,20 @@ static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+> >  }
+> >  
+> >  static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+> > -		struct dpu_plane_state *pstate, const struct msm_format *format)
+> > +				      struct dpu_plane_state *pstate,
+> > +				      const struct msm_format *format,
+> > +				      const struct dpu_mdss_version *mdss_ver)
+> >  {
+> >  	struct dpu_hw_mixer *lm = mixer->hw_lm;
+> >  	uint32_t blend_op;
+> > -	uint32_t fg_alpha, bg_alpha;
+> > +	uint32_t fg_alpha, bg_alpha, max_alpha;
+> >  
+> >  	fg_alpha = pstate->base.alpha >> 8;
 > 
-> the uapi is upstream
+> For the 10-bit alpha, you need to shift here by 5 instead of 8.
 
-And will be extended once they have the corresponding async implementation in
-the driver.
+Typo. "6 instead of 8".
 
-> > > But I think you are overthinking this.  4MB of pagetables is
-> > > enough to map ~8GB of buffers.
-> > >
-> > > Perhaps drivers would want to set their limit based on the amount of
-> > > memory the GPU could map, which might land them on a # larger than
-> > > 1024, but still not an order of magnitude more.
-> >
-> > Nouveau currently supports an address space width of 128TiB.
-> >
-> > In general, we have to cover the range of some small laptop or handheld devices
-> > to huge datacenter machines.
-> 
-> sure.. and?  It is still up to the user of sched to set their own
-> limits, I'm not proposing that sched takes charge of that policy
-> 
-> Maybe msm doesn't have to scale up quite as much (yet).. but it has to
-> scale quite a bit further down (like watches).  In the end it is the
-> same.  And also not really the point here.
-> 
-> > > I don't really have a good setup for testing games that use this, atm,
-> > > fex-emu isn't working for me atm.  But I think Connor has a setup with
-> > > proton working?
-> >
-> > I just want to be sure that an arbitrary small limit doing the job for a small
-> > device to not fail VK CTS can't regress the performance on large machines.
-> 
-> why are we debating the limit I set outside of sched.. even that might
-> be subject to some tuning for devices that have more memory, but that
-> really outside the scope of this patch
-
-We are not debating the number you set in MSM, we're talking about whether a
-statically set number will be sufficient.
-
-Also, do we really want it to be our quality standard that we introduce some
-throttling mechanism as generic infrastructure for driver and don't even add a
-comment guiding drivers how to choose a proper limit and what are the potential
-pitfalls in choosing the limit?
-
-When working on a driver, do you want to run into APIs that don't give you
-proper guidance on how to use them correctly?
-
-I think it would not be very nice to tell drivers, "Look, here's a throttling API
-for when VK CTS (unknown test) ruins your day. We also can't give any advise on
-the limit that should be set depending on the scale of the machine, since we
-never looked into it.".
-
-> > So, kindly try to prove that we're not prone to extreme performance regression
-> > with a static value as you propose.
-> >
-> > > > Also, I think we should probably put this throttle mechanism in a separate
-> > > > component, that just wraps a counter of bytes or rather pages that can be
-> > > > increased and decreased through an API and the increase just blocks at a certain
-> > > > threshold.
-> > >
-> > > Maybe?  I don't see why we need to explicitly define the units for the
-> > > credit.  This wasn't done for the existing credit mechanism.. which,
-> > > seems like if you used some extra fences could also have been
-> > > implemented externally.
-> >
-> > If you are referring to the credit mechanism in the scheduler for ring buffers,
-> > that's a different case. Drivers know the size of their ring buffers exactly and
-> > the scheduler has the responsibility of when to submit tasks to the ring buffer.
-> > So the scheduler kind of owns the resource.
-> >
-> > However, the throttle mechanism you propose is independent from the scheduler,
-> > it depends on the available system memory, a resource the scheduler doesn't own.
-> 
-> it is a distinction that is perhaps a matter of opinion.  I don't see
-> such a big difference, it is all just a matter of managing physical
-> resource usage in different stages of a scheduled job's lifetime.
-
-Yes, but the ring buffer as a resource is owned by the scheduler, and hence
-having the scheduler care about flow control makes sense.
-
-Here you want to flow control the uAPI (i.e. VM_BIND ioctl) -- let's do this in
-a seaparate component please.
-
-> > > Maybe?  This still has the same complaint I had about just
-> > > implementing this in msm.. it would have to reach in and use the
-> > > scheduler's job_scheduled wait-queue.  Which, to me at least, seems
-> > > like more of an internal detail about how the scheduler works.
-> >
-> > Why? The component should use its own waitqueue. Subsequently, from your code
-> > that releases the pre-allocated memory, you can decrement the counter through
-> > the drm_throttle API, which automatically kicks its the waitqueue.
-> >
-> > For instance from your VM_BIND IOCTL you can call
-> >
-> >         drm_throttle_inc(value)
-> >
-> > which blocks if the increment goes above the threshold. And when you release the
-> > pre-allocated memory you call
-> >
-> >         drm_throttle_dec(value)
-> >
-> > which wakes the waitqueue and unblocks the drm_throttle_inc() call from your
-> > VM_BIND IOCTL.
-> 
-> ok, sure, we could introduce another waitqueue, but with my proposal
-> that is not needed.  And like I said, the existing throttling could
-> also be implemented externally to the scheduler..  so I'm not seeing
-> any fundamental difference.
-
-Yes, but you also implicitly force drivers to actually release the pre-allocated
-memory before the scheduler's internal waitqueue is woken. Having such implicit
-rules isn't nice.
-
-Also, with that drivers would need to do so in run_job(), i.e. in the fence
-signalling critical path, which some drivers may not be able to do.
-
-And, it also adds complexity to the scheduler, which we're trying to reduce.
-
-All this goes away with making this a separate component -- please do that
-instead.
+I blame the keyboard ...
