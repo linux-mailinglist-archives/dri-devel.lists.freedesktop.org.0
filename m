@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D44AAC2C22
+	by mail.lfdr.de (Postfix) with ESMTPS id 5864EAC2C20
 	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 01:25:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A5A10E88D;
-	Fri, 23 May 2025 23:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127C510E873;
+	Fri, 23 May 2025 23:25:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nppct.ru header.i=@nppct.ru header.b="TLxqil1W";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MApWt5wi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59AAC10E7A7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:50:33 +0000 (UTC)
-Received: from mail.nppct.ru (localhost [127.0.0.1])
- by mail.nppct.ru (Postfix) with ESMTP id 4E4C51C118C
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 10:50:24 +0300 (MSK)
-Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
- reason="pass (just generated,
- assumed good)" header.d=nppct.ru
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
- content-transfer-encoding:mime-version:x-mailer:message-id:date
- :date:subject:subject:to:from:from; s=dkim; t=1747986623; x=
- 1748850624; bh=rR3vPAPlUJEfRssL5GiwmgHjwvovtafRJtml2i1CacQ=; b=T
- Lxqil1W0wc6J8ZbOZNvlAt+gde3rmNzxtgsGs8bQjb33Y4axC67muacweDXiZIbd
- Tr68qhQFQsJHFcZFbhDDODtFjXagIdYmfIc2PzkNZSurjYreYykl4AyGWxzqrGKD
- IkmcQe/Ymm75u0KFRyry0Lhg/wnOQeYySOIBPpFQt4=
-X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
-Received: from mail.nppct.ru ([127.0.0.1])
- by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id JY4LSUk1Dj4V for <dri-devel@lists.freedesktop.org>;
- Fri, 23 May 2025 10:50:23 +0300 (MSK)
-Received: from localhost.localdomain (unknown [87.249.24.51])
- by mail.nppct.ru (Postfix) with ESMTPSA id 91B471C0DAB;
- Fri, 23 May 2025 10:50:22 +0300 (MSK)
-From: Alexey Nepomnyashih <sdl@nppct.ru>
-To: Lyude Paul <lyude@redhat.com>
-Cc: Alexey Nepomnyashih <sdl@nppct.ru>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- stable@vger.kernel.org
-Subject: [PATCH] drm/nouveau/mmu: fix potential overflow in PFN size
- calculation
-Date: Fri, 23 May 2025 07:50:14 +0000
-Message-ID: <20250523075015.884716-1-sdl@nppct.ru>
-X-Mailer: git-send-email 2.43.0
+X-Greylist: delayed 1810 seconds by postgrey-1.36 at gabe;
+ Fri, 23 May 2025 09:33:08 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 62B5710E7FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Eg
+ FS/rW230blmPCo/88Tvv809uo+RDzoEKY/8wGd39o=; b=MApWt5wimIOZAalquO
+ Dvc9tko7f2gt/7W6H+iKpXpcWCMovx44TS3hvs5hQmKZ3P1tUFVFeQ8Gr9owTlwu
+ J7EboKS6Mo1ZXeBGuxGM/6/6L/0zlLa47mASt3/Gs4+DlmoJl9Un4PAvdvfais07
+ +uhUAV50RXuBCfyzOcDJ/1SWM=
+Received: from evb20.domain.sensetime.com (unknown [])
+ by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id
+ _____wB34EgFNjBoK31rDQ--.40531S2; 
+ Fri, 23 May 2025 16:47:03 +0800 (CST)
+From: junan <junan76@163.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ junan76@163.com
+Subject: [PATCH] DRM: Fix rbtree search issue of find_hole_addr
+Date: Fri, 23 May 2025 16:39:10 +0800
+Message-ID: <20250523083909.84517-2-junan76@163.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wB34EgFNjBoK31rDQ--.40531S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWrtryDtF4rur43ZFyxAr1DJrb_yoW8JryUpF
+ 47G3s0krZ5Ka1rWw1IyFs7uFy3A3W5GFWxt3yDuwsa9F1v9rs2ga4Fyr13KFyUJrZ3Gr43
+ WwsYgFyUCF4jyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pE6pBsUUUUU=
+X-Originating-IP: [182.148.52.15]
+X-CM-SenderInfo: pmxqt0ixw6il2tof0z/1tbizQNWsWgwMtVWOAAAs4
 X-Mailman-Approved-At: Fri, 23 May 2025 23:25:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,32 +61,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On most Linux-supported platforms, `int` is 32-bit, making (1 << 47)
-undefined and potentially dangerous. To ensure defined behavior and
-correct 64-bit arithmetic, replace `1` with `1ULL`.
+I'm not sure if it is a bug or just for some special purposes in the function
+"find_hole_addr", the original implementation is as follows:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+static struct drm_mm_node *find_hole_addr(struct drm_mm *mm, u64 addr, u64 size)
+{
+	struct rb_node *rb = mm->holes_addr.rb_node;
+	struct drm_mm_node *node = NULL;
 
-Cc: stable@vger.kernel.org # v5.1+
-Fixes: a5ff307fe1f2 ("drm/nouveau/mmu: add a privileged method to directly manage PTEs")
-Signed-off-by: Alexey Nepomnyashih <sdl@nppct.ru>
+	while (rb) {
+		u64 hole_start;
+
+		if (!usable_hole_addr(rb, size))
+			break;
+
+		node = rb_hole_addr_to_node(rb);
+		hole_start = __drm_mm_hole_node_start(node);
+
+		if (addr < hole_start)
+			rb = node->rb_hole_addr.rb_left;
+		else if (addr > hole_start + node->hole_size)
+			rb = node->rb_hole_addr.rb_right;
+		else
+			break;
+
+	}
+
+	return node;
+}
+
+I think that the "node" should be set to NULL if it is not the one we want,
+please tell me if I am wrong.
+
+Signed-off-by: junan <junan76@163.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_mm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-index 9c97800fe037..29da1acbe3a8 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-@@ -1383,7 +1383,7 @@ nvkm_vmm_pfn_map(struct nvkm_vmm *vmm, u8 shift, u64 addr, u64 size, u64 *pfn)
- 			 */
- 			while (size) {
- 				pfn[pi++] = NVKM_VMM_PFN_NONE;
--				size -= 1 << page->shift;
-+				size -= 1ULL << page->shift;
- 			}
- 		} else {
- 			pi += size >> page->shift;
+diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+index ca254611b382..9417911198b5 100644
+--- a/drivers/gpu/drm/drm_mm.c
++++ b/drivers/gpu/drm/drm_mm.c
+@@ -347,6 +347,8 @@ static struct drm_mm_node *find_hole_addr(struct drm_mm *mm, u64 addr, u64 size)
+ 			rb = node->rb_hole_addr.rb_right;
+ 		else
+ 			break;
++
++		node = NULL;
+ 	}
+ 
+ 	return node;
 -- 
-2.43.0
+2.43.5
 
