@@ -2,99 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844D0AC29B4
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 20:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2BFAC2A8C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 21:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9AA10E860;
-	Fri, 23 May 2025 18:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E3610E845;
+	Fri, 23 May 2025 19:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HkI68qI/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dsmJEqW3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6CCD10E852;
- Fri, 23 May 2025 18:27:43 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NCgYL5028470;
- Fri, 23 May 2025 18:27:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- O9P1fcXWwN5dzpYmB4XE2BSjGJZmEDu26oek+iv5lvM=; b=HkI68qI/V6c7oGnY
- sfiyDiNelzJW0ssNJC6rvEG0SXLANaJLA6o1uHjwPvDbmGLeBLYMZ3sI62agAEx+
- 04M6eELWzPt0vND0frG0ZpZ4STbcjr6Kiyc37JX5Vf5OocLl0AZKrjHAxrErSyxb
- n+1U2nbt4lMGr5grcBYIZmmDmARFO45+Rc9Oc/nxP2RlTs9NOLQvEwk1UY87QwiW
- Ll1I+DLm7YifrkQwhuIyY/z2yfpQiHP4eUZtRIU6HBXHG1Wr5QLpkBxa0dv9ikU+
- 2naUNP2ICFZfO60f7lp+H20HVxhAljRu1Uv6GVd8qhxf+QnqnPznkHRuglmqzKQe
- FF0CpA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s95ts7ga-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 May 2025 18:27:39 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54NIRcEE030311
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 May 2025 18:27:38 GMT
-Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 23 May 2025 11:27:37 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Date: Fri, 23 May 2025 11:27:27 -0700
-Subject: [PATCH 2/2] MAINTAINERS: update my email address
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF7310E845;
+ Fri, 23 May 2025 19:46:44 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-867347b8de9so43749839f.0; 
+ Fri, 23 May 2025 12:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748029603; x=1748634403; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VH7Kc1vKStGhdLpNpPoNF5u+RXKK7FsevcMrcWkSN7Q=;
+ b=dsmJEqW39+L1+V6mPQpgGc2qbl1s2Dz0eJOuYM95f7EQfIgMar9v7v2oC4ZpOlSyK3
+ ndyE8lM1BH9vhfFyTIDzHq1HTAelXsnZuGETgpjB/rMjCHcHaPA7sXnb8A1+8ZiwxA62
+ rTfdM8hlZ9KlwX+zQakj0pZy/VHHAtSUNaUnR8G6Qwq/uhXafhYuj5l0eFDh8TUmVYuy
+ N5Jo+J+C4FwY3x0iOg3SB1arW+0n47FeGX5JnEN36IItkaOUqLfSQDjm8ZntpjblmfDX
+ W/C8VpPau1RzwFBlaOdJ6Y9wEfOBKQ6GNvugmvcCIJZsXCEuLYdYnT8SkJL2Eu0Syi89
+ vEkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748029603; x=1748634403;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VH7Kc1vKStGhdLpNpPoNF5u+RXKK7FsevcMrcWkSN7Q=;
+ b=u/3fen8lvhi7euH6nxlVcli/Gi3qlDjwdkZkLFKCSjbPOVmuqNZGj1EW/ES0Z4yKNE
+ D3ObRe9tyeNqN1K6ISZM1tGiJakd1VDIwSxMJROwtdVveV2NqGdZOh723+eDwdrDZUBv
+ 3QuC1W1xZtOUwzrjs1/5lL+qEKcn2CBNzmnRNK4wP54v3LIzbmhgL5tUxO0V/5SPs0cN
+ XBq86ImzBEIRYQfevQloOJ+7KPrTMUkr95Q/fy4+QVOtDFenZ4vk1uqc0P7Wri2VJfVt
+ Xun57+Ao+ua9Ye3aD6i4sXsl7PLamhP9+Kez+ZoeCl7aDBMq2jgEyv53E+izkz73JguA
+ JhDA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3Q/fgjyqUs4lsTsNrhFw+EIG1EEW5iKQOrlrh6Sz5IvAapghn0agH3GhA9FPDUCUTvONgRm/z3oM5@lists.freedesktop.org,
+ AJvYcCWv45JxmCsBIytBpGjnzRPDeUWEYxV9oPXJw4D/LUdKC02zgexDT1sZ89205eGuI6F9Y3N8s8yEymA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxx6SC6yXVjFMraYDmXdXqWA9tz8j0EEnKUypkBi9MIZOgEcq/S
+ 5dW0tHfTlAz7XF+PwjX/2PoOr88j/LRhz62laLQyv0F25MhHsdEPDzJPNfxcpuUS1CzhKL3VMac
+ bAnzzbFW5MSEFg+q0pNgiilE+RonN5zE=
+X-Gm-Gg: ASbGncuw7ZZipUC18SCO4WaMMBZUsEbNwpGTB7G3mGPUIEph9qvnEItvpDFZ0Pu1DeI
+ X+c6VXNZ/Ptblh/UVlC/qL6kqoxM9zkdxZVQmhPQANqd26pYFyQuSSsEnWjRWlvYjXv+DgY86ui
+ umh81Bj6mkuOQIrGgQBLGzTzlqg12o04RByxWBf0rsdaNeCxfDqbV6El3zrkqQ/vU=
+X-Google-Smtp-Source: AGHT+IGMftXo7Njr6w4K8Mw/ol29QY3aQyQ3p5YvAHE41Swza7DaKB+7+kOazksjYArbPCUaJPhAn6qMbwvTwjqEZiE=
+X-Received: by 2002:a05:6602:36c5:b0:864:a1fe:1e4a with SMTP id
+ ca18e2360f4ac-86cbb697f0cmr97966539f.3.1748029603262; Fri, 23 May 2025
+ 12:46:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250523-maintainers_update-v1-2-0396d439d6af@quicinc.com>
 References: <20250523-maintainers_update-v1-0-0396d439d6af@quicinc.com>
-In-Reply-To: <20250523-maintainers_update-v1-0-0396d439d6af@quicinc.com>
-To: <linux-kernel@vger.kernel.org>, <jessica.zhang@oss.qualcomm.com>,
- <lumag@kernel.org>, <robdclark@gmail.com>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748024856; l=1235;
- i=quic_abhinavk@quicinc.com; s=20240509; h=from:subject:message-id;
- bh=lksW9JGjJLO8Ap1OkdkUDPz0idAvC0ypyNYllEWzxWM=;
- b=BCTEKxcyOiNUDWOplswykS14BkfEDOXw+PhPfmvAgWfxEGz/9+Mxm0jXRT/PtXfhIz3b+Sm+a
- HCqvrAU+aGgD2Op+//SRFab2DYj7WigmMGbDiznJzjKJjVQu1zD2MCd
-X-Developer-Key: i=quic_abhinavk@quicinc.com; a=ed25519;
- pk=SD3D8dOKDDh6BoX3jEYjsHrTFwuIK8+o0cLPgQok9ys=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=QKBoRhLL c=1 sm=1 tr=0 ts=6830be1b cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=tVI0ZWmoAAAA:8
- a=KKAkSRfTAAAA:8 a=69LWc1rl86c1DZQ69rIA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22 a=-BPWgnxRz2uhmvdm1NTO:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: kC7ClJzMrU6QqdUi6JnU0-uIUa197GLM
-X-Proofpoint-GUID: kC7ClJzMrU6QqdUi6JnU0-uIUa197GLM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDE2NyBTYWx0ZWRfX+jDtkYI1arPS
- H6A59lp5mhszPQorv+kpOLl0TTZUOHkga2QgQYYll+s7oS+6nz7aAMGAugJzV8EmdS/SRVNOKYa
- /JD3Aop+TAbQ6e/MBPKYpeCVCwwdjgnEAJVN3aCUiZztsN0ZOJT5teWDbdY5Z5kCShLxCq+Cw30
- WGny35mpmWlxsaCzFcVYaj2YcBzUF4z0TNtkSl5ZA+Vl9MloPZ6q3i+PCb8itzDn/Wvrr8MqUiZ
- 6E48SED/Sr/RSnjEuxlRNU9pzWc1esgXVmsZ9+UNfIfApFeLyIc4l04zjpKNqsM4daIWG+qjgq4
- fQk9ARO28X3hvCVZFdUWDsNdWpq9jJTe+M31/IiCBqWGE3QRJLbYlJt/nNCs8DYpPJgy1evjLa3
- lZlbFRhtOCzrX48SxjfVIBpad1+9JvlPdJ2IxrMBkcEimRh8oDNfwtuqmNg++nnp30uOZGlQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-23_06,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
- adultscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 impostorscore=0
- priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505230167
+ <20250523-maintainers_update-v1-2-0396d439d6af@quicinc.com>
+In-Reply-To: <20250523-maintainers_update-v1-2-0396d439d6af@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 23 May 2025 12:46:31 -0700
+X-Gm-Features: AX0GCFtQq68cUClG56z1LQRDi-fNpHk0rCU3t98OHqV-tf8ZP0Lroq_Bezws8ao
+Message-ID: <CAF6AEGv-UFTk1QmJtwr=_eP31wAOJF0ioS82i3LfmPF4arFb9w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] MAINTAINERS: update my email address
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: linux-kernel@vger.kernel.org, jessica.zhang@oss.qualcomm.com, 
+ lumag@kernel.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,37 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My current email address will stop working soon. Use
-linux.dev email instead.
+On Fri, May 23, 2025 at 11:27=E2=80=AFAM Abhinav Kumar
+<quic_abhinavk@quicinc.com> wrote:
+>
+> My current email address will stop working soon. Use
+> linux.dev email instead.
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Acked-by: Rob Clark <robdclark@gmail.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3bc0da6f9033be0d5da35210a84ba189be4e5c0c..c2244004b966368fd4084d579df934f1cf6c1c3e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7639,7 +7639,7 @@ F:	include/uapi/drm/msm_drm.h
- DRM DRIVER for Qualcomm display hardware
- M:	Rob Clark <robdclark@gmail.com>
- M:	Dmitry Baryshkov <lumag@kernel.org>
--R:	Abhinav Kumar <quic_abhinavk@quicinc.com>
-+R:	Abhinav Kumar <abhinav.kumar@linux.dev>
- R:	Jessica Zhang <jessica.zhang@oss.qualcomm.com>
- R:	Sean Paul <sean@poorly.run>
- R:	Marijn Suijten <marijn.suijten@somainline.org>
-@@ -20473,7 +20473,7 @@ F:	drivers/regulator/vqmmc-ipq4019-regulator.c
- QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
- M:	Vikash Garodia <quic_vgarodia@quicinc.com>
- M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
--R:	Abhinav Kumar <quic_abhinavk@quicinc.com>
-+R:	Abhinav Kumar <abhinav.kumar@linux.dev>
- R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
- L:	linux-media@vger.kernel.org
- L:	linux-arm-msm@vger.kernel.org
-
--- 
-2.34.1
-
+> ---
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3bc0da6f9033be0d5da35210a84ba189be4e5c0c..c2244004b966368fd4084d579=
+df934f1cf6c1c3e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7639,7 +7639,7 @@ F:        include/uapi/drm/msm_drm.h
+>  DRM DRIVER for Qualcomm display hardware
+>  M:     Rob Clark <robdclark@gmail.com>
+>  M:     Dmitry Baryshkov <lumag@kernel.org>
+> -R:     Abhinav Kumar <quic_abhinavk@quicinc.com>
+> +R:     Abhinav Kumar <abhinav.kumar@linux.dev>
+>  R:     Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>  R:     Sean Paul <sean@poorly.run>
+>  R:     Marijn Suijten <marijn.suijten@somainline.org>
+> @@ -20473,7 +20473,7 @@ F:      drivers/regulator/vqmmc-ipq4019-regulator=
+.c
+>  QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
+>  M:     Vikash Garodia <quic_vgarodia@quicinc.com>
+>  M:     Dikshita Agarwal <quic_dikshita@quicinc.com>
+> -R:     Abhinav Kumar <quic_abhinavk@quicinc.com>
+> +R:     Abhinav Kumar <abhinav.kumar@linux.dev>
+>  R:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>  L:     linux-media@vger.kernel.org
+>  L:     linux-arm-msm@vger.kernel.org
+>
+> --
+> 2.34.1
+>
