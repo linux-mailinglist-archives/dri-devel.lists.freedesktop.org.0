@@ -2,90 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0414AAC25E2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C319EAC25BD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C56E10E814;
-	Fri, 23 May 2025 15:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B51B810E811;
+	Fri, 23 May 2025 14:58:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bXyIjrTM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B33210E814
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 15:04:41 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-7c54b651310so1319573785a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:04:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748012677; x=1748617477;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Z7q5VOWPHTLyk2rAGQ6nFq+sdmA8F0+9sYOybYBqTFg=;
- b=AlS3WwwGdboiph/EBwL7f7Oue/L2raVk3aHsKkfH1L7gVTWXXM4B2ddkfCB7zHdNZ9
- gZ62jWVqCVliUD2i6tqXdArirzcCPyOw85x7wRMD+vHgJnwHZLsykFQQ8g34sdW41nJG
- d2SdCJxy9NxDl5a2Nx9LWvKR7bHWoKFGJuaXTrINHdm84lB7RVipuU3PfwZGP0/DW8mj
- +3TwoGSpaGufn3qXKVAxg+IM1B0LBQqpd4Hjqj7gRpYo+pnqZQMDLGK3/2ywq37Gz0h6
- IkAOH1qXBu05YsfV2CgBPZ5SS5OD3Mh81EvA3EgfBA2P/U8tSovvVLGViSy4tFbU0f8q
- zW5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8vuYyfmgT4hYZe2zPIR2MX9rfHU4Wv3an44uqMS7E3/WiwzL8ADOu/nbPs2mY9xpP/XGBe7Re+xo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx77brZwK7elIAaQva6OxAbRVtvkNqryTkKx5QVg9zj/UJ0n62i
- UE1vvxy+/7aGTMkyIiGdAZz54LlU8MiWK+8UHLfzX6yzblxENZHEv091C+46GPDDhzc=
-X-Gm-Gg: ASbGncsG3qSfD4yYimCH5sGUJlQyM9EocDlJ/m1KoTWf92cR6IJNVN0G75bnLKr45d5
- V9+S1AH7IzH8zXHMuMaYwqIQw5JmsRBrVSTzYzEwh/iboi45AdzHGnvuelBLmY/5mf8F8NtKZ6N
- niMwMsdWyaYXQFCAQK8WMFoIq9AAy088M/ZMzne3btB2JS+IyUHKLFHuFD5d68R+ijz/BpDzfO6
- eetSMcOc2dNY0p2dyka77VZ8QSTCdrpTob/MbfTrlxWnDg3ZaBkYEEIWJUei42vfUiTC3F3KMTd
- 1eF/tL8K/Zft2c+r4D6Ps1Z+W61cwwo0RlPtmpU01OCM1P2ZYpFJ0iU75VLgRYT46LiKUho/3Ni
- Zmy0g6KwrAJgao9ssZA8yorCqE9Yy
-X-Google-Smtp-Source: AGHT+IHpxjx5UFoUtUoD43pN2juSSGF8GI5Ztc48blOBx3oA5RFyK6m0v74F2gZebAkv/0jjuAUhMA==
-X-Received: by 2002:a05:620a:280d:b0:7c5:4c49:769c with SMTP id
- af79cd13be357-7cd47effeccmr4510970185a.6.1748012676490; 
- Fri, 23 May 2025 08:04:36 -0700 (PDT)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com.
- [209.85.222.175]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7cd467dab1asm1190383985a.44.2025.05.23.08.04.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 May 2025 08:04:36 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id
- af79cd13be357-7caea4bc9e9so1479952785a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:04:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZ+WlAQELx4ZHWjgbhSVgmZw6z+Q1B8WKoDj1M0dg/KzsufXk18OPRePIl73ZxXhsxF/PBzckv1C4=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:3f06:b0:4e2:bacd:9f02 with SMTP id
- ada2fe7eead31-4e2bacda0c0mr10649290137.16.1748012320563; Fri, 23 May 2025
- 07:58:40 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542DB10E811
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 14:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zddI9FtAXHD/gRMbtklf0zY4lMOLIsr01i5HERi7ky8=; b=bXyIjrTMDXLFs0Wo/Dkqg3IdSQ
+ kFhU5utmHe/SAS0IjB2imKM6H11hB7bHp2RURxEPLkJG1apNb7KnRlAwzXBEq63yKWuv4cldQQG5A
+ wMQ6zkA24Cdcym/CcAsxj9Bqh8oLvOGs1TOknE5toWJWQPlDzAVmaqTvKZr0HGRLU29zjwjD9OY5A
+ ArGFK83T54enLrUQsnNzgdNnDfEkau9y79GF2HTCwMSYCwEYmgK26kyTi4NEgQBpA0fCXJF6ScXwL
+ d2+m//qAb4OIvOH8Gzz+uBEmSFfkbybnxykce6KEc8XgZcKcb3J90bRl7ONyEPd4dliaf6jQ5dPz5
+ XtQraWeQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uITr0-00CE4g-F8; Fri, 23 May 2025 16:58:34 +0200
+Message-ID: <1edd0499-ce5d-45a0-a989-ecb86f726795@igalia.com>
+Date: Fri, 23 May 2025 15:58:33 +0100
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512184302.241417-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250512184302.241417-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 16:58:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU__dxi4wvS3ikBQefM7uwWWK0bCcHv=TL-Td678pEi9Q@mail.gmail.com>
-X-Gm-Features: AX0GCFt82q4LbUN8wOO1SOIRH6DyQiAH55lXfwgWzPo4hKmY_3p-dAhsTJpdcck
-Message-ID: <CAMuHMdU__dxi4wvS3ikBQefM7uwWWK0bCcHv=TL-Td678pEi9Q@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] dt-bindings: display: bridge: renesas,dsi: Add
- support for RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched/tests: Use one lock for fence context
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250521100440.110019-2-phasta@kernel.org>
+ <29124381-6949-4828-9b57-dc2dc0f55107@igalia.com>
+ <3dd0d7d48515177138fda16e2fcd764ddca91204.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <3dd0d7d48515177138fda16e2fcd764ddca91204.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,67 +69,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
 
-On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to that of
-> the RZ/G2L SoC. While the LINK registers are the same for both SoCs, the
-> D-PHY registers differ. Additionally, the number of resets for DSI on
-> RZ/V2H(P) is two compared to three on the RZ/G2L.
->
-> To accommodate these differences, a SoC-specific
-> `renesas,r9a09g057-mipi-dsi` compatible string has been added for the
-> RZ/V2H(P) SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 22/05/2025 15:06, Philipp Stanner wrote:
+> On Wed, 2025-05-21 at 11:24 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 21/05/2025 11:04, Philipp Stanner wrote:
+>>> When the unit tests were implemented, each scheduler job got its
+>>> own,
+>>> distinct lock. This is not how dma_fence context locking rules are
+>>> to be
+>>> implemented. All jobs belonging to the same fence context (in this
+>>> case:
+>>> scheduler) should share a lock for their dma_fences. This is to
+>>> comply
+>>> to various dma_fence rules, e.g., ensuring that only one fence gets
+>>> signaled at a time.
+>>>
+>>> Use the fence context (scheduler) lock for the jobs.
+>>
+>> I think for the mock scheduler it works to share the lock, but I
+>> don't
+>> think see that the commit message is correct. Where do you see the
+>> requirement to share the lock? AFAIK fence->lock is a fence lock,
+>> nothing more semantically.
+> 
+> This patch is in part to probe a bit with Christian and Danilo to see
+> whether we can get a bit more clarity about it.
+> 
+> In many places, notably Nouveau, it's definitely well established
+> practice to use one lock for the fctx and all the jobs associated with
+> it.
+> 
+> 
+>>
+>> And what does "ensuring that only one fence gets signalled at a time"
+>> mean? You mean signal in seqno order?
+> 
+> Yes. But that's related. If jobs' fences can get signaled indepently
+> from each other, that might race and screw up ordering. A common lock
+> can prevent that.
+> 
+>> Even that is not guaranteed in the
+>> contract due opportunistic signalling.
+> 
+> Jobs must be submitted to the hardware in the order they were
+> submitted, and, therefore, their fences must be signaled in order. No?
+> 
+> What do you mean by opportunistic signaling?
 
-Thanks for your patch!
+Our beloved dma_fence_is_signaled(). External caller can signal a fence 
+before the driver which owns it does.
 
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -14,16 +14,17 @@ description: |
->    RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
->    up to four data lanes.
->
-> -allOf:
-> -  - $ref: /schemas/display/dsi-controller.yaml#
-> -
->  properties:
->    compatible:
-> -    items:
-> +    oneOf:
->        - enum:
-> -          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
-> -          - renesas,r9a07g054-mipi-dsi # RZ/V2L
-> -      - const: renesas,rzg2l-mipi-dsi
-> +          - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
+If you change the commit message to correctly describe it is just a 
+simplification since there is no need for separate locks I am good with 
+that. It is a good simplification in that case.
 
-Nit: I would add the new entry after all the old entries, to preserve
-sort order (by part number).
+Regards,
 
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-mipi-dsi # RZ/V2L
-> +          - const: renesas,rzg2l-mipi-dsi
->
->    reg:
->      maxItems: 1
+Tvrtko
 
-The rest LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> 
+> P.
+> 
+> 
+> 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 5 ++---
+>>>    drivers/gpu/drm/scheduler/tests/sched_tests.h    | 1 -
+>>>    2 files changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> index f999c8859cf7..17023276f4b0 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> @@ -64,7 +64,7 @@ static void drm_mock_sched_job_complete(struct
+>>> drm_mock_sched_job *job)
+>>>    
+>>>    	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
+>>>    	list_move_tail(&job->link, &sched->done_list);
+>>> -	dma_fence_signal(&job->hw_fence);
+>>> +	dma_fence_signal_locked(&job->hw_fence);
+>>>    	complete(&job->done);
+>>>    }
+>>>    
+>>> @@ -123,7 +123,6 @@ drm_mock_sched_job_new(struct kunit *test,
+>>>    	job->test = test;
+>>>    
+>>>    	init_completion(&job->done);
+>>> -	spin_lock_init(&job->lock);
+>>>    	INIT_LIST_HEAD(&job->link);
+>>>    	hrtimer_setup(&job->timer,
+>>> drm_mock_sched_job_signal_timer,
+>>>    		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
+>>> @@ -169,7 +168,7 @@ static struct dma_fence
+>>> *mock_sched_run_job(struct drm_sched_job *sched_job)
+>>>    
+>>>    	dma_fence_init(&job->hw_fence,
+>>>    		       &drm_mock_sched_hw_fence_ops,
+>>> -		       &job->lock,
+>>> +		       &sched->lock,
+>>>    		       sched->hw_timeline.context,
+>>>    		       atomic_inc_return(&sched-
+>>>> hw_timeline.next_seqno));
+>>>    
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> index 27caf8285fb7..fbba38137f0c 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> @@ -106,7 +106,6 @@ struct drm_mock_sched_job {
+>>>    	unsigned int		duration_us;
+>>>    	ktime_t			finish_at;
+>>>    
+>>> -	spinlock_t		lock;
+>>>    	struct dma_fence	hw_fence;
+>>>    
+>>>    	struct kunit		*test;
+>>
+> 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
