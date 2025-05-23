@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE22CAC2747
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC94AC274D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:15:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1507210E833;
-	Fri, 23 May 2025 16:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6700410E83B;
+	Fri, 23 May 2025 16:15:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W2yYi5Fm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mbaObfXQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C417210E833
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:15:42 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-30e8f4dbb72so164456a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:15:42 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DABAF10E833
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:15:43 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-310cf8f7301so111084a91.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748016942; x=1748621742; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:reply-to:message-id:date
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ls243XxE58XUFIhUPSeMMfbElJjdBNkZybvfZFLuLmk=;
- b=W2yYi5FmkvDV65YtVSdru8/O5u3mamcAwcEQ3LtRD4RVLg9OcnfuPzsxqS4U/6Rvp6
- UP/a5vVsDfltFKrKL1gujv6GNGH9Tq26AJ+LpSPJZtzsLaKXkqkjwkOs8rC8t85728OZ
- 205HDZBwqykWHn3QASvnOmCMaYlLdhcTrWQLZiY6EbH9DwM6HNr8+OzW4EXFetSHFQl9
- 8kt6hGegUIGGVQyL01Cb2I85RisO/1q62l3nGNCVyC/YfBScCSLHZS0k8zymsxlgJppM
- aVEOHR76HW2UT4ZozLU0lejJ1LlEX0a9UIf2JADkQ4KC3SQMqO8zYwZQ1VViQlxPlnsa
- Ma2w==
+ d=gmail.com; s=20230601; t=1748016943; x=1748621743; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:reply-to:references
+ :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=6Ci3isxxhsp5k7AjuUnYW4WXxlffmz+Qa/1SXSaaPCI=;
+ b=mbaObfXQsEa6TbtgkSDYkb2jRzFat2q6tvPEOkKQ2H86IvuAKz84I80B2afleJ1oE+
+ nwTTsND7hJEK90CiSBG1ObHvSqJsxbdYbvyffn9XH/hrElqG2AyULvzZqj1MRTT9a4wG
+ 2MeovRhX7062XRU9yfIecMQJKCkwNBWyORCT/3TG3w/v01v05WrqEhyCl/De67AY9vaw
+ jYT1M5Rjsr/u1YNyeM6rM53ORzkIpoJL94Nd9OCnbN2CgJQ5uL0pXR0PjTzB0kVC+wWG
+ j0Pc1IgSM5x797tTIgxuWTJwtD7fwR18/fkhStLJI0tDFArZ3xpfMhoatA6I81jXGqth
+ jGMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748016942; x=1748621742;
- h=content-transfer-encoding:mime-version:reply-to:message-id:date
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ls243XxE58XUFIhUPSeMMfbElJjdBNkZybvfZFLuLmk=;
- b=cKnHEcJ+0yl3fqXdqMGkLjQYjPVaX6Z8UYuXhVeFdFjYvKEc7yuAqvQmBb+RidrY0z
- nemogzAr+CXetA3iVi/RUpyeOU96Ct1daJyE8RNMnQF8itoWdQwm9n7+9vVRthmHTIO8
- rvVjZhXUhR7ZhZO3oyhCICoVouWzL5501F3oj1ZFna2wO2EcemzYfxR4nkuvNa8/mUZN
- UPx3975Z5VwSeH/+f0bUkrQuGgOOYsysqAKc2QuxMRMydqtd1zoxZLcmBn4K/1US9We/
- 5cskDL8CaofIj6BDmrk2ErcF8KKMx1nt+NSwpN+WKv7X8AFIzypFzQed5mz1VDUVrrZ2
- EFwA==
+ d=1e100.net; s=20230601; t=1748016943; x=1748621743;
+ h=content-transfer-encoding:mime-version:reply-to:references
+ :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6Ci3isxxhsp5k7AjuUnYW4WXxlffmz+Qa/1SXSaaPCI=;
+ b=KU/9TfNks2KU9s4ikx9yLZrAdzQHm1A76zL3onmHv0WLiRDlSp2p84ny8Z3vTr7T/C
+ 1qlREcfwcSNzjMNNiOzKd7nsdSJwd9LOdtir9okBDYh+n0Zcufl85NWOBM5JKJ1tGNDX
+ s3l5HK7PUzVV+H+RhJCgMCvNLwZy+1125nFbwq7yiG2GO8FFBYtmWvX4sYDNXJS/4C6F
+ lxjDAF7EYr5VkJ1sS8PFB2LFgkgCkIgog8Zbm1L0oPfBGXzmdK6KNZS95pojcs9Vfb8o
+ H+Bwj3v77Z56xOoa/L39Mdi/+OIi/xde7yws6ixM9wpsTPEZAZm9W5JWV9OtA6neoxXv
+ sCtQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBRcuJFsfw2N5qHNpfsezblHH3+PS80hEHsVKaZ2W8N6EgkEDB+Cznz8Ccv/jdfnNXWRVHILEPSPU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwY7c4fptTUWKWwEN1uDW2waZOCjUaz0HXfmnIhu+7U5Q8WPBlF
- ui2Pj8sG9fNh21JeKKpkKgb+BFLEzgLuDGm6UZnVIf18xd5ZK6hnhBMs
-X-Gm-Gg: ASbGnct+HEZB3qaSdzwQzFFjRTm8k/Vf1mQZ5EkdzBvqj/EH6MqeW8f8jertaSvkQT4
- yx6ppgFAGcD4NxZoM7eN7kLYEGG17IiRO0c79JTFOQvCzaauGdBVbqoKkZKNczxQ72wI1B8tKHo
- 0w6Gc51oI5kvQZk9xq6kx7EHbkerf7D+KGxwVlKKpvSqZCWPtOaOJcEsfmtssTxweSbhZFEuhE/
- jl/ir34iQlSrtxCV5JEVy54ZA8YT4Av7I56uQr7/IddqPxFzQ6y8MIhRV/Ls5+H6hRcEdzxdI8o
- kCRyxuFm+5Yb+THCuetfaX2/XEUL9xkNSQ6P/0szZw8gcdulIBPHuyoTD1+OtlqGMnZwqSwPjla
- U/aXBDrt+kZZmzm4RC9HFo8L5GXF4Rg==
-X-Google-Smtp-Source: AGHT+IFm/aBR27COrCfUEG1WEEW/VaW4o7v7eFIsjnnSJARIe9dfY945CATNH/PdlGnGpUKKevkX5Q==
-X-Received: by 2002:a17:90b:54d0:b0:305:2d68:8d57 with SMTP id
- 98e67ed59e1d1-30e830ca02bmr37165622a91.5.1748016942269; 
- Fri, 23 May 2025 09:15:42 -0700 (PDT)
+ AJvYcCV+k8ZUEOwtqUKD2Xd/5CRfwL2PRmKkS3QksncJTK3cY4PsrzMhN811aAX2e8tP0nWwCkbtCj5/NGw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJ/Y+ml1mqqrZ7ou/oNXG7dcL5QzkHRZhdVR+nk0eQy6DTW80F
+ aBYpvSRSkSnMlKr7pbjx3pv0lLGT5vRkUoLXsqqCsIipnaA5zedhR2EWxFc6Wg==
+X-Gm-Gg: ASbGncvfxjCsxeVk7Ba2nZJt8A67A2QqlKkFPfpUh1/w9F8+UYhYFUnDDC0UtYW+iPa
+ P+zcBikhvKlIyByPo4LmAeoyEh1QQMAscRCEDXFchTkvjRnjzzpAN/XhHA6Lyb9RiXZliUok09M
+ oCrCaXCCLeR3qzOlMwOhtxoMBde58MNJxMxk5fJ8Qdf2UEFdz0kKUPD/psCA4pgtjEUepWGTqF4
+ GWk1Q2lQWp1+4kJ2HMGz4LQKwTFKv9SWvSEv3zp94Z0lLhfBUZPrH7/LgnkyznLL7ENzbMNMg4M
+ cSwkqvnHfaAfanPhJOkTso6IEdj029XuuKM7U7JQBUrG7owtqaLiROnCCy1TyKEgw713b7K+FAn
+ JDZ7hMp0dqL7pQPjZ4e6GDu0s7c8W/Aq3UKanD4/w
+X-Google-Smtp-Source: AGHT+IE8pcy7Z2wW7SrWmR8EeORXq3Lf3Mz2nUIbKMce/zPJlwY6YhtwhHMP/X+hsVmxnhhRfKeaCQ==
+X-Received: by 2002:a17:90b:3889:b0:2ff:5267:e7da with SMTP id
+ 98e67ed59e1d1-3110ac9b71fmr132826a91.3.1748016943353; 
+ Fri, 23 May 2025 09:15:43 -0700 (PDT)
 Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net.
  [67.160.120.253]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30f365d46ffsm7526565a91.25.2025.05.23.09.15.41
+ 98e67ed59e1d1-30f365d46ffsm7526565a91.25.2025.05.23.09.15.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 09:15:42 -0700 (PDT)
+ Fri, 23 May 2025 09:15:43 -0700 (PDT)
 From: mhkelley58@gmail.com
 X-Google-Original-From: mhklinux@outlook.com
 To: simona@ffwll.ch, deller@gmx.de, haiyangz@microsoft.com, kys@microsoft.com,
@@ -69,13 +70,13 @@ Cc: weh@microsoft.com, tzimmermann@suse.de, hch@lst.de,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
  linux-mm@kvack.org
-Subject: [PATCH v3 0/4] fbdev: Add deferred I/O support for contiguous kernel
- memory framebuffers
-Date: Fri, 23 May 2025 09:15:18 -0700
-Message-Id: <20250523161522.409504-1-mhklinux@outlook.com>
+Subject: [PATCH v3 1/4] mm: Export vmf_insert_mixed_mkwrite()
+Date: Fri, 23 May 2025 09:15:19 -0700
+Message-Id: <20250523161522.409504-2-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250523161522.409504-1-mhklinux@outlook.com>
+References: <20250523161522.409504-1-mhklinux@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,41 +96,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michael Kelley <mhklinux@outlook.com>
 
-Current deferred I/O code works only for framebuffer memory that is
-allocated with vmalloc(). The code assumes that the underlying page
-refcount can be used by the mm subsystem to manage each framebuffer
-page's lifecycle, which is consistent with vmalloc'ed memory, but not
-with contiguous kernel memory from alloc_pages() or similar. When used
-with contiguous kernel memory, current deferred I/O code eventually
-causes the memory free lists to be scrambled, and a kernel panic ensues.
-The problem is seen with the hyperv_fb driver when mmap'ing the
-framebuffer into user space, as that driver uses alloc_pages() for the
-framebuffer in some configurations. This patch set fixes the problem
-by supporting contiguous kernel memory framebuffers with deferred I/O.
+Export vmf_insert_mixed_mkwrite() for use by fbdev deferred I/O code,
+which can be built as a module.
 
-Patch 1 exports a 'mm' subsystem function needed by Patch 3.
+Commit cd1e0dac3a3e ("mm: unexport vmf_insert_mixed_mkwrite") is
+effectively reverted.
 
-Pathc 2 defines the FBINFO_KMEMFB flag for use by Patches 3 and 4.
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+Changes in v2:
+* Exported as GPL symbol [Christoph Hellwig]
 
-Patch 3 is the changes to the fbdev deferred I/O code. More details
-are in the commit message of Patch 3.
+ mm/memory.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patch 4 updates the hyperv_fb driver to use the new functionality
-from Patch 3.
-
-Michael Kelley (4):
-  mm: Export vmf_insert_mixed_mkwrite()
-  fbdev: Add flag indicating framebuffer is allocated from kernel memory
-  fbdev/deferred-io: Support contiguous kernel memory framebuffers
-  fbdev: hyperv_fb: Fix mmap of framebuffers allocated using
-    alloc_pages()
-
- drivers/video/fbdev/core/fb_defio.c | 128 +++++++++++++++++++++++-----
- drivers/video/fbdev/hyperv_fb.c     |   1 +
- include/linux/fb.h                  |   1 +
- mm/memory.c                         |   1 +
- 4 files changed, 111 insertions(+), 20 deletions(-)
-
+diff --git a/mm/memory.c b/mm/memory.c
+index 5cb48f262ab0..58ba40a676c9 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -2688,6 +2688,7 @@ vm_fault_t vmf_insert_mixed_mkwrite(struct vm_area_struct *vma,
+ {
+ 	return __vm_insert_mixed(vma, addr, pfn, true);
+ }
++EXPORT_SYMBOL_GPL(vmf_insert_mixed_mkwrite);
+ 
+ /*
+  * maps a range of physical memory into the requested pages. the old
 -- 
 2.25.1
 
