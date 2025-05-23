@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5F4AC260A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311C3AC263F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1E410E818;
-	Fri, 23 May 2025 15:10:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="asGjFzxt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC9210E819;
+	Fri, 23 May 2025 15:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1AD10E818
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 15:10:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1748012994; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ew+hH7uUfUmqwD5fz7pgAmnO6NvUo9MR3/8s/4LF+/5+jAJVHyWrkKNUBV9J9E2rqGr4IFV4p5EHBuVI58/lHnSbZjb5qQtgBGW5/4nFz5K0kDyUP9yoeN5yv84UTfg5CFyy2t+If3HKlFiaB7HfZLObPBhLInJB1I7MrSiSbNc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1748012994;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=s3O3uWljB63oHIFQq6b6I3OLKW1edvNJJ6ye9xfmMXU=; 
- b=MBSAAoOvuOSVT0AV5Fs0ZAO7493L12h7Rc/S/fMdTnOCQCFqpSPRL/2jOyGO2VXsRp2vhVjkZAMIHR/Oy2qYchz3bjpic/WBeZ+qWgen7RanEqopzGS7yUyGXtxonAVtkoTxqdydmPNyNRIhgJPstXf0h7iuWZLT14+rDy+4GxM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ashley.smith@collabora.com;
- dmarc=pass header.from=<ashley.smith@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1748012994; 
- s=zohomail; d=collabora.com; i=ashley.smith@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=s3O3uWljB63oHIFQq6b6I3OLKW1edvNJJ6ye9xfmMXU=;
- b=asGjFzxtif6vZRTZHqH8Q7jvgTBb/HhgE0A7qHuWYTj0CUHhaCAq5vdL139xUWVb
- NU190g8K4x0iyugC6qHfO9qiPkqxEfbxfWkVHgpkmm3sUkc76qSYUcHnSjGHHVxRro9
- +LglYl1dEjjM+IRbkj8UC0y9dPXFwe75FBkcfLOI=
-Received: by mx.zohomail.com with SMTPS id 1748012992830143.11321763076023;
- Fri, 23 May 2025 08:09:52 -0700 (PDT)
-From: Ashley Smith <ashley.smith@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>
-Cc: kernel@collabora.com, Ashley Smith <ashley.smith@collabora.com>,
- Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v4] drm/panthor: Make the timeout per-queue instead of per-job
-Date: Fri, 23 May 2025 16:08:12 +0100
-Message-ID: <20250523150815.3066081-1-ashley.smith@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6209F10E819
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 15:19:03 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-742c3d06de3so109600b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:19:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748013542; x=1748618342;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KUlujxEaEdi/ZnXb2x/YmWYgGPLEJZ1h5LPkWsQToHU=;
+ b=GocgFd/6yuTyhSqasUcz5y6L0FbfNcueRvIAhLbhibUb/ezQXopL+E06G70SbXFJ9l
+ /OFQUJ/R03A3wNBLSqI01U4CWB0xRjWLclvjRjTtyyl75t625mrm9L47/NTMwZUjShsS
+ +2BkUxpXAyOfzN1v/EIwGb/ZdhQq3bU7G2EdtZJ9joEP3yw4mio2q9aLyo3gcGpn0EUj
+ p+SYWsARiHInQ+YPv1vNTVi/sC22qoWhRVjQVy/vBHxIhYI6Cu9URBvo6PRpmnGBZ3ye
+ I7Of+flL7voyoIVJJUmFoyfD9sskJY7mM3GPuNRuxowI6wKi1N/1MpJXhlWtheeoujlc
+ 9ydA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDkQawHu2QsWubXj4fbH6h/6kD23TOUbjIBcmmjovh3o5TX7V1vz6+bcKLFUjl+sSmMvqWhj+4d0o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpngQvnhh5XrL3Dv+UFOlYcbJHxdt8EwR197KhbGmFcayN7qHw
+ BfGBrsn/UDdX34rmBrzstApk6GZR1fCYbMElTblfDrGuVN4iA2jsnR+KmRw+lzF4Q1E=
+X-Gm-Gg: ASbGncu6KjbHVc/WoMfYtSXwy9upz0LHWDwK/ynSEKMWxCcGnj9kx7fScI2LXbeOOTE
+ BBGqojDmYDRhjMtE1k9IuEczjrJxh9hs3xgQlPl6bP2lcyGdzXevP1nbdgEmRahItEBp792vASx
+ 9Ktkl3e1EOS9nJI65RK2EfzCxWZNXGAJ72SAZGFOqHEpsZuM9mwvAxm6NdqRlzInxdxrwBjvViG
+ Zy4bUlUuXvxPcxOSkZQn43xIbagnp0pVvSTXaR2zQr8LKaqPb1PtR2N+Os4UFwn/rIu9uSXqCF7
+ FtGinHU5jhrlclQGd+rOSwYOC6L3pHzWM3ozrXnpLdkiUH4uzTjbBU6pO8Z/N1cMTkvWiRKitsX
+ HCJiDXamK3EOdtA==
+X-Google-Smtp-Source: AGHT+IGvbGWNL+tzVx6RcR3OFqgd9d7Oe7djujNei6saNl2xSvvUeXRYSlbUED9mCsrXZFGQMQl6fg==
+X-Received: by 2002:a05:620a:2545:b0:7ca:f04a:ab68 with SMTP id
+ af79cd13be357-7cd47fd36f4mr3599804885a.58.1748013532035; 
+ Fri, 23 May 2025 08:18:52 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com.
+ [209.85.219.46]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7cd468bdfb9sm1193327285a.85.2025.05.23.08.18.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 May 2025 08:18:50 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-6f2b04a6169so102859686d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:18:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJ9JvRDjR1NhYFMtTehel/S4dH5IZnK1e+ZUU4gryzbxUud1OW3fiKSnCQCZ03czIiUIevpHOQvxY=@lists.freedesktop.org
+X-Received: by 2002:a05:6214:1308:b0:6f8:a7c6:22ca with SMTP id
+ 6a1803df08f44-6f8b2c5f2bbmr442981216d6.16.1748013530224; Fri, 23 May 2025
+ 08:18:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 May 2025 17:18:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
+X-Gm-Features: AX0GCFsg_XSn4r6_gauahCGD7VbDyx79Ezig6sAhQFHM9qfPwmiMO6CmvkImCB0
+Message-ID: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,369 +101,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The timeout logic provided by drm_sched leads to races when we try
-to suspend it while the drm_sched workqueue queues more jobs. Let's
-overhaul the timeout handling in panthor to have our own delayed work
-that's resumed/suspended when a group is resumed/suspended. When an
-actual timeout occurs, we call drm_sched_fault() to report it
-through drm_sched, still. But otherwise, the drm_sched timeout is
-disabled (set to MAX_SCHEDULE_TIMEOUT), which leaves us in control of
-how we protect modifications on the timer.
+Hi Prabhakar, Fabrizio,
 
-One issue seems to be when we call drm_sched_suspend_timeout() from
-both queue_run_job() and tick_work() which could lead to races due to
-drm_sched_suspend_timeout() not having a lock. Another issue seems to
-be in queue_run_job() if the group is not scheduled, we suspend the
-timeout again which undoes what drm_sched_job_begin() did when calling
-drm_sched_start_timeout(). So the timeout does not reset when a job
-is finished.
+On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add DSI support for Renesas RZ/V2H(P) SoC.
+>
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Tested-by: Daniel Stone <daniels@collabora.com>
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
----
-Changes in v4:
- - Moved code related to a timeout bug to a separate patch as this
-   was not relevant to this change.
----
-Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 231 +++++++++++++++++-------
- 1 file changed, 165 insertions(+), 66 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 43ee57728de5..4477e90d5cb8 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -360,17 +360,20 @@ struct panthor_queue {
- 	/** @entity: DRM scheduling entity used for this queue. */
- 	struct drm_sched_entity entity;
- 
--	/**
--	 * @remaining_time: Time remaining before the job timeout expires.
--	 *
--	 * The job timeout is suspended when the queue is not scheduled by the
--	 * FW. Every time we suspend the timer, we need to save the remaining
--	 * time so we can restore it later on.
--	 */
--	unsigned long remaining_time;
-+	/** @timeout: Queue timeout related fields. */
-+	struct {
-+		/** @timeout.work: Work executed when a queue timeout occurs. */
-+		struct delayed_work work;
- 
--	/** @timeout_suspended: True if the job timeout was suspended. */
--	bool timeout_suspended;
-+		/**
-+		 * @timeout.remaining: Time remaining before a queue timeout.
-+		 *
-+		 * When the timer is running, this value is set to MAX_SCHEDULE_TIMEOUT.
-+		 * When the timer is suspended, it's set to the time remaining when the
-+		 * timer was suspended.
-+		 */
-+		unsigned long remaining;
-+	} timeout;
- 
- 	/**
- 	 * @doorbell_id: Doorbell assigned to this queue.
-@@ -1031,6 +1034,82 @@ group_unbind_locked(struct panthor_group *group)
- 	return 0;
- }
- 
-+static bool
-+group_is_idle(struct panthor_group *group)
-+{
-+	struct panthor_device *ptdev = group->ptdev;
-+	u32 inactive_queues;
-+
-+	if (group->csg_id >= 0)
-+		return ptdev->scheduler->csg_slots[group->csg_id].idle;
-+
-+	inactive_queues = group->idle_queues | group->blocked_queues;
-+	return hweight32(inactive_queues) == group->queue_count;
-+}
-+
-+static void
-+queue_suspend_timeout(struct panthor_queue *queue)
-+{
-+	unsigned long qtimeout, now;
-+	struct panthor_group *group;
-+	struct panthor_job *job;
-+	bool timer_was_active;
-+
-+	spin_lock(&queue->fence_ctx.lock);
-+
-+	/* Already suspended, nothing to do. */
-+	if (queue->timeout.remaining != MAX_SCHEDULE_TIMEOUT)
-+		goto out_unlock;
-+
-+	job = list_first_entry_or_null(&queue->fence_ctx.in_flight_jobs,
-+				       struct panthor_job, node);
-+	group = job ? job->group : NULL;
-+
-+	/* If the queue is blocked and the group is idle, we want the timer to
-+	 * keep running because the group can't be unblocked by other queues,
-+	 * so it has to come from an external source, and we want to timebox
-+	 * this external signalling.
-+	 */
-+	if (group && (group->blocked_queues & BIT(job->queue_idx)) &&
-+	    group_is_idle(group))
-+		goto out_unlock;
-+
-+	now = jiffies;
-+	qtimeout = queue->timeout.work.timer.expires;
-+
-+	/* Cancel the timer. */
-+	timer_was_active = cancel_delayed_work(&queue->timeout.work);
-+	if (!timer_was_active || !job)
-+		queue->timeout.remaining = msecs_to_jiffies(JOB_TIMEOUT_MS);
-+	else if (time_after(qtimeout, now))
-+		queue->timeout.remaining = qtimeout - now;
-+	else
-+		queue->timeout.remaining = 0;
-+
-+	if (WARN_ON_ONCE(queue->timeout.remaining > msecs_to_jiffies(JOB_TIMEOUT_MS)))
-+		queue->timeout.remaining = msecs_to_jiffies(JOB_TIMEOUT_MS);
-+
-+out_unlock:
-+	spin_unlock(&queue->fence_ctx.lock);
-+}
-+
-+static void
-+queue_resume_timeout(struct panthor_queue *queue)
-+{
-+	spin_lock(&queue->fence_ctx.lock);
-+
-+	/* When running, the remaining time is set to MAX_SCHEDULE_TIMEOUT. */
-+	if (queue->timeout.remaining != MAX_SCHEDULE_TIMEOUT) {
-+		mod_delayed_work(queue->scheduler.timeout_wq,
-+				 &queue->timeout.work,
-+				 queue->timeout.remaining);
-+
-+		queue->timeout.remaining = MAX_SCHEDULE_TIMEOUT;
-+	}
-+
-+	spin_unlock(&queue->fence_ctx.lock);
-+}
-+
- /**
-  * cs_slot_prog_locked() - Program a queue slot
-  * @ptdev: Device.
-@@ -1069,10 +1148,8 @@ cs_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
- 			       CS_IDLE_EMPTY |
- 			       CS_STATE_MASK |
- 			       CS_EXTRACT_EVENT);
--	if (queue->iface.input->insert != queue->iface.input->extract && queue->timeout_suspended) {
--		drm_sched_resume_timeout(&queue->scheduler, queue->remaining_time);
--		queue->timeout_suspended = false;
--	}
-+	if (queue->iface.input->insert != queue->iface.input->extract)
-+		queue_resume_timeout(queue);
- }
- 
- /**
-@@ -1099,14 +1176,7 @@ cs_slot_reset_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
- 			       CS_STATE_STOP,
- 			       CS_STATE_MASK);
- 
--	/* If the queue is blocked, we want to keep the timeout running, so
--	 * we can detect unbounded waits and kill the group when that happens.
--	 */
--	if (!(group->blocked_queues & BIT(cs_id)) && !queue->timeout_suspended) {
--		queue->remaining_time = drm_sched_suspend_timeout(&queue->scheduler);
--		queue->timeout_suspended = true;
--		WARN_ON(queue->remaining_time > msecs_to_jiffies(JOB_TIMEOUT_MS));
--	}
-+	queue_suspend_timeout(queue);
- 
- 	return 0;
- }
-@@ -1888,19 +1958,6 @@ tick_ctx_is_full(const struct panthor_scheduler *sched,
- 	return ctx->group_count == sched->csg_slot_count;
- }
- 
--static bool
--group_is_idle(struct panthor_group *group)
--{
--	struct panthor_device *ptdev = group->ptdev;
--	u32 inactive_queues;
--
--	if (group->csg_id >= 0)
--		return ptdev->scheduler->csg_slots[group->csg_id].idle;
--
--	inactive_queues = group->idle_queues | group->blocked_queues;
--	return hweight32(inactive_queues) == group->queue_count;
--}
--
- static bool
- group_can_run(struct panthor_group *group)
- {
-@@ -2888,35 +2945,50 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
- 	xa_unlock(&gpool->xa);
- }
- 
--static void group_sync_upd_work(struct work_struct *work)
-+static bool queue_check_job_completion(struct panthor_queue *queue)
- {
--	struct panthor_group *group =
--		container_of(work, struct panthor_group, sync_upd_work);
-+	struct panthor_syncobj_64b *syncobj = NULL;
- 	struct panthor_job *job, *job_tmp;
-+	bool cookie, progress = false;
- 	LIST_HEAD(done_jobs);
--	u32 queue_idx;
--	bool cookie;
- 
- 	cookie = dma_fence_begin_signalling();
--	for (queue_idx = 0; queue_idx < group->queue_count; queue_idx++) {
--		struct panthor_queue *queue = group->queues[queue_idx];
--		struct panthor_syncobj_64b *syncobj;
-+	spin_lock(&queue->fence_ctx.lock);
-+	list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_jobs, node) {
-+		if (!syncobj) {
-+			struct panthor_group *group = job->group;
- 
--		if (!queue)
--			continue;
-+			syncobj = group->syncobjs->kmap +
-+				  (job->queue_idx * sizeof(*syncobj));
-+		}
- 
--		syncobj = group->syncobjs->kmap + (queue_idx * sizeof(*syncobj));
-+		if (syncobj->seqno < job->done_fence->seqno)
-+			break;
- 
--		spin_lock(&queue->fence_ctx.lock);
--		list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_jobs, node) {
--			if (syncobj->seqno < job->done_fence->seqno)
--				break;
-+		list_move_tail(&job->node, &done_jobs);
-+		dma_fence_signal_locked(job->done_fence);
-+	}
- 
--			list_move_tail(&job->node, &done_jobs);
--			dma_fence_signal_locked(job->done_fence);
--		}
--		spin_unlock(&queue->fence_ctx.lock);
-+	if (list_empty(&queue->fence_ctx.in_flight_jobs)) {
-+		/* If we have no job left, we cancel the timer, and reset remaining
-+		 * time to its default so it can be restarted next time
-+		 * queue_resume_timeout() is called.
-+		 */
-+		cancel_delayed_work(&queue->timeout.work);
-+		queue->timeout.remaining = msecs_to_jiffies(JOB_TIMEOUT_MS);
-+
-+		/* If there's no job pending, we consider it progress to avoid a
-+		 * spurious timeout if the timeout handler and the sync update
-+		 * handler raced.
-+		 */
-+		progress = true;
-+	} else if (!list_empty(&done_jobs)) {
-+		mod_delayed_work(queue->scheduler.timeout_wq,
-+				 &queue->timeout.work,
-+				 msecs_to_jiffies(JOB_TIMEOUT_MS));
-+		progress = true;
- 	}
-+	spin_unlock(&queue->fence_ctx.lock);
- 	dma_fence_end_signalling(cookie);
- 
- 	list_for_each_entry_safe(job, job_tmp, &done_jobs, node) {
-@@ -2926,6 +2998,27 @@ static void group_sync_upd_work(struct work_struct *work)
- 		panthor_job_put(&job->base);
- 	}
- 
-+	return progress;
-+}
-+
-+static void group_sync_upd_work(struct work_struct *work)
-+{
-+	struct panthor_group *group =
-+		container_of(work, struct panthor_group, sync_upd_work);
-+	u32 queue_idx;
-+	bool cookie;
-+
-+	cookie = dma_fence_begin_signalling();
-+	for (queue_idx = 0; queue_idx < group->queue_count; queue_idx++) {
-+		struct panthor_queue *queue = group->queues[queue_idx];
-+
-+		if (!queue)
-+			continue;
-+
-+		queue_check_job_completion(queue);
-+	}
-+	dma_fence_end_signalling(cookie);
-+
- 	group_put(group);
- }
- 
-@@ -3173,17 +3266,6 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	queue->iface.input->insert = job->ringbuf.end;
- 
- 	if (group->csg_id < 0) {
--		/* If the queue is blocked, we want to keep the timeout running, so we
--		 * can detect unbounded waits and kill the group when that happens.
--		 * Otherwise, we suspend the timeout so the time we spend waiting for
--		 * a CSG slot is not counted.
--		 */
--		if (!(group->blocked_queues & BIT(job->queue_idx)) &&
--		    !queue->timeout_suspended) {
--			queue->remaining_time = drm_sched_suspend_timeout(&queue->scheduler);
--			queue->timeout_suspended = true;
--		}
--
- 		group_schedule_locked(group, BIT(job->queue_idx));
- 	} else {
- 		gpu_write(ptdev, CSF_DOORBELL(queue->doorbell_id), 1);
-@@ -3192,6 +3274,7 @@ queue_run_job(struct drm_sched_job *sched_job)
- 			pm_runtime_get(ptdev->base.dev);
- 			sched->pm.has_ref = true;
- 		}
-+		queue_resume_timeout(queue);
- 		panthor_devfreq_record_busy(sched->ptdev);
- 	}
- 
-@@ -3241,6 +3324,11 @@ queue_timedout_job(struct drm_sched_job *sched_job)
- 
- 	queue_start(queue);
- 
-+	/* We already flagged the queue as faulty, make sure we don't get
-+	 * called again.
-+	 */
-+	queue->scheduler.timeout = MAX_SCHEDULE_TIMEOUT;
-+
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
-@@ -3283,6 +3371,17 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
- 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
- }
- 
-+static void queue_timeout_work(struct work_struct *work)
-+{
-+	struct panthor_queue *queue = container_of(work, struct panthor_queue,
-+						   timeout.work.work);
-+	bool progress;
-+
-+	progress = queue_check_job_completion(queue);
-+	if (!progress)
-+		drm_sched_fault(&queue->scheduler);
-+}
-+
- static struct panthor_queue *
- group_create_queue(struct panthor_group *group,
- 		   const struct drm_panthor_queue_create *args)
-@@ -3298,7 +3397,7 @@ group_create_queue(struct panthor_group *group,
- 		 * their profiling status.
- 		 */
- 		.credit_limit = args->ringbuf_size / sizeof(u64),
--		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-+		.timeout = MAX_SCHEDULE_TIMEOUT,
- 		.timeout_wq = group->ptdev->reset.wq,
- 		.name = "panthor-queue",
- 		.dev = group->ptdev->base.dev,
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2022 Renesas Electronics Corporation
+>   */
+>  #include <linux/clk.h>
+> +#include <linux/clk/renesas-rzv2h-dsi.h>
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> @@ -30,6 +31,9 @@
+>
+>  #define RZ_MIPI_DSI_FEATURE_16BPP      BIT(0)
+>
+> +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA       (80 * MEGA)
+> +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA       (1500 * MEGA)
 
-base-commit: 9528e54198f29548b18b0a5b343a31724e83c68b
--- 
-2.43.0
+RZV2H_MIPI_DPHY_FOUT_M{IN,AX}_IN_MHZ?
 
+> +
+>  struct rzg2l_mipi_dsi;
+>
+>  struct rzg2l_mipi_dsi_hw_info {
+> @@ -40,6 +44,7 @@ struct rzg2l_mipi_dsi_hw_info {
+>                               u64 *hsfreq_millihz);
+>         unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
+>                                             unsigned long mode_freq);
+> +       const struct rzv2h_pll_div_limits *cpg_dsi_limits;
+>         u32 phy_reg_offset;
+>         u32 link_reg_offset;
+>         unsigned long max_dclk;
+> @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
+>         u8 features;
+>  };
+>
+> +struct rzv2h_dsi_mode_calc {
+> +       unsigned long mode_freq;
+> +       u64 mode_freq_hz;
+
+Interesting... I guess mode_freq is not in Hz?
+
+> +};
+> +
+>  struct rzg2l_mipi_dsi {
+>         struct device *dev;
+>         void __iomem *mmio;
+
+> +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq)
+> +{
+> +       static const unsigned long hsfreq[] = {
+> +               1953125UL,
+> +               3906250UL,
+> +               7812500UL,
+> +               15625000UL,
+> +       };
+> +       static const u16 ulpsexit[] = {49, 98, 195, 391};
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(hsfreq); i++) {
+> +               if (freq <= hsfreq[i])
+> +                       break;
+> +       }
+> +
+> +       if (i == ARRAY_SIZE(hsfreq))
+> +               i -= 1;
+
+i--
+
+> +
+> +       return ulpsexit[i];
+> +}
+> +
+> +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
+> +{
+> +       const struct rzv2h_mipi_dsi_timings *timings;
+> +       u16 i;
+> +
+> +       timings = &rzv2h_dsi_timings_tables[index];
+> +       for (i = 0; i < timings->len; i++) {
+> +               unsigned long hsfreq = timings->hsfreq[i] * 10000000UL;
+
+(I wanted to say "MEGA", but then I noticed the 7th zero ;-)
+
+10 * MEGA?
+
+> +
+> +               if (freq <= hsfreq)
+> +                       break;
+> +       }
+> +
+> +       if (i == timings->len)
+> +               i -= 1;
+
+i--
+
+> +
+> +       return timings->start_index + i;
+> +};
+> +
+>  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 reg, u32 data)
+>  {
+>         iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
+> @@ -308,6 +479,158 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
+>         return 0;
+>  }
+>
+> +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *dsi,
+> +                                             unsigned long mode_freq)
+> +{
+> +       struct rzv2h_plldsi_parameters *dsi_parameters = &dsi->dsi_parameters;
+> +       u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
+> +       struct rzv2h_plldsi_parameters cpg_dsi_parameters;
+> +       unsigned int bpp, i;
+> +
+> +       bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +
+> +       for (i = 0; i < 10; i += 1) {
+> +               unsigned long hsfreq;
+> +               bool parameters_found;
+> +
+> +               mode_freq_hz = mode_freq * MILLI + i;
+
+KILO?
+
+And I guess you want to use mul_u32_u32(), as mode_freq_hz is u64?
+
+> +               mode_freq_millihz = mode_freq_hz * MILLI * 1ULL;
+
+Why * 1ULL?
+
+> +               parameters_found = rzv2h_dsi_get_pll_parameters_values(dsi->info->cpg_dsi_limits,
+> +                                                                      &cpg_dsi_parameters,
+> +                                                                      mode_freq_millihz);
+> +               if (!parameters_found)
+> +                       continue;
+> +
+> +               hsfreq_millihz = DIV_ROUND_CLOSEST_ULL(cpg_dsi_parameters.freq_millihz * bpp,
+> +                                                      dsi->lanes);
+> +               parameters_found = rzv2h_dsi_get_pll_parameters_values(&rzv2h_plldsi_div_limits,
+> +                                                                      dsi_parameters,
+> +                                                                      hsfreq_millihz);
+> +               if (!parameters_found)
+> +                       continue;
+> +
+> +               if (abs(dsi_parameters->error_millihz) >= 500)
+> +                       continue;
+> +
+> +               hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
+> +               if (hsfreq >= RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA &&
+> +                   hsfreq <= RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA) {
+> +                       dsi->mode_calc.mode_freq_hz = mode_freq_hz;
+> +                       dsi->mode_calc.mode_freq = mode_freq;
+> +                       return MODE_OK;
+> +               }
+> +       }
+> +
+> +       return MODE_CLOCK_RANGE;
+> +}
+
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> @@ -40,6 +40,39 @@
+>  #define DSIDPHYTIM3_THS_TRAIL(x)       ((x) << 8)
+>  #define DSIDPHYTIM3_THS_ZERO(x)                ((x) << 0)
+>
+> +/* RZ/V2H DPHY Registers */
+> +#define PLLENR                         0x000
+> +#define PLLENR_PLLEN                   BIT(0)
+> +
+> +#define PHYRSTR                                0x004
+> +#define PHYRSTR_PHYMRSTN               BIT(0)
+> +
+> +#define PLLCLKSET0R                    0x010
+> +#define PLLCLKSET0R_PLL_S(x)           ((x) << 0)
+
+ #define PLLCLKSET0R_PLL_S GENMASK(2, 0)
+
+and after that you can use FIELD_PREP(PLLCLKSET0R_PLL_S, x) in the code.
+More opportunities for masks below...
+
+> +#define PLLCLKSET0R_PLL_P(x)           ((x) << 8)
+> +#define PLLCLKSET0R_PLL_M(x)           ((x) << 16)
+> +
+> +#define PLLCLKSET1R                    0x014
+> +#define PLLCLKSET1R_PLL_K(x)           ((x) << 0)
+> +
+> +#define PHYTCLKSETR                    0x020
+> +#define PHYTCLKSETR_TCLKTRAILCTL(x)    ((x) << 0)
+> +#define PHYTCLKSETR_TCLKPOSTCTL(x)     ((x) << 8)
+> +#define PHYTCLKSETR_TCLKZEROCTL(x)     ((x) << 16)
+> +#define PHYTCLKSETR_TCLKPRPRCTL(x)     ((x) << 24)
+> +
+> +#define PHYTHSSETR                     0x024
+> +#define PHYTHSSETR_THSEXITCTL(x)       ((x) << 0)
+> +#define PHYTHSSETR_THSTRAILCTL(x)      ((x) << 8)
+> +#define PHYTHSSETR_THSZEROCTL(x)       ((x) << 16)
+> +#define PHYTHSSETR_THSPRPRCTL(x)       ((x) << 24)
+> +
+> +#define PHYTLPXSETR                    0x028
+> +#define PHYTLPXSETR_TLPXCTL(x)         ((x) << 0)
+> +
+> +#define PHYCR                          0x030
+> +#define PHYCR_ULPSEXIT(x)              ((x) << 0)
+> +
+>  /* --------------------------------------------------------*/
+>
+>  /* Link Status Register */
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
