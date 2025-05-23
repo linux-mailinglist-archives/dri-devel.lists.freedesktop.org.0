@@ -2,153 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15D0AC2473
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 15:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75407AC2480
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 15:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C036110E2A9;
-	Fri, 23 May 2025 13:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FD310E7EF;
+	Fri, 23 May 2025 13:50:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="LRQio/G1";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Lc5/j6H8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010049.outbound.protection.outlook.com [52.101.229.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D6F10E2A9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 13:47:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lAXJ9UwuRqSlmoDdRGBFbvfiD2hDSI32vWKbzxiJ9J4H9Nfn/bI+vBCQIkAh85R7CFmUiTMvUBi0xc2cM9zdYCyLKwm2/DutaEHvTACLNHz1ue4t7HnvOCEyho3SBF+1yjcGvs1luedROu4mdBXy2+b1xZedEE71jknsyZOKlrRcZUDNGSWJ2MH0slvwYnHnoh9pvg/VMKpI1QGnnPXlV/3eGlW8P63bR6G7uXFVC9yMMnKSPQ+iZzVkb4UbS/74Po8459PGRolWnE2EZXL+z4UsgOA0LU7bAZlCRggRAK5lKH1Dcd+qWVulozh5Kj6fOv7v4FfZUb6E/riyDTOwsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tr9cEUfIG8bfJeGswhP+5V0QZ3bwNbkqhjjlB50EtNw=;
- b=OgKpdjKNf1ltPHU55FptX/uHOoUUapeqfI5rtTRPOZ6577XhNkR4ajFaVG+PKVRzX49H42HNnn2b8fzCepzz3GhnEUMJzmHYnFqtLCxB32zwUcaJ9HE60h+0Ezl0/LeH53Wkm7bL/7ULjtStw1G3JhP/aL1PeP3e42q5Ge4nv8lalByBuszaAzW33w2ZJfYjGmYcX+74w3Bgcrq3iVkMW05Ny3Jjb1EihUIk/eqTLvSfwErmEy/It5wQEJ4NO45eXTgMaRdAOj+R5jHiF3VODQqlvjfpuuxWf3Umn5jqNlqQMXENfm7viBqnTiaF3VcZULpvxtmC9u7A5FFz7F5YIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tr9cEUfIG8bfJeGswhP+5V0QZ3bwNbkqhjjlB50EtNw=;
- b=LRQio/G1llT4YV6oPdS7zcVSmKNUhtkL+remteHxAZB2UlkxFuiruxU3T23Q41AzRyYnCxiLtHZnl6BhrLrvzQibeOAdBZNYq1fsUkzvzFRNvLLm615dMwinR1gRojKVONfVDxUhXL2+9UzwIT8IPtLk4S2uCYhwHIDQC/ZxHdg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by TYVPR01MB11364.jpnprd01.prod.outlook.com (2603:1096:400:36b::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.22; Fri, 23 May
- 2025 13:47:48 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.021; Fri, 23 May 2025
- 13:47:48 +0000
-Date: Fri, 23 May 2025 15:47:24 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: (subset) [PATCH v6 00/10] drm/display: generic HDMI CEC helpers
-Message-ID: <aDB8bD6cF7qiSpKd@tom-desktop>
-References: <20250517-drm-hdmi-connector-cec-v6-0-35651db6f19b@oss.qualcomm.com>
- <174778079318.1447836.14176996867060604138.b4-ty@oss.qualcomm.com>
- <TY3PR01MB1134687A2A762FE803EFA04F28698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAO9ioeUf_nQXfP490fDx0Ord55z6EsR+3SOhcee2B-ymewkuCg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO9ioeUf_nQXfP490fDx0Ord55z6EsR+3SOhcee2B-ymewkuCg@mail.gmail.com>
-X-ClientProxiedBy: FR4P281CA0332.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ea::18) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED88810E80A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 13:50:01 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-442e9c00bf4so66732005e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 06:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1748008200; x=1748613000;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=CqbZlLxqudOElbnSUFWVJQWOSiHqoX5MUBKhQqTAI0I=;
+ b=Lc5/j6H8CV9AyEyKWgABgpdIvRn/cHVqumikilNFz8isHg/ZrR0/oTScFrq7fQtzg2
+ m0XWHhtjEDyoXRBA3FfkoUACAf5owrvizIbTClMdoPrkdS9qwIB96nNB5y/DP+bMhKvl
+ IV9B+FlpI/4C+VkOSI2Kp38PxyLTrTaRlGqDxJupiOOvbuCauV32RZ5RFurK6AuwIoj8
+ 4drmPuEsb72/OOIZh3GyB7S20Bf5FpXXQ9xMy+5N/2EelBki7d1g7jbe6mzuUeNoIp6t
+ rXkvmaJ/OeInO/SHbfsJ1n/hscWMDSjdnB8ioWrJcuYUkxorqVljbO/23zMo+BOp8EH1
+ stXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748008200; x=1748613000;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CqbZlLxqudOElbnSUFWVJQWOSiHqoX5MUBKhQqTAI0I=;
+ b=tnJy42KrzYpQL3Klw0dk+EyiePBvSzes9nFHExyc8e7Fz7OvfRfMDe4msDniOdJBIZ
+ Lb0572fiyjAHKCQoRDIsIso1X95Pt/q28W04YHCd+Q1gU/Ukb5RdU8G+eweBY49ZiXjp
+ F1KA67GmON8BahwrD74fWjH+odOLjCrfQjwf1g5UO6DvBQk6Sz8lcO2tuetU2qGuxAGE
+ sr+mMatorYrdKBHmjWOCPWrQVjoXmY6VOFhwlIU0KJwOprFCWfditzPS+3rSUzXqi+Wb
+ lSk3KIi7O1dCjS1tEDJ4yuWOIYJV+Wd3JjleoSWicIq4ABAfvF0Zhl7rVULPAIDhdsbm
+ hAOQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUermR/ycG/L22eXlGSsSIpCgCfl1ZSaSabW/CKVww3WmCzixDOMHHOJrwj4Lc3hSr2c8iZz3LRSpE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHDl7QB/Pr4fJPG5uue0qbZQIlYS1ouYOzZMp18IIOD0c0NBoB
+ 4edPagbTQe8HXo+8FFwULLcUbuVvAZBZ2uyvC5t4LvYxjYgx+1aAX16ox+cFD4+NY1E=
+X-Gm-Gg: ASbGnctSMt9dhMd3I36rvIy+74z4I8GyIEGiFbSQrYb26KfDDd+jjtr1cs33JCObnc8
+ irLIlDncWttx3HCM6sE3qtPZjBb4Y8s4SW7Gxlxe5OqvdeG6abnHX3T8/ih61rnTcoF57EOfNU9
+ xBTu6GYPePbJYpfpbpgPhz0fzrDjvpcUhKnlzLagIpqeUmzH8NafLb/C/LXyxIJ4tzQ06DFvKS9
+ /p852k9KECy39pSFeppjRCtZ1bpo8ZL+zKPT0S2tQVMOx4Jx5idzqmGOuGXTvWQmuAkn1qSnZpx
+ ON6Q90i5fmOYJE4WgGe7BM0hEdr2VEiSasd3sk3pIEOnhVT4HsTCDvWEM96ce7GMfQ==
+X-Google-Smtp-Source: AGHT+IFyh7Lwlhi0eEaP5F0H0mD3Q7/UCKuKAqQ074eLg0qBEImHjvk33e02q6x4pQ5C37T/3ihwXw==
+X-Received: by 2002:a5d:64ee:0:b0:3a2:12a:e631 with SMTP id
+ ffacd0b85a97d-3a35fe7a46dmr26328780f8f.22.1748008200208; 
+ Fri, 23 May 2025 06:50:00 -0700 (PDT)
+Received: from [192.168.0.101] ([81.79.92.254])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a35ca88a13sm26402753f8f.74.2025.05.23.06.49.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 May 2025 06:49:59 -0700 (PDT)
+Message-ID: <3c8aac1b-a220-4f80-8b10-9df1fa5ed63c@ursulin.net>
+Date: Fri, 23 May 2025 14:49:59 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYVPR01MB11364:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b355983-8408-428c-9cca-08dd9a00677c
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|52116014|7416014|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HfGRJ36m7Bt5vaU018WXPcPpvQV5kFlKbx4I1WosfcPcyW5cSX6UvnoFsr1Y?=
- =?us-ascii?Q?gq8n5R+PWl+h1x78MXRE+ya3QpzXp0RBeTnhbMLWMY6IzOCpeMJqONFelGEQ?=
- =?us-ascii?Q?ZFBPiAkVKBH76pu/I7yW9YBQEyJXEyPO2AoL1ZMRM8Cv642rdsEtp37WZgz9?=
- =?us-ascii?Q?rnipJH9wuXdwOGMZvf5O7Ye/jCaz+bkopIVIp2FTGqjvSkm1CxfArvzVTUuQ?=
- =?us-ascii?Q?lV88BsctDWPrnVmq/YnWMXMW9/xtC7AZixbBtWUnoxVWWD4i4MAm7HlAyTnZ?=
- =?us-ascii?Q?cA8VrZLZ6z/CIiHJGDVqoE3gJL15t1p80GZ6HQbniW26v0kGeXiX1zqlD/cp?=
- =?us-ascii?Q?N8UdjKQMY0wO/bZq0RRVrfMeh6IjguUdxVcDRJLz5llJmIMzAMkoLabymjN7?=
- =?us-ascii?Q?qfKNG4pYXKfgfuajhvpKUqTRKeQjGgmeRBu7SnkLzqSxGCQDLSGY62RQ1PpE?=
- =?us-ascii?Q?AhgOs7gY0zLbRALBtqPrCyfhEn06CWkLF0/RnDv6WDALLxTihmLavw47Donr?=
- =?us-ascii?Q?YZx0ouPpTI+vsF6cXff/LH+2ZIwQqJpajDMFEHeR8lbFVT3MsKpn/8LfqyAj?=
- =?us-ascii?Q?YxpkrWhdBHIbDoIXLEfSthCPOWmjFoxQzD2CBKlQDPavFKuoVAk71Drb4NAN?=
- =?us-ascii?Q?iPrLT033SAjqqxEz6zdUulzLY8RJbeWgm+i4TRbqIII+zZIKmXu98qWi14/+?=
- =?us-ascii?Q?N7XS1zF94vn2D2XttUB9qe8JRKyfdidmkmMrv2fayousukDUz1g80pDSiDr2?=
- =?us-ascii?Q?w5ytq5XK5L90EueKVC/MW9ip9HTnFJ76ONA1s1B/FsP7xTeuAE2QUJ/Hk1Hd?=
- =?us-ascii?Q?P+7GxYQkXne+fZczk7svjU7nAlE8VspZzMHpUjnoaTZxPM4DekwuU81w7xq5?=
- =?us-ascii?Q?GfUmUvgsecAWFy69k3KuMOZkdWFWVhryhocETpwaCQ53qHZaT8CP2TcBwZ1u?=
- =?us-ascii?Q?XcGgN/Rhr28MOCSpKBTuqOPzirqanC3btanRiYnDqcTFuXI+O+MwMWee7ETg?=
- =?us-ascii?Q?3woJ/Ssmwg/m3qg6Y7zLUDA3lC8r8k7mWXf2AwOca55eS7HCY/GJMGENIJ0q?=
- =?us-ascii?Q?9PLTumwh+cUAV8qQRR7zGPTmhIMRQtkRmImabk9ayEiVyq8X5ozJo1FkNETr?=
- =?us-ascii?Q?xH0RrtIGF97xOgqS5aYEzszYHjjmloymKNHt/3LcCTE974B/FhbRyQ6yWHup?=
- =?us-ascii?Q?E7uAZDuxYADZDIIH9kMoTNGjr/xYioOsaC82BGuv8qOUHslrxojU/vauT4oI?=
- =?us-ascii?Q?cXJp/9gi2srGa+pvjigLINe9XKjTS7itrwx30wIcPrFzy6qw1RjwO9s2rOhk?=
- =?us-ascii?Q?vqnK/esv4bIItQ6x8EsOdXMFHkAwSRHBVTnw78aDByEA5VdrntbP++W8/WHQ?=
- =?us-ascii?Q?/QL0U3mlFQuJ2NxYWZ+ACr1TRfGfePXkwITVVsUYjXcGROE6PCqP7A0MImN1?=
- =?us-ascii?Q?l5XhE2iB/o7MWO0fPboKiiKMxZx9IMRHBXr+iQP4ejb6RwKlqfJKxA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS9PR01MB13950.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Cusm01OPJJmgxi2f6M51r94fX0ClWY+RwhulLnU+J/O2O/3dzlAWh+u7wnzD?=
- =?us-ascii?Q?UEsgHNeThsubzS4RcjoXKuRGFYvbmcMnDREfnI1DwhP/KeuUxzkZrgCIvOPu?=
- =?us-ascii?Q?IHyYa/BuYYP7+kGgwoHGB7881eMD56YgYd+5KfQXQgLhFqxcwbMhERTftR9L?=
- =?us-ascii?Q?l67ga9d5l91vnkqQ6VFCfY/Y7mEGL7HQBk3UnKaDuc33p1qOOlXB1q7dJu3e?=
- =?us-ascii?Q?o3bZIfU5P5lcIWR5RpVFv5CAG/c4VBWkxnk9fysWhMrftqBNjdGpQpKQ89Qe?=
- =?us-ascii?Q?BOH9A7uUxjgBv3h1R39QboolKgXXZbIlnNr0KIDRwcO7XppJjIRpvYIPjKA6?=
- =?us-ascii?Q?+bp9e3kj3QkTc0DJF8kTE7KIyG5p9xwbnUAo2DLKJ1U5oRnxAP47zbc6H4Q4?=
- =?us-ascii?Q?dayFYmQWoZwt5jgb+VQa8i0D/sAKtnz/wMcOAvihw8Py0XhrSBafnIe7Rxg2?=
- =?us-ascii?Q?JTv1eJUY0d/tKj7URH0btkkkWS3E0blCL3Z49jt0bq1qsUK+0/e38hIKdG3i?=
- =?us-ascii?Q?Y4DYNyQ61m8OtAfUEvL97TFcOLCJPyvoLFB58sLN5G3OpQCrPHUiL3VrazEA?=
- =?us-ascii?Q?KyS9/fRNlovhBTZaEddQHARXIlJKhD6XUWRMgUo1f+tgN5D/1DpSm2SYWhU2?=
- =?us-ascii?Q?L+cfPJOJVhppmC7tgFOCjsLiCSJky16AY+EsiV8a+wI8eM+75CxE9oc2qbkj?=
- =?us-ascii?Q?VQ9Cd3xyNlxmdUBKrnpIyP8unSAkRWioTCM75oiJslYHPrRsn3ElJvYnyuk4?=
- =?us-ascii?Q?rLbf2BwR4cMbrYpL7Nonhybliww0ntk4D1v8nN19AnWY9S908AQYkXuUyLRl?=
- =?us-ascii?Q?UFExs4dYXIIfXPuMrrJ5aEbM1ldzYiYBKqhSzNiZEC1T465Mp2iMHvXhhmqX?=
- =?us-ascii?Q?QyBiBVp5Ng45p4/5HhDfIBVY3+UD4uCplCpfFsmrcdnTJbDUFBuCHqX4mROA?=
- =?us-ascii?Q?kEczM55uqaNPZSIA93nVZUN/kJ6L8VyIa/rLKW31mKAf0te2UMVAvebgEuI9?=
- =?us-ascii?Q?EO/qE0rnZeGuJq1oKXm49GYYHamwCO3IM7JfirO+Vj1UMt7BkS+IpiQh9Daj?=
- =?us-ascii?Q?cDKJbb2ozccTMSqXhNy3ySeQedSAsxDWDw7nXzq+gZa+fEH90EfzjM++/kT+?=
- =?us-ascii?Q?Uf85lDV2LiameYFqPiKzPjnxwIa4fdhVU3bwqLg+6H8zlHegsXt3QvxwNmR3?=
- =?us-ascii?Q?BY9NwrjrYnpFyscIbON+6cx1QTSSn9sp3bJhi+cGdMEKuLDrSwt17x6YAtbB?=
- =?us-ascii?Q?MKHkpdCHOhkmW5f1YkkSjhpSUGJNAHFjjR0Vl9G7CDq0sBvfq8wW5G/IyhUz?=
- =?us-ascii?Q?eGnVO47TE/4ZYyqYHHaL1ma60sy5gLNKmC7aT+B48gdlU09b7fjj9M/iuxr8?=
- =?us-ascii?Q?+yMMLvd04QS+8pAlyvg0xZnL7QHB8gj/UxdBJ10JkUTNJdK6YqolxqoQTPok?=
- =?us-ascii?Q?5S+1Umv61hF0Wm36mmvzk3+oDThAk6eEoALaAkc7WrNWQnWehCS4M4Gn/4R2?=
- =?us-ascii?Q?FsFuhexn40Rp6Fh88eGfq8wtK5Wp5gGtConnf2KyNJturucNpDw/7PAGaSYC?=
- =?us-ascii?Q?TymhS5KHNK78XRdTqtzVbgR5RsQEYoWeLXOuhVDCXGAJ35+cv2UTYHUiukR6?=
- =?us-ascii?Q?HugvfJcMgYeB6HY/3xbEMew=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b355983-8408-428c-9cca-08dd9a00677c
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 13:47:48.7535 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bso9zm96LzRRGOovvOhLiRrSMseRIZrD67+G6z2yKTbpOzOeYviyMcxq7R3U2KdZF2X7zyzIZSxXeKkMhf0eMcY0v9y4MYXiQ2osHFHuVbwEapGuXAgqT3hVRU6aEdtc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB11364
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, dakr@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20250523125643.7540-1-christian.koenig@amd.com>
+ <20250523125643.7540-2-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250523125643.7540-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,93 +92,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju, Dmitry,
-Thanks for your comments.
 
-On Fri, May 23, 2025 at 09:37:19AM +0300, Dmitry Baryshkov wrote:
-> Hi Biju
+On 23/05/2025 13:56, Christian König wrote:
+> It turned out that we can actually massively optimize here.
 > 
-> On Fri, 23 May 2025 at 09:17, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> >
-> > Hi Dmitry Baryshkov,
-> >
-> > Thanks for the series.
-> >
-> > Looks like, After this patch, when I change resolution using modetest it is not working.
-> > Monitor is showing out of range/No signal on RZ/V2L SMARC EVK connected to ADV7535.
-> >
-> > Not sure, I am the only one facing this issue?
+> The previous code was horrible inefficient since it constantly released
+> and re-acquired the lock of the xarray and started each iteration from the
+> base of the array to avoid concurrent modification which in our case
+> doesn't exist.
+> 
+> Additional to that the xas_find() and xas_store() functions are explicitly
+> made in a way so that you can efficiently check entries and if you don't
+> find a match store a new one at the end or replace existing ones.
+> 
+> So use xas_for_each()/xa_store() instead of xa_for_each()/xa_alloc().
+> It's a bit more code, but should be much faster in the end.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 29 ++++++++++++++++++--------
+>   1 file changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index f7118497e47a..cf200b1b643e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
+>   int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>   				 struct dma_fence *fence)
+>   {
+> +	XA_STATE(xas, &job->dependencies, 0);
+>   	struct dma_fence *entry;
+> -	unsigned long index;
+> -	u32 id = 0;
+> -	int ret;
+>   
+>   	if (!fence)
+>   		return 0;
+> @@ -883,24 +881,37 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>   	 * This lets the size of the array of deps scale with the number of
+>   	 * engines involved, rather than the number of BOs.
+>   	 */
+> -	xa_for_each(&job->dependencies, index, entry) {
+> +	xa_lock(&job->dependencies);
+> +	xas_for_each(&xas, entry, ULONG_MAX) {
+>   		if (entry->context != fence->context)
+>   			continue;
+>   
+>   		if (dma_fence_is_later(fence, entry)) {
+>   			dma_fence_put(entry);
+> -			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
+> +			xas_store(&xas, fence);
+>   		} else {
+>   			dma_fence_put(fence);
+>   		}
+> -		return 0;
+> +		xa_unlock(&job->dependencies);
+> +		return xas_error(&xas);
+>   	}
+>   
+> -	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
+> -	if (ret != 0)
+> +retry:
+> +	entry = xas_store(&xas, fence);
+> +	xa_unlock(&job->dependencies);
+> +
+> +	/* There shouldn't be any concurrent add, so no need to loop again */
+> +	if (xas_nomem(&xas, GFP_KERNEL)) {
+> +		xa_lock(&job->dependencies);
+> +		goto retry;
+> +	}
+> +
+> +	if (xas_error(&xas))
+>   		dma_fence_put(fence);
+> +	else
+> +		WARN_ON(entry);
 
-I have the same issue using RZ/G3E Smark EVK connected to ADV7535.
-I found that switching back to the old:
+Looks good, I cannot spot a high level problem with this approach.
 
- - adv7511_mode_set()
- - Using also old .mode_set = adv7511_bridge_mode_set,
+Maybe only tail end of this function could be improved with something 
+like this:
 
-Implementation fix the issue on my side.
+...
+if (xas_nomem(&xas, GFP_KERNEL)) {
+	xa_lock(&job->dependencies);
+	goto retry;
+}
 
-Thanks & Regards,
-Tommaso
+err = xas_error(&xas);
+if (WARN_ON(!err && entry))
+	dma_fence_put(entry);
+else if (err)
+	dma_fence_put(fence);
 
-> 
-> I have been testing the series on db410c / adv7533, but something
-> might have changed between the testing time and the present time. I
-> will try checking it next week.
-> 
-> In the meantime, you can probably try comparing what gets programmed
-> in adv7511_mode_set().
-> 
-> >
-> > Modetest works fine with 6.15.0-rc6-next-20250516, where this patch series is
-> > not present.
-> >
-> > Cheers,
-> > Biju
-> >
-> > > -----Original Message-----
-> > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Dmitry Baryshkov
-> > > Sent: 20 May 2025 23:40
-> > > Subject: Re: (subset) [PATCH v6 00/10] drm/display: generic HDMI CEC helpers
-> > >
-> > >
-> > > On Sat, 17 May 2025 04:59:36 +0300, Dmitry Baryshkov wrote:
-> > > > Currently it is next to impossible to implement CEC handling for the
-> > > > setup using drm_bridges and drm_bridge_connector: bridges don't have a
-> > > > hold of the connector at the proper time to be able to route CEC events.
-> > > >
-> > > > At the same time it not very easy and obvious to get the CEC physical
-> > > > address handling correctly. Drivers handle it at various places,
-> > > > ending up with the slight differences in behaviour.
-> > > >
-> > > > [...]
-> > >
-> > > Applied, thanks!
-> > >
-> > > [01/10] drm/bridge: move private data to the end of the struct
-> > >         commit: fa3769e09be76142d51c617d7d0c72d9c725a49d
-> > > [02/10] drm/bridge: allow limiting I2S formats
-> > >         commit: d9f9bae6752f5a0280a80d1bc524cabd0d60c886
-> > > [03/10] drm/connector: add CEC-related fields
-> > >         commit: e72cd597c35012146bfe77b736a30fee3e77e61e
-> > > [04/10] drm/display: move CEC_CORE selection to DRM_DISPLAY_HELPER
-> > >         commit: bcc8553b6228d0387ff64978a03efa3c8983dd2f
-> > > [05/10] drm/display: add CEC helpers code
-> > >         commit: 8b1a8f8b2002d31136d83e4d730b4cb41e9ee868
-> > > [06/10] drm/display: hdmi-state-helper: handle CEC physical address
-> > >         commit: 603ce85427043ecb29ef737c1b350901ce3ebf09
-> > > [08/10] drm/display: bridge-connector: hook in CEC notifier support
-> > >         commit: 65a2575a68e4ff03ba887b5aef679fc95405fcd2
-> > > [09/10] drm/display: bridge-connector: handle CEC adapters
-> > >         commit: a74288c8ded7c34624e50b4aa8ca37ae6cc03df4
-> > > [10/10] drm/bridge: adv7511: switch to the HDMI connector helpers
-> > >         commit: ae01d3183d2763ed27ab71f4ef5402b683d9ad8a
-> > >
-> > > Best regards,
-> > > --
-> > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
+return err;
+
+Thoughts?
+
+
+>   
+> -	return ret;
+> +	return xas_error(&xas);
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_add_dependency);
+>   
+
