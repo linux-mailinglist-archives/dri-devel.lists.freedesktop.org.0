@@ -2,69 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0700AC2578
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0414AAC25E2
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 17:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A79D010E80C;
-	Fri, 23 May 2025 14:52:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AUBPinVe";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C56E10E814;
+	Fri, 23 May 2025 15:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203F610E80C;
- Fri, 23 May 2025 14:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748011961; x=1779547961;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YfDlfjViUIxPDvxHU9IxZmOKjAqljUMziUk3lky/KQo=;
- b=AUBPinVeuKd5cZPPHdPDa5vSmBsidVi54zE4vMgRjTaJ0+Snhee+TXLy
- X/ND9EVcE+uyprtAQOOq8k7HvLJcu31NwkAwuID2YeVTopiCekOup61Ds
- VRSbxglMsVTS0Ucip9vmNbrtog6U0jOWokBI0tnly47F/nIfXfjF82+OC
- kmXSlS6JwSYqNROm2I5Pvogpzn5P/YAtOD5LpmSQq70bcCOt0Qx2Ev0ve
- AR7DeZQzhF7AGRpDGehT+HMDXc22stoeE3jbLAgUv3gZHxDUNoksgWhkN
- cL2jCtQqH+qPbia5lnB/OGAm+LQdWL8GViJX9o1eO+omGxT/ULWJpNUvr A==;
-X-CSE-ConnectionGUID: 1xR4K0yPQeG7FALPc/xPaQ==
-X-CSE-MsgGUID: 1DS13Wh0Ri64AcHkkFjavA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="37694299"
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; d="scan'208";a="37694299"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2025 07:52:34 -0700
-X-CSE-ConnectionGUID: DEuM889MQKOIl8FwkSj3PA==
-X-CSE-MsgGUID: c7czU3tbSvy32+dbBwG7aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; d="scan'208";a="142209746"
-Received: from kuha.fi.intel.com ([10.237.72.152])
- by fmviesa009.fm.intel.com with SMTP; 23 May 2025 07:52:30 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Fri, 23 May 2025 17:52:29 +0300
-Date: Fri, 23 May 2025 17:52:29 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Lyude <lyude@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Imre Deak <imre.deak@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>
-Subject: Re: [PATCH 5/8] drm/i915: Associate ACPI connector nodes with
- connector entries (v2)
-Message-ID: <aDCLra5EKMbyVH3D@kuha.fi.intel.com>
-References: <20210817215201.795062-1-hdegoede@redhat.com>
- <20210817215201.795062-6-hdegoede@redhat.com>
- <87sekvsml0.fsf@intel.com>
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B33210E814
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 15:04:41 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-7c54b651310so1319573785a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:04:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748012677; x=1748617477;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z7q5VOWPHTLyk2rAGQ6nFq+sdmA8F0+9sYOybYBqTFg=;
+ b=AlS3WwwGdboiph/EBwL7f7Oue/L2raVk3aHsKkfH1L7gVTWXXM4B2ddkfCB7zHdNZ9
+ gZ62jWVqCVliUD2i6tqXdArirzcCPyOw85x7wRMD+vHgJnwHZLsykFQQ8g34sdW41nJG
+ d2SdCJxy9NxDl5a2Nx9LWvKR7bHWoKFGJuaXTrINHdm84lB7RVipuU3PfwZGP0/DW8mj
+ +3TwoGSpaGufn3qXKVAxg+IM1B0LBQqpd4Hjqj7gRpYo+pnqZQMDLGK3/2ywq37Gz0h6
+ IkAOH1qXBu05YsfV2CgBPZ5SS5OD3Mh81EvA3EgfBA2P/U8tSovvVLGViSy4tFbU0f8q
+ zW5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8vuYyfmgT4hYZe2zPIR2MX9rfHU4Wv3an44uqMS7E3/WiwzL8ADOu/nbPs2mY9xpP/XGBe7Re+xo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx77brZwK7elIAaQva6OxAbRVtvkNqryTkKx5QVg9zj/UJ0n62i
+ UE1vvxy+/7aGTMkyIiGdAZz54LlU8MiWK+8UHLfzX6yzblxENZHEv091C+46GPDDhzc=
+X-Gm-Gg: ASbGncsG3qSfD4yYimCH5sGUJlQyM9EocDlJ/m1KoTWf92cR6IJNVN0G75bnLKr45d5
+ V9+S1AH7IzH8zXHMuMaYwqIQw5JmsRBrVSTzYzEwh/iboi45AdzHGnvuelBLmY/5mf8F8NtKZ6N
+ niMwMsdWyaYXQFCAQK8WMFoIq9AAy088M/ZMzne3btB2JS+IyUHKLFHuFD5d68R+ijz/BpDzfO6
+ eetSMcOc2dNY0p2dyka77VZ8QSTCdrpTob/MbfTrlxWnDg3ZaBkYEEIWJUei42vfUiTC3F3KMTd
+ 1eF/tL8K/Zft2c+r4D6Ps1Z+W61cwwo0RlPtmpU01OCM1P2ZYpFJ0iU75VLgRYT46LiKUho/3Ni
+ Zmy0g6KwrAJgao9ssZA8yorCqE9Yy
+X-Google-Smtp-Source: AGHT+IHpxjx5UFoUtUoD43pN2juSSGF8GI5Ztc48blOBx3oA5RFyK6m0v74F2gZebAkv/0jjuAUhMA==
+X-Received: by 2002:a05:620a:280d:b0:7c5:4c49:769c with SMTP id
+ af79cd13be357-7cd47effeccmr4510970185a.6.1748012676490; 
+ Fri, 23 May 2025 08:04:36 -0700 (PDT)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com.
+ [209.85.222.175]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7cd467dab1asm1190383985a.44.2025.05.23.08.04.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 May 2025 08:04:36 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id
+ af79cd13be357-7caea4bc9e9so1479952785a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 08:04:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZ+WlAQELx4ZHWjgbhSVgmZw6z+Q1B8WKoDj1M0dg/KzsufXk18OPRePIl73ZxXhsxF/PBzckv1C4=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3f06:b0:4e2:bacd:9f02 with SMTP id
+ ada2fe7eead31-4e2bacda0c0mr10649290137.16.1748012320563; Fri, 23 May 2025
+ 07:58:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sekvsml0.fsf@intel.com>
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512184302.241417-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 May 2025 16:58:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU__dxi4wvS3ikBQefM7uwWWK0bCcHv=TL-Td678pEi9Q@mail.gmail.com>
+X-Gm-Features: AX0GCFt82q4LbUN8wOO1SOIRH6DyQiAH55lXfwgWzPo4hKmY_3p-dAhsTJpdcck
+Message-ID: <CAMuHMdU__dxi4wvS3ikBQefM7uwWWK0bCcHv=TL-Td678pEi9Q@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] dt-bindings: display: bridge: renesas,dsi: Add
+ support for RZ/V2H(P) SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,195 +101,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hi Prabhakar,
 
-On Fri, May 23, 2025 at 12:28:11PM +0300, Jani Nikula wrote:
-> 
-> Resurrecting an old thread because I am clueless and I have
-> questions. :)
-> 
-> On Tue, 17 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
-> > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> >
-> > On Intel platforms we know that the ACPI connector device
-> > node order will follow the order the driver (i915) decides.
-> > The decision is made using the custom Intel ACPI OpRegion
-> > (intel_opregion.c), though the driver does not actually know
-> > that the values it sends to ACPI there are used for
-> > associating a device node for the connectors, and assigning
-> > address for them.
-> 
-> Is this referring to intel_didl_outputs()?
-> 
-> First, it's curious that intel_didl_outputs() is only called on the
-> resume paths, not at probe. I don't think the DIDL is set when
-> intel_acpi_assign_connector_fwnodes() is called. But is it only the
-> order that matters? Should we do intel_didl_outputs() at probe too?
-> 
-> Currently, we register all connectors first, move panel (as opposed to
-> external) connectors in front, and that's the fixed connector order
-> we'll use.
-> 
-> I am wondering if it would be possible to do what this patch does as we
-> register each connector, not afterwards.
+On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to that of
+> the RZ/G2L SoC. While the LINK registers are the same for both SoCs, the
+> D-PHY registers differ. Additionally, the number of resets for DSI on
+> RZ/V2H(P) is two compared to three on the RZ/G2L.
+>
+> To accommodate these differences, a SoC-specific
+> `renesas,r9a09g057-mipi-dsi` compatible string has been added for the
+> RZ/V2H(P) SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-That would be ideal. I did not know how to do that at the time.
+Thanks for your patch!
 
-> It would involve something like this:
-> 
-> - Figure out intel_connector->acpi_device_id at connector register time
-> - Figure out the index for DIDL at connector register time
-> - Figure out connector->fwnode at connector register time
-> 
-> What could possibly go wrong...?
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> @@ -14,16 +14,17 @@ description: |
+>    RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+>    up to four data lanes.
+>
+> -allOf:
+> -  - $ref: /schemas/display/dsi-controller.yaml#
+> -
+>  properties:
+>    compatible:
+> -    items:
+> +    oneOf:
+>        - enum:
+> -          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> -          - renesas,r9a07g054-mipi-dsi # RZ/V2L
+> -      - const: renesas,rzg2l-mipi-dsi
+> +          - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
 
-Probable nothing :-)
+Nit: I would add the new entry after all the old entries, to preserve
+sort order (by part number).
 
-> > In reality that custom Intel ACPI OpRegion actually violates
-> > ACPI specification (we supply dynamic information to objects
-> > that are defined static, for example _ADR), however, it
-> > makes assigning correct connector node for a connector entry
-> > straightforward (it's one-on-one mapping).
-> 
-> Could someone elaborate, please?
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-mipi-dsi # RZ/V2L
+> +          - const: renesas,rzg2l-mipi-dsi
+>
+>    reg:
+>      maxItems: 1
 
-If you evaluated the _ADR (address) before i915 was loaded you got
-different value than what you got after the driver was loaded. In
-practice it meant that you could not determine which ACPI device node
-would end up representing which connector before the driver was fully
-loaded.
+The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-But is the intel operation region even used anymore? I can't see its
-UUID in the tables of the MTL or even RPL systems that we have.
+Gr{oetje,eeting}s,
 
-In any case, this is not a huge problem I think.
-
-> > Changes in v2 (Hans de goede):
-> > - Take a reference on the fwnode which we assign to the connector,
-> >   for ACPI nodes this is a no-op but in the future we may see
-> >   software-fwnodes assigned to connectors which are ref-counted.
-> >
-> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Tested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_acpi.c    | 46 ++++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_acpi.h    |  3 ++
-> >  drivers/gpu/drm/i915/display/intel_display.c |  1 +
-> >  3 files changed, 50 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-> > index 7cfe91fc05f2..72cac55c0f0f 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_acpi.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-> > @@ -282,3 +282,49 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
-> >  	}
-> >  	drm_connector_list_iter_end(&conn_iter);
-> >  }
-> > +
-> > +/* NOTE: The connector order must be final before this is called. */
-> > +void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915)
-> > +{
-> > +	struct drm_connector_list_iter conn_iter;
-> > +	struct drm_device *drm_dev = &i915->drm;
-> > +	struct fwnode_handle *fwnode = NULL;
-> > +	struct drm_connector *connector;
-> > +	struct acpi_device *adev;
-> > +
-> > +	drm_connector_list_iter_begin(drm_dev, &conn_iter);
-> > +	drm_for_each_connector_iter(connector, &conn_iter) {
-> > +		/* Always getting the next, even when the last was not used. */
-> > +		fwnode = device_get_next_child_node(drm_dev->dev, fwnode);
-> > +		if (!fwnode)
-> > +			break;
-> > +
-> > +		switch (connector->connector_type) {
-> > +		case DRM_MODE_CONNECTOR_LVDS:
-> > +		case DRM_MODE_CONNECTOR_eDP:
-> > +		case DRM_MODE_CONNECTOR_DSI:
-> > +			/*
-> > +			 * Integrated displays have a specific address 0x1f on
-> > +			 * most Intel platforms, but not on all of them.
-> > +			 */
-> > +			adev = acpi_find_child_device(ACPI_COMPANION(drm_dev->dev),
-> > +						      0x1f, 0);
-> > +			if (adev) {
-> > +				connector->fwnode =
-> > +					fwnode_handle_get(acpi_fwnode_handle(adev));
-> > +				break;
-> > +			}
-> > +			fallthrough;
-> > +		default:
-> > +			connector->fwnode = fwnode_handle_get(fwnode);
-> 
-> Is it possible to get the struct acpi_device for all fwnodes? Does one
-> exist?
-
-If it is_acpi_node(fwnode) then yes, you can use
-to_acpi_device_node(fwnode)
-
-Each connector does have an ACPI device node in the ACPI tables under
-the parent GFX controller device, so yes one should always exist.
-
-> Specifically, I think I need a struct device that's also an ACPI device
-> to pass to devm_drm_panel_alloc(), so that a subsequent
-> drm_panel_add_follower() can use ACPI to look up the panel/connector.
-
-You could already do something like this to make the code work with
-both ACPI and DT:
-
-+static struct drm_panel *drm_find_panel(const struct fwnode_handle *fwnode)
-+{
-+       struct drm_panel *panel;
-+
-+       if (!fwnode_device_is_available(fwnode))
-+               return ERR_PTR(-ENODEV);
-+
-+       mutex_lock(&panel_lock);
-+
-+       list_for_each_entry(panel, &panel_list, list) {
-+               if (dev_fwnode(panel->dev) == fwnode) {
-+                       mutex_unlock(&panel_lock);
-+                       return panel;
-+               }
-+       }
-+
-+       mutex_unlock(&panel_lock);
-+       return ERR_PTR(-EPROBE_DEFER);
-+}
-+
- int drm_panel_add_follower(struct device *follower_dev,
-                           struct drm_panel_follower *follower)
- {
--       struct device_node *panel_np;
-+       struct fwnode_handle *fwnode;
-        struct drm_panel *panel;
-        int ret;
- 
--       panel_np = of_parse_phandle(follower_dev->of_node, "panel", 0);
--       if (!panel_np)
-+       fwnode = fwnode_find_reference(dev_fwnode(follower_dev), "panel", 0);
-+       if (!fwnode)
-                return -ENODEV;
- 
--       panel = of_drm_find_panel(panel_np);
--       of_node_put(panel_np);
-+       panel = drm_find_panel(fwnode);
-+       fwnode_handle_put(fwnode);
-        if (IS_ERR(panel))
-                return PTR_ERR(panel);
-
-
-But that would only work if the follower_dev had a _DSD device
-property named "panel" that has a reference to the ACPI device node
-that represents the panel as its value. Is the panel here the same
-thing as the connector?
-
-I'm pretty sure there is no such device property (or is there?), so
-how are you going to find the correct panel ACPI node for the
-follower_dev?
-
-Br,
+                        Geert
 
 -- 
-heikki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
