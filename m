@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B122AC2C21
+	by mail.lfdr.de (Postfix) with ESMTPS id 3354DAC2C1F
 	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 01:25:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9447410E0C4;
-	Fri, 23 May 2025 23:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAEA810E869;
+	Fri, 23 May 2025 23:25:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UwOxPnsM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LwuaUGTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D63310E097
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 19:52:33 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-477296dce8dso1752161cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 12:52:33 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+ [209.85.160.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447B510E097
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 19:52:34 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-476f4e9cf92so1641631cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 12:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748029952; x=1748634752; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LZuMU82VeoD6SjXQ3MttsAUR2lLhSZagEoZvudH6MeI=;
- b=UwOxPnsMmO9EHwPEqbhYy3nOOP7ZUVEQZ3bWz9UVPdRvAbc2kbMjK1duo0aUXj08I3
- SBst98DE4mVswPp+AZs5x1nzybS7ELt1n7+wz1heAkSqYTK7eXzKFP89r788XS3D/6XA
- v2NAvFPcY5MOZHzcIE3UWt6zy+YqIqICD1sIN2piTCcreYXIjeJpym5sTEj0Vnsawkrs
- DGUnqxlhU7S8Hdh088tZX3N2cucA06HAgMho146TqKj6h5NpXYuDQ4HBUak3QkaDWyGu
- Nx5xmRFi+N5V0MfUF2yD5mw38mCIsZjfpFZZSI12EI3GbXNLn5Yb2o8PUa+Jm5CRqtdD
- mfdw==
+ d=gmail.com; s=20230601; t=1748029953; x=1748634753; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=nrabLxj8R0+gWSgXlOCfum1YIagrx7v3OcNYJ2wlWMQ=;
+ b=LwuaUGTjMK6P1otQUrb/Bj+PvcgnJyUs27eXNNJp7Vh3uoCvu6fT8lHoxey26P5C9J
+ wsNmRQcjCS2VlVdebFZ2SETcmligHjATxSxNG5Rgv/QshZl7xkElm6b/r3Ik5PNtdAzZ
+ /pMdgcURfani/AznU0RCGbumfpLZ036TILMmyn96iNbz+BJqZdHNUb00TWnjb+0aneK/
+ qJvqLH1OBoebHBzZJBDSz13jsM+eSbu025W+zN2ENX2BL1O4IL+2ou4DEWYm4hLtK1QH
+ y3Sj5w6kNHo0sKoryC53rBuPEuoNV3jqDx/7bJ7NjNb4GG6DyVfdzuOkELpeNY4EdQDT
+ AJ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748029952; x=1748634752;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LZuMU82VeoD6SjXQ3MttsAUR2lLhSZagEoZvudH6MeI=;
- b=LqUts6WCLWZHVtj68tW/VBHxgqA+EwzO7JL6fns4sfiX/CZYrLyn/RYaUzIuOd6KS5
- A6flV2z7e49q+ODFWgI1DQIjdSNVGQ1PDj8qh+JrWDhVYvZ72A4LIHTD9cEIicYsoM2U
- VsYZMMFinrTHGl7mYcYr7aIc1f2O8Mus0HLWaVPUuv3n/p38fD5gBpX5sR4j0794eJOu
- sTHRhHwVEaUN0IGWhWiboQVrHiwXll/CtAtwrM4z6W80E5ECHwpKahBFiyo04TFzgyBR
- Wy/bBeRAh2/aY6V5DWSGaZ3Ba9olLDyGG9WdYB552h2GcUZXtYp9Y0glPDNrkoXEBiK+
- 9Xfg==
-X-Gm-Message-State: AOJu0Ywg6bp0y93HgAcxUr67K8IDksXtwkGrbeLmwaBNoo7hj/H88gu1
- m8OU0gvhidcWGIIX5TnNbEkseQOLy6Z5NQVjNw9Zyfiop7UWV/0/6SVk
-X-Gm-Gg: ASbGncuhg8w/voKX3Y0rGBhabMZGPnbBzqM5KMdl3W4QMJwLoopEg9JAiWsgf/zytDI
- Bn0XIcPwKBeVEl74/X8/sqHMmNUWkInWxboKtyikhbLmwCGomHBQYA//LO9te5qojM2D6BcI3Jg
- GZWOXvz8Y9QQanYKkEhrmdHCvATXqmjd8FnOqRIERK17u+/pTfBAamx66xpxYWlAzWIzJF1Qp/D
- xBMrQ3N+e8fhkYlNfhr69vRaHzreaur0pSlskkzGl5G6S3f9fHVs/Ecsez3s0w1sDIxhbSaYari
- 3fWSx/hpRQXl6Bgc6JXUi7s3L6Ch345DaKK536el8B4JDWX0r6zQefx89JW+SwzxVA==
-X-Google-Smtp-Source: AGHT+IGnQY/z93JEf+AGmMMUkG5oJIhr6LzAzc5bOd7Mu9OECAnddCKCevcAKu7ElP4DlshKGt75zg==
-X-Received: by 2002:a05:622a:1b94:b0:494:a01d:a912 with SMTP id
- d75a77b69052e-49f46940cc6mr8469011cf.13.1748029952122; 
- Fri, 23 May 2025 12:52:32 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1748029953; x=1748634753;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nrabLxj8R0+gWSgXlOCfum1YIagrx7v3OcNYJ2wlWMQ=;
+ b=eaB38XfHgMaVMBgTUX125JORTzKa7lBsQkIfl8XckXzMe2GIyh1Z7KYDj2GjY8QJuv
+ /Sl7d1PjDJv077KqggGgmq2WC3KGPm6h3Xc5h1mfOafx2PmlPcPRKwJVd6DNaMGuNhwa
+ 7pOXnrpGYvSaMWOvl6FrCwTN/gFT4WEnIm+BUVgvYK9ZlISteZMZBx3yffILBK6gsMdK
+ qMqohruSckX6XYY4FlDr7Tz+XsbTXSXERUJAdjdN3og3QpjSTSsSaPKK7j+OcmA6Z1Oo
+ C0ZSjjLswS/Mx94MzaUaEpmX3f9U3VQqQRQHoo2+ZoCsT1sf9BUYNh14XVLUeI8XuAeo
+ CD6Q==
+X-Gm-Message-State: AOJu0Yy0iiGebfuanpFlfXe/vYTmEYcJ9oI1MARrsqm70UMrsVczc/cp
+ SRpbQUbsF04CO+vnMVkMUYoN8CV/+gz0jsMvsel+VzHtMOTFu1N1n/hc
+X-Gm-Gg: ASbGnctHVtIDnfazTJ9VfYxSS/PPTyUi3Ht/2SJP2RD+Jk2YW3+2gRTYaB7y9SDKXmj
+ u8SWZzPykrKEV2RiMrHreN9ZFGHiUmmpdxm4a1aJlg+MX0DsmyGh20PecSWIZcyse6gsPGln6J7
+ OVzvkUF/nAPcmsqh9X2JNG5XQpX7VF5yY2LQnFWcDXz2o23sLdLnQv0PLSNE5AFnzp0Ln4CWpPW
+ mWKxLqdVVz0tMnveo4L3uplClPoGrgFTAy4HStaR4hq00mCczWY8EaIJbRGWvmeg0haL1O2/jpd
+ 7PDzIIuXWXYJFskzvi7IPoe181zzTY/Vx15rDWaaqgBtbTMdGS3MBEtMad81yvey/Q==
+X-Google-Smtp-Source: AGHT+IHH0XRRoych4f6+KUaQ0fb+Mv8leaDYEmMTiTyLzMWDwUNEVCbrlUB98Jt4Nl8dDJzI/MYlnw==
+X-Received: by 2002:a05:622a:1e0c:b0:48a:c90f:ce6f with SMTP id
+ d75a77b69052e-49f46250cdamr9680311cf.4.1748029953273; 
+ Fri, 23 May 2025 12:52:33 -0700 (PDT)
 Received: from [10.0.0.88] ([2607:fea8:bad7:5400:a4e6:39bc:5bd6:cf8f])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-494ae4fd718sm117133001cf.53.2025.05.23.12.52.31
+ d75a77b69052e-494ae4fd718sm117133001cf.53.2025.05.23.12.52.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 12:52:31 -0700 (PDT)
+ Fri, 23 May 2025 12:52:32 -0700 (PDT)
 From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Subject: [PATCH v2 0/2] drm: add overview diagram for drm stack
-Date: Fri, 23 May 2025 15:52:24 -0400
-Message-Id: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
+Date: Fri, 23 May 2025 15:52:25 -0400
+Subject: [PATCH v2 1/2] drm: add overview diagram for drm stack
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPjRMGgC/3WNQQ6CMBBFr0Jm7Rg6UiSuuIdhgcwUJhFKWiQaw
- t2t7F2+l/z3N4gSVCLcsg2CrBrVTwnolEE3tFMvqJwYKCebWyLkMCL7Dl8zt4tEvJRV6UouKkM
- EaTUHcfo+ivcm8aBx8eFzHKzmZ/+3VoMG2YhjW1yL/MF1P7b6PHd+hGbf9y8DXZydrgAAAA==
-X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
+Message-Id: <20250523-drm-doc-updates-v2-1-e517df152cf6@gmail.com>
+References: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
+In-Reply-To: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -77,11 +75,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748029951; l=889;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748029951; l=2194;
  i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
- bh=DoYl8neMKOeuqXR7Psb9wz68aPAx8dAQ69CSXWwjT6E=;
- b=WA/dUAMQLPhuxLwgIo8veI2CO3as2EZ8+WPAF94JfZrJoUrO/ZohIijjxG3vKnUIVAMSISNKq
- zNem1mKp16/DieY+exXzEmk6SjqacQLsWM+zx0Ufrao/Hb2Ykj7Mgvi
+ bh=B7ivfgJeKG6ORpMwQ6TTvaIfeyjPMtOvKMOcVgmHwy4=;
+ b=qZlRVluYXxiLnxUM+U1LYVofi0MtRbN6PU6B4qsz+sqHVTMjWeu1QbYrt4R8LDBoUY/gzGH39
+ hqrge9M3qLTDOnYpaHhjThT8fcXPMXGv0BnW005xAw94fD98yqyGe6X
 X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
  pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
 X-Mailman-Approved-At: Fri, 23 May 2025 23:25:09 +0000
@@ -100,27 +98,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Add an overview diagram of Linux DRM architecture for
+graphics and compute to introduction.rst
 ---
-Changes in v2:
-- Update the overview diagram to display correctly by putting in a literal block.
-- Also update the overview section diagram to a higher order.
-- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
-- Rendered pages are okay on html and pdf.
-- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
+ Documentation/gpu/introduction.rst | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
----
-Abdulrasaq Lawani (2):
-      drm: add overview diagram for drm stack
-      drm: add overview diagram for drm stack
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 3cd0c8860b949408ed570d3f9384edd5f03df002..91bb0efc96d69921a122c5265b1431fa18110a7a 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -14,7 +14,43 @@ including the TTM memory manager, output configuration and mode setting,
+ and the new vblank internals, in addition to all the regular features
+ found in current kernels.
+ 
+-[Insert diagram of typical DRM stack here]
++Overview of the Linux DRM Architecture
++-----------------------------------------------
+++-----------------------------+
++|     User-space Apps         |
++| (Games, Browsers, ML, etc.) |
+++-----------------------------+
++              |
++              v
+++---------------------------------------+
++|    Graphics APIs   |   Compute APIs   |
++|  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+++---------------------------------------+
++          |                   |
++          v                   v
+++---------------------+  +-----------------------+
++|  User-space Driver  |  |    Compute Runtime    |
++|  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+++---------------------+  +-----------------------+
++          |                   |
++          +--------+----------+
++                   |
++                   v
++        +-----------------------+
++        |   libdrm (DRM API)    |
++        +-----------------------+
++                   |
++                   v
+++-------------------------------------------+
++|     Kernel DRM/KMS Driver (i915, amdgpu,  |
++|     nouveau, etc.)                        |
+++-------------------------------------------+
++        |                       |
++        v                       v
+++----------------+     +-------------------+
++| GPU Display HW |     | GPU Compute Units |
+++----------------+     +-------------------+
++
+ 
+ Style Guidelines
+ ================
 
- Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
----
-base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
-change-id: 20250522-drm-doc-updates-3686f6d48122
-
-Best regards,
 -- 
-Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+2.43.0
 
