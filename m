@@ -2,154 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F070AC24D2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5190AC254B
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084A910E805;
-	Fri, 23 May 2025 14:16:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="BXjOvPel";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED2F10E83A;
+	Fri, 23 May 2025 14:45:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazon11011061.outbound.protection.outlook.com [40.107.74.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C3610E805
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 14:16:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BgwO7q6HxJVQpH2PNdME0jqhqm0KWXJsNsKeXmU5WqvZccUbQkLpDI1hYP7EU+5M4BolXr7I36rMlkW870rv54SaM4sMCJdDhTCFJ5bllIID0IjuqW0dhAz0nne/dovVMa8bs7k3+yijc2gk28+rV/I9Pw9gkkarwZDdedv5vGz5a0gmvQD06isAOfQTjuuQxIzq41MmMcFS5yE5V6OZ8+qQsVdQcE4PX44e0R92F9jdErFSJ5rp7frlSHE3TSP7O8MzzozwAXNXqikvZ9q5zERaSIFhBC5x8pzoe0W2fpTkLYvz3OaFlmBxkkn8nq8ru1JlMgui2u4AB4541FoNvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sF1vOiZ8qYgMeBPsv5N4KAaHHZJJhBSruIP+bWVPD5k=;
- b=hVsix7upKrozHMUAK/nM9bFcAlYirqtF8u3VHYO3x01g6kCIeQxJIH8MONqIgMxxPtyIqgQdaMvsn4J+DXWMrSTSg8gwt4ffgm4w9/EmN7veX68JjlIFerbwWAkqpn/aZp8Ut1OtEYDeeyQX24pA9mluh+K0OGHN9NkCKu+KczSA+ExG/ytUTCcXuIicS4OnXJst5xtB/Ve9+aBWcchz514j3At/YcHoohr+huCFNnEnrBjEiAVvlkczgHClKqP78bTNkgZv8vsittGPGVvRBvdMf/MuXCs6QkMo41FsiUi5isXeulv3p3jHMkmJKInfVvdqSFstrgDfm77hyk+75g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sF1vOiZ8qYgMeBPsv5N4KAaHHZJJhBSruIP+bWVPD5k=;
- b=BXjOvPel7/A0B1XRzz+pDFzWQk2cBVunPlKawpI8vtsuEraf/WW/y9nyk8txBvQUtwD/otD0p6CbKp9RKottU6P9e9iQATROBKqXJ0yW10dfdvmQF4796vRhFnmYi/4zcwEZfDZAelmROkx/71V4AUZJS3Ji6ZqIr1OFkaIX5vQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by TYRPR01MB14157.jpnprd01.prod.outlook.com (2603:1096:405:220::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Fri, 23 May
- 2025 14:16:34 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.021; Fri, 23 May 2025
- 14:16:33 +0000
-Date: Fri, 23 May 2025 16:16:17 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: (subset) [PATCH v6 00/10] drm/display: generic HDMI CEC helpers
-Message-ID: <aDCDMdhJIFa-4qVX@tom-desktop>
-References: <20250517-drm-hdmi-connector-cec-v6-0-35651db6f19b@oss.qualcomm.com>
- <174778079318.1447836.14176996867060604138.b4-ty@oss.qualcomm.com>
- <TY3PR01MB1134687A2A762FE803EFA04F28698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAO9ioeUf_nQXfP490fDx0Ord55z6EsR+3SOhcee2B-ymewkuCg@mail.gmail.com>
- <aDB8bD6cF7qiSpKd@tom-desktop>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aDB8bD6cF7qiSpKd@tom-desktop>
-X-ClientProxiedBy: FR2P281CA0064.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::12) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1D910E82C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 14:45:35 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-6019b564d0bso13624051a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:45:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748011530; x=1748616330;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s7NaEY0NZOLUpgJiSQNcYfkRMwiosdL/jRVixVhXKM0=;
+ b=Ix58ZJpAJDiK9UlW7RHJDJX1w4Zu9SA3SsA1ily8T6IIcvK+LaCsEcan0HGFScKtRL
+ uCUAc9lINdJMHECNqnFnrzyJP9r5eZlqdUGomPTws0iCM02nO8TuAiutaoPEXeyHkorh
+ Skr/p6jZsXPUE62ZfrUjyTqUCeKqxF5jv89tsmFeWI1y0FsF9FpXXkx1fXyn9QEDWAcy
+ 6ZSftgjJJycEwE/G4XrUNJiMOyM0p8cBQ1LSHnXAJbf1OODgbx/e8L6gfJyUwx67Qk9E
+ 5YJgB7Y9LH6Fv64fTINJbqDpHWHdMDkWv3NCys/1gVR+BEGXpNAFzGZYzE/rCex5Lf2K
+ /d7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFzKo/5A4pIcAygtFyWi/jsZl2O6ODXq7aZIE8IpP9rfbD+1PW03xKvl55RFBoZ8Xrd/QaL8m5dF0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTuQ3VBvpRuPUVMUtZ7YC0w0YX8MT6AnTOW1IlXqykTj4Um2vQ
+ cpNkMqCj4JN3UjaSZ+cIH8V+dt1H0YpXOXJ5A39xwbkMRstvyMJkC0p44U6/J2cdxaw=
+X-Gm-Gg: ASbGncsjXw7VFDBxThzKl4nbWM7CBj8ox7CXF1r2AXEG/NK61PWrulnuArY0bkM1TDU
+ STpuyMRM4kUXpXXPh55ij5mntV4ANs2l0kwSS5Hn/Q69ZBOl6/zsL6173Tkw7v5k2dJncvULmIq
+ qe00HCS9mIgi46TjAF2TInosxtU+e7eW9fgAz8TUGlN6KplIy4+iJwP+Wlvu5fCcG3ewgXlMSdW
+ 4m4LV5b8FPEj7VuAJk/S3M5bdyoI+F61g21RnEsOV49wXiWh1Auq0r4UbP610HN93Ct9jpkhIsP
+ YCm9twoIRcDRAlkvdFSoO9xtG1GzaG839KPQuCc8ow8e1HL7UthvSGQPSHaKLmjkD0Nz0jLtdp3
+ weOoPCb/p31qwLg==
+X-Google-Smtp-Source: AGHT+IGcdEOAY76YOC27aF6FI0OecDOyGbwHnwKQ8216h6xWSgYbI0ERwMP5kxU8nWGTmpYlH9KAbA==
+X-Received: by 2002:a17:907:728e:b0:ad5:5198:b2ad with SMTP id
+ a640c23a62f3a-ad55198bc52mr2339111166b.48.1748011529795; 
+ Fri, 23 May 2025 07:45:29 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com.
+ [209.85.218.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad52d047bd6sm1223929866b.29.2025.05.23.07.45.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 May 2025 07:45:26 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-acb39c45b4eso1291212066b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:45:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAyB67TJmgWby8uup5CnupQidAXJ1a7r2rK0ykfCJHhDMYRauTgtdQ4TSLz7LhSjlnEHDYTY0Vd4s=@lists.freedesktop.org
+X-Received: by 2002:a17:907:7616:b0:ad5:3743:3fa1 with SMTP id
+ a640c23a62f3a-ad5374340b4mr1918375866b.50.1748011524663; Fri, 23 May 2025
+ 07:45:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYRPR01MB14157:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89740aa0-a678-4252-30af-08dd9a046bc8
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aQ/b6JfbWU3/TfoMA5bG/SWHh5gjBV2UvXGZMc4nyCFrbnZPgg/V2qSTL6sR?=
- =?us-ascii?Q?1jYAnBHAwkAMX18/4O+4+M3xrCdAgNykEBEF32xoE79Ra7q0nD1L0LDzZjLh?=
- =?us-ascii?Q?gV6tDGAnH/2139qqJLBNKmKdlzdECayvaS3VzFHyxZEzsdVa4hBncWKScMJx?=
- =?us-ascii?Q?0CMJoqGmku+9S9rHBFLBgkTHwV4s/Zq+Ywd0qKco7MXVWThLIARsh1g5DLpt?=
- =?us-ascii?Q?RBpxbZEhMkosRPStB8z2m2ogHSrWec9bh7w2oQXzoERol715qCJYs5IQTVVC?=
- =?us-ascii?Q?gBEiSEoqf4wL8U9fFNGNp29qIKK1CmPMZ2tl7ryFdhBxzL6puq7xM11qZABR?=
- =?us-ascii?Q?uLxwI6qBNkPy8yq+i8yYGj6NwskcFNQrySBhK03nQln7hR/iGSbFrVbLTIf6?=
- =?us-ascii?Q?MzFC5idEFGBfw9AhxmdXRbjTABQEVOArhq709echuCatQmO9rEjxt1NkrJU0?=
- =?us-ascii?Q?boM+aEDIrveBXOD1NMRPkem79l0xpQY3IusCDSyDSICuR8iP2TMFC+fqLypY?=
- =?us-ascii?Q?783S7PfQ97NQy8pnLwSeMcUqWEwr+yTEucqa22tdQeKnoyp2mhYHlTYhmV7T?=
- =?us-ascii?Q?YBxSO0biLS1f3gx158UG92Jj6dXyKAT97+g7UFs05gLo0LQ7GEUuTLePd89z?=
- =?us-ascii?Q?+Qxr6EoO1af6FI7T7xZeg9+/wYisy1gcChxZYOubPDzy3e28062aYjJ8J91e?=
- =?us-ascii?Q?ldPTViELFfG/s+Xpb9FFH0SxQal6t9+VaCE8G5/o1yXsvcC0F6aGOV/EBPxm?=
- =?us-ascii?Q?GoHZmr/9ItsQRnhw1eTCqB5o0slKLizG2m/FTpjDVJKY5CypTuLVCStKyN38?=
- =?us-ascii?Q?tbnDPjvISi8FU3ev5QMzWBGhpjnG0kN25zx9C10GTMGI/S1Judtrekx/A/O2?=
- =?us-ascii?Q?AeVBqMfUaxm35uSvF4txCxyzWkm+GYyRS10MGULPqiwJgxSyN5O6j43eqgSv?=
- =?us-ascii?Q?FE6ayZeVPHUX1f927oDlRq83xtT8rgUWHbeeWhgc5rJZcSCakjuOZHgRLOED?=
- =?us-ascii?Q?AsRRL3Lhkcno2oajxAwSJlUv7hfJbmQQha5VfmVpSObaZrqpb4s85yhM1Vx+?=
- =?us-ascii?Q?ssgTq+8P7N+sToZSCna/kIbf8/mLNRt9zlJVMvpRx/KGCYA2yQWLIETiiHQ2?=
- =?us-ascii?Q?1LnuCnLSZQwFyuW7xqIaegpI2JQ9SBW5A3SEeBOk0ARyC/zPSLLGonkWXvAz?=
- =?us-ascii?Q?x0KN7Vz3x1A0mvTckLMdyhtON7Bq6JBwpBS2M537Nj7klFksm+wdOraJKACR?=
- =?us-ascii?Q?Tgr7JmmLN/NO2ccls2jtv9bkBFJu95MZipDCToICyT9giEav7KxDMhVg1yet?=
- =?us-ascii?Q?ANhJc9YO/G46jag3pYbbhHJNDx6nzLDP4TfTYm9bqLWcere748hx4oRRsjtk?=
- =?us-ascii?Q?axUWR/hr2fJ3e2N1eY+Oa0Ycxc4/wYb0lvVzBMaqNroJoUPYP9Igz7mXnWBa?=
- =?us-ascii?Q?R0b2bcE1TOXNqB7BmSmRAirVPX/sceRlbCcgluMK4LtbVhUVcPjNMw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS9PR01MB13950.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hDbjgXSFOUFGfYmKRdtASdGaZdh3VFBd3pCMWVqnC67UAgL/KjryaeJzSD1k?=
- =?us-ascii?Q?lPqChS+MIu9SooCuKLHVWRGK3fZdsRqFcx4YJk2EdcDNgDHSm2Fk8Xv+ldO9?=
- =?us-ascii?Q?Ud/lz3xowBZMUAihUZv+Huzd7Me/Gpko0GMdjkPt86SbBr2NCdkmgVcZDx5y?=
- =?us-ascii?Q?q8p7WOL4Cw+1PRwQoTYhyuwFnicRi6o+X2hUZluMGOGEOtOkGbabfC89YJF+?=
- =?us-ascii?Q?2ifY8CtZHq4mWKeCAeO8GpnVmScZjU3zN1x4Cn6jVi2zx+7qFc8IVNx6o7di?=
- =?us-ascii?Q?p97qQoX/5f/gO99XS+YicC8opP49DcrIlP6PMc6iPSL3X3bpn3ByM82GBFrI?=
- =?us-ascii?Q?Ot+fXBGTi9aO6PCnSHztdSumwk7r9vhfQaAVZGSjBDhuxf3cnGJi+CaHeTTn?=
- =?us-ascii?Q?oTn8gO7Lv30SeZi0lGw5fuMNB2rnT4arWwO3JGlZz6+DA8WlaR+m05fRqUv1?=
- =?us-ascii?Q?Cr7aWHcWgIachW2U2SqlKHiKaHC4+1wSYLvtAloQVhWKHc7t3XFJ6fKSmuAh?=
- =?us-ascii?Q?z9/QO1OVmlp+1kzZ75fT94xpiN8ZCTmAwZCun2GrFeuG9v2My/a+tv1gMzw6?=
- =?us-ascii?Q?FTBExSz6XQaQ7f7cS79F9T4e26L9wzl1dEATpMsoz0JAqMRJkhiQnLS6RP1C?=
- =?us-ascii?Q?qbembgupRAe9knLjqOv8nIpm+AlyHFMZXzjFGvmFPgaquK0Vs4mhTCeeosiZ?=
- =?us-ascii?Q?hnNymJK7fWRJoeCsAw4kA2eWh7lnWbDkBm/9QrPWvx3a32FyA6M1fagGx1R9?=
- =?us-ascii?Q?DZ1vklRGzN02mpnpbG+iRsOiXU1FEH7qiA7GwZoHu4JL3nlxOvIdc0mNq07E?=
- =?us-ascii?Q?TZQu8v9BVkgpYMdISzH9qLB++fPOfwfd+HxK0W/5eYvqx90Sss/irka8PPh0?=
- =?us-ascii?Q?REoDjen05xAAphcB/fcLv5kU0El/7ofwtdiDrTxZikhmO9dOPgDQN4cgbniP?=
- =?us-ascii?Q?/I4WdCCFg0NpjHcF//LnZgxascy+0KFMduWeyb0Zab3MEWQNfFrsPv+o6K10?=
- =?us-ascii?Q?YI+cweJBSgWh1s5D/V+zaRAe+UJIIZt4jnDl3+5xdXC+Od3uDBAayG3N8/MC?=
- =?us-ascii?Q?r06dDpgEV4FUcmHINMSnr+sTiySma6mcxsgZEzSvA+IGKKxsr+aXEEhAqUUd?=
- =?us-ascii?Q?7ftOHYN3sGOSFZKjHBRvLNjmweGVM/Iqhk1oyXE2EiPDdrnxgOwIwuQfSo24?=
- =?us-ascii?Q?2mu85b6LAawEsiFro2X/Wd00KhJbPPvozwl1rZx4Ki7LpF6Ht9k2QFlBRHRh?=
- =?us-ascii?Q?EgR9gAyvMQOfvO1SbE77cLW4Nvsym88slODDPm4QrewEec4jeci5r4ogg2oP?=
- =?us-ascii?Q?xTPPJtOFIFWkNPL8LeB5MXk97ZNZLCU7frbozpbKViFBg7HBlxetBReGyVf/?=
- =?us-ascii?Q?IHsGTNvCzwn08vYIj2Qg1P+fBheRcC1SJvk6i4ux+Xk27JuXQf1OBF5iPYiG?=
- =?us-ascii?Q?fpBtw/pFErKNBZ45bIv2B68RLc7VQQq08ISESAjSb40rJ1OTfsa7vAQtk6vh?=
- =?us-ascii?Q?M9XtjK/Y0uYqJTSS2YzLv9UL1AHn+Mns/9NIq59tX6ITLyjz/ybuYtwbkAnu?=
- =?us-ascii?Q?WJAh2bdrrbv1dxLQZlsMjUiSM1MNulKOX8vY6sCfB/ngm5Vg/vbwyTF/qRGq?=
- =?us-ascii?Q?1sDO/FFYoXNNUfXjXDTvqV8=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89740aa0-a678-4252-30af-08dd9a046bc8
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 14:16:33.8730 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HhcJIVz1ESdWZYDxAqSool5xtChoi+kK0oloFjwpjdFMHnVrqtsgL8gX2djNtmIJ00eN5NL4O1D7WGRalkW1gctWHfUaPXhOyG+ObQmAWAxBKAx9uC4r5utk6Uc9OHkb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14157
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 May 2025 16:45:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
+X-Gm-Features: AX0GCFvwamvYpsMtpBtvtgSH2uA4aQNl0Kcj7dnLwfU9z0V0YTsH6E-TkSjjegU
+Message-ID: <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: Prabhakar <prabhakar.csengg@gmail.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,120 +100,512 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju, Dmitry,
+Hi Prabhakar, Fabrizio,
 
-On Fri, May 23, 2025 at 03:47:24PM +0200, Tommaso Merciai wrote:
-> Hi Biju, Dmitry,
-> Thanks for your comments.
-> 
-> On Fri, May 23, 2025 at 09:37:19AM +0300, Dmitry Baryshkov wrote:
-> > Hi Biju
-> > 
-> > On Fri, 23 May 2025 at 09:17, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > >
-> > > Hi Dmitry Baryshkov,
-> > >
-> > > Thanks for the series.
-> > >
-> > > Looks like, After this patch, when I change resolution using modetest it is not working.
-> > > Monitor is showing out of range/No signal on RZ/V2L SMARC EVK connected to ADV7535.
-> > >
-> > > Not sure, I am the only one facing this issue?
-> 
-> I have the same issue using RZ/G3E Smark EVK connected to ADV7535.
-> I found that switching back to the old:
-> 
->  - adv7511_mode_set()
->  - Using also old .mode_set = adv7511_bridge_mode_set,
-> 
-> Implementation fix the issue on my side.
+On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add support for PLLDSI and PLLDSI divider clocks.
+>
+> Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
+> PLLDSI-related data structures, limits, and algorithms between the RZ/V2H
+> CPG and DSI drivers.
+>
+> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
+> different parameter limits and omits the programmable divider present in
+> CPG. To ensure precise frequency calculations-especially for milliHz-level
+> accuracy needed by the DSI driver-the shared algorithm allows both drivers
+> to compute PLL parameters consistently using the same logic and input
+> clock.
+>
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Diving a bit on this issue I'm seeing the following:
+Thanks for your patch!
 
-root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI-A-1:800x600-56.25@XR24
-setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
-[   49.273134] adv7511_mode_set_old: drm_mode_vrefresh(mode) = 56
-[   49.281006] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
+> --- a/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> @@ -48,6 +53,7 @@
+>  #define CPG_PLL_STBY(x)                ((x))
+>  #define CPG_PLL_STBY_RESETB    BIT(0)
+>  #define CPG_PLL_STBY_RESETB_WEN        BIT(16)
+> +#define CPG_PLL_STBY_SSCGEN_WEN BIT(18)
 
-root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI-A-1:800x600-56.25@XR24
-setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
-[   74.076881] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
-[   74.092130] adv7511_mode_set: drm_mode_vrefresh(adj_mode) = 56
+CPG_PLL_STBY_SSC_EN_WEN?
 
-Same result but I think bad timing:
+>  #define CPG_PLL_CLK1(x)                ((x) + 0x004)
+>  #define CPG_PLL_CLK1_KDIV(x)   ((s16)FIELD_GET(GENMASK(31, 16), (x)))
 
- - old: adv7511_mode_set() is call before rzg2l_mipi_dsi_atomic_enable()
- - new: adv7511_mode_set() is call after rzg2l_mipi_dsi_atomic_enable()
+You are already using FIELD_GET() for extracting the K, M, P, and
+S fields, but are still still open-coding shifts for writing in
+rzv2h_cpg_pll_set_rate().
 
-What do you think? Thanks in advance.
+What about replacing CPG_PLL_CLK1_KDIV() by:
 
-Thanks & Regards,
-Tommaso
+    #define CPG_PLL_CLK1_DIV_K    GENMASK(31,16)
 
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> > 
-> > I have been testing the series on db410c / adv7533, but something
-> > might have changed between the testing time and the present time. I
-> > will try checking it next week.
-> > 
-> > In the meantime, you can probably try comparing what gets programmed
-> > in adv7511_mode_set().
-> > 
-> > >
-> > > Modetest works fine with 6.15.0-rc6-next-20250516, where this patch series is
-> > > not present.
-> > >
-> > > Cheers,
-> > > Biju
-> > >
-> > > > -----Original Message-----
-> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Dmitry Baryshkov
-> > > > Sent: 20 May 2025 23:40
-> > > > Subject: Re: (subset) [PATCH v6 00/10] drm/display: generic HDMI CEC helpers
-> > > >
-> > > >
-> > > > On Sat, 17 May 2025 04:59:36 +0300, Dmitry Baryshkov wrote:
-> > > > > Currently it is next to impossible to implement CEC handling for the
-> > > > > setup using drm_bridges and drm_bridge_connector: bridges don't have a
-> > > > > hold of the connector at the proper time to be able to route CEC events.
-> > > > >
-> > > > > At the same time it not very easy and obvious to get the CEC physical
-> > > > > address handling correctly. Drivers handle it at various places,
-> > > > > ending up with the slight differences in behaviour.
-> > > > >
-> > > > > [...]
-> > > >
-> > > > Applied, thanks!
-> > > >
-> > > > [01/10] drm/bridge: move private data to the end of the struct
-> > > >         commit: fa3769e09be76142d51c617d7d0c72d9c725a49d
-> > > > [02/10] drm/bridge: allow limiting I2S formats
-> > > >         commit: d9f9bae6752f5a0280a80d1bc524cabd0d60c886
-> > > > [03/10] drm/connector: add CEC-related fields
-> > > >         commit: e72cd597c35012146bfe77b736a30fee3e77e61e
-> > > > [04/10] drm/display: move CEC_CORE selection to DRM_DISPLAY_HELPER
-> > > >         commit: bcc8553b6228d0387ff64978a03efa3c8983dd2f
-> > > > [05/10] drm/display: add CEC helpers code
-> > > >         commit: 8b1a8f8b2002d31136d83e4d730b4cb41e9ee868
-> > > > [06/10] drm/display: hdmi-state-helper: handle CEC physical address
-> > > >         commit: 603ce85427043ecb29ef737c1b350901ce3ebf09
-> > > > [08/10] drm/display: bridge-connector: hook in CEC notifier support
-> > > >         commit: 65a2575a68e4ff03ba887b5aef679fc95405fcd2
-> > > > [09/10] drm/display: bridge-connector: handle CEC adapters
-> > > >         commit: a74288c8ded7c34624e50b4aa8ca37ae6cc03df4
-> > > > [10/10] drm/bridge: adv7511: switch to the HDMI connector helpers
-> > > >         commit: ae01d3183d2763ed27ab71f4ef5402b683d9ad8a
-> > > >
-> > > > Best regards,
-> > > > --
-> > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > >
-> > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-> 
+Then the code can use:
+
+    (s16)FIELD_GET(CPG_PLL_CLK1_DIV_K, clk1)
+
+for reading and:
+
+    FIELD_PREP(CPG_PLL_CLK1_DIV_K, (u16)k) | ...
+
+for writing?
+
+Same for the M, P, and S fields (but without the s16/u16 casts, as
+they are unsigned, unlike K).
+
+>  #define CPG_PLL_CLK1_MDIV(x)   FIELD_GET(GENMASK(15, 6), (x))
+
+> @@ -198,6 +227,188 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
+>         return ret;
+>  }
+>
+> +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *hw,
+> +                                                     unsigned long parent_rate)
+> +{
+> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
+> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
+> +       struct ddiv ddiv = dsi_div->ddiv;
+> +       u32 div;
+> +
+> +       div = readl(priv->base + ddiv.offset);
+> +       div >>= ddiv.shift;
+> +       div &= clk_div_mask(ddiv.width);
+> +       div = dsi_div->dtable[div].div;
+> +
+> +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
+> +}
+> +
+> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> +                                              struct clk_rate_request *req)
+> +{
+> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
+> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
+> +       struct rzv2h_plldsi_parameters *dsi_dividers = &priv->plldsi_div_parameters;
+> +       u64 rate_millihz;
+> +
+> +       /*
+> +        * Adjust the requested clock rate (`req->rate`) to ensure it falls within
+> +        * the supported range of 5.44 MHz to 187.5 MHz.
+> +        */
+> +       req->rate = clamp(req->rate, 5440000UL, 187500000UL);
+> +
+> +       rate_millihz = mul_u32_u32(req->rate, MILLI);
+> +       if (rate_millihz == dsi_dividers->error_millihz + dsi_dividers->freq_millihz)
+> +               goto exit_determine_rate;
+> +
+> +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> +                                                dsi_dividers, rate_millihz)) {
+> +               dev_err(priv->dev,
+> +                       "failed to determine rate for req->rate: %lu\n",
+> +                       req->rate);
+> +               return -EINVAL;
+> +       }
+> +
+> +exit_determine_rate:
+> +       req->best_parent_rate = req->rate * dsi_dividers->csdiv;
+
+Shouldn't this also update req->rate with the actual rate?
+
+    req->rate = DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
+
+Would it help the DSI driver if this clock would provide a
+.recalc_accuracy() callback that takes into account the difference
+between req->rate and dsi_dividers->freq_millihz?
+Or would that be considered abuse of the accuracy concept?
+
+> +
+> +       return 0;
+> +};
+> +
+> +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
+> +                                        unsigned long rate,
+> +                                        unsigned long parent_rate)
+> +{
+> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
+> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
+> +       struct rzv2h_plldsi_parameters *dsi_dividers = &priv->plldsi_div_parameters;
+> +       struct ddiv ddiv = dsi_div->ddiv;
+> +       const struct clk_div_table *clkt;
+> +       bool div_found = false;
+> +       u32 val, shift, div;
+> +
+> +       div = dsi_dividers->csdiv;
+> +       for (clkt = dsi_div->dtable; clkt->div; clkt++) {
+> +               if (clkt->div == div) {
+> +                       div_found = true;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!div_found)
+> +               return -EINVAL;
+> +
+> +       shift = ddiv.shift;
+> +       val = readl(priv->base + ddiv.offset) | DDIV_DIVCTL_WEN(shift);
+> +       val &= ~(clk_div_mask(ddiv.width) << shift);
+> +       val |= (u32)clkt->val << shift;
+
+No need for the cast.
+
+> +       writel(val, priv->base + ddiv.offset);
+> +
+> +       return 0;
+> +};
+> +
+> +static const struct clk_ops rzv2h_cpg_plldsi_div_ops = {
+> +       .recalc_rate = rzv2h_cpg_plldsi_div_recalc_rate,
+> +       .determine_rate = rzv2h_cpg_plldsi_div_determine_rate,
+> +       .set_rate = rzv2h_cpg_plldsi_div_set_rate,
+> +};
+
+> +static long rzv2h_cpg_plldsi_round_rate(struct clk_hw *hw,
+> +                                       unsigned long rate,
+> +                                       unsigned long *parent_rate)
+> +{
+> +       return clamp(rate, 25000000UL, 375000000UL);
+
+This only brings the desired rate into the supported range, but does
+not round it to the nearest rate that is actually supported.
+
+> +}
+> +
+> +static int rzv2h_cpg_pll_set_rate(struct clk_hw *hw,
+> +                                 unsigned long rate,
+> +                                 unsigned long parent_rate)
+> +{
+> +       struct pll_clk *pll_clk = to_pll(hw);
+> +       struct rzv2h_cpg_priv *priv = pll_clk->priv;
+> +       struct rzv2h_plldsi_parameters *dsi_dividers;
+> +       struct pll pll = pll_clk->pll;
+> +       u16 offset = pll.offset;
+> +       u32 val;
+> +       int ret;
+> +
+> +       /* Put PLL into standby mode */
+> +       writel(CPG_PLL_STBY_RESETB_WEN, priv->base + CPG_PLL_STBY(offset));
+> +       ret = readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
+> +                                       val, !(val & CPG_PLL_MON_LOCK),
+> +                                       100, 2000);
+> +       if (ret) {
+> +               dev_err(priv->dev, "Failed to put PLLDSI into standby mode");
+> +               return ret;
+> +       }
+> +
+> +       dsi_dividers = &priv->plldsi_div_parameters;
+> +       /* Output clock setting 1 */
+> +       writel((dsi_dividers->k << 16) | (dsi_dividers->m << 6) | (dsi_dividers->p),
+
+This is where you want to use FIELD_PREP().
+
+> +              priv->base + CPG_PLL_CLK1(offset));
+> +
+> +       /* Output clock setting 2 */
+> +       val = readl(priv->base + CPG_PLL_CLK2(offset));
+> +       writel((val & ~GENMASK(2, 0)) | dsi_dividers->s,
+
+(val & ~CPG_PLL_CLK2_DIV_S) | FIELD_PREP(...)
+
+> +              priv->base + CPG_PLL_CLK2(offset));
+> +
+> +       /* Put PLL to normal mode */
+> +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
+> +              priv->base + CPG_PLL_STBY(offset));
+> +
+> +       /* PLL normal mode transition, output clock stability check */
+> +       ret = readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
+> +                                       val, (val & CPG_PLL_MON_LOCK),
+> +                                       100, 2000);
+> +       if (ret) {
+> +               dev_err(priv->dev, "Failed to put PLLDSI into normal mode");
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+> +};
+> +
+>  static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
+>                                                    unsigned long parent_rate)
+>  {
+
+> --- a/drivers/clk/renesas/rzv2h-cpg.h
+> +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> @@ -100,6 +100,7 @@ struct smuxed {
+>  #define CPG_CDDIV3             (0x40C)
+>  #define CPG_CDDIV4             (0x410)
+>  #define CPG_CSDIV0             (0x500)
+> +#define CPG_CSDIV1             (0x504)
+
+Unused until [PATCH v5 2/4], so please move it there.
+
+>
+>  #define CDDIV0_DIVCTL1 DDIV_PACK(CPG_CDDIV0, 4, 3, 1)
+>  #define CDDIV0_DIVCTL2 DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
+
+> --- /dev/null
+> +++ b/include/linux/clk/renesas-rzv2h-dsi.h
+> @@ -0,0 +1,211 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Renesas RZ/V2H(P) DSI CPG helper
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +#ifndef __RENESAS_RZV2H_DSI_H__
+> +#define __RENESAS_RZV2H_DSI_H__
+> +
+> +#include <linux/limits.h>
+> +#include <linux/math.h>
+> +#include <linux/math64.h>
+> +#include <linux/units.h>
+> +
+> +#define OSC_CLK_IN_MEGA                (24 * MEGA)
+> +
+> +struct rzv2h_pll_div_limits {
+> +       struct {
+> +               u32 min;
+> +               u32 max;
+> +       } fvco;
+> +
+> +       struct {
+> +               u16 min;
+> +               u16 max;
+> +       } m;
+> +
+> +       struct {
+> +               u8 min;
+> +               u8 max;
+> +       } p;
+> +
+> +       struct {
+> +               u8 min;
+> +               u8 max;
+> +       } s;
+> +
+> +       struct {
+> +               s16 min;
+> +               s16 max;
+> +       } k;
+> +
+> +       struct {
+> +               u8 min;
+> +               u8 max;
+> +       } csdiv;
+> +};
+> +
+> +struct rzv2h_plldsi_parameters {
+> +       u64 freq_millihz;
+> +       s64 error_millihz;
+> +       u16 m;
+> +       s16 k;
+> +       u8 csdiv;
+> +       u8 p;
+> +       u8 s;
+> +};
+> +
+> +#define RZV2H_CPG_PLL_DSI_LIMITS(name)                                 \
+> +       static const struct rzv2h_pll_div_limits (name) = {             \
+> +               .fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },     \
+> +               .m = { .min = 64, .max = 533 },                         \
+> +               .p = { .min = 1, .max = 4 },                            \
+> +               .s = { .min = 0, .max = 6 },                            \
+> +               .k = { .min = -32768, .max = 32767 },                   \
+> +               .csdiv = { .min = 2, .max = 32 },                       \
+> +       }                                                               \
+> +
+> +/**
+> + * rzv2h_dsi_get_pll_parameters_values - Finds the best combination of PLL parameters
+> + * and divider value for a given frequency.
+> + *
+> + * @limits: Pointer to the structure containing the limits for the PLL parameters and
+> + * divider values
+> + * @pars: Pointer to the structure where the best calculated PLL parameters and divider
+> + * values will be stored
+> + * @freq_millihz: Target output frequency in millihertz
+> + *
+> + * This function calculates the best set of PLL parameters (M, K, P, S) and divider
+> + * value (CSDIV) to achieve the desired frequency.
+> + * There is no direct formula to calculate the PLL parameters and the divider value,
+> + * as it's an open system of equations, therefore this function uses an iterative
+> + * approach to determine the best solution. The best solution is one that minimizes
+> + * the error (desired frequency - actual frequency).
+> + *
+> + * Return: true if a valid set of divider values is found, false otherwise.
+> + */
+> +static __maybe_unused bool
+> +rzv2h_dsi_get_pll_parameters_values(const struct rzv2h_pll_div_limits *limits,
+> +                                   struct rzv2h_plldsi_parameters *pars,
+> +                                   u64 freq_millihz)
+> +{
+> +       struct rzv2h_plldsi_parameters p, best;
+> +
+> +       /* Initialize best error to maximum possible value */
+> +       best.error_millihz = S64_MAX;
+> +
+> +       for (p.csdiv = limits->csdiv.min; p.csdiv <= limits->csdiv.max; p.csdiv += 2) {
+> +               for (p.p = limits->p.min; p.p <= limits->p.max; p.p++) {
+> +                       u32 fref = OSC_CLK_IN_MEGA / p.p;
+> +
+> +                       for (p.s = limits->s.min; p.s <= limits->s.max; p.s++) {
+> +                               u16 two_pow_s = 1 << p.s;
+> +                               u16 divider = two_pow_s * p.csdiv;
+
+No need for two_pow_s.  You can initialize divider = p.csdiv << s.min
+at the start of the loop, and multiply by two after each iteration.
+
+> +
+> +                               for (p.m = limits->m.min; p.m <= limits->m.max; p.m++) {
+> +                                       u64 output_m, output_k_range;
+> +                                       s64 pll_k, output_k;
+> +                                       u64 fvco, output;
+> +
+> +                                       /*
+> +                                        * The frequency generated by the combination of the
+> +                                        * PLL + divider is calculated as follows:
+> +                                        *
+> +                                        * Freq = Ffout / csdiv
+> +                                        *
+> +                                        * With:
+> +                                        * Ffout = Ffvco / 2^(pll_s)
+> +                                        * Ffvco = (pll_m + (pll_k / 65536)) * Ffref
+> +                                        * Ffref = 24MHz / pll_p
+> +                                        *
+> +                                        * Freq can also be rewritten as:
+> +                                        * Freq = Ffvco / (2^(pll_s) * csdiv))
+> +                                        *      = Ffvco / divider
+> +                                        *      = (pll_m * Ffref) / divider + ((pll_k / 65536) * Ffref) / divider
+> +                                        *      = output_m + output_k
+> +                                        *
+> +                                        * Every parameter has been determined at this point, but pll_k.
+> +                                        * Considering that:
+> +                                        * -32768 <= pll_k <= 32767
+> +                                        * Then:
+> +                                        * -0.5 <= (pll_k / 65536) < 0.5
+> +                                        * Therefore:
+> +                                        * -Ffref / (2 * divider) <= output_k < Ffref / (2 * divider)
+> +                                        */
+> +
+> +                                       /* Compute output M component (in mHz) */
+> +                                       output_m = DIV_ROUND_CLOSEST_ULL(p.m * fref * 1000ULL,
+
+"p.m * fref" may overflow => mul_u32_u32(p.m, fref) * MILLI;
+
+> +                                                                        divider);
+> +                                       /* Compute range for output K (in mHz) */
+> +                                       output_k_range = DIV_ROUND_CLOSEST_ULL(fref * 1000ULL,
+
+mul_u32_u32(fref, MILLI)
+
+> +                                                                              divider * 2);
+> +                                       /*
+> +                                        * No point in continuing if we can't achieve the
+> +                                        * desired frequency
+> +                                        */
+> +                                       if (freq_millihz <  (output_m - output_k_range) ||
+> +                                           freq_millihz >= (output_m + output_k_range))
+> +                                               continue;
+> +
+> +                                       /*
+> +                                        * Compute the K component
+> +                                        *
+> +                                        * Since:
+> +                                        * Freq = output_m + output_k
+> +                                        * Then:
+> +                                        * output_k = Freq - output_m
+> +                                        *          = ((pll_k / 65536) * Ffref) / divider
+> +                                        * Therefore:
+> +                                        * pll_k = (output_k * 65536 * divider) / Ffref
+> +                                        */
+> +                                       output_k = freq_millihz - output_m;
+> +                                       pll_k = div64_s64(output_k * 65536ULL * divider, fref);
+
+div_s64(), as fref is 32-bit.
+
+> +                                       pll_k = DIV_S64_ROUND_CLOSEST(pll_k, 1000);
+
+MILLI
+
+> +
+> +                                       /* Validate K value within allowed limits */
+> +                                       if (pll_k < limits->k.min || pll_k > limits->k.max)
+> +                                               continue;
+> +
+> +                                       p.k = pll_k;
+> +
+> +                                       /* Compute (Ffvco * 65536) */
+> +                                       fvco = ((p.m * 65536ULL) + p.k) * fref;
+
+mul_u32(p.m * 65536 + p.k, fref)
+
+I guess the compiler is sufficiently smart to turn that into a shift.
+The alternative would be to use a cast (I try to avoid them) and a shift:
+
+mul_u32((u64)p.m << 16 + p.k, fref)
+
+> +                                       if ((fvco < (limits->fvco.min * 65536ULL)) ||
+> +                                           (fvco > (limits->fvco.max * 65536ULL)))
+
+mul_u32_u32(..., 65536) for both
+
+> +                                               continue;
+> +
+> +                                       /* PLL_M component of (output * 65536 * PLL_P) */
+> +                                       output = p.m * 65536ULL * OSC_CLK_IN_MEGA;
+
+mul_u32(p.m * 65536, OSC_CLK_IN_MEGA)
+
+> +                                       /* PLL_K component of (output * 65536 * PLL_P) */
+> +                                       output += p.k * OSC_CLK_IN_MEGA;
+> +                                       /* Make it in mHz */
+> +                                       output *= 1000ULL;
+
+No need for the ULL => MILLI
+
+> +                                       output /= 65536ULL * p.p * divider;
+
+mul_u32()
+
+No rounding for the division?
+
+> +
+> +                                       p.error_millihz = freq_millihz - output;
+> +                                       p.freq_millihz = output;
+> +
+> +                                       /* If an exact match is found, return immediately */
+> +                                       if (p.error_millihz == 0) {
+> +                                               *pars = p;
+> +                                               return true;
+> +                                       }
+> +
+> +                                       /* Update best match if error is smaller */
+> +                                       if (abs(best.error_millihz) > abs(p.error_millihz))
+> +                                               best = p;
+> +                               }
+> +                       }
+> +               }
+> +       }
+> +
+> +       /* If no valid parameters were found, return false */
+> +       if (best.error_millihz == S64_MAX)
+> +               return false;
+> +
+> +       *pars = best;
+> +       return true;
+> +}
+> +
+> +#endif /* __RENESAS_RZV2H_DSI_H__ */
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
