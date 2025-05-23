@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8071BAC2720
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2716AC272A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B26E10E82A;
-	Fri, 23 May 2025 16:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F1E10E82C;
+	Fri, 23 May 2025 16:07:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ItNkI3Qw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ryr389gC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E1110E82C
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:06:03 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43d2d952eb1so74433375e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:06:03 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36B8A10E82C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:07:37 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-445b11306abso41171965e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748016362; x=1748621162; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1748016456; x=1748621256; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=M3PqxfXynfBYuWj+aBPHCbylQDdPJlTEN/Ktqk3XEWc=;
- b=ItNkI3Qw3Va0eL6dZCetgoUBDWtiCIt8JAqZxfWRw2gLngZUqKLjNudsWt+A11N34q
- if7oRqZWSgXXKVX6sTVxzmWxDkpR3rYiFkwCN0bcinO9ktJt6IjqYGnnyimu8NoVh0eX
- vJHhrf05KboWboOP6IwYz7duApwFaG64ZdjiyzK55defh/HYk43YyhdfHjrSnMCwks1c
- 1oO171ple7mKS0stAWbaY4pYNTmomYFoNdtRwZ0cSXYU7q/3y2kNWvpn7bP7vSPTeN/x
- YHANQmH/lHxTyUB2HvTC5DcNDeQJygdzEMmqKVlNVYNNpeMfUhvQcZ9JaRlzwxdJXnm8
- 5qqw==
+ bh=ySA+I9x3ijxPrMXr+uDkaCBuOqoQX2Q5RgcLdxKb0qM=;
+ b=Ryr389gCYQnVEHaWWCW8nYBF8uhycmRT4yKppm/y3Y5CHSGNrk2+7Sb8ZixL1t/Ik7
+ 8VXAQGoidU2AWKlFRlwSojUQc+pp0E+D/efsD1UbU9r4cBGk/x8b1LYGtnvV2v+OkuCT
+ wyMbudEiEuCpVeLNGLPsverQw/A2M+I5Xv3qjyRYVT8WHavZ1MQ9+D2NqmWKvkZ1iKYV
+ bSEcSAcmGhcmQN0fL4emUu3CRPB0A5Bz/RbDvvMewPpjPZgEPVuw2HjDNkrqt9F3J9U+
+ nbbiB+4o/FO9NQBifGzrrD5YfvISnPFXEU4CzricljH0Tu5y+oQ/D+WJgp7rt4VGMdmY
+ gN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748016362; x=1748621162;
+ d=1e100.net; s=20230601; t=1748016456; x=1748621256;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M3PqxfXynfBYuWj+aBPHCbylQDdPJlTEN/Ktqk3XEWc=;
- b=pcINOs9qfr86eyE6RmZTUMTx8gSaOQm8yYcJdsPMlJpvnd5t0z+mpH+2qyPy2AeAFD
- VTAj7HFReoQ85LF4qLp80DEMS8+bmm12HRT1ypQ+kqU36m+zrJDFqupKjlCOl9sVdole
- RO5XXaU9noGyHlcx5ms0MQqT3Fo21sG7H1uy9MWrFBjsTFEJGU/Iqd/O36vvzmmX5DvL
- vAad3l+P5l4m8VkiiYJUJQJVU6fTDR/VrJUI56pUJpurfLmvDg7pMzxVhUzt+G5X3riy
- yMKCNoqc7ykwrfgnMLG/nZrLPqO+GPp+5rw1HreKT5stlh8DRt8f2FXfqT9/LHhPTY51
- wO2w==
+ bh=ySA+I9x3ijxPrMXr+uDkaCBuOqoQX2Q5RgcLdxKb0qM=;
+ b=BgMql9ZE903kVAWaYVfw1N3L6s3UlbQEshSFm7i0Br/40BR7Z7sVnrhW+WMp9FnrjW
+ Q5/ReDCScWVLunthG7kYacXPCfFr7rJepkQ4U2l2kawfPrg3hxdfBMbH3RlduwCDrUAo
+ Oq50J7EtXTriVATmAu7AXBnkVZnyBowHU6m2h1m7uZYghfJBbZXUZf3oy7Dp740BtohC
+ iUHMuYKPfI8gir+LtUb208jSMRWbugCpXKVK2BSISRHp0urMikp4Xn1/04d0fPiAA48V
+ 1jSywgyiRZa4pqc0lZkDZJJEFKKxpaM658kKN/w515sSiKUlpAly+yCt+CoveB4kB1rX
+ gQxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpb5dke7HkdKhMOukuDNGT28Mncx8YrzGQc4wGYlpGr2X2hH+JL7MSbjus4D1oXN0Cjp/jcjWb7UM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2RH+E/qOWt2423X4FjmTK3QxwqtgaPwlCOhjnAuDTuAnqz3E1
- lP21e1IPBN4XS/yj88Irp7ifH3nUm2E7Be3jvKnsvORU9efadEXehy7e8zDami/4FrgaxUXu5wo
- 33tdZ
-X-Gm-Gg: ASbGncvPapAbyBfEigMaCWSPBTAoEJwMXNRkYFuMl07qi3jTlInSIPfWkWE/hj4Kqvq
- wGtf0JkiPImUHQBm6ej0xw3g1BI4/Lw5dmozGonHpaauWP7Zs3uzC/jrOQjjq8EfHEezUAAvR9l
- qPiAUECwKP1OFD2w3kvAqpHeuJr7iOLUMRUTq8nFhDNPdFLr8sdpwAFdbkeFD45xB3K4XrNpq72
- SC6Hzsv20cre2T42nE4WUHVo3EnCsddLtBHFw4SoTrnA/iYUtnuRK1eCcwkVxWJcFItpH+BX12T
- 9MUzbpfXoKTDcnN9pnqHXqd5Ih+szbPVAoL8wbockb2JBWxfFtvpYJrt
-X-Google-Smtp-Source: AGHT+IFJ5XQsT7wDZaHxzFgw6dPrlGsnDhIqeTPzVlX0Fk5sLByi/O7PehwjP3rV11vD6uhtm2P9yg==
-X-Received: by 2002:a05:600c:548c:b0:43d:fa58:700e with SMTP id
- 5b1f17b1804b1-442fd6759c0mr247232745e9.33.1748016361628; 
- Fri, 23 May 2025 09:06:01 -0700 (PDT)
+ AJvYcCXd6eqv5yIrg8j1fYloEm0pxSF0hpboQN2vMBUJMfvMQ/699/KNko6FjwslZ/fZS9Z5wN+98SJW53U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZnaPpn6FWGfgHZkXRDXzQc4Y76+IqnC0Q3UvP5Iru3MQA42/T
+ d1b7LDNDVGlsBPqzCdx0fW8eG+hCCRI9h6HwEvh0lpH4TcvTB1/7liAhh96L77Uyunc=
+X-Gm-Gg: ASbGncuuArF8+As0vvMUgCJ4UVPjEhZ0x3Gn9mn5PX9iMketk4mdJlmbid/Z+SYk8tR
+ WKpQqaL64Yr2THQkvxfs9B3amHpbHHCRKIBEx9zfuvkU5qONvF/NQAyDtKmHgsAAfKpYtGeOIMo
+ UtmSum1YYr3oVqtsJ30GswBxM//6x/m340uX8XD5Hk74M5FQp8Z9N3UtNJ/bBNeUPe3apLF5fzd
+ s00Cid0b0zA6ntHl4rBEdT++aJUAw2rRQ5qcqRxSas2jNy0gdCUPrX3D+OFAbGDBIb3KmyV1mGS
+ I2VrdjlA1qMbI7Ona4VlZ4+C56dH3OHqoxWZ9UERv/xR6o5kA/deSFbd
+X-Google-Smtp-Source: AGHT+IGofrhPwUyQkmyigwaxUlF2xUHWhAZovkrgIBPkwqcSNQYKQBTR5Syeu5oZ8hxjg03O13Decw==
+X-Received: by 2002:a05:600c:528a:b0:43b:d0fe:b8ac with SMTP id
+ 5b1f17b1804b1-442ff03c4edmr317016795e9.30.1748016455699; 
+ Fri, 23 May 2025 09:07:35 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-447f73d3edcsm150813565e9.20.2025.05.23.09.06.00
+ 5b1f17b1804b1-447f3dd94d1sm143921865e9.34.2025.05.23.09.07.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 09:06:01 -0700 (PDT)
-Date: Fri, 23 May 2025 19:05:58 +0300
+ Fri, 23 May 2025 09:07:35 -0700 (PDT)
+Date: Fri, 23 May 2025 19:07:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Arvind Yadav <Arvind.Yadav@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Suraj Kandpal <suraj.kandpal@intel.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Xaver Hugl <xaver.hugl@kde.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: Fix integer overflow issues in
- amdgpu_userq_fence.c
-Message-ID: <aDCc5kawU4cWj-Cx@stanley.mountain>
+Subject: [PATCH next] drm/plane: Fix error pointer vs NULL bug in
+ create_in_format_blob()
+Message-ID: <aDCdRKZHmCPwaJWp@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -92,70 +94,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch only affects 32bit systems.  There are several integer
-overflows bugs here but only the "sizeof(u32) * num_syncobj"
-multiplication is a problem at runtime.  (The last lines of this patch).
+The callers expect to receive error pointers on error but
+create_in_format_blob() returns NULL.  Change it to return error
+pointers.
 
-These variables are u32 variables that come from the user.  The issue
-is the multiplications can overflow leading to us allocating a smaller
-buffer than intended.  For the first couple integer overflows, the
-syncobj_handles = memdup_user() allocation is immediately followed by
-a kmalloc_array():
-
-	syncobj = kmalloc_array(num_syncobj_handles, sizeof(*syncobj), GFP_KERNEL);
-
-In that situation the kmalloc_array() works as a bounds check and we
-haven't accessed the syncobj_handlesp[] array yet so the integer overflow
-is harmless.
-
-But the "num_syncobj" multiplication doesn't have that and the integer
-overflow could lead to an out of bounds access.
-
-Fixes: a292fdecd728 ("drm/amdgpu: Implement userqueue signal/wait IOCTL")
-Cc: stable@vger.kernel.org
+Fixes: 0d6dcd741c26 ("drm/plane: modify create_in_formats to acommodate async")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-index 029cb24c28b3..bd79f105d77f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-@@ -430,7 +430,7 @@ int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 04992dfd4c79..75a7e8aa6611 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -209,7 +209,7 @@ static struct drm_property_blob *create_in_format_blob(struct drm_device *dev,
+ 	formats_size = sizeof(__u32) * plane->format_count;
+ 	if (WARN_ON(!formats_size)) {
+ 		/* 0 formats are never expected */
+-		return 0;
++		return ERR_PTR(-EINVAL);
+ 	}
  
- 	num_syncobj_handles = args->num_syncobj_handles;
- 	syncobj_handles = memdup_user(u64_to_user_ptr(args->syncobj_handles),
--				      sizeof(u32) * num_syncobj_handles);
-+				      size_mul(sizeof(u32), num_syncobj_handles));
- 	if (IS_ERR(syncobj_handles))
- 		return PTR_ERR(syncobj_handles);
+ 	modifiers_size =
+@@ -225,7 +225,7 @@ static struct drm_property_blob *create_in_format_blob(struct drm_device *dev,
  
-@@ -612,13 +612,13 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
+ 	blob = drm_property_create_blob(dev, blob_size, NULL);
+ 	if (IS_ERR(blob))
+-		return NULL;
++		return blob;
  
- 	num_read_bo_handles = wait_info->num_bo_read_handles;
- 	bo_handles_read = memdup_user(u64_to_user_ptr(wait_info->bo_read_handles),
--				      sizeof(u32) * num_read_bo_handles);
-+				      size_mul(sizeof(u32), num_read_bo_handles));
- 	if (IS_ERR(bo_handles_read))
- 		return PTR_ERR(bo_handles_read);
- 
- 	num_write_bo_handles = wait_info->num_bo_write_handles;
- 	bo_handles_write = memdup_user(u64_to_user_ptr(wait_info->bo_write_handles),
--				       sizeof(u32) * num_write_bo_handles);
-+				       size_mul(sizeof(u32), num_write_bo_handles));
- 	if (IS_ERR(bo_handles_write)) {
- 		r = PTR_ERR(bo_handles_write);
- 		goto free_bo_handles_read;
-@@ -626,7 +626,7 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
- 
- 	num_syncobj = wait_info->num_syncobj_handles;
- 	syncobj_handles = memdup_user(u64_to_user_ptr(wait_info->syncobj_handles),
--				      sizeof(u32) * num_syncobj);
-+				      size_mul(sizeof(u32), num_syncobj));
- 	if (IS_ERR(syncobj_handles)) {
- 		r = PTR_ERR(syncobj_handles);
- 		goto free_bo_handles_write;
+ 	blob_data = blob->data;
+ 	blob_data->version = FORMAT_BLOB_CURRENT;
 -- 
 2.47.2
 
