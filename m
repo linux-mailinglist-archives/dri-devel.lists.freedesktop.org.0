@@ -2,69 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489DCAC2203
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 13:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D98AC2245
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 13:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF8110E273;
-	Fri, 23 May 2025 11:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C90C10E29C;
+	Fri, 23 May 2025 11:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BvofKYZn";
+	dkim=pass (2048-bit key; unprotected) header.d=lwn.net header.i=@lwn.net header.b="kTt9lQ7L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1352810E273
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 11:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748000053; x=1779536053;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=MYfWXPtNFQT1KOOqC822XoD8Ig+VivQ64udlyOM9YfI=;
- b=BvofKYZn9qw4SjBUAXuV1dIdNvuViJEacD5ZyNY4yMQk5B5zmoZRkaKV
- IDJaj7u+9bDFFgrcO2iXsGYZDPA6hJG/cJ+ZwmroEBZojdU/eP+TRZtMX
- dGCC+MsapnY/7Ctl6DzYeKI6eBcH9RP5RYKDQSuUsZIm6dF2ve+yGVJzm
- oC4DpeFl9e8I0P8TZkPoWLGynhNS3g5ATU8B7Vh8xDSSYC9oMlFPKX2J6
- yfPmAKoxeRBaQT4FPghbS+ZHPAM2NY2ZNYCPDYTd8STW57/+eoKAPcERO
- WluCUK4ncOow0zprVtbkVTmMZ1PzC4ZUJqFYNfWMUNSf8ifzldGEjOBbM w==;
-X-CSE-ConnectionGUID: A8ea2btSToump7QlyuNkkA==
-X-CSE-MsgGUID: 8SYqgu0MT2uUNK+61dJWiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50169907"
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; d="scan'208";a="50169907"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2025 04:34:08 -0700
-X-CSE-ConnectionGUID: ievo+qiXQgGpHVyjzx9xew==
-X-CSE-MsgGUID: lI09kxVaQOGWLQCmjpcNJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; d="scan'208";a="141606037"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.244.101])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2025 04:34:07 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
-In-Reply-To: <87sekztwyc.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <87y0vkw8ll.fsf@intel.com>
- <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
- <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
- <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
- <874ixvtbxy.fsf@intel.com>
- <20250509-rapid-flounder-of-devotion-6b26bb@houat>
- <87r00yj6kv.fsf@intel.com>
- <molexnyjkiryvhetfdc66gmzecrf6f7kxl656qn46djdkixrkb@fdgnp5hispbf>
- <875xi3im1r.fsf@intel.com> <20250519-singing-silent-stingray-fe5c9b@houat>
- <87sekztwyc.fsf@intel.com>
-Date: Fri, 23 May 2025 14:34:05 +0300
-Message-ID: <8210f7fc0dbcfc5b1eea47ccb762c7e53b45236a@intel.com>
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B82A10E2A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 11:58:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A58D541F38
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1748001536; bh=KM1++pXYBhtAAWDBUXHsFQxXUKcJo+l383CqjWyzFB4=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=kTt9lQ7LSaDD7BiJKFvhYYZRRpEvRZazu2hL7x2RCXVkLcGKaqVTjO3WiSMFrZA/x
+ nFl5a+EzSImMHqYsyh1EZKuGCt+z2BBqi+hlcD8ZneXeAMhrs4s1YSmOw7qRimIW3m
+ CK/o2XYOqhKT7Luv8LFh5INAjv18I8/PkJAtsM+T2GIt0g/33ttLr1EBaujPY03tNf
+ Pw1A4v5igQCUXr9WWbcS1pwMAoQtub9dUdV+OdrgPy4jFsdZCgV1l1fpN73/4AkLVF
+ 2HY03S/8dZkSjwpJtqaZ+PELUO/NDrJ70hSXx/RgJuOmNufo7UVX5ecWfovESKYLzp
+ 292Vb+7I7YSHg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id A58D541F38;
+ Fri, 23 May 2025 11:58:56 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Abdulrasaq Lawani
+ <abdulrasaqolawani@gmail.com>
+Subject: Re: [PATCH] drm: add overview diagram for drm stack
+In-Reply-To: <20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com>
+References: <20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com>
+Date: Fri, 23 May 2025 05:58:55 -0600
+Message-ID: <87ecwfczcw.fsf@trenco.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,42 +61,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 May 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> Maxime -
+Abdulrasaq Lawani <abdulrasaqolawani@gmail.com> writes:
+
+> Add an overview diagram of Linux DRM architecture for
+> graphics and compute to introduction.rst
 >
-> I'm cutting a lot of context here. Not because I don't think it deserves
-> an answer, but because I seem to be failing at communication.
+> ---
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> ---
+>  Documentation/gpu/introduction.rst | 38 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 37 insertions(+), 1 deletion(-)
 >
-> On Mon, 19 May 2025, Maxime Ripard <mripard@kernel.org> wrote:
->> You still haven't explained why it would take anything more than
->> registering a dumb device at probe time though.
->
-> With that, do you mean a dumb struct device, or any struct device with a
-> suitable lifetime, that we'd pass to devm_drm_panel_alloc()?
+> diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+> index 3cd0c8860b949408ed570d3f9384edd5f03df002..91bb0efc96d69921a122c5265b1431fa18110a7a 100644
+> --- a/Documentation/gpu/introduction.rst
+> +++ b/Documentation/gpu/introduction.rst
+> @@ -14,7 +14,43 @@ including the TTM memory manager, output configuration and mode setting,
+>  and the new vblank internals, in addition to all the regular features
+>  found in current kernels.
+>  
+> -[Insert diagram of typical DRM stack here]
+> +Overview of the Linux DRM Architecture
+> +-----------------------------------------------
+> ++-----------------------------+
+> +|     User-space Apps         |
+> +| (Games, Browsers, ML, etc.) |
+> ++-----------------------------+
 
-I'm no expert in ACPI, but I think it needs to be a struct device
-embedded inside struct acpi_device to implement the
-drm_panel_add_follower() lookup for ACPI.
+[...]
 
-It would be natural to embed struct drm_panel inside struct intel_panel,
-except we need struct intel_panel way before we have figured out the
-acpi device. We need struct intel_panel at connector register time, acpi
-devices currently get figured out after all connectors have been
-registered. I'm trying to see if we can change that, but it doesn't look
-easy. Separate allocation and initialization would cover that.
+Please actually build the docs after a change like this and look at the
+results; they will not be what you expect here.  You need to put that
+diagram into a literal block.
 
-> Is using devm_drm_panel_alloc() like that instead of our own allocation
-> with drm_panel_init() the main point of contention for you? If yes, we
-> can do that.
+Thanks,
 
-As devm_drm_panel_alloc() forces embedding, and we can't easily embed
-drm_panel inside intel_panel, even that would need a dummy wrapper
-struct.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
+jon
