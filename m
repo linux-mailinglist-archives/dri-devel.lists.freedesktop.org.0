@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998BAAC2730
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2579CAC2735
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 18:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D8210E82D;
-	Fri, 23 May 2025 16:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1687210E832;
+	Fri, 23 May 2025 16:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y8ctUDuM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iOZX6Sah";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1F810E82D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:08:14 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-551efd86048so37298e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:08:14 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B63810E832
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 16:09:08 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3a36e090102so48213f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748016493; x=1748621293; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1748016547; x=1748621347; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hGF7HsXVnOrqTUKvr0Dj/ZLjMe7xNdGfL36SW0iFLZk=;
- b=y8ctUDuM8b4RiaQegDn5WTGd2/ZOlKIdTSFLeJ2LNFRfP5gBeCoKGmL/Y4SuZK3xek
- ZzZdUSeFsSBg6lkaMmiIP6ZkCcaZRmrzF+OlNp4pD2Gp6Qx3gDjnmtPABV40W8gtjRLM
- P64Sy12k+A17DZ92YVjM3R7gXBCIrewS9kIOABHwQkloMi2SUOBkBScQs/8mTydjuLRe
- BKfHqvdNQJ814spp9hP2EkenHA4E+z5+FDllKPNb/aicpqCY+Ny3l8ISkIGEqjGdvlO+
- jjJVQ5A+OHGbH8417r4xqR1P31rVJZGfy8ki5q/VdeD1boZwmSeca8jWGreXmTjuvUTm
- A+ZA==
+ bh=g6chOe/tXluDkGi3FLf3UONxFGeWcH0v84gFfRtryfM=;
+ b=iOZX6SahwMrHEXxAkF9oWoOs1sNEbdhW+rJjJxQC0TBk4bMr9rmVwZKesGmhbyBFv9
+ o5vNL0TtsneXNYpFizsQxpG47kaqwurn3kUskCtijOhpAIxclty/bGlZyysiPrHjc61c
+ JMNgwkwuJw0a61cWREAtk325kH7qvwc1chmFPbZoAFUHsBU5OlssxwOIkLIdLpNpwF0F
+ 5OfC2td7K2OLWo32083I5udN67J2wGz1jVxya1Kr5OsjUS1orIekQ5JxKcbzGC2QnNSh
+ hZngnqPRF3ztglz1bnUWwBJTG9iDHOYXcEsec7YsIwHierwQdrMOgrTS79B8zddDd3kJ
+ Ekgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748016493; x=1748621293;
+ d=1e100.net; s=20230601; t=1748016547; x=1748621347;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hGF7HsXVnOrqTUKvr0Dj/ZLjMe7xNdGfL36SW0iFLZk=;
- b=f3gu1DJ8zthLbXZdefnZ64Hngv/eNYFI1qAXUu6HLoHU/E1HkkcpFXYIm+qoANpYwx
- tn+H3RTY+ED9gjmxyqxftFsMo5JOi4ivr6vb6idPSc7VcrHhqdwwZpI8CPAlZ9OEazUU
- NWnAzIUXI9bmOl5xgXKDi8RogzDIejaO0qMQgRmDSQXmxE0MxZxwQl8qdcrCa/Ypbm28
- mXblJGbM6EOhLPDkHlkCpqfVNBK7lN07/ciAm3hiEqbUaMH2WJFMek+yCqyKznKTuNbq
- RByo705xEA07/WKshP7zClX6w5bcilA3GHxMETQZQUX7OMf9+brYqSYTqgw6B4bx7VaK
- NCpg==
+ bh=g6chOe/tXluDkGi3FLf3UONxFGeWcH0v84gFfRtryfM=;
+ b=JGET+u02TwQZMi+j7HK1mysGjBxbQdbGu4l9gjR71sSfYrhadVzeU+53dNiX7KrXOc
+ VJtRBOvZrdcLSYDyj2AgcnNLg/33DBvJl1jrgU+Nsa6fZAOCh9DEKN0uRIJSNNb4H6Lz
+ lj2QgLFMIk5Od20bN2D2ze26EC19ZLKFhGsZPvQyPUUrSzB3ZoemVI/CceNvF9pQOsf6
+ NKGy3Xv3KNiVmugKPfepelEX/6PRg2027jptEyYLdThQX30IhtLjNQf+Us1bpz9Cczd9
+ jCFpt6nV+zUPJ9Ip9h1zCQ9aBwBXwGmaNOdUtAuCLiyPOVV+hH7wiz+4qF3KpxOj4JUr
+ M2bA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd5qAToOr41C8g90aFeAsQl79wxSgNuXv/yQk1e083YcY3wSGCXluDMqhPZM8FIIcD/l0dKOEOs6g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwmw5IjH4/mf0eTmaDlvcoziGnQLSolFk7GWNdwGgdA5TX6BKg
- KYLOTq63wXMp0tcOOfqnAWquB7pDA3p5E7hl5Sb+JA7cvLZv+yP3dcrTo0F/yQYbsCvKKndLFL8
- XNUOf
-X-Gm-Gg: ASbGncuKMQsEpsqtOH9cGQCIQgDSFeMIthaSdSjkrW0Y1WkOr3l+KlGTzwoYH5z0O3o
- PD/Rso7KalQMO3kVD4Ex7uYIljmdhHSrNzXH8pIuWwcRR87wjqAURSp50IWFOeRD+bx0Y6Rk08g
- 0ITPkQ/cq4OIW+3A4GjF23IZYYi0SrhpCExS0erw4dLW7tmKI9/5ejPM5XYqNqSJspQHqwvJsrr
- gq2zxoH+TcgXt8e+ig9oyWU8IZOuX/1G2GUswoa3hGGCJ1QJu6xXcJK4Jflr5sG2kS71FAnMcN+
- zeWH8Oz9EvFijmsUY+dUbGNzVra6O8DD970+eI2H2xUViYFh69I1syMAbMO1cyC3Rcg=
-X-Google-Smtp-Source: AGHT+IEgnqQ89pTDpIiXTK+5YoVr8iR1h5pIE/WFcVljNceH6shNrv9ACEId9Fo5qIq8B9APct4R0g==
-X-Received: by 2002:a05:600c:3b21:b0:441:b3eb:5720 with SMTP id
- 5b1f17b1804b1-442ff0396b5mr274072555e9.29.1748016482352; 
- Fri, 23 May 2025 09:08:02 -0700 (PDT)
+ AJvYcCVItlDlqxXTU9SPP/HI4GsperVqDzj4oStqzxJCwacxWVXC9ukEicEqgZWxNJKu0/M/i0MgiBXfC48=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHkr/TOa5mb14/yMrLCwdWSqwFtDuiNJuIXCTVoLBOd0nLN5Na
+ xI5apxETj15+CtwXgtl5fWJHFWnnG2gIxtx0OH7pheZYu9R1F40lxpbi6Hh8J86WSZI=
+X-Gm-Gg: ASbGncuYjbh3sqE9vYrLjx1U/WpqsIBNBv11x0fZdJqndn/OrWFHXN1IBX01nyGEyCP
+ O0VUvZaPzWSnyuylRDSIf5E5K9r0vY9LWmcjawQvEgUbvpDfCmpPyYzrvLokMuHcx40uLkUc3q/
+ GLkeeV6FnE5gMkDSq4/KSALViFIyNJV/drp2kx881H4/8i60YK8MLCSkuU+cKZfIdT3h4CZ9tAr
+ OegXFi1rq/LjJ1n2tRm3bzSQEQtMdWIuAj6RH1YAyB+6ma8KF79fpaBYK2xHQNxwihsZqlTsgEX
+ B6IEEWFstsFNd9780mA3rWOL0ESZP0opHJyvEuys1X7U3K7cRD3q8YZ1
+X-Google-Smtp-Source: AGHT+IHPVwqYQMQUBFaNXvEFIcr3w0MI32C5yLoljXKKKhZovzZeYOKYCcY5hi27O/0atp1C/FA3vA==
+X-Received: by 2002:a05:6000:18d2:b0:3a1:fcd9:f2ff with SMTP id
+ ffacd0b85a97d-3a35c808dbamr21076476f8f.12.1748016546702; 
+ Fri, 23 May 2025 09:09:06 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3a368136014sm22978069f8f.92.2025.05.23.09.08.01
+ ffacd0b85a97d-3a35ca4d310sm27215487f8f.17.2025.05.23.09.09.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 09:08:01 -0700 (PDT)
-Date: Fri, 23 May 2025 19:07:58 +0300
+ Fri, 23 May 2025 09:09:06 -0700 (PDT)
+Date: Fri, 23 May 2025 19:09:03 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Dave Airlie <airlied@redhat.com>,
- Lu Baolu <baolu.lu@linux.intel.com>, Timur Tabi <ttabi@nvidia.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/nouveau/tegra: Fix error pointer vs NULL return in
- nvkm_device_tegra_resource_addr()
-Message-ID: <aDCdXk98AhLBcWvK@stanley.mountain>
+Subject: [PATCH next] drm/panel: nt37801: Fix IS_ERR() vs NULL check in probe()
+Message-ID: <aDCdn9r_ZAUTRpWn@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -93,29 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The nvkm_device_tegra_resource() function returns a mix of error pointers
-and NULL.  The callers only expect it to return NULL on error.  Change it
-to only return NULL.
+The devm_drm_panel_alloc() function returns error pointers, it doesn't
+return NULL.  Update the check to match.
 
-Fixes: 76b8f81a5b92 ("drm/nouveau: improve handling of 64-bit BARs")
+Fixes: 4fca6849864d ("drm/panel: Add Novatek NT37801 panel driver")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-index 0ca2dfe99676..114e50ca1827 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-@@ -196,7 +196,7 @@ nvkm_device_tegra_resource(struct nvkm_device *device, enum nvkm_bar_id bar)
- 	case NVKM_BAR1_FB : idx = 1; break;
- 	default:
- 		WARN_ON(1);
--		return ERR_PTR(-EINVAL);
-+		return NULL;
- 	}
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt37801.c b/drivers/gpu/drm/panel/panel-novatek-nt37801.c
+index 84d367eab058..d6a37d7e0cc6 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt37801.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt37801.c
+@@ -257,8 +257,8 @@ static int novatek_nt37801_probe(struct mipi_dsi_device *dsi)
+ 	ctx = devm_drm_panel_alloc(dev, struct novatek_nt37801, panel,
+ 				   &novatek_nt37801_panel_funcs,
+ 				   DRM_MODE_CONNECTOR_DSI);
+-	if (!ctx)
+-		return -ENOMEM;
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
  
- 	return platform_get_resource(tdev->pdev, IORESOURCE_MEM, idx);
+ 	ret = devm_regulator_bulk_get_const(dev,
+ 					    ARRAY_SIZE(novatek_nt37801_supplies),
 -- 
 2.47.2
 
