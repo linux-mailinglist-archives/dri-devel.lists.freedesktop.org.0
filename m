@@ -2,90 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BE8AC2550
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84488AC2558
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 16:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6483E10E823;
-	Fri, 23 May 2025 14:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B784E10E80D;
+	Fri, 23 May 2025 14:47:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ih242rmi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
- [209.85.167.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7371910E828
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 14:46:34 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id
- 5614622812f47-3feaedb39e9so9069b6e.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748011593; x=1748616393;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ghdI2uqqe2O4Wmd68hFPGrigGpfsBMc5eDJtKxJn5bI=;
- b=gnRA+KUiE93Qh/JtJs6EpQBBA8OpuPZP8kwFRDYrTmOce91rUsustUR6z7Opf6RAba
- EBXN5CnpGwmmyDfii88a3RUCq22dJVNsqzYxwWNmIo3I/3kx6Lst0tqt/NdOpqWi/Scp
- jkuynV62ePy3qyi6b4X+yuJ55esHj6DeBWalF8eBQU9UtrEsYBKnD0L2irnB8PdRQznU
- 2YudoWnIONkvWjvviyJ1QVsvwurCr0GgrG26Y6IJudhGtl6BK7a9xcNC72o3MTxa0MPE
- ulZRWtDctzUTpQh4YQpTk+AaZHLOrOAruAOrXNWSLab9AfwQUIS+Nz6io/dcJ9LOBFiz
- dUGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWmngOYUIhj1Ba7KVQGLqr4w9A38wgt7URMz9nbDaLcNQ6QEtsXUHW0Nwfv1jTXOGv/oktGioACncI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzg9BeeiajM3mtv1HdoZdlAXQ8y6XN97EScIiCrn1ZXk2/2M9i5
- qCbhPlbIpF4UQgJ4yHOAS65pnxtti3/2HKzPGkbXwpWBa+XJ/zVJ34lKa66p1+qzN9g=
-X-Gm-Gg: ASbGncstR5IqGCIBPTAVuMB95M2FHxl9PwZrYlBy8oknVSsbXCWh6CZNH+VKDRDxWcY
- FVMqHEtYsZvCVFhNCf9ySKGWvxXRr7tXC8MOepGVNdkuYVGYCuvMKV175SfBwGUZqbVNocE994Q
- sCCzHJLWP2ut6RPESRHOyzcS+Ja14QdZgM74mdgRsD2YKba89dKcA/QSDC1H19LERKC0YSEftnl
- YozErmW1toNsvZLjm767JLm/QMTk7x9ctzVgg0VUmAyvqFtynpqdEhK8zqGvNA69ScVisCrsSRO
- hILjP9AaZug3bSf2UCNUm81QHbJqJy9JB9k8tcz9vlAEh9mUEcFFTVKmkXY3VZ+8AdCFrDVEyWJ
- knf+Tp7l+g2vlAF6rJnwWrl2n
-X-Google-Smtp-Source: AGHT+IEie59Slh70JrDuAERspqj+4EnphAQlu/72VuVlUv8PpgXS+4ge6mq4k2GGTbWkyJH/cCagAA==
-X-Received: by 2002:a05:6808:80ae:b0:3f9:8b5b:294c with SMTP id
- 5614622812f47-404da7edf1amr19126025b6e.31.1748011593052; 
- Fri, 23 May 2025 07:46:33 -0700 (PDT)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com.
- [209.85.210.44]) by smtp.gmail.com with ESMTPSA id
- 5614622812f47-404d97d6319sm2960666b6e.3.2025.05.23.07.46.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 May 2025 07:46:32 -0700 (PDT)
-Received: by mail-ot1-f44.google.com with SMTP id
- 46e09a7af769-72c14138668so2851842a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 07:46:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV46Ec2P810w/vymsdGy1/9dDa53jcLVGkSaNu4pJW73tJg0QbU7uWkJ0NabzWTdi1Zdsv5jxP5lKQ=@lists.freedesktop.org
-X-Received: by 2002:a05:6830:6887:b0:72b:a3f3:deb6 with SMTP id
- 46e09a7af769-734f984a750mr15833524a34.4.1748011592230; Fri, 23 May 2025
- 07:46:32 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE8110E80B;
+ Fri, 23 May 2025 14:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9zrV7433NHFYKHB0uHhJrmu7dOYAkEyNGtUe1qTfMxY=; b=ih242rmiGTg7PIJBXm/mbCuRbd
+ 9HqXObANz4FIiecYRyNtFnWmzUTa4LI+LyRFX/qZoUH6HjlSA2+XShtnDMk5kiUpA8F9b9g+UmlvH
+ VO9eWwxM+1xjqOkjPYQTz5UUrf1Pdqy+OGko1g+2jKGjnOmF1NZcWqnTHvDpAX3bRL3YTOizs3xvH
+ VB/0yFhASnY+ANiv4EkJJ4eubbb+jkp4KkkuibNjyiL1tKzW+Vm2qrA9tJyM2TB3jB9vsXRde4yKu
+ 3b8MDNnQ1V71mvTymGIw0P9Pc7kKKq1CANuci5a/Trzq0b7nEKZCrPigj6kgpHaRZNRUL9DcfPpbe
+ ZStse38Q==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uITfv-00CDpK-BA; Fri, 23 May 2025 16:47:07 +0200
+Message-ID: <4255f9a9-be17-4a9a-b7cf-8e3d4f93b38b@igalia.com>
+Date: Fri, 23 May 2025 15:47:06 +0100
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512184302.241417-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250512184302.241417-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 16:46:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV9NM3SPeZAxDnh=ez0uBvt9077_64oJe9A727p1r9QOg@mail.gmail.com>
-X-Gm-Features: AX0GCFv_GjXouNvqk1PpQnSfRmAzXOHXMmh8i0A88wx3URx0tlvPZOD5l0uuRfQ
-Message-ID: <CAMuHMdV9NM3SPeZAxDnh=ez0uBvt9077_64oJe9A727p1r9QOg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] clk: renesas: r9a09g057: Add clock and reset
- entries for DSI and LCDC
-To: Prabhakar <prabhakar.csengg@gmail.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-buf: Add __dma_fence_is_signaled()
+To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250522112540.161411-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250522112540.161411-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,69 +64,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar, Fabrizio,
 
-On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add clock and reset entries for the DSI and LCDC peripherals.
->
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 22/05/2025 12:25, Philipp Stanner wrote:
+> Some parties want to check whether a function is already signaled
+> without actually signaling the fence, which is what
+> dma_fence_is_signaled() might due if the fence ops 'signaled' callback
 
-Thanks for your patch!
+s/due/do/
 
-> --- a/drivers/clk/renesas/r9a09g057-cpg.c
-> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> is implemented.
+> 
+> Add __dma_fence_is_signaled(), which _only_ checks whether a fence is
+> signaled. Use it internally.
+> 
+> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>   include/linux/dma-fence.h | 24 ++++++++++++++++++++++--
+>   1 file changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 48b5202c531d..ac951a54a007 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -381,6 +381,26 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
+>   			       struct dma_fence_cb *cb);
+>   void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>   
+> +/**
+> + * __dma_fence_is_signaled - Only check whether a fence is signaled yet.
+> + * @fence: the fence to check
+> + *
+> + * This function just checks whether @fence is signaled, without interacting
+> + * with the fence in any way. The user must, therefore, ensure through other
 
-> @@ -58,6 +60,9 @@ enum clk_ids {
->         CLK_SMUX2_GBE0_RXCLK,
->         CLK_SMUX2_GBE1_TXCLK,
->         CLK_SMUX2_GBE1_RXCLK,
-> +       CLK_DIV_PLLETH_LPCLK,
+s/user/caller/ ?
 
-CLK_CDIV4_PLLETH_LPCLK?
+Otherwise looks good to me. For if/when Christian approves you can add my:
 
-> +       CLK_CSDIV_PLLETH_LPCLK,
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-CLK_PLLETH_LPCLK_GEAR?
+Regards,
 
-> +       CLK_PLLDSI_SDIV2,
+Tvrtko
 
-CLK_PLLDSI_GEAR?
-
->         CLK_PLLGPU_GEAR,
->
->         /* Module Clocks */
-
-> @@ -148,6 +182,12 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
->         DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCTL3, smux2_gbe0_rxclk),
->         DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCTL0, smux2_gbe1_txclk),
->         DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
-> +       DEF_FIXED(".cdiv4_plleth_lpclk", CLK_DIV_PLLETH_LPCLK, CLK_PLLETH, 1, 4),
-> +       DEF_CSDIV(".plleth_lpclk_gear", CLK_CSDIV_PLLETH_LPCLK, CLK_DIV_PLLETH_LPCLK,
-> +                 CSDIV0_DIVCTL2, dtable_16_128),
+> + * means that fences get signaled eventually.
+> + *
+> + * This function does not require locking.
+> + *
+> + * See also dma_fence_is_signaled().
+> + *
+> + * Return: true if signaled, false otherwise.
+> + */
+> +static inline bool
+> +__dma_fence_is_signaled(struct dma_fence *fence)
+> +{
+> +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
+> +}
 > +
-> +       DEF_PLLDSI_DIV(".plldsi_sdiv2", CLK_PLLDSI_SDIV2, CLK_PLLDSI,
+>   /**
+>    * dma_fence_is_signaled_locked - Return an indication if the fence
+>    *                                is signaled yet.
+> @@ -398,7 +418,7 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>   static inline bool
+>   dma_fence_is_signaled_locked(struct dma_fence *fence)
+>   {
+> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +	if (__dma_fence_is_signaled(fence))
+>   		return true;
+>   
+>   	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> @@ -428,7 +448,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>   static inline bool
+>   dma_fence_is_signaled(struct dma_fence *fence)
+>   {
+> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +	if (__dma_fence_is_signaled(fence))
+>   		return true;
+>   
+>   	if (fence->ops->signaled && fence->ops->signaled(fence)) {
 
-".plldsi_gear", CLK_PLLDSI_GEAR ...
-
-
-> +                      CSDIV1_DIVCTL2, dtable_2_32),
->
->         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
->
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
