@@ -2,117 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F01AC236E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 15:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C7AAC23BA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 15:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487B610E7D8;
-	Fri, 23 May 2025 13:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CAB610E7E1;
+	Fri, 23 May 2025 13:23:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pshbatds";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mZbEGMe2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05BC10E7E0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 13:06:25 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54N6bZjm004048
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 13:06:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=D2ZwAv3+/k8jq5bB/r8jN+
- Yh3nUziGncMv3EzvPlvAA=; b=PshbatdsvJ3uQjQ8BnuYeX81N/+IFW0dRTLdX4
- w5g6Dxn4NWdF4XqWbnxdlc/VHyirTbr/S3oyOIz7ywde21qp/YyPkzAYVdJHqj4+
- +mjHQlYodHPgljgsECGsNEvV3+9qrl/rQsAv2gH+SNpE0a+HYzxsKHMqJkPPk7WB
- 0HMewcrb0W34cLzNsqLgNW/tdCkexABUbSnZvJB71XlMy7WqTZ2JRiqBEWspd8bq
- cIwngnleKUIwVcKBvQnlQrPOcitClg9xSjoUS9tqaOYyrFKVR0i3EAizIhHToE3B
- jUrvmuF7e4NNatwboAXN6J4ZE4p+ITESac/WQ8S5xDbyS/GQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf520ax-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 13:06:24 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-310a3196132so2295401a91.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 06:06:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748005583; x=1748610383;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D2ZwAv3+/k8jq5bB/r8jN+Yh3nUziGncMv3EzvPlvAA=;
- b=YaB8v2j3b6gaBu1fFPsB+MeZG+TXOnZDB2SXEzl7PRwd8dhDRp4L7AkzRKu0h5IHdp
- dxrX6ykMUfoeerL258aW+TvrdZgojoxlsXLfxm9d/Ie6FKv+n7WDv8sZ9xnyqmqLoJ+t
- Z2Ta63xOBWVZSLcS3Y+RwtlXjxOzEPrGuhrzqnCaGZjyXOpDkPPU8NnFwXL7RJe1Q0EU
- oPm9V6f+ChIHFCKfBsnCpEVcNvkVbJ5q4eryeXeLetuAbGja5nN9FasX42qoJqqj+Run
- sjMlanaPeIY2DPUfV0sppDhqK0+/qV8C1m36qW92IZnJV5RwxeTAGnsTkTMthTH9Oasr
- KQ5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2R1eNdMmmDbIPXaMTpaA5djZ+bWhGaezpmEy8ouddT5+d+savllKqVd9pFERP9OViRqarnDagLxQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiGlGmpbv+d9RulMgNq82gMdIxEt6nhamFcbLjIgp4o0bYzsar
- T5tsCiQ1yyF8ZP0Y2xMg/ISoi6G9tpWyB93asFaj167a0X5IGMux9/cQH4wrnNm9JTwy8gacb8Z
- y8MmafTU1mNEYq4WzCvelbQHZNAKsfkexSMVtXh1Vg6Kmv47GNyAwkcBhbSuIVFofsW6SUus=
-X-Gm-Gg: ASbGncu6NYr3IpYLqe7JqvyuyJ7DiOz5y4g0aOZw+RFKwAhZLiddwWfQgJvFo+tlBgW
- e1jVMO28vpm/J5vmKjpvahF5Nwi4SHlFqfvHOIiOz1UUi0pnFlgQbFaoUe8qXjhENgcPQh68Qzn
- yZ9Ur0HLGPJAH2O/nNO6f4bzXdmBgPaYrMBDHUNg7SIGIRHdtGSv8Zz3mBNBhu5ZAJN2BzMI5bB
- QDqCjTLQK8aZccdtpucHiw+73VgpW5BQ2ipJEP6Z0mY9m7NT0pBFL1DMaYu4a9wILpRJ7fp68gK
- 2REJzUnQU12mZsxbyKwc4ctt02zT9dYPwU4H0HHBeJj5s3HPV8Q=
-X-Received: by 2002:a17:90b:1b03:b0:2ff:58e1:2bb4 with SMTP id
- 98e67ed59e1d1-310e972afd0mr4224634a91.22.1748005583123; 
- Fri, 23 May 2025 06:06:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGdJsIyMKqkXweP/UYp5yhqH8qznBRczsJ+cQdN4PhNXmYJdgeETzFaBLjNJrPAKxxcvN1ZUQ==
-X-Received: by 2002:a17:90b:1b03:b0:2ff:58e1:2bb4 with SMTP id
- 98e67ed59e1d1-310e972afd0mr4224601a91.22.1748005582662; 
- Fri, 23 May 2025 06:06:22 -0700 (PDT)
-Received: from hu-vkraleti-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-310f1544d30sm816165a91.15.2025.05.23.06.06.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 06:06:22 -0700 (PDT)
-From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-Date: Fri, 23 May 2025 18:36:16 +0530
-Subject: [PATCH] drivers: gpu: drm: msm: registers: improve reproducibility
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1E7510E7E1;
+ Fri, 23 May 2025 13:23:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 80E3043E92;
+ Fri, 23 May 2025 13:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1748006596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PdDU2oRP8k2jUeSve/BOd06ch34w47FFumvJv+pxA64=;
+ b=mZbEGMe25lkA6a1/A5PYNbESnCSL60bu6GbmptADGVwaEkiGNBcHGN8VrT72jRA/+HNkP4
+ O/QwRUKwwl3xkt4gQ3Mrs7lKrRaKRz4fTUwt/DbNDv7ugEEzoi1dGDejSURTrPhZAOKVZL
+ UYuYChVv7ASMlrgAyMynb3Hu9Ovs5zXPwNEjo60hL8sbBVmrDkv74b2ln1iasNoULv1Ksw
+ tA2Y1gP38lTQKZNvYVM6ebTePuQP8PIROVBEJmhCXewn1NVtuepbzztVtobDhFgEQBqe6V
+ 8LOSAQYNXvNBh9HNPCzuX8wiU0bL+1nw3VrunFS4/yawaszCy5VqLmvRqmwd3g==
+Date: Fri, 23 May 2025 15:23:04 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Inki Dae <daeinki@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
+ Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Seung-Woo Kim
+ <sw0312.kim@samsung.com>, Manikandan Muralidharan
+ <manikandan.m@microchip.com>, Adam Ford <aford173@gmail.com>, Adrien
+ Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
+ <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
+ <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
+ Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
+ <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
+ <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250523152304.5c66e195@booty>
+In-Reply-To: <CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+ <20250521162216.79dd3290@booty>
+ <CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250523-binrep-v1-1-c3a446518847@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAMdyMGgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDUyNj3aTMvKLUAt00i2QLw7REgxRjwxQloOKCotS0zAqwQdGxtbUAkV5
- 3W1gAAAA=
-X-Change-ID: 20250523-binrep-f8c81fa0d31d
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Ryan Eatmon <reatmon@ti.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bruce Ashfield <bruce.ashfield@gmail.com>,
- Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: uMTdTIJ_eNcn_VO_WNW6SevWHiiv7A_1
-X-Proofpoint-ORIG-GUID: uMTdTIJ_eNcn_VO_WNW6SevWHiiv7A_1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDExNiBTYWx0ZWRfX7Dr7uCLKtaHi
- VexklTYD6JPkEB2DuNdSP9lulNsprC+ggsj6BUzW4+6QLXGeMtRgx0dQJZXqCDbRsQPt6y7FjDN
- IwkV1QGbs4iNjNVU49Z40SDrD7qba9GhwIE1GZg6dOB2L9YRKIhU+KBgT6ezzC5dOIxplpDftJ1
- Zphg+H4Qhk5+Ld5h4yYcRYPw0ZumDBWgEQ0X+ZwnXd7KHbzjJWunenaqhI0kHt1Ow8Lp0hFhGPK
- BqX985Lzw+/8SKREOWhkivv8mkJJHXorD53UfC8HpwwaR8l3EeBS532bxrct41ff8epeSQFsGvZ
- 5aIfxSLoxLT89F2ivbBalbRX8Az/40tBq+SFZrQYVjP7Rhj5fv+bl2ax6kgqQGjLRQi0151/fI3
- EhcULuqhfxYkukEQ2+nSGiOzgIPGwjcpr3lUhTIeHMX03pSkUq+ehd42+6kblXtHCAShW3Nr
-X-Authority-Analysis: v=2.4 cv=R7UDGcRX c=1 sm=1 tr=0 ts=683072d0 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=sozttTNsAAAA:8 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=k2a8_r_j4jiI5Xvw-VoA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-23_04,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011 mlxlogscore=764 priorityscore=1501 spamscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0
- impostorscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505230116
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdekleeiucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvddtuedtfefgueehiefhjeeiffekudfhgfdtledvffekhfegteduieejveevteehnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepleehpdhrtghpthhtohepuggrvghinhhkihesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhin
+ hhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,64 +123,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The files generated by gen_header.py capture the source path to the
-input files and the date.  While that can be informative, it varies
-based on where and when the kernel was built as the full path is
-captured.
+Hello Inki,
 
-Since all of the files that this tool is run on is under the drivers
-directory, this modifies the application to strip all of the path before
-drivers.  Additionally it prints <stripped> instead of the date.
+On Fri, 23 May 2025 00:11:24 +0900
+Inki Dae <daeinki@gmail.com> wrote:
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
----
-The files generated by gen_header.py include the source path to the
-input files and the build date. While this information can be useful,
-it inadvertently exposes build system configuration details in the
-binaries. This hinders binary reproducibility, as the output will
-vary if the build environment changes.
----
- drivers/gpu/drm/msm/registers/gen_header.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+> Hello Luca Ceresoli,
+>=20
+> 2025=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 11:23=
+, Luca Ceresoli <luca.ceresoli@bootlin.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+> >
+> > Hello Maxime, Shawn, Liu, all,
+> >
+> > On Fri, 09 May 2025 15:53:26 +0200
+> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > =20
+> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
+ a DRM
+> > > bridge, and the only one supported from now on. It is the first miles=
+tone
+> > > towards removal of bridges from a still existing DRM pipeline without
+> > > use-after-free. =20
+> >
+> > I applied on drm-misc-next patches 3-17,20-21 as they match all the
+> > criteria:
+> >  - At least a Acked-by (or R-by maintainers)
+> >  - patch is for drm-misc
+> >
+> > Being my very first commits to drm-misc, I tried to be careful, and
+> > double checked all the patches with Louis (thanks!).
+> >
+> > Here are the pending questions and plan for the remaining patches.
+> > =20
+> > >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API=
+" =20
+> >
+> > This reverts the commit applied my mistake:
+> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09=
+b43b025bce6d790d3c79f4518
+> >
+> > Neither the  original patch nor the revert has been reviewed/acked.
+> >
+> > As the commit was a mistake, I'm applying the revert by the end of this
+> > week (i.e. on Friday) unless there are better instructions. =20
+>=20
+> Really sorry for late. I was made aware of it later through a
+> colleague's remark. There is no need to proceed with the revert.
+> Acked-by : Inki Dae <inki.dae@samsung.com>
 
-diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
-index 3926485bb197b0992232447cb71bf1c1ebd0968c..a409404627c7180d5b0626f0ce6255d7d0df5113 100644
---- a/drivers/gpu/drm/msm/registers/gen_header.py
-+++ b/drivers/gpu/drm/msm/registers/gen_header.py
-@@ -11,6 +11,7 @@ import collections
- import argparse
- import time
- import datetime
-+import re
- 
- class Error(Exception):
- 	def __init__(self, message):
-@@ -877,13 +878,14 @@ The rules-ng-ng source files this header was generated from are:
- """)
- 	maxlen = 0
- 	for filepath in p.xml_files:
--		maxlen = max(maxlen, len(filepath))
-+		new_filepath = re.sub("^.+drivers","drivers",filepath)
-+		maxlen = max(maxlen, len(new_filepath))
- 	for filepath in p.xml_files:
--		pad = " " * (maxlen - len(filepath))
-+		pad = " " * (maxlen - len(new_filepath))
- 		filesize = str(os.path.getsize(filepath))
- 		filesize = " " * (7 - len(filesize)) + filesize
- 		filetime = time.ctime(os.path.getmtime(filepath))
--		print("- " + filepath + pad + " (" + filesize + " bytes, from " + filetime + ")")
-+		print("- " + new_filepath + pad + " (" + filesize + " bytes, from <stripped>)")
- 	if p.copyright_year:
- 		current_year = str(datetime.date.today().year)
- 		print()
+Thanks for the feedback. As agreed with Maxime and approved by you, I'm
+leaving the commit as is, without reverting and reapplying. Your
+Acked-by is in the records anyway, so somehow reachable in case of need.
 
----
-base-commit: fc5c669c902c3039aa41731b6c58c0960d0b1bbf
-change-id: 20250523-binrep-f8c81fa0d31d
+Luca
 
-Best regards,
--- 
-Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
