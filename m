@@ -2,67 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE99CAC1971
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 03:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE6FAC1A12
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 04:31:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0399010E03B;
-	Fri, 23 May 2025 01:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A0E10E139;
+	Fri, 23 May 2025 02:31:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="S61/XcHo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zq+xA9U6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31BBF10E03B
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 01:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1747962826;
- bh=gw+BTmSHhkiqw8fVOSeQUYcM2zc5ENlAHXxQB2rFVp4=;
- h=From:To:Subject:Date:Message-Id;
- b=S61/XcHoTIVZaYzr8z0CWDt1dphh7QCgKinoWfAc/lv0z3kforr9RS/UdZQcySkL7
- DS1QPsjOX8/0H8GZTrg1ZbNL/09RPKANTMwlcbroN87bPh8Ky4StN0/i7a6nbwz5Eh
- Df0BJuIFuINiURYmo96GjTHWRn1fnAuaILI8YpA8=
-X-QQ-mid: zesmtpsz8t1747962824t2502f3b0
-X-QQ-Originating-IP: az0DKIx4s7vi4nlfNsI6jGm0INLs5Mr6iXyto0rMZFk=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 23 May 2025 09:13:42 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1097511651874681350
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Sandy Huang <hjc@rock-chips.com>, "Heiko Stuebner" <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+ [209.85.166.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5B510E139;
+ Fri, 23 May 2025 02:31:41 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id
+ ca18e2360f4ac-86135d11760so669987739f.2; 
+ Thu, 22 May 2025 19:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1747967500; x=1748572300; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v50Axd90kyfqH9mwJmj3TPd2cL5HaAzM6IzM1l9YKSU=;
+ b=Zq+xA9U6eNSa+kLoMOhfzw6x353g+NeauOevl2oAs3u66fSF0B+4MZtHfsmJt01Q+W
+ sG4M+uMMfG4/3ki4Ty4L7BUkzmP6ScYtb+i8rzJS0aJVCyzzIe6oUW36eh5Cn7QWBFj4
+ p5T7x3GWV0DUBKpsFkEyax7djOQam7fm/xl+PQG6fbwF0Ilg6BTpAyzyzghrCSZFPRJA
+ R0q19gfU+wmbV01tcXVhS9wHa6bYLReuMUgqQbsyBHiVvEy+QGHmViq3iZSm6dASKCOH
+ 4K3dGBLaF3UTdh+ndo9HEjK3xYA48TxZteRCkrHc77Tz9Z5UqcK7cxxWso61JaPkLaih
+ N4rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1747967500; x=1748572300;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=v50Axd90kyfqH9mwJmj3TPd2cL5HaAzM6IzM1l9YKSU=;
+ b=Tyt8fRzWH/NJ1pX3dHYC+ots9eyjveXlX1HdJpTzxxZMXd9s13jFCb6X/dwv1SKx6T
+ igSncS+iI+qmuSZGoXU+Dyg/iOBkwYNh0bY3unGYuEHUVguwjlxvyFw5NkfwdgwHj5f/
+ nFM11T9yNvcLZ2uOwcgGIoMWpjUme5vzhs79FbdoJ3qwIdA3QjgFz/+GqffTivcSldPT
+ YVzkuf+YD/fVybglYZA8td/VUw32GWZ1f2vxJI/XFBd0+1D51njau6clQae8osEMaxOI
+ m/Ux62xPITlbVDVmPQ8JTthXI4CoScwK0SGu1dA0jcEv/+meAq7M5FBj+uz5GTSs7xR9
+ fjTQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKT3FSc6TiT73mp11Twjsmv7+VbM2+GvJombcGWAvkCHjNEF3XTDdrcoynjbo50qqc6Ips1/weuXmW@lists.freedesktop.org,
+ AJvYcCX4/HQ2iigoMe8AB+GX5ZN/qg4Q9D8i0uyFqpu9dcKsA+PQPLzby3eedrjxh1y3Ou+5HreWuaxzRmw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhFPXu6g0k7pxkkjxToM5t9SuEvpU++qEBcKi9Hud5riy1fGbP
+ GiYg3ehvNPe1mtQURTx5v20fkiJ+3OPhQzK4ETxjBxVClGL9q4SFgcP6QPPr9JshzIZimrlLqRD
+ nDq3/HKB6jLBPSX/3v1pZvvQjU+f3M9Q=
+X-Gm-Gg: ASbGncuMowO1OY59yzxGEHH/euwgjk0AWntKnZllYaP1KQcChCu1vmvmhFqH47WTxdM
+ 7/wUSynnDFia/OZOr0QhgFy7hKPc6BuiWLM8JOOhxQD7xFYpauRhortTs1FhZQwm7xpSpWnxJgw
+ 3vJr0mu/fUEF9zp3oyxqvOfDudajclYN+ZNVqAYajilqAk5LsNlnBGu9gxkTiNpekN
+X-Google-Smtp-Source: AGHT+IEaJK0kE9SEAYYnpJd6uzCGrAqsmkLSUrMUnq8m5hUhwbfMok+9DiOmcNxk+puC6/eGlHTtg9rkqjOTtXuzEd4=
+X-Received: by 2002:a05:6602:6a87:b0:86a:24fe:c51f with SMTP id
+ ca18e2360f4ac-86caf092e03mr197060839f.7.1747967500384; Thu, 22 May 2025
+ 19:31:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <aCYkk4Y7feltfp79@pollux>
+ <CAF6AEGsoG_W3A3+BHV4n5EKZQazFubrCyfrtxVUH7+H4-j7i5A@mail.gmail.com>
+ <aCY42rgJC4sQ4tp4@pollux>
+ <CAF6AEGubHkdhfJz=bAZvctO1aTKDLwRsRyPzkoVrQ7tA6dRbKw@mail.gmail.com>
+ <aCwqAGLLCC2ZLSBK@pollux>
+ <CAF6AEGspvuTHU0t9z__p_HkdRNi=cXir3t453AbR6DFNzDpgvw@mail.gmail.com>
+ <aCyzyAPbQ1SYbo4q@pollux>
+ <CAF6AEGs+WmTO_624A3Pek-1-SD6B4PFu4sDv3htko0ABhfHFzw@mail.gmail.com>
+ <aC8Dzgufa9E2MD6t@pollux>
+ <CAF6AEGvkrN8H1ZPzrCQF+d_Y_Y5kRdeQjohDqcgpNd-uDKo9yQ@mail.gmail.com>
+ <aC9Iih1KN6xb9LrK@cassiopeiae>
+In-Reply-To: <aC9Iih1KN6xb9LrK@cassiopeiae>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 22 May 2025 19:31:28 -0700
+X-Gm-Features: AX0GCFun40Rc8pO0Ej4MXUSPpbpJxcZFCAbQh8QNhOuG0dSQLURQ6RgXeZ6gFMg
+Message-ID: <CAF6AEGvp6BCN14_n+Ot5KQrPbnDprKXcHT0s0ZLC2-JDV7D3TQ@mail.gmail.com>
+Subject: Re: [PATCH v4 04/40] drm/sched: Add enqueue credit limit
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH v2] drm/rockchip: cdn-dp: Convert to drm bridge
-Date: Fri, 23 May 2025 09:13:10 +0800
-Message-Id: <20250523011310.120-1-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: NDtUtlvFer7vnEqA/tTmQzhvW8ZnmrHykHo/ECzVByqnMWZ9gvmVdYQp
- CLRBsh+PfwI7ISSoWH07yWL+8nkUQvLB0Dt0cjRExiksyS5VBhSDHUBcsZC/0GkvhLtN0jq
- nRDah+K5gfelOj95QrlVKC+RLRyFX0ppCYfBDCpdGOyOe6kd58uXBgoKjxeOG12TvfmCqAL
- SnDkCpqBqDD3jqKgEgaBzceiQ11gpMG2iMxFxvW2RetaoLsBsiYZXjdwWroInE8rFTMU3o2
- QR23yuN4pfQCXwJndZOLojvMG8yWekktOPvmZEHPcaH2eXN8/usa778wqCLyJb/JcdR2dfH
- 7qdW/lgY9s8aWvyOU2sYNePijAnSgPZw0xsQX5GYuBo8fQyvtLLAXcnilRIbSHazjMDDe09
- ditGB1zKQboLVisCKffavyMeoX4F/f/odiMimVCTzTn7mw7xqkRWTx1YDce5OQb7TqjS9E5
- hgtQHrEXvVhto2fKBeCWTQi3ngsG75+WfF0Wgr4i8K+Lj8TyBsRlw17h22iIiiKlHp5TDrm
- jOiWDRgNItYT+3qH8ZJrXtxYeZH6EOSJ0hOYxzJIqBgRzm0DESjLU08TpWtyvR85n1S2k5G
- VwIvUqlMzB9v6qT5t/wJF767ZjvDlSBOuUPjI/20D9cQ3/TqZSLyHhOQ9R/2Q+o9FtA8L+Y
- xxxd7ACSmYJj6DN76Ln6fP5fw8lqE9UYHKhnRIk/ZMIxyVr/XmIxBOzPonjtscPyCJEjcpJ
- 17PpbmMHg3u3cBClE1+soXn/LiFZAF9FJUPYJHXBOqA39ip8cW4jOWhJA4jkSQaNuLbnLcw
- HP7Sj58sclu094N2vM3A4PisnJFMBzQA6dyNQrF2ZbV/YViH+vtp4G2TkfKu2JIrieE2vGe
- FTX2eLcvfDjwNeSx+dF2dvLvYPGGgK9JvYg8aXK4zHBkNsGCHq08mMKhQWyG8VrKKtMR7mI
- T0pK/7otM1B0uz3bjl5Ft2HSvUffPgTElCfY=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+ Simona Vetter <simona@ffwll.ch>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,454 +103,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On Thu, May 22, 2025 at 8:53=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Thu, May 22, 2025 at 07:47:17AM -0700, Rob Clark wrote:
+> > On Thu, May 22, 2025 at 4:00=E2=80=AFAM Danilo Krummrich <dakr@kernel.o=
+rg> wrote:
+> > > On Tue, May 20, 2025 at 10:22:54AM -0700, Rob Clark wrote:
+> > > > On Tue, May 20, 2025 at 9:54=E2=80=AFAM Danilo Krummrich <dakr@kern=
+el.org> wrote:
+> > > > > On Tue, May 20, 2025 at 09:07:05AM -0700, Rob Clark wrote:
+> > > > > > On Tue, May 20, 2025 at 12:06=E2=80=AFAM Danilo Krummrich <dakr=
+@kernel.org> wrote:
+> > > > > > > But let's assume we agree that we want to avoid that userspac=
+e can ever OOM itself
+> > > > > > > through async VM_BIND, then the proposed solution seems wrong=
+:
+> > > > > > >
+> > > > > > > Do we really want the driver developer to set an arbitrary bo=
+undary of a number
+> > > > > > > of jobs that can be submitted before *async* VM_BIND blocks a=
+nd becomes
+> > > > > > > semi-sync?
+> > > > > > >
+> > > > > > > How do we choose this number of jobs? A very small number to =
+be safe, which
+> > > > > > > scales badly on powerful machines? A large number that scales=
+ well on powerful
+> > > > > > > machines, but OOMs on weaker ones?
+> > > > > >
+> > > > > > The way I am using it in msm, the credit amount and limit are i=
+n units
+> > > > > > of pre-allocated pages in-flight.  I set the enqueue_credit_lim=
+it to
+> > > > > > 1024 pages, once there are jobs queued up exceeding that limit,=
+ they
+> > > > > > start blocking.
+> > > > > >
+> > > > > > The number of _jobs_ is irrelevant, it is # of pre-alloc'd page=
+s in flight.
+> > > > >
+> > > > > That doesn't make a difference for my question. How do you know 1=
+024 pages is a
+> > > > > good value? How do we scale for different machines with different=
+ capabilities?
+> > > > >
+> > > > > If you have a powerful machine with lots of memory, we might thro=
+ttle userspace
+> > > > > for no reason, no?
+> > > > >
+> > > > > If the machine has very limited resources, it might already be to=
+o much?
+> > > >
+> > > > It may be a bit arbitrary, but then again I'm not sure that userspa=
+ce
+> > > > is in any better position to pick an appropriate limit.
+> > > >
+> > > > 4MB of in-flight pages isn't going to be too much for anything that=
+ is
+> > > > capable enough to run vk, but still allows for a lot of in-flight
+> > > > maps.
+> > >
+> > > Ok, but what about the other way around? What's the performance impac=
+t if the
+> > > limit is chosen rather small, but we're running on a very powerful ma=
+chine?
+> > >
+> > > Since you already have the implementation for hardware you have acces=
+s to, can
+> > > you please check if and how performance degrades when you use a very =
+small
+> > > threshold?
+> >
+> > I mean, considering that some drivers (asahi, at least), _only_
+> > implement synchronous VM_BIND, I guess blocking in extreme cases isn't
+> > so bad.
+>
+> Which is not even upstream yet and eventually will support async VM_BIND =
+too,
+> AFAIK.
 
-Convert it to drm bridge driver, it will be convenient for us to
-migrate the connector part to the display driver later.
+the uapi is upstream
 
-Considering that some code depend on the connector, the following
-changes have been made:
-- Do not get edid in cdn_dp_get_sink_capability() when connector is
-not present.
-- Update bpc info in cdn_dp_bridge_atomic_enable() instead of
-cdn_dp_encoder_mode_set(). Actually, the bpc data will be used in
-cdn_dp_bridge_atomic_enable().
+> > But I think you are overthinking this.  4MB of pagetables is
+> > enough to map ~8GB of buffers.
+> >
+> > Perhaps drivers would want to set their limit based on the amount of
+> > memory the GPU could map, which might land them on a # larger than
+> > 1024, but still not an order of magnitude more.
+>
+> Nouveau currently supports an address space width of 128TiB.
+>
+> In general, we have to cover the range of some small laptop or handheld d=
+evices
+> to huge datacenter machines.
 
-This patch also convert to use devm_drm_bridge_alloc() API.
+sure.. and?  It is still up to the user of sched to set their own
+limits, I'm not proposing that sched takes charge of that policy
 
-Tested with RK3399 EVB IND board.
+Maybe msm doesn't have to scale up quite as much (yet).. but it has to
+scale quite a bit further down (like watches).  In the end it is the
+same.  And also not really the point here.
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+> > I don't really have a good setup for testing games that use this, atm,
+> > fex-emu isn't working for me atm.  But I think Connor has a setup with
+> > proton working?
+>
+> I just want to be sure that an arbitrary small limit doing the job for a =
+small
+> device to not fail VK CTS can't regress the performance on large machines=
+.
 
-Changes in v2:
-- Link to V1: https://lore.kernel.org/all/20250507035148.415-1-kernel@airkyi.com/
-- Use drm_atomic_get_new_connector_for_encoder() to get connector
-- Convert to use devm_drm_bridge_alloc() API
-- Fix typo: cdn_dp_connector_edid_read -> cdn_dp_bridge_edid_read
+why are we debating the limit I set outside of sched.. even that might
+be subject to some tuning for devices that have more memory, but that
+really outside the scope of this patch
 
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 204 +++++++++++++------------
- drivers/gpu/drm/rockchip/cdn-dp-core.h |   5 +-
- 2 files changed, 112 insertions(+), 97 deletions(-)
+> So, kindly try to prove that we're not prone to extreme performance regre=
+ssion
+> with a static value as you propose.
+>
+> > > Also, I think we should probably put this throttle mechanism in a sep=
+arate
+> > > component, that just wraps a counter of bytes or rather pages that ca=
+n be
+> > > increased and decreased through an API and the increase just blocks a=
+t a certain
+> > > threshold.
+> >
+> > Maybe?  I don't see why we need to explicitly define the units for the
+> > credit.  This wasn't done for the existing credit mechanism.. which,
+> > seems like if you used some extra fences could also have been
+> > implemented externally.
+>
+> If you are referring to the credit mechanism in the scheduler for ring bu=
+ffers,
+> that's a different case. Drivers know the size of their ring buffers exac=
+tly and
+> the scheduler has the responsibility of when to submit tasks to the ring =
+buffer.
+> So the scheduler kind of owns the resource.
+>
+> However, the throttle mechanism you propose is independent from the sched=
+uler,
+> it depends on the available system memory, a resource the scheduler doesn=
+'t own.
 
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index 292c31de18f1..848f47d41111 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -25,9 +25,9 @@
- #include "cdn-dp-core.h"
- #include "cdn-dp-reg.h"
- 
--static inline struct cdn_dp_device *connector_to_dp(struct drm_connector *connector)
-+static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *bridge)
- {
--	return container_of(connector, struct cdn_dp_device, connector);
-+	return container_of(bridge, struct cdn_dp_device, bridge);
- }
- 
- static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *encoder)
-@@ -231,9 +231,9 @@ static bool cdn_dp_check_sink_connection(struct cdn_dp_device *dp)
- }
- 
- static enum drm_connector_status
--cdn_dp_connector_detect(struct drm_connector *connector, bool force)
-+cdn_dp_bridge_detect(struct drm_bridge *bridge)
- {
--	struct cdn_dp_device *dp = connector_to_dp(connector);
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
- 	enum drm_connector_status status = connector_status_disconnected;
- 
- 	mutex_lock(&dp->lock);
-@@ -244,41 +244,25 @@ cdn_dp_connector_detect(struct drm_connector *connector, bool force)
- 	return status;
- }
- 
--static void cdn_dp_connector_destroy(struct drm_connector *connector)
-+static const struct drm_edid *
-+cdn_dp_bridge_edid_read(struct drm_bridge *bridge, struct drm_connector *connector)
- {
--	drm_connector_unregister(connector);
--	drm_connector_cleanup(connector);
--}
--
--static const struct drm_connector_funcs cdn_dp_atomic_connector_funcs = {
--	.detect = cdn_dp_connector_detect,
--	.destroy = cdn_dp_connector_destroy,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static int cdn_dp_connector_get_modes(struct drm_connector *connector)
--{
--	struct cdn_dp_device *dp = connector_to_dp(connector);
--	int ret = 0;
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
-+	const struct drm_edid *drm_edid;
- 
- 	mutex_lock(&dp->lock);
--
--	ret = drm_edid_connector_add_modes(connector);
--
-+	drm_edid = drm_edid_read_custom(connector, cdn_dp_get_edid_block, dp);
- 	mutex_unlock(&dp->lock);
- 
--	return ret;
-+	return drm_edid;
- }
- 
- static enum drm_mode_status
--cdn_dp_connector_mode_valid(struct drm_connector *connector,
--			    const struct drm_display_mode *mode)
-+cdn_dp_bridge_mode_valid(struct drm_bridge *bridge,
-+			 const struct drm_display_info *display_info,
-+			 const struct drm_display_mode *mode)
- {
--	struct cdn_dp_device *dp = connector_to_dp(connector);
--	struct drm_display_info *display_info = &dp->connector.display_info;
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
- 	u32 requested, actual, rate, sink_max, source_max = 0;
- 	u8 lanes, bpc;
- 
-@@ -323,11 +307,6 @@ cdn_dp_connector_mode_valid(struct drm_connector *connector,
- 	return MODE_OK;
- }
- 
--static struct drm_connector_helper_funcs cdn_dp_connector_helper_funcs = {
--	.get_modes = cdn_dp_connector_get_modes,
--	.mode_valid = cdn_dp_connector_mode_valid,
--};
--
- static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
- {
- 	int ret;
-@@ -360,7 +339,8 @@ static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
- 
- static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
- {
--	const struct drm_display_info *info = &dp->connector.display_info;
-+	struct drm_connector *connector = dp->connector;
-+	const struct drm_display_info *info;
- 	int ret;
- 
- 	if (!cdn_dp_check_sink_connection(dp))
-@@ -373,10 +353,15 @@ static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
- 		return ret;
- 	}
- 
-+	if (!connector)
-+		return 0;
-+
-+	info = &connector->display_info;
-+
- 	drm_edid_free(dp->drm_edid);
--	dp->drm_edid = drm_edid_read_custom(&dp->connector,
-+	dp->drm_edid = drm_edid_read_custom(dp->connector,
- 					    cdn_dp_get_edid_block, dp);
--	drm_edid_connector_update(&dp->connector, dp->drm_edid);
-+	drm_edid_connector_update(dp->connector, dp->drm_edid);
- 
- 	dp->sink_has_audio = info->has_audio;
- 
-@@ -416,11 +401,11 @@ static int cdn_dp_enable_phy(struct cdn_dp_device *dp, struct cdn_dp_port *port)
- 		goto err_power_on;
- 	}
- 
--	ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
--				  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
--	if (ret) {
--		DRM_DEV_ERROR(dp->dev, "get property failed\n");
--		goto err_power_on;
-+		ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
-+					EXTCON_PROP_USB_TYPEC_POLARITY, &property);
-+		if (ret) {
-+			DRM_DEV_ERROR(dp->dev, "get property failed\n");
-+			goto err_power_on;
- 	}
- 
- 	port->lanes = cdn_dp_get_port_lanes(port);
-@@ -551,21 +536,8 @@ static void cdn_dp_encoder_mode_set(struct drm_encoder *encoder,
- 				    struct drm_display_mode *adjusted)
- {
- 	struct cdn_dp_device *dp = encoder_to_dp(encoder);
--	struct drm_display_info *display_info = &dp->connector.display_info;
- 	struct video_info *video = &dp->video_info;
- 
--	switch (display_info->bpc) {
--	case 10:
--		video->color_depth = 10;
--		break;
--	case 6:
--		video->color_depth = 6;
--		break;
--	default:
--		video->color_depth = 8;
--		break;
--	}
--
- 	video->color_fmt = PXL_RGB;
- 	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
- 	video->h_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NHSYNC);
-@@ -599,12 +571,31 @@ static void cdn_dp_audio_handle_plugged_change(struct cdn_dp_device *dp,
- 		dp->plugged_cb(dp->codec_dev, plugged);
- }
- 
--static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
-+static void cdn_dp_bridge_atomic_enable(struct drm_bridge *bridge, struct drm_atomic_state *state)
- {
--	struct cdn_dp_device *dp = encoder_to_dp(encoder);
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
-+	struct video_info *video = &dp->video_info;
-+	struct drm_display_info *display_info;
- 	int ret, val;
- 
--	ret = drm_of_encoder_active_endpoint_id(dp->dev->of_node, encoder);
-+	dp->connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (!dp->connector)
-+		return;
-+
-+	display_info = &dp->connector->display_info;
-+	switch (display_info->bpc) {
-+	case 10:
-+		video->color_depth = 10;
-+		break;
-+	case 6:
-+		video->color_depth = 6;
-+		break;
-+	default:
-+		video->color_depth = 8;
-+		break;
-+	}
-+
-+	ret = drm_of_encoder_active_endpoint_id(dp->dev->of_node, &dp->encoder.encoder);
- 	if (ret < 0) {
- 		DRM_DEV_ERROR(dp->dev, "Could not get vop id, %d", ret);
- 		return;
-@@ -625,7 +616,7 @@ static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
- 
- 	ret = cdn_dp_enable(dp);
- 	if (ret) {
--		DRM_DEV_ERROR(dp->dev, "Failed to enable encoder %d\n",
-+		DRM_DEV_ERROR(dp->dev, "Failed to enable bridge %d\n",
- 			      ret);
- 		goto out;
- 	}
-@@ -661,9 +652,9 @@ static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
- 	mutex_unlock(&dp->lock);
- }
- 
--static void cdn_dp_encoder_disable(struct drm_encoder *encoder)
-+static void cdn_dp_bridge_atomic_disable(struct drm_bridge *bridge, struct drm_atomic_state *state)
- {
--	struct cdn_dp_device *dp = encoder_to_dp(encoder);
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
- 	int ret;
- 
- 	mutex_lock(&dp->lock);
-@@ -672,7 +663,7 @@ static void cdn_dp_encoder_disable(struct drm_encoder *encoder)
- 	if (dp->active) {
- 		ret = cdn_dp_disable(dp);
- 		if (ret) {
--			DRM_DEV_ERROR(dp->dev, "Failed to disable encoder %d\n",
-+			DRM_DEV_ERROR(dp->dev, "Failed to disable bridge %d\n",
- 				      ret);
- 		}
- 	}
-@@ -703,13 +694,31 @@ static int cdn_dp_encoder_atomic_check(struct drm_encoder *encoder,
- 	return 0;
- }
- 
-+static void cdn_dp_hpd_notify(struct drm_bridge *bridge,
-+			   enum drm_connector_status status)
-+{
-+	struct cdn_dp_device *dp = bridge_to_dp(bridge);
-+
-+	schedule_work(&dp->event_work);
-+}
-+
- static const struct drm_encoder_helper_funcs cdn_dp_encoder_helper_funcs = {
- 	.mode_set = cdn_dp_encoder_mode_set,
--	.enable = cdn_dp_encoder_enable,
--	.disable = cdn_dp_encoder_disable,
- 	.atomic_check = cdn_dp_encoder_atomic_check,
- };
- 
-+static const struct drm_bridge_funcs cdn_dp_bridge_funcs = {
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.detect = cdn_dp_bridge_detect,
-+	.edid_read = cdn_dp_bridge_edid_read,
-+	.atomic_enable = cdn_dp_bridge_atomic_enable,
-+	.atomic_disable = cdn_dp_bridge_atomic_disable,
-+	.mode_valid = cdn_dp_bridge_mode_valid,
-+	.hpd_notify = cdn_dp_hpd_notify,
-+};
-+
- static int cdn_dp_parse_dt(struct cdn_dp_device *dp)
- {
- 	struct device *dev = dp->dev;
-@@ -859,7 +868,7 @@ static int cdn_dp_audio_get_eld(struct device *dev, void *data,
- {
- 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
- 
--	memcpy(buf, dp->connector.eld, min(sizeof(dp->connector.eld), len));
-+	memcpy(buf, dp->connector->eld, min(sizeof(dp->connector->eld), len));
- 
- 	return 0;
- }
-@@ -1006,7 +1015,6 @@ static void cdn_dp_pd_event_work(struct work_struct *work)
- 
- out:
- 	mutex_unlock(&dp->lock);
--	drm_connector_helper_hpd_irq_event(&dp->connector);
- }
- 
- static int cdn_dp_pd_event(struct notifier_block *nb,
-@@ -1030,9 +1038,9 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
- 	struct drm_encoder *encoder;
--	struct drm_connector *connector;
- 	struct cdn_dp_port *port;
- 	struct drm_device *drm_dev = data;
-+	struct drm_connector *connector;
- 	int ret, i;
- 
- 	ret = cdn_dp_parse_dt(dp);
-@@ -1053,6 +1061,15 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 							     dev->of_node);
- 	DRM_DEBUG_KMS("possible_crtcs = 0x%x\n", encoder->possible_crtcs);
- 
-+	/*
-+	 * If we failed to find the CRTC(s) which this encoder is
-+	 * supposed to be connected to, it's because the CRTC has
-+	 * not been registered yet. Defer probing, and hope that
-+	 * the required CRTC is added later.
-+	 */
-+	if (encoder->possible_crtcs == 0)
-+		return -EPROBE_DEFER;
-+
- 	ret = drm_simple_encoder_init(drm_dev, encoder,
- 				      DRM_MODE_ENCODER_TMDS);
- 	if (ret) {
-@@ -1062,26 +1079,29 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 
- 	drm_encoder_helper_add(encoder, &cdn_dp_encoder_helper_funcs);
- 
--	connector = &dp->connector;
--	connector->polled = DRM_CONNECTOR_POLL_HPD;
--	connector->dpms = DRM_MODE_DPMS_OFF;
-+	dp->bridge.ops = DRM_BRIDGE_OP_DETECT |
-+			   DRM_BRIDGE_OP_EDID |
-+			   DRM_BRIDGE_OP_HPD;
-+	dp->bridge.of_node = dp->dev->of_node;
-+	dp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 
--	ret = drm_connector_init(drm_dev, connector,
--				 &cdn_dp_atomic_connector_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		DRM_ERROR("failed to initialize connector with drm\n");
--		goto err_free_encoder;
--	}
-+	ret = devm_drm_bridge_add(dev, &dp->bridge);
-+	if (ret)
-+		return ret;
- 
--	drm_connector_helper_add(connector, &cdn_dp_connector_helper_funcs);
-+	ret = drm_bridge_attach(encoder, &dp->bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (ret)
-+		return ret;
- 
--	ret = drm_connector_attach_encoder(connector, encoder);
--	if (ret) {
--		DRM_ERROR("failed to attach connector and encoder\n");
--		goto err_free_connector;
-+	connector = drm_bridge_connector_init(drm_dev, encoder);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		dev_err(dp->dev, "failed to init bridge connector: %d\n", ret);
-+		return ret;
- 	}
- 
-+	drm_connector_attach_encoder(connector, encoder);
-+
- 	for (i = 0; i < dp->ports; i++) {
- 		port = dp->port[i];
- 
-@@ -1092,7 +1112,7 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 		if (ret) {
- 			DRM_DEV_ERROR(dev,
- 				      "register EXTCON_DISP_DP notifier err\n");
--			goto err_free_connector;
-+			return ret;
- 		}
- 	}
- 
-@@ -1101,24 +1121,15 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 	schedule_work(&dp->event_work);
- 
- 	return 0;
--
--err_free_connector:
--	drm_connector_cleanup(connector);
--err_free_encoder:
--	drm_encoder_cleanup(encoder);
--	return ret;
- }
- 
- static void cdn_dp_unbind(struct device *dev, struct device *master, void *data)
- {
- 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
- 	struct drm_encoder *encoder = &dp->encoder.encoder;
--	struct drm_connector *connector = &dp->connector;
- 
- 	cancel_work_sync(&dp->event_work);
--	cdn_dp_encoder_disable(encoder);
- 	encoder->funcs->destroy(encoder);
--	connector->funcs->destroy(connector);
- 
- 	pm_runtime_disable(dev);
- 	if (dp->fw_loaded)
-@@ -1171,9 +1182,10 @@ static int cdn_dp_probe(struct platform_device *pdev)
- 	int ret;
- 	int i;
- 
--	dp = devm_kzalloc(dev, sizeof(*dp), GFP_KERNEL);
--	if (!dp)
--		return -ENOMEM;
-+	dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
-+				   &cdn_dp_bridge_funcs);
-+	if (IS_ERR(dp))
-+		return PTR_ERR(dp);
- 	dp->dev = dev;
- 
- 	match = of_match_node(cdn_dp_dt_ids, pdev->dev.of_node);
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.h b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-index 17498f576ce7..d2778f7a5b31 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.h
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-@@ -8,6 +8,8 @@
- #define _CDN_DP_CORE_H
- 
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_probe_helper.h>
- #include <sound/hdmi-codec.h>
-@@ -65,7 +67,8 @@ struct cdn_dp_port {
- struct cdn_dp_device {
- 	struct device *dev;
- 	struct drm_device *drm_dev;
--	struct drm_connector connector;
-+	struct drm_bridge bridge;
-+	struct drm_connector *connector;
- 	struct rockchip_encoder encoder;
- 	struct drm_display_mode mode;
- 	struct platform_device *audio_pdev;
--- 
-2.49.0
+it is a distinction that is perhaps a matter of opinion.  I don't see
+such a big difference, it is all just a matter of managing physical
+resource usage in different stages of a scheduled job's lifetime.
 
+> I'm fine to make the unit credits as well, but in this case we really car=
+e about
+> the consumption of system memory, so we could just use an applicable unit=
+.
+>
+> > > This component can then be called by a driver from the job submit IOC=
+TL and the
+> > > corresponding place where the pre-allocated memory is actually used /=
+ freed.
+> > >
+> > > Depending on the driver, this might not necessarily be in the schedul=
+er's
+> > > run_job() callback.
+> > >
+> > > We could call the component something like drm_throttle or drm_submit=
+_throttle.
+> >
+> > Maybe?  This still has the same complaint I had about just
+> > implementing this in msm.. it would have to reach in and use the
+> > scheduler's job_scheduled wait-queue.  Which, to me at least, seems
+> > like more of an internal detail about how the scheduler works.
+>
+> Why? The component should use its own waitqueue. Subsequently, from your =
+code
+> that releases the pre-allocated memory, you can decrement the counter thr=
+ough
+> the drm_throttle API, which automatically kicks its the waitqueue.
+>
+> For instance from your VM_BIND IOCTL you can call
+>
+>         drm_throttle_inc(value)
+>
+> which blocks if the increment goes above the threshold. And when you rele=
+ase the
+> pre-allocated memory you call
+>
+>         drm_throttle_dec(value)
+>
+> which wakes the waitqueue and unblocks the drm_throttle_inc() call from y=
+our
+> VM_BIND IOCTL.
+
+ok, sure, we could introduce another waitqueue, but with my proposal
+that is not needed.  And like I said, the existing throttling could
+also be implemented externally to the scheduler..  so I'm not seeing
+any fundamental difference.
+
+> Another advantage is that, if necessary, we can make drm_throttle
+> (automatically) scale for the machines resources, which otherwise we'd ne=
+ed to
+> pollute the scheduler with.
+
+How is this different from drivers being more sophisticated about
+picking the limit we configure the scheduler with?
+
+Sure, maybe just setting a hard coded limit of 1024 might not be the
+final solution.. maybe we should take into consideration the size of
+the device.  But this is also entirely outside of the scheduler and I
+fail to understand why we are discussing this here?
+
+BR,
+-R
