@@ -2,80 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79763AC1F92
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 11:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB575AC1FBC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 11:28:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD41B10E2EF;
-	Fri, 23 May 2025 09:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3476C10E7A9;
+	Fri, 23 May 2025 09:28:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hTGrENHX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BA4ht4b8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6C2210E2EF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 09:15:57 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-442eb5d143eso90172645e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 02:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1747991756; x=1748596556; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=y3WXBjLGDXin9jsjtnZSl8cR3pHiWFrfIXJVJ0zqrII=;
- b=hTGrENHXD2Xpq92JITmUFy4AQR9VeYpL9AxQoTNQzR+OAXEr0JsCcZUn1wuk21XKyR
- SKm4N5k1KKeL4N5gGO1Wldcxaub7TyM16JQixVVP7Ue+lRyB4wLaN/4+55xFQQVg3mj4
- hcPFUs9Awz7JtsBZHLHSaI/zlA8Acd/otjQeLIzfUBbWbaDUz7gwh9dQ3x478+gPiXPG
- qt0BDUu30gOd6XoYkOMhtyRAcduxu4PDEspG3rH3BKTvcJOaRhAaaU5m84/WCiAGlZ0F
- fVNG9x0rMf2AE5lxqyrn45LFtvBzDZs0+ckbILfK9lEPr9HNxna0na4tIfLPVAfPHUJf
- x3yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1747991756; x=1748596556;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=y3WXBjLGDXin9jsjtnZSl8cR3pHiWFrfIXJVJ0zqrII=;
- b=JR3Nk8sL5Yo42EyZDUDQqqzgDhlFGscf7ffYRi7zrdOuvXZ3OvVbnMP0aLf3F+cFmI
- ikemcpmYR3RDZ6ngaYaLsSPNImjgKBp6MKTz/sFV1nCp2+3Bf1iFMmQONPTkLthVPInA
- Li5Mj1vsAbZGqMPupY+070LN7prncT3QyrIWwBvVcRK9gaiixU2/iQd03A9jX+wI+Xlw
- 9jEGl+AiQci8leELtgxa/cGszPitt2TMp19+FXu+cNM8PMAPhPY/htrxSP9O8I0oCLj+
- 4hUv3/JskiajmFgVXA5SelAmS1XXSoDIafWG1yum5XGQeky4uJzmJt3QNuQsmQOUZgD4
- ZN7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUazv1TDuETz+NwmgyL0vORVRgBkSr1nzwy+6m1OiW2GIP8skQAh+76f+PDYssJRqpzyUYOHC6sqGs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yympd86WWAAG6VNZzSgimsF9BFa1NKtgg3EMyLTitKZ//8LW0mN
- Sz+uE5i+mzULzQwoFaowYOoz8f34t7vbNqzNHaKhr5uGe+QsgF4pv7cAYmTnjeih9Zk=
-X-Gm-Gg: ASbGncs4QLRB/yA0ZQ8MUlh3LpTh+fNkPmNAwPcZspHK1JfGKmOvytUfsF60HxmqrA+
- W9WBPKth6blp9LSAbCTb8slX4FmjNdLkzj2vlhMBasWaVsjxEhD0FsB02uGL/OwbYS0ZuN96trg
- pVLQ0+6yC5FsAgrFGF475oj7auuSCiMVCZAgzdY+ceKV4p16QKLJsecca5HQxzzuZ2mapp8mw1O
- Xh12nsTKqwv+LMhTVgEsVVfK9btzgGvY1TNNraKbeSlavusFan346oWomf8xpNov44fbrQhBT4n
- NPsYKYV49BJAnebM6nwCxY+oN9ycdSVK0b2UhJlyw5YBC/HwekSSNEC3
-X-Google-Smtp-Source: AGHT+IErc1cQ7uKFa9JTPR19qj1Saui5L/XCi2xVWkEt00vpj8C2BFDVqFxExb/6CuDcpsIEAnQTkQ==
-X-Received: by 2002:a05:6000:4203:b0:3a3:64c2:2a8b with SMTP id
- ffacd0b85a97d-3a4c235127cmr2545309f8f.49.1747991756327; 
- Fri, 23 May 2025 02:15:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3a35fa8c6d6sm25016404f8f.26.2025.05.23.02.15.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 02:15:55 -0700 (PDT)
-Date: Fri, 23 May 2025 12:15:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Francis <David.Francis@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, tvrtko.ursulin@igalia.com,
- Felix.Kuehling@amd.com, David.YatSin@amd.com,
- Chris.Freehill@amd.com, Christian.Koenig@amd.com,
- dcostantino@meta.com, sruffell@meta.com, simona@ffwll.ch,
- mripard@kernel.org, tzimmermann@suse.de,
- David Francis <David.Francis@amd.com>
-Subject: Re: [PATCH 2/3] drm/amdgpu: Adding amdgpu CRIU ioctl
-Message-ID: <202505230705.6EOoxLbq-lkp@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EA010E16C;
+ Fri, 23 May 2025 09:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1747992500; x=1779528500;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=pz0wUatI2sWm5ZlERU1fESHJowwyUiFW7XEihtGUPwQ=;
+ b=BA4ht4b8ySApI1Tbq7u5xOO/rGsFl3HQUxSjCh2x42r5cyr6mef/oZi1
+ u6PbloS0zQ03eKoekv4yaO79qcg156Ust2w4X2B0kQuuAjPMYrGIAWunO
+ LDdHyij/94ZIMvQWgE6rBXhq1nsraJLMUsYpC4tDuys9tHHQsaibOsl4Z
+ 3aJFQvw90dBAVlkRn5nQgRRvyWZEpw+W9AQ/lpS9ke+4m1QS3CBaRf3wP
+ aXO7+uGGTqwEYz4OnjjG3oN2sz7YkUcII6AaCdlgsj2DDQbpIwrvsYL7B
+ Uo+99+6rJ5S24m9OVvmE8icCIm3Bi/RAk5A5wu7MK8q/iDXF7n3Dmia97 A==;
+X-CSE-ConnectionGUID: IVaFr82GTbCiZpJWNjRxcA==
+X-CSE-MsgGUID: n8aSjAzJTA6WQKJduT5nEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49160996"
+X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; d="scan'208";a="49160996"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2025 02:28:18 -0700
+X-CSE-ConnectionGUID: nJAOgtM0SOSZvgVYPA4sNw==
+X-CSE-MsgGUID: nPZ0hD+ITsaBK+zLKJJ4lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; d="scan'208";a="146056385"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.101])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2025 02:28:14 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Lyude <lyude@redhat.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Imre Deak <imre.deak@intel.com>, Heikki Krogerus
+ <heikki.krogerus@linux.intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, "Syrjala, Ville" <ville.syrjala@intel.com>
+Subject: Re: [PATCH 5/8] drm/i915: Associate ACPI connector nodes with
+ connector entries (v2)
+In-Reply-To: <20210817215201.795062-6-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210817215201.795062-1-hdegoede@redhat.com>
+ <20210817215201.795062-6-hdegoede@redhat.com>
+Date: Fri, 23 May 2025 12:28:11 +0300
+Message-ID: <87sekvsml0.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250521140649.4058526-3-David.Francis@amd.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +77,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
 
-kernel test robot noticed the following build warnings:
+Resurrecting an old thread because I am clueless and I have
+questions. :)
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, 17 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>
+> On Intel platforms we know that the ACPI connector device
+> node order will follow the order the driver (i915) decides.
+> The decision is made using the custom Intel ACPI OpRegion
+> (intel_opregion.c), though the driver does not actually know
+> that the values it sends to ACPI there are used for
+> associating a device node for the connectors, and assigning
+> address for them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Francis/drm-amdgpu-Adding-amdgpu-CRIU-ioctl/20250521-230706
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250521140649.4058526-3-David.Francis%40amd.com
-patch subject: [PATCH 2/3] drm/amdgpu: Adding amdgpu CRIU ioctl
-config: loongarch-randconfig-r073-20250522 (https://download.01.org/0day-ci/archive/20250523/202505230705.6EOoxLbq-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+Is this referring to intel_didl_outputs()?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505230705.6EOoxLbq-lkp@intel.com/
+First, it's curious that intel_didl_outputs() is only called on the
+resume paths, not at probe. I don't think the DIDL is set when
+intel_acpi_assign_connector_fwnodes() is called. But is it only the
+order that matters? Should we do intel_didl_outputs() at probe too?
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_criu.c:160 amdgpu_criu_checkpoint() warn: potential ! vs ~ typo
+Currently, we register all connectors first, move panel (as opposed to
+external) connectors in front, and that's the fixed connector order
+we'll use.
 
-vim +160 drivers/gpu/drm/amd/amdgpu/amdgpu_criu.c
+I am wondering if it would be possible to do what this patch does as we
+register each connector, not afterwards.
 
-d970da5c8545bbc David Francis 2025-05-21  145  	vm_buckets = kvzalloc(args->num_vms * sizeof(*vm_buckets), GFP_KERNEL);
-d970da5c8545bbc David Francis 2025-05-21  146  	if (!vm_buckets) {
-d970da5c8545bbc David Francis 2025-05-21  147  		ret = -ENOMEM;
-d970da5c8545bbc David Francis 2025-05-21  148  		goto free_vms;
-d970da5c8545bbc David Francis 2025-05-21  149  	}
-d970da5c8545bbc David Francis 2025-05-21  150  
-d970da5c8545bbc David Francis 2025-05-21  151  	idr_for_each_entry(&data->object_idr, gobj, id) {
-d970da5c8545bbc David Francis 2025-05-21  152  		struct amdgpu_bo *bo = gem_to_amdgpu_bo(gobj);
-d970da5c8545bbc David Francis 2025-05-21  153  		struct drm_amdgpu_criu_bo_bucket *bo_bucket;
-d970da5c8545bbc David Francis 2025-05-21  154  		struct amdgpu_vm_bo_base *vm_bo_base;
-d970da5c8545bbc David Francis 2025-05-21  155  
-d970da5c8545bbc David Francis 2025-05-21  156  		bo_bucket = &bo_buckets[bo_index];
-d970da5c8545bbc David Francis 2025-05-21  157  
-d970da5c8545bbc David Francis 2025-05-21  158  		bo_bucket->size = amdgpu_bo_size(bo);
-d970da5c8545bbc David Francis 2025-05-21  159  		bo_bucket->offset = amdgpu_bo_mmap_offset(bo);
-d970da5c8545bbc David Francis 2025-05-21 @160  		bo_bucket->alloc_flags = bo->flags & (!AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE);
+It would involve something like this:
 
-This looks like it was supposed to clear the AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE
-bit.
+- Figure out intel_connector->acpi_device_id at connector register time
+- Figure out the index for DIDL at connector register time
+- Figure out connector->fwnode at connector register time
 
-	bo_bucket->alloc_flags = bo->flags & ~AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
+What could possibly go wrong...?
 
-Currently it just sets "bo_bucket->alloc_flags = 0;"
+> In reality that custom Intel ACPI OpRegion actually violates
+> ACPI specification (we supply dynamic information to objects
+> that are defined static, for example _ADR), however, it
+> makes assigning correct connector node for a connector entry
+> straightforward (it's one-on-one mapping).
 
-d970da5c8545bbc David Francis 2025-05-21  161  		bo_bucket->preferred_domains = bo->preferred_domains;
-d970da5c8545bbc David Francis 2025-05-21  162  
-d970da5c8545bbc David Francis 2025-05-21  163  		if (is_import(bo))
-d970da5c8545bbc David Francis 2025-05-21  164  			bo_bucket->flags |= AMDGPU_CRIU_BO_FLAG_IS_IMPORT;
+Could someone elaborate, please?
+
+> Changes in v2 (Hans de goede):
+> - Take a reference on the fwnode which we assign to the connector,
+>   for ACPI nodes this is a no-op but in the future we may see
+>   software-fwnodes assigned to connectors which are ref-counted.
+>
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Tested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_acpi.c    | 46 ++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_acpi.h    |  3 ++
+>  drivers/gpu/drm/i915/display/intel_display.c |  1 +
+>  3 files changed, 50 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> index 7cfe91fc05f2..72cac55c0f0f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> @@ -282,3 +282,49 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+>  	}
+>  	drm_connector_list_iter_end(&conn_iter);
+>  }
+> +
+> +/* NOTE: The connector order must be final before this is called. */
+> +void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915)
+> +{
+> +	struct drm_connector_list_iter conn_iter;
+> +	struct drm_device *drm_dev = &i915->drm;
+> +	struct fwnode_handle *fwnode = NULL;
+> +	struct drm_connector *connector;
+> +	struct acpi_device *adev;
+> +
+> +	drm_connector_list_iter_begin(drm_dev, &conn_iter);
+> +	drm_for_each_connector_iter(connector, &conn_iter) {
+> +		/* Always getting the next, even when the last was not used. */
+> +		fwnode = device_get_next_child_node(drm_dev->dev, fwnode);
+> +		if (!fwnode)
+> +			break;
+> +
+> +		switch (connector->connector_type) {
+> +		case DRM_MODE_CONNECTOR_LVDS:
+> +		case DRM_MODE_CONNECTOR_eDP:
+> +		case DRM_MODE_CONNECTOR_DSI:
+> +			/*
+> +			 * Integrated displays have a specific address 0x1f on
+> +			 * most Intel platforms, but not on all of them.
+> +			 */
+> +			adev = acpi_find_child_device(ACPI_COMPANION(drm_dev->dev),
+> +						      0x1f, 0);
+> +			if (adev) {
+> +				connector->fwnode =
+> +					fwnode_handle_get(acpi_fwnode_handle(adev));
+> +				break;
+> +			}
+> +			fallthrough;
+> +		default:
+> +			connector->fwnode = fwnode_handle_get(fwnode);
+
+Is it possible to get the struct acpi_device for all fwnodes? Does one
+exist?
+
+Specifically, I think I need a struct device that's also an ACPI device
+to pass to devm_drm_panel_alloc(), so that a subsequent
+drm_panel_add_follower() can use ACPI to look up the panel/connector.
+
+BR,
+Jani.
+
+
+> +			break;
+> +		}
+> +	}
+> +	drm_connector_list_iter_end(&conn_iter);
+> +	/*
+> +	 * device_get_next_child_node() takes a reference on the fwnode, if
+> +	 * we stopped iterating because we are out of connectors we need to
+> +	 * put this, otherwise fwnode is NULL and the put is a no-op.
+> +	 */
+> +	fwnode_handle_put(fwnode);
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+> index 9f197401c313..4a760a2baed9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+> @@ -13,6 +13,7 @@ void intel_register_dsm_handler(void);
+>  void intel_unregister_dsm_handler(void);
+>  void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915);
+>  void intel_acpi_device_id_update(struct drm_i915_private *i915);
+> +void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915);
+>  #else
+>  static inline void intel_register_dsm_handler(void) { return; }
+>  static inline void intel_unregister_dsm_handler(void) { return; }
+> @@ -20,6 +21,8 @@ static inline
+>  void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915) { return; }
+>  static inline
+>  void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
+> +static inline
+> +void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915) { return; }
+>  #endif /* CONFIG_ACPI */
+>  
+>  #endif /* __INTEL_ACPI_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index a257e5dc381c..88e5fff64b8c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -12561,6 +12561,7 @@ int intel_modeset_init_nogem(struct drm_i915_private *i915)
+>  
+>  	drm_modeset_lock_all(dev);
+>  	intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
+> +	intel_acpi_assign_connector_fwnodes(i915);
+>  	drm_modeset_unlock_all(dev);
+>  
+>  	for_each_intel_crtc(dev, crtc) {
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Jani Nikula, Intel
