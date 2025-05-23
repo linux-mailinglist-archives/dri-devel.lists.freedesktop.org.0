@@ -2,134 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7098CAC227B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 14:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F7DAC22A9
+	for <lists+dri-devel@lfdr.de>; Fri, 23 May 2025 14:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1723610E2A2;
-	Fri, 23 May 2025 12:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A43210E2C3;
+	Fri, 23 May 2025 12:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oxa2rqEO";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FTkcYd3c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B1010E2A2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 12:16:26 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ad57357567eso96416666b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 05:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748002584; x=1748607384; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=M/iRRgF6jwuXH/Fk5crV9qCMV1n+ZqnM5fPwtxmvV98=;
- b=oxa2rqEOSQ2XTclUAeV7KayCcjgARLH3IcBLwtZ27iIgPZ3Jd3YVH4p6ge73lpdeC/
- FyJIWVP5bBiFcktXnYdabPFrDpZ16pR+st0hkw7S8BkL1Yn49lePoDvbm+W4ViUDcyZ8
- bh4YruS2WJmUwn/yPLLl8hxsVLRw7RuSVR/6J6jNdbJl3PPdENNMMQhmrj7QStja1yZ5
- jeeiUkww8KGy94pnjpQ75U/3RygMIt+boej+lQRJ/Qk8bGtOiFQwa8gjRKKYXZDDS7bp
- 0tUhOpsLpSz6TBPLeMLgLYlJnVHCe4rFVQhuq/biHKFP0SuK5VoSid6XlylmZUzKPujF
- d0Vg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88D310E2C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 12:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1748003524;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JcvksgI45S/8E1WUYGj2/F8s3tMa9vH57sxKYk6s7xg=;
+ b=FTkcYd3cL2UUoNJgKVAmVdwLv2epZpnESHx8QYJinX9ZaeHzi/Q6V0gOTAU+kzNMN3F0L5
+ IDW8/VepYrwvnR22k3sEtJGtzZXUUIEd05LN7SOBggCZubey3dY7RbyDVqZKm14oF0aXXA
+ BzZ6qOUn36rg0JEAsiBAVgMMgSj7Zdc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-190-F0M7J3egO9aBiJbZh9I59g-1; Fri, 23 May 2025 08:32:01 -0400
+X-MC-Unique: F0M7J3egO9aBiJbZh9I59g-1
+X-Mimecast-MFC-AGG-ID: F0M7J3egO9aBiJbZh9I59g_1748003520
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a3703c1fe7so2823855f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 05:32:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748002584; x=1748607384;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=M/iRRgF6jwuXH/Fk5crV9qCMV1n+ZqnM5fPwtxmvV98=;
- b=fgIUYkvc3R+lnw2v1VYvrHM+2HBD4JJPzaT8eNJK9Gp1b9GgW19xj+ekpDkJf19n89
- gbUsirs/SzKdNdiYi115q7iIHagHGSYPl79vQzeeOobCs+JmPO3cXTtc6vVOvPFUIgT0
- cghTbgjDPdaB6873ohSq2c0Bc2nucuAddO/eSIs0sBEcVXHQ2l1ZVz+keXGXOcCexbUb
- FRNmyq6bvihAm678PNH38zUQiKjSLrCIseZrCS7FJc/JHp13uDd/PhRCvHHh/Y/3WVnw
- 5O9h5mFKc1DQVHUAJ58V47LcXQU5BUL/v0bFYbMRsQbqe4MXVjG9rdMStY+jXixhv8lP
- fxkw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMtyHd3ylcwMF693WeT4ayVg0JRffDdKlYHwnBeQh1LZMRmH7H+HsDLtX3XEu3OrLWmAhem5XvmKQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywim6j0ED+KC7ExVSYb9Na0l0n70Yr45xmGIp/V1Mx2YVsHNWi+
- h8YOvMAQNnAuoG/Qe/CivPjvkcaOhj5QR6SBynbswufFZm/Bp68ddL9p1RE8zLTZpWs=
-X-Gm-Gg: ASbGncv7Bm55JCWtyQGuSoHH6cKUrywPNKKm7F2VOC58rSjS3TS3g2/Tx13lo8Mrdrb
- FWKoDsHVlOWkEBuwD7TvWifw+A/EfKFJ7Pkj4KBLPizV9H8MlaOSr1PTOMwmMYQvF8v3GLQ1Fzu
- edMnUd+M9efGcLeLkQOPhjynLCDqZ8d4MzpIiIS1yRJ8ltWplbIZao5gHxB0NtTbtGKbUJlc03M
- xcdu/ew0+EKdWa616wYp8OBgJ+LmCuHSjQ0BB4lEd5sP4dXGRhawGfE93DqRg01w2n1h/ZFExz8
- PQxoQs7SYMyLGU5mpI4dXm5/Q47PY77Y1g2gMDsGbFlokrs1CTfKYYJE/TNp1lPdUDDhU9Q=
-X-Google-Smtp-Source: AGHT+IEBPy5BoYPmhgc+svPT9StZwncZf69U6mVl4FOT5ipdtTmJlC0XKXOU+PjzgmR2xKtRS9sM4g==
-X-Received: by 2002:a17:906:8465:b0:ad4:dca3:5b66 with SMTP id
- a640c23a62f3a-ad84cd1a2edmr55502666b.15.1748002584533; 
- Fri, 23 May 2025 05:16:24 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
+ d=1e100.net; s=20230601; t=1748003520; x=1748608320;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JcvksgI45S/8E1WUYGj2/F8s3tMa9vH57sxKYk6s7xg=;
+ b=twMKRx0mhPZeEpHNn70B4+WL2NHIBeQCUUP++fN/lasY6oO18JoZJphOq+ml+VDU+b
+ KYGlpC9iZpa9z8sMXlNqAJob91tni987cw+WMQqpihzrzEuyWrCYzjCyikRNXbqbofy3
+ pCeLB+tjqmEe3isZCVgY2ZGrQkNJiI03l+iXAxJFNtmrjPG6raVRZU0itCJTAiKKzalP
+ o0wfzIQsmUpeczCykmOLo10z8byB8+03DEypAL8TzzmdqCWNLiSlHOwROTFmbHl414nG
+ RLikPuhIx88zQi9tJFJOvpUmaATHobA2NwVKZv5AkK0bMJA+qt7gjGdmCwXuHeZUgtTp
+ W5pA==
+X-Gm-Message-State: AOJu0YwWZ0A0lWUK7A+lyNd3fnecBZUAGSOVqP5YZDD1lJTp+AhNmvVn
+ YqCS4MNkFmRXJcZGpjsMFefEWzxpPTjwc9suY11/vLQZSrRJnVoSm65EisUkFdhLS41xQxk8aNu
+ d8pNUom4NpCqkbR/q5IMOAmaT5sdZnEOCQnjFKChYRDuXgxTrDRwyQe6n92o6kSRrdC5Ycw==
+X-Gm-Gg: ASbGncvwQhghFkTL0wC45uHMzfbLESF9fUGripTEPWe5JuTbaoeh1A3DxSuN5troRDI
+ XiBwK3MWXpDpA8fzt0I8zcuYTg6IQsSifNoVD99UoYQyhnn5nx794FLkKs4PgDCfEqQ9P/Nq7lq
+ ugEA+fY5e7DKx2RwSQQ6Wg1ynJtpVleKd52FMPUnIxMIqhRVRRRtLML3gC1W37701cYSpoP7UuC
+ UWCoNGS2+FDil+KDCMT2wTyYJw7olkH7Ym9wY61doN4UCnCMolq8jLehNlRi+y0DsapSlQ/A5bp
+ FAWAEgFoZUE6KsCti1gdtf2tX1FlCLTH0VOvxjyZdc0OGrtVfes=
+X-Received: by 2002:a5d:5850:0:b0:3a3:671f:3b8d with SMTP id
+ ffacd0b85a97d-3a3671f3bdbmr20822201f8f.24.1748003519830; 
+ Fri, 23 May 2025 05:31:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENe0zYjJCdhmq6TU5dk0Zz1XOk+XjQUKGqMTA/fbZa5Ytp2n9rDy/yn9zLGJCZSh2INWr/jw==
+X-Received: by 2002:a5d:5850:0:b0:3a3:671f:3b8d with SMTP id
+ ffacd0b85a97d-3a3671f3bdbmr20822173f8f.24.1748003519411; 
+ Fri, 23 May 2025 05:31:59 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad52d04e80asm1216438266b.2.2025.05.23.05.16.22
+ ffacd0b85a97d-3a35ca4d2ddsm26133607f8f.7.2025.05.23.05.31.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 May 2025 05:16:23 -0700 (PDT)
-Message-ID: <542e254b-5feb-456f-98b5-fa1d74418e37@linaro.org>
-Date: Fri, 23 May 2025 14:16:22 +0200
+ Fri, 23 May 2025 05:31:59 -0700 (PDT)
+Message-ID: <d269185e-64ad-49cb-8ef9-760feb1d80bb@redhat.com>
+Date: Fri, 23 May 2025 14:31:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: nt37801: select CONFIG_DRM_DISPLAY_DSC_HELPER
-To: Arnd Bergmann <arnd@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Danila Tikhonov <danila@jiaxyga.com>, 
- Jakob Hauser <jahau@rocketmail.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Hironori KIKUCHI <kikuchan98@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250523121127.2269693-1-arnd@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250523121127.2269693-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
+To: Lucas De Marchi <lucas.demarchi@intel.com>, Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ intel-xe@lists.freedesktop.org, Michal.Wajdeczko@intel.com
+References: <20250522065519.318013-1-airlied@gmail.com>
+ <20250522065519.318013-10-airlied@gmail.com>
+ <wz6cduq6kh2n2pwxm3q75vjmrsht4rvnbjnch5t66kj773t2rj@kfk2bj7pewwm>
+ <CAPM=9twLXMbaTNhr0y52aA90sytE2-zb_zC4eZ5xLC0CE1_1dg@mail.gmail.com>
+ <vsyxybzdei2tgybmhwbt7fc2rerphe5zmgbvgh4uj4sr3onsru@bcq72ctoli7q>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <vsyxybzdei2tgybmhwbt7fc2rerphe5zmgbvgh4uj4sr3onsru@bcq72ctoli7q>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Spz0PkRyBr5u4ipCdILt035x2xg4QBAAuvWoNIfC6v8_1748003520
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,20 +104,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/05/2025 14:11, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 22/05/2025 23:05, Lucas De Marchi wrote:
+> On Fri, May 23, 2025 at 06:32:43AM +1000, Dave Airlie wrote:
+>> On Fri, 23 May 2025 at 01:10, Lucas De Marchi 
+>> <lucas.demarchi@intel.com> wrote:
+>>>
+>>> On Thu, May 22, 2025 at 04:52:18PM +1000, Dave Airlie wrote:
+>>> >From: Dave Airlie <airlied@redhat.com>
+>>> >
+>>> >This reduces this struct from 16 to 8 bytes, and it gets embedded
+>>> >into a lot of things.
+>>> >
+>>> >Signed-off-by: Dave Airlie <airlied@redhat.com>
+>>>
+>>> Replied too early on cover. Chatting with Michal Wajdeczko today, this
+>>> may break things as we then can't byte-address anymore. It seems
+>>> particularly dangerous when using the iosys_map_wr/iosys_map_rd as
+>>> there's nothing preventing an unaligned address and we increment the map
+>>> with the sizeof() of a struct that could be __packed. Example: in
+>>> xe_guc_ads.c we use it to write packed structs like guc_gt_system_info.
+>>> In this particular case it doesn't give unaligned address, but we should
+>>> probably then protect iosys_map from doing the wrong thing.
+>>>
+>>> So, if we are keeping this patch, we should probably protect
+>>> initially-unaligned addresses and the iosys_map_incr() call?
+>>
+>> oh interesting, my thoughts was of course nobody would want to use
+>> this for < 32-byte aligned ptrs :-)
+>>
+>> but I forgot about using the incr for stuff, I do wonder if the incr
+>> could be modelled on a base + offset, as I do think for a lot of stuff
+>> we'd want to retain the original vaddr for unmapping or other things,
 > 
-> The newly added driver uses the DSC helper module, but does not
-> select its Kconfig symbol, so configurations are possible that
-> cause a link failure:
+> for the parts of the code that want to update "inner blocks", the
+> approach is to copy the struct and operate on that. Example from
+> drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c:guc_prep_golden_context:
 > 
-> ERROR: modpost: "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-novatek-nt37801.ko] undefined!
+>      info_map = IOSYS_MAP_INIT_OFFSET(&guc->ads_map,
+>                       offsetof(struct __guc_ads_blob, system_info));
 > 
-> Fixes: 4fca6849864d ("drm/panel: Add Novatek NT37801 panel driver")
+> then that function can manipulate its "local map" without affecting the
+> one used for really mapping the memory.
 
-Indeed, I wrote the driver first without DSC and forgot about it later.
+Also drm_panic uses that to draw into the frame buffer:
+https://elixir.bootlin.com/linux/v6.14.7/source/drivers/gpu/drm/drm_panic.c#L181
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+So in case of 16bits or 24bits pixel width, it might be unaligned.
+As it is used only to save one argument to the "blit" function, I think 
+saving 8 bytes in the iosys_map struct, and using an additional offset 
+argument is doable.
+
+It is also used the same way in drm_format_helper:
+https://elixir.bootlin.com/linux/v6.14.7/source/drivers/gpu/drm/drm_format_helper.c#L290
 
 Best regards,
-Krzysztof
+
+-- 
+
+Jocelyn
+
+> 
+>>
+>> I'll play around a bit more next week with at least protecting against 
+>> bad uses.
+> 
+> thanks
+> Lucas De Marchi
+> 
+>>
+>> Dave.
+> 
+
