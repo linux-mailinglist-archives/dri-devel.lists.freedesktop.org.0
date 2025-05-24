@@ -2,126 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D77CAC2EEB
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 12:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8DCAC2F60
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 13:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E50610E002;
-	Sat, 24 May 2025 10:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2933E10E04C;
+	Sat, 24 May 2025 11:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SnSmAJoN";
+	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="HI2L6O5F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 257E510E002
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 10:35:37 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54O9nit7000895
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 10:35:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=s910d4t3uAcCDBtNH1k1u5wo
- FuAjdXlwK36avK/w0QE=; b=SnSmAJoNNsjvO6NakI9HPPKSqEqdridWQV5jIiC2
- ORl5w7Q1iF8vf4CXqpri7jEMa2iXqduQxmH0c4hRVci49LPmSPhWsDQO+qME/EBj
- IoXOuyQiPOZovAGKmeobFqbmHySlpsYdqjiWheCOyMA3wCIc9gbi60rDOeJzH1Xx
- EmtoSbUOJx9gGIErhfnn6AfgnhAXUPVbbzMHjkFNjLAm1Q80BEN8QTay3kHgcV4v
- awXnnKhDVlrtkuOKkRYNJ9Ek50eaJgX7DSqbZTwScIduGHDDqYheiL4n7C9sju4Y
- IULBTLKS2ldAmkYzGnD5+nUhaWhmWOyZBXNp5upfhnGYYg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6b5ggnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 10:35:34 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5e28d0cc0so110361685a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 03:35:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748082933; x=1748687733;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s910d4t3uAcCDBtNH1k1u5woFuAjdXlwK36avK/w0QE=;
- b=WoOoi4gMs2/x2sqwIFWiVxergkVDPNrxKiT5S2ykHPmOOYMmgrokhPwCO0GCOxev5a
- yp+tp29ravgV/V8JuNhfOA7HumZFc1hZQrHIUZ/LwSdDzbRDuHyA9FyUgBdGWpsyOm8P
- 2ZYgE72Lqz454mzXkVcPSgL2dpw4mUfST9SssqHccfws481GYxFW3xSUBYfy8iCwSuEj
- cGmXD7S6EDyNjnrfPTQqgs6q5jGNG7/pyBjvejev4lZSc7/BHh/m8a5joqlgUX7QUw11
- QUvhoOIOxRVV9DZ56Tbs5Qs8DaZFwLQkwx5NcThMkREY3VQCTkjWa+d2YmEwBsINTnv8
- Mt5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPvvyeIu4ZOh8MplQGHlEej2pJtCW6lBPeF8l2HmQk8aJ0JZ37+PMCN/3EnHYutnpqbXgvbtv4OtI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypYrIqjvdWM8SXfk7fYWrFNHByEinhLqNDxWfoD+7Q46TKZQLY
- QIkbFSVu0KV3sCG1Z6YMw3baPQafUEiyJVQxbkDbUds31CHK79YLzyiiFWbqRvPixXM72jKwIYm
- ZSdD7yamXUDAH5JkSkIe5iMaB9ED7SxMA8Ugkf9LlvUSRvZbvxg4cfOckbSvIMxa9DLLx5dM=
-X-Gm-Gg: ASbGnctFzKwZhai54J/ykTeHWNzaQ0Fnq14IxbHS0ROsw75Xt1D2yoF6QU0Ea1VA5Gr
- ECCZUS1eYSWb2FdRy3L8fePOXjYPWNLM86HgZXCUdn3RIXgmYowmsA+Baz5ChKeKOamZRizmlkw
- eQNUTBkE7IA1LOLlI/+GEJh/Y8Ni35mENLKiw+2KBJtWisPjHoKyrHB1273TyFY1obdAXRLh+kC
- bRHBlTxh/p599tUUlha9JepjDx85y5bS86myPHuPliGJ7Mg0XZqlKc5Z3VGB28TzwMpOGsldheu
- g9R1nrmm5wqX6E8b31AhQLB6kA057N9BG1IhKz7YV0Cu4TTDafGtqEDGNpI16RtBxaDpStSLew4
- =
-X-Received: by 2002:a05:620a:a488:b0:7ce:ed86:3c53 with SMTP id
- af79cd13be357-7ceed863eaemr218619785a.29.1748082933585; 
- Sat, 24 May 2025 03:35:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEF54RXqasfEVT4XH9aPqai1f84axB6EddNRJRvq+B+ZJJBfE+JCiW7NP+emGbbWXvQuq8YXA==
-X-Received: by 2002:a05:620a:a488:b0:7ce:ed86:3c53 with SMTP id
- af79cd13be357-7ceed863eaemr218617985a.29.1748082933254; 
- Sat, 24 May 2025 03:35:33 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e6f2fbf4sm4280072e87.70.2025.05.24.03.35.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 May 2025 03:35:31 -0700 (PDT)
-Date: Sat, 24 May 2025 13:35:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: jens.glathe@oldschoolsolutions.biz
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4472210E008
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 10:36:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oldschoolsolutions.biz; s=s1-ionos; t=1748082980; x=1748687780;
+ i=jens.glathe@oldschoolsolutions.biz;
+ bh=V+8gcksgA34Mb1jQ/H076ofeWB/Ytb2Wb9fhfJ3Dbls=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=HI2L6O5F3lmbfegAQXq48k9bnr2fEANdQgyHwY+Om+v/gdURMEsCf/uttIHSfYjX
+ 9PJEZ5CJieGVqx1j1RfWEdeUvZs0uDe0RWHdHWpUgbTVz0Bqj4LuuuY+OLpJe6mr2
+ +63AsYB8JDOfi/gvrY+gqU16UZQTitL19DEQUrQuOqWL4cMs5Mk4AJcbiey78XfTH
+ EseOe2zqdxyRD7UL56v/R4pWvQ5rnuAoha6IVxYaHbcgVWE8UTAeHVtWXmxbYqR9L
+ m/6i276YXjA5DufljIFmf2jI5xcKQwQ3sSmnr1hybkC7cv5+0JPet1o+ZlVXJgJ0D
+ ixxtpAyazT6gcqaiMw==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from [192.168.0.39] ([62.226.41.128]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MaIKJ-1uO3Zh1kRx-00MAMB; Sat, 24 May 2025 12:36:20 +0200
+Message-ID: <342fadba-978a-4aa6-a393-22221715a5cf@oldschoolsolutions.biz>
+Date: Sat, 24 May 2025 12:36:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: x1p42100: Add Lenovo ThinkBook
+ 16 G7 QOY
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>,
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 4/6] firmware: qcom: scm: Allow QSEECOM on Lenovo
- Thinkbook 16
-Message-ID: <5dkielul5ere6rgzog3kch2gtccejrrom5obujnfm7uop3czcz@kyppckmrlqny>
+ Aleksandrs Vinarskis <alex.vinarskis@gmail.com>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 References: <20250524-tb16-dt-v3-0-17e26d935e73@oldschoolsolutions.biz>
- <20250524-tb16-dt-v3-4-17e26d935e73@oldschoolsolutions.biz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250524-tb16-dt-v3-4-17e26d935e73@oldschoolsolutions.biz>
-X-Authority-Analysis: v=2.4 cv=ZcodNtVA c=1 sm=1 tr=0 ts=6831a0f6 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=gxl3bz0cAAAA:8 a=EUspDBNiAAAA:8 a=GTs9I9JaY0s41QFpxpIA:9
- a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=kiRiLd-pWN9FGgpmzFdl:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI0MDA5NiBTYWx0ZWRfX5lm9USgp9TP6
- Upq8aHmbcxqqOHX+sz+/P1djmah/F/AJVt71x1ltiafsJdEjOzsRw726tosvU5xr2Fn9o28Eqy6
- nFMwEQUFqzHUMFPDaLn8Jk7mb+7pNGsW7lGm9ASmui3urof0tg+d6VIdjloyQqFazCdHiziiVZK
- q5eRhYnJ6afFoqDVh83rElGTrNKBOIZEOF71njM8I62Wq0YQAlEiQr6sa1L4a/dSuIbLvukXxHz
- cLiJp3+PJUGxljdLDWCfxluAurJUprTvTcGHleFWqUjAXYTBkwUU3VDWB08VcgRi7Frze50cX9a
- 7ke7XNWuSwqJmdt+EPWvD63o3Ek33E5LHnZLn5jJNK+6MVvL6xOyioA+2poKzX7xxYH7KozA5e3
- UD6gs8C5gOOQsAQFFBEh64PousWRJ4Kpr9aoAEVRYF9IHpMCFx0LE9Rv5jewph9swOqCd8oR
-X-Proofpoint-GUID: ZCk8NFuDGd_SfKkfUszP8Tks78PmoINa
-X-Proofpoint-ORIG-GUID: ZCk8NFuDGd_SfKkfUszP8Tks78PmoINa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-24_05,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 mlxlogscore=919 bulkscore=0 priorityscore=1501
- spamscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505240096
+ <20250524-tb16-dt-v3-5-17e26d935e73@oldschoolsolutions.biz>
+ <6iuro54yed6tqfej6l2l2ky7dletbs73nwjnfufbuulkw3kl46@okoj2v3wvck3>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <6iuro54yed6tqfej6l2l2ky7dletbs73nwjnfufbuulkw3kl46@okoj2v3wvck3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:CEXvmp4XCv+8zPPu+FcRtrcVcIxIkzBQVcfODOJhdqb7Xq5nhl2
+ iYumIEoYBXlBZZ3Asv1pLlVyv8B6IyUTNMfwrGnSNjuzKsFFeMAzXxKDKxUA+63MbZhzxVU
+ AcE60yDuRzxqTw7NwXQhR/u7VUz7PwFW+rxOAX5wKLQh4GXX8Z2GbRSadCWUC0rLSE//4QY
+ HaYDaaBgb/Xlj8nhFretA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HaksTT/H3F4=;joX8v6RaC6bDY2V4wyLRvZ/DbmZ
+ mtyqA20yirrWrPeh6vG9oCyQW2pROsTkYb15jcTtashpqwfvFYNOon+NgzZ7xvqjx5kszWFeu
+ Ea9Q08RQqGGVu9uJKNDgkGVke5zpyeEtWBaekqeaiqXXWpzuyKr9ujFhXLWtXbmZXlHjbi3KH
+ MFdVSu+OUw7ULqbK4LR31RjHPc6FCAX9m810fkoKvUzyp4hwJ7MJ6KKfhgMjzywoQKFw4L1v8
+ XSLpqqcYujLQRiyUk6nCoPkPSz92+QpwSTRUt9vlAl2r6nCP9j1Ct9qKtYLb9yrMfCAEehIQA
+ GIC5FBbPD3dskWUY+FpU8BhSXUBVSXgWMMU4zGxE/Fr/H0i3xEFUsLEwmvygJqqccM2YQhgYi
+ Zr3vXS8Bjg6Pa2PH8zCR8aNiLhGsK2a7bBSU3VLwbfi7yhn2NiMMyxHh2+/Zhpg9opxImifw4
+ fVoY1kpdY4Fm8b6VasM+PeJLUkhlBqLmd7RppEGlg75WdOXoHio68X7qOtA4gNET5P1rsqSvT
+ CBcR5YvXVVlV01yvrG89vCI5nhAD8m6hXP6XL4J7J9E8X+xjj0j0W8qNvmdDKhGozMY1YYDe+
+ CB2bov3DYoENJMYlkZLe1aEqVCwNWGleBjxq6QZnkN1KhMdPmA9xv1b9X+LQZ6xqJeDMeBYkw
+ AlV6LHy51iCbnr3NOeDgbkOxK58FsX+o2N0iAmtbT5kFP2Y+I0xfdd6DzTejEcE0UQPIL5S7U
+ fZiMPkptZVQSswKwPTZwdHlI7zJkdDrRiqo+QNvRaqLptyN8GBuaR/OEjSDr7j4vL3O+L27GQ
+ VkGJxZ+nsjL37LbLiybmzFVVEIMMNrFDkpCj2F1z3kcdvbELxf4eg60Us3T+Cm88hKdHLsMRK
+ Re/N3CyFYCGRSrVUQYvFD+XStSpkejMmZchmEIgrDvtiXvtHDsG7j/ZvmT584UL8z+6+c3JIN
+ zIpkgl72A6MHdZ+0ck9GUuB9telV7i2s75vZZ2TA3HYX7aeOBOAjf8Tx+YYoXGx6IgGilhwWj
+ kOIcaos7p67ZD7HTJAW1FpWNr2KTN2ReJp+H7tBBJsGxw/+nEDXUAVb3IICmKzQ4uAtMsT2/I
+ 1k4GLDFYiLv4yYnBzjoo+Ir4GELVKCR08DcI8YqJQpeqhGxrvMd6O5H6TAUAH4Oi/ErSnOH9Y
+ oxdaM5nxC9Tcsozn++mMR2kFJNfPmoyZi/H7diXzl1s4D8YQM1kZN2Sl5w/+n73Ja09Uu+oDn
+ YgqWvs++izyc309NPgM9PdH3BXah9a8+99BKUu4OZUpUdko5O1aNgO1tgwXBD7Qdanh6s3MLE
+ q6EN/qbCK4XvRGOK/5gyzGnZe3UtAxqNxAnaBhSKaU+YUC+JUBRpwzO663l56fk8CjMHXnwLZ
+ adCgolBkQ8d5IJyMY8PzfzIEr4SKx+z9WpDPOif6KGW5Hc6QbeXgA+QvUm
+X-Mailman-Approved-At: Sat, 24 May 2025 11:28:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,19 +106,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 24, 2025 at 11:19:11AM +0200, Jens Glathe via B4 Relay wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> 
-> Allow particular machine accessing eg. efivars.
-> 
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> ---
->  drivers/firmware/qcom/qcom_scm.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Am 24.05.25 um 12:11 schrieb Dmitry Baryshkov:
+> This will break without the next patch. They need to be squashet into a
+> single patch.
+>
+Changing the order wouldn't suffice? No problem, will squash
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+with best regards
 
--- 
-With best wishes
-Dmitry
+Jens
+
