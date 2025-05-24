@@ -2,126 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4319AC3021
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 17:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81250AC3057
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 17:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA4010E0AB;
-	Sat, 24 May 2025 15:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F8510E090;
+	Sat, 24 May 2025 15:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nD6PUj/p";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LhcYwmwU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF1610E0AB
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:33:56 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54OCfmY6016506
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:33:55 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B20710E090
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:55:49 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54O29MXq015438
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:55:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=GmDvIVBp1dibHmGGNNg2J/gQ
- Mgj8zlfPX6Jnpuw5lcI=; b=nD6PUj/p+Z3TVGDm+RgD5PrhseKfrhpLwYHsps6e
- GINVKPfD3ZnV2w5749NQ76yXVAMyKAr5ZZ969bGLCkBaeLGqNSC9WdhR6j7Wcxts
- MJJSFDEZ8ro5gmxTY4ruyky3HlqfK1OAt/x2MRV3yk7jtGwDVVKm9yucyUzwhuoD
- 51dAU4jKJ3M27PcEF44F+MEoy8ymSDx2l3WoY/EnPr9nh9bi27FVmFFnxr/wtkT4
- KdvlE0RVZvO/Gcppy5Cvgv7KReLEHY1d2bFExgeJvQUrY0xW/uGb0dX8ZcY7tsjg
- L/BwMxy+xPBRRhu88gwq4IAfZA5JohU05vKbP5LyX3V9fw==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6vjgsfm-1
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=ENaXaAptX7hV0LnSeomxQb
+ fTAaRBDEz7YM383T9ESwA=; b=LhcYwmwULS5KfUeqGBzXGcoruxONco/eBptlY/
+ nM1vtfzRk5rUckwf11bl6c8rdzYN8frmxC8Az0cbDkZRSZK3FcSEJIrFqIrIyiEB
+ MKTJw3/ehE7aHXwNeS/cIzqi0PW3nTF50HalXOvQC83Pf75UWiKOYzfigigLv38I
+ weXKpwY8VkZgKz7K1OkE3kCAEWLBZN9O+mwSn19m14dhC92kGZN87opWCDpK2kWU
+ lwtVj/mQITdmtbukbCtD87LgnriAef/AaZC44X5p5oW/+k+jmyLuXXTOzz52FGA3
+ oPWHvbEtDf1YFGd5WTyFsjfjfzfhioH7+2ljeC37eOuffw5A==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u52urxv1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:33:55 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-6f50edda19eso14368106d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 08:33:55 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 15:55:48 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-2342205cd83so3086595ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 08:55:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748100834; x=1748705634;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GmDvIVBp1dibHmGGNNg2J/gQMgj8zlfPX6Jnpuw5lcI=;
- b=WjMRIpq8024skUt40ArdTktv0e1zgUcVZ60X5bVwPcK4P9DSO+Fd5NQRCRUApLI5oR
- ln9URyokJpgPDCo/mXocyqgYyDIM+hp3+GUOUg6oRRI/R7SYXlRQYzoo3BxkDnP9ZiaM
- ZLhJft3CMDqR+x31JT9ImOtNzsLPRqxMxaoJzbQDuW5cu1DlXBz8sA5bFoqpM5nrv+6O
- 9tZOglIVWV7ZqAjoXt4eR1dxhWoQvrbgtMUnDqcNVeJePKAlfVfZ2TQivqdJLacmIqO7
- JOpq+AWQR87EPFz9dogm1XHgsVk90KLpf8ykYcLaaKlQWWUperM/IX90jQfQ76h6E/Sk
- 779A==
+ d=1e100.net; s=20230601; t=1748102147; x=1748706947;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ENaXaAptX7hV0LnSeomxQbfTAaRBDEz7YM383T9ESwA=;
+ b=atLfAWXvWXy8K+msUA+RRPTknWYz8/oLgu+EJmofTBaVz2eC7M1DUTuQl68mKHx9Ka
+ on4yNYAWRTEN6N4mbMP1Zb4u1MSZpU9fB/Pi9lB/tq2VDj9DTsF403QAd3KzTysGG0NM
+ RC/dvPWu3aKbVaSuamZCgiEv3qmTYvk/aZIH50dCmRvhWefsM9reLlg9xiFTJQAJvkgI
+ q2bp74sdUNBQqFYurT/qxHQajz3NO+vMPK7rd4BpChdCXIi0s4lv3lT844E0V6hx2TJw
+ opnBPMGfw+frT8RBrNoAU3FW6rbCsnDlUvpFo89tpuDiEGW8/J4k/6uf6ZSCCzBCdg99
+ Nz2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVO5AJnkBvplV/VFarJTM1d9TAkSqdh5Ol0V8oA95g/hUOV3GxOWQ4nBTGa1ySMM8yFuqB3F9704LM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YztkFwMpZ8uiS4sppxA7QCUSxOzhG1wrtA2RC3fXW7qoR4VM+7B
- TYmDRiD37gu9iphtJb51BgxglFHyCi82h87pwtUpwVE7AIiASYh2dQJ/10yTZ/0mPy7Hjjii789
- 41meST1gdzU0xWdfDgW4I4TmQoICFvc+LlzHfgnPd7404GLib2tL/OpJj0EYS/2ulEA7KnQY=
-X-Gm-Gg: ASbGnctlClRvdQayiwK5jFD4x77O3aDvY3JNFoNu3EqcxfLi7SnuwjWGtmW26G+TC1F
- VENRBPXOcNmPjq+xHL3quIyJbTGcXvB2J6Vf64Vxh9v9yqaLQtw9CBQgDF3WpV3moPtcBjIss2m
- h4Q1x7jtjFO1kzQx1VXRg0LhUc5cC6PyEe1EhI7jxQ8ky+GsrQhr03OVsG2G41tisW7SH4m+QgM
- MXBfyIJoJa09IPioFGqDBuUTiowGk+5pKZePsXHhGNL3lCbuOn0wW+0A9uhl9GcK9xUDbPUQbnF
- oYvXJeMa0nycE5QdKo+OXXohku8py4FI6fCEhMDduGTDsssIgoVwkny/rybEelo3VTwkn+HQ8Oo
- =
-X-Received: by 2002:a05:6214:2269:b0:6e6:6c39:cb71 with SMTP id
- 6a1803df08f44-6fa9d30e8dcmr51307096d6.45.1748100833651; 
- Sat, 24 May 2025 08:33:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGuciW+NMJkazVvlkzv763VJ3diUZ4TMlRXpua2oTSVx8pp2r/WjFr2gRNwCeVz5NtDn2y75A==
-X-Received: by 2002:a05:6214:2269:b0:6e6:6c39:cb71 with SMTP id
- 6a1803df08f44-6fa9d30e8dcmr51306766d6.45.1748100833134; 
- Sat, 24 May 2025 08:33:53 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCVFoft2lduPMYxBACEbe4W7JTEBLhMbZ0UGMyTZLrCYKIUkpM+/jxJIGq1y5W8mpxvyMPloGfDzS2Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgDprKvuUXxoFABkRQMQjUifN/Tv3ywsN8cYVQoyzPq7k13f7T
+ TUuZjcoFfqk3ejCQ9I649VVIGhn1/H8CMaJ6Plw7dAAHV3XB2WgIgBRcFTBTjhaNg78PqENLlql
+ nchi6aFeWby9arD3glQnpXjpEOXu+/TMG3uBRWko/P4o5vNu+XDMuXhmyjUBNe5muwRb6L+Q=
+X-Gm-Gg: ASbGnctdthwsO0ta1zFBT2D45g1mTBlZLFRaAEDXG04l5HlUoIEqRhhERzQVuB9uRvr
+ qg6IqbGtsdKY/OgrZUkeAfsvPZVJ0H6ebRKy0lYG9V8wM1+4oXBE8BXg6AUPH3Qdmu8ZG9oOKaU
+ bfMoD4DkLROTfCtI92MddPRzLb+R2E5PkNQFSjdUeEysAuI9+LiUh+Np5Fi5kr94ySyBXFhbXMH
+ t1n67r5us/y8aVxqUd6QCWOcn+E7geSk1oaFvHF1Oao4r/vHrvPnOSAq6GqYwp6N40rW+WpIAYz
+ qrmTPkBBIvXmx8HVUzlHqMsTYxzAbXYQTKnz168CEczummedZ2U=
+X-Received: by 2002:a17:902:e544:b0:22f:a4aa:b82b with SMTP id
+ d9443c01a7336-23414f62af9mr58433775ad.21.1748102147396; 
+ Sat, 24 May 2025 08:55:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6qiynLRSJOmSDekV7ueADk6ZcUv9RFrAPGuFI8AxKbhuiTjsCzxUbRLDcJyHbQbuDV90JCQ==
+X-Received: by 2002:a17:902:e544:b0:22f:a4aa:b82b with SMTP id
+ d9443c01a7336-23414f62af9mr58433375ad.21.1748102146905; 
+ Sat, 24 May 2025 08:55:46 -0700 (PDT)
+Received: from hu-vkraleti-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3280ca53e93sm39955621fa.93.2025.05.24.08.33.50
+ d9443c01a7336-2341ccad6fcsm12090755ad.170.2025.05.24.08.55.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 May 2025 08:33:51 -0700 (PDT)
-Date: Sat, 24 May 2025 18:33:49 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>,
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
- device tree
-Message-ID: <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
-References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
- <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
+ Sat, 24 May 2025 08:55:46 -0700 (PDT)
+From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+Date: Sat, 24 May 2025 21:25:37 +0530
+Subject: [PATCH v2] drivers: gpu: drm: msm: registers: improve reproducibility
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
-X-Authority-Analysis: v=2.4 cv=UOXdHDfy c=1 sm=1 tr=0 ts=6831e6e3 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=gxl3bz0cAAAA:8 a=pGLkceISAAAA:8 a=UYHm9RjeTs86XGy0QPEA:9
- a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=kiRiLd-pWN9FGgpmzFdl:22
-X-Proofpoint-ORIG-GUID: d5n9k7umzy8Y1MkEhmAN1H43qQyc4vEz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI0MDE0MiBTYWx0ZWRfX54etak/AbmVP
- L6wK+ofhPGYa9D1NrC9+5rjxKk1x5G/HSUrTycXxMRnZ+kUyiMZkVnEYio4btt9BnA/m5QhbQz+
- N51KL+g9ExLK1GibTCvmlevAtrQoFNhtxPIxqiGH85UplW9PVxAA8hkKzpH4Eq/bk2vkvhAVge/
- fn17LyiUkA5Du5ZV4VOhxDd/kah3hiyr0v607M9b2oVDKgoKPlP5b/446uxD9io2JysV9yCI9Gc
- Lb0ol0ox7+J/lLTywtr7b48NlB7l6SN/NNKAvextRUg97E7HOhhOjTkJv0ewLVQyvS/cQiXRW3e
- IEPx0H3bGhkY1USDDage8GIKOQbUEDcLefDCphpsNG5DgwQYpuYRtcBQGhBQvQ+yddaL805bgrd
- iFMM1pqKF0x1V3slHQNcQLuDMhByI1gy7mwAJ6UFKWAWdFelhnNyP58LaOmwLT1IKXihCVNp
-X-Proofpoint-GUID: d5n9k7umzy8Y1MkEhmAN1H43qQyc4vEz
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250524-binrep-v2-1-09040177218e@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPjrMWgC/2WMywrCMBQFf6XctSl5anDlf0gXMQ97wTZtokEp+
+ Xdjt24OzGGYDbJP6DOcuw2SL5gxzg34oQM7mvnuCbrGwClXVHFBbjgnv5CgrWbBUCeYgyYvyQd
+ 876Hr0HjE/Izps3cL+71/icIII1YYKY+KaS1Pl5hzv77Mw8Zp6tvAUGv9ApwpD82jAAAA
+X-Change-ID: 20250523-binrep-f8c81fa0d31d
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Ryan Eatmon <reatmon@ti.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI0MDE0NSBTYWx0ZWRfX3jTl0mxzf3ea
+ ZCZaRk7e4gt1++UYeprlUJOOZiKEPC90uPSjZDQ5wg/m8d0ey9IhQPd7o6zy6HgVr8HL91gaXPb
+ 8ST9QLlZi8XqyJVw6a73a2uvcIAzgyDdAjn21MRemMsNn4hHDwXlC8a9McWq3Sojupqf+QI/4Vs
+ HZKjs4/sulJdBUC75IRw27Aw49RDWJXz+mcGhAZvYx1dyjmMqlPA0jzC8ABFdpv96rNqMAxA6C9
+ VgNhY/CRH9J7UrHgsai3Z+rqkVWmZjBejIhtK1J6tA3gxjRJmzT7lpfjqmIXWC9XO55q0hgv4Qs
+ MQcJ//EVIvuNY/3/4kWhdT0j+EEBUhML5Ca4CkOzabJ3gkX1c99nUn1CagNlCYzIkDQMZ3J3byY
+ 9Matenq+oegyu1YKcbRIl+V7eauk8wlgHp7HIZfMluMOhCFzx9NJmXPapg/T+rFoNqlEq52T
+X-Authority-Analysis: v=2.4 cv=f/5IBPyM c=1 sm=1 tr=0 ts=6831ec04 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=iGHA9ds3AAAA:8 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=sozttTNsAAAA:8 a=pGLkceISAAAA:8 a=k2a8_r_j4jiI5Xvw-VoA:9
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-ORIG-GUID: p1w-zdg1bz_kAtWk_QE6uOaHKUwjnMEz
+X-Proofpoint-GUID: p1w-zdg1bz_kAtWk_QE6uOaHKUwjnMEz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-24_06,2025-05-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ mlxscore=0 adultscore=0 impostorscore=0 suspectscore=0 mlxlogscore=929
+ spamscore=0 clxscore=1015 phishscore=0 bulkscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505240142
+ engine=8.19.0-2505160000 definitions=main-2505240145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,1051 +128,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 24, 2025 at 01:48:40PM +0200, Jens Glathe via B4 Relay wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> 
-> Device tree for the Lenovo Thinkbook 16 G7 QOY
-> 
-> The Laptop is a Snapdragon X1 / X1 Plus (Purwa) based device [1].
-> 
-> Supported features:
-> 
-> - USB type-c and type-a ports
-> - Keyboard
-> - Touchpad (all that are described in the dsdt)
-> - Touchscreen (described in the dsdt, no known SKUss)
-> - Display including PWM backlight control
-> - PCIe devices
-> - nvme
-> - SDHC card reader
-> - ath12k WCN7850 Wifi and Bluetooth
-> - ADSP and CDSP
-> - GPIO keys (Lid switch)
-> - Sound via internal speakers / DMIC / USB / headphone jack
-> - DP Altmode with 2 lanes (as all of these still do)
-> - Integrated fingerprint reader (FPC)
-> - Integrated UVC camera
-> 
-> Not supported yet:
-> 
-> - HDMI port.
-> - EC and some fn hotkeys.
-> 
-> Limited support yet:
-> 
-> - SDHC card reader is based on the on-chip sdhc_2 controller, but the driver from
-> the Snapdragon Dev Kit is only a partial match. It can do normal slow sd cards,
-> but not UHS-I (SD104) and UHS-II.
-> 
-> - The GPU is not yet supported. Graphics is only software rendered.
-> 
-> This work was done without any schematics or non-public knowledge of the device.
-> So, it is based on the existing x1e device trees, dsdt analysis, using HWInfo
-> ARM64, and pure guesswork. It has been confirmed, however, that the device really
-> has 4 NXP PTN3222 eUSB2 repeaters, one of which doesn't have a reset GPIO (eusb5
-> @43).
-> 
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> Co-developed by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> ---
->  arch/arm64/boot/dts/qcom/Makefile                  |    3 +
->  arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi       |    2 +-
->  .../boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts | 1655 ++++++++++++++++++++
->  3 files changed, 1659 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> index 669b888b27a1daa93ac15f47e8b9a302bb0922c2..aff4fe3e81ec0d6f6d52e2aa0da327b7576632d8 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -327,3 +327,6 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
->  x1p42100-crd-el2-dtbs	:= x1p42100-crd.dtb x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb x1p42100-crd-el2.dtb
-> +x1p42100-lenovo-thinkbook-16-el2-dtbs	:= x1p42100-lenovo-thinkbook-16.dtb x1-el2.dtbo
-> +dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-lenovo-thinkbook-16.dtb x1p42100-lenovo-thinkbook-16-el2.dtb
-> +
+From: Ryan Eatmon <reatmon@ti.com>
 
-No need for an extra empty line.
+The files generated by gen_header.py capture the source path to the
+input files and the date.  While that can be informative, it varies
+based on where and when the kernel was built as the full path is
+captured.
 
-> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
-> index c02fd4d15c9649c222caaafa5ed2c777a10fb4f5..551b392eca4ef3b6041e03ad1385fef11cec1690 100644
-> --- a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
-> @@ -170,7 +170,7 @@ trip1 {
->  			};
->  		};
->  
-> -		pm8010-thermal {
-> +		pm8010_thermal: pm8010-thermal {
->  			polling-delay-passive = <100>;
->  
->  			thermal-sensors = <&pm8010_temp_alarm>;
-> diff --git a/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts b/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..7089219ed08c1c4a60cc007f9d043a34a8071b4f
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
-> @@ -0,0 +1,1655 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + * Copyright (c) 2024, Linaro Limited
-> + * Copyright (c) 2025, Jens Glathe
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/gpio-keys.h>
-> +#include <dt-bindings/input/input.h>
-> +#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
-> +#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-> +
-> +#include "x1p42100.dtsi"
-> +#include "x1e80100-pmics.dtsi"
-> +
-> +/delete-node/ &pmc8380_6;
-> +/delete-node/ &pmc8380_6_thermal;
-> +/delete-node/ &pm8010;
-> +/delete-node/ &pm8010_thermal;
-> +
-> +/ {
-> +	model = "Lenovo ThinkBook 16 Gen 7 QOY";
-> +	compatible = "lenovo,thinkbook-16", "qcom,x1p42100";
-> +	chassis-type = "laptop";
-> +
-> +	aliases {
-> +		serial0 = &uart21;
-> +		serial1 = &uart14;
-> +	};
-> +
-> +	wcd938x: audio-codec {
-> +		compatible = "qcom,wcd9385-codec";
-> +
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&wcd_default>;
-> +
-> +		qcom,micbias1-microvolt = <1800000>;
-> +		qcom,micbias2-microvolt = <1800000>;
-> +		qcom,micbias3-microvolt = <1800000>;
-> +		qcom,micbias4-microvolt = <1800000>;
-> +		qcom,mbhc-buttons-vthreshold-microvolt = <75000 150000 237000 500000 500000 500000 500000 500000>;
-> +		qcom,mbhc-headset-vthreshold-microvolt = <1700000>;
-> +		qcom,mbhc-headphone-vthreshold-microvolt = <50000>;
-> +		qcom,rx-device = <&wcd_rx>;
-> +		qcom,tx-device = <&wcd_tx>;
-> +
-> +		reset-gpios = <&tlmm 191 GPIO_ACTIVE_LOW>;
-> +
-> +		vdd-buck-supply = <&vreg_l15b_1p8>;
-> +		vdd-rxtx-supply = <&vreg_l15b_1p8>;
-> +		vdd-io-supply = <&vreg_l15b_1p8>;
-> +		vdd-mic-bias-supply = <&vreg_bob1>;
-> +
-> +		#sound-dai-cells = <1>;
-> +	};
-> +
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pm8550_pwm 3 500000>;
-> +
-> +		power-supply = <&vreg_edp_bl>;
-> +	};
-> +
-> +	camera {
-> +		compatible = "usb5986,1198";
-> +
-> +		vdd-supply = <&vreg_cam_5p0>;
-> +
-> +		status = "okay";
+Since all of the files that this tool is run on is under the drivers
+directory, this modifies the application to strip all of the path before
+drivers.  Additionally it prints <stripped> instead of the date.
 
-This is default, please drop.
+Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+---
+The files generated by gen_header.py include the source path to the
+input files and the build date. While this information can be useful,
+it inadvertently exposes build system configuration details in the
+binaries. This hinders binary reproducibility, as the output will
+vary if the build environment changes.
 
-> +	};
+This change was originally submitted to the linux-yocto-dev kernel [1]
+to address binary reproducibility QA errors. However, the fix is generic 
+enough to be applicable to the mainline kernel and would benefit other 
+distributions as well. So proposing it here for broader inclusion.
 
-Camera isn't randomly wire to the board, it is on the USB bus. Please
-follow DT bindings and put it accordingly, describing topology of the
-bus.
+[1] https://git.yoctoproject.org/linux-yocto-dev/commit/?id=f36faf0f9f8d8f5b4c43a68e5c6bd83a62253140
+---
+Changes in v2:
+- Corrected author id
+- Link to v1: https://lore.kernel.org/r/20250523-binrep-v1-1-c3a446518847@oss.qualcomm.com
+---
+ drivers/gpu/drm/msm/registers/gen_header.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		pinctrl-0 = <&hall_int_n_default>;
-> +		pinctrl-names = "default";
-> +
-> +		switch-lid {
-> +			gpios = <&tlmm 92 GPIO_ACTIVE_LOW>;
-> +			linux,input-type = <EV_SW>;
-> +			linux,code = <SW_LID>;
-> +			wakeup-source;
-> +			wakeup-event-action = <EV_ACT_DEASSERTED>;
-> +		};
-> +	};
-> +
-> +	pmic-glink {
-> +		compatible = "qcom,x1e80100-pmic-glink",
-> +				"qcom,sm8550-pmic-glink",
-> +				"qcom,pmic-glink";
+diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
+index 3926485bb197b0992232447cb71bf1c1ebd0968c..a409404627c7180d5b0626f0ce6255d7d0df5113 100644
+--- a/drivers/gpu/drm/msm/registers/gen_header.py
++++ b/drivers/gpu/drm/msm/registers/gen_header.py
+@@ -11,6 +11,7 @@ import collections
+ import argparse
+ import time
+ import datetime
++import re
+ 
+ class Error(Exception):
+ 	def __init__(self, message):
+@@ -877,13 +878,14 @@ The rules-ng-ng source files this header was generated from are:
+ """)
+ 	maxlen = 0
+ 	for filepath in p.xml_files:
+-		maxlen = max(maxlen, len(filepath))
++		new_filepath = re.sub("^.+drivers","drivers",filepath)
++		maxlen = max(maxlen, len(new_filepath))
+ 	for filepath in p.xml_files:
+-		pad = " " * (maxlen - len(filepath))
++		pad = " " * (maxlen - len(new_filepath))
+ 		filesize = str(os.path.getsize(filepath))
+ 		filesize = " " * (7 - len(filesize)) + filesize
+ 		filetime = time.ctime(os.path.getmtime(filepath))
+-		print("- " + filepath + pad + " (" + filesize + " bytes, from " + filetime + ")")
++		print("- " + new_filepath + pad + " (" + filesize + " bytes, from <stripped>)")
+ 	if p.copyright_year:
+ 		current_year = str(datetime.date.today().year)
+ 		print()
 
-Align vertically on the double-quote
+---
+base-commit: fc5c669c902c3039aa41731b6c58c0960d0b1bbf
+change-id: 20250523-binrep-f8c81fa0d31d
 
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		orientation-gpios = <&tlmm 121 GPIO_ACTIVE_HIGH>,
-> +				<&tlmm 123 GPIO_ACTIVE_HIGH>;
-
-And such lists should be aligned on the opening angle bracket.
-
-> +
-> +		/* Display-adjacent port */
-> +		connector@0 {
-> +			compatible = "usb-c-connector";
-> +			reg = <0>;
-> +			power-role = "dual";
-> +			data-role = "dual";
-
-Is it actually dual-role? What does UCSI report for it?
-
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +
-> +					pmic_glink_ss0_hs_in: endpoint {
-> +						remote-endpoint = <&usb_1_ss0_dwc3_hs>;
-> +					};
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +
-> +					pmic_glink_ss0_ss_in: endpoint {
-> +						remote-endpoint = <&usb_1_ss0_qmpphy_out>;
-> +					};
-> +				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +
-> +					pmic_glink_ss0_sbu: endpoint {
-> +						remote-endpoint = <&usb_1_ss0_sbu_mux>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		/* User-adjacent port */
-> +		connector@1 {
-> +			compatible = "usb-c-connector";
-> +			reg = <1>;
-> +			power-role = "dual";
-> +			data-role = "dual";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +
-> +					pmic_glink_ss1_hs_in: endpoint {
-> +						remote-endpoint = <&usb_1_ss1_dwc3_hs>;
-> +					};
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +
-> +					pmic_glink_ss1_ss_in: endpoint {
-> +						remote-endpoint = <&usb_1_ss1_qmpphy_out>;
-> +					};
-> +				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +
-> +					pmic_glink_ss1_sbu: endpoint {
-> +						remote-endpoint = <&usb_1_ss1_sbu_mux>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	reserved-memory {
-> +		linux,cma {
-
-What for?
-
-> +			compatible = "shared-dma-pool";
-> +			size = <0x0 0x8000000>;
-> +			reusable;
-> +			linux,cma-default;
-> +		};
-> +	};
-> +
-
-[...]
-
-> +
-> +&gpu {
-> +	status = "okay";
-
-I think that you wrote that GPU isn't supported (yet).
-
-> +
-> +	zap-shader {
-> +		firmware-name = "qcom/x1e80100/LENOVO/21NH/qcdxkmsucpurwa.mbn";
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	clock-frequency = <400000>;
-> +
-> +	pinctrl-0 = <&qup_i2c2_data_clk>, <&tpad_default>, <&kybd_default>;
-
-If keyboard doesn't share pinctrl with other devices, you can move it to the keyboard DT node.
-
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +
-> +	/* ELAN06FA */
-> +	touchpad@15 {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x15>;
-> +
-> +		hid-descr-addr = <0x1>;
-> +		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l12b_1p2>;
-> +
-> +		wakeup-source;
-> +	};
-> +
-> +	/* CIRQ1080 or SYNA2BA6 */
-> +	touchpad@2c {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x2c>;
-> +
-> +		hid-descr-addr = <0x20>;
-> +		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l12b_1p2>;
-> +
-> +		wakeup-source;
-> +	};
-> +
-> +	/* FTCS0038 */
-> +	touchpad@38 {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x38>;
-> +
-> +		hid-descr-addr = <0x1>;
-> +		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l12b_1p2>;
-> +
-> +		wakeup-source;
-> +	};
-> +
-> +	keyboard@3a {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x3a>;
-> +
-> +		hid-descr-addr = <0x1>;
-> +		interrupts-extended = <&tlmm 67 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l12b_1p2>;
-> +
-> +		wakeup-source;
-> +	};
-> +
-> +	/* GXTP5100 */
-> +	touchpad@5d {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x5d>;
-> +
-> +		hid-descr-addr = <0x1>;
-> +		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l12b_1p2>;
-> +
-> +		wakeup-source;
-> +	};
-> +};
-> +
-> +&i2c5 {
-> +	clock-frequency = <400000>;
-> +
-> +	status = "okay";
-> +
-> +	eusb5_repeater: redriver@43 {
-> +		compatible = "nxp,ptn3222";
-> +		reg = <0x43>;
-> +		#phy-cells = <0>;
-> +
-> +		vdd3v3-supply = <&vreg_l13b_3p0>;
-> +		vdd1v8-supply = <&vreg_l4b_1p8>;
-> +	};
-> +
-> +	eusb3_repeater: redriver@47 {
-> +		compatible = "nxp,ptn3222";
-> +		reg = <0x47>;
-> +		#phy-cells = <0>;
-> +
-> +		vdd3v3-supply = <&vreg_l13b_3p0>;
-> +		vdd1v8-supply = <&vreg_l4b_1p8>;
-> +
-> +		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
-> +
-> +		pinctrl-0 = <&eusb3_reset_n>;
-> +		pinctrl-names = "default";
-> +	};
-> +
-> +	eusb9_repeater: redriver@4b {
-> +		compatible = "nxp,ptn3222";
-> +		reg = <0x4b>;
-> +		#phy-cells = <0>;
-> +
-> +		vdd3v3-supply = <&vreg_l13b_3p0>;
-> +		vdd1v8-supply = <&vreg_l4b_1p8>;
-> +
-> +		reset-gpios = <&tlmm 7 GPIO_ACTIVE_LOW>;
-> +
-> +		pinctrl-0 = <&eusb9_reset_n>;
-> +		pinctrl-names = "default";
-> +	};
-> +
-> +	eusb6_repeater: redriver@4f {
-> +		compatible = "nxp,ptn3222";
-> +		reg = <0x4f>;
-> +		#phy-cells = <0>;
-> +
-> +		vdd3v3-supply = <&vreg_l13b_3p0>;
-> +		vdd1v8-supply = <&vreg_l4b_1p8>;
-> +
-> +		reset-gpios = <&tlmm 184 GPIO_ACTIVE_LOW>;
-> +
-> +		pinctrl-0 = <&eusb6_reset_n>;
-> +		pinctrl-names = "default";
-> +	};
-> +};
-> +
-> +&i2c8 {
-> +	clock-frequency = <400000>;
-> +
-> +	status = "okay";
-> +
-> +	/* ILIT2911 or GTCH1563 */
-> +	touchscreen@10 {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x10>;
-> +
-> +		hid-descr-addr = <0x1>;
-> +		interrupts-extended = <&tlmm 51 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vdd-supply = <&vreg_misc_3p3>;
-> +		vddl-supply = <&vreg_l15b_1p8>;
-> +
-> +		pinctrl-0 = <&ts0_default>;
-> +		pinctrl-names = "default";
-> +	};
-> +};
-> +
-> +&lpass_tlmm {
-> +	spkr_01_sd_n_active: spkr-01-sd-n-active-state {
-> +		pins = "gpio12";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +};
-> +
-> +&lpass_vamacro {
-> +	pinctrl-0 = <&dmic01_default>, <&dmic23_default>;
-> +	pinctrl-names = "default";
-> +
-> +	vdd-micb-supply = <&vreg_l1b_1p8>;
-> +	qcom,dmic-sample-rate = <4800000>;
-> +};
-> +
-> +&mdss {
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dp0 {
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dp0_out {
-> +	data-lanes = <0 1>;
-> +	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-> +};
-> +
-> +&mdss_dp1 {
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dp1_out {
-> +	data-lanes = <0 1>;
-> +	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-> +};
-> +
-> +&mdss_dp3 {
-> +	/delete-property/ #sound-dai-cells;
-> +
-> +	status = "okay";
-> +
-> +	aux-bus {
-> +		panel {
-> +			compatible = "edp-panel";
-> +
-> +			backlight = <&backlight>;
-> +
-> +			enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
-> +			pinctrl-0 = <&edp_bl_en>;
-> +			pinctrl-names = "default";
-> +
-> +			power-supply = <&vreg_edp_3p3>;
-> +
-> +			port {
-> +				edp_panel_in: endpoint {
-> +					remote-endpoint = <&mdss_dp3_out>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +
-> +			mdss_dp3_out: endpoint {
-> +				data-lanes = <0 1 2 3>;
-> +				link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-> +
-> +				remote-endpoint = <&edp_panel_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss_dp3_phy {
-
-What about DP0 / DP1 PHYs?
-
-> +	vdda-phy-supply = <&vreg_l3j_0p8>;
-> +	vdda-pll-supply = <&vreg_l2j_1p2>;
-> +
-> +	status = "okay";
-> +};
-> +
-
-[...]
-
-> +
-> +&qupv3_0 {
-> +	status = "okay";
-> +};
-> +
-> +&qupv3_1 {
-> +	status = "okay";
-> +};
-> +
-> +&qupv3_2 {
-> +	status = "okay";
-> +};
-
-Don't you also wan to enable corresponding GPI DMA devices?
-
-> +
-> +&remoteproc_adsp {
-> +	firmware-name = "qcom/x1e80100/LENOVO/21NH/qcadsp8380.mbn",
-> +			"qcom/x1e80100/LENOVO/21NH/adsp_dtbs.elf";
-> +
-> +	status = "okay";
-> +};
-> +
-> +&remoteproc_cdsp {
-> +	firmware-name = "qcom/x1e80100/LENOVO/21NH/qccdsp8380.mbn",
-> +			"qcom/x1e80100/LENOVO/21NH/cdsp_dtbs.elf";
-> +
-> +	status = "okay";
-> +};
-> +
-> +&sdhc_2 {
-> +	cd-gpios = <&tlmm 71 GPIO_ACTIVE_LOW>;
-> +	pinctrl-0 = <&sdc2_default &sdc2_card_det_n>;
-> +	pinctrl-1 = <&sdc2_sleep &sdc2_card_det_n>;
-> +	pinctrl-names = "default", "sleep";
-> +	vmmc-supply = <&vreg_l9b_2p9>;
-> +	vqmmc-supply = <&vreg_l6b_1p8>;
-> +	status = "okay";
-> +};
-> +
-> +&smb2360_0 {
-> +	status = "okay";
-> +};
-> +
-> +&smb2360_0_eusb2_repeater {
-> +	vdd18-supply = <&vreg_l3d_1p8>;
-> +	vdd3-supply = <&vreg_l2b_3p0>;
-> +};
-> +
-> +&smb2360_1 {
-> +	status = "okay";
-> +};
-> +
-> +&smb2360_1_eusb2_repeater {
-> +	vdd18-supply = <&vreg_l3d_1p8>;
-> +	vdd3-supply = <&vreg_l14b_3p0>;
-> +};
-> +
-> +&swr0 {
-> +	status = "okay";
-> +
-> +	pinctrl-0 = <&wsa_swr_active>, <&spkr_01_sd_n_active>;
-> +	pinctrl-names = "default";
-> +
-> +	/* WSA8845, Left Speaker */
-> +	left_spkr: speaker@0,0 {
-> +		compatible = "sdw20217020400";
-> +		reg = <0 0>;
-> +		reset-gpios = <&lpass_tlmm 12 GPIO_ACTIVE_LOW>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "SpkrLeft";
-> +		vdd-1p8-supply = <&vreg_l15b_1p8>;
-> +		vdd-io-supply = <&vreg_l12b_1p2>;
-> +		qcom,port-mapping = <1 2 3 7 10 13>;
-> +	};
-> +
-> +	/* WSA8845, Right Speaker */
-> +	right_spkr: speaker@0,1 {
-> +		compatible = "sdw20217020400";
-> +		reg = <0 1>;
-> +		reset-gpios = <&lpass_tlmm 12 GPIO_ACTIVE_LOW>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "SpkrRight";
-> +		vdd-1p8-supply = <&vreg_l15b_1p8>;
-> +		vdd-io-supply = <&vreg_l12b_1p2>;
-> +		qcom,port-mapping = <4 5 6 7 11 13>;
-> +	};
-> +};
-> +
-> +&swr1 {
-> +	status = "okay";
-> +
-> +	/* WCD9385 RX */
-> +	wcd_rx: codec@0,4 {
-> +		compatible = "sdw20217010d00";
-> +		reg = <0 4>;
-> +		qcom,rx-port-mapping = <1 2 3 4 5>;
-> +	};
-> +};
-> +
-> +&swr2 {
-> +	status = "okay";
-> +
-> +	/* WCD9385 TX */
-> +	wcd_tx: codec@0,3 {
-> +		compatible = "sdw20217010d00";
-> +		reg = <0 3>;
-> +		qcom,tx-port-mapping = <2 2 3 4>;
-> +	};
-> +};
-> +
-> +&tlmm {
-> +	gpio-reserved-ranges = <34 2>, /* Unused */
-> +		<72 2>, /* Secure EC I2C connection (?) */
-> +		<238 1>; /* UFS Reset */
-> +
-> +	cam_reg_en: cam-reg-en-state {
-> +		pins = "gpio44";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +	};
-> +
-> +	eusb3_reset_n: eusb3-reset-n-state {
-> +		pins = "gpio6";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +
-> +	eusb6_reset_n: eusb6-reset-n-state {
-> +		pins = "gpio184";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +
-> +	eusb9_reset_n: eusb9-reset-n-state {
-> +		pins = "gpio7";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +
-> +	edp_reg_en: edp-reg-en-state {
-> +		pins = "gpio70";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +	};
-> +
-> +	hall_int_n_default: hall-int-n-state {
-> +		pins = "gpio92";
-> +		function = "gpio";
-> +		bias-disable;
-> +	};
-> +
-> +	kybd_default: kybd-default-state {
-> +		pins = "gpio67";
-> +		function = "gpio";
-> +		bias-disable;
-> +	};
-> +
-> +	nvme_reg_en: nvme-reg-en-state {
-> +		pins = "gpio18";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +	};
-> +
-> +	pcie4_default: pcie4-default-state {
-> +		clkreq-n-pins {
-> +			pins = "gpio147";
-> +			function = "pcie4_clk";
-> +			drive-strength = <2>;
-> +			bias-pull-up;
-> +		};
-> +
-> +		perst-n-pins {
-> +			pins = "gpio146";
-> +			function = "gpio";
-> +			drive-strength = <2>;
-> +			bias-disable;
-> +		};
-> +
-> +		wake-n-pins {
-> +			pins = "gpio148";
-> +			function = "gpio";
-> +			drive-strength = <2>;
-> +			bias-pull-up;
-> +		};
-> +	};
-> +
-> +	pcie6a_default: pcie6a-default-state {
-> +		clkreq-n-pins {
-> +			pins = "gpio153";
-> +			function = "pcie6a_clk";
-> +			drive-strength = <2>;
-> +			bias-pull-up;
-> +		};
-> +
-> +		perst-n-pins {
-> +			pins = "gpio152";
-> +			function = "gpio";
-> +			drive-strength = <2>;
-> +			bias-disable;
-> +		};
-> +
-> +		wake-n-pins {
-> +			pins = "gpio154";
-> +			function = "gpio";
-> +			drive-strength = <2>;
-> +			bias-pull-up;
-> +		};
-> +	};
-> +
-> +	sdc2_card_det_n: sdc2-card-det-state {
-> +		pins = "gpio71";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-up;
-> +	};
-> +
-> +	tpad_default: tpad-default-state {
-> +		pins = "gpio3";
-> +		function = "gpio";
-> +		bias-pull-up;
-> +	};
-> +
-> +	ts0_default: ts0-default-state {
-> +		int-n-pins {
-> +			pins = "gpio51";
-> +			function = "gpio";
-> +			bias-disable;
-> +		};
-> +
-> +		reset-n-pins {
-> +			pins = "gpio48";
-> +			function = "gpio";
-> +			output-high;
-> +			drive-strength = <16>;
-> +		};
-> +	};
-> +
-> +	usb_1_ss0_sbu_default: usb-1-ss0-sbu-state {
-> +		mode-pins {
-> +			pins = "gpio166";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +			output-high;
-> +		};
-> +
-> +		oe-n-pins {
-> +			pins = "gpio168";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +		};
-> +
-> +		sel-pins {
-> +			pins = "gpio167";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +		};
-> +
-> +	};
-> +
-> +	usb_1_ss1_sbu_default: usb-1-ss1-sbu-state {
-> +		mode-pins {
-> +			pins = "gpio177";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +			output-high;
-> +		};
-> +
-> +		oe-n-pins {
-> +			pins = "gpio179";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +		};
-> +
-> +		sel-pins {
-> +			pins = "gpio178";
-> +			function = "gpio";
-> +			bias-disable;
-> +			drive-strength = <2>;
-> +		};
-> +	};
-> +
-> +	wcd_default: wcd-reset-n-active-state {
-> +		pins = "gpio191";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +
-> +	wcn_bt_en: wcn-bt-en-state {
-> +		pins = "gpio116";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		output-low;
-> +		bias-pull-down;
-> +	};
-> +
-> +	wcn_sw_en: wcn-sw-en-state {
-> +		pins = "gpio214";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +	};
-> +
-> +	wcn_wlan_en: wcn-wlan-en-state {
-> +		pins = "gpio117";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +	};
-> +};
-> +
-> +&uart14 {
-> +	status = "okay";
-> +
-> +	bluetooth {
-> +		compatible = "qcom,wcn7850-bt";
-> +		max-speed = <3200000>;
-> +
-> +		vddaon-supply = <&vreg_pmu_aon_0p59>;
-> +		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
-> +		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
-> +		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
-> +		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
-> +		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
-> +		vddrfa1p8-supply = <&vreg_pmu_rfa_1p8>;
-> +	};
-> +};
-> +
-> +&usb_1_ss0_hsphy {
-> +	vdd-supply = <&vreg_l3j_0p8>;
-> +	vdda12-supply = <&vreg_l2j_1p2>;
-> +
-> +	phys = <&smb2360_0_eusb2_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss0_qmpphy {
-> +	vdda-phy-supply = <&vreg_l3e_1p2>;
-> +	vdda-pll-supply = <&vreg_l1j_0p8>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss0 {
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss0_dwc3 {
-> +	dr_mode = "host";
-
-So pmic-glink declares corresponding port as dual-role, but USB
-controller is host-only?
-
-> +};
-> +
-> +&usb_1_ss0_dwc3_hs {
-> +	remote-endpoint = <&pmic_glink_ss0_hs_in>;
-> +};
-> +
-> +&usb_1_ss0_qmpphy_out {
-> +	remote-endpoint = <&pmic_glink_ss0_ss_in>;
-> +};
-> +
-> +&usb_1_ss1_hsphy {
-> +	vdd-supply = <&vreg_l3j_0p8>;
-> +	vdda12-supply = <&vreg_l2j_1p2>;
-> +
-> +	phys = <&smb2360_1_eusb2_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss1_qmpphy {
-> +	vdda-phy-supply = <&vreg_l2j_1p2>;
-> +	vdda-pll-supply = <&vreg_l2d_0p9>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss1 {
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss1_dwc3 {
-> +	dr_mode = "host";
-
-And this one...
-
-> +};
-> +
-> +&usb_1_ss1_dwc3_hs {
-> +	remote-endpoint = <&pmic_glink_ss1_hs_in>;
-> +};
-> +
-> +&usb_1_ss1_qmpphy_out {
-> +	remote-endpoint = <&pmic_glink_ss1_ss_in>;
-> +};
-> +
-> +&usb_1_ss2 {
-> +	status = "okay";
-> +};
-> +
-> +&usb_1_ss2_dwc3 {
-> +	dr_mode = "host";
-> +	maximum-speed = "high-speed";
-> +	phys = <&usb_1_ss2_hsphy>;
-> +	phy-names = "usb2-phy";
-> +};
-> +
-> +&usb_1_ss2_hsphy {
-> +	vdd-supply = <&vreg_l3j_0p8>;
-> +	vdda12-supply = <&vreg_l2j_1p2>;
-> +
-> +	phys = <&eusb5_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_2 {
-> +	status = "okay";
-> +};
-> +
-> +&usb_2_dwc3 {
-> +	dr_mode = "host";
-> +};
-> +
-> +&usb_2_hsphy {
-> +	vdd-supply = <&vreg_l2e_0p8>;
-> +	vdda12-supply = <&vreg_l3e_1p2>;
-> +
-> +	phys = <&eusb9_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_mp {
-> +	status = "okay";
-> +};
-> +
-> +&usb_mp_hsphy0 {
-> +	vdd-supply = <&vreg_l2e_0p8>;
-> +	vdda12-supply = <&vreg_l3e_1p2>;
-> +
-> +	phys = <&eusb6_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_mp_qmpphy0 {
-> +	vdda-phy-supply = <&vreg_l3e_1p2>;
-> +	vdda-pll-supply = <&vreg_l3c_0p8>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_mp_hsphy1 {
-> +	vdd-supply = <&vreg_l2e_0p8>;
-> +	vdda12-supply = <&vreg_l3e_1p2>;
-> +
-> +	phys = <&eusb3_repeater>;
-> +
-> +	status = "okay";
-> +};
-> +
-> +&usb_mp_qmpphy1 {
-> +	vdda-phy-supply = <&vreg_l3e_1p2>;
-> +	vdda-pll-supply = <&vreg_l3c_0p8>;
-> +
-> +	status = "okay";
-> +};
-> 
-> -- 
-> 2.48.1
-> 
-> 
-
+Best regards,
 -- 
-With best wishes
-Dmitry
+Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+
