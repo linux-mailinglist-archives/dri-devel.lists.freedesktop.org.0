@@ -2,111 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8966AC2CC1
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 02:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D812AC2CC4
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 02:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CB510E21D;
-	Sat, 24 May 2025 00:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7690610E1CC;
+	Sat, 24 May 2025 00:39:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nOhaWDG6";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y8yqTAM+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0450310E210
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:35:15 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NB5e7Y006603
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:35:14 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFCEA10E1CC
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:39:01 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NBNpJm020593
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:39:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=gadVBmxWXzJeviMc28DkwJ/O
- zCQZn3T7DpzyRFQeYas=; b=nOhaWDG6LteGVoqRxOPOJ+UN0Dc93Aj8LrVZW1tR
- UumXYNg4GeVKBP8HnODeTbww1WUQ4GZgPoCRDr+zG58ZyIcte6+I+mSdv8VP0u/k
- B7KqLStXDg5BDOMOjYR6f6buv+RqpgbFQcr1gS9wKe8ACXfynukuKMTynT51fVAd
- vgdsyVuZWsEfwFGCZ4lZDAjBSpcDVjffp5Z7S1Z2FzPMhOG4N8ciYKL5I8PxdWHP
- swdX3OJRWQ20P+7rO5ZNjepm/9n5tjY77hdaNZ9n9JC2OPHXWDheiPdsNS2ICeq1
- 5/Qs1+KHtKa2faHPu+fJ7CmsG11nJ8ArgrjrpO931JQe5w==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf0ummf-1
+ :references:subject:to; s=qcppdkim1; bh=vK52ezr41m56pzYTcI0iDmKN
+ jEm58wnfieVUi6ZhcI4=; b=Y8yqTAM+LBpDePLDPuK6Kgbu3VpZeikBlUDj3fpD
+ R9msi4z1eaQ/jgr+TALv8uoYjGKArQtAIzTFc+wXHwpUNWE1WPlhMoFBWDupC/Mg
+ HusLeg+QB221wtPcxdp4Q8KQDzRxBm7TjTJvcgOmNS6jpAwRjC3eFjLTsGMQZI8e
+ j3KGXVP9+daGUfrj6zMGD+wW8Fyx6uORNC3f+q+Mzd8vmyQd4VdQGrkDs/MXeKfT
+ nZouNLmj+Lttlka+kZ+lcf5cMLHCgUNpDI3y1K6gey1LeRJJLhKcDROk9MBj88eB
+ JsGhsfn1SqP/VDIhZOh42iZ6DuVD7I9K+bKLOCKT69SAWw==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s9pb9uyd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:35:14 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6f8d3f48f35so7886066d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 17:35:14 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 00:39:01 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6fa9e48d4d9so4468486d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 May 2025 17:39:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748046913; x=1748651713;
+ d=1e100.net; s=20230601; t=1748047140; x=1748651940;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gadVBmxWXzJeviMc28DkwJ/OzCQZn3T7DpzyRFQeYas=;
- b=u7aNn9mySNgFfO4YN+0nCfmUnk2BVvupaOnt6yaiV3gdS0v32AoGpleK8+nnDC1WFE
- xFDumdb5slWldHMDX8XG58e4ZGtzKIRNB7UpgDVaJC382nR3H05t8saxcpQd5zz/I2cK
- iwSDieefE/v1pAxijpTpByB9GPdbQJdBdXarU+216wNeo49JJfCmGLoRW5r57TOKOW1F
- ECi4lj6J+J5CqUAKf2VygTKEVeu1V2WP2NBYttctbDCcbIlOx4Q+i1f+/vy99xsw1CR7
- CO3E9/5r2ClfVCLLgH9oRGOKv9WsTyb1iH/MO0gSmlVvOeza5aSbbd4E5wxwD3xHgSzL
- 3dMQ==
+ bh=vK52ezr41m56pzYTcI0iDmKNjEm58wnfieVUi6ZhcI4=;
+ b=SuSJIJUaIGFKUokNCkS97ju/2+P/rkVHxjV6FK53fz941okhCipRjPCVMiRpm6RsnF
+ RoVeYJu9U8+vt9BmdplxYEHqtkVbf8grlUIDurbWdf6GMyQ/MeQXBlcKnsNWfORWf6UP
+ rtgFp8VRYC9LkHgBhqyNN+mNf7sd08jjLKJP23xnjFpliJ4Xg7SnsMcDJjAakIxUT+Px
+ kd830cdu4Qii6y197o36VUs9n7R+PwC4K+p6u5ds8r8YLH1M61hiFaDKbsuwEkd9PlPZ
+ Bc+02JrpHS888GNwzACISPRqZ6fj86LstdOHu3nkzAtu1RRFBqSTH7kxuilaGGsj+xMw
+ 1MIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJdfJ/inA0I5T3piYxOFMp/1t1NnRPU9cj2vbM4b6BeRNx0N4rhYV8K6HaBv1EcK/y4n/qQWrqQ0k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKsUkEncXZhEopbyczfdcbL/98LQ1wOV7IDXy0MjU6dwzzrNs2
- HOV7li2EGkAZWd+HD7THZ+tstvJBudMkP7XFZC/aisTRya7XkIqVFJlEdH8H2Y25lCkAoBoKOfa
- lXR6m1OOuTbI21JX+MUSDPbxa7AeeNphVzGE0VJnHn4IAXsmMd0duX90D6VyYRddew9SeSmE+Px
- IM2loDIpOK
-X-Gm-Gg: ASbGncstj1yqwoDF4/m2k/Ef6y9wa5s+oBpfdgL1XAtD6RioihleeQGvgK6IDc3JnJe
- 4lYcHxCC9axewkI94A/bh47emtZri+CKn7lsAWMVtzTKcia7X0TvO0o1CzitXTSwsSadK4RdRpH
- tsNpK8jKOKWr1Wox4IqxZ03pCs12ZrBYJ9VJECj9LOVTbXq2hjQgGDrXbJ5si4bRkS5RAvyMiAb
- 735yvDCHKHGcL2Wz3iOg+sSO+4mbuHsh28rjV5DFNwJhFcW2Cb3vHpL5OJrOD8YHhzGtCjpmGrT
- mjo4BjQUxZhFzJsx0upqwrYuceks097ZJaHrjGHrNEmO94Lbf8AGwl4Wa5iD7+CRORxG8SXPJik
+ AJvYcCVkAOuwvUCDnGF3D3L/B5HWQkOLpIJ92nXlzorgjZ8F4HoMN19cL1+fDmQgoqyMMWm6Eaa5VbpAOv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqS12XXfvCtcH4Hr4isBpXmSaHUtl6km/ypDCslnwlIKBekaIQ
+ gxRsrvyzO2x2HcaCqJTK791i7+BnH9jN3baibRpkrbuyKiDOdRwwd8fKUyE8KRNC0ri2G1meV1o
+ NGVpJNnhdMLawF0FVfrMlLy/0mleNQs+ZNWfOW3LhJ1E0zR9xUb0UXUMjA2gGvFuOESqZPpE=
+X-Gm-Gg: ASbGncuwklAM/YXoZ8fw7GqXHQY8/Sz1nOgifxP1RgO4Og0Q1cyxegHSGwtr4s+JFVz
+ dZrqG0y4z4fO08SNL2ePYZNCjqFHvAMfgskg+YlTmWJLD2TcoB1dz8z0//LblSgRTxyWyqNNe5e
+ jhGAzX9bRCCf87RU5R6dI0nh6JehU3nbfZRgi7WOTCuDOJG4429aIhK4nzfs+++IFzpuBwzrmHI
+ 0qm82+mmJzWbqeqFevb2KiF2EydCtlPCl4ALR5bY4Z77QOqhKjgHezo/mqRrV8ImLeHsGa/qknS
+ KhM3g5M/cUR9wLCsSYiEbGP1yWMt2GRpKpRIh6moucmfTbZDgjq9qSEAUvgYPXhRfhMjXvIP7g8
  =
-X-Received: by 2002:a05:6214:c27:b0:6f4:b6e9:82cc with SMTP id
- 6a1803df08f44-6fa9d1433cfmr27117156d6.22.1748046912883; 
- Fri, 23 May 2025 17:35:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOZUOTXyqmBHBgRFqzKnLGB4b7GmThjnoaYLFwDqlij3O8JtyGhyovmb5uoWeD4XViw1lAsg==
-X-Received: by 2002:a05:6214:c27:b0:6f4:b6e9:82cc with SMTP id
- 6a1803df08f44-6fa9d1433cfmr27117026d6.22.1748046912545; 
- Fri, 23 May 2025 17:35:12 -0700 (PDT)
+X-Received: by 2002:a05:6214:234e:b0:6f5:10b5:cd2d with SMTP id
+ 6a1803df08f44-6fa9cfff184mr25328986d6.7.1748047139929; 
+ Fri, 23 May 2025 17:38:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGySTqWoJN9ojniz47O1K1FNUlMzOMDATGsvhq/eKMLX8kRbKGpceDFLEaIhr005Dc3Vh1DEQ==
+X-Received: by 2002:a05:6214:234e:b0:6f5:10b5:cd2d with SMTP id
+ 6a1803df08f44-6fa9cfff184mr25328686d6.7.1748047139612; 
+ Fri, 23 May 2025 17:38:59 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-550e702c191sm4059818e87.179.2025.05.23.17.35.09
+ 38308e7fff4ca-328085b8787sm38943541fa.77.2025.05.23.17.38.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 May 2025 17:35:10 -0700 (PDT)
-Date: Sat, 24 May 2025 03:35:07 +0300
+ Fri, 23 May 2025 17:38:58 -0700 (PDT)
+Date: Sat, 24 May 2025 03:38:55 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: hongao <hongao@uniontech.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: sysfs: Replace magic number with
- DRM_FORCE_UNSPECIFIED macro
-Message-ID: <bvb2md4367ckhyeeve25uafppiv2egigiqyt4admqzcmcyc33j@qhqjwauryl55>
-References: <20250516081813.3241129-1-hongao@uniontech.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@pengutronix.de
+Subject: Re: [PATCH 1/3] drm/bridge: fsl-ldb: make use of driver_private
+Message-ID: <ghhu3fypfqls5wazqy6snttfi7eemsjwvgx3z2b4qt5ov2na2e@gp7qlz4gevgp>
+References: <20250514222453.440915-1-m.felsch@pengutronix.de>
+ <20250514222453.440915-2-m.felsch@pengutronix.de>
+ <20250514224515.GM23592@pendragon.ideasonboard.com>
+ <20250514230452.622hktklws6kka2y@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250516081813.3241129-1-hongao@uniontech.com>
-X-Proofpoint-GUID: Gmd0H081jZ3M2F7xe5jbcEeoSHp-QiMF
-X-Authority-Analysis: v=2.4 cv=J/Sq7BnS c=1 sm=1 tr=0 ts=68311442 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=iHwBjlyiAAAA:8 a=EUspDBNiAAAA:8 a=LBJxUm3s-jpqg1vTE9gA:9
- a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=uNSKXYNwxGiU6LD0JREI:22
-X-Proofpoint-ORIG-GUID: Gmd0H081jZ3M2F7xe5jbcEeoSHp-QiMF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI0MDAwNCBTYWx0ZWRfX8EZU1VDvbPI/
- YaMcZwWG4YX1wuR5Dppi6WpfftmgiTLqEChQ6zJ9wGY1WNts2w+DO2p1ihIGVmfMLQ1Lhuuz20i
- 8Qa0NMqm6GpgFVCnexM+754TEnPNaO8+cFOYCyh8tU0bABRV3Vr18lkOulRO2PtMCt5dy8wcx6u
- DHLknpBteROrsMiF3Z1OFMzzieNguELLN1NnWANMfCdXfh0/j7WBvdYNx0edh0GeyZlKnpS6I3Z
- yx5Ky0jR2Z115AYzMUuHQ/QrVJ4pc+FvN9mCbRQCxRUlyb8xDGqJ+a9skU7knHOLwTBqMdw/Wmc
- 6UGvIRfT+pwCnso34T4do+WjiTp7sNBXGIyMPSq9sXApgj6ppQW6sb7fewJcluQ++kyuLR4IA1W
- TIIKwBZ7PREjZnkQOH8D+uKHtSabiQ2V7qgaomnkcn5HoLfvpZtXMi3WFkxoccZwEDWoIIXc
+In-Reply-To: <20250514230452.622hktklws6kka2y@pengutronix.de>
+X-Authority-Analysis: v=2.4 cv=WJl/XmsR c=1 sm=1 tr=0 ts=68311525 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=I8cxGwhVmaP2LlvBdBMA:9 a=CjuIK1q_8ugA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-ORIG-GUID: rLkg5oRS0dVA2dTtjsJ-vrMtRmQ1o3RH
+X-Proofpoint-GUID: rLkg5oRS0dVA2dTtjsJ-vrMtRmQ1o3RH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI0MDAwNCBTYWx0ZWRfX5d5020Omkuj3
+ oOP6SN13Y8azuMnpe+y3Pwr1rYyXYe8e/I2u90wdNV3vvrgOhL0ey5t3EluNw0TUlbgwlVSoNwD
+ MhgA816t0Mv6Qn0E1dBbHS6r3VInpC/KbI8LlmsRCEasRquYExSRzJpNUz4TRBHb1Y7Gd1glMax
+ 9E/+yjc4ir4k+Mf+soxNQe0c8P0+vziayysCu2PKj6fgDdbz2i9LtXYTdl8XdKjDPvq+D+kARuX
+ fX2CszQrlyAxuWClPJ6fC0CnP9Yc1grsAfn3szuI0T79CXcSfE6CS481jSt07BwpTZ/Oour/AIl
+ fRvc/IAMZ78s7pUZZ6Z1m5jGj6s5/oEqchyf6OI2zyr/SJZIWPbhrLU8zjqrdj55IPTlQm8Xxgb
+ rNIayFfrMeJlXJQA4jZqp2f/hZlYfdatH26G5WxMYm4tIYaqgr5BtqZjB2l/p0j+i2ASbj7q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-23_07,2025-05-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 mlxlogscore=721 suspectscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ spamscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 phishscore=0
+ mlxlogscore=716 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2505160000 definitions=main-2505240004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,14 +129,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 16, 2025 at 04:18:13PM +0800, hongao wrote:
-> Replace the direct use of magic number '0' with the DRM_FORCE_UNSPECIFIED
-> macro to improve code readability.
+On Thu, May 15, 2025 at 01:04:52AM +0200, Marco Felsch wrote:
+> Hi Laurent,
 > 
-> Signed-off-by: hongao <hongao@uniontech.com>
+> On 25-05-15, Laurent Pinchart wrote:
+> > Hi Marco,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, May 15, 2025 at 12:24:51AM +0200, Marco Felsch wrote:
+> > > Make use of the drm_bridge::driver_private data instead of
+> > > container_of() wrapper.
+> > 
+> > I suppose this is a personal preference, but I like usage of
+> > container_of() better. In my opinion it conveys better that struct
+> > fsl_ldb "unherits" from struct drm_bridge.
 > 
+> Yes, we can drop this patch if container_of() or to_fsl_ldb() is
+> preferred. I just saw the driver_private field and why not making use of
+> it since we do that a lot, same is true for container_of :)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+container_of() generally is a more preferred form, because it provides
+type safety. It doesn't perform blind casts. Using driver_data involves
+using void pointer, which can be cast to any structure pointer. It is
+easy to make hard-to-notice mistakes.
 
 -- 
 With best wishes
