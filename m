@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9B3AC2ED9
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 12:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49031AC2EE5
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 12:29:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64A7010E213;
-	Sat, 24 May 2025 10:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E74B10E088;
+	Sat, 24 May 2025 10:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QvuF6eQk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RCXmTDft";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA0610E211;
- Sat, 24 May 2025 10:20:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B684210E012;
+ Sat, 24 May 2025 10:29:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748082020; x=1779618020;
+ t=1748082571; x=1779618571;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=KAzAK7TgNRgfMo1XSxTNbqWPQmUnZXND6HQQpmqPXwQ=;
- b=QvuF6eQkqyqXqD6ztHsblXOsiEMZVT5jsYjoB5gdKou+tlYxHzsle2H/
- oaj9X2XZoJPRMRuO07KQor4NwxOcL9HIf5spz7SRa0g6/CqRCASwopw/u
- P3YDUXyRDmOLwjIDA2SycdsfJV5ymEDpYYa1Dq3t7If56xB1Yni3nSrGm
- 038gyna59VeMeA0ZubrQPAN8joMa//8SRGmDmBgp8qAs4UdccpYGVs6DJ
- imwLNaIHegjKnbN2VoMaJqL+X90oHGip2hrsQkkC/cgG/tz1A8J0w7uPD
- 0OYC+WVJ9jaLhE2ylADTrxzlk9xJcjQL8D9ez93RT5kKm1fmMkE2vhnUP g==;
-X-CSE-ConnectionGUID: qRqT3qIuR1+Ds3U7dufSJw==
-X-CSE-MsgGUID: XxyhQOWiRpChFVx8JaDo7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49241369"
-X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; d="scan'208";a="49241369"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2025 03:20:18 -0700
-X-CSE-ConnectionGUID: UtDEC9GMRJ229+0hrrPFMw==
-X-CSE-MsgGUID: vhFYDXKRSCaVzMriwIjFzA==
+ bh=s6UiEN1Jm7OVCrzrD4ZPy3L4yqbPYUdJaL8UHsYSCNY=;
+ b=RCXmTDftQCBmYUmiVN7O7vpaaXcoAtV29VxgDD2yOOOtsA3gqa5k7DDA
+ jMjQWnW+Tj5jYj/Hwe0K0Yzm2WLNpYuq6b5kXfD0OsXM1bfYH4MB76rSh
+ dGlAiWmCCETwTV72JayxXE5/vp9O1BOZZnivBun1wmdOBQ0g1PhvitMnc
+ JjesNxUUJVE/bscWmLQAaDXNmu3aUhhplikuRDVXSi/HvS+GY+kdNNYnL
+ Vy3fWRLWdXfElqFjglSMagKNOV3/Pgf3I9R8QGxs4lYnDUv6A/Gt4VgkA
+ P3b4YMug+f114n+N3MkRRuzyhnBi4l0iyts5iDx3uM2zNNc+v+1k6r9gG g==;
+X-CSE-ConnectionGUID: 3m3b3oLpTQOpDfkJS6UkVQ==
+X-CSE-MsgGUID: pGjCgRVUTMKx7VvQp5VL4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="75522099"
+X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; d="scan'208";a="75522099"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2025 03:29:30 -0700
+X-CSE-ConnectionGUID: HrBfmwpQQvqMks20J/JY6g==
+X-CSE-MsgGUID: a+CwcV1LRRSjgimO27u1cw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; d="scan'208";a="146382875"
+X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; d="scan'208";a="146700425"
 Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2025 03:20:13 -0700
-Date: Sat, 24 May 2025 13:20:10 +0300
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2025 03:29:25 -0700
+Date: Sat, 24 May 2025 13:29:22 +0300
 From: Raag Jadav <raag.jadav@intel.com>
 To: Alexander Usyskin <alexander.usyskin@intel.com>
 Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -60,17 +60,16 @@ Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
  Reuven Abliyev <reuven.abliyev@intel.com>,
  Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomas Winkler <tomasw@gmail.com>
-Subject: Re: [PATCH v10 06/10] drm/i915/nvm: add nvm device for discrete
- graphics
-Message-ID: <aDGdWof1HfViERND@black.fi.intel.com>
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 08/10] drm/xe/nvm: add on-die non-volatile memory
+ device
+Message-ID: <aDGfgubuFfa3e0K_@black.fi.intel.com>
 References: <20250515133345.2805031-1-alexander.usyskin@intel.com>
- <20250515133345.2805031-7-alexander.usyskin@intel.com>
+ <20250515133345.2805031-9-alexander.usyskin@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250515133345.2805031-7-alexander.usyskin@intel.com>
+In-Reply-To: <20250515133345.2805031-9-alexander.usyskin@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +85,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 15, 2025 at 04:33:41PM +0300, Alexander Usyskin wrote:
-> Enable access to internal non-volatile memory on
-> DGFX devices via a child device.
+On Thu, May 15, 2025 at 04:33:43PM +0300, Alexander Usyskin wrote:
+> Enable access to internal non-volatile memory on DGFX
+> with GSC/CSC devices via a child device.
 > The nvm child device is exposed via auxiliary bus.
 
 ...
 
-> +void intel_nvm_init(struct drm_i915_private *i915)
+> +void xe_nvm_init(struct xe_device *xe)
 > +{
 
-Lucas recently revamped xe driver to address this, so let's not hide bugs
-and return an error where possible.
+Same as patch 6, please handle errors.
 
-> +	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
 > +	struct intel_dg_nvm_dev *nvm;
 > +	struct auxiliary_device *aux_dev;
 > +	int ret;
 > +
-> +	/* Only the DGFX devices have internal NVM */
-> +	if (!IS_DGFX(i915))
+> +	if (!xe->info.has_gsc_nvm)
+> +		return;
+> +
+> +	/* No access to internal NVM from VFs */
+> +	if (IS_SRIOV_VF(xe))
 > +		return;
 > +
 > +	/* Nvm pointer should be NULL here */
-> +	if (WARN_ON(i915->nvm))
+> +	if (WARN_ON(xe->nvm))
 > +		return;
 > +
-> +	i915->nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
-> +	if (!i915->nvm)
+> +	xe->nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
+> +	if (!xe->nvm)
 > +		return;
 > +
-> +	nvm = i915->nvm;
+> +	nvm = xe->nvm;
 > +
-> +	nvm->writeable_override = true;
+> +	nvm->writeable_override = false;
 > +	nvm->bar.parent = &pdev->resource[0];
 > +	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
 > +	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
+
+Just out of curiosity, why off by one? Aren't ioremaps all PAGE_SIZEd?
+
 > +	nvm->bar.flags = IORESOURCE_MEM;
 > +	nvm->bar.desc = IORES_DESC_NONE;
 > +	nvm->regions = regions;
@@ -132,20 +136,20 @@ and return an error where possible.
 > +	aux_dev->id = (pci_domain_nr(pdev->bus) << 16) |
 > +		       PCI_DEVID(pdev->bus->number, pdev->devfn);
 
-Why not just pci_dev_id()?
+Ditto as patch 6.
 
 > +	aux_dev->dev.parent = &pdev->dev;
-> +	aux_dev->dev.release = i915_nvm_release_dev;
+> +	aux_dev->dev.release = xe_nvm_release_dev;
 > +
 > +	ret = auxiliary_device_init(aux_dev);
 > +	if (ret) {
-> +		drm_err(&i915->drm, "i915-nvm aux init failed %d\n", ret);
+> +		drm_err(&xe->drm, "xe-nvm aux init failed %d\n", ret);
 > +		return;
 > +	}
 > +
 > +	ret = auxiliary_device_add(aux_dev);
 > +	if (ret) {
-> +		drm_err(&i915->drm, "i915-nvm aux add failed %d\n", ret);
+> +		drm_err(&xe->drm, "xe-nvm aux add failed %d\n", ret);
 > +		auxiliary_device_uninit(aux_dev);
 > +		return;
 > +	}
