@@ -2,81 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040ADAC2FC1
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 14:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A81AC2FDE
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 15:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B9010E069;
-	Sat, 24 May 2025 12:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B65D10E075;
+	Sat, 24 May 2025 13:34:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="NJKkJC1q";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kBTLLont";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990DA10E069
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 12:47:25 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id
- d75a77b69052e-47664364628so8317471cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 05:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1748090845; x=1748695645;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ijUDYdDsiCYuyjQz6cOVB4vV8ZrUp3UUkJZE5ynxgOI=;
- b=NJKkJC1qfMdm1+cqA/jZe8tIyFyWYzOOpw0oI+nKAOCLdEKahfqfKXjxOCWFbnuznM
- 24+QJgWcgDkQzABiHmg+RJvIjpiFo9sD04wOnZNh3lDFWjY7Q1+q0j9dm25zkVXaYvcG
- gHevfKDGi35DTZyc+iJ7ggfD5i7Wdh8by5XhU/JlEJpatpD+IQCPZDkxbsHDiCRnvqMI
- tvI6JKlOUwMMs+YMHfVkswFIuiJpMsip930nr8/BK6j0eqRG/oO7kTROdgevOI/v8WBa
- gMi8A9/2D/NmN0VLxXdKGtq9x4iRjD7n3OfaABdXlYVjkJDoDaQheYDOpg/uWqH13eT1
- tJMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748090845; x=1748695645;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ijUDYdDsiCYuyjQz6cOVB4vV8ZrUp3UUkJZE5ynxgOI=;
- b=sUKLuT/kOsatgZeBkyrQUwz55AKUqJinY5I/LI7w3gaU+CWZfcq8fceXc4mRf2cJ8U
- XzDNi0mOVxsge1C6GLSBBS8eqTIv2vVQx3AUwnFX3NWMjskc3VP+OFZE1vvUQebAmROI
- kpN4kGx/tbGnVGT9kGKvO2iCtlaXwQ7pMXm5O7jXle7ycZkgZL6lACb3aVGyeaOFfOl5
- 5mli4KR5k5kwVtUusozntwzyA9sQHJisJxzbWA/zJtPU6VciyRfJNdLMPEpHbT8nHXY8
- NhSley/Nt1i4M05IxkC8HW+MOIF06KCnH8rFpRpup39GTim/JXEtqgXIpRRm+WucQOxx
- uCgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaf4Q3EyjVZ7Flq/x4+CHAQ5Bf1gyjTru6ykpMqNh/9gsEsAGTlkwQcFZrCfKSOCBumCB+w5KpMSE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxP3egtJFRr4HXuu0wfDlhO6I3Loez8bTTZw0akeTiTvPzWxzXk
- teuO/Kr6Fc7NfMgt7f0MbotzTt94UW6iZmHzz2TEdnb+zCZ5fggrgxqv9CnNbWUWXsGkx6L6Y66
- stb0z8bXyghUZqr6ZZNkSa1UEm0kxGH7LLYziBf4VqA==
-X-Gm-Gg: ASbGncsZCjs1Hf7qnYhHXPu9p3usfuKnlLYb104u1B+3dnEGdlKikWS5gpBYT1UgC+f
- 6I1Zvzc/s4j9RJncBSuvESNWx2JU54d0zJbLqxHHVLX2HJ30gp486AH0k9AHkehMrQvGd97ckd6
- C/WHlGlbDvsHez5JIKF9JyleYyZvsYc8Q=
-X-Google-Smtp-Source: AGHT+IGJrpaXggbO0XyLY6WU6SWTgZC9F8s7Hf3WwPDR/lbtMX7FQqhOd0dkVj8JEzPGo+APzIftTHlFkeC/LSVLiBg=
-X-Received: by 2002:a05:622a:53cb:b0:494:9e0e:2129 with SMTP id
- d75a77b69052e-49f3505f1femr51220641cf.22.1748090844750; Sat, 24 May 2025
- 05:47:24 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4EA10E043;
+ Sat, 24 May 2025 13:34:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6XGC/vbTWuPr5wzWFaQ41n5nWcPDQ8q/9BamqbngT8k=; b=kBTLLontKYTptUlp4Tc5at2kBH
+ xDRVB4+wgO3iyowZC4PuCNlH3i+mheqZCxt+/5a/BAaLb2HLSFTHkGYfw7cpWAPHfm3bHRBUFkZkP
+ FJDXwYgPYNcHtXC9XAVnG6b+oiXkc+7EsBJS7/7E/swIoqwdvdgCtC1MUO5A7krF/ymbSQL3MtHSr
+ qv/faHG3/ocYpl96bs3lIK8ketgbiVgFKWvSB8FI3cpiSiP/TrPBFaTMS6wGDnCTnke2zhVwLRbH1
+ 9axhPHv8GJzVkvYDKMcxf74OzzL3QwHO8dqOt5WuCGwE7cshnGFOiT78Bg+hYZwWp/9pT3a78P8uo
+ 6gS0tSKQ==;
+Received: from [189.7.87.163] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uIp0e-00CZSH-Pa; Sat, 24 May 2025 15:33:57 +0200
+Message-ID: <791df72e-ff87-42e3-a4fc-527aa693a155@igalia.com>
+Date: Sat, 24 May 2025 10:33:48 -0300
 MIME-Version: 1.0
-References: <20250522085149.3361598-1-jason-jh.lin@mediatek.com>
-In-Reply-To: <20250522085149.3361598-1-jason-jh.lin@mediatek.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Sat, 24 May 2025 13:47:13 +0100
-X-Gm-Features: AX0GCFvBeLD8sRxyqEm85OLAoQZjo4C2fe9icGhm_Cxkm7__yWuuXUFz1KdCsJ8
-Message-ID: <CAPj87rNV_48pQF+gv3HEx+-n1WvKOoX2u_HRW5w8DrgEAigk9w@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Add wait_event_timeout when disabling plane
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, 
- Paul-PL Chen <paul-pl.chen@mediatek.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- Zhenxing Qin <zhenxing.qin@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, 
- Xavier Chang <xavier.chang@mediatek.com>, Fei Shao <fshao@chromium.org>, 
- Chen-yu Tsai <wenst@chromium.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
+ on running
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <4242fd242c7e16d0ecdf11c5d0ad795efda727a5.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <4242fd242c7e16d0ecdf11c5d0ad795efda727a5.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,31 +75,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+Hi Philipp,
 
-On Thu, 22 May 2025 at 09:52, Jason-JH Lin <jason-jh.lin@mediatek.com> wrote:
-> Our hardware registers are set through GCE, not by the CPU.
-> DRM might assume the hardware is disabled immediately after calling
-> atomic_disable() of drm_plane, but it is only truly disabled after the
-> GCE IRQ is triggered.
->
-> Additionally, the cursor plane in DRM uses async_commit, so DRM will
-> not wait for vblank and will free the buffer immediately after calling
-> atomic_disable().
->
-> To prevent the framebuffer from being freed before the layer disable
-> settings are configured into the hardware, which can cause an IOMMU
-> fault error, a wait_event_timeout has been added to wait for the
-> ddp_cmdq_cb() callback,indicating that the GCE IRQ has been triggered.
+Sorry, I was OoO for a couple of weeks.
 
-Waiting up to 500ms for each plane to be disabled is ... not ideal.
-Especially as multiple planes can be disabled at once. This may happen
-dynamically during runtime, e.g. when a video is playing and a user
-moves their cursor over the plane to make the UI controls visible.
+On 13/05/25 04:26, Philipp Stanner wrote:
+> On Sat, 2025-05-03 at 17:59 -0300, Maíra Canal wrote:
+>> When the DRM scheduler times out, it's possible that the GPU isn't
+>> hung;
+>> instead, a job may still be running, and there may be no valid reason
+>> to
+>> reset the hardware. This can occur in two situations:
+>>
+>>    1. The GPU exposes some mechanism that ensures the GPU is still
+>> making
+>>       progress. By checking this mechanism, we can safely skip the
+>> reset,
+>>       rearm the timeout, and allow the job to continue running until
+>>       completion. This is the case for v3d and Etnaviv.
+>>    2. TDR has fired before the IRQ that signals the fence.
+>> Consequently,
+>>       the job actually finishes, but it triggers a timeout before
+>> signaling
+>>       the completion fence.
+>>
+>> These two scenarios are problematic because we remove the job from
+>> the
+>> `sched->pending_list` before calling `sched->ops->timedout_job()`.
+>> This
+>> means that when the job finally signals completion (e.g. in the IRQ
+>> handler), the scheduler won't call `sched->ops->free_job()`. As a
+>> result,
+>> the job and its resources won't be freed, leading to a memory leak.
+> 
+> We have discussed this and discovered another, related issue. See
+> below.
+> 
+>>
+>> To resolve this issue, we create a new `drm_gpu_sched_stat` that
+>> allows a
+>> driver to skip the reset. This new status will indicate that the job
+>> should be reinserted into the pending list, and the driver will still
+>> signal its completion.
+>>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
+>>   include/drm/gpu_scheduler.h            |  2 ++
+>>   2 files changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index
+>> 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881
+>> 135dbc639a9b4 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct
+>> work_struct *work)
+> 
+> So, the fundamental design problem we have is that the scheduler
+> assumes that when a timeout occurs, the GPU is completely hung. Your
+> patch addresses another aspect of that very problem.
+> 
+> But if the GPU is not hung, it can signal the hardware fence at any
+> moment. So that's racy.
 
-I think this should be handled through the atomic_commit() handler,
-with asynchronous tracking of the state, instead of the hard block
-here.
+Unfortunately, this already happens, which would be the second point of
+the list in the commit message.
 
-Cheers,
-Daniel
+> 
+> It could, theoretically, lead to backend_ops.timedout_job() being
+> called with a signaled job, i.e., a job that is not really timed out.
+> 
+> Would you say this is *the same* issue you're describing, or a separate
+> one? It seems to me that it's a separate one.
+
+It isn't the issue that I'm describing in the sense that the scheduler
+itself won't do anything to address this issue. However, several drivers
+already handle with this situation internally by checking the result of
+`dma_fence_is_signaled()` and bailing out of the timeout if the job is
+signaled. We would provide a proper status code for those drivers and
+avoid memory leaks.
+
+> 
+> Anyways. What I propose is that we wait until your series here has been
+> merged. Once that's done, we should document that drivers should expect
+> that backend_ops.timedout_job() can get called with a job that has not
+> actually timed out, and tell the scheduler about it through
+> DRM_GPU_SCHED_STAT_NOT_HANGING. Then the scheduler reverts the
+> timeout's actions, as you propose here.
+> 
+> 
+>>   			job->sched->ops->free_job(job);
+>>   			sched->free_guilty = false;
+>>   		}
+>> +
+>> +		/*
+>> +		 * If the driver indicated that the GPU is still
+>> running and wants to skip
+>> +		 * the reset, reinsert the job back into the pending
+>> list and realarm the
+>> +		 * timeout.
+>> +		 */
+>> +		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
+>> +			spin_lock(&sched->job_list_lock);
+>> +			list_add(&job->list, &sched->pending_list);
+>> +			spin_unlock(&sched->job_list_lock);
+>> +		}
+> 
+> btw, if you go for Matt's requeue work item approach, it'll be better
+> to write a helper function with a clear name for all that.
+> 
+> drm_sched_job_reinsert_on_false_timout() maybe.
+
+Thanks for the review, I'll send v2 soon.
+
+Best Regards,
+- Maíra
+
+> 
+> 
+> P.
+> 
+> 
+>>   	} else {
+>>   		spin_unlock(&sched->job_list_lock);
+>>   	}
