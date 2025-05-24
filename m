@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE04AC2E7C
-	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 11:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56742AC2E7F
+	for <lists+dri-devel@lfdr.de>; Sat, 24 May 2025 11:19:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C9B10E1DC;
-	Sat, 24 May 2025 09:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B28E510E1F8;
+	Sat, 24 May 2025 09:19:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iynCZPQb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qAumzKzu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2253510E19B
- for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 09:19:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7E610E1E6
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 May 2025 09:19:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AA27D4ABAA;
- Sat, 24 May 2025 09:19:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 43033C4CEEE;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1D78F5C4C8E;
+ Sat, 24 May 2025 09:16:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E8CAC4CEF0;
  Sat, 24 May 2025 09:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1748078354;
- bh=ByKRfmUS7oGlsvSeZn4NcYMz3p4i4dHR18AvjwkAKbk=;
+ bh=eHBYIf5NbtgRccmvXhdOxhwbZsizTYF1aR36WSqYoS4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=iynCZPQbT3Sz4Zy9uMq98gV5UhpEYDqrH+RTj+/b7rlw8dMkEUz8M0nn9ne2bxWGp
- xcC6deuVA7q0rIqRcy6IRjYRvE2qHkORmte41zZ0V1nfxnRMojLLsw7kuWdFh1Akhh
- eMmqCxW0Y2LGPYCsIFmlADpysJx4zEP+BHPcPG0i7HMt3fI4fG+dK0sAOhMm424SDl
- eEx1IxRPonIZ51op64P5I2iSWWXMwgJ9isgXn4B+0TlaFUqiQRvEGaZqx85vBvvPn1
- kIF6VtyxkD9IZkaQOtAYheNcZBHJZHU4J6t5itp3I71PgpzlEaObVr637nXf5QtoBB
- Y5jw1W2m5muWw==
+ b=qAumzKzuI2mNli2M2x3PM50oh3QmueA0YTKLjebBj5Xuy7duLBQadOZazIl0CyLRL
+ SeGYVqEv2AQuLIk21/h8WN/tsRL/0uM5XUX5pVOAzkdSbpW+ayAEJZ7Ic0IZZFojIq
+ URTSnaLFUC/YwfWhRmzveGxmH2764y+N3GaP7mA/irEQcZ9sgh2B2aN50JbfCeRvg7
+ GF9KKCvKxB+sgL2FoNG7n1u4qIerUZtmtKH60Jrt8TaUlO/A2voJ/bC2yuGlhhF8Js
+ mdtWACGCYdY2UDpZrH+f5HauvjoE5a0J35FQDFEcpVBqS7FtdZMTJGyfYVWs+wOa9a
+ b6bVDhbAyfxqg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 328D2C54FB3;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE57C54F32;
  Sat, 24 May 2025 09:19:14 +0000 (UTC)
 From: Jens Glathe via B4 Relay
  <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
-Date: Sat, 24 May 2025 11:19:09 +0200
-Subject: [PATCH v3 2/6] drm/panel-edp: add N160JCE-ELL CMN panel for Lenovo
- Thinkbook 16
+Date: Sat, 24 May 2025 11:19:10 +0200
+Subject: [PATCH v3 3/6] usb: misc: onboard_usb_dev: Add Bison Electronics
+ Inc. Integrated Camera
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250524-tb16-dt-v3-2-17e26d935e73@oldschoolsolutions.biz>
+Message-Id: <20250524-tb16-dt-v3-3-17e26d935e73@oldschoolsolutions.biz>
 References: <20250524-tb16-dt-v3-0-17e26d935e73@oldschoolsolutions.biz>
 In-Reply-To: <20250524-tb16-dt-v3-0-17e26d935e73@oldschoolsolutions.biz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -62,12 +62,12 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
  Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748078352; l=1516;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748078352; l=2558;
  i=jens.glathe@oldschoolsolutions.biz; s=20240919;
  h=from:subject:message-id;
- bh=tHgac9hVQDbAaXNwsVj/n84C1GFybdnTbmVUs8xBXGE=;
- b=/8UFrqByg0mrieUk3yMAUUIrl0E/UZ1a0wAIb4reDpuqJnN3GPadDXgqdfZn7cBjOM7oR+Ms+
- 7R08QqyfqOoAnNLxiN0VLx/KrrgbYA+pScVORVggiOMbNxP8zUH6FRA
+ bh=Nf3v/6LRLg57RjwhplrovE4DP5a0Ez2PkQJ5KdkIkUk=;
+ b=UUu8T87PCvDBhSgrWhYhoqSLBjS1IjV17RIm4Y2zvhNig0caBaISic1YNMuiADtYri8xUToQ1
+ 4B/GJz1fh5GABzZdurD3YKJ7YtiwI5A4AOT30dg7vx6YvIFbBKDlkeV
 X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
  pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
 X-Endpoint-Received: by B4 Relay for
@@ -91,37 +91,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-Panel is widely used in 16" laptops, and also in my Thinkbook 16 G7 QOY.
+The Camera is built into the Thinkbook 16 G7 QOY and directly attached on the
+usb_2 controller (dwc3 USB2 only). It has a separate power supply that needs
+to be controlled for PM.
 
-CMN N160JCE-ELL EDID
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 0d ae 2b 16 00 00 00 00
-20 20 01 04 a5 22 16 78 03 28 65 97 59 54 8e 27
-1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-a6 00 58 d7 10 00 00 18 35 30 80 a0 70 b0 24 40
-30 20 a6 00 58 d7 10 00 00 18 00 00 00 fd 00 28
-3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe
-00 4e 31 36 30 4a 43 45 2d 45 4c 4c 0a 20 00 95
+Add the support for this device for the power supply.
 
 Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/misc/onboard_usb_dev.c | 2 ++
+ drivers/usb/misc/onboard_usb_dev.h | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 90e8c154a9788ad40e2101fdf39cbd92f2e0773a..ec9622e0a313f4a228618f119e2aaa812f63d5a4 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1973,6 +1973,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d4, &delay_200_500_e80_d50, "N140HCA-EAC"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d6, &delay_200_500_e80_d50, "N140BGA-EA4"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N160JCE-ELL"),
+diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+index 1048e3912068ced166c76838cf7306d86e192fe4..17b1f345b6b65bf25e68e77b0a345936825e1d04 100644
+--- a/drivers/usb/misc/onboard_usb_dev.c
++++ b/drivers/usb/misc/onboard_usb_dev.c
+@@ -569,6 +569,7 @@ static struct platform_driver onboard_dev_driver = {
+ #define VENDOR_ID_TI		0x0451
+ #define VENDOR_ID_VIA		0x2109
+ #define VENDOR_ID_XMOS		0x20B1
++#define VENDOR_ID_BISON		0x5986
  
- 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_p2e200, "MNC207QS1-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_p2e200, "MNE007JA1-2"),
+ /*
+  * Returns the onboard_dev platform device that is associated with the USB
+@@ -677,6 +678,7 @@ static const struct usb_device_id onboard_dev_id_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817 3.1 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_VIA, 0x2817) }, /* VIA VL817 2.0 HUB */
+ 	{ USB_DEVICE(VENDOR_ID_XMOS, 0x0013) }, /* XMOS XVF3500 Voice Processor */
++	{ USB_DEVICE(VENDOR_ID_BISON, 0x1198) }, /* Bison Electronics Inc. Integrated Camera */
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(usb, onboard_dev_id_table);
+diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+index e017b8e22f936be66da73789abb4f620e6af4d6a..816d9ce71eaddc7ab0cb4517558dd44a591d6c28 100644
+--- a/drivers/usb/misc/onboard_usb_dev.h
++++ b/drivers/usb/misc/onboard_usb_dev.h
+@@ -115,6 +115,13 @@ static const struct onboard_dev_pdata xmos_xvf3500_data = {
+ 	.is_hub = false,
+ };
+ 
++static const struct onboard_dev_pdata bison_intcamera_data = {
++	.reset_us = 1000,
++	.num_supplies = 1,
++	.supply_names = { "vdd" },
++	.is_hub = false,
++};
++
+ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
+ 	{ .compatible = "usb424,2514", .data = &microchip_usb2514_data, },
+@@ -144,6 +151,7 @@ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usb2109,817", .data = &vialab_vl817_data, },
+ 	{ .compatible = "usb2109,2817", .data = &vialab_vl817_data, },
+ 	{ .compatible = "usb20b1,0013", .data = &xmos_xvf3500_data, },
++	{ .compatible = "usb5986,1198", .data = &bison_intcamera_data, },
+ 	{}
+ };
+ 
 
 -- 
 2.48.1
