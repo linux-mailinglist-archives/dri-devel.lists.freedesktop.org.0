@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A0BAC3534
-	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 16:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF25AC355D
+	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 17:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B28F10E035;
-	Sun, 25 May 2025 14:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA2C10E146;
+	Sun, 25 May 2025 15:18:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FdpaqHuT";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PL70pDid";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A59210E035
- for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 14:47:00 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-22e331215dbso16281415ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 07:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748184420; x=1748789220; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mUBZLDan2eHNaNoZcWdVDsVnGQBcMSxMokkMwlfK4G4=;
- b=FdpaqHuTSrxx/yvYF5pmEvWHv356zn4p/X791OS5cdE/bqGEHGuZMOPDglIvmDd07e
- L36BPnRX54MPfRGIXQAhd52fNRQSJk22jfKCbUySa60sHCzNc2VAvsD1lshh8LJSl7ih
- aQFeWAmYP/dycq+VOfPpvkevepDXBIydbw1r7fNP4JopYF3bX9hyPm+lk46ahGPr4qGf
- 2KYCxTeJ/zf2D2bOHjFfqJ04uAKuNg6iYyJ5CFjjEAnKfqI/72TFq6VuzB4vQFs5gWXk
- YJ+080JHgH5DrwKw/JVnsKfOmhscNJ8GoW1p2s5sSwGNO1+Exvnq4E3lLlnVFSZhpoQl
- pgXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748184420; x=1748789220;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mUBZLDan2eHNaNoZcWdVDsVnGQBcMSxMokkMwlfK4G4=;
- b=cbMg3nzWu28chzELYqEHn+xQI8GOGk62j1/neugKx2RK748aRjNcKYSBfG0ZyBLWVa
- px/MVrWhwTfVdiRKJMZxF3K8z6N2H4qFct6NjXzm0DCd5kpOy4ZMY2JOPiZXJl476OCO
- CUnzqVGyJHIIcCmgtP/uEHsIkqIXP0qfw2c7FNDc5Bwc1L1/1ROJoSd92K4e2zZDKun6
- 66h4jMBhy9Bp1Ry0AKTBpLuLvk9d71jhwKMnr8cHMdY/Wk3TIfkny8cSTCSQpumZO9J5
- aVBTn4j+Hafso2DP4spIu0Osfa0/zyqcEoXS+K77RZDDuDLAIvAaYtjr1QicjWMpeOgk
- NmPw==
-X-Gm-Message-State: AOJu0YzQiNJqgALni0yafcBLPa0B2xUP5gdoLc3cBVRNC0e5huzB+sVn
- RhSicYFiW+GjAZews5V6fcfPPnTKP3LXERYQuLtzjYrt0OwNb+QV3ZBn
-X-Gm-Gg: ASbGncuuRYcUyvvHmZZJMso7xjKTXyLusaLulsBRwRyE0ZF1KsF+FYuvUr3eyRCZweM
- DaMfnRwzZHE8DxEhEcC6zzOK+dTwot7I3FOxQT4H/O5NAFTJ5zWPspEI7E0YSosV0bpmM3MrmzG
- ZrB5NqG6N0wFt0D5oiDeZrNhMOcu1YC2RrCzNBzT7LRkxr89OHWPhsg0zGhiIUcPnNWtzeYniPE
- Utxwq1g8TfT+PtsWSl0I+Djd4bi9LqQjGe5IZUNiZJGjY158Ooqg1/gCgQ4zESUOc5uBa2PoKQR
- dG8GC1761uxANft2pLfOjc6lOfvVb2EzEK9Y/f9J/Zej5Jlf/14KxqeZ
-X-Google-Smtp-Source: AGHT+IHZ4ZVvOSCTSKofCdJ6GvvfD60Ebge+g2JstzGYgmfkSNm08awAgjeBbuyIeU+QYdMtvOSe3A==
-X-Received: by 2002:a17:903:2b03:b0:234:557d:a4cb with SMTP id
- d9443c01a7336-234557da6f4mr15822185ad.20.1748184419704; 
- Sun, 25 May 2025 07:46:59 -0700 (PDT)
-Received: from eleanor-wkdl.. ([140.116.96.205])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2341b732b58sm25121925ad.180.2025.05.25.07.46.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 May 2025 07:46:59 -0700 (PDT)
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
- simona@ffwll.ch, jonathanh@nvidia.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- jserv@ccns.ncku.edu.tw, visitorckw@gmail.com,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH] drm: tegra: Fix undefined behavior in left shift operation
-Date: Sun, 25 May 2025 22:46:50 +0800
-Message-ID: <20250525144650.2365704-1-eleanor15x@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B3410E146
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 15:17:52 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1748186268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=feFwAEFPYSJCCSD4LNh0uRQtxEOinldwcbLjXuUzXVo=;
+ b=PL70pDidLYpTetE49gWU8Hv43xZCWg7A2gh4kEiqHSJdIvYOPUqKHJWLRk1+08ZTTxKSFU
+ zKdfCYxZVzolh0eHJnJymCGnE95viKMB5jmmbrVLxkkKwi61BUNYnSPMnuWkXZHZvQ9Cqt
+ qDe/nQH38vqZ6Ecp5/2vQ04NLFfahDA=
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Michael Walle <mwalle@kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: [PATCH v8 0/4] drm/tidss: Add OLDI bridge support
+Date: Sun, 25 May 2025 20:47:17 +0530
+Message-Id: <20250525151721.567042-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,193 +68,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the C11 standard (ISO/IEC 9899:2011, 6.5.7):
-"If E1 has a signed type and E1 x 2^E2 is not representable in the result
-type, the behavior is undefined."
+Hello all,
 
-Shifting 1 << 31 causes signed integer overflow, which leads to undefined
-behavior.
+This patch series adds support for the dual OLDI TXes supported in Texas
+Instruments' AM62x and AM62Px family of SoCs. The OLDI TX hardware supports
+single-lvds, lvds-clone, and dual-lvds modes. These TXes have now been
+represented through DRM bridges within TI-DSS.
 
-Fix this by explicitly using 'BIT(31)' to ensure the shift operates on an
-unsigned type, avoiding undefined behavior.
+* Some history and hardware description for this patch series *
 
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+This patch series is a complete re-vamp from the previously posted series[1] and
+hence, the version index has been reset to v1. The OLDI support from that series
+was dropped and only the base support for AM62x DSS was kept (and eventually
+merged)[2].
+
+The OLDI display that the tidss driver today supports, could not be extended for
+the newer SoCs. The OLDI display in tidss is modelled after the DSS and OLDI
+hardware in the AM65x SoC. The DSS in AM65x SoC, has two video-ports. Both these
+video-ports (VP) output DPI video signals. One of the DPI output (from VP1) from
+the DSS connects to a singular OLDI TX present inside the SoC. There is no other
+way for the DPI from VP1 to be taken out of the SoC. The other DPI output
+however - the one from VP2 - is taken out of the SoC as is. Hence we have an
+OLDI bus output and a DPI bus output from the SoC. Since the VP1 and OLDI are
+tightly coupled, the tidss driver considers them as a single entity. That is
+why, any OLDI sink connects directly to the DSS ports in the OF graphs.
+
+The newer SoCs have varying DSS and OLDI integrations.
+
+The AM62x DSS also has 2 VPs. The 2nd VP, VP2, outputs DPI signals which are
+taken out of the SoC - similar to the AM65x above. For the VP1, there are 2 OLDI
+TXes. These OLDI TXes can only receive DPI signals from VP1, and don't connect
+to VP2 at all.
+
+The AM62Px SoC has 2 OLDI TXes like AM62x SoC. However, the AM62Px SoC also has
+2 separate DSSes. The 2 OLDI TXes can now be shared between the 2 VPs of the 2
+DSSes.
+
+The addition of the 2nd OLDI TX (and a 2nd DSS in AM62Px) creates a need for
+some major changes for a full feature experience.
+
+1. The OF graph needs to be updated to accurately show the data flow.
+2. The tidss and OLDI drivers now need to support the dual-link and the cloned
+   single-link OLDI video signals.
+3. The drivers also need to support the case where 2 OLDI TXes are connected to
+   2 different VPs - thereby creating 2 independent streams of single-link OLDI
+   outputs.
+
+Note that the OLDI does not have registers of its own. It is still dependent on
+the parent VP. The VP that provides the DPI video signals to the OLDI TXes, also
+gives the OLDI TXes all the config data. That is to say, the hardware doesn't
+sit on the bus directly - but does so through the DSS.
+
+In light of all of these hardware variations, it was decided to have a separate
+OLDI driver (unlike AM65x) but not entirely separate so as to be a platform
+device. The OLDI TXes are now being represented as DRM bridges under the tidss.
+
+
+* Regarding the Dependency Patches *
+Since the OLDI TXes have a hardware dependency with the parent VP(s), the OLDI
+configuration needs to happen before that VP is enabled for streaming. VP stream
+enable takes place in tidss_crtc_atomic_enable hook. I have posted patches[0]
+allowing DRM bridges to get pre-enabled before the CRTC of that bridge is
+enabled. Without those patches, some warnings or glitches may be observed.
+
+
+* Regarding the Drop of Clone Mode support *
+Another key point to note is that the support for clone mode has been dropped
+from the tidss OLDI driver, from v5 onwards. If the DT is configured for a clone
+mode, the driver will report an error and exit. This has been done because the
+driver was not supporting a specific case of clone mode where 2 OLDI sink
+bridges connected to the 2 OLDI TXes require active programming (unlike the
+simple-panels which do not). The driver does not support creation of two
+encoder-bridge pipelines (along with the parent tidss driver) to allow program
+any subsequent bridges (OLDI sinks and bridges thereafter).
+The code fragments that write the OLDI config to enable clone mode have been
+kept as they are, for future, but the driver will not continue to probe if it
+detects a clone mode configuration, for the time being.
+This drop of clone mode support can be undone by applying this _soft-tested_
+patch[6] on top of this series. This patch will revert the driver to previous
+revisions and will allow OLDI sinks that don't require active programming (for
+example: simple-panels) to work with the driver. Note that this isn't the ideal
+way to run clone mode, but it just works for any bridge pipeline after OLDT TX
+that does not require additional configuration after the OLDI (for example: a
+couple of simple lvds panels connected directly to the OLDI TXes in clone mode).
+
+
+These patches have been tested on AM625 based Beagleplay[3] platform with a
+Lincolntech LCD185 dual-lvds panel. The patches with complete support including
+the expected devicetree configuration of the OLDI TXes can be found in the
+"next_oldi-v8_1_tests" branch of my github fork[4]. This branch also has support
+for Microtips dual-lvds panel (SK-LCD1) which is compatible with the SK-AM625
+EVM platform.
+
+I'd appreciate it if somebody can test it, and report back if they observe any
+issues.
+
+Thanks,
+Aradhya
+
+* Important note about the authorship of patches *
+All the patches in the of this series were authored when I owned a "ti.com"
+based email id, i.e. <a-bhatia1@ti.com>. This email id is not in use anymore,
+and all the work done later has been part of my personal work. Since the
+original patches were authored using TI's email id, I have maintained the
+original authorships as they are, as well as their sign offs.
+
+I have further added another sign off that uses my current (and personal) email
+id, the one that is being used to send this revision, i.e.
+<aradhya.bhatia@linux.dev>.
+
 ---
-Compile test only
 
- drivers/gpu/drm/tegra/dc.c    |  2 +-
- drivers/gpu/drm/tegra/hdmi.c  |  8 ++++----
- drivers/gpu/drm/tegra/hdmi.h  |  8 ++++----
- drivers/gpu/drm/tegra/riscv.c |  2 +-
- drivers/gpu/drm/tegra/sor.h   | 14 +++++++-------
- 5 files changed, 17 insertions(+), 17 deletions(-)
+Change Log:
+V8:
+  - V8 brings some additional changes that are required to properly set up Clone
+    Mode in future:
+    * Allow for secondary OLDIs to have the "companion-oldi" devicetree property.
+    * Have separate Secondary OLDI enums for Dual-link and Clone Mode.
+    * Change get_oldi_mode() logic to distinguish between the 2 different types
+      of secondary OLDIs (dual-link and clone-mode). This is required because
+      the secondary OLDI of clone-mode needs to get registered as a drm_bridge
+      device (when we have the full support in future). The secondary OLDI of
+      dual-link mode does not need to be set up as a drm_bridge.
+  - Add "ti,am62l-dss" to the list of compatibles that cannot have the
+    "oldi-transmitter" property or multiple endpoints on port@0.
+  - Fix some typos and the one wrong variable type in the tidss_oldi driver.
+  - Drop Tomi Valkeinen's R-b from patches 2/4 and 4/4 because the logic has
+    fairly changed, and requires another pass at a review. Also drop
+    Rob Herring's R-b tag from patch 2/4.
+  - Drop T-b tags from Alexander Sverdlin and Michael Walle, from patch 4/4.
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 430b2eededb2..3047a380bb83 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2171,7 +2171,7 @@ static void tegra_crtc_atomic_enable(struct drm_crtc *crtc,
- 		u32 syncpt = host1x_syncpt_id(dc->syncpt), enable;
+V7:
+  - Use for_each_available_child_of_node() instead of for_each_child_of_node()
+    to parse through the OLDI TX device nodes, as recommended by Alexander
+    Sverdlin.
+  - Rebase to drm-misc-next.
+    As part of this, update the bridge attach part of the code, as encoders are
+    now passed as a parameter in the drm_bridge_attach() call after Maxime
+    Ripard's change in commit 98007a0d56b0
+    ("drm/bridge: Add encoder parameter to drm_bridge_funcs.attach").
+  - Add Alexander Sverdlin's T-b tag in patch 4/4, and Tomi Valkeinen's R-b in
+    patch 3/4.
+
+V6:
+  - Add patch 3/4: ("drm/tidss: Add 'AM65X_' prefix to OLDI identifiers"),
+    to segregate the pre-existing OLDI code intended for AM65x, from the
+    new-coming OLDI bridge driver related code.
+  - Cosmetic changes suggested by Tomi Valkeinen in patch 4.
+  - Rebase to latest linux-next (next-20250226).
+  - Add Rob Herring's R-b in patch-2, and Tomi Valkeinen's R-b tags in
+    patches 2 and 4.
  
- 		if (dc->soc->has_nvdisplay)
--			enable = 1 << 31;
-+			enable = BIT(31);
- 		else
- 			enable = 1 << 8;
- 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index e705f8590c13..524b46a297be 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1719,7 +1719,7 @@ static const struct tegra_hdmi_config tegra20_hdmi_config = {
- 	.tmds = tegra20_tmds_config,
- 	.num_tmds = ARRAY_SIZE(tegra20_tmds_config),
- 	.fuse_override_offset = HDMI_NV_PDISP_SOR_LANE_DRIVE_CURRENT,
--	.fuse_override_value = 1 << 31,
-+	.fuse_override_value = BIT(31),
- 	.has_sor_io_peak_current = false,
- 	.has_hda = false,
- 	.has_hbr = false,
-@@ -1729,7 +1729,7 @@ static const struct tegra_hdmi_config tegra30_hdmi_config = {
- 	.tmds = tegra30_tmds_config,
- 	.num_tmds = ARRAY_SIZE(tegra30_tmds_config),
- 	.fuse_override_offset = HDMI_NV_PDISP_SOR_LANE_DRIVE_CURRENT,
--	.fuse_override_value = 1 << 31,
-+	.fuse_override_value = BIT(31),
- 	.has_sor_io_peak_current = false,
- 	.has_hda = true,
- 	.has_hbr = false,
-@@ -1739,7 +1739,7 @@ static const struct tegra_hdmi_config tegra114_hdmi_config = {
- 	.tmds = tegra114_tmds_config,
- 	.num_tmds = ARRAY_SIZE(tegra114_tmds_config),
- 	.fuse_override_offset = HDMI_NV_PDISP_SOR_PAD_CTLS0,
--	.fuse_override_value = 1 << 31,
-+	.fuse_override_value = BIT(31),
- 	.has_sor_io_peak_current = true,
- 	.has_hda = true,
- 	.has_hbr = true,
-@@ -1749,7 +1749,7 @@ static const struct tegra_hdmi_config tegra124_hdmi_config = {
- 	.tmds = tegra124_tmds_config,
- 	.num_tmds = ARRAY_SIZE(tegra124_tmds_config),
- 	.fuse_override_offset = HDMI_NV_PDISP_SOR_PAD_CTLS0,
--	.fuse_override_value = 1 << 31,
-+	.fuse_override_value = BIT(31),
- 	.has_sor_io_peak_current = true,
- 	.has_hda = true,
- 	.has_hbr = true,
-diff --git a/drivers/gpu/drm/tegra/hdmi.h b/drivers/gpu/drm/tegra/hdmi.h
-index 8deb04223c18..57727703779b 100644
---- a/drivers/gpu/drm/tegra/hdmi.h
-+++ b/drivers/gpu/drm/tegra/hdmi.h
-@@ -119,7 +119,7 @@
- 
- #define ACR_SUBPACK_CTS(x) (((x) & 0xffffff) << 8)
- #define ACR_SUBPACK_N(x)   (((x) & 0xffffff) << 0)
--#define ACR_ENABLE         (1 << 31)
-+#define ACR_ENABLE         BIT(31)
- 
- #define HDMI_NV_PDISP_HDMI_CTRL					0x44
- #define HDMI_CTRL_REKEY(x)         (((x) & 0x7f) <<  0)
-@@ -130,7 +130,7 @@
- #define HDMI_NV_PDISP_HDMI_VSYNC_WINDOW				0x46
- #define VSYNC_WINDOW_END(x)   (((x) & 0x3ff) <<  0)
- #define VSYNC_WINDOW_START(x) (((x) & 0x3ff) << 16)
--#define VSYNC_WINDOW_ENABLE   (1 << 31)
-+#define VSYNC_WINDOW_ENABLE   BIT(31)
- 
- #define HDMI_NV_PDISP_HDMI_GCP_CTRL				0x47
- #define HDMI_NV_PDISP_HDMI_GCP_STATUS				0x48
-@@ -158,8 +158,8 @@
- #define SOR_PWR_SAFE_STATE_PD       (0 << 16)
- #define SOR_PWR_SAFE_STATE_PU       (1 << 16)
- #define SOR_PWR_SETTING_NEW_DONE    (0 << 31)
--#define SOR_PWR_SETTING_NEW_PENDING (1 << 31)
--#define SOR_PWR_SETTING_NEW_TRIGGER (1 << 31)
-+#define SOR_PWR_SETTING_NEW_PENDING BIT(31)
-+#define SOR_PWR_SETTING_NEW_TRIGGER BIT(31)
- 
- #define HDMI_NV_PDISP_SOR_TEST					0x56
- #define HDMI_NV_PDISP_SOR_PLL0					0x57
-diff --git a/drivers/gpu/drm/tegra/riscv.c b/drivers/gpu/drm/tegra/riscv.c
-index 6580416408f8..a5941239b194 100644
---- a/drivers/gpu/drm/tegra/riscv.c
-+++ b/drivers/gpu/drm/tegra/riscv.c
-@@ -19,7 +19,7 @@
- #define RISCV_BCR_CTRL_CORE_SELECT_RISCV		(1 << 4)
- #define RISCV_BCR_DMACFG				0x466c
- #define RISCV_BCR_DMACFG_TARGET_LOCAL_FB		(0 << 0)
--#define RISCV_BCR_DMACFG_LOCK_LOCKED			(1 << 31)
-+#define RISCV_BCR_DMACFG_LOCK_LOCKED			BIT(31)
- #define RISCV_BCR_DMAADDR_PKCPARAM_LO			0x4670
- #define RISCV_BCR_DMAADDR_PKCPARAM_HI			0x4674
- #define RISCV_BCR_DMAADDR_FMCCODE_LO			0x4678
-diff --git a/drivers/gpu/drm/tegra/sor.h b/drivers/gpu/drm/tegra/sor.h
-index 00e09d5dca30..4f404f22dd04 100644
---- a/drivers/gpu/drm/tegra/sor.h
-+++ b/drivers/gpu/drm/tegra/sor.h
-@@ -74,7 +74,7 @@
- #define SOR_CAP 0x14
- 
- #define SOR_PWR 0x15
--#define  SOR_PWR_TRIGGER			(1 << 31)
-+#define  SOR_PWR_TRIGGER			BIT(31)
- #define  SOR_PWR_MODE_SAFE			(1 << 28)
- #define  SOR_PWR_NORMAL_STATE_PU		(1 << 0)
- 
-@@ -154,7 +154,7 @@
- #define  SOR_SEQ_CTL_PU_PC(x)		(((x) & 0xf) <<  0)
- 
- #define SOR_LANE_SEQ_CTL 0x21
--#define  SOR_LANE_SEQ_CTL_TRIGGER		(1 << 31)
-+#define  SOR_LANE_SEQ_CTL_TRIGGER		BIT(31)
- #define  SOR_LANE_SEQ_CTL_STATE_BUSY		(1 << 28)
- #define  SOR_LANE_SEQ_CTL_SEQUENCE_UP		(0 << 20)
- #define  SOR_LANE_SEQ_CTL_SEQUENCE_DOWN		(1 << 20)
-@@ -163,7 +163,7 @@
- #define  SOR_LANE_SEQ_CTL_DELAY(x)		(((x) & 0xf) << 12)
- 
- #define SOR_SEQ_INST(x) (0x22 + (x))
--#define  SOR_SEQ_INST_PLL_PULLDOWN (1 << 31)
-+#define  SOR_SEQ_INST_PLL_PULLDOWN BIT(31)
- #define  SOR_SEQ_INST_POWERDOWN_MACRO (1 << 30)
- #define  SOR_SEQ_INST_ASSERT_PLL_RESET (1 << 29)
- #define  SOR_SEQ_INST_BLANK_V (1 << 28)
-@@ -192,7 +192,7 @@
- #define  SOR_PWM_DIV_MASK			0xffffff
- 
- #define SOR_PWM_CTL 0x33
--#define  SOR_PWM_CTL_TRIGGER			(1 << 31)
-+#define  SOR_PWM_CTL_TRIGGER			BIT(31)
- #define  SOR_PWM_CTL_CLK_SEL			(1 << 30)
- #define  SOR_PWM_CTL_DUTY_CYCLE_MASK		0xffffff
- 
-@@ -261,7 +261,7 @@
- #define  SOR_LANE_POSTCURSOR_LANE0(x) (((x) & 0xff) << 0)
- 
- #define SOR_DP_CONFIG0 0x58
--#define SOR_DP_CONFIG_DISPARITY_NEGATIVE	(1 << 31)
-+#define SOR_DP_CONFIG_DISPARITY_NEGATIVE	BIT(31)
- #define SOR_DP_CONFIG_ACTIVE_SYM_ENABLE		(1 << 26)
- #define SOR_DP_CONFIG_ACTIVE_SYM_POLARITY	(1 << 24)
- #define SOR_DP_CONFIG_ACTIVE_SYM_FRAC_MASK	(0xf << 16)
-@@ -370,7 +370,7 @@
- #define  SOR_HDMI_ACR_SUBPACK_LOW_SB1(x) (((x) & 0xff) << 24)
- 
- #define SOR_HDMI_ACR_0320_SUBPACK_HIGH 0xb3
--#define  SOR_HDMI_ACR_SUBPACK_HIGH_ENABLE (1 << 31)
-+#define  SOR_HDMI_ACR_SUBPACK_HIGH_ENABLE BIT(31)
- 
- #define SOR_HDMI_ACR_0441_SUBPACK_LOW 0xb4
- #define SOR_HDMI_ACR_0441_SUBPACK_HIGH 0xb5
-@@ -382,7 +382,7 @@
- #define  SOR_HDMI_CTRL_REKEY(x) (((x) & 0x7f) << 0)
- 
- #define SOR_HDMI_SPARE 0xcb
--#define  SOR_HDMI_SPARE_ACR_PRIORITY_HIGH (1 << 31)
-+#define  SOR_HDMI_SPARE_ACR_PRIORITY_HIGH BIT(31)
- #define  SOR_HDMI_SPARE_CTS_RESET(x) (((x) & 0x7) << 16)
- #define  SOR_HDMI_SPARE_HW_CTS_ENABLE (1 << 0)
- 
+V5:
+  - Implement fixes suggested by Rob Herring in patch-2.
+    * Drop the example from OLDI schema.
+    * Fix the DSS schema conditions.
+  - Drop the OLDI clone mode support from the driver as it was incomplete and
+    could not account for cases where OLDI TXes were connected to another pair
+    of bridges that would require additional programming, instead of a pair of
+    simple-panels which wouldn't.
+
+V4:
+  - Implement fixes suggested by Krzysztof Kozlowski:
+    * Squash patches v3:2/4 and v3:3/4 to v4:2/3, and add more hardware details
+      in commit description.
+    * Change the serial clock name for OLDI, from "s_clk" to "serial".
+    * Fix the required condition in the OLDI schema.
+    * Other minor fixes.
+  - Change "oldi-txes" OLDI DT node name to "oldi-transmitters".
+  - Update secondary-OLDI property requirements to be more relaxing for AM62P
+    DSS configuration.
+
+V3:
+  - Fix the dt_binding_check warning in patch 3/4[5] by adding
+    "additionalProperties" constraint.
+
+V2:
+  - Add all the R-b and A-b tags from Laurent Pinchart, Rob Herring, and
+    Tomi Valkeinen.
+  - Reword the subject for patch 1/4.
+  - Reword the commit descriptions to add proper hardware detail.
+  - Drop the change in schema reference for port@0 in patch 3/4.
+  - Lots of improvements for patch 4/4.
+    * Refactor OLDI selection logic in tidss_oldi_tx_power().
+    * Add "companion_instance" support to identify the OLDI index in
+      dual-link or cloned sinle-link modes.
+    * De-initialize tidss_oldi during tidss removal.
+    * Use dev_err_probe() instead of dev_err().
+    * Drop OLDI(n) macro.
+    * Move OLDI Config register bits to tidss_dispc_regs.h.
+    * Drop oldi bridge atomic_check().
+    * s/%d/%u for all print instances of "oldi_instance".
+    * Move OLDI init after DISPC init in tidss_probe.
+    * Use devm_drm_of_get_bridge() instead of
+      drm_of_find_panel_or_bridge() to find the next bridge and drop all
+      the drm_panel support from tidss_oldi.
+
+Previous revisions:
+V1: https://lore.kernel.org/all/20240511193055.1686149-1-a-bhatia1@ti.com/
+V2: https://lore.kernel.org/all/20240715200953.1213284-1-a-bhatia1@ti.com/
+V3: https://lore.kernel.org/all/20240716084248.1393666-1-a-bhatia1@ti.com/
+V4: https://lore.kernel.org/all/20241124143649.686995-1-aradhya.bhatia@linux.dev/
+V5: https://lore.kernel.org/all/20250209160925.380348-1-aradhya.bhatia@linux.dev/
+V6: https://lore.kernel.org/all/20250226181300.756610-1-aradhya.bhatia@linux.dev/
+V7: https://lore.kernel.org/all/20250329133943.110698-1-aradhya.bhatia@linux.dev/
+
+
+[0]: Dependency Patches:
+("drm/atomic-helper: Refactor crtc & encoder-bridge op loops into separate functions")
+https://lore.kernel.org/all/20250406131642.171240-2-aradhya.bhatia@linux.dev/
+
+("drm/atomic-helper: Separate out bridge pre_enable/post_disable from enable/disable")
+https://lore.kernel.org/all/20250406131642.171240-3-aradhya.bhatia@linux.dev/
+
+("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+https://lore.kernel.org/all/20250406131642.171240-4-aradhya.bhatia@linux.dev/
+
+
+[1]: AM62 OLDI Series - v7
+https://lore.kernel.org/all/20230125113529.13952-1-a-bhatia1@ti.com/
+
+[2]: AM62 DSS Series - v9
+https://lore.kernel.org/all/20230616150900.6617-1-a-bhatia1@ti.com/
+
+[3]: TI AM625 SoC based Beagleplay platform
+https://www.beagleboard.org/boards/beagleplay
+
+[4]: GitHub Fork for OLDI tests
+https://github.com/aradhya07/linux-ab/tree/next_oldi-v8_1_tests
+
+[5]: ("ti,am65x-dss.yaml: oldi-txes: Missing additionalProperties/
+      unevaluatedProperties constraint")
+https://lore.kernel.org/all/172107979988.1595945.9666141982402158422.robh@kernel.org/
+
+[6]: Undo drop of OLDI clone mode support
+https://gist.github.com/aradhya07/ce46631252f570e5a4cdf590ecf584da
+
+Aradhya Bhatia (4):
+  dt-bindings: display: ti,am65x-dss: Re-indent the example
+  dt-bindings: display: ti: Add schema for AM625 OLDI Transmitter
+  drm/tidss: Mark AM65x OLDI code separately
+  drm/tidss: Add OLDI bridge support
+
+ .../bindings/display/ti/ti,am625-oldi.yaml    |  80 +++
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 198 +++++-
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/tidss/Makefile                |   3 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           |  92 +--
+ drivers/gpu/drm/tidss/tidss_dispc.h           |   7 +-
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h      |  29 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |   9 +
+ drivers/gpu/drm/tidss/tidss_drv.h             |   5 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_oldi.c            | 578 ++++++++++++++++++
+ drivers/gpu/drm/tidss/tidss_oldi.h            |  43 ++
+ 12 files changed, 981 insertions(+), 66 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
+ create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
+
+
+base-commit: 1f957fbb88b61eaf5ac9bf2db6bc2e54121a4359
 -- 
-2.43.0
+2.34.1
 
