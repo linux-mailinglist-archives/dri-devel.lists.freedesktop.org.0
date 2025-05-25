@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16D3AC3365
-	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 11:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127E0AC3367
+	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 11:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 799C610E0CA;
-	Sun, 25 May 2025 09:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D6310E0BB;
+	Sun, 25 May 2025 09:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MssJ1DTl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VuK2HLae";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90C3B10E0D2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 09:23:43 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B48510E0BB
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 09:27:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B612845109;
- Sun, 25 May 2025 09:23:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD81C4CEED;
- Sun, 25 May 2025 09:23:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6548A60007;
+ Sun, 25 May 2025 09:27:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E5C3C4CEEA;
+ Sun, 25 May 2025 09:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748165022;
- bh=8xJ/4cJzkengF8ieK0oPHmswKBr0WzC4IkIOgHiz8OY=;
+ s=k20201202; t=1748165224;
+ bh=Htcbn+KyEsVVp9c2bRKjfXUW1dKWwN+XtF2ZkuOSr8s=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MssJ1DTlorerzrvBZ0h4vsvrIEFfdcrfkqEUa2npxXjrdxEMK7wbDqdR5lHNfNcLD
- tu0B7WAPk+NpFWNPAreGfoyUJ8JJ9O2pvIkTJ9CfYSmibOjh/DGPYhGP067DDmnnzy
- yppRkwTZAED4PSUxIkMUbyeTWL1keMWrSPcSTanp/PrmuNHhK5p8QRusrfjBJhzvJv
- 1793QewmP6CGsO0FjgNnWhIBD3WYK9SFox4uzhaV2eb3yfZBFY6cB7ooxROezwGjDb
- dnyXiZeM1qQKpNat8UKWUaOOV5FP+Yzo5E6Ff6BCxQW7BWAB0zyUANLZOWOTJikBuI
- jdvyzQ2bRHfiQ==
-Date: Sun, 25 May 2025 10:23:31 +0100
+ b=VuK2HLaem2onVHwfS8qW+RYrrZ3YEYH9fCNhLpOtyJCgi5rX+wzQmmYY55MV/pNnE
+ fWzsBoHhWwYLw3j74ptI4dXHQZOHdLI4Yaofv82l9FgMrLEOjpoZrUXFO/xMJK59i+
+ ebUdLMBFw+uZa2NTzDf0fn5wan9jKVyN8ZnY6glM9ctLTsytwn691J5IFCauLOwdlU
+ /Zr0lnXQdt5TPYe8kSUvx0+iBWsA3Q+XOT5oB+XFFejUlIGlB8h1vq6mU2eHBde/lt
+ 832OJP59vPr7QOR3+KlFQ1WtE8HhrDwBm6dXTfdNxY1JWK7oQxrq1BUBIZaYYAI2gA
+ OIAPGtJtcDNsw==
+Date: Sun, 25 May 2025 10:26:54 +0100
 From: Jonathan Cameron <jic23@kernel.org>
 To: Markus Burri <markus.burri@mt.com>
 Cc: linux-kernel@vger.kernel.org, Mahesh J Salgaonkar
@@ -46,7 +46,7 @@ Cc: linux-kernel@vger.kernel.org, Mahesh J Salgaonkar
  dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
  linux-iio@vger.kernel.org, Markus Burri <markus.burri@bbv.ch>
 Subject: Re: [PATCH v4 3/6] iio: fix potential out-of-bound write
-Message-ID: <20250525102331.46a4d778@jic23-huawei>
+Message-ID: <20250525102654.5b761490@jic23-huawei>
 In-Reply-To: <20250508130612.82270-4-markus.burri@mt.com>
 References: <20250508130612.82270-1-markus.burri@mt.com>
  <20250508130612.82270-4-markus.burri@mt.com>
@@ -78,20 +78,15 @@ Markus Burri <markus.burri@mt.com> wrote:
 > add a zero terminator after copy to the end of the copied data.
 > 
 > Signed-off-by: Markus Burri <markus.burri@mt.com>
-> ---
-Applied to the fixes-togreg branch of iio.git.
+I added
+Fixes: 6d5dd486c715 ("iio: core: make use of simple_write_to_buffer()")
 
-I'd still like some more eyes on this if anyone has time though as
-experience teaches me that subtle tweaks to string manipulation end
-conditions are easy places to make mistakes!
-
-I'll not be pushing out as non rebasing until I rebase on rc1 anyway
-so we have time.
-
-Thanks,
+If it predates that we'll need a manual backport anyway. If you have time to
+take a look at that Markus that would be great.
 
 Jonathan
 
+> ---
 >  drivers/iio/industrialio-core.c | 5 ++++-
 >  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
