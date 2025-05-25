@@ -2,103 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA025AC3400
-	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 12:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733CCAC3456
+	for <lists+dri-devel@lfdr.de>; Sun, 25 May 2025 14:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4FD10E0FC;
-	Sun, 25 May 2025 10:52:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qHwywFGI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77CC210E09E;
+	Sun, 25 May 2025 12:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6F610E0FC
- for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 10:51:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B65605C5B75;
- Sun, 25 May 2025 10:49:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69624C4CEEA;
- Sun, 25 May 2025 10:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748170316;
- bh=YRdfz6rN4mj76VNawYJERvMeJQ2IZtOLyrZVyy6oaew=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qHwywFGIJ8+pU3HV0IDi+sIlPYKDsVLMGoK+ICOQYtQQay1/5sTPlXYmx+lBeXNmw
- wOZx/Hrm2mPRENQ9m/SIPnCy2pbAqWdTND7s5eO3tUc0AHMTQesuY79BiHeQ/K8SFN
- 7gngijEl3vDaNrEpf0KFzvDehEWUA5mIY/1uAkiU6NQyoWpUciHa1hdvdWalYAgcYI
- dsvGrlVQuT3zDqbrdjSlZB6CY9fwNXEuQxmmxftf4itsBgygV2NMmIztJzNtyRw84O
- /0qrEdG9z937KjtIrjjfZ3AIQToyeUM39DoydPxv8bjGc1+4qy1NjQZltkHX15hcUk
- wXtAyVdB5xJxg==
-Message-ID: <e462cdc4-7243-4cef-bd1d-a0ef551b3a87@kernel.org>
-Date: Sun, 25 May 2025 12:51:50 +0200
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DFE810E09E
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 12:06:03 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-7c560c55bc1so154926085a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 05:06:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748174761; x=1748779561;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YcNmR9Oh3gKmhm4mVv3+Bc2mhBpOXuGq3s3rGdk5N+k=;
+ b=B9ktsgAH/F43BjhGMMTxRV2RpEytPLXv1+6nbrJ5KdYEzXD7JGc8rZ7famDEGXybE8
+ iV8W1ZkxVi1K6d4+6z4m4iZZwZn5mk/jzL64y5e45PIqk1msEtm3J56wnp5+DYyab1q0
+ FdxXJgkHFVM/fQEqnY/lbVmQJOO/SeVQbv72oPJjREPSeZRFSDwbXYT+R/6WuJxpwanf
+ 2j+aWqnciIrU19HX+7kU3V4Je0L1XToSwqwxGJX6lf3hPY644k/+a+X8Rwxw0wHAIVBV
+ WD0lxqzSbczEHCe7jAD0s9JLqX9hMOiZW6HXQKAxxQIRDJW3ddwiXy4X2r+e3tFBuKcw
+ 7NiA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1ovfHkf3ekzSKb7tK+d7AXaWtYmp/JAR5N01tpTsQUThsmWZpsBYoKWwzCPat9y4CbpC9n5Z6oxk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxrB3amIw/qr9lkSztXamo4omMFeMSD7k0nHVIz9vrLA6aOCdla
+ iyHuPQ/dqg7uIBNb/vjkZljxkVQMEak80fpfyam0YYX6QPF5qeWZWPnYUlS2cXEx
+X-Gm-Gg: ASbGncsEODlxdd9mOXScl0qa7QQ1BKN6OLEabN66xVmOlIJnOAwmDFD+C6wUTXgVEb4
+ J/U+7sdiBspZvTate0fT8WJStIl9x6eMRY5MObm9sWQQjXVgafMDlPaJ8F3Ir6f8qLNPlseFGEb
+ EvgqZtBHwxxgfOjFOTYH+6aHwl59mwTq6K+9hBK4zT59uwCR7hAGV9ZHTZOVMlpq8a5ZHPR1iuG
+ pcqXivlBkUatLz8EhkBCUmifeYiFUR3is44w7AxI45leJCiI/kNa+LuqeJvznEtCcSK7oUfGnwA
+ UkgL0Qvox36OuK2v3l/xhHZ3fUqrxYfGvU8a9PGRb4Yn7USvDkxtZoz3184mi2+Om8HB4unAF9s
+ OqRNgbjwAwadYxtkTug==
+X-Google-Smtp-Source: AGHT+IGeTfUWzRpJeU6y0EXrJVuKKmXDNmemJvHY/bMk9KI7fM3srNkQMjnN84MyA2UsOnZT9PBxfw==
+X-Received: by 2002:a05:620a:bce:b0:7c7:70dc:e921 with SMTP id
+ af79cd13be357-7ceecc0b826mr830838285a.36.1748174761468; 
+ Sun, 25 May 2025 05:06:01 -0700 (PDT)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com.
+ [209.85.222.176]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7cd467da041sm1443645085a.45.2025.05.25.05.06.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 May 2025 05:06:01 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id
+ af79cd13be357-7c560c55bc1so154923885a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 May 2025 05:06:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVA+OffCm1lbKaXlvTH5iEY/8seEhINRg1nMPtAYgCt0iFkFj8N8aZeYMrex+bjn5DZ5spJY60PeN0=@lists.freedesktop.org
+X-Received: by 2002:a05:620a:6183:b0:7c7:a5e1:f204 with SMTP id
+ af79cd13be357-7ceecc299d8mr920946385a.56.1748174760848; Sun, 25 May 2025
+ 05:06:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dt-bindings: mediatek: Constrain iommus
-To: Daniel Stone <daniel@fooishbar.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20250525051639.68753-2-krzysztof.kozlowski@linaro.org>
- <CAPj87rMjAv-UphvFuQjop60o=wHrkfs4-XOM=JqH7f8Kk5dyVg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAPj87rMjAv-UphvFuQjop60o=wHrkfs4-XOM=JqH7f8Kk5dyVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1669406380.git.geert@linux-m68k.org>
+ <a9883a81-d909-09c5-708b-d598e030380e@physik.fu-berlin.de>
+ <CAMuHMdWHUnWBN7ddBow+fqmt8W--9wFe5x_YMeRg7GQ=BNAL2Q@mail.gmail.com>
+ <74946b31-6166-44b0-b2a7-b0633f014b60@helsinkinet.fi>
+ <CAMuHMdXSWiM_xofyfgpoc0Jj8a_PwRR_tFe79t8=-X85-7WZug@mail.gmail.com>
+ <beed53f4-b0d6-4d1d-b5ec-2694d2b5d47a@helsinkinet.fi>
+In-Reply-To: <beed53f4-b0d6-4d1d-b5ec-2694d2b5d47a@helsinkinet.fi>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 25 May 2025 14:05:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUSADF51tBbGV=_nsxqyXgfNZcgDNGxuZ4F+tvYs9Q2aw@mail.gmail.com>
+X-Gm-Features: AX0GCFsstb-MFo59PFz_9P24KO-yVVLC9wRdn1-wDiAWRZRayXjN0xIbl4qIHFs
+Message-ID: <CAMuHMdUSADF51tBbGV=_nsxqyXgfNZcgDNGxuZ4F+tvYs9Q2aw@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/3] Atari DRM driver
+To: Eero Tamminen <oak@helsinkinet.fi>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Helge Deller <deller@gmx.de>, Michael Schmitz <schmitzmic@gmail.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,26 +95,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/05/2025 12:48, Daniel Stone wrote:
-> On Sun, 25 May 2025 at 06:16, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
->> @@ -45,9 +45,8 @@ properties:
->>        - description: OVL-2L Clock
->>
->>    iommus:
->> -    description:
->> -      This property should point to the respective IOMMU block with master port as argument,
->> -      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
->> +    minItems: 1
->> +    maxItems: 2
-> 
-> The comment removals are not documented in the commit message, and
-> it's not clear why removing information and references would be a good
-> thing.
-It's obvious, isn't? The consumer shall not define which provider has to
-use or how many cells provider has.
+Hi Eero,
 
-Best regards,
-Krzysztof
+On Thu, 22 May 2025 at 00:56, Eero Tamminen <oak@helsinkinet.fi> wrote:
+> On 21.5.2025 10.06, Geert Uytterhoeven wrote:
+> > On Wed, 21 May 2025 at 01:59, Eero Tamminen <oak@helsinkinet.fi> wrote:
+> >> I tried your "atari-drm-wip-v1" branch commits on top of 6.14.
+> >
+> > Thanks for testing!
+> >
+> >> After some minor changes those applied. Getting it to build required
+> >> adding "&shadow_plane_state->fmtcnv_state" (struct drm_format_conv_state
+> >> *) argument to *_blit() functions in atari_drm.c, and changing:
+> >>          drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
+> >> in its probe function to:
+> >>          struct drm_format_info *format = NULL;
+> >>           drm_client_setup(dev, format);
+> >
+> > I do keep it up-to-date locally, so I could provide these changes,
+> > if you are interested.
+>
+> Yes, please!   (see below)
+
+Sorry for taking so long:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git/log/?h=atari-drm-wip-rebasing
+
+Enjoy!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
