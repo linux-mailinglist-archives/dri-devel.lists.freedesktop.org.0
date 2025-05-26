@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830BBAC3A8D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE68BAC3A9A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:28:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C1D10E26C;
-	Mon, 26 May 2025 07:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520C410E281;
+	Mon, 26 May 2025 07:28:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F91OMDK0";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="F6JMfla+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB6E10E26C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 07:22:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2606861120;
- Mon, 26 May 2025 07:22:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6AB2C4CEE7;
- Mon, 26 May 2025 07:22:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748244177;
- bh=kQ4k7Xphh54QIxwt6vGLShRpXDSSLCxTPN7vVeaFxCY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F91OMDK0O7gcmEkQdrzt+uf0tyyU4HiriJmD9GpcHrKJn/LBWuyEb5ZEiLnzhj/C+
- HjKPEXah8xYaU7LdJdZGRc/0B34awR6Ys0ms9HsBhesD6c+O4tNhdI2bVBfWIsw2ve
- 04Ld4ebrsSMAEK6y3stNWnsKgiyw9r7T2RFhW35tCtH/UI7T76lmh45L+D+t7ClP5R
- OQdsiyQBiVm5XYV9OUFlppofAeY7Z0sjfytGvqPhNw8zNOIxRHl2BVaoB1xTksmkNT
- uXQPy8s6Dw9Ybb5FAYXr7SYBlWEyzgg4RhfAFbQcLHLF892hiKVpcjnVijA3AqReCQ
- l5/Pag91EsJoQ==
-Date: Mon, 26 May 2025 12:52:31 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Subject: Re: [PATCH v9 6/9] tee: add tee_shm_alloc_dma_mem()
-Message-ID: <aDQWt5Ck1Bo01Z_4@sumit-X1>
-References: <20250520152436.474778-1-jens.wiklander@linaro.org>
- <20250520152436.474778-7-jens.wiklander@linaro.org>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E0C10E281;
+ Mon, 26 May 2025 07:28:08 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b5S6D3MjDz9tGG;
+ Mon, 26 May 2025 09:28:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1748244484; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t+PP4Plw8YwjEd3E7MEZ2WoSmcrHpE9uM+UXA5tZCsk=;
+ b=F6JMfla+lq5G2O/GuSEHrUsxxiigCJzJVUNwy10tK81mFVBuNtZkJYDj47G0HnyPWJleq+
+ FhoeXocP5UAYo5F1G+59gWf8BCUvh8FPLjZDEXzAiZr1MizK+15I8gEH6VtiGKLQlECmze
+ vj+ai6hi1GT0fyieWrlec2PXtHDWCtNKk3PUKy2xvM2aZqEX4lHuG68+9uGt41s0Ef7G+O
+ Th+zGMiNTBVsZvadPCTNXkQaBivfaghNkcw6uPyTnoYTTx/jvrtTY1PIuNrSQC9VgsZDr1
+ gbNvGDhLobuj6I+lnTrYH5gMmbmIjuzbtmpRyhrhvV35CDvlUdeu7w5GUL96HQ==
+Message-ID: <a3ef761d7ba3544798e04547ca882cc1ef4c5899.camel@mailbox.org>
+Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ tursulin@ursulin.net, dakr@kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Mon, 26 May 2025 09:28:02 +0200
+In-Reply-To: <20250523125643.7540-2-christian.koenig@amd.com>
+References: <20250523125643.7540-1-christian.koenig@amd.com>
+ <20250523125643.7540-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520152436.474778-7-jens.wiklander@linaro.org>
+X-MBO-RS-ID: aaf401ca1eeb0e2a718
+X-MBO-RS-META: jynbu3h71e81ndq36xodrw6kstbp4mke
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,163 +61,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 20, 2025 at 05:16:49PM +0200, Jens Wiklander wrote:
-> Add tee_shm_alloc_dma_mem() to allocate DMA memory. The memory is
-> represented by a tee_shm object using the new flag TEE_SHM_DMA_MEM to
-> identify it as DMA memory. The allocated memory will later be lent to
-> the TEE to be used as protected memory.
-> 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+On Fri, 2025-05-23 at 14:56 +0200, Christian K=C3=B6nig wrote:
+> It turned out that we can actually massively optimize here.
+>=20
+> The previous code was horrible inefficient since it constantly
+> released
+> and re-acquired the lock of the xarray and started each iteration
+> from the
+> base of the array to avoid concurrent modification which in our case
+> doesn't exist.
+>=20
+> Additional to that the xas_find() and xas_store() functions are
+> explicitly
+> made in a way so that you can efficiently check entries and if you
+> don't
+> find a match store a new one at the end or replace existing ones.
+>=20
+> So use xas_for_each()/xa_store() instead of xa_for_each()/xa_alloc().
+> It's a bit more code, but should be much faster in the end.
+>=20
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 > ---
->  drivers/tee/tee_shm.c    | 74 ++++++++++++++++++++++++++++++++++++++--
->  include/linux/tee_core.h |  5 +++
->  2 files changed, 77 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> index e1ed52ee0a16..92a6a35e1a1e 100644
-> --- a/drivers/tee/tee_shm.c
-> +++ b/drivers/tee/tee_shm.c
-> @@ -5,6 +5,8 @@
->  #include <linux/anon_inodes.h>
->  #include <linux/device.h>
->  #include <linux/dma-buf.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/highmem.h>
->  #include <linux/idr.h>
->  #include <linux/io.h>
->  #include <linux/mm.h>
-> @@ -13,9 +15,14 @@
->  #include <linux/tee_core.h>
->  #include <linux/uaccess.h>
->  #include <linux/uio.h>
-> -#include <linux/highmem.h>
->  #include "tee_private.h"
->  
-> +struct tee_shm_dma_mem {
-> +	struct tee_shm shm;
-> +	dma_addr_t dma_addr;
-> +	struct page *page;
-> +};
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 29 ++++++++++++++++++-----=
+-
+> --
+> =C2=A01 file changed, 20 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index f7118497e47a..cf200b1b643e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
+> =C2=A0int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> =C2=A0				 struct dma_fence *fence)
+> =C2=A0{
+> +	XA_STATE(xas, &job->dependencies, 0);
+> =C2=A0	struct dma_fence *entry;
+> -	unsigned long index;
+> -	u32 id =3D 0;
+> -	int ret;
+> =C2=A0
+> =C2=A0	if (!fence)
+> =C2=A0		return 0;
+> @@ -883,24 +881,37 @@ int drm_sched_job_add_dependency(struct
+> drm_sched_job *job,
+> =C2=A0	 * This lets the size of the array of deps scale with the
+> number of
+> =C2=A0	 * engines involved, rather than the number of BOs.
+> =C2=A0	 */
+> -	xa_for_each(&job->dependencies, index, entry) {
+> +	xa_lock(&job->dependencies);
+> +	xas_for_each(&xas, entry, ULONG_MAX) {
+> =C2=A0		if (entry->context !=3D fence->context)
+> =C2=A0			continue;
+> =C2=A0
+> =C2=A0		if (dma_fence_is_later(fence, entry)) {
+> =C2=A0			dma_fence_put(entry);
+> -			xa_store(&job->dependencies, index, fence,
+> GFP_KERNEL);
+> +			xas_store(&xas, fence);
+> =C2=A0		} else {
+> =C2=A0			dma_fence_put(fence);
+> =C2=A0		}
+> -		return 0;
+> +		xa_unlock(&job->dependencies);
+> +		return xas_error(&xas);
+> =C2=A0	}
+> =C2=A0
+> -	ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,
+> GFP_KERNEL);
+> -	if (ret !=3D 0)
+> +retry:
+> +	entry =3D xas_store(&xas, fence);
+> +	xa_unlock(&job->dependencies);
 > +
->  static void shm_put_kernel_pages(struct page **pages, size_t page_count)
->  {
->  	size_t n;
-> @@ -49,7 +56,14 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
->  	struct tee_shm *parent_shm = NULL;
->  	void *p = shm;
->  
-> -	if (shm->flags & TEE_SHM_DMA_BUF) {
-> +	if (shm->flags & TEE_SHM_DMA_MEM) {
-> +		struct tee_shm_dma_mem *dma_mem;
-> +
-> +		dma_mem = container_of(shm, struct tee_shm_dma_mem, shm);
-> +		p = dma_mem;
-> +		dma_free_pages(&teedev->dev, shm->size, dma_mem->page,
-> +			       dma_mem->dma_addr, DMA_BIDIRECTIONAL);
+> +	/* There shouldn't be any concurrent add, so no need to loop
+> again */
 
-Although the kernel bot already found a randconfig issue, it looks like
-we need to add Kconfig dependencies like HAS_DMA, DMA_CMA etc.
+Should we maybe add it to the function documentation that this must not
+be called concurrently?
 
-Also, I was thinking if we should rather add a new TEE subsystem
-specific Kconfig option like: TEE_DMABUF_HEAPS which can then be used to
-select whatever dependency is needed as well as act as a gating Kconfig
-for relevant features.
+Looks to me as if the current version were already broken if someone
+does that. So maybe is also OK to just leave it as is.
 
--Sumit
 
-> +	} else if (shm->flags & TEE_SHM_DMA_BUF) {
->  		struct tee_shm_dmabuf_ref *ref;
->  
->  		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-> @@ -306,6 +320,62 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
->  }
->  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
->  
-> +/**
-> + * tee_shm_alloc_dma_mem() - Allocate DMA memory as shared memory object
-> + * @ctx:	Context that allocates the shared memory
-> + * @page_count:	Number of pages
-> + *
-> + * The allocated memory is expected to be lent (made inaccessible to the
-> + * kernel) to the TEE while it's used and returned (accessible to the
-> + * kernel again) before it's freed.
-> + *
-> + * This function should normally only be used internally in the TEE
-> + * drivers.
-> + *
-> + * @returns a pointer to 'struct tee_shm'
-> + */
-> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
-> +				      size_t page_count)
-> +{
-> +	struct tee_device *teedev = ctx->teedev;
-> +	struct tee_shm_dma_mem *dma_mem;
-> +	dma_addr_t dma_addr;
-> +	struct page *page;
+P.
+
+
+> +	if (xas_nomem(&xas, GFP_KERNEL)) {
+> +		xa_lock(&job->dependencies);
+> +		goto retry;
+> +	}
 > +
-> +	if (!tee_device_get(teedev))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	page = dma_alloc_pages(&teedev->dev, page_count * PAGE_SIZE,
-> +			       &dma_addr, DMA_BIDIRECTIONAL, GFP_KERNEL);
-> +	if (!page)
-> +		goto err_put_teedev;
-> +
-> +	dma_mem = kzalloc(sizeof(*dma_mem), GFP_KERNEL);
-> +	if (!dma_mem)
-> +		goto err_free_pages;
-> +
-> +	refcount_set(&dma_mem->shm.refcount, 1);
-> +	dma_mem->shm.ctx = ctx;
-> +	dma_mem->shm.paddr = page_to_phys(page);
-> +	dma_mem->dma_addr = dma_addr;
-> +	dma_mem->page = page;
-> +	dma_mem->shm.size = page_count * PAGE_SIZE;
-> +	dma_mem->shm.flags = TEE_SHM_DMA_MEM;
-> +
-> +	teedev_ctx_get(ctx);
-> +
-> +	return &dma_mem->shm;
-> +
-> +err_free_pages:
-> +	dma_free_pages(&teedev->dev, page_count * PAGE_SIZE, page, dma_addr,
-> +		       DMA_BIDIRECTIONAL);
-> +err_put_teedev:
-> +	tee_device_put(teedev);
-> +
-> +	return ERR_PTR(-ENOMEM);
-> +}
-> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
-> +
->  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
->  			     int (*shm_register)(struct tee_context *ctx,
->  						 struct tee_shm *shm,
-> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> index 02c07f661349..925690e1020b 100644
-> --- a/include/linux/tee_core.h
-> +++ b/include/linux/tee_core.h
-> @@ -29,6 +29,8 @@
->  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
->  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
->  #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
-> +#define TEE_SHM_DMA_MEM		BIT(5)	/* Memory allocated with */
-> +					/* dma_alloc_pages() */
->  
->  #define TEE_DEVICE_FLAG_REGISTERED	0x1
->  #define TEE_MAX_DEV_NAME_LEN		32
-> @@ -310,6 +312,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
->   */
->  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
->  
-> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
-> +				      size_t page_count);
-> +
->  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
->  			     int (*shm_register)(struct tee_context *ctx,
->  						 struct tee_shm *shm,
-> -- 
-> 2.43.0
-> 
+> +	if (xas_error(&xas))
+> =C2=A0		dma_fence_put(fence);
+> +	else
+> +		WARN_ON(entry);
+> =C2=A0
+> -	return ret;
+> +	return xas_error(&xas);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_job_add_dependency);
+> =C2=A0
+
