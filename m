@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B37EAC3BEC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C195AC3C1B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC45610E2EB;
-	Mon, 26 May 2025 08:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 609B710E118;
+	Mon, 26 May 2025 08:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YmRbGBp+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QvIGt55V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99BC710E2AA;
- Mon, 26 May 2025 08:46:21 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b5TrV3ppfz9tJf;
- Mon, 26 May 2025 10:46:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748249178; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FITOC9q0QoXrfQh+VXBfJzN4BRB3plpWTI8J8NoeSVQ=;
- b=YmRbGBp+J/y58b1K1Y1lXXG5WKDzTd48EpSV2PKBiJpbpwZg7pZtVyTvYWLafP1dQbGQol
- uCVXPNf1zSso7M2OgG6g8JRReLf6HtFYhSAO2DqAWK4aJsl6VhqINF8RF+5sunKZLoT4SK
- wIGp5DJNH7zoCpQLEl5Ir3c5Xr6Fq+qp9EBtOJ9i30jliAm6CI3+TuvAZ1mU2/6kfE4hsv
- HmWutgA0hEYxWA3U70ZeoQGORRxi4uLn8EDmn+ezSgITT3YomnkdFYPuJX5C0MyMazgxmF
- IFtKeDqXT4noh+d3ZWaczrYCjTcSS4EiuncaRP2BsxvLKcUaXtYUUr3MNGqv8A==
-Message-ID: <0e4c67eba26d25fbd369dd7a241376a0506ad94d.camel@mailbox.org>
-Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency a bit
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko
- Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- dakr@kernel.org,  amd-gfx@lists.freedesktop.org, Matthew Wilcox
- <willy@infradead.org>
-Date: Mon, 26 May 2025 10:46:16 +0200
-In-Reply-To: <bdf82e27-ae7e-4580-ab77-c05842bc8ec1@amd.com>
-References: <20250522134117.7561-1-christian.koenig@amd.com>
- <20250522134117.7561-2-christian.koenig@amd.com>
- <a96a73ee-32a5-4c38-b277-e76101b94837@ursulin.net>
- <bdf82e27-ae7e-4580-ab77-c05842bc8ec1@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8CE10E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748249628; x=1779785628;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=fRAM41WUGULe/bhMFo31si6hcqEgtPFulyvHS6076vw=;
+ b=QvIGt55VtPy7ZtUnu3/H85n6dy9Cz+yMTJQKKCI5PyxAu4nWWT1j+vXz
+ smOt7RV7EvZ+PB2S306OUth8PFXpHN0NqzXMw2XxF84WvqVj5cjs2gSXb
+ M4mpK2QqgoU6ezArEF7/J+w7D3REWAKvQivYkCnXYJpmw/A3GTcrw5C7c
+ 9R7pckN8YXKNJUaLiaca1LAMuS26GmV3tKNLprTOYRj3RBmev/q9lusz5
+ ScOKZnzmdf3sGwmjDHtO5QqpohadSuqrvalfZKQ/DbBtfUldyRnxeruw8
+ 68AN7sl9QuTzsNtYiEkX/B4vxTnRhnYsqxwth76YOk1rSXWCxBr3ntGrv A==;
+X-CSE-ConnectionGUID: GhVhupkAQ+GBk3oGs8jL5Q==
+X-CSE-MsgGUID: Z60vnxywRRiVAvxCoLxFbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="49466341"
+X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; d="scan'208";a="49466341"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 01:53:46 -0700
+X-CSE-ConnectionGUID: rfhfdvCwRlq3s+FlBv77EA==
+X-CSE-MsgGUID: VgBGYmEJQACvrrstUmAMZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; d="scan'208";a="143234471"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.168])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 01:53:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>, Lee Jones <lee@kernel.org>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
+ Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
+Subject: Re: [RFC PATCH 1/2] backlight: Rename duplicated devices to support
+ dual-backlight setups
+In-Reply-To: <20250525104022.1326997-1-mitltlatltl@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250525104022.1326997-1-mitltlatltl@gmail.com>
+Date: Mon, 26 May 2025 11:53:40 +0300
+Message-ID: <7dc6a9e5171bc70be23188ffd8c45168fa79aacb@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 3624485f52e3dc55115
-X-MBO-RS-META: o19epfdepxb84yh3zi17pd9j8q8e9oa3
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,100 +69,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Cc Matthew, again :)
+On Sun, 25 May 2025, Pengyu Luo <mitltlatltl@gmail.com> wrote:
+> When registering a backlight device, if a device with the same name
+> already exists, append "-secondary" to the new device's name. This is
+> useful for platforms with dual backlight drivers (e.g. some panels use
+> dual ktz8866), where both instances need to coexist.
+>
+> For now, only one secondary instance is supported. If more instances
+> are needed, this logic can be extended with auto-increment or a more
+> flexible naming scheme.
 
-On Thu, 2025-05-22 at 18:19 +0200, Christian K=C3=B6nig wrote:
-> On 5/22/25 16:27, Tvrtko Ursulin wrote:
-> >=20
-> > On 22/05/2025 14:41, Christian K=C3=B6nig wrote:
-> > > Since we already iterated over the xarray we know at which index
-> > > the new
-> > > entry should be stored. So instead of using xa_alloc use xa_store
-> > > and
-> > > write into the index directly.
-> > >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 12 ++++++------
-> > > =C2=A0 1 file changed, 6 insertions(+), 6 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index f7118497e47a..d2d64bf17c96 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
-> > > =C2=A0 int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *fence)
-> > > =C2=A0 {
-> > > +=C2=A0=C2=A0=C2=A0 unsigned long index =3D -1;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *entry;
-> > > -=C2=A0=C2=A0=C2=A0 unsigned long index;
-> > > -=C2=A0=C2=A0=C2=A0 u32 id =3D 0;
-> > > -=C2=A0=C2=A0=C2=A0 int ret;
-> > > =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!fence)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > > @@ -896,11 +894,13 @@ int drm_sched_job_add_dependency(struct
-> > > drm_sched_job *job,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > =C2=A0 -=C2=A0=C2=A0=C2=A0 ret =3D xa_alloc(&job->dependencies, &id, =
-fence,
-> > > xa_limit_32b, GFP_KERNEL);
-> > > -=C2=A0=C2=A0=C2=A0 if (ret !=3D 0)
-> > > +=C2=A0=C2=A0=C2=A0 entry =3D xa_store(&job->dependencies, index + 1,=
- fence,
-> > > GFP_KERNEL);
-> >=20
-> > From the code it looks index does not "move" for NULL slots?
->=20
-> Correct, but I just found out that the macro initializes index to
-> zero, so that approach also doesn't work.
->=20
-> *sigh* going to look into this again tomorrow. It looks like this use
-> case is somehow not well supported at all by xarray.
+I think for both patches you should consider adding a new interface for
+creating dual backlight scenarios.
 
-@Matthew, would be really nice if you could give some insights to that
-and maybe give advice on a path how to best do that with xarray in a
-canonical way.
+For example, this patch turns a driver error (registering two or more
+backlights with the same name) into a special use case, patch 2
+magically connecting the two, and hiding the problem.
+
+With i915, you could have multiple devices, each with multiple
+independent panels with independent backlights. I think accidentally
+trying to register more than one backlight with the same name should
+remain an error, *unless* you want the special case of combined
+backlights.
+
+Similarly, what if you encounter a device with two panels, and two
+*independent* ktz8866?
+
+Please be explicit rather than implicit.
 
 
-Thanks,
-P.
+BR,
+Jani.
 
 
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > That is, if someone:
-> >=20
-> > 1) Preallocates one entry, when trying to populate it index will be
-> > -1 after xa_for_each?
-> >=20
-> > 2) Add one, preallocate one, then add one more - index will be 0
-> > after xa_for_each?
-> >=20
-> > Regards,
-> >=20
-> > Tvrtko
-> >=20
-> > > +=C2=A0=C2=A0=C2=A0 if (xa_is_err(entry))
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_put(=
-fence);
-> > > +=C2=A0=C2=A0=C2=A0 else
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(entry);
-> > > =C2=A0 -=C2=A0=C2=A0=C2=A0 return ret;
-> > > +=C2=A0=C2=A0=C2=A0 return xa_err(entry);
-> > > =C2=A0 }
-> > > =C2=A0 EXPORT_SYMBOL(drm_sched_job_add_dependency);
-> > > =C2=A0=20
-> >=20
->=20
+>
+> Suggested-by: Daniel Thompson <danielt@kernel.org>
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> ---
+>  drivers/video/backlight/backlight.c | 20 ++++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index 9dc93c5e4..991702f5d 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -365,7 +365,8 @@ struct backlight_device *backlight_device_register(const char *name,
+>  	struct device *parent, void *devdata, const struct backlight_ops *ops,
+>  	const struct backlight_properties *props)
+>  {
+> -	struct backlight_device *new_bd;
+> +	struct backlight_device *new_bd, *prev_bd;
+> +	const char *new_name = NULL;
+>  	int rc;
+>  
+>  	pr_debug("backlight_device_register: name=%s\n", name);
+> @@ -377,10 +378,23 @@ struct backlight_device *backlight_device_register(const char *name,
+>  	mutex_init(&new_bd->update_lock);
+>  	mutex_init(&new_bd->ops_lock);
+>  
+> +	/*
+> +	 * If there is an instance with the same name already, then rename it.
+> +	 * We also can use an auto-increment field, but it seems that there is
+> +	 * no triple or quad case.
+> +	 */
+> +	prev_bd = backlight_device_get_by_name(name);
+> +	if (!IS_ERR_OR_NULL(prev_bd)) {
+> +		new_name = kasprintf(GFP_KERNEL, "%s-secondary", name);
+> +		if (!new_name)
+> +			return ERR_PTR(-ENOMEM);
+> +		put_device(&prev_bd->dev);
+> +	}
+> +
+>  	new_bd->dev.class = &backlight_class;
+>  	new_bd->dev.parent = parent;
+>  	new_bd->dev.release = bl_device_release;
+> -	dev_set_name(&new_bd->dev, "%s", name);
+> +	dev_set_name(&new_bd->dev, "%s", new_name ? new_name : name);
+>  	dev_set_drvdata(&new_bd->dev, devdata);
+>  
+>  	/* Set default properties */
+> @@ -414,6 +428,8 @@ struct backlight_device *backlight_device_register(const char *name,
+>  	list_add(&new_bd->entry, &backlight_dev_list);
+>  	mutex_unlock(&backlight_dev_list_mutex);
+>  
+> +	kfree(new_name);
+> +
+>  	return new_bd;
+>  }
+>  EXPORT_SYMBOL(backlight_device_register);
 
+-- 
+Jani Nikula, Intel
