@@ -2,57 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A15AC3F1D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563D3AC3F2E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF6810E31C;
-	Mon, 26 May 2025 12:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE0C810E300;
+	Mon, 26 May 2025 12:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="M40owbTq";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="o19xyrgd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973183.qiye.163.com (mail-m1973183.qiye.163.com
- [220.197.31.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F5810E31C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 12:13:19 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 166d9dc8f;
- Mon, 26 May 2025 20:08:13 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Cc: andy.yan@rock-chips.com, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
- l.stach@pengutronix.de, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v1 3/3] drm/bridge: analogix_dp: Apply drm_bridge_connector
- helper
-Date: Mon, 26 May 2025 20:07:42 +0800
-Message-Id: <20250526120742.3195812-4-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250526120742.3195812-1-damon.ding@rock-chips.com>
-References: <20250526120742.3195812-1-damon.ding@rock-chips.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2077.outbound.protection.outlook.com [40.107.243.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6B010E2F8;
+ Mon, 26 May 2025 12:15:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LMonylrFgKFOhE/9rR9BsPPscCX7bK8BBKA4d8fEOrYzJyW4fP8jMwJOunhqmYLZzX9ShmQss3prsKL3C9ofW1KpMuwXJh/Sdf3ej4uSxTygtL1lR+kXE77nUukf6/FzvSXUeNh9/p0kF32icG3pzFzNyj1Ld7+YI+bPjaK95brdBe6rfrGIJUxkMsiBrfFQ1YQ/STlV1mcJ+NvsQQt075ci9lBfhKGy6shBTr0DUIbKxy468tJhFpg++P8+G4+ztUTLKqgRjjD9nlgmOMVwRgkcKODL5fdc4TpxSYfJ/JbTJwq5vosGLz30SMB/oA1pWUD11x185l2hvojqFotxtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bVpFIT8sUsT9L9lka83Ezude++APrXZWnmfj5i5hORM=;
+ b=p638lSpfpK8WvTBeDFpTn3CrQbh0ccyBSRp4CQ7p5XOGxtUXiVZbDHuJwztY5uGOQ1YLg4GfRJ0JHa6P2DpinCqOydQ3vZfcW4U8AWtyUFlR+EkXsjuKad+eo+15Fn6GwclK/9NPhKcW8hylE7LJ2gNF6yJ2t89PczcvaTIhN3mTjZv7keFXZkCUMHCEbrMit0d4f/blBDkmYuyaFjzJ4PBphGQiDL6sgTAZfxC1RYztwzb6WXEukJkGh9rvELhjzIm/+vpjoS17w7kTGQ1IEP6BIBvt5yWtfaR/LAGekJBfkJmQ09EpGH7ZWZ/Dqu527s5zUYCJcVhX0ZCQgBFwOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bVpFIT8sUsT9L9lka83Ezude++APrXZWnmfj5i5hORM=;
+ b=o19xyrgddn7K2it2C5K0N5LgYqLlzaHexOBABsE5E/T4ci99fHH9m3VOxeGE9cLBMH33Lq46Vok/JBArHek6m0bjtLrgkZvRWfGeTRLsUkeVtfLvTXnHd8eGTRso+f3fwT7YI28MpVhqzT7KXTwayyEBgWmY1HfwXG2hhV4h7D3+VVw/gv6fsBIoJroVygLeKQvgjOW5iXp+DzhZbGRVbVrK3tUNmmVWBh+VXsio4gaEVHKfZcW4AXSC8lMrMkUVMKpckC8aQwnyaGajR0XTaIyzg6OeiGB3Tu3eduZcABXOIutCqH0FTCxPrPQ249YMFsdKIZ1xq7rWoP2M0Ui+Zg==
+Received: from BY3PR05CA0004.namprd05.prod.outlook.com (2603:10b6:a03:254::9)
+ by CY8PR12MB7539.namprd12.prod.outlook.com (2603:10b6:930:96::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.22; Mon, 26 May
+ 2025 12:15:43 +0000
+Received: from SJ1PEPF0000231A.namprd03.prod.outlook.com
+ (2603:10b6:a03:254:cafe::ac) by BY3PR05CA0004.outlook.office365.com
+ (2603:10b6:a03:254::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.15 via Frontend Transport; Mon,
+ 26 May 2025 12:15:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SJ1PEPF0000231A.mail.protection.outlook.com (10.167.242.231) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:15:43 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 26 May
+ 2025 05:15:21 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 26 May
+ 2025 05:15:20 -0700
+Received: from ipp2-2167.ipp2u1.colossus.nvidia.com (10.127.8.11) by
+ mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.1544.14 via
+ Frontend Transport; Mon, 26 May 2025 05:15:20 -0700
+From: Zhi Wang <zhiw@nvidia.com>
+To: <lyude@redhat.com>, <dakr@kernel.org>, <airlied@gmail.com>,
+ <simona@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <acurrid@nvidia.com>, <cjia@nvidia.com>,
+ <smitra@nvidia.com>, <aniketa@nvidia.com>, <arpitj@nvidia.com>,
+ <kwankhede@nvidia.com>, <targupta@nvidia.com>, <zhiw@nvidia.com>,
+ <zhiwang@kernel.org>
+Subject: [PATCH] drm/nouveau: fix a use-after-free in r535_gsp_rpc_push()
+Date: Mon, 26 May 2025 12:15:17 +0000
+Message-ID: <20250526121517.8319-1-zhiw@nvidia.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk0dQlZDHU9JGhgaSUxPGRpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a970c7e4bca03a3kunm0ad049025254d0
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Okk6Thw6FzEzHAwvUUoiOBgc
- CiMaCgFVSlVKTE9DSU1KSUJPTUtNVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKT0xNTjcG
-DKIM-Signature: a=rsa-sha256;
- b=M40owbTqPt21TbvCZFTdk4DvPyfPq3CP/4a31Q2ESwgp6mcfMIHbQZg3p131yHhCBh+xf8y1T5gLnRM8z/uFRdqTZKTdqMI4AfyrZ6mRWNBUoepKGWMHJ5iqQS50z7j1X7I6x4oZneD3LK22SWdak3AwKYgqJ8wjuaWqpbrJt0w=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=n4pS+JY3yVm/hmb6oIsxX+WSE0Be/ORqC+kIfKKe2rI=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231A:EE_|CY8PR12MB7539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b702671-7919-4e10-d42b-08dd9c4f0970
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Tga6vQja+y4UBWpSG4Ubl6UWI7aWd1tZ20uzl43YLqeRRsn+NymSlzb+ThNf?=
+ =?us-ascii?Q?ZA9tBPv/Rf+0DIDSqRA5xsNOEQCLm6rrgRTxuNi1GtorYjJtKnzOl21grUio?=
+ =?us-ascii?Q?F6GJHuQHE+Wx80prHZWu14b+AKkKBnOoQAhnKmDBIPnJcItHTMz/YFJZF9FL?=
+ =?us-ascii?Q?IefFEeLkUlr8APahCAItH1FcjgzshCpKWrm/DG1zAJ5xn48KVa9NyOgafcNa?=
+ =?us-ascii?Q?VEPecuuQxVhwpP3mMTaUq2p0dW9Na6/3lGy4DiDU+To7cLYa9E6ZgxgxWOE2?=
+ =?us-ascii?Q?V112yJIeTP69u7YF33I27XU+Vqlv1uqt+en9aq1HeRTOUla5wz9xxKx/3kFh?=
+ =?us-ascii?Q?bLIg7MxBJkjRRyS+uGFX+AR3zwHVw/euMcAYREZegV2NYr5pNZCnIx0mplcc?=
+ =?us-ascii?Q?OAuAziERx/gJYERPoMcR8ext67USzT1Utdk6ou7NkTzEfg1IuI6pEcQvrGxd?=
+ =?us-ascii?Q?e8fNINWE9TNB3AFnksO23jMJtnMvnwjf2Bmc3lJkJ4qID7pud/tS2VOOuhA4?=
+ =?us-ascii?Q?Zzs9/yB147+ar6G4+dQQg7Z3B5AWogEFCJU+TI88mZFfM4Y7LV2ru4A9JuwT?=
+ =?us-ascii?Q?iwhdrQ2dfQXR6a4a5x5GmKwohy5w4VK1/ONNrpCCByruB8IyR0tXvQeNA3MM?=
+ =?us-ascii?Q?KwAdN1IbZFcbncecwMZbdk/MXLDsgWpP0/dd+LYWYisGUEouMJ4UhtDCaixf?=
+ =?us-ascii?Q?aN1Zb0ag5oAiAl1aOchsnIL8D2aUJVKBpKxnnGEshzFTLOZFzRFu/tcGZZ67?=
+ =?us-ascii?Q?Nx4Nwh2LBGt3qaKDoeFaep+20SqRQZq26EYk9DaY4xV1v6Lcgqy6y6oRDpf0?=
+ =?us-ascii?Q?8tsqsLNmbXi6xR+NLM+f5BG3T0aILMiyQpnMfTaNLc/JzzG0dNecy6R/A2Ok?=
+ =?us-ascii?Q?cdpCd5oeCm6UphSHR5JF/89DEHUVJEhSAxKJfkWBad+JRK+vb6jpGxCySGXd?=
+ =?us-ascii?Q?/IuQrKYmc67M9yp4IdjuFiKZ30zpHiIsXIEc+p1lVQPvUQTScFUCfFTxGgC7?=
+ =?us-ascii?Q?uxLjzDYzncG/6RVSLLOgE+n52kjBrgRKwMjti9iT3/DPK576VPB0wah2eNdt?=
+ =?us-ascii?Q?xma5axIljcXjjSUJI5Bgcyb2rcbVOMWOGo5JBueJxzo42NPaWSYgtS0vp2VY?=
+ =?us-ascii?Q?djEMAp8TgnafcCtjpXIwRtlkINsRxSRvxOkD+qV8ANHAVUwbKNL6/AWOeSof?=
+ =?us-ascii?Q?ybbS9x8LqPN+RC4Z72RXQi5T/feV0ZpeC/bN/4QBBAm6N4/UEno1sW8O1QNY?=
+ =?us-ascii?Q?HQSo5fKdVpVvVBocIggYj0B/3zYVboiFSRktfAdwwYZK31Gz13uadOImt4f1?=
+ =?us-ascii?Q?XiwdfLtQhmAnAA8W8TCJVUAu/RoPrREhu607DA9a0mv0BVlQZGDQtVT+CHkQ?=
+ =?us-ascii?Q?D9ntp2dJ51cjLdkkVk6ZRBXM9nb2Zsyv0+nS9Gm5cTzcaeG0ZqgNuKeZGTqX?=
+ =?us-ascii?Q?aqsa6zP5mLLPnr3I4iu/ZTG5biPIjsLkL4pdbAXC3kPpZFEv4MQJyyQD+eNd?=
+ =?us-ascii?Q?cM+Q9/jukQ4rCzA9VLY5sTrPmCXOyr4meav5?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:15:43.0152 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b702671-7919-4e10-d42b-08dd9c4f0970
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF0000231A.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7539
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,384 +143,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apply drm_bridge_connector helper for Analogix DP driver.
+The RPC container is released after being passed to r535_gsp_rpc_send().
 
-The following changes have been made:
-- Remove &analogix_dp_device.connector and change
-  &analogix_dp_device.bridge from a pointer to an instance.
-- Apply drm_bridge_connector helper to get rid of &drm_connector_funcs
-  and &drm_connector_helper_funcs.
-- Remove &analogix_dp_plat_data.skip_connector.
+When sending the initial fragment of a large RPC and passing the
+caller's RPC container, the container will be freed prematurely. Subsequent
+attempts to send remaining fragments will therefore result in a
+use-after-free.
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+Allocate a temporary RPC container for holding the initial fragment of a
+large RPC when sending. Free the caller's container when all fragments
+are successfully sent.
+
+This problem is caught by KASAN.
+
+Fixes: 176fdcbddfd2 ("drm/nouveau/gsp/r535: add support for booting GSP-RM")
+Signed-off-by: Zhi Wang <zhiw@nvidia.com>
 ---
- .../drm/bridge/analogix/analogix_dp_core.c    | 157 ++++++++----------
- .../drm/bridge/analogix/analogix_dp_core.h    |   4 +-
- include/drm/bridge/analogix_dp.h              |   1 -
- 3 files changed, 72 insertions(+), 90 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 2c51d3193120..d67afd63d999 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -22,6 +22,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_edid.h>
-@@ -946,9 +947,10 @@ static int analogix_dp_disable_psr(struct analogix_dp_device *dp)
- 	return analogix_dp_send_psr_spd(dp, &psr_vsc, true);
- }
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+index 969f6b921fdb..ab865da2541d 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -978,12 +978,21 @@ r535_gsp_rpc_push(struct nvkm_gsp *gsp, void *payload,
+ 	if (payload_size > max_payload_size) {
+ 		const u32 fn = rpc->function;
+ 		u32 remain_payload_size = payload_size;
++		void *next;
  
--static int analogix_dp_get_modes(struct drm_connector *connector)
-+static int analogix_dp_bridge_get_modes(struct drm_bridge *bridge,
-+					struct drm_connector *connector)
- {
--	struct analogix_dp_device *dp = to_dp(connector);
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	const struct drm_edid *drm_edid;
- 	int num_modes = 0;
+ 		/* Adjust length, and send initial RPC. */
+ 		rpc->length = sizeof(*rpc) + max_payload_size;
+ 		msg->checksum = rpc->length;
  
-@@ -957,10 +959,10 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
+-		repv = r535_gsp_rpc_send(gsp, payload, NVKM_GSP_RPC_REPLY_NOWAIT, 0);
++		next = r535_gsp_rpc_get(gsp, fn, max_payload_size);
++		if (IS_ERR(next)) {
++			repv = next;
++			goto done;
++		}
++
++		memcpy(next, payload, max_payload_size);
++
++		repv = r535_gsp_rpc_send(gsp, next, NVKM_GSP_RPC_REPLY_NOWAIT, 0);
+ 		if (IS_ERR(repv))
+ 			goto done;
+ 
+@@ -994,7 +1003,6 @@ r535_gsp_rpc_push(struct nvkm_gsp *gsp, void *payload,
+ 		while (remain_payload_size) {
+ 			u32 size = min(remain_payload_size,
+ 				       max_payload_size);
+-			void *next;
+ 
+ 			next = r535_gsp_rpc_get(gsp, NV_VGPU_MSG_FUNCTION_CONTINUATION_RECORD, size);
+ 			if (IS_ERR(next)) {
+@@ -1015,6 +1023,8 @@ r535_gsp_rpc_push(struct nvkm_gsp *gsp, void *payload,
+ 		/* Wait for reply. */
+ 		repv = r535_gsp_rpc_handle_reply(gsp, fn, policy, payload_size +
+ 						 sizeof(*rpc));
++		if (!IS_ERR(repv))
++			kvfree(msg);
  	} else {
- 		drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
- 
--		drm_edid_connector_update(&dp->connector, drm_edid);
-+		drm_edid_connector_update(connector, drm_edid);
- 
- 		if (drm_edid) {
--			num_modes += drm_edid_connector_add_modes(&dp->connector);
-+			num_modes += drm_edid_connector_add_modes(connector);
- 			drm_edid_free(drm_edid);
- 		}
+ 		repv = r535_gsp_rpc_send(gsp, payload, policy, gsp_rpc_len);
  	}
-@@ -971,51 +973,25 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
- 	return num_modes;
- }
- 
--static struct drm_encoder *
--analogix_dp_best_encoder(struct drm_connector *connector)
-+static int analogix_dp_bridge_atomic_check(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *bridge_state,
-+					   struct drm_crtc_state *crtc_state,
-+					   struct drm_connector_state *conn_state)
- {
--	struct analogix_dp_device *dp = to_dp(connector);
--
--	return dp->encoder;
--}
--
--
--static int analogix_dp_atomic_check(struct drm_connector *connector,
--				    struct drm_atomic_state *state)
--{
--	struct analogix_dp_device *dp = to_dp(connector);
--	struct drm_connector_state *conn_state;
--	struct drm_crtc_state *crtc_state;
--
--	conn_state = drm_atomic_get_new_connector_state(state, connector);
--	if (WARN_ON(!conn_state))
--		return -ENODEV;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 
- 	conn_state->self_refresh_aware = true;
- 
--	if (!conn_state->crtc)
--		return 0;
--
--	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
--	if (!crtc_state)
--		return 0;
--
- 	if (crtc_state->self_refresh_active && !dp->psr_supported)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
--static const struct drm_connector_helper_funcs analogix_dp_connector_helper_funcs = {
--	.get_modes = analogix_dp_get_modes,
--	.best_encoder = analogix_dp_best_encoder,
--	.atomic_check = analogix_dp_atomic_check,
--};
--
- static enum drm_connector_status
--analogix_dp_detect(struct drm_connector *connector, bool force)
-+analogix_dp_bridge_detect(struct drm_bridge *bridge)
- {
--	struct analogix_dp_device *dp = to_dp(connector);
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	enum drm_connector_status status = connector_status_disconnected;
- 
- 	if (dp->plat_data->panel)
-@@ -1027,20 +1003,11 @@ analogix_dp_detect(struct drm_connector *connector, bool force)
- 	return status;
- }
- 
--static const struct drm_connector_funcs analogix_dp_connector_funcs = {
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.detect = analogix_dp_detect,
--	.destroy = drm_connector_cleanup,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
- static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
- 				     struct drm_encoder *encoder,
- 				     enum drm_bridge_attach_flags flags)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct drm_connector *connector = NULL;
- 	int ret = 0;
- 
-@@ -1049,23 +1016,15 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
- 
--	if (!dp->plat_data->skip_connector) {
--		connector = &dp->connector;
--		connector->polled = DRM_CONNECTOR_POLL_HPD;
--
--		ret = drm_connector_init(dp->drm_dev, connector,
--					 &analogix_dp_connector_funcs,
--					 DRM_MODE_CONNECTOR_eDP);
--		if (ret) {
--			DRM_ERROR("Failed to initialize connector with drm\n");
--			return ret;
--		}
--
--		drm_connector_helper_add(connector,
--					 &analogix_dp_connector_helper_funcs);
--		drm_connector_attach_encoder(connector, encoder);
-+	connector = drm_bridge_connector_init(dp->drm_dev, encoder);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		dev_err(dp->dev, "Failed to initialize connector with drm\n");
-+		return ret;
- 	}
- 
-+	drm_connector_attach_encoder(connector, encoder);
-+
- 	/*
- 	 * NOTE: the connector registration is implemented in analogix
- 	 * platform driver, that to say connector would be exist after
-@@ -1124,7 +1083,7 @@ struct drm_crtc *analogix_dp_get_new_crtc(struct analogix_dp_device *dp,
- static void analogix_dp_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 						 struct drm_atomic_state *old_state)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state;
- 
-@@ -1177,14 +1136,21 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
- }
- 
- static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
-+					struct drm_atomic_state *state,
- 					const struct drm_display_mode *mode)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
--	struct drm_display_info *display_info = &dp->connector.display_info;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct video_info *video = &dp->video_info;
- 	struct device_node *dp_node = dp->dev->of_node;
-+	struct drm_connector *connector;
-+	struct drm_display_info *display_info;
- 	int vic;
- 
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (!connector)
-+		return;
-+	display_info = &connector->display_info;
-+
- 	/* Input video interlaces & hsync pol & vsync pol */
- 	video->interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
- 	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
-@@ -1255,7 +1221,7 @@ static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
- static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 					     struct drm_atomic_state *old_state)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	int timeout_loop = 0;
-@@ -1268,7 +1234,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 	new_crtc_state = drm_atomic_get_new_crtc_state(old_state, crtc);
- 	if (!new_crtc_state)
- 		return;
--	analogix_dp_bridge_mode_set(bridge, &new_crtc_state->adjusted_mode);
-+	analogix_dp_bridge_mode_set(bridge, old_state, &new_crtc_state->adjusted_mode);
- 
- 	old_crtc_state = drm_atomic_get_old_crtc_state(old_state, crtc);
- 	/* Not a full enable, just disable PSR and continue */
-@@ -1297,7 +1263,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 
- 	if (dp->dpms_mode != DRM_MODE_DPMS_ON)
- 		return;
-@@ -1320,7 +1286,7 @@ static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
- static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 					      struct drm_atomic_state *old_state)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct drm_crtc *old_crtc, *new_crtc;
- 	struct drm_crtc_state *old_crtc_state = NULL;
- 	struct drm_crtc_state *new_crtc_state = NULL;
-@@ -1358,7 +1324,7 @@ static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- static void analogix_dp_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 						   struct drm_atomic_state *old_state)
- {
--	struct analogix_dp_device *dp = bridge->driver_private;
-+	struct analogix_dp_device *dp = to_dp(bridge);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *new_crtc_state;
- 	int ret;
-@@ -1384,24 +1350,27 @@ static const struct drm_bridge_funcs analogix_dp_bridge_funcs = {
- 	.atomic_enable = analogix_dp_bridge_atomic_enable,
- 	.atomic_disable = analogix_dp_bridge_atomic_disable,
- 	.atomic_post_disable = analogix_dp_bridge_atomic_post_disable,
-+	.atomic_check = analogix_dp_bridge_atomic_check,
- 	.attach = analogix_dp_bridge_attach,
-+	.get_modes = analogix_dp_bridge_get_modes,
-+	.detect = analogix_dp_bridge_detect,
- };
- 
- static int analogix_dp_create_bridge(struct drm_device *drm_dev,
- 				     struct analogix_dp_device *dp)
- {
--	struct drm_bridge *bridge;
--
--	bridge = devm_kzalloc(drm_dev->dev, sizeof(*bridge), GFP_KERNEL);
--	if (!bridge) {
--		DRM_ERROR("failed to allocate for drm bridge\n");
--		return -ENOMEM;
--	}
-+	struct drm_bridge *bridge = &dp->bridge;
-+	int ret;
- 
--	dp->bridge = bridge;
-+	bridge->ops = DRM_BRIDGE_OP_DETECT |
-+		      DRM_BRIDGE_OP_HPD |
-+		      DRM_BRIDGE_OP_MODES;
-+	bridge->of_node = dp->dev->of_node;
-+	bridge->type = DRM_MODE_CONNECTOR_eDP;
- 
--	bridge->driver_private = dp;
--	bridge->funcs = &analogix_dp_bridge_funcs;
-+	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
-+	if (ret)
-+		return ret;
- 
- 	return drm_bridge_attach(dp->encoder, bridge, NULL, 0);
- }
-@@ -1493,9 +1462,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	dp = devm_kzalloc(dev, sizeof(struct analogix_dp_device), GFP_KERNEL);
--	if (!dp)
--		return ERR_PTR(-ENOMEM);
-+	dp = devm_drm_bridge_alloc(dev, struct analogix_dp_device, bridge,
-+				   &analogix_dp_bridge_funcs);
-+	if (IS_ERR(dp))
-+		return ERR_CAST(dp);
- 
- 	dp->dev = &pdev->dev;
- 	dp->dpms_mode = DRM_MODE_DPMS_OFF;
-@@ -1670,8 +1640,7 @@ EXPORT_SYMBOL_GPL(analogix_dp_bind);
- 
- void analogix_dp_unbind(struct analogix_dp_device *dp)
- {
--	analogix_dp_bridge_disable(dp->bridge);
--	dp->connector.funcs->destroy(&dp->connector);
-+	analogix_dp_bridge_disable(&dp->bridge);
- 
- 	drm_panel_unprepare(dp->plat_data->panel);
- 
-@@ -1681,7 +1650,8 @@ EXPORT_SYMBOL_GPL(analogix_dp_unbind);
- 
- int analogix_dp_start_crc(struct drm_connector *connector)
- {
--	struct analogix_dp_device *dp = to_dp(connector);
-+	struct analogix_dp_device *dp;
-+	struct drm_bridge *bridge;
- 
- 	if (!connector->state->crtc) {
- 		DRM_ERROR("Connector %s doesn't currently have a CRTC.\n",
-@@ -1689,13 +1659,26 @@ int analogix_dp_start_crc(struct drm_connector *connector)
- 		return -EINVAL;
- 	}
- 
-+	bridge = drm_bridge_chain_get_first_bridge(connector->encoder);
-+	if (bridge->type != DRM_MODE_CONNECTOR_eDP)
-+		return -EINVAL;
-+
-+	dp = to_dp(bridge);
-+
- 	return drm_dp_start_crc(&dp->aux, connector->state->crtc);
- }
- EXPORT_SYMBOL_GPL(analogix_dp_start_crc);
- 
- int analogix_dp_stop_crc(struct drm_connector *connector)
- {
--	struct analogix_dp_device *dp = to_dp(connector);
-+	struct analogix_dp_device *dp;
-+	struct drm_bridge *bridge;
-+
-+	bridge = drm_bridge_chain_get_first_bridge(connector->encoder);
-+	if (bridge->type != DRM_MODE_CONNECTOR_eDP)
-+		return -EINVAL;
-+
-+	dp = to_dp(bridge);
- 
- 	return drm_dp_stop_crc(&dp->aux);
- }
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
-index 9f9e492da80f..22f28384b4ec 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
-@@ -10,6 +10,7 @@
- #define _ANALOGIX_DP_CORE_H
- 
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- 
- #define DP_TIMEOUT_LOOP_COUNT 100
-@@ -153,8 +154,7 @@ struct analogix_dp_device {
- 	struct drm_encoder	*encoder;
- 	struct device		*dev;
- 	struct drm_device	*drm_dev;
--	struct drm_connector	connector;
--	struct drm_bridge	*bridge;
-+	struct drm_bridge	bridge;
- 	struct drm_dp_aux	aux;
- 	struct clk		*clock;
- 	unsigned int		irq;
-diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
-index cf17646c1310..cb9663ff61fb 100644
---- a/include/drm/bridge/analogix_dp.h
-+++ b/include/drm/bridge/analogix_dp.h
-@@ -29,7 +29,6 @@ struct analogix_dp_plat_data {
- 	struct drm_panel *panel;
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
--	bool skip_connector;
- 
- 	int (*power_on)(struct analogix_dp_plat_data *);
- 	int (*power_off)(struct analogix_dp_plat_data *);
 -- 
-2.34.1
+2.43.5
 
