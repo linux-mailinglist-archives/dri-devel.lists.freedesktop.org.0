@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5B0AC3BEA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B37EAC3BEC
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:46:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2CB10E2EC;
-	Mon, 26 May 2025 08:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC45610E2EB;
+	Mon, 26 May 2025 08:46:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GeiDH0R1";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YmRbGBp+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C2010E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:44:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E38A75C5AC5
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:42:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9560FC4CEF9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748249082;
- bh=NOpD64SQ7S2sw9dDHernOboHg0h2oURs/+pMiwjTk8Q=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=GeiDH0R13zFHW/4wrxkdGxszEOdfk2rFY5YWQWAom9VMqcfZEJUlqmnQG82jQ4Ph4
- gnIWTCCd9MDUwILozY7cHcEYMfQ84I2LlvS3stUHg6vlk4MeVKq55/FH5Cj0/iWxPe
- IJ+QuzaQK/2oqQd6eH93gzs4DztzWx3IExBpW28zquRZeocr8yM1SQ89dTZB3YUQaK
- WyEKUbWmo6HDEpihYjXtJg4Hc6M23WkrCZuVQZiKu4n+4sA+EIO2XrU9c0Vd7E6tQx
- xyPNSGV2il1pNDtl+pBb1P47vrTsRQzITzpbVy8tL/3s2SssKtpmWNSJQpc62th+nq
- Bu6wr4pDisJIA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8FF6FC41612; Mon, 26 May 2025 08:44:42 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Mon, 26 May 2025 08:44:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: VetaEVega@hotmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211807-2300-ZVmSPni8e6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BC710E2AA;
+ Mon, 26 May 2025 08:46:21 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b5TrV3ppfz9tJf;
+ Mon, 26 May 2025 10:46:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1748249178; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FITOC9q0QoXrfQh+VXBfJzN4BRB3plpWTI8J8NoeSVQ=;
+ b=YmRbGBp+J/y58b1K1Y1lXXG5WKDzTd48EpSV2PKBiJpbpwZg7pZtVyTvYWLafP1dQbGQol
+ uCVXPNf1zSso7M2OgG6g8JRReLf6HtFYhSAO2DqAWK4aJsl6VhqINF8RF+5sunKZLoT4SK
+ wIGp5DJNH7zoCpQLEl5Ir3c5Xr6Fq+qp9EBtOJ9i30jliAm6CI3+TuvAZ1mU2/6kfE4hsv
+ HmWutgA0hEYxWA3U70ZeoQGORRxi4uLn8EDmn+ezSgITT3YomnkdFYPuJX5C0MyMazgxmF
+ IFtKeDqXT4noh+d3ZWaczrYCjTcSS4EiuncaRP2BsxvLKcUaXtYUUr3MNGqv8A==
+Message-ID: <0e4c67eba26d25fbd369dd7a241376a0506ad94d.camel@mailbox.org>
+Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency a bit
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko
+ Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org,  amd-gfx@lists.freedesktop.org, Matthew Wilcox
+ <willy@infradead.org>
+Date: Mon, 26 May 2025 10:46:16 +0200
+In-Reply-To: <bdf82e27-ae7e-4580-ab77-c05842bc8ec1@amd.com>
+References: <20250522134117.7561-1-christian.koenig@amd.com>
+ <20250522134117.7561-2-christian.koenig@amd.com>
+ <a96a73ee-32a5-4c38-b277-e76101b94837@ursulin.net>
+ <bdf82e27-ae7e-4580-ab77-c05842bc8ec1@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-MBO-RS-ID: 3624485f52e3dc55115
+X-MBO-RS-META: o19epfdepxb84yh3zi17pd9j8q8e9oa3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,25 +64,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
++Cc Matthew, again :)
 
-Joel W. Charles (VetaEVega@hotmail.com) changed:
+On Thu, 2025-05-22 at 18:19 +0200, Christian K=C3=B6nig wrote:
+> On 5/22/25 16:27, Tvrtko Ursulin wrote:
+> >=20
+> > On 22/05/2025 14:41, Christian K=C3=B6nig wrote:
+> > > Since we already iterated over the xarray we know at which index
+> > > the new
+> > > entry should be stored. So instead of using xa_alloc use xa_store
+> > > and
+> > > write into the index directly.
+> > >=20
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > ---
+> > > =C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 12 ++++++------
+> > > =C2=A0 1 file changed, 6 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index f7118497e47a..d2d64bf17c96 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
+> > > =C2=A0 int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *fence)
+> > > =C2=A0 {
+> > > +=C2=A0=C2=A0=C2=A0 unsigned long index =3D -1;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *entry;
+> > > -=C2=A0=C2=A0=C2=A0 unsigned long index;
+> > > -=C2=A0=C2=A0=C2=A0 u32 id =3D 0;
+> > > -=C2=A0=C2=A0=C2=A0 int ret;
+> > > =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!fence)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > > @@ -896,11 +894,13 @@ int drm_sched_job_add_dependency(struct
+> > > drm_sched_job *job,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > =C2=A0 -=C2=A0=C2=A0=C2=A0 ret =3D xa_alloc(&job->dependencies, &id, =
+fence,
+> > > xa_limit_32b, GFP_KERNEL);
+> > > -=C2=A0=C2=A0=C2=A0 if (ret !=3D 0)
+> > > +=C2=A0=C2=A0=C2=A0 entry =3D xa_store(&job->dependencies, index + 1,=
+ fence,
+> > > GFP_KERNEL);
+> >=20
+> > From the code it looks index does not "move" for NULL slots?
+>=20
+> Correct, but I just found out that the macro initializes index to
+> zero, so that approach also doesn't work.
+>=20
+> *sigh* going to look into this again tomorrow. It looks like this use
+> case is somehow not well supported at all by xarray.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |VetaEVega@hotmail.com
+@Matthew, would be really nice if you could give some insights to that
+and maybe give advice on a path how to best do that with xarray in a
+canonical way.
 
---- Comment #32 from Joel W. Charles (VetaEVega@hotmail.com) ---
-Thanks everyone for sharing and analyzing in great detail =E2=80=93 very he=
-lpful for
-those who are having similar problems. Hope to have a stable fix soon!
-https://101games.io/gunspin
 
---=20
-You may reply to this email to add a comment.
+Thanks,
+P.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > That is, if someone:
+> >=20
+> > 1) Preallocates one entry, when trying to populate it index will be
+> > -1 after xa_for_each?
+> >=20
+> > 2) Add one, preallocate one, then add one more - index will be 0
+> > after xa_for_each?
+> >=20
+> > Regards,
+> >=20
+> > Tvrtko
+> >=20
+> > > +=C2=A0=C2=A0=C2=A0 if (xa_is_err(entry))
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_put(=
+fence);
+> > > +=C2=A0=C2=A0=C2=A0 else
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(entry);
+> > > =C2=A0 -=C2=A0=C2=A0=C2=A0 return ret;
+> > > +=C2=A0=C2=A0=C2=A0 return xa_err(entry);
+> > > =C2=A0 }
+> > > =C2=A0 EXPORT_SYMBOL(drm_sched_job_add_dependency);
+> > > =C2=A0=20
+> >=20
+>=20
+
