@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAC7AC3FD0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F090AC3FD2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4830B10E357;
-	Mon, 26 May 2025 12:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C24C610E35E;
+	Mon, 26 May 2025 12:56:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tIzkMcT6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="iQYkZ8UB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA69210E369
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 12:56:17 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9496010E35E;
+ Mon, 26 May 2025 12:56:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=koFmDx7MHHwGQy6Zg/KU45MslPfzuQV9qEn5CS7maKDRbigcJ9iRfZC6b5JV9Znk9sX6EcWXp3BTrklhIz3Cicrxl+HZHhmB/WIBHwMNmLHnRZft3tZsXZpGFaq8u+aVEBK2tmpUOkZKhkmU/mdA6nB6r2Sb1ba/L1Jzm6xcl/dJXxA8rndsTlaS8AJh91iOqyGWw/2aRHc0yRcO732IuSRCEsddegpo/JRMrqTeJ44cjUlX7cWWtczwuBsAFxIWdwqnxdGL0FktQpmFEhAA9ClBbKXw6C0m1ivEi+u/KTU7D4NBeWh3+TLR0mBCxzx3nShfrcCLLPrey4M6AfLtSw==
+ b=FE/hTSXJn1MAobSiGbWwvt1ffAPnBLAj1qOrkd1PLaGWJ8Zp+6PHhPWwDTfo9B1xZ2fbftxVvATZsqx4E8DuAne2+TSccdjwztPBInhIeFOpDE7WfNaRaQVH/3+mc3dVN8iPtfLRGBsMLCftHApdlSDmQDSCheJ8GOGn0h3g6iJvbSzuuKWEpwYEKJAIC9R+ssUQwj3Hbql60tdGCkY0xNKgIF31TJVF8Yuef9sQ2GTOF+ZaptpyF5NR4IO0d/HFMVmPJUIP7nwz0aFMBN+YuptDXEQofO74wugsEeiVhHWpxny21bG9rElgH6wDtv3tz3w4OrL50l6x9tVxKmcljA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KMD0bI0xdrGrvW7XnH89D6p4EE2EPeZChFkD28qnu4M=;
- b=GlMsgy8y85crbOExqd4iArN+dPQxaKiDHAYAOn2z9i1y6TVFy7gaPPapS6+ZiLAaCikRPZwKhEKwdI6GM2XboXSGMipBNKZ2U2cmztbDMmb9BCMURCVqUX31BAExouO/VU/GqOnLVmv9OYkCZ7ZPOjP8Qm5oHQluO6UdCcPE7WbCZkZMCuD3z2JvzfbeGoV81PpmDsV+iXeuD6YRfedYL7gycJ1FVxkuVG6I8YqsJhdZqFcfIQvmJ9Li41h0vQESF2+9W67mg5hC/tWQ5ovcXSViQzKy8Jk/HZ/cN9hJqocJgY3yvtJ91OI4aIcrb0Yk4X9+yTNZyu80oWkIXSi+ZQ==
+ bh=EPnXzD0KJxJJQYtwJjPmIBHC6oxkoYOlNi+gipIakdk=;
+ b=gTzgmb/y5jRM6GwU2FFLvsA/0IKmoPiiELkU2JFS0YIe0ebkGISyl9DBOE9ZhxY9PZm8Q9xFTDH9C/LSjbUnrxUTAAjLzkLrBl2jjrGhGtiRvZmOgjlNKrwxGT6rIk/H5P7RaHgs4L+Dpl2szte/bcAxMTD3jdtbfVl0V8WRTG+aBdKDDgWEIAs2lrwOqql/dO2DVAk7gA/lz3qh6eWkkb6qc+4ZDhIjCISHGlSxHHx90UMukObq2QdB/GlMKfm5yoVGDOyyQ//3/zr4pIvseZY6qMVGLf4jrLyw27mnQn/VZ4e0RDOCHOiMS8iFowomsyDY3FdvHjDGJBKWLYcMfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KMD0bI0xdrGrvW7XnH89D6p4EE2EPeZChFkD28qnu4M=;
- b=tIzkMcT6yrMI0BdtPRB0cF76E/dhhpNijN2uGGX19yjODlS+IzrYZxmeKfXNoci9glz11L0Nu9NdaemRqGhhZ/ZnVziWr/AuWY548gGEEEG8wAnl0eTzo6q0F7DQfZD+GJKriI+/4bQyJbysluHps4J77RXt5XefG5OuAI8z0kA=
-Received: from BYAPR11CA0096.namprd11.prod.outlook.com (2603:10b6:a03:f4::37)
- by DM4PR12MB5938.namprd12.prod.outlook.com (2603:10b6:8:69::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8769.21; Mon, 26 May 2025 12:56:10 +0000
-Received: from SJ1PEPF00001CE7.namprd03.prod.outlook.com
- (2603:10b6:a03:f4:cafe::fb) by BYAPR11CA0096.outlook.office365.com
- (2603:10b6:a03:f4::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.30 via Frontend Transport; Mon,
- 26 May 2025 12:56:10 +0000
+ bh=EPnXzD0KJxJJQYtwJjPmIBHC6oxkoYOlNi+gipIakdk=;
+ b=iQYkZ8UBInxvpSgB2/VCJNmXSrQV9/FOUP5P9vdPQU/MXdtMAm1A6jlHoT4ZYf1a4Aetfa/FlNkmFAExpOH/1Leuh7kii+rrpXCdcK7ZjbmHrzwzI7aVdJK9Aly71ulp/qI5cVODb8G8X55EaCrmBp+tYnZZFJXKJm1Gh3xktIg=
+Received: from SJ0PR13CA0130.namprd13.prod.outlook.com (2603:10b6:a03:2c6::15)
+ by CH1PPF7A6EE32B1.namprd12.prod.outlook.com
+ (2603:10b6:61f:fc00::616) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Mon, 26 May
+ 2025 12:56:16 +0000
+Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c6:cafe::7e) by SJ0PR13CA0130.outlook.office365.com
+ (2603:10b6:a03:2c6::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.16 via Frontend Transport; Mon,
+ 26 May 2025 12:56:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,83 +48,95 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CE7.mail.protection.outlook.com (10.167.242.23) with Microsoft
+ SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:56:10 +0000
+ 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:56:15 +0000
 Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 26 May
- 2025 07:56:07 -0500
+ 2025 07:56:12 -0500
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Qiang Yu
+ <yuq825@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Tvrtko
- Ursulin" <tvrtko.ursulin@igalia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v11 07/10] drm/sched: Cleanup event names
-Date: Mon, 26 May 2025 14:54:49 +0200
-Message-ID: <20250526125505.2360-8-pierre-eric.pelloux-prayer@amd.com>
+ Ursulin" <tursulin@igalia.com>, Arvind Yadav <arvind.yadav@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lima@lists.freedesktop.org>
+Subject: [PATCH v11 08/10] drm: Get rid of drm_sched_job.id
+Date: Mon, 26 May 2025 14:54:50 +0200
+Message-ID: <20250526125505.2360-9-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE7:EE_|DM4PR12MB5938:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1067589-e7b7-45e9-228a-08dd9c54b069
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|CH1PPF7A6EE32B1:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b8e889e-93d8-4110-adfe-08dd9c54b38a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZhocWBTCn5uzxug0Fn7kcrrQuflwSSFFTsSH9/HBU/dtEhCssonjktTQZQlH?=
- =?us-ascii?Q?ns+oSZNUaN23yS0Ev+PqfgjUH3trBkjBm0QCjTp66VCYmZqsBVoBnUcFGnpi?=
- =?us-ascii?Q?zTjg/21unNWcucvRv1y5mV4l4KrYOy/vdlCERChHmFOlLYsHZbVNx6/Wd8Df?=
- =?us-ascii?Q?V0xTgTfSSrIVtZ7dE+tcLI2VvkPXFS/oQQt0gSEOMbqYruKxtqpDWT9bsCWQ?=
- =?us-ascii?Q?7reF/8M2qcy6jN6Mmwq8U4szn37Nrvy9ty4V03ZxwrDCStTkLPU3U3oGR9Rl?=
- =?us-ascii?Q?6YsNq5MgI0R5+vFTRAN0Jq8D5uAxt/Ovs4T7U++Sf080dpUslu9+rJhWHP8v?=
- =?us-ascii?Q?vvm1fkpsKaQXt2hOqifzKEae4t2wBr570Bx/wVJj1gmAuPK8+rtavdO/p92z?=
- =?us-ascii?Q?r33u9QVRDtYWyvnB0CfXjHXUc+A9k0CgzZ/0ntURRXacoFn4lT2G9Cx6fREz?=
- =?us-ascii?Q?D3FAmadwtYSv5gvwZ2SpZgawVrNa7h4J5+KHEOyUd8yu3WSFndTtrwJFSJSv?=
- =?us-ascii?Q?sejl7kZhgphhAKLqIjPqNYVzSlyWdgcinq7+wuDy9ml2Rnj2fI7ahS4nM5oy?=
- =?us-ascii?Q?A1+gq4GcSnFmx/PwU0M6V81xhEOkvTIAAnzpfptYWoxQk36gbcN58FoJLR8q?=
- =?us-ascii?Q?bxUKC4e8zDTwChO1KTxQeo195D8ohzJdsrkZ95wxJLGHHgpSu2PcZBi4HyPy?=
- =?us-ascii?Q?642T0gZKnIgx+b9XY9JCXjz+q9SwViOfrs+n62K9WI2QaE4van6IdaXWG2Y6?=
- =?us-ascii?Q?MADTWr1L1VHYbdn3E6bVRaIFXsRa/0f3DzsJ+25jsJPpBC3VxRu30tRP9DxG?=
- =?us-ascii?Q?IRjqPQhBUh4JzlPgiO+KrwJwYWZFvwyjX2vRVqUrPIjePeZdesZht7SAB2w8?=
- =?us-ascii?Q?KthNn950Zzqddz4VUDFBuIldibNUm+Sfs4nYOo6re5lopjUIRABK+7HPWKY3?=
- =?us-ascii?Q?9U5mAAdLUR8rtQ60d5QM2JtlCXjaFTQkN2+yZOf4a97krEE4nFh3wFv7U8/D?=
- =?us-ascii?Q?HQSTm/4uJET4yNXqG7Bc/3HOOrWUGGWjkUkP27/iwidoNCl3l1L/S6eA6PCa?=
- =?us-ascii?Q?QarlOsx/XKNZbzwySFjF6lmxB2/QhQX3ToM0DrjdzUnvEV8AuLU8GmtDYaP6?=
- =?us-ascii?Q?blt4nC9+/A8B2k7j1E7gY7VHmK7RWzXSPd4764m1a2RvOOtYZqFTsLlsGBoV?=
- =?us-ascii?Q?v9d26vmVxJjtbKl4RfdyNwTLk7AAXUDzLzMSEWABOxq06hTnMRxVKVV+znEa?=
- =?us-ascii?Q?8eAk4TJaJHpk2BO1b+MnBpn55a9Yxjpc+iKsao5L0We/RAe8ujA265KCAsI9?=
- =?us-ascii?Q?xTwGOAZ3vOGESfGGk4NZ07YZMEtpxrlX6bkeTYg6lHLxYweFXlrca2x8EmMp?=
- =?us-ascii?Q?gEZ/SVQWEc+rUjRKh82N+RyjFqlzU0rPZ+bk9iMi782u46ltckBkwdXt8gqw?=
- =?us-ascii?Q?5cqIz7Le1UVN/w8h90xd43SxgKOjN4IGj/cTxas623fCPtftUBP54/o5eII5?=
- =?us-ascii?Q?E6itP2lMdW5xkZwkCfjCzExWKLhHFuBLbMqC?=
+ ARA:13230040|376014|82310400026|7416014|36860700013|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cHo3YjNBeHpXNDgwdEpKaXltd2Y1a2lWaTVCcE1vYmk2WVVHbjNKL1QxcEVG?=
+ =?utf-8?B?TmxqZDd1RVprV0lra3k5VGhXcy9qQ2pWZTdqeFQzT1hJR3c1YUx1N25wQVEz?=
+ =?utf-8?B?dHFQanQzSkZtcWtlM2NzVktUMnd6Y3hONmFvdXhTOURFU0ZTeUoxcnBBek9H?=
+ =?utf-8?B?ZCtQTGN3aDBjT3MvT3g4em92TGk0QllDQ1phSVQrWHIzQWpHbmRGb09POHcz?=
+ =?utf-8?B?T1gzVVhaWi8xV01ZRFdnQlBMZWxEajMrd2lPQVAxYWlFUzJJZHhsS2NieU11?=
+ =?utf-8?B?NEgwN2NsWmJqdzRSMzVKcXlWWUdnTzhBS3BVeXFWdElUMXJaTHhJdWN4QWZC?=
+ =?utf-8?B?dFVRRUZlTVUvakpFRW5kWjd3ZXRlM0o4aHc5UzNOTkV3c1FlN3BTNm5TUkk0?=
+ =?utf-8?B?MlVyaVZxZHg1TFBIdmtmVzQ2RCtvSWVyODNTWkZGaEdjbG1iNTdJVnRBZ20v?=
+ =?utf-8?B?SzBoN0plSzB0OVcyemZ0RzBZQzRQbGRNSFZENFJTRGdHYnBMcHhZODVpTjB3?=
+ =?utf-8?B?enNVeDFRQ1RUZHNWMVgxY3JrRlRvRWNYZ0lxcmFQbnBQenlWR0cxeDBheXFY?=
+ =?utf-8?B?ZUs3QmpkTC9FWjZRY2N4RDJQazIxYTkxM3YrNWNnNFhuR0RIRzR1SDM5TUcv?=
+ =?utf-8?B?ZTFKUU0vdnlJUzJNNi9ESHc1d1FvaCt5N2F0Skh3d3Zra29FMkwzZStjYVBQ?=
+ =?utf-8?B?U0k2OC91bGtrVGFiL1NNYk91K1l2VXk4eVlYdEkxZFR2eVNGR2NLdE43eHlz?=
+ =?utf-8?B?Q2NpampFYTFRL1BESDFhYWUzUi8vTlo0R1RCQTRndE9aVmZ2Zkc1WnV3RnpV?=
+ =?utf-8?B?MmNZWUlmeGFiaThWMForN3pHT1FERXRodCtobW9iN2ZnZnFjcVJWZ1YyNEZB?=
+ =?utf-8?B?c2RSRlZzVU9zU3pXODBUdUdQQlNuVzQzWGhic2QrOU5tWVZKS1lvcC9kd3lh?=
+ =?utf-8?B?OFJHck1hSWFiemloZnQxSGVqdW1qbGdKcktDem80ZmpUOTFzUnJCRnc0a0tz?=
+ =?utf-8?B?bU5oM241S3lDeng4OVAvRnZtNWZGTWpSZXh2WVBpNzlteWNJR01RU3F6SENT?=
+ =?utf-8?B?VUxVZFBOWXg4SEdQWENTMVpyaHJRWm9nSGZCVlMwYWh0OElmTnVSb1lDbkZP?=
+ =?utf-8?B?M2NvaTlCUHRoeTVyNjhOMmwzWVJTMmZVbkxKMHkwY0lkQ2U5L0tuSGNwL2Jh?=
+ =?utf-8?B?NXNPVStXbERWOTFxYTdUTnRKOTk2RHFUdkQrWHcxeENwNjJKRG1wbitrOFVo?=
+ =?utf-8?B?UkRUUERIMmRlSTlxL2ZlbytiRGhYV3hTWGxTSFFZL0ZRMU9GWXdJaStFYUFG?=
+ =?utf-8?B?QWVBRGZMMzJ3cytiVlFJMi84eEdzMkxBeEdnTmN5R1lxQTNZaHRJNXN2THNM?=
+ =?utf-8?B?Y2RRbnp4MXpxWHF2ZnRNMXFEbzdiQ3FjeVNOdEpSRnE5aGNjb2pHUjR4Z1kr?=
+ =?utf-8?B?QzBhUUNpNVdPVmRVK1ZNNUcwZ2hDTjZSNnVPWUdhQkFWQkhlNU1na2tzQXg4?=
+ =?utf-8?B?aDVxUmRFVFpqNWUwb0NielRLNWJXQ2ljbXMveUk5eUVZcTA3a2lIT1ZzNXAv?=
+ =?utf-8?B?bFFvNDVxejh5L29xaThUbTVjMlBDZDhZTWovRzk3bnNPakk4cEpkaXI3QTlN?=
+ =?utf-8?B?WGZxM24rTDhUNlMrRkNOejFqbU91QThsdWU3dXd6bzJRVnZpVVdhZnhhbU11?=
+ =?utf-8?B?emV5NGkxS2RiL3pvdEY0aGQwaVlRYnJOZkVCWUFPQzdha05UanZ2RXdPODZ5?=
+ =?utf-8?B?MERyYjlFOUw2U0pTWDMzNWNtQmxzYlB2RFRYTFp4Z0lvSFp2Wjl3U2YyOTF2?=
+ =?utf-8?B?REoydG5CUnlDWjBUaUVVbXM5eUtzT3JLVmpETUI4eVVWbHpsNk83RmNjZXNh?=
+ =?utf-8?B?RHJiN1lxdTJvekNkaUwyNDBuL2FBd0NOd1lTZ3dlcUZ4My9jdkF5aG1pWnk0?=
+ =?utf-8?B?TDlrNFNXZ2R3czZGSWk0REtvNzdhYWhaK1NjUDlQbnRnckwyQlgxdTE4ajEz?=
+ =?utf-8?B?ejRNME9ndTZ2WWdEQVNZSVptK2lBdllqNzFKREE0SmVpSmI1NlJlVFhVK1FX?=
+ =?utf-8?B?Z0R2VmMza1dxY2ZIMFdIS2lWcmpyeDltTWp0QT09?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(376014)(82310400026)(7416014)(36860700013)(1800799024)(921020);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:56:10.6087 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1067589-e7b7-45e9-228a-08dd9c54b069
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:56:15.8605 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b8e889e-93d8-4110-adfe-08dd9c54b38a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE7.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CEA.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5938
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF7A6EE32B1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,104 +152,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All events now start with the same prefix (drm_sched_job_).
+Its only purpose was for trace events, but jobs can already be
+uniquely identified using their fence.
 
-drm_sched_job_wait_dep was misleading because it wasn't waiting
-at all. It's now replaced by trace_drm_sched_job_unschedulable,
-which is only traced if the job cannot be scheduled.
-For moot dependencies, nothing is traced.
+The downside of using the fence is that it's only available
+after 'drm_sched_job_arm' was called which is true for all trace
+events that used job.id so they can safely switch to using it.
 
+Suggested-by: Tvrtko Ursulin <tursulin@igalia.com>
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Arvind Yadav <arvind.yadav@amd.com>
 ---
- drivers/gpu/drm/scheduler/gpu_scheduler_trace.h | 8 ++++----
- drivers/gpu/drm/scheduler/sched_entity.c        | 8 ++++----
- drivers/gpu/drm/scheduler/sched_main.c          | 4 ++--
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h      | 18 ++++++------------
+ drivers/gpu/drm/lima/lima_trace.h              |  6 ++----
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h    | 18 ++++++------------
+ drivers/gpu/drm/scheduler/sched_main.c         |  1 -
+ include/drm/gpu_scheduler.h                    |  3 ---
+ 5 files changed, 14 insertions(+), 32 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index 11dd2e0f7979..4fd810cb5387 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -167,7 +167,6 @@ TRACE_EVENT(amdgpu_cs_ioctl,
+ 	    TP_PROTO(struct amdgpu_job *job),
+ 	    TP_ARGS(job),
+ 	    TP_STRUCT__entry(
+-			     __field(uint64_t, sched_job_id)
+ 			     __string(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
+ 			     __field(unsigned int, context)
+ 			     __field(unsigned int, seqno)
+@@ -177,15 +176,14 @@ TRACE_EVENT(amdgpu_cs_ioctl,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   __entry->sched_job_id = job->base.id;
+ 			   __assign_str(timeline);
+ 			   __entry->context = job->base.s_fence->finished.context;
+ 			   __entry->seqno = job->base.s_fence->finished.seqno;
+ 			   __assign_str(ring);
+ 			   __entry->num_ibs = job->num_ibs;
+ 			   ),
+-	    TP_printk("sched_job=%llu, timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
+-		      __entry->sched_job_id, __get_str(timeline), __entry->context,
++	    TP_printk("timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
++		      __get_str(timeline), __entry->context,
+ 		      __entry->seqno, __get_str(ring), __entry->num_ibs)
+ );
+ 
+@@ -193,7 +191,6 @@ TRACE_EVENT(amdgpu_sched_run_job,
+ 	    TP_PROTO(struct amdgpu_job *job),
+ 	    TP_ARGS(job),
+ 	    TP_STRUCT__entry(
+-			     __field(uint64_t, sched_job_id)
+ 			     __string(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
+ 			     __field(unsigned int, context)
+ 			     __field(unsigned int, seqno)
+@@ -202,15 +199,14 @@ TRACE_EVENT(amdgpu_sched_run_job,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   __entry->sched_job_id = job->base.id;
+ 			   __assign_str(timeline);
+ 			   __entry->context = job->base.s_fence->finished.context;
+ 			   __entry->seqno = job->base.s_fence->finished.seqno;
+ 			   __assign_str(ring);
+ 			   __entry->num_ibs = job->num_ibs;
+ 			   ),
+-	    TP_printk("sched_job=%llu, timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
+-		      __entry->sched_job_id, __get_str(timeline), __entry->context,
++	    TP_printk("timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
++		      __get_str(timeline), __entry->context,
+ 		      __entry->seqno, __get_str(ring), __entry->num_ibs)
+ );
+ 
+@@ -551,7 +547,6 @@ TRACE_EVENT(amdgpu_ib_pipe_sync,
+ 	    TP_ARGS(sched_job, fence),
+ 	    TP_STRUCT__entry(
+ 			     __string(ring, sched_job->base.sched->name)
+-			     __field(uint64_t, id)
+ 			     __field(struct dma_fence *, fence)
+ 			     __field(uint64_t, ctx)
+ 			     __field(unsigned, seqno)
+@@ -559,13 +554,12 @@ TRACE_EVENT(amdgpu_ib_pipe_sync,
+ 
+ 	    TP_fast_assign(
+ 			   __assign_str(ring);
+-			   __entry->id = sched_job->base.id;
+ 			   __entry->fence = fence;
+ 			   __entry->ctx = fence->context;
+ 			   __entry->seqno = fence->seqno;
+ 			   ),
+-	    TP_printk("job ring=%s, id=%llu, need pipe sync to fence=%p, context=%llu, seq=%u",
+-		      __get_str(ring), __entry->id,
++	    TP_printk("job ring=%s need pipe sync to fence=%p, context=%llu, seq=%u",
++		      __get_str(ring),
+ 		      __entry->fence, __entry->ctx,
+ 		      __entry->seqno)
+ );
+diff --git a/drivers/gpu/drm/lima/lima_trace.h b/drivers/gpu/drm/lima/lima_trace.h
+index 3a349d10304e..98a7fb2fa00e 100644
+--- a/drivers/gpu/drm/lima/lima_trace.h
++++ b/drivers/gpu/drm/lima/lima_trace.h
+@@ -14,21 +14,19 @@ DECLARE_EVENT_CLASS(lima_task,
+ 	TP_PROTO(struct lima_sched_task *task),
+ 	TP_ARGS(task),
+ 	TP_STRUCT__entry(
+-		__field(uint64_t, task_id)
+ 		__field(unsigned int, context)
+ 		__field(unsigned int, seqno)
+ 		__string(pipe, task->base.sched->name)
+ 		),
+ 
+ 	TP_fast_assign(
+-		__entry->task_id = task->base.id;
+ 		__entry->context = task->base.s_fence->finished.context;
+ 		__entry->seqno = task->base.s_fence->finished.seqno;
+ 		__assign_str(pipe);
+ 		),
+ 
+-	TP_printk("task=%llu, context=%u seqno=%u pipe=%s",
+-		  __entry->task_id, __entry->context, __entry->seqno,
++	TP_printk("context=%u seqno=%u pipe=%s",
++		  __entry->context, __entry->seqno,
+ 		  __get_str(pipe))
+ );
+ 
 diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 38cdd659a286..4ce53e493fef 100644
+index 4ce53e493fef..781b20349389 100644
 --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
 +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -63,17 +63,17 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+@@ -36,7 +36,6 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+ 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+ 	    TP_ARGS(sched_job, entity),
+ 	    TP_STRUCT__entry(
+-			     __field(uint64_t, id)
+ 			     __string(name, sched_job->sched->name)
+ 			     __field(u32, job_count)
+ 			     __field(int, hw_job_count)
+@@ -47,7 +46,6 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   __entry->id = sched_job->id;
+ 			   __assign_str(name);
+ 			   __entry->job_count = spsc_queue_count(&entity->job_queue);
+ 			   __entry->hw_job_count = atomic_read(
+@@ -57,8 +55,8 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+ 			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+ 			   __entry->client_id = sched_job->s_fence->drm_client_id;
+ 			   ),
+-	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d, client_id:%llu",
+-		      __get_str(dev), __entry->id,
++	    TP_printk("dev=%s, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d, client_id:%llu",
++		      __get_str(dev),
+ 		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
  		      __entry->job_count, __entry->hw_job_count, __entry->client_id)
  );
- 
--DEFINE_EVENT(drm_sched_job, drm_sched_job,
-+DEFINE_EVENT(drm_sched_job, drm_sched_job_queue,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity)
- );
- 
--DEFINE_EVENT(drm_sched_job, drm_run_job,
-+DEFINE_EVENT(drm_sched_job, drm_sched_job_run,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity)
- );
- 
--TRACE_EVENT(drm_sched_process_job,
-+TRACE_EVENT(drm_sched_job_done,
- 	    TP_PROTO(struct drm_sched_fence *fence),
- 	    TP_ARGS(fence),
- 	    TP_STRUCT__entry(
-@@ -112,7 +112,7 @@ TRACE_EVENT(drm_sched_job_add_dep,
+@@ -95,7 +93,6 @@ TRACE_EVENT(drm_sched_job_add_dep,
+ 	TP_STRUCT__entry(
+ 		    __field(u64, fence_context)
+ 		    __field(u64, fence_seqno)
+-		    __field(u64, id)
+ 		    __field(u64, ctx)
+ 		    __field(u64, seqno)
+ 		    ),
+@@ -103,12 +100,11 @@ TRACE_EVENT(drm_sched_job_add_dep,
+ 	TP_fast_assign(
+ 		    __entry->fence_context = sched_job->s_fence->finished.context;
+ 		    __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+-		    __entry->id = sched_job->id;
+ 		    __entry->ctx = fence->context;
+ 		    __entry->seqno = fence->seqno;
+ 		    ),
+-	TP_printk("fence=%llu:%llu, id=%llu depends on fence=%llu:%llu",
+-		  __entry->fence_context, __entry->fence_seqno, __entry->id,
++	TP_printk("fence=%llu:%llu depends on fence=%llu:%llu",
++		  __entry->fence_context, __entry->fence_seqno,
  		  __entry->ctx, __entry->seqno)
  );
  
--TRACE_EVENT(drm_sched_job_wait_dep,
-+TRACE_EVENT(drm_sched_job_unschedulable,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
- 	    TP_ARGS(sched_job, fence),
+@@ -118,7 +114,6 @@ TRACE_EVENT(drm_sched_job_unschedulable,
  	    TP_STRUCT__entry(
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 8c1589f476ae..0b42e1aa7039 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -476,10 +476,10 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 			     __field(u64, fence_context)
+ 			     __field(u64, fence_seqno)
+-			     __field(uint64_t, id)
+ 			     __field(u64, ctx)
+ 			     __field(u64, seqno)
+ 			     ),
+@@ -126,12 +121,11 @@ TRACE_EVENT(drm_sched_job_unschedulable,
+ 	    TP_fast_assign(
+ 			   __entry->fence_context = sched_job->s_fence->finished.context;
+ 			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+-			   __entry->id = sched_job->id;
+ 			   __entry->ctx = fence->context;
+ 			   __entry->seqno = fence->seqno;
+ 			   ),
+-	    TP_printk("fence=%llu:%llu, id=%llu depends on unsignalled fence=%llu:%llu",
+-		      __entry->fence_context, __entry->fence_seqno, __entry->id,
++	    TP_printk("fence=%llu:%llu depends on unsignalled fence=%llu:%llu",
++		      __entry->fence_context, __entry->fence_seqno,
+ 		      __entry->ctx, __entry->seqno)
+ );
  
- 	while ((entity->dependency =
- 			drm_sched_job_dependency(sched_job, entity))) {
--		trace_drm_sched_job_wait_dep(sched_job, entity->dependency);
--
--		if (drm_sched_entity_add_dependency_cb(entity))
-+		if (drm_sched_entity_add_dependency_cb(entity)) {
-+			trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
- 			return NULL;
-+		}
- 	}
- 
- 	/* skip jobs from entity that marked guilty */
-@@ -585,7 +585,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 	bool first;
- 	ktime_t submit_ts;
- 
--	trace_drm_sched_job(sched_job, entity);
-+	trace_drm_sched_job_queue(sched_job, entity);
- 
- 	if (trace_drm_sched_job_add_dep_enabled()) {
- 		struct dma_fence *entry;
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 34252bac83b9..e3679f26f724 100644
+index e3679f26f724..d20726d7adf0 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -401,7 +401,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
- 	atomic_sub(s_job->credits, &sched->credit_count);
- 	atomic_dec(sched->score);
+@@ -855,7 +855,6 @@ void drm_sched_job_arm(struct drm_sched_job *job)
  
--	trace_drm_sched_process_job(s_fence);
-+	trace_drm_sched_job_done(s_fence);
+ 	job->sched = sched;
+ 	job->s_priority = entity->priority;
+-	job->id = atomic64_inc_return(&sched->job_id_count);
  
- 	dma_fence_get(&s_fence->finished);
- 	drm_sched_fence_finished(s_fence, result);
-@@ -1234,7 +1234,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
- 	atomic_add(sched_job->credits, &sched->credit_count);
- 	drm_sched_job_begin(sched_job);
- 
--	trace_drm_run_job(sched_job, entity);
-+	trace_drm_sched_job_run(sched_job, entity);
- 	/*
- 	 * The run_job() callback must by definition return a fence whose
- 	 * refcount has been incremented for the scheduler already.
+ 	drm_sched_fence_init(job->s_fence, job->entity);
+ }
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 1270cd82ff3e..e62a7214e052 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -326,7 +326,6 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+  * @finish_cb: the callback for the finished fence.
+  * @credits: the number of credits this job contributes to the scheduler
+  * @work: Helper to reschedule job kill to different context.
+- * @id: a unique id assigned to each job scheduled on the scheduler.
+  * @karma: increment on every hang caused by this job. If this exceeds the hang
+  *         limit of the scheduler then the job is marked guilty and will not
+  *         be scheduled further.
+@@ -339,8 +338,6 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+  * to schedule the job.
+  */
+ struct drm_sched_job {
+-	u64				id;
+-
+ 	/**
+ 	 * @submit_ts:
+ 	 *
 -- 
 2.43.0
 
