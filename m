@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D95AC3A83
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830BBAC3A8D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3C7B10E278;
-	Mon, 26 May 2025 07:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C1D10E26C;
+	Mon, 26 May 2025 07:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ERsZFnNG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F91OMDK0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291D310E26C;
- Mon, 26 May 2025 07:20:34 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16875442B5;
- Mon, 26 May 2025 07:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1748244030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QLkd7DkuwItmUeCsro4GRU7KY1n+af+fkKCtRJvc72M=;
- b=ERsZFnNGGx1taTjFML/F7g48As15TWrVqpm7AQM6ITdhjMQXPkfTl1YTY624dt2A61ojKn
- C4GrIy3LvMnZuQ3f48MHbrAItO9yt2FMHAqBFQBNWnAd4H+GlbFkLp+0Q5jpHR5ME8BtSC
- rLb2TykZsJeBxh/2UPnUC+byagvOBWEHs+mzz5buaw+VAmwRzWbNg55alaA49c/WX7dEK/
- fsh2zNr1ZhqaGyMrCEJNSdr/QBQDpvqqwK5PYQ+P4KU7TlWYdbGXAPWQsVfUnDZH7GHJxL
- bRcPS+1N1hdPuMOBL2LrEIz8HJMPOUVPD7+c3bsfVFBouRX3auSsw6Kbri6nhA==
-Date: Mon, 26 May 2025 09:20:24 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250526092024.48cae4ae@booty>
-In-Reply-To: <67252c36-8b31-4c40-9d89-4f502da4a087@nxp.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
- <553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
- <20250430112944.1b39caab@booty>
- <f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
- <20250506224720.5cbcf3e1@booty>
- <67252c36-8b31-4c40-9d89-4f502da4a087@nxp.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB6E10E26C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 07:22:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2606861120;
+ Mon, 26 May 2025 07:22:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6AB2C4CEE7;
+ Mon, 26 May 2025 07:22:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748244177;
+ bh=kQ4k7Xphh54QIxwt6vGLShRpXDSSLCxTPN7vVeaFxCY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F91OMDK0O7gcmEkQdrzt+uf0tyyU4HiriJmD9GpcHrKJn/LBWuyEb5ZEiLnzhj/C+
+ HjKPEXah8xYaU7LdJdZGRc/0B34awR6Ys0ms9HsBhesD6c+O4tNhdI2bVBfWIsw2ve
+ 04Ld4ebrsSMAEK6y3stNWnsKgiyw9r7T2RFhW35tCtH/UI7T76lmh45L+D+t7ClP5R
+ OQdsiyQBiVm5XYV9OUFlppofAeY7Z0sjfytGvqPhNw8zNOIxRHl2BVaoB1xTksmkNT
+ uXQPy8s6Dw9Ybb5FAYXr7SYBlWEyzgg4RhfAFbQcLHLF892hiKVpcjnVijA3AqReCQ
+ l5/Pag91EsJoQ==
+Date: Mon, 26 May 2025 12:52:31 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Subject: Re: [PATCH v9 6/9] tee: add tee_shm_alloc_dma_mem()
+Message-ID: <aDQWt5Ck1Bo01Z_4@sumit-X1>
+References: <20250520152436.474778-1-jens.wiklander@linaro.org>
+ <20250520152436.474778-7-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdduieeltdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgfeetieeutdeifefggfegheelgeefiefgffeifeeujeehkeffgeehhfevfefhjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeelpdhrtghpthhtohepvhhitghtohhrrdhlihhusehngihprdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkh
- hhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520152436.474778-7-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,120 +71,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Liu,
+On Tue, May 20, 2025 at 05:16:49PM +0200, Jens Wiklander wrote:
+> Add tee_shm_alloc_dma_mem() to allocate DMA memory. The memory is
+> represented by a tee_shm object using the new flag TEE_SHM_DMA_MEM to
+> identify it as DMA memory. The allocated memory will later be lent to
+> the TEE to be used as protected memory.
+> 
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_shm.c    | 74 ++++++++++++++++++++++++++++++++++++++--
+>  include/linux/tee_core.h |  5 +++
+>  2 files changed, 77 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index e1ed52ee0a16..92a6a35e1a1e 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -5,6 +5,8 @@
+>  #include <linux/anon_inodes.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  #include <linux/idr.h>
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+> @@ -13,9 +15,14 @@
+>  #include <linux/tee_core.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/uio.h>
+> -#include <linux/highmem.h>
+>  #include "tee_private.h"
+>  
+> +struct tee_shm_dma_mem {
+> +	struct tee_shm shm;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
+> +};
+> +
+>  static void shm_put_kernel_pages(struct page **pages, size_t page_count)
+>  {
+>  	size_t n;
+> @@ -49,7 +56,14 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+>  	struct tee_shm *parent_shm = NULL;
+>  	void *p = shm;
+>  
+> -	if (shm->flags & TEE_SHM_DMA_BUF) {
+> +	if (shm->flags & TEE_SHM_DMA_MEM) {
+> +		struct tee_shm_dma_mem *dma_mem;
+> +
+> +		dma_mem = container_of(shm, struct tee_shm_dma_mem, shm);
+> +		p = dma_mem;
+> +		dma_free_pages(&teedev->dev, shm->size, dma_mem->page,
+> +			       dma_mem->dma_addr, DMA_BIDIRECTIONAL);
 
-On Thu, 22 May 2025 11:01:13 +0800
-Liu Ying <victor.liu@nxp.com> wrote:
+Although the kernel bot already found a randconfig issue, it looks like
+we need to add Kconfig dependencies like HAS_DMA, DMA_CMA etc.
 
-> On 05/07/2025, Luca Ceresoli wrote:
->=20
-> [...]
->=20
-> >> After looking into this patch and patch 31(though I've already provide=
-d my A-b)
-> >> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structu=
-res
-> >> should have the same life time with the embedded DRM bridges, because =
-for
-> >> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
-> >> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patch=
-es extend
-> >> the life time for the embedded channel/bridge structures only, but not=
- for the
-> >> main structures.  What do you think ? =20
-> >=20
-> > I see you concern, but I'm sure the change I'm introducing is not
-> > creating the problem you are concerned about.
-> >=20
-> > The key aspect is that my patch is merely changing the lifetime of the
-> > _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
-> > the bridge is removed from its encoder chain and it is completely not
-> > reachable, both before and after my patch. With my patch it is not =20
->=20
-> drm_bridge_remove() only removes a bridge from the global bridge_list def=
-ined
-> in drm_bridge.c.  drm_bridge_detach() is the one which removes a bridge f=
-rom
-> it's encoder chain.  It looks like you wrongly thought drm_bridge_remove()
-> is drm_bridge_detach().
+Also, I was thinking if we should rather add a new TEE subsystem
+specific Kconfig option like: TEE_DMABUF_HEAPS which can then be used to
+select whatever dependency is needed as well as act as a gating Kconfig
+for relevant features.
 
-Indeed my sentence was inaccurate, sorry about that.
+-Sumit
 
-> So, even if drm_bridge_remove() is called, the removed
-> bridge could still be in it's encoder chain, hence an atomic commit could=
- still
-> access the allocated bridge(with lifetime extended) and the clock_apb clo=
-ck
-> for example in struct imx8qxp_pc could also be accessed.  That's why I th=
-ink
-> the main structures should have the same lifetime with the allocated brid=
-ge.
-
-As the long-term goal is to allow bridges to be hot-removable,
-decoupling the lifetime of the various components is a necessary step.
-Definitely it will open other issues, and especially the removal during
-atomic updates. This has been discussed already, and there is a
-proposed plan to handle it.
-
-First, here is the grand plan (mentioned in the v3 cover letter):
-
- 1. =E2=9E=9C add refcounting to DRM bridges (struct drm_bridge)
- 2. handle gracefully atomic updates during bridge removal
- 3. avoid DSI host drivers to have dangling pointers to DSI devices
- 4. finally, let bridges be removable (depends on 1+2+3)
-
-We are now at step 1. Your concern, as I understand it, will be
-addressed at step 2. Bridges won't be removable until step 4, so the
-current changes are not introducing a misbehavior but rather preparing
-the ground with all the necessary infrastructure changes.
-
-Step 2 was discussed in the past [0], and the idea proposed by Maxime
-is to introduce a "gone" or "unplugged" flag and drm_bridge_enter() /
-drm_bridge_exit() functions. The principle is the same as struct
-drm_device.unplugged and drm_dev_enter/exit().
-
-In a nutshell the idea is:
-
- - drm_bridge.unplugged is initialized to false
- - drm_bridge_enter() returns false if drm_bridge.unplugged =3D=3D true
- - any code holding a pointer to the bridge (including the bridge driver
-   itself) and operating on the bridge (including removal) needs to do:
-     if (drm_bridge_enter()) {
-         do something;
-         drm_bridge_exit();
-     }
- - when the bridge is removed, the driver removal function sets
-   dev_bridge.unplugged =3D true
-
-The "do something" above includes any access to device resources,
-including clocks (and clk_apb).
-
-In other words, two pieces of code can not access the bridge structure
-at the same time. This includes bridge removal VS any atomic operations.
-
-Do you think this addresses your concern?
-
-
-For you to have a better picture of the path, here's an additional
-clarification about drm_bridge_attach/detach() and
-drm_bridge_add/remove(). As part of step 1 of the grand plan, both of
-them will drm_bridge_get/put() the bridge, so that no bridge is freed
-if it is either in the global bridge_list or in any encoder chain.
-
-Patches for this are already approved by Maxime [1][2]. They cannot be
-applied until all bridge drivers have been converted to the new
-devm_drm_bridge_alloc() API, so they depend on this series to be
-completely applied. We are getting pretty close: as of now the entire
-series has been applied except for this and another driver.
-
-[0] https://lore.kernel.org/all/20250129125153.35d0487a@booty/t/#u
-[1] https://patchwork.freedesktop.org/patch/643095/
-[2] https://patchwork.freedesktop.org/patch/643096/
-
-Best regards,
-Luca
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> +	} else if (shm->flags & TEE_SHM_DMA_BUF) {
+>  		struct tee_shm_dmabuf_ref *ref;
+>  
+>  		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+> @@ -306,6 +320,62 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+>  
+> +/**
+> + * tee_shm_alloc_dma_mem() - Allocate DMA memory as shared memory object
+> + * @ctx:	Context that allocates the shared memory
+> + * @page_count:	Number of pages
+> + *
+> + * The allocated memory is expected to be lent (made inaccessible to the
+> + * kernel) to the TEE while it's used and returned (accessible to the
+> + * kernel again) before it's freed.
+> + *
+> + * This function should normally only be used internally in the TEE
+> + * drivers.
+> + *
+> + * @returns a pointer to 'struct tee_shm'
+> + */
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count)
+> +{
+> +	struct tee_device *teedev = ctx->teedev;
+> +	struct tee_shm_dma_mem *dma_mem;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
+> +
+> +	if (!tee_device_get(teedev))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	page = dma_alloc_pages(&teedev->dev, page_count * PAGE_SIZE,
+> +			       &dma_addr, DMA_BIDIRECTIONAL, GFP_KERNEL);
+> +	if (!page)
+> +		goto err_put_teedev;
+> +
+> +	dma_mem = kzalloc(sizeof(*dma_mem), GFP_KERNEL);
+> +	if (!dma_mem)
+> +		goto err_free_pages;
+> +
+> +	refcount_set(&dma_mem->shm.refcount, 1);
+> +	dma_mem->shm.ctx = ctx;
+> +	dma_mem->shm.paddr = page_to_phys(page);
+> +	dma_mem->dma_addr = dma_addr;
+> +	dma_mem->page = page;
+> +	dma_mem->shm.size = page_count * PAGE_SIZE;
+> +	dma_mem->shm.flags = TEE_SHM_DMA_MEM;
+> +
+> +	teedev_ctx_get(ctx);
+> +
+> +	return &dma_mem->shm;
+> +
+> +err_free_pages:
+> +	dma_free_pages(&teedev->dev, page_count * PAGE_SIZE, page, dma_addr,
+> +		       DMA_BIDIRECTIONAL);
+> +err_put_teedev:
+> +	tee_device_put(teedev);
+> +
+> +	return ERR_PTR(-ENOMEM);
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
+> +
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> index 02c07f661349..925690e1020b 100644
+> --- a/include/linux/tee_core.h
+> +++ b/include/linux/tee_core.h
+> @@ -29,6 +29,8 @@
+>  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
+>  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
+>  #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
+> +#define TEE_SHM_DMA_MEM		BIT(5)	/* Memory allocated with */
+> +					/* dma_alloc_pages() */
+>  
+>  #define TEE_DEVICE_FLAG_REGISTERED	0x1
+>  #define TEE_MAX_DEV_NAME_LEN		32
+> @@ -310,6 +312,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
+>   */
+>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+>  
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count);
+> +
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> -- 
+> 2.43.0
+> 
