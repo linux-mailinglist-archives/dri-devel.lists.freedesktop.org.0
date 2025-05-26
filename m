@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE05AC4569
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 01:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41E0AC4570
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 01:07:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1518210E3C8;
-	Mon, 26 May 2025 23:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3698510E3EE;
+	Mon, 26 May 2025 23:07:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pPWMfoiG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hmnhKAlk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB1B310E3A3;
- Mon, 26 May 2025 23:03:40 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29EE10E3E0;
+ Mon, 26 May 2025 23:07:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9C1FAA4F5C0;
- Mon, 26 May 2025 23:03:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B53CC4CEE7;
- Mon, 26 May 2025 23:03:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EAFA3629C6;
+ Mon, 26 May 2025 23:07:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFA7C4CEE7;
+ Mon, 26 May 2025 23:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748300618;
- bh=c+cHcD34wYL9XAQPF1/cyDefYw1UeT25S/M5bM3zJ/Y=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=pPWMfoiGJjLe/cIYGf1GNzU1GxS0/pkuCp0JMZ8O3bxfIjjeO222jyPC7YrNnoLHx
- a2iRgH+0xP+7orMHfxWe5PufIhx0K78RjL2kmPy0bVKrmk/PBpMqzx6czruy6b6a/7
- kZtCHO2/Zhl96Z68B5n+sQfcJ7nFjzppDcbTDik+JpP0US10Mposu1kNoR3unHbRFJ
- 0xKFxrT0kcX8tF3GoikkT31qOIc4Uw9/CYD4gf5oDZJRgUyKX6qoTbgVoDcxfc7OX2
- SpPpB/XjYIHo7Yxg/SEeCp9Nl0hzu4l9wnK2y7yLh45v3WEUfugdqj+nB/judjsC8a
- gVttzEPhkf3fA==
+ s=k20201202; t=1748300826;
+ bh=4GTm92/StxP3CBkdP9+oBFRRK5sAn5a+30xV9eMTjdU=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=hmnhKAlkvuE2emSj9dfAfZcutKdfVzcU9bHAsmsJM0Zdbg+V3tiZL4LWoWqx3jK1j
+ 3W6J1AiBX0jOVwW6Uu1l0coUJkbN0O0ub5j8wJo2M9UXwM5vZXNBD9kvVh9tq8uHsq
+ gLBAxelbgU8kLF9pUNkSdyvxKo/nMlcwAuEGO5BmfY0GFTGnOyUUIaOZL2F3dZHH3O
+ nnnM/URug0l9b4XyH0WCyhIzfOi+i6T0vfoSkCnTGQv2MEdZ0ix2Gw5r8+kcePcIAB
+ Uabc3hOKze8/XRm5QNUyIsnrUQBNoPOTwHuuWxMU2qSqGW4cGQwCFJK7RhFJovfi+z
+ ScfsK7T/pbYzA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 May 2025 01:03:26 +0200
-Message-Id: <DA6GUB3YOVBD.RWGBCC8CTE7K@kernel.org>
+Date: Tue, 27 May 2025 01:06:54 +0200
+Message-Id: <DA6GWYHOSTWH.1OBQV7XCU2643@kernel.org>
+Subject: Re: [PATCH v10 4/5] rust: replace `kernel::c_str!` with C-Strings
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Tamir Duberstein" <tamird@gmail.com>
 Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
  <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
  <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
@@ -67,15 +70,12 @@ Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
  <devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
  <linux-pci@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
  <linux-block@vger.kernel.org>
-Subject: Re: [PATCH v10 3/5] rust: replace `CStr` with `core::ffi::CStr`
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Tamir Duberstein" <tamird@gmail.com>
 X-Mailer: aerc 0.20.1
 References: <20250524-cstr-core-v10-0-6412a94d9d75@gmail.com>
- <20250524-cstr-core-v10-3-6412a94d9d75@gmail.com>
- <DA66HHUA8ANF.BI2FH7POFSRJ@kernel.org>
- <CAJ-ks9kmDiOV_qH_s-r4Z4iQf2k6H7ZnqOf5okaQxWWxrj5Deg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9kmDiOV_qH_s-r4Z4iQf2k6H7ZnqOf5okaQxWWxrj5Deg@mail.gmail.com>
+ <20250524-cstr-core-v10-4-6412a94d9d75@gmail.com>
+ <DA66NJXU86M4.1HU12P6E79JLO@kernel.org>
+ <CAJ-ks9nd6_iGK+ie-f+F0x4kwpyEGJ-kQiQGt-ffdbVN5S6kOg@mail.gmail.com>
+In-Reply-To: <CAJ-ks9nd6_iGK+ie-f+F0x4kwpyEGJ-kQiQGt-ffdbVN5S6kOg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,69 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue May 27, 2025 at 12:24 AM CEST, Tamir Duberstein wrote:
-> On Mon, May 26, 2025 at 10:56=E2=80=AFAM Benno Lossin <lossin@kernel.org>=
+On Tue May 27, 2025 at 12:29 AM CEST, Tamir Duberstein wrote:
+> On Mon, May 26, 2025 at 11:04=E2=80=AFAM Benno Lossin <lossin@kernel.org>=
  wrote:
->>
 >> On Sat May 24, 2025 at 10:33 PM CEST, Tamir Duberstein wrote:
->> > `std::ffi::CStr` was moved to `core::ffi::CStr` in Rust 1.64. Replace
->> > `kernel::str::CStr` with `core::ffi::CStr` now that we can.
+>> > +macro_rules! c_str_avoid_literals {
 >>
->> What's this supposed to mean?
->
-> It means that kernel::str::CStr was introduced before core::ffi:CStr
-> was available. I didn't check this before, but it is indeed true - see
-> https://github.com/Rust-for-Linux/linux/commit/faa3cbcca03d0dec8f8e43f1d8=
-d5c0860d98a23f.
-
-I see, then just write that and mention the commit.
-
->> > C-String literals were added in Rust 1.77. Opportunistically replace
->> > instances of `kernel::c_str!` with C-String literals where other code
->> > changes were already necessary; the rest will be done in a later commi=
-t.
+>> I don't like this name, how about `concat_to_c_str` or
+>> `concat_with_nul`?
 >>
->> Similarly this, the message should explain the motivation for the
->> change, the change itself and can include additional information.
+>> This macro also is useful from macros that have a normal string literal,
+>> but can't turn it into a `c""` one.
 >
-> The motivation is implied (that using standard types is preferable to
-> having custom ones; this is also implicit rather than explicit in
-> https://github.com/Rust-for-Linux/linux/issues/1075), but I can
-> sharpen it.
+> Uh, can you give an example? I'm not attached to the name.
 
-Please add this information to the commit message.
+There is one in this patch (:
 
->> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
->> > ---
->> >  drivers/gpu/drm/drm_panic_qr.rs |   2 +-
->> >  rust/kernel/device.rs           |   4 +-
->> >  rust/kernel/error.rs            |   4 +-
->> >  rust/kernel/firmware.rs         |  11 +-
->> >  rust/kernel/kunit.rs            |   6 +-
->> >  rust/kernel/miscdevice.rs       |   2 +-
->> >  rust/kernel/net/phy.rs          |   2 +-
->> >  rust/kernel/of.rs               |   2 +-
->> >  rust/kernel/prelude.rs          |   5 +-
->> >  rust/kernel/seq_file.rs         |   4 +-
->> >  rust/kernel/str.rs              | 358 +++++++++----------------------=
----------
->> >  rust/kernel/sync/condvar.rs     |   2 +-
->> >  rust/kernel/sync/lock.rs        |   2 +-
->> >  rust/kernel/sync/lock/global.rs |   2 +-
->> >  14 files changed, 112 insertions(+), 294 deletions(-)
->>
->> I'm a bit confused by some of the diffs here, they seem pretty messy,
->> any chance that they can be improved?
->
-> I'm open to suggestions. I think the confusion arises from git trying
-> to keep code from moving; fundamentally much of the change is moving
-> methods to an extension trait, which means git has to choose between
-> keeping the documentation where it is, or keeping the implementation
-> where it is. If I use `--patience` then everything moves together, but
-> then the diffstat swells. Thoughts?
-
-I haven't viewed this patch with color-moved (since I haven't applied it
-locally), I can try that first and see if it helps.
+    diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs               =
+                                                                     =20
+    index e5621d596ed3..09148e982f48 100644                                =
+                                                                     =20
+    --- a/rust/kernel/kunit.rs                                             =
+                                                                     =20
+    +++ b/rust/kernel/kunit.rs                                             =
+                                                                     =20
+    @@ -58,9 +58,10 @@ macro_rules! kunit_assert {                         =
+                                                                     =20
+                     break 'out;                                           =
+                                                                     =20
+                 }                                                         =
+                                                                     =20
+                                                                           =
+                                                                     =20
+    -            static FILE: &'static $crate::str::CStr =3D $crate::c_str!=
+($file);                                                               =20
+    +            static FILE: &'static $crate::str::CStr =3D $crate::c_str_=
+avoid_literals!($file);
 
 ---
 Cheers,
