@@ -2,93 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C84AC44AC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 23:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2B7AC44C9
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 23:26:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A8010E3B1;
-	Mon, 26 May 2025 21:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD9010E397;
+	Mon, 26 May 2025 21:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fossekall.de header.i=@fossekall.de header.b="JFM4E4uW";
-	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="avm+Govr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MCyZQptA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48BD510E362
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 21:13:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1748293984; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=SBnCxxSXiIiddnKsNUoos8EzazWtIvC4bKbWPUepcnmdhmXdHyJi8hPakBcnU7kHLV
- 1FH5Z83svo2oEQFRPYmvgJI37fZjG2rwiJhy7HsneKGaOgZuYb3fpp4fzv6Ix79ZCyv5
- 5I2AVD8CGGlmj3N1cqi9jz2qnzK9izi7HjDKtDa3Vqjf5uD+LinpXpvg8RIiP4XhMxYE
- s6uH2RutFF9AlHkJB2CGpynPnTNUN3479IG47Vfhj+WuKF6leMwJxXcolQ8LICmPPHWi
- 1yOIRzD853qP4Gr5NfJKKKPM8hb65JCdhTwdW/CM1Y+Ehmvy5KBKoWl8VI14x1mo2TqY
- tUmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1748293984;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
- b=OvFyu0tIjcvYj39AWAaPt7ni0JoeD6LVrR7n650YRZzHcdXAZCSXmod9hGXMHs/mmq
- jIe1OFQAEDuFeDJRoLAD+m1093+HWk/mYBEjJbUxkkG2osuNFgYTH0QVAXedz1tikvdc
- PwNVQIQSLaWW5HWAID7+0XwpLB4g6PYIVC3r/ZFsANctmHz89HIMjvdIIP3jf4qpo44V
- YxJdqXYBkI+sINKQ7vTFr+bdkBIqWdzBD/awRVrg6iI0p28vEyQvO411OKNxH/DwxaV5
- 3v2aonPLcLUu21m/zZTuMOC/vwOcZ8DQYjrp2EWhVRTgwWLh2cBpRGKzgsmIuHKfIFXD
- TGow==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1748293984;
- s=strato-dkim-0002; d=fossekall.de;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
- b=JFM4E4uWQrv7IX07x09XDxvaleGSg846j1gzsnGypyamNDo0kP8UKj9pHKHgHS80G2
- wFEaccJ6FLcGXlYnoT0gSshqnBWB2GBcTSrg598ktHY/O7mVfp0l9y36RGTU16m4qviK
- 7zvqx20kzI0G9brqLkMt2kn/TW9NPps/sR8ig786i/brSpbrRdDelRBSgkV6iZEhz9AE
- Bsi5qgRZztzaogMEu4sSnUnV5ixy2DY3dED28gZIm1eRj10N6umG5McmY8sCD916Tc8A
- fWPKzm+Whivq9kQmjl94VChlLILuGoHSj4VC9bwnpHgSONZ2yzZJOiXKA7GJZPm8L/5s
- W0nw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1748293984;
- s=strato-dkim-0003; d=fossekall.de;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=AVwR3RqXfhEXlhoGhmwUftz4FLAY7joifHIAsoI1opk=;
- b=avm+GovrShQDZ5jb9fbwW3Txdkh+3LcP/cFmWcO5Jq1kKqSnyvhDQH/VtyYZvzOHsG
- PvVYJwo4CElmkKKajlAQ==
-X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
-Received: from aerfugl by smtp.strato.de (RZmta 51.3.0 AUTH)
- with ESMTPSA id f28b3514QLD3ZDy
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Mon, 26 May 2025 23:13:03 +0200 (CEST)
-Received: from koltrast.home ([192.168.1.32] helo=a98shuttle.de)
- by aerfugl with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (Exim 4.96) (envelope-from <michael@fossekall.de>)
- id 1uJf83-0001y1-0A; Mon, 26 May 2025 23:13:03 +0200
-Date: Mon, 26 May 2025 23:13:01 +0200
-From: Michael <michael@fossekall.de>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] [BISECTED] drm/sun4i: hdmi: No HDMI output with
- BananaPI M1 on 6.9
-Message-ID: <aDTZXagQ28OdNtLh@a98shuttle.de>
-References: <aCJZmm8rC0RwbcBX@a98shuttle.de>
- <20250526-refined-dog-of-blizzard-b48f11@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EFBC10E27C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 21:26:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748294810; x=1779830810;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=izTJpRLc1S6KxFHAdKVD5qbNu8KNoNUHX2UeBgqMpqE=;
+ b=MCyZQptA5vXlDMIo+B3BhAJiyyMe0J6JaEKDvTu2E0UKQvjB2oIs97u9
+ TVUapOSsMF0w7z+nXKmAzvQExHDxMMysUjxNmV+yAmyqvweKx5XKtHbSq
+ Mcq7Zik7yuPiV6DnaUqd7w0OH5zER5ExB0yRJmvgJiR+KVgBaKOYtfmOJ
+ Wty9h4kkEoj6erE6+ZBf/xGd603rS+VvZzw2odTZpcpwv0gYU/86BC9ji
+ beyMoBiqhCYSjBrKlZIargKtoI6+lu4KY97KxE8CwZhwSGRsOZUo6bHtx
+ E8lLW4tkGKYuWGr6TXpCrvvsmtW7Cw75lp5qTrWprEGJEACaiOhzZpa5X Q==;
+X-CSE-ConnectionGUID: wkIZ2Jw1QCqOApQw29NQJg==
+X-CSE-MsgGUID: JtbyAbZURfKc0O5HgX7Cxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="50431275"
+X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; d="scan'208";a="50431275"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 14:26:48 -0700
+X-CSE-ConnectionGUID: XPXKgrLUSKS6R22GBHy8aw==
+X-CSE-MsgGUID: R5/MVKnTTqKNENq8UMRTPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; d="scan'208";a="142526922"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 26 May 2025 14:26:44 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uJfLF-000SiO-2P;
+ Mon, 26 May 2025 21:26:41 +0000
+Date: Tue, 27 May 2025 05:26:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andy.yan@rock-chips.com,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
+ l.stach@pengutronix.de, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v1 3/3] drm/bridge: analogix_dp: Apply
+ drm_bridge_connector helper
+Message-ID: <202505270453.H3muv5WW-lkp@intel.com>
+References: <20250526120742.3195812-4-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526-refined-dog-of-blizzard-b48f11@houat>
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20250526120742.3195812-4-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,77 +78,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Damon,
 
-On Mon, May 26, 2025 at 07:30:35PM +0200, Maxime Ripard wrote:
->On Mon, May 12, 2025 at 10:27:06PM +0200, Michael wrote:
->> with v6.9 and later there is no output on the BananaPI HDMI connector.
->>
->> I have bisected the issue to the following commit:
->>
->>   358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
->>
->> With this patch, sun4i_hdmi_connector_clock_valid() is occasionally called
->> with clock=0, causing the function to return MODE_NOCLOCK.
->> In the old sun4i_hdmi_mode_valid() before the patch, mode->clock is
->> always!=0, maybe that gives someone a hint.
->
->This doesn't make sense to me, if only because the two callers of
->tmds_char_rate_valid (hdmi_compute_clock and
->drm_hdmi_connector_mode_valid) have, right before calling it, checks to
->make sure the clock rate isn't 0, and would return MODE_ERROR or EINVAL
->in such a case.
->
->https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L234
->https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L553
+kernel test robot noticed the following build errors:
 
-Before 6.14, sun4i_hdmi_connector_clock_valid() was also called from 
-sun4i_hdmi_connector_atomic_check()...
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20250526]
+[cannot apply to linus/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->Do you have some logs (with dri.devel=0xff)? Does it happen with 6.15 as
->well?
+url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogid_dp_device/20250526-201358
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250526120742.3195812-4-damon.ding%40rock-chips.com
+patch subject: [PATCH v1 3/3] drm/bridge: analogix_dp: Apply drm_bridge_connector helper
+config: arm64-randconfig-001-20250527 (https://download.01.org/0day-ci/archive/20250527/202505270453.H3muv5WW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270453.H3muv5WW-lkp@intel.com/reproduce)
 
-It does not happen with 6.15, as it was fixed in 6.14 with 84e541b1e58e 
-("drm/sun4i: use drm_atomic_helper_connector_hdmi_check()").
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505270453.H3muv5WW-lkp@intel.com/
 
-For completeness:
+All errors (new ones prefixed by >>):
 
-358e76fd613a:
+   drivers/gpu/drm/exynos/exynos_dp.c: In function 'exynos_dp_probe':
+>> drivers/gpu/drm/exynos/exynos_dp.c:240:16: error: 'struct analogix_dp_plat_data' has no member named 'skip_connector'; did you mean 'connector'?
+     dp->plat_data.skip_connector = !!bridge;
+                   ^~~~~~~~~~~~~~
+                   connector
 
-[    1.091807] sun4i-drm display-engine: [drm:drm_atomic_check_only] checking (ptrval)
-[    1.091850] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] mode changed
-[    1.091876] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] enable changed
-[    1.091898] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CRTC:47:crtc-0] active changed
-[    1.091927] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:66:HDMI-A-1]
-[    1.091953] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] using [ENCODER:65:TMDS-65] on [CRTC:47:crtc-0]
-[    1.092019] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] driver check failed
-[    1.092042] sun4i-drm display-engine: [drm:drm_atomic_check_only] atomic driver check for (ptrval) failed: -22
-[    1.092070] sun4i-drm display-engine: [drm:drm_atomic_state_default_clear] Clearing atomic state (ptrval)
 
-358e76fd613a^ :
+vim +240 drivers/gpu/drm/exynos/exynos_dp.c
 
-[   14.402623] sun4i-drm display-engine: [drm] 	crtc=crtc-0
-[   14.402630] sun4i-drm display-engine: [drm] 	self_refresh_aware=0
-[   14.402638] sun4i-drm display-engine: [drm] 	max_requested_bpc=0
-[   14.402647] sun4i-drm display-engine: [drm] 	colorspace=Default
-[   14.402657] sun4i-drm display-engine: [drm:drm_atomic_check_only] checking 31bd6e91
-[   14.402714] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:66:HDMI-A-1]
-[   14.402741] sun4i-drm display-engine: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:66:HDMI-A-1] keeps [ENCODER:65:TMDS-65], now on [CRTC:47:crtc-0]
-[   14.402767] sun4i-drm display-engine: [drm:drm_atomic_add_encoder_bridges] Adding all bridges for [encoder:65:TMDS-65] to 31bd6e91
-[   14.402792] sun4i-drm display-engine: [drm:drm_atomic_add_encoder_bridges] Adding all bridges for [encoder:65:TMDS-65] to 31bd6e91
-[   14.402826] [drm:sun4i_backend_atomic_check] Starting checking our planes
-[   14.402846] [drm:sun4i_backend_atomic_check] Input size 1024x600, output size 1024x600
-[   14.402862] [drm:sun4i_backend_atomic_check] Input size 1024x600, output size 1024x600
-[   14.402877] [drm:sun4i_backend_atomic_check] Plane FB format is XR24 little-endian (0x34325258)
-[   14.402894] [drm:sun4i_backend_atomic_check] Plane zpos is 0
-[   14.402906] [drm:sun4i_backend_atomic_check] State valid with 1 planes, 0 alpha, 0 video, 0 YUV
-[   14.402922] [drm:sun4i_backend_atomic_check] Starting checking our planes
+f37cd5e8098441a drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-09  194  
+f37cd5e8098441a drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-09  195  static int exynos_dp_probe(struct platform_device *pdev)
+f37cd5e8098441a drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-09  196  {
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  197  	struct device *dev = &pdev->dev;
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  198  	struct device_node *np;
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  199  	struct exynos_dp_device *dp;
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  200  	struct drm_panel *panel;
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  201  	struct drm_bridge *bridge;
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  202  	int ret;
+df5225bc9a87f15 drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-29  203  
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  204  	dp = devm_kzalloc(&pdev->dev, sizeof(struct exynos_dp_device),
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  205  			  GFP_KERNEL);
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  206  	if (!dp)
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  207  		return -ENOMEM;
+5f1dcd8b7ec8189 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2014-07-31  208  
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  209  	dp->dev = dev;
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  210  	/*
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  211  	 * We just use the drvdata until driver run into component
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  212  	 * add function, and then we would set drvdata to null, so
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  213  	 * that analogix dp driver would take charge of the drvdata.
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  214  	 */
+1df6e5fb79f6141 drivers/gpu/drm/exynos/exynos_dp_core.c Andrzej Hajda            2014-11-17  215  	platform_set_drvdata(pdev, dp);
+1df6e5fb79f6141 drivers/gpu/drm/exynos/exynos_dp_core.c Andrzej Hajda            2014-11-17  216  
+a9fa852886fd5a7 drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2015-11-26  217  	/* This is for the backward compatibility. */
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  218  	np = of_parse_phandle(dev->of_node, "panel", 0);
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  219  	if (np) {
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  220  		dp->plat_data.panel = of_drm_find_panel(np);
+5fa8e4a22182df8 drivers/gpu/drm/exynos/exynos_dp.c      Boris Brezillon          2018-05-09  221  
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  222  		of_node_put(np);
+5fa8e4a22182df8 drivers/gpu/drm/exynos/exynos_dp.c      Boris Brezillon          2018-05-09  223  		if (IS_ERR(dp->plat_data.panel))
+5fa8e4a22182df8 drivers/gpu/drm/exynos/exynos_dp.c      Boris Brezillon          2018-05-09  224  			return PTR_ERR(dp->plat_data.panel);
+5fa8e4a22182df8 drivers/gpu/drm/exynos/exynos_dp.c      Boris Brezillon          2018-05-09  225  
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  226  		goto out;
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  227  	}
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  228  
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  229  	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  230  	if (ret)
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  231  		return ret;
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  232  
+37e110625eeeaba drivers/gpu/drm/exynos/exynos_dp_core.c Javier Martinez Canillas 2016-01-29  233  	/* The remote port can be either a panel or a bridge */
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  234  	dp->plat_data.panel = panel;
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  235  	dp->plat_data.dev_type = EXYNOS_DP;
+6d4618ad04e1a14 drivers/gpu/drm/exynos/exynos_dp.c      Lucas Stach              2024-06-19  236  	dp->plat_data.power_on = exynos_dp_poweron;
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  237  	dp->plat_data.power_off = exynos_dp_poweroff;
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  238  	dp->plat_data.attach = exynos_dp_bridge_attach;
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  239  	dp->plat_data.get_modes = exynos_dp_get_modes;
+2e9b3e74b4a184f drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2018-03-05 @240  	dp->plat_data.skip_connector = !!bridge;
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  241  
+ebc9446135671b8 drivers/gpu/drm/exynos/exynos_dp.c      Rob Herring              2017-03-29  242  	dp->ptn_bridge = bridge;
+801855671ad1dc7 drivers/gpu/drm/exynos/exynos_dp_core.c Ajay Kumar               2015-01-20  243  
+a9fa852886fd5a7 drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2015-11-26  244  out:
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  245  	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  246  	if (IS_ERR(dp->adp))
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  247  		return PTR_ERR(dp->adp);
+152cce0006abf7e drivers/gpu/drm/exynos/exynos_dp.c      Marek Szyprowski         2020-03-10  248  
+3424e3a4f844c0a drivers/gpu/drm/exynos/exynos_dp_core.c Yakir Yang               2016-03-29  249  	return component_add(&pdev->dev, &exynos_dp_ops);
+f37cd5e8098441a drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-09  250  }
+f37cd5e8098441a drivers/gpu/drm/exynos/exynos_dp_core.c Inki Dae                 2014-05-09  251  
 
-Sorry for the noise :)
-
->
->Maxime
-
-Michael
-
-#regzbot fix: 84e541b1e58e
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
