@@ -2,89 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE4FAC3BBC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B36AC3BC2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 10:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D55510E2D7;
-	Mon, 26 May 2025 08:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001E38905A;
+	Mon, 26 May 2025 08:36:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lD9IEOCU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TYNAzWqF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE4E10E2C8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:34:31 +0000 (UTC)
-Received: by mail-oo1-f44.google.com with SMTP id
- 006d021491bc7-6064d4c14ebso365102eaf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 01:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748248471; x=1748853271; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7LoPH61q8XPOjbfYzC/BfDY+1ePizQkOc/PLdT+sy2I=;
- b=lD9IEOCUTXnMcIFMrRZG7Z2qFxDiOTMwRfNuDL08xuMhFHxpTcvQyvV6rjS/p4gYhn
- kSK0JAEQVIhSP/Y/yxn9gy26+5JUNS/bKJhYnU3Fli5fm0GRnrG4uUpXpC6Z5TMOdaY9
- 6T355PZwvhcFzO6OKZiwV4G2DJkTNYJw/Lf9ZfHEdGbLgeizQm1lDsNf3I2yhkCF/2RL
- SYN5G/4QUHWx024EHClMf67SCt4/+SE7tCSAumCxY6VATvgTH9xiGoM0EKY9N6Qnu7sI
- RLFaCmL6OoD9nAH69J3SDjvx3oLY/iMk9KHVHo09Au3cARsDBYC7eYTnuB9HGUE62SvO
- 0cng==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF34E8905A
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:36:20 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54Q8OdA7006564
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:36:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=fsJTi2rLjBcT2eg/nDlC+5C0
+ Ps00BAskkMQxjnDjx0s=; b=TYNAzWqFvHzxhm9fOcwNfJsU205NjlgROYCaCYFg
+ 8sStda12YiS3bJ3eJsZiTVDwO+/0Kh7dvRGtrmn4I7pFdM0dPod6K5OHitzLXhnI
+ SsDY184SRWyD7bizAZg7bBPLiPtdz58GrdTiwGv6PLKivuievHrt+b830NPQnnH8
+ QR/6NEfzbyKO7fGVUWu7EzvQXAPubkWJS9h9iK46/Iht4Al+KNhqGrHHSw/+z4QO
+ HLG7nLO2mA6mOJKGZahW6Zi3cjdzWRjlmCZlinTH5PwH9eTVbgVXosw5NleR5LIS
+ jXOHCYcz0m93GFcWcpy05LOUyhdiocc8sgVCQw0vfUitKg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46vmry01h7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 08:36:19 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-6faad1f2b69so5423476d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 01:36:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748248471; x=1748853271;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7LoPH61q8XPOjbfYzC/BfDY+1ePizQkOc/PLdT+sy2I=;
- b=fiNYu3x1VK7e9tAxDGawG5q7UbO0gjRbronu3O59iFuZA6lCJzQ6Aqa6j/ZniJ0iOm
- Z4bqO8FHd795TghvOOWkrOHK+3tq4Caj4BekMzn2t04OwB/TKLXnWeZmuNtZrrEZhTxQ
- ECEecr0Iv4uNXbyNevTw8dSNH+Ym+85rnZziW0ki7LNRkzQBAamTxdAxcqtGYNX4P3IP
- lLTIvxniIjSAtwLdcf86HxA9G0mv3jrDPocBy7/eoi02z7UymZWjXrl4AJr0928IOTUx
- 6cSRXWKQUirBh4gEhbaUexW4pWUrRgv2OHzgIIQZHmN5CGFK4oCCJhmV161S8yW8w/D9
- J56w==
+ d=1e100.net; s=20230601; t=1748248578; x=1748853378;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fsJTi2rLjBcT2eg/nDlC+5C0Ps00BAskkMQxjnDjx0s=;
+ b=tuILrgcLDx18/93kJ7svMTki+tQyOoeGCdmDFZ/J2AZIBoLdU4GlRLBrkgRaAR8EAR
+ 2EZ46pk/bIaQhgzTOh4btqFYhZRJ6hA1MvHD6rHvqJFa2fDJpR3j4rjFxk0Uj6F4LUNM
+ cFGu5ZsfvZvEzZP2pc/N4eKSvepggVwsHS0hpxnFHl/1cUWoOw/AKOc2/HGSFP4vY49f
+ WVc7U6wU4wnguFEH1F0cnVUgQM/vB4lQ+l9m8nauvxtGJ+4pSMW9hx2pF4hg9is4A1Yj
+ 9p+vjgU1sXs+au9QdoUO3/rl/F/iXLJbRayPUXkPfVOCnX+OEnxreKKDkSEY/z2oscrO
+ w/hg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXI7LWO0EB/iIU6WbE7N7VrEsnw7IJ6XzGoo5x267o85RLprSHeaTVXNR0wI+Rj7KAmUxBP6Vq4o0g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7ohtEIx1qk+idRdFxbP36Lzm8C9dkQlzHI/oNPeeO7VTShyum
- asSzyoMjuV/K2nlpdU22vdU6lZAcRZvHlgSi95+VxOhE2cvf5ymcdEqRGPGLU/r/8mHmASGyQ/K
- tjGmgQMQHeGKlFUtU9nS05T8iUhByGp8+mPt7t+udxg==
-X-Gm-Gg: ASbGncui0LPnLZBGdrPJToSxMmnc5bdxFCj/ibNRdw6uG+wl25LrXwkWxWIysOgZT0P
- zPOjeHYwTgEgTam1s9pTD5DjkPo/QANRMWdt3CNftQnqCsRR0FHCFJnJjq7dij8usTEGXUeCTx/
- HTzMhnC1txO8Pb1bQcgGnwMzvqNJIdZcFEOw==
-X-Google-Smtp-Source: AGHT+IFs3UDjqOTSdOv6JwCPw8TzCpICd///u1SEUHvDHq7LoL4mVZ404dtJorGcqUi4neHh1nyFbCGcltbAy56lHN4=
-X-Received: by 2002:a05:6820:4c0c:b0:60b:a766:f6d7 with SMTP id
- 006d021491bc7-60ba766f853mr3600749eaf.6.1748248470410; Mon, 26 May 2025
- 01:34:30 -0700 (PDT)
+ AJvYcCVt16ArZinLKUnHE289mBCGwOv3ZsLmFZhiOX6pM2xCZwS+amHSsFvexQ9gonle3OEzCISXcfDGqMY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWkudPzpgLWgutYv7QSSFkn1azX0mUzaJa01OghqyhaRkjv+K7
+ mBzacFCVss+vBPnzNmGCDOH/M5Zi9YJDXrZGxGKaV1v5m1RxWiRnSaKpcXstd4c1/e1VpL6Z2Zt
+ 85BNtdR6ojlkZKJGymessZcCTvQ6cRhaXaRrwUaAxOsXNSga3iNZO2pAntpGMV7U12eJU2bc=
+X-Gm-Gg: ASbGncv1ywfne69Rrv0Zc2IJkcwFdfPOstebOerhmrwBsSQza1SwPKL/7WSVLUomAVx
+ JSr84lor7u/6XZc30HXns1AXU33I6cyMzCVvCH6UeJkTPSh8bOwI3cwzNP0/qEmppzBCA76HuZT
+ wTKC6ad88DjUQxg6x3Oz1Ja9mp+f8OenXxE5lpCUXq26rjbISNP2n4Z9pTIfWB6Ybq8tmB+Kz/5
+ DmxZwFCrrg+7Zx8wWUI8c29Klkuy+C7dVxzI1GcjssUYXako6VX2ccXARQnqExj6sHerEAT/svJ
+ xDDMrcWf2nJrtu40KlY7S/KUN7lyfU7owxAcOb5MhNDbqRNWGBiJR1omtNJVk+5S95Q8emF39R8
+ =
+X-Received: by 2002:a05:6214:4115:b0:6e8:9dfa:d932 with SMTP id
+ 6a1803df08f44-6fa9cff924emr124255726d6.15.1748248578342; 
+ Mon, 26 May 2025 01:36:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH1qW3LJtbZrAui8aHC9A6IZ1BRb9kbSD2lOtIpI6gNj8xc7oFUG/Qx4hSZdB+Sy9YxMZqDpQ==
+X-Received: by 2002:a05:6214:4115:b0:6e8:9dfa:d932 with SMTP id
+ 6a1803df08f44-6fa9cff924emr124255526d6.15.1748248577899; 
+ Mon, 26 May 2025 01:36:17 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-550e702c9d8sm5055329e87.181.2025.05.26.01.36.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 May 2025 01:36:16 -0700 (PDT)
+Date: Mon, 26 May 2025 11:36:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: jens.glathe@oldschoolsolutions.biz, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
+ device tree
+Message-ID: <rvyfkow43atquc64p6slck6lpfsot67v47ngvfnuhxqo222h6k@kdvbsmf3fwsr>
+References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
+ <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
+ <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
+ <CAMcHhXoYkQru_0n5siMGGkTcHu8yWRZWfT4ByiD8D0ieZHF+wQ@mail.gmail.com>
+ <vwoixgdyjjzcjlv4muwrzv7wztnqyidtj7ghacgkjg6hgkkyl7@ji53bhiltaef>
+ <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20250520152436.474778-1-jens.wiklander@linaro.org>
- <20250520152436.474778-6-jens.wiklander@linaro.org>
- <aDB4oxesn5iIM4l8@sumit-X1>
-In-Reply-To: <aDB4oxesn5iIM4l8@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 26 May 2025 10:34:19 +0200
-X-Gm-Features: AX0GCFsC50wYBTGhqsG2zZYjbYVgiFZNJUDoCbXOMed-L280EoIu_JPErd75zlk
-Message-ID: <CAHUa44EyuC8jg=du+_G1uuPqDPD-dU0EVi9jiy_edYiMVQ8dPA@mail.gmail.com>
-Subject: Re: [PATCH v9 5/9] tee: new ioctl to a register tee_shm from a dmabuf
- file descriptor
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, 
- Etienne Carriere <etienne.carriere@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
+X-Authority-Analysis: v=2.4 cv=bbFrUPPB c=1 sm=1 tr=0 ts=68342803 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=gxl3bz0cAAAA:8 a=pGLkceISAAAA:8
+ a=0TimfSER351lcrvkeT8A:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=kiRiLd-pWN9FGgpmzFdl:22
+X-Proofpoint-GUID: hZevURevZlAkwUEdRUSwBzKGVUybQQ-i
+X-Proofpoint-ORIG-GUID: hZevURevZlAkwUEdRUSwBzKGVUybQQ-i
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI2MDA3MiBTYWx0ZWRfX1eIXmNkr1puP
+ AVKJLgIQi0o8ifsqtcbNkQ8tHuvaZjpPDUUoFizA+6VJNHjtJTdlofBGmyfARCsR+b78Ge/hwtP
+ DzDIcJz+y+N+SW8iYktZ2FZu1rcHwRWvCdi15+2RY5vZogNvapiUj0xHlpRyZkNkHQGElVV4GnO
+ SfFNqwwkbwqA0Gsj4w5Rkz/Uyyndtnc9kz+TDAVJqVfAOicUblCXWnWEl1ba+XZGr2EsDi1+VHl
+ aJ3Z3Zi0FKc3IOxCfrVRLhsgxywz5VRqE4oytX0qGUspYwCrP1ruV9mMfVoksrgG3/qiKw53v4b
+ dndelgDPl7197vMJtBlUX8h9RRD87MYtzr9RoL2OZb8TzVgeld5LchQYtREld6Y1WVbawvHaIk6
+ JniEtMOAgBGxrVU0Z9QKj/UnfHdTd0uZN2K7ZFD4R3UCulHpcMuCAozTjtTG5ZFKrWzAK3fk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-26_04,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505260072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,459 +141,343 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 23, 2025 at 3:31=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> =
-wrote:
->
-> On Tue, May 20, 2025 at 05:16:48PM +0200, Jens Wiklander wrote:
-> > From: Etienne Carriere <etienne.carriere@foss.st.com>
+On Sun, May 25, 2025 at 09:43:36PM +0200, Aleksandrs Vinarskis wrote:
+> On Sun, 25 May 2025 at 15:33, Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
 > >
-> > Add a userspace API to create a tee_shm object that refers to a dmabuf
-> > reference.
+> > On Sat, May 24, 2025 at 07:58:13PM +0200, Aleksandrs Vinarskis wrote:
+> > > On Sat, 24 May 2025 at 17:33, Dmitry Baryshkov
+> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > >
+> > > > On Sat, May 24, 2025 at 01:48:40PM +0200, Jens Glathe via B4 Relay wrote:
+> > > > > From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> > > > >
+> > > > > Device tree for the Lenovo Thinkbook 16 G7 QOY
+> > > > >
+> > > > > The Laptop is a Snapdragon X1 / X1 Plus (Purwa) based device [1].
+> > > > >
+> > > > > Supported features:
+> > > > >
+> > > > > - USB type-c and type-a ports
+> > > > > - Keyboard
+> > > > > - Touchpad (all that are described in the dsdt)
+> > > > > - Touchscreen (described in the dsdt, no known SKUss)
+> > > > > - Display including PWM backlight control
+> > > > > - PCIe devices
+> > > > > - nvme
+> > > > > - SDHC card reader
+> > > > > - ath12k WCN7850 Wifi and Bluetooth
+> > > > > - ADSP and CDSP
+> > > > > - GPIO keys (Lid switch)
+> > > > > - Sound via internal speakers / DMIC / USB / headphone jack
+> > > > > - DP Altmode with 2 lanes (as all of these still do)
+> > > > > - Integrated fingerprint reader (FPC)
+> > > > > - Integrated UVC camera
+> > > > >
+> > > > > Not supported yet:
+> > > > >
+> > > > > - HDMI port.
+> > > > > - EC and some fn hotkeys.
+> > > > >
+> > > > > Limited support yet:
+> > > > >
+> > > > > - SDHC card reader is based on the on-chip sdhc_2 controller, but the driver from
+> > > > > the Snapdragon Dev Kit is only a partial match. It can do normal slow sd cards,
+> > > > > but not UHS-I (SD104) and UHS-II.
+> > > > >
+> > > > > - The GPU is not yet supported. Graphics is only software rendered.
+> > > > >
+> > > > > This work was done without any schematics or non-public knowledge of the device.
+> > > > > So, it is based on the existing x1e device trees, dsdt analysis, using HWInfo
+> > > > > ARM64, and pure guesswork. It has been confirmed, however, that the device really
+> > > > > has 4 NXP PTN3222 eUSB2 repeaters, one of which doesn't have a reset GPIO (eusb5
+> > > > > @43).
+> > > > >
+> > > > > Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> > > > > Co-developed by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+> > > > > ---
+> > > > >  arch/arm64/boot/dts/qcom/Makefile                  |    3 +
+> > > > >  arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi       |    2 +-
+> > > > >  .../boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts | 1655 ++++++++++++++++++++
+> > > > >  3 files changed, 1659 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> > > > > index 669b888b27a1daa93ac15f47e8b9a302bb0922c2..aff4fe3e81ec0d6f6d52e2aa0da327b7576632d8 100644
+> > > > > --- a/arch/arm64/boot/dts/qcom/Makefile
+> > > > > +++ b/arch/arm64/boot/dts/qcom/Makefile
+> > > > > @@ -327,3 +327,6 @@ x1e80100-qcp-el2-dtbs     := x1e80100-qcp.dtb x1-el2.dtbo
+> > > > >  dtb-$(CONFIG_ARCH_QCOM)      += x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
+> > > > >  x1p42100-crd-el2-dtbs        := x1p42100-crd.dtb x1-el2.dtbo
+> > > > >  dtb-$(CONFIG_ARCH_QCOM)      += x1p42100-crd.dtb x1p42100-crd-el2.dtb
+> > > > > +x1p42100-lenovo-thinkbook-16-el2-dtbs        := x1p42100-lenovo-thinkbook-16.dtb x1-el2.dtbo
+> > > > > +dtb-$(CONFIG_ARCH_QCOM)      += x1p42100-lenovo-thinkbook-16.dtb x1p42100-lenovo-thinkbook-16-el2.dtb
+> > > > > +
+> > > >
+> > > > No need for an extra empty line.
+> > > >
+> > > > > diff --git a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
+> > > > > index c02fd4d15c9649c222caaafa5ed2c777a10fb4f5..551b392eca4ef3b6041e03ad1385fef11cec1690 100644
+> > > > > --- a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
+> > > > > +++ b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
+> > > > > @@ -170,7 +170,7 @@ trip1 {
+> > > > >                       };
+> > > > >               };
+> > > > >
+> > > > > -             pm8010-thermal {
+> > > > > +             pm8010_thermal: pm8010-thermal {
+> > > > >                       polling-delay-passive = <100>;
+> > > > >
+> > > > >                       thermal-sensors = <&pm8010_temp_alarm>;
+> > > > > diff --git a/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts b/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+> > > > > new file mode 100644
+> > > > > index 0000000000000000000000000000000000000000..7089219ed08c1c4a60cc007f9d043a34a8071b4f
+> > > > > --- /dev/null
+> > > > > +++ b/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+> > > > > @@ -0,0 +1,1655 @@
+> > > > > +// SPDX-License-Identifier: BSD-3-Clause
+> > > > > +/*
+> > > > > + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> > > > > + * Copyright (c) 2024, Linaro Limited
+> > > > > + * Copyright (c) 2025, Jens Glathe
+> > > > > + */
+> > > > > +
+> > > > > +/dts-v1/;
+> > > > > +
+> > > > > +#include <dt-bindings/gpio/gpio.h>
+> > > > > +#include <dt-bindings/input/gpio-keys.h>
+> > > > > +#include <dt-bindings/input/input.h>
+> > > > > +#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+> > > > > +#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+> > > > > +
+> > > > > +#include "x1p42100.dtsi"
+> > > > > +#include "x1e80100-pmics.dtsi"
+> > > > > +
+> > > > > +/delete-node/ &pmc8380_6;
+> > > > > +/delete-node/ &pmc8380_6_thermal;
+> > > > > +/delete-node/ &pm8010;
+> > > > > +/delete-node/ &pm8010_thermal;
+> > > > > +
+> > > > > +/ {
+> > > > > +     model = "Lenovo ThinkBook 16 Gen 7 QOY";
+> > > > > +     compatible = "lenovo,thinkbook-16", "qcom,x1p42100";
+> > > > > +     chassis-type = "laptop";
+> > > > > +
+> > > > > +     aliases {
+> > > > > +             serial0 = &uart21;
+> > > > > +             serial1 = &uart14;
+> > > > > +     };
+> > > > > +
+> > > > > +     wcd938x: audio-codec {
+> > > > > +             compatible = "qcom,wcd9385-codec";
+> > > > > +
+> > > > > +             pinctrl-names = "default";
+> > > > > +             pinctrl-0 = <&wcd_default>;
+> > > > > +
+> > > > > +             qcom,micbias1-microvolt = <1800000>;
+> > > > > +             qcom,micbias2-microvolt = <1800000>;
+> > > > > +             qcom,micbias3-microvolt = <1800000>;
+> > > > > +             qcom,micbias4-microvolt = <1800000>;
+> > > > > +             qcom,mbhc-buttons-vthreshold-microvolt = <75000 150000 237000 500000 500000 500000 500000 500000>;
+> > > > > +             qcom,mbhc-headset-vthreshold-microvolt = <1700000>;
+> > > > > +             qcom,mbhc-headphone-vthreshold-microvolt = <50000>;
+> > > > > +             qcom,rx-device = <&wcd_rx>;
+> > > > > +             qcom,tx-device = <&wcd_tx>;
+> > > > > +
+> > > > > +             reset-gpios = <&tlmm 191 GPIO_ACTIVE_LOW>;
+> > > > > +
+> > > > > +             vdd-buck-supply = <&vreg_l15b_1p8>;
+> > > > > +             vdd-rxtx-supply = <&vreg_l15b_1p8>;
+> > > > > +             vdd-io-supply = <&vreg_l15b_1p8>;
+> > > > > +             vdd-mic-bias-supply = <&vreg_bob1>;
+> > > > > +
+> > > > > +             #sound-dai-cells = <1>;
+> > > > > +     };
+> > > > > +
+> > > > > +     backlight: backlight {
+> > > > > +             compatible = "pwm-backlight";
+> > > > > +             pwms = <&pm8550_pwm 3 500000>;
+> > > > > +
+> > > > > +             power-supply = <&vreg_edp_bl>;
+> > > > > +     };
+> > > > > +
+> > > > > +     camera {
+> > > > > +             compatible = "usb5986,1198";
+> > > > > +
+> > > > > +             vdd-supply = <&vreg_cam_5p0>;
+> > > > > +
+> > > > > +             status = "okay";
+> > > >
+> > > > This is default, please drop.
+> > > >
+> > > > > +     };
+> > > >
+> > > > Camera isn't randomly wire to the board, it is on the USB bus. Please
+> > > > follow DT bindings and put it accordingly, describing topology of the
+> > > > bus.
+> > > >
+> > > > > +
+> > > > > +     gpio-keys {
+> > > > > +             compatible = "gpio-keys";
+> > > > > +
+> > > > > +             pinctrl-0 = <&hall_int_n_default>;
+> > > > > +             pinctrl-names = "default";
+> > > > > +
+> > > > > +             switch-lid {
+> > > > > +                     gpios = <&tlmm 92 GPIO_ACTIVE_LOW>;
+> > > > > +                     linux,input-type = <EV_SW>;
+> > > > > +                     linux,code = <SW_LID>;
+> > > > > +                     wakeup-source;
+> > > > > +                     wakeup-event-action = <EV_ACT_DEASSERTED>;
+> > > > > +             };
+> > > > > +     };
+> > > > > +
+> > > > > +     pmic-glink {
+> > > > > +             compatible = "qcom,x1e80100-pmic-glink",
+> > > > > +                             "qcom,sm8550-pmic-glink",
+> > > > > +                             "qcom,pmic-glink";
+> > > >
+> > > > Align vertically on the double-quote
+> > > >
+> > > > > +             #address-cells = <1>;
+> > > > > +             #size-cells = <0>;
+> > > > > +             orientation-gpios = <&tlmm 121 GPIO_ACTIVE_HIGH>,
+> > > > > +                             <&tlmm 123 GPIO_ACTIVE_HIGH>;
+> > > >
+> > > > And such lists should be aligned on the opening angle bracket.
+> > > >
+> > > > > +
+> > > > > +             /* Display-adjacent port */
+> > > > > +             connector@0 {
+> > > > > +                     compatible = "usb-c-connector";
+> > > > > +                     reg = <0>;
+> > > > > +                     power-role = "dual";
+> > > > > +                     data-role = "dual";
+> > > >
+> > > > Is it actually dual-role? What does UCSI report for it?
+> > > >
+> > > > > +
+> > > > > +                     ports {
+> > > > > +                             #address-cells = <1>;
+> > > > > +                             #size-cells = <0>;
+> > > > > +
+> > > > > +                             port@0 {
+> > > > > +                                     reg = <0>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss0_hs_in: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss0_dwc3_hs>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +
+> > > > > +                             port@1 {
+> > > > > +                                     reg = <1>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss0_ss_in: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss0_qmpphy_out>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +
+> > > > > +                             port@2 {
+> > > > > +                                     reg = <2>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss0_sbu: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss0_sbu_mux>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +                     };
+> > > > > +             };
+> > > > > +
+> > > > > +             /* User-adjacent port */
+> > > > > +             connector@1 {
+> > > > > +                     compatible = "usb-c-connector";
+> > > > > +                     reg = <1>;
+> > > > > +                     power-role = "dual";
+> > > > > +                     data-role = "dual";
+> > > > > +
+> > > > > +                     ports {
+> > > > > +                             #address-cells = <1>;
+> > > > > +                             #size-cells = <0>;
+> > > > > +
+> > > > > +                             port@0 {
+> > > > > +                                     reg = <0>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss1_hs_in: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss1_dwc3_hs>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +
+> > > > > +                             port@1 {
+> > > > > +                                     reg = <1>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss1_ss_in: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss1_qmpphy_out>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +
+> > > > > +                             port@2 {
+> > > > > +                                     reg = <2>;
+> > > > > +
+> > > > > +                                     pmic_glink_ss1_sbu: endpoint {
+> > > > > +                                             remote-endpoint = <&usb_1_ss1_sbu_mux>;
+> > > > > +                                     };
+> > > > > +                             };
+> > > > > +                     };
+> > > > > +             };
+> > > > > +     };
+> > > > > +
+> > > > > +     reserved-memory {
+> > > > > +             linux,cma {
+> > > >
+> > > > What for?
+> > > >
+> > > > > +                     compatible = "shared-dma-pool";
+> > > > > +                     size = <0x0 0x8000000>;
+> > > > > +                     reusable;
+> > > > > +                     linux,cma-default;
+> > > > > +             };
+> > > > > +     };
+> > > > > +
+> > > >
+> > > > [...]
+> > > >
+> > > > > +
+> > > > > +&gpu {
+> > > > > +     status = "okay";
+> > > >
+> > > > I think that you wrote that GPU isn't supported (yet).
+> > >
+> > > GPU is not supported on SoC level (x1p42100/purwa), not device
+> > > specific. The idea I suggested to Jens was to mimic Asus Zenbook A14
+> > > as per discussion abou purwa GPU and purwa firmware in general [1]: to
+> > > already include correct filename and firmware path (since these are
+> > > known) such that once SoC lands the GPU support laptops with that SoC
+> > > will gain GPU support 'automatically'. As nothing consumes this
+> > > property (on purwa) just yet, adding it already does not cause any
+> > > harm.
 > >
-> > Userspace registers the dmabuf file descriptor as in a tee_shm object.
-> > The registration is completed with a tee_shm returned file descriptor.
 > >
-> > Userspace is free to close the dmabuf file descriptor after it has been
-> > registered since all the resources are now held via the new tee_shm
-> > object.
+> > Not quite. A14 specified the firmware name, but didn't enable the GPU.
+> > This patch actually enables the GPU device. Which means, that we are
+> > going to probe a driver on an unsupported device, using invalid GPU ids.
 > >
-> > Closing the tee_shm file descriptor will eventually release all
-> > resources used by the tee_shm object when all references are released.
-> >
-> > The new IOCTL, TEE_IOC_SHM_REGISTER_FD, supports dmabuf references to
-> > physically contiguous memory buffers. Dmabuf references acquired from
-> > the TEE DMA-heap can be used as protected memory for Secure Video Path
-> > and such use cases. It depends on the TEE and the TEE driver if dmabuf
-> > references acquired by other means can be used.
-> >
-> > A new tee_shm flag is added to identify tee_shm objects built from a
-> > registered dmabuf, TEE_SHM_DMA_BUF.
-> >
-> > Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
-> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/tee_core.c    |  63 +++++++++++++++++++++-
-> >  drivers/tee/tee_private.h |  10 ++++
-> >  drivers/tee/tee_shm.c     | 111 ++++++++++++++++++++++++++++++++++++--
-> >  include/linux/tee_core.h  |   1 +
-> >  include/linux/tee_drv.h   |  10 ++++
-> >  include/uapi/linux/tee.h  |  31 +++++++++++
-> >  6 files changed, 221 insertions(+), 5 deletions(-)
->
-> With below minor comments fixed, feel free to add:
->
-> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
->
-> >
-> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > index 5259b8223c27..0e9d9e5872a4 100644
-> > --- a/drivers/tee/tee_core.c
-> > +++ b/drivers/tee/tee_core.c
-> > @@ -353,11 +353,49 @@ tee_ioctl_shm_register(struct tee_context *ctx,
-> >       return ret;
-> >  }
-> >
-> > +static int
-> > +tee_ioctl_shm_register_fd(struct tee_context *ctx,
-> > +                       struct tee_ioctl_shm_register_fd_data __user *u=
-data)
-> > +{
-> > +     struct tee_ioctl_shm_register_fd_data data;
-> > +     struct tee_shm *shm;
-> > +     long ret;
-> > +
-> > +     if (copy_from_user(&data, udata, sizeof(data)))
-> > +             return -EFAULT;
-> > +
-> > +     /* Currently no input flags are supported */
-> > +     if (data.flags)
-> > +             return -EINVAL;
-> > +
-> > +     shm =3D tee_shm_register_fd(ctx, data.fd);
-> > +     if (IS_ERR(shm))
-> > +             return -EINVAL;
-> > +
-> > +     data.id =3D shm->id;
-> > +     data.flags =3D shm->flags;
-> > +     data.size =3D shm->size;
-> > +
-> > +     if (copy_to_user(udata, &data, sizeof(data)))
-> > +             ret =3D -EFAULT;
-> > +     else
-> > +             ret =3D tee_shm_get_fd(shm);
-> > +
-> > +     /*
-> > +      * When user space closes the file descriptor the shared memory
-> > +      * should be freed or if tee_shm_get_fd() failed then it will
-> > +      * be freed immediately.
-> > +      */
-> > +     tee_shm_put(shm);
-> > +     return ret;
-> > +}
-> > +
-> >  static int param_from_user_memref(struct tee_context *ctx,
-> >                                 struct tee_param_memref *memref,
-> >                                 struct tee_ioctl_param *ip)
-> >  {
-> >       struct tee_shm *shm;
-> > +     size_t offs =3D 0;
-> >
-> >       /*
-> >        * If a NULL pointer is passed to a TA in the TEE,
-> > @@ -388,6 +426,26 @@ static int param_from_user_memref(struct tee_conte=
-xt *ctx,
-> >                       tee_shm_put(shm);
-> >                       return -EINVAL;
-> >               }
-> > +
-> > +             if (shm->flags & TEE_SHM_DMA_BUF) {
-> > +                     struct tee_shm_dmabuf_ref *ref;
-> > +
-> > +                     ref =3D container_of(shm, struct tee_shm_dmabuf_r=
-ef, shm);
-> > +                     if (ref->parent_shm) {
-> > +                             /*
-> > +                              * The shm already has one reference to
-> > +                              * ref->parent_shm so we are clear of 0.
-> > +                              * We're getting another reference since
-> > +                              * this shm will be used in the parameter
-> > +                              * list instead of the shm we got with
-> > +                              * tee_shm_get_from_id() above.
-> > +                              */
-> > +                             refcount_inc(&ref->parent_shm->refcount);
-> > +                             tee_shm_put(shm);
-> > +                             shm =3D ref->parent_shm;
-> > +                             offs =3D ref->offset;
-> > +                     }
-> > +             }
-> >       } else if (ctx->cap_memref_null) {
-> >               /* Pass NULL pointer to OP-TEE */
-> >               shm =3D NULL;
-> > @@ -395,7 +453,7 @@ static int param_from_user_memref(struct tee_contex=
-t *ctx,
-> >               return -EINVAL;
-> >       }
-> >
-> > -     memref->shm_offs =3D ip->a;
-> > +     memref->shm_offs =3D ip->a + offs;
->
-> Is this an issue being detected now? If yes then shouldn't it be a
-> separate fix eligible for backport?
+> 
+> A14 also enables the GPU, just in the .dsti, not in the purwa .dts.
+> Though now looking at it, perhaps it's a bit misleading.
 
-No, this is to add an eventual offset for a TEE_SHM_DMA_BUF, introduced abo=
-ve.
+It should be enabled in the board.dts, not in the interim dtsi.
 
->
-> >       memref->size =3D ip->b;
-> >       memref->shm =3D shm;
-> >
-> > @@ -841,6 +899,8 @@ static long tee_ioctl(struct file *filp, unsigned i=
-nt cmd, unsigned long arg)
-> >               return tee_ioctl_shm_alloc(ctx, uarg);
-> >       case TEE_IOC_SHM_REGISTER:
-> >               return tee_ioctl_shm_register(ctx, uarg);
-> > +     case TEE_IOC_SHM_REGISTER_FD:
-> > +             return tee_ioctl_shm_register_fd(ctx, uarg);
-> >       case TEE_IOC_OPEN_SESSION:
-> >               return tee_ioctl_open_session(ctx, uarg);
-> >       case TEE_IOC_INVOKE:
-> > @@ -1300,3 +1360,4 @@ MODULE_AUTHOR("Linaro");
-> >  MODULE_DESCRIPTION("TEE Driver");
-> >  MODULE_VERSION("1.0");
-> >  MODULE_LICENSE("GPL v2");
-> > +MODULE_IMPORT_NS("DMA_BUF");
-> > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> > index 6c6ff5d5eed2..308467705da6 100644
-> > --- a/drivers/tee/tee_private.h
-> > +++ b/drivers/tee/tee_private.h
-> > @@ -13,6 +13,16 @@
-> >  #include <linux/mutex.h>
-> >  #include <linux/types.h>
-> >
-> > +/* extra references appended to shm object for registered shared memor=
-y */
-> > +struct tee_shm_dmabuf_ref {
-> > +     struct tee_shm shm;
-> > +     size_t offset;
-> > +     struct dma_buf *dmabuf;
-> > +     struct dma_buf_attachment *attach;
-> > +     struct sg_table *sgt;
-> > +     struct tee_shm *parent_shm;
-> > +};
-> > +
-> >  int tee_shm_get_fd(struct tee_shm *shm);
-> >
-> >  bool tee_device_get(struct tee_device *teedev);
-> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> > index daf6e5cfd59a..e1ed52ee0a16 100644
-> > --- a/drivers/tee/tee_shm.c
-> > +++ b/drivers/tee/tee_shm.c
-> > @@ -4,6 +4,7 @@
-> >   */
-> >  #include <linux/anon_inodes.h>
-> >  #include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/io.h>
-> >  #include <linux/mm.h>
-> > @@ -45,7 +46,23 @@ static void release_registered_pages(struct tee_shm =
-*shm)
-> >
-> >  static void tee_shm_release(struct tee_device *teedev, struct tee_shm =
-*shm)
-> >  {
-> > -     if (shm->flags & TEE_SHM_POOL) {
-> > +     struct tee_shm *parent_shm =3D NULL;
-> > +     void *p =3D shm;
-> > +
-> > +     if (shm->flags & TEE_SHM_DMA_BUF) {
-> > +             struct tee_shm_dmabuf_ref *ref;
-> > +
-> > +             ref =3D container_of(shm, struct tee_shm_dmabuf_ref, shm)=
-;
-> > +             parent_shm =3D ref->parent_shm;
-> > +             p =3D ref;
-> > +             if (ref->attach) {
-> > +                     dma_buf_unmap_attachment(ref->attach, ref->sgt,
-> > +                                              DMA_BIDIRECTIONAL);
-> > +
-> > +                     dma_buf_detach(ref->dmabuf, ref->attach);
-> > +             }
-> > +             dma_buf_put(ref->dmabuf);
-> > +     } else if (shm->flags & TEE_SHM_POOL) {
-> >               teedev->pool->ops->free(teedev->pool, shm);
-> >       } else if (shm->flags & TEE_SHM_DYNAMIC) {
-> >               int rc =3D teedev->desc->ops->shm_unregister(shm->ctx, sh=
-m);
-> > @@ -57,9 +74,10 @@ static void tee_shm_release(struct tee_device *teede=
-v, struct tee_shm *shm)
-> >               release_registered_pages(shm);
-> >       }
-> >
-> > -     teedev_ctx_put(shm->ctx);
-> > +     if (shm->ctx)
-> > +             teedev_ctx_put(shm->ctx);
->
-> redundant change?
+> Yes you are right, it does give GPU-related error in dmesg, which
+> appear to be otherwise harmless. Perhaps because `x1p42100.dtsi`
+> deletes the compatible of the GPU, hence no driver is probing it?
+> 
+> ```
+> [    3.085697] msm_dpu ae01000.display-controller: no GPU device was found
+> ```
+> 
+> Otherwise, if you still say GPU should be disabled regardless, shall I
+> also disable it on A14's purwa variant?
 
-Yes, I'll remove it.
+Yes, please. Don't set okay status for the GPU until it gets enabled.
 
->
-> >
-> > -     kfree(shm);
-> > +     kfree(p);
-> >
-> >       tee_device_put(teedev);
-> >  }
-> > @@ -169,7 +187,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_c=
-ontext *ctx, size_t size)
-> >   * tee_client_invoke_func(). The memory allocated is later freed with =
-a
-> >   * call to tee_shm_free().
-> >   *
-> > - * @returns a pointer to 'struct tee_shm'
-> > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on f=
-ailure
-> >   */
-> >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size=
-_t size)
-> >  {
-> > @@ -179,6 +197,91 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct te=
-e_context *ctx, size_t size)
-> >  }
-> >  EXPORT_SYMBOL_GPL(tee_shm_alloc_kernel_buf);
-> >
-> > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
-> > +{
-> > +     struct tee_shm_dmabuf_ref *ref;
-> > +     int rc;
-> > +
-> > +     if (!tee_device_get(ctx->teedev))
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     teedev_ctx_get(ctx);
-> > +
-> > +     ref =3D kzalloc(sizeof(*ref), GFP_KERNEL);
-> > +     if (!ref) {
-> > +             rc =3D -ENOMEM;
-> > +             goto err_put_tee;
-> > +     }
-> > +
-> > +     refcount_set(&ref->shm.refcount, 1);
-> > +     ref->shm.ctx =3D ctx;
-> > +     ref->shm.id =3D -1;
-> > +     ref->shm.flags =3D TEE_SHM_DMA_BUF;
-> > +
-> > +     ref->dmabuf =3D dma_buf_get(fd);
-> > +     if (IS_ERR(ref->dmabuf)) {
-> > +             rc =3D PTR_ERR(ref->dmabuf);
-> > +             goto err_kfree_ref;
-> > +     }
-> > +
-> > +     rc =3D tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
-> > +                                       &ref->offset, &ref->shm,
-> > +                                       &ref->parent_shm);
-> > +     if (!rc)
-> > +             goto out;
-> > +     if (rc !=3D -EINVAL)
-> > +             goto err_put_dmabuf;
-> > +
-> > +     ref->attach =3D dma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
-> > +     if (IS_ERR(ref->attach)) {
-> > +             rc =3D PTR_ERR(ref->attach);
-> > +             goto err_put_dmabuf;
-> > +     }
-> > +
-> > +     ref->sgt =3D dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONA=
-L);
-> > +     if (IS_ERR(ref->sgt)) {
-> > +             rc =3D PTR_ERR(ref->sgt);
-> > +             goto err_detach;
-> > +     }
-> > +
-> > +     if (sg_nents(ref->sgt->sgl) !=3D 1) {
-> > +             rc =3D -EINVAL;
-> > +             goto err_unmap_attachement;
-> > +     }
-> > +
-> > +     ref->shm.paddr =3D page_to_phys(sg_page(ref->sgt->sgl));
-> > +     ref->shm.size =3D ref->sgt->sgl->length;
-> > +
-> > +out:
-> > +     mutex_lock(&ref->shm.ctx->teedev->mutex);
-> > +     ref->shm.id =3D idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
-> > +                             1, 0, GFP_KERNEL);
-> > +     mutex_unlock(&ref->shm.ctx->teedev->mutex);
-> > +     if (ref->shm.id < 0) {
-> > +             rc =3D ref->shm.id;
-> > +             if (ref->attach)
-> > +                     goto err_unmap_attachement;
-> > +             goto err_put_dmabuf;
-> > +     }
-> > +
-> > +     return &ref->shm;
-> > +
-> > +err_unmap_attachement:
-> > +     dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL=
-);
-> > +err_detach:
-> > +     dma_buf_detach(ref->dmabuf, ref->attach);
-> > +err_put_dmabuf:
-> > +     dma_buf_put(ref->dmabuf);
-> > +err_kfree_ref:
-> > +     kfree(ref);
-> > +err_put_tee:
-> > +     teedev_ctx_put(ctx);
-> > +     tee_device_put(ctx->teedev);
-> > +
-> > +     return ERR_PTR(rc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
-> > +
-> >  /**
-> >   * tee_shm_alloc_priv_buf() - Allocate shared memory for a privately s=
-hared
-> >   *                         kernel buffer
-> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> > index b8b99c97e00c..02c07f661349 100644
-> > --- a/include/linux/tee_core.h
-> > +++ b/include/linux/tee_core.h
-> > @@ -28,6 +28,7 @@
-> >  #define TEE_SHM_USER_MAPPED  BIT(1)  /* Memory mapped in user space */
-> >  #define TEE_SHM_POOL         BIT(2)  /* Memory allocated from pool */
-> >  #define TEE_SHM_PRIV         BIT(3)  /* Memory private to TEE driver *=
-/
-> > +#define TEE_SHM_DMA_BUF              BIT(4)  /* Memory with dma-buf ha=
-ndle */
-> >
-> >  #define TEE_DEVICE_FLAG_REGISTERED   0x1
-> >  #define TEE_MAX_DEV_NAME_LEN         32
-> > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> > index a54c203000ed..824f1251de60 100644
-> > --- a/include/linux/tee_drv.h
-> > +++ b/include/linux/tee_drv.h
-> > @@ -116,6 +116,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct te=
-e_context *ctx, size_t size);
-> >  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
-> >                                           void *addr, size_t length);
-> >
-> > +/**
-> > + * tee_shm_register_fd() - Register shared memory from file descriptor
-> > + *
-> > + * @ctx:     Context that allocates the shared memory
-> > + * @fd:              Shared memory file descriptor reference
-> > + *
-> > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on f=
-ailure
-> > + */
-> > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd);
-> > +
-> >  /**
-> >   * tee_shm_free() - Free shared memory
-> >   * @shm:     Handle to shared memory to free
-> > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > index d0430bee8292..8ec5f46fbfbe 100644
-> > --- a/include/uapi/linux/tee.h
-> > +++ b/include/uapi/linux/tee.h
-> > @@ -118,6 +118,37 @@ struct tee_ioctl_shm_alloc_data {
-> >  #define TEE_IOC_SHM_ALLOC    _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1, \
-> >                                    struct tee_ioctl_shm_alloc_data)
-> >
-> > +/**
-> > + * struct tee_ioctl_shm_register_fd_data - Shared memory registering a=
-rgument
-> > + * @fd:              [in] File descriptor identifying dmabuf reference
-> > + * @size:    [out] Size of referenced memory
-> > + * @flags:   [in] Flags to/from allocation.
-> > + * @id:              [out] Identifier of the shared memory
-> > + *
-> > + * The flags field should currently be zero as input. Updated by the c=
-all
-> > + * with actual flags as defined by TEE_IOCTL_SHM_* above.
-> > + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD belo=
-w.
-> > + */
-> > +struct tee_ioctl_shm_register_fd_data {
-> > +     __s64 fd;
-> > +     __u64 size;
-> > +     __u32 flags;
-> > +     __s32 id;
-> > +};
-> > +
-> > +/**
-> > + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file desc=
-riptor
-> > + *
-> > + * Returns a file descriptor on success or < 0 on failure
-> > + *
-> > + * The returned file descriptor refers to the shared memory object in =
-the
-> > + * kernel. The supplied file deccriptor can be closed if it's not need=
-ed
-> > + * for other purposes. The shared memory is freed when the descriptor =
-is
-> > + * closed.
-> > + */
-> > +#define TEE_IOC_SHM_REGISTER_FD      _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE=
- + 8, \
-> > +                                  struct tee_ioctl_shm_register_fd_dat=
-a)
->
-> Please add this IOCTL in correct sequence order.
-
-OK, I'll fix it.
-
-Thanks,
-Jens
-
->
-> -Sumit
->
-> > +
-> >  /**
-> >   * struct tee_ioctl_buf_data - Variable sized buffer
-> >   * @buf_ptr: [in] A __user pointer to a buffer
-> > --
-> > 2.43.0
-> >
+-- 
+With best wishes
+Dmitry
