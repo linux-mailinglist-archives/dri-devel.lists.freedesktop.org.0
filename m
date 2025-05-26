@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE953AC3CF8
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 11:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEC9AC3CF9
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 11:35:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659D98928D;
-	Mon, 26 May 2025 09:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6E410E2D2;
+	Mon, 26 May 2025 09:35:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="UVxU0Eb4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EPVHJ9jE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3E110E2CA;
- Mon, 26 May 2025 09:35:00 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4b5Vwd2NfRz9tMB;
- Mon, 26 May 2025 11:34:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748252097; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6sFVl2e3qNLomDevKCFt84LhAmpXNJcnM7J/hNERNII=;
- b=UVxU0Eb47v2GBMHNSEl43akj1ClrEGDvU8AUHV8Z9kb/Tl3EJ3EwnCqLsKuWvxa6Gn/mWu
- VZQB5/I0eM9+Ydqp4Q9c/JBc2RFy3WrV7eg23YIGDfsvjOGxbuAYpVRnxHIIvv9u4qXwUV
- groSgTVPs9aPB7LSZmDR8e2r1glzZO1NUIsy4cuZMHPB8TVpb/zBYKnTPoORFdEz1YxM+7
- ECizs06iLXV31zhSVJwyRplIaiHKcDaeNsrCpOSsIPwNq/Hz0thrZkzRF6OlrFczkCv0WL
- hfM1kYu0Wi9+YpE8TygphfeeIqWjMjkTnR+wuKaa/R8MHaRJ+TkMxFCdE+ybSw==
-Message-ID: <08bb986281fefb5cbdb35c63a56e1bbd923d9297.camel@mailbox.org>
-Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
- Krummrich <dakr@kernel.org>
-Cc: tursulin@ursulin.net, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Mon, 26 May 2025 11:34:54 +0200
-In-Reply-To: <cd64af4d-f5b3-4f18-9be6-636624833075@amd.com>
-References: <20250523125643.7540-1-christian.koenig@amd.com>
- <20250523125643.7540-2-christian.koenig@amd.com>
- <aDCCF0JFhO7lR2VJ@cassiopeiae> <aDCDJ-sK9rRI6wse@cassiopeiae>
- <cd64af4d-f5b3-4f18-9be6-636624833075@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: dad4886d686f7da7be5
-X-MBO-RS-META: saty8pijuex1p11mtih113txczwqwrxb
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F27FC10E2D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 09:35:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3C2FC6113B;
+ Mon, 26 May 2025 09:35:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6883BC4CEE7;
+ Mon, 26 May 2025 09:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748252108;
+ bh=r93NbYDed9zaS/RBCBLrh1Zis4qfZlyaGqT8FkweLBg=;
+ h=Date:To:Subject:Cc:From:References:In-Reply-To:From;
+ b=EPVHJ9jEGd+pA0ljBNPM8drPh6Qk1JoqRC1heEs1n2paDFA7s73uT6u+wltA+UrjH
+ XFBYgtaT5gMxC/xxzVsq05/1Jpma/6qDqx4xCxLNARQa79ZYanzRuLKfnQPIJZbqn5
+ Uq8BTKzTzvVp+crO/FLhiSjjtNyyT7v6NJpzjzDKW7dHSYnFyTRHCZHsrx1W1Omcnv
+ bsAz+xpkykgDIrTXm2YB1u6/EYcGcYTW/NisXS8xTU/MRdg37Gezs1YPRCNRSBTEIF
+ SkO6PjQUfQI+3yjkDgem4LM64wjo0h/HUpfdJuC9vtJcy7YEXiR6WZgSCN8j4zSUqO
+ Guygy3B+iCjkA==
+Content-Type: multipart/signed;
+ boundary=31bb1853cc872e42b7b8767fc44049f04692353a59676d9b610244c9e800;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 26 May 2025 11:35:04 +0200
+Message-Id: <DA5ZNDCHXC6M.1CDYDG6KKMAP0@kernel.org>
+To: "Aradhya Bhatia" <aradhya.bhatia@linux.dev>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Jyri Sarha" <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v8 4/4] drm/tidss: Add OLDI bridge support
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "Maxime Ripard" <mripard@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Nishanth Menon" <nm@ti.com>, "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Devarsh Thakkar" <devarsht@ti.com>, "Praneeth Bajjuri" <praneeth@ti.com>,
+ "Udit Kumar" <u-kumar1@ti.com>, "Jayesh Choudhary" <j-choudhary@ti.com>,
+ "Francesco Dolcini" <francesco@dolcini.it>, "Alexander Sverdlin"
+ <alexander.sverdlin@siemens.com>, "DRI Development List"
+ <dri-devel@lists.freedesktop.org>, "Devicetree List"
+ <devicetree@vger.kernel.org>, "Linux Kernel List"
+ <linux-kernel@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20250525151721.567042-1-aradhya.bhatia@linux.dev>
+ <20250525151721.567042-5-aradhya.bhatia@linux.dev>
+In-Reply-To: <20250525151721.567042-5-aradhya.bhatia@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,170 +69,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-05-26 at 11:25 +0200, Christian K=C3=B6nig wrote:
-> On 5/23/25 16:16, Danilo Krummrich wrote:
-> > On Fri, May 23, 2025 at 04:11:39PM +0200, Danilo Krummrich wrote:
-> > > On Fri, May 23, 2025 at 02:56:40PM +0200, Christian K=C3=B6nig wrote:
-> > > > It turned out that we can actually massively optimize here.
-> > > >=20
-> > > > The previous code was horrible inefficient since it constantly
-> > > > released
-> > > > and re-acquired the lock of the xarray and started each
-> > > > iteration from the
-> > > > base of the array to avoid concurrent modification which in our
-> > > > case
-> > > > doesn't exist.
-> > > >=20
-> > > > Additional to that the xas_find() and xas_store() functions are
-> > > > explicitly
-> > > > made in a way so that you can efficiently check entries and if
-> > > > you don't
-> > > > find a match store a new one at the end or replace existing
-> > > > ones.
-> > > >=20
-> > > > So use xas_for_each()/xa_store() instead of
-> > > > xa_for_each()/xa_alloc().
-> > > > It's a bit more code, but should be much faster in the end.
-> > >=20
-> > > This commit message does neither explain the motivation of the
-> > > commit nor what it
-> > > does. It describes what instead belongs into the changelog
-> > > between versions.
-> >=20
-> > Sorry, this is wrong. I got confused, the commit message is
-> > perfectly fine. :)
-> >=20
-> > The rest still applies though.
-> >=20
-> > > Speaking of versioning of the patch series, AFAIK there were
-> > > previous versions,
-> > > but this series was sent as a whole new series -- why?
-> > >=20
-> > > Please resend with a proper commit message, version and
-> > > changelog. Thanks!
->=20
->=20
-> Well Philip asked to remove the changelog. I'm happy to bring it
-> back, but yeah...
+--31bb1853cc872e42b7b8767fc44049f04692353a59676d9b610244c9e800
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-No no no no :D
+Hi Aradhya,
 
-Philipp asked for the changelog to be removed *from the git commit
-message*; because it doesn't belong / isn't useful there.
+> +static int get_oldi_mode(struct device_node *oldi_tx, int *companion_ins=
+tance)
+> +{
+> +	struct device_node *companion;
+> +	struct device_node *port0, *port1;
+> +	u32 companion_reg;
+> +	bool secondary_oldi =3D false;
+> +	int pixel_order;
+> +
+> +	/*
+> +	 * Find if the OLDI is paired with another OLDI for combined OLDI
+> +	 * operation (dual-link or clone).
+> +	 */
+> +	companion =3D of_parse_phandle(oldi_tx, "ti,companion-oldi", 0);
+> +	if (!companion)
+> +		/*
+> +		 * The OLDI TX does not have a companion, nor is it a
+> +		 * secondary OLDI. It will operate independently.
+> +		 */
+> +		return OLDI_MODE_SINGLE_LINK;
 
-If there's a cover letter, the changelog should be in the cover letter.
-If there's no cover letter, it should be between the --- separators:
+How is this supposed to work? If I read this code correctly, the
+second (companion) port is always reported as SINGLE_LINK if its
+device tree node doesn't have a ti,companion-oldi property. But
+reading the device tree binding, the companion-old property is only
+for the first OLDI port.
 
+FWIW, I've tested this series and I get twice the clock rate as
+expected and the second link is reported as "OLDI_MODE_SINGLE_LINK".
+I'll dig deeper into this tomorrow.
 
-Signed-off-by: Gordon Freeman <freeman@blackmesa.org>
-Reviewed-by: Alyx Vance <alyx@vance.edu>
----
-Changes in v2:
-  - Provide more docu for crowbar-alloc-function.
-  - Use NULL pointers for reserved xarray entries
----
-<DIFF>
+-michael
 
+> +
+> +	if (of_property_read_u32(companion, "reg", &companion_reg))
+> +		return OLDI_MODE_UNSUPPORTED;
+> +
+> +	if (companion_reg > (TIDSS_MAX_OLDI_TXES - 1))
+> +		/* Invalid companion OLDI reg value. */
+> +		return OLDI_MODE_UNSUPPORTED;
+> +
+> +	*companion_instance =3D (int)companion_reg;
+> +
+> +	if (of_property_read_bool(oldi_tx, "ti,secondary-oldi"))
+> +		secondary_oldi =3D true;
+> +
+> +	/*
+> +	 * We need to work out if the sink is expecting us to function in
+> +	 * dual-link mode. We do this by looking at the DT port nodes, the
+> +	 * OLDI TX ports are connected to. If they are marked as expecting
+> +	 * even pixels and odd pixels, then we need to enable dual-link.
+> +	 */
+> +	port0 =3D of_graph_get_port_by_id(oldi_tx, 1);
+> +	port1 =3D of_graph_get_port_by_id(companion, 1);
+> +	pixel_order =3D drm_of_lvds_get_dual_link_pixel_order(port0, port1);
+> +	of_node_put(port0);
+> +	of_node_put(port1);
+> +	of_node_put(companion);
+> +
+> +	switch (pixel_order) {
+> +	case -EINVAL:
+> +		/*
+> +		 * The dual-link properties were not found in at least
+> +		 * one of the sink nodes. Since 2 OLDI ports are present
+> +		 * in the DT, it can be safely assumed that the required
+> +		 * configuration is Clone Mode.
+> +		 */
+> +		return (secondary_oldi ? OLDI_MODE_CLONE_SECONDARY_SINGLE_LINK :
+> +					 OLDI_MODE_CLONE_SINGLE_LINK);
+> +
+> +	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
+> +		return (secondary_oldi ? OLDI_MODE_SECONDARY_DUAL_LINK :
+> +					 OLDI_MODE_DUAL_LINK);
+> +
+> +	/* Unsupported OLDI Modes */
+> +	case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
+> +	default:
+> +		return OLDI_MODE_UNSUPPORTED;
+> +	}
+> +}
 
-P.
+--31bb1853cc872e42b7b8767fc44049f04692353a59676d9b610244c9e800
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->=20
-> Regards,
-> Christian.
->=20
-> > >=20
-> > > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > ---
-> > > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 29
-> > > > ++++++++++++++++++--------
-> > > > =C2=A01 file changed, 20 insertions(+), 9 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > index f7118497e47a..cf200b1b643e 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
-> > > > =C2=A0int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > > > =C2=A0				 struct dma_fence *fence)
-> > > > =C2=A0{
-> > > > +	XA_STATE(xas, &job->dependencies, 0);
-> > > > =C2=A0	struct dma_fence *entry;
-> > > > -	unsigned long index;
-> > > > -	u32 id =3D 0;
-> > > > -	int ret;
-> > > > =C2=A0
-> > > > =C2=A0	if (!fence)
-> > > > =C2=A0		return 0;
-> > > > @@ -883,24 +881,37 @@ int drm_sched_job_add_dependency(struct
-> > > > drm_sched_job *job,
-> > > > =C2=A0	 * This lets the size of the array of deps scale with
-> > > > the number of
-> > > > =C2=A0	 * engines involved, rather than the number of BOs.
-> > > > =C2=A0	 */
-> > > > -	xa_for_each(&job->dependencies, index, entry) {
-> > > > +	xa_lock(&job->dependencies);
-> > > > +	xas_for_each(&xas, entry, ULONG_MAX) {
-> > > > =C2=A0		if (entry->context !=3D fence->context)
-> > > > =C2=A0			continue;
-> > > > =C2=A0
-> > > > =C2=A0		if (dma_fence_is_later(fence, entry)) {
-> > > > =C2=A0			dma_fence_put(entry);
-> > > > -			xa_store(&job->dependencies, index,
-> > > > fence, GFP_KERNEL);
-> > > > +			xas_store(&xas, fence);
-> > > > =C2=A0		} else {
-> > > > =C2=A0			dma_fence_put(fence);
-> > > > =C2=A0		}
-> > > > -		return 0;
-> > > > +		xa_unlock(&job->dependencies);
-> > > > +		return xas_error(&xas);
-> > > > =C2=A0	}
-> > > > =C2=A0
-> > > > -	ret =3D xa_alloc(&job->dependencies, &id, fence,
-> > > > xa_limit_32b, GFP_KERNEL);
-> > > > -	if (ret !=3D 0)
-> > > > +retry:
-> > > > +	entry =3D xas_store(&xas, fence);
-> > > > +	xa_unlock(&job->dependencies);
-> > > > +
-> > > > +	/* There shouldn't be any concurrent add, so no need
-> > > > to loop again */
-> > >=20
-> > > Concurrency shouldn't matter, xas_nomem() stores the pre-
-> > > allocated memory in the
-> > > XA_STATE not the xarray. Hence, I think we should remove the
-> > > comment.
-> > >=20
-> > > > +	if (xas_nomem(&xas, GFP_KERNEL)) {
-> > > > +		xa_lock(&job->dependencies);
-> > > > +		goto retry;
-> > >=20
-> > > Please don't use a goto here, if we would have failed to allocate
-> > > memory here,
-> > > this would be an endless loop until we succeed eventually. It
-> > > would be equal to:
-> > >=20
-> > > 	while (!ptr) {
-> > > 		ptr =3D kmalloc();
-> > > 	}
-> > >=20
-> > > Instead just take the lock and call xas_store() again.
-> > >=20
-> > > > +	}
-> > > > +
-> > > > +	if (xas_error(&xas))
-> > > > =C2=A0		dma_fence_put(fence);
-> > > > +	else
-> > > > +		WARN_ON(entry);
-> > >=20
-> > > Please don't call WARN_ON() here, this isn't fatal, we only need
-> > > to return the
-> > > error code.
->=20
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaDQ1yBIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/jAzgF6AkVGrAk/6h2BAeQEXBltBp+1QBZ84LPQ
+Dv52KJMtbstY+6/r0wtMRRrZGAstxWMJAYCZLaVgc4bS24ZFzmrdIpubVsEb09Ip
+2uv8nw+GT9zpWx5YommjdhMDmzR8DhBJ8Ts=
+=e4BZ
+-----END PGP SIGNATURE-----
 
+--31bb1853cc872e42b7b8767fc44049f04692353a59676d9b610244c9e800--
