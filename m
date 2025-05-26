@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9091AC405B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 15:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D732AC405D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 15:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797C710E22F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C9810E2E2;
 	Mon, 26 May 2025 13:28:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JHulEUe0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="A8ubggNr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7AB110E2A5
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 13:28:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99AEB10E134
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 13:28:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748266107;
+ s=mimecast20190719; t=1748266106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tIJNc4z+prl6uqE8TJXFoIi+LuDA64zLV+jmBQfkFuc=;
- b=JHulEUe0+4N7TzKHIhGuywkBkAJbJFfXVLEMwKJCxsiQ0TULpq2BEQNyxDSN4ERELyWgrg
- VGbhMNT5whxx4oP9Jt3g11Xb99I/NR6nw+z6m1F6QkriZ/0M7e0IHeqMALXDrVGAvDR/8y
- O7vzzL1CpI5eF6TCtIwEF/t0NAwXnAg=
+ bh=piebsVU5QZFL/FeYXj8vMs1AI4HP2ZYK+Wi3o0pUrOA=;
+ b=A8ubggNrNkDX1RKJqF1qPqkz0ydjr5LpCOonG7x5bJ603FJplLcE1tVS89qofimyVSSsUE
+ zzIYc1Xw3HSXQSmvzlOqq8rXkdePLo+BNgRFXYPwiFo94jCwS+sQ4vu57C/wjvZpCXEQBi
+ AB/xQo/txrNxx+FEs3vaDyGpWET5MM4=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-292-Vp3OSOYbPi6J4rULRoZYGg-1; Mon, 26 May 2025 09:28:23 -0400
-X-MC-Unique: Vp3OSOYbPi6J4rULRoZYGg-1
-X-Mimecast-MFC-AGG-ID: Vp3OSOYbPi6J4rULRoZYGg_1748266103
+ us-mta-616-RJYg5QX5NliI1OlajL9f4Q-1; Mon, 26 May 2025 09:28:25 -0400
+X-MC-Unique: RJYg5QX5NliI1OlajL9f4Q-1
+X-Mimecast-MFC-AGG-ID: RJYg5QX5NliI1OlajL9f4Q_1748266104
 Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-442cdf07ad9so12627015e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 06:28:23 -0700 (PDT)
+ 5b1f17b1804b1-43cf5196c25so13283785e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 06:28:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748266102; x=1748870902;
+ d=1e100.net; s=20230601; t=1748266104; x=1748870904;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tIJNc4z+prl6uqE8TJXFoIi+LuDA64zLV+jmBQfkFuc=;
- b=PlDted6zWw4XshTnm0CPAxCMOWBLuwKjyfpGYTJy4OU06XLs01LBqRDdb5ZwNSwpZ1
- Cvya4cUTPlRK06B4hoL/na8iRNbWzZ18rxUJueKpRL0snyCQ0y0G9paw4RXN1syTS+kL
- MQL40MX55824gMmkakOCjqicl/K+Cn2dOHDJG6fN8CxI4qO7TTt+UHO2oz8e8wy/W407
- fHodQxSzsEJHfRcADCWA0yAXqro2RZY5aGX0D2yoMLGRsZgHLNe33+b2Hx8jPjEamHbB
- oHbCiAe1NZCwwlhVaP7zXhYL4EtE8SS6l9cKkfWyf/eSSVdX/17NV/Uk+ZWVv4q9E4Yz
- YZvw==
+ bh=piebsVU5QZFL/FeYXj8vMs1AI4HP2ZYK+Wi3o0pUrOA=;
+ b=D0R0km7wba80deEHGExPW5dDuMhVvBOYon1TzNdUDqRi4A8JGE+dNgz1UUttejfHRI
+ yLy2faOMBmKibnP49Ze9nScPwg8YP3l/U9koo6i5+bAd8oMNgvyLwtHVsMa2D7B94hO4
+ Jdf9R6ttWOzDEBqNr1vnf40dYQWHgSwjmnyJGbMue7zSEVNH9ri/ZWa1gkG+K8nK20WL
+ in6XN5jlmohCbLur34yzB5/K76ibU3kFXiXITxurvJvkMEv+FDwuvMojo9XX6sgR21OA
+ R+GdUOeWnF2dkNCK6yq7Yi1J4nsCGOv+XeDYoQizod/0lNqZF3C1SbAiQhhEMycsL9Bq
+ PYrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEam8jRya4jexOrQYZXyRdJaikJwJr/oRy4MqBah09qCiS2DTslcHUUWDgHZnNWa4y86aF64BKe+A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywz1mGrfEUhEclbVMvpmS9/p1DyIhhLIVST6hV8VjMLdnHDBds7
- l0l9GsNohSn7Al+ZWDTafhi+FyUgnr8QZBUWrV9Syp8jWlmzjFxyFXRkDV2hQax7ynVlolLEqwT
- 7qYPfE1Mb3T+zKUJ3p7Bsm642DTvtX8FPU/9BXYXDginrYrvRXyf+MXqKBHCxpCuiw9qwJA==
-X-Gm-Gg: ASbGnct14WjNmgDoVxUzG+yOmr0o/6eYKnDojw3cJUopDSt0vE6y2tElZW5d7YalJjb
- FFSD8MwbVXHAJkBz7ZZQ0bjg8QNET92D96YYZ4Rv5FXfofmLPgU1+MUPUAp2Bupsdx9o9wFxjk+
- hjX2dgVkSSXZs7/A0F1ee/wxrpa5fcZbQSan3U3a9ggV8KvKat9JDXWoTNPVkOMpUnlmVyH/+yn
- rORNiTHOJvwFaofms8WEiV91U5T0dGxWlglaiJeILDd+tptdTtKRcPnzOKWAKuq/CQQYsrIcAoL
- 6TR/Ha9DbPEhLOac
-X-Received: by 2002:a7b:cb0e:0:b0:43d:8ea:8d80 with SMTP id
- 5b1f17b1804b1-44cf6d81628mr43597835e9.5.1748266102535; 
- Mon, 26 May 2025 06:28:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFr19bNHeLuqPTA70dJ3loiMHnX3Wbi8DckD7ViZVw9xearBz01pBMAJtm6RFOqVblZmf8Afw==
-X-Received: by 2002:a7b:cb0e:0:b0:43d:8ea:8d80 with SMTP id
- 5b1f17b1804b1-44cf6d81628mr43597425e9.5.1748266102096; 
- Mon, 26 May 2025 06:28:22 -0700 (PDT)
+ AJvYcCUQUMQw54KXQXbL0OF/h0vwxTJk0EH+cRoU/Q/cSAI2JVb0Pj4Xeawb7+mpvLDYXpMNbEbH5Dfc3D0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlulrEwCOloc/fwAlIZZYj6wS+KODd+c5uXuL6Vhcts5B3RlP0
+ nxevS6fy3+0WlVHBsp9PQ8O0pJ0g9Bs4anNEG7ZtknUDpxltImo14Hh6/m6viUavH5aIEUUdedc
+ t2jpj3qE4/lXswZbIozfUTdrIVd1wVblg9MeJDC1YNUWt+aURxgMdzZcD0rMlkMP27ScaRg==
+X-Gm-Gg: ASbGncvIcuzHeSfQVUskOXP+zSiGKaEPVrFYAV6AzpBB5DaAC5cXTd/iIUMDbLnPvOt
+ YZoxSn9ThltUEAl3DM5+P0WYGLZ+KbVDeanMyENA8WUFGVY54qbdOmhRereh43WnNCTqx7u0wzx
+ vnd5eVA8rYIbclrvN2dvKv+bSS6s93X1tpJC5arfG1udTwW+GDy3AvdsmO7FAjazsFslcRnWbbt
+ kdYujgKDqsbgQTRODnHn3IcmM9xif+jR/cBThwaaH0kGLXWH6jJSEzP4PbJzOONQOj9hdM/ssbM
+ oei3lK83R5MAjOw+
+X-Received: by 2002:a05:600c:511f:b0:442:f482:c429 with SMTP id
+ 5b1f17b1804b1-44c919e1212mr72338695e9.8.1748266104410; 
+ Mon, 26 May 2025 06:28:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFaaobnHeigG/eBkWZXd1t3qpSgOSBx99XMBgFVTdHMNgY3fiyKRZ23Lqf2VAX1TTWLq2keaQ==
+X-Received: by 2002:a05:600c:511f:b0:442:f482:c429 with SMTP id
+ 5b1f17b1804b1-44c919e1212mr72338525e9.8.1748266103966; 
+ Mon, 26 May 2025 06:28:23 -0700 (PDT)
 Received: from lab.hqhome163.com ([81.57.75.210])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-3a4c8455e7dsm8836663f8f.9.2025.05.26.06.28.20
+ ffacd0b85a97d-3a4c8455e7dsm8836663f8f.9.2025.05.26.06.28.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 May 2025 06:28:21 -0700 (PDT)
+ Mon, 26 May 2025 06:28:23 -0700 (PDT)
 From: Alessandro Carminati <acarmina@redhat.com>
 To: linux-kselftest@vger.kernel.org
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
@@ -88,21 +88,17 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>,
  Shuah Khan <skhan@linuxfoundation.org>,
  Linux Kernel Functional Testing <lkft@linaro.org>,
  dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>,
- Alessandro Carminati <acarmina@redhat.com>
-Subject: [PATCH v5 4/5] drm: Suppress intentional warning backtraces in
- scaling unit tests
-Date: Mon, 26 May 2025 13:27:54 +0000
-Message-Id: <20250526132755.166150-5-acarmina@redhat.com>
+ linux-kernel@vger.kernel.org, Alessandro Carminati <acarmina@redhat.com>
+Subject: [PATCH v5 5/5] kunit: Add documentation for warning backtrace
+ suppression API
+Date: Mon, 26 May 2025 13:27:55 +0000
+Message-Id: <20250526132755.166150-6-acarmina@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250526132755.166150-1-acarmina@redhat.com>
 References: <20250526132755.166150-1-acarmina@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FMntvjSjKjKeIB9iyfLSV1UYKk5pOvXjVcnkEeYdalo_1748266103
+X-Mimecast-MFC-PROC-ID: asIDb6wP_kQpGQ6GP-fvGh_indLmL_FNNJl4FRk5WWs_1748266104
 X-Mimecast-Originator: redhat.com
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -123,67 +119,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-The drm_test_rect_calc_hscale and drm_test_rect_calc_vscale unit tests
-intentionally trigger warning backtraces by providing bad parameters to
-the tested functions. What is tested is the return value, not the existence
-of a warning backtrace. Suppress the backtraces to avoid clogging the
-kernel log and distraction from real problems.
+Document API functions for suppressing warning backtraces.
 
 Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: David Gow <davidgow@google.com>
 Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
 ---
- drivers/gpu/drm/tests/drm_rect_test.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ Documentation/dev-tools/kunit/usage.rst | 30 ++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-index 17e1f34b7610..867845e7d5ab 100644
---- a/drivers/gpu/drm/tests/drm_rect_test.c
-+++ b/drivers/gpu/drm/tests/drm_rect_test.c
-@@ -406,22 +406,38 @@ KUNIT_ARRAY_PARAM(drm_rect_scale, drm_rect_scale_cases, drm_rect_scale_case_desc
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 22955d56b379..b2f1e56d53b4 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -157,6 +157,34 @@ Alternatively, one can take full control over the error message by using
+ 	if (some_setup_function())
+ 		KUNIT_FAIL(test, "Failed to setup thing for testing");
  
- static void drm_test_rect_calc_hscale(struct kunit *test)
- {
-+	KUNIT_DEFINE_SUPPRESSED_WARNING(drm_calc_scale);
- 	const struct drm_rect_scale_case *params = test->param_value;
- 	int scaling_factor;
++Suppressing warning backtraces
++------------------------------
++
++Some unit tests trigger warning backtraces either intentionally or as side
++effect. Such backtraces are normally undesirable since they distract from
++the actual test and may result in the impression that there is a problem.
++
++Such backtraces can be suppressed. To suppress a backtrace in some_function(),
++use the following code.
++
++.. code-block:: c
++
++	static void some_test(struct kunit *test)
++	{
++		DEFINE_SUPPRESSED_WARNING(some_function);
++
++		KUNIT_START_SUPPRESSED_WARNING(some_function);
++		trigger_backtrace();
++		KUNIT_END_SUPPRESSED_WARNING(some_function);
++	}
++
++SUPPRESSED_WARNING_COUNT() returns the number of suppressed backtraces. If the
++suppressed backtrace was triggered on purpose, this can be used to check if
++the backtrace was actually triggered.
++
++.. code-block:: c
++
++	KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(some_function), 1);
  
-+	/*
-+	 * drm_rect_calc_hscale() generates a warning backtrace whenever bad
-+	 * parameters are passed to it. This affects all unit tests with an
-+	 * error code in expected_scaling_factor.
-+	 */
-+	KUNIT_START_SUPPRESSED_WARNING(drm_calc_scale);
- 	scaling_factor = drm_rect_calc_hscale(&params->src, &params->dst,
- 					      params->min_range, params->max_range);
-+	KUNIT_END_SUPPRESSED_WARNING(drm_calc_scale);
+ Test Suites
+ ~~~~~~~~~~~
+@@ -857,4 +885,4 @@ For example:
+ 		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
  
- 	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
- }
- 
- static void drm_test_rect_calc_vscale(struct kunit *test)
- {
-+	KUNIT_DEFINE_SUPPRESSED_WARNING(drm_calc_scale);
- 	const struct drm_rect_scale_case *params = test->param_value;
- 	int scaling_factor;
- 
-+	/*
-+	 * drm_rect_calc_vscale() generates a warning backtrace whenever bad
-+	 * parameters are passed to it. This affects all unit tests with an
-+	 * error code in expected_scaling_factor.
-+	 */
-+	KUNIT_START_SUPPRESSED_WARNING(drm_calc_scale);
- 	scaling_factor = drm_rect_calc_vscale(&params->src, &params->dst,
- 					      params->min_range, params->max_range);
-+	KUNIT_END_SUPPRESSED_WARNING(drm_calc_scale);
- 
- 	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
- }
+ 		// Everything is cleaned up automatically when the test ends.
+-	}
+\ No newline at end of file
++	}
 -- 
 2.34.1
 
