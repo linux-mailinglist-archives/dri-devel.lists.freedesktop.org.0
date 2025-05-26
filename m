@@ -2,168 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621A8AC3E7D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 13:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AC9AC3E8A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 13:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1581010E35A;
-	Mon, 26 May 2025 11:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAEF10E350;
+	Mon, 26 May 2025 11:27:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="rNG6wGfW";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ZOeYfbO9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010003.outbound.protection.outlook.com [52.101.229.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6015110E32E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 11:19:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CqNjnbddE6pso6mKM9/nWtFs52PE8X/jBV++H9aoBpwC6nE3iSkdexJTp/8mSkHX97/MzC9EgZ6QaIKg8RVGPnm9sUVlllnWuSji6ZEdCRGQKpFMmaCwazQirQwfIJ3ZhLQC3wOLm4jbpLKoNQYaHKHvMYOFrkmbnMWfAifG3u2i9dzwlrqG+r8B2+mhKll5BFjDFr/GUdrRveif9J8bKZZSWpWHTBHVOSXxBw76qvx6p+jCDw7ARQ2s+qgnr7AmqCa4vUFVrM/BQ8nd7IKx8pBz5qAKYD7BrSFAD9oKvx7xuOb2eWa0LqKyRmuC4OoQTqIlvC0nOZuMSW7S6PTpSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GqOAqhGUmoNAe+okRcy/0wttFwyQPyEp39ANaFRCedU=;
- b=xSJsWWEhJsQB/FC3alfQKaQUy94stRm5JbIo1dowM1X2yyhJHQxQpxhve1Fs7Zf8jbkH2nVjpXpr8ORbDe9Rd4iUmlPGYEnNLdvVJV38sRcLm6jU3vvxEM5O7M8rRcPPDeGelEBfr0BtjgDzfnBHE1vcgoWXycn9hP/EvxOEem4p6cjmhcVIWdxPWDsMvnhJyk27Z3YFn20jfnF0KUe0e1eF+DmMwbHBIEnmoVdwgN0SiSMr67duu/JNwc5RISTTthkzo1uSjFtQ97PoEvrkF3E4G10SUupifBTwzhtn1VHZNDnGyEuq4AFApJmIbYo4pI/U3K6z1B4uxURjJQeZWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GqOAqhGUmoNAe+okRcy/0wttFwyQPyEp39ANaFRCedU=;
- b=rNG6wGfWHbYKn3aGwhEQB/mlF5QrdvjPR37YfaqjeGX8lAdD3wmmyzytWOJ+k5WX9210MCVNkyu9PeO0zp9vvm3u29rbTVFW1XkM+CJQX9oKYPegly8xQaVlLzhA72zCW2lImqz9jb5x9EyzRFrmM2yIOMupKaw1cE+2GFqsFU8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by TYCPR01MB10020.jpnprd01.prod.outlook.com (2603:1096:400:1e8::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.26; Mon, 26 May
- 2025 11:19:35 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.022; Mon, 26 May 2025
- 11:19:34 +0000
-Message-ID: <209ddc02-01d2-4375-afcf-2c9a55fe8fc1@bp.renesas.com>
-Date: Mon, 26 May 2025 13:19:23 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set() with
- atomic_enable()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>, tomm.merciai@gmail.com,
- linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Douglas Anderson <dianders@chromium.org>, Adam Ford <aford173@gmail.com>,
- Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
- <20250526-cryptic-blue-mussel-ac57fe@houat>
- <91d8a288-1f2d-469c-a596-6265893584ae@bp.renesas.com>
- <20250526104902.GB17743@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250526104902.GB17743@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0124.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::18) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A24D10E34D;
+ Mon, 26 May 2025 11:27:34 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4b5YQW02L7z9sqV;
+ Mon, 26 May 2025 13:27:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1748258851; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kU+C54Zd3D04xmve+ZS48SQkLOOFwXc2vksK+GiyYXc=;
+ b=ZOeYfbO92rsi2dcoW4X5xJwoBpuj0ddMW4gB2U5CreYegJSzCRatC9hTiQt+3kpihQX5Qc
+ V8k7Ht9LJSf4szDkfgl6X+RxM5ROw5GDllCCpYLmSXs7NVaoJhFped5nNOkI+kYr3VsM+x
+ Nt6869xtUabVK6/BULuGiDHscnqfT8TAttNSIe+nXwW1awQdnD6cEo4qDT1whW27l1C2Yl
+ JKOfhwQfpy08zHApp+GeCvHk7quiLQr1ee5bCiBnrFvJVZ7t6mUAT1t2L1q6vaIdR4awfX
+ uDnXy3g0yGNLJPCfdiNY6FYoJWHvaIiaIrJoa2uPpXecYiGwyQXTmQilxcc2ww==
+Message-ID: <cbd3eaa4c228c0d0688745e8a539103eb2278a0b.camel@mailbox.org>
+Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
+Cc: tursulin@ursulin.net, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Mon, 26 May 2025 13:27:28 +0200
+In-Reply-To: <74c4b9d8-5e25-438e-97c5-5aa2035fb9bd@amd.com>
+References: <20250523125643.7540-1-christian.koenig@amd.com>
+ <20250523125643.7540-2-christian.koenig@amd.com>
+ <aDCCF0JFhO7lR2VJ@cassiopeiae> <aDCDJ-sK9rRI6wse@cassiopeiae>
+ <cd64af4d-f5b3-4f18-9be6-636624833075@amd.com>
+ <08bb986281fefb5cbdb35c63a56e1bbd923d9297.camel@mailbox.org>
+ <74c4b9d8-5e25-438e-97c5-5aa2035fb9bd@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYCPR01MB10020:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1e7e262-2477-45cf-3c64-08dd9c47318b
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?My9HZVpEMTFtZjhFYlc5NjlsQ2c5MTVQc202UE9MNnAzRWpQU2ErSTd0Qk04?=
- =?utf-8?B?cnoyMExJb2ROSHIzTUhZUkluY2VqaDVmSEhib0tBRjhOQUsxODJNejFuY3FK?=
- =?utf-8?B?RW84U2NKK00rM3Z6NFE1OVY0a0R5ZzlZdzROUVBYeU9jYXhPdWQybEVnODAv?=
- =?utf-8?B?TGxQbjFuYmlsK1p3QXF3WkhYQ2JVdExzNTNVdjhsTFFtdVhZUzNTbUNucXV1?=
- =?utf-8?B?c0EvaS9nZHFiTjBIaktCdG1FV2NOY3pPblBYbDZUKzNYWFZNVUl5TVBVV3Ra?=
- =?utf-8?B?N29URVZrZm4rNGozTHJkeGEzWDluazk4Vk5uT01TVW9WVWQ1Y3huYmpnU255?=
- =?utf-8?B?T2lEWjBwanIwY1hleU56RzdOY0svQURjSXV2R1Z0M1E3ODRVZjY3NGdCdU96?=
- =?utf-8?B?ZWZmVCtwUndSa3ZUbHg1YnlSNTAyT0dxQlA3VjBXcnF6S2hlTXk3T1dKYjRV?=
- =?utf-8?B?S2FpR0pFOHpPdFJnb0NkdWIxbHNxNmgwb1R3dVlzbnp3WGN6dkYveWlrUExt?=
- =?utf-8?B?bThwczFESFdEdGVNWkpmVHl4dy9KZ0RKejQ4bVpVWVFPcXRXU215UXRLallV?=
- =?utf-8?B?dlR3bUdMVzhRT3pDc1pjKzh0WEswUW52SVRmVm5udmRKQm9IQXNabjJOc28w?=
- =?utf-8?B?eDJiMTR1WVR4L21ET3pZN3lQOHBOblNTR29Tb3hFOWY0cFJXb2Q5NDJPQytx?=
- =?utf-8?B?Qkp1U0hJY0JGd3RlUkx1RWZWNWQ1aDMvUlcyN0lTSU1JbVY5RjRLRnpXYWoy?=
- =?utf-8?B?cVlvQkNaR1NXVUpQYkxFRzhaVVltTGttcFhsS3RzK2JhZnNhVUE3N2RFNnVH?=
- =?utf-8?B?aXUwZXJpeTliMUtrQVR3SmxWUnFpZUhjdGVHSkwzNHlEUW96Z3QwdWdRQmNr?=
- =?utf-8?B?MU5PenViSFdtQ3V6dlE0WVpwV1J0S2VWendKYkVFVWNLU3h1ZWEyWmxSdHBo?=
- =?utf-8?B?eGJON2luME1OVlJZM2RiQzUySU92TkFCS2VpUUNDTlMyV0hXM3I4NENUM1I0?=
- =?utf-8?B?YWNZS1djN05seUg3NGsxZ2ZVeGxHMmNxQndVeGVKUFBlSUlodlVqaklYd0xL?=
- =?utf-8?B?blpEcWZ3M0dzQmdpY3h4Tmowa2JRYVd3b09zRTh6anBIUTQybEluQXdXYkZP?=
- =?utf-8?B?TmhBNDR3OW5sNFJuQzVGYUhRelZzRkdMRmpmSmhYWC9oVGFoWENUbkpJUTNV?=
- =?utf-8?B?NTNYUzg1TmVWaDR6L2xueFFSSkJPanhBakhUcTF3a3VDOVZqMjJ3YjF3dkpJ?=
- =?utf-8?B?bTd3T1AxZWh6c0Uxb043UGVOdUFGUVNveGFnRUdnbDIxdUJDcThsNVlnbHpX?=
- =?utf-8?B?cUNhaUVrUzdmeXFwTXZrZkFlTTRxMk1DWThJcktBc2ZqMkNjeGUyMldzT3h0?=
- =?utf-8?B?Y0RDNzg1aXpIazNQVlQvQnI2VkhwZWE2Z3MraFFzTmpZbkZLRkMzcEdib2Mr?=
- =?utf-8?B?Y0tGR3lZcHNKanVUSXhXaURhVENaN1kxcHFSZE9IMG11cDkvWEpvd25hbWJK?=
- =?utf-8?B?RkdOOGFrdkRNYlRYQjJTckVibnVKTWw4SElmUWJjK0xFWnNpdWhvTEo0SWh5?=
- =?utf-8?B?d0hYSGtsYVUxVVZKdlBaM0IwTlRQR3JidVRicnZ3eHQvS0pzem9VUTRsQ0NF?=
- =?utf-8?B?UDdTakVvRlI0eENuRFZBVGg1ekVrUFZXUWJxeHB5VFJOZlJKQ1J0bFQ3eWVz?=
- =?utf-8?B?NXBvY3d1bjFOY29yMXR6TmxwVlF3TFRZbytLbktERmk3eWtmRHpwSXJyQXZl?=
- =?utf-8?B?cjgyZ3FwcUI2ejRJb0FVRHBjN3lPWDNGYm5ZdGJGaXBiQ1g5d0JkZlJlNlRn?=
- =?utf-8?B?OW5MUXFCc3RubXJ0eHQ2dTlYdmZ6eVVFWmZzMlYzNzZuSzRwdXA2YUl5cDlI?=
- =?utf-8?B?VEJ1R1E0THFLQkpBMFUvR3FBcFArNUZyaDIrcFhONnJXM3d3aTZlZklNSk5s?=
- =?utf-8?Q?ycG2FRErVPE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS9PR01MB13950.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tnd0UHZUek9HVmtKeDRrNmIvR045aGJ5bWJzaG1ib3crNlFDN3o5em1tUitn?=
- =?utf-8?B?RFIwbWNFLzhLOStCbDdwUW8zQ3BnVVVqdnBIa0dpMG95MTZaV3Y5Z0ZFMlEz?=
- =?utf-8?B?ZUVjY3NWTUtWTUpWa2xBUXJXRFdhb3RXbEtITW5wNC8xNzVPWGRsRHB4R0Vu?=
- =?utf-8?B?bTF0clNuZFZ3QjVsVEllUjFrSHlHLy9ub1pEZ3BqS1h0RkRnaUdZN0E4RlBt?=
- =?utf-8?B?V1ZSNElNcENnRjByQ1pCWFd0Rk1Fb3BqT050c2ZWYnd1aDFhWDIydkhtQlJR?=
- =?utf-8?B?S1cyRmlJV0FwWnBRRmlzc2pBbU1OSFB4Z01hTTBrVThwWURkcjI5MWJkcktG?=
- =?utf-8?B?aU5teEwwcWc4d2gwVldSYm5CUVdGR2o3K2l6VGVySmpOVk0zQW5scTAvbVFm?=
- =?utf-8?B?RmRoNzlVU2lBYzlPL2w0TEh6YU5yUTR5K2pNeXViR2VadzliclNuSE5QVzNE?=
- =?utf-8?B?VFNraWxxZTZkS3JWYndrcTJoMnRYOExoMi93U2tqVWJUdnQ0dWJYYTV4WTU5?=
- =?utf-8?B?OGttTE5RZzdKOVV6eGF1TllNdWVrdnlPVXN1MGt3TWRkOUkzTzhaZ3BwSWE4?=
- =?utf-8?B?VnlRdVdqMEdneERKenAybWRmUmllSkF3R1J2aWVkU1E0OG9FamJDSmtQbEpK?=
- =?utf-8?B?QnlTbGt1ejJycUp4RXhsY254c3BzUXRjVHQ1ZkFja3hxZlAybVlWbUdDdS80?=
- =?utf-8?B?Ym1NcEVhZ1lsL29HL1c1eHJLM3Jxc3V5Umg1TllxOTBwWDd4ZmpVbEVDb0F0?=
- =?utf-8?B?QmZGN1djYzZyU0NPTUVSSDdyZmFrdkM3TVNIRFlES2trMnlJdWhJV1hROU5q?=
- =?utf-8?B?cU5iR29oRVBzN3A3QUxab2ZDaHp4NWZUSVRDaUtnN2pLY2s3T2VUcTlFZi9t?=
- =?utf-8?B?SjlzeEwxeVJVb01KZkk0R29nTmRKMlJISDFRa1E3S09XV1BRRDdmS2JXRTVO?=
- =?utf-8?B?Vk5KTTB2MjdZQ2tnOHVuQTkvZ2hvNldIaTc2bTRqdVdMQ0w5K1ova3p4V1Rx?=
- =?utf-8?B?UU5XaEx3aFZJQkcvdVdPenpLbXVqTDA4cFFlaFR1M2EvY1ZmNStpQXAxY2I1?=
- =?utf-8?B?Y3JEQkJkbzRRL04wNk5jejYrT0t3c1paMXp4UXBaWmVZTDdRcHc4YlNGZGht?=
- =?utf-8?B?a2dmMXJWT1hBU0c1M3ZhaDVmakRVNWxIWGNHWkhnaXl5V0JMUWtvSDJER0FV?=
- =?utf-8?B?KzFnckk2dWVGNTBJNUx4NC9iSEhjM3ZLdy9TR3VmcTlEQlU0VzRadno3S0FK?=
- =?utf-8?B?cUIwYjhmcFpTbFhpMURYNDdKcTdiNjNONXdmcW1jL0FkTlZ0NkxSamd3aVYv?=
- =?utf-8?B?TUtxck5iNmJCRkwrY3V4dVJvTFhtZHdidE5TdXZ2WkJESlErRTZkTEhacHlX?=
- =?utf-8?B?ajd6dFNJa0V5bnRsUzA1VUF1UkMzSWlWWW41L3l3RjRkb2hMZ3F4d3E4Z3J4?=
- =?utf-8?B?aHZEdjZxK2N6OXJJNW1nSklwWU9ZSkkwR2duQkU2UmphZHhSbG5RVmJieUx4?=
- =?utf-8?B?ekhBMkpqQjNDakJCVzhwejVJYTBwandjL2hRRUVlR216eWNvQzFjTldzMVJx?=
- =?utf-8?B?MEZyTmxmZE50WTl1bnIzcHJVSExEaUpkZEpCV2VscWtLbXVDeER3VGRXUXpv?=
- =?utf-8?B?NjRoUzMwVkJEUGJ2MldpODdCM21SNmRSblJlY05aWWkyVXFSNkFVRGVwU1Yx?=
- =?utf-8?B?eUpHQk5ucXJMVExGdWt2WFNiRlRBbVVhZTJYcHVUTEJiMjBZSkt6Qjhack1R?=
- =?utf-8?B?T3VSamxDYkdHNXFvZ2dCeVU3YXk2NlI1UVJRZG9QNVpjV1NpanFWcG0yajNK?=
- =?utf-8?B?VmZKTG9KOFFQaDVzY2VsVHZvMUFMQjk4eVd1NnU5YkVzeVFIVTFxR1kvSm9i?=
- =?utf-8?B?dGZieDdFZktJZE13RjBBVERjem05Q1h3alBtR0lsUVZZMmdPQ3FWaXZrUndQ?=
- =?utf-8?B?Vy9sdm9CN0M1ZUFheXlWWmVBNkZvUzRXSU54SzJhSWZQTFd4UzlIWlNZMXc1?=
- =?utf-8?B?MTlST2dqdlh6SmI3K1dSbW9qbTU0MDc3akxubUh5Q0dxbU5LQSsvYmZMdS9S?=
- =?utf-8?B?QU5oa2RrQ3hoNyt3UkN5d0M0VTdqRFlqZGdiTlJJUjlPbHFDV2JPMHo2dVRN?=
- =?utf-8?B?U2NUd0JIY2F1d0U2Z1RGa3FqZHo1VStFTVpXN0RIMVpYL0k2SURXNW1zTGJt?=
- =?utf-8?Q?ZPUjYYnrhff3xO9Nv5DY7Ks=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1e7e262-2477-45cf-3c64-08dd9c47318b
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 11:19:34.8242 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Thr2beDNJMs5eUPReLiKiZlkNTzgYEVuz/cPgqmz+3j2HCt2L97TdQsoMmOJM88LJMdph0nbt3K5oyj0zFxGbsFExRQZln4i4IVCCXaCy159nEbkjm6Ad4qBt7NcpzlO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10020
+X-MBO-RS-ID: 2850e8f09cd950f23c7
+X-MBO-RS-META: ucsuq8r3mjcafi6ht17hzizz6sfrzfsn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,85 +67,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-Thanks for your comment.
+On Mon, 2025-05-26 at 13:16 +0200, Christian K=C3=B6nig wrote:
+> On 5/26/25 11:34, Philipp Stanner wrote:
+> > On Mon, 2025-05-26 at 11:25 +0200, Christian K=C3=B6nig wrote:
+> > > On 5/23/25 16:16, Danilo Krummrich wrote:
+> > > > On Fri, May 23, 2025 at 04:11:39PM +0200, Danilo Krummrich
+> > > > wrote:
+> > > > > On Fri, May 23, 2025 at 02:56:40PM +0200, Christian K=C3=B6nig
+> > > > > wrote:
+> > > > > > It turned out that we can actually massively optimize here.
+> > > > > >=20
+> > > > > > The previous code was horrible inefficient since it
+> > > > > > constantly
+> > > > > > released
+> > > > > > and re-acquired the lock of the xarray and started each
+> > > > > > iteration from the
+> > > > > > base of the array to avoid concurrent modification which in
+> > > > > > our
+> > > > > > case
+> > > > > > doesn't exist.
+> > > > > >=20
+> > > > > > Additional to that the xas_find() and xas_store() functions
+> > > > > > are
+> > > > > > explicitly
+> > > > > > made in a way so that you can efficiently check entries and
+> > > > > > if
+> > > > > > you don't
+> > > > > > find a match store a new one at the end or replace existing
+> > > > > > ones.
+> > > > > >=20
+> > > > > > So use xas_for_each()/xa_store() instead of
+> > > > > > xa_for_each()/xa_alloc().
+> > > > > > It's a bit more code, but should be much faster in the end.
+> > > > >=20
+> > > > > This commit message does neither explain the motivation of
+> > > > > the
+> > > > > commit nor what it
+> > > > > does. It describes what instead belongs into the changelog
+> > > > > between versions.
+> > > >=20
+> > > > Sorry, this is wrong. I got confused, the commit message is
+> > > > perfectly fine. :)
+> > > >=20
+> > > > The rest still applies though.
+> > > >=20
+> > > > > Speaking of versioning of the patch series, AFAIK there were
+> > > > > previous versions,
+> > > > > but this series was sent as a whole new series -- why?
+> > > > >=20
+> > > > > Please resend with a proper commit message, version and
+> > > > > changelog. Thanks!
+> > >=20
+> > >=20
+> > > Well Philip asked to remove the changelog. I'm happy to bring it
+> > > back, but yeah...
+> >=20
+> > No no no no :D
+> >=20
+> > Philipp asked for the changelog to be removed *from the git commit
+> > message*; because it doesn't belong / isn't useful there.
+> >=20
+> > If there's a cover letter, the changelog should be in the cover
+> > letter.
+> > If there's no cover letter, it should be between the ---
+> > separators:
+>=20
+> I can live with that, just clearly state what you want.
 
-On 26/05/25 12:49, Laurent Pinchart wrote:
-> On Mon, May 26, 2025 at 11:58:37AM +0200, Tommaso Merciai wrote:
->> Hi Maxime,
->> Thanks for your comment.
->>
->> On 26/05/25 11:26, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Mon, May 26, 2025 at 10:54:52AM +0200, Tommaso Merciai wrote:
->>>> After adv7511_mode_set() was merged into .atomic_enable(), only the
->>>> native resolution is working when using modetest.
->>>>
->>>> This is caused by incorrect timings: adv7511_mode_set() must not be
->>>> merged into .atomic_enable().
->>>>
->>>> Move adv7511_mode_set() back to the .mode_set() callback in
->>>> drm_bridge_funcs to restore correct behavior.
->>>>
->>>> Fixes: 0a9e2f0a6466 ("drm/bridge: adv7511: switch to the HDMI connector helpers")
->>>> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>> Closes: https://lore.kernel.org/all/aDB8bD6cF7qiSpKd@tom-desktop/
->>>> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->>>
->>> Explaining why, both in the commit log and the comments, would be nice.
->>> Because I can't think of any good reason it just can't work for that
->>> bridge.
->>
->> Sorry, let me clarify and share with you some details:
->>
->> adv7511_mode_set:
->>    - Is setting up timings registers for the DSI2HDMI bridge in our case
->>      we are using ADV7535 bridge.
->>
->> rzg2l_mipi_dsi_atomic_enable:
->>    - Is setting up the vclock for the DSI ip
->>
->> Testing new/old implementation a bit we found the following:
->>
->> root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI-A-1:800x600-56.25@XR24
->> setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
->> [   49.273134] adv7511_mode_set_old: drm_mode_vrefresh(mode) = 56
->> [   49.281006] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
->>
->> root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI-A-1:800x600-56.25@XR24
->> setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
->> [   74.076881] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
->> [   74.092130] adv7511_mode_set: drm_mode_vrefresh(adj_mode) = 56
->>
->> Same result but different timing (in function call perspective):
->>
->>    - old: adv7511_mode_set() is call before rzg2l_mipi_dsi_atomic_enable()
->>    - new: adv7511_mode_set() is call after rzg2l_mipi_dsi_atomic_enable()
-> 
-> What is "old" and "new" here ? Is it before and after Dmitry's patch, or
-> before and after yours ? Please be precise when describing problems.
+Sure thing:
 
-Sorry, you are completely right:
+ * Patches and patch series's should contain their version identifier
+   within the square brackets [PATCH v3]. git format-patch -v3 does
+   that automatically.
+ * Changelog should be as described above
+ * Ideally, cover letters always contain the full changelog, v2, v3 and
+   so on, so that new readers get a sense of the evolution of the
+   series.
 
-  - old --> before Dmitry's patch
-  - new --> after Dmitry's patch
+>=20
+> For DRM the ask is often to keep the changelog in the commit message
+> or remove it entirely.
 
-> 
->> What do you think? Thanks in advance.
-> 
-> You're only explaining above what the "old" and "new" behaviours are,
-> and claiming one of them is causing an issue, but you're not explaining
-> *why* it causes an issue. That's what your commit message is expected to
-> detail.
-> 
+Yup, I've seen that a few times. I think we, the DRM community, should
+stop that. It's just not useful and makes the commit messages larger,
+both for the human reader while scrolling, as for the hard drive
+regarding storage size
 
-Thanks for the clarification! :)
-I will send v2 explaining better this.
 
-Thanks & Regards,
-Tommaso
+Thx
+P.
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> >=20
+> > Signed-off-by: Gordon Freeman <freeman@blackmesa.org>
+> > Reviewed-by: Alyx Vance <alyx@vance.edu>
+> > ---
+> > Changes in v2:
+> > =C2=A0 - Provide more docu for crowbar-alloc-function.
+> > =C2=A0 - Use NULL pointers for reserved xarray entries
+> > ---
+> > <DIFF>
+> >=20
+> >=20
+> > P.
+> >=20
+> >=20
+> > >=20
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > > >=20
+> > > > > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > ---
+> > > > > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 29
+> > > > > > ++++++++++++++++++--------
+> > > > > > =C2=A01 file changed, 20 insertions(+), 9 deletions(-)
+> > > > > >=20
+> > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > index f7118497e47a..cf200b1b643e 100644
+> > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > @@ -871,10 +871,8 @@ EXPORT_SYMBOL(drm_sched_job_arm);
+> > > > > > =C2=A0int drm_sched_job_add_dependency(struct drm_sched_job
+> > > > > > *job,
+> > > > > > =C2=A0 struct dma_fence *fence)
+> > > > > > =C2=A0{
+> > > > > > + XA_STATE(xas, &job->dependencies, 0);
+> > > > > > =C2=A0 struct dma_fence *entry;
+> > > > > > - unsigned long index;
+> > > > > > - u32 id =3D 0;
+> > > > > > - int ret;
+> > > > > > =C2=A0
+> > > > > > =C2=A0 if (!fence)
+> > > > > > =C2=A0 return 0;
+> > > > > > @@ -883,24 +881,37 @@ int
+> > > > > > drm_sched_job_add_dependency(struct
+> > > > > > drm_sched_job *job,
+> > > > > > =C2=A0 * This lets the size of the array of deps scale with
+> > > > > > the number of
+> > > > > > =C2=A0 * engines involved, rather than the number of BOs.
+> > > > > > =C2=A0 */
+> > > > > > - xa_for_each(&job->dependencies, index, entry) {
+> > > > > > + xa_lock(&job->dependencies);
+> > > > > > + xas_for_each(&xas, entry, ULONG_MAX) {
+> > > > > > =C2=A0 if (entry->context !=3D fence->context)
+> > > > > > =C2=A0 continue;
+> > > > > > =C2=A0
+> > > > > > =C2=A0 if (dma_fence_is_later(fence, entry)) {
+> > > > > > =C2=A0 dma_fence_put(entry);
+> > > > > > - xa_store(&job->dependencies, index,
+> > > > > > fence, GFP_KERNEL);
+> > > > > > + xas_store(&xas, fence);
+> > > > > > =C2=A0 } else {
+> > > > > > =C2=A0 dma_fence_put(fence);
+> > > > > > =C2=A0 }
+> > > > > > - return 0;
+> > > > > > + xa_unlock(&job->dependencies);
+> > > > > > + return xas_error(&xas);
+> > > > > > =C2=A0 }
+> > > > > > =C2=A0
+> > > > > > - ret =3D xa_alloc(&job->dependencies, &id, fence,
+> > > > > > xa_limit_32b, GFP_KERNEL);
+> > > > > > - if (ret !=3D 0)
+> > > > > > +retry:
+> > > > > > + entry =3D xas_store(&xas, fence);
+> > > > > > + xa_unlock(&job->dependencies);
+> > > > > > +
+> > > > > > + /* There shouldn't be any concurrent add, so no need
+> > > > > > to loop again */
+> > > > >=20
+> > > > > Concurrency shouldn't matter, xas_nomem() stores the pre-
+> > > > > allocated memory in the
+> > > > > XA_STATE not the xarray. Hence, I think we should remove the
+> > > > > comment.
+> > > > >=20
+> > > > > > + if (xas_nomem(&xas, GFP_KERNEL)) {
+> > > > > > + xa_lock(&job->dependencies);
+> > > > > > + goto retry;
+> > > > >=20
+> > > > > Please don't use a goto here, if we would have failed to
+> > > > > allocate
+> > > > > memory here,
+> > > > > this would be an endless loop until we succeed eventually. It
+> > > > > would be equal to:
+> > > > >=20
+> > > > > while (!ptr) {
+> > > > > ptr =3D kmalloc();
+> > > > > }
+> > > > >=20
+> > > > > Instead just take the lock and call xas_store() again.
+> > > > >=20
+> > > > > > + }
+> > > > > > +
+> > > > > > + if (xas_error(&xas))
+> > > > > > =C2=A0 dma_fence_put(fence);
+> > > > > > + else
+> > > > > > + WARN_ON(entry);
+> > > > >=20
+> > > > > Please don't call WARN_ON() here, this isn't fatal, we only
+> > > > > need
+> > > > > to return the
+> > > > > error code.
+> > >=20
+> >=20
+>=20
 
