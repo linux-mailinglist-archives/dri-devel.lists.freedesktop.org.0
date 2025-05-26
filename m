@@ -2,70 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725D7AC3AD7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3397AAC3B01
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 09:58:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E0110E285;
-	Mon, 26 May 2025 07:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1C210E117;
+	Mon, 26 May 2025 07:58:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Y4ykRYuv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HYIa9x7Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F67A10E285
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 07:44:06 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54Q7hhVl1446791;
- Mon, 26 May 2025 02:43:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1748245423;
- bh=pfNxNBtxFbE6b5isOFlmebHM/gu4Na0OpYCEd6fKOLo=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Y4ykRYuvtep7ANL8NgvCo/Gd1Y3XuSfhlsTLDmys8WVn/3/WPFKJc56n2AO2XiXqQ
- EfKp72trsCjM7LJrsoa/CEwth68Hi3Phw16tkKb0t5pBetaz6a2knfpNWSKmjTKfoD
- ikT5yK4uUGdP0tgRywalustnZFIfLFb7D4vZv9Hs=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54Q7hgSn1960879
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 26 May 2025 02:43:42 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 26
- May 2025 02:43:42 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 26 May 2025 02:43:42 -0500
-Received: from [10.24.72.182] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [10.24.72.182])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54Q7hZCE2635573;
- Mon, 26 May 2025 02:43:36 -0500
-Message-ID: <97764129-e78a-47d2-8f2c-e219b3686f53@ti.com>
-Date: Mon, 26 May 2025 13:13:34 +0530
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA1C10E03D;
+ Mon, 26 May 2025 07:58:30 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-ad51ba0af48so561828166b.0; 
+ Mon, 26 May 2025 00:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748246308; x=1748851108; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mFp9E7GoCllffqOOP11MDhEmieHTUjOyTd1L7U3N1fI=;
+ b=HYIa9x7QQnAhthJu1LwY5yR+CSzgUvRPL/CH+MZcwGtyvi/uVICU3BRqvKKCpLVGpz
+ O8imbviVveUwAzz4JAFIuhNL4jWCPyjdwWD3BQlk/+4WtUExMnsyliPE4eTgOpUaW9PF
+ eJueLz5fRTBE1JAFsnTmm2TseyzwuYhsXPqjg3EHamy294tYx3DAJ+WjlgseTRTWNhnM
+ Iv3aZ6dMDF1Pk7Ge41aOXykZCMcb8zy3QOrVAPusUtGMyZ7fLqG2rayRT85cx9wW+iig
+ DnIygqmIXWqBy/eCY3Qs13ojYBTtxGjt5f/r7AWwb4qwQjL9mQL3zTOupt/4qpziQ06R
+ o/Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748246308; x=1748851108;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mFp9E7GoCllffqOOP11MDhEmieHTUjOyTd1L7U3N1fI=;
+ b=ZsCNofuzZmW9s2M4dIRLrwCx/IaL0xv9+AFJ/1X5oRkGCE/Cy8V1E89aAIjiKiE7+0
+ 4xX+n0KgWgCbWVzbSuzmrUv9CR0o2cJlrQeMTalN4ARiLQT48ec37a3zUNNUvJDpL9i0
+ artxcYgVl2YwIx2dCS9Cgv64J7g3lBm+qiLdhio7dU0Bn9mf1mUmQcCV0ybRt4XaYb51
+ nscFkA8gN2mvwLtNguy1KtKYpggUOyNCwD0KHyGIfTTIzwEsyqf8cWCqJw5Z3ESPKijw
+ F4BuTDQ+a72ER19mIn8xrY4cV/mi87UoXw/CbSY8l+L6O8Rm27/iclISmNBR8CfLRpK2
+ i5WQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVDOlcdmcFjeYvfZdG/c9ozsjlEhtqaOOwQJ/VzOIAX8ZuGThrm+0fKm8Le3tosGGHaPPDvOrajvuI=@lists.freedesktop.org,
+ AJvYcCVj9IBcQj+w1gLfm+WTRMoHMjLAxSk39uZ/8XfteqlAKezUwLidpt0I4XJf9A/hSgSRK/HygJ2oNSI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywa4lWWDsV7bblQJ+UQES07v68P1ho1vS8DDWHBbXK5modve4LU
+ yGdQys25s38ageozsU5ZLEA7jdWndcnA9aJAeNZWvn4HPmgBKLblPZ3Q81rudSpoGEbjumB3awd
+ omsWLRxwU3YhZo2xLnNOlm1Z7HBY1ikc=
+X-Gm-Gg: ASbGnctqmFcu9Ej7/xcEatMus3NexrmyJ9R/v80x1sc9qfXFfpjXUbAtbTq+ueV8Gz1
+ YEH2ttRdWvLaBK3R+jdsfXypkWPjv0NVts0/C9fvcfxUkXePwrt0u+WA1OIHW4iHdqV2aC53iCd
+ yyoC91nMyLwR6E3cCWgh7rx9cqvT6t8Vc=
+X-Google-Smtp-Source: AGHT+IHmFEEr5EGPRHdHxu6GtzPt9+rVYNJ2W5yl8fWfAJYHk+yUpd89Y0QBAb3CwsUgorOeHLGtu/syioYTxvope4k=
+X-Received: by 2002:a17:907:6eaa:b0:ad5:3199:e5e4 with SMTP id
+ a640c23a62f3a-ad8596d9640mr722860766b.3.1748246308194; Mon, 26 May 2025
+ 00:58:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Doug Anderson
- <dianders@chromium.org>
-CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <max.krummenacher@toradex.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <kieran.bingham+renesas@ideasonboard.com>,
- <linux-kernel@vger.kernel.org>, <max.oss.09@gmail.com>, <devarsht@ti.com>
-References: <20250508115433.449102-1-j-choudhary@ti.com>
- <CAD=FV=V1mNX-WidTAaENH66-2ExN=F_ovuX818uQGfc+Gsym1Q@mail.gmail.com>
- <cr7int6r6lnpgdyvhhqccccuyrh7ltw5qzh7kj5upznhea4pfh@rn6rwlf7ynqt>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <cr7int6r6lnpgdyvhhqccccuyrh7ltw5qzh7kj5upznhea4pfh@rn6rwlf7ynqt>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250522065519.318013-1-airlied@gmail.com>
+ <20250522065519.318013-10-airlied@gmail.com>
+ <wz6cduq6kh2n2pwxm3q75vjmrsht4rvnbjnch5t66kj773t2rj@kfk2bj7pewwm>
+ <b867c60d-c6ad-4847-a2f6-4652bad89b25@suse.de>
+In-Reply-To: <b867c60d-c6ad-4847-a2f6-4652bad89b25@suse.de>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 26 May 2025 17:58:16 +1000
+X-Gm-Features: AX0GCFufl1SU-qzeIJCM7t6dIhCQA24MBvcO1TYPg_KQFdyNKumEFNU2jG0EzIQ
+Message-ID: <CAPM=9ty=Fz6UFcUinVHjDmTpgczTz_-OkxXoV78p=rNWmEk6Fg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] iosys_map: embed the is_iomem bit into the pointer.
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Michal.Wajdeczko@intel.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,173 +85,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Dmitry, Doug,
+On Mon, 26 May 2025 at 16:39, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Hi
+>
+> Am 22.05.25 um 17:09 schrieb Lucas De Marchi:
+> > On Thu, May 22, 2025 at 04:52:18PM +1000, Dave Airlie wrote:
+> >> From: Dave Airlie <airlied@redhat.com>
+> >>
+> >> This reduces this struct from 16 to 8 bytes, and it gets embedded
+> >> into a lot of things.
+> >>
+> >> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> >
+> > Replied too early on cover. Chatting with Michal Wajdeczko today, this
+> > may break things as we then can't byte-address anymore. It seems
+> > particularly dangerous when using the iosys_map_wr/iosys_map_rd as
+> > there's nothing preventing an unaligned address and we increment the map
+> > with the sizeof() of a struct that could be __packed. Example: in
+> > xe_guc_ads.c we use it to write packed structs like guc_gt_system_info.
+> > In this particular case it doesn't give unaligned address, but we should
+> > probably then protect iosys_map from doing the wrong thing.
+> >
+> > So, if we are keeping this patch, we should probably protect
+> > initially-unaligned addresses and the iosys_map_incr() call?
+>
+> That sounds like a blocker to me. And there's another thing to keep in
+> mind. We have use cases where we need to know the caching of the memory
+> area. I never got to fully implement this, but it would be stored in the
+> iosys-map struct as well. We'd need 2 additional bits to represent UC,
+> WC and WT caching. If we don't have at least 3-bit alignment, shrinking
+> iosys-map might not be feasible anyway.
 
-Thanks a lot for the review.
+I've played around a bit, and it's starting to seem like it might be
+difficult to get this across the line.
 
-On 22/05/25 18:44, Dmitry Baryshkov wrote:
-> On Wed, May 21, 2025 at 06:10:59PM -0700, Doug Anderson wrote:
->> Hi,
->>
->> On Thu, May 8, 2025 at 4:54 AM Jayesh Choudhary <j-choudhary@ti.com> wrote:
->>>
->>> By default, HPD was disabled on SN65DSI86 bridge. When the driver was
->>> added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
->>> call which was moved to other function calls subsequently.
->>> Later on, commit "c312b0df3b13" added detect utility for DP mode. But with
->>> HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
->>> state always return 1 (always connected state)
->>>
->>> Also, with the suspend and resume calls before every register access, the
->>> bridge starts with disconnected state and the HPD state is reflected
->>> correctly only after debounce time (400ms). However, adding this delay
->>> in the detect function causes frame drop and visible glitch in display.
->>>
->>> So to get the detect utility working properly for DP mode without any
->>> performance issues in display, instead of reading HPD state from the
->>> register, rely on aux communication. Use 'drm_dp_dpcd_read_link_status'
->>> to find if we have something connected at the sink.
->>>
->>> [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
->>>
->>> Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP")
->>> Cc: Max Krummenacher <max.krummenacher@toradex.com>
->>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->>> ---
->>>
->>> v1 patch link which was sent as RFC:
->>> <https://patchwork.kernel.org/project/dri-devel/patch/20250424105432.255309-1-j-choudhary@ti.com/>
->>>
->>> Changelog v1->v2:
->>> - Drop additional property in bindings and use conditional.
->>> - Instead of register read for HPD state, use dpcd read which returns 0
->>>    for success and error codes for no connection
->>> - Add relevant history for the required change in commit message
->>> - Drop RFC subject-prefix in v2 as v2 is in better state after discussion
->>>    in v1 and Max's mail thread
->>> - Add "Cc:" tag
->>>
->>> This approach does not make suspend/resume no-op and no additional
->>> delay needs to be added in the detect hook which causes frame drops.
->>>
->>> Here, I am adding conditional to HPD_DISABLE bit even when we are
->>> not using the register read to get HPD state. This is to prevent
->>> unnecessary register updates in every resume call.
->>> (It was adding to latency and leading to ~2-3 frame drop every 10 sec)
->>>
->>> Tested and verified on TI's J784S4-EVM platform:
->>> - Display comes up
->>> - Detect utility works with a couple of seconds latency.
->>>    But I guess without interrupt support, this is acceptable.
->>> - No frame-drop observed
->>>
->>> Discussion thread for Max's patch:
->>> <https://patchwork.kernel.org/project/dri-devel/patch/20250501074805.3069311-1-max.oss.09@gmail.com/>
->>>
->>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 ++++++++++-------
->>>   1 file changed, 10 insertions(+), 7 deletions(-)
->>
->> Sorry for the delay in responding. Things got a little crazy over the
->> last few weeks.
->>
->>
->>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> index 60224f476e1d..9489e78b6da3 100644
->>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> @@ -352,8 +352,10 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
->>>           * change this to be conditional on someone specifying that HPD should
->>>           * be used.
->>>           */
->>> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
->>> -                          HPD_DISABLE);
->>> +
->>> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
->>> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
->>> +                                  HPD_DISABLE);
->>
->> Given your an Max's testing, I'm totally on-board with the above.
->>
->>>
->>>          pdata->comms_enabled = true;
->>>
->>> @@ -1194,13 +1196,14 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
->>>   {
->>>          struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->>>          int val = 0;
->>> +       u8 link_status[DP_LINK_STATUS_SIZE];
->>>
->>> -       pm_runtime_get_sync(pdata->dev);
->>> -       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
->>> -       pm_runtime_put_autosuspend(pdata->dev);
->>> +       val = drm_dp_dpcd_read_link_status(&pdata->aux, link_status);
->>>
->>> -       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
->>> -                                        : connector_status_disconnected;
->>> +       if (val < 0)
->>> +               return connector_status_disconnected;
->>> +       else
->>> +               return connector_status_connected;
->>
->> I'd really rather not do this. It took me a little while to realize
->> why this was working and also not being slow like your 400ms delay
->> was. I believe that each time you do the AUX transfer it grabs a
->> pm_runtime reference and then puts it with "autosuspend". Then you're
->> relying on the fact that detect is called often enough so that the
->> autosuspend doesn't actually hit so the next time your function runs
->> then it's fast. Is that accurate?
->>
->> I'd rather see something like this in the bridge's probe (untested)
->>
->>    if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
->>      pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
->>
->>      /*
->>       * In order for DRM_BRIDGE_OP_DETECT to work in a reasonable
->>       * way we need to keep the bridge powered on all the time.
->>       * The bridge takes hundreds of milliseconds to debounce HPD
->>       * and we simply can't wait that amount of time in every call
->>       * to detect.
->>       */
->>      pm_runtime_get_sync(pdata->dev);
->>    }
->>
->> ...obviously you'd also need to find the right times to undo this in
->> error handling and in remove.
-> 
-> What about:
-> - keeping pm_runtime_get()/put_autosuspend() in detect, but..
-> - also adding .hpd_enable() / .hpd_disable() callbacks which would also
->    get and put the runtime PM, making sure that there is no additional
->    delay in .detect()?
-> 
+I can add the iter stuff separately to fix the sub-dword offsets if
+needed, we probably don't want to be doing 8-bit iomem accesses
+anyways.
 
-Keeping a reference alive via hpd_enable() fixes the issue.
-Things works with the previous detect logic and I do not need to
-rely on reading link status.
+But if we need 3-bits then it's messier, what's the use case out of
+interest to store the info? do you need all 3 states?
 
-
-In hpd_enable()/disable(), I do not need to add anything else:
-
-+static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+       pm_runtime_get_sync(pdata->dev);
-+}
-+
-+static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+       pm_runtime_put_sync(pdata->dev);
-+}
-+
-
-Posting v3 with these changes.
-
-Warm Regards,
-Jayesh
-
->>
->> Nicely, this would be the same type of solution needed for if we ever
->> enabled interrupts.
-> 
+Dave.
