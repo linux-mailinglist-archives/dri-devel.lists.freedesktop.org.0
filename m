@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5057DAC452B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 00:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DDCAC4532
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 00:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2785310E382;
-	Mon, 26 May 2025 22:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABDE10E426;
+	Mon, 26 May 2025 22:30:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DFq3O/dP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EI57zU2n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01F5210E382;
- Mon, 26 May 2025 22:25:29 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-32a6a1a5f6dso5344071fa.1; 
- Mon, 26 May 2025 15:25:29 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7091A10E432;
+ Mon, 26 May 2025 22:30:24 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-32a658c4cc4so9001071fa.2; 
+ Mon, 26 May 2025 15:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748298328; x=1748903128; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1748298623; x=1748903423; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gaenIVV6sgmeMP/e9IFhljAikGtRfCzZk1k/VfHMXwI=;
- b=DFq3O/dPCtwB0PdRfRF30sJk7vHQrZgzqn0PaLjdhN38RdkkTfv0WsgiA74ym2Uvuo
- z+ufSAg2ojPcmmMksksxor6DcGvtBAou/1ox3/mEALsiJPamB++naxE/fctdfZBkHp4q
- +zYowyLwR/Dql6fzSEXcG+GjHWESS/P/U4JEWRVYGC9M7WQxi0kTuUCb2uZYnA7bTn4H
- 0IDeqJXsApYG1Z9/LKkYhRsRN3AuEye1n4191QbyVsvjvoqTfFCfNkA3bNHRWON0Kspb
- pCa+Q5w3YkbhDs+Jv1wH2rXecUQhRWmuRIVw/RVcClsuOFH7fOziH5qS5dW84HekZWkt
- 2fyQ==
+ bh=DeRtQfopGgqdSMrju5Mssh4B08QuGYql7A9ITbZgjgA=;
+ b=EI57zU2nHZQGAjjztBKUPmKIRvtJqRE90nHtI5+wK6QKxhvLyjMyK5cC2fHaZeQvCc
+ ccbhlyFHxEt+y9taeJpxpsxF+vQTSxEfZ/o30GlYJOUumNLZcjyiVZkmfBsHemagPevG
+ SADb4ljVepREPAns9b38yM32PTbZEyTZAmNuez9KvFgU/yg1RkM/VtDl984AhVgA2y+o
+ ouMHkw8R+gxdQAsIWyXBej6vb75eWjiG/cM/FOQcBapjucYJoiA8Uic0/MW5RclS3BDV
+ GtAojHMg3uz86s2qGaJqJs7u82i7K1Kv77Wzo+6sXOaFt7nPo8+GDRW82QJ1Bm0NueUZ
+ f/mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748298328; x=1748903128;
+ d=1e100.net; s=20230601; t=1748298623; x=1748903423;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gaenIVV6sgmeMP/e9IFhljAikGtRfCzZk1k/VfHMXwI=;
- b=mXrHs3RLloU+WFADNCMUGfczufNpH9XXb2aJLHv83anHDvUg+0OgVsXR/Vd5+/ylDC
- l45U/Ls5TH/elCZFy6QJ1DdXI6yQN5qZxcq2O1ovWPXa0BQPrtdHVsa12THpSOBm95n8
- eoLLXS2BFyrgNn4Q+UUeRlnd3NwL5DN5CE4LsaxdUiQQIBsGywgIpj9afZbeNQxvmg7T
- QgvLEV6opbbNbl2AsQQQhwriuRnpGthaT4ATEg16kRosQGrcKVmwT3XjThPOpZH+5UJo
- 7LW+6Ho7l5mcR15SbnwtFTG4puer0qQkGgCqsf059qMr1ywe/OQcHNthLF56M21mcR8l
- Ez6A==
+ bh=DeRtQfopGgqdSMrju5Mssh4B08QuGYql7A9ITbZgjgA=;
+ b=dQdf4yZqKfN2VDVpF16yQvbopJQXS4ODxyBiQVjnc/Ie386GYiJQdhLhfELqkSZs0y
+ tC0+WZEa7+MaEv8upPlqECtefdDMS/oztnreO5tD6SCc40F3RiTAbJBNvYGMGch/Jhf+
+ r8grt4+9nEfWIoUxC7VZ1PE6luoAMA/qCg6aeScTDIKuVRPsaObI68QvCeWf7/Iadqu4
+ NKnbScpz05HK2vBzL6OynxJwHyeMAraehfkz8gf+vUbOUo2+9mCUsfsn2ljkA3lFRD+V
+ hsoyBRRB6VV2aDWmQuY06KAifot1VpoGAbEcFgWmHvuJuYhcC23IJaZUZd4qtrxsPqNG
+ tcSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUaQ/dJfCdG437+fDn0jEXUR/JW6M4i6g/lV5OV7wXIxUOszBxqN6D/0rUuR+ZUmklrEeNO91PnLbo=@lists.freedesktop.org,
- AJvYcCWCXMxfp9HKC6RD61bZhmz1HVfT9/9ajOklQiyBFTx32x64IvTTj2GH798JYS2XVKKwe8m6rK75Vg==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFfVOlRQCDdULackmN0Xt+6HZ4andruhuPq9OChSGqGMxg21v3
- YDs/06rNmD/sU9WyKUzZ3TgR9rDZ4P/RPaN4N9AlVtRVOtMkx7D3wnzsO924NHmptj9XfS/Nlr5
- uqiq3eX48l/R2SXIA76RRmU2geZXG/FE=
-X-Gm-Gg: ASbGncvMgAh6DcLgG/zxYwRPPSlwdgnLNRDZGlQakNiqsCC+ztB7b0QWm/IXF0wxw9f
- F8Jwiky3470i2UCGyohoQcQzqZfsCD8Hy3b9nWjUWsyGzxjSixPpEDYfcdTtP5AkWpsvtjAZjU/
- cZjEwSDQQxhKd44Y5hQ1KnXfo+t+3tGfOb9nDM9C1npCCcfa/wlhdAlvlSWFzgwHXs93cjOEqY0
- 2HBbg==
-X-Google-Smtp-Source: AGHT+IHcv7V2oazwv060W33dscTDl7PPQ1f7noMTAF+hm0IKskzHzh7MX/ZbURWbHci8ZixnjxyyZuMa+2GYUXijkPI=
-X-Received: by 2002:a05:651c:1603:b0:30c:719:1145 with SMTP id
- 38308e7fff4ca-3295b9f1d37mr26288281fa.17.1748298327492; Mon, 26 May 2025
- 15:25:27 -0700 (PDT)
+ AJvYcCVP8b905NiPYMpC1C4WznzxNEApS/zOYoY90n9Kz/X1KjtnQ0LHUO0oxptFUjK5tm9g6DYgGbeui78=@lists.freedesktop.org,
+ AJvYcCXldZkp6EPah7159HFA1SiC+7dM3ulxLyWxQGr7Ym/E3fCKCYe6r59RNlEf9MgeWUQxkIZQw2sl8w==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIens3oTKa0/ADJ86pH9rUNdxRSwE6VAQq6RlYa9/bydARFmOa
+ 8IeKBuXRbGjQCOFZ33Y55j/2tZ+y23ucq2kZJkKbsf5dp6UKLh4zdKTjsW30CrsnXTI75nI7qBi
+ wxKf0sh6CAQrkrq8eA2hpWPgMI/R43Jw=
+X-Gm-Gg: ASbGncsgdoj7NDjHo/00CMHOpfpI7cWnfG8G1+dcoQAByQMq6/KNPlQVmcCQBAv61Xv
+ 3yhbDNeQs2WOM8rIU36Ccq5CSyPNMviZ+SofyOmnZADxG4Fl3IEBi3RKUPo/jf8K5hgY2dS6WB9
+ ALXdq9eaiOEhe/wW7gV0hxKhvJW6DaNtFgH/hxdmUsHzvi60lqfhtEZK1cN1unVMkPgHg=
+X-Google-Smtp-Source: AGHT+IHobXPM6nV57q0LkxjWMI5y+a9fqFFRAaaAVdT/IiyU5kBtoHLbzkKYgFh6GOZFHTnYbitctcnCYMHIu3rZzy0=
+X-Received: by 2002:a05:651c:1b11:b0:32a:6bef:7587 with SMTP id
+ 38308e7fff4ca-32a6bef7741mr3018881fa.20.1748298622556; Mon, 26 May 2025
+ 15:30:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250524-cstr-core-v10-0-6412a94d9d75@gmail.com>
- <20250524-cstr-core-v10-3-6412a94d9d75@gmail.com>
- <DA66HHUA8ANF.BI2FH7POFSRJ@kernel.org>
-In-Reply-To: <DA66HHUA8ANF.BI2FH7POFSRJ@kernel.org>
+ <20250524-cstr-core-v10-4-6412a94d9d75@gmail.com>
+ <DA66NJXU86M4.1HU12P6E79JLO@kernel.org>
+In-Reply-To: <DA66NJXU86M4.1HU12P6E79JLO@kernel.org>
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Mon, 26 May 2025 18:24:51 -0400
-X-Gm-Features: AX0GCFv_2H01vKjFOD3wQrlp_6f3fi8nlSDpIGif86GknHm_bqABvjuTuytW9u0
-Message-ID: <CAJ-ks9kmDiOV_qH_s-r4Z4iQf2k6H7ZnqOf5okaQxWWxrj5Deg@mail.gmail.com>
-Subject: Re: [PATCH v10 3/5] rust: replace `CStr` with `core::ffi::CStr`
+Date: Mon, 26 May 2025 18:29:46 -0400
+X-Gm-Features: AX0GCFuvvdq9fWPFcsB31U1UA0LVEWVFnDG5B-zpmEiF_aWL5P9UrGYE0gqlG8U
+Message-ID: <CAJ-ks9nd6_iGK+ie-f+F0x4kwpyEGJ-kQiQGt-ffdbVN5S6kOg@mail.gmail.com>
+Subject: Re: [PATCH v10 4/5] rust: replace `kernel::c_str!` with C-Strings
 To: Benno Lossin <lossin@kernel.org>
 Cc: Michal Rostecki <vadorovsky@protonmail.com>,
  Miguel Ojeda <ojeda@kernel.org>, 
@@ -118,62 +117,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 26, 2025 at 10:56=E2=80=AFAM Benno Lossin <lossin@kernel.org> w=
+On Mon, May 26, 2025 at 11:04=E2=80=AFAM Benno Lossin <lossin@kernel.org> w=
 rote:
 >
 > On Sat May 24, 2025 at 10:33 PM CEST, Tamir Duberstein wrote:
-> > `std::ffi::CStr` was moved to `core::ffi::CStr` in Rust 1.64. Replace
-> > `kernel::str::CStr` with `core::ffi::CStr` now that we can.
+> > +macro_rules! c_str_avoid_literals {
 >
-> What's this supposed to mean?
-
-It means that kernel::str::CStr was introduced before core::ffi:CStr
-was available. I didn't check this before, but it is indeed true - see
-https://github.com/Rust-for-Linux/linux/commit/faa3cbcca03d0dec8f8e43f1d8d5=
-c0860d98a23f.
-
+> I don't like this name, how about `concat_to_c_str` or
+> `concat_with_nul`?
 >
-> > C-String literals were added in Rust 1.77. Opportunistically replace
-> > instances of `kernel::c_str!` with C-String literals where other code
-> > changes were already necessary; the rest will be done in a later commit=
-.
->
-> Similarly this, the message should explain the motivation for the
-> change, the change itself and can include additional information.
+> This macro also is useful from macros that have a normal string literal,
+> but can't turn it into a `c""` one.
 
-The motivation is implied (that using standard types is preferable to
-having custom ones; this is also implicit rather than explicit in
-https://github.com/Rust-for-Linux/linux/issues/1075), but I can
-sharpen it.
-
+Uh, can you give an example? I'm not attached to the name.
 
 >
-> >
-> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_panic_qr.rs |   2 +-
-> >  rust/kernel/device.rs           |   4 +-
-> >  rust/kernel/error.rs            |   4 +-
-> >  rust/kernel/firmware.rs         |  11 +-
-> >  rust/kernel/kunit.rs            |   6 +-
-> >  rust/kernel/miscdevice.rs       |   2 +-
-> >  rust/kernel/net/phy.rs          |   2 +-
-> >  rust/kernel/of.rs               |   2 +-
-> >  rust/kernel/prelude.rs          |   5 +-
-> >  rust/kernel/seq_file.rs         |   4 +-
-> >  rust/kernel/str.rs              | 358 +++++++++-----------------------=
---------
-> >  rust/kernel/sync/condvar.rs     |   2 +-
-> >  rust/kernel/sync/lock.rs        |   2 +-
-> >  rust/kernel/sync/lock/global.rs |   2 +-
-> >  14 files changed, 112 insertions(+), 294 deletions(-)
+> > +    // NB: we could write `($str:lit) =3D> compile_error!("use a C str=
+ing literal instead");` here but
+> > +    // that would trigger when the literal is at the top of several ma=
+cro expansions. That would be
+> > +    // too limiting to macro authors, so we rely on the name as a hint=
+ instead.
+> >      ($str:expr) =3D> {{
+> > -        const S: &str =3D concat!($str, "\0");
+> > -        const C: &$crate::str::CStr =3D match $crate::str::CStr::from_=
+bytes_with_nul(S.as_bytes()) {
+> > -            Ok(v) =3D> v,
+> > -            Err(_) =3D> panic!("string contains interior NUL"),
+> > -        };
+> > +        const S: &'static str =3D concat!($str, "\0");
+> > +        const C: &'static $crate::str::CStr =3D
+> > +            match $crate::str::CStr::from_bytes_with_nul(S.as_bytes())=
+ {
 >
-> I'm a bit confused by some of the diffs here, they seem pretty messy,
-> any chance that they can be improved?
+> Why is this still our CStr?
 
-I'm open to suggestions. I think the confusion arises from git trying
-to keep code from moving; fundamentally much of the change is moving
-methods to an extension trait, which means git has to choose between
-keeping the documentation where it is, or keeping the implementation
-where it is. If I use `--patience` then everything moves together, but
-then the diffstat swells. Thoughts?
+Good question. I'll just revert all the changes here, I don't need to
+touch this.
+
+>
+> > +                Ok(v) =3D> v,
+> > +                Err(err) =3D> {
+> > +                    let _: core::ffi::FromBytesWithNulError =3D err;
+>
+> Is this really necessary?
+
+No. Reverted in v11.
