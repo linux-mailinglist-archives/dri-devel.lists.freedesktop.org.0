@@ -2,117 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CD1AC4074
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 15:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0C8AC4061
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 15:28:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D6210E37C;
-	Mon, 26 May 2025 13:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A21D110E2F2;
+	Mon, 26 May 2025 13:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Un+ZFDcL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="izamxxP7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Un+ZFDcL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="izamxxP7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DbVPeuYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 001CA10E326
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 13:30:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 315A121F7F;
- Mon, 26 May 2025 13:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748266205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHoK+1Dj0DM0rWKrIqSjqkEaALvAF4Jt5oeW6E9s+GE=;
- b=Un+ZFDcLVGxInm+2ZaTCvDhgVvYMq+xMm6IC5OeNrCSR+/PG0RhJsvY7iONq/6osm/duPN
- WTRv7sPCHEyzbWoYm/aoB3ubtZAtL47NCwBsb4zhI8/yS2AUPxlbxOzvvZhGHEu/geM6Pj
- VR/kJI4AoF3A6+UuGgPBgjqOUA/IffE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748266205;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHoK+1Dj0DM0rWKrIqSjqkEaALvAF4Jt5oeW6E9s+GE=;
- b=izamxxP79/VKS0MpFj9HrgKQ7yi85gwwdmTZ4de5j11CTvayZ3FD8TbM0JEmvmdtxDEapL
- z52nXY0s444ExdDA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Un+ZFDcL;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=izamxxP7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748266205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHoK+1Dj0DM0rWKrIqSjqkEaALvAF4Jt5oeW6E9s+GE=;
- b=Un+ZFDcLVGxInm+2ZaTCvDhgVvYMq+xMm6IC5OeNrCSR+/PG0RhJsvY7iONq/6osm/duPN
- WTRv7sPCHEyzbWoYm/aoB3ubtZAtL47NCwBsb4zhI8/yS2AUPxlbxOzvvZhGHEu/geM6Pj
- VR/kJI4AoF3A6+UuGgPBgjqOUA/IffE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748266205;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHoK+1Dj0DM0rWKrIqSjqkEaALvAF4Jt5oeW6E9s+GE=;
- b=izamxxP79/VKS0MpFj9HrgKQ7yi85gwwdmTZ4de5j11CTvayZ3FD8TbM0JEmvmdtxDEapL
- z52nXY0s444ExdDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E94511397F;
- Mon, 26 May 2025 13:30:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kJS3N9xsNGgTOQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 26 May 2025 13:30:04 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: boris.brezillon@collabora.com, dmitry.osipenko@collabora.com,
- airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 4/4] drm/gem: Inline drm_gem_pin() into PRIME helpers
-Date: Mon, 26 May 2025 15:25:20 +0200
-Message-ID: <20250526132634.531789-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250526132634.531789-1-tzimmermann@suse.de>
-References: <20250526132634.531789-1-tzimmermann@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196C910E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 13:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1748266098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CaDjeuor3qvehrWwyZqxrxslYPrtt2O/kVi0sHBOQXY=;
+ b=DbVPeuYA9UXFk3J25RRyRQcu9QuxWnMAybuD2CBM/SEb5G9eZa2OJ6ZTK9Nbg/48w1NSjB
+ 4PIJ31MHZfyFr+fjQX369akd67SmMF8+g7Jc6pkB6vmezQB96quRPHF+CKue1XU42Ri0Lm
+ OEH9UE489bwcIhTHnVJZyeitKERXHcQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-224-s9FMVNumPNCthP1wQBs_8g-1; Mon, 26 May 2025 09:28:16 -0400
+X-MC-Unique: s9FMVNumPNCthP1wQBs_8g-1
+X-Mimecast-MFC-AGG-ID: s9FMVNumPNCthP1wQBs_8g_1748266095
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a4cfda0ab8so649459f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 06:28:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748266095; x=1748870895;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CaDjeuor3qvehrWwyZqxrxslYPrtt2O/kVi0sHBOQXY=;
+ b=UerhFobR5BOweCHbW6RBx9XQgB7EHnZPDTbFGd9KHMZyAgDqbSf1gERYsaXnoAY484
+ 9jwQgvPZF3it4Y8UUWJ++JX4hxPsD5CDL+LArhIv1S5/7qQyHRQK/bn9ACX6hd2iQlE0
+ ThM+CFGcbrRul6qZ6AoGULJjfQ0wj/7DveIeQu+x8YNa1RVvkyxZwwWM5Vo3OUc682jT
+ /xnAR/snw1jzquvkdu7DwxItKqo4fV9MN1k2lEnjMNpOazLR1C2d8fNke/U/3i3FybQl
+ k2bgF19IMRS7fv9E8WbMV0pY877fSfiGRj8jG54UB45qAQdyQP1Kc9GjGpq0OSYpR9DB
+ HOgg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgTovlhcMvoKo+YE/undWcmmszQSltx/vTdwPvRPxfsENHFvQqGD7IWZCI7VUa3Lof+osnZB6KdEU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yznm4wDdARANZ0zFDhmZCR0hKajDSyE0HNm6Sn7jxt+Z7+SyYDJ
+ yvm/mZx7PO/TuriCU0f+RqtDpgHSnLP4Y+jDjhPvcZh2XldG3D13h+jh+gkIGd2HzC2mkpFrhCT
+ 5xsm4pOjp+gj1NMRelaC2je16rR4LLZQq546dk3NQi25b4Xgt0zJkfa6U2QxWR0ApfvdiKg==
+X-Gm-Gg: ASbGncuX/KJ+ef/omMGsmpvvo9DPJrxC2Oz6WkZAjmi4WkibKZPDXk/7sd1CCwetQeJ
+ /umKN5+Y6hvEPs8tjdufIE+zxhyjaqaoPcG1wL7Xt14o3lfwp43iwPtjeCaH9bN+KuMAmQiuSm5
+ P+eMDfNxKbgmgAZvD67DyLS8Zoiyl1i3h4c2pYPLKz11CPmf8Yf9WQgtQsIlT2SJXhMhy/bu8RD
+ LkJnl56DTI1yVILOvTUEG/v7kBDt8hsFu4ShJvS/Q7z5kfoeq6o/O/iKXaPb4iaEeM7dRH6t992
+ 99bcWYcVGZefPdrJ
+X-Received: by 2002:a05:6000:2301:b0:3a4:da87:3a73 with SMTP id
+ ffacd0b85a97d-3a4da873b5dmr1710145f8f.42.1748266094788; 
+ Mon, 26 May 2025 06:28:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHeYvbzrZNcWcmW1qUBxQajDh+d2LT6ajoVkh4KOQZsRA+0DvHZ1ZoRl+TxtNrpzzd9byku2A==
+X-Received: by 2002:a05:6000:2301:b0:3a4:da87:3a73 with SMTP id
+ ffacd0b85a97d-3a4da873b5dmr1710127f8f.42.1748266094346; 
+ Mon, 26 May 2025 06:28:14 -0700 (PDT)
+Received: from lab.hqhome163.com ([81.57.75.210])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-3a4c8455e7dsm8836663f8f.9.2025.05.26.06.28.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 May 2025 06:28:13 -0700 (PDT)
+From: Alessandro Carminati <acarmina@redhat.com>
+To: linux-kselftest@vger.kernel.org
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, Alessandro Carminati <acarmina@redhat.com>
+Subject: [PATCH v5 0/5] kunit: Add support for suppressing warning backtraces
+Date: Mon, 26 May 2025 13:27:50 +0000
+Message-Id: <20250526132755.166150-1-acarmina@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: obr9wefTq93GWnGbNyBKDMwXe3qj8jwpZ4F5-mZmUCU_1748266095
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[collabora.com,gmail.com,ffwll.ch,kernel.org,linux.intel.com];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email,suse.de:dkim,collabora.com:email];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 315A121F7F
-X-Spam-Level: 
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,148 +113,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inline drm_gem_pin() into its only caller drm_gem_map_attach()
-and update the documentation in the callback's purpose. Do the
-equivalent for drm_gem_unpin(). Also add stricter error checking
-on the involved locking.
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-The pin operation in the GEM object functions is a helper for
-PRIME-exported buffer objects. Having drm_gem_pin() gives the
-impression of a general-purpose interface, which is not the case.
-Removing it makes the pin callback a bit harder to misuse.
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons:
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-v2:
-- clarify comment on pin callback (Dmitry)
+One option to address the problem would be to add messages such as
+"expected warning backtraces start/end here" to the kernel log.
+However, that would again require filter scripts, might result in
+missing real problematic warning backtraces triggered while the test
+is running, and the irrelevant backtrace(s) would still clog the
+kernel log.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_gem.c      | 32 --------------------------------
- drivers/gpu/drm/drm_internal.h |  4 ----
- drivers/gpu/drm/drm_prime.c    | 22 ++++++++++++++++++++--
- include/drm/drm_gem.h          |  3 ++-
- 4 files changed, 22 insertions(+), 39 deletions(-)
+Solve the problem by providing a means to identify and suppress specific
+warning backtraces while executing test code. Support suppressing multiple
+backtraces while at the same time limiting changes to generic code to the
+absolute minimum.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 1e659d2660f7..a0a3b6baa569 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1184,38 +1184,6 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 		obj->funcs->print_info(p, indent, obj);
- }
- 
--int drm_gem_pin_locked(struct drm_gem_object *obj)
--{
--	if (obj->funcs->pin)
--		return obj->funcs->pin(obj);
--
--	return 0;
--}
--
--void drm_gem_unpin_locked(struct drm_gem_object *obj)
--{
--	if (obj->funcs->unpin)
--		obj->funcs->unpin(obj);
--}
--
--int drm_gem_pin(struct drm_gem_object *obj)
--{
--	int ret;
--
--	dma_resv_lock(obj->resv, NULL);
--	ret = drm_gem_pin_locked(obj);
--	dma_resv_unlock(obj->resv);
--
--	return ret;
--}
--
--void drm_gem_unpin(struct drm_gem_object *obj)
--{
--	dma_resv_lock(obj->resv, NULL);
--	drm_gem_unpin_locked(obj);
--	dma_resv_unlock(obj->resv);
--}
--
- int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map)
- {
- 	int ret;
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index e44f28fd81d3..442eb31351dd 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -175,10 +175,6 @@ void drm_gem_release(struct drm_device *dev, struct drm_file *file_private);
- void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 			const struct drm_gem_object *obj);
- 
--int drm_gem_pin_locked(struct drm_gem_object *obj);
--void drm_gem_unpin_locked(struct drm_gem_object *obj);
--int drm_gem_pin(struct drm_gem_object *obj);
--void drm_gem_unpin(struct drm_gem_object *obj);
- int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
- void drm_gem_vunmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
- 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index d828502268b8..a1852c02f512 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -599,6 +599,7 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
- 		       struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
-+	int ret;
- 
- 	/*
- 	 * drm_gem_map_dma_buf() requires obj->get_sg_table(), but drivers
-@@ -608,7 +609,16 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
- 	    !obj->funcs->get_sg_table)
- 		return -ENOSYS;
- 
--	return drm_gem_pin(obj);
-+	if (!obj->funcs->pin)
-+		return 0;
-+
-+	ret = dma_resv_lock(obj->resv, NULL);
-+	if (ret)
-+		return ret;
-+	ret = obj->funcs->pin(obj);
-+	dma_resv_unlock(obj->resv);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_map_attach);
- 
-@@ -625,8 +635,16 @@ void drm_gem_map_detach(struct dma_buf *dma_buf,
- 			struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
-+	int ret;
- 
--	drm_gem_unpin(obj);
-+	if (!obj->funcs->unpin)
-+		return;
-+
-+	ret = dma_resv_lock(obj->resv, NULL);
-+	if (drm_WARN_ON(obj->dev, ret))
-+		return;
-+	obj->funcs->unpin(obj);
-+	dma_resv_unlock(obj->resv);
- }
- EXPORT_SYMBOL(drm_gem_map_detach);
- 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index a3133a08267c..1a79ec3fe45c 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -126,7 +126,8 @@ struct drm_gem_object_funcs {
- 	/**
- 	 * @pin:
- 	 *
--	 * Pin backing buffer in memory. Used by the drm_gem_map_attach() helper.
-+	 * Pin backing buffer in memory, such that dma-buf importers can
-+	 * access it. Used by the drm_gem_map_attach() helper.
- 	 *
- 	 * This callback is optional.
- 	 */
+Overview:
+Patch#1 Introduces the suppression infrastructure.
+Patch#2 Mitigate the impact at WARN*() sites.
+Patch#3 Adds selftests to validate the functionality.
+Patch#4 Demonstrates real-world usage in the DRM subsystem.
+Patch#5 Documents the new API and usage guidelines.
+
+Design Notes:
+The objective is to suppress unwanted WARN*() generated messages.
+
+Although most major architectures share common bug handling via `lib/bug.c`
+and `report_bug()`, some minor or legacy architectures still rely on their
+own platform-specific handling. This divergence must be considered in any
+such feature. Additionally, a key challenge in implementing this feature is
+the fragmentation of `WARN*()` messages emission: specific part in the
+macro, common with BUG*() part in the exception handler.
+As a result, any intervention to suppress the message must occur before the
+illegal instruction.
+
+Lessons from the Previous Attempt
+In earlier iterations, suppression logic was added inside the
+`__report_bug()` function to intercept WARN*() messages not producing
+messages in the macro.
+To implement the check in the check in the bug handler code, two strategies
+were considered:
+
+* Strategy #1: Use `kallsyms` to infer the originating functionid, namely
+  a pointer to the function. Since in any case, the user interface relies
+  on function names, they must be translated in addresses at suppression-
+  time or at check-time.
+  Assuming to translate at suppression-time, the `kallsyms` subsystem needs
+  to be used to determine the symbol address from the name, and again to
+  produce the functionid from `bugaddr`. This approach proved unreliable
+  due to compiler-induced transformations such as inlining, cloning, and
+  code fragmentation. Attempts to preventing them is also unconvenient
+  because several `WARN()` sites are in functions intentionally declared 
+  as `__always_inline`.
+
+* Strategy #2: Store function name `__func__` in `struct bug_entry` in
+  the `__bug_table`. This implementation was used in the previous version.
+  However, `__func__` is a compiler-generated symbol, which complicates
+  relocation and linking in position-independent code. Workarounds such as
+  storing offsets from `.rodata` or embedding string literals directly into
+  the table would have significantly either increased complexity or
+  increase the __bug_table size. 
+  Additionally, architectures not using the unified `BUG()` path would 
+  still require ad-hoc handling. Because current WARN*() message production
+  strategy, a few WARN*() macros still need a check to suppress the part of
+  the message produced in the macro itself.
+
+Current Proposal: Check Directly in the `WARN()` Macros.
+This avoids the need for function symbol resolution or ELF section
+modification.
+Suppression is implemented directly in the `WARN*()` macros.
+
+A helper function, `__kunit_is_suppressed_warning()`, is used to determine
+whether suppression applies. It is marked as `noinstr`, since some `WARN*()`
+sites reside in non-instrumentable sections. As it uses `strcmp`, a
+`noinstr` version of `strcmp` was introduced.
+The implementation is deliberately simple and avoids architecture-specific
+optimizations to preserve portability. Since this mechanism compares
+function names and is intended for test usage only, performance is not a
+primary concern.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+Changes since v3:
+- Rebased to v6.14-rc6
+- Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+  since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+- Added __kunit_ and KUNIT_ prefixes.
+- Tested on interessed architectures.
+
+Changes since v4:
+- Rebased to v6.15-rc7
+- Dropped all code in __report_bug()
+- Moved all checks in WARN*() macros.
+- Dropped all architecture specific code.
+- Made __kunit_is_suppressed_warning nice to noinstr functions.
+
+Alessandro Carminati (2):
+  bug/kunit: Core support for suppressing warning backtraces
+  bug/kunit: Suppressing warning backtraces reduced impact on WARN*()
+    sites
+
+Guenter Roeck (3):
+  Add unit tests to verify that warning backtrace suppression works.
+  drm: Suppress intentional warning backtraces in scaling unit tests
+  kunit: Add documentation for warning backtrace suppression API
+
+ Documentation/dev-tools/kunit/usage.rst |  30 ++++++-
+ drivers/gpu/drm/tests/drm_rect_test.c   |  16 ++++
+ include/asm-generic/bug.h               |  48 +++++++----
+ include/kunit/bug.h                     |  62 ++++++++++++++
+ include/kunit/test.h                    |   1 +
+ lib/kunit/Kconfig                       |   9 ++
+ lib/kunit/Makefile                      |   9 +-
+ lib/kunit/backtrace-suppression-test.c  | 105 ++++++++++++++++++++++++
+ lib/kunit/bug.c                         |  54 ++++++++++++
+ 9 files changed, 316 insertions(+), 18 deletions(-)
+ create mode 100644 include/kunit/bug.h
+ create mode 100644 lib/kunit/backtrace-suppression-test.c
+ create mode 100644 lib/kunit/bug.c
+
 -- 
-2.49.0
+2.34.1
 
