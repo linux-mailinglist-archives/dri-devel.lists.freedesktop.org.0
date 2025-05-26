@@ -2,106 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DD9AC3F79
-	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81EEAC3FBB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 May 2025 14:55:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C74F110E368;
-	Mon, 26 May 2025 12:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0874110E335;
+	Mon, 26 May 2025 12:55:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ckYGNGO+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="U+MSisGj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D4110E320;
- Mon, 26 May 2025 12:48:01 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54Q9j2NH003435;
- Mon, 26 May 2025 12:47:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oCr/CPKf8U1UzPqdxs6MBqbYJuhYSc+YD9gbt7fVooQ=; b=ckYGNGO+RtcIMoY7
- Nnuf6vBbVXMCP8nMarf8WmaTD7w9qjXGJx5b0bYHUaZxlJMj/1kZLpdDtKq2hN2z
- Fv2UdKxfxzRjZDlwF4VZokZZlIeDrEGZU2kdYTqf1cyeNv2ArXFgyHiAMkEMJAHq
- Cd8zRymkI7Jvx/d8j1T7bN+gzCJv8f1ZAdL8uROJasfeJAVMj3RgXE28BOf/U8ku
- STmwQWwJMww+uF9bpe/9Xb7Id5WC9kF3COOCUCMLb7ByHnMSJ1TY37WCyvapm/u0
- FYR3viQXDtSw67o9k0RGU9dgBubU9KFmN4xjPFy59y7otMOVloB+qSS8hNvgoQ+b
- hW3VJQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46vnxa0ean-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 May 2025 12:47:32 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54QClVFO009444
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 May 2025 12:47:31 GMT
-Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 26 May
- 2025 05:47:25 -0700
-Message-ID: <3992e14b-7a5c-4787-9bd9-71a2190c1e64@quicinc.com>
-Date: Mon, 26 May 2025 20:47:22 +0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2068.outbound.protection.outlook.com [40.107.244.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CF310E134;
+ Mon, 26 May 2025 12:55:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WXg1ffKixIo5QLCu9LdPMNufWyb0j+2ysJ3g+6LLW8IMEF1VIH72LVnSaKJ2oU27Wk6rYRea64BVTyOsI0VgWiuraPgCnu+sEuPQ8KPXYDvGXr2j8oElVKuG99uAbAd1WqAqWu3sIVPcOH0YDaBEyo8qacgrCMvR5tkivMTm/SdsY65Cg2ZqVnoDP2wqiX6xpqLyamk6YQDhm17v70I7LtLBFNdHFMuCfLFR/Z+z9lRGU+LU6wdhluZmo/mJN9JuIY6g7w7XbbiXNF1nUee41wy072/sevzinkhniTtHSHTxVseYCJmbXHMIxnruHJwTJRzRrza7dpxJFyKKBRd0Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6B8P1zxfJDoyoU0W3IawYc8DH8YXTlPWkpb4fSZ9TNA=;
+ b=oLH/XTiqFnCu56FvOf+qnciryrf2CTTAPqNglGIq3iDsYtbbv8xzljBEkx0SRSjF52L7ZqmhVKxy8NRTgxA0T2RpF2JGMdzSVMDrF6iHckDW1wOD/gjolakB3YNdoJ5C6mKqG868VveWGv0UdALWBj0ZPBQXqn63UFdrNS90fbDc3RqdQx7f81NxzC27oyhkWhhbdH/ZdpN9D0tvpNk3lrVw33ZKkULO1euh4Whqx3yyohE/slFRzU8LVqYpv+MRLIzYWQqRkJE87vXaBFbElsch9wNoDF6GshR/TT5Xp4OqDYYwSxQT3hyU0jLMn5d5ZezdypdoumCvwDe2TfLWnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6B8P1zxfJDoyoU0W3IawYc8DH8YXTlPWkpb4fSZ9TNA=;
+ b=U+MSisGj84SKPUI9CT14iXrTTQNrGD9tGGIv5zEqN4bWzlyQ9nukI4MhmlfmhBFtd+/h2KEyfNtxYa3aRQig/O8VmIHv7g+rUzZEcqGQW94A65GzzfboxHcdxLkHlvTn/luFCw58EuSja+HFbOzGD4oCMVKwzRMxGWZj42z5JX8=
+Received: from SJ0PR13CA0001.namprd13.prod.outlook.com (2603:10b6:a03:2c0::6)
+ by IA1PR12MB6044.namprd12.prod.outlook.com (2603:10b6:208:3d4::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Mon, 26 May
+ 2025 12:55:34 +0000
+Received: from SJ1PEPF00001CEB.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::66) by SJ0PR13CA0001.outlook.office365.com
+ (2603:10b6:a03:2c0::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Mon,
+ 26 May 2025 12:55:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CEB.mail.protection.outlook.com (10.167.242.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:55:30 +0000
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 26 May
+ 2025 07:55:22 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: 
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ "Frank Binns" <frank.binns@imgtec.com>, Jonathan Corbet <corbet@lwn.net>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lizhi Hou <lizhi.hou@amd.com>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Lyude Paul <lyude@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Matt Coster <matt.coster@imgtec.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>, Qiang Yu
+ <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Rob Herring
+ <robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
+ <simona@ffwll.ch>, Steven Price <steven.price@arm.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v11 00/10] Improve gpu_scheduler trace events + UAPI
+Date: Mon, 26 May 2025 14:54:42 +0200
+Message-ID: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/45] drm/msm/dp: split dp_ctrl_off() into stream and
- link parts
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <swboyd@chromium.org>, "Chandan
- Uddaraju" <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>, Rob Clark
- <robdclark@chromium.org>,
- Tanmay Shah <tanmay@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-11-f8618d42a99a@quicinc.com>
- <iplgkmgma3li3jirsxlwr6mrbaepcfhqg2kuz44utvm56vwgpb@4ayjjqehmgw2>
-Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <iplgkmgma3li3jirsxlwr6mrbaepcfhqg2kuz44utvm56vwgpb@4ayjjqehmgw2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: tG4sAPLHSz7x2DT2KXGrqE00-hGiiv-x
-X-Authority-Analysis: v=2.4 cv=HvJ2G1TS c=1 sm=1 tr=0 ts=683462e4 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=GjGlpgBoUSRT_fdPFuAA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: tG4sAPLHSz7x2DT2KXGrqE00-hGiiv-x
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI2MDEwOCBTYWx0ZWRfX20cJpFM8zIwP
- b/ZEzgN14p9GpaXsZeY5IV5oAiARwYYUH4cTxy2WqNlS+kBCtoUZAjmOJhe3vlxArejYzlRn3AB
- ExZhwEmjLWFXLObrL/OPkj29sVsXd0/uUg0FDkx/7/t+gvpr2qKNQk7ANNIRxupSGDdS79ey+0r
- O8dN/jBF/pI2RziAjejCieHAuOIvkaW91zPf92vLwIKHAwlDG6thys32GOJAYwkIumdJ9ShC3gG
- sO4I+eFoHxuQPN8i1eUfCgKLiZ75qdWlzdguKBiXbunzlrY9+6gmE8vT6M/apgTDf33EmXJb2tB
- eyw7rWn25/kpdOrecZhnzU80DffrSRmseOQO5lJr5k7g0BSFfaAqx7rfWUZ8vKU1ypEuCtxI/4M
- Iijb++3QF2IX+FpTc+aPcrMeapto5kyd92V8t+wQfh+vQCnPGtZSdLXXaQDXXag9var6pFPr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-26_06,2025-05-26_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505260108
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEB:EE_|IA1PR12MB6044:EE_
+X-MS-Office365-Filtering-Correlation-Id: 593ebef6-bda9-4046-d91f-08dd9c54986d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|82310400026|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WHI1OFRDMG1hYy9xYkxmMGNDNUFxMjBSMEYxWklWMlhFeFR2bGNMWVNESUpz?=
+ =?utf-8?B?aVJJNS9oem1hbGkvN3RwSjA1cnFKUUEwRkJGL0dheGpnT2xJWGN6ODgwSGpw?=
+ =?utf-8?B?blViMkIxOHMxZVMxUkNscWM4a1NiaXhld3FPY3BpM2pzWnVlN2dxY2ozQm5r?=
+ =?utf-8?B?Uzd1VUYrbnQ5blRudGZFU0JOUjFrMFdrUGhVeHYva1oyVGM1Ri9LVHJHUlRW?=
+ =?utf-8?B?TmZhNCszNTJjdmJtOWZyUWNCRlpKa1EvVlNDaGdKeGVkdFB4N09tOVh4REhP?=
+ =?utf-8?B?a1hRMnc2Z1BWT2NVYlZ1Wm9rOHZ2M2tkeHcyRmlkVGJ1SnQvalZDaWZXWGR5?=
+ =?utf-8?B?K2dRNmV0TFZsWkRTVU82VE5TSzg2enJyYmQwT0RiSTd4bFE1TFJQdTBvd21I?=
+ =?utf-8?B?alg2WHVPS0Z2cDkvVFYyT0d3Q0NzNThFU1F3MHZYN2lVNVp0T1kvSzcxOHhU?=
+ =?utf-8?B?SEZqTmdrQndxWk80UmxHR1czWnBBTUxGLzA4bzk0K0FLbjNqL0xmYWhQVExI?=
+ =?utf-8?B?c3ZYVEtlQ29WNUloTHJvUTlsRFVWUlVpbVBlNnA5MDd3VTVZblhkcTdoRCta?=
+ =?utf-8?B?Ump0dnA0UUV2dTBIamJEV0Q0QmthM1VKSEFaZUpjQVpVaXcya3pQNkZWSDU0?=
+ =?utf-8?B?RTJtWCswRUJ6bmdrZDRGVGUrWkswWC9PRzJnSHhXbnpkc3ZKT3FkZkpxTDk1?=
+ =?utf-8?B?R3BFZ3dYdC9hRktiUWRhU0pydzJXcFpiUzBoblluRVEwS0dRSG5sZDdEeG1S?=
+ =?utf-8?B?THVjSFBpL2Fid1RrRDd3dDR2Ry8vbWlRUzh1NUtYbW9veFpjZW5TZXZIZVV1?=
+ =?utf-8?B?ZkhkUUNqclFza0pGUG5OTHYxV1UrTFpOV2VUVFpPU25ZQzZHcmUrQnZlOUcr?=
+ =?utf-8?B?Wk5sNDFrR2RWdnhuVmRmeTB4NkxDYnk5UVlHckRCdE5oYVRsekhjQUVQQzVp?=
+ =?utf-8?B?NFErTTNWendyL0U4aDNKK0JuVVAydkJGZTBNZGp3cFZwcERmTFdoR1ZIbUF3?=
+ =?utf-8?B?S1lLUHJNTEpFeHpORG5ka1NEeWxiNU1wanU1dHdJYTBBUUEwK2ZjSHljQXMx?=
+ =?utf-8?B?RVVUZW8zZ25HNzNzTlF5amM4c3U2aSt4b05vTXhNS0ltRkVyM3dSS2crdWo2?=
+ =?utf-8?B?VzBUKzNYVFpUOVR0SDNVbE5qc1FpbzVscVBZZnE1L0tJSUlDa3RaTlBDWlEw?=
+ =?utf-8?B?VWhRaVBqLzZlMk5ZcTJRUDA0M21HelJqL1BxQko3V2FscWVJL2dPaXVraTQy?=
+ =?utf-8?B?Qk5sOWRyTGJ3QWZKU3oveVM0Sk93K2JxS1Z3eFAvQ3YvYmdtd1J1MTc0NFVv?=
+ =?utf-8?B?bGlrL0k0ME1SOW93MHlubFVDSXNCOHVpQkNvcjRTWlAzQmFCREVxWkI3V3JP?=
+ =?utf-8?B?d0Z0R0RlWnZTcTdQT0VUamZyMTNwR2ZZODV2MU1qOVpzcnVCeXVST1NWbFdY?=
+ =?utf-8?B?TlA2cGh0NHVLNzR6Y3FHYjB5YklFRmRudVNmL2psR2VnVU1ndjNnMnlmYTZJ?=
+ =?utf-8?B?dHR3R2lhVEdabkZRUUtVR2NpQTkwYjNlZ05uTFE5Y09acjBqNjB2Y0d3eVlI?=
+ =?utf-8?B?cHlCSUtDall6RDlab082WitCMHdTY2JWNGdzcjB1OERSaGNFRFJTTnEyQ1Bo?=
+ =?utf-8?B?MTd3VzNzUnhXSVV0dXhiZ0dseXIwNlRqMElCY3cyVnpqRklEdzJoZkZEb2RT?=
+ =?utf-8?B?Z3pjUUVYcy9oQ29VM0Y3ek5QdTgwZDlEQzBMd0l0R0crNlE3ZEVhUGhOVTNy?=
+ =?utf-8?B?UE9LRlEzOHA0Q1lxYlVsRU9sbDhzNGxwRHJrZTdDajI4V2pHSWhtUkc0QnVD?=
+ =?utf-8?B?OExQd3BDaWNFekdNQi9JTjdqQmlkTzdRczZhNlNnUHUrdytqR2kwdk1nc2U5?=
+ =?utf-8?B?VVNWSWIwUHJhczBCTU8zd0tqL3BDRXRLVm1oSVQxVTcrSk93ckpXcDNvcEJ1?=
+ =?utf-8?B?MlFEY1N0WWhibDBTcGlON2M1YWM5OEhBOXF1U2RnN2FTbjlZRnUwUitVamY2?=
+ =?utf-8?B?NFFHSGdWWEFnPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:55:30.3756 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 593ebef6-bda9-4046-d91f-08dd9c54986d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CEB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6044
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,116 +164,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+The initial goal of this series was to improve the drm and amdgpu
+trace events to be able to expose more of the inner workings of
+the scheduler and drivers to developers via tools.
 
-On 2024/12/6 17:14, Dmitry Baryshkov wrote:
-> On Thu, Dec 05, 2024 at 08:31:42PM -0800, Abhinav Kumar wrote:
->> Split dp_ctrl_off() into stream and link parts so that for MST
->> cases we can control the link and pixel parts separately.
-> 
-> Please start by describing the problem.
-Got it.
-> 
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 29 +++--------------------------
->>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
->>   drivers/gpu/drm/msm/dp/dp_display.c |  4 +++-
->>   3 files changed, 7 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 118f5ed83e464f9f27f813eb39624f9c3189f5ac..485339eb998cc6c8c1e8ab0a88b5c5d6ef300a1f 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1739,7 +1739,8 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
->>   	 * running. Add the global reset just before disabling the
->>   	 * link clocks and core clocks.
->>   	 */
->> -	msm_dp_ctrl_off(&ctrl->msm_dp_ctrl);
->> +	msm_dp_ctrl_stream_clk_off(&ctrl->msm_dp_ctrl);
->> +	msm_dp_ctrl_off_link(&ctrl->msm_dp_ctrl);
-> 
-> Huh? What happened with the rest of the msm_dp_ctrl_off() code sequence?
-> It got dropped, but the commit message tells nothing about it.
-> 
-The function msm_dp_ctrl_off has been split into two parts, 
-stream_clk_off and off_link, so it got dropped. This part is a bit 
-confusing, will make it clearer.
->>   
->>   	ret = msm_dp_ctrl_on_link(&ctrl->msm_dp_ctrl);
->>   	if (ret) {
->> @@ -2042,7 +2043,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
->>   	return ret;
->>   }
->>   
->> -static void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl)
->> +void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl)
->>   {
->>   	struct msm_dp_ctrl_private *ctrl;
->>   
->> @@ -2110,30 +2111,6 @@ void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl)
->>   		phy, phy->init_count, phy->power_count);
->>   }
->>   
->> -void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
->> -{
->> -	struct msm_dp_ctrl_private *ctrl;
->> -	struct phy *phy;
->> -
->> -	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
->> -	phy = ctrl->phy;
->> -
->> -	msm_dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
->> -
->> -	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
->> -
->> -	msm_dp_catalog_ctrl_reset(ctrl->catalog);
->> -
->> -	msm_dp_ctrl_stream_clk_off(msm_dp_ctrl);
->> -
->> -	dev_pm_opp_set_rate(ctrl->dev, 0);
->> -	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
->> -
->> -	phy_power_off(phy);
->> -	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
->> -			phy, phy->init_count, phy->power_count);
->> -}
->> -
->>   irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
->>   {
->>   	struct msm_dp_ctrl_private *ctrl;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> index 547155ffa50fbe2f3a1f2c2e1ee17420daf0f3da..887cf5a866f07cb9038887a0634d3e1a0375879c 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> @@ -22,7 +22,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
->>   int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *dp_ctrl, bool force_link_train);
->>   void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl);
->>   void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl);
->> -void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl);
->> +void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl);
->>   void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl);
->>   irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl);
->>   void msm_dp_ctrl_handle_sink_request(struct msm_dp_ctrl *msm_dp_ctrl);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index c059f749c1f204deac9dfb0c56f537f5545d9acb..b0458bbc89e934ca33ed5af3f2a8ebca30b50824 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -911,7 +911,9 @@ static int msm_dp_display_disable(struct msm_dp_display_private *dp)
->>   	if (dp->link->sink_count == 0)
->>   		msm_dp_ctrl_psm_config(dp->ctrl);
->>   
->> -	msm_dp_ctrl_off(dp->ctrl);
->> +	msm_dp_ctrl_stream_clk_off(dp->ctrl);
->> +
->> +	msm_dp_ctrl_off_link(dp->ctrl);
->>   
->>   	/* re-init the PHY so that we can listen to Dongle disconnect */
->>   	if (dp->link->sink_count == 0)
->>
->> -- 
->> 2.34.1
->>
-> 
+Then, the series evolved to become focused only on gpu_scheduler.
+The changes around vblank events will be part of a different
+series, as well as the amdgpu ones.
+
+Moreover Sima suggested to make some trace events stable uAPI,
+so tools can rely on them long term.
+
+The first patches extend and cleanup the gpu scheduler events,
+then add a documentation entry in drm-uapi.rst.
+
+The last 2 patches are new in v8. One is based on a suggestion
+from Tvrtko and gets rid of drm_sched_job::id. The other is a
+cleanup of amdgpu trace events to use the fence=%llu:%llu format.
+
+The drm_sched_job patches don't affect gpuvis which has code to parse
+the gpu_scheduler events but these events are not enabled.
+
+Changes since v10:
+* fixed 2 errors reported by kernel test robot
+* rebased on drm-misc-next
+
+Changes since v9:
+* fixed documentation link syntax
+* fixed typos in commit messages
+* spelled out that these events cannot be used before
+  drm_sched_job_arm has been called
+
+Changes since v8:
+* swapped patches 8 & 9
+* rebased on drm-next
+
+Changes since v7:
+* uint64_t -> u64
+* reworked dependencies tracing (Tvrtko)
+* use common name prefix for all events (Tvrtko)
+* dropped drm_sched_job::id (Tvrtko)
+
+Useful links:
+- userspace tool using the updated events:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+- v8:
+https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
+
+Pierre-Eric Pelloux-Prayer (10):
+  drm/debugfs: Output client_id in in drm_clients_info
+  drm/sched: Store the drm client_id in drm_sched_fence
+  drm/sched: Add device name to the drm_sched_process_job event
+  drm/sched: Cleanup gpu_scheduler trace events
+  drm/sched: Trace dependencies for GPU jobs
+  drm/sched: Add the drm_client_id to the drm_sched_run/exec_job events
+  drm/sched: Cleanup event names
+  drm: Get rid of drm_sched_job.id
+  drm/doc: Document some tracepoints as uAPI
+  drm/amdgpu: update trace format to match gpu_scheduler_trace
+
+ Documentation/gpu/drm-uapi.rst                |  19 ++++
+ drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 ++----
+ drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+ drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+ drivers/gpu/drm/lima/lima_trace.h             |   6 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+ drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 103 +++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  12 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |   3 +-
+ drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+ drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+ include/drm/gpu_scheduler.h                   |  13 ++-
+ 32 files changed, 191 insertions(+), 101 deletions(-)
+
+-- 
+2.43.0
 
