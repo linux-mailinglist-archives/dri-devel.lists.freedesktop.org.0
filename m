@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA38AC4E5E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 14:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8FDAC4E66
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 14:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEA010E4C6;
-	Tue, 27 May 2025 12:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F0810E4BF;
+	Tue, 27 May 2025 12:11:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KSunYObP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="R4/S/4Af";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F99510E4AE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82CB210E4BD
  for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 12:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1748347888;
- bh=L/0iOYUvrFmB2bU6oHMPLyfBc1hpgRFdxe/rWnvnSRo=;
+ s=mail; t=1748347889;
+ bh=PDRraluMv402z66JOvqFUR/pJRZy6LQeNSrabWEsSyY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=KSunYObPflWL9GGUUmQrltwsBZFrF//8xb/ZwvnnwfnzXuee++51PPlosdDpZ5YCV
- kPnF/xDzGKO1sp6I+CmiYdgC/pM/Y7TPQQRsY+hR6CbJ7qgLJpMluoPbhhuvGpaAV6
- grXewBpOlYo3GNrr4au3qcYOL+exi6KNNqrwWJmt/FrFXEWoWZ0G5obO5eMh5/cEYl
- 4mavZ3UrEeTBux8jWf3axT1mBA5zAPBnbzeg/PzeCiB/he7Z2D+24ROnD2lUS++kno
- o8mvFaISPy/l4JWHIT5Hoxyf2emFFcrw3sbjdyFlMrttErbIfZfxyUZg0uOr5H9kZG
- Qd/ns9o5wSJ7g==
+ b=R4/S/4AfRhLvxwwjx94VuOuLqutTFenopeo1tGUkfk1eFNmhys50yojp3GPGN8g/2
+ pdGhzyMnAT/KylFBppdUe6v6tuAUEPTrZJJy3hF0idv5x2kgxlfywBLfe5Zjx8Lbk0
+ e63U2g5tM4fJ/+z7IDoGkW+0lu4dm2QTGXXGB/OWY0xLNijQFFYYjMGjU+0fRJCGSP
+ KbSFMm0P4UHalMpONQuRf2Tc3lV3clUVm3AiErjNh02rqcjVpda3roS4ZUX91PaDY+
+ P7breEtD+3fxySeh8l/O40RVfgaAhBzYDTezK8MDLtznlN5H/ThxXFoWu5OvAVLXBR
+ wKSY0oTtqrNig==
 Received: from localhost (unknown [82.76.59.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 6D3A017E37BE;
- Tue, 27 May 2025 14:11:28 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 3BAB217E37C0;
+ Tue, 27 May 2025 14:11:29 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 27 May 2025 15:11:16 +0300
-Subject: [PATCH v5 08/19] drm/tests: hdmi: Switch to 'void *' type for EDID
- data
+Date: Tue, 27 May 2025 15:11:17 +0300
+Subject: [PATCH v5 09/19] drm/tests: hdmi: Add macro to simplify EDID setup
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250527-hdmi-conn-yuv-v5-8-74c9c4a8ac0c@collabora.com>
+Message-Id: <20250527-hdmi-conn-yuv-v5-9-74c9c4a8ac0c@collabora.com>
 References: <20250527-hdmi-conn-yuv-v5-0-74c9c4a8ac0c@collabora.com>
 In-Reply-To: <20250527-hdmi-conn-yuv-v5-0-74c9c4a8ac0c@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,7 +49,7 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Dmitry Baryshkov <lumag@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
 Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,38 +66,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace 'const char *' with 'const void *' type for current_edid member
-in struct drm_atomic_helper_connector_hdmi_priv, as well as for the edid
-parameter of set_connector_edid() function.
+Factor out the HDMI connector initialization from
+drm_kunit_helper_connector_hdmi_init_funcs() into a common
+__connector_hdmi_init() function, while extending its functionality to
+allow setting custom (i.e. non-default) EDID data.
 
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Introduce a macro as a wrapper over the new helper to allow dropping the
+open coded EDID setup from all test cases.
+
+The actual conversion will be handled separately; for now just apply it
+to drm_kunit_helper_connector_hdmi_init() helper.
+
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 46 +++++++++++++---------
+ 1 file changed, 28 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index c8dc6fa0f925e35e9903a18bac7f78f9d8165960..00576f747f1f36a100e13b0316cb492f76474d45 100644
+index 00576f747f1f36a100e13b0316cb492f76474d45..beee73e7a4d297dd068a42b583fa547e93e7301e 100644
 --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -33,7 +33,7 @@ struct drm_atomic_helper_connector_hdmi_priv {
- 	struct drm_encoder encoder;
- 	struct drm_connector connector;
+@@ -140,10 +140,11 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
  
--	const char *current_edid;
-+	const void *current_edid;
- 	size_t current_edid_len;
- };
+ static
+ struct drm_atomic_helper_connector_hdmi_priv *
+-drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+-					   unsigned int formats,
+-					   unsigned int max_bpc,
+-					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
++__connector_hdmi_init(struct kunit *test,
++		      unsigned int formats,
++		      unsigned int max_bpc,
++		      const struct drm_connector_hdmi_funcs *hdmi_funcs,
++		      const void *edid_data, size_t edid_len)
+ {
+ 	struct drm_atomic_helper_connector_hdmi_priv *priv;
+ 	struct drm_connector *conn;
+@@ -197,29 +198,38 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
  
-@@ -56,7 +56,7 @@ static struct drm_display_mode *find_preferred_mode(struct drm_connector *connec
+ 	drm_mode_config_reset(drm);
+ 
++	if (edid_data && edid_len) {
++		ret = set_connector_edid(test, &priv->connector, edid_data, edid_len);
++		KUNIT_ASSERT_GT(test, ret, 0);
++	}
++
+ 	return priv;
  }
  
- static int set_connector_edid(struct kunit *test, struct drm_connector *connector,
--			      const char *edid, size_t edid_len)
-+			      const void *edid, size_t edid_len)
++static
++struct drm_atomic_helper_connector_hdmi_priv *
++drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
++					   unsigned int formats,
++					   unsigned int max_bpc,
++					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
++{
++	return __connector_hdmi_init(test, formats, max_bpc, hdmi_funcs, NULL, 0);
++}
++
++#define drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test, formats, max_bpc, funcs, edid) \
++	__connector_hdmi_init(test, formats, max_bpc, funcs, edid, ARRAY_SIZE(edid))
++
+ static
+ struct drm_atomic_helper_connector_hdmi_priv *
+ drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+ 				     unsigned int formats,
+ 				     unsigned int max_bpc)
  {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv =
- 		connector_to_priv(connector);
+-	struct drm_atomic_helper_connector_hdmi_priv *priv;
+-	int ret;
+-
+-	priv = drm_kunit_helper_connector_hdmi_init_funcs(test,
+-							  formats, max_bpc,
+-							  &dummy_connector_hdmi_funcs);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
+-
+-	ret = set_connector_edid(test, &priv->connector,
+-				 test_edid_hdmi_1080p_rgb_max_200mhz,
+-				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+-	KUNIT_ASSERT_GT(test, ret, 0);
+-
+-	return priv;
++	return drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
++				formats,
++				max_bpc,
++				&dummy_connector_hdmi_funcs,
++				test_edid_hdmi_1080p_rgb_max_200mhz);
+ }
+ 
+ /*
 
 -- 
 2.49.0
