@@ -2,153 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5940AC4698
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 04:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD8EAC46BD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 05:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3852710E112;
-	Tue, 27 May 2025 02:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001FC10E156;
+	Tue, 27 May 2025 03:26:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rPcHb6ya";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DEU6VIB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2074.outbound.protection.outlook.com [40.107.220.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A75810E06F;
- Tue, 27 May 2025 02:50:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB4810E031;
+ Tue, 27 May 2025 03:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748316415; x=1779852415;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=gLcIp+i9g4fBelbZdcfMHODoLi3vFL5f9LzBNC6HIs0=;
+ b=DEU6VIB6Al7Xg8Lwcg9ueimWY65U8DCjjsfD4U9apmYFJzzbdOOZKAAb
+ PiQ+82P7JlyaZByKKNBuuxpPjYTsXe1jnW7s5VrWWwz27OFz7c522rJmd
+ TtWE1MX/ZIxu4f6x+98ZPMP04wSh2xDs3u1H5WkdQxY7b44EdlnK6akOa
+ 22zAiHuaRiADvVIiG3A48AM8PWEf0WD71Cd6+Ee3mLK41Q5d0cZCZ4IcS
+ GOIkH8icqvg34vhhmtOoBtzwe2J2mu0F6UZ0lGayKaqugR2oCZmr+AImB
+ voX7AYoGxVLt1ZPuxsQoI17eNdw6uZ6uVHjNV5uUqdoOSn6WkA/4Ua55Y g==;
+X-CSE-ConnectionGUID: 6JHiEvh+T72q8v2Er+uzuw==
+X-CSE-MsgGUID: fSylpdabQF+KhYfaYvHB7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="49540409"
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; d="scan'208";a="49540409"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 20:26:49 -0700
+X-CSE-ConnectionGUID: kN2/96xlRheonAnzVELjkw==
+X-CSE-MsgGUID: is17agOBS4ukhKi44hRpiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; d="scan'208";a="147770982"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 20:26:42 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 26 May 2025 20:26:40 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 26 May 2025 20:26:40 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.58)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Mon, 26 May 2025 20:26:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=huu8JeGlXCAqui8UXl9UXLU5zQGkSmfhuXsqkIvBgbDviN37dyE6WRKvwOu/i/OB+4am7feI5Qx4gsG1AiRa3V9qqL/fdI8zdWsVOrH/yfS5tSRiNQ4JPoR6FFZtevT3sYeYAo0C21sE8Xi62ncu3GOqYzPWKQjDneApusclq+NLbywWwsBfs00Adm1M63pMnYwwR91Z5u+/jaH4w+MKmp3ZXvBkwW2XTZdPpo7nhMQ/RGEQH16Lq/A5q8YMHtwhYBDAj+lGq9B4HbrCjgFNMwvJv4Foc60IVP8sIF+UQTkhYrzNoUvkGpp8J2tTp0ZwG54F0hlDYln2P3WRuCDPjg==
+ b=njfsNorRO8KeSm/qWjFYC49h3nhIpFcTYyGzKo0apTbEJcyYZH3CB6sNaVcE9yPH205Uq9Y/19pSLa3beIi6bGOuTbMzhH8TfG5qrSOKL/bUIGG+U7j943dF3DaP0HfM4Ang2w1AUhrC5Nistkq7ZujTZu2JMBsfoy+KbbXOZHK+y2TyQnx6DEhzwfmAAqxjigvPLqzoDq/+frP+iHb1mBMKHjoG7Z///+Zrp4jqkRbfnmfO4K/SgvXnU7q3SQIfzi+siGDcjeODSrYMUq0fplVYnJG8QCtU0XBvmY5mv4FZU+tn6Fbb7hxsVMtYMaVSMNktc1fkGFpylM9fy0U30Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e3hrBNnIjYHCu5yFMDVB2fgij9VoKrK22JEb0XSd4S8=;
- b=RAFDOoiSbU+dh+OH6THzyqb+cow6cIgF9TpXlN7czvk5X+Se8+erTCiMRhJwPPJJAyb97KEbm2oFshd9RGkiptrOf7rqLmWjAzOycWsN19soJh3t+PXCPHphlE4ngcB/E5MVecOuPH9J0Xl5mGeX5b1ycjQI4bWEFk5v5F5hmzQaRJ/8gYILnCdeiFuUlQHCfulTW9teUsatS5J9BgFMOc+o7J5D54BxYBi6kHcobdFgsEZ5BNRr/yEYA4LpGVjMXpr8GU4qKANjjPPQ2noKDz+h1CWCaCxEmv8Rf4Av6aIboWO6zCpve6ZfSnwOSohZB187L/UOdloPsKkHxRdjxQ==
+ bh=6/T/gMKI659CN6JUsiUcZsXCaNUDgoistfad7Go90tA=;
+ b=w+5Vq4j6cK+6VDm4mJR4RQhOehVDptE0C90EynPE45ePX2w+XGPoC/NfnNVd9UnsqmexewE42HG6VkDn2S8TOmY+WfvTTJX6lfseNIOPUuW3aO/vcLHW25bfahEZMMBMxSZVIKSrg17u01uXE2OW4CXiMmf7UhslBYg/ovifvgsQwZN8RYuF/ymv2N2mKqUJ4cqZ/y38lVilw2zNPryZ1fmyjYemfc6KKuec5hOftzL0Yt1teeup1qAidOT3CyMDVv9HnJEcNTifaFlTDjDz4YG5gsOhqskzfuNCuQm0Arubg8d1I9U/joMhjOMJdJbWtcB6ZJ3ZKamcl9wjpvgqUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e3hrBNnIjYHCu5yFMDVB2fgij9VoKrK22JEb0XSd4S8=;
- b=rPcHb6yask8KCFnfpy6pFETpRWjnTe0bfXpPIGUtpa6pbsSHYgintbe0J5BS/7xO9BFaf/o6ikr31OaE5oBQMeikjszx8ZaawEm8Q/05ZaLyIa6PCYfgt6XVgmQGYGW6wjGixqT/ZfKEr2j0BbLwhIUfwmSyjncYwETMR4rAuKg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DM4PR12MB6661.namprd12.prod.outlook.com (2603:10b6:8:b7::6) with Microsoft
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6467.namprd11.prod.outlook.com (2603:10b6:208:3a5::18)
+ by DS0PR11MB6350.namprd11.prod.outlook.com (2603:10b6:8:cd::8) with
+ Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8769.27; Tue, 27 May 2025 02:50:50 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%5]) with mapi id 15.20.8769.022; Tue, 27 May 2025
- 02:50:50 +0000
-Message-ID: <f4fa1065-ff9e-4721-9f5f-55a87faeb6c2@amd.com>
-Date: Mon, 26 May 2025 20:50:46 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] drm/amd/display: Adjust prefix of dcn31_apg
- construct function name
-To: Leonardo Gomes <leonardodasigomes@gmail.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: derick.william.moraes@gmail.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250521135851.11110-1-leonardodasigomes@gmail.com>
+ 15.20.8769.22; Tue, 27 May 2025 03:26:37 +0000
+Received: from IA1PR11MB6467.namprd11.prod.outlook.com
+ ([fe80::af0a:68bb:7bbf:5a45]) by IA1PR11MB6467.namprd11.prod.outlook.com
+ ([fe80::af0a:68bb:7bbf:5a45%4]) with mapi id 15.20.8769.022; Tue, 27 May 2025
+ 03:26:37 +0000
+From: "Garg, Nemesa" <nemesa.garg@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Subject: RE: [PATCH 04/10] drm/i915/display: Add filter lut values
+Thread-Topic: [PATCH 04/10] drm/i915/display: Add filter lut values
+Thread-Index: AQHbyLoKAQJ2KBZU+kKowCHRaxNrRbPZ5kOAgAv2WAA=
+Date: Tue, 27 May 2025 03:26:37 +0000
+Message-ID: <IA1PR11MB646733E7EDFCABD190BB9D46E364A@IA1PR11MB6467.namprd11.prod.outlook.com>
+References: <20250519122644.3685679-1-nemesa.garg@intel.com>
+ <20250519122644.3685679-5-nemesa.garg@intel.com> <87ecwkvkfc.fsf@intel.com>
+In-Reply-To: <87ecwkvkfc.fsf@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250521135851.11110-1-leonardodasigomes@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR01CA0089.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:3::25) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6467:EE_|DS0PR11MB6350:EE_
+x-ms-office365-filtering-correlation-id: 3d362509-c893-4c08-cd49-08dd9cce4a0c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?gXqWIErfla597OAixuoLzlecPkZXnQgasHvS/H3CfFF7m55FzD8mLNj6qN3O?=
+ =?us-ascii?Q?UBAjqmwv8PsS472mLGOxCV/C5w9kb4Sykp0dQSe7upoUalkafKW7WOr0t4wC?=
+ =?us-ascii?Q?NLswak1SHrjh8ztIeB09iPEgvRaCnnonc51zkcwBdQjyH+YxQfWxJFTli/Iw?=
+ =?us-ascii?Q?ge2VWQLkrMDhFK4kLauThmwELgq7hHGA0cvW1vDkQzE/1ijivEzASlTEajcl?=
+ =?us-ascii?Q?zU2cRK6IF7+EaCe1JALHceJ3S2x6C1J23aM1LQCvSOzAmNk4VMTVjA+K4MSR?=
+ =?us-ascii?Q?dNIJmyilXmzRqyiFN8v9N3tMdnqtX/klTCN8gpi3upwOPeCfUsNOKvJqG8Jy?=
+ =?us-ascii?Q?X0yo45rMHTjn/wHQI4jMphRxVAa6djMKfL1yw062GS1m8AHU8krwJiarPVJP?=
+ =?us-ascii?Q?ufxQ4goZYAIQ/EXlgnpL+/7Hodp4MUvxVSnANr5L+7mWoJUeSu231dgmR0v7?=
+ =?us-ascii?Q?+fxW0BvKidsWdEN+Cwf8bEneyAkj3r0V5m7KGk0jm36yH6P1LwskP2SMBzd1?=
+ =?us-ascii?Q?vYkPvNAqKs40cG9+v2qpMWMNL52vjgHD5I7R2JB53VOXRBJJg1Vq1K2e8ckr?=
+ =?us-ascii?Q?wGcMpW+X+MDoZDQGZM0F8GbwR5wjlLPqSe9YmDpnaIOOf2AiyJcO3t8dk6fR?=
+ =?us-ascii?Q?L4YMCRVOqkV3hwldb2GbGoWtmt/KC9PoJK5xbBxn2wIa0TV9c2b2UbpP1jNV?=
+ =?us-ascii?Q?pXp9v4yjUPIcXBXTmsvZ/s1elstZDzXilDlnM3DAac5YBMBGzRLqyc6vk0F3?=
+ =?us-ascii?Q?P/qPBRQtVkpPZAchBjgWTbAQdGSXFJj0jdvCESeVk1pehyVwQklQBoBjUj/k?=
+ =?us-ascii?Q?/1wz4DJfSeY4Q5iBPJohf9hmGY52DCecUgnM5tFc+G4v11zOLoVgtUh8UkqU?=
+ =?us-ascii?Q?HPGqOEhT73IwaSN7aQGIBbN8iNOWKcqvpvZo4oPMdXXb4roPEZ5aZaC6o0Wb?=
+ =?us-ascii?Q?LmydhfLNt/kZEEm8jo+8cAGqJEtF8HI62lXiZfJ9ktI4x+kX6lNK98Sxy7qk?=
+ =?us-ascii?Q?rCTQjT0KFey+e9Am+pGD7QGaj2GV1b1SCH5zfGAxp5t67ALYDUTjNcYzyGS/?=
+ =?us-ascii?Q?B+Iri2XNIJaECqwjmNC+3z3/Ko9to9KdlmV7CutmwXq2lWbnu2dzwqNFY3CH?=
+ =?us-ascii?Q?IniRt01TmhkiuIneHlsoDsd/NJFMGpMUGlwzhCOSXtZn/Z94ImSv6RB20gvu?=
+ =?us-ascii?Q?i0esveSYuQSY+maXv9RMMxHlPS/LLNyF52C3UCuuGa12ujcaAi4l16iP1Yl0?=
+ =?us-ascii?Q?7Tq8wSnols2oIAPHPpJUEQKA5SKUpG3Vo+nPe4BF4kT8MLaS93+GHQNfCkai?=
+ =?us-ascii?Q?RfAe3c5bDWDIHf30qJnLL/1RJaXWnbwzQljcOfspcxW23/0pHIUlMlw6sQZK?=
+ =?us-ascii?Q?DTwEZPB6LVL/Kzf+f8VwaYR7SlgCQU0xj3OwiG2lFxmrjo6y4JfJXxdB+SZH?=
+ =?us-ascii?Q?cXu4LMnIyd1QhgSsijo5BR3yt6ZekDy15xnPb9MZF9FLh75r4jmk3Q=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB6467.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WqmiKZLOudZlrg7mJWT3ZovKIXGNMXE7klyqcqmfkjcY1FFJLNx/LRnduR6y?=
+ =?us-ascii?Q?BbkHkVIcrSeHgXXODc50kx2wgreYcer3CkhZZUP6Vxh0Ub7u/PMvLg/1D53j?=
+ =?us-ascii?Q?TpL8Jj6vJlfdRt/sVRimMM84Z0qmmd5VUIvj6n1nxGwqMuJoM4PxL06bgpx5?=
+ =?us-ascii?Q?KZHpkOR5W53XYO1MT4NUBUOuHh0lfnPOWDR4PAPnoP3IO2d107/oXIiSnrot?=
+ =?us-ascii?Q?+LUBDuc/XHODT5wUCBnBVHD+hv93LNEV1r9pPKIoKxnnw413pQH0wj/3thCJ?=
+ =?us-ascii?Q?e3uDxAVzRp5ud5VXljywIUYmvCaO5BiSjNMqotmMNR5LhwuparyXgStd9i7A?=
+ =?us-ascii?Q?bRs4nB7rYJmbxzFm+HPIXYDfpDCQJSwifAifyNlRDzETg4Roatwv2BQvBDxq?=
+ =?us-ascii?Q?vxQF1/V/3y1uER+ZWJF1a+ZTntmSPRDBfyBuz8wT2x8PR0Ar92+qMqlKht11?=
+ =?us-ascii?Q?rgwt6ORTydv5drEw/6wvQ43remsgsig/mwj5s2Ms8jofcaWXFfwelDGhyu7Y?=
+ =?us-ascii?Q?9XNDvV7pqgjYcwyIXeOoog+yM/GSdD9aYTgesJFj6Oma9Qkun+z90A+t8KAS?=
+ =?us-ascii?Q?VL2jhSc0kVXMWJYkd/nI+rEsP1qMkS4CK6sIvhrZLj57tomgKgiJMppN5w69?=
+ =?us-ascii?Q?KGSIFPPNCpIaPqrCIQSJx+hNgdhDmL30T4Bsmd7ynew4Z/LDm5/EILKlycGy?=
+ =?us-ascii?Q?jGMM3YWML7kT8SfqTRhxunRh/THqdyv0nnNcurrJ4rrni42zb8bNa7Bey/UE?=
+ =?us-ascii?Q?w5ITY4zOr/IjF5SdvLEY455GjcJ0RCIPirqnwYf+MeZLt0vY2ER7PZ1OQPJW?=
+ =?us-ascii?Q?ZV7Aw5+xSxxITryr6+ECW3qxG8LAMAn50qIfWRuk3XFeRXZ/fARF20rQf6Fe?=
+ =?us-ascii?Q?YnOQz/dnRccaPD87pjA5VLohRJcVMmAmSVkb9xIpvmggR4L3QsRscFMQsWbt?=
+ =?us-ascii?Q?diJWPeTqHkNNmCv6dctY2hGCb4ukwf7eX4V8wcfxHEHXkmSntUI3H7xPTmuA?=
+ =?us-ascii?Q?BQVYUu1t3oAeWEUSYvO+4PsJwccOPch01YCgBUt5sG6w0ceYQG/3HRX91GX2?=
+ =?us-ascii?Q?n9ZuBleRcdYRcmy9SH6B7VXDHFFtoruAAHnLk4X//LfsTPahCA0kU7kgzRxV?=
+ =?us-ascii?Q?vP+TQ+vkZ3WzAu7hbY1yklqUDOw6q3s/2n8dLe5dm4h7pPKOWOCX9PJE5Q21?=
+ =?us-ascii?Q?zXCVV+YurpnUIn1txX+v0fsN5h5R1ltzlR8t73zepRQbOfwvi4uS2bIGZOA+?=
+ =?us-ascii?Q?CGYHraeoeCuDZTQblgbsNmJhWKJXco37lhEPS3JTGwam38Ec15T7hJycEy0w?=
+ =?us-ascii?Q?8iPNRK9fFYudzWOP78vUxspVunKebCcOWK8/5HfZzHmuWe2ZQodhThG7IpqT?=
+ =?us-ascii?Q?2sYDa2kuhs1cr7ifAU2ZhuC0BD1sInB2hxLtu3JYG7VLTdEG6tBSSnJgDuVL?=
+ =?us-ascii?Q?Z1Swi5InlWEZ6m0J3aEdT/tom8TCodkqWC2fTU4RsVsW2bAz6V4jEAuL0JgQ?=
+ =?us-ascii?Q?Fbs/tVVjN5gt3LWucgg78JtMrKxIVHvMQoFt4W8bhGqzBNVqS7K+Ip3BgJ1q?=
+ =?us-ascii?Q?k12gxV9FNfvzHd3Kap7/n74z9Z/z4CtjleKjGwtq?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DM4PR12MB6661:EE_
-X-MS-Office365-Filtering-Correlation-Id: fab3c82e-82be-461b-358e-08dd9cc949dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dUg5VEt4UGE4b0prZ3IwL3BrbzBQQ3E3YjZETXZ4Q3BObUlldTFxZmlpazlr?=
- =?utf-8?B?ejgyMy92Z3hMWjR0dEo0alRPZUpva2ZEZFA2b2MwZGJyVVZWT3l0M1d3UGJ4?=
- =?utf-8?B?eWxzT0h0TldkbnZtZnlha25wUEFETlc0REV4RFh3Mjg0WWlXdTdueGoxVDFN?=
- =?utf-8?B?WW9rSnBQU3ZJWVpGVEJPREtyWmNCVDRlekFzOXg3SW80RzZocUlCZTJ0YStM?=
- =?utf-8?B?Z09mTjRra3FPTUpQa3YrU3prQzRGVDgySWxRaEttNjdDdWszdjdRUlRORlNJ?=
- =?utf-8?B?OTV5b0ozQTQxZklxUkRzanU3dWRkZUkwUUIrM1pQamhsRUUvM25xYTdXbEp6?=
- =?utf-8?B?SWc2azl4RzBmZmJYSkphcWJnN1k0WEFWSWFTOUIya24wYTdZZ3lEV3RxYXd1?=
- =?utf-8?B?TmxoRVlYdXNCOW93aTM3QUdaZ3g0cXdMRXUxdU5HZXhIbk54UVV0eUl0QkVX?=
- =?utf-8?B?ZGVFb29nSHBENm1zSnBEeVluZUgwT2NMeDVMaDhLTkE2V0YrMHdnSE1Hc0hV?=
- =?utf-8?B?RGJFL0JINk9TRjFHdzFUejcwUnk3QStvRmVNQlJNWTMvWWlXRjFVYnZYQ0w4?=
- =?utf-8?B?a1hML3RwK3JYVUhuQ0hTMVFHbkl2ZnlLZnkwK3g3S0ZQU3pEUWZydnBubFV2?=
- =?utf-8?B?MDB3dDZuWHh5TVpLOEMvdjBWaDF6eEtoRDhrZkNQaHJKZHpLeTdBekxJbWcw?=
- =?utf-8?B?bzJLMDVvajhQVU83YXo0ZXJSeEQ3MThBRXJvdGpQS3plUFh6QXVQTGIvNlky?=
- =?utf-8?B?UitOVW5LNUpDNy9mbmhob05jZEI3bzRhRU43aExHbVlPay85RVBBdzFFNW1Y?=
- =?utf-8?B?ZnpXSXBhY0U0b1JRYkh6d3lMTVVzZFY4ZlFick5Qc1hDa1I5TDcvNVRMcmhW?=
- =?utf-8?B?M0lMUXNERmlpT0doZm9yc0grT3k2Q1c3WlUxLzdyQkpUbkdocUxqQXo1b3Nr?=
- =?utf-8?B?NDNKeG5TSnNOWDhUcVM0eTRvMkVVaXRSMXZ6OTA3MEtMU1Bvd3ltSGtzYWFM?=
- =?utf-8?B?U0xHRERHNE8rMEYrcEZVNnVHUTI4QklwZmE4T0xuUW14UUtzVmMvMDl0SDN5?=
- =?utf-8?B?UUpsV2s1UkZaVU9FaTU2TUxXSU5iRVNIeUxYb0dOVWFMWFB5WXE2eWV3K25P?=
- =?utf-8?B?ZWxJbWJHNXN0Q2dINThCMzFyMXZFOERzbUxkbGVvZUVMRkdCWXVPamZWRVRp?=
- =?utf-8?B?dUw2YkFhaGhZaDhKYXd1cC9NYXc2TTNYbzFBNmNuUFFlTFZkekxQTC9MTk0y?=
- =?utf-8?B?UGlrWVVjTkV1TEloeVZMeXhVVDlQQitxWW5sOCtHTVA4SXpYcXBieTVDMEY5?=
- =?utf-8?B?djkyK0xDV3dST0dBOGFzaGRHQW5GR0NNK3NmNi9paW5YNkpvOUhxWlVxamg5?=
- =?utf-8?B?K0R3bjN5c1oyZmVRcERxV01TUWQ0QXFXeU1veUI2U3RHV3NEUTB1ZzYrUzF4?=
- =?utf-8?B?OVVYa1lFUmxuTy9ueDZLanRidThHV1VQL2duYnowOURjWldvYjVEaVd0T2Rh?=
- =?utf-8?B?UW14cGhmRTUweC9VT0RjUHJTc2plR0paM0F5ZS93cGxaUG5XblVyQTlwYnRa?=
- =?utf-8?B?RXg0VWo3cU45TVBpMHRpWGpDbzY4V2Vyc3had1BrNDVSYXBGa2lYWXRHVjdp?=
- =?utf-8?B?MmxyQU4vR0IxM25KUDg4MGJaL3VBckxqRWVHazh5dHhlYjRRMzBNb1A4Q0Fk?=
- =?utf-8?B?UUYxRUlqMUtuRjJMU3kzdGZ2MldheDl2TXdKaXlLcFZVVVN3bW1vcUNTc1RT?=
- =?utf-8?B?a2hOVFEyMWJSZkpjZHdyYVIxL28zVzVrL2hUeC9KT0x0amVGVWNOazZGeUw1?=
- =?utf-8?B?d2NZM09hRHJxbnQ1VG5IV0gxNldQREprTFp1QVphd2xRaWdrTFpBQ3h4MFhD?=
- =?utf-8?B?cVIzcTBKYm9iT1lZTWZYYTczWCtXazJsS1Fid1lIMmtMZDdodkZXamltbmVu?=
- =?utf-8?Q?6L5KxgsmOGI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2dESnUxVmp0S2RTclBjRzBZRFBqdFdXVE11Zmt4eWZJREk0dS9xL3I4Ujk3?=
- =?utf-8?B?aGEvN0d6bnA0TitTU2xoMlpDYkpzaml5UjBMWHpOcTJBT2NCem1sekExSC9n?=
- =?utf-8?B?SkRvR3M5S2k1Mnh6K1NPVTgvTStlU1RUNmFPRytCT05UMGNYcFBwUkNWK3pU?=
- =?utf-8?B?TklYdE0xODd5SnN0bGc1RnVldmpsVjB5TG5NZXNqeTVaZWxDTHV0UXljTzlG?=
- =?utf-8?B?OWQyVFpuZ3NjQjFnVUdFMGNNK0U2UU5FYlBYRDZ5c2tibTdHa2svdXVIeTMw?=
- =?utf-8?B?M05GK21JRG13MnFKSFFtR1E2SFNjOEZiTkhOcnB2MGgzUXZTVlQ5ZGR0N1lv?=
- =?utf-8?B?dFlDRGlLWXRWdjQyaHd4YVJ1V0NDdWpoU3BXdWRzRE5zQVBHZnRMaE1aNVh1?=
- =?utf-8?B?RXIzdGg5Z2pIQkFJc0JOaWFVMXRURFRMcFZyWUtvYVk5TTRYb0JqY01pU2Fn?=
- =?utf-8?B?czI4SzZmVW9SdUx5aDJCUjJiYXhacTRvMlV3RlJqMXN3NEdKWHdNaXZwWnUr?=
- =?utf-8?B?Q3F3eHMyVnlvdGpqaHBJOEhaQ1V5YjI2SUlLTTNXaHN1enl0Z3JyTG9XU1Bw?=
- =?utf-8?B?SnNQQzFRUVYvbEpNWkZjL2lnWmxXRWRjSlJ0VFVVaXBZRnBDNG0rbHVTYjRX?=
- =?utf-8?B?OG1KM2lFZGY1Z1RXa29TbjZ1d2x0eWJIVnhKQU9wcE5mRTVkRXFRUkZlWmxn?=
- =?utf-8?B?Rk9LbUZYQlUyaElNWXNSU1ZpWTVlVFl6Yi80cnZNUHpSeDJHa2xQT3RBb3Ay?=
- =?utf-8?B?dU5HNTExV2gxSmNRc01Jc0xtUlV4eFozcHFoVDhVdDRBM0x0UW1BT0ljQXdK?=
- =?utf-8?B?aUtCTStaZUxsUnc1SkhZUkhhRGNuSWFBV1hPMFpuRnFxdDhtcko2T3FrV2VX?=
- =?utf-8?B?akRPVlV6VHAvQ3l0dzVqaGtiQjdtQzN6OFlWVWk3dHRQTUd1RUxYNWNoMmhp?=
- =?utf-8?B?QUFMam9ONU1RSjV6NldsWGJWWkZzSmpjdm5TTDhGQUcvNzZTRDhsMXlPMERQ?=
- =?utf-8?B?eEowbEhVcVZrVG91UWx2VWU2MnNFVm5vN3BJMHFhVUZZcTVCOVVMSXdlUExp?=
- =?utf-8?B?djlSa2M4NWh3UXNKZXgyYXpRdnc3dFJsZkFQNkxpYitTM2ZsaXdQMFQ2RnV4?=
- =?utf-8?B?a3o0UlpmR2hnYUtsRXRVWklUYXJEYjZaZXRNV2wrRXRIb3NzWXM1VHYzRitl?=
- =?utf-8?B?WjRCaCtXRVVBcEg2eTVTVTEvQk9IcnJDMUVraG5vOGhsRUEvbzAwZnIvVXlh?=
- =?utf-8?B?N1MrZjJmbE5oSDJLRysyTXNhU2daa0xqa2RTUjBEM3pVRUZGbHVNSjUvdnNV?=
- =?utf-8?B?U0RTUnNLOHRpdE5Lb3FQVXhIdENlVlFwdnUwemR5V2djL2JMVEZ3dm9KSW5K?=
- =?utf-8?B?UG16SnVFaUpwajVOd1FpUk1Ic0IrdnlFWm1SRHlvSFVIcTBVeWNZTTA2T092?=
- =?utf-8?B?dzMxVmVrVmJyTHN2RzBqTkZaTk5keTV0b3lmWGNobksyQVo1VUlraUNjZW5l?=
- =?utf-8?B?V2lDQkc2bkJoWXBaNmdjUlZHdm5iRFliT1lCeitnYWJSamtwNnhvVVVSc09B?=
- =?utf-8?B?VTdKSnZGQUFhOGpNZzF5alVWUTNuWElrUk1JclhYcWV6UVBMdVBZMlVSVXRy?=
- =?utf-8?B?SkxLK1BtMS9sOVg1UTdlRUs3Y09aWnJXaTNXWUhScGpDK0JzWDVhTHJsSkdM?=
- =?utf-8?B?c1QzTUpBY2ViTm56aS9ONDVzcHRBVXVLVlN2aThLekUwdnBRTDlRdi9OaHE0?=
- =?utf-8?B?RjdPZTVqSHhOdlB5WVNwUEhOK3M4WFArRVhkUG56NnJRNmpuWGJBNzJyYzhy?=
- =?utf-8?B?WFEzM29BOVJ6TEFhT1BtUzB1a28zUjZ1dStJbmI5enJBVjZhMjdiWVlXQ2M5?=
- =?utf-8?B?Z1M2S0xqSnFqR3E4U0FUUE1ONUpiR3Q4SThQVUgwZitrMkpWOC9VaWRTNFkw?=
- =?utf-8?B?WU5FWFpwaEN4aGRva25oOVpYcERjdkw3bjJGMHhUL1JNRTJGTDNFU0hOb0d3?=
- =?utf-8?B?bWsrMUdsWm9uY0dQUE9RcjBlWk0zaUFYeFZhMUF6QlVRY29yNTE4WVZ0cVgx?=
- =?utf-8?B?aXJKV1ZLLy9VamxIVDVxOHZCTXB3ek9uYnErOEdvQXlRRzZWL3RjRkZBVHI3?=
- =?utf-8?Q?A8zGZ4oDM6tMDbPBgw+FhkcEQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fab3c82e-82be-461b-358e-08dd9cc949dc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 02:50:49.9126 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zMbTmXQnhuMWc24qsQ0we2+pDvnKiKWVX/f+o5in7LFylUa5nhJl4tY0MB7lmYeyvLSVqhH2h2CF13WcKiex2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6661
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6467.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d362509-c893-4c08-cd49-08dd9cce4a0c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2025 03:26:37.5570 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: T2e11mg3l4sxNXL9N/N0L+ScJR+mKeHFPZ4ogPTDH5Wnc3PvwL7rdCbdhnSdyMhWcotxhKWG1ksDP78fk9H6WA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6350
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,190 +182,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Leonardo,
 
-Thank you for this patch, but unfortunately some unit test suites depend 
-on the names.
 
-On 5/21/25 07:58, Leonardo Gomes wrote:
-> From: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
-> 
-> Adjust the dcn31_apg construct function name from
-> 'apg31_construct' to 'dcn31_apg_construct'.
-> This helps the ftrace to detect the file by the function name.
-> 
-> Signed-off-by: Leonardo da Silva Gomes <leonardodasigomes@gmail.com>
-> Co-developed-by: Derick Frias <derick.william.moraes@gmail.com>
-> Signed-off-by: Derick Frias <derick.william.moraes@gmail.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c                | 2 +-
->   drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h                | 2 +-
->   drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c  | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c    | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c    | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c    | 2 +-
->   drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c  | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c    | 2 +-
->   drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c  | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c    | 2 +-
->   drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c  | 2 +-
->   .../gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c    | 2 +-
->   12 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-> index 05aac3e444b4..d1ccc9a34b2e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
-> @@ -101,7 +101,7 @@ static struct apg_funcs dcn31_apg_funcs = {
->   	.disable_apg			= apg31_disable,
->   };
->   
-> -void apg31_construct(struct dcn31_apg *apg31,
-> +void dcn31_apg_construct(struct dcn31_apg *apg31,
->   	struct dc_context *ctx,
->   	uint32_t inst,
->   	const struct dcn31_apg_registers *apg_regs,
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-> index 1b81f6773c53..54c6b62195c2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.h
-> @@ -100,7 +100,7 @@ struct dcn31_apg {
->   	const struct dcn31_apg_mask *apg_mask;
->   };
->   
-> -void apg31_construct(struct dcn31_apg *apg3,
-> +void dcn31_apg_construct(struct dcn31_apg *apg3,
->   	struct dc_context *ctx,
->   	uint32_t inst,
->   	const struct dcn31_apg_registers *apg_regs,
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-> index dddddbfef85f..b3553ae26d7c 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c
-> @@ -1207,7 +1207,7 @@ static struct apg *dcn31_apg_create(
->   	if (!apg31)
->   		return NULL;
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-> index 26becc4cb804..be55a3c36a78 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c
-> @@ -1263,7 +1263,7 @@ static struct apg *dcn31_apg_create(
->   	if (!apg31)
->   		return NULL;
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-> index 6c2bb3f63be1..b9847b4bb0f3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
-> @@ -1205,7 +1205,7 @@ static struct apg *dcn31_apg_create(
->   	if (!apg31)
->   		return NULL;
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-> index 568094827212..b6cf2a296ab4 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c
-> @@ -1200,7 +1200,7 @@ static struct apg *dcn31_apg_create(
->   	if (!apg31)
->   		return NULL;
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-> index 2a59cc61ed8c..66fef6f6000e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-> @@ -1187,7 +1187,7 @@ static struct apg *dcn31_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-> index 38d76434683e..9be23da216d0 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn321/dcn321_resource.c
-> @@ -1170,7 +1170,7 @@ static struct apg *dcn321_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-> index ffd2b816cd02..27affafb14f1 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-> @@ -1252,7 +1252,7 @@ static struct apg *dcn31_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-> index 98f5bc1b929e..d5341b0d59f3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-> @@ -1232,7 +1232,7 @@ static struct apg *dcn31_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-> index b6468573dc33..6fb2261c554d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-> @@ -1233,7 +1233,7 @@ static struct apg *dcn31_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-> index 7436dfbdf927..ef4d758bfb5a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
-> @@ -1162,7 +1162,7 @@ static struct apg *dcn401_apg_create(
->   	apg_regs_init(2),
->   	apg_regs_init(3);
->   
-> -	apg31_construct(apg31, ctx, inst,
-> +	dcn31_apg_construct(apg31, ctx, inst,
->   			&apg_regs[inst],
->   			&apg_shift,
->   			&apg_mask);
-
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@linux.intel.com>
+> Sent: Monday, May 19, 2025 6:15 PM
+> To: Garg, Nemesa <nemesa.garg@intel.com>; intel-gfx@lists.freedesktop.org=
+;
+> intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Garg, Nemesa <nemesa.garg@intel.com>; Nautiyal, Ankit K
+> <ankit.k.nautiyal@intel.com>
+> Subject: Re: [PATCH 04/10] drm/i915/display: Add filter lut values
+>=20
+> On Mon, 19 May 2025, Nemesa Garg <nemesa.garg@intel.com> wrote:
+> > Add the register bits related to filter lut values.
+> > These values are golden values and these value has to be loaded one
+> > time while enabling the casf.
+> >
+> > v2: update commit message[Ankit]
+> >
+> > Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+> > Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_casf.c     | 22 +++++++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_casf.h     |  3 +++
+> >  .../gpu/drm/i915/display/intel_casf_regs.h    | 11 ++++++++++
+> >  3 files changed, 36 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_casf.c
+> > b/drivers/gpu/drm/i915/display/intel_casf.c
+> > index 314d3fe19884..6dab67eb77ab 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_casf.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_casf.c
+> > @@ -30,6 +30,28 @@
+> >   * original image.
+> >   */
+> >
+> > +/* Default LUT values to be loaded one time. */ static const u16
+> > +sharpness_lut[] =3D {
+> > +	4095, 2047, 1364, 1022, 816, 678, 579,
+> > +	504, 444, 397, 357, 323, 293, 268, 244, 224,
+> > +	204, 187, 170, 154, 139, 125, 111, 98, 85,
+> > +	73, 60, 48, 36, 24, 12, 0
+> > +};
+> > +
+> > +void intel_filter_lut_load(struct intel_crtc *crtc,
+> > +			   const struct intel_crtc_state *crtc_state)
+>=20
+> Everything else in the file is prefixed intel_casf_, why is this called
+> intel_filter_lut_load()?
+> Will change to intel_casf_lut_load().
+> > +{
+> > +	struct intel_display *display =3D to_intel_display(crtc_state);
+> > +	int i;
+> > +
+> > +	intel_de_write(display, SHRPLUT_INDEX(crtc->pipe),
+> > +		       INDEX_AUTO_INCR | INDEX_VALUE(0));
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(sharpness_lut); i++)
+> > +		intel_de_write(display, SHRPLUT_DATA(crtc->pipe),
+> > +			       sharpness_lut[i]);
+> > +}
+> > +
+> >  void intel_casf_update_strength(struct intel_crtc_state *crtc_state)
+> > {
+> >  	struct intel_display *display =3D to_intel_display(crtc_state); diff
+> > --git a/drivers/gpu/drm/i915/display/intel_casf.h
+> > b/drivers/gpu/drm/i915/display/intel_casf.h
+> > index 83523fe66c48..80642809c08b 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_casf.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_casf.h
+> > @@ -9,9 +9,12 @@
+> >  #include <linux/types.h>
+> >
+> >  struct intel_crtc_state;
+> > +struct intel_crtc;
+> >
+> >  int intel_casf_compute_config(struct intel_crtc_state *crtc_state);
+> > void intel_casf_update_strength(struct intel_crtc_state
+> > *new_crtc_state);  void intel_casf_sharpness_get_config(struct
+> > intel_crtc_state *crtc_state);
+> > +void intel_filter_lut_load(struct intel_crtc *crtc,
+> > +			   const struct intel_crtc_state *crtc_state);
+> >
+> >  #endif /* __INTEL_CASF_H__ */
+> > diff --git a/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> > b/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> > index c24ba281ae37..b96950a48335 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_casf_regs.h
+> > @@ -19,4 +19,15 @@
+> >  #define   SHARPNESS_FILTER_SIZE_5X5
+> REG_FIELD_PREP(FILTER_SIZE_MASK, 1)
+> >  #define   SHARPNESS_FILTER_SIZE_7X7
+> REG_FIELD_PREP(FILTER_SIZE_MASK, 2)
+> >
+> > +#define _SHRPLUT_DATA_A                        0x682B8
+> > +#define _SHRPLUT_DATA_B                        0x68AB8
+> > +#define SHRPLUT_DATA(pipe)             _MMIO_PIPE(pipe,
+> _SHRPLUT_DATA_A, _SHRPLUT_DATA_B)
+> > +
+> > +#define _SHRPLUT_INDEX_A               0x682B4
+> > +#define _SHRPLUT_INDEX_B               0x68AB4
+> > +#define SHRPLUT_INDEX(pipe)            _MMIO_PIPE(pipe,
+> _SHRPLUT_INDEX_A, _SHRPLUT_INDEX_B)
+> > +#define   INDEX_AUTO_INCR              REG_BIT(10)
+> > +#define   INDEX_VALUE_MASK             REG_GENMASK(4, 0)
+> > +#define   INDEX_VALUE(x)               REG_FIELD_PREP(INDEX_VALUE_MASK=
+,
+> (x))
+> > +
+> >  #endif /* __INTEL_CASF_REGS__ */
+>=20
+> --
+> Jani Nikula, Intel
