@@ -2,76 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7367AC4D8E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 13:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F93AC4DAB
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 13:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B71A10E4A7;
-	Tue, 27 May 2025 11:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E09E10E457;
+	Tue, 27 May 2025 11:37:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OPsvpfSD";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SWrBKLk2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17710E4AE;
- Tue, 27 May 2025 11:34:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A2DBA5C566D;
- Tue, 27 May 2025 11:31:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9480DC4CEEB;
- Tue, 27 May 2025 11:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748345643;
- bh=YTLYU9LWSJhsBRbF0nwekUco3urr9nhUJqZ1xPPWD6I=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=OPsvpfSDXqVNMHu6O72FeusLJj/fe/bJsamEvSE117gXDT+bqkiXRWfandboGlnnX
- OAEwVtmCXHq6aZL790iu1Ek31lvbZFvlzDM2DTgRyrbpEq9QzuDQv9jaTi2SVm6oZO
- GJXV/sCT/xPM+lInvjKiOZpjSFb0kwk1D3pn6HcdDJWejzsH+jmquukuhn7ksJkKnK
- /YmTRxe7fhajBK6EynaFK+imu0U3K/xkZd+1pWe1zxXxMI79KsAHUvfWxb4lF1KZRf
- XEYVD1A4wACGg2gQNI9t8pAeuXGGCc1efWUhX7leW/fCUBCHwaQTln2qTBdhrLfu8M
- Qiag53s0Be5LQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 27 May 2025 07:33:40 -0400
-Subject: [PATCH v10 9/9] ref_tracker: eliminate the ref_tracker_dir name field
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB47610E457
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 11:37:27 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 110432B3;
+ Tue, 27 May 2025 13:36:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1748345819;
+ bh=3xVSu3LAO8ejto8P4HUOR3VlVYE832vsZyyvQ9W40bw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SWrBKLk2Cvg0dEp2NbVCGdD9HP4Dwtn3kMimBL1ZPYfb8dKGyffKKm14NRKrR46u7
+ SDnwvhSBGycZ8qPMGJApcgHxdta7aHvqcBdezKGuKg2HrpCevIJlgsfHFvb3yiGUdP
+ 7EBDdVgJxsafr7m1QFpfcaax+gH1jt9oRNXaX7n4=
+Message-ID: <027ad6e9-5070-43f2-a082-fd498cc6d31d@ideasonboard.com>
+Date: Tue, 27 May 2025 14:37:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250527-reftrack-dbgfs-v10-9-dc55f7705691@kernel.org>
-References: <20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org>
-In-Reply-To: <20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
- Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7499; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=YTLYU9LWSJhsBRbF0nwekUco3urr9nhUJqZ1xPPWD6I=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoNaMX37lKKv9qM6qZoSFnMypTHz5HKkasSkcfe
- 6vmfAFXGX2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDWjFwAKCRAADmhBGVaC
- FQBDEACwwKWpXOrarJH08FEBs3PI31pyaNaGC834qIenHT3CSwcg9OyQ/26xJZBHeMVaI3YOwB4
- W5satPonKqkZi9rLGOHlMEnSYvxoHqSHFv16PZaLZztxu+Pt5iuvDxrnd8/oRMlhyjsYMR07Q+Q
- Jk9S2uZIflWaIkdtre0sAm/ImHVrYJSD4hoxKx5/vZMTfqo4BHDY5nUd8XaRt8e/oXkxjMAoUqC
- 40oUr6gTBFUF5GXMaJZxO3eTj2DhREdWB4fgJY7RdH5JemF1cJcBidBfgQhD0EQyGBX/adeD1+3
- ZKYyIYUo/Ek8JCxjxXPol5puEC+TUlOZWkNefAB/eptzr+0p/W8p97cg13X9zb4B0PXTC2pcz3Q
- GVcpCV0qfYMSfbH7F1/3KPSKcFQIsmZsXgyPTOji2lDI9z7ASsSYRd1QDr9DeS3M8j6rcy2kGpy
- U7GfxOr8Fiwba1ekQsyCgHzopDbOrJ1HebmVLKG2FuYWUzp3h4XQy923o4N7xPNjqVBTrWkueAt
- tW7XiIOCI9AKto/byQI/cSqN25Z4aJ2zfZnEBv4m54vsjZYnGkwzn5pmEZoEHgknd/Z76g/zU8c
- 7cOLpEEZ6LTGRAF4bF7hb19+gAF3UPPtfWbljLPs7axNcNqp7uL3N3yVUGO8UcUHlvtDcvk2VNc
- SXR/qw3S6HRW3kA==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 2/3] drm/bridge: cadence: cdns-mhdp8546*: Change
+ drm_connector from pointer to structure
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, jani.nikula@intel.com,
+ andy.yan@rock-chips.com, mordan@ispras.ru, linux@treblig.org,
+ viro@zeniv.linux.org.uk, yamonkar@cadence.com, sjakhade@cadence.com,
+ quentin.schulz@free-electrons.com, jsarha@ti.com,
+ linux-kernel@vger.kernel.org, devarsht@ti.com, dianders@chromium.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
+ alexander.stein@ew.tq-group.com
+References: <20250521073237.366463-1-j-choudhary@ti.com>
+ <20250521073237.366463-3-j-choudhary@ti.com>
+ <19dd2795-c693-4c1a-989c-8b3bc2b3cdfd@ideasonboard.com>
+ <493afc6c-59a0-4f6b-9a9e-568dd2eff873@ti.com>
+ <2a15263b-2d36-4c46-be0f-4145069d134f@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <2a15263b-2d36-4c46-be0f-4145069d134f@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,189 +112,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have dentries and the ability to create meaningful symlinks
-to them, don't keep a name string in each tracker. Switch the output
-format to print "class@address", and drop the name field.
+Hi,
 
-Also, add a kerneldoc header for ref_tracker_dir_init().
+On 27/05/2025 13:39, Jayesh Choudhary wrote:
+> 
+> 
+> On 27/05/25 14:59, Jayesh Choudhary wrote:
+>> Hello Tomi,
+>>
+>> On 27/05/25 13:28, Tomi Valkeinen wrote:
+>>> Hi,
+>>>
+>>> On 21/05/2025 10:32, Jayesh Choudhary wrote:
+>>>> After adding DBANC framework, mhdp->connector is not initialised during
+>>>> bridge calls. But the asyncronous work scheduled depends on the
+>>>> connector.
+>>>> We cannot get to drm_atomic_state in these asyncronous calls running on
+>>>> worker threads. So we need to store the data that we need in mhdp
+>>>> bridge
+>>>> structure.
+>>>> Like other bridge drivers, use drm_connector pointer instead of
+>>>> structure
+>>>> and make appropriate changes to the conditionals and assignments
+>>>> related
+>>>> to mhdp->connector.
+>>>> Also, in the atomic enable call, move the connector  and connector
+>>>> state
+>>>> calls above, so that we do have a connector before we can retry the
+>>>> asyncronous work in case of any failure.
+>>>>
+>>>
+>>> I don't quite understand this patch. You change the mhdp->connector to a
+>>> pointer, which is set at bridge_enable and cleared at bridge_disable.
+>>> Then you change the "mhdp->connector.dev" checks to "mhdp->connector".
+>>>
+>>> So, now in e.g. cdns_mhdp_fw_cb(), we check for mhdp->connector, which
+>>> is set at bridge_enable(). Can we ever have the bridge enabled before
+>>> the fb has been loaded? What is the check even supposed to do there?
+>>>
+>>> Another in cdns_mhdp_hpd_work(), it checks for mhdp->connector. So...
+>>> HPD code behaves differently based on if the bridge has been enabled or
+>>> not? What is it supposed to do?
+>>>
+>>> Isn't the whole "if (mhdp->connector.dev)" code for the legacy
+>>> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR case?
+>>>
+>>>   Tomi
+>>
+>> I misinterpreted your comment in v1[0] regarding finding the connector
+>> from the current state in cdns_mhdp_modeset_retry_fn() and I missed
+>> this. I was more focused on finding a connector for that function.
+>>
+>> For the current code, in all the conditionals involving mhdp->connector,
+>> we are entering else statements as connector is not initialised.
+>> So I will just drop if statements in cdns_mhdp_fw_cb() and
+>> cdns_mhdp_hpd_work() (like you said, its legacy case) while still having
+>> mhdp->connector as pointer as we need it for
+>> cdns_mhdp_modeset_retry_fn() and in cdns-mhdp8546-hdcp driver.
+>>
+>> That should be okay?
+>>
+>> [0]: https://lore.kernel.org/all/e76f94b9-b138-46e7-bb18-
+>> b33dd98c9abb@ideasonboard.com/
+>>
+>> Warm Regards,
+>> Jayesh
+>>
+>>
+> 
+> Tomi,
+> 
+> One more thing here. Should this be squashed with the first patch as
+> this is sort of removing !(DRM_BRIDGE_ATTACH_NO_CONNECTOR) case and
+> associated changes?
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- drivers/gpu/drm/display/drm_dp_tunnel.c |  2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c |  2 +-
- drivers/gpu/drm/i915/intel_wakeref.c    |  2 +-
- include/linux/ref_tracker.h             | 20 ++++++++++++++------
- lib/ref_tracker.c                       |  6 +++---
- lib/test_ref_tracker.c                  |  2 +-
- net/core/dev.c                          |  2 +-
- net/core/net_namespace.c                |  4 ++--
- 8 files changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index b9c12b8bf2a3e400b6d8e9d184145834c603b9e1..1205a4432eb4142344fb6eed1cb5ba5b21ec6953 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -1920,7 +1920,7 @@ drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
- 	}
- 
- #ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
--	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun", "dptun");
-+	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun");
- #endif
- 
- 	for (i = 0; i < max_group_count; i++) {
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 3fdab3b44c08cea16ac2f73aafc2bea2ffbb19e7..c12b5d0e16fa363f3caede372e7a2031676aa7b5 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -60,7 +60,7 @@ static struct drm_i915_private *rpm_to_i915(struct intel_runtime_pm *rpm)
- static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- {
- 	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT,
--			     "intel_runtime_pm", dev_name(rpm->kdev));
-+			     "intel_runtime_pm");
- }
- 
- static intel_wakeref_t
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-index 5269e64c58a49884f5d712557546272bfdeb8417..615fb77809291be34d94600fdd4d919461a22720 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.c
-+++ b/drivers/gpu/drm/i915/intel_wakeref.c
-@@ -114,7 +114,7 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
- 			 "wakeref.work", &key->work, 0);
- 
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
--	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref", name);
-+	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref");
- #endif
- }
- 
-diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
-index ddc5a7b2bd84692bbc1e1ae67674ec2c6857e1ec..5878e7fce712930700054033ff5f21547e75224f 100644
---- a/include/linux/ref_tracker.h
-+++ b/include/linux/ref_tracker.h
-@@ -24,7 +24,6 @@ struct ref_tracker_dir {
- 	struct dentry		*dentry;
- 	struct dentry		*symlink;
- #endif
--	char			name[32];
- #endif
- };
- 
-@@ -48,10 +47,21 @@ void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
- 
- #endif /* CONFIG_DEBUG_FS */
- 
-+/**
-+ * ref_tracker_dir_init - initialize a ref_tracker dir
-+ * @dir: ref_tracker_dir to be initialized
-+ * @quarantine_count: max number of entries to be tracked
-+ * @class: pointer to static string that describes object type
-+ *
-+ * Initialize a ref_tracker_dir. If debugfs is configured, then a file
-+ * will also be created for it under the top-level ref_tracker debugfs
-+ * directory.
-+ *
-+ * Note that @class must point to a static string.
-+ */
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- 	INIT_LIST_HEAD(&dir->list);
- 	INIT_LIST_HEAD(&dir->quarantine);
-@@ -65,7 +75,6 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 	dir->dentry = NULL;
- 	dir->symlink = NULL;
- #endif
--	strscpy(dir->name, name, sizeof(dir->name));
- 	ref_tracker_dir_debugfs(dir);
- 	stack_depot_init();
- }
-@@ -90,8 +99,7 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- }
- 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index 5e84e5fd78e147a036d4adb511e657da07866a55..5fb384dd919e1f1ad632eaf595b954118bcfddab 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -123,7 +123,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 	stats = ref_tracker_get_stats(dir, display_limit);
- 	if (IS_ERR(stats)) {
- 		pr_ostream(s, "%s%s@%p: couldn't get stats, error %pe\n",
--			   s->prefix, dir->name, dir, stats);
-+			   s->prefix, dir->class, dir, stats);
- 		return;
- 	}
- 
-@@ -134,14 +134,14 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 		if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
- 			sbuf[0] = 0;
- 		pr_ostream(s, "%s%s@%p has %d/%d users at\n%s\n", s->prefix,
--			   dir->name, dir, stats->stacks[i].count,
-+			   dir->class, dir, stats->stacks[i].count,
- 			   stats->total, sbuf);
- 		skipped -= stats->stacks[i].count;
- 	}
- 
- 	if (skipped)
- 		pr_ostream(s, "%s%s@%p skipped reports about %d/%d users.\n",
--			   s->prefix, dir->name, dir, skipped, stats->total);
-+			   s->prefix, dir->class, dir, skipped, stats->total);
- 
- 	kfree(sbuf);
- 
-diff --git a/lib/test_ref_tracker.c b/lib/test_ref_tracker.c
-index d263502a4c1db248f64a66a468e96c8e4cffab25..b983ceb12afcb84ad60360a1e6fec0072e78ef79 100644
---- a/lib/test_ref_tracker.c
-+++ b/lib/test_ref_tracker.c
-@@ -64,7 +64,7 @@ static int __init test_ref_tracker_init(void)
- {
- 	int i;
- 
--	ref_tracker_dir_init(&ref_dir, 100, "selftest", "selftest");
-+	ref_tracker_dir_init(&ref_dir, 100, "selftest");
- 
- 	timer_setup(&test_ref_tracker_timer, test_ref_tracker_timer_func, 0);
- 	mod_timer(&test_ref_tracker_timer, jiffies + 1);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index bac9d29486556023cd99f5101b96b052acb9ba70..a062912525ee573504a9cc252f71aed22693d24f 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11713,7 +11713,7 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 
- 	dev->priv_len = sizeof_priv;
- 
--	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev", name);
-+	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev");
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	dev->pcpu_refcnt = alloc_percpu(int);
- 	if (!dev->pcpu_refcnt)
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index 39b01af90d240df48827e5c3159c3e2253e0a44d..c03757e39c8a334d307fa1b5cc8f03ad3a8df0e0 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -403,8 +403,8 @@ static __net_init void preinit_net(struct net *net, struct user_namespace *user_
- {
- 	refcount_set(&net->passive, 1);
- 	refcount_set(&net->ns.count, 1);
--	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt", "net_refcnt");
--	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt", "net_notrefcnt");
-+	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt");
-+	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt");
- 
- 	get_random_bytes(&net->hash_mix, sizeof(u32));
- 	net->dev_base_seq = 1;
+All the legacy code should be removed in the previous patch, yes. But
+it's not quite clear to me what's going on here. At least parts of this
+patch seem to be... fixing some previous code? You move the
+drm_atomic_get_new_connector_for_encoder() call to be earlier in the
+bridge_enable. That doesn't sound like removing the legacy code. But
+it's not quite clear to me why that's done (or why it wasn't needed
+earlier. or was it?).
 
--- 
-2.49.0
+ Tomi
+
+> 
+>>>
+>>>> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546
+>>>> DPI/DP bridge")
+>>>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>>>> ---
+>>>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 28 ++++++++
+>>>> +----------
+>>>>   .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  2 +-
+>>>>   .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |  8 +++---
+>>>>   3 files changed, 19 insertions(+), 19 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/
+>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>> index 66bd916c2fe9..5388e62f230b 100644
+>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>> @@ -740,7 +740,7 @@ static void cdns_mhdp_fw_cb(const struct
+>>>> firmware *fw, void *context)
+>>>>       bridge_attached = mhdp->bridge_attached;
+>>>>       spin_unlock(&mhdp->start_lock);
+>>>>       if (bridge_attached) {
+>>>> -        if (mhdp->connector.dev)
+>>>> +        if (mhdp->connector)
+>>>>               drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+>>>>           else
+>>>>               drm_bridge_hpd_notify(&mhdp->bridge,
+>>>> cdns_mhdp_detect(mhdp));
+>>>> @@ -1759,17 +1759,25 @@ static void cdns_mhdp_atomic_enable(struct
+>>>> drm_bridge *bridge,
+>>>>       struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>>>>       struct cdns_mhdp_bridge_state *mhdp_state;
+>>>>       struct drm_crtc_state *crtc_state;
+>>>> -    struct drm_connector *connector;
+>>>>       struct drm_connector_state *conn_state;
+>>>>       struct drm_bridge_state *new_state;
+>>>>       const struct drm_display_mode *mode;
+>>>>       u32 resp;
+>>>> -    int ret;
+>>>> +    int ret = 0;
+>>>>       dev_dbg(mhdp->dev, "bridge enable\n");
+>>>>       mutex_lock(&mhdp->link_mutex);
+>>>> +    mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
+>>>> +                                   bridge->encoder);
+>>>> +    if (WARN_ON(!mhdp->connector))
+>>>> +        goto out;
+>>>> +
+>>>> +    conn_state = drm_atomic_get_new_connector_state(state, mhdp-
+>>>> >connector);
+>>>> +    if (WARN_ON(!conn_state))
+>>>> +        goto out;
+>>>> +
+>>>>       if (mhdp->plugged && !mhdp->link_up) {
+>>>>           ret = cdns_mhdp_link_up(mhdp);
+>>>>           if (ret < 0)
+>>>> @@ -1789,15 +1797,6 @@ static void cdns_mhdp_atomic_enable(struct
+>>>> drm_bridge *bridge,
+>>>>       cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+>>>>                   resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
+>>>> -    connector = drm_atomic_get_new_connector_for_encoder(state,
+>>>> -                                 bridge->encoder);
+>>>> -    if (WARN_ON(!connector))
+>>>> -        goto out;
+>>>> -
+>>>> -    conn_state = drm_atomic_get_new_connector_state(state, connector);
+>>>> -    if (WARN_ON(!conn_state))
+>>>> -        goto out;
+>>>> -
+>>>>       if (mhdp->hdcp_supported &&
+>>>>           mhdp->hw_state == MHDP_HW_READY &&
+>>>>           conn_state->content_protection ==
+>>>> @@ -1857,6 +1856,7 @@ static void cdns_mhdp_atomic_disable(struct
+>>>> drm_bridge *bridge,
+>>>>           cdns_mhdp_hdcp_disable(mhdp);
+>>>>       mhdp->bridge_enabled = false;
+>>>> +    mhdp->connector = NULL;
+>>>>       cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+>>>>       resp &= ~CDNS_DP_FRAMER_EN;
+>>>>       resp |= CDNS_DP_NO_VIDEO_MODE;
+>>>> @@ -2157,7 +2157,7 @@ static void cdns_mhdp_modeset_retry_fn(struct
+>>>> work_struct *work)
+>>>>       mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
+>>>> -    conn = &mhdp->connector;
+>>>> +    conn = mhdp->connector;
+>>>>       /* Grab the locks before changing connector property */
+>>>>       mutex_lock(&conn->dev->mode_config.mutex);
+>>>> @@ -2234,7 +2234,7 @@ static void cdns_mhdp_hpd_work(struct
+>>>> work_struct *work)
+>>>>       int ret;
+>>>>       ret = cdns_mhdp_update_link_status(mhdp);
+>>>> -    if (mhdp->connector.dev) {
+>>>> +    if (mhdp->connector) {
+>>>>           if (ret < 0)
+>>>>               schedule_work(&mhdp->modeset_retry_work);
+>>>>           else
+>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/
+>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>> index bad2fc0c7306..b297db53ba28 100644
+>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>> @@ -375,7 +375,7 @@ struct cdns_mhdp_device {
+>>>>        */
+>>>>       struct mutex link_mutex;
+>>>> -    struct drm_connector connector;
+>>>> +    struct drm_connector *connector;
+>>>>       struct drm_bridge bridge;
+>>>>       struct cdns_mhdp_link link;
+>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/
+>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>> index 42248f179b69..59f18c3281ef 100644
+>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>> @@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct
+>>>> cdns_mhdp_device *mhdp)
+>>>>       int ret;
+>>>>       dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
+>>>> -        mhdp->connector.name, mhdp->connector.base.id);
+>>>> +        mhdp->connector->name, mhdp->connector->base.id);
+>>>>       ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
+>>>> @@ -445,7 +445,7 @@ static int cdns_mhdp_hdcp_check_link(struct
+>>>> cdns_mhdp_device *mhdp)
+>>>>       dev_err(mhdp->dev,
+>>>>           "[%s:%d] HDCP link failed, retrying authentication\n",
+>>>> -        mhdp->connector.name, mhdp->connector.base.id);
+>>>> +        mhdp->connector->name, mhdp->connector->base.id);
+>>>>       ret = _cdns_mhdp_hdcp_disable(mhdp);
+>>>>       if (ret) {
+>>>> @@ -487,13 +487,13 @@ static void cdns_mhdp_hdcp_prop_work(struct
+>>>> work_struct *work)
+>>>>       struct cdns_mhdp_device *mhdp = container_of(hdcp,
+>>>>                                struct cdns_mhdp_device,
+>>>>                                hdcp);
+>>>> -    struct drm_device *dev = mhdp->connector.dev;
+>>>> +    struct drm_device *dev = mhdp->connector->dev;
+>>>>       struct drm_connector_state *state;
+>>>>       drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>>>>       mutex_lock(&mhdp->hdcp.mutex);
+>>>>       if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+>>>> -        state = mhdp->connector.state;
+>>>> +        state = mhdp->connector->state;
+>>>>           state->content_protection = mhdp->hdcp.value;
+>>>>       }
+>>>>       mutex_unlock(&mhdp->hdcp.mutex);
+>>>
 
