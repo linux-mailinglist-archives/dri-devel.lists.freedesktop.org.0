@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC015AC52DB
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D2CAC532A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:41:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D5210E534;
-	Tue, 27 May 2025 16:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6660110E189;
+	Tue, 27 May 2025 16:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AKEnlrl8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q6rQThh4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1418510E169;
- Tue, 27 May 2025 16:15:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F6610E15F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 16:41:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748362518; x=1779898518;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=c50It6+BRD8N13Epw0E6/uJWjNpLg3uAfXfV46lbb+g=;
- b=AKEnlrl8k/uJQbyRSj4eh9fdJIWKD3QYisbLyXZFyJr3Uu8ZdsFOuPt9
- jEYsLS2Ii5IoThUd6TTjgBO1PaKxgrl0uZYex7tht0RyHqMPfPEwSBQcK
- yEH1dKl4o3vxZduBP0JxWvKW73VrDWNRsU907UesDZK0FAQUX6A7xkKMw
- jQwDQN1JxARJJRF8CoJ94PpZ5Aq7qrfOygfwRBoFNQgF+9dUqQNz2eOHE
- Z1vVFfvmHNiHtkdKiXQHMEyS/PX6uSMvMt79b8xVmY6UdbBIhEGuKMDnz
- /XGk+R5Z7t1sOEaoaKUJzclgPMlPZgKDchHjFt84KapJa41u8ppo7MIul A==;
-X-CSE-ConnectionGUID: w7OoXi4hTZGEpKQ/ugm9KQ==
-X-CSE-MsgGUID: +Ozj4qWtSAqnXFl0yU5bPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="49471846"
-X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; d="scan'208";a="49471846"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2025 09:14:23 -0700
-X-CSE-ConnectionGUID: 5gFZO3TJSSeQh4kO5PywiA==
-X-CSE-MsgGUID: NsefE/j4QDadofKc/un41A==
+ t=1748364101; x=1779900101;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ukJPA0XtU32Ecq35Tu9JsOdKWxywwRz0NHZNFe5yJx8=;
+ b=Q6rQThh4OTQucjMNWd2vbqczk3g7pkL2vcM6ICF5hDFkhgxHHAzcbw+j
+ wibxdHqbWcCMqUw9FERR4MSADPPZv6lU81I1jQl0rn/YdD9Ob65YjWW2n
+ rIMomtzIZl3IrhUKp6MKomO9JVYn+w3QNA3OOke+v7inFCKS9SlvCyAqy
+ 0CJgg3nY8ha2pPGmXSDaU3TXFCEfF+AYfEkM8wmaHmLA3M/g/a3A9lJkJ
+ JsyEucMRN+8dIL5HLzhthsEKcykE7+FyV2YOHGL9JyNOY6Nh+QH51aUuz
+ 1hxMYdn+02VW8NMk3QG20ihrYpRo7p+Zl0XmcWXt4qroTHKlI+X3DMr+p Q==;
+X-CSE-ConnectionGUID: 0nGZWdohQ5aVP4JzK5eQmw==
+X-CSE-MsgGUID: s+shzE8lS5W3qA11q8nLkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="75753543"
+X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; d="scan'208";a="75753543"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2025 09:41:40 -0700
+X-CSE-ConnectionGUID: DUtYUoYfTRmWnZZqVBzNsA==
+X-CSE-MsgGUID: J7RjXSH3Qi+n5+GKbPS0xw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; d="scan'208";a="147645927"
-Received: from unknown (HELO himal-Super-Server.iind.intel.com)
- ([10.190.239.34])
- by orviesa003.jf.intel.com with ESMTP; 27 May 2025 09:14:20 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 01/19] Introduce drm_gpuvm_sm_map_ops_flags enums for
- sm_map_ops
-Date: Tue, 27 May 2025 22:09:45 +0530
-Message-Id: <20250527164003.1068118-2-himal.prasad.ghimiray@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250527164003.1068118-1-himal.prasad.ghimiray@intel.com>
-References: <20250527164003.1068118-1-himal.prasad.ghimiray@intel.com>
+X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; d="scan'208";a="148028416"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 27 May 2025 09:41:37 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uJxMs-000TLs-2K;
+ Tue, 27 May 2025 16:41:34 +0000
+Date: Wed, 28 May 2025 00:41:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: Re: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
+Message-ID: <202505280026.8VDl0TWN-lkp@intel.com>
+References: <20250527081447.304-1-kernel@airkyi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250527081447.304-1-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,331 +78,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- DRM_GPUVM_SM_MAP_NOT_MADVISE: Default sm_map operations for the input
-  range.
+Hi Chaoyi,
 
-- DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-  drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-user-provided range and split the existing non-GEM object VMA if the
-start or end of the input range lies within it. The operations can
-create up to 2 REMAPS and 2 MAPs. The purpose of this operation is to be
-used by the Xe driver to assign attributes to GPUVMA's within the
-user-defined range. Unlike drm_gpuvm_sm_map_ops_flags in default mode,
-the operation with this flag will never have UNMAPs and
-merges, and can be without any final operations.
+kernel test robot noticed the following build errors:
 
-v2
-- use drm_gpuvm_sm_map_ops_create with flags instead of defining new
-  ops_create (Danilo)
-- Add doc (Danilo)
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on linus/master v6.15 next-20250527]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-v3
-- Fix doc
-- Fix unmapping check
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/drm-rockchip-cdn-dp-Convert-to-drm-bridge/20250527-161941
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20250527081447.304-1-kernel%40airkyi.com
+patch subject: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
+config: i386-buildonly-randconfig-002-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280026.8VDl0TWN-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280026.8VDl0TWN-lkp@intel.com/reproduce)
 
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
----
- drivers/gpu/drm/drm_gpuvm.c            | 93 ++++++++++++++++++++------
- drivers/gpu/drm/nouveau/nouveau_uvmm.c |  1 +
- drivers/gpu/drm/xe/xe_vm.c             |  1 +
- include/drm/drm_gpuvm.h                | 25 ++++++-
- 4 files changed, 98 insertions(+), 22 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280026.8VDl0TWN-lkp@intel.com/
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index f9eb56f24bef..8e06fe79fb9b 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2102,10 +2102,13 @@ static int
- __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		   const struct drm_gpuvm_ops *ops, void *priv,
- 		   u64 req_addr, u64 req_range,
-+		   enum drm_gpuvm_sm_map_ops_flags flags,
- 		   struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	struct drm_gpuva *va, *next;
- 	u64 req_end = req_addr + req_range;
-+	bool is_madvise_ops = (flags == DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE);
-+	bool needs_map = !is_madvise_ops;
- 	int ret;
- 
- 	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req_addr, req_range)))
-@@ -2118,26 +2121,35 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		u64 range = va->va.range;
- 		u64 end = addr + range;
- 		bool merge = !!va->gem.obj;
-+		bool skip_madvise_ops = is_madvise_ops && merge;
- 
-+		needs_map = false;
- 		if (addr == req_addr) {
- 			merge &= obj == req_obj &&
- 				 offset == req_offset;
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = range - req_range,
-@@ -2152,6 +2164,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr < req_addr) {
-@@ -2169,20 +2184,42 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 			u.keep = merge;
- 
- 			if (end == req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
-+				if (skip_madvise_ops)
-+					continue;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops) {
-+					ret = op_map_cb(ops, priv, req_addr,
-+							min(end - req_addr, req_end - end),
-+							NULL, req_offset);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2194,6 +2231,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr > req_addr) {
-@@ -2202,20 +2242,29 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					   (addr - req_addr);
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2230,14 +2279,16 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					return op_map_cb(ops, priv, addr,
-+							(req_end - addr), NULL, req_offset);
- 				break;
- 			}
- 		}
- 	}
--
--	return op_map_cb(ops, priv,
--			 req_addr, req_range,
--			 req_obj, req_offset);
-+	return needs_map ? op_map_cb(ops, priv, req_addr,
-+			   req_range, req_obj, req_offset) : 0;
- }
- 
- static int
-@@ -2336,15 +2387,15 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
- 		 struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	const struct drm_gpuvm_ops *ops = gpuvm->ops;
-+	enum drm_gpuvm_sm_map_ops_flags flags = DRM_GPUVM_SM_MAP_NOT_MADVISE;
- 
- 	if (unlikely(!(ops && ops->sm_step_map &&
- 		       ops->sm_step_remap &&
- 		       ops->sm_step_unmap)))
- 		return -EINVAL;
- 
--	return __drm_gpuvm_sm_map(gpuvm, ops, priv,
--				  req_addr, req_range,
--				  req_obj, req_offset);
-+	return __drm_gpuvm_sm_map(gpuvm, ops, priv, req_addr, req_range,
-+				  flags, req_obj, req_offset);
- }
- EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
- 
-@@ -2486,6 +2537,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops = {
-  * @gpuvm: the &drm_gpuvm representing the GPU VA space
-  * @req_addr: the start address of the new mapping
-  * @req_range: the range of the new mapping
-+ * @drm_gpuvm_sm_map_ops_flag: ops flag determining madvise or not
-  * @req_obj: the &drm_gem_object to map
-  * @req_offset: the offset within the &drm_gem_object
-  *
-@@ -2516,6 +2568,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops = {
- struct drm_gpuva_ops *
- drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 			    u64 req_addr, u64 req_range,
-+			    enum drm_gpuvm_sm_map_ops_flags flags,
- 			    struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	struct drm_gpuva_ops *ops;
-@@ -2535,7 +2588,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 	args.ops = ops;
- 
- 	ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
--				 req_addr, req_range,
-+				 req_addr, req_range, flags,
- 				 req_obj, req_offset);
- 	if (ret)
- 		goto err_free_ops;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..26e13fcdbdb8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1303,6 +1303,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job,
- 			op->ops = drm_gpuvm_sm_map_ops_create(&uvmm->base,
- 							      op->va.addr,
- 							      op->va.range,
-+							      DRM_GPUVM_SM_MAP_NOT_MADVISE,
- 							      op->gem.obj,
- 							      op->gem.offset);
- 			if (IS_ERR(op->ops)) {
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 5a978da411b0..7dd8742f7cd9 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2311,6 +2311,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 	case DRM_XE_VM_BIND_OP_MAP:
- 	case DRM_XE_VM_BIND_OP_MAP_USERPTR:
- 		ops = drm_gpuvm_sm_map_ops_create(&vm->gpuvm, addr, range,
-+						  DRM_GPUVM_SM_MAP_NOT_MADVISE,
- 						  obj, bo_offset_or_userptr);
- 		break;
- 	case DRM_XE_VM_BIND_OP_UNMAP:
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 2a9629377633..c589b886a4fd 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -211,6 +211,27 @@ enum drm_gpuvm_flags {
- 	DRM_GPUVM_USERBITS = BIT(1),
- };
- 
-+/**
-+ * enum drm_gpuvm_sm_map_ops_flags - flags for drm_gpuvm split/merge ops
-+ */
-+enum drm_gpuvm_sm_map_ops_flags {
-+	/**
-+	 * @DRM_GPUVM_SM_MAP_NOT_MADVISE: DEFAULT sm_map ops
-+	 */
-+	DRM_GPUVM_SM_MAP_NOT_MADVISE = 0,
-+
-+	/**
-+	 * @DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-+	 * drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-+	 * user-provided range and split the existing non-GEM object VMA if the
-+	 * start or end of the input range lies within it. The operations can
-+	 * create up to 2 REMAPS and 2 MAPs. Unlike drm_gpuvm_sm_map_ops_flags
-+	 * in default mode, the operation with this flag will never have UNMAPs and
-+	 * merges, and can be without any final operations.
-+	 */
-+	DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE = BIT(0),
-+};
-+
- /**
-  * struct drm_gpuvm - DRM GPU VA Manager
-  *
-@@ -1059,8 +1080,8 @@ struct drm_gpuva_ops {
- #define drm_gpuva_next_op(op) list_next_entry(op, entry)
- 
- struct drm_gpuva_ops *
--drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
--			    u64 addr, u64 range,
-+drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm, u64 addr, u64 range,
-+			    enum drm_gpuvm_sm_map_ops_flags flags,
- 			    struct drm_gem_object *obj, u64 offset);
- struct drm_gpuva_ops *
- drm_gpuvm_sm_unmap_ops_create(struct drm_gpuvm *gpuvm,
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:783:17: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+     783 |                 DRM_DEV_ERROR(bridge->dev, "Invalid format %d\n", daifmt->fmt);
+         |                               ^~~~~~~~~~~
+   include/drm/drm_print.h:504:17: note: expanded from macro 'DRM_DEV_ERROR'
+     504 |         drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+         |                        ^~~
+   include/drm/drm_print.h:488:42: note: passing argument to parameter 'dev' here
+     488 | void drm_dev_printk(const struct device *dev, const char *level,
+         |                                          ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:844:3: error: field designator 'dp_audio_prepare' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_prepare'?
+     844 |         .dp_audio_prepare = cdn_dp_audio_prepare,
+         |          ^~~~~~~~~~~~~~~~
+         |          hdmi_audio_prepare
+   include/drm/drm_bridge.h:702:8: note: 'hdmi_audio_prepare' declared here
+     702 |         int (*hdmi_audio_prepare)(struct drm_connector *connector,
+         |               ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:845:3: error: field designator 'dp_audio_mute_stream' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_mute_stream'?
+     845 |         .dp_audio_mute_stream = cdn_dp_audio_mute_stream,
+         |          ^~~~~~~~~~~~~~~~~~~~
+         |          hdmi_audio_mute_stream
+   include/drm/drm_bridge.h:728:8: note: 'hdmi_audio_mute_stream' declared here
+     728 |         int (*hdmi_audio_mute_stream)(struct drm_connector *connector,
+         |               ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:846:3: error: field designator 'dp_audio_shutdown' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_shutdown'?
+     846 |         .dp_audio_shutdown = cdn_dp_audio_shutdown,
+         |          ^~~~~~~~~~~~~~~~~
+         |          hdmi_audio_shutdown
+   include/drm/drm_bridge.h:716:9: note: 'hdmi_audio_shutdown' declared here
+     716 |         void (*hdmi_audio_shutdown)(struct drm_connector *connector,
+         |                ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:1011:4: error: use of undeclared identifier 'DRM_BRIDGE_OP_DP_AUDIO'
+    1011 |                         DRM_BRIDGE_OP_DP_AUDIO;
+         |                         ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:1046:9: error: use of undeclared label 'err_free_connector'
+    1046 |                         goto err_free_connector;
+         |                              ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:7: error: call to undeclared function 'devm_drm_bridge_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |              ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:7: note: did you mean 'devm_drm_bridge_add'?
+   include/drm/drm_bridge.h:945:5: note: 'devm_drm_bridge_add' declared here
+     945 | int devm_drm_bridge_add(struct device *dev, struct drm_bridge *bridge);
+         |     ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:34: error: expected expression
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |                                         ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:56: error: use of undeclared identifier 'bridge'
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |                                                               ^
+   9 errors generated.
+
+
+vim +783 drivers/gpu/drm/rockchip/cdn-dp-core.c
+
+   755	
+   756	static int cdn_dp_audio_prepare(struct drm_connector *connector,
+   757					struct drm_bridge *bridge,
+   758					struct hdmi_codec_daifmt *daifmt,
+   759					struct hdmi_codec_params *params)
+   760	{
+   761		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   762		struct audio_info audio = {
+   763			.sample_width = params->sample_width,
+   764			.sample_rate = params->sample_rate,
+   765			.channels = params->channels,
+   766		};
+   767		int ret;
+   768	
+   769		mutex_lock(&dp->lock);
+   770		if (!dp->active) {
+   771			ret = -ENODEV;
+   772			goto out;
+   773		}
+   774	
+   775		switch (daifmt->fmt) {
+   776		case HDMI_I2S:
+   777			audio.format = AFMT_I2S;
+   778			break;
+   779		case HDMI_SPDIF:
+   780			audio.format = AFMT_SPDIF;
+   781			break;
+   782		default:
+ > 783			DRM_DEV_ERROR(bridge->dev, "Invalid format %d\n", daifmt->fmt);
+   784			ret = -EINVAL;
+   785			goto out;
+   786		}
+   787	
+   788		ret = cdn_dp_audio_config(dp, &audio);
+   789		if (!ret)
+   790			dp->audio_info = audio;
+   791	
+   792	out:
+   793		mutex_unlock(&dp->lock);
+   794		return ret;
+   795	}
+   796	
+   797	static void cdn_dp_audio_shutdown(struct drm_connector *connector,
+   798					  struct drm_bridge *bridge)
+   799	{
+   800		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   801		int ret;
+   802	
+   803		mutex_lock(&dp->lock);
+   804		if (!dp->active)
+   805			goto out;
+   806	
+   807		ret = cdn_dp_audio_stop(dp, &dp->audio_info);
+   808		if (!ret)
+   809			dp->audio_info.format = AFMT_UNUSED;
+   810	out:
+   811		mutex_unlock(&dp->lock);
+   812	}
+   813	
+   814	static int cdn_dp_audio_mute_stream(struct drm_connector *connector,
+   815					    struct drm_bridge *bridge,
+   816					    bool enable, int direction)
+   817	{
+   818		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   819		int ret;
+   820	
+   821		mutex_lock(&dp->lock);
+   822		if (!dp->active) {
+   823			ret = -ENODEV;
+   824			goto out;
+   825		}
+   826	
+   827		ret = cdn_dp_audio_mute(dp, enable);
+   828	
+   829	out:
+   830		mutex_unlock(&dp->lock);
+   831		return ret;
+   832	}
+   833	
+   834	static const struct drm_bridge_funcs cdn_dp_bridge_funcs = {
+   835		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+   836		.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+   837		.atomic_reset = drm_atomic_helper_bridge_reset,
+   838		.detect = cdn_dp_bridge_detect,
+   839		.edid_read = cdn_dp_bridge_edid_read,
+   840		.atomic_enable = cdn_dp_bridge_atomic_enable,
+   841		.atomic_disable = cdn_dp_bridge_atomic_disable,
+   842		.mode_valid = cdn_dp_bridge_mode_valid,
+   843	
+ > 844		.dp_audio_prepare = cdn_dp_audio_prepare,
+ > 845		.dp_audio_mute_stream = cdn_dp_audio_mute_stream,
+ > 846		.dp_audio_shutdown = cdn_dp_audio_shutdown,
+   847	};
+   848	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
