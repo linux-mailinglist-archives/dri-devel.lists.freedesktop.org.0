@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31D8AC5229
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 17:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE36FAC5238
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 17:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93F1510E423;
-	Tue, 27 May 2025 15:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1694510E4F6;
+	Tue, 27 May 2025 15:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="akLQa5OC";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dkABvHKa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEBF610E423
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 15:35:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7117110E4F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 15:36:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 19A5160EDF;
- Tue, 27 May 2025 15:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F66DC4CEE9;
- Tue, 27 May 2025 15:35:41 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BD35761129;
+ Tue, 27 May 2025 15:36:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07706C4CEE9;
+ Tue, 27 May 2025 15:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1748360141;
- bh=P5uYW1+BYzkmCtbQHSQ4bMG2SL4jxxefuIb5mq+pu+8=;
+ s=korg; t=1748360214;
+ bh=uoZB2xLuusQy2grwbi+1KiWAoYCPkPedsUt7dWfAwCE=;
  h=Subject:To:Cc:From:Date:From;
- b=akLQa5OCppbYCepokUX+fVr8gOTHWrswLFWu4ytjCfyKd6NrZTG+0OmUtYG8z8iOz
- qp54asb+rIVrqwnRhHXJqJm0WPTuABUJ+XqC/U20IBt1r45Vs0NZTB7cKPAeCJwAzq
- 4G5VL7sil4kfgkery4pvIm3xJ+gTt3CZGUSiQhCI=
+ b=dkABvHKaqe6KaDFmXEmklst4iRRLehWW30afDEu4wRe8vu4JrLx1XBrgriivGkHuR
+ Ha/huNLIA9bZfd/fUX/OR3wI+jYixCFWMnqvdwulgftJFJfyZD2rTyG9isov4ElPvF
+ oxzMAJXN42zsCSdQ6TkrE1l4a+hUdU5USHkVXVAg=
 Subject: Patch "drm/gem: Internally test import_attach for imported objects"
- has been added to the 6.12-stable tree
+ has been added to the 6.6-stable tree
 To: airlied@gmail.com, andyshrk@163.com, asrivats@redhat.com,
  boris.brezillon@collabora.com, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
@@ -37,8 +37,8 @@ To: airlied@gmail.com, andyshrk@163.com, asrivats@redhat.com,
  sumit.semwal@linaro.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 27 May 2025 17:35:11 +0200
-Message-ID: <2025052710-turtle-litigate-d36c@gregkh>
+Date: Tue, 27 May 2025 17:36:51 +0200
+Message-ID: <2025052750-oil-pampered-aed6@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,12 +64,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gem: Internally test import_attach for imported objects
 
-to the 6.12-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gem-internally-test-import_attach-for-imported-objects.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -126,7 +126,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/include/drm/drm_gem.h
 +++ b/include/drm/drm_gem.h
-@@ -580,8 +580,7 @@ static inline bool drm_gem_object_is_sha
+@@ -567,8 +567,7 @@ static inline bool drm_gem_object_is_sha
   */
  static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
  {
@@ -140,7 +140,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.12/drm-gem-internally-test-import_attach-for-imported-objects.patch
-queue-6.12/drm-ast-find-vbios-mode-from-regular-display-size.patch
-queue-6.12/drm-gem-test-for-imported-gem-buffers-with-helper.patch
-queue-6.12/drm-atomic-clarify-the-rules-around-drm_atomic_state.patch
+queue-6.6/drm-gem-internally-test-import_attach-for-imported-objects.patch
+queue-6.6/drm-ast-find-vbios-mode-from-regular-display-size.patch
+queue-6.6/drm-gem-test-for-imported-gem-buffers-with-helper.patch
+queue-6.6/drm-atomic-clarify-the-rules-around-drm_atomic_state.patch
