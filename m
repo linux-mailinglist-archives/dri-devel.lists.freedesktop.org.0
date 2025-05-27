@@ -2,85 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33EDAC4594
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 01:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F9AAC45B8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 02:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A0B10E3EF;
-	Mon, 26 May 2025 23:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5027710E38F;
+	Tue, 27 May 2025 00:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="IVfyk5Dv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aOuAdOtS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03FB10E0B8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 23:49:31 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-23461842024so12112605ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 May 2025 16:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1748303370; x=1748908170;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AXwyJdi2Z7FErjZCvW2qksaaTSldIRPNKjI60yd21xM=;
- b=IVfyk5DvmTnD+W0ddBfPotySJeWLw8mWQJHrm2gAIhifhDIOifDnYzj25zCiU8uQ7E
- LU6t8HNVhqTjG/NCf2CUuHTRJ21N1sMeCx2Qv4qHmQXEQq4b/uYyGQJAr3SAdRD1ICPE
- StU/vVUPP5rjE91IbfDkBz9Ik0dPEE/mOBDPMQRhd6uSu3XSQujNuwpi8XmfB7BEyIGE
- Q/tQ9RqeWROLUi/LgPCSt2UeR5s1hFw2vMvnG1LbuuKD/hA7paESbnKONDAZJr5MEo8+
- UBUXvZ6HD+BxQZk+u0OufaEW1xHETz2nMS6NgB5I81h+AhRmkcE/0g+o5HUSYFDvjLqg
- AZXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748303370; x=1748908170;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AXwyJdi2Z7FErjZCvW2qksaaTSldIRPNKjI60yd21xM=;
- b=iJol/umxqFE7IsZ52SpaEbrkrKO7KYL3lUopNjzXe0kGHtYsOPf3nT6X7XkqDxBLI+
- dMAg7b0NAgng5GiHVzGVNX5nDeMtNIpj+MfmgIiJHdJNdpNrmnXGsZIZuOZ/aHRIbRbX
- 2EtaQ8G8Ll16zfuNttfpVmhEohBoW8UjprHDdmRrX9XZp6qYG6gElw/ywMS4KsNvN0c7
- 9QVlfdB2zIoGgg1eHqc1wXksJsdOBD42T4LAp5vHU9UUmpYCj7jzBCGwSB6HF+kQKDDZ
- 9wq9PfFa9dbkA5Er7As/6/ssmqLTIlKphWnlh45Vretq2AQMr/MmkyOZGnki7CECVHPf
- fv5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW62glTs9jp9ku9KOXMabebkEiNU1L4gFqgOUAs+ADmYJQdvwBD4D9Ua2QfFWj8uhmvB32SKYLVnxg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyolt5XQh1ZWUV55fkRXMjdESc8jX9zUdvhH8lXHBDEWNjUjx52
- vYFOXGAmAZVd+u798MnC3Zsw4lHFro5QfMoaAZ8HrM1G7cDBNmwW67T4+2JrfNrToFo=
-X-Gm-Gg: ASbGncvBSEY5C4pzgEKKQ66bHKBEeJKHLaoAx0e+V2HKU6NtPN7cjd/adicDv0Hp3Gi
- byXSHrldpQ+bbaLNXUbKy/DNh00xrj/cvVZLJp2WCHyQ4yG+lUX7d3gmCrso3krggDVHshkJt5V
- UbBDm+uYNZU3gfdwZDQ6rv9rxR6uSkYGXQVZPRHlRDvSjlt+LkhY4P65yWQT/4KazQOEik6I6hd
- l6/HPnToj8HrCEoAHIx2ndAnXyxF+WBQNa4SiPi2adbpDq/xAfm4vrZFb/v8TVW+Mz2s0f5UaoL
- 9ucbYiOpi18S01x07V3gw3Kn30hZqRrmTGoUWQ4X7r3mm1N6ceqGnjbUDyG5TtIo0VOY3QVyFnT
- epIzGVsU/iFZHs4Kk2iwXj8a4bww=
-X-Google-Smtp-Source: AGHT+IFR4C1gnyUZXOZSUw3Jf6eeIp0mOeXOxCZz96DUj0/QhDL0BDLfZ6ck7kCpD/XAYiNnRLMzYw==
-X-Received: by 2002:a17:903:1a30:b0:223:fabd:4f99 with SMTP id
- d9443c01a7336-23414f334a2mr159947665ad.5.1748303370555; 
- Mon, 26 May 2025 16:49:30 -0700 (PDT)
-Received: from dread.disaster.area (pa49-180-184-88.pa.nsw.optusnet.com.au.
- [49.180.184.88]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23452e810basm27313695ad.40.2025.05.26.16.49.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 May 2025 16:49:29 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.98.2)
- (envelope-from <david@fromorbit.com>) id 1uJhZP-00000008ZlC-1Gw0;
- Tue, 27 May 2025 09:49:27 +1000
-Date: Tue, 27 May 2025 09:49:27 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Dave Airlie <airlied@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>, kasong@tencent.com,
- nphamcs@gmail.com
-Subject: Re: list_lru operation for new child memcg?
-Message-ID: <aDT-B0EqqDeqXYFh@dread.disaster.area>
-References: <CAPM=9tyJgHPp5N6XpauFRL1hZDLCG8L+9Gmi7RCLRaK4BN4tzA@mail.gmail.com>
- <aDTmUw-CQYuZ1THd@dread.disaster.area>
- <CAPM=9txBdeJmAhZb1XW=3m-uxPxfDdQgb=PCBvssoJkQQDAdFw@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E49E10E385;
+ Tue, 27 May 2025 00:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748306525; x=1779842525;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=b7WCTdDzsY3ib50iL9lMmkLXGXoRC2TsAT18weiNeMI=;
+ b=aOuAdOtSg0GlpjXGXelG/tzC6x/hDbIn9s4rnfquLaZHLDSbtbRUwn3W
+ wOArn8qLHkiecnYwxg6dLVTxt9t4nqSiqOqhw/DEQnTVX48OYr6wQxkUD
+ zoXgZuS0KW6sQcnLTzUj8QJLl+XtfM9ttKDOrTZ36VeA8CuNHUqXXC5KG
+ iIA3IHcrBJ13JAeDp2lAjeztW7Nlg7gR1PUq0mm7aOX9vKhsgojwc/ita
+ PxhGkH1l2hewI9pzVI+GuKWwfPRPJQMpg4RzDqNF966sDdX3NkqupmAlY
+ FkzMLYqlQWkLg6klk5i+zsKeev+HopS3ZpT6G8eNOWN6s2yCoI3HciOxN Q==;
+X-CSE-ConnectionGUID: hfUMftnoS8WpNRIpLAo9tA==
+X-CSE-MsgGUID: hNGg6jyfRNu30jqCaiFDbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="50163176"
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; d="scan'208";a="50163176"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2025 17:42:05 -0700
+X-CSE-ConnectionGUID: eTTSD+LqToKvDzQ0EUascQ==
+X-CSE-MsgGUID: 0VpP+OZISlmWiR6xJdGwjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; d="scan'208";a="147454221"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 26 May 2025 17:42:00 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uJiOE-000Slo-0w;
+ Tue, 27 May 2025 00:41:58 +0000
+Date: Tue, 27 May 2025 08:41:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH v8 5/6] PCI: Allow drivers to control VF BAR size
+Message-ID: <202505270842.rZMzTQh6-lkp@intel.com>
+References: <20250526214257.3481760-6-michal.winiarski@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPM=9txBdeJmAhZb1XW=3m-uxPxfDdQgb=PCBvssoJkQQDAdFw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250526214257.3481760-6-michal.winiarski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,146 +85,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 27, 2025 at 08:30:22AM +1000, Dave Airlie wrote:
-> On Tue, 27 May 2025 at 08:08, Dave Chinner <david@fromorbit.com> wrote:
-> >
-> > On Tue, May 27, 2025 at 06:32:30AM +1000, Dave Airlie wrote:
-> > > Hey all,
-> > >
-> > > Hope someone here can help me work this out, I've been studying
-> > > list_lru a bit this week for possible use in the GPU driver memory
-> > > pool code.
-> > >
-> > > I understand that when a cgroup goes away, it's lru resources get
-> > > reparented into the parent resource, however I'm wondering about
-> > > operation in the opposite direction and whether this is possible or
-> > > something we'd like to add.
-> >
-> > It's possible, but you need to write the code yourself.
-> >
-> > You might want to look at the zswap code, it has a memcg-aware
-> > global object LRU that charges individual entries to the memcg that
-> > use space in the pool.
-> >
-> > > Scenario:
-> > > 1. Toplevel cgroup - empty LRU
-> > > 2. Child cgroup A created, adds a bunch of special pages to the LRU
-> > > 3. Child cgroup A dies, pages in lru list get reparented to toplevel cgroup
-> > > 4. Child cgroup B created. Now if B wants to get special pages from
-> > > the pool, is it possible for B to get access to the LRU from the
-> > > toplevel cgroup automatically?
-> > >
-> > > Ideally B would takes pages from the
-> > > parent LRU, and put them back into it's LRU, and then reuse the ones
-> > > from it's LRU, and only finally allocate new special pages once it has
-> > > none and the parent cgroup has none as well.
-> >
-> > The list_lru has nothing to do with what context gets a new
-> > reference to the objects on the LRU. This is something that your
-> > pool object lookup/allocation interface would do.
-> >
-> > If your lookup interface is cgroup aware, it can look up the parent,
-> > search it's pool and dequeue from the LRU via:
-> >
-> >         parent_memcg = parent_mem_cgroup(child_memcg);
-> >         <lookup object>
-> >         list_lru_del(<object> ..., parent_memcg);
-> >
-> > parent_memcg). When the child is done with it, it can add it back to
-> > it's own LRU via:
-> >
-> >         list_lru_add(...., child_memcg).
-> 
-> Thanks Dave,
-> 
-> So this seems like something that would need to recurse up to the root
-> cgroup, which makes me wonder if generic code could/should provide it.
-> 
-> list_lru_walk_node already does a bit of policy here, where it walks
-> the non-memcg lru, then walks the per-memcg ones,
+Hi Michał,
 
-That's a part of the  generic "walk everything in the LRU" API
-functionality for list_lru. It isn't policy at all - if a caller
-wants to iterate the entire LRU (e.g. to purge it), we have to walk
-all the memcgs to do that. i.e. the memcg walk is an API
-implementation detail required for correct behaviour of memcg-aware
-list_lrus.
+kernel test robot noticed the following build errors:
 
-It also isn't an ordered scan at all - it iterates the memcgs by
-increasing memcg ID and so should be considered a random order scan
-in terms of cgroup heirarchy. The xarray index is maintained
-internally by the list_lru infrastructure to optimise reparenting
-and "walk everything" operations - it only tracks which memcgs
-actually have objects stored in this list_lru.  It is not intended
-to be in any way ordered or visible externally.
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master v6.15 next-20250526]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Note that the "non-memcg" lru is actually the root memcg in a
-list_lru that is configured with memcg support. Hence doing a
-heirarchical top-down walk will walk the "non-memcg" LRU first.
-e.g. see drop_slab_node() for the iteration, and how shrink_slab()
-specifically handles the root memcg differently to redirect it at
-the "non-memcg" shrinker control configuration that passes a NULL
-memcg and hence operates on the "non-memcg" LRU.
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/PCI-IOV-Restore-VF-resizable-BAR-state-after-reset/20250527-054652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250526214257.3481760-6-michal.winiarski%40intel.com
+patch subject: [PATCH v8 5/6] PCI: Allow drivers to control VF BAR size
+config: csky-randconfig-002-20250527 (https://download.01.org/0day-ci/archive/20250527/202505270842.rZMzTQh6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270842.rZMzTQh6-lkp@intel.com/reproduce)
 
-This tight integration between the shrinkers and list_lru comes
-about from two things: memcg support can be compiled out of the
-kernel, and there are shrinkers and list_lrus that are not memcg
-aware. In both these cases we do not track object in or iterate
-memcgs. The code is written this way because it has to support both
-static compile time memcg disablement and dynamic runtime selection
-of memcg-awareness in the list_lru.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505270842.rZMzTQh6-lkp@intel.com/
 
-> I kinda need that but in reverse, where it walks the memcg, then its
-> ancestors, then the non-memcg lru, just wondering if that makes sense
-> in common code like list_lru_walk_node does?
+All errors (new ones prefixed by >>):
 
-Iterating cgroups in a specific order is not generic list_lru
-functionality. Iterating cgroups is quite complex and requires
-locking and reference counting to do correctly. e.g. look at
-the top down heirarchy walk implemented by mem_cgroup_iter().
+   In file included from ./arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/pci.h:35,
+                    from drivers/pci/iov.c:13:
+   drivers/pci/iov.c: In function 'pci_iov_vf_bar_get_sizes':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/pci/iov.c:10:
+   include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    resource_size_t * {aka unsigned int *}
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'resource_size_t *' {aka 'unsigned int *'}
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   cc1: some warnings being treated as errors
 
-That sort of complexity does not belong in list_lru - if you need to
-walk memcgs in a specific order, you should do so externally by
-following all the croup specific rules for access and lifetimes.
-Then you can use the list_lru node/memcg aware APIs to do perform
-the list_lru manipulations you need to perform on the specific
-internal list_lru list you have already guaranteed will exist and be
-safe to access.
 
-> > > I'm just not seeing where the code for 4 happens, but I'm not fully
-> > > across this all yet either,
-> >
-> > You won't find it, because it doesn't do 4) at all - that's consumer
-> > side functionality, not generic functionality. If you want to have a
-> > pool that is owned by a parent memcg and charge/track it to a child
-> > memcg on allocation, then you need to write the pool management code
-> > that performs this management. The APIs are there to build this sort
-> > of thing, but it's not generic functionality the list_lru provides.
-> 
-> I have the pool bits, just wasn't sure how generic the code to
-> traverse the memcg lrus from the child to the root to see if any level
-> has some pages in it's lru.
+vim +/__div64_32 +199 include/asm-generic/div64.h
 
-Once you have your node/cgroup iteration sorted, you can call
-list_lru_count_one(lru, nid, memcg) to quickly and safely check if
-the LRU for that {node, memcg} LRU contains anything.  If it does,
-then you can traverse it.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  176  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  195  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @199  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203  
 
-This two-phase "low overhead count/costly scan" API is how
-memcg-aware shrinkers efficiently skip empty LRUs. The actual
-node/memcg iteration is completely external to list_lru, the
-list-lru infrastructure simply provides efficient APIs to filter
-which {node, memcg} tuples need to be worked on.
-
-> I can write it in the consumer, but I do
-> think it's quite like list_lru_walk_node just with a different
-> allocation strategy.
-
-I disagree - specifically ordered memcg traversal is not something
-that the list_lru implementation is currently doing, nor should it
-be doing.
-
--Dave.
 -- 
-Dave Chinner
-david@fromorbit.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
