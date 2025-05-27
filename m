@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22ED4AC5B35
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFE3AC5B38
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A0510E00C;
-	Tue, 27 May 2025 20:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8DFF10E520;
+	Tue, 27 May 2025 20:07:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="2b7umvc4";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="CpJ4SqlJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (unknown [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C61D10E537
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:04:19 +0000 (UTC)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C904010E531
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID;
- bh=+l1CShGqzt+9D2PPlurs5WyZsGLSUXWJX83KnmCBDvw=; b=2b7umvc4kxsjdWc42R/9hUS+Ja
- xQt3qo1sfFptrcKJLM5QXwV8PSlWjILYgSqlTpGvUobIN2AwD5FCKqNXFX8MgXhVUEKKHlNKyRHlT
- xPw4dLdJJACJWQqZzm2aA3Mf/nIicj90oR9E1aDNYmomLHFBN7/riREqHoPys19W8QzNCRLPhlLhp
- EiwiHOtHoLoD1DKttMsoAcVKFSAJiSEwNGyD9mSU1LCMhPRSEpmauw8Jv6u889f7jz3jAVAVuTNTU
- Sz0sSmllVRgII+TJbVtpdgFM0PBo5Hsr30OnNurSR8Xn/f5n1zucxTQzc0YH0mnot4O59xdlH60n3
- L7Aw2EUA==;
+ bh=29dI0rmyHnCBcd3TYNMYesrnxgni1Wz/NJQyPEzq/iw=; b=CpJ4SqlJ5oklhQXXaLW7+9uJGA
+ 2npp3DtVuuGmoPkWeLdD/4CJvuxDNK01U7fYKoQzDcMnGIRVKc0fUthWznZhLVQACzSJiQ5l/Faej
+ 5uRfJYDiD2LnKzAeSyDkvcZLP2+2WLNhAnblfj5afInS8vwwroKYo6un1aVu9LwsPN7daz5TeyRYp
+ i1zInwGc3INnYxDfvaRuEo5lTl6vHt+E5E0VmiPCS1L0N9yc7eJFEA36AW4MQX14Z7GE35VAqQsjI
+ 9vpmTYc/l1wxOFrzGT1f4z8Av+ZUHO6Q5bdBmPk0VrhWnY3drCO3fXBSNCKbQIj3WmI7JuBlNX0w0
+ YlRoktnA==;
 Received: from i53875bdb.versanet.de ([83.135.91.219] helo=diego.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1uK0WS-0000Xq-LL; Tue, 27 May 2025 22:03:40 +0200
+ id 1uK0ZG-0000aG-6O; Tue, 27 May 2025 22:06:34 +0200
 From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
 To: dianders@chromium.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- rfoss@kernel.org, dri-devel@lists.freedesktop.org
-Cc: dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, l.stach@pengutronix.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rfoss@kernel.org, dri-devel@lists.freedesktop.org, andy.yan@rock-chips.com
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Damon Ding <damon.ding@rock-chips.com>,
  Damon Ding <damon.ding@rock-chips.com>,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v8] drm/bridge: analogix_dp: Remove the unnecessary calls
- to clk_disable_unprepare() during probing
-Date: Tue, 27 May 2025 22:03:39 +0200
-Message-ID: <2309383.iZASKD2KPV@diego>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [RESEND] Re: [PATCH v8] drm/bridge: analogix_dp: Remove the
+ unnecessary calls to clk_disable_unprepare() during probing
+Date: Tue, 27 May 2025 22:06:33 +0200
+Message-ID: <22709005.EfDdHjke4D@diego>
 In-Reply-To: <20250302083043.3197235-1-damon.ding@rock-chips.com>
 References: <20250302083043.3197235-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
@@ -65,6 +65,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+[resending to update to Dmitry's new address]
 
 Am Sonntag, 2. M=C3=A4rz 2025, 09:30:43 Mitteleurop=C3=A4ische Sommerzeit s=
 chrieb Damon Ding:
