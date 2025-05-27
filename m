@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0540CAC58DE
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 19:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09335AC5606
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 19:17:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DBC10E0DA;
-	Tue, 27 May 2025 17:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9656910E18C;
+	Tue, 27 May 2025 17:17:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oA1eoczi";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NNg+bJxU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E015010E0DA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 17:50:18 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 673A610E0DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 17:17:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 24687614C0;
- Tue, 27 May 2025 17:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF8EC4CEE9;
- Tue, 27 May 2025 17:50:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 88E695C3DD6;
+ Tue, 27 May 2025 17:14:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D13EC4CEEB;
+ Tue, 27 May 2025 17:16:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1748368215;
- bh=6k1840xhtmmJ8vLPO0yw7rK4g00Rdii3B/tCX0s61uQ=;
+ s=korg; t=1748366220;
+ bh=rXR+j7SzkBphvPCQmVf0AQbUzKSDcaE0HgfxPMuKOsI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oA1eoczihpBc3v4Lr7pUxBADdlxQFxVVnaU6ARl7j/zWpnYxdZthfRhR5QR5ftvOB
- lSbo+L6wl071hagFiue1mUaHv5iKTWuH1OOGctIUMDuOr/m74JplkF3fQ6QMOt88sh
- /+p2s8uh4qniKO/Y1aWmPEgWYfUg4yNMoY0Y3C9g=
+ b=NNg+bJxUOAt/PcwQYa/noEn0OWxych4EvIChVQ67RktpCrXiU09rgXyZgKCMj61/B
+ yB7URlKSEYR/BqFJNXFZ0BkmIDjn55P+414KAhI5N8sX02Ml1CKg1L5TajXRO9is+A
+ z5PoTN4te78iJMdKFp+qNmsBU8Hy9AhV69ZeEIvI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -39,14 +39,14 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.14 635/783] drm/gem: Internally test import_attach for
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH 6.12 626/626] drm/gem: Internally test import_attach for
  imported objects
-Date: Tue, 27 May 2025 18:27:12 +0200
-Message-ID: <20250527162539.004348171@linuxfoundation.org>
+Date: Tue, 27 May 2025 18:28:39 +0200
+Message-ID: <20250527162510.435633025@linuxfoundation.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250527162513.035720581@linuxfoundation.org>
-References: <20250527162513.035720581@linuxfoundation.org>
+In-Reply-To: <20250527162445.028718347@linuxfoundation.org>
+References: <20250527162445.028718347@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -68,13 +68,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.14-stable review patch.  If anyone has any objections, please let me know.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 8260731ccad0451207b45844bb66eb161a209218 ]
+commit 8260731ccad0451207b45844bb66eb161a209218 upstream.
 
 Test struct drm_gem_object.import_attach to detect imported objects.
 
@@ -108,16 +108,14 @@ Cc: linaro-mm-sig@lists.linaro.org
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 Link: https://lore.kernel.org/r/20250416065820.26076-1-tzimmermann@suse.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/drm/drm_gem.h | 3 +--
+ include/drm/drm_gem.h |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 2bf893eabb4b2..bcd54020d6ba5 100644
 --- a/include/drm/drm_gem.h
 +++ b/include/drm/drm_gem.h
-@@ -585,8 +585,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+@@ -580,8 +580,7 @@ static inline bool drm_gem_object_is_sha
   */
  static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
  {
@@ -127,8 +125,5 @@ index 2bf893eabb4b2..bcd54020d6ba5 100644
  }
  
  #ifdef CONFIG_LOCKDEP
--- 
-2.39.5
-
 
 
