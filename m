@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05626AC4A21
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 10:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DECAC4A6C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 10:42:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F1510E416;
-	Tue, 27 May 2025 08:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07010E40C;
+	Tue, 27 May 2025 08:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MmB223AX";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bRPUpfUV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1777A10E448
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 08:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748334252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wmg0zgm8bwqGKOccpFTuoOfVUzJFvXK1R5rq2g9wG2w=;
- b=MmB223AXYLQRXrVmKrlXTfYuNhJ8uvJxzJSMYqij2+KoIx4lPtPnvXwxy4Dcb7KyvFSYEl
- jypZ4BAoWrPdNbw8mY2UXHswiB8dGg7g2KSAsHomJCLr7NMMAssbRHiVmkmzyfvcTZIAxn
- DI7iDSv2zlncxMY5xZkYNLrnityjA/I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-7-JaSBKqGdPx-uMr4we00NfA-1; Tue, 27 May 2025 04:24:10 -0400
-X-MC-Unique: JaSBKqGdPx-uMr4we00NfA-1
-X-Mimecast-MFC-AGG-ID: JaSBKqGdPx-uMr4we00NfA_1748334249
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a370309e5cso1768351f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 01:24:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748334249; x=1748939049;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wmg0zgm8bwqGKOccpFTuoOfVUzJFvXK1R5rq2g9wG2w=;
- b=g8KOoeVxM/DCBt5VVkoWhd+3XSTocu/lrGoKCrjzRkwNsYW4cGyOgj5dmE4qSwGku0
- IKd49NBo5f2wfRVdsV0cL5wLEOWDTAMVlUvw1udvl5n3Lgku2QkyOfBl4AH85hWhR6+0
- nLXAvzJNTSfgeQIKv9XkDNbNkHvD14nB/dd8T71PecpIXmrbw4lB6r8S5mz/fq8lLPkp
- No4FV42tmS1JJjFlF4Pq64dVdzElCN5tWnmCAWPsM3/hV2vN7l0BqPlVEW7Bcw17yzbu
- lWf30SpnfXseUaX/atLZ9WDzZaqZ5kZbfX2k8OZjAo6TbqVgG37H8pQ/MWGeSV2SEzs8
- RJkQ==
-X-Gm-Message-State: AOJu0YzWkKqUq8esGPEWTOo+PoOAA2HQh9bP1YLx7V787L7xmj6nGPDd
- LfhA6wnYMOHCnDIS7EKmMxY30ctBMMXKHW8KOQbaoosmBOqSDnNVl+Ep3RIZJRGVZFTD+xbOnv7
- jWRtcuutA0fPxBbNambG9ZrjEdHa97Bt3csPLqx0JJ4CsSji1dazHF0Yuh6il33IHh61eWA==
-X-Gm-Gg: ASbGnct0rM4B9QqYcFISB90h5cwcz8p+oa/2O9J/ZBrSDX2U7enHFpZlWPEKgi/9KXY
- QJ9RiDNWKSnZyc76Vn1Ej/SCwMSmNqbZmc60X3Qbp/L8Qen6k7PS0lHKl4ms27SzYAjn9rPdNOt
- kbFRcjsnnZYAeQelYcHJaced4dlmz86chE9d3yAenfXufPto/aIgnijZYlz9Ep5ylrpVO/VeFyG
- U2lK3jcRu29b9eLOyaYx2/zG3nrqS+Xpv52K/3C0pHRo6BlsJQkV2TZ+6uz8ecDGMCgBmLw0BfL
- MEvIApKifq+exYv+N/ZiZNQGQ/2CqFGnOzy54Se/YVT1dzpMQyBaYHtNSq1+bgww9FMeUQ==
-X-Received: by 2002:a05:6000:2586:b0:3a4:c6bc:df46 with SMTP id
- ffacd0b85a97d-3a4cb498f7cmr9722394f8f.49.1748334249343; 
- Tue, 27 May 2025 01:24:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2NpPfVPLaTXD9jufYOsVImLYDjqmB2qgUWGjuL2yiKQhM/XPh2hThBUvyKuRRzV/QF6aQjw==
-X-Received: by 2002:a05:6000:2586:b0:3a4:c6bc:df46 with SMTP id
- ffacd0b85a97d-3a4cb498f7cmr9722355f8f.49.1748334248920; 
- Tue, 27 May 2025 01:24:08 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4e4f4d58esm39466f8f.28.2025.05.27.01.24.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 May 2025 01:24:08 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Geert
- Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] drm/sitronix: Remove broken backwards-compatibility
- layer
-In-Reply-To: <87msb7ny2p.fsf@minerva.mail-host-address-is-not-set>
-References: <20395b14effe5e2e05a4f0856fdcda51c410329d.1747751592.git.geert+renesas@glider.be>
- <87msb7ny2p.fsf@minerva.mail-host-address-is-not-set>
-Date: Tue, 27 May 2025 10:24:06 +0200
-Message-ID: <87h616tqah.fsf@minerva.mail-host-address-is-not-set>
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2CF10E3DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 08:42:09 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54R8fcPE1702550;
+ Tue, 27 May 2025 03:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1748335298;
+ bh=uxm6tPLxie47q8JFR/KqL0jy99upZdjfBAJB9Y77QkY=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=bRPUpfUVJylm1BQo6OmDuRfKA9Q1TpK8W0eEdS2mi3YjWcKtVE1LRWytRbkIyylCP
+ k4laGkECXlRKNiRsL+Enn52sEBHobShfn9iG32c3Ys/8A2feFRKCgD8iqOtLn3OnXl
+ +FI+BDBt4JQeQ3LwBFnRGrSfp3mhUyw8G93IboFw=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54R8fc9x2512021
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Tue, 27 May 2025 03:41:38 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 27
+ May 2025 03:41:37 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 27 May 2025 03:41:37 -0500
+Received: from [10.24.72.182] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [10.24.72.182])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54R8fUL33286987;
+ Tue, 27 May 2025 03:41:30 -0500
+Message-ID: <dedc889f-ffa2-420b-8b23-c6fff11cdf30@ti.com>
+Date: Tue, 27 May 2025 14:11:29 +0530
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sFogVpOlMXfbWBDrM5b6FUHOPObCAYGW3t-RfZ6993I_1748334249
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/3] drm/bridge: cadence: cdns-mhdp8546-core:
+ Remove legacy support for connector initialisation in bridge
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <lumag@kernel.org>, <jani.nikula@intel.com>, <andy.yan@rock-chips.com>,
+ <mordan@ispras.ru>, <linux@treblig.org>, <viro@zeniv.linux.org.uk>,
+ <yamonkar@cadence.com>, <sjakhade@cadence.com>,
+ <quentin.schulz@free-electrons.com>, <jsarha@ti.com>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
+ <dianders@chromium.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
+ <alexander.stein@ew.tq-group.com>
+References: <20250521073237.366463-1-j-choudhary@ti.com>
+ <20250521073237.366463-2-j-choudhary@ti.com>
+ <ea92f925-7778-477b-aeab-604407260de8@ideasonboard.com>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <ea92f925-7778-477b-aeab-604407260de8@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,36 +84,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Hello Tomi,
 
-> Geert Uytterhoeven <geert+renesas@glider.be> writes:
->
-> Hello Geert,
->
->> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
->> the old symbols were kept, aiming to provide a seamless migration path
->> when running "make olddefconfig" or "make oldconfig".
+On 27/05/25 13:08, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 21/05/2025 10:32, Jayesh Choudhary wrote:
+>> Now that we have DBANC framework, remove the connector initialisation code
+>> as that piece of code is not called if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+>> is used. Only TI K3 platforms consume this driver and tidss (their display
+>> controller) has this flag set. So this legacy support can be dropped.
 >>
->> However, the old compatibility symbols are not visible.  Hence unless
->> they are selected by another symbol (which they are not), they can never
->> be enabled, and no backwards compatibility is provided.
->>
->> Drop the broken mechanism and the old symbols.
->>
->> Fixes: 9b8f32002cddf792 ("drm/sitronix: move tiny Sitronix drivers to their own subdir")
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Why is the series RFC? Does it not work? Is there something here you're
+> not comfortable with?
+
+These changes work without any issue.
+
+I was a little doubtful about the second patch so kept it as RFC.
+
+> 
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 >> ---
->
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> -- 
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 186 +++---------------
+>>   1 file changed, 25 insertions(+), 161 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> index b431e7efd1f0..66bd916c2fe9 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> @@ -1444,56 +1444,6 @@ static const struct drm_edid *cdns_mhdp_edid_read(struct cdns_mhdp_device *mhdp,
+>>   	return drm_edid_read_custom(connector, cdns_mhdp_get_edid_block, mhdp);
+>>   }
+>>   
+>> -static int cdns_mhdp_get_modes(struct drm_connector *connector)
+>> -{
+>> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
+>> -	const struct drm_edid *drm_edid;
+>> -	int num_modes;
+>> -
+>> -	if (!mhdp->plugged)
+>> -		return 0;
+>> -
+>> -	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
+>> -
+>> -	drm_edid_connector_update(connector, drm_edid);
+>> -
+>> -	if (!drm_edid) {
+>> -		dev_err(mhdp->dev, "Failed to read EDID\n");
+>> -		return 0;
+>> -	}
+>> -
+>> -	num_modes = drm_edid_connector_add_modes(connector);
+>> -	drm_edid_free(drm_edid);
+>> -
+>> -	/*
+>> -	 * HACK: Warn about unsupported display formats until we deal
+>> -	 *       with them correctly.
+>> -	 */
+>> -	if (connector->display_info.color_formats &&
+>> -	    !(connector->display_info.color_formats &
+>> -	      mhdp->display_fmt.color_format))
+>> -		dev_warn(mhdp->dev,
+>> -			 "%s: No supported color_format found (0x%08x)\n",
+>> -			__func__, connector->display_info.color_formats);
+>> -
+>> -	if (connector->display_info.bpc &&
+>> -	    connector->display_info.bpc < mhdp->display_fmt.bpc)
+>> -		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
+>> -			 __func__, connector->display_info.bpc,
+>> -			 mhdp->display_fmt.bpc);
+>> -
+>> -	return num_modes;
+>> -}
+>> -
+>> -static int cdns_mhdp_connector_detect(struct drm_connector *conn,
+>> -				      struct drm_modeset_acquire_ctx *ctx,
+>> -				      bool force)
+>> -{
+>> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+>> -
+>> -	return cdns_mhdp_detect(mhdp);
+>> -}
+>> -
+>>   static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
+>>   {
+>>   	u32 bpp;
+>> @@ -1547,114 +1497,6 @@ bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
+>>   	return true;
+>>   }
+>>   
+>> -static
+>> -enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
+>> -					  const struct drm_display_mode *mode)
+>> -{
+>> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+>> -
+>> -	mutex_lock(&mhdp->link_mutex);
+>> -
+>> -	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+>> -				    mhdp->link.rate)) {
+>> -		mutex_unlock(&mhdp->link_mutex);
+>> -		return MODE_CLOCK_HIGH;
+>> -	}
+>> -
+>> -	mutex_unlock(&mhdp->link_mutex);
+>> -	return MODE_OK;
+>> -}
+>> -
+>> -static int cdns_mhdp_connector_atomic_check(struct drm_connector *conn,
+>> -					    struct drm_atomic_state *state)
+>> -{
+>> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+>> -	struct drm_connector_state *old_state, *new_state;
+>> -	struct drm_crtc_state *crtc_state;
+>> -	u64 old_cp, new_cp;
+>> -
+>> -	if (!mhdp->hdcp_supported)
+>> -		return 0;
+>> -
+>> -	old_state = drm_atomic_get_old_connector_state(state, conn);
+>> -	new_state = drm_atomic_get_new_connector_state(state, conn);
+>> -	old_cp = old_state->content_protection;
+>> -	new_cp = new_state->content_protection;
+>> -
+>> -	if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
+>> -	    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+>> -		new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> -		goto mode_changed;
+>> -	}
+>> -
+>> -	if (!new_state->crtc) {
+>> -		if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
+>> -			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> -		return 0;
+>> -	}
+>> -
+>> -	if (old_cp == new_cp ||
+>> -	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+>> -	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED))
+>> -		return 0;
+>> -
+>> -mode_changed:
+>> -	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
+>> -	crtc_state->mode_changed = true;
+>> -
+>> -	return 0;
+>> -}
+>> -
+>> -static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
+>> -	.detect_ctx = cdns_mhdp_connector_detect,
+>> -	.get_modes = cdns_mhdp_get_modes,
+>> -	.mode_valid = cdns_mhdp_mode_valid,
+>> -	.atomic_check = cdns_mhdp_connector_atomic_check,
+>> -};
+>> -
+>> -static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
+>> -	.fill_modes = drm_helper_probe_single_connector_modes,
+>> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>> -	.reset = drm_atomic_helper_connector_reset,
+>> -	.destroy = drm_connector_cleanup,
+>> -};
+>> -
+>> -static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
+>> -{
+>> -	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
+>> -	struct drm_connector *conn = &mhdp->connector;
+>> -	struct drm_bridge *bridge = &mhdp->bridge;
+>> -	int ret;
+>> -
+>> -	conn->polled = DRM_CONNECTOR_POLL_HPD;
+>> -
+>> -	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
+>> -				 DRM_MODE_CONNECTOR_DisplayPort);
+>> -	if (ret) {
+>> -		dev_err(mhdp->dev, "Failed to initialize connector with drm\n");
+>> -		return ret;
+>> -	}
+>> -
+>> -	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
+>> -
+>> -	ret = drm_display_info_set_bus_formats(&conn->display_info,
+>> -					       &bus_format, 1);
+>> -	if (ret)
+>> -		return ret;
+>> -
+>> -	ret = drm_connector_attach_encoder(conn, bridge->encoder);
+>> -	if (ret) {
+>> -		dev_err(mhdp->dev, "Failed to attach connector to encoder\n");
+>> -		return ret;
+>> -	}
+>> -
+>> -	if (mhdp->hdcp_supported)
+>> -		ret = drm_connector_attach_content_protection_property(conn, true);
+>> -
+>> -	return ret;
+>> -}
+>> -
+>>   static int cdns_mhdp_attach(struct drm_bridge *bridge,
+>>   			    struct drm_encoder *encoder,
+>>   			    enum drm_bridge_attach_flags flags)
+>> @@ -1671,9 +1513,11 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
+>>   		return ret;
+>>   
+>>   	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+>> -		ret = cdns_mhdp_connector_init(mhdp);
+>> -		if (ret)
+>> -			goto aux_unregister;
+>> +		ret = -EINVAL;
+>> +		dev_err(mhdp->dev,
+>> +			"Connector initialisation not supported in bridge_attach %d\n",
+>> +			ret);
+>> +		goto aux_unregister;
+>>   	}
+>>   
+>>   	spin_lock(&mhdp->start_lock);
+>> @@ -2158,6 +2002,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
+>>   	return cdns_mhdp_edid_read(mhdp, connector);
+>>   }
+>>   
+>> +static enum drm_mode_status
+>> +cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
+>> +			    const struct drm_display_info *info,
+>> +			    const struct drm_display_mode *mode)
+>> +{
+>> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>> +
+>> +	mutex_lock(&mhdp->link_mutex);
+>> +
+>> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+>> +				    mhdp->link.rate)) {
+>> +		mutex_unlock(&mhdp->link_mutex);
+>> +		return MODE_CLOCK_HIGH;
+>> +	}
+>> +
+>> +	mutex_unlock(&mhdp->link_mutex);
+>> +	return MODE_OK;
+>> +}
+>> +
+>>   static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+>>   	.atomic_enable = cdns_mhdp_atomic_enable,
+>>   	.atomic_disable = cdns_mhdp_atomic_disable,
+>> @@ -2172,6 +2035,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+>>   	.edid_read = cdns_mhdp_bridge_edid_read,
+>>   	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
+>>   	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
+>> +	.mode_valid = cdns_mhdp_bridge_mode_valid,
+>>   };
+>>   
+>>   static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+> 
+> Why do you need to add bridge mode_valid() when removing the legacy
+> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR code?
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Okay. Then I will add the bridge mode_valid as a separate patch.
 
--- 
-Best regards,
+Warm Regards,
+Jayesh
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> 
+>   Tomi
+> 
