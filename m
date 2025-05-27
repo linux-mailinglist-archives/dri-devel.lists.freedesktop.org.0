@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88402AC52A5
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96431AC52B1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:10:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0BF10E17B;
-	Tue, 27 May 2025 16:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7110E282;
+	Tue, 27 May 2025 16:10:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DdDdvhdl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rECuIYBJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0F9010E193
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 16:06:23 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0005910E193
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 16:10:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6BC7A5C060A;
- Tue, 27 May 2025 16:04:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE95C4CEED;
- Tue, 27 May 2025 16:06:18 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B2E73A4EC31;
+ Tue, 27 May 2025 16:10:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B5BC4CEE9;
+ Tue, 27 May 2025 16:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748361979;
- bh=fhnpy/PYcHEwPlpDVydVWjvf/DFa7I6kqd+DrbMW9HA=;
+ s=k20201202; t=1748362234;
+ bh=x02CK+8qrbvy4LwdV881C8rJPLJYRgJj2LP6IK2gJ5U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DdDdvhdl9/WhALce1PvLBmS1u06oCNqHo4C0LhFURX+uCMKDsSKDEWA9HYUjD4PHD
- b+ap64mjxk50hj4TuCL1/9+0ZI7s0FQqKGl0gJGoxZh/paZm9Z2dMCUzUu+mccXC5I
- P9k8WEvtzyItIvWj0Gtyv/ZZ5HGC6Gp/3KxaSI7hOx3HeBr6sjVgi+G2m98bBhTVd4
- ekfvvJ3ruqpVHIiRk3TJI/EEPFIukiDv3xgtXrSvevoiz6M4NbCrJ9PZmV1jyYiLxo
- luMSEb4AUsV5pS7EuZtQ7s2o2aFBMg2H6lqx8OqslM3FoGa0PEcRzjhbBN1SZtiGNh
- NXEnRzsNQsSsA==
-Date: Tue, 27 May 2025 18:06:16 +0200
+ b=rECuIYBJfhCMLhOQr4xdq8+9OdV0x7uoz1jAIY0WoBAVhU5UwLCkeiWkTs08SWR+E
+ ZWGe9Zf0JD/h8HQ/z58OIqh+hYIis4E8vvgSujoQpHwPpzvLGEQytmmyCM+vEMei26
+ /2WNclsqVSGV7YvcHMWBlG3Fec8qD+5s82DaXano8MDGX2WP+E2Rn+Gvk50fkBzgdg
+ JphSEDN3BIM5Opkw689sFzziuU7KL8Vjmj1HgjtxW4lwj6afr04cH09nP+b7sDoHhv
+ FF1BsNlKR3BCV/ERXzKav9GhOlTWzf33Cgbc4oBbEphuhL836rD3MgqSQGj9oJW4/T
+ mcBgI19c8drcw==
+Date: Tue, 27 May 2025 18:10:31 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -46,16 +46,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Hui Pu <Hui.Pu@gehealthcare.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 1/3] drm/tests: bridge: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250527-light-classic-raptor-d81327@houat>
+Subject: Re: [PATCH v8 3/3] drm/tests: bridge: add KUnit tests for
+ devm_drm_bridge_alloc()
+Message-ID: <20250527-smiling-peacock-from-uranus-dc032f@houat>
 References: <20250516-drm-bridge-alloc-doc-test-v8-0-7e356fd58ba5@bootlin.com>
- <20250516-drm-bridge-alloc-doc-test-v8-1-7e356fd58ba5@bootlin.com>
+ <20250516-drm-bridge-alloc-doc-test-v8-3-7e356fd58ba5@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wuleouispyfh5nea"
+ protocol="application/pgp-signature"; boundary="y2prcnw7nnkz2dsu"
 Content-Disposition: inline
-In-Reply-To: <20250516-drm-bridge-alloc-doc-test-v8-1-7e356fd58ba5@bootlin.com>
+In-Reply-To: <20250516-drm-bridge-alloc-doc-test-v8-3-7e356fd58ba5@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,209 +72,202 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---wuleouispyfh5nea
+--y2prcnw7nnkz2dsu
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 1/3] drm/tests: bridge: convert to
- devm_drm_bridge_alloc() API
+Subject: Re: [PATCH v8 3/3] drm/tests: bridge: add KUnit tests for
+ devm_drm_bridge_alloc()
 MIME-Version: 1.0
 
-On Fri, May 16, 2025 at 06:48:37PM +0200, Luca Ceresoli wrote:
-> Use the new DRM bridge allocation API, which is the only supported now, f=
-or
-> the kunit tests.
->=20
-> This change is more massive than for the typical DRM bridge driver because
-> struct drm_bridge_init_priv currently embeds a struct drm_bridge, which is
-> not supported anymore. We new have to use devm_drm_bridge_alloc() to
-> dynamically allocate a "private driver struct", which is a bit awkward he=
-re
-> because there is no real bridge driver. Thus let's add a "dummy" DRM brid=
-ge
-> struct to represent it.
->=20
-> As a nice cleanup we can now move the enable_count and disable_count
-> members, which are counting bridge-specific events, into the new "private
-> driver struct" (and avoid adding new unnecessary indirections).
->=20
-> Also add a trivial bridge_to_dummy_bridge() just like many drivers do.
+On Fri, May 16, 2025 at 06:48:39PM +0200, Luca Ceresoli wrote:
+> Add KUnit tests for the newly introduced devm_drm_bridge_alloc().
 >=20
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >=20
 > ---
 >=20
-> This patch was added in v8.
+> Changed in v8:
+>  - rebase on new patch converting drm_bridge_test.c to
+>    devm_drm_bridge_alloc()
+>  - add check that bridge is removed (thanks to the .destroy callback)
+>  - add a check with get/put
+>=20
+> Changed in v7:
+>  - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
+>  - cleanup commit message
+>=20
+> Changed in v6:
+>  - update to new devm_drm_bridge_alloc() API
+>  - remove drm_test_drm_bridge_put test, not straightforward to write with
+>    the new API and the current notification mechanism
+>  - do not allocate a drm_device: a bridge is allocated without one
+>  - rename some identifiers for easier code reading
+>=20
+> This patch was added in v5.
 > ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 95 +++++++++++++++++++--------=
-------
->  1 file changed, 55 insertions(+), 40 deletions(-)
+>  drivers/gpu/drm/tests/drm_bridge_test.c | 84 +++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 84 insertions(+)
 >=20
 > diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
 sts/drm_bridge_test.c
-> index ff88ec2e911c9cc9a718483f09d4c764f45f991a..f3a625c536f610dc8560b5653=
-1056df7c613f564 100644
+> index f3a625c536f610dc8560b56531056df7c613f564..32db3a82fe6d14a3e9d6536bc=
+f4b19f1bc65969a 100644
 > --- a/drivers/gpu/drm/tests/drm_bridge_test.c
 > +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-> @@ -10,31 +10,45 @@
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_bridge_helper.h>
+>  #include <drm/drm_kunit_helpers.h>
 > =20
+> +#include <kunit/device.h>
 >  #include <kunit/test.h>
 > =20
-> +/*
-> + * Mimick the typical struct defined by a bridge driver, which embeds a
-> + * bridge plus other fields.
-> + *
-> + * Having at least one member before @bridge ensures we test non-zero
-> + * @bridge offset.
-> + */
-> +struct dummy_drm_bridge {
-> +	unsigned int enable_count;
-> +	unsigned int disable_count;
-> +	struct drm_bridge bridge;
-> +};
-> +
-
-If we want to remain consistent with the rest of the names, I guess
-drm_bridge_priv would be a better choice.
-
->  struct drm_bridge_init_priv {
->  	struct drm_device drm;
->  	struct drm_plane *plane;
->  	struct drm_crtc *crtc;
->  	struct drm_encoder encoder;
-> -	struct drm_bridge bridge;
-> +	struct dummy_drm_bridge *test_bridge;
->  	struct drm_connector *connector;
-> -	unsigned int enable_count;
-> -	unsigned int disable_count;
+>  /*
+> @@ -21,6 +22,7 @@ struct dummy_drm_bridge {
+>  	unsigned int enable_count;
+>  	unsigned int disable_count;
+>  	struct drm_bridge bridge;
+> +	void *data;
 >  };
 > =20
-> +static struct dummy_drm_bridge *bridge_to_dummy_bridge(struct drm_bridge=
- *bridge)
+>  struct drm_bridge_init_priv {
+> @@ -422,11 +424,93 @@ static struct kunit_suite drm_bridge_helper_reset_c=
+rtc_test_suite =3D {
+>  	.test_cases =3D drm_bridge_helper_reset_crtc_tests,
+>  };
+> =20
+> +struct drm_bridge_alloc_test_ctx {
 
-bridge_to_priv
+drm_bridge_alloc_priv
 
+> +	struct device *dev;
+> +	struct dummy_drm_bridge *dummy_br;
+> +	bool destroyed;
+
+This can be in drm_bridge_priv
+
+> +};
+> +
+> +static void dummy_drm_bridge_destroy(struct drm_bridge *bridge)
 > +{
-> +	return container_of(bridge, struct dummy_drm_bridge, bridge);
+> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
+> +	struct drm_bridge_alloc_test_ctx *ctx =3D (struct drm_bridge_alloc_test=
+_ctx *)dummy_br->data;
+> +
+> +	ctx->destroyed =3D true;
 > +}
 > +
->  static void drm_test_bridge_enable(struct drm_bridge *bridge)
->  {
-> -	struct drm_bridge_init_priv *priv =3D
-> -		container_of(bridge, struct drm_bridge_init_priv, bridge);
-> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
+> +static const struct drm_bridge_funcs drm_bridge_dummy_funcs =3D {
+> +	.destroy =3D dummy_drm_bridge_destroy,
+> +};
 
-and priv for the variable name is enough here too.
+And same here, you don't need to create yet another function set, just
+add it to the existing ones.
 
-> =20
-> -	priv->enable_count++;
-> +	dummy_br->enable_count++;
->  }
-> =20
->  static void drm_test_bridge_disable(struct drm_bridge *bridge)
->  {
-> -	struct drm_bridge_init_priv *priv =3D
-> -		container_of(bridge, struct drm_bridge_init_priv, bridge);
-> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
-> =20
-> -	priv->disable_count++;
-> +	dummy_br->disable_count++;
->  }
-> =20
->  static const struct drm_bridge_funcs drm_test_bridge_legacy_funcs =3D {
-> @@ -45,19 +59,17 @@ static const struct drm_bridge_funcs drm_test_bridge_=
-legacy_funcs =3D {
->  static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,
->  					  struct drm_atomic_state *state)
->  {
-> -	struct drm_bridge_init_priv *priv =3D
-> -		container_of(bridge, struct drm_bridge_init_priv, bridge);
-> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
-> =20
-> -	priv->enable_count++;
-> +	dummy_br->enable_count++;
->  }
-> =20
->  static void drm_test_bridge_atomic_disable(struct drm_bridge *bridge,
->  					   struct drm_atomic_state *state)
->  {
-> -	struct drm_bridge_init_priv *priv =3D
-> -		container_of(bridge, struct drm_bridge_init_priv, bridge);
-> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
-> =20
-> -	priv->disable_count++;
-> +	dummy_br->disable_count++;
->  }
-> =20
->  static const struct drm_bridge_funcs drm_test_bridge_atomic_funcs =3D {
-> @@ -102,6 +114,10 @@ drm_test_bridge_init(struct kunit *test, const struc=
-t drm_bridge_funcs *funcs)
->  	if (IS_ERR(priv))
->  		return ERR_CAST(priv);
-> =20
-> +	priv->test_bridge =3D devm_drm_bridge_alloc(dev, struct dummy_drm_bridg=
-e, bridge, funcs);
-> +	if (IS_ERR(priv->test_bridge))
-> +		return ERR_CAST(priv->test_bridge);
+> +static int drm_test_bridge_alloc_init(struct kunit *test)
+> +{
+> +	struct drm_bridge_alloc_test_ctx *ctx;
 > +
->  	drm =3D &priv->drm;
->  	priv->plane =3D drm_kunit_helper_create_primary_plane(test, drm,
->  							    NULL,
-> @@ -125,9 +141,8 @@ drm_test_bridge_init(struct kunit *test, const struct=
- drm_bridge_funcs *funcs)
-> =20
->  	enc->possible_crtcs =3D drm_crtc_mask(priv->crtc);
-> =20
-> -	bridge =3D &priv->bridge;
-> +	bridge =3D &priv->test_bridge->bridge;
->  	bridge->type =3D DRM_MODE_CONNECTOR_VIRTUAL;
-> -	bridge->funcs =3D funcs;
-> =20
->  	ret =3D drm_kunit_bridge_add(test, bridge);
->  	if (ret)
-> @@ -173,7 +188,7 @@ static void drm_test_drm_bridge_get_current_state_ato=
-mic(struct kunit *test)
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-> =20
->  retry_commit:
-> -	bridge =3D &priv->bridge;
-> +	bridge =3D &priv->test_bridge->bridge;
->  	bridge_state =3D drm_atomic_get_bridge_state(state, bridge);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bridge_state);
-> =20
-> @@ -228,7 +243,7 @@ static void drm_test_drm_bridge_get_current_state_leg=
-acy(struct kunit *test)
->  	 * locking. The function would return NULL in all cases anyway,
->  	 * so we don't really have any concurrency to worry about.
->  	 */
-> -	bridge =3D &priv->bridge;
-> +	bridge =3D &priv->test_bridge->bridge;
->  	KUNIT_EXPECT_NULL(test, drm_bridge_get_current_state(bridge));
->  }
-> =20
-> @@ -253,7 +268,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_ato=
-mic(struct kunit *test)
->  	struct drm_modeset_acquire_ctx ctx;
->  	struct drm_bridge_init_priv *priv;
->  	struct drm_display_mode *mode;
-> -	struct drm_bridge *bridge;
-> +	struct dummy_drm_bridge *dummy_br;
+> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +
+> +	ctx->dev =3D kunit_device_register(test, "drm-bridge-dev");
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
+> +
+> +	test->priv =3D ctx;
+> +
+> +	ctx->dummy_br =3D devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_brid=
+ge, bridge,
+> +					      &drm_bridge_dummy_funcs);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dummy_br);
+> +
+> +	ctx->dummy_br->data =3D ctx;
+> +
+> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+> +
+> +	return 0;
+> +}
+> +
+> +static void drm_test_drm_bridge_alloc_basic(struct kunit *test)
 
-and bridge_priv here.
+You need a comment explaining what this test is about
 
-The rest looks good
+> +{
+> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
+> +
+> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+> +
+> +	kunit_device_unregister(test, ctx->dev);
+> +	KUNIT_ASSERT_TRUE(test, ctx->destroyed);
+
+EXPECT
+
+> +}
+> +
+> +static void drm_test_drm_bridge_alloc_get_put(struct kunit *test)
+
+Comment here
+
+> +{
+> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
+> +
+> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+> +
+> +	drm_bridge_get(&ctx->dummy_br->bridge);
+> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+
+EXPECT
+
+> +	kunit_device_unregister(test, ctx->dev);
+> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+
+Ditto
+
+> +	drm_bridge_put(&ctx->dummy_br->bridge);
+> +	KUNIT_ASSERT_TRUE(test, ctx->destroyed);
+
+Ditto
+
+> +}
+> +
+> +static struct kunit_case drm_bridge_alloc_tests[] =3D {
+> +	KUNIT_CASE(drm_test_drm_bridge_alloc_basic),
+> +	KUNIT_CASE(drm_test_drm_bridge_alloc_get_put),
+> +	{ }
+> +};
+> +
+> +static struct kunit_suite drm_bridge_alloc_test_suite =3D {
+> +	.name =3D "drm_bridge_alloc",
+> +	.init =3D drm_test_bridge_alloc_init,
+> +	.test_cases =3D drm_bridge_alloc_tests,
+> +};
+> +
+>  kunit_test_suites(
+>  	&drm_bridge_get_current_state_test_suite,
+>  	&drm_bridge_helper_reset_crtc_test_suite,
+> +	&drm_bridge_alloc_test_suite,
+>  );
+> =20
+>  MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
+> +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
+> +
+>  MODULE_DESCRIPTION("Kunit test for drm_bridge functions");
+>  MODULE_LICENSE("GPL");
+
+Looks good otherwise, thanks
 Maxime
 
---wuleouispyfh5nea
+--y2prcnw7nnkz2dsu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDXi+AAKCRAnX84Zoj2+
-dtRQAYDbjcMaz/8a550fi6QrsmkycaBeqok8lCpS4EJHUCa65ELnuaOeziWPUXSd
-t+ioaMEBgI4d1Ql+qCvefbH9zjs3Kkq12Z72QFk7GqUPV1nhjMp2f6k78btttSf7
-HhKh2tDiew==
-=WOE7
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDXj9wAKCRAnX84Zoj2+
+dr/BAX9uVwJKf3m4xtOc++ZZUCTKyhY/iUGf628qH7SRN1zyikZiRnX73TsiKBLo
+cep1bTwBf3Q9JBwvbW2AhtZ2UjUQnjSjjUXHK3pq5H8+oF2Q9CjoqHsfz9LpopfL
+9H5lA102Ww==
+=+xu1
 -----END PGP SIGNATURE-----
 
---wuleouispyfh5nea--
+--y2prcnw7nnkz2dsu--
