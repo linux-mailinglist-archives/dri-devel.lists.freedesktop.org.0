@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DECAC4A6C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 10:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973FBAC4B49
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 11:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07010E40C;
-	Tue, 27 May 2025 08:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F31AC10E441;
+	Tue, 27 May 2025 09:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bRPUpfUV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="An211V9p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE2CF10E3DA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 08:42:09 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54R8fcPE1702550;
- Tue, 27 May 2025 03:41:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1748335298;
- bh=uxm6tPLxie47q8JFR/KqL0jy99upZdjfBAJB9Y77QkY=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=bRPUpfUVJylm1BQo6OmDuRfKA9Q1TpK8W0eEdS2mi3YjWcKtVE1LRWytRbkIyylCP
- k4laGkECXlRKNiRsL+Enn52sEBHobShfn9iG32c3Ys/8A2feFRKCgD8iqOtLn3OnXl
- +FI+BDBt4JQeQ3LwBFnRGrSfp3mhUyw8G93IboFw=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54R8fc9x2512021
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 27 May 2025 03:41:38 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 27
- May 2025 03:41:37 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 27 May 2025 03:41:37 -0500
-Received: from [10.24.72.182] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [10.24.72.182])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54R8fUL33286987;
- Tue, 27 May 2025 03:41:30 -0500
-Message-ID: <dedc889f-ffa2-420b-8b23-c6fff11cdf30@ti.com>
-Date: Tue, 27 May 2025 14:11:29 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/3] drm/bridge: cadence: cdns-mhdp8546-core:
- Remove legacy support for connector initialisation in bridge
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <lumag@kernel.org>, <jani.nikula@intel.com>, <andy.yan@rock-chips.com>,
- <mordan@ispras.ru>, <linux@treblig.org>, <viro@zeniv.linux.org.uk>,
- <yamonkar@cadence.com>, <sjakhade@cadence.com>,
- <quentin.schulz@free-electrons.com>, <jsarha@ti.com>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
- <dianders@chromium.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <alexander.stein@ew.tq-group.com>
-References: <20250521073237.366463-1-j-choudhary@ti.com>
- <20250521073237.366463-2-j-choudhary@ti.com>
- <ea92f925-7778-477b-aeab-604407260de8@ideasonboard.com>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <ea92f925-7778-477b-aeab-604407260de8@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0543710E3FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 09:13:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8251E44933;
+ Tue, 27 May 2025 09:13:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D57D0C4CEE9;
+ Tue, 27 May 2025 09:13:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748337194;
+ bh=abqTtzvfpLe4Uvpk0Uo+xvVDO1TjWy7S8bPep2221yI=;
+ h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
+ b=An211V9p+frR/eitZ0CS/a3bhryu27yCVxgoxqFZOMVdI+puDpHTgtF+tgbMdym2k
+ wDCTba8AVi3lMO6VAjQSR2IAxRNkA1D91n70xH0jN0HmMF1zb/jhPX+9NSWGvb257U
+ WzCQGf5LnVh8S/7mRil2hNWUvvn23FfvsziEVRaKQmUTu2KECrMtbhRTYTsZRrNPuf
+ ZELfY/taBN0VymPO3naAloITWSmVsfra3n2tMFRkXnyb04Xyh0dfmG6PdNYvRiq0rr
+ zVIu19znIxggPgLXvw2iO/wOa6efANsThym1CMhQ+r0IFU6BeTvlpA1oruOBJmx9iI
+ CkcWC9vNi/aYA==
+Content-Type: multipart/signed;
+ boundary=9fcfc53e0fcd83cc188fa2e200cd3fe58dd86edaab762b63b2b775e59452;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Tue, 27 May 2025 11:13:10 +0200
+Message-Id: <DA6TT575Z82D.3MPK8HG5GRL8U@kernel.org>
+Subject: Re: [PATCH v2 03/18] drm/tidss: Adjust the pclk based on the HW
+ capabilities
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, "Francesco Dolcini"
+ <francesco@dolcini.it>, "Aradhya Bhatia" <aradhya.bhatia@linux.dev>,
+ "Devarsh Thakkar" <devarsht@ti.com>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Jyri Sarha"
+ <jyri.sarha@iki.fi>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Vinod Koul"
+ <vkoul@kernel.org>, "Kishon Vijay Abraham I" <kishon@kernel.org>, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>
+X-Mailer: aerc 0.16.0
+References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
+ <20250402-cdns-dsi-impro-v2-3-4a093eaa5e27@ideasonboard.com>
+In-Reply-To: <20250402-cdns-dsi-impro-v2-3-4a093eaa5e27@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,265 +71,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Tomi,
+--9fcfc53e0fcd83cc188fa2e200cd3fe58dd86edaab762b63b2b775e59452
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On 27/05/25 13:08, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 21/05/2025 10:32, Jayesh Choudhary wrote:
->> Now that we have DBANC framework, remove the connector initialisation code
->> as that piece of code is not called if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
->> is used. Only TI K3 platforms consume this driver and tidss (their display
->> controller) has this flag set. So this legacy support can be dropped.
->>
-> 
-> Why is the series RFC? Does it not work? Is there something here you're
-> not comfortable with?
+Hi Tomi,
 
-These changes work without any issue.
+While testing Aardhya's OLDI support patches [1], I've noticed that
+the resulting LVDS clock is wrong if this patch is applied.
 
-I was a little doubtful about the second patch so kept it as RFC.
+> In practice, with the current K3 SoCs, the display PLL is capable of
+> producing very exact clocks, so most likely the rounded rate is the same
+> as the original one.
 
-> 
->> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->> ---
->>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 186 +++---------------
->>   1 file changed, 25 insertions(+), 161 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> index b431e7efd1f0..66bd916c2fe9 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> @@ -1444,56 +1444,6 @@ static const struct drm_edid *cdns_mhdp_edid_read(struct cdns_mhdp_device *mhdp,
->>   	return drm_edid_read_custom(connector, cdns_mhdp_get_edid_block, mhdp);
->>   }
->>   
->> -static int cdns_mhdp_get_modes(struct drm_connector *connector)
->> -{
->> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
->> -	const struct drm_edid *drm_edid;
->> -	int num_modes;
->> -
->> -	if (!mhdp->plugged)
->> -		return 0;
->> -
->> -	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
->> -
->> -	drm_edid_connector_update(connector, drm_edid);
->> -
->> -	if (!drm_edid) {
->> -		dev_err(mhdp->dev, "Failed to read EDID\n");
->> -		return 0;
->> -	}
->> -
->> -	num_modes = drm_edid_connector_add_modes(connector);
->> -	drm_edid_free(drm_edid);
->> -
->> -	/*
->> -	 * HACK: Warn about unsupported display formats until we deal
->> -	 *       with them correctly.
->> -	 */
->> -	if (connector->display_info.color_formats &&
->> -	    !(connector->display_info.color_formats &
->> -	      mhdp->display_fmt.color_format))
->> -		dev_warn(mhdp->dev,
->> -			 "%s: No supported color_format found (0x%08x)\n",
->> -			__func__, connector->display_info.color_formats);
->> -
->> -	if (connector->display_info.bpc &&
->> -	    connector->display_info.bpc < mhdp->display_fmt.bpc)
->> -		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
->> -			 __func__, connector->display_info.bpc,
->> -			 mhdp->display_fmt.bpc);
->> -
->> -	return num_modes;
->> -}
->> -
->> -static int cdns_mhdp_connector_detect(struct drm_connector *conn,
->> -				      struct drm_modeset_acquire_ctx *ctx,
->> -				      bool force)
->> -{
->> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
->> -
->> -	return cdns_mhdp_detect(mhdp);
->> -}
->> -
->>   static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
->>   {
->>   	u32 bpp;
->> @@ -1547,114 +1497,6 @@ bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
->>   	return true;
->>   }
->>   
->> -static
->> -enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
->> -					  const struct drm_display_mode *mode)
->> -{
->> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
->> -
->> -	mutex_lock(&mhdp->link_mutex);
->> -
->> -	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
->> -				    mhdp->link.rate)) {
->> -		mutex_unlock(&mhdp->link_mutex);
->> -		return MODE_CLOCK_HIGH;
->> -	}
->> -
->> -	mutex_unlock(&mhdp->link_mutex);
->> -	return MODE_OK;
->> -}
->> -
->> -static int cdns_mhdp_connector_atomic_check(struct drm_connector *conn,
->> -					    struct drm_atomic_state *state)
->> -{
->> -	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
->> -	struct drm_connector_state *old_state, *new_state;
->> -	struct drm_crtc_state *crtc_state;
->> -	u64 old_cp, new_cp;
->> -
->> -	if (!mhdp->hdcp_supported)
->> -		return 0;
->> -
->> -	old_state = drm_atomic_get_old_connector_state(state, conn);
->> -	new_state = drm_atomic_get_new_connector_state(state, conn);
->> -	old_cp = old_state->content_protection;
->> -	new_cp = new_state->content_protection;
->> -
->> -	if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
->> -	    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
->> -		new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
->> -		goto mode_changed;
->> -	}
->> -
->> -	if (!new_state->crtc) {
->> -		if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
->> -			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
->> -		return 0;
->> -	}
->> -
->> -	if (old_cp == new_cp ||
->> -	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
->> -	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED))
->> -		return 0;
->> -
->> -mode_changed:
->> -	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
->> -	crtc_state->mode_changed = true;
->> -
->> -	return 0;
->> -}
->> -
->> -static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
->> -	.detect_ctx = cdns_mhdp_connector_detect,
->> -	.get_modes = cdns_mhdp_get_modes,
->> -	.mode_valid = cdns_mhdp_mode_valid,
->> -	.atomic_check = cdns_mhdp_connector_atomic_check,
->> -};
->> -
->> -static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
->> -	.fill_modes = drm_helper_probe_single_connector_modes,
->> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> -	.reset = drm_atomic_helper_connector_reset,
->> -	.destroy = drm_connector_cleanup,
->> -};
->> -
->> -static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
->> -{
->> -	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
->> -	struct drm_connector *conn = &mhdp->connector;
->> -	struct drm_bridge *bridge = &mhdp->bridge;
->> -	int ret;
->> -
->> -	conn->polled = DRM_CONNECTOR_POLL_HPD;
->> -
->> -	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
->> -				 DRM_MODE_CONNECTOR_DisplayPort);
->> -	if (ret) {
->> -		dev_err(mhdp->dev, "Failed to initialize connector with drm\n");
->> -		return ret;
->> -	}
->> -
->> -	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
->> -
->> -	ret = drm_display_info_set_bus_formats(&conn->display_info,
->> -					       &bus_format, 1);
->> -	if (ret)
->> -		return ret;
->> -
->> -	ret = drm_connector_attach_encoder(conn, bridge->encoder);
->> -	if (ret) {
->> -		dev_err(mhdp->dev, "Failed to attach connector to encoder\n");
->> -		return ret;
->> -	}
->> -
->> -	if (mhdp->hdcp_supported)
->> -		ret = drm_connector_attach_content_protection_property(conn, true);
->> -
->> -	return ret;
->> -}
->> -
->>   static int cdns_mhdp_attach(struct drm_bridge *bridge,
->>   			    struct drm_encoder *encoder,
->>   			    enum drm_bridge_attach_flags flags)
->> @@ -1671,9 +1513,11 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
->>   		return ret;
->>   
->>   	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
->> -		ret = cdns_mhdp_connector_init(mhdp);
->> -		if (ret)
->> -			goto aux_unregister;
->> +		ret = -EINVAL;
->> +		dev_err(mhdp->dev,
->> +			"Connector initialisation not supported in bridge_attach %d\n",
->> +			ret);
->> +		goto aux_unregister;
->>   	}
->>   
->>   	spin_lock(&mhdp->start_lock);
->> @@ -2158,6 +2002,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
->>   	return cdns_mhdp_edid_read(mhdp, connector);
->>   }
->>   
->> +static enum drm_mode_status
->> +cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
->> +			    const struct drm_display_info *info,
->> +			    const struct drm_display_mode *mode)
->> +{
->> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->> +
->> +	mutex_lock(&mhdp->link_mutex);
->> +
->> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
->> +				    mhdp->link.rate)) {
->> +		mutex_unlock(&mhdp->link_mutex);
->> +		return MODE_CLOCK_HIGH;
->> +	}
->> +
->> +	mutex_unlock(&mhdp->link_mutex);
->> +	return MODE_OK;
->> +}
->> +
->>   static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->>   	.atomic_enable = cdns_mhdp_atomic_enable,
->>   	.atomic_disable = cdns_mhdp_atomic_disable,
->> @@ -2172,6 +2035,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->>   	.edid_read = cdns_mhdp_bridge_edid_read,
->>   	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
->>   	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
->> +	.mode_valid = cdns_mhdp_bridge_mode_valid,
->>   };
->>   
->>   static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
-> 
-> Why do you need to add bridge mode_valid() when removing the legacy
-> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR code?
+This is now what I'm seeing. Most SoCs have that fixed clock thingy
+for (some?) VPs, e.g. [2]. And clk_round_rate() will return the
+fixed clock rate for this clock, which will then result in an LVDS
+clock which is way off.
 
-Okay. Then I will add the bridge mode_valid as a separate patch.
+I'm testing on an AM67A (J722S) and I've backported some of the
+patches as well as dtsi fragmets from downstream. Thus, it might be
+as well the case that the fixed-factor-clock node is wrong here.
+OTOH other K3 SoCs do this in mainline as well.
 
-Warm Regards,
-Jayesh
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_crtc.c  | 23 +++++++++++++++++++----
+>  drivers/gpu/drm/tidss/tidss_dispc.c |  6 ++++++
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
+>  3 files changed, 27 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/t=
+idss_crtc.c
+> index 1604eca265ef..6c3967f70510 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -91,7 +91,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crt=
+c,
+>  	struct dispc_device *dispc =3D tidss->dispc;
+>  	struct tidss_crtc *tcrtc =3D to_tidss_crtc(crtc);
+>  	u32 hw_videoport =3D tcrtc->hw_videoport;
+> -	const struct drm_display_mode *mode;
+> +	struct drm_display_mode *adjusted_mode;
+>  	enum drm_mode_status ok;
+> =20
+>  	dev_dbg(ddev->dev, "%s\n", __func__);
+> @@ -99,12 +99,27 @@ static int tidss_crtc_atomic_check(struct drm_crtc *c=
+rtc,
+>  	if (!crtc_state->enable)
+>  		return 0;
+> =20
+> -	mode =3D &crtc_state->adjusted_mode;
+> +	adjusted_mode =3D &crtc_state->adjusted_mode;
 
-> 
->   Tomi
-> 
+Here, adjusted_mode->clock is still the correct pixel clock.
+
+> -	ok =3D dispc_vp_mode_valid(dispc, hw_videoport, mode);
+> +	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+> +		long rate;
+> +
+> +		rate =3D dispc_vp_round_clk_rate(tidss->dispc,
+> +					       tcrtc->hw_videoport,
+> +					       adjusted_mode->clock * 1000);
+> +		if (rate < 0)
+> +			return -EINVAL;
+> +
+> +		adjusted_mode->clock =3D rate / 1000;
+
+While after this statement, adjusted_mode->clock is 300MHz in my
+case (the VP1 clock seems to be 2.1GHz, divided by 7).
+
+-michael
+
+[1] https://lore.kernel.org/all/20250525151721.567042-1-aradhya.bhatia@linu=
+x.dev/
+[2] https://elixir.bootlin.com/linux/v6.15/source/arch/arm64/boot/dts/ti/k3=
+-am62.dtsi#L110
+
+> +
+> +		drm_mode_set_crtcinfo(adjusted_mode, 0);
+> +	}
+> +
+> +	ok =3D dispc_vp_mode_valid(dispc, hw_videoport, adjusted_mode);
+>  	if (ok !=3D MODE_OK) {
+>  		dev_dbg(ddev->dev, "%s: bad mode: %ux%u pclk %u kHz\n",
+> -			__func__, mode->hdisplay, mode->vdisplay, mode->clock);
+> +			__func__, adjusted_mode->hdisplay,
+> +			adjusted_mode->vdisplay, adjusted_mode->clock); >  		return -EINVAL;
+>  	}
+> =20
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/=
+tidss_dispc.c
+> index a5107f2732b1..3930fb7f03c2 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1318,6 +1318,12 @@ unsigned int dispc_pclk_diff(unsigned long rate, u=
+nsigned long real_rate)
+>  	return (unsigned int)(abs(((rr - r) * 100) / r));
+>  }
+> =20
+> +long dispc_vp_round_clk_rate(struct dispc_device *dispc, u32 hw_videopor=
+t,
+> +			     unsigned long rate)
+> +{
+> +	return clk_round_rate(dispc->vp_clk[hw_videoport], rate);
+> +}
+> +
+>  int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>  			  unsigned long rate)
+>  {
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/=
+tidss_dispc.h
+> index c31b477a18b0..d4c335e918fb 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -120,6 +120,8 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc=
+_device *dispc,
+>  					 const struct drm_display_mode *mode);
+>  int dispc_vp_enable_clk(struct dispc_device *dispc, u32 hw_videoport);
+>  void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport);
+> +long dispc_vp_round_clk_rate(struct dispc_device *dispc, u32 hw_videopor=
+t,
+> +			     unsigned long rate);
+>  int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>  			  unsigned long rate);
+>  void dispc_vp_setup(struct dispc_device *dispc, u32 hw_videoport,
+
+
+--9fcfc53e0fcd83cc188fa2e200cd3fe58dd86edaab762b63b2b775e59452
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaDWCJhIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/gUWAF/XnIRUuokTBhnPlsAEUUt79SPR3vV/Tvp
+5gWuHNuznd1PdThlB+vlGbAEGJp2uXDzAX0dbUeWPMM4k153g6b5Nw5QugAsnNj/
+ZqMhzPu9jIcshLO+1PnQRNDMcluYdGOnDxg=
+=qew6
+-----END PGP SIGNATURE-----
+
+--9fcfc53e0fcd83cc188fa2e200cd3fe58dd86edaab762b63b2b775e59452--
