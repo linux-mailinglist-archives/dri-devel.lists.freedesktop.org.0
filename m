@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE0AAC5AF7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 21:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23B7AC5AED
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 21:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BCD10E51A;
-	Tue, 27 May 2025 19:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 713F510E1E2;
+	Tue, 27 May 2025 19:45:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="WdQcr8A0";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="KO79ENi7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD74510E51A;
- Tue, 27 May 2025 19:50:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5221D89BEC;
+ Tue, 27 May 2025 19:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1748375427; x=1748980227; i=natalie.vock@gmx.de;
- bh=yy55+GQV07DU1PlzulpC7ZxEesUJ7cu0Lq4pW8qpSO8=;
+ s=s31663417; t=1748375100; x=1748979900; i=natalie.vock@gmx.de;
+ bh=Epo7gdDY+vOcQ702mnbNNZX+jejI0N2QF3Cp5n8Mdvg=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=WdQcr8A0LSmD6MfHZNZdF4FfJVXtiVxHeeyDC3cPW1oLCtl3ZDYvtneeMFI2Uf/L
- tgtR4umGX4jOyMEGHyi/iMp1cJUzDoIKUsf2imIqWZag77nUXtQA0Y6ZWpdGb6TXa
- 6UqmgWy4m8U/Xm9+zN09rYkE7kznXUtXvDYe/SVgEamZlYiASHkxXR/uHYsI65IhR
- a2doxNGYXj1IWXDBVDwsj+kt2OlNyI6yCBSSiyTqzgbqrI2sSc22TAbK2BhtkDJXZ
- jU06rKe/PBV0HTuP4jGg3zeCDwNw0gAyWTpvumFX4cizP2+zVIBfP82zF15XI5GGh
- qWiVGjJdsGzp5epX4g==
+ b=KO79ENi75rosQ7YihlsEZFqOBvuVfmzURf+LqZT71tZ6JHFVkGvf+W6uqqZIoTPO
+ 3X6aUNJfSqH8ctHv6lUqVbi4jdJDJTbYM+9bXu44VF32STVpXtOOLA0RHSvBKhgr6
+ 3u+9ICGcfwtnduJcPZqBHT5nPaOl4FVxfhWpgPEEmYH+UeXgwBu9DjMMjGK/JCh8i
+ 0dEjaC698a8IqytsGBcvqGNyhuzAI9TtcdwG4cRvpV/ok+KJdM4IfWb6d9cAermve
+ pZnKsdmEUkN9rIXRBqdavt0eg9p+HpFP970hP4QMZ9iyekx2UyxK7aNykVq3eqbkr
+ 7Q45UOhkuxu1o+b4+Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from localhost.localdomain ([109.91.201.165]) by mail.gmx.net
  (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MMGRA-1ua0wn2Pva-00LF1d; Tue, 27 May 2025 21:44:59 +0200
+ 1N1fn0-1v4RwC0iTo-010ZmR; Tue, 27 May 2025 21:45:00 +0200
 From: Natalie Vock <natalie.vock@gmx.de>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -43,65 +43,66 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
  Natalie Vock <natalie.vock@gmx.de>, stable@vger.kernel.org
-Subject: [PATCH 1/2] drm/buddy: Add public helper to dirty blocks
-Date: Tue, 27 May 2025 21:43:52 +0200
-Message-ID: <20250527194353.8023-2-natalie.vock@gmx.de>
+Subject: [PATCH 2/2] drm/amdgpu: Dirty cleared blocks on allocation
+Date: Tue, 27 May 2025 21:43:53 +0200
+Message-ID: <20250527194353.8023-3-natalie.vock@gmx.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250527194353.8023-1-natalie.vock@gmx.de>
 References: <20250527194353.8023-1-natalie.vock@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:euWBSkH/f7kf5t01BmVT6vYLv/uqhWZUx+ZzS3mguzTWxtVN4Y8
- GT6j+7qC2TDS2a+S7udASu0bTcRn//gdrL/ailn3KPDRtP2Vpsqk8RmPqf667NtjCMraBPg
- c9hrBvdBEUaMkoSsEaR+MAPdfkN63yjkna0iPiAXCoQEkH/G2KDHln/5u9rILPH5d56Is/r
- Ch8Kn64dT8ZIbLj/zsC0A==
+X-Provags-ID: V03:K1:dVN3WfoLH9ABYbROuTDWX1Z+A+OBgwagxLhxW+cGgjpcFCPxYCu
+ XNXy1Yp2jZ5/6MYMiPa059jv/yLqLt4qg1dFVWkkWqujUgXxqgon+l+57ftOw8nfZFNxQ61
+ zogG6E6WHfaLABbUo4WYtl+O/P7VYEf3+qTtYVYh4ShfOZG8sJp8tpDORQmDecmBCUpKJuX
+ vwEXFPWZc3tAr54fIafdQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vIqfUAby6FI=;E0I2xS6Tp3wmkVLXQzJqEEJDX3+
- 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
+UI-OutboundReport: notjunk:1;M01:P0:OErwcn66BHM=;WVvaVE2TNzq9K5+1M50x7eaeknC
+ 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
+ L1ZHfKoIUTKPoogM
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,36 +118,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cleared blocks that are handed out to users after allocation cannot be
-presumed to remain cleared. Thus, allocators using drm_buddy need to
-dirty all blocks on the allocation success path. Provide a helper for
-them to use.
+If we hand out cleared blocks to users, they are expected to write
+at least some non-zero values somewhere. If we keep the CLEAR bit set on
+the block, amdgpu_fill_buffer will assume there is nothing to do and
+incorrectly skip clearing the block. Ultimately, the (still dirty) block
+will be reused as if it were cleared, without any wiping of the memory
+contents.
 
-Fixes: 96950929eb232 ("drm/buddy: Implement tracking clear page feature")
+Most severely, this means that any buffer allocated with
+AMDGPU_GEM_CREATE_VRAM_CLEARED | AMDGPU_GEM_CREATE_WIPE_ON_RELEASE
+(which is the case for **all userspace buffers**) are neither
+guaranteed to contain cleared VRAM, nor are they being wiped on
+release, potentially leaking application memory to arbitrary other
+applications.
+
+Fixes: a68c7eaa7a8ff ("drm/amdgpu: Enable clear page functionality")
 Cc: stable@vger.kernel.org
+
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
 
 Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
 =2D--
- include/drm/drm_buddy.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-index 9689a7c5dd36..48628ff1c24f 100644
-=2D-- a/include/drm/drm_buddy.h
-+++ b/include/drm/drm_buddy.h
-@@ -142,6 +142,12 @@ drm_buddy_block_size(struct drm_buddy *mm,
- 	return mm->chunk_size << drm_buddy_block_order(block);
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_vram_mgr.c
+index 2d7f82e98df9..cecc67d0f0b8 100644
+=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -591,6 +591,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_ma=
+nager *man,
+ 	list_for_each_entry(block, &vres->blocks, link) {
+ 		unsigned long start;
 =20
-+static inline void
-+drm_buddy_block_set_dirty(struct drm_buddy_block *block)
-+{
-+	block->header &=3D ~DRM_BUDDY_HEADER_CLEAR;
-+}
++		/*
++		 * Allocated blocks may be dirtied as soon as we return.
++		 * Mark all blocks as dirty here, otherwise we might
++		 * incorrectly assume the memory is still zeroed.
++		 */
++		drm_buddy_block_set_dirty(block);
 +
- int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size);
-=20
- void drm_buddy_fini(struct drm_buddy *mm);
+ 		start =3D amdgpu_vram_mgr_block_start(block) +
+ 			amdgpu_vram_mgr_block_size(block);
+ 		start >>=3D PAGE_SHIFT;
 =2D-=20
 2.49.0
 
