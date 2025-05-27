@@ -2,131 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28324AC5B99
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8143AC5BB1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1713F10E197;
-	Tue, 27 May 2025 20:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E5910E527;
+	Tue, 27 May 2025 20:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UsuwHtTT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BVbxFIVb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF57D10E197
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:44 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RC9p4Z003591
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- l/O2p+x2xSIF9G83bk2qKzG3F5MRhPuwnk3uawbQiMA=; b=UsuwHtTT+19r7X8+
- 9xmaaZgI+E0BIU70xalEcDbNCLUWA3zODGfnv3/ro6F7QXVxsRWDTWwby1mIIJfB
- W8z2bntkGEeR9PFuJqqDMH8dlrAKdVUw3qxjFFb7O3+F98T+bWjAh4Lo/WqA8gj5
- Ymffg0F32lHihXoT7GeEg3BRyPZu3RX70+mdjrzLjgji3SKwywfI7V6RDMuUWHpP
- mWhc8g6vUvxkgPjIMvMfEXVvLpnVcuQI2qNMFUHlKJAEHQgo+yn6w/111Xgrpv8S
- ARkHdfBTbl8Y2ByIpLAcep8iN4/qLAK91a8pqvU4NgKeovig8qb5MvcwvKY7fvSV
- N//IMg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u66wge6a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:43 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c76062c513so98984985a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 13:49:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748378983; x=1748983783;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l/O2p+x2xSIF9G83bk2qKzG3F5MRhPuwnk3uawbQiMA=;
- b=BuGKMP82BSfqOoZz4r9XATVFkdqya1jadLlxf6txOMBX3zC7pyOe2KgB+uAgK5h73E
- BA/s2LTxmxrDiggWmKnlEQrTObFO0BnT7IwPk7LzmPiwh9oawL8ip+6sFU57+5NqIKpo
- U7I6DbeIcfH9apH6E4DUWw5Ds+Ua9b/xCs6I87/NUjlhHocfF1uhaHyqSpBwY1rX49dD
- n9rfBVxOU1LaVeKb/9Ss+g3rxhxeRshs/0kx/BbqnczKZ+QMVRwmwA0fIcaOB2KPuJyY
- txr9Nxb4kk7gfYfS0xQPnOvSdfWC+OHu9juCKXLX8Scf35UxIqp7BKuVXMeLI4n34e0l
- 2nNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbidtPdVt81vYyr++dlf5QPn7C+9TB3UCBQd+o/8pzrrExMu7k6RTx3ZQsryykxYVCkk7JS1VtMLQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYnqwAzwCPwMx3lRx+E+83H4QjiW1q7Mlh2TXNmfLm4AHAESif
- SAXJt462c12YG/YFpuGceHECGvObz1koAHyc33VWF8iuaANJgf+W8BnAjl+g7kxZUh1vJH4qHHu
- AwBUZ6YrnL4UtVH9pn/0qHzKohiDD1auWx1bXB4XuIgCP7qOZa1hHoZoOPO76M4KwXEIcCa4=
-X-Gm-Gg: ASbGncsGSI/M+jZCIKQmgcXcjHeVg6BadhMrLWP6o3odeGc/q62fnmi4+CWQ0968NXx
- RrAvfc8zMqSfNyopmJCYsX/p8y+Fq4zktgcaJcXjevr1Nz44YxEtd77vu4eFQ1lDl7ilLO3xdeU
- sJGWDWNbi7wjQkpau7LB0AGCUap0CdZMFDNmZgbpUW/izAA+kyq9D9Fxd4XN2hKWSD7vlujLfxT
- B1w5iQ8VsShXBzuo3KVlPbEk4HXB9+EwKWV1nL9ffiXtA1NQcidch+a+sLlq2a8kTNzYtD3bbEL
- 6RLqpLU47vLxbD6xnuZqna9Wavz1MECmtI7wWRs5sQCPjqORc01W2F4ZW78nSUhjug==
-X-Received: by 2002:a05:620a:28c9:b0:7c5:ba85:357e with SMTP id
- af79cd13be357-7ceecb95729mr796618285a.3.1748378982911; 
- Tue, 27 May 2025 13:49:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH+Ja5XuujBwuUP9ccKnyssxrFJe/lbLz9Lqf/caKcpdJ8XAsoYbJmo6SDfbvW/t6c1zMYunQ==
-X-Received: by 2002:a05:620a:28c9:b0:7c5:ba85:357e with SMTP id
- af79cd13be357-7ceecb95729mr796615885a.3.1748378982465; 
- Tue, 27 May 2025 13:49:42 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad89f2508b7sm8518366b.132.2025.05.27.13.49.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 May 2025 13:49:41 -0700 (PDT)
-Message-ID: <b4e1ea54-ff3c-408e-8716-f48001ec9113@oss.qualcomm.com>
-Date: Tue, 27 May 2025 22:49:38 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D59A10E053;
+ Tue, 27 May 2025 20:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748379354; x=1779915354;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=xWxW6Cwsvay8XS09dlMAMXf280Twpynanr4mw0eX8qI=;
+ b=BVbxFIVbdSnEfYcyXEaOrOBg+PfP7X6VSAZR9zm8Lqs1KFT+XTTcZQh+
+ HNuRB2RuJbWthSLothAY2v6yvU+Gken1mGfa/38UgnUA3h53q2r1HgKFi
+ aWraOV9Yd46XaeP2L8sk/wgi1zLTaQBqAmO2NsNPlfBgQr7mL2jzz9HuG
+ sCY5O0Na73XFflGqdVHpPmRJdVps4Oy2YUXQUYtbq0lvRrHNa6i71lF2O
+ vHNJfOML3qf6fCSxASkiv/2ejQqFVnLksBD/bmaUEK3j+WVj4T+DSu/NZ
+ cTU6KeaaFZkoCtO20kMwTjP4YlHbnizvwiHINpvQqeXFVcdWbQuqnup/2 Q==;
+X-CSE-ConnectionGUID: jn6oioAvSROODJ6LrBxQ8g==
+X-CSE-MsgGUID: 1wankAtBQyKjUDLUuECfbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="49501860"
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; d="scan'208";a="49501860"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2025 13:55:53 -0700
+X-CSE-ConnectionGUID: ATNrnda2Q1qEWi8YEyM8fw==
+X-CSE-MsgGUID: UCUZSe2ISsSxhEtVpUjd2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; d="scan'208";a="146851610"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2025 13:55:53 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 27 May 2025 13:55:53 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 27 May 2025 13:55:53 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.85)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Tue, 27 May 2025 13:55:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VNQnU5n/VXSydYugxla0K3LVKiR4YBsFKOEOmCXNQFZuejXWcX4OPL9q0fsutwcXCrQu+RkbDCsEhpwhY2/qgymHndiNdEuMMqitz//Jjq3WhRsJBuNZYK/BkTwYfAgcQd+nl6utfpw8/JUjRUY+1wyModJ6Tiptqy8flm7SpfP+z8skQtUiZY9S5O45nl76gvj++Tm1FCmSLHq8xPMIufSKr7JJUuxE0bLJwA/i075R/9032kUBVMFFZ66Eq5RkTcjsHMSrw16ztrMiXBPpCIhoSt8m0lu+Nx+xf3VPpzIMIMHZBBclBWOJfMMFtkIc4VscWV8Yenabzx6fvT0GKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hhyqRwkwg27tbyCZXpZEXUoEnQqcy0IPuuLLwfhwJCw=;
+ b=lFYCvIPu8EECymIQ03qJYZcK+yzx0IjJdblOXyGvVTUpgNccHlUEeHUFba0D0GovhFHODgAzfkuSJJsuYAY/AsuFDefIkl8WchbYghwgqkdhkdu6nI61ZmCXcGgzUuYZKqmlaWBLmMSiJVKFG3ewmGqFRJifHbmJt2KpII0riHqwppeFsGSRuPZLw+u4wsdVZ9dmMn0rmIaUBYfYltis2BMYUEyL2RrGdcjvXEoiPPKFhbucmJYMvL/RFU848QMkkMTJBuAUzIApL/diDlhK++TvJwbPZBUtGoOcY6Et4QlYAGfZtgmyC7zPb166uwaD5lywkTjkcpDDdmnZCW0SdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by CO1PR11MB5171.namprd11.prod.outlook.com (2603:10b6:303:94::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Tue, 27 May
+ 2025 20:55:50 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8769.025; Tue, 27 May 2025
+ 20:55:50 +0000
+Date: Tue, 27 May 2025 15:55:46 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+CC: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Arnd Bergmann <arnd@arndb.de>, "David
+ Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
+ <matthew.brost@intel.com>, Himal Prasad Ghimiray
+ <himal.prasad.ghimiray@intel.com>, Imre Deak <imre.deak@intel.com>, Ilpo
+ =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, "Michael J. Ruhl"
+ <michael.j.ruhl@intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
+Message-ID: <j7yodlrk7wh3ylvb2z622ndlzm4guhahmakdb6l5d6qtv5sabo@w4bfiehtmaab>
+References: <20250523121106.2231003-1-arnd@kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250523121106.2231003-1-arnd@kernel.org>
+X-ClientProxiedBy: SJ0PR05CA0101.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::16) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm/msm/dp: Retry Link Training 2 with lower pattern
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Xiangxu Yin <quic_xiangxuy@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
- quic_fangez@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-7-09a4338d93ef@quicinc.com>
- <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
- <b4345b9e-62c6-470d-b1b0-4758cef7f175@quicinc.com>
- <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=aYJhnQot c=1 sm=1 tr=0 ts=68362567 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=OAqA0DyV7igbTOjjZJsA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: xjjjHIonhTMGTVGpMVy3TEYvA152VBvB
-X-Proofpoint-GUID: xjjjHIonhTMGTVGpMVy3TEYvA152VBvB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDE3NiBTYWx0ZWRfX8X1t8xft7TcN
- yjDYboK792DxbCJ8MJPQDDnHixfJN3ur/w/6giKkQQHpwRH2Ir1ybYgqOjZSaNbPVZjQ/OaWTSN
- 4csSCv+8Wzf2SOT5E+7k4fkShtKLxowJxhR7wedgrzeQbEOE2DLrMJwvxcJ+k3Rp1luLRE9T2fc
- rLQwLZ87/05ewVQccDkCOyA6sjWdCAFQkutN8lnrEB/dn3Zfz8vXopRPh25gkKFlKQNBg4/XaYP
- GW6UnAAt57/bxFkUbDqvrpW2Iirc6q9U7Z8+eStboT55iFysWadiLCNVjCrDWnqFSk5ljfh+/Yb
- YK7HS7gkX9GHJKlR+O7dn1accoPWJVSXG9vQDPgbG51mWGhD03bMERbYVcSotbrFcQSdyjZ+Ve8
- RiGn/ZErZgpZ9r0URNb582T2fu85W2wBL2elInryIIXYT7Vi0CriGzRAvw5l6+aXi8+uYDw9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-27_10,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0
- clxscore=1015 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505270176
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CO1PR11MB5171:EE_
+X-MS-Office365-Filtering-Correlation-Id: b700dc89-c510-45c2-31fc-08dd9d60dc88
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7F8bGHdH1kPrJnUjuYpccYXx81Hb6VPmXIlXLoLbvotMpEUg3NfOXdnJ7eEz?=
+ =?us-ascii?Q?2BSD3A/gz8isBhgWLEDb7ldV6N/3tzQRdzFVyRYdc943scZwwbr1njWXO7aO?=
+ =?us-ascii?Q?coB+3xDXQyMTB1gtNqi5BgiOx152Q3NcvUkppYxpWfVTMUMPBVN7VxVuK0kR?=
+ =?us-ascii?Q?hpZjDrKfRcw+8SGY7XbKcc+TGTaAaEhpu4UjgVPKG6V12sl2aDMKm1bpKdU1?=
+ =?us-ascii?Q?aZeN1c+ccK++oga+zEP34IDS3tLLPUP93Xh5PfhLnErtWDYT5socgZxkiRdV?=
+ =?us-ascii?Q?1fZ37esJoFvSrCOC9wJ5T9zI8q4FFbcpModDpMUe79ghnhji/COxLLrpN1zv?=
+ =?us-ascii?Q?sBL46IBK04y+MupCYTbz2CJrmhYbZ6ssHcSiw5tnzEBp8uHTRvdOWugXpwj6?=
+ =?us-ascii?Q?VaqeiXFM1GG/AGigpfsUktVU5S/wdaQjHlHZOAC4sNQn5QJtIaaPLiykx9WH?=
+ =?us-ascii?Q?xOxsqCuHJkNQqi8EkjCLHjp4Nd/28WRrFaMhabvFhKUjozIieZRTbqwMItdO?=
+ =?us-ascii?Q?Vl0+he7XCiSI/RTamNMud0A4AJooIJ/PBnj9Q/D+NAghrCxKrmGQ65DHGMEd?=
+ =?us-ascii?Q?PPASpxn9pKyCBaFfThSvz01GD+GwinD2pHjqk1FVE9hm36LtQbSGwshxHmzT?=
+ =?us-ascii?Q?IMRP++2iLj+NzhWJU50PYNFFwdsaLEoBGSIE6nBIpQXcM/c2mBJ9HXJ61L8q?=
+ =?us-ascii?Q?cfpUHpqEv21RDgs4CjP1GmxwQQJRg2CfCaqwILEQI5RJ1zQiOUTq6K9V3xqt?=
+ =?us-ascii?Q?be6NLqaw8kLNUogsOJHESBKcPH4iFHTsKVYLq340UP/8DDZ7ugRuqJO0ida4?=
+ =?us-ascii?Q?W2jU0RYRK04YtXEcoXAWX2hqdNaaVs/AwPZXuXkOVh5sO06uEQ7SR75twC8Y?=
+ =?us-ascii?Q?VfTxfg1tdUVwrTK+8qLzSqWX+NqG6UBKoXN4apxyxKjLAOHnuw4MFLAB+3+9?=
+ =?us-ascii?Q?kW62U/irKxIVGVgHC7GBAeNMVbl0imCZQk1TV1eQYk2q4NZJIraAWP9UYJiW?=
+ =?us-ascii?Q?UmNbvzANgJiIx+hP5ppGIsb5OSRbDVxiLzxPS1M02ENlE1JLar47YkyPdBHn?=
+ =?us-ascii?Q?pCtJVKwy63I8dBE+7XJ52KZH7z5co6bB787WbXjdD6ygJNFyd/Y8mgFhUAP/?=
+ =?us-ascii?Q?EwDZC4THt2j7TpGMUi8gPTJ4dtwx+Qy17yEIZSObtI4xxR+fu87X5pt7izDz?=
+ =?us-ascii?Q?NvyDRnZMT2Cdt6ydr+wUzWPUfiuXmb6IOdDVTgbBLaks+tNqzLHDf34/K7Ou?=
+ =?us-ascii?Q?9YZVS2HCZ4txIphgkiKXuwOHu+5QA0o4OUxYpa8RYkmniNXOwYeCmNU5UmR/?=
+ =?us-ascii?Q?9SpIah/ttlSADChjpiOwHrMYwexk4tdAvhjFE+KoITLAJG1RcxRik1qlm09x?=
+ =?us-ascii?Q?SohBjusrRqV6abFJnfkPwSlD1DbEF+KA4vHH0EV0miIT0t3o0A6OOnp0cGh+?=
+ =?us-ascii?Q?rtKLi1yHW/Q=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bwQQd5I9zBJfjjien94Wy2EhulHzR0YwuidqoG2QCCGSDoeqBhAA8kN/8GSQ?=
+ =?us-ascii?Q?k4KgwnTm3WusMHOaKWi/sS54YGYShxTOsoCBOxwCOe64vNET7S726oPXXkUa?=
+ =?us-ascii?Q?hskYscMRReFgJZVKolDg0bMnsopURT3q/q0NrEVf2AJBTE/zK7fA0O5y9gHU?=
+ =?us-ascii?Q?5SZNB+PAzG1j+gX3gh+vOBYg6jY4a/EGnUjnlF6OarunubRJb6M88oMve4xq?=
+ =?us-ascii?Q?TmOp3S0zUy4P5AdR5+hW/gprBhKxVZv1/8Qi1zTyNU4q/llJM7YArVbkz9S8?=
+ =?us-ascii?Q?M6lN46P7fSxJEk7RT+Dt1QzeNkMFupSJqH0LmQHe5QCyDN902cYtP9d9EwJT?=
+ =?us-ascii?Q?EGY7Bn2Y0xojgOX5hxyymy6pT5OSHYMN5kvefTWOn0C4R0SJ+UBmnX+q6Tu7?=
+ =?us-ascii?Q?wls64+f5TiN8b3y3NOnodzQzR/hXdXKd9D3v31PhejeUkOZL67nL0lAZYuF5?=
+ =?us-ascii?Q?SH9bZfMF94eHY6Q5oaj1REZa3P4dAfFBDDwt8plFyZUkTQkIZQMrliS6UL2E?=
+ =?us-ascii?Q?8Wa2fwjiKEXv/9RsISouDemW6N3Pd+S/XQtxbgC240lon3mhR9CVux2GeUa2?=
+ =?us-ascii?Q?wCHgNfJ/kP8sfbZm5eGx+UqAQt1r77pTvGEx3Fo8HuBOeKT6EgowAzyfOAQi?=
+ =?us-ascii?Q?/TqWQC5KrIZpkqGUntu7QodowhTuvczQxPNu/NpGJ+FiepKJ9/M7il6WD3VV?=
+ =?us-ascii?Q?pHgoFqPPbnIsejSyq+BjfFcyS5OYrq3Y/ach2vvH1Lf+LZrYpSd+PR1Tadhk?=
+ =?us-ascii?Q?xXFcIvMY4TIrNvtRJsoQ0SlaX+d0+mOjQZcsudtn5DksRBAkDGxzaY2sjjSm?=
+ =?us-ascii?Q?MHAlsjzNVpRRrVUn1528qG9hOURN57nBwECM4c2VDWc0ySFuiMbAWtOm0wEq?=
+ =?us-ascii?Q?2WsFTX9dz48lI4FV1o3ur1bOAOn4fe1wptpWTkIO8Q4oXK5zyWGp0cUYaAmw?=
+ =?us-ascii?Q?wt3KrKRXMissCFJHdt1ltTjtXJ7LAL6a8V/fne2nEf/keadsOaPZzQ9vOO9A?=
+ =?us-ascii?Q?M48VOaSt6ROPnaIUf9aiPeXnNckddgLf7AKqtwi/KFOJk/VXycpM/ZAiFglt?=
+ =?us-ascii?Q?aHfAqBF8xeSRnW/XvZYhIS80S52VoUY8+IepJ0tYwBrbyvMGmn34bsKehpyo?=
+ =?us-ascii?Q?SuMOTVI2g/IUc5ymWhq3nSxuQpFFfTcs5JzyFTzZoMlUI5V5GYTCU8B0rScn?=
+ =?us-ascii?Q?AZkzDRMcVA3vZmXsxDtgW8mWzircr77dJEVryZGlVMIhWPVhoe7dTztt+C9H?=
+ =?us-ascii?Q?dy5Ip8mG75fnPj4rBUBvS/npbL0+qOC5rVt30K64CKHApwZ7IOEONtKqFhvS?=
+ =?us-ascii?Q?rvbaaSkxxnr7b+ddjA1q5JI7L3KCF8Ns/f1iCDtL2SXinXQGjWjnsUYIMeF8?=
+ =?us-ascii?Q?yt+lG2BuXYhETSSsHTcFesKIta7EIZAo3EJjoxtG4kNSzXhtYjxRRZp3MS9k?=
+ =?us-ascii?Q?SBUBhZRYgUrzgoKj1m95dN5NcG/a37hz7lpgn1lMBfim6anesc4myaMOzn9p?=
+ =?us-ascii?Q?+GlUGHrq0sEsJsVyg3x8dW5jbCnLo/LkSwNmO04jMxFgepMg8wnIBbEIx5VG?=
+ =?us-ascii?Q?nv1abVzKbBOlK5D3TSUccSHIIoSHh8kxZO3NL56UnRgWGjxapfhP0JIwcH1/?=
+ =?us-ascii?Q?+Q=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b700dc89-c510-45c2-31fc-08dd9d60dc88
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 20:55:50.1178 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GrvxyHpvVQnd7w7ZgvdPUOyQEdeI+yuYsXGt52xhG3TlKiQaoc2NItEGeHeguINeZr38cglvWcf3iNcdTppfEGn9VTbT1lYxs5Ifpv0fhFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5171
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,34 +184,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/3/24 3:07 PM, Dmitry Baryshkov wrote:
-> On Tue, Dec 03, 2024 at 04:13:22PM +0800, Xiangxu Yin wrote:
->>
->>
->> On 11/29/2024 9:53 PM, Dmitry Baryshkov wrote:
->>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
->>>>
->>>> Add a mechanism to retry Link Training 2 by lowering the pattern level
->>>> when the link training #2 first attempt fails. This approach enhances
->>>> compatibility, particularly addressing issues caused by certain hub
->>>> configurations.
->>>
->>> Please reference corresponding part of the standard, describing this lowering.
->>>
->> Per DisplayPort 1.4a specification Section 3.5.1.2 and Table 3-10, while the standard doesn't explicitly define a TPS downgrade mechanism, it does specify:
-> 
-> Anything in DP 2.1?
-> 
->> - All devices shall support TPS1 and TPS2
->> - HDR2-capable devices shall support TPS3
->> - HDR3-capable devices shall support TPS4
->> While these capabilities are explicitly defined DPCD for sink devices, source device capabilities are less strictly defined, with the minimum requirement being support for TPS1 and TPS2.
->> In QCS615 DP phy is only supporting to HBR2, we observed a critical interoperability scenario with a DP->HDMI bridge. When link training at TPS4 consistently failed, downgrading to the next lower training pattern successfully established the link and display output successfully.
-> 
-> Any other driver doing such TPS lowering? Or maybe we should be
-> selecting TPS3 for HBR2-only devices?
+On Fri, May 23, 2025 at 02:10:46PM +0200, Arnd Bergmann wrote:
+>From: Arnd Bergmann <arnd@arndb.de>
+>
+>The XE driver can be built with or without VSEC support, but fails to link as
+>built-in if vsec is in a loadable module:
+>
+>x86_64-linux-ld: vmlinux.o: in function `xe_vsec_init':
+>(.text+0x1e83e16): undefined reference to `intel_vsec_register'
+>
+>The normal fix for this is to add a 'depends on INTEL_VSEC || !INTEL_VSEC',
+>forcing XE to be a loadable module as well, but that causes a circular
+>dependency:
+>
+>        symbol DRM_XE depends on INTEL_VSEC
+>        symbol INTEL_VSEC depends on X86_PLATFORM_DEVICES
+>        symbol X86_PLATFORM_DEVICES is selected by DRM_XE
+>
+>The problem here is selecting a symbol from another subsystem, so change
+>that as well and rephrase the 'select' into the corresponding dependency.
+>Since X86_PLATFORM_DEVICES is 'default y', there is no change to
+>defconfig builds here.
+>
+>Fixes: 0c45e76fcc62 ("drm/xe/vsec: Support BMG devices")
+>Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>---
+> drivers/gpu/drm/xe/Kconfig | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+>index beddd153c28c..c870b680431c 100644
+>--- a/drivers/gpu/drm/xe/Kconfig
+>+++ b/drivers/gpu/drm/xe/Kconfig
+>@@ -2,6 +2,8 @@
+> config DRM_XE
+> 	tristate "Intel Xe Graphics"
+> 	depends on DRM && PCI && (m || (y && KUNIT=y))
+>+	depends on INTEL_VSEC || !INTEL_VSEC
+>+	depends on INTEL_PLATFORM_DEVICES || !(X86 && ACPI)
 
-Bump, this patch looks interesting and I'd like to see it revisited if
-it's correct
+		   ^
+Did you mean X86_PLATFORM_DEVICES here?
 
-Konrad
+With that, Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+I see several drivers selecting
+X86_PLATFORM_DEVICES though. Maybe they should also be translated to
+dependencies instead?
+
+$ git grep "select X86_PLATFORM_DEVICES"       
+drivers/gpu/drm/amd/amdgpu/Kconfig:     select X86_PLATFORM_DEVICES if ACPI && X86
+drivers/gpu/drm/gma500/Kconfig: select X86_PLATFORM_DEVICES if ACPI               
+drivers/gpu/drm/i915/Kconfig:   select X86_PLATFORM_DEVICES if ACPI               
+drivers/gpu/drm/nouveau/Kconfig:        select X86_PLATFORM_DEVICES if ACPI && X86
+drivers/gpu/drm/radeon/Kconfig: select X86_PLATFORM_DEVICES if ACPI && X86        
+
+thanks
+Lucas De Marchi
