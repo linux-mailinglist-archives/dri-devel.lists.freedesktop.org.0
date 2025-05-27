@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DEBAC50BF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 16:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362ACAC50C0
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 16:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFCFD10E2B9;
-	Tue, 27 May 2025 14:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 627D210E3D9;
+	Tue, 27 May 2025 14:22:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BDB10E2AB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B616D10E2B9
  for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 14:22:15 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1uJvBo-00048s-US; Tue, 27 May 2025 16:22:00 +0200
+ id 1uJvBp-00048s-5N; Tue, 27 May 2025 16:22:01 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH 0/2] drm/bridge: samsung-dsim: Small cleanups
-Date: Tue, 27 May 2025 16:21:46 +0200
-Message-Id: <20250527-samsung-dsim-v1-0-5be520d84fbb@pengutronix.de>
+Date: Tue, 27 May 2025 16:21:47 +0200
+Subject: [PATCH 1/2] drm/bridge: samsung-dsim: use while loop in
+ samsung_dsim_transfer_start
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHrKNWgC/x3MQQqAIBBA0avIrBPMEqGrRAvN0WaRhUMRSHdPW
- r7F/xUYCyHDJCoUvInpyA19J2DdXE4oKTSDVtooo61kt/OVkwxMu9Te4eBHE6310JKzYKTn383
- L+35gJF9MXgAAAA==
-X-Change-ID: 20250527-samsung-dsim-2bae3b45f77b
+Message-Id: <20250527-samsung-dsim-v1-1-5be520d84fbb@pengutronix.de>
+References: <20250527-samsung-dsim-v1-0-5be520d84fbb@pengutronix.de>
+In-Reply-To: <20250527-samsung-dsim-v1-0-5be520d84fbb@pengutronix.de>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
  Marek Szyprowski <m.szyprowski@samsung.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -60,22 +59,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace an open-coded goto-again construct with a while loop and a
-custom MHZ macro with the common HZ_PER_MHZ.
+Turn the open-coded goto-again construct into a while loop, to make
+samsung_dsim_transfer_start() a bit shorter and easier to read.
+
+Hold the spinlock when looping back around and avoid the duplicated
+list_empty() check.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
-Philipp Zabel (2):
-      drm/bridge: samsung-dsim: use while loop in samsung_dsim_transfer_start
-      drm/bridge: samsung-dsim: Use HZ_PER_MHZ macro from units.h
+ drivers/gpu/drm/bridge/samsung-dsim.c | 51 +++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 30 deletions(-)
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 77 +++++++++++++++--------------------
- 1 file changed, 33 insertions(+), 44 deletions(-)
----
-base-commit: 99764593528f9e0ee9509f9e4a4eb21db99d0681
-change-id: 20250527-samsung-dsim-2bae3b45f77b
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 0014c497e3fe7d8349a119dbdda30d65d816cccf..1dfc9710bee5134e0e0114ce52f673c21564b11b 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1235,43 +1235,34 @@ static void samsung_dsim_transfer_start(struct samsung_dsim *dsi)
+ {
+ 	unsigned long flags;
+ 	struct samsung_dsim_transfer *xfer;
+-	bool start = false;
+ 
+-again:
+ 	spin_lock_irqsave(&dsi->transfer_lock, flags);
+ 
+-	if (list_empty(&dsi->transfer_list)) {
++	while (!list_empty(&dsi->transfer_list)) {
++		xfer = list_first_entry(&dsi->transfer_list,
++					struct samsung_dsim_transfer, list);
++
+ 		spin_unlock_irqrestore(&dsi->transfer_lock, flags);
+-		return;
++
++		if (xfer->packet.payload_length &&
++		    xfer->tx_done == xfer->packet.payload_length)
++			/* waiting for RX */
++			return;
++
++		samsung_dsim_send_to_fifo(dsi, xfer);
++
++		if (xfer->packet.payload_length || xfer->rx_len)
++			return;
++
++		xfer->result = 0;
++		complete(&xfer->completed);
++
++		spin_lock_irqsave(&dsi->transfer_lock, flags);
++
++		list_del_init(&xfer->list);
+ 	}
+ 
+-	xfer = list_first_entry(&dsi->transfer_list,
+-				struct samsung_dsim_transfer, list);
+-
+ 	spin_unlock_irqrestore(&dsi->transfer_lock, flags);
+-
+-	if (xfer->packet.payload_length &&
+-	    xfer->tx_done == xfer->packet.payload_length)
+-		/* waiting for RX */
+-		return;
+-
+-	samsung_dsim_send_to_fifo(dsi, xfer);
+-
+-	if (xfer->packet.payload_length || xfer->rx_len)
+-		return;
+-
+-	xfer->result = 0;
+-	complete(&xfer->completed);
+-
+-	spin_lock_irqsave(&dsi->transfer_lock, flags);
+-
+-	list_del_init(&xfer->list);
+-	start = !list_empty(&dsi->transfer_list);
+-
+-	spin_unlock_irqrestore(&dsi->transfer_lock, flags);
+-
+-	if (start)
+-		goto again;
+ }
+ 
+ static bool samsung_dsim_transfer_finish(struct samsung_dsim *dsi)
 
-Best regards,
 -- 
-Philipp Zabel <p.zabel@pengutronix.de>
+2.39.5
 
