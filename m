@@ -2,134 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BCDAC4C7D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 12:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D8EAC4D7A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 13:33:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1A110E12C;
-	Tue, 27 May 2025 10:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D112310E42D;
+	Tue, 27 May 2025 11:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Otw7rrQu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L0HUYrvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1095E10E425
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 10:55:14 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RAV5PQ016126
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 10:55:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0QaN0jDgPB/5r3SY7bQD6QOdm26/CK5MylAtZs3M0Wg=; b=Otw7rrQu9o3Bd9nY
- gqO8p+fVniWgwLC6FBk5cDzZ4kUoQn/DCksFoErmbw2QWh++0rtmWf7o3RLWYbON
- H/WwCT6n1luUYXqetqtpkY3fPG8T4o4otAA4gvnY5Ou7mzAl7eE6WUgLp0mKbYHi
- cvVlQALrNXSiss0hbpwCRH6ZEJ87s8NeH9uqXr8IHbLqxhSnRVh/Pa6rlBBPnZu9
- iWE++XbHf5tYnWkfxqixFIVwUZ/qGS7CAETBBzabGGdE4xWMD0c43N6WLSZi0Ta/
- sFXwAeI7NkthQsX6rzcq24cwXa4msauUXZzXWEltHR5vHMn22QLlO4igclXTB7i1
- mN7FRQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6b5pnhg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 10:55:11 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6faa4abbe6eso4850566d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 03:55:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748343310; x=1748948110;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0QaN0jDgPB/5r3SY7bQD6QOdm26/CK5MylAtZs3M0Wg=;
- b=E+7l/3a0Iimelcq72M2Csjg/hMyqMBdsp7ijeQQhDgY41n7YJNEIkvNxQ23yP6PuEM
- bW2nu0JKZBt5uVWlbV6FMa+ieKOSUkAE2MauR9YTmHDA1o55EjHsEwvbwswzBBd4jzbE
- ZJy2pDKYaPFq2ndfjMLwKnqzfItYXXCjUk8eXFRSPd7jAnfGsWCy3Qt1Xts/xDOgo5cI
- EVudEPaLoVrJ/IPOkUZlc0MsCCwwQUcmAS6q7EoRc4UjCjdFYfV86+jr5k6wvQc9nAOz
- JQJzbL/u0Q7jDjX/F4WneVXCd98CLtQooEf3Lotw2WKNZBW6PprBDoTtTeJ7Hd5xQENt
- BPjQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVagwLAmWTK4c2yaUjlpulN8hSycMZ4vZ08ukasd0x7or8Vv4VBRopQYIf0hMiTHyZfWhmA7NsU+4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWzHtEYmZRFJOM4fAR0jQ8Qq7oJCd3t3uJgPRzuPcQ3Hg1EZDS
- SDj0jWfsVyf0PXUJgzFDXgmjFW8q2cvczXN8loS4J/N/PjXStGxkD9KdOleh6vtXwqEPen1cDYb
- YEjsl581r6xzl4Dmp9sePjg0ANO0Z727MPNXaYqMzWy0gADEabnHtROTZw9v4GSQwBtuTDvI=
-X-Gm-Gg: ASbGncs9hYnmbnGwYmL3/i4GyQKbOk9ymV1Sq6XcFuqvMmf0HyvhhU3c0YfivgzhATM
- V/mpEj288VOyiv0zihMc+Ihdj1w5arpv6NXDPTSSDfmZZ5W9vEj7mrj52Xw6PM/i5JvOUMG3/SS
- oGx+qJAwVouo5lqA2ujuunPRNkR0mkxVmRT8VaoB3cUYbjLnz45r5LDnMvV4L13y7EobNfhCNHr
- pZq3YjEVAQcMtqxFAi0xKi07sqEDn9FBk7hhjrGQMskxk8W5J9gPELaXTY0gwPRQYmn17NG1FSC
- 5nKR2dLqrRvYX7JSJBSM/RqgfEl74yhFrFvX/wQMVHXAajLkiN5JJZJShgWEJEAKDQ==
-X-Received: by 2002:a05:6214:2482:b0:6f8:b4aa:2a52 with SMTP id
- 6a1803df08f44-6fa9d270dd0mr67671246d6.4.1748343310288; 
- Tue, 27 May 2025 03:55:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGTJV7hGI3ZkwSkprGN+pDgA9B/aLbKDp2MQye2teLhkvThg0W2kSQO/Ud2VQBEXioadf+3JQ==
-X-Received: by 2002:a05:6214:2482:b0:6f8:b4aa:2a52 with SMTP id
- 6a1803df08f44-6fa9d270dd0mr67671096d6.4.1748343309770; 
- Tue, 27 May 2025 03:55:09 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-602cd35e2fcsm5162433a12.73.2025.05.27.03.55.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 May 2025 03:55:09 -0700 (PDT)
-Message-ID: <152f5150-30b0-400c-9816-13e4710a4156@oss.qualcomm.com>
-Date: Tue, 27 May 2025 12:55:06 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19E510E079;
+ Tue, 27 May 2025 11:33:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E285B61129;
+ Tue, 27 May 2025 11:33:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCAA5C4CEEB;
+ Tue, 27 May 2025 11:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748345625;
+ bh=8NjOZ54AdLGgUqGDrY8fBK4La5vrhFA1nfnRN0ROiE4=;
+ h=From:Subject:Date:To:Cc:From;
+ b=L0HUYrvXZ/X7rqdMfiEYRH6Dp2yBR8oEazt+v7fKbLsZBZKMx5wxaXt7zVqpVsTXO
+ /PIPAzWV3hmfqpv9mAT1ZsHLlZc2k3Satwudw99vIEtv1bMWlcqGDx+u4vN80p1vZj
+ avoVRcEsYrBhTxhyAjzkf4mOVxw00lJFIQrLLxx+f1VxPukZoC7RQ+X4UPs5ryalrP
+ +4eO2lnOCQevHz0TIYr6nuIsS+QU9E9IT+xFufiNHEa0rsvGW/PqAm2UvElzDCQ2vg
+ SYT9cN7wpQwCw0mGZ1G20tUoaLYCdpDJ1LeCYjuf+9SsMuPCuCBjIYbPHoKLolqOeD
+ 3s6QnrPTihZMg==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v10 0/9] ref_tracker: add ability to register a debugfs
+ file for a ref_tracker_dir
+Date: Tue, 27 May 2025 07:33:31 -0400
+Message-Id: <20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
- device tree
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- jens.glathe@oldschoolsolutions.biz, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
- <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
- <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
- <CAMcHhXoYkQru_0n5siMGGkTcHu8yWRZWfT4ByiD8D0ieZHF+wQ@mail.gmail.com>
- <vwoixgdyjjzcjlv4muwrzv7wztnqyidtj7ghacgkjg6hgkkyl7@ji53bhiltaef>
- <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
- <rvyfkow43atquc64p6slck6lpfsot67v47ngvfnuhxqo222h6k@kdvbsmf3fwsr>
- <CAF6AEGvr_foMVwaE_VSVWLT50cbGi8i3UGwo2e=rORD-1JmTmA@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAF6AEGvr_foMVwaE_VSVWLT50cbGi8i3UGwo2e=rORD-1JmTmA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=ZcodNtVA c=1 sm=1 tr=0 ts=68359a0f cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=vupSWsNl5j4Ukh8iwq0A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDA5MCBTYWx0ZWRfX/QSsZFToyYtb
- zJbKPhzaB8/s8W+Z1zriQA+G2yah4XeHUJrRPvhzFLo90tkj5pF71rRCJxsjGNEr1k5Vcrg8cxT
- IxO9wIlHeQTAtsRVeM9A2vGtuzmZ6ug+q/NehtvqEE46VyfHfaUxwrmxHi8DsAUbvT/625x/Srb
- yKieW7R7WOlCmtBv6/BIiwQhfDsgoGyCqD2/yQfdPz6lZHlBd77fjjwjfNT1w8dzYiPd4f2GbtU
- tdEpAaq48R4XUugTa1BuQQ0cIWsA2HXAEUzwpvLDKPuolCjwyN3V6vQa01DFISOyGzzQHUzzBqC
- IlzVlf44KxdUYJ9iSwd1hMn2drBRkAJBMVNxkzXdnC/dN2V8PAtdSQzWLadgDur0aHNr9x8goNl
- bQ9lKrATwlYIRFq8LAcCfzeqpsn4sb9QR4knq1Qji8dy6SdW6UZ2HB3nEptacw/RpdK4Nda3
-X-Proofpoint-GUID: etw-b6hRLiok2NY5uxOc9J-rGjv3fd9R
-X-Proofpoint-ORIG-GUID: etw-b6hRLiok2NY5uxOc9J-rGjv3fd9R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-27_05,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 mlxlogscore=969 bulkscore=0 priorityscore=1501
- spamscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505270090
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAyjNWgC/2XQzW7DIAwH8FepOC8TGAhmp73HtAOfadQprUgVb
+ ar67nMqTWOzONno9wf7JtbS5rKKl8NNtLLN63xeqFDy6SDSMSxTGeZMDQESrDRKD63UawvpNOQ
+ 41XXQbnRRS12gBkHoQvfz5yPx7Z3q47xez+3r8cCm9u5PlPkftalBDlVqixY1gNSvp9KW8vF8b
+ pPYszbovWUeyEeFyYSYFUBlXvfeMa/JJ62sN4AJa2Te9B6ZN+RtCjY59N4aw7ztPHBvyasUY64
+ 0PMbM/Nh5LZkfyePoEvhQaY+Beffr6TDv9v07TDZ7F1PiHnvP94fkR+mcclnH6JF533vPvN//H
+ yIiBmPB/J3/fr9/A7PjxJGuAgAA
+X-Change-ID: 20250413-reftrack-dbgfs-3767b303e2fa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Jeff Layton <jlayton@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4406; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=8NjOZ54AdLGgUqGDrY8fBK4La5vrhFA1nfnRN0ROiE4=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoNaMQugIkoIHos2G9RfKUCH3HUpiHZwznjaBMQ
+ gKQUlByahmJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDWjEAAKCRAADmhBGVaC
+ FTB8D/0XarX8SSCyP3ut5/493ts0isLkqLvRVphy3ua0gR2yek698/ghm//ceODWB1kBIV1U3Om
+ v1PJ5V+yKnP00UCkDnGhj0GQ1OyHwE7b6aezDhFM6NOeXnAOFCLmc1PMp+sC70YsK2NhpbyiYP2
+ dBHwf42c41oTgxjoi+ic3Zl96+2cCfSAJPWZ9Z1/A0eprCaRZfgI5xV7f9vR1lhGIDZGz06SsfQ
+ t6suvXas6q+Oe6OgHoFwmu8Hhoy1FnK4TTx0S7SEaEL12RFOE5cPW48+lqX59muO7ogDfnaUd++
+ 91ZCdrJUgPGGx+cVCTVSZmVviezriQwYe0MyRBi1+OlqmS5wuPpZ2osQT9cbhWZVprTM96UaHI+
+ B3FJluTg+qUO4XVHlNfW8h9wpE1Gxj3QBpHRYDX2hpJRxqn5IclI0Z1fH3MLosKHuAMgqUyPOKJ
+ wudkxgiuUoLzUY9GRgpc2SYDqqAhTm0pmGgW01g4pBUVofJCyQCvMQo5r4o+HZzwnLy7t0bWd5u
+ TaypVc3BkD63AYeQ9yPUE73yDn8HxlwkTUFM7WRgfrLxFVBsZIsmEVtz+Ne7kEHABlulh/nmHMU
+ BM4zjLYx05JIq1Adddve7Y5oB9u6fWbJDSi+N/tEVFCaSWlNpJaKyOCBOrw/1xW/ixFwig9JH+F
+ 479ukh5m/ogTeow==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,27 +94,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/26/25 5:28 PM, Rob Clark wrote:
-> On Mon, May 26, 2025 at 1:36 AM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>
->> On Sun, May 25, 2025 at 09:43:36PM +0200, Aleksandrs Vinarskis wrote:
->>> On Sun, 25 May 2025 at 15:33, Dmitry Baryshkov
->>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>>>
+Thought I had sent this a week or so ago, but I dropped the ball in the
+midst of some travel.
 
-[...]
+The only difference from v9 is that this posting drops the i915 symlink
+patch. I got a CI report [1] that showed some EEXIST errors when trying
+to create those symlinks, which tells me that the names are not truly
+unique. Since I don't know much about the i915 driver, I'll leave that
+as an exercise for that team. It should be fairly simple to add if they
+come up with a scheme that gives these object unique names.
 
->> Yes, please. Don't set okay status for the GPU until it gets enabled.
-> 
-> Drive-by: Shouldn't the dtb describe the hw and not the state of the
-> linux kernel's support for the hw?  Ie. if bad things happen if we
-> describe hw which is missing driver support, shouldn't we fix that in
-> the driver.
-> 
-> (In the case of the GPU there is the slight wrinkle that we don't have
-> a gpu-id yet so there is no compatible in the dtb yet.)
+[1]: https://patchwork.freedesktop.org/series/148490/
 
-My two cents are that it's okay to enable it, at least in this case..
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v10:
+- drop the i915 symlink patch
+- Link to v9: https://lore.kernel.org/r/20250509-reftrack-dbgfs-v9-0-8ab888a4524d@kernel.org
 
-Konrad
+Changes in v9:
+- fix typo in ref_tracker_dir_init() kerneldoc header
+- Link to v8: https://lore.kernel.org/r/20250507-reftrack-dbgfs-v8-0-607717d3bb98@kernel.org
+
+Changes in v8:
+- fix up compiler warnings that the KTR warned about
+- ensure builds with CONFIG_DEBUG_FS=n and CONFIG_REF_TRACKER=y work
+- Link to v7: https://lore.kernel.org/r/20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org
+
+Changes in v7:
+- include net->net_cookie in netns symlink name
+- add __ostream_printf to ref_tracker_dir_symlink() stub function
+- remove unneeded #include of seq_file.h
+- Link to v6: https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-0-867c29aff03a@kernel.org
+
+Changes in v6:
+- clean up kerneldoc comment for ref_tracker_dir_debugfs()
+- add missing stub function for ref_tracker_dir_symlink()
+- temporary __maybe_unused on ref_tracker_dir_seq_print() to silence compiler warning
+- Link to v5: https://lore.kernel.org/r/20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org
+
+Changes in v5:
+- add class string to each ref_tracker_dir
+- auto-register debugfs file for every tracker in ref_tracker_dir_init
+- add function to allow adding a symlink for each tracker
+- add patches to create symlinks for netns's and i915 entries
+- change output format to print class@%p instead of name@%p
+- eliminate the name field in ref_tracker_dir
+- fix off-by-one bug when NULL terminating name string
+- Link to v4: https://lore.kernel.org/r/20250418-reftrack-dbgfs-v4-0-5ca5c7899544@kernel.org
+
+Changes in v4:
+- Drop patch to widen ref_tracker_dir_.name, use NAME_MAX+1 (256) instead since this only affects dentry name
+- Link to v3: https://lore.kernel.org/r/20250417-reftrack-dbgfs-v3-0-c3159428c8fb@kernel.org
+
+Changes in v3:
+- don't overwrite dir->name in ref_tracker_dir_debugfs
+- define REF_TRACKER_NAMESZ and use it when setting name
+- Link to v2: https://lore.kernel.org/r/20250415-reftrack-dbgfs-v2-0-b18c4abd122f@kernel.org
+
+Changes in v2:
+- Add patch to do %pK -> %p conversion in ref_tracker.c
+- Pass in output function to pr_ostream() instead of if statement
+- Widen ref_tracker_dir.name to 64 bytes to accomodate unique names
+- Eliminate error handling with debugfs manipulation
+- Incorporate pointer value into netdev name
+- Link to v1: https://lore.kernel.org/r/20250414-reftrack-dbgfs-v1-0-f03585832203@kernel.org
+
+---
+Jeff Layton (9):
+      ref_tracker: don't use %pK in pr_ostream() output
+      ref_tracker: add a top level debugfs directory for ref_tracker
+      ref_tracker: have callers pass output function to pr_ostream()
+      ref_tracker: add a static classname string to each ref_tracker_dir
+      ref_tracker: allow pr_ostream() to print directly to a seq_file
+      ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
+      ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
+      net: add symlinks to ref_tracker_dir for netns
+      ref_tracker: eliminate the ref_tracker_dir name field
+
+ drivers/gpu/drm/display/drm_dp_tunnel.c |   2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c |   3 +-
+ drivers/gpu/drm/i915/intel_wakeref.c    |   2 +-
+ include/linux/ref_tracker.h             |  58 +++++++++-
+ lib/ref_tracker.c                       | 190 +++++++++++++++++++++++++++++---
+ net/core/dev.c                          |   2 +-
+ net/core/net_namespace.c                |  34 +++++-
+ 7 files changed, 265 insertions(+), 26 deletions(-)
+---
+base-commit: fefff2755f2aa4125dce2a1edfe7e545c7c621f2
+change-id: 20250413-reftrack-dbgfs-3767b303e2fa
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
