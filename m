@@ -2,48 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78654AC4A03
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 10:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05626AC4A21
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 10:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D184810E3EA;
-	Tue, 27 May 2025 08:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F1510E416;
+	Tue, 27 May 2025 08:24:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="XJSkoORp";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MmB223AX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8ED10E3EA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 08:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1748333953;
- bh=IkH/TjEBQZFcqklxj9RA7ACaXu1fGvMgB4+ZHug+VWs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XJSkoORpg0nunY/AMe6ymS3VeMtzR2WFIHRZCND3xjFlID73t3pDL3wkC1zAidtVi
- umc9A2Raq5KIyejSDDFk4zut5MNUkimG/V3FiC6acBipVxlmGYb8fiiqR1Psd0ms59
- MbW+MWLn9h2FszHQSZIYM4cxbtLKAFL6unScOr17kcZlV89039n6Mc0X27B9+M99D2
- I+vBUfAbnnfCWePFBq2hHlPspMh6QS0fU86okW+fls4/m4x7OUHoF+CCgGgSeo51h6
- /I6nccr6QhWpPyWiyx8zxKh2gDeVWe/Ekg7kVSXgt3i3Y1NgZ7j7/lkPXJcza8d57L
- 5WU6gKYneTWsQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4b65Bm5xPdz4x0L;
- Tue, 27 May 2025 18:19:12 +1000 (AEST)
-Date: Tue, 27 May 2025 18:19:11 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Ben Skeggs <bskeggs@nvidia.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warning after merge of the drm tree
-Message-ID: <20250527181911.2c497df5@canb.auug.org.au>
-In-Reply-To: <20250521204911.0266f4d3@canb.auug.org.au>
-References: <20250521204911.0266f4d3@canb.auug.org.au>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1777A10E448
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 08:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1748334252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wmg0zgm8bwqGKOccpFTuoOfVUzJFvXK1R5rq2g9wG2w=;
+ b=MmB223AXYLQRXrVmKrlXTfYuNhJ8uvJxzJSMYqij2+KoIx4lPtPnvXwxy4Dcb7KyvFSYEl
+ jypZ4BAoWrPdNbw8mY2UXHswiB8dGg7g2KSAsHomJCLr7NMMAssbRHiVmkmzyfvcTZIAxn
+ DI7iDSv2zlncxMY5xZkYNLrnityjA/I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-JaSBKqGdPx-uMr4we00NfA-1; Tue, 27 May 2025 04:24:10 -0400
+X-MC-Unique: JaSBKqGdPx-uMr4we00NfA-1
+X-Mimecast-MFC-AGG-ID: JaSBKqGdPx-uMr4we00NfA_1748334249
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a370309e5cso1768351f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 01:24:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748334249; x=1748939049;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wmg0zgm8bwqGKOccpFTuoOfVUzJFvXK1R5rq2g9wG2w=;
+ b=g8KOoeVxM/DCBt5VVkoWhd+3XSTocu/lrGoKCrjzRkwNsYW4cGyOgj5dmE4qSwGku0
+ IKd49NBo5f2wfRVdsV0cL5wLEOWDTAMVlUvw1udvl5n3Lgku2QkyOfBl4AH85hWhR6+0
+ nLXAvzJNTSfgeQIKv9XkDNbNkHvD14nB/dd8T71PecpIXmrbw4lB6r8S5mz/fq8lLPkp
+ No4FV42tmS1JJjFlF4Pq64dVdzElCN5tWnmCAWPsM3/hV2vN7l0BqPlVEW7Bcw17yzbu
+ lWf30SpnfXseUaX/atLZ9WDzZaqZ5kZbfX2k8OZjAo6TbqVgG37H8pQ/MWGeSV2SEzs8
+ RJkQ==
+X-Gm-Message-State: AOJu0YzWkKqUq8esGPEWTOo+PoOAA2HQh9bP1YLx7V787L7xmj6nGPDd
+ LfhA6wnYMOHCnDIS7EKmMxY30ctBMMXKHW8KOQbaoosmBOqSDnNVl+Ep3RIZJRGVZFTD+xbOnv7
+ jWRtcuutA0fPxBbNambG9ZrjEdHa97Bt3csPLqx0JJ4CsSji1dazHF0Yuh6il33IHh61eWA==
+X-Gm-Gg: ASbGnct0rM4B9QqYcFISB90h5cwcz8p+oa/2O9J/ZBrSDX2U7enHFpZlWPEKgi/9KXY
+ QJ9RiDNWKSnZyc76Vn1Ej/SCwMSmNqbZmc60X3Qbp/L8Qen6k7PS0lHKl4ms27SzYAjn9rPdNOt
+ kbFRcjsnnZYAeQelYcHJaced4dlmz86chE9d3yAenfXufPto/aIgnijZYlz9Ep5ylrpVO/VeFyG
+ U2lK3jcRu29b9eLOyaYx2/zG3nrqS+Xpv52K/3C0pHRo6BlsJQkV2TZ+6uz8ecDGMCgBmLw0BfL
+ MEvIApKifq+exYv+N/ZiZNQGQ/2CqFGnOzy54Se/YVT1dzpMQyBaYHtNSq1+bgww9FMeUQ==
+X-Received: by 2002:a05:6000:2586:b0:3a4:c6bc:df46 with SMTP id
+ ffacd0b85a97d-3a4cb498f7cmr9722394f8f.49.1748334249343; 
+ Tue, 27 May 2025 01:24:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF2NpPfVPLaTXD9jufYOsVImLYDjqmB2qgUWGjuL2yiKQhM/XPh2hThBUvyKuRRzV/QF6aQjw==
+X-Received: by 2002:a05:6000:2586:b0:3a4:c6bc:df46 with SMTP id
+ ffacd0b85a97d-3a4cb498f7cmr9722355f8f.49.1748334248920; 
+ Tue, 27 May 2025 01:24:08 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a4e4f4d58esm39466f8f.28.2025.05.27.01.24.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 May 2025 01:24:08 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Geert
+ Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2] drm/sitronix: Remove broken backwards-compatibility
+ layer
+In-Reply-To: <87msb7ny2p.fsf@minerva.mail-host-address-is-not-set>
+References: <20395b14effe5e2e05a4f0856fdcda51c410329d.1747751592.git.geert+renesas@glider.be>
+ <87msb7ny2p.fsf@minerva.mail-host-address-is-not-set>
+Date: Tue, 27 May 2025 10:24:06 +0200
+Message-ID: <87h616tqah.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/mFdbfBKYirkcxtm6N5Vc7HN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: sFogVpOlMXfbWBDrM5b6FUHOPObCAYGW3t-RfZ6993I_1748334249
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,45 +100,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/mFdbfBKYirkcxtm6N5Vc7HN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-Hi all,
-
-On Wed, 21 May 2025 20:49:11 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
+> Geert Uytterhoeven <geert+renesas@glider.be> writes:
 >
-> After merging the drm tree, today's linux-next build (htmldocs) produced
-> this warning:
->=20
-> Error: Cannot open file drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
->=20
-> Introduced by commit
->=20
->   c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/=
-rm/r535/")
+> Hello Geert,
+>
+>> When moving the Sitronix DRM drivers and renaming their Kconfig symbols,
+>> the old symbols were kept, aiming to provide a seamless migration path
+>> when running "make olddefconfig" or "make oldconfig".
+>>
+>> However, the old compatibility symbols are not visible.  Hence unless
+>> they are selected by another symbol (which they are not), they can never
+>> be enabled, and no backwards compatibility is provided.
+>>
+>> Drop the broken mechanism and the old symbols.
+>>
+>> Fixes: 9b8f32002cddf792 ("drm/sitronix: move tiny Sitronix drivers to their own subdir")
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> ---
+>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> -- 
 
-I am still seeing this error.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
---=20
-Cheers,
-Stephen Rothwell
+-- 
+Best regards,
 
---Sig_/mFdbfBKYirkcxtm6N5Vc7HN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmg1dX8ACgkQAVBC80lX
-0GwXFAf/U0NsocTa0gniqfcIPGqqv2TLXUaC3tF+r60wLVcFlRMWcTMYXw4Om4RW
-DI9aLEM4m6j5dWHN1NM6TJ+JX4u+kExVOwXFAkTlfuyiP/qarW9rReFlcnek71pA
-LQGJVTtMPPC/H0nv0MMs3Wpki35DR3ZZEPeUDiEDhVKiL+Q9XT25hwhkiHXuv2eg
-jHwPbTD01RN32m0ehThJTOkZ3pzs66qm2XuxqOkhaUc4gb9baG0E1niDIbeh3L5Z
-xehxJhYzU2G6A3/AnGhUNip2+xPSc4XjTCRlma/UBdmyckcLMDYX4OebOET3b3DC
-V3MXvcJxAqWP85maNwstVu0hOVmfdA==
-=hQIZ
------END PGP SIGNATURE-----
-
---Sig_/mFdbfBKYirkcxtm6N5Vc7HN--
