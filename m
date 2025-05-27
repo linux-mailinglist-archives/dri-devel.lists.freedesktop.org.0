@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96431AC52B1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87F6AC52BE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 18:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7110E282;
-	Tue, 27 May 2025 16:10:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B99810E523;
+	Tue, 27 May 2025 16:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rECuIYBJ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="C/vAoEXa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0005910E193
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 16:10:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B2E73A4EC31;
- Tue, 27 May 2025 16:10:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B5BC4CEE9;
- Tue, 27 May 2025 16:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748362234;
- bh=x02CK+8qrbvy4LwdV881C8rJPLJYRgJj2LP6IK2gJ5U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rECuIYBJfhCMLhOQr4xdq8+9OdV0x7uoz1jAIY0WoBAVhU5UwLCkeiWkTs08SWR+E
- ZWGe9Zf0JD/h8HQ/z58OIqh+hYIis4E8vvgSujoQpHwPpzvLGEQytmmyCM+vEMei26
- /2WNclsqVSGV7YvcHMWBlG3Fec8qD+5s82DaXano8MDGX2WP+E2Rn+Gvk50fkBzgdg
- JphSEDN3BIM5Opkw689sFzziuU7KL8Vjmj1HgjtxW4lwj6afr04cH09nP+b7sDoHhv
- FF1BsNlKR3BCV/ERXzKav9GhOlTWzf33Cgbc4oBbEphuhL836rD3MgqSQGj9oJW4/T
- mcBgI19c8drcw==
-Date: Tue, 27 May 2025 18:10:31 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 3/3] drm/tests: bridge: add KUnit tests for
- devm_drm_bridge_alloc()
-Message-ID: <20250527-smiling-peacock-from-uranus-dc032f@houat>
-References: <20250516-drm-bridge-alloc-doc-test-v8-0-7e356fd58ba5@bootlin.com>
- <20250516-drm-bridge-alloc-doc-test-v8-3-7e356fd58ba5@bootlin.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E8910E523
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 16:13:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1748362373; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=NtLpvLpQ2cD63d250UpW91ucrcTkFj1f268fArWsk1u0o/kHwWNsaYZSuleG296zWy3w8a7PG18svX8qDwOhyaemO3eVLgjRsbTCn7KxRn+0a1DbBvUefz7VfffP1yqe6c3uCcTLXJOrpypVF4vIhjd7k9h/QU29ZgelazuHqGg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1748362373;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=MvbyqxXVQNHC5mh6gd7gRMge22HJjHVERWcwOyMawoE=; 
+ b=Vyox1T7l5q/yil934iO+YkaxMAvKkeRaD7cqrreD9GitZ7Mr16O2LXJ3Fm3Oo4aJefi/slTn11y52TYxRAe4Qw618h3J13rWiZV1/GHJX47qF/yDC0Q3vQQmfLIiLpzYhG1YcIcZlxwgM22ZhV/s/0UnB69YG9hs6iILScA1rTU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1748362373; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=MvbyqxXVQNHC5mh6gd7gRMge22HJjHVERWcwOyMawoE=;
+ b=C/vAoEXaySIIVAT1HZQUZly5ajYDs7+nr4uXNyc2cQLvEjQVIZ/hOUJeJGWaKZYe
+ srPw5HghmqrPUS3MWNv8STkH6nrwjVcUyOwF8rPGPMR/UX5/jXHjl2c8YROE7yoXIrA
+ Cl1W+kaVJNWEPDecgKuNg6i12tqaN9SEDEH5cFtk=
+Received: by mx.zohomail.com with SMTPS id 1748362370680719.5901778529433;
+ Tue, 27 May 2025 09:12:50 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de,
+ linux-rockchip@lists.infradead.org, Andy Yan <andyshrk@163.com>
+Cc: neil.armstrong@linaro.org, sebastian.reichel@collabora.com,
+ Dmitry Baryshkov <lumag@kernel.org>, stephen@radxa.com,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, yubing.zhang@rock-chips.com, naoki@radxa.com,
+ Laurent.pinchart@ideasonboard.com, Andy Yan <andy.yan@rock-chips.com>,
+ krzk+dt@kernel.org, robh@kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 3/9] drm/rockchip: Add RK3588 DPTX output support
+Date: Tue, 27 May 2025 18:12:43 +0200
+Message-ID: <2278911.CQOukoFCf9@workhorse>
+In-Reply-To: <20250403033748.245007-4-andyshrk@163.com>
+References: <20250403033748.245007-1-andyshrk@163.com>
+ <20250403033748.245007-4-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="y2prcnw7nnkz2dsu"
-Content-Disposition: inline
-In-Reply-To: <20250516-drm-bridge-alloc-doc-test-v8-3-7e356fd58ba5@bootlin.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,203 +71,299 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy,
 
---y2prcnw7nnkz2dsu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 3/3] drm/tests: bridge: add KUnit tests for
- devm_drm_bridge_alloc()
-MIME-Version: 1.0
+thank you for the driver. I'll leave some review comments inline. I don't
+have specific knowledge on the DRM subsystem so my comments will be of more
+general nature.
 
-On Fri, May 16, 2025 at 06:48:39PM +0200, Luca Ceresoli wrote:
-> Add KUnit tests for the newly introduced devm_drm_bridge_alloc().
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
+On Thursday, 3 April 2025 05:37:31 Central European Summer Time Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> Add driver extension for Synopsys DesignWare DPTX IP used
+> on Rockchip RK3588 SoC.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Acked-by: Dmitry Baryshkov <lumag@kernel.org>
+> 
 > ---
->=20
-> Changed in v8:
->  - rebase on new patch converting drm_bridge_test.c to
->    devm_drm_bridge_alloc()
->  - add check that bridge is removed (thanks to the .destroy callback)
->  - add a check with get/put
->=20
-> Changed in v7:
->  - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
->  - cleanup commit message
->=20
-> Changed in v6:
->  - update to new devm_drm_bridge_alloc() API
->  - remove drm_test_drm_bridge_put test, not straightforward to write with
->    the new API and the current notification mechanism
->  - do not allocate a drm_device: a bridge is allocated without one
->  - rename some identifiers for easier code reading
->=20
-> This patch was added in v5.
-> ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 84 +++++++++++++++++++++++++++=
-++++++
->  1 file changed, 84 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
-sts/drm_bridge_test.c
-> index f3a625c536f610dc8560b56531056df7c613f564..32db3a82fe6d14a3e9d6536bc=
-f4b19f1bc65969a 100644
-> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
-> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-> @@ -8,6 +8,7 @@
->  #include <drm/drm_bridge_helper.h>
->  #include <drm/drm_kunit_helpers.h>
-> =20
-> +#include <kunit/device.h>
->  #include <kunit/test.h>
-> =20
->  /*
-> @@ -21,6 +22,7 @@ struct dummy_drm_bridge {
->  	unsigned int enable_count;
->  	unsigned int disable_count;
->  	struct drm_bridge bridge;
-> +	void *data;
->  };
-> =20
->  struct drm_bridge_init_priv {
-> @@ -422,11 +424,93 @@ static struct kunit_suite drm_bridge_helper_reset_c=
-rtc_test_suite =3D {
->  	.test_cases =3D drm_bridge_helper_reset_crtc_tests,
->  };
-> =20
-> +struct drm_bridge_alloc_test_ctx {
+> 
+> (no changes since v2)
+> 
+> Changes in v2:
+> - no include uapi path
+> - switch to drmm_encoder_init
+> 
+>  drivers/gpu/drm/rockchip/Kconfig            |   9 ++
+>  drivers/gpu/drm/rockchip/Makefile           |   1 +
+>  drivers/gpu/drm/rockchip/dw_dp-rockchip.c   | 154 ++++++++++++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c |   1 +
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.h |   1 +
+>  5 files changed, 166 insertions(+)
+>  create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+> 
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 26c4410b2407c..00315cc6be5a8 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -8,6 +8,7 @@ config DRM_ROCKCHIP
+>  	select DRM_PANEL
+>  	select VIDEOMODE_HELPERS
+>  	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
+> +	select DRM_DW_DP if ROCKCHIP_DW_DP
+>  	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
+>  	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
+>  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
+> @@ -58,6 +59,14 @@ config ROCKCHIP_CDN_DP
+>  	  RK3399 based SoC, you should select this
+>  	  option.
+>  
+> +config ROCKCHIP_DW_DP
+> +	bool "Rockchip specific extensions for Synopsys DW DP"
+> +	help
+> +	  This selects support for Rockchip SoC specific extensions
+> +	  to enable Synopsys DesignWare Cores based DisplayPort transmit
+> +	  controller support on Rockchip SoC, If you want to enable DP on
+> +	  rk3588 based SoC, you should select this option.
+> +
+>  config ROCKCHIP_DW_HDMI
+>  	bool "Rockchip specific extensions for Synopsys DW HDMI"
+>  	help
+> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
+> index 2b867cebbc121..097f062399c7a 100644
+> --- a/drivers/gpu/drm/rockchip/Makefile
+> +++ b/drivers/gpu/drm/rockchip/Makefile
+> @@ -14,6 +14,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
+> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_DP) += dw_dp-rockchip.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
+>  rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
+> diff --git a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+> new file mode 100644
+> index 0000000000000..5ff8a6a54997e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+> @@ -0,0 +1,154 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2020 Rockchip Electronics Co., Ltd.
+> + *
+> + * Author: Zhang Yubing <yubing.zhang@rock-chips.com>
+> + * Author: Andy Yan <andy.yan@rock-chips.com>
+> + */
+> +
+> +#include <linux/component.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <drm/bridge/dw_dp.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
 
-drm_bridge_alloc_priv
+I think there's a missing #include <drm/display/drm_dp_helper.h> here. It
+gets pulled in implicitly in most configurations, but I think this is what
+the s390 build failure from the kernel test robot report is about.
 
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include <linux/media-bus-format.h>
+> +#include <linux/videodev2.h>
+> +
+> +#include "rockchip_drm_drv.h"
+> +#include "rockchip_drm_vop.h"
+> +
+> +struct rockchip_dw_dp {
+> +	struct dw_dp *base;
 > +	struct device *dev;
-> +	struct dummy_drm_bridge *dummy_br;
-> +	bool destroyed;
-
-This can be in drm_bridge_priv
-
+> +	struct rockchip_encoder encoder;
 > +};
 > +
-> +static void dummy_drm_bridge_destroy(struct drm_bridge *bridge)
+> +static inline struct rockchip_dw_dp *encoder_to_dp(struct drm_encoder *encoder)
 > +{
-> +	struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(bridge);
-> +	struct drm_bridge_alloc_test_ctx *ctx =3D (struct drm_bridge_alloc_test=
-_ctx *)dummy_br->data;
+> +	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
 > +
-> +	ctx->destroyed =3D true;
+> +	return container_of(rkencoder, struct rockchip_dw_dp, encoder);
 > +}
+
+This function appears to be unused, and will generate a warning:
+
+  linux/drivers/gpu/drm/rockchip/dw_dp-rockchip.c:33:38: warning: unused
+  function 'encoder_to_dp' [-Wunused-function]
+
+I assume it may be used in a follow-up series. I think it's fine to add it
+there when it's needed and avoid the warning for now by removing it.
+
 > +
-> +static const struct drm_bridge_funcs drm_bridge_dummy_funcs =3D {
-> +	.destroy =3D dummy_drm_bridge_destroy,
-> +};
-
-And same here, you don't need to create yet another function set, just
-add it to the existing ones.
-
-> +static int drm_test_bridge_alloc_init(struct kunit *test)
+> +static int dw_dp_encoder_atomic_check(struct drm_encoder *encoder,
+> +				      struct drm_crtc_state *crtc_state,
+> +				      struct drm_connector_state *conn_state)
 > +{
-> +	struct drm_bridge_alloc_test_ctx *ctx;
+> +	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
+> +	struct drm_atomic_state *state = conn_state->state;
+> +	struct drm_display_info *di = &conn_state->connector->display_info;
+> +	struct drm_bridge *bridge  = drm_bridge_chain_get_first_bridge(encoder);
+> +	struct drm_bridge_state *bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+> +	u32 bus_format = bridge_state->input_bus_cfg.format;
 > +
-> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> +		s->output_mode = ROCKCHIP_OUT_MODE_YUV420;
+> +		break;
+> +	case MEDIA_BUS_FMT_YUYV10_1X20:
+> +	case MEDIA_BUS_FMT_YUYV8_1X16:
+> +		s->output_mode = ROCKCHIP_OUT_MODE_S888_DUMMY;
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+> +	case MEDIA_BUS_FMT_YUV10_1X30:
+> +	case MEDIA_BUS_FMT_YUV8_1X24:
+> +	default:
+> +		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
+> +		break;
+> +	}
 > +
-> +	ctx->dev =3D kunit_device_register(test, "drm-bridge-dev");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-> +
-> +	test->priv =3D ctx;
-> +
-> +	ctx->dummy_br =3D devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_brid=
-ge, bridge,
-> +					      &drm_bridge_dummy_funcs);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dummy_br);
-> +
-> +	ctx->dummy_br->data =3D ctx;
-> +
-> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
+> +	s->output_type = DRM_MODE_CONNECTOR_DisplayPort;
+> +	s->bus_format = bus_format;
+> +	s->bus_flags = di->bus_flags;
+> +	s->color_space = V4L2_COLORSPACE_DEFAULT;
+
+Reading the VOP2 code s->color_space gets read by, it seems this results
+in the output always using BT.709 as the colour space in YUV output mode.
+Is my understanding of the code correct?
+
+I don't know if DP 1.4 is limited with regards to HDR or if this is just
+left for later to implement, but BT.709 in the case of an HDR RGB VOP
+input seems wrong, unless VOP2 sets the output color_space to something like
+BT.2020 or similar in the case of output_mode == ROCKCHIP_OUT_MODE_AAAA and
+I'm not seeing it.
+
 > +
 > +	return 0;
 > +}
 > +
-> +static void drm_test_drm_bridge_alloc_basic(struct kunit *test)
-
-You need a comment explaining what this test is about
-
-> +{
-> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
-> +
-> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
-> +
-> +	kunit_device_unregister(test, ctx->dev);
-> +	KUNIT_ASSERT_TRUE(test, ctx->destroyed);
-
-EXPECT
-
-> +}
-> +
-> +static void drm_test_drm_bridge_alloc_get_put(struct kunit *test)
-
-Comment here
-
-> +{
-> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
-> +
-> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
-> +
-> +	drm_bridge_get(&ctx->dummy_br->bridge);
-> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
-
-EXPECT
-
-> +	kunit_device_unregister(test, ctx->dev);
-> +	KUNIT_ASSERT_FALSE(test, ctx->destroyed);
-
-Ditto
-
-> +	drm_bridge_put(&ctx->dummy_br->bridge);
-> +	KUNIT_ASSERT_TRUE(test, ctx->destroyed);
-
-Ditto
-
-> +}
-> +
-> +static struct kunit_case drm_bridge_alloc_tests[] =3D {
-> +	KUNIT_CASE(drm_test_drm_bridge_alloc_basic),
-> +	KUNIT_CASE(drm_test_drm_bridge_alloc_get_put),
-> +	{ }
+> +static const struct drm_encoder_helper_funcs dw_dp_encoder_helper_funcs = {
+> +	.atomic_check		= dw_dp_encoder_atomic_check,
 > +};
 > +
-> +static struct kunit_suite drm_bridge_alloc_test_suite =3D {
-> +	.name =3D "drm_bridge_alloc",
-> +	.init =3D drm_test_bridge_alloc_init,
-> +	.test_cases =3D drm_bridge_alloc_tests,
+> +static int dw_dp_rockchip_bind(struct device *dev, struct device *master, void *data)
+> +{
+> +	struct dw_dp_plat_data plat_data;
+> +	struct drm_device *drm_dev = data;
+> +	struct rockchip_dw_dp *dp;
+> +	struct drm_encoder *encoder;
+> +	struct drm_connector *connector;
+> +	int ret;
+> +
+> +	dp = devm_kzalloc(dev, sizeof(*dp), GFP_KERNEL);
+> +	if (!dp)
+> +		return -ENOMEM;
+> +
+> +	dp->dev = dev;
+> +	plat_data.max_link_rate = 810000;
+> +	encoder = &dp->encoder.encoder;
+> +	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm_dev, dev->of_node);
+> +	rockchip_drm_encoder_set_crtc_endpoint_id(&dp->encoder, dev->of_node, 0, 0);
+> +
+> +	ret = drmm_encoder_init(drm_dev, encoder, NULL, DRM_MODE_ENCODER_TMDS, NULL);
+> +	if (ret)
+> +		return ret;
+> +	drm_encoder_helper_add(encoder, &dw_dp_encoder_helper_funcs);
+> +
+> +	dp->base = dw_dp_bind(dev, encoder, &plat_data);
+> +	if (IS_ERR(dp->base)) {
+> +		ret = PTR_ERR(dp->base);
+> +		return ret;
+> +	}
+> +
+> +	connector = drm_bridge_connector_init(drm_dev, encoder);
+> +	if (IS_ERR(connector)) {
+> +		ret = PTR_ERR(connector);
+> +		return dev_err_probe(dev, ret, "Failed to init bridge connector");
+> +	}
+> +
+> +	drm_connector_attach_encoder(connector, encoder);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct component_ops dw_dp_rockchip_component_ops = {
+> +	.bind = dw_dp_rockchip_bind,
 > +};
 > +
->  kunit_test_suites(
->  	&drm_bridge_get_current_state_test_suite,
->  	&drm_bridge_helper_reset_crtc_test_suite,
-> +	&drm_bridge_alloc_test_suite,
->  );
-> =20
->  MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
-> +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
+> +static int dw_dp_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
 > +
->  MODULE_DESCRIPTION("Kunit test for drm_bridge functions");
->  MODULE_LICENSE("GPL");
+> +	return component_add(dev, &dw_dp_rockchip_component_ops);
+> +}
+> +
+> +static void dw_dp_remove(struct platform_device *pdev)
+> +{
+> +	struct rockchip_dw_dp *dp = platform_get_drvdata(pdev);
 
-Looks good otherwise, thanks
-Maxime
+Does one of the helper functions or something else set drvdata? Otherwise
+I don't see how this is ever non-null.
 
---y2prcnw7nnkz2dsu
-Content-Type: application/pgp-signature; name="signature.asc"
+> +
+> +	component_del(dp->dev, &dw_dp_rockchip_component_ops);
+> +}
+> +
+> +static const struct of_device_id dw_dp_of_match[] = {
+> +	{ .compatible = "rockchip,rk3588-dp", },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, dw_dp_of_match);
+> +
+> +struct platform_driver dw_dp_driver = {
+> +	.probe	= dw_dp_probe,
+> +	.remove = dw_dp_remove,
+> +	.driver = {
+> +		.name = "dw-dp",
+> +		.of_match_table = dw_dp_of_match,
+> +	},
+> +};
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> index ed88788e04dd2..687bb7b252e8e 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -531,6 +531,7 @@ static int __init rockchip_drm_init(void)
+>  	ADD_ROCKCHIP_SUB_DRIVER(rockchip_dp_driver,
+>  				CONFIG_ROCKCHIP_ANALOGIX_DP);
+>  	ADD_ROCKCHIP_SUB_DRIVER(cdn_dp_driver, CONFIG_ROCKCHIP_CDN_DP);
+> +	ADD_ROCKCHIP_SUB_DRIVER(dw_dp_driver, CONFIG_ROCKCHIP_DW_DP);
+>  	ADD_ROCKCHIP_SUB_DRIVER(dw_hdmi_rockchip_pltfm_driver,
+>  				CONFIG_ROCKCHIP_DW_HDMI);
+>  	ADD_ROCKCHIP_SUB_DRIVER(dw_hdmi_qp_rockchip_pltfm_driver,
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+> index c183e82a42a51..2e86ad00979c4 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+> @@ -87,6 +87,7 @@ int rockchip_drm_encoder_set_crtc_endpoint_id(struct rockchip_encoder *rencoder,
+>  					      struct device_node *np, int port, int reg);
+>  int rockchip_drm_endpoint_is_subdriver(struct device_node *ep);
+>  extern struct platform_driver cdn_dp_driver;
+> +extern struct platform_driver dw_dp_driver;
+>  extern struct platform_driver dw_hdmi_rockchip_pltfm_driver;
+>  extern struct platform_driver dw_hdmi_qp_rockchip_pltfm_driver;
+>  extern struct platform_driver dw_mipi_dsi_rockchip_driver;
+> 
 
------BEGIN PGP SIGNATURE-----
+Other than that, the driver looks great, thank you! I've tested it on my
+ROCK 5T over DP altmode, where it correctly interfaces with a DP monitor
+I have through an alt-mode adapter. So feel free to add a
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDXj9wAKCRAnX84Zoj2+
-dr/BAX9uVwJKf3m4xtOc++ZZUCTKyhY/iUGf628qH7SRN1zyikZiRnX73TsiKBLo
-cep1bTwBf3Q9JBwvbW2AhtZ2UjUQnjSjjUXHK3pq5H8+oF2Q9CjoqHsfz9LpopfL
-9H5lA102Ww==
-=+xu1
------END PGP SIGNATURE-----
+Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
---y2prcnw7nnkz2dsu--
+Kind regards,
+Nicolas Frattaroli
+
+
+
