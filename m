@@ -2,51 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1156BAC4F31
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 15:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B1DAC4FE7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 15:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DADD10E41A;
-	Tue, 27 May 2025 13:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C2710E4D4;
+	Tue, 27 May 2025 13:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Si/NPXgd";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="XLZLRyxC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183BA10E41A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 13:05:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6556761137;
- Tue, 27 May 2025 13:05:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB640C4CEE9;
- Tue, 27 May 2025 13:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748351111;
- bh=Ompy122E7fHKg2aBu7QUio5qAZ+AuN85g7YTBOJaKyA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Si/NPXgd83sNoeKHHt6o4b0SsEwFNoMY1gMTUuBC5hYiTLDcCbgFB8ndUekZgLMIN
- GufD2uZnoWccEpfAvoIQ5W7US/1fV+tzdu39X8Wy4ZyXl5n3K/zUqztPlb1k1ZMk9a
- YR+BnKcygGqQ8+0LSqyk34Cr1bPmyXzjTQFZ5qFNne1GsEd7EKcKe3oWwRekAgNluw
- 4HX17jP4ZSqJmT7uKOg5iWe1/WrKbCcx1w5RrxB5HjCsTqGzV/oPfhHfS1G8PtSACA
- qLd4GhMHxK1j/3VN8peAyDplQSYF6ywMyPTmfQ6Z442X0+zNDBC/JkvSPeI2fWqLkk
- b0jK0FaKigWvw==
-Date: Tue, 27 May 2025 15:05:08 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jared Kangas <jkangas@redhat.com>
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
- christian.koenig@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] dma-buf: heaps: Give default CMA heap a fixed name
-Message-ID: <20250527-gainful-jaguar-of-honor-a72e15@houat>
-References: <20250522191418.442390-1-jkangas@redhat.com>
- <20250522191418.442390-4-jkangas@redhat.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D91C10E4D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 13:35:35 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-4769f3e19a9so18128201cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 06:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1748352934; x=1748957734;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YEZyB1x1F+5CkjV/pim3lCXpXrVwiFrJ/FhH6JZPB9I=;
+ b=XLZLRyxCHg1cuUB7IGqMmpjogrVMzOvNS+Jsn0fEdiFud+/eCHhq8gDoMJiex4A2Ft
+ mIEGB0oylmOieWXUARqBiqXrvhR7mmM2DqpqLEJo7PVGCIq8BEKtjVD4aKp30wDEqxHj
+ +KkGpPObSDfrTX/DM1/rv9M6OfUr7NfadFKDYwlrNaHlIOgO2p34TF/YxLxpqoEbhrgK
+ nlqqtd7k/10djYRO3NdSWhUGW4IksjyCdBJwYsG7yW4IeHs2fj7evbM+aGBj7e1HqXic
+ I21EpYxCRV/k+5J+3aartRZHWuoFfywk53H41tp/JWW0rG1bEHP5m29zx5ns0iWu1co0
+ 3FWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748352934; x=1748957734;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YEZyB1x1F+5CkjV/pim3lCXpXrVwiFrJ/FhH6JZPB9I=;
+ b=GnP9pvv/h8A+Iq4aWGg0oTf2qa3TwliqYhtcto2Po//po2whcFDOopOPD/oVKBkV9+
+ Evl/UwOD78dr6+011RrWeiR8tkAKs8x8AfJfFDPkgDOd9JKecib/lkMecuwAUc0cehsv
+ YTegkhfsf6Y9aiH8VmgimjRTHe+FmmcZ8JsAvE1L7J88w4RPpt7sCy/i5ap7EDmbDA7C
+ fHWyFOilNQdiP+HcjgFwcVxd2D/gDQc/fIFveBldNf1bIJxOL13LR5vYhsC6hPyX4oJn
+ tnDze/LC0Aft75ITouRjo5cNcnI5BKs1MJBFpBQW5AppNvvLlfGNiL4du8KkzlktIIwG
+ o8Ag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYF0DDpn9Tp30EG0Thb+h6CPZyTc009HlGsqG2CA/C9ynUpXbs/1Sh24VIaOBE//DpYy9Rx7ovUCY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzlxm37X85rBm/uYuqpHPRBOt7p4Aq33t8slD4xzWUBowwePo7Z
+ GHnbB9g41F6wec6+4tCPxmr2m+TRzKd8vJK+5urm1YX5aMKDbx8k1mK/995sS7UEmo3QygAwitM
+ YC2AfSYFAyPXzGUpyPWkuFB4NSY4je4oqKFKeBeEf
+X-Gm-Gg: ASbGncuS8MIQ0d8N7e0+enngEjG9PLafql777RjEKbw1w0kGutQ7lzXIdArYfx7tsqg
+ z9LhNCNzjIcuGwawOze1lxw7FlEulgxKB25wVr1gLQmwUx8AXfYz2apqWd8siIX0x2TISZ5gvzK
+ NKplmL12tOXmZZ1A7z7xILPwLDgJmKVJqbC1waAWGMhetM
+X-Google-Smtp-Source: AGHT+IH8RlW6fXMU8jqYWLoBXY1sSMdePhK4LTMkNh/Wwj5ogOouIbtFkZUDwPHlAhRg8OJT0lxhqcW9paNA2rzLz9A=
+X-Received: by 2002:a05:622a:4c83:b0:477:5d31:9c3f with SMTP id
+ d75a77b69052e-49f47b04961mr211606171cf.42.1748352933955; Tue, 27 May 2025
+ 06:35:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="r3bmleoevfwb3cbp"
-Content-Disposition: inline
-In-Reply-To: <20250522191418.442390-4-jkangas@redhat.com>
+References: <20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org>
+ <20250527-reftrack-dbgfs-v10-8-dc55f7705691@kernel.org>
+In-Reply-To: <20250527-reftrack-dbgfs-v10-8-dc55f7705691@kernel.org>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 27 May 2025 06:35:23 -0700
+X-Gm-Features: AX0GCFuUcYxaQRTirO6utZCvvEE-Lz0VFl_jzNkZ3QII3s7fn37-Kf5B5Nl9CTI
+Message-ID: <CANn89i+PFJguSKfbiX1nWSvPA2S8O-pb7HxVT4+zkjMdD3meqg@mail.gmail.com>
+Subject: Re: [PATCH v10 8/9] net: add symlinks to ref_tracker_dir for netns
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
+ Qasim Ijaz <qasdev00@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,138 +99,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---r3bmleoevfwb3cbp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 3/3] dma-buf: heaps: Give default CMA heap a fixed name
-MIME-Version: 1.0
-
-Hi,
-
-On Thu, May 22, 2025 at 12:14:18PM -0700, Jared Kangas wrote:
-> The CMA heap's name in devtmpfs can vary depending on how the heap is
-> defined. Its name defaults to "reserved", but if a CMA area is defined
-> in the devicetree, the heap takes on the devicetree node's name, such as
-> "default-pool" or "linux,cma". To simplify naming, unconditionally name
-> it "default_cma_region", but keep a legacy node in place backed by the
-> same underlying allocator for backwards compatibility.
->=20
-> Signed-off-by: Jared Kangas <jkangas@redhat.com>
+On Tue, May 27, 2025 at 4:34=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> After assigning the inode number to the namespace, use it to create a
+> unique name for each netns refcount tracker with the ns.inum and
+> net_cookie values in it, and register a symlink to the debugfs file for
+> it.
+>
+> init_net is registered before the ref_tracker dir is created, so add a
+> late_initcall() to register its files and symlinks.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 > ---
->  Documentation/userspace-api/dma-buf-heaps.rst |  7 +++++--
->  drivers/dma-buf/heaps/Kconfig                 | 10 ++++++++++
->  drivers/dma-buf/heaps/cma_heap.c              | 20 ++++++++++++++++++-
->  3 files changed, 34 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> index 23bd0bd7b0654..1dfe5e7acd5a3 100644
-> --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -21,5 +21,8 @@ following heaps:
->     usually created either through the kernel commandline through the
->     ``cma`` parameter, a memory region Device-Tree node with the
->     ``linux,cma-default`` property set, or through the ``CMA_SIZE_MBYTES`=
-` or
-> -   ``CMA_SIZE_PERCENTAGE`` Kconfig options. Depending on the platform, it
-> -   might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> +   ``CMA_SIZE_PERCENTAGE`` Kconfig options. The heap's name in devtmpfs =
-is
-> +   ``default_cma_region``. For backwards compatibility, when the
-> +   ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-> +   created following legacy naming conventions; the legacy name might be
-> +   ``reserved``, ``linux,cma``, or ``default-pool``.
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index a5eef06c42264..bb369b38b001a 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -12,3 +12,13 @@ config DMABUF_HEAPS_CMA
->  	  Choose this option to enable dma-buf CMA heap. This heap is backed
->  	  by the Contiguous Memory Allocator (CMA). If your system has these
->  	  regions, you should say Y here.
-> +
-> +config DMABUF_HEAPS_CMA_LEGACY
-> +	bool "Legacy DMA-BUF CMA Heap"
-> +	default y
-> +	depends on DMABUF_HEAPS_CMA
-> +	help
-> +	  Add a duplicate CMA-backed dma-buf heap with legacy naming derived
-> +	  from the CMA area's devicetree node, or "reserved" if the area is not
-> +	  defined in the devicetree. This uses the same underlying allocator as
-> +	  CONFIG_DMABUF_HEAPS_CMA.
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index e998d8ccd1dc6..dfeccafc6ae3c 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -9,6 +9,9 @@
->   * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
->   *	Andrew F. Davis <afd@ti.com>
->   */
-> +
-> +#define pr_fmt(fmt) "cma_heap: " fmt
-> +
->  #include <linux/cma.h>
->  #include <linux/dma-buf.h>
->  #include <linux/dma-heap.h>
-> @@ -22,6 +25,7 @@
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> =20
-> +#define DEFAULT_CMA_NAME "default_cma_region"
-> =20
->  struct cma_heap {
->  	struct dma_heap *heap;
-> @@ -394,15 +398,29 @@ static int __init __add_cma_heap(struct cma *cma, c=
-onst char *name)
->  static int __init add_default_cma_heap(void)
->  {
->  	struct cma *default_cma =3D dev_get_cma_area(NULL);
-> +	const char *legacy_cma_name;
->  	int ret;
-> =20
->  	if (!default_cma)
->  		return 0;
-> =20
-> -	ret =3D __add_cma_heap(default_cma, cma_get_name(default_cma));
-> +	ret =3D __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
->  	if (ret)
->  		return ret;
-> =20
-> +	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_CMA_LEGACY)) {
-> +		legacy_cma_name =3D cma_get_name(default_cma);
-> +		if (!strcmp(legacy_cma_name, DEFAULT_CMA_NAME)) {
-> +			pr_warn("legacy name and default name are the same, skipping legacy h=
-eap\n");
-> +			return 0;
-> +		}
-> +
-> +		ret =3D __add_cma_heap(default_cma, legacy_cma_name);
-> +		if (ret)
-> +			pr_warn("failed to add legacy heap: %pe\n",
-> +				ERR_PTR(-ret));
+>  net/core/net_namespace.c | 30 +++++++++++++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
+>
+> diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+> index 8708eb975295ffb78de35fcf4abef7cc281f5a51..39b01af90d240df48827e5c31=
+59c3e2253e0a44d 100644
+> --- a/net/core/net_namespace.c
+> +++ b/net/core/net_namespace.c
+> @@ -791,12 +791,40 @@ struct net *get_net_ns_by_pid(pid_t pid)
+>  }
+>  EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
+>
+> +#ifdef CONFIG_NET_NS_REFCNT_TRACKER
+> +static void net_ns_net_debugfs(struct net *net)
+> +{
+> +       ref_tracker_dir_symlink(&net->refcnt_tracker, "netns--%lx-%u-refc=
+nt",
+> +                               net->net_cookie, net->ns.inum);
 
-Are you sure about the -ret? ret should already be a negative number if it =
-failed?
+With proper annotations, you should be able to catch format error as in:
 
-With that fixed,
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---r3bmleoevfwb3cbp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDW4hAAKCRAnX84Zoj2+
-drI1AYCje0uQohcShZdmczyCGhShy69dOYUIKlNGxe50CzVnAnj5Dj376Hc/uoWi
-/BLvaSoBfA+MFBNwCyZaxzRtUi9UC6/G0Wqz4e2xpBB8vDFuKRyiSYThzz3yJMSA
-erPg189vdQ==
-=m8g+
------END PGP SIGNATURE-----
-
---r3bmleoevfwb3cbp--
+warning: format =E2=80=98%lx=E2=80=99 expects argument of type =E2=80=98lon=
+g unsigned int=E2=80=99,
+but argument x has type =E2=80=98u64=E2=80=99 {aka =E2=80=98long long unsig=
+ned int=E2=80=99}
+[-Wformat=3D]
