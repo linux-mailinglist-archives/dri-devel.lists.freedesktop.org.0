@@ -2,82 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DFBAC5B9F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28324AC5B99
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA0C10E53C;
-	Tue, 27 May 2025 20:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1713F10E197;
+	Tue, 27 May 2025 20:49:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fZrC8roU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UsuwHtTT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F06310E531;
- Tue, 27 May 2025 20:49:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7D676614B3;
- Tue, 27 May 2025 20:49:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 926C0C4CEE9;
- Tue, 27 May 2025 20:49:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748378989;
- bh=AU9LU7Nfj9orPVkMVTA/U57FFt4iUo111sXVjNeMwhA=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=fZrC8roUMokBYhflU/jyR8KKzKXFLL0o3LZTrRmKy1rZn7MPtTMJKlmei9wGWFtKx
- awwyhFAbRLFB/rdLuB9QzwI5TrILJVlQ3x8gcyZw2qp4xV9pc6qacWH7KVoRDzn21O
- AuqlrgQPpPJPQqS48ObY/2BDrx2trlDnhwFnd3NytpV9aPvnv5KIJF50yMGDeTrhc1
- L/zRSIE1TY3Vtv6/1CaynsrFDTRo4pc3C0ObsCZrtks1PVTGAwp4yg6FCH6oBHDIUb
- 9ALlGXQbcEWzWDDjL7+aE7/dbeemgdE984ysWfkZWCXv4hSv6k2Bra0ejPACNkkFNY
- ggYxYHyAsAymw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF57D10E197
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:44 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RC9p4Z003591
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ l/O2p+x2xSIF9G83bk2qKzG3F5MRhPuwnk3uawbQiMA=; b=UsuwHtTT+19r7X8+
+ 9xmaaZgI+E0BIU70xalEcDbNCLUWA3zODGfnv3/ro6F7QXVxsRWDTWwby1mIIJfB
+ W8z2bntkGEeR9PFuJqqDMH8dlrAKdVUw3qxjFFb7O3+F98T+bWjAh4Lo/WqA8gj5
+ Ymffg0F32lHihXoT7GeEg3BRyPZu3RX70+mdjrzLjgji3SKwywfI7V6RDMuUWHpP
+ mWhc8g6vUvxkgPjIMvMfEXVvLpnVcuQI2qNMFUHlKJAEHQgo+yn6w/111Xgrpv8S
+ ARkHdfBTbl8Y2ByIpLAcep8iN4/qLAK91a8pqvU4NgKeovig8qb5MvcwvKY7fvSV
+ N//IMg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u66wge6a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:49:43 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c76062c513so98984985a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 13:49:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748378983; x=1748983783;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=l/O2p+x2xSIF9G83bk2qKzG3F5MRhPuwnk3uawbQiMA=;
+ b=BuGKMP82BSfqOoZz4r9XATVFkdqya1jadLlxf6txOMBX3zC7pyOe2KgB+uAgK5h73E
+ BA/s2LTxmxrDiggWmKnlEQrTObFO0BnT7IwPk7LzmPiwh9oawL8ip+6sFU57+5NqIKpo
+ U7I6DbeIcfH9apH6E4DUWw5Ds+Ua9b/xCs6I87/NUjlhHocfF1uhaHyqSpBwY1rX49dD
+ n9rfBVxOU1LaVeKb/9Ss+g3rxhxeRshs/0kx/BbqnczKZ+QMVRwmwA0fIcaOB2KPuJyY
+ txr9Nxb4kk7gfYfS0xQPnOvSdfWC+OHu9juCKXLX8Scf35UxIqp7BKuVXMeLI4n34e0l
+ 2nNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbidtPdVt81vYyr++dlf5QPn7C+9TB3UCBQd+o/8pzrrExMu7k6RTx3ZQsryykxYVCkk7JS1VtMLQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYnqwAzwCPwMx3lRx+E+83H4QjiW1q7Mlh2TXNmfLm4AHAESif
+ SAXJt462c12YG/YFpuGceHECGvObz1koAHyc33VWF8iuaANJgf+W8BnAjl+g7kxZUh1vJH4qHHu
+ AwBUZ6YrnL4UtVH9pn/0qHzKohiDD1auWx1bXB4XuIgCP7qOZa1hHoZoOPO76M4KwXEIcCa4=
+X-Gm-Gg: ASbGncsGSI/M+jZCIKQmgcXcjHeVg6BadhMrLWP6o3odeGc/q62fnmi4+CWQ0968NXx
+ RrAvfc8zMqSfNyopmJCYsX/p8y+Fq4zktgcaJcXjevr1Nz44YxEtd77vu4eFQ1lDl7ilLO3xdeU
+ sJGWDWNbi7wjQkpau7LB0AGCUap0CdZMFDNmZgbpUW/izAA+kyq9D9Fxd4XN2hKWSD7vlujLfxT
+ B1w5iQ8VsShXBzuo3KVlPbEk4HXB9+EwKWV1nL9ffiXtA1NQcidch+a+sLlq2a8kTNzYtD3bbEL
+ 6RLqpLU47vLxbD6xnuZqna9Wavz1MECmtI7wWRs5sQCPjqORc01W2F4ZW78nSUhjug==
+X-Received: by 2002:a05:620a:28c9:b0:7c5:ba85:357e with SMTP id
+ af79cd13be357-7ceecb95729mr796618285a.3.1748378982911; 
+ Tue, 27 May 2025 13:49:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+Ja5XuujBwuUP9ccKnyssxrFJe/lbLz9Lqf/caKcpdJ8XAsoYbJmo6SDfbvW/t6c1zMYunQ==
+X-Received: by 2002:a05:620a:28c9:b0:7c5:ba85:357e with SMTP id
+ af79cd13be357-7ceecb95729mr796615885a.3.1748378982465; 
+ Tue, 27 May 2025 13:49:42 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad89f2508b7sm8518366b.132.2025.05.27.13.49.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 May 2025 13:49:41 -0700 (PDT)
+Message-ID: <b4e1ea54-ff3c-408e-8716-f48001ec9113@oss.qualcomm.com>
+Date: Tue, 27 May 2025 22:49:38 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/8] drm/msm/dp: Retry Link Training 2 with lower pattern
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
+ quic_fangez@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-7-09a4338d93ef@quicinc.com>
+ <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
+ <b4345b9e-62c6-470d-b1b0-4758cef7f175@quicinc.com>
+ <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 May 2025 22:49:36 +0200
-Message-Id: <DA78MDRNCNB8.X69904APMYCB@kernel.org>
-Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Brendan Higgins"
- <brendan.higgins@linux.dev>, "David Gow" <davidgow@google.com>, "Rae Moar"
- <rmoar@google.com>, "Danilo Krummrich" <dakr@kernel.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Russ Weight"
- <russ.weight@linux.dev>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>,
- "Rob Herring" <robh@kernel.org>, "Saravana Kannan" <saravanak@google.com>,
- "Peter Zijlstra" <peterz@infradead.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Will Deacon" <will@kernel.org>, "Waiman Long" <longman@redhat.com>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, "Andrew Lunn" <andrew@lunn.ch>,
- "Heiner Kallweit" <hkallweit1@gmail.com>, "Russell King"
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
- Abeni" <pabeni@redhat.com>, "Bjorn Helgaas" <bhelgaas@google.com>, "Arnd
- Bergmann" <arnd@arndb.de>, "Jens Axboe" <axboe@kernel.dk>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
- <dri-devel@lists.freedesktop.org>, <netdev@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
- <linux-pci@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <linux-block@vger.kernel.org>
-Subject: Re: [PATCH v10 2/5] rust: support formatting of foreign types
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Tamir Duberstein" <tamird@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250524-cstr-core-v10-0-6412a94d9d75@gmail.com>
- <20250524-cstr-core-v10-2-6412a94d9d75@gmail.com>
- <DA66BBX1PDGI.10NHLG3D4CIT7@kernel.org>
- <CAJ-ks9m48gmar0WWP9WknV2JLqkKNU0X4nwXaQ+JdG+b-EcVxA@mail.gmail.com>
- <DA6GSMHMLRFM.YH9RGZWLY2X4@kernel.org>
- <CAJ-ks9nTf4dCoDdg4+YSkXM1sJsZ-0vuSC7wybc2JMAoGemhXQ@mail.gmail.com>
-In-Reply-To: <CAJ-ks9nTf4dCoDdg4+YSkXM1sJsZ-0vuSC7wybc2JMAoGemhXQ@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=aYJhnQot c=1 sm=1 tr=0 ts=68362567 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=OAqA0DyV7igbTOjjZJsA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: xjjjHIonhTMGTVGpMVy3TEYvA152VBvB
+X-Proofpoint-GUID: xjjjHIonhTMGTVGpMVy3TEYvA152VBvB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDE3NiBTYWx0ZWRfX8X1t8xft7TcN
+ yjDYboK792DxbCJ8MJPQDDnHixfJN3ur/w/6giKkQQHpwRH2Ir1ybYgqOjZSaNbPVZjQ/OaWTSN
+ 4csSCv+8Wzf2SOT5E+7k4fkShtKLxowJxhR7wedgrzeQbEOE2DLrMJwvxcJ+k3Rp1luLRE9T2fc
+ rLQwLZ87/05ewVQccDkCOyA6sjWdCAFQkutN8lnrEB/dn3Zfz8vXopRPh25gkKFlKQNBg4/XaYP
+ GW6UnAAt57/bxFkUbDqvrpW2Iirc6q9U7Z8+eStboT55iFysWadiLCNVjCrDWnqFSk5ljfh+/Yb
+ YK7HS7gkX9GHJKlR+O7dn1accoPWJVSXG9vQDPgbG51mWGhD03bMERbYVcSotbrFcQSdyjZ+Ve8
+ RiGn/ZErZgpZ9r0URNb582T2fu85W2wBL2elInryIIXYT7Vi0CriGzRAvw5l6+aXi8+uYDw9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_10,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ clxscore=1015 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505270176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,180 +142,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue May 27, 2025 at 5:02 PM CEST, Tamir Duberstein wrote:
-> On Mon, May 26, 2025 at 7:01=E2=80=AFPM Benno Lossin <lossin@kernel.org> =
-wrote:
->> On Tue May 27, 2025 at 12:17 AM CEST, Tamir Duberstein wrote:
->> > On Mon, May 26, 2025 at 10:48=E2=80=AFAM Benno Lossin <lossin@kernel.o=
-rg> wrote:
->> >> On Sat May 24, 2025 at 10:33 PM CEST, Tamir Duberstein wrote:
->> >> > +impl_display_forward!(
->> >> > +    bool,
->> >> > +    char,
->> >> > +    core::panic::PanicInfo<'_>,
->> >> > +    crate::str::BStr,
->> >> > +    fmt::Arguments<'_>,
->> >> > +    i128,
->> >> > +    i16,
->> >> > +    i32,
->> >> > +    i64,
->> >> > +    i8,
->> >> > +    isize,
->> >> > +    str,
->> >> > +    u128,
->> >> > +    u16,
->> >> > +    u32,
->> >> > +    u64,
->> >> > +    u8,
->> >> > +    usize,
->> >> > +    {<T: ?Sized>} crate::sync::Arc<T> {where crate::sync::Arc<T>: =
-fmt::Display},
->> >> > +    {<T: ?Sized>} crate::sync::UniqueArc<T> {where crate::sync::Un=
-iqueArc<T>: fmt::Display},
->> >> > +);
->> >>
->> >> If we use `{}` instead of `()`, then we can format the contents
->> >> differently:
->> >>
->> >>     impl_display_forward! {
->> >>         i8, i16, i32, i64, i128, isize,
->> >>         u8, u16, u32, u64, u128, usize,
->> >>         bool, char, str,
->> >>         crate::str::BStr,
->> >>         fmt::Arguments<'_>,
->> >>         core::panic::PanicInfo<'_>,
->> >>         {<T: ?Sized>} crate::sync::Arc<T> {where Self: fmt::Display},
->> >>         {<T: ?Sized>} crate::sync::UniqueArc<T> {where Self: fmt::Dis=
-play},
->> >>     }
->> >
->> > Is that formatting better? rustfmt refuses to touch it either way.
+On 12/3/24 3:07 PM, Dmitry Baryshkov wrote:
+> On Tue, Dec 03, 2024 at 04:13:22PM +0800, Xiangxu Yin wrote:
 >>
->> Yeah rustfmt doesn't touch macro parameters enclosed in `{}`. I think
->> it's better.
->
-> OK, but why? This seems entirely subjective.
-
-If more types are added to the list, it will grow over one screen size.
-With my formatting, leaving related types on a single line, that will
-only happen much later.
-
->> >> > +/// Please see [`crate::fmt`] for documentation.
->> >> > +pub(crate) fn fmt(input: TokenStream) -> TokenStream {
->> >> > +    let mut input =3D input.into_iter();
->> >> > +
->> >> > +    let first_opt =3D input.next();
->> >> > +    let first_owned_str;
->> >> > +    let mut names =3D BTreeSet::new();
->> >> > +    let first_lit =3D {
->> >> > +        let Some((mut first_str, first_lit)) =3D (match first_opt.=
-as_ref() {
->> >> > +            Some(TokenTree::Literal(first_lit)) =3D> {
->> >> > +                first_owned_str =3D first_lit.to_string();
->> >> > +                Some(first_owned_str.as_str()).and_then(|first| {
->> >> > +                    let first =3D first.strip_prefix('"')?;
->> >> > +                    let first =3D first.strip_suffix('"')?;
->> >> > +                    Some((first, first_lit))
->> >> > +                })
->> >> > +            }
->> >> > +            _ =3D> None,
->> >> > +        }) else {
->> >> > +            return first_opt.into_iter().chain(input).collect();
->> >> > +        };
->> >>
->> >> This usage of let-else + match is pretty confusing and could just be =
-a
->> >> single match statement.
->> >
->> > I don't think so. Can you try rewriting it into the form you like?
 >>
->>     let (mut first_str, first_lit) match first_opt.as_ref() {
->>         Some(TokenTree::Literal(lit)) if lit.to_string().starts_with('"'=
-) =3D> {
->>             let contents =3D lit.to_string();
->>             let contents =3D contents.strip_prefix('"').unwrap().strip_s=
-uffix('"').unwrap();
->>             ((contents, lit))
->>         }
->>         _ =3D> return first_opt.into_iter().chain(input).collect(),
->>     };
->
-> What happens if the invocation is utterly malformed, e.g.
-> `fmt!("hello)`? You're unwrapping here, which I intentionally avoid.
+>> On 11/29/2024 9:53 PM, Dmitry Baryshkov wrote:
+>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>>>>
+>>>> Add a mechanism to retry Link Training 2 by lowering the pattern level
+>>>> when the link training #2 first attempt fails. This approach enhances
+>>>> compatibility, particularly addressing issues caused by certain hub
+>>>> configurations.
+>>>
+>>> Please reference corresponding part of the standard, describing this lowering.
+>>>
+>> Per DisplayPort 1.4a specification Section 3.5.1.2 and Table 3-10, while the standard doesn't explicitly define a TPS downgrade mechanism, it does specify:
+> 
+> Anything in DP 2.1?
+> 
+>> - All devices shall support TPS1 and TPS2
+>> - HDR2-capable devices shall support TPS3
+>> - HDR3-capable devices shall support TPS4
+>> While these capabilities are explicitly defined DPCD for sink devices, source device capabilities are less strictly defined, with the minimum requirement being support for TPS1 and TPS2.
+>> In QCS615 DP phy is only supporting to HBR2, we observed a critical interoperability scenario with a DP->HDMI bridge. When link training at TPS4 consistently failed, downgrading to the next lower training pattern successfully established the link and display output successfully.
+> 
+> Any other driver doing such TPS lowering? Or maybe we should be
+> selecting TPS3 for HBR2-only devices?
 
-That example won't even survive lexing (macros always will get valid
-rust tokens as input). If a literal begins with a `"`, it also will end
-with one AFAIK.
+Bump, this patch looks interesting and I'd like to see it revisited if
+it's correct
 
->> Yes it will error like that, but if we do the replacement only when the
->> syntax is correct, there also will be compile errors because of a
->> missing `Display` impl, or is that not the case?
->
-> I'm not sure - I would guess syntax errors "mask" typeck errors.
-
-I checked and it seems to be so, that's good.
-
->> >> > +                    first_str =3D rest;
->> >> > +                    continue;
->> >> > +                }
->> >> > +                let name =3D name.split_once(':').map_or(name, |(n=
-ame, _)| name);
->> >> > +                if !name.is_empty() && !name.chars().all(|c| c.is_=
-ascii_digit()) {
->> >> > +                    names.insert(name);
->> >> > +                }
->> >> > +                break;
->> >> > +            }
->> >> > +        }
->> >> > +        first_lit
->> >>
->> >> `first_lit` is not modified, so could we just the code above it into =
-a
->> >> block instead of keeping it in the expr for `first_lit`?
->> >
->> > As above, can you suggest the alternate form you like better? The
->> > gymnastics here are all in service of being able to let malformed
->> > input fall through to core::format_args which will do the hard work of
->> > producing good diagnostics.
->>
->> I don't see how this is hard, just do:
->>
->>     let (first_str, first_lit) =3D ...;
->
-> It requires you to unwrap, like you did above, which is what I'm
-> trying to avoid.
-
-How so? What do you need to unwrap?
-
->> >> > +    };
->> >> > +
->> >> > +    let first_span =3D first_lit.span();
->> >> > +    let adapt =3D |expr| {
->> >> > +        let mut borrow =3D
->> >> > +            TokenStream::from_iter([TokenTree::Punct(Punct::new('&=
-', Spacing::Alone))]);
->> >> > +        borrow.extend(expr);
->> >> > +        make_ident(first_span, ["kernel", "fmt", "Adapter"])
->> >> > +            .chain([TokenTree::Group(Group::new(Delimiter::Parenth=
-esis, borrow))])
->> >>
->> >> This should be fine with using `quote!`:
->> >>
->> >>     quote!(::kernel::fmt::Adapter(&#expr))
->> >
->> > Yeah, I have a local commit that uses quote_spanned to remove all the
->> > manual constructions.
->>
->> I don't think that you need `quote_spanned` here at all. If you do, then
->> let me know, something weird with spans is going on then.
->
-> You need to give idents a span, so each of `kernel`, `fmt`, and
-> `adapter` need a span. I *could* use `quote!` and get whatever span it
-> uses (mixed_site) but I'd rather retain control.
-
-Please use `quote!` if it works. No need to make this more complex than
-it already is. If it doesn't work then that's another story.
-
----
-Cheers,
-Benno
+Konrad
