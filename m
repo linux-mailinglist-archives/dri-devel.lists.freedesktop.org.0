@@ -2,107 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23B7AC5AED
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 21:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22ED4AC5B35
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 22:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713F510E1E2;
-	Tue, 27 May 2025 19:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98A0510E00C;
+	Tue, 27 May 2025 20:04:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="KO79ENi7";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="2b7umvc4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5221D89BEC;
- Tue, 27 May 2025 19:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1748375100; x=1748979900; i=natalie.vock@gmx.de;
- bh=Epo7gdDY+vOcQ702mnbNNZX+jejI0N2QF3Cp5n8Mdvg=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
- References:MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=KO79ENi75rosQ7YihlsEZFqOBvuVfmzURf+LqZT71tZ6JHFVkGvf+W6uqqZIoTPO
- 3X6aUNJfSqH8ctHv6lUqVbi4jdJDJTbYM+9bXu44VF32STVpXtOOLA0RHSvBKhgr6
- 3u+9ICGcfwtnduJcPZqBHT5nPaOl4FVxfhWpgPEEmYH+UeXgwBu9DjMMjGK/JCh8i
- 0dEjaC698a8IqytsGBcvqGNyhuzAI9TtcdwG4cRvpV/ok+KJdM4IfWb6d9cAermve
- pZnKsdmEUkN9rIXRBqdavt0eg9p+HpFP970hP4QMZ9iyekx2UyxK7aNykVq3eqbkr
- 7Q45UOhkuxu1o+b4+Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([109.91.201.165]) by mail.gmx.net
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1N1fn0-1v4RwC0iTo-010ZmR; Tue, 27 May 2025 21:45:00 +0200
-From: Natalie Vock <natalie.vock@gmx.de>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Natalie Vock <natalie.vock@gmx.de>, stable@vger.kernel.org
-Subject: [PATCH 2/2] drm/amdgpu: Dirty cleared blocks on allocation
-Date: Tue, 27 May 2025 21:43:53 +0200
-Message-ID: <20250527194353.8023-3-natalie.vock@gmx.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250527194353.8023-1-natalie.vock@gmx.de>
-References: <20250527194353.8023-1-natalie.vock@gmx.de>
+Received: from gloria.sntech.de (unknown [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C61D10E537
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 20:04:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=+l1CShGqzt+9D2PPlurs5WyZsGLSUXWJX83KnmCBDvw=; b=2b7umvc4kxsjdWc42R/9hUS+Ja
+ xQt3qo1sfFptrcKJLM5QXwV8PSlWjILYgSqlTpGvUobIN2AwD5FCKqNXFX8MgXhVUEKKHlNKyRHlT
+ xPw4dLdJJACJWQqZzm2aA3Mf/nIicj90oR9E1aDNYmomLHFBN7/riREqHoPys19W8QzNCRLPhlLhp
+ EiwiHOtHoLoD1DKttMsoAcVKFSAJiSEwNGyD9mSU1LCMhPRSEpmauw8Jv6u889f7jz3jAVAVuTNTU
+ Sz0sSmllVRgII+TJbVtpdgFM0PBo5Hsr30OnNurSR8Xn/f5n1zucxTQzc0YH0mnot4O59xdlH60n3
+ L7Aw2EUA==;
+Received: from i53875bdb.versanet.de ([83.135.91.219] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uK0WS-0000Xq-LL; Tue, 27 May 2025 22:03:40 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: dianders@chromium.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+ rfoss@kernel.org, dri-devel@lists.freedesktop.org
+Cc: dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, l.stach@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v8] drm/bridge: analogix_dp: Remove the unnecessary calls
+ to clk_disable_unprepare() during probing
+Date: Tue, 27 May 2025 22:03:39 +0200
+Message-ID: <2309383.iZASKD2KPV@diego>
+In-Reply-To: <20250302083043.3197235-1-damon.ding@rock-chips.com>
+References: <20250302083043.3197235-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dVN3WfoLH9ABYbROuTDWX1Z+A+OBgwagxLhxW+cGgjpcFCPxYCu
- XNXy1Yp2jZ5/6MYMiPa059jv/yLqLt4qg1dFVWkkWqujUgXxqgon+l+57ftOw8nfZFNxQ61
- zogG6E6WHfaLABbUo4WYtl+O/P7VYEf3+qTtYVYh4ShfOZG8sJp8tpDORQmDecmBCUpKJuX
- vwEXFPWZc3tAr54fIafdQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OErwcn66BHM=;WVvaVE2TNzq9K5+1M50x7eaeknC
- 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
- L1ZHfKoIUTKPoogM
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,50 +66,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we hand out cleared blocks to users, they are expected to write
-at least some non-zero values somewhere. If we keep the CLEAR bit set on
-the block, amdgpu_fill_buffer will assume there is nothing to do and
-incorrectly skip clearing the block. Ultimately, the (still dirty) block
-will be reused as if it were cleared, without any wiping of the memory
-contents.
+Am Sonntag, 2. M=C3=A4rz 2025, 09:30:43 Mitteleurop=C3=A4ische Sommerzeit s=
+chrieb Damon Ding:
+> With the commit f37952339cc2 ("drm/bridge: analogix_dp: handle clock via
+> runtime PM"), the PM operations can help enable/disable the clock. The
+> err_disable_clk label and clk_disable_unprepare() operations are no
+> longer necessary because the analogix_dp_resume() will not be called
+> during probing.
+>=20
+> Fixes: f37952339cc2 ("drm/bridge: analogix_dp: handle clock via runtime P=
+M")
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 
-Most severely, this means that any buffer allocated with
-AMDGPU_GEM_CREATE_VRAM_CLEARED | AMDGPU_GEM_CREATE_WIPE_ON_RELEASE
-(which is the case for **all userspace buffers**) are neither
-guaranteed to contain cleared VRAM, nor are they being wiped on
-release, potentially leaking application memory to arbitrary other
-applications.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Fixes: a68c7eaa7a8ff ("drm/amdgpu: Enable clear page functionality")
-Cc: stable@vger.kernel.org
+This patch seems to have fallen through the cracks?
 
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
+dp->clock never gets enabled in analogix_dp_probe(), so reaching that
+error handling code would create a enable-disable mismatch for the
+dp>clock.
 
-Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-=2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_vram_mgr.c
-index 2d7f82e98df9..cecc67d0f0b8 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -591,6 +591,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_ma=
-nager *man,
- 	list_for_each_entry(block, &vres->blocks, link) {
- 		unsigned long start;
-=20
-+		/*
-+		 * Allocated blocks may be dirtied as soon as we return.
-+		 * Mark all blocks as dirty here, otherwise we might
-+		 * incorrectly assume the memory is still zeroed.
-+		 */
-+		drm_buddy_block_set_dirty(block);
-+
- 		start =3D amdgpu_vram_mgr_block_start(block) +
- 			amdgpu_vram_mgr_block_size(block);
- 		start >>=3D PAGE_SHIFT;
-=2D-=20
-2.49.0
+> ---
+>=20
+> Picked from:
+> https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D936932
+>=20
+> Changes in v8:
+> - Fix the conflict because of commit 43c00fb1a518 ("drm/bridge:
+>   analogix_dp: Use devm_platform_ioremap_resource()")
+> ---
+>  .../gpu/drm/bridge/analogix/analogix_dp_core.c | 18 +++++-------------
+>  1 file changed, 5 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
+/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index f6e4bdc05ba0..817070613b03 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1605,10 +1605,8 @@ analogix_dp_probe(struct device *dev, struct analo=
+gix_dp_plat_data *plat_data)
+>  	}
+> =20
+>  	dp->reg_base =3D devm_platform_ioremap_resource(pdev, 0);
+> -	if (IS_ERR(dp->reg_base)) {
+> -		ret =3D PTR_ERR(dp->reg_base);
+> -		goto err_disable_clk;
+> -	}
+> +	if (IS_ERR(dp->reg_base))
+> +		return ERR_CAST(dp->reg_base);
+> =20
+>  	dp->force_hpd =3D of_property_read_bool(dev->of_node, "force-hpd");
+> =20
+> @@ -1620,8 +1618,7 @@ analogix_dp_probe(struct device *dev, struct analog=
+ix_dp_plat_data *plat_data)
+>  	if (IS_ERR(dp->hpd_gpiod)) {
+>  		dev_err(dev, "error getting HDP GPIO: %ld\n",
+>  			PTR_ERR(dp->hpd_gpiod));
+> -		ret =3D PTR_ERR(dp->hpd_gpiod);
+> -		goto err_disable_clk;
+> +		return ERR_CAST(dp->hpd_gpiod);
+>  	}
+> =20
+>  	if (dp->hpd_gpiod) {
+> @@ -1641,8 +1638,7 @@ analogix_dp_probe(struct device *dev, struct analog=
+ix_dp_plat_data *plat_data)
+> =20
+>  	if (dp->irq =3D=3D -ENXIO) {
+>  		dev_err(&pdev->dev, "failed to get irq\n");
+> -		ret =3D -ENODEV;
+> -		goto err_disable_clk;
+> +		return ERR_PTR(-ENODEV);
+>  	}
+> =20
+>  	ret =3D devm_request_threaded_irq(&pdev->dev, dp->irq,
+> @@ -1651,15 +1647,11 @@ analogix_dp_probe(struct device *dev, struct anal=
+ogix_dp_plat_data *plat_data)
+>  					irq_flags, "analogix-dp", dp);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "failed to request irq\n");
+> -		goto err_disable_clk;
+> +		return ERR_PTR(ret);
+>  	}
+>  	disable_irq(dp->irq);
+> =20
+>  	return dp;
+> -
+> -err_disable_clk:
+> -	clk_disable_unprepare(dp->clock);
+> -	return ERR_PTR(ret);
+>  }
+>  EXPORT_SYMBOL_GPL(analogix_dp_probe);
+> =20
+>=20
+
+
+
 
