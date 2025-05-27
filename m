@@ -2,87 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F28AAC5C00
-	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 23:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9B6AC5C33
+	for <lists+dri-devel@lfdr.de>; Tue, 27 May 2025 23:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9221410E053;
-	Tue, 27 May 2025 21:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17E4110E560;
+	Tue, 27 May 2025 21:28:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mmXgAZ19";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HSldrSXH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D505A10E053
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 21:08:24 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id
- e9e14a558f8ab-3dd745f8839so44395ab.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 14:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1748380104; x=1748984904;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ubiEBlty5LLcHWhiL4ftQwDPhybt329gmxk4FbujYzU=;
- b=mmXgAZ19vegj+jfwAXOs/8eqUwbw+bsleDbX0WdE4KTza2hG99eP9AKk9HQbxKUqeZ
- d+fHg8bV3ZX8I79oZFmFoRa6AnKggDoIGCDtcgNMQQdUvUfmlzAMX/TSupQk2RmX82Kr
- f+4T+/lZNCy1s7spxA3SrIZZQChkA/yPBXje9bIhqKrDefQOJOKJfv3ufoUG9AgHETAa
- mRp3UoA/s72NlHEfpYKk4VAKcMtgsW/i44H2xXp+EUgQcVYbWUMVpZjqhxWXypXr3vX4
- F+f3LNK2a9h9NiZO4luV212Y+k/ca9PkgvNMb+2rPm11RK6RicrLcuhhUJ25O40/yuWf
- harw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748380104; x=1748984904;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ubiEBlty5LLcHWhiL4ftQwDPhybt329gmxk4FbujYzU=;
- b=Mj4G8cXtQS58YUmElrqD+Fb/tOPquhUBZTxdrep9HJFOj92DMr1XlBmv+gUAOspdCc
- IgTfORyju5vtUVt0X6F//kIUHra21XpPJrfHpu537H8++ZkWYyWGCyt840dEF2ZroSa+
- PHoMca5vF8ZDKHX5r9JI1BNFNJTCoJIq54Yo4xSFdqhw2vay/WqK7vn54k0cxD/SAo17
- uEAwV7OGa9VH+0jMGtIRbvWAA7GN/2AWjTTM5EdxAT5Y92VSGbT8vVaxW01Xk0QOEWvj
- JJ1jaUMmpxV3wlYfwiAVNs5yxLkMwtXghwMJ8ikrEfh2MrEL2g2hfs/KqZgFyvmEV0Nr
- HqAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNI5MxgtBXgStf+79nMHvUyJWp6/pves245U6Am80s5dyj6betpt4shWtEQpt9EFJ9gr5Kwb5YJVc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxA6O+SaVJTLi9INtJeXfUqHaDPO2PMEC2CdWpCB4UWMSwxR12R
- 2YWleGrwkGalkmz9MunGWnfe3gJvxFaRMuxKFOEOZCDivqI7lSn0ESyhwgE5687+La5AwoDHiHb
- nh6zOFN7GxOuLS8UCnjeB5RTc4MNxEpJaD56kxh2J
-X-Gm-Gg: ASbGnct5TwzfpBVh+F487WWdbkfhYNThKRgZreAsngjYspA7bfIPuNBDggpLlBBZf+T
- OqCnuraGfPZgf+N5tMDN4oaeahQmVdF4qTkIPs3IrL0PGxak5hjNS9JQjBSUrdiakhRnbhwNyeH
- iNQ2ZLzfsYdb/m1F8hf59iZNaKpmL+gVxtDaX5Q9vGjZEN/1GOs5xNePd/ooXZzBoVlh4C1quZ
-X-Google-Smtp-Source: AGHT+IH8GAJYpDplkuydkJu8WA/jhGPEYRVfjAxb8lYAz5mHHBeiaWfjPDPmvfhCEv1WeCyp1Cl49JqwlweQk7tq2MQ=
-X-Received: by 2002:a05:6e02:b46:b0:3d5:bb1f:843e with SMTP id
- e9e14a558f8ab-3dd89c643f9mr217595ab.29.1748380103741; Tue, 27 May 2025
- 14:08:23 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D060A10E55B
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 May 2025 21:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748381325; x=1779917325;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pvfxwe5X86PEZiMzFXgJ3ebwhN+gbHIPHFzJHUdFvdU=;
+ b=HSldrSXHeOIlY/af5PdNpFCskc4aZ7u+6X92QcsmeJ+kkNsUe5Fw1vHi
+ ZcieUnnNmk3ImYIpekFJRi+LjMbBtP7GX4mtCdwKhyxd8fTxKI2ZwqQ7j
+ UhQkKF4Za1xyiKkk0CYKdoS9JwV6X5U0+McUSy6jAni3Q0xfp4y26+bmP
+ 2Y1Z+66GSLx9/WgI2+xE7r3SjVBbWdVs4zbCUcEuvJbyErex4oAdJnzfz
+ DLvpMXD2UboHjGejXkF9rDV37HUF1wEC9e+C3RlCsxNhMfhekYSOTx+ne
+ i6tZzrERAPlVIKtzwibCY8kYVxQCvXrHF+mPedLVtpnwm5RZ+ucPHa6u3 A==;
+X-CSE-ConnectionGUID: VLno73f8RlmNz4ZaR/EMXw==
+X-CSE-MsgGUID: fkQtakPETJmWMYWKxKtatw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50390367"
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; d="scan'208";a="50390367"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2025 14:28:39 -0700
+X-CSE-ConnectionGUID: hfdT22DnS6m7rAqHRMUh6Q==
+X-CSE-MsgGUID: dv0lT3O0QW2I1eH/5eXZTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; d="scan'208";a="143953217"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 27 May 2025 14:28:33 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uK1qZ-000V1c-1Y;
+ Tue, 27 May 2025 21:28:31 +0000
+Date: Wed, 28 May 2025 05:28:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org,
+ Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v5 09/12] tee: add Qualcomm TEE driver
+Message-ID: <202505280538.DVSrdWK7-lkp@intel.com>
+References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20250403202439.57791-1-irogers@google.com>
- <CAP-5=fXkayZ7pj+EctOtSBiTcGuyi6SHm9c5RZ3HyyPYcot9zA@mail.gmail.com>
- <aBKz_Tg-s20Qsv6k@x1>
-In-Reply-To: <aBKz_Tg-s20Qsv6k@x1>
-From: Ian Rogers <irogers@google.com>
-Date: Tue, 27 May 2025 14:08:12 -0700
-X-Gm-Features: AX0GCFvsfgIcbRHL9xzCP_HBfkVqBfuvNmKL4yVjwY42U8vH-HJaieCbVgbJ9dk
-Message-ID: <CAP-5=fXZy=2AqmA1L42x57BwndR4cgUTrR6j0S-aHSnMuF9x9A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Add support for a DRM tool like PMU
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, 
- Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- James Clark <james.clark@linaro.org>, Weilin Wang <weilin.wang@intel.com>,
- Dominique Martinet <asmadeus@codewreck.org>, 
- Thomas Richter <tmricht@linux.ibm.com>, Junhao He <hejunhao3@huawei.com>, 
- Jean-Philippe Romain <jean-philippe.romain@foss.st.com>,
- linux-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, Brendan Gregg <brendan@intel.com>, 
- gabriel.munoz@intel.com, matthew.olson@intel.com, 
- brandon.kammerdiener@intel.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,69 +83,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 30, 2025 at 4:36=E2=80=AFPM Arnaldo Carvalho de Melo
-<acme@kernel.org> wrote:
->
-> On Wed, Apr 30, 2025 at 08:21:59AM -0700, Ian Rogers wrote:
-> > On Thu, Apr 3, 2025 at 1:24=E2=80=AFPM Ian Rogers <irogers@google.com> =
-wrote:
-> > >
-> > > DRM clients expose information through usage stats as documented in
-> > > Documentation/gpu/drm-usage-stats.rst (available online at
-> > > https://docs.kernel.org/gpu/drm-usage-stats.html). Add a tool like
-> > > PMU, similar to the hwmon PMU, that exposes DRM information.
->
-> Looks useful, I'll try to review and test tomorrow, but most probably
-> Friday, as tomorrow is labour day in this part of the world.
+Hi Amirreza,
 
-Ping. Thanks,
-Ian
+kernel test robot noticed the following build warnings:
 
-> - Arnaldo
->
-> > I'm reminded by Brendan Gregg's new blog:
-> > https://www.brendangregg.com/blog/2025-05-01/doom-gpu-flame-graphs.html
-> > that this is still outstanding. The patches also reduce some directory
-> > scanning for the hwmon "PMU", they are in Google's tree:
-> > https://github.com/googleprodkernel/linux-perf/blob/google_tools_master=
-/tools/perf/util/drm_pmu.c
-> >
-> > Thanks,
-> > Ian
-> >
-> > > v3: Minor tweak to the test so the skip (exit 2) doesn't trigger the
-> > >     trap cleanup.
-> > >
-> > > v2: Add support to only scan hwmon and drm PMUs if the event or PMU
-> > > wildcard can match. Add a test as requested by Namhyung. Add file
-> > > comments.
-> > >
-> > > v1:
-> > > https://lore.kernel.org/lkml/20250211071727.364389-1-irogers@google.c=
-om/
-> > >
-> > > Ian Rogers (4):
-> > >   perf parse-events: Avoid scanning PMUs that can't contain events
-> > >   perf parse-events: Avoid scanning PMUs that can't match a wildcard
-> > >   perf drm_pmu: Add a tool like PMU to expose DRM information
-> > >   perf tests: Add a DRM PMU test
-> > >
-> > >  tools/perf/tests/shell/drm_pmu.sh |  78 ++++
-> > >  tools/perf/util/Build             |   1 +
-> > >  tools/perf/util/drm_pmu.c         | 689 ++++++++++++++++++++++++++++=
-++
-> > >  tools/perf/util/drm_pmu.h         |  39 ++
-> > >  tools/perf/util/evsel.c           |   9 +
-> > >  tools/perf/util/parse-events.c    |  30 +-
-> > >  tools/perf/util/pmu.c             |  15 +
-> > >  tools/perf/util/pmu.h             |   4 +-
-> > >  tools/perf/util/pmus.c            | 101 ++++-
-> > >  tools/perf/util/pmus.h            |   2 +
-> > >  10 files changed, 952 insertions(+), 16 deletions(-)
-> > >  create mode 100755 tools/perf/tests/shell/drm_pmu.sh
-> > >  create mode 100644 tools/perf/util/drm_pmu.c
-> > >  create mode 100644 tools/perf/util/drm_pmu.h
-> > >
-> > > --
-> > > 2.49.0.504.g3bcea36a83-goog
-> > >
+[auto build test WARNING on 3be1a7a31fbda82f3604b6c31e4f390110de1b46]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250527-151020
+base:   3be1a7a31fbda82f3604b6c31e4f390110de1b46
+patch link:    https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9%40oss.qualcomm.com
+patch subject: [PATCH v5 09/12] tee: add Qualcomm TEE driver
+config: i386-randconfig-062-20250528 (https://download.01.org/0day-ci/archive/20250528/202505280538.DVSrdWK7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280538.DVSrdWK7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280538.DVSrdWK7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tee/qcomtee/call.c:227:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *uaddr @@     got void *[noderef] uaddr @@
+   drivers/tee/qcomtee/call.c:227:38: sparse:     expected void [noderef] __user *uaddr
+   drivers/tee/qcomtee/call.c:227:38: sparse:     got void *[noderef] uaddr
+
+vim +227 drivers/tee/qcomtee/call.c
+
+   203	
+   204	/**
+   205	 * qcomtee_params_to_args() - Convert TEE parameters to QTEE arguments.
+   206	 * @u: QTEE arguments.
+   207	 * @params: TEE parameters.
+   208	 * @num_params: number of elements in the parameter array.
+   209	 * @ctx: context in which the conversion should happen.
+   210	 *
+   211	 * It assumes @u has at least @num_params + 1 entries and has been initialized
+   212	 * with %QCOMTEE_ARG_TYPE_INV as &struct qcomtee_arg.type.
+   213	 *
+   214	 * Return: On success, returns 0; on failure, returns < 0.
+   215	 */
+   216	static int qcomtee_params_to_args(struct qcomtee_arg *u,
+   217					  struct tee_param *params, int num_params,
+   218					  struct tee_context *ctx)
+   219	{
+   220		int i;
+   221	
+   222		for (i = 0; i < num_params; i++) {
+   223			switch (params[i].attr) {
+   224			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+   225			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+   226				u[i].flags = QCOMTEE_ARG_FLAGS_UADDR;
+ > 227				u[i].b.uaddr = params[i].u.ubuf.uaddr;
+   228				u[i].b.size = params[i].u.ubuf.size;
+   229	
+   230				if (params[i].attr ==
+   231				    TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT)
+   232					u[i].type = QCOMTEE_ARG_TYPE_IB;
+   233				else /* TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT */
+   234					u[i].type = QCOMTEE_ARG_TYPE_OB;
+   235	
+   236				break;
+   237			case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
+   238				u[i].type = QCOMTEE_ARG_TYPE_IO;
+   239				if (qcomtee_objref_to_arg(&u[i], &params[i], ctx))
+   240					goto out_failed;
+   241	
+   242				break;
+   243			case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
+   244				u[i].type = QCOMTEE_ARG_TYPE_OO;
+   245				u[i].o = NULL_QCOMTEE_OBJECT;
+   246				break;
+   247			default:
+   248				goto out_failed;
+   249			}
+   250		}
+   251	
+   252		return 0;
+   253	
+   254	out_failed:
+   255		/* Undo qcomtee_objref_to_arg(). */
+   256		for (i--; i >= 0; i--) {
+   257			if (u[i].type != QCOMTEE_ARG_TYPE_IO)
+   258				continue;
+   259	
+   260			qcomtee_user_object_set_notify(u[i].o, false);
+   261			if (typeof_qcomtee_object(u[i].o) == QCOMTEE_OBJECT_TYPE_CB)
+   262				qcomtee_object_put(u[i].o);
+   263	
+   264			qcomtee_object_put(u[i].o);
+   265		}
+   266	
+   267		return -EINVAL;
+   268	}
+   269	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
