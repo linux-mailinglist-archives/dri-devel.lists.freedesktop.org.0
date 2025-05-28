@@ -2,140 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E7BAC6E12
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 18:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60B0AC6E64
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 18:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC4910E5F7;
-	Wed, 28 May 2025 16:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3308810E640;
+	Wed, 28 May 2025 16:50:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="L/aOoT7n";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EXhGRBQe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2061.outbound.protection.outlook.com [40.107.102.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9B210E5F7
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:34:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YpdrU848KtzS23AiPfOsCa+Nb5lUVChgNkKrp9eO3p/dEwGF6Q2bMeq1LW8g2kdZE04HrxErt1uHkOQIRTp9gINNYBZd7wHWIWFdAVhLrfpO4rnjh0r64TQ/Ka7AcSLQQ2eEK+dn/+jAZVEz23CEXWMLalWcPd1RC6/BAIpoSFDLUnPSfvnMIortiGG17Up5VIP3Kpn88g2Cm2WUGwGHuQMuTvH/yZCOEHkDHHdpEjVmc/fUcUVYu/tt7q2/X/8Q9oVEQTCRcmgj0JsI1WExqg7ZkaP5XAiwEVzUjOksbLeqdBJwlvsiol4A9lxLn/NMh9Oi61R3TcekbDRWmi28gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O+MVmmMsiKOKk1GwFH8M8L3p/blHM4m/mfYKAnpVCAU=;
- b=M4FKFZ4loNQXWoxJG65/sqL6waGXcLvhApb3o7kQk6L9FJbsQZZg6Ty9vicfZrW83mUkaHvYL7XAFGP/0q1OjIJhtg2bPPkviE4guT+nlIw8hprTqXinrdjByvQDmEruTseU+WC2LvL9JVLcZKG9+fp0nHRJB2Duas9ZeDVJvXkEXzxZpcUc9NRn9E8DOG/yXvy937VqZ+Jfxq4xzM/Teqj9xTULpRAnlnEEJkDV3H2e2xv6AAClci3U3mh1fc0CTZhMP3kPyUtuqYDtAwlLXAx3ugAt1uhvTrolLZ7ECRGdOSiIdY54HP0JgSIigmGaWE7sA+yEoeNyTXs1r1ooKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O+MVmmMsiKOKk1GwFH8M8L3p/blHM4m/mfYKAnpVCAU=;
- b=L/aOoT7nXRRM9xKvBVeu1lSx7LjcmGGuBX0q32IEIUlSzk0SfYn5EIK4WKnR8Vyy6+fVbISIWSGurjDcnm5cNrra3ap8UVtVlGoY8GvbVssI2TZTLvclUz8nRI3GJbj5w/02mAe+Lis3I0QAL9o2m6orSQhELLW05LD9wr0RdL4=
-Received: from SJ0PR05CA0061.namprd05.prod.outlook.com (2603:10b6:a03:332::6)
- by CH3PR12MB8910.namprd12.prod.outlook.com (2603:10b6:610:179::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Wed, 28 May
- 2025 16:33:58 +0000
-Received: from CO1PEPF000044F4.namprd05.prod.outlook.com
- (2603:10b6:a03:332:cafe::11) by SJ0PR05CA0061.outlook.office365.com
- (2603:10b6:a03:332::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.19 via Frontend Transport; Wed,
- 28 May 2025 16:33:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1PEPF000044F4.mail.protection.outlook.com (10.167.241.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Wed, 28 May 2025 16:33:58 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 28 May
- 2025 11:33:57 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 28 May
- 2025 11:33:57 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 28 May 2025 11:33:56 -0500
-Message-ID: <f2cc768c-3daa-3219-a0e4-703cee8abd78@amd.com>
-Date: Wed, 28 May 2025 09:33:56 -0700
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
+ [209.85.166.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2E910E616
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:50:50 +0000 (UTC)
+Received: by mail-il1-f172.google.com with SMTP id
+ e9e14a558f8ab-3dd7553c7e3so190795ab.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748451049; x=1749055849; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/mLSfvvzNdOkPMdQtfbrJhi5GREToG8+aqY66T7Y+nY=;
+ b=EXhGRBQemvReE/RdSthbWlp4bxIOBvWBUgUSnnXGgMb6lfz7+cEpBSgVAT6jwkqWeX
+ ccIhJ5dCUoB6xHP2Ojm+/ZjXZKM0OWxB4pYqrOlsP3eoMEuYlVSHBVnsWa41aRMHK6YR
+ H90fmFmMmi9ymqKS7zDrhwvwZlxJLOAWkRBp0nvAkrSb4rQ6vrwvBQAccPw84qaiaLRF
+ mqx0gduKbRS6BqO1rcJw24EMv3287tcZsAnvnT5P06wDuHhhARc1LHLAlfeuQO/g8PiY
+ D0EoxGZJfuKOKtPwyDaxW/MxukiAZk45GpYBW1+I64vNo2sShTS3ULgyxFm0tGXSIR56
+ haag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748451049; x=1749055849;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/mLSfvvzNdOkPMdQtfbrJhi5GREToG8+aqY66T7Y+nY=;
+ b=EqXHeAytwd9eFwhmL8CEsaOhioO2f0t+iKb/c4iWcLBEs/g4hiE7BgyqK0AFTHloOr
+ kZ3omUfnOd6fjwvPca0uHgye2a/Ehdafg5sJWg/Pe6h2wunojNGkcXaz6qdr1/9SS/3z
+ ZSPs0gfpysDfVpamprk5wkYf3NVFuAIoACiykW1dNVYqNfaYDHx/T5zqJqGCgNEcJUEP
+ C8bG2vQlYH0IfAl4pmJ2NbDONWmRi5gwGm/BexPbjBptatIXmv8kFVQACjsLHbklhczZ
+ 04DqLSeL314h2tzWAtCO47uOMeFhYGZvr7/OBBh/mHH3YzA4Hr6mLNwXrLoWAfh/+hHZ
+ jTiA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXS5R4x4qhNcZkkuST02xHgXWUcp/OQjXps4a6QLjmau4x+1oIn+KuiVF9DN+zjirlAFcvOcshEATM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCZrherDWJ8hsMvhByS/9F6ilhlgLWJRhzQgAFecHjs5I8osm2
+ lEP4sHbbIrB56ZCNe+PhwXg7EihkfX+TCQoLfyXKd3kmeKUlOHtE6/y2EwXfRuITGfy22WYBTw/
+ YfMG19BTkhgsrM6h1ixtz+8Ky21nPKMI=
+X-Gm-Gg: ASbGncuA10VMyDCdzjZrvKxddAa8Q9qJKMez+qC/TXqz78z6m3mSDLWiNDlNs0bfzL/
+ zBADwdRJRp39S/0p5VRs3Ok4LQ8b3wmXODs7VZBfqjy8C0U0kfGxzSxXw2yrNpxzzukxqjnVhIU
+ yv4U1AaYw7rzGD/t9yJzGf8C5NYPkGCC63HTrs9o+EspARRZj/M0OnAtHQZcbNyPTU
+X-Google-Smtp-Source: AGHT+IElCD9X0MUXc0KEJ35rGa0B2HBelp6NlkIwYIdR4AR+DIEjxBH8j0THx1Zrl04nM1P9nG1x7zntR3Atn44k4xE=
+X-Received: by 2002:a05:6e02:2193:b0:3dc:8667:3425 with SMTP id
+ e9e14a558f8ab-3dc9b70f000mr157653325ab.11.1748451049219; Wed, 28 May 2025
+ 09:50:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/ivpu: Fix warning in ivpu_gem_bo_free()
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <jeff.hugo@oss.qualcomm.com>, <stable@vger.kernel.org>
-References: <20250528154225.500394-1-jacek.lawrynowicz@linux.intel.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <20250528154225.500394-1-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F4:EE_|CH3PR12MB8910:EE_
-X-MS-Office365-Filtering-Correlation-Id: baf21262-e22c-47b1-e3ba-08dd9e057206
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ejdRVlhKa2NNUUFTNHZ6eml3d3BHdHJNTWF3WEp4NXZUNkJCTFVZdDFobUd5?=
- =?utf-8?B?eE1QemxHUVRDY24yNENvSmVXcEZYQTBWcHhiNzZ2NW5penZQVVFPWDVjU29s?=
- =?utf-8?B?eFhCRVQzWGp5M3lmL2lvMDVhdnA1SzU0ZGdhZ291U2VTVXBpTHpjQ2tPZEFH?=
- =?utf-8?B?L21iU08xWWlVN0t2OGwwN0F2L091b2xMeWE4Z2t6STFwcjEwWlhjaXl3TnJs?=
- =?utf-8?B?a0FWenFhVDQ4T3RXblVJTkFWVlBPSWhjRWtOTVFHOUVIUVpUTFFIN3diM21Z?=
- =?utf-8?B?b0ZBMGlmbStVbWxnVFBGUmM0cnRaNjV4c092MWdGVlBRQ2REaFgzd0hvcC94?=
- =?utf-8?B?REZpMm1KTWpFSGlBSVZHZzhwOHZXQVJCUUgxUnpsMWJRWEFQTXFHbjArQXRi?=
- =?utf-8?B?djl1WXlKYnpkakY4SkdHWWcwQlpNSnBXYTY1Rk9aaGxxditHQUVySHdaUTYv?=
- =?utf-8?B?SUgzVHFrSFhRNFpreWlRdkFKTnoza0k5K3VWc0hHZGVlUGQwTmtxRGtRWk5K?=
- =?utf-8?B?bHo5MFdSZ1hGbnJZU3B3aXJyTWxMSU0yU1RzOW92TEpadXRkUzFod2M3VlNw?=
- =?utf-8?B?Z0lVRm5SL01yTUVYa2hubTBiMFVIVkJMY1N1cTQ0Ui9TV2NjaTRkbXd6RzZS?=
- =?utf-8?B?RjBZY2lLRm84eW5aQkRyZ1UxWkdJZWRTcmxtL2lrQmdXUGVFSHU2V1pONnRx?=
- =?utf-8?B?blJJc3M5clJBTnlydU4vQjVmVEpNZ28wNG9xWXFNdU12SUpOZ2RmNWtXcTJs?=
- =?utf-8?B?Yk9YelM3MXQ3OVFnZW5ZNWZ4YThWK1ZIdWM4MGROL1c0YU5OWWFadXdLUHF3?=
- =?utf-8?B?WXFXUkczU3pLaHltU01NR1VXWFVIZC95WitwMVJKNC9aTHBsanlpNE10RWVP?=
- =?utf-8?B?V2hMVGZiUER5eUs2OEJzd2FMZXlwMUs4ZjFqd084aDVkbGNWWXZmaTdnZ2xQ?=
- =?utf-8?B?anFjSWdvUzZYUUp6UkFCekJ4cy9ZS21EUllIN2J6WldHZmt0cDNyODh3V1RP?=
- =?utf-8?B?dUZTdnh3aXVnMnVBTjEwT1ZuZ2VHNmpNaHc2Vjh6alVZUXlrc3JnRDIyenpS?=
- =?utf-8?B?cW1nUTFrK0MrZGE4bVRIQUQ3YUpkUDBYL2toa2Z1Y2dOcmM2NUp6czFCUWxF?=
- =?utf-8?B?TWJUWVRqY3RhcUowSHpFSm5lS2JHY2k1QldPemtBZVpuY0tiUU5lVEVHL1Ex?=
- =?utf-8?B?bFhIa2diZnVYNjFOMjJXR3dIZTFSL2tNL2IyeGFLVUdidmwzVXVjcGtORnJT?=
- =?utf-8?B?QWhqNHIxcHlISlZTbU9ucmhhOTlUUURSdWxuQ05COW43SENLcm00K3VGNnhs?=
- =?utf-8?B?Tm1XTEx5UTFBZFg2b2pMN3NJRkIycGpOWVk2UjZJTGJ1eWh1Snd3ckRnN2U1?=
- =?utf-8?B?emswK0xiZ0N1dHpiK2VzVmhCaExvaEN6Z05zczh5eUFrcW5hSTc1Q3dVSU9a?=
- =?utf-8?B?OUU3RDVObmlnNkRnL0pGZ3IvNHoybDlmejF1akZ2K1Jrc2xMSlZJaTFzcEly?=
- =?utf-8?B?T0ZrWkZXYzhZR0h4RXd4TE1DMEMvSXRzelVCRG5KaEJlYkF6dlV6OVgxZ0FH?=
- =?utf-8?B?SEhrS0pTVzNNemw1eEpiNlIvUE11d2xwL0xFS0NNN3hRRUo5cEhXWUFXUXd0?=
- =?utf-8?B?Uk94RHdIaUtlVHJzbC9UY2VUNWk5R0tYckNaQldTNG95QWtuMjZZUWdpT3R0?=
- =?utf-8?B?WDZpOTJRNWtzOFlCTnhIVWVMU1lnODVJRURIZ0FjNVV6VE1sRmtCY1Rabk5l?=
- =?utf-8?B?UnlaZFJha2l5Smd2K1JleFUxZndjRHdmcHJqREZEL0dIYUpwSzNDMFdmWlM3?=
- =?utf-8?B?WW81U0NnRmRraHJFSUJma2NBa3dxRjBJMENhcVN2bU9FOENER2hsOHFrdXA0?=
- =?utf-8?B?S2xYa3J3UUl4WEZ0eWlZclRvRGJYKzlKMkNzYk03OStUaXVzLytOQzlSOG1U?=
- =?utf-8?B?VWRISUduNWZMblRPTlJ3UUR4MlB3WkhEM3hadHBEOURDSmxkRno0UDJFbk5r?=
- =?utf-8?B?QS9YaHc4M0R5d1dIRC8wbktFK1NtUytBNmJ6NzNkRnFaM084d2pnUzU4UmNm?=
- =?utf-8?Q?C6KdSS?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 16:33:58.0094 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: baf21262-e22c-47b1-e3ba-08dd9e057206
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F4.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8910
+References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
+ <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
+ <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
+ <CAMcHhXoYkQru_0n5siMGGkTcHu8yWRZWfT4ByiD8D0ieZHF+wQ@mail.gmail.com>
+ <vwoixgdyjjzcjlv4muwrzv7wztnqyidtj7ghacgkjg6hgkkyl7@ji53bhiltaef>
+ <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
+ <rvyfkow43atquc64p6slck6lpfsot67v47ngvfnuhxqo222h6k@kdvbsmf3fwsr>
+ <CAF6AEGvr_foMVwaE_VSVWLT50cbGi8i3UGwo2e=rORD-1JmTmA@mail.gmail.com>
+ <152f5150-30b0-400c-9816-13e4710a4156@oss.qualcomm.com>
+ <kbmqr7gjkd72hgorbhbwb7ttvmecfbb6pg72st7zwt5ogxju6p@itycxk6vriy5>
+In-Reply-To: <kbmqr7gjkd72hgorbhbwb7ttvmecfbb6pg72st7zwt5ogxju6p@itycxk6vriy5>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 28 May 2025 09:50:37 -0700
+X-Gm-Features: AX0GCFtYvoKOHGtMqf1X52z4CG5iI44YIX8TXD4Lf5SvSxvLMNmudG51MafUAOQ
+Message-ID: <CAF6AEGsTtEA=So1CDhvg8H5+Z-RJ9OnhgSzDoa+zkWSPO3cvnA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
+ device tree
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+ jens.glathe@oldschoolsolutions.biz, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>, 
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,36 +108,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 5/28/25 08:42, Jacek Lawrynowicz wrote:
-> Don't WARN if imported buffers are in use in ivpu_gem_bo_free() as they
-> can be indeed used in the original context/driver.
+On Tue, May 27, 2025 at 11:18=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> Fixes: 647371a6609d ("accel/ivpu: Add GEM buffer object management")
-> Cc: <stable@vger.kernel.org> # v6.3
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->   drivers/accel/ivpu/ivpu_gem.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> On Tue, May 27, 2025 at 12:55:06PM +0200, Konrad Dybcio wrote:
+> > On 5/26/25 5:28 PM, Rob Clark wrote:
+> > > On Mon, May 26, 2025 at 1:36=E2=80=AFAM Dmitry Baryshkov
+> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > >>
+> > >> On Sun, May 25, 2025 at 09:43:36PM +0200, Aleksandrs Vinarskis wrote=
+:
+> > >>> On Sun, 25 May 2025 at 15:33, Dmitry Baryshkov
+> > >>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > >>>>
+> >
+> > [...]
+> >
+> > >> Yes, please. Don't set okay status for the GPU until it gets enabled=
+.
+> > >
+> > > Drive-by: Shouldn't the dtb describe the hw and not the state of the
+> > > linux kernel's support for the hw?  Ie. if bad things happen if we
+> > > describe hw which is missing driver support, shouldn't we fix that in
+> > > the driver.
+> > >
+> > > (In the case of the GPU there is the slight wrinkle that we don't hav=
+e
+> > > a gpu-id yet so there is no compatible in the dtb yet.)
+> >
+> > My two cents are that it's okay to enable it, at least in this case..
 >
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 5908268ca45e9..0371a8b4a474f 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -285,7 +285,8 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
->   	list_del(&bo->bo_list_node);
->   	mutex_unlock(&vdev->bo_list_lock);
->   
-> -	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
-> +	drm_WARN_ON(&vdev->drm, !bo->base.base.import_attach &&
-> +		    !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
+> That would most likely make display unavailable as DPU driver uses GPU
+> as one of the components.
 
-Probably drm_gem_is_imported()?
+Hmm, perhaps we should allow the gpu to probe, but just fail to create
+priv->gpu, similarly to how we handle missing firmware?
 
-Thanks,
-
-Lizhi
-
->   	drm_WARN_ON(&vdev->drm, ivpu_bo_size(bo) == 0);
->   	drm_WARN_ON(&vdev->drm, bo->base.vaddr);
->   
+BR,
+-R
