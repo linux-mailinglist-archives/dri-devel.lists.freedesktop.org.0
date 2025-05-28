@@ -2,81 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A83AC65EC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBD2AC65FA
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FCAD10E2FC;
-	Wed, 28 May 2025 09:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 504A710E5D7;
+	Wed, 28 May 2025 09:29:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="RxskasgX";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="lhzajvsV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C059A10E5CD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:26:24 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-ad88d77314bso331884666b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748424383; x=1749029183; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=d65lf9hRZUyJOHWiiUqWASEii91lhlBo8USW5MV7cnM=;
- b=RxskasgXQO1flud+EqkPIhyo3HWhEMikbp8/fzpVEGDJ4Aft9kEXM/hV2zhiW7FmpE
- nMDFr+TegC4hlAzOPSroV4vc2Cl7+EVQiiX4rV3InfEBS9CCeLLfoTYHwx6HFSeMX8uz
- RWPSX5zPYjvMvTdmmrhAQmEOwuwcwnDD9as9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748424383; x=1749029183;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d65lf9hRZUyJOHWiiUqWASEii91lhlBo8USW5MV7cnM=;
- b=w2Z29MchYe4D6qRdMj8Z2rPIUiecjyrFuWz3eIXSFFMAQw4LRofpRjcHSqAOK2WUG9
- YPoeHv2GFzBbj45vFPg96iotaykECUXhORBh3rZW0pOmrYF2vbuUUFjBmClFGIsPHAim
- xULSUYDdzwzHd/6D4TWT7TcFfOy7yLwpPFUFEm0EO0lxR6VBqPj7RiCmiu0kH9V+IQ7e
- djYOjZwTmlhFhczJ8U8dY91wn6UltOzAtxyvuLmQMr0geJxDpJejJ5OCc0v3UyDGimBm
- mRnTaI7Z+bb4bmqvS7qeq+0NJ6fAcUC9750G9u5fWtJGH87wtZrvjHTfZrhbMiQLm8KH
- IU2g==
-X-Gm-Message-State: AOJu0YxbrtvAKVp6CAwTukd9scBNcnK3GhZShdIzQvXsAO0x1sI+yg9w
- RFRzAygQRFwPaz53mtNUIH0ab5DcsNOTTZYxn+EYJLDlDF/F9I1YtgZ+gHukIzCekz39UNgQKZI
- 1JhPy
-X-Gm-Gg: ASbGncsgOdy4ZpX9CaVEnsLzADBE7qbiUDKS+fVBfWWN1IzWul3Y/rWYPGmBDxzCEnO
- sepreGNSWurmQgDX4TrwKqKwqtA+aPoyyT/7GzqR0ydsOavathVGkkgBRtVjHEpTI8HFWNXPe1o
- VimK+rOtDIqbE5MAza4k53sIkZyY2MudDgqFuCtcmCnkK4wIRh0F7yWLDDC5zSurPU0gLJRYnfF
- mwfaKBW40/k6ggEXplY+czHUOk+HuO0PHznwCwQftQy9IBwbbLONU+y2/Xag3P1Nysa+Pp5xKNR
- JZsTCrOT7IHThGYRUNgBmkXdXFkIRRz0T5tOkvwISMdIw6CV8B8wX80QCSf7ARFaqGXvLuwGSg=
- =
-X-Google-Smtp-Source: AGHT+IEePMLFnQYEO4JCakhnU3NsJmB8ND9y2kTKvj7yd61KID345YtB5KSXRXhvfvsFSdBX4kG2PQ==
-X-Received: by 2002:a17:907:72c1:b0:ad5:2260:e018 with SMTP id
- a640c23a62f3a-ad85b2b5dd5mr1432202866b.44.1748424383156; 
- Wed, 28 May 2025 02:26:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad8a1a13c90sm75897366b.77.2025.05.28.02.26.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 02:26:22 -0700 (PDT)
-Date: Wed, 28 May 2025 11:26:20 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- stable@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@intel.com>
-Subject: Re: [PATCH 1/8] drm/gem: Fix race in drm_gem_handle_create_tail()
-Message-ID: <aDbWvNUaXCCvvQkc@phenom.ffwll.local>
-References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
- <20250528091307.1894940-2-simona.vetter@ffwll.ch>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8E510E5D6;
+ Wed, 28 May 2025 09:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1748424548; x=1749029348; i=natalie.vock@gmx.de;
+ bh=wJj6cCWN4z+xlGO0PzShWjcwP9PbCdV1eX0zeAaaS4k=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=lhzajvsV/2bjM0tBLsKMSdK2FvSs8OxPah3gZeOiQe0KQOyxC9aqZ1K9bwO+zZIw
+ 4K8NDGUJCuBpAgNA7p/N02+5QGUxX1UOKn5yPZExFQrGnpCKBixu08gl9GgufpZNp
+ SzQkzbeKtl/pnjrsL2bvFdYkISPuOFqhXyqQpQKambNRHCe6/DIRR11hhp5NkcAIE
+ 1j7rvXkxqf+UoYeGd8R9ko6bWto5OoXrU5qB2Y6DrbduX5afmr9nKz62wmhxfc930
+ dEggb23ea3VU4da+rjbdXFlZ5gkgGRG062EcyXs+aTcTKqWgdrn1q6675TN1bj4LU
+ gruG7mfIW+da7v+nSw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MS3mz-1uUuBE43Ux-00SyIf; Wed, 28
+ May 2025 11:29:08 +0200
+Message-ID: <dbbdcada-32ae-4457-af87-1f98362461f1@gmx.de>
+Date: Wed, 28 May 2025 11:29:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528091307.1894940-2-simona.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 6.12.25-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/amdgpu: Dirty cleared blocks on allocation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ stable@vger.kernel.org
+References: <20250527194353.8023-1-natalie.vock@gmx.de>
+ <20250527194353.8023-3-natalie.vock@gmx.de>
+ <89652580-5763-4f1e-abf5-d340119543f3@amd.com>
+Content-Language: en-US
+From: Natalie Vock <natalie.vock@gmx.de>
+In-Reply-To: <89652580-5763-4f1e-abf5-d340119543f3@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2axK+lnGA1Fc2hNrp9g4dehd+SiCYBgai4Yw/yjkZ2uUpsKq5zb
+ Cpw3Zxx6FVLeRDMZWmf3ZKx31ePnxVYzCm+7VTgxmmSu+lIfz2YpjbcRdtZmBcvy+4vouyl
+ uhc/R3Brm10J6Sk618GICLheuLid8drjXMfgo98QRhN1H3MOvt90C+kADYs5t9MoiyDc2K7
+ N9lFBO30+zRmmnNASJPYA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zugt5dwSbBI=;zTbmlpoMe2/WOz0ZouyeNwzChxg
+ A6+QIwhxHw/ups8Ow93l0IHOsU8zHmo87mQfAkRdP9+jPu1XzjidN3LC9KlCNgWSJOOQPii0v
+ zGBkZtuWTk2afT/JuKeDYIHm55DUBnopJvAe2zg1rI4d9UHft1Uj9rwPpXYUbTUFS8FlUJz/X
+ 7FkzOLhziM6JPTITEqp9luSeP9tkb031TAv9Z1bZNRjf4KOov5kwYjEiJM+nTgf+YvVnoRBiL
+ 604lHIcATOXDzs16P2+WQdhQY3GM0uyfXnMwKy6YKPoyhn2m8SUVeVdxO6SIuZWfbdqoyW0WI
+ /+iI66zadH9nppGsgKcNuf+3ll3dAOs/MgS4FLDuf3l55FfAK1FnLd6aJDK0S0FGJWu7t3Snb
+ 6TMKKKU7PbAgzCW3C6JPX1IOBijiTQzwpma0+beD1gy6d31BenrT8f5iZQfb0IsybWC92fMRI
+ p/WJKKUssRqyNE0FSUU8TbSf+45KhndWlmaETlXBRFRqQs1kx3Luqwts5rJPrMHrzID9rYb9w
+ GxCfxt1zazGsp3ZNrL9KHfv9wjjvdsGte/7wDJ8IqNJadByli5dLaRNZuAfqnMwmQ7tI0bIm9
+ b/jSRKXNsBvFx4061p+MPF/6OQajMuMQ3lNK7zHEs+NTRFszNYACAznk5a+KT1EXtPx5F99TU
+ 6sEqhqBb0AnF+jgxowaEwV9hMkVb3Ut4F2PrQUK93urGZUJaQk40hfeVd4iJ5bWOCtBdMtKHP
+ 28/zXrjYImfS9CkvciRSUTqZ2zRg/69pFuwCc/htuqmExdagmpOFqKiCNM/qyxg1dOQC1uqgS
+ WJkwdOIMRQVhuIUP1ipZPs30z1eWc6sawXWfBSOsWQ4ZSzRIuzu/M0+9Km+MIVUw0glDg1V3b
+ mqvyJtc9crdF5/eadVertN8ZJXPzpur/ONQvjOcflGY++8sFGjAnZmC2ZHVft8gfC/y7rXnPv
+ SlBaEc7wEOzJWRvqe+rKc06uc3Ly0L5gfTJnQN7NjJpvYfUzCiUb61++l13+GQdE2ndXN8bW4
+ 79KmIanPX09GO8+vZ6taxyyQCTpuwWfmF4Mmzdfwn/LgmwkbvQQxrhsYST0f+q4fLqZSqsydd
+ yfSK/i5rBjF6pDaz9lgbHQ3tm/L9I7k8+TfG3oiripXahlC9rSqX/Dv/IAxRnxo3o35rsi/pi
+ 2lyfnk9gPa37imL1lRHiBujgL2rib1gauV5hEbATSCyxrVc/O979JVRel3JvHsdykd0p3tmyj
+ Ly1FCCgQazcAIuQA/PPMRDILPmIY2BRjzBUz0nmdnsMyJyQJkQnzbynGOuejht2hDvMgTn+me
+ jbf9X8a+SbKTBi/JPTVKQD5O8e5GZG63BfPPAFQi4waOXWNOBmhxAdsULVk5X2u5Kuk2NJ29V
+ mlj5uiVNohuc5kt4IUwq8f/0EFn3WeK8ZTno4fX5LY9+tivWn/GIWdTNRcJ+F0bCAYHn4zvyu
+ G1RSoCHQOBpsAXqN9RErOOhXrt7gCXe1VAKwrNLf9+rqu2Ku9TBt1QYqLIWA2RsCcZCRy8CT5
+ 5vKG+paezNfhpWlBhXPEfTR+DRfsvS93b4EJC/xRbImHWQ+dyB5SufJftIC/dgdXjgtlVoP6o
+ dLE567jGkVNgwmLPPjywk1Pb8zBzNA9alPEospwCb4onE2WXcW5eUFZlw57ODzeCeGKk4/paA
+ 9wzp4a1luHq/2riEWP372466LbJfdw8GALXtUSzmILoJYCSvgfGjv6yTlxnKudE86t1dTlphs
+ l1oMFV5puHrXdQOWM+8c11YgP5aNp9s8XFOuRmZpnckSnabg7LsPU27/sDMFdbcGCtBsFhHlL
+ 9Fo8Cc5s6kL7xEun+bhzkGrk0tp5gEwjqVnZWIk8Ea7YVvGWPlEt86sblPjM1Ysedso2URQYk
+ RWvUVVRlvLCYzbiJ29fNRl218gc0CeOX9VrjBq2FjiU1a7IMOL90rOhqbBtPO4U9nGiIfWlPk
+ eT/zlV+oczGlpcM+BL3LgHkybokSFDDXUGgGUNG0P4WJn4a5yRGxKC/2Nw63U6zKUq6Nwmia/
+ g6xgbYZkrGmPttppAM0bB9wPWT5521JwT733Z7nKJuVYCVeszCjAR60NDTGOlG2pCX3zW/j6W
+ hq59GzQh4E/+qWdZV/gmBXJCqVh7TlXoQ55WG4Pn2oqOJQVWBhka+BXGWb4/cdOfdoJ8ovsSr
+ 6NpbhOinAdcOjuhbvX44Nl3w/1xwKDWbCLOgargZ1/GJY1MAyWxE8jRafeRQ4+0eETzj9CcEq
+ JNBZFeAR2kNzs9w9K0o8MXp9c59+UAEUcjxAqm1NezIuUiyEpsgYCENqX9WORVX8OBnFTTQ9q
+ kqB8RVavMFiKVL+HysC1Gh5NA173jQX4sljx/Qm+1CEqiK1uQi46Hf6yvZyuWdnhkvNGjBKZ+
+ AuQXBJSP95IN+PSV4BcG4Y+gyqeIUZsdumsifxWUAadtl2en2xGn6MCyhFOcYf1MPxaW9Fwol
+ IduBuDc3Jf0k+urxXqHRXE+sppKL/hBqhDqCmpJncnlBp2YK/xQTx7MoUq+vRs0SXE8eqF0r/
+ rjHjmmukapHKRTBUiwYDn9YmYj5Op1KeHfTYy5gst4rIstwIRXFzBVyfVWZ/2+L2xDCxaq/r7
+ nIFEsK2zs1MQcGRgh6QqHB6BbxmYuaLw4U28bLPCt+urMuneKcs2bBsCHlezABXvXOJQmTTGZ
+ 24Xy0E4mCjO33JrxZuqSxUNDSSt+BcaktUjzIK82/l0dB0TwWDo2JAFr4L2U5tmrS254OsH2C
+ 8voDtXkwJ6AmC3Z3mYGtP/SxfUPe/ntqJf0nfUPG+75P2q7pB7QMahV771minmmp/5byAbc6w
+ PVSXlh0OT+7jw8T1sxCTeyo+s/UQ+lVc9KcF6dr2mar062AcK4yCJ7WSa9KS4YqkNPjjEoqQs
+ f8N3WXSl+VqNhFHFmevxiAoQpeylIv1I7ki2ln2UTGlfv6xbVh3pJxnKVxs68xcHrTI9/VfRQ
+ fZj83D2NzDqvd3fxO5rZtGNE3goSeE4ivQiHxHWA957qxetdG4STxnD2d4TK3Wx6+HnXoDtoz
+ ddJ6DGSkUTV4x5IjXarwIXbOjvwLW9Cu5UqxX0SbuX1VRX+MiF2snZ4jZoX+U3BdU69Usf3Ey
+ yBUn4HamQWmnDTTB3W5cnkXH6RnTf6aJ8Y8cwEnNmMX59kj4Y5V48+NwwFvv38sWInpV7FT2u
+ Prdm1g+rKh/q8CmAdApti99cZ5fVojKQA8VNWprVve/5M8itHtxHqD79EDsrglqNBGjeqaY85
+ +C+0trX7n9Mka8HOmVwkpfQnYP7PNHCD3SnWXQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,159 +121,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 11:12:59AM +0200, Simona Vetter wrote:
-> Object creation is a careful dance where we must guarantee that the
-> object is fully constructed before it is visible to other threads, and
-> GEM buffer objects are no difference.
-> 
-> Final publishing happens by calling drm_gem_handle_create(). After
-> that the only allowed thing to do is call drm_gem_object_put() because
-> a concurrent call to the GEM_CLOSE ioctl with a correctly guessed id
-> (which is trivial since we have a linear allocator) can already tear
-> down the object again.
-> 
-> Luckily most drivers get this right, the very few exceptions I've
-> pinged the relevant maintainers for. Unfortunately we also need
-> drm_gem_handle_create() when creating additional handles for an
-> already existing object (e.g. GETFB ioctl or the various bo import
-> ioctl), and hence we cannot have a drm_gem_handle_create_and_put() as
-> the only exported function to stop these issues from happening.
-> 
-> Now unfortunately the implementation of drm_gem_handle_create() isn't
-> living up to standards: It does correctly finishe object
-> initialization at the global level, and hence is safe against a
-> concurrent tear down. But it also sets up the file-private aspects of
-> the handle, and that part goes wrong: We fully register the object in
-> the drm_file.object_idr before calling drm_vma_node_allow() or
-> obj->funcs->open, which opens up races against concurrent removal of
-> that handle in drm_gem_handle_delete().
-> 
-> Fix this with the usual two-stage approach of first reserving the
-> handle id, and then only registering the object after we've completed
-> the file-private setup.
-> 
-> Jacek reported this with a testcase of concurrently calling GEM_CLOSE
-> on a freshly-created object (which also destroys the object), but it
-> should be possible to hit this with just additional handles created
-> through import or GETFB without completed destroying the underlying
-> object with the concurrent GEM_CLOSE ioctl calls.
-> 
-> Note that the close-side of this race was fixed in f6cd7daecff5 ("drm:
-> Release driver references to handle before making it available
-> again"), which means a cool 9 years have passed until someone noticed
-> that we need to make this symmetry or there's still gaps left :-/
-> Without the 2-stage close approach we'd still have a race, therefore
-> that's an integral part of this bugfix.
-> 
-> More importantly, this means we can have NULL pointers behind
-> allocated id in our drm_file.object_idr. We need to check for that
-> now:
-> 
-> - drm_gem_handle_delete() checks for ERR_OR_NULL already
-> 
-> - drm_gem.c:object_lookup() also chekcs for NULL
-> 
-> - drm_gem_release() should never be called if there's another thread
->   still existing that could call into an IOCTL that creates a new
->   handle, so cannot race. For paranoia I added a NULL check to
->   drm_gem_object_release_handle() though.
-> 
-> - most drivers (etnaviv, i915, msm) are find because they use
->   idr_find, which maps both ENOENT and NULL to NULL.
-> 
-> - vmgfx is already broken vmw_debugfs_gem_info_show() because NULL
->   pointers might exist due to drm_gem_handle_delete(). This needs a
->   separate patch. This is because idr_for_each_entry terminates on the
->   first NULL entry and so might not iterate over everything.
-> 
-> - similar for amd in amdgpu_debugfs_gem_info_show() and
->   amdgpu_gem_force_release(). The latter is really questionable though
->   since it's a best effort hack and there's no way to close all the
->   races. Needs separate patches.
-> 
-> - xe is really broken because it not uses idr_for_each_entry() but
->   also drops the drm_file.table_lock, which can wreak the idr iterator
->   state if you're unlucky enough. Maybe another reason to look into
->   the drm fdinfo memory stats instead of hand-rolling too much.
-> 
-> - drm_show_memory_stats() is also broken since it uses
->   idr_for_each_entry. But since that's a preexisting bug I'll follow
->   up with a separate patch.
+Hi,
 
-I've already reworded the commit message locally since I now think
-idr_for_each_entry is entirely fine.
--Sima
+On 5/28/25 09:07, Christian K=C3=B6nig wrote:
+> On 5/27/25 21:43, Natalie Vock wrote:
+>> If we hand out cleared blocks to users, they are expected to write
+>> at least some non-zero values somewhere. If we keep the CLEAR bit set o=
+n
+>> the block, amdgpu_fill_buffer will assume there is nothing to do and
+>> incorrectly skip clearing the block. Ultimately, the (still dirty) bloc=
+k
+>> will be reused as if it were cleared, without any wiping of the memory
+>> contents.
+>>
+>> Most severely, this means that any buffer allocated with
+>> AMDGPU_GEM_CREATE_VRAM_CLEARED | AMDGPU_GEM_CREATE_WIPE_ON_RELEASE
+>> (which is the case for **all userspace buffers**) are neither
+>> guaranteed to contain cleared VRAM, nor are they being wiped on
+>> release, potentially leaking application memory to arbitrary other
+>> applications.
+>>
+>> Fixes: a68c7eaa7a8ff ("drm/amdgpu: Enable clear page functionality")
+>> Cc: stable@vger.kernel.org
+>>
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
+>>
+>> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu=
+/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>> index 2d7f82e98df9..cecc67d0f0b8 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>> @@ -591,6 +591,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource=
+_manager *man,
+>>   	list_for_each_entry(block, &vres->blocks, link) {
+>>   		unsigned long start;
+>>  =20
+>> +		/*
+>> +		 * Allocated blocks may be dirtied as soon as we return.
+>> +		 * Mark all blocks as dirty here, otherwise we might
+>> +		 * incorrectly assume the memory is still zeroed.
+>> +		 */
+>> +		drm_buddy_block_set_dirty(block);
+>=20
+> Exactly that makes no sense.
+>=20
+> We need the information if it's dirty or not later while clearing the bl=
+ocks. Otherwise we will clear all blocks and completely loose the advantag=
+e of the clear tracking.
 
-> 
-> Reported-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: stable@vger.kernel.org
-> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_gem.c | 10 +++++++++-
->  include/drm/drm_file.h    |  3 +++
->  2 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 1e659d2660f7..e4e20dda47b1 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -279,6 +279,9 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->  	struct drm_file *file_priv = data;
->  	struct drm_gem_object *obj = ptr;
->  
-> +	if (WARN_ON(!data))
-> +		return 0;
-> +
->  	if (obj->funcs->close)
->  		obj->funcs->close(obj, file_priv);
->  
-> @@ -399,7 +402,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->  	idr_preload(GFP_KERNEL);
->  	spin_lock(&file_priv->table_lock);
->  
-> -	ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
-> +	ret = idr_alloc(&file_priv->object_idr, NULL, 1, 0, GFP_NOWAIT);
->  
->  	spin_unlock(&file_priv->table_lock);
->  	idr_preload_end();
-> @@ -420,6 +423,11 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->  			goto err_revoke;
->  	}
->  
-> +	/* mirrors drm_gem_handle_delete to avoid races */
-> +	spin_lock(&file_priv->table_lock);
-> +	obj = idr_replace(&file_priv->object_idr, obj, handle);
-> +	WARN_ON(obj != NULL);
-> +	spin_unlock(&file_priv->table_lock);
->  	*handlep = handle;
->  	return 0;
->  
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 5c3b2aa3e69d..d344d41e6cfe 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -300,6 +300,9 @@ struct drm_file {
->  	 *
->  	 * Mapping of mm object handles to object pointers. Used by the GEM
->  	 * subsystem. Protected by @table_lock.
-> +	 *
-> +	 * Note that allocated entries might be NULL as a transient state when
-> +	 * creating or deleting a handle.
->  	 */
->  	struct idr object_idr;
->  
-> -- 
-> 2.49.0
-> 
+Right, I missed that separate clear on allocation. I was put a bit=20
+off-track by assuming DRM_BUDDY_ALLOCATE_CLEARED would guarantee cleared=
+=20
+pages, when in reality it's more like a preference.
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>=20
+> So we should set them dirty as soon as we are done with the clearing.
+>=20
+> But the problem rather seems to be that we sometimes don't clear the buf=
+fers on release for some reason, but still set it as cleared.
+
+Yes precisely - "some reason" being the aforementioned clear flags. We=20
+do always call amdgpu_clear_buffer on release, but that function will=20
+perform the same checks as the clear on allocation does - that means, if=
+=20
+a block is marked clear then it will skip emitting any actual clears.
+
+If we don't mark the blocks as dirty after allocating, then the=20
+amdgpu_clear_buffer call on release will skip actually performing the=20
+clear like it did during allocation - this is obviously really broken.
+
+After calling amdgpu_clear_buffer, we call amdgpu_vram_mgr_set_cleared=20
+which causes the drm_buddy blocks to be marked as "cleared" when freed.=20
+This part is correct in itself, but obviously breaks if=20
+amdgpu_clear_buffer didn't actually clear the buffer. That's how the=20
+dirty blocks end up in the buddy allocator as cleared ones.
+
+I'm testing a v2 that sets the dirty flags after the initial clear, I'll=
+=20
+send it once I confirmed it works.
+
+Thanks,
+Natalie
+
+>=20
+> Regards,
+> Christian.
+>=20
+>=20
+>> +
+>>   		start =3D amdgpu_vram_mgr_block_start(block) +
+>>   			amdgpu_vram_mgr_block_size(block);
+>>   		start >>=3D PAGE_SHIFT;
+>=20
+
