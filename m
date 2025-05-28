@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE04AAC6932
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 14:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87E3AC6934
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 14:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5547110E5DF;
-	Wed, 28 May 2025 12:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD2710E597;
+	Wed, 28 May 2025 12:26:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="wb5xDiwC";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="WMoSVdGm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5471E10E5DF
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 12:26:35 +0000 (UTC)
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
+ [91.218.175.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C240D10E5CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 12:26:42 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1748435193;
+ t=1748435198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SkM4H55ivmDMZXBGdEgOR+Sst6rYFvKFCBEs3GnQNXE=;
- b=wb5xDiwC62bN+TWO+VD10rsm8agyPMxJrbZ+17WnDQ2Zjqsa0GOLOILPefKyTJ/ihD3eM0
- laOtJKrv1bu2WY2j7nE8jdbllz6GmADzRg4zSVcwjBWZ/viP4aWi47FBW8sB4CBavmA/r6
- 2luQDmChjHwUwA9DPkDm4RU/RW9O54Y=
+ bh=Ev2O2KA+7yPWx1iJIRuDCertIEx3fXp7LU4VFzl8dOc=;
+ b=WMoSVdGmwQso5l11uuaU11Z+zgwtqAsam8IzulE8kOzt+8sdTTQEUV1TccH+Y5uQRSTS5K
+ YjEQ1+f12vSHgtpJw1XylPc1rkT17LqhRyZkWqraAD6rZjoOrJ2GjT6WylqskIvVHIJbnS
+ tgsj5mjk/xUkQCTTJyyfspsG2kygWCU=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -48,10 +48,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Devicetree List <devicetree@vger.kernel.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v9 2/4] dt-bindings: display: ti: Add schema for AM625 OLDI
- Transmitter
-Date: Wed, 28 May 2025 17:55:42 +0530
-Message-Id: <20250528122544.817829-3-aradhya.bhatia@linux.dev>
+Subject: [PATCH v9 3/4] drm/tidss: Mark AM65x OLDI code separately
+Date: Wed, 28 May 2025 17:55:43 +0530
+Message-Id: <20250528122544.817829-4-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250528122544.817829-1-aradhya.bhatia@linux.dev>
 References: <20250528122544.817829-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -72,387 +71,253 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <a-bhatia1@ti.com>
+The dss dt schema and the tidss driver have kept the single-link OLDI in
+AM65x integrated with the parent video-port (VP) from DSS (as the OLDI
+configuration happens from the source VP only).
+To help configure the dual-lvds modes that the OLDI has to offer in
+devices AM62x and later, a new OLDI bridge driver will be introduced.
 
-The OLDI transmitters (TXes) do not have registers of their own, and are
-dependent on the source video-ports (VPs) from the DSS to provide
-configuration data. This hardware doesn't directly sit on the internal
-bus of the SoC, but does so via the DSS. Hence, the OLDI TXes are
-supposed to be child nodes under the DSS, and not independent devices.
+Mark the existing OLDI code separately by renaming all the current OLDI
+identifiers with the 'AM65X_' prefix in tidss driver, to help
+distinguish from the upcoming OLDI bridge driver.
 
-Two of the OLDI TXes can function in tandem to output dual-link OLDI
-output, or cloned single-link outputs. In these cases, one OLDI will be
-the primary OLDI, and the other one, a companion. The following diagram
-represents such a configuration.
-
-+-----+-----+         +-------+
-|     |     |         |       |
-|     | VP1 +----+--->+ OLDI0 |  (Primary - may need companion)
-|     |     |    |    |       |
-| DSS +-----+    |    +-------+
-|     |     |    |
-|     | VP2 |    |    +-------+
-|     |     |    |    |       |
-+-----+-----+    +--->+ OLDI1 |  (Companion OLDI)
-                      |       |
-                      +-------+
-
-The DSS in AM625 SoC has a configuration like the one above. The AM625
-DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use them in
-dual-link or cloned single-link OLDI modes. It is only the VP1 that can
-connect to either OLDI TXes for the AM625 DSS, and not the VP2.
-
-Alternatively, on some future TI SoCs, along with the above
-configuration, the OLDI TX can _also_ connect to separate video sources,
-making them work entirely independent of each other. In this case,
-neither of the OLDIs are "companion" or "secondary" OLDIs, and nor do
-they require one. They both are independent and primary OLDIs. The
-following diagram represents such a configuration.
-
-+-----+-----+               +-------+
-|     |     |               |       |
-|     | VP1 +--+----------->+ OLDI0 |  (Primary - may need companion)
-|     |     |  |            |       |
-|     +-----+  |            +-------+
-|     |     |  |
-|     | VP2 |  |
-|     |     |  |
-| DSS +-----+  |   +---+    +-------+
-|     |     |  +-->+ M |    |       |
-|     | VP3 +----->+ U +--->+ OLDI1 |  (Companion or Primary)
-|     |     |      | X |    |       |
-|     +-----+      +---+    +-------+
-|     |     |
-|     | VP4 |
-|     |     |
-+-----+-----+
-
-Note that depending on the mux configuration, the OLDIs can either be
-working together in tandem - sourced by VP1, OR, they could be working
-independently sourced by VP1 and VP3 respectively.
-The idea is to support all the configurations with this OLDI TX schema.
-
-The OLDI functionality is further supported by a system-control module,
-which contains a few registers to control OLDI IO power and other
-electrical characteristics of the IO lanes.
-
-Add devicetree binding schema for the OLDI TXes to support various
-configurations, and extend their support to the AM625 DSS.
-
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
-Changes Log:
-V9:
-  - Reword the "ti,companion-oldi" property description.
-  - Fix the missing "ti,companion-oldi" property in the schema example.
-  - v8 of this patch: https://lore.kernel.org/all/20250525151721.567042-3-aradhya.bhatia@linux.dev/
+ drivers/gpu/drm/tidss/tidss_dispc.c      | 68 ++++++++++++------------
+ drivers/gpu/drm/tidss/tidss_dispc.h      |  2 +-
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h | 15 +++---
+ drivers/gpu/drm/tidss/tidss_kms.c        |  2 +-
+ 4 files changed, 44 insertions(+), 43 deletions(-)
 
-V8:
-  - Drop the condition that made the "secondary-oldi" and "companion-oldi"
-    properties mutually exclusive.
-  - Add "ti,am62l-dss" compatible to the list of compatibles that cannot
-    use the multiple endpoints or have "oldi-transmitters", on port@0.
-  - Because of above, drop R-b tags from Tomi Valkeinen, and Rob Herring.
-  - v7 of this patch: https://lore.kernel.org/all/20250329133943.110698-3-aradhya.bhatia@linux.dev/
-
----
- .../bindings/display/ti/ti,am625-oldi.yaml    |  79 +++++++++
- .../bindings/display/ti/ti,am65x-dss.yaml     | 157 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 237 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-new file mode 100644
-index 000000000000..8203ec5e5bb3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/ti/ti,am625-oldi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments AM625 OLDI Transmitter
-+
-+maintainers:
-+  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-+  - Aradhya Bhatia <aradhya.bhatia@linux.dev>
-+
-+description:
-+  The AM625 TI Keystone OpenLDI transmitter (OLDI TX) supports serialized RGB
-+  pixel data transmission between host and flat panel display over LVDS (Low
-+  Voltage Differential Sampling) interface. The OLDI TX consists of 7-to-1 data
-+  serializers, and 4-data and 1-clock LVDS outputs. It supports the LVDS output
-+  formats "jeida-18", "jeida-24" and "vesa-18", and can accept 24-bit RGB or
-+  padded and un-padded 18-bit RGB bus formats as input.
-+
-+properties:
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description: serial clock input for the OLDI transmitters
-+
-+  clock-names:
-+    const: serial
-+
-+  ti,companion-oldi:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to companion OLDI transmitter. This property is required for both
-+      the OLDI TXes if they are expected to work either in dual-lvds mode or in
-+      clone mode. This property should point to the other OLDI TX's phandle.
-+
-+  ti,secondary-oldi:
-+    type: boolean
-+    description:
-+      Boolean property to mark the OLDI transmitter as the secondary one, when the
-+      OLDI hardware is expected to run as a companion HW, in cases of dual-lvds
-+      mode or clone mode. The primary OLDI hardware is responsible for all the
-+      hardware configuration.
-+
-+  ti,oldi-io-ctrl:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to syscon device node mapping OLDI IO_CTRL registers found in the
-+      control MMR region. These registers are required to toggle the I/O lane
-+      power, and control its electrical characteristics.
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Parallel RGB input port
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: LVDS output port
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - reg
-+  - clocks
-+  - clock-names
-+  - ti,oldi-io-ctrl
-+  - ports
-+
-+additionalProperties: false
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index 9cebe237bd4e..361e9cae6896 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -100,6 +100,24 @@ properties:
-           For AM62A7 DSS, the port is tied off inside the SoC.
-           For AM62L DSS, the DSS DPI output port node from video port 1
-           or DSI Tx controller node connected to video port 1.
-+        properties:
-+          endpoint@0:
-+            $ref: /schemas/graph.yaml#/properties/endpoint
-+            description:
-+              For AM625 DSS, VP Connection to OLDI0.
-+              For AM65X DSS, OLDI output from the SoC.
-+
-+          endpoint@1:
-+            $ref: /schemas/graph.yaml#/properties/endpoint
-+            description:
-+              For AM625 DSS, VP Connection to OLDI1.
-+
-+        anyOf:
-+          - required:
-+              - endpoint
-+          - required:
-+              - endpoint@0
-+              - endpoint@1
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 21363ccbd763..befa5ae1c246 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -146,7 +146,7 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ const struct dispc_features dispc_am65x_feats = {
+ 	.max_pclk_khz = {
+ 		[DISPC_VP_DPI] = 165000,
+-		[DISPC_VP_OLDI] = 165000,
++		[DISPC_VP_OLDI_AM65X] = 165000,
+ 	},
  
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-@@ -121,6 +139,25 @@ properties:
-       Input memory (from main memory to dispc) bandwidth limit in
-       bytes per second
+ 	.scaling = {
+@@ -176,7 +176,7 @@ const struct dispc_features dispc_am65x_feats = {
+ 	.vp_name = { "vp1", "vp2" },
+ 	.ovr_name = { "ovr1", "ovr2" },
+ 	.vpclk_name =  { "vp1", "vp2" },
+-	.vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
++	.vp_bus_type = { DISPC_VP_OLDI_AM65X, DISPC_VP_DPI },
  
-+  oldi-transmitters:
-+    description:
-+      Child node under the DSS, to describe all the OLDI transmitters connected
-+      to the DSS videoports.
-+    type: object
-+    additionalProperties: false
-+
-+    properties:
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+    patternProperties:
-+      '^oldi@[0-1]$':
-+        $ref: ti,am625-oldi.yaml#
-+        description: OLDI transmitters connected to the DSS VPs
-+
- allOf:
-   - if:
-       properties:
-@@ -129,6 +166,7 @@ allOf:
-             const: ti,am62a7-dss
-     then:
-       properties:
-+        oldi-transmitters: false
-         ports:
-           properties:
-             port@0: false
-@@ -143,6 +181,22 @@ allOf:
-           properties:
-             port@1: false
+ 	.vp_feat = { .color = {
+ 			.has_ctm = true,
+@@ -491,7 +491,7 @@ struct dispc_device {
+ 	void __iomem *base_ovr[TIDSS_MAX_PORTS];
+ 	void __iomem *base_vp[TIDSS_MAX_PORTS];
  
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,am62l-dss
-+              - ti,am65x-dss
-+    then:
-+      properties:
-+        oldi-transmitters: false
-+        ports:
-+          properties:
-+            port@0:
-+              properties:
-+                endpoint@1: false
+-	struct regmap *oldi_io_ctrl;
++	struct regmap *am65x_oldi_io_ctrl;
+ 
+ 	struct clk *vp_clk[TIDSS_MAX_PORTS];
+ 
+@@ -1016,13 +1016,11 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+ 	}
+ }
+ 
+-enum dispc_oldi_mode_reg_val { SPWG_18 = 0, JEIDA_24 = 1, SPWG_24 = 2 };
+-
+ struct dispc_bus_format {
+ 	u32 bus_fmt;
+ 	u32 data_width;
+ 	bool is_oldi_fmt;
+-	enum dispc_oldi_mode_reg_val oldi_mode_reg_val;
++	enum oldi_mode_reg_val am65x_oldi_mode_reg_val;
+ };
+ 
+ static const struct dispc_bus_format dispc_bus_formats[] = {
+@@ -1066,7 +1064,7 @@ int dispc_vp_bus_check(struct dispc_device *dispc, u32 hw_videoport,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (dispc->feat->vp_bus_type[hw_videoport] != DISPC_VP_OLDI &&
++	if (dispc->feat->vp_bus_type[hw_videoport] != DISPC_VP_OLDI_AM65X &&
+ 	    fmt->is_oldi_fmt) {
+ 		dev_dbg(dispc->dev, "%s: %s is not OLDI-port\n",
+ 			__func__, dispc->feat->vp_name[hw_videoport]);
+@@ -1076,23 +1074,23 @@ int dispc_vp_bus_check(struct dispc_device *dispc, u32 hw_videoport,
+ 	return 0;
+ }
+ 
+-static void dispc_oldi_tx_power(struct dispc_device *dispc, bool power)
++static void dispc_am65x_oldi_tx_power(struct dispc_device *dispc, bool power)
+ {
+-	u32 val = power ? 0 : OLDI_PWRDN_TX;
++	u32 val = power ? 0 : AM65X_OLDI_PWRDN_TX;
+ 
+-	if (WARN_ON(!dispc->oldi_io_ctrl))
++	if (WARN_ON(!dispc->am65x_oldi_io_ctrl))
+ 		return;
+ 
+-	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT0_IO_CTRL,
+-			   OLDI_PWRDN_TX, val);
+-	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT1_IO_CTRL,
+-			   OLDI_PWRDN_TX, val);
+-	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT2_IO_CTRL,
+-			   OLDI_PWRDN_TX, val);
+-	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_DAT3_IO_CTRL,
+-			   OLDI_PWRDN_TX, val);
+-	regmap_update_bits(dispc->oldi_io_ctrl, OLDI_CLK_IO_CTRL,
+-			   OLDI_PWRDN_TX, val);
++	regmap_update_bits(dispc->am65x_oldi_io_ctrl, AM65X_OLDI_DAT0_IO_CTRL,
++			   AM65X_OLDI_PWRDN_TX, val);
++	regmap_update_bits(dispc->am65x_oldi_io_ctrl, AM65X_OLDI_DAT1_IO_CTRL,
++			   AM65X_OLDI_PWRDN_TX, val);
++	regmap_update_bits(dispc->am65x_oldi_io_ctrl, AM65X_OLDI_DAT2_IO_CTRL,
++			   AM65X_OLDI_PWRDN_TX, val);
++	regmap_update_bits(dispc->am65x_oldi_io_ctrl, AM65X_OLDI_DAT3_IO_CTRL,
++			   AM65X_OLDI_PWRDN_TX, val);
++	regmap_update_bits(dispc->am65x_oldi_io_ctrl, AM65X_OLDI_CLK_IO_CTRL,
++			   AM65X_OLDI_PWRDN_TX, val);
+ }
+ 
+ static void dispc_set_num_datalines(struct dispc_device *dispc,
+@@ -1121,8 +1119,8 @@ static void dispc_set_num_datalines(struct dispc_device *dispc,
+ 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, v, 10, 8);
+ }
+ 
+-static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
+-			      const struct dispc_bus_format *fmt)
++static void dispc_enable_am65x_oldi(struct dispc_device *dispc, u32 hw_videoport,
++				    const struct dispc_bus_format *fmt)
+ {
+ 	u32 oldi_cfg = 0;
+ 	u32 oldi_reset_bit = BIT(5 + hw_videoport);
+@@ -1141,7 +1139,7 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
+ 
+ 	oldi_cfg |= BIT(7); /* DEPOL */
+ 
+-	oldi_cfg = FLD_MOD(oldi_cfg, fmt->oldi_mode_reg_val, 3, 1);
++	oldi_cfg = FLD_MOD(oldi_cfg, fmt->am65x_oldi_mode_reg_val, 3, 1);
+ 
+ 	oldi_cfg |= BIT(12); /* SOFTRST */
+ 
+@@ -1170,10 +1168,10 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
+ 	if (WARN_ON(!fmt))
+ 		return;
+ 
+-	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI) {
+-		dispc_oldi_tx_power(dispc, true);
++	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X) {
++		dispc_am65x_oldi_tx_power(dispc, true);
+ 
+-		dispc_enable_oldi(dispc, hw_videoport, fmt);
++		dispc_enable_am65x_oldi(dispc, hw_videoport, fmt);
+ 	}
+ }
+ 
+@@ -1229,7 +1227,7 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+ 	align = true;
+ 
+ 	/* always use DE_HIGH for OLDI */
+-	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI)
++	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X)
+ 		ieo = false;
+ 
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_POL_FREQ,
+@@ -1255,10 +1253,10 @@ void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport)
+ 
+ void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
+ {
+-	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI) {
++	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X) {
+ 		dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 0);
+ 
+-		dispc_oldi_tx_power(dispc, false);
++		dispc_am65x_oldi_tx_power(dispc, false);
+ 	}
+ }
+ 
+@@ -2852,15 +2850,15 @@ static int dispc_iomap_resource(struct platform_device *pdev, const char *name,
+ static int dispc_init_am65x_oldi_io_ctrl(struct device *dev,
+ 					 struct dispc_device *dispc)
+ {
+-	dispc->oldi_io_ctrl =
++	dispc->am65x_oldi_io_ctrl =
+ 		syscon_regmap_lookup_by_phandle(dev->of_node,
+ 						"ti,am65x-oldi-io-ctrl");
+-	if (PTR_ERR(dispc->oldi_io_ctrl) == -ENODEV) {
+-		dispc->oldi_io_ctrl = NULL;
+-	} else if (IS_ERR(dispc->oldi_io_ctrl)) {
++	if (PTR_ERR(dispc->am65x_oldi_io_ctrl) == -ENODEV) {
++		dispc->am65x_oldi_io_ctrl = NULL;
++	} else if (IS_ERR(dispc->am65x_oldi_io_ctrl)) {
+ 		dev_err(dev, "%s: syscon_regmap_lookup_by_phandle failed %ld\n",
+-			__func__, PTR_ERR(dispc->oldi_io_ctrl));
+-		return PTR_ERR(dispc->oldi_io_ctrl);
++			__func__, PTR_ERR(dispc->am65x_oldi_io_ctrl));
++		return PTR_ERR(dispc->am65x_oldi_io_ctrl);
+ 	}
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index 28958514b8f5..8f1cd0b75629 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -58,7 +58,7 @@ struct dispc_errata {
+ 
+ enum dispc_vp_bus_type {
+ 	DISPC_VP_DPI,		/* DPI output */
+-	DISPC_VP_OLDI,		/* OLDI (LVDS) output */
++	DISPC_VP_OLDI_AM65X,	/* OLDI (LVDS) output for AM65x DSS */
+ 	DISPC_VP_INTERNAL,	/* SoC internal routing */
+ 	DISPC_VP_TIED_OFF,	/* Tied off / Unavailable */
+ 	DISPC_VP_MAX_BUS_TYPE,
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+index e88148e44937..30ce5ee40e1e 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+@@ -226,18 +226,21 @@ enum dispc_common_regs {
+ #define DISPC_VP_DSS_DMA_THREADSIZE		0x170 /* J721E */
+ #define DISPC_VP_DSS_DMA_THREADSIZE_STATUS	0x174 /* J721E */
+ 
++/* LVDS Format values for OLDI_MAP field in DISPC_VP_OLDI_CFG register */
++enum oldi_mode_reg_val { SPWG_18 = 0, JEIDA_24 = 1, SPWG_24 = 2 };
 +
- required:
-   - compatible
-   - reg
-@@ -190,3 +244,106 @@ examples:
-             };
-         };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-+
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+        dss1: dss@30200000 {
-+            compatible = "ti,am625-dss";
-+            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
-+                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
-+                  <0x00 0x30206000 0x00 0x1000>, /* vid */
-+                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
-+                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
-+                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
-+                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
-+                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
-+            reg-names = "common", "vidl1", "vid",
-+                        "ovr1", "ovr2", "vp1", "vp2", "common1";
-+            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
-+            clocks =        <&k3_clks 186 6>,
-+                            <&vp1_clock>,
-+                            <&k3_clks 186 2>;
-+            clock-names = "fck", "vp1", "vp2";
-+            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+            oldi-transmitters {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                oldi0: oldi@0 {
-+                    reg = <0>;
-+                    clocks = <&k3_clks 186 0>;
-+                    clock-names = "serial";
-+                    ti,companion-oldi = <&oldi1>;
-+                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-+                    ports {
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                        port@0 {
-+                            reg = <0>;
-+                            oldi0_in: endpoint {
-+                                remote-endpoint = <&dpi0_out0>;
-+                            };
-+                        };
-+                        port@1 {
-+                            reg = <1>;
-+                            oldi0_out: endpoint {
-+                                remote-endpoint = <&panel_in0>;
-+                            };
-+                        };
-+                    };
-+                };
-+                oldi1: oldi@1 {
-+                    reg = <1>;
-+                    clocks = <&k3_clks 186 0>;
-+                    clock-names = "serial";
-+                    ti,secondary-oldi;
-+                    ti,companion-oldi = <&oldi0>;
-+                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-+                    ports {
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                        port@0 {
-+                            reg = <0>;
-+                            oldi1_in: endpoint {
-+                                remote-endpoint = <&dpi0_out1>;
-+                            };
-+                        };
-+                        port@1 {
-+                            reg = <1>;
-+                            oldi1_out: endpoint {
-+                                remote-endpoint = <&panel_in1>;
-+                            };
-+                        };
-+                    };
-+                };
-+            };
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                port@0 {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+                    reg = <0>;
-+                    dpi0_out0: endpoint@0 {
-+                        reg = <0>;
-+                        remote-endpoint = <&oldi0_in>;
-+                    };
-+                    dpi0_out1: endpoint@1 {
-+                        reg = <1>;
-+                        remote-endpoint = <&oldi1_in>;
-+                    };
-+                };
-+                port@1 {
-+                    reg = <1>;
-+                    dpi1_out: endpoint {
-+                        remote-endpoint = <&hdmi_bridge>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 88b17f23ed4f..1836434ef5fc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8097,6 +8097,7 @@ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
- F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
- F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
- F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+ /*
+  * OLDI IO_CTRL register offsets. On AM654 the registers are found
+  * from CTRL_MMR0, there the syscon regmap should map 0x14 bytes from
+  * CTRLMMR0P1_OLDI_DAT0_IO_CTRL to CTRLMMR0P1_OLDI_CLK_IO_CTRL
+  * register range.
+  */
+-#define OLDI_DAT0_IO_CTRL			0x00
+-#define OLDI_DAT1_IO_CTRL			0x04
+-#define OLDI_DAT2_IO_CTRL			0x08
+-#define OLDI_DAT3_IO_CTRL			0x0C
+-#define OLDI_CLK_IO_CTRL			0x10
++#define AM65X_OLDI_DAT0_IO_CTRL		0x00
++#define AM65X_OLDI_DAT1_IO_CTRL		0x04
++#define AM65X_OLDI_DAT2_IO_CTRL		0x08
++#define AM65X_OLDI_DAT3_IO_CTRL		0x0C
++#define AM65X_OLDI_CLK_IO_CTRL		0x10
+ 
+-#define OLDI_PWRDN_TX				BIT(8)
++#define AM65X_OLDI_PWRDN_TX		BIT(8)
+ 
+ #endif /* __TIDSS_DISPC_REGS_H */
+diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+index 19432c08ec6b..c34eb90cddbe 100644
+--- a/drivers/gpu/drm/tidss/tidss_kms.c
++++ b/drivers/gpu/drm/tidss/tidss_kms.c
+@@ -144,7 +144,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
+ 			dev_dbg(dev, "Setting up panel for port %d\n", i);
+ 
+ 			switch (feat->vp_bus_type[i]) {
+-			case DISPC_VP_OLDI:
++			case DISPC_VP_OLDI_AM65X:
+ 				enc_type = DRM_MODE_ENCODER_LVDS;
+ 				conn_type = DRM_MODE_CONNECTOR_LVDS;
+ 				break;
 -- 
 2.34.1
 
