@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DF3AC6ECB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 19:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D598AC6ED2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 19:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B27510E6AB;
-	Wed, 28 May 2025 17:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45ECD10E0A3;
+	Wed, 28 May 2025 17:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UvrY54qe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mw6cMTAO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E938910E0A3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 17:09:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3E8DB629D3;
- Wed, 28 May 2025 17:09:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7F11C4CEEF;
- Wed, 28 May 2025 17:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748452180;
- bh=BJ/ZgklTcy9+MXNhe9PBNRegZQfOjXStNiGBkaVuyMU=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=UvrY54qeuqkLPbDgr89sGf0odhUehgJBEFqzF8+2/D1jUoMphYhq5neO/jcBC3yrU
- Q3wbfpG8d3kyLKUJHQAQyOuCzimf7HOoqQwh19NVyVM4CkB+j2fb4ebraDlFMBJQAD
- dskOuq/7rx5QUagmtvdtm6gLdkacj+QJnWrUvgzUpZ15jAS0DhD3lGW0f4fOGH1yJ6
- TeTQ1OFV4mxTfMcz3U8psne4V8mmoTvygrMyuTRFR4kn6N+9tf16QzG8GaCgYVUMC5
- /ZiD3d/qtCTfOisdWvE6lck1CAraXOuMwCpaPuCZYioApqdubuJOVjgjNoSXk5f38w
- kV7cjxW6PsSLQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- 311EE3822D25; Wed, 28 May 2025 17:10:16 +0000 (UTC)
-Subject: Re: [git pull] drm for 6.16-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyv4CODKMbTW0Xwx4xYWgKPA0rMgThLgCy8OkF-DvVTNg@mail.gmail.com>
-References: <CAPM=9tyv4CODKMbTW0Xwx4xYWgKPA0rMgThLgCy8OkF-DvVTNg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyv4CODKMbTW0Xwx4xYWgKPA0rMgThLgCy8OkF-DvVTNg@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2025-05-28
-X-PR-Tracked-Commit-Id: f8bb3ed3197966fb60bedcbdc126d2bd5bc0a77f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b08494a8f7416e5f09907318c5460ad6f6e2a548
-Message-Id: <174845221480.2474092.12132473999464633723.pr-tracker-bot@kernel.org>
-Date: Wed, 28 May 2025 17:10:14 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890E610E0A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 17:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748452345; x=1779988345;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2c7x03kSgZrXkfgGKN8R6F2Vjctj1uciiV21QqHMOS8=;
+ b=Mw6cMTAOP57ka9gE+OffsxPwAtcZo99T6+TiJf2uujkV+HbrtgECZbW9
+ ogqIluVpjZ7PlOgFC3Ib4dMYlzYHZNYDEwuCweoU3Mx4s184XHyl3K6v0
+ FB0oFVp+us7TlDxqWn/JYNm3Jwsa5mtBofW8DX6jJDoewUUSwcWROtjD8
+ Qqoijm9nUqax2wKmrNRgrQCYWIfelO/RBuVJqLQOh/LJ+8OSkI95+oDdO
+ iyjgTNE67q1NLg00W+INResMsadimISsnsAuaUXpTh6Ij6ViJhplFpiRj
+ uFxcKc419fUy7INvkZJBsQCGHctyuLb5+eukQhXZm5sncGgibqm7jjx2i Q==;
+X-CSE-ConnectionGUID: 6Dn5EN8ZQriGKtwFJ0ItaA==
+X-CSE-MsgGUID: 0tgXLwlLRq+GvsYM0dTvDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50490107"
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; d="scan'208";a="50490107"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 10:12:24 -0700
+X-CSE-ConnectionGUID: gWwUbxDYRNOK/TYtykp2Dw==
+X-CSE-MsgGUID: 5GPj5DWzSoeTDRitdy35wQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; d="scan'208";a="144274808"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 10:12:22 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ stable@vger.kernel.org
+Subject: [PATCH v2] accel/ivpu: Fix warning in ivpu_gem_bo_free()
+Date: Wed, 28 May 2025 19:12:20 +0200
+Message-ID: <20250528171220.513225-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +67,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Wed, 28 May 2025 13:51:25 +1000:
+Don't WARN if imported buffers are in use in ivpu_gem_bo_free() as they
+can be indeed used in the original context/driver.
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-05-28
+Fixes: 647371a6609d ("accel/ivpu: Add GEM buffer object management")
+Cc: stable@vger.kernel.org # v6.3
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+v2: Use drm_gem_is_imported() to check if the buffer is imported.
+---
+ drivers/accel/ivpu/ivpu_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b08494a8f7416e5f09907318c5460ad6f6e2a548
-
-Thank you!
-
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index c193a80241f5f..5ff0bac739fc9 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -278,7 +278,8 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
+ 	list_del(&bo->bo_list_node);
+ 	mutex_unlock(&vdev->bo_list_lock);
+ 
+-	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
++	drm_WARN_ON(&vdev->drm, !drm_gem_is_imported(&bo->base.base) &&
++		    !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
+ 	drm_WARN_ON(&vdev->drm, ivpu_bo_size(bo) == 0);
+ 	drm_WARN_ON(&vdev->drm, bo->base.vaddr);
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.45.1
