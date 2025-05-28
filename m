@@ -2,57 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3779AC6C2D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 16:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13030AC6CB1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 17:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4E910E62A;
-	Wed, 28 May 2025 14:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8CF10E622;
+	Wed, 28 May 2025 15:15:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lOVAYdQJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D5MaYfzv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7112910E624;
- Wed, 28 May 2025 14:47:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 836BBA4CC64;
- Wed, 28 May 2025 14:47:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C333C4CEE3;
- Wed, 28 May 2025 14:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748443624;
- bh=nLmKJD5IpmF4nfL3t8+jStuysUaSLpHrTyHAc+DS90k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lOVAYdQJb/7IIrN3DLUOOmMT6SSXAefSdXeglizcFB74aaYvRAD+tkM4bh/uCipWq
- 5uG4CEOneec46RlwMJLASokeg22OsQf9XmWGk+7h58SKbNUgDpI+PjxPPqs+DiaBS3
- 1F02ZH2BfQOTQ6lfIemewVBbGnzks9dkK5Ju51LLww3O8fOLDDi2sXJsv9Tw/vyYqi
- egvX9e2oIRhncOrW+qN8rsMcQ24i4QLInywg4Ff94v5CBjxDbTTo1LU2CumdCuCc3P
- okhO3C6ZXWv5IPrlSdqzf4RfsCBZ25lMKm3tBcEWrXZTsT7D0DoLUyfdXKM6EzSQW9
- NEgO4khV0EWPw==
-Date: Wed, 28 May 2025 16:47:00 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, phasta@kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- tursulin@ursulin.net, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
-Message-ID: <aDch5McYYa3AVtTV@pollux>
-References: <20250523125643.7540-2-christian.koenig@amd.com>
- <aDCCF0JFhO7lR2VJ@cassiopeiae> <aDCDJ-sK9rRI6wse@cassiopeiae>
- <cd64af4d-f5b3-4f18-9be6-636624833075@amd.com>
- <08bb986281fefb5cbdb35c63a56e1bbd923d9297.camel@mailbox.org>
- <74c4b9d8-5e25-438e-97c5-5aa2035fb9bd@amd.com>
- <cbd3eaa4c228c0d0688745e8a539103eb2278a0b.camel@mailbox.org>
- <aDcB0AbQiHOVUyAU@phenom.ffwll.local>
- <CADnq5_NiMOhc95h-GLRjAD7LXyQ=9nb=Uvim1rwX4n9tekLkyA@mail.gmail.com>
- <aDcgAG0R-NxT0PaC@pollux>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571CD10E622
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:15:26 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S6FnVQ028888
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:15:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MgByvl3ckepaF69BlogdaJiFhvkLD/m96L5RpVcp7qM=; b=D5MaYfzvKtuJwZvz
+ rLONKXRmnr/g/cNFjxC7n6YCLI/1Xc+m8xKSaI5lrB7z3tS3QiKXZf+L+fkcuRCB
+ m4NvPCotvqHQBQOvcFrVscHaVyh5+W6P44GhvJovyilLvwe6yBQYRi5ltXe8h220
+ nsddoYvC5MOWtFKED9mN7zc8Vu6lgQISNji01QoYv6rsTpWMT6e9hcVT/xuM158r
+ o0A4xdgXDhO0avKWDo0WhylglTtSNx+Othmqy4aNLmBWNJLD27ft3uR0Om+cVsyA
+ xpF9OeVWnaSDxnbNHoE6vWrVcir/QEj6MSOWgtmmEkSSlnddsv8f9IaeflInn0CX
+ DhrFvg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46whuf31a8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:15:25 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-23415056f5bso53065645ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 08:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748445324; x=1749050124;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MgByvl3ckepaF69BlogdaJiFhvkLD/m96L5RpVcp7qM=;
+ b=USV2KNGHlgZNXcnYtXuWyugPsuIJml8Nxj6tm1z+yj+OPCe4vu44GZBwBLqEMvoFsA
+ srAl4qkwYWBViiyGL8tmp8BCt4/lrcOT80fHb/Tq2/IAD7y2llvT6kCaGeIiOUB0PSkf
+ KGBwmY/ddLKbG+Qw7NIoQaTes2yrKFBQpFynU5foBkKkplTlU9USPkK6ecwbRKHlG5xX
+ adcYzLHX2JrWCuAz7F2JVM0hFEOOIGUabjjV86oId7oEBqBMrn5u9XSExrdJZCVNUe9D
+ h8MHaNsceQ19BjPPoWTgGIKnrZACHlUm1PJt3E83e3JFIv8rmiMKBjNu+Sov0UU2+ZBd
+ 1mTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+3fyCq0Xm6WBIwPyfaChSgY/zd8uTf3laQsE94KFOQAgSienidxMiViQ2KRoow3sg+pDhPwJ499A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjHAtdTz/NbtYD4UtrkDbcqmD23qWyYAhRbj/O8tyB03krlkDx
+ CpfeHY26QpbuClqz493NwiB2VF13qjf/+X4cOWjSoHpDE0QUWYXkm6AsYjVZgZYsH9sgp3aR/QO
+ XzBIN2mVgsuOUvJrRht6UnZbnxQl/MH9d4H3k+ia2cpmdlOyku4gYwIP2zvZTZTOmYpSjFFg=
+X-Gm-Gg: ASbGnct3EcfJ5SGMdtGM6YyvJqsu7aXKOrzoHf2Z3JRqso1QrF3bbaqNpdhVFbw7ojs
+ OsZ4Q5ury8290tHLptbwyPQh+vjAkOUFzy7uUbx4Dmxw3mQjezDR7Tiq2k1k05LB9T2phcH/5W4
+ RF36UObAhIo9qFCO3rB8VwWWPVkgCbF/GDRxKJ9dkO/G10/sTgP2Jp3fiuqmPpT6MdOAqDfMcT7
+ 6FZulmY7Ghf6B/uvBMU1W/KA/ciEMnWaCANEL6MgVeGb8+QJyl/yeSKCDiOHPqIGJvDAsDZ89zZ
+ 3DHVi9YN6Zlge3awntW9lQs45tu8gZSIAr5qcbWTdW/tRn9sWokTYsEKAXLHQQ==
+X-Received: by 2002:a17:903:1547:b0:234:d679:72e9 with SMTP id
+ d9443c01a7336-234d67975f6mr34198855ad.12.1748445324630; 
+ Wed, 28 May 2025 08:15:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+fHExXpmEQ68MffV+vPEWdglq/8jBdvplEo6II6kIixUdE9kLKmnfJY0nJ0aFhZ6ORv5X2A==
+X-Received: by 2002:a17:903:1547:b0:234:d679:72e9 with SMTP id
+ d9443c01a7336-234d67975f6mr34198595ad.12.1748445324263; 
+ Wed, 28 May 2025 08:15:24 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-234d35cbb41sm12929605ad.256.2025.05.28.08.15.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 May 2025 08:15:23 -0700 (PDT)
+Message-ID: <70ad82b5-19f3-4e05-bc7a-858dafc563ef@oss.qualcomm.com>
+Date: Wed, 28 May 2025 09:15:22 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aDcgAG0R-NxT0PaC@pollux>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/8] accel/qaic: delete qaic_bo.handle
+To: Simona Vetter <simona.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: intel-xe@lists.freedesktop.org, Carl Vanderlip <quic_carlv@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Simona Vetter <simona.vetter@intel.com>
+References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
+ <20250528091307.1894940-5-simona.vetter@ffwll.ch>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250528091307.1894940-5-simona.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=OslPyz/t c=1 sm=1 tr=0 ts=6837288d cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=k3QLI3o3WigVO6453v0A:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: Plgd-01QSi6L7MiQYIc8cyZHkp-EBJc5
+X-Proofpoint-GUID: Plgd-01QSi6L7MiQYIc8cyZHkp-EBJc5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDEzMSBTYWx0ZWRfX3wx79NxWJZF/
+ C9bOZqvPLC1QdZHmXi/CrFqM+0M7w8+7pjkVeAWCZp98P/N81h4d/8JHzKiP58xSvp4BwK6PtaC
+ ZzSfKgDD6syPslnaWi3tDa97tHId8K4M0D42GL7vQ5sT8N2BDGwhhZqe6Soo4JxCB8gN38lFUYs
+ AwyIf2MxMD0gQYPOGxAMW7CNnt3d2EG3HLy91EeKLj8sBJlDxVo0we5k847q8e3Eyx+XVN80eGa
+ wV9zshZ7klwNrey+kQa+3QHsUDC+qZXPC9cuU720UpJlW23rvc49gmJHr5592nr26HPHpbY/gLo
+ v6Z+GhR3BoK+SMKg75q+tEPdlbMokUa3vNR5Giq0xgOQ3Kvl5MRmAep4EpmSvGECddp0AJDNsQx
+ HHpC4omRkFCP40a7crm78pRsHlC1IqKoTNRwKTGQJAChSJ6mzQvHGZVZ/NMKHT7JxaNUquJQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_07,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505280131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,45 +125,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 04:39:01PM +0200, Danilo Krummrich wrote:
-> On Wed, May 28, 2025 at 09:29:30AM -0400, Alex Deucher wrote:
-> > On Wed, May 28, 2025 at 8:45 AM Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > > I do occasionally find it useful as a record of different approaches
-> > > considered, which sometimes people fail to adequately cover in their
-> > > commit messages. Also useful indicator of how cursed a patch is :-)
-> > >
-> > > But as long as anything relevant does end up in the commit message and
-> > > people don't just delete stuff I don't care how it's done at all. It's
-> > > just that the cost of deleting something that should have been there can
-> > > be really nasty sometimes, and storage is cheap.
-> > 
-> > I like them for the same reasons.  Also, even with links, sometimes
-> > there are forks of the conversation that get missed that a changelog
-> > provides some insight into.  I find it useful in my own development as
-> > I can note what I've changed in a patch and can retain that in the
-> > commit rather than as something I need to track separately and then
-> > add to the patches when I send them out.
-> 
-> Personally, I don't think it's super useful in the commit message, it still
-> remains in the patches sent to the mailing list though. And since we put lore
-> links everywhere, it's easily accessible, *including* the context of why a
-> change was made from one version to another, i.e. the full conversation.
-> 
-> However, if we really want that, we should make it an offical thing, since
-> currently the kernel's process documentation [1] clearly states otherwise:
-> 
-> "Please put this information after the '---' line which separates the changelog
-> from the rest of the patch. The version information is not part of the changelog
-> which gets committed to the git tree. It is additional information for the
-> reviewers. If it's placed above the commit tags, it needs manual interaction to
-> remove it."
-> 
-> Alternatively, it can go into the cover letter.
+On 5/28/2025 3:13 AM, Simona Vetter wrote:
+> Handles are per-file, not global, so this makes no sense. Plus it's
+> set only after calling drm_gem_handle_create(), and drivers are not
+> allowed to further intialize a bo after that function has published it
+> already.
 
-One additional note:
+intialize -> initialize
 
-This is not me trying to be super bureaucratic; instead I think being consistent
-in the process across the whole kernel results in a better experience for (new)
-contributors.
+> It is also entirely unused, which helps enormously with removing it
+> :-)
 
-> [1] https://docs.kernel.org/process/submitting-patches.html#commentary
+There is a downstream reference to it which hasn't quite made it 
+upstream yet, but tweaking that should be fine. This is clearly a 
+problem anyways, so we'll need to find a solution regardless. Thank you 
+very much for the audit.
+
+> Since we're still holding a reference to the bo nothing bad can
+> happen, hence not cc: stable material.
+> 
+> Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> Cc: Carl Vanderlip <quic_carlv@quicinc.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+
+SOB chain seems weird to me. I got this email from @ffwll.ch, which 
+would be the author. Where is @intel.com contributing to the handoff of 
+the patch?
+
+Overall, looks good to me. Seems like either I can ack this, and you can 
+merge, or I can just take it forward. I have no preference.  Do you?
+
+-Jeff
