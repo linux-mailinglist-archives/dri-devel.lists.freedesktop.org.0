@@ -2,108 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F50AC6CE7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 17:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21924AC6CED
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 17:35:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF5E210E617;
-	Wed, 28 May 2025 15:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 768D310E63B;
+	Wed, 28 May 2025 15:35:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="voWpEW19";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OkB+tWwJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5n19rmM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OkB+tWwJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5n19rmM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5882310E617
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:35:11 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-e7da099de49so3324402276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 08:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1748446510;
- x=1749051310; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/xxvQd++y7EnTgMMEVQbGeZAD8fz0r4wC/tmiy3K++8=;
- b=voWpEW19Cj1Oqn90RDXn/U0QSeKLGg0zf6CJNBrhTBJ7hMgoi5i4XK2rVqqPT9Gvp/
- LkMsArKUqhGrB4KnpxmX1P4fs63Kj537Xc6qBBfx0m3dIs9nB0D7DNdnNYbzEDP1QzmE
- jvvL1E8/mWzZh/hkgaoSlW4NHLSFPgCNT4WrWtG36AGeNrUGyTUiT+G1MXJUPOdlUH+U
- q+ik3D2iq8fp+MtJcRahtd/aqGSriNisrsxnh0aOmE21qBK/DlbXJ7lUerz5jX6VUAVE
- qcw+BycaFKjsxIViqv7PyjXXiPGgPQi29OtO2Io5aXYRlZ0h5FsRJwK86Bc3MjD/ffU7
- FdAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748446510; x=1749051310;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/xxvQd++y7EnTgMMEVQbGeZAD8fz0r4wC/tmiy3K++8=;
- b=diO4jkfV7QLaZz0cfZb2sQ83ue20pDclzPiSc+coWO5WMrsKVL4Xzp483ErE8dky2B
- eS+HBDYtFksiTjF2JK8qCgDDu45jPw3QvayrxoSpGTsgte+ioVJ8opbjZCDvnchqUiSJ
- jCAavuUfrB/ty2VfZa2fsnn45zFvoMurNc+oqtFjaNcBI4ywtqCH5WbprWsanw+5F0O3
- qDdkwM3U43zDbdmylz6QIJBVqnYBiK+zHVmqKEB/i089Gy9NF26QiYabo9AMOJSy+Oft
- 8tkitGTcgdKem2XkVQIu+182YWvd6WiF97XtK+wikmQjzpofMCB9lT8ld9/DJ9KGFQnt
- FR4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUy5u2oBhRFG2wTIG5ePBcu5gxM/17k9mf+6Os7GKvbU6N7RH7WtkvZ84RgL42R38dgDO4r/iQi30k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZzHVkAve04viJU4pH7cARsE1wBsSrrXh0XvPOF4GN4lapwMWv
- k7QrMh/W36UElVPnx/TltPsWDXF9vlXiZiRHi3aEMnhklGAJ2P4qNbOlxh/PpDHp1hhYYZpUWTF
- qqhaXNFVfig==
-X-Gm-Gg: ASbGnctg7/IiKfDgolLFkxDOjYCjrjgEEkDzgcoRAPYpOQEimKmzF/ZlTMFohRcxO5d
- vTdG/eHitilLi0sISUPkcftmTL/uvjW6Qq9gWv0lJMKk4w8vy/R6jR0WF1VVg68n5rnk63ZT7I0
- AaKWRULwvdBiswFsjtTGxQH/0P4r6R2M+aRD7QkV38/TW7TFRgQZjo0hKQ+fgwRpscJZKSADTzE
- 9sxO2HG8Dhj+MZFm/qskJLofq8Rfcw/rJAnsQs5VkRCUH6YYbGzTuPiLadM3h3GpZz2LIKngdvN
- zZp7OMyvxtiPKmiqoK9aKyu9fXEsaaH3ciVXU0PvgtVFNU4llNtFM0l8JbXSNSwho4C78atkhZu
- 6eJov5bO/K8mCjJq/XR0=
-X-Google-Smtp-Source: AGHT+IE0pB9j0xz6rphB0HWVeEmRHJTh4xTdA+IFP0CktkvOgN2KfgbubHNzT1uXdg2F1mqX24TOqQ==
-X-Received: by 2002:a05:6902:1021:b0:e7d:ca07:a144 with SMTP id
- 3f1490d57ef6-e7dca07a23dmr8541789276.5.1748446510363; 
- Wed, 28 May 2025 08:35:10 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
- [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-e7f5dde404dsm311811276.26.2025.05.28.08.35.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 May 2025 08:35:09 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-e731a56e111so3785595276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 08:35:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDDZDXYeGvLtAQ9Iy5tuejF6wT9Pcr2fRHSc7hvzG4F93mC2UA4xRxzVjGLNKvE0YAZoT6OpelUuk=@lists.freedesktop.org
-X-Received: by 2002:a05:6902:1021:b0:e7d:ca07:a144 with SMTP id
- 3f1490d57ef6-e7dca07a23dmr8541656276.5.1748446509068; Wed, 28 May 2025
- 08:35:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
- <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net>
- <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Wed, 28 May 2025 17:34:57 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
-X-Gm-Features: AX0GCFtwrQfY2JjemntUXNTLyymu_4uxtqwB53YlQ42a11mlnVkp6EMD0QhiJuw
-Message-ID: <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
-Subject: Re: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83AB110E64E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:35:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5E8801F79C;
+ Wed, 28 May 2025 15:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748446552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
+ b=OkB+tWwJn5TyhhdZk5gRTOtB/3WHwqE1z90PjIS/tvdz4lDahQGvk5HSEa76oAQ2kg/1/b
+ B20qvLXFqVFNGCXDJh79yWEowrOKaAr8LzfcAK0Ed3oElZ8PIbUoQatX9TnxWgG8bBHIbv
+ b3sFaDAxi2CSy2Q/eDBj32soLVoFtO0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748446552;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
+ b=z5n19rmMiwEaklI61przui4wcgbfqyN1EQp36L9Z3ElM9cRUJGbmyudyPmUcEQM/A83XMr
+ u8u8KRR5DnCvs9Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748446552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
+ b=OkB+tWwJn5TyhhdZk5gRTOtB/3WHwqE1z90PjIS/tvdz4lDahQGvk5HSEa76oAQ2kg/1/b
+ B20qvLXFqVFNGCXDJh79yWEowrOKaAr8LzfcAK0Ed3oElZ8PIbUoQatX9TnxWgG8bBHIbv
+ b3sFaDAxi2CSy2Q/eDBj32soLVoFtO0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748446552;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
+ b=z5n19rmMiwEaklI61przui4wcgbfqyN1EQp36L9Z3ElM9cRUJGbmyudyPmUcEQM/A83XMr
+ u8u8KRR5DnCvs9Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5466136E3;
+ Wed, 28 May 2025 15:35:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id AhQdNlctN2hHYgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 28 May 2025 15:35:51 +0000
+Date: Wed, 28 May 2025 17:35:50 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Kever Yang <kever.yang@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250528153550.GA21050@linux.fritz.box>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ MISSING_XM_UA(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[16]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_DN_SOME(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,125 +113,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 3:41=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Tue, May 20, 2025 at 5:27=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.n=
-et> wrote:
-> >
-> > Add the bindings for the Neural Processing Unit IP from Rockchip.
-> >
-> > v2:
-> > - Adapt to new node structure (one node per core, each with its own
-> >   IOMMU)
-> > - Several misc. fixes from Sebastian Reichel
-> >
-> > v3:
-> > - Split register block in its constituent subblocks, and only require
-> >   the ones that the kernel would ever use (Nicolas Frattaroli)
-> > - Group supplies (Rob Herring)
-> > - Explain the way in which the top core is special (Rob Herring)
-> >
-> > v4:
-> > - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowsk=
-i)
-> > - Remove unneeded items: (Krzysztof Kozlowski)
-> > - Fix use of minItems/maxItems (Krzysztof Kozlowski)
-> > - Add reg-names to list of required properties (Krzysztof Kozlowski)
-> > - Fix example (Krzysztof Kozlowski)
-> >
-> > v5:
-> > - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-> > - Streamline compatible property (Krzysztof Kozlowski)
-> >
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++=
-++++++++
-> >  1 file changed, 147 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn=
--core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-cor=
-e.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43=
-c4b8250cdd1b9ee86
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.y=
-aml
-> > @@ -0,0 +1,147 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Neural Processing Unit IP from Rockchip
-> > +
-> > +maintainers:
-> > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > +
-> > +description:
-> > +  Rockchip IP for accelerating inference of neural networks, based on =
-NVIDIA's
-> > +  open source NVDLA IP.
-> > +
-> > +  There is to be a node per each core in the NPU. In Rockchip's design=
- there
-> > +  will be one core that is special and needs to be powered on before a=
-ny of the
-> > +  other cores can be used. This special core is called the top core an=
-d should
-> > +  have the compatible string that corresponds to top cores.
->
-> Is this really a distinction in the h/w? If you change which core is
-> the top one in the DT, does it still work?
+Hi Dave, Sima,
 
-No, I really need to power on that one before the others can work (the
-first core is also marked as special in a diagram in the TRM).
+this is the weekly PR for drm-misc-fixes. Besides DRM, the bugfix
+for dummycon possibly affects fbcon and fbdev output as well.
 
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    pattern: '^npu@[a-f0-9]+$'
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - rockchip,rk3588-rknn-core-top
-> > +      - rockchip,rk3588-rknn-core
-> > +
-> > +  reg:
-> > +    maxItems: 3
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: pc
-> > +      - const: cna
-> > +      - const: core
-> > +
-> > +  clocks:
-> > +    minItems: 2
-> > +    maxItems: 4
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: hclk
-> > +      - const: npu
-> > +      - const: pclk
-> > +    minItems: 2
->
-> It is odd that the non-top cores only have bus clocks and no module
-> clock. But based on the clock names, I'm guessing the aclk/hclk are
-> not shared, but the npu and pclk are shared. Since you make the top
-> core probe first, then it will enable the shared clocks and the
-> non-top cores don't have to worry about them. If so, that is wrong as
-> it is letting the software design define the bindings.
+Best regards
+Thomas
 
-Yes, I think it's probably as you say, but I don't know how I could
-check. Maybe Kever, Heiko or Sebastian would have any ideas?
+drm-misc-fixes-2025-05-28:
+Short summary of fixes pull:
 
-Thanks,
+drm-scheduler:
+- signal scheduled fence when killing job
 
-Tomeu
+dummycon:
+- trigger deferred takeover when switching consoles
+
+ivpu:
+- improve logging
+- update firmware filenames
+- reorder steps in command-queue unregistering
+The following changes since commit 6692dbc15e5ed40a3aa037aced65d7b8826c58cd:
+
+  drm/edid: fixed the bug that hdr metadata was not reset (2025-05-19 12:26:08 +0300)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-05-28
+
+for you to fetch changes up to 4557cc834712eca4eae7adbd9f0a06bdd8f79c99:
+
+  accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction (2025-05-28 11:49:29 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+drm-scheduler:
+- signal scheduled fence when killing job
+
+dummycon:
+- trigger deferred takeover when switching consoles
+
+ivpu:
+- improve logging
+- update firmware filenames
+- reorder steps in command-queue unregistering
+
+----------------------------------------------------------------
+Jacek Lawrynowicz (2):
+      accel/ivpu: Improve buffer object logging
+      accel/ivpu: Use firmware names from upstream repo
+
+Karol Wachowski (1):
+      accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction
+
+Lin.Cao (1):
+      drm/scheduler: signal scheduled fence when kill job
+
+Thomas Zimmermann (1):
+      dummycon: Trigger redraw when switching consoles with deferred takeover
+
+ drivers/accel/ivpu/ivpu_fw.c             | 12 ++++++------
+ drivers/accel/ivpu/ivpu_gem.c            | 25 +++++++++++++++++--------
+ drivers/accel/ivpu/ivpu_gem.h            |  1 +
+ drivers/accel/ivpu/ivpu_job.c            |  8 ++++----
+ drivers/gpu/drm/scheduler/sched_entity.c |  1 +
+ drivers/video/console/dummycon.c         | 18 +++++++++++++-----
+ 6 files changed, 42 insertions(+), 23 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
