@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED776AC6BC0
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 16:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3322AAC6BC2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 16:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D4810E641;
-	Wed, 28 May 2025 14:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFD010E63D;
+	Wed, 28 May 2025 14:34:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qmjn/eJ8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B/G2qhEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CA410E605;
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D97610E605;
  Wed, 28 May 2025 14:34:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9A6914A74B;
+ by tor.source.kernel.org (Postfix) with ESMTP id C96CE629D8;
+ Wed, 28 May 2025 14:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFF92C4CEED;
  Wed, 28 May 2025 14:34:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC51C4CEE3;
- Wed, 28 May 2025 14:34:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748442888;
- bh=la70WX+ZHL0nPCFtUsmvxU0TbQDjoteqMB0xVg2UTpo=;
- h=From:Subject:Date:To:Cc:From;
- b=qmjn/eJ8MyNPMizk1BpxNT4BSJ5d8cWdaFq1rS427rcoeOpAmw7i4Ooxu45hBdelx
- xDD3IaO6jOgfoYgjkxOhCrq6yRuCKhK158MJWgGwRu6AIsebHZhm+xK+TXht41ldqx
- m3LWt+2BXGqM+V5v6SnrPZiC4wFULOsmdsQJu6RP+k8xoVPGo9J7RhWR54/+07foML
- MVyMX1BSaVj2ZYuR4Hf2Xz+agj9RJCQaG21o3lpl2muq/IWeBkGwjXZp9XtQ6WJUtz
- hbhk/oxhQFD15hnqUYPcCvvPDtnRyeWbLXcl87e35p269vfMUoedaIrflxIGdDnn7Y
- NLA9Q0g3KcdoQ==
+ s=k20201202; t=1748442890;
+ bh=xcaFZVbsEvJyxxrP8wl5wB3qpU0YQ92i4Uv2VYSOZus=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=B/G2qhEfNssorY7U9YWyXBSF7siZDygdMbGGxq3Z1zMJG1BOR6WnZJHoytMqI6HMA
+ Jv6kwz9FIZEzHSvHjG+622OTB/CQK4fL/nJ3TQ0/Jnjh+f1w4t5MKbHrQMNtZsaXvU
+ Edwkx2rs8uiYpN4VBBmwr6YarYl+L6+LkS5TStvuDEI536z9IKFG4dQJoKhbSwbJj3
+ jnc5K0/IC94l99/xZP8liBxOCibFhq+nfibRak53dL/yVUQnlhjgnGJtX9GtNEXAXs
+ 98Mn1XX1DgV119J3GDqSCYg8jcyrNHscE+4chldrjM8IcmehLDIVy4MovwNIaps+z5
+ 2EZfxIpGMV1rg==
 From: Jeff Layton <jlayton@kernel.org>
-Subject: [PATCH v11 00/10] ref_tracker: add ability to register a debugfs
- file for a ref_tracker_dir
-Date: Wed, 28 May 2025 10:34:32 -0400
-Message-Id: <20250528-reftrack-dbgfs-v11-0-94ae0b165841@kernel.org>
+Date: Wed, 28 May 2025 10:34:33 -0400
+Subject: [PATCH v11 01/10] i915: only initialize struct ref_tracker_dir
+ once
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPgeN2gC/2XQS2oDMQwG4KuEWXeKXxrJXfUepQs/kyElCZ4wt
- ITcvZpAqVvhlWy+35Juw1LaXJbhZXcbWlnnZT6fuND6aTekQzjtyzhnvhiMMqCctmMr9dpCOo4
- 57usyWpwwWmWLqWFgdOH3+fOR+PbO9WFeruf29fhg1dvtT5T7H7XqUY1VWSAga4yyr8fSTuXj+
- dz2w5a1mt6D8IZ91JRciFkbU4W3vUfhLftkNXhnKFGNwrvek/COPaQACcl7cE546LyRHtjrFGO
- uPDzFLPzUeauEn9jThMn4UHmPQXj89XyEx23/SAmyx5iS9NR7uT9iPylEjdnG6El433svvN/6D
- 5GIggPj5PxadQFGNqAVJ+QEUBEVTF7/Sbjf798wo54L8AIAAA==
-X-Change-ID: 20250413-reftrack-dbgfs-3767b303e2fa
+Message-Id: <20250528-reftrack-dbgfs-v11-1-94ae0b165841@kernel.org>
+References: <20250528-reftrack-dbgfs-v11-0-94ae0b165841@kernel.org>
+In-Reply-To: <20250528-reftrack-dbgfs-v11-0-94ae0b165841@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -60,23 +55,22 @@ Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>,
  Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+ Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4580; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=la70WX+ZHL0nPCFtUsmvxU0TbQDjoteqMB0xVg2UTpo=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoNx7/6/eA3upt3zeE4DWP2UU17Ec+usxykPRIq
- ef5IGth2byJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDce/wAKCRAADmhBGVaC
- FT1WD/4hg4MqOVwhf66jaDEuhZ+DfRLZx83XT+w0cGXI5pG4f3e9TndsQV38W5/Kxrpdgk2Ni2Z
- Qye+uNd/Ww93OBsrB57zk4oMD2qzStmB9fCm3MzOEn57/+/zV64UEoUgFU+jEywVyTgF+sWqW0s
- cbKH5JvnSsY8v480OMPPV/i3P5XjUeiIdCvMQLF3cMvFoVOCxNgBATH/6JRrVxN880H9UqO298h
- 4AnOyicPD3xwzP7CwbHXtoUKlSgD9g0TGwYmEFY5+SUA3cFBVODGI8Q/Q3XWLMeTzSbRmnl0Spq
- 8Pgae+GF9lqD34HF8+EAEpig3Hq1iatLSl0nXzY9Av+XfPc7dsS0UgWdy12lMCjtoEd6j/P0wUW
- BcUNW0cVF4OrmGUR6ihEpjbl2LIyL3UUV/fGXTQb+pcpfS3XPRDqUuquuAmzbANoujA3kdfhfQ+
- 8CKcHLt9K7Gs3l/S8vTOedKx4+bFmQZYXiRja+K7C71+fcTqwY52EJKj928jor+bnYbi5bslxOI
- JoetmyOxsaG0jAcLsXzAvwKY49bdWH4FQWijTEI/Ai2fvV4jD7z/rtxxLsM5zJmcS02zjZUqPjH
- HfgI4qsS6X7ZqMx4eZSp6vdmszjqoHxLRJIHXkHiYnfWDK/JbBjKoji/tBwXOalABiHKaCMJoTl
- nzY+9z8sSlGvQKg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1979; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=xcaFZVbsEvJyxxrP8wl5wB3qpU0YQ92i4Uv2VYSOZus=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoNx8EmI6fWV2Eg8Xc7r5K/kMheNd8UdmOtmoO3
+ tlVLfOHahKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDcfBAAKCRAADmhBGVaC
+ FbGSD/9jzwiUc0TWPeNT+GglWj/jlFf8GvvgXw380X6AKkj9UkpMXvsNnjcHnLVrEtdetSkTa67
+ 0P95tMf5mkiIf9XnYUBTyEcX4lUdPd2u4abq3MGbVpWOM+I1b2nbRl+OgSqNlnZEPnLeshSDqWW
+ Seqpn1O3eD64B8a+Z7LwoAtDcT+zyvrJL+stNAHG3862LEL+Z0oM2EaXzYanp8Gta584DmX126s
+ q0KynOEuesl4MPcWxsrXeuTlo2r/e5NFR03fdj65XU6PurTxRfSx0qeJhvqUnk+GL/uk99jaLVi
+ bT2jX4M7ZDzJ01dMo5aQ0+7NHCFU/XPSQmGsNcr0L51DzYrtQLY2IceI03bu2uxve8bw8CAD6Lz
+ umSxnAZw3JPlW3y8/HpE3Z9GSFuE5eK4ZBLLZQI4YoePaj8X9GpjCsUqNdBH3XQTcykWfttlL0E
+ X/Wk6+v/6uwHVBKIiXp1PiH86jscrzXxXMvSmR8dzgeJfHeEqxPQGagtt30bGHdWhZpZTPrOc06
+ ZNBi4Gr4jj3vnXFNFNqKnn20TvarkHh/8pkECDEqJjoO3kC6vg7zrAileGhwJelCMTzrLsX4Wrg
+ 6FkJtAnd+wlZqn3zJFa4LQ5HZiHGJi6PPeYp16L4iSnL/XzzvsySBsouY5Xc04Vu/BBvIdmnGyk
+ vwygWSCqB3E/RRA==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,101 +88,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-More CI reports [1]. This time it showed what I consider to be an
-existing bug in the i915 driver. It can call ref_tracker_dir_init() more
-than once on the same dir object, which could cause reference tracking
-objects to leak.
+I got some warnings from the i915 CI with the ref_tracker debugfs
+patches applied, that indicated that these ref_tracker_dir_init() calls
+were being called more than once. If references were held on these
+objects between the initializations, then that could lead to leaked ref
+tracking objects.
 
-The first patch in the series ensures that this doesn't happen. The rest
-is basically identical to v10 aside from a small format cleanup.
-
-[1]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_148490v6/index.html
+Since these objects are zalloc'ed, ensure that they are only initialized
+once by testing whether the first byte of the name field is 0.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
-Changes in v11:
-- don't call ref_tracker_dir_init() more than once for same i915 objects
-- use %llx in format for net_cookie in symlink name
-- Link to v10: https://lore.kernel.org/r/20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org
+ drivers/gpu/drm/i915/intel_runtime_pm.c | 3 ++-
+ drivers/gpu/drm/i915/intel_wakeref.c    | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Changes in v10:
-- drop the i915 symlink patch
-- Link to v9: https://lore.kernel.org/r/20250509-reftrack-dbgfs-v9-0-8ab888a4524d@kernel.org
+diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+index 8d9f4c410546e4144d4bc8bbc6696f3bd9498848..1b2ad1e0aef7d317f63a23b39193ea81c90401f0 100644
+--- a/drivers/gpu/drm/i915/intel_runtime_pm.c
++++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+@@ -59,7 +59,8 @@ static struct drm_i915_private *rpm_to_i915(struct intel_runtime_pm *rpm)
+ 
+ static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+ {
+-	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT, dev_name(rpm->kdev));
++	if (!rpm->debug.name[0])
++		ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT, dev_name(rpm->kdev));
+ }
+ 
+ static intel_wakeref_t
+diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+index 07e81be4d3920febece34709c63a63204a41583c..3cfd68c98023fef75faa4dd69eba55e093130dd7 100644
+--- a/drivers/gpu/drm/i915/intel_wakeref.c
++++ b/drivers/gpu/drm/i915/intel_wakeref.c
+@@ -114,7 +114,8 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+ 			 "wakeref.work", &key->work, 0);
+ 
+ #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+-	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
++	if (!wf->debug.name[0])
++		ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
+ #endif
+ }
+ 
 
-Changes in v9:
-- fix typo in ref_tracker_dir_init() kerneldoc header
-- Link to v8: https://lore.kernel.org/r/20250507-reftrack-dbgfs-v8-0-607717d3bb98@kernel.org
-
-Changes in v8:
-- fix up compiler warnings that the KTR warned about
-- ensure builds with CONFIG_DEBUG_FS=n and CONFIG_REF_TRACKER=y work
-- Link to v7: https://lore.kernel.org/r/20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org
-
-Changes in v7:
-- include net->net_cookie in netns symlink name
-- add __ostream_printf to ref_tracker_dir_symlink() stub function
-- remove unneeded #include of seq_file.h
-- Link to v6: https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-0-867c29aff03a@kernel.org
-
-Changes in v6:
-- clean up kerneldoc comment for ref_tracker_dir_debugfs()
-- add missing stub function for ref_tracker_dir_symlink()
-- temporary __maybe_unused on ref_tracker_dir_seq_print() to silence compiler warning
-- Link to v5: https://lore.kernel.org/r/20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org
-
-Changes in v5:
-- add class string to each ref_tracker_dir
-- auto-register debugfs file for every tracker in ref_tracker_dir_init
-- add function to allow adding a symlink for each tracker
-- add patches to create symlinks for netns's and i915 entries
-- change output format to print class@%p instead of name@%p
-- eliminate the name field in ref_tracker_dir
-- fix off-by-one bug when NULL terminating name string
-- Link to v4: https://lore.kernel.org/r/20250418-reftrack-dbgfs-v4-0-5ca5c7899544@kernel.org
-
-Changes in v4:
-- Drop patch to widen ref_tracker_dir_.name, use NAME_MAX+1 (256) instead since this only affects dentry name
-- Link to v3: https://lore.kernel.org/r/20250417-reftrack-dbgfs-v3-0-c3159428c8fb@kernel.org
-
-Changes in v3:
-- don't overwrite dir->name in ref_tracker_dir_debugfs
-- define REF_TRACKER_NAMESZ and use it when setting name
-- Link to v2: https://lore.kernel.org/r/20250415-reftrack-dbgfs-v2-0-b18c4abd122f@kernel.org
-
-Changes in v2:
-- Add patch to do %pK -> %p conversion in ref_tracker.c
-- Pass in output function to pr_ostream() instead of if statement
-- Widen ref_tracker_dir.name to 64 bytes to accomodate unique names
-- Eliminate error handling with debugfs manipulation
-- Incorporate pointer value into netdev name
-- Link to v1: https://lore.kernel.org/r/20250414-reftrack-dbgfs-v1-0-f03585832203@kernel.org
-
----
-Jeff Layton (10):
-      i915: only initialize struct ref_tracker_dir once
-      ref_tracker: don't use %pK in pr_ostream() output
-      ref_tracker: add a top level debugfs directory for ref_tracker
-      ref_tracker: have callers pass output function to pr_ostream()
-      ref_tracker: add a static classname string to each ref_tracker_dir
-      ref_tracker: allow pr_ostream() to print directly to a seq_file
-      ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
-      ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
-      net: add symlinks to ref_tracker_dir for netns
-      ref_tracker: eliminate the ref_tracker_dir name field
-
- drivers/gpu/drm/display/drm_dp_tunnel.c |   2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c |   4 +-
- drivers/gpu/drm/i915/intel_wakeref.c    |   3 +-
- include/linux/ref_tracker.h             |  58 +++++++++-
- lib/ref_tracker.c                       | 190 +++++++++++++++++++++++++++++---
- net/core/dev.c                          |   2 +-
- net/core/net_namespace.c                |  34 +++++-
- 7 files changed, 267 insertions(+), 26 deletions(-)
----
-base-commit: fefff2755f2aa4125dce2a1edfe7e545c7c621f2
-change-id: 20250413-reftrack-dbgfs-3767b303e2fa
-
-Best regards,
 -- 
-Jeff Layton <jlayton@kernel.org>
+2.49.0
 
