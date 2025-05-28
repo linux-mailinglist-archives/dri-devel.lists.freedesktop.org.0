@@ -2,107 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C67AC685E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 13:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEECAC68C2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 14:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4AE610E5F3;
-	Wed, 28 May 2025 11:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91FA10E59B;
+	Wed, 28 May 2025 12:02:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="WIu8D6o6";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="GMi2exFG";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="TnmPfyrV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b1-smtp.messagingengine.com
- (fout-b1-smtp.messagingengine.com [202.12.124.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94D4410E16C;
- Wed, 28 May 2025 11:28:36 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfout.stl.internal (Postfix) with ESMTP id 8369A11400D3;
- Wed, 28 May 2025 07:28:35 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Wed, 28 May 2025 07:28:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1748431715;
- x=1748518115; bh=UK4SDTFoZN8a248ZSOnhk+uW54YPVwbFm6eiIbQcacc=; b=
- WIu8D6o6E9C7LLNcCKy//BdY3/1fetFwaeQ4MG2CCr+hh51Hlhf4oC6a5rcY3uqF
- xqDhC+9n5IfDU0z/k6zq0WNADft/V8SgOvANqzgWwnOyC3aiCWny1UTpAAR8lRzw
- RbqEWlpvb70W2xAuh5oVtxiBGc7AVC9WJGFvOGl6HsTwCtAPYOhS5/UxZ4NCJBll
- 60xIZosN55MnqV7RPAXdxFAQ1FVfoILiHkYejTcqZDMH5pYjOsJUBfhKJFnvQd42
- S4zZ1tgWSqdSOGgrVHPS7/G6ZirqUfWpsne4uAic84rXj3U+NIU8h3/mXT/Ul7X5
- q1ACdT52xtrmT2UUvj1+xg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1748431715; x=
- 1748518115; bh=UK4SDTFoZN8a248ZSOnhk+uW54YPVwbFm6eiIbQcacc=; b=G
- Mi2exFGhNKU2xnRprEiLAnbC/kJGsehU0ZuRLGt7bypFhK6m4AFnstJR6RkP6M2D
- 1s0lIsHY/M0RSkCOoMy/C7w8QHMdAqe2HTEAlSn5ec2RRfruiSG72pmO8waARVvF
- SN03jeQNP4IlPv2nuWDJ2W93gaUxsEdLt9jZtRrS5EEEeagWrYmyip9YKcNMoxxr
- LvrMXAq+WVtmNTLaCAnUk1ifCWJ8VTQWdVn30R3s7V1JNPVRT1682xhMiwo3DtnP
- fFglGzUmXOQj+n9q6VDaVMjBWoGze1yNV/IAvIqkSF8PNs7ltiSOgt7GvnJuuxO0
- 40qWRHPNTSKdEJ0ou4rqw==
-X-ME-Sender: <xms:YvM2aGzmxBxh29eLSqbNbKqwcQMJkDa5QsNDOzHd__4xnygw1ukM3w>
- <xme:YvM2aCRAYYKfE2x0wo7Tksxog6No-HA_1gQcKV8dii6r4QJWQsQGpjhQH2e1sLgSs
- QWcBnepbT4jwGxfczs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvfedugeculddtuddrgeefvddrtd
- dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
- fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
- dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefk
- jghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfd
- cuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeeh
- udekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
- pdhnsggprhgtphhtthhopedujedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsh
- himhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhl
- rdgtohhmpdhrtghpthhtohephhhimhgrlhdrphhrrghsrggurdhghhhimhhirhgrhiesih
- hnthgvlhdrtghomhdprhgtphhtthhopehimhhrvgdruggvrghksehinhhtvghlrdgtohhm
- pdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhisehinhhtvghlrdgtohhmpdhrtg
- hpthhtohepmhgrthhthhgvfidrsghrohhsthesihhnthgvlhdrtghomhdprhgtphhtthho
- pehmihgthhgrvghlrdhjrdhruhhhlhesihhnthgvlhdrtghomhdprhgtphhtthhopehroh
- gurhhighhordhvihhvihesihhnthgvlhdrtghomhdprhgtphhtthhopegrrhhnugeskhgv
- rhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:YvM2aIX_mDM44nwxcZ0hqH8Q1u48GBwR3x2YH85HjW5-rRmL4iJBtQ>
- <xmx:YvM2aMi1NZfexU8rZOrzfBsFR_6g_WFOA9C1ONJxa6vMz2uHAwjsoA>
- <xmx:YvM2aIDa0-O9_cx4ERpI8VxBPYh_HAj_IKsUAfARcG8540buYKOYdw>
- <xmx:YvM2aNKkaUYvLDfano_-zCaUQ6_OgEa15Utmb80fseaYV_VU6mOsmw>
- <xmx:Y_M2aGTAxX8xHCl048q7DmVW1-GFO_UVhj-T6s12Np-nuITOoVi0uXc0>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id DD8E7700060; Wed, 28 May 2025 07:28:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+X-Greylist: delayed 313 seconds by postgrey-1.36 at gabe;
+ Wed, 28 May 2025 12:02:50 UTC
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
+ [91.218.175.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38CE410E1D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 12:02:50 +0000 (UTC)
+Message-ID: <7313e3a4-24bf-42be-901d-e85eb260cc0f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1748433448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zpupw+BL22wW70OO3ldtdTEci1KOss4N595RFWiCJy4=;
+ b=TnmPfyrVIF0NjlC3AUNCJnSsxqqxgtgCTwUF7OW7oLZki32QTawdrmELLquh2uVwlAcBPj
+ bDIz68KGKSnuyOAYV7kBX5p3DOA6xCVsY98lTTVYaIEG7I2cAHp6gNBRnFS5mVggr4CQJd
+ XfiELFUSiUJizHXpFXqV5xZuVBvxcU4=
+Date: Wed, 28 May 2025 17:26:35 +0530
 MIME-Version: 1.0
-X-ThreadId: Tea118988e335f97b
-Date: Wed, 28 May 2025 13:27:33 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Christopher Snowhill" <chris@kode54.net>
-Cc: "Lucas De Marchi" <lucas.demarchi@intel.com>,
- "Arnd Bergmann" <arnd@kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Dave Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Matthew Brost" <matthew.brost@intel.com>, 
- "Himal Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>,
- "Imre Deak" <imre.deak@intel.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel-bounces@lists.freedesktop.org>
-Message-Id: <dd8f913d-1d6a-435b-b9b6-30a3d950e4a8@app.fastmail.com>
-In-Reply-To: <aDbl5CIGulMng3de@smile.fi.intel.com>
-References: <20250523121106.2231003-1-arnd@kernel.org>
- <j7yodlrk7wh3ylvb2z622ndlzm4guhahmakdb6l5d6qtv5sabo@w4bfiehtmaab>
- <aDbYs7QZRfr2i80A@smile.fi.intel.com>
- <704fd2b9-04da-4ec8-b854-22bc3ce9058e@app.fastmail.com>
- <DA7PSM1WUKBI.3JA6THJTRF5B7@kode54.net> <aDbl5CIGulMng3de@smile.fi.intel.com>
-Subject: Re: [PATCH] drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v8 4/4] drm/tidss: Add OLDI bridge support
+To: Michael Walle <mwalle@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>
+References: <20250525151721.567042-1-aradhya.bhatia@linux.dev>
+ <20250525151721.567042-5-aradhya.bhatia@linux.dev>
+ <DA5ZNDCHXC6M.1CDYDG6KKMAP0@kernel.org>
+ <a98ad2e7-50de-4d04-8d99-2cf77354b1d6@linux.dev>
+ <DA6PRDARLY70.1CILNJ8YLIOA1@kernel.org>
+ <fc77a1e2-be50-43b1-9863-f8ca70445428@linux.dev>
+ <fc5f6000fbe1f01223f8a28a952b40ea@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <fc5f6000fbe1f01223f8a28a952b40ea@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,24 +80,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025, at 12:31, Andy Shevchenko wrote:
-> On Wed, May 28, 2025 at 03:17:03AM -0700, Christopher Snowhill wrote:
->> On Wed May 28, 2025 at 3:03 AM PDT, Arnd Bergmann wrote:
->> > On Wed, May 28, 2025, at 11:34, Andy Shevchenko wrote:
->> >> On Tue, May 27, 2025 at 03:55:46PM -0500, Lucas De Marchi wrote:
->> > I think ACPI_VIDEO is at the center here, and changing all the
->> > 'select ACPI_VIDEO if ACPI' instances to
->> > 'depends on ACPI_VIDEO || !ACPI_VIDEO' would solve a lot of
->> 
->> Maybe you meant 'depends on ACPI_VIDEO || !ACPI' ?
->
-> I believe not. The depends on FOO || FOO=n is idiomatic in Kconfig.
+Hi Michael,
 
-It depends on what we want here. 'ACPI_VIDEO || !ACPI' would
-be the direct equivalent of the existing 'select ACPI_VIDEO if ACPI',
-while 'ACPI_VIDEO || !ACPI_VIDEO' would allow building with
-ACPI=y and ACPI_VIDEO=n, which is not possible today. I'd probably
-start with the version that Christopher suggested to have a lower
-regression risk.
+On 28/05/25 13:57, Michael Walle wrote:
+> Hi Aradhya,
+> 
+>>>> Something like this.
+>>>>
+>>>> &oldi0 {
+>>>>     // primary oldi
+>>>>     ti,companion-oldi = <&oldi1>;
+>>>> };
+>>>>
+>>>>
+>>>> &oldi1 {
+>>>>     // secondary oldi
+>>>>     ti,secondary-oldi = true;
+>>>>     ti,companion-oldi = <&oldi0>;
+>>>> };
+>>>>
+>>>>
+>>>> If there is no companion for any OLDI dt node, then the OLDI TX will be
+>>>> deemed as acting by itself, and in a single-link mode.
+>>>
+>>> And it's possible to still have these properties and treat them as
+>>> two distinct transmitters? I'm wondering if it's possible to have
+>>> the companion-oldi and secondary-oldi property inside the generic
+>>> SoC dtsi, so you don't have to repeat it in every board dts.
+>>>
+>>> If I read the code correctly, the panel has to have the even and odd
+>>> pixel properties to be detected as dual-link. Correct? Thus it would
+>>> be possible to have
+>>>
+>>> oldi0: oldi@0 {
+>>>      ti,companion-oldi = <&oldi1>;
+>>> };
+>>>
+>>> oldi1: oldi@1 {
+>>>      ti,secondary-oldi;
+>>>      ti,companion-oldi = <&oldi0>;
+>>> };
+>>>
+>>> in the soc.dtsi and in a board dts:
+>>>
+>>> panel {
+>>>     port {
+>>>         remote-endpoint = <&oldi0>;
+>>>     };
+>>> };
+>>
+>> In this case, the secondary OLDI (oldi1) would remain disabled from
+>> soc.dtsi.
+>>
+>> I gave this a quick try. Turns out, of_parse_phandle() is not able to
+>> return an error when primary OLDI tries to find a companion -- which is
+>> important for the driver to detect an absence of any secondary OLDI.
+>>
+>> Since the driver code registers a companion for primary OLDI, and
+>> further does not find the "dual-lvds-{odd,even}-pixels" properties,
+>> the driver ends up trying for a Clone Mode.
+>>
+>> So, for single-link , we'd have to actively delete the "companion-oldi"
+>> property, in the board.dts/panel.dtso.
+> 
+> Last time I've checked you cannot delete nodes or properties in DT
+> overlays. So maybe it's better to make that a board property and don't
+> set it by default in the soc dtsi.
 
-     Arnd
+I was not aware that deleting properties was not allowed/possible. So,
+yes, seems like they are better left out of the soc.dtsi! =)
+
+> 
+>> But, say, the disabled-node's phandle parse is circumvented, somehow,
+>> and we don't need to delete the property explicitly.
+>>
+>> There would still be one concern, I am afraid.
+>>
+>> In AM67A DSS (future scope at the moment), the 2 OLDIs can act
+>> independently. Like a 2x Independent Single-Link. Both the OLDI dt nodes
+>> will be enabled.
+> 
+> The first DSS0 can drive two single link displays? Reading your downstream
+> AM67A DSS patches, thats not particular clear:
+
+Not the DSS0 alone. DSS0 and DSS1 can each drive a single link OLDI
+display simultaneously.
+
+> 
+>     The DSS0 HW supports one each of video pipeline (vid) and video-lite
+>     pipeline (vidl1). It outputs OLDI signals on one video port (vp1) and
+>     DPI signals on another (vp2). The video ports are connected to the
+>     pipelines via 2 identical overlay managers (ovr1 and ovr2).
+> 
+> The TRM also doesn't tell much (or I just didn't find it yet).
+> 
+>> So, if the soc.dtsi has them already connected, then the
+>> board.dts/panel.dtso would still need to explicitly delete those
+>> properties to get the 2 OLDI TXes to work independently.
+> 
+> Yeah looks like that should really be a board property.
+> 
+> -michael
+
+-- 
+Regards
+Aradhya
+
