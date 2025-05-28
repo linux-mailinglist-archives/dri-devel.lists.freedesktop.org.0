@@ -2,155 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DB2AC629D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 09:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C90AAC62A1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 09:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1EDA10E1A9;
-	Wed, 28 May 2025 07:07:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZauBH8Y0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E8110E593;
+	Wed, 28 May 2025 07:09:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2073.outbound.protection.outlook.com [40.107.237.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8821B10E1A9;
- Wed, 28 May 2025 07:07:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gmYf5ULgVWViaQEKEEfoUdszO0pQAb/It4/VTbpuuyF6vpwr6y6hSt9pL2Of6lyprygpJm91/3xHVeDC4Ahlw0nKKMOfA2wcxBzWeirW9Q0zd4y7qQvrtc7F5+q5CU907nG9uecdaNcVjcwDIsTdYJveOXKd9zLwam7Kio93l9utkC9AV3ziHYVGWBFXDaPwq9Nj4tO59DFlAUxFA1EWRlAK6/RfEcxgRD41twiX0fnnznXwzuh39n9O4p8i0WaisOTvevLzNnu/XPg8fOITydZCr3CsahmYQiZVCJBgNHm40KNQDa4JhA4V375TsRvM9I1bZ0Fcsy7W2cfkPLjpyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IywwyrGM88tdKR2H1Rd5/UiQuGjnn1sCiBzb5szp2AU=;
- b=Fvgo9qdUxFqXd5XV+ueQS0e8tyGxFwTvhJgPwM797/iSIiq8HOekiDzCm9HnZKMaUbFEGN1UUVoQwJTUdu2fnGw7jGld6dAgAr0iHQz9UCVjMdeSVoxP5GJq5EEgy8/9O+ROylFt/PV5duTtQMS1ZoGo8bVmtTLJfnmCG0Vx4BoVHrRM9AORHHiEBTYnPByZe2P5b54AXTtJy/8VUcboLo3pxv6QGrGOeVcMlMFMEwGsLWjA1CfIBl/8wF+1XP4j2PmKSfgdin4qyzRbR9LmEo3vm/KvSK1M1Yp25MC5c3q9TFs9ZYHL7jh6x0M0ONCfF+IND6fPFIzkweLwJblNuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IywwyrGM88tdKR2H1Rd5/UiQuGjnn1sCiBzb5szp2AU=;
- b=ZauBH8Y0Onw7DujEoZAidW7DUQS0DN6r1R1CXKBHBkIXw9GhusyoHtxBMXuHEOZTwQkNPzVhOlIz7l8/gnvS0FKuTgDCs6CXEgLyoX5h7wF9kGPlYcxXwYLQePhORbXRZrNUFpTwczSrT/mfFn0JsR3wb5/tcsY2HK9K80peK94=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4268.namprd12.prod.outlook.com (2603:10b6:5:223::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Wed, 28 May
- 2025 07:07:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 28 May 2025
- 07:07:54 +0000
-Message-ID: <89652580-5763-4f1e-abf5-d340119543f3@amd.com>
-Date: Wed, 28 May 2025 09:07:50 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/amdgpu: Dirty cleared blocks on allocation
-To: Natalie Vock <natalie.vock@gmx.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- stable@vger.kernel.org
-References: <20250527194353.8023-1-natalie.vock@gmx.de>
- <20250527194353.8023-3-natalie.vock@gmx.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250527194353.8023-3-natalie.vock@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
+ [209.85.221.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4002310E596
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 07:09:38 +0000 (UTC)
+Received: by mail-vk1-f180.google.com with SMTP id
+ 71dfb90a1353d-52d9a275c27so2596049e0c.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 00:09:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748416176; x=1749020976;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eRJM+2U0wpi1bojafvsrSUpFWh6L8i7gfnVXkXPRlF4=;
+ b=DHAvvw86o2dUe9xAeofn6XyIwacxET3D+ZekyxIIFnMnaPs/syoEla5Z2qHdJJmX9X
+ ecKifulrn9S1bGaJFPbqIYo2TP+kRrriDCKRRQOSFHbKHhElKdCAx6szXcMHOkX66luf
+ vGgaBcjdP86FLFfFaXMy49dUW0kvdGS//wlpw2y321gSQczYP1lNTl3sJvp/pbAw1Vvc
+ FWJDgqiafrv2n2qnpA4cjT0G5OosHlZaLIoBZSYVH6290Ws7qhd160zx9XUfOVizm1rk
+ Ub+3un99wXzQZ15Ck+CLPEcey7RUHiKg3P95nQHMnkuDnJvFig6ols9pLCKjRMfmiO4d
+ 9VSw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRBpe9J7ny5Mld1/OWK5KmshuQYyXN9drvdEjzj9zFlIblzPv+iGImGxZYimKod8ntFwjqjiL8AE0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/U6s08EqfWz6BFte31tntaL/qnZz0rYv3w0CnNwFo/a4CtK7H
+ zHf2xzrAj5MLz+hnpclaxM1S571pIuZ7G/P+Y6bILr/BrqJKauR9KT4eikqNuNAn
+X-Gm-Gg: ASbGncswZchNm/V0f9aoFx+yHwjqKTX6fN/99/qcnTk4HucIqDeRTJYhPosA0rr56aY
+ Li3wJ6YcAMQGkpf/SEqvREr64ulsrlKaWg3GrZgG86agHPam937MyLRNGVnUds4yfIwiD8a/aWu
+ VGY3bQypz//5L4toxCS6Bxk7xny4lnnig5w0CjarSX6Dd9JiBuUdaDuNuQWqUMJvgNKAq+T+I4e
+ M+Cdx6MjMoAHPipWaBE2g7WZVzDcU/J1lYBmWnBIOryU3PJv2dXy0VIh3TJDob6+Pp1NIjkg0WN
+ 6IrtUvNdwUxKtSjUZXLKPYRrzLJFmhfGMZDZwIOr7T8I/R9cxhyT1iqXCfAadgwlRQ0ie0la35V
+ I3nUU7AXYofYaMg==
+X-Google-Smtp-Source: AGHT+IH9fQTg9AsufzYm0e3QH3ExOM7RswwJOR2aKsoPA3Ow4e6juhGm5o4r/RKKtMgP/az4KhZJNg==
+X-Received: by 2002:a05:6122:4286:b0:52c:5590:72c9 with SMTP id
+ 71dfb90a1353d-52f2c4fc15bmr12794633e0c.5.1748416176163; 
+ Wed, 28 May 2025 00:09:36 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
+ [209.85.217.48]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-53066973c31sm471229e0c.43.2025.05.28.00.09.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 May 2025 00:09:36 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-4df9961f319so2664721137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 00:09:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSgvvKjjDKYk0Yav+FfvQelBJwRJXEuLZb1N31yMC67BhoMn9Cha738KLazUCC5528nzoepxtmCQQ=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:32d3:b0:4e2:8b49:9f96 with SMTP id
+ ada2fe7eead31-4e42409f765mr12510096137.6.1748416164708; Wed, 28 May 2025
+ 00:09:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d10440e-ec09-44d5-8f61-08dd9db65dea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VjI4cEhzSGwzYnpRa1dla1RzSzBwK0cvQmxCbnZjdFdQYWczOWdZbk9lUVFm?=
- =?utf-8?B?ek96dXYrTEJZS2pscVF1KzQzMUVFbVdWYUdrc3V0Y2dXb2U0RElxNUFQMlZO?=
- =?utf-8?B?SWZKLzN4QXpOVEFBcUNjQm1NTGp2ZHZMREpUVHhFMjBZYWdkU0JJZmdtZ2ox?=
- =?utf-8?B?Mm9saDVaRzh2TnRmanJCNGV2ZzRtdTVWbDNGRmJCTnBKUnRDYjVrMFhCNTBY?=
- =?utf-8?B?Sys3MWhkMnVSWHUxc05LMnhpME5RQXM5UmQ2VVNzckZZcS9Md0VvZGl5OFIx?=
- =?utf-8?B?S2xxWHcxRjBNcDZ2SzBuWGtueWFuNW4vVVE5a3ZhNkZmMFFVVysyNndOcUNY?=
- =?utf-8?B?T0lnMDg5VzFLMnlVd0hJUFE4L0xsNXRQdUJabmtBbTZMRFVrZk9EVDlZT3RC?=
- =?utf-8?B?Mk5ZQy9GZ2RqMVpmbENOajZuZTQxSnBmSStuKytOZ2VtS3lUOTdFTWorOHBB?=
- =?utf-8?B?ZGxWS3ZwSCtiSEg4VHlVeWtrU1E2OU9SOGVJZlBBUDFMZ0d1bXZsbHlrdGlr?=
- =?utf-8?B?Z1UxR1ZDbk1kS3QxWE55TWNBancreW9CanJwWk10ZTNvUWpmQUcra2VZaldE?=
- =?utf-8?B?TTZzcWMzMDN6clpGcFpicUtmdk03TGNoK1BTaktBZXphcFpJZnpmUnVUQmFE?=
- =?utf-8?B?RmdoSEVBZGtPVEh0emxlb2x1YlNCc2RZWHBrenhYRENWYnlLMUxuR1orTkxG?=
- =?utf-8?B?SWh4bGhnNExFRStJSkt1ckhxK1A4ME9aMm9ML3B0Rk9RM0hjRzNJd1daS08y?=
- =?utf-8?B?aTJ1TlhDREFsM1d6WEF2dTU2R1RrNzU1SGtwbzNaaXRPNnNpejBsM2FLY1Ny?=
- =?utf-8?B?OWVJUTRpZFZseVJzaDZ3UEtrNXNFN29EMEUvc0x4WkY5ZE1zaElHUVRaSEdR?=
- =?utf-8?B?c2ZselpwZTRKRUtjeHdXcjdrR0NwVjBzb0Z3UWsxdkZLc1QwTmUxcWVxb05X?=
- =?utf-8?B?c3FiUTU4VS9FZEQzdmNQdktaTWdjU2JtQVI5aGZVbzh3aTdVYW40ckgzUzBL?=
- =?utf-8?B?S1dzbVRTTzNTRW1UMTIyMzVWVDkrcmtNTGoyVkwrdTNDV1RzQ3R1b2x4aXFV?=
- =?utf-8?B?QngvZjdXSHlCYThDUURIUjBLcFI2MEJHa2Q1T2Y2emhzT1ltZCtqVnBIdzRr?=
- =?utf-8?B?RHEzRCtjS2VKM3BZMW10cWVmR2xlS1R3MGJaOXZuN3JPTjU3SlZlbzFXcCsw?=
- =?utf-8?B?TkxpSlhRczdoTnF2M0xLSHd3aUVreVVWS2E5K2I0eUJtMThiNzdpZ2RSNHJP?=
- =?utf-8?B?NzkvcGY4T0Z2MXdpN0ZMLyt2bGxnZWZ5eUl2aHhIZmE3WkhoQlprcHFVc2ox?=
- =?utf-8?B?bG5FcVlKcmlENnNqaTJhRHYrbk9KRVh1VVZmWWthbDhNTHdHdHRXVUpESTlx?=
- =?utf-8?B?b3VyK2pqQnQvc3BDU3FENVRHVDFoVzI4ZnVxZnpzYmRRazIwYVVNVHdFdnJQ?=
- =?utf-8?B?eEVBUDRlcmE3b0gvdkMxdkVVYUpmRHp6MFE2bmxYZEVnZThOSDBDV3BPL3l6?=
- =?utf-8?B?OUlQN2tuVWFBdkNoVnVkbUlVVFl1VUs5TjRFZEJjUStKQWhoc2tzYlJCUmVQ?=
- =?utf-8?B?SlJFbW5ibzRnVlcvNXM1TzhqeGhtSjdVZkhNUU40cjd6QW9GK0twWnAwVWN2?=
- =?utf-8?B?cXFYNEpNSEg0K2liS2R4TS8rVzhpSDlCbGNEYnpnTVlWcHAvT3V1NndMZ0FB?=
- =?utf-8?B?MDQxaDdWM1hvZFFpZXBqUTVBM2llbyttVEd4d2psZ2QyNnovdFVrWG16QVNu?=
- =?utf-8?B?N3NEZGZzVzBxZllhU3NiT1RMdTNwUnc4QTgzb2RKOVpKeUF6RWx4L3IwN0ly?=
- =?utf-8?Q?rJo2jaXGhObCATns9mPQ8JPvwcOJV2Zvll1QQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlRCV0NOVkVuUDJzVm92Y2hsRU5zNC9Cb3JOeEZYN2daWXBXTU1ibDVmWTlC?=
- =?utf-8?B?cTVxV3JiTHhxV0Jla29ZNmZIcVRoSWVDMEtPNkhTcjR6Z0F6ZDhWajdjWTB0?=
- =?utf-8?B?dEZiRWJpU1MrKzNKYjB2NEpwb2lDclBnTGRRZ1kxbkh4elFmOGhEWjlNcm5S?=
- =?utf-8?B?T2xMZ2daK0UvNUxHbk40b1Q0WGVpeHpKeWFadHJLYjhWNEhXVGZ4ZTNOOVFD?=
- =?utf-8?B?SXNkUmJZM3VyNmx3U29RMWNZQnQrbU1QdUd1KzhxZlptNzg1aXNWRTRGSFJp?=
- =?utf-8?B?MlAzM3lWb1ltbkZCcXM3a0pFL2JwU3ZvUHZhV2tWenJQWEtoNk9tK2VwUDlF?=
- =?utf-8?B?MUdGc3FUbUp0djRiUHUwSVdUbk1DSEFPMWRWNjZGZUJ2RDRWUlkxTmE0OWxE?=
- =?utf-8?B?UUFVcm9mU0FLZzhCa1RMdlJNTkFXZ1BpNlBTd25XTmlzK05wMXNacVdhUVFO?=
- =?utf-8?B?dklTSGQ5ZVRFVEFVNVdrQWpDQVZrNkZVU2piNmpCblVxa0ErT0hJT3hzTm0z?=
- =?utf-8?B?WFBiOTBpeHRrVUxrN2s2MU52ZWRVaThVa1FBck4xK01tK0FCTlI0cy92OTho?=
- =?utf-8?B?TjhhRmlDdVg1Y2JHQ2hFUDdCUTBnOC9VL0pvcVphdnZaM3pwMFpFekRZbHhq?=
- =?utf-8?B?bnR5U3Y3YWFxS3NKcWEyRStiNVJ0VHA1cWg1a1pnVGJDMkhKNDBNTjNObGhz?=
- =?utf-8?B?OWhCQ0ZZYTVjbjlBNVp4a2k2c3BoTFUrdzhtbGxGUG1LbzFQek5qaFJrNmI2?=
- =?utf-8?B?TUFGellSRE5FNVpCTkEva2dGQTQwcXY4N0tXSElXL1packtZRTlaTnR3Mk5s?=
- =?utf-8?B?NEowRXFJbXNIOFdOK3I2MDhHNjd6U1JSbkVnRmZibTZqeDE4VE03RFVWeXoy?=
- =?utf-8?B?MnRnSHphclM2Smw3MzBEWkpWTnVqRTFJenFNSUF5a2NQNEx5aEI1VVUyUzdU?=
- =?utf-8?B?ODlTTi9sanhLTjlFTHkwU3AwYnEzMGd4SlZCV1ZaMFE5cjFWaHJOd1d1aysx?=
- =?utf-8?B?S0JxcjZ6d2tQSGd5Rys1YnpNc1ZXRE53Q0dBSWZoRHltZ05nbVQvaHdHd3JP?=
- =?utf-8?B?Wkc4T0NQRSthdkhZTE55Z2ZSaFNob2gvZGFMWi9mMzJ3ZGxiV21vbUZDYzVR?=
- =?utf-8?B?Y0RhM3JuOXVwcWpQTjMyNnErZ2JJK1RPNTVZZW10bWVjUHdGVjhhUG8vOWtj?=
- =?utf-8?B?N3VaN3JDTVBYWWJFVmZtemZiQVowQUViNS9uK1BqaHY2NkF0T2xKNm9NZi90?=
- =?utf-8?B?QU43bjVZeVRyNTk5WXVYWDJsSW93TnQxU0xNbktzV2gxd2NHTGMzRUhtTnoz?=
- =?utf-8?B?YnNFYm9NTVpWd25TbzEweDlaeVpFckNLTmU3S0dVL1lsRE03R1J3ZWFkT3pX?=
- =?utf-8?B?TzUvSW1zb2hEN3JpeG1MeWJrbjRVczJzNHhiTnNYTFh6ZzkrTFFIOXdzdjZQ?=
- =?utf-8?B?ZURUR0RjdUwwTzk3c3JXM1hGZmNqNjJwN0pYL1JBc2VHWWtjamJ1ZjRrUXV2?=
- =?utf-8?B?M0FTQk5RZkZpQTBsZCtDeWpPUDM3QjVubnRJNU52em1iaG0wa0RwQUQyN2d2?=
- =?utf-8?B?Z3NJTmNHd21mMCs4aWZra01FQnRWWXNLUFIvWEpnTVp0QnZZR0FZR2NHaUY3?=
- =?utf-8?B?RWdGRXpHSmJYSlpZcHFteWY0RHBWNHd4N2dITjB0eGNFbUMydHlNN1hoQlph?=
- =?utf-8?B?Nm42VFFiOFJtbjhuT3VrYVk4ZFYvdDVUejNEelpFbzhHNmlRYjBTK2dveUlK?=
- =?utf-8?B?N2ZMYUQ5eWk1a0FKcEgyRmNDUS9ud2JRaXhRMXJHWHVPbHFYWUFUcWc3VUZs?=
- =?utf-8?B?c1pkS25Hc1lRTkN3L3RlZFAxODh5bWtJWGlkZjE0NVcxZ1RWSXVRRURucE9h?=
- =?utf-8?B?Y3F5UkZhS2RjOElVb1VBM0RnQjNZMHAxdWtZd1FLbmFoZlZHYWxBN2FXNUs1?=
- =?utf-8?B?VU5VVW9PZE1JNWl0YWRQbDlEa2RoQ3h1QklKTmlTWEJYOVNNc3lJL28wYW9z?=
- =?utf-8?B?OHIzeStCNkpXUnJmTGprL09qekdDNTRpZzdmSkNSemRLaXArL01Oa3JKWGZX?=
- =?utf-8?B?dzdnWFFvQ2JDWTYvU1JZNmowMUpycUxQOEt2UUUrbzE2S1BIbUdpaEtCMnI0?=
- =?utf-8?Q?JEdU=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d10440e-ec09-44d5-8f61-08dd9db65dea
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 07:07:54.3420 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KCh0em467lH4p0ovCpbx7YPVbTD6BR9DNF07Ah4/oGfMmchXS4tdUdPuNcUqGLqc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4268
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
+ <CA+V-a8sOGEEajx9TQsVBb+NeFRUx2eSo81ZdRQMsLzd0Eiox2w@mail.gmail.com>
+In-Reply-To: <CA+V-a8sOGEEajx9TQsVBb+NeFRUx2eSo81ZdRQMsLzd0Eiox2w@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 28 May 2025 09:09:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXb5ZCX=U_BR0=AkGtdGkVosty0cGsbKQryTy11Au8H-A@mail.gmail.com>
+X-Gm-Features: AX0GCFtIRfcujL8IE6N7nJft0aU4E80YnjwTZhfb-bY3ejhxAX3pIJektgtGLNo
+Message-ID: <CAMuHMdXb5ZCX=U_BR0=AkGtdGkVosty0cGsbKQryTy11Au8H-A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,60 +103,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/27/25 21:43, Natalie Vock wrote:
-> If we hand out cleared blocks to users, they are expected to write
-> at least some non-zero values somewhere. If we keep the CLEAR bit set on
-> the block, amdgpu_fill_buffer will assume there is nothing to do and
-> incorrectly skip clearing the block. Ultimately, the (still dirty) block
-> will be reused as if it were cleared, without any wiping of the memory
-> contents.
-> 
-> Most severely, this means that any buffer allocated with
-> AMDGPU_GEM_CREATE_VRAM_CLEARED | AMDGPU_GEM_CREATE_WIPE_ON_RELEASE
-> (which is the case for **all userspace buffers**) are neither
-> guaranteed to contain cleared VRAM, nor are they being wiped on
-> release, potentially leaking application memory to arbitrary other
-> applications.
-> 
-> Fixes: a68c7eaa7a8ff ("drm/amdgpu: Enable clear page functionality")
-> Cc: stable@vger.kernel.org
-> 
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
-> 
-> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 2d7f82e98df9..cecc67d0f0b8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -591,6 +591,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->  	list_for_each_entry(block, &vres->blocks, link) {
->  		unsigned long start;
->  
-> +		/*
-> +		 * Allocated blocks may be dirtied as soon as we return.
-> +		 * Mark all blocks as dirty here, otherwise we might
-> +		 * incorrectly assume the memory is still zeroed.
-> +		 */
-> +		drm_buddy_block_set_dirty(block);
+Hi Prabhakar,
 
-Exactly that makes no sense.
+On Tue, 27 May 2025 at 23:51, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> On Fri, May 23, 2025 at 3:45=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wr=
+ote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add support for PLLDSI and PLLDSI divider clocks.
+> > >
+> > > Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
+> > > PLLDSI-related data structures, limits, and algorithms between the RZ=
+/V2H
+> > > CPG and DSI drivers.
+> > >
+> > > The DSI PLL is functionally similar to the CPG's PLLDSI, but has slig=
+htly
+> > > different parameter limits and omits the programmable divider present=
+ in
+> > > CPG. To ensure precise frequency calculations-especially for milliHz-=
+level
+> > > accuracy needed by the DSI driver-the shared algorithm allows both dr=
+ivers
+> > > to compute PLL parameters consistently using the same logic and input
+> > > clock.
+> > >
+> > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
 
-We need the information if it's dirty or not later while clearing the blocks. Otherwise we will clear all blocks and completely loose the advantage of the clear tracking.
+> > > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > > +                                              struct clk_rate_reques=
+t *req)
+> > > +{
+> > > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw=
+);
+> > > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->pllds=
+i_div_parameters;
+> > > +       u64 rate_millihz;
+> > > +
+> > > +       /*
+> > > +        * Adjust the requested clock rate (`req->rate`) to ensure it=
+ falls within
+> > > +        * the supported range of 5.44 MHz to 187.5 MHz.
+> > > +        */
+> > > +       req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > > +
+> > > +       rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > > +       if (rate_millihz =3D=3D dsi_dividers->error_millihz + dsi_div=
+iders->freq_millihz)
+> > > +               goto exit_determine_rate;
+> > > +
+> > > +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > > +                                                dsi_dividers, rate_m=
+illihz)) {
+> > > +               dev_err(priv->dev,
+> > > +                       "failed to determine rate for req->rate: %lu\=
+n",
+> > > +                       req->rate);
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +exit_determine_rate:
+> > > +       req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+> >
+> > Shouldn't this also update req->rate with the actual rate?
+> >
+> >     req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MIL=
+LI);
+> >
+> Agreed, I will update it.
 
-So we should set them dirty as soon as we are done with the clearing.
+I think not updating req->rate may cause clk_get_rate() to return
+an incorrect value (can error_millihz > 1000?).  Any chance this fix
+can simplify the clock handling in the DSI driver?
 
-But the problem rather seems to be that we sometimes don't clear the buffers on release for some reason, but still set it as cleared.
+> > Would it help the DSI driver if this clock would provide a
+> > .recalc_accuracy() callback that takes into account the difference
+> > between req->rate and dsi_dividers->freq_millihz?
+> > Or would that be considered abuse of the accuracy concept?
+> >
+> Our understanding is that this describes how precisely a clock keeps
+> time. A clock with 1 ppb accuracy will gain or lose one second in
+> approximately 31.5 million seconds (1 year). In our case the meaning
+> is completely different.
 
-Regards,
-Christian.
+Yeah, I know...
 
+Gr{oetje,eeting}s,
 
-> +
->  		start = amdgpu_vram_mgr_block_start(block) +
->  			amdgpu_vram_mgr_block_size(block);
->  		start >>= PAGE_SHIFT;
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
