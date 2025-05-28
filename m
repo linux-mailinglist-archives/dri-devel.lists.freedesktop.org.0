@@ -2,106 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CE8AC65D5
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCBDAC65B0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:22:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E3F10E5D0;
-	Wed, 28 May 2025 09:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF4C10E5C9;
+	Wed, 28 May 2025 09:22:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="bRRFRfXZ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="VF82C+oO";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Fr0ooEIM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b8-smtp.messagingengine.com
- (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEAD10E5CD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:25:33 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal
- [10.202.2.41])
- by mailfout.stl.internal (Postfix) with ESMTP id 1D11A1140180;
- Wed, 28 May 2025 05:25:32 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Wed, 28 May 2025 05:25:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm1; t=1748424331; x=
- 1748510731; bh=QfMaJ0YDIimRZDopunzEZyVGzXDmn/F5X+P3lLqrGAw=; b=b
- RRFRfXZWNcloCNwpucvyfvGkg/cjjEhlseHcAYht5J6H7PU/AyE/FfLpElDhZbiz
- 6yEg0UCl1k52ivKXOfW35ZuMEBpRdCIPfCBBqO9LpsjXTJL3IU54VnuJnrHtKABH
- 0Xl6A6VwNrwv6oqsXejNuu1HN4bvJfEx/KK5ZVSO0BFrP4P3BEhfF9CZmfSWr0V+
- mWo8iEn/dBPv9FZJEjfvEeXqgLhADcTf9NqCEkbsnK52BIQjZmIapBO6y0hWDstC
- pmnejQBUt6ZjvjjcdAHhC+AKa3J+a+7OCWu9/BZq6whFzVnu7ifRFFcIBPu2jdd0
- Mthc4bnnbE2sCCgVH/MkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; t=1748424331; x=1748510731; bh=Q
- fMaJ0YDIimRZDopunzEZyVGzXDmn/F5X+P3lLqrGAw=; b=VF82C+oOhnQZ4ZmaK
- gBQVWjS15hLQw3fFtKst23XEPoHFZwbgd4/3QJ1x6FrxiYhk4QeWOMSn2Igp0TWt
- KN00/lUbKr+OjgZIbZfNi+hadXNAelMvaN6t3ljZ+3saU3WyCiZBKgBWAkxkN9WD
- v2qfpS7kY89b1dqw/9twLzOuIKh/5wG+0xG/fTO9FSIh0dKHA6pBe6Ciq7ad+xV5
- /aOwUvho1ssxNBjrOvH73csw7L4L3ZVWPCQsIs/ZZqaVbbzztf49ma7GoDEMPHBY
- +/BpOSOZ9UXL7cgoL6cX9oyyt8195TySHCKi648bZqNwln4NEZ25BzadMR7kAIYq
- mNQTQ==
-X-ME-Sender: <xms:i9Y2aCMYLxXcPjBvMAmtoldpvstKyH4HIFS61e20xaiOKNZgKeHWqw>
- <xme:i9Y2aA_V9jZuJbk7YTmgvDw-1hLfRdvrlr_olMyoglBhXEwvSlo8pAxvNiqXimo6O
- xLIxBvTOVv4KloV3w>
-X-ME-Received: <xmr:i9Y2aJSJuI02tQFQ6jSDrkYD-VOegnUlwNAUwgFeDYZe0qAm3vg1y9xQNbhYLFuKFZU7SxMhqP399KaZAGs7dCCtyOns_6GJUqWt3DPLaWh0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdekleculddtuddrgeefvddrtd
- dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
- fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
- dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffo
- jghfggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhi
- grnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvghrnhepffehieffgedt
- gfffjeetveegfeekleeileekveeuteffteetudffveegieeiheetnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgr
- shhtrdgtohhmpdhnsggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtg
- hpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhs
- segtshhivgdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtse
- hlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhes
- shhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtg
- hpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdr
- shhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhoh
- hllhgrnhgurdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:i9Y2aCv4gJQU1l5QWpdG_WFTkPtDeb2AmfLqRIpw5xAWXKPfC8b3UQ>
- <xmx:i9Y2aKcQyGeQmvKFK1hzAo0Zz142UdDYYAcBa2vKjjI4OrU6fL0Fow>
- <xmx:i9Y2aG29_5t3P2XruLzMvkRKwK8FTs5v8sZWuYjAE-4Zx61OXLbjfQ>
- <xmx:i9Y2aO8mLckxHxy5WbtWeds6rDAyXy0BC1GpY3e_h__MihI_xXT88g>
- <xmx:i9Y2aFkQ-s1XpuR9As5wJmP_t78I7IdQOsi9MFpBMP8GA7NG1xy1Dgu1>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 May 2025 05:25:25 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v12 4/8] drm: sun4i: de2/de3: use generic register reference
- function for layer configuration
-Date: Wed, 28 May 2025 21:22:09 +1200
-Message-ID: <20250528092431.28825-5-ryan@testtoast.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250528092431.28825-1-ryan@testtoast.com>
-References: <20250528092431.28825-1-ryan@testtoast.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE0A10E5C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:22:14 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3a363d15c64so2957501f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1748424133; x=1749028933; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zO+owTbI7AwSyY1EJNJe4E1/RlH7PIREOgvq6bjCeoE=;
+ b=Fr0ooEIMGE3JiMgzbGam57FKJpBv3X9kZdC7s6Z54BXSrX0wE94/UIQWmbd8NRgxDm
+ +kqawRvX8DH4Nxfxrd6kOQOzgAgOxcAUibKB+B/O+73EQaR6OD+WnK/uGd/GWnG6YXWY
+ yJP9OYJsYYGcstNM2AT5yED3euaU0Hu+BKet8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748424133; x=1749028933;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zO+owTbI7AwSyY1EJNJe4E1/RlH7PIREOgvq6bjCeoE=;
+ b=qdwx+k4vqmEgb132oTF2jwEZJjQQCGhGuFZCuUZhr0T6al34q43tGWWOmGtdBHrup8
+ W5yuTWO4kIPcgOdTpQrL6wccv5AN7HZxggbL1jqfK+MD6akUoXU/uLw+NDIWbqWsOXSP
+ hWTxAX4kK+Spodx3lil4WikhCqOOSrXq9+ruRuT1/EwiEV+ZDwaX9M5zWNln88XYtXDr
+ UVZA2m3F1O1SY3bIXWVvinH7bKVmv+PH8Hyzr5j75poxxIDOczs28i8Yy7Yl9HFeCNPe
+ +WucsGj87QPf8koQ+e2c+8F3wgvfCuJ86tZrI4BwmoGam+IyIVm0Y7DoCaZLNqDLJ9Zg
+ 9JYQ==
+X-Gm-Message-State: AOJu0YwlklH9TbsZVn5MQE4CGi6VAM1GySYpUUhwRu5DmVwpMsupqRFN
+ Fxhr+pwAheaRzdL3zoNN8sj+0+HMkNBKCWCYtyMhOSAUBI+PV34KQIHVNdbe24pbjfeHmOeimeT
+ +PyhI
+X-Gm-Gg: ASbGncs7+jjHQ+dwJaaJvYnc8nDr+rQ6NV0upiYHZcqdRvfXPMlPBTksGU8KyMLhBr1
+ PLvrp4fW2wxLL5Z4FAo/auQWebgIDfkPAC/RnK1RHnNieYE4oDFkzNGBOAcJM7BueziN1xFgg3j
+ j2iy3GsLa8G208XVa+P+wcA1QSMrjkGC0NEq9PZDLNaDWCdHamxIAgCjD1yayb75s7sAE46inQX
+ NyCySqYNmTWMOyg6e7g4jijfrYzPgFp+bFrW6RtZljVQng2Idlcs3Xu1E1jd8GyzeuKydCGBfEt
+ laOnZm/6+IlW6L1m6f/TXWvtRpqIy+v9Jik3XJVDYdJuvDfPogkBbRJQGlSq1+J9OjGYc8f9Jw=
+ =
+X-Google-Smtp-Source: AGHT+IFHkUgBJ3MDpGmc55Df2jnO4O7GDDWk04es2D4qvl9vkrointO9bgr3vdSybyJfzVBW7+QH2A==
+X-Received: by 2002:a05:6000:381:b0:3a4:cfbf:51a0 with SMTP id
+ ffacd0b85a97d-3a4e943c6a1mr1299117f8f.21.1748424133000; 
+ Wed, 28 May 2025 02:22:13 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a4eace3283sm919873f8f.89.2025.05.28.02.22.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 May 2025 02:22:12 -0700 (PDT)
+Date: Wed, 28 May 2025 11:22:10 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
+ Rob Clark <robdclark@chromium.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org,
+ Simona Vetter <simona.vetter@intel.com>
+Subject: Re: [PATCH 2/8] drm/fdinfo: Switch to idr_for_each() in
+ drm_show_memory_stats()
+Message-ID: <aDbVwo6W8zq6H9Qq@phenom.ffwll.local>
+References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
+ <20250528091307.1894940-3-simona.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250528091307.1894940-3-simona.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 6.12.25-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,122 +90,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Wed, May 28, 2025 at 11:13:00AM +0200, Simona Vetter wrote:
+> Unlike idr_for_each_entry(), which terminates on the first NULL entry,
+> idr_for_each passes them through. This fixes potential issues with the
+> idr walk terminating prematurely due to transient NULL entries the
+> exist when creating and destroying a handle.
+> 
+> Note that transient NULL pointers in drm_file.object_idr have been a
+> thing since f6cd7daecff5 ("drm: Release driver references to handle
+> before making it available again"), this is a really old issue.
+> 
+> Aside from temporarily inconsistent fdinfo statistic there's no other
+> impact of this issue.
+> 
+> Fixes: 686b21b5f6ca ("drm: Add fdinfo memory stats")
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: <stable@vger.kernel.org> # v6.5+
+> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Use the new blender register lookup function where required in the layer
-commit and update code.
+Ok I screwed up reading idr_for_each_entry() respectively
+idr_get_next_ul() big time, it already copes with NULL entries entirely
+fine.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Mea culpa.
+-Sima
 
----
-Changelog v2..v3:
-- Refactor for 6.11 layer init/modesetting changes
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 5 +++--
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 7 +++++--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 6 ++++--
- 3 files changed, 12 insertions(+), 6 deletions(-)
+> ---
+>  drivers/gpu/drm/drm_file.c | 95 ++++++++++++++++++++++----------------
+>  1 file changed, 55 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 246cf845e2c9..428a4eb85e94 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -892,6 +892,58 @@ void drm_print_memory_stats(struct drm_printer *p,
+>  }
+>  EXPORT_SYMBOL(drm_print_memory_stats);
+>  
+> +struct drm_bo_print_data {
+> +	struct drm_memory_stats status;
+> +	enum drm_gem_object_status supported_status;
+> +};
+> +
+> +static int
+> +drm_bo_memory_stats(int id, void *ptr, void *data)
+> +{
+> +	struct drm_bo_print_data *drm_data;
+> +	struct drm_gem_object *obj = ptr;
+> +	enum drm_gem_object_status s = 0;
+> +	size_t add_size;
+> +
+> +	if (!obj)
+> +		return 0;
+> +
+> +	add_size = (obj->funcs && obj->funcs->rss) ?
+> +		obj->funcs->rss(obj) : obj->size;
+> +
+> +	if (obj->funcs && obj->funcs->status) {
+> +		s = obj->funcs->status(obj);
+> +		drm_data->supported_status |= s;
+> +	}
+> +
+> +	if (drm_gem_object_is_shared_for_memory_stats(obj))
+> +		drm_data->status.shared += obj->size;
+> +	else
+> +		drm_data->status.private += obj->size;
+> +
+> +	if (s & DRM_GEM_OBJECT_RESIDENT) {
+> +		drm_data->status.resident += add_size;
+> +	} else {
+> +		/* If already purged or not yet backed by pages, don't
+> +		 * count it as purgeable:
+> +		 */
+> +		s &= ~DRM_GEM_OBJECT_PURGEABLE;
+> +	}
+> +
+> +	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
+> +		drm_data->status.active += add_size;
+> +		drm_data->supported_status |= DRM_GEM_OBJECT_ACTIVE;
+> +
+> +		/* If still active, don't count as purgeable: */
+> +		s &= ~DRM_GEM_OBJECT_PURGEABLE;
+> +	}
+> +
+> +	if (s & DRM_GEM_OBJECT_PURGEABLE)
+> +		drm_data->status.purgeable += add_size;
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drm_show_memory_stats - Helper to collect and show standard fdinfo memory stats
+>   * @p: the printer to print output to
+> @@ -902,50 +954,13 @@ EXPORT_SYMBOL(drm_print_memory_stats);
+>   */
+>  void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+>  {
+> -	struct drm_gem_object *obj;
+> -	struct drm_memory_stats status = {};
+> -	enum drm_gem_object_status supported_status = 0;
+> -	int id;
+> +	struct drm_bo_print_data data = {};
+>  
+>  	spin_lock(&file->table_lock);
+> -	idr_for_each_entry (&file->object_idr, obj, id) {
+> -		enum drm_gem_object_status s = 0;
+> -		size_t add_size = (obj->funcs && obj->funcs->rss) ?
+> -			obj->funcs->rss(obj) : obj->size;
+> -
+> -		if (obj->funcs && obj->funcs->status) {
+> -			s = obj->funcs->status(obj);
+> -			supported_status |= s;
+> -		}
+> -
+> -		if (drm_gem_object_is_shared_for_memory_stats(obj))
+> -			status.shared += obj->size;
+> -		else
+> -			status.private += obj->size;
+> -
+> -		if (s & DRM_GEM_OBJECT_RESIDENT) {
+> -			status.resident += add_size;
+> -		} else {
+> -			/* If already purged or not yet backed by pages, don't
+> -			 * count it as purgeable:
+> -			 */
+> -			s &= ~DRM_GEM_OBJECT_PURGEABLE;
+> -		}
+> -
+> -		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
+> -			status.active += add_size;
+> -			supported_status |= DRM_GEM_OBJECT_ACTIVE;
+> -
+> -			/* If still active, don't count as purgeable: */
+> -			s &= ~DRM_GEM_OBJECT_PURGEABLE;
+> -		}
+> -
+> -		if (s & DRM_GEM_OBJECT_PURGEABLE)
+> -			status.purgeable += add_size;
+> -	}
+> +	idr_for_each(&file->object_idr, &drm_bo_memory_stats, &data);
+>  	spin_unlock(&file->table_lock);
+>  
+> -	drm_print_memory_stats(p, &status, supported_status, "memory");
+> +	drm_print_memory_stats(p, &data.status, data.supported_status, "memory");
+>  }
+>  EXPORT_SYMBOL(drm_show_memory_stats);
+>  
+> -- 
+> 2.49.0
+> 
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index fd2650153492..86e5211a843b 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -274,6 +274,7 @@ static void sun8i_mixer_commit(struct sunxi_engine *engine,
- {
- 	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
- 	u32 bld_base = sun8i_blender_base(mixer);
-+	struct regmap *bld_regs = sun8i_blender_regmap(mixer);
- 	struct drm_plane_state *plane_state;
- 	struct drm_plane *plane;
- 	u32 route = 0, pipe_en = 0;
-@@ -313,8 +314,8 @@ static void sun8i_mixer_commit(struct sunxi_engine *engine,
- 		pipe_en |= SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
- 	}
- 
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ROUTE(bld_base), route);
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-+	regmap_write(bld_regs, SUN8I_MIXER_BLEND_ROUTE(bld_base), route);
-+	regmap_write(bld_regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
- 		     pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
- 
- 	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index b90e5edef4e8..7a21d32ff1e4 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -23,6 +23,7 @@
- #include "sun8i_mixer.h"
- #include "sun8i_ui_layer.h"
- #include "sun8i_ui_scaler.h"
-+#include "sun8i_vi_scaler.h"
- 
- static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
- 					int overlay, struct drm_plane *plane)
-@@ -51,6 +52,7 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- {
- 	struct drm_plane_state *state = plane->state;
- 	u32 src_w, src_h, dst_w, dst_h;
-+	struct regmap *bld_regs;
- 	u32 bld_base, ch_base;
- 	u32 outsize, insize;
- 	u32 hphase, vphase;
-@@ -59,6 +61,7 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 			 channel, overlay);
- 
- 	bld_base = sun8i_blender_base(mixer);
-+	bld_regs = sun8i_blender_regmap(mixer);
- 	ch_base = sun8i_channel_base(mixer, channel);
- 
- 	src_w = drm_rect_width(&state->src) >> 16;
-@@ -103,10 +106,10 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 	DRM_DEBUG_DRIVER("Layer destination coordinates X: %d Y: %d\n",
- 			 state->dst.x1, state->dst.y1);
- 	DRM_DEBUG_DRIVER("Layer destination size W: %d H: %d\n", dst_w, dst_h);
--	regmap_write(mixer->engine.regs,
-+	regmap_write(bld_regs,
- 		     SUN8I_MIXER_BLEND_ATTR_COORD(bld_base, zpos),
- 		     SUN8I_MIXER_COORD(state->dst.x1, state->dst.y1));
--	regmap_write(mixer->engine.regs,
-+	regmap_write(bld_regs,
- 		     SUN8I_MIXER_BLEND_ATTR_INSIZE(bld_base, zpos),
- 		     outsize);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 112f0a37cf4a..a09ee4097537 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -55,6 +55,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 	struct drm_plane_state *state = plane->state;
- 	const struct drm_format_info *format = state->fb->format;
- 	u32 src_w, src_h, dst_w, dst_h;
-+	struct regmap *bld_regs;
- 	u32 bld_base, ch_base;
- 	u32 outsize, insize;
- 	u32 hphase, vphase;
-@@ -66,6 +67,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 			 channel, overlay);
- 
- 	bld_base = sun8i_blender_base(mixer);
-+	bld_regs = sun8i_blender_regmap(mixer);
- 	ch_base = sun8i_channel_base(mixer, channel);
- 
- 	src_w = drm_rect_width(&state->src) >> 16;
-@@ -183,10 +185,10 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 	DRM_DEBUG_DRIVER("Layer destination coordinates X: %d Y: %d\n",
- 			 state->dst.x1, state->dst.y1);
- 	DRM_DEBUG_DRIVER("Layer destination size W: %d H: %d\n", dst_w, dst_h);
--	regmap_write(mixer->engine.regs,
-+	regmap_write(bld_regs,
- 		     SUN8I_MIXER_BLEND_ATTR_COORD(bld_base, zpos),
- 		     SUN8I_MIXER_COORD(state->dst.x1, state->dst.y1));
--	regmap_write(mixer->engine.regs,
-+	regmap_write(bld_regs,
- 		     SUN8I_MIXER_BLEND_ATTR_INSIZE(bld_base, zpos),
- 		     outsize);
- 
 -- 
-2.49.0
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
