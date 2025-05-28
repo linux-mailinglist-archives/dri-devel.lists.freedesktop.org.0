@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E48AC742D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 00:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12331AC7437
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 00:52:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFDE410E0E1;
-	Wed, 28 May 2025 22:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F1410E195;
+	Wed, 28 May 2025 22:52:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NKpLgpeF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g4oUCb6O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E66210E0E1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 22:47:47 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C89C10E18D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 22:52:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 52628A4FB3C;
- Wed, 28 May 2025 22:47:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B44C4CEE3;
- Wed, 28 May 2025 22:47:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1077D61F1D;
+ Wed, 28 May 2025 22:52:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A76C4CEE3;
+ Wed, 28 May 2025 22:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748472466;
- bh=/uDiyMlExuXwk0cv6TZbVIbgRWnKfXUvjrWMarhJ84Q=;
+ s=k20201202; t=1748472759;
+ bh=iYcf9YR7Z4+2/xsCojP+jHho5nR4qku/etCXFMtxKJY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NKpLgpeF80eASQqHsPI8iGn5i7bfvDJ1492ewVMoXYTI8z5Ayuumyi6MAH8ZsrOav
- 1L5ORSKgDxJNP7FBAVp+QU7piq1ayeEaTu8cF8qU8qw0hRBJ2W2FT2y4f6WozDlhG8
- VR/cHHOzWLam2CZCRn+kQ0529ABJg+WX9NTYDW1HF/mhUe31akNPoZZkyWGciPMCS7
- yfeFiHmMcYs3fyEySn6w8h2bvq6gqYs0pg2tILIXELvQW6hjI/+gw/ge/isQWo+Lsb
- lclU0ZEMwMrb5MlD1x02dVAXb1iitCoIoNvybAuDC9ng+NcaFKYy5VlAMCHZQ5kG6D
- O3u3wPl037MSA==
-Date: Wed, 28 May 2025 15:47:42 -0700
+ b=g4oUCb6O6O8uFlE9+AfMj/s7q/HQzTa//bQkDQrYBtK3561GQ4tmNZCbtX16fcdxC
+ fPQCV4H2kY6GQYKpD+DLEQrUxNDrIhLg9Ysa1rKEumcAZc1DCqstXHVDSzelcCACrg
+ QssGImgolEqUEIo8fEPjzVfA1RiXFHP6cfeOWw1NI/ly2fouxtG7x59XLknI/BGHqo
+ 7TAxSuCg5VpzzlTlxTHo9qQRKtsl1o/H6Su5Jx3cFqctOCVlosY9b+W/8RVF4FN4yT
+ rSb+T5+y66BTHlVQI9zuZC+Ql8Ji/OPt73cl0kVaUOniW/0CqqD8x5R5pnL1aaEuHH
+ K9Yma78GGhmxw==
+Date: Wed, 28 May 2025 15:52:36 -0700
 From: Kees Cook <kees@kernel.org>
 To: Alessandro Carminati <acarmina@redhat.com>
 Cc: linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
@@ -51,15 +51,15 @@ Cc: linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
  Linux Kernel Functional Testing <lkft@linaro.org>,
  dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
- backtraces
-Message-ID: <202505281546.DB9D9029@keescook>
+Subject: Re: [PATCH v5 2/5] bug/kunit: Suppressing warning backtraces reduced
+ impact on WARN*() sites
+Message-ID: <202505281549.9B51A7D2@keescook>
 References: <20250526132755.166150-1-acarmina@redhat.com>
- <20250526132755.166150-2-acarmina@redhat.com>
+ <20250526132755.166150-3-acarmina@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526132755.166150-2-acarmina@redhat.com>
+In-Reply-To: <20250526132755.166150-3-acarmina@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +75,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 26, 2025 at 01:27:51PM +0000, Alessandro Carminati wrote:
-> Some unit tests intentionally trigger warning backtraces by passing bad
-> parameters to kernel API functions. Such unit tests typically check the
-> return value from such calls, not the existence of the warning backtrace.
-> 
-> Such intentionally generated warning backtraces are neither desirable
-> nor useful for a number of reasons:
-> - They can result in overlooked real problems.
-> - A warning that suddenly starts to show up in unit tests needs to be
->   investigated and has to be marked to be ignored, for example by
->   adjusting filter scripts. Such filters are ad hoc because there is
->   no real standard format for warnings. On top of that, such filter
->   scripts would require constant maintenance.
-> 
-> Solve the problem by providing a means to identify and suppress specific
-> warning backtraces while executing test code. Support suppressing multiple
-> backtraces while at the same time limiting changes to generic code to the
-> absolute minimum.
-> 
-> Implementation details:
-> Check suppression directly in the `WARN()` Macros.
-> This avoids the need for function symbol resolution or ELF section
-> modification.
-> Suppression is implemented directly in the `WARN*()` macros.
-> 
-> A helper function, `__kunit_is_suppressed_warning()`, is used to determine
-> whether suppression applies. It is marked as `noinstr`, since some `WARN*()`
-> sites reside in non-instrumentable sections. As it uses `strcmp`, a
-> `noinstr` version of `strcmp` was introduced.
-> The implementation is deliberately simple and avoids architecture-specific
-> optimizations to preserve portability. Since this mechanism compares
-> function names and is intended for test usage only, performance is not a
-> primary concern.
-> 
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+On Mon, May 26, 2025 at 01:27:52PM +0000, Alessandro Carminati wrote:
+> KUnit support is not consistently present across distributions, some
+> include it in their stock kernels, while others do not.
+> While both KUNIT and KUNIT_SUPPRESS_BACKTRACE can be considered debug
+> features, the fact that some distros ship with KUnit enabled means it's
+> important to minimize the runtime impact of this patch.
+> To that end, this patch introduces a counter for the number of
+> suppressed symbols and skips execution of __kunit_is_suppressed_warning()
+> entirely when no symbols are currently being suppressed.
 
-I like this -- it's very simple, it doesn't need to be fast-path, so
-a linear list walker with strcmp is fine. Nice!
+If KUnit already serialized? I should have asked this before: you're
+reading and writing a global list -- I think some kind of RCU may
+be needed for the list? One thread may be removing a function from the
+list while another thread is executing a WARN-induced walk of the
+list...
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+This global may have the same problem. Why not use a static branch, or
+is that just overkill?
+
+-Kees
 
 -- 
 Kees Cook
