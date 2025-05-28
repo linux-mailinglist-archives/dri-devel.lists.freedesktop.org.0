@@ -2,63 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4C6AC664E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4257AC668F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 12:01:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262D010E5BC;
-	Wed, 28 May 2025 09:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB93910E5C3;
+	Wed, 28 May 2025 10:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MpTfSvyG";
+	dkim=pass (2048-bit key; unprotected) header.d=kode54.net header.i=@kode54.net header.b="cpdp0sbS";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="AMSY+v7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DF910E5D3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748425981; x=1779961981;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=G8m2VIyJ1oaYrxLyITuTgVmwgXSF8x0XlhA6oqokA1Y=;
- b=MpTfSvyGP1FMYV6tQ/4p2y28PRsqOllUI03JMmEUJv73gmU9p2xKA66S
- fREiKgT5AX+4ymeVCmfkNYFEtxIKgjC03ZXkWq94n5uMRGNupsLmSVJUL
- fOjvtBOAoU7oBCe966d8ggMD8IKfIXD07MbfOo9X4CIYutRvxLoRrDK6x
- 4Du77f0kVhoYt4M5foEPDlDnmGKWXgB71a5t3uEvVOmrkqRtFUr9MU/Kr
- cB174vgmX0KbXpZz9oh5RDav/qOVaiHUKdgOEgXxCqcYN0mLVq0jX6v0p
- PY26OWHg7eKcHv0Wd56b7B89yMhxV/yRMppGPH1vlP1NSC/8ZVPrxSxTm g==;
-X-CSE-ConnectionGUID: myUrB5pvREOpi4UnjRVWpw==
-X-CSE-MsgGUID: pCJ6BNzBTt6oIEsIeVJvTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50143919"
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="50143919"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 02:53:01 -0700
-X-CSE-ConnectionGUID: OTAMnUatQbmdfL9gQkAiLg==
-X-CSE-MsgGUID: 5708oBKpRpK9BqEJWOMwGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="148234816"
-Received: from fbeltech-mobl2.ger.corp.intel.com (HELO [10.245.80.225])
- ([10.245.80.225])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 02:53:01 -0700
-Message-ID: <7aca9034-6797-4332-a385-8c70c045b011@linux.intel.com>
-Date: Wed, 28 May 2025 11:52:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Reorder Doorbell Unregister and Command Queue
- Destruction
-To: dri-devel@lists.freedesktop.org
-Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250515094124.255141-1-jacek.lawrynowicz@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250515094124.255141-1-jacek.lawrynowicz@linux.intel.com>
+X-Greylist: delayed 340 seconds by postgrey-1.36 at gabe;
+ Wed, 28 May 2025 10:01:11 UTC
+Received: from fout-a3-smtp.messagingengine.com
+ (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D68A810E5C3;
+ Wed, 28 May 2025 10:01:11 +0000 (UTC)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal
+ [10.202.2.43])
+ by mailfout.phl.internal (Postfix) with ESMTP id C2555138251D;
+ Wed, 28 May 2025 05:55:29 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-03.internal (MEProxy); Wed, 28 May 2025 05:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1748426129;
+ x=1748512529; bh=mIr8yhVZYdL15whLx7nAJetmRapUCJpeMtsLnS/rGak=; b=
+ cpdp0sbSCbZxICJ/uifWQuyYZWw/ypXYHoSuiAZ5R83PdXIfI3vrlSsYPqDG3ypc
+ QzqUNS9QOvqM7ueZdiTPppgq406rYkK04HdadYNOS34muwOtlbywITlAZLpCwyN7
+ 6NvxeAgThgvL4m8R7TCbrvZzWZNppjxWWrrNFCX1jlYcgxMy22R3B+VPQsZOjabN
+ MtqRrmOyzOMD9UmGnuFaJfXKee3rrlK7QZ/XzvY+Svv7Ho02oo+tkIexuhSNbji4
+ JeJAUZAdOsPpi5aOj+2Hbn+K7WttfAWULNjJA6GYDFmIvAdixDtSJO723Q4+a4nz
+ dw7zAG33l8lHZ4p2oSqWkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1748426129; x=
+ 1748512529; bh=mIr8yhVZYdL15whLx7nAJetmRapUCJpeMtsLnS/rGak=; b=A
+ MSY+v7YrFBM3fs5FHQm3SmaQNf7i3C4vr1V1iVGd2guZP7i5z5ggnXixRRiQwA16
+ TsBdLz1njDFTlL8Yn+nrh+wLO4L6jcEv4X0Olx5zY5O1cZeGpDzfsDW3gtvl3YsT
+ H58D6e2vHv44Ua7uSJdSzyYpBQMPZ4zgm6sdhRBbyThka71kOHjKVSEffPKCTq7k
+ DVFj0YjSPiA1tErZ+Wa4in9bSRMTqE7ODdPlz5txJOXihMfDt2xyIFwgnTjKKlPd
+ TluZTqYRwbNLqhCth9+3tKenp1Cy0le0VKtgbsCRbJjR3q/iGIcy4Ymy8Er+vHZH
+ 4JLnttUH2OQc5eAAaRADw==
+X-ME-Sender: <xms:kd02aBLbQlD9XZrVpymFhIYaXTD2LJsoJCSgUZk0m7JsLzxRWkM9pg>
+ <xme:kd02aNKO1xWATk2FDIvERLDIqxPRHZZu3jcAg3cl3araUiE07DkH2yrYL1sUzSYJe
+ GI613_n0ui8Nd7GTUc>
+X-ME-Received: <xmr:kd02aJvTELS7bZYEiIffqj6gFB6MF4W7Wj86MrCqtKjSroIuMsk0wBBnW08pZ-97M22UgTeploSz-vUpVbysVwXhu_pPr3988A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdelieculddtuddrgeefvddrtd
+ dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
+ fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
+ dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefu
+ hffvofhfjgesthhqredtredtjeenucfhrhhomhepfdevhhhrihhsthhophhhvghrucfunh
+ hofihhihhllhdfuceotghhrhhisheskhhouggvheegrdhnvghtqeenucggtffrrghtthgv
+ rhhnpeeileetudejffegjeegfffhhffhkeefjefgtddujeehheevleevjeejffekieekve
+ enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhr
+ ihhssehkohguvgehgedrnhgvthdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtph
+ houhhtpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhm
+ pdhrtghpthhtohepphhsthgrnhhnvghrsehrvgguhhgrthdrtghomhdprhgtphhtthhope
+ hphhhilhhiphhprdhrvghishhnvghrsehlihhnsghithdrtghomhdprhgtphhtthhopegu
+ rhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpth
+ htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+ thhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegurghkrheskhgvrh
+ hnvghlrdhorhhgpdhrtghpthhtohepphhhrghsthgrsehkvghrnhgvlhdrohhrghdprhgt
+ phhtthhopegurhhiqdguvghvvghlqdgsohhunhgtvghssehlihhsthhsrdhfrhgvvgguvg
+ hskhhtohhprdhorhhg
+X-ME-Proxy: <xmx:kd02aCbHDovltV7e8CeWPTDp10c_sUVqTMDo5CZA3wOWBXO2N3CvVw>
+ <xmx:kd02aIazgkMI5tbH94SaxYZZCQGrJ12qQMlp5Xhqp5qRKzSSMPwH6A>
+ <xmx:kd02aGBwX2BSW9y9_6L7uNlnTqVUiBZNr9lRV43zwXqxfHVMH_nZTw>
+ <xmx:kd02aGaqthJvM8zTYC9pDY0YaFFS6JU7MNeT846DHtAEPeUcQbCX2w>
+ <xmx:kd02aFpzcSyj383NUf9vY1RmDB9-i6kpYncJnGSRiKAVBv9ZxufzHUAh>
+Feedback-ID: i9ec6488d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 May 2025 05:55:29 -0400 (EDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 28 May 2025 02:55:27 -0700
+Message-Id: <DA7PC2LNU79K.28KBFOL3MGI1S@kode54.net>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ "Simona Vetter" <simona@ffwll.ch>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Philipp Stanner" <phasta@kernel.org>, "dri-devel"
+ <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
+From: "Christopher Snowhill" <chris@kode54.net>
+To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Philipp
+ Stanner" <pstanner@redhat.com>, "Philipp Reisner"
+ <philipp.reisner@linbit.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250107140240.325899-1-philipp.reisner@linbit.com>
+ <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
+ <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
+ <eb5f3198-7625-40f4-bc23-cac969664e85@amd.com>
+ <582e10673bb749f18ebf8a18f46ca573df396576.camel@redhat.com>
+ <b055ff59-4653-44d9-a2e0-bb43eb158315@amd.com>
+In-Reply-To: <b055ff59-4653-44d9-a2e0-bb43eb158315@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +116,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+On Mon Jan 13, 2025 at 1:55 AM PST, Christian K=C3=B6nig wrote:
+> Am 13.01.25 um 09:43 schrieb Philipp Stanner:
+>> [SNIP]
+>>>> The handling of NULL values is half-baked.
+>>>>
+>>>> In my opinion, you should define if drm_sched_pick_best() may put a
+>>>> NULL into
+>>>> rq. If your answer is yes, it might put a NULL there; then, there
+>>>> should be a
+>>>> BUG_ON(!entity->rq) after the invocation of
+>>>> drm_sched_entity_select_rq().
+>>>> If your answer is no, the BUG_ON() should be in
+>>>> drm_sched_pick_best().
+>>> Yeah good point.
+>>>
+>>> We might not want a BUG_ON(), that is only justified when we prevent
+>>> further damage (e.g. random data corruption or similar).
+>>>
+>>> I suggest using a WARN(!shed, "Submission without activated
+>>> sheduler!").
+>>> This way the system has at least a chance of survival should the
+>>> scheduler become ready later on.
+>>>
+>>> On the other hand the BUG_ON() or the NULL pointer deref should only
+>>> kill the application thread which is submitting something before the
+>>> driver is resumed. So that might help to pinpoint where the actually
+>>> issue is.
+>> As I see it the BUG_ON() would just be a more pretty NULL pointer
+>> deref. If we agree that this is effectively a misuse of the scheduler
+>> API we probably want to add it to make it more pretty, though?
+>
+> The only alternative I can see is that the scheduler API gracefully=20
+> handles submits to non-ready schedulers. E.g. that=20
+> drm_sched_entity_push_job() detects this condition and instead of=20
+> pushing the job sets and error code and signals the fences.
+>
+> But that might not be a good idea.
+>
+> It just moves the crash from one place to another and in general I fully=
+=20
+> agree the driver is misusing the scheduler API to do something which=20
+> won't work and potentially crash the whole system.
+>
+>> @Philipp:
+>> BTW, I only just discovered this thread by coincidence. Please use
+>> get_maintainer. The scheduler currently has 4 maintainers, and none of
+>> them is on CC.
+>
+> Oh good, point I was already wondering why nobody else commented and=20
+> didn't realized that nobody was on CC.
+>
+> Thanks,
+> Christian.
 
-On 5/15/2025 11:41 AM, Jacek Lawrynowicz wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
-> 
-> Refactor ivpu_cmdq_unregister() to ensure the doorbell is unregistered
-> before destroying the command queue. The NPU firmware requires doorbells
-> to be unregistered prior to command queue destruction.
-> 
-> If doorbell remains registered when command queue destroy command is sent
-> firmware will automatically unregister the doorbell, making subsequent
-> unregister attempts no-operations (NOPs).
-> 
-> Ensure compliance with firmware expectations by moving the doorbell
-> unregister call ahead of the command queue destruction logic,
-> thus preventing unnecessary NOP operation.
-> 
-> Fixes: 465a3914b254 ("accel/ivpu: Add API for command queue create/destroy/submit")
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_job.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-> index b28da35c30b67..1c8e283ad9854 100644
-> --- a/drivers/accel/ivpu/ivpu_job.c
-> +++ b/drivers/accel/ivpu/ivpu_job.c
-> @@ -247,6 +247,10 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
->  	if (!cmdq->db_id)
->  		return 0;
->  
-> +	ret = ivpu_jsm_unregister_db(vdev, cmdq->db_id);
-> +	if (!ret)
-> +		ivpu_dbg(vdev, JOB, "DB %d unregistered\n", cmdq->db_id);
-> +
->  	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW) {
->  		ret = ivpu_jsm_hws_destroy_cmdq(vdev, file_priv->ctx.id, cmdq->id);
->  		if (!ret)
-> @@ -254,10 +258,6 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
->  				 cmdq->id, file_priv->ctx.id);
->  	}
->  
-> -	ret = ivpu_jsm_unregister_db(vdev, cmdq->db_id);
-> -	if (!ret)
-> -		ivpu_dbg(vdev, JOB, "DB %d unregistered\n", cmdq->db_id);
-> -
->  	xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
->  	cmdq->db_id = 0;
->  
+I'm only seeing this mail exchange months after the fact because I was
+linked to it by someone on IRC, and I am making a wild guess here.
+
+Could this sleep wake issue also be caused by a similar thing to the
+panics and SMU hangs I was experiencing with my own issue? It's an issue
+known to have the same workaround for both 6000 and 7000 series users. A
+specific kernel commit seems to affect it as well.
+
+If you could test whether you can still reproduce the error after
+disabling GFXOFF states with the following kernel commandline override:
+
+amdgpu.ppfeaturemask=3D0xfff73fff
+
+And report back. Unless it's already something long solved? Since this
+particular thread died back in January, I guess nothing has happened
+since?
+
+>
+>>
+>> Danke,
+>> P.
+>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>> That helps guys with zero domain knowledge, like me, to figure out
+>>>> how
+>>>> this is all
+>>>> supposed to work.
+>>>>
+>>>> best regards,
+>>>>  =C2=A0 Philipp
 
