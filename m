@@ -2,116 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B368AC6B5E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 16:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC92AC6B6D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 16:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE3110E62F;
-	Wed, 28 May 2025 14:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8727010E5DA;
+	Wed, 28 May 2025 14:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jje2RgIY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jbJ7xGC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92EF110E626
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 14:08:52 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S6imJw022291
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 14:08:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fSFpanlCd3QG3PGIaRTOjidLhr0r0dGvANBn6D3rDi8=; b=jje2RgIY1ZeyWFUa
- feaj7Cca3/ucoKI9zamf1wnCy4L3sVgCYy18VV+z9DCo7Rmfenofk9ChKw5W237r
- B7XCI+I7fFDtQrfxRpvvtxR4tocjl0ZoWqMLBBLU7gLSNR4CROTOyJPfizsUTlB7
- /5pQzVh5zspcCju1K8yS7ypHTQUgdby0p0B+zcWyplnjqEHhto8f1LDaNbPwsMWR
- 1fAcU5gxefhJJVnHuAZlNMbftFGBq3vzIn712DltgAwbhxEF1p31hRS99um1vjw9
- vZe0eClZh9dvTMCDOdaPHTR1CFBVRdrdvQIniEhVFokuouwLEH0FJfQpLrpiDQ46
- V5z6bg==
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6g92e3c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 14:08:35 +0000 (GMT)
-Received: by mail-il1-f198.google.com with SMTP id
- e9e14a558f8ab-3dd7e0c7195so25137995ab.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 07:08:35 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6C1D10E638;
+ Wed, 28 May 2025 14:10:47 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-32a6083ef65so27150231fa.2; 
+ Wed, 28 May 2025 07:10:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748441446; x=1749046246; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SH5cP+3YWmXs8/zc7fXq9BP075bBVMwRnqEHsDoMzq4=;
+ b=jbJ7xGC5vt5Oq/SebwGFr6I6CaTYy9vsX1LhiJCVmwCSsU3IoZF1EuyzTBlElNtOxR
+ qKzV41qL9y1yxIMxCkaB8AeOF8UTbzO+CrOL9vUtW61rzrrUVFZxQ0JEvc/M6gkEHB80
+ DQX9IQQ4n2Uzv/jMghufZreW1+4EWqqA5qoZOb4lQ5suZmxn2bC6Ob9oeWXKxM4gxjUf
+ QXI/rYJ86uu4VLx974RACxGCledO/Fhb3hTmxUPQcDsZUOoucLz6796u9hnWVZ8KUMBX
+ JN35Sqj2YRx3GDftmBJjk9Cts/pH/3UKHXR1z8/nMDq1cVSgQYVe9wKXkOyIUljsV5Gh
+ 6z7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748441314; x=1749046114;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1748441446; x=1749046246;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fSFpanlCd3QG3PGIaRTOjidLhr0r0dGvANBn6D3rDi8=;
- b=O8vN6x55lKJMYZRHtkZmxQJ3ggVh74vVL1Ii+pfvk9gYSwZ8rsKzu9C3yL2w18aUPA
- GoZteZZCbcKgwnu3tYGn0vgESLvurVlQ2N2r94LhJpJ9YzbnEyXCsVYzz+gLavvwHD3M
- Tx+I4XUbQk2XDMUz/DmWujKRtQku10falyiGej1hWGHL3bvh+HYEpDvQhr87h86+CvIb
- mXV/TK1KwGZtNjMy55/XNnujoYGnkQGWfj/nQ8Wl8N3Edd1ov0IHf800ICmzZYW9zFlX
- EfvoGPCCeSlMA/8W72pPlPdtJymNpnoATg2e6hRprJkv3lP5E3zcPHYjte0MYBmtSqK9
- wtcw==
+ bh=SH5cP+3YWmXs8/zc7fXq9BP075bBVMwRnqEHsDoMzq4=;
+ b=xJTn2uKxGpqyvnpAGjuW8Wn8HNV+p2g5/fo5nkkh65QumMnOWFRZ8vaGPk8MRBuQkb
+ RkI2kFbdCNMTBz0JAb6cvQ5gYbOp9eCSkfVF3nr35UoLIcbRb+OCK2Xys8rsw2HgLs0B
+ inp/TrMmZUt56u6A1RWoE1kSMiGnbBLqCh+zIRU2Eo//oQIsjLfC6ld6h50Argip2AZ+
+ rkzMc0BEoAqxUBEh0VSXaUB1pcQO1EM+gJS7AjuS7f36iJIqnY+dde5iPaDpnxPJyoOG
+ uLBvvg//6K9DD/SvIB4KVc3LTOAdV2mACbssynlg/zW7soH1JuElJCbArJLU27lXOhLF
+ f7dA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZOoEOxecAwXeUMflYBYwWIDsdvSB7VDXTgYjSXNEzXJDbeOza2KTW28eaXS+2jfII7jhm6u+E0tU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXdXBpZVq/s8fzYvOTes3IjDS7GlQiAQBb753pP07lOKuUexrd
- LL1KbVRh4V9aNgZOSn6P1XAVXFnqSimGDDtdDKdBbFEF+J4eT+RahhLUuSYRviDXlxtT3NY+qBc
- 9Pbha61JfpOQ3fNv5Xj2k4RC1hoZKLxwDJVGYMVBYL9SWvkJ5C1hwOXzVpdO6Bsswr9z3hVU=
-X-Gm-Gg: ASbGncvgPFvhOU5gu+OICWI4dfAZyc4UjFDsneoj/8mJGVflpHPMChTWlfalrRTzSfW
- UlWvnEYaZHaY6F7D8/OBp/5Mpq9bC+1Qfm/dkHnZsg7wyBBdtx9O9CFsrYSkCZUaErLn3+H+J3V
- zDvOcglh7cWjg3+jjD+PmDOPGJuMj6edvWXR53Dj6i2pjtGIq5SRWf0VAshgAekD5DYkypJoHjD
- 3BM4TZi3OKoHnAO42SUEDh8raNx135A68EaYLED0ogVUXixvHYAD/j9Z8tSyvv9npoRns/2rW6M
- 9JcNBK0OncCUm8tFAVDiXTUOTwLrOH06ioSfcH5FzWY/N1Or8u6Rp/qKuvzOF1ZXJiTZqaFvKI7
- aFEpBn1qkwJYTWpEJwKv70EKU
-X-Received: by 2002:a05:6e02:17c6:b0:3dc:8b57:b770 with SMTP id
- e9e14a558f8ab-3dc9b697450mr155527805ab.11.1748441314273; 
- Wed, 28 May 2025 07:08:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3/IrURGfZHuF1uVWj+6vn3B5a1R5Lj0MNa3HPhG6oLZTFAIcn0Koqx6e0QULRt+G7HCLk4g==
-X-Received: by 2002:a05:6e02:17c6:b0:3dc:8b57:b770 with SMTP id
- e9e14a558f8ab-3dc9b697450mr155527385ab.11.1748441313824; 
- Wed, 28 May 2025 07:08:33 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32a79ee1ab5sm2604621fa.62.2025.05.28.07.08.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 07:08:33 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Heiko Stuebner <heiko@sntech.de>
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250527225120.3361663-1-heiko@sntech.de>
-References: <20250527225120.3361663-1-heiko@sntech.de>
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Fix clk-disable removal
-Message-Id: <174844131284.307638.13863376143596559629.b4-ty@oss.qualcomm.com>
-Date: Wed, 28 May 2025 17:08:32 +0300
+ AJvYcCVmXLVSkgNYSrT+t2aAKNfyLzHPNJ2NeJ75705G6/oNL3AqwlF9KcDj6xvrcCxS50sXFPe1VHkmFyw=@lists.freedesktop.org,
+ AJvYcCXaDMBBDArGrwEyvJ6YeSFP15tvCMML14xjsca53rPikR+KwTfJz/MiR32tWTfd476KQk/e6p7cfQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTyvZaSAMfSAp3nlBZ92MWoaxJtvGWA4bfKzZijOlMprmUuGxA
+ kJfL43soDfp6+/lYs2knY0wXmEDCcZjpCqQ5s1e2hocn+wJavJbVRNHeZAOTHhHlmRR/P2zjyZB
+ 3tkADzGSsBtlCUpnxDlsXOrKuWuaSmB4=
+X-Gm-Gg: ASbGncvOv0ARr4cfb84gTKEC0zfZKnSFj1XU/bxWbO8GkwpVorEEndAPr1w/kN8SiOY
+ ugaV93GBYt73+N2lja5svxyoUOA7Ingi6hS2zQKxv4vUt7xPPAdevPpexmRnLrKAe7foxgZju45
+ xbxKXE4P1QTuHLXjNRnezXKmhxfcuf6+nhlnYkyHyEl3QWsGOr
+X-Google-Smtp-Source: AGHT+IG3dTRzhOJeaA21sQ8Cl6CUs5QffL1O5Hi46hlWsg6xnHSKewHgYxirdmC8QSEO4fDwgYnRgzhaJUbQ8K+6RKc=
+X-Received: by 2002:a05:651c:1469:b0:32a:7122:58cc with SMTP id
+ 38308e7fff4ca-32a71225a60mr20885251fa.6.1748441445644; Wed, 28 May 2025
+ 07:10:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=683718f3 cx=c_pps
- a=knIvlqb+BQeIC/0qDTJ88A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=XtzDPwPC1q_kEnb0TJMA:9 a=QEXdDO2ut3YA:10
- a=8vIIu0IPYQVSORyX1RVL:22
-X-Proofpoint-ORIG-GUID: R8_lOgRIHL06Nw5omFAJ_bQY4uRli_Cy
-X-Proofpoint-GUID: R8_lOgRIHL06Nw5omFAJ_bQY4uRli_Cy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDEyNCBTYWx0ZWRfX60cvW45d3NMB
- JxJg9lL6SgiX35RGgAnTTIiSn3IhgMaUrOrho1f6xgq38sh0QMNARCgdqbupZDOGwBm5WHCvku3
- PEjujfN7o8nSsP0f4xKkvrUSaiZoWvHYWLUOlCn1Z9DvVJ0ADtG5zALvAIwM/G5yTzw+XEVDDss
- gvbgwePVqaOQljyypakxjKOIwGBt0P74HqhmgIcgKTry3wR6uhTm6qkUY2nbCNnBYxdAEU2NYeS
- yF4J7GBb3f1xV8034nsQiLaQdvWYw/oFzlFTSSOvhvqgrH3BIiFvD3JJ+qFZCodyTZNJA3zxolQ
- KahBrk/u130bJztdBlkyGx0UN6f8ovo+HBqCMVlG0bO6gQSSpK74/S3mUY03stXYKZR4sPD1j8B
- IoN3o34bhHd1y9aN3JCVzJ+NQs1vzGsNN3KbZf2pZY+kktOLwa7AYt3w0UJ/lMZWwFci8OAH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_07,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxlogscore=863
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505280124
+References: <20250524-cstr-core-v10-0-6412a94d9d75@gmail.com>
+ <aDbniZzL1ZOSnfVi@google.com>
+In-Reply-To: <aDbniZzL1ZOSnfVi@google.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 28 May 2025 10:10:09 -0400
+X-Gm-Features: AX0GCFtCzkUkdNofO07GNzu_PibpIwzD2C0rC3Syu4m48_lWgFYSC9rhS2sdGcs
+Message-ID: <CAJ-ks9mcPd+-tFRuhxVGrYRPFEtJa3nQTdkvTtzLppqitVfaLg@mail.gmail.com>
+Subject: Re: [PATCH v10 0/5] rust: replace kernel::str::CStr w/ core::ffi::CStr
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Michal Rostecki <vadorovsky@protonmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
+ Benno Lossin <lossin@kernel.org>, 
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-pci@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, linux-block@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,23 +117,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 May 2025 00:51:19 +0200, Heiko Stuebner wrote:
-> Commit 6579a03e68ff ("drm/bridge: analogix_dp: Remove the unnecessary
-> calls to clk_disable_unprepare() during probing") removed the mismatched
-> clock_disable calls from analogix_dp_probe.
-> 
-> But that patch was created and sent before
-> commit e5e9fa9f7aad ("drm/bridge: analogix_dp: Add support to get panel
-> from the DP AUX bus") was merged, so couldn't know about this change.
-> 
-> [...]
+On Wed, May 28, 2025 at 6:38=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+>
+> On Sat, May 24, 2025 at 04:33:00PM -0400, Tamir Duberstein wrote:
+> > This picks up from Michal Rostecki's work[0]. Per Michal's guidance I
+> > have omitted Co-authored tags, as the end result is quite different.
+> >
+> > Link: https://lore.kernel.org/rust-for-linux/20240819153656.28807-2-vad=
+orovsky@protonmail.com/t/#u [0]
+> > Closes: https://github.com/Rust-for-Linux/linux/issues/1075
+> >
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+>
+> Overall LGTM, thanks! Left a few comments on individual patches, but I
+> can probably give a RB when those a fixed. :)
 
-Applied to drm-misc-next-fixes, thanks!
-
-[1/1] drm/bridge: analogix_dp: Fix clk-disable removal
-      commit: fd03f82a026cc03cb8051a8c6487c99f96c9029f
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
+Thanks for looking! You say a few comments, but I only saw one. Did
+some get lost?
