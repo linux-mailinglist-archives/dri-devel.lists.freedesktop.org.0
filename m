@@ -2,105 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4257AC668F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 12:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982D1AC6698
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 12:04:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB93910E5C3;
-	Wed, 28 May 2025 10:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4AA10E5C0;
+	Wed, 28 May 2025 10:04:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kode54.net header.i=@kode54.net header.b="cpdp0sbS";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="AMSY+v7Y";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="ly37Zask";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="hNnqbfIw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 340 seconds by postgrey-1.36 at gabe;
- Wed, 28 May 2025 10:01:11 UTC
-Received: from fout-a3-smtp.messagingengine.com
- (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68A810E5C3;
- Wed, 28 May 2025 10:01:11 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal
- [10.202.2.43])
- by mailfout.phl.internal (Postfix) with ESMTP id C2555138251D;
- Wed, 28 May 2025 05:55:29 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-03.internal (MEProxy); Wed, 28 May 2025 05:55:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; h=cc
+Received: from fhigh-b8-smtp.messagingengine.com
+ (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998E210E5D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 10:04:05 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 185FD2540182;
+ Wed, 28 May 2025 06:04:04 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+ by phl-compute-05.internal (MEProxy); Wed, 28 May 2025 06:04:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1748426129;
- x=1748512529; bh=mIr8yhVZYdL15whLx7nAJetmRapUCJpeMtsLnS/rGak=; b=
- cpdp0sbSCbZxICJ/uifWQuyYZWw/ypXYHoSuiAZ5R83PdXIfI3vrlSsYPqDG3ypc
- QzqUNS9QOvqM7ueZdiTPppgq406rYkK04HdadYNOS34muwOtlbywITlAZLpCwyN7
- 6NvxeAgThgvL4m8R7TCbrvZzWZNppjxWWrrNFCX1jlYcgxMy22R3B+VPQsZOjabN
- MtqRrmOyzOMD9UmGnuFaJfXKee3rrlK7QZ/XzvY+Svv7Ho02oo+tkIexuhSNbji4
- JeJAUZAdOsPpi5aOj+2Hbn+K7WttfAWULNjJA6GYDFmIvAdixDtSJO723Q4+a4nz
- dw7zAG33l8lHZ4p2oSqWkQ==
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1748426643;
+ x=1748513043; bh=DdqNUWHK+3KtA5rMoqugrHpTxGmQgyC2mzb11PVWk48=; b=
+ ly37ZaskxbhqjBjflAx0xO4yF6euWNRBLSukyUOY7Y4mPVvhAGcB9NTvbMXjF1uZ
+ R6lbabU0OjFT5nDwH915JAaHfIsikwAr/fK+q4mijc2XeyEJvbaWJD/u/JbcJc2q
+ OcdwfmyhWsC/IvZCh+D/WLhmckZofeowLa3+gqGovleroYLHr/pGdChZY0S9Kpcv
+ /SxgD1wwPXmUH8O4w1lmx0orEysYlRqfdqBYnJoCLe7sH7dz9YQ0TZO5aR1B0W57
+ yb2rPe3GUqYCMsdP6oDlnmq3ewsvmBlehvVcx57tzPZ8/IqKnUBlBd5nfgLxsMpo
+ 2NjPFak4M5szt3XSmzPtgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1748426129; x=
- 1748512529; bh=mIr8yhVZYdL15whLx7nAJetmRapUCJpeMtsLnS/rGak=; b=A
- MSY+v7YrFBM3fs5FHQm3SmaQNf7i3C4vr1V1iVGd2guZP7i5z5ggnXixRRiQwA16
- TsBdLz1njDFTlL8Yn+nrh+wLO4L6jcEv4X0Olx5zY5O1cZeGpDzfsDW3gtvl3YsT
- H58D6e2vHv44Ua7uSJdSzyYpBQMPZ4zgm6sdhRBbyThka71kOHjKVSEffPKCTq7k
- DVFj0YjSPiA1tErZ+Wa4in9bSRMTqE7ODdPlz5txJOXihMfDt2xyIFwgnTjKKlPd
- TluZTqYRwbNLqhCth9+3tKenp1Cy0le0VKtgbsCRbJjR3q/iGIcy4Ymy8Er+vHZH
- 4JLnttUH2OQc5eAAaRADw==
-X-ME-Sender: <xms:kd02aBLbQlD9XZrVpymFhIYaXTD2LJsoJCSgUZk0m7JsLzxRWkM9pg>
- <xme:kd02aNKO1xWATk2FDIvERLDIqxPRHZZu3jcAg3cl3araUiE07DkH2yrYL1sUzSYJe
- GI613_n0ui8Nd7GTUc>
-X-ME-Received: <xmr:kd02aJvTELS7bZYEiIffqj6gFB6MF4W7Wj86MrCqtKjSroIuMsk0wBBnW08pZ-97M22UgTeploSz-vUpVbysVwXhu_pPr3988A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdelieculddtuddrgeefvddrtd
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1748426643; x=
+ 1748513043; bh=DdqNUWHK+3KtA5rMoqugrHpTxGmQgyC2mzb11PVWk48=; b=h
+ NnqbfIwVoEIQ5xyWWROA+8wrBUitc3WIvjX/SCnlbt/rkFyWZVclaWXQgNbL7eDl
+ hnYNCl9B9/VXGoutViD+QQPulLkNqA96qgUJxWAlOng0lnf7i9vnzGhpUeJ9JEvB
+ 9JnxreLAWvGMmB7ZN9kmxZoa0/NTezcND8TrhbmR15LDCMWCpZ90rvpnv/Ez0LqH
+ lTSaidZsMPZxj7+c4p6hYtaaOy8EJa85wW1Gr8wScfGcs10Oay4eyndLm12Qh2xQ
+ Bz918zQLzi6CdI6/GuycN3KzsznKBVa1DnjUlf2iPaaWGN0M1m7LewRse1UZ6xMQ
+ 5lGJKESwtiXNoM9zsjh6g==
+X-ME-Sender: <xms:k982aKHYGhoMP0jnCGCWDL_hSQnO3HqkRdHo_8vkuGVZZ1TfMPdx2w>
+ <xme:k982aLX-cNZHka7KnbWDxsfh1BBilWPSq5K3kw0HQHrV4ALq-N0I1dGx5ZY7Vu4qa
+ u4KjmMru_vZYiXYv4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdeljeculddtuddrgeefvddrtd
  dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
  fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
- dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefu
- hffvofhfjgesthhqredtredtjeenucfhrhhomhepfdevhhhrihhsthhophhhvghrucfunh
- hofihhihhllhdfuceotghhrhhisheskhhouggvheegrdhnvghtqeenucggtffrrghtthgv
- rhhnpeeileetudejffegjeegfffhhffhkeefjefgtddujeehheevleevjeejffekieekve
- enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhr
- ihhssehkohguvgehgedrnhgvthdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtph
- houhhtpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhm
- pdhrtghpthhtohepphhsthgrnhhnvghrsehrvgguhhgrthdrtghomhdprhgtphhtthhope
- hphhhilhhiphhprdhrvghishhnvghrsehlihhnsghithdrtghomhdprhgtphhtthhopegu
- rhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpth
- htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
- thhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegurghkrheskhgvrh
- hnvghlrdhorhhgpdhrtghpthhtohepphhhrghsthgrsehkvghrnhgvlhdrohhrghdprhgt
- phhtthhopegurhhiqdguvghvvghlqdgsohhunhgtvghssehlihhsthhsrdhfrhgvvgguvg
- hskhhtohhprdhorhhg
-X-ME-Proxy: <xmx:kd02aCbHDovltV7e8CeWPTDp10c_sUVqTMDo5CZA3wOWBXO2N3CvVw>
- <xmx:kd02aIazgkMI5tbH94SaxYZZCQGrJ12qQMlp5Xhqp5qRKzSSMPwH6A>
- <xmx:kd02aGBwX2BSW9y9_6L7uNlnTqVUiBZNr9lRV43zwXqxfHVMH_nZTw>
- <xmx:kd02aGaqthJvM8zTYC9pDY0YaFFS6JU7MNeT846DHtAEPeUcQbCX2w>
- <xmx:kd02aFpzcSyj383NUf9vY1RmDB9-i6kpYncJnGSRiKAVBv9ZxufzHUAh>
-Feedback-ID: i9ec6488d:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 May 2025 05:55:29 -0400 (EDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 28 May 2025 02:55:27 -0700
-Message-Id: <DA7PC2LNU79K.28KBFOL3MGI1S@kode54.net>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Danilo Krummrich" <dakr@kernel.org>,
- "Philipp Stanner" <phasta@kernel.org>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-From: "Christopher Snowhill" <chris@kode54.net>
-To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Philipp
- Stanner" <pstanner@redhat.com>, "Philipp Reisner"
- <philipp.reisner@linbit.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
- <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
- <eb5f3198-7625-40f4-bc23-cac969664e85@amd.com>
- <582e10673bb749f18ebf8a18f46ca573df396576.camel@redhat.com>
- <b055ff59-4653-44d9-a2e0-bb43eb158315@amd.com>
-In-Reply-To: <b055ff59-4653-44d9-a2e0-bb43eb158315@amd.com>
+ dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefk
+ jghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfd
+ cuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeeh
+ udekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+ pdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsh
+ himhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhl
+ rdgtohhmpdhrtghpthhtohephhhimhgrlhdrphhrrghsrggurdhghhhimhhirhgrhiesih
+ hnthgvlhdrtghomhdprhgtphhtthhopehimhhrvgdruggvrghksehinhhtvghlrdgtohhm
+ pdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhisehinhhtvghlrdgtohhmpdhrtg
+ hpthhtohepmhgrthhthhgvfidrsghrohhsthesihhnthgvlhdrtghomhdprhgtphhtthho
+ pehmihgthhgrvghlrdhjrdhruhhhlhesihhnthgvlhdrtghomhdprhgtphhtthhopehroh
+ gurhhighhordhvihhvihesihhnthgvlhdrtghomhdprhgtphhtthhopegrrhhnugeskhgv
+ rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:k982aEJpL4_3GWPnK1oqeKTn6WarLOQlBM94cmDPgotwBXZH-T1GfA>
+ <xmx:k982aEGJfBlV3Xy4WwHfQTCaDWdZgQ9gOh8Hh2-gRqNFFJvOf8yXLg>
+ <xmx:k982aAWbht-hN00qrA987d9SIO3LKOtOqAWyt3-JQB6uLtPLXXppgg>
+ <xmx:k982aHMbGdv56or7uIA4Q1yiaLCwkVHY07jHDdvhqJnH0VfhbdmQrg>
+ <xmx:k982aCRLqOQPFP8g47PNqMJg0Ft17WaYnEin7FVC_pepEH7he5TdeJOy>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id A12D7700060; Wed, 28 May 2025 06:04:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+MIME-Version: 1.0
+X-ThreadId: Tea118988e335f97b
+Date: Wed, 28 May 2025 12:03:43 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Lucas De Marchi" <lucas.demarchi@intel.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Dave Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Matthew Brost" <matthew.brost@intel.com>, 
+ "Himal Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>,
+ "Imre Deak" <imre.deak@intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-Id: <704fd2b9-04da-4ec8-b854-22bc3ce9058e@app.fastmail.com>
+In-Reply-To: <aDbYs7QZRfr2i80A@smile.fi.intel.com>
+References: <20250523121106.2231003-1-arnd@kernel.org>
+ <j7yodlrk7wh3ylvb2z622ndlzm4guhahmakdb6l5d6qtv5sabo@w4bfiehtmaab>
+ <aDbYs7QZRfr2i80A@smile.fi.intel.com>
+Subject: Re: [PATCH] drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,90 +114,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Jan 13, 2025 at 1:55 AM PST, Christian K=C3=B6nig wrote:
-> Am 13.01.25 um 09:43 schrieb Philipp Stanner:
->> [SNIP]
->>>> The handling of NULL values is half-baked.
->>>>
->>>> In my opinion, you should define if drm_sched_pick_best() may put a
->>>> NULL into
->>>> rq. If your answer is yes, it might put a NULL there; then, there
->>>> should be a
->>>> BUG_ON(!entity->rq) after the invocation of
->>>> drm_sched_entity_select_rq().
->>>> If your answer is no, the BUG_ON() should be in
->>>> drm_sched_pick_best().
->>> Yeah good point.
->>>
->>> We might not want a BUG_ON(), that is only justified when we prevent
->>> further damage (e.g. random data corruption or similar).
->>>
->>> I suggest using a WARN(!shed, "Submission without activated
->>> sheduler!").
->>> This way the system has at least a chance of survival should the
->>> scheduler become ready later on.
->>>
->>> On the other hand the BUG_ON() or the NULL pointer deref should only
->>> kill the application thread which is submitting something before the
->>> driver is resumed. So that might help to pinpoint where the actually
->>> issue is.
->> As I see it the BUG_ON() would just be a more pretty NULL pointer
->> deref. If we agree that this is effectively a misuse of the scheduler
->> API we probably want to add it to make it more pretty, though?
+On Wed, May 28, 2025, at 11:34, Andy Shevchenko wrote:
+> On Tue, May 27, 2025 at 03:55:46PM -0500, Lucas De Marchi wrote:
+>> On Fri, May 23, 2025 at 02:10:46PM +0200, Arnd Bergmann wrote:
 >
-> The only alternative I can see is that the scheduler API gracefully=20
-> handles submits to non-ready schedulers. E.g. that=20
-> drm_sched_entity_push_job() detects this condition and instead of=20
-> pushing the job sets and error code and signals the fences.
+> ...
 >
-> But that might not be a good idea.
+>> > +	depends on INTEL_PLATFORM_DEVICES || !(X86 && ACPI)
+>> 
+>> 		   ^
+>> Did you mean X86_PLATFORM_DEVICES here?
+
+Yes, my mistake.
+
+> Why do we need to depend on the whole thingy (yes, it will be enabled at the
+> end) if we only talking about Intel?
+
+I don't understand what you mean with 'the whole thing'. My change
+changed the existing 'select X86_PLATFORM_DEVICES if X86 && ACPI'
+into the corresponding dependency, in order to change it the
+least.
+
+The dependency itself is needed because of
+
+       select ACPI_WMI if X86 && ACPI
+
+and this in turn is needed for
+
+       select ACPI_VIDEO if X86 && ACPI
+
+>> With that, Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> 
+>> I see several drivers selecting
+>> X86_PLATFORM_DEVICES though. Maybe they should also be translated to
+>> dependencies instead?
 >
-> It just moves the crash from one place to another and in general I fully=
-=20
-> agree the driver is misusing the scheduler API to do something which=20
-> won't work and potentially crash the whole system.
->
->> @Philipp:
->> BTW, I only just discovered this thread by coincidence. Please use
->> get_maintainer. The scheduler currently has 4 maintainers, and none of
->> them is on CC.
->
-> Oh good, point I was already wondering why nobody else commented and=20
-> didn't realized that nobody was on CC.
->
-> Thanks,
-> Christian.
+> I think so, selecting that sounds wrong.
 
-I'm only seeing this mail exchange months after the fact because I was
-linked to it by someone on IRC, and I am making a wild guess here.
+Agreed. Overall, what I'd really like to see is to remove
+all those 'select' of drivers from other subsystems. I think
+ACPI_VIDEO is at the center here, and changing all the
+'select ACPI_VIDEO if ACPI' instances to
+'depends on ACPI_VIDEO || !ACPI_VIDEO' would solve a lot of
+the recurring dependency loop problems in drivers/gpu/.
 
-Could this sleep wake issue also be caused by a similar thing to the
-panics and SMU hangs I was experiencing with my own issue? It's an issue
-known to have the same workaround for both 6000 and 7000 series users. A
-specific kernel commit seems to affect it as well.
+Actually doing it without regressions is going to be
+nontrivial though, because any change in this area is likely
+to trigger another dependency loop somewhere.
 
-If you could test whether you can still reproduce the error after
-disabling GFXOFF states with the following kernel commandline override:
-
-amdgpu.ppfeaturemask=3D0xfff73fff
-
-And report back. Unless it's already something long solved? Since this
-particular thread died back in January, I guess nothing has happened
-since?
-
->
->>
->> Danke,
->> P.
->>
->>> Regards,
->>> Christian.
->>>
->>>> That helps guys with zero domain knowledge, like me, to figure out
->>>> how
->>>> this is all
->>>> supposed to work.
->>>>
->>>> best regards,
->>>>  =C2=A0 Philipp
-
+     Arnd
