@@ -2,109 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683AAAC6D82
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 18:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FB1AC6D9E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 18:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EEE10E2C3;
-	Wed, 28 May 2025 16:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED3610E679;
+	Wed, 28 May 2025 16:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jATkvto2";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UwxdCW0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90CF910E2C3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:09:18 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S7gVn0007545
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:09:17 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246E410E649
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:13:19 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SE5bsg028239
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:13:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=0ebk4FuXKBEehQnwIzWbtceY
- 5Eq5Hvk7/WPMviultPQ=; b=jATkvto2sObAkLZQpbEMzNj94YJNvCCQ5aSCVBDh
- XTcWBQ2FjoLXpexqv68kpBzYdad4VozIQcq3xnzDnh6oCeqRE8Cx37JVopqaGCqO
- 2e7+CzGS4hS53+T6kLKboYju65mFsKpiovPevzTkySJTgNlZNKvX8jHhUERZMyDU
- wlvDVWhnuJ5fzjf03HI1Q4z3j9BX8326ajLkaGaemlnbNYlpSHbXua0nIeutZnFq
- 9/aamuWTykZFzcQRz+i0Cs067IbHC+doHuMPO34fglInHZ9aFUBEm5H7MQH+x7tB
- DOe0PnSFAaOqW9g/u3KXCnXVfQ0qYOolg1U13yusYooq+A==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6g92t5u-1
+ :references:subject:to; s=qcppdkim1; bh=9+Mg2L1QBDl92rjfoNAlCPsR
+ ORQMv0jh6Aoaq4vKOlQ=; b=UwxdCW0XgvFtVccaGS3wRZ6akRXte2qSsXmoqoS3
+ CltOgng+fdZ+KZBEyB+3rwrxvI1kx9hWfzVucFNG0jG+1P/3/YfAgBNOnsCuwPAn
+ NoircCYqIk/Ho9mJ4V0Bnjb1lJO8uKPUjGEc/a5LA6G34uJOEzzPbjIYN0bS05EH
+ acwSqBHb9nbin9wykrzk8bQWysYBmn77CnJlsHDrhZsFPKs2i1GSu+CWt1EzV67X
+ gzSBuCrpzSgH2GSGfNirvmfCSqVWv3b7n6XhfRM9IfU4Nb7zkXTAnKyswsnjTLSB
+ 1hwh1gzQeW1oWJaL9oVceakOvOdG/hZCIfNDITan6IAs6w==
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992mvsf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:09:17 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-30ea0e890ccso4239736a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:09:17 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:13:18 +0000 (GMT)
+Received: by mail-oo1-f69.google.com with SMTP id
+ 006d021491bc7-6049acdc5c5so3354975eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:13:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748448556; x=1749053356;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0ebk4FuXKBEehQnwIzWbtceY5Eq5Hvk7/WPMviultPQ=;
- b=FzxaL3eZivxwuJKHq4F97LAvtIHru11vgzTI5mXZotT+eK5mQG0iNm7YUT8m2KMpE4
- NJb1rz1KRfLzSK0QZz0/pvuHbR5y5avS5isuiKOjIKcxDRVKjEoSqtxFr1Xp8RHDCTgG
- ycqSaiCm0ChLEKZC4WiNLKXzqbkQ2lv6Nhv/1AJTZT3AfojYfmAe6ADlsaMdqboPy0OX
- tThELw7d/uke98lIh5C/ieC9JRdBF341Iolrda9C5qZZlDbD5hV8s/OxnsUmtvUdzK3x
- 1xPkSg6yzwK8TQSAKywPvP2L8+kLpibx0FHM5EB9J2Rqwkwr1Kn7nBPOGRK/mphBX7DW
- uijg==
+ d=1e100.net; s=20230601; t=1748448797; x=1749053597;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9+Mg2L1QBDl92rjfoNAlCPsRORQMv0jh6Aoaq4vKOlQ=;
+ b=SCW6N7o8Zq+vxT41NBE+FMozRMK4N53LfkVssmiUDquGN8h5d0XcwY+khaUIDZuEJk
+ S7/qCjfcUpq/d3ejIIV2avifsz9voGxS8IayJJ125X7r1YIyn6YMeKnaUTPl0vAHVDzP
+ dnmnj+0m1t6lUa0/+xOeEP6tKKpfx5ro3rg4B/E14kROeWRNfnaC5K9u+DstHOSQqypP
+ ZsGO3gz+j761GbIffnGMXnRRUZL376PkRpxL+QQwrMMh1BJgi24YDLTo8W2uZ5Wdp8F2
+ je2wo1cpC2Ekjok3SvxUVKffwFyw8swnibfi4q7gO/2YAIMn8GcQLPlHuXnr9XEMElhL
+ HiaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+zNvYO3m5ZQH+WYGdXmAon8pd8ThYg5KIR5qL3fUlvJU8qDgigJocONloo06evRYfh8ljP2Qd130=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymMlWwlbwZ+zGqc9fwxNHzV+WfvkGh7aTIyUhDrIQGR4xm6ZvK
- gyQYm8AESAE0TO7a9qD5nHfC+kQ3/CIZldAlrbsbC08VBAUwWh2TNBwCaGAaQx0qQhI32ecaP6h
- S8Me7Wtxxb3Zc3lGIU1pl2pQQQyjh72FN6fMkIGVbgAITEZv+Bs+SmwG25dCyUoJahUV5MKGs5M
- MM2LOjPwf/SQ7V/YFpVNAaACjS0KPfheEcEtrzVPH/2JiSmg==
-X-Gm-Gg: ASbGnct0iC6TsN3e6DLRNHenkDV6Z7LRv6D9cyh3kUd/raWbRiqmVu4ohB3cKYeKf0K
- wwzjSfsvpA8dXrjAYYekyw2j5FRVHKCyg9/WDbkt+/Gs9QQl0h/qiQx8RaUTmLjdegtWF7sJa/w
- pjremZuRWJ4WkqZXINdnfE9FM=
-X-Received: by 2002:a17:90b:1fc8:b0:311:e8cc:4264 with SMTP id
- 98e67ed59e1d1-311e8cc4409mr5694239a91.12.1748448556273; 
- Wed, 28 May 2025 09:09:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEyU9Na6w19P6vBrFWsatyjVSIe0mXXTuG1XS0eEc1904ZaykvV6ov/DP09T7xW5vDmnuTXfgVmAxcYzfANhw=
-X-Received: by 2002:a17:90b:1fc8:b0:311:e8cc:4264 with SMTP id
- 98e67ed59e1d1-311e8cc4409mr5694169a91.12.1748448555821; Wed, 28 May 2025
- 09:09:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250527081447.304-1-kernel@airkyi.com>
- <e2dnvpbze4xuubggduqr3p5nnhg7huk3dnpdcb6tldxbrn2qtn@bfsewz5trfv3>
- <bc321a71-1934-4889-bd8e-3bb593c8feba@rock-chips.com>
-In-Reply-To: <bc321a71-1934-4889-bd8e-3bb593c8feba@rock-chips.com>
+ AJvYcCWrIFoO1YyDQHPMq+4/UJr2KPPV1VQbiqGvDZULSKyo4E/BQii8siqNR19whfUJheVk6Ox/e8Wz7bg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPC/P1HmWRV6IFAmMePbQ62ABQdGhH1Za98tl5ZwA6uIaeRnCZ
+ INL7ZGz8AkYMQsv5VY68ECSfJj41cJuvxU2H30NqFYe2hgAEkrFLH1JKxno0DL5M/zXHRWIfbRC
+ r4/knwiJJdsiAMI6gVdGe1JeSu1M944MWnmvnEDT/amXGh2J1ErdbpiJaVP90w6JS0+FCj64=
+X-Gm-Gg: ASbGncsignZq/8zv/VkIeIFIkjHOjQqLrTpShbHsBVk+PpBLSQ39cJMfev0ufM+IP/c
+ jIUawl48rA6YcbYiD6f3+fCOvW8s3z8YFjlhi5+c9GrM9upHf0oxdhON27QgYH3iReyD3q2j8NB
+ Nu1fZss3tZV7Ei+MW9fa/MqbS28fMmv03B1Nc/pBYTCn8jEE7NYkWGqgjTewaD3o1GHO/qC3/XK
+ Rp7xd4R4w9DSHdetTd2UWD61xvspC/3X99H8tz+NolqO6mQFpxypUqTH8dzOMaEM9m2oh5Wpv3c
+ sBhYSpP/dg45NFo/wrjlHDM6Xy/+1SPFVafemj+jCVVdlhoSnZJnOC7il1GPF6PA+3aOP2z5NNg
+ =
+X-Received: by 2002:a05:6808:11d1:b0:406:67b7:8b62 with SMTP id
+ 5614622812f47-40667b79907mr1137204b6e.38.1748448797369; 
+ Wed, 28 May 2025 09:13:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7kOaXTktpHw46oOtWRKpilwDLDgGTq8IbcVMN13DgegxQWs9io4EyuZpQO8J6P6zyCxUueg==
+X-Received: by 2002:a05:6808:11d1:b0:406:67b7:8b62 with SMTP id
+ 5614622812f47-40667b79907mr1137186b6e.38.1748448796931; 
+ Wed, 28 May 2025 09:13:16 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-32a79e9a765sm3031921fa.10.2025.05.28.09.13.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 May 2025 09:13:16 -0700 (PDT)
+Date: Wed, 28 May 2025 19:13:14 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 28 May 2025 19:09:04 +0300
-X-Gm-Features: AX0GCFsUqNN07CMI1cNHp3U4iz8XhLlLFw-nWKQWlciyho8w9zoePiczSCHemug
-Message-ID: <CAO9ioeXLSQyBFuedtt4=_OjEWZW6T9HaaYr8_NiNy2eh4yw-qg@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=6837352d cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=VwQbUJbxAAAA:8 a=ePr-TV-LAAAA:8 a=s8YR1HE3AAAA:8 a=RRhK3aCThXU4g2SLoiEA:9
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=uGDpjx9DKq9E8W49yboe:22
- a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-ORIG-GUID: 9Tuxe0-Wl4gX3W-MDPr-Utayvkv-RrtF
-X-Proofpoint-GUID: 9Tuxe0-Wl4gX3W-MDPr-Utayvkv-RrtF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDE0MSBTYWx0ZWRfX0KzsNx9hP2MJ
- 9nTz5uU0NCeJlBW0DpSCwJtPhnGlCoSyAaaOHK2Gzyz3ehIT+GC7XnIkMmw2UlY9PE/0EV2/0u9
- aC1bvRR1uhMNrNFSZDH40xS41o6H5C/YQclaAzBbimMfW0dBLjR0/RkFpPHN07dWkAztcykKjSy
- 2F8isJ/a9UbjbBk6yzdFN/vQcNOa7+fR/vcCUY+JTE6+i41GqTIxrlrxrv5BN9RZYx/YxanRtaQ
- d1qYokeP5yPkhIBMPzAv2XzE4QuTiUF+pZ6DW6KGgi3MQPiOVXZlLoRhahTvS0BAQwOCEIooPRG
- DcU3vyRNsKnmUz6xbvYR9JAAtqq2I0hexxwGZ6wj9YwfMxOjP5HlIgAC2PWWsUiB6s897SdSYVz
- 0qyY9d3X5ZmPqOoWjhpa0bzSYsHf/9XhGhK7Ex0KPgqWY9OiQxCIhnRS7Kkn7zX8Yj6nOmuA
+ Stephen Boyd <swboyd@chromium.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Guenter Roeck <groeck@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 05/45] drm/msm/dp: add a helper to read mst caps for
+ dp_panel
+Message-ID: <abxm6ppegxbesl6wztyxg46elhanh2mo5kxn43olbucw37cyon@aeqikyr4ord5>
+References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-5-f8618d42a99a@quicinc.com>
+ <aksnudxy2oyojjzwm73i4mulftcxccdsnddcdamypmscn6skpq@ijtp7x76m3pt>
+ <df3807e5-c381-4440-be64-9bd49a2ecd9d@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df3807e5-c381-4440-be64-9bd49a2ecd9d@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDE0MSBTYWx0ZWRfX5gKvZWHs2Hje
+ S6EvNOngvBnl/Rt5fDfMFrA7tjtfHGIMAknwrg6MjTg0DjEdAhorh4QJuixAxJy+SlVvbZM7+P0
+ iECX6ucfC+1N+pjYoqWIqdjw7EBCRa31ZNTo5vOsOLqOK2RP9zHoFO/PgKr4j99LyvcpfMAzSbX
+ OL4bTuxO16Lk7dGxVvVb3KdZCAWu7/58Taa0WseoKuOCI2EMWDTFWmC9ICBwWVHBKi3GOSPGW30
+ /i32taiC6Jzhn2/IBwuGQGmULCtNzimy2pltNBf5hC1TsTFliLiaa/f5Che/euf1MI1xorovobD
+ 58VXmfUAT+ujiz2Bse21ZYXBnT21f7TGmUp+N90u/YMGNUbcOTBfxsU+AmBO3P248ijWKFrpElY
+ MD7h/KwQMOscbj44F0HQO7Ulk3ai1tXgwvcSgHelg6elm4yTLTE+bSBY2oK9++oCFy4HXSeH
+X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=6837361e cx=c_pps
+ a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=_S4K8tOYiQSLrvZx2BEA:9 a=CjuIK1q_8ugA:10
+ a=rBiNkAWo9uy_4UTK5NWh:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: W2bcTfEy2ovaXJc7poxnDBAJdq9-162v
+X-Proofpoint-ORIG-GUID: W2bcTfEy2ovaXJc7poxnDBAJdq9-162v
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-28_08,2025-05-27_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
  definitions=main-2505280141
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,91 +141,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 May 2025 at 04:57, Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
->
-> Hi Dmitry,
->
-> On 2025/5/28 4:25, Dmitry Baryshkov wrote:
-> > On Tue, May 27, 2025 at 04:14:47PM +0800, Chaoyi Chen wrote:
-> >> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> >>
-> >> Convert it to drm bridge driver, it will be convenient for us to
-> >> migrate the connector part to the display driver later.
-> >> Considering that some code depend on the connector, the following
-> >> changes have been made:
-> >> - Only process edid in &drm_bridge_funcs.edid_read(), so no need to
-> >> store additional edid info.
-> >> - Now cdn_dp_get_sink_capability() only focused on reading DPCD_REV.
-> >> - Update bpc info in cdn_dp_bridge_atomic_enable() instead of
-> >> cdn_dp_encoder_mode_set(). Actually, the bpc data will be used in
-> >> cdn_dp_bridge_atomic_enable().
-> >> - Switch to use DRM_BRIDGE_OP_DP_AUDIO helpers.
-> >>
-> >> This patch also convert to use devm_drm_bridge_alloc() API.
-> >>
-> >> Tested with RK3399 EVB IND board.
-> >>
-> >> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> >> ---
-> >>
-> >> Changes in v3:
-> >> - Link to V2: https://lore.kernel.org/all/20250523011310.120-1-kernel@airkyi.com/
-> >> - Switch to use DRM_BRIDGE_OP_DP_AUDIO helpers
-> >> - Remove the dependency for connector
-> >> - Remove the extra stored edid
-> >> - Code cleanup
-> >>
-> >> Changes in v2:
-> >> - Link to V1: https://lore.kernel.org/all/20250507035148.415-1-kernel@airkyi.com/
-> >> - Use drm_atomic_get_new_connector_for_encoder() to get connector
-> >> - Convert to use devm_drm_bridge_alloc() API
-> >> - Fix typo: cdn_dp_connector_edid_read -> cdn_dp_bridge_edid_read
-> >>
-> >>   drivers/gpu/drm/rockchip/cdn-dp-core.c | 279 ++++++++++---------------
-> >>   drivers/gpu/drm/rockchip/cdn-dp-core.h |   9 +-
-> >>   2 files changed, 110 insertions(+), 178 deletions(-)
-> >>
-> >
-> >> @@ -595,16 +546,41 @@ static bool cdn_dp_check_link_status(struct cdn_dp_device *dp)
-> >>   static void cdn_dp_audio_handle_plugged_change(struct cdn_dp_device *dp,
-> >>                                             bool plugged)
-> >>   {
-> >> -    if (dp->codec_dev)
-> >> -            dp->plugged_cb(dp->codec_dev, plugged);
-> >> +    if (dp->sink_has_audio)
-> >> +            drm_connector_hdmi_audio_plugged_notify(dp->connector, plugged);
-> > I'd say, notify always and let userspace figure it out via the ELD. Then
-> > you shouldn't need sink_has_audio. This would match the behaviour of
-> > HDMI drivers.
->
-> Oh, I find that there are similar usages in qcom msm driver. Is there
-> any more progress?
+On Mon, May 26, 2025 at 08:26:47PM +0800, Yongxing Mou wrote:
+> 
+> 
+> On 2024/12/6 16:52, Dmitry Baryshkov wrote:
+> > On Thu, Dec 05, 2024 at 08:31:36PM -0800, Abhinav Kumar wrote:
+> > > Add a helper to check whether a dp_panel is mst capable.
+> > > 
+> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/dp/dp_aux.h   |  1 +
+> > >   drivers/gpu/drm/msm/dp/dp_panel.c | 14 ++++++++++++++
+> > >   drivers/gpu/drm/msm/dp/dp_panel.h |  1 +
+> > >   3 files changed, 16 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+> > > index 39c5b4c8596ab28d822493a6b4d479f5f786cdee..cb97a73cdd6ea74b612053bec578247a42214f23 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_aux.h
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+> > > @@ -8,6 +8,7 @@
+> > >   #include "dp_catalog.h"
+> > >   #include <drm/display/drm_dp_helper.h>
+> > > +#include <drm/display/drm_dp_mst_helper.h>
+> > >   int msm_dp_aux_register(struct drm_dp_aux *msm_dp_aux);
+> > >   void msm_dp_aux_unregister(struct drm_dp_aux *msm_dp_aux);
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> > > index d277e9b2cbc03688976b6aa481ee724b186bab51..172de804dec445cb08ad8e3f058407f483cd6684 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> > > @@ -108,6 +108,20 @@ static u32 msm_dp_panel_get_supported_bpp(struct msm_dp_panel *msm_dp_panel,
+> > >   	return min_supported_bpp;
+> > >   }
+> > > +bool msm_dp_panel_read_mst_cap(struct msm_dp_panel *msm_dp_panel)
+> > > +{
+> > > +	struct msm_dp_panel_private *panel;
+> > > +
+> > > +	if (!msm_dp_panel) {
+> > > +		DRM_ERROR("invalid input\n");
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+> > > +
+> > > +	return drm_dp_read_mst_cap(panel->aux, msm_dp_panel->dpcd);
+> > 
+> > So, it's a one-line wrapper. Do we actually need it?
+> It beacuse the point of aux is in msm_dp_panel_private, so if we want to
+> call drm_dp_read_mst_cap in other file, we need this wrapper.
 
-For msm driver it is required as DSP requires HDMI to be plugged for
-the audio path to work.
+It is being used from dp_display, which also ->aux pointer.
 
->
->
-> >
-> >>   }
-> >>
-> > [...]
-> >
-> >> @@ -705,8 +681,6 @@ static int cdn_dp_encoder_atomic_check(struct drm_encoder *encoder,
-> >>
-> >>   static const struct drm_encoder_helper_funcs cdn_dp_encoder_helper_funcs = {
-> >>      .mode_set = cdn_dp_encoder_mode_set,
-> >> -    .enable = cdn_dp_encoder_enable,
-> >> -    .disable = cdn_dp_encoder_disable,
-> >>      .atomic_check = cdn_dp_encoder_atomic_check,
-> > Nit: for the future cleanup, it should probably be possible to get rid
-> > of these encoder ops too by moving them to the bridge ops.
->
-> Interesting, have these patches been submitted upstream yet?
-
-Everything is already there, see drm_bridge_funcs::mode_set() and
-drm_bridge_funcs::atomic_check().
-
+> > 
+> > > +}
+> > > +
+> > >   int msm_dp_panel_read_link_caps(struct msm_dp_panel *msm_dp_panel,
+> > >   				struct drm_connector *connector)
+> > >   {
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+> > > index 7a38655c443af597c84fb78c6702b2a3ef9822ed..363b416e4cbe290f9c0e6171d6c0c5170f9fea62 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+> > > @@ -67,6 +67,7 @@ int msm_dp_panel_get_modes(struct msm_dp_panel *msm_dp_panel,
+> > >   		struct drm_connector *connector);
+> > >   void msm_dp_panel_handle_sink_request(struct msm_dp_panel *msm_dp_panel);
+> > >   void msm_dp_panel_tpg_config(struct msm_dp_panel *msm_dp_panel, bool enable);
+> > > +bool msm_dp_panel_read_mst_cap(struct msm_dp_panel *dp_panel);
+> > >   /**
+> > >    * is_link_rate_valid() - validates the link rate
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> 
 
 -- 
 With best wishes
