@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C893AC748F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 01:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25ADAC7499
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 01:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D0410E0F9;
-	Wed, 28 May 2025 23:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10A910E6D1;
+	Wed, 28 May 2025 23:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E8QW9T4C";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WlNsZsc+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB5210E0F9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 23:45:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4BC10E6D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 23:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748475909;
+ s=mimecast20190719; t=1748476208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QjcO9ZcJ+6/zyGrAXWz4QqNpNmDNm9FhYOt01gFfm14=;
- b=E8QW9T4C9xtilWogae/+5TWE7EYZ7BpTqRx6ystuGK1SNlyrRb578QV4BjzPeQ6Ir3CX3c
- J15w9qOoqIKfFBYN2FxW0tEh4TdWn8DADTs+zQ7N2dQSRhMNaBx5Y84fexl0nO6l5iwMt8
- a/cZ5FMUiVtPGVWUOL/3c8idP5jwDEM=
+ bh=T6D3nP4jywCiF414zzqa6gkML3pBa6wKz05qV+pYe5E=;
+ b=WlNsZsc+agM4BvfELwrIvn3cot3da3ZBL0DDxEdO6DWyxRyYvkMQnfhHdZ6X+vGsglH+Jk
+ aqW3jYbk6ipAJLRZD3Ml2S3nAFOiLm7uiPPPREWbQotmgKHElCo6lbckzngmP1en9owFlx
+ KuIUPVNbAd0ja6kr6+4uLh/AaIUCX6k=
 Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
  [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-103-hdtdKEYnOwKp3fFdeXiEzw-1; Wed, 28 May 2025 19:45:07 -0400
-X-MC-Unique: hdtdKEYnOwKp3fFdeXiEzw-1
-X-Mimecast-MFC-AGG-ID: hdtdKEYnOwKp3fFdeXiEzw_1748475906
+ us-mta-693-dHHcrngDOkucG8gpjR8hEw-1; Wed, 28 May 2025 19:50:07 -0400
+X-MC-Unique: dHHcrngDOkucG8gpjR8hEw-1
+X-Mimecast-MFC-AGG-ID: dHHcrngDOkucG8gpjR8hEw_1748476206
 Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-70e2d495194so5826407b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:45:07 -0700 (PDT)
+ 00721157ae682-706bf40bd8bso4952127b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 16:50:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748475906; x=1749080706;
+ d=1e100.net; s=20230601; t=1748476206; x=1749081006;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QjcO9ZcJ+6/zyGrAXWz4QqNpNmDNm9FhYOt01gFfm14=;
- b=iKLkDaJpjRdtc2mK958Hu7wtD+Pzo+vhzjFKTK3oly928Oyv6Av5saESRDOrZV6Ivt
- A9YJI2FX5Z0TiD+ceR8mkEAJl59k0CWhwCDNWPwsNYXFsKL0jqvTRq+TD3fEq3uZb1YX
- AS+3wwowlGEWhg9fosW6EOUwNTyopzlAFhWvwvIrL0mgQnG1VyN7sSl2+5YzFFz49QEq
- GuUQ13D1B9DiAWHuOaICy4027yYIKd/niLrheyN1LNwOMJa2vMa8QZF//+d/oXRHr2SK
- gZTYBlnlw+AyyYVBozwt3RqQbzTIbZUqlUUaN/p0NfnCAJVIzeyaHdexZtBfFpiwDcJz
- hbkQ==
+ bh=T6D3nP4jywCiF414zzqa6gkML3pBa6wKz05qV+pYe5E=;
+ b=ue5Gkyd6PYRdC4dEL/XdtTIzLW44zLVS68c7T2xd4Cc+uRi8Xz8LJ1Xf0EEs1u7nBG
+ hNLV5hqCNVBAoi83dAa1nPKZCEZVoJNO/GEBtezVZrrKIrMmaQ0AlYKvaQyq4iUySkfb
+ xBCs6ABSqex29h4pnV2ekBQ8OxLZ/WXF82x+9XAFmERjt+soEh3VUoJ1zioyV2CdIJDg
+ 4PaE5753MeDTrL/Kj091IaTSe4omyLaoKnNoSjcselhgENrKy26zvDMtO//EEvDpY/jv
+ p1r490VbpG1rjD/WtEPP3eye89ySTw6eRvCCIsFn/8krH7FL5i1w5Souxn6xknlYVasb
+ IcXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvzXRVMLQmwiIwykMF6qOlQ+LBUY19RevsCNzgmMWBIKd49DeJFy49t/rP31hnBVttvmoA7LgdVug=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyF3C4AM7ZTaciAJrWIknjdKP1PG9JNqt0xiouu4f7DtAGqcz6l
- /5oGtWvAgKG489gC0dMy/KTZpqF3zbXmKS9YYrKED0bwrYAueMP88La8+a63ZLNz1+qVZ0t9uGk
- r3LjK/Ch9qxNSzkFbOlIQIAw0tE1WRIMFyXjC/7R6RgO+AoiRwq18SbpOErU8z2jBaKeE/40mFN
- gmKXcXfaUlwf/ZOLTQJBGi+Y6tml9++wK8r6peGyqowR3q
-X-Gm-Gg: ASbGncvvh5uMHQEIvNAjY+SBV9I5rmGIKVmBmU3NepWfMWz32diN/tiEN1KVV0DwxPR
- i/svg4KLJYh3GI8nNbsN4zAFCKkIgpcQ5iCxQhffoB67Sv7qsC9A4A9eU9tCU0KmBnaQ=
-X-Received: by 2002:a05:690c:4c01:b0:70e:326:6aeb with SMTP id
- 00721157ae682-70f8b506cd2mr3520087b3.10.1748475906527; 
- Wed, 28 May 2025 16:45:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHZsok6/AsdKTvRajwRYIiZPsG1LQnvvgTQG0G1fTLgRh98YkTHe3ZEEPsOyO4WJ/Jt57sc5QMbbFc9ov7Pr9k=
-X-Received: by 2002:a05:690c:4c01:b0:70e:326:6aeb with SMTP id
- 00721157ae682-70f8b506cd2mr3519837b3.10.1748475906107; Wed, 28 May 2025
- 16:45:06 -0700 (PDT)
+ AJvYcCWi+0COlHnaAQASdlvLt8idK6ee/ELf1KNccQYByIqrTdUSK1vLCcvHibbeMYiSSCWHx233c5J/Bgg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNCIWUsrGtHhzciYSAmTkcE7JpQWVHnOB1tVJjWyWe3UcRU7cB
+ P5i4dd4NqaJdlCJPPnarHlpLz0SrHPGFlRwI4aTz2Mze7ZB0/23LVKSYRBwSYjGJOl9pR0n3KBv
+ zGPRanDodRIIvyXhG7MLiS+iKLLivMxNlE4LMgFcCZyHmgl/dmynyvYu12GxDXjQZ/lgEpVdssP
+ 8JXmDr/3goxEzy8x6sSxhUB+4empxlktDflJ/2JevcPvk+
+X-Gm-Gg: ASbGncvdQl+qpQUJT/lMHWXJFx4i2JGqXASrXyDJMaTQvZ0wadgPJjMXR55Z9djKbxa
+ wBiOAlElPzRoUvv8sEBXIWHgQNAgSgiZtnmT9gFGZr0kVhGMMcOf5BHuyjFXBwn6C98Y=
+X-Received: by 2002:a05:690c:7405:b0:709:197d:5d3c with SMTP id
+ 00721157ae682-70e2d985c22mr263039367b3.11.1748476206385; 
+ Wed, 28 May 2025 16:50:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGa9o++vp5p+GJEMbZq+oxyCFoGRMcllh5M+KTGZO5AjVtv4kuR2HILfWR6sK1VnpdcKNlos6leRa9FaUcKYiY=
+X-Received: by 2002:a05:690c:7405:b0:709:197d:5d3c with SMTP id
+ 00721157ae682-70e2d985c22mr263038927b3.11.1748476206041; Wed, 28 May 2025
+ 16:50:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250516-drm-bridge-alloc-doc-test-v8-0-7e356fd58ba5@bootlin.com>
- <20250516-drm-bridge-alloc-doc-test-v8-1-7e356fd58ba5@bootlin.com>
-In-Reply-To: <20250516-drm-bridge-alloc-doc-test-v8-1-7e356fd58ba5@bootlin.com>
+ <20250516-drm-bridge-alloc-doc-test-v8-2-7e356fd58ba5@bootlin.com>
+ <20250522-hot-hopeful-smilodon-dfb5b6@houat> <20250526135141.5a84185c@booty>
+In-Reply-To: <20250526135141.5a84185c@booty>
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 28 May 2025 18:41:28 -0400
-X-Gm-Features: AX0GCFuR1Zj3-VyXi4YDmSYrL27olyB4mGZGJf-XwpZmL7rlVD5bjFPkX_KXJUw
-Message-ID: <CAN9Xe3Shv_CuVB+8YpfGksQozYoBmP9WffZvQ48hAJEiE9ebmg@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] drm/tests: bridge: convert to
- devm_drm_bridge_alloc() API
+Date: Wed, 28 May 2025 18:46:27 -0400
+X-Gm-Features: AX0GCFugOzOsoPqaQV4LXCQwMlziRA1gEDBdCZ3EagHDMzbUCucdzzT-5OgK7dE
+Message-ID: <CAN9Xe3Tc-n9e5Hu+CD6-_WgrsrexCk7GjH=khoGYsHNR3rqzAg@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] dmr/bridge: add a .destroy func
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
  Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -86,9 +87,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: R-yTsDVGVQD1Wn9DokEbHVEia65rJmF5E2G5j_HgnsM_1748475906
+X-Mimecast-MFC-PROC-ID: eV_U15oKXcdJG4u3_rh9oDHO1_EZHtbepyI5VxMVsMQ_1748476206
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000048405a06363ac5f1"
+Content-Type: multipart/alternative; boundary="00000000000028dfc106363ad786"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,715 +105,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000048405a06363ac5f1
+--00000000000028dfc106363ad786
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 16, 2025 at 12:48=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootl=
-in.com>
-wrote:
-
-> Use the new DRM bridge allocation API, which is the only supported now, f=
-or
-> the kunit tests.
->
-> This change is more massive than for the typical DRM bridge driver becaus=
-e
-> struct drm_bridge_init_priv currently embeds a struct drm_bridge, which i=
-s
-> not supported anymore. We new have to use devm_drm_bridge_alloc() to
->
-                                            typo ^^^s/new/now.
+Luca, while you are sending a new revision, the patch subject says dmr
+instead of drm. Kindly make that change.
 
 Thanks,
 Anusha
 
-dynamically allocate a "private driver struct", which is a bit awkward here
-> because there is no real bridge driver. Thus let's add a "dummy" DRM brid=
-ge
-> struct to represent it.
+
+On Mon, May 26, 2025 at 7:51=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
+n.com>
+wrote:
+
+> Hi Maxime,
 >
-> As a nice cleanup we can now move the enable_count and disable_count
-> members, which are counting bridge-specific events, into the new "private
-> driver struct" (and avoid adding new unnecessary indirections).
+> On Thu, 22 May 2025 17:43:37 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
 >
-> Also add a trivial bridge_to_dummy_bridge() just like many drivers do.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->
-> This patch was added in v8.
-> ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 95
-> +++++++++++++++++++--------------
->  1 file changed, 55 insertions(+), 40 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c
-> b/drivers/gpu/drm/tests/drm_bridge_test.c
-> index
-> ff88ec2e911c9cc9a718483f09d4c764f45f991a..f3a625c536f610dc8560b56531056df=
-7c613f564
+> > On Fri, May 16, 2025 at 06:48:38PM +0200, Luca Ceresoli wrote:
+> > > Some users of DRM bridges may need to execute specific code just befo=
+re
+> > > deallocation.
+> > >
+> > > As of now the only known user would be KUnit tests.
+> > >
+> > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > >
+> > > ---
+> > >
+> > > This patch is new in v8. The .destroy callback had appeared in v5 as
+> well
+> > > [5], but as part of a larger patch and for different reason that do n=
+ot
+> > > apply anymore.
+> > >
+> > > [5]
+> https://lore.kernel.org/all/20241231-hotplug-drm-bridge-v5-3-173065a1ece1=
+@bootlin.com/#t
+> > > ---
+> > >  drivers/gpu/drm/drm_bridge.c |  2 ++
+> > >  include/drm/drm_bridge.h     | 10 ++++++++++
+> > >  2 files changed, 12 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_bridge.c
+> b/drivers/gpu/drm/drm_bridge.c
+> > > index
+> b4c89ec01998b849018ce031c7cd84614e65e710..6185cb29fe3162264f0912c09c205fb=
+467975dee
 > 100644
-> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
-> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-> @@ -10,31 +10,45 @@
+> > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > @@ -203,6 +203,8 @@ static void __drm_bridge_free(struct kref *kref)
+> > >  {
+> > >     struct drm_bridge *bridge =3D container_of(kref, struct drm_bridg=
+e,
+> refcount);
+> > >
+> > > +   if (bridge->funcs->destroy)
+> > > +           bridge->funcs->destroy(bridge);
+> > >     kfree(bridge->container);
+> > >  }
+> > >
+> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > > index
+> 4e418a29a9ff9d014d6ac0910a5d9bcf7118195e..3ccd493faa580845c2ed1166f398eca=
+27b464261
+> 100644
+> > > --- a/include/drm/drm_bridge.h
+> > > +++ b/include/drm/drm_bridge.h
+> > > @@ -86,6 +86,16 @@ struct drm_bridge_funcs {
+> > >      */
+> > >     void (*detach)(struct drm_bridge *bridge);
+> > >
+> > > +   /**
+> > > +    * @destroy:
+> > > +    *
+> > > +    * This callback is invoked when the bridge is about to be
+> > > +    * deallocated.
+> > > +    *
+> > > +    * The @destroy callback is optional.
+> > > +    */
+> > > +   void (*destroy)(struct drm_bridge *bridge);
+> > > +
+> >
+> > destroy is before detach in alphabetical order, but otherwise it looks
+> > good to me.
 >
->  #include <kunit/test.h>
+> I saw the struct is not alpha-ordered right now, so I did not get it
+> should be, and it looked like keeping .attach and .detach nearby would
+> be good.
 >
-> +/*
-> + * Mimick the typical struct defined by a bridge driver, which embeds a
-> + * bridge plus other fields.
-> + *
-> + * Having at least one member before @bridge ensures we test non-zero
-> + * @bridge offset.
-> + */
-> +struct dummy_drm_bridge {
-> +       unsigned int enable_count;
-> +       unsigned int disable_count;
-> +       struct drm_bridge bridge;
-> +};
-> +
->  struct drm_bridge_init_priv {
->         struct drm_device drm;
->         struct drm_plane *plane;
->         struct drm_crtc *crtc;
->         struct drm_encoder encoder;
-> -       struct drm_bridge bridge;
-> +       struct dummy_drm_bridge *test_bridge;
->         struct drm_connector *connector;
-> -       unsigned int enable_count;
-> -       unsigned int disable_count;
->  };
+> > Once fixed,
+> > Acked-by: Maxime Ripard <mripard@kernel.org>
 >
-> +static struct dummy_drm_bridge *bridge_to_dummy_bridge(struct drm_bridge
-> *bridge)
-> +{
-> +       return container_of(bridge, struct dummy_drm_bridge, bridge);
-> +}
-> +
->  static void drm_test_bridge_enable(struct drm_bridge *bridge)
->  {
-> -       struct drm_bridge_init_priv *priv =3D
-> -               container_of(bridge, struct drm_bridge_init_priv, bridge)=
-;
-> +       struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(brid=
-ge);
+> OK, will send new iteration with .destroy before .detach, thanks for
+> the review.
 >
-> -       priv->enable_count++;
-> +       dummy_br->enable_count++;
->  }
->
->  static void drm_test_bridge_disable(struct drm_bridge *bridge)
->  {
-> -       struct drm_bridge_init_priv *priv =3D
-> -               container_of(bridge, struct drm_bridge_init_priv, bridge)=
-;
-> +       struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(brid=
-ge);
->
-> -       priv->disable_count++;
-> +       dummy_br->disable_count++;
->  }
->
->  static const struct drm_bridge_funcs drm_test_bridge_legacy_funcs =3D {
-> @@ -45,19 +59,17 @@ static const struct drm_bridge_funcs
-> drm_test_bridge_legacy_funcs =3D {
->  static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,
->                                           struct drm_atomic_state *state)
->  {
-> -       struct drm_bridge_init_priv *priv =3D
-> -               container_of(bridge, struct drm_bridge_init_priv, bridge)=
-;
-> +       struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(brid=
-ge);
->
-> -       priv->enable_count++;
-> +       dummy_br->enable_count++;
->  }
->
->  static void drm_test_bridge_atomic_disable(struct drm_bridge *bridge,
->                                            struct drm_atomic_state *state=
-)
->  {
-> -       struct drm_bridge_init_priv *priv =3D
-> -               container_of(bridge, struct drm_bridge_init_priv, bridge)=
-;
-> +       struct dummy_drm_bridge *dummy_br =3D bridge_to_dummy_bridge(brid=
-ge);
->
-> -       priv->disable_count++;
-> +       dummy_br->disable_count++;
->  }
->
->  static const struct drm_bridge_funcs drm_test_bridge_atomic_funcs =3D {
-> @@ -102,6 +114,10 @@ drm_test_bridge_init(struct kunit *test, const struc=
-t
-> drm_bridge_funcs *funcs)
->         if (IS_ERR(priv))
->                 return ERR_CAST(priv);
->
-> +       priv->test_bridge =3D devm_drm_bridge_alloc(dev, struct
-> dummy_drm_bridge, bridge, funcs);
-> +       if (IS_ERR(priv->test_bridge))
-> +               return ERR_CAST(priv->test_bridge);
-> +
->         drm =3D &priv->drm;
->         priv->plane =3D drm_kunit_helper_create_primary_plane(test, drm,
->                                                             NULL,
-> @@ -125,9 +141,8 @@ drm_test_bridge_init(struct kunit *test, const struct
-> drm_bridge_funcs *funcs)
->
->         enc->possible_crtcs =3D drm_crtc_mask(priv->crtc);
->
-> -       bridge =3D &priv->bridge;
-> +       bridge =3D &priv->test_bridge->bridge;
->         bridge->type =3D DRM_MODE_CONNECTOR_VIRTUAL;
-> -       bridge->funcs =3D funcs;
->
->         ret =3D drm_kunit_bridge_add(test, bridge);
->         if (ret)
-> @@ -173,7 +188,7 @@ static void
-> drm_test_drm_bridge_get_current_state_atomic(struct kunit *test)
->         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
->
->  retry_commit:
-> -       bridge =3D &priv->bridge;
-> +       bridge =3D &priv->test_bridge->bridge;
->         bridge_state =3D drm_atomic_get_bridge_state(state, bridge);
->         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bridge_state);
->
-> @@ -228,7 +243,7 @@ static void
-> drm_test_drm_bridge_get_current_state_legacy(struct kunit *test)
->          * locking. The function would return NULL in all cases anyway,
->          * so we don't really have any concurrency to worry about.
->          */
-> -       bridge =3D &priv->bridge;
-> +       bridge =3D &priv->test_bridge->bridge;
->         KUNIT_EXPECT_NULL(test, drm_bridge_get_current_state(bridge));
->  }
->
-> @@ -253,7 +268,7 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
->         struct drm_modeset_acquire_ctx ctx;
->         struct drm_bridge_init_priv *priv;
->         struct drm_display_mode *mode;
-> -       struct drm_bridge *bridge;
-> +       struct dummy_drm_bridge *dummy_br;
->         int ret;
->
->         priv =3D drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs=
-);
-> @@ -279,14 +294,14 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
->         drm_modeset_drop_locks(&ctx);
->         drm_modeset_acquire_fini(&ctx);
->
-> -       bridge =3D &priv->bridge;
-> -       KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
-> -       KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-> +       dummy_br =3D priv->test_bridge;
-> +       KUNIT_ASSERT_EQ(test, dummy_br->enable_count, 1);
-> +       KUNIT_ASSERT_EQ(test, dummy_br->disable_count, 0);
->
->         drm_modeset_acquire_init(&ctx, 0);
->
->  retry_reset:
-> -       ret =3D drm_bridge_helper_reset_crtc(bridge, &ctx);
-> +       ret =3D drm_bridge_helper_reset_crtc(&dummy_br->bridge, &ctx);
->         if (ret =3D=3D -EDEADLK) {
->                 drm_modeset_backoff(&ctx);
->                 goto retry_reset;
-> @@ -296,8 +311,8 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
->         drm_modeset_drop_locks(&ctx);
->         drm_modeset_acquire_fini(&ctx);
->
-> -       KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
-> -       KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->enable_count, 2);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->disable_count, 1);
->  }
->
->  /*
-> @@ -309,7 +324,7 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
->         struct drm_modeset_acquire_ctx ctx;
->         struct drm_bridge_init_priv *priv;
->         struct drm_display_mode *mode;
-> -       struct drm_bridge *bridge;
-> +       struct dummy_drm_bridge *dummy_br;
->         int ret;
->
->         priv =3D drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs=
-);
-> @@ -318,14 +333,14 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
->         mode =3D drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16=
-);
->         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
->
-> -       bridge =3D &priv->bridge;
-> -       KUNIT_ASSERT_EQ(test, priv->enable_count, 0);
-> -       KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-> +       dummy_br =3D priv->test_bridge;
-> +       KUNIT_ASSERT_EQ(test, dummy_br->enable_count, 0);
-> +       KUNIT_ASSERT_EQ(test, dummy_br->disable_count, 0);
->
->         drm_modeset_acquire_init(&ctx, 0);
->
->  retry_reset:
-> -       ret =3D drm_bridge_helper_reset_crtc(bridge, &ctx);
-> +       ret =3D drm_bridge_helper_reset_crtc(&dummy_br->bridge, &ctx);
->         if (ret =3D=3D -EDEADLK) {
->                 drm_modeset_backoff(&ctx);
->                 goto retry_reset;
-> @@ -335,8 +350,8 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
->         drm_modeset_drop_locks(&ctx);
->         drm_modeset_acquire_fini(&ctx);
->
-> -       KUNIT_EXPECT_EQ(test, priv->enable_count, 0);
-> -       KUNIT_EXPECT_EQ(test, priv->disable_count, 0);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->enable_count, 0);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->disable_count, 0);
->  }
->
->  /*
-> @@ -348,7 +363,7 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
->         struct drm_modeset_acquire_ctx ctx;
->         struct drm_bridge_init_priv *priv;
->         struct drm_display_mode *mode;
-> -       struct drm_bridge *bridge;
-> +       struct dummy_drm_bridge *dummy_br;
->         int ret;
->
->         priv =3D drm_test_bridge_init(test, &drm_test_bridge_legacy_funcs=
-);
-> @@ -374,14 +389,14 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
->         drm_modeset_drop_locks(&ctx);
->         drm_modeset_acquire_fini(&ctx);
->
-> -       bridge =3D &priv->bridge;
-> -       KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
-> -       KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-> +       dummy_br =3D priv->test_bridge;
-> +       KUNIT_ASSERT_EQ(test, dummy_br->enable_count, 1);
-> +       KUNIT_ASSERT_EQ(test, dummy_br->disable_count, 0);
->
->         drm_modeset_acquire_init(&ctx, 0);
->
->  retry_reset:
-> -       ret =3D drm_bridge_helper_reset_crtc(bridge, &ctx);
-> +       ret =3D drm_bridge_helper_reset_crtc(&dummy_br->bridge, &ctx);
->         if (ret =3D=3D -EDEADLK) {
->                 drm_modeset_backoff(&ctx);
->                 goto retry_reset;
-> @@ -391,8 +406,8 @@ static void
-> drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
->         drm_modeset_drop_locks(&ctx);
->         drm_modeset_acquire_fini(&ctx);
->
-> -       KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
-> -       KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->enable_count, 2);
-> +       KUNIT_EXPECT_EQ(test, dummy_br->disable_count, 1);
->  }
->
->  static struct kunit_case drm_bridge_helper_reset_crtc_tests[] =3D {
+> Luca
 >
 > --
-> 2.49.0
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 >
 >
 
---00000000000048405a06363ac5f1
+--00000000000028dfc106363ad786
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 16,=
- 2025 at 12:48=E2=80=AFPM Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli=
-@bootlin.com">luca.ceresoli@bootlin.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">Use the new DRM bridge allocation AP=
-I, which is the only supported now, for<br>
-the kunit tests.<br>
+<div dir=3D"ltr"><div>Luca, while you are sending a new revision, the patch=
+ subject says dmr instead of drm. Kindly make that change.</div><div><br></=
+div><div>Thanks,</div><div>Anusha<br></div><div><br></div><br><div class=3D=
+"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">O=
+n Mon, May 26, 2025 at 7:51=E2=80=AFAM Luca Ceresoli &lt;<a href=3D"mailto:=
+luca.ceresoli@bootlin.com">luca.ceresoli@bootlin.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Maxime,<br>
 <br>
-This change is more massive than for the typical DRM bridge driver because<=
+On Thu, 22 May 2025 17:43:37 +0200<br>
+Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.org" target=3D"_blank">m=
+ripard@kernel.org</a>&gt; wrote:<br>
+<br>
+&gt; On Fri, May 16, 2025 at 06:48:38PM +0200, Luca Ceresoli wrote:<br>
+&gt; &gt; Some users of DRM bridges may need to execute specific code just =
+before<br>
+&gt; &gt; deallocation.<br>
+&gt; &gt; <br>
+&gt; &gt; As of now the only known user would be KUnit tests.<br>
+&gt; &gt; <br>
+&gt; &gt; Suggested-by: Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.=
+org" target=3D"_blank">mripard@kernel.org</a>&gt;<br>
+&gt; &gt; Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@=
+bootlin.com" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; ---<br>
+&gt; &gt; <br>
+&gt; &gt; This patch is new in v8. The .destroy callback had appeared in v5=
+ as well<br>
+&gt; &gt; [5], but as part of a larger patch and for different reason that =
+do not<br>
+&gt; &gt; apply anymore.<br>
+&gt; &gt; <br>
+&gt; &gt; [5] <a href=3D"https://lore.kernel.org/all/20241231-hotplug-drm-b=
+ridge-v5-3-173065a1ece1@bootlin.com/#t" rel=3D"noreferrer" target=3D"_blank=
+">https://lore.kernel.org/all/20241231-hotplug-drm-bridge-v5-3-173065a1ece1=
+@bootlin.com/#t</a><br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 drivers/gpu/drm/drm_bridge.c |=C2=A0 2 ++<br>
+&gt; &gt;=C2=A0 include/drm/drm_bridge.h=C2=A0 =C2=A0 =C2=A0| 10 ++++++++++=
+<br>
+&gt; &gt;=C2=A0 2 files changed, 12 insertions(+)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_b=
+ridge.c<br>
+&gt; &gt; index b4c89ec01998b849018ce031c7cd84614e65e710..6185cb29fe3162264=
+f0912c09c205fb467975dee 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/drm_bridge.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/drm_bridge.c<br>
+&gt; &gt; @@ -203,6 +203,8 @@ static void __drm_bridge_free(struct kref *kr=
+ef)<br>
+&gt; &gt;=C2=A0 {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0struct drm_bridge *bridge =3D container_of(kre=
+f, struct drm_bridge, refcount);<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt; +=C2=A0 =C2=A0if (bridge-&gt;funcs-&gt;destroy)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bridge-&gt;funcs-&gt;de=
+stroy(bridge);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0kfree(bridge-&gt;container);<br>
+&gt; &gt;=C2=A0 }<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt; diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h<=
 br>
-struct drm_bridge_init_priv currently embeds a struct drm_bridge, which is<=
-br>
-not supported anymore. We new have to use devm_drm_bridge_alloc() to<br></b=
-lockquote><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 typo ^^^s/new/now.</div><div><br></div><div>Thanks,</d=
-iv><div>Anusha</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-dynamically allocate a &quot;private driver struct&quot;, which is a bit aw=
-kward here<br>
-because there is no real bridge driver. Thus let&#39;s add a &quot;dummy&qu=
-ot; DRM bridge<br>
-struct to represent it.<br>
+&gt; &gt; index 4e418a29a9ff9d014d6ac0910a5d9bcf7118195e..3ccd493faa580845c=
+2ed1166f398eca27b464261 100644<br>
+&gt; &gt; --- a/include/drm/drm_bridge.h<br>
+&gt; &gt; +++ b/include/drm/drm_bridge.h<br>
+&gt; &gt; @@ -86,6 +86,16 @@ struct drm_bridge_funcs {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0void (*detach)(struct drm_bridge *bridge);<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt; +=C2=A0 =C2=A0/**<br>
+&gt; &gt; +=C2=A0 =C2=A0 * @destroy:<br>
+&gt; &gt; +=C2=A0 =C2=A0 *<br>
+&gt; &gt; +=C2=A0 =C2=A0 * This callback is invoked when the bridge is abou=
+t to be<br>
+&gt; &gt; +=C2=A0 =C2=A0 * deallocated.<br>
+&gt; &gt; +=C2=A0 =C2=A0 *<br>
+&gt; &gt; +=C2=A0 =C2=A0 * The @destroy callback is optional.<br>
+&gt; &gt; +=C2=A0 =C2=A0 */<br>
+&gt; &gt; +=C2=A0 =C2=A0void (*destroy)(struct drm_bridge *bridge);<br>
+&gt; &gt; +=C2=A0 <br>
+&gt; <br>
+&gt; destroy is before detach in alphabetical order, but otherwise it looks=
 <br>
-As a nice cleanup we can now move the enable_count and disable_count<br>
-members, which are counting bridge-specific events, into the new &quot;priv=
-ate<br>
-driver struct&quot; (and avoid adding new unnecessary indirections).<br>
+&gt; good to me.<br>
 <br>
-Also add a trivial bridge_to_dummy_bridge() just like many drivers do.<br>
+I saw the struct is not alpha-ordered right now, so I did not get it<br>
+should be, and it looked like keeping .attach and .detach nearby would<br>
+be good.<br>
 <br>
-Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@bootlin.co=
-m" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
+&gt; Once fixed,<br>
+&gt; Acked-by: Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.org" targ=
+et=3D"_blank">mripard@kernel.org</a>&gt;<br>
 <br>
----<br>
+OK, will send new iteration with .destroy before .detach, thanks for<br>
+the review.<br>
 <br>
-This patch was added in v8.<br>
----<br>
-=C2=A0drivers/gpu/drm/tests/drm_bridge_test.c | 95 +++++++++++++++++++-----=
----------<br>
-=C2=A01 file changed, 55 insertions(+), 40 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/test=
-s/drm_bridge_test.c<br>
-index ff88ec2e911c9cc9a718483f09d4c764f45f991a..f3a625c536f610dc8560b565310=
-56df7c613f564 100644<br>
---- a/drivers/gpu/drm/tests/drm_bridge_test.c<br>
-+++ b/drivers/gpu/drm/tests/drm_bridge_test.c<br>
-@@ -10,31 +10,45 @@<br>
-<br>
-=C2=A0#include &lt;kunit/test.h&gt;<br>
-<br>
-+/*<br>
-+ * Mimick the typical struct defined by a bridge driver, which embeds a<br=
->
-+ * bridge plus other fields.<br>
-+ *<br>
-+ * Having at least one member before @bridge ensures we test non-zero<br>
-+ * @bridge offset.<br>
-+ */<br>
-+struct dummy_drm_bridge {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int enable_count;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int disable_count;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge bridge;<br>
-+};<br>
-+<br>
-=C2=A0struct drm_bridge_init_priv {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_device drm;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_plane *plane;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_crtc *crtc;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_encoder encoder;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *test_bridge;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_connector *connector;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int enable_count;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int disable_count;<br>
-=C2=A0};<br>
-<br>
-+static struct dummy_drm_bridge *bridge_to_dummy_bridge(struct drm_bridge *=
-bridge)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return container_of(bridge, struct dummy_drm_br=
-idge, bridge);<br>
-+}<br>
-+<br>
-=C2=A0static void drm_test_bridge_enable(struct drm_bridge *bridge)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge_init_priv *priv =3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0container_of(bridge=
-, struct drm_bridge_init_priv, bridge);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br =3D bridge_to=
-_dummy_bridge(bridge);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;enable_count++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br-&gt;enable_count++;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void drm_test_bridge_disable(struct drm_bridge *bridge)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge_init_priv *priv =3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0container_of(bridge=
-, struct drm_bridge_init_priv, bridge);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br =3D bridge_to=
-_dummy_bridge(bridge);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;disable_count++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br-&gt;disable_count++;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static const struct drm_bridge_funcs drm_test_bridge_legacy_funcs =3D=
- {<br>
-@@ -45,19 +59,17 @@ static const struct drm_bridge_funcs drm_test_bridge_le=
-gacy_funcs =3D {<br>
-=C2=A0static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
-truct drm_atomic_state *state)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge_init_priv *priv =3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0container_of(bridge=
-, struct drm_bridge_init_priv, bridge);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br =3D bridge_to=
-_dummy_bridge(bridge);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;enable_count++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br-&gt;enable_count++;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void drm_test_bridge_atomic_disable(struct drm_bridge *bridge,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0struct drm_atomic_state *state)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge_init_priv *priv =3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0container_of(bridge=
-, struct drm_bridge_init_priv, bridge);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br =3D bridge_to=
-_dummy_bridge(bridge);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;disable_count++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br-&gt;disable_count++;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static const struct drm_bridge_funcs drm_test_bridge_atomic_funcs =3D=
- {<br>
-@@ -102,6 +114,10 @@ drm_test_bridge_init(struct kunit *test, const struct =
-drm_bridge_funcs *funcs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_ERR(priv))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ERR_CAST(pri=
-v);<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;test_bridge =3D devm_drm_bridge_alloc(=
-dev, struct dummy_drm_bridge, bridge, funcs);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(priv-&gt;test_bridge))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_CAST(pri=
-v-&gt;test_bridge);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm =3D &amp;priv-&gt;drm;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;plane =3D drm_kunit_helper_create_prim=
-ary_plane(test, drm,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL,<br>
-@@ -125,9 +141,8 @@ drm_test_bridge_init(struct kunit *test, const struct d=
-rm_bridge_funcs *funcs)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 enc-&gt;possible_crtcs =3D drm_crtc_mask(priv-&=
-gt;crtc);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;test_bridge-&gt;bridge=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bridge-&gt;type =3D DRM_MODE_CONNECTOR_VIRTUAL;=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge-&gt;funcs =3D funcs;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D drm_kunit_bridge_add(test, bridge);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
-@@ -173,7 +188,7 @@ static void drm_test_drm_bridge_get_current_state_atomi=
-c(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);<br>
-<br>
-=C2=A0retry_commit:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;test_bridge-&gt;bridge=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bridge_state =3D drm_atomic_get_bridge_state(st=
-ate, bridge);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bridge_state=
-);<br>
-<br>
-@@ -228,7 +243,7 @@ static void drm_test_drm_bridge_get_current_state_legac=
-y(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* locking. The function would return NULL=
- in all cases anyway,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* so we don&#39;t really have any concurr=
-ency to worry about.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;test_bridge-&gt;bridge=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 KUNIT_EXPECT_NULL(test, drm_bridge_get_current_=
-state(bridge));<br>
-=C2=A0}<br>
-<br>
-@@ -253,7 +268,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomi=
-c(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_modeset_acquire_ctx ctx;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge_init_priv *priv;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_display_mode *mode;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge *bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv =3D drm_test_bridge_init(test, &amp;drm_te=
-st_bridge_atomic_funcs);<br>
-@@ -279,14 +294,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_ato=
-mic(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_drop_locks(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_fini(&amp;ctx);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;enable_count, 1)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;disable_count, 0=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br =3D priv-&gt;test_bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;enable_count=
-, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;disable_coun=
-t, 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_init(&amp;ctx, 0);<br>
-<br>
-=C2=A0retry_reset:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(bridge, &a=
-mp;ctx);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(&amp;dummy=
-_br-&gt;bridge, &amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -EDEADLK) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_backoff=
-(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto retry_reset;<b=
-r>
-@@ -296,8 +311,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomi=
-c(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_drop_locks(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_fini(&amp;ctx);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;enable_count, 2)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;disable_count, 1=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;enable_count=
-, 2);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;disable_coun=
-t, 1);<br>
-=C2=A0}<br>
-<br>
-=C2=A0/*<br>
-@@ -309,7 +324,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomi=
-c_disabled(struct kunit *<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_modeset_acquire_ctx ctx;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge_init_priv *priv;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_display_mode *mode;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge *bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv =3D drm_test_bridge_init(test, &amp;drm_te=
-st_bridge_atomic_funcs);<br>
-@@ -318,14 +333,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_ato=
-mic_disabled(struct kunit *<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mode =3D drm_kunit_display_mode_from_cea_vic(te=
-st, &amp;priv-&gt;drm, 16);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;enable_count, 0)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;disable_count, 0=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br =3D priv-&gt;test_bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;enable_count=
-, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;disable_coun=
-t, 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_init(&amp;ctx, 0);<br>
-<br>
-=C2=A0retry_reset:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(bridge, &a=
-mp;ctx);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(&amp;dummy=
-_br-&gt;bridge, &amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -EDEADLK) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_backoff=
-(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto retry_reset;<b=
-r>
-@@ -335,8 +350,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomi=
-c_disabled(struct kunit *<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_drop_locks(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_fini(&amp;ctx);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;enable_count, 0)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;disable_count, 0=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;enable_count=
-, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;disable_coun=
-t, 0);<br>
-=C2=A0}<br>
-<br>
-=C2=A0/*<br>
-@@ -348,7 +363,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_legac=
-y(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_modeset_acquire_ctx ctx;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge_init_priv *priv;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_display_mode *mode;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_bridge *bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct dummy_drm_bridge *dummy_br;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv =3D drm_test_bridge_init(test, &amp;drm_te=
-st_bridge_legacy_funcs);<br>
-@@ -374,14 +389,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_leg=
-acy(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_drop_locks(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_fini(&amp;ctx);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0bridge =3D &amp;priv-&gt;bridge;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;enable_count, 1)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, priv-&gt;disable_count, 0=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dummy_br =3D priv-&gt;test_bridge;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;enable_count=
-, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_ASSERT_EQ(test, dummy_br-&gt;disable_coun=
-t, 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_init(&amp;ctx, 0);<br>
-<br>
-=C2=A0retry_reset:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(bridge, &a=
-mp;ctx);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_bridge_helper_reset_crtc(&amp;dummy=
-_br-&gt;bridge, &amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -EDEADLK) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_backoff=
-(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto retry_reset;<b=
-r>
-@@ -391,8 +406,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_legac=
-y(struct kunit *test)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_drop_locks(&amp;ctx);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_modeset_acquire_fini(&amp;ctx);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;enable_count, 2)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, priv-&gt;disable_count, 1=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;enable_count=
-, 2);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_EQ(test, dummy_br-&gt;disable_coun=
-t, 1);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static struct kunit_case drm_bridge_helper_reset_crtc_tests[] =3D {<b=
-r>
+Luca<br>
 <br>
 -- <br>
-2.49.0<br>
+Luca Ceresoli, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
 <br>
 </blockquote></div></div>
 
---00000000000048405a06363ac5f1--
+--00000000000028dfc106363ad786--
 
