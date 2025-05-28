@@ -2,63 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693DAAC79C4
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 09:27:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E462AC7A6C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 10:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0F710E710;
-	Thu, 29 May 2025 07:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE17310E046;
+	Thu, 29 May 2025 08:52:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qMpEeeVo";
+	dkim=pass (2048-bit key; unprotected) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="mJX0QcR6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDEF610E30C;
- Thu, 29 May 2025 07:27:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C2BDA5C55B4;
- Thu, 29 May 2025 07:25:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 530A4C4CEE7;
- Thu, 29 May 2025 07:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748503660;
- bh=s6s6ARYurnzqxgQbwLV10a+xTKOthHY4uyCNDCpcO+Y=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=qMpEeeVoObJ4LXrmnAI6HhhTQnWyL4trC4W2xAaEynolLiOyEIaXO9yrQPdG/gcKj
- zI4Q23eUy2bD7gfPx6tMhtQaRvyCnHGvwVon2VSerZc0qxt4Rp/QjxKEmqSUKa2DBd
- YkYE1+w6BAxQzA1FR41e5JsBHzNRgP2r/jHRrWDfc+5qknnAG/7aF2XvZAUiRC4qNq
- 5nmKqyc39jos7ZK6dRgaeO6AHW1SR23eFDi0FnZI8+Lg7JMwKZcW9vKkot8Quhs+Y5
- pwaFtzUPhcmpiT5Oq+t2wdOSV174YxaroTBIp5vYK7Fh25Yy2YdYHjk+OqVGtC6OEE
- kdmsCvhTsnWEg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 29 May 2025 09:27:33 +0200
-Message-Id: <DA8GTD7LT7KO.1A3LBQGEQTCEW@kernel.org>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 04/20] rust: add new `num` module with useful integer
- operations
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <benno.lossin@proton.me>, "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-X-Mailer: aerc 0.20.1
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
- <DA82KFLNAOG7.R7YT4BHCLNZQ@kernel.org>
- <DA88YHU4AZT7.B8JGZHW9P9L9@nvidia.com>
-In-Reply-To: <DA88YHU4AZT7.B8JGZHW9P9L9@nvidia.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 377AA10E63E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:43:26 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43edb40f357so246715e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 08:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748447005;
+ x=1749051805; darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
+ b=mJX0QcR6YyETwQ11AzVsK2064oUni1eY9FXrPsxqW3zeQ3qeRYLSjQvpIqqoPJ8vbb
+ pf4NhfYR+t+k+49NwVCKzuaKHivWgcSS/osaUMg1KerCC9xTULDFUfL9SPKKYtL4+tZr
+ yYCDvz2u2cACL9ZBLwgwf6Plz3yS6MriVY8vsqqFzupcW9XepJCI0UeBEbll5QuVGluM
+ bSsV5weVriallYGzwhPJRPv5gJxNoieXJFpdaBvgXbK8tTbIKFNp+owJ8qbqf/TZZZR2
+ 0q74ubvtwCtZBAk3OdSLAYC8Dsf84dZn7iaw7vo45cmPFJmqahabqmz+rPFB2txeC63J
+ meKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748447005; x=1749051805;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
+ b=aBTOL/DIg6tgLRWmMzPWtsY+f60hc0OV6px4NsLny4VMN/h7saaX95rwcLlUD9PbyA
+ oVUeiaYSon6bND8CD+ovprQDWF5LDMuFcGnEZiR+h9EgLSOOfMM0MmKVdUDMd9UhOoyg
+ sXxA12DjOzy9lajIE+y5yjoUO7g3Q44ViyHewPv3zDtIHvzJEBw3snqNFb68H4srp5qV
+ /QJuGhzy9U9yZMp6Cndbdfhw54QgFgkt/W04JwLVLyBjTBuUFbTB6vSWzj2enikuznBb
+ BFGTbrgVY6zJit8/QAhvlNkU8yOgS4sCvT1zyJvfEFYfIWVP1RmAOiK9q8PujIJAcTbG
+ DkvQ==
+X-Gm-Message-State: AOJu0YwLrNO/3GCAvd4trW0odvVkyIszXZfYQdyhOjBtMuYpIPEjyIf2
+ ZpiEsxTWtMdkuphd3Z7duh7Cr/L22mVc+LlwWV3NbUkky1a9S0fmbTHiK1CKhIrSX9E=
+X-Gm-Gg: ASbGnct+uUj5ZjyJpk9NSj8cv2Op/tFZmObecBwjQOUAr2WzTAjaqrXT1WTQsu8fHQ6
+ NW73GIsiF6LKxO4aqg1ebbsMOkRhCWceKC1T/sPMtipkws0FX7VZ/I1RATcB2dIAZSRY3NTtgH6
+ 5pr+pubZbL5iom6D/AvBvsgBM2+AMQ82rwuUDAwazz2vLjUk8KoNdjxKdcirQp3HK2yUBk2jAQk
+ k0KvfSmG3S6IaGWGRBE8LLNs0ys0uaL7bN8F8zpHAzgaL7eX05XruwcjGt+Hx3zBrDRBHTHgkBo
+ ZT4qZz0C1ctaXFIG6BsoSOEn0JOhxQVDwYC+NaBQPl/ZmIXYkw2EnbI20JlrtH9+a6Apy1uY+Fu
+ bI+H0ZUu3H8FV84vtuslG9mjdaWuMMFl1t7v2VFaBwdo=
+X-Google-Smtp-Source: AGHT+IFbbv0BZAtT3+HnJDyyTNgCMRJZb9KZLNLH4dIHpFGSJZsnxop7uFuUlZaFtez53aVT2kI+Hg==
+X-Received: by 2002:a05:600c:6214:b0:43c:e467:d6ce with SMTP id
+ 5b1f17b1804b1-44cc05358b3mr170613645e9.4.1748447004994; 
+ Wed, 28 May 2025 08:43:24 -0700 (PDT)
+Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be.
+ [194.78.124.253]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a4eacd6f1bsm1769856f8f.80.2025.05.28.08.43.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 May 2025 08:43:24 -0700 (PDT)
+From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Date: Wed, 28 May 2025 17:42:30 +0200
+Subject: [PATCH] staging: fbtft: add invert display parameter
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250528-ili9341-invert-dtb-v1-1-080202809332@openpixelsystems.org>
+X-B4-Tracking: v=1; b=H4sIAOUuN2gC/x3MTQqAIBBA4avErBswS/u5SrSoHGsgLFQiCO+et
+ PwW770QyDMFGIoXPN0c+HQZVVnAus9uI2STDVJIJZTskA/u66ZCdjf5iCYuKNpZaaVJG2sgh5c
+ ny88/HaeUPolD9bRkAAAA
+X-Change-ID: 20250528-ili9341-invert-dtb-07a5656e6dfd
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2995;
+ i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
+ bh=BMRUJzr0/HLa3ogV5/HusC1YamEdyusN8YfIZyUZixE=;
+ b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNy8chB2y8w5nbK9+RztKsMs3unwb1aVwo2U36
+ FwTbirKHOeJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDcvHAAKCRC5WrpGvQUG
+ 8GvpD/9SsZFzhvQs0gQHp72J5bWBgaHGOAaSW43Xne+PZMAjdUCH4O23F2Syc387TEDUe/FTeWZ
+ kp5HtOO3HdadO8z0wT6nXXINzJfFLkXufNXmxFbHQ8x2VuSGTlIKYhuzla4BlFV+dJJ60/83RRX
+ DKADQ1s4itlnkqEVyeD3cJad734FHh6ZjaqG7sZobZxqcZcGRO7LBBO2SSveqlUZO502Tp9b0MM
+ LHZwjVFPUcDWZpBoJZUTg0Bw5calTX2Mh/Ibwzr1yERYLUO01KqWi2/01IGvu01G3ucNGq0RR2A
+ n7LHuRVOZkJFaBjUx2XPi7bPBYD47fgBMRT5/uIeCM5gh/W/DXFUU+t6j5A6vOE7SF61jWbGrsY
+ wBC3xLx+WDXCvrFhj9xAmV5L+TRjvCEWIsuOy7q88ge/SI7t4d913AWKAEvdvhnhllg+mOSH7Dc
+ BZOo5wTDep2WxoScD9VgeqMv4v8QwkOGCv9H1fDhWZY1fxNCwvpQU9bH111ZD8aSHZPAEHgTdQN
+ eKx6hZNtBFIjq40TAQ5zQnGnAa2NfisLBqVqKAFgaqFahnwB3bRj6EXC4ME4wuCKH1g2O8+xQKY
+ LLKmSqiMsu+UM56ihNwxQ4hVpy5WeDercM0s+Fc2UdFzPNnzrSr1G4BS1YhpzNousCBK7vnlKwX
+ dOZ+YVluePM0Drg==
+X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
+ fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
+X-Mailman-Approved-At: Thu, 29 May 2025 08:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,129 +109,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu May 29, 2025 at 3:18 AM CEST, Alexandre Courbot wrote:
-> On Thu May 29, 2025 at 5:17 AM JST, Benno Lossin wrote:
->> On Wed May 21, 2025 at 8:44 AM CEST, Alexandre Courbot wrote:
->>> Introduce the `num` module, featuring the `NumExt` extension trait
->>> that expands unsigned integers with useful operations for the kernel.
->>>
->>> These are to be used by the nova-core driver, but they are so ubiquitou=
-s
->>> that other drivers should be able to take advantage of them as well.
->>>
->>> The currently implemented operations are:
->>>
->>> - align_down()
->>> - align_up()
->>> - fls()
->>>
->>> But this trait is expected to be expanded further.
->>>
->>> `NumExt` is on unsigned types using a macro. An approach using another
->>> trait constrained by the operator traits that we need (`Add`, `Sub`,
->>> etc) was also considered, but had to be dropped as we need to use
->>> wrapping operations, which are not provided by any trait.
->>>
->>> Co-developed-by: Joel Fernandes <joelagnelf@nvidia.com>
->>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
->>> ---
->>>  rust/kernel/lib.rs |  1 +
->>>  rust/kernel/num.rs | 82 ++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++
->>>  2 files changed, 83 insertions(+)
->>
->> Have you proposed `align_down` to upstream rust? Not saying that we
->> shouldn't do it here, but if we haven't tried yet, it might be a good
->> idea to just get them upstreamed. (if you do, it should probably be
->> named `prev_multiple_of`)
->
-> I haven't yet - haven't ever contributed anything to upstream Rust, so
-> I'll have to look that one up first. :) But I agree a `prev_multiple_of`
-> could be useful.
+Add devicetree parameter to enable or disable the invert feature of the
+ili9341 display
 
-I'd recommend opening a thread on Zulip before you go implement stuff.
-Then you can also get a more rusty name for `fls` :)
+Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+---
+ drivers/staging/fbtft/fb_ili9341.c | 3 +++
+ drivers/staging/fbtft/fbtft-core.c | 2 ++
+ drivers/staging/fbtft/fbtft.h      | 3 +++
+ 3 files changed, 8 insertions(+)
 
->>> +    /// Align `self` up to `alignment`.
->>> +    ///
->>> +    /// `alignment` must be a power of 2 for accurate results.
->>> +    ///
->>> +    /// Wraps around to `0` if the requested alignment pushes the resu=
-lt above the type's limits.
->>> +    ///
->>> +    /// # Examples
->>> +    ///
->>> +    /// ```
->>> +    /// use kernel::num::NumExt;
->>> +    ///
->>> +    /// assert_eq!(0x4fffu32.align_up(0x1000), 0x5000);
->>> +    /// assert_eq!(0x4000u32.align_up(0x1000), 0x4000);
->>> +    /// assert_eq!(0x0u32.align_up(0x1000), 0x0);
->>> +    /// assert_eq!(0xffffu16.align_up(0x100), 0x0);
->>> +    /// assert_eq!(0x4fffu32.align_up(0x0), 0x0);
->>> +    /// ```
->>> +    fn align_up(self, alignment: Self) -> Self;
->>
->> Isn't this `next_multiple_of` [1] (it also allows non power of 2
->> inputs).
->>
->> [1]: https://doc.rust-lang.org/std/primitive.u32.html#method.next_multip=
-le_of
->
-> It is, however the fact that `next_multiple_of` works with non powers of
-> two also means it needs to perform a modulo operation. That operation
-> might well be optimized away by the compiler, but ACAICT we have no way
-> of proving it will always be the case, hence the always-optimal
-> implementation here.
-
-When you use a power of 2 constant, then I'm very sure that it will get
-optimized [1]. Even with non-powers of 2, you don't get a division [2].
-If you find some code that is not optimized, then sure add a custom
-function.
-
-[1]: https://godbolt.org/z/57M9e36T3
-[2]: https://godbolt.org/z/9P4P8zExh
-
-> Also in the kernel we tend to use the `align` nomenclature and I think we
-> should preserve that for clarity.
-
-That's also fair, but we lose the constness of `next_multiple_of`, so
-you can't use `align_up` in a const function. That might confuse people
-and then they write their own const helper function... I'd prefer we use
-all functions that are available in the stdlib.
-
->>> +
->>> +    /// Find Last Set Bit: return the 1-based index of the last (i.e. =
-most significant) set bit in
->>> +    /// `self`.
->>> +    ///
->>> +    /// Equivalent to the C `fls` function.
->>> +    ///
->>> +    /// # Examples
->>> +    ///
->>> +    /// ```
->>> +    /// use kernel::num::NumExt;
->>> +    ///
->>> +    /// assert_eq!(0x0u32.fls(), 0);
->>> +    /// assert_eq!(0x1u32.fls(), 1);
->>> +    /// assert_eq!(0x10u32.fls(), 5);
->>> +    /// assert_eq!(0xffffu32.fls(), 16);
->>> +    /// assert_eq!(0x8000_0000u32.fls(), 32);
->>> +    /// ```
->>> +    fn fls(self) -> u32;
->>
->> Isn't this just `trailing_zeros` [2]?
->>
->> [2]: https://doc.rust-lang.org/std/primitive.u32.html#method.trailing_ze=
-ros
->
-> No, `trailing_zeros` counts from the LSB up to the first bit set to 1,
-> whereas fls does that from the MSB. For instance, `0xffffu32.fls() =3D=3D
-> 16` but `0xffffu32.trailing_zeros() =3D=3D 0`.
-
-Ah right... Then maybe add that to the upstream suggestion :)
+diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
+index 47e72b87d76d996111aaadcf5e56dfdfc1c331ab..a184f57df12b5ad6612a2e83b664a8911c7c79be 100644
+--- a/drivers/staging/fbtft/fb_ili9341.c
++++ b/drivers/staging/fbtft/fb_ili9341.c
+@@ -103,6 +103,9 @@ static int set_var(struct fbtft_par *par)
+ 		break;
+ 	}
+ 
++	if (par->invert)
++		write_reg(par, 0x21);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index da9c64152a606dc4a176f5a37fa59f6a7d3a2af3..4e827e9899e32313f2e4a9bf12ff49283a63fed3 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -641,6 +641,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	par->buf = buf;
+ 	spin_lock_init(&par->dirty_lock);
+ 	par->bgr = pdata->bgr;
++	par->invert = pdata->invert;
+ 	par->startbyte = pdata->startbyte;
+ 	par->init_sequence = init_sequence;
+ 	par->gamma.curves = gamma_curves;
+@@ -1107,6 +1108,7 @@ static struct fbtft_platform_data *fbtft_properties_read(struct device *dev)
+ 	pdata->display.bpp = fbtft_property_value(dev, "bpp");
+ 	pdata->display.debug = fbtft_property_value(dev, "debug");
+ 	pdata->rotate = fbtft_property_value(dev, "rotate");
++	pdata->invert = device_property_read_bool(dev, "invert");
+ 	pdata->bgr = device_property_read_bool(dev, "bgr");
+ 	pdata->fps = fbtft_property_value(dev, "fps");
+ 	pdata->txbuflen = fbtft_property_value(dev, "txbuflen");
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 317be17b95c1672404fc6aecda24d0a1f563685d..71c9c35e7548de314088ac3aeb160d6c6aaf75c9 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -125,6 +125,7 @@ struct fbtft_display {
+  * @display: Display properties
+  * @gpios: Pointer to an array of pinname to gpio mappings
+  * @rotate: Display rotation angle
++ * @invert: Invert display colors
+  * @bgr: LCD Controller BGR bit
+  * @fps: Frames per second (this will go away, use @fps in @fbtft_display)
+  * @txbuflen: Size of transmit buffer
+@@ -135,6 +136,7 @@ struct fbtft_display {
+ struct fbtft_platform_data {
+ 	struct fbtft_display display;
+ 	unsigned int rotate;
++	bool invert;
+ 	bool bgr;
+ 	unsigned int fps;
+ 	int txbuflen;
+@@ -229,6 +231,7 @@ struct fbtft_par {
+ 	bool first_update_done;
+ 	ktime_t update_time;
+ 	bool bgr;
++	bool invert;
+ 	void *extra;
+ 	bool polarity;
+ };
 
 ---
-Cheers,
-Benno
+base-commit: 914873bc7df913db988284876c16257e6ab772c6
+change-id: 20250528-ili9341-invert-dtb-07a5656e6dfd
+
+Best regards,
+-- 
+Bram Vlerick <bram.vlerick@openpixelsystems.org>
+
