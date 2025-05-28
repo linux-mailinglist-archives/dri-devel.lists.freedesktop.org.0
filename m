@@ -2,76 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA90EAC655E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8001CAC655D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57B910E5AE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C530D10E59F;
 	Wed, 28 May 2025 09:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZNzNIht9";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IotHvE2+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CB010E5B2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:13:22 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43d0618746bso34709335e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:13:22 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53CE310E5B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:13:24 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43cec5cd73bso33916905e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748423601; x=1749028401; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1748423603; x=1749028403; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o+2yJB04g31aImN9kYR5m2tQHvzWGDu5CMhZSnchaeA=;
- b=ZNzNIht9SaM4P887e49QmKo+fjcorunc6XkJyDfZ8kE7MGxGA7CTVf9U41NujTyUgn
- Qrlo1YFKRWRFjKTyP/LIQQyrylXeZ/R3KiiL700D5PA6VSfqtIIHSJhnwQ1u16RhesmF
- EH899ZVwi8sRzJXYWB+tZb+AZyPB+hq4BXULQ=
+ bh=o3FsCyqQLMG3SevDxSFpKa3F/wMQPrGrkEeg/2iCnX0=;
+ b=IotHvE2+du/e5Qbcbd4N0FzPV0EQplD8DDlNu/2OAQjFmffbTMFxX+AA54W5gH0Ojo
+ AToCZYZnfMvE56rmyw64T4aXqmITdL9UFz/ypDC8lMVuMj/3WAyTElQA5pbGY51yAXSS
+ 91fNY74oIVJUfl/IlJvYgtJyszVJxjtuFH3Sw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748423601; x=1749028401;
+ d=1e100.net; s=20230601; t=1748423603; x=1749028403;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=o+2yJB04g31aImN9kYR5m2tQHvzWGDu5CMhZSnchaeA=;
- b=FrXntlEL8KQ0emAt4LLYy1CjerLL5BQBo0Kere9HpVrIU3JKD3lkOrX/L49WZxWEx9
- LTZMR6KJvCjT7x5ptUSECWHmgx6odJs5CISAEciObHoAyKu1iUqQ/Hc6X8kfvT0VxQ8/
- YYBwFiO/eqwWs0s5PTd3BiVjsq4MapfGrZAKjbSNiyljThBo9wLcG0JShWMXQLu5Hgw/
- 29ef7eSbV4rTe3c1leilOeECFWv8h6rEG8YfDt6UuYeMT1jrWapagQTBeKRAG12aoMPk
- rnRUZiyhYtqq5JtH2woRLyys38s0Pe3MtBwlP1Jzk/WqGcAjqRL855lZsiZik8UD+mZ9
- +OWw==
-X-Gm-Message-State: AOJu0YzSqwCGjfb2U2LOwHNBMACw/ZqyOUcu0MZykLe6ZJKXqNUXZuvA
- Akq4MRIhHwKIeYbfZgwockqLOKvt35CJcCloPa6KeHLsOM5pmjBKczTXKh8TLxysldipelGIZth
- /IxLY
-X-Gm-Gg: ASbGnctYbsG8tdDMxVbRpEwX5By5+ZgKuhpPoSeix/vJfVQBkTas48Uh5bmNbY6qkSD
- Mf2VW3x/KU0kbRE95a9wLnxgiKuAjHReUKpgJC3arD5S/Rt/t/vImfp7TSW/GirrRJWbAObuhhK
- ykLKlYnfeZjd4Z1+eOflwj26q4PDP267UW1NrrdxLZLRfb0e5haq0QcHon/nTKKU+td674c8bUM
- KCGWpeAyLD5+eISUAOEw8JmmEhFmHqm5x83JU3rx1bzpJ2Rd1jVkWSJWRs/m+WrZddExmM8S5CY
- 3psHa75ZgrRG1UbxTP8BSW4H9sG6JYGEOKNac1AcFf59CRV9BXLExxW8vjzP+J8=
-X-Google-Smtp-Source: AGHT+IF+J9gs9Akej4NXfbvlZZ1XUk4UkDRdivSjnyJiYRklFqBZKmKqHXdSYCOnnomp4+/c/cb2rg==
-X-Received: by 2002:a05:600c:1553:b0:43c:f513:958a with SMTP id
- 5b1f17b1804b1-44c935ddb46mr149555705e9.13.1748423601141; 
- Wed, 28 May 2025 02:13:21 -0700 (PDT)
+ bh=o3FsCyqQLMG3SevDxSFpKa3F/wMQPrGrkEeg/2iCnX0=;
+ b=kfXfV1jFnMnRMdOgY81U2spcLOave5LEfv6avVws7V7CpvrskVvUKzxsKC1CcPRhv1
+ cKE1nJUfkDL+Xx0UVxo7XN4+vGjbCLRmecqCMPzcX5FDPUCzLjliqU7O18yVMwI8RTJp
+ u27JwSFgLE0YUgkbS5W9giM/4YjZ+g1nAE8i1ZtrzzEnFLvIRbmqmTO+hdWgqWtP3qoH
+ NsFh2m9On086bLv7hfcuESHevzURbhEBNAfz2OHJbKFmltIacx1fr0oLkmx3F9QmUkPa
+ 2zAKWbSZiKzbVnFrkZ6bWDiQsANIbfhwOioZKKP6wRCd6MFKnfi+W9ZdxnfZ+kweS2u0
+ Y4ng==
+X-Gm-Message-State: AOJu0YydmGGx6K206Tfx2/Lux6oO9Ftwq8hX/IhBVOZhkBigAejXps2A
+ CNmeX4ge79Vmyi+AgC/vYPRU0dYBxMvWOT+sueqmQoP6tILidGIk8pabgGKFVRPqyTWZzhMk8Kk
+ dK+15
+X-Gm-Gg: ASbGnctCe+wp1M8UOOqL2wwjHjoWhl/noqa61nIUHTz0PwJ1G5R+Uzakps6U0AdZqMU
+ DcdDl0pZUoFUy4AxAw/lqmFP4I0/UeJInKEaUDo6euafeVNazKp7rXrOue8T0p4pSsBHOZ57ksH
+ akmg24tjpYmaq3bLdCK1gNR4sBSuUTo7wWllK+i5G7KbYs+7OiTXF38MrYQdzJlErY+D95L0hJ2
+ 3z2GAFT/iqYEuqoJEo6UPMAauB2aPlUxw0zklHMG0DqRejJShkb8vWsbwfK4FuJSBZglziDvyTn
+ JUKxmxed0ckdOKmyhru9XiuAlu2gEgcrL7UlxRcsKpMSeqshXM1uopYDmcaSmaAaYm++DK706Q=
+ =
+X-Google-Smtp-Source: AGHT+IEXmMPmM/KSK3cTXZhHp982zZwXlFUjDkpyL4hU91fNKeabDFdhi+MEaxuoDTj4mJIT+sA4Vg==
+X-Received: by 2002:a05:600c:46cb:b0:43d:94:2d1e with SMTP id
+ 5b1f17b1804b1-44c919e16a8mr136343245e9.13.1748423602781; 
+ Wed, 28 May 2025 02:13:22 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4500e1d85b5sm14811715e9.32.2025.05.28.02.13.19
+ 5b1f17b1804b1-4500e1d85b5sm14811715e9.32.2025.05.28.02.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 02:13:20 -0700 (PDT)
+ Wed, 28 May 2025 02:13:21 -0700 (PDT)
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Simona Vetter <simona.vetter@intel.com>
-Subject: [PATCH 2/8] drm/fdinfo: Switch to idr_for_each() in
- drm_show_memory_stats()
-Date: Wed, 28 May 2025 11:13:00 +0200
-Message-ID: <20250528091307.1894940-3-simona.vetter@ffwll.ch>
+Subject: [PATCH 3/8] drm/panthor: Fix UAF in panthor_gem_create_with_handle()
+ debugfs code
+Date: Wed, 28 May 2025 11:13:01 +0200
+Message-ID: <20250528091307.1894940-4-simona.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
 References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,146 +90,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike idr_for_each_entry(), which terminates on the first NULL entry,
-idr_for_each passes them through. This fixes potential issues with the
-idr walk terminating prematurely due to transient NULL entries the
-exist when creating and destroying a handle.
+The object is potentially already gone after the drm_gem_object_put().
+In general the object should be fully constructed before calling
+drm_gem_handle_create(), except the debugfs tracking uses a separate
+lock and list and separate flag to denotate whether the object is
+actually initilized.
 
-Note that transient NULL pointers in drm_file.object_idr have been a
-thing since f6cd7daecff5 ("drm: Release driver references to handle
-before making it available again"), this is a really old issue.
+Since I'm touching this all anyway simplify this by only adding the
+object to the debugfs when it's ready for that, which allows us to
+delete that separate flag. panthor_gem_debugfs_bo_rm() already checks
+whether we've actually been added to the list or this is some error
+path cleanup.
 
-Aside from temporarily inconsistent fdinfo statistic there's no other
-impact of this issue.
-
-Fixes: 686b21b5f6ca ("drm: Add fdinfo memory stats")
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: <stable@vger.kernel.org> # v6.5+
+Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
 Signed-off-by: Simona Vetter <simona.vetter@intel.com>
 Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/drm_file.c | 95 ++++++++++++++++++++++----------------
- 1 file changed, 55 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/panthor/panthor_gem.c | 31 +++++++++++++--------------
+ drivers/gpu/drm/panthor/panthor_gem.h |  3 ---
+ 2 files changed, 15 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 246cf845e2c9..428a4eb85e94 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -892,6 +892,58 @@ void drm_print_memory_stats(struct drm_printer *p,
- }
- EXPORT_SYMBOL(drm_print_memory_stats);
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 7c00fd77758b..f334444cb5df 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -16,9 +16,11 @@
+ #include "panthor_mmu.h"
  
-+struct drm_bo_print_data {
-+	struct drm_memory_stats status;
-+	enum drm_gem_object_status supported_status;
-+};
-+
-+static int
-+drm_bo_memory_stats(int id, void *ptr, void *data)
-+{
-+	struct drm_bo_print_data *drm_data;
-+	struct drm_gem_object *obj = ptr;
-+	enum drm_gem_object_status s = 0;
-+	size_t add_size;
-+
-+	if (!obj)
-+		return 0;
-+
-+	add_size = (obj->funcs && obj->funcs->rss) ?
-+		obj->funcs->rss(obj) : obj->size;
-+
-+	if (obj->funcs && obj->funcs->status) {
-+		s = obj->funcs->status(obj);
-+		drm_data->supported_status |= s;
-+	}
-+
-+	if (drm_gem_object_is_shared_for_memory_stats(obj))
-+		drm_data->status.shared += obj->size;
-+	else
-+		drm_data->status.private += obj->size;
-+
-+	if (s & DRM_GEM_OBJECT_RESIDENT) {
-+		drm_data->status.resident += add_size;
-+	} else {
-+		/* If already purged or not yet backed by pages, don't
-+		 * count it as purgeable:
-+		 */
-+		s &= ~DRM_GEM_OBJECT_PURGEABLE;
-+	}
-+
-+	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
-+		drm_data->status.active += add_size;
-+		drm_data->supported_status |= DRM_GEM_OBJECT_ACTIVE;
-+
-+		/* If still active, don't count as purgeable: */
-+		s &= ~DRM_GEM_OBJECT_PURGEABLE;
-+	}
-+
-+	if (s & DRM_GEM_OBJECT_PURGEABLE)
-+		drm_data->status.purgeable += add_size;
-+
-+	return 0;
-+}
-+
- /**
-  * drm_show_memory_stats - Helper to collect and show standard fdinfo memory stats
-  * @p: the printer to print output to
-@@ -902,50 +954,13 @@ EXPORT_SYMBOL(drm_print_memory_stats);
-  */
- void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+ #ifdef CONFIG_DEBUG_FS
+-static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+-				       struct panthor_gem_object *bo)
++static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
  {
--	struct drm_gem_object *obj;
--	struct drm_memory_stats status = {};
--	enum drm_gem_object_status supported_status = 0;
--	int id;
-+	struct drm_bo_print_data data = {};
++	struct panthor_device *ptdev = container_of(bo->base.base.dev,
++						    struct panthor_device, base);
++
+ 	INIT_LIST_HEAD(&bo->debugfs.node);
  
- 	spin_lock(&file->table_lock);
--	idr_for_each_entry (&file->object_idr, obj, id) {
--		enum drm_gem_object_status s = 0;
--		size_t add_size = (obj->funcs && obj->funcs->rss) ?
--			obj->funcs->rss(obj) : obj->size;
--
--		if (obj->funcs && obj->funcs->status) {
--			s = obj->funcs->status(obj);
--			supported_status |= s;
--		}
--
--		if (drm_gem_object_is_shared_for_memory_stats(obj))
--			status.shared += obj->size;
--		else
--			status.private += obj->size;
--
--		if (s & DRM_GEM_OBJECT_RESIDENT) {
--			status.resident += add_size;
--		} else {
--			/* If already purged or not yet backed by pages, don't
--			 * count it as purgeable:
--			 */
--			s &= ~DRM_GEM_OBJECT_PURGEABLE;
--		}
--
--		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
--			status.active += add_size;
--			supported_status |= DRM_GEM_OBJECT_ACTIVE;
--
--			/* If still active, don't count as purgeable: */
--			s &= ~DRM_GEM_OBJECT_PURGEABLE;
--		}
--
--		if (s & DRM_GEM_OBJECT_PURGEABLE)
--			status.purgeable += add_size;
--	}
-+	idr_for_each(&file->object_idr, &drm_bo_memory_stats, &data);
- 	spin_unlock(&file->table_lock);
+ 	bo->debugfs.creator.tgid = current->group_leader->pid;
+@@ -44,12 +46,10 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
  
--	drm_print_memory_stats(p, &status, supported_status, "memory");
-+	drm_print_memory_stats(p, &data.status, data.supported_status, "memory");
+ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+ {
+-	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
++	bo->debugfs.flags = usage_flags;
++	panthor_gem_debugfs_bo_add(bo);
  }
- EXPORT_SYMBOL(drm_show_memory_stats);
+ #else
+-static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+-				       struct panthor_gem_object *bo)
+-{}
+ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {}
+ #endif
+@@ -246,7 +246,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+ 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+ 	mutex_init(&obj->label.lock);
  
+-	panthor_gem_debugfs_bo_add(ptdev, obj);
++	INIT_LIST_HEAD(&obj->debugfs.node);
+ 
+ 	return &obj->base.base;
+ }
+@@ -285,6 +285,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
+ 	}
+ 
++	/*
++	 * No explicit flags are needed in the call below, since the
++	 * function internally sets the INITIALIZED bit for us.
++	 */
++	panthor_gem_debugfs_set_usage_flags(bo, 0);
++
+ 	/*
+ 	 * Allocate an id of idr table where the obj is registered
+ 	 * and handle has the id what user can see.
+@@ -296,12 +302,6 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 	/* drop reference from allocate - handle holds it now. */
+ 	drm_gem_object_put(&shmem->base);
+ 
+-	/*
+-	 * No explicit flags are needed in the call below, since the
+-	 * function internally sets the INITIALIZED bit for us.
+-	 */
+-	panthor_gem_debugfs_set_usage_flags(bo, 0);
+-
+ 	return ret;
+ }
+ 
+@@ -387,7 +387,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+ 	unsigned int refcount = kref_read(&bo->base.base.refcount);
+ 	char creator_info[32] = {};
+ 	size_t resident_size;
+-	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
++	u32 gem_usage_flags = bo->debugfs.flags;
+ 	u32 gem_state_flags = 0;
+ 
+ 	/* Skip BOs being destroyed. */
+@@ -436,8 +436,7 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+ 
+ 	scoped_guard(mutex, &ptdev->gems.lock) {
+ 		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+-			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+-				panthor_gem_debugfs_bo_print(bo, m, &totals);
++			panthor_gem_debugfs_bo_print(bo, m, &totals);
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 4dd732dcd59f..8fc7215e9b90 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -35,9 +35,6 @@ enum panthor_debugfs_gem_usage_flags {
+ 
+ 	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+ 	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT),
+-
+-	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+-	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+ };
+ 
+ /**
 -- 
 2.49.0
 
