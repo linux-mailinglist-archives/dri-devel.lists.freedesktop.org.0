@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350C2AC71EE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 22:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225CBAC7207
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 22:17:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D783110E0A4;
-	Wed, 28 May 2025 20:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF4810E6A8;
+	Wed, 28 May 2025 20:17:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aKuGxL9i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b1CaswHv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED50D10E0A4;
- Wed, 28 May 2025 20:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748463049; x=1779999049;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=cpQv2RNGwGH1nuOhlVXlmsBuGPn/vBpGaWEuwJmQePs=;
- b=aKuGxL9iWW5W7v07rGzoBCqVgbgvdv6k+C6n6+nRpkZg8kmoV7BUl3rf
- Q7HNNGNRnLnjoUtzd+llagsdyj9hFq1t+LWBuDcQ8Spr+REiislFeb1yN
- CTbcpBS3nXZKscjx+NiOh0gmGukBCwhR3o7LUqggcUgbgq3QUQiGRHwAs
- cIooMl50NjfxiwDmBKw6djs2Yu2GbUse44d3dOLOx36sBO8L8hxRi3ORW
- INTzUG8EvT5osZgcqxMU0gWKF3XgcO/diZKFUU236S59adyw7g/cZoE1u
- Ra7el3RJa6oet97hqOaPt4oKeC3MdU2nkXj0eeNKdoGEHLddtbP/Oc5XM w==;
-X-CSE-ConnectionGUID: uhWCgk0KR8OpFCJlO0PmcA==
-X-CSE-MsgGUID: MdzG9RLcQT27T0m1SRQmDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67923184"
-X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; d="scan'208";a="67923184"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 13:10:48 -0700
-X-CSE-ConnectionGUID: rum74yynRJOvUDwtQKpswg==
-X-CSE-MsgGUID: yL91wdbxS2OBj5xMho8yaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; d="scan'208";a="143801283"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 28 May 2025 13:10:46 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uKN6q-000W2O-0U;
- Wed, 28 May 2025 20:10:44 +0000
-Date: Thu, 29 May 2025 04:10:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 2/8] drm/fdinfo: Switch to idr_for_each() in
- drm_show_memory_stats()
-Message-ID: <202505290334.GjoY9qsk-lkp@intel.com>
-References: <20250528091307.1894940-3-simona.vetter@ffwll.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528091307.1894940-3-simona.vetter@ffwll.ch>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC77110E6A8;
+ Wed, 28 May 2025 20:17:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 592BCA4FA08;
+ Wed, 28 May 2025 20:17:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E56C4CEE3;
+ Wed, 28 May 2025 20:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748463464;
+ bh=/Np1zwPyXNowrj8gyBj7aEg2EQY/YKZNBSPDvnx555E=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=b1CaswHvKBYzgEicvj492JV/JryFjFWop3NOENUCSBtgUz3d/1BiYve+5mKTgGwkm
+ rqHRV3N6+Ei7bt1ekFi18wFDcQNKJNLXpgt09+BOrHYqcvNGdzSWLPedW9m4v7o5a1
+ 6Gvy4Ic8IfeL2h8YtT0wZHAYpLdN7PqaCfoFrjnAvqfuKt42eCGlJryF29gBcRuh5L
+ Tvko8B+A4+q4JVFNFQsZNpXMsRfKYLkcTBcMqAoag8Va/RVsQqMyLdyAaeYZKxQb6I
+ uv+CpiNw7QeUBOIlkT/uK48jZDboTlPo001jfY34cqCnjvojDUOH6aLS7M7VBcRM4L
+ 239fEyc3wKAxg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 May 2025 22:17:37 +0200
+Message-Id: <DA82KFLNAOG7.R7YT4BHCLNZQ@kernel.org>
+Subject: Re: [PATCH v4 04/20] rust: add new `num` module with useful integer
+ operations
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <benno.lossin@proton.me>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
+ "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ "Alistair Popple" <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+X-Mailer: aerc 0.20.1
+References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
+In-Reply-To: <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,93 +72,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simona,
+On Wed May 21, 2025 at 8:44 AM CEST, Alexandre Courbot wrote:
+> Introduce the `num` module, featuring the `NumExt` extension trait
+> that expands unsigned integers with useful operations for the kernel.
+>
+> These are to be used by the nova-core driver, but they are so ubiquitous
+> that other drivers should be able to take advantage of them as well.
+>
+> The currently implemented operations are:
+>
+> - align_down()
+> - align_up()
+> - fls()
+>
+> But this trait is expected to be expanded further.
+>
+> `NumExt` is on unsigned types using a macro. An approach using another
+> trait constrained by the operator traits that we need (`Add`, `Sub`,
+> etc) was also considered, but had to be dropped as we need to use
+> wrapping operations, which are not provided by any trait.
+>
+> Co-developed-by: Joel Fernandes <joelagnelf@nvidia.com>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  rust/kernel/lib.rs |  1 +
+>  rust/kernel/num.rs | 82 ++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 83 insertions(+)
 
-kernel test robot noticed the following build warnings:
+Have you proposed `align_down` to upstream rust? Not saying that we
+shouldn't do it here, but if we haven't tried yet, it might be a good
+idea to just get them upstreamed. (if you do, it should probably be
+named `prev_multiple_of`)
 
-[auto build test WARNING on next-20250527]
-[also build test WARNING on linus/master v6.15]
-[cannot apply to v6.15 v6.15-rc7 v6.15-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +    /// Align `self` up to `alignment`.
+> +    ///
+> +    /// `alignment` must be a power of 2 for accurate results.
+> +    ///
+> +    /// Wraps around to `0` if the requested alignment pushes the result=
+ above the type's limits.
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// ```
+> +    /// use kernel::num::NumExt;
+> +    ///
+> +    /// assert_eq!(0x4fffu32.align_up(0x1000), 0x5000);
+> +    /// assert_eq!(0x4000u32.align_up(0x1000), 0x4000);
+> +    /// assert_eq!(0x0u32.align_up(0x1000), 0x0);
+> +    /// assert_eq!(0xffffu16.align_up(0x100), 0x0);
+> +    /// assert_eq!(0x4fffu32.align_up(0x0), 0x0);
+> +    /// ```
+> +    fn align_up(self, alignment: Self) -> Self;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simona-Vetter/drm-gem-Fix-race-in-drm_gem_handle_create_tail/20250528-171524
-base:   next-20250527
-patch link:    https://lore.kernel.org/r/20250528091307.1894940-3-simona.vetter%40ffwll.ch
-patch subject: [PATCH 2/8] drm/fdinfo: Switch to idr_for_each() in drm_show_memory_stats()
-config: riscv-randconfig-001-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290334.GjoY9qsk-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505290334.GjoY9qsk-lkp@intel.com/reproduce)
+Isn't this `next_multiple_of` [1] (it also allows non power of 2
+inputs).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505290334.GjoY9qsk-lkp@intel.com/
+[1]: https://doc.rust-lang.org/std/primitive.u32.html#method.next_multiple_=
+of
 
-All warnings (new ones prefixed by >>):
+> +
+> +    /// Find Last Set Bit: return the 1-based index of the last (i.e. mo=
+st significant) set bit in
+> +    /// `self`.
+> +    ///
+> +    /// Equivalent to the C `fls` function.
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// ```
+> +    /// use kernel::num::NumExt;
+> +    ///
+> +    /// assert_eq!(0x0u32.fls(), 0);
+> +    /// assert_eq!(0x1u32.fls(), 1);
+> +    /// assert_eq!(0x10u32.fls(), 5);
+> +    /// assert_eq!(0xffffu32.fls(), 16);
+> +    /// assert_eq!(0x8000_0000u32.fls(), 32);
+> +    /// ```
+> +    fn fls(self) -> u32;
 
->> drivers/gpu/drm/drm_file.c:916:3: warning: variable 'drm_data' is uninitialized when used here [-Wuninitialized]
-     916 |                 drm_data->supported_status |= s;
-         |                 ^~~~~~~~
-   drivers/gpu/drm/drm_file.c:903:36: note: initialize the variable 'drm_data' to silence this warning
-     903 |         struct drm_bo_print_data *drm_data;
-         |                                           ^
-         |                                            = NULL
-   1 warning generated.
+Isn't this just `trailing_zeros` [2]?
 
+[2]: https://doc.rust-lang.org/std/primitive.u32.html#method.trailing_zeros
 
-vim +/drm_data +916 drivers/gpu/drm/drm_file.c
-
-   899	
-   900	static int
-   901	drm_bo_memory_stats(int id, void *ptr, void *data)
-   902	{
-   903		struct drm_bo_print_data *drm_data;
-   904		struct drm_gem_object *obj = ptr;
-   905		enum drm_gem_object_status s = 0;
-   906		size_t add_size;
-   907	
-   908		if (!obj)
-   909			return 0;
-   910	
-   911		add_size = (obj->funcs && obj->funcs->rss) ?
-   912			obj->funcs->rss(obj) : obj->size;
-   913	
-   914		if (obj->funcs && obj->funcs->status) {
-   915			s = obj->funcs->status(obj);
- > 916			drm_data->supported_status |= s;
-   917		}
-   918	
-   919		if (drm_gem_object_is_shared_for_memory_stats(obj))
-   920			drm_data->status.shared += obj->size;
-   921		else
-   922			drm_data->status.private += obj->size;
-   923	
-   924		if (s & DRM_GEM_OBJECT_RESIDENT) {
-   925			drm_data->status.resident += add_size;
-   926		} else {
-   927			/* If already purged or not yet backed by pages, don't
-   928			 * count it as purgeable:
-   929			 */
-   930			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-   931		}
-   932	
-   933		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
-   934			drm_data->status.active += add_size;
-   935			drm_data->supported_status |= DRM_GEM_OBJECT_ACTIVE;
-   936	
-   937			/* If still active, don't count as purgeable: */
-   938			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-   939		}
-   940	
-   941		if (s & DRM_GEM_OBJECT_PURGEABLE)
-   942			drm_data->status.purgeable += add_size;
-   943	
-   944		return 0;
-   945	}
-   946	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Cheers,
+Benno
