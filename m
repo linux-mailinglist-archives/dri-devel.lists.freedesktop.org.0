@@ -2,151 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8902AC6837
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 13:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE5AC6857
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 13:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0826A10E5F1;
-	Wed, 28 May 2025 11:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD7789838;
+	Wed, 28 May 2025 11:26:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yph6MJG1";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="l1GgMpk4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0031210E5F1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 11:14:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SOreIPaqOCgMsFcvRltHpRJuszhdzeYhjRqHpLWQenrCo3JfVrwsO+hthcjrQqgV/rBonJNUnPgAOsGO2gvCeI6zyk5BB7ZuLd5eH8LadtuRxPDh6acFm2/Zijulrr/oinow9j+YNdxKXDQ39V8ra0VB3Xz6CZGmP9pwpJExi8nxhPThR4Un73AJmJbsguJxnBC99GfXAKPckUbJLkyjIi4w3wfzqGDLrtLZ/wyP2wkkKysbkJtyTHvu/vNweNylZKeGZ9F1uIprPfm1j9eT1K6ysEFc9LdenfwAbKZSxQURuqY8+zWv3YePxHzGMLUB0X8oPncHvAJuIp9o1NBNFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E7cTRRB9F5ujzUSyghztUQVKI0hds+bqfF/WPkc1FkY=;
- b=QrebFAKHKp6zx08TwWgh0p4oAXJ+CDDxkK9Ji3TxhyezpFwTtRgBua08iHhOvBvG8DaSfwZEMbydgM0GX14zsSiTLMghJb+FV8TLXTF5zsDQTc2dSFTVjFmNXZH2yQB0B9CS7hgOubnP5gNO79MALdrbhcQEojbRwiZczsxyBD91c2+cl0BUDzwcZoflciVHPZjNNLHzXLnpTKWD2hCvcerGIbbcVfJuUBBtNIYCPgnN8b0FNvRD6XN3Ar9OzY1W35xzORbXeulo+GMfaxp7WrGSWhANYjU0p0llT1bcy2It+Pgzv/zCZdIJ/rlyQIVi0ctC8b+utzP9KUJ02l04jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E7cTRRB9F5ujzUSyghztUQVKI0hds+bqfF/WPkc1FkY=;
- b=yph6MJG1L/DCZkng+na61PdF/KPQjA1F/vmOHD3iQOez7QKsAO7Godz5U+DxS4XkhARj03W1U/LKQKYbNGSZA0FvnsqSNzClgDo79ekHSxCGAKTMX5u+nvXImL1OJs+MZN5nl3JGPLYe7hwj7kJpACUAZyUtXYtlrz/XJiyA7Vc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB5937.namprd12.prod.outlook.com (2603:10b6:8:68::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Wed, 28 May
- 2025 11:14:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 28 May 2025
- 11:14:15 +0000
-Message-ID: <b5291db4-58c6-4d19-aa22-2f49a4321a36@amd.com>
-Date: Wed, 28 May 2025 13:14:10 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/file: add client id to drm_file_error
-To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dmitry.osipenko@collabora.com,
- "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>
-References: <20250528074333.1807865-1-sunil.khatri@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250528074333.1807865-1-sunil.khatri@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAPR03CA0074.namprd03.prod.outlook.com
- (2603:10b6:208:329::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEAB10E5F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 11:26:34 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54SBQ6qt2044934;
+ Wed, 28 May 2025 06:26:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1748431566;
+ bh=Ng5y3IcVaAM8zkZwvKrmrajhf/9Uq276eRu5V1b+gKg=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=l1GgMpk4Cgpdj70UtUfKKl8sKqjDNWPO8pfX3YHpl6W8PsXvxKUfS5ZDOi9byBS+o
+ kxMP4zAFee6buyhlcWSTqi3kVyE0/IfN+iol6d7OuulduAhSBr11GzPsUiAzWZFrL8
+ 4ZJyARVAa1XwTiaK5w7PipBPuW1LlaOvLu4tGl2c=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54SBQ6vX3571213
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 28 May 2025 06:26:06 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 28
+ May 2025 06:26:05 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 28 May 2025 06:26:06 -0500
+Received: from [172.24.227.14] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [172.24.227.14])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54SBPw66052053;
+ Wed, 28 May 2025 06:25:58 -0500
+Message-ID: <870d036a-0fa0-43e0-8b72-428096173526@ti.com>
+Date: Wed, 28 May 2025 16:55:57 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5937:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86837b9c-9c8d-43db-baf3-08dd9dd8c844
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NlJhOGl4Y3pINmxSSy84aVY1U0RpOXVmOS9uclBiOUNFdnFlbU80MG85aDE1?=
- =?utf-8?B?NjNkcjVTYytVT2lZejUrTU10bjZldTNiQ09zTUVQUUZ1SHJTTTlzYUd3ZzZ0?=
- =?utf-8?B?S0JmWlVZUmRuYUkvWjVSaUNUcng5WVdYR3BQaldGcjhUeitPUFd4eHBZMkdZ?=
- =?utf-8?B?b0tMWXU3anZBZnVKZEJwdjdJdnQ3V1BFTmtiWUowVjFnNUZJYkFjNEZrSUQv?=
- =?utf-8?B?NUZ0TitsN3VEOTVFd1h2QkxlSVlvWVVkL01jTEk2clJvRitaaTBROS84N3Rx?=
- =?utf-8?B?VlRjd0EzVGxvZmhxOVorK0tmTUhMbzkwK20zLzBlamx3dXk3WGZ6V2dFRW92?=
- =?utf-8?B?TWF2a0hxNEx1ZGc3bDh4Um0zcjNwZHdpdjcvbUc4VnBxb2xtYklKdXhCc1hE?=
- =?utf-8?B?TVpRSlpJRitCOThyVFBGcGpWQWYrcVF1cnlXb29yZkpIVFRJd0RDUXB0MVla?=
- =?utf-8?B?UlRxcUtVQ2NpTVhadWNZNmJzVTFxbElzWVVzMUhiWk1uNWhUdjQ4Vm5hT2pl?=
- =?utf-8?B?aVRmdmpMcVREV0VMNlJJaE9IMTkzb2tPWnpEWG13SktoU1dRRGoxbmUrbENz?=
- =?utf-8?B?R3VNWFFIdndvRVZBVC8ydWp0ZWR2eWVtT0lxcjBBUm1qYjVURmtHUm1jOXRJ?=
- =?utf-8?B?Sk5RUDFlbUJMSDFBUDNsKzljWVlJWnUwOVdhMjZPZ2lsbnU0eTlMOStPMjdy?=
- =?utf-8?B?U2JpSWR3Smk3NlVLemhMaitONEIwYUUwcENSOUhoa0VlNnZiMHVVemxZZHQy?=
- =?utf-8?B?WjlldktUS2tjNHJWM2VVSVhCSk02VjFNdVBoK2g3aGZseW5NYXFSaXFhTWlT?=
- =?utf-8?B?NjlSMzV3V1Zpd3I3akNQVTlONFZiVEs0TXN0OElBd21xYUl6YkkwWEQ5WjNC?=
- =?utf-8?B?ejIrNXg4L0dpbzZQOXhsZllHektiR0lwbkZCUHRLdEwrMnRwVitZT3lZa215?=
- =?utf-8?B?VlhhblRudVhSY1U2Ty9mMFFiL25XUVUrZ2FDbHdTelB6c2RtVGxNczFad0tI?=
- =?utf-8?B?Ly9ENzhtTDZ1Y2V0Y0w3RWJ5N2VsTXp0NEEyUi93elpJSzB5bkhCQzQzM1Zq?=
- =?utf-8?B?cXh0cm5EWkVwMWY4TmJ4dytpSnVJWDl2TmExV3JxRXBuZGxvR1pJWmR3cG9Y?=
- =?utf-8?B?b3FSSXl1R3dJQWpWRzFVa3hIZzJ1S0habjhnQTlxaktrdEJ6Qk42dnhaSDFR?=
- =?utf-8?B?cm5UbjVGUEhDZFBCRTdBNjI2TktsMkY2RUIvTnM1VXY5ZlU3N0FNanFzOWpw?=
- =?utf-8?B?ZjdzN2hPajNycm1rYWgyaWxEUklaeGNzSnNVRHVyWmRkWkQzZGtwTTg1ejZ0?=
- =?utf-8?B?UmVsMktlYXdOZHNvVEJ5WTJxSG8xWmtQVjcyRm43M2JFMWZJaHJGQVNwcmVv?=
- =?utf-8?B?ZXZCM0dDWm0wQ1hoSnhWN2tlSUZzeU5YTHdBTlFJNm0vV0J2Si9pSmtFV2Zh?=
- =?utf-8?B?K2h1OUJiTTU0NXBELzlOSkhodUdDQjN3bmprY3U5U3VQRXNtUlBKV0tPajZQ?=
- =?utf-8?B?MldPTkI5bko0ZWxyYkFybVNzKys1c1VKVUpUY1pxcktVa1drY04ycWZWUVla?=
- =?utf-8?B?dnl4RmNycSt3aStJNldzUURWUThpcjc3cEgrQlFWdHRLL2FYaXoxMHpmZnAw?=
- =?utf-8?B?c0JsTGU0RFVUQjBDV3prSjRIakRkZGplSzFZTE9ySThGL3hjSWFjVlBTNCt1?=
- =?utf-8?B?cnlhL3VJZHE0cnNmUVVTYThQNU4wK1RsVGdrelJ6bnU1UTU0cWRKVkxTY0Rh?=
- =?utf-8?B?Ui9Mazd0T0NsRDlmY1pjK2hOUkxTYnAxUW5IbkNQV0kxMXJTY250QnhzUW9J?=
- =?utf-8?B?RURPeGVaUzVUWVZpTStsYndpekZ3S1Nzemd3QmdOdEFyVk1ibHlBRElEL0M3?=
- =?utf-8?B?Z0pDMnlnOHoxMmVsL2NMT1hkck83ZHQvWFoyNVkvSjZDL1poVGh3WlVESU1Z?=
- =?utf-8?Q?K8hbOfZ6/pw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVJLR0c1MzcwWHVKdkpqaVJaR3ZQNTJDWmNYLzBTa3VYaXJuMEVkQjZZbFBt?=
- =?utf-8?B?ajlGd0NwcUpJcjFxVlR6ZVhGNU5CRDVwTnRFMVFTRHc3OGtpZTF4dGtkMU5K?=
- =?utf-8?B?ckM1ZzdwaDh4U3J4L2xabmpyZkFxbmVYem5ZeHI2cVlUZjlGTGZlS3lKeFg4?=
- =?utf-8?B?UUZyMURuWUxyK1FmOGJHbEdsdFhPVUFFcDQzRFFWRHBTN1Rnd0UvcmszU1lz?=
- =?utf-8?B?Z0MrVWQ1a2lDOWdwRHBGcjd1azg1Ny9SWlFnaWZsdll6OXBIZEVyMENudXIv?=
- =?utf-8?B?TkRDZmt1S08rQWhBU1ZxNE51RUVJR2w0Uy9hb08zK0hoOG1QTkEwMHQ0c0Fy?=
- =?utf-8?B?T2hmV2Q4bDdFdng2Yll4NXVzaXZsMXNWVU5CSmRpd1RicjdxdzB4RDhXdEZ5?=
- =?utf-8?B?TkJKWTZnc1dWNjVmaTM0cHRjRVJvOFdxR1IvMTFCdUJlMW91bmVDYUlGWHli?=
- =?utf-8?B?UGl5RG10RC9OYjY4dVFtTzRIdXlpamhaUlVVUDVnZjgwazBjTEJjUVBzK0tr?=
- =?utf-8?B?UHNiZTdSblplZ1Z6WFJ1NlRyN1BJTEhlWjlmUTZlT2cxMTFGYTZ0MXFUUXdO?=
- =?utf-8?B?VmY0RVZKUjRGWVB4NUw0MTA2VEU3Uy9OUjVSVm1wbzRVdlNDbzI4cGgvL2s2?=
- =?utf-8?B?VU0yTFN0eHp4blU4Y1J6eDBPNHZZaEtlSjVvTDdMb1B2SG1oMTNxMEJOT1RR?=
- =?utf-8?B?eG9UbU05RWJOM0JObFlteFlDQk9TOWRsWWJFWU9HZXI3VndreFBQSnFwSVpT?=
- =?utf-8?B?RFBlRWd1MlYvMkRPajNTRDk5R1VNRVFUNkNUcUErNy9KUGRsbzlNb0cyUjRq?=
- =?utf-8?B?K0xwdkhjd3loR0Erb2dQamVqMXRmLzhQTXNMNUNScFZhM0pXUWFhSldtR21z?=
- =?utf-8?B?ZjJEUEdHY1BiRDJHeHdDSUk4NjdKQXBpZGVaRW5pS2p6cTA1Y0V4aFRhWmJL?=
- =?utf-8?B?d2cyQ3B6eUZzd1Q4M1pzdW1ZZGZSbEU5TWhITFB6SExiZHVVbXhnaTNOblJJ?=
- =?utf-8?B?ck92aXFDRVpPSnZ5dVB1MEc5WU1pTTdRMGw0ZldBbzdVODFFUTVBb0w5SFZi?=
- =?utf-8?B?UnNTVDJxY0lzQk5OK3RhT1B5NGx4eW9EdVozT2piVXdVRlBNL2s3VE5QYUl3?=
- =?utf-8?B?c3JXK2F1NU9nWXNLNHVZbTF1U0NZTlJraEJHYk94bmhPMHlJenNpYVRDd3B4?=
- =?utf-8?B?aTVPdlQwWmJ0YzBRVUNzcGE0TTA4MFQ4LzdvSkc1SXl1c1hGaGpidUlZKzF4?=
- =?utf-8?B?eEp0aTRVRWV0L1M5RjRFRVFHcHhLeWN4UXN6Qkt5OEZDRTA3OVNOU3hGUUtL?=
- =?utf-8?B?d2w1MnRWbk1uWksvdVdJSTltcFJta2wzelBTM1czOGw1dkZ0QzhKZmV1c2J6?=
- =?utf-8?B?VmtIUnE1M1VZSGRhYmF4eVdVZDBXR3RZSlpyalhKdGE4TXpaVk40QlZIbXor?=
- =?utf-8?B?cWtLWXE4ZE5ETXlKNS9LSVJMYWNnWWdDaGtKS2NCNjNVeU5Kd2JEZFdGQ3JY?=
- =?utf-8?B?azgwOHlpc3oyZ0pMUkROQUhEYUJkaHhVTWt5dnRJZWRRVUYxbkJMN1RrODdV?=
- =?utf-8?B?UDBLMnlpS0Y2T1Rib3V6WkkrZDNOczk3V095VDZuTHpzTjBZTHdvSlluYWFo?=
- =?utf-8?B?dzZVa0NtaUlLRDgyNS9aLzRMSEhnNUVBdHg4YnVJcDVqRHg3R3lCMEhUemNw?=
- =?utf-8?B?T0kyZTJOTFhBZFBCQTBBVy9BK2IzbG9raVIrQzcvZTZTcndSaWdiWW5Saktl?=
- =?utf-8?B?a1pvZURLdHg4SDkxZDZDUTEwbnpZemdlU2hPdkhGY3UvdjZEamcvS0szU0I0?=
- =?utf-8?B?NDlZM2ErWXBBMnVlOS9Qdmx4ZjRSKyt4T2FoVTh0U0lVcm1CYkx6em9kbC8w?=
- =?utf-8?B?Wk1RWUlVS2dyU2YyZHNVR3k1RDNwSGVXNE1HWXVFb3liVUNsSTY2aDR4VlFQ?=
- =?utf-8?B?cXRVQzMxVTQyZFNwaGZOd2s2VCs3aGpBVXlUSEJWdndybkxGTmpvUTJoazU1?=
- =?utf-8?B?N3hFcnVhQUFQTG5ocUNZb0ZENFAyVExOaWJINXFJTkg1TVdWMVFEMmVOTy9G?=
- =?utf-8?B?KzVLdjBoOVVyMVplTG02Mm1VbmJUQ09SMDk4TndzNjhRcWU0Y0lueXA0RUtX?=
- =?utf-8?Q?MlSh0dVYMsaSSAyrJqUfQpa0w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86837b9c-9c8d-43db-baf3-08dd9dd8c844
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 11:14:15.7771 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0Mt3c0mKt/yr5DBLJuOOz2FDZO+acIP4lKEL/i0Pjos0K6LU0/WDklafKOMokvXA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5937
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 2/3] drm/bridge: cadence: cdns-mhdp8546*: Change
+ drm_connector from pointer to structure
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <lumag@kernel.org>, <jani.nikula@intel.com>, <andy.yan@rock-chips.com>,
+ <mordan@ispras.ru>, <linux@treblig.org>, <viro@zeniv.linux.org.uk>,
+ <yamonkar@cadence.com>, <sjakhade@cadence.com>,
+ <quentin.schulz@free-electrons.com>, <jsarha@ti.com>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
+ <dianders@chromium.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
+ <alexander.stein@ew.tq-group.com>
+References: <20250521073237.366463-1-j-choudhary@ti.com>
+ <20250521073237.366463-3-j-choudhary@ti.com>
+ <19dd2795-c693-4c1a-989c-8b3bc2b3cdfd@ideasonboard.com>
+ <493afc6c-59a0-4f6b-9a9e-568dd2eff873@ti.com>
+ <2a15263b-2d36-4c46-be0f-4145069d134f@ti.com>
+ <027ad6e9-5070-43f2-a082-fd498cc6d31d@ideasonboard.com>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <027ad6e9-5070-43f2-a082-fd498cc6d31d@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,39 +87,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/28/25 09:43, Sunil Khatri wrote:
-> Add client id to the drm_file_error api, client id
-> is a unique id for each drm fd and is quite useful
-> for debugging.
+Hi,
+
+On 27/05/25 17:07, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-> ---
->  drivers/gpu/drm/drm_file.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> On 27/05/2025 13:39, Jayesh Choudhary wrote:
+>>
+>>
+>> On 27/05/25 14:59, Jayesh Choudhary wrote:
+>>> Hello Tomi,
+>>>
+>>> On 27/05/25 13:28, Tomi Valkeinen wrote:
+>>>> Hi,
+>>>>
+>>>> On 21/05/2025 10:32, Jayesh Choudhary wrote:
+>>>>> After adding DBANC framework, mhdp->connector is not initialised during
+>>>>> bridge calls. But the asyncronous work scheduled depends on the
+>>>>> connector.
+>>>>> We cannot get to drm_atomic_state in these asyncronous calls running on
+>>>>> worker threads. So we need to store the data that we need in mhdp
+>>>>> bridge
+>>>>> structure.
+>>>>> Like other bridge drivers, use drm_connector pointer instead of
+>>>>> structure
+>>>>> and make appropriate changes to the conditionals and assignments
+>>>>> related
+>>>>> to mhdp->connector.
+>>>>> Also, in the atomic enable call, move the connector  and connector
+>>>>> state
+>>>>> calls above, so that we do have a connector before we can retry the
+>>>>> asyncronous work in case of any failure.
+>>>>>
+>>>>
+>>>> I don't quite understand this patch. You change the mhdp->connector to a
+>>>> pointer, which is set at bridge_enable and cleared at bridge_disable.
+>>>> Then you change the "mhdp->connector.dev" checks to "mhdp->connector".
+>>>>
+>>>> So, now in e.g. cdns_mhdp_fw_cb(), we check for mhdp->connector, which
+>>>> is set at bridge_enable(). Can we ever have the bridge enabled before
+>>>> the fb has been loaded? What is the check even supposed to do there?
+>>>>
+>>>> Another in cdns_mhdp_hpd_work(), it checks for mhdp->connector. So...
+>>>> HPD code behaves differently based on if the bridge has been enabled or
+>>>> not? What is it supposed to do?
+>>>>
+>>>> Isn't the whole "if (mhdp->connector.dev)" code for the legacy
+>>>> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR case?
+>>>>
+>>>>    Tomi
+>>>
+>>> I misinterpreted your comment in v1[0] regarding finding the connector
+>>> from the current state in cdns_mhdp_modeset_retry_fn() and I missed
+>>> this. I was more focused on finding a connector for that function.
+>>>
+>>> For the current code, in all the conditionals involving mhdp->connector,
+>>> we are entering else statements as connector is not initialised.
+>>> So I will just drop if statements in cdns_mhdp_fw_cb() and
+>>> cdns_mhdp_hpd_work() (like you said, its legacy case) while still having
+>>> mhdp->connector as pointer as we need it for
+>>> cdns_mhdp_modeset_retry_fn() and in cdns-mhdp8546-hdcp driver.
+>>>
+>>> That should be okay?
+>>>
+>>> [0]: https://lore.kernel.org/all/e76f94b9-b138-46e7-bb18-
+>>> b33dd98c9abb@ideasonboard.com/
+>>>
+>>> Warm Regards,
+>>> Jayesh
+>>>
+>>>
+>>
+>> Tomi,
+>>
+>> One more thing here. Should this be squashed with the first patch as
+>> this is sort of removing !(DRM_BRIDGE_ATTACH_NO_CONNECTOR) case and
+>> associated changes?
 > 
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index dd351f601acd..2f6c0ebe0850 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -1011,8 +1011,10 @@ void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
->  	pid = rcu_dereference(file_priv->pid);
->  	task = pid_task(pid, PIDTYPE_TGID);
->  
-> -	drm_err(dev, "comm: %s pid: %d client: %s ... %pV", task ? task->comm : "Unset",
-> -		task ? task->pid : 0, file_priv->client_name ?: "Unset", &vaf);
-> +	drm_err(dev, "comm: %s pid: %d client: %s client-id:%llu ... %pV",
-> +		task ? task->comm : "Unset",
-> +		task ? task->pid : 0, file_priv->client_name ?: "Unset",
-> +		file_priv->client_id, &vaf);
+> 
+> All the legacy code should be removed in the previous patch, yes. But
+> it's not quite clear to me what's going on here. At least parts of this
+> patch seem to be... fixing some previous code? You move the
+> drm_atomic_get_new_connector_for_encoder() call to be earlier in the
+> bridge_enable. That doesn't sound like removing the legacy code. But
+> it's not quite clear to me why that's done (or why it wasn't needed
+> earlier. or was it?).
+> 
+>   Tomi
+> 
 
-Same comment as with the debugfs patch, client-id first and then name I would say.
+drm_atomic_get_new_connector_for_encoder() call is moved earlier
+in bridge_enable to address the cases when we get error in
+cdns_mhdp_link_up(mhdp) or cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR,
+&resp), and we goto 'out' to schedule modeset_retry_work. We need to
+have drm_connector before that if we want to change the connector
+link state here.
 
-Apart from that looks good to me.
+In legacy usecase we are not hitting this as attach already initialised
+mhdp->connector before bridge_enable() that would be used by
+cdns_mhdp_modeset_retry_fn() as required.
 
-Regards,
-Christian.
+These errors usually don't hit during bridge_enable calls but in
+one of my boards, I saw cdns_mhdp_link_up() giving error and after
+that the null pointer dereference in cdns_mhdp_modeset_retry_fn()
+while trying to access the mutex there (&conn->dev->mode_config.mutex)
 
->  
->  	va_end(args);
->  	rcu_read_unlock();
+-Jayesh
 
+
+
+>>
+>>>>
+>>>>> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546
+>>>>> DPI/DP bridge")
+>>>>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>>>>> ---
+>>>>>    .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 28 ++++++++
+>>>>> +----------
+>>>>>    .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  2 +-
+>>>>>    .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |  8 +++---
+>>>>>    3 files changed, 19 insertions(+), 19 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/
+>>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>>> index 66bd916c2fe9..5388e62f230b 100644
+>>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>>>> @@ -740,7 +740,7 @@ static void cdns_mhdp_fw_cb(const struct
+>>>>> firmware *fw, void *context)
+>>>>>        bridge_attached = mhdp->bridge_attached;
+>>>>>        spin_unlock(&mhdp->start_lock);
+>>>>>        if (bridge_attached) {
+>>>>> -        if (mhdp->connector.dev)
+>>>>> +        if (mhdp->connector)
+>>>>>                drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+>>>>>            else
+>>>>>                drm_bridge_hpd_notify(&mhdp->bridge,
+>>>>> cdns_mhdp_detect(mhdp));
+>>>>> @@ -1759,17 +1759,25 @@ static void cdns_mhdp_atomic_enable(struct
+>>>>> drm_bridge *bridge,
+>>>>>        struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>>>>>        struct cdns_mhdp_bridge_state *mhdp_state;
+>>>>>        struct drm_crtc_state *crtc_state;
+>>>>> -    struct drm_connector *connector;
+>>>>>        struct drm_connector_state *conn_state;
+>>>>>        struct drm_bridge_state *new_state;
+>>>>>        const struct drm_display_mode *mode;
+>>>>>        u32 resp;
+>>>>> -    int ret;
+>>>>> +    int ret = 0;
+>>>>>        dev_dbg(mhdp->dev, "bridge enable\n");
+>>>>>        mutex_lock(&mhdp->link_mutex);
+>>>>> +    mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
+>>>>> +                                   bridge->encoder);
+>>>>> +    if (WARN_ON(!mhdp->connector))
+>>>>> +        goto out;
+>>>>> +
+>>>>> +    conn_state = drm_atomic_get_new_connector_state(state, mhdp-
+>>>>>> connector);
+>>>>> +    if (WARN_ON(!conn_state))
+>>>>> +        goto out;
+>>>>> +
+>>>>>        if (mhdp->plugged && !mhdp->link_up) {
+>>>>>            ret = cdns_mhdp_link_up(mhdp);
+>>>>>            if (ret < 0)
+>>>>> @@ -1789,15 +1797,6 @@ static void cdns_mhdp_atomic_enable(struct
+>>>>> drm_bridge *bridge,
+>>>>>        cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+>>>>>                    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
+>>>>> -    connector = drm_atomic_get_new_connector_for_encoder(state,
+>>>>> -                                 bridge->encoder);
+>>>>> -    if (WARN_ON(!connector))
+>>>>> -        goto out;
+>>>>> -
+>>>>> -    conn_state = drm_atomic_get_new_connector_state(state, connector);
+>>>>> -    if (WARN_ON(!conn_state))
+>>>>> -        goto out;
+>>>>> -
+>>>>>        if (mhdp->hdcp_supported &&
+>>>>>            mhdp->hw_state == MHDP_HW_READY &&
+>>>>>            conn_state->content_protection ==
+>>>>> @@ -1857,6 +1856,7 @@ static void cdns_mhdp_atomic_disable(struct
+>>>>> drm_bridge *bridge,
+>>>>>            cdns_mhdp_hdcp_disable(mhdp);
+>>>>>        mhdp->bridge_enabled = false;
+>>>>> +    mhdp->connector = NULL;
+>>>>>        cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+>>>>>        resp &= ~CDNS_DP_FRAMER_EN;
+>>>>>        resp |= CDNS_DP_NO_VIDEO_MODE;
+>>>>> @@ -2157,7 +2157,7 @@ static void cdns_mhdp_modeset_retry_fn(struct
+>>>>> work_struct *work)
+>>>>>        mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
+>>>>> -    conn = &mhdp->connector;
+>>>>> +    conn = mhdp->connector;
+>>>>>        /* Grab the locks before changing connector property */
+>>>>>        mutex_lock(&conn->dev->mode_config.mutex);
+>>>>> @@ -2234,7 +2234,7 @@ static void cdns_mhdp_hpd_work(struct
+>>>>> work_struct *work)
+>>>>>        int ret;
+>>>>>        ret = cdns_mhdp_update_link_status(mhdp);
+>>>>> -    if (mhdp->connector.dev) {
+>>>>> +    if (mhdp->connector) {
+>>>>>            if (ret < 0)
+>>>>>                schedule_work(&mhdp->modeset_retry_work);
+>>>>>            else
+>>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/
+>>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>>> index bad2fc0c7306..b297db53ba28 100644
+>>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>>>>> @@ -375,7 +375,7 @@ struct cdns_mhdp_device {
+>>>>>         */
+>>>>>        struct mutex link_mutex;
+>>>>> -    struct drm_connector connector;
+>>>>> +    struct drm_connector *connector;
+>>>>>        struct drm_bridge bridge;
+>>>>>        struct cdns_mhdp_link link;
+>>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/
+>>>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>>> index 42248f179b69..59f18c3281ef 100644
+>>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+>>>>> @@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct
+>>>>> cdns_mhdp_device *mhdp)
+>>>>>        int ret;
+>>>>>        dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
+>>>>> -        mhdp->connector.name, mhdp->connector.base.id);
+>>>>> +        mhdp->connector->name, mhdp->connector->base.id);
+>>>>>        ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
+>>>>> @@ -445,7 +445,7 @@ static int cdns_mhdp_hdcp_check_link(struct
+>>>>> cdns_mhdp_device *mhdp)
+>>>>>        dev_err(mhdp->dev,
+>>>>>            "[%s:%d] HDCP link failed, retrying authentication\n",
+>>>>> -        mhdp->connector.name, mhdp->connector.base.id);
+>>>>> +        mhdp->connector->name, mhdp->connector->base.id);
+>>>>>        ret = _cdns_mhdp_hdcp_disable(mhdp);
+>>>>>        if (ret) {
+>>>>> @@ -487,13 +487,13 @@ static void cdns_mhdp_hdcp_prop_work(struct
+>>>>> work_struct *work)
+>>>>>        struct cdns_mhdp_device *mhdp = container_of(hdcp,
+>>>>>                                 struct cdns_mhdp_device,
+>>>>>                                 hdcp);
+>>>>> -    struct drm_device *dev = mhdp->connector.dev;
+>>>>> +    struct drm_device *dev = mhdp->connector->dev;
+>>>>>        struct drm_connector_state *state;
+>>>>>        drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>>>>>        mutex_lock(&mhdp->hdcp.mutex);
+>>>>>        if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+>>>>> -        state = mhdp->connector.state;
+>>>>> +        state = mhdp->connector->state;
+>>>>>            state->content_protection = mhdp->hdcp.value;
+>>>>>        }
+>>>>>        mutex_unlock(&mhdp->hdcp.mutex);
+>>>>
+> 
