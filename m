@@ -2,71 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65788AC6612
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A28AC6614
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:35:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7902E10E160;
-	Wed, 28 May 2025 09:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E580910E185;
+	Wed, 28 May 2025 09:35:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eKZsfRdo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gu3XtXWI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00FCE10E160;
- Wed, 28 May 2025 09:34:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3774710E5C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748424892; x=1779960892;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=831o/0tq+xxG8bYFWyAIG7pC+lO6xj5Q2fEFNJn6MBg=;
- b=eKZsfRdo9MzgFERq/nt9bU/XOs1wb36DGLGhfaPkTN60uDQMgfz+Z5T3
- Cnab37B/1eZd00YCl9M8Csyd6a+ILMGBvQo3pQL71X+glwNeTRhRWlVj9
- dL3e8jfCzy9zEL8uFZwjbues50ONqqCtWQY8Cd0vdn//usawXNJKMEmZO
- PDoKXPz8UevrE/1VW6zIHdRu7fvVb8b5Lat8dVSdifBO3IwMDgfRfbA9w
- LWc1dM0o3dkLc7OIhD2jl1G1KvgIkgk66x+I4yfNBzFlC1aB7+5vO2vkL
- dlHBNH0B5Si2VA216SSc/mjdHQahwLlpS5t10UhbDSxGQi2izQIs1EWdl A==;
-X-CSE-ConnectionGUID: QpIeT3VTScqfJntOYBB1kQ==
-X-CSE-MsgGUID: m56aNVKKTZCDSfLbxes/NQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50437825"
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="50437825"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 02:34:50 -0700
-X-CSE-ConnectionGUID: +xoKY/ybQhW1HOYwA0lBJg==
-X-CSE-MsgGUID: 4cyIKe+NRE2uGPCtkAHl7w==
+ t=1748424933; x=1779960933;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Tc3OsSurpH1z0gI4HzRiSDSFs/zdI+P7OXdjEkrhJJA=;
+ b=Gu3XtXWIpAFG3hExvEFL/0gRBXZmaTVKjGLiYQ0n4NF1Q32i69sp7kOd
+ lGo4YihAxeRqV6jq1Apet3EhYqJQwbZwXR16g+w8U0fiB+GSEP08nCcN4
+ JC+XcmY+RpIJqZdIbZLzCgQKNXuC/85wgx9tSG4eYxw07fzPiqEAEa0pI
+ Cm00P4xwsN+7JpWyWIfLv+JohBHn38tfxF3d5GOMMAQXiwGB0wNf19NBy
+ CWXfgaCc/P+iNEDi6GC4FYw3eDNgIzPcxEdPaGBpDmQoQen7ZJD649jH0
+ TiWHxg4eJMxpDlHRa+ZKKSQmTlVK7qzrk3zqlupS7LzY0vZCFuOCD03fR g==;
+X-CSE-ConnectionGUID: AkFZb9wVSqapyjSz6YsUOQ==
+X-CSE-MsgGUID: vEIUPkjhTJ+kP7kTtypwBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="72976081"
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="72976081"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 02:35:32 -0700
+X-CSE-ConnectionGUID: XS4TX1aOSFq76kElmSZ4pg==
+X-CSE-MsgGUID: WiBiIuMNRiyKaiuvGN+x1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="143641016"
-Received: from smile.fi.intel.com ([10.237.72.52])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 02:34:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1uKDBL-00000001PEa-19lW; Wed, 28 May 2025 12:34:43 +0300
-Date: Wed, 28 May 2025 12:34:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Imre Deak <imre.deak@intel.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
-Message-ID: <aDbYs7QZRfr2i80A@smile.fi.intel.com>
-References: <20250523121106.2231003-1-arnd@kernel.org>
- <j7yodlrk7wh3ylvb2z622ndlzm4guhahmakdb6l5d6qtv5sabo@w4bfiehtmaab>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <j7yodlrk7wh3ylvb2z622ndlzm4guhahmakdb6l5d6qtv5sabo@w4bfiehtmaab>
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; d="scan'208";a="180423109"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.23])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 02:35:30 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, LKML
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [git pull] drm for 6.16-rc1
+In-Reply-To: <CAPM=9tyv4CODKMbTW0Xwx4xYWgKPA0rMgThLgCy8OkF-DvVTNg@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAPM=9tyv4CODKMbTW0Xwx4xYWgKPA0rMgThLgCy8OkF-DvVTNg@mail.gmail.com>
+Date: Wed, 28 May 2025 12:35:27 +0300
+Message-ID: <7aff9a7076ada15146d4fe60d2c6cd9d99370385@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +70,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 27, 2025 at 03:55:46PM -0500, Lucas De Marchi wrote:
-> On Fri, May 23, 2025 at 02:10:46PM +0200, Arnd Bergmann wrote:
+On Wed, 28 May 2025, Dave Airlie <airlied@gmail.com> wrote:
+> The disgusting turds removal patchset is also in here.
 
-...
+I don't think it is. At least I didn't merge it. The existing thing just
+still depends on BROKEN.
 
-> > +	depends on INTEL_PLATFORM_DEVICES || !(X86 && ACPI)
-> 
-> 		   ^
-> Did you mean X86_PLATFORM_DEVICES here?
+I had a few attempts at fixing it, Linus was okay with the patches,
+Masahiro was not, and that was that. I don't think it's possible to meet
+Linus' requirements of genericity without touching kbuild makefiles, and
+Masahiro apparently doesn't want it in kbuild.
 
-Why do we need to depend on the whole thingy (yes, it will be enabled at the
-end) if we only talking about Intel?
+I still think what we want to do is reasonable. I'm not looking to
+impose any header checks on anyone outside of drm, and not even on all
+of drm. But I can't hide it inside drm makefiles. I don't know where to
+go from here.
 
-> With that, Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> 
-> I see several drivers selecting
-> X86_PLATFORM_DEVICES though. Maybe they should also be translated to
-> dependencies instead?
 
-I think so, selecting that sounds wrong.
+BR,
+Jani.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
