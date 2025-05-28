@@ -2,63 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DFDAC6989
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 14:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C9CAC699A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 14:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFB8210E5C7;
-	Wed, 28 May 2025 12:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C358410E29D;
+	Wed, 28 May 2025 12:42:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="nYKmG6hr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jlToSbBE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B7A10E273;
- Wed, 28 May 2025 12:39:24 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4b6pwL1xdKz9tMS;
- Wed, 28 May 2025 14:39:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1748435954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RGlF2J+LXP6mDAjw+NjT5XOIIldRczFgSNzdB+eCv10=;
- b=nYKmG6hre7dyxRWF/cr8UrkQxoeBGWBzUiJ0wiCmXoGWFWOHcWqYxeAF+feIeCOTGktG4b
- rOLM2K/qJMwBMt9GaQcehHErtPVX49+SRAQiZWbZMQMwYin+ZdbVZSyrcWcVBcH3a3E2J7
- VsemUzKFrx2fEv8Ib1y01OQ2w+6hgAZHsXb7lFy9X+lE9IUgzKzf4Huvj99hxpON0EArWH
- iQaA4pagPJFuXYBRvQkI9G0hN3rBqpsDGJlH0zI1iNj4Be8qSMWbgPitkN9XdVet9IInwx
- S0BcWuL1HSDXnvVzujUn925at631VLH7vpuD/7lTLZqX40x0nlPXABwko6BHSg==
-Message-ID: <6cd32fcf-233d-454b-be3d-aabb870b8b4a@mailbox.org>
-Date: Wed, 28 May 2025 14:39:11 +0200
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA2C10E273
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 12:41:59 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-ad572ba1347so785379166b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 05:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748436118; x=1749040918; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fcybqgDD5oDZApETTyhThYIrRhfcS6l0d/FaIxiSIYI=;
+ b=jlToSbBEx2VZzZJWL6xmTdRpPvaGIaL7sRFOkNc9MBFl86wUn0SJKKss114y6r6y17
+ VvQDMZiRDP3SqcU1eKZeePeazusmr8987QkIon2RzwF0nB15DJtIoVUXRAykd78Y/XLg
+ b2PjkTVP3tiZAbGhD2IWWGmRj04yRKsO/giohMxFYMMPrdkQyFuTTAQ0vXPaljqS3M/Z
+ tCGxcoZbDlDthETcbIhBlvnNTuPhFqXOUU9ItD0RJ5ZZw5GfgCLu0VEcLq2QBEWVsftJ
+ flapzOUVBHpEssrM2Din2NPDIOFLcXaNf/q9mSgW3JDaJEAWKzske0vnN/omW24yhZyg
+ VTNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748436118; x=1749040918;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fcybqgDD5oDZApETTyhThYIrRhfcS6l0d/FaIxiSIYI=;
+ b=frPO2OFydVRuSDhw+UIMYt94RB/7EDluFqmgqLRWOvf3Rxd8zt7zuHqk0tWXrb5kgJ
+ L+ctMBTWvEu0ayxZvTpxMEEilzW9qEyFxyoauJJoXRvZPbGf48aIXuyD8Fh6MaKbjpsW
+ OsezIA+fdvas7lNFFvBwZBE9sgmV7+Q6YYnjEoh89FUxY7Y+KMGjwGUgnMfHgYTMxe5U
+ kn6+1dK3x11+CG6YmhmdjuS8lYzuUp37Yp715dE6XwTCEM/oy+48YKc8Y7OEYE5nPtB9
+ ImP7MOoRDle2+WlsTy3w6VFs32Rtn3E88xw3zxSAMEmgslyxtFfnrRwm2MI6YWjqoETk
+ Nwnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAfp95yREA1fOc89el1EkD6yxmixHXDd03uOkG/uP9v4VFSoa/1IjWNVa/3JXsk4KTN/X14q3Yw+0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHr3N7AhVy+/cJ5NfXYVSJf3oBTxHw/+y53+Q7i7kNsNHRuUEW
+ sCRoG7O2cu0xRmChgJ/372QDhyRT35x/JAoaylIT3eTu7cA7vqzUA5+g
+X-Gm-Gg: ASbGncvlGsmzRGcTeP39dLAp6f7aQAmTdJn9jRWlNEtflUzZXe48+MPS8AGfb7KpVUi
+ ewtBGA9MMXy+gNJ0sLm+/4lI+PvKgZDvGhXDz3n9Cq8xR40OEzeuAR32QOkSJ/k2gwL6tCh51+L
+ fkhKCpPyrdoTXsdehjvU0WZyxp3uxC4UmXt7SvgxmhPoPAD6n3snY5ZMuVSeE8LVVFURhcTbuUR
+ L8qRG81+sry6r3uQuov2EfWf8VLY3VlzQV7JBu23+cdKnt/IVLl6tShJjX337FW5VGxct9XSO6O
+ 3hMygjEYFs13gDNSPWNz/kjUrVT+++vtLPs27+G9zSoXfPp+MrGVDhpTcnYDbftBM92R81R0aJe
+ jwQBFKOoqNSmDoHXTD8ayac/uAz1j/iQboQqodMpUIsaFNVkULMc=
+X-Google-Smtp-Source: AGHT+IE3Rw4thyp1GWN412ZEdK69IMZD5DtxtrS1IfAeV52JV9OhYNh3EcnK3Cxlv7eNgKS/ZDA8kw==
+X-Received: by 2002:a17:906:d7e8:b0:ad8:9b24:9d16 with SMTP id
+ a640c23a62f3a-ad89b249d8emr334723566b.6.1748436117922; 
+ Wed, 28 May 2025 05:41:57 -0700 (PDT)
+Received: from ernest.hoecke-nb
+ (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad8a1b48b06sm100900566b.154.2025.05.28.05.41.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 May 2025 05:41:57 -0700 (PDT)
+Date: Wed, 28 May 2025 14:41:56 +0200
+From: Ernest Van Hoecke <ernestvanhoecke@gmail.com>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: Doug Anderson <dianders@chromium.org>, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ dri-devel@lists.freedesktop.org, tomi.valkeinen@ideasonboard.com,
+ max.krummenacher@toradex.com, 
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ kieran.bingham+renesas@ideasonboard.com, linux-kernel@vger.kernel.org,
+ max.oss.09@gmail.com, devarsht@ti.com, dmitry.baryshkov@oss.qualcomm.com,
+ ernest.vanhoecke@toradex.com
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
+ connector type
+Message-ID: <7256zmyip7iaenbrcfvggnrsh7qvg7tcbfgr7htywpxqkhnggp@2jlfcqn7oaxb>
+References: <20250508115433.449102-1-j-choudhary@ti.com>
+ <mwh35anw57d6nvre3sguetzq3miu4kd43rokegvul7fk266lys@5h2euthpk7vq>
+ <CAD=FV=U7XJZg4Vh4xMKEiAuaJHNA1H11SiD19KLBazPmMEVduw@mail.gmail.com>
+ <0936a042-8ebe-42f7-b3eb-a4606120cc47@ti.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/amdgpu: Dirty cleared blocks on allocation
-To: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>,
- Natalie Vock <natalie.vock@gmx.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org
-References: <20250527194353.8023-1-natalie.vock@gmx.de>
- <20250527194353.8023-3-natalie.vock@gmx.de>
- <89652580-5763-4f1e-abf5-d340119543f3@amd.com>
- <dbbdcada-32ae-4457-af87-1f98362461f1@gmx.de>
- <da44526e-f2b6-4486-8ede-24647869576f@amd.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <da44526e-f2b6-4486-8ede-24647869576f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: i9i1rih46o4e89puh5pgwzy6nrsf7iwp
-X-MBO-RS-ID: 1d7103a300313c1ac30
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0936a042-8ebe-42f7-b3eb-a4606120cc47@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,25 +100,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-05-28 14:14, Paneer Selvam, Arunpravin wrote:
-> On 5/28/2025 2:59 PM, Natalie Vock wrote:
->> On 5/28/25 09:07, Christian König wrote:
->>>
->>> But the problem rather seems to be that we sometimes don't clear the buffers on release for some reason, but still set it as cleared.
->>
->> Yes precisely - "some reason" being the aforementioned clear flags. We do always call amdgpu_clear_buffer on release, but that function will perform the same checks as the clear on allocation does - that means, if a block is marked clear then it will skip emitting any actual clears.
-> 
-> On buffer release [https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c#L1318], we call amdgpu_fill_buffer() and not amdgpu_clear_buffer() (in amdgpu_bo_release_notify() function), so the buffers are expected to be cleared without fail.
-> 
-> When the user space doesn't set the AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE flag and having only AMDGPU_GEM_CREATE_VRAM_CLEARED, we don't call this amdgpu_fill_buffer() and amdgpu_vram_mgr_set_cleared(), and that's kind of makes sense.
-> I think the problem here is, when we don't clear the buffer during BO release, but the flag remains as cleared and that's why these blocks are skipped during clear on allocation (in amdgpu_bo_create() function).
-> 
-> Therefore, if the release path clear is skipped for any reasons (for example, in case of AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE not set), we should set all buffer to dirty. Somehow, that is missed.
-BTW, I asked this before, but didn't get an answer:
+Hi Jayesh,
 
-Now that VRAM is always cleared before handing it out to user space, does AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE really need to do anything anymore? How can user space access the contents of a destroyed BO?
+On Wed, May 28, 2025 at 05:48:56PM +0530, Jayesh Choudhary wrote:
+> As per the bindings, I see that we should have "no-hpd" property in
+> the device description for platforms with bad HPD or disconnected HPD.
+> 
+> Then we can read it in ti_sn65dsi86_probe() before resume call and use
+> it as a conditional instead.
+> Since I do not have any "bad HPD signal" board, I would need some
+> help validating this on such boards from Ernest.
 
+This sounds like a good approach to me, during my investigation I also
+thought the "no-hpd" property should enter into the story.
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+I will gladly help with testing and will add a jumper to my board so I
+can turn it into a bad/good HPD signal board.
+
+Thanks for the efforts and kind regards,
+Ernest
