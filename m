@@ -2,79 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCBDAC65B0
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF86AC65DB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF4C10E5C9;
-	Wed, 28 May 2025 09:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1EB710E56F;
+	Wed, 28 May 2025 09:25:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Fr0ooEIM";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="gdqJXUbu";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ld6z4N28";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE0A10E5C9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:22:14 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3a363d15c64so2957501f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748424133; x=1749028933; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zO+owTbI7AwSyY1EJNJe4E1/RlH7PIREOgvq6bjCeoE=;
- b=Fr0ooEIMGE3JiMgzbGam57FKJpBv3X9kZdC7s6Z54BXSrX0wE94/UIQWmbd8NRgxDm
- +kqawRvX8DH4Nxfxrd6kOQOzgAgOxcAUibKB+B/O+73EQaR6OD+WnK/uGd/GWnG6YXWY
- yJP9OYJsYYGcstNM2AT5yED3euaU0Hu+BKet8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748424133; x=1749028933;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zO+owTbI7AwSyY1EJNJe4E1/RlH7PIREOgvq6bjCeoE=;
- b=qdwx+k4vqmEgb132oTF2jwEZJjQQCGhGuFZCuUZhr0T6al34q43tGWWOmGtdBHrup8
- W5yuTWO4kIPcgOdTpQrL6wccv5AN7HZxggbL1jqfK+MD6akUoXU/uLw+NDIWbqWsOXSP
- hWTxAX4kK+Spodx3lil4WikhCqOOSrXq9+ruRuT1/EwiEV+ZDwaX9M5zWNln88XYtXDr
- UVZA2m3F1O1SY3bIXWVvinH7bKVmv+PH8Hyzr5j75poxxIDOczs28i8Yy7Yl9HFeCNPe
- +WucsGj87QPf8koQ+e2c+8F3wgvfCuJ86tZrI4BwmoGam+IyIVm0Y7DoCaZLNqDLJ9Zg
- 9JYQ==
-X-Gm-Message-State: AOJu0YwlklH9TbsZVn5MQE4CGi6VAM1GySYpUUhwRu5DmVwpMsupqRFN
- Fxhr+pwAheaRzdL3zoNN8sj+0+HMkNBKCWCYtyMhOSAUBI+PV34KQIHVNdbe24pbjfeHmOeimeT
- +PyhI
-X-Gm-Gg: ASbGncs7+jjHQ+dwJaaJvYnc8nDr+rQ6NV0upiYHZcqdRvfXPMlPBTksGU8KyMLhBr1
- PLvrp4fW2wxLL5Z4FAo/auQWebgIDfkPAC/RnK1RHnNieYE4oDFkzNGBOAcJM7BueziN1xFgg3j
- j2iy3GsLa8G208XVa+P+wcA1QSMrjkGC0NEq9PZDLNaDWCdHamxIAgCjD1yayb75s7sAE46inQX
- NyCySqYNmTWMOyg6e7g4jijfrYzPgFp+bFrW6RtZljVQng2Idlcs3Xu1E1jd8GyzeuKydCGBfEt
- laOnZm/6+IlW6L1m6f/TXWvtRpqIy+v9Jik3XJVDYdJuvDfPogkBbRJQGlSq1+J9OjGYc8f9Jw=
- =
-X-Google-Smtp-Source: AGHT+IFHkUgBJ3MDpGmc55Df2jnO4O7GDDWk04es2D4qvl9vkrointO9bgr3vdSybyJfzVBW7+QH2A==
-X-Received: by 2002:a05:6000:381:b0:3a4:cfbf:51a0 with SMTP id
- ffacd0b85a97d-3a4e943c6a1mr1299117f8f.21.1748424133000; 
- Wed, 28 May 2025 02:22:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4eace3283sm919873f8f.89.2025.05.28.02.22.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 02:22:12 -0700 (PDT)
-Date: Wed, 28 May 2025 11:22:10 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org,
- Simona Vetter <simona.vetter@intel.com>
-Subject: Re: [PATCH 2/8] drm/fdinfo: Switch to idr_for_each() in
- drm_show_memory_stats()
-Message-ID: <aDbVwo6W8zq6H9Qq@phenom.ffwll.local>
-References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
- <20250528091307.1894940-3-simona.vetter@ffwll.ch>
+Received: from fout-b8-smtp.messagingengine.com
+ (fout-b8-smtp.messagingengine.com [202.12.124.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5CB10E56F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:25:41 +0000 (UTC)
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal
+ [10.202.2.42])
+ by mailfout.stl.internal (Postfix) with ESMTP id 3FAE5114017F;
+ Wed, 28 May 2025 05:25:40 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-02.internal (MEProxy); Wed, 28 May 2025 05:25:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm1; t=1748424340; x=
+ 1748510740; bh=WnDy8W03sMnHBjQtKFoNIn/mPbUS43+Xn/e+s1J+xFs=; b=g
+ dqJXUbucBVQR+vqwNqQNUn2a1g1cjSfR8rsbq1v7eMUms6jG/zcpD60J/jqyliHZ
+ TDM5VvYe35f9lHq49W9Gm+1JzlvC/a2ROOX1iS4kcbCUzcbzV7s8pj0wqBM8FrKw
+ r5goCZqxl0KcMAT9AMAecKtJMdYBaNXDnCV6ik9zfTTKdkX0f8ODNHAoOzM2530U
+ QuCIvs5bpRJvHX5i7ueBrtnkWJNICIFsKyK1N16udklfbLCZpv0lE6+IklGieveS
+ UCTSd/bEH1r47SWt/FfIsUN4BypGiR0Wid1npVxnJa8a4ML1UwOcOkC59vOz64pr
+ OGyJaID/z/EQo/jUk1bJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1748424340; x=1748510740; bh=W
+ nDy8W03sMnHBjQtKFoNIn/mPbUS43+Xn/e+s1J+xFs=; b=Ld6z4N28UwYuyuF7k
+ O0DSx51QP5YVkMd1lxTqUdaaKte67dksMDQemBirMKZOD6qjaq1+PCMxOf4XrLF3
+ 7q2PXVtOyyMG4issJ3D2V8vDaSWk4Fq5s1wmCwGKWTrgOzFEqaY6J1+Q8DYDrnvp
+ a3ZIyC7is/Vsqv2EDw2WWDP4CZpn6LK5M+Upu05D56dWJOMAJ/jBH/X6RZDcHx8C
+ a/DAVJNkNX9FRmsTSxs0O+OiRrTk+5qxc00AoC8q0KteOYOiXCWTCMKUNCEJijY6
+ 4PFBhSP1jNgV7ETOChkX+VlSfMAdDEGe6SNI+RilI+XWpYycIpgaCA8QPq2w0/29
+ WRkvw==
+X-ME-Sender: <xms:k9Y2aDvmvQyTUtnV3ufkSiP4iu8kcVnuWvIRWv-fU6xT7eorqFNwiA>
+ <xme:k9Y2aEclDrpKUDVIXJmxfabAZaqPnyPCqhZhUk9ODfCHzIjG-P-MxCHVKYPkzU8Wi
+ jrz2W9Bmw5mifUBUg>
+X-ME-Received: <xmr:k9Y2aGwBWNQ8Tb1xbJeeTwcoXcC2wyITdwJI1mgiKKIPa4AVUJI08GHezCk4qvY2wg_iC3iyq8S7yheEjdexzCWI0LJ7ylzbdI3lP9Rs7o2h>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdekleculddtuddrgeefvddrtd
+ dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
+ fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
+ dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffo
+ jghfggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhi
+ grnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvghrnhepffehieffgedt
+ gfffjeetveegfeekleeileekveeuteffteetudffveegieeiheetnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgr
+ shhtrdgtohhmpdhnsggprhgtphhtthhopedviedpmhhouggvpehsmhhtphhouhhtpdhrtg
+ hpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhs
+ segtshhivgdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtse
+ hlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhes
+ shhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtg
+ hpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopehjvghrnhgvjhdr
+ shhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhoh
+ hllhgrnhgurdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:k9Y2aCMPM7dENFi4Q61L7WWFnhFwcc8pQy2UHI6KxwwkrRMtyUBHmw>
+ <xmx:k9Y2aD-o3mpG3hztt_8cXFe0xj4WiFS0IbVoPFwBv-2PC_KB-Cak_g>
+ <xmx:k9Y2aCXZ8Mj5Dqw5wxamG4woF3h2asWYyQ5FTiUDKYXup4tQDXGHKA>
+ <xmx:k9Y2aEdEXaiDKMp81J3KN3u-pzvy7ipprsoGjTpP_2kmQjfFqERpDw>
+ <xmx:lNY2aOKuJD5lISiZHwasfkxTpks7Fb4s_tKcapaQLxnqyp4KMlRzj3pm>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 May 2025 05:25:33 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH v12 5/8] dt-bindings: allwinner: add H616 DE33 mixer binding
+Date: Wed, 28 May 2025 21:22:10 +1200
+Message-ID: <20250528092431.28825-6-ryan@testtoast.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250528092431.28825-1-ryan@testtoast.com>
+References: <20250528092431.28825-1-ryan@testtoast.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528091307.1894940-3-simona.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 6.12.25-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,160 +118,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 11:13:00AM +0200, Simona Vetter wrote:
-> Unlike idr_for_each_entry(), which terminates on the first NULL entry,
-> idr_for_each passes them through. This fixes potential issues with the
-> idr walk terminating prematurely due to transient NULL entries the
-> exist when creating and destroying a handle.
-> 
-> Note that transient NULL pointers in drm_file.object_idr have been a
-> thing since f6cd7daecff5 ("drm: Release driver references to handle
-> before making it available again"), this is a really old issue.
-> 
-> Aside from temporarily inconsistent fdinfo statistic there's no other
-> impact of this issue.
-> 
-> Fixes: 686b21b5f6ca ("drm: Add fdinfo memory stats")
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.5+
-> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+The Allwinner H616 and variants have a new display engine revision
+(DE33).
 
-Ok I screwed up reading idr_for_each_entry() respectively
-idr_get_next_ul() big time, it already copes with NULL entries entirely
-fine.
+The mixer configuration registers are significantly different to the DE3
+and DE2 revisions, being split into separate top and display blocks,
+therefore a fallback for the mixer compatible is not provided.
 
-Mea culpa.
--Sima
+Note that the DE33 mixer requires 3 register blocks instead of 1. To
+keep things simple the maxItems value for registers is conditionally
+removed for the H616 and replaced with the block names from the vendor
+BSP kernel.
 
-> ---
->  drivers/gpu/drm/drm_file.c | 95 ++++++++++++++++++++++----------------
->  1 file changed, 55 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 246cf845e2c9..428a4eb85e94 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -892,6 +892,58 @@ void drm_print_memory_stats(struct drm_printer *p,
->  }
->  EXPORT_SYMBOL(drm_print_memory_stats);
->  
-> +struct drm_bo_print_data {
-> +	struct drm_memory_stats status;
-> +	enum drm_gem_object_status supported_status;
-> +};
-> +
-> +static int
-> +drm_bo_memory_stats(int id, void *ptr, void *data)
-> +{
-> +	struct drm_bo_print_data *drm_data;
-> +	struct drm_gem_object *obj = ptr;
-> +	enum drm_gem_object_status s = 0;
-> +	size_t add_size;
-> +
-> +	if (!obj)
-> +		return 0;
-> +
-> +	add_size = (obj->funcs && obj->funcs->rss) ?
-> +		obj->funcs->rss(obj) : obj->size;
-> +
-> +	if (obj->funcs && obj->funcs->status) {
-> +		s = obj->funcs->status(obj);
-> +		drm_data->supported_status |= s;
-> +	}
-> +
-> +	if (drm_gem_object_is_shared_for_memory_stats(obj))
-> +		drm_data->status.shared += obj->size;
-> +	else
-> +		drm_data->status.private += obj->size;
-> +
-> +	if (s & DRM_GEM_OBJECT_RESIDENT) {
-> +		drm_data->status.resident += add_size;
-> +	} else {
-> +		/* If already purged or not yet backed by pages, don't
-> +		 * count it as purgeable:
-> +		 */
-> +		s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +	}
-> +
-> +	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
-> +		drm_data->status.active += add_size;
-> +		drm_data->supported_status |= DRM_GEM_OBJECT_ACTIVE;
-> +
-> +		/* If still active, don't count as purgeable: */
-> +		s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +	}
-> +
-> +	if (s & DRM_GEM_OBJECT_PURGEABLE)
-> +		drm_data->status.purgeable += add_size;
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_show_memory_stats - Helper to collect and show standard fdinfo memory stats
->   * @p: the printer to print output to
-> @@ -902,50 +954,13 @@ EXPORT_SYMBOL(drm_print_memory_stats);
->   */
->  void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->  {
-> -	struct drm_gem_object *obj;
-> -	struct drm_memory_stats status = {};
-> -	enum drm_gem_object_status supported_status = 0;
-> -	int id;
-> +	struct drm_bo_print_data data = {};
->  
->  	spin_lock(&file->table_lock);
-> -	idr_for_each_entry (&file->object_idr, obj, id) {
-> -		enum drm_gem_object_status s = 0;
-> -		size_t add_size = (obj->funcs && obj->funcs->rss) ?
-> -			obj->funcs->rss(obj) : obj->size;
-> -
-> -		if (obj->funcs && obj->funcs->status) {
-> -			s = obj->funcs->status(obj);
-> -			supported_status |= s;
-> -		}
-> -
-> -		if (drm_gem_object_is_shared_for_memory_stats(obj))
-> -			status.shared += obj->size;
-> -		else
-> -			status.private += obj->size;
-> -
-> -		if (s & DRM_GEM_OBJECT_RESIDENT) {
-> -			status.resident += add_size;
-> -		} else {
-> -			/* If already purged or not yet backed by pages, don't
-> -			 * count it as purgeable:
-> -			 */
-> -			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> -		}
-> -
-> -		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
-> -			status.active += add_size;
-> -			supported_status |= DRM_GEM_OBJECT_ACTIVE;
-> -
-> -			/* If still active, don't count as purgeable: */
-> -			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> -		}
-> -
-> -		if (s & DRM_GEM_OBJECT_PURGEABLE)
-> -			status.purgeable += add_size;
-> -	}
-> +	idr_for_each(&file->object_idr, &drm_bo_memory_stats, &data);
->  	spin_unlock(&file->table_lock);
->  
-> -	drm_print_memory_stats(p, &status, supported_status, "memory");
-> +	drm_print_memory_stats(p, &data.status, data.supported_status, "memory");
->  }
->  EXPORT_SYMBOL(drm_show_memory_stats);
->  
-> -- 
-> 2.49.0
-> 
+Add a display engine mixer binding for the DE33.
 
+Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+
+---
+Changelog v2..v3:
+- Separate content into three patches for three separate subsystems
+
+Changelog v5..v6:
+- increase reg maxItems to 3 and add conditional for h616-de33
+
+- Increase reg maxItems to 3.
+
+Changelog v9..v10:
+- Use named register blocks rather than by count as names are available from the Allwinner BSP kernel.
+---
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       | 34 +++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+index b75c1ec686ad..cbd18fd83e52 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+@@ -24,9 +24,11 @@ properties:
+       - allwinner,sun50i-a64-de2-mixer-0
+       - allwinner,sun50i-a64-de2-mixer-1
+       - allwinner,sun50i-h6-de3-mixer-0
++      - allwinner,sun50i-h616-de33-mixer-0
+ 
+-  reg:
+-    maxItems: 1
++  reg: true
++
++  reg-names: true
+ 
+   clocks:
+     items:
+@@ -61,6 +63,34 @@ properties:
+     required:
+       - port@1
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - allwinner,sun50i-h616-de33-mixer-0
++    then:
++      properties:
++        reg:
++          description: |
++            Registers for controlling individual layers of the display
++            engine (layers), global control (top), and display blending
++            control (display). Names are from Allwinner BSP kernel.
++          maxItems: 3
++        reg-names:
++          items:
++            - const: layers
++            - const: top
++            - const: display
++      required:
++        - reg-names
++
++    else:
++      properties:
++        reg:
++          maxItems: 1
++
+ required:
+   - compatible
+   - reg
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.49.0
+
