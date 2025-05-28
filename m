@@ -2,102 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21924AC6CED
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 17:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D217AC6D10
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 17:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768D310E63B;
-	Wed, 28 May 2025 15:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059EB10E66A;
+	Wed, 28 May 2025 15:43:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OkB+tWwJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5n19rmM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OkB+tWwJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5n19rmM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dweNF/36";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83AB110E64E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:35:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5E8801F79C;
- Wed, 28 May 2025 15:35:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748446552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
- b=OkB+tWwJn5TyhhdZk5gRTOtB/3WHwqE1z90PjIS/tvdz4lDahQGvk5HSEa76oAQ2kg/1/b
- B20qvLXFqVFNGCXDJh79yWEowrOKaAr8LzfcAK0Ed3oElZ8PIbUoQatX9TnxWgG8bBHIbv
- b3sFaDAxi2CSy2Q/eDBj32soLVoFtO0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748446552;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
- b=z5n19rmMiwEaklI61przui4wcgbfqyN1EQp36L9Z3ElM9cRUJGbmyudyPmUcEQM/A83XMr
- u8u8KRR5DnCvs9Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748446552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
- b=OkB+tWwJn5TyhhdZk5gRTOtB/3WHwqE1z90PjIS/tvdz4lDahQGvk5HSEa76oAQ2kg/1/b
- B20qvLXFqVFNGCXDJh79yWEowrOKaAr8LzfcAK0Ed3oElZ8PIbUoQatX9TnxWgG8bBHIbv
- b3sFaDAxi2CSy2Q/eDBj32soLVoFtO0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748446552;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=ZXv62CC2r0RxZ6SQQgYCr4gGbzuyMxbUXGqctrXYOek=;
- b=z5n19rmMiwEaklI61przui4wcgbfqyN1EQp36L9Z3ElM9cRUJGbmyudyPmUcEQM/A83XMr
- u8u8KRR5DnCvs9Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5466136E3;
- Wed, 28 May 2025 15:35:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id AhQdNlctN2hHYgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 28 May 2025 15:35:51 +0000
-Date: Wed, 28 May 2025 17:35:50 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20250528153550.GA21050@linux.fritz.box>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC2B10E66A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748446992; x=1779982992;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LT5sZcgWanipbC74Xj2ValyaujbUYodZaj1yLXjvPK0=;
+ b=dweNF/36t+DppU1C8cZZlJ1yaRJz3hOJ98xCmg4GIlI907jWdJH2quXq
+ IcebtND6Z4ghGDRKcPPAM56m+InW9LhKtIKua3o+WGiRHjKDRdJ900E7s
+ HdsrsiLJzTqnNz/oIQEJC8QmdgZ9em8AtcykaumbG8hhGDbXViyhgBbvg
+ FbwsbtxLrDKCUr+pejgM4Te+wuxTOjmkvDTyupz/JypC7hZijqWwTSP45
+ zuGZ8yemVlFd4qb/zf9oi7jw66oeKyj9bMWM0PyO8kqWuTN2U9QpKuKHj
+ 41hMm8nCCEb89LA6oyWb2ernyKig9v3+rgaSgHNdwJjKsDYRCLETiU/kX A==;
+X-CSE-ConnectionGUID: swHhLxiqTYaCpmYaqzLyIg==
+X-CSE-MsgGUID: kEnqCfYYRbCg7wLkWKRG4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="38105658"
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; d="scan'208";a="38105658"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 08:43:11 -0700
+X-CSE-ConnectionGUID: 8BF1fk8GRz+JTiNwBoudOQ==
+X-CSE-MsgGUID: ZGfro0/UQr64SyryR9dtzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; d="scan'208";a="148409607"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2025 08:42:27 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ stable@vger.kernel.org
+Subject: [PATCH] accel/ivpu: Fix warning in ivpu_gem_bo_free()
+Date: Wed, 28 May 2025 17:42:25 +0200
+Message-ID: <20250528154225.500394-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- MISSING_XM_UA(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[16]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_DN_SOME(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,79 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Don't WARN if imported buffers are in use in ivpu_gem_bo_free() as they
+can be indeed used in the original context/driver.
 
-this is the weekly PR for drm-misc-fixes. Besides DRM, the bugfix
-for dummycon possibly affects fbcon and fbdev output as well.
+Fixes: 647371a6609d ("accel/ivpu: Add GEM buffer object management")
+Cc: <stable@vger.kernel.org> # v6.3
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Best regards
-Thomas
-
-drm-misc-fixes-2025-05-28:
-Short summary of fixes pull:
-
-drm-scheduler:
-- signal scheduled fence when killing job
-
-dummycon:
-- trigger deferred takeover when switching consoles
-
-ivpu:
-- improve logging
-- update firmware filenames
-- reorder steps in command-queue unregistering
-The following changes since commit 6692dbc15e5ed40a3aa037aced65d7b8826c58cd:
-
-  drm/edid: fixed the bug that hdr metadata was not reset (2025-05-19 12:26:08 +0300)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-05-28
-
-for you to fetch changes up to 4557cc834712eca4eae7adbd9f0a06bdd8f79c99:
-
-  accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction (2025-05-28 11:49:29 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-drm-scheduler:
-- signal scheduled fence when killing job
-
-dummycon:
-- trigger deferred takeover when switching consoles
-
-ivpu:
-- improve logging
-- update firmware filenames
-- reorder steps in command-queue unregistering
-
-----------------------------------------------------------------
-Jacek Lawrynowicz (2):
-      accel/ivpu: Improve buffer object logging
-      accel/ivpu: Use firmware names from upstream repo
-
-Karol Wachowski (1):
-      accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction
-
-Lin.Cao (1):
-      drm/scheduler: signal scheduled fence when kill job
-
-Thomas Zimmermann (1):
-      dummycon: Trigger redraw when switching consoles with deferred takeover
-
- drivers/accel/ivpu/ivpu_fw.c             | 12 ++++++------
- drivers/accel/ivpu/ivpu_gem.c            | 25 +++++++++++++++++--------
- drivers/accel/ivpu/ivpu_gem.h            |  1 +
- drivers/accel/ivpu/ivpu_job.c            |  8 ++++----
- drivers/gpu/drm/scheduler/sched_entity.c |  1 +
- drivers/video/console/dummycon.c         | 18 +++++++++++++-----
- 6 files changed, 42 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index 5908268ca45e9..0371a8b4a474f 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -285,7 +285,8 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
+ 	list_del(&bo->bo_list_node);
+ 	mutex_unlock(&vdev->bo_list_lock);
+ 
+-	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
++	drm_WARN_ON(&vdev->drm, !bo->base.base.import_attach &&
++		    !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
+ 	drm_WARN_ON(&vdev->drm, ivpu_bo_size(bo) == 0);
+ 	drm_WARN_ON(&vdev->drm, bo->base.vaddr);
+ 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.45.1
+
