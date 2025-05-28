@@ -2,76 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC20DAC65BD
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822ACAC65C6
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 11:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CF010E5BE;
-	Wed, 28 May 2025 09:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94C310E5CA;
+	Wed, 28 May 2025 09:24:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="j0p2ZKKw";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="YJe7Ng9H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FCFB10E5CA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:23:18 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43ce71582e9so39808015e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:23:17 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEFBA10E5CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 09:24:28 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-442ea341570so30936735e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 02:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748424196; x=1749028996; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OWbW6DSaS7EhhOnN6RRx03CpNOhwNByuhVw8RHuiKe4=;
- b=j0p2ZKKwssGTdb0zqKWq88HkufFnKAdlC+d3gWSMWY7QYqh/t1VPaq/tSKcPB0iR9a
- 4Bfn4PwmKX/23NbaBIjLu3x/Fp5LwRKZIXDYBpS95TQrsJtFWFjjAZ94zhJ7kjm8cvim
- eL2aEzOH+O0s9GNDhZJIvXPH7RB8eUZkg0fY8=
+ d=ffwll.ch; s=google; t=1748424267; x=1749029067; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=eTrQh9g5BCCMkWrTK1ykKREPEZGbfPx4fWWA5+zWO+g=;
+ b=YJe7Ng9HfAWkjCLAG8/nDZNta9Y917L3B6lCL4pAP8vfjUthiCJJT+nUQa5CrqBVWg
+ 7OViiJSDSu55f+CYgMYuXDvv39po4RiiUyMCUs3lDCd0ACakmhktXPc2jNLOhrB/NJ6H
+ AWpyu4BG1WSsc58i2QNuFDGktmIfe4wTzlEfA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748424196; x=1749028996;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OWbW6DSaS7EhhOnN6RRx03CpNOhwNByuhVw8RHuiKe4=;
- b=Amc2zreVHI9QwKEU9YBSTaea+maawThxUdhvr/pGo8aoJNx8dnlkxh3ESJV3xGY0H7
- Je7fuw+VH4oO0/6OGT9C+sDnDvEH+8K+F5Hs7K1P5LdFh3mRbV4AWgTdA+1oOaG+f7Zn
- y6rittux6vni38TjXGO+QAzKdBOsoMpFTidS6vYs42baJdzu2ZQy/vT631H7nGmONJvF
- JngXJEtUshRVYv+HqPo/tfjywM/CoPG1/ROUc2pRHvp8u+gtzLFu2y8q5pfpoXOsnmPy
- pNuXgK41VlheZJkUFyfiIDP/JxQERVavRWQFTgGVHnmB4vqJN4Zt/uPZ1YxgVsa+GBxT
- JR1g==
-X-Gm-Message-State: AOJu0YzyL/uYoO8r/gMziELb7brPQrEuOSEeSjQdp+GYsFseXoaIO7tP
- X9Pkz+gt1JFwpQrU7JvvkFh0HEc7Z0xC3USmiSzZgaI/SoDI6CUByE05VhM0L94jXhpnjq40ieX
- r4eXb
-X-Gm-Gg: ASbGnctBfwuUWeA4E4t+sSvbEpOGZ8hUSnM/06sTW8f/DW6OJdgIV1DGaskQdmhNWP+
- BoGHRL/H2tIFPs8p02+wSzYUyD9u+Ob9S3Oht+0IlM00EDIHLqyKQOTC68Jh29irnNr+oOqM/om
- pYwlhxfaxW6kGVUGepmc3T1PBeOyWK+q8Ta2KETDNvYZUfqKmxPLkcuS3+1590Y/oI4rj3Iz1Zg
- OfOzHsocKjkqVbcIG29heZVe/QPBBz+Ih5m6DPAXyJGmLmVh8t9uC9axqaaB1M71f3Mu+0ylwTN
- pNPLv/L6FEs1PxQOgs3Fxdlp8yKjlrBxqgnYxsPDjgods2D48B2jiOgon8U08BU=
-X-Google-Smtp-Source: AGHT+IECvxtDkXo4c3njMnU8BGrUNWkT/CLwIW61OnEn14bzAhOWHTXaITQrwX36/3VuUA3VhNB3aQ==
-X-Received: by 2002:a05:600c:4e45:b0:442:f4a3:8c5c with SMTP id
- 5b1f17b1804b1-44c919e13ddmr190908365e9.10.1748424196628; 
- Wed, 28 May 2025 02:23:16 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1748424267; x=1749029067;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eTrQh9g5BCCMkWrTK1ykKREPEZGbfPx4fWWA5+zWO+g=;
+ b=JMSPMZCmIyLp37CSg16a2XM9l9K1MfMmLhvJYluAtRu3UIRkKFzNddxSJsRkOgPNJW
+ aMDXoRLJssHvgmlvMuEwlOBw5cBiThw/qSDzovNeNowq/oIsnEOosIMNN7Ed66fr/YAs
+ JT2MLn7t32FLV/dWCKJYVG2sIO1w6yWO+Ky28WgehzNeh3x+Ow9673rjhbJRv2hHpsJd
+ aAHs6XfMV6+6v4TKwKgmCZzE4QLlfnx4f/SLaDCaOsH1o1ga75yK0k2flv2rHwXMEa9B
+ VWxZD+oFKtGidV6rMwgbmgIXGpy2h3xWvZRFv6xHdiGu5AxSmZAwZmtE8mS8222pB1+0
+ TtZg==
+X-Gm-Message-State: AOJu0YyFK/gyB+RabjchAs1T8EdwBmZbHrOoZeDDrJdl7/CKZxX+1sNJ
+ xooAggpEir7vMqSxFY8JiYjiY/H3K8c2iP7KXWz0hmG7Yd9o66Gwe4oOfCvzIqs/wUMw0BN4Stv
+ 0pokz
+X-Gm-Gg: ASbGnctHXdjwf+MOil+fskOgVlCNn3YQgiQ9YsUGgufC1l0+VjuVkZz1QWmhVL9jMFO
+ rUOmz+px+qPMGlNtFhhFUyYiWWPK7isR7fFK10NEc/UqkIFSsJMuV7skVFGnbejtKnDRADXMM6t
+ IDFC8v4RYpYyCvQVJqD7TelktjJGJPGsjQlg8m6a1Erf8UYh3JdlHj12Ze366ATwmtpkvvebhkj
+ kGgC3TGfi0cA7UhEKmbnmvrUtN2B2xE2MJEtAY4MEespr37w4VjWrE4NzdukAwBF9Fm/MtYJxaf
+ W1Tq+kEAbRohRVLsvZFSaMsT/DBgQ6X0H+6KSdH119RtftFDhJMzeY+Md1vtrWY=
+X-Google-Smtp-Source: AGHT+IEeduBJMqQLdTJjiJSw02+TAnnvGs6wApk3JX5opMeqkdwXgt5TrvlQeENkiE/Dkg3wcdtZ/A==
+X-Received: by 2002:a05:600c:6296:b0:440:6a79:6df0 with SMTP id
+ 5b1f17b1804b1-44c9493e347mr129041885e9.22.1748424267530; 
+ Wed, 28 May 2025 02:24:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4eac8aa79sm948086f8f.50.2025.05.28.02.23.15
+ 5b1f17b1804b1-45006499b3dsm15355915e9.8.2025.05.28.02.24.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 02:23:16 -0700 (PDT)
-Date: Wed, 28 May 2025 11:23:14 +0200
+ Wed, 28 May 2025 02:24:27 -0700 (PDT)
+Date: Wed, 28 May 2025 11:24:25 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: intel-xe@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- Simona Vetter <simona.vetter@intel.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Subject: Re: [PATCH 7/8] drm/vmwgfx: Add comments about drm_file.object_idr
- issues
-Message-ID: <aDbWAsXjzt1lxSir@phenom.ffwll.local>
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 8/8] drm/xe: Add comments about drm_file.object_idr issues
+Message-ID: <aDbWSawqZfOonYer@phenom.ffwll.local>
 References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
- <20250528091307.1894940-8-simona.vetter@ffwll.ch>
+ <20250528091307.1894940-9-simona.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250528091307.1894940-8-simona.vetter@ffwll.ch>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250528091307.1894940-9-simona.vetter@ffwll.ch>
 X-Operating-System: Linux phenom 6.12.25-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,7 +90,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 11:13:05AM +0200, Simona Vetter wrote:
+On Wed, May 28, 2025 at 11:13:06AM +0200, Simona Vetter wrote:
 > idr_for_each_entry() is fine, but will prematurely terminate on
 > transient NULL entries. It should be switched over to idr_for_each,
 > which allows you to handle this explicitly.
@@ -99,32 +101,51 @@ On Wed, May 28, 2025 at 11:13:05AM +0200, Simona Vetter wrote:
 > 
 > Since it's just a premature loop terminate the impact should be fairly
 > benign, at least for any debugfs or fdinfo code.
+> 
+> On top of that this code also drops the drm_file.table_lock lock while
+> iterating, which can mess up the iterator state. And that's actually
+> bad.
 
-Rereading idr_get_next I now think it's all fine, please disregard this
-patch.
+So I re-read idr_get_next and all that, and I think it should be all fine
+- it handles both NULL entries and I think does recover from simply the
+most recent id. Might miss some that have been concurrently added, but
+that should be fine.
+
+Sorry for the noise.
 -Sima
 
 > 
-> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Zack Rusin <zack.rusin@broadcom.com>
-> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: intel-xe@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/xe/xe_drm_client.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> index c55382167c1b..438e40b92281 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -323,6 +323,7 @@ static int vmw_debugfs_gem_info_show(struct seq_file *m, void *unused)
->  		rcu_read_unlock();
+> diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
+> index 31f688e953d7..2542f265a221 100644
+> --- a/drivers/gpu/drm/xe/xe_drm_client.c
+> +++ b/drivers/gpu/drm/xe/xe_drm_client.c
+> @@ -205,6 +205,7 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
 >  
->  		spin_lock(&file->table_lock);
-> +		/* FIXME: Use idr_for_each to handle transient NULL pointers */
->  		idr_for_each_entry(&file->object_idr, gobj, id) {
->  			struct vmw_bo *bo = to_vmw_bo(gobj);
+>  	/* Public objects. */
+>  	spin_lock(&file->table_lock);
+> +	/* FIXME: Use idr_for_each to handle transient NULL pointers */
+>  	idr_for_each_entry(&file->object_idr, obj, id) {
+>  		struct xe_bo *bo = gem_to_xe_bo(obj);
 >  
+> @@ -213,6 +214,8 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
+>  			xe_bo_unlock(bo);
+>  		} else {
+>  			xe_bo_get(bo);
+> +			/* FIXME: dropping the lock can mess the idr iterator
+> +			 * state up */
+>  			spin_unlock(&file->table_lock);
+>  
+>  			xe_bo_lock(bo, false);
 > -- 
 > 2.49.0
 > 
