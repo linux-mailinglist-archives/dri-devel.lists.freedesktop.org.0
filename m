@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD5CAC6293
-	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 09:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35E2AC6294
+	for <lists+dri-devel@lfdr.de>; Wed, 28 May 2025 09:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028B710E2AE;
-	Wed, 28 May 2025 07:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1069D10E2AF;
+	Wed, 28 May 2025 07:05:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XejANy6x";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Nyzlk55C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazon11011000.outbound.protection.outlook.com [40.107.74.0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1507A10E2AE
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 07:05:47 +0000 (UTC)
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010058.outbound.protection.outlook.com [52.101.228.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2241110E582
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 07:05:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f0Zpa1uenj0A6+yvm7vlLDJBBAxIOtYdXbGhaQ5yBeRhSZ8+Z5vZLhDD6k72MLLLSjCZqGQO3ftAJkVuJ+KmuoACQCjQI6lbQQMr4kXx8gDG0HIsuY71qGFdS42LSWFwMPkgeWS+7ZxE8pcmEpYR2GUMHVP6OnATBfwkCDwWhQLFMW9A/ga4jNDB3C4G55wuTEwTSMDTSO92iy9MhkzZ7rx3JRvjYHH/wn76hwz2fqsa8rrp2IlRq6XtDBC0cB0ErKGz0qgFquFuTGMapOrbBHz/uB0yDHgjTq405cUJqlI1P7eLQDNAtDK/pb0C6pXfRqC8eqgGkRn7f0A4g8v8Vw==
+ b=eIn87MVsTWR3503AWJg6WS3W3Wp0mp2YoRnyYXArt16sRKhv66pxgkG64CLj/X5JL1wyIRVsreTummoKgoi17pyainMyF/U3GR7xM5g/IpQcRoBuuvxiI9VDselrOsll2ExDhgi0D0skoEG6XwewSw2Pk0pLcp/e5XG1OUTHOVISASFzdCa7Mb6UfkcMvmG4QhONybihCtQmcd5Dthrzs4JTmKWsErbU7NyraGvFwx3F+30adCa9FjkKQmAZ8LnBuNvnz0zdI/Qra5JCcgTqKrUi6+RWjeqThQd+hq72HWgpsOFMZllxPfibYDQjJSYcTwbhVBLs2QFv520fOttphw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nnND0Q7iVlvdTCz69VSKI4uL2snEJFU900ztBXAA2xI=;
- b=GYBOIAQUbTeTnuiL5Jy2E9GSShhx17cEe+aSw/4eGbNrCr2jN6Vf8bDQPGtymZ3C0xbHSxnGcBA8l/kl5sRdry6DPWReJIohrJeHWzm5qMKA6agoXLHYdw5JY96VAhpNvGN+OelMF7qIp06BpxdzB4vM/gpn7eieBZq8eO3em2YsQum5D267eW91skS2jJu9gX/y7SV+r1eHvRajCt7T/lWP9GmtOQnBoz+gA7SHOZIPKtK5DubVmqaK6a8VFTPmu94P2zH+/yPt8v1eMLfYz/Su9S41qWniaiKyl0241eWbj7mWRjPh78Aps84qUqqr3od0Br/kDBUjhFIC3KAcMA==
+ bh=nchC91hQ0FCuFceiJUOOdWY0vXrn0/B8rT3CarVYT9c=;
+ b=YUP1SwLdeEvmyox4encVtvqtV1ejqlxlUPLvBsREN4GQVX6sYeaE62ATM9yCdkO5SF+H8pBUBFAEo1LnZhiR8FjUF7LC/oH2m+1mACPGxV9yilbRsicOab5kslkdgYXPeIaOUgvwY5b+SRXQPnpwOu+JPi73gV1/wrgCAgW60VlefZK6dyH2WvhLhFRp82/+dVnPhinXGfhERp58N+EAMO+ybrT5azqGnwpkfuH4vvAsxzLeSAR1cTSnRy5OHyaB2/hhJh8v7wpDw6yT4GqLjxwe+kivM0rmyqGGYrDQg/pUyIL47RpFii4wUGCez/epAFffCn1HxsWFivZQ4Nfx/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nnND0Q7iVlvdTCz69VSKI4uL2snEJFU900ztBXAA2xI=;
- b=XejANy6xqOf0YjVW5nKAhhYPrFlFpBwMGZSJHEhjktDCtgMNiik/xmxIjZrA73prsYzU+O/h+4xizjaqESWJrzT3mqtlN7J5JRZpLXpKTi2v97EzI6im8eoEYUaOsQV8wllXQAYnHkzWdDiN/Y0NGgDtRTcSi+sR12IJWE8Ax3c=
+ bh=nchC91hQ0FCuFceiJUOOdWY0vXrn0/B8rT3CarVYT9c=;
+ b=Nyzlk55C6SFGSVRyIetysIPQ/mZLl7SfF7nUppW+xrAdKDPcxfyXZsQZZNE6im3EUbbqQUUEavvbo1Mj7LEwUwdEg24MG3iSaC07R0Qk9KS+KO9jojcWkl2CC4rKFgVGUAZ96DtvUJ0V4SmKJwtyhIg6rxIzBF4ifk8TvVHaePY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
  by TYYPR01MB14051.jpnprd01.prod.outlook.com (2603:1096:405:210::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Wed, 28 May
- 2025 07:05:37 +0000
+ 2025 07:05:46 +0000
 Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
  ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
  ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.025; Wed, 28 May 2025
- 07:05:36 +0000
+ 07:05:46 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com
 Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
@@ -56,11 +56,12 @@ Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
  Simona Vetter <simona@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Adam Ford <aford173@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] drm/bridge: adv7511: Move
- adv711_dsi_config_timing_gen() into adv7511_mode_set()
-Date: Wed, 28 May 2025 09:04:37 +0200
-Message-ID: <20250528070452.901183-2-tommaso.merciai.xr@bp.renesas.com>
+ Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/2] drm/bridge: adv7511: Rename
+ adv7511_dsi_config_timing_gen() into adv7533_dsi_config_timing_gen()
+Date: Wed, 28 May 2025 09:04:38 +0200
+Message-ID: <20250528070452.901183-3-tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250528070452.901183-1-tommaso.merciai.xr@bp.renesas.com>
 References: <20250528070452.901183-1-tommaso.merciai.xr@bp.renesas.com>
@@ -72,80 +73,79 @@ X-ClientProxiedBy: FR4P281CA0134.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYYPR01MB14051:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31fc70a7-e50c-493e-4be5-08dd9db60b5e
+X-MS-Office365-Filtering-Correlation-Id: 6408b158-cbb9-48d4-baf5-08dd9db611a2
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KSy3bVEA0Mwj7P3yZvlvgtFmhpR6d7iNUfADBtFxuJo6RhePLge/a9CfQjtD?=
- =?us-ascii?Q?GCxBMu/UJ1xvk4MGRuCEehrOY24ETb4Lj8oFVvxA86wcL8HwnMJkrGV+vRBy?=
- =?us-ascii?Q?fEEOVDfmyAH+RrZl4kJAnh+mM/NNdK0TNUSvLiMy4QupXlkSZkMjohu2orQy?=
- =?us-ascii?Q?BDDbizo0XUMyNnk3gSHT9M3YG05bLgvXJP10zv9Wbi7BQshcjtlObyVHZkdS?=
- =?us-ascii?Q?8O8JIpmPQHz3OMV+83NfGPDqdcaEQjYwUlBwFg8LvYlmg7nLTo7spH+6UKBR?=
- =?us-ascii?Q?O+ccLAcp4ESCKzuUL+284oyIRvPhrfioZYyPxvd2/R7RKLsAoL3ICEsFQhlk?=
- =?us-ascii?Q?sABS+BZooX/uQG7vNWrf9xX4oswenQwYMu3hpe+KJ910g3AxTQxODmW6++BS?=
- =?us-ascii?Q?1y8/5vTXBajXZlE7n7XE0zky54ZpmZKUGlbvr4p05RseM3LBk4row3T5RTUi?=
- =?us-ascii?Q?3P9bgCj16eXpbYFKbjGTv7/NbVAZKQOuoiMg0Ujm9yruEWAaQC2miTaQ1NjT?=
- =?us-ascii?Q?XwE7nr6vVaGpt7zQwr3bibYGhM//FRfN9bKAJNH34TywtDwTKbnlzu5b+zGN?=
- =?us-ascii?Q?m012PkzjLUiBxR8iDcfUnIHmnNgL41G+N6OQaeXqJoMFqgZExirNwEu5sIM9?=
- =?us-ascii?Q?Ie3YMoxXbxXBc15oJ26yO6e8uyfh5UE6lSPSPo5q+XLACKJQSoBXSOBn8vmT?=
- =?us-ascii?Q?FgiMMgtbUmNrrkwGYEW+kNKHacXZktaLaHnfbvCvlGNFcuXPzXv5mSxkCFHM?=
- =?us-ascii?Q?8pauL66YD/n27xBCwImZpGdv6XzRap33BTqqRHFoeJfA7IWy6u6wL7+MtGq+?=
- =?us-ascii?Q?35hEFfPBPVtgWieZ9Xtng2i4LxUKVS7n7Fhf50sd6e4YHNzjxwrWuysH5ohw?=
- =?us-ascii?Q?SZEJobgkq2j3RaRyDyQbzXOJIlxiOYqBUCRatO6QPJGmwLpge8bWMDM9snA/?=
- =?us-ascii?Q?dzHpcXeF3KmBN0c7DufMgMNjSlRDbkIaQufSCuMgxVMB3z2tdrvo4/1PEmzK?=
- =?us-ascii?Q?N+WKJQpn1zIF1wRx7MTvg5Plbii94wk/28b+mB6lRRJVFsHK6e/EgMnmMVtA?=
- =?us-ascii?Q?0iZloMyx9lIPGflOE0dvBIfJB8j8SXPKcTJDwCRqSFrnyHeKxvQJn7mtxdx9?=
- =?us-ascii?Q?M2MQjckEbSz20bC0eyqRRcCHImwcFDzVtqBPR0SOT+P99jpYfbUXARvZwIdr?=
- =?us-ascii?Q?8ZdyAgsU+lciZTGJDEdnmpU3zcIw0t4BgdBTxvuB53kZkeNFKN0pZvUEiZ1r?=
- =?us-ascii?Q?gAGHspAY2b3EmA+6Vw8NphflICPrVMF+KO6qEQkUSldUbbchIlYO7FZY43eK?=
- =?us-ascii?Q?5WJzK2jybFNUWLyRhHCYrORIhae6oDTzIV9/tasQgTR+LrHCIQ/hm7MkWtO+?=
- =?us-ascii?Q?COtc4mP0boAq0x7VA8JaTnasQ3symdN6M+Um9LRzlyqlXCndh78DU2Z8ZJM1?=
- =?us-ascii?Q?ZoYWh37ufthRlHnK+isAmVM3hjLTNUvOogqMolZcsC+FniCsUAIPmOd6G9da?=
- =?us-ascii?Q?d663pzOlEl/nnTE=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2jIhnCsRmV5X3QzwAcAF3V+HM9jEk6j3uSY3UEcF94eQSE5RrlhUSqxF3hEE?=
+ =?us-ascii?Q?Uk8IW2REQCusSD55LYYfz24ErhwE3KOuJyGxgD65hdAphsUvCVda6HZykSrz?=
+ =?us-ascii?Q?XmjDk5PGGz+X5AV5Wapig8Y1kIqbCi9XnbKux7N6k+jILs3ZBxwq5GKV7JL7?=
+ =?us-ascii?Q?NsTRFC4u2AWcWy8OAchY8b3d/rZyFAiaeXA1H2NPYnzOB2bS8YXYXOWSWfNG?=
+ =?us-ascii?Q?NIDXWc9zwOmtcGauoRsmkn6ijwSfH/JRid5ehwgSl9m7aZaQajaADJBpsSqP?=
+ =?us-ascii?Q?riic+IAHH8+jBast0r6T8k/QVjeAimpIBq7zQqT27xlwH09PgNuAfpiEsgvb?=
+ =?us-ascii?Q?4LTto8DAqNiNh1y5F38n1zIIA13hKTDConqMyis/krGGDXJpmPCbeyQ8X6AN?=
+ =?us-ascii?Q?rCe9d8htlNvy8UpYVZmKQy9+EGBtpvjv9+em76NRciCOViTSFFzY6CyqBByA?=
+ =?us-ascii?Q?h/bE7uWHyTyZiWfpQBs80pk5jSTzLgOdMqIs6Sa/Neic4VG1nZ5Nkaeut4T+?=
+ =?us-ascii?Q?UYIhW8qe0UM36JOsOtoPBPsXwZBV8ZkOJNVq/eGG+y5O6QxyyWWGZeyg5feU?=
+ =?us-ascii?Q?2gz0yFZ9Q5j9RufW+ZzY86PX4k2/PmkMhCBFhYzBZlnTRzrSuKZUeG5f2gmN?=
+ =?us-ascii?Q?3bgiluiNLTOGfXCbaAgLcsia5fuJ63q46rTJx7vmP8MvSgKmzaq0bEsg4Yxs?=
+ =?us-ascii?Q?XEwsxOA4sa+XYU5mt6gVZzYSMg607VW/3ynE9LPTL8Rf3m76dS/x/flGuZoB?=
+ =?us-ascii?Q?lTUTUnhiFuEyZo3EsACuk6SXqAoakhHNcV05z5NbBoMxUy3TBIskfa9SVocU?=
+ =?us-ascii?Q?1HvKI4sX0g78g3qSlHMaL0WWIfMHVnziE2+r3tNfuOf7XpRmNtc3XfOWvQ4i?=
+ =?us-ascii?Q?/7arGE4iW683QIq1+WaP3gCZ/rcZujDXBz2gbpTds25MU9Y7euNt4LVZ0+9o?=
+ =?us-ascii?Q?tXUFuFgy0Y6tNBmasfFvxZd67WcSDLzE2zXB/+hP0iRCbnHsFgK5reAmkTre?=
+ =?us-ascii?Q?ImBRmvXHxvQ4CAX2FPUDJy5ZEHqKE9E4gUwNzqmt1zcSL7Q+fX0L0e6EoIzq?=
+ =?us-ascii?Q?KEHiq0DwkuQv7yXxwd8wlgxfu9GToNWEF9qFwv0Qs0rPhrwm3QYFnAyjedkj?=
+ =?us-ascii?Q?QqM8tHgBGV9d6RhA0/n2b2HzUUwIkPAQkycSX+ZPfPrVDQq40EykaU4M53ZX?=
+ =?us-ascii?Q?VeK+br58/YplQo8/52jr0GCYGD04IrWD1+oXqBEvOUNlei5UtB89kmUlv5b0?=
+ =?us-ascii?Q?+mIM/0E9cplYy4nlp19BIGy8raVE2n790gtUjKZTwcQbtJMAfPMIuP41ipDq?=
+ =?us-ascii?Q?aE31KMTPQelQ+cKwVC0Y4emoGA4nPmOUjWhnD//1lyYn+MdOfhcXHxnHlqKl?=
+ =?us-ascii?Q?HVk+75BaIQJt6nmnIZ/vjnZiAe+WKYcO/nN24RubglKKsSuenU7prOVix68T?=
+ =?us-ascii?Q?obkpTbdDeovRk37ksRCKBcbybEmZajO3Uc1Gk5UWvyfIF0xP9tqpWg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:OS9PR01MB13950.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/o/InukoXv6jyy4xle/gfSKlGZwHKG/AdCweChoetiS2Yb8E28bcES6UoDj3?=
- =?us-ascii?Q?hoeD6Wa/yCo2ArzT2tY0+c9V4qL/ZXfoEB8hJVqPYuIhnZVYeXxRHmiBWSJh?=
- =?us-ascii?Q?Qwj1X6lv+tAvItr0Rxn0n+WfrULKqNtHgp42CPm3dwvo65PFSe8v1jdcW21J?=
- =?us-ascii?Q?WKAfUXHcKZV6gkkbSpUUGFG0fhgu1lv1F7Q4zgLbjKTySduKFkCaZWTYpdQT?=
- =?us-ascii?Q?VtjUt2xtz4qa/E9RwTw+LCIgCOr2dV5h0jy349wL2sBzkI/Og7uFxPOPbZVl?=
- =?us-ascii?Q?4K557y7BX+7+20XbjGGyq2bTDnG4IcM7l08wIPDLZKEdlkEozyuIFBViMqi9?=
- =?us-ascii?Q?xdHKEAAeS3qPa34/hvWbbQStVY1MRcuX7HIE2FDB+uEU6c9Z+rUTvOs7xHxl?=
- =?us-ascii?Q?5C4qmc87lAkVmMqjbtBmXbp+Nc7lYjMHoISR7kn8Zs286yi3G0DAYzWL4Ptt?=
- =?us-ascii?Q?8IWYsid7NwxQaHi3fgtsov61GJqsi2Qvy4fEJoj4g5diyBBZtt8ZPwrFv5Lf?=
- =?us-ascii?Q?rg5BpsewwfcsnAcng0OKFRp39cBiYVJITZ13GoN/vS3Zw49ALBS+pDFpA0y3?=
- =?us-ascii?Q?9RERXu02jjRJjydBXBCmC766ioM62MYt23lAsmQxN3r3vN9JBiw8SCoMAO31?=
- =?us-ascii?Q?InRuj11ZQbUUZWP/y/9MwWpG/h05mw9q6sHBqMkAB1swuSlfcNNlrYeAItbv?=
- =?us-ascii?Q?UC5YeuM5zFgA1SM3JUp3WBxV8Ie5QBR2+rdu8JaTsES6TUwGFpWDQV1KGH9k?=
- =?us-ascii?Q?BR6CDUygG9FxOUjlVBdvOoIdEo5QQl5/2tQ0/rwMg2eAqb2hbr92vJiJ4v7W?=
- =?us-ascii?Q?mzlSoU+jdLa/u/CFMCtdqBW5UJjRFoDQ5+VRZgGOMcgkVzfAaQ3+r18P2Je6?=
- =?us-ascii?Q?gXiVJxGvTWiOW9D1CXturTnTEdYciYhdqUtJcuU2g+vZYi5rbRfCjwuDLZ3i?=
- =?us-ascii?Q?q17HJy9bT7NyP2BgwFEzYSbjcM9KkXuS11rwFJ2PisDZ5Hxv1lLl4zGrM3B4?=
- =?us-ascii?Q?PQ3PoKoHwwDU9K7j2zX6ZmgV8syiM93baXOmEhBz8zXmvrTP5vezKBrp5WjT?=
- =?us-ascii?Q?hVI6QbQHvSDYAOmLqtt5v9LKDW84OxmlplUWmiEHy9dOOVY8mqtw1sUcqZrm?=
- =?us-ascii?Q?2N9rarCVLMOCAQcOll1QhcjrvJ4fx3yn/qGOStF8GmHcH7oes+LBqjE9iP5/?=
- =?us-ascii?Q?G7mXVll7gwTQc/XFVZWzAprwDXmuOH5RP/B2a5reghCBWJ1gSKO8fTYHrVqI?=
- =?us-ascii?Q?rwawMUCaF9yDGurlxWgcTJITcb7U7ZIZcDSVYfLUVsqMbBJP99HWJvnx9s8b?=
- =?us-ascii?Q?kc0pXfr20CehlXQyayZXqkjJuas11wqjIT8C2mnuekbAKtNoNNlT64YObY3/?=
- =?us-ascii?Q?l5R2Lz/0dM8VM5NEDLDXw8jVxnGe/iMRQ6++RRCd++VMfu22NXM9jOU0W3dA?=
- =?us-ascii?Q?/oBGwNdaApOrQcBwRtZ5mpBYmUguD9mG1b6k2ROrAOuhfBoREYfFVzQ6IBUd?=
- =?us-ascii?Q?qhitqqKq9CO365P+oMCy2ovEo6YqDmEjnz+/Pp6n0XLjEZ9TkZSOA99hSKHZ?=
- =?us-ascii?Q?sjq74GsKCZDpHQb2HZzF3T8qYJqq7n+2XGuYpg9prZGKBgh/b5CeyoRY8nIu?=
- =?us-ascii?Q?TwN9GbzMS7Iol4gPel5cZ6c=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WL0hI+A7jmeNPFlRzFa0+JcsGyloCwDwvnbiJ0IN0bdwu46Pj0csFFWz6fJJ?=
+ =?us-ascii?Q?q/yAIwKU/aDW9hrFeJxdUccUvOA3lREv3AJ0p5SOvB50fuP4dqX0nNpWlGtT?=
+ =?us-ascii?Q?0oLuuhoVeiuoTvBRaYI79Q1maQdUbL1O/x57GhMFmzmYqMv1rnd7pnnFzuM6?=
+ =?us-ascii?Q?Z8SLZngsDSO5Q9MOC36427uE8inAZQku+S5SZnsi9PmVkq81jE9r3l7GTQnw?=
+ =?us-ascii?Q?XBCXL80amhTQWsI7JnxvMgSsIiQ35w4BWHHADAUzX98HU/CioaQ7i8nKyKts?=
+ =?us-ascii?Q?zT3G0EA+L8YLYeT1ceaXV34gCE3QA8uBgvftmiA73X8PVBZH96RPLr/kbzuo?=
+ =?us-ascii?Q?PEtJxlnnsUMeJubxNHU0dusa5k4WTSxjMbb72Dsf2EP59+Tv2E9CMPYgiQER?=
+ =?us-ascii?Q?z1vhZtiIkuB82L7MfpGmLdIfMMTEmifXZWXay8eW+/b25VfplaEnbnGADfdp?=
+ =?us-ascii?Q?tzRkuEgnug1NvNkJHem/cVR039evkIxDv6Z2CphJzsuoPx2L9v7Hb4lEHifi?=
+ =?us-ascii?Q?wZn6P/x3uTKWN17lAc1Ih3W4mJ1Rtj2k60OdIVwGIWLV15IsXlzCmHGu7cv4?=
+ =?us-ascii?Q?zNFt3juvxLACXkdELOdFAVxLC3rWZtdsngGtEsSpRFyTD9CdZHvM4nKvJvwA?=
+ =?us-ascii?Q?4otb6C/nRTwATUV0LGwmTdlAv4ZFKhs4WNQB5f10xg3SeInn1Gk+6A1+XUxy?=
+ =?us-ascii?Q?fn68EGTfcH9Dvpn9rkIk+rbfUlGI7RphCAmpwxv59gRWk6KrSQPUK5XONnr3?=
+ =?us-ascii?Q?kyutP7YluQnienGuwksM+t6XM2AfHdjd2xFds97k6lOBxDxU55oF7VtCvd7J?=
+ =?us-ascii?Q?aGRL8dB05hV95IO2x1FFVAL61pOFBSclDb8DKkJXK8kcr9E4yYTaObiIpmpx?=
+ =?us-ascii?Q?pxfNw5ESVF6TaBQf5oTbNtUXKTFKw5xEuMH9QGdc2o4tnKFx/0ZEkbFen4ao?=
+ =?us-ascii?Q?R8xXLEvcRf6XzZqXOHqY6jGf2vBHy/FLed2HXKEqlVQ0BIhFbE7fbTrvAYdA?=
+ =?us-ascii?Q?5gew6EbjFEiOLSwDOgbh5uJQU5E/x9BJm4w2k1Dn9oSTp8dMHd5L4uewhk97?=
+ =?us-ascii?Q?K8mezLxOx6yi5CrlbKEgdXDUwi63ArcjkK3XKSAgssM7GdPe7MFhycuFwJey?=
+ =?us-ascii?Q?WKGKbv1GPcblKmC6LUtO+h2gCM7efSTmMMaPlrFEn8PSp+qDLY5uayMwxwOO?=
+ =?us-ascii?Q?nhyrRU6v0Me0oTw7LJfmi3RpUlHDZlYSg9ORIrEJebuBt9R/B929BNXAvjab?=
+ =?us-ascii?Q?SJ+hNG9cLJS/AdZPY266vwIs/67vrDplbRwyOvjZHWbH2X7IMDfPni/mdfp8?=
+ =?us-ascii?Q?ggRs05KBICukEWe14aFKzTKgBhIS3zgH7eVFAO+kkOMuxlT3cSxsYohXaUVF?=
+ =?us-ascii?Q?f3Sc/Z9FnJ5oa21RAn6/dlYLiGqx2r4B7QZTGZMU5FN92MlyWL+BHl8VS2xA?=
+ =?us-ascii?Q?yHDp03Bub4KIQZ5+FqJPP4YtNam4E5q6yf7+GQcxgtYKt3Ah1zkr/kgYS5PQ?=
+ =?us-ascii?Q?enAsXGaLveTEXD6tByT1GfuXrwijZYF4IbdU1TiH6oiD+iWMubnQCvaeP8Ub?=
+ =?us-ascii?Q?bhm7W0JJOPs3pmkEqlxbTgyo70E9elhI3cMbkEwBW1bzM+b4Pn7dQZSZIZoc?=
+ =?us-ascii?Q?TfOeQphq5QX86zn+ZiY2qIk=3D?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31fc70a7-e50c-493e-4be5-08dd9db60b5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6408b158-cbb9-48d4-baf5-08dd9db611a2
 X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 07:05:36.0472 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 07:05:46.5761 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dEK9h5y72/u7aWhLmdp7WylfPkJ8Krc9oR3YHA9+4XL/N2kt5Hq2muTx1anhqFjqZHx1qOiGFVm/LutBFtb6GIa0BHwBJWIJVv0yWeZkHgJD8sI91JBCK7kld/FOsch3
+X-MS-Exchange-CrossTenant-UserPrincipalName: DVHrLSCZSobm+2DG2FD45BxLvbPxKjmeVIDkv8xzQNs6rAbo8VUoRPq1vxGIAyQ/F1N+gZVnPx44iDeGCxw0ITYWGS/ajG3FLNgvQlnlEvgJNRnLTLlMbUzZMuEwqOVF
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB14051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,80 +162,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-adv7511_mode_set() currently updates only the sync registers of the ADV
-bridge. At the end, drm_mode_copy() updates the current mode, but the
-horizontal and vertical porch registers of the ADV bridge still retain
-values from the old mode.
+To preserve the drivers naming convention rename
+adv7511_dsi_config_timing_gen() into adv7533_dsi_config_timing_gen()
 
-Move adv7511_dsi_config_timing_gen() into adv7511_mode_set() to ensure
-the horizontal and vertical porch registers are correctly updated.
-
-Fixes: ae01d3183d2763ed ("drm/bridge: adv7511: switch to the HDMI connector helpers")
-Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-Closes: https://lore.kernel.org/all/aDB8bD6cF7qiSpKd@tom-desktop/
 Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 ---
 v1->v2:
- - Fixed Fixes tag.
- - Moved adv711_dsi_config_timing_gen() into adv7511_mode_set()
- - Updated commit body + commit msg + content
+ - New patch
 
- drivers/gpu/drm/bridge/adv7511/adv7511.h     | 2 ++
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 4 ++++
- drivers/gpu/drm/bridge/adv7511/adv7533.c     | 5 +----
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     | 3 +--
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     | 2 +-
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 90c9a3da2406..6150d57ff9af 100644
+index 6150d57ff9af..690ca3a5fcfd 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -422,6 +422,8 @@ int adv7533_patch_cec_registers(struct adv7511 *adv);
+@@ -415,6 +415,7 @@ int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
+ 
+ void adv7533_dsi_power_on(struct adv7511 *adv);
+ void adv7533_dsi_power_off(struct adv7511 *adv);
++void adv7533_dsi_config_timing_gen(struct adv7511 *adv);
+ enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+ 					const struct drm_display_mode *mode);
+ int adv7533_patch_registers(struct adv7511 *adv);
+@@ -422,8 +423,6 @@ int adv7533_patch_cec_registers(struct adv7511 *adv);
  int adv7533_attach_dsi(struct adv7511 *adv);
  int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv);
  
-+void adv7511_dsi_config_timing_gen(struct adv7511 *adv);
-+
+-void adv7511_dsi_config_timing_gen(struct adv7511 *adv);
+-
  #ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
  int adv7511_hdmi_audio_startup(struct drm_connector *connector,
  			       struct drm_bridge *bridge);
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 8b7548448615..b58e9e2c6489 100644
+index b58e9e2c6489..a687b3c3fd95 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -738,6 +738,10 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+@@ -740,7 +740,7 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
  
- 	drm_mode_copy(&adv7511->curr_mode, adj_mode);
+ 	/* Update horizontal/vertical porch params */
+ 	if (adv7511->info->has_dsi && adv7511->use_timing_gen)
+-		adv7511_dsi_config_timing_gen(adv7511);
++		adv7533_dsi_config_timing_gen(adv7511);
  
-+	/* Update horizontal/vertical porch params */
-+	if (adv7511->info->has_dsi && adv7511->use_timing_gen)
-+		adv7511_dsi_config_timing_gen(adv7511);
-+
  	/*
  	 * TODO Test first order 4:2:2 to 4:4:4 up conversion method, which is
- 	 * supposed to give better results.
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index b12d422343fc..df8180e6d733 100644
+index df8180e6d733..188c1093a66e 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
 @@ -24,7 +24,7 @@ static const struct reg_sequence adv7533_cec_fixed_registers[] = {
  	{ 0x05, 0xc8 },
  };
  
--static void adv7511_dsi_config_timing_gen(struct adv7511 *adv)
-+void adv7511_dsi_config_timing_gen(struct adv7511 *adv)
+-void adv7511_dsi_config_timing_gen(struct adv7511 *adv)
++void adv7533_dsi_config_timing_gen(struct adv7511 *adv)
  {
  	struct mipi_dsi_device *dsi = adv->dsi;
  	struct drm_display_mode *mode = &adv->curr_mode;
-@@ -67,9 +67,6 @@ void adv7533_dsi_power_on(struct adv7511 *adv)
- {
- 	struct mipi_dsi_device *dsi = adv->dsi;
- 
--	if (adv->use_timing_gen)
--		adv7511_dsi_config_timing_gen(adv);
--
- 	/* set number of dsi lanes */
- 	regmap_write(adv->regmap_cec, 0x1c, dsi->lanes << 4);
- 
 -- 
 2.43.0
 
