@@ -2,77 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4E5AC8022
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B142AC80DF
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 18:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC7910E758;
-	Thu, 29 May 2025 15:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B837510E009;
+	Thu, 29 May 2025 16:29:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hML2oM17";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jOt5bVy8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045FA10E75D;
- Thu, 29 May 2025 15:21:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 47EAAA4FA21;
- Thu, 29 May 2025 15:21:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D96C4CEF3;
- Thu, 29 May 2025 15:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748532094;
- bh=FwR5EhI8xrwtPj1Jun0AMgnQF8ISLd14Opp265Plpv8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hML2oM178RlHw1oKhAtMumRJAxcFj9Uabw3ERlxuNYVU4gX/dw778C5qEZcYi5iJs
- N4UgCbGVJQrlaEqnAScfFFZQhmS1o4AD/j6bryqaMTgBGPcX91umcO2os8RD74ACA/
- sICVg+lf1hC0IG5i41gakZx5kbnrnjbgOX91k0LHGz9nxxB/bIQkv51Dn87fgAPGvn
- 5wrwClySble5OZZXtTV2pBQWQvzCemFfl+CANPdvxQ3jEOn9jAfHj/1/m86C3L3ldb
- +yEuvIb9uL98S/0VG+kYnoXcA9L0J88EM0srk5gHB52K7d5x1EpxI+9U1n9sBXGnya
- AoTbu9du8vCvg==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 29 May 2025 11:20:46 -0400
-Subject: [PATCH v12 10/10] ref_tracker: eliminate the ref_tracker_dir name
- field
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2040.outbound.protection.outlook.com [40.107.102.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE3C910E009
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 16:29:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VnxL18NGHkrfpmzBwZFIXnuJIw/lLArrO6gaI2vU+/1IuQ2PO4/KR3FKkagpI5x0JZYPrmtjjyC2TT2f1FdDxUuJoeWf9Clu16XouhaoKeVlXyirBF3UZbz7rskapUT9y6nbT4XT/BbSMhUoDrjguMHiIRSi6C6+mz4kBmeSORgMrqd1aPFz+w6Qc0fBRocNvOw/r50jEJNlkP3DXjVpeycHKkkpkWzyJBDD3KGmvp0fvb6EYvaiJU10RGW4hcdo14rnEUKVbx0fnhIqZL1zrLU9EK1MDg3H4O2+uLvM07j//HqcaRBlokAA7CoJpViPeRNj3+vgBNm8qoPMpF+wtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pFlEEalp4xeEz4zQ4ReUwP4mkRuPIUmhaLfWuP2imt4=;
+ b=YoevzW+7g3/3lydFmCJdBETj7JsLBnF8JEPrFXzTFQa+fmJmUBvR8VBzjG17RFScrmh2y8/LpIRSsCMccnitZgXMkO6tLzYIssnPTG+N/ry5ffPoHSgp1NbtXThCEYhCZZ78h3q0Dc6HW6m5FedfZq6U0M7xSPZL6+aN4OoXVxlDT1lwTVvlMHSI5gIVbiBm0Ki9yyhyP7PW8rafBGziEM61K7B3wrWPHSZTGUQC1jcFbcFL1KK06li0JlfkZ55ePT7IKouPaQa1x0AK7RAq0aBx+PuOxbYttsKA0gY9hNU7CGmubu4nnhXzwjuDjiKw+KlCQA9WvZtmVzzSOXr0YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pFlEEalp4xeEz4zQ4ReUwP4mkRuPIUmhaLfWuP2imt4=;
+ b=jOt5bVy8TdJ4Li/ajUOQsxPT8utAgiQyj+8xT2Nas471Z3JVftpohgjuCObf5eqR8NGgGyMcBFko6xbx4WYToWXOdGXc/4xlBPiaXLyvQrARM1cn9a3HW2JUcH8YcLI2+q7mK/B9E0xlDO8ennxM8DLG9y/8zB8YnWwqRkicbgMYcW1/9/VcIQ/RqKqfTeEO/JOgZB7RWR3LmWVursfDkYXXfHbyC/FFW74Wm2YZBWlfvFYpCKWVPoErDdp7c7EYka3ZCawdtBL5qF3aOOKkQW6j/yVu47z5J02zG7YhNoVwZNVm/Gyrt/nc57IFOcb//IOTR6P/+py/Nzpwn9+auA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by LV8PR12MB9135.namprd12.prod.outlook.com (2603:10b6:408:18c::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Thu, 29 May
+ 2025 16:29:24 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8769.022; Thu, 29 May 2025
+ 16:29:24 +0000
+Date: Thu, 29 May 2025 13:29:23 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, yilun.xu@intel.com,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <20250529162923.GH192531@nvidia.com>
+References: <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
+ <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
+ <20250512140617.GA285583@nvidia.com>
+ <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
+ <20250514163339.GD382960@nvidia.com>
+ <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
+ <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
+ <aDE5SPzOAU0sNIt+@yilunxu-OptiPlex-7050>
+ <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
+ <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
+X-ClientProxiedBy: MN0P220CA0011.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:52e::23) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-reftrack-dbgfs-v12-10-11b93c0c0b6e@kernel.org>
-References: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
-In-Reply-To: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
- Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7441; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=FwR5EhI8xrwtPj1Jun0AMgnQF8ISLd14Opp265Plpv8=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoOHtn4IJ7SURX8BQCD8ZYnwubCl+5SbqMsQ325
- M7qhoOOnv2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDh7ZwAKCRAADmhBGVaC
- FS1nEADXabjBb2oDwftNBnUg/O2eeC5R7JfyM9oTyEp3hl/hNYdp6KrZUEQBpu/jWMb3Rq99zwS
- 4JlewudUzqNKwp0TPIXQ54uQzwHBIMtRt0OSo1YPbb/obrQqzQlgef9j13XmaGU3rvR3xRcAM4x
- jtShncPnygCZbRj7EZzAKgYTFss8I+7cnJ9orBkLLAsa42I63DJVE+fXuhqxYOD7cALUkSfAqSq
- tU6yWjYc0x0Vlsmz2yhyLHwFAvm0aW0UePHgcgVD71Q6wxEceqAKuVXnPVZpxBtIcRrgjd9sC5N
- 6UCXagSaF42ZEHbvI+81Ej/3IsgmuBPT7Y9EJlIAvGk8PUBMAU5Vi4olmj3LAN8bPno82/W2qbF
- JPYfEsq1drxLqJw86ZtWR8ZBqgJJjdXKmiEIjPVVto5JngM22wIX+yUl6khpFi3Q7e+1+2IwHes
- 9xI3d7Wn9SSDzv0o6D8YUp1lIkM8hfQXgdInBLA06sYpT3ZGUArSdIrHctc4uDV8dGKXlIW/3nC
- SLFbvZTAxHM+/10WNDr2mLAJ2G+tE0timR/+/b3zdkTGO8f9QePcbPK0MF0s+nvFtr5b4lg4Eut
- K8yX6taCuIRmbnJGt1ElyzDr7BDjeHHYWNtOmwXue+B6ySEq5s5WNDjfKrVomN763a5Mj9nei/d
- pspT0IXdb+kJKzw==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9135:EE_
+X-MS-Office365-Filtering-Correlation-Id: bbdd1bee-6937-4960-e79b-08dd9ecdf959
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fWRhKAmy5OXgrX2WLZqqyiGsjHs4MfUZVCdn9TSvmrXIfSg8tLyuHLThkZOb?=
+ =?us-ascii?Q?WoVAVLQ4/EvK8bkBbYLHyaqthXtAzhHG4BStkyTkEKaLw2mTorpF70tnsqqB?=
+ =?us-ascii?Q?Wimt7b6IPbe9sOArrdFjLPXbsisXLFlff9GFHPiMQJKbubMqwTnasUPRn9Qu?=
+ =?us-ascii?Q?NfKoA4q8BQ8kb0EAsJKOGHh4S/jfyOKKZUBtllkKVVYFpHxomoEeT46NrefM?=
+ =?us-ascii?Q?DNqOqOnHLqHzENYfgbYbRi/coKZnzixLiyUJDON+jY3B2P8qLcf9QukLAM2I?=
+ =?us-ascii?Q?hqkbnurrNQNRKK0EasX2pMSyrpGUzNvpjxDGhlCx9X8xxBv5fMgAad70Dgzq?=
+ =?us-ascii?Q?DJY+KRjUNIOaONsUAqR31nA2hrMoiAviFYC2jMw8y/aMxCNdIXIYS5gUPsN9?=
+ =?us-ascii?Q?AuXYsiECK2ZPpl44PFOPEJlxaBtSRKFl3N6FiWQkPovAjc0WR81MmRj2HTct?=
+ =?us-ascii?Q?iJZlkwWc5QTa2AdeG18UDQ0vAbaf/FKxLQJrAIz+tSaY+ARfE3RxjXMjWAD5?=
+ =?us-ascii?Q?YTc+Bn7ZMOB3WHmqqBHeMOw9jySRNWap4LW66X5izFaUebEyooFhGnXgYHzl?=
+ =?us-ascii?Q?sgpzxRd9tb3U7CNTWPqGZUkZC8cvK0UAHFNpEBK3fLnMq9Mm8smZOoHyVDf9?=
+ =?us-ascii?Q?ZPlzTJ/9wZ8pkR2d5nq2sUP9Jr9qM0bKlYXs6pCcUscE9+/p1pQTZOlhUl5z?=
+ =?us-ascii?Q?StuabvhDsfpQ8EZt3mI3JpEOdpyYbbdUkUmHRN3uvJd/VJDgXzVS8gFkNzH8?=
+ =?us-ascii?Q?OhDGydIizcV5na1qicq2Tt5h8MBprCpNzzr6jJBCtQbGr8BeiCAhyvRGXzoU?=
+ =?us-ascii?Q?c/diY2V4GdtC2Xkiff0lQ84Gd8ZhJOmkXglv5vOczv+SBLgPsKb7KCdZPfg+?=
+ =?us-ascii?Q?GPrD6yT8hD7UQSaorIp8Qkn5pPCBZos723tjsrYzNx4Kw92YyOMf+oLI8fJs?=
+ =?us-ascii?Q?090S30l9FXmpWftBai3+rtdKPoHLJwecxI0TRnHKELI/kLy7rTqJ8uRpCPv/?=
+ =?us-ascii?Q?zj0yjIz3nv7a4ueTiTrFuVoRSpxlgiXqeANsqGXu1k/vqURkQw+eofGXgr/c?=
+ =?us-ascii?Q?bFvQUvlZprh50rx465JybycS2QZTkxQSw7SisBUn5WdwlR+y1392zWH+4KUp?=
+ =?us-ascii?Q?N8Y/0j/WmJHIKnzqQF3LU3RDzH93fYgymZfmv7Ce1HXY5aLqtLmp6hk2OP/F?=
+ =?us-ascii?Q?z9tnhQKL6QkeB5SBodfWHGgj/q+flGG0J55925JVZis+21zLIbz4syW+LOwu?=
+ =?us-ascii?Q?ioMclU7MccKyLurTDxd0r2CFNri5CxzLVlV/c9W18ExoZJnyTiU1liDmMyVg?=
+ =?us-ascii?Q?PcZ2HSAcBc/9v9R5OmnddgqzzVUKKsRpgzpvfMCC742tzdfk8Ds+glCxim1z?=
+ =?us-ascii?Q?rSfFwKCjk0nrNNX8+I63OlXCuTJ8SoA0+O9q+oaoratN3SxrUA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?amT4X8uLWB+qU6OgnGbvJ9YWoh4Fteg8kr/eRWm7/ufuc44Qf2NEIbewCm3I?=
+ =?us-ascii?Q?QAz/wDFFonxoT/UmxxbN97CYB6lqae+1n0opaVUhl7+y6ojt8fTjqsg9AYli?=
+ =?us-ascii?Q?vF4OHEFFI69XmB2WYQPo1x0u8qxRtczg0pnRF+zWBbj2iZx6whampSJkXknE?=
+ =?us-ascii?Q?+Jh0RPobvlKICTCa1MQ72RGsVQfXpBqHxDxkGkuQX/QKMZxzvYhjoa7OQcXe?=
+ =?us-ascii?Q?0tROyqpo46szVMeg0ORvoYW5BDI+uTheBI7Oz9poZcp9AQ+JUwva3HvXj0cB?=
+ =?us-ascii?Q?321tdEfFDobwmRM4UpWIf9OQwrMDya7P3ogw3JZbSPDPsrCjE4iiEmWAzEdl?=
+ =?us-ascii?Q?JkiwgfMumDsf/VoRAyGskM60snr7eiMn1hfu85u0uTCGIYl1saywxy+RpCfJ?=
+ =?us-ascii?Q?tsgY3i6Cyltg0p3NMdOA2lNMPJ6prMA6jZC3Y56OxEhNnrm5POBfe9NOUY+Y?=
+ =?us-ascii?Q?PSz1VXcCSTjhmXKx1A6WChE2558WBZDz+RSUd0D+W3oRXFB2vhpHC3Nuz39K?=
+ =?us-ascii?Q?xm3iT5BIMsjWOKvUT38yPCa9Emu95vXbQ1MIIDxSOk5cmTziOnJEKxDWFjIo?=
+ =?us-ascii?Q?WB9PttDB5LNUKSUQFhT0VcGo9u5PvGJm/o9UIDghRri9qWhbGXyIBlgjRSNw?=
+ =?us-ascii?Q?lzihs7P1xRsp+TTowkWXF/b68KxUqwNP9N0tNf+djItrtqkLGgT7DJJ2jNQW?=
+ =?us-ascii?Q?kdU4cSopqsBKOHPwXmR3SfiwWUtJj/9vNxlpZbsQChlwmJGiF7njgjK/M1S5?=
+ =?us-ascii?Q?MXsT2gzD/gqa6qNnZkc+P8TDyUgd8+V6YXs0mgY0ZukO6Akrbt5vikr9R5+C?=
+ =?us-ascii?Q?L8F8FY8C10oXcDe4vhGd+GAPemwoNGn/JUO7RVE1b2zTgKC22v6qPalA+rrM?=
+ =?us-ascii?Q?snaRTp1JEqOKe7HOX+zIm7A8dXoFpBLv/Kn1i3RqjKj55iFfNqrdwvfm3Xgn?=
+ =?us-ascii?Q?Q9oN2umdk2ODvmJxDDNGglPJV6OqOaN3P0UvsLGyOzbj0kdW1Yup+aW5UOAb?=
+ =?us-ascii?Q?KH1DJYXGuwD+BCnR7btQeNOtHY+cXzN2h4UYVxXbwy4f/uxITUKGz2JbtJKi?=
+ =?us-ascii?Q?ftpMrYelgHAimeEuePhGl2QpmffS/6gzp557WjnuZdZXRq80Icb9orlP88Ip?=
+ =?us-ascii?Q?vJx0hEeb5vTooEyUoaBK0cKuCBERUwne0InrjP7mTrAcJG0Iz5dyyWCjIcjb?=
+ =?us-ascii?Q?q/bIqv3OMf+uDfSTT4uXc3Uo7RfB2xzUCuEf9zlTIHCOd4x2TSrYRnq8cHD6?=
+ =?us-ascii?Q?ZnlRGDLn8PnHIe94SBGoirD9GWxzx81e91H9Wg6idUOW4vUdxyHZVIHo0Awu?=
+ =?us-ascii?Q?S1IViGNJgLGbG5HIdmfA8qzQWodBkgyI/WWG5znzgd+V6+NQoOGYv/4ujCHI?=
+ =?us-ascii?Q?Jhg8swQBNruvhCEsDA2ymLi/ky5bBHq2Nyf0yHb3J8fK2YR2jD6bjCVpFDSC?=
+ =?us-ascii?Q?U28IH89azyVNqm2VGNzTNTdBp0i3KpezytFgeDfcGS6Lr9xtZybeY9WNwCBY?=
+ =?us-ascii?Q?gh2eR3Mz1bCvKbHzmfeJmIXeKbxPIILtdDcAEAR/2E5vVrKwB7Ogs5LcdF3M?=
+ =?us-ascii?Q?8GANtRnpIbZwaCiziPAcJINoWmsixTWqnqxuE9yy?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbdd1bee-6937-4960-e79b-08dd9ecdf959
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2025 16:29:24.6867 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HsgbXcLrvQKsshpuIeuqmZAzUFE4k/Ho1S+B51PzCXKwfanHTUeyWjjTCiVhxP47
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,189 +160,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have dentries and the ability to create meaningful symlinks
-to them, don't keep a name string in each tracker. Switch the output
-format to print "class@address", and drop the name field.
+On Thu, May 29, 2025 at 10:41:15PM +0800, Xu Yilun wrote:
 
-Also, add a kerneldoc header for ref_tracker_dir_init().
+> > On AMD, the host can "revoke" at any time, at worst it'll see RMP
+> > events from IOMMU. Thanks,
+> 
+> Is the RMP event firstly detected by host or guest? If by host,
+> host could fool guest by just suppress the event. Guest thought the
+> DMA writting is successful but it is not and may cause security issue.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- drivers/gpu/drm/display/drm_dp_tunnel.c |  2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c |  2 +-
- drivers/gpu/drm/i915/intel_wakeref.c    |  2 +-
- include/linux/ref_tracker.h             | 20 ++++++++++++++------
- lib/ref_tracker.c                       |  6 +++---
- lib/test_ref_tracker.c                  |  2 +-
- net/core/dev.c                          |  2 +-
- net/core/net_namespace.c                |  4 ++--
- 8 files changed, 24 insertions(+), 16 deletions(-)
+Is that in scope of the threat model though? Host must not be able to
+change DMAs or target them to different memory, but the host can stop
+DMA and loose it, surely?
 
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index b9c12b8bf2a3e400b6d8e9d184145834c603b9e1..1205a4432eb4142344fb6eed1cb5ba5b21ec6953 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -1920,7 +1920,7 @@ drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
- 	}
- 
- #ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
--	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun", "dptun");
-+	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun");
- #endif
- 
- 	for (i = 0; i < max_group_count; i++) {
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 90d90145a1890bf788e789858ddad3b3d8e3b978..7ce3e6de0c1970697e0e58198e1e3852975ee7bc 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -61,7 +61,7 @@ static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- {
- 	if (!rpm->debug.class)
- 		ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT,
--				     "intel_runtime_pm", dev_name(rpm->kdev));
-+				     "intel_runtime_pm");
- }
- 
- static intel_wakeref_t
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-index 21dcee7c9a659ac1fb0aa19f3018647be3bda754..080535fc71d8c25dcc848eefd063361bbe21b305 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.c
-+++ b/drivers/gpu/drm/i915/intel_wakeref.c
-@@ -115,7 +115,7 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
- 
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
- 	if (!wf->debug.class)
--		ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref", name);
-+		ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref");
- #endif
- }
- 
-diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
-index ddc5a7b2bd84692bbc1e1ae67674ec2c6857e1ec..5878e7fce712930700054033ff5f21547e75224f 100644
---- a/include/linux/ref_tracker.h
-+++ b/include/linux/ref_tracker.h
-@@ -24,7 +24,6 @@ struct ref_tracker_dir {
- 	struct dentry		*dentry;
- 	struct dentry		*symlink;
- #endif
--	char			name[32];
- #endif
- };
- 
-@@ -48,10 +47,21 @@ void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
- 
- #endif /* CONFIG_DEBUG_FS */
- 
-+/**
-+ * ref_tracker_dir_init - initialize a ref_tracker dir
-+ * @dir: ref_tracker_dir to be initialized
-+ * @quarantine_count: max number of entries to be tracked
-+ * @class: pointer to static string that describes object type
-+ *
-+ * Initialize a ref_tracker_dir. If debugfs is configured, then a file
-+ * will also be created for it under the top-level ref_tracker debugfs
-+ * directory.
-+ *
-+ * Note that @class must point to a static string.
-+ */
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- 	INIT_LIST_HEAD(&dir->list);
- 	INIT_LIST_HEAD(&dir->quarantine);
-@@ -65,7 +75,6 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 	dir->dentry = NULL;
- 	dir->symlink = NULL;
- #endif
--	strscpy(dir->name, name, sizeof(dir->name));
- 	ref_tracker_dir_debugfs(dir);
- 	stack_depot_init();
- }
-@@ -90,8 +99,7 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- }
- 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index d778820bea952d96c9a1c280dfd6531135bd85e0..897c5b4aedf7393aca45ed10b5617c81e6f7e6bf 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -123,7 +123,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 	stats = ref_tracker_get_stats(dir, display_limit);
- 	if (IS_ERR(stats)) {
- 		pr_ostream(s, "%s%s@%p: couldn't get stats, error %pe\n",
--			   s->prefix, dir->name, dir, stats);
-+			   s->prefix, dir->class, dir, stats);
- 		return;
- 	}
- 
-@@ -134,14 +134,14 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 		if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
- 			sbuf[0] = 0;
- 		pr_ostream(s, "%s%s@%p has %d/%d users at\n%s\n", s->prefix,
--			   dir->name, dir, stats->stacks[i].count,
-+			   dir->class, dir, stats->stacks[i].count,
- 			   stats->total, sbuf);
- 		skipped -= stats->stacks[i].count;
- 	}
- 
- 	if (skipped)
- 		pr_ostream(s, "%s%s@%p skipped reports about %d/%d users.\n",
--			   s->prefix, dir->name, dir, skipped, stats->total);
-+			   s->prefix, dir->class, dir, skipped, stats->total);
- 
- 	kfree(sbuf);
- 
-diff --git a/lib/test_ref_tracker.c b/lib/test_ref_tracker.c
-index d263502a4c1db248f64a66a468e96c8e4cffab25..b983ceb12afcb84ad60360a1e6fec0072e78ef79 100644
---- a/lib/test_ref_tracker.c
-+++ b/lib/test_ref_tracker.c
-@@ -64,7 +64,7 @@ static int __init test_ref_tracker_init(void)
- {
- 	int i;
- 
--	ref_tracker_dir_init(&ref_dir, 100, "selftest", "selftest");
-+	ref_tracker_dir_init(&ref_dir, 100, "selftest");
- 
- 	timer_setup(&test_ref_tracker_timer, test_ref_tracker_timer_func, 0);
- 	mod_timer(&test_ref_tracker_timer, jiffies + 1);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index eeb6aab16987dde277314d1a6b5bd32eaabab893..c7c25278267adb338f99407abe4a62d2a9cc3d33 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11714,7 +11714,7 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 
- 	dev->priv_len = sizeof_priv;
- 
--	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev", name);
-+	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev");
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	dev->pcpu_refcnt = alloc_percpu(int);
- 	if (!dev->pcpu_refcnt)
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index b2fd9c5635ecf8fccd48f1d5b967a5c6c41cfec4..8d21c8f4eb83597ddee5fd345b5e38b308ce0335 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -403,8 +403,8 @@ static __net_init void preinit_net(struct net *net, struct user_namespace *user_
- {
- 	refcount_set(&net->passive, 1);
- 	refcount_set(&net->ns.count, 1);
--	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt", "net_refcnt");
--	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt", "net_notrefcnt");
-+	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt");
-+	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt");
- 
- 	get_random_bytes(&net->hash_mix, sizeof(u32));
- 	net->dev_base_seq = 1;
+Host controls the PCI memory enable bit, doesn't it?
 
--- 
-2.49.0
-
+Jason
