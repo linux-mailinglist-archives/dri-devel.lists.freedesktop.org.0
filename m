@@ -2,74 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2416AC7FDD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 16:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8ECAC800F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21CC10E1FB;
-	Thu, 29 May 2025 14:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650D610E740;
+	Thu, 29 May 2025 15:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YTvrCZmI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UAbAMxWf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA8A10E1FB
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 14:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748530059; x=1780066059;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kEjzFkO+XU4YWTcwrv0cEo/Sjcef1XQplfcw8JrSKxU=;
- b=YTvrCZmIeUVyNpXAdF+/xwXrswsmucrxAPyezmhRWv52KfuJBbWkQO0h
- fKFPJ94fzWC/lIQAa4XReElyBXwQqIow5yKYgnGeca67BCcucU4hLK9wj
- Z0/P0mgrKmGmFSe1fIAWl6A66VqoCBUeEja0dUsOgTvmweu1HwAwSRZ0j
- KLPq68X+aBdr7IUtfe/6yYJ+eOewvsCsJ0sIlZe7OywMMs7UvxJmFfQr0
- YflXnQNFOv+mU9uR8u8/mJhzmfg1ohmY+DWmFPRSTVeNGml3nF0GUEKrQ
- iNA7x70ph95/TIhI3EAONeTsHgL7al2/WC4dLmoamKbqY9XSRfNSwNhRV g==;
-X-CSE-ConnectionGUID: ApXrG0CaTEWAFdO8NidS+w==
-X-CSE-MsgGUID: k9+4BkmgRnipfepmHlCJRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="49840883"
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="49840883"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2025 07:47:39 -0700
-X-CSE-ConnectionGUID: 8v9maovfSSmE7dB+aC69nQ==
-X-CSE-MsgGUID: WkireV+rTKS43Kq0z8SZxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="148621109"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa004.jf.intel.com with ESMTP; 29 May 2025 07:47:34 -0700
-Date: Thu, 29 May 2025 22:41:15 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
-References: <20250509184318.GD5657@nvidia.com>
- <aB7Ma84WXATiu5O1@yilunxu-OptiPlex-7050>
- <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
- <20250514163339.GD382960@nvidia.com>
- <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
- <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
- <aDE5SPzOAU0sNIt+@yilunxu-OptiPlex-7050>
- <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C9A10E73E;
+ Thu, 29 May 2025 15:21:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 154AAA4FA21;
+ Thu, 29 May 2025 15:21:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBAC3C4CEE7;
+ Thu, 29 May 2025 15:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748532073;
+ bh=caGaYPu0UkGeB7+G3TqgVtPAn9Bg5wZBX5MOByhpqpw=;
+ h=From:Subject:Date:To:Cc:From;
+ b=UAbAMxWfjhsYGL2H1oeRyWCTc6KqSBnkbds8AN77gD6Vrax6U6a5qnkzeKt1Bk57+
+ DBxskzgUbhx8kLrQwwLRnMhSnbWNwIIigKOJ8ACwRdryje5ap7Oeq9nyffZ/ceWX/T
+ UShDf74To720Yqe36JrC2Bb1C/OL7KSjh4k47jywcQ4M8CLb6sNzKmt3FfImLuCEl/
+ djQctR73XJT8QUMnHorDkjXfMb0lDz6E+r+XOt9eOSo+lJr6fMd1nBJvZY5ik2SaaG
+ VmnfJGgC+i/FJ4c9UfoN6tlEDqN764ktC6Gt/nnpB/hD9Pq+DCWfoJdaEhfeu7IrB6
+ KX4EUMpnJNgiQ==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v12 00/10] ref_tracker: add ability to register a debugfs
+ file for a ref_tracker_dir
+Date: Thu, 29 May 2025 11:20:36 -0400
+Message-Id: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAER7OGgC/2XSzU7DMAwH8FdBPVMUO3HjcOI9EId8btXQhtppA
+ k17d9xJiICVUxL9/nGcXIe1LnNdh+eH67DUy7zOp6NMAB8fhryPx10d5yILAxok48COS23nJeb
+ DWNKuraP1k0/W2IotDoI+ZH/+vCe+vsl8P6/n0/J1P+AC2+pPlPsfdYHRjM1YYmKLaOzLoS7H+
+ v50WnbDlnXB3pPyKD4BZxdTAcSmvO29V96KzxYoOOTMLSnves/KO/GUI2XPIZBzylPnUXsSDzm
+ l0uTynIryU+etUX4Sz5PPGGKTPkbl/a+Xobzf+u85Uwk+5aw99173j8VPxnvwxaYUWPnQ+6B82
+ OqPiZmjI3T6/mC6ANQFgJGEkoma94amADoB+gT9BLD9weBiNQkmYvc34Xa7fQOpz2WVMgMAAA=
+ =
+X-Change-ID: 20250413-reftrack-dbgfs-3767b303e2fa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Jeff Layton <jlayton@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4718; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=caGaYPu0UkGeB7+G3TqgVtPAn9Bg5wZBX5MOByhpqpw=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoOHtgx1PtYsTdwWILvdXejRagJH/SM6YPiETyN
+ kQQtLyDOzqJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDh7YAAKCRAADmhBGVaC
+ FShSD/98v46oMoyLsz1nbbb0sS0Wpf2SN8RGm7KeIruEq1OeFZPOa+yEzJlEre/1kESGUIYBLla
+ kc+zlW7irtlMgeFfMdMyPI5K2L2Q+PRY7VahnBYuxf6N1ABp7UUnk6uha9rHjX3zSY/OuGcdUCX
+ ETC/3ZWUux6EL98ajdOwUytSnxA+wmnw44tnjh4jAtdxYwjrTZrGCcIiEh4+Gni5qCn8qA4PVaH
+ P5fjVxaSbbUQXmGNDMfvdVcWO0p+DLYbD5h+OtpzHbWbZk9Dcgdws22jlqvEwef9lMf25B9+6w1
+ /BtbclJD8QQ1X+fHiV1spwprcXX8HeWginrHOp8VontcaeNR2foXGGAuXjrKWMHnqUtH7RuQt5L
+ X632574mM2kO7a66gBT6Mza/AzE6DNwSOtMAXvI0B9UlPJf1PVbEf2n4X2NNp+ACdCE2zl3Ij9b
+ x4bV6ExC97ukDxlnTpPdYXtZzp7B3fIrovahOqOR6NkSdTqHmUIXskqxkT2P6OSrQ1vyWkqzV+Z
+ 1lpngCLVBJmxifw7JAC1Al5GS26FK0pCiBn4c/iv/bxp/Vb8Bj2/chIC+H89VaCGc1LBbiYfcdt
+ 1b/lQSI+9w8z5jdUSwIMaEPqll2BvKHDxwzyaja75WW19pY33RyoOhZWaxYWM17jF6tmOPfuLmW
+ 2pmLJKIhXnu9Pfg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,48 +95,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > > 
-> > > > FLR to a bound device is absolutely fine, just break the CC state.
-> > > > Sometimes it is exactly what host need to stop CC immediately.
-> > > > The problem is in VFIO's pre-FLR handling so we need to patch VFIO, not
-> > > > PCI core.
-> > > 
-> > > What is a problem here exactly?
-> > > FLR by the host which equals to any other PCI error? The guest may or may not be able to handle it, afaik it does not handle any errors now, QEMU just stops the guest.
-> > 
-> > It is about TDX Connect.
-> > 
-> > According to the dmabuf patchset, the dmabuf needs to be revoked before
-> > FLR. That means KVM unmaps MMIOs when the device is in LOCKED/RUN state.
-> > That is forbidden by TDX Module and will crash KVM.
-> 
-> 
-> FLR is something you tell the device to do, how/why would TDX know about it?
+Sorry for the reposting, but this makes things easier with automated CI.
 
-I'm talking about FLR in VFIO driver. The VFIO driver would zap bar
-before FLR. The zapping would trigger KVM unmap MMIOs. See
-vfio_pci_zap_bars() for legacy case, and see [1] for dmabuf case.
+This posting just drops the pr_warn() calls from the new functions. We
+were still seeing some warnings during (expected) times that debugfs
+file creation would fail. debugfs already throws warnings when these
+things fail unexpectedly, so these warnings are unwanted when dentry
+creation fails before debugfs is up.
 
-[1] https://lore.kernel.org/kvm/20250307052248.405803-4-vivek.kasireddy@intel.com/
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v12:
+- drop redundant pr_warn() calls. Debugfs already warns when these ops fail
+- Link to v11: https://lore.kernel.org/r/20250528-reftrack-dbgfs-v11-0-94ae0b165841@kernel.org
 
-A pure FLR without zapping bar is absolutely OK.
+Changes in v11:
+- don't call ref_tracker_dir_init() more than once for same i915 objects
+- use %llx in format for net_cookie in symlink name
+- Link to v10: https://lore.kernel.org/r/20250527-reftrack-dbgfs-v10-0-dc55f7705691@kernel.org
 
-> Or it check the TDI state on every map/unmap (unlikely)?
+Changes in v10:
+- drop the i915 symlink patch
+- Link to v9: https://lore.kernel.org/r/20250509-reftrack-dbgfs-v9-0-8ab888a4524d@kernel.org
 
-Yeah, TDX Module would check TDI state on every unmapping.
+Changes in v9:
+- fix typo in ref_tracker_dir_init() kerneldoc header
+- Link to v8: https://lore.kernel.org/r/20250507-reftrack-dbgfs-v8-0-607717d3bb98@kernel.org
 
-> 
-> 
-> > So the safer way is
-> > to unbind the TDI first, then revoke MMIOs, then do FLR.
-> > 
-> > I'm not sure when p2p dma is involved AMD will have the same issue.
-> 
-> On AMD, the host can "revoke" at any time, at worst it'll see RMP events from IOMMU. Thanks,
+Changes in v8:
+- fix up compiler warnings that the KTR warned about
+- ensure builds with CONFIG_DEBUG_FS=n and CONFIG_REF_TRACKER=y work
+- Link to v7: https://lore.kernel.org/r/20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org
 
-Is the RMP event firstly detected by host or guest? If by host,
-host could fool guest by just suppress the event. Guest thought the
-DMA writting is successful but it is not and may cause security issue.
+Changes in v7:
+- include net->net_cookie in netns symlink name
+- add __ostream_printf to ref_tracker_dir_symlink() stub function
+- remove unneeded #include of seq_file.h
+- Link to v6: https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-0-867c29aff03a@kernel.org
 
-Thanks,
-Yilun
+Changes in v6:
+- clean up kerneldoc comment for ref_tracker_dir_debugfs()
+- add missing stub function for ref_tracker_dir_symlink()
+- temporary __maybe_unused on ref_tracker_dir_seq_print() to silence compiler warning
+- Link to v5: https://lore.kernel.org/r/20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org
+
+Changes in v5:
+- add class string to each ref_tracker_dir
+- auto-register debugfs file for every tracker in ref_tracker_dir_init
+- add function to allow adding a symlink for each tracker
+- add patches to create symlinks for netns's and i915 entries
+- change output format to print class@%p instead of name@%p
+- eliminate the name field in ref_tracker_dir
+- fix off-by-one bug when NULL terminating name string
+- Link to v4: https://lore.kernel.org/r/20250418-reftrack-dbgfs-v4-0-5ca5c7899544@kernel.org
+
+Changes in v4:
+- Drop patch to widen ref_tracker_dir_.name, use NAME_MAX+1 (256) instead since this only affects dentry name
+- Link to v3: https://lore.kernel.org/r/20250417-reftrack-dbgfs-v3-0-c3159428c8fb@kernel.org
+
+Changes in v3:
+- don't overwrite dir->name in ref_tracker_dir_debugfs
+- define REF_TRACKER_NAMESZ and use it when setting name
+- Link to v2: https://lore.kernel.org/r/20250415-reftrack-dbgfs-v2-0-b18c4abd122f@kernel.org
+
+Changes in v2:
+- Add patch to do %pK -> %p conversion in ref_tracker.c
+- Pass in output function to pr_ostream() instead of if statement
+- Widen ref_tracker_dir.name to 64 bytes to accomodate unique names
+- Eliminate error handling with debugfs manipulation
+- Incorporate pointer value into netdev name
+- Link to v1: https://lore.kernel.org/r/20250414-reftrack-dbgfs-v1-0-f03585832203@kernel.org
+
+---
+Jeff Layton (10):
+      i915: only initialize struct ref_tracker_dir once
+      ref_tracker: don't use %pK in pr_ostream() output
+      ref_tracker: add a top level debugfs directory for ref_tracker
+      ref_tracker: have callers pass output function to pr_ostream()
+      ref_tracker: add a static classname string to each ref_tracker_dir
+      ref_tracker: allow pr_ostream() to print directly to a seq_file
+      ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
+      ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
+      net: add symlinks to ref_tracker_dir for netns
+      ref_tracker: eliminate the ref_tracker_dir name field
+
+ drivers/gpu/drm/display/drm_dp_tunnel.c |   2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c |   4 +-
+ drivers/gpu/drm/i915/intel_wakeref.c    |   3 +-
+ include/linux/ref_tracker.h             |  58 ++++++++++-
+ lib/ref_tracker.c                       | 175 +++++++++++++++++++++++++++++---
+ net/core/dev.c                          |   2 +-
+ net/core/net_namespace.c                |  34 ++++++-
+ 7 files changed, 252 insertions(+), 26 deletions(-)
+---
+base-commit: 90b83efa6701656e02c86e7df2cb1765ea602d07
+change-id: 20250413-reftrack-dbgfs-3767b303e2fa
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
