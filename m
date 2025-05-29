@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF25AC8014
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9916AC8010
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F7E10E74C;
-	Thu, 29 May 2025 15:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6509410E73F;
+	Thu, 29 May 2025 15:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lfblEMqC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k+4kriia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F88710E741;
- Thu, 29 May 2025 15:21:20 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E812E10E73E;
+ Thu, 29 May 2025 15:21:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 233DE5C6836;
- Thu, 29 May 2025 15:18:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF91FC4CEF2;
- Thu, 29 May 2025 15:21:13 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 36BCDA4136F;
+ Thu, 29 May 2025 15:21:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042D8C4CEED;
+ Thu, 29 May 2025 15:21:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748532075;
- bh=xcaFZVbsEvJyxxrP8wl5wB3qpU0YQ92i4Uv2VYSOZus=;
+ s=k20201202; t=1748532077;
+ bh=qdjjg9250uAChp/B6CMoiJw5KiM08dmL8XUQ0eA5f48=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=lfblEMqCGjjntqP+1um0GeeAZzdkRronCPNuG3/9DXO5LIJNOhNuZ4VVN2I2F07sC
- YkCtPhYmJ2DMIDxIATpW6sIY6TFdhT60csCW5dSE/tpjcuo+n/I5KvCyccBKQqPytp
- 15VSYU9JQcr++CLxOcAVEOD6zIqYPptJuH09AeCf+dHIRWy7msFb8Hh+JZ+g6C7Zx/
- dZ926qDSl4p/Yf+M1TMSDYZQCSrmIR1zRRPf42a9vFoEhQG+ZaUlp5oSx02aBHZzhw
- grami1z/3sfqW2B3YSLiyBfZYqIKFRDPRk5Bt/Z2DnPFTOL1eX6BG4CJcFqxIQTfSl
- sceOA9bOHA88A==
+ b=k+4kriia5cmMEJj+owHrtkuoy4E3ZU92L00VRXLDQ7OmmZI/T6SM42hIRfI/yhdC6
+ a9Q3y6OW8m3YbAkDtHX5ZOdY7kyN+nwQufF7NG1cqQemF6pLGmWZBovwZ2XVwBET0q
+ S4d2zMdPy4cewzvuBOZVb3XJnn9XZpaRKES7efBGGhu0kx6WaqdE1dyfl/U5aCiEMQ
+ lQ1h5q3xEqSEudwWWg4p4Z0jLRuM8CksQA5Eb5j1eqmNVA9TFg1VqTxZpuh2qRHqWu
+ LC/ngAZgWBliFQUfLWcxt1BFsPg+yA4e0wyHUJHz1aeiUr6MAEb3OMYU8yd6zWjYyC
+ 4jt6e3daYTXAg==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 29 May 2025 11:20:37 -0400
-Subject: [PATCH v12 01/10] i915: only initialize struct ref_tracker_dir
- once
+Date: Thu, 29 May 2025 11:20:38 -0400
+Subject: [PATCH v12 02/10] ref_tracker: don't use %pK in pr_ostream()
+ output
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-reftrack-dbgfs-v12-1-11b93c0c0b6e@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250529-reftrack-dbgfs-v12-2-11b93c0c0b6e@kernel.org>
 References: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
 In-Reply-To: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -55,22 +55,23 @@ Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>,
  Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>
+ Jeff Layton <jlayton@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1979; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=xcaFZVbsEvJyxxrP8wl5wB3qpU0YQ92i4Uv2VYSOZus=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoOHtlJoeQSp7XCmOWB2Q+I8Ys5r35/tdfxUIPx
- 9Ha6LPME86JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDh7ZQAKCRAADmhBGVaC
- FT0aEACXjOhHIZep0Wr1ZF4on21GzNvpYxrrHMEU4mKeiMCrm6xqX+ssru+3F1XjkLVe56APTUc
- k1n1cVyYmDo0hRJWKu2iqNtnLuty6OObsOQkWWJZRK2jUG1WiLZZwWNQS61414JyVRfdhqOrs17
- stoXxlPAxxVhAgLpJDRy0oj3qSAn7jzlocNK3JbbmWG5D8/mYO1P8nK2jFa2NJKWfPpFIjTn9vc
- 3Mby8ZRpGykayY8GqnIMVykioglTIR7qbUNy+AbuXk5L/wHF9T5eCvCAwE3QVTGqwG5LPQXSFeN
- xHPoIGmmIS173L9Ib8CFDPUIFN8BOWo50MZAqqKWEP/l4SgEn6q5MsPfV5L5LYmmzWUSVj8ZW6M
- 8aJYkO8CTH++vN9hbpOQJIblvWycEr2hznF/YcE7kQSeIsbwM2KEXGHVJ+ln+3oOX8ej2qlplNT
- vsHj8l+s3U+FYkWsosS2pQEnHxs05mBvNWH4JV5eyP8bpE/0qLnQaAkxpa7ILWYiBkpDibB/PGm
- 1/h1S3ZPqK0J8mtGu+wflqotjDRuBe+xd1Qwx0euzgigafbL8rB1/z02j2mHCvNUZprK8x2ujOx
- iM90gyjpme3LszgUslrGFPBzJJwfyuKz2PHSUqS+iztOVXtfRAFzZFAeZbLBE2vY0NCSpDnWP5Y
- amcraq9c1SB4UzA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1830; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=qdjjg9250uAChp/B6CMoiJw5KiM08dmL8XUQ0eA5f48=;
+ b=kA0DAAoBAA5oQRlWghUByyZiAGg4e2WjZLfo3ycQT1CUdenqoxScpkfK+wIitZeFpDeJVdp7j
+ 4kCMwQAAQoAHRYhBEvA17JEcbKhhOr10wAOaEEZVoIVBQJoOHtlAAoJEAAOaEEZVoIVXYcP/2BT
+ YzbsecTgmT6T/S6gDE3X+Ekx44VdY3OuQXC5dJlhRj5CAOfmF3Hiowmmwv0cpVwNBJ+rmTQjDj6
+ bSuoFC0kwAun/EyZ13uYl09fQxhtJHIKNCoSOKKQ2u9eELb/E0NAShTGg3+KEkzfXWO9k2YSg2S
+ YGA0HiOEqdKbqVqJRYJk8ROsQmH84txczppSDG1km5aJ6NAzTgTfsJIbD3etJ8CHo/DMj9Et5C1
+ cMptRHiTexurW4V94FVLda4jHSCzXcnhCujs+ToME6tlDJwNWIbwuigR5XGZTz8lwWxrckWmsqK
+ +qEcJZ2dN9rbeQfTOD+mIwhHPivCZ2ra/b4bcAMSfcmbifgUSpzN0VHuQiVtpteyOLp/Z4ybl/F
+ 682HHvSaRx3nhN1eP2lqTmUTmYlh5dW53wncqgXq/27LrBiPr2lk1E5Xz0FivdgqOJ1flMgqyTW
+ 0DMePgkfWcuXq5vQkQYqKGicoXJsKtBP78OGam6FOVcr1oc/mc3fnG8lwZn3gwJlxtW7akrkEb6
+ bzx41Gi1381nFJ2uT8EeI6c0dtEAVpXtd+9qZ6QTDx8CGGsizfr8zSHOMC/m9LKIUi655bxModO
+ 23SIhbNgHuDj9t3SbCujV4Gg0ULUPsqySin9yzsswWRrsBLl+V3nxxuWSfFMyVnf8tiQbw7u5AF
+ jlx5y
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,49 +89,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I got some warnings from the i915 CI with the ref_tracker debugfs
-patches applied, that indicated that these ref_tracker_dir_init() calls
-were being called more than once. If references were held on these
-objects between the initializations, then that could lead to leaked ref
-tracking objects.
+As Thomas Weißschuh points out [1], it is now preferable to use %p
+instead of hashed pointers with printk(), since raw pointers should no
+longer be leaked into the kernel log. Change the ref_tracker
+infrastructure to use %p instead of %pK in its formats.
 
-Since these objects are zalloc'ed, ensure that they are only initialized
-once by testing whether the first byte of the name field is 0.
+[1]: https://lore.kernel.org/netdev/20250414-restricted-pointers-net-v1-0-12af0ce46cdd@linutronix.de/
 
+Cc: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Reviewed-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- drivers/gpu/drm/i915/intel_runtime_pm.c | 3 ++-
- drivers/gpu/drm/i915/intel_wakeref.c    | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ lib/ref_tracker.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 8d9f4c410546e4144d4bc8bbc6696f3bd9498848..1b2ad1e0aef7d317f63a23b39193ea81c90401f0 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -59,7 +59,8 @@ static struct drm_i915_private *rpm_to_i915(struct intel_runtime_pm *rpm)
+diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+index cf5609b1ca79361763abe5a3a98484a3ee591ff2..de71439e12a3bab6456910986fa611dfbdd97980 100644
+--- a/lib/ref_tracker.c
++++ b/lib/ref_tracker.c
+@@ -96,7 +96,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
  
- static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- {
--	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT, dev_name(rpm->kdev));
-+	if (!rpm->debug.name[0])
-+		ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT, dev_name(rpm->kdev));
- }
+ 	stats = ref_tracker_get_stats(dir, display_limit);
+ 	if (IS_ERR(stats)) {
+-		pr_ostream(s, "%s@%pK: couldn't get stats, error %pe\n",
++		pr_ostream(s, "%s@%p: couldn't get stats, error %pe\n",
+ 			   dir->name, dir, stats);
+ 		return;
+ 	}
+@@ -107,13 +107,13 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
+ 		stack = stats->stacks[i].stack_handle;
+ 		if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
+ 			sbuf[0] = 0;
+-		pr_ostream(s, "%s@%pK has %d/%d users at\n%s\n", dir->name, dir,
++		pr_ostream(s, "%s@%p has %d/%d users at\n%s\n", dir->name, dir,
+ 			   stats->stacks[i].count, stats->total, sbuf);
+ 		skipped -= stats->stacks[i].count;
+ 	}
  
- static intel_wakeref_t
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-index 07e81be4d3920febece34709c63a63204a41583c..3cfd68c98023fef75faa4dd69eba55e093130dd7 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.c
-+++ b/drivers/gpu/drm/i915/intel_wakeref.c
-@@ -114,7 +114,8 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
- 			 "wakeref.work", &key->work, 0);
+ 	if (skipped)
+-		pr_ostream(s, "%s@%pK skipped reports about %d/%d users.\n",
++		pr_ostream(s, "%s@%p skipped reports about %d/%d users.\n",
+ 			   dir->name, dir, skipped, stats->total);
  
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
--	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
-+	if (!wf->debug.name[0])
-+		ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
- #endif
- }
- 
+ 	kfree(sbuf);
 
 -- 
 2.49.0
