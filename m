@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C52AC8428
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 00:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214DCAC8434
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 00:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C085A10E795;
-	Thu, 29 May 2025 22:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1818210E0BC;
+	Thu, 29 May 2025 22:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Br6LqUE7";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Bo1cbFTC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE4410E79C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B614D10E79D
  for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 22:24:10 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250529222408euoutp01e2102a88ca852b2fb6cf96f224987592~EH7wiBGpm2316423164euoutp010
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 22:24:08 +0000 (GMT)
+ 20250529222409euoutp01918dfce04ef18fca55868aa7350d70e6~EH7xw-GZf0345303453euoutp01J
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 22:24:09 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250529222408euoutp01e2102a88ca852b2fb6cf96f224987592~EH7wiBGpm2316423164euoutp010
+ 20250529222409euoutp01918dfce04ef18fca55868aa7350d70e6~EH7xw-GZf0345303453euoutp01J
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1748557448;
- bh=N+9Ly84haaDNbayhjJ5K7mS9nQgacJUjkY7dLk4JuAo=;
+ s=mail20170921; t=1748557449;
+ bh=UtMJUuq6/j+HHS1BRexsXIMJEKVh/fKMbHv0hDIc9WQ=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=Br6LqUE70WYogOLypvJQ71L+3ybXj/0elULdf8i6w9h8W5fYRmnNnOc10/J5LDZIT
- haJjVpIINhbSXhQHeNxxYJCHKtBA7YOmwe+wgaaSjKB2RzhmQgzPyVQ/VAz7maNGIm
- IMqar0BvUK9GADMJQWVsXYxPxYVPy4+NWWkDPYRw=
+ b=Bo1cbFTC/L2jtBQzgLE4qcGuhQaPqUydLGvl1eR5kYcegBYAbznwVpewNQjOM+yLp
+ ChI8ODy+AELbT5s2uhpaO5+kogdPSCMAnn0n7Xlp2TAfEuLBdDDyMcftnrkQffezDa
+ ToCcohPrYIOFrDPqBDdbftHrF4VTUawqSTw8bmBE=
 Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250529222406eucas1p117082ce4f06921f71bbc442c47e58574~EH7vRuKw80315603156eucas1p11;
- Thu, 29 May 2025 22:24:06 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250529222407eucas1p233be883d7e84e5a000e4d44b37cf7265~EH7wSHjOI1565715657eucas1p2_;
+ Thu, 29 May 2025 22:24:07 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250529222405eusmtip225dbe36b13806921f0a6fd4e8c8f3ad1~EH7uV3wY02867928679eusmtip2U;
- Thu, 29 May 2025 22:24:05 +0000 (GMT)
+ 20250529222406eusmtip29a64f97e4cb0480e499cfbe8b47ef396~EH7vU3Abr3031530315eusmtip2M;
+ Thu, 29 May 2025 22:24:06 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Fri, 30 May 2025 00:23:51 +0200
-Subject: [PATCH v3 4/8] dt-bindings: gpu: Add TH1520 GPU compatible to
- Imagination bindings
+Date: Fri, 30 May 2025 00:23:52 +0200
+Subject: [PATCH v3 5/8] riscv: dts: thead: th1520: Add missing reset
+ controller header include
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-apr_14_for_sending-v3-4-83d5744d997c@samsung.com>
+Message-Id: <20250530-apr_14_for_sending-v3-5-83d5744d997c@samsung.com>
 In-Reply-To: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
 To: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei
  <wefu@redhat.com>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
@@ -61,14 +61,14 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250529222406eucas1p117082ce4f06921f71bbc442c47e58574
+X-CMS-MailID: 20250529222407eucas1p233be883d7e84e5a000e4d44b37cf7265
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250529222406eucas1p117082ce4f06921f71bbc442c47e58574
+X-RootMTR: 20250529222407eucas1p233be883d7e84e5a000e4d44b37cf7265
 X-EPHeader: CA
-X-CMS-RootMailID: 20250529222406eucas1p117082ce4f06921f71bbc442c47e58574
+X-CMS-RootMailID: 20250529222407eucas1p233be883d7e84e5a000e4d44b37cf7265
 References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222406eucas1p117082ce4f06921f71bbc442c47e58574@eucas1p1.samsung.com>
+ <CGME20250529222407eucas1p233be883d7e84e5a000e4d44b37cf7265@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,49 +84,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the img,powervr-rogue.yaml device tree bindings to include the
-T-HEAD TH1520 SoC's specific GPU compatible string.
+TH1520_RESET_ID_GPU_CLKGEN and TH1520_RESET_ID_GPU are required for GPU
+power sequencing to work.  To make these symbols available, add the
+necessary include for the T-HEAD TH1520 reset controller bindings.
 
-The thead,th1520-gpu compatible, along with its full chain
-img,img-bxm-4-64, and img,img-rogue, is added to the
-list of recognized GPU types. This allows the Imagination DRM driver
-to correctly bind to the GPU node defined in the TH1520 device tree.
+This change was dropped during conflict resolution [1].
 
-The power-domains property requirement for img,img-bxm-4-64 is also
-ensured by adding it to the relevant allOf condition.
+[1] - https://lore.kernel.org/all/aAvfn2mq0Ksi8DF2@x1/
 
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ arch/riscv/boot/dts/thead/th1520.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 4450e2e73b3ccf74d29f0e31e2e6687d7cbe5d65..c12837a0d39b8c3043b9133d444cc33a59135c33 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -26,6 +26,11 @@ properties:
-               - ti,j721s2-gpu
-           - const: img,img-bxs-4-64
-           - const: img,img-rogue
-+      - items:
-+          - enum:
-+              - thead,th1520-gpu
-+          - const: img,img-bxm-4-64
-+          - const: img,img-rogue
+diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+index 1db0054c4e093400e9dbebcee5fcfa5b5cae6e32..bdbb1b985b0b76cf669a9bf40c6ec37258329056 100644
+--- a/arch/riscv/boot/dts/thead/th1520.dtsi
++++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+@@ -7,6 +7,7 @@
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/clock/thead,th1520-clk-ap.h>
+ #include <dt-bindings/power/thead,th1520-power.h>
++#include <dt-bindings/reset/thead,th1520-reset.h>
  
-       # This legacy combination of compatible strings was introduced early on
-       # before the more specific GPU identifiers were used.
-@@ -93,7 +98,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: img,img-axe-1-16m
-+            enum:
-+              - img,img-axe-1-16m
-+              - img,img-bxm-4-64
-     then:
-       properties:
-         power-domains:
+ / {
+ 	compatible = "thead,th1520";
 
 -- 
 2.34.1
