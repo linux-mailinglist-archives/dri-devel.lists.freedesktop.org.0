@@ -2,97 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E462AC7A6C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 10:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D55BAC7A71
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 10:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE17310E046;
-	Thu, 29 May 2025 08:52:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="mJX0QcR6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52F8810E1EE;
+	Thu, 29 May 2025 08:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 377AA10E63E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 15:43:26 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43edb40f357so246715e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 May 2025 08:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748447005;
- x=1749051805; darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
- b=mJX0QcR6YyETwQ11AzVsK2064oUni1eY9FXrPsxqW3zeQ3qeRYLSjQvpIqqoPJ8vbb
- pf4NhfYR+t+k+49NwVCKzuaKHivWgcSS/osaUMg1KerCC9xTULDFUfL9SPKKYtL4+tZr
- yYCDvz2u2cACL9ZBLwgwf6Plz3yS6MriVY8vsqqFzupcW9XepJCI0UeBEbll5QuVGluM
- bSsV5weVriallYGzwhPJRPv5gJxNoieXJFpdaBvgXbK8tTbIKFNp+owJ8qbqf/TZZZR2
- 0q74ubvtwCtZBAk3OdSLAYC8Dsf84dZn7iaw7vo45cmPFJmqahabqmz+rPFB2txeC63J
- meKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748447005; x=1749051805;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
- b=aBTOL/DIg6tgLRWmMzPWtsY+f60hc0OV6px4NsLny4VMN/h7saaX95rwcLlUD9PbyA
- oVUeiaYSon6bND8CD+ovprQDWF5LDMuFcGnEZiR+h9EgLSOOfMM0MmKVdUDMd9UhOoyg
- sXxA12DjOzy9lajIE+y5yjoUO7g3Q44ViyHewPv3zDtIHvzJEBw3snqNFb68H4srp5qV
- /QJuGhzy9U9yZMp6Cndbdfhw54QgFgkt/W04JwLVLyBjTBuUFbTB6vSWzj2enikuznBb
- BFGTbrgVY6zJit8/QAhvlNkU8yOgS4sCvT1zyJvfEFYfIWVP1RmAOiK9q8PujIJAcTbG
- DkvQ==
-X-Gm-Message-State: AOJu0YwLrNO/3GCAvd4trW0odvVkyIszXZfYQdyhOjBtMuYpIPEjyIf2
- ZpiEsxTWtMdkuphd3Z7duh7Cr/L22mVc+LlwWV3NbUkky1a9S0fmbTHiK1CKhIrSX9E=
-X-Gm-Gg: ASbGnct+uUj5ZjyJpk9NSj8cv2Op/tFZmObecBwjQOUAr2WzTAjaqrXT1WTQsu8fHQ6
- NW73GIsiF6LKxO4aqg1ebbsMOkRhCWceKC1T/sPMtipkws0FX7VZ/I1RATcB2dIAZSRY3NTtgH6
- 5pr+pubZbL5iom6D/AvBvsgBM2+AMQ82rwuUDAwazz2vLjUk8KoNdjxKdcirQp3HK2yUBk2jAQk
- k0KvfSmG3S6IaGWGRBE8LLNs0ys0uaL7bN8F8zpHAzgaL7eX05XruwcjGt+Hx3zBrDRBHTHgkBo
- ZT4qZz0C1ctaXFIG6BsoSOEn0JOhxQVDwYC+NaBQPl/ZmIXYkw2EnbI20JlrtH9+a6Apy1uY+Fu
- bI+H0ZUu3H8FV84vtuslG9mjdaWuMMFl1t7v2VFaBwdo=
-X-Google-Smtp-Source: AGHT+IFbbv0BZAtT3+HnJDyyTNgCMRJZb9KZLNLH4dIHpFGSJZsnxop7uFuUlZaFtez53aVT2kI+Hg==
-X-Received: by 2002:a05:600c:6214:b0:43c:e467:d6ce with SMTP id
- 5b1f17b1804b1-44cc05358b3mr170613645e9.4.1748447004994; 
- Wed, 28 May 2025 08:43:24 -0700 (PDT)
-Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be.
- [194.78.124.253]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4eacd6f1bsm1769856f8f.80.2025.05.28.08.43.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 May 2025 08:43:24 -0700 (PDT)
-From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
-Date: Wed, 28 May 2025 17:42:30 +0200
-Subject: [PATCH] staging: fbtft: add invert display parameter
+Received: from smtp.dnamail.fi (unknown [83.102.40.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88BEF10E6DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 00:06:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.dnamail.fi (Postfix) with ESMTP id 030482113FDF;
+ Thu, 29 May 2025 03:06:26 +0300 (EEST)
+X-Virus-Scanned: X-Virus-Scanned: amavis at smtp.dnamail.fi
+Received: from smtp.dnamail.fi ([83.102.40.178])
+ by localhost (dmail-psmtp01.s.dnaip.fi [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id FeNXvAyyUUHF; Thu, 29 May 2025 03:06:25 +0300 (EEST)
+Received: from [192.168.101.100] (87-92-117-50.bb.dnainternet.fi
+ [87.92.117.50])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: oak@dnamail.internal)
+ by smtp.dnamail.fi (Postfix) with ESMTPSA id DF7062113E1E;
+ Thu, 29 May 2025 03:06:19 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.dnamail.fi DF7062113E1E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helsinkinet.fi;
+ s=2025-03; t=1748477185;
+ bh=BZKDqUvThCOAsLsVDcty5d/tHWRd3GqWTcJQtTI+Mi0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eoZYNd1yt78GjS8EQZJYPsyHaSm81kCdpTimmnS96+BjmIeyul+6p/u+KStqFAhxt
+ gWcdMt+eLw95zitTVoUhCA4wpOSkTEbQ2aoLgcKMtrX1doK66+hQTG/KsytLuD72qB
+ PsW+ryyvKgn9rYlddxsmwTHll37+dXTv3ukY/vMRyfMKFbTSTWMts5P559ypmGh/s/
+ l76t4gbnbrS1snA2anlyhyK7dUi8iyg+FGpf+41MINMb47HLyHg9Y96VyKNo6lt5Cp
+ 3RtU2jo9+3uyV+IS0ZHsJKw1H9xtsE1hOBlqLNuJM2RnbYGr83sSVVTRSL7XoPYspX
+ SJDad9yEg9RHQ==
+Message-ID: <65b78057-c490-46a3-92a7-350d314d604e@helsinkinet.fi>
+Date: Thu, 29 May 2025 03:06:19 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH/RFC 0/3] Atari DRM driver
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Michael Schmitz <schmitzmic@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-m68k@vger.kernel.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+References: <cover.1669406380.git.geert@linux-m68k.org>
+ <a9883a81-d909-09c5-708b-d598e030380e@physik.fu-berlin.de>
+ <CAMuHMdWHUnWBN7ddBow+fqmt8W--9wFe5x_YMeRg7GQ=BNAL2Q@mail.gmail.com>
+ <74946b31-6166-44b0-b2a7-b0633f014b60@helsinkinet.fi>
+ <CAMuHMdXSWiM_xofyfgpoc0Jj8a_PwRR_tFe79t8=-X85-7WZug@mail.gmail.com>
+ <beed53f4-b0d6-4d1d-b5ec-2694d2b5d47a@helsinkinet.fi>
+ <CAMuHMdUSADF51tBbGV=_nsxqyXgfNZcgDNGxuZ4F+tvYs9Q2aw@mail.gmail.com>
+ <72078ec9-25a0-42d5-b7da-b0a974033f86@helsinkinet.fi>
+ <CAMuHMdXDdrMewGgeghr3cwtaBvieguYOC4GZ-EXZmA+w5S4bpw@mail.gmail.com>
+Content-Language: en-US
+From: Eero Tamminen <oak@helsinkinet.fi>
+In-Reply-To: <CAMuHMdXDdrMewGgeghr3cwtaBvieguYOC4GZ-EXZmA+w5S4bpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-ili9341-invert-dtb-v1-1-080202809332@openpixelsystems.org>
-X-B4-Tracking: v=1; b=H4sIAOUuN2gC/x3MTQqAIBBA4avErBswS/u5SrSoHGsgLFQiCO+et
- PwW770QyDMFGIoXPN0c+HQZVVnAus9uI2STDVJIJZTskA/u66ZCdjf5iCYuKNpZaaVJG2sgh5c
- ny88/HaeUPolD9bRkAAAA
-X-Change-ID: 20250528-ili9341-invert-dtb-07a5656e6dfd
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Bram Vlerick <bram.vlerick@openpixelsystems.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2995;
- i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
- bh=BMRUJzr0/HLa3ogV5/HusC1YamEdyusN8YfIZyUZixE=;
- b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNy8chB2y8w5nbK9+RztKsMs3unwb1aVwo2U36
- FwTbirKHOeJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDcvHAAKCRC5WrpGvQUG
- 8GvpD/9SsZFzhvQs0gQHp72J5bWBgaHGOAaSW43Xne+PZMAjdUCH4O23F2Syc387TEDUe/FTeWZ
- kp5HtOO3HdadO8z0wT6nXXINzJfFLkXufNXmxFbHQ8x2VuSGTlIKYhuzla4BlFV+dJJ60/83RRX
- DKADQ1s4itlnkqEVyeD3cJad734FHh6ZjaqG7sZobZxqcZcGRO7LBBO2SSveqlUZO502Tp9b0MM
- LHZwjVFPUcDWZpBoJZUTg0Bw5calTX2Mh/Ibwzr1yERYLUO01KqWi2/01IGvu01G3ucNGq0RR2A
- n7LHuRVOZkJFaBjUx2XPi7bPBYD47fgBMRT5/uIeCM5gh/W/DXFUU+t6j5A6vOE7SF61jWbGrsY
- wBC3xLx+WDXCvrFhj9xAmV5L+TRjvCEWIsuOy7q88ge/SI7t4d913AWKAEvdvhnhllg+mOSH7Dc
- BZOo5wTDep2WxoScD9VgeqMv4v8QwkOGCv9H1fDhWZY1fxNCwvpQU9bH111ZD8aSHZPAEHgTdQN
- eKx6hZNtBFIjq40TAQ5zQnGnAa2NfisLBqVqKAFgaqFahnwB3bRj6EXC4ME4wuCKH1g2O8+xQKY
- LLKmSqiMsu+UM56ihNwxQ4hVpy5WeDercM0s+Fc2UdFzPNnzrSr1G4BS1YhpzNousCBK7vnlKwX
- dOZ+YVluePM0Drg==
-X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
- fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
 X-Mailman-Approved-At: Thu, 29 May 2025 08:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -109,84 +81,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devicetree parameter to enable or disable the invert feature of the
-ili9341 display
+Hi Geert,
 
-Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
----
- drivers/staging/fbtft/fb_ili9341.c | 3 +++
- drivers/staging/fbtft/fbtft-core.c | 2 ++
- drivers/staging/fbtft/fbtft.h      | 3 +++
- 3 files changed, 8 insertions(+)
+On 28.5.2025 11.57, Geert Uytterhoeven wrote:
+> On Wed, 28 May 2025 at 00:47, Eero Tamminen <oak@helsinkinet.fi> wrote:
+>> I did boot testing on Hatari emulator with a minimal kernel config
+>> having atari_drm enabled, atafb disabled, FB & boot logo enabled.
+>>
+>> Under Falcon emulation:
+>> - RGB/VGA => works fine
+>> - Mono monitor => panic
+>>     "Kernel panic - not syncing: can't set default video mode"
+ >>
+>> Under TT emulation:
+>> - RGB/VGA => boots, but console is black[1] (palette issue?)
+>> - Mono monitor => looks OKish[2], but has constant warnings:
+>> -----------------------------------
+>> WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_atomic_helper.c:1720
+>> drm_atomic_helper_wait_for_vblanks+0x1a0/0x1ee
+>> [CRTC:35:crtc-0] vblank wait timed out
+> 
+> I am not sure this is a bug in atari-drm, or just an issue when using
+> DRM on slow machines.
 
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 47e72b87d76d996111aaadcf5e56dfdfc1c331ab..a184f57df12b5ad6612a2e83b664a8911c7c79be 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -103,6 +103,9 @@ static int set_var(struct fbtft_par *par)
- 		break;
- 	}
- 
-+	if (par->invert)
-+		write_reg(par, 0x21);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index da9c64152a606dc4a176f5a37fa59f6a7d3a2af3..4e827e9899e32313f2e4a9bf12ff49283a63fed3 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -641,6 +641,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 	par->buf = buf;
- 	spin_lock_init(&par->dirty_lock);
- 	par->bgr = pdata->bgr;
-+	par->invert = pdata->invert;
- 	par->startbyte = pdata->startbyte;
- 	par->init_sequence = init_sequence;
- 	par->gamma.curves = gamma_curves;
-@@ -1107,6 +1108,7 @@ static struct fbtft_platform_data *fbtft_properties_read(struct device *dev)
- 	pdata->display.bpp = fbtft_property_value(dev, "bpp");
- 	pdata->display.debug = fbtft_property_value(dev, "debug");
- 	pdata->rotate = fbtft_property_value(dev, "rotate");
-+	pdata->invert = device_property_read_bool(dev, "invert");
- 	pdata->bgr = device_property_read_bool(dev, "bgr");
- 	pdata->fps = fbtft_property_value(dev, "fps");
- 	pdata->txbuflen = fbtft_property_value(dev, "txbuflen");
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 317be17b95c1672404fc6aecda24d0a1f563685d..71c9c35e7548de314088ac3aeb160d6c6aaf75c9 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -125,6 +125,7 @@ struct fbtft_display {
-  * @display: Display properties
-  * @gpios: Pointer to an array of pinname to gpio mappings
-  * @rotate: Display rotation angle
-+ * @invert: Invert display colors
-  * @bgr: LCD Controller BGR bit
-  * @fps: Frames per second (this will go away, use @fps in @fbtft_display)
-  * @txbuflen: Size of transmit buffer
-@@ -135,6 +136,7 @@ struct fbtft_display {
- struct fbtft_platform_data {
- 	struct fbtft_display display;
- 	unsigned int rotate;
-+	bool invert;
- 	bool bgr;
- 	unsigned int fps;
- 	int txbuflen;
-@@ -229,6 +231,7 @@ struct fbtft_par {
- 	bool first_update_done;
- 	ktime_t update_time;
- 	bool bgr;
-+	bool invert;
- 	void *extra;
- 	bool polarity;
- };
+This does not trigger with -Os built "atafb" kernel, but happens even 
+with -O2 built "atari-drm" kernel.  Something related to the higher (71) 
+HZ of the mono monitors?
 
----
-base-commit: 914873bc7df913db988284876c16257e6ab772c6
-change-id: 20250528-ili9341-invert-dtb-07a5656e6dfd
+(I don't think it relates to TT mono monitor's larger 1280x960 
+resolution, because it happens also with ST mono monitor 640x400 one.)
 
-Best regards,
--- 
-Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Btw. both kernels include:
+$ grep ^CONFIG.*WATCH .config
+CONFIG_WATCHDOG=y
+CONFIG_WATCHDOG_CORE=y
+CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
+CONFIG_WATCHDOG_OPEN_TIMEOUT=0
+CONFIG_SOFT_WATCHDOG=y
+CONFIG_WQ_WATCHDOG=y
+
+>> -----------------------------------
+>>
+>> Under 030 ST/STe emulation:
+>> - RGB/VGA => boots, but console is black (palette issue?)
+>> - Mono monitor => looks OK, but has constant slowpath warnings with:
+>>     "[CRTC:35:crtc-0] vblank wait timed out"
+>>
+>> => Any advice on the issues?
+> 
+> Are these regression in atari-drm, or do they happen with atafb, too?
+
+Only the "can't set default video" issue in Falcon mono mode happens 
+also with "atafb".
+
+It has neither the above vblank timeout issue in mono mode, nor 
+black-on-black color issue in color mode (on TT and 030 ST).
+
+...
+>> However, -O2 build has the downside that the resulting kernel Oopses
+>> once it reaches user-space, if 030 data cache emulation is enabled:
+>> ----------------------------------------------------------------
+>> Run /init as init process
+>> ...
+>> Instruction fault at 0x0041a256
+>> BAD KERNEL BUSERR
+> 
+> Interesting...
+
+There were some extra config differences between my builds for 6.15 
+"atafb" and your "atari-drm-wip-rebasing" branch.
+
+After removing the ones I could:
+--------------------------------
+$ diff -ub .config.old .config | grep '^[-+]C'
+-CONFIG_I2C_HELPER_AUTO=y
+-CONFIG_LOGO=y
+-CONFIG_LOGO_LINUX_MONO=y
+-CONFIG_LOGO_LINUX_VGA16=y
+-------------------------------
+
+Bus error issue went away.
+
+=> Could there be some issue with how logo and "atari-drm" code 
+interact, which could manifest when reaching user-space?
+
+
+Note: I haven't tried enabling logo with "atafb" + -O2 build. I could 
+try that later on.
+
+
+	- Eero
 
