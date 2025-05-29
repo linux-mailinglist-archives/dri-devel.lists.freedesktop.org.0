@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63D8AC7CEE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 13:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A022AC7D8B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 14:02:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6F110E002;
-	Thu, 29 May 2025 11:27:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ealYKoL0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1BED10E088;
+	Thu, 29 May 2025 12:02:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C3F10E002
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 11:27:51 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54TBRSIh2386088;
- Thu, 29 May 2025 06:27:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1748518048;
- bh=SjrfzujuIx6mXoh/sKloR0Oj+ExZeeZMWNrjShR1Za4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=ealYKoL09A6dW2maQoteU//EIZx3YnST3LMmcI3D8lptMcCoK/8DvXn3fE68a3jub
- scwNGoqUyrakRQSBSYaYJE3gH/IXL/y01Ebm1RGtoMLGv2Asdzj9kvw+b9ooE+uQBK
- nJAfxBaSlSgNcPlqUo865Fsiv0ZinXxpXAQnolZM=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54TBRRWv062472
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Thu, 29 May 2025 06:27:27 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 29
- May 2025 06:27:26 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 29 May 2025 06:27:26 -0500
-Received: from [172.24.227.14] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [172.24.227.14])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54TBRKl71518842;
- Thu, 29 May 2025 06:27:21 -0500
-Message-ID: <2baf3c31-3edf-4c26-bd44-1d0560134871@ti.com>
-Date: Thu, 29 May 2025 16:57:20 +0530
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC5210E088
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 12:02:23 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b7PgR28wGz6L4tL;
+ Thu, 29 May 2025 19:45:07 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+ by mail.maildlp.com (Postfix) with ESMTPS id AF2D9140519;
+ Thu, 29 May 2025 19:46:22 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 29 May
+ 2025 13:46:21 +0200
+Date: Thu, 29 May 2025 12:46:20 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Alistair Popple <apopple@nvidia.com>
+CC: <linux-mm@kvack.org>, <gerald.schaefer@linux.ibm.com>,
+ <dan.j.williams@intel.com>, <jgg@ziepe.ca>, <willy@infradead.org>,
+ <david@redhat.com>, <linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>, 
+ <linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
+ <linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
+ <zhang.lyra@gmail.com>, <debug@rivosinc.com>, <bjorn@kernel.org>,
+ <balbirs@nvidia.com>, <lorenzo.stoakes@oracle.com>,
+ <linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+ <linux-cxl@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <John@Groves.net>
+Subject: Re: [PATCH 01/12] mm: Remove PFN_MAP, PFN_SG_CHAIN and PFN_SG_LAST
+Message-ID: <20250529124620.00006ac7@huawei.com>
+In-Reply-To: <cb45fa705b2eefa1228e262778e784e9b3646827.1748500293.git-series.apopple@nvidia.com>
+References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
+ <cb45fa705b2eefa1228e262778e784e9b3646827.1748500293.git-series.apopple@nvidia.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-To: <dianders@chromium.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <max.krummenacher@toradex.com>,
- <ernestvanhoecke@gmail.com>
-CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <kieran.bingham+renesas@ideasonboard.com>,
- <linux-kernel@vger.kernel.org>, <max.oss.09@gmail.com>, <devarsht@ti.com>
-References: <20250529110418.481756-1-j-choudhary@ti.com>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <20250529110418.481756-1-j-choudhary@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Originating-IP: [10.203.177.66]
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,142 +64,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 29 May 2025 16:32:02 +1000
+Alistair Popple <apopple@nvidia.com> wrote:
 
+> The PFN_MAP flag is no longer used for anything, so remove it. The
+> PFN_SG_CHAIN and PFN_SG_LAST flags never appear to have been used so
+> also remove them.
 
-On 29/05/25 16:34, Jayesh Choudhary wrote:
-> By default, HPD was disabled on SN65DSI86 bridge. When the driver was
-> added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
-> call which was moved to other function calls subsequently.
-> Later on, commit "c312b0df3b13" added detect utility for DP mode. But with
-> HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
-> state always return 1 (always connected state).
+Superficial thing but you seem to be be removing PFN_SPECIAL as well and
+this description and patche description don't mention that.
+
 > 
-> Set HPD_DISABLE bit conditionally based on "no-hpd" property.
-> Since the HPD_STATE is reflected correctly only after waiting for debounce
-> time (~100-400ms) and adding this delay in detect() is not feasible
-> owing to the performace impact (glitches and frame drop), remove runtime
-> calls in detect() and add hpd_enable()/disable() bridge hooks with runtime
-> calls, to detect hpd properly without any delay.
-> 
-> [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
-> 
-> Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP")
-> Cc: Max Krummenacher <max.krummenacher@toradex.com>
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+On superficial comment inline.
+
 > ---
+>  include/linux/pfn_t.h             | 31 +++----------------------------
+>  mm/memory.c                       |  2 --
+>  tools/testing/nvdimm/test/iomap.c |  4 ----
+>  3 files changed, 3 insertions(+), 34 deletions(-)
 > 
-> Changelog v2->v3:
-> - Change conditional based on no-hpd property to address [1]
-> - Remove runtime calls in detect() with appropriate comments
-> - Add hpd_enable() and hpd_disable() in drm_bridge_funcs
-> - Not picking up "Tested-by" tag as there are new changes
-> 
-> v2 patch link:
-> <https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.com/>
-> 
-> [1]: <https://lore.kernel.org/all/mwh35anw57d6nvre3sguetzq3miu4kd43rokegvul7fk266lys@5h2euthpk7vq/>
-> 
-> This would also require dts changes in all the nodes of sn65dsi86
-> to ensure that they have no-hpd property.
+> diff --git a/include/linux/pfn_t.h b/include/linux/pfn_t.h
+> index 2d91482..46afa12 100644
+> --- a/include/linux/pfn_t.h
+> +++ b/include/linux/pfn_t.h
+> @@ -5,26 +5,13 @@
 
-DTS patch is posted now:
-<https://lore.kernel.org/all/20250529112423.484232-1-j-choudhary@ti.com/>
 
-> 
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++++++++++++++++++----
->   1 file changed, 35 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 60224f476e1d..e9ffc58acf58 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -190,6 +190,7 @@ struct ti_sn65dsi86 {
->   	u8				ln_assign;
->   	u8				ln_polrs;
->   	bool				comms_enabled;
-> +	bool				no_hpd;
->   	struct mutex			comms_mutex;
->   
->   #if defined(CONFIG_OF_GPIO)
-> @@ -352,8 +353,10 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
->   	 * change this to be conditional on someone specifying that HPD should
->   	 * be used.
->   	 */
-> -	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> -			   HPD_DISABLE);
-> +
-> +	if (pdata->no_hpd)
-> +		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> +				   HPD_DISABLE);
->   
->   	pdata->comms_enabled = true;
->   
-> @@ -1195,9 +1198,17 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
->   	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->   	int val = 0;
->   
-> -	pm_runtime_get_sync(pdata->dev);
-> +	/*
-> +	 * The chip won't report HPD right after being powered on as
-> +	 * HPD_DEBOUNCED_STATE reflects correct state only after the
-> +	 * debounce time (~100-400 ms).
-> +	 * So having pm_runtime_get_sync() and immediately reading
-> +	 * the register in detect() won't work, and adding delay()
-> +	 * in detect will have performace impact in display.
-> +	 * So remove runtime calls here.
-> +	 */
-> +
->   	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> -	pm_runtime_put_autosuspend(pdata->dev);
->   
->   	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
->   					 : connector_status_disconnected;
-> @@ -1220,6 +1231,20 @@ static void ti_sn65dsi86_debugfs_init(struct drm_bridge *bridge, struct dentry *
->   	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
->   }
->   
-> +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	pm_runtime_get_sync(pdata->dev);
-> +}
-> +
-> +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	pm_runtime_put_sync(pdata->dev);
-> +}
-> +
->   static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->   	.attach = ti_sn_bridge_attach,
->   	.detach = ti_sn_bridge_detach,
-> @@ -1234,6 +1259,8 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->   	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->   	.debugfs_init = ti_sn65dsi86_debugfs_init,
-> +	.hpd_enable = ti_sn_bridge_hpd_enable,
-> +	.hpd_disable = ti_sn_bridge_hpd_disable,
->   };
->   
->   static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-> @@ -1322,7 +1349,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->   			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
->   
->   	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> -		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-> +		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT |
-> +				    DRM_BRIDGE_OP_HPD;
->   
->   	drm_bridge_add(&pdata->bridge);
->   
-> @@ -1935,6 +1963,8 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
->   		return dev_err_probe(dev, PTR_ERR(pdata->refclk),
->   				     "failed to get reference clock\n");
->   
-> +	pdata->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
-> +
->   	pm_runtime_enable(dev);
->   	pm_runtime_set_autosuspend_delay(pdata->dev, 500);
->   	pm_runtime_use_autosuspend(pdata->dev);
+
+> diff --git a/tools/testing/nvdimm/test/iomap.c b/tools/testing/nvdimm/test/iomap.c
+> index e431372..ddceb04 100644
+> --- a/tools/testing/nvdimm/test/iomap.c
+> +++ b/tools/testing/nvdimm/test/iomap.c
+> @@ -137,10 +137,6 @@ EXPORT_SYMBOL_GPL(__wrap_devm_memremap_pages);
+>  
+>  pfn_t __wrap_phys_to_pfn_t(phys_addr_t addr, unsigned long flags)
+>  {
+> -	struct nfit_test_resource *nfit_res = get_nfit_res(addr);
+> -
+> -	if (nfit_res)
+> -		flags &= ~PFN_MAP;
+>          return phys_to_pfn_t(addr, flags);
+
+Maybe not the time to point it out, but what is going on with indent here?
+Looks like some spaces snuck in for that last line.
+
+
+
+>  }
+>  EXPORT_SYMBOL(__wrap_phys_to_pfn_t);
+
