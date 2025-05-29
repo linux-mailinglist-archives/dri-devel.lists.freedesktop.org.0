@@ -2,66 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1381AC77FA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 07:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B61AC7884
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 08:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B96210E6F7;
-	Thu, 29 May 2025 05:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD1310E05B;
+	Thu, 29 May 2025 06:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IYcaHTjF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="bYefAiqF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C19810E6F7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 05:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748497493; x=1780033493;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JfSkXN7VFQD0j241YOoerWnrQ3UAC5/O1OD0Wg9yzYc=;
- b=IYcaHTjFZV2uxjMVwYXZ5cWhaJdl3ZM4xwOaYUMZMdA+FTpAgc/3rIEr
- w8/p2EV4MdzqiUo0X9bg+jZyKjnZI4L/3DOIRjuBhTBEf9bv7Hee1kNe2
- l62zcpNIc5dT5g5VapXycq7aYDoKc9avZFhLTa5VsdPDqdEizkWP4cBTm
- zCVaseZMGf5VYZGZoEj2VH6g1Um3oaLBeYYuvGPMCXzxg/iIPF1X2EcC7
- YTtI62GleFp1iv2Oi6q5t9iYZPv7HAeWQ/kTjHp5FCldpX4rhBrV7+8DL
- igyDdGwoX86wLDw3oKY+qUkcaOAOhkgGl4MVF5Zxtc8sR+C9wGBDI32uX w==;
-X-CSE-ConnectionGUID: ZgH+3cYdRVu/JSmVGYA9NA==
-X-CSE-MsgGUID: V5C7II2DQayl+9/gCqF8KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67963528"
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="67963528"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 22:44:53 -0700
-X-CSE-ConnectionGUID: VpISARUySKWDHRrKuSvNOg==
-X-CSE-MsgGUID: opx6ComdRiCGYPBNIKpm/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="144443716"
-Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:44:46 -0700
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
- linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, yilun.xu@linux.intel.com, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
- simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
- aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: [RFC PATCH 30/30] coco/tdx_tsm: Manage TDX Module enforced operation
- sequences for Unbind
-Date: Thu, 29 May 2025 13:35:13 +0800
-Message-Id: <20250529053513.1592088-31-yilun.xu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+X-Greylist: delayed 1372 seconds by postgrey-1.36 at gabe;
+ Thu, 29 May 2025 06:00:46 UTC
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7933210E05B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 06:00:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vI79tRtRRtWjdv39D+S2xsWsuTbKWolYzosvzsaZYyM=; b=bYefAiqFosG6XhHVKrFu3dILRZ
+ z/l2z2Q6cpQqWVyRRR8b859o9OHed4pmksRuSJxV9hC75+vQ8aUV5C+nUNGpyjEN0fdsgI2orpYBT
+ yiu+p6LizDU/Cr2RkXyyHJtM5pKuN6TNhcu0EBB8uKc83K8yhfbPf17qycVMxD1U4SLdU9fO6SiDK
+ lFasL3jlpIPA4cQSEI4V7SSKHPpCPSq8bt0E39Hmq3vgKfiy7eDthO2mU8uQTPlVC8VoJfAsNh/f5
+ 0snOJxsan+QAMIBoclKm5c5XuG7R3S0TgrePHviDi+aVLhAZzbtu6sqafw1H5kdOealitqt6q0CjG
+ ztlgMZeA==;
+Received: from [89.212.21.243] (port=57730 helo=and-HP-Z4..)
+ by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <andrej.picej@norik.com>) id 1uKVxW-0031Qh-0j;
+ Thu, 29 May 2025 07:37:41 +0200
+From: Andrej Picej <andrej.picej@norik.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
+Cc: Andrej Picej <andrej.picej@norik.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi83: drop $ref to fix
+ lvds-vod* warnings
+Date: Thu, 29 May 2025 07:36:53 +0200
+Message-Id: <20250529053654.1754926-1-andrej.picej@norik.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,62 +82,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement TDX Connect enforced sequences for TSM unbind. The enforced
-sequences are:
+The kernel test robot reported a warning related to the use of "$ref"
+type definitions for custom endpoint properties
+- "ti,lvds-vod-swing-clock-microvolt" and
+- "ti,lvds-vod-swing-data-microvolt".
 
-  1. STOP TDI via TDISP message STOP_INTERFACE
-  2. Private MMIO unmap from Secure EPT
-  3. Trusted Device Context Table cleanup for the TDI
-  4. TDI ownership reclaim and metadata free
+Using "$ref" with "uint32-array" is not correctly handled in this
+context. Removing "$ref" and relying solely on "maxItems: 2" enforces
+the intended requirement of specifying exactly two values, without
+triggering a schema validation warning.
 
-Step 2 is the responsibility of KVM, step 3 is for IOMMU driver. So
-TDX TSM driver needs to invoke TSM handlers for external collaboration.
-
-Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505021937.efnQPPqx-lkp@intel.com/
+Signed-off-by: Andrej Picej <andrej.picej@norik.com>
 ---
- drivers/virt/coco/host/tdx_tsm.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/virt/coco/host/tdx_tsm.c b/drivers/virt/coco/host/tdx_tsm.c
-index beb65f45b478..66d6019812ca 100644
---- a/drivers/virt/coco/host/tdx_tsm.c
-+++ b/drivers/virt/coco/host/tdx_tsm.c
-@@ -87,6 +87,15 @@ static struct pci_tdi *tdx_tsm_bind(struct pci_dev *pdev,
- {
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+index 9b5f3f3eab19..e69b6343a8eb 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -118,15 +118,11 @@ $defs:
+           ti,lvds-vod-swing-clock-microvolt:
+             description: LVDS diferential output voltage <min max> for clock
+               lanes in microvolts.
+-            $ref: /schemas/types.yaml#/definitions/uint32-array
+-            minItems: 2
+             maxItems: 2
  
-+	if (!pdev->trusted_dma_owner ||
-+	    !pdev->driver->tsm_handler ||
-+	    !pdev->driver->tsm_handler->disable_mmio ||
-+	    !pdev->driver->tsm_handler->recover_mmio ||
-+	    !pdev->driver->tsm_handler->disable_trusted_dma) {
-+		pci_err(pdev, "%s no driver or driver not support bind\n", __func__);
-+		return NULL;
-+	}
-+
- 	struct tdx_tdi *ttdi __free(kfree) =
- 		kzalloc(sizeof(*ttdi), GFP_KERNEL);
- 	if (!ttdi)
-@@ -137,15 +146,15 @@ static struct pci_tdi *tdx_tsm_bind(struct pci_dev *pdev,
- static void tdx_tsm_unbind(struct pci_tdi *tdi)
- {
- 	struct tdx_tdi *ttdi = to_tdx_tdi(tdi);
-+	struct pci_dev *pdev = tdi->pdev;
+           ti,lvds-vod-swing-data-microvolt:
+             description: LVDS diferential output voltage <min max> for data
+               lanes in microvolts.
+-            $ref: /schemas/types.yaml#/definitions/uint32-array
+-            minItems: 2
+             maxItems: 2
  
--	/*
--	 * TODO: In fact devif cannot be freed before TDI's private MMIOs and
--	 * private DMA are unmapped. Will handle this restriction later.
--	 */
- 	tdx_tdi_request(ttdi, TDX_TDI_REQ_STOP);
-+	pdev->driver->tsm_handler->disable_mmio(pdev);
-+	pdev->driver->tsm_handler->disable_trusted_dma(pdev);
- 	tdx_tdi_mmiomt_free(ttdi);
- 	tdx_tdi_devif_free(ttdi);
- 	tdx_tdi_devifmt_free(ttdi);
-+	pdev->driver->tsm_handler->recover_mmio(pdev);
- 	pci_dev_put(ttdi->tdi.dsm_dev);
- 	kfree(ttdi);
- }
+ allOf:
 -- 
-2.25.1
+2.34.1
 
