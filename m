@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A1AAC819F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 19:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CA8AC81CD
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 19:46:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B9110E223;
-	Thu, 29 May 2025 17:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2176410E16F;
+	Thu, 29 May 2025 17:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LllWXhfO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DpnJR87G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7137F10E109;
- Thu, 29 May 2025 17:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748539449; x=1780075449;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=TCNZ79DKxxL3606Erfrh0Gz5jMTFgc82a7Ox+P36FlE=;
- b=LllWXhfOSgoNK/IHzumXSV8ZnuqC8SK6tKNh+iYZnEqC3QROeh+PJ5YA
- /UNj1VrZ4GVFr9bLYFVQCPJae1V2cJC0+0pVc9dnqYARHMTtgN8SqzSEk
- 8MBDYJBCyNtcHM2zIWOdfPTf/U513wr6Awu+VQhe23LaRCH8KVscF0rL3
- kjv+mLZ+hay5snWTjU364lqUz082CRJCVb47UMoBEvO2QWjZUyI5ymU52
- GRR3q0bY3Yc7eZmiYF6w+Nl/ig+GEyQyr7k0juB5UQOLmNid8MKWA0VTa
- YuZeBiWcA6orplsMTZsW7FdZ4Dm9hY2XIKBA8Q8hKmOD6rdBRRWuqUzag Q==;
-X-CSE-ConnectionGUID: w7Pp8hoYTdOanmI8OQbuZQ==
-X-CSE-MsgGUID: auTotL4wRKGpVLpCQTwviA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50501302"
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="50501302"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2025 10:24:08 -0700
-X-CSE-ConnectionGUID: QyX+vvvbRqa3e/nF8pOjww==
-X-CSE-MsgGUID: Zq/FIWhzTfeu0iLb8kP80Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="148484513"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2025 10:24:07 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Arnd Bergmann <arnd@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Imre Deak <imre.deak@intel.com>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel-bounces@lists.freedesktop.org>
-Subject: [PATCH v2] drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
-Date: Thu, 29 May 2025 10:23:56 -0700
-Message-ID: <20250529172355.2395634-2-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.49.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF3D10E76D
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 17:46:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 5E90749CB1;
+ Thu, 29 May 2025 17:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303F8C4CEE7;
+ Thu, 29 May 2025 17:46:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748540779;
+ bh=D6A2f6OkNP4xGxAQPA6G3CiIW40sQ0PkrUg3mi6Z0AI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DpnJR87GaELawUixDTHfSmRN6b/gA21GhykOU16QhMXszDYe4FVPtQDLqUwrRnV7t
+ seDcPRCSlr9BldKs0xHoRGZSkJ+MdZ+B2c+kim8YIOKMU8kQZhDU1dPl/PQaKK3Hcb
+ KN4SfPs36An1mtTbD2m/YA/KRM8gnrbeAx0s7TvW9+uCT2JgW4+3mr4s7H6YhPpcSk
+ aeFx43YyE8qvuw14krEYwTcMgCKtb+HIH4EGte1V4QRxWtsDFi/pic0Fpm1/MqCOun
+ KlANLVEqX8X4La91SV7MXJFuD9+XoQR3gOM8xU5t1CjZ5yvUjh0qGxV0bVO5RPdVXH
+ UB3AwjJ9Ak5Kg==
+Date: Thu, 29 May 2025 10:46:15 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Alessandro Carminati <acarmina@redhat.com>,
+ linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
+ backtraces
+Message-ID: <202505291033.E7E3E6C@keescook>
+References: <20250526132755.166150-1-acarmina@redhat.com>
+ <20250526132755.166150-2-acarmina@redhat.com>
+ <202505281546.DB9D9029@keescook>
+ <20250529090219.GA24938@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529090219.GA24938@noisy.programming.kicks-ass.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +77,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, May 29, 2025 at 11:02:19AM +0200, Peter Zijlstra wrote:
+> On Wed, May 28, 2025 at 03:47:42PM -0700, Kees Cook wrote:
+> > On Mon, May 26, 2025 at 01:27:51PM +0000, Alessandro Carminati wrote:
+> > > Some unit tests intentionally trigger warning backtraces by passing bad
+> > > parameters to kernel API functions. Such unit tests typically check the
+> > > return value from such calls, not the existence of the warning backtrace.
+> > > 
+> > > Such intentionally generated warning backtraces are neither desirable
+> > > nor useful for a number of reasons:
+> > > - They can result in overlooked real problems.
+> > > - A warning that suddenly starts to show up in unit tests needs to be
+> > >   investigated and has to be marked to be ignored, for example by
+> > >   adjusting filter scripts. Such filters are ad hoc because there is
+> > >   no real standard format for warnings. On top of that, such filter
+> > >   scripts would require constant maintenance.
+> > > 
+> > > Solve the problem by providing a means to identify and suppress specific
+> > > warning backtraces while executing test code. Support suppressing multiple
+> > > backtraces while at the same time limiting changes to generic code to the
+> > > absolute minimum.
+> > > 
+> > > Implementation details:
+> > > Check suppression directly in the `WARN()` Macros.
+> > > This avoids the need for function symbol resolution or ELF section
+> > > modification.
+> > > Suppression is implemented directly in the `WARN*()` macros.
+> > > 
+> > > A helper function, `__kunit_is_suppressed_warning()`, is used to determine
+> > > whether suppression applies. It is marked as `noinstr`, since some `WARN*()`
+> > > sites reside in non-instrumentable sections. As it uses `strcmp`, a
+> > > `noinstr` version of `strcmp` was introduced.
+> > > The implementation is deliberately simple and avoids architecture-specific
+> > > optimizations to preserve portability. Since this mechanism compares
+> > > function names and is intended for test usage only, performance is not a
+> > > primary concern.
+> > > 
+> > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > 
+> > I like this -- it's very simple, it doesn't need to be fast-path, so
+> > a linear list walker with strcmp is fine. Nice!
+> 
+> But it is on the fast path! This is still bloating every UD2 site
+> instead of doing it on the other end.
 
-The XE driver can be built with or without VSEC support, but fails to link as
-built-in if vsec is in a loadable module:
+Doing it on the other end doesn't look great (see the other reply).  I was
+suggesting it's not on fast path because the added code is a dependant
+conditional following an "unlikley" conditional. But if you wanted to
+push it totally out of line, we'd likely need to pass __func__ into
+warn_slowpath_fmt() and __warn_printk(), and then have __warn_printk()
+return bool to make the call to __WARN_FLAGS() conditional. e.g.:
 
-x86_64-linux-ld: vmlinux.o: in function `xe_vsec_init':
-(.text+0x1e83e16): undefined reference to `intel_vsec_register'
+-		warn_slowpath_fmt(__FILE__, __LINE__, taint, arg); \
++		warn_slowpath_fmt(__FILE__, __LINE__, __func__, taint, arg); \
 
-The normal fix for this is to add a 'depends on INTEL_VSEC || !INTEL_VSEC',
-forcing XE to be a loadable module as well, but that causes a circular
-dependency:
+and:
 
-        symbol DRM_XE depends on INTEL_VSEC
-        symbol INTEL_VSEC depends on X86_PLATFORM_DEVICES
-        symbol X86_PLATFORM_DEVICES is selected by DRM_XE
+-		__warn_printk(arg);					\
+-		__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
++		if (__warn_printk(__func__, arg))			\
++			__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
 
-The problem here is selecting a symbol from another subsystem, so change
-that as well and rephrase the 'select' into the corresponding dependency.
-Since X86_PLATFORM_DEVICES is 'default y', there is no change to
-defconfig builds here.
+But it still leaves bare __WARN unhandled...
 
-Fixes: 0c45e76fcc62 ("drm/xe/vsec: Support BMG devices")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
-
-v2: s/INTEL_PLATFORM_DEVICES/X86_PLATFORM_DEVICES/
-
- drivers/gpu/drm/xe/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 9bce047901b22..98b46c5342787 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -2,6 +2,8 @@
- config DRM_XE
- 	tristate "Intel Xe Graphics"
- 	depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
-+	depends on INTEL_VSEC || !INTEL_VSEC
-+	depends on X86_PLATFORM_DEVICES || !(X86 && ACPI)
- 	select INTERVAL_TREE
- 	# we need shmfs for the swappable backing store, and in particular
- 	# the shmem_readpage() which depends upon tmpfs
-@@ -27,7 +29,6 @@ config DRM_XE
- 	select BACKLIGHT_CLASS_DEVICE if ACPI
- 	select INPUT if ACPI
- 	select ACPI_VIDEO if X86 && ACPI
--	select X86_PLATFORM_DEVICES if X86 && ACPI
- 	select ACPI_WMI if X86 && ACPI
- 	select SYNC_FILE
- 	select IOSF_MBI
 -- 
-2.49.0
-
+Kees Cook
