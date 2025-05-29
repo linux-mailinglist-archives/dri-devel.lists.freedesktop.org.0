@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708E1AC77F3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 07:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23B5AC77F4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 07:44:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF12110E6F6;
-	Thu, 29 May 2025 05:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3167810E6F9;
+	Thu, 29 May 2025 05:44:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lbQYNb4j";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H9z7fR3g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7376010E6F9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 05:44:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2614E10E6FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 05:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748497468; x=1780033468;
+ t=1748497474; x=1780033474;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=s+Og/7//HP2ImpOPljrHL/2A9Bv5uMTbEhhPjy/aPyo=;
- b=lbQYNb4jC1txl8eXLp75ILHeE5A7bgdTFv1u2Kxxli/sS7piieZxh2kX
- rbvgyQgkvxq7OP2pB0OM4wLJn/kPacnOP+g9cpJg153VWN/MknTM/o5bO
- V9rvwijMiXJ9clXKWRpRNqKAnfg0jreU9pGlZl4TAWdiC/EzQKqUqGkkB
- MPp1Zt3V+ZzJ7ZXkA54hoMGonOOsucgXxDSkamARKeKqpjM6OQ1afFpNE
- jx1H91q47a22HVBjSTk8XfRDpxGxNNxrXKbtUokH8yjIJKkjxnW2LPVD7
- +JZwx3woGFWsQqWjpwCisIZb0lx9+WnnIb3cBWYdjW1tmOoO8mg5EwVSC w==;
-X-CSE-ConnectionGUID: uxBTtTPgRgSeriPf6nzH7g==
-X-CSE-MsgGUID: yocG8v28TSGueda535Kogw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67963418"
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="67963418"
+ bh=cPetbcObK2zQM71pDawhMP63WT3poHVOOSqqFGJk3PI=;
+ b=H9z7fR3g/3AZe/Wi1Czgxs6jJVmrZndIl+Xq7pB8CzOAKWmImIpCdWjG
+ uwIgOOJgY3O8JL3ldKvjgF4BLwIv+MfVbcQYZV18/5Xs6UcmNtqi4qmpB
+ iCTSZCZWmiuBcMlCN+4A5LHbs/vlDYUdMIGA6jPLbak/HDc8lkfKFZOyo
+ FO+Ox7VuZDpMU7/wbiUDR9n64ySL8nCWoLVL6yNA3A83MB5RzXqC1eH6B
+ DJyRHp2iJau36YwoirR1bbjFgVcPDCjZ1cAVBn5AvdEY4tcGpwtmJDOj7
+ bFqbcLG6C7/gwAGTuDtgwlRVWO2u5qsamAbgwTLodUGviblJsrSw0Ee4I Q==;
+X-CSE-ConnectionGUID: TX/oUobwTnGaMyBOuTXSmA==
+X-CSE-MsgGUID: EM5INdS6TWmVSqd4rVnwKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67963448"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="67963448"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 22:44:27 -0700
-X-CSE-ConnectionGUID: Qm3Lbc/QRMGZMhshJ4HxFA==
-X-CSE-MsgGUID: pJCuEKEIR1+XYLHUM/QRBg==
+ 28 May 2025 22:44:34 -0700
+X-CSE-ConnectionGUID: k5KQxk77QCufk/x1v32kzg==
+X-CSE-MsgGUID: d4qoKWHwSSek1z6G/x67rQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="144443629"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="144443639"
 Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:44:20 -0700
+ by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:44:27 -0700
 From: Xu Yilun <yilun.xu@linux.intel.com>
 To: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
  pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
@@ -53,10 +53,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
  simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
  aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: [RFC PATCH 26/30] coco/tdx_tsm: Add bind()/unbind()/guest_req()
- handlers prototype
-Date: Thu, 29 May 2025 13:35:09 +0800
-Message-Id: <20250529053513.1592088-27-yilun.xu@linux.intel.com>
+Subject: [RFC PATCH 27/30] PCI/TSM: Add PCI driver callbacks to handle TSM
+ requirements
+Date: Thu, 29 May 2025 13:35:10 +0800
+Message-Id: <20250529053513.1592088-28-yilun.xu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
 References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
@@ -77,132 +77,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add basic skeleton for bind()/unbind()/guest_req() handlers.
+Add optional PCI driver callbacks to notify TSM events. For now, these
+handlers may be called during pci_tsm_unbind(). By calling these
+handlers, TSM driver askes for external collaboration to finish entire
+TSM unbind flow.
 
-Specifically, tdx_tdi_devifmt/devif_create() declare the TDI ownership
-to TD. tdx_tdi_mmiomt_create() declares the MMIO ownership to TD.
-tdx_tdi_request(TDX_TDI_REQ_BIND) locks the TDI.
+If platform TSM driver could finish TSM bind/unbind all by itself, don't
+call these handlers.
 
-No detailed TDX Connect implementation.
+Host may need to configure various system components according to
+platform trusted firmware's requirements. E.g. for Intel TDX Connect,
+host should do private MMIO mapping in S-EPT, trusted DMA setup, device
+ownership claiming and device TDISP state transition. Some operations are
+out of control of PCI TSM, so need collaboration by external components
+like IOMMU driver, KVM.
+
+Further more, trusted firmware may enforce executing these operations
+in a fixed sequence. E.g. Intel TDX Connect enforces the following
+sequences for TSM unbind:
+
+  1. STOP TDI via TDISP message STOP_INTERFACE
+  2. Private MMIO unmap from Secure EPT
+  3. Trusted Device Context Table cleanup for the TDI
+  4. TDI ownership reclaim and metadata free
+
+PCI TSM could do Step 1 and 4, but need KVM for Step 2 and IOMMU driver
+for Step 3. While it is possible TSM provides finer grained APIs like
+tdi_stop() & tdi_free(), and the caller ensures the sequence, it is
+better these specific enforcement could be managed in platform TSM
+driver. By introducing TSM handlers, platform TSM driver controls the
+operation sequence and notify other components to do the real work.
+
+Currently add 3 callbacks for TDX Connect. disable_mmio() is for
+VFIO to invalidate MMIO so that KVM could unmap them from S-EPT.
+recover_mmio() is to re-validate MMIO so that KVM could map them
+again for shared assigned device. disable_trusted_dma() is to cleanup
+trusted IOMMU setup.
 
 Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
 ---
- drivers/virt/coco/host/tdx_tsm.c | 83 ++++++++++++++++++++++++++++++--
- 1 file changed, 80 insertions(+), 3 deletions(-)
+ include/linux/pci-tsm.h | 7 +++++++
+ include/linux/pci.h     | 3 +++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/drivers/virt/coco/host/tdx_tsm.c b/drivers/virt/coco/host/tdx_tsm.c
-index d1a8384d8339..beb65f45b478 100644
---- a/drivers/virt/coco/host/tdx_tsm.c
-+++ b/drivers/virt/coco/host/tdx_tsm.c
-@@ -44,10 +44,49 @@ static struct tdx_tdi *to_tdx_tdi(struct pci_tdi *tdi)
- 	return container_of(tdi, struct tdx_tdi, tdi);
- }
+diff --git a/include/linux/pci-tsm.h b/include/linux/pci-tsm.h
+index 737767f8a9c5..ed549724eb5b 100644
+--- a/include/linux/pci-tsm.h
++++ b/include/linux/pci-tsm.h
+@@ -157,6 +157,13 @@ struct pci_tsm_ops {
+ 	int (*accept)(struct pci_dev *pdev);
+ };
  
-+static int tdx_tdi_devifmt_create(struct tdx_tdi *ttdi)
-+{
-+	return 0;
-+}
++/* pci drivers callbacks for TSM */
++struct pci_tsm_handlers {
++	void (*disable_mmio)(struct pci_dev *dev);
++	void (*recover_mmio)(struct pci_dev *dev);
++	void (*disable_trusted_dma)(struct pci_dev *dev);
++};
 +
-+static void tdx_tdi_devifmt_free(struct tdx_tdi *ttdi)
-+{
-+}
-+
-+static int tdx_tdi_mmiomt_create(struct tdx_tdi *ttdi)
-+{
-+	return 0;
-+}
-+
-+static void tdx_tdi_mmiomt_free(struct tdx_tdi *ttdi)
-+{
-+}
-+
-+static int tdx_tdi_devif_create(struct tdx_tdi *ttdi)
-+{
-+	return 0;
-+}
-+
-+static void tdx_tdi_devif_free(struct tdx_tdi *ttdi)
-+{
-+}
-+
-+#define TDX_TDI_REQ_BIND	1
-+#define TDX_TDI_REQ_START	2
-+#define TDX_TDI_REQ_GET_STATE	3
-+#define TDX_TDI_REQ_STOP	4
-+
-+static int tdx_tdi_request(struct tdx_tdi *ttdi, unsigned int req)
-+{
-+	return 0;
-+}
-+
- static struct pci_tdi *tdx_tsm_bind(struct pci_dev *pdev,
- 				    struct pci_dev *dsm_dev,
- 				    struct kvm *kvm, u64 tdi_id)
- {
-+	int ret;
-+
- 	struct tdx_tdi *ttdi __free(kfree) =
- 		kzalloc(sizeof(*ttdi), GFP_KERNEL);
- 	if (!ttdi)
-@@ -58,17 +97,55 @@ static struct pci_tdi *tdx_tsm_bind(struct pci_dev *pdev,
- 	ttdi->tdi.dsm_dev = pci_dev_get(dsm_dev);
- 	ttdi->tdi.kvm = kvm;
- 
--	/*TODO: TDX Module required operations */
-+	ret = tdx_tdi_devifmt_create(ttdi);
-+	if (ret) {
-+		pci_err(pdev, "fail to init devifmt\n");
-+		goto put_dsm_dev;
-+	}
-+
-+	ret = tdx_tdi_devif_create(ttdi);
-+	if (ret) {
-+		pci_err(pdev, "%s fail to init devif\n", __func__);
-+		goto devifmt_free;
-+	}
-+
-+	ret = tdx_tdi_mmiomt_create(ttdi);
-+	if (ret) {
-+		pci_err(pdev, "%s fail to create mmiomt\n", __func__);
-+		goto devif_free;
-+	}
-+
-+	ret = tdx_tdi_request(ttdi, TDX_TDI_REQ_BIND);
-+	if (ret) {
-+		pci_err(pdev, "%s fial to request bind\n", __func__);
-+		goto mmiomt_free;
-+	}
- 
- 	return &no_free_ptr(ttdi)->tdi;
-+
-+mmiomt_free:
-+	tdx_tdi_mmiomt_free(ttdi);
-+devif_free:
-+	tdx_tdi_devif_free(ttdi);
-+devifmt_free:
-+	tdx_tdi_devifmt_free(ttdi);
-+put_dsm_dev:
-+	pci_dev_put(dsm_dev);
-+	return NULL;
- }
- 
- static void tdx_tsm_unbind(struct pci_tdi *tdi)
- {
- 	struct tdx_tdi *ttdi = to_tdx_tdi(tdi);
- 
--	/*TODO: TDX Module required operations */
--
-+	/*
-+	 * TODO: In fact devif cannot be freed before TDI's private MMIOs and
-+	 * private DMA are unmapped. Will handle this restriction later.
-+	 */
-+	tdx_tdi_request(ttdi, TDX_TDI_REQ_STOP);
-+	tdx_tdi_mmiomt_free(ttdi);
-+	tdx_tdi_devif_free(ttdi);
-+	tdx_tdi_devifmt_free(ttdi);
- 	pci_dev_put(ttdi->tdi.dsm_dev);
- 	kfree(ttdi);
- }
+ enum pci_doe_proto {
+ 	PCI_DOE_PROTO_CMA = 1,
+ 	PCI_DOE_PROTO_SSESSION = 2,
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 5f37957da18f..4f768b4658e8 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -545,6 +545,7 @@ struct pci_dev {
+ #endif
+ #ifdef CONFIG_PCI_TSM
+ 	struct pci_tsm *tsm;		/* TSM operation state */
++	void *trusted_dma_owner;
+ #endif
+ 	u16		acs_cap;	/* ACS Capability offset */
+ 	u8		supported_speeds; /* Supported Link Speeds Vector */
+@@ -957,6 +958,7 @@ struct module;
+  * @sriov_get_vf_total_msix: PF driver callback to get the total number of
+  *              MSI-X vectors available for distribution to the VFs.
+  * @err_handler: See Documentation/PCI/pci-error-recovery.rst
++ * @tsm_handler: Optional driver callbacks to handle TSM requirements.
+  * @groups:	Sysfs attribute groups.
+  * @dev_groups: Attributes attached to the device that will be
+  *              created once it is bound to the driver.
+@@ -982,6 +984,7 @@ struct pci_driver {
+ 	int  (*sriov_set_msix_vec_count)(struct pci_dev *vf, int msix_vec_count); /* On PF */
+ 	u32  (*sriov_get_vf_total_msix)(struct pci_dev *pf);
+ 	const struct pci_error_handlers *err_handler;
++	struct pci_tsm_handlers *tsm_handler;
+ 	const struct attribute_group **groups;
+ 	const struct attribute_group **dev_groups;
+ 	struct device_driver	driver;
 -- 
 2.25.1
 
