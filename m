@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EFDAC822C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 20:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1373AC826B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 21:02:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E45B10E0CB;
-	Thu, 29 May 2025 18:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4356A10E255;
+	Thu, 29 May 2025 19:02:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ld+2MP32";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="DjpkBPLm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E52AB10E03F
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 18:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748543506; x=1780079506;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tvdb9zj58cvDAS6PCxKYpi5glIKRt4zKu2kRcZVy9DQ=;
- b=ld+2MP32CxST+RLppzNwvps2DieWcuxQaubK9I7WbjZcrQJVlzIoGYHR
- HS8rHGUz0Bv0LcPmmExfehzK9ndTOvqlKA2wN5Yy+ibAp4S42PbniX2P5
- DAgibD7jmRzfDtHA8r6Au+teOJqOm8b3LGvC6PBNjyrN26R8U7WjsKHll
- mx88lpKP+mXb4fErAziVB6L6uRgj6L1TpKpYbt3Bp3tYvm3epJkJOMr6Q
- C8QgjAZrcp5uJBksLjZ9M0bFkv35OEzRRX88LgDmmklBoPpQ8Fz3H20MI
- l82KSAT3IUy0w5R/18nrGV5kcxvO98SpRALmHGLmvdOn9Z296SE6TG+0x g==;
-X-CSE-ConnectionGUID: az3fbpnPT86gGt2PUrmgdw==
-X-CSE-MsgGUID: zZShyQtBScKsGRFkjXpxXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50769476"
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="50769476"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2025 11:31:46 -0700
-X-CSE-ConnectionGUID: bRKXYJWESgqIGlos4DB4sA==
-X-CSE-MsgGUID: 68CCrVNmQRKAO7a4zuL43Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; d="scan'208";a="143472020"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa006.fm.intel.com with ESMTP; 29 May 2025 11:31:42 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uKi2W-000Wz6-14;
- Thu, 29 May 2025 18:31:40 +0000
-Date: Fri, 30 May 2025 02:30:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to
- yaml format
-Message-ID: <202505300219.7v1CVviw-lkp@intel.com>
-References: <20250529164822.777908-1-Frank.Li@nxp.com>
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
+ [136.143.188.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1B310E252
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 19:01:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1748545315; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UUMZLlnRUDLT2F+gCOS7DOfLMIBm7vfmp8feKdPZIENg0CurtjjI73lDFQGhSs3qcWOoAd2XIznxujWw4sAtnEJL3yY9Sws8pzK7OZl3Jx6xNUDog7tY7E6xeAzglwFnEJaeeffUOX9lBHN5fUnO7L9MLiKPKiqWKkmM5mLOOtU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1748545315;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=L3uj6rLy46QHqM66eogkjrelHkiVumz/LWjuCMD+K9U=; 
+ b=j89o+a5reYkL04eoC+jOCpNTTdQhs8KKqtxHNOleJzYfGuC4Bcv5fz2M9R84UY8yH5qjw3V3P2pX2LRf0xCTVkHyNDI/4wdRYEb2L0KeuYJJnZZRXHj2E7P97JRKqKrcD23SOoDflXywcifZzjxmkWe5ftCOjtvaTd1qoQ+9h/k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1748545315; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=L3uj6rLy46QHqM66eogkjrelHkiVumz/LWjuCMD+K9U=;
+ b=DjpkBPLm5wDzr70krPoBgqUB2DwVmOH1sf16hQsPkkrpigAqDABwNuNEsoOcoXym
+ BVmQp+yyi2rXaH+AuUePY0jlUk4mKNdWfUrxRnDuEAwJ7NWzOwroVut0bPntvARhVyX
+ 8lsEZddad/bQf+jWmhjx5t/9vtpxHJp1zBmBP/yI=
+Received: by mx.zohomail.com with SMTPS id 17485453142061020.9208427851237;
+ Thu, 29 May 2025 12:01:54 -0700 (PDT)
+Message-ID: <21315465904c4378298a21acf19f2a38b9bb27be.camel@collabora.com>
+Subject: XDC 2025: Registration & Call for Proposals now open!
+From: Mark Filion <mark.filion@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Date: Thu, 29 May 2025 15:01:53 -0400
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250529164822.777908-1-Frank.Li@nxp.com>
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,37 +62,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Frank,
+Hello!
 
-kernel test robot noticed the following build warnings:
+Registration & Call for Proposals are now open for XDC 2025, which will
+take place at the  TU Wien Kuppelsaal in Vienna, Austria on 29
+September to 1 October.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.15 next-20250529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+    https://xdc2025.x.org
+ =20
+As usual, the conference is free of charge and open to the general
+public. If you plan on attending, please make sure to register as early
+as possible:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-display-convert-himax-hx8357d-txt-to-yaml-format/20250530-004954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250529164822.777908-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to yaml format
-reproduce: (https://download.01.org/0day-ci/archive/20250530/202505300219.7v1CVviw-lkp@intel.com/reproduce)
+    https://indico.freedesktop.org/event/10/registrations/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505300219.7v1CVviw-lkp@intel.com/
+In addition to registration, the CfP is now open for talks, demos, and
+workshops at XDC 2025. While any serious proposal will be gratefully
+considered, topics of interest to X.Org and freedesktop.org developers
+are encouraged. The program focus is on new development, ongoing
+challenges and anything else that will spark discussions among
+attendees in the hallway track.
 
-All warnings (new ones prefixed by >>):
+We are open to talks across all layers of the graphics stack, from the
+kernel to desktop environments / graphical applications and about how
+to make things better for the developers who build them. Head to the
+CfP page to learn more:
 
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/himax,hx8357d.txt
-   Using alabaster theme
+    https://indico.freedesktop.org/event/10/abstracts/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The deadline for submissions Friday, 11 July 2025.
+
+We are looking forward to seeing you in Vienna! If you have any
+questions, please email the organizer (hfink at snap.com), adding on
+CC the X.org board (board at foundation.x.org).
+
+And don't forget, you can follow us on Mastodon for all the latest
+updates and to stay connected:
+
+    https://floss.social/@XOrgDevConf
+
+Best,
+
+Mark
