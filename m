@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA64AC77CE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 07:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE3DAC77CF
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 07:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B7010E274;
-	Thu, 29 May 2025 05:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D63710E6E6;
+	Thu, 29 May 2025 05:42:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YxSnAp9X";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="STDobxnL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC05F10E6E5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 05:42:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E87F10E6E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 05:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748497350; x=1780033350;
+ t=1748497356; x=1780033356;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dc9UGJ2UOu8eBX3b96rS/6oZiGutVnEA2gyyRmtg9bU=;
- b=YxSnAp9X5lA3Mf+9OJjz7aF7el5jxX5Pll6FPmpux5xspl7qskYuxfbP
- oeV3ZZlo6Bvnw7meoT+O8OexlceMhC5C8tKlgc5JDuL0vzYuzx5d6ExA5
- xi++EXymgZegUOBvtew6KCOMa+6HViTsNSTTn6C8c/nZvwojx4+GGC96o
- 26l7PMCUmucCOkcxy/k34JKUmLxBCRzgqMEhJRi29I4C/5tTgxj1RwJuO
- +tVHruYZRzXIa7SEhGHmoDTyvCadVzQ/z3YlAD/aJJxqejbK858NZSEeS
- gkWCVeVoqNPcY3r9hrld6PmZCNqC1N/LOSbOPluHAOVyyAww9oJmJ+Hjr g==;
-X-CSE-ConnectionGUID: ZPh26R8qQe+M51Qpoo4jjg==
-X-CSE-MsgGUID: As4A9U3PQgiEtrj2oEwsFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67963021"
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="67963021"
+ bh=p9hqoSu/HsjsyfABS0VPyixE2kcW46/UFMRJtpNvppI=;
+ b=STDobxnL0ps/z+In0pzUfcs+Gw8vVhuHQHyTA5lQLzgcXfj9wu3vGcrK
+ fTp0bpTSr1q5fxK9PRsWjHBs4Z0o9tTfU+MXkyPQyxKyfb6jLe704Fht/
+ 7Cos15g7IqybnZzKgGpHSIs6hc28XpO/yfWEfHzPG7sfHogrpNZ3bmfQh
+ VTeUYVlHGf2Uf7ma+ZVJ0fz89xv7mZWjmQhdDydpewmn1k5p7eERxYxqX
+ sDbcn7CkV3zL5/fnOn/Iun41U7TvaAALns2a1zcWEuqC1sz8ZLvTwIOq0
+ VmO8cPL5RpnrzxbspBK/KFdYSgUTymT6w6BGYwP+LRSsJ4HCSZ4n55j55 Q==;
+X-CSE-ConnectionGUID: 6DhMasESTSiWneyRY9SznQ==
+X-CSE-MsgGUID: sLILUFiTSNe55OhNFNMblQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67963035"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="67963035"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2025 22:42:30 -0700
-X-CSE-ConnectionGUID: 5Xn1NSYcQ3CI5iCeaC7oJA==
-X-CSE-MsgGUID: FK39mpxeSamJZbUyKZEQJg==
+ 28 May 2025 22:42:36 -0700
+X-CSE-ConnectionGUID: sX7W78N6RGefx/ixE10Qpg==
+X-CSE-MsgGUID: EQlW02SCRkeY3QkKQvP9LQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="144443332"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; d="scan'208";a="144443338"
 Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:42:23 -0700
+ by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 22:42:29 -0700
 From: Xu Yilun <yilun.xu@linux.intel.com>
 To: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
  pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
@@ -53,10 +53,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
  simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
  aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: [RFC PATCH 08/30] KVM: x86/mmu: Handle page fault for vfio_dmabuf
- backed MMIO
-Date: Thu, 29 May 2025 13:34:51 +0800
-Message-Id: <20250529053513.1592088-9-yilun.xu@linux.intel.com>
+Subject: [RFC PATCH 09/30] KVM: x86/mmu: Handle page fault for private MMIO
+Date: Thu, 29 May 2025 13:34:52 +0800
+Message-Id: <20250529053513.1592088-10-yilun.xu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
 References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
@@ -77,62 +76,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for resolving page faults on vfio_dmabuf backed MMIO. Now
-only support setup KVM MMU mapping on shared roots, i.e. vfio_dmabuf
-works for shared assigned devices.
+Add support for resolving page faults on private MMIO. This is part of
+the effort to enable private assigned devices (known as TDI in TDISP
+spec).
 
-Further work is to support private MMIO for private assigned
-devices (known as TDI in TDISP spec).
+Private MMIOs are set to KVM as vfio_dmabuf typed memory slot, which is
+another type of can-be-private memory slot just like the gmem slot.
+Like gmem slot, KVM needs to map its GFN as shared or private based on
+the current state of the GFN's memory attribute. When page fault
+happens for private MMIO but private <-> shared conversion is needed,
+KVM still exits to userspace with exit reason KVM_EXIT_MEMORY_FAULT and
+toggles KVM_MEMORY_EXIT_FLAG_PRIVATE. Unlike gmem slot, vfio_dmabuf
+slot has only one backend MMIO resource, the switching of GFN's
+attribute won't change the way of getting PFN, the vfio_dmabuf specific
+way, kvm_vfio_dmabuf_get_pfn().
 
 Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
 ---
- arch/x86/kvm/mmu/mmu.c   | 16 ++++++++++++++++
- include/linux/kvm_host.h |  5 +++++
- 2 files changed, 21 insertions(+)
+ arch/x86/kvm/mmu/mmu.c   | 9 +++++++--
+ include/linux/kvm_host.h | 2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 63bb77ee1bb1..40d33bd6b532 100644
+index 40d33bd6b532..547fb645692b 100644
 --- a/arch/x86/kvm/mmu/mmu.c
 +++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4523,6 +4523,22 @@ static int __kvm_mmu_faultin_pfn(struct kvm_vcpu *vcpu,
- 	if (fault->is_private)
- 		return kvm_mmu_faultin_pfn_private(vcpu, fault);
+@@ -4501,8 +4501,13 @@ static int kvm_mmu_faultin_pfn_private(struct kvm_vcpu *vcpu,
+ 		return -EFAULT;
+ 	}
  
-+	/* vfio_dmabuf slot is also applicable for shared mapping */
-+	if (kvm_slot_is_vfio_dmabuf(fault->slot)) {
-+		int max_order, r;
-+
+-	r = kvm_gmem_get_pfn(vcpu->kvm, fault->slot, fault->gfn, &fault->pfn,
+-			     &fault->refcounted_page, &max_order);
++	if (kvm_slot_is_vfio_dmabuf(fault->slot))
 +		r = kvm_vfio_dmabuf_get_pfn(vcpu->kvm, fault->slot, fault->gfn,
 +					    &fault->pfn, &max_order);
-+		if (r)
-+			return r;
-+
-+		fault->max_level = min(kvm_max_level_for_order(max_order),
-+				       fault->max_level);
-+		fault->map_writable = !(fault->slot->flags & KVM_MEM_READONLY);
-+
-+		return RET_PF_CONTINUE;
-+	}
-+
- 	foll |= FOLL_NOWAIT;
- 	fault->pfn = __kvm_faultin_pfn(fault->slot, fault->gfn, foll,
- 				       &fault->map_writable, &fault->refcounted_page);
++	else
++		r = kvm_gmem_get_pfn(vcpu->kvm, fault->slot, fault->gfn,
++				     &fault->pfn, &fault->refcounted_page,
++				     &max_order);
+ 	if (r) {
+ 		kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
+ 		return r;
 diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index d16f47c3d008..b850d3cff83c 100644
+index b850d3cff83c..dd9c876374b8 100644
 --- a/include/linux/kvm_host.h
 +++ b/include/linux/kvm_host.h
-@@ -623,6 +623,11 @@ static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
- 	return slot && (slot->flags & KVM_MEM_GUEST_MEMFD);
+@@ -620,7 +620,7 @@ struct kvm_memory_slot {
+ 
+ static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
+ {
+-	return slot && (slot->flags & KVM_MEM_GUEST_MEMFD);
++	return slot && (slot->flags & (KVM_MEM_GUEST_MEMFD | KVM_MEM_VFIO_DMABUF));
  }
  
-+static inline bool kvm_slot_is_vfio_dmabuf(const struct kvm_memory_slot *slot)
-+{
-+	return slot && (slot->flags & KVM_MEM_VFIO_DMABUF);
-+}
-+
- static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
- {
- 	return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
+ static inline bool kvm_slot_is_vfio_dmabuf(const struct kvm_memory_slot *slot)
 -- 
 2.25.1
 
