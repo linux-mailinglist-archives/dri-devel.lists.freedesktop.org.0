@@ -2,103 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D5CAC7AA4
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 11:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0E7AC7B93
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 12:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB1610E311;
-	Thu, 29 May 2025 09:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB56910E1B6;
+	Thu, 29 May 2025 10:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gyvykenZ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="atpQsjmt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B09810E311
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 09:04:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2ED325C60E2;
- Thu, 29 May 2025 09:02:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990BDC4CEE7;
- Thu, 29 May 2025 09:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748509456;
- bh=m8JIOAJjyQG/OknuJGeN0vkewi5sVDBo1PFDvRss9Oc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gyvykenZ2FwGcV/On66Cc7zvjQu/DhxfM8lfpQXhgXcW4RqZmfF4PSNibMWqcBM4v
- W7L7FbCJyUjOhBgfQNH0/kOeulHipWGOtC1jCbSdZ6BscHt25sVroLhM2rjbvn28u3
- N9Vu5koOtG5WwFp5a8C671spWHlfrnECc+oXmOJ4uYm6XrXy3J2Frc7z5IfnfLW3SP
- rYE3h8XK5sxuxBZ73zZm+FNvpND3TOU5olKtev+VIOvF7FJhcmWS88CJbk2eAx83Tl
- lY5lp+NpN7xasXNs1ap9lKMZRG0sZp5z5zzF6VagV0RdmQgmf0MCydwi3Rj8qJVRvm
- IAzeSQ6ZYtGzg==
-Message-ID: <0e10b7d2-b917-48b7-a3c0-eb265c82a974@kernel.org>
-Date: Thu, 29 May 2025 11:04:10 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BAF210E113;
+ Thu, 29 May 2025 10:07:56 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54T2QIIa027807;
+ Thu, 29 May 2025 10:06:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 8Fx6lB7jeW4rq1dXgAopityNCSRSO3hA77NMQIJ+icU=; b=atpQsjmtnhgVQCFd
+ DUr0kJGnI/fYC3LNZBrD5AB9/z6Hjksu1FY8xphvRzHsDnVqBu0G3Qyyb4GDaj6G
+ Wa+F21zw6egBZGtXAdEOJ5aG3/o+QmDwwASXSsSqj1QATBPLI9SfMDDUlPuBAd/2
+ 5jFVZ6Rd9Methv/qibZUPlNwAr6oPxauuQjVlMlSEdNnoivh8SOTJfqMO8aLah8N
+ Tm+A7xlc0hQ3jQoBrfd1iyHdtvEh28EvFDgYWbqnfDpvBDxUsWgtbB1Iz1fBpavG
+ y0i8WmQ5Vj6U8rxJh4BP9+tOWQHU1AzNYRZUzRWeWkTuVlThY8PWvBPuvnoTqq3J
+ hp7Szw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992qcfb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 May 2025 10:06:57 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54TA6uGw022933
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 May 2025 10:06:56 GMT
+Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 29 May
+ 2025 03:06:50 -0700
+Message-ID: <7fbcdb9e-ab47-49a6-9d82-4238b51feed0@quicinc.com>
+Date: Thu, 29 May 2025 18:06:47 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: panel: Add Himax HX83112B
-To: Luca Weiss <luca@lucaweiss.eu>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250225-fp3-display-v2-0-0b1f05915fae@lucaweiss.eu>
- <20250225-fp3-display-v2-2-0b1f05915fae@lucaweiss.eu>
- <20250226-speedy-dark-mushroom-5d7c4b@krzk-bin>
- <932d5cc223f8d1ff1bb09c68990e4a82@lucaweiss.eu>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 03/45] drm/msm/dp: fix the intf_type of MST interfaces
+To: Bjorn Andersson <andersson@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>
+CC: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, "Chandan
+ Uddaraju" <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Konrad Dybcio
+ <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>,
+ Rob Clark <robdclark@chromium.org>, Tanmay Shah
+ <tanmay@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-3-f8618d42a99a@quicinc.com>
+ <da2aviya67nogkkkhsbvqcgo3gvmk7uv5vb2dbdemzh6xonoo5@oqtgwgwgshmr>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <932d5cc223f8d1ff1bb09c68990e4a82@lucaweiss.eu>
-Content-Type: text/plain; charset=UTF-8
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <da2aviya67nogkkkhsbvqcgo3gvmk7uv5vb2dbdemzh6xonoo5@oqtgwgwgshmr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI5MDA5NyBTYWx0ZWRfX17yX0qKnmDBV
+ gEzv2uhDmyU6lY/u4jFNK2Msr3zHmvrIQA/7p7w0UWWtaKhPPyq+h3PjDSWL5Vpm6inEocp3CVS
+ 3urO/2pjANp9kbgKz0QhnGT7ymK6QCa2VpDn73mLKZHplV5McZSwFhrvJAiDRKss/sU81UaHWhm
+ ukbN1vmJEQM1JGbVHw4Giaj9Xjra9C9zA7Cqrgy9d6dM/19k/+pYtje2LJLsPnc+f15Gx7Jj94H
+ 1ccgUOxqIHz5oL0qPIgH//G8I4ru6A0/624zq9CUcPS3FANaXRZjO7o1maK4d2Fs6w6x6P0/TSi
+ sU54W4Kmj4/BeKep80dH2DQHAu3VInYEciQjWQNklIHA6rKPlXomctKSEdC8MOFfoBKUM4NkMWx
+ fsqzzDzkC8PEXBsfuBRQmJ6/fVCbzbqnIGon3ASGRGLI3k7QmFSD34Sp2XHEaVFkBIlp/yPT
+X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=683831c1 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
+ a=ESzBY4nlxePsqxZlfqsA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 1he8KrgLtmMK3fyHvdxtwYMupjDEKa0S
+X-Proofpoint-ORIG-GUID: 1he8KrgLtmMK3fyHvdxtwYMupjDEKa0S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-29_04,2025-05-29_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505290097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,35 +116,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/05/2025 16:31, Luca Weiss wrote:
-> Hi Krzysztof,
-> 
-> On 2025-02-26 07:46, Krzysztof Kozlowski wrote:
->> On Tue, Feb 25, 2025 at 10:14:30PM +0100, Luca Weiss wrote:
->>> Himax HX83112B is a display driver IC used to drive LCD DSI panels.
->>> Describe it and the Fairphone 3 panel (98-03057-6598B-I) from DJN 
->>> using
->>> it.
->>>
->>> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
->>> ---
->>>  .../bindings/display/panel/himax,hx83112b.yaml     | 75 
->>> ++++++++++++++++++++++
->>>  1 file changed, 75 insertions(+)
->>>
->>
->> Discussion is still going. Sending v2 after two days is hiding that
->> previous talk, so that makes me sad.
->>
->> I am still at v1 and I am not going to review this one here.
-> 
-> Apart from [0] there was also no other activity in v1, could you take 
-> another look now?
-> 
-Keep only one compatible, so no himax fallback. This patchset rolled out
-of my inbox, so please send v3 or resend with short explanation in
-commit msg (no init sequence for generic himax, like you described in v1
-discussion).
 
-Best regards,
-Krzysztof
+
+On 2025/1/7 8:55, Bjorn Andersson wrote:
+> On Thu, Dec 05, 2024 at 08:31:34PM -0800, Abhinav Kumar wrote:
+>> Interface type of MST interfaces is currently INTF_NONE.
+>> Fix this to INTF_DP.
+>>
+> 
+> Wouldn't it make sense to introduce this later in the series, once the
+> implementation would actually handle this case? Or could/should we have
+> left these INTF_DP from the start?
+> 
+> Regards,
+> Bjorn
+> 
+Yes, it's better to place this patch at the end of the series, once the 
+platform is already capable of handling MST.
+
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+>> index 907b4d7ceb470b0391d2bbbab3ce520efa2b3263..2509e28e3d6b582cd837c6aea167b3f4ad877383 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+>> @@ -375,7 +375,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
+>>   		.name = "intf_3", .id = INTF_3,
+>>   		.base = 0x37000, .len = 0x280,
+>>   		.features = INTF_SC7280_MASK,
+>> -		.type = INTF_NONE,
+>> +		.type = INTF_DP,
+>>   		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
+>>   		.prog_fetch_lines_worst_case = 24,
+>>   		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+>> @@ -393,7 +393,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
+>>   		.name = "intf_6", .id = INTF_6,
+>>   		.base = 0x3A000, .len = 0x280,
+>>   		.features = INTF_SC7280_MASK,
+>> -		.type = INTF_NONE,
+>> +		.type = INTF_DP,
+>>   		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
+>>   		.prog_fetch_lines_worst_case = 24,
+>>   		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
+>> @@ -402,7 +402,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
+>>   		.name = "intf_7", .id = INTF_7,
+>>   		.base = 0x3b000, .len = 0x280,
+>>   		.features = INTF_SC7280_MASK,
+>> -		.type = INTF_NONE,
+>> +		.type = INTF_DP,
+>>   		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
+>>   		.prog_fetch_lines_worst_case = 24,
+>>   		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
+>> @@ -411,7 +411,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
+>>   		.name = "intf_8", .id = INTF_8,
+>>   		.base = 0x3c000, .len = 0x280,
+>>   		.features = INTF_SC7280_MASK,
+>> -		.type = INTF_NONE,
+>> +		.type = INTF_DP,
+>>   		.controller_id = MSM_DP_CONTROLLER_1,	/* pair with intf_4 for DP MST */
+>>   		.prog_fetch_lines_worst_case = 24,
+>>   		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
+>>
+>> -- 
+>> 2.34.1
+>>
+
