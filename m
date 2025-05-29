@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42869AC7FA6
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 16:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211D3AC7FA0
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 16:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8167810E73D;
-	Thu, 29 May 2025 14:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E63F10E73A;
+	Thu, 29 May 2025 14:25:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="yGY1I8wz";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="VWYPHiiW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 049DA10E730
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 14:25:38 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54TEPNgf2393285;
- Thu, 29 May 2025 09:25:23 -0500
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A2010E734
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 14:25:41 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54TEPPiK3599009;
+ Thu, 29 May 2025 09:25:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1748528723;
- bh=kT8L7KgS/xkj8O7cmNhRhEJz+/ns+sOCyW1c6BAS/ig=;
+ s=ti-com-17Q1; t=1748528725;
+ bh=nlBX2hdY1lPiIRIIK25xlstSZAlj3P5AoisLUrlM3pE=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=yGY1I8wzSciXOsFoNEDUR6l7iQPYUS52oxynktF/PzReSJUzzGeRRqonoTvKmkgfh
- CiFUTUS8G4c36F8167/HbHx8NtPIQEYeraMs1iyt/ixDNRdx1G+YPcKpS5dtRM2X5h
- CB/orcUPg23n1Et2548Fkn1KUq7LHk3UzY6PVd9A=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54TEPNEg090812
+ b=VWYPHiiWu49qzuVDvoh1Wapj5fGeEL01024mJ4RjOOjAEG4ngvYdBf6F2Mx5FB/HM
+ PKbHoMW8WRTH08YdPL+KhnncnxUDwheZsejkOqFUNHm5PSX1VGGpHlyAtE5T9Hykmb
+ 3nxOLQQ7OVnGtt+Z2UNnkYOGhBfZsX0dfJwIbq1g=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54TEPODY152075
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Thu, 29 May 2025 09:25:23 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 29 May 2025 09:25:24 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 29
- May 2025 09:25:22 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ May 2025 09:25:24 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 29 May 2025 09:25:22 -0500
+ Frontend Transport; Thu, 29 May 2025 09:25:24 -0500
 Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
  [172.24.227.14])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54TEPMhR1657176;
- Thu, 29 May 2025 09:25:22 -0500
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54TEPN241704173;
+ Thu, 29 May 2025 09:25:24 -0500
 From: Jayesh Choudhary <j-choudhary@ti.com>
 To: <dianders@chromium.org>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
@@ -53,10 +53,10 @@ CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <mordan@ispras.ru>, <linux@treblig.org>, <viro@zeniv.linux.org.uk>,
  <a-bhatia1@ti.com>, <javierm@redhat.com>,
  <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <j-choudhary@ti.com>
-Subject: [PATCH v3 3/5] drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp
- connector earlier in atomic_enable()
-Date: Thu, 29 May 2025 19:55:15 +0530
-Message-ID: <20250529142517.188786-4-j-choudhary@ti.com>
+Subject: [PATCH v3 4/5] drm/bridge: cadence: cdns-mhdp8546-core: Add
+ mode_valid hook to drm_bridge_funcs
+Date: Thu, 29 May 2025 19:55:16 +0530
+Message-ID: <20250529142517.188786-5-j-choudhary@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250529142517.188786-1-j-choudhary@ti.com>
 References: <20250529142517.188786-1-j-choudhary@ti.com>
@@ -79,62 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case if we get errors in cdns_mhdp_link_up() or cdns_mhdp_reg_read()
-in atomic_enable, we will go to cdns_mhdp_modeset_retry_fn() and will hit
-NULL pointer while trying to access the mutex. We need the connector to
-be set before that. Unlike in legacy !(DBANC) cases, we do not have
-connector initialised in bridge_attach(). So set the mhdp->connector
-in atomic_enable() earlier to avoid possible NULL pointer.
+Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
+this bridge or not. In the legacy !(DBANC) usecase, we were using the hook
+from drm_connector_helper_funcs but with removal of legacy code, we need
+to have mode_valid() in drm_bridge_funcs.
 
 Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
 Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index df604c384bb2..97ecee98851f 100644
+index 97ecee98851f..2b8c542e9d48 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1759,12 +1759,21 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
- 	struct drm_bridge_state *new_state;
- 	const struct drm_display_mode *mode;
- 	u32 resp;
--	int ret;
-+	int ret = 0;
+@@ -1998,6 +1998,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
+ 	return cdns_mhdp_edid_read(mhdp, connector);
+ }
  
- 	dev_dbg(mhdp->dev, "bridge enable\n");
- 
- 	mutex_lock(&mhdp->link_mutex);
- 
-+	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
-+								   bridge->encoder);
-+	if (WARN_ON(!mhdp->connector))
-+		goto out;
++static enum drm_mode_status
++cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
++			    const struct drm_display_info *info,
++			    const struct drm_display_mode *mode)
++{
++	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
 +
-+	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
-+	if (WARN_ON(!conn_state))
-+		goto out;
++	mutex_lock(&mhdp->link_mutex);
 +
- 	if (mhdp->plugged && !mhdp->link_up) {
- 		ret = cdns_mhdp_link_up(mhdp);
- 		if (ret < 0)
-@@ -1784,15 +1793,6 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
- 	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
- 			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
++	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
++				    mhdp->link.rate)) {
++		mutex_unlock(&mhdp->link_mutex);
++		return MODE_CLOCK_HIGH;
++	}
++
++	mutex_unlock(&mhdp->link_mutex);
++	return MODE_OK;
++}
++
+ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+ 	.atomic_enable = cdns_mhdp_atomic_enable,
+ 	.atomic_disable = cdns_mhdp_atomic_disable,
+@@ -2012,6 +2031,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+ 	.edid_read = cdns_mhdp_bridge_edid_read,
+ 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
+ 	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
++	.mode_valid = cdns_mhdp_bridge_mode_valid,
+ };
  
--	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
--								   bridge->encoder);
--	if (WARN_ON(!mhdp->connector))
--		goto out;
--
--	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
--	if (WARN_ON(!conn_state))
--		goto out;
--
- 	if (mhdp->hdcp_supported &&
- 	    mhdp->hw_state == MHDP_HW_READY &&
- 	    conn_state->content_protection ==
+ static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
 -- 
 2.34.1
 
