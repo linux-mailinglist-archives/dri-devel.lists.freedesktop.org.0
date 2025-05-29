@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6161AC8024
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D32AAC8025
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 17:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 143D210E74B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3655110E74E;
 	Thu, 29 May 2025 15:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SSzdUfoO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kMF8Sw7x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7EE10E755;
- Thu, 29 May 2025 15:21:30 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB30610E754;
+ Thu, 29 May 2025 15:21:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4700EA4FA51;
+ by tor.source.kernel.org (Postfix) with ESMTP id 4574D60010;
+ Thu, 29 May 2025 15:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A16C4CEF0;
  Thu, 29 May 2025 15:21:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30090C4CEF1;
- Thu, 29 May 2025 15:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748532090;
- bh=TYdiGaavXoUhBEfyJ2tof4CzGHWJn078+gZ8gTQMfh4=;
+ s=k20201202; t=1748532092;
+ bh=C3NjXad8atSO1FZ7CKOXtU5VIRqVojZ9jejAtjAiqWM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SSzdUfoOTKfagcpSWk8/saZ49LwK2g8CVmDSUgDAK2faZub3eaaVGSnGLBtNqKRnh
- 7RktK5Rp12TQVtFN3BXQmHvGL8rf0egwMC9qbthfQ+5YXH7U46QYqodFg5vdvaP1No
- zwYkUoDbLdm+a0Z3tB0W1ArgLOck+qcJbRxGBxbSYVRrYvb/CPlbEaeveUvQXY2IFs
- 7akbAsO3TU5HDV40Jg/LX9L5qJzIQ9f1ZbX/A+TU8DYCU7vQawW99CxpccBwQNi6jX
- dl7t4p6zTTGDP0goQl/bT1EveuBbEyg3NPnO2hXgBBadOj/bUi9iJK/IlpE2EHhsII
- /eXo+3vzhCgHQ==
+ b=kMF8Sw7xGxLd2lLIJfHrmy5vA4hkuQ4Rx9jKUmNOcFU4SlNiGf37zVLhWF9c4QtSS
+ FR50PlvR5XEMhwJMVlDlhGXp5WHdIEsWJ594r+nuckuJUAuFASjiMuih6yramz9vW+
+ 6PXjdqEc08WZCfYVNF14+DD2Cvx63WPP6Gmon9hhIe6csZ0fhbfADDzjwvqslAJWrx
+ iqN96dVv9GsQmTMZPJ9yk4jPQYzPQ9Sz2pW0Aca1Rd1OZWNwc1onAC7ZJYGxDqTy1F
+ ZI1vBpRqyMlyLSUfCDxf0omS4zON78XzoAfgHJO2Vj6cQKqeW/WeoI/fCiKX9r4mQO
+ zqvFmv7QTK2Cg==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 29 May 2025 11:20:44 -0400
-Subject: [PATCH v12 08/10] ref_tracker: add a way to create a symlink to
- the ref_tracker_dir debugfs file
+Date: Thu, 29 May 2025 11:20:45 -0400
+Subject: [PATCH v12 09/10] net: add symlinks to ref_tracker_dir for netns
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-reftrack-dbgfs-v12-8-11b93c0c0b6e@kernel.org>
+Message-Id: <20250529-reftrack-dbgfs-v12-9-11b93c0c0b6e@kernel.org>
 References: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
 In-Reply-To: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -57,20 +56,20 @@ Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3044; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=TYdiGaavXoUhBEfyJ2tof4CzGHWJn078+gZ8gTQMfh4=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoOHtnIA/msdeh0SYjk5pNmKitkc6lL1jlnNBjz
- XK+CBCnD6eJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDh7ZwAKCRAADmhBGVaC
- FfM7EADCnX8FNq0rJLAa/m5YacLEeBDeXnKOAOu1EUGd0x9Sc/13o3JV8v58xmiX/hggibKW4M1
- RxSeS+FbqyzI8zlA6AtCy/jjs4AcDRohpOdVsfha8371KB4cSurv9GvREmdmRLGiJ48mcfpUi6R
- 4JCjgmNhXfSP72aCCZ4/RVz4ZWsZvcFVpIMRIxQHMnRN3D/51Q9wbCOifHnRm8rGGsY9fxMKSeJ
- S+iv0HK1QHDu82iehMPD1VNFQ2ef38ZZ/NCgSLZX3nKgU+FHpypPTemO3pUCZZ7oSwEw/uVcSvu
- 0+7U3s5rb3QkAxcgIeIAUJ8EDBOZ9aZnQ52Gy9ToJoGQX73TqeIDJfrG1HJe8bn4tAMrvifd+aw
- aVxRHTcMzKR7dEUwU3TBDaKNJX3DleEN2ikcFoDswZNJxitIK4E8z1KU8GROoMqyEYxspNnAeNI
- zCZAQrxsCoTD/2UJr3AlTeJ3ZURlc1khik4G1MQDzmfLxMe64T2oEITH9OBuKDq889bM+QdCpxE
- u2AWKsWEWAesDyUrPdBXef+N5OBeqFp79yl6Ktaylew3wcf6mGCnlf1yPoBba8fEiqXpEgzbLw4
- XiIipF4V7DxMgJPT286+LIzZlEC34hbkAHT3i+rrXXCeVFsRQyH8AUaCpv1vdBn+46EHzbLXeFa
- xgj2Buo4+MijiSQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1850; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=C3NjXad8atSO1FZ7CKOXtU5VIRqVojZ9jejAtjAiqWM=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoOHtnfvs9pjt9Rl/Zi1M5/arux6vA5kyN/T+ZS
+ u/b6du0baCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaDh7ZwAKCRAADmhBGVaC
+ FeKyEADFuEALcfM1T+CmjS0c3/YZIgncuvz52TkQDFPi0tjbtjgQ3LudJoo7etZ8rvBceo7C0iG
+ uuVkKViJ9NfLPCkZlBFGaaBw7RLHB3prepzbAdB4eG73DxKsgJ34q8vetVbUoOZ3V4M28YQTEk2
+ q94JijT6UtOGSprbC24ZeMyS3lyTlowAXsPZ69e+cEMmXoVE1tY9Jp9mUI7GDaTUj8kdUeSXEIp
+ KsG6j8EftlyMcq28lgluPKB7MM55t8wotNkIXjM1NST8TH5vm8M58V1vdEhIY89fw0RRMuf3Pjx
+ cxdNLZ2bhnYDQQ9VDhRrBj5JuhS8COXIUzKOe3coikPzx9Ikw2Hc2/7eJjmjHuifruHeRGBdY71
+ Vr1nfvjG7Ppv+F3tdundvJwFko77oWah1TDiLii1huoG2TXQjF1y1M+W2IKeJIWU+oqF7Pg1ZNk
+ mvT9h9Ccw8nOQT2GcpP8JO4BxjE9jWsZkh0sX3cP30Vrbaelk0nBOL7o6b/LpibfVL/pqGxki6p
+ Hftz/VRStYEnklLMV3Vf7PAPTt6MjrtOdkg4SkcU1Z1FIR8uQEidCPmldf+SlyQ6f8xqwrQLBSj
+ abvvnUSLoux7PtAwCSpYXL4t4ydPJ7ETfZs2JM5bHwjmSgysCsUaNZptRlMg4uUU5w3a/ncqSoF
+ 8xKhRtbCmMdpIqg==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,102 +87,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the ability for a subsystem to add a user-friendly symlink that
-points to a ref_tracker_dir's debugfs file.
+After assigning the inode number to the namespace, use it to create a
+unique name for each netns refcount tracker with the ns.inum and
+net_cookie values in it, and register a symlink to the debugfs file for
+it.
+
+init_net is registered before the ref_tracker dir is created, so add a
+late_initcall() to register its files and symlinks.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- include/linux/ref_tracker.h | 13 +++++++++++++
- lib/ref_tracker.c           | 22 ++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+ net/core/net_namespace.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
-index dd289fdda12b1a10197912f5796f97002e785aaf..ddc5a7b2bd84692bbc1e1ae67674ec2c6857e1ec 100644
---- a/include/linux/ref_tracker.h
-+++ b/include/linux/ref_tracker.h
-@@ -22,6 +22,7 @@ struct ref_tracker_dir {
- 	const char		*class; /* object classname */
- #ifdef CONFIG_DEBUG_FS
- 	struct dentry		*dentry;
-+	struct dentry		*symlink;
- #endif
- 	char			name[32];
- #endif
-@@ -32,6 +33,7 @@ struct ref_tracker_dir {
- #ifdef CONFIG_DEBUG_FS
- 
- void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir);
-+void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...);
- 
- #else /* CONFIG_DEBUG_FS */
- 
-@@ -39,6 +41,11 @@ static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
- {
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index 8708eb975295ffb78de35fcf4abef7cc281f5a51..b2fd9c5635ecf8fccd48f1d5b967a5c6c41cfec4 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -791,12 +791,40 @@ struct net *get_net_ns_by_pid(pid_t pid)
  }
+ EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
  
-+static inline __ostream_printf
-+void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
++#ifdef CONFIG_NET_NS_REFCNT_TRACKER
++static void net_ns_net_debugfs(struct net *net)
 +{
++	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns-%llx-%u-refcnt",
++				net->net_cookie, net->ns.inum);
++	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%llx-%u-notrefcnt",
++				net->net_cookie, net->ns.inum);
 +}
 +
- #endif /* CONFIG_DEBUG_FS */
- 
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
-@@ -56,6 +63,7 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 	dir->class = class;
- #ifdef CONFIG_DEBUG_FS
- 	dir->dentry = NULL;
-+	dir->symlink = NULL;
- #endif
- 	strscpy(dir->name, name, sizeof(dir->name));
- 	ref_tracker_dir_debugfs(dir);
-@@ -91,6 +99,11 @@ static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
- {
- }
- 
-+static inline __ostream_printf
-+void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
++static int __init init_net_debugfs(void)
++{
++	ref_tracker_dir_debugfs(&init_net.refcnt_tracker);
++	ref_tracker_dir_debugfs(&init_net.notrefcnt_tracker);
++	net_ns_net_debugfs(&init_net);
++	return 0;
++}
++late_initcall(init_net_debugfs);
++#else
++static void net_ns_net_debugfs(struct net *net)
 +{
 +}
++#endif
 +
- static inline void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ static __net_init int net_ns_net_init(struct net *net)
  {
- }
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index aed35a898466888fcb4e4186774933f54793008a..d778820bea952d96c9a1c280dfd6531135bd85e0 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -384,8 +384,30 @@ void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
- }
- EXPORT_SYMBOL(ref_tracker_dir_debugfs);
- 
-+void __ostream_printf ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-+{
-+	char name[NAME_MAX + 1];
-+	va_list args;
 +	int ret;
 +
-+	/* Already created, or dentry doesn't exist? Do nothing */
-+	if (!IS_ERR_OR_NULL(dir->symlink) || IS_ERR_OR_NULL(dir->dentry))
-+		return;
-+
-+	va_start(args, fmt);
-+	ret = vsnprintf(name, sizeof(name), fmt, args);
-+	va_end(args);
-+	name[sizeof(name) - 1] = '\0';
-+
-+	if (ret < sizeof(name))
-+		dir->symlink = debugfs_create_symlink(name, ref_tracker_debug_dir,
-+						      dir->dentry->d_name.name);
-+}
-+EXPORT_SYMBOL(ref_tracker_dir_symlink);
-+
- static void ref_tracker_debugfs_remove(struct ref_tracker_dir *dir)
- {
-+	debugfs_remove(dir->symlink);
- 	debugfs_remove(dir->dentry);
+ #ifdef CONFIG_NET_NS
+ 	net->ns.ops = &netns_operations;
+ #endif
+-	return ns_alloc_inum(&net->ns);
++	ret = ns_alloc_inum(&net->ns);
++	if (!ret)
++		net_ns_net_debugfs(net);
++	return ret;
  }
  
+ static __net_exit void net_ns_net_exit(struct net *net)
 
 -- 
 2.49.0
