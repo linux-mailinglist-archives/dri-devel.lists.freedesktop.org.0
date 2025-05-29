@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A574AC7596
-	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 03:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BB3AC7727
+	for <lists+dri-devel@lfdr.de>; Thu, 29 May 2025 06:29:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD2710E1CC;
-	Thu, 29 May 2025 01:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E05B10E1C6;
+	Thu, 29 May 2025 04:29:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="hKr/jMDG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DUzEGgKF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m155106.qiye.163.com (mail-m155106.qiye.163.com
- [101.71.155.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC8110E1CC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 May 2025 01:58:07 +0000 (UTC)
-Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-3-entmail-virt135.gy.ntes
- [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 16c60e019;
- Thu, 29 May 2025 09:57:54 +0800 (GMT+08:00)
-Message-ID: <91d19262-05a1-4127-a66b-e141add02c3f@rock-chips.com>
-Date: Thu, 29 May 2025 09:57:52 +0800
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6588E10E1C6;
+ Thu, 29 May 2025 04:29:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0CAC24362A;
+ Thu, 29 May 2025 04:29:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D711C4CEEA;
+ Thu, 29 May 2025 04:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748492978;
+ bh=29sobqm92M3rZ1bOUUb4/59RjSD9m1I3jqACEyznSqk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DUzEGgKFHbjnTF8KEb9Noc3PCTbgXyf+zn7LZi5YZP3UlSEdmqIOA/AVcqvFBzY1y
+ n0Snn21ucdG6sEAuox0wOhDZ45LUSkgBUUq6nUkfHy9qQ/tJyJmWglyVqjKOjvVNJ/
+ pc/fEljlBVzcxVnF3Baz3Npv2sLEl3wWRrgJYWkXIPmLoAnA6HPorVMJNxmpzJIQt5
+ PyL78ZTQ+wr9kvQOcV08iGZyBrkIieN0XJVAzlpTjaSX/XcIArUJejiwvtq9Dey99d
+ QyebF7sdr0sb14mSlH+pz/fZ/XfsJP+jeqevPswnsQr6NVke3vvGYKObGJUavzKoq1
+ Oj9CJtTlcl9kQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net
+Cc: airlied@gmail.com, simona@ffwll.ch, nathan@kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ llvm@lists.linux.dev, tzungbi@kernel.org
+Subject: [PATCH] drm/i915/pmu: Fix build error with GCOV and AutoFDO enabled
+Date: Thu, 29 May 2025 04:29:10 +0000
+Message-ID: <20250529042910.2436330-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.49.0.1266.g31b7d2e469-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250527081447.304-1-kernel@airkyi.com>
- <e2dnvpbze4xuubggduqr3p5nnhg7huk3dnpdcb6tldxbrn2qtn@bfsewz5trfv3>
- <bc321a71-1934-4889-bd8e-3bb593c8feba@rock-chips.com>
- <CAO9ioeXLSQyBFuedtt4=_OjEWZW6T9HaaYr8_NiNy2eh4yw-qg@mail.gmail.com>
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <CAO9ioeXLSQyBFuedtt4=_OjEWZW6T9HaaYr8_NiNy2eh4yw-qg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0MZGlZIGElIGENNQ05CHRpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a9719c29dab03abkunmb6e35c2d3ed6f0
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OVE6Sxw5UTE#Ik5LTzoNAxop
- SgEaFDJVSlVKTE9DT0NIQ0xCTE9PVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
- WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElNSjcG
-DKIM-Signature: a=rsa-sha256;
- b=hKr/jMDGb/QUNMUXmrYROwQsGX0fdWG6CFNzSLAsgz6yP2c9A4+03vNR/TDCHiDTBkbnoXzs5TNXL5C/DlnPCQ9evCjCr48FrSH+5RxP9DH9OR9yJSWaUE8Aphat5Cxd3HyEY9xd9pvI5d3sLOybjf+s9zBdjychWG4hKU3RcfQ=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=QH+9LbKgzSSxVg9sDNO4PK5Zcfbm6EKo7JyEYRq1ozI=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,46 +57,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+i915_pmu.c may fail to build with GCOV and AutoFDO enabled.
 
-On 2025/5/29 0:09, Dmitry Baryshkov wrote:
->>>> @@ -595,16 +546,41 @@ static bool cdn_dp_check_link_status(struct cdn_dp_device *dp)
->>>>    static void cdn_dp_audio_handle_plugged_change(struct cdn_dp_device *dp,
->>>>                                              bool plugged)
->>>>    {
->>>> -    if (dp->codec_dev)
->>>> -            dp->plugged_cb(dp->codec_dev, plugged);
->>>> +    if (dp->sink_has_audio)
->>>> +            drm_connector_hdmi_audio_plugged_notify(dp->connector, plugged);
->>> I'd say, notify always and let userspace figure it out via the ELD. Then
->>> you shouldn't need sink_has_audio. This would match the behaviour of
->>> HDMI drivers.
->> Oh, I find that there are similar usages in qcom msm driver. Is there
->> any more progress?
-> For msm driver it is required as DSP requires HDMI to be plugged for
-> the audio path to work.
+../drivers/gpu/drm/i915/i915_pmu.c:116:3: error: call to '__compiletime_assert_487' declared with 'error' attribute: BUILD_BUG_ON failed: bit > BITS_PER_TYPE(typeof_member(struct i915_pmu, enable)) - 1
+  116 |                 BUILD_BUG_ON(bit >
+      |                 ^
 
-I see, will fix in v4.
+Here is a way to reproduce the issue:
+$ git checkout v6.15
+$ mkdir build
+$ ./scripts/kconfig/merge_config.sh -O build -n -m <(cat <<EOF
+CONFIG_DRM=y
+CONFIG_PCI=y
+CONFIG_DRM_I915=y
 
->>>> @@ -705,8 +681,6 @@ static int cdn_dp_encoder_atomic_check(struct drm_encoder *encoder,
->>>>
->>>>    static const struct drm_encoder_helper_funcs cdn_dp_encoder_helper_funcs = {
->>>>       .mode_set = cdn_dp_encoder_mode_set,
->>>> -    .enable = cdn_dp_encoder_enable,
->>>> -    .disable = cdn_dp_encoder_disable,
->>>>       .atomic_check = cdn_dp_encoder_atomic_check,
->>> Nit: for the future cleanup, it should probably be possible to get rid
->>> of these encoder ops too by moving them to the bridge ops.
->> Interesting, have these patches been submitted upstream yet?
-> Everything is already there, see drm_bridge_funcs::mode_set() and
-> drm_bridge_funcs::atomic_check().
+CONFIG_PERF_EVENTS=y
 
-Thanks for the clarification. I will move mode_set() to bridge ops.
+CONFIG_DEBUG_FS=y
+CONFIG_GCOV_KERNEL=y
+CONFIG_GCOV_PROFILE_ALL=y
 
-And for the drm_encoder_helper_funcs::atomic_check(), most Rockchip 
-drivers will set some Rockchip-specific properties here so that the VOP 
-driver can process them. In the future, we may integrate a new encoder 
-driver to process these private properties. So, I prefer to keep this as 
-it is.
+CONFIG_AUTOFDO_CLANG=y
+EOF
+)
+$ PATH=${PATH}:${HOME}/llvm-20.1.5-x86_64/bin make LLVM=1 O=build \
+       olddefconfig
+$ PATH=${PATH}:${HOME}/llvm-20.1.5-x86_64/bin make LLVM=1 O=build \
+       CLANG_AUTOFDO_PROFILE=...PATH_TO_SOME_AFDO_PROFILE... \
+       drivers/gpu/drm/i915/i915_pmu.o
 
+Although not super sure what happened, by reviewing the code, it should
+depend on `__builtin_constant_p(bit)` directly instead of assuming
+`__builtin_constant_p(config)` makes `bit` a builtin constant.
+
+Also fix a nit, to reuse the `bit` local variable.
+
+Fixes: a644fde77ff7 ("drm/i915/pmu: Change bitmask of enabled events to u32")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/gpu/drm/i915/i915_pmu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index e5a188ce3185..990bfaba3ce4 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -112,7 +112,7 @@ static u32 config_mask(const u64 config)
+ {
+ 	unsigned int bit = config_bit(config);
+ 
+-	if (__builtin_constant_p(config))
++	if (__builtin_constant_p(bit))
+ 		BUILD_BUG_ON(bit >
+ 			     BITS_PER_TYPE(typeof_member(struct i915_pmu,
+ 							 enable)) - 1);
+@@ -121,7 +121,7 @@ static u32 config_mask(const u64 config)
+ 			     BITS_PER_TYPE(typeof_member(struct i915_pmu,
+ 							 enable)) - 1);
+ 
+-	return BIT(config_bit(config));
++	return BIT(bit);
+ }
+ 
+ static bool is_engine_event(struct perf_event *event)
+-- 
+2.49.0.1266.g31b7d2e469-goog
 
