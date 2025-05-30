@@ -2,116 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962CBAC92BA
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 17:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B068AAC92C0
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 17:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C4410E146;
-	Fri, 30 May 2025 15:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181CA10E158;
+	Fri, 30 May 2025 15:54:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dzBgQQMJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b3go5w+Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF63F10E146
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:53:26 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAKBth011635
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:53:22 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F0910E157
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:54:54 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54U9xGvY008042
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:54:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ocOy+iZ89dtnyBaWmC5MMBRHZ5mWFLMjUsmdth3Z8GQ=; b=dzBgQQMJcDYDo0LK
- 6yPAzdvLQ2Nq+0MD/gsuqA9Uss3k+D3+NaFHTO1C3/ZXvC7/MXzq/otbMXCyXOxi
- L922xEIey+YB5mukNZhJYq4dZxe2i7bbzOz5oAJoS2nGV6iwd0MYaQEZpFO/xJCl
- 1CLky+oH5RGBrOc9xUAg6TWPnn+sQ0CoYYXRBnPTIpjyo4lJvCIP+RUq/E0OAUIG
- dELuuU1Or3wdqr6jhEr4jIUm1NXl39tsa82UibKB2uoZaK/wmDc1/6MnByMJhLyi
- K26kcC0TzFaB5NXIw9Fxkf2hMVYOSGeseonnY0SUvujMSlB/cN/lm/+aESk28UNs
- joql/Q==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6g99ptx-1
+ X4ENBxC2u4diVPd7lfc4+FXoOF/Vd8re4YvniFacYdk=; b=b3go5w+Qh4TAyf22
+ NxihhNODaswOwXXMylPCo1bq1E0Hoxm6+1KLMp8I/QgrYCRQ1TNEO1ZJ2x1omnkM
+ jlEF3kKfESUR6cxbeENV5PdC9xMo13fJkMyDL2KGjhQhrtzcrdk0A+QoJS8WJGd1
+ 6QKOQWMZ/ckS1RASsj81+nxcOouiqYom/ldQNPIBaO+XAH329pcfWj0ZaFyCbIVU
+ cS++4lCwEiI3IHYoKHl8PROipLS+wBoKmO1U/RHbHSqNzSIpoGmcRzcz2I2W9PpZ
+ skjc2VtBaQU8GjAFiajRoVQwJgtKRVJ/iE+vG4M0u/9ZM8SAhvVvymh+aqu4yZ8r
+ fOoKxg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46whufa316-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:53:22 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-2349498f00eso25328165ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 08:53:22 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:54:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-476a44cec4cso28308581cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 08:54:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748620401; x=1749225201;
+ d=1e100.net; s=20230601; t=1748620492; x=1749225292;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ocOy+iZ89dtnyBaWmC5MMBRHZ5mWFLMjUsmdth3Z8GQ=;
- b=Z7bhdxwXANY5mL6mlY6MbdBtsoWkYzfJSEghJS1ZAPhxAC7Rkt5VWVJHob95Uyjr78
- U2anbRGVMQt9w/QK7vr+3qx87BSC8mixVb1GviPMy8ISckuWHtezjpcjNKM7DTGj0Hpm
- NN5eyBI+w2IJkkErlI969x7JFua/Pnf8iOcXRnp/KBEGl7eji6Lu3P14mAVoEDuZVe2y
- vQG5fnIEneCGS8ZWBwFYOBAzqTafiISikNEPF7aZJu2HdmiVFhH5rhDmhsBsI3k3HLSz
- CsYUKYl6m/OTXRumJMqf6qvGHlQ8K1SysiVD0zugLH1BVbXl/IG5uKZlpn3IIukiU9Yx
- qHWQ==
+ bh=X4ENBxC2u4diVPd7lfc4+FXoOF/Vd8re4YvniFacYdk=;
+ b=F7MXukQYI1nfmpg5aAvsSdEywK263cwVs0JEUsuSoo8TOMytpTNn7b7aEXndjLGsb2
+ 07/hn73qNPnAfGS5NGu29jRgOEVxpkOY4DL5nwWbCHGjzqv7h/bcN1/tPNrFp6tZjkhD
+ 5WUL4yC4h/PdZyjcVRC/IDJIoQCYE9zFO4dyCR29eYwWCgtHozmBlsWsyq+uvIAsrBVV
+ LIHloROV6W9RfKcuR8YnubM3/K83k14q7eh9COOI4cU6qaI9m7oImmtVMpZBPSmhIr8j
+ 0svBkRIBJWTz5DfrjHG7c3ia7Oo+tJjHkAw3XSG6ubzaZW/vCmIWlo8ispwSTq6s/FZl
+ +pbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3PZ5BM9P6XpUubou0oKbNuaqD99Oa4csnIarIdGGodrLLFptuREyjYfiPumYH6GaE27L+6I0aW8Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvYV1OBp82jlh7vWofLV34qNPNSlsssivmN54ItYLW6+NNzyXm
- 8l+m7yHsMvwyAo6iqLAOQR+KYIFf2EN+wSO3xIos92/5QocV8FF2Ico0LWr2BdSA3LprouV0EiC
- fUasYeipDL16JDuhlK9hcQ990a55kKHjymibMKgP25Opy7dXI6sVlGdEQewrlvAx7QSJK6mY6Ez
- qUqrHzG44TmyU3NaNSV9JgdJIZRjjz829gDxOqFGlseq1iyA==
-X-Gm-Gg: ASbGncv0RlVtX2cT01vPZL5QKtLwEJz1TA8BAQfpRH7/SC1TIxU9NYKuM2gCODC531L
- l6+rdBKa8ddv07qQTYjnwIKvXT5NnDSEtumhTjAJaA6UIL9D8pyI5W/3gPxfSlYruK2SQRfPF8c
- NMnfz7fZBdViDwjkWyOCSoPLDl9A==
-X-Received: by 2002:a17:90b:2f03:b0:30a:9feb:1e15 with SMTP id
- 98e67ed59e1d1-31214e2efabmr13566576a91.8.1748620401279; 
- Fri, 30 May 2025 08:53:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHI8DQTJOy6Ygl/JjuDr7iVO/pS/KdYmD4s/dC0D+LEaOkPASzhJTKviMamfZXKSwSf5rgo3UuFLaa45v1W+Tk=
-X-Received: by 2002:a17:90b:2f03:b0:30a:9feb:1e15 with SMTP id
- 98e67ed59e1d1-31214e2efabmr13566509a91.8.1748620400596; Fri, 30 May 2025
- 08:53:20 -0700 (PDT)
+ AJvYcCV7ZR4OEmp4bI01yCBfrcVCd4yHVXMXtIJ1+pvWsIDgK8zruxZtAH02DPWd9xnFvZ8gjc6imxVVNlI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrpsVuyvyHbtE/IpU1uDXJfwVKhqqPOdQcAJQd+x5F6a5QWDxN
+ QMS7NJ8iACIZ1CnhWPjpt7Ar7+ZAvoiRyivxukR506XYQwDVpoDGRJubCaZNy3tBHQMGpHTnLnr
+ zYSsXPtXpQhqt0m1JW/PhzbuDqEQS/C5EC5z+Y6YKaJE0e19XKpr4PPMbni5dNGoE1Cei83c5yP
+ /mORVyTZ0cCulLWuFPjF996JGADqvsjQlSK9HkDoXW8KxhVSaY0QiNdA==
+X-Gm-Gg: ASbGnctFVIaVfW2OVkI35vex0wiV5jqnpFI9EVk1AHI78Rn9hoFG6eYQ85YL5qUqM3s
+ JUPz6117BULaFHRciwU4UYOAPXjmueOlp5rc6eEUyZtGe26kjv5gp1XHCngpmiJd/bYJ+9BkWlJ
+ 5iteEMfIusRPN3UNINfYsH44i5kHljqqMDjoXC
+X-Received: by 2002:a05:622a:4816:b0:490:8cc3:d111 with SMTP id
+ d75a77b69052e-4a4400549c0mr73198311cf.27.1748620491891; 
+ Fri, 30 May 2025 08:54:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFoKXsQKc9vz7c/69hZ892/jQ0A3mCfTEOA3YGsz+LBY2eCQelClQXwXgQV22H4VZ1SrmLjAX7p3EeMPH25o54=
+X-Received: by 2002:a17:90b:17cb:b0:311:ad7f:329f with SMTP id
+ 98e67ed59e1d1-31241a8050cmr5125743a91.31.1748620480611; Fri, 30 May 2025
+ 08:54:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-2-quic_jseerapu@quicinc.com>
- <ze5y6llgo2qx4nvilaqcmkam5ywqa76d6uetn34iblz4nefpeu@ozbgzwbyd54u>
- <4456d0e2-3451-4749-acda-3b75ae99e89b@quicinc.com>
- <de00809a-2775-4417-b987-5f557962ec31@quicinc.com>
-In-Reply-To: <de00809a-2775-4417-b987-5f557962ec31@quicinc.com>
+References: <20250526-v6-15-quad-pipe-upstream-v10-0-5fed4f8897c4@linaro.org>
+ <20250526-v6-15-quad-pipe-upstream-v10-10-5fed4f8897c4@linaro.org>
+ <45hk22fdghaqnilukvqayjcbnf3btntknqrwf5ivx346vrgag3@aebzt76tkjzw>
+ <CABymUCNuYDjmytbb+HLg1KF5eOyQVNczcq_wqFdo51cr0Y6BdQ@mail.gmail.com>
+In-Reply-To: <CABymUCNuYDjmytbb+HLg1KF5eOyQVNczcq_wqFdo51cr0Y6BdQ@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 30 May 2025 18:53:09 +0300
-X-Gm-Features: AX0GCFsEgcxsXpdIFfOsAqXa1UzndXO-yjeJj8vejz0KsNKmM_D-7yinEUW3MbU
-Message-ID: <CAO9ioeUW9-7N2Ptu_p=XKzeb02RsXx8V3CzarPOD4EWy4QrnsA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] dmaengine: qcom: gpi: Add GPI Block event
- interrupt support
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+Date: Fri, 30 May 2025 18:54:29 +0300
+X-Gm-Features: AX0GCFti6M5M305KtZRmPulPOdtjGChqY7dKpQLOJRYbcxrJZz16Fw4PnmbLHtU
+Message-ID: <CAO9ioeUS5Oq1Ka9uh1idourTNsfp5bg4TcVWSMV_rkByy+e9Yg@mail.gmail.com>
+Subject: Re: [PATCH v10 10/12] drm/msm/dpu: support SSPP assignment for
+ quad-pipe case
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=6839d472 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=COk6AnOGAAAA:8 a=mdKvkispvZj9PeQf9s4A:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: lE-vdAVXxt9pe2NwIwtLuzDcYrtmBKsV
-X-Proofpoint-GUID: lE-vdAVXxt9pe2NwIwtLuzDcYrtmBKsV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEzOSBTYWx0ZWRfX5idUQQZH4+aq
- gQxx439+fgQYUnvhfNwNz9czB4DnuqlfT27xmmXT9HRDhtzhaBsUOFNP23u0OVYUFP1T15l6QY2
- zu9tQmia5A4gSvQTK/Om/1f5Z/82oYHffXbvacwXfcSRamIXfIajPzF0pXcU9K2oBHhaeRKkBMM
- cc+Wza6LOALSBzBFXResk1MXxdpd4SKQpnXO8vgB9IDbhMEXnVJUUol7t0bd2tujDbfP3pqofbx
- oVFmjuFgJARjqx0t959ZJd+/k31FOwrsfUf1zLeXBZLBfZrmNzxkUoqGZX80fOFHNfeyJ7YCt49
- gye8/4ktR7qGgm5HgdhaFY4lGWXqm93FNIoqdNhexe3JdykBJL34mY1jA1MGPlHMuA8qt/sRbYM
- DusOMH77banXDrRxTlh2jWaKp/2hIdiB7Ajhj5asHkydBtpFjW0FuGKJdDwr6OuDnhEZElFO
+X-Authority-Analysis: v=2.4 cv=OslPyz/t c=1 sm=1 tr=0 ts=6839d4cd cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=99vq82EtyZOdbYV9uHAA:9
+ a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 60KoXy515QBmTT2KSLderZxcFlMvUUdF
+X-Proofpoint-GUID: 60KoXy515QBmTT2KSLderZxcFlMvUUdF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE0MCBTYWx0ZWRfX9+RkMpFZBYgv
+ N08MSWybG8YpFWNQ4Vkckh4xgIneAPB0Ou3vsQyk1LX2lfijwkkZZnoAzCKPL0vMQGXZccUp1pu
+ botGVdQAcbbS8ceFttJfJwS2yyHtO/B47U5H2VHOvmKcHs8+uAeP2AM/rGdLHwk9ZPHDIZgXnNi
+ /2UHtGmxojNoceLJmgqT660WcIeC7kxbdKMgriyYogjCRYdoNZyyQLHKmnpdyQ5vI5wdEg3MPfR
+ Fyxvh8D5iJCivWOyIXDf94JzEMgEGzUIDcr9sOpwW6ocFvpKdqzj7im1bZTG1/7JSEFinxtS6rk
+ olXTBkQqeOgSqAGNkPhFgUL+0AtEwdeyalVQDJF2hbKyDjFRY0iJYr/iA2/VsXwJR217G4JPtNA
+ 9oXxjL6z7boJeNTXKnmrJk2QwdeURLNkSkDM5VL39k7tmtwNyXceHlZEE9F0BWWGWVT3EiOl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300139
+ definitions=main-2505300140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,151 +127,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 May 2025 at 17:05, Jyothi Kumar Seerapu
-<quic_jseerapu@quicinc.com> wrote:
+On Fri, 30 May 2025 at 17:59, Jun Nie <jun.nie@linaro.org> wrote:
 >
->
->
-> On 5/9/2025 11:48 AM, Jyothi Kumar Seerapu wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=
+=B45=E6=9C=8829=E6=97=A5=E5=91=A8=E5=9B=9B 02:22=E5=86=99=E9=81=93=EF=BC=9A
 > >
+> > On Mon, May 26, 2025 at 05:28:28PM +0800, Jun Nie wrote:
+> > > Currently, SSPPs are assigned to a maximum of two pipes. However,
+> > > quad-pipe usage scenarios require four pipes and involve configuring
+> > > two stages. In quad-pipe case, the first two pipes share a set of
+> > > mixer configurations and enable multi-rect mode when certain
+> > > conditions are met. The same applies to the subsequent two pipes.
+> > >
+> > > Assign SSPPs to the pipes in each stage using a unified method and
+> > > to loop the stages accordingly.
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  11 +++
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |   2 +
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 126 ++++++++++++++++++--=
+----------
+> > >  3 files changed, 88 insertions(+), 51 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/d=
+rm/msm/disp/dpu1/dpu_crtc.c
+> > > index 85f585206218f4578e18b00452762dbada060e9c..47ab43dfec76acc058fb2=
+75d1928603e8e8e7fc6 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > @@ -1562,6 +1562,17 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, boo=
+l en)
+> > >       return 0;
+> > >  }
+> > >
+> > > +/**
+> > > + * dpu_crtc_get_num_lm - Get mixer number in this CRTC pipeline
+> > > + * @state: Pointer to drm crtc state object
+> > > + */
+> > > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state)
+> > > +{
+> > > +     struct dpu_crtc_state *cstate =3D to_dpu_crtc_state(state);
+> > > +
+> > > +     return cstate->num_mixers;
+> > > +}
+> > > +
+> > >  #ifdef CONFIG_DEBUG_FS
+> > >  static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+> > >  {
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/d=
+rm/msm/disp/dpu1/dpu_crtc.h
+> > > index 94392b9b924546f96e738ae20920cf9afd568e6b..6eaba5696e8e6bd1246a9=
+895c4c8714ca6589b10 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > @@ -267,4 +267,6 @@ static inline enum dpu_crtc_client_type dpu_crtc_=
+get_client_type(
+> > >
+> > >  void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event);
+> > >
+> > > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state)=
+;
+> > > +
+> > >  #endif /* _DPU_CRTC_H_ */
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_plane.c
+> > > index 0bb153a71353ca9eaca138ebbee4cd699414771d..f721dc504bbbe3a499862=
+39adee113bfb6790f70 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > @@ -961,6 +961,33 @@ static int dpu_plane_is_multirect_parallel_capab=
+le(struct dpu_hw_sspp *sspp,
+> > >               dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewi=
+dth);
+> > >  }
+> > >
+> > > +static bool dpu_plane_check_single_pipe(struct dpu_plane_state *psta=
+te,
+> > > +                                     struct dpu_sw_pipe **single_pip=
+e,
+> > > +                                     struct dpu_sw_pipe_cfg **single=
+_pipe_cfg,
+> > > +                                     bool config_pipe)
+> > > +{
+> > > +     int i, valid_pipe =3D 0;
+> > > +     struct dpu_sw_pipe *pipe;
+> > > +
+> > > +     for (i =3D 0; i < PIPES_PER_PLANE; i++) {
+> > > +             if (drm_rect_width(&pstate->pipe_cfg[i].src_rect) !=3D =
+0) {
+> > > +                     valid_pipe++;
+> > > +                     if (valid_pipe > 1)
+> > > +                             return false;
+> > > +                     *single_pipe =3D &pstate->pipe[i];
+> > > +                     *single_pipe_cfg =3D &pstate->pipe_cfg[i];
+> > > +             } else {
+> > > +                     if (!config_pipe)
+> > > +                             continue;
+> > > +                     pipe =3D &pstate->pipe[i];
+> > > +                     pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > > +                     pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NON=
+E;
+> > > +                     pipe->sspp =3D NULL;
 > >
-> > On 5/6/2025 5:02 PM, Dmitry Baryshkov wrote:
-> >> On Tue, May 06, 2025 at 04:48:43PM +0530, Jyothi Kumar Seerapu wrote:
-> >>> GSI hardware generates an interrupt for each transfer completion.
-> >>> For multiple messages within a single transfer, this results in
-> >>> N interrupts for N messages, leading to significant software
-> >>> interrupt latency.
-> >>>
-> >>> To mitigate this latency, utilize Block Event Interrupt (BEI) mechani=
-sm.
-> >>> Enabling BEI instructs the GSI hardware to prevent interrupt generati=
-on
-> >>> and BEI is disabled when an interrupt is necessary.
-> >>>
-> >>> When using BEI, consider splitting a single multi-message transfer in=
-to
-> >>> chunks of 8 messages internally and so interrupts are not expected fo=
-r
-> >>> the first 7 message completions, only the last message triggers
-> >>> an interrupt, indicating the completion of 8 messages.
-> >>>
-> >>> This BEI mechanism enhances overall transfer efficiency.
-> >>>
-> >>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> >>> ---
-> >>> v5 ->v6:
-> >>>    - For updating the block event interrupt bit, instead of relying o=
-n
-> >>>      bei_flag, decision check is moved with DMA_PREP_INTERRUPT flag.
-> >>> v4 -> v5:
-> >>>    - BEI flag naming changed from flags to bei_flag.
-> >>>    - QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
-> >>>      file, and Block event interrupt support is checked with bei_flag=
-.
-> >>>
-> >>> v3 -> v4:
-> >>>    - API's added for Block event interrupt with multi descriptor
-> >>> support for
-> >>>      I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver fi=
-le.
-> >>>    - gpi_multi_xfer_timeout_handler function is moved from GPI driver=
- to
-> >>>      I2C driver.
-> >>>
-> >>> v2-> v3:
-> >>>     - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handle=
-r
-> >>>     - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
-> >>>     - Added documentation for newly added changes in "qcom-gpi-dma.h"
-> >>> file
-> >>>     - Updated commit description.
-> >>>
-> >>> v1 -> v2:
-> >>>     - Changed dma_addr type from array of pointers to array.
-> >>>     - To support BEI functionality with the TRE size of 64 defined in
-> >>> GPI driver,
-> >>>       updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
-> >>>
-> >>>   drivers/dma/qcom/gpi.c           | 3 +++
-> >>>   include/linux/dma/qcom-gpi-dma.h | 2 ++
-> >>>   2 files changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
-> >>> index b1f0001cc99c..7e511f54166a 100644
-> >>> --- a/drivers/dma/qcom/gpi.c
-> >>> +++ b/drivers/dma/qcom/gpi.c
-> >>> @@ -1695,6 +1695,9 @@ static int gpi_create_i2c_tre(struct gchan
-> >>> *chan, struct gpi_desc *desc,
-> >>>           tre->dword[3] =3D u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_T=
-YPE);
-> >>>           tre->dword[3] |=3D u32_encode_bits(1, TRE_FLAGS_IEOT);
-> >>> +
-> >>> +        if (!(i2c->dma_flags & DMA_PREP_INTERRUPT))
-> >>> +            tre->dword[3] |=3D u32_encode_bits(1, TRE_FLAGS_BEI);
-> >>>       }
-> >>>       for (i =3D 0; i < tre_idx; i++)
-> >>> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/
-> >>> qcom-gpi-dma.h
-> >>> index 6680dd1a43c6..ebac0d3edff2 100644
-> >>> --- a/include/linux/dma/qcom-gpi-dma.h
-> >>> +++ b/include/linux/dma/qcom-gpi-dma.h
-> >>> @@ -65,6 +65,7 @@ enum i2c_op {
-> >>>    * @rx_len: receive length for buffer
-> >>>    * @op: i2c cmd
-> >>>    * @muli-msg: is part of multi i2c r-w msgs
-> >>> + * @dma_flags: Flags indicating DMA capabilities
-> >>>    */
-> >>>   struct gpi_i2c_config {
-> >>>       u8 set_config;
-> >>> @@ -78,6 +79,7 @@ struct gpi_i2c_config {
-> >>>       u32 rx_len;
-> >>>       enum i2c_op op;
-> >>>       bool multi_msg;
-> >>> +    unsigned int dma_flags;
-> >>
-> >> Why do you need extra field instead of using
-> >> dma_async_tx_descriptor.flags?
-> >
-> > In the original I2C QCOM GENI driver, using the local variable (unsigne=
-d
-> > in flags) and updating the "DMA_PREP_INTERRUPT" flag.
-> >
-> > Sure, i will review if "dma_async_tx_descriptor.flags" can be retrieved
-> > in GPI driver for DMA_PREP_INTERRUPT flag status.
+> > If this function is 'check', then why does it change something in the
+> > pipe configuration?
 >
-> Hi Dmitry,
->
-> In the I2C Geni driver, the dma flags are primarily used in the
-> dmaengine_prep_slave_single() function, which expects the argument type
-> to be unsigned int. Therefore, the flags should be defined either as
-> enum dma_ctrl_flags, or unsigned int.
->
-> In the GPI driver, specifically within the gpi_prep_slave_sg() function,
-> the flags are correctly received from the I2C driver. However, these
-> flags are not currently passed to the gpi_create_i2c_tre() function.
->
-> If we pass the existing flags variable to the gpi_create_i2c_tre()
-> function, we can retrieve the DMA flags information without introducing
-> any additional or external variables.
->
-> Please confirm if this approach=E2=80=94reusing the existing flags argume=
-nt in
-> the GPI driver=E2=80=94is acceptable and good to proceed with.
+> I see modification is made in other check functions, like
+> dpu_plane_atomic_check_nosspp(). So
+> the name is referenced. Do you think dpu_plane_get_single_pipe() is OK he=
+re?
 
-Could you please check how other drivers use the DMA_PREP_INTERRUPT
-flag? That will answer your question.
-
->
-> >>
-> >>>   };
-> >>>   #endif /* QCOM_GPI_DMA_H */
-> >>> --
-> >>> 2.17.1
-> >>>
-> >>
-> >
-> >
->
+Because it follows the semantics of drm_foo_atomic_check_bar(), the
+_atomic_check_ being a key part.
 
 
 --=20
