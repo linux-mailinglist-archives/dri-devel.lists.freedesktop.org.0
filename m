@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5F4AC8666
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDD8AC8667
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4692610E25C;
-	Fri, 30 May 2025 02:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFA3A10E261;
+	Fri, 30 May 2025 02:50:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZF4tHM3U";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ViDo/dI+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227F710E256
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:50:37 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE4A10E283
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573436;
+ s=mimecast20190719; t=1748573438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HufTZwqlu3MY4gkaOUrbeff+ha6MfEm7tgUgivlHaxA=;
- b=ZF4tHM3U8HkLydBextcjfiaBpth/TE9QK4mJAgga0qKRXW82pBmVLnJqX4HsKOCqvVdoF1
- OMLtJs7bGpusj4GIxFgrpApl6yhOdeCJ9poKIh4vjPDTt0QKJZRphHj4/hUmBM4CMYZPZI
- EgPWKXUZJkZKzH/Csc4gvMjY0C+pukI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=6OTXs9GPeGDdK1tO0sr8JA4qFlGdw8TGC9kKclzho0o=;
+ b=ViDo/dI+rH9MeKID6ETma6SEOylVPgE4SLNo0cnXKozlYRCelBPUtQVt7pzRJ5K+5/ChLn
+ awz5GmfjK7gTtVkyDuPLY7piDpuRIvV/SYznuMezJO7sf3wNYE5mC/GCBZeHCZJaFtokyp
+ PHGnGEa/2D3j42AsRf5Vu1dEkcCCtJM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-324-We4YvRcLMDuceGIK9OHIiA-1; Thu,
- 29 May 2025 22:50:30 -0400
-X-MC-Unique: We4YvRcLMDuceGIK9OHIiA-1
-X-Mimecast-MFC-AGG-ID: We4YvRcLMDuceGIK9OHIiA_1748573428
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-2k4emOokNeCnCmNzL1g9Fw-1; Thu,
+ 29 May 2025 22:50:35 -0400
+X-MC-Unique: 2k4emOokNeCnCmNzL1g9Fw-1
+X-Mimecast-MFC-AGG-ID: 2k4emOokNeCnCmNzL1g9Fw_1748573432
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DBCC1180056F; Fri, 30 May 2025 02:50:27 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 944E31956095; Fri, 30 May 2025 02:50:32 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7F1761955D82; Fri, 30 May 2025 02:50:23 +0000 (UTC)
+ id 35BA11955D82; Fri, 30 May 2025 02:50:28 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:09 -0500
-Subject: [PATCH v2 07/46] panel/ronbo-rb070d30: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 29 May 2025 21:46:10 -0500
+Subject: [PATCH v2 08/46] panel/samsung-ams581vf01: Use refcounted
+ allocation in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-7-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-8-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1556;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1573;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=8X+Z/93oZEewJICP+BYSyz8Avvzc3+Twfw3Dcgt/dAU=;
- b=1oibaY4P3oK8QhaI2WKfGIZx8613qP59xZfgpJqHIz2qnc7fLx3M3BeFFM7setASfe/Z/xtkU
- DQTlU+gA+A5DAqVtV30NrOWX2HzC1pHwwKI9lBwJEzK1hRVuraPs/vw
+ bh=SL5XsAZhcqZkqnmNdWeFDmk+1My9tmF7Rq8ky+W6RSA=;
+ b=+KVbQtBG7Foaz3UjEoUaDvg48smcmmBTVjvLleNaUwgsqdnk+siplDNmaFRSGAPLTQQRmYM9E
+ oMUvJx4P3uEDrm89b4EjTWGIdxrHLVQViW6+F+VlHWL4tu0u8ivVJ4X
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -100,40 +100,39 @@ panel.
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v2: none.
+v2: refactor. use &dsi->dev instead of dev.
 ---
- drivers/gpu/drm/panel/panel-ronbo-rb070d30.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-ams581vf01.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-index 2ef5ea5eaeeb2062372c594d077bd070975119ed..ad35d0fb0a16787ffb87c365c9939c78ff42d67a 100644
---- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-+++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-@@ -143,9 +143,11 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
- 	struct rb070d30_panel *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-ams581vf01.c b/drivers/gpu/drm/panel/panel-samsung-ams581vf01.c
+index cf61863122520ea1c2f6179bf51cef01d26db45e..188dd7cf0297f59e716dcd8aba3b03684d723bf9 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-ams581vf01.c
++++ b/drivers/gpu/drm/panel/panel-samsung-ams581vf01.c
+@@ -211,9 +211,11 @@ static int ams581vf01_probe(struct mipi_dsi_device *dsi)
+ 	struct ams581vf01 *ctx;
  	int ret;
  
--	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
 -	if (!ctx)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(&dsi->dev, struct rb070d30_panel, panel,
-+				   &rb070d30_panel_funcs,
++	ctx = devm_drm_panel_alloc(&dsi->dev, struct ams581vf01, panel,
++				   &ams581vf01_panel_funcs,
 +				   DRM_MODE_CONNECTOR_DSI);
 +	if (IS_ERR(ctx))
 +		return PTR_ERR(ctx);
  
- 	ctx->supply = devm_regulator_get(&dsi->dev, "vcc-lcd");
- 	if (IS_ERR(ctx->supply))
-@@ -154,9 +156,6 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
- 	mipi_dsi_set_drvdata(dsi, ctx);
- 	ctx->dsi = dsi;
+ 	ret = devm_regulator_bulk_get_const(&dsi->dev,
+ 					    ARRAY_SIZE(ams581vf01_supplies),
+@@ -235,8 +237,6 @@ static int ams581vf01_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
  
--	drm_panel_init(&ctx->panel, &dsi->dev, &rb070d30_panel_funcs,
+-	drm_panel_init(&ctx->panel, dev, &ams581vf01_panel_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
--
- 	ctx->gpios.reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(ctx->gpios.reset)) {
- 		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
+ 	ctx->panel.prepare_prev_first = true;
+ 
+ 	ctx->panel.backlight = ams581vf01_create_backlight(dsi);
 
 -- 
 2.48.1
