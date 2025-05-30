@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A656AC8688
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86680AC8689
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1BCE10E7A0;
-	Fri, 30 May 2025 02:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC16D10E7A6;
+	Fri, 30 May 2025 02:52:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UoiKmS6I";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hkC/CxiY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDD710E7A0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:52:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 302E210E7AA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573545;
+ s=mimecast20190719; t=1748573548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uXfgCJSSVij+UnzgUTFeWOx1wZNAOrxCwg0D3TFqomw=;
- b=UoiKmS6IZk7GDhtq7Ml+NUb+s5S0my/TNBkvmkfa2VFn0KFgISi1zjEMNCFD57T6f9s1Pz
- AR4BF/lbkWSDAXFlEZB0JnVOoOOXsg7Jb0kwcnV3hC4m88Q6wQa2Nn0WfH2CswQnz1HQJJ
- U0UiCygfooCu7bccyBdkX6jwka7/t3w=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=w22kEHxjd9wCaJQR4xT5HC8wKiRZ6UoC32caclGcyTI=;
+ b=hkC/CxiY4C706k0XPHNKQMuSQsnNisWsQmm8rg8nrKEOhwTJ00ReRnLDUQnJnmhSkfDxtx
+ d4Nd8xcvuE4oCCID8PGrC4iU1xDUdV3/OvDI1aa+KaGwy+mQQ0qV7rxFLfRhfglZh2YLqG
+ 39egc2BwnNylFuN9Y0+1PvnatveDIVM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-567-UKUxlclMOWOIBEqARJoS8Q-1; Thu,
- 29 May 2025 22:52:20 -0400
-X-MC-Unique: UKUxlclMOWOIBEqARJoS8Q-1
-X-Mimecast-MFC-AGG-ID: UKUxlclMOWOIBEqARJoS8Q_1748573538
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-643-KUAivgw5OOW-RKq_P5byvA-1; Thu,
+ 29 May 2025 22:52:25 -0400
+X-MC-Unique: KUAivgw5OOW-RKq_P5byvA-1
+X-Mimecast-MFC-AGG-ID: KUAivgw5OOW-RKq_P5byvA_1748573542
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 0E3631800370; Fri, 30 May 2025 02:52:18 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id B39851956050; Fri, 30 May 2025 02:52:22 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 065371955D82; Fri, 30 May 2025 02:52:12 +0000 (UTC)
+ id 5C1431955D82; Fri, 30 May 2025 02:52:18 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:32 -0500
-Subject: [PATCH v2 30/46] panel/sony-td4353-jdi: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 29 May 2025 21:46:33 -0500
+Subject: [PATCH v2 31/46] panel/truly-nt35521: Use refcounted allocation in
+ place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-30-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-31-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1520;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1626;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=8gwlycKs97I+xLhs5lYA8J7UlbGH7BpKIjyWcBNP89U=;
- b=7Z4NajFUOhFQjuw47k2TlWv6T+maLbZ2TUEl5kR3YQl9/2b5tLWvDCg40OF7QwAiPmQ/ndAoU
- 7SoWywnPiezBR6gS6X/q9FisuXohAU9T5lgx8aZsjYacFrc++Bw1vHf
+ bh=apvQF5SPC2I10UfTH4Ydu7wHVfWMVab8FAAKxcGTCiE=;
+ b=+JrZpmDmMC5BB+VPhUepiKZceZC4seVjeVjKHnm2/OF+C7d7ygRRn4PXWYX0kDImO05Iex/+y
+ kF6ui2SmzveD9Xkqk9U1qcs2/eX2ikbR+rRC8/5p5wf6TRfmV8haKHD
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -102,38 +102,38 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-index 97f4bb4e10297532b3e0762db3433187ca6240f3..7c989b70ab513084d28379f347c9851a350e433e 100644
---- a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-+++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-@@ -175,9 +175,11 @@ static int sony_td4353_jdi_probe(struct mipi_dsi_device *dsi)
- 	struct sony_td4353_jdi *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
+index 104b2290560e366cd514617f04233e4940d7bb03..216a6ad8696e91c4ea717476d46105b7d636b765 100644
+--- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
++++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
+@@ -433,9 +433,11 @@ static int truly_nt35521_probe(struct mipi_dsi_device *dsi)
+ 	struct truly_nt35521 *ctx;
  	int ret;
  
 -	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
 -	if (!ctx)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct sony_td4353_jdi, panel,
-+				   &sony_td4353_jdi_panel_funcs,
++	ctx = devm_drm_panel_alloc(dev, struct truly_nt35521, panel,
++				   &truly_nt35521_panel_funcs,
 +				   DRM_MODE_CONNECTOR_DSI);
 +	if (IS_ERR(ctx))
 +		return PTR_ERR(ctx);
  
- 	ctx->type = (uintptr_t)of_device_get_match_data(dev);
+ 	ctx->supplies[0].supply = "positive5";
+ 	ctx->supplies[1].supply = "negative5";
+@@ -465,9 +467,6 @@ static int truly_nt35521_probe(struct mipi_dsi_device *dsi)
+ 			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_NO_EOT_PACKET |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
  
-@@ -206,9 +208,6 @@ static int sony_td4353_jdi_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 
--	drm_panel_init(&ctx->panel, dev, &sony_td4353_jdi_panel_funcs,
+-	drm_panel_init(&ctx->panel, dev, &truly_nt35521_panel_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
 -
- 	ret = drm_panel_of_backlight(&ctx->panel);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+ 	ctx->panel.backlight = truly_nt35521_create_backlight(dsi);
+ 	if (IS_ERR(ctx->panel.backlight))
+ 		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
 
 -- 
 2.48.1
