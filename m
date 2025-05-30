@@ -2,114 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2E2AC9604
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 21:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D2FAC9637
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 21:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF1210E1E0;
-	Fri, 30 May 2025 19:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6391510E206;
+	Fri, 30 May 2025 19:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="kyvE7PA7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bggFS6HF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (unknown [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A264410E1E0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:24:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1748633008; x=1749237808; i=markus.elfring@web.de;
- bh=YzuQuC7sn5PBb4ns91bPPloT1UdWXsXMfl5wY33MO64=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=kyvE7PA74L78Utz28nWNsZqamtts5b1StlC07tyCaBgVHjLaAdyPsAlTWl2KxcyV
- m5+BdhORHybz9qrCFDKFASbBwJggutJ78wO+54Fa7j13m1c9lNyHkO9xeSpE2DEpm
- DIbd1jPgdmPUsyTOv7HLEue5IIZkyNKJjHISO1O1cTGEWHawQ+Yyd4sdm46h8Uy2f
- HHG/y/YwrYsaoyR3+znWCkgblZC3ojed/mwT/D1SXN2oCJlKW9PQJe38qMhfOJo3i
- aacpjvQU19GO6gfHIwRw+jV4AHarnWfv4vNvbYbr5Yz3j+ZUgRSIi8NJ2VJJhOgIv
- wshZoUbh6ljMAmzP4Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.250]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MC0PP-1uBUwH1eIv-00CjAk; Fri, 30
- May 2025 21:23:28 +0200
-Message-ID: <cc0b88b2-c34a-4d19-a222-afc2cbfe8055@web.de>
-Date: Fri, 30 May 2025 21:23:15 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9A3610E206
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:52:18 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UJTwRC008028
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:52:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 5wtVXZefvNGmABNozAAxXAeSLf81avwgpSKrWz3+VYI=; b=bggFS6HFxyWgdYrV
+ DmwFHIlRT4dKCPvJuG/hUs+oudCoZn1I1CPwM+0zjmJ4VHuEK2HvOIjhiMs+XxXz
+ 7tRlzvxxr/pljLndpr0J5hb6G4UVvKBU5/PL7fFVTP1GxU9Edlu43u0NYuyUcQDJ
+ mxYSFTrbwpMsXwVXuGcfBYItqQHQWmyFNIegOFGsZuM3FuKGl21L2EBoUkYrOwGQ
+ DBawuOqLl0dBzt/vtBE9Fs+wmB8yq9s7ReEDnvBzF4GxQnxJ24MCL0R3c3lzOSoF
+ cUBLrNp0b+7CBMDE71z3XykysYguolj9QqiC6c45QMpuT8ZA0cMxojYlZeyB5ata
+ HbXQ9Q==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992vgb3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:52:18 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-311c5d9307eso2772924a91.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 12:52:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748634737; x=1749239537;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5wtVXZefvNGmABNozAAxXAeSLf81avwgpSKrWz3+VYI=;
+ b=NuS4hhgXCdbknohMuO5qFZ3dvfT7S+0XaSnUGwVZ7r5JCNSQlxHH9mpJkywRz/IC7y
+ AyRwLwsUUgExB0UxN0Nzx2zpIfAzogaEUP1BXpyrXUncsojIERFo0FgqbZvDaI8dOTif
+ ilxsp/AKuyu6mxkO5ByND7d+rR9xD+W/UHtQrEuNQ2uuL2EZ4/dhRCCtJ56fBx6+OmG2
+ /P5HPMHgfIEqGXLFNtLV1Wd8nKTaWZTOL5MaZkMvJILgQcAgAAuqkpMXMKQQth53T/lV
+ H4+iq9lPleOcZTBhXYQ+z94NHpQ0aPaldvGZYDiMmOdINkmU/9WG3UthwSfCf0dQWulo
+ dm5Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXICJAkSPVgSaU61sFTTG/Y3q2cxGcnRbPIixoS5MokJQ/jbQHtg3Ez2JDHcAQh39/symIUTrwiGBU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjvLIE0H3xRlvpG02oY74G/oMpQtOEiuqN0atxZ0+alNwnFln6
+ taMSmKS3cENQk9oae5hvRb09WqyVEoG6ZBgmycjMITUvghP/0YluNNhcZQ21U1XATYOjMVm7LvO
+ 9yiDWb8iM2u8PW4TECqsPvB3f8zMsc4NFfPqFnHX4vy8WmFIWn47iOgQq44aQDWMuhlhdlc8=
+X-Gm-Gg: ASbGncvzBhBwNKn0SQzXBxjj626BzEiozEFgZ9Dl7RXI/HblcjQi+zp7L5nqzERn4Wj
+ dlLVDkJczLE6DB5ykOWqmD5/WpJ+cpmeu/g/ZslDIkxamcYImX18HNtSHf3CmsvM6qX0Xv3nCv0
+ IWr5+Pe0J4q7iPsyZEw0nuH475wxTyLF8upGdkMjClXmVQ34yUKQ9iKl112MTmWvngzzdAYAqAo
+ tzFzeBOS4YWMqsRa5I0nPdaea05z5v6pck/q5M1Yrn1KdaTuJ9zccp4n8Pdmhl330HOYYBcr1pa
+ eJ2d7td2Z5S4nrqylVe8wlpJncyhKuelN1A6TtHAd0DqbpixP1EaDLxDdK+New==
+X-Received: by 2002:a17:90b:3d89:b0:311:ffe8:20e2 with SMTP id
+ 98e67ed59e1d1-312413f6036mr7124941a91.4.1748634737367; 
+ Fri, 30 May 2025 12:52:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3Z+FIqczFKtKeO5xYxp46pRCGdTc+LvOtstwBKAV9Rw7VYl85NP/udPc4+d8q1IAOBOTiIQ==
+X-Received: by 2002:a17:90b:3d89:b0:311:ffe8:20e2 with SMTP id
+ 98e67ed59e1d1-312413f6036mr7124920a91.4.1748634736959; 
+ Fri, 30 May 2025 12:52:16 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3124e399b3bsm1570703a91.31.2025.05.30.12.52.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 May 2025 12:52:16 -0700 (PDT)
+Message-ID: <fe868840-5718-468b-8539-105362914e75@oss.qualcomm.com>
+Date: Fri, 30 May 2025 13:52:15 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Oded Gabbay <ogabbay@kernel.org>, Rob Herring <robh@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
-Subject: Re: [PATCH v4 06/10] accel/rocket: Add IOCTL for BO creation
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HFzd8EbAUS7gPnlLaRPoXFKFCXHYM0+iZRfId96iz/pIETQ8DjB
- UwtJ045ZUn9fSfs7UUrsGBpuj7Y4TLmhMm4EQmGmFFQlLqpm94zvHttDB0OzNpTcHV3h4m5
- Z0dX2buTbBbXaQvkhcCN4TtazSW5QbEpdAvjOdbA4f1dMMQGEnhujbwaHYag+gWniKk4/hI
- 6TbhC2YmzO1aXvF7Ycyyw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:L1POOr7Oz40=;T/qhLYsi3B790BwpMqQVLmrI+qf
- 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
+Subject: Re: [PATCH v2] accel/ivpu: Fix warning in ivpu_gem_bo_free()
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: lizhi.hou@amd.com, stable@vger.kernel.org
+References: <20250528171220.513225-1-jacek.lawrynowicz@linux.intel.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250528171220.513225-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE3NiBTYWx0ZWRfXwrNhlouVqlMm
+ GmrM2XZzLMNfqxAXskSQE5bTpqdj+wwRwAzEDWcx2iJ2Q0o4XsYJ0V6DhWnO3WObzRmnMsur7la
+ ttqhwbBkHQ2+mIEcaMLfx9iP74hRCbjO1+7pKoh+B6kvjZ4w8fu3ODr9bK/mNs0pSRM4fFBmbIT
+ rdow1mZkZb66J5aS7YltTu9jkbzvLjglwIm8wW/IGAQNy01ENA3c+W6VJty8mDGJDvuEMSja6au
+ NZPVERWsRYQKzCuXT7NJTEvuGCSBMvWm0mlrfOEvmSSfzW3iPKNBT12igC4bKDd187uwm8fN6tJ
+ 7SNYc5EFy9AbOFdJzPcGhDfowFmXCJaPHYAQ/Dw7I5phBhASfiwwTB5qwMtFujrEqh8EkauAGZR
+ 1msy8Gr3JoUSzLmhQokQka7jCUy4fi+x38qN4Fp0Lxdi2KJ1N0wC/JOWea1sEkp3ODWcGBtw
+X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=683a0c72 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
+ a=EUspDBNiAAAA:8 a=xq6Wz9kLQhcqlbLk8JsA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: OBY0DdqQUtHD_VgZbMbC9XQOpUw_VZgh
+X-Proofpoint-ORIG-GUID: OBY0DdqQUtHD_VgZbMbC9XQOpUw_VZgh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_09,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=899 spamscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,26 +123,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/accel/rocket/rocket_gem.c
-> @@ -0,0 +1,131 @@
-=E2=80=A6
-> +static void rocket_gem_bo_free(struct drm_gem_object *obj)
-> +{
-=E2=80=A6
-> +	mutex_lock(&rdev->iommu_lock);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(&bo->base);
-=E2=80=A6
-> +	drm_gem_shmem_free(&bo->base);
-> +
-> +	mutex_unlock(&rdev->iommu_lock);
-> +}
-=E2=80=A6
+On 5/28/2025 11:12 AM, Jacek Lawrynowicz wrote:
+> Don't WARN if imported buffers are in use in ivpu_gem_bo_free() as they
+> can be indeed used in the original context/driver.
+> 
+> Fixes: 647371a6609d ("accel/ivpu: Add GEM buffer object management")
+> Cc: stable@vger.kernel.org # v6.3
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&rdev->iommu_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.15/source/include/linux/mutex.h#L201
-
-Regards,
-Markus
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
