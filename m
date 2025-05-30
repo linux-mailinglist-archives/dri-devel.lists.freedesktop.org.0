@@ -2,127 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A213DAC93BE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF9BAC941D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:59:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D5F10E7EA;
-	Fri, 30 May 2025 16:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABE4510E871;
+	Fri, 30 May 2025 16:59:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SYDzNE7+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ea4O0D0U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8A410E7EA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:42:07 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UApVci008059
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:42:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- dR7iDYHwxHQyVpZ0FR3nn7vovmsedDiyUz4cLKOAiXY=; b=SYDzNE7+O0bygCAE
- rlaLgorWaRZG5WEOWvfqnQUOYdEJO1GuvfPt9Hb91QRcE3DT1eUSvfAKAhSqNES1
- Qoou5l0Ji/ilQW4ccGpSqXFA8cGDsT6KmPwILCDbgVSyNI+skgZKvdR3f7BT+U+Q
- 2+VaRzZ9qp9aEA7/KDG6fFisGYzyorWjZ0RGb1IhbRIehf+lcRAwvkcvSHYfF2cv
- 8cikVvzVsf/LRiAAGUs9y7E/eVcdWe6fRAiPA8kPM3d+luxFOsY5BtFKBwz5QZZP
- BcV/lZKLJY9TqZW9q0WSVsvk7HqkrjdNiy3XVuAW3ADhOoWe/MBq8Afw0irEnyFx
- r/hmCQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46whufa7pq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:42:06 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7d099c1779dso320344385a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:42:06 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E8C10E1A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:59:12 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-3a37a243388so1849214f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748624351; x=1749229151; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vkdnsh3Xxo+Ft79KgRHH0heaPX+QG6uGdrT0HQYcCXA=;
+ b=ea4O0D0UesbXT5Y8x9a8XztP7UztfUdOR643Oar40+ACG+xstQLUVRVU6qjwGDfkDU
+ imWbVUBs84VkiRB0h0drMEusPHs99clt2JN4Jg9e5+MHsQvPNHXBvpMUXJ7UUl/u3xS2
+ HD+7GG7aO2TkiEJfCMS8wkWOgcm8aylCzWS6B00Hfg2rrs7bzZv2hLi4LjE861VJ60De
+ yZDcy+Ikcp1bRYVgEy9wcQ1R9nAUHjCMj6YrJMj6b6DyykvlmYr8IMHDEVGtS2ugxKP2
+ 9kcm1Ps/HPPFCVOR+qlhR7oZsA26qHnzGSx6Ywc20F8EjLXkDvx6nloCidmxFSXmKs89
+ Ymew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748623325; x=1749228125;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dR7iDYHwxHQyVpZ0FR3nn7vovmsedDiyUz4cLKOAiXY=;
- b=hLyHaju2KQo0JlDBxAw0Q9PtbGcaRPcbPuXQ3pEiY1q2s2SoEBEyg42DbmouxDbE0o
- pInSrYrgsop8Nrp9M7DXXOw15ku9RO2j1bejj30yeZLHPeYZQmDDQvNMwoS39V/mJ4i+
- Yqve0P+a2wivzIYbtZjfTFpQQvGGD+2qln1gR/UwgmOWA2VbVf50Y+JlIOdvgTg0KyO5
- 67PLOSD7QIVIFA7jGxfo8+45tykT0PKP4XRJllJTWzrm2neizZOjriWwudHu2elGCpl5
- p2Ok0JvuQH82pIkLQoZj2oqwQkzk3o184e2fr0Fo59tnDqFlaaa4TtZH/7p0aVWHMsIW
- FyCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYbnG23YtHs/vcOvOhWdVLprmpC5Fftr3f2Cq7tSlx34EkWgVg5VTA5gzx6lOp1F36wWmd0QmINzs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzsgwjwtutYabY2ueFVz5qR1uug0oTYvTjCUiazbED1UhYyykj
- UpD7t2jDlXDwCJnOpxsDqSa2oLFyO9STRJuNA7Nc9/jZ3sNWGwiwodbSSQSo1QY0H0MfQsgXqoi
- heexVQGssV5xWLM3X1adWrU8UaSUFOK1/ZImVvvx/GFoSEAZecQRLkA8l/4GlzhmAOV+qhK0=
-X-Gm-Gg: ASbGncucztsmnFYGwVr1xhWD6b9InHOv6fTpjzaoC0GtAq/uXuzH8pf0dQI5YiyK964
- pFdgsyZCYv1wPIgm5FUOiVRt/UsArJzbOoHsaQX9k+GITWHKOzLZ7tczklXTAC3Jp8KZ2jhn6Su
- UbODyEPygwJvhJSMdqeyFERePee7XW38QbaaDRx7XRq2AwgqC7M679XNs7e0WTWHRIUKISbK6f+
- ZzjX+YgRJKnf2eNYzAeY5ldQ09tJbo7PiqIswPuYNamTU32ddrq5Anwdzg3blnrlf12WLJJWWdV
- GEIJ3prOI5E9hc2MkOFYm1qjDHgQOOFAZ3TywRjcycA1bycj6L8JEERBoadifYhAtjauTMJbbG0
- hsv7j3cy87A==
-X-Received: by 2002:a05:620a:40d4:b0:7c0:b523:e1b6 with SMTP id
- af79cd13be357-7d0a49e7ba2mr373934285a.11.1748623325369; 
- Fri, 30 May 2025 09:42:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHmLJH2eYXh48Y1EMT6w54qghRK+Ixc8oH91zfHpViI5rEh5CCU1ZanUtnkUIi0JSYuzlqzYg==
-X-Received: by 2002:a05:620a:40d4:b0:7c0:b523:e1b6 with SMTP id
- af79cd13be357-7d0a49e7ba2mr373932285a.11.1748623324980; 
- Fri, 30 May 2025 09:42:04 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ d=1e100.net; s=20230601; t=1748624351; x=1749229151;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vkdnsh3Xxo+Ft79KgRHH0heaPX+QG6uGdrT0HQYcCXA=;
+ b=iBdZgo8Nrm956V2Vr1PQQ4UoKCKQ66hdb7dRV/URl4IyVu0SV6YHztyPKcfJDCzlrR
+ FlYel1ELyy3Qdx8X6jgaex/8HZvRta9orT9omsstHSFHntt1admMTRXdd1JDyeA/6+uj
+ cjG750Cw5hNMrS51idUSgRFGu9wdvEncv9OaU1Q+uHrnozJtzplr7OynWSxMQf76nOi4
+ 11gYUJxQS1+iNvL1gfTJvwhb0Qamx16eZaY4drclhI6WFw8rcTsMFwB3U8TigHtyDqUg
+ tU/qfOPxrN46UJh0JvtHSdyTcYVoa08UjuMcu1SI1QN0fmEcsM/IcXE+E8JnWQv3kb4D
+ yq8w==
+X-Gm-Message-State: AOJu0YxqcI49ZJxOYye5S0ZaOajiJlWiKUICY3vIWU7PxpiYxwLBo/lo
+ 2/j3H+WrCdtpptM9Xy1vgAg3Kzrd8YBSxAlXl56LFPeEbC3eI5lFcrxz
+X-Gm-Gg: ASbGncuzoNBKCWwGrwO/hRfB4iIrRidG8gmeTX+Dn/nJXl1lNENoQDpgSjQYDaUUYPu
+ WnexHWDoiMCXaKVDV78B47DRv80sT4hEl1UjhPpy8mcJr5lDlnGBxiLErexw63S4s5hImuy7noU
+ Al9y6IHZrXu6qQsr+rzg/AsyXHv+43P8p2xNRTVsrDeLXfMDUMssfqDzyIUSyFMwit55npbNFwc
+ QjjfcpSe36kck94o2+z8/+jgTF22/CxPIzoh6vytEy8B3eAD6MDv7fr07ymQIhMVVIZstOUc40t
+ WcuhxVAJxBEdD5z8o4+tHGZzFaZbuhSeo95Dp+00bikKcL2JSaoiQFbwkt5EZlcNQ5rbXRBxPnt
+ sZb+uAmlwWQ==
+X-Google-Smtp-Source: AGHT+IEMdCh9bMOyoUceDJJDejeSDUZ4ZYwhPF0Vjns3pxUtXH1NXJj6z9RwihvUpQ4S/igJjH4hCw==
+X-Received: by 2002:a05:6000:220b:b0:3a4:f50a:bd5f with SMTP id
+ ffacd0b85a97d-3a4f7a825a2mr3097258f8f.31.1748624350952; 
+ Fri, 30 May 2025 09:59:10 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:bcab:7ec7:2377:13b0])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32a85bd2e1dsm6556581fa.100.2025.05.30.09.42.03
+ 5b1f17b1804b1-450d7f9efa3sm22733455e9.9.2025.05.30.09.59.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 09:42:04 -0700 (PDT)
-Date: Fri, 30 May 2025 19:42:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-3-quic_jseerapu@quicinc.com>
- <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
- <3aa92123-e43e-4bf5-917a-2db6f1516671@quicinc.com>
- <a98f0f1a-d814-4c6a-9235-918091399e4b@oss.qualcomm.com>
- <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
- <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
- <5ed77f6d-14d7-4b62-9505-ab988fa43bf2@quicinc.com>
+ Fri, 30 May 2025 09:59:10 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Prabhakar <prabhakar.csengg@gmail.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 00/12] Add DU support for RZ/V2H(P) SoC
+Date: Fri, 30 May 2025 17:58:54 +0100
+Message-ID: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5ed77f6d-14d7-4b62-9505-ab988fa43bf2@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=OslPyz/t c=1 sm=1 tr=0 ts=6839dfde cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=dt9VzEwgFbYA:10 a=hMb-uB02kSkghMJ30ZAA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: ol_n9eyx0gU12Bmmc7gAwl3eyE-1Ahpd
-X-Proofpoint-GUID: ol_n9eyx0gU12Bmmc7gAwl3eyE-1Ahpd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE0NyBTYWx0ZWRfX/Aj6+7jvF9eP
- 7RHLunSz367umn2MgCoY6IZbH6Jtrc5JRvZcEiz+gLYHPRbcz+vAryglAv12efYxRwHOLX50kZg
- CjjRXymp+xEAfQQpkEIvwDHhG0ZpSCkRedlA+F2kvNZ8Noa45/WWvw9ITrwMVlGlbs2XJK6YPyi
- rQz8shuX0/5Kc1z+Hetra6f36R7Z3u2pl5T9+nkj4K9BnXYPyPdF7rOMSDwaUr3nIJycrLea7xs
- oszOprWjDP2ZJvNs69nz+fqaMicvOpnmP6a5BMVClsSaaNZQkq6yhjzH+4zon86jfXuMAGyoBGI
- 9HjZm6XyK+EZuPZ3bTezUkeNRb3mHwr1q1GFCcyp56lqHQRaj2m7KYZuiOf4N5pYbgQ87le2lgN
- u9Kh6zJr7nqQwez7ymGZTCwEh4YxSyh80OD2TuCPhzcj1XqkUza9cKUIEMU5+7yjAp/MSNc8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0
- spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,136 +97,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 07:36:05PM +0530, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 5/21/2025 6:15 PM, Dmitry Baryshkov wrote:
-> > On Wed, May 21, 2025 at 03:58:48PM +0530, Jyothi Kumar Seerapu wrote:
-> > > 
-> > > 
-> > > On 5/9/2025 9:31 PM, Dmitry Baryshkov wrote:
-> > > > On 09/05/2025 09:18, Jyothi Kumar Seerapu wrote:
-> > > > > Hi Dimitry, Thanks for providing the review comments.
-> > > > > 
-> > > > > On 5/6/2025 5:16 PM, Dmitry Baryshkov wrote:
-> > > > > > On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > > > > The I2C driver gets an interrupt upon transfer completion.
-> > > > > > > When handling multiple messages in a single transfer, this
-> > > > > > > results in N interrupts for N messages, leading to significant
-> > > > > > > software interrupt latency.
-> > > > > > > 
-> > > > > > > To mitigate this latency, utilize Block Event Interrupt (BEI)
-> > > > > > > mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> > > > > > > generation and BEI is disabled when an interrupt is necessary.
-> > > > > > > 
-> > > > > > > Large I2C transfer can be divided into chunks of 8 messages internally.
-> > > > > > > Interrupts are not expected for the first 7 message completions, only
-> > > > > > > the last message triggers an interrupt, indicating the completion of
-> > > > > > > 8 messages. This BEI mechanism enhances overall transfer efficiency.
-> > > > > > 
-> > > > > > Why do you need this complexity? Is it possible to set the
-> > > > > > DMA_PREP_INTERRUPT flag on the last message in the transfer?
-> > > > > 
-> > > > > If i undertsand correctly, the suggestion is to get the single
-> > > > > intetrrupt for last i2c message only.
-> > > > > 
-> > > > > But With this approach, we can't handle large number of i2c messages
-> > > > > in the transfer.
-> > > > > 
-> > > > > In GPI driver, number of max TREs support is harcoded to 64 (#define
-> > > > > CHAN_TRES   64) and for I2C message, we need Config TRE, GO TRE and
-> > > > > DMA TREs. So, the avilable TREs are not sufficient to handle all the
-> > > > > N messages.
-> > > > 
-> > > > It sounds like a DMA driver issue. In other words, the DMA driver can
-> > > > know that it must issue an interrupt before exausting 64 TREs in order
-> > > > to
-> > > > 
-> > > > > 
-> > > > > Here, the plan is to queue i2c messages (QCOM_I2C_GPI_MAX_NUM_MSGS
-> > > > > or 'num' incase for less messsages), process and unmap/free upon the
-> > > > > interrupt based on QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-> > > > 
-> > > > Why? This is some random value which has no connection with CHAN_TREs.
-> > > > Also, what if one of the platforms get a 'liter' GPI which supports less
-> > > > TREs in a single run? Or a super-premium platform which can use 256
-> > > > TREs? Please don't workaround issues from one driver in another one.
-> > > 
-> > > We are trying to utilize the existing CHAN_TRES mentioned in the GPI driver.
-> > > With the following approach, the GPI hardware can process N number of I2C
-> > > messages, thereby improving throughput and transfer efficiency.
-> > > 
-> > > The main design consideration for using the block event interrupt is as
-> > > follows:
-> > > 
-> > > Allow the hardware to process the TREs (I2C messages), while the software
-> > > concurrently prepares the next set of TREs to be submitted to the hardware.
-> > > Once the TREs are processed, they can be freed, enabling the software to
-> > > queue new TREs. This approach enhances overall optimization.
-> > > 
-> > > Please let me know if you have any questions, concerns, or suggestions.
-> > 
-> > The question was why do you limit that to QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-> > What is the reason for that limit, etc. If you think about it, The GENI
-> > / I2C doesn't impose any limit on the number of messages processed in
-> > one go (if I understand it correctly). Instead the limit comes from the
-> > GPI DMA driver. As such, please don't add extra 'handling' to the I2C
-> > driver. Make GPI DMA driver responsible for saying 'no more for now',
-> > then I2C driver can setup add an interrupt flag and proceed with
-> > submitting next messages, etc.
-> > 
-> 
-> For I2C messages, we need to prepare TREs for Config, Go and DMAs. However,
-> if a large number of I2C messages are submitted then may may run out of
-> memory for serving the TREs. The GPI channel supports a maximum of 64 TREs,
-> which is insufficient to serve 32 or even 16 I2C messages concurrently,
-> given the multiple TREs required per message.
-> 
-> To address this limitation, a strategy has been implemented to manage how
-> many messages can be queued and how memory is recycled. The constant
-> QCOM_I2C_GPI_MAX_NUM_MSGS is set to 16, defining the upper limit of
-> messages that can be queued at once. Additionally,
-> QCOM_I2C_GPI_NUM_MSGS_PER_IRQ is set to 8, meaning that
-> half of the queued messages are expected to be freed or deallocated per
-> interrupt.
-> This approach ensures that the driver can efficiently manage TRE resources
-> and continue queuing new I2C messages without exhausting memory.
-> > I really don't see a reason for additional complicated handling in the
-> > geni driver that you've implemented. Maybe I misunderstand something. In
-> > such a case it usually means that you have to explain the design in the
-> > commit message / in-code comments.
-> > 
-> 
-> 
-> The I2C Geni driver is designed to prepare and submit descriptors to the GPI
-> driver one message at a time.
-> As a result, the GPI driver does not have visibility into the current
-> message index or the total number of I2C messages in a transfer. This lack
-> of context makes it challenging to determine when to set the block event
-> interrupt, which is typically used to signal the completion of a batch of
-> messages.
-> 
-> So, the responsibility for deciding when to set the BEI should lie with the
-> I2C driver.
-> 
-> If this approach is acceptable, I will proceed with updating the relevant
-> details in the commit message.
-> 
-> Please let me know if you have any concerns or suggestions.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-- Make gpi_prep_slave_sg() return NULL if flags don't have
-  DMA_PREP_INTERRUPT flag and there are no 3 empty TREs for the
-  interrupt-enabled transfer.
+Hi All,
 
-- If I2C driver gets NULL from dmaengine_prep_slave_single(), retry
-  again, adding DMA_PREP_INTERRUPT. Make sure that the last one always
-  gets DMA_PREP_INTERRUPT.
+This patch series adds support for the Display Unit (DU) and prepares
+the MIPI DSI driver to support the Renesas RZ/V2H(P) SoC. These patches
+were originally part of series [0], but I have split them into two parts
+to make them easier to review and merge.
 
-- In geni_i2c_gpi_xfer() split the loop to submit messages until you
-  can, then call wait_for_completion_timeout() and then
-  geni_i2c_gpi_unmap() for submitted messages, then continue with a new
-  portion of messages.
+This patch series does not have any clock dependencies, so it can be
+merged independently via the DU tree. The remaining patches from series
+[0] will be sent as a follow-up series, which can be merged via the
+Clock/DU tree as they have dependencies on the clock driver.
+
+[0] https://lore.kernel.org/all/20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+v5->v6:
+- Added reviewed tag from Biju and Laurent
+- Updated commit messages
+- Dropped parentheses around the calculation
+- Added min_dclk above max_dclk in rzg2l_mipi_dsi_hw_info
+- Renamed dphy_late_init to dphy_startup_late_init
+
+v4->v5:
+- Split up the series
+- Added Reviewed-by tag from Biju
+- Dropped feature flags for reset and LPCLK
+- Patch 07/12 is new.
+
+v3->v4:
+- Corrected parameter name in rzv2h_dsi_get_pll_parameters_values()
+  description freq_millihz
+- Used MILLI instead of KILO
+- Made use of mul_u32_u32() for multiplication
+- In rzv2h_dphy_find_ulpsexit() made the array static const.
+
+v2->v3:
+- Update the commit message for patch 1/15 to clarify the purpose
+  of `renesas-rzv2h-dsi.h` header
+- Used mul_u32_u32() in rzv2h_cpg_plldsi_div_determine_rate()
+- Replaced *_mhz to *_millihz for clarity
+- Updated u64->u32 for fvco limits
+- Initialized the members in declaration order for
+  RZV2H_CPG_PLL_DSI_LIMITS() macro
+- Used clk_div_mask() in rzv2h_cpg_plldsi_div_recalc_rate()
+- Replaced `unsigned long long` with u64
+- Dropped rzv2h_cpg_plldsi_clk_recalc_rate() and reused
+  rzv2h_cpg_pll_clk_recalc_rate() instead
+- In rzv2h_cpg_plldsi_div_set_rate() followed the same style
+  of RMW-operation as done in the other functions
+- Renamed rzv2h_cpg_plldsi_set_rate() to rzv2h_cpg_pll_set_rate()
+- Dropped rzv2h_cpg_plldsi_clk_register() and reused
+  rzv2h_cpg_pll_clk_register() instead
+- Added a guard in renesas-rzv2h-dsi.h header
+- Reverted CSDIV0_DIVCTL2() to use DDIV_PACK()
+- Renamed plleth_lpclk_div4 -> cdiv4_plleth_lpclk
+- Renamed plleth_lpclk -> plleth_lpclk_gear
+- Collected reviewed tag from Krzysztof for patch 3/15
+- Dropped !dsi->info check in rzg2l_mipi_dsi_probe() as it
+  is not needed.
+- Simplified V2H DSI timings array to save space
+- Switched to use fsleep() instead of udelay()
+
+v1->v2:
+- Rebased the changes on top of v6.15-rc1
+- Kept the sort order for schema validation
+- Added  `port@1: false` for RZ/V2H(P) SoC
+- Added enum for RZ/V2H as suggested by Krzysztof as the list
+  will grow in the future (while adding RZ/G3E SoC).
+- Added Reviewed-by tag from Biju and Krzysztof.
+- Replaced individual flags as reset flag
+- Dropped unused macros
+- Added missing LPCLK flag to rzvv2h info
+- Dropped FCP and VSP documentation patch and sent them separately
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (12):
+  dt-bindings: display: renesas,rzg2l-du: Add support for RZ/V2H(P) SoC
+  drm: renesas: rz-du: Add support for RZ/V2H(P) SoC
+  drm: renesas: rz-du: mipi_dsi: Add min check for VCLK range
+  drm: renesas: rz-du: mipi_dsi: Simplify HSFREQ calculation
+  drm: renesas: rz-du: mipi_dsi: Use VCLK for HSFREQ calculation
+  drm: renesas: rz-du: mipi_dsi: Add OF data support
+  drm: renesas: rz-du: mipi_dsi: Make "rst" reset control optional for
+    RZ/V2H(P)
+  drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY frequency
+    calculations
+  drm: renesas: rz-du: mipi_dsi: Add feature flag for 16BPP support
+  drm: renesas: rz-du: mipi_dsi: Add dphy_late_init() callback for
+    RZ/V2H(P)
+  drm: renesas: rz-du: mipi_dsi: Add function pointers for configuring
+    VCLK and mode validation
+  drm: renesas: rz-du: mipi_dsi: Add support for LPCLK clock handling
+
+ .../bindings/display/renesas,rzg2l-du.yaml    |  23 ++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  11 ++
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 144 ++++++++++++++----
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |   2 -
+ 4 files changed, 146 insertions(+), 34 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.49.0
+
