@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97E6AC8C05
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C935AC8C04
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFD110E7DA;
-	Fri, 30 May 2025 10:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C2110E7D1;
+	Fri, 30 May 2025 10:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F012610E0A9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:21:03 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.163])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4b7zNs4wm4z27jJR;
- Fri, 30 May 2025 18:04:29 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 5F5AD18005F;
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1070310E0A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:20:20 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4b7zLh3870z23jVV;
+ Fri, 30 May 2025 18:02:36 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id E26AB140113;
  Fri, 30 May 2025 18:03:39 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.11; Fri, 30 May 2025 18:03:39 +0800
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 30 May 2025 18:03:38 +0800
+ 15.2.1544.11; Fri, 30 May 2025 18:03:39 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -36,16 +36,16 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <shaojijie@huawei.com>, <jani.nikula@linux.intel.com>,
  <dmitry.baryshkov@oss.qualcomm.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm-dp 09/10] drm/hisilicon/hibmc: fix HPD no showing with VGA
- para of GRUB
-Date: Fri, 30 May 2025 17:54:31 +0800
-Message-ID: <20250530095432.1206966-10-shiyongbang@huawei.com>
+Subject: [PATCH drm-dp 10/10] drm/hisilicon/hibmc: fix no showing problem with
+ loading hibmc manually
+Date: Fri, 30 May 2025 17:54:32 +0800
+Message-ID: <20250530095432.1206966-11-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250530095432.1206966-1-shiyongbang@huawei.com>
 References: <20250530095432.1206966-1-shiyongbang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.169.71.169]
 X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
  kwepemq100007.china.huawei.com (7.202.195.175)
@@ -66,50 +66,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-In early OS versions， there is a bug in hibmc-drm driver previously,
-so some OS add a VGA parameter in GRUB(video=VGA-1:640x480-32@60me) to
-fix the bug, that will config a force VGA mode to drm driver. However, the
-HPD problem exists that mentioned in previous patch, so change VGA's status
-in force() to compatible with some older OS versions.
+When using command rmmod and insmod, there is no showing in second time
+insmoding. Because DP controller won't send HPD signals, if connection
+doesn't change or controller isn't reset. So add reset before unreset
+in hibmc_dp_hw_init().
 
-Fixes: f9698f802e50 ("drm/hisilicon/hibmc: Restructuring the header dp_reg.h")
+Fixes: 94ee73ee3020 ("drm/hisilicon/hibmc: add dp hw moduel in hibmc driver")
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 73dd3d5fc26c..d609ccda2f2a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -61,6 +61,19 @@ static int hibmc_vdac_detect(struct drm_connector *connector, struct drm_modeset
- 	return connector_status_connected;
- }
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+index 4f93d60b932b..e1b9589ce639 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+@@ -172,13 +172,15 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
+ 	dp_dev->link.cap.lanes = 0x2;
+ 	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
  
-+static void hibmc_vdac_force(struct drm_connector *connector)
-+{
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(connector->dev);
-+	struct hibmc_dp *dp = &priv->dp;
-+
-+	if (dp->hpd_status) {
-+		connector->status = connector_status_disconnected;
-+		return;
-+	}
-+
-+	connector->status = connector_status_connected;
-+}
-+
- static void hibmc_connector_destroy(struct drm_connector *connector)
- {
- 	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
-@@ -81,6 +94,7 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+	.force = hibmc_vdac_force,
- };
+-	/* hdcp data */
+-	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
+ 	/* int init */
+ 	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
+ 	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
+ 	/* rst */
++	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
++	usleep_range(30, 50);
+ 	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
++	/* hdcp data */
++	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
+ 	/* clock enable */
+ 	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
  
- static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
 -- 
 2.33.0
 
