@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5B1AC965E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 22:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6CBAC9669
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 22:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5493B10E217;
-	Fri, 30 May 2025 20:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5575510E233;
+	Fri, 30 May 2025 20:13:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZPEUiZLX";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cfirfARK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6CF10E217
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:09:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UJQZqG008586
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:09:11 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E3710E22C
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:13:09 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAwRS9014001
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:13:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Lr5s1xj96hvEFSJoflxlO+2R
- 6/H8h+Vs7x/BcGRAh5w=; b=ZPEUiZLX0xEsu7cUxMGrgpsmKWPYkQKTrf6Gat7j
- YmbnegfBHv6QaLORxcFpIpyRcT6nZ5MJoycaIyecuZpHrfEoe+VU0QOTmR4wbDBd
- 7vQPESwRM2cTMbdrIUUpwjMyorH35adtmZqSrKsWTNLN3Q8pAV3d5JLOsHuN3I2n
- imKgrL7VgGZva380fFwysHidSFwi+UgBVtPuTeHhTUYcKk/BtI0L8GZYTXeA9UKV
- Wf0Q17X/UKHT7S6SM2DkB7Q+IFHA9Bcm4XLBQqeo8ouDHxkm1/KE7jnrTWOVL8ju
- BVXPwK4YDCykilNmxlcI5EUXISLc3kLCJBFLiUw6VX5OfA==
+ :references:subject:to; s=qcppdkim1; bh=OadsK1rEyJ0H/6UeuCVG3zTO
+ 8HatytaJI7W16ZL8R1U=; b=cfirfARKU95wLmTLhM1DWv+6hCK9/XU6ApM7UDVy
+ /MfEZhGslm/IOaZTSrX0RSap2IMua3gcVB8bpiQGgwIuaqWpidbq7kcSPVdtgxFe
+ Q5/8GWxXK2tj0oWHgLVqg8TIzcjbyYZcp74YKStItp1gQSL43zmZb3jWvNJmY8YO
+ AlwXClASF304pV8ET2tDoIN/C49C0TmXVgslCkQ+OANDjhqs91g4shygvwKBBvKL
+ oOX16ZjdGC7ufWfbwWQY/oYI/6UOXDv0yuXMYuXHYpfzFqMYimp+50gefeLgBRw9
+ AjJIFW/lHOULrVJ2tgGJt8gYXTv1Jv/tbi+YX7GpiHSn4A==
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
  [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992vje9-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46wavm4brj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:09:11 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 20:13:08 +0000 (GMT)
 Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7caee990722so399500885a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 13:09:11 -0700 (PDT)
+ af79cd13be357-7c760637fe5so374590885a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 13:13:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748635750; x=1749240550;
+ d=1e100.net; s=20230601; t=1748635987; x=1749240787;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Lr5s1xj96hvEFSJoflxlO+2R6/H8h+Vs7x/BcGRAh5w=;
- b=RbUjBiYOKhPLjq6wbvV4NkFO7giMqN1FRBbqQG4P/bNLpsnFNTFxbJaxRDiPaTQ0YO
- XrL7Lm+4q6RJ3uVfUgeAJfJpQRxAOsPCpG1IlLBiGBupDuUWWjkanQ+vQRfs1UbAG1ce
- oSbG9XV0TAonRKXOwxSCqbx7Xlab1SeibgOzFA330ZOT5eFFrexnlR3hHRBGG3rFhyWT
- Q1XQx7LMJWhtorg1Ao8S1RyQF4wUE1Q9fUSvNL8HtnPMWXn2Uun25LIQaF3Zya3mBh/3
- SD0VvUxIuTljQeaiBes6ETwheVYoQxEhlMN/RvqqHzI+YubFQ6p2QbvgLUQKLVRvFjaA
- 2jVQ==
+ bh=OadsK1rEyJ0H/6UeuCVG3zTO8HatytaJI7W16ZL8R1U=;
+ b=ho+uXnZlpg52FgB05JBZwn+B1lFLymnldeefsvTddtmhT82fcvmKIFQT20ZWhrkDxF
+ Gq1JNvTd/NBQzXt1Z77FK0puavg31ibUGO7eDt2ayxkFjm60nkWpZYpyiGP8JMePJ4IX
+ WQ0+1XNRH/QiunCrshTwG87daGHIllAAAduTP3XlUh5SzDZAIVzxomjrUDmzIODXVBys
+ Fbb5jdJUp7G4H7aea9mNaKrYsdBHt4HEj7mncwYffRfriIfYTh0eIIK9cviqrQhBcDY/
+ ldEUbKghZ3guooGK0+DMczuVkfmUb4uicSRjY62SD4wyFelskAYowjORZq8+0wZfpOTx
+ 4ElQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVmGNpQMVsuPXYwBUi95XI94lNbOahWvfR6gUsamByZZ3+0OvblQItHpRVdG4sqLq1vjg71iXWd9E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfQ1872m80ZwUlZOKMjMx8h9nxp9p7Z0IfuikKe2T0KBa1ypIN
- nhzW4yStXae6HKH3z6IRubWYpSUfKhd/wQ6d8AYZcq9/bq5rfhKwf3Y+j62xBNjfv5AYOJSOrdR
- Fd0TEOECZnwXoH7Qgbut31lY5LghFumKLOfysX7gLL+gatjgX8QI4aQ81NeGqs0RK0h+yhtY=
-X-Gm-Gg: ASbGncuejj9WfA7IFXjZNL6yuGYAbCRZ20mW2wCdvPrMlAOtUn9WvujhurSTZZLsJ5K
- 35mAjUtTBO7i7zBWMRv48gIbwLvrfbXuxLn+zrlNT6kMEK74tv2HV12JhYwPdqymgg+aPkpCP9z
- wrxwxhN++jLA5DG+pwVFj/WL+v3rhg/pHZzOYU8AYOrJfWjD683UF9tc4Acv/9O/f/WYkh3+xZm
- nDXJiALGeAaQNJP3Qlx8vhHvoR8+x0VjvVlL8dDwAH0p4htjrlAsYyqoFABC82fzXwGKwVRMeJn
- zUvJ7+NDWQlf3zJPagk9XYQFilaYr6MfaLlLLzvnmUYqwS2qzJTKiF+CMytluwo9vfVoA2pf4WO
- IMzD7VYLwsQ==
-X-Received: by 2002:a05:620a:31a2:b0:7ca:dac1:a2d9 with SMTP id
- af79cd13be357-7d0a4c457cemr505535585a.28.1748635750290; 
- Fri, 30 May 2025 13:09:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGxr8DtUZE4WLzMYtnDXmRGwCGjTFx8RDkihvU7FdNCuG8qkr/d30/DYFr7JUuCHRCg7VWeAQ==
-X-Received: by 2002:a05:620a:31a2:b0:7ca:dac1:a2d9 with SMTP id
- af79cd13be357-7d0a4c457cemr505529485a.28.1748635749833; 
- Fri, 30 May 2025 13:09:09 -0700 (PDT)
+ AJvYcCU6TavsDAMWIv/1E3bJ/OseeWF6KWZmGBBmhNpV8YtsIuz7GPMsTtrDwHceSgUf0XNzBL/42ZB6DzU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmQF55MmyHSr717wlpL7jA6sPptEhFiGZqzW9CPs9dxaHyjz7I
+ keIPwpU104dkx5Hiku++7cHW8gQAaMXst5taie101mp5aP5U8T20llh/DD/LJKYMncCMTC//RI2
+ 3jIK4IMP6Epija2ONKYOMHDrEP2bUJqlbpcB1Pvmq6a9noA0sSySywn9liYPuM9xUYrlE2hI=
+X-Gm-Gg: ASbGncuQZJYxSKMLp19RlYI1lKczcBIgQ840uYFVp/dwNiKbG0MHuBo6/OAzwgQKjUE
+ ioEbHvXpqUWkaMnzDItxhsn9HLIh/2lwJDejoa3HkPTEFEWz5mXGPCMmaMzLjjgUkI4ty/f0mJd
+ P2RvbthyDv+8WVjEBuAceRyf63Ft9eeN3vL7ztcr7npsqfqjcf4E/rcc/WF/tEE1Zten1sEnoME
+ Y7d5BagjoH5e0BFzIh1ITuBkuZJESbyeRPz543VU6i3b7D4ENHxZ4c0lPEGBCNHot/c9bKdUofj
+ 3+NkiW3ML5l6y7juVTSDYRGE34EeATiH1xikFXnJqOmOwoxHMw0DVytQ+E1LRE/6GWMavHzuePU
+ =
+X-Received: by 2002:a05:620a:2796:b0:7c5:5d4b:e62f with SMTP id
+ af79cd13be357-7d0a2016d83mr732917885a.43.1748635987451; 
+ Fri, 30 May 2025 13:13:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGAE89MTxPgWdO4i0WDxPat+2lBREnl7QdMY9f1fr5cgF/Pe+0swZFpwTEUR+ykqh7B7ZTwzg==
+X-Received: by 2002:a05:620a:2796:b0:7c5:5d4b:e62f with SMTP id
+ af79cd13be357-7d0a2016d83mr732912785a.43.1748635987070; 
+ Fri, 30 May 2025 13:13:07 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55337910df8sm812496e87.139.2025.05.30.13.09.07
+ 38308e7fff4ca-32a85bc507csm7159961fa.71.2025.05.30.13.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 13:09:08 -0700 (PDT)
-Date: Fri, 30 May 2025 23:09:05 +0300
+ Fri, 30 May 2025 13:13:06 -0700 (PDT)
+Date: Fri, 30 May 2025 23:13:04 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -93,35 +93,35 @@ Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org, Yongxing Mou <quic_yongmou@quicinc.com>
-Subject: Re: [PATCH v2 3/5] dt-bindings: display/msm: drop
- assigned-clock-parents for dp controller
-Message-ID: <pxo635637l45rxb5fgnmopq5jbs7lp2hd736mwrqt6jfgvw75g@kmc7rqxu6oyh>
+Subject: Re: [PATCH v2 4/5] dt-bindings: display/msm: add stream 1 pixel
+ clock binding
+Message-ID: <lrrq7cj3kw5sk7y4wjvbdvjf5qu3cwbhreod2twttvejcxtfzd@eygjcarxxd7m>
 References: <20250530-dp_mst_bindings-v2-0-f925464d32a8@oss.qualcomm.com>
- <20250530-dp_mst_bindings-v2-3-f925464d32a8@oss.qualcomm.com>
+ <20250530-dp_mst_bindings-v2-4-f925464d32a8@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250530-dp_mst_bindings-v2-3-f925464d32a8@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE4MCBTYWx0ZWRfX48sO2SMd50+b
- 5LnlAe9tNefiBpqlpCuUswBVUN9AfwtMIkVV7e3uVQP5f6X/ieVp13fyPrijF8OovOiLmBbxaD9
- uCgVblGtsTgXQa8PABBunh+HeSmQKv42zGKaMC+CnkF5M8vXmAOBLAAcCx9OOesWgjjniRynnoX
- Aii/i1RuhYMFhlYUBnbsupeVFmYde7C9sxjXmTlBjYWE82TKUrKZn9YD9fhn8cKRplP+DA+UIy0
- VKJ8WXKAaFHf4MSwRBEl5IRCgYXxq2ET8ZK3qf/YP8WYGwXgAejtRP3S2rzjAaIbL0hTItGTy0T
- QEI84m1IAhpR5ZtQLOEnEguTI+GaqaWy788x2gJJkNMYvVjNBYQKF1ngs3fZrZfF6Sv7ImYpn1D
- FZZR+BgIbS8N+OuUGhzW0nTrR5hkvfVfzOEolBcoEpHpy0rj8Xf1zcUaRrCnowD/RAZXqZTr
-X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=683a1067 cx=c_pps
+In-Reply-To: <20250530-dp_mst_bindings-v2-4-f925464d32a8@oss.qualcomm.com>
+X-Proofpoint-GUID: S2FJxjtFHFaoys8unaGYc8stNQNXv9dZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE4MCBTYWx0ZWRfX66chnBWt0Grv
+ SFdjgcFAYZQvx36rs7sRJn5/WyRP4L5kh/IL8yRfMIQekhmRS630bdH3XQlzGvs7xZPPs3rveaI
+ WL1IG+zwRKrjoMNGiszw+VTcNGZkn6ho+WHlKlziB9CtzWgubHPEE1ezcGpo84EqY8rbrIz+8Ux
+ rZ89HGk4fuW2MxKw4TnZf3KNg9DQu4SIg1du/fXfO2pH5iShnNMb76nizJDH5I20CtkgNHmUgYb
+ NJtStNhEMlijHePWZi41OLXZCNXvyU2mI0kbbOip8OVp17UHyQgklwswhA7obkC8ABAnFTRU58E
+ 7jlhKqcoQhoRK1ko5eVOPIzKlC5knxtxNywbynWJ5DiNUwuvj+m6yt7r7MCjVrUPwzwC29UALTr
+ SFe50XBzQK6rqtRDed7CYP8vOwtXL6JRVnllRw00VuDskqfBg8QVMP3dts9b30d3yVRIcQKo
+X-Authority-Analysis: v=2.4 cv=fMk53Yae c=1 sm=1 tr=0 ts=683a1154 cx=c_pps
  a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=MHIm7bi-knHlpQ7IpJwA:9
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=s_08DJon4HIwgivb4r0A:9
  a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: j6IymRSSGLDgxBfoxlmf7mWYEr0ogfH5
-X-Proofpoint-ORIG-GUID: j6IymRSSGLDgxBfoxlmf7mWYEr0ogfH5
+X-Proofpoint-ORIG-GUID: S2FJxjtFHFaoys8unaGYc8stNQNXv9dZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-30_09,2025-05-30_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=940 spamscore=0
- adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ malwarescore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
  definitions=main-2505300180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,130 +139,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 10:47:26AM -0700, Jessica Zhang wrote:
+On Fri, May 30, 2025 at 10:47:27AM -0700, Jessica Zhang wrote:
 > From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> Current documentation of assigned-clock-parents for dp controller does not
-> describe its functionality correctly making it harder to extend it for
-> adding multiple streams.
+> On some chipsets such as qcom,sa8775p-dp, qcom,sm8650-dp and some more,
+> the display port controller can support more than one pixel stream
+> (multi-stream transport).
 > 
-> Instead of fixing up the documentation, drop the assigned-clock-parents
-> along with the usages in the chipset specific MDSS yaml files.
+> To support MST on such chipsets, add the binding for stream 1 pixel
+> clock for display port controller.
 
-Don't we need to drop assigned-clocks too? One doesn't really make sense
-without another.
+If I remember correctly, some of these chipsets support more than 2 MST
+streams, which means more than 1 additional pixel clock. Could you
+please clarify this?
 
+If so, can we please describe all clocks, so that we don't have to
+return back to the topic.
+
+> 
+> Since this mode is not supported on all chipsets, add exception
+> rules and min/max items to clearly mark which chipsets support
+> only SST mode (single stream) and which ones support MST.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 > ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml   | 7 -------
->  .../devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml         | 1 -
->  .../devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml        | 2 --
->  .../devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml          | 1 -
->  .../devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml          | 2 --
->  .../devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml          | 2 --
->  6 files changed, 15 deletions(-)
+>  .../bindings/display/msm/dp-controller.yaml        | 36 ++++++++++++++++++++--
+>  .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |  9 ++++--
+>  .../bindings/display/msm/qcom,sar2130p-mdss.yaml   |  9 ++++--
+>  .../bindings/display/msm/qcom,sc7280-mdss.yaml     |  9 ++++--
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   |  6 ++--
+>  5 files changed, 56 insertions(+), 13 deletions(-)
 > 
 > diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 46a50ca4a986..a63efd8de42c 100644
+> index a63efd8de42c..81ffc141e00d 100644
 > --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 > +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -74,11 +74,6 @@ properties:
->        - description: link clock source
->        - description: pixel clock source
->  
-> -  assigned-clock-parents:
-> -    items:
-> -      - description: phy 0 parent
-> -      - description: phy 1 parent
-> -
->    phys:
+> @@ -54,25 +54,31 @@ properties:
 >      maxItems: 1
 >  
-> @@ -208,8 +203,6 @@ examples:
->          assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
->                            <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+>    clocks:
+> +    minItems: 5
+>      items:
+>        - description: AHB clock to enable register access
+>        - description: Display Port AUX clock
+>        - description: Display Port Link clock
+>        - description: Link interface clock between DP and PHY
+> -      - description: Display Port Pixel clock
+> +      - description: Display Port stream 0 Pixel clock
+> +      - description: Display Port stream 1 Pixel clock
 >  
-> -        assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
-> -
->          phys = <&dp_phy>;
->          phy-names = "dp";
+>    clock-names:
+> +    minItems: 5
+>      items:
+>        - const: core_iface
+>        - const: core_aux
+>        - const: ctrl_link
+>        - const: ctrl_link_iface
+>        - const: stream_pixel
+> +      - const: stream_1_pixel
 >  
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> index 1053b3bc4908..951e446dc828 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> @@ -393,7 +393,6 @@ examples:
+>    assigned-clocks:
+> +    minItems: 2
+>      items:
+>        - description: link clock source
+> -      - description: pixel clock source
+> +      - description: stream 0 pixel clock source
+> +      - description: stream 1 pixel clock source
 >  
->              assigned-clocks = <&dispcc_mdss_dptx0_link_clk_src>,
->                                <&dispcc_mdss_dptx0_pixel0_clk_src>;
-> -            assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
+>    phys:
+>      maxItems: 1
+> @@ -174,6 +180,32 @@ allOf:
+>        required:
+>          - "#sound-dai-cells"
 >  
->              phys = <&mdss0_dp0_phy>;
->              phy-names = "dp";
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml
-> index 870144b53cec..a1f5a6bd328e 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sar2130p-mdss.yaml
-> @@ -216,8 +216,6 @@ examples:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc7280-dp
+> +              - qcom,sm8150-dp
+> +              - qcom,sc8180x-dp
+> +              - qcom,sc8280xp-dp
+> +              - qcom,sm8350-dp
+> +              - qcom,sm8450-dp
+> +              - qcom,sm8650-dp
+> +              - qcom,sa8775p-dp
+> +              - qcom,x1e80100-dp
+
+Let's get this list sorted alphabetically. Also, do we need to list all
+those entries? Some of those use fallback compatible to qcom,sm8350-dp,
+so it should be enough to list just that entry for those.
+
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 6
+> +          maxItems: 6
+> +
+> +    else:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +          maxItems: 5
+> +
+>  additionalProperties: false
 >  
->              assigned-clocks = <&dispcc_disp_cc_mdss_dptx0_link_clk_src>,
->                                <&dispcc_disp_cc_mdss_dptx0_pixel0_clk_src>;
-> -            assigned-clock-parents = <&usb_dp_qmpphy_QMP_USB43DP_DP_LINK_CLK>,
-> -                                     <&usb_dp_qmpphy_QMP_USB43DP_DP_VCO_DIV_CLK>;
->  
->              phys = <&usb_dp_qmpphy QMP_USB43DP_DP_PHY>;
->              phy-names = "dp";
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-> index 7a0555b15ddf..f737a8481acb 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-> @@ -269,7 +269,6 @@ examples:
->                            "ctrl_link_iface", "stream_pixel";
->              assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
->                                <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> -            assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
->              phys = <&dp_phy>;
->              phy-names = "dp";
->  
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-> index 2947f27e0585..7842ef274258 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-> @@ -298,7 +298,6 @@ examples:
->                            "stream_pixel";
->              assigned-clocks = <&dispcc DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
->                                <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
-> -            assigned-clock-parents = <&mdss_edp_phy 0>, <&mdss_edp_phy 1>;
->  
->              phys = <&mdss_edp_phy>;
->              phy-names = "dp";
-> @@ -389,7 +388,6 @@ examples:
->                            "stream_pixel";
->              assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
->                                <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> -            assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
->              phys = <&dp_phy>;
->              phy-names = "dp";
->  
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
-> index 13c5d5ffabde..3cea87def9f8 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
-> @@ -401,8 +401,6 @@ examples:
->  
->              assigned-clocks = <&dispcc_mdss_dp_link_clk_src>,
->                                <&dispcc_mdss_dp_pixel_clk_src>;
-> -            assigned-clock-parents = <&dp_phy 0>,
-> -                                     <&dp_phy 1>;
->  
->              operating-points-v2 = <&dp_opp_table>;
->              power-domains = <&rpmhpd RPMHPD_CX>;
-> 
-> -- 
-> 2.49.0
-> 
+>  examples:
 
 -- 
 With best wishes
