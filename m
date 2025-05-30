@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7895AC8835
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 08:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B58AC8837
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 08:29:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE9710E79E;
-	Fri, 30 May 2025 06:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7D310E7C2;
+	Fri, 30 May 2025 06:29:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 780F810E244
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 06:26:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CCE10E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 06:29:34 +0000 (UTC)
 Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
  by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 54U6QPDE1953509; Fri, 30 May 2025 11:56:25 +0530
+ 54U6TTrb1954804; Fri, 30 May 2025 11:59:29 +0530
 Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 54U6QO9V1953508;
- Fri, 30 May 2025 11:56:24 +0530
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 54U6TTrV1954803;
+ Fri, 30 May 2025 11:59:29 +0530
 From: Sunil Khatri <sunil.khatri@amd.com>
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Cc: Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH] drm/file: add client id to drm_file_error
-Date: Fri, 30 May 2025 11:56:23 +0530
-Message-Id: <20250530062623.1953489-1-sunil.khatri@amd.com>
+Subject: [PATCH v2] drm/file: add client id to drm_file_error
+Date: Fri, 30 May 2025 11:59:29 +0530
+Message-Id: <20250530062929.1954784-1-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -47,6 +47,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Add client id to the drm_file_error api, client id
 is a unique id for each drm fd and is quite useful
 for debugging.
+
+v2: Swapped client id and client name order [Chrisitan]
 
 Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
