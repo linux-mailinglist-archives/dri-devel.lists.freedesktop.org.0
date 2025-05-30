@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC473AC8683
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EF6AC8685
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0E410E793;
-	Fri, 30 May 2025 02:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B40B10E7A1;
+	Fri, 30 May 2025 02:52:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZbPKy5aU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EbBWRVbF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11FEB10E798
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:52:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E83110E798
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573525;
+ s=mimecast20190719; t=1748573533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XawE01jygagVYAKA91+kaojKviEnIjTtQo5kjF8lDgg=;
- b=ZbPKy5aUtHdr8BXSxkqohGQsBQgQevUMhQgZXJE0DIgNJmRJ0osbowGg+pwAI54B62UnQJ
- 7Gtvfpwjhrk8tkeqExxw7jV7+bcmPBfMAaRlBxZW7KaTVWtK9UAZNAmcQj0Y31lXmc8D7Z
- f/aup+HADvJmS0nd/XwsMNd2bCZ+CRM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=piDTvS9xyEKalfDoTtOqZOZnudGr7zpTtQTkg9WDI/Q=;
+ b=EbBWRVbFhKO8LAWw8cMYg0UOdj5w0G1QsxCgkK/yKoYmk7i1Ijmdso6l3m8ahnZ1y2Xaqx
+ f0DPAbADxVrYWcXSDGJt8F/qIOaCOuBn3y5yq9KPGC71yML7aPL4k4xaBAEzm8YAYaf1dU
+ +GHxtCdUy4babJ6OwfDw+ghqWNipTnE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-453-k_JTi-I9O0uLI_Cdc9cUGw-1; Thu,
- 29 May 2025 22:52:01 -0400
-X-MC-Unique: k_JTi-I9O0uLI_Cdc9cUGw-1
-X-Mimecast-MFC-AGG-ID: k_JTi-I9O0uLI_Cdc9cUGw_1748573518
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-216-rHn0-DbNPQmJ0NNUADdWxA-1; Thu,
+ 29 May 2025 22:52:06 -0400
+X-MC-Unique: rHn0-DbNPQmJ0NNUADdWxA-1
+X-Mimecast-MFC-AGG-ID: rHn0-DbNPQmJ0NNUADdWxA_1748573523
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id AFAC11800258; Fri, 30 May 2025 02:51:58 +0000 (UTC)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 608431956080; Fri, 30 May 2025 02:52:03 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id EC5F51955D82; Fri, 30 May 2025 02:51:53 +0000 (UTC)
+ id 0989F1955D82; Fri, 30 May 2025 02:51:58 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:28 -0500
-Subject: [PATCH v2 26/46] panel/sitronix-st7701: Use refcounted allocation
+Date: Thu, 29 May 2025 21:46:29 -0500
+Subject: [PATCH v2 27/46] panel/sitronix-st7703: Use refcounted allocation
  in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-26-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-27-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1383;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1450;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=sHv5udTKX62beThGkQPr1OBFlpij6YZPAVyWWwAmKzE=;
- b=sh6IjRBR6YxD5Z9hcRsz8auzq2E1DM8zpOpmuG2RVvRn6CgITjYyklpHMatf3T74j7zbAYwz/
- ML2oULoIdFNBnW7S+tRY9fCEQ6+GgUamMkh7NxzfdTpEDGjTo646VVv
+ bh=5aika54msJQ1wNFCo27lFX+va4H4p/tyJawIRUA75tY=;
+ b=GKV7BenZ8Hu1ve371US+NjwiSooa7YKYKrzwOadhI9KLR+L0n7zmqSclyc9jlBXUhSsZw5h0L
+ v3V9I75KqvEAq/U66q2YVgwSwnxbXVAPt9Cg0v3Ax7NJX2EljGwuCAZ
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -102,35 +102,38 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 1f72ef7ca74c9382aa103cc7c65fdedc7e4755b3..0b83423ce470c4e060c3cd44d38719a412d3cb95 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -1150,9 +1150,10 @@ static int st7701_probe(struct device *dev, int connector_type)
- 	struct st7701 *st7701;
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index 67e8e45498cb1e62c60cc94546cb329878cc4ef2..1a007a244d843a894c89bb3b2ee006daba2237cb 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -846,9 +846,11 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
+ 	struct st7703 *ctx;
  	int ret;
  
--	st7701 = devm_kzalloc(dev, sizeof(*st7701), GFP_KERNEL);
--	if (!st7701)
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	st7701 = devm_drm_panel_alloc(dev, struct st7701, panel, &st7701_funcs,
-+				      connector_type);
-+	if (IS_ERR(st7701))
-+		return PTR_ERR(st7701);
++	ctx = devm_drm_panel_alloc(dev, struct st7703, panel,
++				   &st7703_drm_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
  
- 	desc = of_device_get_match_data(dev);
- 	if (!desc)
-@@ -1176,7 +1177,6 @@ static int st7701_probe(struct device *dev, int connector_type)
+ 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ctx->reset_gpio))
+@@ -876,9 +878,6 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
  	if (ret < 0)
- 		return dev_err_probe(dev, ret, "Failed to get orientation\n");
+ 		return dev_err_probe(&dsi->dev, ret, "Failed to get orientation\n");
  
--	drm_panel_init(&st7701->panel, dev, &st7701_funcs, connector_type);
- 	st7701->panel.prepare_prev_first = true;
- 
- 	/**
+-	drm_panel_init(&ctx->panel, dev, &st7703_drm_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
+-
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.48.1
