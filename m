@@ -2,88 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4A7AC9425
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49311AC9480
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 19:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF14110E852;
-	Fri, 30 May 2025 16:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6BC10E011;
+	Fri, 30 May 2025 17:18:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fvCpMlA0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E1xvJ5du";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6B610E852
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:59:27 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3a375e72473so1290694f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:59:27 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E86D610E011
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:18:52 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3a374f727dbso1884596f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748624366; x=1749229166; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2wyTGUJmJGL2WGesM8nfuqYiVpu2gtlcpHv+BHufplk=;
- b=fvCpMlA0Peae8I+zF6sz3s2gPICU909uptMljHgg3Ze90F1BFPRc8l9QiKpM5HubSi
- fhdoPu+ZDmnHmnQP3oXd7AENATKlz6JVka0OO2R2yLONj5KtXI0UemcaL3gxlV90Jxt4
- 9p4s0R0PdmopLwaFg8Iqtw6bY6gPk/TeioVZfeUr4AP5J1QbrtfhUj2xBQ+3qM8umFNO
- 6b2wynZ61yALrAyiblihJp8vZxD/J+u7g/bShkTBwF9cDoexjCikXhL6ORsN3rGIBVkS
- qMkcAsP8tGGeoaQn/9o4NRe69NSkA91RPbyUHJ1Rkwkba1N8drQIDuMwdSdUQApE78p8
- iRTQ==
+ d=gmail.com; s=20230601; t=1748625531; x=1749230331; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ynEvrykvvMU0ksBhHKWbakf97c/AyKOyZ1b6YiZ4xoU=;
+ b=E1xvJ5duUNSCWpOn8jEz/FDHQbTBJkc9Y6gwVWUsKEM8V6lvqDYSbjR5DLjAxSrLZ8
+ p6doDM5U6oG7bs2mh+6x4+Fax7e91MRx7zWhslWE4hWJM0PbhemUeG08s7htvwXflGgG
+ gXgA0UTA3wuygDJtTDyGGGItvRxeSWqF7kZLXx/+7cOJ6+uG0naQU0IMGF9fVVUXXJmQ
+ 1w8cb+jkMCqWcWSfrKVPayJXHZMYz3lGzv0+bGb6TmcCRhBfRupBkpl5gS9Mik+6hcyF
+ aGHW4zF1o5JGmyYQTDGhRzbE1VUUwLCraFTUbOTasoCye/NoDNkfSf2UbS1sZRWijez2
+ i8Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748624366; x=1749229166;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2wyTGUJmJGL2WGesM8nfuqYiVpu2gtlcpHv+BHufplk=;
- b=ia/m9tjOao5tqK3F/sXDQCkyBTlHl5q7MY3hohPkzpyO5rpK39FQy2zeglFEjtbyo8
- Vc0ZzQ9235tzvdFzVAnAB6MB349SnqOPB6vkd8jv0UUBPbrEWpHMhUUU5yaBNQAJBegP
- LFh4tQWLMK3ku0c79RNoEhNnjGZWrO79zdRXc22h/Sw7pT0Sxbghh2HvEpbnw2oGtBSN
- z5CEH2heuNpQfwf1WjLqQ0rRqBMfAbPD21jKVDSTeov6wiCR8PKqYo6pgBLm9DN2wwld
- t5XqUYYeDjhbtAWFH5amhuGyD7Bz5u+4yzzCwJcqVSZIYhYMkmHXkusbAXodU3ymBrtU
- zMMg==
-X-Gm-Message-State: AOJu0Yw2yXRdTLy2VbR6EzMnQKEreQohMWJFQO5zV/++vZ2sMpMhromD
- AVkThgvG6D5sTKLorZP9aKsnqzO+7J5UWQfbgoZusfE+2/0F754AW0L8
-X-Gm-Gg: ASbGncu8FmFBc9kMVwCgoUO82b9gAn4+iuE3/9K6nEiaKfJn5iTuQyHdFRY+LLpal5y
- K8YBxXVF2fBxln8IeEoxw+PIdgn+F0621+BnHyxJhPdxBdWrWg/q9qobIynle7232691+ldSLSL
- fQ2FTY0BGPzx3ctV7M2eHpvDFQkWYJukaD6eQqxt9oiK74Txb3g9kNVeX0FubLgR5wOP73xGscH
- j3pavu/9PEUZHY/WTnkuCfiTH9cs7zymOp6sYdv0+HaiqMgA/wtogaiKvyLodIXOvlcl4DvZT57
- QUMGuMsmn9hfmND0mvSo3omeoF1YyhSZw59meEO4tYt6fwvG1n1ycyHG8L6tfp6Sytjf2l1JWGI
- 3mp50CXc7WtIAajK4PIG2
-X-Google-Smtp-Source: AGHT+IEj2mWFq52WxYW2XdXtwquiylRquF3NdO7m5fCF7V+mYsPLNiAhphxn1nLPPWljA/scPh/SBQ==
-X-Received: by 2002:a05:6000:220b:b0:3a4:d0c7:312b with SMTP id
- ffacd0b85a97d-3a4f7a35918mr3340221f8f.26.1748624365743; 
- Fri, 30 May 2025 09:59:25 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1748625531; x=1749230331;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ynEvrykvvMU0ksBhHKWbakf97c/AyKOyZ1b6YiZ4xoU=;
+ b=TzJi7r8ir/czbmbh0M4y5SGtBgt5XQLI6C2tJ3jGCh/lcstKan5VhWvH2pDxNyCPNs
+ lDixS50xdQ3TurcgiOjFjSd6oB7S+a099xAB/SC4Tt3JOSFxoCH/Vtb9A6PxizNSGpIa
+ Djl9mpWUcb/OQPfcZR0+xse5i1K9sPcse27/3jtX6yfXPE0uDLwWFYrW0u3d8OwgyvyA
+ HW+4kDXSeII452nyhXvRpYF5zZEVuD2Vj+D+TOl8fwCsDFz1PuBnPiN0jgXCcWMO8oG5
+ 51fxGXadHFWEbAUnvtL0fLrB0YXkfyyozgrikCo0f8qwUytJWHt2xcyNKXOHaAVboSPC
+ DRwg==
+X-Gm-Message-State: AOJu0YxqbqYE8zGa+5AXDCFgZ1jsGlFSNa8+y0uVqom3qPo0/38BbcQc
+ Zym0YpHZPPRLkcZUyL2vbdP6PkNiDurDeeags8HMoGKYE8wF4ltplrzEuQB+Jm8h
+X-Gm-Gg: ASbGncu0GzvRRRBO/nAWk2D8gicfc6C0wMDKhus9wwiuNvAqQaOsS8+PrLejPrIjI/z
+ 6cdJuKVaXZFFycVK+nLl9mf/luGh6dfQEZHBP/aoU5Af/1AxhLWDmR5x4zCnlWxAbHJ/IpTOTTC
+ ldRpatmxCwzLm8Oq1uIJXZs0c2ncsGz5nvFr1CRZUDOHmHZToqPnSW+SuF073qRL87YanCNCSsq
+ QdPVm9MvDGy3YYS2MbYgqXtICODw+0bPx2XDPlwTDee30eH+HTryZ/nj80b8Tv1NYr259BEJLta
+ jdSfrg2V0c4uU/cSX4Z7PocrNIcNH1ZuiKHS9sgaURfNbAWCUpP7rDVFBJ5KPpoQYlvsCGHLQCi
+ vRaqWvJDCzA==
+X-Google-Smtp-Source: AGHT+IEp6Pb6coP//ft8xEoxnN0XG2mGL8lYvmKsSoDN6jZiXpCVG5HXqDoz0TnLlIZVoVTUVF/FDw==
+X-Received: by 2002:a05:6000:2204:b0:3a4:c713:7d8 with SMTP id
+ ffacd0b85a97d-3a4f89a765fmr2551757f8f.16.1748625531267; 
+ Fri, 30 May 2025 10:18:51 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:bcab:7ec7:2377:13b0])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d7f9efa3sm22733455e9.9.2025.05.30.09.59.24
+ ffacd0b85a97d-3a4f00972c1sm5395963f8f.68.2025.05.30.10.18.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 09:59:25 -0700 (PDT)
+ Fri, 30 May 2025 10:18:50 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
  Magnus Damm <magnus.damm@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Prabhakar <prabhakar.csengg@gmail.com>,
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 12/12] drm: renesas: rz-du: mipi_dsi: Add support for LPCLK
- clock handling
-Date: Fri, 30 May 2025 17:59:06 +0100
-Message-ID: <20250530165906.411144-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 0/4] Add support for DU/DSI clocks and DSI driver support
+ for the Renesas RZ/V2H(P) SoC
+Date: Fri, 30 May 2025 18:18:37 +0100
+Message-ID: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,62 +104,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add LPCLK clock support in the RZ/G2L MIPI DSI driver via the optional
-clock API. This clock is required by some SoCs like RZ/V2H(P) for proper
-DPHY configuration, whereas it is absent on others like RZ/G2L.
+Hi All,
 
-Introduce a new `lpclk` field in the `rzg2l_mipi_dsi` structure and
-conditionally acquire the "lpclk" clock using `devm_clk_get_optional()`
-during probe. This allows LPCLK-aware SoCs to pass the clock via device
-tree without impacting existing platforms.
+This patch series adds DU/DSI clocks and provides support for the
+MIPI DSI interface on the RZ/V2H(P) SoC. It was originally part of
+series [0], but has now been split into 4 patches due to dependencies
+on the clock driver, making it easier to review and merge.
 
-Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v5->v6:
-- No changes
+[0] https://lore.kernel.org/all/20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-v4->v5:
-- Made use of devm_clk_get_optional() for lpclk
-- Added Reviewed tag from Biju
+Note: This patch series applies on top of the following patch series:
+[1] https://lore.kernel.org/all/20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-v3->v4
-- No changes
+v5-> v6:
+- Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+- Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+  CPG_PLL_CLK1_DIV_P macros to use GENMASK
+- Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+- Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+- Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+  rzv2h_cpg_plldsi_determine_rate() instead
+- Made use of FIELD_PREP()
+- Moved CPG_CSDIV1 macro in patch 2/4
+- Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+- Used mul_u32_u32() while calculating output_m and output_k_range
+- Used div_s64() instead of div64_s64() while calculating
+  pll_k
+- Used mul_u32_u32() while calculating fvco and fvco checks
+- Rounded the final output using DIV_U64_ROUND_CLOSEST()
+- Renamed CLK_DIV_PLLETH_LPCLK to CLK_CDIV4_PLLETH_LPCLK
+- Renamed CLK_CSDIV_PLLETH_LPCLK to CLK_PLLETH_LPCLK_GEAR
+- Renamed CLK_PLLDSI_SDIV2 to CLK_PLLDSI_GEAR
+- Renamed plldsi_sdiv2 to plldsi_gear
+- Preserved the sort order (by part number).
+- Added reviewed tag from Geert.
+- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+  PHYTCLKSETR_* and PHYTHSSETR_* macros.
+- Replaced 10000000UL with 10 * MEGA
+- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+- Replaced `i -= 1;` with `i--;`
+- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
+  
+Cheers,
+Prabhakar
 
-v2->v3:
-- No changes
+Lad Prabhakar (4):
+  clk: renesas: rzv2h-cpg: Add support for DSI clocks
+  clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
+  dt-bindings: display: bridge: renesas,dsi: Add support for RZ/V2H(P)
+    SoC
+  drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
 
-v1->v2:
-- Added LPCLK as feature flag
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../bindings/display/bridge/renesas,dsi.yaml  | 116 ++++--
+ drivers/clk/renesas/r9a09g057-cpg.c           |  63 ++++
+ drivers/clk/renesas/rzv2h-cpg.c               | 278 +++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h               |  17 +
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 345 ++++++++++++++++++
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+ include/linux/clk/renesas-rzv2h-dsi.h         | 210 +++++++++++
+ 7 files changed, 1025 insertions(+), 38 deletions(-)
+ create mode 100644 include/linux/clk/renesas-rzv2h-dsi.h
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index f9f2d883c40d..a31f9b6aa920 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -62,6 +62,7 @@ struct rzg2l_mipi_dsi {
- 	struct drm_bridge *next_bridge;
- 
- 	struct clk *vclk;
-+	struct clk *lpclk;
- 
- 	enum mipi_dsi_pixel_format format;
- 	unsigned int num_data_lanes;
-@@ -791,6 +792,10 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
- 	if (IS_ERR(dsi->vclk))
- 		return PTR_ERR(dsi->vclk);
- 
-+	dsi->lpclk = devm_clk_get_optional(dsi->dev, "lpclk");
-+	if (IS_ERR(dsi->lpclk))
-+		return PTR_ERR(dsi->lpclk);
-+
- 	dsi->rstc = devm_reset_control_get_optional_exclusive(dsi->dev, "rst");
- 	if (IS_ERR(dsi->rstc))
- 		return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc),
 -- 
 2.49.0
 
