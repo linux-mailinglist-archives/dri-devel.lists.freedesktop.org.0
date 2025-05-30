@@ -2,83 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70CBAC8987
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 09:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FE2AC8998
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 10:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C09010E7CA;
-	Fri, 30 May 2025 07:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9803D10E7F6;
+	Fri, 30 May 2025 08:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7FE10E7CA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 07:55:51 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-87de47585acso1216568241.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 00:55:51 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 657BF10E7F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 08:00:00 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-86fea8329cdso1133082241.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 01:00:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748591750; x=1749196550;
+ d=1e100.net; s=20230601; t=1748591997; x=1749196797;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ok4r17T6ykjtgTAKGiGjcQeNcSghR2j2d4lkyI3DeQI=;
- b=ZX/H86hACnkoXOhLW+TTXAeVSq/v59hCEt8RO4nPJVjzB5ROFYLQaXU3LN8dXG8FDk
- m9OOwH7JMfdpIG4UEDoTwqbW69RwRu27jHvY5G3US0F7H1iHpizfJsCF3l554rweh1nc
- nuGv56qwPPaHlFPSgmJz+ruUP7qJXidOyY2ZIlLv88rHmnONJ1wYdbYCBWWmJwXmeCtW
- EE+BheUGDySXxZ1MSln3vvPUxPrPA9QpsuoX3YuUQscXuOo+Y/0DKKa9IZa1zLD0CA5c
- cGtRed+HtmbCKbG7TIiYhp48inO1kruSogI2/fN+/9L/6gvdpWV1QrTeQ4BooE72TI0Q
- +YdA==
+ bh=BIa/rhWcGznumQSCSgsw8TY1J6vFHoHTI/oacCPJn4s=;
+ b=oFER28/0Ght77cbVzoz0uL9wzY4fxr0BDjbthhs7UI8VRRwy+mHpIa5Ymouf81gwMo
+ Zo50cEkeNsJpBOkWxySNfqgPCexf6wTac+LIIGCNh0zuXTKRE8y2+D6H3EE2u+23Nm7c
+ QcpG4KMEEKXpW5ohECEbY87E5WQ/qX2cQ+gIr0xEP9UKf3itFdAS34qrix8izpZ1EGwR
+ px25OJaIit/mwKJ/mVzHLzyFSUOoyiSgFIolfXkhmbLXnaF+DWPpyIXoPz5dxRdJLYcz
+ s9RVMskKsOoofjmtY9L4nTixnEgtNrnJtoXGA+rzsHXRApCP6mq6BFDLnvHP4mQEaRBr
+ rxUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVx1mIY3TQ52ID5GNz3uRqWDc485o5InFA3Naa/cIBFwCNLqAMVkGW1VWIN1Hc4PAx64SDUl7K+Wno=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLe0Ea6WpDQgMfsgZZFnYmjhf8F4PPzQ2AF1qybJTkovwj1csx
- jbTm/1k+gJ2iMo2wiUDC9peOUNrBMZzwvrrtOKI40WmxcojOxlsLDEG57aXp1fIU
-X-Gm-Gg: ASbGncv5OVoyJmrBgsLXc+Jdm496vM/A3P+Ztioy9GhUyNTbDJFivYAr9TvQqg3f0IV
- t8kfaaBDz9bn9Xt5PJZ4wOlGLborE5Q6fLEuZhC9CxwgCCe+fbA0vKsKBf41BVaU72o+7dRcHXy
- X2IGe92rH7uBupl3KHWr80ngPtAoqe+0RhSyt+uBlaqwaCwntIUBk/AJMd7JWW4W2RY45Gd4BFz
- FfstY13uVixCe0ft7V4MAaRRLcH1HLYv31iP9JY9JEGlH32HkcX5mfgL7UtZI1cYiF0gwhuR8HB
- TZ9j5IrFMtiJpVC4B47Cvj1nL5EX/Qljgtwu52QxXlEzdjBbbNRUZZDhcWJHHEEJUp6b4jR+Xk9
- LQHqNmG/SHdmEMw==
-X-Google-Smtp-Source: AGHT+IE4z2MosHEnvmI0bbyjEKuQ13GqUZV25UDcRWBvIUJ1Wkqqau2ByBPKZp6yKX4NkoLGZkB3sw==
-X-Received: by 2002:a05:6102:4bca:b0:4e6:f3fa:bb14 with SMTP id
- ada2fe7eead31-4e6f3fabfdbmr221798137.12.1748591749578; 
- Fri, 30 May 2025 00:55:49 -0700 (PDT)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
- [209.85.217.46]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4e644467c98sm2375965137.10.2025.05.30.00.55.49
+ AJvYcCVH9/cbUhco9Qq9doYRXbzgOwU7FTsarGDvwzB0K5YDi2NP6NHIC7cezh75G/4ZMHnBoP3lgVAoJqw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxws1MD89I4vXXALiHMgwPzqVglz8hf7R1Oghh1hCpNbxfZ1qyQ
+ lVPPU8dpgE7kdrMq0rD0vqaQBPosh3WywMDZwKFI9725pgm4oSECGivvJFHRKVgO
+X-Gm-Gg: ASbGnctj30DYBjqLoaRE5cWomSZVdxSmGl7ws/k8y0n8rEnf0e1JKmqwY6mZMLY6aSu
+ HXV7ekZZPbhxC4ydxYl1O9fPTLzIaj4GOGCPb3kUSG9Y78wBtuiQ7PJ+gIimQUkGOrgdStQppgk
+ 19OZCq3KFHZKBYBIyKi0kTwAyBYzmE/kLE69jXHXz7YEhs27dQO2Bedq8m6tavA6nsNI8KuC38f
+ M2vTfPP0kWHcO7JW+sdFYa/PZJCgiRGpdEpRQ/cgHGSA7LIEXX5/MUPP58+v4M6eZdGHUQthgpX
+ K9T2DHA+ByiInkU33HEc6REIuC0j0mfqooLgGL+y/kdG5vFeY6RA3xJUQWJ5+0nJjeidYGHyrBj
+ z4pGjenG5KzuBPw==
+X-Google-Smtp-Source: AGHT+IGXBUmnqGCQ80xHBi0wPyVozHKD1AlBmufShWqHmNc3EXBtWQ/USx1KQHceXknzISTr5XEnTQ==
+X-Received: by 2002:a05:6102:418d:b0:4e5:a309:85e8 with SMTP id
+ ada2fe7eead31-4e6e40f692bmr2460665137.7.1748591996966; 
+ Fri, 30 May 2025 00:59:56 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
+ [209.85.222.49]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4e64e9c008asm2377806137.23.2025.05.30.00.59.55
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 May 2025 00:55:49 -0700 (PDT)
-Received: by mail-vs1-f46.google.com with SMTP id
- ada2fe7eead31-4e5a0ec639dso1110474137.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 00:55:49 -0700 (PDT)
+ Fri, 30 May 2025 00:59:56 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-87de47585acso1219158241.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 00:59:55 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhS45A+e62sartFLlM090/u7wlwmibmW/FmXGQEIBab7an4r09f0G/8n2gquj+9n/gDT7XsIR+rgw=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:2acf:b0:4df:4a04:8d5e with SMTP id
- ada2fe7eead31-4e6e40f71admr2518734137.8.1748591748944; Fri, 30 May 2025
- 00:55:48 -0700 (PDT)
+ AJvYcCVQxIfnCvyIRByvId2rStArQCF7YfFWLhvtTNIaIO69Fsz0cDn0FsxXxIoPNkrBeTLt/8WQ01uPlGI=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:c8a:b0:4df:9635:210d with SMTP id
+ ada2fe7eead31-4e6e41db7c6mr2389073137.23.1748591995453; Fri, 30 May 2025
+ 00:59:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250529110418.481756-1-j-choudhary@ti.com>
- <2baf3c31-3edf-4c26-bd44-1d0560134871@ti.com>
-In-Reply-To: <2baf3c31-3edf-4c26-bd44-1d0560134871@ti.com>
+References: <cover.1669406380.git.geert@linux-m68k.org>
+ <a9883a81-d909-09c5-708b-d598e030380e@physik.fu-berlin.de>
+ <CAMuHMdWHUnWBN7ddBow+fqmt8W--9wFe5x_YMeRg7GQ=BNAL2Q@mail.gmail.com>
+ <74946b31-6166-44b0-b2a7-b0633f014b60@helsinkinet.fi>
+ <CAMuHMdXSWiM_xofyfgpoc0Jj8a_PwRR_tFe79t8=-X85-7WZug@mail.gmail.com>
+ <beed53f4-b0d6-4d1d-b5ec-2694d2b5d47a@helsinkinet.fi>
+ <CAMuHMdUSADF51tBbGV=_nsxqyXgfNZcgDNGxuZ4F+tvYs9Q2aw@mail.gmail.com>
+ <72078ec9-25a0-42d5-b7da-b0a974033f86@helsinkinet.fi>
+ <CAMuHMdXDdrMewGgeghr3cwtaBvieguYOC4GZ-EXZmA+w5S4bpw@mail.gmail.com>
+ <65b78057-c490-46a3-92a7-350d314d604e@helsinkinet.fi>
+In-Reply-To: <65b78057-c490-46a3-92a7-350d314d604e@helsinkinet.fi>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 30 May 2025 09:55:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUi7pf1YfKRjMv_7VuKwjR5XekRXfcEzuPScGzHraGjyQ@mail.gmail.com>
-X-Gm-Features: AX0GCFt7oJH7p6mCJm1bY-0aqdw-heaNTVCV9PIi-1gerZa683Q1Oz7IoT6_--U
-Message-ID: <CAMuHMdUi7pf1YfKRjMv_7VuKwjR5XekRXfcEzuPScGzHraGjyQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: dianders@chromium.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, 
- dri-devel@lists.freedesktop.org, tomi.valkeinen@ideasonboard.com, 
- max.krummenacher@toradex.com, ernestvanhoecke@gmail.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- kieran.bingham+renesas@ideasonboard.com, linux-kernel@vger.kernel.org, 
- max.oss.09@gmail.com, devarsht@ti.com, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>
+Date: Fri, 30 May 2025 09:59:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVhTpcG7uhdoEcSs3qqgtJVtjzXtdp1Xfa-oaKxqGW=QQ@mail.gmail.com>
+X-Gm-Features: AX0GCFv1GzlJ2sUyuto4TXy46hiWuy0VbvhpeBdPo_tDmf1ec2QxgJlCcbpqdEI
+Message-ID: <CAMuHMdVhTpcG7uhdoEcSs3qqgtJVtjzXtdp1Xfa-oaKxqGW=QQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/3] Atari DRM driver
+To: Eero Tamminen <oak@helsinkinet.fi>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Helge Deller <deller@gmx.de>, Michael Schmitz <schmitzmic@gmail.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,155 +99,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jayesh,
+Hi Eero,
 
-CC devicetree
-
-On Fri, 30 May 2025 at 04:54, Jayesh Choudhary <j-choudhary@ti.com> wrote:
-> On 29/05/25 16:34, Jayesh Choudhary wrote:
-> > By default, HPD was disabled on SN65DSI86 bridge. When the driver was
-> > added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
-> > call which was moved to other function calls subsequently.
-> > Later on, commit "c312b0df3b13" added detect utility for DP mode. But with
-> > HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
-> > state always return 1 (always connected state).
+On Thu, 29 May 2025 at 02:06, Eero Tamminen <oak@helsinkinet.fi> wrote:
+> On 28.5.2025 11.57, Geert Uytterhoeven wrote:
+> > On Wed, 28 May 2025 at 00:47, Eero Tamminen <oak@helsinkinet.fi> wrote:
+> >> I did boot testing on Hatari emulator with a minimal kernel config
+> >> having atari_drm enabled, atafb disabled, FB & boot logo enabled.
+> >>
+> >> Under Falcon emulation:
+> >> - RGB/VGA => works fine
+> >> - Mono monitor => panic
+> >>     "Kernel panic - not syncing: can't set default video mode"
+>  >>
+> >> Under TT emulation:
+> >> - RGB/VGA => boots, but console is black[1] (palette issue?)
+> >> - Mono monitor => looks OKish[2], but has constant warnings:
+> >> -----------------------------------
+> >> WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_atomic_helper.c:1720
+> >> drm_atomic_helper_wait_for_vblanks+0x1a0/0x1ee
+> >> [CRTC:35:crtc-0] vblank wait timed out
 > >
-> > Set HPD_DISABLE bit conditionally based on "no-hpd" property.
-> > Since the HPD_STATE is reflected correctly only after waiting for debounce
-> > time (~100-400ms) and adding this delay in detect() is not feasible
-> > owing to the performace impact (glitches and frame drop), remove runtime
-> > calls in detect() and add hpd_enable()/disable() bridge hooks with runtime
-> > calls, to detect hpd properly without any delay.
-> >
-> > [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
-> >
-> > Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP")
-> > Cc: Max Krummenacher <max.krummenacher@toradex.com>
-> > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> > ---
-> >
-> > Changelog v2->v3:
-> > - Change conditional based on no-hpd property to address [1]
-> > - Remove runtime calls in detect() with appropriate comments
-> > - Add hpd_enable() and hpd_disable() in drm_bridge_funcs
-> > - Not picking up "Tested-by" tag as there are new changes
-> >
-> > v2 patch link:
-> > <https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.com/>
-> >
-> > [1]: <https://lore.kernel.org/all/mwh35anw57d6nvre3sguetzq3miu4kd43rokegvul7fk266lys@5h2euthpk7vq/>
-
-Thanks for your patch!
-
-> > This would also require dts changes in all the nodes of sn65dsi86
-> > to ensure that they have no-hpd property.
+> > I am not sure this is a bug in atari-drm, or just an issue when using
+> > DRM on slow machines.
 >
-> DTS patch is posted now:
-> <https://lore.kernel.org/all/20250529112423.484232-1-j-choudhary@ti.com/>
+> This does not trigger with -Os built "atafb" kernel, but happens even
+> with -O2 built "atari-drm" kernel.  Something related to the higher (71)
+> HZ of the mono monitors?
+>
+> (I don't think it relates to TT mono monitor's larger 1280x960
+> resolution, because it happens also with ST mono monitor 640x400 one.)
 
-On all Renesas platforms handled by that patch, the DP bridge's HPD pin
-is wired to the HPD pin on the mini-DP connector.  What am I missing?
+DRM vblank handling is part of DRM, so it is not applicable to atafb.
 
-Regardless, breaking backwards-compatibility with existing DTBs is
-definitely a no-go.
+> > Are these regression in atari-drm, or do they happen with atafb, too?
+>
+> Only the "can't set default video" issue in Falcon mono mode happens
+> also with "atafb".
+>
+> It has neither the above vblank timeout issue in mono mode, nor
+> black-on-black color issue in color mode (on TT and 030 ST).
 
-> >   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++++++++++++++++++----
-> >   1 file changed, 35 insertions(+), 5 deletions(-)
+Unless I made a mistake, color handling should be the same for
+atari-drm and atafb. Unfortunately I am no Atari hardware expert.
+
+> >> However, -O2 build has the downside that the resulting kernel Oopses
+> >> once it reaches user-space, if 030 data cache emulation is enabled:
+> >> ----------------------------------------------------------------
+> >> Run /init as init process
+> >> ...
+> >> Instruction fault at 0x0041a256
+> >> BAD KERNEL BUSERR
 > >
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > index 60224f476e1d..e9ffc58acf58 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -190,6 +190,7 @@ struct ti_sn65dsi86 {
-> >       u8                              ln_assign;
-> >       u8                              ln_polrs;
-> >       bool                            comms_enabled;
-> > +     bool                            no_hpd;
-> >       struct mutex                    comms_mutex;
-> >
-> >   #if defined(CONFIG_OF_GPIO)
-> > @@ -352,8 +353,10 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
-> >        * change this to be conditional on someone specifying that HPD should
-> >        * be used.
-> >        */
-> > -     regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> > -                        HPD_DISABLE);
-> > +
-> > +     if (pdata->no_hpd)
-> > +             regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> > +                                HPD_DISABLE);
-> >
-> >       pdata->comms_enabled = true;
-> >
-> > @@ -1195,9 +1198,17 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-> >       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> >       int val = 0;
-> >
-> > -     pm_runtime_get_sync(pdata->dev);
-> > +     /*
-> > +      * The chip won't report HPD right after being powered on as
-> > +      * HPD_DEBOUNCED_STATE reflects correct state only after the
-> > +      * debounce time (~100-400 ms).
-> > +      * So having pm_runtime_get_sync() and immediately reading
-> > +      * the register in detect() won't work, and adding delay()
-> > +      * in detect will have performace impact in display.
-> > +      * So remove runtime calls here.
-> > +      */
-> > +
-> >       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> > -     pm_runtime_put_autosuspend(pdata->dev);
-> >
-> >       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-> >                                        : connector_status_disconnected;
-> > @@ -1220,6 +1231,20 @@ static void ti_sn65dsi86_debugfs_init(struct drm_bridge *bridge, struct dentry *
-> >       debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
-> >   }
-> >
-> > +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-> > +{
-> > +     struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +     pm_runtime_get_sync(pdata->dev);
-> > +}
-> > +
-> > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-> > +{
-> > +     struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +     pm_runtime_put_sync(pdata->dev);
-> > +}
-> > +
-> >   static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
-> >       .attach = ti_sn_bridge_attach,
-> >       .detach = ti_sn_bridge_detach,
-> > @@ -1234,6 +1259,8 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
-> >       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> >       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> >       .debugfs_init = ti_sn65dsi86_debugfs_init,
-> > +     .hpd_enable = ti_sn_bridge_hpd_enable,
-> > +     .hpd_disable = ti_sn_bridge_hpd_disable,
-> >   };
-> >
-> >   static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-> > @@ -1322,7 +1349,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
-> >                          ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
-> >
-> >       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> > -             pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-> > +             pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT |
-> > +                                 DRM_BRIDGE_OP_HPD;
-> >
-> >       drm_bridge_add(&pdata->bridge);
-> >
-> > @@ -1935,6 +1963,8 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
-> >               return dev_err_probe(dev, PTR_ERR(pdata->refclk),
-> >                                    "failed to get reference clock\n");
-> >
-> > +     pdata->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
-> > +
-> >       pm_runtime_enable(dev);
-> >       pm_runtime_set_autosuspend_delay(pdata->dev, 500);
-> >       pm_runtime_use_autosuspend(pdata->dev);
+> > Interesting...
+>
+> There were some extra config differences between my builds for 6.15
+> "atafb" and your "atari-drm-wip-rebasing" branch.
+>
+> After removing the ones I could:
+> --------------------------------
+> $ diff -ub .config.old .config | grep '^[-+]C'
+> -CONFIG_I2C_HELPER_AUTO=y
+> -CONFIG_LOGO=y
+> -CONFIG_LOGO_LINUX_MONO=y
+> -CONFIG_LOGO_LINUX_VGA16=y
+> -------------------------------
+>
+> Bus error issue went away.
+>
+> => Could there be some issue with how logo and "atari-drm" code
+> interact, which could manifest when reaching user-space?
+>
+> Note: I haven't tried enabling logo with "atafb" + -O2 build. I could
+> try that later on.
+
+Logo shouldn't matter.
 
 Gr{oetje,eeting}s,
 
