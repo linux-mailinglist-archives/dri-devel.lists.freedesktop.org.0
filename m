@@ -2,51 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96874AC8C44
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81069AC8C3D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E744510E84A;
-	Fri, 30 May 2025 10:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B9410E834;
+	Fri, 30 May 2025 10:40:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hi+qCKBL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b5xNK12+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hi+qCKBL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b5xNK12+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta20.hihonor.com (mta20.hihonor.com [81.70.206.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1811210E840
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:40:56 +0000 (UTC)
-Received: from w013.hihonor.com (unknown [10.68.26.19])
- by mta20.hihonor.com (SkyGuard) with ESMTPS id 4b808G4q3zzYl7DQ;
- Fri, 30 May 2025 18:38:38 +0800 (CST)
-Received: from a010.hihonor.com (10.68.16.52) by w013.hihonor.com
- (10.68.26.19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
- 2025 18:40:52 +0800
-Received: from localhost.localdomain (10.144.18.117) by a010.hihonor.com
- (10.68.16.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
- 2025 18:40:52 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
- <kraxel@redhat.com>, <vivek.kasireddy@intel.com>, <viro@zeniv.linux.org.uk>,
- <brauner@kernel.org>, <hughd@google.com>, <akpm@linux-foundation.org>,
- <amir73il@gmail.com>
-CC: <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
- <jstultz@google.com>, <tjmercier@google.com>, <jack@suse.cz>,
- <baolin.wang@linux.alibaba.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <bintian.wang@honor.com>, <yipengxiang@honor.com>,
- <liulu.liu@honor.com>, <feng.han@honor.com>, wangtao <tao.wangtao@honor.com>
-Subject: [PATCH v3 4/4] dmabuf:system_heap Implement system_heap exporter's
- rw_file callback.
-Date: Fri, 30 May 2025 18:39:41 +0800
-Message-ID: <20250530103941.11092-5-tao.wangtao@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250530103941.11092-1-tao.wangtao@honor.com>
-References: <20250530103941.11092-1-tao.wangtao@honor.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1280F10E7CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:40:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A36591F454;
+ Fri, 30 May 2025 10:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748601632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jsLCZB/Koey6OTyMqZ8JYQ864OKMnnjwHENli4Y0pm4=;
+ b=hi+qCKBLa3MIyBtx2aWr74uyq7MBL7H3ExVs/uVzDSiR6NP1/jf+vAF/yS2FD1rhzpNwsL
+ AluWsaoue07VwhZjnHKtR4vB5ozt24Wk9Rob7M+0GLjGfDQtMcv+pVJodNbAn9Bkkf3zOX
+ UHhXVODR19N4LzaUgfATxBwpsn+2Dbk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748601632;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jsLCZB/Koey6OTyMqZ8JYQ864OKMnnjwHENli4Y0pm4=;
+ b=b5xNK12+IsjGY6bPwCZEbpRm8tS1dbdPZmRYkXQY6gT2lFlLmWGmWH0dBSB6LsLCLV1+st
+ MuYJyHKUPhtbnvDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748601632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jsLCZB/Koey6OTyMqZ8JYQ864OKMnnjwHENli4Y0pm4=;
+ b=hi+qCKBLa3MIyBtx2aWr74uyq7MBL7H3ExVs/uVzDSiR6NP1/jf+vAF/yS2FD1rhzpNwsL
+ AluWsaoue07VwhZjnHKtR4vB5ozt24Wk9Rob7M+0GLjGfDQtMcv+pVJodNbAn9Bkkf3zOX
+ UHhXVODR19N4LzaUgfATxBwpsn+2Dbk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748601632;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jsLCZB/Koey6OTyMqZ8JYQ864OKMnnjwHENli4Y0pm4=;
+ b=b5xNK12+IsjGY6bPwCZEbpRm8tS1dbdPZmRYkXQY6gT2lFlLmWGmWH0dBSB6LsLCLV1+st
+ MuYJyHKUPhtbnvDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87B5913889;
+ Fri, 30 May 2025 10:40:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OU7dHyCLOWgMBwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 May 2025 10:40:32 +0000
+Message-ID: <ff8c0661-42cf-431f-bd60-793660fbf5f9@suse.de>
+Date: Fri, 30 May 2025 12:40:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.144.18.117]
-X-ClientProxiedBy: w011.hihonor.com (10.68.20.122) To a010.hihonor.com
- (10.68.16.52)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/arm/hdlcd: Replace struct simplefb_format with custom
+ type
+To: Javier Martinez Canillas <javierm@redhat.com>, liviu.dudau@arm.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250527094336.73524-1-tzimmermann@suse.de>
+ <87ecw6tnn6.fsf@minerva.mail-host-address-is-not-set>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87ecw6tnn6.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,146 +140,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-First verify system_heap exporter has exclusive dmabuf access.
-Build bio_vec from sgtable, then invoke target file's r/w callbacks for IO.
-Outperforms buffer IO mmap/read by 250%, beats direct I/O udmabuf
-copy_file_range by over 30% with initialization time significantly lower
-than udmabuf.
+Hi
 
-Test data:
-|    32x32MB Read 1024MB  |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|-------------------------|--------|--------|--------|--------|-----
-| 1)Beg  dmabuf buffer R/W|     47 |      5 |   1125 |    954 | 100%
-| 2)    udmabuf buffer R/W|    576 |    323 |   1228 |    874 |  91%
-| 3) udma+memfd buffer R/W|    596 |    340 |   2166 |    495 |  51%
-| 4) udma+memfd direct R/W|    570 |    338 |    711 |   1510 | 158%
-| 5)  udmabuf buffer c_f_r|    578 |    329 |   1128 |    952 |  99%
-| 6)  udmabuf direct c_f_r|    570 |    324 |    405 |   2651 | 277%
-| 7)   dmabuf buffer c_f_r|     47 |      5 |   1035 |   1037 | 108%
-| 8)   dmabuf direct c_f_r|     51 |      5 |    309 |   3480 | 364%
-| 9)End  dmabuf buffer R/W|     48 |      5 |   1153 |    931 |  97%
+Am 30.05.25 um 12:10 schrieb Javier Martinez Canillas:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>
+>> Map DRM FourCC codes to pixel descriptions with internal type struct
+>> hdlcd_format. Reorder formats by preference. Avoid simplefb's struct
+>> simplefb_format, which is for parsing "simple-framebuffer" DT nodes.
+>>
+>> The HDLCD drivers uses struct simplefb_format and its default
+>> initializer SIMPLEFB_FORMATS to map DRM_FORMAT_ constants to pixel
+>> descriptions. The simplefb helpers are for parsing "simple-framebuffer"
+>> DT nodes and should be avoided in other context. Therefore replace
+>> it in hdlcd with the custom type struct hdlcd_format and the pixel
+>> descriptions from PIXEL_FORMAT_ constants.
+>>
+>> Plane formats exported to userspace are roughly sorted as preferred
+>> by hardware and/or driver. SIMPLEFB_FORMATS currently puts 16-bit
+>> formats to the top of the list. Changing to struct hdlcd_format
+>> allows for reordering the format list. 32-bit formats are now the
+>> preferred ones.
+>>
+> Is this change in the preferred format a concern ? It seems reasonable
+> to default to 32-bit formats but I wonder if something was relying on
+> the old 16-bit format as the preferred one.
 
-|    32x32MB Write 1024MB |Creat-ms|Close-ms|  I/O-ms|I/O-MB/s| I/O%
-|-------------------------|--------|--------|--------|--------|-----
-| 1)Beg  dmabuf buffer R/W|     50 |      5 |   1405 |    764 | 100%
-| 2)    udmabuf buffer R/W|    580 |    341 |   1337 |    803 | 105%
-| 3) udma+memfd buffer R/W|    588 |    331 |   1820 |    590 |  77%
-| 4) udma+memfd direct R/W|    585 |    333 |    662 |   1622 | 212%
-| 5)  udmabuf buffer c_f_r|    577 |    329 |   1326 |    810 | 106%
-| 6)  udmabuf direct c_f_r|    580 |    330 |    602 |   1784 | 233%
-| 7)   dmabuf buffer c_f_r|     49 |      5 |   1330 |    807 | 105%
-| 8)   dmabuf direct c_f_r|     49 |      5 |    344 |   3127 | 409%
-| 9)End  dmabuf buffer R/W|     50 |      5 |   1442 |    745 |  97%
+That would have not been a good idea. :D  I can put this into a separate 
+patch, tough. So that it will be revertable easily.
 
-Signed-off-by: wangtao <tao.wangtao@honor.com>
----
- drivers/dma-buf/heaps/system_heap.c | 79 +++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+Best regards
+Thomas
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 26d5dc89ea16..d3a1956ebad8 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -20,6 +20,9 @@
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/bvec.h>
-+#include <linux/bio.h>
-+#include <linux/uio.h>
- 
- static struct dma_heap *sys_heap;
- 
-@@ -281,6 +284,81 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	iosys_map_clear(map);
- }
- 
-+static ssize_t system_heap_buffer_rw_other(struct system_heap_buffer *buffer,
-+			loff_t my_pos, struct file *other, loff_t pos,
-+			size_t count, bool is_write)
-+{
-+	struct sg_table *sgt = &buffer->sg_table;
-+	struct scatterlist *sg;
-+	loff_t my_end = my_pos + count, bv_beg, bv_end = 0;
-+	pgoff_t pg_idx = my_pos / PAGE_SIZE;
-+	pgoff_t pg_end = DIV_ROUND_UP(my_end, PAGE_SIZE);
-+	size_t i, bv_off, bv_len, bv_num, bv_idx = 0, bv_total = 0;
-+	struct bio_vec *bvec;
-+	struct kiocb kiocb;
-+	struct iov_iter iter;
-+	unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
-+	ssize_t ret = 0, rw_total = 0;
-+
-+	bv_num = min_t(size_t, pg_end - pg_idx + 1, 1024);
-+	bvec = kvcalloc(bv_num, sizeof(*bvec), GFP_KERNEL);
-+	if (!bvec)
-+		return -ENOMEM;
-+
-+	init_sync_kiocb(&kiocb, other);
-+	kiocb.ki_pos = pos;
-+
-+	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+		if (my_pos >= my_end)
-+			break;
-+		bv_beg = bv_end;
-+		bv_end += sg->length;
-+		if (bv_end <= my_pos)
-+			continue;
-+
-+		bv_len = min(bv_end, my_end) - my_pos;
-+		bv_off = sg->offset + my_pos - bv_beg;
-+		my_pos += bv_len;
-+		bv_total += bv_len;
-+		bvec_set_page(&bvec[bv_idx], sg_page(sg), bv_len, bv_off);
-+		if (++bv_idx < bv_num && my_pos < my_end)
-+			continue;
-+
-+		/* start R/W if bvec is full or count reaches zero. */
-+		iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
-+		if (is_write)
-+			ret = other->f_op->write_iter(&kiocb, &iter);
-+		else
-+			ret = other->f_op->read_iter(&kiocb, &iter);
-+		if (ret <= 0)
-+			break;
-+		rw_total += ret;
-+		if (ret < bv_total || fatal_signal_pending(current))
-+			break;
-+
-+		bv_idx = bv_total = 0;
-+	}
-+	kvfree(bvec);
-+
-+	return rw_total > 0 ? rw_total : ret;
-+}
-+
-+static ssize_t system_heap_dma_buf_rw_file(struct dma_buf *dmabuf,
-+			loff_t my_pos, struct file *file, loff_t pos,
-+			size_t count, bool is_write)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+	ssize_t ret = -EBUSY;
-+
-+	mutex_lock(&buffer->lock);
-+	if (list_empty(&buffer->attachments) && !buffer->vmap_cnt)
-+		ret = system_heap_buffer_rw_other(buffer, my_pos,
-+			file, pos, count, is_write);
-+	mutex_unlock(&buffer->lock);
-+
-+	return ret;
-+}
-+
- static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- {
- 	struct system_heap_buffer *buffer = dmabuf->priv;
-@@ -308,6 +386,7 @@ static const struct dma_buf_ops system_heap_buf_ops = {
- 	.mmap = system_heap_mmap,
- 	.vmap = system_heap_vmap,
- 	.vunmap = system_heap_vunmap,
-+	.rw_file = system_heap_dma_buf_rw_file,
- 	.release = system_heap_dma_buf_release,
- };
- 
+>
+>> This change also removes including <linux/platform_data/simplefb.h>,
+>> which includes several unrelated headers, such as <linux/fb.h>.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+> The patch makes sense to me though.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+
 -- 
-2.17.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
