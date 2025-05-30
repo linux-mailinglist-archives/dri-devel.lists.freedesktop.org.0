@@ -2,53 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C935AC8C04
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBF1AC8BE8
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C2110E7D1;
-	Fri, 30 May 2025 10:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3782510E02F;
+	Fri, 30 May 2025 10:10:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Bit2iC+9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1070310E0A9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:20:20 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.234])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4b7zLh3870z23jVV;
- Fri, 30 May 2025 18:02:36 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id E26AB140113;
- Fri, 30 May 2025 18:03:39 +0800 (CST)
-Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 30 May 2025 18:03:39 +0800
-Received: from localhost.huawei.com (10.169.71.169) by
- kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 30 May 2025 18:03:39 +0800
-From: Yongbang Shi <shiyongbang@huawei.com>
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
- <shaojijie@huawei.com>, <jani.nikula@linux.intel.com>,
- <dmitry.baryshkov@oss.qualcomm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm-dp 10/10] drm/hisilicon/hibmc: fix no showing problem with
- loading hibmc manually
-Date: Fri, 30 May 2025 17:54:32 +0800
-Message-ID: <20250530095432.1206966-11-shiyongbang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20250530095432.1206966-1-shiyongbang@huawei.com>
-References: <20250530095432.1206966-1-shiyongbang@huawei.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6CF110E02F
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1748599825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f9/dLzrW8r3an7+EZAY1MK6JsjNTYkooOHDdN/3wmpo=;
+ b=Bit2iC+9pkDVVXnnoJo0dzlchdvNMI233wxRoqEqflycGx4dQvltKtN7oJfI0agyBDqKh8
+ YOSqvgzOSwyEMeCZ707HzMji5yrggmGTBaDDcuW0eFI0TJ83IBe6Bt4Ala3hxsIbE/R/IX
+ 2gAa/PGjZd8Xzt8UCVcVMKc9FEKxiuQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-684-KsnWSNhoM3iO_79uhyqpiA-1; Fri, 30 May 2025 06:10:24 -0400
+X-MC-Unique: KsnWSNhoM3iO_79uhyqpiA-1
+X-Mimecast-MFC-AGG-ID: KsnWSNhoM3iO_79uhyqpiA_1748599823
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-450d57a0641so8270435e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 03:10:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748599823; x=1749204623;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=f9/dLzrW8r3an7+EZAY1MK6JsjNTYkooOHDdN/3wmpo=;
+ b=rG+XZBSKJCeRDBH06k2BvOc5NCAj4D4B26xwNRicqNxI0O+Jp1pHlWrrM1XtV5PHpE
+ xF25pH0fbN2Se9JyWwQFHOtc6T/XFCNzOXrR53Ahjso+0phuuZIHtyyi0UADJMdEfrkE
+ iBHgT10ZD7Ivkp/pqzX4fKM0B4vw6b2Z3WgTtu7Nz1wJs1rX0L1RXrRtCUTK7E/R35vH
+ blNiNfaPn3XHft9iwF5YWA2JWmI+s48/OxtHPT6nKJU1S4AiaLNLOt/hgRD51ePtd4nF
+ s6CINyrqC+iwCR+3KP/U/WtjpbzZgmtiKCV1r5kPb+xpugR3Ys4RhydHxxR+BX87vF+B
+ lYgg==
+X-Gm-Message-State: AOJu0Yz/aXv4j9y9RMxKYcMJUDTEl4EHfpNzvSAE9EzR81V/uOjfECoh
+ APlm1x0YJRk2Vl8LCRFoW6KyXKK4ZunK5NX214dHcjzDGoXL2p1yeZYgr/g9K/HXqkrmLO0/I6q
+ OYhScCDBCGgY6Z2mwxD2olv7VeivWKhV/I1jwYYdv+bndHCFFatDdpBHQjoFFMsEYd5CWrw==
+X-Gm-Gg: ASbGncs+NX+m36/NCmh5yqHjN5lniD6xbQvMt8uABXR8D4veu4KQQNKfSCs6GNXud8l
+ DXEIV7JV+DaulFLLXJfM9WTe6PiE7vDaWozABOSc2h2bglWvmWd7vXvf8CuqxzNBpGPfEIU97yv
+ G6dtVUjI8jv7ob75A9Qw5081CjSgntj9/TCXT2UZzNzJjTFDoBvSWIO6ZG1rXjHOKqE6kIHILFf
+ qRu0QRmazgZ5pDcgaffR/iH15jCPYQ34vnYJSrzIeva67TRTGpaHDB4JdrtsqqTOD2WnyyxmX5M
+ NrJJqiWD7YBr/BySoeh5344WJIgIjwQBhSsoRp7FJ2bG1z15i3inaZKGOUwYZ87OejlTJQ==
+X-Received: by 2002:a05:600c:6307:b0:450:c9e3:995c with SMTP id
+ 5b1f17b1804b1-450d64e080amr30543915e9.12.1748599823237; 
+ Fri, 30 May 2025 03:10:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGE4aPUlq9GfBMpTkbJjcrb96E+vxW/oGXMFNExmMZsRUn6S+cZkURMstD6SYyE9NtwLw2QcQ==
+X-Received: by 2002:a05:600c:6307:b0:450:c9e3:995c with SMTP id
+ 5b1f17b1804b1-450d64e080amr30543605e9.12.1748599822857; 
+ Fri, 30 May 2025 03:10:22 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-450d8000e3esm13730335e9.22.2025.05.30.03.10.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 May 2025 03:10:22 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, liviu.dudau@arm.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/arm/hdlcd: Replace struct simplefb_format with
+ custom type
+In-Reply-To: <20250527094336.73524-1-tzimmermann@suse.de>
+References: <20250527094336.73524-1-tzimmermann@suse.de>
+Date: Fri, 30 May 2025 12:10:21 +0200
+Message-ID: <87ecw6tnn6.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BNETSuzVT0ixQvWtJ1t_YTpKvvuIwwfVPeQ3yWOKkUY_1748599823
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.169.71.169]
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +94,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Baihan Li <libaihan@huawei.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-When using command rmmod and insmod, there is no showing in second time
-insmoding. Because DP controller won't send HPD signals, if connection
-doesn't change or controller isn't reset. So add reset before unreset
-in hibmc_dp_hw_init().
+> Map DRM FourCC codes to pixel descriptions with internal type struct
+> hdlcd_format. Reorder formats by preference. Avoid simplefb's struct
+> simplefb_format, which is for parsing "simple-framebuffer" DT nodes.
+>
+> The HDLCD drivers uses struct simplefb_format and its default
+> initializer SIMPLEFB_FORMATS to map DRM_FORMAT_ constants to pixel
+> descriptions. The simplefb helpers are for parsing "simple-framebuffer"
+> DT nodes and should be avoided in other context. Therefore replace
+> it in hdlcd with the custom type struct hdlcd_format and the pixel
+> descriptions from PIXEL_FORMAT_ constants.
+>
+> Plane formats exported to userspace are roughly sorted as preferred
+> by hardware and/or driver. SIMPLEFB_FORMATS currently puts 16-bit
+> formats to the top of the list. Changing to struct hdlcd_format
+> allows for reordering the format list. 32-bit formats are now the
+> preferred ones.
+>
 
-Fixes: 94ee73ee3020 ("drm/hisilicon/hibmc: add dp hw moduel in hibmc driver")
-Signed-off-by: Baihan Li <libaihan@huawei.com>
----
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Is this change in the preferred format a concern ? It seems reasonable
+to default to 32-bit formats but I wonder if something was relying on
+the old 16-bit format as the preferred one.
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-index 4f93d60b932b..e1b9589ce639 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-@@ -172,13 +172,15 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
- 	dp_dev->link.cap.lanes = 0x2;
- 	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
- 
--	/* hdcp data */
--	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
- 	/* int init */
- 	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
- 	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
- 	/* rst */
-+	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
-+	usleep_range(30, 50);
- 	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
-+	/* hdcp data */
-+	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
- 	/* clock enable */
- 	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
- 
+> This change also removes including <linux/platform_data/simplefb.h>,
+> which includes several unrelated headers, such as <linux/fb.h>.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+The patch makes sense to me though.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.33.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
