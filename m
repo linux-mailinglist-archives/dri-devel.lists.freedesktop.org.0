@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE0FAC8673
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718ECAC8676
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE4810E2B7;
-	Fri, 30 May 2025 02:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD5C810E761;
+	Fri, 30 May 2025 02:51:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iRNtrUwx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QVA8bnNz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E629510E2B7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:51:18 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6317710E761
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573478;
+ s=mimecast20190719; t=1748573485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xYeJByhaUDtzQbfEK9w0CIlmtJj7Mwqy+uGg1CwoA3w=;
- b=iRNtrUwxezi+Ey/ubXpns4DlX8pU2VuLZdMu8wbXhVQYQuvCRAtiIfkSQghgJvtEYgQJZK
- 8iH3pOJwmi5La5o3bKsJbMranllMO01PazoMF1+1y4XHHJyWgrf/fZ4JtJweASTPokYNyq
- Zk7J4ZbhjHSBTaanB6tUPu766R3kI94=
+ bh=ryG2f9UZ4wyOi7yrOCuXZBevf7UHSNEYl3mAa3rzkO0=;
+ b=QVA8bnNz7mDYwgcEbt+ejGb9xQwhdx03MygXgK+AJOGyNrQRC7zPQQBNPpIph41tp0CTRx
+ 3IyohFavFMBKc+em1cuxBPR+fkqvohG9DGtZIpmCLLqkGHBbSqyboWUtbdphofwUxRKkN9
+ QUdP08ClJ+3rFegVHundxY1jLUIb7hE=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-534-TT4-3DExOgiEa04HXLhYcg-1; Thu,
- 29 May 2025 22:51:13 -0400
-X-MC-Unique: TT4-3DExOgiEa04HXLhYcg-1
-X-Mimecast-MFC-AGG-ID: TT4-3DExOgiEa04HXLhYcg_1748573470
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-341-UnUNFwO9NNCVGptQowsclQ-1; Thu,
+ 29 May 2025 22:51:21 -0400
+X-MC-Unique: UnUNFwO9NNCVGptQowsclQ-1
+X-Mimecast-MFC-AGG-ID: UnUNFwO9NNCVGptQowsclQ_1748573475
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id AD2EE1800447; Fri, 30 May 2025 02:51:10 +0000 (UTC)
+ id 7D67D1800373; Fri, 30 May 2025 02:51:15 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 4C29B1955D82; Fri, 30 May 2025 02:51:06 +0000 (UTC)
+ id F30291955D82; Fri, 30 May 2025 02:51:10 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:18 -0500
-Subject: [PATCH v2 16/46] panel/samsung-s6e3fa7: Use refcounted allocation
+Date: Thu, 29 May 2025 21:46:19 -0500
+Subject: [PATCH v2 17/46] panel/samsung-s6e3ha2: Use refcounted allocation
  in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-16-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-17-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1532;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1418;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=18DRCiK0fuvFcaABjthDLxEo6H0Io7yynx6lo6z5hfM=;
- b=s4b26ADRiIPZB2ftob2tT7RUfstwYlr+cUcEksoJcTcdBrzGMlx3d0WYACsJtih/51XFtlIox
- jwzUm3zWj3BA/AzJdwLuXWspUKC6RdqQ7Gns7Djf2sPqH/5o1MYs6Jd
+ bh=zSUmP0EeTP6drEI+TGeK4IAvxvieQdNFYzqm/hNUajM=;
+ b=/GnuNOyjU35SKj7tlrJBRLdZ6nHyW/8FqZLxsBHN8ulSDei0hiyI8mOdsF8PE8dyRWzxtHIJ/
+ oQTaEeferMbDmtGj3UuZYo5nx+TZUOsNV4nFu+r6zyn5PscB5UvNFh5
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -102,37 +102,37 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
-index 27a059b55ae526ba41cc61d59e15b780e5d3a934..f4d75eca3cdfa27441fbb1e303dd8894257d4397 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
-@@ -185,9 +185,11 @@ static int s6e3fa7_panel_probe(struct mipi_dsi_device *dsi)
- 	struct s6e3fa7_panel *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
+index ab8b58545284030714c0d5520f20ba69ed9cf601..1db0c63b1131ee614ddf0bb9abe00e2b89756b4c 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
+@@ -681,9 +681,11 @@ static int s6e3ha2_probe(struct mipi_dsi_device *dsi)
+ 	struct s6e3ha2 *ctx;
  	int ret;
  
 -	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
 -	if (!ctx)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct s6e3fa7_panel, panel,
-+				   &s6e3fa7_panel_funcs,
++	ctx = devm_drm_panel_alloc(dev, struct s6e3ha2, panel,
++				   &s6e3ha2_drm_funcs,
 +				   DRM_MODE_CONNECTOR_DSI);
 +	if (IS_ERR(ctx))
 +		return PTR_ERR(ctx);
  
- 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(ctx->reset_gpio))
-@@ -202,8 +204,6 @@ static int s6e3fa7_panel_probe(struct mipi_dsi_device *dsi)
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
+ 	mipi_dsi_set_drvdata(dsi, ctx);
  
--	drm_panel_init(&ctx->panel, dev, &s6e3fa7_panel_funcs,
+@@ -731,8 +733,6 @@ static int s6e3ha2_probe(struct mipi_dsi_device *dsi)
+ 	ctx->bl_dev->props.brightness = S6E3HA2_DEFAULT_BRIGHTNESS;
+ 	ctx->bl_dev->props.power = BACKLIGHT_POWER_OFF;
+ 
+-	drm_panel_init(&ctx->panel, dev, &s6e3ha2_drm_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
  	ctx->panel.prepare_prev_first = true;
  
- 	ctx->panel.backlight = s6e3fa7_panel_create_backlight(dsi);
+ 	drm_panel_add(&ctx->panel);
 
 -- 
 2.48.1
