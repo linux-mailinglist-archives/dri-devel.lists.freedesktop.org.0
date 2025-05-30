@@ -2,74 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F46AC932C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B08FAC9367
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E0310E15E;
-	Fri, 30 May 2025 16:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28BFC10E0DF;
+	Fri, 30 May 2025 16:20:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HJzXUc7q";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mNjXMMHH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C0E10E15E
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748621642; x=1780157642;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7Ha8QhcH6vxCbEOvf4pxZOBX1RWBw+HLR5G0Cw6EZFc=;
- b=HJzXUc7qy/Vm5S3Jn/0ujG0ylBRF/BiCiQPRWMQGfhvy2w7pAjm7QdZN
- NbZYwx93OSNqmWSN259FlZunr1ZcABPIL6Wa592ftU2k/9rrCX6lIO/XH
- BZw10vkiwGBRco+1GeYQgP29RuK0OsuZKcwN5vktq8FEQdVhOqZ4CBUnp
- XRmjTOVgv1aN/P2T4KA5mud2/MNNbWVwhrV6re6P2sRYFHo2L8x4Dfheo
- wT+i/Oj0delvYcBIxMTqYKCsraKWEAr3s/Xtsw/vJfED7N9KkCOCn4BN1
- NgDbsgtlFbMxHoLZvOzQr3Te8NTvB6DNwECNI0/hgMePwcIwEWdcUM6Wk g==;
-X-CSE-ConnectionGUID: QZKUzomkRWmB8iQhmsYZdw==
-X-CSE-MsgGUID: QivsXd/uSkiyZ74Oq3gGgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="38348587"
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="38348587"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2025 09:14:01 -0700
-X-CSE-ConnectionGUID: cty8znblT/OT/sJyYpRcZQ==
-X-CSE-MsgGUID: YgHR8Xp7Qp+rtp4YuuUnSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="144379572"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa010.fm.intel.com with ESMTP; 30 May 2025 09:13:56 -0700
-Date: Sat, 31 May 2025 00:07:34 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050>
-References: <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
- <20250514163339.GD382960@nvidia.com>
- <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
- <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
- <aDE5SPzOAU0sNIt+@yilunxu-OptiPlex-7050>
- <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
- <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
- <20250529162923.GH192531@nvidia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6C510E86F
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:20:52 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54U9nVMB014290
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:20:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MqTzkJ+m0M+WwOs1Ufc/BTxcDL+AaLfZVAxh4o4YAwY=; b=mNjXMMHHA9/IsnPJ
+ bLB6OGDnRHH6TsGyzMA9Y6YkKzuXxYzxYKwYBQX+y+WDSDMLnUbl3xlPyN9RKEFU
+ VR3/076P8sMLc4qnBFFmc4zhLDyfAcT7Lbljewd8Rk48yxywVfXPLzNIH2pSUDeV
+ FpSbfvepy+aBXNj6PUFKHihnQ8dK3XhbEU6CuA1z0EsuVpqK7yNpuQ4kySb2CHsp
+ VDzwbNirXwHGIaLJfPCVsmK4kjj2HUigxBXP08htjUMTjgmKTfbGe5A9aAilBuOV
+ Bc70kDQml7vGlIt3HFedEAWQGOLVSgL82pvT9rhxMt5NwjuYCgdvp5QjQ+fvWGFd
+ tM5RYA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46wavm3nu8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:20:51 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-745fd5b7b65so1784470b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:20:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748622051; x=1749226851;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MqTzkJ+m0M+WwOs1Ufc/BTxcDL+AaLfZVAxh4o4YAwY=;
+ b=uEERrFw4IJfLgrmJq8eqbIMGEVveW4yVxaUL+RHBBxrr8B8pGT/Dp/XuFasiYqZKHD
+ zxqgAAbeY9IKnz1c1c4wGSx8NVXZjAHZFeqB5rIRawKIS5+I8BzM9FwuPFP+ltzCm6dv
+ ulX7/bogvsXwjeqZ80oyJcvqVPNrIpl2EKfPuXRURo0UO6I30QiAPsukDwd/Fo/ZEFZ/
+ RSutHjYFiI37Nk6NinLOAoQsuXXry4kprIXD2mojnBCtdt80FUKRtcwIlLU3j9ShpfeQ
+ I9wkjbz8ptAcDQ56BRoUNP/oKIxuBU0L/E9xT5P6T73EFnhgYHnJTsj5WKtO1YKuMBzQ
+ 836w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHTTL6I7u/Jp4QZ1s/brEUrUIriT4EdejjCTuw58LMlFLKiZa9mJSeK89Ar///xDkGcoIFGy6DUkg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwB/EXk6X8aXVNEe+/wRtv+SFHo/P0A1Woo30pDrSXXNX+fE+Uj
+ 0L9kGq526E3wndA09GK9OsPG0Saeq/Pqq9E1CDRDPyUaJamJSJZO7ie+xWpWynbGMA4hqFXuvxD
+ cqqjxxtNkA1Xh75vo7KSh60o38Tpwem4K+zXRz3wtQs9FVTuqWI2/5WtTGIC+H1FvGnycZek=
+X-Gm-Gg: ASbGncuCfi+2JxS6I41js5CXNZ4smG2sOGn++89nMHTIn+bFYhvBB/mZOb85+fZBndX
+ uHEVs9fgzjpYV6JALL4PqOFjU6Ia572foWBhxW+lSaJEX9POOiOKzaiL9+apKk13FmURpL6sbCr
+ TE8IqsJZag8nB1uLzRmbJ+7D2ec4yfVQvUkEMmPuHoiefogsA2nvhC9z7JHFUs962q7X1Y7g5MV
+ Plm5u060Ifl1XNXJ9Ds02Hz5bmswYvybVkGFmxYyqeZ6ZryOTOT9uIwTNtKWXEFX2QgGT5L5R+t
+ oP3z8t75eiSow7rFGiGSdcoOj7Et3crDKfpaH1M+RBzd/kejyGC8dktWwCzFexFN395ebzaX
+X-Received: by 2002:a05:6a00:7491:b0:740:6615:33c7 with SMTP id
+ d2e1a72fcca58-747c1c83852mr2995548b3a.23.1748622050765; 
+ Fri, 30 May 2025 09:20:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3KvuYJT4qbQ5u5CbTu0XT/yKXicfsd+dn08wq+4nYHqmMZGv9KAdolvB8TbaAHA/+TUu3/A==
+X-Received: by 2002:a05:6a00:7491:b0:740:6615:33c7 with SMTP id
+ d2e1a72fcca58-747c1c83852mr2995515b3a.23.1748622050335; 
+ Fri, 30 May 2025 09:20:50 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-747affd2c86sm3325986b3a.144.2025.05.30.09.20.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 May 2025 09:20:49 -0700 (PDT)
+Message-ID: <463162bb-5e2d-4768-8811-ede7b2063c85@oss.qualcomm.com>
+Date: Fri, 30 May 2025 10:20:47 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250529162923.GH192531@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 05/10] accel/rocket: Add a new driver for Rockchip's NPU
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-5-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250520-6-10-rocket-v5-5-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: s4OVVrqg2W1FVRLcHxj9o4TRtn2O7jb5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE0NCBTYWx0ZWRfX682XTklXzq7z
+ vnm8m/2sq+Ejk5Mo4QhCgXlkAG24Xfmk3uSF0lE8AyXstFXCkXQxSL8buqrAVDlNJHoWBjdKoK5
+ qpe3wc/uJLKqx4o/gxrnlIRBiDFgdWHFiTYoXuKCJEmMVoV4mwAe9JGIygPLF/aDDdvdUwOsqe3
+ JzUWS/3UJMjeVhqLKwgo6ZB41wcwHZYS7Hf60R3w+ceFtWr8xHjNNYlsVbObohg1mSL9HQfFG6O
+ Z4wNtn1NNV4TNSQC8RZ3AEaXA/IPjD/tIqZ76hmzsgmf2Nh2bCV7lA/2T0MxtYbx55NlPflHyxt
+ MFFcjIIdPrM9YdvkiVKOp3DUlYD1Ue4ZWEk+Uw+TXeolGlvgYNyrVZma46ViTt7N5DWe3l0c+YW
+ qlFwM9CWW1IsZGHbD/Pu25mmMlyjw9KvzrZhyrPkPqM5tFOEcJ1v7KAUfx0pFJxbYqusu+xu
+X-Authority-Analysis: v=2.4 cv=fMk53Yae c=1 sm=1 tr=0 ts=6839dae3 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=DISFzqtZAAAA:8 a=HlDAqVJfg7-00m_e3XEA:9
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22 a=aug85vrO5LANNmmtkfAW:22
+X-Proofpoint-ORIG-GUID: s4OVVrqg2W1FVRLcHxj9o4TRtn2O7jb5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,46 +136,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 29, 2025 at 01:29:23PM -0300, Jason Gunthorpe wrote:
-> On Thu, May 29, 2025 at 10:41:15PM +0800, Xu Yilun wrote:
-> 
-> > > On AMD, the host can "revoke" at any time, at worst it'll see RMP
-> > > events from IOMMU. Thanks,
-> > 
-> > Is the RMP event firstly detected by host or guest? If by host,
-> > host could fool guest by just suppress the event. Guest thought the
-> > DMA writting is successful but it is not and may cause security issue.
-> 
-> Is that in scope of the threat model though? Host must not be able to
-> change DMAs or target them to different memory, but the host can stop
-> DMA and loose it, surely?
+On 5/20/2025 4:26 AM, Tomeu Vizoso wrote:
+> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..55f4da252cfbd1f102c56e5009472deff59aaaec
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_device.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+> +
+> +#ifndef __ROCKET_DEVICE_H__
+> +#define __ROCKET_DEVICE_H__
+> +
+> +#include <drm/drm_device.h>
+> +#include <linux/clk.h>
+> +
+> +#include "rocket_core.h"
+> +
+> +struct rocket_device {
+> +	struct drm_device ddev;
+> +
+> +	struct clk_bulk_data clks[2];
+> +
+> +	struct rocket_core *cores;
+> +	unsigned int num_cores;
+> +};
+> +
+> +int rocket_device_init(struct rocket_device *rdev);
+> +void rocket_device_fini(struct rocket_device *rdev);
+> +
+> +#define to_rocket_device(drm_dev) \
+> +	((struct rocket_device *)container_of(drm_dev, struct rocket_device, ddev))
 
-This is within the threat model, this is a data integrity issue, not a
-DoS issue.  If secure firmware don't care, then no component within the
-TCB could be aware of the data loss.
+Include container_of.h?
 
-> 
-> Host controls the PCI memory enable bit, doesn't it?
+> +static int rocket_drm_bind(struct device *dev)
+> +{
+> +	struct device_node *core_node;
+> +	struct rocket_device *rdev;
+> +	struct drm_device *ddev;
+> +	unsigned int num_cores = 1;
+> +	int err;
+> +
+> +	rdev = devm_drm_dev_alloc(dev, &rocket_drm_driver, struct rocket_device, ddev);
+> +	if (IS_ERR(rdev))
+> +		return PTR_ERR(rdev);
+> +
+> +	ddev = &rdev->ddev;
+> +	dev_set_drvdata(dev, rdev);
+> +
+> +	for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-core")
+> +		if (of_device_is_available(core_node))
+> +			num_cores++;
+> +
+> +	rdev->cores = devm_kmalloc_array(dev, num_cores, sizeof(*rdev->cores),
+> +					 GFP_KERNEL | __GFP_ZERO);
 
-That's why DSM should fallback the device to CONFIG_UNLOCKED when memory
-enable is toggled, that makes TD/TDI aware of the problem. But for IOMMU
-PT blocking, DSM cannot be aware, TSM must do something.
+devm_kcalloc will handle the ZERO flag for you.
 
-Zhi helps find something in SEV-TIO Firmware Interface SPEC, Section 2.11
-which seems to indicate SEV does do something for this.
 
-"If a bound TDI sends a request to the root complex, and the IOMMU detects a fault caused by host
-configuration, the root complex fences the ASID from all further I/O to or from that guest. A host
-fault is either a host page table fault or an RMP check violation. ASID fencing means that the
-IOMMU blocks all further I/O from the root complex to the guest that the TDI was bound, and the
-root complex blocks all MMIO accesses by the guest. When a guest writes to MMIO, the write is
-silently dropped. When a guest reads from MMIO, the guest reads 1s."
-
-Blocking all TDIs should definitely be avoided. Now I'm more sure Unbind
-before DMABUF revoke is necessary.
-
-Thanks,
-Yilun
-
-> 
-> Jason
