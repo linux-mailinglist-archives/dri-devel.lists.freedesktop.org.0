@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D310AC8D0B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 13:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828CCAC8D1D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 13:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D526410E7E0;
-	Fri, 30 May 2025 11:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2430510E0E4;
+	Fri, 30 May 2025 11:47:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tCzzF4mm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nr9ZcbKZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB3610E83D;
- Fri, 30 May 2025 11:39:44 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A7810E0E4;
+ Fri, 30 May 2025 11:47:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1FE1F5C635F;
- Fri, 30 May 2025 11:37:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA2AC4CEE9;
- Fri, 30 May 2025 11:39:37 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1353644269;
+ Fri, 30 May 2025 11:47:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D140C4CEE9;
+ Fri, 30 May 2025 11:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748605179;
- bh=jiQCGx0YSXrjA7NcSI86rhOwbwWT7bvgPuL9HsaO1e4=;
+ s=k20201202; t=1748605622;
+ bh=PPWkMV6RF/9nIArnrSMpfu5q6WPdhMpJzoHVhO95F74=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=tCzzF4mm7yxD6Jbk4/3PzRo+HCSmKNujXmH0ycSLDDNnmnayVIWiJv6bMHwDOUQ1c
- LU5S1Q2J/G47csOds18pPbG1yX/JP2yaK2k3Caqt+FDiCAZdejAq0ALtEiK1zXuBNq
- /ZsGfnIRf12HfEU52/UEuk1q5nu5VkZLNW9Qp4rgLs+FbbweoWRA4RL3WMsVf3QgTx
- jAS4erw//R/4aZgnihD+AJveLU1T8MoVXOmnAVmkZvWSiTgCVcwZ6dPlqHcshA/NkJ
- 7wH3Sd3RQHPtk+iIUe8gpJ+2Qsth6orOljjR0TrRed2jBPO8THEouYd6JDReuHxPid
- ZCH5g5Rh8/Xqw==
-Message-ID: <0ae02bf15487f3e5703ce1f5d3107b6dc00477f1.camel@kernel.org>
-Subject: Re: [PATCH v12 01/10] i915: only initialize struct ref_tracker_dir
- once
+ b=nr9ZcbKZeHr45euNhVKpWXVcky+dUSDmAy3i/ZNUf55AQfRjh+Adb9+WC5uKM1eGr
+ PszIg6rrh6MZlelEi2d54tgUXy0EqeOOjmdnq3XyOaGHlF/H6lm0p0ws1HUjVZkm+H
+ Yut4j+V7jeNqN5rSD5iIRA3bsTNhp8tl8u+11T7TOJaV8yuFTT+vE7pesz2H9NW89p
+ I85kpbBbXBenNmc9YZPz+36sL1is9jvG3YE4grLk1JUj7Lv0ohN35UQ02ZfWURcXfb
+ ARnZC8jwSFBXyGGD73MTMY1wwBGf1enFmiw4O63P2qBFWtBAixwsN1j3+K+qM0ECDF
+ O2l/7yrxj9KuA==
+Message-ID: <ee3f6fdb27820654c83cdac9df09e0fe6e43883f.camel@kernel.org>
+Subject: Re: [PATCH v12 04/10] ref_tracker: have callers pass output
+ function to pr_ostream()
 From: Jeff Layton <jlayton@kernel.org>
 To: Krzysztof Karas <krzysztof.karas@intel.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"	
@@ -48,11 +48,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
  Chancellor	 <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
  linux-kernel@vger.kernel.org, 	netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 	intel-gfx@lists.freedesktop.org
-Date: Fri, 30 May 2025 07:39:36 -0400
-In-Reply-To: <bcc3aaschdk64nieucfllygsqjvtvpffgxf7mjamabkeofangr@tmbkssauvg2d>
+Date: Fri, 30 May 2025 07:47:00 -0400
+In-Reply-To: <vzuwl22qfx5pkcgliy3n76mqx4od2dtbduga4wl4tlvtae63e3@vnzosrktvg5m>
 References: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
- <20250529-reftrack-dbgfs-v12-1-11b93c0c0b6e@kernel.org>
- <bcc3aaschdk64nieucfllygsqjvtvpffgxf7mjamabkeofangr@tmbkssauvg2d>
+ <20250529-reftrack-dbgfs-v12-4-11b93c0c0b6e@kernel.org>
+ <vzuwl22qfx5pkcgliy3n76mqx4od2dtbduga4wl4tlvtae63e3@vnzosrktvg5m>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -146,70 +146,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-05-30 at 11:01 +0000, Krzysztof Karas wrote:
+On Fri, 2025-05-30 at 11:13 +0000, Krzysztof Karas wrote:
 > Hi Jeff,
 >=20
-> > I got some warnings from the i915 CI with the ref_tracker debugfs
-> > patches applied, that indicated that these ref_tracker_dir_init() calls
-> > were being called more than once. If references were held on these
-> > objects between the initializations, then that could lead to leaked ref
-> > tracking objects.
-> >=20
-> > Since these objects are zalloc'ed, ensure that they are only initialize=
-d
-> > once by testing whether the first byte of the name field is 0.
+> [...]
+> > +static void __ostream_printf pr_ostream_buf(struct ostream *stream, ch=
+ar *fmt, ...)
+> > +{
+> > +	int ret, len =3D stream->size - stream->used;
+> > +	va_list args;
+> > +
+> > +	va_start(args, fmt);
+> > +	ret =3D vsnprintf(stream->buf + stream->used, len, fmt, args);
+> vsnprintf() technically may return a negative error code.
+> In that case, we'd be adding some unwanted values to the
+> stream->used. When we encounter an error we could skip
+> modifying that field.
 >=20
-> Are you referring to these warnings?
-> <3> [314.043410] debugfs: File 'intel_wakeref@ffff88815111a308' in direct=
-ory 'ref_tracker' already present!
-> <4> [314.043427] ref_tracker: ref_tracker: unable to create debugfs file =
-for intel_wakeref@ffff88815111a308: -EEXIST
->=20
-> I think those might be caused by introduction of:
-> "ref_tracker: automatically register a file in debugfs for a ref_tracker_=
-dir".
->=20
-> Current version of "ref_tracker: add a static classname string
-> to each ref_tracker_dir" further in this series should prevent
-> multiple calls to "ref_tracker_dir_init()", so this patch could
-> be dropped I think.
-> If my reasoning is wrong however, then please add a note to the
-> commit message which explains why this is needed in more detail
-> or/and move this patch right before it is necessary. Otherwise
-> it looks like a vague workaround.
+> > +	va_end(args);
+> > +	stream->used +=3D min(ret, len);
+> > +}
+> > +
+> [...]
 >=20
 
-I'm fine with dropping this patch.
+Good catch. I'll change this to be:
 
-Those are the messages that demonstrate the problem, but the problem is
-potentially bigger than those messages. ref_tracker_dir_init() is being
-called (at least) twice:
+        va_start(args, fmt);
+        ret =3D vsnprintf(stream->buf + stream->used, len, fmt, args);
+        va_end(args);
+        if (ret > 0)
+                stream->used +=3D min(ret, len);
 
-struct ref_tracker_dir {                                             =20
-#ifdef CONFIG_REF_TRACKER                                            =20
-        spinlock_t              lock;                                =20
-        unsigned int            quarantine_avail;                    =20
-        refcount_t              untracked;                           =20
-        refcount_t              no_tracker;                          =20
-        bool                    dead;                                =20
-        struct list_head        list; /* List of active trackers */  =20
-        struct list_head        quarantine; /* List of dead trackers */
-        const char              *class; /* object classname */       =20
-#ifdef CONFIG_DEBUG_FS                                               =20
-        struct dentry           *dentry;                             =20
-        struct dentry           *symlink;                            =20
-#endif                                                               =20
-#endif                                                               =20
-};=C2=A0
-
-This structure contains two list_heads that can contain ref_tracker
-objects. If that list was populated when ref_tracker_dir_init() is
-called the second time, then those objects will now be sitting on a
-corrupt list. At best they'll just leak, but with them sitting on a
-now-corrupt list, they could cause a panic too.
-
-It may be that there can be no objects on that list when it's called
-the second time. But with this patchset initializing it twice will
-cause dentry leaks at least.
 --=20
 Jeff Layton <jlayton@kernel.org>
