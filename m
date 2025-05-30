@@ -2,74 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC297AC9393
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82971AC939F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 549EC10E179;
-	Fri, 30 May 2025 16:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C81DE10E26D;
+	Fri, 30 May 2025 16:33:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WhZfSkLh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dcweAjVD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9469810E179
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748622601; x=1780158601;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=D2scOJFObbCx4KXsuqN5hyJ1uWi4EUmVo0sfkDiPW9Q=;
- b=WhZfSkLhbnYonwubQtkz+woV0FI1VjBEfrPBlg6ivTXhutDzFZj6Iqk/
- kpm+yTt7Z/M4YtpqBRaA+I2rV3Nhj5lqm6FR8gvjKDqYHGIuyaRQaICJt
- lfO30LGPY8samkQGDUwNKiJvrx3t3zGncs++JLbVCId5euLdUyy8VFXqo
- 9w4bVfcO2HSMH2gBnIazBSHy4e+chO19Riu8SyaE7oRJ740as83lHOnTS
- Y3O3iWbcBis0QShZfqw7p5VZBerzqBuCO2TTG+/vB233Xz60fISKF1ASF
- UJhCOoVP4+Ede/px7OlIENu/vVBrD4vbkEHewHfAJ1CXnuVhEkgUWdrXE g==;
-X-CSE-ConnectionGUID: uHizsgK3TnCux2up7JxqpQ==
-X-CSE-MsgGUID: yDdw+NgqTzylJoHDDdRzqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="60977536"
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="60977536"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2025 09:29:54 -0700
-X-CSE-ConnectionGUID: gSdMvp93Re2stAr5qQaSYg==
-X-CSE-MsgGUID: xmWbXOtqSKqnqwM/UkPvTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="149061981"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa004.fm.intel.com with ESMTP; 30 May 2025 09:29:49 -0700
-Date: Sat, 31 May 2025 00:23:28 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aDnbgBbxF8IkH/cq@yilunxu-OptiPlex-7050>
-References: <2c4713b0-3d6c-4705-841b-1cb58cd9a0f5@amd.com>
- <20250512140617.GA285583@nvidia.com>
- <aCRAHRCKP1s0Oi0c@yilunxu-OptiPlex-7050>
- <20250514163339.GD382960@nvidia.com>
- <aCYQdDrYYZRAgsen@yilunxu-OptiPlex-7050>
- <9dea400f-a57b-43be-a2e4-24a9f51e6ba0@amd.com>
- <aDE5SPzOAU0sNIt+@yilunxu-OptiPlex-7050>
- <ae16db07-5fca-4369-aa67-cbe2e0fd60fd@amd.com>
- <aDhyC73r149syMpc@yilunxu-OptiPlex-7050>
- <79872224-4e81-446b-a451-28260f449ea9@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA94A10E26D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:33:44 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBQjYs013722
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:33:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ uCkkqy4vApGz2Fcr6sUFdDKm308UJD0nqqbHUovYzug=; b=dcweAjVDE/LjqPwp
+ oTZoLRzOpQtI1JYDCMartltY2c5NB7YMlo/dTDRPndvS7pd9PPQfhgSBch3PEh4H
+ oc5W8IPBmxXc8y9f0eJegWB4pykMBiCEZN8j+v7aGdrixd7VyGS2/kjhy0zo0QqA
+ XUgfiq0u1OrBVtwV/38j7YZVZ/qTbTyZsx+lQ9ewM1baMS0WsetNFx0znDmQ5qfz
+ BRdtzazkc4/gCaP/Gb9+EA695ygVe/1eKNTHi32s/wCYmY4odDJHX8u9qVCsOZJk
+ 9jXkDDFD0qe9Gq1ZUFCJmTcOm/GSbItFs5zFtondN5eTlNacUbBVYKOzoLNvsXQH
+ LTVIag==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46wavm3q1g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:33:43 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-742c7227d7dso1768350b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:33:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748622823; x=1749227623;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uCkkqy4vApGz2Fcr6sUFdDKm308UJD0nqqbHUovYzug=;
+ b=hPUfd0oH1C+ghenhsPd9oV65ul0n2UnVdJU1kQp9qNhtVPGRs7CdIqur/yCK+OM4ga
+ 8IjnG0eu3FqyWJkfcajmSWuROAADTdg066CucL5wIx9L1Lp6rZXpRQBX8cGFvU7pTEoi
+ oAA8h/CZ9bYuGcRS+3+ZpYXwQP2y+PF3dAUnZGGtLelmeCjMFnsu/5+xOs6/PgEZLpTv
+ AJAs7W9BOX04lBKgC+HT2SkDJaJRwXV2jbQ1V7obHX5sY7Ssn9si2E/3sdI8MVdPZJPt
+ fohbr3/AdvLlPq2UHKWoT5kHDw5c8ji4G9ZRLVhmFcox1dktVz+NCWTUcQsvL6AQCW97
+ Yu1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxcl8NvhhrCdnzzxVT1VAM0LlOdO6SsqDX7pFz5us8ReYBPzKXNic3Yb+RRNKCHbU/IWTDPGer/bg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTxnvvk5CjequvOpqUoizf03EK8UFcjv+3A64qeZ+NdJA6lFD7
+ eTmyfJZ2RV9Ca3+BxbX+EpT8+tWW2I5IIWU+LfmosNEZSQyJkY8xTCfNNnoTgaGOBDLSdMdq5Yr
+ jllQDrzxnz3uAiNbUJgvtgRhFOaCjWmKhk4CMyQIvEuiqLvE3AbvIvfZ6ZwmuKlabTJQY1IA=
+X-Gm-Gg: ASbGncvzx8beAfIdcE3/DWm39de6xe8Z6/BmhkHowSDuM4NByk0ku9R2G0EcZeMJLi6
+ FfF3LCrT7eEA+t5US7RDFeuSyoTGN7wSHQR5ZwHE0XRIz3WgkGLwKS7t/YqCXyXru6b46sPsplv
+ LmC+ynwPzvbY+O41qIoWfmuRiJxgFYv/zgrWTVtxcq1GiUlJtxlOnzYECl+v6zoP4SpW08NIgmS
+ tQNA5K2k5Ayy+ZiMCet3xR0Qd6J070AP2xgxo8VmhAhrNDDor8sk0LV0ANR0bfG25I6jtHVqroj
+ Zq4DAoBRameSS5ckhBZ7kPEvAAnv69Xl3qxycL+YG9iM2CQvOkFWd5QDQP2vjmSoLrTr+Jnr
+X-Received: by 2002:a05:6a00:2e04:b0:73f:e8c:1aac with SMTP id
+ d2e1a72fcca58-747c1a48890mr3832888b3a.2.1748622822624; 
+ Fri, 30 May 2025 09:33:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFtqNwQxZU0xTr2WITGJuLCEWHrD4jd+DcWqKzqx8uZbn4MTH/bomjNfm/KY2N3fVJbrV50ng==
+X-Received: by 2002:a05:6a00:2e04:b0:73f:e8c:1aac with SMTP id
+ d2e1a72fcca58-747c1a48890mr3832859b3a.2.1748622822240; 
+ Fri, 30 May 2025 09:33:42 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-747afeab820sm3347905b3a.60.2025.05.30.09.33.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 May 2025 09:33:41 -0700 (PDT)
+Message-ID: <34a9bf5e-34f1-46ee-bebb-96bca551768c@oss.qualcomm.com>
+Date: Fri, 30 May 2025 10:33:39 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79872224-4e81-446b-a451-28260f449ea9@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/10] accel/rocket: Add job submission IOCTL
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: Gjy_wbnR7egoe8cbsMAnVRYwpMkJ8R9P
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE0NiBTYWx0ZWRfX95UOo1kp3j15
+ tyS7g+Q9j+W5B3/+26Ea0lROtYLfk9ADkws8yoC2USdT86Zh/vSbZfFx1Vr03Ir9NorQ+0G10EH
+ rzfsuiVOD1YUI4uxOKzOFIYnOkTwYNoD3IrzZsOm5JsBFobYErtW5fE0VCXCqokOZ8pmJe4WGzq
+ VjmeCna2Ds6SDfTN6waS41dFXLmyuUPGPvCfPyTTqAERc7g4DtyY303ArxpSovc3GC/k0C2z1du
+ LWEEM8iIBeAkJv4wAiyjpqWSLDTLmza25fZ4GN2rLJtQQI9W+/oF0DYm6B2KrQr7HxHkmBn/VCH
+ 6gcqUHNzKW6DRhAPChBrpyiVqhWrEJCHRoPiOL6XntVZ7DdM21PIv+6xhUqa+/JhdfjmjWkPpku
+ M99zagAJid0iAT3PgpxIGl0o1vckNOpVbBA4ZBZ2JKDqIbpHuF4TgVQe09132+Qi1Z8c0X9c
+X-Authority-Analysis: v=2.4 cv=fMk53Yae c=1 sm=1 tr=0 ts=6839dde7 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=YifSY7n-Kb6RBMa0OVQA:9
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: Gjy_wbnR7egoe8cbsMAnVRYwpMkJ8R9P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=932 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,88 +136,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 12:29:30PM +1000, Alexey Kardashevskiy wrote:
-> 
-> 
-> On 30/5/25 00:41, Xu Yilun wrote:
-> > > > > > 
-> > > > > > FLR to a bound device is absolutely fine, just break the CC state.
-> > > > > > Sometimes it is exactly what host need to stop CC immediately.
-> > > > > > The problem is in VFIO's pre-FLR handling so we need to patch VFIO, not
-> > > > > > PCI core.
-> > > > > 
-> > > > > What is a problem here exactly?
-> > > > > FLR by the host which equals to any other PCI error? The guest may or may not be able to handle it, afaik it does not handle any errors now, QEMU just stops the guest.
-> > > > 
-> > > > It is about TDX Connect.
-> > > > 
-> > > > According to the dmabuf patchset, the dmabuf needs to be revoked before
-> > > > FLR. That means KVM unmaps MMIOs when the device is in LOCKED/RUN state.
-> > > > That is forbidden by TDX Module and will crash KVM.
-> > > 
-> > > 
-> > > FLR is something you tell the device to do, how/why would TDX know about it?
-> > 
-> > I'm talking about FLR in VFIO driver. The VFIO driver would zap bar
-> > before FLR. The zapping would trigger KVM unmap MMIOs. See
-> > vfio_pci_zap_bars() for legacy case, and see [1] for dmabuf case.
-> 
-> oh I did not know that we do this zapping, thanks for the pointer.
-> > [1] https://lore.kernel.org/kvm/20250307052248.405803-4-vivek.kasireddy@intel.com/
-> > 
-> > A pure FLR without zapping bar is absolutely OK.
-> > 
-> > > Or it check the TDI state on every map/unmap (unlikely)?
-> > 
-> > Yeah, TDX Module would check TDI state on every unmapping.
-> 
-> _every_? Reading the state from DOE mailbox is not cheap enough (imho) to do on every unmap.
+On 5/20/2025 4:27 AM, Tomeu Vizoso wrote:
+> -	version = rocket_pc_read(core, VERSION);
+> -	version += rocket_pc_read(core, VERSION_NUM) & 0xffff;
+> +	version = rocket_pc_readl(core, VERSION);
+> +	version += rocket_pc_readl(core, VERSION_NUM) & 0xffff;
 
-Sorry for confusing. TDX firmware just checks if STOP TDI firmware call
-is executed, will not check the real device state via DOE. That means
-even if device has physically exited to UNLOCKED, TDX host should still
-call STOP TDI fwcall first, then MMIO unmap.
+This seems weird.  Feels like an eariler patch introduced a "bug" and 
+you are fixing it here.  If so, then shouldn't the origional patch be 
+updated?
 
-> 
-> > > 
-> > > > So the safer way is
-> > > > to unbind the TDI first, then revoke MMIOs, then do FLR.
-> > > > 
-> > > > I'm not sure when p2p dma is involved AMD will have the same issue.
-> > > 
-> > > On AMD, the host can "revoke" at any time, at worst it'll see RMP events from IOMMU. Thanks,
-> > 
-> > Is the RMP event firstly detected by host or guest? If by host,
-> 
-> Host.
-> 
-> > host could fool guest by just suppress the event. Guest thought the
-> > DMA writting is successful but it is not and may cause security issue.
-> 
-> An RMP event on the host is an indication that RMP check has failed and DMA to the guest did not complete so the guest won't see new data. Same as other PCI errors really. RMP acts like a firewall, things behind it do not need to know if something was dropped. Thanks,
+> +static int
+> +rocket_copy_tasks(struct drm_device *dev,
+> +		  struct drm_file *file_priv,
+> +		  struct drm_rocket_job *job,
+> +		  struct rocket_job *rjob)
+> +{
+> +	struct drm_rocket_task *tasks;
+> +	int ret = 0;
+> +	int i;
+> +
+> +	rjob->task_count = job->task_count;
+> +
+> +	if (!rjob->task_count)
+> +		return 0;
+> +
+> +	tasks = kvmalloc_array(rjob->task_count, sizeof(*tasks), GFP_KERNEL);
+> +	if (!tasks) {
+> +		ret = -ENOMEM;
+> +		drm_dbg(dev, "Failed to allocate incoming tasks\n");
+> +		goto fail;
+> +	}
+> +
+> +	if (copy_from_user(tasks,
+> +			   (void __user *)(uintptr_t)job->tasks,
 
-Not really, guest thought the data is changed but it actually doesn't.
-I.e. data integrity is broken.
+u64_to_user_ptr() ?
 
-Also please help check if the following relates to this issue:
+Same thing down in rocket_ioctl_submit_job()
 
-SEV-TIO Firmware Interface SPEC, Section 2.11
 
-If a bound TDI sends a request to the root complex, and the IOMMU detects a fault caused by host
-configuration, the root complex fences the ASID from all further I/O to or from that guest. A host
-fault is either a host page table fault or an RMP check violation. ASID fencing means that the
-IOMMU blocks all further I/O from the root complex to the guest that the TDI was bound, and the
-root complex blocks all MMIO accesses by the guest. When a guest writes to MMIO, the write is
-silently dropped. When a guest reads from MMIO, the guest reads 1s.
-
-Thanks,
-Yilun
-
-> 
-> > 
-> > Thanks,
-> > Yilun
-> 
-> -- 
-> Alexey
-> 
