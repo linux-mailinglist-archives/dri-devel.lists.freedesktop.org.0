@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5969FAC9418
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FFFAC9422
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 18:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B231B10E1A6;
-	Fri, 30 May 2025 16:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A27310E839;
+	Fri, 30 May 2025 16:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ILX+rnCh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K37cL/s3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084BD10E863
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB6210E853
  for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:59:24 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-450cfb790f7so15268265e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:59:23 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-45024721cbdso17397735e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748624362; x=1749229162; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1748624363; x=1749229163; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UOUnDZksgUPq4aY4rBL8aX+sFVS5jcV32pBW6xfenO8=;
- b=ILX+rnChcyIpG0WQVs0QVWEn8M+9z+PRP5frOyH6X0bOO19WUAgBY+ovIbuFkpTOek
- rsQ+Rt+5McoGtKo3D2wx/nzYh1A2AJEEcfyJoQtMnnGWsskoFIPs5BqBCJ1oV0gzAEYn
- 1OZbiNAfbG1v42lKeIpj7x64M4gdiUk6/mIiMX9mXBNkwr9k37A7zAf5nCyatS/Jwpnt
- 7IsCEl7sDfmdZyNCfrjXexVM5l6JSeElCFJOkhfUckA4WeqfY8sFYG6sNMXXBedXAs5y
- sgX3zkP2ReprSeLdUn9bm/FGtav7agsQ6hItXmSHyvzhoqJ7XAn2quuhLKv+e2tDsTsa
- ghMw==
+ bh=6Bsc1oUMW4VytILKq6eucAsxCxsFRVs9NwyCg9qybzg=;
+ b=K37cL/s3LwOYY7Gf414Dw/0SYY7HTzIrH2YabEfgTQFWyHLCTujnjG0D9In/muQ3ll
+ zu6fF9n70khzHGBpgrqFC5Yz00MuKYWwB9c49YkHwxe00iJqsAxouNXA0jJYRba2g/9o
+ 9F+40njm4Mba6Vo0s363V4eVTKMcKPlH3QsoADvWpX8dm5yZV7QTuKdYQpRFV3dlqBgz
+ YEQaStxR1iKqk6dY5CbXSGPmy5Av/mnzU6dT9v29O7tiMXc4KEyLP/KjvAPMd9NVXC0Z
+ 3YLdh5RcOBmkV2nKB082U8/iMT35j+1OzAbsFilp+rFI4KJOIE4ueh69pznrhsshMnzZ
+ 47gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748624362; x=1749229162;
+ d=1e100.net; s=20230601; t=1748624363; x=1749229163;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UOUnDZksgUPq4aY4rBL8aX+sFVS5jcV32pBW6xfenO8=;
- b=peC7GXRhbyGFbKIZw8P+m38TezVnOqmmwDANiHy5LG+sdlawRxSUZjlS1ejWdpvxBj
- SuhBchFo04VoWAY5rGSv4jPuItwjaUy+EtYlOFuH+dSmHFQuLiIKPeExVy6Ejex14UwJ
- MQBfPOd8yIfs1on9ia7I0RSX8qZrcTEejTwJGgstMW08kpCeURUtJ6sBXEjT039GY2Hb
- jsAal6aym3cDnBgWoNjHoLjxOkzeCB9SK3xLf1HekhOsk9AabaascjJYP98/SgiwNYeP
- DGIZLr4GmJurUyknQSGmDXWRojerrfeo4RkiKEWA/DW5xDw18ycV5KSc6FAlbq7BZl/E
- u0zQ==
-X-Gm-Message-State: AOJu0YxCimP/FbrcmUQf3rUbUOLaNHiXLMVpFswmo6EUSwE/il8Zu9h2
- whm98/0EyFGMFc6psghAoNEsveagQsM/0tm6KbFewfApBgdNXab0lcuy
-X-Gm-Gg: ASbGnctljKOBrYGV7Fo0yfMRnsSpy55a4tmlZXp4S+WLOSQKwqO1J6E6XrCVLQV2mxA
- kOTPm2C8Ax/koOVXiggmRzyGxjLZe6jA83tG7lGOCZW1YR919JzrP8a0KS+EKT3JdZrbMkIdoeP
- c+O7TZmvpqmmBWTBO88lS/A4wEQRKcqxpJsXWI37Qig4Scyqg67URoNf3zL7wPb2gBPJa4aYMD4
- huifyYet4sRwWEeuG2JeV0FTj+Is+jCN9P1qe7RWYkKh39tjn83uW3gQlyaH9aPsAewqh2sHwts
- NtEcq/J3jLyomkt4tE94E1kf0w/Gsv1pqnRLRTSxyQ/dr1/FOrbT0+kVlo640Jzn4ySNdL3fsgp
- ySY5Z8cHCVg==
-X-Google-Smtp-Source: AGHT+IFzgn0QIVlghz5vyCIu/2/JW6FdsqCQ2bsc/449AIyFpCyM0aAnMLMWoMv9bJ4cXTfP+tlr6A==
-X-Received: by 2002:a05:600c:524a:b0:450:cf01:7310 with SMTP id
- 5b1f17b1804b1-450d6515d10mr42199455e9.12.1748624362159; 
- Fri, 30 May 2025 09:59:22 -0700 (PDT)
+ bh=6Bsc1oUMW4VytILKq6eucAsxCxsFRVs9NwyCg9qybzg=;
+ b=iwUp2O6Bz0piAeTchxPl4HYQAPyIswEP9UFH5I32JZwonPSCqlbHnhDa0WGIx3d5LS
+ ryGldpUL6fMliuNo+WdwFdqAGHW9ABW4D6X6t5JRAEbtf3aw3BUCeuzMZcjCFX7eI7Pf
+ O1RvhwLj+uVp3w/JCbKYGA6HtA/3XxkzBUCLVka+Gf6fgaojz1zhsVJHCISi5nwmiZvQ
+ RzBpSFpgSTbYNaCY8gyOtR8V+X1xKOI3qenpIhteJNQYoRWc74E3XxH9gr6d1ZWuNK5d
+ o8aI+n9kDQysKZCxiwLQgg8oUvJXMiAH4O/+R7q7k+ronVE4+TlBxpERl7C2mf5NihRZ
+ ohqQ==
+X-Gm-Message-State: AOJu0Yy7INtG+9UqYjQhw8SUSUGCLhlp5cTDzTufwZfkLCKuRz8ek099
+ TSAi4dP3SX3k0bD2Yq9B0bHS7bfMAQ1jj59NmsmAZ0SFYdQhIWF3WOHd
+X-Gm-Gg: ASbGncus9CxElka1IQtddVDyHiOqoNruABlHP+vqyzchKetVO7yBMYDsGn5aTeSqig8
+ 7Tn68bFlRHabBzP2rITB7yoJ8du8fE28ee2KA7155Wjev7OWjm8XIVOreJZSlSOQXsP+SA3niL8
+ mgeLWbTUQDOXfBKXP4bEMligjqHol4UUBXMSMliXUSumLEmkVsQ3JWzwd9FsbRdHlc4Al5uwEgt
+ fPYycBBRQNu3niIRdNr3T7SlIHGtecCUpD7+bH/6s+JvYGX7eDNk42fdfXKMunsT56GR0irliqK
+ sQuiZB35uCWhQudmtMlMfz8X1pFUCOh6gVJvt/C5zF3JWVMBqTi3VGOGy7xwk//mT44uyqXaFsd
+ wdeThQWO+XvcTZcCXz2sJ
+X-Google-Smtp-Source: AGHT+IHX1pqPaNodbBcNM0xGNtsM6i9wiutFQO6+/zneQQbRJcqE/FktY/zMJOvdCcgJNOK4kMrYDQ==
+X-Received: by 2002:a05:600c:620f:b0:442:e9eb:cba2 with SMTP id
+ 5b1f17b1804b1-450d6452cadmr53521755e9.0.1748624363359; 
+ Fri, 30 May 2025 09:59:23 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:bcab:7ec7:2377:13b0])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d7f9efa3sm22733455e9.9.2025.05.30.09.59.21
+ 5b1f17b1804b1-450d7f9efa3sm22733455e9.9.2025.05.30.09.59.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 09:59:21 -0700 (PDT)
+ Fri, 30 May 2025 09:59:22 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -77,10 +77,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Prabhakar <prabhakar.csengg@gmail.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 09/12] drm: renesas: rz-du: mipi_dsi: Add feature flag for
- 16BPP support
-Date: Fri, 30 May 2025 17:59:03 +0100
-Message-ID: <20250530165906.411144-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 10/12] drm: renesas: rz-du: mipi_dsi: Add dphy_late_init()
+ callback for RZ/V2H(P)
+Date: Fri, 30 May 2025 17:59:04 +0100
+Message-ID: <20250530165906.411144-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -103,16 +103,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Introduce the `RZ_MIPI_DSI_FEATURE_16BPP` flag in `rzg2l_mipi_dsi_hw_info`
-to indicate support for 16BPP pixel formats. The RZ/V2H(P) SoC supports
-16BPP, whereas this feature is missing on the RZ/G2L SoC.
+Introduce the `dphy_late_init` callback in `rzg2l_mipi_dsi_hw_info` to
+allow additional D-PHY register configurations after enabling data and
+clock lanes. This is required for the RZ/V2H(P) SoC but not for the
+RZ/G2L SoC.
 
-Update the `mipi_dsi_host_attach()` function to check this flag before
-allowing 16BPP formats. If the SoC does not support 16BPP, return an error
-to prevent incorrect format selection.
+Modify `rzg2l_mipi_dsi_startup()` to invoke `dphy_late_init` if defined,
+ensuring SoC-specific initialization is performed only when necessary.
 
-This change enables finer-grained format support control for different
-SoC variants.
+This change prepares for RZ/V2H(P) SoC support while maintaining
+compatibility with existing platforms.
 
 Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
@@ -121,10 +121,10 @@ Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v5->v6:
+- Renamed dphy_late_init to dphy_startup_late_init
 - Added Reviewed-by tag from Laurent
 
 v4->v5:
-- Updated RZ_MIPI_DSI_FEATURE_16BPP macro to use BIT(0)
 - Added Reviewed tag from Biju
 
 v3->v4:
@@ -134,49 +134,33 @@ v2->v3:
 - No changes
 
 v1->v2:
-- Renamed RZ_MIPI_DSI_FEATURE_16BPP
+- No changes
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index fd5d4551f39d..506b5503a725 100644
+index 506b5503a725..ebbc6ac45484 100644
 --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -28,6 +28,8 @@
- 
- #include "rzg2l_mipi_dsi_regs.h"
- 
-+#define RZ_MIPI_DSI_FEATURE_16BPP	BIT(0)
-+
- struct rzg2l_mipi_dsi;
+@@ -34,6 +34,7 @@ struct rzg2l_mipi_dsi;
  
  struct rzg2l_mipi_dsi_hw_info {
-@@ -37,6 +39,7 @@ struct rzg2l_mipi_dsi_hw_info {
+ 	int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, u64 hsfreq_millihz);
++	void (*dphy_startup_late_init)(struct rzg2l_mipi_dsi *dsi);
+ 	void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
+ 	u32 phy_reg_offset;
  	u32 link_reg_offset;
- 	unsigned long min_dclk;
- 	unsigned long max_dclk;
-+	u8 features;
- };
+@@ -320,6 +321,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+ 	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
+ 	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
  
- struct rzg2l_mipi_dsi {
-@@ -644,8 +647,16 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
- 	case 24:
-+		break;
- 	case 18:
- 		break;
-+	case 16:
-+		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
-+			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
-+				device->format);
-+			return -EINVAL;
-+		}
-+		break;
- 	default:
- 		dev_err(dsi->dev, "Unsupported format 0x%04x\n", device->format);
- 		return -EINVAL;
++	if (dsi->info->dphy_startup_late_init)
++		dsi->info->dphy_startup_late_init(dsi);
++
+ 	hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
+ 	/*
+ 	 * Global timings characteristic depends on high speed Clock Frequency
 -- 
 2.49.0
 
