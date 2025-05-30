@@ -2,67 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78EDAC951B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 19:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03543AC953B
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 19:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECB110E815;
-	Fri, 30 May 2025 17:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E75710E882;
+	Fri, 30 May 2025 17:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hilJ88Sl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W7lEtrD/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0C110E815
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:48:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C02836115E;
- Fri, 30 May 2025 17:48:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690EDC4CEEB;
- Fri, 30 May 2025 17:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748627330;
- bh=9UEdvQyq4ZTEQpaSat+UrDb2/pIf0CsFRPtHS3TheEI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hilJ88Sl8cYkkClu8F9Fu3Hy/7R+Ln+lFb+OAXtJNt2F0Jo7J8DOqGvkQJ+wpF6yQ
- Q5aDhRBD3hR++F/I5fWa1JdXW5Ae5161bb/oe1NJlI/aWzLIFzRT2DeLmRnswIap0W
- q6010CDaTnNRpETEMcvIjUDJOmjBwdoSUtdKUtkWmGgze2UnQ9sHA3ns2S5hjxbpAd
- mCmTh94NAtvqG5oIUKdAACM5USMpdGBBnJTBZUAv6Zgjla+HJCs1cQt0PzDyw/uluT
- caxLzuICpwYN1WCvX+FtJddbsQRAxEg2YSlKRUtNOiWWhJhai8o++8RrM7up0dBiTP
- TUgBroGoMx+1w==
-Date: Fri, 30 May 2025 10:48:47 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Alessandro Carminati <acarmina@redhat.com>,
- linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
- backtraces
-Message-ID: <202505301037.D816A49@keescook>
-References: <20250526132755.166150-1-acarmina@redhat.com>
- <20250526132755.166150-2-acarmina@redhat.com>
- <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
- <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
- <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADCBE10E87E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:51:03 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAQ3Yt011636
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:51:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ iQNFg2RO+LuLXzx8pk9NGhNaS/HpbKAbCtu9O+9m2sY=; b=W7lEtrD/CG96Vxv3
+ GiGPxu0NcoUR+0qAucrXHsDZLUtNGOWZI5hvunacTBqazvCX6E7EZ3qZFyl9FgFh
+ nIr7efHmJKJU0Yz3ZxlofhBdxURc/wCcyEL74ST+mY7qQLAFm50RGfzsf43gqZJQ
+ QgCLTo8SXpOxjARtnRrEYSd4LJO3dxVm2yIK8A0lrC3aa6WvVE59F0PNVprr4ZTi
+ MHhaXpz7lRNni9UXYOUngJW05NddlRJxe8J31JLv0x5+QfGgjSaLbr5++SmzWLVw
+ aujBuH69n+w/zjOOqv9PWxXwTtXQGVl3uO2tngANh4NUW/U5zzD07TX3tQbIObPg
+ NlaejA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6g9a272-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:51:02 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-742c7227d7dso1815106b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:51:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748627461; x=1749232261;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iQNFg2RO+LuLXzx8pk9NGhNaS/HpbKAbCtu9O+9m2sY=;
+ b=oGeASGUpmhn8+mdsGFscqyHXAV0+3JR6cQPH/UKdKJEhnsONmcPI+vrwv0vi7h1FEX
+ KaXo3VKjbMX3HuJEMcjk1J41kYbvlD8exE1H54OiFrre+HSVC/8OFi2bEeJKhNI+sT4n
+ 653c6a6MktUpskji2pLV9xvJvLabi2GW0rR3cywZoZeyNpWE17iWy0CamAocmAiNrSLM
+ hhukdFVV39OCEAS0FVZQYfN7f4qznybbRswUuLcGZ+SnhXcDZNtWgV8hRfej+dPxr7zx
+ vS/DOyKf3q4Gb+mHQFxrFRgZfDux4UGv1QiEskZ72FRVg3jR7xUvn4u0aH5/+pBzpgBT
+ xM5Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRsi2HmQmKkIYD4yFY3qBeaLcFKys7fbL/U00Seji9kczmnznPFRveglFgEBmPhSVioGqbPa1yERE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYVKTx/b7l6KvTMjPBWUaqJMuYp/5E+AfYjfPmDm1N5BzwMaDF
+ 9e51ALQ0J/e/GctkUFrFylYa/XWf35bqjFfk/IhKPGJYyfuZxP8FLn2iereAD/VqgcmbYKorH+r
+ XDKcvRZPSxi/msSIF6Lg4GLq9febIVYB/uftb5+TJgxQs6g8VsOtMinnwkgzrur6jDLymk6E=
+X-Gm-Gg: ASbGncsTr+Uxr5K/aZv5/LQ+AuyRki4pF7UnESHPDSCKZXu1xdQCsgb0aVT8d0rxbXv
+ nEMbetiXSLCVmNaBqkVP0GieqdNglxVxg4lKSYTyM2RFTZkwIUdfUIYi1BlmPNR3Y1PWNqF3b2+
+ oFuATzGV9VIgEmOFncwaU8IdNy7aMlqR6sHgnU2GqUYCWwBgPjQVx1fayxnXM5BL6nAeF9hTgGp
+ d+poJTLL73iSC66tnDen+UgnUJzVtkeDFx22v9K/6yfs8TlJlUlKtK6WEefw6J/ySgLyHLPP+D8
+ 5orZwrw2ENxN4KwjIZU1YA1Qu1OZJkO8zj7c90g3nJV9orvKdKCQH/HHbv8FSdqpRKRFTA==
+X-Received: by 2002:a05:6a00:2e04:b0:73f:e8c:1aac with SMTP id
+ d2e1a72fcca58-747c1a48890mr4146205b3a.2.1748627461436; 
+ Fri, 30 May 2025 10:51:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH0/DxhVchUsP3GUuQR+rz8hEa1EHtonG4n9LVY8g10f4TVSCbT7ApT+IY723JWbTdA27KRXA==
+X-Received: by 2002:a05:6a00:2e04:b0:73f:e8c:1aac with SMTP id
+ d2e1a72fcca58-747c1a48890mr4146178b3a.2.1748627461002; 
+ Fri, 30 May 2025 10:51:01 -0700 (PDT)
+Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-747affafbedsm3439014b3a.102.2025.05.30.10.50.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 May 2025 10:51:00 -0700 (PDT)
+Message-ID: <3b5fa433-e3a3-4c77-b502-096576ecc2e3@oss.qualcomm.com>
+Date: Fri, 30 May 2025 10:50:58 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm/msm/dp: ST_DISPLAY_OFF hpd cleanup
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Doug Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
+ linux-kernel@vger.kernel.org, Yongxing Mou <quic_yongmou@quicinc.com>
+References: <20250529-hpd_display_off-v1-0-ce33bac2987c@oss.qualcomm.com>
+ <CAO9ioeUi59PNmRSYzyVbxcifhPKxYbtW9EuouOVXkT84SPOuwQ@mail.gmail.com>
+Content-Language: en-US
+From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+In-Reply-To: <CAO9ioeUi59PNmRSYzyVbxcifhPKxYbtW9EuouOVXkT84SPOuwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=6839f006 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=ryANHwUXtzQLBLkujfsA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: CGIKZ2ZPQtEHSvnJKZMhtaMzItrF2Hkp
+X-Proofpoint-GUID: CGIKZ2ZPQtEHSvnJKZMhtaMzItrF2Hkp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE1NyBTYWx0ZWRfXz8AaWOnhFZ8n
+ pmVS2gk64flyO1zYCHlNMAMJxHlC/S9bnlcI18fkh9jSqB7Mggm8raeoZk+E6Lnl4hNyHNjBzXP
+ uQd9a7dbtCxsGPYRGz1ZNDxB1kppDk4gYyyvW3iCG4QJrI7bh4IsY2W7wMtHjFfNZ8djHCVH/4w
+ IeECZz+4r+XwvymfjmkOPzeDTR9vB7ajbti9B9eS1jCRcqTq5Ovf/H4h04F9M0Hly8eItVn5ltG
+ sqy3DDv3cRGD0z9MPnhV5VMZW9iizUyi7fmAsRrGkuzQrUz/7lKAW0vVRm9Fc1hGFrL8F+gyqgQ
+ tD6ieg4UjkoTacukBkJgPDNX6La41ZLbbsAzAI6a0DcFZdmbSu8rDRPbLYqAgVONq+ywBLcw7eC
+ x3vxM2XHf/8D8PNEFXeOezHcD/zYz+C8uH9Zbnq+BNTzFu+c1HWKzSENEQU77d51x5lQMCES
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_08,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,340 +133,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 04:01:40PM +0200, Peter Zijlstra wrote:
-> I'm not really concerned with performance here, but more with the size
-> of the code emitted by WARN_ONCE(). There are a *ton* of WARN sites,
-> while only one report_bug() and printk().
+
+
+On 5/30/2025 9:05 AM, Dmitry Baryshkov wrote:
+> On Fri, 30 May 2025 at 02:15, Jessica Zhang
+> <jessica.zhang@oss.qualcomm.com> wrote:
+>>
+>> HPD state machine in msm dp display driver manages the state transitions
+>> between various HPD events and the expected state of driver to make sure
+>> both match up.
+>>
+>> Although originally done with the intent of managing userspace interactions
+>> and interactions with compliance equipment, over period of time,
+>> changes to this piece of code has become quite difficult to manage.
+>>
+>> Although, unwinding this logic will take some time and will be spread over
+>> various changes, to start things, this series tries to get rid of the
+>> ST_DISPLAY_OFF state as firstly, its really not an hpd state but a state
+>> of the display overall. Coupled with this, there are quite a few checks
+>> in the current code, the origins of which need to be re-visited OR are unclear
+>> which seem unlikely or redundant. With DP controller on newer chipsets supporting
+>> multiple streams, this has become increasingly difficult to work with.
+>>
+>> This series removes the redundant state checks and simplifies the logic as an
+>> attempt to get rid of this ST_DISPLAY_OFF state.
+>>
+>> Note: This series has been tested with sa8775p and sc7180 devices with multiple
+>> monitors and also multiple dongles with no noticeable regressions.
+>> Both of these devices use native DP PHY though. Hence, if this series can
+>> be verified on some devices with USBC-DP combo PHY with the help of the other
+>> developers, that will be great.
+>>
+>> ---
+>> Changes in v2:
 > 
-> The really offensive thing is that this is for a feature most nobody
-> will ever need :/
+> The series is not marked as v2 though.
 
-Well, it won't be enabled often -- this reminds me of ftrace: it needs
-to work, but it'll be off most of the time.
+Hi Dmitry,
 
-> The below results in:
-> 
-> 03dc  7ac:      48 c7 c0 00 00 00 00    mov    $0x0,%rax        7af: R_X86_64_32S       .rodata.str1.1+0x223
-> 03e3  7b3:      ba 2a 00 00 00          mov    $0x2a,%edx
-> 03e8  7b8:      48 0f b9 d0             ud1    %rax,%rdx
-> 
-> And it even works :-)
-> 
-> Hmm... I should try and stick the format string into the __bug_table,
-> its const after all. Then I can get 2 arguments covered.
+Sorry for the confusion -- had pulled the v1 [1] using `b4 prep -F` but 
+forgot to force the revision number to v2.
 
-I like the patch! Can you add a _little_ documentation, though? e.g.
-explaining that BUG_WARN ... BUG_WARN_END is for format string args,
-etc.
+[1] https://patchwork.freedesktop.org/series/142010/#rev1
 
-But yes, I *love* that this moves the printk into the handler! Like you,
-I have been bothered by this for a long time and could not find a good
-way to do it. This is nice.
+Thanks,
+
+Jessica Zhang
 
 > 
-> ---
-> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
-> index f0e9acf72547..88b305d49f35 100644
-> --- a/arch/x86/include/asm/bug.h
-> +++ b/arch/x86/include/asm/bug.h
-> @@ -5,6 +5,7 @@
->  #include <linux/stringify.h>
->  #include <linux/instrumentation.h>
->  #include <linux/objtool.h>
-> +#include <linux/args.h>
->  
->  /*
->   * Despite that some emulators terminate on UD2, we use it for WARN().
-> @@ -28,50 +29,44 @@
->  #define BUG_UD1_UBSAN		0xfffc
->  #define BUG_EA			0xffea
->  #define BUG_LOCK		0xfff0
-> +#define BUG_WARN		0xfe00
-> +#define BUG_WARN_END		0xfeff
->  
->  #ifdef CONFIG_GENERIC_BUG
->  
->  #ifdef CONFIG_X86_32
-> -# define __BUG_REL(val)	".long " __stringify(val)
-> +#define ASM_BUG_REL(val)	.long val
->  #else
-> -# define __BUG_REL(val)	".long " __stringify(val) " - ."
-> +#define ASM_BUG_REL(val)	.long val - .
->  #endif
->  
->  #ifdef CONFIG_DEBUG_BUGVERBOSE
-> +#define ASM_BUGTABLE_VERBOSE(file, line)				\
-> +	ASM_BUG_REL(file) ;						\
-> +	.word line
-> +#define ASM_BUGTABLE_VERBOSE_SIZE	6
-> +#else
-> +#define ASM_BUGTABLE_VERBOSE(file, line)
-> +#define ASM_BUGTABLE_VERBOSE_SIZE	0
-> +#endif
->  
-> -#define _BUG_FLAGS(ins, flags, extra)					\
-> -do {									\
-> -	asm_inline volatile("1:\t" ins "\n"				\
-> -		     ".pushsection __bug_table,\"aw\"\n"		\
-> -		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
-> -		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
-> -		     "\t.word %c1"        "\t# bug_entry::line\n"	\
-> -		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
-> -		     "\t.org 2b+%c3\n"					\
-> -		     ".popsection\n"					\
-> -		     extra						\
-> -		     : : "i" (__FILE__), "i" (__LINE__),		\
-> -			 "i" (flags),					\
-> -			 "i" (sizeof(struct bug_entry)));		\
-> -} while (0)
-> -
-> -#else /* !CONFIG_DEBUG_BUGVERBOSE */
-> +#define ASM_BUGTABLE_FLAGS(at, file, line, flags)			\
-> +	.pushsection __bug_table, "aw" ;				\
-> +	123:	ASM_BUG_REL(at) ;					\
-> +	ASM_BUGTABLE_VERBOSE(file, line) ;				\
-> +	.word	flags ;							\
-> +	.org 123b + 6 + ASM_BUGTABLE_VERBOSE_SIZE ;			\
-> +	.popsection
->  
-> -#define _BUG_FLAGS(ins, flags, extra)					\
-> +#define _BUG_FLAGS(ins, flags, extra, extra_args...)			\
->  do {									\
->  	asm_inline volatile("1:\t" ins "\n"				\
-> -		     ".pushsection __bug_table,\"aw\"\n"		\
-> -		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
-> -		     "\t.word %c0"        "\t# bug_entry::flags\n"	\
-> -		     "\t.org 2b+%c1\n"					\
-> -		     ".popsection\n"					\
-> -		     extra						\
-> -		     : : "i" (flags),					\
-> -			 "i" (sizeof(struct bug_entry)));		\
-> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
-> +			    extra					\
-> +		     : : "i" (__FILE__), "i" (__LINE__),		\
-> +			 "i" (flags), ## extra_args);			\
->  } while (0)
->  
-> -#endif /* CONFIG_DEBUG_BUGVERBOSE */
-> -
->  #else
->  
->  #define _BUG_FLAGS(ins, flags, extra)  asm volatile(ins)
-> @@ -100,6 +95,40 @@ do {								\
->  	instrumentation_end();					\
->  } while (0)
->  
-> +#define __WARN_printf_1(taint, format)				\
-> +do { \
-> +	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
-> +	unsigned long dummy = 0; \
-> +	instrumentation_begin(); \
-> +	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
-> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
-> +		     : : "i" (__FILE__), "i" (__LINE__),		\
-> +			 "i" (__flags), [fmt] "r" (format), [arg] "r" (dummy));		\
-> +	instrumentation_end(); \
-> +} while (0)
-> +
-> +#define __WARN_printf_2(taint, format, _arg)				\
-> +do { \
-> +	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
-> +	instrumentation_begin(); \
-> +	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
-> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
-> +		     : : "i" (__FILE__), "i" (__LINE__),		\
-> +			 "i" (__flags), [fmt] "r" (format), [arg] "r" ((unsigned long)(_arg)));		\
-> +	instrumentation_end(); \
-> +} while (0)
-> +
-> +#define __WARN_printf_n(taint, fmt, arg...) do {			\
-> +		instrumentation_begin();				\
-> +		__warn_printk(fmt, arg);				\
-> +		__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-> +		instrumentation_end();					\
-> +	} while (0)
-> +
-> +#define WARN_ARGS(X...) __COUNT_ARGS(, ##X, n, n, n, n, n, n, n, n, n, n, n, n, n, 2, 1, 0)
-> +
-> +#define __WARN_printf(taint, arg...) CONCATENATE(__WARN_printf_, WARN_ARGS(arg))(taint, arg)
+>> - Rebased on top of next-20250523
+>> - Change atomic_enable() to return early if ST_DISCONENCT_PENDING
+>>    instead of completely dropping the
+>>    if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) check (Dmitry)
+>>
+>> ---
+>> Abhinav Kumar (4):
+>>        drm/msm/dp: remove redundant checks related to ST_DISPLAY_OFF in plug/irq_ipd handlers
+>>        drm/msm/dp: Return early from atomic_enable() if ST_DISCONNECT_PENDING
+>>        drm/msm/dp: replace ST_DISPLAY_OFF with power_on in msm_dp_hpd_unplug_handle()
+>>        drm/msm/dp: remove ST_DISPLAY_OFF as a hpd_state
+>>
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 19 +++----------------
+>>   1 file changed, 3 insertions(+), 16 deletions(-)
+>> ---
+>> base-commit: daf70030586cf0279a57b58a94c32cfe901df23d
+>> change-id: 20241202-hpd_display_off-6051aa510f23
+>>
+>> Best regards,
+>> --
+>> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>>
+> 
+> 
+> --
+> With best wishes
+> 
+> Dmitry
 
-This needs docs too. I think this is collapsing 1 and 2 argument WARNs
-into the ud1, and anything larger is explicitly calling __warn_printk +
-__WARN_FLAGS? If only 1 and 2 args can be collapsed, why reserve 0xfe00
-through 0xfeff? I feel like I'm missing something here...
-
-> +
->  #include <asm-generic/bug.h>
->  
->  #endif /* _ASM_X86_BUG_H */
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 94c0236963c6..b7f69f4addf4 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -81,18 +81,6 @@
->  
->  DECLARE_BITMAP(system_vectors, NR_VECTORS);
->  
-> -__always_inline int is_valid_bugaddr(unsigned long addr)
-> -{
-> -	if (addr < TASK_SIZE_MAX)
-> -		return 0;
-> -
-> -	/*
-> -	 * We got #UD, if the text isn't readable we'd have gotten
-> -	 * a different exception.
-> -	 */
-> -	return *(unsigned short *)addr == INSN_UD2;
-> -}
-> -
->  /*
->   * Check for UD1 or UD2, accounting for Address Size Override Prefixes.
->   * If it's a UD1, further decode to determine its use:
-> @@ -102,25 +90,37 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
->   * UBSan{0}:     67 0f b9 00             ud1    (%eax),%eax
->   * UBSan{10}:    67 0f b9 40 10          ud1    0x10(%eax),%eax
->   * static_call:  0f b9 cc                ud1    %esp,%ecx
-> + * WARN_printf:                          ud1    %reg,%reg
->   *
-> - * Notably UBSAN uses EAX, static_call uses ECX.
-> + * Notably UBSAN uses (%eax), static_call uses %esp,%ecx
->   */
->  __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
->  {
->  	unsigned long start = addr;
-> +	u8 v, rex = 0, reg, rm;
->  	bool lock = false;
-> -	u8 v;
-> +	int type = BUG_UD1;
->  
->  	if (addr < TASK_SIZE_MAX)
->  		return BUG_NONE;
->  
-> -	v = *(u8 *)(addr++);
-> -	if (v == INSN_ASOP)
-> +	for (;;) {
->  		v = *(u8 *)(addr++);
->  
-> -	if (v == INSN_LOCK) {
-> -		lock = true;
-> -		v = *(u8 *)(addr++);
-> +		if (v == INSN_ASOP)
-> +			continue;
-> +
-> +		if (v == INSN_LOCK) {
-> +			lock = true;
-> +			continue;
-> +		}
-> +
-> +		if ((v & 0xf0) == 0x40) {
-> +			rex = v;
-> +			continue;
-> +		}
-> +
-> +		break;
->  	}
->  
->  	switch (v) {
-> @@ -156,9 +156,13 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
->  	if (X86_MODRM_MOD(v) != 3 && X86_MODRM_RM(v) == 4)
->  		addr++;			/* SIB */
->  
-> +	reg = X86_MODRM_REG(v) + 8*!!X86_REX_R(rex);
-> +	rm  = X86_MODRM_RM(v)  + 8*!!X86_REX_B(rex);
-> +
->  	/* Decode immediate, if present */
->  	switch (X86_MODRM_MOD(v)) {
-> -	case 0: if (X86_MODRM_RM(v) == 5)
-> +	case 0: *imm = 0;
-> +		if (X86_MODRM_RM(v) == 5)
->  			addr += 4; /* RIP + disp32 */
->  		break;
->  
-> @@ -170,18 +174,37 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
->  		addr += 4;
->  		break;
->  
-> -	case 3: break;
-> +	case 3: if (rm != 4) /* %esp */
-> +			type = BUG_WARN | (rm << 4) | reg;
-> +		break;
->  	}
->  
->  	/* record instruction length */
->  	*len = addr - start;
->  
-> -	if (X86_MODRM_REG(v) == 0)	/* EAX */
-> +	if (!rm && X86_MODRM_MOD(v) != 3)	/* (%eax) */
->  		return BUG_UD1_UBSAN;
->  
-> -	return BUG_UD1;
-> +	return type;
->  }
->  
-> +int is_valid_bugaddr(unsigned long addr)
-> +{
-> +	int ud_type, ud_len;
-> +	u32 ud_imm;
-> +
-> +	if (addr < TASK_SIZE_MAX)
-> +		return 0;
-> +
-> +	/*
-> +	 * We got #UD, if the text isn't readable we'd have gotten
-> +	 * a different exception.
-> +	 */
-> +	ud_type = decode_bug(addr, &ud_imm, &ud_len);
-> +
-> +	return ud_type == BUG_UD2 ||
-> +		(ud_type >= BUG_WARN && ud_type <= BUG_WARN_END);
-> +}
->  
->  static nokprobe_inline int
->  do_trap_no_signal(struct task_struct *tsk, int trapnr, const char *str,
-> @@ -305,6 +328,14 @@ static inline void handle_invalid_op(struct pt_regs *regs)
->  		      ILL_ILLOPN, error_get_trap_addr(regs));
->  }
->  
-> +static inline unsigned long pt_regs_val(struct pt_regs *regs, int nr)
-> +{
-> +	int offset = pt_regs_offset(regs, nr);
-> +	if (WARN_ON_ONCE(offset < -0))
-> +		return 0;
-> +	return *((unsigned long *)((void *)regs + offset));
-> +}
-> +
->  static noinstr bool handle_bug(struct pt_regs *regs)
->  {
->  	unsigned long addr = regs->ip;
-> @@ -334,6 +365,14 @@ static noinstr bool handle_bug(struct pt_regs *regs)
->  		raw_local_irq_enable();
->  
->  	switch (ud_type) {
-> +	case BUG_WARN ... BUG_WARN_END:
-> +		int ud_reg = ud_type & 0xf;
-> +		int ud_rm  = (ud_type >> 4) & 0xf;
-> +
-> +		__warn_printk((const char *)(pt_regs_val(regs, ud_rm)),
-> +			      pt_regs_val(regs, ud_reg));
-> +		fallthrough;
-
-Yay, internal printk. :):)
-
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 62b3416f5e43..564513f605ac 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -8703,6 +8703,8 @@ void __init sched_init(void)
->  	preempt_dynamic_init();
->  
->  	scheduler_running = 1;
-> +
-> +	WARN(true, "Ultimate answer: %d\n", 42);
->  }
->  
->  #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
-
-If any code would emit The Answer, it would be the scheduler. :)
-
--- 
-Kees Cook
