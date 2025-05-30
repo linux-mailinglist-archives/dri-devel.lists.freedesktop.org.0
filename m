@@ -2,100 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E407EAC95E6
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 21:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2E2AC9604
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 21:24:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580A710E076;
-	Fri, 30 May 2025 19:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF1210E1E0;
+	Fri, 30 May 2025 19:24:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CjuGNxf7";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="kyvE7PA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
- [209.85.166.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1882510E076
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:03:31 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id
- e9e14a558f8ab-3dc6b2a8647so7809595ab.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 12:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748631810; x=1749236610; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LWbYSIdO62OOJiQnecBL9sTo7G5vpYkrti7/TBlHzU8=;
- b=CjuGNxf7YuO9i1eDCqBku/EFW+sudRPDnnd/fVu9YZWTuya7dQ62ddf6yWa8/3zEva
- 0h8LDelxU5lMuY3oQRqxuBlBptswPWKHDAUsFSumD8tJSoI4X3+vTr8apfUJTuuOboj4
- FKng83mWfby/JijfsM1+LiovWmMDeLwIEFMVHvriikUFNn+zSQXmZwvEuxpEUHuFnHd5
- 5qasCzHEPVYZ6MEIEEWR+AQ/Jsw2ASH5Inb5yjjCN0ybR5qTh01NfxfjMwFhHWJj+Kyy
- vvG2dKx91BEqUEBlkGnNPhHfi031n2KXLF22mjNCK6c/TwQtwyo3JvEv3DyEAUQLTLAS
- RlJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748631810; x=1749236610;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LWbYSIdO62OOJiQnecBL9sTo7G5vpYkrti7/TBlHzU8=;
- b=j+N5ocW1SXfltU5xDCBFiF24pdkvFs4vVSsWkAehtqWHsUAuIiF36k7QCjnhzkTmUL
- 32ACfdegIHRUSoTNo9m+JstdJpfTSvCAf9sWMVhQ3xsEnShpEcpnMNem3xm7+8IdlRrD
- GazOrEdA5cAhLp5lLuz+pLSr1vXHUe1emL19VDCrvOgGXanQpU80yEOlWyxj5BU8aS8H
- 2amUmo64tfA/+u5O8BU6OnGUekozSiR6jc5fHNPEAyP6x1ckS35DQhJdnKG4iH2MBcOm
- 4UIfdZyU9IKVIeQQDHvyXyyG/wU3uDUhTJiZ6HC7oiFu1PnMtd99SOevsNo+4xLUG+nL
- fBPw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8w4Ggydqmx0oF9WUbygm78jNkWHPc1PzlFVavlSfV8at4sH19RIg7FrYYNdJsApRr2HLBj02pNv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwqYoQ5Uvh68bSNkh6COz6OS9aLScZUN1vFw54y2Ul1CKhV191
- bDnQSlugaHCAcO6YJBDh2DcRHoS71lA8hPHGZpoVfIvM0EeBefhiti3p3k8wGt7jxNMeTXw9EUT
- O5ph0vCpxNSMY6jLrpKamXMvaCdb28pj6kQ==
-X-Gm-Gg: ASbGncsSItEt6caAKuqJu9oYmpLR7l/yBxs0MUaOtVwNuBXUiErgaw0dS/4G0DPlUM5
- 9W3A21BJ6AHfiur8ONjSbRanFPc3LO25ScoyugpLcxriV2wBOHxcSqYVxTcKmIel3gCGdX8QAdX
- RQ9gpqXcPhgrBa83iMAquk4++uobjEt1fVeKVmuS/971hi1lDha+DiqQ8ZM98+Vm1iLQb6ujnRt
- NY=
-X-Google-Smtp-Source: AGHT+IH2zORH2vRySz0CN9TNdgBEf5yVzy1SECE5QTG2S2acXnAdLOUPR0LiQ0ef8xzgUUWbKZrn52sT/HqDiLS85eE=
-X-Received: by 2002:a05:6e02:184e:b0:3dc:7c5d:6372 with SMTP id
- e9e14a558f8ab-3dd9c9ae2abmr31711735ab.7.1748631810172; Fri, 30 May 2025
- 12:03:30 -0700 (PDT)
+Received: from mout.web.de (unknown [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A264410E1E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1748633008; x=1749237808; i=markus.elfring@web.de;
+ bh=YzuQuC7sn5PBb4ns91bPPloT1UdWXsXMfl5wY33MO64=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=kyvE7PA74L78Utz28nWNsZqamtts5b1StlC07tyCaBgVHjLaAdyPsAlTWl2KxcyV
+ m5+BdhORHybz9qrCFDKFASbBwJggutJ78wO+54Fa7j13m1c9lNyHkO9xeSpE2DEpm
+ DIbd1jPgdmPUsyTOv7HLEue5IIZkyNKJjHISO1O1cTGEWHawQ+Yyd4sdm46h8Uy2f
+ HHG/y/YwrYsaoyR3+znWCkgblZC3ojed/mwT/D1SXN2oCJlKW9PQJe38qMhfOJo3i
+ aacpjvQU19GO6gfHIwRw+jV4AHarnWfv4vNvbYbr5Yz3j+ZUgRSIi8NJ2VJJhOgIv
+ wshZoUbh6ljMAmzP4Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.250]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MC0PP-1uBUwH1eIv-00CjAk; Fri, 30
+ May 2025 21:23:28 +0200
+Message-ID: <cc0b88b2-c34a-4d19-a222-afc2cbfe8055@web.de>
+Date: Fri, 30 May 2025 21:23:15 +0200
 MIME-Version: 1.0
-References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
- <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
- <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
- <CAMcHhXoYkQru_0n5siMGGkTcHu8yWRZWfT4ByiD8D0ieZHF+wQ@mail.gmail.com>
- <vwoixgdyjjzcjlv4muwrzv7wztnqyidtj7ghacgkjg6hgkkyl7@ji53bhiltaef>
- <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
- <rvyfkow43atquc64p6slck6lpfsot67v47ngvfnuhxqo222h6k@kdvbsmf3fwsr>
- <CAF6AEGvr_foMVwaE_VSVWLT50cbGi8i3UGwo2e=rORD-1JmTmA@mail.gmail.com>
- <152f5150-30b0-400c-9816-13e4710a4156@oss.qualcomm.com>
- <kbmqr7gjkd72hgorbhbwb7ttvmecfbb6pg72st7zwt5ogxju6p@itycxk6vriy5>
- <CAF6AEGsTtEA=So1CDhvg8H5+Z-RJ9OnhgSzDoa+zkWSPO3cvnA@mail.gmail.com>
- <CAO9ioeWk1-dUQYDS1oQNc-QaRu5MG_C=JRx6RPiFE-OQjB7g3g@mail.gmail.com>
-In-Reply-To: <CAO9ioeWk1-dUQYDS1oQNc-QaRu5MG_C=JRx6RPiFE-OQjB7g3g@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 30 May 2025 12:03:18 -0700
-X-Gm-Features: AX0GCFuyrh8MEvD6KG3oIYX8kJg14cADV2Gw-IJWO2LGxnsfrU4hztAz5uwEVuA
-Message-ID: <CAF6AEGtvvu=cBqtYUm1k6+N0L26sRz6nehOmC=5OxxZMvTngog@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
- device tree
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- jens.glathe@oldschoolsolutions.biz, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>, 
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+References: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
+Subject: Re: [PATCH v4 06/10] accel/rocket: Add IOCTL for BO creation
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250519-6-10-rocket-v4-6-d6dff6b4c0ae@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:HFzd8EbAUS7gPnlLaRPoXFKFCXHYM0+iZRfId96iz/pIETQ8DjB
+ UwtJ045ZUn9fSfs7UUrsGBpuj7Y4TLmhMm4EQmGmFFQlLqpm94zvHttDB0OzNpTcHV3h4m5
+ Z0dX2buTbBbXaQvkhcCN4TtazSW5QbEpdAvjOdbA4f1dMMQGEnhujbwaHYag+gWniKk4/hI
+ 6TbhC2YmzO1aXvF7Ycyyw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:L1POOr7Oz40=;T/qhLYsi3B790BwpMqQVLmrI+qf
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,59 +125,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 10:42=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Wed, 28 May 2025 at 19:50, Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Tue, May 27, 2025 at 11:18=E2=80=AFAM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >
-> > > On Tue, May 27, 2025 at 12:55:06PM +0200, Konrad Dybcio wrote:
-> > > > On 5/26/25 5:28 PM, Rob Clark wrote:
-> > > > > On Mon, May 26, 2025 at 1:36=E2=80=AFAM Dmitry Baryshkov
-> > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > >>
-> > > > >> On Sun, May 25, 2025 at 09:43:36PM +0200, Aleksandrs Vinarskis w=
-rote:
-> > > > >>> On Sun, 25 May 2025 at 15:33, Dmitry Baryshkov
-> > > > >>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > >>>>
-> > > >
-> > > > [...]
-> > > >
-> > > > >> Yes, please. Don't set okay status for the GPU until it gets ena=
-bled.
-> > > > >
-> > > > > Drive-by: Shouldn't the dtb describe the hw and not the state of =
-the
-> > > > > linux kernel's support for the hw?  Ie. if bad things happen if w=
-e
-> > > > > describe hw which is missing driver support, shouldn't we fix tha=
-t in
-> > > > > the driver.
-> > > > >
-> > > > > (In the case of the GPU there is the slight wrinkle that we don't=
- have
-> > > > > a gpu-id yet so there is no compatible in the dtb yet.)
-> > > >
-> > > > My two cents are that it's okay to enable it, at least in this case=
-..
-> > >
-> > > That would most likely make display unavailable as DPU driver uses GP=
-U
-> > > as one of the components.
-> >
-> > Hmm, perhaps we should allow the gpu to probe, but just fail to create
-> > priv->gpu, similarly to how we handle missing firmware?
->
-> Ack from my side. I'd also like to remind you about my split-GPU-from
-> display series.
+=E2=80=A6
+> +++ b/drivers/accel/rocket/rocket_gem.c
+> @@ -0,0 +1,131 @@
+=E2=80=A6
+> +static void rocket_gem_bo_free(struct drm_gem_object *obj)
+> +{
+=E2=80=A6
+> +	mutex_lock(&rdev->iommu_lock);
+> +
+> +	sgt =3D drm_gem_shmem_get_pages_sgt(&bo->base);
+=E2=80=A6
+> +	drm_gem_shmem_free(&bo->base);
+> +
+> +	mutex_unlock(&rdev->iommu_lock);
+> +}
+=E2=80=A6
 
-True.. although if possible it would be nice to not depend on extra
-non-default config for this scenario.  So I'd prefer to fix it in
-addition to your series, but have been a bit short on time for the
-last few days ;-)
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&rdev->iommu_lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.15/source/include/linux/mutex.h#L201
 
-BR,
--R
+Regards,
+Markus
