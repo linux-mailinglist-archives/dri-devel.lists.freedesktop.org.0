@@ -2,75 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD39AC90F0
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D19CAC90DF
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CEE10E87B;
-	Fri, 30 May 2025 14:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC3A10E86D;
+	Fri, 30 May 2025 14:02:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bJXSWT1R";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="AgBaHGyI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5608310E870;
- Fri, 30 May 2025 14:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xO0qZwWfn7gTDd2phc0gmepcyQKke5IbAzmEVRB8aQs=; b=bJXSWT1RHr6Q3BbwentQu6wnMG
- 65xbdtFkGKZk2nJ2i9UTpmvrF1hjgQDyKwxtG66B1nzj75ZQwQC/4b8/xKMsNYKK+GD99N7pLJyP3
- FF8x4lJcy4vmCXS04E63mklwLkDbd0hTcY8I1LSfkKgHArATMxUZSp+/QDZN2yySvyKLgvonpd28o
- vspLNPhDAqHEEW/TMYGmmqXqpJVHkTql8a/HzKk9T9Fu/PWYkjpAPgx84xE2m7vxyrO3u9zxWi58F
- 1iTb847k8L1VvMuHuG6feBzbVl9ASMhM1tUGo4EhI/PpCvlNns6sRB4DEg72e4z0eFpWKpFjl0pY2
- ivPi9gSg==;
-Received: from [189.7.87.163]
- (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uL0K9-00FFzl-Sp; Fri, 30 May 2025 16:03:06 +0200
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Fri, 30 May 2025 11:01:37 -0300
-Subject: [PATCH v2 8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to
- skip the reset
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B10910E828
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=ciHFY0VgOd5QIMYfzEsxxrFpF1H8WdgMxl2q6NzkMcQ=; b=AgBaHGyIlmAW/v8GWs/OGq2Eqr
+ yZFFmsHTkVFvnufBUGKi5lrsKHweHy7rsvU7AKLJJOUM2Wg3rh7CwDrS4pQQ+0L2q/kiYFT8DfHPI
+ 45gYqEujDh3vsR6tqOsHUlXGnogpqFP8bIqYnafqB2aEaKpJc2ZV9o/bqEPLcvfZuWBDL81whZQqu
+ UDs9DW8dVQlVwKH+SAeebNs9B/1Sqp+odrGrqg4Xkd5XejCWqUABqkRqxQLUNt0q5PG7wGACXd1u8
+ ttUskYnu6/kJo7+A2bn3W6lfZzW0kh0s/wBq2XsNUNmbXRFQQTn4wHva/qQChsPNHZbIFH0oeeOSE
+ TzyIMu2Q==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1uL0Is-00000000Fcx-41gu; Fri, 30 May 2025 14:01:48 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 8E1F330066A; Fri, 30 May 2025 16:01:40 +0200 (CEST)
+Date: Fri, 30 May 2025 16:01:40 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Alessandro Carminati <acarmina@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
+ backtraces
+Message-ID: <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+References: <20250526132755.166150-1-acarmina@redhat.com>
+ <20250526132755.166150-2-acarmina@redhat.com>
+ <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
+ <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250530-sched-skip-reset-v2-8-c40a8d2d8daa@igalia.com>
-References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
-In-Reply-To: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
-To: Matthew Brost <matthew.brost@intel.com>, 
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1847; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=UUDcfJJc6W/oarzi8Mu2mr5uZ08wl3QO4zsR4lVlaAo=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoObpVIN3RoLRNnMbf1MPOVBhz+3o8f0dTo4gfH
- vd+aNntbg2JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaDm6VQAKCRA/8w6Kdoj6
- qi6AB/969NIjsB/nJnaZsc9S3fbofhDU7YZDpwfbicf/VOnWHeNtxgp3vrzdwZrC3Vk8TH3dInd
- EhjNiBGu2jjErYTQ6gUjoMAtocKjA2Akodf0U+oj8O708bAyyjj2rzWoGFfsXT6zB28lIAWur+h
- ppLXf+UaIXgQX0oFPWiTzr8sQtqU/ZsNDxlGcpuTyMD7546II2NAAJRtTcjJfrnpd22Omk6aj0s
- OhSseSCcYfzCeMWf1UN3xT944jbqKC7g9rDyOFei3Q2R1O+ye0X/I3T8z8BrH/MfYHgipbcJ2xh
- F3k5gPwgSTWvMabNffdQks1SXIZYjdpQvyBIBx3J+VQbeaxk
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+In-Reply-To: <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +78,436 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panfrost can skip the reset if TDR has fired before the free-job worker.
-Currently, since Panfrost doesn't take any action on these scenarios, the
-job is being leaked, considering that `free_job()` won't be called.
 
-To avoid such leaks, use the DRM_GPU_SCHED_STAT_NO_STAT status to skip the
-reset and re-arm the timer.
++Mark because he loves a hack :-)
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
+On Thu, May 29, 2025 at 12:36:55PM +0200, Alessandro Carminati wrote:
+
+> > Like I said before; you need to do this on the report_bug() size of
+> > things.
+> >
+> I fully understand your concerns, and I truly appreciate both yours
+> and Josh’s feedback on this matter.
+> Please rest assured that I took your suggestions seriously and
+> carefully evaluated the possibility of consolidating all related logic
+> within the exception handler.
+> After a thorough investigation, however, I encountered several
+> limitations that led me to maintain the check in the macro.
+> I’d like to share the rationale behind this decision:
+
+> * In the case of WARN() messages, part of the output, the
+> user-specified content, is emitted directly by the macro, prior to
+> reaching the exception handler [1].
+>   Moving the check solely to the exception handler would not prevent
+> this early output.
+
+Yeah, this has been really annoying me for a long while. WARN() code gen
+is often horrible crap because of that.
+
+Everything I've tried so far is worse though :/ So in the end I try to
+never use WARN(), its just not worth it.
+
+... /me goes down the rabbit-hole again, because well, you can't let
+something simple like this defeat you ;-)
+
+Results of today's hackery below. It might actually be worth cleaning
+up.
+
+> * Unless we change the user-facing interface that allows suppression
+> based on function names, we still need to work with those names at
+> runtime.
+
+I'm not sure I understand this. What interface and what names? This is a
+new feature, so how can there be an interface that needs to be
+preserved?
+
+> * This leaves us with two main strategies: converting function names
+> to pointers (e.g., via kallsyms) or continuing to work with names.
+>   The former requires name resolution at suppression time and pointer
+> comparison in the handler, but function names are often altered by the
+> compiler due to inlining or other optimizations[2].
+>   Some WARN() sites are even marked __always_inline[3], making it
+> difficult to prevent inlining altogether.
+
+Arguably __func__ should be the function name of the function you get
+inlined into. C inlining does not preserve the sequence point, so there
+is absolutely no point in trying to preserve the inline name.
+
+I'm again confused though; [2] does not use __func__ at all.
+
+Anyway, when I do something like:
+
+void __attribute__((__always_inline__)) foo(void)
+{
+	puts(__func__);
+}
+
+void bar(void)
+{
+	foo();
+}
+
+it uses a "foo" string, which IMO is just plain wrong. Anyway, do both
+compilers guarantee it will always be foo? I don't think I've seen the
+GCC manual be explicit about this case.
+
+> * An alternative is to embed function names in the __bug_table.
+>   While potentially workable, this increases the size of the table and
+> requires attention to handle position-independent builds
+> (-fPIC/-fPIE), such as using offsets relative to __start_rodata.
+> 
+> However, the central challenge remains: any logic that aims to
+> suppress WARN() output must either move the entire message emission
+> into the exception handler or accept that user-specified parts of the
+> message will still be printed.
+
+Well, we can set suppress_printk and then all is quiet :-) Why isn't
+this good enough?
+
+> As a secondary point, there are also less common architectures where
+> it's unclear whether suppressing these warnings is a priority, which
+> might influence how broadly the effort is applied.
+> I hoped to have addressed the concern of having faster runtime, by
+> exposing a counter that could skip the logic.
+> Kess suggested using static branching that would make things even better.
+> Could Kess' suggestion mitigate your concern on this strategy?
+> I’m absolutely open to any further thoughts or suggestions you may
+> have, and I appreciate your continued guidance.
+
+I'm not really concerned with performance here, but more with the size
+of the code emitted by WARN_ONCE(). There are a *ton* of WARN sites,
+while only one report_bug() and printk().
+
+The really offensive thing is that this is for a feature most nobody
+will ever need :/
+
+
+
+The below results in:
+
+03dc  7ac:      48 c7 c0 00 00 00 00    mov    $0x0,%rax        7af: R_X86_64_32S       .rodata.str1.1+0x223
+03e3  7b3:      ba 2a 00 00 00          mov    $0x2a,%edx
+03e8  7b8:      48 0f b9 d0             ud1    %rax,%rdx
+
+And it even works :-)
+
+Hmm... I should try and stick the format string into the __bug_table,
+its const after all. Then I can get 2 arguments covered.
+
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index afcffe7f8fe9e11f84e4ab7e8f5a72f7bf583690..842e012cdc68e130a13e08ffae3b7fdf5f8e1acc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -751,11 +751,11 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 	int js = panfrost_job_get_slot(job);
+diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+index f0e9acf72547..88b305d49f35 100644
+--- a/arch/x86/include/asm/bug.h
++++ b/arch/x86/include/asm/bug.h
+@@ -5,6 +5,7 @@
+ #include <linux/stringify.h>
+ #include <linux/instrumentation.h>
+ #include <linux/objtool.h>
++#include <linux/args.h>
  
- 	/*
--	 * If the GPU managed to complete this jobs fence, the timeout is
--	 * spurious. Bail out.
-+	 * If the GPU managed to complete this jobs fence, the timeout has
-+	 * fired before free-job worker. The timeout is spurious, so bail out.
- 	 */
- 	if (dma_fence_is_signaled(job->done_fence))
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
+ /*
+  * Despite that some emulators terminate on UD2, we use it for WARN().
+@@ -28,50 +29,44 @@
+ #define BUG_UD1_UBSAN		0xfffc
+ #define BUG_EA			0xffea
+ #define BUG_LOCK		0xfff0
++#define BUG_WARN		0xfe00
++#define BUG_WARN_END		0xfeff
  
- 	/*
- 	 * Panfrost IRQ handler may take a long time to process an interrupt
-@@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ #ifdef CONFIG_GENERIC_BUG
  
- 	if (dma_fence_is_signaled(job->done_fence)) {
- 		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
+ #ifdef CONFIG_X86_32
+-# define __BUG_REL(val)	".long " __stringify(val)
++#define ASM_BUG_REL(val)	.long val
+ #else
+-# define __BUG_REL(val)	".long " __stringify(val) " - ."
++#define ASM_BUG_REL(val)	.long val - .
+ #endif
+ 
+ #ifdef CONFIG_DEBUG_BUGVERBOSE
++#define ASM_BUGTABLE_VERBOSE(file, line)				\
++	ASM_BUG_REL(file) ;						\
++	.word line
++#define ASM_BUGTABLE_VERBOSE_SIZE	6
++#else
++#define ASM_BUGTABLE_VERBOSE(file, line)
++#define ASM_BUGTABLE_VERBOSE_SIZE	0
++#endif
+ 
+-#define _BUG_FLAGS(ins, flags, extra)					\
+-do {									\
+-	asm_inline volatile("1:\t" ins "\n"				\
+-		     ".pushsection __bug_table,\"aw\"\n"		\
+-		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+-		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
+-		     "\t.word %c1"        "\t# bug_entry::line\n"	\
+-		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
+-		     "\t.org 2b+%c3\n"					\
+-		     ".popsection\n"					\
+-		     extra						\
+-		     : : "i" (__FILE__), "i" (__LINE__),		\
+-			 "i" (flags),					\
+-			 "i" (sizeof(struct bug_entry)));		\
+-} while (0)
+-
+-#else /* !CONFIG_DEBUG_BUGVERBOSE */
++#define ASM_BUGTABLE_FLAGS(at, file, line, flags)			\
++	.pushsection __bug_table, "aw" ;				\
++	123:	ASM_BUG_REL(at) ;					\
++	ASM_BUGTABLE_VERBOSE(file, line) ;				\
++	.word	flags ;							\
++	.org 123b + 6 + ASM_BUGTABLE_VERBOSE_SIZE ;			\
++	.popsection
+ 
+-#define _BUG_FLAGS(ins, flags, extra)					\
++#define _BUG_FLAGS(ins, flags, extra, extra_args...)			\
+ do {									\
+ 	asm_inline volatile("1:\t" ins "\n"				\
+-		     ".pushsection __bug_table,\"aw\"\n"		\
+-		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+-		     "\t.word %c0"        "\t# bug_entry::flags\n"	\
+-		     "\t.org 2b+%c1\n"					\
+-		     ".popsection\n"					\
+-		     extra						\
+-		     : : "i" (flags),					\
+-			 "i" (sizeof(struct bug_entry)));		\
++	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
++			    extra					\
++		     : : "i" (__FILE__), "i" (__LINE__),		\
++			 "i" (flags), ## extra_args);			\
+ } while (0)
+ 
+-#endif /* CONFIG_DEBUG_BUGVERBOSE */
+-
+ #else
+ 
+ #define _BUG_FLAGS(ins, flags, extra)  asm volatile(ins)
+@@ -100,6 +95,40 @@ do {								\
+ 	instrumentation_end();					\
+ } while (0)
+ 
++#define __WARN_printf_1(taint, format)				\
++do { \
++	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
++	unsigned long dummy = 0; \
++	instrumentation_begin(); \
++	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
++	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
++		     : : "i" (__FILE__), "i" (__LINE__),		\
++			 "i" (__flags), [fmt] "r" (format), [arg] "r" (dummy));		\
++	instrumentation_end(); \
++} while (0)
++
++#define __WARN_printf_2(taint, format, _arg)				\
++do { \
++	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
++	instrumentation_begin(); \
++	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
++	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
++		     : : "i" (__FILE__), "i" (__LINE__),		\
++			 "i" (__flags), [fmt] "r" (format), [arg] "r" ((unsigned long)(_arg)));		\
++	instrumentation_end(); \
++} while (0)
++
++#define __WARN_printf_n(taint, fmt, arg...) do {			\
++		instrumentation_begin();				\
++		__warn_printk(fmt, arg);				\
++		__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
++		instrumentation_end();					\
++	} while (0)
++
++#define WARN_ARGS(X...) __COUNT_ARGS(, ##X, n, n, n, n, n, n, n, n, n, n, n, n, n, 2, 1, 0)
++
++#define __WARN_printf(taint, arg...) CONCATENATE(__WARN_printf_, WARN_ARGS(arg))(taint, arg)
++
+ #include <asm-generic/bug.h>
+ 
+ #endif /* _ASM_X86_BUG_H */
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 94c0236963c6..b7f69f4addf4 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -81,18 +81,6 @@
+ 
+ DECLARE_BITMAP(system_vectors, NR_VECTORS);
+ 
+-__always_inline int is_valid_bugaddr(unsigned long addr)
+-{
+-	if (addr < TASK_SIZE_MAX)
+-		return 0;
+-
+-	/*
+-	 * We got #UD, if the text isn't readable we'd have gotten
+-	 * a different exception.
+-	 */
+-	return *(unsigned short *)addr == INSN_UD2;
+-}
+-
+ /*
+  * Check for UD1 or UD2, accounting for Address Size Override Prefixes.
+  * If it's a UD1, further decode to determine its use:
+@@ -102,25 +90,37 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
+  * UBSan{0}:     67 0f b9 00             ud1    (%eax),%eax
+  * UBSan{10}:    67 0f b9 40 10          ud1    0x10(%eax),%eax
+  * static_call:  0f b9 cc                ud1    %esp,%ecx
++ * WARN_printf:                          ud1    %reg,%reg
+  *
+- * Notably UBSAN uses EAX, static_call uses ECX.
++ * Notably UBSAN uses (%eax), static_call uses %esp,%ecx
+  */
+ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+ {
+ 	unsigned long start = addr;
++	u8 v, rex = 0, reg, rm;
+ 	bool lock = false;
+-	u8 v;
++	int type = BUG_UD1;
+ 
+ 	if (addr < TASK_SIZE_MAX)
+ 		return BUG_NONE;
+ 
+-	v = *(u8 *)(addr++);
+-	if (v == INSN_ASOP)
++	for (;;) {
+ 		v = *(u8 *)(addr++);
+ 
+-	if (v == INSN_LOCK) {
+-		lock = true;
+-		v = *(u8 *)(addr++);
++		if (v == INSN_ASOP)
++			continue;
++
++		if (v == INSN_LOCK) {
++			lock = true;
++			continue;
++		}
++
++		if ((v & 0xf0) == 0x40) {
++			rex = v;
++			continue;
++		}
++
++		break;
  	}
  
- 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
-
--- 
-2.49.0
-
+ 	switch (v) {
+@@ -156,9 +156,13 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+ 	if (X86_MODRM_MOD(v) != 3 && X86_MODRM_RM(v) == 4)
+ 		addr++;			/* SIB */
+ 
++	reg = X86_MODRM_REG(v) + 8*!!X86_REX_R(rex);
++	rm  = X86_MODRM_RM(v)  + 8*!!X86_REX_B(rex);
++
+ 	/* Decode immediate, if present */
+ 	switch (X86_MODRM_MOD(v)) {
+-	case 0: if (X86_MODRM_RM(v) == 5)
++	case 0: *imm = 0;
++		if (X86_MODRM_RM(v) == 5)
+ 			addr += 4; /* RIP + disp32 */
+ 		break;
+ 
+@@ -170,18 +174,37 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+ 		addr += 4;
+ 		break;
+ 
+-	case 3: break;
++	case 3: if (rm != 4) /* %esp */
++			type = BUG_WARN | (rm << 4) | reg;
++		break;
+ 	}
+ 
+ 	/* record instruction length */
+ 	*len = addr - start;
+ 
+-	if (X86_MODRM_REG(v) == 0)	/* EAX */
++	if (!rm && X86_MODRM_MOD(v) != 3)	/* (%eax) */
+ 		return BUG_UD1_UBSAN;
+ 
+-	return BUG_UD1;
++	return type;
+ }
+ 
++int is_valid_bugaddr(unsigned long addr)
++{
++	int ud_type, ud_len;
++	u32 ud_imm;
++
++	if (addr < TASK_SIZE_MAX)
++		return 0;
++
++	/*
++	 * We got #UD, if the text isn't readable we'd have gotten
++	 * a different exception.
++	 */
++	ud_type = decode_bug(addr, &ud_imm, &ud_len);
++
++	return ud_type == BUG_UD2 ||
++		(ud_type >= BUG_WARN && ud_type <= BUG_WARN_END);
++}
+ 
+ static nokprobe_inline int
+ do_trap_no_signal(struct task_struct *tsk, int trapnr, const char *str,
+@@ -305,6 +328,14 @@ static inline void handle_invalid_op(struct pt_regs *regs)
+ 		      ILL_ILLOPN, error_get_trap_addr(regs));
+ }
+ 
++static inline unsigned long pt_regs_val(struct pt_regs *regs, int nr)
++{
++	int offset = pt_regs_offset(regs, nr);
++	if (WARN_ON_ONCE(offset < -0))
++		return 0;
++	return *((unsigned long *)((void *)regs + offset));
++}
++
+ static noinstr bool handle_bug(struct pt_regs *regs)
+ {
+ 	unsigned long addr = regs->ip;
+@@ -334,6 +365,14 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+ 		raw_local_irq_enable();
+ 
+ 	switch (ud_type) {
++	case BUG_WARN ... BUG_WARN_END:
++		int ud_reg = ud_type & 0xf;
++		int ud_rm  = (ud_type >> 4) & 0xf;
++
++		__warn_printk((const char *)(pt_regs_val(regs, ud_rm)),
++			      pt_regs_val(regs, ud_reg));
++		fallthrough;
++
+ 	case BUG_UD2:
+ 		if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN) {
+ 			handled = true;
+diff --git a/include/asm-generic/bug.h b/include/asm-generic/bug.h
+index 387720933973..a5960c92d70a 100644
+--- a/include/asm-generic/bug.h
++++ b/include/asm-generic/bug.h
+@@ -101,12 +101,16 @@ extern __printf(1, 2) void __warn_printk(const char *fmt, ...);
+ 	} while (0)
+ #else
+ #define __WARN()		__WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
++
++#ifndef __WARN_printf
+ #define __WARN_printf(taint, arg...) do {				\
+ 		instrumentation_begin();				\
+ 		__warn_printk(arg);					\
+ 		__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
+ 		instrumentation_end();					\
+ 	} while (0)
++#endif
++
+ #define WARN_ON_ONCE(condition) ({				\
+ 	int __ret_warn_on = !!(condition);			\
+ 	if (unlikely(__ret_warn_on))				\
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 62b3416f5e43..564513f605ac 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -8703,6 +8703,8 @@ void __init sched_init(void)
+ 	preempt_dynamic_init();
+ 
+ 	scheduler_running = 1;
++
++	WARN(true, "Ultimate answer: %d\n", 42);
+ }
+ 
+ #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
