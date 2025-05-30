@@ -2,84 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA982AC95C9
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 20:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E407EAC95E6
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 21:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4B0110E220;
-	Fri, 30 May 2025 18:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 580A710E076;
+	Fri, 30 May 2025 19:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=edgeble-ai.20230601.gappssmtp.com header.i=@edgeble-ai.20230601.gappssmtp.com header.b="woMbtELx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CjuGNxf7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2ECB10E220
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 18:50:15 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-234b440afa7so25209045ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 11:50:15 -0700 (PDT)
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
+ [209.85.166.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1882510E076
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 19:03:31 +0000 (UTC)
+Received: by mail-il1-f176.google.com with SMTP id
+ e9e14a558f8ab-3dc6b2a8647so7809595ab.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 12:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=edgeble-ai.20230601.gappssmtp.com; s=20230601; t=1748631012; x=1749235812;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CX8RVGcjNGfza1J+8Y/TBJXjjM61IDQf7sORQ0CRlUE=;
- b=woMbtELxcLutT93uBFba2YhQU8t8G99yjdgOlpa3DfltvtDjURwJ2ru+YyJmEj+zG2
- qOPUy7iXeAHSKHvOxFkf3F095oBglytcAWY7NvQ6YPni8ke2h+Z0B335HbxqNVNaiW9P
- D8LEwS9tzsXlBewCkv2aLzajucFJwCJTymbgGpnpxjHHEnB4qvgmGHxrN+cXuxvCbV8S
- QAvsgBbdoFcmaTozcB3Fxsma0C4LhU4zHhqXFJOPyYqwagJyIsPXbDj/hKNZNTSZ415v
- uKj2hV97MSVjLlk1yHnRuJ70uPVQobUpnKS8J6Gr4f3N9maGNpvtLhzDfSARPKQ1610I
- QVbA==
+ d=gmail.com; s=20230601; t=1748631810; x=1749236610; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LWbYSIdO62OOJiQnecBL9sTo7G5vpYkrti7/TBlHzU8=;
+ b=CjuGNxf7YuO9i1eDCqBku/EFW+sudRPDnnd/fVu9YZWTuya7dQ62ddf6yWa8/3zEva
+ 0h8LDelxU5lMuY3oQRqxuBlBptswPWKHDAUsFSumD8tJSoI4X3+vTr8apfUJTuuOboj4
+ FKng83mWfby/JijfsM1+LiovWmMDeLwIEFMVHvriikUFNn+zSQXmZwvEuxpEUHuFnHd5
+ 5qasCzHEPVYZ6MEIEEWR+AQ/Jsw2ASH5Inb5yjjCN0ybR5qTh01NfxfjMwFhHWJj+Kyy
+ vvG2dKx91BEqUEBlkGnNPhHfi031n2KXLF22mjNCK6c/TwQtwyo3JvEv3DyEAUQLTLAS
+ RlJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748631012; x=1749235812;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CX8RVGcjNGfza1J+8Y/TBJXjjM61IDQf7sORQ0CRlUE=;
- b=IUi1EHXmWt0ZCtZ4XEDiEwwZ7CiIDjdkXEF/M3ZqO8G95jEJF1/WDKBWmsv+8wJwt5
- zNz89mybIWlgq79xARAzWBF8B7VjjJFjczoeBmdsRI6RFwk2HZtDWwKw26UUYK2DwSvI
- 7O8ooW/SuWukYU4kUENwHwZG8EBIICZisx+bWUolAz/bo1BYyLMyrmT5fyXtH1g6Bu5h
- bhPAzroaup87a2YwTyLaPIA8Q0YlAbSQ3c/fdhYHhNt/BjoaN1JY2CsjjxMr4a1HS1ZE
- f34kLnoIBGbD4WokWC4DN5FlyMYuTFqayohtLkgpFGkZ97cwPKv9LBfruatoUaaksKbg
- WHsA==
+ d=1e100.net; s=20230601; t=1748631810; x=1749236610;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LWbYSIdO62OOJiQnecBL9sTo7G5vpYkrti7/TBlHzU8=;
+ b=j+N5ocW1SXfltU5xDCBFiF24pdkvFs4vVSsWkAehtqWHsUAuIiF36k7QCjnhzkTmUL
+ 32ACfdegIHRUSoTNo9m+JstdJpfTSvCAf9sWMVhQ3xsEnShpEcpnMNem3xm7+8IdlRrD
+ GazOrEdA5cAhLp5lLuz+pLSr1vXHUe1emL19VDCrvOgGXanQpU80yEOlWyxj5BU8aS8H
+ 2amUmo64tfA/+u5O8BU6OnGUekozSiR6jc5fHNPEAyP6x1ckS35DQhJdnKG4iH2MBcOm
+ 4UIfdZyU9IKVIeQQDHvyXyyG/wU3uDUhTJiZ6HC7oiFu1PnMtd99SOevsNo+4xLUG+nL
+ fBPw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWvJ8COoFYs/6hCwZe1oX2i5grQ5mbSmT/TaeQsxQouR0qJlFT34jeur78q98ha1v0AXHqz5KI48I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGmuQVEpZUJCqT5qNML5LvJm8LGcCYzGa/aioVpiLAN3Z8+jSi
- xnt+uDXGUnUNhQeFTp+mQiJmDKsfWhiHfHWgJ3sBZnq92fvOM2tibysVcSz1pS6GSn1budjn+ek
- Ud3dJHga1JHzGabdXKxNGio11lYThxWkKCRR1CCom6g==
-X-Gm-Gg: ASbGncv8ajdPmwX9nhYzhxPn6OM4oypWJR8iRlJt6LBh4BlBZoCzsLc+3m1Zg3JZpBR
- 3NiZA0MIgzZB/L3UwgihNpB8qA/PvuoE9q3me/V2RGbkj/w7kzt16fMG/J7UUJe4XCXCB65SFBa
- DGHgQ0TFPhEVVNPZqLBbu5aqOyG0oPJaBNO+6T0qQGxQ==
-X-Google-Smtp-Source: AGHT+IFy6gculqd6TMBrN0rYJWssXVz6+60yi4DzoSheepAu+OoDDguVK86eUKc83jB1uCOQJbumvqYQqLIeYGr+pL0=
-X-Received: by 2002:a17:903:1b6c:b0:234:ba37:87b6 with SMTP id
- d9443c01a7336-23528ef7833mr65464395ad.17.1748631012585; Fri, 30 May 2025
- 11:50:12 -0700 (PDT)
+ AJvYcCV8w4Ggydqmx0oF9WUbygm78jNkWHPc1PzlFVavlSfV8at4sH19RIg7FrYYNdJsApRr2HLBj02pNv0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwqYoQ5Uvh68bSNkh6COz6OS9aLScZUN1vFw54y2Ul1CKhV191
+ bDnQSlugaHCAcO6YJBDh2DcRHoS71lA8hPHGZpoVfIvM0EeBefhiti3p3k8wGt7jxNMeTXw9EUT
+ O5ph0vCpxNSMY6jLrpKamXMvaCdb28pj6kQ==
+X-Gm-Gg: ASbGncsSItEt6caAKuqJu9oYmpLR7l/yBxs0MUaOtVwNuBXUiErgaw0dS/4G0DPlUM5
+ 9W3A21BJ6AHfiur8ONjSbRanFPc3LO25ScoyugpLcxriV2wBOHxcSqYVxTcKmIel3gCGdX8QAdX
+ RQ9gpqXcPhgrBa83iMAquk4++uobjEt1fVeKVmuS/971hi1lDha+DiqQ8ZM98+Vm1iLQb6ujnRt
+ NY=
+X-Google-Smtp-Source: AGHT+IH2zORH2vRySz0CN9TNdgBEf5yVzy1SECE5QTG2S2acXnAdLOUPR0LiQ0ef8xzgUUWbKZrn52sT/HqDiLS85eE=
+X-Received: by 2002:a05:6e02:184e:b0:3dc:7c5d:6372 with SMTP id
+ e9e14a558f8ab-3dd9c9ae2abmr31711735ab.7.1748631810172; Fri, 30 May 2025
+ 12:03:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net>
-In-Reply-To: <20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net>
-From: Jagan Teki <jagan@edgeble.ai>
-Date: Sat, 31 May 2025 00:20:00 +0530
-X-Gm-Features: AX0GCFvkNnwtQ--V1GCDW4BcbIzs35k_zL3RhgmHKFDsjekxRIDXrFhtYRu24lI
-Message-ID: <CA+VMnFzisyMFzze52RRf6=Gstq29jmukrPSfqXfBWrVw0a7k1Q@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] New DRM accel driver for Rockchip's RKNN NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250524-tb16-dt-v4-0-2c1e6018d3f0@oldschoolsolutions.biz>
+ <20250524-tb16-dt-v4-5-2c1e6018d3f0@oldschoolsolutions.biz>
+ <g7vlyqma6ow6tdsaqt2rfwvblxqwbqlwmoueio7i4vqvjy76kw@5bz4g33pq4t7>
+ <CAMcHhXoYkQru_0n5siMGGkTcHu8yWRZWfT4ByiD8D0ieZHF+wQ@mail.gmail.com>
+ <vwoixgdyjjzcjlv4muwrzv7wztnqyidtj7ghacgkjg6hgkkyl7@ji53bhiltaef>
+ <CAMcHhXqDFuo+x99KOK0pQFj-FyTdQoZS_JvehNE2AC_JSoQ2gQ@mail.gmail.com>
+ <rvyfkow43atquc64p6slck6lpfsot67v47ngvfnuhxqo222h6k@kdvbsmf3fwsr>
+ <CAF6AEGvr_foMVwaE_VSVWLT50cbGi8i3UGwo2e=rORD-1JmTmA@mail.gmail.com>
+ <152f5150-30b0-400c-9816-13e4710a4156@oss.qualcomm.com>
+ <kbmqr7gjkd72hgorbhbwb7ttvmecfbb6pg72st7zwt5ogxju6p@itycxk6vriy5>
+ <CAF6AEGsTtEA=So1CDhvg8H5+Z-RJ9OnhgSzDoa+zkWSPO3cvnA@mail.gmail.com>
+ <CAO9ioeWk1-dUQYDS1oQNc-QaRu5MG_C=JRx6RPiFE-OQjB7g3g@mail.gmail.com>
+In-Reply-To: <CAO9ioeWk1-dUQYDS1oQNc-QaRu5MG_C=JRx6RPiFE-OQjB7g3g@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 30 May 2025 12:03:18 -0700
+X-Gm-Features: AX0GCFuyrh8MEvD6KG3oIYX8kJg14cADV2Gw-IJWO2LGxnsfrU4hztAz5uwEVuA
+Message-ID: <CAF6AEGtvvu=cBqtYUm1k6+N0L26sRz6nehOmC=5OxxZMvTngog@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
+ device tree
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+ jens.glathe@oldschoolsolutions.biz, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>, 
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,53 +111,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 May 2025 at 19:14, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+On Wed, May 28, 2025 at 10:42=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> This series adds a new driver for the NPU that Rockchip includes in its
-> newer SoCs, developed by them on the NVDLA base.
+> On Wed, 28 May 2025 at 19:50, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Tue, May 27, 2025 at 11:18=E2=80=AFAM Dmitry Baryshkov
+> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > >
+> > > On Tue, May 27, 2025 at 12:55:06PM +0200, Konrad Dybcio wrote:
+> > > > On 5/26/25 5:28 PM, Rob Clark wrote:
+> > > > > On Mon, May 26, 2025 at 1:36=E2=80=AFAM Dmitry Baryshkov
+> > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > > >>
+> > > > >> On Sun, May 25, 2025 at 09:43:36PM +0200, Aleksandrs Vinarskis w=
+rote:
+> > > > >>> On Sun, 25 May 2025 at 15:33, Dmitry Baryshkov
+> > > > >>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > > >>>>
+> > > >
+> > > > [...]
+> > > >
+> > > > >> Yes, please. Don't set okay status for the GPU until it gets ena=
+bled.
+> > > > >
+> > > > > Drive-by: Shouldn't the dtb describe the hw and not the state of =
+the
+> > > > > linux kernel's support for the hw?  Ie. if bad things happen if w=
+e
+> > > > > describe hw which is missing driver support, shouldn't we fix tha=
+t in
+> > > > > the driver.
+> > > > >
+> > > > > (In the case of the GPU there is the slight wrinkle that we don't=
+ have
+> > > > > a gpu-id yet so there is no compatible in the dtb yet.)
+> > > >
+> > > > My two cents are that it's okay to enable it, at least in this case=
+..
+> > >
+> > > That would most likely make display unavailable as DPU driver uses GP=
+U
+> > > as one of the components.
+> >
+> > Hmm, perhaps we should allow the gpu to probe, but just fail to create
+> > priv->gpu, similarly to how we handle missing firmware?
 >
-> In its current form, it supports the specific NPU in the RK3588 SoC.
->
-> The userspace driver is part of Mesa and an initial draft can be found at:
->
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
->
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
-> Changes in v4:
-> - Several fixes to DT bindings.
-> - Link to v3: https://lore.kernel.org/r/20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net
->
-> Changes in v3:
-> - Reference in the device tree only the register blocks that are
->   actually used.
-> - Several style and robustness fixes suggested in the mailing list.
-> - Added patches from Nicolas Frattaroli that add support to the NPU for
->   the Rock 5B board.
-> - Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
->
-> Changes in v2:
-> - Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
-> - Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
-> - Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
->
-> ---
-> Nicolas Frattaroli (2):
->       arm64: dts: rockchip: add pd_npu label for RK3588 power domains
->       arm64: dts: rockchip: enable NPU on ROCK 5B
->
-> Tomeu Vizoso (8):
->       dt-bindings: npu: rockchip,rknn: Add bindings
->       arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
->       arm64: dts: rockchip: Enable the NPU on quartzpro64
->       accel/rocket: Add registers header
->       accel/rocket: Add a new driver for Rockchip's NPU
->       accel/rocket: Add IOCTL for BO creation
->       accel/rocket: Add job submission IOCTL
->       accel/rocket: Add IOCTLs for synchronizing memory accesses
+> Ack from my side. I'd also like to remind you about my split-GPU-from
+> display series.
 
-Can this be possible to infer yolov8/10? Do we need to convert PT/ONNX
-to any other common format's unlike rknn?
+True.. although if possible it would be nice to not depend on extra
+non-default config for this scenario.  So I'd prefer to fix it in
+addition to your series, but have been a bit short on time for the
+last few days ;-)
 
-Thanks,
-Jagan.
+BR,
+-R
