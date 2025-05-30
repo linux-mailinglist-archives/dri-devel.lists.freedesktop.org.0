@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CCAC8C41
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75439AC8C40
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 12:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD15710E849;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E56310E846;
 	Fri, 30 May 2025 10:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mta20.hihonor.com (mta20.hihonor.com [81.70.206.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 350AB10E846
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:40:56 +0000 (UTC)
-Received: from w001.hihonor.com (unknown [10.68.25.235])
- by mta20.hihonor.com (SkyGuard) with ESMTPS id 4b808F6vTHzYkys6;
- Fri, 30 May 2025 18:38:37 +0800 (CST)
-Received: from a010.hihonor.com (10.68.16.52) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C7D10E82F
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:40:55 +0000 (UTC)
+Received: from w012.hihonor.com (unknown [10.68.27.189])
+ by mta20.hihonor.com (SkyGuard) with ESMTPS id 4b808G1VlSzYl3c7;
+ Fri, 30 May 2025 18:38:38 +0800 (CST)
+Received: from a010.hihonor.com (10.68.16.52) by w012.hihonor.com
+ (10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
  2025 18:40:52 +0800
 Received: from localhost.localdomain (10.144.18.117) by a010.hihonor.com
  (10.68.16.52) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 May
- 2025 18:40:51 +0800
+ 2025 18:40:52 +0800
 From: wangtao <tao.wangtao@honor.com>
 To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
  <kraxel@redhat.com>, <vivek.kasireddy@intel.com>, <viro@zeniv.linux.org.uk>,
@@ -35,10 +35,9 @@ CC: <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
  <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
  <linux-mm@kvack.org>, <bintian.wang@honor.com>, <yipengxiang@honor.com>,
  <liulu.liu@honor.com>, <feng.han@honor.com>, wangtao <tao.wangtao@honor.com>
-Subject: [PATCH v3 1/4] fs: allow cross-FS copy_file_range for memory-backed
- files
-Date: Fri, 30 May 2025 18:39:38 +0800
-Message-ID: <20250530103941.11092-2-tao.wangtao@honor.com>
+Subject: [PATCH v3 2/4] dmabuf: Implement copy_file_range for dmabuf
+Date: Fri, 30 May 2025 18:39:39 +0800
+Message-ID: <20250530103941.11092-3-tao.wangtao@honor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20250530103941.11092-1-tao.wangtao@honor.com>
 References: <20250530103941.11092-1-tao.wangtao@honor.com>
@@ -62,137 +61,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory-backed files can optimize copy performance via
-copy_file_range callbacks. Compared to mmap&read: reduces
-GUP (get_user_pages) overhead; vs sendfile/splice: eliminates
-one memory copy; supports dmabuf zero-copy implementation.
+First determine if dmabuf reads from or writes to the file.
+Then call exporter's rw_file callback function.
 
 Signed-off-by: wangtao <tao.wangtao@honor.com>
 ---
- fs/read_write.c    | 71 +++++++++++++++++++++++++++++++++-------------
- include/linux/fs.h |  2 ++
- 2 files changed, 54 insertions(+), 19 deletions(-)
+ drivers/dma-buf/dma-buf.c | 32 ++++++++++++++++++++++++++++++++
+ include/linux/dma-buf.h   | 16 ++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index bb0ed26a0b3a..591c6db7b785 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1469,6 +1469,20 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, int, in_fd,
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 5baa83b85515..fc9bf54c921a 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -523,7 +523,38 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ 	spin_unlock(&dmabuf->name_lock);
  }
- #endif
  
-+static inline bool is_copy_memory_file_to_file(struct file *file_in,
-+				struct file *file_out)
++static ssize_t dma_buf_rw_file(struct dma_buf *dmabuf, loff_t my_pos,
++	struct file *file, loff_t pos, size_t count, bool is_write)
 +{
-+	return (file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
-+		file_in->f_op->copy_file_range && file_out->f_op->write_iter;
++	if (!dmabuf->ops->rw_file)
++		return -EINVAL;
++
++	if (my_pos >= dmabuf->size)
++		count = 0;
++	else
++		count = min_t(size_t, count, dmabuf->size - my_pos);
++	if (!count)
++		return 0;
++
++	return dmabuf->ops->rw_file(dmabuf, my_pos, file, pos, count, is_write);
 +}
 +
-+static inline bool is_copy_file_to_memory_file(struct file *file_in,
-+				struct file *file_out)
++static ssize_t dma_buf_copy_file_range(struct file *file_in, loff_t pos_in,
++	struct file *file_out, loff_t pos_out,
++	size_t count, unsigned int flags)
 +{
-+	return (file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
-+		file_in->f_op->read_iter && file_out->f_op->copy_file_range;
++	if (is_dma_buf_file(file_in) && file_out->f_op->write_iter)
++		return dma_buf_rw_file(file_in->private_data, pos_in,
++				file_out, pos_out, count, true);
++	else if (is_dma_buf_file(file_out) && file_in->f_op->read_iter)
++		return dma_buf_rw_file(file_out->private_data, pos_out,
++				file_in, pos_in, count, false);
++	else
++		return -EINVAL;
 +}
 +
+ static const struct file_operations dma_buf_fops = {
++	.fop_flags = FOP_MEMORY_FILE,
+ 	.release	= dma_buf_file_release,
+ 	.mmap		= dma_buf_mmap_internal,
+ 	.llseek		= dma_buf_llseek,
+@@ -531,6 +562,7 @@ static const struct file_operations dma_buf_fops = {
+ 	.unlocked_ioctl	= dma_buf_ioctl,
+ 	.compat_ioctl	= compat_ptr_ioctl,
+ 	.show_fdinfo	= dma_buf_show_fdinfo,
++	.copy_file_range = dma_buf_copy_file_range,
+ };
+ 
  /*
-  * Performs necessary checks before doing a file copy
-  *
-@@ -1484,11 +1498,23 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
- 	struct inode *inode_out = file_inode(file_out);
- 	uint64_t count = *req_count;
- 	loff_t size_in;
-+	bool splice = flags & COPY_FILE_SPLICE;
-+	bool has_memory_file;
- 	int ret;
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 36216d28d8bd..d3636e985399 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -22,6 +22,7 @@
+ #include <linux/fs.h>
+ #include <linux/dma-fence.h>
+ #include <linux/wait.h>
++#include <uapi/linux/dma-buf.h>
  
--	ret = generic_file_rw_checks(file_in, file_out);
--	if (ret)
--		return ret;
-+	/* Skip generic checks, allow cross-sb copies for dma-buf/tmpfs */
-+	has_memory_file = is_copy_memory_file_to_file(file_in, file_out) ||
-+			  is_copy_file_to_memory_file(file_in, file_out);
-+	if (!splice && has_memory_file) {
-+		if (!(file_in->f_mode & FMODE_READ) ||
-+		    !(file_out->f_mode & FMODE_WRITE) ||
-+		    (file_out->f_flags & O_APPEND))
-+			return -EBADF;
-+	} else {
-+		ret = generic_file_rw_checks(file_in, file_out);
-+		if (ret)
-+			return ret;
-+	}
+ struct device;
+ struct dma_buf;
+@@ -285,6 +286,21 @@ struct dma_buf_ops {
  
- 	/*
- 	 * We allow some filesystems to handle cross sb copy, but passing
-@@ -1500,7 +1526,7 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
- 	 * and several different sets of file_operations, but they all end up
- 	 * using the same ->copy_file_range() function pointer.
- 	 */
--	if (flags & COPY_FILE_SPLICE) {
-+	if (splice || has_memory_file) {
- 		/* cross sb splice is allowed */
- 	} else if (file_out->f_op->copy_file_range) {
- 		if (file_in->f_op->copy_file_range !=
-@@ -1581,23 +1607,30 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t pos_in,
- 	 * same sb using clone, but for filesystems where both clone and copy
- 	 * are supported (e.g. nfs,cifs), we only call the copy method.
- 	 */
--	if (!splice && file_out->f_op->copy_file_range) {
--		ret = file_out->f_op->copy_file_range(file_in, pos_in,
--						      file_out, pos_out,
--						      len, flags);
--	} else if (!splice && file_in->f_op->remap_file_range && samesb) {
--		ret = file_in->f_op->remap_file_range(file_in, pos_in,
--				file_out, pos_out,
--				min_t(loff_t, MAX_RW_COUNT, len),
--				REMAP_FILE_CAN_SHORTEN);
--		/* fallback to splice */
--		if (ret <= 0)
-+	if (!splice) {
-+		if (is_copy_memory_file_to_file(file_in, file_out)) {
-+			ret = file_in->f_op->copy_file_range(file_in, pos_in,
-+					file_out, pos_out, len, flags);
-+		} else if (is_copy_file_to_memory_file(file_in, file_out)) {
-+			ret = file_out->f_op->copy_file_range(file_in, pos_in,
-+					file_out, pos_out, len, flags);
-+		} else if (file_out->f_op->copy_file_range) {
-+			ret = file_out->f_op->copy_file_range(file_in, pos_in,
-+							file_out, pos_out,
-+							len, flags);
-+		} else if (file_in->f_op->remap_file_range && samesb) {
-+			ret = file_in->f_op->remap_file_range(file_in, pos_in,
-+					file_out, pos_out,
-+					min_t(loff_t, MAX_RW_COUNT, len),
-+					REMAP_FILE_CAN_SHORTEN);
-+			/* fallback to splice */
-+			if (ret <= 0)
-+				splice = true;
-+		} else if (samesb) {
-+			/* Fallback to splice for same sb copy for backward compat */
- 			splice = true;
--	} else if (samesb) {
--		/* Fallback to splice for same sb copy for backward compat */
--		splice = true;
-+		}
- 	}
--
- 	file_end_write(file_out);
+ 	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+ 	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
++
++	/**
++	 * @rw_file:
++	 *
++	 * If an Exporter needs to support Direct I/O file operations, it can
++	 * implement this optional callback. The exporter must verify that no
++	 * other objects hold the sg_table, ensure exclusive access to the
++	 * dmabuf's sg_table, and only then proceed with the I/O operation.
++	 *
++	 * Returns:
++	 *
++	 * 0 on success or a negative error code on failure.
++	 */
++	ssize_t (*rw_file)(struct dma_buf *dmabuf, loff_t my_pos,
++		struct file *file, loff_t pos, size_t count, bool is_write);
+ };
  
- 	if (!splice)
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 016b0fe1536e..37df1b497418 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2187,6 +2187,8 @@ struct file_operations {
- #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
- /* File system supports uncached read/write buffered IO */
- #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-+/* Supports cross-FS copy_file_range for memory file */
-+#define FOP_MEMORY_FILE		((__force fop_flags_t)(1 << 8))
- 
- /* Wrap a directory iterator that needs exclusive inode access */
- int wrap_directory_iterator(struct file *, struct dir_context *,
+ /**
 -- 
 2.17.1
 
