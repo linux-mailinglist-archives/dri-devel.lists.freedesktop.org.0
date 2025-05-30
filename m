@@ -2,56 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0F7AC924A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 17:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7A1AC926D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 17:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1A610E035;
-	Fri, 30 May 2025 15:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B2510E21F;
+	Fri, 30 May 2025 15:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="h0w9N++J";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N1oLCBMt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0EB3310E035
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Content-Type:Message-ID:Date:MIME-Version:Subject:
- To:From; bh=n8E9mia/gKh+o+ngfIihpc0cQbahr8ftM3uoeCmTEF4=; b=h0w9
- N++JmlkWTGtcS10Aqr6ZPYXTGmubb+XEhznH1rUxquyi2nisTJbFGwoTpS8jqqdR
- r1xZBeP8i/0ObjLpmehbeTNWdBGbTT2l1v22dfkU8nRPMTV6djjtLcxsT6h8BU6t
- 0evTFtTVoOFYLa3kG9XyXwPVwil+2mM9sK24Bv4=
-Received: from [192.168.124.17] (unknown [])
- by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id
- _____wDnW0uEyzloa4DfEw--.15441S2; 
- Fri, 30 May 2025 23:15:16 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------Yf9zWol0zqtZcWmT4DeHz07g"
-Message-ID: <b0587eda-df65-4abc-b2af-c5dcb717c8b6@163.com>
-Date: Fri, 30 May 2025 23:15:15 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872DF10E21F
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:19:27 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBOAmP031530
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:19:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ /q+YvqYtbRXmX9ePmBvjG6ebJPt80BkopHr/TbJPGwI=; b=N1oLCBMtcPxcYP2t
+ kAKFZvZOWcG2YFmX910uA4wtk7ZNKO4QLsANZZJvdDrDLuLB99nuuz10dc49naR9
+ i1T1Ajs46/uxGtn1AfXsxnywWxJTD0mFgpgdVYqNLWOsO3zVr4UE9XLra6un6EO9
+ vK8JLNJ3jQ8e7RWFOKUneNIBPD3G+erh0motHSX2wmD5sg+lckfE6pNzCVToNkZr
+ ySqFKUzuZThT+tY+3vTemB+f1ELohGuxNuxX1eFVk8Nlr1d2hCE0MxWFyO8YHP+I
+ AxbXLcqIb+K0/CsLlV3rm92sLp8DSRv5dzjCvhUis2jl0ruwZfP4SEWAxt8u7N3G
+ SiSWJw==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6vk1kx7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 15:19:25 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-747af0bf0ebso1635038b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 08:19:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748618364; x=1749223164;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/q+YvqYtbRXmX9ePmBvjG6ebJPt80BkopHr/TbJPGwI=;
+ b=AbT0Njc8t/lejYe+iG0nE4hQ7Q54+Cl/98MgLqXyngPaBZ1Zk0plZRrds7emr+292j
+ /oTr65WyITws7/oK2rrxQ98CzbnMlUjne8OyhPmLZNdQFcZBnoj3mmjk2URlmWVclXRF
+ iKI21zSTe3NHEqZVDiRrlBHAglNACUO/ZG6+k0NauGkdDt3suNYL6Dt7WWgQoR9UGAXQ
+ sCu8UjoaReYDrUZ557/AXMV/PuFfvPasdOifYFd+MpgFPdnNyLRrMf+6i9vwOlgWX+uX
+ Ah+7HC13R20f4I4lhHLFSokvRsndbtaowiFGCXmZvaA2BxYEYanmKtkuiJ7hbic+bWny
+ LxdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrbAI+mZpuL98EipJHq3nLR8qw+O9kIl/iyjwsuz0OIsp786EZCiW1jA1d+fNO6BlVgy6v1XWycLk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAp4Ht9xeJuVo5BvVZGfrNwuvKYM+eRcNu68Vow1cNi/NyxTT5
+ 1c8mR2vmZ3yWshWBGwK1Qxwqd6eTfyEO6fvKbsdqpYduU+A6cuvaJXe+1AsAst8Ghyzo4kJZJPY
+ cJwS98iHV9M/qsT85erd5HBieIVtT800GOBE+cDP3A85CydTXBb/QhW80sq44U/t9e95fjNs=
+X-Gm-Gg: ASbGncs3mM32g83Z2jLuCcsScATC3d+RgOa7NMS+vi6DORs1MPSrXeMteuClbQfOGdk
+ AMBxkJPZuA8AaXUunWbi5/buzoEWJAErag3oNebzYu8AyOXDiIBMtDjD30cuCr1Mkc7OrmzIQ0S
+ bROHssjK5a2DsRPrwgqpbUpJMDeX5asUu86NbIm83JmMjUs5roN/ux0XnMOSTJYITVI2vVpKrB2
+ 3JwgwSdxC7GxDOdQWN8RZ+cmq0Hp1yOIj7BPKNFMMMFFjJLQ6ps5JM8KfcaOad7iKhfww+lYe3Z
+ 7aTGDg3grpeVEtRIAo7M4e1eZzdCTdZBZa4phJc332QkEa3MwCoSg0ueAydMAg==
+X-Received: by 2002:a05:6a00:139f:b0:740:b3d9:c889 with SMTP id
+ d2e1a72fcca58-747bda1a211mr4588221b3a.22.1748618364472; 
+ Fri, 30 May 2025 08:19:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEIsnc65zftF5H9opwbtI65RK9LSqmvQ1w8r/w2RETrAKhTxutQiW9vpS3JmGLmqXeNZ+QMOQ==
+X-Received: by 2002:a05:6a00:139f:b0:740:b3d9:c889 with SMTP id
+ d2e1a72fcca58-747bda1a211mr4588191b3a.22.1748618364068; 
+ Fri, 30 May 2025 08:19:24 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-747affd41d7sm3167879b3a.123.2025.05.30.08.19.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 May 2025 08:19:23 -0700 (PDT)
+Message-ID: <ff02633c-e57f-44c0-a3ef-4eb6e044578e@oss.qualcomm.com>
+Date: Fri, 30 May 2025 09:19:22 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-dp 04/10] drm/hisilicon/hibmc: fix the hibmc loaded
- failed bug
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- kong.kongxinwei@hisilicon.com
-Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
- jani.nikula@linux.intel.com, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250530095432.1206966-1-shiyongbang@huawei.com>
- <20250530095432.1206966-5-shiyongbang@huawei.com>
-From: oushixiong <oushixiong1025@163.com>
-In-Reply-To: <20250530095432.1206966-5-shiyongbang@huawei.com>
-X-CM-TRANSID: _____wDnW0uEyzloa4DfEw--.15441S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF48WFyxtw15XFyDWryDKFg_yoW8XFW3pF
- W7XayUKryktanxtFn8AFs29FW5Aa17Zay7Grn3A39avw4YvryDuwnaqrWxXFyUXrZ7GFyF
- vF48K3WUur1DZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTyxiUUUUU=
-X-Originating-IP: [113.246.127.68]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXBRdD2g5wo7vegAAsS
+Subject: Re: [PATCH v2] accel/qaic: Add Reliability, Accessibility,
+ Serviceability (RAS)
+To: quic_carlv@quicinc.com, quic_thanson@quicinc.com, lizhi.hou@amd.com,
+ jacek.lawrynowicz@linux.intel.com, quic_yabdulra@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250516160634.1408309-1-jeff.hugo@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250516160634.1408309-1-jeff.hugo@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=UOXdHDfy c=1 sm=1 tr=0 ts=6839cc7d cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=53wffJMIMOjkZiTugjoA:9
+ a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: MQb5QZouuFQE0rAnjyNYvdVW5_zmcdq7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEzNSBTYWx0ZWRfX7Hez4AE/7KoL
+ Qxv0kXasvy17jgujR39c0apLOs1n9Nnam96/s2HMNIEHC9N/AS16BTV2l1KfFgwiDV6dVjIp4lO
+ Z2o51rKekRK73XfXgwKVT7Qo7eAHAW3K31TugQ8Y0HdWB2K2A5yC4FcnP9j0VqC8R358cHDIwFt
+ H6bdJOtzkvxpUDsBk0JNvtbXr4N/ejpjUZGPS0cGY82kC8CrapUi42t7iHeiaiCVgdOt9q3yqwN
+ M0BZgG78Te0CJa4UwSSR/OqlrOp7dVUq3hx2W6FnDhNm434b2jUDhGwW9++NS6GdPWwmpy/zon4
+ JtbdHqAWrhv9cBZqnVhFMyt3I6lPr0+8WVb4viOs8vwc3jlIj27oiq2r/Wi2Ajn7Hi22z4aQ3gg
+ u26q+3JU5fGuHVHmUaSROROYU2o5BUyYhzHPIliIcFwHJS2fagi3vQPjH04HN2xmeLTzeA6Z
+X-Proofpoint-GUID: MQb5QZouuFQE0rAnjyNYvdVW5_zmcdq7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_07,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=999 bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505300135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,127 +123,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------Yf9zWol0zqtZcWmT4DeHz07g
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 5/16/2025 10:06 AM, Jeff Hugo wrote:
+> AIC100 devices generates Reliability, Availability, Serviceability events
+> via MHI QAIC_STATUS channel. Support such events and print a structured
+> log with details of the events, and if the event describes an uncorrected
+> error, reset the device to put it back into service. As these events may
+> not all be reported via other mechanisms like AER, maintain counts of
+> the number of errors observed for each type.
+> 
+> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
+Pushed to drm-misc-next
 
-在 2025/5/30 17:54, 00 1970 写道:
-> From: Baihan Li<libaihan@huawei.com>
->
-> When hibmc loaded failed, the driver use hibmc_unload to free the
-> resource, but the mutexes in mode.config are not init, which will
-> access an NULL pointer.
->
-> Fixes: b3df5e65cc03 ("drm/hibmc: Drop drm_vblank_cleanup")
-> Reported-by:oushixiong1025@163.com
-> Signed-off-by: Baihan Li<libaihan@huawei.com>
-> ---
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 4cdcc34070ee..ac552c339671 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -319,13 +319,13 @@ static int hibmc_load(struct drm_device *dev)
->   
->   	ret = hibmc_hw_init(priv);
->   	if (ret)
-> -		goto err;
-> +		return ret;
->   
->   	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
->   				    pci_resource_len(pdev, 0));
->   	if (ret) {
->   		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
-> -		goto err;
-> +		return ret;
-
-The mutexes in mode.config are initialized when calling hibmc_kms_init(),
-if calling hibmc_kms_init() failed it also need to return.
-
-You may want to look at the following patch:
-LKML: oushixiong1025@163 ...: [PATCH] drm/hisilicon: Fix a NULL pointer 
-access when hibmc_load failed <https://lkml.org/lkml/2025/5/20/331>
-
-Reported-by: Shixiong Ou <oushixiong@kylinos.cn>
-
-Thanks and Regards,
-Shixiong Ou.
-
->   	}
->   
->   	ret = hibmc_kms_init(priv);
---------------Yf9zWol0zqtZcWmT4DeHz07g
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <div class="moz-cite-prefix">在 2025/5/30 17:54, 00 1970 写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20250530095432.1206966-5-shiyongbang@huawei.com">
-      <pre wrap="" class="moz-quote-pre">From: Baihan Li <a class="moz-txt-link-rfc2396E" href="mailto:libaihan@huawei.com">&lt;libaihan@huawei.com&gt;</a>
-
-When hibmc loaded failed, the driver use hibmc_unload to free the
-resource, but the mutexes in mode.config are not init, which will
-access an NULL pointer.
-
-Fixes: b3df5e65cc03 ("drm/hibmc: Drop drm_vblank_cleanup")
-Reported-by: <a class="moz-txt-link-abbreviated" href="mailto:oushixiong1025@163.com">oushixiong1025@163.com</a>
-Signed-off-by: Baihan Li <a class="moz-txt-link-rfc2396E" href="mailto:libaihan@huawei.com">&lt;libaihan@huawei.com&gt;</a>
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 4cdcc34070ee..ac552c339671 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -319,13 +319,13 @@ static int hibmc_load(struct drm_device *dev)
- 
- 	ret = hibmc_hw_init(priv);
- 	if (ret)
--		goto err;
-+		return ret;
- 
- 	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
- 				    pci_resource_len(pdev, 0));
- 	if (ret) {
- 		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
--		goto err;
-+		return ret;</pre>
-    </blockquote>
-    <p>The mutexes in mode.config are <span
-style="color: rgb(64, 64, 64); font-family: quote-cjk-patch, Inter, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Noto Sans&quot;, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, Oxygen, &quot;Open Sans&quot;, sans-serif; font-size: 16.002px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">initialized</span>
-      when calling hibmc_kms_init(), <br>
-      if calling hibmc_kms_init() failed it also need to return.</p>
-    <p>You may want to look at the following patch:<br>
-        <a href="https://lkml.org/lkml/2025/5/20/331">LKML:
-        oushixiong1025@163 ...: [PATCH] drm/hisilicon: Fix a NULL
-        pointer access when hibmc_load failed</a></p>
-    <p>Reported-by: Shixiong Ou <a class="moz-txt-link-rfc2396E" href="mailto:oushixiong@kylinos.cn">&lt;oushixiong@kylinos.cn&gt;</a></p>
-    <p>Thanks and Regards,<br>
-      Shixiong Ou.<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20250530095432.1206966-5-shiyongbang@huawei.com">
-      <pre wrap="" class="moz-quote-pre">
- 	}
- 
- 	ret = hibmc_kms_init(priv);
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------Yf9zWol0zqtZcWmT4DeHz07g--
-
+-Jeff
