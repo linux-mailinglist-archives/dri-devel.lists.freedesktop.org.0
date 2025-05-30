@@ -2,135 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FE2AC950A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 19:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78EDAC951B
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 19:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43DA210E873;
-	Fri, 30 May 2025 17:47:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECB110E815;
+	Fri, 30 May 2025 17:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="my/KCwKS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hilJ88Sl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0017F10E862
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:47:52 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UB0LnF031636
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:47:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- I2ez+VVQUEQ0VIPx74QVRtcPuZN590edbsc0AbaJg28=; b=my/KCwKSYTI5vfXx
- sRanlap4L7rp9IR8i7BzTy5zvpkVhIC63gt5WA7TXihhAdDjNq95LQJiDlTdF1Kq
- VgpNk/hr2rgfxW8FE6DkT/6JJcnl3RugdixcTsNGgkYIVOevJJbvoB8HQ82beoXU
- mFKNdgx1WfLviCTo3LP3FBKjzn/2qEo3eKh/O+Vgdkx6MCIfFwThyh7ImB0BFzKI
- wxtrL77JvznCC8gaEW3vRGH4beoksRy/6JNcGTPmx+7YupUslc2JCy+y46jQg+Be
- ShtZOX8b/kkco0ksatGJFCrjWrv9xKd3XnGZJBuYFb1GbQ4s7j5DNDr/y0IA8Poe
- ERlXMQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6vk221u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:47:52 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-310e7c24158so2158360a91.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 10:47:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748627271; x=1749232071;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I2ez+VVQUEQ0VIPx74QVRtcPuZN590edbsc0AbaJg28=;
- b=FwZ08Nxyl2VWAmr3DEPAO8hsesoEJI4lfwQ8ewplj2DkVfA99aWm8qKsv084iwIyg2
- tW5ifBzSr9A0ytm23BpAQRmnyIUX53BQAKEABIeUTrmN0YdNvBTv0mAUaxpE3VB4dJ4E
- RtnWEjR4MmOwT/iBcfYQNH5XewahxbK87biAZoCY7MX3dkDdZPxcnrsvU5LdvOn84uOG
- qQTY6sQqQ+H8jH4q3U2fCS+LbSbTUP1Et0QY2uTUMMWUnvSqFWUuVb2fehXU7J2HTgSt
- nTm/tY6zdGasKMbgWjp0G0RNYLfzFy1hgO1J2Qft/DkYqQpkj9/QRsbrDLJkzNeB7QTA
- wsng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7UgWZpz3Yu/2uzmfgkE1r2VjgeDEgUc0hKbi5jcOz7+foGhiJ6U/YXLs+R324QjraMIfLVCOV2eQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6yRtmvnwWzxfyAZPPOcpDZg0P0tjIpCUfdwweC3AFtFOVhAFH
- I4NZ9KX7x4P006Sz8wmKCl9tiaa2T5+94BwPht9GBbS7fXfBfy2MUPVeoeWuUVeah1ezhWe+DrC
- tmBJPQdqvQzOkDlGDjzBd8J9RI7xQ+y4wd0WUq4/mYziPu6mtNj2YGlJlyWfwDsdAsbC1erk=
-X-Gm-Gg: ASbGncumQrWXci1WacD72HriI/3fKfM0WNQu4/GCeYj1eKt8QZxRl4Pebz2Jg+UknS5
- rQqm9ctx2LEijw8wxyLBw49fh37/DU3mBZPVAHa8sqqU3fDnCNdEkInIPhZFhVGDLTc6m8KEf0B
- gYgQ8IQ9puHSICIGtCrx+UPBjcDYPaQ6AsbXnDnZ3tfUOwnnIhV8WgXvf87moXE950XQCuYcJ5E
- HkubSYTg06T4F8PLPxpBZuRh1nbwB/CzdW2DZu9AlYUOUewRdQKQABTuQrtMPii5JjKpjWUczHw
- 2yXEjiaz1vKWd4ny4UHrlz9R5EQZSrEZQjNdSi/rP7olE3woTAA+ufBJzH0yJZhKdgIW/l2S
-X-Received: by 2002:a17:90b:380a:b0:311:c596:5c6f with SMTP id
- 98e67ed59e1d1-31250422c83mr4745975a91.17.1748627271352; 
- Fri, 30 May 2025 10:47:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAzuCzSGDHIYYMJWlQu/UxzZTwsTv4OuvIjxQ8U3l54C3qfmKifjkbR2VtVn6c8NO4dfiy8g==
-X-Received: by 2002:a17:90b:380a:b0:311:c596:5c6f with SMTP id
- 98e67ed59e1d1-31250422c83mr4745923a91.17.1748627270806; 
- Fri, 30 May 2025 10:47:50 -0700 (PDT)
-Received: from jesszhan-linux.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3124e399b0fsm1615381a91.30.2025.05.30.10.47.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 10:47:50 -0700 (PDT)
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Date: Fri, 30 May 2025 10:47:28 -0700
-Subject: [PATCH v2 5/5] arm64: dts: qcom: Add pixel 1 stream for
- displayport
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-dp_mst_bindings-v2-5-f925464d32a8@oss.qualcomm.com>
-References: <20250530-dp_mst_bindings-v2-0-f925464d32a8@oss.qualcomm.com>
-In-Reply-To: <20250530-dp_mst_bindings-v2-0-f925464d32a8@oss.qualcomm.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0C110E815
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 17:48:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C02836115E;
+ Fri, 30 May 2025 17:48:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690EDC4CEEB;
+ Fri, 30 May 2025 17:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748627330;
+ bh=9UEdvQyq4ZTEQpaSat+UrDb2/pIf0CsFRPtHS3TheEI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hilJ88Sl8cYkkClu8F9Fu3Hy/7R+Ln+lFb+OAXtJNt2F0Jo7J8DOqGvkQJ+wpF6yQ
+ Q5aDhRBD3hR++F/I5fWa1JdXW5Ae5161bb/oe1NJlI/aWzLIFzRT2DeLmRnswIap0W
+ q6010CDaTnNRpETEMcvIjUDJOmjBwdoSUtdKUtkWmGgze2UnQ9sHA3ns2S5hjxbpAd
+ mCmTh94NAtvqG5oIUKdAACM5USMpdGBBnJTBZUAv6Zgjla+HJCs1cQt0PzDyw/uluT
+ caxLzuICpwYN1WCvX+FtJddbsQRAxEg2YSlKRUtNOiWWhJhai8o++8RrM7up0dBiTP
+ TUgBroGoMx+1w==
+Date: Fri, 30 May 2025 10:48:47 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Alessandro Carminati <acarmina@redhat.com>,
+ linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abel.vesa@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Mahadevan <quic_mahap@quicinc.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Danila Tikhonov <danila@jiaxyga.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Yongxing Mou <quic_yongmou@quicinc.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-64971
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748627260; l=21528;
- i=jessica.zhang@oss.qualcomm.com; s=20230329; h=from:subject:message-id;
- bh=7cVK/iGnZD2H0/Jt96Ja7gIcuQ+FHqN3/8blm9Q0Aks=;
- b=CZ0cs2cxaz94lhhCJHJO7RLKnzAjt0JV1/xpoJgUBu6SMPDqTI/zdYMBoGyV5xsf0KmuCPT/Q
- zXql5iMxANBDmfyix0buWBuRpSYyGHOjFrxBn0oOCQeKxeQa9oX9elv
-X-Developer-Key: i=jessica.zhang@oss.qualcomm.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Authority-Analysis: v=2.4 cv=UOXdHDfy c=1 sm=1 tr=0 ts=6839ef48 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=dSBowAU8ajBC3IOhnY8A:9
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: MzzONP6-OEuFKKvC891vCrspzlucq0m-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDE1NiBTYWx0ZWRfX5YfilF0K1SZn
- o1rNsgsBhH7UzdDPcFFaNBP8zg0+7uPF1Io95/bTqDDKTCCrmkYEXWsTNmF/5sO6eEqJ/2wSnoY
- wnW0CtnaAGG4r23+duC1ziMUffAtn5pEUwD+2BkxN8ymcZzt/5HEYDGCtCzK8WsTAuPIV5JZu8x
- eUVZQAJ2Fy8EvASORXpAo2KWQkmWyOh4mu0cA8JAyb8JUwN+GLRKCPkXJYPym2t5B1sCBqW34SF
- 4/QYeNqRNEWEVTAz46U4KoeORmSqkLXqREbYCruZrqE0y0DcmzpzjrmFgAeoDh/azG/x8lm9xF7
- Llyk+GFcXp+Jq6ML6jdCgBoqDiOx9cMfLRxbK6UIgtcVUKBp00akKVw6LGpNAC2A2Yaa67Zknna
- h79eQTHgvYLmqc8WRAUTuKU163Q57mPoSw9K2UugehKcD2wKHS8yn7ZQmA52N+lCNwOPeJ7t
-X-Proofpoint-GUID: MzzONP6-OEuFKKvC891vCrspzlucq0m-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_08,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=746 bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505300156
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
+ backtraces
+Message-ID: <202505301037.D816A49@keescook>
+References: <20250526132755.166150-1-acarmina@redhat.com>
+ <20250526132755.166150-2-acarmina@redhat.com>
+ <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
+ <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
+ <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250530140140.GE21197@noisy.programming.kicks-ass.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,497 +78,340 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the pixel 1 stream for displayport-controller for the following
-chipsets:
-  - sa8775p
-  - sc8180x
-  - sc8280xp
-  - sm8150
-  - sm8350
-  - sm8450
-  - sm8650
-  - x1e80100
+On Fri, May 30, 2025 at 04:01:40PM +0200, Peter Zijlstra wrote:
+> I'm not really concerned with performance here, but more with the size
+> of the code emitted by WARN_ONCE(). There are a *ton* of WARN sites,
+> while only one report_bug() and printk().
+> 
+> The really offensive thing is that this is for a feature most nobody
+> will ever need :/
 
-Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/sa8775p.dtsi  | 26 ++++++++----
- arch/arm64/boot/dts/qcom/sc8180x.dtsi  | 20 +++++++---
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 72 +++++++++++++++++++++++-----------
- arch/arm64/boot/dts/qcom/sm8150.dtsi   | 10 +++--
- arch/arm64/boot/dts/qcom/sm8350.dtsi   | 10 +++--
- arch/arm64/boot/dts/qcom/sm8450.dtsi   | 10 +++--
- arch/arm64/boot/dts/qcom/sm8650.dtsi   | 10 +++--
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 31 ++++++++++-----
- 8 files changed, 132 insertions(+), 57 deletions(-)
+Well, it won't be enabled often -- this reminds me of ftrace: it needs
+to work, but it'll be off most of the time.
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-index 45f536633f64..2346aaeb6089 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-@@ -4237,15 +4237,20 @@ mdss0_dp0: displayport-controller@af54000 {
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
-+						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss0_dp0_phy 0>,
-+							 <&mdss0_dp0_phy 1>,
-+							 <&mdss0_dp0_phy 1>;
- 				phys = <&mdss0_dp0_phy>;
- 				phy-names = "dp";
- 
-@@ -4316,15 +4321,20 @@ mdss0_dp1: displayport-controller@af5c000 {
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_AUX_CLK>,
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_LINK_CLK>,
- 					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_LINK_INTF_CLK>,
--					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL0_CLK>;
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL0_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_LINK_CLK_SRC>,
--						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss0_dp1_phy 0>, <&mdss0_dp1_phy 1>;
-+						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>,
-+						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX1_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss0_dp1_phy 0>,
-+							 <&mdss0_dp1_phy 1>,
-+							 <&mdss0_dp1_phy 1>;
- 				phys = <&mdss0_dp1_phy>;
- 				phy-names = "dp";
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc8180x.dtsi b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-index b84e47a461a0..ca188c7f1f26 100644
---- a/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
-@@ -3233,16 +3233,20 @@ mdss_dp0: displayport-controller@ae90000 {
- 					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_prim_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_prim_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_prim_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_prim_qmpphy QMP_USB43DP_DP_PHY>;
-@@ -3311,16 +3315,20 @@ mdss_dp1: displayport-controller@ae98000 {
- 					 <&dispcc DISP_CC_MDSS_DP_AUX1_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK1_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK1_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK1_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_sec_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_sec_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_sec_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_sec_qmpphy QMP_USB43DP_DP_PHY>;
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-index 87555a119d94..11ea2fa0b853 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-@@ -4338,15 +4338,19 @@ mdss0_dp0: displayport-controller@ae90000 {
- 					 <&dispcc0 DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc0 DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-+						  <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc0 DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_0_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_0_qmpphy QMP_USB43DP_DP_PHY>;
-@@ -4417,14 +4421,18 @@ mdss0_dp1: displayport-controller@ae98000 {
- 					 <&dispcc0 DISP_CC_MDSS_DPTX1_AUX_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX1_LINK_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX1_LINK_INTF_CLK>,
--					 <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL0_CLK>;
-+					 <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL0_CLK>,
-+					 <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
--					      "ctrl_link_iface", "stream_pixel";
-+					      "ctrl_link_iface", "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc0 DISP_CC_MDSS_DPTX1_LINK_CLK_SRC>,
--						  <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>;
-+						  <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>,
-+						  <&dispcc0 DISP_CC_MDSS_DPTX1_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_1_qmpphy QMP_USB43DP_DP_PHY>;
-@@ -4494,10 +4502,12 @@ mdss0_dp2: displayport-controller@ae9a000 {
- 					 <&dispcc0 DISP_CC_MDSS_DPTX2_AUX_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_CLK>,
- 					 <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_INTF_CLK>,
--					 <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>;
-+					 <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>,
-+					 <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
--					      "ctrl_link_iface", "stream_pixel";
-+					      "ctrl_link_iface", "stream_pixel",
-+					      "stream_1_pixel";
- 				interrupt-parent = <&mdss0>;
- 				interrupts = <14>;
- 				phys = <&mdss0_dp2_phy>;
-@@ -4505,8 +4515,11 @@ mdss0_dp2: displayport-controller@ae9a000 {
- 				power-domains = <&rpmhpd SC8280XP_MMCX>;
- 
- 				assigned-clocks = <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_CLK_SRC>,
--						  <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss0_dp2_phy 0>, <&mdss0_dp2_phy 1>;
-+						  <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>,
-+						  <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss0_dp2_phy 0>,
-+							 <&mdss0_dp2_phy 1>,
-+							 <&mdss0_dp2_phy 1>;
- 				operating-points-v2 = <&mdss0_dp2_opp_table>;
- 
- 				#sound-dai-cells = <0>;
-@@ -5669,10 +5682,12 @@ mdss1_dp0: displayport-controller@22090000 {
- 					 <&dispcc1 DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
--					      "ctrl_link_iface", "stream_pixel";
-+					      "ctrl_link_iface", "stream_pixel",
-+					      "stream_1_pixel";
- 				interrupt-parent = <&mdss1>;
- 				interrupts = <12>;
- 				phys = <&mdss1_dp0_phy>;
-@@ -5680,8 +5695,11 @@ mdss1_dp0: displayport-controller@22090000 {
- 				power-domains = <&rpmhpd SC8280XP_MMCX>;
- 
- 				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss1_dp0_phy 0>, <&mdss1_dp0_phy 1>;
-+						  <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss1_dp0_phy 0>,
-+							 <&mdss1_dp0_phy 1>,
-+							 <&mdss1_dp0_phy 1>;
- 				operating-points-v2 = <&mdss1_dp0_opp_table>;
- 
- 				#sound-dai-cells = <0>;
-@@ -5741,10 +5759,12 @@ mdss1_dp1: displayport-controller@22098000 {
- 					 <&dispcc1 DISP_CC_MDSS_DPTX1_AUX_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_INTF_CLK>,
--					 <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK>;
-+					 <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK>,
-+					 <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
--					      "ctrl_link_iface", "stream_pixel";
-+					      "ctrl_link_iface", "stream_pixel",
-+					      "stream_1_pixel";
- 				interrupt-parent = <&mdss1>;
- 				interrupts = <13>;
- 				phys = <&mdss1_dp1_phy>;
-@@ -5752,8 +5772,11 @@ mdss1_dp1: displayport-controller@22098000 {
- 				power-domains = <&rpmhpd SC8280XP_MMCX>;
- 
- 				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_CLK_SRC>,
--						  <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss1_dp1_phy 0>, <&mdss1_dp1_phy 1>;
-+						  <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>,
-+						  <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss1_dp1_phy 0>,
-+							 <&mdss1_dp1_phy 1>,
-+							 <&mdss1_dp1_phy 1>;
- 				operating-points-v2 = <&mdss1_dp1_opp_table>;
- 
- 				#sound-dai-cells = <0>;
-@@ -5813,10 +5836,12 @@ mdss1_dp2: displayport-controller@2209a000 {
- 					 <&dispcc1 DISP_CC_MDSS_DPTX2_AUX_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_CLK>,
- 					 <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_INTF_CLK>,
--					 <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>;
-+					 <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>,
-+					 <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL1_CLK>;
- 				clock-names = "core_iface", "core_aux",
- 					      "ctrl_link",
--					      "ctrl_link_iface", "stream_pixel";
-+					      "ctrl_link_iface", "stream_pixel",
-+					      "stream_1_pixel";
- 				interrupt-parent = <&mdss1>;
- 				interrupts = <14>;
- 				phys = <&mdss1_dp2_phy>;
-@@ -5824,8 +5849,11 @@ mdss1_dp2: displayport-controller@2209a000 {
- 				power-domains = <&rpmhpd SC8280XP_MMCX>;
- 
- 				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_CLK_SRC>,
--						  <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>;
--				assigned-clock-parents = <&mdss1_dp2_phy 0>, <&mdss1_dp2_phy 1>;
-+						  <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>,
-+						  <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss1_dp2_phy 0>,
-+							 <&mdss1_dp2_phy 1>,
-+							 <&mdss1_dp2_phy 1>;
- 				operating-points-v2 = <&mdss1_dp2_opp_table>;
- 
- 				#sound-dai-cells = <0>;
-diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index cdb47359c4c8..3a21a2e2c04d 100644
---- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-@@ -3894,16 +3894,20 @@ mdss_dp: displayport-controller@ae90000 {
- 					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_1_qmpphy QMP_USB43DP_DP_PHY>;
-diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index 971c828a7555..6a930292edd3 100644
---- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -2872,16 +2872,20 @@ mdss_dp: displayport-controller@ae90000 {
- 					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_1_qmpphy QMP_USB43DP_DP_PHY>;
-diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 54c6d0fdb2af..b0680ef30c1f 100644
---- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -3431,16 +3431,20 @@ mdss_dp0: displayport-controller@ae90000 {
- 					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				phys = <&usb_1_qmpphy QMP_USB43DP_DP_PHY>;
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index 495ea9bfd008..72c63afe9029 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -5388,16 +5388,20 @@ mdss_dp0: displayport-controller@af54000 {
- 					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				operating-points-v2 = <&dp_opp_table>;
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index a8eb4c5fe99f..9ad448c4ad98 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -5306,16 +5306,20 @@ mdss_dp0: displayport-controller@ae90000 {
- 					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				operating-points-v2 = <&mdss_dp0_opp_table>;
-@@ -5389,16 +5393,20 @@ mdss_dp1: displayport-controller@ae98000 {
- 					 <&dispcc DISP_CC_MDSS_DPTX1_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX1_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX1_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DPTX1_PIXEL0_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DPTX1_PIXEL0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DPTX1_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX1_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DPTX1_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_ss1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_ss1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_ss1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				operating-points-v2 = <&mdss_dp1_opp_table>;
-@@ -5472,16 +5480,20 @@ mdss_dp2: displayport-controller@ae9a000 {
- 					 <&dispcc DISP_CC_MDSS_DPTX2_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX2_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_DPTX2_LINK_INTF_CLK>,
--					 <&dispcc DISP_CC_MDSS_DPTX2_PIXEL0_CLK>;
-+					 <&dispcc DISP_CC_MDSS_DPTX2_PIXEL0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DPTX2_PIXEL1_CLK>;
- 				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
--					      "stream_pixel";
-+					      "stream_pixel",
-+					      "stream_1_pixel";
- 
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX2_LINK_CLK_SRC>,
--						  <&dispcc DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>;
-+						  <&dispcc DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DPTX2_PIXEL1_CLK_SRC>;
- 				assigned-clock-parents = <&usb_1_ss2_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-+							 <&usb_1_ss2_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
- 							 <&usb_1_ss2_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
- 
- 				operating-points-v2 = <&mdss_dp2_opp_table>;
-@@ -5564,6 +5576,7 @@ mdss_dp3: displayport-controller@aea0000 {
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX3_LINK_CLK_SRC>,
- 						  <&dispcc DISP_CC_MDSS_DPTX3_PIXEL0_CLK_SRC>;
- 				assigned-clock-parents = <&mdss_dp3_phy 0>,
-+							 <&mdss_dp3_phy 1>,
- 							 <&mdss_dp3_phy 1>;
- 
- 				operating-points-v2 = <&mdss_dp3_opp_table>;
+> The below results in:
+> 
+> 03dc  7ac:      48 c7 c0 00 00 00 00    mov    $0x0,%rax        7af: R_X86_64_32S       .rodata.str1.1+0x223
+> 03e3  7b3:      ba 2a 00 00 00          mov    $0x2a,%edx
+> 03e8  7b8:      48 0f b9 d0             ud1    %rax,%rdx
+> 
+> And it even works :-)
+> 
+> Hmm... I should try and stick the format string into the __bug_table,
+> its const after all. Then I can get 2 arguments covered.
+
+I like the patch! Can you add a _little_ documentation, though? e.g.
+explaining that BUG_WARN ... BUG_WARN_END is for format string args,
+etc.
+
+But yes, I *love* that this moves the printk into the handler! Like you,
+I have been bothered by this for a long time and could not find a good
+way to do it. This is nice.
+
+> 
+> ---
+> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+> index f0e9acf72547..88b305d49f35 100644
+> --- a/arch/x86/include/asm/bug.h
+> +++ b/arch/x86/include/asm/bug.h
+> @@ -5,6 +5,7 @@
+>  #include <linux/stringify.h>
+>  #include <linux/instrumentation.h>
+>  #include <linux/objtool.h>
+> +#include <linux/args.h>
+>  
+>  /*
+>   * Despite that some emulators terminate on UD2, we use it for WARN().
+> @@ -28,50 +29,44 @@
+>  #define BUG_UD1_UBSAN		0xfffc
+>  #define BUG_EA			0xffea
+>  #define BUG_LOCK		0xfff0
+> +#define BUG_WARN		0xfe00
+> +#define BUG_WARN_END		0xfeff
+>  
+>  #ifdef CONFIG_GENERIC_BUG
+>  
+>  #ifdef CONFIG_X86_32
+> -# define __BUG_REL(val)	".long " __stringify(val)
+> +#define ASM_BUG_REL(val)	.long val
+>  #else
+> -# define __BUG_REL(val)	".long " __stringify(val) " - ."
+> +#define ASM_BUG_REL(val)	.long val - .
+>  #endif
+>  
+>  #ifdef CONFIG_DEBUG_BUGVERBOSE
+> +#define ASM_BUGTABLE_VERBOSE(file, line)				\
+> +	ASM_BUG_REL(file) ;						\
+> +	.word line
+> +#define ASM_BUGTABLE_VERBOSE_SIZE	6
+> +#else
+> +#define ASM_BUGTABLE_VERBOSE(file, line)
+> +#define ASM_BUGTABLE_VERBOSE_SIZE	0
+> +#endif
+>  
+> -#define _BUG_FLAGS(ins, flags, extra)					\
+> -do {									\
+> -	asm_inline volatile("1:\t" ins "\n"				\
+> -		     ".pushsection __bug_table,\"aw\"\n"		\
+> -		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+> -		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
+> -		     "\t.word %c1"        "\t# bug_entry::line\n"	\
+> -		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
+> -		     "\t.org 2b+%c3\n"					\
+> -		     ".popsection\n"					\
+> -		     extra						\
+> -		     : : "i" (__FILE__), "i" (__LINE__),		\
+> -			 "i" (flags),					\
+> -			 "i" (sizeof(struct bug_entry)));		\
+> -} while (0)
+> -
+> -#else /* !CONFIG_DEBUG_BUGVERBOSE */
+> +#define ASM_BUGTABLE_FLAGS(at, file, line, flags)			\
+> +	.pushsection __bug_table, "aw" ;				\
+> +	123:	ASM_BUG_REL(at) ;					\
+> +	ASM_BUGTABLE_VERBOSE(file, line) ;				\
+> +	.word	flags ;							\
+> +	.org 123b + 6 + ASM_BUGTABLE_VERBOSE_SIZE ;			\
+> +	.popsection
+>  
+> -#define _BUG_FLAGS(ins, flags, extra)					\
+> +#define _BUG_FLAGS(ins, flags, extra, extra_args...)			\
+>  do {									\
+>  	asm_inline volatile("1:\t" ins "\n"				\
+> -		     ".pushsection __bug_table,\"aw\"\n"		\
+> -		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+> -		     "\t.word %c0"        "\t# bug_entry::flags\n"	\
+> -		     "\t.org 2b+%c1\n"					\
+> -		     ".popsection\n"					\
+> -		     extra						\
+> -		     : : "i" (flags),					\
+> -			 "i" (sizeof(struct bug_entry)));		\
+> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
+> +			    extra					\
+> +		     : : "i" (__FILE__), "i" (__LINE__),		\
+> +			 "i" (flags), ## extra_args);			\
+>  } while (0)
+>  
+> -#endif /* CONFIG_DEBUG_BUGVERBOSE */
+> -
+>  #else
+>  
+>  #define _BUG_FLAGS(ins, flags, extra)  asm volatile(ins)
+> @@ -100,6 +95,40 @@ do {								\
+>  	instrumentation_end();					\
+>  } while (0)
+>  
+> +#define __WARN_printf_1(taint, format)				\
+> +do { \
+> +	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
+> +	unsigned long dummy = 0; \
+> +	instrumentation_begin(); \
+> +	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
+> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
+> +		     : : "i" (__FILE__), "i" (__LINE__),		\
+> +			 "i" (__flags), [fmt] "r" (format), [arg] "r" (dummy));		\
+> +	instrumentation_end(); \
+> +} while (0)
+> +
+> +#define __WARN_printf_2(taint, format, _arg)				\
+> +do { \
+> +	__auto_type __flags = BUGFLAG_WARNING | BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint); \
+> +	instrumentation_begin(); \
+> +	asm_inline volatile("1: ud1 %[fmt], %[arg]\n"			\
+> +	    __stringify(ASM_BUGTABLE_FLAGS(1b, %c0, %c1, %c2)) "\n"	\
+> +		     : : "i" (__FILE__), "i" (__LINE__),		\
+> +			 "i" (__flags), [fmt] "r" (format), [arg] "r" ((unsigned long)(_arg)));		\
+> +	instrumentation_end(); \
+> +} while (0)
+> +
+> +#define __WARN_printf_n(taint, fmt, arg...) do {			\
+> +		instrumentation_begin();				\
+> +		__warn_printk(fmt, arg);				\
+> +		__WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
+> +		instrumentation_end();					\
+> +	} while (0)
+> +
+> +#define WARN_ARGS(X...) __COUNT_ARGS(, ##X, n, n, n, n, n, n, n, n, n, n, n, n, n, 2, 1, 0)
+> +
+> +#define __WARN_printf(taint, arg...) CONCATENATE(__WARN_printf_, WARN_ARGS(arg))(taint, arg)
+
+This needs docs too. I think this is collapsing 1 and 2 argument WARNs
+into the ud1, and anything larger is explicitly calling __warn_printk +
+__WARN_FLAGS? If only 1 and 2 args can be collapsed, why reserve 0xfe00
+through 0xfeff? I feel like I'm missing something here...
+
+> +
+>  #include <asm-generic/bug.h>
+>  
+>  #endif /* _ASM_X86_BUG_H */
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 94c0236963c6..b7f69f4addf4 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -81,18 +81,6 @@
+>  
+>  DECLARE_BITMAP(system_vectors, NR_VECTORS);
+>  
+> -__always_inline int is_valid_bugaddr(unsigned long addr)
+> -{
+> -	if (addr < TASK_SIZE_MAX)
+> -		return 0;
+> -
+> -	/*
+> -	 * We got #UD, if the text isn't readable we'd have gotten
+> -	 * a different exception.
+> -	 */
+> -	return *(unsigned short *)addr == INSN_UD2;
+> -}
+> -
+>  /*
+>   * Check for UD1 or UD2, accounting for Address Size Override Prefixes.
+>   * If it's a UD1, further decode to determine its use:
+> @@ -102,25 +90,37 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
+>   * UBSan{0}:     67 0f b9 00             ud1    (%eax),%eax
+>   * UBSan{10}:    67 0f b9 40 10          ud1    0x10(%eax),%eax
+>   * static_call:  0f b9 cc                ud1    %esp,%ecx
+> + * WARN_printf:                          ud1    %reg,%reg
+>   *
+> - * Notably UBSAN uses EAX, static_call uses ECX.
+> + * Notably UBSAN uses (%eax), static_call uses %esp,%ecx
+>   */
+>  __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+>  {
+>  	unsigned long start = addr;
+> +	u8 v, rex = 0, reg, rm;
+>  	bool lock = false;
+> -	u8 v;
+> +	int type = BUG_UD1;
+>  
+>  	if (addr < TASK_SIZE_MAX)
+>  		return BUG_NONE;
+>  
+> -	v = *(u8 *)(addr++);
+> -	if (v == INSN_ASOP)
+> +	for (;;) {
+>  		v = *(u8 *)(addr++);
+>  
+> -	if (v == INSN_LOCK) {
+> -		lock = true;
+> -		v = *(u8 *)(addr++);
+> +		if (v == INSN_ASOP)
+> +			continue;
+> +
+> +		if (v == INSN_LOCK) {
+> +			lock = true;
+> +			continue;
+> +		}
+> +
+> +		if ((v & 0xf0) == 0x40) {
+> +			rex = v;
+> +			continue;
+> +		}
+> +
+> +		break;
+>  	}
+>  
+>  	switch (v) {
+> @@ -156,9 +156,13 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+>  	if (X86_MODRM_MOD(v) != 3 && X86_MODRM_RM(v) == 4)
+>  		addr++;			/* SIB */
+>  
+> +	reg = X86_MODRM_REG(v) + 8*!!X86_REX_R(rex);
+> +	rm  = X86_MODRM_RM(v)  + 8*!!X86_REX_B(rex);
+> +
+>  	/* Decode immediate, if present */
+>  	switch (X86_MODRM_MOD(v)) {
+> -	case 0: if (X86_MODRM_RM(v) == 5)
+> +	case 0: *imm = 0;
+> +		if (X86_MODRM_RM(v) == 5)
+>  			addr += 4; /* RIP + disp32 */
+>  		break;
+>  
+> @@ -170,18 +174,37 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+>  		addr += 4;
+>  		break;
+>  
+> -	case 3: break;
+> +	case 3: if (rm != 4) /* %esp */
+> +			type = BUG_WARN | (rm << 4) | reg;
+> +		break;
+>  	}
+>  
+>  	/* record instruction length */
+>  	*len = addr - start;
+>  
+> -	if (X86_MODRM_REG(v) == 0)	/* EAX */
+> +	if (!rm && X86_MODRM_MOD(v) != 3)	/* (%eax) */
+>  		return BUG_UD1_UBSAN;
+>  
+> -	return BUG_UD1;
+> +	return type;
+>  }
+>  
+> +int is_valid_bugaddr(unsigned long addr)
+> +{
+> +	int ud_type, ud_len;
+> +	u32 ud_imm;
+> +
+> +	if (addr < TASK_SIZE_MAX)
+> +		return 0;
+> +
+> +	/*
+> +	 * We got #UD, if the text isn't readable we'd have gotten
+> +	 * a different exception.
+> +	 */
+> +	ud_type = decode_bug(addr, &ud_imm, &ud_len);
+> +
+> +	return ud_type == BUG_UD2 ||
+> +		(ud_type >= BUG_WARN && ud_type <= BUG_WARN_END);
+> +}
+>  
+>  static nokprobe_inline int
+>  do_trap_no_signal(struct task_struct *tsk, int trapnr, const char *str,
+> @@ -305,6 +328,14 @@ static inline void handle_invalid_op(struct pt_regs *regs)
+>  		      ILL_ILLOPN, error_get_trap_addr(regs));
+>  }
+>  
+> +static inline unsigned long pt_regs_val(struct pt_regs *regs, int nr)
+> +{
+> +	int offset = pt_regs_offset(regs, nr);
+> +	if (WARN_ON_ONCE(offset < -0))
+> +		return 0;
+> +	return *((unsigned long *)((void *)regs + offset));
+> +}
+> +
+>  static noinstr bool handle_bug(struct pt_regs *regs)
+>  {
+>  	unsigned long addr = regs->ip;
+> @@ -334,6 +365,14 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+>  		raw_local_irq_enable();
+>  
+>  	switch (ud_type) {
+> +	case BUG_WARN ... BUG_WARN_END:
+> +		int ud_reg = ud_type & 0xf;
+> +		int ud_rm  = (ud_type >> 4) & 0xf;
+> +
+> +		__warn_printk((const char *)(pt_regs_val(regs, ud_rm)),
+> +			      pt_regs_val(regs, ud_reg));
+> +		fallthrough;
+
+Yay, internal printk. :):)
+
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 62b3416f5e43..564513f605ac 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -8703,6 +8703,8 @@ void __init sched_init(void)
+>  	preempt_dynamic_init();
+>  
+>  	scheduler_running = 1;
+> +
+> +	WARN(true, "Ultimate answer: %d\n", 42);
+>  }
+>  
+>  #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
+
+If any code would emit The Answer, it would be the scheduler. :)
 
 -- 
-2.49.0
-
+Kees Cook
