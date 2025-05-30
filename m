@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF1CAC8665
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5F4AC8666
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C123710E251;
-	Fri, 30 May 2025 02:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4692610E25C;
+	Fri, 30 May 2025 02:50:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="agI6Yk4m";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZF4tHM3U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE57A10E238
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:50:31 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227F710E256
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573430;
+ s=mimecast20190719; t=1748573436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GmYIdDglsl1Jk2TaVnbNMksBDmnsTulDs4yfm2jcNsQ=;
- b=agI6Yk4mbUPvfOIme/yJisGXovxtYj1KFLHNwpnwyhlTbLBBOcB/TmPbt0HWfq0XiU0R5d
- 6EQsH4fmQcdWOKA+3eAoCaoTvfcK3gS6En1Eg1dnjrxG6rOR7FAr9jI3DT5Tqfc36PQPpb
- 7+0Ru75lyJFHq/53Xnn3YxM1koSNcQw=
+ bh=HufTZwqlu3MY4gkaOUrbeff+ha6MfEm7tgUgivlHaxA=;
+ b=ZF4tHM3U8HkLydBextcjfiaBpth/TE9QK4mJAgga0qKRXW82pBmVLnJqX4HsKOCqvVdoF1
+ OMLtJs7bGpusj4GIxFgrpApl6yhOdeCJ9poKIh4vjPDTt0QKJZRphHj4/hUmBM4CMYZPZI
+ EgPWKXUZJkZKzH/Csc4gvMjY0C+pukI=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-569-Y0vVfNbzOpGSQ3JQ9hvZcQ-1; Thu,
- 29 May 2025 22:50:26 -0400
-X-MC-Unique: Y0vVfNbzOpGSQ3JQ9hvZcQ-1
-X-Mimecast-MFC-AGG-ID: Y0vVfNbzOpGSQ3JQ9hvZcQ_1748573423
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-324-We4YvRcLMDuceGIK9OHIiA-1; Thu,
+ 29 May 2025 22:50:30 -0400
+X-MC-Unique: We4YvRcLMDuceGIK9OHIiA-1
+X-Mimecast-MFC-AGG-ID: We4YvRcLMDuceGIK9OHIiA_1748573428
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 4C3A9180045C; Fri, 30 May 2025 02:50:23 +0000 (UTC)
+ id DBCC1180056F; Fri, 30 May 2025 02:50:27 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 45A661955D82; Fri, 30 May 2025 02:50:18 +0000 (UTC)
+ id 7F1761955D82; Fri, 30 May 2025 02:50:23 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:08 -0500
-Subject: [PATCH v2 06/46] panel/raydium-rm69380: Use refcounted allocation
+Date: Thu, 29 May 2025 21:46:09 -0500
+Subject: [PATCH v2 07/46] panel/ronbo-rb070d30: Use refcounted allocation
  in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-6-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-7-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1445;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1556;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=BbDlvOBfDpi/dKQndy3mzJnnSxdJwtY3vbWR7b31DdI=;
- b=Rec7L24XsOc1BSRoGh4Thkvk+MUm0uwRJdScykO8N4/s7n4fMuAPB9S7hPVnGgAj9mmX/VQDC
- Gw7J6OOuz7VBmap7TKuHZoKeIm6H1i6JNoYYSopIUFKaPXQJ1MWbgUK
+ bh=8X+Z/93oZEewJICP+BYSyz8Avvzc3+Twfw3Dcgt/dAU=;
+ b=1oibaY4P3oK8QhaI2WKfGIZx8613qP59xZfgpJqHIz2qnc7fLx3M3BeFFM7setASfe/Z/xtkU
+ DQTlU+gA+A5DAqVtV30NrOWX2HzC1pHwwKI9lBwJEzK1hRVuraPs/vw
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -102,37 +102,38 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-raydium-rm69380.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm69380.c b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
-index d3071c01aaeae92c8ff1cdec14a01f64a9ae6460..86769cadec972ff0e7f5ba5275a7d6f2afb37ee1 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm69380.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
-@@ -208,9 +208,11 @@ static int rm69380_probe(struct mipi_dsi_device *dsi)
- 	struct device_node *dsi_sec;
- 	int ret, i;
+diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+index 2ef5ea5eaeeb2062372c594d077bd070975119ed..ad35d0fb0a16787ffb87c365c9939c78ff42d67a 100644
+--- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
++++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+@@ -143,9 +143,11 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
+ 	struct rb070d30_panel *ctx;
+ 	int ret;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
 -	if (!ctx)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct rm69380_panel, panel,
-+				   &rm69380_panel_funcs,
++	ctx = devm_drm_panel_alloc(&dsi->dev, struct rb070d30_panel, panel,
++				   &rb070d30_panel_funcs,
 +				   DRM_MODE_CONNECTOR_DSI);
 +	if (IS_ERR(ctx))
 +		return PTR_ERR(ctx);
  
- 	ctx->supplies[0].supply = "vddio";
- 	ctx->supplies[1].supply = "avdd";
-@@ -248,8 +250,6 @@ static int rm69380_probe(struct mipi_dsi_device *dsi)
- 	ctx->dsi[0] = dsi;
+ 	ctx->supply = devm_regulator_get(&dsi->dev, "vcc-lcd");
+ 	if (IS_ERR(ctx->supply))
+@@ -154,9 +156,6 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
  	mipi_dsi_set_drvdata(dsi, ctx);
+ 	ctx->dsi = dsi;
  
--	drm_panel_init(&ctx->panel, dev, &rm69380_panel_funcs,
+-	drm_panel_init(&ctx->panel, &dsi->dev, &rb070d30_panel_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
- 	ctx->panel.prepare_prev_first = true;
- 
- 	ctx->panel.backlight = rm69380_create_backlight(dsi);
+-
+ 	ctx->gpios.reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ctx->gpios.reset)) {
+ 		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
 
 -- 
 2.48.1
