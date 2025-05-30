@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC14AC869D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C53BAC869F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:53:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B66710E7B4;
-	Fri, 30 May 2025 02:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D831D10E7B5;
+	Fri, 30 May 2025 02:53:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DSTuu28f";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fpPPmTGg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C0B10E7B5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:53:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9631A10E7B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:53:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573608;
+ s=mimecast20190719; t=1748573617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=degaKWruKmfvALCOUQqlFqYJxmrwJA5Oy3IiOJ7pAbk=;
- b=DSTuu28fFOLQzhwfP2FsuADTsLLe4REMTXblRt0rZNVmLGpgxYwak+bQw2xKU+pzE4Os4w
- tkihRClmax49InfeHZvPxEJItN8P5tskvS+uDnB3mHkhHos10TScwLlxatcoABy06MPPs6
- VBzpo12Yfp45NsBl5aTVlcivk7WA0IE=
+ bh=74SclIvUl+rBYfZpkAqBGlLwXHIM9kixx60f/Kisefs=;
+ b=fpPPmTGgPiSrkh8xveMh0kdS2TxgL6dH1qfSY3QDYamDnnKYGdOLafR/N+lYu2P8m3iTkP
+ 5LC8surlZzswTbsFDFVukDmm3A5tUO6Kwt77dCRVJYOQLUqFaOVbKXmvH5nk2EM7gJ0omK
+ 7Mhgk2AiJZWtQ4saWRdOQaRb2Y/ZYGA=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-627-7KoMFjzCNhuZWm291eoXaA-1; Thu,
- 29 May 2025 22:53:24 -0400
-X-MC-Unique: 7KoMFjzCNhuZWm291eoXaA-1
-X-Mimecast-MFC-AGG-ID: 7KoMFjzCNhuZWm291eoXaA_1748573601
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-437-I8ob_dAUPKaOWaxPgqE1vw-1; Thu,
+ 29 May 2025 22:53:32 -0400
+X-MC-Unique: I8ob_dAUPKaOWaxPgqE1vw-1
+X-Mimecast-MFC-AGG-ID: I8ob_dAUPKaOWaxPgqE1vw_1748573609
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id C8E2A180045C; Fri, 30 May 2025 02:53:21 +0000 (UTC)
+ id C8C781800446; Fri, 30 May 2025 02:53:29 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A51EB1955D82; Fri, 30 May 2025 02:53:15 +0000 (UTC)
+ id 251681955D82; Fri, 30 May 2025 02:53:21 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:42 -0500
-Subject: [PATCH v2 40/46] panel/visionox-vtdr6130: Use refcounted
- allocation in place of devm_kzalloc()
+Date: Thu, 29 May 2025 21:46:43 -0500
+Subject: [PATCH v2 41/46] panel/widechips-ws2401: Use refcounted allocation
+ in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-40-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-41-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1623;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1346;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=WjUWJknwqgHi9frJsZY7SB5VxVE74gb91LQHiBMTpFE=;
- b=Y1ry41Ose0H0lTIuJar4V1uOEaCt2fB4TCuji9fM+FXqs/Yim/TGp/GxymdBCLxrfLygOUSSG
- eb7yl0Kn4V8BgDIfE11rhyEJXHe/ZjrB8b97pqCmBeCptTOy2UaE6vk
+ bh=Ns3KZcCScqLIrOWJtSVXuxhBcf9g20rHBbpNHaKBi2M=;
+ b=2/HL+x7i79ks4wAeZzuuoNBzIs54bkIMhvjDAY576CNmaYOiwZmzoT6so8E2HLayp3FFkyIP2
+ KhFcIQn+8w2AHMNI0hGJev4NaYDpp2wGhjDrsdT/sK8j7076UI6Ys8x
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -102,38 +102,38 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: fix alignment.
 ---
- drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-index 17b8defe79c10ffdbe643f1b3e07318c655eeb89..97a79411e1ecd4db0f33f892d7ff36778be51257 100644
---- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-@@ -248,9 +248,11 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
- 	struct visionox_vtdr6130 *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+index 2591ff8f0d4e8b84b7283718bf05684e8d44d1f5..dd74610bd2eb870bbdb74bfce7a1b88ee5d1abc6 100644
+--- a/drivers/gpu/drm/panel/panel-widechips-ws2401.c
++++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+@@ -347,9 +347,11 @@ static int ws2401_probe(struct spi_device *spi)
+ 	struct ws2401 *ws;
  	int ret;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	ws = devm_kzalloc(dev, sizeof(*ws), GFP_KERNEL);
+-	if (!ws)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct visionox_vtdr6130, panel,
-+				   &visionox_vtdr6130_panel_funcs,
-+				   DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	ws = devm_drm_panel_alloc(dev, struct ws2401, panel, &ws2401_drm_funcs,
++				  DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(ws))
++		return PTR_ERR(ws);
++
+ 	ws->dev = dev;
  
- 	ret = devm_regulator_bulk_get_const(&dsi->dev,
- 					    ARRAY_SIZE(visionox_vtdr6130_supplies),
-@@ -273,9 +275,6 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
- 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 	ctx->panel.prepare_prev_first = true;
+ 	/*
+@@ -379,9 +381,6 @@ static int ws2401_probe(struct spi_device *spi)
+ 	ws2401_read_mtp_id(ws);
+ 	ws2401_power_off(ws);
  
--	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
+-	drm_panel_init(&ws->panel, dev, &ws2401_drm_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->panel.backlight = visionox_vtdr6130_create_backlight(dsi);
- 	if (IS_ERR(ctx->panel.backlight))
- 		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+ 	ret = drm_panel_of_backlight(&ws->panel);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret,
 
 -- 
 2.48.1
