@@ -2,79 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE75AC9119
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B1AAC9120
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0584610E880;
-	Fri, 30 May 2025 14:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E83310E848;
+	Fri, 30 May 2025 14:06:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SbfzqzxW";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oop1juP3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5078310E86A
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:06:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A476439FA;
- Fri, 30 May 2025 14:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1748613973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6lqui55pZ9AYWwkfwRGPE8/7IKSp8N27CxFxg1YheTA=;
- b=SbfzqzxWLzZnSG+wT+J/qvXyE32PiLx6DsAyVxbRBry6uULwkKavBpeB3PIZWQS8AUqJ/Q
- SZevyKnlwgfPxVFO+Imxq8yKBg6mYPSWd0Tl4jWCo3Whaeja+1FYRPGJxHTojSVJljBdnQ
- f/k/TJdzyp3yMYPch2SpJz6vQhtK4+Tyt/BwHof05fnRFCk0CyVpFgWa7aDTI21t/MBfwv
- 0h2wWGtz9xMsPYLaH0nMD+9FLB8Mso2QhCBq2f6O0j5564XOUPWEpVnAJEiT/Lnt31hwnJ
- hFjxWtB/IZZO1dVqCaZY2lBs/RUAFEIaRA3nO7bB1t/8aRUbZ285dpoPwsxtnQ==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 30 May 2025 16:06:03 +0200
-Subject: [PATCH v4 8/8] drm/vkms: Add P01* formats
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B878410E881
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:06:19 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBnW5N016093;
+ Fri, 30 May 2025 14:06:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lQYZWeIIBAE+eqH1hYBy5QCANHbuBmJ+jiTF7okFXSE=; b=oop1juP3iK/oJMeT
+ yZI611vr+vehd8NrFHXAgGMxWiw7jVRk4iFZcIemacZjLW6/WYx2CvScPJVEp5/d
+ Q/etZMBwCqG7LjmNJwtAvaTTs/r9OVcNIT+LlPG9TTqoCyuamj+SLbQl4TpyZMrF
+ MGAL/esxqxNUvmquAg8SsrkqlY123VqBe6DPh4CFkIrElh4j24Im8hv3eGfLx3eG
+ SVoDvYuAN8pdX/e0+dfd9yvwXr0BD+RjihJIeEcv9AQ9Y2w3DWeDSPzzdo3RbLr3
+ MD1UWvAb+YOyvlnLhHVTw30XxEucbtJuygDqcvQVJ8Q1SSjFXvlRh2nPUMv6kfbk
+ aKrAPA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46yc4yrcx8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 May 2025 14:06:13 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54UE6CZA003098
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 May 2025 14:06:12 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 May
+ 2025 07:06:08 -0700
+Message-ID: <5ed77f6d-14d7-4b62-9505-ab988fa43bf2@quicinc.com>
+Date: Fri, 30 May 2025 19:36:05 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-b4-new-color-formats-v4-8-ef5f9f48376c@bootlin.com>
-References: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
-In-Reply-To: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
-To: Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, nicolejadeyee@google.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1885;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=jtHmoiwTPmZuIL2jSvu3AJXloTGW3+2UlSnZwUtxIBs=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoObtLiqjIf9jWTnS5g1JXbzYnKyVHdddAbF//c
- xh8g2iobAyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaDm7SwAKCRAgrS7GWxAs
- 4l+LEACu+f0bLR+geM3D4YEJKbcIPCAg9g1yzMIn+FISAR9SO7N2oKEu13dGnq53+dnW5Q6veKZ
- c/xouwQYG6AZCCjMpZveFIXx2IJjU1DEto0vWoaITouHBbvtYEyoO9urzZtsMAS2+t+KaN8DxFf
- EcuIRNFJzEIBh26XDE+VAz9c9i4U93FVcm8TKvmn8l46DkXLrE1uR3bWwFGTSFbnRXpQEht4DEN
- LTpFB+cxijEls9yxjFLI4w/12gGAwMDODmOheiAxt2Gjiqr1xv19x7QIZPMbHmtPLjgwCAsoEQi
- CRE5kMc8xf4fwRG6QN6GpEGSecoDEy1xTO5pzQuacrXILY80Uaqhvbs8j7DtaZ5Hr09DZlbBrbj
- yvPCpKSgmTJwuWbdoL/vaw4F0byU/i/oGafuhoYHMF5wCOd/UzK+3A/lGJTefZ2pqG8oHVZ9YJX
- 7E2j3yCOLAnTkPt51r+9jhBgk/mvcS3sH4I6wwQmV4a98Yoeqk/p8ZIIrXY33SxDVT0VA7DDt+T
- vnrObdV4AC/0ltpNMB5IpL285TxeuvNM04Oiw+fmHvsHkL+3plnPyC2ZpSAsoMRsgqqMcH8puVa
- ioGjqCCalltNnZeoRanc/A4ZUyzsWBumHIXOBxUzbrHiu73LdxDSIto5Izb8Il2qwcqPP/c3v12
- 8QFe5d7qM1rwEaw==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvledvtdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephedtjedttdetieeigfeljeekteetvefhudekgeelffejheegieevhfegudffvddvnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopegludelvddrudeikedruddrvdejngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduledprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmp
- dhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdprhgtphhtthhopehnihgtohhlvghjrgguvgihvggvsehgohhoghhlvgdrtghomhdprhgtphhtthhopehjvghrvghmihgvrdgurghuthhhvghrihgsvghssegsohhothhlihhnrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Vinod Koul <vkoul@kernel.org>, Mukesh Kumar Savaliya
+ <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+ <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
+ <3aa92123-e43e-4bf5-917a-2db6f1516671@quicinc.com>
+ <a98f0f1a-d814-4c6a-9235-918091399e4b@oss.qualcomm.com>
+ <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
+ <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEyNCBTYWx0ZWRfX6mopTBZ3SY4n
+ jtwe3BYDMpVyxvij4opEuklIBJtAzZKLSXCDpYv5WXeGt4mcikaz5eYWTEtbofIwk/ovaRhr7kv
+ ZgVzQPwL/LwP6E+VJsOXFR5B2kiaMinhaO/wdk5an077ZJdSJDjThp+QnW0rvLRSyMCinLQ9idF
+ jOIRALQDHoO0fOd2+p5/3w1DueJT9jijYlqg1joxrlVobrrrc8S5f/4yLSI0tNonaSe0wXdWQJv
+ BMsMBcDc10cX8aZY0VEaRGAkuMIQa45lQWvOXq0kYCE3RrR+fayKjnYBzwGDBjP0dFXK7wAI9Hw
+ CEj4utklAcbmax3nJUKtOGvaRLHsVewhDHpqNwg9YGeGhelS3cFScwZK23jZh4bKhvP8A4fTiMk
+ y8bWmkV+zsOB7/iIie8d1k7x0hv0YLhur77eLXv89QAVsXFceD6ErVoBZWBAK6sDzc8+94eA
+X-Authority-Analysis: v=2.4 cv=Ybe95xRf c=1 sm=1 tr=0 ts=6839bb55 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=0dzRBygV2XmgNQc9eD4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 9WWcgn3h1dr3-M0fnf9FJwiT8I77t4n1
+X-Proofpoint-ORIG-GUID: 9WWcgn3h1dr3-M0fnf9FJwiT8I77t4n1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_06,2025-05-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0 mlxscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505300124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,58 +113,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats NV 12/16/24/21/61/42 were already supported.
-Add support for:
-- P010
-- P012
-- P016
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 7 ++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   | 3 +++
- 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 8ecd75d063f4..171ef4d8f19d 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -534,7 +534,8 @@ static void function_name(const struct vkms_plane_state *plane, int x_start,			\
- 
- READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
- 			 y[0] * 257, uv[0] * 257, uv[1] * 257)
--
-+READ_LINE_YUV_SEMIPLANAR(YUV161616_semiplanar_read_line, y, uv, u16, u16, argb_u16_from_yuv161616,
-+			 y[0], uv[0], uv[1])
- /*
-  * This callback can be used for YUV format where each color component is
-  * stored in a different plane (often called planar formats). It will
-@@ -735,6 +736,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_NV61:
- 	case DRM_FORMAT_NV42:
- 		return &YUV888_semiplanar_read_line;
-+	case DRM_FORMAT_P010:
-+	case DRM_FORMAT_P012:
-+	case DRM_FORMAT_P016:
-+		return &YUV161616_semiplanar_read_line;
- 	case DRM_FORMAT_YUV420:
- 	case DRM_FORMAT_YUV422:
- 	case DRM_FORMAT_YUV444:
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e82b60fcda4b..4ab0fab4dd09 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -41,6 +41,9 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_P010,
-+	DRM_FORMAT_P012,
-+	DRM_FORMAT_P016,
- 	DRM_FORMAT_R1,
- 	DRM_FORMAT_R2,
- 	DRM_FORMAT_R4,
+On 5/21/2025 6:15 PM, Dmitry Baryshkov wrote:
+> On Wed, May 21, 2025 at 03:58:48PM +0530, Jyothi Kumar Seerapu wrote:
+>>
+>>
+>> On 5/9/2025 9:31 PM, Dmitry Baryshkov wrote:
+>>> On 09/05/2025 09:18, Jyothi Kumar Seerapu wrote:
+>>>> Hi Dimitry, Thanks for providing the review comments.
+>>>>
+>>>> On 5/6/2025 5:16 PM, Dmitry Baryshkov wrote:
+>>>>> On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
+>>>>>> The I2C driver gets an interrupt upon transfer completion.
+>>>>>> When handling multiple messages in a single transfer, this
+>>>>>> results in N interrupts for N messages, leading to significant
+>>>>>> software interrupt latency.
+>>>>>>
+>>>>>> To mitigate this latency, utilize Block Event Interrupt (BEI)
+>>>>>> mechanism. Enabling BEI instructs the hardware to prevent interrupt
+>>>>>> generation and BEI is disabled when an interrupt is necessary.
+>>>>>>
+>>>>>> Large I2C transfer can be divided into chunks of 8 messages internally.
+>>>>>> Interrupts are not expected for the first 7 message completions, only
+>>>>>> the last message triggers an interrupt, indicating the completion of
+>>>>>> 8 messages. This BEI mechanism enhances overall transfer efficiency.
+>>>>>
+>>>>> Why do you need this complexity? Is it possible to set the
+>>>>> DMA_PREP_INTERRUPT flag on the last message in the transfer?
+>>>>
+>>>> If i undertsand correctly, the suggestion is to get the single
+>>>> intetrrupt for last i2c message only.
+>>>>
+>>>> But With this approach, we can't handle large number of i2c messages
+>>>> in the transfer.
+>>>>
+>>>> In GPI driver, number of max TREs support is harcoded to 64 (#define
+>>>> CHAN_TRES   64) and for I2C message, we need Config TRE, GO TRE and
+>>>> DMA TREs. So, the avilable TREs are not sufficient to handle all the
+>>>> N messages.
+>>>
+>>> It sounds like a DMA driver issue. In other words, the DMA driver can
+>>> know that it must issue an interrupt before exausting 64 TREs in order
+>>> to
+>>>
+>>>>
+>>>> Here, the plan is to queue i2c messages (QCOM_I2C_GPI_MAX_NUM_MSGS
+>>>> or 'num' incase for less messsages), process and unmap/free upon the
+>>>> interrupt based on QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+>>>
+>>> Why? This is some random value which has no connection with CHAN_TREs.
+>>> Also, what if one of the platforms get a 'liter' GPI which supports less
+>>> TREs in a single run? Or a super-premium platform which can use 256
+>>> TREs? Please don't workaround issues from one driver in another one.
+>>
+>> We are trying to utilize the existing CHAN_TRES mentioned in the GPI driver.
+>> With the following approach, the GPI hardware can process N number of I2C
+>> messages, thereby improving throughput and transfer efficiency.
+>>
+>> The main design consideration for using the block event interrupt is as
+>> follows:
+>>
+>> Allow the hardware to process the TREs (I2C messages), while the software
+>> concurrently prepares the next set of TREs to be submitted to the hardware.
+>> Once the TREs are processed, they can be freed, enabling the software to
+>> queue new TREs. This approach enhances overall optimization.
+>>
+>> Please let me know if you have any questions, concerns, or suggestions.
+> 
+> The question was why do you limit that to QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+> What is the reason for that limit, etc. If you think about it, The GENI
+> / I2C doesn't impose any limit on the number of messages processed in
+> one go (if I understand it correctly). Instead the limit comes from the
+> GPI DMA driver. As such, please don't add extra 'handling' to the I2C
+> driver. Make GPI DMA driver responsible for saying 'no more for now',
+> then I2C driver can setup add an interrupt flag and proceed with
+> submitting next messages, etc.
+> 
 
--- 
-2.49.0
+For I2C messages, we need to prepare TREs for Config, Go and DMAs. 
+However, if a large number of I2C messages are submitted then may may 
+run out of memory for serving the TREs. The GPI channel supports a 
+maximum of 64 TREs, which is insufficient to serve 32 or even 16 I2C 
+messages concurrently, given the multiple TREs required per message.
 
+To address this limitation, a strategy has been implemented to manage 
+how many messages can be queued and how memory is recycled. The constant 
+QCOM_I2C_GPI_MAX_NUM_MSGS is set to 16, defining the upper limit of
+messages that can be queued at once. Additionally, 
+QCOM_I2C_GPI_NUM_MSGS_PER_IRQ is set to 8, meaning that
+half of the queued messages are expected to be freed or deallocated per 
+interrupt.
+This approach ensures that the driver can efficiently manage TRE 
+resources and continue queuing new I2C messages without exhausting memory.
+> I really don't see a reason for additional complicated handling in the
+> geni driver that you've implemented. Maybe I misunderstand something. In
+> such a case it usually means that you have to explain the design in the
+> commit message / in-code comments.
+> 
+
+
+The I2C Geni driver is designed to prepare and submit descriptors to the 
+GPI driver one message at a time.
+As a result, the GPI driver does not have visibility into the current 
+message index or the total number of I2C messages in a transfer. This 
+lack of context makes it challenging to determine when to set the block 
+event interrupt, which is typically used to signal the completion of a 
+batch of messages.
+
+So, the responsibility for deciding when to set the BEI should lie with 
+the I2C driver.
+
+If this approach is acceptable, I will proceed with updating the 
+relevant details in the commit message.
+
+Please let me know if you have any concerns or suggestions.
