@@ -2,100 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9CEAC90FE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4377AAC9111
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26F510E07C;
-	Fri, 30 May 2025 14:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9299B10E7F3;
+	Fri, 30 May 2025 14:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dMc4ePrL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Lc84IVHd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED9D10E07C
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:05:24 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UAWXnH008272;
- Fri, 30 May 2025 14:05:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4iVEmPMyZopwyfXJVjKqstdsuW2AD1p5Y2D0gUSNpEw=; b=dMc4ePrL76kNx+9n
- My70cNWd/sP9JsoWAOv45q6M+2OYDHgBI5CBMoUcYFhBd1aSb60ufxk+VyJwyu8K
- c37PZxSr6IZ5FVzxDF4ZXWaFlamwYQMCcY/dvnyOOLe1f31j4hXXESvcqMMDqkpJ
- UJfIMYHYJxrUcL0SOZWDDlVMXxlgfCik6khXQmEM3MSLA/fyJDZ3kCk4x43haruL
- zMHRdORwR6Ft+9Z8kpWoNFDAy7NL7ZJS+ZvNaq7rlXhc/AGbN1j9OkCyo3N5Iajh
- ldOvnqowz2h2O4hvjKmkAAiQ0gZx92PRzIQaPHMhVFCns5s5fTnRjb5eFf1g5YGp
- w2glDg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46w992uetx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 May 2025 14:05:17 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54UE5HKX001222
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 May 2025 14:05:17 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 May
- 2025 07:05:12 -0700
-Message-ID: <de00809a-2775-4417-b987-5f557962ec31@quicinc.com>
-Date: Fri, 30 May 2025 19:35:10 +0530
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502E210E814
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:06:09 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7381D439A8;
+ Fri, 30 May 2025 14:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1748613965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XKTt2HulPQIKNfmzsrm65iL94BKuhbL+ePMkfrTRPLo=;
+ b=Lc84IVHdR0kOxRNNZlgfQ9BsK9TG3gyN+VN9xbLU2ahovLUbXF7POXH7dxQNGJwRA+vl8I
+ 4yN81ca8Boq1zbmjwbAUfr9xuc/qwHFgr5AiJVqq1OgX7ivRIxZ8NRVxDvv8jQl/d37lj4
+ O1BD8r7Wd+TpSDVUpPcH90/FSD+4GUXLftps5UznJOBvLCc95a7HI+/3TgVOmTlHG6bqfY
+ NJX26LzvYGjjbZ+COWJGWgHxENMHX+QJWL4mWyGoAjMyoSZULgnpQnqG95xxl14Uz9Ic5J
+ eTtd06CWv7X8KVyw213RLT8tWysS3rgoGkynjmKe1lnQd+y2KqoZ7npvf/BR5Q==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v4 0/8] drm/vkms: Add support for multiple plane formats
+Date: Fri, 30 May 2025 16:05:55 +0200
+Message-Id: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] dmaengine: qcom: gpi: Add GPI Block event
- interrupt support
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Vinod Koul <vkoul@kernel.org>, Mukesh Kumar Savaliya
- <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-2-quic_jseerapu@quicinc.com>
- <ze5y6llgo2qx4nvilaqcmkam5ywqa76d6uetn34iblz4nefpeu@ozbgzwbyd54u>
- <4456d0e2-3451-4749-acda-3b75ae99e89b@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <4456d0e2-3451-4749-acda-3b75ae99e89b@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEyNCBTYWx0ZWRfX+HFHJqP6AUQh
- /F7kIWa/YYSTMBf+9sF8PbIxkXJ2TGSP6218m4NSYH0l3bn/6/kk+MM5wxOXJF1c6hNA9U5H956
- XUGqLTH7KtUNW+PXf0GlAAYt9o6fQ+AGwsGWsciTdTNRxIbasz8boxUF1Ch24gw/rJf5QqmS3Km
- fpqoUdRLu4U9ETmDNSAn3G4WcLmIRmLe0eRuFa46+dSl7RfKmkY1ICAXZfp1fPPzY3l6/aYrwdf
- 3t2EE3VM154j9J7eYpPC/riJlJ61/TYI5QnpCVgxLvCk68OGk+RyDFZcENc1DIY2SwmHj/t7vhW
- Ex+r5AsExKFqytrNh1IkLVn8uXj5FphgdNVt9o/fc2hDJcJxJ1ywZXAuOioWhEvMY8Lnlil1s8L
- tkhyWoT5VnUyjR0wWjU1C84lpNPuVnL2oYi6q2xurLqra2EnWP75ohGUVKHXCz6C6ch86a/7
-X-Authority-Analysis: v=2.4 cv=Fes3xI+6 c=1 sm=1 tr=0 ts=6839bb1d cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=ABChF0pPfgsoSLu0HJQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Jal4qF9HP_k9GDbkw8uB1H7T2eq9ttJO
-X-Proofpoint-ORIG-GUID: Jal4qF9HP_k9GDbkw8uB1H7T2eq9ttJO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_06,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300124
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEO7OWgC/33QwU4DIRAG4FfZcC7KAF2WnnyPxsMCgyUpiwJua
+ 5q+u7QbNY3WG0My38z8J1IwByxk051IxjmUkKZWyFVH7G6cXpAG12rCGZdMAKdG0gkP1KZ9ytS
+ nHMdaKBjUrh8Gw2EkrfU1ow/HK7t9bvUulJryx3XKDJffBVxD/zc4A2VUSeu1R6YEqCeTUt2H6
+ cGmSC7kzH+YAeQdhjdmMEJqbT1qhjfMajkLGFP/tDup3LhmTvZK/t5CfG8BwO+kM4vGcOGVUj1
+ oZfUtc14Cy/j23uKvS2rEjAWbE2Oom87lSGMo9vHr0aYca2s9fwI0MBwPwQEAAA==
+X-Change-ID: 20240312-b4-new-color-formats-1be9d688b21a
+To: Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2345;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=bL/RjbISE+IxexlOEY5ZjFkBPiOM+cGC9ZFAOEe74PU=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoObtI7uBUUy62HMl1zqEBbxs8pC2fmwyTL8xaT
+ Nx2B8EVVwqJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaDm7SAAKCRAgrS7GWxAs
+ 4sLKD/9Hj9sZYpbb/HxbdeMavn5MlE7yC5R39BKrJknXiaKAdon39r3J82ixgkqyiW/iWZF5jOf
+ GL3L5yh0SrLC+swO/AMwNTmfNPCBCvU6a1wwvs/IcQML+uTWVSg/AwO0jkcNMJanDeaPyUPSEvL
+ XZmWqgYZmlPQZwJbfIJS+1JhVGT1M1aE/bRrFxk1HlAWlOnqg5Qf0xa5BXC9Okm/nOqkED4tdUB
+ bcDxxwgHtQ5QsB9OgRfwPuoVNvbe5fOOOfAuoNzyIZgF29sNTGrfgBaAhWeJ6/gGagYj3RI5bMy
+ RPorZcVsNGNSa/K36SaTeKBmComP4qPMogFWFW7Q13oUoQNjxXUSy0RU+cVt1oGI2l+kvfUOTtC
+ RD4bEmJtlSlbM9F1wb09TTKz7VX5ulzmgoQm/Aw5negHaHwnr1KoRgT3//nNddYvkzxcAYq4thQ
+ 06cnI0h/IdVcHUkP5m8VHEUkktYlWfbSlDmgMp0Bkaf+6Gn0AZpdyk1d4KtIVcx3iCBtu10bm25
+ ojZ8sVKhy1gtBIkT/L/KbfsXX1sKjkn+oSZC0R7KacHOSVtUJ3CnR3Nz1qjt6ZvavKFoRdZw0E+
+ GiHMxzN/k2xfkeEDlsK2hv2iSZ0qGIUygXL1mi0gSACPApfwuhNMxD11/bwMjpATpLNv1j70GR8
+ lzgJSWaArq6NqLQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvledvtdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeludffieekfeekjedvjeffffeuveefieeghfeihfdugeekhfejjeevhfdvfeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghloheplgduledvrdduieekrddurddvjegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepr
+ ghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepnhhitgholhgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepjhgvrhgvmhhivgdruggruhhthhgvrhhisggvshessghoohhtlhhinhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,129 +93,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series introduce a macro to generate a function to read simple
+formats. It avoid duplication of the same logic for similar formats.
 
+In addition, it also introduce multiple "easy" formats (rgb888 variants) 
+and also 16 bits yuv support (P01* formats).
 
-On 5/9/2025 11:48 AM, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 5/6/2025 5:02 PM, Dmitry Baryshkov wrote:
->> On Tue, May 06, 2025 at 04:48:43PM +0530, Jyothi Kumar Seerapu wrote:
->>> GSI hardware generates an interrupt for each transfer completion.
->>> For multiple messages within a single transfer, this results in
->>> N interrupts for N messages, leading to significant software
->>> interrupt latency.
->>>
->>> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
->>> Enabling BEI instructs the GSI hardware to prevent interrupt generation
->>> and BEI is disabled when an interrupt is necessary.
->>>
->>> When using BEI, consider splitting a single multi-message transfer into
->>> chunks of 8 messages internally and so interrupts are not expected for
->>> the first 7 message completions, only the last message triggers
->>> an interrupt, indicating the completion of 8 messages.
->>>
->>> This BEI mechanism enhances overall transfer efficiency.
->>>
->>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
->>> ---
->>> v5 ->v6:
->>>    - For updating the block event interrupt bit, instead of relying on
->>>      bei_flag, decision check is moved with DMA_PREP_INTERRUPT flag.
->>> v4 -> v5:
->>>    - BEI flag naming changed from flags to bei_flag.
->>>    - QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
->>>      file, and Block event interrupt support is checked with bei_flag.
->>>
->>> v3 -> v4:
->>>    - API's added for Block event interrupt with multi descriptor 
->>> support for
->>>      I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
->>>    - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
->>>      I2C driver.
->>>
->>> v2-> v3:
->>>     - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
->>>     - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
->>>     - Added documentation for newly added changes in "qcom-gpi-dma.h" 
->>> file
->>>     - Updated commit description.
->>>
->>> v1 -> v2:
->>>     - Changed dma_addr type from array of pointers to array.
->>>     - To support BEI functionality with the TRE size of 64 defined in 
->>> GPI driver,
->>>       updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
->>>
->>>   drivers/dma/qcom/gpi.c           | 3 +++
->>>   include/linux/dma/qcom-gpi-dma.h | 2 ++
->>>   2 files changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
->>> index b1f0001cc99c..7e511f54166a 100644
->>> --- a/drivers/dma/qcom/gpi.c
->>> +++ b/drivers/dma/qcom/gpi.c
->>> @@ -1695,6 +1695,9 @@ static int gpi_create_i2c_tre(struct gchan 
->>> *chan, struct gpi_desc *desc,
->>>           tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
->>>           tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
->>> +
->>> +        if (!(i2c->dma_flags & DMA_PREP_INTERRUPT))
->>> +            tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
->>>       }
->>>       for (i = 0; i < tre_idx; i++)
->>> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/ 
->>> qcom-gpi-dma.h
->>> index 6680dd1a43c6..ebac0d3edff2 100644
->>> --- a/include/linux/dma/qcom-gpi-dma.h
->>> +++ b/include/linux/dma/qcom-gpi-dma.h
->>> @@ -65,6 +65,7 @@ enum i2c_op {
->>>    * @rx_len: receive length for buffer
->>>    * @op: i2c cmd
->>>    * @muli-msg: is part of multi i2c r-w msgs
->>> + * @dma_flags: Flags indicating DMA capabilities
->>>    */
->>>   struct gpi_i2c_config {
->>>       u8 set_config;
->>> @@ -78,6 +79,7 @@ struct gpi_i2c_config {
->>>       u32 rx_len;
->>>       enum i2c_op op;
->>>       bool multi_msg;
->>> +    unsigned int dma_flags;
->>
->> Why do you need extra field instead of using
->> dma_async_tx_descriptor.flags?
-> 
-> In the original I2C QCOM GENI driver, using the local variable (unsigned 
-> in flags) and updating the "DMA_PREP_INTERRUPT" flag.
-> 
-> Sure, i will review if "dma_async_tx_descriptor.flags" can be retrieved 
-> in GPI driver for DMA_PREP_INTERRUPT flag status.
+PATCH 1 is the introduction of the macro and adaptation of the existing
+code to avoid duplication
+PATCH 2-5 introduce new formats with the help of this macro.
+PATCH 6 adds support for 16-bit yuv formats
+PATCH 7 introduces a macro to reduce code duplication between yuv formats
+PATCH 8 adds support for P01* formats
 
-Hi Dmitry,
+I tested the implementation using kms_plane.
 
-In the I2C Geni driver, the dma flags are primarily used in the 
-dmaengine_prep_slave_single() function, which expects the argument type 
-to be unsigned int. Therefore, the flags should be defined either as
-enum dma_ctrl_flags, or unsigned int.
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v4:
+- Update tests to test yuv 16 bits conversions, not only 8 bits
+- Link to v3: https://lore.kernel.org/r/20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com
 
-In the GPI driver, specifically within the gpi_prep_slave_sg() function, 
-the flags are correctly received from the I2C driver. However, these 
-flags are not currently passed to the gpi_create_i2c_tre() function.
+Changes in v3:
+- Rebased on new YUV iterations
+- Link to v2: https://lore.kernel.org/r/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com
 
-If we pass the existing flags variable to the gpi_create_i2c_tre() 
-function, we can retrieve the DMA flags information without introducing 
-any additional or external variables.
+Changes in v2:
+- Add proper casting/type to __le16 when needed to avoid warnings with 
+  sparse
+- Change the function argb_u16_from_yuv8888 to argb_u16_from_yuv161616 to 
+  support 16 bits values.
+- Add support for P010/P012/P016 format
+- Link to v1: https://lore.kernel.org/r/20240516-b4-new-color-formats-v1-0-74cf9fe07317@bootlin.com
 
-Please confirm if this approach—reusing the existing flags argument in 
-the GPI driver—is acceptable and good to proceed with.
+---
+Louis Chauvet (8):
+      drm/vkms: Create helpers macro to avoid code duplication in format  callbacks
+      drm/vkms: Add support for ARGB8888 formats
+      drm/vkms: Add support for ARGB16161616 formats
+      drm/vkms: Add support for RGB565 formats
+      drm/vkms: Add support for RGB888 formats
+      drm/vkms: Change YUV helpers to support u16 inputs for conversion
+      drm/vkms: Create helper macro for YUV formats
+      drm/vkms: Add P01* formats
 
->>
->>>   };
->>>   #endif /* QCOM_GPI_DMA_H */
->>> -- 
->>> 2.17.1
->>>
->>
-> 
-> 
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 103 ++++----
+ drivers/gpu/drm/vkms/vkms_formats.c           | 341 +++++++++++++-------------
+ drivers/gpu/drm/vkms/vkms_formats.h           |   4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |  15 +-
+ 4 files changed, 244 insertions(+), 219 deletions(-)
+---
+base-commit: 2271e0a20ef795838527815e057f5af206b69c87
+change-id: 20240312-b4-new-color-formats-1be9d688b21a
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
