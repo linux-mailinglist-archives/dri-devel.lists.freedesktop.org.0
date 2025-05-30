@@ -2,102 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B1AAC9120
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06243AC9177
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 16:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E83310E848;
-	Fri, 30 May 2025 14:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E58110E07D;
+	Fri, 30 May 2025 14:25:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oop1juP3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Brh41GAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B878410E881
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:06:19 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54UBnW5N016093;
- Fri, 30 May 2025 14:06:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- lQYZWeIIBAE+eqH1hYBy5QCANHbuBmJ+jiTF7okFXSE=; b=oop1juP3iK/oJMeT
- yZI611vr+vehd8NrFHXAgGMxWiw7jVRk4iFZcIemacZjLW6/WYx2CvScPJVEp5/d
- Q/etZMBwCqG7LjmNJwtAvaTTs/r9OVcNIT+LlPG9TTqoCyuamj+SLbQl4TpyZMrF
- MGAL/esxqxNUvmquAg8SsrkqlY123VqBe6DPh4CFkIrElh4j24Im8hv3eGfLx3eG
- SVoDvYuAN8pdX/e0+dfd9yvwXr0BD+RjihJIeEcv9AQ9Y2w3DWeDSPzzdo3RbLr3
- MD1UWvAb+YOyvlnLhHVTw30XxEucbtJuygDqcvQVJ8Q1SSjFXvlRh2nPUMv6kfbk
- aKrAPA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46yc4yrcx8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 May 2025 14:06:13 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54UE6CZA003098
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 May 2025 14:06:12 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 May
- 2025 07:06:08 -0700
-Message-ID: <5ed77f6d-14d7-4b62-9505-ab988fa43bf2@quicinc.com>
-Date: Fri, 30 May 2025 19:36:05 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C9710E878
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 14:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748615130; x=1780151130;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ebhvap3uGIXeOkgxbWkbzYk5e87c3HNY7AXyqp6Ao+U=;
+ b=Brh41GASw906Zq2wymreyUkNUseSjIORyNmoNi04O0FtNMtXYY8EF1N+
+ h2H2YVv0mxQy6AfNlDSQDpxn7d/RwK7Uh787F5phwNq0LLGrPWRDzVAvo
+ NiluEpqnouO2XeUjTe7moy1g3NFmQrYIS0+nC3ZE6swNXIvmwyMGVfez+
+ Xhkae9tfNyuVywaSxD6jH3LAGl/9fGNdA9H+G4uPkt6ss9qxkALiRjS6I
+ x5/wNmxunePTT/zf5uSWW7CpjVXUqYv3YFBDd+LTh+2P2UjVWELbBg37Q
+ UalelwEdReieAc4ZpJWZjrTozQpVn+omFMBffVJehQCtK+TlI5XMVpeEL A==;
+X-CSE-ConnectionGUID: iy0lJgmVQn+zkiNbjln7hw==
+X-CSE-MsgGUID: z4+TCcCgQOShsO0HJZ4FeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="61336576"
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="61336576"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2025 07:25:30 -0700
+X-CSE-ConnectionGUID: ZKP7FC/5Re2B7jgQnKVX5w==
+X-CSE-MsgGUID: Etq2N76sQ3mlvbSQ+wT7jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; d="scan'208";a="143855846"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by orviesa010.jf.intel.com with ESMTP; 30 May 2025 07:25:24 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uL0fh-000XhK-1e;
+ Fri, 30 May 2025 14:25:21 +0000
+Date: Fri, 30 May 2025 22:24:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: wangtao <tao.wangtao@honor.com>, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, kraxel@redhat.com,
+ vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, hughd@google.com, akpm@linux-foundation.org,
+ amir73il@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, benjamin.gaignard@collabora.com,
+ Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
+ jack@suse.cz, baolin.wang@linux.alibaba.com,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ bintian.wang@honor.com, yipengxiang@honor.com, liulu.liu@honor.com,
+ feng.han@honor.com, wangtao <tao.wangtao@honor.com>
+Subject: Re: [PATCH v3 3/4] udmabuf: Implement udmabuf rw_file callback
+Message-ID: <202505302235.mDzENMSm-lkp@intel.com>
+References: <20250530103941.11092-4-tao.wangtao@honor.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Vinod Koul <vkoul@kernel.org>, Mukesh Kumar Savaliya
- <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-3-quic_jseerapu@quicinc.com>
- <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
- <3aa92123-e43e-4bf5-917a-2db6f1516671@quicinc.com>
- <a98f0f1a-d814-4c6a-9235-918091399e4b@oss.qualcomm.com>
- <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
- <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDEyNCBTYWx0ZWRfX6mopTBZ3SY4n
- jtwe3BYDMpVyxvij4opEuklIBJtAzZKLSXCDpYv5WXeGt4mcikaz5eYWTEtbofIwk/ovaRhr7kv
- ZgVzQPwL/LwP6E+VJsOXFR5B2kiaMinhaO/wdk5an077ZJdSJDjThp+QnW0rvLRSyMCinLQ9idF
- jOIRALQDHoO0fOd2+p5/3w1DueJT9jijYlqg1joxrlVobrrrc8S5f/4yLSI0tNonaSe0wXdWQJv
- BMsMBcDc10cX8aZY0VEaRGAkuMIQa45lQWvOXq0kYCE3RrR+fayKjnYBzwGDBjP0dFXK7wAI9Hw
- CEj4utklAcbmax3nJUKtOGvaRLHsVewhDHpqNwg9YGeGhelS3cFScwZK23jZh4bKhvP8A4fTiMk
- y8bWmkV+zsOB7/iIie8d1k7x0hv0YLhur77eLXv89QAVsXFceD6ErVoBZWBAK6sDzc8+94eA
-X-Authority-Analysis: v=2.4 cv=Ybe95xRf c=1 sm=1 tr=0 ts=6839bb55 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=0dzRBygV2XmgNQc9eD4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 9WWcgn3h1dr3-M0fnf9FJwiT8I77t4n1
-X-Proofpoint-ORIG-GUID: 9WWcgn3h1dr3-M0fnf9FJwiT8I77t4n1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_06,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0 mlxscore=0
- adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505300124
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250530103941.11092-4-tao.wangtao@honor.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,118 +80,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi wangtao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on next-20250530]
+[cannot apply to linus/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wangtao/fs-allow-cross-FS-copy_file_range-for-memory-backed-files/20250530-184146
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250530103941.11092-4-tao.wangtao%40honor.com
+patch subject: [PATCH v3 3/4] udmabuf: Implement udmabuf rw_file callback
+config: sparc64-randconfig-002-20250530 (https://download.01.org/0day-ci/archive/20250530/202505302235.mDzENMSm-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505302235.mDzENMSm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505302235.mDzENMSm-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/udmabuf.c: In function 'udmabuf_rw_file':
+>> drivers/dma-buf/udmabuf.c:298:25: error: storage size of 'iter' isn't known
+     298 |         struct iov_iter iter;
+         |                         ^~~~
+>> drivers/dma-buf/udmabuf.c:299:45: error: 'ITER_SOURCE' undeclared (first use in this function)
+     299 |         unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+         |                                             ^~~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:299:45: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/dma-buf/udmabuf.c:299:59: error: 'ITER_DEST' undeclared (first use in this function)
+     299 |         unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+         |                                                           ^~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:327:17: error: implicit declaration of function 'iov_iter_bvec'; did you mean 'bvec_iter_bvec'? [-Wimplicit-function-declaration]
+     327 |                 iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
+         |                 ^~~~~~~~~~~~~
+         |                 bvec_iter_bvec
+>> drivers/dma-buf/udmabuf.c:298:25: warning: unused variable 'iter' [-Wunused-variable]
+     298 |         struct iov_iter iter;
+         |                         ^~~~
 
 
-On 5/21/2025 6:15 PM, Dmitry Baryshkov wrote:
-> On Wed, May 21, 2025 at 03:58:48PM +0530, Jyothi Kumar Seerapu wrote:
->>
->>
->> On 5/9/2025 9:31 PM, Dmitry Baryshkov wrote:
->>> On 09/05/2025 09:18, Jyothi Kumar Seerapu wrote:
->>>> Hi Dimitry, Thanks for providing the review comments.
->>>>
->>>> On 5/6/2025 5:16 PM, Dmitry Baryshkov wrote:
->>>>> On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
->>>>>> The I2C driver gets an interrupt upon transfer completion.
->>>>>> When handling multiple messages in a single transfer, this
->>>>>> results in N interrupts for N messages, leading to significant
->>>>>> software interrupt latency.
->>>>>>
->>>>>> To mitigate this latency, utilize Block Event Interrupt (BEI)
->>>>>> mechanism. Enabling BEI instructs the hardware to prevent interrupt
->>>>>> generation and BEI is disabled when an interrupt is necessary.
->>>>>>
->>>>>> Large I2C transfer can be divided into chunks of 8 messages internally.
->>>>>> Interrupts are not expected for the first 7 message completions, only
->>>>>> the last message triggers an interrupt, indicating the completion of
->>>>>> 8 messages. This BEI mechanism enhances overall transfer efficiency.
->>>>>
->>>>> Why do you need this complexity? Is it possible to set the
->>>>> DMA_PREP_INTERRUPT flag on the last message in the transfer?
->>>>
->>>> If i undertsand correctly, the suggestion is to get the single
->>>> intetrrupt for last i2c message only.
->>>>
->>>> But With this approach, we can't handle large number of i2c messages
->>>> in the transfer.
->>>>
->>>> In GPI driver, number of max TREs support is harcoded to 64 (#define
->>>> CHAN_TRES   64) and for I2C message, we need Config TRE, GO TRE and
->>>> DMA TREs. So, the avilable TREs are not sufficient to handle all the
->>>> N messages.
->>>
->>> It sounds like a DMA driver issue. In other words, the DMA driver can
->>> know that it must issue an interrupt before exausting 64 TREs in order
->>> to
->>>
->>>>
->>>> Here, the plan is to queue i2c messages (QCOM_I2C_GPI_MAX_NUM_MSGS
->>>> or 'num' incase for less messsages), process and unmap/free upon the
->>>> interrupt based on QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
->>>
->>> Why? This is some random value which has no connection with CHAN_TREs.
->>> Also, what if one of the platforms get a 'liter' GPI which supports less
->>> TREs in a single run? Or a super-premium platform which can use 256
->>> TREs? Please don't workaround issues from one driver in another one.
->>
->> We are trying to utilize the existing CHAN_TRES mentioned in the GPI driver.
->> With the following approach, the GPI hardware can process N number of I2C
->> messages, thereby improving throughput and transfer efficiency.
->>
->> The main design consideration for using the block event interrupt is as
->> follows:
->>
->> Allow the hardware to process the TREs (I2C messages), while the software
->> concurrently prepares the next set of TREs to be submitted to the hardware.
->> Once the TREs are processed, they can be freed, enabling the software to
->> queue new TREs. This approach enhances overall optimization.
->>
->> Please let me know if you have any questions, concerns, or suggestions.
-> 
-> The question was why do you limit that to QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-> What is the reason for that limit, etc. If you think about it, The GENI
-> / I2C doesn't impose any limit on the number of messages processed in
-> one go (if I understand it correctly). Instead the limit comes from the
-> GPI DMA driver. As such, please don't add extra 'handling' to the I2C
-> driver. Make GPI DMA driver responsible for saying 'no more for now',
-> then I2C driver can setup add an interrupt flag and proceed with
-> submitting next messages, etc.
-> 
+vim +298 drivers/dma-buf/udmabuf.c
 
-For I2C messages, we need to prepare TREs for Config, Go and DMAs. 
-However, if a large number of I2C messages are submitted then may may 
-run out of memory for serving the TREs. The GPI channel supports a 
-maximum of 64 TREs, which is insufficient to serve 32 or even 16 I2C 
-messages concurrently, given the multiple TREs required per message.
+   286	
+   287	static ssize_t udmabuf_rw_file(struct dma_buf *dmabuf, loff_t my_pos,
+   288				struct file *other, loff_t pos,
+   289				size_t count, bool is_write)
+   290	{
+   291		struct udmabuf *ubuf = dmabuf->priv;
+   292		loff_t my_end = my_pos + count, bv_beg, bv_end = 0;
+   293		pgoff_t pg_idx = my_pos / PAGE_SIZE;
+   294		pgoff_t pg_end = DIV_ROUND_UP(my_end, PAGE_SIZE);
+   295		size_t i, bv_off, bv_len, bv_num, bv_idx = 0, bv_total = 0;
+   296		struct bio_vec *bvec;
+   297		struct kiocb kiocb;
+ > 298		struct iov_iter iter;
+ > 299		unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+   300		ssize_t ret = 0, rw_total = 0;
+   301		struct folio *folio;
+   302	
+   303		bv_num = min_t(size_t, pg_end - pg_idx + 1, 1024);
+   304		bvec = kvcalloc(bv_num, sizeof(*bvec), GFP_KERNEL);
+   305		if (!bvec)
+   306			return -ENOMEM;
+   307	
+   308		init_sync_kiocb(&kiocb, other);
+   309		kiocb.ki_pos = pos;
+   310	
+   311		for (i = 0; i < ubuf->nr_pinned && my_pos < my_end; i++) {
+   312			folio = ubuf->pinned_folios[i];
+   313			bv_beg = bv_end;
+   314			bv_end += folio_size(folio);
+   315			if (bv_end <= my_pos)
+   316				continue;
+   317	
+   318			bv_len = min(bv_end, my_end) - my_pos;
+   319			bv_off = my_pos - bv_beg;
+   320			my_pos += bv_len;
+   321			bv_total += bv_len;
+   322			bvec_set_page(&bvec[bv_idx], &folio->page, bv_len, bv_off);
+   323			if (++bv_idx < bv_num && my_pos < my_end)
+   324				continue;
+   325	
+   326			/* start R/W if bvec is full or count reaches zero. */
+ > 327			iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
+   328			if (is_write)
+   329				ret = other->f_op->write_iter(&kiocb, &iter);
+   330			else
+   331				ret = other->f_op->read_iter(&kiocb, &iter);
+   332			if (ret <= 0)
+   333				break;
+   334			rw_total += ret;
+   335			if (ret < bv_total || fatal_signal_pending(current))
+   336				break;
+   337	
+   338			bv_idx = bv_total = 0;
+   339		}
+   340		kvfree(bvec);
+   341	
+   342		return rw_total > 0 ? rw_total : ret;
+   343	}
+   344	
 
-To address this limitation, a strategy has been implemented to manage 
-how many messages can be queued and how memory is recycled. The constant 
-QCOM_I2C_GPI_MAX_NUM_MSGS is set to 16, defining the upper limit of
-messages that can be queued at once. Additionally, 
-QCOM_I2C_GPI_NUM_MSGS_PER_IRQ is set to 8, meaning that
-half of the queued messages are expected to be freed or deallocated per 
-interrupt.
-This approach ensures that the driver can efficiently manage TRE 
-resources and continue queuing new I2C messages without exhausting memory.
-> I really don't see a reason for additional complicated handling in the
-> geni driver that you've implemented. Maybe I misunderstand something. In
-> such a case it usually means that you have to explain the design in the
-> commit message / in-code comments.
-> 
-
-
-The I2C Geni driver is designed to prepare and submit descriptors to the 
-GPI driver one message at a time.
-As a result, the GPI driver does not have visibility into the current 
-message index or the total number of I2C messages in a transfer. This 
-lack of context makes it challenging to determine when to set the block 
-event interrupt, which is typically used to signal the completion of a 
-batch of messages.
-
-So, the responsibility for deciding when to set the BEI should lie with 
-the I2C driver.
-
-If this approach is acceptable, I will proceed with updating the 
-relevant details in the commit message.
-
-Please let me know if you have any concerns or suggestions.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
