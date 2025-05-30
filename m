@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D954AC8B03
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 11:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFF5AC8B37
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 11:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD86510E7FF;
-	Fri, 30 May 2025 09:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4039C10E7FB;
+	Fri, 30 May 2025 09:42:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DY3NG2Hj";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wk24DIbZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BADDB10E7DC
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:37:27 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E14C510E7FB
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 09:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748597846;
+ s=mimecast20190719; t=1748598175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yhyTHW9/iNSmJ3o1/+Kc2KlH+vX1ja7mHJ+mDxpkv9E=;
- b=DY3NG2HjIHrDin4d3KPLRqtKEZs2d0c17bWrS+6pxwaFkhGLp+C86KrCscAKUrD7SHlg3x
- OHR0BcexiZcKHpI72C/W2QK/0tsEEx2XO0sMbsLsjMGpA//ltVI4udxuxeZNpePL0DzoRz
- m0PsqlX3vjOA3YmNjcRSw1HaxFvFaMU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zWtS7BX4jv3Md6oma03aZLTPAuckL46QoolFrxWb6FY=;
+ b=Wk24DIbZVlV47aWW2EZJdRerdLBN+qlqN8yElEaCDRRNygo3kRaPYY+sCC17jB2i+v5UAB
+ qycxPNmHtzG2C8U0xVE7NbFFb5VxsWxH67j2hmoSG1XWBtrCcFqNvogkMrpVz2GxMlM/w3
+ wyxjkZRQq7UvCr9TbpjTRUxhGD/2F74=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-664-_WVoRq50OG2eQHr_LQ-pNQ-1; Fri, 30 May 2025 05:37:25 -0400
-X-MC-Unique: _WVoRq50OG2eQHr_LQ-pNQ-1
-X-Mimecast-MFC-AGG-ID: _WVoRq50OG2eQHr_LQ-pNQ_1748597845
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43efa869b19so15130205e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:37:25 -0700 (PDT)
+ us-mta-327-HQcJd80zPe2mD_P_y4BY4A-1; Fri, 30 May 2025 05:42:53 -0400
+X-MC-Unique: HQcJd80zPe2mD_P_y4BY4A-1
+X-Mimecast-MFC-AGG-ID: HQcJd80zPe2mD_P_y4BY4A_1748598172
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-450d9f96f61so3142535e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:42:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748597844; x=1749202644;
+ d=1e100.net; s=20230601; t=1748598172; x=1749202972;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=yhyTHW9/iNSmJ3o1/+Kc2KlH+vX1ja7mHJ+mDxpkv9E=;
- b=FBfotLZypgG9YrZ13DKxqbofOuEIkhvq0bVTr/W1fToReHtmQPXRn4m9250/8K/RIX
- SIRmG0s3Ihqq8ueYo6szFZNbBtc7WnEOY8tsAxaEY53WNtXVFDr+poQ+QBS2Ati+UQcc
- YjF7EV0yRdP6qsMWOC5yXe3iiAqUODlocmatWjW0fL7fYIzNMwAC9eTAY7co/cwVwPwA
- Uq2YAAHgj4VKXKY4bzCYwqqAaSNnjAIDfgLxNe3VFetH4sGF7jEC9SoZjREJDLvXb6N9
- 82UeqKqyFtITPb2zDdd9vlSOjW5JM/dGtwKNeUaVCIML0hLqbaJtTUn4NSfWj6C270Yi
- OClw==
+ bh=zWtS7BX4jv3Md6oma03aZLTPAuckL46QoolFrxWb6FY=;
+ b=t4eNVfloircxejjiHviuKic6aawn6cbGK/5uecYM3airpys8fyAzy9bw23hbKEO7Dn
+ kba2k7K5eEAQpHkduNp/q5epv7aV+xb+qW6yDNrQjuddBL/L5AjaaJBrjEAR4Hcz6AJl
+ /SY4g4cEiTK6R1hs4XY52fv3KZyklH6M9Ju7cZPIZ5mh7gp6S7hLJNfyUw+LHGhZdpt+
+ +4b310eHN6Ths/MSOEBR6j0EXoTOuywICyvmp0WUO+l7TGzKZmiM36rPhJs/VP/+J1m7
+ y/XVjcmZ+Rp8E73NZNuhihKuJiy5hGcuosbYuEGRlJxCBdz6g4LQ7jAZqOkjKpblBYWU
+ V1oQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvqymGuJ3/XKB717DaPvwrI72xtxC66oMx0wrriyiQENbbkR3Ep+EY5VsEOGPHUBeCvGrhwUTuWU8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxt1k1yykwJJb1hdx+0OlVNf0YiEedQHYQY4yISlzSGpkAtMEQA
- sHvQ0mqmxwy3MVofQ59vDWCRJj3C2AEgy3UXYc1mPc40AwabRYU5xLm7jCgMwbt+iw7jfqUjhid
- /AIadJfiOxOGOrVJWzkIJzMdxiiMz2fyL6uJ3zTVfbh/M3SLCdjdzP7AbeFI9im0k/9sX3Q==
-X-Gm-Gg: ASbGnct0lTuA9r5SIpMHOQk0BiyVI0nJ7c5JioGnS/+fC9+JUD2buGGmlp9zf95y6B8
- Z/X/azUf8z7BEFo6O5Rb0wKqDxLtoBT4GLpAa1U/TFfl3knzsKNPxcYx/aq8GVxx0R/TY7d+QOZ
- 9XiFVVL1Qa52FdBnWqaGbTQ7r7rryjk1AohcGrk30N8vHOIUZRH/9k/7TBfuf7Zke0U98K1zWeC
- nPMzxbkKnhL5I6Gb80ZLHhlD4nGrrI6uyh9K9q5DVfFHyf+qHgs4btcJGd/qMMpnAnZEvDCgKoH
- YqlUkAHC6SfR6f/PavUQyPKK6MqNdlUyydIqJrgCT7RJZwiLe502S+M6N/Fw7gq7qkp7YhRDtgQ
- AJZnzujFEF+s/vjUHVGX32ZxkBBAag8Erg8+CL4QoIZ6Omh+pzw==
-X-Received: by 2002:a05:600c:6207:b0:43c:ea36:9840 with SMTP id
- 5b1f17b1804b1-450d885e38amr12675455e9.22.1748597844512; 
- Fri, 30 May 2025 02:37:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGccFKRFTCgkkT3ae/QFUuhHOQzucrbv9tCboH5VNdb/K0MlBO6YnvTUAz5zFzNoWT7UAvZNw==
-X-Received: by 2002:a05:600c:6207:b0:43c:ea36:9840 with SMTP id
- 5b1f17b1804b1-450d885e38amr12675135e9.22.1748597844047; 
- Fri, 30 May 2025 02:37:24 -0700 (PDT)
+ AJvYcCWkY15ANXnDfcjQE/0UEScDOk8Om+K6nJNU02rDO2HbWqzx42juhUA02YAQmfNeYxJ+mU/nvTH0tzw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwID+KLIorJchIDklEExCDeFfMrE2VBcUfI/7bFIA7szDSklGoV
+ wI696czRJunPoGTdpzdiuHVwAxrbP+A0ky+Hk9wjbyUh9u52PgeEmAfDhNU8PZGt4XIgw9Y65xb
+ dL/fr/yFLa+BKKvyBRTsZ2k7DYZeFpcn52KX32aSSrWWNX2FY26cyazwcDvaxvbUJYqYOhQ==
+X-Gm-Gg: ASbGncsrjyYr+cS4hYZo2FcmwZjxB2FWg2uVkuviv0YETUbvzfFkDOizA7D6kWTVFw2
+ IxgLpPBIeg4v0TmYwDd4C+Y9gulImB4IQ40+MIuKlD2X/GfOtZaawooW2fwvD3evylSfsNxQH+I
+ Df1ib7RyWOFsdh8BndDkL1e4ALwLfvnvsyqG5+oFfZ/KgtV3U+P5/WMXjTfVoL9EHUc0KQfXu6A
+ UhV7slDyjYWcX8VPaqQZi39p/o5eOdbzEEweD3BEOacT9Q/KUEIbZPzmrpTmz2Vzf0GAiVRmEYh
+ 37PxxZaldUFZ2BzJt7orXC6kcEHUqnzXDpJrD9oLz3d03Bgqt77AgLF109QPPKtbYk8/pBW1U6p
+ rQCugJhgoqHevWWtMPTe077Qnv9B9Tv5GBCk8bIU=
+X-Received: by 2002:a05:6000:1ac6:b0:39f:175b:a68d with SMTP id
+ ffacd0b85a97d-3a4f7a3e745mr1997127f8f.11.1748598172254; 
+ Fri, 30 May 2025 02:42:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEE2cC4rOgIu1Bk0E4HwZEgbfvuVj5Yx/rDkAqlZuc3fKNMuN3WR3Ck+7U4WmY934x7i63eYg==
+X-Received: by 2002:a05:6000:1ac6:b0:39f:175b:a68d with SMTP id
+ ffacd0b85a97d-3a4f7a3e745mr1997108f8f.11.1748598171812; 
+ Fri, 30 May 2025 02:42:51 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f03:5b00:f549:a879:b2d3:73ee?
  (p200300d82f035b00f549a879b2d373ee.dip0.t-ipconnect.de.
  [2003:d8:2f03:5b00:f549:a879:b2d3:73ee])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d800671csm12953125e9.30.2025.05.30.02.37.21
+ 5b1f17b1804b1-450d7fc24d7sm13138915e9.36.2025.05.30.02.42.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 May 2025 02:37:22 -0700 (PDT)
-Message-ID: <371b8fdd-129d-4fe3-bbc7-f0a1bc433b30@redhat.com>
-Date: Fri, 30 May 2025 11:37:21 +0200
+ Fri, 30 May 2025 02:42:51 -0700 (PDT)
+Message-ID: <473e974b-39a1-4ee1-b321-58f6a74c0155@redhat.com>
+Date: Fri, 30 May 2025 11:42:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/12] mm: Convert pXd_devmap checks to vma_is_dax
+Subject: Re: [PATCH 03/12] mm/pagewalk: Skip dax pages in pagewalk
 To: Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org
 Cc: gerald.schaefer@linux.ibm.com, dan.j.williams@intel.com, jgg@ziepe.ca,
  willy@infradead.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
@@ -89,7 +89,7 @@ Cc: gerald.schaefer@linux.ibm.com, dan.j.williams@intel.com, jgg@ziepe.ca,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, John@Groves.net
 References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
- <224f0265027a9578534586fa1f6ed80270aa24d5.1748500293.git-series.apopple@nvidia.com>
+ <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -136,9 +136,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <224f0265027a9578534586fa1f6ed80270aa24d5.1748500293.git-series.apopple@nvidia.com>
+In-Reply-To: <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gzFt5oTW3NVOzQE925KfDaeF9Gh_0XB5_9R4NcNVJ7k_1748597845
+X-Mimecast-MFC-PROC-ID: Ny7nJKUWlLLnkKUWv5RkLeBfbFwvCghfrf9wiQvV8LU_1748598172
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -159,69 +159,47 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29.05.25 08:32, Alistair Popple wrote:
-> Currently dax is the only user of pmd and pud mapped ZONE_DEVICE
-> pages. Therefore page walkers that want to exclude DAX pages can check
-> pmd_devmap or pud_devmap. However soon dax will no longer set PFN_DEV,
-> meaning dax pages are mapped as normal pages.
-> 
-> Ensure page walkers that currently use pXd_devmap to skip DAX pages
-> continue to do so by adding explicit checks of the VMA instead.
+> Previously dax pages were skipped by the pagewalk code as pud_special() or
+> vm_normal_page{_pmd}() would be false for DAX pages. Now that dax pages are
+> refcounted normally that is no longer the case, so add explicit checks to
+> skip them.
+
+Is this really what we want, though? If these are now just "normal" 
+pages, they shall be handled as being normal.
+
+I would assume that we want to check that in the callers instead.
+
+E.g., in get_mergeable_page() we already have a folio_is_zone_device() 
+check.
+
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
 > ---
->   fs/userfaultfd.c | 2 +-
->   mm/hmm.c         | 2 +-
->   mm/userfaultfd.c | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
+>   include/linux/memremap.h | 11 +++++++++++
+>   mm/pagewalk.c            | 12 ++++++++++--
+>   2 files changed, 21 insertions(+), 2 deletions(-)
 > 
-> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> index 22f4bf9..de671d3 100644
-> --- a/fs/userfaultfd.c
-> +++ b/fs/userfaultfd.c
-> @@ -304,7 +304,7 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
->   		goto out;
+> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> index 4aa1519..54e8b57 100644
+> --- a/include/linux/memremap.h
+> +++ b/include/linux/memremap.h
+> @@ -198,6 +198,17 @@ static inline bool folio_is_fsdax(const struct folio *folio)
+>   	return is_fsdax_page(&folio->page);
+>   }
 >   
->   	ret = false;
-> -	if (!pmd_present(_pmd) || pmd_devmap(_pmd))
-> +	if (!pmd_present(_pmd) || vma_is_dax(vmf->vma))
->   		goto out;
->   
->   	if (pmd_trans_huge(_pmd)) {
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index 082f7b7..db12c0a 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -429,7 +429,7 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
->   		return hmm_vma_walk_hole(start, end, -1, walk);
->   	}
->   
-> -	if (pud_leaf(pud) && pud_devmap(pud)) {
-> +	if (pud_leaf(pud) && vma_is_dax(walk->vma)) {
->   		unsigned long i, npages, pfn;
->   		unsigned int required_fault;
->   		unsigned long *hmm_pfns;
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index e0db855..133f750 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -1791,7 +1791,7 @@ ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
->   
->   		ptl = pmd_trans_huge_lock(src_pmd, src_vma);
->   		if (ptl) {
-> -			if (pmd_devmap(*src_pmd)) {
-> +			if (vma_is_dax(src_vma)) {
->   				spin_unlock(ptl);
->   				err = -ENOENT;
->   				break;
+> +static inline bool is_devdax_page(const struct page *page)
+> +{
+> +	return is_zone_device_page(page) &&
+> +		page_pgmap(page)->type == MEMORY_DEVICE_GENERIC;
+> +}
+> +
+> +static inline bool folio_is_devdax(const struct folio *folio)
+> +{
+> +	return is_devdax_page(&folio->page);
+> +}
 
-I assume we could also just refuse dax folios, right?
+Hm, nobody uses folio_is_devdax() in this patch :)
 
-If we decide to check VMAs, we should probably check earlier.
-
-But I wonder, what about anonymous non-dax pages in COW mappings? Is it 
-possible? Not supported?
-
-If supported, checking the actual folio would be the right thing to do.
 
 -- 
 Cheers,
