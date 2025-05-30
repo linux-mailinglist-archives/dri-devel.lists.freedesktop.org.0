@@ -2,112 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E4BAC8D8D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 14:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB5CAC9008
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 15:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7240210E851;
-	Fri, 30 May 2025 12:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A11C10E02C;
+	Fri, 30 May 2025 13:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dcp6Mbz7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hgizACTG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1B910E848;
- Fri, 30 May 2025 12:28:02 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7c5675dec99so206746885a.0; 
- Fri, 30 May 2025 05:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748608082; x=1749212882; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=G7jnJ7AlpnOgkaNlu7SRmHaToN0O+rqjJSEWeahti/0=;
- b=Dcp6Mbz77wfT1DxHiRspsYJwOqwgF1GmS0l06Sj3FI0c96fn6BqcI6ZEPCOW8Wrpvs
- H/yxV/9C60guBsBhmVdvDLgOAU20kp4K7FyH2kQZgypEKMJJ1YFrwsaei4pFeIRNQh8C
- HqlkogY8C4cI1Ne5lfe6ctKkwxzNAm3YYQw1frsVYsL3kddhCemfLre/DSGAmU349ohz
- /HICCSJr0x8rmGpl15COqggZ6FtIh1P6y+OoeJyKcKdJYPvBwUGuVjJS4LUd09SEkNF2
- YZbshDNj20dMegMU7TXtF+zT5qAO7bipBLy/mtbXhpSwHt8Pi56C0VYA1h6TkrB8ExGw
- 6n2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748608082; x=1749212882;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G7jnJ7AlpnOgkaNlu7SRmHaToN0O+rqjJSEWeahti/0=;
- b=IwK9b2Xv+GE/o1dGxDtUCjdvm8VVZ48reGPuhwChlK3j7QkD2gRyxAI7ft7oGENIJA
- Pd1kQwXLdyxH3spUhLvDxiRVmhzY10NdcDfo0V6+p7gYncGzmyAvCfv011lD0C8sIyQZ
- 5fEV2uTOCktu7mGD552/IP0DU8VcX3fXJJBjvPuqjENnaDOskgNcSQEiVkEmhoCZ1vlp
- LpKmFvEi0GuTWms5pJNeK+6O1PpBVf9Lz1kaGZ7dyH/dnY3rLwq/lTZ7mleIxH//dzkY
- ce+PJvVeeDpaFAIvCXmurV7f1r4A/Vnzc2j94eie4UlqwMTcbr4RJEoFASwSE8KeYCAA
- V3lg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXix4JOiX8cq3phZz9Vj7wmFA5PRFoBDfpjPymFLacO/M1fWQYgp2IHy4UujYsZlhDljwtuetCrrg=@lists.freedesktop.org,
- AJvYcCWgsxhIO3fNeIgeMDEYe4ZckOwP4CrnomfaXnAi+JFdrv0wbpSyP1dBLEG+2oUhvKazUKM+oN+MDA==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEIREZuzrP+jxn7UeCOOdUbpNokn2bmIFvhgU2yrQ3NKp6sYDa
- jUj8ZxTPFSusWHOipSFzYxjzsqy/RN2ACPRr33DI8YKP1gku+NET69rp
-X-Gm-Gg: ASbGncvDR+hR+z0LDaBn5RadP/rKGvesUxNuNjOp/QMvrN205k5NbjbSmCSA4CQTsJL
- D3FyQp9OF2pHnzkrnb3uhBZMZcbWop1mbwl/Thq0eTFEEGtJuUILxREmwbvIQbTRXS2WuhhWpqf
- 40iWuaEAYLLuCTnXYbvi8penLun/6NXfkuR6URf0NY6jGlhbGgTpCJ2xsPqw8KfHrI4txtEYL6V
- E3SGPuSLZ6/OYzzgXYFo0BIY8qCrJE1fy2NYFEFoSYABMr+ZuYKUBU4L79Mzu8ICjJ310jdhKkk
- WDvY7XRNjPEx9dm4u3kSZIOIzrt3WOnVmL0UWY4GeCfZEY+ykSi8p9veT3EkkC9Gp4zF6/yR9jE
- GbDpvRYJWSXWDOxBB0cC9hFNFyRVvWxTXT9OZfLn7Fxfdj9+SRbkFmXUcSdBs
-X-Google-Smtp-Source: AGHT+IH5mqS+/k5lKVHR5A7kT0427JiEKiLRbp8abhViCNWcsWQSsJNPwNzZyuM4w2nU1vb4dsRPIQ==
-X-Received: by 2002:a05:620a:4083:b0:7c7:bb07:af07 with SMTP id
- af79cd13be357-7d0a1fe0204mr530721285a.22.1748608081802; 
- Fri, 30 May 2025 05:28:01 -0700 (PDT)
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- ([2620:10d:c091:600::1:fbe8]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a4358ad334sm19700201cf.27.2025.05.30.05.27.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 05:28:00 -0700 (PDT)
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 30 May 2025 08:27:46 -0400
-Subject: [PATCH v11 5/5] rust: remove core::ffi::CStr reexport
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA3D10E7EE;
+ Fri, 30 May 2025 13:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748611516; x=1780147516;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0kthnVRhTRRX2apxh9rZ0wbaR6efYxE+DnDU7flD2ts=;
+ b=hgizACTGUm1fbCGZ07Xvi6phSWpI7uK4xonI3E/tZuURf1ytPgazrL3S
+ AXtuP2lTy2r0W3q7k5ZijG3vkM5w8pffRYH/SJ+2JlInlR3boAX1wJMM+
+ MhGPifaGf7/Bke2jxa338twDPj43+vJkekDJlQ/ZkYmieeJmuozpxJ0nr
+ 74CDZ5dbGr5da4OJ2oP9sbHYxVtxlCRiKe5Xoxj5S+N35im4+we2Fmetp
+ ISXoVoG+ARMjz2Ghxkj+FG116bEtcgKMRcj9u7EPGmbih4UsiROTpuSxk
+ z9IbVZHHxGrDeH4L71nLJMKZxbS1jo25Y3NUKMXC6BKzWJhotC4RaNVns A==;
+X-CSE-ConnectionGUID: UBSuUDHNR7OADhdB23tZRw==
+X-CSE-MsgGUID: ATSNb4XOTii3WpRdyGRcFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50756345"
+X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; d="scan'208";a="50756345"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2025 06:25:15 -0700
+X-CSE-ConnectionGUID: wGwFwY+DSPaWAYB57NEarQ==
+X-CSE-MsgGUID: 17mc5XVJT7yfulx2L8/uvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; d="scan'208";a="144206830"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.234])
+ ([10.245.244.234])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2025 06:25:10 -0700
+Message-ID: <1d7eb70c-7752-411f-8e20-f41f85438d31@linux.intel.com>
+Date: Fri, 30 May 2025 15:25:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250530-cstr-core-v11-5-cd9c0cbcb902@gmail.com>
-References: <20250530-cstr-core-v11-0-cd9c0cbcb902@gmail.com>
-In-Reply-To: <20250530-cstr-core-v11-0-cd9c0cbcb902@gmail.com>
-To: Michal Rostecki <vadorovsky@protonmail.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>, 
- Jens Axboe <axboe@kernel.dk>, Benno Lossin <lossin@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-pci@vger.kernel.org, 
- nouveau@lists.freedesktop.org, linux-block@vger.kernel.org, 
- Tamir Duberstein <tamird@gmail.com>
-X-Mailer: b4 0.15-dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 08/10] drm/xe/nvm: add on-die non-volatile memory
+ device
+To: Alexander Usyskin <alexander.usyskin@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>, Raag Jadav <raag.jadav@intel.com>
+Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250528135115.2512429-1-alexander.usyskin@intel.com>
+ <20250528135115.2512429-9-alexander.usyskin@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20250528135115.2512429-9-alexander.usyskin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,493 +85,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up references to `kernel::str::CStr`.
+Hey,
 
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
- drivers/gpu/drm/drm_panic_qr.rs   |  3 ++-
- drivers/gpu/nova-core/firmware.rs |  2 +-
- drivers/net/phy/ax88796b_rust.rs  |  1 +
- drivers/net/phy/qt2025.rs         |  1 +
- rust/kernel/device.rs             |  3 +--
- rust/kernel/driver.rs             |  4 ++--
- rust/kernel/error.rs              |  6 ++----
- rust/kernel/faux.rs               |  5 ++++-
- rust/kernel/firmware.rs           | 15 ++++-----------
- rust/kernel/kunit.rs              |  6 +++---
- rust/kernel/lib.rs                |  2 +-
- rust/kernel/miscdevice.rs         |  3 +--
- rust/kernel/net/phy.rs            |  4 +++-
- rust/kernel/of.rs                 |  3 ++-
- rust/kernel/pci.rs                |  2 +-
- rust/kernel/platform.rs           |  2 +-
- rust/kernel/prelude.rs            |  5 +----
- rust/kernel/str.rs                |  8 +++-----
- rust/kernel/sync/condvar.rs       |  4 ++--
- rust/kernel/sync/lock.rs          |  4 ++--
- rust/kernel/sync/lock/global.rs   |  5 +++--
- rust/kernel/sync/poll.rs          |  1 +
- rust/kernel/workqueue.rs          |  1 +
- rust/macros/module.rs             |  2 +-
- 24 files changed, 44 insertions(+), 48 deletions(-)
+I was looking into testing this with the xe code on PVC, and noticed some small changes that would be useful to integrate before merging.
 
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index d8192a9bef63..ba63238d352f 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -27,7 +27,8 @@
- //! * <https://github.com/erwanvivien/fast_qr>
- //! * <https://github.com/bjguillot/qr>
- 
--use kernel::{prelude::*, str::CStr};
-+use core::ffi::CStr;
-+use kernel::prelude::*;
- 
- #[derive(Debug, Clone, Copy, PartialEq, Eq, Ord, PartialOrd)]
- struct Version(usize);
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 6e6361c59ca1..0af1f0df2fa5 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -30,7 +30,7 @@ const fn make_entry_chipset(self, chipset: &str) -> Self {
-     }
- 
-     pub(crate) const fn create(
--        module_name: &'static kernel::str::CStr,
-+        module_name: &'static core::ffi::CStr,
-     ) -> firmware::ModInfoBuilder<N> {
-         let mut this = Self(firmware::ModInfoBuilder::new(module_name));
-         let mut i = 0;
-diff --git a/drivers/net/phy/ax88796b_rust.rs b/drivers/net/phy/ax88796b_rust.rs
-index 2d24628a4e58..68b8e30ae296 100644
---- a/drivers/net/phy/ax88796b_rust.rs
-+++ b/drivers/net/phy/ax88796b_rust.rs
-@@ -4,6 +4,7 @@
- //! Rust Asix PHYs driver
- //!
- //! C version of this driver: [`drivers/net/phy/ax88796b.c`](./ax88796b.c)
-+use core::ffi::CStr;
- use kernel::{
-     net::phy::{self, reg::C22, DeviceId, Driver},
-     prelude::*,
-diff --git a/drivers/net/phy/qt2025.rs b/drivers/net/phy/qt2025.rs
-index 9ccc75f70219..78ce2866f2b6 100644
---- a/drivers/net/phy/qt2025.rs
-+++ b/drivers/net/phy/qt2025.rs
-@@ -9,6 +9,7 @@
- //!
- //! The QT2025 PHY integrates an Intel 8051 micro-controller.
- 
-+use core::ffi::CStr;
- use kernel::error::code;
- use kernel::firmware::Firmware;
- use kernel::net::phy::{
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 9074322c79e8..2cf5903f7dde 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -6,10 +6,9 @@
- 
- use crate::{
-     bindings,
--    str::CStr,
-     types::{ARef, Opaque},
- };
--use core::{fmt, ptr};
-+use core::{ffi::CStr, fmt, ptr};
- 
- #[cfg(CONFIG_PRINTK)]
- use crate::str::CStrExt as _;
-diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
-index ec9166cedfa7..9926664d9ba2 100644
---- a/rust/kernel/driver.rs
-+++ b/rust/kernel/driver.rs
-@@ -6,8 +6,8 @@
- //! register using the [`Registration`] class.
- 
- use crate::error::{Error, Result};
--use crate::{device, of, str::CStr, try_pin_init, types::Opaque, ThisModule};
--use core::pin::Pin;
-+use crate::{device, of, try_pin_init, types::Opaque, ThisModule};
-+use core::{ffi::CStr, pin::Pin};
- use pin_init::{pin_data, pinned_drop, PinInit};
- 
- /// The [`RegistrationOps`] trait serves as generic interface for subsystems (e.g., PCI, Platform,
-diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index 933c048c04f1..b2b46d26f7b7 100644
---- a/rust/kernel/error.rs
-+++ b/rust/kernel/error.rs
-@@ -4,11 +4,9 @@
- //!
- //! C header: [`include/uapi/asm-generic/errno-base.h`](srctree/include/uapi/asm-generic/errno-base.h)
- 
--use crate::{
--    alloc::{layout::LayoutError, AllocError},
--    str::CStr,
--};
-+use crate::alloc::{layout::LayoutError, AllocError};
- 
-+use core::ffi::CStr;
- use core::fmt;
- use core::num::NonZeroI32;
- use core::num::TryFromIntError;
-diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
-index 8a50fcd4c9bb..d9e5cd265101 100644
---- a/rust/kernel/faux.rs
-+++ b/rust/kernel/faux.rs
-@@ -7,7 +7,10 @@
- //! C header: [`include/linux/device/faux.h`]
- 
- use crate::{bindings, device, error::code::*, prelude::*};
--use core::ptr::{addr_of_mut, null, null_mut, NonNull};
-+use core::{
-+    ffi::CStr,
-+    ptr::{addr_of_mut, null, null_mut, NonNull},
-+};
- 
- /// The registration of a faux device.
- ///
-diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index 09fd3a27bcf0..4ba5e5589d7b 100644
---- a/rust/kernel/firmware.rs
-+++ b/rust/kernel/firmware.rs
-@@ -4,15 +4,8 @@
- //!
- //! C header: [`include/linux/firmware.h`](srctree/include/linux/firmware.h)
- 
--use crate::{
--    bindings,
--    device::Device,
--    error::Error,
--    error::Result,
--    ffi,
--    str::{CStr, CStrExt as _},
--};
--use core::ptr::NonNull;
-+use crate::{bindings, device::Device, error::Error, error::Result, ffi, str::CStrExt as _};
-+use core::{ffi::CStr, ptr::NonNull};
- 
- /// # Invariants
- ///
-@@ -168,7 +161,7 @@ unsafe impl Sync for Firmware {}
- ///     const DIR: &'static str = "vendor/chip/";
- ///     const FILES: [&'static str; 3] = [ "foo", "bar", "baz" ];
- ///
--///     const fn create(module_name: &'static kernel::str::CStr) -> firmware::ModInfoBuilder<N> {
-+///     const fn create(module_name: &'static core::ffi::CStr) -> firmware::ModInfoBuilder<N> {
- ///         let mut builder = firmware::ModInfoBuilder::new(module_name);
- ///
- ///         let mut i = 0;
-@@ -202,7 +195,7 @@ macro_rules! module_firmware {
-     // this macro. Hence, we can neither use `expr` nor `ty`.
-     ($($builder:tt)*) => {
-         const _: () = {
--            const __MODULE_FIRMWARE_PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
-+            const __MODULE_FIRMWARE_PREFIX: &'static ::core::ffi::CStr = if cfg!(MODULE) {
-                 c""
-             } else {
-                 <LocalModule as $crate::ModuleMetadata>::NAME
-diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
-index 2bab61910f1e..5504a6216d19 100644
---- a/rust/kernel/kunit.rs
-+++ b/rust/kernel/kunit.rs
-@@ -57,9 +57,9 @@ macro_rules! kunit_assert {
-                 break 'out;
-             }
- 
--            static FILE: &'static $crate::str::CStr = $file;
-+            static FILE: &'static ::core::ffi::CStr = $file;
-             static LINE: i32 = ::core::line!() as i32 - $diff;
--            static CONDITION: &'static $crate::str::CStr =
-+            static CONDITION: &'static ::core::ffi::CStr =
-                 $crate::str_to_cstr!(stringify!($condition));
- 
-             // SAFETY: FFI call without safety requirements.
-@@ -195,7 +195,7 @@ pub fn is_test_result_ok(t: impl TestResult) -> bool {
- /// Use [`kunit_case_null`] to generate such a delimiter.
- #[doc(hidden)]
- pub const fn kunit_case(
--    name: &'static kernel::str::CStr,
-+    name: &'static core::ffi::CStr,
-     run_case: unsafe extern "C" fn(*mut kernel::bindings::kunit),
- ) -> kernel::bindings::kunit_case {
-     kernel::bindings::kunit_case {
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 6e8eb57fb225..1b162973b71d 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -152,7 +152,7 @@ fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, error::Erro
- /// Metadata attached to a [`Module`] or [`InPlaceModule`].
- pub trait ModuleMetadata {
-     /// The name of the module as specified in the `module!` macro.
--    const NAME: &'static crate::str::CStr;
-+    const NAME: &'static core::ffi::CStr;
- }
- 
- /// Equivalent to `THIS_MODULE` in the C API.
-diff --git a/rust/kernel/miscdevice.rs b/rust/kernel/miscdevice.rs
-index d684ec4ef4d0..47f718a9ceb5 100644
---- a/rust/kernel/miscdevice.rs
-+++ b/rust/kernel/miscdevice.rs
-@@ -16,10 +16,9 @@
-     fs::File,
-     prelude::*,
-     seq_file::SeqFile,
--    str::CStr,
-     types::{ForeignOwnable, Opaque},
- };
--use core::{marker::PhantomData, mem::MaybeUninit, pin::Pin};
-+use core::{ffi::CStr, marker::PhantomData, mem::MaybeUninit, pin::Pin};
- 
- /// Options for creating a misc device.
- #[derive(Copy, Clone)]
-diff --git a/rust/kernel/net/phy.rs b/rust/kernel/net/phy.rs
-index 8129419a3931..72635af8f20e 100644
---- a/rust/kernel/net/phy.rs
-+++ b/rust/kernel/net/phy.rs
-@@ -7,7 +7,7 @@
- //! C headers: [`include/linux/phy.h`](srctree/include/linux/phy.h).
- 
- use crate::{error::*, prelude::*, types::Opaque};
--use core::{marker::PhantomData, ptr::addr_of_mut};
-+use core::{ffi::CStr, marker::PhantomData, ptr::addr_of_mut};
- 
- pub mod reg;
- 
-@@ -780,6 +780,7 @@ const fn as_int(&self) -> u32 {
- ///
- /// ```
- /// # mod module_phy_driver_sample {
-+/// use core::ffi::CStr;
- /// use kernel::net::phy::{self, DeviceId};
- /// use kernel::prelude::*;
- ///
-@@ -807,6 +808,7 @@ const fn as_int(&self) -> u32 {
- /// This expands to the following code:
- ///
- /// ```ignore
-+/// use core::ffi::CStr;
- /// use kernel::net::phy::{self, DeviceId};
- /// use kernel::prelude::*;
- ///
-diff --git a/rust/kernel/of.rs b/rust/kernel/of.rs
-index 12ea65df46de..087ac8e05551 100644
---- a/rust/kernel/of.rs
-+++ b/rust/kernel/of.rs
-@@ -2,7 +2,8 @@
- 
- //! Device Tree / Open Firmware abstractions.
- 
--use crate::{bindings, device_id::RawDeviceId, prelude::*};
-+use crate::{bindings, device_id::RawDeviceId};
-+use core::ffi::CStr;
- 
- /// IdTable type for OF drivers.
- pub type IdTable<T> = &'static dyn kernel::device_id::IdTable<DeviceId, T>;
-diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index c17a32b76d74..86df366bf911 100644
---- a/rust/kernel/pci.rs
-+++ b/rust/kernel/pci.rs
-@@ -13,11 +13,11 @@
-     error::{to_result, Result},
-     io::Io,
-     io::IoRaw,
--    str::CStr,
-     types::{ARef, ForeignOwnable, Opaque},
-     ThisModule,
- };
- use core::{
-+    ffi::CStr,
-     marker::PhantomData,
-     ops::Deref,
-     ptr::{addr_of_mut, NonNull},
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index 65916b5936e6..272a7401c0dc 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -9,12 +9,12 @@
-     error::{to_result, Result},
-     of,
-     prelude::*,
--    str::CStr,
-     types::{ARef, ForeignOwnable, Opaque},
-     ThisModule,
- };
- 
- use core::{
-+    ffi::CStr,
-     marker::PhantomData,
-     ops::Deref,
-     ptr::{addr_of_mut, NonNull},
-diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
-index 244b660fa835..3f7ca5a95160 100644
---- a/rust/kernel/prelude.rs
-+++ b/rust/kernel/prelude.rs
-@@ -40,10 +40,7 @@
- 
- pub use super::error::{code::*, Error, Result};
- 
--pub use super::{
--    str::{CStr, CStrExt as _},
--    ThisModule,
--};
-+pub use super::{str::CStrExt as _, ThisModule};
- 
- pub use super::init::InPlaceInit;
- 
-diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index ff5ae125be0d..cc882c5a8d67 100644
---- a/rust/kernel/str.rs
-+++ b/rust/kernel/str.rs
-@@ -3,6 +3,7 @@
- //! String representations.
- 
- use crate::alloc::{flags::*, AllocError, KVec};
-+use core::ffi::CStr;
- use core::fmt::{self, Write};
- use core::ops::{Deref, DerefMut, Index};
- 
-@@ -175,8 +176,6 @@ macro_rules! b_str {
-     }};
- }
- 
--pub use core::ffi::CStr;
--
- /// Returns a C pointer to the string.
- // It is a free function rather than a method on an extension trait because:
- //
-@@ -267,7 +266,6 @@ impl fmt::Display for crate::fmt::Adapter<&CStr> {
-     ///
-     /// ```
-     /// # use kernel::prelude::fmt;
--    /// # use kernel::str::CStr;
-     /// # use kernel::str::CString;
-     /// let penguin = c"🐧";
-     /// let s = CString::try_from_fmt(fmt!("{}", penguin))?;
-@@ -377,8 +375,8 @@ fn as_ref(&self) -> &BStr {
- /// # Examples
- ///
- /// ```
-+/// # use core::ffi::CStr;
- /// # use kernel::str_to_cstr;
--/// # use kernel::str::CStr;
- /// const MY_CSTR: &CStr = str_to_cstr!(concat!(file!(), ":", line!(), ": My CStr!"));
- /// ```
- #[macro_export]
-@@ -388,7 +386,7 @@ macro_rules! str_to_cstr {
-     // too limiting to macro authors, so we rely on the name as a hint instead.
-     ($str:expr) => {{
-         const S: &str = concat!($str, "\0");
--        const C: &$crate::str::CStr = match $crate::str::CStr::from_bytes_with_nul(S.as_bytes()) {
-+        const C: &core::ffi::CStr = match core::ffi::CStr::from_bytes_with_nul(S.as_bytes()) {
-             Ok(v) => v,
-             Err(_) => panic!("string contains interior NUL"),
-         };
-diff --git a/rust/kernel/sync/condvar.rs b/rust/kernel/sync/condvar.rs
-index 0b6bc7f2878d..09bc35feb451 100644
---- a/rust/kernel/sync/condvar.rs
-+++ b/rust/kernel/sync/condvar.rs
-@@ -8,14 +8,14 @@
- use super::{lock::Backend, lock::Guard, LockClassKey};
- use crate::{
-     ffi::{c_int, c_long},
--    str::{CStr, CStrExt as _},
-+    str::CStrExt as _,
-     task::{
-         MAX_SCHEDULE_TIMEOUT, TASK_FREEZABLE, TASK_INTERRUPTIBLE, TASK_NORMAL, TASK_UNINTERRUPTIBLE,
-     },
-     time::Jiffies,
-     types::Opaque,
- };
--use core::{marker::PhantomPinned, pin::Pin, ptr};
-+use core::{ffi::CStr, marker::PhantomPinned, pin::Pin, ptr};
- use pin_init::{pin_data, pin_init, PinInit};
- 
- /// Creates a [`CondVar`] initialiser with the given name and a newly-created lock class.
-diff --git a/rust/kernel/sync/lock.rs b/rust/kernel/sync/lock.rs
-index a777a22976e0..21deff0bb13b 100644
---- a/rust/kernel/sync/lock.rs
-+++ b/rust/kernel/sync/lock.rs
-@@ -7,10 +7,10 @@
- 
- use super::LockClassKey;
- use crate::{
--    str::{CStr, CStrExt as _},
-+    str::CStrExt as _,
-     types::{NotThreadSafe, Opaque, ScopeGuard},
- };
--use core::{cell::UnsafeCell, marker::PhantomPinned, pin::Pin};
-+use core::{cell::UnsafeCell, ffi::CStr, marker::PhantomPinned, pin::Pin};
- use pin_init::{pin_data, pin_init, PinInit};
- 
- pub mod mutex;
-diff --git a/rust/kernel/sync/lock/global.rs b/rust/kernel/sync/lock/global.rs
-index 9caa9b419f09..ab5a3947fdd6 100644
---- a/rust/kernel/sync/lock/global.rs
-+++ b/rust/kernel/sync/lock/global.rs
-@@ -5,13 +5,14 @@
- //! Support for defining statics containing locks.
- 
- use crate::{
--    str::{CStr, CStrExt as _},
-+    str::CStrExt as _,
-     sync::lock::{Backend, Guard, Lock},
-     sync::{LockClassKey, LockedBy},
-     types::Opaque,
- };
- use core::{
-     cell::UnsafeCell,
-+    ffi::CStr,
-     marker::{PhantomData, PhantomPinned},
-     pin::Pin,
- };
-@@ -267,7 +268,7 @@ macro_rules! global_lock {
-         $pub enum $name {}
- 
-         impl $crate::sync::lock::GlobalLockBackend for $name {
--            const NAME: &'static $crate::str::CStr =
-+            const NAME: &'static ::core::ffi::CStr =
-                 $crate::str_to_cstr!(::core::stringify!($name));
-             type Item = $valuety;
-             type Backend = $crate::global_lock_inner!(backend $kind);
-diff --git a/rust/kernel/sync/poll.rs b/rust/kernel/sync/poll.rs
-index d7e6e59e124b..bf2fb24d04ea 100644
---- a/rust/kernel/sync/poll.rs
-+++ b/rust/kernel/sync/poll.rs
-@@ -11,6 +11,7 @@
-     sync::{CondVar, LockClassKey},
-     types::Opaque,
- };
-+use core::ffi::CStr;
- use core::ops::Deref;
- 
- /// Creates a [`PollCondVar`] initialiser with the given name and a newly-created lock class.
-diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
-index dbec533fd31f..bb3f917204f8 100644
---- a/rust/kernel/workqueue.rs
-+++ b/rust/kernel/workqueue.rs
-@@ -135,6 +135,7 @@
- 
- use crate::alloc::{AllocError, Flags};
- use crate::{prelude::*, sync::Arc, sync::LockClassKey, types::Opaque};
-+use core::ffi::CStr;
- use core::marker::PhantomData;
- 
- /// Creates a [`Work`] initialiser with the given name and a newly-created lock class.
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index ef1906285a55..1ec923eb9383 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -232,7 +232,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
-             type LocalModule = {type_};
- 
-             impl ::kernel::ModuleMetadata for {type_} {{
--                const NAME: &'static ::kernel::str::CStr = c\"{name}\";
-+                const NAME: &'static ::core::ffi::CStr = c\"{name}\";
-             }}
- 
-             // Double nested modules, since then nobody can access the public items inside.
+On 2025-05-28 15:51, Alexander Usyskin wrote:
+> Enable access to internal non-volatile memory on DGFX
+> with GSC/CSC devices via a child device.
+> The nvm child device is exposed via auxiliary bus.
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> ---
+>  drivers/gpu/drm/xe/Makefile          |   1 +
+>  drivers/gpu/drm/xe/xe_device.c       |   5 ++
+>  drivers/gpu/drm/xe/xe_device_types.h |   6 ++
+>  drivers/gpu/drm/xe/xe_nvm.c          | 107 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_nvm.h          |  15 ++++
+>  drivers/gpu/drm/xe/xe_pci.c          |   6 ++
+>  6 files changed, 140 insertions(+)
+>  create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+>  create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+> 
+> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+> index e4bf484d4121..4c51fe3520dc 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -80,6 +80,7 @@ xe-y += xe_bb.o \
+>  	xe_mmio.o \
+>  	xe_mocs.o \
+>  	xe_module.o \
+> +	xe_nvm.o \
+>  	xe_oa.o \
+>  	xe_observation.o \
+>  	xe_pat.o \
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index d4b6e623aa48..845b38aea692 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -46,6 +46,7 @@
+>  #include "xe_memirq.h"
+>  #include "xe_mmio.h"
+>  #include "xe_module.h"
+> +#include "xe_nvm.h"
+>  #include "xe_oa.h"
+>  #include "xe_observation.h"
+>  #include "xe_pat.h"
+> @@ -884,6 +885,8 @@ int xe_device_probe(struct xe_device *xe)
+>  			return err;
+>  	}
+>  
+> +	xe_nvm_init(xe);
+> +
+>  	err = xe_heci_gsc_init(xe);
+>  	if (err)
+>  		return err;
+> @@ -941,6 +944,8 @@ void xe_device_remove(struct xe_device *xe)
+>  {
+>  	xe_display_unregister(xe);
+>  
+> +	xe_nvm_fini(xe);
+> +
+>  	drm_dev_unplug(&xe->drm);
+>  
+>  	xe_bo_pci_dev_remove_all(xe);
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 50b2bfa682ac..938cf1a440de 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -35,6 +35,7 @@
+>  #include "intel_display_device.h"
+>  #endif
+>  
+> +struct intel_dg_nvm_dev;
+>  struct xe_ggtt;
+>  struct xe_pat_ops;
+>  struct xe_pxp;
+> @@ -319,6 +320,8 @@ struct xe_device {
+>  		u8 has_fan_control:1;
+>  		/** @info.has_flat_ccs: Whether flat CCS metadata is used */
+>  		u8 has_flat_ccs:1;
+> +		/** @info.has_gsc_nvm: Device has gsc non-volatile memory */
+> +		u8 has_gsc_nvm:1;
+Is this flag really needed, or is IS_DGFX() enough? It's literally only used during NVM init, so any conditions could probably just be put there.
 
--- 
-2.49.0
+>  		/** @info.has_heci_cscfi: device has heci cscfi */
+>  		u8 has_heci_cscfi:1;
+>  		/** @info.has_heci_gscfi: device has heci gscfi */
+> @@ -544,6 +547,9 @@ struct xe_device {
+>  	/** @heci_gsc: graphics security controller */
+>  	struct xe_heci_gsc heci_gsc;
+>  
+> +	/** @nvm: discrete graphics non-volatile memory */
+> +	struct intel_dg_nvm_dev *nvm;
+> +
+>  	/** @oa: oa observation subsystem */
+>  	struct xe_oa oa;
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_nvm.c b/drivers/gpu/drm/xe/xe_nvm.c
+> new file mode 100644
+> index 000000000000..33ba635ce116
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_nvm.c
+> @@ -0,0 +1,107 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright(c) 2019-2025, Intel Corporation. All rights reserved.
+> + */
+> +
+> +#include <linux/intel_dg_nvm_aux.h>
+> +#include <linux/pci.h>
+> +
+> +#include "xe_device_types.h"
+> +#include "xe_nvm.h"
+> +#include "xe_sriov.h"
+> +
+> +#define GEN12_GUNIT_NVM_BASE 0x00102040
+> +#define GEN12_GUNIT_NVM_SIZE 0x80
+> +#define HECI_FW_STATUS_2_NVM_ACCESS_MODE BIT(3)
+> +
+> +static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
+> +	[0] = { .name = "DESCRIPTOR", },
+> +	[2] = { .name = "GSC", },
+> +	[9] = { .name = "PADDING", },
+> +	[11] = { .name = "OptionROM", },
+> +	[12] = { .name = "DAM", },
+> +};
+> +
+Small ask, can we enable PSC for PVC too? Or at least bump regions with 1 so it's doable.
 
+> +static void xe_nvm_release_dev(struct device *dev)
+> +{
+> +}
+> +
+> +int xe_nvm_init(struct xe_device *xe)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+> +	struct auxiliary_device *aux_dev;
+> +	struct intel_dg_nvm_dev *nvm;
+> +	int ret;
+> +
+> +	if (!xe->info.has_gsc_nvm)
+> +		return 0;
+> +
+> +	/* No access to internal NVM from VFs */
+> +	if (IS_SRIOV_VF(xe))
+> +		return 0;
+> +
+> +	/* Nvm pointer should be NULL here */
+> +	if (WARN_ON(xe->nvm))
+> +		return -EFAULT;
+> +
+> +	xe->nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
+> +	if (!xe->nvm)
+> +		return -ENOMEM;
+> +
+> +	nvm = xe->nvm;
+> +
+> +	nvm->writable_override = false;
+> +	nvm->bar.parent = &pdev->resource[0];
+> +	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
+> +	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
+> +	nvm->bar.flags = IORESOURCE_MEM;
+> +	nvm->bar.desc = IORES_DESC_NONE;
+> +	nvm->regions = regions;
+> +
+> +	aux_dev = &nvm->aux_dev;
+> +
+> +	aux_dev->name = "nvm";
+> +	aux_dev->id = (pci_domain_nr(pdev->bus) << 16) | pci_dev_id(pdev);
+> +	aux_dev->dev.parent = &pdev->dev;
+> +	aux_dev->dev.release = xe_nvm_release_dev;
+> +
+> +	ret = auxiliary_device_init(aux_dev);
+> +	if (ret) {
+> +		drm_err(&xe->drm, "xe-nvm aux init failed %d\n", ret);
+> +		goto err;
+> +	}
+> +
+> +	ret = auxiliary_device_add(aux_dev);
+> +	if (ret) {
+> +		drm_err(&xe->drm, "xe-nvm aux add failed %d\n", ret);
+> +		auxiliary_device_uninit(aux_dev);
+> +		goto err;
+> +	}
+> +	return 0;
+> +
+> +err:
+> +	kfree(nvm);
+> +	xe->nvm = NULL;
+> +	return ret;
+> +}
+> +
+> +void xe_nvm_fini(struct xe_device *xe)
+> +{
+> +	struct intel_dg_nvm_dev *nvm = xe->nvm;
+> +
+> +	if (!xe->info.has_gsc_nvm)
+> +		return;
+> +
+> +	/* No access to internal NVM from VFs */
+> +	if (IS_SRIOV_VF(xe))
+> +		return;
+> +
+> +	/* Nvm pointer should not be NULL here */
+> +	if (WARN_ON(!nvm))
+> +		return;
+> +
+> +	auxiliary_device_delete(&nvm->aux_dev);
+> +	auxiliary_device_uninit(&nvm->aux_dev);
+> +	kfree(nvm);
+> +	xe->nvm = NULL;
+> +}
+In xe, instead of exporting nvm_fini, it would be good to use the drmm interface, like drmm_kzalloc for allocating NVM so it doesn't have to be freed on failure, and drmm_add_action_or_reset as last action in during init. That also removes all checks from fini().
+
+> diff --git a/drivers/gpu/drm/xe/xe_nvm.h b/drivers/gpu/drm/xe/xe_nvm.h
+> new file mode 100644
+> index 000000000000..7f3d5f57bed0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_nvm.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright(c) 2019-2025 Intel Corporation. All rights reserved.
+> + */
+> +
+> +#ifndef __XE_NVM_H__
+> +#define __XE_NVM_H__
+> +
+> +struct xe_device;
+> +
+> +int xe_nvm_init(struct xe_device *xe);
+> +
+> +void xe_nvm_fini(struct xe_device *xe);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+> index b68c90910d82..6aa9850bb342 100644
+> --- a/drivers/gpu/drm/xe/xe_pci.c
+> +++ b/drivers/gpu/drm/xe/xe_pci.c
+> @@ -63,6 +63,7 @@ struct xe_device_desc {
+>  
+>  	u8 has_display:1;
+>  	u8 has_fan_control:1;
+> +	u8 has_gsc_nvm:1;
+>  	u8 has_heci_gscfi:1;
+>  	u8 has_heci_cscfi:1;
+>  	u8 has_llc:1;
+> @@ -271,6 +272,7 @@ static const struct xe_device_desc dg1_desc = {
+>  	PLATFORM(DG1),
+>  	.dma_mask_size = 39,
+>  	.has_display = true,
+> +	.has_gsc_nvm = 1,
+>  	.has_heci_gscfi = 1,
+>  	.require_force_probe = true,
+>  };
+> @@ -282,6 +284,7 @@ static const u16 dg2_g12_ids[] = { INTEL_DG2_G12_IDS(NOP), 0 };
+>  #define DG2_FEATURES \
+>  	DGFX_FEATURES, \
+>  	PLATFORM(DG2), \
+> +	.has_gsc_nvm = 1, \
+>  	.has_heci_gscfi = 1, \
+>  	.subplatforms = (const struct xe_subplatform_desc[]) { \
+>  		{ XE_SUBPLATFORM_DG2_G10, "G10", dg2_g10_ids }, \
+> @@ -318,6 +321,7 @@ static const __maybe_unused struct xe_device_desc pvc_desc = {
+>  	PLATFORM(PVC),
+>  	.dma_mask_size = 52,
+>  	.has_display = false,
+> +	.has_gsc_nvm = 1,
+>  	.has_heci_gscfi = 1,
+>  	.max_remote_tiles = 1,
+>  	.require_force_probe = true,
+> @@ -346,6 +350,7 @@ static const struct xe_device_desc bmg_desc = {
+>  	.dma_mask_size = 46,
+>  	.has_display = true,
+>  	.has_fan_control = true,
+> +	.has_gsc_nvm = 1,
+>  	.has_heci_cscfi = 1,
+>  	.needs_scratch = true,
+>  };
+> @@ -589,6 +594,7 @@ static int xe_info_init_early(struct xe_device *xe,
+>  	xe->info.dma_mask_size = desc->dma_mask_size;
+>  	xe->info.is_dgfx = desc->is_dgfx;
+>  	xe->info.has_fan_control = desc->has_fan_control;
+> +	xe->info.has_gsc_nvm = desc->has_gsc_nvm;
+>  	xe->info.has_heci_gscfi = desc->has_heci_gscfi;
+>  	xe->info.has_heci_cscfi = desc->has_heci_cscfi;
+>  	xe->info.has_llc = desc->has_llc;
+
+Kind regards,
+Maarten Lankhorst
