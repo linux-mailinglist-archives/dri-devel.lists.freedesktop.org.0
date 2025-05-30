@@ -2,94 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825AEAC97FD
-	for <lists+dri-devel@lfdr.de>; Sat, 31 May 2025 01:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D01AC9831
+	for <lists+dri-devel@lfdr.de>; Sat, 31 May 2025 01:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93B4110E8BE;
-	Fri, 30 May 2025 23:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB7710E1A8;
+	Fri, 30 May 2025 23:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="imJVSmNh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RRvWlpfu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
- [209.85.160.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B34E10E8AE
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 23:06:06 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id
- 586e51a60fabf-2da73155e91so1023237fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 16:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748646362; x=1749251162;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lu3lG7YwnE3Dy5Hk9HzoUTq4JNREs+Ad6+efkztPKBw=;
- b=imJVSmNhpeHQm2cFqMEWrFrB9X9ODp21d9G0OLWAr67JVe6+mjL9q/i6Fvt7sRmraA
- wOwbPXxhvLid2jCkpL2YaTnrIMtIuYxyCVlzwBrXPyPGLLRPYxex1b1/tqcEKUvimBId
- 81wsx//9NERY+3M77+FI5F+dmfUdZOrvJ8rsgtBdlrP97629wrayQS1ROsylgrP8YY0X
- aj/wZCI5uqRWdZ84Vk1ec7cuTB9H4xceQlF3wMQhS8kTtc6UvJvM2YiwzhsjARqvFPo1
- GOoUiqhiHjK7ZzoxSuaATX0V3cxcTtw/gHbmsMKeRL483tO2Jh1PBBE+3ilnHOdnEKLK
- 528g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748646362; x=1749251162;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lu3lG7YwnE3Dy5Hk9HzoUTq4JNREs+Ad6+efkztPKBw=;
- b=YlOi+ZFnFt6xl5kI2KlbkVAExVPsyRhlr0HuIj7vWDR+s26KFst8+yJISFOaA0liiv
- 13FeoNpSzZxMWhV1/5J60Ubf58SysI2UDm5HGnuOAcRLd3VxAs1ieRsjVsaEggQgtEt4
- BFKrsLAYSxj/OL4m1Z+sAoHUhBBOyPh4d9SRei3XQYEbfBaiwm0GWLhTqCX7CS1X8rn3
- ERdnuwIM+uWKynxHGG+cRh3E6iyxlhm47ZMVSXfcx/jZb9weHEWL6Yi/F7JZyH9IrW2U
- ch6fE25gi1Y1KBvhmnNqqSC0sF37qKXsDuRKd85ysa/f6QKX9WZ2hYXfO1UrcMjbT5Er
- hjUQ==
-X-Gm-Message-State: AOJu0YwPuEExgt2IargioItdCd+fOPQ2vMDtG87B+LWUr0qz+A9OfDfs
- lJgbFcmV+G+ChmEBf0k17aE0S04boO/pXnLa/kPujpLlQi+v0HU85fDeQ2D22Hy/BhI=
-X-Gm-Gg: ASbGnctB3gdIj7PEqpJCbE/bujeEA5/ELdjfyvtlpGi73Zwr+jdcCyTN3my9O/Fy4mY
- SfdmFT+wkB7hJFyZ2DsPlJglBvMYFEeFFxKJ0/OiqzFXTPQD8hEzDows9VLsqApXgct2M27SeUO
- oCz+6br8QAeuDxPRd3I7JskuaXFB0fWsGTN27aeO393JAVpqBA68wraLTvyumQ2tH53CoielK+E
- Zhim5Iyl5CXtGPOTvwZ41l4tHD7Zs6/JoDm/VKD7b4c1VzpoxMptY50K9q0XsWVhfYbOufPwb9X
- lFTXYaYYxRwDUsd3Y50Lf36ZysUG6I7emYC8Q8Mm1gkWf+4Z2uUu6uBcMQ==
-X-Google-Smtp-Source: AGHT+IGIfCYtq5fK/ESbkdB6n1mCNo1Fi5i3xpYNU/514FpGxlSOur50JOAQ5a1k03Rg97LdT5qmVg==
-X-Received: by 2002:a05:6870:6129:b0:2c2:27c8:5865 with SMTP id
- 586e51a60fabf-2e92a1704dbmr2163763fac.9.1748646362032; 
- Fri, 30 May 2025 16:06:02 -0700 (PDT)
-Received: from [127.0.1.1] ([2600:8803:e7e4:1d00:4b52:4054:714f:5bf2])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-2e906c13c13sm844388fac.45.2025.05.30.16.05.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 May 2025 16:06:00 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 30 May 2025 18:05:42 -0500
-Subject: [PATCH] dt-bindings: display: convert sitronix,st7586 to YAML
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6428610E00F;
+ Fri, 30 May 2025 23:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748648269; x=1780184269;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=M2SxGD+Vdgizjw+aDcFDmu2y6/GaLyM2j7lLdXmM5Wo=;
+ b=RRvWlpfu+fsqwKcUNYPJZ4793UVgDO9OWBzd81xs0kJ91l88SUKWXUK2
+ dro6RwxkaIHrrM5QVMs3aFeQfhvqPo0pRcGkA4duWAHpniU+q69kdUftX
+ 9dFxxotGP2nud90g0jOtXR42fmbj05xtvnQlYIYw/KMoP/5sXYdQoIOR2
+ y9m8ueYQCZE6dDANTOm//GCAyI0N7jhUmtLUtUitooi5IrutfkDE8hsLP
+ rVEFRbUeZjXBZ9wJqADfkDlPWy5VedhHHKFBJ9+LMXfn0n2TmnSN6u4G6
+ D7JbiQhzxsAgE0ykQM+I1GtpZcgLrj+HVHWV5nJRl9uEWy/Bf8YHFBz71 g==;
+X-CSE-ConnectionGUID: 8ly2L9YsSWeFtcxTT2ewNQ==
+X-CSE-MsgGUID: 0y3iy1PwQfWzZza1OJ+hQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50442901"
+X-IronPort-AV: E=Sophos;i="6.16,197,1744095600"; d="scan'208";a="50442901"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2025 16:37:47 -0700
+X-CSE-ConnectionGUID: RnE327wIQM+HhSOxb7euqQ==
+X-CSE-MsgGUID: YudQ+yiFTKuVUSBPtfagFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,197,1744095600"; d="scan'208";a="148870823"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2025 16:37:37 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 30 May 2025 16:37:36 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Fri, 30 May 2025 16:37:36 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.62) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Fri, 30 May 2025 16:37:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PeGQ25O6mpU3eSuoOoEnHSNoz1KSHXGUO+NpctSq+uANM8ndLBwFVpRzGVh8JrF9iJKB0bkly8qGpipFRv7nESLGh3sJbIEHyKRt/Icb74LfHKnQIIe02SxkedCBHK9/Pnhza002AJ0p6zyGtZL99z7Z/bH9HJg2Q2F1zHnhN2aN3rolCqaHU1BLsa/0INNgn4JftwVQ14eRWsEK77+bd8Xs1qJTll5Dntycsy7ueeVKHfldzREnyCo2gNla2PBDUpuIaZd2THYcYxiVKtq9+xt7qI5cg0usD/+K98cnsu/kI8tpyNLW3zDRAfCCr/WMkG5el0vtW/UqMP8fycdYVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zoLi7HsZ0glEt7FnxsIcWu+XZMJutLToFIcBmjg7OIg=;
+ b=X6OkuOgMI4T8MwBLOipUu/43shsvXzv8u0kNGaUkwYcFsy5pGJKUnOXgprLLNx4iczM3gUcGiCGivl4iquwT6481v09h7Cv37oi+IN5FiGkOMLTsXSmNkay0Hb/h9bQ7HUps0PYI242+0IU8mhWq9bA0IJ7GXDLS7ZStLxBl7yglaos9awBN1d6O7oiA6VVLK4nxwVWBtmMAJXdRpVJdxwhXGxyQLwwFaUD1IYp9cDVL6ULdeizj3VD9a0u8oX9YB06jom3hSTPXVyHHFhhBCfeTv0//Jr0R4EZ19S4I+Ae+xIwIOq2/HYarpSrRIB3E87xEGaDtDQdNqNzIzaigAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB7064.namprd11.prod.outlook.com (2603:10b6:806:2b7::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.32; Fri, 30 May
+ 2025 23:37:33 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8769.025; Fri, 30 May 2025
+ 23:37:32 +0000
+Date: Fri, 30 May 2025 18:37:28 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Juston Li <justonli@chromium.org>
+CC: Tvrtko Ursulin <tursulin@ursulin.net>, <intel-xe@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Yiwei Zhang <zzyiwei@google.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2] drm/xe/bo: add GPU memory trace points
+Message-ID: <jk4e72grdri2d47hu4idgpjmwgge4vvojvz5f2dzvh2izf5clg@4bc6kc5ddnii>
+References: <20250521224239.856298-1-justonli@chromium.org>
+ <vvtskvjaqcorex5xpeyyyuvljgikpdyo2vbncgmsdlutpnfaeb@u5gtlafthvh2>
+ <c5a7ed00-cbae-490a-86ba-e94060097760@ursulin.net>
+ <d83d2f3c85c8aaf9a6e55457ad7744f9f19d9b65.camel@chromium.org>
+ <cf88959ee067702b2cf0b12877faa1c0476f6805.camel@chromium.org>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cf88959ee067702b2cf0b12877faa1c0476f6805.camel@chromium.org>
+X-ClientProxiedBy: SJ0PR13CA0166.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::21) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-devicetree-convert-sitronix-st7586-to-yaml-v1-1-c132b512ec57@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAMY5OmgC/x2N0QrCMAwAf2Xk2UDt6Bz+ivjQtakGtJUkjMnYv
- 1t8PDjudlASJoXrsIPQysqtdjifBkjPWB+EnDuDdz64MDrMXUpkQoSp1ZXEUNmkVd5Q7RLmCa3
- hN75fmJeQZ79MYykRevAjVHj7z2734/gBmil6kHwAAAA=
-X-Change-ID: 20250530-devicetree-convert-sitronix-st7586-to-yaml-db5d82b63ffa
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, David Lechner <david@lechnology.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4106; i=dlechner@baylibre.com; 
- h=from:subject:message-id;
- bh=u0HID6qYCpqSqHWioEM+G4moZPLWcoMb4wYUJNV4vEU=; 
- b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBoOjnPJNOumLdu2oWPK7+HGRz/nw/m4yuJZvoPh
- zz8WLXIIZOJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCaDo5zwAKCRDCzCAB/wGP
- wIMFB/4xRAdGwwnFCldEWPft/VX5czF06rng9hS/bcgAKoX/DX4N0uECuHJFnaBzDgRWSokoswA
- 9mZQNFSqDC+M0UDwrrEZP8HMFfzyhMKW2YRgjH3keUhJo+wbq0eRmDMtWZtxQ/S9PUFXpsvRkZk
- zgBRtdUrKYGg/GLFSaZ/B7p00+Z16XTFvOs70WcJB+ryF894IzjYuUM2EsLy9bJeIjpnQrXVNvJ
- VblpcsXHDKCVGGaeOaF5fhQYUQ7WMdQ3Ks7BG5z1rlbV9swht7F4/d50h+P+7/EoDHbeaLZAapE
- AkYwIUOpaGrWneqUcMbON8nRpK8t6zGm0ifgFY66EKB85r5+
-X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
- fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB7064:EE_
+X-MS-Office365-Filtering-Correlation-Id: bac63493-cbf4-4ed6-02ec-08dd9fd2f31d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?YUeoUW5wXEKe8NPoXjtnCZsOzAilJKiDNJfUfKWMRYPHrgio5BrXrkAMm9?=
+ =?iso-8859-1?Q?QJbFTkpNlq3gxv/dpNh3sq3+mhSkLn232wmh0Kvmb6D8nh4vbiCWvFRtHu?=
+ =?iso-8859-1?Q?DKLdbRLCRmY1lNgr/oqL4aUcWNLSaeLDXS2dfB/qVvpoNZ2JziDlK4bWev?=
+ =?iso-8859-1?Q?/SzL3aO8q7eSBWDBc5YcvuWgVrgvfv/gWhQ86OYBJkycEg8F6JR29jKjIb?=
+ =?iso-8859-1?Q?99ynSTzZmG2BReNFRVh4WzmnuTDaK4wMbYqZR22Be4vIg/qk7arJIceJZb?=
+ =?iso-8859-1?Q?I5oES9zP5ueirYa24cXfCOs1D68kE5dcn6QbMYb1DPjdm1Lg2Q6b9MvbmQ?=
+ =?iso-8859-1?Q?vgmEl4+xqcqL5eyW6jLrFQhkyoxL9iTNJ3bCw9vXxAR4n3aZjSeJ7KnspM?=
+ =?iso-8859-1?Q?t682Xo7fByufmiLnq47YKLGY2i/AtC5kJexraeW6pDSJIAwkUSLo/k1kq+?=
+ =?iso-8859-1?Q?AgJAqDjTEnxMuFjv4UV5w6g18o+yVBaxE6VfTO2GwdI/oeMhui51fjQ2Mm?=
+ =?iso-8859-1?Q?EySZ0dHu+Fqg3dMRq8xp5HYAMPOk/5rVIkzmY6VpzH4Jpf2BkcZ4YahYVM?=
+ =?iso-8859-1?Q?WC7dOdbQ38RcfqPVE6LVhqHfZPGF19kvAnUzZ0AJk/AbOpwbLGGFycDsHC?=
+ =?iso-8859-1?Q?K+wKflFgDzm06JM7pFE/HHS/TIvl+NNWwNAPtFT/E56OJr3ynPGM20iupE?=
+ =?iso-8859-1?Q?MmYWRmTjERT/Vgmxk4p7YL+l3V5oOyrMf97135aRj98a0EWl1FJudpH1kx?=
+ =?iso-8859-1?Q?6W7u1LZfMLFvC8IHeCJyOIuTtni+dMUcOXwLVTzBDz2ZrKEiKgJIuf76zF?=
+ =?iso-8859-1?Q?Wihz0fg/5uhOdYWdKRTZuO6nbzWnq9pUlcbXmyvFfW/Or+H/WigGu0flGV?=
+ =?iso-8859-1?Q?6Mpr/6RqNW+fUPxtwIQqdPWN0DCSCd3qhVSv0dq/KclUFoW//939nRJjl9?=
+ =?iso-8859-1?Q?vwDQ1/Sg7/nc0x6DYViIM8p8WVBp+TUYXXU5d/Dtkhr4epufJP2GILyjPE?=
+ =?iso-8859-1?Q?ljw7dipGH3DXSx0RBQ0bqFInMeaiLgz6jJLmQpG/h5rkfwfD20orki2mgp?=
+ =?iso-8859-1?Q?lz17CqDVPwiYoMuUmcpmimh100Oe8d7h8FLg6G6K7w/pYgJ+otAVUytnFU?=
+ =?iso-8859-1?Q?5Rdw43F0Lechgwcnl1jjz52FKtZ9YoFgeTuLES31Fc7RRSKhPXiqUWgNUv?=
+ =?iso-8859-1?Q?uWcM47HUlyfm7BlABR8ovKe14gfMdRPDL68mK+WW7+gxid4WYTjdxjUJAi?=
+ =?iso-8859-1?Q?lycSr5Mww31bhqJMbmYymAqya+Dk8Dy5SWgaF99/Lj1FLQiWnMWUEp9irO?=
+ =?iso-8859-1?Q?XNrCEuX69+XxhK1857eL7XqpQvEZy7o7JllJiHPjthDqZdG1Y8FpAwtUv/?=
+ =?iso-8859-1?Q?zih+fldEfsXCA907VNpEzNHd5gKtY1xGBfBvbCdOT08Q3KfNpoaX05ecoe?=
+ =?iso-8859-1?Q?ofDZtFuZsmkmIMC/Au2QpVfL1JXIUAL1DONz1lcE5shFhtIAHVZkl7MCa0?=
+ =?iso-8859-1?Q?I=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?r6YhylRE8uHIQH/wc9lMxww5sKBwTm3pNzpL1feT/AZGa9JiYGLcFdf+0r?=
+ =?iso-8859-1?Q?PsIPt5rTKfoXjUdS79EBTdqekGrAWSZzAPBhYkFLoondP7NuWFJAI1WehS?=
+ =?iso-8859-1?Q?VZ0lfhEhE1p43qoQXzbharvqAG79SUHWCjqxEDHTujl+vQagnMbYs99icO?=
+ =?iso-8859-1?Q?n83/UQLJK9TOzOGHWHvVnirZaioYWf5FJ7RLfqygc68PCBvdzcjrXYXGbH?=
+ =?iso-8859-1?Q?+zsUjEpZD13WqaMWyDOIDmWagPEkXVpkLyF7fCKb1cbDHki3o/12swJ9nV?=
+ =?iso-8859-1?Q?HikC10JBMovAUHES/E7aqSS8UELaYNDREhb2D8wI3Nr0E1O2QCE90miAAI?=
+ =?iso-8859-1?Q?5qUOxaB4EpFM2seCFAQvJrjDy27egckVECZgXGFByrGi0U7Eybn1tob0V7?=
+ =?iso-8859-1?Q?/PYBXdswQLGYmhm0MLF4TZg9hYpnh0r+mYwly3EBnVgTth/DvDjXHH3ACH?=
+ =?iso-8859-1?Q?ZCJMMRBLutT20nG7bjjBob5P2NYrnZovlfBRGJ9JKatgpWaflm5wgL/7jk?=
+ =?iso-8859-1?Q?WM/P1s6YRQ0fsZ8yzmxv0Tbn+ONaKWPIHcO/RiupbF9wCe7xRcGiAlEViG?=
+ =?iso-8859-1?Q?v7XgLMD7/QKqfSlJ7QdZCriT4aEeQ8XYHrtnJ9IbEke7htddH0kW6ujJh2?=
+ =?iso-8859-1?Q?hlpxC+cSmEtzMP0Obxd9l3cXf3biuD+AZkRzpyOQSvWGaa472SckwcrX1U?=
+ =?iso-8859-1?Q?AyCIRmlXHB+zhIO7+V2QYPxPsZf/Q33+fxUX4K+m8rUnvhW3uc8PLevB0G?=
+ =?iso-8859-1?Q?PJwW68A1K9MJne19XNkScGNddkhAQWXMCSc7ercSWQLBAI7ftjARR/hvQx?=
+ =?iso-8859-1?Q?GuO9jpZUni9gya5QEHfBz2YAgNC9y3+AJ+zDhJYzpCVAwDq3StirSlY77p?=
+ =?iso-8859-1?Q?WtaWUSXVX4Je+SSjNMqLIGqo5f+dyByCdNQOwWI4RtnJensw0rJFa4Mdyh?=
+ =?iso-8859-1?Q?QeS+S/eZM/NLdFQsdMZE0eoBwF/9QMsYbqYckF5ItlWozksqaUsyzvKhxA?=
+ =?iso-8859-1?Q?EZKvL/ZKq8CzZHvU0B6zljZhWF3+2AX8nyDwGYv7hSdqWyn7bq2p3Uz7Pb?=
+ =?iso-8859-1?Q?cxU9iIB+P/5lJmKiKVzkwIB5YPKMK0v4h10WURHPes8e6+PIo/msmsfKZr?=
+ =?iso-8859-1?Q?uAvCIm32Aait/ud0dLsWPwyN6VivObbFigXIYsJlCtpN8QlpfTREbOYXcp?=
+ =?iso-8859-1?Q?Jpzj5UoeATU25TV+8vl+Hpn1MHbCp1uLkAZpYGjTscAUl8efTUlFIAx6HS?=
+ =?iso-8859-1?Q?vJeJttALVFjJDYtOuOpSgOPt7d6j0yR+8/AQ/q9IeIHD3pIkaidZ1lYv8u?=
+ =?iso-8859-1?Q?KmovE5A4aCcShssKpBPM751wpiNRrbREnfirCrli7SXvyjdke2qH4F/i+e?=
+ =?iso-8859-1?Q?01SK6Q4m6P8y7KggKx9F4z6n7yV7ogP1khiYShn/F7sDbV+4Q0WbVvSZXm?=
+ =?iso-8859-1?Q?atqsMUuReEvrcMTmBIXiZ2nounva9riA4zPEj+2XrQ6EVjza9KC/ZtU1pE?=
+ =?iso-8859-1?Q?9PMB6cD2kc9dpixNNsl1PwO2+2IfcrdO8h9K4v4pT2BkDkqOQZYy+NHzDH?=
+ =?iso-8859-1?Q?S3UE95pNoW/oCtHrhz8Br12Pv7Vho+lrDokU7vrNcz3DR9y9TnjMJhREMW?=
+ =?iso-8859-1?Q?yMXl+olHocO56AgfxG7SRkxdmZ8ACOwzPtYC3LypVr7GpERTZuaGcSZA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bac63493-cbf4-4ed6-02ec-08dd9fd2f31d
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2025 23:37:32.9272 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mo4oY5Wb+GLk5jw2cMEXvRhldRJsPSHwb22sin0BXfsY9kN8qC7TYl+m3rjvf5mZ7km5YMz9mXbpi6bnB41B1+AYHmyX2IXlz3b3aVAH54E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7064
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,131 +186,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the sitronix,st7586 binding documentation from .txt to .yaml.
+On Wed, May 28, 2025 at 08:01:21PM +0000, Juston Li wrote:
+>On Wed, 2025-05-28 at 18:34 +0000, Juston Li wrote:
+>> On Thu, 2025-05-22 at 16:14 +0100, Tvrtko Ursulin wrote:
+>> >
+>> > On 22/05/2025 15:50, Lucas De Marchi wrote:
+>> > > + dri-devel
+>> > >
+>> > > On Wed, May 21, 2025 at 10:42:35PM +0000, Juston Li wrote:
+>> > > > Add tracepoints behind CONFIG_DRM_XE_GPU_MEM_TRACEPOINTS for
+>> > > > tracking
+>> > > > global and per-process GPU memory usage.
+>> > > >
+>> > > > These are required by VSR on Android 12+ for reporting GPU
+>> > > > driver
+>> > > > memory
+>> > > > allocations.
+>> > > >
+>> > > > v2:
+>> > > > - Use u64 as preferred by checkpatch (Tvrtko)
+>> > > > - Fix errors in comments/Kconfig description (Tvrtko)
+>> > > > - drop redundant "CONFIG_" in Kconfig
+>> > > >
+>> > > > Signed-off-by: Juston Li <justonli@chromium.org>
+>> > > > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> > > > ---
+>> > > > drivers/gpu/drm/xe/Kconfig.debug     | 12 +++++++
+>> > > > drivers/gpu/drm/xe/xe_bo.c           | 47
+>> > > > ++++++++++++++++++++++++++++
+>> > > > drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
+>> > > > 3 files changed, 75 insertions(+)
+>> > > >
+>> > > > diff --git a/drivers/gpu/drm/xe/Kconfig.debug
+>> > > > b/drivers/gpu/drm/xe/
+>> > > > Kconfig.debug
+>> > > > index 01735c6ece8ba..2371eeda0afd5 100644
+>> > > > --- a/drivers/gpu/drm/xe/Kconfig.debug
+>> > > > +++ b/drivers/gpu/drm/xe/Kconfig.debug
+>> > > > @@ -111,3 +111,15 @@ config DRM_XE_USERPTR_INVAL_INJECT
+>> > > >
+>> > > >      Recommended for driver developers only.
+>> > > >      If in doubt, say "N".
+>> > > > +
+>> > > > +config DRM_XE_GPU_MEM_TRACEPOINTS
+>> > >
+>> > > is there any particular reason to make this user-configurable per
+>> > > driver?
+>> > > Why aren't we making CONFIG_TRACE_GPU_MEM configurable (if
+>> > > needed,
+>> > > but
+>> > > could just depend on CONFIG_TRACEPOINTS) and then drivers just
+>> > > use
+>> > > it.
+>> >
+>> > Could be done like that too. Msm does unconditional select
+>> > TRACE_GPU_MEM
+>> > which I thought wouldn't be acceptable so I suggested making it
+>> > configurable.
+>>
+>> Ok yeah, I don't see a reason to make it per-driver either. I'll make
+>> CONFIG_TRACE_GPU_MEM configurable since we don't have
+>> CONFIG_TRACEPOINTS or CONFIG_TRACING enabled on GKI.
+>>
+>> Juston
+>
+>Scratch that, CONFIG_TRACEPOINTS is enabled on GKI so we could do the
+>depend.
+>
+>But now that I think about it, CONFIG_TRACEPOINTS seems enabled so
+>commonly I wonder if we might as well just unconditional select like
+>Msm as Tvrtko mentioned and then not have to deal with the #ifdefs?
 
-Also added a link to the datasheet while we are touching this.
+we are trying to remove the selects... they are too cumbersome.
+See e.g. https://lore.kernel.org/intel-xe/704fd2b9-04da-4ec8-b854-22bc3ce9058e@app.fastmail.com
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
- .../bindings/display/sitronix,st7586.txt           | 22 --------
- .../bindings/display/sitronix,st7586.yaml          | 61 ++++++++++++++++++++++
- MAINTAINERS                                        |  2 +-
- 3 files changed, 62 insertions(+), 23 deletions(-)
+We should **depend** on other parts of the kernel, not select them.
 
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7586.txt b/Documentation/devicetree/bindings/display/sitronix,st7586.txt
-deleted file mode 100644
-index 1d0dad1210d380849370738dbfb6a7b0e07773e8..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/display/sitronix,st7586.txt
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Sitronix ST7586 display panel
--
--Required properties:
--- compatible:	"lego,ev3-lcd".
--- a0-gpios:	The A0 signal (since this binding is for serial mode, this is
--                the pin labeled D1 on the controller, not the pin labeled A0)
--- reset-gpios:	Reset pin
--
--The node for this driver must be a child node of a SPI controller, hence
--all mandatory properties described in ../spi/spi-bus.txt must be specified.
--
--Optional properties:
--- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
--
--Example:
--	display@0{
--		compatible = "lego,ev3-lcd";
--		reg = <0>;
--		spi-max-frequency = <10000000>;
--		a0-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
--	};
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7586.yaml b/Documentation/devicetree/bindings/display/sitronix,st7586.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..566aaf1aeac81657d3a425f1c585894a3a6f82d3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7586.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/sitronix,st7586.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7586 Display Controller
-+
-+maintainers:
-+  - David Lechner <david@lechnology.com>
-+
-+description:
-+  Sitronix ST7586 is a driver and controller for 4-level gray
-+  scale and monochrome dot matrix LCD panels.
-+  https://topwaydisplay.com/sites/default/files/2020-04/ST7586S.pdf
-+
-+$ref: panel/panel-common.yaml#
-+
-+additionalProperties: false
-+
-+properties:
-+  compatible:
-+    const: lego,ev3-lcd
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 50000000
-+
-+  a0-gpios:
-+    description:
-+      The A0 signal (for serial mode, this is the pin labeled D1 on the
-+      controller, not the pin labeled A0)
-+    maxItems: 1
-+
-+  reset-gpios: true
-+  rotation: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - a0-gpios
-+  - reset-gpios
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        display@0 {
-+            compatible = "lego,ev3-lcd";
-+            reg = <0>;
-+            spi-max-frequency = <10000000>;
-+            a0-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-+            reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0d59a5910e632350a4d72a761c6c5ce1d3a1bc34..58e9591f46c7b3f7621c5a4b66f469ae2a9f9cd9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7815,7 +7815,7 @@ DRM DRIVER FOR SITRONIX ST7586 PANELS
- M:	David Lechner <david@lechnology.com>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
--F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
-+F:	Documentation/devicetree/bindings/display/sitronix,st7586.yaml
- F:	drivers/gpu/drm/sitronix/st7586.c
- 
- DRM DRIVER FOR SITRONIX ST7571 PANELS
+>
+>If that's not acceptable, I'm leaning on just making
+>CONFIG_TRACE_GPU_MEM configurable.
 
----
-base-commit: 2a628f951ed54c30a232230b5b58349d2a8dbb11
-change-id: 20250530-devicetree-convert-sitronix-st7586-to-yaml-db5d82b63ffa
+sounds good to me.
 
-Best regards,
--- 
-David Lechner <dlechner@baylibre.com>
-
+thanks
+Lucas De Marchi
