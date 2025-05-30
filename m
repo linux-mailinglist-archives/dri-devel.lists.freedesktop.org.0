@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA10AC867B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0235CAC867D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 May 2025 04:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9763910E784;
-	Fri, 30 May 2025 02:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66BF310E790;
+	Fri, 30 May 2025 02:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fDUHjgvZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X7uVmhK3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B857610E790
- for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:51:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA65B10E790
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 May 2025 02:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748573507;
+ s=mimecast20190719; t=1748573510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7IpZ8Fdr3OzleJ+318MzAvdBPzQwoRtcnXsMl0eFY/I=;
- b=fDUHjgvZEfnTtN1RGRY0eKMURT0UCY1CMDThBWHuI3r9qcIPmF2qoL9ii8iZeOuddbDntP
- HjZEdj8GT8jq1kw6vv/PZheZon+QxBfLxf/KRZNUKhsI8n4HgF7gZ5QXiihA2v/RkXGMy+
- hX9AyzHHyEXKl5Wa8bS0NYGcEjUEueQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=GyvvJOkIKbLTvBeRzbJji4RMPGPkXp1Wy75edFdkPdI=;
+ b=X7uVmhK3iiJnhoQqJo9ZuNjsg5iNbS09kDjNG0duUo4jgdc43Rb9adJ5FpsaDa0pLm0x++
+ GlAkphi/LFBm01/f9KZkH8/Xu3Rj8c1f5gadAyYGFQcwaqWpbr+SCPRgWBlQfDUZE5Ic4b
+ rYF7prBMEH1E4j6YPnYz476Yi5qPwmI=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-80-DiMS5PrYM56FO5a-CX32_g-1; Thu,
- 29 May 2025 22:51:42 -0400
-X-MC-Unique: DiMS5PrYM56FO5a-CX32_g-1
-X-Mimecast-MFC-AGG-ID: DiMS5PrYM56FO5a-CX32_g_1748573499
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-635-Qe3ENpAKN8mNR20en35DWQ-1; Thu,
+ 29 May 2025 22:51:46 -0400
+X-MC-Unique: Qe3ENpAKN8mNR20en35DWQ-1
+X-Mimecast-MFC-AGG-ID: Qe3ENpAKN8mNR20en35DWQ_1748573504
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 414A41956080; Fri, 30 May 2025 02:51:39 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EE156180036F; Fri, 30 May 2025 02:51:43 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
  by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id DC20B1955D82; Fri, 30 May 2025 02:51:34 +0000 (UTC)
+ id 90A071955D82; Fri, 30 May 2025 02:51:39 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:24 -0500
-Subject: [PATCH v2 22/46] panel/samsung-sofef00: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 29 May 2025 21:46:25 -0500
+Subject: [PATCH v2 23/46] panel/seiko-43wvf1g: Use refcounted allocation in
+ place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-22-5d75a3711e40@redhat.com>
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-23-5d75a3711e40@redhat.com>
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1526;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1422;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=Sy0IIkrxE+0yrioBWX4NXeowKl6o23PWswvhSm2Yajg=;
- b=GasFnpRS+HKIqwAQjwpXwlRRm3VIjg5GKkHwkXhCuCzMpeH0VZ0jD9n556Lf1BoKwwyKPO6Uc
- tPvuHMcMBukDGjqHmfUpSPHJKpiHYyjuJx/YQ+LgNKcl10iZPx3UTPe
+ bh=mOydvWxhgCz8Daz0E6kkR/U2cY12XZilDTWu1Ewy/O4=;
+ b=rNV7KeUaUvFdMuFPWRmgdrWy2J2zTBKFtpXT+owO19C5it2zySt5rLynzuCO0bFP6cBGmK7GJ
+ 6AyUTwif23AA/L1wFT2FhamiEcpcllHMGMBV4IWXz2alWSXwYkM+L7Q
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
@@ -100,40 +100,40 @@ panel.
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v2: none.
+v2: Use the correct connector.
 ---
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 210a25afe82bf9fcee0e626ade398913e4c34cef..72c4a7e9e9d232da43cc79757df4f365be8a4504 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -191,9 +191,11 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 	struct sofef00_panel *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+index 7d1b421ea9ddfcf84850a2fc589f7a43e24fc167..0935d83ee2db3cbec5744adfc6d1ad933537e580 100644
+--- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
++++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+@@ -204,9 +204,11 @@ static int seiko_panel_probe(struct device *dev,
+ 	struct seiko_panel *panel;
+ 	int err;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+-	if (!panel)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct sofef00_panel, panel,
-+				   &sofef00_panel_panel_funcs,
-+				   DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	panel = devm_drm_panel_alloc(dev, struct seiko_panel, base,
++				     &seiko_panel_funcs,
++				     DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(panel))
++		return PTR_ERR(panel);
  
- 	ctx->supply = devm_regulator_get(dev, "vddio");
- 	if (IS_ERR(ctx->supply))
-@@ -211,9 +213,6 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	panel->desc = desc;
  
--	drm_panel_init(&ctx->panel, dev, &sofef00_panel_panel_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
+@@ -224,9 +226,6 @@ static int seiko_panel_probe(struct device *dev,
+ 		return dev_err_probe(dev, PTR_ERR(panel->enable_gpio),
+ 				     "failed to request GPIO\n");
+ 
+-	drm_panel_init(&panel->base, dev, &seiko_panel_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->panel.backlight = sofef00_create_backlight(dsi);
- 	if (IS_ERR(ctx->panel.backlight))
- 		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+ 	err = drm_panel_of_backlight(&panel->base);
+ 	if (err)
+ 		return err;
 
 -- 
 2.48.1
