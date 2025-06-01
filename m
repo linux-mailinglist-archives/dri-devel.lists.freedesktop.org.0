@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3389EACA358
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5065ACA359
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0A110E4B2;
-	Sun,  1 Jun 2025 23:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BBEE10E4B4;
+	Sun,  1 Jun 2025 23:45:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="miihVhgj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l0JBCbIA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1016810E4B1;
- Sun,  1 Jun 2025 23:45:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18EA610E4B3
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:45:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 49CEAA4FD04;
- Sun,  1 Jun 2025 23:45:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E45C4CEE7;
- Sun,  1 Jun 2025 23:45:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9E4AB5C4C50;
+ Sun,  1 Jun 2025 23:43:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59023C4CEF6;
+ Sun,  1 Jun 2025 23:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821518;
- bh=v2Rzq1f3hMiSLUd9shmUG1CeTew7eXv0UOjvRRyd7BE=;
- h=From:To:Cc:Subject:Date:From;
- b=miihVhgjy8Y3fEZlG4yWsrhJava72qLJV01DjeIvCAbS48dJZK4K21pGbCtO7afNS
- haW9B9IcOG5NNlirSi92XqVzaKQw7vjhm6oJYjNBrLyNkiwdP/BBTwxrMWT3To8jMW
- 8zRR0cYjHk3uKuMozMRbHkMLk1mXOxWIUsVS3PE/KTXafxaBJ8RW/MJln3c+4AHRUj
- 4/esfV9dkZonyFM7s8LHJRikOxSdJxmCyO2wapP8sb5xoCbNf+C3I4cnNsNTf9mLZr
- FkoY1Kr+zUuLZgnFbT3xZYiSYVadLVeMs6V8N1jufZMSZ8tTVtLwf/c0kBIh0txIs8
- mxNmltjACBwxQ==
+ s=k20201202; t=1748821523;
+ bh=vcSZk3IPyUWSQfHU+s2FUtStwYV2fYnrws056mLudtA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=l0JBCbIA4xBQ+UdvJmQX5SgMkkVfOYq/wZg6U3Qomf4dKLy/Qk5QJSrOX0GHIlNx0
+ lwrioiO+7lDvnOXbItka8+dYNuths2oRTa0y0Yfy7mXB/YdqEj9poSQJMvugtJcckR
+ Hw08TChkmwKRBxXeFsmi6On8dOT6fQGlar69QlS1tqk6NtCFxa3iNAoqnR9kj3j7sz
+ ptd60LNcduY4erHTH4xvdCjGPGLhXyLV03mH9Qbt7KjfUm9trSnNeZ2XUIy3XVh3aJ
+ TEIlkzhD1fBpNKAlaB73scDAC6PWE5IU/rlMSbAtdv1BgJ4sChrPinEg9l94cMFs+6
+ fA+ezGd6zvudw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, alexandre.f.demers@gmail.com, boyuan.zhang@amd.com,
- kevinyang.wang@amd.com, mario.limonciello@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Damon Ding <damon.ding@rock-chips.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, l.stach@pengutronix.de,
+ bivvy.bi@rock-chips.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/22] drm/amdgpu/gfx6: fix CSIB handling
-Date: Sun,  1 Jun 2025 19:44:52 -0400
-Message-Id: <20250601234515.3519309-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 03/22] drm/bridge: analogix_dp: Add irq flag
+ IRQF_NO_AUTOEN instead of calling disable_irq()
+Date: Sun,  1 Jun 2025 19:44:54 -0400
+Message-Id: <20250601234515.3519309-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250601234515.3519309-1-sashal@kernel.org>
+References: <20250601234515.3519309-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,71 +69,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Damon Ding <damon.ding@rock-chips.com>
 
-[ Upstream commit 8307ebc15c1ea98a8a0b7837af1faa6c01514577 ]
+[ Upstream commit efab13e7d13a641a22c7508cde6e1a5285161944 ]
 
-We shouldn't return after the last section.
-We need to update the rest of the CSIB.
+The IRQF_NO_AUTOEN can be used for the drivers that don't want
+interrupts to be enabled automatically via devm_request_threaded_irq().
+Using this flag can provide be more robust compared to the way of
+calling disable_irq() after devm_request_threaded_irq() without the
+IRQF_NO_AUTOEN flag.
 
-Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Suggested-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+Link: https://lore.kernel.org/r/20250310104114.2608063-2-damon.ding@rock-chips.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Now let me understand what the bug is. Looking at the original code:
-```c for (sect = adev->gfx.rlc.cs_data; sect->section != NULL; ++sect) {
-for (ext = sect->section; ext->extent != NULL; ++ext) { if (sect->id ==
-SECT_CONTEXT) { // process SECT_CONTEXT sections } else { return; //
-BUG: This returns early, skipping remaining code } } } // Important code
-that should always run: buffer[count++] =
-cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG, 1)); buffer[count++] =
-cpu_to_le32(mmPA_SC_RASTER_CONFIG - PACKET3_SET_CONTEXT_REG_START); //
-... more important buffer initialization ``` The fix removes the early
-return so that all sections are processed and the important buffer
-initialization at the end always runs. **YES** This commit should be
-backported to stable kernel trees for the following reasons: 1. **Clear
-Bug Fix**: The commit fixes a clear logic error where an early return
-statement prevents critical buffer initialization code from executing.
-The original code would return immediately when encountering a non-
-SECT_CONTEXT section, skipping the important packet commands that should
-always be written to the buffer (PACKET3_SET_CONTEXT_REG,
-PACKET3_PREAMBLE_END_CLEAR_STATE, PACKET3_CLEAR_STATE). 2. **Functional
-Impact**: This bug affects the Clear State Indirect Buffer (CSIB)
-handling in AMD GPU driver for GFX6 hardware. The incomplete buffer
-initialization could lead to: - Incorrect GPU state during graphics
-operations - Potential rendering issues or GPU hangs - Inconsistent
-hardware behavior 3. **Small and Contained Fix**: The fix is minimal -
-it simply removes two lines (the else block with return statement). This
-is a low-risk change that doesn't introduce new functionality or alter
-the architecture. 4. **Hardware-Specific Bug**: This affects real users
-with GFX6 AMD GPUs. The bug prevents proper initialization of the GPU's
-clear state buffer, which is essential for correct GPU operation. 5.
-**Similar to Historical Backports**: Looking at commit 4 in the similar
-commits (marked as YES for backporting), which also fixed preamble
-handling issues in the AMD GPU driver, this follows a similar pattern of
-fixing command buffer handling bugs. The commit message clearly
-indicates this is a bug fix ("We shouldn't return after the last
-section. We need to update the rest of the CSIB"), and the code change
-confirms that critical buffer initialization was being skipped due to
-the premature return.
+**YES** This commit should be backported to stable kernel trees based on
+the following analysis: ## Code Change Analysis The commit makes a
+simple, targeted fix to address a race condition in interrupt handling:
+1. **Line 1639**: Changes `irq_flags = IRQF_TRIGGER_RISING |
+IRQF_TRIGGER_FALLING;` to `irq_flags = IRQF_TRIGGER_RISING |
+IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;` 2. **Line 1642**: Changes
+`irq_flags = 0;` to `irq_flags = IRQF_NO_AUTOEN;` 3. **Line 1659**:
+Removes the `disable_irq(dp->irq);` call that was previously needed
+after `devm_request_threaded_irq()` ## Backport Suitability Assessment
+**Matches Stable Tree Criteria:** 1. **Fixes an Important Bug**: The
+commit addresses a race condition where interrupts can fire between
+`devm_request_threaded_irq()` and `disable_irq()`, which could cause
+system instability or unexpected behavior. 2. **Small and Contained
+Change**: The modification is minimal (3 lines changed) and affects only
+the interrupt setup logic in `analogix_dp_core.c:1608-1659`. 3. **Low
+Risk of Regression**: The change uses a well-established kernel pattern
+(IRQF_NO_AUTOEN) that's been proven safe across multiple subsystems. 4.
+**Clear Technical Merit**: As noted in the commit message, using
+`IRQF_NO_AUTOEN` is "more robust compared to the way of calling
+disable_irq() after devm_request_threaded_irq()". **Strong Precedent
+from Similar Commits:** The analysis shows **ALL** similar commits in
+the provided reference set have "Backport Status: YES": -
+`drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()` - **YES** -
+`drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()` (both
+instances) - **YES** - `drm/imx/ipuv3: Use IRQF_NO_AUTOEN flag in
+request_irq()` - **YES** - `drm/exynos: move to use request_irq by
+IRQF_NO_AUTOEN flag` - **YES** **Additional Context from Kernel
+Repository:** Examination of `/home/sasha/linux/drivers/gpu/drm/bridge/a
+nalogix/analogix_dp_core.c:1659` confirms this follows the exact same
+pattern as other successful backports - replacing the `request_irq()` +
+`disable_irq()` sequence with `IRQF_NO_AUTOEN` flag usage. This is a
+textbook example of a stable tree candidate: it fixes a real race
+condition bug with minimal, proven-safe code changes that follow
+established kernel patterns.
 
- drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-index 7f0a63628c43a..eac329fe27902 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-@@ -2901,8 +2901,6 @@ static void gfx_v6_0_get_csb_buffer(struct amdgpu_device *adev,
- 				buffer[count++] = cpu_to_le32(ext->reg_index - 0xa000);
- 				for (i = 0; i < ext->reg_count; i++)
- 					buffer[count++] = cpu_to_le32(ext->extent[i]);
--			} else {
--				return;
- 			}
- 		}
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index df606a5675663..234c0bd38e851 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1735,10 +1735,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 		 * that we can get the current state of the GPIO.
+ 		 */
+ 		dp->irq = gpiod_to_irq(dp->hpd_gpiod);
+-		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING;
++		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;
+ 	} else {
+ 		dp->irq = platform_get_irq(pdev, 0);
+-		irq_flags = 0;
++		irq_flags = IRQF_NO_AUTOEN;
  	}
+ 
+ 	if (dp->irq == -ENXIO) {
+@@ -1755,7 +1755,6 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 		dev_err(&pdev->dev, "failed to request irq\n");
+ 		goto err_disable_clk;
+ 	}
+-	disable_irq(dp->irq);
+ 
+ 	return dp;
+ 
 -- 
 2.39.5
 
