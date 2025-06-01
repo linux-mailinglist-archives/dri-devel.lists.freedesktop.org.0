@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD40ACA11D
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C373ACA11E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC6010E110;
-	Sun,  1 Jun 2025 23:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7C710E17B;
+	Sun,  1 Jun 2025 23:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JAQRqGAl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A1H9eP03";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271C610E110;
- Sun,  1 Jun 2025 23:24:41 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED3010E178
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:24:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 37B43A4F606;
- Sun,  1 Jun 2025 23:24:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821DEC4CEE7;
- Sun,  1 Jun 2025 23:24:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DFD125C5586;
+ Sun,  1 Jun 2025 23:22:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A99C4CEF2;
+ Sun,  1 Jun 2025 23:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820279;
- bh=ZSdio0Ukr8vuJr3/BWpi4evSqcmNC4ZLkOb1C2Yfi6s=;
- h=From:To:Cc:Subject:Date:From;
- b=JAQRqGAltaumkx03CVWJoZ3Eav5xS+pYDB2lOuf2MpA1U7ay5E2yf0N66WEAeefKY
- 198g6bDL43OCDINV0puPwRjfkI9kDVTfAEbShxn1HTApUgqSmygKFGaWahIq6qGAh6
- MOFKQcWQk/Ldts1z5Bb1bLAiEDizspLjQF/3vSnYPbsxgobU2RdTvZ9OR0XnKws9hF
- ddq6L1cBvR1DHNO926aphDFnxO7OqMP2yXAhuKl4OWLmKk1jMqTGoKwFQ6w06jKypu
- ejZReZJdekrpPfg4R4V4iLjW8CrJOdBuF3CimDIYOAmzZB5y+ZkPqkXA8K4uLY8AZa
- dK/li6JnTTwoQ==
+ s=k20201202; t=1748820281;
+ bh=FvoF4yjt+VixD0Lh1JUNXrpy8vAcNwCKA5aOdeHYRTI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=A1H9eP03MTtR7XTI1H0TXXjrSaIWhqzpXdYmKdK+C7oY7khWEnddCE7ZTJ8koGxfR
+ B0XT1IrjOZ980ZJczhK6LFs+3QMLSIGmbiy2A19oFyehReh2n6qTQE4YZpa3Y8pJBM
+ vq+CKrD5d+NHwKsltzcLAjmIqbSENPbeM4VipUgnn4kG+40KwtLmfCEtpn6pcInJrh
+ 4fV4laQQ9Rm9sb1bpflqc2Tfcd8kDPBRGsKDJVLC17/EjPmXv5QFKU/QdaAoU3Cf1w
+ lW/mcJruL2+rr2QoV4LZi70w5RyKaNgtjp2+XAjH8V/JejjLybc2VYZjgxtUvhC8MU
+ iGQI5uAZbNM8A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Charlene Liu <Charlene.Liu@amd.com>, Hansen Dsouza <hansen.dsouza@amd.com>,
- Ray Wu <ray.wu@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, Hansen.Dsouza@amd.com,
- Ahmed.Ahmed@amd.com, hamzamahfooz@linux.microsoft.com,
- aurabindo.pillai@amd.com, Ovidiu.Bunea@amd.com, yi-lchen@amd.com,
- Nicholas.Susanto@amd.com, nicholas.kazlauskas@amd.com,
- rodrigo.siqueira@amd.com, wenjing.liu@amd.com, yihan.zhu@amd.com,
- tjakobi@math.uni-bielefeld.de, alex.hung@amd.com, michael.strauss@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 001/110] drm/amd/display: disable DPP RCG before
- DPP CLK enable
-Date: Sun,  1 Jun 2025 19:22:43 -0400
-Message-Id: <20250601232435.3507697-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.15 002/110] drm/bridge: select DRM_KMS_HELPER for
+ AUX_BRIDGE
+Date: Sun,  1 Jun 2025 19:22:44 -0400
+Message-Id: <20250601232435.3507697-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
+References: <20250601232435.3507697-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -70,281 +66,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Charlene Liu <Charlene.Liu@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-[ Upstream commit 1bcd679209420305a86833bc357d50021909edaf ]
+[ Upstream commit b12fa5e76e1463fc5a196f2717040e4564e184b6 ]
 
-[why]
-DPP CLK enable needs to disable DPPCLK RCG first.
-The DPPCLK_en in dccg should always be enabled when the corresponding
-pipe is enabled.
+The aux bridge uses devm_drm_of_get_bridge() from the panel bridge (and
+correctly selects DRM_PANEL_BRIDGE). However panel bridge is not a
+separate module, it is compiled into the drm_kms_helper.o. Select
+DRM_KMS_HELPER too to express this dependency.
 
-Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
-Signed-off-by: Charlene Liu <Charlene.Liu@amd.com>
-Signed-off-by: Ray Wu <ray.wu@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Link: https://lore.kernel.org/r/20250411-aux-select-kms-v1-1-c4276f905a56@oss.qualcomm.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis of both the commit message and code changes, my
-answer is: **YES** This commit should be backported to stable kernel
-trees for the following reasons: ## Critical Hardware Sequencing Fix The
-commit addresses a fundamental hardware sequencing requirement where DPP
-(Display Pipes and Planes) Root Clock Gating (RCG) must be disabled
-before enabling the DPP clock. This is a critical timing constraint
-that, if violated, can cause severe system issues. ## Specific Code
-Evidence 1. **In `dccg35_update_dpp_dto()`**, the fix adds a crucial
-sequencing step: ```c + dccg35_set_dppclk_rcg(dccg, dpp_inst, false);
-REG_SET_2(DPPCLK_DTO_PARAM[dpp_inst], 0, DPPCLK0_DTO_PHASE, phase,
-DPPCLK0_DTO_MODULO, modulo); dcn35_set_dppclk_enable(dccg, dpp_inst,
-true); ``` This ensures RCG is disabled (false) before enabling the DPP
-clock. 2. **In `dcn35_enable_plane()`**, explicit clock control is
-added: ```c + /*make sure DPPCLK is on*/ +
-dccg->funcs->dccg_root_gate_disable_control(dccg, dpp->inst, true); +
-dpp->funcs->dpp_dppclk_control(dpp, false, true); ``` 3. **Removal of
-problematic init code** in `dcn35_init_hw()`: ```c - if
-(res_pool->dccg->funcs->dccg_root_gate_disable_control) { - for (i = 0;
-i < res_pool->pipe_count; i++) -
-res_pool->dccg->funcs->dccg_root_gate_disable_control(res_pool->dccg, i,
-0); - } ``` ## Similarity to Previous Critical Fixes This commit follows
-the pattern of Similar Commit #1, which also addressed clock gating
-sequencing issues that could cause system hangs. The commit message
-explicitly states this is needed because "DPP CLK enable needs to
-disable DPPCLK RCG first." ## Impact and Risk Assessment - **Bug
-Fixed**: Incorrect clock sequencing that can cause system instability -
-**Scope**: Limited to DCN35 display hardware (recent AMD GPUs) -
-**Complexity**: Small, focused changes with clear purpose - **Risk**:
-Low risk of regression - adds proper sequencing without major
-architectural changes This fix meets all criteria for stable
-backporting: - Fixes a real bug affecting users (system stability) -
-Small and contained changes - No new features or architectural changes -
-Addresses hardware constraints that cannot be worked around The commit
-should be backported to all stable kernels that include DCN35 display
-support to ensure proper display functionality and system stability for
-users with affected AMD GPUs.
+Based on my analysis, here is my determination: **YES** This commit
+should be backported to stable kernel trees for the following reasons:
+1. **It fixes a missing dependency issue**: The commit addresses a real
+dependency problem where `DRM_AUX_BRIDGE` uses
+`devm_drm_of_get_bridge()` which is implemented in `bridge/panel.c`. As
+shown in the Makefile analysis, `panel.o` is built into
+`drm_kms_helper.o` when `CONFIG_DRM_PANEL_BRIDGE` is selected (line 149
+of drivers/gpu/drm/Makefile: `drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE)
++= bridge/panel.o`). 2. **It prevents build failures**: Without
+selecting `DRM_KMS_HELPER`, the aux bridge can fail to link properly
+because the actual implementation of `devm_drm_of_get_bridge()` won't be
+available. This can lead to undefined reference errors during linking,
+similar to the issue described in Similar Commit #1 where
+`devm_drm_of_get_bridge` was undefined. 3. **The fix is minimal and
+safe**: The change is a simple one-line addition to select
+`DRM_KMS_HELPER` in the Kconfig. This is a build configuration fix with
+no runtime impact - it merely ensures the correct dependencies are
+satisfied at build time. 4. **It follows established patterns**: Looking
+at other bridge drivers in the same Kconfig file, we can see that
+drivers using similar functionality already select `DRM_KMS_HELPER`
+(e.g., lines 38, 53, 64, 88, 99 in the Kconfig show other drivers
+selecting it). 5. **Similar to backported commit #2**: This fix is
+conceptually similar to Similar Commit #2 which was backported and dealt
+with circular dependencies and proper module organization for
+`devm_drm_of_get_bridge()`. 6. **No architectural changes**: This commit
+doesn't introduce new features or change any architecture - it simply
+fixes a missing Kconfig dependency that should have been there from the
+beginning when `DRM_AUX_BRIDGE` was introduced. The commit meets the
+stable tree criteria as it: - Fixes a real bug (missing dependency
+leading to potential build failures) - Is minimal and contained (single
+line Kconfig change) - Has no risk of regression (only affects build
+configuration) - Doesn't introduce new features or architectural changes
 
- .../amd/display/dc/dccg/dcn35/dcn35_dccg.c    | 38 ++++++++++++-------
- .../amd/display/dc/hwss/dcn35/dcn35_hwseq.c   | 21 ++++++----
- 2 files changed, 38 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/bridge/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c b/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
-index b363f5360818d..ad910065f463f 100644
---- a/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
-@@ -391,6 +391,7 @@ static void dccg35_set_dppclk_rcg(struct dccg *dccg,
- 
- 	struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
- 
-+
- 	if (!dccg->ctx->dc->debug.root_clock_optimization.bits.dpp && enable)
- 		return;
- 
-@@ -411,6 +412,8 @@ static void dccg35_set_dppclk_rcg(struct dccg *dccg,
- 	BREAK_TO_DEBUGGER();
- 		break;
- 	}
-+	//DC_LOG_DEBUG("%s: inst(%d) DPPCLK rcg_disable: %d\n", __func__, inst, enable ? 0 : 1);
-+
- }
- 
- static void dccg35_set_dpstreamclk_rcg(
-@@ -1112,30 +1115,24 @@ static void dcn35_set_dppclk_enable(struct dccg *dccg,
- {
- 	struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
- 
-+
- 	switch (dpp_inst) {
- 	case 0:
- 		REG_UPDATE(DPPCLK_CTRL, DPPCLK0_EN, enable);
--		if (dccg->ctx->dc->debug.root_clock_optimization.bits.dpp)
--			REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, DPPCLK0_ROOT_GATE_DISABLE, enable);
- 		break;
- 	case 1:
- 		REG_UPDATE(DPPCLK_CTRL, DPPCLK1_EN, enable);
--		if (dccg->ctx->dc->debug.root_clock_optimization.bits.dpp)
--			REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, DPPCLK1_ROOT_GATE_DISABLE, enable);
- 		break;
- 	case 2:
- 		REG_UPDATE(DPPCLK_CTRL, DPPCLK2_EN, enable);
--		if (dccg->ctx->dc->debug.root_clock_optimization.bits.dpp)
--			REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, DPPCLK2_ROOT_GATE_DISABLE, enable);
- 		break;
- 	case 3:
- 		REG_UPDATE(DPPCLK_CTRL, DPPCLK3_EN, enable);
--		if (dccg->ctx->dc->debug.root_clock_optimization.bits.dpp)
--			REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, DPPCLK3_ROOT_GATE_DISABLE, enable);
- 		break;
- 	default:
- 		break;
- 	}
-+	//DC_LOG_DEBUG("%s: dpp_inst(%d) DPPCLK_EN = %d\n", __func__, dpp_inst, enable);
- 
- }
- 
-@@ -1163,14 +1160,18 @@ static void dccg35_update_dpp_dto(struct dccg *dccg, int dpp_inst,
- 			ASSERT(false);
- 			phase = 0xff;
- 		}
-+		dccg35_set_dppclk_rcg(dccg, dpp_inst, false);
- 
- 		REG_SET_2(DPPCLK_DTO_PARAM[dpp_inst], 0,
- 				DPPCLK0_DTO_PHASE, phase,
- 				DPPCLK0_DTO_MODULO, modulo);
- 
- 		dcn35_set_dppclk_enable(dccg, dpp_inst, true);
--	} else
-+	} else {
- 		dcn35_set_dppclk_enable(dccg, dpp_inst, false);
-+		/*we have this in hwss: disable_plane*/
-+		//dccg35_set_dppclk_rcg(dccg, dpp_inst, true);
-+	}
- 	dccg->pipe_dppclk_khz[dpp_inst] = req_dppclk;
- }
- 
-@@ -1182,6 +1183,7 @@ static void dccg35_set_dppclk_root_clock_gating(struct dccg *dccg,
- 	if (!dccg->ctx->dc->debug.root_clock_optimization.bits.dpp)
- 		return;
- 
-+
- 	switch (dpp_inst) {
- 	case 0:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, DPPCLK0_ROOT_GATE_DISABLE, enable);
-@@ -1198,6 +1200,8 @@ static void dccg35_set_dppclk_root_clock_gating(struct dccg *dccg,
- 	default:
- 		break;
- 	}
-+	//DC_LOG_DEBUG("%s: dpp_inst(%d) rcg: %d\n", __func__, dpp_inst, enable);
-+
- }
- 
- static void dccg35_get_pixel_rate_div(
-@@ -1521,28 +1525,30 @@ static void dccg35_set_physymclk_root_clock_gating(
- 	switch (phy_inst) {
- 	case 0:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL2,
--				PHYASYMCLK_ROOT_GATE_DISABLE, enable ? 1 : 0);
-+				PHYASYMCLK_ROOT_GATE_DISABLE, enable ? 0 : 1);
- 		break;
- 	case 1:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL2,
--				PHYBSYMCLK_ROOT_GATE_DISABLE, enable ? 1 : 0);
-+				PHYBSYMCLK_ROOT_GATE_DISABLE, enable ? 0 : 1);
- 		break;
- 	case 2:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL2,
--				PHYCSYMCLK_ROOT_GATE_DISABLE, enable ? 1 : 0);
-+				PHYCSYMCLK_ROOT_GATE_DISABLE, enable ? 0 : 1);
- 		break;
- 	case 3:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL2,
--				PHYDSYMCLK_ROOT_GATE_DISABLE, enable ? 1 : 0);
-+				PHYDSYMCLK_ROOT_GATE_DISABLE, enable ? 0 : 1);
- 		break;
- 	case 4:
- 		REG_UPDATE(DCCG_GATE_DISABLE_CNTL2,
--				PHYESYMCLK_ROOT_GATE_DISABLE, enable ? 1 : 0);
-+				PHYESYMCLK_ROOT_GATE_DISABLE, enable ? 0 : 1);
- 		break;
- 	default:
- 		BREAK_TO_DEBUGGER();
- 		return;
- 	}
-+	//DC_LOG_DEBUG("%s: dpp_inst(%d) PHYESYMCLK_ROOT_GATE_DISABLE:\n", __func__, phy_inst, enable ? 0 : 1);
-+
- }
- 
- static void dccg35_set_physymclk(
-@@ -1643,6 +1649,8 @@ static void dccg35_dpp_root_clock_control(
- 		return;
- 
- 	if (clock_on) {
-+		dccg35_set_dppclk_rcg(dccg, dpp_inst, false);
-+
- 		/* turn off the DTO and leave phase/modulo at max */
- 		dcn35_set_dppclk_enable(dccg, dpp_inst, 1);
- 		REG_SET_2(DPPCLK_DTO_PARAM[dpp_inst], 0,
-@@ -1654,6 +1662,8 @@ static void dccg35_dpp_root_clock_control(
- 		REG_SET_2(DPPCLK_DTO_PARAM[dpp_inst], 0,
- 			  DPPCLK0_DTO_PHASE, 0,
- 			  DPPCLK0_DTO_MODULO, 1);
-+		/*we have this in hwss: disable_plane*/
-+		//dccg35_set_dppclk_rcg(dccg, dpp_inst, true);
- 	}
- 
- 	dccg->dpp_clock_gated[dpp_inst] = !clock_on;
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-index 922b8d71cf1aa..63077c1fad859 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-@@ -241,11 +241,6 @@ void dcn35_init_hw(struct dc *dc)
- 			dc->res_pool->hubbub->funcs->allow_self_refresh_control(dc->res_pool->hubbub,
- 					!dc->res_pool->hubbub->ctx->dc->debug.disable_stutter);
- 	}
--	if (res_pool->dccg->funcs->dccg_root_gate_disable_control) {
--		for (i = 0; i < res_pool->pipe_count; i++)
--			res_pool->dccg->funcs->dccg_root_gate_disable_control(res_pool->dccg, i, 0);
--	}
--
- 	for (i = 0; i < res_pool->audio_count; i++) {
- 		struct audio *audio = res_pool->audios[i];
- 
-@@ -901,12 +896,18 @@ void dcn35_init_pipes(struct dc *dc, struct dc_state *context)
- void dcn35_enable_plane(struct dc *dc, struct pipe_ctx *pipe_ctx,
- 			       struct dc_state *context)
- {
-+	struct dpp *dpp = pipe_ctx->plane_res.dpp;
-+	struct dccg *dccg = dc->res_pool->dccg;
-+
-+
- 	/* enable DCFCLK current DCHUB */
- 	pipe_ctx->plane_res.hubp->funcs->hubp_clk_cntl(pipe_ctx->plane_res.hubp, true);
- 
- 	/* initialize HUBP on power up */
- 	pipe_ctx->plane_res.hubp->funcs->hubp_init(pipe_ctx->plane_res.hubp);
--
-+	/*make sure DPPCLK is on*/
-+	dccg->funcs->dccg_root_gate_disable_control(dccg, dpp->inst, true);
-+	dpp->funcs->dpp_dppclk_control(dpp, false, true);
- 	/* make sure OPP_PIPE_CLOCK_EN = 1 */
- 	pipe_ctx->stream_res.opp->funcs->opp_pipe_clock_control(
- 			pipe_ctx->stream_res.opp,
-@@ -923,6 +924,7 @@ void dcn35_enable_plane(struct dc *dc, struct pipe_ctx *pipe_ctx,
- 		// Program system aperture settings
- 		pipe_ctx->plane_res.hubp->funcs->hubp_set_vm_system_aperture_settings(pipe_ctx->plane_res.hubp, &apt);
- 	}
-+	//DC_LOG_DEBUG("%s: dpp_inst(%d) =\n", __func__, dpp->inst);
- 
- 	if (!pipe_ctx->top_pipe
- 		&& pipe_ctx->plane_state
-@@ -938,6 +940,8 @@ void dcn35_plane_atomic_disable(struct dc *dc, struct pipe_ctx *pipe_ctx)
- {
- 	struct hubp *hubp = pipe_ctx->plane_res.hubp;
- 	struct dpp *dpp = pipe_ctx->plane_res.dpp;
-+	struct dccg *dccg = dc->res_pool->dccg;
-+
- 
- 	dc->hwss.wait_for_mpcc_disconnect(dc, dc->res_pool, pipe_ctx);
- 
-@@ -955,7 +959,8 @@ void dcn35_plane_atomic_disable(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 	hubp->funcs->hubp_clk_cntl(hubp, false);
- 
- 	dpp->funcs->dpp_dppclk_control(dpp, false, false);
--/*to do, need to support both case*/
-+	dccg->funcs->dccg_root_gate_disable_control(dccg, dpp->inst, false);
-+
- 	hubp->power_gated = true;
- 
- 	hubp->funcs->hubp_reset(hubp);
-@@ -967,6 +972,8 @@ void dcn35_plane_atomic_disable(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 	pipe_ctx->top_pipe = NULL;
- 	pipe_ctx->bottom_pipe = NULL;
- 	pipe_ctx->plane_state = NULL;
-+	//DC_LOG_DEBUG("%s: dpp_inst(%d)=\n", __func__, dpp->inst);
-+
- }
- 
- void dcn35_disable_plane(struct dc *dc, struct dc_state *state, struct pipe_ctx *pipe_ctx)
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 09a1be234f717..b9e0ca85226a6 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -16,6 +16,7 @@ config DRM_AUX_BRIDGE
+ 	tristate
+ 	depends on DRM_BRIDGE && OF
+ 	select AUXILIARY_BUS
++	select DRM_KMS_HELPER
+ 	select DRM_PANEL_BRIDGE
+ 	help
+ 	  Simple transparent bridge that is used by several non-DRM drivers to
 -- 
 2.39.5
 
