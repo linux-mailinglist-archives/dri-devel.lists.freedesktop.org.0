@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE82ACA1B1
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E85ACA1B2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:30:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51A610E3D1;
-	Sun,  1 Jun 2025 23:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B1910E3CF;
+	Sun,  1 Jun 2025 23:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LXjN2pH+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MxOpWQqu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0809410E3CD
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:30:11 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDF910E3D2
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:30:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 974FC5C49B1;
- Sun,  1 Jun 2025 23:27:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C55C4CEF1;
- Sun,  1 Jun 2025 23:30:08 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CF35061165;
+ Sun,  1 Jun 2025 23:30:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4C8C4CEEE;
+ Sun,  1 Jun 2025 23:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820610;
- bh=f2WYD4Y4R0bJMxER0HxNBbKZ+Ld3JpjNmYLQli+y9PI=;
+ s=k20201202; t=1748820613;
+ bh=G5ptFgI035r6QM783wg67cRlLhJPu1qeqOLJdtsVheU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LXjN2pH+yvxbXnvlIuJxfvNt2IcGb2KZfQF2PoQMmSdQJqKPPWLwMUKTujMs+JE/Y
- dK/kZQ7fV6Q+qLW+sKdhdfUmNRZUAfsIL9oH1XKSZLKMm2DVmiG/Llb5uzkXRZq/5k
- Uo28Ac12yFh9eXFkffnWjpT0eTm7ixQ57g3dE7oXNX04vS4AGxtU3wRtgzV1qI8Pgi
- VIfN3p3iKgmowZgBlVogB8R9a0PWDl9cznaIOoRW+vfYRjuhOM3ocuC1k5JY1WmAKR
- KLouDJTOTmdSAKF+G8ur4jrLlqSv9E2Y6cDB64W4i1ft1JrlaG322gyaoYPih228MB
- ZW4vxkz2OYWew==
+ b=MxOpWQquLJRKmX+msj1VVPJ3EZXQ/xWXqHf4qXHV0harcrvu3ToljFdeJGy+RWF5C
+ 4ksTifv0cOFcxc/gykA63GYS30CC79uBEkFfAeNskmKS4Y2cqQSONwCX/NW5U2It/g
+ NN8zpwb4k42o5lX2Yean/l/dZWZr6zwtpyydxXhzzLtJnEr6M5u4Ag+1/a4WknsARk
+ 02AFhCjUKYA3Ux+Q9wpE4w4iE4uJB3+fzW26iOQBa4hbcDgvnLMfS5hNW8+B87+Fth
+ cquPTCRtRIfFar3hJZ/oq/fGoLuz+t0xRSr2MTz49s7kPnAzLU8pkOUBh4w9gsvG5Q
+ eCEfhYVxLl1eg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Damon Ding <damon.ding@rock-chips.com>,
- Douglas Anderson <dianders@chromium.org>,
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tejas Vipin <tejasvipin76@gmail.com>,
+ Doug Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, l.stach@pengutronix.de,
- bivvy.bi@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 011/102] drm/bridge: analogix_dp: Add irq flag
- IRQF_NO_AUTOEN instead of calling disable_irq()
-Date: Sun,  1 Jun 2025 19:28:03 -0400
-Message-Id: <20250601232937.3510379-11-sashal@kernel.org>
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 013/102] drm/panel/sharp-ls043t1le01: Use _multi
+ variants
+Date: Sun,  1 Jun 2025 19:28:05 -0400
+Message-Id: <20250601232937.3510379-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232937.3510379-1-sashal@kernel.org>
 References: <20250601232937.3510379-1-sashal@kernel.org>
@@ -53,6 +53,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.9
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,87 +70,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Damon Ding <damon.ding@rock-chips.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
 
-[ Upstream commit efab13e7d13a641a22c7508cde6e1a5285161944 ]
+[ Upstream commit 20e8219205145e1af3b98b6a0a3cc59568116a05 ]
 
-The IRQF_NO_AUTOEN can be used for the drivers that don't want
-interrupts to be enabled automatically via devm_request_threaded_irq().
-Using this flag can provide be more robust compared to the way of
-calling disable_irq() after devm_request_threaded_irq() without the
-IRQF_NO_AUTOEN flag.
+Move away from using deprecated API and use _multi variants
+if available. Use mipi_dsi_msleep() and mipi_dsi_usleep_range()
+instead of msleep() and usleep_range() respectively.
 
-Suggested-by: Douglas Anderson <dianders@chromium.org>
+Used Coccinelle to find the _multi variant APIs,replacing
+mpi_dsi_msleep() where necessary and for returning
+dsi_ctx.accum_err in these functions. mipi_dsi_dcs_write()
+does not have a corresponding _multi() variant. Replacing it with
+mipi_dsi_dcs_write_seq_multi() instead. This change is manual.
+
+The Coccinelle script is the same as the one in commit c8ba07caaecc
+("drm/panel/synaptics-r63353: Use _multi variants")
+
+v2: Use mipi_dsi_write_buffer_multi() in place of
+mipi_dsi_dcs_write(). (Dmitry)
+
+v3: add commit details where the same coccinelle script is
+used and remove the actual script from commit log.
+Use mipi_dsi_dcs_write_seq_multi() for mipi_dsi_dcs_write() (Doug)
+
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-Link: https://lore.kernel.org/r/20250310104114.2608063-2-damon.ding@rock-chips.com
+Link: https://lore.kernel.org/r/20250326-b4-panel-ls043t1le01-v3-1-96c554c0ea2b@redhat.com
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees based on
-the following analysis: ## Code Change Analysis The commit makes a
-simple, targeted fix to address a race condition in interrupt handling:
-1. **Line 1639**: Changes `irq_flags = IRQF_TRIGGER_RISING |
-IRQF_TRIGGER_FALLING;` to `irq_flags = IRQF_TRIGGER_RISING |
-IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;` 2. **Line 1642**: Changes
-`irq_flags = 0;` to `irq_flags = IRQF_NO_AUTOEN;` 3. **Line 1659**:
-Removes the `disable_irq(dp->irq);` call that was previously needed
-after `devm_request_threaded_irq()` ## Backport Suitability Assessment
-**Matches Stable Tree Criteria:** 1. **Fixes an Important Bug**: The
-commit addresses a race condition where interrupts can fire between
-`devm_request_threaded_irq()` and `disable_irq()`, which could cause
-system instability or unexpected behavior. 2. **Small and Contained
-Change**: The modification is minimal (3 lines changed) and affects only
-the interrupt setup logic in `analogix_dp_core.c:1608-1659`. 3. **Low
-Risk of Regression**: The change uses a well-established kernel pattern
-(IRQF_NO_AUTOEN) that's been proven safe across multiple subsystems. 4.
-**Clear Technical Merit**: As noted in the commit message, using
-`IRQF_NO_AUTOEN` is "more robust compared to the way of calling
-disable_irq() after devm_request_threaded_irq()". **Strong Precedent
-from Similar Commits:** The analysis shows **ALL** similar commits in
-the provided reference set have "Backport Status: YES": -
-`drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()` - **YES** -
-`drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()` (both
-instances) - **YES** - `drm/imx/ipuv3: Use IRQF_NO_AUTOEN flag in
-request_irq()` - **YES** - `drm/exynos: move to use request_irq by
-IRQF_NO_AUTOEN flag` - **YES** **Additional Context from Kernel
-Repository:** Examination of `/home/sasha/linux/drivers/gpu/drm/bridge/a
-nalogix/analogix_dp_core.c:1659` confirms this follows the exact same
-pattern as other successful backports - replacing the `request_irq()` +
-`disable_irq()` sequence with `IRQF_NO_AUTOEN` flag usage. This is a
-textbook example of a stable tree candidate: it fixes a real race
-condition bug with minimal, proven-safe code changes that follow
-established kernel patterns.
+Looking at this commit, I need to analyze whether it should be
+backported to stable kernel trees. **Answer: NO** **Detailed Analysis:**
+This commit is a **code modernization/refactoring change** that converts
+from deprecated MIPI DSI APIs to newer "_multi" variants. Here's my
+detailed reasoning: ## 1. **Nature of Changes - API Modernization Only**
+The changes are purely about replacing deprecated function calls with
+their modern equivalents: - `mipi_dsi_dcs_exit_sleep_mode()` →
+`mipi_dsi_dcs_exit_sleep_mode_multi()` -
+`mipi_dsi_dcs_set_pixel_format()` →
+`mipi_dsi_dcs_set_pixel_format_multi()` -
+`mipi_dsi_dcs_set_display_on()` → `mipi_dsi_dcs_set_display_on_multi()`
+- `mipi_dsi_dcs_write()` → `mipi_dsi_dcs_write_seq_multi()` - `msleep()`
+→ `mipi_dsi_msleep()` This is classic API modernization, not a bug fix.
+## 2. **No Functional Bug Fixes** The commit doesn't address any user-
+visible issues, crashes, security vulnerabilities, or hardware
+compatibility problems. The panel functionality remains identical - this
+is purely about using preferred APIs for better error handling patterns.
+## 3. **Pattern Consistent with Similar Commits** All the reference
+commits provided show the same pattern and are marked as **"Backport
+Status: NO"**: - **Similar Commit #1**: "Switch to
+mipi_dsi_dcs_write_seq_multi()" - mechanical conversion for code
+reduction - **Similar Commit #2**: "add more multi functions" - adding
+new API variants and deprecating old ones - **Similar Commit #4**:
+"Transition to mipi_dsi_dcs_write_seq_multi" - replacing deprecated
+macros - **Similar Commit #5**: "use mipi_dsi_dcs_nop_multi()" -
+removing conditional code using multi wrappers All these similar commits
+involve the same type of API modernization and none were backported. ##
+4. **Error Handling Changes Don't Fix Existing Bugs** While the new
+"_multi" pattern provides better error handling through
+`dsi_ctx.accum_err`, the original code was already handling errors
+properly with explicit return checks. The change improves code
+maintainability but doesn't fix any error handling bugs. ## 5. **Stable
+Tree Criteria Violation** This commit violates stable tree rules: -
+**Not a critical bugfix**: No user-impacting issues resolved -
+**Introduces new features**: Uses newer API variants that may not exist
+in older kernels - **Code churn without necessity**: Changes working
+code for style/modernization reasons - **Potential compatibility
+issues**: "_multi" variants may not be available in all stable branches
+## 6. **Risk vs. Benefit Analysis** - **Risk**: Potential
+incompatibility with older kernel versions, unnecessary code churn -
+**Benefit**: None for stable users - no bugs fixed, no new functionality
+for end users ## **Conclusion** This is a textbook example of a commit
+that should **NOT** be backported to stable trees. It's pure code
+modernization that doesn't fix any user-visible problems, follows the
+same pattern as other non-backported similar commits, and could
+potentially introduce compatibility issues in stable branches. Stable
+trees should only receive critical fixes, not API modernization changes.
 
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ .../gpu/drm/panel/panel-sharp-ls043t1le01.c   | 41 +++++++------------
+ 1 file changed, 15 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index bfa88409a7ff0..e23af674d91c0 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1636,10 +1636,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		 * that we can get the current state of the GPIO.
- 		 */
- 		dp->irq = gpiod_to_irq(dp->hpd_gpiod);
--		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING;
-+		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;
- 	} else {
- 		dp->irq = platform_get_irq(pdev, 0);
--		irq_flags = 0;
-+		irq_flags = IRQF_NO_AUTOEN;
- 	}
+diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+index 729cbb0d8403f..36abfa2e65e96 100644
+--- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
++++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+@@ -36,60 +36,49 @@ static inline struct sharp_nt_panel *to_sharp_nt_panel(struct drm_panel *panel)
+ static int sharp_nt_panel_init(struct sharp_nt_panel *sharp_nt)
+ {
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
- 	if (dp->irq == -ENXIO) {
-@@ -1656,7 +1656,6 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		dev_err(&pdev->dev, "failed to request irq\n");
- 		goto err_disable_clk;
- 	}
--	disable_irq(dp->irq);
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
- 	return dp;
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
  
+-	msleep(120);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+ 	/* Novatek two-lane operation */
+-	ret = mipi_dsi_dcs_write(dsi, 0xae, (u8[]){ 0x03 }, 1);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xae,  0x03);
+ 
+ 	/* Set both MCU and RGB I/F to 24bpp */
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, MIPI_DCS_PIXEL_FMT_24BIT |
+-					(MIPI_DCS_PIXEL_FMT_24BIT << 4));
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx,
++					    MIPI_DCS_PIXEL_FMT_24BIT |
++					    (MIPI_DCS_PIXEL_FMT_24BIT << 4));
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int sharp_nt_panel_on(struct sharp_nt_panel *sharp_nt)
+ {
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int sharp_nt_panel_off(struct sharp_nt_panel *sharp_nt)
+ {
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int sharp_nt_panel_unprepare(struct drm_panel *panel)
 -- 
 2.39.5
 
