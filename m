@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE74EACA334
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6347AACA338
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEDD10E49C;
-	Sun,  1 Jun 2025 23:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC7C10E4A0;
+	Sun,  1 Jun 2025 23:44:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b/X/6KgR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JHiA3ept";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCE610E49C;
- Sun,  1 Jun 2025 23:44:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303E710E4A4;
+ Sun,  1 Jun 2025 23:44:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6AEC54435A;
- Sun,  1 Jun 2025 23:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B028FC4CEE7;
- Sun,  1 Jun 2025 23:44:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 16D3243544;
+ Sun,  1 Jun 2025 23:44:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA673C4CEF2;
+ Sun,  1 Jun 2025 23:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821454;
- bh=vWueuddw2ydzxwjiDWJvrd/T8za+hvHT6C4L+PEDBFo=;
+ s=k20201202; t=1748821459;
+ bh=gwnCW4wrQlcLzSZbrVYpf9FxhFsi+UyUOtlSvcR0UAw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b/X/6KgRuN0Y6HRwhlahVuBTOLEFShjIsqHBapwqd4f9bDx7k0o692pAiYG3RkRKZ
- n9zu/eKWDnmA6pdwp3NLql33l9hKmO45g7wphUxCpzL/VP7JGsP151/x+OPfejHA+F
- c8IOofpgeVfSpV9hCm0GAOx1hfzRSj1S1GIFr3HTuG7fSFFLhUpbnX4H6JclxxwqzS
- OsFKcYuQFY0YTV5WTkhRwKJRoWSAchry6dmDWh67mrGM3w3+nRxL+q3sxZiOo+WXfN
- VDBVNEQQbYsH0zPmXJDAlwCtKsvM1uBn1hoLHpvK6ydE6An8OvwMMtIoQ0fywebaau
- ZBDH2B+4Y25vg==
+ b=JHiA3eptL8KJ8N8pzE+kqCoEo/WO1Uv5J7JRQZNU7D5HNfiQz1L7jEPr5qd+9Lfhi
+ TuES2H4r34rTL33eqGK8d3h1Gwu06r/6qG8m/RwSySpYtgaPbnfTTz87v3LZfFkyAW
+ m9ECALbnfQnWON8xNnL70Ir0ZRaVD1tOFULyANjDgVJZsgY5G/oVxsdLDEPYPpwfJS
+ 1A/ZOjg+wcvx3dM71cy0/SAqOYU9k/HbGgGJjgHBnBC/uKmB9geRMmQXFpGDawY6nX
+ FFBbVSIy2OR3e3m29qc+6kEeaSGiHmo9OGXirOxi+N+I+NeyreG53NiOd51fUy0y1a
+ ldwfHSJw4wuog==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Sasha Levin <sashal@kernel.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, lumag@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 06/34] drm/msm/hdmi: add runtime PM calls to DDC
- transfer function
-Date: Sun,  1 Jun 2025 19:43:30 -0400
-Message-Id: <20250601234359.3518595-6-sashal@kernel.org>
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Roman Li <roman.li@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, mario.limonciello@amd.com, Wayne.Lin@amd.com,
+ dominik.kaszewski@amd.com, mwen@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 08/34] drm/amd/display: Add NULL pointer checks
+ in dm_force_atomic_commit()
+Date: Sun,  1 Jun 2025 19:43:32 -0400
+Message-Id: <20250601234359.3518595-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234359.3518595-1-sashal@kernel.org>
 References: <20250601234359.3518595-1-sashal@kernel.org>
@@ -52,6 +54,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.237
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,106 +71,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 531b4e2c206e5f7dead04d9da84dfa693ac57481 ]
+[ Upstream commit 3f397cd203f247879c2f1a061e90d4c8d23655de ]
 
-We must be sure that the HDMI controller is powered on, while performing
-the DDC transfer. Add corresponding runtime PM calls to
-msm_hdmi_i2c_xfer().
+This commit updates the dm_force_atomic_commit function to replace the
+usage of PTR_ERR_OR_ZERO with IS_ERR for checking error states after
+retrieving the Connector (drm_atomic_get_connector_state), CRTC
+(drm_atomic_get_crtc_state), and Plane (drm_atomic_get_plane_state)
+states.
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Patchwork: https://patchwork.freedesktop.org/patch/651727/
-Link: https://lore.kernel.org/r/20250505-fd-hdmi-hpd-v5-8-48541f76318c@oss.qualcomm.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+The function utilized PTR_ERR_OR_ZERO for error checking. However, this
+approach is inappropriate in this context because the respective
+functions do not return NULL; they return pointers that encode errors.
+
+This change ensures that error pointers are properly checked using
+IS_ERR before attempting to dereference.
+
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my detailed analysis: ## Bug Fix Analysis This commit addresses a
-**critical power management bug** in the MSM HDMI DDC (Display Data
-Channel) implementation. The issue is that DDC transfers can occur when
-the HDMI controller is not properly powered, leading to potential
-hardware access failures or system instability. ## Code Changes Analysis
-The changes in `drivers/gpu/drm/msm/hdmi/hdmi_i2c.c` are **minimal and
-well-contained**: 1. **Added runtime PM calls around DDC operations**: -
-`pm_runtime_resume_and_get()` at function start (line ~110) -
-`pm_runtime_put()` in success path (line ~206) - `pm_runtime_put()` in
-error path (line ~224) 2. **Fixed error handling flow**: - Changed
-direct returns to proper `goto fail` to ensure PM put operations - Lines
-113-114 and 172 now use `goto fail` instead of direct returns ## Risk
-Assessment - LOW RISK **Minimal scope**: Only affects the
-`msm_hdmi_i2c_xfer()` function, which is the DDC transfer entry point.
-**Consistent with existing patterns**: The kernel tree analysis shows
-runtime PM is already used extensively in this driver: -
-`hdmi_bridge.c`: Uses `pm_runtime_get_sync()` and `pm_runtime_put()` -
-`hdmi_hpd.c`: Uses runtime PM in 4 locations for HPD operations **No
-architectural changes**: This follows the existing runtime PM pattern
-established in commit 6ed9ed484d04 from 2017. ## Comparison with Similar
-Commits This matches the characteristics of **Similar Commit #1**
-(marked YES for backport): - Fixes a resource management bug (runtime PM
-vs devres helper) - Small, contained change - Improves driver robustness
-- Follows existing patterns The commit is **unlike** the rejected
-commits (#2-#5) which were: - Code cleanups/refactoring - API
-modernization - Feature additions - Non-critical improvements ##
-Critical System Impact DDC is essential for HDMI functionality - it's
-used for: - Reading display EDID data - Monitor detection - Display
-capability negotiation Without proper power management, DDC operations
-could fail intermittently, causing display detection issues or system
-hangs when accessing unpowered hardware. ## Conclusion This is a **low-
-risk, high-value bugfix** that ensures hardware is properly powered
-during DDC operations. It follows established driver patterns, has
-minimal scope, and fixes a potentially serious power management issue
-that could affect display functionality.
+Based on my analysis, here's my assessment: **YES** This commit should
+be backported to stable kernel trees. Here's my detailed analysis: ##
+Commit Analysis **1. Bug Fix Nature:** This commit fixes a clear
+programming error where `PTR_ERR_OR_ZERO()` was incorrectly used to
+check error pointers returned by `drm_atomic_get_connector_state()`,
+`drm_atomic_get_crtc_state()`, and `drm_atomic_get_plane_state()`. The
+commit message clearly states these functions "do not return NULL; they
+return pointers that encode errors." **2. Specific Code Issues Fixed:**
+- **Before:** Used `PTR_ERR_OR_ZERO(conn_state)` which is inappropriate
+since these functions never return NULL - **After:** Uses
+`IS_ERR(conn_state)` followed by `PTR_ERR(conn_state)` which is the
+correct pattern for error pointer checking **3. Comparison with Similar
+Commits:** Looking at the provided examples, this commit closely matches
+**Similar Commit #4 (Status: YES)** which also: - Adds null pointer
+checks for proper error handling - Fixes potential crashes from
+dereferencing error pointers - Is a small, contained bug fix - Addresses
+static analysis findings (Coverity-style issues) **4. Risk Assessment:**
+- **Low Risk:** The change is minimal and only affects error handling
+paths - **No Architectural Changes:** This is purely a bug fix with no
+feature additions - **Contained Impact:** Only affects the
+`dm_force_atomic_commit()` function in AMD display driver - **Improves
+Stability:** Prevents potential kernel crashes from dereferencing error
+pointers **5. Stable Tree Criteria Met:** - ✅ Fixes an important bug
+(potential crash) - ✅ Small and contained change - ✅ No new features
+introduced - ✅ Minimal regression risk - ✅ Clear fix for incorrect API
+usage **6. Critical System Impact:** The DRM subsystem is critical for
+display functionality, and improper error handling in atomic commits
+could lead to: - Kernel oops/crashes during display mode changes -
+System instability during hotplug events - Potential security
+implications from dereferencing invalid pointers The fix ensures proper
+error propagation in the display driver's atomic commit path, which is
+essential for system stability.
 
- drivers/gpu/drm/msm/hdmi/hdmi_i2c.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
-index de182c0048434..9c78c6c528bea 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
-@@ -107,11 +107,15 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
- 	if (num == 0)
- 		return num;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 260133562db53..45420968e5f12 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8098,16 +8098,20 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
+ 	 */
+ 	conn_state = drm_atomic_get_connector_state(state, connector);
  
-+	ret = pm_runtime_resume_and_get(&hdmi->pdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	init_ddc(hdmi_i2c);
+-	ret = PTR_ERR_OR_ZERO(conn_state);
+-	if (ret)
++	/* Check for error in getting connector state */
++	if (IS_ERR(conn_state)) {
++		ret = PTR_ERR(conn_state);
+ 		goto out;
++	}
  
- 	ret = ddc_clear_irq(hdmi_i2c);
- 	if (ret)
--		return ret;
-+		goto fail;
+ 	/* Attach crtc to drm_atomic_state*/
+ 	crtc_state = drm_atomic_get_crtc_state(state, &disconnected_acrtc->base);
  
- 	for (i = 0; i < num; i++) {
- 		struct i2c_msg *p = &msgs[i];
-@@ -169,7 +173,7 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
- 				hdmi_read(hdmi, REG_HDMI_DDC_SW_STATUS),
- 				hdmi_read(hdmi, REG_HDMI_DDC_HW_STATUS),
- 				hdmi_read(hdmi, REG_HDMI_DDC_INT_CTRL));
--		return ret;
-+		goto fail;
- 	}
+-	ret = PTR_ERR_OR_ZERO(crtc_state);
+-	if (ret)
++	/* Check for error in getting crtc state */
++	if (IS_ERR(crtc_state)) {
++		ret = PTR_ERR(crtc_state);
+ 		goto out;
++	}
  
- 	ddc_status = hdmi_read(hdmi, REG_HDMI_DDC_SW_STATUS);
-@@ -202,7 +206,13 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
- 		}
- 	}
+ 	/* force a restore */
+ 	crtc_state->mode_changed = true;
+@@ -8115,9 +8119,11 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
+ 	/* Attach plane to drm_atomic_state */
+ 	plane_state = drm_atomic_get_plane_state(state, plane);
  
-+	pm_runtime_put(&hdmi->pdev->dev);
-+
- 	return i;
-+
-+fail:
-+	pm_runtime_put(&hdmi->pdev->dev);
-+	return ret;
- }
+-	ret = PTR_ERR_OR_ZERO(plane_state);
+-	if (ret)
++	/* Check for error in getting plane state */
++	if (IS_ERR(plane_state)) {
++		ret = PTR_ERR(plane_state);
+ 		goto out;
++	}
  
- static u32 msm_hdmi_i2c_func(struct i2c_adapter *adapter)
+ 	/* Call commit internally with the state we just constructed */
+ 	ret = drm_atomic_commit(state);
 -- 
 2.39.5
 
