@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63871ACA275
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5D3ACA284
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:37:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8CB10E43C;
-	Sun,  1 Jun 2025 23:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD6810E43D;
+	Sun,  1 Jun 2025 23:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qPJ5Tfhc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="doRE+gGz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D6810E43D
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:36:52 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF43610E432;
+ Sun,  1 Jun 2025 23:37:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C056A5C55AB;
- Sun,  1 Jun 2025 23:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3256C4CEE7;
- Sun,  1 Jun 2025 23:36:49 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 38EECA4FBE2;
+ Sun,  1 Jun 2025 23:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDA2C4CEE7;
+ Sun,  1 Jun 2025 23:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821011;
- bh=EFzZa+Nch75GomygTs6THnTdW39Dbqe4N6p6BnzEhuA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qPJ5TfhczRONo95YX4N5e7mmH2Jm/u7v+3BgnWnvUMESbBzAlMQjuvuD+R9yU8s34
- 22qsE6RooPnJRwiIwB8pq2CO75ryC6twn4a5NoxXoHeGuGtHwsQnUqImr6YN9tCw0+
- nR3c7+myJ1UiSosqZaEXaMWJlX4rnKmAB8iaWJYbmHauk+QFElfGY2Wq97/bz19cx5
- qTHs1m5RujeFdfRWW14Kf7lUK5Jy2jXFcIrAnjIzDvpcXGwjGzkScmGocNQ7kmdv/1
- bTyIBB+Q5O42OqaQTvXTSNqZJa6yqwwQwx+WkqhH3P4ZfTWyfA5FnHE498pJpu20PR
- yb23U/8f0z4Wg==
+ s=k20201202; t=1748821067;
+ bh=C8W5PQCTyGeEJjM4xnHduAJ37idLPB1nrRXpBGzOVX0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=doRE+gGzUOi0Ar05wphQetBDOD6y1PGwe5ytpk72KXu7+v9eJ0Krv9NFrXcE+pe96
+ vn2BWPev+pqsj49cKEqEj8qFTf9meHMSVEfjnCnoQIjm2RU4uIO353Adz/zeJWZYoq
+ BGuw7lwPYQsCulqTkAAP875cOywB//K4L5Ugqz2s0nk8aQmCdKcMmrTIQzco7ZxGiG
+ XPlIv1/BUrFIrNlWbwAAS1uCfmTdz0RvqIbvYHJCG3oS6LB/wM1P4zbvTkS55CHdto
+ y7ZpEZmOHU2eUARxZl8tY6PlJYx1SLlbXJDQNHuesY95gH9kki2rnhqTxddngwenJI
+ ReCrIc+y+8EFw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Antonin Godard <antonin.godard@bootlin.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Louis Chauvet <louis.chauvet@bootlin.com>, Sasha Levin <sashal@kernel.org>,
- neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, alexandre.f.demers@gmail.com, boyuan.zhang@amd.com,
+ kevinyang.wang@amd.com, mario.limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 66/93] drm/panel: simple: Add POWERTIP
- PH128800T004-ZZA01 panel entry
-Date: Sun,  1 Jun 2025 19:33:33 -0400
-Message-Id: <20250601233402.3512823-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/66] drm/amdgpu/gfx6: fix CSIB handling
+Date: Sun,  1 Jun 2025 19:36:38 -0400
+Message-Id: <20250601233744.3514795-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601233402.3512823-1-sashal@kernel.org>
-References: <20250601233402.3512823-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.31
+X-stable-base: Linux 6.6.92
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,100 +64,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonin Godard <antonin.godard@bootlin.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 6374a1005f20c1c2f7bbcc1bc735c2be4910a685 ]
+[ Upstream commit 8307ebc15c1ea98a8a0b7837af1faa6c01514577 ]
 
-Add support for the POWERTIP PH128800T004-ZZA01 10.1" (1280x800)
-LCD-TFT panel. Its panel description is very much like the POWERTIP
-PH128800T006-ZHC01 configured below this one, only its timings are
-different.
+We shouldn't return after the last section.
+We need to update the rest of the CSIB.
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-Reviewed-by: Dmitry Baryshkov <lumag@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250311-add-powertip-ph128800t004-v1-2-7f95e6984cea@bootlin.com
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-NO This commit should NOT be backported to stable kernel trees based on
-the following analysis: **Commit Classification**: This is a new
-hardware support addition, not a bug fix. **Analysis of the commit**: 1.
-**Nature of Change**: The commit adds support for a brand new panel
-variant (POWERTIP PH128800T004-ZZA01) to the panel-simple driver. This
-is purely additive functionality for new hardware. 2. **Code Changes
-Review**: - Adds a new `powertip_ph128800t004_zza01_mode` structure with
-display timing parameters - Adds a new `powertip_ph128800t004_zza01`
-panel descriptor - Adds a new device tree compatible string entry in the
-`platform_of_match` table - The changes are isolated and only add new
-entries without modifying existing functionality 3. **Reference to
-Similar Commits**: All the provided historical examples of panel
-additions (Similar Commits #1, #2, #5) were marked as "Backport Status:
-NO", indicating that new panel support commits are typically not
-backported. 4. **Stable Tree Criteria Violation**: - This is new feature
-addition, not a bug fix - It doesn't address any existing user-affecting
-issues - It enables support for hardware that previously wasn't
-supported at all - No indication of fixing broken functionality 5.
-**Exception Analysis**: The only similar commit marked "YES" (Similar
-Commit #4) was specifically fixing missing display mode flags for an
-existing panel, which was a clear bug fix with a "Fixes:" tag. This
-current commit has no such characteristics. 6. **Risk Assessment**:
-While the change is low-risk and isolated, it doesn't meet the
-fundamental criteria for stable backporting as it's new hardware
-enablement rather than fixing existing functionality. The stable tree
-policy specifically excludes new hardware support unless it fixes
-existing broken functionality, which this commit does not do.
+Now let me understand what the bug is. Looking at the original code:
+```c for (sect = adev->gfx.rlc.cs_data; sect->section != NULL; ++sect) {
+for (ext = sect->section; ext->extent != NULL; ++ext) { if (sect->id ==
+SECT_CONTEXT) { // process SECT_CONTEXT sections } else { return; //
+BUG: This returns early, skipping remaining code } } } // Important code
+that should always run: buffer[count++] =
+cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG, 1)); buffer[count++] =
+cpu_to_le32(mmPA_SC_RASTER_CONFIG - PACKET3_SET_CONTEXT_REG_START); //
+... more important buffer initialization ``` The fix removes the early
+return so that all sections are processed and the important buffer
+initialization at the end always runs. **YES** This commit should be
+backported to stable kernel trees for the following reasons: 1. **Clear
+Bug Fix**: The commit fixes a clear logic error where an early return
+statement prevents critical buffer initialization code from executing.
+The original code would return immediately when encountering a non-
+SECT_CONTEXT section, skipping the important packet commands that should
+always be written to the buffer (PACKET3_SET_CONTEXT_REG,
+PACKET3_PREAMBLE_END_CLEAR_STATE, PACKET3_CLEAR_STATE). 2. **Functional
+Impact**: This bug affects the Clear State Indirect Buffer (CSIB)
+handling in AMD GPU driver for GFX6 hardware. The incomplete buffer
+initialization could lead to: - Incorrect GPU state during graphics
+operations - Potential rendering issues or GPU hangs - Inconsistent
+hardware behavior 3. **Small and Contained Fix**: The fix is minimal -
+it simply removes two lines (the else block with return statement). This
+is a low-risk change that doesn't introduce new functionality or alter
+the architecture. 4. **Hardware-Specific Bug**: This affects real users
+with GFX6 AMD GPUs. The bug prevents proper initialization of the GPU's
+clear state buffer, which is essential for correct GPU operation. 5.
+**Similar to Historical Backports**: Looking at commit 4 in the similar
+commits (marked as YES for backporting), which also fixed preamble
+handling issues in the AMD GPU driver, this follows a similar pattern of
+fixing command buffer handling bugs. The commit message clearly
+indicates this is a bug fix ("We shouldn't return after the last
+section. We need to update the rest of the CSIB"), and the code change
+confirms that critical buffer initialization was being skipped due to
+the premature return.
 
- drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index d041ff542a4ee..ed09ffc0e2b48 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3685,6 +3685,32 @@ static const struct panel_desc pda_91_00156_a0  = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
- 
-+static const struct drm_display_mode powertip_ph128800t004_zza01_mode = {
-+	.clock = 71150,
-+	.hdisplay = 1280,
-+	.hsync_start = 1280 + 48,
-+	.hsync_end = 1280 + 48 + 32,
-+	.htotal = 1280 + 48 + 32 + 80,
-+	.vdisplay = 800,
-+	.vsync_start = 800 + 9,
-+	.vsync_end = 800 + 9 + 8,
-+	.vtotal = 800 + 9 + 8 + 6,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-+};
-+
-+static const struct panel_desc powertip_ph128800t004_zza01 = {
-+	.modes = &powertip_ph128800t004_zza01_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 216,
-+		.height = 135,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode powertip_ph128800t006_zhc01_mode = {
- 	.clock = 66500,
- 	.hdisplay = 1280,
-@@ -4960,6 +4986,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "pda,91-00156-a0",
- 		.data = &pda_91_00156_a0,
-+	}, {
-+		.compatible = "powertip,ph128800t004-zza01",
-+		.data = &powertip_ph128800t004_zza01,
- 	}, {
- 		.compatible = "powertip,ph128800t006-zhc01",
- 		.data = &powertip_ph128800t006_zhc01,
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
+index 34f9211b26793..80316297374cc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
+@@ -2860,8 +2860,6 @@ static void gfx_v6_0_get_csb_buffer(struct amdgpu_device *adev,
+ 				buffer[count++] = cpu_to_le32(ext->reg_index - 0xa000);
+ 				for (i = 0; i < ext->reg_count; i++)
+ 					buffer[count++] = cpu_to_le32(ext->extent[i]);
+-			} else {
+-				return;
+ 			}
+ 		}
+ 	}
 -- 
 2.39.5
 
