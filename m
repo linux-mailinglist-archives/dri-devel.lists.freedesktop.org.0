@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF381ACA2EE
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8AFACA2F0
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15EB210E479;
-	Sun,  1 Jun 2025 23:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EF610E47E;
+	Sun,  1 Jun 2025 23:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kxaltH6Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CEhH5Sgg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5398110E47A;
- Sun,  1 Jun 2025 23:41:35 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB69E10E47B;
+ Sun,  1 Jun 2025 23:41:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8AFB5A4FB4F;
- Sun,  1 Jun 2025 23:41:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD242C4CEE7;
- Sun,  1 Jun 2025 23:41:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A34A94430E;
+ Sun,  1 Jun 2025 23:41:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B44FC4CEE7;
+ Sun,  1 Jun 2025 23:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821294;
- bh=OXrgR/+f5g/9yphxneWaCTWThdaSJ48Qv/g9azg1yio=;
+ s=k20201202; t=1748821297;
+ bh=nHwkaQABQmEu8jS012vyR6MDVQKCtFyAEBz+U0ogbkA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kxaltH6Y8I/kEA+34A9CN+EtE16t3TnwclWYLJwUNVcT6TdLz5pH21BlHyVsgsQeT
- IpKkLW0EBD5idPGJO7Umb5NPttAueaseCWig4hxliBUEI4d71Ehh2WyaZg13vwijiZ
- THZBiXD2C9DcAck25qawZMiijOAC9LRO7wSoMiiJD+xDtbdBvvypGab34LA0SVkGeb
- Er3fggUEgNqm+i1yYUcz8kPo8dbdWGFOYLljbVDxfqBFIifRdBfjd85Y5ZvGn9Woi7
- fn3i/z1ni0Bvj/NN/UlKYMQNDZ8xfCIjXgUFlDhAqGzOob7CCvLwvCN1oII9tY9sQW
- WlmK8MvDPaiIw==
+ b=CEhH5Sggq4utmVmhAxLtK6dPadTcgUAKyqbWYeCfsFs3lRUdu2fFY7NRaKvf6R1cH
+ cLLE84dl+6AUSkIO2s4mKxcqA5QIP4qXXXAy647qLgbQ+SOVjg6fkcCzOuRbucGGpI
+ WN5NG9oZLefyAN/6X+tAWDnAEi2JXeJmp/U+ULG/WFijas8on9BLBBPUMpbzfV5MS7
+ lTGFNk1iW8VV+186UGtfrzRLpFpXXD+zoUVQ2M+Wo7TYayg0wm+KQbqS+a3fIjrwEZ
+ 9DHqwHaoYqk66svVk8MU4FRrTVYuRfSEcd8zcbzfM+9DF52171Pq/CVNsjP/GQ5TPW
+ fCDrU/xmoj0/g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: TungYu Lu <tungyu.lu@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Mark Broadworth <mark.broadworth@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, alex.hung@amd.com, rodrigo.siqueira@amd.com,
- v.shevtsov@mt-integration.ru, hamzamahfooz@linux.microsoft.com,
- aurabindo.pillai@amd.com, ivlipski@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 32/58] drm/amd/display: Correct prefetch
- calculation
-Date: Sun,  1 Jun 2025 19:39:45 -0400
-Message-Id: <20250601234012.3516352-32-sashal@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sasha Levin <sashal@kernel.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, lumag@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, quic_jesszhan@quicinc.com, jun.nie@linaro.org,
+ jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 33/58] drm/msm/dpu: don't select single flush for
+ active CTL blocks
+Date: Sun,  1 Jun 2025 19:39:46 -0400
+Message-Id: <20250601234012.3516352-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601234012.3516352-1-sashal@kernel.org>
 References: <20250601234012.3516352-1-sashal@kernel.org>
@@ -71,109 +69,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: TungYu Lu <tungyu.lu@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit 33bc89949b4366dff2dca30bc61ba1c0cbcd2ab2 ]
+[ Upstream commit e93eee524bb78f3ee4b78654d0083382f98b3d23 ]
 
-[Why]
-The minimum value of the dst_y_prefetch_equ was not correct
-in prefetch calculation whice causes OPTC underflow.
+In case of ACTIVE CTLs, a single CTL is being used for flushing all INTF
+blocks. Don't skip programming the CTL on those targets.
 
-[How]
-Add the min operation of dst_y_prefetch_equ in prefetch calculation
-for legacy DML.
-
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: TungYu Lu <tungyu.lu@amd.com>
-Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Tested-by: Mark Broadworth <mark.broadworth@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/641585/
+Link: https://lore.kernel.org/r/20250307-dpu-active-ctl-v3-5-5d20655f10ca@linaro.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** ## Analysis This commit should be backported to stable kernel
-trees. Here's my detailed analysis: ### **Bug Description and Impact**
-The commit fixes a critical hardware register overflow issue in AMD
-display's prefetch calculation that causes OPTC (Output Pipe and Timing
-Control) underflow. OPTC underflow is a serious display issue that can
-cause: - Screen corruption or artifacts - Display timing problems -
-Potential system instability during display operations ### **Code Change
-Analysis** The fix adds a single line in three DCN (Display Core Next)
-versions (30, 31, 314): ```c dst_y_prefetch_equ =
-dml_min(dst_y_prefetch_equ, 63.75); // limit to the reg limit of U6.2
-for DST_Y_PREFETCH ``` This change: 1. **Prevents register overflow**:
-The DST_Y_PREFETCH register is limited to 8 bits with U6.2 format,
-meaning maximum value is 63.75 2. **Applies early in calculation**: The
-limit is applied to `dst_y_prefetch_equ` before it's used in subsequent
-calculations 3. **Matches existing pattern**: DCN21 already has this
-exact fix (commit 9857bb9457fe5 from 2021), establishing this as a
-known, proven solution ### **Why This Should Be Backported** 1.
-**Important Bug Fix**: Fixes a hardware register overflow that causes
-visible display issues affecting end users 2. **Minimal Risk**: - Single
-line addition in each file - No architectural changes - Simply enforces
-hardware register limits that should have been there - Proven safe
-(already in DCN21 for 3+ years) 3. **Contained Scope**: Only affects AMD
-display prefetch calculations in legacy DML (Display Mode Library)
-versions 4. **Clear User Impact**: OPTC underflow causes noticeable
-display problems that users would report 5. **Follows Stable Criteria**:
-- Small, obvious fix - Addresses hardware limitation - Low regression
-risk - Similar to reference commits marked "YES" for backporting ###
-**Comparison with Similar Commits** Looking at the provided examples: -
-**Similar Commit #1** (YES): Also fixes prefetch calculation with min
-operation and has `Cc: stable@vger.kernel.org` - **Similar Commit #2**
-(YES): Fixes prefetch calculation loop variables and explicitly tagged
-for stable backport - **Similar Commit #4** (NO): Same type of
-DST_Y_PREFETCH guard fix but wasn't tagged for stable The pattern shows
-that prefetch calculation fixes that prevent register overflow and have
-clear user impact are good backport candidates. ### **Hardware Context**
-This affects DCN 3.0, 3.1, and 3.14 hardware generations. The fact that
-DCN 2.1 already had this fix suggests this was a systematic issue across
-multiple hardware generations that needed addressing. The fix is
-essential for proper display functionality and represents a critical
-hardware constraint that must be enforced to prevent register overflow
-and subsequent display corruption.
+**YES** This commit should be backported to stable kernel trees. ##
+Analysis: **1. Clear Bug Fix Nature:** The commit fixes a functional bug
+where CTL programming was being incorrectly skipped on ACTIVE CTL
+configurations. The commit message explicitly states "Don't skip
+programming the CTL on those targets" indicating incorrect behavior was
+occurring. **2. Small and Contained Change:** The change is minimal - it
+modifies only the `dpu_encoder_phys_vid_needs_single_flush()` function
+by adding a single condition check: ```c - return phys_enc->split_role
+!= ENC_ROLE_SOLO; + return !(phys_enc->hw_ctl->caps->features &
+BIT(DPU_CTL_ACTIVE_CFG)) && + phys_enc->split_role != ENC_ROLE_SOLO; ```
+**3. Hardware-Specific Fix:** The fix addresses a specific hardware
+configuration issue for devices with `DPU_CTL_ACTIVE_CFG` feature. From
+examining the kernel code, this affects multiple SoCs including SM8150,
+SM8250, SM6150, SC7180, and others - making it a widely impacting fix.
+**4. Clear Functional Impact:** - **Before**: On ACTIVE CTL targets, the
+function incorrectly returned true for split configurations, causing CTL
+programming to be skipped - **After**: On ACTIVE CTL targets, it returns
+false, ensuring proper CTL programming occurs - **Effect**: Ensures
+display pipeline functions correctly on affected hardware **5. Tested
+Change:** The commit includes "Tested-by: Neil Armstrong
+<neil.armstrong@linaro.org> # on SM8550-QRD" indicating real hardware
+testing was performed. **6. Matches Successful Backport Pattern:** This
+commit closely matches the pattern of Similar Commits #1, #2, and #4
+(all marked YES): - Small, targeted fix (line 377 in
+`dpu_encoder_phys_vid.c:377`) - Addresses incorrect hardware behavior -
+Has clear before/after functional difference - Affects critical graphics
+subsystem functionality **7. Risk Assessment:** - **Low regression
+risk**: The change only affects the specific condition logic -
+**Targeted scope**: Only impacts ACTIVE CTL configurations -
+**Conservative fix**: Makes the logic more restrictive (requires both
+conditions to skip programming) This is a clear hardware bug fix that
+prevents display issues on affected SoCs and follows the stable tree
+criteria for important bugfixes with minimal regression risk.
 
- drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c   | 1 +
- drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c   | 1 +
- drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c | 1 +
- 3 files changed, 3 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index 69521368ddb61..1c1ca628728ed 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@ -1005,6 +1005,7 @@ static bool CalculatePrefetchSchedule(
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index aba2488c32fa1..0e6d3e95ce26f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -351,7 +351,8 @@ static void dpu_encoder_phys_vid_underrun_irq(void *arg, int irq_idx)
+ static bool dpu_encoder_phys_vid_needs_single_flush(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+-	return phys_enc->split_role != ENC_ROLE_SOLO;
++	return !(phys_enc->hw_ctl->caps->features & BIT(DPU_CTL_ACTIVE_CFG)) &&
++		phys_enc->split_role != ENC_ROLE_SOLO;
+ }
  
- 	dst_y_prefetch_equ = VStartup - (Tsetup + dml_max(TWait + TCalc, *Tdmdl)) / LineTime
- 			- (*DSTYAfterScaler + *DSTXAfterScaler / myPipe->HTotal);
-+	dst_y_prefetch_equ = dml_min(dst_y_prefetch_equ, 63.75); // limit to the reg limit of U6.2 for DST_Y_PREFETCH
- 
- 	Lsw_oto = dml_max(PrefetchSourceLinesY, PrefetchSourceLinesC);
- 	Tsw_oto = Lsw_oto * LineTime;
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-index 9c84561ff3bc4..e62be92dc4fcf 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-@@ -1103,6 +1103,7 @@ static bool CalculatePrefetchSchedule(
- 	Tr0_oto_lines = dml_ceil(4.0 * Tr0_oto / LineTime, 1) / 4.0;
- 	dst_y_prefetch_oto = Tvm_oto_lines + 2 * Tr0_oto_lines + Lsw_oto;
- 	dst_y_prefetch_equ =  VStartup - (*TSetup + dml_max(TWait + TCalc, *Tdmdl)) / LineTime - (*DSTYAfterScaler + *DSTXAfterScaler / myPipe->HTotal);
-+	dst_y_prefetch_equ = dml_min(dst_y_prefetch_equ, 63.75); // limit to the reg limit of U6.2 for DST_Y_PREFETCH
- 	dst_y_prefetch_equ = dml_floor(4.0 * (dst_y_prefetch_equ + 0.125), 1) / 4.0;
- 	Tpre_rounded = dst_y_prefetch_equ * LineTime;
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-index 5b47ccde64241..68e5d6a7f63fc 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-@@ -1124,6 +1124,7 @@ static bool CalculatePrefetchSchedule(
- 	Tr0_oto_lines = dml_ceil(4.0 * Tr0_oto / LineTime, 1) / 4.0;
- 	dst_y_prefetch_oto = Tvm_oto_lines + 2 * Tr0_oto_lines + Lsw_oto;
- 	dst_y_prefetch_equ =  VStartup - (*TSetup + dml_max(TWait + TCalc, *Tdmdl)) / LineTime - (*DSTYAfterScaler + *DSTXAfterScaler / myPipe->HTotal);
-+	dst_y_prefetch_equ = dml_min(dst_y_prefetch_equ, 63.75); // limit to the reg limit of U6.2 for DST_Y_PREFETCH
- 	dst_y_prefetch_equ = dml_floor(4.0 * (dst_y_prefetch_equ + 0.125), 1) / 4.0;
- 	Tpre_rounded = dst_y_prefetch_equ * LineTime;
- 
+ static void dpu_encoder_phys_vid_atomic_mode_set(
 -- 
 2.39.5
 
