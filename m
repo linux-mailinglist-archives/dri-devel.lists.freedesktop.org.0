@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8768FACA28C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B478ACA290
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E347110E441;
-	Sun,  1 Jun 2025 23:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFAB10E445;
+	Sun,  1 Jun 2025 23:38:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DT5xVz2t";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rpACr2Xh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99AF610E441;
- Sun,  1 Jun 2025 23:38:15 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21E210E447;
+ Sun,  1 Jun 2025 23:38:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 52D284413A;
- Sun,  1 Jun 2025 23:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6930AC4CEE7;
- Sun,  1 Jun 2025 23:38:13 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EAC0761127;
+ Sun,  1 Jun 2025 23:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12FCFC4CEE7;
+ Sun,  1 Jun 2025 23:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821095;
- bh=QkamH9K4oveWcq7qL3WhwDYDIQ8QTHc8VNGzPMP4NNw=;
+ s=k20201202; t=1748821099;
+ bh=vWueuddw2ydzxwjiDWJvrd/T8za+hvHT6C4L+PEDBFo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DT5xVz2t8SrT50TBS14Y5dfsbp6FEQiGImJftf4ZEZUkyPqPJcb6w1sdBTvo47v9k
- vNt6bjqmyU1qx2mJp8avHTyRcO3sD/+f1Mmq6jI3fU2YmSYnZIGOHLr77p0MDQWAfD
- i4Rcs2wcYNHfPAaGc/ODLV1pO/7Lt0Op6kg3f6/5JpVHBNyS8HFo+CP5AJiTlDjlEt
- gpo/wZw2qXiNBVzYIIjKRO/v8b4WBFx/ugZmJFry2cKS/IiK0SAd+ZTRYJvgwhQGh+
- BMWTe6J3sbfKAuHIamo2tuBiPDamQFYOa3bXN4ts+cRfLpHkA8lvCmiYuZDYi2hDkS
- SX1ztQocb4bfQ==
+ b=rpACr2XhCDoqeSifgkCo5NV++ZV36U7fmljk4fxtdycUJUVIfJlDkr0Ow0lFuz36u
+ zdhuUGcCMnq9w90KGFQnzIyl4IfhQBBQzQQNXHV4XdT/rGhon3IGjwpMSBppAjtRn9
+ 6TGC9QOWPFdVJm9M26bHGz28l2KNcOzLheULkZAxm6h0TU8UC7yD+OeaBJjXPmE5uJ
+ KUDC0yq7Gpjwp3QUGR1t5/daQS1PtusN+dVvHKcmvrUBVthomGIfuFgKTA9yL1uqC4
+ i/GL1wbmu34gdaMkCjZdJnvF1tISmbsIxIKuNzzcT1Ge6EOafKnSkjt7kQG/eT+VH6
+ PNq56in/0rIXA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, vitaly.prosyak@amd.com, srinivasan.shanmugam@amd.com,
- tim.huang@amd.com, Prike.Liang@amd.com, Jesse.zhang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sasha Levin <sashal@kernel.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, lumag@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 11/66] drm/amdgpu/gfx11: fix CSIB handling
-Date: Sun,  1 Jun 2025 19:36:48 -0400
-Message-Id: <20250601233744.3514795-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 13/66] drm/msm/hdmi: add runtime PM calls to DDC
+ transfer function
+Date: Sun,  1 Jun 2025 19:36:50 -0400
+Message-Id: <20250601233744.3514795-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
 References: <20250601233744.3514795-1-sashal@kernel.org>
@@ -66,72 +68,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit a9a8bccaa3ba64d509cf7df387cf0b5e1cd06499 ]
+[ Upstream commit 531b4e2c206e5f7dead04d9da84dfa693ac57481 ]
 
-We shouldn't return after the last section.
-We need to update the rest of the CSIB.
+We must be sure that the HDMI controller is powered on, while performing
+the DDC transfer. Add corresponding runtime PM calls to
+msm_hdmi_i2c_xfer().
 
-Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/651727/
+Link: https://lore.kernel.org/r/20250505-fd-hdmi-hpd-v5-8-48541f76318c@oss.qualcomm.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. ##
-Analysis ### Code Change Analysis The commit fixes a **critical bug in
-CSIB (Clear State Init Buffer) handling** in the GFX11 AMD GPU driver.
-The problematic code in `gfx_v11_0_get_csb_buffer()` at line 861
-contained: ```c } else { return; // This was the bug! } ``` This early
-return statement prevented the function from completing the CSIB setup
-when encountering non-SECT_CONTEXT sections. The fix removes this
-premature return, allowing the function to continue and properly
-complete the buffer initialization with: 1.
-**PA_SC_TILE_STEERING_OVERRIDE register setup** (lines 866-870) 2.
-**PACKET3_PREAMBLE_END_CLEAR_STATE** (lines 872-873) 3.
-**PACKET3_CLEAR_STATE** (lines 875-876) ### Why This Qualifies for
-Backporting 1. **Fixes Important Hardware Initialization Bug**: CSIB is
-critical for GPU state management. Incomplete initialization can cause
-GPU hangs, rendering artifacts, or system instability. 2. **Small,
-Contained Fix**: The change removes only 2 lines (`} else { return; }`)
-- minimal and low-risk. 3. **No Architectural Changes**: This is a pure
-bugfix with no new features or major code restructuring. 4. **Critical
-Subsystem**: Graphics drivers are essential for system functionality,
-and GPU state corruption can cause severe user-visible issues. 5.
-**Pattern Consistency**: Looking at similar sections across different
-GFX versions (v10, v9, etc.), they all handle non-SECT_CONTEXT sections
-by continuing rather than returning early, confirming this was indeed a
-bug. ### Historical Context Support From examining the codebase, this
-pattern is consistent across all GFX generations: - **gfx_v10_0.c:4227**
-and **gfx_v10_0.c:4266**: Handle SECT_CONTEXT but continue for other
-sections - **gfx_v9_0.c:1609** and **gfx_v9_0.c:1645**: Same pattern -
-**gfx_v8_0.c**, **gfx_v7_0.c**, **gfx_v6_0.c**: All follow the same
-approach The previous GFX10 CSIB fix (commit 4905880b4515) shows AMD's
-commitment to ensuring proper CSIB initialization across GPU
-generations, reinforcing the importance of this subsystem. ### Risk
-Assessment - **Regression Risk**: Extremely low - only removes incorrect
-early termination - **Testing Surface**: Affects GFX11 GPU
-initialization, easily testable - **Side Effects**: None - only allows
-completion of intended initialization sequence This is a textbook
-example of a stable-worthy fix: important bug, minimal change, no
-regression risk, and affects critical hardware functionality.
+**YES** This commit should be backported to stable kernel trees. Here's
+my detailed analysis: ## Bug Fix Analysis This commit addresses a
+**critical power management bug** in the MSM HDMI DDC (Display Data
+Channel) implementation. The issue is that DDC transfers can occur when
+the HDMI controller is not properly powered, leading to potential
+hardware access failures or system instability. ## Code Changes Analysis
+The changes in `drivers/gpu/drm/msm/hdmi/hdmi_i2c.c` are **minimal and
+well-contained**: 1. **Added runtime PM calls around DDC operations**: -
+`pm_runtime_resume_and_get()` at function start (line ~110) -
+`pm_runtime_put()` in success path (line ~206) - `pm_runtime_put()` in
+error path (line ~224) 2. **Fixed error handling flow**: - Changed
+direct returns to proper `goto fail` to ensure PM put operations - Lines
+113-114 and 172 now use `goto fail` instead of direct returns ## Risk
+Assessment - LOW RISK **Minimal scope**: Only affects the
+`msm_hdmi_i2c_xfer()` function, which is the DDC transfer entry point.
+**Consistent with existing patterns**: The kernel tree analysis shows
+runtime PM is already used extensively in this driver: -
+`hdmi_bridge.c`: Uses `pm_runtime_get_sync()` and `pm_runtime_put()` -
+`hdmi_hpd.c`: Uses runtime PM in 4 locations for HPD operations **No
+architectural changes**: This follows the existing runtime PM pattern
+established in commit 6ed9ed484d04 from 2017. ## Comparison with Similar
+Commits This matches the characteristics of **Similar Commit #1**
+(marked YES for backport): - Fixes a resource management bug (runtime PM
+vs devres helper) - Small, contained change - Improves driver robustness
+- Follows existing patterns The commit is **unlike** the rejected
+commits (#2-#5) which were: - Code cleanups/refactoring - API
+modernization - Feature additions - Non-critical improvements ##
+Critical System Impact DDC is essential for HDMI functionality - it's
+used for: - Reading display EDID data - Monitor detection - Display
+capability negotiation Without proper power management, DDC operations
+could fail intermittently, causing display detection issues or system
+hangs when accessing unpowered hardware. ## Conclusion This is a **low-
+risk, high-value bugfix** that ensures hardware is properly powered
+during DDC operations. It follows established driver patterns, has
+minimal scope, and fixes a potentially serious power management issue
+that could affect display functionality.
 
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-index 480d718d09cb6..ffea6c960d83c 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-@@ -639,8 +639,6 @@ static void gfx_v11_0_get_csb_buffer(struct amdgpu_device *adev,
- 						PACKET3_SET_CONTEXT_REG_START);
- 				for (i = 0; i < ext->reg_count; i++)
- 					buffer[count++] = cpu_to_le32(ext->extent[i]);
--			} else {
--				return;
- 			}
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+index de182c0048434..9c78c6c528bea 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+@@ -107,11 +107,15 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
+ 	if (num == 0)
+ 		return num;
+ 
++	ret = pm_runtime_resume_and_get(&hdmi->pdev->dev);
++	if (ret)
++		return ret;
++
+ 	init_ddc(hdmi_i2c);
+ 
+ 	ret = ddc_clear_irq(hdmi_i2c);
+ 	if (ret)
+-		return ret;
++		goto fail;
+ 
+ 	for (i = 0; i < num; i++) {
+ 		struct i2c_msg *p = &msgs[i];
+@@ -169,7 +173,7 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
+ 				hdmi_read(hdmi, REG_HDMI_DDC_SW_STATUS),
+ 				hdmi_read(hdmi, REG_HDMI_DDC_HW_STATUS),
+ 				hdmi_read(hdmi, REG_HDMI_DDC_INT_CTRL));
+-		return ret;
++		goto fail;
+ 	}
+ 
+ 	ddc_status = hdmi_read(hdmi, REG_HDMI_DDC_SW_STATUS);
+@@ -202,7 +206,13 @@ static int msm_hdmi_i2c_xfer(struct i2c_adapter *i2c,
  		}
  	}
+ 
++	pm_runtime_put(&hdmi->pdev->dev);
++
+ 	return i;
++
++fail:
++	pm_runtime_put(&hdmi->pdev->dev);
++	return ret;
+ }
+ 
+ static u32 msm_hdmi_i2c_func(struct i2c_adapter *adapter)
 -- 
 2.39.5
 
