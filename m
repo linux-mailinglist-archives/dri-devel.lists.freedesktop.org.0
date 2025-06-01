@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5560AACA23D
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D964CACA23F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF3110E41E;
-	Sun,  1 Jun 2025 23:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2654D10E41A;
+	Sun,  1 Jun 2025 23:35:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HKQNAus4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k1wCNKiQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835C010E41F;
- Sun,  1 Jun 2025 23:35:13 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D3610E41C;
+ Sun,  1 Jun 2025 23:35:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6870343ADA;
- Sun,  1 Jun 2025 23:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC31C4CEE7;
- Sun,  1 Jun 2025 23:35:10 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 41E566113B;
+ Sun,  1 Jun 2025 23:35:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 749F4C4CEEE;
+ Sun,  1 Jun 2025 23:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820913;
- bh=rEzQeC/387T1OKCa8TxjZy2jNxB42YamcO2hBOW+DiY=;
+ s=k20201202; t=1748820918;
+ bh=TbTSafrW6K6q9/OFN4Gzdxny8It+1AzFS7a4LfLUfN4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HKQNAus4MDTY5odq39ynA4RzQc60hqmW0p2MHJPIguo/xf7ddKv/NFiVacb5WZuX9
- 6v87bmP5/WJIeiKIfbCFfJIPl6DNJVffxWVycgvLS6lc70g7Fcu3w9YX0AFU/UJ8Ov
- weuKINJGhrduYVRh8IDRIRRP2JJfSmLQnWfk3d2L2+zEJkbJ9PPGmWA1gBdIBYt1Xh
- wA5wHrATHwBT5Rjuon3JnEqBCOouVYl+dh5QQBiYMYesyIlY2bN04FIav8t9Q0e7IU
- SyknbWMsbVqyUWUjwBrgCv121qFUPHYk/4AMEaG9cdHMid88r8DGlBi+0Ezz+eAQEX
- RNwweJzcbUGSA==
+ b=k1wCNKiQMgdbLr5BsCHTwoBYTxqp6ACw0xcmwN7URN3BlALrkNc3bdGTx4YNTalAd
+ oAAEl6xzKkgcUcixqN3+PqMsfBuTdF8R0m5d4SM8LzFImjHv1izB6tgVDEwPZtEpk7
+ lH9M1xjfKiZXpA0tPTGJTp1pjbj/M/vBV226AexVM/9RT7m2+4XnJRghQZtFfE9NHh
+ /4OSi6xb9of57jx88OVnA1wlFkuQggRQGXJMZRxU3hxwDxi4PUb44Nsltpcr871SNd
+ KlMBrZdtRYXkaiE30lADErAETuaNQGlpSdXuJUosT5wnT8HhDPgqYspA1cv4prjave
+ tZwisAkrPR5Ww==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>, Roman Li <roman.li@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+Cc: Paul Hsieh <Paul.Hsieh@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, mario.limonciello@amd.com, Wayne.Lin@amd.com,
- dominik.kaszewski@amd.com, mwen@igalia.com, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, nicholas.kazlauskas@amd.com,
+ rodrigo.siqueira@amd.com, alvin.lee2@amd.com, george.shen@amd.com,
+ v.shevtsov@maxima.ru, Fudong.Wang@amd.com, yi-lchen@amd.com,
+ Zhongwei.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 27/93] drm/amd/display: Add NULL pointer checks
- in dm_force_atomic_commit()
-Date: Sun,  1 Jun 2025 19:32:54 -0400
-Message-Id: <20250601233402.3512823-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 29/93] drm/amd/display: Skip to enable dsc if it
+ has been off
+Date: Sun,  1 Jun 2025 19:32:56 -0400
+Message-Id: <20250601233402.3512823-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233402.3512823-1-sashal@kernel.org>
 References: <20250601233402.3512823-1-sashal@kernel.org>
@@ -71,114 +71,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Paul Hsieh <Paul.Hsieh@amd.com>
 
-[ Upstream commit 3f397cd203f247879c2f1a061e90d4c8d23655de ]
+[ Upstream commit 8b8a602c985e99074fa1d5233cd224b7bcfb9df2 ]
 
-This commit updates the dm_force_atomic_commit function to replace the
-usage of PTR_ERR_OR_ZERO with IS_ERR for checking error states after
-retrieving the Connector (drm_atomic_get_connector_state), CRTC
-(drm_atomic_get_crtc_state), and Plane (drm_atomic_get_plane_state)
-states.
+[Why]
+It makes DSC enable when we commit the stream which need
+keep power off.And then it will skip to disable DSC if
+pipe reset at this situation as power has been off. It may
+cause the DSC unexpected enable on the pipe with the
+next new stream which doesn't support DSC.
 
-The function utilized PTR_ERR_OR_ZERO for error checking. However, this
-approach is inappropriate in this context because the respective
-functions do not return NULL; they return pointers that encode errors.
+[HOW]
+Check the DSC used on current pipe status when update stream.
+Skip to enable if it has been off. The operation enable
+DSC should happen when set power on.
 
-This change ensures that error pointers are properly checked using
-IS_ERR before attempting to dereference.
-
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Cc: Tom Chung <chiahsuan.chung@amd.com>
-Cc: Roman Li <roman.li@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: Paul Hsieh <Paul.Hsieh@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis, here's my assessment: **YES** This commit should
-be backported to stable kernel trees. Here's my detailed analysis: ##
-Commit Analysis **1. Bug Fix Nature:** This commit fixes a clear
-programming error where `PTR_ERR_OR_ZERO()` was incorrectly used to
-check error pointers returned by `drm_atomic_get_connector_state()`,
-`drm_atomic_get_crtc_state()`, and `drm_atomic_get_plane_state()`. The
-commit message clearly states these functions "do not return NULL; they
-return pointers that encode errors." **2. Specific Code Issues Fixed:**
-- **Before:** Used `PTR_ERR_OR_ZERO(conn_state)` which is inappropriate
-since these functions never return NULL - **After:** Uses
-`IS_ERR(conn_state)` followed by `PTR_ERR(conn_state)` which is the
-correct pattern for error pointer checking **3. Comparison with Similar
-Commits:** Looking at the provided examples, this commit closely matches
-**Similar Commit #4 (Status: YES)** which also: - Adds null pointer
-checks for proper error handling - Fixes potential crashes from
-dereferencing error pointers - Is a small, contained bug fix - Addresses
-static analysis findings (Coverity-style issues) **4. Risk Assessment:**
-- **Low Risk:** The change is minimal and only affects error handling
-paths - **No Architectural Changes:** This is purely a bug fix with no
-feature additions - **Contained Impact:** Only affects the
-`dm_force_atomic_commit()` function in AMD display driver - **Improves
-Stability:** Prevents potential kernel crashes from dereferencing error
-pointers **5. Stable Tree Criteria Met:** - ✅ Fixes an important bug
-(potential crash) - ✅ Small and contained change - ✅ No new features
-introduced - ✅ Minimal regression risk - ✅ Clear fix for incorrect API
-usage **6. Critical System Impact:** The DRM subsystem is critical for
-display functionality, and improper error handling in atomic commits
-could lead to: - Kernel oops/crashes during display mode changes -
-System instability during hotplug events - Potential security
-implications from dereferencing invalid pointers The fix ensures proper
-error propagation in the display driver's atomic commit path, which is
-essential for system stability.
+## **YES** This commit should be backported to stable kernel trees based
+on my comprehensive analysis: ### **Analysis Summary:** **1. Bug
+Description and Impact:** The commit fixes a critical DSC (Display
+Stream Compression) state management bug where: - DSC gets incorrectly
+enabled when committing a stream that should keep power off - When a
+pipe reset occurs with power already off, DSC disable is skipped - This
+causes DSC to be unexpectedly enabled on subsequent streams that don't
+support DSC - This can lead to display corruption or system instability
+for users with affected AMD GPUs **2. Code Changes Analysis:** The fix
+adds robust state checking in
+`drivers/gpu/drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c:72-108` by:
+```c struct dcn_dsc_state dsc_state = {0}; if (!dsc) { DC_LOG_DSC("DSC
+is NULL for tg instance %d:", pipe_ctx->stream_res.tg->inst); return; }
+if (dsc->funcs->dsc_read_state) { dsc->funcs->dsc_read_state(dsc,
+&dsc_state); if (!dsc_state.dsc_fw_en) { DC_LOG_DSC("DSC has been
+disabled for tg instance %d:", pipe_ctx->stream_res.tg->inst); return; }
+} ``` This adds a critical safety check that: - Reads the current DSC
+hardware state before attempting to enable it - Checks if DSC is already
+disabled (`!dsc_state.dsc_fw_en`) - Returns early if DSC is already off,
+preventing incorrect state transitions **3. Consistency with Similar
+Fixes:** Historical analysis shows this exact fix pattern was already
+applied to: - **dcn32** in commit `4bdc5b504af7` (with Cc:
+stable@vger.kernel.org) - **dcn35** in the same commit - This commit
+extends the fix to **dcn314** hardware Similar Commit #1 in the examples
+shows a nearly identical fix that received **"Backport Status: YES"**
+and was explicitly marked for stable (`Cc: stable@vger.kernel.org`).
+**4. Backport Criteria Assessment:** - ✅ **Fixes important user-
+affecting bug**: Display corruption/instability - ✅ **Small and
+contained change**: Only 14 lines, minimal scope - ✅ **No architectural
+changes**: Pure defensive programming addition - ✅ **Minimal regression
+risk**: Only adds safety checks, no behavior change for correct flows -
+✅ **Subsystem confined**: Limited to AMD display driver dcn314 path - ✅
+**Follows established pattern**: Identical fix already applied to
+related hardware generations - ✅ **Clear maintainer support**: Previous
+similar commits included stable tree marking **5. Hardware Impact:**
+This affects DCN 3.14 generation AMD GPUs, which are used in production
+systems where display stability is critical for users. The fix follows
+the exact same defensive programming pattern already proven safe and
+effective in dcn32/dcn35, making it a low-risk, high-value backport
+candidate that addresses a real user-impacting display bug.
 
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c  | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5f9452b22596a..03016cba25d7a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10256,16 +10256,20 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
- 	 */
- 	conn_state = drm_atomic_get_connector_state(state, connector);
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c
+index efcc1a6b364c2..fe2b05c351c9a 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c
+@@ -84,6 +84,20 @@ static void update_dsc_on_stream(struct pipe_ctx *pipe_ctx, bool enable)
+ 		struct dsc_config dsc_cfg;
+ 		struct dsc_optc_config dsc_optc_cfg = {0};
+ 		enum optc_dsc_mode optc_dsc_mode;
++		struct dcn_dsc_state dsc_state = {0};
++
++		if (!dsc) {
++			DC_LOG_DSC("DSC is NULL for tg instance %d:", pipe_ctx->stream_res.tg->inst);
++			return;
++		}
++
++		if (dsc->funcs->dsc_read_state) {
++			dsc->funcs->dsc_read_state(dsc, &dsc_state);
++			if (!dsc_state.dsc_fw_en) {
++				DC_LOG_DSC("DSC has been disabled for tg instance %d:", pipe_ctx->stream_res.tg->inst);
++				return;
++			}
++		}
  
--	ret = PTR_ERR_OR_ZERO(conn_state);
--	if (ret)
-+	/* Check for error in getting connector state */
-+	if (IS_ERR(conn_state)) {
-+		ret = PTR_ERR(conn_state);
- 		goto out;
-+	}
- 
- 	/* Attach crtc to drm_atomic_state*/
- 	crtc_state = drm_atomic_get_crtc_state(state, &disconnected_acrtc->base);
- 
--	ret = PTR_ERR_OR_ZERO(crtc_state);
--	if (ret)
-+	/* Check for error in getting crtc state */
-+	if (IS_ERR(crtc_state)) {
-+		ret = PTR_ERR(crtc_state);
- 		goto out;
-+	}
- 
- 	/* force a restore */
- 	crtc_state->mode_changed = true;
-@@ -10273,9 +10277,11 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
- 	/* Attach plane to drm_atomic_state */
- 	plane_state = drm_atomic_get_plane_state(state, plane);
- 
--	ret = PTR_ERR_OR_ZERO(plane_state);
--	if (ret)
-+	/* Check for error in getting plane state */
-+	if (IS_ERR(plane_state)) {
-+		ret = PTR_ERR(plane_state);
- 		goto out;
-+	}
- 
- 	/* Call commit internally with the state we just constructed */
- 	ret = drm_atomic_commit(state);
+ 		/* Enable DSC hw block */
+ 		dsc_cfg.pic_width = (stream->timing.h_addressable + stream->timing.h_border_left + stream->timing.h_border_right) / opp_cnt;
 -- 
 2.39.5
 
