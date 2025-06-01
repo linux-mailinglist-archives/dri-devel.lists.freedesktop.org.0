@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46714AC9FB8
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Jun 2025 19:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95812AC9FC6
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Jun 2025 19:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA9210E27F;
-	Sun,  1 Jun 2025 17:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C721810E362;
+	Sun,  1 Jun 2025 17:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="IZrVo22a";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="H8BuFiVW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8329310E184
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 17:34:19 +0000 (UTC)
-X-UUID: 9e85fc363f0e11f0813e4fe1310efc19-20250602
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C97D10E2B9
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 17:34:18 +0000 (UTC)
+X-UUID: 9e8557183f0e11f082f7f7ac98dee637-20250602
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=v4agXPIOMGJmHAyjNqCF2wrYsJGqkLFz6dhLg9QgjxY=; 
- b=IZrVo22ao3mWXZhwdT/DjhX++G0kVsvg8StLF61jVj3v3uHwSbwL/0OsemdaKopIW0jX+2ZJLtNO6AhUi3oM4a78IE0OHNG/SPKU8hmIb5pvQG8eybv0HNe6asvnYDBeUhnOzfiQfrARQrCZZWxBnKBz9iqPZd9i8fTDhnZcytg=;
+ bh=QufK7ycUpFHQwe046IDfqriapz2rucAcQrm/hxQM/CU=; 
+ b=H8BuFiVWvG8nhgz2BDb00WfxQwUYp9FbZ5kGcsrETyDAciAFFT+zBDjuYKLvLoKsBp5UOXmjrVAixRR7Ism34/IpWk0yFOM7Ne5Jcj2Sr22uEwOrRMrUU+6unpZMA2ANYcWFsYKxAyJD2xrUw/43/nbjkebQRMwxo/b3StJPIXI=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1, REQID:03d364ff-4fca-4a37-bfb1-54efd425acdd, IP:0,
+X-CID-O-INFO: VERSION:1.2.1, REQID:8989301c-0fd5-467d-b08f-7f04e31bce41, IP:0,
  UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:0
-X-CID-META: VersionHash:0ef645f, CLOUDID:42143358-abad-4ac2-9923-3af0a8a9a079,
+ L:0,TC:0,Content:39,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:39
+X-CID-META: VersionHash:0ef645f, CLOUDID:e9315659-eac4-4b21-88a4-d582445d304a,
  B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:4|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
  :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 9e85fc363f0e11f0813e4fe1310efc19-20250602
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+X-UUID: 9e8557183f0e11f082f7f7ac98dee637-20250602
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1535395901; Mon, 02 Jun 2025 01:34:07 +0800
+ with ESMTP id 659120640; Mon, 02 Jun 2025 01:34:07 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1258.39; Mon, 2 Jun 2025 01:34:04 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -62,10 +62,10 @@ CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v6 09/20] soc: mediatek: mtk-cmdq: Add pa_base parsing for
- hardware without subsys ID support
-Date: Mon, 2 Jun 2025 01:31:41 +0800
-Message-ID: <20250601173355.1731140-10-jason-jh.lin@mediatek.com>
+Subject: [PATCH v6 10/20] soc: mediatek: mtk-cmdq: Add new APIs to replace
+ cmdq_pkt_write() and cmdq_pkt_write_mask()
+Date: Mon, 2 Jun 2025 01:31:42 +0800
+Message-ID: <20250601173355.1731140-11-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250601173355.1731140-1-jason-jh.lin@mediatek.com>
 References: <20250601173355.1731140-1-jason-jh.lin@mediatek.com>
@@ -88,93 +88,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When GCE executes instructions, it typically locates the corresponding
-hardware register using the subsys ID. For hardware that does not
-support subsys ID, the subsys ID is set to an invalid value, and the
-physical address must be used to generate GCE instructions.
+To support generating GCE write instructions using both pa_base and
+subsys, the original cmdq_pkt_write() and cmdq_pkt_write_mask() have
+been expanded into four new APIs:
+- Replaced cmdq_pkt_write() to cmdq_pkt_write_pa() and
+  cmdq_pkt_write_subsys().
+- Replaced cmdq_pkt_write_mask() to cmdq_pkt_write_mask_pa() and
+  cmdq_pkt_write_mask_subsys().
 
-The main advantage of using subsys ID is to reduce the number of
-instructions. Without subsys ID, an additional `ASSIGN` instruction
-is needed to assign the high bytes of the physical address, which can
-impact performance if too many instructions are required. However, if
-the hardware does not support subsys ID, using the physical address
-is the only option to achieve the same functionality.
-
-This commit adds a pa_base parsing flow to the cmdq_client_reg structure
-to handle hardware without subsys ID support.
+The original cmdq_pkt_write() and cmdq_pkt_write_mask() will be removed
+after all CMDQ users have migrated to the new APIs.
 
 Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c | 15 +++++++++++++--
- include/linux/soc/mediatek/mtk-cmdq.h  |  3 +++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 41 +++++++++++++
+ include/linux/soc/mediatek/mtk-cmdq.h  | 79 ++++++++++++++++++++++++++
+ 2 files changed, 120 insertions(+)
 
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 4b1591e5b1ae..41e1997cdd53 100644
+index 41e1997cdd53..7e86299213d8 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -8,6 +8,7 @@
- #include <linux/module.h>
- #include <linux/mailbox_controller.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
+@@ -213,6 +213,26 @@ int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value)
+ }
+ EXPORT_SYMBOL(cmdq_pkt_write);
  
- #define CMDQ_WRITE_ENABLE_MASK	BIT(0)
-@@ -60,20 +61,30 @@ int cmdq_dev_get_client_reg(struct device *dev,
- 			    struct cmdq_client_reg *client_reg, int idx)
++int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/, u32 pa_base,
++		      u16 offset, u32 value)
++{
++	int err;
++
++	err = cmdq_pkt_assign(pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(pa_base));
++	if (err < 0)
++		return err;
++
++	return cmdq_pkt_write_s_value(pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_LOW(offset), value);
++}
++EXPORT_SYMBOL(cmdq_pkt_write_pa);
++
++int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys, u32 pa_base /*unused*/,
++			  u16 offset, u32 value)
++{
++	return cmdq_pkt_write(pkt, subsys, offset, value);
++}
++EXPORT_SYMBOL(cmdq_pkt_write_subsys);
++
+ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+ 			u16 offset, u32 value, u32 mask)
  {
- 	struct of_phandle_args spec;
-+	struct resource res;
- 	int err;
+@@ -230,6 +250,27 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+ }
+ EXPORT_SYMBOL(cmdq_pkt_write_mask);
  
- 	if (!client_reg)
- 		return -ENOENT;
- 
-+	if (of_address_to_resource(dev->of_node, 0, &res) != 0) {
-+		dev_err(dev, "Missing reg in %s node\n", dev->of_node->full_name);
-+		return -EINVAL;
-+	}
-+	client_reg->pa_base = res.start;
++int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/, u32 pa_base,
++			   u16 offset, u32 value, u32 mask)
++{
++	int err;
 +
- 	err = of_parse_phandle_with_fixed_args(dev->of_node,
- 					       "mediatek,gce-client-reg",
- 					       3, idx, &spec);
- 	if (err < 0) {
--		dev_warn(dev,
-+		dev_dbg(dev,
- 			"error %d can't parse gce-client-reg property (%d)",
- 			err, idx);
- 
--		return err;
-+		/* make subsys invalid */
-+		client_reg->subsys = CMDQ_SUBSYS_INVALID;
++	err = cmdq_pkt_assign(pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(pa_base));
++	if (err < 0)
++		return err;
 +
-+		return 0;
- 	}
- 
- 	client_reg->subsys = (u8)spec.args[0];
++	return cmdq_pkt_write_s_mask_value(pkt, CMDQ_THR_SPR_IDX0,
++					   CMDQ_ADDR_LOW(offset), value, mask);
++}
++EXPORT_SYMBOL(cmdq_pkt_write_mask_pa);
++
++int cmdq_pkt_write_mask_subsys(struct cmdq_pkt *pkt, u8 subsys, u32 pa_base /*unused*/,
++			       u16 offset, u32 value, u32 mask)
++{
++	return cmdq_pkt_write_mask(pkt, subsys, offset, value, mask);
++}
++EXPORT_SYMBOL(cmdq_pkt_write_mask_subsys);
++
+ int cmdq_pkt_read_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx, u16 addr_low,
+ 		    u16 reg_idx)
+ {
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 5e3a0e807980..3699229a7375 100644
+index 3699229a7375..2055f194c6e9 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -23,6 +23,8 @@
- #define CMDQ_THR_SPR_IDX2	(2)
- #define CMDQ_THR_SPR_IDX3	(3)
+@@ -124,6 +124,32 @@ void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt);
+  */
+ int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value);
  
-+#define CMDQ_SUBSYS_INVALID	(U8_MAX)
++/**
++ * cmdq_pkt_write_pa() - append write command to the CMDQ packet with pa_base
++ * @pkt:	the CMDQ packet
++ * @subsys:	unused parameter
++ * @pa_base:	the physical address base of the hardware register
++ * @offset:	register offset from CMDQ sub system
++ * @value:	the specified target register value
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
++		      u32 pa_base, u16 offset, u32 value);
 +
- struct cmdq_pkt;
++/**
++ * cmdq_pkt_write_subsys() - append write command to the CMDQ packet with subsys
++ * @pkt:	the CMDQ packet
++ * @subsys:	the CMDQ sub system code
++ * @pa_base:	unused parameter
++ * @offset:	register offset from CMDQ sub system
++ * @value:	the specified target register value
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys,
++			  u32 pa_base /*unused*/, u16 offset, u32 value);
++
+ /**
+  * cmdq_pkt_write_mask() - append write command with mask to the CMDQ packet
+  * @pkt:	the CMDQ packet
+@@ -137,6 +163,34 @@ int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value);
+ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+ 			u16 offset, u32 value, u32 mask);
  
- enum cmdq_logic_op {
-@@ -52,6 +54,7 @@ struct cmdq_operand {
++/**
++ * cmdq_pkt_write_mask_pa() - append write command with mask to the CMDQ packet with pa
++ * @pkt:	the CMDQ packet
++ * @subsys:	unused parameter
++ * @pa_base:	the physical address base of the hardware register
++ * @offset:	register offset from CMDQ sub system
++ * @value:	the specified target register value
++ * @mask:	the specified target register mask
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
++			   u32 pa_base, u16 offset, u32 value, u32 mask);
++
++/**
++ * cmdq_pkt_write_mask_subsys() - append write command with mask to the CMDQ packet with subsys
++ * @pkt:	the CMDQ packet
++ * @subsys:	the CMDQ sub system code
++ * @pa_base:	unused parameter
++ * @offset:	register offset from CMDQ sub system
++ * @value:	the specified target register value
++ * @mask:	the specified target register mask
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_write_mask_subsys(struct cmdq_pkt *pkt, u8 subsys,
++			       u32 pa_base /*unused*/, u16 offset, u32 value, u32 mask);
++
+ /*
+  * cmdq_pkt_read_s() - append read_s command to the CMDQ packet
+  * @pkt:	the CMDQ packet
+@@ -424,12 +478,37 @@ static inline int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u3
+ 	return -ENOENT;
+ }
  
- struct cmdq_client_reg {
- 	u8 subsys;
-+	phys_addr_t pa_base;
- 	u16 offset;
- 	u16 size;
- };
++static inline int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
++				    u32 pa_base, u16 offset, u32 value)
++{
++	return -ENOENT;
++}
++
++static inline int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys,
++					u32 pa_base /*unused*/, u16 offset, u32 value)
++{
++	return -ENOENT;
++}
++
+ static inline int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+ 				      u16 offset, u32 value, u32 mask)
+ {
+ 	return -ENOENT;
+ }
+ 
++static inline int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
++					 u32 pa_base, u16 offset, u32 value, u32 mask)
++{
++	return -ENOENT;
++}
++
++static inline int cmdq_pkt_write_mask_subsys(struct cmdq_pkt *pkt, u8 subsys,
++					     u32 pa_base /*unused*/, u16 offset,
++					     u32 value, u32 mask)
++{
++	return -ENOENT;
++}
++
+ static inline int cmdq_pkt_read_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+ 				  u16 addr_low, u16 reg_idx)
+ {
 -- 
 2.43.0
 
