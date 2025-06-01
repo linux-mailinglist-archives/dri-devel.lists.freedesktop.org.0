@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AF7ACA1D7
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E69ACA1D8
 	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B12510E3E8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41F510E3EA;
 	Sun,  1 Jun 2025 23:31:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hQZQd4f8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IeJUkQff";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7069F10E3E0;
- Sun,  1 Jun 2025 23:31:12 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1BCA10E3E7
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:31:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0BD3F5C5705;
- Sun,  1 Jun 2025 23:28:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CF4C4CEE7;
- Sun,  1 Jun 2025 23:31:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 891514370B;
+ Sun,  1 Jun 2025 23:31:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 044FCC4CEF2;
+ Sun,  1 Jun 2025 23:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820671;
- bh=0Oku3P9NkY5OOVMgBcC/R5PsG9BYTUccpDMo8SZ6lOc=;
+ s=k20201202; t=1748820673;
+ bh=xa9mcLquqyE8Ns9kWVvZRvCUiMOgE2o7iCSaJ0boKkw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hQZQd4f8c2vvYmt8B1tTTAa1bJeaFE4saxSJk/cdbl68mheyMCfIn1+zhKbdTlInH
- hvoUzcRL/8xR+3nSzxiok8PBWn4r0YhcUBrYKOHUyMDxz8CoXbekza89sMPTDX18MX
- QhymUkR4K8WYjsvSaAXf8KJ5OuSqXp4Src4cn7xy24kp9YdQtx9kKqZux5ZOMhVRtf
- yVEpjLt/rUJIPiqxkmRswlmkmy5yHiW2ymYMxRaEA7gn9acec/bLQvtmQ6et19Pseg
- RhxLA/KS5PAGo8jXlKttkN2IcXOf7DZEx3fQC6mjSAvXn+ktIhywckKAb4CH+TiFtA
- B+kxxKrHqb8ZQ==
+ b=IeJUkQff8QrufwHmQjWwnE09AoqVTrRJaHNbVJ+Bam3XpccTi9L2wor+HS5gSElJm
+ wOIYxc9PcXAXAyOGfww8jgQG3svt4v5A2A3kRDRoJ4/lUG9+iO0gwJM6PqRTRMfMGK
+ eYLnfdP5gQF5oNufMQeyPYOvOo5EON926BLzl4dqTpKg8ttiJ70j4dkJ71Z68bMF8v
+ Id3ywz3YFWuhQdh5/TeGsYrMR5KwqXFAMMFvSHpGEcH2MASVeAN0TaBUS+0X627rAo
+ AAtP5qyumDpskjx3S0LKImF87ye0a6+37MuVvc427Xx+kd25L6aiqqi9wkgh6tysle
+ +LkCTgjuu+fiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, srinivasan.shanmugam@amd.com, vitaly.prosyak@amd.com,
- Jesse.zhang@amd.com, Jiadong.Zhu@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 036/102] drm/amdgpu/gfx10: fix CSIB handling
-Date: Sun,  1 Jun 2025 19:28:28 -0400
-Message-Id: <20250601232937.3510379-36-sashal@kernel.org>
+Cc: Vicki Pfau <vi@endrift.com>, Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 037/102] drm: panel-orientation-quirks: Add ZOTAC
+ Gaming Zone
+Date: Sun,  1 Jun 2025 19:28:29 -0400
+Message-Id: <20250601232937.3510379-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232937.3510379-1-sashal@kernel.org>
 References: <20250601232937.3510379-1-sashal@kernel.org>
@@ -66,85 +67,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Vicki Pfau <vi@endrift.com>
 
-[ Upstream commit 683308af030cd9b8d3f1de5cbc1ee51788878feb ]
+[ Upstream commit 96c85e428ebaeacd2c640eba075479ab92072ccd ]
 
-We shouldn't return after the last section.
-We need to update the rest of the CSIB.
+Add a panel orientation quirk for the ZOTAC Gaming Zone handheld gaming device.
 
-Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250313211643.860786-2-vi@endrift.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. ##
-Detailed Analysis: ### The Bug The commit fixes a critical bug in the
-`gfx_v10_0_get_csb_buffer()` function in
-`/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c`. The function is responsible
-for building a Command Stream Buffer (CSB) for GPU initialization. **The
-problematic code before the fix:** ```c for (sect =
-adev->gfx.rlc.cs_data; sect->section != NULL; ++sect) { for (ext =
-sect->section; ext->extent != NULL; ++ext) { if (sect->id ==
-SECT_CONTEXT) { buffer[count++] =
-cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG, ext->reg_count));
-buffer[count++] = cpu_to_le32(ext->reg_index -
-PACKET3_SET_CONTEXT_REG_START); for (i = 0; i < ext->reg_count; i++)
-buffer[count++] = cpu_to_le32(ext->extent[i]); } else { return; // ←
-BUG: Early return prevents rest of buffer initialization } } } ``` **The
-fix removes the early return:** ```c for (sect = adev->gfx.rlc.cs_data;
-sect->section != NULL; ++sect) { for (ext = sect->section; ext->extent
-!= NULL; ++ext) { if (sect->id == SECT_CONTEXT) { buffer[count++] =
-cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG, ext->reg_count));
-buffer[count++] = cpu_to_le32(ext->reg_index -
-PACKET3_SET_CONTEXT_REG_START); for (i = 0; i < ext->reg_count; i++)
-buffer[count++] = cpu_to_le32(ext->extent[i]); } // ← Early return
-removed - now continues to process rest of buffer } } ``` ### Why This
-Should Be Backported: 1. **Fixes Important GPU Initialization Bug**:
-This is a clear functional bug that affects AMDGPU GFX10 hardware.
-Looking at the clearstate data structure, I can see that
-`gfx10_cs_data[]` contains only `SECT_CONTEXT` sections, but if any
-future section was not `SECT_CONTEXT`, the early return would prevent
-critical buffer initialization from completing. 2. **Affects Critical
-Hardware Functionality**: The CSB (Command Stream Buffer) is essential
-for proper GPU initialization. An incomplete buffer could lead to: - GPU
-hang during initialization - Incorrect register states - System
-instability - Failed GPU bring-up 3. **Small, Contained Fix**: The fix
-is minimal - it simply removes an erroneous `else { return; }` clause.
-This has very low risk of introducing regressions. 4. **No Architectural
-Changes**: This doesn't change any APIs, interfaces, or architectural
-decisions. It's a pure bugfix. 5. **Follows Stable Tree Criteria**: -
-Important bugfix ✓ - Minimal risk ✓ - Confined to a subsystem ✓ - No new
-features ✓ 6. **Critical GPU Subsystem**: The commit touches GPU command
-submission infrastructure, which is critical for system stability when
-AMD GFX10 hardware is present. 7. **Clear Commit Message**: The commit
-message clearly explains the bug: "We shouldn't return after the last
-section. We need to update the rest of the CSIB." Looking at the
-reference commits, this aligns with "Similar Commit #4" which was marked
-YES for backporting - it's a clear functional bugfix in critical GPU
-subsystem code that prevents proper operation. The missing code after
-the early return includes essential buffer finalization: - Setting
-PA_SC_TILE_STEERING_OVERRIDE register - Adding
-PACKET3_PREAMBLE_END_CLEAR_STATE - Adding PACKET3_CLEAR_STATE command
-Without these, the GPU's clear state buffer would be incomplete,
-potentially causing initialization failures.
+**YES** This commit should be backported to stable kernel trees.
+**Extensive Analysis:** **1. Pattern Matching with Historical Commits:**
+The commit follows an identical pattern to all the similar commits
+marked as "Backport Status: YES" in the reference examples: - GPD Win3
+(YES): Added DMI quirk for handheld gaming device with specific
+vendor/product matching - OrangePi Neo (YES): Added DMI quirk for gaming
+handheld with same pattern - GPD Win Mini (YES): Added gaming device
+quirk with identical structure - GPD Win Max (YES): Added gaming device
+quirk following same format **2. Code Analysis:** The change is
+extremely minimal and safe: ```c + }, { /bin /bin.usr-is-merged /boot
+/dev /etc /home /init /lib /lib.usr-is-merged /lib64 /lost+found /media
+/mnt /opt /proc /root /run /sbin /sbin.usr-is-merged /snap /srv /sys
+/tmp /usr /var ZOTAC Gaming Zone model/ prompt/ src/ target/ + .matches
+= { + DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"), +
+DMI_EXACT_MATCH(DMI_BOARD_NAME, "G0A1W"), + }, + .driver_data = (void
+*)&lcd1080x1920_leftside_up, ``` This adds exactly 6 lines to the
+`orientation_data[]` array in
+`drivers/gpu/drm/drm_panel_orientation_quirks.c:500`. The change: - Uses
+existing, well-tested infrastructure (`lcd1080x1920_leftside_up` data
+structure already defined at line 120-124) - Employs standard DMI
+matching with `DMI_EXACT_MATCH()` for precise device identification -
+References an existing orientation configuration, introducing zero new
+logic - Is completely isolated and cannot affect other devices due to
+highly specific DMI matching **3. Bug Fix Nature:** This addresses a
+real user-affecting bug - incorrect screen orientation on ZOTAC Gaming
+Zone handhelds. Without this quirk: - The display appears rotated
+incorrectly - Users experience poor usability with graphics rotated 90
+degrees - Gaming on the device is significantly impacted **4. Risk
+Assessment:** - **Minimal regression risk**: The DMI matching is highly
+specific (`DMI_SYS_VENDOR="ZOTAC"` AND `DMI_BOARD_NAME="G0A1W"`) - **No
+architectural changes**: Uses existing quirk framework - **No new
+features**: Pure bug fix for hardware support - **Contained scope**:
+Only affects this specific ZOTAC device model **5. Stable Tree
+Compliance:** ✅ **Important bug fix**: Fixes screen orientation for
+users ✅ **Small and contained**: 6-line addition using existing
+infrastructure ✅ **No side effects**: Cannot impact other devices due to
+specific DMI matching ✅ **No architectural changes**: Pure data addition
+to existing quirk table ✅ **Critical subsystem**: Display orientation
+affects basic usability ✅ **Follows established pattern**: Identical to
+other gaming handheld quirks that were backported **6. Historical
+Precedent:** All similar gaming handheld orientation quirks in the
+reference examples were marked "Backport Status: YES", establishing
+clear precedent that these types of device-specific orientation fixes
+are appropriate for stable backporting. **7. User Impact:** Gaming
+handhelds are consumer devices where display orientation directly
+impacts usability. Users of ZOTAC Gaming Zone devices currently
+experience a rotated display, making the device difficult or impossible
+to use properly until this fix is applied. The commit perfectly matches
+the stable kernel criteria: it's a small, important bug fix with minimal
+risk that improves hardware support for end users.
 
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 09178d56afbf6..20b6d01f4beb1 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -4270,8 +4270,6 @@ static void gfx_v10_0_get_csb_buffer(struct amdgpu_device *adev,
- 						PACKET3_SET_CONTEXT_REG_START);
- 				for (i = 0; i < ext->reg_count; i++)
- 					buffer[count++] = cpu_to_le32(ext->extent[i]);
--			} else {
--				return;
- 			}
- 		}
- 	}
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index c554ad8f246b6..7ac0fd5391fea 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -517,6 +517,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "LTH17"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* ZOTAC Gaming Zone */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"),
++		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "G0A1W"),
++		},
++		.driver_data = (void *)&lcd1080x1920_leftside_up,
+ 	}, {	/* One Mix 2S (generic strings, also match on bios date) */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
 -- 
 2.39.5
 
