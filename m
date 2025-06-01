@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0A6ACA266
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6218DACA269
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C061B10E438;
-	Sun,  1 Jun 2025 23:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F42310E436;
+	Sun,  1 Jun 2025 23:36:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fN9BDpdv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fchr7UIQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 381FD10E432;
- Sun,  1 Jun 2025 23:36:29 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE76610E436;
+ Sun,  1 Jun 2025 23:36:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6DF6F61127;
- Sun,  1 Jun 2025 23:36:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770D9C4CEEE;
- Sun,  1 Jun 2025 23:36:26 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0AF49A4FBF5;
+ Sun,  1 Jun 2025 23:36:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC52BC4CEE7;
+ Sun,  1 Jun 2025 23:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820988;
- bh=XdHPcloIJz9lRR4gMtP7+fMmnRlyGZpOB26JKWZkGZU=;
+ s=k20201202; t=1748820995;
+ bh=1bmLc9Qyey5Ex46UhpEx/JLmp70NC+hph8v61Ea+hRQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fN9BDpdvBud4gfEwmXggEaMnsP+6N89AoTfLjjXOY5KcOcPEthodqfSTC6G0WCAMl
- k7oGrxp9hRTOrD71uHM/bKgTloElEi257L6xbiccGS2TRvuVEn+hKx+vOaSe86DIvM
- X8kjoXJ/hQl1BU2vjAEBYRXlpDqQF4r0CB1IJefNW+5ZLrU000JZfx0Niy3NFPi2pL
- M/F5n6eK6BA1iGTU7WsC8IIkHdOAMyRVghPx4sYTpmbQzaEc089CciKIvzPFMH/Ivj
- 0eIFjewdbp3ssXe0Sx/Rg8ZBoAvqcpMp57xfNeph6tNEpK70stK3CRgTWOSzn5l/hD
- j2+gFmHUzCWzg==
+ b=Fchr7UIQz3g2hgQkVpnFMFZXy2coqMo784sou4/Biwdd7OMrkLc0tD6xm5o4gc4Xb
+ DTvuF78FCxm8KdiK7y4evtgVkvbjwM2J7b27dMMTAfmeolsJUSf1Vj8ocd2WgR+LFk
+ K/NLzXlpOPj9+rUEbb5JYywEa4yTQ8EcZP0c2yd2/YAqsjg0Jw6s9mVrydyCtjPaRs
+ igQyBkRlZC1bGJHztsT6ar+MIbqhbpsz9IxsrWcVWfGlhg3mRuSf/vqGAu2W5k0InA
+ pPk0h8WHaPtuZ7TGnmh1D0ehwFDshn02lDtIWzQKtezy1F5aB8hPw8Cdi03uOFVZoJ
+ xe/YW64oVWHOg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, vitaly.prosyak@amd.com, srinivasan.shanmugam@amd.com,
- Jiadong.Zhu@amd.com, kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 54/93] drm/amdgpu/gfx9: fix CSIB handling
-Date: Sun,  1 Jun 2025 19:33:21 -0400
-Message-Id: <20250601233402.3512823-54-sashal@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sasha Levin <sashal@kernel.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, lumag@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, quic_jesszhan@quicinc.com, jun.nie@linaro.org,
+ jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 57/93] drm/msm/dpu: don't select single flush for
+ active CTL blocks
+Date: Sun,  1 Jun 2025 19:33:24 -0400
+Message-Id: <20250601233402.3512823-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233402.3512823-1-sashal@kernel.org>
 References: <20250601233402.3512823-1-sashal@kernel.org>
@@ -49,7 +53,6 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.31
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,82 +69,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit a4a4c0ae6742ec7d6bf1548d2c6828de440814a0 ]
+[ Upstream commit e93eee524bb78f3ee4b78654d0083382f98b3d23 ]
 
-We shouldn't return after the last section.
-We need to update the rest of the CSIB.
+In case of ACTIVE CTLs, a single CTL is being used for flushing all INTF
+blocks. Don't skip programming the CTL on those targets.
 
-Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/641585/
+Link: https://lore.kernel.org/r/20250307-dpu-active-ctl-v3-5-5d20655f10ca@linaro.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Now I'll analyze the specific code changes and provide my backport
-recommendation: **YES** This commit should be backported to stable
-kernel trees. Here's my detailed analysis: ## Code Analysis The commit
-fixes a logic bug in the `gfx_v9_0_get_csb_buffer()` function that
-builds GPU command buffers for AMD GFX9 hardware. Looking at the code
-change: **Before:** ```c if (sect->id == SECT_CONTEXT) { buffer[count++]
-= cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG, ext->reg_count));
-buffer[count++] = cpu_to_le32(ext->reg_index -
-PACKET3_SET_CONTEXT_REG_START); for (i = 0; i < ext->reg_count; i++)
-buffer[count++] = cpu_to_le32(ext->extent[i]); } else { return; // ←
-BUGGY early return } ``` **After:** ```c if (sect->id == SECT_CONTEXT) {
-buffer[count++] = cpu_to_le32(PACKET3(PACKET3_SET_CONTEXT_REG,
-ext->reg_count)); buffer[count++] = cpu_to_le32(ext->reg_index -
-PACKET3_SET_CONTEXT_REG_START); for (i = 0; i < ext->reg_count; i++)
-buffer[count++] = cpu_to_le32(ext->extent[i]); } // ← Early return
-removed, execution continues ``` ## Why This Should Be Backported ### 1.
-**Fixes a Clear Logic Bug** The early return prevents the function from
-completing its work. After the loop, the function needs to write
-critical termination packets: ```c buffer[count++] =
-cpu_to_le32(PACKET3(PACKET3_PREAMBLE_CNTL, 0)); buffer[count++] =
-cpu_to_le32(PACKET3_PREAMBLE_END_CLEAR_STATE); buffer[count++] =
-cpu_to_le32(PACKET3(PACKET3_CLEAR_STATE, 0)); buffer[count++] =
-cpu_to_le32(0); ``` ### 2. **Meets Stable Tree Criteria** - **Small and
-contained**: Simple one-line removal with clear intent - **Low
-regression risk**: Removing early return allows proper completion -
-**Important bug fix**: Prevents GPU command buffer corruption - **No
-architectural changes**: Pure bug fix without new features ### 3.
-**Comparison with Historical Examples** Looking at the provided
-historical commits, this fix is similar to commit #3 (marked YES) which
-also fixed preamble handling. Both commits: - Fix logic bugs in AMD GPU
-driver - Have minimal code changes - Address proper command/state
-handling - Are critical for correct driver operation ### 4. **Stability
-Impact** While currently masked because all existing clear state data
-only uses `SECT_CONTEXT` sections, this bug creates: - **Buffer
-corruption risk**: Incomplete command buffers sent to GPU - **Forward
-compatibility issues**: Future hardware might use other section types -
-**Inconsistent state**: Size calculation function has same bug pattern
-### 5. **Hardware Criticality** This affects the GFX9 generation which
-includes widely deployed GPUs like: - Vega series (RX Vega 56/64) -
-Raven Ridge APUs (Ryzen 2000G/3000G series) - Renoir APUs (Ryzen 4000
-series) ### 6. **Clear Commit Message** The commit message explicitly
-states "We need to update the rest of the CSIB" - indicating this fixes
-incomplete processing, exactly what stable backports target.
-**Conclusion**: This is a textbook stable backport candidate - a small,
-contained fix for a clear logic bug in a critical GPU initialization
-path that could lead to hardware instability. The risk/reward ratio
-strongly favors backporting.
+**YES** This commit should be backported to stable kernel trees. ##
+Analysis: **1. Clear Bug Fix Nature:** The commit fixes a functional bug
+where CTL programming was being incorrectly skipped on ACTIVE CTL
+configurations. The commit message explicitly states "Don't skip
+programming the CTL on those targets" indicating incorrect behavior was
+occurring. **2. Small and Contained Change:** The change is minimal - it
+modifies only the `dpu_encoder_phys_vid_needs_single_flush()` function
+by adding a single condition check: ```c - return phys_enc->split_role
+!= ENC_ROLE_SOLO; + return !(phys_enc->hw_ctl->caps->features &
+BIT(DPU_CTL_ACTIVE_CFG)) && + phys_enc->split_role != ENC_ROLE_SOLO; ```
+**3. Hardware-Specific Fix:** The fix addresses a specific hardware
+configuration issue for devices with `DPU_CTL_ACTIVE_CFG` feature. From
+examining the kernel code, this affects multiple SoCs including SM8150,
+SM8250, SM6150, SC7180, and others - making it a widely impacting fix.
+**4. Clear Functional Impact:** - **Before**: On ACTIVE CTL targets, the
+function incorrectly returned true for split configurations, causing CTL
+programming to be skipped - **After**: On ACTIVE CTL targets, it returns
+false, ensuring proper CTL programming occurs - **Effect**: Ensures
+display pipeline functions correctly on affected hardware **5. Tested
+Change:** The commit includes "Tested-by: Neil Armstrong
+<neil.armstrong@linaro.org> # on SM8550-QRD" indicating real hardware
+testing was performed. **6. Matches Successful Backport Pattern:** This
+commit closely matches the pattern of Similar Commits #1, #2, and #4
+(all marked YES): - Small, targeted fix (line 377 in
+`dpu_encoder_phys_vid.c:377`) - Addresses incorrect hardware behavior -
+Has clear before/after functional difference - Affects critical graphics
+subsystem functionality **7. Risk Assessment:** - **Low regression
+risk**: The change only affects the specific condition logic -
+**Targeted scope**: Only impacts ACTIVE CTL configurations -
+**Conservative fix**: Makes the logic more restrictive (requires both
+conditions to skip programming) This is a clear hardware bug fix that
+prevents display issues on affected SoCs and follows the stable tree
+criteria for important bugfixes with minimal regression risk.
 
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 114653a0b5701..2589ae021cba6 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -1639,8 +1639,6 @@ static void gfx_v9_0_get_csb_buffer(struct amdgpu_device *adev,
- 						PACKET3_SET_CONTEXT_REG_START);
- 				for (i = 0; i < ext->reg_count; i++)
- 					buffer[count++] = cpu_to_le32(ext->extent[i]);
--			} else {
--				return;
- 			}
- 		}
- 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index d8a2edebfe8c3..d1d270dd88547 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -372,7 +372,8 @@ static void dpu_encoder_phys_vid_underrun_irq(void *arg)
+ static bool dpu_encoder_phys_vid_needs_single_flush(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+-	return phys_enc->split_role != ENC_ROLE_SOLO;
++	return !(phys_enc->hw_ctl->caps->features & BIT(DPU_CTL_ACTIVE_CFG)) &&
++		phys_enc->split_role != ENC_ROLE_SOLO;
+ }
+ 
+ static void dpu_encoder_phys_vid_atomic_mode_set(
 -- 
 2.39.5
 
