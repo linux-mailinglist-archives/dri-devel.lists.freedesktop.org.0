@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2355DACA228
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266BFACA2F9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798B110E40A;
-	Sun,  1 Jun 2025 23:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3B310E412;
+	Sun,  1 Jun 2025 23:42:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LSp3Z6U4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YpTUoNp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE0610E409
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:34:42 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF04310E412
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:42:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6545B43948;
- Sun,  1 Jun 2025 23:34:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3910CC4CEEE;
- Sun,  1 Jun 2025 23:34:40 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E283B61165;
+ Sun,  1 Jun 2025 23:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB22C4CEF6;
+ Sun,  1 Jun 2025 23:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820882;
- bh=8tGdXTaU+vuQcR2kXLHS3j2xmSzJOUp9N+KRaAFxte4=;
+ s=k20201202; t=1748820886;
+ bh=Sou5GjXRjp6iLFdLLGgx72GtZt/lUHeF6Y8E7Tahgkc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LSp3Z6U4Q5IGox86M69Y5HrKPJfw5q1Feb2uEly1UvXOyXIqxrTqdpx/Bia96nIMp
- oFFIPvuHIMs5kJAtbvZPGSk7XOJ51G1OI7wGohr5UfKfL+auuHAA8H4yPJLFjrCj/0
- G4f8ipl9prc2w+2jRsdpfI1BhVZeKv3MVcJUZa/YsepjGf/a6YaWo+3aA49iAvsoxr
- B96Xr3Bo7SiRnlh8xvPstsyBINbfS5vpC8eg6Td9pDnggIely6iGwPkyYoAZ6lWZMB
- SmpNYfh13poNTFV15SOER/dFfBN5DWimkKsdKZVxmMXVbiskF6jpn4UL6uh48irTJ0
- rO+sGUchY/SqQ==
+ b=YpTUoNp6LIjywqNWI21F6+VR6TiJKcNcW+rZrKRLg+Yda+wMMVkiETP8s7E6txnOi
+ JpbtM4eOO86pKI2mEIuEodgIMHEWb0KdmufiI3frBpslNckU3kiqXtNEkXmAQVLTwP
+ wbMJGtqlFnyJkx0Ke8qAZTk9G9p3YQ8SA4UhI91lWBCZuyovtnV7iaXITTh8Vw3qBl
+ 7P0PEku9Uq4q5+PZRjG2xOfravLzdGWvbX9gONTHlnq1ll6wUDtmYcSm+ryiG3mL/h
+ wo5Txh+kIbKDy8vtQ1QFF6+wQHcJcIhZY6BmkuNCYEIbQTkiPu4mDRFaHRxxC9gKvk
+ OrP+DZKOXSjDg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Ayushi Makhija <quic_amakhija@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org,
- dianders@chromium.org, xji@analogixsemi.com, wenst@chromium.org,
- robh@kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 14/93] drm/bridge: anx7625: enable HPD interrupts
-Date: Sun,  1 Jun 2025 19:32:41 -0400
-Message-Id: <20250601233402.3512823-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 16/93] drm/panthor: Don't update MMU_INT_MASK in
+ panthor_mmu_irq_handler()
+Date: Sun,  1 Jun 2025 19:32:43 -0400
+Message-Id: <20250601233402.3512823-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233402.3512823-1-sashal@kernel.org>
 References: <20250601233402.3512823-1-sashal@kernel.org>
@@ -69,110 +67,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-[ Upstream commit ca8a78cdceb48ad3b753f836068611265840ef22 ]
+[ Upstream commit 6c4a3fa26799785c1873aacabcfd9b2d27e8dc97 ]
 
-When the device enters the suspend state, it prevents
-HPD interrupts from occurring. To address this, implement
-.hpd_enable() and .hpd_disable() callbacks functions of
-the drm_bridge.
+Interrupts are automatically unmasked in
+panthor_mmu_irq_threaded_handler() when the handler returns. Unmasking
+prematurely might generate spurious interrupts if the IRQ line is
+shared.
 
-Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Link: https://lore.kernel.org/r/20250505094245.2660750-4-quic_amakhija@quicinc.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Changes in v2:
+- New patch
+
+Changes in v3:
+- Add R-bs
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Link: https://lore.kernel.org/r/20250404080933.2912674-6-boris.brezillon@collabora.com
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. ##
-Extensive Analysis ### **This is a User-Affecting Bug Fix, Not a Feature
-Addition** The commit message states this addresses a real problem:
-"When the device enters the suspend state, it prevents HPD interrupts
-from occurring." The investigation of the kernel repository reveals this
-fixes a significant architectural gap where the anx7625 driver: 1.
-**Declares HPD support** by setting `DRM_BRIDGE_OP_HPD` flag (line
-2594-2595 in the driver) 2. **Fails to implement required callbacks**
-that the DRM bridge framework expects when this flag is set 3. **Causes
-unreliable external display detection** particularly during
-suspend/resume cycles ### **Code Changes Analysis** The implementation
-is extremely minimal and safe: ```c +static void
-anx7625_bridge_hpd_enable(struct drm_bridge *bridge) +{ + struct
-anx7625_data *ctx = bridge_to_anx7625(bridge); + struct device *dev =
-ctx->dev; + + pm_runtime_get_sync(dev); +} + +static void
-anx7625_bridge_hpd_disable(struct drm_bridge *bridge) +{ + struct
-anx7625_data *ctx = bridge_to_anx7625(bridge); + struct device *dev =
-ctx->dev; + + pm_runtime_put_sync(dev); +} ``` - **Only 18 lines of code
-added** (including function signatures and braces) - **Uses existing,
-well-tested PM runtime APIs**
-(`pm_runtime_get_sync`/`pm_runtime_put_sync`) - **No new logic or
-complex state management** - simply ensures power is on when HPD is
-enabled - **Follows established patterns** already used throughout the
-anx7625 driver ### **Meets All Stable Tree Criteria** 1. **✅ Important
-Bug Fix**: Fixes missing DRM bridge framework contract compliance that
-causes unreliable display detection 2. **✅ Small and Contained**:
-Minimal code change confined to a single driver 3. **✅ Low Regression
-Risk**: Uses existing PM runtime APIs with no new complex logic 4. **✅
-No Architectural Changes**: Simple callback additions to existing
-framework 5. **✅ Subsystem Isolation**: Limited to anx7625 bridge
-driver, doesn't affect core kernel ### **Historical Precedent**
-Comparing to similar HPD-related commits: - **Similar Commit #3 (Status:
-YES)**: Another small anx7625 HPD fix addressing hardware timing issues
-- This commit follows the same pattern: small, targeted fix for real
-user issues ### **Real-World Impact Evidence** The kernel repository
-shows multiple recent commits addressing anx7625 HPD and power
-management issues: - Power management deadlocks affecting Chromebook
-external displays - Bridge suspend/resume problems - HPD detection
-window timing issues This commit completes the framework integration
-needed to prevent these classes of problems. ### **Risk Assessment**
-**Extremely low risk** because: - The PM runtime calls used are the same
-ones already extensively used in the driver - The callbacks are only
-invoked by the DRM bridge connector framework in well-defined contexts -
-No existing functionality is modified - only missing callbacks are added
-- Failure modes are limited to the same PM runtime error paths already
-handled This is a textbook example of a stable-tree-appropriate fix:
-small, safe, addresses real user problems, and completes missing
-functionality that users expect to work.
+**YES** This commit should be backported to stable kernel trees for the
+following reasons: ## Analysis of the Bug Fix **Code Change Analysis:**
+The commit removes a single line from `panthor_mmu_irq_handler()`: ```c
+- gpu_write(ptdev, MMU_INT_MASK, new_int_mask); ``` This line was
+prematurely unmasking MMU interrupts within the interrupt handler
+itself. **Technical Issue:** 1. **Interrupt Handling Architecture**: The
+panthor driver uses a two-stage interrupt handling approach via the
+`PANTHOR_IRQ_HANDLER` macro: - **Hardware IRQ handler**: Masks
+interrupts (`gpu_write(ptdev, MMU_INT_MASK, 0)`) and wakes the threaded
+handler - **Threaded handler**: Processes interrupts and automatically
+re-enables them at the end (`gpu_write(ptdev, MMU_INT_MASK,
+pirq->mask)`) 2. **The Bug**: The `panthor_mmu_irq_handler()` function
+was prematurely unmasking interrupts in the middle of processing, which
+could cause: - **Spurious interrupts** if the IRQ line is shared with
+other devices - **Race conditions** where new interrupts arrive before
+the handler completes - **Interrupt storms** in edge cases ## Backport
+Criteria Assessment **✅ Fixes a bug that affects users:** - Could cause
+spurious interrupts on shared IRQ lines - Potential for interrupt storms
+affecting system stability **✅ Small and contained fix:** - Single line
+removal - No architectural changes - Minimal risk of regression **✅
+Clear side effects analysis:** - The fix aligns with the designed
+interrupt handling pattern - No negative side effects expected since
+automatic re-enabling happens at the proper time **✅ Critical
+subsystem:** - GPU MMU interrupt handling is critical for memory
+management - Affects system stability when GPU is in use **✅ Driver
+maturity:** - Panthor driver was introduced in v6.10 (relatively recent)
+- This is a bug in the core interrupt handling logic ## Comparison with
+Historical Commits This fix follows the same pattern as **Similar Commit
+#1** (drm/panthor: Fix ordering in _irq_suspend()) which was also marked
+as backport-worthy. Both commits fix interrupt handling ordering issues
+in the panthor driver. Unlike the panfrost commits (Similar Commits
+#2-5), which involved more complex architectural changes to interrupt
+handling, this panthor fix is a simple correction to align with the
+existing interrupt handling framework. ## Recommendation This commit
+should be backported because it fixes a clear bug in interrupt handling
+that could lead to system instability, the fix is minimal and safe, and
+it corrects the implementation to match the intended design pattern used
+throughout the panthor driver.
 
- drivers/gpu/drm/bridge/analogix/anx7625.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index c036bbc92ba96..04b1d5c961ce5 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2488,6 +2488,22 @@ static const struct drm_edid *anx7625_bridge_edid_read(struct drm_bridge *bridge
- 	return anx7625_edid_read(ctx);
- }
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 0e6f94df690dd..a0348da20f114 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1710,7 +1710,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 		 * re-enabled.
+ 		 */
+ 		ptdev->mmu->irq.mask = new_int_mask;
+-		gpu_write(ptdev, MMU_INT_MASK, new_int_mask);
  
-+static void anx7625_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-+	struct device *dev = ctx->dev;
-+
-+	pm_runtime_get_sync(dev);
-+}
-+
-+static void anx7625_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-+	struct device *dev = ctx->dev;
-+
-+	pm_runtime_put_sync(dev);
-+}
-+
- static const struct drm_bridge_funcs anx7625_bridge_funcs = {
- 	.attach = anx7625_bridge_attach,
- 	.detach = anx7625_bridge_detach,
-@@ -2501,6 +2517,8 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.detect = anx7625_bridge_detect,
- 	.edid_read = anx7625_bridge_edid_read,
-+	.hpd_enable = anx7625_bridge_hpd_enable,
-+	.hpd_disable = anx7625_bridge_hpd_disable,
- };
- 
- static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
+ 		if (ptdev->mmu->as.slots[as].vm)
+ 			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
 -- 
 2.39.5
 
