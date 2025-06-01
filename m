@@ -2,89 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE928ACA090
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 00:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372A9ACA116
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7A610E138;
-	Sun,  1 Jun 2025 22:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A89E10E0FE;
+	Sun,  1 Jun 2025 23:05:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aVIQT5+N";
+	dkim=pass (2048-bit key; unprotected) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="vPcUiYHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BFDF10E138
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 22:18:52 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-7d09d4c8543so365351285a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Jun 2025 15:18:52 -0700 (PDT)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1BF910E0FE
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:05:32 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-afc857702d1so2990334a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Jun 2025 16:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748816331; x=1749421131; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
- b=aVIQT5+NDpvpqjUL5aiLRlNxm9H664RfjlUPqjzcp7h3d6jb8LxXIMkvOrJ1PIwV0z
- lPlMY6uYx8TzAjVxXe940w9svNrWoeZFj3P6XK78Ua0HFZsIMd+ohgDkJ83c2XCVK8NA
- mZihBd70n90I61iRZn1UMP7UMzR+EHthiFZz2JLaxZe3bggkr/PYg68R4AbK4PvSsJdI
- UqHL3ROqGpGtrFvcJhFTD35PVOjVYNFYXD07+OQBsQ/HQLdBWJ0pl7WPJjJJuvBSEJmu
- PYRrXboLlfUzZJqmAoqf3PzkKbMyuXcsz8TpHgWexi/AKL4G3EfVueTlj8h6GPCs1zii
- Fpzw==
+ d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1748819132; x=1749423932;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1fvDqBrE4PSD/vq25y+z/0fv2r3rQKmt0xaBYl9gR/Y=;
+ b=vPcUiYHJ3BA6QRwGkcT2cL4hJFHnZU3RRWGxMoeQKvLhKXC9GwKYP4HUFOVzogbxOq
+ s95tcWmobRZFJ7VvGPucVZCQo7jlGZy2D8aoUEXkwgxnvDXFTBAhXvfZQScb+GrPnrjO
+ T4CHSR3Dsye9GlBlfODTRzANkaP6m33G+wr8wCTFOFmHulv8VTss0qLwxPdiu+SphNpn
+ VHmiVYUBJu2IrCVCbmBbzdDLguxYMQ/ysXrGpM80A5eHTieqlglZPKdwcEs4k8rQiYJy
+ 6tX53/48KRQUHp8+YiAvPmL0RpXK+pgukABCMg/a9XHnJxfj7FD+4YthYYIVDO3h1K0e
+ Xb2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748816331; x=1749421131;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
- b=rc3+6Bg9MvzLTnq87d39WIE/qggFrA5raWOjvxgNvDPM77O5EOCqwie/TdsRrAMs/7
- swKtadsrkVhglpgTOEJQ0HhPvYV+1By7dEeLkWaqg4RdIroUFT6SpJZDcjbeEU+2dUgb
- afKCs9mwpq6CI9uW8vP246t00MAXfwJcqVHaOUCnvI3KTWWoNAF0QrM31l2pXjtfUqQ/
- z6VTdaS5bXYtpklM4sRf01i1vbd/wet2mEgWKxXA03oKKVjuq4Kn09AxZ0U7vdXz4LTa
- 9wVA3SH3vur9HbjPE+rzAYewmTy83g0jFqWIoT/D+sIQUOir/I7vJmXAvkFL14f7AoA3
- qzsQ==
-X-Gm-Message-State: AOJu0Yyq83kmKy6zSdzROHdQ2kZebAvEerymmCzM+qHylkcre0DRTrvV
- u18D+A17O8zv5l2KylaZt5ptU7+/DmAySAujeNmW17aHXCvCJR8BL/dT1s5M3vzGDq0=
-X-Gm-Gg: ASbGncsQsAPuWTbcL01HZ5MjI+xcKH0Gv0sEDEtpf9HoaPtSzBqzb3CYEyf/5bjPjNR
- XARBDBRMaUqeeJI6r6gG+fsGxTD11Y2PtLKlRo5rbHb2SFI7/fY0S6iIX5cMzMA0K3YSpcpZ8fV
- VrmdP8IMzlzwxWGtZi/XbqZKtyZF/iPJd5nyixxGrBLZoOZmouLE7aDyewuriE/Zjlksca0X9Iw
- UBLpUge6zPjaXpLrKbc8KDmdiaVTIv4+wG+yNMAQdSM4GNT8ZKf8vYcFfI5w5oDFbjleNjbmqDA
- HFmjDZxvkZsfIPnCt+7BCWSFAOgm6wZlEF1cYvVl2e0PWIMmXI+uwX4m43EcWmXdRA==
-X-Google-Smtp-Source: AGHT+IFvrmdqb1Jbez/1pqAFUzOD1aoANA/UWpASTj5vWXRE59vvCBBQj7T26GKh6jtI6UAtH/NggQ==
-X-Received: by 2002:a05:620a:458b:b0:7c5:65ab:5002 with SMTP id
- af79cd13be357-7d0eaccf947mr1097655685a.49.1748816331192; 
- Sun, 01 Jun 2025 15:18:51 -0700 (PDT)
-Received: from [10.0.0.88] ([2607:fea8:bad7:5400:5458:c6fd:17d9:9820])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7d09a1951casm536030285a.68.2025.06.01.15.18.49
+ d=1e100.net; s=20230601; t=1748819132; x=1749423932;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1fvDqBrE4PSD/vq25y+z/0fv2r3rQKmt0xaBYl9gR/Y=;
+ b=jL9K77warStgPUDPGi91qPq3mHXY6o1fOmuEg4ml2rQEp/sha3Wlf0LLOfE8DhE1iT
+ iDfSc0mxDiYHrcBteT9devh9ljzBRyeSBx+IbiQWqHmrlip345/6KK2z8fBw/kg70/5x
+ dLjQ8jP1QnbCz1d/gyH0lzIvEt0HboIltFAeWzd18V/NJbDZxfBdLo6xcsnFZGiNzwsm
+ X+RwveDM+3TQSsC/uCMiOU5ZiW7X8oLlReqQiIogqvixvnHhut7m42jvgzr07nB/9JUG
+ 5snXuCHGKCp0kboGUd2vKPInN90GFtGAEfxHjgM0bS8dSG79VKQ7YcLdD5ij9CSApQPH
+ 2qeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULOEBVajR9IL4UJjg8n3RVKdYTv9akA6Xmsuox3527HzLXl35kSOAaj2P32RtO+g7H+JtWms1J53A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzua93DMAJTc7+ZN+fwJvdln5HzaNJU9yrceWnL2I4lNtV+UdLw
+ Jcwd/H+D9br0QO+MRQew8dKAyO75OF+mqUaK0LcGzsSN5Rh+ft5gJ37QVSRY1F3sjeE=
+X-Gm-Gg: ASbGnctJLc/qyABY1YtuX73e33po3jPXXCI5XTlj6tT0kCrE43iKrPK2psugaZMmWpS
+ Y+shbGMnivPYr+8EzD6NN3qz1YcHlAkq6WDwfHmGeu6VrNJjtv+YlWOC0Wtg8OdwBNY7DJey8ME
+ 0rW5/vskThQ1A/80I6lXE6RbHWbBaYJ1I/2g/m2cHuvrbjTnFaANn/KB1yFBpij7q8Udbsu7WFh
+ wJYx9WeuRSuoxdYZcShy8PH5hYqqoeadDZcDktqG/0TlYaohwzXQgd5H21C1+Uq/g+UjXdViYot
+ z1Zt/bnmVMiwhRMDaI7qmi5glt/517g9
+X-Google-Smtp-Source: AGHT+IFJ93lsJS+eE0bjnFv6KmogL+dSl97lhohNWrj7NLeLEHx5L8l95tdQ19djgO3Tt4ygx5bUvQ==
+X-Received: by 2002:a17:90b:4c09:b0:312:1b53:5ead with SMTP id
+ 98e67ed59e1d1-31240d1c0d7mr15746377a91.4.1748819132212; 
+ Sun, 01 Jun 2025 16:05:32 -0700 (PDT)
+Received: from x1 ([97.120.245.255]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23506d14ca5sm59442445ad.242.2025.06.01.16.05.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Jun 2025 15:18:49 -0700 (PDT)
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Sun, 01 Jun 2025 18:18:47 -0400
-Subject: [PATCH v4] drm: add overview diagram for drm stack
+ Sun, 01 Jun 2025 16:05:31 -0700 (PDT)
+Date: Sun, 1 Jun 2025 16:05:30 -0700
+From: Drew Fustini <drew@pdp7.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/8] Add TH1520 GPU support with power sequencing
+Message-ID: <aDzcul5vBeQvP634@x1>
+References: <CGME20250529222402eucas1p1c9e0ddd3efd62e078e5de2cf71655f58@eucas1p1.samsung.com>
+ <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAMbRPGgC/3XNwQ6CMBAE0F8hPbum3VJAT/6H8YDsFpqIkBaJh
- vDvFk5E4nEmeTOTCOwdB3FOJuF5dMF1zxjSQyKqpnzWDI5iFijRSIMI5FugroJXT+XAAXRWZDa
- jtFCIIqres3XvdfF6i7lxYej8Zz0Y1dL+3xoVKCDFlkyap/JOl7ot3eNYda1Ytkbcer33CBLYq
- JysMljZ7Nfrrc/3Xsd/U/ApLwutSOqtn+f5CyLdqyguAQAA
-X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748816329; l=3417;
- i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
- bh=q5bj5dHeAF0jw1D9B79SOZIYQ/2vhai+oYehV5QXNxk=;
- b=sjsMrBAa7gu2PoEDTIe+RBXPWGT4CuRLEafyGtWYHvOlDONiQzwpYYmo5l0FI/+XGq+fkjsus
- pSEv0WevVJoBsq2PwUBQZtAeEHuTadQ3flbJV7IY2822TGRCzWuLpqn
-X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
- pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,86 +103,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an overview diagram of Linux DRM architecture for
-graphics and compute to introduction.rst
+On Fri, May 30, 2025 at 12:23:47AM +0200, Michal Wilczynski wrote:
+> This patch series introduces support for the Imagination IMG BXM-4-64
+> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
+> managing the GPU's complex power-up and power-down sequence, which
+> involves multiple clocks and resets.
+> 
+> The TH1520 GPU requires a specific sequence to be followed for its
+> clocks and resets to ensure correct operation. Initial discussions and
+> an earlier version of this series explored managing this via the generic
+> power domain (genpd) framework. However, following further discussions
+> with kernel maintainers [1], the approach has been reworked to utilize
+> the dedicated power sequencing (pwrseq) framework.
+> 
+> This revised series now employs a new pwrseq provider driver
+> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
+> encapsulates the SoC specific power sequence details. The Imagination
+> GPU driver (pvr_device.c) is updated to act as a consumer of this power
+> sequencer, requesting the "gpu-power" target. The sequencer driver,
+> during its match phase with the GPU device, acquires the necessary clock
+> and reset handles from the GPU device node to perform the full sequence.
+> 
+> This approach aligns with the goal of abstracting SoC specific power
+> management details away from generic device drivers and leverages the
+> pwrseq framework as recommended.
+> 
+> The series is structured as follows:
+> 
+> Patch 1: Adds device tree bindings for the new T-HEAD TH1520 GPU
+>          power sequencer provider.
+> Patch 2: Introduces the pwrseq-thead-gpu driver to manage the GPU's
+>          power-on/off sequence.
+> Patch 3: Updates the Imagination DRM driver to utilize the pwrseq
+>          framework for TH1520 GPU power management.
+> Patch 4: Adds the TH1520 GPU compatible string to the Imagination
+>          GPU DT bindings.
+> Patch 5: Adds the missing reset controller header include in the
+>          TH1520 DTS include file.
+> Patch 6: Adds the device tree node for the GPU power sequencer to
+>          the TH1520 DTS include file.
+> Patch 7: Adds the GPU device tree node for the IMG BXM-4-64 GPU to
+>          the TH1520 DTS include file.
+> Patch 8: Enables compilation of the drm/imagination on the RISC-V
+>          architecture
+> 
+> This patchset finishes the work started in bigger series [2] by adding
+> all the remaining GPU power sequencing piece. After this patchset the GPU
+> probes correctly.
+> 
+> This series supersedes the previous genpd based approach. Testing on
+> T-HEAD TH1520 SoC indicates the new pwrseq based solution works
+> correctly.
+> 
+> This time it's based on linux-next, as there are dependent patches not
+> yet merged, but present in linux-next like clock and reset patches.
+> 
+> An open point in Patch 7/8 concerns the GPU memory clock (gpu_mem_clk),
+> defined as a fixed-clock. The specific hardware frequency for this clock
+> on the TH1520 could not be determined from available public
+> documentation. Consequently, clock-frequency = <0>; has been used as a
+> placeholder to enable driver functionality.
+> 
+> Link to v2 of this series - [3].
+> 
+> v3:
+> 
+>  - re-worked cover letter completely
+>  - complete architectural rework from using extended genpd callbacks to a
+>    dedicated pwrseq provider driver
+>  - introduced pwrseq-thead-gpu.c and associated DT bindings
+>    (thead,th1520-gpu-pwrseq)
+>  - the Imagination driver now calls devm_pwrseq_get() and uses
+>    pwrseq_power_on() / pwrseq_power_off() for the TH1520 GPU
+>  - removed the platform_resources_managed flag from dev_pm_info and
+>    associated logic
+>  - the new pwrseq driver's match() function now acquires consumer-specific
+>    resources (GPU clocks, GPU core reset) directly from the consumer device
+> 
+> v2:
+> 
+> Extended the series by adding two new commits:
+>  - introduced a new platform_resources_managed flag in dev_pm_info along
+>    with helper functions, allowing drivers to detect when clocks and resets
+>    are managed by the platform
+>  - updated the DRM Imagination driver to skip claiming clocks when
+>    platform_resources_managed is set
+> 
+> Split the original bindings update:
+>  - the AON firmware bindings now only add the GPU clkgen reset (the GPU
+>    core reset remains handled by the GPU node)
+> 
+> Reworked the TH1520 PM domain driver to:
+>  - acquire GPU clocks and reset dynamically using attach_dev/detach_dev
+>    callbacks
+>  - handle clkgen reset internally, while GPU core reset is obtained from
+>    the consumer device node
+>  - added a check to enforce that only a single device can be attached to
+>    the GPU PM domain
+> 
+> [1] - https://lore.kernel.org/all/CAPDyKFpi6_CD++a9sbGBvJCuBSQS6YcpNttkRQhQMTWy1yyrRg@mail.gmail.com/
+> [2] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
+> [3] - https://lore.kernel.org/all/20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com/
+> 
+> ---
+> Michal Wilczynski (8):
+>       dt-bindings: power: Add T-HEAD TH1520 GPU power sequencer
+>       power: sequencing: Add T-HEAD TH1520 GPU power sequencer driver
+>       drm/imagination: Use pwrseq for TH1520 GPU power management
+>       dt-bindings: gpu: Add TH1520 GPU compatible to Imagination bindings
+>       riscv: dts: thead: th1520: Add missing reset controller header include
+>       riscv: dts: thead: Add GPU power sequencer node
+>       riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
+>       drm/imagination: Enable PowerVR driver for RISC-V
+> 
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   9 +-
+>  .../bindings/power/thead,th1520-pwrseq.yaml        |  42 +++++
+>  MAINTAINERS                                        |   2 +
+>  arch/riscv/boot/dts/thead/th1520.dtsi              |  29 ++++
+>  drivers/gpu/drm/imagination/Kconfig                |   3 +-
+>  drivers/gpu/drm/imagination/pvr_device.c           |  33 +++-
+>  drivers/gpu/drm/imagination/pvr_device.h           |   6 +
+>  drivers/gpu/drm/imagination/pvr_power.c            |  82 +++++----
+>  drivers/power/sequencing/Kconfig                   |   8 +
+>  drivers/power/sequencing/Makefile                  |   1 +
+>  drivers/power/sequencing/pwrseq-thead-gpu.c        | 183 +++++++++++++++++++++
+>  11 files changed, 363 insertions(+), 35 deletions(-)
+> ---
+> base-commit: 49473fe7fdb5fbbe5bbfa51083792c17df63d317
+> change-id: 20250414-apr_14_for_sending-5b3917817acc
+> 
+> Best regards,
+> -- 
+> Michal Wilczynski <m.wilczynski@samsung.com>
+> 
 
-Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
----
-Changes in v4:
-- Ensure patch description describe diff adding overview diagram.
-- Link to v3: https://lore.kernel.org/r/20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com
+Thank you for continuing to work on this series.
 
-Changes in v3:
-- revert the promotion of the overview diagram header
-- Link to v2: https://lore.kernel.org/r/20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com
+I applied it to next-20250530 and the boot hangs:
 
-Changes in v2:
-- Update the overview diagram to display correctly by putting in a literal block.
-- Also update the overview section diagram to a higher order.
-- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
-- Rendered pages are okay on html and pdf.
-- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
----
- Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+<snip>
+[    0.895622] mmc0: new HS400 MMC card at address 0001
+[    0.902638] mmcblk0: mmc0:0001 8GTF4R 7.28 GiB
+[    0.915454]  mmcblk0: p1 p2 p3
+[    0.916613] debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
+[    0.920107] mmcblk0boot0: mmc0:0001 8GTF4R 4.00 MiB
+[    0.936592] mmcblk0boot1: mmc0:0001 8GTF4R 4.00 MiB
+[    0.944986] mmcblk0rpmb: mmc0:0001 8GTF4R 512 KiB, chardev (243:0)
+[    0.947700] mmc1: new UHS-I speed DDR50 SDHC card at address aaaa
+[    0.961368] mmcblk1: mmc1:aaaa SU16G 14.8 GiB
+[    0.969639]  mmcblk1: p1 p2 p3
+[    0.986688] printk: legacy console [ttyS0] disabled
+[    0.992468] ffe7014000.serial: ttyS0 at MMIO 0xffe7014000 (irq = 23, base_baud = 6250000) is a 16550A
+[    1.002085] printk: legacy console [ttyS0] enabled
+[    1.002085] printk: legacy console [ttyS0] enabled
+[    1.011784] printk: legacy bootconsole [uart0] disabled
+[    1.011784] printk: legacy bootconsole [uart0] disabled
+[    1.024633] stackdepot: allocating hash table of 524288 entries via kvcalloc
+<no more output>
 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a45d0f3f4561424e0 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -14,7 +14,45 @@ including the TTM memory manager, output configuration and mode setting,
- and the new vblank internals, in addition to all the regular features
- found in current kernels.
- 
--[Insert diagram of typical DRM stack here]
-+Overview of the Linux DRM Architecture
-+--------------------------------------
-+::
-+
-+        +-----------------------------+
-+        |     User-space Apps         |
-+        | (Games, Browsers, ML, etc.) |
-+        +-----------------------------+
-+                      |
-+                      v
-+        +---------------------------------------+
-+        |    Graphics APIs   |   Compute APIs   |
-+        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-+        +---------------------------------------+
-+                |                   |
-+                v                   v
-+        +---------------------+  +-----------------------+
-+        |  User-space Driver  |  |    Compute Runtime    |
-+        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-+        +---------------------+  +-----------------------+
-+                |                   |
-+                +--------+----------+
-+                         |
-+                         v
-+                +-----------------------+
-+                |   libdrm (DRM API)    |
-+                +-----------------------+
-+                          |
-+                          v
-+        +-------------------------------------------+
-+        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-+        |     nouveau, etc.)                        |
-+        +-------------------------------------------+
-+                |                       |
-+                v                       v
-+        +----------------+     +-------------------+
-+        | GPU Display HW |     | GPU Compute Units |
-+        +----------------+     +-------------------+
-+
- 
- Style Guidelines
- ================
+I pasted the full boot log [1]. I have clk_ignore_unused in the kernel
+cmdline so I don't think it is related to disabling clocks. Boot does
+complete okay if I set the gpu node status to disabled.
 
----
-base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
-change-id: 20250522-drm-doc-updates-3686f6d48122
+Any ideas of what might fix the boot hang?
 
-Best regards,
--- 
-Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Thanks,
+Drew
 
+[1] https://gist.github.com/pdp7/44bd6de63fb9274a66a705ad807690b6
