@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47520ACA1A8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2D8ACA1AC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:30:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F7610E3BC;
-	Sun,  1 Jun 2025 23:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB84C10E3C6;
+	Sun,  1 Jun 2025 23:30:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OfIn1WgV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NvAthikN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47BFA10E3BC
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:29:55 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FADA10E3C6;
+ Sun,  1 Jun 2025 23:30:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2DDAF49C9D;
- Sun,  1 Jun 2025 23:29:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89929C4CEE7;
- Sun,  1 Jun 2025 23:29:52 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id AB1E9A4F9E0;
+ Sun,  1 Jun 2025 23:30:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A73CC4CEE7;
+ Sun,  1 Jun 2025 23:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748820594;
- bh=NDRM7zxhORgzj0NRBr/ImY3u630rvVOVdmj4QzBubFk=;
+ s=k20201202; t=1748820601;
+ bh=ExUb3XPj01j3N04jN2LbEtnh9g5+U+o43q9FHoAJoR4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OfIn1WgVyMQgTMDoBkWZMhk/2a7qoBpALtWxv2sThV5BFmBxW2OznKYpVBYRikQk0
- 2jGim+2+xQRL7fb07h0ugrj+fP96ttmEXb4gNpjGqw4Kh/GPMna65jkh1v8QKEbXcs
- oKRH3nc0CxlIIymE6x1Gn+7lsfuPMZc5ivDXtOfB/6uZtcmunTX+1eH8x+r+PzHRbq
- TwAH5dav7xz+NeDmjtcS6oE5ebHTo1voRjpqzCL7XFOiW1leVNITQRcAUVvf4i4WGA
- dvdgp31kd066O2of/lYvNSSqnOQcRS9fqBoSCUhzPsm39LibYLQvH6KReMGKN246a7
- /y+t6bM/vTB8w==
+ b=NvAthikNj7clStM8Juu50yQ6/oyjWzXAPV1RCeBWS0OwYRQ6w1+xqP8Iz3N8VERWM
+ 3mFVtoYrxdmq7qDaCA0ZrNWeM8w+FWdLZRFMd1AXkTpqNKhcWEM2LY9lYvTEo73OA3
+ 9gE6Ftg1BNqDuMZQObpa0t7TCFPaUpCJk+8zp3angAczX34w3FDKEIGLov7dXEHbMf
+ c+xfb1B6Q4VdWdFxf3WNMaK+zk6XMgPL2bQUH+TuFinzXy54sIsQXr9pTEcuiRSWKg
+ Ak54xNBynvc6oLRwimICoMrUZw6ioDLVCXJbqNnayhowp/PjdmWY3RwwxYdhr/17Eo
+ OuPDEU6KAk8HQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org,
- jani.nikula@intel.com, imre.deak@intel.com, lyude@redhat.com,
- arun.r.murthy@intel.com, andy.yan@rock-chips.com, abel.vesa@linaro.org,
- mitulkumar.ajitkumar.golani@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 006/102] drm/dp: add option to disable zero sized
- address only transactions.
-Date: Sun,  1 Jun 2025 19:27:58 -0400
-Message-Id: <20250601232937.3510379-6-sashal@kernel.org>
+Cc: "Jesse.Zhang" <Jesse.Zhang@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
+ "Shaoyun . liu" <Shaoyun.liu@amd.com>, Prike Liang <Prike.Liang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, Jack.Xiao@amd.com, srinivasan.shanmugam@amd.com,
+ shaoyun.liu@amd.com, Jiadong.Zhu@amd.com, Hawking.Zhang@amd.com,
+ michael.chen@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 008/102] drm/amdgpu: Fix API status offset for
+ MES queue reset
+Date: Sun,  1 Jun 2025 19:28:00 -0400
+Message-Id: <20250601232937.3510379-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232937.3510379-1-sashal@kernel.org>
 References: <20250601232937.3510379-1-sashal@kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.9
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,155 +69,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+From: "Jesse.Zhang" <Jesse.Zhang@amd.com>
 
-[ Upstream commit f0ddbb1eed1898286d2bd99fd6ab64ca9700d267 ]
+[ Upstream commit ad7c088e31f026d71fe87fd09473fafb7d6ed006 ]
 
-Some older NVIDIA and some newer NVIDIA hardware/firmware seems to
-have issues with address only transactions (firmware rejects them).
+The mes_v11_0_reset_hw_queue and mes_v12_0_reset_hw_queue functions were
+using the wrong union type (MESAPI__REMOVE_QUEUE) when getting the offset
+for api_status. Since these functions handle queue reset operations, they
+should use MESAPI__RESET union instead.
 
-Add an option to the core drm dp to avoid address only transactions,
-This just puts the MOT flag removal on the last message of the transfer
-and avoids the start of transfer transaction.
+This fixes the polling of API status during hardware queue reset operations
+in the MES for both v11 and v12 versions.
 
-This with the flag set in nouveau, allows eDP probing on GB203 device.
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
-Reviewed-by: Timur Tabi <ttabi@nvidia.com>
-Tested-by: Timur Tabi <ttabi@nvidia.com>
-Signed-off-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Jesse Zhang <jesse.zhang@amd.com>
+Reviewed-By: Shaoyun.liu <Shaoyun.liu@amd.com>
+Reviewed-by: Prike Liang <Prike.Liang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees for the
-following reasons: 1. **Fixes Critical Hardware Functionality**: The
-commit addresses a significant bug where eDP displays cannot be probed
-on certain NVIDIA hardware (GB203 and others). The commit message
-explicitly states: "This with the flag set in nouveau, allows eDP
-probing on GB203 device." Without this fix, users with affected hardware
-cannot use their displays - a core functionality issue. 2. **Low
-Regression Risk - Opt-in Design**: The code changes show this is
-implemented as an opt-in feature through the `no_zero_sized` boolean
-flag: ```c /bin /bin.usr-is-merged /boot /dev /etc /home /init /lib
-/lib.usr-is-merged /lib64 /lost+found /media /mnt /opt /proc /root /run
-/sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr /var 0001-Fix-
-Clippy-warnings.patch 0002-Enhance-inference-prompt-to-utilize-
-CVEKERNELDIR-whe.patch 0003-Update-to-latest-version-of-clap.patch
-Cargo.lock Cargo.toml LICENSE README.md analyze_merge_commit.sh
-dpp_rcg_backport_analysis.md io_uring_analysis.txt ksmbd_analysis.txt
-merge_commit_analysis.txt model prompt src target test_gpio_cleanup.txt
-test_patch.txt @no_zero_sized: If the hw can't use zero sized transfers
-(NVIDIA) model/ prompt/ src/ target/ bool no_zero_sized; ``` The
-modified behavior only activates when this flag is explicitly set,
-meaning existing functionality remains unchanged for all other hardware.
-3. **Minimal and Contained Changes**: The code modifications are limited
-to: - Adding a single boolean field to the `drm_dp_aux` structure -
-Wrapping existing zero-sized transaction code in conditional checks: `if
-(!aux->no_zero_sized)` - Adding a special case to remove the MOT flag on
-the last message when the flag is set 4. **Historical Precedent**:
-Similar commits addressing DP AUX transaction issues have been
-backported: - Commit #2 (drm/nouveau/i2c/gf119-: add support for
-address-only transactions) was backported to fix display regressions -
-Commit #5 (drm/bridge: analogix_dp: properly handle zero sized AUX
-transactions) was explicitly marked with "CC: stable@vger.kernel.org" 5.
-**Affects Multiple Hardware Generations**: The commit message indicates
-this affects "Some older NVIDIA and some newer NVIDIA
-hardware/firmware", suggesting a widespread issue across different
-hardware generations that stable kernel users would encounter. 6.
-**Well-Tested Solution**: The commit has been: - Reviewed by Ben Skeggs
-(nouveau maintainer) - Reviewed and tested by Timur Tabi (NVIDIA
-engineer) - Signed off by Dave Airlie (DRM maintainer) The commit
-clearly meets stable kernel criteria: it fixes an important bug (display
-functionality), has minimal risk due to its opt-in nature, doesn't
-introduce new features or architectural changes, and addresses a real
-hardware compatibility issue that affects users.
+**YES** This commit should be backported to stable kernel trees based on
+the following analysis: ## Bug Analysis The commit fixes a clear
+functional bug where `mes_v11_0_reset_hw_queue()` and
+`mes_v12_0_reset_hw_queue()` functions were using the wrong union type
+(`MESAPI__REMOVE_QUEUE`) to get the API status offset for polling
+completion. Since these functions handle **reset** operations, they
+should use the `MESAPI__RESET` union instead. ## Code Changes Assessment
+1. **Small and contained**: The fix changes only 2 lines across 2 files:
+- `mes_v11_0.c:480`: `offsetof(union MESAPI__REMOVE_QUEUE, api_status)`
+→ `offsetof(union MESAPI__RESET, api_status)` - `mes_v12_0.c:500`: Same
+change 2. **Logical correctness**: The functions create `union
+MESAPI__RESET mes_reset_queue_pkt` packets but were polling using the
+wrong union offset. This is a clear mismatch that could cause incorrect
+polling behavior. 3. **No architectural changes**: This is purely a bug
+fix that aligns the API status polling with the correct packet type. ##
+Impact Assessment - **Affects GPU queue management**: MES (Micro Engine
+Scheduler) queue reset is a critical operation for AMD GPUs -
+**Potential for silent failures**: Wrong offset polling could lead to
+improper completion detection - **User-visible impact**: Could cause GPU
+hangs or incorrect queue state management - **Low regression risk**: The
+fix aligns the code with its intended design ## Comparison with Similar
+Commits All 5 provided similar commits were marked "NO" for backporting
+because they: - Added new APIs/features (commits #1, #2) - Made
+functional changes to queue reset behavior (commits #3, #4, #5) In
+contrast, this commit: - Fixes an existing bug without adding features -
+Maintains existing behavior while correcting implementation - Follows
+the stable tree rule of "important bugfixes with minimal risk" ## Stable
+Tree Criteria Met ✅ **Important bugfix**: Fixes incorrect API status
+polling in GPU queue reset ✅ **Minimal risk**: Two-line change with
+clear logic ✅ **No new features**: Pure correctness fix ✅ **Contained
+change**: Limited to MES driver subsystem ✅ **Clear side effects**:
+Improves reliability of queue reset operations This commit represents
+exactly the type of focused bug fix that stable trees are designed to
+include.
 
- drivers/gpu/drm/display/drm_dp_helper.c | 39 +++++++++++++++----------
- include/drm/display/drm_dp_helper.h     |  5 ++++
- 2 files changed, 28 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v12_0.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 61c7c2c588c6e..8f19cd7665da0 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2023,14 +2023,17 @@ static int drm_dp_i2c_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs,
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+index 68bb334393bb6..ec7ef8763f932 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+@@ -477,7 +477,7 @@ static int mes_v11_0_reset_hw_queue(struct amdgpu_mes *mes,
  
- 	for (i = 0; i < num; i++) {
- 		msg.address = msgs[i].addr;
--		drm_dp_i2c_msg_set_request(&msg, &msgs[i]);
--		/* Send a bare address packet to start the transaction.
--		 * Zero sized messages specify an address only (bare
--		 * address) transaction.
--		 */
--		msg.buffer = NULL;
--		msg.size = 0;
--		err = drm_dp_i2c_do_msg(aux, &msg);
-+
-+		if (!aux->no_zero_sized) {
-+			drm_dp_i2c_msg_set_request(&msg, &msgs[i]);
-+			/* Send a bare address packet to start the transaction.
-+			 * Zero sized messages specify an address only (bare
-+			 * address) transaction.
-+			 */
-+			msg.buffer = NULL;
-+			msg.size = 0;
-+			err = drm_dp_i2c_do_msg(aux, &msg);
-+		}
- 
- 		/*
- 		 * Reset msg.request in case in case it got
-@@ -2049,6 +2052,8 @@ static int drm_dp_i2c_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs,
- 			msg.buffer = msgs[i].buf + j;
- 			msg.size = min(transfer_size, msgs[i].len - j);
- 
-+			if (j + msg.size == msgs[i].len && aux->no_zero_sized)
-+				msg.request &= ~DP_AUX_I2C_MOT;
- 			err = drm_dp_i2c_drain_msg(aux, &msg);
- 
- 			/*
-@@ -2066,15 +2071,17 @@ static int drm_dp_i2c_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs,
- 	}
- 	if (err >= 0)
- 		err = num;
--	/* Send a bare address packet to close out the transaction.
--	 * Zero sized messages specify an address only (bare
--	 * address) transaction.
--	 */
--	msg.request &= ~DP_AUX_I2C_MOT;
--	msg.buffer = NULL;
--	msg.size = 0;
--	(void)drm_dp_i2c_do_msg(aux, &msg);
- 
-+	if (!aux->no_zero_sized) {
-+		/* Send a bare address packet to close out the transaction.
-+		 * Zero sized messages specify an address only (bare
-+		 * address) transaction.
-+		 */
-+		msg.request &= ~DP_AUX_I2C_MOT;
-+		msg.buffer = NULL;
-+		msg.size = 0;
-+		(void)drm_dp_i2c_do_msg(aux, &msg);
-+	}
- 	return err;
+ 	return mes_v11_0_submit_pkt_and_poll_completion(mes,
+ 			&mes_reset_queue_pkt, sizeof(mes_reset_queue_pkt),
+-			offsetof(union MESAPI__REMOVE_QUEUE, api_status));
++			offsetof(union MESAPI__RESET, api_status));
  }
  
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 8f4054a560396..7e5451fed8219 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -518,6 +518,11 @@ struct drm_dp_aux {
- 	 * @powered_down: If true then the remote endpoint is powered down.
- 	 */
- 	bool powered_down;
-+
-+	/**
-+	 * @no_zero_sized: If the hw can't use zero sized transfers (NVIDIA)
-+	 */
-+	bool no_zero_sized;
- };
+ static int mes_v11_0_map_legacy_queue(struct amdgpu_mes *mes,
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
+index 6b121c2723d66..53d059a2a42e0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
+@@ -500,7 +500,7 @@ static int mes_v12_0_reset_hw_queue(struct amdgpu_mes *mes,
  
- int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
+ 	return mes_v12_0_submit_pkt_and_poll_completion(mes, pipe,
+ 			&mes_reset_queue_pkt, sizeof(mes_reset_queue_pkt),
+-			offsetof(union MESAPI__REMOVE_QUEUE, api_status));
++			offsetof(union MESAPI__RESET, api_status));
+ }
+ 
+ static int mes_v12_0_map_legacy_queue(struct amdgpu_mes *mes,
 -- 
 2.39.5
 
