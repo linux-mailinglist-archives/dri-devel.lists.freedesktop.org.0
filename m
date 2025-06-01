@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5F1ACA28A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909CCACA28B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709F010E440;
-	Sun,  1 Jun 2025 23:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E93D410E43F;
+	Sun,  1 Jun 2025 23:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I72wnCin";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MAwJa7+q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B99110E43F
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:38:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A0710E43F
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:38:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 513726135E;
- Sun,  1 Jun 2025 23:38:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225E4C4CEE7;
- Sun,  1 Jun 2025 23:38:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 506805C59C8;
+ Sun,  1 Jun 2025 23:35:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A2A1C4CEF1;
+ Sun,  1 Jun 2025 23:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821083;
- bh=GcewUq8IHs0FuFtWoZVXY+5BVYzZwzi8W6cAvB82S7A=;
+ s=k20201202; t=1748821091;
+ bh=Tj66MSgUxzXzTIlxLPPxklMsKAr0UBDIVi1FZngj+GY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I72wnCint0LGYHiI1l/MeHQrYuR27Gzzuz6SXHEiaQDoIiK1aHjQjQ4wyCmJV5bQJ
- KLgBf4cXiRc5UOZYQSiPaxcMdRdlwYMr3hInXujnwSphH8L8xVStLohnvbBasTlSlI
- 6IuJuHM8Vguj2QlOshG99TAMEnwbh8zgB/T8pV45j6hoNlkXnxmN6Zwr/NxiQoYa5n
- xrxtxsBBxK/ioBRG+S5wkIExYOYsKnj25FkU7/zWEyWDTSqpqbt2AAmR2NyozCrPJk
- deKh9/WoN5+SZ4F4xyUwsbQzPurayLu4HIaNM6sVnd53EYs0pzwlCdM/UJqt9+uwBR
- Pki+4fiflZqPg==
+ b=MAwJa7+qAtqGd50SKLk4BvN+MB3vaNiAVjZ6ADuJp8iPeyf0XxZceyFEWInaI9wYX
+ bLQlPkX4ZhuFEaDfjIpDyywCWpf0pdOrddcV9i1pjMwssY3vhKuAtIVYF3wVl57DqJ
+ HJZzPiKmGS3LzG31pMMNPc6aweiahBs+u2Ur3CUmyb5XqVJqTi2+W1osgWcyvj7FgN
+ yZVNMVAG+xhA9JsY8fQ+rzvlZTCwrEl2N9pPTFX0T7C68DdJvalDPVxj0f1nb2vJTp
+ bCurIzrbEtwITyQ8/YNVwy3RC2azD4rxCvnA8i3Q1uuLdH9x6fabzlvr6h5n4ulM20
+ vyCU90fJGrYQA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Damon Ding <damon.ding@rock-chips.com>,
- Douglas Anderson <dianders@chromium.org>,
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
  neil.armstrong@linaro.org, rfoss@kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, l.stach@pengutronix.de,
- bivvy.bi@rock-chips.com, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org,
+ dianders@chromium.org, nichen@iscas.ac.cn, robh@kernel.org,
+ xji@analogixsemi.com, wenst@chromium.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 06/66] drm/bridge: analogix_dp: Add irq flag
- IRQF_NO_AUTOEN instead of calling disable_irq()
-Date: Sun,  1 Jun 2025 19:36:43 -0400
-Message-Id: <20250601233744.3514795-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 10/66] drm/bridge: anx7625: change the
+ gpiod_set_value API
+Date: Sun,  1 Jun 2025 19:36:47 -0400
+Message-Id: <20250601233744.3514795-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
 References: <20250601233744.3514795-1-sashal@kernel.org>
@@ -53,6 +54,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.92
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,87 +71,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Damon Ding <damon.ding@rock-chips.com>
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
 
-[ Upstream commit efab13e7d13a641a22c7508cde6e1a5285161944 ]
+[ Upstream commit 50935044e58e563cdcfd556d62f27bc8744dd64e ]
 
-The IRQF_NO_AUTOEN can be used for the drivers that don't want
-interrupts to be enabled automatically via devm_request_threaded_irq().
-Using this flag can provide be more robust compared to the way of
-calling disable_irq() after devm_request_threaded_irq() without the
-IRQF_NO_AUTOEN flag.
+Use gpiod_set_value_cansleep() instead of gpiod_set_value()
+to fix the below call trace in the boot log:
 
-Suggested-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-Link: https://lore.kernel.org/r/20250310104114.2608063-2-damon.ding@rock-chips.com
+[    5.690534] Call trace:
+[    5.690536]  gpiod_set_value+0x40/0xa4
+[    5.690540]  anx7625_runtime_pm_resume+0xa0/0x324 [anx7625]
+[    5.690545]  __rpm_callback+0x48/0x1d8
+[    5.690549]  rpm_callback+0x6c/0x78
+
+Certain GPIO controllers require access via message-based buses
+such as I2C or SPI, which may cause the GPIOs to enter a sleep
+state. Therefore, use the gpiod_set_value_cansleep().
+
+Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://lore.kernel.org/r/20250505094245.2660750-7-quic_amakhija@quicinc.com
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees based on
-the following analysis: ## Code Change Analysis The commit makes a
-simple, targeted fix to address a race condition in interrupt handling:
-1. **Line 1639**: Changes `irq_flags = IRQF_TRIGGER_RISING |
-IRQF_TRIGGER_FALLING;` to `irq_flags = IRQF_TRIGGER_RISING |
-IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;` 2. **Line 1642**: Changes
-`irq_flags = 0;` to `irq_flags = IRQF_NO_AUTOEN;` 3. **Line 1659**:
-Removes the `disable_irq(dp->irq);` call that was previously needed
-after `devm_request_threaded_irq()` ## Backport Suitability Assessment
-**Matches Stable Tree Criteria:** 1. **Fixes an Important Bug**: The
-commit addresses a race condition where interrupts can fire between
-`devm_request_threaded_irq()` and `disable_irq()`, which could cause
-system instability or unexpected behavior. 2. **Small and Contained
-Change**: The modification is minimal (3 lines changed) and affects only
-the interrupt setup logic in `analogix_dp_core.c:1608-1659`. 3. **Low
-Risk of Regression**: The change uses a well-established kernel pattern
-(IRQF_NO_AUTOEN) that's been proven safe across multiple subsystems. 4.
-**Clear Technical Merit**: As noted in the commit message, using
-`IRQF_NO_AUTOEN` is "more robust compared to the way of calling
-disable_irq() after devm_request_threaded_irq()". **Strong Precedent
-from Similar Commits:** The analysis shows **ALL** similar commits in
-the provided reference set have "Backport Status: YES": -
-`drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()` - **YES** -
-`drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()` (both
-instances) - **YES** - `drm/imx/ipuv3: Use IRQF_NO_AUTOEN flag in
-request_irq()` - **YES** - `drm/exynos: move to use request_irq by
-IRQF_NO_AUTOEN flag` - **YES** **Additional Context from Kernel
-Repository:** Examination of `/home/sasha/linux/drivers/gpu/drm/bridge/a
-nalogix/analogix_dp_core.c:1659` confirms this follows the exact same
-pattern as other successful backports - replacing the `request_irq()` +
-`disable_irq()` sequence with `IRQF_NO_AUTOEN` flag usage. This is a
-textbook example of a stable tree candidate: it fixes a real race
-condition bug with minimal, proven-safe code changes that follow
-established kernel patterns.
+**YES** This commit should be backported to stable kernel trees.
+**Detailed Analysis:** **1. Bug Fix Nature:** The commit fixes a real
+runtime issue that produces call traces in the boot log. The commit
+message clearly shows a call trace stack: ``` [ 5.690534] Call trace: [
+5.690536] gpiod_set_value+0x40/0xa4 [ 5.690540]
+anx7625_runtime_pm_resume+0xa0/0x324 [anx7625] ``` This indicates users
+are experiencing actual crashes or warnings when using this driver with
+certain GPIO controllers. **2. Small, Contained Fix:** The code changes
+are minimal and surgical - only 4 lines changed, replacing
+`gpiod_set_value()` with `gpiod_set_value_cansleep()` in the
+`anx7625_power_on()` and `anx7625_power_standby()` functions: - Line
+1260: `gpiod_set_value(ctx->pdata.gpio_p_on, 1)` →
+`gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 1)` - Line 1263:
+`gpiod_set_value(ctx->pdata.gpio_reset, 1)` →
+`gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 1)` - Line 1283:
+`gpiod_set_value(ctx->pdata.gpio_reset, 0)` →
+`gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 0)` - Line 1285:
+`gpiod_set_value(ctx->pdata.gpio_p_on, 0)` →
+`gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 0)` **3. Well-
+Established Pattern:** Looking at the similar commits provided as
+reference, this exact type of GPIO API fix is common and consistently
+handles the same underlying issue. All 5 similar commits (marked as "NO"
+for backport) show the same pattern of switching from
+`gpiod_set_value()` to `gpiod_set_value_cansleep()` to handle GPIO
+controllers on message-based buses (I2C/SPI). **4. Technical
+Correctness:** The fix is technically sound. These functions are called
+during power management operations (`anx7625_power_on()` and
+`anx7625_power_standby()`) where sleeping is acceptable and expected.
+The `_cansleep` variant is the correct API when GPIO controllers might
+be accessed via slow buses like I2C or SPI. **5. Low Risk:** The change
+has minimal risk of regression. The `gpiod_set_value_cansleep()`
+function provides the same functionality as `gpiod_set_value()` but
+allows sleeping, making it safe to use in contexts where the original
+was used incorrectly. **6. Critical Subsystem Impact:** This affects the
+DRM bridge subsystem and display functionality. Users with anx7625
+bridge chips connected to I2C GPIO expanders would experience boot-time
+call traces, which is a user-visible issue that should be fixed in
+stable kernels. **7. Real Hardware Impact:** The commit specifically
+mentions "Certain GPIO controllers require access via message-based
+buses such as I2C or SPI" - this is a real hardware configuration that
+users deploy, not an edge case. This commit meets all the criteria for
+stable backporting: it fixes a user-visible bug, has minimal risk, is
+contained to a single driver, and follows an established pattern for
+this type of GPIO API fix.
 
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index df9370e0ff230..411027cb73c40 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1771,10 +1771,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		 * that we can get the current state of the GPIO.
- 		 */
- 		dp->irq = gpiod_to_irq(dp->hpd_gpiod);
--		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING;
-+		irq_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN;
- 	} else {
- 		dp->irq = platform_get_irq(pdev, 0);
--		irq_flags = 0;
-+		irq_flags = IRQF_NO_AUTOEN;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index ddf944651c55a..fdf55d46abf52 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1255,10 +1255,10 @@ static void anx7625_power_on(struct anx7625_data *ctx)
+ 	usleep_range(11000, 12000);
+ 
+ 	/* Power on pin enable */
+-	gpiod_set_value(ctx->pdata.gpio_p_on, 1);
++	gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 1);
+ 	usleep_range(10000, 11000);
+ 	/* Power reset pin enable */
+-	gpiod_set_value(ctx->pdata.gpio_reset, 1);
++	gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 1);
+ 	usleep_range(10000, 11000);
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "power on !\n");
+@@ -1278,9 +1278,9 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
+ 		return;
  	}
  
- 	if (dp->irq == -ENXIO) {
-@@ -1791,7 +1791,6 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		dev_err(&pdev->dev, "failed to request irq\n");
- 		goto err_disable_clk;
- 	}
--	disable_irq(dp->irq);
+-	gpiod_set_value(ctx->pdata.gpio_reset, 0);
++	gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 0);
+ 	usleep_range(1000, 1100);
+-	gpiod_set_value(ctx->pdata.gpio_p_on, 0);
++	gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 0);
+ 	usleep_range(1000, 1100);
  
- 	return dp;
- 
+ 	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
 -- 
 2.39.5
 
