@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C23AACA270
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63871ACA275
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18EB10E43A;
-	Sun,  1 Jun 2025 23:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8CB10E43C;
+	Sun,  1 Jun 2025 23:36:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JwXMIZVz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qPJ5Tfhc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E09D10E432;
- Sun,  1 Jun 2025 23:36:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30D6810E43D
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jun 2025 23:36:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0D55B61127;
- Sun,  1 Jun 2025 23:36:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE6EC4CEF1;
- Sun,  1 Jun 2025 23:36:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C056A5C55AB;
+ Sun,  1 Jun 2025 23:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3256C4CEE7;
+ Sun,  1 Jun 2025 23:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821007;
- bh=D91YgcZxIRCfR2mOCi2luDYBQF9vJuJWNdZL5R02rts=;
+ s=k20201202; t=1748821011;
+ bh=EFzZa+Nch75GomygTs6THnTdW39Dbqe4N6p6BnzEhuA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JwXMIZVzRm1+xcFGWZWttifxYe65wQ3l8BaBeZrMKHDfBwUeSoDpmqrny+vhq7Gbu
- 0jssIWF7JMjN4bPOMCpcplHZDcgfUzm5E25EZbLgU02PZsI0OHcItm4llJPeEwmasq
- xjqxS/RwHtGGFHJdZ5ATBOHKRUOe6FYdg3GJ7P5TAfCfrUFZ4/NiVPwaanevqoOGNz
- lEoBJi/Q3TUKNqa8bab55FFDk2ky/m8uB7pMELOI8I5MSf6yrJ/0dBICLhEhx0jSP4
- A9hVudq78job4eOE7aEIpUce95VAtwAN2EHdmHtyqH+8bPQBaAw8smKhGpHemTs4i/
- V4jGGLgeDH0Ng==
+ b=qPJ5TfhczRONo95YX4N5e7mmH2Jm/u7v+3BgnWnvUMESbBzAlMQjuvuD+R9yU8s34
+ 22qsE6RooPnJRwiIwB8pq2CO75ryC6twn4a5NoxXoHeGuGtHwsQnUqImr6YN9tCw0+
+ nR3c7+myJ1UiSosqZaEXaMWJlX4rnKmAB8iaWJYbmHauk+QFElfGY2Wq97/bz19cx5
+ qTHs1m5RujeFdfRWW14Kf7lUK5Jy2jXFcIrAnjIzDvpcXGwjGzkScmGocNQ7kmdv/1
+ bTyIBB+Q5O42OqaQTvXTSNqZJa6yqwwQwx+WkqhH3P4ZfTWyfA5FnHE498pJpu20PR
+ yb23U/8f0z4Wg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, Sasha Levin <sashal@kernel.org>,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 64/93] drm/xe/uc: Remove static from loop variable
-Date: Sun,  1 Jun 2025 19:33:31 -0400
-Message-Id: <20250601233402.3512823-64-sashal@kernel.org>
+Cc: Antonin Godard <antonin.godard@bootlin.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Louis Chauvet <louis.chauvet@bootlin.com>, Sasha Levin <sashal@kernel.org>,
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 66/93] drm/panel: simple: Add POWERTIP
+ PH128800T004-ZZA01 panel entry
+Date: Sun,  1 Jun 2025 19:33:33 -0400
+Message-Id: <20250601233402.3512823-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601233402.3512823-1-sashal@kernel.org>
 References: <20250601233402.3512823-1-sashal@kernel.org>
@@ -48,7 +51,6 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.31
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,72 +67,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lucas De Marchi <lucas.demarchi@intel.com>
+From: Antonin Godard <antonin.godard@bootlin.com>
 
-[ Upstream commit 75584c8213d341ddd5b7c72abf822e62f4b3ab27 ]
+[ Upstream commit 6374a1005f20c1c2f7bbcc1bc735c2be4910a685 ]
 
-The `entries` variable is used to loop through the array - it's supposed
-to be const, but not static.
+Add support for the POWERTIP PH128800T004-ZZA01 10.1" (1280x800)
+LCD-TFT panel. Its panel description is very much like the POWERTIP
+PH128800T006-ZHC01 configured below this one, only its timings are
+different.
 
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250307-xe-per-gt-fw-v1-1-459574d76400@intel.com
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+Reviewed-by: Dmitry Baryshkov <lumag@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250311-add-powertip-ph128800t004-v1-2-7f95e6984cea@bootlin.com
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my extensive analysis: ## Commit Analysis **Type of Issue:** This commit
-fixes an incorrect use of the `static` storage class specifier on a
-local variable that should be a simple `const` pointer. **Code
-Analysis:** - The problematic line changes `static const struct
-uc_fw_entry *entries;` to `const struct uc_fw_entry *entries;` - This
-variable is used as a loop iteration pointer in the
-`uc_fw_auto_select()` function - The variable gets assigned from
-`blobs_all[uc_fw->type].entries` and is used to iterate through firmware
-entries - The `static` keyword is incorrect here because this should be
-a local variable that gets reinitialized on each function call **Impact
-Assessment:** - **Bug severity:** This is a subtle but real bug that
-affects driver correctness - **User impact:** Could cause firmware
-selection issues in Intel Xe GPU drivers, potentially leading to
-graphics driver failures or incorrect firmware loading - **Risk:** The
-incorrect `static` storage could cause the `entries` pointer to retain
-stale values across function calls, leading to unpredictable firmware
-selection behavior **Backport Suitability Criteria:** 1. ✅ **Fixes a
-real bug:** Yes, incorrect storage class affects program correctness 2.
-✅ **Small and contained:** Single line change, minimal risk 3. ✅ **No
-side effects:** Pure bug fix with no behavioral changes beyond
-correcting the error 4. ✅ **No architectural changes:** Simple variable
-declaration fix 5. ✅ **Minimal regression risk:** Extremely low risk -
-makes the code work as originally intended 6. ✅ **Follows stable tree
-rules:** Important bugfix, minimal risk, contained change **Historical
-Precedent:** This commit is nearly identical to the i915 commit
-`5821a0bbb4c3` which was backported (marked as "YES" in the reference
-commits). Both commits: - Fix the exact same type of bug (accidental
-`static` on local variable) - Affect similar firmware selection code in
-Intel GPU drivers - Have identical risk profiles and change patterns -
-Were authored by the same team working on Intel GPU microcontroller
-firmware **Conclusion:** This is a clear candidate for backporting - it
-fixes a genuine bug that could affect system stability, has minimal risk
-of regression, and follows the established pattern of similar fixes that
-have been successfully backported.
+NO This commit should NOT be backported to stable kernel trees based on
+the following analysis: **Commit Classification**: This is a new
+hardware support addition, not a bug fix. **Analysis of the commit**: 1.
+**Nature of Change**: The commit adds support for a brand new panel
+variant (POWERTIP PH128800T004-ZZA01) to the panel-simple driver. This
+is purely additive functionality for new hardware. 2. **Code Changes
+Review**: - Adds a new `powertip_ph128800t004_zza01_mode` structure with
+display timing parameters - Adds a new `powertip_ph128800t004_zza01`
+panel descriptor - Adds a new device tree compatible string entry in the
+`platform_of_match` table - The changes are isolated and only add new
+entries without modifying existing functionality 3. **Reference to
+Similar Commits**: All the provided historical examples of panel
+additions (Similar Commits #1, #2, #5) were marked as "Backport Status:
+NO", indicating that new panel support commits are typically not
+backported. 4. **Stable Tree Criteria Violation**: - This is new feature
+addition, not a bug fix - It doesn't address any existing user-affecting
+issues - It enables support for hardware that previously wasn't
+supported at all - No indication of fixing broken functionality 5.
+**Exception Analysis**: The only similar commit marked "YES" (Similar
+Commit #4) was specifically fixing missing display mode flags for an
+existing panel, which was a clear bug fix with a "Fixes:" tag. This
+current commit has no such characteristics. 6. **Risk Assessment**:
+While the change is low-risk and isolated, it doesn't meet the
+fundamental criteria for stable backporting as it's new hardware
+enablement rather than fixing existing functionality. The stable tree
+policy specifically excludes new hardware support unless it fixes
+existing broken functionality, which this commit does not do.
 
- drivers/gpu/drm/xe/xe_uc_fw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_uc_fw.c b/drivers/gpu/drm/xe/xe_uc_fw.c
-index d431d0031185e..16649652c8151 100644
---- a/drivers/gpu/drm/xe/xe_uc_fw.c
-+++ b/drivers/gpu/drm/xe/xe_uc_fw.c
-@@ -221,8 +221,8 @@ uc_fw_auto_select(struct xe_device *xe, struct xe_uc_fw *uc_fw)
- 		[XE_UC_FW_TYPE_HUC] = { entries_huc, ARRAY_SIZE(entries_huc) },
- 		[XE_UC_FW_TYPE_GSC] = { entries_gsc, ARRAY_SIZE(entries_gsc) },
- 	};
--	static const struct uc_fw_entry *entries;
- 	enum xe_platform p = xe->info.platform;
-+	const struct uc_fw_entry *entries;
- 	u32 count;
- 	int i;
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index d041ff542a4ee..ed09ffc0e2b48 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3685,6 +3685,32 @@ static const struct panel_desc pda_91_00156_a0  = {
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+ };
  
++static const struct drm_display_mode powertip_ph128800t004_zza01_mode = {
++	.clock = 71150,
++	.hdisplay = 1280,
++	.hsync_start = 1280 + 48,
++	.hsync_end = 1280 + 48 + 32,
++	.htotal = 1280 + 48 + 32 + 80,
++	.vdisplay = 800,
++	.vsync_start = 800 + 9,
++	.vsync_end = 800 + 9 + 8,
++	.vtotal = 800 + 9 + 8 + 6,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
++};
++
++static const struct panel_desc powertip_ph128800t004_zza01 = {
++	.modes = &powertip_ph128800t004_zza01_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 216,
++		.height = 135,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode powertip_ph128800t006_zhc01_mode = {
+ 	.clock = 66500,
+ 	.hdisplay = 1280,
+@@ -4960,6 +4986,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "pda,91-00156-a0",
+ 		.data = &pda_91_00156_a0,
++	}, {
++		.compatible = "powertip,ph128800t004-zza01",
++		.data = &powertip_ph128800t004_zza01,
+ 	}, {
+ 		.compatible = "powertip,ph128800t006-zhc01",
+ 		.data = &powertip_ph128800t006_zhc01,
 -- 
 2.39.5
 
