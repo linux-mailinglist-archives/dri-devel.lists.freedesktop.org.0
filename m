@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D543ACADB4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 13:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78493ACADC6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 14:06:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16FD710E4F3;
-	Mon,  2 Jun 2025 11:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5B6F10E509;
+	Mon,  2 Jun 2025 12:06:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="KQFZPL5A";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oxz45Mnv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B525710E4F3;
- Mon,  2 Jun 2025 11:59:28 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4b9sp36k08z9stJ;
- Mon,  2 Jun 2025 13:59:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748865564; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Cr5FKF36S3+2Th+8GFTmA1trzr0M2dkIElzTIDA6r4o=;
- b=KQFZPL5AqZPYTvxrNmE8PkyZC75LT7hZBYTRlWqdInwkBcBbBLh3yY4kqe9TOqgOCnKoVn
- JRDEwuOulepy/ZzHSf0BPWGqmRToC9tOEr8m5dKOzwHBchQTtH40JyH9WAsEQG9Aho5JhU
- wsdbgI0TtKxEuU3+zjh56cq9A/BPNq0j2ffh6XLD+RF79m3GlOzCYvhOhEH9iX5CBzO9Ka
- VSeefj8XHc6l4tMg7JM5zOZnUl1dj6LTTWn5iOOUfL/iRrVsKDd2rqdhcjlq6ck3rJiyuS
- JcfEkJJPQBRGd15K1VWPIeJxf15Z68XCqwLHsGOeuGZf6CbfwDVn8GtLWiXr/A==
-Message-ID: <bcc0ed477f8a6f3bb06665b1756bcb98fb7af871.camel@mailbox.org>
-Subject: Re: [PATCH v2 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
- skip the reset
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, phasta@kernel.org, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,  Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>,  Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>,  Liviu Dudau
- <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 13:59:14 +0200
-In-Reply-To: <177ea4e7-b05d-4ee0-8b5e-e3dfd67491a0@igalia.com>
-References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
- <964e59ba1539083ef29b06d3c78f5e2e9b138ab8.camel@mailbox.org>
- <177ea4e7-b05d-4ee0-8b5e-e3dfd67491a0@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1B4310E521;
+ Mon,  2 Jun 2025 12:06:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 822AE4A758;
+ Mon,  2 Jun 2025 12:06:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCFBFC4CEEB;
+ Mon,  2 Jun 2025 12:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1748865981;
+ bh=TrpiXBeO9vsEqYHgvdOSHhz8KA6waEqhOmYWxYQVrzs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oxz45MnvMpPNuWjGxCo7IWeC67zYkKiNni+kGoMwoabIb0nW7QzINJIFfGZNSLPHB
+ /fwR76Nt/BIuiT/wMKFCqtPQNk0toeatZBhtyXdx9rfbahj1Tg9W/yjsK6Mr2h9h6l
+ +g6NmFEL3m3mQ61bL7eQhMGeb++9aKWf9dZLCAx+8/Ys8EYchd8lSyLG0zXzRunryr
+ qI6/D5YXKyqZJupexdoogrNW3ABylJdyMh/NMfn7cF9MtUIcO9bq0eOy4wTdpWXjDw
+ lOztqwVh6ObF74h+XpD0ima4ubgnymro4iCZFBtHt7PbwVzQMz6vqYtAJFe2HVHSxO
+ njDjKdS+w3AWw==
+Date: Mon, 2 Jun 2025 14:06:14 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 14/20] gpu: nova-core: add falcon register definitions
+ and base code
+Message-ID: <aD2Ttry3arneEzSd@pollux>
+References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-14-05dfd4f39479@nvidia.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 847683725d56782a08d
-X-MBO-RS-META: 1tywnm68gw7sdztpoqqewbfthx99axqd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250521-nova-frts-v4-14-05dfd4f39479@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,128 +69,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-06-02 at 08:36 -0300, Ma=C3=ADra Canal wrote:
-> Hi Philipp,
->=20
-> On 02/06/25 04:28, Philipp Stanner wrote:
-> > On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
->=20
-> [...]
->=20
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > index
-> > > 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886
-> > > cf13
-> > > 11f8e09f42f04 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat
-> > > etnaviv_sched_timedout_job(struct drm_sched_job
-> > > =C2=A0=C2=A0	int change;
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	/*
-> > > -	 * If the GPU managed to complete this jobs fence, the
-> > > timout is
-> > > -	 * spurious. Bail out.
-> > > +	 * If the GPU managed to complete this jobs fence, the
-> > > timeout has
-> > > +	 * fired before free-job worker. The timeout is
-> > > spurious, so
-> > > bail out.
-> > > =C2=A0=C2=A0	 */
-> > > =C2=A0=C2=A0	if (dma_fence_is_signaled(submit->out_fence))
-> > > -		goto out_no_timeout;
-> > > +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	/*
-> > > =C2=A0=C2=A0	 * If the GPU is still making forward progress on the
-> > > front-
-> > > end (which
-> > > @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat
-> > > etnaviv_sched_timedout_job(struct drm_sched_job
-> > > =C2=A0=C2=A0		gpu->hangcheck_dma_addr =3D dma_addr;
-> > > =C2=A0=C2=A0		gpu->hangcheck_primid =3D primid;
-> > > =C2=A0=C2=A0		gpu->hangcheck_fence =3D gpu->completed_fence;
-> > > -		goto out_no_timeout;
-> > > +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> > > =C2=A0=C2=A0	}
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	/* block scheduler */
-> > > @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat
-> > > etnaviv_sched_timedout_job(struct drm_sched_job
-> > > =C2=A0=C2=A0	drm_sched_resubmit_jobs(&gpu->sched);
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	drm_sched_start(&gpu->sched, 0);
-> > > -	return DRM_GPU_SCHED_STAT_RESET;
-> > > =C2=A0=20
-> > > -out_no_timeout:
-> > > -	list_add(&sched_job->list, &sched_job->sched-
-> > > >pending_list);
-> >=20
-> > Here you actually remove the manipulation of the scheduler
-> > internals,
-> > but you didn't in v3d. Just to point that out.
-> >=20
-> >=20
-> > And BTW I'm just seeing that the pending_list gets manipulated here
-> > with the scheduler's workqueues running and no locks being hold.
-> >=20
-> > Oh man :(
-> >=20
-> > That is most certainly a bug, and I recommend that the etnaviv
-> > maintainers at least add the appropriate lock here and backport
-> > that
-> > since it can race any time.
-> >=20
-> >=20
-> > But thx for working on that, Ma=C3=ADra. Good that we can remove the
-> > stuff
-> > this way.
-> >=20
-> > Thinking about it, this patch even fixes a bug. So could contain a
-> > Fixes: tag. But I'm not sure if it's worth it to mark the entire
-> > series
-> > for Stable. Opinions?
->=20
-> I believe the best way to fix this bug would be doing something
-> similar
-> to what I did to v3d: send a temporary fix adding the locks, which
-> will
-> be backported to stable. I'll send a fix to Etnaviv today.
+On Wed, May 21, 2025 at 03:45:09PM +0900, Alexandre Courbot wrote:
+> Add the common Falcon code and HAL for Ampere GPUs, and instantiate the
+> GSP and SEC2 Falcons that will be required to boot the GSP.
 
-Having the locking is significantly better than not having it, and
-adding it gets my blessing, but it still doesn't solve all issues.
+Maybe add a few more words about the architectural approach taken here?
 
-As Matt pointed out and as you address in your patch =E2=84=962, a job coul=
-d
-still leak if no one makes sure that free_job_work gets kicked off. And
-exposing yet another scheduler function publicly is obviously
-unacceptable, so it's either live with the potential leak, or use the
-new status code.
+> +/// Valid values for the `size` field of the [`crate::regs::NV_PFALCON_FALCON_DMATRFCMD`] register.
+> +#[repr(u8)]
+> +#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+> +pub(crate) enum DmaTrfCmdSize {
+> +    /// 256 bytes transfer.
+> +    #[default]
+> +    Size256B = 0x6,
 
+Can we use a constant from `regs` to assign this value? Or is *this* meant to be
+the corresponding constant?
 
-P.
+> +}
 
->=20
-> Thanks for the review, Phillip!
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> >=20
-> >=20
-> > P.
-> >=20
-> >=20
-> > > =C2=A0=C2=A0	return DRM_GPU_SCHED_STAT_RESET;
-> > > =C2=A0=C2=A0}
-> > > =C2=A0=20
-> > >=20
-> >=20
->=20
+I wonder what's the correct thing to do for enum variants that do *not* have an
+arbitrary value, but match a specific register value in general.
 
+Should those be part of the `regs` module?
+
+> +    /// Wait for memory scrubbing to complete.
+> +    fn reset_wait_mem_scrubbing(&self, bar: &Bar0) -> Result {
+> +        util::wait_on(Duration::from_millis(20), || {
+
+I general, I think there can be quite a lot of parameters such timeouts can
+depend on, e.g. chipset, firmware version, etc.
+
+I think it could make sense to establish a rule for the project that for such
+timeouts we require a dedicated `// TIMEOUT: ` comment that mentions the worst
+case scenario, which we derived this timeout value from.
+
+> +    /// Perform a DMA write according to `load_offsets` from `dma_handle` into the falcon's
+> +    /// `target_mem`.
+> +    ///
+> +    /// `sec` is set if the loaded firmware is expected to run in secure mode.
+> +    fn dma_wr(
+> +        &self,
+> +        bar: &Bar0,
+> +        dma_handle: bindings::dma_addr_t,
+> +        target_mem: FalconMem,
+> +        load_offsets: FalconLoadTarget,
+> +        sec: bool,
+> +    ) -> Result {
+> +        const DMA_LEN: u32 = 256;
+> +
+> +        // For IMEM, we want to use the start offset as a virtual address tag for each page, since
+> +        // code addresses in the firmware (and the boot vector) are virtual.
+> +        //
+> +        // For DMEM we can fold the start offset into the DMA handle.
+> +        let (src_start, dma_start) = match target_mem {
+> +            FalconMem::Imem => (load_offsets.src_start, dma_handle),
+> +            FalconMem::Dmem => (
+> +                0,
+> +                dma_handle + load_offsets.src_start as bindings::dma_addr_t,
+
+We should make this a method of CoherentAllocation, such that we can get a
+boundary check on the offset calculation.
+
+For this purpose dma_rw() should also have the `F: FalconFirmware<Target = E>`
+generic I think.
+
+(No worries about the dependencies; I can create a shared tag for the DMA
+patches and merge it into the nova tree, such that it doesn't block this
+series.)
+
+> +            // Wait for the transfer to complete.
+> +            util::wait_on(Duration::from_millis(2000), || {
+
+Yeah, I really think some timeout justification would be nice.
+
+> +/// Hardware Abstraction Layer for Falcon cores.
+> +///
+> +/// Implements chipset-specific low-level operations. The trait is generic against [`FalconEngine`]
+> +/// so its `BASE` parameter can be used in order to avoid runtime bound checks when accessing
+> +/// registers.
+> +pub(crate) trait FalconHal<E: FalconEngine>: Sync {
+> +    // Activates the Falcon core if the engine is a risvc/falcon dual engine.
+> +    fn select_core(&self, _falcon: &Falcon<E>, _bar: &Bar0) -> Result<()> {
+> +        Ok(())
+> +    }
+> +
+> +    /// Returns the fused version of the signature to use in order to run a HS firmware on this
+> +    /// falcon instance. `engine_id_mask` and `ucode_id` are obtained from the firmware header.
+> +    fn get_signature_reg_fuse_version(
+
+Unless the method increases a reference count, please don't use the 'get'
+prefix.
+
+> +        &self,
+> +        falcon: &Falcon<E>,
+> +        bar: &Bar0,
+> +        engine_id_mask: u16,
+> +        ucode_id: u8,
+> +    ) -> Result<u32>;
+> +
+> +    // Program the boot ROM registers prior to starting a secure firmware.
+> +    fn program_brom(&self, falcon: &Falcon<E>, bar: &Bar0, params: &FalconBromParams)
+> +        -> Result<()>;
+> +}
+> +
+> +impl Chipset {
+> +    /// Returns a boxed falcon HAL adequate for this chipset.
+> +    ///
+> +    /// We use a heap-allocated trait object instead of a statically defined one because the
+> +    /// generic `FalconEngine` argument makes it difficult to define all the combinations
+> +    /// statically.
+> +    ///
+> +    /// TODO: replace the return type with `KBox` once it gains the ability to host trait objects.
+
+I think we can do this for v5. :-)
