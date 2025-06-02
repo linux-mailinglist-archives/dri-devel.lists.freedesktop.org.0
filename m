@@ -2,125 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FF2ACBBED
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 21:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9AAACBC43
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 22:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEBBB10E580;
-	Mon,  2 Jun 2025 19:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AB810E586;
+	Mon,  2 Jun 2025 20:25:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HBdzeICx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fossekall.de header.i=@fossekall.de header.b="e3Id86jq";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="LV6IAvB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF6810E580
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 19:47:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 552HJoSY011688
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Jun 2025 19:47:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- pv4Gvylo8FY7mjR4b9XsVtGARKI/SKacbF8jlSXtk5Q=; b=HBdzeICxNFwLE18Y
- C2Dg/v1rBYEUP65eqI6/FaYeqN/Ct0cinNTX1DiNk8746RkYf3qwc60F1L6Xq6FN
- Sc27EgduGLIQUcF6RuWGpDGKtwOw1s7MyxyXLKjGDJ1uz24utW+u9Ym0PXDgZMGo
- hNsvdLm8kWcDYwShwLPTsiSFKllzyssaU8CZO2r7oVXPCMZbDibSngGPL72Gnw8m
- qRPc1tg2Dy8LaS/2yQOQUYSTdCfdoorX8Pj8h9je9YWc1zJxRp7yFAam/6Ayn4ra
- LFMx8ZbsePRhPg73AIC17G4G+ZMMy8uv94974YqwHVAP/27uD4KOYbi4EkfJCfgj
- QOGmpg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8src2t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 19:47:11 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7caee990715so1425614385a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 12:47:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748893630; x=1749498430;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pv4Gvylo8FY7mjR4b9XsVtGARKI/SKacbF8jlSXtk5Q=;
- b=bPpesSMHY35NPzdvc3/weskQwPt/k08Beq/6+ldOBZ61LoNqRv1UrGrXknnzqpts9o
- Qo64nHLThe330W5bPVHJ/pCuzPi6fO7VlLgD77Pdaobyg0SZ+V8vqryNtLFpApyvdiQq
- 53q7C+Ts4KJkd6xKfs2ltJ8MvS+5KI8HxHwIksCtrEG9ipUC7e7sWADzvIglIarFCRLS
- eRgfF9VwuxTy0ZoftYtPg4sezNveRhxY4rZqCN4V99F2rsHzGON3Fi304y8WWDvs/SV0
- ntlBSx8cwxiEvldcm+7M2E4H5BmhiCviS3TIoNgaXgjTy/JE/0W/66wy6Mn5wp+GtQAw
- 9JKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWyjmReZyhmZVgtDJ//Pm2re3SDWpLJOT/lGBpJUrmAul95TIQTt5W6lIC0bERdwnEeG08Drs3fp3Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSY0FR9AWB2dOFtREXcMRu5W+5pt+OlsexyVHm/q4Mpw+1Ey0Z
- dp+ImQLf1iIXph5uyPNmku9li4Bp0P3u+Ox9ZlKiUezSG2qwKsVRNz0f7NjCbDvdxsn0pIwDlAJ
- XVDlQusHLgit12Rq+NFsm6vTu3hMB9lN0HwjhybL8dcHl0AfJnR3oHHKgYcIUBD8ki+MVQEQ=
-X-Gm-Gg: ASbGncsC5o/3ZaJ5/8Nkb5Lo2mBlymTLS/dGuycfE9hulIopZ3uBYfofY1eYg6w99sP
- HjUc12RL56xXzl4mAL6y6UtRC/pmDfa9cYvLTNaHbtz+gPJQkS7KFJnpv/7tQeH96ceFM2Fyn6n
- yBdGkhTyZzjkcodQ+nihAP9I+wPWYvElfS4PRIL9p+ZdT4boLpPNWUihtb7Bh5+BuOsB+HXml1u
- P++DrfmCEIEvyyVRLhuG1EWvcQjfe4pCMUhne04g7wFu+WEiHe03aIwbAlgAFAC1cetiTweyM2/
- g7T44Ra+jtxpvW6gfdXN+yBo506w9m8i5tuBqG6qLXZrDNj3m4q3zkEL9QiH
-X-Received: by 2002:a05:620a:600c:b0:7ce:be04:f838 with SMTP id
- af79cd13be357-7d0eac6350amr1384507285a.18.1748893630141; 
- Mon, 02 Jun 2025 12:47:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEny2RN/ronKKFErzwQjb5Z23+FdZnMifLiGPoWjy39vEUqYNoTBvVufGWzNLvyNJaCwLvblw==
-X-Received: by 2002:a05:620a:600c:b0:7ce:be04:f838 with SMTP id
- af79cd13be357-7d0eac6350amr1384503185a.18.1748893629760; 
- Mon, 02 Jun 2025 12:47:09 -0700 (PDT)
-Received: from [127.0.0.1] (85-76-98-209-nat.elisa-mobile.fi. [85.76.98.209])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32a85bd2790sm15451371fa.102.2025.06.02.12.47.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Jun 2025 12:47:08 -0700 (PDT)
-Date: Mon, 02 Jun 2025 20:47:05 +0100
-From: OSS <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Doug Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
- linux-kernel@vger.kernel.org, Yongxing Mou <quic_yongmou@quicinc.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/4=5D_drm/msm/dp=3A_Return_early_fr?=
- =?US-ASCII?Q?om_atomic=5Fenable=28=29_if_ST=5FDISCONNECT=5FPENDING?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <3f386e7f-5e22-4c67-bb3c-202f13c94d56@oss.qualcomm.com>
-References: <20250529-hpd_display_off-v1-0-ce33bac2987c@oss.qualcomm.com>
- <20250529-hpd_display_off-v1-2-ce33bac2987c@oss.qualcomm.com>
- <CAO9ioeUPJm1MbqAVJfcQSTAmvY3-TmvtZ+=Js1mZ53JFYHoUhw@mail.gmail.com>
- <3f386e7f-5e22-4c67-bb3c-202f13c94d56@oss.qualcomm.com>
-Message-ID: <41C69F0A-605F-4B87-89EE-FE86A8DC71F0@oss.qualcomm.com>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44CC010E586
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 20:25:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1748895753; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=W3vN+4KLO8cK3qU5USVsvEUhYd19mZ4zndWa6enD87kQ8K9CyUsbCpJBBY2x765wHL
+ q1LTZaVy08DRO3Pwzjl0uJ10WkDib/MApCJtsNhofJW75wA+ul5UGHP4g1VAJTAE3hsC
+ ID2ww8BCfxe9iS4/RViuZZFuN2NKtbbhR71IUydDX7ZZ2yPB/rRFCZ8ZzIEW5JtN4q9b
+ vmZ9QQoTLgZR4ScHYAAO7tNSlKotP+SLpAeD529+i6hTNS1JrkoFS7wCxcTNGWDes8qd
+ n54DhdwdpDjdZ8dPP4/q0PIfedwBSGIyw0dFqVJuWHpHgodZ49LseMWGpFbgSqwR4rum
+ uUrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1748895753;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=SgTlm3ZMGL6dC8XB4ryrz5XCs5DUrmAxkcSAJQ6NXEw=;
+ b=S92goXEE/X9QhaSFvYqfG6b1iBEJB1++OS0yz79JaaxhjK5SLpdm6bseKctZ7HX3xC
+ u9EvgsJDEsYnkPwgUe0xd7eJQZr7imniFmHXFKnUiqMA/lpQTwN3VuDMJwDIM/kKo1QO
+ DJhyoXWwjUCqgH9nTWATL+V56uT2nbAwGpheHEdnflbcB81qR2dYGQRO7WfuL23pO9ma
+ rKT7rAa1lP8Wkxrnoe71Po5mCoxBEOtRUeduxjSbayF9ZzHHqzTKGfJYebyzaWDQe4SD
+ fZNR+pdWyKB8dOIA0PESumsceCKvY2vgCSJ3FRjHeqKpfGgMvCVVHthssvPKy+waTzVw
+ C1Sw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1748895753;
+ s=strato-dkim-0002; d=fossekall.de;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=SgTlm3ZMGL6dC8XB4ryrz5XCs5DUrmAxkcSAJQ6NXEw=;
+ b=e3Id86jqlAGlf0QayOWpJZ5FGQMOhyUXErO+ZR81efZgDzBjpTYs7/3P5gS3ZX8yth
+ PvyET/TzrjUUZo3jlD2lCouQeXmTrUxXLV0DOSGFJ/+11v3C7mk60VlxlvEvt24oOi4S
+ YLHhNfROHbviby8s+0XoGSeHA6lhqyRv6scdU5qMPcr6kKB14FIAuGIgOCXKxvtlCJ7T
+ 4L9LNHsaeHZmCk7oALllq0FDEozH3CMeXafyCiIcYLqqM/BsyayH25lI6kxMnpBbzRCL
+ eqBaK8zHfTVmXe94Ob+9m8GClmyvgxoVX6JeAl/cwwzhY/HbVh1yFNR6LKkYM2WzPEgh
+ PM+Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1748895753;
+ s=strato-dkim-0003; d=fossekall.de;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=SgTlm3ZMGL6dC8XB4ryrz5XCs5DUrmAxkcSAJQ6NXEw=;
+ b=LV6IAvB63t6pe14GWWzxv+D26ngS3FRo3lj/GNubUXfomHAv/8Qp/Oh2od6tYq6vqY
+ W+Ol4WReQyIRJZ328TCg==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl by smtp.strato.de (RZmta 51.3.0 AUTH)
+ with ESMTPSA id f28b35152KMWrD6
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 2 Jun 2025 22:22:32 +0200 (CEST)
+Received: from koltrast.home ([192.168.1.32] helo=a98shuttle.de)
+ by aerfugl with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.96) (envelope-from <michael@fossekall.de>)
+ id 1uMBfz-00044L-1k; Mon, 02 Jun 2025 22:22:31 +0200
+Date: Mon, 2 Jun 2025 22:22:30 +0200
+From: Michael Klein <michael@fossekall.de>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] [BISECTED] drm/sun4i: hdmi: No HDMI output with
+ BananaPI M1 on 6.9
+Message-ID: <aD4IBoyGSJ5A5L-O@a98shuttle.de>
+References: <aCJZmm8rC0RwbcBX@a98shuttle.de>
+ <20250526-refined-dog-of-blizzard-b48f11@houat>
+ <aDTZXagQ28OdNtLh@a98shuttle.de>
+ <20250602-psychedelic-purring-poodle-900a5b@houat>
+ <aD3wE_mkfYA2XqA6@a98shuttle.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=RMizH5i+ c=1 sm=1 tr=0 ts=683dffbf cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=kLrF3Jeiykx/AYV6VMbcyQ==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=puQWGBksFvoA:10 a=EUspDBNiAAAA:8
- a=COk6AnOGAAAA:8 a=WDWld9wBFKh9IeGoHG4A:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAyMDE2MiBTYWx0ZWRfX+uH353CuuajM
- 9cA10G1sOZDvFG4ll8/yJkI4iq8A1Xs07AZr7xuA+JxHwSu+RSR7xI1XuM/nvnQYZgTo1Lfv+si
- 8Z1Ozs6Egsyh66kpvT4GTgCCiWO4MFn14OcrPy6aWy4JpdAcBfDmApEPsW5g3EHh4IQlpUvGaZz
- bY8FXqp+or05kR42PRcc0aUigJqJH7cdPJQ/6LgVlGV3QiIbbwM7pFfPjVjVs1aFQcxseYs7S1i
- 6GLCp+93gCayrPhOLD+C/aQRwnHfQ22UB7QL6O4GzC158YPK44z586hk2INXNIAGy9Wxij4ED4q
- gCgxHLRhkw8oikpUol2qfmQCVjt2HsNCYr17ReHDHl3J4H7LL2Vppbr527vgd8IOdMzpPUjA70A
- vp+KNS2ZoD5qmil4yRnjBFh0OctK7cL5V7/xY/GLl0JtexDElbpb5NO9a4NrmgDj/32U1hPB
-X-Proofpoint-GUID: zZCUYjic1992qg7zUdqQz5L-cbF6ugkL
-X-Proofpoint-ORIG-GUID: zZCUYjic1992qg7zUdqQz5L-cbF6ugkL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-02_07,2025-06-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506020162
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <aD3wE_mkfYA2XqA6@a98shuttle.de>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,99 +107,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 02, 2025 at 08:40:20PM +0200, Michael Klein wrote:
+>On Mon, Jun 02, 2025 at 11:55:44AM +0200, Maxime Ripard wrote:
+>>On Mon, May 26, 2025 at 11:13:01PM +0200, Michael wrote:
+>>>On Mon, May 26, 2025 at 07:30:35PM +0200, Maxime Ripard wrote:
+>>>> On Mon, May 12, 2025 at 10:27:06PM +0200, Michael wrote:
+>>>> > with v6.9 and later there is no output on the BananaPI HDMI connector.
+>>>> >
+>>>> > I have bisected the issue to the following commit:
+>>>> >
+>>>> >   358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
+>>>> >
+>>>> > With this patch, sun4i_hdmi_connector_clock_valid() is occasionally called
+>>>> > with clock=0, causing the function to return MODE_NOCLOCK.
+>>>> > In the old sun4i_hdmi_mode_valid() before the patch, mode->clock is
+>>>> > always!=0, maybe that gives someone a hint.
+>>>>
+>>>> This doesn't make sense to me, if only because the two callers of
+>>>> tmds_char_rate_valid (hdmi_compute_clock and
+>>>> drm_hdmi_connector_mode_valid) have, right before calling it, checks to
+>>>> make sure the clock rate isn't 0, and would return MODE_ERROR or EINVAL
+>>>> in such a case.
+>>>>
+>>>> https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L234
+>>>> https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L553
+>>>
+>>>Before 6.14, sun4i_hdmi_connector_clock_valid() was also called from
+>>>sun4i_hdmi_connector_atomic_check()...
+>>>
+>>>> Do you have some logs (with dri.devel=0xff)? Does it happen with 6.15 as
+>>>> well?
+>>>
+>>>It does not happen with 6.15, as it was fixed in 6.14 with 84e541b1e58e
+>>>("drm/sun4i: use drm_atomic_helper_connector_hdmi_check()").
+>>
+>>Then we might still need to backport that patch.
+>>
+>>Does applying it to 6.9 alone makes it work, or do you need some additional ones (I'm thinking of
+>>ae048fc4f96d in particular, which in turn would require 47368ab437fd)
+>
+>No way to apply this to anything 6.9. The closest I can get it into is 
+>6.11, which requires both ae048fc4f96d and 47368ab437fd (with one 
+>trivial conflict) to make it work. Anthing earlier lacks the entire 
+>HDMI connector framework.
 
+HDMI signal is fine, but panics when shutting down:
 
-On 2 June 2025 18:54:12 BST, Jessica Zhang <jessica=2Ezhang@oss=2Equalcomm=
-=2Ecom> wrote:
->
->
->On 5/30/2025 9:04 AM, Dmitry Baryshkov wrote:
->> On Fri, 30 May 2025 at 02:15, Jessica Zhang
->> <jessica=2Ezhang@oss=2Equalcomm=2Ecom> wrote:
->>>=20
->>> From: Abhinav Kumar <quic_abhinavk@quicinc=2Ecom>
->>>=20
->>> The checks in msm_dp_bridge_atomic_enable() for making sure that we ar=
-e in
->>> ST_DISPLAY_OFF OR ST_MAINLINK_READY seem redundant=2E
->>>=20
->>> DRM fwk shall not issue any commits if state is not ST_MAINLINK_READY =
-as
->>> msm_dp's atomic_check callback returns a failure if state is not
->>> ST_MAINLINK_READY=2E
->>=20
->> What if the state changes between atomic_check() and atomic_enable()?
->> There are no locks, cable unplugging is async, so it's perfectly
->> possible=2E
->>=20
->>>=20
->>> For the ST_DISPLAY_OFF check, its mainly to guard against a scenario t=
-hat
->>> there is an atomic_enable() without a prior atomic_disable() which onc=
-e
->>> again should not really happen=2E
->>>=20
->>> Since it's still possible for the state machine to transition to
->>> ST_DISCONNECT_PENDING between atomic_check() and atomic_commit(), chan=
-ge
->>> this check to return early if hpd_state is ST_DISCONNECT_PENDING=2E
->>=20
->> Can we really, please, drop the state machine? I had other plans for
->> the next week, but maybe I should just do it, so that by the end of
->> 6=2E17 cycle we can have a merged, stable and working solution? This
->> topic has been lingering for months without any actual change=2E
->
->FWIW, I'm currently working on the state machine rework by the middle of =
-next week=2E
->
->I'm anticipating that the rework itself will take some time to get merged=
-, so didn't want MST to get delayed more by this series=2E
+[   80.182719] 8<--- cut here ---
+[   80.190019] Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
+[   80.203132] [00000000] *pgd=00000000
+[   80.210869] Internal error: Oops: 5 [#1] SMP THUMB2
+[   80.219762] Modules linked in: rfkill sunrpc sun4i_gpadc_iio axp20x_adc sunxi_cir sun4i_ts sunxi_cedrus(C) v4l2_mem2mem videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videodev videobuf2_common mc cpufreq_dt lz4hc evdev lz4 uio_pdrv_genirq uio zram zsmalloc binfmt_misc ledtrig_netdev dm_mod configfs autofs4 ext4 mbcache jbd2 axp20x_usb_power industrialio pinctrl_axp209 lima gpu_sched sun4i_gpadc sunxi phy_generic simpledrm drm_shmem_helper display_connector realtek
+[   80.278276] CPU: 0 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G         C         6.11.11-edge-sunxi #2
+[   80.292150] Tainted: [C]=CRAP
+[   80.299353] Hardware name: Allwinner sun7i (A20) Family
+[   80.308856] PC is at drm_match_cea_mode+0x1a/0x164
+[   80.317864] LR is at drm_default_rgb_quant_range+0xd/0x18
+[   80.327409] pc : [<c068be8a>]    lr : [<c068bfe1>]    psr: 80000033
+[   80.337879] sp : f0819be0  ip : 00000000  fp : c1d99400
+[   80.347275] r10: 00000000  r9 : c350e600  r8 : c350f400
+[   80.356623] r7 : 00000000  r6 : 00000043  r5 : c1de9840  r4 : c2f72200
+[   80.367251] r3 : c1a7b200  r2 : 00000000  r1 : 00000014  r0 : 00000000
+[   80.377866] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA Thumb  Segment none
+[   80.389216] Control: 50c5387d  Table: 4350406a  DAC: 00000051
+[   80.398974] Register r0 information: NULL pointer
+[   80.407594] Register r1 information: non-paged memory
+[   80.416432] Register r2 information: NULL pointer
+[   80.424851] Register r3 information: slab task_struct start c1a7b200 pointer offset 0 size 2560
+[   80.437302] Register r4 information: slab kmalloc-512 start c2f72200 pointer offset 0 size 512
+[   80.449595] Register r5 information: slab kmalloc-2k start c1de9800 pointer offset 64 size 2048
+[   80.461962] Register r6 information: non-paged memory
+[   80.470615] Register r7 information: NULL pointer
+[   80.478819] Register r8 information: slab kmalloc-512 start c350f400 pointer offset 0 size 512
+[   80.491012] Register r9 information: slab kmalloc-512 start c350e600 pointer offset 0 size 512
+[   80.503137] Register r10 information: NULL pointer
+[   80.511370] Register r11 information: slab kmalloc-1k start c1d99400 pointer offset 0 size 1024
+[   80.523615] Register r12 information: NULL pointer
+[   80.531889] Process systemd-shutdow (pid: 1, stack limit = 0x606ed489)
+[   80.541956] Stack: (0xf0819be0 to 0xf081a000)
+[   80.549838] 9be0: 00000000 7465f854 00000004 eff95f00 c1a7b480 00153997 00000012 00000000
+[   80.561631] 9c00: c16177c8 c16177c8 00000001 c15a0500 eff8b500 2e9eb000 00000014 c01631a9
+[   80.573432] 9c20: 00000012 00000000 f0819c38 eff95f00 00000000 c01531f3 00000000 c014fefb
+[   80.585202] 9c40: 00000000 ab217527 00000012 00000001 c16177c8 7465f854 00000000 c2f72200
+[   80.596929] 9c60: c1de9840 00000043 00000000 c350f400 c350e600 00000000 c1d99400 c068bfe1
+[   80.608686] 9c80: 00000000 c06c41e3 00000014 c06aa6b9 c1a7b200 2e9eb000 c160b100 c160b100
+[   80.620365] 9ca0: 2e9eb000 2e9eb000 f0819cd0 c350f400 c38c3ec0 c06aab2f c1a7b200 c38c3ec0
+[   80.631960] 9cc0: c1de9840 00000043 c2f72200 c350f400 c350e600 00000000 c1d99400 c06aa89f
+[   80.643459] 9ce0: 00000043 c29e4740 c15aaec0 00000000 c1a7b200 aa4033e7 00000001 00000000
+[   80.654883] 9d00: c0baeee4 c01a248d c1d99400 c0dbfbf0 c0dbfd3c 00000001 c0dbfcc4 00000000
+[   80.666249] 9d20: 00000002 c1d99400 c38c3ec0 00000001 c2f72200 00000000 c350e600 c1d99400
+[   80.677586] 9d40: c38c3ec0 c06c4c45 c06c4c35 00000014 c1de9840 c067ffc5 c38c3ec0 00000000
+[   80.688949] 9d60: 00000000 7465f854 c1de9840 c0698f71 c0698f71 c0dbcfb0 00000000 c069c493
+[   80.700343] 9d80: 00000000 7465f854 c3bc60c0 c1d99400 00000000 00000000 00000000 c38c3ec0
+[   80.711744] 9da0: c1d99400 00000000 c3bc66c0 00000000 c1c06c54 00000058 4321fedc c0680ca5
+[   80.723146] 9dc0: 00000000 7465f854 00000000 c0ab622b 00000000 c1c06c10 00000000 00000000
+[   80.734573] 9de0: 00000000 c0ab622b 00000000 c1c06c10 00000000 00000000 00000000 7465f854
+[   80.746010] 9e00: c1c466f0 c38c3ec0 00000008 c06ad727 c1d99400 00000000 c1c06c10 c17f01ac
+[   80.757468] 9e20: c17a0018 c06ad78d c1a7b200 00000017 0000000b 00000000 00000000 00000000
+[   80.768964] 9e40: c1dea868 c1d99504 00000000 7465f854 c1c06c14 c1c06c14 c172b6d0 c06d80cf
+[   80.780459] 9e60: c1a7b200 c17a0f4c 00000000 c161357c fee1dead 00000000 c1a7b200 c013e66f
+[   80.791939] 9e80: c1a7b200 c013e7fd 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.803406] 9ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.814873] 9ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.826316] 9ee0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.837678] 9f00: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.849011] 9f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.860286] 9f40: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.871477] 9f60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   80.882646] 9f80: 00000000 00000000 00000000 7465f854 00000000 00000000 00000003 00000058
+[   80.893755] 9fa0: c01002a0 c0100061 00000000 00000000 fee1dead 28121969 4321fedc 00000000
+[   80.904935] 9fc0: 00000000 00000000 00000003 00000058 bef22d44 00000000 bef22a9c 4321fedc
+[   80.916090] 9fe0: 00000058 bef229ec b6c70c55 b6be0656 60000030 fee1dead 00000000 00000000
+[   80.927251] Call trace: 
+[   80.927270]  drm_match_cea_mode from drm_default_rgb_quant_range+0xd/0x18
+[   80.942505]  drm_default_rgb_quant_range from drm_atomic_helper_connector_hdmi_check+0x67/0x520
+[   80.954267]  drm_atomic_helper_connector_hdmi_check from drm_atomic_helper_check_modeset+0x363/0x974
+[   80.966483]  drm_atomic_helper_check_modeset from sun4i_de_atomic_check+0x11/0x2c
+[   80.977035]  sun4i_de_atomic_check from drm_atomic_check_only+0x471/0x730
+[   80.986897]  drm_atomic_check_only from drm_atomic_commit+0x61/0xac
+[   80.996205]  drm_atomic_commit from drm_atomic_helper_disable_all+0x127/0x130
+[   81.006385]  drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x5d/0xd0
+[   81.017192]  drm_atomic_helper_shutdown from device_shutdown+0xcf/0x174
+[   81.026851]  device_shutdown from kernel_power_off+0x2f/0x60
+[   81.035541]  kernel_power_off from __do_sys_reboot+0x15d/0x18c
+[   81.044367]  __do_sys_reboot from ret_fast_syscall+0x1/0x5c
+[   81.052908] Exception stack(0xf0819fa8 to 0xf0819ff0)
+[   81.060899] 9fa0:                   00000000 00000000 fee1dead 28121969 4321fedc 00000000
+[   81.072085] 9fc0: 00000000 00000000 00000003 00000058 bef22d44 00000000 bef22a9c 4321fedc
+[   81.083257] 9fe0: 00000058 bef229ec b6c70c55 b6be0656
+[   81.091295] Code: 25a8 921d f04f 0200 (6803) 4605 
+[   81.099305] ---[ end trace 0000000000000000 ]---
+[   81.107011] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[   81.117724] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
 
-Yes, that's fine=2E I really want HPD to be merged before MST=2E And if I =
-wasn't explicit, the state machine must be gone=2E Link training should hap=
-pen from atomic_enable, detect should be reporting whether there is an actu=
-al display plugged, etc=2E  Current code must be dropped=2E
-
-
->
->Thanks,
->
->Jessica Zhang
->
->>=20
->>>=20
->>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc=2Ecom>
->>> Signed-off-by: Jessica Zhang <jessica=2Ezhang@oss=2Equalcomm=2Ecom>
->>> ---
->>>   drivers/gpu/drm/msm/dp/dp_display=2Ec | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>=20
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display=2Ec b/drivers/gpu/drm/m=
-sm/dp/dp_display=2Ec
->>> index 1d7cda62d5fb=2E=2Ef2820f06f5dc 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display=2Ec
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display=2Ec
->>> @@ -1512,7 +1512,7 @@ void msm_dp_bridge_atomic_enable(struct drm_brid=
-ge *drm_bridge,
->>>          }
->>>=20
->>>          hpd_state =3D msm_dp_display->hpd_state;
->>> -       if (hpd_state !=3D ST_DISPLAY_OFF && hpd_state !=3D ST_MAINLIN=
-K_READY) {
->>> +       if (hpd_state =3D=3D ST_DISCONNECT_PENDING) {
->>=20
->>=20
->>=20
->>>                  mutex_unlock(&msm_dp_display->event_mutex);
->>>                  return;
->>>          }
->>>=20
->>> --
->>> 2=2E49=2E0
->>>=20
->>=20
->>=20
->
-
-With best wishes,=20
-Dmitry
+-- 
+Michael
