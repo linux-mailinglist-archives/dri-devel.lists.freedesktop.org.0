@@ -2,71 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A347ACAA36
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E77ACAA40
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF44710E1E8;
-	Mon,  2 Jun 2025 07:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A3410E268;
+	Mon,  2 Jun 2025 07:58:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ahVR6kUD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JAGMVMHs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A16D110E1E8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 07:57:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=x2N8/3IgmL2UzD7fyelcMMdDZAZcgyGD+CjcmBSBNxc=; b=ahVR6kUDW4IX/VYgbJMSYH4nGh
- 94pje5KJ+LraDhD0TFQ7pZm4b3D0he0tKGcK6Dk7ZMh+nEv9JTpYfbgdY8z1A8Ra+871Yal9ZEUJM
- Ba6CMJjym/T3VTT6K6WUjpqaZErX1Izh6hPuv5veOm+fJjQqjw44t5LfqrdtjlMjF6wcBcmcIbJTA
- wtD73U7MXyXeXxK8ojnMvkQKjCDVlJylOrMaqnBoCFaSIXqkPelLeH2iRLmP4Udy5FBrveGQ0N6BY
- FZMlWDnSKMrwR/nziZ35wCzY7NQffyZyuKqfueZiiTW6GnfnMthg3010manTyM3d5CZ8Lvh3Ecbc7
- i1tKfBhg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1uM02e-00000000bol-2ZLq; Mon, 02 Jun 2025 07:57:08 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id B19173005AF; Mon,  2 Jun 2025 09:57:07 +0200 (CEST)
-Date: Mon, 2 Jun 2025 09:57:07 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Alessandro Carminati <acarmina@redhat.com>,
- linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
- backtraces
-Message-ID: <20250602075707.GI21197@noisy.programming.kicks-ass.net>
-References: <20250526132755.166150-1-acarmina@redhat.com>
- <20250526132755.166150-2-acarmina@redhat.com>
- <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
- <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
- <20250530140140.GE21197@noisy.programming.kicks-ass.net>
- <202505301037.D816A49@keescook>
- <20250531102304.GF21197@noisy.programming.kicks-ass.net>
- <8C5E309E-03E5-4353-8515-67A53EC6C9E3@kernel.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 809EC10E268
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 07:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zdlCEeVUF00zQmejJCPvNPj1mEF7JVnwwI488w34Yp4=; b=JAGMVMHs5wf6yum9C+K1SKtaS2
+ PVIm/YKmwXru4q7WOgDyM2q3z1KJvVTH9ZOnXGPngr7dhXg0NLfvXDv3L47o0aNwCXF/31+qOKXEn
+ 6A11OGevXgn2w2lPAIrRxIdoR8sDNdDpvIfbO8IsRnFnfCY1mN4ji9i6wRCMn+Qhe0JOlhb7E9GWA
+ ryaeRQx+tQdvU73KLpnaURFiYlQ5j+wFrX/ijd8a2S1deagE1/YkeHN7S8S5NKtQHtRNNeJ6Znxa3
+ 856tsj06ytZqI7Az5lDnps2f7uDjDYBmB/EaDV6AMNVREj3sN1OGddpWUwkXYfdLR9d8w+9ciKeXj
+ 5UBAxOQw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uM03z-00GCSq-9Y; Mon, 02 Jun 2025 09:58:31 +0200
+Message-ID: <9783f727-faad-44bb-b47d-3ba06ef8b82d@igalia.com>
+Date: Mon, 2 Jun 2025 08:58:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8C5E309E-03E5-4353-8515-67A53EC6C9E3@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched/tests: Use one lock for fence context
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ airlied@gmail.com, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250527101029.56491-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250527101029.56491-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,16 +63,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 31, 2025 at 06:51:50AM -0700, Kees Cook wrote:
 
-> It's not for you, then. :) I can't operate ftrace, but I use kunit
-> almost daily. Ignoring WARNs makes this much nicer, and especially for
-> CIs.
+On 27/05/2025 11:10, Philipp Stanner wrote:
+> There is no need for separate locks for single jobs and the entire
+> scheduler. The dma_fence context can be protected by the scheduler lock,
+> allowing for removing the jobs' locks. This simplifies things and
+> reduces the likelyhood of deadlocks etc.
+> 
+> Replace the jobs' locks with the mock scheduler lock.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> Changes in v2:
+>    - Make commit message more neutral by stating it's about simplifying
+>      the code. (Tvrtko)
+> ---
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 5 ++---
+>   drivers/gpu/drm/scheduler/tests/sched_tests.h    | 1 -
+>   2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index f999c8859cf7..17023276f4b0 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -64,7 +64,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
+>   	list_move_tail(&job->link, &sched->done_list);
+> -	dma_fence_signal(&job->hw_fence);
+> +	dma_fence_signal_locked(&job->hw_fence);
+>   	complete(&job->done);
+>   }
+>   
+> @@ -123,7 +123,6 @@ drm_mock_sched_job_new(struct kunit *test,
+>   	job->test = test;
+>   
+>   	init_completion(&job->done);
+> -	spin_lock_init(&job->lock);
+>   	INIT_LIST_HEAD(&job->link);
+>   	hrtimer_setup(&job->timer, drm_mock_sched_job_signal_timer,
+>   		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
+> @@ -169,7 +168,7 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+>   
+>   	dma_fence_init(&job->hw_fence,
+>   		       &drm_mock_sched_hw_fence_ops,
+> -		       &job->lock,
+> +		       &sched->lock,
+>   		       sched->hw_timeline.context,
+>   		       atomic_inc_return(&sched->hw_timeline.next_seqno));
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> index 27caf8285fb7..fbba38137f0c 100644
+> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> @@ -106,7 +106,6 @@ struct drm_mock_sched_job {
+>   	unsigned int		duration_us;
+>   	ktime_t			finish_at;
+>   
+> -	spinlock_t		lock;
+>   	struct dma_fence	hw_fence;
+>   
+>   	struct kunit		*test;
 
-I'm thinking you are more than capable of ignoring WARNs too. This
-leaves the CI thing.
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-So all this is really about telling CIs which WARNs are to be ignored,
-and which are not? Surely the easiest way to achieve that is by
-printing more/better identifying information instead of suppressing
-things?
+Regards,
+
+Tvrtko
+
