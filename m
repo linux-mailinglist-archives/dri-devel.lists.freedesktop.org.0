@@ -2,67 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEDDACA9C0
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B01ACA9E3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:24:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC1D10E1D6;
-	Mon,  2 Jun 2025 07:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4097610E1A7;
+	Mon,  2 Jun 2025 07:24:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Lu2UMz40";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qgsBHgJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE36D10E1C9;
- Mon,  2 Jun 2025 07:13:47 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b9lSS2nrpz9tX0;
- Mon,  2 Jun 2025 09:13:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748848424; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dvhppmyhyICdwplZYutmaZL5qmaJdZkSh6zxnqcq8gs=;
- b=Lu2UMz40Uaxdgu45tQWbLRfKYxXvZrc2bKkrKJq5vJbmhdsUvrQadbXZTt3qxgg/+rHr81
- IcbZLUhua3nyev+q1fD8p6TSCphKXdilVNyNUaMFWCifROVOuCghxGO5NFMesI1zivvFSK
- 7x9o1iMqwSNpbbjq2IHlU3JZgJ7gh24AFCpa7W2xnaHY3JrNG9+8KMIhaH0sia2kc/DeLN
- /ZKVdbwaDNUnVrJyzXBdeDPZmvkt19Ew0/MhXr9M/4fEM7iwsRV+qFiuOtqlSKhkfHlIML
- 6umVayUivJ0/i+51Vl+zhF0I7qNh2BDOSqGPbog9NmYbZun1Vz34+JEVbKJBVQ==
-Message-ID: <b25c1cabe52436c83cb570a5d65ede2fc548fc0b.camel@mailbox.org>
-Subject: Re: [PATCH v2 5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
- the reset
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 09:13:34 +0200
-In-Reply-To: <20250530-sched-skip-reset-v2-5-c40a8d2d8daa@igalia.com>
-References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-5-c40a8d2d8daa@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42DC110E1A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 07:24:25 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-43edecbfb94so43382965e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 00:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1748849062; x=1749453862; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cx0RaYDb88MYeeNdBYIWya8sxL0SHlDdzkxwTt2TDWc=;
+ b=qgsBHgJAPFyqQ+A6/qjip3sPIZlT6lsxaT1X8zLAaA1zlh1vqHoYfb4so2hMjB1wK8
+ Gjkky6t59jmE1HGUe79HijP+S8gKHpld0EMcegD3EaGo4h3a/EtO63na3OWvF18fEyPu
+ RAT7uMj/bLC1VytO72JmXZDJS+Sw/q0wPtWfIOfY+uENYCkgaMqX0Uosn0rcpyQ7VinC
+ zkhkGhowevK5ELYExML98n4ZMWZgfgHa4Qs3dFvF7PRoHWUn6zhPLpQQyAzBfYmVM9PV
+ dKqs1ETztNk/x9ecRq59x5fZmDJ8ImHaJBOX+Wlkvu4mobgp/YIh6pCXCKQq0liIKmpj
+ /TBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748849062; x=1749453862;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Cx0RaYDb88MYeeNdBYIWya8sxL0SHlDdzkxwTt2TDWc=;
+ b=tCWvjucaCqY4/vLQhE4T56l0DAkAGrluRYGNIw00fJdaI4NWVZ96HKfvoP02T0BBSY
+ U8Ckzp8LPhL+/2Urt7F/EIDtJgaYoNpJMqYfDK6leq7lRsoUjYgH2sLgR/Le2gj0DC+d
+ wWMcxLMfCBllj254m03iaznVZ1vzz6ot+W1aaIThQfFU8dkZxHVkyegZl53l8BbBj7lH
+ gT0Ib2oshijgByD4y4StqGVAYe26i1uyw2pjBCc/eJYWxVhTnei0DXYbSg+5IwfFkBR8
+ Og1J4pVpY3G6dnGxFHfWwkC3yHHaV4NGSGdGb5QK0lNKX9+buTvX2QBbc6yNaH9HoLmv
+ qkuQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQ46tr6j6XxMSJ0NTLFoywErZ1MhDaQcMXWq6VsSCwFvAILB7VRw6StEHQykWh0nP54bFkY2c3gjQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxaqzxy+QSaNbsTkVuBNgOvuKhi5hFX90j0+fLpee2jlAR8zzCW
+ umW8w6MW2UOm0UuNn5Gkoo7e1biM3/nW3HGWDNIVzWVrh72LIN/MIs1WjLdahomEt0o=
+X-Gm-Gg: ASbGncspq8lNwsSbh+fRxD8CHQQsZh0kKZlU0dW/0LdqWnqQQAo0rq1bp503Tmvy+mW
+ Zu7cS4iNU8fcxx8YA6YMXijoAPe8ppMsP/KRRJ/ehO5iCmXPCtV9fL6CW2LXGLcBTgkrkv/8UJV
+ A6jVO/rKqUI1dF3NrJpZLRXkA8u5PmCqW+PyggleQCeHepbp8rZQ9H8gyUXX9oJKaP2K/2WbvEY
+ xiYN6idxzSWXbQdECXKFSoWcIjm+Gl+pfPXKsDfr1dUR347WOrUhGqUSrH8If5o8Lnkb3fkJMj3
+ W8+3t+YNKmsvxsrQIyi0PvkLgLOOt80otbto6VcsoGP0lB37avQrGdE=
+X-Google-Smtp-Source: AGHT+IEVNyhdFOejr0L1LpDA1g7jRxs4kNrwm5NxBxAJbrQF2oeNR/IcwKlZ4fxQVZ9FMa1DqjLp8g==
+X-Received: by 2002:a05:6000:144e:b0:3a4:d6ed:8e2e with SMTP id
+ ffacd0b85a97d-3a4fe395675mr5771680f8f.41.1748849062063; 
+ Mon, 02 Jun 2025 00:24:22 -0700 (PDT)
+Received: from localhost ([41.210.143.146])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-450d8006952sm109189995e9.32.2025.06.02.00.24.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Jun 2025 00:24:21 -0700 (PDT)
+Date: Mon, 2 Jun 2025 10:24:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Alessandro Carminati <acarmina@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] kunit: Add support for suppressing warning
+ backtraces
+Message-ID: <aD1Roe-z6o1Y5K2V@stanley.mountain>
+References: <20250526132755.166150-1-acarmina@redhat.com>
 MIME-Version: 1.0
-X-MBO-RS-META: nwwk7zrhtdbczu8hebu1gxxgu8musq7f
-X-MBO-RS-ID: ba8a497f0f63299ba83
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250526132755.166150-1-acarmina@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +101,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
-> When a CL/CSD job times out, we check if the GPU has made any
-> progress
-> since the last timeout. If so, instead of resetting the hardware, we
-> skip
-> the reset and allow the timer to be rearmed. This gives long-running
-> jobs
-> a chance to complete.
->=20
-> Use the DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-
-> arm
-> the timer.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
-> b/drivers/gpu/drm/v3d/v3d_sched.c
-> index
-> e1997387831541fb053e472672004cf511c25558..fbb09a8aff3740b5cd59573b5f2
-> e26b2ee352dfb 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -761,7 +761,7 @@ v3d_cl_job_timedout(struct drm_sched_job
-> *sched_job, enum v3d_queue q,
-> =C2=A0	if (*timedout_ctca !=3D ctca || *timedout_ctra !=3D ctra) {
-> =C2=A0		*timedout_ctca =3D ctca;
-> =C2=A0		*timedout_ctra =3D ctra;
-> -		return DRM_GPU_SCHED_STAT_RESET;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	return v3d_gpu_reset_for_timeout(v3d, sched_job);
-> @@ -805,7 +805,7 @@ v3d_csd_job_timedout(struct drm_sched_job
-> *sched_job)
-> =C2=A0	 */
-> =C2=A0	if (job->timedout_batches !=3D batches) {
-> =C2=A0		job->timedout_batches =3D batches;
-> -		return DRM_GPU_SCHED_STAT_RESET;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0	}
+I like suppressing warning messages but there are still many cases, such
+as mm/kasan/kasan_test_c.c where printing the warning message is the
+whole point.
 
-Wait a second, help me out here quickly. You already added workaround
-stuff where you manipulate the scheduler's pending_list, as you state
-in the cover letter. That code here [1].
+We should create a standard way that test bots can filter out deliberate
+errors from unintentional errors.  This would also help humans who have
+to look at test results.
 
-Don't you have to remove the very same code in this series again to
-still have correct behavior in your driver?
+#define intentional_warning_marker(type) do {				\
+	pr_err("Triggering intentional %s warning!", type);		\
+} while (0)
 
-As I see it, all drm branches end up in Linus's tree ultimately. So I'd
-think about potential branch-races in case you didn't already.
+intentional_warning_marker("KASAN");
 
-
-P.
-
-
-
-[1] https://lore.kernel.org/dri-devel/20250430210643.57924-1-mcanal@igalia.=
-com/T/
-
-
-
-> =C2=A0
-> =C2=A0	return v3d_gpu_reset_for_timeout(v3d, sched_job);
->=20
+regards,
+dan carpenter
 
