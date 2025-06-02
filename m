@@ -2,75 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A94ACBC4D
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 22:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF03ACBC5E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 22:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5FC10E0B4;
-	Mon,  2 Jun 2025 20:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA9610E589;
+	Mon,  2 Jun 2025 20:37:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="dQWGK9I5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gFWQNj3j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30F210E0B4
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 20:29:17 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250602202916euoutp01da2e7b87044119a27d24c4c0e9252799~FU8m8QfrJ1851218512euoutp01T
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 20:29:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250602202916euoutp01da2e7b87044119a27d24c4c0e9252799~FU8m8QfrJ1851218512euoutp01T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1748896156;
- bh=LuhVx3O/KQGQRsU4OiisGNAVlHn1IT4eSr0XOaKuRxg=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=dQWGK9I5Kymf2Oxbg083v5CScrK9gSjZ6LDDnbqgKc+GEtquZvl0xvNiffNHXllue
- J9ElVWxIBMYAp1IQkKn25cNMD39Txt060JVHBkQP3HXc0bNWvfKFM5PcBcVYZo7077
- 8jSf9m0ScDbDtmphg4onBnUWGf+6HRAfxuyr6avA=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250602202914eucas1p1246d0c3c93222b9f80224b994573a31b~FU8lmjGhp1197511975eucas1p1Z;
- Mon,  2 Jun 2025 20:29:14 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250602202913eusmtip29f78e7b1758034d46ee105342391380b~FU8kkyi-L0590905909eusmtip2D;
- Mon,  2 Jun 2025 20:29:13 +0000 (GMT)
-Message-ID: <4519844e-b1c0-40a7-b856-a6e4a80c6334@samsung.com>
-Date: Mon, 2 Jun 2025 22:29:13 +0200
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B2310E589
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 20:37:32 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-601f278369bso10202510a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 13:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748896650; x=1749501450; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yQ4HWERFvpSkN8fGQnxpF4piNxSncvt1TtjfZIpZmnM=;
+ b=gFWQNj3jfvWa4MQ5HvJi4oZf3iR9h3VqJus9a6EbeQc+kuzww93BCcdjjbhcNvG6rv
+ j1h0tDYezDv43MD6JUWG92TbnTnmA1UbBdL4TB6kS7ciBuiM98M8uplj2l+LTMUNG/FY
+ RV2a7pgLcjtAtalSO37tJci0fAcU1/rGuXGibve+b9B53JJD4lUIDrlc1YKzkPysZupr
+ itGyBm7zY2tZ6SYt1jkU6KalV6xeVY5cK1G4rLX5FRHWVeeu71mSJZX1OOt3XfWtrJMT
+ 2PjpHOzjISmQ6kdJhs70YLZx8hbvHqkVaCC4JwYCTEoqfltLTFsZ265XfJ6ZoarfMhJS
+ l32g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748896651; x=1749501451;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yQ4HWERFvpSkN8fGQnxpF4piNxSncvt1TtjfZIpZmnM=;
+ b=NTC9PDNPGB3DsjCLX8euRX33NfmzyDVwFp3QQAOOxSg9bO5Rh87yietKBB0zGyavPr
+ wxKaU76Q0AjTM6vfHfJQ95PPySAfeRRM0htAnMuD8mBZ+FoKSq/XMvQweGkSusJv0wWh
+ /7jaQ18AtgyeryQZTk5XszIydUyOT7bCq889lOEZ+mYxj2Fp0r7seQoyuC1CRfoRddK+
+ 6OAKHXrTQDmC+F56Q5tLhNna6OOCzJwSdJVJaKPy9xT2Y+IiZkJPvOpwGlzq31KWEPwu
+ etCvFAugr9qZYwbPNsjVhwhKt5I47oKE7LDYa8VhmLiZ/SNcHcdHneXRgNRr+kcRI216
+ EziQ==
+X-Gm-Message-State: AOJu0YyjB0uiIZmy2b22JehFyHyTvf4s7s3JX5qBFp+wNXlGEASva9KF
+ /vcKwQvGA5p/VX/3oX9EdiwFFJ8SyNI5KDMHkNKEpUwWmFD3myCxVkObjsDIyDf0o3Ei6j9Jd8h
+ l0BtLBXNGOjX/2AfUaqEvLRC+KQDmj/8=
+X-Gm-Gg: ASbGncs8GDA8un9ncKxj5ZLlfX0WKVHEFtUJz6OnmWgL19rq/tbVG1ZtI0eN0ns7Dyt
+ q0VBMMjV1usgOJ3U/MAu6kIMcdlpVbxpmGdPYqBnJvbJQYnOtxJ6/zRuvYM9QszkApT+WmSu7EB
+ g27anrRE04D4F9A1ehQ/6UvqAGigeE5nahXvlk/cfcgw==
+X-Google-Smtp-Source: AGHT+IF+NUb3hn01gHtw3++HDKEXHIeen2ouGP6mNEiqV4lDWgohZ6Pe/De/43YCZGXW+QGHVumR5njq1uy6hL+96yo=
+X-Received: by 2002:a17:907:9801:b0:ad1:e4e9:6b4f with SMTP id
+ a640c23a62f3a-adb322b2c9cmr1367807666b.36.1748896650458; Mon, 02 Jun 2025
+ 13:37:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/8] dt-bindings: power: Add T-HEAD TH1520 GPU power
- sequencer
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
- <matt.coster@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <CAMRc=Me9cWfe2mL=Q6JQbAFjpd55MOBZuAWC793Us0criiQr4Q@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250602202914eucas1p1246d0c3c93222b9f80224b994573a31b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250529222403eucas1p1923fe09240be34e3bbadf16822574d75
-X-EPHeader: CA
-X-CMS-RootMailID: 20250529222403eucas1p1923fe09240be34e3bbadf16822574d75
-References: <CGME20250529222403eucas1p1923fe09240be34e3bbadf16822574d75@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <20250530-apr_14_for_sending-v3-1-83d5744d997c@samsung.com>
- <CAMRc=Me9cWfe2mL=Q6JQbAFjpd55MOBZuAWC793Us0criiQr4Q@mail.gmail.com>
+References: <CAPM=9tx++LWvKMfS556+CDcw-bWxf6vD6JtiwpAjspuc7Qeh_A@mail.gmail.com>
+ <c2571f57-3be4-4f8a-b442-b8f01dc5979f@amd.com>
+In-Reply-To: <c2571f57-3be4-4f8a-b442-b8f01dc5979f@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 3 Jun 2025 06:37:17 +1000
+X-Gm-Features: AX0GCFtZYuk5yBP26PHeXz6JUvASz4I2lH5hFCCE8B_PANVu-62vvzIDjlFowII
+Message-ID: <CAPM=9ty3STCUsa=a06RzNvHD+SbTONPVqpA9UEp6=tgt9+fYHg@mail.gmail.com>
+Subject: Re: ttm vs aarch64 mappings
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,98 +83,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 2 Jun 2025 at 21:51, Christian K=C3=B6nig <christian.koenig@amd.com=
+> wrote:
+>
+> On 6/1/25 22:50, Dave Airlie wrote:
+> > Hey,
+> >
+> > I've been playing a bit with nouveau on aarch64, and I noticed ttm
+> > translates ttm_uncached into pgprot_noncached which uses
+> > MT_DEVICE_nGnRnE. This is of course a device mapping which isn't
+> > appropriate for memory.
+> >
+> > For main memory we should be using pgprot_dmacoherent which translates
+> > to MT_NORMAL_NC,
+> > pgprot_writecombine also translates to MT_NORMAL_NC.
+> >
+> > Now I'm not sure anything gets this wrong right now, (except maybe
+> > nouveau), but I'm wondering would adding a ttm_uncached_ram caching
+> > type and rename ttm_uncached to ttm_uncached_device, if that would be
+> > a good idea?
+>
+> Let me ask the other way around: Why is nouveau still using ttm_uncached =
+with system memory?
+>
+> IIRC there are only two use cases for ttm_uncached: >15year old AGP syste=
+ms which for some reason can't handle write combine and MMIO BARs.
+>
+> E.g. for amdgpu the doorbells and HDP remapping are mapped with ttm_uncac=
+hed these days but nothing else.
 
+Well I'm not 100% sure what is valid here for nouveau to be doing.
 
-On 6/2/25 16:46, Bartosz Golaszewski wrote:
-> On Fri, May 30, 2025 at 12:24 AM Michal Wilczynski
-> <m.wilczynski@samsung.com> wrote:
->>
->> Introduce device tree bindings for a new power sequencer provider
->> dedicated to the T-HEAD TH1520 SoC's GPU.
->>
->> The thead,th1520-gpu-pwrseq compatible designates a node that will
->> manage the complex power-up and power-down sequence for the GPU. This
->> sequencer requires a handle to the GPU's clock generator reset line
->> (gpu-clkgen), which is specified in its device tree node.
->>
->> This binding will be used by a new pwrseq driver to abstract the
->> SoC specific power management details from the generic GPU driver.
->>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->> ---
->>  .../bindings/power/thead,th1520-pwrseq.yaml        | 42 ++++++++++++++++++++++
->>  MAINTAINERS                                        |  1 +
->>  2 files changed, 43 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/power/thead,th1520-pwrseq.yaml b/Documentation/devicetree/bindings/power/thead,th1520-pwrseq.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..4c302abfb76fb9e243946f4eefa333c6b02e59d3
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/power/thead,th1520-pwrseq.yaml
->> @@ -0,0 +1,42 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: https://protect2.fireeye.com/v1/url?k=55ca3a77-34b7d20f-55cbb138-74fe485fffb1-4da99284aaf5bdf2&q=1&e=085ffc69-21ad-4abd-9147-970a308c8818&u=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fpower%2Fthead%2Cth1520-pwrseq.yaml%23
->> +$schema: https://protect2.fireeye.com/v1/url?k=8e9b901c-efe67864-8e9a1b53-74fe485fffb1-c964471a6655716e&q=1&e=085ffc69-21ad-4abd-9147-970a308c8818&u=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23
->> +
->> +title: T-HEAD TH1520 GPU Power Sequencer
->> +
->> +maintainers:
->> +  - Michal Wilczynski <m.wilczynski@samsung.com>
->> +
->> +description: |
->> +  This binding describes the power sequencer for the T-HEAD TH1520 GPU.
->> +  This sequencer handles the specific power-up and power-down sequences
->> +  required by the GPU, including managing clocks and resets from both the
->> +  sequencer and the GPU device itself.
->> +
->> +properties:
->> +  compatible:
->> +    const: thead,th1520-gpu-pwrseq
->> +
-> 
-> Before I review the rest: is this actually a physical device that
-> takes care of the power sequencing? Some kind of a power management
-> unit for the GPU? If so, I bet it's not called "power sequencer" so
-> let's use its actual name as per the datasheet?
+There are three types of aarch64 deployments from NVIDIA,
+1. dGPU in an aarch64
+2. tegra where the interconnect isn't PCIe
+3. Grace Hopper where there is NVlink or some such between the CPU and
+GPU and in theory everything is coherent.
 
-Hi Bart,
-Thanks for your feedback. 
+I've been trying to get the last one working a bit better (but I've
+given up for now). On these systems there are a bunch of things we'd
+normally place in VRAM but due to other reasons we now have to place
+in GTT. On ARM64 NVIDIA seems to force uncached mappings for these
+particular shared memory regions. Nouveau also has a similar path in
+place for tegra systems, where nouveau_sgdma.c picks ttm_uncached,
+then we end up vmap'ing that page to map it into the kernel side. The
+vmap changes that to pgprot_noncached which to me is the wrong thing.
+It doesn't seem right to pick ttm_writecombined here, though that
+might just work, hence why I suggested adding ttm_uncached_ram.
 
-The hardware block responsible for powering up the components in the
-TH1520 SoC datasheet is called AON (Always On). However, we already have
-a DT node named aon that serves as a power domain provider
-(Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml).
+>
+> > Has anyone else come across this problem with TTM on aarch64? or
+> > understand if I'm missing something.
+>
+> If I'm not completely mistaken both pgprot_dmacoherent and pgprot_writeco=
+mbine map to MT_NORMAL_NC because there is no such thing as uncached system=
+ memory without write combining on aarch64.
+>
+> I mean why would you want to do this except for getting the MMIO write or=
+dering right? Avoiding write memory barriers?
 
-Following the discussion [1] about needing a separate DT node for the
-power sequencing capabilities of this AON block, and thinking further
-about it, I think the binding should be more generic. The AON block can
-manage power sequences for more than just the GPU (e.g. NPU, AUDIO,
-DSP).
+I'm not 100% sure why tegra does it in the first place, I suspect
+working around lack of knowledge on what is correct and just hey this
+works, so move on.
 
-The compatible string could be updated like so:
-"thead,th1520-aon-pwrseq"
-
-And the description:
-"
-  This binding describes the hardware capabilities within the Always-On
-  (AON) block of the T-HEAD TH1520 SoC responsible for controlling and
-  sequencing the power supply to various integrated peripherals, such as
-  the GPU, NPU, Audio, and DSP.
-"
-
-The exact power architecture of the SoC is described in the chapter
-6.3.2 (Power Architecture) [2]. The "VDEC/NPU/VENC/GPU/DSP Power Up/
-Power Down" is described in chapter 6.4.2.3.
-
-[1] - https://lore.kernel.org/all/CAPDyKFpi6_CD++a9sbGBvJCuBSQS6YcpNttkRQhQMTWy1yyrRg@mail.gmail.com/
-[2] - https://git.beagleboard.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20System%20User%20Manual.pdf
-
-> 
-> Bart
-> 
-
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+Dave.
