@@ -2,93 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B01ACA9E3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13D7ACA9ED
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4097610E1A7;
-	Mon,  2 Jun 2025 07:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169AF10E1C7;
+	Mon,  2 Jun 2025 07:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qgsBHgJA";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="H62SjE7x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42DC110E1A7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 07:24:25 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-43edecbfb94so43382965e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 00:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748849062; x=1749453862; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Cx0RaYDb88MYeeNdBYIWya8sxL0SHlDdzkxwTt2TDWc=;
- b=qgsBHgJAPFyqQ+A6/qjip3sPIZlT6lsxaT1X8zLAaA1zlh1vqHoYfb4so2hMjB1wK8
- Gjkky6t59jmE1HGUe79HijP+S8gKHpld0EMcegD3EaGo4h3a/EtO63na3OWvF18fEyPu
- RAT7uMj/bLC1VytO72JmXZDJS+Sw/q0wPtWfIOfY+uENYCkgaMqX0Uosn0rcpyQ7VinC
- zkhkGhowevK5ELYExML98n4ZMWZgfgHa4Qs3dFvF7PRoHWUn6zhPLpQQyAzBfYmVM9PV
- dKqs1ETztNk/x9ecRq59x5fZmDJ8ImHaJBOX+Wlkvu4mobgp/YIh6pCXCKQq0liIKmpj
- /TBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748849062; x=1749453862;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cx0RaYDb88MYeeNdBYIWya8sxL0SHlDdzkxwTt2TDWc=;
- b=tCWvjucaCqY4/vLQhE4T56l0DAkAGrluRYGNIw00fJdaI4NWVZ96HKfvoP02T0BBSY
- U8Ckzp8LPhL+/2Urt7F/EIDtJgaYoNpJMqYfDK6leq7lRsoUjYgH2sLgR/Le2gj0DC+d
- wWMcxLMfCBllj254m03iaznVZ1vzz6ot+W1aaIThQfFU8dkZxHVkyegZl53l8BbBj7lH
- gT0Ib2oshijgByD4y4StqGVAYe26i1uyw2pjBCc/eJYWxVhTnei0DXYbSg+5IwfFkBR8
- Og1J4pVpY3G6dnGxFHfWwkC3yHHaV4NGSGdGb5QK0lNKX9+buTvX2QBbc6yNaH9HoLmv
- qkuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQ46tr6j6XxMSJ0NTLFoywErZ1MhDaQcMXWq6VsSCwFvAILB7VRw6StEHQykWh0nP54bFkY2c3gjQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxaqzxy+QSaNbsTkVuBNgOvuKhi5hFX90j0+fLpee2jlAR8zzCW
- umW8w6MW2UOm0UuNn5Gkoo7e1biM3/nW3HGWDNIVzWVrh72LIN/MIs1WjLdahomEt0o=
-X-Gm-Gg: ASbGncspq8lNwsSbh+fRxD8CHQQsZh0kKZlU0dW/0LdqWnqQQAo0rq1bp503Tmvy+mW
- Zu7cS4iNU8fcxx8YA6YMXijoAPe8ppMsP/KRRJ/ehO5iCmXPCtV9fL6CW2LXGLcBTgkrkv/8UJV
- A6jVO/rKqUI1dF3NrJpZLRXkA8u5PmCqW+PyggleQCeHepbp8rZQ9H8gyUXX9oJKaP2K/2WbvEY
- xiYN6idxzSWXbQdECXKFSoWcIjm+Gl+pfPXKsDfr1dUR347WOrUhGqUSrH8If5o8Lnkb3fkJMj3
- W8+3t+YNKmsvxsrQIyi0PvkLgLOOt80otbto6VcsoGP0lB37avQrGdE=
-X-Google-Smtp-Source: AGHT+IEVNyhdFOejr0L1LpDA1g7jRxs4kNrwm5NxBxAJbrQF2oeNR/IcwKlZ4fxQVZ9FMa1DqjLp8g==
-X-Received: by 2002:a05:6000:144e:b0:3a4:d6ed:8e2e with SMTP id
- ffacd0b85a97d-3a4fe395675mr5771680f8f.41.1748849062063; 
- Mon, 02 Jun 2025 00:24:22 -0700 (PDT)
-Received: from localhost ([41.210.143.146])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-450d8006952sm109189995e9.32.2025.06.02.00.24.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jun 2025 00:24:21 -0700 (PDT)
-Date: Mon, 2 Jun 2025 10:24:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alessandro Carminati <acarmina@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] kunit: Add support for suppressing warning
- backtraces
-Message-ID: <aD1Roe-z6o1Y5K2V@stanley.mountain>
-References: <20250526132755.166150-1-acarmina@redhat.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BAC10E1A9;
+ Mon,  2 Jun 2025 07:28:32 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4b9lnT06qrz9sx4;
+ Mon,  2 Jun 2025 09:28:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1748849309; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q4Z3hNYSaUur4wcMuiWKEU1FHOZ6WUJKWRnKKswCKBU=;
+ b=H62SjE7x+g3o4fUzabF1/Qw//M0kb+SZ7rULQF7CTgb4T93TjvTc7q3qcILsDXrLGbxcD4
+ WEd09UvE3Y1sXu6v5AFDySqs9HZin+cuS063LCi1F4E+27tas42UQMg6pS00o7S5UVFoLk
+ Ov9q2IUKnNtb7rul8saYIcN/sj6dRglyBeJRV2/h3rMjntQiTilA4N9QdhqapWciCusqV6
+ m79Vj+n7F5AhUfIj+Q2/berwaJ5GB2syhD8cioGoOI2UQ+QeVgAZ/nd5bWz/4rkrcBx7Ko
+ Xz8AY7HgzwW1J/e5kkgr9de3kh9g99SbuX2I6IdNPw+bs4dDHXkgRnC8xeGOmQ==
+Message-ID: <964e59ba1539083ef29b06d3c78f5e2e9b138ab8.camel@mailbox.org>
+Subject: Re: [PATCH v2 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
+ skip the reset
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 02 Jun 2025 09:28:19 +0200
+In-Reply-To: <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
+References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
+ <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250526132755.166150-1-acarmina@redhat.com>
+X-MBO-RS-ID: aaf42f8f3d60101e047
+X-MBO-RS-META: pxxett1jfp4y7zqgtq3m1pk34heme5ym
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,23 +74,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I like suppressing warning messages but there are still many cases, such
-as mm/kasan/kasan_test_c.c where printing the warning message is the
-whole point.
+On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
+> Etnaviv can skip a hardware reset in two situations:
+>=20
+> =C2=A0 1. TDR has fired before the free-job worker and the timeout is
+> spurious.
+> =C2=A0 2. The GPU is still making progress on the front-end and we can
+> give
+> =C2=A0=C2=A0=C2=A0=C2=A0 the job a chance to complete.
+>=20
+> Instead of relying on the scheduler internals, use the
+> DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-arm the
 
-We should create a standard way that test bots can filter out deliberate
-errors from unintentional errors.  This would also help humans who have
-to look at test results.
+In the four patches adjusting the drivers, I rather recommend to write:
 
-#define intentional_warning_marker(type) do {				\
-	pr_err("Triggering intentional %s warning!", type);		\
-} while (0)
+"Instead of manipulating scheduler internals, inform the scheduler that
+this job did not actually time out and no reset was performed through
+the new status code DRM_GPU_SCHED_STAT_NO_HANG."
 
-intentional_warning_marker("KASAN");
+> timer.
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
+> =C2=A01 file changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index
+> 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf13
+> 11f8e09f42f04 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0	int change;
+> =C2=A0
+> =C2=A0	/*
+> -	 * If the GPU managed to complete this jobs fence, the
+> timout is
+> -	 * spurious. Bail out.
+> +	 * If the GPU managed to complete this jobs fence, the
+> timeout has
+> +	 * fired before free-job worker. The timeout is spurious, so
+> bail out.
+> =C2=A0	 */
+> =C2=A0	if (dma_fence_is_signaled(submit->out_fence))
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0
+> =C2=A0	/*
+> =C2=A0	 * If the GPU is still making forward progress on the front-
+> end (which
+> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0		gpu->hangcheck_dma_addr =3D dma_addr;
+> =C2=A0		gpu->hangcheck_primid =3D primid;
+> =C2=A0		gpu->hangcheck_fence =3D gpu->completed_fence;
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	/* block scheduler */
+> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0	drm_sched_resubmit_jobs(&gpu->sched);
+> =C2=A0
+> =C2=A0	drm_sched_start(&gpu->sched, 0);
+> -	return DRM_GPU_SCHED_STAT_RESET;
+> =C2=A0
+> -out_no_timeout:
+> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
 
-regards,
-dan carpenter
+Here you actually remove the manipulation of the scheduler internals,
+but you didn't in v3d. Just to point that out.
+
+
+And BTW I'm just seeing that the pending_list gets manipulated here
+with the scheduler's workqueues running and no locks being hold.=20
+
+Oh man :(
+
+That is most certainly a bug, and I recommend that the etnaviv
+maintainers at least add the appropriate lock here and backport that
+since it can race any time.
+
+
+But thx for working on that, Ma=C3=ADra. Good that we can remove the stuff
+this way.
+
+Thinking about it, this patch even fixes a bug. So could contain a
+Fixes: tag. But I'm not sure if it's worth it to mark the entire series
+for Stable. Opinions?
+
+
+P.
+
+
+> =C2=A0	return DRM_GPU_SCHED_STAT_RESET;
+> =C2=A0}
+> =C2=A0
+>=20
 
