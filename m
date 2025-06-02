@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C787BACAB88
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 11:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84000ACAB98
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 11:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2C2A10E4DF;
-	Mon,  2 Jun 2025 09:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF21710E1C8;
+	Mon,  2 Jun 2025 09:42:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ODV/5L/u";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="avl3A+Av";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCD4710E4D8;
- Mon,  2 Jun 2025 09:39:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4E65AA4FF0D;
- Mon,  2 Jun 2025 09:39:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11A7BC4CEEB;
- Mon,  2 Jun 2025 09:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748857182;
- bh=EpczvPljsIHCCSerQ8PlUVESAr97xCCeUPVmwWEVuko=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDBF10E1C8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 09:42:48 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EFEC379;
+ Mon,  2 Jun 2025 11:42:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1748857359;
+ bh=o3UbLqpCbRAsGmoz3Eg7AithqTKcB/MDrNIYyKDBbsY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ODV/5L/uN51j4TwraKZ3BycfSVRlESswLej+FDW09tuaWtYSdO6nPVR1qDSq0BnVj
- m/zXMgoP3AvYZabDO/9Yzp75n+qMBFO8JjLT8ZaMoLwTGZK2iZngAol/tbpaQZR2NK
- FlzG72XCHoT3DNr9I3f2g5rHrZUPxMBZQ0CFytRtiYBiNM1zhxKEgtYb64G7gL+XcB
- WPv+8YHjq3Qr2RyDfyBr3XZ4rvFCLIMju6+Red0wHTf/Cr5EPi7gx2FqlBASui+Mn3
- +k1lyYd9cBaod5t0GFMU19xY/qkf0zyla2RkR4EUpufwgn+mbEXCrJ7dtHTtuXNiXk
- I0GolDOu0P+7w==
-Date: Mon, 2 Jun 2025 11:39:34 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Benno Lossin <lossin@kernel.org>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ b=avl3A+AvKQKWaD4/9YcWC2HniPtbI364jwM+UiAuDUsHR+wf5ngtJvA3/2QnRIfgB
+ zoH9ntQLkOM1Yf0I5yr05GhlH7ffWXUUfMgnFTIb2IK1cMBp3qAQxp5jCYQUFGBX9T
+ m9K6SHlrAG/HrieEAZB6KOq0IKeEsyzmlVgYAluA=
+Date: Mon, 2 Jun 2025 12:42:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 04/20] rust: add new `num` module with useful integer
- operations
-Message-ID: <aD1xVkggDrCvA7ve@pollux>
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-4-05dfd4f39479@nvidia.com>
- <DA82KFLNAOG7.R7YT4BHCLNZQ@kernel.org>
- <DA88YHU4AZT7.B8JGZHW9P9L9@nvidia.com>
- <DA8GTD7LT7KO.1A3LBQGEQTCEW@kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v6 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
+ HSFREQ calculation
+Message-ID: <20250602094230.GA3645@pendragon.ideasonboard.com>
+References: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530165906.411144-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DA8GTD7LT7KO.1A3LBQGEQTCEW@kernel.org>
+In-Reply-To: <20250530165906.411144-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,16 +67,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 29, 2025 at 09:27:33AM +0200, Benno Lossin wrote:
-> That's also fair, but we lose the constness of `next_multiple_of`, so
-> you can't use `align_up` in a const function. That might confuse people
-> and then they write their own const helper function... I'd prefer we use
-> all functions that are available in the stdlib.
+Hi Prabhakar,
 
-Considering that, what's the suggestion for this trait?
+Thank you for the patch.
 
-I don't think we should have a trait with align_down() and fls() only and
-otherwise use next_multiple_of(), i.e. mix things up.
+On Fri, May 30, 2025 at 05:58:59PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
+> VCLK rate instead of the mode clock. The relationship between HSCLK and
+> VCLK is:
+> 
+>     vclk * bpp <= hsclk * 8 * lanes
+> 
+> Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
+> HSFREQ accurately reflects the clock rate set in hardware, leading to
+> better precision in data transmission.
+> 
+> Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
+> when computing `hsfreq`. Also, update unit conversions to use correct
+> scaling factors for better clarity and correctness.
+> 
+> Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
+> threshold comparisons to use Hz instead of kHz to ensure correct behavior.
+> 
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v5->v6:
+> - Dropped parentheses around the calculation of `hsfreq_max`.
+> - Changed dev_info() to dev_dbg
+> 
+> v4->v5:
+> - Added dev_info() to print the VCLK rate if it doesn't match the
+>   requested rate.
+> - Added Reviewed-by tag from Biju
+> 
+> v3->v4:
+> - Used MILLI instead of KILO
+> 
+> v2->v3:
+> - No changes
+> 
+> v1->v2:
+> - No changes
+> ---
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 30 +++++++++++--------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> index e8ca6a521e0f..4d4521a231cb 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/math.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+> @@ -15,6 +16,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  #include <linux/slab.h>
+> +#include <linux/units.h>
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -199,7 +201,7 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+>  	/* All DSI global operation timings are set with recommended setting */
+>  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
+>  		dphy_timings = &rzg2l_mipi_dsi_global_timings[i];
+> -		if (hsfreq <= dphy_timings->hsfreq_max)
+> +		if (hsfreq <= dphy_timings->hsfreq_max * KILO)
 
-I think we should either align with the Rust nomenclature - whatever this means
-for fls() - or implement the trait with all three methods.
+Why don't you modify hsfreq_max to also store the frequency in Hz ? That
+would bring more consistency across the driver.
+
+>  			break;
+>  	}
+>  
+> @@ -258,7 +260,7 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+>  static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  				  const struct drm_display_mode *mode)
+>  {
+> -	unsigned long hsfreq;
+> +	unsigned long hsfreq, vclk_rate;
+>  	unsigned int bpp;
+>  	u32 txsetr;
+>  	u32 clstptsetr;
+> @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	u32 golpbkt;
+>  	int ret;
+>  
+> +	ret = pm_runtime_resume_and_get(dsi->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	clk_set_rate(dsi->vclk, mode->clock * KILO);
+> +
+>  	/*
+>  	 * Relationship between hsclk and vclk must follow
+>  	 * vclk * bpp = hsclk * 8 * lanes
+> @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	 * hsclk(bit) = hsclk(byte) * 8 = hsfreq
+>  	 */
+>  	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -	hsfreq = mode->clock * bpp / dsi->lanes;
+> -
+> -	ret = pm_runtime_resume_and_get(dsi->dev);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	clk_set_rate(dsi->vclk, mode->clock * 1000);
+> +	vclk_rate = clk_get_rate(dsi->vclk);
+> +	if (vclk_rate != mode->clock * KILO)
+> +		dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
+> +			mode->clock * KILO, vclk_rate);
+
+I would move those 4 lines just below clk_set_rate().
+
+With those comments addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +	hsfreq = DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+>  
+>  	ret = rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
+>  	if (ret < 0)
+> @@ -304,12 +310,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  	 * - data lanes: maximum 4 lanes
+>  	 * Therefore maximum hsclk will be 891 Mbps.
+>  	 */
+> -	if (hsfreq > 445500) {
+> +	if (hsfreq > 445500000) {
+>  		clkkpt = 12;
+>  		clkbfht = 15;
+>  		clkstpt = 48;
+>  		golpbkt = 75;
+> -	} else if (hsfreq > 250000) {
+> +	} else if (hsfreq > 250000000) {
+>  		clkkpt = 7;
+>  		clkbfht = 8;
+>  		clkstpt = 27;
+> @@ -754,7 +760,7 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>  	 * mode->clock and format are not available. So initialize DPHY with
+>  	 * timing parameters for 80Mbps.
+>  	 */
+> -	ret = rzg2l_mipi_dsi_dphy_init(dsi, 80000);
+> +	ret = rzg2l_mipi_dsi_dphy_init(dsi, 80000000);
+>  	if (ret < 0)
+>  		goto err_phy;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
