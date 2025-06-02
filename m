@@ -2,55 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFDEACA372
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 01:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83229ACA814
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 03:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6D3610E4C6;
-	Sun,  1 Jun 2025 23:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA9B10E02B;
+	Mon,  2 Jun 2025 01:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ukyIz+G2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UtgN/58S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7827210E4C1;
- Sun,  1 Jun 2025 23:45:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 14DC95C4A51;
- Sun,  1 Jun 2025 23:43:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60767C4CEF2;
- Sun,  1 Jun 2025 23:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748821552;
- bh=JHWLWwdDqv4gDOc6/jG8G5P94Q/KqoEUEdQVFhGjWYI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ukyIz+G2iwpc40fiKkoDUJC3FcxoGlbCM9x/xqU/KABS2KOGn2F9k+VrA/gSkFtOs
- OS7gKViDTZksS+K5tzr+oUgr1yuMhz1Efah85/tsSwq4r/SaEnJWlq86eOoip64krh
- SDOev20/EIpyke20KytGtjPPv7NfuGgS4vhOf/bz0lnM3uR68OVBYZ9BimDntw4hUG
- XcApgAsRvpiZIzXYa0EDswUlViBcJPpschrqmh2lEMs4Y2DYT2N+3E2ejIkMaRkn6q
- HsKZzKcnrYDgTyOQr0yyvpRgvib5O1JCAOUlIBEclTl/NwQPntkPkif1cDqBvYYLcI
- YyoI5Hl3D2uwA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Amber Lin <Amber.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8721410E02B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 01:28:33 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-7399a2dc13fso4858585b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Jun 2025 18:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748827713; x=1749432513; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rIuuG42987mfkoJzwQaJbrpT4E2UM7n24cZCLeM9y+o=;
+ b=UtgN/58S8gX1d3HJnEAu584D1Bf5tbQVqrMbrttPbIBzG8cKPFVma2cML2vm57YYRK
+ LLzn0Vl14esc5rUSbPm3vOUZaMABnNbANO5b5IDqGbERuFLJcsgixK85PuybGLaCZMJ+
+ 5vl1p3rnMhPgL4p4+2VFpR4UZ+ENCBm5DCUV74EZLVA3euFBPHOeyfcF0Qw+FdbndNb2
+ ZsjKwU5IKnRy4THg9xSdhu65I7b3aI07cng9/aB1FFY+qIludS2ulzfheISvyfCx08WU
+ apkDLZGzv0K5bmqkJm9j1iEfJrRc0YO96gZb65kVgrh8taeQYKzYdvP63lnqMh5S5+Q3
+ RxIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748827713; x=1749432513;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rIuuG42987mfkoJzwQaJbrpT4E2UM7n24cZCLeM9y+o=;
+ b=OUXEjtJ2gyvCHhQEN2dhyBGCID+QV0jCWKqEswkJAOUAqq4HtJAptm1TM/QDC1gVh2
+ 8QI7Yto/uppJcUgcPtZFHPy+bXQiegDjir3mnsD/rArhm0TlZY4AYEbNWxFwrI2b59sw
+ gLXtgYSKA0H8WYd33DI/1kqHPS44p6dxMxoapLAqd41hAMOTLifbK5gOytYmHn+CTBT6
+ 4Jm0daFRYs7oi5eGryKIWiKLcpuxVklqbUPKmv/Lgv5Ap3GaE77b+dTlEfbr/B8HuDtP
+ JC7G+jC+ihf1tEumJVWpSBCqiUAfHhEWAutqAwrh8Ya0wDnHpQ31jRjFwBZXoL5txuHk
+ l5yQ==
+X-Gm-Message-State: AOJu0YyPqMktCOmfUoYd3uLqI9oYq07u6oEk19ic8Hse6FJ3oGSZZzBt
+ eI+U99TnrCDBgBl/Erh3JqiGX9NKpGnqnfg8yfp9sS7qoKpU6NndrRAl
+X-Gm-Gg: ASbGncsLjQ9zjQzx1XaRqZRfkc/G7LB12yY+/nxfTs79R9qz6U59eU3npRL50gyLprs
+ GzBERIKYQxTVICf+hJ5QCPwuLyw6HsMZKPlYGvIlJyk9cXvv5rF172uBfWi3MhXHfouLyspuaRy
+ qT220ynX6rWJtni/pvGdjtL2HfmkUA+nY25lDlDKn2SrK/0T1iBeUXe0gsdD6lrP+tEMwlaLA1n
+ jQNEF9XSwxfZhDAv76Eryg/zdov0NMlJTZPCC3UgB+P+1Cyk12uyDkq3XLQiUd8bw0t8oAcwjrZ
+ TwmmcPA7BsmhyejRxXVzHjTW2XSBVa6TJwNikNjX0IpS4YxRnmeEMcDvwL+ZxQ==
+X-Google-Smtp-Source: AGHT+IEBKCmgKDbpBseOlmrgXxmiDooBrj9LseBav0q71CMCKp7QIsKPUb/WVhWv1cwtRXM5cn0jGw==
+X-Received: by 2002:a05:6a00:809:b0:736:3be3:3d76 with SMTP id
+ d2e1a72fcca58-747c1c2f569mr12167910b3a.17.1748827712939; 
+ Sun, 01 Jun 2025 18:28:32 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-747affafab3sm6468548b3a.88.2025.06.01.18.28.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Jun 2025 18:28:31 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 590B24209E8C; Mon, 02 Jun 2025 08:28:30 +0700 (WIB)
+Date: Mon, 2 Jun 2025 08:28:30 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/22] drm/amdkfd: Set
- SDMA_RLCx_IB_CNTL/SWITCH_INSIDE_IB
-Date: Sun,  1 Jun 2025 19:45:05 -0400
-Message-Id: <20250601234515.3519309-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601234515.3519309-1-sashal@kernel.org>
-References: <20250601234515.3519309-1-sashal@kernel.org>
+Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
+Message-ID: <aDz-Pq4eMAYmzqsJ@archie.me>
+References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.293
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="0m9bGV+m6U5l6pls"
+Content-Disposition: inline
+In-Reply-To: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +92,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Amber Lin <Amber.Lin@amd.com>
 
-[ Upstream commit ab9fcc6362e0699fc1150aa1d8503c40fce2c1e1 ]
+--0m9bGV+m6U5l6pls
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When submitting MQD to CP, set SDMA_RLCx_IB_CNTL/SWITCH_INSIDE_IB bit so
-it'll allow SDMA preemption if there is a massive command buffer of
-long-running SDMA commands.
+On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
+> Add an overview diagram of Linux DRM architecture for
+> graphics and compute to introduction.rst
+>=20
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> ---
+> <snipped>...
+> diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/intro=
+duction.rst
+> index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a4=
+5d0f3f4561424e0 100644
+> --- a/Documentation/gpu/introduction.rst
+> +++ b/Documentation/gpu/introduction.rst
+> @@ -14,7 +14,45 @@ including the TTM memory manager, output configuration=
+ and mode setting,
+>  and the new vblank internals, in addition to all the regular features
+>  found in current kernels.
+> =20
+> -[Insert diagram of typical DRM stack here]
+> +Overview of the Linux DRM Architecture
+> +--------------------------------------
+> +::
+> +
+> +        +-----------------------------+
+> +        |     User-space Apps         |
+> +        | (Games, Browsers, ML, etc.) |
+> +        +-----------------------------+
+> +                      |
+> +                      v
+> +        +---------------------------------------+
+> +        |    Graphics APIs   |   Compute APIs   |
+> +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+> +        +---------------------------------------+
+> +                |                   |
+> +                v                   v
+> +        +---------------------+  +-----------------------+
+> +        |  User-space Driver  |  |    Compute Runtime    |
+> +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+> +        +---------------------+  +-----------------------+
+> +                |                   |
+> +                +--------+----------+
+> +                         |
+> +                         v
+> +                +-----------------------+
+> +                |   libdrm (DRM API)    |
+> +                +-----------------------+
+> +                          |
+> +                          v
+> +        +-------------------------------------------+
+> +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
+> +        |     nouveau, etc.)                        |
+> +        +-------------------------------------------+
+> +                |                       |
+> +                v                       v
+> +        +----------------+     +-------------------+
+> +        | GPU Display HW |     | GPU Compute Units |
+> +        +----------------+     +-------------------+
+> +
+> =20
+>  Style Guidelines
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
 
-Signed-off-by: Amber Lin <Amber.Lin@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+The patch LGTM, thanks!
 
-Based on my comprehensive analysis of both the commit and the kernel
-codebase context, here is my assessment: **YES** This commit should be
-backported to stable kernel trees. Here's my extensive analysis: ## Code
-Analysis The commit makes a minimal but important change to
-`drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c` in the
-`update_mqd_sdma()` function: ```c m->sdmax_rlcx_ib_cntl |=
-SDMA0_GFX_IB_CNTL__SWITCH_INSIDE_IB_MASK; ``` ## Why This Should Be
-Backported ### 1. **Fixes a Clear Functional Bug** - The commit
-addresses missing register configuration that prevents proper SDMA
-preemption - Without this bit set, SDMA engines cannot perform context
-switches inside Indirect Buffers (IBs) - This creates a scheduling
-fairness issue where long-running SDMA commands can starve other queues
-### 2. **Minimal Risk, High Confidence Change** - **Single line
-addition**: Only adds one register bit setting - **Well-understood
-hardware feature**: The `SWITCH_INSIDE_IB` bit is a documented hardware
-capability - **Conservative fix**: Simply enables existing hardware
-functionality that should have been enabled - **No API changes**:
-Doesn't modify interfaces or data structures ### 3. **Broad Impact on
-Modern AMD Hardware** - Affects all AMD GPUs with SDMA engines from GCN
-4.0+ (Vega, Navi, RDNA generations) - Impacts compute workloads using
-ROCm, OpenCL, and HIP - The issue affects system responsiveness under
-heavy SDMA usage patterns ### 4. **Consistent with Kernel Patterns**
-From examining similar commits, this follows the pattern of commits
-marked "Backport Status: YES": - **Similar Commit #5** was backported
-for implementing missing register state control in SDMA - Both commits
-involve configuring SDMA control registers that were previously unset -
-Both address functional correctness rather than adding new features ###
-5. **Meets Stable Tree Criteria** - **Important bugfix**: ✅ Fixes SDMA
-scheduling fairness - **Small and contained**: ✅ Single line change in
-one function - **No architectural changes**: ✅ Uses existing register
-and bit definitions - **Minimal regression risk**: ✅ Only enables
-documented hardware feature - **Critical subsystem**: ✅ GPU scheduling
-affects system performance ### 6. **Clear User Impact** The commit
-message explicitly states the problem: "massive command buffer of long-
-running SDMA commands" can cause starvation. This directly impacts: -
-Multi-process compute workloads - Real-time or interactive applications
-that need timely SDMA access - System responsiveness during heavy GPU
-compute usage ### 7. **Evidence from Codebase Analysis** My kernel tree
-analysis revealed: - The `SWITCH_INSIDE_IB` functionality exists across
-all SDMA generations - Other SDMA drivers (amdgpu) properly configure
-this register - KFD was missing this configuration, creating an
-inconsistency - No security implications found - this is purely a
-scheduling correctness issue This commit represents exactly the type of
-targeted bugfix that stable trees are designed to include: it's small,
-safe, fixes a real user-impacting issue, and has minimal risk of
-regression.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c | 4 ++++
- 1 file changed, 4 insertions(+)
+--=20
+An old man doll... just what I always wanted! - Clara
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-index d978fcac26651..4110cdc71f045 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-@@ -387,6 +387,10 @@ static void update_mqd_sdma(struct mqd_manager *mm, void *mqd,
- 	m->sdma_engine_id = q->sdma_engine_id;
- 	m->sdma_queue_id = q->sdma_queue_id;
- 	m->sdmax_rlcx_dummy_reg = SDMA_RLC_DUMMY_DEFAULT;
-+	/* Allow context switch so we don't cross-process starve with a massive
-+	 * command buffer of long-running SDMA commands
-+	 */
-+	m->sdmax_rlcx_ib_cntl |= SDMA0_GFX_IB_CNTL__SWITCH_INSIDE_IB_MASK;
- 
- 	q->is_active = QUEUE_IS_ACTIVE(*q);
- }
--- 
-2.39.5
+--0m9bGV+m6U5l6pls
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDz+PgAKCRD2uYlJVVFO
+o9tLAP0Sow5tlzIKu7aF+0vKKkRtHELvknXuFL5ejOAt+TAvmQEAiYUMmJTAcXAz
+YTpp61irGM5dwEpWDqxDhJ0J+PspnAE=
+=L4Sj
+-----END PGP SIGNATURE-----
+
+--0m9bGV+m6U5l6pls--
