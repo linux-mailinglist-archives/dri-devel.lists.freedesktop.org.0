@@ -2,78 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D269ACB39C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E0BACB445
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED58310E544;
-	Mon,  2 Jun 2025 14:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE30710E546;
+	Mon,  2 Jun 2025 14:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Kp/JOzXc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G4Mb7AoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78DA10E544
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:43:40 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43edecbfb94so48851085e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 07:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748875419; x=1749480219; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BmRnOjxFQaT42NxVRt03FTSH3KzxlAbjYGkqubhhB6U=;
- b=Kp/JOzXcjUujEKt6YVl/hqlF+O8YMLFLNmtNh70tBHfZsUXpCWZsKUC23+Nopfh30t
- 8rxud6d1of92/kWd8iS/xn+Y2JAE4dbY3Q77YQUVGjkjVMgdJ0VGrunV1IrDuqJjxl3Q
- BscXo01RGAUhkmg0dDNzKhLdnFp/ycsnPtQdw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748875419; x=1749480219;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BmRnOjxFQaT42NxVRt03FTSH3KzxlAbjYGkqubhhB6U=;
- b=SxkaHul/Xd/e6kfX3ICmQBWrxelPl9GsaGc/HYzcOZiDSQ57n6iWbBqpaYObTKyixT
- SeuoaoJy2YI8Bnp7/4v0kpvWsdYlXOcQIuFTnTWWjIZaushUrLehoooM+WZZhwrBRDpG
- BWS2H4vQ7FzY0Wi2OZaakhIShooxj2BNb60dR/+KuOSdYfW/wymI7ymiBVUv+A57XH/f
- r+Jiz44Px/iYZwDXnx/dPrz3VaqlD6osyh+139A+bC7SKWCq14rR3tn+8cQlqZJnbgtw
- DIkhbwk1LbX7zD+3KiPO8/wG8JuDRZxRj3OjyrdcmQpdkX46MR5Z+wl5yWAs9YO7q5mo
- xq6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW02zwm6G0zY6qtSMfScedj4t3TpodEQCRA0Tx8w+OmfBsBdEzrNuN41CU0SDO/tmeZpK0plGA4VCs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKy2WS4cnvGrVlgiDqtnqVCUeqD0dvRVp/kWCYKScK2ulXZ0Oi
- 2BIUlEur+a6jKJ2/9MIrvh/1+wDhiwnO8osKtcxF26nOO5HdhDUS/ENFwuQ+zv3xnN4=
-X-Gm-Gg: ASbGnctoBg/U90txGfZ6J5aXF2onrBY+9QWeyIsQHPvWJaFJrtbpSFgUdLR8bqb/gg1
- 2j2QaUXqsHWPWdHhsuUsekoQu9xQUqFVhqi8+Lc17mTA14GXM29DNsG5rQyKt4r6/d/Z2DZDhLs
- 7ISIndOLWUKhSQfpVUkx1CoqTvf9CDVJ+Xvm/FYKaxm6e5fOBoqmG7u+JUJE9UXKIDBtJzcfBT1
- P+qHUFnRogDoVWqdxque78UJYJwTFKc8LKhZuqG+DZTpSaMjLM5RRpb/HqTAyUysHHRLZjceDvG
- K5YzwK+H506vaMAvZRV5NFaBSL6e8Vyz6adpi9DFiH+JdF944uoPrn6PUcZZFfc=
-X-Google-Smtp-Source: AGHT+IFo+Z0NR0XEqF7bGgCU/zFo04aIkuwKr4I5i9fvBh1/D97TYslci1leA382fPNo1VYX/jntFg==
-X-Received: by 2002:a05:600c:8b34:b0:442:ccfa:1461 with SMTP id
- 5b1f17b1804b1-4511ecc2a30mr78544895e9.13.1748875418792; 
- Mon, 02 Jun 2025 07:43:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4f00971e4sm15380816f8f.65.2025.06.02.07.43.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jun 2025 07:43:38 -0700 (PDT)
-Date: Mon, 2 Jun 2025 16:43:35 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- intel-xe@lists.freedesktop.org, Carl Vanderlip <quic_carlv@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Simona Vetter <simona.vetter@intel.com>
-Subject: Re: [PATCH 4/8] accel/qaic: delete qaic_bo.handle
-Message-ID: <aD24l3NoZWWwScx6@phenom.ffwll.local>
-References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
- <20250528091307.1894940-5-simona.vetter@ffwll.ch>
- <70ad82b5-19f3-4e05-bc7a-858dafc563ef@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD22F10E546
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748875836; x=1780411836;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gvltXEjxatA7cwXbM1ySU6qvzw0guFizH5e5rJ906Jg=;
+ b=G4Mb7AoYnBCT8lR4JmxQHthTJxoZVsDZM8IXYhwaVze02cQCirR4TWFt
+ xkInUiCXx5IZu/DEvreUQumOpwFEM0pGzYIOyd/AsEsn4vFH8Eq4ACaNY
+ /opXOk1bJGFualyPZ2V5w7D2G1knjdbEVuyux4eQGlI8oKUekI2Ip4n4O
+ 4HBs1KTiDVLMArd/WxL1v6snw9aifUDsjaK0R0ny8kqCsKHekVXUN9cEF
+ vNxCNdrwaL41pgMIQMJNL3ZSY32A0XO2QabKMPchFN7rvX2dbnGHaR/38
+ tmVkGjYIVYpLI0Ue9yujRtmgD8qwa4vsYKRvnXAmeSFKBEewZWpkageWJ w==;
+X-CSE-ConnectionGUID: x8aOPgi9S/mvjLNnWC7vTA==
+X-CSE-MsgGUID: N5gL3jCnTCCssVUk3hCO/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="68435601"
+X-IronPort-AV: E=Sophos;i="6.16,203,1744095600"; d="scan'208";a="68435601"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2025 07:50:36 -0700
+X-CSE-ConnectionGUID: bSyumsRCQFaHieW5WnNEIw==
+X-CSE-MsgGUID: ORB/JHGpRB2A/q6o48Pqug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,203,1744095600"; d="scan'208";a="144592177"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa009.jf.intel.com with ESMTP; 02 Jun 2025 07:50:30 -0700
+Date: Mon, 2 Jun 2025 22:43:59 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
+ linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ vivek.kasireddy@intel.com, yilun.xu@intel.com,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com,
+ linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
+ shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
+ kevin.tian@intel.com
+Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
+ TEE-IO support
+Message-ID: <aD24r44v0g1NgeZs@yilunxu-OptiPlex-7050>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-20-yilun.xu@linux.intel.com>
+ <yq5aplfn210z.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <70ad82b5-19f3-4e05-bc7a-858dafc563ef@oss.qualcomm.com>
-X-Operating-System: Linux phenom 6.12.25-amd64 
+In-Reply-To: <yq5aplfn210z.fsf@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +81,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 09:15:22AM -0600, Jeff Hugo wrote:
-> On 5/28/2025 3:13 AM, Simona Vetter wrote:
-> > Handles are per-file, not global, so this makes no sense. Plus it's
-> > set only after calling drm_gem_handle_create(), and drivers are not
-> > allowed to further intialize a bo after that function has published it
-> > already.
+On Sun, Jun 01, 2025 at 04:15:32PM +0530, Aneesh Kumar K.V wrote:
+> Xu Yilun <yilun.xu@linux.intel.com> writes:
 > 
-> intialize -> initialize
+> > Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
+> > expected to be called by userspace when CoCo VM issues TDI bind/unbind
+> > command to VMM. Specifically for TDX Connect, these commands are some
+> > secure Hypervisor call named GHCI (Guest-Hypervisor Communication
+> > Interface).
+> >
+> > The TSM TDI bind/unbind operations are expected to be initiated by a
+> > running CoCo VM, which already have the legacy assigned device in place.
+> > The TSM bind operation is to request VMM make all secure configurations
+> > to support device work as a TDI, and then issue TDISP messages to move
+> > the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
+> >
+> > Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
+> > device to TDISP ERROR state.
+> >
 > 
-> > It is also entirely unused, which helps enormously with removing it
-> > :-)
-> 
-> There is a downstream reference to it which hasn't quite made it upstream
-> yet, but tweaking that should be fine. This is clearly a problem anyways, so
-> we'll need to find a solution regardless. Thank you very much for the audit.
-> 
-> > Since we're still holding a reference to the bo nothing bad can
-> > happen, hence not cc: stable material.
-> > 
-> > Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-> > Cc: Carl Vanderlip <quic_carlv@quicinc.com>
-> > Cc: linux-arm-msm@vger.kernel.org
-> > Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-> 
-> SOB chain seems weird to me. I got this email from @ffwll.ch, which would be
-> the author. Where is @intel.com contributing to the handoff of the patch?
+> Any reason these need to be a vfio ioctl instead of iommufd ioctl?
+> For ex: https://lore.kernel.org/all/20250529133757.462088-3-aneesh.kumar@kernel.org/
 
-I work for intel, so I just whack both of my emails on there for sob
-purposes. The intel email tends to be a blackhole for public mail, which
-is why I don't use it as From: for anything public.
+A general reason is, the device driver - VFIO should be aware of the
+bound state, and some operations break the bound state. VFIO should also
+know some operations on bound may crash kernel because of platform TSM
+firmware's enforcement. E.g. zapping MMIO, because private MMIO mapping
+in secure page tables cannot be unmapped before TDI STOP [1].
 
-> Overall, looks good to me. Seems like either I can ack this, and you can
-> merge, or I can just take it forward. I have no preference.  Do you?
+Specifically, for TDX Connect, the firmware enforces MMIO unmapping in
+S-EPT would fail if TDI is bound. For AMD there seems also some
+requirement about this but I need Alexey's confirmation.
 
-Whatever you like most, I'll resend the series with the wrong patches
-dropped soon anyway.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[1] https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
+
+> 
+> >
+> > Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Wu Hao <hao.wu@intel.com>
+> > Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+> > ---
+> >  drivers/vfio/iommufd.c           | 22 ++++++++++
+> >  drivers/vfio/pci/vfio_pci_core.c | 74 ++++++++++++++++++++++++++++++++
+> >  include/linux/vfio.h             |  7 +++
+> >  include/linux/vfio_pci_core.h    |  1 +
+> >  include/uapi/linux/vfio.h        | 42 ++++++++++++++++++
+> >  5 files changed, 146 insertions(+)
+> >
+> > diff --git a/drivers/vfio/iommufd.c b/drivers/vfio/iommufd.c
+> > index 3441d24538a8..33fd20ffaeee 100644
+> > --- a/drivers/vfio/iommufd.c
+> > +++ b/drivers/vfio/iommufd.c
+> > @@ -297,3 +297,25 @@ void vfio_iommufd_emulated_detach_ioas(struct vfio_device *vdev)
+> >  	vdev->iommufd_attached = false;
+> >  }
+> >  EXPORT_SYMBOL_GPL(vfio_iommufd_emulated_detach_ioas);
+> > +
+> > +int vfio_iommufd_tsm_bind(struct vfio_device *vdev, u32 vdevice_id)
+> > +{
+> > +	lockdep_assert_held(&vdev->dev_set->lock);
+> > +
+> > +	if (WARN_ON(!vdev->iommufd_device))
+> > +		return -EINVAL;
+> > +
+> > +	return iommufd_device_tsm_bind(vdev->iommufd_device, vdevice_id);
+> > +}
+> > +EXPORT_SYMBOL_GPL(vfio_iommufd_tsm_bind);
+> > +
+> > +void vfio_iommufd_tsm_unbind(struct vfio_device *vdev)
+> > +{
+> > +	lockdep_assert_held(&vdev->dev_set->lock);
+> > +
+> > +	if (WARN_ON(!vdev->iommufd_device))
+> > +		return;
+> > +
+> > +	iommufd_device_tsm_unbind(vdev->iommufd_device);
+> > +}
+> > +EXPORT_SYMBOL_GPL(vfio_iommufd_tsm_unbind);
+> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> > index 116964057b0b..92544e54c9c3 100644
+> > --- a/drivers/vfio/pci/vfio_pci_core.c
+> > +++ b/drivers/vfio/pci/vfio_pci_core.c
+> > @@ -692,6 +692,13 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
+> >  #if IS_ENABLED(CONFIG_EEH)
+> >  	eeh_dev_release(vdev->pdev);
+> >  #endif
+> > +
+> > +	if (vdev->is_tsm_bound) {
+> > +		vfio_iommufd_tsm_unbind(&vdev->vdev);
+> > +		pci_release_regions(vdev->pdev);
+> > +		vdev->is_tsm_bound = false;
+> > +	}
+> > +
+> >  	vfio_pci_core_disable(vdev);
+> >  
+> >  	vfio_pci_dma_buf_cleanup(vdev);
+> > @@ -1447,6 +1454,69 @@ static int vfio_pci_ioctl_ioeventfd(struct vfio_pci_core_device *vdev,
+> >  				  ioeventfd.fd);
+> >  }
+> >  
+> > +static int vfio_pci_ioctl_tsm_bind(struct vfio_pci_core_device *vdev,
+> > +				   void __user *arg)
+> > +{
+> > +	unsigned long minsz = offsetofend(struct vfio_pci_tsm_bind, vdevice_id);
+> > +	struct vfio_pci_tsm_bind tsm_bind;
+> > +	struct pci_dev *pdev = vdev->pdev;
+> > +	int ret;
+> > +
+> > +	if (copy_from_user(&tsm_bind, arg, minsz))
+> > +		return -EFAULT;
+> > +
+> > +	if (tsm_bind.argsz < minsz || tsm_bind.flags)
+> > +		return -EINVAL;
+> > +
+> > +	mutex_lock(&vdev->vdev.dev_set->lock);
+> > +
+> > +	/* To ensure no host side MMIO access is possible */
+> > +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
+> > +	if (ret)
+> > +		goto out_unlock;
+> >
+> 
+> This should be part of pci_tsm_bind() ? 
+
+I'm not quite sure. My feelig is this method is specific for VFIO
+driver. Many other drivers just request regions on probe(), they can
+never bind successfully if pci tsm hide this implementation internally.
+
+Thanks,
+Yilun
