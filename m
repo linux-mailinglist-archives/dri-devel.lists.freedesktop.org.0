@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2145AACB01B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D802ACB377
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A8E10E1EF;
-	Mon,  2 Jun 2025 14:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC5A710E29C;
+	Mon,  2 Jun 2025 14:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="odmJ29Tg";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oodWgn5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A344C10E1EF
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:00:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3303510E29C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:42:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E2F4D438BB;
- Mon,  2 Jun 2025 14:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01AD1C4AF09;
- Mon,  2 Jun 2025 14:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748872826;
- bh=wNC7AaKe9Ra7Pe5UYUQ6T8kl4WJKtgV4gm/y/d9HwYA=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=odmJ29TgLSk1eGgj/iJAPiRUO858mVI2Tt41Em+yUgfpwQafnTSb0TYyzYTji7Gfm
- hqF4QIi+Ql3uxYhMBXD91tvYIYfQ0/PDKDJK6SKMnh9hjY7kOqmhwIdmtAmmfVf8Sb
- qj03+/Ou5TEWeF8opqLH9BZjMJO+2cXnEFhjWrVwxCwY16Km0zvogqhjoH1/EBama/
- aX41571aA3F335y3HaJwIR/5t1O8XN+chx2jx6C0vgeCVrokOeyOwvtDkBxdTbVo7V
- k7przZP19XGI0Jr+fxT4GAhMjOiYqxUkZDZry3pMwxqmu3sYOYGxpee2p/31RnZLsj
- 1m6i0Io8ggCfA==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
- linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, yilun.xu@linux.intel.com,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
- kevin.tian@intel.com
-Subject: Re: [RFC PATCH 20/30] vfio/pci: Do TSM Unbind before zapping bars
-In-Reply-To: <20250529053513.1592088-21-yilun.xu@linux.intel.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-21-yilun.xu@linux.intel.com>
-Date: Mon, 02 Jun 2025 19:30:15 +0530
-Message-ID: <yq5ar002jlao.fsf@kernel.org>
+ by dfw.source.kernel.org (Postfix) with ESMTP id 515C05C5EE1;
+ Mon,  2 Jun 2025 14:40:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C4EC4CEEB;
+ Mon,  2 Jun 2025 14:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1748875345;
+ bh=DG/Ca6cUlmogT9Uklw9TtrHQjx+4SX9V/1WKIr//4aQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oodWgn5RKICZtgovhUDszJQamTGTIArkb1dF72wcLp3v8FgewSn8viZxXCjcm5qN7
+ aOUnbgH0sSKPNIhWxK8vHc6Yiq07pLgzmJI6gO9jo5cU8pLhBdumJGregO+Uqj2e2u
+ Xqo7gI8+X550kJZskCUqRZgTZ/k8ugVJFcqTbXsY=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Zhi Yang <Zhi.Yang@windriver.com>, He Zhe <zhe.he@windriver.com>
+Subject: [PATCH 5.10 106/270] drm/vmwgfx: Fix a deadlock in dma buf fence
+ polling
+Date: Mon,  2 Jun 2025 15:46:31 +0200
+Message-ID: <20250602134311.564526349@linuxfoundation.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250602134307.195171844@linuxfoundation.org>
+References: <20250602134307.195171844@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +63,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xu Yilun <yilun.xu@linux.intel.com> writes:
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
-> When device is TSM Bound, some of its MMIO regions are controlled by
-> secure firmware. E.g. TDX Connect would require these MMIO regions
-> mappeed in S-EPT and never unmapped until device Unbound. Zapping bars
-> irrespective of TSM Bound state may cause unexpected secure firmware
-> errors. It is always safe to do TSM Unbind first, transiting the device
-> to shared, then do whatever needed as before.
->
-> Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
-> ---
->  drivers/vfio/pci/vfio_pci_config.c |  4 +++
->  drivers/vfio/pci/vfio_pci_core.c   | 41 +++++++++++++++++++-----------
->  drivers/vfio/pci/vfio_pci_priv.h   |  3 +++
->  3 files changed, 33 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-> index 7ac062bd5044..4ffe661c9e59 100644
-> --- a/drivers/vfio/pci/vfio_pci_config.c
-> +++ b/drivers/vfio/pci/vfio_pci_config.c
-> @@ -590,6 +590,7 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
->  		new_mem = !!(new_cmd & PCI_COMMAND_MEMORY);
->  
->  		if (!new_mem) {
-> +			vfio_pci_tsm_unbind(vdev);
->  			vfio_pci_zap_and_down_write_memory_lock(vdev);
->  			vfio_pci_dma_buf_move(vdev, true);
->
+------------------
 
-For a secure device mmio range instead of vfio_pci_zap_and_down_write_memory_lock()
--> unmap_mapping_range() we want the vfio_pci_dma_buf_move right? Also
-is that expected to get called twice as below?
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-vfio_pci_tsm_unbind-> pci_tsm_unbind -> tdx_tsm_unbind ->
-tsm_handler->disable_mmio() -> vfio_pci_core_tsm_disable_mmio -> vfio_pci_dma_buf_move(vdev, true);
+commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
 
--aneesh
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll->fence wait->fence unref deadlocks.
+
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
+
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
+
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.2+
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
+[Minor context change fixed]
+Signed-off-by: Zhi Yang <Zhi.Yang@windriver.com>
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -32,7 +32,6 @@
+ #define VMW_FENCE_WRAP (1 << 31)
+ 
+ struct vmw_fence_manager {
+-	int num_fence_objects;
+ 	struct vmw_private *dev_priv;
+ 	spinlock_t lock;
+ 	struct list_head fence_list;
+@@ -113,13 +112,13 @@ static void vmw_fence_obj_destroy(struct
+ {
+ 	struct vmw_fence_obj *fence =
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 
+-	spin_lock(&fman->lock);
+-	list_del_init(&fence->head);
+-	--fman->num_fence_objects;
+-	spin_unlock(&fman->lock);
++	if (!list_empty(&fence->head)) {
++		spin_lock(&fman->lock);
++		list_del_init(&fence->head);
++		spin_unlock(&fman->lock);
++	}
+ 	fence->destroy(fence);
+ }
+ 
+@@ -250,7 +249,6 @@ static const struct dma_fence_ops vmw_fe
+ 	.release = vmw_fence_obj_destroy,
+ };
+ 
+-
+ /**
+  * Execute signal actions on fences recently signaled.
+  * This is done from a workqueue so we don't have to execute
+@@ -353,7 +351,6 @@ static int vmw_fence_obj_init(struct vmw
+ 		goto out_unlock;
+ 	}
+ 	list_add_tail(&fence->head, &fman->fence_list);
+-	++fman->num_fence_objects;
+ 
+ out_unlock:
+ 	spin_unlock(&fman->lock);
+@@ -402,7 +399,7 @@ static bool vmw_fence_goal_new_locked(st
+ {
+ 	u32 goal_seqno;
+ 	u32 *fifo_mem;
+-	struct vmw_fence_obj *fence;
++	struct vmw_fence_obj *fence, *next_fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(st
+ 		return false;
+ 
+ 	fman->seqno_valid = false;
+-	list_for_each_entry(fence, &fman->fence_list, head) {
++	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+ 			vmw_mmio_write(fence->base.seqno,
+
+
