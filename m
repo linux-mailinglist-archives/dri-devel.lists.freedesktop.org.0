@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13D7ACA9ED
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB1CACAA13
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 09:48:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169AF10E1C7;
-	Mon,  2 Jun 2025 07:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEC810E0B7;
+	Mon,  2 Jun 2025 07:47:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="H62SjE7x";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="WXuGXTqJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43BAC10E1A9;
- Mon,  2 Jun 2025 07:28:32 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B0C10E0B7;
+ Mon,  2 Jun 2025 07:47:57 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4b9lnT06qrz9sx4;
- Mon,  2 Jun 2025 09:28:29 +0200 (CEST)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4b9mCr0fc6z9sp8;
+ Mon,  2 Jun 2025 09:47:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1748849309; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1748850472; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q4Z3hNYSaUur4wcMuiWKEU1FHOZ6WUJKWRnKKswCKBU=;
- b=H62SjE7x+g3o4fUzabF1/Qw//M0kb+SZ7rULQF7CTgb4T93TjvTc7q3qcILsDXrLGbxcD4
- WEd09UvE3Y1sXu6v5AFDySqs9HZin+cuS063LCi1F4E+27tas42UQMg6pS00o7S5UVFoLk
- Ov9q2IUKnNtb7rul8saYIcN/sj6dRglyBeJRV2/h3rMjntQiTilA4N9QdhqapWciCusqV6
- m79Vj+n7F5AhUfIj+Q2/berwaJ5GB2syhD8cioGoOI2UQ+QeVgAZ/nd5bWz/4rkrcBx7Ko
- Xz8AY7HgzwW1J/e5kkgr9de3kh9g99SbuX2I6IdNPw+bs4dDHXkgRnC8xeGOmQ==
-Message-ID: <964e59ba1539083ef29b06d3c78f5e2e9b138ab8.camel@mailbox.org>
-Subject: Re: [PATCH v2 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
- skip the reset
+ bh=hejt7sYJc8Ownw56oeoTeIt/sZiijhclsSfRWFWApL0=;
+ b=WXuGXTqJug0dj4yMg/P/Qhxpfss+b63jVyhi3fO8krVRSHKnM1VEKw1nEqeQ+pKOOvIF9T
+ s6f8ESDihH2IkD8b7DV13UNYQ+pyuJOusNj/0+tAR72zflWyFNsAtwDOcX3BA5L2DWsIw8
+ oM1YVDbbGRus4OVEqr3R3y06/uAZseBcCFey5axgvZLdieZlmcPiYxopGyh11jecTwe76j
+ N1xu9LrTB96Xs5iDuniQNwbS7Ut+AKk7JBWE5+aFisbYzdbDr++VpNAlKQ5sC4hkQLOTJ4
+ D16HPbCT0GUsHPrT4vaug/izpW2N8XSGuP8xPpNB1YnRRhZ4N7eVnYf1yCyQpQ==
+Message-ID: <ab293f2f435287d46c6fca38d554fda0790dfe3f.camel@mailbox.org>
+Subject: Re: [PATCH v2 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
+ the reset
 From: Philipp Stanner <phasta@mailbox.org>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
@@ -53,15 +53,15 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <liviu.dudau@arm.com>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 09:28:19 +0200
-In-Reply-To: <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
+Date: Mon, 02 Jun 2025 09:47:44 +0200
+In-Reply-To: <20250530-sched-skip-reset-v2-7-c40a8d2d8daa@igalia.com>
 References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
+ <20250530-sched-skip-reset-v2-7-c40a8d2d8daa@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-ID: aaf42f8f3d60101e047
-X-MBO-RS-META: pxxett1jfp4y7zqgtq3m1pk34heme5ym
+X-MBO-RS-META: 67bdxuhmgntkdgh18tykp5zn3ixomcup
+X-MBO-RS-ID: 2ce5eb5acf6937cdf73
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,104 +79,70 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
-> Etnaviv can skip a hardware reset in two situations:
->=20
-> =C2=A0 1. TDR has fired before the free-job worker and the timeout is
-> spurious.
-> =C2=A0 2. The GPU is still making progress on the front-end and we can
-> give
-> =C2=A0=C2=A0=C2=A0=C2=A0 the job a chance to complete.
->=20
-> Instead of relying on the scheduler internals, use the
+> Xe can skip the reset if TDR has fired before the free job worker and
+> can
+> also re-arm the timeout timer in some scenarios. Instead of using the
+> scheduler internals to add the job to the pending list, use the
 > DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-arm the
-
-In the four patches adjusting the drivers, I rather recommend to write:
-
-"Instead of manipulating scheduler internals, inform the scheduler that
-this job did not actually time out and no reset was performed through
-the new status code DRM_GPU_SCHED_STAT_NO_HANG."
-
 > timer.
+>=20
+> Note that, in the first case, there is no need to restart submission
+> if it
+> hasn't been stopped.
 >=20
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
-> =C2=A01 file changed, 4 insertions(+), 7 deletions(-)
+> =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c | 12 +++---------
+> =C2=A01 file changed, 3 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c
+> b/drivers/gpu/drm/xe/xe_guc_submit.c
 > index
-> 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf13
-> 11f8e09f42f04 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat
-> etnaviv_sched_timedout_job(struct drm_sched_job
-> =C2=A0	int change;
-> =C2=A0
-> =C2=A0	/*
-> -	 * If the GPU managed to complete this jobs fence, the
-> timout is
-> -	 * spurious. Bail out.
-> +	 * If the GPU managed to complete this jobs fence, the
-> timeout has
-> +	 * fired before free-job worker. The timeout is spurious, so
-> bail out.
+> 98363d688cbbf884e17e6610366202a3372f5fe0..0149c85aa1a85b2b2e739774310
+> d7b3265e33228 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@ -1067,12 +1067,8 @@ guc_exec_queue_timedout_job(struct
+> drm_sched_job *drm_job)
+> =C2=A0	 * list so job can be freed and kick scheduler ensuring free
+> job is not
+> =C2=A0	 * lost.
 > =C2=A0	 */
-> =C2=A0	if (dma_fence_is_signaled(submit->out_fence))
-> -		goto out_no_timeout;
+> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
+> >flags)) {
+> -		xe_sched_add_pending_job(sched, job);
+> -		xe_sched_submission_start(sched);
+> -
+> -		return DRM_GPU_SCHED_STAT_RESET;
+> -	}
+> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
+> >flags))
 > +		return DRM_GPU_SCHED_STAT_NO_HANG;
 > =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * If the GPU is still making forward progress on the front-
-> end (which
-> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat
-> etnaviv_sched_timedout_job(struct drm_sched_job
-> =C2=A0		gpu->hangcheck_dma_addr =3D dma_addr;
-> =C2=A0		gpu->hangcheck_primid =3D primid;
-> =C2=A0		gpu->hangcheck_fence =3D gpu->completed_fence;
-> -		goto out_no_timeout;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	/* block scheduler */
-> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat
-> etnaviv_sched_timedout_job(struct drm_sched_job
-> =C2=A0	drm_sched_resubmit_jobs(&gpu->sched);
-> =C2=A0
-> =C2=A0	drm_sched_start(&gpu->sched, 0);
+> =C2=A0	/* Kill the run_job entry point */
+> =C2=A0	xe_sched_submission_stop(sched);
+> @@ -1247,10 +1243,8 @@ guc_exec_queue_timedout_job(struct
+> drm_sched_job *drm_job)
+> =C2=A0	 * but there is not currently an easy way to do in DRM
+> scheduler. With
+> =C2=A0	 * some thought, do this in a follow up.
+> =C2=A0	 */
+> -	xe_sched_add_pending_job(sched, job);
+> =C2=A0	xe_sched_submission_start(sched);
+> -
 > -	return DRM_GPU_SCHED_STAT_RESET;
-> =C2=A0
-> -out_no_timeout:
-> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
+> +	return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0}
 
-Here you actually remove the manipulation of the scheduler internals,
-but you didn't in v3d. Just to point that out.
+This patch removes two of three uses of xe_sched_add_pending_job().
+There's now only one left, in the same function, slightly above.
 
-
-And BTW I'm just seeing that the pending_list gets manipulated here
-with the scheduler's workqueues running and no locks being hold.=20
-
-Oh man :(
-
-That is most certainly a bug, and I recommend that the etnaviv
-maintainers at least add the appropriate lock here and backport that
-since it can race any time.
-
-
-But thx for working on that, Ma=C3=ADra. Good that we can remove the stuff
-this way.
-
-Thinking about it, this patch even fixes a bug. So could contain a
-Fixes: tag. But I'm not sure if it's worth it to mark the entire series
-for Stable. Opinions?
-
+@Matthew, can that call be removed, too? Should that be done in this
+patch or seperately?
 
 P.
 
-
-> =C2=A0	return DRM_GPU_SCHED_STAT_RESET;
-> =C2=A0}
 > =C2=A0
+> =C2=A0static void __guc_exec_queue_fini_async(struct work_struct *w)
 >=20
 
