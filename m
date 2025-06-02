@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B73AACB0AE
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595A1ACB29C
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F7510E52D;
-	Mon,  2 Jun 2025 14:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F8A10E53C;
+	Mon,  2 Jun 2025 14:33:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="dPjb+xVx";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dPjb+xVx";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="OnzR0Af3";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="OnzR0Af3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11012006.outbound.protection.outlook.com [52.101.66.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C08C10E2ED
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:09:13 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com
+ (mail-francesouthazon11011013.outbound.protection.outlook.com
+ [40.107.130.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8975A10E53C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:33:46 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=s93rDCHMXYwya8SR3EZB7Q5Fp+rR4iIZtHEv3ndpMyiDhefp/3oRHyMBMytnSna4HeYu88yoi4ERA974ugufyh67pOCXrnt9o6ZdQLQfD541Tr9YmMOlz+vtbiYsnHqwgLGRZOV0JPNL7Bs/NyWOxJyIJHKMdkZzbCJV7wDQpAgWgpVXJBUMvNRHMa0xlGqi5Z4IAgDDfdoxd/QtD/ijTKjEdFE3RHaU0Tx3mea3HvPnq02Y3QfcYWGVCvDZlJo9ybLXfJkTxVB0jN4KrjPudH1Jvhr8GMi8bcafHc0PLD12qXGNi8eXGybj/KhmzvXwu7fFp+2jzXvyzJGBr7dKdA==
+ b=TgJxZkugMlzyYIYEnpl/bZpW+tw53j7r5TifXI3J5b6o8wDan8BHzH2fVZP/OZ2yN7eUPTBrvL/pXFEG+jNMMdmLgi7tEVn6HUMh7pWQ41svbIcwSiNs5nhlafyddYOZG+Hh33EXeatPGURIcyBRf2Ss7beslLtYaarlcKXzKfKVUyufnH3F36uwge/FfZK+K/0v4RswoRoUOsb7HG0VnOfd5D3wVRARAHg0ndT6co/23ZCdItrVOjjnIgHUvUOa3sTeLnK3NmvG7RefSrYq69LGg9cnpZyiWrQ0mivF1sfPl2g0zu0tPpwpgr2DS2JY18DtvGON0dWdJEgo4tEkgg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M6210aX5zlrxHE/cIUkTkGk/pTMoUhGMGljATO8Ffq8=;
- b=ARs7CzWacntnkbSzQXu4AWl/yGch3c60X2cHG0mTAHk2IT21ZKa2/AIUA9OYj65bz8d15eTrGssY18nCq2Im0Y4ShzQDm7KdYp9E4MAZ8S/eII7Wj/dBFJC2esDwst8TXQAMtxQQSlyPrsoD8jyl7OjkYDJzBJgVV+jOmebpvK2Yi7Cus3k8Urg3JeYM9/JeOoypx9KdGsH2dJtnAzU9CGcs6jp5UcqOSOPz1ZwQA+NXQwfyShEn7QdQ3p9RsGHOlKo/MfphvJjH+4GCCiYagRPBlwXaTRagozJoEc7fnnbzguPLX/X4thwBBtoVNSEAoZCj64KV1HAaATrlw5mk6Q==
+ bh=7vIGbOGItWUiXa3Uwa+xXIRncq3FHXacSwS/Q10Vbao=;
+ b=dN6tkqBEOpFYhKF2xFVT/F8HJx2LBwyjiLeNevPUNbhlm8AbbSBTSm8L1uXfj6aBoWyZDvcUdbIKwDe52Qs6f4V5srtAITQOm0sY21ITNklchSSqGfPUecPy8Cboyt2x40p9uNCnoTv0N2xVF99XS47oDbhMMtRSWgIQv895WTt1RU6XJrPY8tmR2LqQaXZnc4pz5nMhAjHhQd5lYHB8FnPkPau78sCrl6JsdOBv46bZbs96zloLN7m9aarH1pYrHUBb0TDzTJIMSTQYqSk1kohu1OyMhAmbJdvVIniFXOiQy3Jrcfk0PyGN3fqqlgCT6E0L5MjYS+S+T84Tz0wI6g==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=bestguesspass action=none header.from=arm.com; dkim=pass (signature was
- verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
  spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M6210aX5zlrxHE/cIUkTkGk/pTMoUhGMGljATO8Ffq8=;
- b=dPjb+xVxnebULwbjKGAVHhLqDlrN/JngmevaRbYiVl2U3SlurDGL9fBKVMhcX69XExdtiXPazo7yQKD1zMG1BJ7HUz8awY8F9IIeNzR+aW7uWkLhkS31chnNYzkKw9MzHZXsw2HgkWWMTd0Uj2LB+37IqAeeAclBC5IgZGeAGTE=
-Received: from PR2P264CA0042.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101:1::30) by
- DB5PR08MB10062.eurprd08.prod.outlook.com (2603:10a6:10:48f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.30; Mon, 2 Jun
- 2025 14:09:09 +0000
-Received: from AM4PEPF00025F9A.EURPRD83.prod.outlook.com
- (2603:10a6:101:1:cafe::e7) by PR2P264CA0042.outlook.office365.com
- (2603:10a6:101:1::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.23 via Frontend Transport; Mon,
- 2 Jun 2025 14:09:09 +0000
+ bh=7vIGbOGItWUiXa3Uwa+xXIRncq3FHXacSwS/Q10Vbao=;
+ b=OnzR0Af3FYkVWy2I+c9rOoTtgr3RP4QMyMFZTQijESF4bYkcumyNZ270TUvnvcD4ndl/hcxzT5OE4s7LGcGdKe4eJ7K5uoHGdjfhL/Q2lShDnyxCGQYBu796xUEjlVkDHzxy7yvi24RiVqw+fKNr6AxLiucx9hJTccuHZZgw7lM=
+Received: from DUZPR01CA0077.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46a::15) by GV1PR08MB8668.eurprd08.prod.outlook.com
+ (2603:10a6:150:86::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Mon, 2 Jun
+ 2025 14:33:35 +0000
+Received: from DB1PEPF000509FE.eurprd03.prod.outlook.com
+ (2603:10a6:10:46a:cafe::f7) by DUZPR01CA0077.outlook.office365.com
+ (2603:10a6:10:46a::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.32 via Frontend Transport; Mon,
+ 2 Jun 2025 14:33:37 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=bestguesspass action=none header.from=arm.com;
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
 Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00025F9A.mail.protection.outlook.com (10.167.16.9) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.2 via
- Frontend Transport; Mon, 2 Jun 2025 14:09:07 +0000
+ DB1PEPF000509FE.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.29
+ via Frontend Transport; Mon, 2 Jun 2025 14:33:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pD58n07DJFa1X9mLj2/RtS2cXLc6HiRb50ZAfaL4nKA7DvSB1h2yLE/fR3qWl1poQkmufsCQrHckv05nPWr/jiP8E0cqGfZBIA2ZkA4EMPoC58b0qOSCRl92vBwO79z2zhLmgh/1bzkTMofmoHfniCrtXIUzfSEEl6uNz3mFYTX+zS7WSigqiutP1P8BHYsp4XolNiKDoupgHM8g3wJCtCCPrQ0UtB/S+R4hkxMfSYegBmAWlBmbcLMOEvsUshAfryaWJ1UdGJR3BC+tqAEyOTUxqpCIIH9zyGuZ7jEA02vPMvSFFw4kRhi9HzbzyvXo37AqC/HOzJaKEpT8ER7uHw==
+ b=TbDSKEPx4EKjqPJI+YtssobXyoobNoFD3oZrzfRXx5FHwFe4ip5gz0EfSXv8CQDsRmH6YuU93y6PwTu9E2/Dyr8yAKK2eiSbpvxpm6mMtDxpwHt18PAP2jyJ3GC+S5fXmTbbUP3qK0Pwgoezxfz/s874MIiHy2sqrBDIlL+vZx66+C03IYR2rwFMcKgy/ncUYPrCw4Nm5ue8FMTxfMsENsVKH97JS6LEGB87x6P1CvZlmS43Z3kBsvikY15sm+swIFBXvupK5DW5ZSjRdA7/iS8DrDCvU+GkVle1G1UmeYRZWYaBoVMjXmoW/WQP+OpETvYUtMyXlpvvdcYVPwNJTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M6210aX5zlrxHE/cIUkTkGk/pTMoUhGMGljATO8Ffq8=;
- b=p4/CtFB1+VyiS8yeU+QZuX7S0LgK4w8nALMuad6demIg5Jl0ZXNI+JYq6kATlIfc4AR3Uj6+IaxkDcNkjyhg2AeoSYKPgVcnkg6CMkIg4AlYOrEtCpRArDTrtmLM0ZFeJHmB06anmjAK460+uIjaBZme/uHeS7h5OFp3ssO+IoeP7Ee/DPKpZxsBbRI+RaCU72+DfYwXjcOlTGkg+cYD9RAkrZqaq3r//KEtT0I1GYaV7ILM9zkUuhJoGShNudhIAWI+GhCXsptxdI4RFLlQyyyawNxFmVSFaa7hiKu1esu2KxA/LP4afY6dhiiMjCfILNxqaz78DiUm8sT7jHDBOA==
+ bh=7vIGbOGItWUiXa3Uwa+xXIRncq3FHXacSwS/Q10Vbao=;
+ b=nSZzxMW5i9c0Mvjf1lfcmiRaNlJl9qI6yLGbBIrXWhGS/H/nSAZms6zQr+MlVw5eq7Lk5dtEx9i0cj6fl+5A6dPP/exchX9WyWFTIn6ov/ya0G/zJr6RfH6Pq17NECIuMXV0mV9piFKKEeQmDhTF038vjM/+1EjC0TQFeZqsyo9Cpyebk31AZm1KEz+B7OHtz6IGFkTdOKP7C+VhKr5AgSU+mnZZk155t4ZF6KdxuvnL7E8M0hH367Wrm5FSU20uu0CrPO1lnCjZx7xhI1qkGUSpnwIzv/+Nssw4J6wvfK3sPM6Y7ZO5w+jPNJhp/W1jp5muC2LfWAUgf1ZAt9NeTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M6210aX5zlrxHE/cIUkTkGk/pTMoUhGMGljATO8Ffq8=;
- b=dPjb+xVxnebULwbjKGAVHhLqDlrN/JngmevaRbYiVl2U3SlurDGL9fBKVMhcX69XExdtiXPazo7yQKD1zMG1BJ7HUz8awY8F9IIeNzR+aW7uWkLhkS31chnNYzkKw9MzHZXsw2HgkWWMTd0Uj2LB+37IqAeeAclBC5IgZGeAGTE=
+ bh=7vIGbOGItWUiXa3Uwa+xXIRncq3FHXacSwS/Q10Vbao=;
+ b=OnzR0Af3FYkVWy2I+c9rOoTtgr3RP4QMyMFZTQijESF4bYkcumyNZ270TUvnvcD4ndl/hcxzT5OE4s7LGcGdKe4eJ7K5uoHGdjfhL/Q2lShDnyxCGQYBu796xUEjlVkDHzxy7yvi24RiVqw+fKNr6AxLiucx9hJTccuHZZgw7lM=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by GV1PR08MB8033.eurprd08.prod.outlook.com
- (2603:10a6:150:9a::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.36; Mon, 2 Jun
- 2025 14:08:35 +0000
+ (2603:10a6:800:257::18) by GVXPR08MB10809.eurprd08.prod.outlook.com
+ (2603:10a6:150:158::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Mon, 2 Jun
+ 2025 14:32:40 +0000
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.8746.041; Mon, 2 Jun 2025
- 14:08:35 +0000
+ 14:32:40 +0000
 From: Karunika Choo <karunika.choo@arm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
@@ -87,103 +88,99 @@ Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 7/7] drm/panthor: Add support for Mali-G720 and Mali-G725
- GPUs
-Date: Mon,  2 Jun 2025 15:08:13 +0100
-Message-ID: <20250602140814.2559538-10-karunika.choo@arm.com>
+Subject: [PATCH v4 0/7] Add GPU specific initialization framework to support
+ new Mali GPUs
+Date: Mon,  2 Jun 2025 15:32:08 +0100
+Message-ID: <20250602143216.2621881-1-karunika.choo@arm.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250602140814.2559538-1-karunika.choo@arm.com>
-References: <20250602140814.2559538-1-karunika.choo@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0209.eurprd04.prod.outlook.com
- (2603:10a6:10:28d::34) To VI0PR08MB11200.eurprd08.prod.outlook.com
+X-ClientProxiedBy: JN3P275CA0155.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:cd::13)
+ To VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|GV1PR08MB8033:EE_|AM4PEPF00025F9A:EE_|DB5PR08MB10062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91eb6e7d-405f-453c-2a4c-08dda1df0a10
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|GVXPR08MB10809:EE_|DB1PEPF000509FE:EE_|GV1PR08MB8668:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2deaa67f-06d4-4d00-2c53-08dda1e27439
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?wY6HUJfZC2aXWO3eT9JMC9QaheGVLTsvqL2dEiYOfD8DJuqfYB2iSA5vBM1g?=
- =?us-ascii?Q?BJnIS0ERoqttsZ6xm18D3LTNbMh6BcuLEok/1Xj/qY4lRSixixYL3O6MB3z1?=
- =?us-ascii?Q?RTH6o/vaz+2n/sD1IHJ7R/eSWKIOe5F5G46/moHvanZqS0ngHuSWXORpVjuJ?=
- =?us-ascii?Q?uXo6MwtI9POZ3qM0hZDN7tfcFksRSRtdncqrnsUu3k58RPZDEiV7Ssj0fYBM?=
- =?us-ascii?Q?Sby88K4Kik41Ng2/Nb6r7rwa3OYXWcJGK65DhRO34Wl54xCmWscWpODHcQkY?=
- =?us-ascii?Q?NyxkxYvMRjBUnEiqwpa4Gxfa6CnDX6NY9ib89IO4jFMINf9G6Q4NRigN0b81?=
- =?us-ascii?Q?DCFTJHu1z9I9kAO5wo1DGxcv5vRmQztjglJD1EaG19dDZUUdGBV4gOFirmwP?=
- =?us-ascii?Q?L4pbE1RtgH6EbEC6lJLHfLAxBV0gcacOirwZOQCoGxSHS2v5Kn80rVeinhN5?=
- =?us-ascii?Q?8lpzovCHqj/tQytkh/j9KFEDu35luoIvSAchN5pkH2FB0nmtL4/g+KCw3Nvt?=
- =?us-ascii?Q?PQeClXZ8OmCab6l+rEY8jCS75i6T40hFaGGYnpVFKlM2q+rI5MDEDrAi0Vqy?=
- =?us-ascii?Q?stuZFkPAfqrCrcYw+pYAZHroETbWkjKH9uTaSLc8ILvn8K1GsZDeXFjdpP5v?=
- =?us-ascii?Q?Zpik/D9Vc4rM7eAdKgAD3d8c610kglDXL02svK7b6ZoDXGFqAyYmVJ6l6q1y?=
- =?us-ascii?Q?68y5OokzOHFlwfpki9BFQQT4kEWfBhTHI/oQUE+WXV9B9EJCYgiArwiVycMp?=
- =?us-ascii?Q?VRJLEdLSoBONEM0abxd3PrhcXA8U8UXwV3PfFMoeJmvOmJpuRqA8W0euI7Rc?=
- =?us-ascii?Q?jA0BiSfXWflKpvLJYa6x9wkPq4A0MCd6PcpWeb+i+JhHEcGjtdMdWIjLqMks?=
- =?us-ascii?Q?UCkrZnoBZCRoCXp8wqmODzCqwQkwOrfjAWgrAkKYJiHOU3wqajRzfnXsfPQg?=
- =?us-ascii?Q?bUZoUTV89DMF5ZJvd+G0mst1fRrJ2AcivVTeLnK9V3GkkRP9M32V81+M7IPQ?=
- =?us-ascii?Q?saUP+g57H47XTbGKJl4Fs7r5MTp2pmV2Ti3rLDzaXBCyEuVf2prV31J2Qlh0?=
- =?us-ascii?Q?m2Hb20pm+cLXQj8myBOm7wdcAvpvYUGO11JVMhyDyQcQ3ADPNESZTNnwxLRU?=
- =?us-ascii?Q?s4sLsn6SxpDPCDekFU5lw6vi8yYJ+/FSiQELMihkvcsBpaltO8JcGfGt0QNx?=
- =?us-ascii?Q?kMXhi4Kw00shU9Rwsm/h8SgDuv6Ge2A+vNOW7NS3f+xhpwtaYRJ9oAi6KqFl?=
- =?us-ascii?Q?QW/9bzxO3LoauUaVDvG/8XBg+8nOuMyo/LndSnR25bZzvQrjsUNu0kDIrBPb?=
- =?us-ascii?Q?nwg3dNv40cwy3dWk7UqEhHhMRxu4c8Fc2sVBKEEzhNf2sO7ykQy27jnFk0MD?=
- =?us-ascii?Q?lgNr2kG/r+6E/RwQCXQmfOlhz9UWgh5hxXYSbn75fE903QNw1Y2vxrTeSnPg?=
- =?us-ascii?Q?ZT6BLEoJZfA=3D?=
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?yqk0T5h3sEwNyhHFc6l3o4TYNTERsDkRMqqVcPPTB+GQGYPBUs2rwOwE2p9N?=
+ =?us-ascii?Q?tIfE/qdRc70Il6OSJnzPefmqbKbjoYbQCeMR+kOMls/AKiyWF2ISx2VlQAI8?=
+ =?us-ascii?Q?5Iks9FImiKlSIIqZ6l1PyDnBNS33HUBAXEtlKsK3FYuYQDGSSKxy2LMgYkIA?=
+ =?us-ascii?Q?1pxLQJFrMn2ybGbPdmrAKWrVEUoSu1T8cH3aWfgd+W4cKzZJJyoHyPhpvNLw?=
+ =?us-ascii?Q?DTjOqcJ5qjxQZvPRLmzV7RvSF4sdj6OmwvFZcA0QMoAso2b0vMg/RVAKym9U?=
+ =?us-ascii?Q?rWnKJjvinWWiE294dYdLUJtSL4clT1kTHS4aCYuzulRT9WKiCSoQltCHeED0?=
+ =?us-ascii?Q?PJxQpsKZoBzRHdL083kgxpgWN9IH6ZcBNA6B/xkDDMMWrMNMAPXjXo6Luf4L?=
+ =?us-ascii?Q?ZMdks1yvAHvWdndLKi5UgJHoPXg51SqYfQuZ3ZYShd2sW/w1pFkZyJny9Aqp?=
+ =?us-ascii?Q?Xrx8Tz1NdIDuWorb0Tz0CNaqpIl5eSCimBnyW3Hh9fgfIqKdNBRpjNzINRDf?=
+ =?us-ascii?Q?FX6J+dCXTB4DjBlWkTO6hOKw7kNbqKIjNru90M2zESSQ2BCWHZLqhK0Lhtfe?=
+ =?us-ascii?Q?zqqFp2fK/jrsLHqrhhJn4KP3zf25ECdlJ3Xf+EKqSgPjNmSH6x0AWvVLlCIE?=
+ =?us-ascii?Q?Y06Dxje/N+xxLKPtfIN9uC9Mne4adPQTZyAgBllwE0+VCjcthRzfB2su03+C?=
+ =?us-ascii?Q?Ael/LZzlsv/AgMCHeaDHmfrad8Poc/aQKKTmcVKl6LZj1mldWwQ3F1UbNK1H?=
+ =?us-ascii?Q?f6kjOz4yG/cLxVsXXIwykUaJ+wfsfPROH0C9QZ42+h4sae7lRdu3pIoMj/lO?=
+ =?us-ascii?Q?LHNxLQEPqGFRQcl/at7u+a99irCkgwfErbqYtQhCOLb0aE55Hp539DyldxRk?=
+ =?us-ascii?Q?uiUHBO8qpddf3kKWx2ses349rL7DY9pBasKirvYx/+o/WrVpzxbNHlD1/Agb?=
+ =?us-ascii?Q?FD3b6cB1vq3TkBXc6TgnXOIJDBEXXiDzi6tbbH1o88xWbcMuJVy9H1oDgymN?=
+ =?us-ascii?Q?amItcOPYhyyurWdeQPB8D+hALe7O+2qnQQh4dbRQ3FpAF2BrPxb7cjF4alFy?=
+ =?us-ascii?Q?gR9OUSUHk403cVSu/Kv72S5ERFviRDw++w1dJm6nRLm5NtoFvMpPW9+CUrZr?=
+ =?us-ascii?Q?jU9I5Z9nioJHXwcEVjKCldQWNJBRXBkcZrkuf5vlNtRHsVswKao3jigYHW2A?=
+ =?us-ascii?Q?hB1Cok7ZbThzdRKQWmm33EjDcCI/CMly/PKA33fcx5wL1TT/sBfO1bBc6Qvc?=
+ =?us-ascii?Q?1/g8HktAkrlWhKWq+Oe+RxI25Y4GvKBfsmqzKcuCdWCHNvA7TNuR/+wyGaxL?=
+ =?us-ascii?Q?VjcYb+42kOpMxwwpWNlYJu9S+nyHkVKc5QypdX8w4K8A1V9TcNedwUlCE3E2?=
+ =?us-ascii?Q?QjVieKb9A5dK7LNwtTkKBMUBUc3d?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8033
+ PTR:; CAT:NONE; SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10809
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00025F9A.EURPRD83.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF000509FE.eurprd03.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 91ed229a-8b64-4231-b4c4-08dda1def6c4
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 7bb4f9ed-7c70-465a-f3b4-08dda1e25446
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|14060799003|82310400026|1800799024|376014|36860700013|35042699022;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?QWNJCofDwtq6muLxPfKHP7tdYWD+DjfkIREg0ggg5RREx/7YA5B99KR+MRJh?=
- =?us-ascii?Q?DnJbqr4BxWhTv9X/O7bHtCXaRmJqHikQDovhi5aXxWziJBLzs/QQkdlTZxjz?=
- =?us-ascii?Q?oB5FywjU45fzgjfV5reydTfVVwuMBXJcANIQHnWRrc2oXLtSBNfQzAWUgQys?=
- =?us-ascii?Q?OvQ4qFO1dJadt+GG+ub7DS631jI9S9Ou2dOBV6MqASNftdNGrrOY2yg+7XO0?=
- =?us-ascii?Q?597J0cStU4kna1e1hRml+ABKdVHCh+wJG5jhaFBsQCYhLIJEirJJWU80m/Ra?=
- =?us-ascii?Q?qp88VE3UQIwR3DcePhq9FHru4H46dxV0P4Dl60cAkqHBGA5r5ulJctjQuJfG?=
- =?us-ascii?Q?lJYcBNMlodlkL04G7f9GQBaTULWLMvpWnhcqfD2HDzpocPCBBgYKWcQlYYHq?=
- =?us-ascii?Q?2NWD6VVPgSw6+GDklPde38AWa1pN+l9zufLi3Yj9U7oVBkbDa7WCTehHQk4I?=
- =?us-ascii?Q?1tVapvA1lVTlWe+Eny98ok8fnQNAkMGV6Mw9BQcfwHyI8bR6teJ3uT4x5vYp?=
- =?us-ascii?Q?JW6dyzWp6XPBbVy3XovHxNhHJvF2CCjsNMbdtPG0Mrsyjp0W8U9NlItI3rvX?=
- =?us-ascii?Q?nVvo5PRb6rcDBkdXXgJ+yGE+eOp+afUhTiH42ESRzFBiHeH/KbQysqQyHfqD?=
- =?us-ascii?Q?nQ6rUPPIElNvrxfDzncTEb6AIw5tESjgA+dJzqhfUtDZrfLh7WpLj7YzR3Oh?=
- =?us-ascii?Q?3Wz1lFXogSKcmYQ4Z2s3XwH0wCZfKZtZg548lnC6eRKlE1S8Cc4hLyZ4nVYZ?=
- =?us-ascii?Q?6qA05L22nUpNbgzx23xIDDOb2ajGORmAksLDJRiGRl1GTF/56JpoxTsihVNF?=
- =?us-ascii?Q?06p4Q+1CcDxUDptaJVBzD8gLqg1cPMLj+I76YGp8ycldSNVBshHxYoL0RABm?=
- =?us-ascii?Q?lohRrfXjSsOOWk5+2fTD1pcFNkRLvWLPO8TUzolB+TCz1unT5JGa13GqdaJe?=
- =?us-ascii?Q?qrIGFj/bl57+w7EMlv3MfDFLdFM0KkL7UEpyApkLlrY96bDgmdqE4CoxZLWS?=
- =?us-ascii?Q?heeT9pqE+S0G4iwPVRqvFj9vQzc/ngmVXqatLilGNET7cle2KmLALswvY7Ub?=
- =?us-ascii?Q?jR6w83Sg3q/SFojtQRmAbnyG4bwkb+Q/1MGH6Z2ePPOuP2n/KWKfm4jKKAgJ?=
- =?us-ascii?Q?d55jbN6tvpeKUuAumILZfSKg+waIFPvP8woN4zcP6bPnzBcyN6IgUwtGYAp5?=
- =?us-ascii?Q?Brcw5fFFaUGwKSr34smmK45+dj4yIgAVfO6RA3TtWx/a3ortaZB/sZXfEc4g?=
- =?us-ascii?Q?8xIOBltVbFeaZZCO7gf3ZU+a1LiMS+IC2/NItothp1N/dg81CZcLCDoKSkdH?=
- =?us-ascii?Q?xPyS+MqXOOeXN4vCTnUyUsUE62L8LybRXh0BjXL9UEkGj65F6YtX2XpTPABI?=
- =?us-ascii?Q?1rDL8JdpZwR5to1WqgJUb00NW9ECiXOI+FntQslFUIEsoK+y2oKBHrpOkHvI?=
- =?us-ascii?Q?b3WVahosK5Czx7ADOVJrN12ORZXeoUGqkQ2DVJz2R1sHq+uNrui6yjT0cuS1?=
- =?us-ascii?Q?oUHXhXONfMlhE7Fdk4xQhexLnK0NkbhRq0aA?=
+ ARA:13230040|35042699022|36860700013|14060799003|376014|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0nzEXneJHYGZxWWGeHpcSuDm8fX14V/QQOPR0RreoP+Iqy/AeDLBTK9Hardh?=
+ =?us-ascii?Q?kTbcG3c9od+tOaCqsik2tRFVfkIw6kkZvd/gnDbj7JbCtPqyOWqQ/erLjERC?=
+ =?us-ascii?Q?/lFQOwpXAOircdsd7J48LobyDcuLovn6HDK8UlFOQ7RNXIFD7EiWvw5hEjtL?=
+ =?us-ascii?Q?AtRjqPpBGd0uBMvY2KP2/XuzGrNBNidQigqxUfuSMXO47LnBA3ADjV7nXDIm?=
+ =?us-ascii?Q?NpO72BTqhcYkNZ4Bt3BghxafMZWHlAWQLuiYLFL+x20bmaGEIKOiUlZoYzFI?=
+ =?us-ascii?Q?YzkQ44FAJnQPMuJF0Y7X6jOGH6N36vtb6IvPLEhN8SoFqexHZ1RtiXrTno8t?=
+ =?us-ascii?Q?pwjehEevyVTsoxPbb0bUV+JXVVRVyj4ZD6tGIYfCv0eWYvQfQPetijNQ7rq1?=
+ =?us-ascii?Q?ptTA3fQXXfTBQVJXh3WqzUOQaeAIei6J+4NDxX9zIP1s/ZtD9iqAz7UHv7YA?=
+ =?us-ascii?Q?a686PL5gvN9nYLWbs+Bx9PS+t1UL/pAXDnWSTtmZOqEX1P4plcmTlknsCWpJ?=
+ =?us-ascii?Q?EAZSNCyc/R0kFajnyMb+i5MHKQxNm0StAlzLnSVP2ZWXPE2ozeppwIR723KM?=
+ =?us-ascii?Q?x4ZOeuiSas2j1yJYiJmxocAvAsr5bMp1vCyW8ct5RVATbkA3GInt535QrXK6?=
+ =?us-ascii?Q?FGeh6TPq/quj6Uszw1DJMjAPEbU8lP7LhJKJyxyNobex+6AlTCx6umV9zkHm?=
+ =?us-ascii?Q?YTHrMbx/3spoGnNW6vZSPQtjApvCrL7fckANmIEgmhx3VUSdeUY/d+d5Dbbd?=
+ =?us-ascii?Q?Y3sKAFUDzveUcY4AIrweb3PYd0chSKeeOSDGof38A4bZZkH3y68ocaliTfJI?=
+ =?us-ascii?Q?3Tjb69U3rhOsI0dOgWWHjPjogLWZCvdzdHfL64jfD55/vuGrqq+YMdjKLYDO?=
+ =?us-ascii?Q?TbSdyELdhrgJ/ObJzm8Z59jNK87hwnsXzrLc8lItY6qAgydduD8UuwFe+9V2?=
+ =?us-ascii?Q?waI5s+Qdsf1VM9xBjT0ORoEod5QDY2hQFCYDGU3YVYrovf2liJLEheF92K4Y?=
+ =?us-ascii?Q?EtLwVf6XluYGyMLGRLNvTQ4rFBwkZejBu54iRkCGHegbAmYp0JpUCaDvrbCT?=
+ =?us-ascii?Q?hBhNtcdj8bf+pLcoXYb6JWbW0LO3WIHRb2OvUbFzzvqa/qIfgnYi2cN5T1C7?=
+ =?us-ascii?Q?iORrBIatcPJ+uO0NOL9TM4n8qulO3mmfougaAWaFVKLcFnLQOVYlMU2EAypl?=
+ =?us-ascii?Q?YCPGPqTZ+Q5D9JsNyHiMDL5YigxlrQAsT+MtxvqAey3R10uRdRWKkQQs0I2i?=
+ =?us-ascii?Q?83dGrsDAsiorxC8whBjItMVUULBLWVhijqxh5FBKHHC7zDmxy6AH9tIo90fl?=
+ =?us-ascii?Q?AE17TF54QFlnd9d46K8lZGrdGZWAcKSnH26svPFEauY6L6xNDNpz1rcH02wZ?=
+ =?us-ascii?Q?xVewmCmna0jml7SBtek9xPOdTql+SWRuOWBVcEnffrqjFCOqLiDWiEqKZdW6?=
+ =?us-ascii?Q?AvzJkAfVYCbErWGutVb9bqLIngiR5iJDKL5pLEp10j+Znr7rlFON4g=3D=3D?=
 X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
  PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(14060799003)(82310400026)(1800799024)(376014)(36860700013)(35042699022);
+ SFS:(13230040)(35042699022)(36860700013)(14060799003)(376014)(82310400026)(1800799024);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 14:09:07.4240 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91eb6e7d-405f-453c-2a4c-08dda1df0a10
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 14:33:34.0068 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2deaa67f-06d4-4d00-2c53-08dda1e27439
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
  Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00025F9A.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509FE.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10062
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8668
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,130 +196,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali-G720 and Mali-G725 deprecates the use of FLUSH_MEM and FLUSH_PT
-MMU_AS commands in favour of cache maintenance via
-GPU_COMMAND's FLUSH_CACHES and FLUSH_PA_RANGE.
+This patch series introduces a GPU HW abstraction to Panthor, to enable
+support for new Mali GPUs.
 
-They also introduce the following registers:
-- GPU_COMMAND_ARG0~1
-- SHADER_PWRFEATURES
-- AMBA_FEATURES
-- AMBA_ENABLE
+Key changes:
+- Addition of GPU-specific initialization framework to standardize and
+  streamline support new GPUs.
+- Support for cache maintenance via the FLUSH_CACHES GPU command.
+- Support for Mali-Gx10, Mali-Gx15, Mali-Gx20, and Mali-Gx25 GPUs.
 
-This patch enables FLUSH_CACHES for both families of GPUs via the
-PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH bit until FLUSH_PA_RANGE support
-is added. It also adds the aforementioned register definitions and
-firmware binary support for arch 12.8 and 13.8.
+Firmware for these GPUs can be found here:
+https://gitlab.com/dliviu/linux-firmware
 
-Signed-off-by: Karunika Choo <karunika.choo@arm.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c   |  2 ++
- drivers/gpu/drm/panthor/panthor_hw.c   | 30 ++++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_regs.h | 12 +++++++++++
- 3 files changed, 44 insertions(+)
+Patch Breakdown:
+[PATCH 1]:   Implements the GPU-specific initialization framework to
+             handle differences between GPU architectures by enabling
+             definition of architecture-specific initialization routines
+[PATCH 2-3]: Refactors gpu_info initialization in preparation for GPU
+             register changes and at the same time simplifies and makes
+             extensible the process of determining the GPU model name.
+[PATCH 4]:   Adds support for Mali-G710, Mali-G510 and Mali-G310.
+[PATCH 5]:   Adds support for Mali-Gx15 GPUs.
+[PATCH 6]:   Adds cache maintenance via the FLUSH_CACHES GPU command due
+             to deprecation of FLUSH_MEM and FLUSH_PT MMU_AS commands
+             from Mali-Gx20 onwards.
+[PATCH 7]:   Adds support for Mali-Gx20 and Mali-Gx25 GPUs.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index fa6e0b48a0b2..9bf06e55eaee 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-index 5ec9d7f28368..281d86c4715e 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.c
-+++ b/drivers/gpu/drm/panthor/panthor_hw.c
-@@ -61,6 +61,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
- 		fallthrough;
- 	case GPU_PROD_ID_MAKE(11, 3):
- 		return "Mali-G615";
-+	case GPU_PROD_ID_MAKE(12, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G720-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G720";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(12, 1):
-+		return "Mali-G620";
-+	case GPU_PROD_ID_MAKE(13, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G925-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G725";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(13, 1):
-+		return "Mali-G625";
- 	}
- 
- 	return "(Unknown Mali GPU)";
-@@ -109,6 +127,18 @@ static struct panthor_hw panthor_hw_devices[] = {
- 			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
- 		},
- 	},
-+	{
-+		.arch_major = 12,
-+		.features = {
-+			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
-+		},
-+	},
-+	{
-+		.arch_major = 13,
-+		.features = {
-+			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
-+		},
-+	},
- };
- 
- static int init_gpu_id(struct panthor_device *ptdev)
-diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-index 4eaa2b612756..8e01440f8743 100644
---- a/drivers/gpu/drm/panthor/panthor_regs.h
-+++ b/drivers/gpu/drm/panthor/panthor_regs.h
-@@ -89,6 +89,8 @@
- 
- #define GPU_DOORBELL_FEATURES				0xC0
- 
-+#define GPU_COMMAND_ARG(n)				(0xD0 + ((n) * 8))
-+
- #define GPU_SHADER_PRESENT				0x100
- #define GPU_TILER_PRESENT				0x110
- #define GPU_L2_PRESENT					0x120
-@@ -98,6 +100,8 @@
- #define L2_READY					0x160
- 
- #define SHADER_PWRON					0x180
-+#define SHADER_PWRFEATURES				0x188
-+#define   SHADER_PWRFEATURES_RAY_TRACING_UNIT		BIT(0)
- #define TILER_PWRON					0x190
- #define L2_PWRON					0x1A0
- 
-@@ -125,6 +129,13 @@
- #define   GPU_COHERENCY_ACE				1
- #define   GPU_COHERENCY_NONE				31
- 
-+#define AMBA_FEATURES					0x300
-+#define   AMBA_FEATURES_ACE_LITE			BIT(0)
-+#define   AMBA_FEATURES_ACE				BIT(1)
-+#define   AMBA_FEATURES_SHAREABLE_CACHE_SUPPORT		BIT(5)
-+
-+#define AMBA_ENABLE					0x304
-+
- #define GPU_SYSC_PBHA_OVERRIDE(n)			(0x320 + ((n) * 4))
- #define GPU_SYSC_ALLOC(n)				(0x340 + ((n) * 4))
- 
-@@ -138,6 +149,7 @@
- #define MCU_STATUS_ENABLED				1
- #define MCU_STATUS_HALT					2
- #define MCU_STATUS_FATAL				3
-+#define MCU_FEATURES					0x708
- 
- /* Job Control regs */
- #define JOB_INT_RAWSTAT					0x1000
--- 
+
+v4:
+- Split 64-bit register accessor patches into another patch series.
+  - link: https://lore.kernel.org/dri-devel/20250417123725.2733201-1-karunika.choo@arm.com/
+- Switched to using arch_major for comparison instead of arch_id in
+  panthor_hw.c.
+- Removed the gpu_info_init function pointer in favour of a single
+  function to handle minor register changes. The function names have
+  also been adjusted accordingly.
+- Moved the patch to support Mali-G710, Mali-G510 and Mali-G310 forwards
+  to [PATCH 4/7].
+- Extended support to perform cache maintenance via GPU_CONTROL to
+  Mali-Gx10 and Mali-Gx15 GPUs.
+- Link to v2: https://lore.kernel.org/all/20250320111741.1937892-1-karunika.choo@arm.com/
+v3:
+- Kindly ignore this patch series as there were duplicate patches being
+  included.
+v2:
+- Removed handling for register base addresses as they are not yet
+  needed.
+- Merged gpu_info handling into panthor_hw.c as they depend on the same
+  arch_id matching mechanism.
+- Made gpu_info initialization a GPU-specific function.
+- Removed unnecessary changes for cache maintenance via GPU_CONTROL.
+- Removed unnecessary pre-parsing of register fields from v1. Retaining
+  current implementation as much as possible.
+- Added support for G710, G715, G720, and G725 series of Mali GPUs.
+- Link to v1: https://lore.kernel.org/all/20241219170521.64879-1-karunika.choo@arm.com/
+
+Thanks,
+Karunika Choo
+
+Karunika Choo (7):
+  drm/panthor: Add GPU specific initialization framework
+  drm/panthor: Move GPU info initialization into panthor_hw.c
+  drm/panthor: Simplify getting the GPU model name
+  drm/panthor: Add support for Mali-G710, Mali-G510 and Mali-G310
+  drm/panthor: Add support for Mali-Gx15 family of GPUs
+  drm/panthor: Support GPU_CONTROL cache flush based on feature bit
+  drm/panthor: Add support for Mali-Gx20 and Mali-Gx25 GPUs
+
+ drivers/gpu/drm/panthor/Makefile         |   1 +
+ drivers/gpu/drm/panthor/panthor_device.c |   5 +
+ drivers/gpu/drm/panthor/panthor_device.h |   4 +
+ drivers/gpu/drm/panthor/panthor_fw.c     |   5 +
+ drivers/gpu/drm/panthor/panthor_gpu.c    |  95 -----------
+ drivers/gpu/drm/panthor/panthor_hw.c     | 197 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_hw.h     |  66 ++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.c    |  35 ++++
+ drivers/gpu/drm/panthor/panthor_regs.h   |  25 +++
+ include/uapi/drm/panthor_drm.h           |   3 +
+ 10 files changed, 341 insertions(+), 95 deletions(-)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
+
+--
 2.49.0
 
