@@ -2,188 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A2CACB2A3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA149ACB384
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 16:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDCCC10E53B;
-	Mon,  2 Jun 2025 14:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6999510E543;
+	Mon,  2 Jun 2025 14:42:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="YMGMKeOW";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YMGMKeOW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vNscwI3O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR03CU001.outbound.protection.outlook.com
- (mail-westeuropeazon11012015.outbound.protection.outlook.com [52.101.71.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B84010E545
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 14:34:01 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=iSYNxvDR6JufRrGMRyInR/KKlJBBwqQS5ClD4n5h7pKQFA/E73B6X9SZA+5lHdcmkpLmgunSAaGAAv1K8rE54w05gTw9VbWunhZKEiU8y2dPxqDwVZAhe9+Niriz40go17Q+hgv6FHcjlFLEwYQwJVHieAWUjGQ1V5JjKgDb/oo4u/eiN5V1zgTt7Td/cf9RtWOW9y0efj30KQ54279QDZpfjw/XLGhkA7soPDxI+apoLQwBLL9YBNfhum/B6KJoj2zvD3o+zl6WD9InG+VysT9vYgkRzn8mlUamy6sDtxYxS9oWTxoipIRD4Q4aJuLB9HqK8xc97E5sGuR6mf+E9A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=79EUByVuJzVYOwLMmM+wLUXT8WRloN2obWZl7Q4M5AA=;
- b=nkKcXGZHpQBDtqycVFQTvaUBEjSgFcXsZUQBZbyNNvuI8F+Qvv50Qx47nfk6ifH83bcgJPVr6s0+rXN9A+Q9ES+Wg+gkiijcz0DHLzZ9HEjk9NShbafsQYoktLcaYSVhg1OCXp3CUAesdFnpAdciUMOEgydmyA3PamXw4jnWtAM5riDaCaTkEYTGl5jRcXGE7m1W9LZtkcDdjvytSEkgnghY71u3Y0r1IAqMxUziS532J44jl4ItV43euVDJ8E70N+idZRNX5AaVlnzNUiERK7U+/6RR1OsjDVWe/WGR1GHATG3C+xGDTBcA+I6tFNuSfBA8oAgSAkldJs4wFq1f2g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=79EUByVuJzVYOwLMmM+wLUXT8WRloN2obWZl7Q4M5AA=;
- b=YMGMKeOWJyPr94EwRNVG3cOEAg9huNBF9J+h+ekn6TTpi11meE0lFwTRQyViAuPHq1o6L4VPuh84S1Ev3SDq9i7rUKxTwVVa2QkcUT5JxXDr+Q6klPYrf+keocT9Txqfm0YgklXMgt+Yya7sL5M8PgLCSaEgbvqR2aXODR4q4Ns=
-Received: from DUZPR01CA0164.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b3::18) by PAXPR08MB6478.eurprd08.prod.outlook.com
- (2603:10a6:102:159::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.32; Mon, 2 Jun
- 2025 14:33:58 +0000
-Received: from DB1PEPF0003922E.eurprd03.prod.outlook.com
- (2603:10a6:10:4b3:cafe::a7) by DUZPR01CA0164.outlook.office365.com
- (2603:10a6:10:4b3::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.23 via Frontend Transport; Mon,
- 2 Jun 2025 14:34:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF0003922E.mail.protection.outlook.com (10.167.8.101) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.29
- via Frontend Transport; Mon, 2 Jun 2025 14:33:57 +0000
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCC9910E536;
+ Mon,  2 Jun 2025 14:42:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fMRuVK90PMpB0t1FeEvg31NT1eKo5YbFq7qBDu6L7XEol3dHZJM/P527ABSBfM4GeHWILzhE9JPaHACKQhNvoY5DnmMVAQfVsxfcLGdYycS/JWSBE+lzLHnEgCz90/sbwN9cc6Y/LX3dTFzTlu+zJ9N6o22nRXz3K8BkP6R+Tgzao+wUf2GbCbCRx+eGNCJA/naH6lC6OmZV3usICiDMK6xoRPt9MpVG+w3lzSzRIreI5JPW8mHT5Qkmjl0awhqggbbejE7WLYRP5Hv202uURleWVdOb32fqKbWbNkc+jlFuo0Yzjg4yWUXbm61/thrImGIk7wJpyu7jVyAzKFG8Cw==
+ b=AifTl9CmCfT8RxyWuYC5IQ1DrKEA21nzuu0D8lOdj8OqwcdgI/FgqR9BTPUDoXPhY/BZzc05xukZCWET9m1WHIdeN36z39sSvmOMJFdvuaAMg0UN5Eklr8fyjHCYCfmywuAP28xWPbWQc61rLxMDmCJeyeH2gqtDdhwdFOqKCILItZj3fjlzfivM3JfVnhjl8IeOW/KK1xn0fPJ8prEMifz94ZnESkE1iyYWlRLn5TZojXby0mwcyLSHzef/4z2T2GWZvr++fERuSWRWrXlI8FIh2OhhRAeWZTj//ClI3CEostM5XI+MpIv6VJjtNZQgdyobY4gt9xFYm/gab/qaEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=79EUByVuJzVYOwLMmM+wLUXT8WRloN2obWZl7Q4M5AA=;
- b=R0+rloC34QVnSeSNSHYivqLliZbYU6xFj1nJTiMHmL5eQ8TXm9O4pBYm2nuHiXuwcMEpWj3ibWiPrmWWIQIVpgCmmEz0L8UqkmoeVfkNAhDeJv14T/a2NyEyCYGueCCvgmLtxgIJlHhMGCYlDQokVRYJwBdsQQkXYYP03aSIVeM/IiT64VDGfNV1/NAxYeQDgIqoQRp3EChounMr3+3nQR90kOWltfTsekBTLJY8OJMY70sex3dOKScDtrCjtSs0vZQ3cZp3OKfSi1seFH9Mr/fxlGUKqsLiwhasy0vlmljyEOOzCsOsKs0KXCj749TFjNltxL5X2Z+jdRpkLsSYBA==
+ bh=sC5B75jQ3OSIqbV1agRF61z8j8rU1/MOrKMiCIvPZho=;
+ b=lnzUw92JF3dLBNQ0mAlqViOEOc8J0JcuTeUFH+vH09Dd0aRTckQlR4gxgtyU52ZZ4cCRpENsaypIykQDpf0dmr0a211y2BFOqLzxUYQCqjZ9skcWHdanpy8VXj2UssVuxYY3MODelcTGpTnWJ7zJTl29aa+TBLXC0fG+SSSgKl5j/cfkikkJaVfwVLoWcFGkSz0Sy2dWUCKaJjvOGg8DChUGa9TF8Sup+1mpTcym00xwUSfUXMl9Z3Fv8BZ2WDpBfeUpfvWnrhUFjXBLb1FM4Legj9MsMHqd+vRl6tNR5cevSsyYhRjxGOnJGzyR9QvtmglUuKOPmQnbuRZc1agp4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=79EUByVuJzVYOwLMmM+wLUXT8WRloN2obWZl7Q4M5AA=;
- b=YMGMKeOWJyPr94EwRNVG3cOEAg9huNBF9J+h+ekn6TTpi11meE0lFwTRQyViAuPHq1o6L4VPuh84S1Ev3SDq9i7rUKxTwVVa2QkcUT5JxXDr+Q6klPYrf+keocT9Txqfm0YgklXMgt+Yya7sL5M8PgLCSaEgbvqR2aXODR4q4Ns=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by PAWPR08MB9640.eurprd08.prod.outlook.com
- (2603:10a6:102:2ec::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.30; Mon, 2 Jun
- 2025 14:33:25 +0000
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.8746.041; Mon, 2 Jun 2025
- 14:33:25 +0000
-From: Karunika Choo <karunika.choo@arm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ bh=sC5B75jQ3OSIqbV1agRF61z8j8rU1/MOrKMiCIvPZho=;
+ b=vNscwI3OY69HIuqeHSBddfPdCRJViJ2037ZDeE1nVaGq8TnE66UkH8s20qwcW2zpz9hFCJb3pYG2hSxLOw7A0ANGeTCKHrxHedHG4q9hcCJzbwfM4XU97Dq22sUlys1mDfN5abQioCLuzbncIzOiyVlMA17BLoJl3qGhh5TKf44=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH1PPFD8936FA16.namprd12.prod.outlook.com
+ (2603:10b6:61f:fc00::624) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Mon, 2 Jun
+ 2025 14:42:36 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Mon, 2 Jun 2025
+ 14:42:36 +0000
+Message-ID: <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
+Date: Mon, 2 Jun 2025 16:42:27 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 7/7] drm/panthor: Add support for Mali-Gx20 and Mali-Gx25
- GPUs
-Date: Mon,  2 Jun 2025 15:32:15 +0100
-Message-ID: <20250602143216.2621881-8-karunika.choo@arm.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250602143216.2621881-1-karunika.choo@arm.com>
-References: <20250602143216.2621881-1-karunika.choo@arm.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
+References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
+ <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
+ <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
+ <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0335.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18c::16) To VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18)
+X-ClientProxiedBy: FR4P281CA0314.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f6::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|PAWPR08MB9640:EE_|DB1PEPF0003922E:EE_|PAXPR08MB6478:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0d951d8-e9e2-46a1-d4a6-08dda1e2821b
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH1PPFD8936FA16:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2992bfe-31ed-44d8-6f99-08dda1e3b72c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?TPTSs5+DxgVZ3niSGIwDJ3jstF+vTuQk0CeFefCzXownnnf8cBRt70Ke61Dg?=
- =?us-ascii?Q?Rd6eoRs5/HErUl5ueRi/zOJWwoHdRI+67Mbc604nJUxsKwkqc5nyDC9dDiEy?=
- =?us-ascii?Q?lyJzdnuv8s5v3ySPJNmdbweO9XLMW5zfK5SCKx2uHwxO6I6VR3wvI9KUDo+f?=
- =?us-ascii?Q?GsznyNykSgMvqxZc8pgCp4UgKhlmkpMFCNn0JVm3rN18szZOJwJtmjGf/581?=
- =?us-ascii?Q?9OCg1iTa4ddoK06MPIMXcNaMZ7tNKmRJoCFtECrnGMRgA9L/oQTQAczrGtbe?=
- =?us-ascii?Q?6ptdkjdtm8TVzjG+1SZiEaoFOJT9Is14nq8HJy+eEFvEagpytPG7HbNGyAY8?=
- =?us-ascii?Q?xj3fYZvo1UNdnGL+bKwc8WNz5ZnAt06lR5q4j1OlgHJhNQfdJmfx9jR65LL8?=
- =?us-ascii?Q?65L+IScTaTckopC786t5++o1W4/O6uVxzB7r1foCh6kBKq9z28awMjUselmE?=
- =?us-ascii?Q?/NLddXvBEBervQOF0EQ2EvOXW2knRnvbtwDF8eR9H+cb2VGxA0XaAtkthuyd?=
- =?us-ascii?Q?neXEIDtQ1uo+cT0oluInFm24YchqqX+BRlTtzeW4FRTg7MTaG5QHvNS2eP5t?=
- =?us-ascii?Q?0QjFW4D5MyHuxo5D8uDI1q8tsNL+HmpDn7hsHEMny7JFeNpcCLQUDyoPb1xQ?=
- =?us-ascii?Q?0SpVwISdPNBl5gym5vfnXfO68BozJ6RAWNWYFoypjiWIB8SliUumBb8w++p2?=
- =?us-ascii?Q?RwgXu4W5GdPhzVtUzROPIxIOcmgGAu1f6FYC5bAiZ7+bsxanV9cZL4O7XQLR?=
- =?us-ascii?Q?BH+dnMphdsrds2SMcFcPqrL144ckbmo/U8r2rwWfAzzMm6R5AGMjmoFKs9ut?=
- =?us-ascii?Q?+kymgsQtYeZH1YPkxQu82cmDYnBStj52jp0r7/pxqSADR4IwWWjtdhdrjrwY?=
- =?us-ascii?Q?w06VKK7/SVqOAUAymiBAhhbyqTFLG4Q1McKoVzfZ+JQ6yU9T5cd5bxMrDr9d?=
- =?us-ascii?Q?/029wyrAuwZRQSdRBCoKRaUDHraSMI+Vg4dYmtbDapZBhuPknNlILeBQAaYL?=
- =?us-ascii?Q?Io8JHxLloPW/l41EsiF81IKDaZ87jKx8xEA9BMXL5U8t+UgsRgsQEHFj7Cne?=
- =?us-ascii?Q?rAjqNF1/rw2Zg7mjhIu1XLDq70wvrvB8/b61pbMj0Fv1vyeJ9KfOR4l4uQYp?=
- =?us-ascii?Q?5M+2KamdpgVCtBfy0cf5/+NNRAa704Hoe3IKpmRejRMP0JPIzN5Q1v5aO4EE?=
- =?us-ascii?Q?8InSz4VzkDp8u5zWmJFFEy0zyZ9LJOO2yJor6fNdJpafoV745ovdcdZYwY0v?=
- =?us-ascii?Q?sx53NzMw2e4742gCVyRmqbw3msS+anfLHmqLpGzcFWkJPm+GeavifyxdRwUx?=
- =?us-ascii?Q?gIXQ8JffqSiiUpQ6s0UojKstFtnmL48kGrDyfuFOa9gOwQcSb7h1mXyxji0M?=
- =?us-ascii?Q?+QUGqGJhFGU69UB9nZ50mZe00hNC85fmRATPH92tluZVGeCe3DP1GdLuYwxo?=
- =?us-ascii?Q?6xi2bV0lcyc=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9640
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF0003922E.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 9c83c168-b6a3-482b-6e25-08dda1e26ea1
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|14060799003|376014|35042699022;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xFSwvgkGFchTa2SrpMlzWICsYqRB7bpV2c+SvxJefE/lZdSLNk9TwzCttfD1?=
- =?us-ascii?Q?lNe9l4WO9RBRTwO1gBcDfM0Ata3p4tKKUCsawuk1h/Y6UH03Q5OwD+qxM/+7?=
- =?us-ascii?Q?NQQ6Vo0eEPYZiWJHCvNzTOU/QoXAO+c9m13hWpXD5iKVJXMNhtLWyQfrzUCl?=
- =?us-ascii?Q?tdbFDvPSXJ/OfLNT/hiRlNmH35yhnMMpGLw1XVkzOTpGohHNBj8Knz60DKs4?=
- =?us-ascii?Q?6eZOa4PLLSu3PSXDU1eZHx3CmmWsTAIwr9m70J3GcMRt4CMVahbg3ycwtlqt?=
- =?us-ascii?Q?dWiUG5Dil8gEnNakghosiVCxwP7N/eZ1NpOKj4OjTBr78SEO3toF7vcnQaMj?=
- =?us-ascii?Q?ORx8vOodbhbtTUKV8zIVXD7Qq8UBHp753DAFiq7LpumqNnJpUig+PrL7ONvJ?=
- =?us-ascii?Q?k/K1q8VhgU2/S5mdEHlDsBW76DicUSyFs/o8NTzXL1x472SzjaQF8WxXXuhn?=
- =?us-ascii?Q?Iyi4v8p6cKJjfppwG8k8M4ybgopPxWxi8aWZRXwGikC+ZIU4Cs8zuHplhga9?=
- =?us-ascii?Q?gIZxj1orplyrangS9mHysSIMcABqGtwva1zmKea5C1/ZFLomnO0Tm8UOhACj?=
- =?us-ascii?Q?WHPfY6IQpWwmk9OwYOS9P/wzJC5+5lZDW31D9rHl5+29gR6D6aBpRHgW6EHa?=
- =?us-ascii?Q?wjOxj5je6W6JzId1n0Vwnw2np6vpRY+AobEMPvg+fYTKobiDEGWSAiMxbQvP?=
- =?us-ascii?Q?9tNBcHfW4Zxqzg00rpdP3dY/LPsEj5HkBb3l/rgL9LS5NePABFZa+VKJEffD?=
- =?us-ascii?Q?kBPsumYT2LKVuRbThNedqZfFsIWP1Jp1F757wby6+Hp3CvkL2RPDLNWl3Cfy?=
- =?us-ascii?Q?8Zc42lBTOXIqaLr3yhDZecIJ2974Xl6cQT7+VLsBm+trPrOdjzD8nlZtCCwo?=
- =?us-ascii?Q?0oUL6xdNXyqiX3kwQu3bYduyH4w/YiCsYLWbBHyD1KFliBQ7fXFoovlYeSDk?=
- =?us-ascii?Q?WWrf3tVPfdm+Afx9Kobh92C4QWsnXJC4HV1mALMFTM1aYtvKOvzdwy/5vGGY?=
- =?us-ascii?Q?IrTDPMdmlDOdd2MjSJS5NyTfBPBkgFcZRzsOm0FZe9uYOJMzv44CPcyctdm0?=
- =?us-ascii?Q?egcjxIzumRae7zs41eqgFiK5jklhey1sFeIjRRG465OLHU9BSEJOHYnQpL2i?=
- =?us-ascii?Q?zHgoM72cJO0FIx81RX/B/qIzscnsPnPF0Y1vh1VYb+HiP7oh96UY9bkjqwwT?=
- =?us-ascii?Q?9v54L4oaaJjzqpn3H3jackgEkM3gqgeBrEsPL9ARaqJ9Iv4l8uHbH+9BZVxn?=
- =?us-ascii?Q?YrMyi3xQDSEiSD1Uq2Ecu4Omm0uee5V2HGuALA9dB6ufpBzucX78BkziWzze?=
- =?us-ascii?Q?21QP6riuBapNzgQZIpMJw5+4ojCn59lOUAVtP/TKf//kxIppjCsAq69XbxV+?=
- =?us-ascii?Q?46RT3hYI0tkItWZCRtWPTseT+5609jzqTTAnPKMELFjWeZmnvM+QwmdkVqZC?=
- =?us-ascii?Q?VQoz3qd1OPlJFI6rRV+P0wEqbtSeAAWthP9hFQ1miVDcV1XAWawU4JuOVgi7?=
- =?us-ascii?Q?R7UkAW6IlVpg4TNN+RFoOnH8EL3/AbbdSThN?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(14060799003)(376014)(35042699022);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 14:33:57.3060 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0d951d8-e9e2-46a1-d4a6-08dda1e2821b
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF0003922E.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6478
+ ARA:13230040|1800799024|366016|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nnh1bDZIZTZkejZTOXFZSitlY2tNcGw4QkZsQ3ZPcGlwZUlEY0JJQXJEbFBL?=
+ =?utf-8?B?azltS0s1NEpmR1VKdlVCV0MzVVVGSXdUMEJSeVRWcHZ0TG9sbDBGMWNsejR5?=
+ =?utf-8?B?VmhBRFJOdzEvSVlqTFo1ZnlFY3NsdUFJNm5zbmk0UGRwRjNRZkljSjZaazBL?=
+ =?utf-8?B?b3lZN3ozVWhLT2pCKy9jK2FuZjB2YUVBOE5tU1NUMDFWbGxUSlBERDZqdG1M?=
+ =?utf-8?B?bkpDbkx1NlhKbXJhaG55Y2xzV25DdHRhM0YrbmtFUlA5blljS09YWXRhQjJZ?=
+ =?utf-8?B?dmlHRS9lUzBBaVE5MzN3RllrNjlEWk81SmtBT2hlVVUvNVBQZ203Zkt6VEpU?=
+ =?utf-8?B?SUJxZ015YjZrb09FWkZRQTZQaW9XQ3NXR28vV2ExZ0FSQlErb3FadUZ0RzJw?=
+ =?utf-8?B?cGRCQkJmeWpRWDY5dEpWcnRtSUhUZ0M4VWh5dnI1MFZMREVXcEJBek9CK0lu?=
+ =?utf-8?B?SUl2UFNWWU8yUTIzT0NNQ0pCRGZKUkFEakRwL3BJbEJtaXNHNDlrdjE2Qzdr?=
+ =?utf-8?B?aTh2cm1XS29ocFNtaE1XVWkyU1pTNWZvdFlkV2psVUZaL3ZIamJvemV3YmZX?=
+ =?utf-8?B?RkNKS2RMSjNoSXF6ektadktyd3l2Zno4QTJvZ1J1WHNJaVNVWEIvUTNWQlV3?=
+ =?utf-8?B?SmI5N0F2S21PYUYvNzVTYVBKeFdKNlhEWnpQYWRNUGdmZUJLNzEzQmJ2RkU5?=
+ =?utf-8?B?N24yRTdBY2JWTlhDa2w2UzVUeDR6ZllnUHd3dldCd0Z3cU5EakdnK1hDYmhn?=
+ =?utf-8?B?VUdzdHJqN1NOdmF6aC9JTGQ1blc4YXk2N3pnZjVxZXlEZXRJMFI2NmwvbTJy?=
+ =?utf-8?B?a3lCc0tPNlR4OFczWkdRaVBrWk5vdmtkZjNwb1BIZUtpUjd6VkM5cmp4U2x4?=
+ =?utf-8?B?am9pYXdoYittdUlsTDNzMnhxelJGQk1lVVNvcUFST1ZHNjVrYnZEZUx5QytT?=
+ =?utf-8?B?b3lBWWRzMVNSdkFXMFI3QXhTYmZJQUVJVlpnMDdBMGQ4T0JNSzZvaFZZQ2tr?=
+ =?utf-8?B?QTRKUWVtdXVoRGJZWml5bEVRM1pud0tCSGFsbU8zNnkyUkZnWmMzelI1NVJv?=
+ =?utf-8?B?VUdzV2xRUHZNc1UrbXpZNG4yN3YvWHJKaHlTT0thQnRUcEwzNGFFczU1ZnFm?=
+ =?utf-8?B?Q290UUlpeXI1MnI3c2hXeG5tMHlIRnNwSU9RNWNSM1gwM1R3ZkdWdmp3cWIw?=
+ =?utf-8?B?TzVvS0JuanBRMnNuekxlcy9tNUQrTnNkTjJuRUFBRURrRjduVnZLMmwvdTAv?=
+ =?utf-8?B?enhiN3diTlI5cEtLNnVudXQxc1JZOVd2V0xDOExYbDlhdS9BNWVlTEhUcUhB?=
+ =?utf-8?B?M0VLbElBbDNWcjFqanZLaGJSbXpWQ21iSkVpOVVPNDE2RnRnNXpoT1dLa3gx?=
+ =?utf-8?B?UWt5dUpkc2pJWFNpYzRtSGxqZGdNaXJueFNJa1NNQUZob2dIK3VkTTVOVXBV?=
+ =?utf-8?B?MmRZOExUMi9VUGxrV0FrT0NJMUJrOHlKakZVNTFqdlFiQnFiR21adVRxZWpE?=
+ =?utf-8?B?aURZcWJ0R2czNENsaVZmbzJUZk84TWNadE1nZFNUODl4NWtVOFd5U1VndXgw?=
+ =?utf-8?B?YW9wMXhwRVRaUUpjS1NzT2JIVUk2VnVndWIwUllYNGZGdS96Z09jeG1GOWlL?=
+ =?utf-8?B?NHhVQkRMcHNMVUtBalREd2VNZXpyenI0amp0NXNaWE1MK1k0Q3A0b3h6WkNs?=
+ =?utf-8?B?dmdydEhpcnU1cDdkVnVUNm83OUYzd0dUKzBTdVBHQ0hCTW80K2loMWRIYlZw?=
+ =?utf-8?B?U2FyaVFUQlIwZUp1dzE3ajNURTc1NTdJUi9zdnJDeEhMcFU2MTBnT0xGY1g4?=
+ =?utf-8?B?aVVlemtseVIxdEpVMDArQWxvL2syaWdvb1NXTGRpaUVNMndOdnRXdVVteXdO?=
+ =?utf-8?B?MGdYMTBxUy80cXIyZ29yS1AzRTZ3TXgwSGVBSFlDeXl3SCt0TXJrY2p2dTBn?=
+ =?utf-8?Q?J3OY1x+zQFU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MzlzeUcvQ1ZFdHlOSHN3Wkt6b3M0VGFQdjZSZC80SGw1dlFUelBIazVjUCtx?=
+ =?utf-8?B?ZzRCK1dSYXdCY1dOcE80WlQvYkhaai9ET3BrY1R4alNsblRlbXUxcEowU0FE?=
+ =?utf-8?B?ekxhL3AyYkMrTFVwb3VkRW9MVXZWVnZ2Vm10WkdOQmliWmJCeUE3VDBjSEpF?=
+ =?utf-8?B?blVONWJsVUNlQjQ5Um5LSk5KSGswalM0NVIxUWErMXNNdFBvRG1qeE5CSkxT?=
+ =?utf-8?B?Nk1Na1Zka1Z4UlJYZkt6ek9qNG9QMzNXVEJMTm1YdVJkUEFrM1VLWG5yMFdt?=
+ =?utf-8?B?cUFjb1M0QUdyQ09rbE5IR1d5c3UrS2dmdVZ4V0R2VU1xNEF1YXp0dDZaUTBX?=
+ =?utf-8?B?Z2lReEdxZnVXdFl6cHdGQlhMam9zRjExM2lUdDRiSTdiN3I2R3Fpblpsb0JB?=
+ =?utf-8?B?U3crRnE5TG5sem9pcDF4dnhVeU55Q2RHdGx4Tlhna3YwY1FlWm1FR1JmVXlw?=
+ =?utf-8?B?VW5FN1pEVGhMR0EyK0cwaWIrZjlxTFNTYzZ5a3pzZzhzaHdlZFlqMkgzQU5z?=
+ =?utf-8?B?c0xxMGxOV0JTZDFqY0NFNFJ6V09KK2x3WkVaQ0trSThIOE1mcVo2QUxYU20y?=
+ =?utf-8?B?UkRwdHBvdVE0cnNvVTVWeDlDbW1meWI2WDRjSXNkTXlmZGhEYi9HVEhueDA2?=
+ =?utf-8?B?Nk9Ka1E1cXFTeE9TUUU1QUtidUhxb1JXeGJDTjFZcUVOQ1JNb3BFQlNZMTlp?=
+ =?utf-8?B?QXIrNG5Fbkc5Slg0NGhpd1NMY1g1NFkwdVc1bEZsWXRwUSs2dW12WC9YdWVV?=
+ =?utf-8?B?Y3JOVEpETXZOTVdRZUUzKy9Pa0tBL2I3K3UrMTlZTWFzRTNadDRjNm9pRGhY?=
+ =?utf-8?B?T2tkbTFzQVJIY3VQNlBhSjQrNmNWVDQycUN1UmhVR01EcDRlQ3RPRWRYRlho?=
+ =?utf-8?B?UXkzRnI4T3FUWUlkMzNCMk16LyttdkoxaFJJU1ltQTgvTXVLbnRvdGlwWFBK?=
+ =?utf-8?B?c0pGeUlzcWRGVllOYi8rVlVDeFFudzA2MExja1hocWRaaUphTkZVR002Znds?=
+ =?utf-8?B?NlBhOUg5WENYUTNDTlN1T3ovV3p0RW5uZVNhNFJRUndpazdlTWhvSGR6ZjNz?=
+ =?utf-8?B?ZXdWdzNFR0FnUmNqdEV6enRwVzdBK3lkUXhCcG1oVU5BUVREQXVPVXVMR0pP?=
+ =?utf-8?B?T0pVMnZMaXpweW5YNlBHZWJsRWY4bkdqVnhBVkFIZVRuSlRYeGVDOUNqTGgv?=
+ =?utf-8?B?UWVOUFM0MitXeUFXSzF1djIzOUVWTURIeEIzUm9rRmpKVlZQdGNCSStnTFoz?=
+ =?utf-8?B?K2h6RjRYbStUVDVvbWR5dS9aNEx4NG5WMFBXOFpWRzRnbFozdWZrVWpIS0k2?=
+ =?utf-8?B?QkFpRHdGTFI2RCttVCszMWdaYnZXbWNGTHNNc2xmOHFDRmIrSWd6V3RMS1Fu?=
+ =?utf-8?B?YWIzd0JlSFdUZjVKSngwcDY5aDBLYmVRTmM3ZjZmbVcrWnJQRXBCUDBMUVhE?=
+ =?utf-8?B?eTlSb0hoaUVXZHRCT1c3dHlqTDJlTThjelNiZjF0T25kUWwzNVpodjlnZ2Jt?=
+ =?utf-8?B?TWdINDZhYzNxZG9LckRvd3dpRTVzb0ZsWFZzeEtQYjZrRkt3bW9tbktFMTNl?=
+ =?utf-8?B?b1dKalFtSjZRSk1SL1V3bW1uWEJLRXVtNmQxZ1R3QzRWLzM2bXJ0T000TXZR?=
+ =?utf-8?B?bytlaXZJY25wa3NmQkpGMXo5MnlhanRnd1pCR1BYazE5eG40VVg2N2x4R3Uz?=
+ =?utf-8?B?eVBZc3N2YlFyRFdJQUJMK3VyRmYwd29ZY0ZnUDA2YmJmYVRjalVqN2daL0Zi?=
+ =?utf-8?B?blp4bk9aSGQ1dVFuVzd6Nm1nbGVGZVZLNjdQL1oxbllVQzl1VnpHSHc0YTJU?=
+ =?utf-8?B?c2Ricm42VC9XNVR1MVVhcTVDRjVNNk8rdlhFVGRFRjZUSWkvcTNTUTVtYWZF?=
+ =?utf-8?B?MVB6Sk05TWM3cTd0VEhVclFHL2kvbjZLMnVFRjRqWWtESjBKM2oxZlBINUVO?=
+ =?utf-8?B?dDZWNzJIbHhISDBvTS9BRkx3WWMyaDJKNzVjUzJoNnNKQ1FvY1dlWEtRMlBC?=
+ =?utf-8?B?STVYcEh1T3R6amczbnVaSW9UUlI0dFB2eFJ2VWg1RDQ4TGVwY3lrb2ZVdlBQ?=
+ =?utf-8?B?eWt6Z2VoZk8wZnM0ZU9mbkM0ZG96ZXlOZmxiZjFDRG1KNW9BNHVXN21CTUdt?=
+ =?utf-8?Q?N8JpMRn+jMOelhVnF8sRJklY1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2992bfe-31ed-44d8-6f99-08dda1e3b72c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 14:42:36.0672 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZcfnL79PIJ3/wZrrKdfOppY4qOQQcE+uks4kyRoFjM3eIcSh6pSSNYbodVAEVyqF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFD8936FA16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,130 +171,273 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali-Gx20 and Mali-Gx25 deprecates the use of FLUSH_MEM and FLUSH_PT
-MMU_AS commands in favour of cache maintenance via
-GPU_COMMAND's FLUSH_CACHES and FLUSH_PA_RANGE.
+On 6/2/25 15:05, Tvrtko Ursulin wrote:
+> 
+> Hi,
+> 
+> On 15/05/2025 14:15, Christian König wrote:
+>> Hey drm-misc maintainers,
+>>
+>> can you guys please backmerge drm-next into drm-misc-next?
+>>
+>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
+> 
+> Looks like the backmerge is still pending?
 
-They also introduce the following registers:
-- GPU_COMMAND_ARG0~1
-- SHADER_PWRFEATURES
-- AMBA_FEATURES
-- AMBA_ENABLE
+Yes, @Maarten, @Maxime and @Thomas ping on this.
 
-This patch enables FLUSH_CACHES for both families of GPUs via the
-PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH bit until FLUSH_PA_RANGE support
-is added. It also adds the aforementioned register definitions and
-firmware binary support for arch 12.8 and 13.8.
+> In the meantime, Christian, any chance you will have some bandwith to think about the tail end of the series? Specifically patch 6 and how that is used onward.
 
-Signed-off-by: Karunika Choo <karunika.choo@arm.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c   |  2 ++
- drivers/gpu/drm/panthor/panthor_hw.c   | 30 ++++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_regs.h | 12 +++++++++++
- 3 files changed, 44 insertions(+)
+Well the RCU grace period is quite a nifty hack. I wanted to go over it again after merging the first patches from this series.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index fa6e0b48a0b2..9bf06e55eaee 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-index 5ec9d7f28368..281d86c4715e 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.c
-+++ b/drivers/gpu/drm/panthor/panthor_hw.c
-@@ -61,6 +61,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
- 		fallthrough;
- 	case GPU_PROD_ID_MAKE(11, 3):
- 		return "Mali-G615";
-+	case GPU_PROD_ID_MAKE(12, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G720-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G720";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(12, 1):
-+		return "Mali-G620";
-+	case GPU_PROD_ID_MAKE(13, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G925-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G725";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(13, 1):
-+		return "Mali-G625";
- 	}
- 
- 	return "(Unknown Mali GPU)";
-@@ -109,6 +127,18 @@ static struct panthor_hw panthor_hw_devices[] = {
- 			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
- 		},
- 	},
-+	{
-+		.arch_major = 12,
-+		.features = {
-+			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
-+		},
-+	},
-+	{
-+		.arch_major = 13,
-+		.features = {
-+			BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
-+		},
-+	},
- };
- 
- static int init_gpu_id(struct panthor_device *ptdev)
-diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-index 4eaa2b612756..8e01440f8743 100644
---- a/drivers/gpu/drm/panthor/panthor_regs.h
-+++ b/drivers/gpu/drm/panthor/panthor_regs.h
-@@ -89,6 +89,8 @@
- 
- #define GPU_DOORBELL_FEATURES				0xC0
- 
-+#define GPU_COMMAND_ARG(n)				(0xD0 + ((n) * 8))
-+
- #define GPU_SHADER_PRESENT				0x100
- #define GPU_TILER_PRESENT				0x110
- #define GPU_L2_PRESENT					0x120
-@@ -98,6 +100,8 @@
- #define L2_READY					0x160
- 
- #define SHADER_PWRON					0x180
-+#define SHADER_PWRFEATURES				0x188
-+#define   SHADER_PWRFEATURES_RAY_TRACING_UNIT		BIT(0)
- #define TILER_PWRON					0x190
- #define L2_PWRON					0x1A0
- 
-@@ -125,6 +129,13 @@
- #define   GPU_COHERENCY_ACE				1
- #define   GPU_COHERENCY_NONE				31
- 
-+#define AMBA_FEATURES					0x300
-+#define   AMBA_FEATURES_ACE_LITE			BIT(0)
-+#define   AMBA_FEATURES_ACE				BIT(1)
-+#define   AMBA_FEATURES_SHAREABLE_CACHE_SUPPORT		BIT(5)
-+
-+#define AMBA_ENABLE					0x304
-+
- #define GPU_SYSC_PBHA_OVERRIDE(n)			(0x320 + ((n) * 4))
- #define GPU_SYSC_ALLOC(n)				(0x340 + ((n) * 4))
- 
-@@ -138,6 +149,7 @@
- #define MCU_STATUS_ENABLED				1
- #define MCU_STATUS_HALT					2
- #define MCU_STATUS_FATAL				3
-+#define MCU_FEATURES					0x708
- 
- /* Job Control regs */
- #define JOB_INT_RAWSTAT					0x1000
--- 
-2.49.0
+In general looks like a good idea to me, I just don't like that we explicitely need to expose dma_fence_access_begin() and dma_fence_access_end().
+
+Especially we can't do that while calling fence->ops->release.
+
+Regards,
+Christian.
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> On 5/15/25 11:49, Tvrtko Ursulin wrote:
+>>> With the goal of reducing the need for drivers to touch (and dereference)
+>>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
+>>> the fence->flags.
+>>>
+>>> Drivers which were setting this flag are changed to use new
+>>> dma_fence_init64() instead of dma_fence_init().
+>>>
+>>> v2:
+>>>   * Streamlined init and added kerneldoc.
+>>>   * Rebase for amdgpu userq which landed since.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
+>>> ---
+>>>   drivers/dma-buf/dma-fence-chain.c             |  5 +-
+>>>   drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
+>>>   .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
+>>>   .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
+>>>   .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
+>>>   include/linux/dma-fence.h                     | 14 ++--
+>>>   6 files changed, 64 insertions(+), 41 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+>>> index 90424f23fd73..a8a90acf4f34 100644
+>>> --- a/drivers/dma-buf/dma-fence-chain.c
+>>> +++ b/drivers/dma-buf/dma-fence-chain.c
+>>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
+>>>   }
+>>>     const struct dma_fence_ops dma_fence_chain_ops = {
+>>> -    .use_64bit_seqno = true,
+>>>       .get_driver_name = dma_fence_chain_get_driver_name,
+>>>       .get_timeline_name = dma_fence_chain_get_timeline_name,
+>>>       .enable_signaling = dma_fence_chain_enable_signaling,
+>>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>>               seqno = max(prev->seqno, seqno);
+>>>       }
+>>>   -    dma_fence_init(&chain->base, &dma_fence_chain_ops,
+>>> -               &chain->lock, context, seqno);
+>>> +    dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+>>> +             context, seqno);
+>>>         /*
+>>>        * Chaining dma_fence_chain container together is only allowed through
+>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>> index f0cdd3e99d36..705b59787731 100644
+>>> --- a/drivers/dma-buf/dma-fence.c
+>>> +++ b/drivers/dma-buf/dma-fence.c
+>>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>>>   }
+>>>   EXPORT_SYMBOL(dma_fence_describe);
+>>>   -/**
+>>> - * dma_fence_init - Initialize a custom fence.
+>>> - * @fence: the fence to initialize
+>>> - * @ops: the dma_fence_ops for operations on this fence
+>>> - * @lock: the irqsafe spinlock to use for locking this fence
+>>> - * @context: the execution context this fence is run on
+>>> - * @seqno: a linear increasing sequence number for this context
+>>> - *
+>>> - * Initializes an allocated fence, the caller doesn't have to keep its
+>>> - * refcount after committing with this fence, but it will need to hold a
+>>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>> - *
+>>> - * context and seqno are used for easy comparison between fences, allowing
+>>> - * to check which fence is later by simply using dma_fence_later().
+>>> - */
+>>> -void
+>>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> -           spinlock_t *lock, u64 context, u64 seqno)
+>>> +static void
+>>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> +             spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
+>>>   {
+>>>       BUG_ON(!lock);
+>>>       BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>       fence->lock = lock;
+>>>       fence->context = context;
+>>>       fence->seqno = seqno;
+>>> -    fence->flags = 0UL;
+>>> +    fence->flags = flags;
+>>>       fence->error = 0;
+>>>         trace_dma_fence_init(fence);
+>>>   }
+>>> +
+>>> +/**
+>>> + * dma_fence_init - Initialize a custom fence.
+>>> + * @fence: the fence to initialize
+>>> + * @ops: the dma_fence_ops for operations on this fence
+>>> + * @lock: the irqsafe spinlock to use for locking this fence
+>>> + * @context: the execution context this fence is run on
+>>> + * @seqno: a linear increasing sequence number for this context
+>>> + *
+>>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>>> + * refcount after committing with this fence, but it will need to hold a
+>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>> + *
+>>> + * context and seqno are used for easy comparison between fences, allowing
+>>> + * to check which fence is later by simply using dma_fence_later().
+>>> + */
+>>> +void
+>>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> +           spinlock_t *lock, u64 context, u64 seqno)
+>>> +{
+>>> +    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
+>>> +}
+>>>   EXPORT_SYMBOL(dma_fence_init);
+>>> +
+>>> +/**
+>>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
+>>> + * @fence: the fence to initialize
+>>> + * @ops: the dma_fence_ops for operations on this fence
+>>> + * @lock: the irqsafe spinlock to use for locking this fence
+>>> + * @context: the execution context this fence is run on
+>>> + * @seqno: a linear increasing sequence number for this context
+>>> + *
+>>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>>> + * refcount after committing with this fence, but it will need to hold a
+>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>> + *
+>>> + * Context and seqno are used for easy comparison between fences, allowing
+>>> + * to check which fence is later by simply using dma_fence_later().
+>>> + */
+>>> +void
+>>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> +         spinlock_t *lock, u64 context, u64 seqno)
+>>> +{
+>>> +    __dma_fence_init(fence, ops, lock, context, seqno,
+>>> +             BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+>>> +}
+>>> +EXPORT_SYMBOL(dma_fence_init64);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>> index 1a7469543db5..79713421bffe 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
+>>>   }
+>>>     static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
+>>> -    .use_64bit_seqno = true,
+>>>       .get_driver_name = amdgpu_eviction_fence_get_driver_name,
+>>>       .get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
+>>>       .enable_signaling = amdgpu_eviction_fence_enable_signaling,
+>>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
+>>>       ev_fence->evf_mgr = evf_mgr;
+>>>       get_task_comm(ev_fence->timeline_name, current);
+>>>       spin_lock_init(&ev_fence->lock);
+>>> -    dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>>> -               &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>>> -               atomic_inc_return(&evf_mgr->ev_fence_seq));
+>>> +    dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>>> +             &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>>> +             atomic_inc_return(&evf_mgr->ev_fence_seq));
+>>>       return ev_fence;
+>>>   }
+>>>   diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>> index 029cb24c28b3..5e92d00a591f 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
+>>>       fence = &userq_fence->base;
+>>>       userq_fence->fence_drv = fence_drv;
+>>>   -    dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>>> -               fence_drv->context, seq);
+>>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>>> +             fence_drv->context, seq);
+>>>         amdgpu_userq_fence_driver_get(fence_drv);
+>>>       dma_fence_get(fence);
+>>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
+>>>   }
+>>>     static const struct dma_fence_ops amdgpu_userq_fence_ops = {
+>>> -    .use_64bit_seqno = true,
+>>>       .get_driver_name = amdgpu_userq_fence_get_driver_name,
+>>>       .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
+>>>       .signaled = amdgpu_userq_fence_signaled,
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>> index 51cddfa3f1e8..5d26797356a3 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
+>>>   }
+>>>     static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
+>>> -    .use_64bit_seqno = true,
+>>>       .get_driver_name = amdgpu_tlb_fence_get_driver_name,
+>>>       .get_timeline_name = amdgpu_tlb_fence_get_timeline_name
+>>>   };
+>>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
+>>>       INIT_WORK(&f->work, amdgpu_tlb_fence_work);
+>>>       spin_lock_init(&f->lock);
+>>>   -    dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>>> -               vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>>> +    dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>>> +             vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>>>         /* TODO: We probably need a separate wq here */
+>>>       dma_fence_get(&f->base);
+>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index 48b5202c531d..a34a0dcdc446 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -97,6 +97,7 @@ struct dma_fence {
+>>>   };
+>>>     enum dma_fence_flag_bits {
+>>> +    DMA_FENCE_FLAG_SEQNO64_BIT,
+>>>       DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>       DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>>       DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
+>>>    *
+>>>    */
+>>>   struct dma_fence_ops {
+>>> -    /**
+>>> -     * @use_64bit_seqno:
+>>> -     *
+>>> -     * True if this dma_fence implementation uses 64bit seqno, false
+>>> -     * otherwise.
+>>> -     */
+>>> -    bool use_64bit_seqno;
+>>> -
+>>>       /**
+>>>        * @get_driver_name:
+>>>        *
+>>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
+>>>   void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>               spinlock_t *lock, u64 context, u64 seqno);
+>>>   +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> +              spinlock_t *lock, u64 context, u64 seqno);
+>>> +
+>>>   void dma_fence_release(struct kref *kref);
+>>>   void dma_fence_free(struct dma_fence *fence);
+>>>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+>>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
+>>>        * 32bit sequence numbers. Use a 64bit compare when the driver says to
+>>>        * do so.
+>>>        */
+>>> -    if (fence->ops->use_64bit_seqno)
+>>> +    if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
+>>>           return f1 > f2;
+>>>         return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
+>>
+> 
 
