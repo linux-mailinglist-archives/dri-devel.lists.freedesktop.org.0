@@ -2,73 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760C9ACAA52
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 10:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64C9ACAA70
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 10:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38B310E47C;
-	Mon,  2 Jun 2025 08:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6483210E0F5;
+	Mon,  2 Jun 2025 08:15:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="BvJAdAXU";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="nMcmSQvm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC1C10E46A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 08:03:15 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250602080311euoutp011cd59be701818602bba7b0f4fed93c1d~FKxM71skK1128211282euoutp01E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 08:03:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250602080311euoutp011cd59be701818602bba7b0f4fed93c1d~FKxM71skK1128211282euoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1748851391;
- bh=yY1VEfuS50yeg4/M81P+3Gelb3X1t6c/xBU34vQDX40=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=BvJAdAXUUeS4TgFFAVomgr8G3/j+qxU/X7jD1xTYV3GCz9X8tzzjdiPOHdjOcfOfN
- Moe1FdTUAWDNjqaMIHpu89KHE7MgZAB6EBiiL/adgwXGAWlPaqqgGgmsP3x5+fdWfP
- DBO0FQYHapzcZrQzvVzl9Xq45R6ohD37aQ6po6sE=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250602080311eucas1p2d93fc4c597da6631557641b8024ac0b8~FKxMYZzjI2836028360eucas1p2o;
- Mon,  2 Jun 2025 08:03:11 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250602080310eusmtip1eeb2c0854b4142c150186f84a2b9d948~FKxLYFBbH1907619076eusmtip1q;
- Mon,  2 Jun 2025 08:03:10 +0000 (GMT)
-Message-ID: <d949f2b5-1351-4778-9716-eaec1e2b1ba7@samsung.com>
-Date: Mon, 2 Jun 2025 10:03:09 +0200
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C3A10E4D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 08:15:20 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-70f86c9e3e7so38645257b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 01:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1748852119;
+ x=1749456919; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IX5KaHY06tu+FKC0bEyE1X52oSF5H+UGj7sz8V9wh8Q=;
+ b=nMcmSQvmsTAlWsRkGvKad6qzzXoCKXcIJmbu8kKHs3hEqZkxEzdFLv+1g3gz50h6//
+ CXG298x9ni2Oz3gpoPttJnOW9m0VbBpMi1JO1YQBFUepqFk7ePEeE/GkJsN+ZXOcxZFM
+ /6jx02J+Bw5DCaDPyYPqdYQ4ne9lP7ozzRVtyw7HveUZSEw38Odd9w8ol9Hxn6uLFrtt
+ hP06+Mv0nAH4iu7Dx0QEAAJazYtDHPJmq6Vg58UhbnFXME7pgfxUWpGHFifGellYBRFZ
+ gk099sR3uoY2Szu8hqRRbNeYBEd7rPSyCRheoaINTLYckdws7q1ZYKdp+la14+Nurg/S
+ 9dCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748852119; x=1749456919;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IX5KaHY06tu+FKC0bEyE1X52oSF5H+UGj7sz8V9wh8Q=;
+ b=PQSAHpPtSR9NlaX/H9wif9/HN3Fmzj7InHgATZYJ9RxI5HWbi7vIh5dcghZpRaiiZm
+ CdKKfuhJgjl6syDmaHpePdpWPIwl8VaSye6HF/b2u38MG2hUZvv6zU6xYVeRJqrom46H
+ iQaOAmC48vib1M650B3PqHDrUeNn0rD9Jtx6jnHsslaee8MVnXMLoS1N8HFxyCmeO0j9
+ z7qjmotPHfX8HYeesRTuW4Y1zEvJlFjJuTPLUbrlvzUFUqjGKtyQEKXl5WfZtX6kuD5k
+ ISOelh4QgtenwpPno+KHuGzZsCvAdv7BniRCQlft+ZqRqL6cDMoo7S+EmXcWlOtTNp4t
+ NjkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWB4bGAwYHwD/UXPlFAFqSV4sblMZWi9xma/CeCGDMeuRkaEWYWVa5vbk7NFHs9tOYJoFSM0M7A+lU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2xPb4Y9GPP/JDU98wBry9y0Mz/7HwiWsl9pho+hQLAnQ6G3LA
+ zQJbAxP6daPiBmDpYCs0pqZbOSWZSg4C0Dj7eZM6cm62h+/oyX0BKDpXBNg14eDFGoDu1R6EWAA
+ yxh81Dbs=
+X-Gm-Gg: ASbGnct6Weu9sp5ixln1A+uMuVBficJCxeVlmK7D/Q6kuxpyHECR1yxyWe7+8Ks9Seg
+ IrPHnXl+FwZmmGEVHuVJGCfNE0PapW9H36HVMY3LZo4ISLYXYGZwZRZPfcw6GjTdZsgpO+KCu1f
+ RQysvO9abxyOuDu3VsE8XbYGdu+Bm7mR9LfH8o76kNY7QNuZ17ZHAh3y/R6lGh7GMGB0GjQiuOt
+ UK6/gReLcphBVh/ZJaVXdoAM5DGji72ZrZuR1w1uj2cTDippbPFGCZbwqQXmr2kU6zGlmC+TINB
+ DIQlIIowtp8h9rieDqaXJoG3VNFwg3xFZ1cDmMQzgjUQi86B5pO7ODamOsj1cJ4v6ctcFzMcnPs
+ Mwqy3mdiNhCt2eWhgfOgGE/d1kI36BO8SLVwOyIKG
+X-Google-Smtp-Source: AGHT+IFlrt8264FL5GS6L11aqBloYT2e0SE6fDOFIQ6rapctxS/7yHU8OKR04m/gufgt7uxxOzPyoQ==
+X-Received: by 2002:a05:690c:6e13:b0:70e:272c:95ae with SMTP id
+ 00721157ae682-70f97f30115mr179557827b3.32.1748852119303; 
+ Mon, 02 Jun 2025 01:15:19 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-70f8ad20e89sm19658867b3.118.2025.06.02.01.15.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Jun 2025 01:15:19 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e812fc35985so1033215276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jun 2025 01:15:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVL3fpygeePyK7qs7oWWJspF0YjmFSWupeKARaaoVBTTLrwCLYOGpqe7zesQvdT1bTg8Dx0fWHDAdE=@lists.freedesktop.org
+X-Received: by 2002:a05:6902:723:b0:e7d:d830:41e0 with SMTP id
+ 3f1490d57ef6-e7f81e05026mr18622596276.12.1748852118798; Mon, 02 Jun 2025
+ 01:15:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] Add TH1520 GPU support with power sequencing
-To: Drew Fustini <drew@pdp7.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
- <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
- <matt.coster@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net>
+ <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Mon, 2 Jun 2025 10:15:07 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBPywWbe43AeY24P_13zH5m_BCb9arAhf+FVq+w=Z3j6A@mail.gmail.com>
+X-Gm-Features: AX0GCFvNhfOr4abfwc18aAyYDuAfUB75c0n6dwgqbzT_BxLwdikrZIB5A8pfreA
+Message-ID: <CAAObsKBPywWbe43AeY24P_13zH5m_BCb9arAhf+FVq+w=Z3j6A@mail.gmail.com>
+Subject: Re: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <aDzcul5vBeQvP634@x1>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250602080311eucas1p2d93fc4c597da6631557641b8024ac0b8
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250529222402eucas1p1c9e0ddd3efd62e078e5de2cf71655f58
-X-EPHeader: CA
-X-CMS-RootMailID: 20250529222402eucas1p1c9e0ddd3efd62e078e5de2cf71655f58
-References: <CGME20250529222402eucas1p1c9e0ddd3efd62e078e5de2cf71655f58@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <aDzcul5vBeQvP634@x1>
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Kever Yang <kever.yang@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,217 +119,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rob,
 
+[adding Kever to CC]
 
-On 6/2/25 01:05, Drew Fustini wrote:
-> On Fri, May 30, 2025 at 12:23:47AM +0200, Michal Wilczynski wrote:
->> This patch series introduces support for the Imagination IMG BXM-4-64
->> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
->> managing the GPU's complex power-up and power-down sequence, which
->> involves multiple clocks and resets.
->>
->> The TH1520 GPU requires a specific sequence to be followed for its
->> clocks and resets to ensure correct operation. Initial discussions and
->> an earlier version of this series explored managing this via the generic
->> power domain (genpd) framework. However, following further discussions
->> with kernel maintainers [1], the approach has been reworked to utilize
->> the dedicated power sequencing (pwrseq) framework.
->>
->> This revised series now employs a new pwrseq provider driver
->> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
->> encapsulates the SoC specific power sequence details. The Imagination
->> GPU driver (pvr_device.c) is updated to act as a consumer of this power
->> sequencer, requesting the "gpu-power" target. The sequencer driver,
->> during its match phase with the GPU device, acquires the necessary clock
->> and reset handles from the GPU device node to perform the full sequence.
->>
->> This approach aligns with the goal of abstracting SoC specific power
->> management details away from generic device drivers and leverages the
->> pwrseq framework as recommended.
->>
->> The series is structured as follows:
->>
->> Patch 1: Adds device tree bindings for the new T-HEAD TH1520 GPU
->>          power sequencer provider.
->> Patch 2: Introduces the pwrseq-thead-gpu driver to manage the GPU's
->>          power-on/off sequence.
->> Patch 3: Updates the Imagination DRM driver to utilize the pwrseq
->>          framework for TH1520 GPU power management.
->> Patch 4: Adds the TH1520 GPU compatible string to the Imagination
->>          GPU DT bindings.
->> Patch 5: Adds the missing reset controller header include in the
->>          TH1520 DTS include file.
->> Patch 6: Adds the device tree node for the GPU power sequencer to
->>          the TH1520 DTS include file.
->> Patch 7: Adds the GPU device tree node for the IMG BXM-4-64 GPU to
->>          the TH1520 DTS include file.
->> Patch 8: Enables compilation of the drm/imagination on the RISC-V
->>          architecture
->>
->> This patchset finishes the work started in bigger series [2] by adding
->> all the remaining GPU power sequencing piece. After this patchset the GPU
->> probes correctly.
->>
->> This series supersedes the previous genpd based approach. Testing on
->> T-HEAD TH1520 SoC indicates the new pwrseq based solution works
->> correctly.
->>
->> This time it's based on linux-next, as there are dependent patches not
->> yet merged, but present in linux-next like clock and reset patches.
->>
->> An open point in Patch 7/8 concerns the GPU memory clock (gpu_mem_clk),
->> defined as a fixed-clock. The specific hardware frequency for this clock
->> on the TH1520 could not be determined from available public
->> documentation. Consequently, clock-frequency = <0>; has been used as a
->> placeholder to enable driver functionality.
->>
->> Link to v2 of this series - [3].
->>
->> v3:
->>
->>  - re-worked cover letter completely
->>  - complete architectural rework from using extended genpd callbacks to a
->>    dedicated pwrseq provider driver
->>  - introduced pwrseq-thead-gpu.c and associated DT bindings
->>    (thead,th1520-gpu-pwrseq)
->>  - the Imagination driver now calls devm_pwrseq_get() and uses
->>    pwrseq_power_on() / pwrseq_power_off() for the TH1520 GPU
->>  - removed the platform_resources_managed flag from dev_pm_info and
->>    associated logic
->>  - the new pwrseq driver's match() function now acquires consumer-specific
->>    resources (GPU clocks, GPU core reset) directly from the consumer device
->>
->> v2:
->>
->> Extended the series by adding two new commits:
->>  - introduced a new platform_resources_managed flag in dev_pm_info along
->>    with helper functions, allowing drivers to detect when clocks and resets
->>    are managed by the platform
->>  - updated the DRM Imagination driver to skip claiming clocks when
->>    platform_resources_managed is set
->>
->> Split the original bindings update:
->>  - the AON firmware bindings now only add the GPU clkgen reset (the GPU
->>    core reset remains handled by the GPU node)
->>
->> Reworked the TH1520 PM domain driver to:
->>  - acquire GPU clocks and reset dynamically using attach_dev/detach_dev
->>    callbacks
->>  - handle clkgen reset internally, while GPU core reset is obtained from
->>    the consumer device node
->>  - added a check to enforce that only a single device can be attached to
->>    the GPU PM domain
->>
->> [1] - https://lore.kernel.org/all/CAPDyKFpi6_CD++a9sbGBvJCuBSQS6YcpNttkRQhQMTWy1yyrRg@mail.gmail.com/
->> [2] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
->> [3] - https://lore.kernel.org/all/20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com/
->>
->> ---
->> Michal Wilczynski (8):
->>       dt-bindings: power: Add T-HEAD TH1520 GPU power sequencer
->>       power: sequencing: Add T-HEAD TH1520 GPU power sequencer driver
->>       drm/imagination: Use pwrseq for TH1520 GPU power management
->>       dt-bindings: gpu: Add TH1520 GPU compatible to Imagination bindings
->>       riscv: dts: thead: th1520: Add missing reset controller header include
->>       riscv: dts: thead: Add GPU power sequencer node
->>       riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
->>       drm/imagination: Enable PowerVR driver for RISC-V
->>
->>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   9 +-
->>  .../bindings/power/thead,th1520-pwrseq.yaml        |  42 +++++
->>  MAINTAINERS                                        |   2 +
->>  arch/riscv/boot/dts/thead/th1520.dtsi              |  29 ++++
->>  drivers/gpu/drm/imagination/Kconfig                |   3 +-
->>  drivers/gpu/drm/imagination/pvr_device.c           |  33 +++-
->>  drivers/gpu/drm/imagination/pvr_device.h           |   6 +
->>  drivers/gpu/drm/imagination/pvr_power.c            |  82 +++++----
->>  drivers/power/sequencing/Kconfig                   |   8 +
->>  drivers/power/sequencing/Makefile                  |   1 +
->>  drivers/power/sequencing/pwrseq-thead-gpu.c        | 183 +++++++++++++++++++++
->>  11 files changed, 363 insertions(+), 35 deletions(-)
->> ---
->> base-commit: 49473fe7fdb5fbbe5bbfa51083792c17df63d317
->> change-id: 20250414-apr_14_for_sending-5b3917817acc
->>
->> Best regards,
->> -- 
->> Michal Wilczynski <m.wilczynski@samsung.com>
->>
-> 
-> Thank you for continuing to work on this series.
-> 
-> I applied it to next-20250530 and the boot hangs:
-> 
-> <snip>
-> [    0.895622] mmc0: new HS400 MMC card at address 0001
-> [    0.902638] mmcblk0: mmc0:0001 8GTF4R 7.28 GiB
-> [    0.915454]  mmcblk0: p1 p2 p3
-> [    0.916613] debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
-> [    0.920107] mmcblk0boot0: mmc0:0001 8GTF4R 4.00 MiB
-> [    0.936592] mmcblk0boot1: mmc0:0001 8GTF4R 4.00 MiB
-> [    0.944986] mmcblk0rpmb: mmc0:0001 8GTF4R 512 KiB, chardev (243:0)
-> [    0.947700] mmc1: new UHS-I speed DDR50 SDHC card at address aaaa
-> [    0.961368] mmcblk1: mmc1:aaaa SU16G 14.8 GiB
-> [    0.969639]  mmcblk1: p1 p2 p3
-> [    0.986688] printk: legacy console [ttyS0] disabled
-> [    0.992468] ffe7014000.serial: ttyS0 at MMIO 0xffe7014000 (irq = 23, base_baud = 6250000) is a 16550A
-> [    1.002085] printk: legacy console [ttyS0] enabled
-> [    1.002085] printk: legacy console [ttyS0] enabled
-> [    1.011784] printk: legacy bootconsole [uart0] disabled
-> [    1.011784] printk: legacy bootconsole [uart0] disabled
-> [    1.024633] stackdepot: allocating hash table of 524288 entries via kvcalloc
-> <no more output>
-> 
-> I pasted the full boot log [1]. I have clk_ignore_unused in the kernel
-> cmdline so I don't think it is related to disabling clocks. Boot does
-> complete okay if I set the gpu node status to disabled.
-> 
-> Any ideas of what might fix the boot hang?
-> 
-> Thanks,
-> Drew
+On Wed, May 28, 2025 at 3:41=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+>
+> On Tue, May 20, 2025 at 5:27=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.n=
+et> wrote:
+> >
+> > Add the bindings for the Neural Processing Unit IP from Rockchip.
+> >
+> > v2:
+> > - Adapt to new node structure (one node per core, each with its own
+> >   IOMMU)
+> > - Several misc. fixes from Sebastian Reichel
+> >
+> > v3:
+> > - Split register block in its constituent subblocks, and only require
+> >   the ones that the kernel would ever use (Nicolas Frattaroli)
+> > - Group supplies (Rob Herring)
+> > - Explain the way in which the top core is special (Rob Herring)
+> >
+> > v4:
+> > - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowsk=
+i)
+> > - Remove unneeded items: (Krzysztof Kozlowski)
+> > - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> > - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> > - Fix example (Krzysztof Kozlowski)
+> >
+> > v5:
+> > - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> > - Streamline compatible property (Krzysztof Kozlowski)
+> >
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > ---
+> >  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++=
+++++++++
+> >  1 file changed, 147 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn=
+-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-cor=
+e.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43=
+c4b8250cdd1b9ee86
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.y=
+aml
+> > @@ -0,0 +1,147 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Neural Processing Unit IP from Rockchip
+> > +
+> > +maintainers:
+> > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > +
+> > +description:
+> > +  Rockchip IP for accelerating inference of neural networks, based on =
+NVIDIA's
+> > +  open source NVDLA IP.
+> > +
+> > +  There is to be a node per each core in the NPU. In Rockchip's design=
+ there
+> > +  will be one core that is special and needs to be powered on before a=
+ny of the
+> > +  other cores can be used. This special core is called the top core an=
+d should
+> > +  have the compatible string that corresponds to top cores.
+>
+> Is this really a distinction in the h/w? If you change which core is
+> the top one in the DT, does it still work?
+>
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    pattern: '^npu@[a-f0-9]+$'
+> > +
+> > +  compatible:
+> > +    enum:
+> > +      - rockchip,rk3588-rknn-core-top
+> > +      - rockchip,rk3588-rknn-core
+> > +
+> > +  reg:
+> > +    maxItems: 3
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: pc
+> > +      - const: cna
+> > +      - const: core
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 4
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: aclk
+> > +      - const: hclk
+> > +      - const: npu
+> > +      - const: pclk
+> > +    minItems: 2
+>
+> It is odd that the non-top cores only have bus clocks and no module
+> clock.
 
-Hi,
-Thanks a lot for testing and promptly providing debug data. I think the
-problem is with the fallback logic implemented in the pvr_device.c:
-	/*
-	 * Try to get a power sequencer. If successful, it will handle clocks
-	 * and resets. Otherwise, we fall back to managing them ourselves.
-	 */
-	pvr_dev->pwrseq = devm_pwrseq_get(dev, "gpu-power");
-	if (IS_ERR(pvr_dev->pwrseq)) {
-		int pwrseq_err = PTR_ERR(pvr_dev->pwrseq);
+I'm not sure I get what you mean by module clock, but the TRM says this:
 
-		/*
-		 * If the error is -EPROBE_DEFER, it's because the
-		 * optional sequencer provider is not present
-		 * and it's safe to fall back on manual power-up.
-		 */
-		if (pwrseq_err == -EPROBE_DEFER)
-			pvr_dev->pwrseq = NULL;
-		else
-			return dev_err_probe(dev, pwrseq_err,
-					     "Failed to get power sequencer\n");
-	}
+"36.5.2 Clock and Reset
+1.5.2.1 Clock Domains
+RKNN has two clock domains, one is AHB clock, the other is AXI clock.
+AHB clock, which is
+the clock for AHB interface, while AXI clock, which is the clock for
+AXI interface. AXI clock
+also used for core clock for every Calculate Core and Control Core.
+Clock frequency can be
+controlled by CRU, please refer to the relevant sections. Automatic
+localized clock gating is
+employed throughout the design in order to minimize the dynamic power
+consumption.
+Almost all of the flip-flops are clock gated in the design. Block
+level clock gating also
+implemented in every separate block. If a block and the interface to
+the block are both idle,
+then the clock of that block will be gated automatically. This feature
+can be disabled by
+software."
 
+So maybe the AXI (aclk?) clock is being used as what you called the
+module clock?
 
-Since you have:
-# CONFIG_POWER_SEQUENCING_THEAD_GPU is not set
-The fallback logic assumes that there is no pwrseq provider for
-'gpu-power' and falls back on generic driver to do the initial power
-sequence. Obviously for TH1520 the generic driver fails to do that
-correctly, and the register access hangs.
+> But based on the clock names, I'm guessing the aclk/hclk are
+> not shared, but the npu and pclk are shared. Since you make the top
+> core probe first, then it will enable the shared clocks and the
+> non-top cores don't have to worry about them. If so, that is wrong as
+> it is letting the software design define the bindings.
 
-So the code seems to behave as designed.
+I don't really know what the pclk and npu clk are needed for, but in
+the TRM I'm seeing references to the pclk being related to the core 0
+(TOP):
 
-By the way, there are quite a lot of Kconfig options added recently to
-TH1520 SoC that haven't made it's way to defconfig for risc-v. Do you
-think it's a good idea to add them there ?
+pclk_nputop_root_sel
+pclk_nputop_biu_en
 
-> 
-> [1] https://protect2.fireeye.com/v1/url?k=ac29f739-cda2e203-ac287c76-74fe4860008a-0bca62898bcc20b4&q=1&e=e86ea026-835e-453e-a61b-1d30c11073e1&u=https%3A%2F%2Fgist.github.com%2Fpdp7%2F44bd6de63fb9274a66a705ad807690b6
-> 
+Couldn't find similar references to the "npu" clock though.
 
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+Cheers,
+
+Tomeu
