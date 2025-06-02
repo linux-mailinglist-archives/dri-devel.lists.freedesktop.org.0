@@ -2,47 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9E2ACAFA8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 15:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A69FACAFBD
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 15:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2A010E2BA;
-	Mon,  2 Jun 2025 13:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 184B510E528;
+	Mon,  2 Jun 2025 13:55:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="hYHBiRgM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XduM1MIY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7DFC10E2BA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 13:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=nQnA2hQbzP8WZin9HMjdUuwpEMqqWDeL9smiJWMLtKA=; b=hYHBiRgMJWxNARrE
- 4ZgnanHme8vG8gWXREVCKBrNOb/oWR8qwOzrow8d81Kx9wiDd9lVeBROGobDrj7I8KK88bbRi6SDQ
- GUZP8maM2kcVxQEPOZh4pbIi59/SxioyLbecHGGTNblwvQHPopooWrZC2fXyqtMMKIn5JSQRsCavH
- xfnV11hGGRL8qVjgGcq6zx8MF8tepFesdAPyNihtoHoHRanPhHbjg8id2qrBNFW3TFUUmInHBJ4PN
- lX9Lo7x7omBmUCdHkyCb7Gsz5a91JwqhXTC84OgQtLQun0vmYPahdxWbna5BWVhHQcGgeY6KEX+qv
- ESvG3cC5d+9ZBDW9sg==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
- by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1uM5aB-007CLX-20;
- Mon, 02 Jun 2025 13:52:07 +0000
-From: linux@treblig.org
-To: dmitry.baryshkov@oss.qualcomm.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v3 3/3] Revert "drm/client: Add drm_client_modeset_check()"
-Date: Mon,  2 Jun 2025 14:52:01 +0100
-Message-ID: <20250602135201.207466-4-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250602135201.207466-1-linux@treblig.org>
-References: <20250602135201.207466-1-linux@treblig.org>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9BD10E528;
+ Mon,  2 Jun 2025 13:55:24 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-3105ef2a08dso37294111fa.0; 
+ Mon, 02 Jun 2025 06:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748872523; x=1749477323; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CE13FvVd/oZWld/RcBibj9PFe0iI8IjGbKlr0iRzhJk=;
+ b=XduM1MIYJn/Y87hzxibrkXZVnJ2HbJ8rRA6HImvh+o0yZoFAv/xRDkCuT4KjkZqPGr
+ /1iNajVHrGGnSf7xmXS1GGetmUMEdxY6R72p36/bp4pQRclLAa8u6XS3slj941I30yUi
+ ePoEnAtN5i3Mio4zC5pS8bGTz4/20ekQe8a2jdaEgok8tpe42X0ZrJHCGnpeR2WDdf/S
+ h0+GlluwMVJtBo1teaUP52pyWP0tW4sPDqdaPoMfl5o89tNew9mdmPviFqKJKbUw+IDZ
+ i+neaVRiHG1BUI8i3YRFAtCjQpErgvN+Pe8KSMMmnq63Ok0fr4GfDuZibpz+rDi6gD6E
+ WKsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748872523; x=1749477323;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CE13FvVd/oZWld/RcBibj9PFe0iI8IjGbKlr0iRzhJk=;
+ b=ZFJXCBJRc58Mbjd+/ZyFwaQiOl4GekOYXP4BEwPTfSWtOB8+fAn+O0zXDhhbWRkiQr
+ /2ZkjlvzQ1b2CnN3HP6mcpVk38QdMmsGf1VgijSj1Lz6QYE7zAbsyz4TUzkp1/6nN7cV
+ lNxzdZtraJR2CV3BtwEXoLtWYF5+UKPkSMzLn7D8Gr/I2Yz7qo/JCQFNzPo0ijKTQL6T
+ QTca5P7c8T/fmV9oAPqckcvBhz8sabw0Wauco/wVEhF7SL6bA7WhIznBUwYk+ZydoYas
+ QjdZcU18tBdV6TCJ8J3RM9nglvKN8xaPE7ufgH7mfJWwWc+TfCP/SNi2LrERq1BIBwdF
+ +Q+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7YrYXlQM/10mILpUviCq3TQAbPE7a7CdKGqtlIDw2eSyzK2U6qdusjK7+Tzdx7ysNSjPCj41JfA==@lists.freedesktop.org,
+ AJvYcCW0dH7jSP0wBDjEL3V+QUFGIMfeiZ54xXP6bDbUWMNrfzTy0FN3aTQ5b8/mbuzHy9cAZONuEUUBd90=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLmXWLUMrGCy1/IWPuCaDWd8hVmrp6ESABzYw5g6EIVsFfnbTo
+ lsoHsJbq3uXY98t+Wg+EQVcFxaUgAZIYLvGithGuHNImTM7ccOSLoDzozPYVNZPt/vogog02NkV
+ N2SAYA6XBGTcvSQd0tHtnhif/MnOVwsn5k9RTMzV1gg==
+X-Gm-Gg: ASbGncvqPtWPs/Wqyw/V//Amja2FdkN9o0+ACKHKyTUbX49gumgPzI6qyiJEmZwV2v/
+ 3oEVuCg7t+AKmcEYx6WKxDDpNu0IDUIdX4Yh+ixGOWFbi/pXJfrhNmTDQLlc3vXo0uuVNY3oQT9
+ asu33m8O0p9eUj5vRuEu8GkrSmS3C2hedEtA+cCVNZx15426Dh
+X-Google-Smtp-Source: AGHT+IHz2uBVrN38mqcMJz16ScrK52REQ3KL0NzpCYQfCXahCS+RixLkxRyOA9nPkDFUugfUGTPzmT74dbDRz5uF7Uw=
+X-Received: by 2002:a05:651c:2223:b0:306:10d6:28b0 with SMTP id
+ 38308e7fff4ca-32a9e99cea5mr28582111fa.1.1748872522258; Mon, 02 Jun 2025
+ 06:55:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250530-cstr-core-v11-0-cd9c0cbcb902@gmail.com>
+ <20250530-cstr-core-v11-4-cd9c0cbcb902@gmail.com>
+ <aD1knOuEFxv6VQy1@google.com>
+In-Reply-To: <aD1knOuEFxv6VQy1@google.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Mon, 2 Jun 2025 09:54:46 -0400
+X-Gm-Features: AX0GCFttP_CQMaSyNKDR25_XJh3x3vRlTYDuJ8CXsXgGcEC-sRFuWZHUykb5COc
+Message-ID: <CAJ-ks9mmkpvgbQs+EjPeN5N+TwOHKB2-9NV-FauGnymmxhxUrA@mail.gmail.com>
+Subject: Re: [PATCH v11 4/5] rust: replace `kernel::c_str!` with C-Strings
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Michal Rostecki <vadorovsky@protonmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
+ Benno Lossin <lossin@kernel.org>, 
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-pci@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, linux-block@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,107 +118,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Mon, Jun 2, 2025 at 4:45=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
+>
+> On Fri, May 30, 2025 at 08:27:45AM -0400, Tamir Duberstein wrote:
+> > C-String literals were added in Rust 1.77. Replace instances of
+> > `kernel::c_str!` with C-String literals where possible and rename
+> > `kernel::c_str!` to `str_to_cstr!` to clarify its intended use.
+> >
+> > Closes: https://github.com/Rust-for-Linux/linux/issues/1075
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+>
+> > -/// Creates a new [`CStr`] from a string literal.
+> > +/// Creates a static C string wrapper at compile time.
+>
+> A C string *wrapper*? What do you mean? I would drop the word "wrapper"
+> here.
 
-This reverts commit 64593f2a6fc933bb9a410bc3f8c261f3e57a9601.
-
-drm_client_modeset_check() was explicitly added in 2020 by
-commit 64593f2a6fc9 ("drm/client: Add drm_client_modeset_check()")
-but has never been used.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/drm_client_modeset.c | 35 ++++------------------------
- include/drm/drm_client.h             |  1 -
- 2 files changed, 4 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 0f9d5ba36c81..b62f8f4553e5 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -1028,7 +1028,7 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
- }
- EXPORT_SYMBOL(drm_client_rotation);
- 
--static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active, bool check)
-+static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active)
- {
- 	struct drm_device *dev = client->dev;
- 	struct drm_plane *plane;
-@@ -1095,10 +1095,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
- 		}
- 	}
- 
--	if (check)
--		ret = drm_atomic_check_only(state);
--	else
--		ret = drm_atomic_commit(state);
-+	ret = drm_atomic_commit(state);
- 
- out_state:
- 	if (ret == -EDEADLK)
-@@ -1159,30 +1156,6 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
- 	return ret;
- }
- 
--/**
-- * drm_client_modeset_check() - Check modeset configuration
-- * @client: DRM client
-- *
-- * Check modeset configuration.
-- *
-- * Returns:
-- * Zero on success or negative error code on failure.
-- */
--int drm_client_modeset_check(struct drm_client_dev *client)
--{
--	int ret;
--
--	if (!drm_drv_uses_atomic_modeset(client->dev))
--		return 0;
--
--	mutex_lock(&client->modeset_mutex);
--	ret = drm_client_modeset_commit_atomic(client, true, true);
--	mutex_unlock(&client->modeset_mutex);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_client_modeset_check);
--
- /**
-  * drm_client_modeset_commit_locked() - Force commit CRTC configuration
-  * @client: DRM client
-@@ -1201,7 +1174,7 @@ int drm_client_modeset_commit_locked(struct drm_client_dev *client)
- 
- 	mutex_lock(&client->modeset_mutex);
- 	if (drm_drv_uses_atomic_modeset(dev))
--		ret = drm_client_modeset_commit_atomic(client, true, false);
-+		ret = drm_client_modeset_commit_atomic(client, true);
- 	else
- 		ret = drm_client_modeset_commit_legacy(client);
- 	mutex_unlock(&client->modeset_mutex);
-@@ -1280,7 +1253,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
- 
- 	mutex_lock(&client->modeset_mutex);
- 	if (drm_drv_uses_atomic_modeset(dev))
--		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON, false);
-+		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON);
- 	else
- 		drm_client_modeset_dpms_legacy(client, mode);
- 	mutex_unlock(&client->modeset_mutex);
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 146ca80e35db..4e3aa3c7f00b 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -216,7 +216,6 @@ int drm_client_modeset_create(struct drm_client_dev *client);
- void drm_client_modeset_free(struct drm_client_dev *client);
- int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
- bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
--int drm_client_modeset_check(struct drm_client_dev *client);
- int drm_client_modeset_commit_locked(struct drm_client_dev *client);
- int drm_client_modeset_commit(struct drm_client_dev *client);
- int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
--- 
-2.49.0
-
+Yeah, I don't remember where this wording came from. I'll change it to
+be mostly the same as it was: "Creates a new [`CStr`] at compile
+time.".
