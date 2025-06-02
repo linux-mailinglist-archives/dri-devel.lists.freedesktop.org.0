@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17C3ACACFD
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 13:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA91DACACFF
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jun 2025 13:10:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF4310E4F2;
-	Mon,  2 Jun 2025 11:09:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB7A10E4F0;
+	Mon,  2 Jun 2025 11:10:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Evq5kpWg";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VaO4V9TW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F75610E2FC;
- Mon,  2 Jun 2025 11:09:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8DB90A4FF8D;
- Mon,  2 Jun 2025 11:09:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527A8C4CEEB;
- Mon,  2 Jun 2025 11:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748862595;
- bh=a7I7HJvFQ9VEde/6Ve3ViLZ6lotsk0Tp4rZAPkF0fNg=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322F210E4F0
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jun 2025 11:10:36 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B8641E3;
+ Mon,  2 Jun 2025 13:10:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1748862632;
+ bh=CQKUaOOite+qUWmny4TmnVks+BQOhBBhK//gMqtcIDk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Evq5kpWgyNewVa6YT61xGlwHz1Grol3+yKM9bYOYALw03KfYmvv7GSA1oSUXJS3eM
- oFfmAhCaCJQSAvbnElZ8w2UM76LOBplvkfvTBfX/b2V44DIUArNvb5+Jl8nvZ+yJaY
- aWD9hB2h7W6+K/LCrUzUX5MjTuXVcYlLd9G+inj6nIjcK5hlHyZdpXxvi9qIq7oEq4
- GsKZJfupAMWnZI3aGqbG2KWl2qv9BaAOt+YZsapTx6OCTxbY3DkfMh2TFq3ofNAFzx
- g7Ja/ia+jkqK3Ai72I6OUUFZfIegyiPXOiIsZAp6xUpt2tZqeyrvCFq86R3BTb9Aig
- l9GfmqD20qvow==
-Date: Mon, 2 Jun 2025 13:09:47 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Lyude Paul <lyude@redhat.com>, Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ b=VaO4V9TWTS+wveFBXlkRhngVEbUmsQC6nRYKHHm9kxttA0tUZQJT7PUJTYowY4HQp
+ BxJUbOcE7brxqC3+sFbtRElIWkUmM7qmdPx1zFOUxfRcAqohfPqBzoHqqftDGiNc4R
+ Xqi2D+/j9p0t026H+zjnSJ2P2dYHtmbjspxA7HpM=
+Date: Mon, 2 Jun 2025 14:10:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 13/20] gpu: nova-core: register sysmem flush page
-Message-ID: <aD2Ge8RM1uTT726z@pollux>
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-13-05dfd4f39479@nvidia.com>
- <44f13ec88af918893e2a4b7050dce9ac184e3b75.camel@redhat.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v6 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
+ HSFREQ calculation
+Message-ID: <20250602111025.GA23515@pendragon.ideasonboard.com>
+References: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530165906.411144-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250602094230.GA3645@pendragon.ideasonboard.com>
+ <CA+V-a8t__xkMRDrum+DYzg6584y9MmOTuOypC5qzyuW1THigNA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <44f13ec88af918893e2a4b7050dce9ac184e3b75.camel@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8t__xkMRDrum+DYzg6584y9MmOTuOypC5qzyuW1THigNA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,101 +70,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 05:57:44PM -0400, Lyude Paul wrote:
-> On Wed, 2025-05-21 at 15:45 +0900, Alexandre Courbot wrote:
-> > Reserve a page of system memory so sysmembar can perform a read on it if
-> > a system write occurred since the last flush. Do this early as it can be
-> > required to e.g. reset the GPU falcons.
-> > 
-> > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> > ---
-> >  drivers/gpu/nova-core/gpu.rs  | 45 +++++++++++++++++++++++++++++++++++++++++--
-> >  drivers/gpu/nova-core/regs.rs | 10 ++++++++++
-> >  2 files changed, 53 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-> > index 50417f608dc7b445958ae43444a13c7593204fcf..a4e2cf1b529cc25fc168f68f9eaa6f4a7a9748eb 100644
-> > --- a/drivers/gpu/nova-core/gpu.rs
-> > +++ b/drivers/gpu/nova-core/gpu.rs
-> > @@ -2,6 +2,7 @@
-> >  
-> >  use kernel::{device, devres::Devres, error::code::*, pci, prelude::*};
-> >  
-> > +use crate::dma::DmaObject;
-> >  use crate::driver::Bar0;
-> >  use crate::firmware::{Firmware, FIRMWARE_VERSION};
-> >  use crate::gfw;
-> > @@ -158,12 +159,32 @@ fn new(bar: &Bar0) -> Result<Spec> {
-> >  }
-> >  
-> >  /// Structure holding the resources required to operate the GPU.
-> > -#[pin_data]
-> > +#[pin_data(PinnedDrop)]
-> >  pub(crate) struct Gpu {
-> >      spec: Spec,
-> >      /// MMIO mapping of PCI BAR 0
-> >      bar: Devres<Bar0>,
-> >      fw: Firmware,
-> > +    /// System memory page required for flushing all pending GPU-side memory writes done through
-> > +    /// PCIE into system memory.
-> > +    sysmem_flush: DmaObject,
-> > +}
-> > +
-> > +#[pinned_drop]
-> > +impl PinnedDrop for Gpu {
-> > +    fn drop(self: Pin<&mut Self>) {
-> > +        // Unregister the sysmem flush page before we release it.
-> > +        let _ = self.bar.try_access_with(|b| {
-> > +            regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::default()
-> > +                .set_adr_39_08(0)
-> > +                .write(b);
-> > +            if self.spec.chipset >= Chipset::GA102 {
-> > +                regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::default()
-> > +                    .set_adr_63_40(0)
-> > +                    .write(b);
-> > +            }
-> > +        });
-> > +    }
+On Mon, Jun 02, 2025 at 11:09:51AM +0100, Lad, Prabhakar wrote:
+> On Mon, Jun 2, 2025 at 10:42 AM Laurent Pinchart wrote:
+> > On Fri, May 30, 2025 at 05:58:59PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
+> > > VCLK rate instead of the mode clock. The relationship between HSCLK and
+> > > VCLK is:
+> > >
+> > >     vclk * bpp <= hsclk * 8 * lanes
+> > >
+> > > Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
+> > > HSFREQ accurately reflects the clock rate set in hardware, leading to
+> > > better precision in data transmission.
+> > >
+> > > Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
+> > > when computing `hsfreq`. Also, update unit conversions to use correct
+> > > scaling factors for better clarity and correctness.
+> > >
+> > > Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
+> > > threshold comparisons to use Hz instead of kHz to ensure correct behavior.
+> > >
+> > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > v5->v6:
+> > > - Dropped parentheses around the calculation of `hsfreq_max`.
+> > > - Changed dev_info() to dev_dbg
+> > >
+> > > v4->v5:
+> > > - Added dev_info() to print the VCLK rate if it doesn't match the
+> > >   requested rate.
+> > > - Added Reviewed-by tag from Biju
+> > >
+> > > v3->v4:
+> > > - Used MILLI instead of KILO
+> > >
+> > > v2->v3:
+> > > - No changes
+> > >
+> > > v1->v2:
+> > > - No changes
+> > > ---
+> > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 30 +++++++++++--------
+> > >  1 file changed, 18 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > index e8ca6a521e0f..4d4521a231cb 100644
+> > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > @@ -8,6 +8,7 @@
+> > >  #include <linux/delay.h>
+> > >  #include <linux/io.h>
+> > >  #include <linux/iopoll.h>
+> > > +#include <linux/math.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/of.h>
+> > >  #include <linux/of_graph.h>
+> > > @@ -15,6 +16,7 @@
+> > >  #include <linux/pm_runtime.h>
+> > >  #include <linux/reset.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/units.h>
+> > >
+> > >  #include <drm/drm_atomic.h>
+> > >  #include <drm/drm_atomic_helper.h>
+> > > @@ -199,7 +201,7 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > >       /* All DSI global operation timings are set with recommended setting */
+> > >       for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
+> > >               dphy_timings = &rzg2l_mipi_dsi_global_timings[i];
+> > > -             if (hsfreq <= dphy_timings->hsfreq_max)
+> > > +             if (hsfreq <= dphy_timings->hsfreq_max * KILO)
+> >
+> > Why don't you modify hsfreq_max to also store the frequency in Hz ? That
+> > would bring more consistency across the driver.
+>
+> Agreed, I will add a separate patch for this.
 
-Sorry that I haven't noticed this before -- I think this should be self
-contained in a new type (e.g. SysmemFlush).
+It's small and related, you can do it in the same patch.
 
-We should also move this kind of cleanup into the Driver::remove() callback,
-where we still have a bound device, to avoid try_access_with().
-
-I already have this on my list to implement for quite a while, because I wasn't
-quite sure yet what's the best way to approach this, but I think the simple
-remove() callback to perform tear down operations on device resources is fine.
-
-I'll prepare the corresponding patches and subsequently rework those bits
-accordingly.
-
-> >  }
-> >  
-> >  impl Gpu {
-> > @@ -187,10 +208,30 @@ pub(crate) fn new(
-> >          gfw::wait_gfw_boot_completion(bar)
-> >              .inspect_err(|_| dev_err!(pdev.as_ref(), "GFW boot did not complete"))?;
-> >  
-> > +        // System memory page required for sysmembar to properly flush into system memory.
-> > +        let sysmem_flush = {
-> > +            let page = DmaObject::new(pdev.as_ref(), kernel::bindings::PAGE_SIZE)?;
-> > +
-> > +            // Register the sysmem flush page.
-> > +            let handle = page.dma_handle();
-> > +
-> > +            regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::default()
-> > +                .set_adr_39_08((handle >> 8) as u32)
-> > +                .write(bar);
-> > +            if spec.chipset >= Chipset::GA102 {
-> > +                regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::default()
-> > +                    .set_adr_63_40((handle >> 40) as u32)
-> > +                    .write(bar);
-> > +            }
-> > +
 > 
-> Small nit - would it make sense for us to just add a function for initiating a
-> sysmem memory flush that you could pass the bar to? Seems like it might be a
-> bit less error prone if we end up having to do this elsewhere
+> > >                       break;
+> > >       }
+> > >
+> > > @@ -258,7 +260,7 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+> > >  static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> > >                                 const struct drm_display_mode *mode)
+> > >  {
+> > > -     unsigned long hsfreq;
+> > > +     unsigned long hsfreq, vclk_rate;
+> > >       unsigned int bpp;
+> > >       u32 txsetr;
+> > >       u32 clstptsetr;
+> > > @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> > >       u32 golpbkt;
+> > >       int ret;
+> > >
+> > > +     ret = pm_runtime_resume_and_get(dsi->dev);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +
+> > > +     clk_set_rate(dsi->vclk, mode->clock * KILO);
+> > > +
+> > >       /*
+> > >        * Relationship between hsclk and vclk must follow
+> > >        * vclk * bpp = hsclk * 8 * lanes
+> > > @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> > >        * hsclk(bit) = hsclk(byte) * 8 = hsfreq
+> > >        */
+> > >       bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> > > -     hsfreq = mode->clock * bpp / dsi->lanes;
+> > > -
+> > > -     ret = pm_runtime_resume_and_get(dsi->dev);
+> > > -     if (ret < 0)
+> > > -             return ret;
+> > > -
+> > > -     clk_set_rate(dsi->vclk, mode->clock * 1000);
+> > > +     vclk_rate = clk_get_rate(dsi->vclk);
+> > > +     if (vclk_rate != mode->clock * KILO)
+> > > +             dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
+> > > +                     mode->clock * KILO, vclk_rate);
+> >
+> > I would move those 4 lines just below clk_set_rate().
+> 
+> Agreed, I will move them in the next version.
 
-Agreed -- but let's solve this with a new type and make it a method instead.
+-- 
+Regards,
+
+Laurent Pinchart
