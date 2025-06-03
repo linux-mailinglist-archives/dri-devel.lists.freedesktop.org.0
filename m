@@ -2,189 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77857ACC3A1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 11:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C1FACC43F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D443610E15C;
-	Tue,  3 Jun 2025 09:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC2C10E5F1;
+	Tue,  3 Jun 2025 10:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S85qToJX";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Lem0NO5p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDCAE10E13E;
- Tue,  3 Jun 2025 09:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748944414; x=1780480414;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=7DI3I/FoNuy/t8uANn7Pv7P7OrSp15u9EcYJkBsRu6w=;
- b=S85qToJXvFGuGo5V9M9s5qsU44eCj3DCpeL9O+LqzwpAbQbggK35Vwlw
- pwx1afjBRPo4WoPtToaDtGAuTZEeZlzCUmezeHmAeazzuX0Z3jCK3AR8f
- m/O7FpL5P/rm05uQIxHjL4123Kx0Og3LDw1gyXYPGy9xIljspY83z3B9M
- s4ZaPj4F4J81Gqu1t0Rx1bKUEZQhRfgnoJa5san+wtWYDZ6/jb+YyohKO
- SgFbofBGxC+e+Rwli8iMgzxjLU+3OqFqlsLThgEU30C8jafS4/nUi621p
- I5SqR9bEQf2PlR2eA365/bVzcSdjC6HUmWb5QsS40oZrWuU1CPRaXwdPq A==;
-X-CSE-ConnectionGUID: CxCRB9ufTySPY9pox6hB3Q==
-X-CSE-MsgGUID: iTWc/d2GQ3W7DLyF55/ukA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="61595619"
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="61595619"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 02:53:31 -0700
-X-CSE-ConnectionGUID: UFiIk5oDR+2fYziWcrI0jA==
-X-CSE-MsgGUID: tndNnpn/TDWYkUb9CwukZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="175760318"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 02:53:31 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 3 Jun 2025 02:53:30 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 3 Jun 2025 02:53:30 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.62) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Tue, 3 Jun 2025 02:53:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dg3XL8hHS5RleH1PmMDOA8G6a7aNmNbKo4HTUAQIJJKKKlQd2cWGIlUDdu0pzlKJUVaKimKfzg/N9fYTI1/kEc/2N/52ZAybBov+/L1boSuevBVTd4yl1RptrHiRou4jIWrQJFUs3gSiemYrJ2ZZXwdxul/PPhfaQDpPMHSp+4UlI1/h9qOr+OiNyCZTdLp9/Ne+SDLJkggRnh/wJDmtPMZ8xb+Ne5zoS/jHwBFgmXvRL0FqcM62pZuY3qGbslO3R14/zY/dt1KowQiX0Af+9jjs9qD5Og8vMz6/impuBF+fsTKK3k+696XJJmFpeTDch4jtO2nMCAnTWtYE/T676A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BWUtGSKQQYBhqHH+wTXEhl0PMMGC9YfYUa6fMwcRUMA=;
- b=hVcWmvPOKNzWysu66kLjD1pYOgwisDUS3XaQ7e16R5g+P3i1bF9byTb3xqDLiTCIQfTc3FzKplp0xu22/abmFACJnNSLa4V5dBFQWZufMW43d+WzoIG/QQ/jWi20wYdQSgJPw83g3hpijjTOIP+K4ienktgZ31WKrLEgprDti1uOUCEjwTTgzk7Ip3QsN9TfEM8jOsNHf+qcIZ55iRk1KzCjsqadMg18GWw75AK7L7ZcH9wPiPAjwI2t2RFaY1HnQJ3fy1lcvJGItfslvELY96WgzN/bzFqRCG6g992ljJ01ieFCrf2EAS2ahQX8eNexJrJJbf1Vcqiel8KPVBbeiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
- BN9PR11MB5273.namprd11.prod.outlook.com (2603:10b6:408:132::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8813.20; Tue, 3 Jun 2025 09:53:27 +0000
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca%4]) with mapi id 15.20.8769.025; Tue, 3 Jun 2025
- 09:53:27 +0000
-Message-ID: <4263798a-b035-41fb-97ab-32e8ac128a98@intel.com>
-Date: Tue, 3 Jun 2025 15:23:19 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/xe/xe_hw_error: Handle CSC Firmware reported
- Hardware errors
-To: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <lucas.demarchi@intel.com>, <aravind.iddamsetty@linux.intel.com>,
- <raag.jadav@intel.com>, <frank.scarbrough@intel.com>
-References: <20250603081409.1509709-1-riana.tauro@intel.com>
- <20250603081409.1509709-5-riana.tauro@intel.com>
- <9199cb44-6db3-4a1d-87db-24d018ad0288@intel.com>
-Content-Language: en-US
-From: Riana Tauro <riana.tauro@intel.com>
-In-Reply-To: <9199cb44-6db3-4a1d-87db-24d018ad0288@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0080.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ae::10) To DS0PR11MB7958.namprd11.prod.outlook.com
- (2603:10b6:8:f9::19)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E7710E5FD
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 10:21:51 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5539JGX4005035
+ for <dri-devel@lists.freedesktop.org>; Tue, 3 Jun 2025 10:21:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=+yFMWYOsepgGCv6WJkDjVObj
+ uomJ6ssrQYWGuL/VKH0=; b=Lem0NO5pvjbail51CcHRVfcA0l0GTaXc05Qefe6O
+ 960aIU+/kNbrsaJBcTaXHzf7mlS0XezUvHhn3K9iNApgLy76iFOBdTnwBCmSCH8w
+ v1Eu0gBIww/WDLtC/Ss7P2s7hNy3lvBlUxDmGnMJS9L8HdbVLWEbirdutky90ola
+ 0L9w7bG0K9lLYsXSr9I/YXgeqbL01h5LfTzGgygYgodj+IqCYkzldzjgaw/7j2dU
+ 2WAswJYh/pzL1zMI1VgFtLta4vxawuNxtamJrzVd2VjOv8YAmpPFMgpmfKBA90t+
+ Q83CGn93zZDXpRy8vDKhOjj3yYfO8XETcV8xamVk0cjtfA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471wqwg997-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 10:21:50 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d0aa9cdecdso278405685a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 03:21:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748946109; x=1749550909;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+yFMWYOsepgGCv6WJkDjVObjuomJ6ssrQYWGuL/VKH0=;
+ b=IBQ//PJDEz0hq4kZsmvjyuZ8Gs3d7ASp9t2WCb9oabTidQ3+dx6Q8zi60rqVQQbtOa
+ afCG7xRGMeX+oyRQbAgJg6wDqVGi3CQ468kuLq3VWdsjxPlPK/eNU9Eam7Elznb5M8L8
+ RK9eIXLNoE48OjUuA4phN764cc+KIW6LKgzKvCRrTRm/ZRS7sOnP5FwuINYmcE8UW1qi
+ gJ4rpxKhObvYD3kKE/mhehrBl3Nx+KdD4oMxSufJJjsx3HnMKD6khVtKIgI3dftBT8bS
+ am/yCyTXUVIU92hmDxA2jG+KLcHeU62VIpDpB7XVDQ/2lUqBOfa113DBnUsgddFezjnn
+ PyHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVg497yAuGneyCrgKEhdifXUwCgntWTMGuSWGCx9nZSOfvVfUT1fYrHLnAlkNl9KqlAxUKIBauqLjQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqyyqAmdH0YO3ZlwSFf87I+tpq/nUGNhc3MY07S2KTfEbdPFCM
+ qdK0des8M3YBXHRcV8+ZWJICs2sBd2G4t5iuSXe6028G1fh1kclYTUvBUql1WQG8PLoiHAq0qcT
+ v+b9P0+6vn67p745OauvnVDGGlUsc9Vrpz5m0vRtXFLxZl/SC5TWZ0vcDJ9k6CtYTptG1WJk=
+X-Gm-Gg: ASbGncsFi+j5CtlHKcFUrqWDEeJtULT895Z2Gauz9Ekyn4RP8OW11DoDcmCHvmuO9Je
+ sBxtPb6xcg4qXzU20PshN5cFWzqecwpAJY3A3jkxvMPFhwlPSQY4mF6Bw3lCArOokazSGh1eLVb
+ QMIbsxf/6aPE09Pfq0iOBJM4I78GlrN41e1G4Q+areRz7Af1EpV9qITtylWalgVlWhdytUPYQql
+ SugEj1r4zsSVvfn/XHabGxT8VNDjojOQTfv8B1iy5eafVz2mrdeaD+g7vsQuNrcXxzGMIRp+uvm
+ xYp/IYavjlmYT2y7F9BOJ1w/KrBpCfS45ZqOn2TLSheC0vjjqvBwerr76U7Yt+vmMQYMGQEmPQ4
+ =
+X-Received: by 2002:a05:620a:4142:b0:7c5:6678:ab18 with SMTP id
+ af79cd13be357-7d0eacd7f28mr1482546185a.42.1748946109522; 
+ Tue, 03 Jun 2025 03:21:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFA+wh/4FKedlrkOPQwatQTrmIQIx7FrIJJHycPWZsT+nXMzTZkh9eMA7K4VeFJbCto3w398Q==
+X-Received: by 2002:a05:620a:4142:b0:7c5:6678:ab18 with SMTP id
+ af79cd13be357-7d0eacd7f28mr1482541885a.42.1748946108944; 
+ Tue, 03 Jun 2025 03:21:48 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553378a02bbsm1868277e87.84.2025.06.03.03.21.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jun 2025 03:21:48 -0700 (PDT)
+Date: Tue, 3 Jun 2025 13:21:46 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 10/12] drm/msm/dpu: support SSPP assignment for
+ quad-pipe case
+Message-ID: <dsgnmzswhpht4bewf5wld774riqxffojboujxdf4smutuzmuye@ugyhzv6m7mve>
+References: <20250603-v6-15-quad-pipe-upstream-v11-0-c3af7190613d@linaro.org>
+ <20250603-v6-15-quad-pipe-upstream-v11-10-c3af7190613d@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|BN9PR11MB5273:EE_
-X-MS-Office365-Filtering-Correlation-Id: b81cf599-903c-4c4d-2b0e-08dda2847ce8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WDNPMXdZdTZ2WGJlMTdhcm0rR1hKY1k2WUlwS1JZYThTYW1tN1lNeEpKUlVO?=
- =?utf-8?B?alFhYXpRYXhQWWVFYStxWjN0VEx3NU1ESXV2aGtBRWM2MHN2bXFRWHVwQXRV?=
- =?utf-8?B?ejJzYU9lUytpVlpPc0MxbUlteWJYVldkZ3Y5MHdiK0tFejNpNG9jMGN0RGhQ?=
- =?utf-8?B?TS9TaUtmZVl6c3g4R2VoM1FROFVyYmZmZyt6Y3lqZXBWNlY0STJ0SDllNlZU?=
- =?utf-8?B?V2U2MjF2NjBGeTJIRFhUSHYrVjM4c2dIMkpvcEVHNTJNRXRRb0x1NEkvaXZE?=
- =?utf-8?B?TzdUcDFvOU9vckRja3lhRkg1cDZncWxoSE13VXFBOGJxNFc3eXNwY2JFWnIw?=
- =?utf-8?B?dGs2bVcvZnBKTjloSms0MTk2cFp0TFBZdDZiTjh6YzJMdXFwdHhoWEF6UHFx?=
- =?utf-8?B?Y1AwUUhzODhFVlZETWRwTC9odm5zQnFwTUhXd0gyTEVFZWJaN0pnNWdjOG5D?=
- =?utf-8?B?QWtDVUl6bzlrdXdoZWlXb0RiVEVGYTJwRGJSazhpcmMxR2xzL0d3S29FZkph?=
- =?utf-8?B?KytJL0dCTzZtNDFGTXc4Z2FxV2NkbnJ6TFgwQzhFTEo1ZlUwOEkxWVJBbjZj?=
- =?utf-8?B?L1hLTEwydXBiNE9OTWFuYkdJTmdkdi9WOTcwdHh2cW5iN2YzTGdtN05zbjlF?=
- =?utf-8?B?RmNOWmF5Mk1RTUNXMk44cHhTaWN0VlZ3ZUhDbGtuTzV5dG9WZVlObjE0eXVG?=
- =?utf-8?B?eCtzRlIrVWJlZkh0c2VrNDRFTXNvSXpjL2VyajVBOCswOTFwdDRvd2tvc0JQ?=
- =?utf-8?B?TmR1MHo0K1NSTWgzRGRFWGdwRzJOR2ZYdFdBU0w0K2VzTXdtWm52cVdxVDhy?=
- =?utf-8?B?YXNrZVFyb01xTEh3ZW1qUll0cXpvcXRESlJUamtIaW5TcWFDekJUNER4WDhB?=
- =?utf-8?B?cXJYVGRCUFI3dHUwVHQ3K3FUaHVVb0h1M2xlelAzZ2xDN0pUUll3aUV3eU4x?=
- =?utf-8?B?amNzVHJOa0M4TDlYdFlGOHJJUWxEc04xa1NVT0I3RGw3UFN2RkRTUElKckZR?=
- =?utf-8?B?cXc0SmFGNkJqYzdveHpVTWxWTDd1ZHoxUmNMVU1KR1FBdUlKWnU3OStqR3hK?=
- =?utf-8?B?bkY0NlJuRTRDV012WkhvMWxDSjRPNWZEcHJVVmFSZkRQVEVnVmJLMnN1ZDlB?=
- =?utf-8?B?cFliQ09WRzNZb3dMZk40eEhDZUdEWHFPZ1UxWE00VkhEaWorNHRmdUdGV3hJ?=
- =?utf-8?B?QUVwVnBicnQ3Y3JzcFA4MzJsNTNFbDlYM3JRRXdOZnk2OUNCaTIvak5Vb04r?=
- =?utf-8?B?OWxlci8rN2pMQ284dk5zZVM5blRIN2Z2NlQvVk1Ud0tmdEMzR1V0QUd5WUlS?=
- =?utf-8?B?R0twOUZzZVN1OExvajdpTEdPVnI5WmtDWmRnR3Q4UFR5SktkRVJvTFBWZG1P?=
- =?utf-8?B?SWRDcVhvMkNzbk5waUpGL0kvYkNVSDhNaTNpWXk1ZUNONDVjM3ZObUtEbVFi?=
- =?utf-8?B?VmU4c1FSNjVjNlpTVzdEUmo1anB5NXRETUUxSGVwUVdLcjJKNFJRbDZKRlNP?=
- =?utf-8?B?RDFZSzlmeGdTckQ1QmtyT2hXN3JVOU5BN2xjaFpMd3ByL3N2Mk1oSEwwa0My?=
- =?utf-8?B?cmNrRG9ZeWY2QXVDQVY0K2lTVTk3cWR2a3V0VURmbU1MZmQ1Q3hQb3hNRW00?=
- =?utf-8?B?ODZiKzVTQ2hvc1c0YVJObEtuaUV6Zzgza29ZNXZycTlFcXJuWG5mb0c1UU0z?=
- =?utf-8?B?dWd4WU5zWENLUmorMENQSWh0eWJnVjFSVUxuY2lmSk5STnZ2VU9nU0xISzVE?=
- =?utf-8?B?aldtZjIxdzFmRExGNjYwcWhSYjJ5bU1HQ3M2UE5wUU1ReElHeXNNSTY5dWZE?=
- =?utf-8?B?RjZDRys4QkpkRUoxR0VrWnlWYW04Tm1hcElkK0t3NjFrUHJVRkI4dzhQS2E5?=
- =?utf-8?B?L2lQQ2pYQk5WbkNkSFhQMmNCcnd0ckhEVHJXM1NCa3lzeiszZ05xMnpkcS9B?=
- =?utf-8?Q?gVeXqudKygc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bCtKSW5mb2o2WnJOV2k0T2xLVms1MlpJVVlKYTJkeXZ0NEFpREJPTFV5bGho?=
- =?utf-8?B?RjQyQ2VRaVh0RlFuY1cySnNWUVh4WjZFNzRUMSt1aTZ5Y0ZCbGw1MksxeitZ?=
- =?utf-8?B?MVdNU1VwNXdUVzRXUU1OcFY5RDlGdlIyeUZUSmhOUUJaTXRDV0hjMDR6Vk9l?=
- =?utf-8?B?Q3lOSFBEblFQU3ZKVWd2ODZMcWFEMjV2N2t0ZURKZTZqWDdCM3FOZXJiNXVi?=
- =?utf-8?B?Vm9ZdFBlQldESTRUTGZnaHE2N3Qwc0xxNFAzd2tidktEdGRqS25mamUvQ2Nw?=
- =?utf-8?B?WVlMMU1QNk9jd0RrMUJMaUNjK0JqWXZMVnNJV0VoQitsdjJjY0UySzJqWWVB?=
- =?utf-8?B?bmxyMzhHZHNrUkExLzVvRlRXRlJPYitQbU00SFdoTDI1RXZoRzNDdXJ5dHp0?=
- =?utf-8?B?S3BtbnAwcnQ5Z05zV25tZGlGYmwxVWNmMTAvRFBoZ2lnbytHQmgwWTVaK0Rp?=
- =?utf-8?B?WEpaNUR6V3pNbUpWcFhaY1paZlNFMVo0aDlnRDI3QnJ5VUhZMFFFSXBwQzAz?=
- =?utf-8?B?ZjF0N2V4MVFLQk51WDZPbk1qaWYyTXI1dHUza3ZmckFBQm5SLzI1L1VPN1BI?=
- =?utf-8?B?b1oxMkRZaUpPYnVmS1VSUzEwTVZPNHFGRDArTGwyeWZ2WjVqMnRZQytqbG5q?=
- =?utf-8?B?cjRPTDgvQUxsMWJCaXpoU0V4eGFheTdXOHAxR2tpNXlkNHF3NUplSnBZcytv?=
- =?utf-8?B?TUhVdTIxQmI3SW5JcU5xVjdMajhWNm1NWTN3VHRpOW9xdWdiajRtK2dOanFR?=
- =?utf-8?B?T2pzZmJNL21qYndyMVhrODZqTUFKd2xQWDQ1THE3bnRudWJmakQvTXEvaUor?=
- =?utf-8?B?c09QbnlhR0RIWFd0bE1FK0JsR1JLd0xyM010dUc1NENhQ0dsT0V0L0tYMGRC?=
- =?utf-8?B?YU1DbVZZT2xrcGVCS2hrZG1oS05NbVhsNWt2RFRPTzdKVTVJeExzM3Nndkp6?=
- =?utf-8?B?b3QwbUdnOStNRHlIQnNBVXlNTWxYRlJhbHg4Z1BWTzl4ZDgxaERrOExiUFhB?=
- =?utf-8?B?NnloVjcrd0hZam93V0liNGJET0Q3SU5pbUZNT29BeEwrcVhpRGlrTHZneWpk?=
- =?utf-8?B?a2Z0SzV0WEVEalFRRERGKy9ZMWVZOGVIUmgvK1cyVHU0Y3RjcnJYaGJNdisv?=
- =?utf-8?B?UzFrRmdXUk5OVks1UmdXNW5UMTZnTzAxN2xZbUo1N0sxSFRoeUgrZHRtRUwr?=
- =?utf-8?B?R1RHa3V4UG41Y09WeHhUdHJLdUk1T0NrenpWb1BDOHlkakI4Yk9CRlhOMFRW?=
- =?utf-8?B?alVOdVJUK0lJU0pObWRML1dBQ1lzcU9tN09qVUZUbnNlNTROYjA1UDFYQm9Z?=
- =?utf-8?B?ZHNETG11UzI0VlhsU1ZYWUl0QUpkUzYyU3JoeVJrbFd4a3R0cFdMY1NWQkJE?=
- =?utf-8?B?ZkwxRit6a3A1dkUzckpPYXRobFFieDE0OHo5TGtpTWlRTUMyWEkzZHRRckRt?=
- =?utf-8?B?UWNmblNXN2JYdXpmdGU0VkRKRzkySmRDdHh5MlhuLzJkQ2dnTHFMQ3RQNXk2?=
- =?utf-8?B?QVlIdXpJS2hBd2x6OWI5ckJsSTNRWjdKU0ZCWEI4blZxYlZreVVxaHQvK2Y2?=
- =?utf-8?B?ZnhzcmRPTW9iYVg3WjJyeVlJc2NSSk43aHVLd0ZFQk1UVnF3Q09wK3RwaXFh?=
- =?utf-8?B?WTJReWtndHRkU016a0Vka0t4NzB4NDhNMCswSU8rcjlSdXhyTTdYN284SThK?=
- =?utf-8?B?NHpFdUVhY0h5RmpQTmVjZVAxTkZrM2pObXZNdU1JaGM0eVFYdmhvQ2xqUDVW?=
- =?utf-8?B?V0xHLzdibUpneGtwVzdEWm5lU0NaSTFESENVTEV1Q2FLSStUNDhVeWhHd2Rn?=
- =?utf-8?B?T0tkcE8zQllLWldoTEtNY0RMbmFpS3cxcWZGNHdJK0hicDFUQlptcHp6UEYy?=
- =?utf-8?B?eFJ1YnEwbjBnQ25mSEVGSlA2UUUySnJOeGVmKytZbDFKTDAyR01GVkdvcnRh?=
- =?utf-8?B?VkZmUWd1Q1dkMGcvRUo3VUNyVXNTOS9TNGJXcE9KK0xtTisvellqNW4yVStS?=
- =?utf-8?B?a2tYV3orTGh3YTNiZ1JLZmNDdnc3M2VQKzJPMXcvWkFwcEoxU21SbGVGL091?=
- =?utf-8?B?NDczay9qenl3WVZXbEpoQ0JENXFPLzNPR3FNTUFIVlRUa0l6UG82dnc4VVUy?=
- =?utf-8?Q?VpoqSSwuIKMGz+We4gmhq6DaA?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b81cf599-903c-4c4d-2b0e-08dda2847ce8
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 09:53:27.5421 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: porH4MKslaBYRDZZvcEJXIqjmq/CZJY3xwQchPPFQ5tZmSbiVSRIqvz3ONgB3zlY9ouBsVNVReBIOVVnBQk/5w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5273
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250603-v6-15-quad-pipe-upstream-v11-10-c3af7190613d@linaro.org>
+X-Proofpoint-GUID: iu3ws2TPhiimEm-W-dCTQbtqRVaAfLpQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDA5MCBTYWx0ZWRfX0i/taZ390IOq
+ fPcJu17eyWa4WvAEHm4N8XlhBowXEw060Yn/wTaIBEJQ45xNvT1N2Zecwf3PZYSe2IxCh33tlwJ
+ 5RVQoiaXRjtF+Ijp9t8UI1gFMfPRFRFMmVnqIayUm2uP2b+hqoWU6xMLvtKu0ZEjuwKINGZqr8k
+ VmGuJNZmJ4qj0qPMyYqyzrh6EmDstmp/U0HvGqoTlKch4eiuEWoUFav/wnORk9MzsE6Swey+7wU
+ d48yRg+91mRmuH8n7hYZmbq2d/0pM9md7OpUo2TUpoAaFS3g2/6k+1Ehz418rgcDhQzKaDQzWMI
+ iw/rw2UBdnU9GV+fIQZp23M+ef4w6aRWozgXeeT3fzLq/hyyxVPt/6S0+vqWDZUUOtmEhRW1kmn
+ NiCTrt6SCa7RnOS/sYbKNkgGh4JW19rwRQhrHx4q6ulmWAbGECNuUICq5hTE1Eni2HqVq0u9
+X-Proofpoint-ORIG-GUID: iu3ws2TPhiimEm-W-dCTQbtqRVaAfLpQ
+X-Authority-Analysis: v=2.4 cv=ZfQdNtVA c=1 sm=1 tr=0 ts=683eccbe cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8 a=kVcFuMI1zxpe4gVQ-GQA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999
+ adultscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 clxscore=1015 mlxscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506030090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,215 +131,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Himal
-
-On 6/3/2025 3:01 PM, Ghimiray, Himal Prasad wrote:
+On Tue, Jun 03, 2025 at 03:10:09PM +0800, Jun Nie wrote:
+> Currently, SSPPs are assigned to a maximum of two pipes. However,
+> quad-pipe usage scenarios require four pipes and involve configuring
+> two stages. In quad-pipe case, the first two pipes share a set of
+> mixer configurations and enable multi-rect mode when certain
+> conditions are met. The same applies to the subsequent two pipes.
 > 
+> Assign SSPPs to the pipes in each stage using a unified method and
+> to loop the stages accordingly.
 > 
-> On 03-06-2025 13:44, Riana Tauro wrote:
->> Add support to handle CSC firmware reported errors. When CSC firmware
->> errors are encoutered, a error interrupt is received by the GFX device as
->> a MSI interrupt.
->>
->> Device Source control registers indicates the source of the error as CSC
->> The HEC error status register indicates that the error is firmware 
->> reported
->> Depending on the type of error, the error cause is written to the HEC
->> Firmware error register.
->>
->> On encountering such CSC firmware errors, the graphics device is
->> non-recoverable from driver context. The only way to recover from these
->> errors is firmware flash. The device is then wedged and userspace is
->> notified with a drm uevent
->>
->> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
->> ---
->>   drivers/gpu/drm/xe/regs/xe_gsc_regs.h      |  2 +
->>   drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  7 ++-
->>   drivers/gpu/drm/xe/xe_device_types.h       |  3 +
->>   drivers/gpu/drm/xe/xe_hw_error.c           | 65 +++++++++++++++++++++-
->>   4 files changed, 75 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h b/drivers/gpu/drm/ 
->> xe/regs/xe_gsc_regs.h
->> index 7702364b65f1..fcb6003f3226 100644
->> --- a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
->> +++ b/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
->> @@ -13,6 +13,8 @@
->>   /* Definitions of GSC H/W registers, bits, etc */
->> +#define BMG_GSC_HECI1_BASE    0x373000
->> +
->>   #define MTL_GSC_HECI1_BASE    0x00116000
->>   #define MTL_GSC_HECI2_BASE    0x00117000
->> diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/ 
->> drm/xe/regs/xe_hw_error_regs.h
->> index ed9b81fb28a0..c146b9ef44eb 100644
->> --- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
->> +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
->> @@ -6,10 +6,15 @@
->>   #ifndef _XE_HW_ERROR_REGS_H_
->>   #define _XE_HW_ERROR_REGS_H_
->> +#define HEC_UNCORR_ERR_STATUS(base)                    XE_REG((base) 
->> + 0x118)
->> +#define    UNCORR_FW_REPORTED_ERR                      BIT(6)
->> +
->> +#define HEC_UNCORR_FW_ERR_DW0(base)                    XE_REG((base) 
->> + 0x124)
->> +
->>   #define DEV_ERR_STAT_NONFATAL            0x100178
->>   #define DEV_ERR_STAT_CORRECTABLE        0x10017c
->>   #define DEV_ERR_STAT_REG(x)            XE_REG(_PICK_EVEN((x), \
->>                                     DEV_ERR_STAT_CORRECTABLE, \
->>                                     DEV_ERR_STAT_NONFATAL))
->> -
->> +#define   XE_CSC_ERROR                BIT(17)
->>   #endif
->> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/ 
->> xe/xe_device_types.h
->> index fb3617956d63..1325ae917c99 100644
->> --- a/drivers/gpu/drm/xe/xe_device_types.h
->> +++ b/drivers/gpu/drm/xe/xe_device_types.h
->> @@ -239,6 +239,9 @@ struct xe_tile {
->>       /** @memirq: Memory Based Interrupts. */
->>       struct xe_memirq memirq;
->> +    /** @csc_hw_error_work: worker to report CSC HW errors */
->> +    struct work_struct csc_hw_error_work;
->> +
->>       /** @pcode: tile's PCODE */
->>       struct {
->>           /** @pcode.lock: protecting tile's PCODE mailbox data */
->> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/ 
->> xe_hw_error.c
->> index 0f2590839900..ad1e244ea612 100644
->> --- a/drivers/gpu/drm/xe/xe_hw_error.c
->> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
->> @@ -3,6 +3,7 @@
->>    * Copyright © 2025 Intel Corporation
->>    */
->> +#include "regs/xe_gsc_regs.h"
->>   #include "regs/xe_hw_error_regs.h"
->>   #include "regs/xe_irq_regs.h"
->> @@ -10,6 +11,8 @@
->>   #include "xe_hw_error.h"
->>   #include "xe_mmio.h"
->> +#define  HEC_UNCORR_FW_ERR_BITS 4
->> +
->>   /* Error categories reported by hardware */
->>   enum hardware_error {
->>       HARDWARE_ERROR_CORRECTABLE = 0,
->> @@ -18,6 +21,13 @@ enum hardware_error {
->>       HARDWARE_ERROR_MAX,
->>   };
->> +static const char * const hec_uncorrected_fw_errors[] = {
->> +    "Fatal",
->> +    "CSE Disabled",
->> +    "FD Corruption",
->> +    "Data Corruption"
->> +};
->> +
->>   static const char *hw_error_to_str(const enum hardware_error hw_err)
->>   {
->>       switch (hw_err) {
->> @@ -32,6 +42,54 @@ static const char *hw_error_to_str(const enum 
->> hardware_error hw_err)
->>       }
->>   }
->> +static void csc_hw_error_work(struct work_struct *work)
->> +{
->> +    struct xe_tile *tile = container_of(work, typeof(*tile), 
->> csc_hw_error_work);
->> +    struct xe_device *xe = tile_to_xe(tile);
->> +
->> +    xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_FW_FLASH);
->> +    xe_device_declare_wedged(xe);
->> +}
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 148 +++++++++++++++++++-----------
+>  1 file changed, 94 insertions(+), 54 deletions(-)
 > 
-> Any specific need for worker to set wedging any significant impact on 
-> making it synchronous call?
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 0bb153a71353ca9eaca138ebbee4cd699414771d..501b6a1bad4a1fee832f15efa7caec136a669da5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -961,6 +961,33 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
+>  		dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
+>  }
+>  
+> +static bool dpu_plane_get_single_pipe(struct dpu_plane_state *pstate,
+> +				      struct dpu_sw_pipe **single_pipe,
+> +				      struct dpu_sw_pipe_cfg **single_pipe_cfg,
+> +				      bool config_pipe)
 
-I tried synchronous but there is a sleeping function that caused an 
-error that's why moved it to workqueue
+Could you please describe, what does this function do? Why is it
+returning the pipe or configuring a pipe?
 
+> +{
+> +	int i, valid_pipe = 0;
+> +	struct dpu_sw_pipe *pipe;
+> +
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+> +		if (drm_rect_width(&pstate->pipe_cfg[i].src_rect) != 0) {
+> +			valid_pipe++;
+> +			if (valid_pipe > 1)
+> +				return false;
+> +			*single_pipe = &pstate->pipe[i];
+> +			*single_pipe_cfg = &pstate->pipe_cfg[i];
+> +		} else {
+> +			if (!config_pipe)
+> +				continue;
+> +			pipe = &pstate->pipe[i];
+> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +			pipe->sspp = NULL;
+> +		}
+> +	}
+> +
+> +	return true;
+> +}
+>  
+>  static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+>  				       struct drm_atomic_state *state,
+> @@ -1028,15 +1055,15 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
+>  					  const struct msm_format *fmt,
+>  					  uint32_t max_linewidth)
+>  {
+> -	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
+> -	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
+> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
+> -	struct dpu_sw_pipe *prev_pipe = &prev_adjacent_pstate->pipe[0];
+> -	struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_adjacent_pstate->pipe_cfg[0];
+> +	struct dpu_sw_pipe *pipe, *prev_pipe;
+> +	struct dpu_sw_pipe_cfg *pipe_cfg, *prev_pipe_cfg;
+>  	const struct msm_format *prev_fmt = msm_framebuffer_format(prev_adjacent_pstate->base.fb);
+>  	u16 max_tile_height = 1;
+>  
+> -	if (prev_adjacent_pstate->pipe[1].sspp != NULL ||
+> +	if (!dpu_plane_get_single_pipe(pstate, &pipe, &pipe_cfg, true))
+> +		return false;
+> +
+> +	if (!dpu_plane_get_single_pipe(prev_adjacent_pstate, &prev_pipe, &prev_pipe_cfg, false) ||
+>  	    prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
+>  		return false;
+>  
+> @@ -1050,11 +1077,6 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
+>  	if (MSM_FORMAT_IS_UBWC(prev_fmt))
+>  		max_tile_height = max(max_tile_height, prev_fmt->tile_height);
+>  
+> -	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> -
+> -	r_pipe->sspp = NULL;
+> -
+>  	if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
+>  	    dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
+>  	    (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
+> @@ -1183,6 +1205,51 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>  	return 0;
+>  }
+>  
+> +static int dpu_plane_try_multirect_in_stage(struct dpu_sw_pipe *pipe,
+> +					    struct dpu_sw_pipe_cfg *pipe_cfg,
+> +					    struct drm_plane_state *plane_state,
+> +					    struct dpu_global_state *global_state,
+> +					    struct drm_crtc *crtc,
+> +					    struct dpu_rm_sspp_requirements *reqs)
+> +{
+> +	struct drm_plane *plane = plane_state->plane;
+> +	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> +	struct dpu_plane *pdpu = to_dpu_plane(plane);
+> +	struct dpu_sw_pipe *r_pipe = pipe + 1;
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = pipe_cfg + 1;
+> +	int i;
+> +
+> +	for (i = 0; i < PIPES_PER_STAGE; i++, pipe++, pipe_cfg++) {
+> +		if (drm_rect_width(&pipe_cfg->src_rect) == 0)
+> +			continue;
+> +
+> +		pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, reqs);
+> +		if (!pipe->sspp)
+> +			return -ENODEV;
+> +
+> +		/*
+> +		 * If current pipe is the first pipe in a stage, check
+> +		 * multi-rect opportunity for the 2nd pipe in the stage.
+> +		 * SSPP multi-rect mode cross stage is not supported.
+> +		 */
+> +		if (!i &&
+
+Unroll the loop. I think I've asked a similar change in the review of
+the previous patch.
+
+> +		    drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
+> +		    dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
+> +						      pipe->sspp,
+> +						      msm_framebuffer_format(plane_state->fb),
+> +						      dpu_kms->catalog->caps->max_linewidth)) {
+> +			goto stage_assinged;
+> +		} else {
+> +			/* multirect is not possible, use dedicated SSPP */
+> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +		}
+> +	}
+> +
+> +stage_assinged:
+> +	return 0;
+> +}
+> +
+>  static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>  					      struct dpu_global_state *global_state,
+>  					      struct drm_atomic_state *state,
+> @@ -1195,11 +1262,9 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>  	struct dpu_rm_sspp_requirements reqs;
+>  	struct dpu_plane_state *pstate, *prev_adjacent_pstate;
+>  	struct dpu_sw_pipe *pipe;
+> -	struct dpu_sw_pipe *r_pipe;
+>  	struct dpu_sw_pipe_cfg *pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+>  	const struct msm_format *fmt;
+> -	int i;
+> +	int i, stage_id, ret;
+>  
+>  	if (plane_state->crtc)
+>  		crtc_state = drm_atomic_get_new_crtc_state(state,
+> @@ -1209,11 +1274,6 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>  	prev_adjacent_pstate = prev_adjacent_plane_state ?
+>  		to_dpu_plane_state(prev_adjacent_plane_state) : NULL;
+>  
+> -	pipe = &pstate->pipe[0];
+> -	r_pipe = &pstate->pipe[1];
+> -	pipe_cfg = &pstate->pipe_cfg[0];
+> -	r_pipe_cfg = &pstate->pipe_cfg[1];
+> -
+>  	for (i = 0; i < PIPES_PER_PLANE; i++)
+>  		pstate->pipe[i].sspp = NULL;
+>  
+> @@ -1227,44 +1287,24 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>  
+>  	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
+>  
+> -	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
+> -		if (!prev_adjacent_pstate ||
+> -		    !dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
+> -						    dpu_kms->catalog->caps->max_linewidth)) {
+> -			pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> -			if (!pipe->sspp)
+> -				return -ENODEV;
+> -
+> -			r_pipe->sspp = NULL;
+> -
+> -			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> -
+> -			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> -		}
+> -	} else {
+> -		pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> -		if (!pipe->sspp)
+> -			return -ENODEV;
+> -
+> -		if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
+> -						      pipe->sspp,
+> -						      msm_framebuffer_format(plane_state->fb),
+> -						      dpu_kms->catalog->caps->max_linewidth)) {
+> -			/* multirect is not possible, use two SSPP blocks */
+> -			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> -			if (!r_pipe->sspp)
+> -				return -ENODEV;
+> -
+> -			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +	if (prev_adjacent_pstate &&
+> +	    dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
+> +					    dpu_kms->catalog->caps->max_linewidth)) {
+
+And this needs to take care of LMs. prev_adjacent_pstate should be
+per-stage, otherwise you can end up sharing the SSPPs between stages
+(which is not allowed).
+
+> +		goto assigned;
+> +	}
+>  
+> -			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> -		}
+> +	for (stage_id = 0; stage_id < STAGES_PER_PLANE; stage_id++) {
+> +		pipe = &pstate->pipe[stage_id * PIPES_PER_STAGE];
+> +		pipe_cfg = &pstate->pipe_cfg[stage_id * PIPES_PER_STAGE];
+> +		ret = dpu_plane_try_multirect_in_stage(pipe, pipe_cfg,
+> +						       plane_state,
+> +						       global_state,
+> +						       crtc, &reqs);
+> +		if (ret)
+> +			return ret;
+>  	}
+>  
+> +assigned:
+>  	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
+>  }
+>  
 > 
+> -- 
+> 2.34.1
 > 
->> +
->> +static void csc_hw_error_handler(struct xe_tile *tile, const enum 
->> hardware_error hw_err)
->> +{
->> +    const char *hw_err_str = hw_error_to_str(hw_err);
->> +    struct xe_device *xe = tile_to_xe(tile);
->> +    struct xe_mmio *mmio = &tile->mmio;
->> +    u32 base, err_bit, err_src;
->> +    unsigned long fw_err;
->> +
->> +    if (xe->info.platform != XE_BATTLEMAGE)
->> +        return;
-> 
-> why platform specific check here ? I remember having similar error on 
-> PVC (reported by root tile).
 
-No PVC had the GSC error bit set and this is only applicable for CSC 
-errors. On encountering such errors, device is wedged and uevent needs 
-to be sent for firmware update which was also not applicable for PVC
-
-Hence the check
-
-Thanks
-Riana
-
->   > +
->> +    /* Not supported in BMG */
->> +    if (hw_err == HARDWARE_ERROR_CORRECTABLE)
->> +        return;
->> +
->> +    base = BMG_GSC_HECI1_BASE;
->> +    lockdep_assert_held(&xe->irq.lock);
->> +    err_src = xe_mmio_read32(mmio, HEC_UNCORR_ERR_STATUS(base));
->> +    if (!err_src) {
->> +        drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported 
->> HEC_ERR_STATUS_%s blank\n",
->> +                    tile->id, hw_err_str);
->> +        return;
->> +    }
->> +
->> +    if (err_src & UNCORR_FW_REPORTED_ERR) {
->> +        fw_err = xe_mmio_read32(mmio, HEC_UNCORR_FW_ERR_DW0(base));
->> +        for_each_set_bit(err_bit, &fw_err, HEC_UNCORR_FW_ERR_BITS) {
->> +            drm_err_ratelimited(&xe->drm, HW_ERR
->> +                        "%s: HEC Uncorrected FW %s error reported, 
->> bit[%d] is set\n",
->> +                         hw_err_str, hec_uncorrected_fw_errors[err_bit],
->> +                         err_bit);
->> +
->> +            schedule_work(&tile->csc_hw_error_work);
->> +        }
->> +    }
->> +
->> +    xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
->> +}
->> +
->>   static void hw_error_source_handler(struct xe_tile *tile, const enum 
->> hardware_error hw_err)
->>   {
->>       const char *hw_err_str = hw_error_to_str(hw_err);
->> @@ -50,7 +108,8 @@ static void hw_error_source_handler(struct xe_tile 
->> *tile, const enum hardware_er
->>           goto unlock;
->>       }
->> -    /* TODO: Process errrors per source */
->> +    if (err_src & XE_CSC_ERROR)
->> +        csc_hw_error_handler(tile, hw_err);
->>       xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
->> @@ -101,8 +160,12 @@ static void process_hw_errors(struct xe_device *xe)
->>    */
->>   void xe_hw_error_init(struct xe_device *xe)
->>   {
->> +    struct xe_tile *tile = xe_device_get_root_tile(xe);
->> +
->>       if (!IS_DGFX(xe) || IS_SRIOV_VF(xe))
->>           return;
->> +    INIT_WORK(&tile->csc_hw_error_work, csc_hw_error_work);
->> +
->>       process_hw_errors(xe);
->>   }
-> 
+-- 
+With best wishes
+Dmitry
