@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE2FACC562
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6382DACC552
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6804110E5E6;
-	Tue,  3 Jun 2025 11:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8076710E5B5;
+	Tue,  3 Jun 2025 11:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c5QrsfOG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Py/Jmgqk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8583010E5BB;
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E3210E1DC;
  Tue,  3 Jun 2025 11:27:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 06655A4FEA2;
- Tue,  3 Jun 2025 11:27:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DA0C4CEF2;
- Tue,  3 Jun 2025 11:27:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id ED87461129;
+ Tue,  3 Jun 2025 11:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C4EC4CEF5;
+ Tue,  3 Jun 2025 11:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748950047;
- bh=kh/qFeLAyxVm0bBT3X1rDJqrmW5QgjHwPovsCE5exFQ=;
+ s=k20201202; t=1748950049;
+ bh=Cf9EAXyNK0VxD7speigkvYTyuNOgS7Co5M1zyvhQst0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=c5QrsfOGQY+gEAwvbnNsbvn3UvRugqgK8a5A7iyVNZ46+pKJJafVSF1zWUTRQKfWm
- ucfYMSzdhxQMy/dIuEl3LXcELGRNZvcUYdW4/ioT1VcpeYwXFVY7FKmRmw1dbuV1vs
- /K7gaSjlVPGHYQADJOt5xDmhmrgANz4juJR3DWIg/eMMTnY/kt9NK8xw0leDfg1bf1
- wCHHJGValI9zrfAHSaytAYnqoc9n4oeD7RXpUFuLejCFXK6fyB1ZE7bqeKPn9hp7WV
- 6SWZzgpFCfk6Nu5UKjMg6IFCUj8V2QGnubK9MRJPkTZlyhfYQoTGPjyEFizNu7SQok
- FhLoXRkvsrrgg==
+ b=Py/JmgqkOb39XX7aOnjKeJtrVFqeYG6+9c5cJ7LVV7AKNvrckJlSA/Ry9XBh6A8I4
+ JfSBX9n7OmuSCJ+lypFSLt9PgpnUgP0ZK7Vy+3jTe8ndko6BHtuBK7LHuL+lckmCza
+ Tr7oiz2Q5qa3aSv/Q5kwg8Trr//65TYZryVT6SX/0epqilxNASYte0VERQap9Y5Cm+
+ 5HTpvZvg+qnI2oxqfMlNgNklC/8rx9+YXdEk2poSeFHrS3INYKDCDYtfB16T5D1rtR
+ 3SyPbI4AQd3E/mztM74svyYxKPQEz8XDSaNof1tVgXBZu4+6C9TpULtdOGXiKe5Mgb
+ Cfa7Mk93Qh81A==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 03 Jun 2025 07:27:12 -0400
-Subject: [PATCH v13 1/9] ref_tracker: don't use %pK in pr_ostream() output
+Date: Tue, 03 Jun 2025 07:27:13 -0400
+Subject: [PATCH v13 2/9] ref_tracker: add a top level debugfs directory for
+ ref_tracker
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250603-reftrack-dbgfs-v13-1-7b2a425019d8@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250603-reftrack-dbgfs-v13-2-7b2a425019d8@kernel.org>
 References: <20250603-reftrack-dbgfs-v13-0-7b2a425019d8@kernel.org>
 In-Reply-To: <20250603-reftrack-dbgfs-v13-0-7b2a425019d8@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -55,23 +56,22 @@ Cc: Krzysztof Karas <krzysztof.karas@intel.com>,
  Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+ Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1888; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=kh/qFeLAyxVm0bBT3X1rDJqrmW5QgjHwPovsCE5exFQ=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoPtwZnmkzfGyqcDCu4qlCbcxajRFYjJSU/wuXi
- 5lU4c+zT/SJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaD7cGQAKCRAADmhBGVaC
- FStMEACYnCVo1JiKF1YdkJU5oZPfFXF4BX7UH51WUluPdvHF+un4833ejyLd3JUpMs8Nse3Z5Ll
- IOCON2LDTSV3vaRtqaxq9NF/uJerI9c9z++/F6YNUyPyPIZ+Pxrab79rPJIZT6Sfy4LRyD1GENm
- NO8eGXBdjxTsN4LxDoZYCj4MEpUVsRgyE7CVKYWc57Nefks/1d4xlDHR3Rw6RpPXnBEInjxnMgo
- RF/TG5iRYuCjSGieCqxBFFuWuOhCkOpdXBNKXf3KNuMidEkwe8JH9+gV2cWGKi4SzeM2BILOy1V
- w6YAM2eghUIcTyVssg1LauEUjWOal5gFrjmmJX1IspeHvPq/o9eJouljSeivVLOA+Bo3HLx3xef
- hexuO8L9xuObnTa4gQ0BL0PQDA9XvGqiHMg78gAYhwwdTDcTozlnOHCOvHCFxOYjUfcqP7MZVoV
- M5aSWNh5upcyYV02IW9o+LxdBPOP1tyypL90msJSadSUJqH1ab2a7XQyDKK5zS/lk/CO+9k4anq
- f6kvnesAxB1zU2kC+Zx36RfTw6NS1WgfrW+9Oixe4rRl0WhGeB+loJuStOZX/T/uj6n2s712k+X
- cyzff1pzXhtQRlcfvHyJ4f58RbBCRuaXrIDqoX7F+XhV841Yn3Va6eClJB8DvgkpNGHgN7wThnN
- ryZ52HNaaiXos9Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1088; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=Cf9EAXyNK0VxD7speigkvYTyuNOgS7Co5M1zyvhQst0=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoPtwZH3X/xIyqMqoat+1/9unMcXFV0vU7LgWpD
+ Pqub1sJOk6JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaD7cGQAKCRAADmhBGVaC
+ FSfmEACCmSBnXr4xYbvixs+pUwJlKBT58lsHhV6RYOcn5tP9HY7Al/oYQPQ18JRwPadpO1UrSPU
+ v32uOfK8G4avgm7k8hK2SEmypk55haRkNHFYZ05Mx8pOfcXlEzSJd8+l4lOXqck0PAJB1nMGXCm
+ OyY8WGM4wBsEZMugAyJGVe7vPXwx+9Yiy4rOwUqrDRYgX+hUvnSCxV+GffAzWgfnbyhR6/V56jR
+ iG7pj0xW6Kx1DL8l84OEh+d2n6LcMPKOkX180Sp/+6riKmTZTYtmnsLCTf2cSUwiHyO81tyG5aW
+ iv964sWd5yL7BczsRCzaOhs3M8TMI3vwsDkL4yvCUuEXSlckiU6CcozuJqXYx5QKjsA2RSeu0Ih
+ deNoAVmX0sBUrSRTgpJ9Ud1KXsbN4Jah3Mk+vs7Lo9cO/vWc6nPssjesdbAzMNVDOIwB1R1wVGL
+ 2jERfOOYDSf6qUUFrkcIKbsZUye2xJO/CwEsdW4noCZL9fedNS75BEaaH4PG5T0UHUDDgtfjfdW
+ yotBTiM+RA/4pN4oeV0/WXtnGePjny34OTxUvZdgQw0F1z3zWme6FesX3NgsfMcqds6tsjIdqcg
+ uu9NvdZhezXf5E/fRvLlvd3PTR1hdbHNdq/QWojsUujbHwPLR5hwMIbQR2WfW8Rk/+i54ml5bwb
+ qVHiu2mOynSJQow==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,50 +89,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As Thomas Weißschuh points out [1], it is now preferable to use %p
-instead of hashed pointers with printk(), since raw pointers should no
-longer be leaked into the kernel log. Change the ref_tracker
-infrastructure to use %p instead of %pK in its formats.
+Add a new "ref_tracker" directory in debugfs. Each individual refcount
+tracker can register files under there to display info about
+currently-held references.
 
-[1]: https://lore.kernel.org/netdev/20250414-restricted-pointers-net-v1-0-12af0ce46cdd@linutronix.de/
-
-Cc: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- lib/ref_tracker.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ lib/ref_tracker.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index cf5609b1ca79361763abe5a3a98484a3ee591ff2..de71439e12a3bab6456910986fa611dfbdd97980 100644
+index de71439e12a3bab6456910986fa611dfbdd97980..d374e5273e1497cac0d70c02c282baa2c3ab63fe 100644
 --- a/lib/ref_tracker.c
 +++ b/lib/ref_tracker.c
-@@ -96,7 +96,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 
- 	stats = ref_tracker_get_stats(dir, display_limit);
- 	if (IS_ERR(stats)) {
--		pr_ostream(s, "%s@%pK: couldn't get stats, error %pe\n",
-+		pr_ostream(s, "%s@%p: couldn't get stats, error %pe\n",
- 			   dir->name, dir, stats);
- 		return;
- 	}
-@@ -107,13 +107,13 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 		stack = stats->stacks[i].stack_handle;
- 		if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
- 			sbuf[0] = 0;
--		pr_ostream(s, "%s@%pK has %d/%d users at\n%s\n", dir->name, dir,
-+		pr_ostream(s, "%s@%p has %d/%d users at\n%s\n", dir->name, dir,
- 			   stats->stacks[i].count, stats->total, sbuf);
- 		skipped -= stats->stacks[i].count;
- 	}
- 
- 	if (skipped)
--		pr_ostream(s, "%s@%pK skipped reports about %d/%d users.\n",
-+		pr_ostream(s, "%s@%p skipped reports about %d/%d users.\n",
- 			   dir->name, dir, skipped, stats->total);
- 
- 	kfree(sbuf);
+@@ -273,3 +273,16 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(ref_tracker_free);
++
++#ifdef CONFIG_DEBUG_FS
++#include <linux/debugfs.h>
++
++static struct dentry *ref_tracker_debug_dir = (struct dentry *)-ENOENT;
++
++static int __init ref_tracker_debugfs_init(void)
++{
++	ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
++	return 0;
++}
++late_initcall(ref_tracker_debugfs_init);
++#endif /* CONFIG_DEBUG_FS */
 
 -- 
 2.49.0
