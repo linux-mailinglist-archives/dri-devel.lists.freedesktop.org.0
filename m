@@ -2,71 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A47ACC5E8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20127ACC596
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D8110E8D5;
-	Tue,  3 Jun 2025 11:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87DA510E6C3;
+	Tue,  3 Jun 2025 11:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hu37j3af";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Vfy7W0G1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7B810E8BA;
- Tue,  3 Jun 2025 11:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748951665; x=1780487665;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fH2hdGzwTf4pZxd5L5oHs+dVIY/4d4It2eb8BdPFp3E=;
- b=hu37j3af8bPkGDzL/Esam1CMhlC0RStqTPBZ1VvM/DbdQDKC9FVR06+C
- zhVQyUEkfyKt8BBbH3hiNWL807xt7H5l05hKuf7rzPOr3x2E/F8bLC4Lu
- fOR6Cx3Y4ZoYdtqmDSPTm23NfWva0O63yClknWgqWeR49njXRRExsHslR
- 7rNXfqk+/ccNoVbK5YMPaCzWkssqMIn345t3SkULAdYHu8amoKgeAr8Sr
- 1bXjZHbBdWkJ26Rtrwg4ccX5WBWfL+yK9pA6jA408iHc8J257HD9wesPW
- JS6z6erujIfzKJgtxtvgMuQ6+TVccu/QfdiuQFvh4Mz72CMQablaN562J g==;
-X-CSE-ConnectionGUID: jGtf/qCgQMWfV4/dmpMLWg==
-X-CSE-MsgGUID: bwG2PYsZSvK/HmP5QoZnBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="53616664"
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="53616664"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 04:54:24 -0700
-X-CSE-ConnectionGUID: KozutAM8ScyStY8QfYLPow==
-X-CSE-MsgGUID: NKY/bKSKQ/C0dSC7kN9vJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="149993420"
-Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 04:54:19 -0700
-From: Alexander Usyskin <alexander.usyskin@intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>, Raag Jadav <raag.jadav@intel.com>
-Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
- Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [PATCH v12 10/10] drm/xe/nvm: add support for non-posted erase
-Date: Tue,  3 Jun 2025 14:39:53 +0300
-Message-ID: <20250603113953.3599816-11-alexander.usyskin@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250603113953.3599816-1-alexander.usyskin@intel.com>
-References: <20250603113953.3599816-1-alexander.usyskin@intel.com>
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B664610E6C3
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 11:40:27 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ad56829fabdso850402666b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 04:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1748950826; x=1749555626; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ciIAygqOrWJd3fbCLXBzNH0Xz2cW+3EmmUs8ebciGxE=;
+ b=Vfy7W0G1bgIA0I7n2o05LJtvGnY0lUYTUBlZDTc5TlSL5VQfCbDLRAQ1M3MG2mQH2J
+ Bdxgu9p8UvWpr6a52n77oySBV+hdduMdYASi45IGgGH/lRSIF1+pUalNDoVMTu7o2n7v
+ PXIRCgfL8ouU+nZ3ncawvFPPeyp0rl0LV7xkU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748950826; x=1749555626;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ciIAygqOrWJd3fbCLXBzNH0Xz2cW+3EmmUs8ebciGxE=;
+ b=lyFTB+7bcR3IYa8lGbafU53npE250xpJNrsDoBGwn7hfn7a0n0HM8w6JjBmOwIldhL
+ clDe3Beebsy8URKlxR0I2hFny33m7agYquF6SKhzXGcZo7tqwed4C5w5DoVsCBiGzSgp
+ 4n64lta5Jtu+WFgE8F8bxHpb9JuLrwUdQRyFjnevelpLw866agi7y7apJjKZwZ2u2wgm
+ JeXeD6O8T77wzKv+zA/VjDs3ja69/3uxoTLdZhraSZLQADfdsVa0XXDuWWd4Pg09vMvp
+ vNFQUlJVGmunbsPz63ay17GGxRQOFI/6xiXG6XBSB64rTxCg0At2bkkdb8G7SWkzisXQ
+ uzJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYtlwcnKNIgCTkWWiDM9PlxiaAJ4KcUg1QETjsIoIaAwOJt37BBo/MP8RMP4qM0hWmhXRbpCimFYs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyC72p+n+CSsgTc32rt7d98VyHbPrZLqpi47s2g6P23vw9oWJIj
+ iCtIqwMObgWtYgsZSV42IprR8es625o8yejAYpTq3ZgCe8qVGOkLe0tb8K2wJvrbJqA=
+X-Gm-Gg: ASbGncsgN3tXPtctal3Kj7aXeecj+MAyjbY3Os6e0XoLwXIf4wt6TyyWKkVrFzf2uld
+ EyyrmaF7uLfc47mmuxAYq6n18FDeErrcqLzfCwp6UyLRYYCW4S27S/LAU2afpqa9dVLz2x3gk0N
+ vuJvD7zlOnv6MuVd8VvNACBg2yJ5E7ItiliibKkc6WQneQuU+VJXXb7rbsOPnE3BBudeg0uVWIE
+ E0iZQVDtdv1gKgRN2XJRQaWbMNzS2eic3WOIll3x7kGrGzlug21ATR5g/fv/hVCtlTaars9eL+b
+ mLQ5BafyVuqgGu8kOKnAj+MIGyvtHqkEMA+ngNzkDZV3lWq+o33D1abXJbrIkQbgZ6Nm+EjYaw=
+ =
+X-Google-Smtp-Source: AGHT+IFku9TE8EUVSLqmoCZBKfzqgA+/g+kH4IUAPWkSww+uTbuttoOauNZ+o0S0Qv506mn1chR6iQ==
+X-Received: by 2002:a17:907:944d:b0:ace:c518:1327 with SMTP id
+ a640c23a62f3a-adb493df457mr1224596266b.14.1748950826063; 
+ Tue, 03 Jun 2025 04:40:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ada6ad6abc2sm941360566b.173.2025.06.03.04.40.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jun 2025 04:40:25 -0700 (PDT)
+Date: Tue, 3 Jun 2025 13:40:23 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>,
+ Alessandro Carminati <acarmina@redhat.com>,
+ linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
+ backtraces
+Message-ID: <aD7fJxQWggfGekOf@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>,
+ Alessandro Carminati <acarmina@redhat.com>,
+ linux-kselftest@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
+References: <20250526132755.166150-1-acarmina@redhat.com>
+ <20250526132755.166150-2-acarmina@redhat.com>
+ <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
+ <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
+ <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+ <202505301037.D816A49@keescook>
+ <20250531102304.GF21197@noisy.programming.kicks-ass.net>
+ <8C5E309E-03E5-4353-8515-67A53EC6C9E3@kernel.org>
+ <20250602075707.GI21197@noisy.programming.kicks-ass.net>
+ <20250602-vegan-lumpy-marmoset-488b6a@houat>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250602-vegan-lumpy-marmoset-488b6a@houat>
+X-Operating-System: Linux phenom 6.12.25-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,199 +134,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Reuven Abliyev <reuven.abliyev@intel.com>
+On Mon, Jun 02, 2025 at 12:38:10PM +0200, Maxime Ripard wrote:
+> On Mon, Jun 02, 2025 at 09:57:07AM +0200, Peter Zijlstra wrote:
+> > On Sat, May 31, 2025 at 06:51:50AM -0700, Kees Cook wrote:
+> > 
+> > > It's not for you, then. :) I can't operate ftrace, but I use kunit
+> > > almost daily. Ignoring WARNs makes this much nicer, and especially for
+> > > CIs.
+> > 
+> > I'm thinking you are more than capable of ignoring WARNs too. This
+> > leaves the CI thing.
+> > 
+> > So all this is really about telling CIs which WARNs are to be ignored,
+> > and which are not? Surely the easiest way to achieve that is by
+> > printing more/better identifying information instead of suppressing
+> > things?
+> 
+> You might also want to test that the warn is indeed emitted, and it not
+> being emitted result in a test failure.
+> 
+> And I can see a future where we would fail a test that would trigger an
+> unexpected WARN.
+> 
+> Doing either, or none, would be pretty terrible UX for !CI users too.
+> How on earth would you know if the hundreds of WARN you got from the
+> tests output are legitimate or not, and if you introduced new ones
+> you're supposed to fix?
 
-Erase command is slow on discrete graphics storage
-and may overshot PCI completion timeout.
-BMG introduces the ability to have non-posted erase.
-Add driver support for non-posted erase with polling
-for erase completion.
+Yeah we'd like to make sure that when drivers misuse subsystem api, things
+blow up. Kunit that makes sure we hit the warn we put in place for that
+seems like the best way to go about that, because in the past we've had
+cases where we thought we should have caught abuse but didn't. And this
+isn't the only thing we use, it's just one tool in the box among many
+others to keep the flood of driver issues at a manageable level.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Reuven Abliyev <reuven.abliyev@intel.com>
-Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
----
- drivers/gpu/drm/xe/xe_nvm.c        | 25 ++++++++++++++++++
- drivers/mtd/devices/mtd_intel_dg.c | 42 ++++++++++++++++++++++++++++--
- include/linux/intel_dg_nvm_aux.h   |  2 ++
- 3 files changed, 67 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_nvm.c b/drivers/gpu/drm/xe/xe_nvm.c
-index 20aa3b5d3637..61b0a1531a53 100644
---- a/drivers/gpu/drm/xe/xe_nvm.c
-+++ b/drivers/gpu/drm/xe/xe_nvm.c
-@@ -14,7 +14,15 @@
- #include "xe_sriov.h"
- 
- #define GEN12_GUNIT_NVM_BASE 0x00102040
-+#define GEN12_DEBUG_NVM_BASE 0x00101018
-+
-+#define GEN12_CNTL_PROTECTED_NVM_REG 0x0010100C
-+
- #define GEN12_GUNIT_NVM_SIZE 0x80
-+#define GEN12_DEBUG_NVM_SIZE 0x4
-+
-+#define NVM_NON_POSTED_ERASE_CHICKEN_BIT BIT(13)
-+
- #define HECI_FW_STATUS_2_NVM_ACCESS_MODE BIT(3)
- 
- static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
-@@ -29,6 +37,16 @@ static void xe_nvm_release_dev(struct device *dev)
- {
- }
- 
-+static bool xe_nvm_non_posted_erase(struct xe_device *xe)
-+{
-+	struct xe_gt *gt = xe_root_mmio_gt(xe);
-+
-+	if (xe->info.platform != XE_BATTLEMAGE)
-+		return false;
-+	return !(xe_mmio_read32(&gt->mmio, XE_REG(GEN12_CNTL_PROTECTED_NVM_REG)) &
-+		 NVM_NON_POSTED_ERASE_CHICKEN_BIT);
-+}
-+
- static bool xe_nvm_writable_override(struct xe_device *xe)
- {
- 	struct xe_gt *gt = xe_root_mmio_gt(xe);
-@@ -86,6 +104,7 @@ int xe_nvm_init(struct xe_device *xe)
- 	nvm = xe->nvm;
- 
- 	nvm->writable_override = xe_nvm_writable_override(xe);
-+	nvm->non_posted_erase = xe_nvm_non_posted_erase(xe);
- 	nvm->bar.parent = &pdev->resource[0];
- 	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
- 	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
-@@ -93,6 +112,12 @@ int xe_nvm_init(struct xe_device *xe)
- 	nvm->bar.desc = IORES_DESC_NONE;
- 	nvm->regions = regions;
- 
-+	nvm->bar2.parent = &pdev->resource[0];
-+	nvm->bar2.start = GEN12_DEBUG_NVM_BASE + pdev->resource[0].start;
-+	nvm->bar2.end = nvm->bar2.start + GEN12_DEBUG_NVM_SIZE - 1;
-+	nvm->bar2.flags = IORESOURCE_MEM;
-+	nvm->bar2.desc = IORES_DESC_NONE;
-+
- 	aux_dev = &nvm->aux_dev;
- 
- 	aux_dev->name = "nvm";
-diff --git a/drivers/mtd/devices/mtd_intel_dg.c b/drivers/mtd/devices/mtd_intel_dg.c
-index 97e1dc1ada5d..b438ee5aacc3 100644
---- a/drivers/mtd/devices/mtd_intel_dg.c
-+++ b/drivers/mtd/devices/mtd_intel_dg.c
-@@ -25,6 +25,9 @@ struct intel_dg_nvm {
- 	struct mtd_info mtd;
- 	struct mutex lock; /* region access lock */
- 	void __iomem *base;
-+	void __iomem *base2;
-+	bool non_posted_erase;
-+
- 	size_t size;
- 	unsigned int nregions;
- 	struct {
-@@ -41,6 +44,7 @@ struct intel_dg_nvm {
- #define NVM_VALSIG_REG        0x00000010
- #define NVM_ADDRESS_REG       0x00000040
- #define NVM_REGION_ID_REG     0x00000044
-+#define NVM_DEBUG_REG         0x00000000
- /*
-  * [15:0]-Erase size = 0x0010 4K 0x0080 32K 0x0100 64K
-  * [23:16]-Reserved
-@@ -72,6 +76,9 @@ struct intel_dg_nvm {
- #define NVM_FREG_ADDR_SHIFT 12
- #define NVM_FREG_MIN_REGION_SIZE 0xFFF
- 
-+#define NVM_NON_POSTED_ERASE_DONE BIT(23)
-+#define NVM_NON_POSTED_ERASE_DONE_ITER 3000
-+
- static inline void idg_nvm_set_region_id(struct intel_dg_nvm *nvm, u8 region)
- {
- 	iowrite32((u32)region, nvm->base + NVM_REGION_ID_REG);
-@@ -373,13 +380,32 @@ static ssize_t idg_read(struct intel_dg_nvm *nvm, u8 region,
- static ssize_t
- idg_erase(struct intel_dg_nvm *nvm, u8 region, loff_t from, u64 len, u64 *fail_addr)
- {
-+	void __iomem *base2 = nvm->base2;
- 	void __iomem *base = nvm->base;
- 	const u32 block = 0x10;
-+	u32 iter = 0;
-+	u32 reg;
- 	u64 i;
- 
- 	for (i = 0; i < len; i += SZ_4K) {
- 		iowrite32(from + i, base + NVM_ADDRESS_REG);
- 		iowrite32(region << 24 | block, base + NVM_ERASE_REG);
-+		if (nvm->non_posted_erase) {
-+			/* Wait for Erase Done */
-+			reg = ioread32(base2 + NVM_DEBUG_REG);
-+			while (!(reg & NVM_NON_POSTED_ERASE_DONE) &&
-+			       ++iter < NVM_NON_POSTED_ERASE_DONE_ITER) {
-+				msleep(10);
-+				reg = ioread32(base2 + NVM_DEBUG_REG);
-+			}
-+			if (reg & NVM_NON_POSTED_ERASE_DONE) {
-+				/* Clear Erase Done */
-+				iowrite32(reg, base2 + NVM_DEBUG_REG);
-+			} else {
-+				*fail_addr = from + i;
-+				return -ETIME;
-+			}
-+		}
- 		/* Since the writes are via sgunit
- 		 * we cannot do back to back erases.
- 		 */
-@@ -388,7 +414,8 @@ idg_erase(struct intel_dg_nvm *nvm, u8 region, loff_t from, u64 len, u64 *fail_a
- 	return len;
- }
- 
--static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device)
-+static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device,
-+			     bool non_posted_erase)
- {
- 	u32 access_map = 0;
- 	unsigned int i, n;
-@@ -448,7 +475,10 @@ static int intel_dg_nvm_init(struct intel_dg_nvm *nvm, struct device *device)
- 			n++;
- 	}
- 
-+	nvm->non_posted_erase = non_posted_erase;
-+
- 	dev_dbg(device, "Registered %d regions\n", n);
-+	dev_dbg(device, "Non posted erase %d\n", nvm->non_posted_erase);
- 
- 	/* Need to add 1 to the amount of memory
- 	 * so it is reported as an even block
-@@ -729,7 +759,15 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
- 		goto err;
- 	}
- 
--	ret = intel_dg_nvm_init(nvm, device);
-+	if (invm->non_posted_erase) {
-+		nvm->base2 = devm_ioremap_resource(device, &invm->bar2);
-+		if (IS_ERR(nvm->base2)) {
-+			ret = PTR_ERR(nvm->base2);
-+			goto err;
-+		}
-+	}
-+
-+	ret = intel_dg_nvm_init(nvm, device, invm->non_posted_erase);
- 	if (ret < 0) {
- 		dev_err(device, "cannot initialize nvm %d\n", ret);
- 		goto err;
-diff --git a/include/linux/intel_dg_nvm_aux.h b/include/linux/intel_dg_nvm_aux.h
-index 00b6c1301bd8..625d46a6b96e 100644
---- a/include/linux/intel_dg_nvm_aux.h
-+++ b/include/linux/intel_dg_nvm_aux.h
-@@ -20,7 +20,9 @@ struct intel_dg_nvm_region {
- struct intel_dg_nvm_dev {
- 	struct auxiliary_device aux_dev;
- 	bool writable_override;
-+	bool non_posted_erase;
- 	struct resource bar;
-+	struct resource bar2;
- 	const struct intel_dg_nvm_region *regions;
- };
- 
+Cheers, Sima
 -- 
-2.43.0
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
