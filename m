@@ -2,64 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC85ACC855
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 15:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1205FACC85B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 15:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB20A10E62B;
-	Tue,  3 Jun 2025 13:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F4010E638;
+	Tue,  3 Jun 2025 13:50:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="boN5joj4";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="AfQa7hOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8B7810E61B;
- Tue,  3 Jun 2025 13:49:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4455E5C4B4F;
- Tue,  3 Jun 2025 13:47:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170BBC4CEEF;
- Tue,  3 Jun 2025 13:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748958598;
- bh=U6g39ClQB+hk5GPvCuPP+9un1adxAxTlTy6EwW+tjrA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=boN5joj49PYGWo0gzBJX9Z4fLk/NDlwvoC+0Td17+T9qgc+Il0E7LuvK9sMl/G4+X
- 94m9luK4AsFPfQHk/DPxNsvCT1YFSHR9HtPgNjCZ4uFukxc338IUpe+Z0mwKMuHqOv
- JRnyefbAM8+5ub9OsVv2TerLN2K4kOJ9xBE0tNAewRta3zM3tDifEmeaHnmJq2R/ee
- 37TahppRi/kTwKRoQa0tqoCka33buLW51YU0wwdmxK/VT9SBr4DpZcViPvWKocCkw3
- tE8esBfYyrNZ8zcPAUn+VHY/k9MsDfdI1d5L7uQ7ZLOkhh2NV0J4QRmoLOSAdu2/UB
- dVjgLMUI7ULdw==
-Message-ID: <11ff2b73-c77b-4142-a492-1e525d530aeb@kernel.org>
-Date: Tue, 3 Jun 2025 15:49:52 +0200
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F7C10E638
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 13:50:20 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-4a43e277198so40308321cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 06:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1748958619; x=1749563419; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YkymsPnXdQBda6JrJEhL1GWpprQuWSyxObGqKIJXWus=;
+ b=AfQa7hORICYQeZewhX5EIGR0VPZGilAr8Xs6i+LS+khSsMfnGiPt4B1OWc2fd4Ysx3
+ 6gwJOan46VRmMFmXjkGXo8f+C49Lh/acQnuj0hcpkFveBA1Q7p5GwdBVcY07i1SysUCk
+ pmSadvqeLUqzVDxwdIYyEUtAnceQnb4VH1IFV+pQU5A285LGzDGerVs4pRiRiNrJLIZV
+ kSxdHISBSC7ZAOya+0lPy9GL2Ci33tGcae9/szxCQXA7rpeynapfjmwNqhoPfzgrIXqQ
+ 1MAfGdVKDW7cVhZqeBOSaF837dunKbvYEfFwsoQTatLHGBHt8zS8K74i495K/MAvl1ZU
+ TUjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748958619; x=1749563419;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YkymsPnXdQBda6JrJEhL1GWpprQuWSyxObGqKIJXWus=;
+ b=UdIRhxgLA67YbO5eIoNRgZrjhcMMOCjYDNvMkrWK5zszFrk4y0DGGFnAUQ9J+ypAT6
+ KDPUmCMhTi9iceXNg1sQH+pMippy6ZQM9oUCQyZJ2nRWQgmpWEEcw/VAiRd9u0v/kbzv
+ KAJOb365kr4YLogkoTaQzan7mM4BmtXYrPApzSbE20q51GimE6CRxjqhcpx5G8+svpy5
+ xQ2bKvYrsYQ4vV51QKfIZ/GSoSld28Klu+plDYjcVhRj0p4CFGQgi5JUt/YRjr6/XB/o
+ dAVhd6lodAzYyyWkzmqddHR9e50LZkPgwNNzjPWTzj/0/nRV+BEenRYHTM1G48PUntrI
+ mSsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVc5yYO26bE3wHmw/ITOJycxCUS02xTivHNJH0bB0pHBA5vpDVuBnE254gI6pCumOM0xDswtV9A3Mk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTvmxyiSbP8TShN2q/5bP0TKTIjRYF3R2tSiIVEKhNWeFAMwvZ
+ mHjVwJX7W/WR7AFGpmHJUKCl/B81Cx4bRwrl+sexVYSOIb+8C0Q86T2LxZAKE+tbHKc=
+X-Gm-Gg: ASbGncsHFRlN2JJ5o5fxenTqjQIWOJAW9Lb74BTzIK/T185Z9qwIUfqi7xs3xNEn8U+
+ HVa16/iDdU+s4D7lfbaC/Bw9YeL/OtJwWHRY0c5x2gLjDEofjhKYIarczot0feTuZUHzkzmYXZq
+ kjuHrw8aKH9S+Zlpyo5idPBxbdj8SZzZASG752DDzm5fwu3DsKiGQDTipSsqa7WDSy/YEvGuGKj
+ 7H7bwg4M6TuXadRg19Oy9vp6EFEG+nz6e9BRvGLM0QIUBuMn1tJ4PBWtSunOBZb+TESmfMxq6Vv
+ 3zskVDM3oWusPiu5DXKRrogXifPnB33PlKcMoJrYWgGw8itm7y08nkzlFXoSc0IVoiIgBtS3idT
+ hVp+6B1nZEA0BnZuh1S8yrIe0O4E=
+X-Google-Smtp-Source: AGHT+IFrQ3mNOrW6/ZBr5BKf2weoO3iOKbQMChhnKb6iKzSLwy4jyxYkXr8u6rUugOKC/0R4gbcrnw==
+X-Received: by 2002:a05:622a:4d96:b0:4a4:3171:b942 with SMTP id
+ d75a77b69052e-4a4aed86ba3mr229299171cf.39.1748958619327; 
+ Tue, 03 Jun 2025 06:50:19 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.167.56.70]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4a4358eef6csm75933171cf.48.2025.06.03.06.50.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jun 2025 06:50:18 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1uMS1y-00000001hCj-1MTz;
+ Tue, 03 Jun 2025 10:50:18 -0300
+Date: Tue, 3 Jun 2025 10:50:18 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
+ dan.j.williams@intel.com, willy@infradead.org, david@redhat.com,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org,
+ balbirs@nvidia.com, lorenzo.stoakes@oracle.com,
+ linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ John@groves.net, Will Deacon <will@kernel.org>,
+ =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>
+Subject: Re: [PATCH 10/12] mm: Remove devmap related functions and page table
+ bits
+Message-ID: <20250603135018.GK386142@ziepe.ca>
+References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
+ <32209333cfdddffc76f18981f41a989b14780956.1748500293.git-series.apopple@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 16/20] nova-core: Add support for VBIOS ucode
- extraction for boot
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Shirish Baskaran <sbaskaran@nvidia.com>
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-16-05dfd4f39479@nvidia.com> <aD2oROKpaU8Bmyj-@pollux>
- <20250602151506.GA779285@joelnvbox> <DACQW908WCLA.2JHRLQ3V18FPD@nvidia.com>
- <2f03e11d-3621-4314-a232-611a5fd9ffcb@nvidia.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <2f03e11d-3621-4314-a232-611a5fd9ffcb@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <32209333cfdddffc76f18981f41a989b14780956.1748500293.git-series.apopple@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,12 +106,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/3/25 3:47 PM, Joel Fernandes wrote:
-> On 6/3/2025 4:12 AM, Alexandre Courbot wrote:
->> Would it then make sense to make `FwSecBiosImage` public, add an `fn
->> fwsec_image(&self) -> &FwSecBiosImage` method and have the caller call
->> its methods directly (maybe renamed to `header`, `ucode` and `sigs`)?
+On Thu, May 29, 2025 at 04:32:11PM +1000, Alistair Popple wrote:
+> Now that DAX and all other reference counts to ZONE_DEVICE pages are
+> managed normally there is no need for the special devmap PTE/PMD/PUD
+> page table bits. So drop all references to these, freeing up a
+> software defined page table bit on architectures supporting it.
 > 
-> Yeah, that seems better. Danilo, you're good with that idea too?
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Acked-by: Will Deacon <will@kernel.org> # arm64
+> Suggested-by: Chunyan Zhang <zhang.lyra@gmail.com>
+> Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
+> ---
+>  Documentation/mm/arch_pgtable_helpers.rst     |  6 +--
+>  arch/arm64/Kconfig                            |  1 +-
+>  arch/arm64/include/asm/pgtable-prot.h         |  1 +-
+>  arch/arm64/include/asm/pgtable.h              | 24 +--------
+>  arch/loongarch/Kconfig                        |  1 +-
+>  arch/loongarch/include/asm/pgtable-bits.h     |  6 +--
+>  arch/loongarch/include/asm/pgtable.h          | 19 +------
+>  arch/powerpc/Kconfig                          |  1 +-
+>  arch/powerpc/include/asm/book3s/64/hash-4k.h  |  6 +--
+>  arch/powerpc/include/asm/book3s/64/hash-64k.h |  7 +--
+>  arch/powerpc/include/asm/book3s/64/pgtable.h  | 53 +------------------
+>  arch/powerpc/include/asm/book3s/64/radix.h    | 14 +-----
+>  arch/riscv/Kconfig                            |  1 +-
+>  arch/riscv/include/asm/pgtable-64.h           | 20 +-------
+>  arch/riscv/include/asm/pgtable-bits.h         |  1 +-
+>  arch/riscv/include/asm/pgtable.h              | 17 +------
+>  arch/x86/Kconfig                              |  1 +-
+>  arch/x86/include/asm/pgtable.h                | 51 +-----------------
+>  arch/x86/include/asm/pgtable_types.h          |  5 +--
+>  include/linux/mm.h                            |  7 +--
+>  include/linux/pgtable.h                       | 19 +------
+>  mm/Kconfig                                    |  4 +-
+>  mm/debug_vm_pgtable.c                         | 59 +--------------------
+>  mm/hmm.c                                      |  3 +-
+>  mm/madvise.c                                  |  8 +--
+>  25 files changed, 17 insertions(+), 318 deletions(-)
 
-Thanks, that sounds good to me!
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason
