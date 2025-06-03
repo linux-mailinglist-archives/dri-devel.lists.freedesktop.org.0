@@ -2,100 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FE1ACCEC1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 23:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFAFACCEC8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 23:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8E210E0AB;
-	Tue,  3 Jun 2025 21:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF32510E11A;
+	Tue,  3 Jun 2025 21:15:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E6U/r97t";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jKVGdTj/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B9210E0AB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 21:14:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D8510E109
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 21:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1748985266;
+ s=mimecast20190719; t=1748985320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HjEbZUj5i0eUO9Yzr/dSbeCFbp3m1N+UZgRYeHmPF24=;
- b=E6U/r97tTiG5pCqDdQOaiKre1sKBFWO7hXSzLALl9kO2LeDOKf/Dd9LOYRwOM/Y0xMdo1H
- iB8M1FNXYA3T/lYHPz3SyLVRUlQSGNB0bo+/5s1v6Yr/tAUbJKmmKmazW49DzRWPWHB2dV
- tV/+flZTNHUqzDTMeAT4/DhZC8jKL7s=
+ bh=RGtkOpSsprReD9iacCSKS6dgfzTuaS3TK68aShoSOvY=;
+ b=jKVGdTj/HY5962WaJiABi1CRlj8RZkrGBEcLeT7A5y6Z5aVxmF52DJhY7NKzFT4XAqZWMd
+ Sya+wOsUqYYqf7gnNut6kEc6WZN8YUYA3EXSKgXOJ3Q0YW80KK6cooKFAbwsLINepgWN0k
+ trUhenOKjuz5OXY4jXISDMBmtqXFPMU=
 Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
  [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-265-1rugzNzVOCaFaYsMz_egTA-1; Tue, 03 Jun 2025 17:14:21 -0400
-X-MC-Unique: 1rugzNzVOCaFaYsMz_egTA-1
-X-Mimecast-MFC-AGG-ID: 1rugzNzVOCaFaYsMz_egTA_1748985254
+ us-mta-103-lCH8gJDIMUiZ4vqIx263lw-1; Tue, 03 Jun 2025 17:15:19 -0400
+X-MC-Unique: lCH8gJDIMUiZ4vqIx263lw-1
+X-Mimecast-MFC-AGG-ID: lCH8gJDIMUiZ4vqIx263lw_1748985318
 Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6face45b58dso70870616d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 14:14:21 -0700 (PDT)
+ 6a1803df08f44-6fad29c1b72so53315246d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 14:15:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748985251; x=1749590051;
+ d=1e100.net; s=20230601; t=1748985318; x=1749590118;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HjEbZUj5i0eUO9Yzr/dSbeCFbp3m1N+UZgRYeHmPF24=;
- b=v7uoPdW8RJiBVmcbutJyvyy73eAZt7OAMLTBNz7DwivbAqBF9tGSfKyesG4Noq8sW3
- TBSylTvXvBE+dW3WPhQDVELAgZqjohL8hWGhevNqeWNAoCDLSTpanFr7kDFUYbDcH2Y2
- HLZMqIThokCFHNjXumMtyWaqGoDU1gc2d1Enii19btsUpHliYHR+GW+PbVf+lQhJW08G
- Vws+Im0Az3FdUOzbpn0R7dfO/SpWUyd+/dwtemSlO7OEZC0WIp1ZNfs8QfP97Ja+b7/j
- QN+kEYckpVtZhfTktuFAC4uanp24xQRK1MjBdW4U/nJpbLNw+m81uF/JnreuWG30MD1t
- lAmQ==
+ bh=RGtkOpSsprReD9iacCSKS6dgfzTuaS3TK68aShoSOvY=;
+ b=C2s02OZqXHStbDZdku0Y1y/DRIUSa6SsBVHB9lo6HOmDZqv97CWCr0qr3y9KjEwRPl
+ KWca4b2AXUEBVzi9VZ4Ak1JAeKNQAKQ/5RWEOFXVs1x3XVqU3iMnsJEXmf+2Nd3Iv9IZ
+ 9ABTWTVtTyr5MM7VmimQd/w3W+8NKewRpl7LF4fRWWxRIU4TdyL3R8GyD1h5WSsAL61h
+ 1BeLVD26s7GZj5F8l4QNwZEvRqzKGktOUS/4Ai9DOjGqF1/3TS7gZ8eriuio3y0yHJgF
+ PcZj2mRrS5XHxV8YJEIwLJs+bfjoC39+73ywXnAH/Oj7kytKeI3Hrt12nhkmfo9RcoNP
+ XcxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrHumIC+0WacomoyN/8vWhhEO/EKec95XmQn7+7QY38ATE6/5SQkj+oClJ4CwYMYy/kM0ZW2vvNNs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzaPuOw4bGNSFRbdSJWh7acex6EYISCq6UfpbYUlLDqaoTzqrIL
- Jtpua0Wd0Mo17+t+/0ljckaZYMU+2goxXVVEQPPD6d+WOOpNsdWjj66GMlHFULsztxk4uNCRiSD
- 8E7hiJ2w0IPHDDpJj1yV3z3XacnPnnrqZOnsem9f6lIu5Vi8XQ/XsyKKgBv5CTSeKxGXZEw==
-X-Gm-Gg: ASbGncvigkB2pxGvNIR8RWqusKCU3qGdG5gMvxzf0gzwhEdAUv1T8WKJx4BFRAJOh+U
- wucaHiAIsVFqQPbRH8Csmq2U+XXIdS7/wSAoAvl1wpwGcN+wUu6n0IUBmrRBQAHRSzvywnsqqaJ
- 0qeZwWeVD3d3KzRadSxk2omx+eMpUpTeYJf0IqlcqoeHHqA85zOwhXDE3orZeUrmHBKUsu3mavs
- rVRw+P1KYWllA8XNftOpcnIxRT25FotxN6vzSXDNJG7+bEz5Y3sfgGQKNSl6uCGxQ2PNGNnBSdg
- 0Srv+EG7/oJP5PmvPA==
-X-Received: by 2002:a05:6214:f63:b0:6fa:c23d:37b5 with SMTP id
- 6a1803df08f44-6faf700f690mr3867806d6.20.1748985250562; 
- Tue, 03 Jun 2025 14:14:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwBWG8Tc+JidG23hx2D+UV3HJ3yxD6HJz7NEslktKZa7M0+LXqJccv5USOWZZlk6Hfghuy/w==
-X-Received: by 2002:a05:6214:f63:b0:6fa:c23d:37b5 with SMTP id
- 6a1803df08f44-6faf700f690mr3867236d6.20.1748985250053; 
- Tue, 03 Jun 2025 14:14:10 -0700 (PDT)
+ AJvYcCVsPeh0aoFEn9/Tn/XSdaXGOsTo6NHWwbnonwl5/ex9De4pGzBkr3+Xbc9M2r1STF0BPuT5o3B0E+g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoXFneODu3rNa68lCaDrOT6tR9b60JI4T6BwlDio/9e5t8cV3H
+ HEXw5YaoO/sUhR169hZU9n3P3LJqb1ujHNOdOifxgM2faTfEYofwFteZ6Yti+g7ZHYJSw9PEyht
+ h0wG3dUe0e072MWo0yfWNv5bDsrKSo1XgLILIGOJCGX+tV1B+kLBpYCWG2WTJotat5kfQzA==
+X-Gm-Gg: ASbGnctJODujpbbEp8xt+Gdc2MKgCLRZYlyWAPgBgnjyokVJ/g4pHWdEw+3yGQjdKPQ
+ hsTq9vdOgXvjLR4jkClNXrlXV0zKDbG1UtoMJj5rGL7cbpuGTSQWSIpTYWvFwduJgs+rLtJ+tGV
+ 7i0KmimkCUWhmno07X7+nVmqAqWGn2meDUL1LvFwGEdnE4z1KraFnZjXgc88nBnKNXMzJAxnpE0
+ lkt+xJVi+1n6eNBnLEGGvcvstXjHrltfKn+WkqeLcBCqRNRH9Y7hxsJbL8HUPnGO5fqlFvCQpU5
+ lwkkzxdIJnwyiaaozg==
+X-Received: by 2002:a05:6214:e87:b0:6fa:c22e:e56 with SMTP id
+ 6a1803df08f44-6faf6e78961mr4699986d6.8.1748985317994; 
+ Tue, 03 Jun 2025 14:15:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFgnfLD/SQCbAkDZQikx1AwQI1MRGPFbG+tz8LW5U9WcNhN2CfeCwQohuvmrFsGI94BJFTmpQ==
+X-Received: by 2002:a05:6214:e87:b0:6fa:c22e:e56 with SMTP id
+ 6a1803df08f44-6faf6e78961mr4699076d6.8.1748985317304; 
+ Tue, 03 Jun 2025 14:15:17 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c4b:da00::bb3? ([2600:4040:5c4b:da00::bb3])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6fac6d35186sm86714656d6.11.2025.06.03.14.14.08
+ 6a1803df08f44-6fac6d4d9f0sm86522836d6.45.2025.06.03.14.15.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 14:14:09 -0700 (PDT)
-Message-ID: <632966ba8231e8f3c20350b217b225301280cdd3.camel@redhat.com>
-Subject: Re: [PATCH v4 17/20] gpu: nova-core: compute layout of the FRTS region
+ Tue, 03 Jun 2025 14:15:15 -0700 (PDT)
+Message-ID: <6befacfd53aa58d55310a36b314d974ca3fcf043.camel@redhat.com>
+Subject: Re: [PATCH v4 16/20] nova-core: Add support for VBIOS ucode
+ extraction for boot
 From: Lyude Paul <lyude@redhat.com>
-To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda
- <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
- Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich	 <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter	 <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+To: Joel Fernandes <joelagnelf@nvidia.com>, Alexandre Courbot	
+ <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor	
+ <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo	
+ <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>,  Danilo Krummrich	 <dakr@kernel.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, 	linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, 	nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Date: Tue, 03 Jun 2025 17:14:07 -0400
-In-Reply-To: <20250521-nova-frts-v4-17-05dfd4f39479@nvidia.com>
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, 	dri-devel@lists.freedesktop.org, Shirish
+ Baskaran <sbaskaran@nvidia.com>
+Date: Tue, 03 Jun 2025 17:15:14 -0400
+In-Reply-To: <ab30d5f1-d2fa-4e75-8153-b2d3870a70a1@nvidia.com>
 References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-17-05dfd4f39479@nvidia.com>
+ <20250521-nova-frts-v4-16-05dfd4f39479@nvidia.com>
+ <ab30d5f1-d2fa-4e75-8153-b2d3870a70a1@nvidia.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.54.3 (3.54.3-1.fc41)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Vx5DmNjmgWf4IdVulw26HjKRKPF71PtN4X1jm9TyU_4_1748985254
+X-Mimecast-MFC-PROC-ID: iACjTopFNdsCIvmCJPukO4Y1NL1jbjL6bh-KwoGvgbs_1748985318
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,437 +116,1421 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-05-21 at 15:45 +0900, Alexandre Courbot wrote:
-> FWSEC-FRTS is run with the desired address of the FRTS region as
-> parameter, which we need to compute depending on some hardware
-> parameters.
+On Tue, 2025-05-27 at 16:38 -0400, Joel Fernandes wrote:
+> Hello,
+> I split this particular patch into 3 patches:
 >=20
-> Do this in a `FbLayout` structure, that will be later extended to
-> describe more memory regions used to boot the GSP.
+> gpu: nova-core: vbios: Add support for FWSEC ucode extraction
+> gpu: nova-core: vbios: Add support to look up PMU table in FWSEC
+> gpu: nova-core: vbios: Add base support for VBIOS construction and iterat=
+ion
 >=20
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  drivers/gpu/nova-core/gpu.rs              |  4 ++
->  drivers/gpu/nova-core/gsp.rs              |  3 ++
->  drivers/gpu/nova-core/gsp/fb.rs           | 77 +++++++++++++++++++++++++=
-++++++
->  drivers/gpu/nova-core/gsp/fb/hal.rs       | 30 ++++++++++++
->  drivers/gpu/nova-core/gsp/fb/hal/ga100.rs | 24 ++++++++++
->  drivers/gpu/nova-core/gsp/fb/hal/ga102.rs | 24 ++++++++++
->  drivers/gpu/nova-core/gsp/fb/hal/tu102.rs | 28 +++++++++++
->  drivers/gpu/nova-core/nova_core.rs        |  1 +
->  drivers/gpu/nova-core/regs.rs             | 76 +++++++++++++++++++++++++=
-+++++
->  9 files changed, 267 insertions(+)
+> It is code-wise identical. Alex/Danilo can you pull these 3 for next post=
+ing or
+> applying?
 >=20
-> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-> index 39b1cd3eaf8dcf95900eb93d43cfb4f085c897f0..7e03a5696011d12814995928b=
-2984cceae6b6756 100644
-> --- a/drivers/gpu/nova-core/gpu.rs
-> +++ b/drivers/gpu/nova-core/gpu.rs
-> @@ -7,6 +7,7 @@
->  use crate::falcon::{gsp::Gsp, sec2::Sec2, Falcon};
->  use crate::firmware::{Firmware, FIRMWARE_VERSION};
->  use crate::gfw;
-> +use crate::gsp::fb::FbLayout;
->  use crate::regs;
->  use crate::util;
->  use crate::vbios::Vbios;
-> @@ -239,6 +240,9 @@ pub(crate) fn new(
-> =20
->          let _sec2_falcon =3D Falcon::<Sec2>::new(pdev.as_ref(), spec.chi=
-pset, bar, true)?;
-> =20
-> +        let fb_layout =3D FbLayout::new(spec.chipset, bar)?;
-> +        dev_dbg!(pdev.as_ref(), "{:#x?}\n", fb_layout);
-> +
->          // Will be used in a later patch when fwsec firmware is needed.
->          let _bios =3D Vbios::new(pdev, bar)?;
-> =20
-> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..27616a9d2b7069b18661fc978=
-11fa1cac285b8f8
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp.rs
-> @@ -0,0 +1,3 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +pub(crate) mod fb;
-> diff --git a/drivers/gpu/nova-core/gsp/fb.rs b/drivers/gpu/nova-core/gsp/=
-fb.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e65f2619b4c03c4fa51bb24f3=
-d60e8e7008e6ca5
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/fb.rs
-> @@ -0,0 +1,77 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +use core::ops::Range;
-> +
-> +use kernel::num::NumExt;
-> +use kernel::prelude::*;
-> +
-> +use crate::driver::Bar0;
-> +use crate::gpu::Chipset;
-> +use crate::regs;
-> +
-> +mod hal;
-> +
-> +/// Layout of the GPU framebuffer memory.
-> +///
-> +/// Contains ranges of GPU memory reserved for a given purpose during th=
-e GSP bootup process.
-> +#[derive(Debug)]
-> +#[expect(dead_code)]
-> +pub(crate) struct FbLayout {
-> +    pub fb: Range<u64>,
-> +    pub vga_workspace: Range<u64>,
-> +    pub frts: Range<u64>,
-> +}
-> +
-> +impl FbLayout {
-> +    /// Computes the FB layout.
-> +    pub(crate) fn new(chipset: Chipset, bar: &Bar0) -> Result<Self> {
-> +        let hal =3D chipset.get_fb_fal();
-> +
-> +        let fb =3D {
-> +            let fb_size =3D hal.vidmem_size(bar);
-> +
-> +            0..fb_size
-> +        };
-> +
-> +        let vga_workspace =3D {
-> +            let vga_base =3D {
-> +                const NV_PRAMIN_SIZE: u64 =3D 0x100000;
+> git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+> tag: vbios-for-alex
+>=20
 
-Don't leave those size constants out, they're getting lonely :C
+Thanks btw! I'm a bit worried with how big they were I might have missed so=
+me
+details during review lol
 
-> +                let base =3D fb.end - NV_PRAMIN_SIZE;
-> +
-> +                if hal.supports_display(bar) {
-> +                    match regs::NV_PDISP_VGA_WORKSPACE_BASE::read(bar).v=
-ga_workspace_addr() {
-
-Considering how long register names are by default, I wonder if we should j=
-ust
-be doing:
-
-`use crate::regs::*`
-
-Instead, since the NV_* makes it pretty unambiguous already.
-
-> +                        Some(addr) =3D> {
-> +                            if addr < base {
-> +                                const VBIOS_WORKSPACE_SIZE: u64 =3D 0x20=
-000;
-> +
-> +                                // Point workspace address to end of fra=
-mebuffer.
-> +                                fb.end - VBIOS_WORKSPACE_SIZE
-> +                            } else {
-> +                                addr
-> +                            }
-> +                        }
-> +                        None =3D> base,
-> +                    }
-> +                } else {
-> +                    base
-> +                }
-> +            };
-> +
-> +            vga_base..fb.end
-> +        };
-> +
-> +        let frts =3D {
-> +            const FRTS_DOWN_ALIGN: u64 =3D 0x20000;
-> +            const FRTS_SIZE: u64 =3D 0x100000;
-> +            let frts_base =3D vga_workspace.start.align_down(FRTS_DOWN_A=
-LIGN) - FRTS_SIZE;
-> +
-> +            frts_base..frts_base + FRTS_SIZE
-> +        };
-> +
-> +        Ok(Self {
-> +            fb,
-> +            vga_workspace,
-> +            frts,
-> +        })
-> +    }
-> +}
-> diff --git a/drivers/gpu/nova-core/gsp/fb/hal.rs b/drivers/gpu/nova-core/=
-gsp/fb/hal.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9f8e777e90527026a39061166=
-c6af6257a066aca
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/fb/hal.rs
-> @@ -0,0 +1,30 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +use crate::driver::Bar0;
-> +use crate::gpu::Chipset;
-> +
-> +mod ga100;
-> +mod ga102;
-> +mod tu102;
-> +
-> +pub(crate) trait FbHal {
-> +    /// Returns `true` is display is supported.
-> +    fn supports_display(&self, bar: &Bar0) -> bool;
-> +    /// Returns the VRAM size, in bytes.
-> +    fn vidmem_size(&self, bar: &Bar0) -> u64;
-> +}
-> +
-> +impl Chipset {
-> +    /// Returns the HAL corresponding to this chipset.
-> +    pub(super) fn get_fb_fal(self) -> &'static dyn FbHal {
-> +        use Chipset::*;
-> +
-> +        match self {
-> +            TU102 | TU104 | TU106 | TU117 | TU116 =3D> tu102::TU102_HAL,
-> +            GA100 =3D> ga100::GA100_HAL,
-> +            GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD10=
-4 | AD106 | AD107 =3D> {
-
-Hopefully I'm not hallucinating us adding #[derive(Ordering)] or whatever i=
-t's
-called now that I'm 17 patches deep but, couldn't we use ranges here w/r/t =
-to
-the model numbers?
-
-Otherwise:
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-> +                ga102::GA102_HAL
-> +            }
-> +        }
-> +    }
-> +}
-> diff --git a/drivers/gpu/nova-core/gsp/fb/hal/ga100.rs b/drivers/gpu/nova=
--core/gsp/fb/hal/ga100.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..29babb190bcea7181e093f6e7=
-5cafd3b1410ed26
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/fb/hal/ga100.rs
-> @@ -0,0 +1,24 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +use crate::driver::Bar0;
-> +use crate::gsp::fb::hal::FbHal;
-> +use crate::regs;
-> +
-> +pub(super) fn display_enabled_ga100(bar: &Bar0) -> bool {
-> +    !regs::ga100::NV_FUSE_STATUS_OPT_DISPLAY::read(bar).display_disabled=
-()
-> +}
-> +
-> +struct Ga100;
-> +
-> +impl FbHal for Ga100 {
-> +    fn supports_display(&self, bar: &Bar0) -> bool {
-> +        display_enabled_ga100(bar)
-> +    }
-> +
-> +    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-> +        super::tu102::vidmem_size_gp102(bar)
-> +    }
-> +}
-> +
-> +const GA100: Ga100 =3D Ga100;
-> +pub(super) const GA100_HAL: &dyn FbHal =3D &GA100;
-> diff --git a/drivers/gpu/nova-core/gsp/fb/hal/ga102.rs b/drivers/gpu/nova=
--core/gsp/fb/hal/ga102.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..6a7a06a079a9be5745b54de32=
-4ec9be71cf1a055
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/fb/hal/ga102.rs
-> @@ -0,0 +1,24 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +use crate::driver::Bar0;
-> +use crate::gsp::fb::hal::FbHal;
-> +use crate::regs;
-> +
-> +fn vidmem_size_ga102(bar: &Bar0) -> u64 {
-> +    regs::NV_USABLE_FB_SIZE_IN_MB::read(bar).usable_fb_size()
-> +}
-> +
-> +struct Ga102;
-> +
-> +impl FbHal for Ga102 {
-> +    fn supports_display(&self, bar: &Bar0) -> bool {
-> +        super::ga100::display_enabled_ga100(bar)
-> +    }
-> +
-> +    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-> +        vidmem_size_ga102(bar)
-> +    }
-> +}
-> +
-> +const GA102: Ga102 =3D Ga102;
-> +pub(super) const GA102_HAL: &dyn FbHal =3D &GA102;
-> diff --git a/drivers/gpu/nova-core/gsp/fb/hal/tu102.rs b/drivers/gpu/nova=
--core/gsp/fb/hal/tu102.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..7ea4ad45caa080652e682546c=
-43cfe2b5f28c0b2
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/fb/hal/tu102.rs
-> @@ -0,0 +1,28 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +use crate::driver::Bar0;
-> +use crate::gsp::fb::hal::FbHal;
-> +use crate::regs;
-> +
-> +pub(super) fn display_enabled_gm107(bar: &Bar0) -> bool {
-> +    !regs::gm107::NV_FUSE_STATUS_OPT_DISPLAY::read(bar).display_disabled=
-()
-> +}
-> +
-> +pub(super) fn vidmem_size_gp102(bar: &Bar0) -> u64 {
-> +    regs::NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE::read(bar).usable_fb_size()
-> +}
-> +
-> +struct Tu102;
-> +
-> +impl FbHal for Tu102 {
-> +    fn supports_display(&self, bar: &Bar0) -> bool {
-> +        display_enabled_gm107(bar)
-> +    }
-> +
-> +    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-> +        vidmem_size_gp102(bar)
-> +    }
-> +}
-> +
-> +const TU102: Tu102 =3D Tu102;
-> +pub(super) const TU102_HAL: &dyn FbHal =3D &TU102;
-> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/n=
-ova_core.rs
-> index 86328473e8e88f7b3a539afdee7e3f34c334abab..d183201c577c28a6a1ea54391=
-409cbb6411a32fc 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -8,6 +8,7 @@
->  mod firmware;
->  mod gfw;
->  mod gpu;
-> +mod gsp;
->  mod regs;
->  mod util;
->  mod vbios;
-> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.r=
+> thanks,
+>=20
+>  - Joel
+>=20
+>=20
+> On 5/21/2025 2:45 AM, Alexandre Courbot wrote:
+> > From: Joel Fernandes <joelagnelf@nvidia.com>
+> >=20
+> > Add support for navigating and setting up vBIOS ucode data required for
+> > GSP to boot. The main data extracted from the vBIOS is the FWSEC-FRTS
+> > firmware which runs on the GSP processor. This firmware runs in high
+> > secure mode, and sets up the WPR2 (Write protected region) before the
+> > Booter runs on the SEC2 processor.
+> >=20
+> > Also add log messages to show the BIOS images.
+> >=20
+> > [102141.013287] NovaCore: Found BIOS image at offset 0x0, size: 0xfe00,=
+ type: PciAt
+> > [102141.080692] NovaCore: Found BIOS image at offset 0xfe00, size: 0x14=
+800, type: Efi
+> > [102141.098443] NovaCore: Found BIOS image at offset 0x24600, size: 0x5=
+600, type: FwSec
+> > [102141.415095] NovaCore: Found BIOS image at offset 0x29c00, size: 0x6=
+0800, type: FwSec
+> >=20
+> > Tested on my Ampere GA102 and boot is successful.
+> >=20
+> > [applied changes by Alex Courbot for fwsec signatures]
+> > [applied feedback from Alex Courbot and Timur Tabi]
+> > [applied changes related to code reorg, prints etc from Danilo Krummric=
+h]
+> > [acourbot@nvidia.com: fix clippy warnings]
+> > [acourbot@nvidia.com: remove now-unneeded Devres acquisition]
+> > [acourbot@nvidia.com: fix read_more to read `len` bytes, not u32s]
+> >=20
+> > Cc: Alexandre Courbot <acourbot@nvidia.com>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: Shirish Baskaran <sbaskaran@nvidia.com>
+> > Cc: Alistair Popple <apopple@nvidia.com>
+> > Cc: Timur Tabi <ttabi@nvidia.com>
+> > Cc: Ben Skeggs <bskeggs@nvidia.com>
+> > Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> > ---
+> >  drivers/gpu/nova-core/firmware.rs  |    2 -
+> >  drivers/gpu/nova-core/gpu.rs       |    4 +
+> >  drivers/gpu/nova-core/nova_core.rs |    1 +
+> >  drivers/gpu/nova-core/vbios.rs     | 1161 ++++++++++++++++++++++++++++=
+++++++++
+> >  4 files changed, 1166 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/=
+firmware.rs
+> > index f675fb225607c3efd943393086123b7aeafd7d4f..c5d0f16d0de0e29f9f68f2e=
+0b37e1e997a72782d 100644
+> > --- a/drivers/gpu/nova-core/firmware.rs
+> > +++ b/drivers/gpu/nova-core/firmware.rs
+> > @@ -76,8 +76,6 @@ pub(crate) struct FalconUCodeDescV3 {
+> >      _reserved: u16,
+> >  }
+> > =20
+> > -// To be removed once that code is used.
+> > -#[expect(dead_code)]
+> >  impl FalconUCodeDescV3 {
+> >      pub(crate) fn size(&self) -> usize {
+> >          ((self.hdr & 0xffff0000) >> 16) as usize
+> > diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.r=
 s
-> index b9fbc847c943b54557259ebc0d1cf3cb1bbc7a1b..54d4d37d6bf2c31947b965258=
-d2733009c293a18 100644
-> --- a/drivers/gpu/nova-core/regs.rs
-> +++ b/drivers/gpu/nova-core/regs.rs
-> @@ -52,6 +52,27 @@ pub(crate) fn chipset(self) -> Result<Chipset> {
->      23:0    adr_63_40 as u32;
->  });
-> =20
-> +register!(NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE @ 0x00100ce0 {
-> +    3:0     lower_scale as u8;
-> +    9:4     lower_mag as u8;
-> +    30:30   ecc_mode_enabled as bool;
-> +});
-> +
-> +impl NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE {
-> +    /// Returns the usable framebuffer size, in bytes.
-> +    pub(crate) fn usable_fb_size(self) -> u64 {
-> +        let size =3D ((self.lower_mag() as u64) << (self.lower_scale() a=
-s u64))
-> +            * kernel::sizes::SZ_1M as u64;
-> +
-> +        if self.ecc_mode_enabled() {
-> +            // Remove the amount of memory reserved for ECC (one per 16 =
-units).
-> +            size / 16 * 15
-> +        } else {
-> +            size
-> +        }
-> +    }
-> +}
-> +
->  /* PGC6 */
-> =20
->  register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK @ 0x001181=
-28 {
-> @@ -77,6 +98,42 @@ pub(crate) fn completed(self) -> bool {
->      }
->  }
-> =20
-> +register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_42 @ 0x001183a4 {
-> +    31:0    value as u32;
-> +});
-> +
-> +register!(
-> +    NV_USABLE_FB_SIZE_IN_MB =3D> NV_PGC6_AON_SECURE_SCRATCH_GROUP_42,
-> +    "Scratch group 42 register used as framebuffer size" {
-> +        31:0    value as u32, "Usable framebuffer size, in megabytes";
-> +    }
-> +);
-> +
-> +impl NV_USABLE_FB_SIZE_IN_MB {
-> +    /// Returns the usable framebuffer size, in bytes.
-> +    pub(crate) fn usable_fb_size(self) -> u64 {
-> +        u64::from(self.value()) * kernel::sizes::SZ_1M as u64
-> +    }
-> +}
-> +
-> +/* PDISP */
-> +
-> +register!(NV_PDISP_VGA_WORKSPACE_BASE @ 0x00625f04 {
-> +    3:3     status_valid as bool, "Set if the `addr` field is valid";
-> +    31:8    addr as u32, "VGA workspace base address divided by 0x10000"=
+> > index 3af264f6da8025b5f951888d54f6c677c5522b6f..39b1cd3eaf8dcf95900eb93=
+d43cfb4f085c897f0 100644
+> > --- a/drivers/gpu/nova-core/gpu.rs
+> > +++ b/drivers/gpu/nova-core/gpu.rs
+> > @@ -9,6 +9,7 @@
+> >  use crate::gfw;
+> >  use crate::regs;
+> >  use crate::util;
+> > +use crate::vbios::Vbios;
+> >  use core::fmt;
+> > =20
+> >  macro_rules! define_chipset {
+> > @@ -238,6 +239,9 @@ pub(crate) fn new(
+> > =20
+> >          let _sec2_falcon =3D Falcon::<Sec2>::new(pdev.as_ref(), spec.c=
+hipset, bar, true)?;
+> > =20
+> > +        // Will be used in a later patch when fwsec firmware is needed=
+.
+> > +        let _bios =3D Vbios::new(pdev, bar)?;
+> > +
+> >          Ok(pin_init!(Self {
+> >              spec,
+> >              bar: devres_bar,
+> > diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core=
+/nova_core.rs
+> > index b99342a9696a009aa663548fbd430179f2580cd2..86328473e8e88f7b3a539af=
+dee7e3f34c334abab 100644
+> > --- a/drivers/gpu/nova-core/nova_core.rs
+> > +++ b/drivers/gpu/nova-core/nova_core.rs
+> > @@ -10,6 +10,7 @@
+> >  mod gpu;
+> >  mod regs;
+> >  mod util;
+> > +mod vbios;
+> > =20
+> >  pub(crate) const MODULE_NAME: &kernel::str::CStr =3D <LocalModule as k=
+ernel::ModuleMetadata>::NAME;
+> > =20
+> > diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbi=
+os.rs
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..d873518a89e8ff3b6662810=
+7f42aa302c5f2ddca
+> > --- /dev/null
+> > +++ b/drivers/gpu/nova-core/vbios.rs
+> > @@ -0,0 +1,1161 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +//! VBIOS extraction and parsing.
+> > +
+> > +// To be removed when all code is used.
+> > +#![expect(dead_code)]
+> > +
+> > +use crate::driver::Bar0;
+> > +use crate::firmware::FalconUCodeDescV3;
+> > +use core::convert::TryFrom;
+> > +use kernel::device;
+> > +use kernel::error::Result;
+> > +use kernel::num::NumExt;
+> > +use kernel::pci;
+> > +use kernel::prelude::*;
+> > +
+> > +/// The offset of the VBIOS ROM in the BAR0 space.
+> > +const ROM_OFFSET: usize =3D 0x300000;
+> > +/// The maximum length of the VBIOS ROM to scan into.
+> > +const BIOS_MAX_SCAN_LEN: usize =3D 0x100000;
+> > +/// The size to read ahead when parsing initial BIOS image headers.
+> > +const BIOS_READ_AHEAD_SIZE: usize =3D 1024;
+> > +/// The bit in the last image indicator byte for the PCI Data Structur=
+e that
+> > +/// indicates the last image. Bit 0-6 are reserved, bit 7 is last imag=
+e bit.
+> > +const LAST_IMAGE_BIT_MASK: u8 =3D 0x80;
+> > +
+> > +// PMU lookup table entry types. Used to locate PMU table entries
+> > +// in the Fwsec image, corresponding to falcon ucodes.
+> > +#[expect(dead_code)]
+> > +const FALCON_UCODE_ENTRY_APPID_FIRMWARE_SEC_LIC: u8 =3D 0x05;
+> > +#[expect(dead_code)]
+> > +const FALCON_UCODE_ENTRY_APPID_FWSEC_DBG: u8 =3D 0x45;
+> > +const FALCON_UCODE_ENTRY_APPID_FWSEC_PROD: u8 =3D 0x85;
+> > +
+> > +/// Vbios Reader for constructing the VBIOS data
+> > +struct VbiosIterator<'a> {
+> > +    pdev: &'a pci::Device,
+> > +    bar0: &'a Bar0,
+> > +    // VBIOS data vector: As BIOS images are scanned, they are added t=
+o this vector
+> > +    // for reference or copying into other data structures. It is the =
+entire
+> > +    // scanned contents of the VBIOS which progressively extends. It i=
+s used
+> > +    // so that we do not re-read any contents that are already read as=
+ we use
+> > +    // the cumulative length read so far, and re-read any gaps as we e=
+xtend
+> > +    // the length.
+> > +    data: KVec<u8>,
+> > +    current_offset: usize, // Current offset for iterator
+> > +    last_found: bool,      // Whether the last image has been found
+> > +}
+> > +
+> > +impl<'a> VbiosIterator<'a> {
+> > +    fn new(pdev: &'a pci::Device, bar0: &'a Bar0) -> Result<Self> {
+> > +        Ok(Self {
+> > +            pdev,
+> > +            bar0,
+> > +            data: KVec::new(),
+> > +            current_offset: 0,
+> > +            last_found: false,
+> > +        })
+> > +    }
+> > +
+> > +    /// Read bytes from the ROM at the current end of the data vector
+> > +    fn read_more(&mut self, len: usize) -> Result {
+> > +        let current_len =3D self.data.len();
+> > +        let start =3D ROM_OFFSET + current_len;
+> > +
+> > +        // Ensure length is a multiple of 4 for 32-bit reads
+> > +        if len % core::mem::size_of::<u32>() !=3D 0 {
+> > +            dev_err!(
+> > +                self.pdev.as_ref(),
+> > +                "VBIOS read length {} is not a multiple of 4\n",
+> > +                len
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        self.data.reserve(len, GFP_KERNEL)?;
+> > +        // Read ROM data bytes and push directly to vector
+> > +        for addr in (start..start + len).step_by(core::mem::size_of::<=
+u32>()) {
+> > +            // Read 32-bit word from the VBIOS ROM
+> > +            let word =3D self.bar0.try_read32(addr)?;
+> > +
+> > +            // Convert the u32 to a 4 byte array and push each byte
+> > +            word.to_ne_bytes()
+> > +                .iter()
+> > +                .try_for_each(|&b| self.data.push(b, GFP_KERNEL))?;
+> > +        }
+> > +
+> > +        Ok(())
+> > +    }
+> > +
+> > +    /// Read bytes at a specific offset, filling any gap
+> > +    fn read_more_at_offset(&mut self, offset: usize, len: usize) -> Re=
+sult {
+> > +        if offset > BIOS_MAX_SCAN_LEN {
+> > +            dev_err!(self.pdev.as_ref(), "Error: exceeded BIOS scan li=
+mit.\n");
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        // If offset is beyond current data size, fill the gap first
+> > +        let current_len =3D self.data.len();
+> > +        let gap_bytes =3D offset.saturating_sub(current_len);
+> > +
+> > +        // Now read the requested bytes at the offset
+> > +        self.read_more(gap_bytes + len)
+> > +    }
+> > +
+> > +    /// Read a BIOS image at a specific offset and create a BiosImage =
+from it.
+> > +    /// self.data is extended as needed and a new BiosImage is returne=
+d.
+> > +    /// @context is a string describing the operation for error report=
+ing
+> > +    fn read_bios_image_at_offset(
+> > +        &mut self,
+> > +        offset: usize,
+> > +        len: usize,
+> > +        context: &str,
+> > +    ) -> Result<BiosImage> {
+> > +        let data_len =3D self.data.len();
+> > +        if offset + len > data_len {
+> > +            self.read_more_at_offset(offset, len).inspect_err(|e| {
+> > +                dev_err!(
+> > +                    self.pdev.as_ref(),
+> > +                    "Failed to read more at offset {:#x}: {:?}\n",
+> > +                    offset,
+> > +                    e
+> > +                )
+> > +            })?;
+> > +        }
+> > +
+> > +        BiosImage::new(self.pdev, &self.data[offset..offset + len]).in=
+spect_err(|err| {
+> > +            dev_err!(
+> > +                self.pdev.as_ref(),
+> > +                "Failed to {} at offset {:#x}: {:?}\n",
+> > +                context,
+> > +                offset,
+> > +                err
+> > +            )
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +impl<'a> Iterator for VbiosIterator<'a> {
+> > +    type Item =3D Result<BiosImage>;
+> > +
+> > +    /// Iterate over all VBIOS images until the last image is detected=
+ or offset
+> > +    /// exceeds scan limit.
+> > +    fn next(&mut self) -> Option<Self::Item> {
+> > +        if self.last_found {
+> > +            return None;
+> > +        }
+> > +
+> > +        if self.current_offset > BIOS_MAX_SCAN_LEN {
+> > +            dev_err!(
+> > +                self.pdev.as_ref(),
+> > +                "Error: exceeded BIOS scan limit, stopping scan\n"
+> > +            );
+> > +            return None;
+> > +        }
+> > +
+> > +        // Parse image headers first to get image size
+> > +        let image_size =3D match self
+> > +            .read_bios_image_at_offset(
+> > +                self.current_offset,
+> > +                BIOS_READ_AHEAD_SIZE,
+> > +                "parse initial BIOS image headers",
+> > +            )
+> > +            .and_then(|image| image.image_size_bytes())
+> > +        {
+> > +            Ok(size) =3D> size,
+> > +            Err(e) =3D> return Some(Err(e)),
+> > +        };
+> > +
+> > +        // Now create a new BiosImage with the full image data
+> > +        let full_image =3D match self.read_bios_image_at_offset(
+> > +            self.current_offset,
+> > +            image_size,
+> > +            "parse full BIOS image",
+> > +        ) {
+> > +            Ok(image) =3D> image,
+> > +            Err(e) =3D> return Some(Err(e)),
+> > +        };
+> > +
+> > +        self.last_found =3D full_image.is_last();
+> > +
+> > +        // Advance to next image (aligned to 512 bytes)
+> > +        self.current_offset +=3D image_size;
+> > +        self.current_offset =3D self.current_offset.align_up(512);
+> > +
+> > +        Some(Ok(full_image))
+> > +    }
+> > +}
+> > +
+> > +pub(crate) struct Vbios {
+> > +    fwsec_image: FwSecBiosImage,
+> > +}
+> > +
+> > +impl Vbios {
+> > +    /// Probe for VBIOS extraction
+> > +    /// Once the VBIOS object is built, bar0 is not read for vbios pur=
+poses anymore.
+> > +    pub(crate) fn new(pdev: &pci::Device, bar0: &Bar0) -> Result<Vbios=
+> {
+> > +        // Images to extract from iteration
+> > +        let mut pci_at_image: Option<PciAtBiosImage> =3D None;
+> > +        let mut first_fwsec_image: Option<FwSecBiosPartial> =3D None;
+> > +        let mut second_fwsec_image: Option<FwSecBiosPartial> =3D None;
+> > +
+> > +        // Parse all VBIOS images in the ROM
+> > +        for image_result in VbiosIterator::new(pdev, bar0)? {
+> > +            let full_image =3D image_result?;
+> > +
+> > +            dev_dbg!(
+> > +                pdev.as_ref(),
+> > +                "Found BIOS image: size: {:#x}, type: {}, last: {}\n",
+> > +                full_image.image_size_bytes()?,
+> > +                full_image.image_type_str(),
+> > +                full_image.is_last()
+> > +            );
+> > +
+> > +            // Get references to images we will need after the loop, i=
+n order to
+> > +            // setup the falcon data offset.
+> > +            match full_image {
+> > +                BiosImage::PciAt(image) =3D> {
+> > +                    pci_at_image =3D Some(image);
+> > +                }
+> > +                BiosImage::FwSecPartial(image) =3D> {
+> > +                    if first_fwsec_image.is_none() {
+> > +                        first_fwsec_image =3D Some(image);
+> > +                    } else {
+> > +                        second_fwsec_image =3D Some(image);
+> > +                    }
+> > +                }
+> > +                // For now we don't need to handle these
+> > +                BiosImage::Efi(_image) =3D> {}
+> > +                BiosImage::Nbsi(_image) =3D> {}
+> > +            }
+> > +        }
+> > +
+> > +        // Using all the images, setup the falcon data pointer in Fwse=
+c.
+> > +        if let (Some(mut second), Some(first), Some(pci_at)) =3D
+> > +            (second_fwsec_image, first_fwsec_image, pci_at_image)
+> > +        {
+> > +            second
+> > +                .setup_falcon_data(pdev, &pci_at, &first)
+> > +                .inspect_err(|e| dev_err!(pdev.as_ref(), "Falcon data =
+setup failed: {:?}\n", e))?;
+> > +            Ok(Vbios {
+> > +                fwsec_image: FwSecBiosImage::new(pdev, second)?,
+> > +            })
+> > +        } else {
+> > +            dev_err!(
+> > +                pdev.as_ref(),
+> > +                "Missing required images for falcon data setup, skippi=
+ng\n"
+> > +            );
+> > +            Err(EINVAL)
+> > +        }
+> > +    }
+> > +
+> > +    pub(crate) fn fwsec_header(&self, pdev: &device::Device) -> Result=
+<&FalconUCodeDescV3> {
+> > +        self.fwsec_image.fwsec_header(pdev)
+> > +    }
+> > +
+> > +    pub(crate) fn fwsec_ucode(&self, pdev: &device::Device) -> Result<=
+&[u8]> {
+> > +        self.fwsec_image.fwsec_ucode(pdev, self.fwsec_header(pdev)?)
+> > +    }
+> > +
+> > +    pub(crate) fn fwsec_sigs(&self, pdev: &device::Device) -> Result<&=
+[u8]> {
+> > +        self.fwsec_image.fwsec_sigs(pdev, self.fwsec_header(pdev)?)
+> > +    }
+> > +}
+> > +
+> > +/// PCI Data Structure as defined in PCI Firmware Specification
+> > +#[derive(Debug, Clone)]
+> > +#[repr(C)]
+> > +struct PcirStruct {
+> > +    /// PCI Data Structure signature ("PCIR" or "NPDS")
+> > +    signature: [u8; 4],
+> > +    /// PCI Vendor ID (e.g., 0x10DE for NVIDIA)
+> > +    vendor_id: u16,
+> > +    /// PCI Device ID
+> > +    device_id: u16,
+> > +    /// Device List Pointer
+> > +    device_list_ptr: u16,
+> > +    /// PCI Data Structure Length
+> > +    pci_data_struct_len: u16,
+> > +    /// PCI Data Structure Revision
+> > +    pci_data_struct_rev: u8,
+> > +    /// Class code (3 bytes, 0x03 for display controller)
+> > +    class_code: [u8; 3],
+> > +    /// Size of this image in 512-byte blocks
+> > +    image_len: u16,
+> > +    /// Revision Level of the Vendor's ROM
+> > +    vendor_rom_rev: u16,
+> > +    /// ROM image type (0x00 =3D PC-AT compatible, 0x03 =3D EFI, 0x70 =
+=3D NBSI)
+> > +    code_type: u8,
+> > +    /// Last image indicator (0x00 =3D Not last image, 0x80 =3D Last i=
+mage)
+> > +    last_image: u8,
+> > +    /// Maximum Run-time Image Length (units of 512 bytes)
+> > +    max_runtime_image_len: u16,
+> > +}
+> > +
+> > +impl PcirStruct {
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        if data.len() < core::mem::size_of::<PcirStruct>() {
+> > +            dev_err!(pdev.as_ref(), "Not enough data for PcirStruct\n"=
+);
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let mut signature =3D [0u8; 4];
+> > +        signature.copy_from_slice(&data[0..4]);
+> > +
+> > +        // Signature should be "PCIR" (0x52494350) or "NPDS" (0x534450=
+4e)
+> > +        if &signature !=3D b"PCIR" && &signature !=3D b"NPDS" {
+> > +            dev_err!(
+> > +                pdev.as_ref(),
+> > +                "Invalid signature for PcirStruct: {:?}\n",
+> > +                signature
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let mut class_code =3D [0u8; 3];
+> > +        class_code.copy_from_slice(&data[13..16]);
+> > +
+> > +        Ok(PcirStruct {
+> > +            signature,
+> > +            vendor_id: u16::from_le_bytes([data[4], data[5]]),
+> > +            device_id: u16::from_le_bytes([data[6], data[7]]),
+> > +            device_list_ptr: u16::from_le_bytes([data[8], data[9]]),
+> > +            pci_data_struct_len: u16::from_le_bytes([data[10], data[11=
+]]),
+> > +            pci_data_struct_rev: data[12],
+> > +            class_code,
+> > +            image_len: u16::from_le_bytes([data[16], data[17]]),
+> > +            vendor_rom_rev: u16::from_le_bytes([data[18], data[19]]),
+> > +            code_type: data[20],
+> > +            last_image: data[21],
+> > +            max_runtime_image_len: u16::from_le_bytes([data[22], data[=
+23]]),
+> > +        })
+> > +    }
+> > +
+> > +    /// Check if this is the last image in the ROM
+> > +    fn is_last(&self) -> bool {
+> > +        self.last_image & LAST_IMAGE_BIT_MASK !=3D 0
+> > +    }
+> > +
+> > +    /// Calculate image size in bytes
+> > +    fn image_size_bytes(&self) -> Result<usize> {
+> > +        if self.image_len > 0 {
+> > +            // Image size is in 512-byte blocks
+> > +            Ok(self.image_len as usize * 512)
+> > +        } else {
+> > +            Err(EINVAL)
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +/// BIOS Information Table (BIT) Header
+> > +/// This is the head of the BIT table, that is used to locate the Falc=
+on data.
+> > +/// The BIT table (with its header) is in the PciAtBiosImage and the f=
+alcon data
+> > +/// it is pointing to is in the FwSecBiosImage.
+> > +#[derive(Debug, Clone, Copy)]
+> > +#[expect(dead_code)]
+> > +struct BitHeader {
+> > +    /// 0h: BIT Header Identifier (BMP=3D0x7FFF/BIT=3D0xB8FF)
+> > +    id: u16,
+> > +    /// 2h: BIT Header Signature ("BIT\0")
+> > +    signature: [u8; 4],
+> > +    /// 6h: Binary Coded Decimal Version, ex: 0x0100 is 1.00.
+> > +    bcd_version: u16,
+> > +    /// 8h: Size of BIT Header (in bytes)
+> > +    header_size: u8,
+> > +    /// 9h: Size of BIT Tokens (in bytes)
+> > +    token_size: u8,
+> > +    /// 10h: Number of token entries that follow
+> > +    token_entries: u8,
+> > +    /// 11h: BIT Header Checksum
+> > +    checksum: u8,
+> > +}
+> > +
+> > +impl BitHeader {
+> > +    fn new(data: &[u8]) -> Result<Self> {
+> > +        if data.len() < 12 {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let mut signature =3D [0u8; 4];
+> > +        signature.copy_from_slice(&data[2..6]);
+> > +
+> > +        // Check header ID and signature
+> > +        let id =3D u16::from_le_bytes([data[0], data[1]]);
+> > +        if id !=3D 0xB8FF || &signature !=3D b"BIT\0" {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        Ok(BitHeader {
+> > +            id,
+> > +            signature,
+> > +            bcd_version: u16::from_le_bytes([data[6], data[7]]),
+> > +            header_size: data[8],
+> > +            token_size: data[9],
+> > +            token_entries: data[10],
+> > +            checksum: data[11],
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +/// BIT Token Entry: Records in the BIT table followed by the BIT head=
+er
+> > +#[derive(Debug, Clone, Copy)]
+> > +#[expect(dead_code)]
+> > +struct BitToken {
+> > +    /// 00h: Token identifier
+> > +    id: u8,
+> > +    /// 01h: Version of the token data
+> > +    data_version: u8,
+> > +    /// 02h: Size of token data in bytes
+> > +    data_size: u16,
+> > +    /// 04h: Offset to the token data
+> > +    data_offset: u16,
+> > +}
+> > +
+> > +// Define the token ID for the Falcon data
+> > +const BIT_TOKEN_ID_FALCON_DATA: u8 =3D 0x70;
+> > +
+> > +impl BitToken {
+> > +    /// Find a BIT token entry by BIT ID in a PciAtBiosImage
+> > +    fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
+> > +        let header =3D &image.bit_header;
+> > +
+> > +        // Offset to the first token entry
+> > +        let tokens_start =3D image.bit_offset + header.header_size as =
+usize;
+> > +
+> > +        for i in 0..header.token_entries as usize {
+> > +            let entry_offset =3D tokens_start + (i * header.token_size=
+ as usize);
+> > +
+> > +            // Make sure we don't go out of bounds
+> > +            if entry_offset + header.token_size as usize > image.base.=
+data.len() {
+> > +                return Err(EINVAL);
+> > +            }
+> > +
+> > +            // Check if this token has the requested ID
+> > +            if image.base.data[entry_offset] =3D=3D token_id {
+> > +                return Ok(BitToken {
+> > +                    id: image.base.data[entry_offset],
+> > +                    data_version: image.base.data[entry_offset + 1],
+> > +                    data_size: u16::from_le_bytes([
+> > +                        image.base.data[entry_offset + 2],
+> > +                        image.base.data[entry_offset + 3],
+> > +                    ]),
+> > +                    data_offset: u16::from_le_bytes([
+> > +                        image.base.data[entry_offset + 4],
+> > +                        image.base.data[entry_offset + 5],
+> > +                    ]),
+> > +                });
+> > +            }
+> > +        }
+> > +
+> > +        // Token not found
+> > +        Err(ENOENT)
+> > +    }
+> > +}
+> > +
+> > +/// PCI ROM Expansion Header as defined in PCI Firmware Specification.
+> > +/// This is header is at the beginning of every image in the set of
+> > +/// images in the ROM. It contains a pointer to the PCI Data Structure
+> > +/// which describes the image.
+> > +/// For "NBSI" images (NoteBook System Information), the ROM
+> > +/// header deviates from the standard and contains an offset to the
+> > +/// NBSI image however we do not yet parse that in this module and kee=
+p
+> > +/// it for future reference.
+> > +#[derive(Debug, Clone, Copy)]
+> > +#[expect(dead_code)]
+> > +struct PciRomHeader {
+> > +    /// 00h: Signature (0xAA55)
+> > +    signature: u16,
+> > +    /// 02h: Reserved bytes for processor architecture unique data (20=
+ bytes)
+> > +    reserved: [u8; 20],
+> > +    /// 16h: NBSI Data Offset (NBSI-specific, offset from header to NB=
+SI image)
+> > +    nbsi_data_offset: Option<u16>,
+> > +    /// 18h: Pointer to PCI Data Structure (offset from start of ROM i=
+mage)
+> > +    pci_data_struct_offset: u16,
+> > +    /// 1Ah: Size of block (this is NBSI-specific)
+> > +    size_of_block: Option<u32>,
+> > +}
+> > +
+> > +impl PciRomHeader {
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        if data.len() < 26 {
+> > +            // Need at least 26 bytes to read pciDataStrucPtr and size=
+OfBlock
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let signature =3D u16::from_le_bytes([data[0], data[1]]);
+> > +
+> > +        // Check for valid ROM signatures
+> > +        match signature {
+> > +            0xAA55 | 0xBB77 | 0x4E56 =3D> {}
+> > +            _ =3D> {
+> > +                dev_err!(pdev.as_ref(), "ROM signature unknown {:#x}\n=
+", signature);
+> > +                return Err(EINVAL);
+> > +            }
+> > +        }
+> > +
+> > +        // Read the pointer to the PCI Data Structure at offset 0x18
+> > +        let pci_data_struct_ptr =3D u16::from_le_bytes([data[24], data=
+[25]]);
+> > +
+> > +        // Try to read optional fields if enough data
+> > +        let mut size_of_block =3D None;
+> > +        let mut nbsi_data_offset =3D None;
+> > +
+> > +        if data.len() >=3D 30 {
+> > +            // Read size_of_block at offset 0x1A
+> > +            size_of_block =3D Some(
+> > +                (data[29] as u32) << 24
+> > +                    | (data[28] as u32) << 16
+> > +                    | (data[27] as u32) << 8
+> > +                    | (data[26] as u32),
+> > +            );
+> > +        }
+> > +
+> > +        // For NBSI images, try to read the nbsiDataOffset at offset 0=
+x16
+> > +        if data.len() >=3D 24 {
+> > +            nbsi_data_offset =3D Some(u16::from_le_bytes([data[22], da=
+ta[23]]));
+> > +        }
+> > +
+> > +        Ok(PciRomHeader {
+> > +            signature,
+> > +            reserved: [0u8; 20],
+> > +            pci_data_struct_offset: pci_data_struct_ptr,
+> > +            size_of_block,
+> > +            nbsi_data_offset,
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +/// NVIDIA PCI Data Extension Structure. This is similar to the
+> > +/// PCI Data Structure, but is Nvidia-specific and is placed right aft=
+er
+> > +/// the PCI Data Structure. It contains some fields that are redundant
+> > +/// with the PCI Data Structure, but are needed for traversing the
+> > +/// BIOS images. It is expected to be present in all BIOS images excep=
+t
+> > +/// for NBSI images.
+> > +#[derive(Debug, Clone)]
+> > +#[expect(dead_code)]
+> > +struct NpdeStruct {
+> > +    /// 00h: Signature ("NPDE")
+> > +    signature: [u8; 4],
+> > +    /// 04h: NVIDIA PCI Data Extension Revision
+> > +    npci_data_ext_rev: u16,
+> > +    /// 06h: NVIDIA PCI Data Extension Length
+> > +    npci_data_ext_len: u16,
+> > +    /// 08h: Sub-image Length (in 512-byte units)
+> > +    subimage_len: u16,
+> > +    /// 0Ah: Last image indicator flag
+> > +    last_image: u8,
+> > +}
+> > +
+> > +impl NpdeStruct {
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        if data.len() < 11 {
+> > +            dev_err!(pdev.as_ref(), "Not enough data for NpdeStruct\n"=
+);
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let mut signature =3D [0u8; 4];
+> > +        signature.copy_from_slice(&data[0..4]);
+> > +
+> > +        // Signature should be "NPDE" (0x4544504E)
+> > +        if &signature !=3D b"NPDE" {
+> > +            dev_err!(
+> > +                pdev.as_ref(),
+> > +                "Invalid signature for NpdeStruct: {:?}\n",
+> > +                signature
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        Ok(NpdeStruct {
+> > +            signature,
+> > +            npci_data_ext_rev: u16::from_le_bytes([data[4], data[5]]),
+> > +            npci_data_ext_len: u16::from_le_bytes([data[6], data[7]]),
+> > +            subimage_len: u16::from_le_bytes([data[8], data[9]]),
+> > +            last_image: data[10],
+> > +        })
+> > +    }
+> > +
+> > +    /// Check if this is the last image in the ROM
+> > +    fn is_last(&self) -> bool {
+> > +        self.last_image & LAST_IMAGE_BIT_MASK !=3D 0
+> > +    }
+> > +
+> > +    /// Calculate image size in bytes
+> > +    fn image_size_bytes(&self) -> Result<usize> {
+> > +        if self.subimage_len > 0 {
+> > +            // Image size is in 512-byte blocks
+> > +            Ok(self.subimage_len as usize * 512)
+> > +        } else {
+> > +            Err(EINVAL)
+> > +        }
+> > +    }
+> > +
+> > +    /// Try to find NPDE in the data, the NPDE is right after the PCIR=
+.
+> > +    fn find_in_data(
+> > +        pdev: &pci::Device,
+> > +        data: &[u8],
+> > +        rom_header: &PciRomHeader,
+> > +        pcir: &PcirStruct,
+> > +    ) -> Option<Self> {
+> > +        // Calculate the offset where NPDE might be located
+> > +        // NPDE should be right after the PCIR structure, aligned to 1=
+6 bytes
+> > +        let pcir_offset =3D rom_header.pci_data_struct_offset as usize=
 ;
-> +});
-> +
-> +impl NV_PDISP_VGA_WORKSPACE_BASE {
-> +    /// Returns the base address of the VGA workspace, or `None` if none=
- exists.
-> +    pub(crate) fn vga_workspace_addr(self) -> Option<u64> {
-> +        if self.status_valid() {
-> +            Some((self.addr() as u64) << 16)
-> +        } else {
-> +            None
-> +        }
-> +    }
-> +}
-> +
->  /* FUSE */
-> =20
->  register!(NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION @ 0x00824100 {
-> @@ -211,3 +268,22 @@ pub(crate) fn completed(self) -> bool {
->      4:4     core_select as bool =3D> PeregrineCoreSelect;
->      8:8     br_fetch as bool;
->  });
-> +
-> +// The modules below provide registers that are not identical on all sup=
-ported chips. They should
-> +// only be used in HAL modules.
-> +
-> +pub(crate) mod gm107 {
-> +    /* FUSE */
-> +
-> +    register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00021c04 {
-> +        0:0     display_disabled as bool;
-> +    });
-> +}
-> +
-> +pub(crate) mod ga100 {
-> +    /* FUSE */
-> +
-> +    register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00820c04 {
-> +        0:0     display_disabled as bool;
-> +    });
-> +}
+> > +        let npde_start =3D (pcir_offset + pcir.pci_data_struct_len as =
+usize + 0x0F) & !0x0F;
+> > +
+> > +        // Check if we have enough data
+> > +        if npde_start + 11 > data.len() {
+> > +            dev_err!(pdev.as_ref(), "Not enough data for NPDE\n");
+> > +            return None;
+> > +        }
+> > +
+> > +        // Try to create NPDE from the data
+> > +        NpdeStruct::new(pdev, &data[npde_start..])
+> > +            .inspect_err(|e| {
+> > +                dev_err!(pdev.as_ref(), "Error creating NpdeStruct: {:=
+?}\n", e);
+> > +            })
+> > +            .ok()
+> > +    }
+> > +}
+> > +
+> > +// Use a macro to implement BiosImage enum and methods. This avoids ha=
+ving to
+> > +// repeat each enum type when implementing functions like base() in Bi=
+osImage.
+> > +macro_rules! bios_image {
+> > +    (
+> > +        $($variant:ident $class:ident),* $(,)?
+> > +    ) =3D> {
+> > +        // BiosImage enum with variants for each image type
+> > +        enum BiosImage {
+> > +            $($variant($class)),*
+> > +        }
+> > +
+> > +        impl BiosImage {
+> > +            /// Get a reference to the common BIOS image data regardle=
+ss of type
+> > +            fn base(&self) -> &BiosImageBase {
+> > +                match self {
+> > +                    $(Self::$variant(img) =3D> &img.base),*
+> > +                }
+> > +            }
+> > +
+> > +            /// Returns a string representing the type of BIOS image
+> > +            fn image_type_str(&self) -> &'static str {
+> > +                match self {
+> > +                    $(Self::$variant(_) =3D> stringify!($variant)),*
+> > +                }
+> > +            }
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +impl BiosImage {
+> > +    /// Check if this is the last image
+> > +    fn is_last(&self) -> bool {
+> > +        let base =3D self.base();
+> > +
+> > +        // For NBSI images (type =3D=3D 0x70), return true as they're
+> > +        // considered the last image
+> > +        if matches!(self, Self::Nbsi(_)) {
+> > +            return true;
+> > +        }
+> > +
+> > +        // For other image types, check the NPDE first if available
+> > +        if let Some(ref npde) =3D base.npde {
+> > +            return npde.is_last();
+> > +        }
+> > +
+> > +        // Otherwise, fall back to checking the PCIR last_image flag
+> > +        base.pcir.is_last()
+> > +    }
+> > +
+> > +    /// Get the image size in bytes
+> > +    fn image_size_bytes(&self) -> Result<usize> {
+> > +        let base =3D self.base();
+> > +
+> > +        // Prefer NPDE image size if available
+> > +        if let Some(ref npde) =3D base.npde {
+> > +            return npde.image_size_bytes();
+> > +        }
+> > +
+> > +        // Otherwise, fall back to the PCIR image size
+> > +        base.pcir.image_size_bytes()
+> > +    }
+> > +
+> > +    /// Create a BiosImageBase from a byte slice and convert it to a B=
+iosImage
+> > +    /// which triggers the constructor of the specific BiosImage enum =
+variant.
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        let base =3D BiosImageBase::new(pdev, data)?;
+> > +        let image =3D base.into_image().inspect_err(|e| {
+> > +            dev_err!(pdev.as_ref(), "Failed to create BiosImage: {:?}\=
+n", e);
+> > +        })?;
+> > +
+> > +        image.image_size_bytes().inspect_err(|_| {
+> > +            dev_err!(
+> > +                pdev.as_ref(),
+> > +                "Invalid image size computed during BiosImage creation=
+\n"
+> > +            )
+> > +        })?;
+> > +
+> > +        Ok(image)
+> > +    }
+> > +}
+> > +
+> > +bios_image! {
+> > +    PciAt PciAtBiosImage,   // PCI-AT compatible BIOS image
+> > +    Efi EfiBiosImage,       // EFI (Extensible Firmware Interface)
+> > +    Nbsi NbsiBiosImage,     // NBSI (Nvidia Bios System Interface)
+> > +    FwSecPartial FwSecBiosPartial, // FWSEC (Firmware Security)
+> > +}
+> > +
+> > +struct PciAtBiosImage {
+> > +    base: BiosImageBase,
+> > +    bit_header: BitHeader,
+> > +    bit_offset: usize,
+> > +}
+> > +
+> > +struct EfiBiosImage {
+> > +    base: BiosImageBase,
+> > +    // EFI-specific fields can be added here in the future.
+> > +}
+> > +
+> > +struct NbsiBiosImage {
+> > +    base: BiosImageBase,
+> > +    // NBSI-specific fields can be added here in the future.
+> > +}
+> > +
+> > +struct FwSecBiosPartial {
+> > +    base: BiosImageBase,
+> > +    // FWSEC-specific fields
+> > +    // These are temporary fields that are used during the constructio=
+n of
+> > +    // the FwSecBiosPartial. Once FwSecBiosPartial is constructed, the
+> > +    // falcon_ucode_offset will be copied into a new FwSecBiosImage.
+> > +
+> > +    // The offset of the Falcon data from the start of Fwsec image
+> > +    falcon_data_offset: Option<usize>,
+> > +    // The PmuLookupTable starts at the offset of the falcon data poin=
+ter
+> > +    pmu_lookup_table: Option<PmuLookupTable>,
+> > +    // The offset of the Falcon ucode
+> > +    falcon_ucode_offset: Option<usize>,
+> > +}
+> > +
+> > +struct FwSecBiosImage {
+> > +    base: BiosImageBase,
+> > +    // The offset of the Falcon ucode
+> > +    falcon_ucode_offset: usize,
+> > +}
+> > +
+> > +// Convert from BiosImageBase to BiosImage
+> > +impl TryFrom<BiosImageBase> for BiosImage {
+> > +    type Error =3D Error;
+> > +
+> > +    fn try_from(base: BiosImageBase) -> Result<Self> {
+> > +        match base.pcir.code_type {
+> > +            0x00 =3D> Ok(BiosImage::PciAt(base.try_into()?)),
+> > +            0x03 =3D> Ok(BiosImage::Efi(EfiBiosImage { base })),
+> > +            0x70 =3D> Ok(BiosImage::Nbsi(NbsiBiosImage { base })),
+> > +            0xE0 =3D> Ok(BiosImage::FwSecPartial(FwSecBiosPartial {
+> > +                base,
+> > +                falcon_data_offset: None,
+> > +                pmu_lookup_table: None,
+> > +                falcon_ucode_offset: None,
+> > +            })),
+> > +            _ =3D> Err(EINVAL),
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +/// BIOS Image structure containing various headers and references
+> > +/// fields base to all BIOS images. Each BiosImage type has a
+> > +/// BiosImageBase type along with other image-specific fields.
+> > +/// Note that Rust favors composition of types over inheritance.
+> > +#[derive(Debug)]
+> > +#[expect(dead_code)]
+> > +struct BiosImageBase {
+> > +    /// PCI ROM Expansion Header
+> > +    rom_header: PciRomHeader,
+> > +    /// PCI Data Structure
+> > +    pcir: PcirStruct,
+> > +    /// NVIDIA PCI Data Extension (optional)
+> > +    npde: Option<NpdeStruct>,
+> > +    /// Image data (includes ROM header and PCIR)
+> > +    data: KVec<u8>,
+> > +}
+> > +
+> > +impl BiosImageBase {
+> > +    fn into_image(self) -> Result<BiosImage> {
+> > +        BiosImage::try_from(self)
+> > +    }
+> > +
+> > +    /// Creates a new BiosImageBase from raw byte data.
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        // Ensure we have enough data for the ROM header
+> > +        if data.len() < 26 {
+> > +            dev_err!(pdev.as_ref(), "Not enough data for ROM header\n"=
+);
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        // Parse the ROM header
+> > +        let rom_header =3D PciRomHeader::new(pdev, &data[0..26])
+> > +            .inspect_err(|e| dev_err!(pdev.as_ref(), "Failed to create=
+ PciRomHeader: {:?}\n", e))?;
+> > +
+> > +        // Get the PCI Data Structure using the pointer from the ROM h=
+eader
+> > +        let pcir_offset =3D rom_header.pci_data_struct_offset as usize=
+;
+> > +        let pcir_data =3D data
+> > +            .get(pcir_offset..pcir_offset + core::mem::size_of::<PcirS=
+truct>())
+> > +            .ok_or(EINVAL)
+> > +            .inspect_err(|_| {
+> > +                dev_err!(
+> > +                    pdev.as_ref(),
+> > +                    "PCIR offset {:#x} out of bounds (data length: {})=
+\n",
+> > +                    pcir_offset,
+> > +                    data.len()
+> > +                );
+> > +                dev_err!(
+> > +                    pdev.as_ref(),
+> > +                    "Consider reading more data for construction of Bi=
+osImage\n"
+> > +                );
+> > +            })?;
+> > +
+> > +        let pcir =3D PcirStruct::new(pdev, pcir_data)
+> > +            .inspect_err(|e| dev_err!(pdev.as_ref(), "Failed to create=
+ PcirStruct: {:?}\n", e))?;
+> > +
+> > +        // Look for NPDE structure if this is not an NBSI image (type =
+!=3D 0x70)
+> > +        let npde =3D NpdeStruct::find_in_data(pdev, data, &rom_header,=
+ &pcir);
+> > +
+> > +        // Create a copy of the data
+> > +        let mut data_copy =3D KVec::new();
+> > +        data_copy.extend_with(data.len(), 0, GFP_KERNEL)?;
+> > +        data_copy.copy_from_slice(data);
+> > +
+> > +        Ok(BiosImageBase {
+> > +            rom_header,
+> > +            pcir,
+> > +            npde,
+> > +            data: data_copy,
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +/// The PciAt BIOS image is typically the first BIOS image type found =
+in the
+> > +/// BIOS image chain. It contains the BIT header and the BIT tokens.
+> > +impl PciAtBiosImage {
+> > +    /// Find a byte pattern in a slice
+> > +    fn find_byte_pattern(haystack: &[u8], needle: &[u8]) -> Result<usi=
+ze> {
+> > +        haystack
+> > +            .windows(needle.len())
+> > +            .position(|window| window =3D=3D needle)
+> > +            .ok_or(EINVAL)
+> > +    }
+> > +
+> > +    /// Find the BIT header in the PciAtBiosImage
+> > +    fn find_bit_header(data: &[u8]) -> Result<(BitHeader, usize)> {
+> > +        let bit_pattern =3D [0xff, 0xb8, b'B', b'I', b'T', 0x00];
+> > +        let bit_offset =3D Self::find_byte_pattern(data, &bit_pattern)=
+?;
+> > +        let bit_header =3D BitHeader::new(&data[bit_offset..])?;
+> > +
+> > +        Ok((bit_header, bit_offset))
+> > +    }
+> > +
+> > +    /// Get a BIT token entry from the BIT table in the PciAtBiosImage
+> > +    fn get_bit_token(&self, token_id: u8) -> Result<BitToken> {
+> > +        BitToken::from_id(self, token_id)
+> > +    }
+> > +
+> > +    /// Find the Falcon data pointer structure in the PciAtBiosImage
+> > +    /// This is just a 4 byte structure that contains a pointer to the
+> > +    /// Falcon data in the FWSEC image.
+> > +    fn falcon_data_ptr(&self, pdev: &pci::Device) -> Result<u32> {
+> > +        let token =3D self.get_bit_token(BIT_TOKEN_ID_FALCON_DATA)?;
+> > +
+> > +        // Make sure we don't go out of bounds
+> > +        if token.data_offset as usize + 4 > self.base.data.len() {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        // read the 4 bytes at the offset specified in the token
+> > +        let offset =3D token.data_offset as usize;
+> > +        let bytes: [u8; 4] =3D self.base.data[offset..offset + 4].try_=
+into().map_err(|_| {
+> > +            dev_err!(pdev.as_ref(), "Failed to convert data slice to a=
+rray");
+> > +            EINVAL
+> > +        })?;
+> > +
+> > +        let data_ptr =3D u32::from_le_bytes(bytes);
+> > +
+> > +        if (data_ptr as usize) < self.base.data.len() {
+> > +            dev_err!(pdev.as_ref(), "Falcon data pointer out of bounds=
+\n");
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        Ok(data_ptr)
+> > +    }
+> > +}
+> > +
+> > +impl TryFrom<BiosImageBase> for PciAtBiosImage {
+> > +    type Error =3D Error;
+> > +
+> > +    fn try_from(base: BiosImageBase) -> Result<Self> {
+> > +        let data_slice =3D &base.data;
+> > +        let (bit_header, bit_offset) =3D PciAtBiosImage::find_bit_head=
+er(data_slice)?;
+> > +
+> > +        Ok(PciAtBiosImage {
+> > +            base,
+> > +            bit_header,
+> > +            bit_offset,
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +/// The PmuLookupTableEntry structure is a single entry in the PmuLook=
+upTable.
+> > +/// See the PmuLookupTable description for more information.
+> > +#[expect(dead_code)]
+> > +struct PmuLookupTableEntry {
+> > +    application_id: u8,
+> > +    target_id: u8,
+> > +    data: u32,
+> > +}
+> > +
+> > +impl PmuLookupTableEntry {
+> > +    fn new(data: &[u8]) -> Result<Self> {
+> > +        if data.len() < 5 {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        Ok(PmuLookupTableEntry {
+> > +            application_id: data[0],
+> > +            target_id: data[1],
+> > +            data: u32::from_le_bytes(data[2..6].try_into().map_err(|_|=
+ EINVAL)?),
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +/// The PmuLookupTableEntry structure is used to find the PmuLookupTab=
+leEntry
+> > +/// for a given application ID. The table of entries is pointed to by =
+the falcon
+> > +/// data pointer in the BIT table, and is used to locate the Falcon Uc=
+ode.
+> > +#[expect(dead_code)]
+> > +struct PmuLookupTable {
+> > +    version: u8,
+> > +    header_len: u8,
+> > +    entry_len: u8,
+> > +    entry_count: u8,
+> > +    table_data: KVec<u8>,
+> > +}
+> > +
+> > +impl PmuLookupTable {
+> > +    fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
+> > +        if data.len() < 4 {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let header_len =3D data[1] as usize;
+> > +        let entry_len =3D data[2] as usize;
+> > +        let entry_count =3D data[3] as usize;
+> > +
+> > +        let required_bytes =3D header_len + (entry_count * entry_len);
+> > +
+> > +        if data.len() < required_bytes {
+> > +            dev_err!(
+> > +                pdev.as_ref(),
+> > +                "PmuLookupTable data length less than required\n"
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        // Create a copy of only the table data
+> > +        let table_data =3D {
+> > +            let mut ret =3D KVec::new();
+> > +            ret.extend_from_slice(&data[header_len..required_bytes], G=
+FP_KERNEL)?;
+> > +            ret
+> > +        };
+> > +
+> > +        // Debug logging of entries (dumps the table data to dmesg)
+> > +        if cfg!(debug_assertions) {
+> > +            for i in (header_len..required_bytes).step_by(entry_len) {
+> > +                dev_dbg!(
+> > +                    pdev.as_ref(),
+> > +                    "PMU entry: {:02x?}\n",
+> > +                    &data[i..][..entry_len]
+> > +                );
+> > +            }
+> > +        }
+> > +
+> > +        Ok(PmuLookupTable {
+> > +            version: data[0],
+> > +            header_len: header_len as u8,
+> > +            entry_len: entry_len as u8,
+> > +            entry_count: entry_count as u8,
+> > +            table_data,
+> > +        })
+> > +    }
+> > +
+> > +    fn lookup_index(&self, idx: u8) -> Result<PmuLookupTableEntry> {
+> > +        if idx >=3D self.entry_count {
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let index =3D (idx as usize) * self.entry_len as usize;
+> > +        PmuLookupTableEntry::new(&self.table_data[index..])
+> > +    }
+> > +
+> > +    // find entry by type value
+> > +    fn find_entry_by_type(&self, entry_type: u8) -> Result<PmuLookupTa=
+bleEntry> {
+> > +        for i in 0..self.entry_count {
+> > +            let entry =3D self.lookup_index(i)?;
+> > +            if entry.application_id =3D=3D entry_type {
+> > +                return Ok(entry);
+> > +            }
+> > +        }
+> > +
+> > +        Err(EINVAL)
+> > +    }
+> > +}
+> > +
+> > +/// The FwSecBiosImage structure contains the PMU table and the Falcon=
+ Ucode.
+> > +/// The PMU table contains voltage/frequency tables as well as a point=
+er to the
+> > +/// Falcon Ucode.
+> > +impl FwSecBiosPartial {
+> > +    fn setup_falcon_data(
+> > +        &mut self,
+> > +        pdev: &pci::Device,
+> > +        pci_at_image: &PciAtBiosImage,
+> > +        first_fwsec: &FwSecBiosPartial,
+> > +    ) -> Result {
+> > +        let mut offset =3D pci_at_image.falcon_data_ptr(pdev)? as usiz=
+e;
+> > +        let mut pmu_in_first_fwsec =3D false;
+> > +
+> > +        // The falcon data pointer assumes that the PciAt and FWSEC im=
+ages
+> > +        // are contiguous in memory. However, testing shows the EFI im=
+age sits in
+> > +        // between them. So calculate the offset from the end of the P=
+ciAt image
+> > +        // rather than the start of it. Compensate.
+> > +        offset -=3D pci_at_image.base.data.len();
+> > +
+> > +        // The offset is now from the start of the first Fwsec image, =
+however
+> > +        // the offset points to a location in the second Fwsec image. =
+Since
+> > +        // the fwsec images are contiguous, subtract the length of the=
+ first Fwsec
+> > +        // image from the offset to get the offset to the start of the=
+ second
+> > +        // Fwsec image.
+> > +        if offset < first_fwsec.base.data.len() {
+> > +            pmu_in_first_fwsec =3D true;
+> > +        } else {
+> > +            offset -=3D first_fwsec.base.data.len();
+> > +        }
+> > +
+> > +        self.falcon_data_offset =3D Some(offset);
+> > +
+> > +        if pmu_in_first_fwsec {
+> > +            self.pmu_lookup_table =3D
+> > +                Some(PmuLookupTable::new(pdev, &first_fwsec.base.data[=
+offset..])?);
+> > +        } else {
+> > +            self.pmu_lookup_table =3D Some(PmuLookupTable::new(pdev, &=
+self.base.data[offset..])?);
+> > +        }
+> > +
+> > +        match self
+> > +            .pmu_lookup_table
+> > +            .as_ref()
+> > +            .ok_or(EINVAL)?
+> > +            .find_entry_by_type(FALCON_UCODE_ENTRY_APPID_FWSEC_PROD)
+> > +        {
+> > +            Ok(entry) =3D> {
+> > +                let mut ucode_offset =3D entry.data as usize;
+> > +                ucode_offset -=3D pci_at_image.base.data.len();
+> > +                if ucode_offset < first_fwsec.base.data.len() {
+> > +                    dev_err!(pdev.as_ref(), "Falcon Ucode offset not i=
+n second Fwsec.\n");
+> > +                    return Err(EINVAL);
+> > +                }
+> > +                ucode_offset -=3D first_fwsec.base.data.len();
+> > +                self.falcon_ucode_offset =3D Some(ucode_offset);
+> > +            }
+> > +            Err(e) =3D> {
+> > +                dev_err!(
+> > +                    pdev.as_ref(),
+> > +                    "PmuLookupTableEntry not found, error: {:?}\n",
+> > +                    e
+> > +                );
+> > +                return Err(EINVAL);
+> > +            }
+> > +        }
+> > +        Ok(())
+> > +    }
+> > +}
+> > +
+> > +impl FwSecBiosImage {
+> > +    fn new(pdev: &pci::Device, data: FwSecBiosPartial) -> Result<Self>=
+ {
+> > +        let ret =3D FwSecBiosImage {
+> > +            base: data.base,
+> > +            falcon_ucode_offset: data.falcon_ucode_offset.ok_or(EINVAL=
+)?,
+> > +        };
+> > +
+> > +        if cfg!(debug_assertions) {
+> > +            // Print the desc header for debugging
+> > +            let desc =3D ret.fwsec_header(pdev.as_ref())?;
+> > +            dev_dbg!(pdev.as_ref(), "PmuLookupTableEntry desc: {:#?}\n=
+", desc);
+> > +        }
+> > +
+> > +        Ok(ret)
+> > +    }
+> > +
+> > +    /// Get the FwSec header (FalconUCodeDescV3)
+> > +    fn fwsec_header(&self, dev: &device::Device) -> Result<&FalconUCod=
+eDescV3> {
+> > +        // Get the falcon ucode offset that was found in setup_falcon_=
+data
+> > +        let falcon_ucode_offset =3D self.falcon_ucode_offset;
+> > +
+> > +        // Make sure the offset is within the data bounds
+> > +        if falcon_ucode_offset + core::mem::size_of::<FalconUCodeDescV=
+3>() > self.base.data.len() {
+> > +            dev_err!(dev, "fwsec-frts header not contained within BIOS=
+ bounds\n");
+> > +            return Err(ERANGE);
+> > +        }
+> > +
+> > +        // Read the first 4 bytes to get the version
+> > +        let hdr_bytes: [u8; 4] =3D self.base.data[falcon_ucode_offset.=
+.falcon_ucode_offset + 4]
+> > +            .try_into()
+> > +            .map_err(|_| EINVAL)?;
+> > +        let hdr =3D u32::from_le_bytes(hdr_bytes);
+> > +        let ver =3D (hdr & 0xff00) >> 8;
+> > +
+> > +        if ver !=3D 3 {
+> > +            dev_err!(dev, "invalid fwsec firmware version: {:?}\n", ve=
+r);
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        // Return a reference to the FalconUCodeDescV3 structure SAFET=
+Y: we have checked that
+> > +        // `falcon_ucode_offset + size_of::<FalconUCodeDescV3` is with=
+in the bounds of `data.`
+> > +        Ok(unsafe {
+> > +            &*(self.base.data.as_ptr().add(falcon_ucode_offset) as *co=
+nst FalconUCodeDescV3)
+> > +        })
+> > +    }
+> > +    /// Get the ucode data as a byte slice
+> > +    fn fwsec_ucode(&self, dev: &device::Device, desc: &FalconUCodeDesc=
+V3) -> Result<&[u8]> {
+> > +        let falcon_ucode_offset =3D self.falcon_ucode_offset;
+> > +
+> > +        // The ucode data follows the descriptor
+> > +        let ucode_data_offset =3D falcon_ucode_offset + desc.size();
+> > +        let size =3D (desc.imem_load_size + desc.dmem_load_size) as us=
+ize;
+> > +
+> > +        // Get the data slice, checking bounds in a single operation
+> > +        self.base
+> > +            .data
+> > +            .get(ucode_data_offset..ucode_data_offset + size)
+> > +            .ok_or(ERANGE)
+> > +            .inspect_err(|_| dev_err!(dev, "fwsec ucode data not conta=
+ined within BIOS bounds\n"))
+> > +    }
+> > +
+> > +    /// Get the signatures as a byte slice
+> > +    fn fwsec_sigs(&self, dev: &device::Device, desc: &FalconUCodeDescV=
+3) -> Result<&[u8]> {
+> > +        const SIG_SIZE: usize =3D 96 * 4;
+> > +
+> > +        let falcon_ucode_offset =3D self.falcon_ucode_offset;
+> > +
+> > +        // The signatures data follows the descriptor
+> > +        let sigs_data_offset =3D falcon_ucode_offset + core::mem::size=
+_of::<FalconUCodeDescV3>();
+> > +        let size =3D desc.signature_count as usize * SIG_SIZE;
+> > +
+> > +        // Make sure the data is within bounds
+> > +        if sigs_data_offset + size > self.base.data.len() {
+> > +            dev_err!(
+> > +                dev,
+> > +                "fwsec signatures data not contained within BIOS bound=
+s\n"
+> > +            );
+> > +            return Err(ERANGE);
+> > +        }
+> > +
+> > +        Ok(&self.base.data[sigs_data_offset..sigs_data_offset + size])
+> > +    }
+> > +}
+> >=20
 >=20
 
 --=20
