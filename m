@@ -2,71 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9646CACC031
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 08:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4903ACC024
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 08:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E241710E0FA;
-	Tue,  3 Jun 2025 06:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD23810E03C;
+	Tue,  3 Jun 2025 06:25:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N0B6ORZk";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RGfUUgAp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="syc0Mgqr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RGfUUgAp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="syc0Mgqr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0A910E0FA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 06:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748932050; x=1780468050;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=IWFtaiDn/XO87fJC+ux27MBKi9oToFneDr8KRC5wsd4=;
- b=N0B6ORZk+bxX3u4CffTeZf+QCag0rWLrzeeEdYMiWoAtn5eiNwrX/zbT
- yzNEDQ2dK92gG8bLlHsubAcfkPsRMnwAKmxFpmKyma7OR3VDguCP/pWiX
- nf+bT99LYxm8KQEaFVKhGVU5ynV/sGjnbxW50ZAEMoW3BgcCPTiOcnjRl
- AzK/Nemly+nvR1o/YPFFi2CW278GWXvqn8SgVTmLDvZQ+cutA0AjNIj29
- epN0YyDR9mo+NdYk4TkZ5HUDJEnb84qX4JRWsArWfr2U687Y3z1lnm/L5
- WjNVmCptKjjerbNIBGKQtP5s0hxaEGCW62ep7b+o4YyoOde/gXGKQ7QGx A==;
-X-CSE-ConnectionGUID: BYohe7vrQrKtK2gIu1kR7A==
-X-CSE-MsgGUID: PEFCOp+MTq2lZPNeEAln7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="62314601"
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="62314601"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2025 23:27:30 -0700
-X-CSE-ConnectionGUID: BBpJLW0fTIe4Bl5L9UVquA==
-X-CSE-MsgGUID: NtyakwF0TsCvZXIGBKTDHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="149539306"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa003.jf.intel.com with ESMTP; 02 Jun 2025 23:27:23 -0700
-Date: Tue, 3 Jun 2025 14:20:51 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
- linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- vivek.kasireddy@intel.com, yilun.xu@intel.com,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
- kevin.tian@intel.com
-Subject: Re: [RFC PATCH 17/30] iommufd/device: Add TSM Bind/Unbind for TIO
- support
-Message-ID: <aD6UQy4KwKcdSvVE@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-18-yilun.xu@linux.intel.com>
- <yq5awm9ujouz.fsf@kernel.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A01410E03C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 06:25:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B8B962126A;
+ Tue,  3 Jun 2025 06:25:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748931925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DqlhqDH+e2vFicbuco4eCCmjcNtipVk/C0dg4d70Inc=;
+ b=RGfUUgAp+m5lbTIpdHpByrBu0pni1JoL1uq6PSeKaibC23WxQx7J1p6TIYnj5Uw5/IVANn
+ mFeNed/yV6OgNeeBtjwl7Tma0K5JD29HrnVXsL9XFrd24cyNOMTJ4FFKu0amuxCUO9xfW5
+ IKpe+BBCTKaiQFWM3+9PjnyQiZMalcM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748931925;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DqlhqDH+e2vFicbuco4eCCmjcNtipVk/C0dg4d70Inc=;
+ b=syc0Mgqr+wgCce7/H3q7Lx8OCxTExO6Z5nJO5Ge04dgb119/BGQANYLHrcRVdijEfTCKNq
+ 0hTZh+bkkKbVu3Dw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RGfUUgAp;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=syc0Mgqr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748931925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DqlhqDH+e2vFicbuco4eCCmjcNtipVk/C0dg4d70Inc=;
+ b=RGfUUgAp+m5lbTIpdHpByrBu0pni1JoL1uq6PSeKaibC23WxQx7J1p6TIYnj5Uw5/IVANn
+ mFeNed/yV6OgNeeBtjwl7Tma0K5JD29HrnVXsL9XFrd24cyNOMTJ4FFKu0amuxCUO9xfW5
+ IKpe+BBCTKaiQFWM3+9PjnyQiZMalcM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748931925;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DqlhqDH+e2vFicbuco4eCCmjcNtipVk/C0dg4d70Inc=;
+ b=syc0Mgqr+wgCce7/H3q7Lx8OCxTExO6Z5nJO5Ge04dgb119/BGQANYLHrcRVdijEfTCKNq
+ 0hTZh+bkkKbVu3Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B4B513A1D;
+ Tue,  3 Jun 2025 06:25:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id f/MgCFWVPmi1egAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Jun 2025 06:25:25 +0000
+Message-ID: <c0b91a50-d3e7-44f9-b9c5-9c3b29639428@suse.de>
+Date: Tue, 3 Jun 2025 08:25:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yq5awm9ujouz.fsf@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
+ memory framebuffers
+To: Michael Kelley <mhklinux@outlook.com>,
+ David Hildenbrand <david@redhat.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc: "weh@microsoft.com" <weh@microsoft.com>, "hch@lst.de" <hch@lst.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20250523161522.409504-1-mhklinux@outlook.com>
+ <20250523161522.409504-4-mhklinux@outlook.com>
+ <de0f2cb8-aed6-436f-b55e-d3f7b3fe6d81@redhat.com>
+ <SN6PR02MB41573C075152ECD8428CAF5ED46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <SN6PR02MB41573C075152ECD8428CAF5ED46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[outlook.com,redhat.com,ffwll.ch,gmx.de,microsoft.com,kernel.org,linux-foundation.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de,outlook.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B8B962126A
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,97 +168,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 02, 2025 at 06:13:16PM +0530, Aneesh Kumar K.V wrote:
-> Xu Yilun <yilun.xu@linux.intel.com> writes:
-> 
-> ....
-> 
-> > +/**
-> > + * iommufd_device_tsm_bind - Move a device to TSM Bind state
-> > + * @idev: device to attach
-> > + * @vdev_id: Input a IOMMUFD_OBJ_VDEVICE
-> > + *
-> > + * This configures for device Confidential Computing(CC), and moves the device
-> > + * to the TSM Bind state. Once this completes the device is locked down (TDISP
-> > + * CONFIG_LOCKED or RUN), waiting for guest's attestation.
-> > + *
-> > + * This function is undone by calling iommufd_device_tsm_unbind().
-> > + */
-> > +int iommufd_device_tsm_bind(struct iommufd_device *idev, u32 vdevice_id)
-> > +{
-> > +	struct iommufd_vdevice *vdev;
-> > +	int rc;
-> > +
-> > +	if (!dev_is_pci(idev->dev))
-> > +		return -ENODEV;
-> > +
-> > +	vdev = container_of(iommufd_get_object(idev->ictx, vdevice_id, IOMMUFD_OBJ_VDEVICE),
-> > +			    struct iommufd_vdevice, obj);
-> > +	if (IS_ERR(vdev))
-> > +		return PTR_ERR(vdev);
-> > +
-> > +	if (vdev->dev != idev->dev) {
-> > +		rc = -EINVAL;
-> > +		goto out_put_vdev;
-> > +	}
-> > +
-> > +	mutex_lock(&idev->igroup->lock);
-> > +	if (idev->vdev) {
-> > +		rc = -EEXIST;
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	rc = iommufd_vdevice_tsm_bind(vdev);
-> > +	if (rc)
-> > +		goto out_unlock;
-> > +
-> > +	idev->vdev = vdev;
-> > +	refcount_inc(&vdev->obj.users);
-> > +	mutex_unlock(&idev->igroup->lock);
-> > +
-> > +	/*
-> > +	 * Pairs with iommufd_device_tsm_unbind() - catches caller bugs attempting
-> > +	 * to destroy a bound device.
-> > +	 */
-> > +	refcount_inc(&idev->obj.users);
-> >
-> 
-> Do we really need this refcount_inc? As I understand it, the objects
+Hi
 
-The idev refcount is not necessary, it is just to "catch caller bug".
+Am 03.06.25 um 03:49 schrieb Michael Kelley:
+[...]
+>> Will the VMA have VM_PFNMAP or VM_MIXEDMAP set? PFN_SPECIAL is a
+>> horrible hack.
+>>
+>> In another thread, you mention that you use PFN_SPECIAL to bypass the
+>> check in vm_mixed_ok(), so VM_MIXEDMAP is likely not set?
+> The VMA has VM_PFNMAP set, not VM_MIXEDMAP.  It seemed like
+> VM_MIXEDMAP is somewhat of a superset of VM_PFNMAP, but maybe that's
+> a wrong impression. vm_mixed_ok() does a thorough job of validating the
+> use of __vm_insert_mixed(), and since what I did was allowed, I thought
+> perhaps it was OK. Your feedback has set me straight, and that's what I
+> needed. :-)
+>
+> But the whole approach is moot with Alistair Popple's patch set that
+> eliminates pfn_t. Is there an existing mm API that will do mkwrite on a
+> special PTE in a VM_PFNMAP VMA? I didn't see one, but maybe I missed
+> it. If there's not one, I'll take a crack at adding it in the next version of my
+> patch set.
 
-> aren't being pinned directly. Instead, the reference count seems to be
-> used more as a way to establish an object hierarchy, ensuring that
-> objects are freed in the correct order.
-> 
-> In vfio_pci_core_close_device(), you’re decrementing the reference, and
-> on the iommufd side, we’re covered because the VFIO bind operation takes
-> a file reference (fget)—so iommufd_fops_release() won’t be called
-> prematurely.
+What is the motivation behind this work? The driver or fbdev as a whole 
+does not have much of a future anyway.
 
-Correct.
+I'd like to suggest removing hyperv_fb entirely in favor of hypervdrm?
 
-> 
-> Wouldn’t it be simpler to skip the reference count increment altogether
-> and just call tsm_unbind in the virtual device’s destroy callback?
-> (iommufd_vdevice_destroy())
+Best regards
+Thomas
 
-The vdevice refcount is the main concern, there is also an IOMMU_DESTROY
-ioctl. User could just free the vdevice instance if no refcount, while VFIO
-is still in bound state. That seems not the correct free order.
+>
+> Michael
 
-Thanks,
-Yilun
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> 
-> > +	goto out_put_vdev;
-> > +
-> > +out_unlock:
-> > +	mutex_unlock(&idev->igroup->lock);
-> > +out_put_vdev:
-> > +	iommufd_put_object(idev->ictx, &vdev->obj);
-> > +	return rc;
-> > +}
-> > +EXPORT_SYMBOL_NS_GPL(iommufd_device_tsm_bind, "IOMMUFD");
-> 
-> -aneesh
