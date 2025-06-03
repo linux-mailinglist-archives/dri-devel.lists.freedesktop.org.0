@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2EBACC4AD
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BB0ACC4C1
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:56:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A95510E6C1;
-	Tue,  3 Jun 2025 10:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A7710E027;
+	Tue,  3 Jun 2025 10:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RCUqy7dV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YD+/Vwnd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49EF410E6AC;
- Tue,  3 Jun 2025 10:51:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1748947883;
- bh=l1R9GZqWNizruxzdd8oLnHcO+JoXYyULLOkxArw+8k4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=RCUqy7dVzwwTcFboWPbbv42M4z2pTILQ/g70P4mFc2JzLCpL0V5gzdEBhh1oEPo7C
- 65tUV+CWXMwz6EAS/hjVXVwbJJwfrwAFTUfrDoVUdSoZaHWsLuY3qGsq0CSOQwfvBR
- TWYk8pcLI2Br2MZjPGUzTyn8l9rryOtIui63J8HYyEeaaR0SBx0jl6Er+GU5xE6tjY
- aCHuJiQeqeiCufch/VFTrSKZIMTe+oZPR1+NZrYbVOUT4V57r/NapOw8lag8l0LNO4
- 6aG8zaTzwzAzBzPJJFym6jnEUmC0MwzhxkZu3ZyX333n8khbiMJgcktfmkUFZ1Woi7
- RfK4VPp3ZoeFw==
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CB6717E0FDB;
- Tue,  3 Jun 2025 12:51:22 +0200 (CEST)
-Date: Tue, 3 Jun 2025 13:51:08 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>
-Cc: Simon Ser <contact@emersion.fr>, Harry Wentland
- <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "leo.liu@amd.com" <leo.liu@amd.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "mwen@igalia.com" <mwen@igalia.com>, "jadahl@redhat.com"
- <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
- <shashank.sharma@amd.com>, "agoins@nvidia.com" <agoins@nvidia.com>,
- "joshua@froggi.es" <joshua@froggi.es>, "mdaenzer@redhat.com"
- <mdaenzer@redhat.com>, "aleixpol@kde.org" <aleixpol@kde.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, "victoria@system76.com"
- <victoria@system76.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "quic_naseer@quicinc.com" <quic_naseer@quicinc.com>,
- "quic_cbraga@quicinc.com" <quic_cbraga@quicinc.com>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, "marcan@marcan.st"
- <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
- "sashamcintosh@google.com" <sashamcintosh@google.com>, "Borah, Chaitanya
- Kumar" <chaitanya.kumar.borah@intel.com>, "louis.chauvet@bootlin.com"
- <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH V8 32/43] drm/colorop: Add 1D Curve Custom LUT type
-Message-ID: <20250603135108.603fa6e6@eldfell>
-In-Reply-To: <DM4PR11MB6360BFCB5756A16F38945DE7F46DA@DM4PR11MB6360.namprd11.prod.outlook.com>
-References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-33-alex.hung@amd.com>
- <CY5PR11MB63441E057180C043C51230A3F4B22@CY5PR11MB6344.namprd11.prod.outlook.com>
- <fzuE3KXuocsKA0I9kWXruyw7IVbw3jwH2yeh59SfE0Qb0SGxa29rrj9X_XgNCdmj1vWgxLO619xyJY3r5R3hsZK6ElIkTvbyNfu40x1SiZM=@emersion.fr>
- <CY5PR11MB63449DBA54519766E345CADAF4B22@CY5PR11MB6344.namprd11.prod.outlook.com>
- <3ca1958f-62e0-4a5c-837b-3cd705acc181@amd.com>
- <ZqHOWK3X_Ici9wNgijgeUt9r3asi4jhqw-0-keIfXYAFxbsGLaFTIozGHHR64SnkAzPA4CM-zmc6OwVtrKMKjVyoblti88KpRf9wEu8daP0=@emersion.fr>
- <DM4PR11MB6360CE0C5C99FB02CD6CC0BFF499A@DM4PR11MB6360.namprd11.prod.outlook.com>
- <20250530165818.0e6cb846@eldfell>
- <DM4PR11MB6360BFCB5756A16F38945DE7F46DA@DM4PR11MB6360.namprd11.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C0910E027
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 10:56:54 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-adb2bd27c7bso771810566b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 03:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748948213; x=1749553013; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/7blXBO4JKraFXyZYVYjtLes0xIhtY9NoXA5LD7gBEk=;
+ b=YD+/VwndclrUkyjX0jqGmQmL+BU1kDX5wX6WUrcb3JNamjLO7tcjJtcwNYPbrSrRY7
+ X/YJnajpbfoxQvbcujLzHQpVgzj6d7qWsw2YJIXFXAzipYXew5lK1gfKgrBLbDrgRQdX
+ TEL3s1b1bmzHulFVLYJE2zoyaMaqpVx5va4eyIdPLig6jeYS8j3SzJPamF+678QXxncR
+ w4nxaUBKbeM5+QyFZbn5RpMK1PdcMElfpnU2bsJ8b2z7D4NX7cHM8V4bvwQQTmqztGba
+ Frm7c3ZAeg7b8c7rOQub+n4xQcO1+wfDzuLznBimMusJynNvaJkI520sqsN7nhhH99gs
+ 1m0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748948213; x=1749553013;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/7blXBO4JKraFXyZYVYjtLes0xIhtY9NoXA5LD7gBEk=;
+ b=TCZXH/MWEUNJVeadN98TF4uLCIxivlFPrRNsn142j24Ol1B6wdU+9CeIz7TMKuq/vn
+ D+1wMaUN5TXuFqYUE/1wCHFPTDwS6L40Way1SWsLhesLBcYgH5axYuSgyB2tYsMQx3gN
+ A6vQi2L3h+AIgZNyHGhKzxiWdZXh6F9h/ht2c1ug/EISTqQ4zOQattmK0SDrmLakC019
+ hhY8dE4fdEeSp8JxuCMeJ/GfKUdfXG6fLjQWGoABNWNPEde7L2OxvzqkpW7S9njD3ZXb
+ 8VlK0ciVvsNlpdyEcCCMEcPPOG+p6HYEkGcverFU9WtKrWspgY/EZuaDuDfFYEibdeh7
+ 8jDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6Weyke+LJWilLlETyXmWLIEQUv50RswZe+tmfgGwHLPASt582W2KRhVHlT41l9LZWqkzAbxx6zq8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRMIn37qX8bVj4OGr8fhe37gnikOxUfWxyoHBEXpNZXLOgSIQ4
+ M7ec5ioYk/N9P20jJKJCtVI1pype5xa2slj9ux0bTvZr4lM1S6ALJ/xoYgG1P0/AJv8TR7PB9MW
+ r9l5jqllL+ykuEPtR6TQqzkcmTeXMNz8=
+X-Gm-Gg: ASbGncuvInAI0K4w2k/j7ti/OLXG9sNMrXbTU69TweUySqqn3v4EqG1r42rf4U3cQDC
+ 3b5nAPNn5pDfKcmzwDSEUYKaHSHimmWFzl3NKO29JYtrIvmTzFw/XjcYmG/3HZ+xiicX2L90w1c
+ NlfJiSEdxUalPl5zW4pnrMBUtIin4+Jfui
+X-Google-Smtp-Source: AGHT+IGpvLn8hqrgPkcWVTHoe15k+0yqKJqtqmp3PMmzbuAIudjHSPH95skJXXoflNa4a233DOM5y2pvJ1SiAlHm6rU=
+X-Received: by 2002:a17:907:da9:b0:ad8:97d8:a52e with SMTP id
+ a640c23a62f3a-adb495983admr1239171966b.55.1748948212831; Tue, 03 Jun 2025
+ 03:56:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7R8qp=RIo_YSw9KICy5ic/I";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <20250603095245.17478-2-tao.wangtao@honor.com>
+In-Reply-To: <20250603095245.17478-2-tao.wangtao@honor.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 3 Jun 2025 12:56:41 +0200
+X-Gm-Features: AX0GCFvUGt-jkPjKb-TaQfCiyDY6ri9AEn30VaTl2bfo8Rvzx6IYm2tIEQwOB0U
+Message-ID: <CAOQ4uxgYmSLY25WtQjHxvViG0eNSSsswF77djBJZsSJCq1OyLA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memory file
+ with direct I/O
+To: wangtao <tao.wangtao@honor.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, kraxel@redhat.com, 
+ vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+ hughd@google.com, akpm@linux-foundation.org, benjamin.gaignard@collabora.com, 
+ Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, jack@suse.cz, 
+ baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com, 
+ liulu.liu@honor.com, feng.han@honor.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,156 +92,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7R8qp=RIo_YSw9KICy5ic/I
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 3, 2025 at 11:53=E2=80=AFAM wangtao <tao.wangtao@honor.com> wro=
+te:
+>
+> Memory files can optimize copy performance via copy_file_range callbacks:
+> -Compared to mmap&read: reduces GUP (get_user_pages) overhead
+> -Compared to sendfile/splice: eliminates one memory copy
+> -Supports dma-buf direct I/O zero-copy implementation
+>
+> Suggested by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Suggested by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: wangtao <tao.wangtao@honor.com>
+> ---
+>  fs/read_write.c    | 64 +++++++++++++++++++++++++++++++++++++---------
+>  include/linux/fs.h |  2 ++
+>  2 files changed, 54 insertions(+), 12 deletions(-)
+>
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index bb0ed26a0b3a..ecb4f753c632 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1469,6 +1469,31 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, in=
+t, in_fd,
+>  }
+>  #endif
+>
+> +static const struct file_operations *memory_copy_file_ops(
+> +                       struct file *file_in, struct file *file_out)
+> +{
+> +       if ((file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> +           (file_in->f_mode & FMODE_CAN_ODIRECT) &&
+> +           file_in->f_op->copy_file_range && file_out->f_op->write_iter)
+> +               return file_in->f_op;
+> +       else if ((file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> +                (file_out->f_mode & FMODE_CAN_ODIRECT) &&
+> +                file_in->f_op->read_iter && file_out->f_op->copy_file_ra=
+nge)
+> +               return file_out->f_op;
+> +       else
+> +               return NULL;
+> +}
+> +
+> +static int essential_file_rw_checks(struct file *file_in, struct file *f=
+ile_out)
+> +{
+> +       if (!(file_in->f_mode & FMODE_READ) ||
+> +           !(file_out->f_mode & FMODE_WRITE) ||
+> +           (file_out->f_flags & O_APPEND))
+> +               return -EBADF;
+> +
+> +       return 0;
+> +}
+> +
+>  /*
+>   * Performs necessary checks before doing a file copy
+>   *
+> @@ -1484,9 +1509,16 @@ static int generic_copy_file_checks(struct file *f=
+ile_in, loff_t pos_in,
+>         struct inode *inode_out =3D file_inode(file_out);
+>         uint64_t count =3D *req_count;
+>         loff_t size_in;
+> +       bool splice =3D flags & COPY_FILE_SPLICE;
+> +       const struct file_operations *mem_fops;
+>         int ret;
+>
+> -       ret =3D generic_file_rw_checks(file_in, file_out);
+> +       /* The dma-buf file is not a regular file. */
+> +       mem_fops =3D memory_copy_file_ops(file_in, file_out);
+> +       if (splice || mem_fops =3D=3D NULL)
 
-On Tue, 3 Jun 2025 08:30:23 +0000
-"Shankar, Uma" <uma.shankar@intel.com> wrote:
+nit: use !mem_fops please
 
-> > -----Original Message-----
-> > From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Sent: Friday, May 30, 2025 7:28 PM
-> > To: Shankar, Uma <uma.shankar@intel.com>
-> > Cc: Simon Ser <contact@emersion.fr>; Harry Wentland
-> > <harry.wentland@amd.com>; Alex Hung <alex.hung@amd.com>; dri-
-> > devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; intel-
-> > gfx@lists.freedesktop.org; wayland-devel@lists.freedesktop.org;
-> > leo.liu@amd.com; ville.syrjala@linux.intel.com; pekka.paalanen@collabor=
-a.com;
-> > mwen@igalia.com; jadahl@redhat.com; sebastian.wick@redhat.com;
-> > shashank.sharma@amd.com; agoins@nvidia.com; joshua@froggi.es;
-> > mdaenzer@redhat.com; aleixpol@kde.org; xaver.hugl@gmail.com;
-> > victoria@system76.com; daniel@ffwll.ch; quic_naseer@quicinc.com;
-> > quic_cbraga@quicinc.com; quic_abhinavk@quicinc.com; marcan@marcan.st;
-> > Liviu.Dudau@arm.com; sashamcintosh@google.com; Borah, Chaitanya Kumar
-> > <chaitanya.kumar.borah@intel.com>; louis.chauvet@bootlin.com
-> > Subject: Re: [PATCH V8 32/43] drm/colorop: Add 1D Curve Custom LUT type
-> >=20
-> > On Thu, 22 May 2025 11:33:00 +0000
-> > "Shankar, Uma" <uma.shankar@intel.com> wrote:
-> >  =20
-> > > One request though: Can we enhance the lut samples from existing
-> > > 16bits to 32bits as lut precision is going to be more than 16 in cert=
-ain hardware. =20
-> > While adding the new UAPI, lets extend this to 32 to make it future pro=
-of. =20
-> > > Reference:
-> > > https://patchwork.freedesktop.org/patch/642592/?series=3D129811&rev=
-=3D4
-> > >
-> > > +/**
-> > > + * struct drm_color_lut_32 - Represents high precision lut values
-> > > + *
-> > > + * Creating 32 bit palette entries for better data
-> > > + * precision. This will be required for HDR and
-> > > + * similar color processing usecases.
-> > > + */
-> > > +struct drm_color_lut_32 {
-> > > +	/*
-> > > +	 * Data for high precision LUTs
-> > > +	 */
-> > > +	__u32 red;
-> > > +	__u32 green;
-> > > +	__u32 blue;
-> > > +	__u32 reserved;
-> > > +}; =20
-> >=20
-> > Hi,
-> >=20
-> > I suppose you need this much precision for optical data? If so, floatin=
-g-point would
-> > be much more appropriate and we could probably keep 16-bit storage.
-> >=20
-> > What does the "more than 16-bit" hardware actually use? ISTR at least A=
-MD
-> > having some sort of float'ish point internal pipeline?
-> >=20
-> > This sounds the same thing as non-uniformly distributed taps in a LUT.
-> > That mimics floating-point input while this feels like floating-point o=
-utput of a LUT.
-> >=20
-> > I've recently decided for myself (and Weston) that I will never store o=
-ptical data in
-> > an integer format, because it is far too wasteful. That's why the elect=
-rical
-> > encodings like power-2.2 are so useful, not just for emulating a CRT. =
-=20
->=20
-> Hi Pekka,
-> Internal pipeline in hardware can operate at higher precision than the in=
-put framebuffer
-> to plane engines. So, in case we have optical data of 16bits or 10bits pr=
-ecision, hardware
-> can scale this up to higher precision in internal pipeline in hardware to=
- take care of rounding
-> and overflow issues. Even FP16 optical data will be normalized and conver=
-ted internally for
-> further processing.
+Considering that the flag COPY_FILE_SPLICE is not allowed
+from userspace and is only called by nfsd and ksmbd
+I think we should assert and deny the combination of
+mem_fops && splice because it is very much unexpected.
 
-Is it integer or floating-point?
+After asserting this, it would be nicer to write as:
+        if (mem_fops)
+               ret =3D essential_file_rw_checks(file_in, file_out);
+        else
+               ret =3D generic_file_rw_checks(file_in, file_out);
 
-If we take the full range of PQ as optical and put it into 16-bit
-integer format, the luminance step from code 1 to code 2 is 0.15 cd/m=C2=B2.
-That seems like a huge step in the dark end. Such a step would
-probably need to be divided over several taps in a LUT, which wouldn't
-be possible.
+> +       else
+> +               ret =3D essential_file_rw_checks(file_in, file_out);
+>         if (ret)
+>                 return ret;
+>
+> @@ -1500,8 +1532,10 @@ static int generic_copy_file_checks(struct file *f=
+ile_in, loff_t pos_in,
+>          * and several different sets of file_operations, but they all en=
+d up
+>          * using the same ->copy_file_range() function pointer.
+>          */
+> -       if (flags & COPY_FILE_SPLICE) {
+> +       if (splice) {
+>                 /* cross sb splice is allowed */
+> +       } else if (mem_fops !=3D NULL) {
 
-In that sense, if a LUT is used for the PQ EOTF, I totally agree that
-16-bit integer won't be even nearly enough precision.
+With the assertion that splice && mem_fops is not allowed
+if (splice || mem_fops) {
 
-This actually points out the caveat that increasing the number of taps
-in a LUT can cause the LUT to become non-monotonic when the sample
-precision runs out. That is, consecutive taps don't always increase in
-value.
+would go well together because they both allow cross-fs
+copy not only cross sb.
 
-> Input to LUT hardware can be 16bits or even higher, so the look up table =
-we program can
-> be of higher precision than 16 (certain cases 24 in Intel pipeline). This=
- is later truncated to bpc supported
-> in output formats from sync (10, 12 or 16), mostly for electrical value t=
-o be sent to sink.
->=20
-> Hence requesting to increase the container from current u16 to u32, to ge=
-t advantage of higher
-> precision luts.
+> +               /* cross-fs copy is allowed for memory file. */
+>         } else if (file_out->f_op->copy_file_range) {
+>                 if (file_in->f_op->copy_file_range !=3D
+>                     file_out->f_op->copy_file_range)
+> @@ -1554,6 +1588,7 @@ ssize_t vfs_copy_file_range(struct file *file_in, l=
+off_t pos_in,
+>         ssize_t ret;
+>         bool splice =3D flags & COPY_FILE_SPLICE;
+>         bool samesb =3D file_inode(file_in)->i_sb =3D=3D file_inode(file_=
+out)->i_sb;
+> +       const struct file_operations *mem_fops;
+>
+>         if (flags & ~COPY_FILE_SPLICE)
+>                 return -EINVAL;
+> @@ -1574,18 +1609,27 @@ ssize_t vfs_copy_file_range(struct file *file_in,=
+ loff_t pos_in,
+>         if (len =3D=3D 0)
+>                 return 0;
+>
+> +       if (splice)
+> +               goto do_splice;
+> +
+>         file_start_write(file_out);
+>
 
-My argument though is to use a floating-point format for the LUT samples
-instead of adding more and more integer bits. That naturally puts more
-precision where it is needed: near zero.
+goto do_splice needs to be after file_start_write
 
-A driver can easily convert that to any format the hardware needs.
-
-However, it might make best sense for a driver to expose a LUT with a
-format that best matches the hardware precision, especially
-floating-point vs. integer.
-
-I guess we may eventually need both 32 bpc integer and 16 (or 32) bpc
-floating-point.
-
+Please wait for feedback from vfs maintainers before posting another
+version addressing my review comments.
 
 Thanks,
-pq
-
---Sig_/7R8qp=RIo_YSw9KICy5ic/I
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmg+05wACgkQI1/ltBGq
-qqeRKg/4zw43UUJlzyeuKGFOfQYVK1NTXcg/bfOcxZWkdCvI7jB3aYBljVHjlnD8
-DpHvKYdDtKp+W8ixe9MpPBk+eL2a5wF1Szxo3gX+tiDRExayDaqOMphDXNw8aCAK
-YpwaMYcNH9VinSNTeLawOzm/Qs7tVxSIKxNqX4/uNW7YmtmT79Bq/QN+DuB8NvS9
-etwZctYYpm3Aa2f2QTyF8uy6GcRwmSh3yKYjEs6lCHjA09ekO8VPKTTzP+YEUTtx
-Wv0WzRhVzfm59CX7P2u/sfpl8uq2TSk3I4k2H2oK+lKpj/tbTvXF3kySLHm7UvY5
-OKtEZIvRDsZaW85d7aUrTehXgWkxjLFCOp1rgg09DSc8mBPU4Fkvn78j6afl4dZW
-n6mmk88TwiNkCIZecb4hzDXdUx6gl5suKGfJlgOe3TQyz05ng2tyd0FyW0/Wzizx
-rsy18wsKLdj23XhjqBOR3HitPEx6f+hqNBJVKxazYPl55dNm2SuNS/MeR/bsuqru
-C8WtPjr3WFosg1UPVePESvCZW28/FrZvgtnBdP3X3hQKOJH2KypcPGblYboOv4Z0
-dRIr+7F7cidi8reLWx3Hwq7LALyrdDsvu5bfE5ofqIiVdrAwy4pJhD9Vcu+wPyHi
-JjEvr6nnYN8IFnxhUweiswPbj6RJi15JyaanKfN7afC6zagfFw==
-=C9X5
------END PGP SIGNATURE-----
-
---Sig_/7R8qp=RIo_YSw9KICy5ic/I--
+Amir.
