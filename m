@@ -2,188 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5D5ACC88B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 15:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DAAACC89B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 16:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A55510E6A3;
-	Tue,  3 Jun 2025 13:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF70D10E62C;
+	Tue,  3 Jun 2025 14:00:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SmzaBrAO";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tba1RTyj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9414310E088;
- Tue,  3 Jun 2025 13:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748959052; x=1780495052;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yRdXHJ55UJzG/PR1PVLV/GhxunGzf0m75fyJ8H3EUJU=;
- b=SmzaBrAOxR/tq9sJnF3FtIwamkgkVZIOTr3twSP/L8mHNTAfM1ObN2EP
- oT3SmvkTh7yIDWp40XO4A8asvC7w5qzLfmwiELTB9UtKlLH1YzAw0NC0G
- mneIHz/rgVw3qjluT0tN12rYGFcu7//rLDSnV+dw2QvYull7VYUXH0P4d
- imMy4zZR0LbsVjCLnShOZKz+WeNGsm9ffkzSZpGbPZdMIWABc+VQj9BHG
- SeDK1wonAjRwrwlfZXUhHSELHjlqfbOGSfFKAGmk0ktmDKODHiiwcjUBM
- aQ00nsnnV0ZErnBL3XTSJTnBtq+Z1RHJNwXUV3l0n29ShoshcUenmGOJ5 w==;
-X-CSE-ConnectionGUID: 9MPBE1dhSwS4O8lh+/ormA==
-X-CSE-MsgGUID: YzWakeZLTi6rqIOUQZ50Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="53628524"
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="53628524"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 06:57:32 -0700
-X-CSE-ConnectionGUID: iBCHGZ+ITxKqgv1tmCNcTA==
-X-CSE-MsgGUID: qsHuKZpXTlCFplRsMcMh4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="149909785"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 06:57:33 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 3 Jun 2025 06:57:31 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 3 Jun 2025 06:57:31 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.74)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 3 Jun 2025 06:57:31 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2074.outbound.protection.outlook.com [40.107.236.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C600710E20B;
+ Tue,  3 Jun 2025 14:00:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FNV7lFUad49/NTirhZfTedvQEDJ38AsFCeySSe7ylIyKy4GNwaWtVo9pIoVRC3KhNjiGFxJrx2HrIiBEi76HumkHi3+iWusF6KvL0ZlAHFSu4igwsx1b6l0zvjAsJqA5KR1+gN9iUmj/5JbjoGu6bHhHceZI458BD3hpxGXdMlE1N0FUyzzXn/xD5Ul/Z/qZFfzmubAVmKXHDwEkuYENLNo2szB4GGz9awj3L+b5r34etCaJ2lkc6ZA2HjJIf8XQujSb9QOk+dt4mjQ3JzogMGMTo+CTX0C43OnH0q8B80WQCmoQDHJbVuXtCGJERz5xqOuNDrqd0rmH8P4WVTBFBw==
+ b=o60cI6FZ17/lrskzl+WOT/UD5Dt17iqTDUT1HEZaV+LoZhyqebQiTvkMzR4NxQl9ucqap8CxKzY4INqcvVUxUUkRmRTbxQhLPDdgkbIdzzzev8T/HZE83cHqWQlxI4JwzAcryrRA1tT7t3eLr7SjWGtLIDla1sdO7WzzsZsd7FHL/Jfp+x1bx3SAkxnR38TKtrw0xl3pfNq3BIT6EzNbIDoEGfQRYjbBwG3awYtZ8wvrnpMxU/7+9wajndHYFqgeAEfRtevfi0gpoPACEQXd+8FujB7yXasA7Kx5ZYVs7ogJmeWsFpHcY19t+EhroXksxDQ7+1gg8FoDdXZZLDotHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tRWTzQItkCzNfH+JhLzRO313ohrBXIiYYuO6BPCqtJs=;
- b=j5wUeFT0eVVCy2Uc6PVojcFT+8aabKA7kZ+ZnXW5E9DR73UX8SrtuCuyT3EoOeERiPn84JXb3SF4e6y8broGgPihhFsWgLmqSJyo7S+kZ4Gkn/hvC0VK/AxWfKlWYUfQ4TkGIasumOyKaYpeZX6OFnDOXOI97Zzh1XrRM5l7MmXKlNj49zsEb2F9GQV+eQk9K9eNNUzpouVPZ+aMNnE8pB4vioBjAnLEV4dWLhtO3FNu358f7W8lKPB9N7tV+FnAGSDoCviq5Vls03snx8Jj4czax7g/lqSrYhBEZhSX6LexDZuAKnnKTZf+QkOow88cFlNdyyj6ncIyw59ccyU2aA==
+ bh=EIp9/2S88QeOFvI1ayGg1v0yiduhQ+wee95DOK+6Z5c=;
+ b=wl58RNc0b5miN13pWkEwyrb0MUwQASAQaUhnkZCL14Eqk8dZ8v5h59KwTzUoDy9RqMiL+Yj0q5St+ByP+708tjyCRcFZKYZW9QfKeMbEMbFkwAwu8JCrAK543diwT3iLqy2xXG9B1SeevYCLoO8HovDPDLzWCgMPrph3VYJ1yjQDRKcgZlc8tGuOg36HtjnOpQPBzJHKcKp2f9K05zj5WgInkg8xgihSA5gUvcXcN2P1XCcUN7BYOaD/BuPBgD/LOY9qODzPzuhwPYyyloil/cHBc5EHyEgG93ZarxYoRaMSZd72zVg/U/Cnu6jOBzeQRfncMvxEYNtdoVEtM79kCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EIp9/2S88QeOFvI1ayGg1v0yiduhQ+wee95DOK+6Z5c=;
+ b=tba1RTyjAqitCsdu/lwYKJ4GHP/uOZQqVcQ1RfM/x32HW0G0y+yKCmmsDaIh32ArH+Of6irP5sAZomR9PcFEB2rOxrbt86AN07Jyhckq13KP/6RMvgb+gAoDG5gSzKZXgacgPbLCeFTo+TflAf64UpDnzyQNRjTxu2kDyz4H0wA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by MN2PR11MB4758.namprd11.prod.outlook.com (2603:10b6:208:260::16)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6073.namprd12.prod.outlook.com (2603:10b6:a03:488::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 3 Jun
- 2025 13:57:15 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9%6]) with mapi id 15.20.8769.037; Tue, 3 Jun 2025
- 13:57:14 +0000
-Message-ID: <669ee9d4-82a1-4022-ab42-bf4465f56e53@intel.com>
-Date: Tue, 3 Jun 2025 19:27:06 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Tue, 3 Jun
+ 2025 14:00:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
+ 14:00:33 +0000
+Message-ID: <da0db1bb-64fa-4a42-b14a-694e98c6f057@amd.com>
+Date: Tue, 3 Jun 2025 16:00:26 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/9] drm/xe/xe_late_bind_fw: Initialize late binding firmware
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>
-References: <20250429160956.1014376-1-badal.nilawar@intel.com>
- <20250429160956.1014376-5-badal.nilawar@intel.com>
- <359f8288-480a-47f0-97e6-9bcda94cff30@intel.com>
+Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
+References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
+ <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
+ <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
+ <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
+ <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
+ <d483076a-b12f-4ade-b699-ee488df298ba@igalia.com>
+ <2ffc513c-2d11-4b76-b9c9-c7cb7841e386@amd.com>
+ <7598fd9c-7169-4a01-a24a-b9e666e9a915@igalia.com>
+ <3b614b74-4e6a-4e8a-9390-6f65ce788d02@amd.com>
+ <055d9c65-b338-406f-a0e1-1e1b80b89566@igalia.com>
 Content-Language: en-US
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <359f8288-480a-47f0-97e6-9bcda94cff30@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <055d9c65-b338-406f-a0e1-1e1b80b89566@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA1PR01CA0176.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:d::11) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+X-ClientProxiedBy: MN2PR18CA0001.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|MN2PR11MB4758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 915a042b-661c-4090-9a75-08dda2a68b6c
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 765f2317-e498-4090-2cb5-08dda2a70205
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QjBIMGhuYzZsQmZDL2ZoeWpvRFM5ajZIUTVrTFQ0d0FadkcyU1NiOGRYaVNQ?=
- =?utf-8?B?ZUtHamNHVmtYVGx0dFEreVJ1T0pvbnVIRFBid0kyVEpEd296UkY0S0UvQ3lk?=
- =?utf-8?B?N1VnVmRZMm8yekNhTGlPZTBLY000T0ZUekZ6UHpmTFArNVZ4RU5TTFczanlZ?=
- =?utf-8?B?SXpWSk9kVUJ4TE4vUUk2Lzl4UExuUDRrYmZ0NjVUTmJYb3hCRjFiczMwZCt3?=
- =?utf-8?B?RWhNSlB5WGJpdVZkS3NDdTZBTUpJSUtrTnRqRks0WFFLMWJRZGlmZnh3QkZz?=
- =?utf-8?B?UUlGNXhJNzl5OUV3RWhtcDhHZ2pCYlh6ZkxpNzVkUVhpVzA2QXQ2TW9obll3?=
- =?utf-8?B?NlhxbFVxOTZkZWNiMnBUejROZmdWeUFtYkcwUTRsNy9idTluU25QMFJIeVVt?=
- =?utf-8?B?VnVkbEl3ejdtbjNFNWQvcXpLa2N0Y2k2UVFYakRFL2JvOFlNQXEzdEVjZHNs?=
- =?utf-8?B?TW1xNlYxMVJvUVY4TGQ1aHZWMTR3c0FYM1B0Y1F5UTFzdXpwU0wvMmF3bzh0?=
- =?utf-8?B?Z3dTZy8raWVBNW5wQlcxYjZDYVFsNDMzLzZRT0NvSHpzOXdBbnQwaU55Zkpx?=
- =?utf-8?B?U3RyU3dvV3ZMaWtNZzJOMWR5Y21OMHBHQlRCVWUzUjhaaVNhaUNFSmpSZXNK?=
- =?utf-8?B?YTQ0M1o3b1dCeXozZVJjenR4Q1d1aktBRzVSOVpOektTYWd0UHdNeW8zcndP?=
- =?utf-8?B?bmNEK3UyYlRmeFQ3d2FRaW9CVGdRSGdCQm02T002eEFQYjNuWldOTDM4dTFY?=
- =?utf-8?B?VTd4c09LcURLT1dNdDlYRmVZS1k4R2Rhc0s2c2dJMEVjMisrKzVPNXpkdHZF?=
- =?utf-8?B?S1VxanBuQkF5TmJ4MndMZjdmcTVramhiT1Q5WFRBWVhpd0o3TXBUTEJLVlB6?=
- =?utf-8?B?QzJGMGdBNzQybmN4a0xzRFZKUU9XZDZVVXBtVndhcTdkQ1BHZ09SZjV3RjdI?=
- =?utf-8?B?NWs1bS8yRk5JNjlBS1htZ0twZnpUSTEzc0lZOGxxeDRocnNDZWFFanMzZE5Q?=
- =?utf-8?B?VUF1c1V3ZWhBKzd2V0hyK1JVQnVhU0VNaXorbnBzdktNVGN6bENlTU5ubGRS?=
- =?utf-8?B?Q1JGY1pLaDJFaVd1dFFXSXJVSkFFaVZKVzhXSzBxVHBVcFNsNDRHZjUyRG01?=
- =?utf-8?B?UTZUTkpUSEVRMCtvbDJuOEJBY3RXVWptRCtmaGdTOE8wcUhRTTVNbjB6SU9t?=
- =?utf-8?B?OHJmVDhYa1VTbWdGcVVHc1gwT0lXUkt2aE5iMGlvVUwraUFzaXRjTEVQd2x4?=
- =?utf-8?B?SWo2WHZKOHZ1NjlsZDNMQ1cxSVVTa1Q2YkRqNUVMbjRxRmpwaHZHSHBGZkhr?=
- =?utf-8?B?RkN1T2hKbi9QOTBiN0o1S3o4c2ZFUWxVdGJSdUZiZkpoL0xZWDl3S1QzUC9K?=
- =?utf-8?B?S09MZWR5OVhMQStrN21WS1REL2ZhSWpvcCtHVW81SEpHWlN5RERkRFZVWXNw?=
- =?utf-8?B?V1ZWZEpyU0R1d0RaWlU2NDNsY2lBa25UZ25SY0dKb0x4ZHBGbk9NRk0rbHg1?=
- =?utf-8?B?UmdtUWdVTHJ0c3dtOWpKbUd1dXVxdGFaelRDbGRpYnpCYS9iclZZMnl1TjFJ?=
- =?utf-8?B?Yy9RcDRsR2hNQWZEMFZZRk8yRlB4MzY3T3RFSVhBaXlaaW5hVElkL3dhbmZN?=
- =?utf-8?B?WkkyV1RpZmNjcUVQd3RjazY3QkN5ZGZMVzFDenJMN25jVVpzaWFvL2RQcWJi?=
- =?utf-8?B?SE85UHllSk1CUWh2M3JjbmgzQUt2NlRKQ2JCMTMxa1dEYUF1QTdsV3hpQ01I?=
- =?utf-8?B?UTFKVGk3RWlhdTdkWWtNYlVtdTZiSm5TRnJLS2p6M09QR3czQ2dzTTZ6TVhp?=
- =?utf-8?B?aGVVbURiRHVxbytQMU13bjdtQjFCOUVCRGd6TlBPb2dNN0pFVTJHQzdBbXNM?=
- =?utf-8?B?UnZKRlpRREQ3czlJMkkwbHJUUWJBcnQrbzVXaEg1YjU0ZGF1VTFLRm14ajRa?=
- =?utf-8?Q?wrMXUCX6cz8=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K2FUdlNGL1NpQkxHQ3NxODZUeEpKVlBWckRCNWk2Rk9peUg4UXVhZmM0UjRj?=
+ =?utf-8?B?bmUyZDRMOFRwWVJpaGNtNkpMMWFPZU4yZkxSemZoMllHZ2tMajJKTGxUeUl6?=
+ =?utf-8?B?TkRHa2lGbHp0YzZVSlNENDcrNkR5Qk5yQzRTMnFVL2hUTyt2ZGRvMlpZejVU?=
+ =?utf-8?B?UmFCWlkzVjBmWGh3WmJ1aUgzbWgxdUpTQk5CRWJ1OURwZkdrZDd3QnY5bSs1?=
+ =?utf-8?B?czhoV2pzSFRodHhoOWxtakh1NGpPUlRoMnQ5NWNoUW1xK3IzT2R1aW56enRr?=
+ =?utf-8?B?QWRkQm0wRlpHcGtBN2pRRFlkQVl5eEdRV3NCOWdBSm9EUm9FWGF2Ym81am1R?=
+ =?utf-8?B?MklNY21wWmZTRmhpVWFOLzBnV0tKZlFWRkd3U0Frc1ZZSjgrK01xdkROM3pp?=
+ =?utf-8?B?ZEFhM3prWjM0Y3IwWlFmZFBRb1Z3WTBKVExmL1ErTDhoMEtXdFlPeWtEdzU4?=
+ =?utf-8?B?L3FRcWJXQlRVUWZoanF0ekRaQytiQ25QUFNUQ3dhaTk3ZWFvVGI0V2llOE5o?=
+ =?utf-8?B?YldUTUwxdXNGMERkaDNNS0JpZiszM0Jzc3B2WXo4VGhJbFl2K3RjWlhtamJq?=
+ =?utf-8?B?REhpdUd5c3paWFhrbGM1czFvQ1FyRTJ2MkdWTnlGTnZMMFg1Y0kyYVNMbHd2?=
+ =?utf-8?B?SG1HMkRHZUZQUVk4c2NJUWhBY2RFQzIxd1Vkd2ZuVW03V2sycjdMSG1wTEVk?=
+ =?utf-8?B?WWNnS3RYTUZ2QlZmWjYzc1pXaVJ1NnYvTHVucm9kanRjeHowTEtsNnV6L0xs?=
+ =?utf-8?B?VzMxVWIvb1hpQW9TRlJ2SU5ic0RGRVZSb3ZGbU85SDBjUTRPOEZ3N1VOd2Zo?=
+ =?utf-8?B?RGl5Sml5cUpYVGMrcjh1bFQweHprVG1NY0hsakxOdXFjaDJMTmVDQTVhUU1N?=
+ =?utf-8?B?RmFKUzA0dkc2aUtjNWYxWTB6L21SdHRiQ0pndkgrbGlna2ZnMHp2MGlDR25G?=
+ =?utf-8?B?bXJRTVVHWThZdzBuSU1yWXVJZFdwMG5NQjQ5QmNqaVVyMEc1c2xCVUtnZS8z?=
+ =?utf-8?B?eEN5MlNHc2t1Y2pXNlUySUJwZlJIemZQVm4rVWMrM0d4THgxZGlDZVJEVHRs?=
+ =?utf-8?B?aDcyYlBvc1d3U1RFNWpBbkJXUzQ2R1pFTUpFMHFkcGVtTVpzcXU1WXhLalJO?=
+ =?utf-8?B?VVlkNkxKRS9rWWlmK0M4aGNGR3VGOTk1Rnp4RnhWUWdvcjFWdjMvZFQ4WVdH?=
+ =?utf-8?B?dkc5RkU1VzIwTjNROTZHdk5Mbkd0OHliMVNYeXpld3hEYXlXRzV0YkxhWis0?=
+ =?utf-8?B?bWV0QWtWQXVUNlgwbGd1c3RiNHZmeUtmUCtWcGR2cWc3UDV3SnFJS2dGR2dS?=
+ =?utf-8?B?Qk5INko2OWFXdDZuNDJ0R0pacGsweGFCazg2ZEFkdXJ5VFM3dVNrcXQ3OG5j?=
+ =?utf-8?B?YXJtem1OcVZibDhvdTZvQTJDN3pVSXg5SmZrN3JqNi9IS05Ib0tnZHJ0TEh2?=
+ =?utf-8?B?VS8zUklUdWtWYXdycGpMa0lqUmJTaklHMVFvcDdjTVp5Mm91ZldtMSs5Z0ZQ?=
+ =?utf-8?B?QVRHWnlQcjM4VXpKRzU5alFSWnVNbVBic0VZaUcrOWxsYkpSS1Z0T3F4RDdE?=
+ =?utf-8?B?YmJjVmhFa0x5OGtoQ0ZQQzNMeFdZbzhZUkdaRXBqamlaWlVaYi9MZEhaK2RH?=
+ =?utf-8?B?ckhuYkJlOVZpMWo4TmJ2akJZZlY5RmVTOHovbUxoTUdYbU1yM2lDR0hmMGF3?=
+ =?utf-8?B?cFNRN29neHdpMndhblhqcmFpZHB6U2Z2bHVQRkExSSthNkFhWHhMd0FPMzJB?=
+ =?utf-8?B?Y1lJUXVObWJSZWpUQzlYTXpLbDJNT2pweVJMbDdpSnViQy90N1hXM05RQXh2?=
+ =?utf-8?B?L0xMMTlaWTVHQ3ROZ2d1UEJEVEVrWjJqTENSbjNzNXZjdFU2dk5Hckk3QVJN?=
+ =?utf-8?B?aVE2VWRVSXI1cSs1Y0hjMk55ZlNNS0VGU1VrWlNSRzlrQXQwdDVidmNyZW9h?=
+ =?utf-8?Q?cggnkrwNk40=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmNoOVFja05IRmRhWEk4dTZURktjQnE5bndNbEk1OG9JQkF0TE8rL3ZrdXZw?=
- =?utf-8?B?allYOGx2NjFHNjZ1K3VOSUxrUW9qUlErZU5QUzc2a2lMdjQ5YWplZ3VXWCtV?=
- =?utf-8?B?WTJza2RwcDVGcmwrV01la1dKTVhlSDR2T01YSTlJZEROQVZ1UldFQU5WUjVG?=
- =?utf-8?B?NEdzMkQvcVpwSnYzNHFXTE1ZL3Ywbk1TRVNJNDhpL1J0eDJWa0FjTS9hYUdI?=
- =?utf-8?B?OU9XM2VBSGxkeDBKR3loZHlKN212ZUVZNnYvcU1FWXZ4cWxhUTR0eXJJVjRh?=
- =?utf-8?B?M2h0N2tVTlh6K05TOTFNZHYvbTZwMXBmR0MxR1cyQ0dDNURRQWpLZDRjc1Ur?=
- =?utf-8?B?ellOWVlPaWxtWnE3VHVtNTduRkgrYUxlZWxHaVZTNHAvcnp5dWJ6NWZmQTZG?=
- =?utf-8?B?WENVRWVseTRjMXh1UGN0MzBKMVJXSmM2bXZsV29QTnRZVHNwMi9xUnFIV3Er?=
- =?utf-8?B?TUEyQWZtdXNDamFLQjRtK1Bjd3dnRnU1MGlpa21Gb0syeEorWm1nMy9mbjF5?=
- =?utf-8?B?U0RhUE5JT3NuMnlsazRNdFVwTGVIMjN1ODBUVW9ISlZmSUlzeUc3VmdhR1h5?=
- =?utf-8?B?MXpNSWFRT3MwYkdra3RWWm0wUWhuUjZCd1RkdTRaeHZubzg5U1dLN1NDSkZD?=
- =?utf-8?B?Q1JIWlRDdThUWWc5SzYyWktIYTlOUWlxNlY1ZXBrN2duRVZkTVhRT3hpek0r?=
- =?utf-8?B?ZnZyck5kWEVBK3lxbzdDU0dYT1BjcWc5T2tndTJjRmI1OStEcXJpQ3dWTXFY?=
- =?utf-8?B?Y2d3MlNybER3RkRoRXZ0RkQ5aVVhOUFHU3hSS2N0Y1JndTF4RTJYTUdpYWRz?=
- =?utf-8?B?WThtVk1NN0NTK1VVTXJ4RTdnOXQxdGMxYlgxV0psdUZXODljVXBWeFhzTkdV?=
- =?utf-8?B?ditCZFBxTXJjd3dZZGxFQ3QwWjhaK0ZqS1VlZi9KaW1WcGM0QnpkUDNXQjZi?=
- =?utf-8?B?TGFLcmxPVk9vV3JjZUJwR2o0QlpiUjlEenNud0FhQ083d01qbGR3M1ltaWlx?=
- =?utf-8?B?YTF4cnVtUk1NRmZSWnhwNlRHUW9sMGo2aWpwYXYxcWVzVDFYdCtCWHRQNUpT?=
- =?utf-8?B?bFRjVWpYVFlwcHNlbGFlS3lTdzN4MUFOU0tMaU9CU3JuV3N0Q3FicE1jLzNt?=
- =?utf-8?B?Z252T2g1TjhkU0lzS2lJN2RLM0tSY2VaV0RONnZid3M3S1VhQ2t2WWVvQUNn?=
- =?utf-8?B?bkdteDhUTXBIaU5PUVpQR0VDY2VLaURidSsxUGdzS2VieWgzZkNhazhKeVJB?=
- =?utf-8?B?ZVM4NVNIVmRrWk5DbDF5bVJ3OENDUEpTVHh2VTM1UmgwT1VDRm5VTUFUeGJj?=
- =?utf-8?B?YjF4VjVYWG52WHEvYmdFNGV6SWRiU0tPRW9UaDE5TCtVOE5vYm80eGJHUWFW?=
- =?utf-8?B?R29qdWFST1FDVjJPalRGV0cvMnBURFBJVVdhL0FlZExQTTMvZ2NiV3Z3QWJi?=
- =?utf-8?B?UzJKRVZVNVVFVWJFTExmWGxxeDZINDR2VVRGUVZOcjJhdnlXNjF2T0VlZ2RE?=
- =?utf-8?B?RDA0RkJaR3RYYTZPK0N0em9lQVVsMWx0dllZSkxQV1BuV2ozaC9vQUg2QlJk?=
- =?utf-8?B?dkdDS1V1S2tveXJMK2JDRUhESStpaGVUbGQzZVYraFFTTlkraTlkS2pBZHR4?=
- =?utf-8?B?THE5Y0FWOGxEcjRPWEdDR3gxT2xSOHd3dnBFZW9tRkVibFlHY2c1M2RlbnlD?=
- =?utf-8?B?Y291NWVGTVlnMW1USUdHRFpqNWNRYkhKNVp2Qk5KMTRNcUdEMVFpdFRnZlZH?=
- =?utf-8?B?NWF4M21ldTRzc1FCVG9NMmV1a3VxdVJTL3UrK2RaUS84a0ljeStGWHJXVTVq?=
- =?utf-8?B?U2E5VTJEbEVqUUc5Z0R4bnoxK1BIVThpL1hsTEZkU1pnOFArNHlxakIwZGIz?=
- =?utf-8?B?cGhrenkyZkRZZnduYlh1eWVPeFRaR2dOVUZWeU0xYUM0WFNqbE9zazZMSDcy?=
- =?utf-8?B?cjdkRDRZQmRxdjhQdUNPMnhpY0JvcjJaU01CZXFhWDhRd2IvSUU5QmdZbU9s?=
- =?utf-8?B?Sm54VWVKZlhuMVNpNWc5WENjRHduT1NvbnIxUUNDM1I0S0x6NEFaTnpEL2VU?=
- =?utf-8?B?ZmZxcjVzZVRlRTlKcUxpYmYzRFY3RDJGUi9zck5naHlmRkZRTUJkOEwwS2pK?=
- =?utf-8?B?cG5Ta0hVaDU0MXQ0MFdmNU1YMm5qN05KKzlRam54RXBOSUEzamlSamZpSnRB?=
- =?utf-8?B?ZEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 915a042b-661c-4090-9a75-08dda2a68b6c
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmVKNEpZSEVQaGtpWWplc0JhcksxWVU3eGdFZzdQbm1TRGlWbW1QNUN5eUNH?=
+ =?utf-8?B?Z2VpSTI3dEZoamFlZnplbTNMK3FNUDhvRTJJQWMrU3o3OEsvVThWRjFxQ0hu?=
+ =?utf-8?B?cFZCWVRYMUVQOXFPbnRVL0FPTXhZQTJIRmcwblU2dVU1T3I3Yko2c3kyS3Zx?=
+ =?utf-8?B?VExIckNwZGt5cy8zN3FoRTZYUXdLVFpqOG1TNlo3S3dXbTZPSVZnbnFuVlht?=
+ =?utf-8?B?aGo3V1ZWcU41ckJJRXk1ZVlTQWZGRlJDVWFXK1cxQ2J0ZEZGUEdBS1dpaEFz?=
+ =?utf-8?B?MEFBcUxZZjhCM3ZiTVgxMUFyL0lzaklNSFdrOXlGSmdGQS9Fd0E5MThDL29I?=
+ =?utf-8?B?alkxMnp5dU81dmg5ZWtES0lpVTV6c1ZwZ1B1MFJuVWt3YXFraHdzRGI4TTJq?=
+ =?utf-8?B?S21BcDdvQXFSTUpDMTY2ajBYTzQ2OTZTVi85V3N2bkVSMzdHUEJtYWh2aFNk?=
+ =?utf-8?B?QVJOdHNra2lFUkFHWnlxTmZ0YkJkUVR6Sm5XSzcxNks4K2J2cEtDTTZGS3Jx?=
+ =?utf-8?B?SFgzWXZsdjIrd0tPaW9OY3kwSUVWY3hVU1A4Sm1TNGZOVWtVN1ZySVdoZ25S?=
+ =?utf-8?B?TllyVGFVSHNuazFRVVhzTFFZY2M5dWRhSkkvY2FRREFkSkdsbktIMTJwbHFp?=
+ =?utf-8?B?K1QzZkIyeWsrVEE3dkFuUjIzcjhSa281T0NDUGkzcEtCZE1sYm5EQlNHV3Z5?=
+ =?utf-8?B?UXZLUWxyWndBTFRUanlWcndWUVo2dDVOSThYNnc3S09Tc1NMbnpBdktWVEpG?=
+ =?utf-8?B?U0ZXcW5TN0p4VVIzemhDanlxdElhVTAzWmN1QUtKTGZnKzI3RndCYmpPdWh2?=
+ =?utf-8?B?b0Mxb25RQUExRlk5MHNzTHhNcTNJbHlhQktxYk9PaEpZcVVWTEtBYmxSR0tw?=
+ =?utf-8?B?ZTdkRStEekNBTHhJajgzVFkxUnl5ckpvZGtndGx5V0xYdzFjQm1uUWVWbHdG?=
+ =?utf-8?B?TkRoREsxdkViZHdmTDhFVnNSQ0ZuQTNpb3pMT3YxeGpaY3ZhV2daWGxHd0sv?=
+ =?utf-8?B?YmhkMUtvalVyZ0wzUDRuN2gwY1E1Uk1vSDdzZTFlYlJVK2RGVjRLSjRoQVRq?=
+ =?utf-8?B?SG5iQmRoemZpTElJUWJuRmtScVdrOXlISDlYZGdTSlhFeXlRS2VtZnVld0Qx?=
+ =?utf-8?B?dnBTMVIwRkhUTXdVSGRYSXZMR3k4c3BqcG9qdUFTQk14VzVKdFlUNnphbTJw?=
+ =?utf-8?B?a2VFcmFIbjVVdy81MTZvZnZnYnEwZy8zc05YWnVJUlkzNTg3MmNLK0JrZE1R?=
+ =?utf-8?B?aDhMV3pBSnUrY0ZzZkxsV3NwaU1ENlk0Snl0TEJqWjhuNTlBckdOOWhPZjRQ?=
+ =?utf-8?B?aVZ0UGZ3NlQrZVg1L09FQzFBaGR6QzFvK0Nxd2p1NkxuUzVqdDlkVnJ4VEx0?=
+ =?utf-8?B?V1FBRWZSMzN2Tml4cGhTeTcwMTBmQ3E5Zks3YWNZRUV4dlNRS1hCRHhEOGlP?=
+ =?utf-8?B?R0FDN3NzcmNLRjlrbG5iZVlqR2pGQnhGWmMwMmh1QzA2ZlpHeC9KSEdHd0lo?=
+ =?utf-8?B?T0hGbHpWeGd6c29WeHk2U3NpMHROL3RnRXdLam9nSFcvaWFTNnZZTGhseC9J?=
+ =?utf-8?B?bXRGbXRqdVJUMDZObkt1UHhJM0taZk1sZmlOVjlzTmR1dHZ6OFd4MXlRSGlN?=
+ =?utf-8?B?RERJbXA5dG8vTkwxNm1ySTBJME9qQ1dNN1pnUnZNWklKNXljWVBMRUVzdGQ0?=
+ =?utf-8?B?UWdHVEs4OGxCTDZjVENsQWZPcWI3SHNSZEVEZVVubDFRVnlTb2VLbXQ3WkVJ?=
+ =?utf-8?B?Q0plZDZNSzc0MzArZExQd0JsM0ZjUW1oeU14RTJHcHQ4NmZSTkE1WlNDSGE2?=
+ =?utf-8?B?bkZ0eml1R0hWeHRVL09TdVcrN0VFNGhxMXYzSFBiQ3pSTU43WjJZU3FHTHBo?=
+ =?utf-8?B?Y0V1My9EdFJpM20wN005VjBYYWhjd2N0QWcwVVBjWnlKSzlINzd4NHNFd3Rl?=
+ =?utf-8?B?Ym1Nb05iUzBRVTd5MDlIMmZpUENYMG9abFVYcFdjOXZ4VFBKSUFQOHgza1ZV?=
+ =?utf-8?B?VTEyNjVGQlFFeGJxZmNOcG9CaWVzVmlzVUdHMkFUOUxHTW90UkdBaWoyNmIv?=
+ =?utf-8?B?bUN2Qnpoblo1dlVUVmtFekF5RGgxTVN1bjZGSjBhSXJhb1dDU0I4dDhpdms5?=
+ =?utf-8?Q?WV8U1cSSDw8/3LP4SqVQa4j7Z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 765f2317-e498-4090-2cb5-08dda2a70205
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 13:57:14.7351 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 14:00:33.5515 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kZSvey49NtF51T/t4U6hUsRRP4fncwzAc/S5A+HhSB5A0AOHKcfItZkph84hIaZ8z6jZOI+dLBXXI4gpANt3ng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4758
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nog53k5gceN9xV+dh5cEwvMqSHljf9I1BAdIWR2PDoabEOGOcRBe3tnHI6ywcrSP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,209 +175,343 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 08-05-2025 04:41, Daniele Ceraolo Spurio wrote:
->
->
-> On 4/29/2025 9:09 AM, Badal Nilawar wrote:
->> Search for late binding firmware binaries and populate the meta data of
->> firmware structures.
+On 6/3/25 14:48, Tvrtko Ursulin wrote:
+> 
+> On 03/06/2025 13:40, Christian König wrote:
+>> On 6/3/25 13:30, Tvrtko Ursulin wrote:
+>>>
+>>> On 02/06/2025 19:00, Christian König wrote:
+>>>> On 6/2/25 17:25, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 02/06/2025 15:42, Christian König wrote:
+>>>>>> On 6/2/25 15:05, Tvrtko Ursulin wrote:
+>>>>>>>
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 15/05/2025 14:15, Christian König wrote:
+>>>>>>>> Hey drm-misc maintainers,
+>>>>>>>>
+>>>>>>>> can you guys please backmerge drm-next into drm-misc-next?
+>>>>>>>>
+>>>>>>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
+>>>>>>>
+>>>>>>> Looks like the backmerge is still pending?
+>>>>>>
+>>>>>> Yes, @Maarten, @Maxime and @Thomas ping on this.
+>>>>>>
+>>>>>>> In the meantime, Christian, any chance you will have some bandwith to think about the tail end of the series? Specifically patch 6 and how that is used onward.
+>>>>>>
+>>>>>> Well the RCU grace period is quite a nifty hack. I wanted to go over it again after merging the first patches from this series.
+>>>>>>
+>>>>>> In general looks like a good idea to me, I just don't like that we explicitely need to expose dma_fence_access_begin() and dma_fence_access_end().
+>>>>>>
+>>>>>> Especially we can't do that while calling fence->ops->release.
+>>>>>
+>>>>> Hm why not? You think something will take offence of the rcu_read_lock()?
+>>>>
+>>>> Yes, especially it is perfectly legitimate to call synchronize_rcu() or lock semaphores/mutexes from that callback.
+>>>>
+>>>> Either keep the RCU critical section only for the trace or even better come up with some different approach, e.g. copying the string under the RCU lock or something like that.
+>>>
+>>> Hmm but the kerneldoc explicity says callback can be called from irq context:
+>>>
+>>>      /**
+>>>       * @release:
+>>>       *
+>>>       * Called on destruction of fence to release additional resources.
+>>>       * Can be called from irq context.  This callback is optional. If it is
+>>>       * NULL, then dma_fence_free() is instead called as the default
+>>>       * implementation.
+>>>       */
+>>>      void (*release)(struct dma_fence *fence);
 >>
->> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
->> ---
->>   drivers/gpu/drm/xe/xe_device.c       |   2 +
->>   drivers/gpu/drm/xe/xe_late_bind_fw.c | 101 ++++++++++++++++++++++++++-
->>   drivers/gpu/drm/xe/xe_late_bind_fw.h |   1 +
->>   3 files changed, 101 insertions(+), 3 deletions(-)
+>> Ah, right. I mixed that up with the dma-buf object.
 >>
->> diff --git a/drivers/gpu/drm/xe/xe_device.c 
->> b/drivers/gpu/drm/xe/xe_device.c
->> index 86a7b7065122..d83864e7189c 100644
->> --- a/drivers/gpu/drm/xe/xe_device.c
->> +++ b/drivers/gpu/drm/xe/xe_device.c
->> @@ -892,6 +892,8 @@ int xe_device_probe(struct xe_device *xe)
->>         xe_late_bind_init(&xe->late_bind);
->>   +    xe_late_bind_fw_init(&xe->late_bind);
->
-> Maybe call this from inside xe_late_bind_init?
-Sure.
->
->> +
->>       err = xe_oa_init(xe);
->>       if (err)
->>           return err;
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> index 7981fc500a78..297238fd3d16 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> @@ -5,6 +5,7 @@
->>     #include <linux/component.h>
->>   #include <linux/delay.h>
->> +#include <linux/firmware.h>
->>     #include <drm/drm_managed.h>
->>   #include <drm/intel/i915_component.h>
->> @@ -13,13 +14,108 @@
->>     #include "xe_device.h"
->>   #include "xe_late_bind_fw.h"
->> +#include "xe_pcode.h"
->> +#include "xe_pcode_api.h"
->>   -static struct xe_device *
->> -late_bind_to_xe(struct xe_late_bind *late_bind)
->> +static const char * const fw_id_to_name[] = {
->> +        [FAN_CONTROL_ID] = "fan_control",
->> +        [VOLTAGE_REGULATOR_ID] = "voltage_regulator",
->> +    };
->> +
->> +static const u32 fw_id_to_type[] = {
->> +        [FAN_CONTROL_ID] = CSC_LATE_BINDING_TYPE_FAN_CONTROL,
->> +        [VOLTAGE_REGULATOR_ID] = 
->> CSC_LATE_BINDING_TYPE_VOLTAGE_REGULATOR
->> +    };
->> +
->> +static struct xe_device *late_bind_to_xe(struct xe_late_bind 
->> *late_bind)
->>   {
->>       return container_of(late_bind, struct xe_device, late_bind);
->>   }
->>   +static int late_bind_fw_num_fans(struct xe_late_bind *late_bind)
->> +{
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    struct xe_tile *root_tile = xe_device_get_root_tile(xe);
->> +    u32 uval;
->> +
->> +    if (!xe_pcode_read(root_tile,
->> +               PCODE_MBOX(FAN_SPEED_CONTROL, FSC_READ_NUM_FANS, 0), 
->> &uval, NULL))
->> +        return uval;
->> +    else
->> +        return 0;
->> +}
->> +
->> +static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 id)
->> +{
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->> +    struct xe_late_bind_fw *lb_fw;
->> +    const struct firmware *fw;
->> +    u32 num_fans;
->> +    int ret;
->> +
->> +    if (!late_bind->component_added)
->> +        return 0;
->> +
->> +    if (id >= MAX_ID)
->> +        return -EINVAL;
->> +
->> +    lb_fw = &late_bind->late_bind_fw[id];
->> +
->> +    lb_fw->id = id;
->> +    lb_fw->type = fw_id_to_type[id];
->> +
->> +    if (lb_fw->type == CSC_LATE_BINDING_TYPE_FAN_CONTROL) {
->> +        num_fans = late_bind_fw_num_fans(late_bind);
->> +        drm_dbg(&xe->drm, "Number of Fans: %d\n", num_fans);
->> +        if (!num_fans)
->> +            return 0;
->> +    }
->> +
->> +    lb_fw->flags = CSC_LATE_BINDING_FLAGS_IS_PERSISTENT;
->> +
->> +    snprintf(lb_fw->blob_path, sizeof(lb_fw->blob_path), 
->> "xe/%s_8086_%04x_%04x_%04x.bin",
->> +         fw_id_to_name[id], pdev->device,
->> +         pdev->subsystem_vendor, pdev->subsystem_device);
->> +
->> +    drm_dbg(&xe->drm, "Request late binding firmware %s\n", 
->> lb_fw->blob_path);
->> +    ret = request_firmware(&fw, lb_fw->blob_path, xe->drm.dev);
->
-> Are we expecting late binding firmwares for all possible cards to 
-> always be available? because if not (and therefore if this fetch can 
-> fail) we should change this to firmware_request_nowarn to avoid 
-> throwing errors
-No late binding firmware will not be available for all card, as 
-suggested firmware_request_nowarn here.
->
->
->> +    if (ret) {
->> +        drm_err(&xe->drm, "Failed to request %s\n", lb_fw->blob_path);
->
-> Same as above, if not finding the blob is a valid scenario then this 
-> should be a drm_dbg. Maybe even reword to make it clear it's not a 
-> failure but just the fact that there is no FW for the card.
-I will change drm_err to drm_dbg.
->
->> +        lb_fw->valid = false;
->> +        return 0;
->> +    }
->> +
->> +    if (fw->size > MAX_PAYLOAD_SIZE)
->> +        lb_fw->payload_size = MAX_PAYLOAD_SIZE;
->
-> Is this safe? It feels weird to send a truncated firmware for 
-> something like voltage regulators. IMO if the firmware is too big we 
-> should throw and error and bail out.
-Sure, let's throw the error if firmware is too big.
->
->> +    else
->> +        lb_fw->payload_size = fw->size;
->> +
->> +    memcpy(lb_fw->payload, fw->data, lb_fw->payload_size);
->> +    release_firmware(fw);
->> +    lb_fw->valid = true;
->> +
->> +    return 0;
->> +}
->> +
->> +/**
->> + * xe_mei_late_bind_fw_init() - Initialize late bind firmware
->> + *
->> + * Return: 0 if the initialization was successful, a negative errno 
->> otherwise.
->> + */
->> +int xe_late_bind_fw_init(struct xe_late_bind *late_bind)
->> +{
->> +    int id;
->> +    int ret;
->> +
->> +    for (id = 0; id < MAX_ID; id++) {
->> +        ret = late_bind_fw_init(late_bind, id);
->> +        if (ret)
->> +            return ret;
->> +    }
->> +    return ret;
->> +}
->> +
->>   static int xe_late_bind_component_bind(struct device *xe_kdev,
->>                          struct device *mei_kdev, void *data)
->>   {
->> @@ -83,7 +179,6 @@ int xe_late_bind_init(struct xe_late_bind *late_bind)
->>       }
->>         late_bind->component_added = true;
->> -
->
-> stray blank line removal
+>> Yeah in that case that is probably harmless. We delegate the final free to a work item if necessary anyway.
+>>
+>> But I would still like to avoid having the RCU cover the release as well. Or why is there any reason why we would explicitely want to do this?
+> 
+> I can't remember there was a particular reason. Obviously the driver/timeline name vfunc access I needed a dma_fence_access_begin/end() block so maybe I was just sloppy and put the end at the end of the function instead of at the end of the block which can dereference them.
 
-Ok.
+Yeah that's the next topic I would rather like to improve. We are kind of hiding that the returned strings are using RCU protection.
 
-Thanks,
-Badal
+In other words it would be nicer if we could add an __rcu tag to the get_driver_name/get_timeline_name callbacks and let the automated tools complain if somebody isn't doing the proper RCU handling.
 
->
-> Daniele
->
->>       /* the component must be removed before unload, so can't use 
->> drmm for cleanup */
->>         return 0;
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> index 21299de54b47..e88c637b15a6 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> @@ -12,5 +12,6 @@ struct xe_late_bind;
->>     int xe_late_bind_init(struct xe_late_bind *late_bind);
->>   void xe_late_bind_remove(struct xe_late_bind *late_bind);
->> +int xe_late_bind_fw_init(struct xe_late_bind *late_bind);
->>     #endif
->
+The problem is that as far as I know that is not supported by the automated tools (would be cool if somebody could double check that).
+
++We would need to convert the get_timeline/get_timeline_name function to something like func(struct dma_fence *fence, const char __rcu **out) to make that work.
+
+Regards,
+Christian.
+
+> 
+> I will pull it earlier for the next respin, assuming no gotchas get discovered in the process.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Tvrtko
+>>>>>
+>>>>>>>> On 5/15/25 11:49, Tvrtko Ursulin wrote:
+>>>>>>>>> With the goal of reducing the need for drivers to touch (and dereference)
+>>>>>>>>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
+>>>>>>>>> the fence->flags.
+>>>>>>>>>
+>>>>>>>>> Drivers which were setting this flag are changed to use new
+>>>>>>>>> dma_fence_init64() instead of dma_fence_init().
+>>>>>>>>>
+>>>>>>>>> v2:
+>>>>>>>>>      * Streamlined init and added kerneldoc.
+>>>>>>>>>      * Rebase for amdgpu userq which landed since.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
+>>>>>>>>> ---
+>>>>>>>>>      drivers/dma-buf/dma-fence-chain.c             |  5 +-
+>>>>>>>>>      drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
+>>>>>>>>>      .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
+>>>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
+>>>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
+>>>>>>>>>      include/linux/dma-fence.h                     | 14 ++--
+>>>>>>>>>      6 files changed, 64 insertions(+), 41 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+>>>>>>>>> index 90424f23fd73..a8a90acf4f34 100644
+>>>>>>>>> --- a/drivers/dma-buf/dma-fence-chain.c
+>>>>>>>>> +++ b/drivers/dma-buf/dma-fence-chain.c
+>>>>>>>>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
+>>>>>>>>>      }
+>>>>>>>>>        const struct dma_fence_ops dma_fence_chain_ops = {
+>>>>>>>>> -    .use_64bit_seqno = true,
+>>>>>>>>>          .get_driver_name = dma_fence_chain_get_driver_name,
+>>>>>>>>>          .get_timeline_name = dma_fence_chain_get_timeline_name,
+>>>>>>>>>          .enable_signaling = dma_fence_chain_enable_signaling,
+>>>>>>>>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>>>>>>>>                  seqno = max(prev->seqno, seqno);
+>>>>>>>>>          }
+>>>>>>>>>      -    dma_fence_init(&chain->base, &dma_fence_chain_ops,
+>>>>>>>>> -               &chain->lock, context, seqno);
+>>>>>>>>> +    dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+>>>>>>>>> +             context, seqno);
+>>>>>>>>>            /*
+>>>>>>>>>           * Chaining dma_fence_chain container together is only allowed through
+>>>>>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>>>>>>>> index f0cdd3e99d36..705b59787731 100644
+>>>>>>>>> --- a/drivers/dma-buf/dma-fence.c
+>>>>>>>>> +++ b/drivers/dma-buf/dma-fence.c
+>>>>>>>>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>>>>>>>>>      }
+>>>>>>>>>      EXPORT_SYMBOL(dma_fence_describe);
+>>>>>>>>>      -/**
+>>>>>>>>> - * dma_fence_init - Initialize a custom fence.
+>>>>>>>>> - * @fence: the fence to initialize
+>>>>>>>>> - * @ops: the dma_fence_ops for operations on this fence
+>>>>>>>>> - * @lock: the irqsafe spinlock to use for locking this fence
+>>>>>>>>> - * @context: the execution context this fence is run on
+>>>>>>>>> - * @seqno: a linear increasing sequence number for this context
+>>>>>>>>> - *
+>>>>>>>>> - * Initializes an allocated fence, the caller doesn't have to keep its
+>>>>>>>>> - * refcount after committing with this fence, but it will need to hold a
+>>>>>>>>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>>>>>>>> - *
+>>>>>>>>> - * context and seqno are used for easy comparison between fences, allowing
+>>>>>>>>> - * to check which fence is later by simply using dma_fence_later().
+>>>>>>>>> - */
+>>>>>>>>> -void
+>>>>>>>>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>> -           spinlock_t *lock, u64 context, u64 seqno)
+>>>>>>>>> +static void
+>>>>>>>>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>> +             spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
+>>>>>>>>>      {
+>>>>>>>>>          BUG_ON(!lock);
+>>>>>>>>>          BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>>>>>>>>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>>          fence->lock = lock;
+>>>>>>>>>          fence->context = context;
+>>>>>>>>>          fence->seqno = seqno;
+>>>>>>>>> -    fence->flags = 0UL;
+>>>>>>>>> +    fence->flags = flags;
+>>>>>>>>>          fence->error = 0;
+>>>>>>>>>            trace_dma_fence_init(fence);
+>>>>>>>>>      }
+>>>>>>>>> +
+>>>>>>>>> +/**
+>>>>>>>>> + * dma_fence_init - Initialize a custom fence.
+>>>>>>>>> + * @fence: the fence to initialize
+>>>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
+>>>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
+>>>>>>>>> + * @context: the execution context this fence is run on
+>>>>>>>>> + * @seqno: a linear increasing sequence number for this context
+>>>>>>>>> + *
+>>>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>>>>>>>>> + * refcount after committing with this fence, but it will need to hold a
+>>>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>>>>>>>> + *
+>>>>>>>>> + * context and seqno are used for easy comparison between fences, allowing
+>>>>>>>>> + * to check which fence is later by simply using dma_fence_later().
+>>>>>>>>> + */
+>>>>>>>>> +void
+>>>>>>>>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>> +           spinlock_t *lock, u64 context, u64 seqno)
+>>>>>>>>> +{
+>>>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
+>>>>>>>>> +}
+>>>>>>>>>      EXPORT_SYMBOL(dma_fence_init);
+>>>>>>>>> +
+>>>>>>>>> +/**
+>>>>>>>>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
+>>>>>>>>> + * @fence: the fence to initialize
+>>>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
+>>>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
+>>>>>>>>> + * @context: the execution context this fence is run on
+>>>>>>>>> + * @seqno: a linear increasing sequence number for this context
+>>>>>>>>> + *
+>>>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
+>>>>>>>>> + * refcount after committing with this fence, but it will need to hold a
+>>>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
+>>>>>>>>> + *
+>>>>>>>>> + * Context and seqno are used for easy comparison between fences, allowing
+>>>>>>>>> + * to check which fence is later by simply using dma_fence_later().
+>>>>>>>>> + */
+>>>>>>>>> +void
+>>>>>>>>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>> +         spinlock_t *lock, u64 context, u64 seqno)
+>>>>>>>>> +{
+>>>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno,
+>>>>>>>>> +             BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+>>>>>>>>> +}
+>>>>>>>>> +EXPORT_SYMBOL(dma_fence_init64);
+>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>>>>>>>> index 1a7469543db5..79713421bffe 100644
+>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
+>>>>>>>>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
+>>>>>>>>>      }
+>>>>>>>>>        static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
+>>>>>>>>> -    .use_64bit_seqno = true,
+>>>>>>>>>          .get_driver_name = amdgpu_eviction_fence_get_driver_name,
+>>>>>>>>>          .get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
+>>>>>>>>>          .enable_signaling = amdgpu_eviction_fence_enable_signaling,
+>>>>>>>>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
+>>>>>>>>>          ev_fence->evf_mgr = evf_mgr;
+>>>>>>>>>          get_task_comm(ev_fence->timeline_name, current);
+>>>>>>>>>          spin_lock_init(&ev_fence->lock);
+>>>>>>>>> -    dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>>>>>>>>> -               &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>>>>>>>>> -               atomic_inc_return(&evf_mgr->ev_fence_seq));
+>>>>>>>>> +    dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
+>>>>>>>>> +             &ev_fence->lock, evf_mgr->ev_fence_ctx,
+>>>>>>>>> +             atomic_inc_return(&evf_mgr->ev_fence_seq));
+>>>>>>>>>          return ev_fence;
+>>>>>>>>>      }
+>>>>>>>>>      diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>>>>>>>> index 029cb24c28b3..5e92d00a591f 100644
+>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+>>>>>>>>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
+>>>>>>>>>          fence = &userq_fence->base;
+>>>>>>>>>          userq_fence->fence_drv = fence_drv;
+>>>>>>>>>      -    dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>>>>>>>>> -               fence_drv->context, seq);
+>>>>>>>>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
+>>>>>>>>> +             fence_drv->context, seq);
+>>>>>>>>>            amdgpu_userq_fence_driver_get(fence_drv);
+>>>>>>>>>          dma_fence_get(fence);
+>>>>>>>>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
+>>>>>>>>>      }
+>>>>>>>>>        static const struct dma_fence_ops amdgpu_userq_fence_ops = {
+>>>>>>>>> -    .use_64bit_seqno = true,
+>>>>>>>>>          .get_driver_name = amdgpu_userq_fence_get_driver_name,
+>>>>>>>>>          .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
+>>>>>>>>>          .signaled = amdgpu_userq_fence_signaled,
+>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>>>>>>>> index 51cddfa3f1e8..5d26797356a3 100644
+>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+>>>>>>>>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
+>>>>>>>>>      }
+>>>>>>>>>        static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
+>>>>>>>>> -    .use_64bit_seqno = true,
+>>>>>>>>>          .get_driver_name = amdgpu_tlb_fence_get_driver_name,
+>>>>>>>>>          .get_timeline_name = amdgpu_tlb_fence_get_timeline_name
+>>>>>>>>>      };
+>>>>>>>>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
+>>>>>>>>>          INIT_WORK(&f->work, amdgpu_tlb_fence_work);
+>>>>>>>>>          spin_lock_init(&f->lock);
+>>>>>>>>>      -    dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>>>>>>>>> -               vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>>>>>>>>> +    dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+>>>>>>>>> +             vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+>>>>>>>>>            /* TODO: We probably need a separate wq here */
+>>>>>>>>>          dma_fence_get(&f->base);
+>>>>>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>>>>>>>> index 48b5202c531d..a34a0dcdc446 100644
+>>>>>>>>> --- a/include/linux/dma-fence.h
+>>>>>>>>> +++ b/include/linux/dma-fence.h
+>>>>>>>>> @@ -97,6 +97,7 @@ struct dma_fence {
+>>>>>>>>>      };
+>>>>>>>>>        enum dma_fence_flag_bits {
+>>>>>>>>> +    DMA_FENCE_FLAG_SEQNO64_BIT,
+>>>>>>>>>          DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>>>>>>>          DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>>>>>>>>          DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>>>>>>>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
+>>>>>>>>>       *
+>>>>>>>>>       */
+>>>>>>>>>      struct dma_fence_ops {
+>>>>>>>>> -    /**
+>>>>>>>>> -     * @use_64bit_seqno:
+>>>>>>>>> -     *
+>>>>>>>>> -     * True if this dma_fence implementation uses 64bit seqno, false
+>>>>>>>>> -     * otherwise.
+>>>>>>>>> -     */
+>>>>>>>>> -    bool use_64bit_seqno;
+>>>>>>>>> -
+>>>>>>>>>          /**
+>>>>>>>>>           * @get_driver_name:
+>>>>>>>>>           *
+>>>>>>>>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
+>>>>>>>>>      void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>>                  spinlock_t *lock, u64 context, u64 seqno);
+>>>>>>>>>      +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>>>>>>> +              spinlock_t *lock, u64 context, u64 seqno);
+>>>>>>>>> +
+>>>>>>>>>      void dma_fence_release(struct kref *kref);
+>>>>>>>>>      void dma_fence_free(struct dma_fence *fence);
+>>>>>>>>>      void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+>>>>>>>>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
+>>>>>>>>>           * 32bit sequence numbers. Use a 64bit compare when the driver says to
+>>>>>>>>>           * do so.
+>>>>>>>>>           */
+>>>>>>>>> -    if (fence->ops->use_64bit_seqno)
+>>>>>>>>> +    if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
+>>>>>>>>>              return f1 > f2;
+>>>>>>>>>            return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
