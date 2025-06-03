@@ -2,84 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105C7ACC981
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 16:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB498ACC98E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 16:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73EF110E05F;
-	Tue,  3 Jun 2025 14:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD74310E627;
+	Tue,  3 Jun 2025 14:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="OyheRGCI";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="NmMEdMQT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C67710E05F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 14:47:24 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-45024721cbdso45631805e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 07:47:24 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A946C10E627
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 14:49:31 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-55320ddb9edso6167813e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 07:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1748962043; x=1749566843;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1748962170; x=1749566970;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ewHgNoVcNAkcMsUN3iEXCQYm/U3qZvlHPrAzrsMVsXI=;
- b=OyheRGCIIBJwiBOql7yvZqkXhsVvwe8Q4ooyCBw01HV/ansd9GF5DkQ03Ca+lqUXW0
- UfrQevn7lnw95pvWLzuEXCC/H5sZyOFckkMuoJItQQQOUqox+8FvgrQWSHI8iOuqbQHs
- v9m7KHFvhhQaCFeRkOWGJCKy9Vt8feiFpxw3aPfpHvcod7mSwuyVNQAVkh/isq6tuP7C
- vAGnE+kAiDHWPfFQnFcJfOI4nFIm8umHzyAKNN8bJhD8/270Av9py6nJiFQqlLJg7Sdc
- PiiGBNob+lZEk74ayH/3WQvAh4deGhpvphzF8GLGrOmAJy8nPBENWdwclRXk4WkqKUCx
- 2ocw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ex3LHxHEHJ4BZQ38M7qwegLl2zSlvRBxwaOVQhyHde4=;
+ b=NmMEdMQTDq0PD/jAF5/yZBJZtHObneHuUcMJoYuGk3P1ATSZpwrNBjjlubjx+/UF2D
+ dGofR71UM5Ggdz8F8ZXYH0zhbwPGmW6tj4vKhmJ9tQ5QZZMLWbkajfswOPYfabVxMHjP
+ 3d69qw5kMdbc2gHF5GxA0W4QmANoevd/2Lp1ewLtO3b5w37m2EX7XUhFONFegdTjBilN
+ Ljq+3agWTCjBqFoITiZ+gKlGRxEhs/yJOJpsEGnSOyybhXA3/XOQaS97g0/UypdGazVo
+ NSrMgFAI4z+M2nzQv5F46hRuLHA2zjQ73rXYhN1dOB7xEPD1haz7BVVFJmSm8Cp2zMBO
+ zWMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748962043; x=1749566843;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ewHgNoVcNAkcMsUN3iEXCQYm/U3qZvlHPrAzrsMVsXI=;
- b=MVyYWQp7rP7IYOuhAdxNeMWFydyOGp1OTuIjly3loCzzgv0rlf0PEnRFe09DOY/Ft3
- 5m6BmUF1R35TsF2JTTL0XnAV8ws0VRaqVQ0Wd9JyIPn0dyJg9dcXy4qye6ioZc2ULBnS
- 4cNby685Pw2jjFgN/iHdSvVihwJXS0oy12AUlEUwa6FiWd0dryEy/RpoJrmOz4Al3N3r
- pZityc6NXdVo2KwD7rw7xCZP4kWkcC4gvAY2A5N3JOcDAZLfl1UvCZB99yW7WS/76OJn
- YBTfg0y5AlbGOdMLRCNI6FpzMD0KecE5TOKDLCSukD6lg4xEBtG0+AqgKlUKJrMIclN4
- jHhw==
+ d=1e100.net; s=20230601; t=1748962170; x=1749566970;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ex3LHxHEHJ4BZQ38M7qwegLl2zSlvRBxwaOVQhyHde4=;
+ b=aFCC4ZmNX7ZeD2gXWurOA+kroucqtutIoQi8r/oGrRm4nQUonpPq29W6JqOco2hiPr
+ hihmXOfWgITxOymjiOWjDV0lAUbInMT4BfmLTybf+VPixcCcDa9Ra+bIbxr8HGR4I4aw
+ aqm+S72Vh5aVHQnmA1Mq4Ri0inAIoRuo8sTk6uGgquE9XREmm6pb1GUBfaQBr69Naxsq
+ 0ZQiZxTFHyUUZVtx2cz+ISA1rZJuzWwcUhti+7c/7oHyC/U6JwwnyYuJsKJ+BWFuvkfS
+ nR6vmdZYXpeqMLXJahEDTpu+bf9MORMLPjYHukP28F7paDaV4B06KeliKcZnxImtDjM9
+ GbLw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWKLtoUAZZRSBhNalPoo895tFyooi4mVuMcNpydsieqVPCmRkF2sVePk1N1YTTesmo/cnMMkQxS8AI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywR3nHI0E2INf+ObQe73KIiHJ8O0s6blSCOxt+XRL3bG7LJOlj
- +Sw4YobkQt4Jjdj3B17VDLxwEnbOafumUsDGlDSOkuSJWv2+eWUPA4nWs8uc4iJnARM=
-X-Gm-Gg: ASbGncsKyLRilu/vTj3rUDwPZy8FzzE/qBm8LbG9hwKQ3MSmPqp+7mMdBaicTKe+DVk
- /g/PcE7v8GKr7qri0CHjCc8jZsU29AXSU2CW6MDL+Iher1Faaakbpwqh7A36nPNEJNh3TjrRMGR
- O+Qp5W4Jq7Oz93fKXGaRN4v9hlCnHQa7z5su9sJdZjMCihYyWZ6GaAR36630vYBa220s8bJ+hUY
- 2dCbhBDiNaigvm+1eLjwVP3Lsxvf+fgpEiG9UlUm+pZEReevAzBPSzkA8bYRX9h7l6X9AjbCZfu
- dNZMYm4PB1f3WUonhDPvnkBSFP65uFe0GAcyUqeBdmy32DI1QIGGhK/NnfBs8QFsZJLDOjkF8lf
- U
-X-Google-Smtp-Source: AGHT+IG9Gr4XQ+5QhvCqE4lU8PgjCYsQT+gY99Td1wBvYZPhIJLspU6C+GyWY8M57zVgeRhfhzV1gw==
-X-Received: by 2002:a05:600c:1c96:b0:43c:fc04:6d35 with SMTP id
- 5b1f17b1804b1-450d64e2a8amr166817255e9.4.1748962042186; 
- Tue, 03 Jun 2025 07:47:22 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d7fb8990sm168843195e9.32.2025.06.03.07.47.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jun 2025 07:47:21 -0700 (PDT)
-Message-ID: <4c41a65e-de43-45c9-b672-88a2760a1a75@ursulin.net>
-Date: Tue, 3 Jun 2025 15:47:20 +0100
+ AJvYcCXI1R6E27fvM6ylPLw7vg5FAf2QPR3WE+ORT7DV2tX4E4uGUFxRwFlape/I9F9A6L/Kxt410lkNlmw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcPo9zVxUyO94IKfIk3IKm9o5KmGBcCaOYhcWK4YeXbK2NnKob
+ sVWCYTxGK76DTWEvPqgTI5QHHik8fj5UahA94HyWTtyd1SctU4ngVgnzE+1p0RP38llKeOAwkY0
+ aJqo+6QC4D73fZ+wfZaLOS2kA/KWbaE3mP/4FaPcKVQ==
+X-Gm-Gg: ASbGncu5MbSy+RsxK5vjcQPtFhnTgpcyLdI4CSH0FBr6JL5L913S1HQf40+H9SfBz8l
+ jvnQJGTjAqizavll/q9ls28AudUKkgmhh21naDilqCQPDMEHQB7K+A/VWzwA5Yutp1/EpU9tktb
+ M87wm1tU93bAp8wOsckfKE+rHfjIaDhMyPcZH7Y33OllZOXRTv96Tr8jTpyby3JdnrUrjMcm2Lh
+ A==
+X-Google-Smtp-Source: AGHT+IHc0KihO6QMjKjy0pMBkN2tQA80vRJ1vg3x2S+UcGNd55YVBv2aTqZA0Vmu7gFOqc5cx2vs3hmS2lLX+V2bUMY=
+X-Received: by 2002:a05:6512:318d:b0:553:23c4:6822 with SMTP id
+ 2adb3069b0e04-5533b8f6183mr5171073e87.13.1748962170032; Tue, 03 Jun 2025
+ 07:49:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/ttm: Increase pool shrinker batch target
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>
-References: <20250603112750.34997-1-tvrtko.ursulin@igalia.com>
- <20250603112750.34997-3-tvrtko.ursulin@igalia.com>
- <b5ddbaf7-9f74-49d7-a45f-ed73ed5df0ac@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <b5ddbaf7-9f74-49d7-a45f-ed73ed5df0ac@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CGME20250529222403eucas1p1923fe09240be34e3bbadf16822574d75@eucas1p1.samsung.com>
+ <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
+ <20250530-apr_14_for_sending-v3-1-83d5744d997c@samsung.com>
+ <CAMRc=Me9cWfe2mL=Q6JQbAFjpd55MOBZuAWC793Us0criiQr4Q@mail.gmail.com>
+ <4519844e-b1c0-40a7-b856-a6e4a80c6334@samsung.com>
+ <20250603-cuddly-certain-mussel-4fbe96@kuoka>
+ <CAMRc=MfXashaEscE1vF_P6cs9iOCBerfNFiB4yC+TX76fZ87nA@mail.gmail.com>
+In-Reply-To: <CAMRc=MfXashaEscE1vF_P6cs9iOCBerfNFiB4yC+TX76fZ87nA@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 3 Jun 2025 16:49:18 +0200
+X-Gm-Features: AX0GCFs2qeMG4HtPzgixdlaSw6fJIrCjF4lFG8AFOQDBjIfm0hhKZz_Zk6uhWO0
+Message-ID: <CAMRc=Mc-jjULmc=3fS0qZgXbq9Sgfg8JBoH7peWML1PdyyyH+A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] dt-bindings: power: Add T-HEAD TH1520 GPU power
+ sequencer
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Drew Fustini <drew@pdp7.com>,
+ Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,68 +107,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 3, 2025 at 3:35=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl> =
+wrote:
+> > >
+> > > The compatible string could be updated like so:
+> > > "thead,th1520-aon-pwrseq"
+> >
+> > Should not be separate node, you already have one for AON.
+> >
+>
+> Agreed. And as far as implementation goes, you can have the same
+> driver be a PM domain AND pwrseq provider. It just has to bind to the
+> device node that represents an actual component, not a made-up
+> "convenience" node.
+>
 
-On 03/06/2025 13:57, Christian König wrote:
-> On 6/3/25 13:27, Tvrtko Ursulin wrote:
->> The default core shrink target of 128 pages (SHRINK_BATCH) is quite low
->> relative to how cheap TTM pool shrinking is, and how the free pages are
->> distributed in page order pools.
->>
->> We can make the target a bit more aggressive by making it roughly the
->> average number of pages across all pools, freeing more of the cached
->> pages every time shrinker core invokes our callback.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/ttm/ttm_pool.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->> index c060c90b89c0..e671812789ea 100644
->> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->> @@ -1265,10 +1265,16 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
->>   }
->>   EXPORT_SYMBOL(ttm_pool_debugfs);
->>   
->> +/* Free average pool number of pages.  */
->> +#define TTM_SHRINKER_BATCH ((1 << (MAX_PAGE_ORDER / 2)) * NR_PAGE_ORDERS)
-> 
-> To be honest this feels random. But I can't come up with a better idea either and it still looks better than the default as far as I can see.
-> 
-> So feel free to add Reviewed-by: Christian König <christian.koenig@amd.com> to the series.
+I'm seeing that there's already a main driver under
+drivers/pmdomain/thead/th1520-pm-domains.c and a "logical sub-driver"
+under drivers/firmware/thead,th1520-aon.c which exposes
+th1520_aon_init() called by the former. Maybe just follow that
+pattern, add a module under drivers/power/sequencing/ called
+pwrseq-th1520-pwrseq.c and call its init function from the pm-domains
+module?
 
-Thanks!
-
-> Should I push it to drm-misc-next or do you now have commit rights?
-
-I should be able to, think I've tested it already once.
-
-Regards,
-
-Tvrtko
-
->> +
->>   /* Test the shrinker functions and dump the result */
->>   static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
->>   {
->> -	struct shrink_control sc = { .gfp_mask = GFP_NOFS };
->> +	struct shrink_control sc = {
->> +		.gfp_mask = GFP_NOFS,
->> +		.nr_to_scan = TTM_SHRINKER_BATCH,
->> +	};
->>   
->>   	fs_reclaim_acquire(GFP_KERNEL);
->>   	seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(mm_shrinker, &sc),
->> @@ -1326,6 +1332,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>   
->>   	mm_shrinker->count_objects = ttm_pool_shrinker_count;
->>   	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
->> +	mm_shrinker->batch = TTM_SHRINKER_BATCH;
->>   	mm_shrinker->seeks = 1;
->>   
->>   	shrinker_register(mm_shrinker);
-> 
-
+Bart
