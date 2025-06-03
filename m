@@ -2,77 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864A6ACCCA5
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 20:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1FDACCCAA
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 20:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868D610E1F8;
-	Tue,  3 Jun 2025 18:04:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zzw1Lhtt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C1B10E5C9;
+	Tue,  3 Jun 2025 18:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7CCE10E1F8;
- Tue,  3 Jun 2025 18:04:24 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3a510432236so1542065f8f.0; 
- Tue, 03 Jun 2025 11:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748973863; x=1749578663; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UUV+ii5u6eXM/9z4t0zPuEnw9506tcp6lSpVIjqTuQM=;
- b=Zzw1LhtttT33lgm4QKmKO60S5KXUn/O5jFw5ppRsIoeoKiJPmPKEh3EqE055Sb38ZZ
- cbkUTV1VneC7Vj/BDjiVzb0NRSNJDrcAS+Z/nZK9dQ9M2jMFsns8bJiQ4eb0Du0ONUod
- RYWS+1kWpIo3Ye4+AVHdCvkbITpkyZaJF7cEiKfGKcCwdqTZ8Y0IjU8qYqP7+IIOPc5a
- nUM6hLbmWWFkdk27687jPnYEch3bWAPw6mtB0xpLPGunbIMCHYUlQ92DrehcfIJwQGn5
- zZSRpz3wpfZ/hyWJk2GTNbuLOBzbLucZhLBh6bIRjm9NSLg2m6DOVTJlkExFNY6G12pM
- PbLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748973863; x=1749578663;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UUV+ii5u6eXM/9z4t0zPuEnw9506tcp6lSpVIjqTuQM=;
- b=hK2d0jrNdpAsJgo0D9iH8Y/ngSjAnp+nfEpUmDADcB1+4cCyI3eVqQykzbvo98UsBE
- luQG/jOWmLHmHosZSb77aWRFyU6Pyja+VJpxGGNavpXiMBTcF6qsoV59jHu4VaQayaeC
- ARdf6oe9crdJWw6exRmrZh0gZqfQan8BSmi6wBGBbVFplFD+zrwcH/GHPr83726jj+HI
- B6o8BfKsctVsUbfpj4LArTnD9mx4HcydkSK+0aGMdtZznZSyHw+7vMjqELsjcsAnzKGh
- 1Iw+imxX8gU7qDQ+7GG2Ow5SZ4qNkVghpQFCCAlTVbE/4fOUKuj0j4yXgjCSvfEH7l92
- tAwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfWCGMI5NLqbAu2c28EA7Mltas5FUJcHuiXHTpMRuHflMyB45Xa92xUlglI5IHJ5Rp3qxfApTvB9I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKjfokffkpTBmyoDCSbe9ZKR4cOtk5tqsyr+PyJYkYyP9LcReB
- MQBk7R1G7Ezos+pX4mjdfAUjaybLi8ncmA+ZW5Xn/UuA05rH1+orwdK9
-X-Gm-Gg: ASbGnctbDu4kfS9X8i/UUV5BIOlEtE1hAPCHy+MMl+fRxxOWwOszq5Ssf+d8o46LtsV
- 2vnlor0y44j8GffhTMIKHDC1gB+pquB0weeK7RB18dN1J5Pnh0GuO1KrO8TLExlR+Vkhiykhbdq
- CL5WKOoC317u5Sjd81OXBJXl7oOSKi2tBsHBNc2HAOO9nVULvutAcsQHoFrTp8eidIMiGuYoMCV
- 1xRS3LxttDE0oYeuZtNqrUUqkKVIzfy9joYkiq1d6d16ICWIgT/SZyXGOQDwJhhgvKasnzyY1lN
- 0x7Yn1MZamyEhLU1+WRUkWe9UItWWepGu6AiayT4LY8kbFMH9HjpwrHPSgpIknc=
-X-Google-Smtp-Source: AGHT+IFWDRZ5DMF8AWYghMojAC19CnsoSoHQTSNpwtp6Jv2nP6IRBRnbRL5Y916DRs9zZwsULYr8uQ==
-X-Received: by 2002:a05:6000:18ad:b0:3a3:727d:10e8 with SMTP id
- ffacd0b85a97d-3a4fe3a6ac9mr9056440f8f.50.1748973863165; 
- Tue, 03 Jun 2025 11:04:23 -0700 (PDT)
-Received: from qasdev.Home ([2a02:c7c:6696:8300:397c:823b:f900:56d9])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4efe5b887sm19468210f8f.18.2025.06.03.11.04.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 11:04:22 -0700 (PDT)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/xe/hwmon: fix uninitialised access in
- xe_hwmon_pcode_write_power_limit
-Date: Tue,  3 Jun 2025 19:03:33 +0100
-Message-Id: <20250603180333.32117-1-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5624F10E5C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 18:05:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id EEF9DA4DF09;
+ Tue,  3 Jun 2025 18:05:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF51CC4CEED;
+ Tue,  3 Jun 2025 18:05:17 +0000 (UTC)
+Date: Tue, 3 Jun 2025 14:06:32 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Hugh Dickins <hughd@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, Andrew Morton
+ <akpm@linux-foundation.org>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH] mm: Fix compile error when CONFIG_SHMEM is not set
+Message-ID: <20250603140632.168190f9@gandalf.local.home>
+In-Reply-To: <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
+References: <20250602170500.48713a2b@gandalf.local.home>
+ <20250602171458.7ceabb1c@gandalf.local.home>
+ <aD4boBrdZXtz_5kL@casper.infradead.org>
+ <fc2b6a94-bd2d-a5d9-c935-381a1613f47e@google.com>
+ <20250603102959.20c85adb@gandalf.local.home>
+ <aD8iL4cFoXpIVK_0@casper.infradead.org>
+ <20250603132736.554f611d@gandalf.local.home>
+ <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=n
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,53 +58,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-val0/val1 are not initialised and are passed to xe_pcode_read():
+On Tue, 3 Jun 2025 10:54:49 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-    xe_hwmon_pcode_write_power_limit()
-      └─▶ xe_pcode_read()
-            └─▶ pcode_mailbox_rw()
-                  └─▶ __pcode_mailbox_rw()
+> On Tue, 3 Jun 2025 at 10:26, Steven Rostedt <rostedt@goodmis.org> wrote:
+> >
+> >  config DRM_TTM
+> >         tristate
+> > -       depends on DRM && MMU
+> > +       depends on DRM && MMU && SHMEM  
+> 
+> Yeah, except I think you should just make it be
+> 
+>           depends on DRM && SHMEM
+> 
+> because SHMEM already depends on MMU.
 
-If __pcode_mailbox_rw fails, val0/val1 could be left
-uninitialised leading to xe_hwmon_pcode_write_power_limit()
-to access them via drm_dbg. Or an uninitialised val0/val1
-could be dereferenced inside __pcode_mailbox_rw.
+Yeah, if I had made this a real patch I would have done that, but this was
+only for seeing it it would work.
 
-To fix zero-initialise them to avoid potential UB and 
-propagate error on failure.
+> 
+> That said, our docs already say that if you disable SHMEM, it gets
+> replaced by RAMFS, so maybe just having a ramfs version is the
+> RightThing(tm).
+> 
+> I don't think such a ramfs version should just return 0 - much less an
+> error. I think it should always redirty the page.
+> 
+> IOW, I think the "ramfs" version should look something like
+> 
+>         folio_mark_dirty(folio);
+>         if (wbc->for_reclaim)
+>                 return AOP_WRITEPAGE_ACTIVATE;  /* Return with folio locked */
+>         folio_unlock(folio);
+>         return 0;
+> 
+> which is what shmem does for the "page is locked" case.
 
-Fixes: 7596d839f622 ("drm/xe/hwmon: Add support to manage power limits though mailbox")
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
----
- drivers/gpu/drm/xe/xe_hwmon.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I'll let someone that understand the code a bit more than I do to make such
+a change. My patch was just a "this makes my system build" thing and let
+those that know this code do the RightThing(tm).
 
-diff --git a/drivers/gpu/drm/xe/xe_hwmon.c b/drivers/gpu/drm/xe/xe_hwmon.c
-index 0d32e977537c..04acb47488a0 100644
---- a/drivers/gpu/drm/xe/xe_hwmon.c
-+++ b/drivers/gpu/drm/xe/xe_hwmon.c
-@@ -179,7 +179,7 @@ static int xe_hwmon_pcode_write_power_limit(const struct xe_hwmon *hwmon, u32 at
- 					    u32 uval)
- {
- 	struct xe_tile *root_tile = xe_device_get_root_tile(hwmon->xe);
--	u32 val0, val1;
-+	u32 val0 = 0, val1 = 0;
- 	int ret = 0;
- 
- 	ret = xe_pcode_read(root_tile, PCODE_MBOX(PCODE_POWER_SETUP,
-@@ -190,9 +190,11 @@ static int xe_hwmon_pcode_write_power_limit(const struct xe_hwmon *hwmon, u32 at
- 						  READ_PL_FROM_PCODE : READ_PL_FROM_FW),
- 						  &val0, &val1);
- 
--	if (ret)
-+	if (ret) {
- 		drm_dbg(&hwmon->xe->drm, "read failed ch %d val0 0x%08x, val1 0x%08x, ret %d\n",
- 			channel, val0, val1, ret);
-+		return ret;
-+	}
- 
- 	if (attr == PL1_HWMON_ATTR)
- 		val0 = uval;
--- 
-2.39.5
+-- Steve
 
