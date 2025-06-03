@@ -2,163 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6134AACC492
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2EBACC4AD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07EE010E19B;
-	Tue,  3 Jun 2025 10:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A95510E6C1;
+	Tue,  3 Jun 2025 10:51:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cQQpPzrf";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RCUqy7dV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C5210E19B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 10:42:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QOYuCfo2fSx45oBHmg8SPwCLQ9/S0pMGq/y71kBnFL/1a1anLTjWnHM8jP6P9gdjk2wROilvQ8B/rRL8crEJPQwXCBmCOK6XupyL4sG+3FnqH1R6+FSi4+Tjrk6aw+9z/sZsiQ13IL8Pd/lwqb6kpL2Vt+f4qFSvXd2bWsTcwpiIPwBZ+LNF7GWW2CVx6XwDQiEH/UipofT8IUro3v3kRBPb6ofjoSW9aQ4o8TDoWJuYgUmcDGf2m5PolzMUVFCLo7J3qe/m6Wo8S4/OExD+VDnQlA2myS4d1vSvGk+MWmt+hbSPcyub4Z0WKiy6aN80L4E3P2vuWwkW00OHJ8SbrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m8tyd3y/5UeOKysL/tMZuJCliFYoGRCphFtDLv37FzE=;
- b=yifeOnMgVC/wj9Kn9AUyC+d05br07kqlrKq3woKUbhmJFA0cNVRIjk08LxQrLkiOHfptxcfIhy0OqLGShgoqP/3QCEaJ4rwjjmGfb7geHM9p+BY8jNtLMC6squ+uaGuuKlt2S+H9JxY3WgApW2m0jPsWV5+phko92fBz2h7WdsxAbb2+oLL8V76BVJKwyBgmMGV6jLzxrqh98VkSVGAZ+J9u31ujeD80hZY8VXjPXCtm49bhv64hWw+bmSr+qKvjwE0tJlGKr170kcPXNw0+ncEsKxsEJPza88Z59LOi5+gXIxDPF9rECAbYZqKHpGMLAVBBomwp8DSEfXPgsO+suA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m8tyd3y/5UeOKysL/tMZuJCliFYoGRCphFtDLv37FzE=;
- b=cQQpPzrfMSuH/TfZ1M+uPOH0KhBWlAiyBp6qKjfA5+2N/TGa58iBLfBfKKHZVrBhSn71FQFADV+/WbiJVcOQJyZfTZ1xBQ1osYk5r8AZiYwPcaqaPBl4XsYenRzRMDxXBbD+oY81rKrF7Au2Y+nGW7k9CxsPauKJoXQfCYpFzC8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH0PR12MB7863.namprd12.prod.outlook.com (2603:10b6:510:28b::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Tue, 3 Jun
- 2025 10:42:35 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
- 10:42:35 +0000
-Message-ID: <ec85db1b-d536-4954-bad9-d5b1f3388492@amd.com>
-Date: Tue, 3 Jun 2025 12:42:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dmabuf: Implement copy_file_range callback for
- dmabuf direct I/O prep
-To: wangtao <tao.wangtao@honor.com>, sumit.semwal@linaro.org,
- kraxel@redhat.com, vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk,
- brauner@kernel.org, hughd@google.com, akpm@linux-foundation.org,
- amir73il@gmail.com
-Cc: benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
- jstultz@google.com, tjmercier@google.com, jack@suse.cz,
- baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com,
- liulu.liu@honor.com, feng.han@honor.com
-References: <20250603095245.17478-1-tao.wangtao@honor.com>
- <20250603095245.17478-3-tao.wangtao@honor.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250603095245.17478-3-tao.wangtao@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EF410E6AC;
+ Tue,  3 Jun 2025 10:51:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1748947883;
+ bh=l1R9GZqWNizruxzdd8oLnHcO+JoXYyULLOkxArw+8k4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RCUqy7dVzwwTcFboWPbbv42M4z2pTILQ/g70P4mFc2JzLCpL0V5gzdEBhh1oEPo7C
+ 65tUV+CWXMwz6EAS/hjVXVwbJJwfrwAFTUfrDoVUdSoZaHWsLuY3qGsq0CSOQwfvBR
+ TWYk8pcLI2Br2MZjPGUzTyn8l9rryOtIui63J8HYyEeaaR0SBx0jl6Er+GU5xE6tjY
+ aCHuJiQeqeiCufch/VFTrSKZIMTe+oZPR1+NZrYbVOUT4V57r/NapOw8lag8l0LNO4
+ 6aG8zaTzwzAzBzPJJFym6jnEUmC0MwzhxkZu3ZyX333n8khbiMJgcktfmkUFZ1Woi7
+ RfK4VPp3ZoeFw==
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CB6717E0FDB;
+ Tue,  3 Jun 2025 12:51:22 +0200 (CEST)
+Date: Tue, 3 Jun 2025 13:51:08 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: "Shankar, Uma" <uma.shankar@intel.com>
+Cc: Simon Ser <contact@emersion.fr>, Harry Wentland
+ <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "leo.liu@amd.com" <leo.liu@amd.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "mwen@igalia.com" <mwen@igalia.com>, "jadahl@redhat.com"
+ <jadahl@redhat.com>, "sebastian.wick@redhat.com"
+ <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
+ <shashank.sharma@amd.com>, "agoins@nvidia.com" <agoins@nvidia.com>,
+ "joshua@froggi.es" <joshua@froggi.es>, "mdaenzer@redhat.com"
+ <mdaenzer@redhat.com>, "aleixpol@kde.org" <aleixpol@kde.org>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, "victoria@system76.com"
+ <victoria@system76.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "quic_naseer@quicinc.com" <quic_naseer@quicinc.com>,
+ "quic_cbraga@quicinc.com" <quic_cbraga@quicinc.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, "marcan@marcan.st"
+ <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
+ "sashamcintosh@google.com" <sashamcintosh@google.com>, "Borah, Chaitanya
+ Kumar" <chaitanya.kumar.borah@intel.com>, "louis.chauvet@bootlin.com"
+ <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH V8 32/43] drm/colorop: Add 1D Curve Custom LUT type
+Message-ID: <20250603135108.603fa6e6@eldfell>
+In-Reply-To: <DM4PR11MB6360BFCB5756A16F38945DE7F46DA@DM4PR11MB6360.namprd11.prod.outlook.com>
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-33-alex.hung@amd.com>
+ <CY5PR11MB63441E057180C043C51230A3F4B22@CY5PR11MB6344.namprd11.prod.outlook.com>
+ <fzuE3KXuocsKA0I9kWXruyw7IVbw3jwH2yeh59SfE0Qb0SGxa29rrj9X_XgNCdmj1vWgxLO619xyJY3r5R3hsZK6ElIkTvbyNfu40x1SiZM=@emersion.fr>
+ <CY5PR11MB63449DBA54519766E345CADAF4B22@CY5PR11MB6344.namprd11.prod.outlook.com>
+ <3ca1958f-62e0-4a5c-837b-3cd705acc181@amd.com>
+ <ZqHOWK3X_Ici9wNgijgeUt9r3asi4jhqw-0-keIfXYAFxbsGLaFTIozGHHR64SnkAzPA4CM-zmc6OwVtrKMKjVyoblti88KpRf9wEu8daP0=@emersion.fr>
+ <DM4PR11MB6360CE0C5C99FB02CD6CC0BFF499A@DM4PR11MB6360.namprd11.prod.outlook.com>
+ <20250530165818.0e6cb846@eldfell>
+ <DM4PR11MB6360BFCB5756A16F38945DE7F46DA@DM4PR11MB6360.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB7863:EE_
-X-MS-Office365-Filtering-Correlation-Id: eee55a24-341f-458c-6d70-08dda28b59eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NGxXUjRrTk9TM0pISnFiRlkySnhHZXNpRjJkc3NISWExaW14ekpsVU12Y0Fu?=
- =?utf-8?B?T1BlY3VKNEZwTjUyY1JHQjlCdS8vUllCVkpCZmp3OWJ3akZmSXVQVW8yM0FQ?=
- =?utf-8?B?c0o5cDUwcUFFYWxVNUFiNXBvY0E1OHZaejlJWWZBNllsYVJTRUltTnU5cFhG?=
- =?utf-8?B?VllUM1R1M25rWi8xeE5oUmd2NVhYWjFiOFBLQ3MrUm5PcDdmZldTek1ZMnN4?=
- =?utf-8?B?MmF2L0hVRkRuMEJ6MWpWY3ptN0xuYTlTVDJqUjI2NTZub2ZiNFFtYkozajlS?=
- =?utf-8?B?NEpIaCtiZWJ0elRSeUMwNzYwQUJKWExCNFVURG1xRjM0NENwOWZsQTZQalg2?=
- =?utf-8?B?eTFUNE9qU29yUUcxN0RYSXpFNk51MG9yOENSN0ROUi9PWWQ5Z2VsVUNXYWt4?=
- =?utf-8?B?Wjd4c200T2czMDhNL1hSVVlia0F6NVJMYjNiRWZxbWFObTF2emVrSk1EYXlS?=
- =?utf-8?B?c3dZQ1ZTTlJGTUtTZnR1cHptSjV4dUhCc0pwSHVNcjVOb21id2Vacm5abVoz?=
- =?utf-8?B?Z3loekh3K1lpcjFuTThSQmE2clBRWEt2Vy9YWlQ2L3ArWkU5d252NkJjZjla?=
- =?utf-8?B?aGtrMWRjS3pHVVNkMmpqR2R5QW1vcndVK01MZHA3TGNzQUduM3E3K3BMRXNM?=
- =?utf-8?B?anJHbHplK1g1dWhDdHd2eTVvSEhiVUVKNFdFem05NU5PUzRLNGF2ZWdrcHdP?=
- =?utf-8?B?SzY1QWljRDJVUEtrdEM5VUh6UDZlSGo0OUR6ZzMyK3JvRjB1NnVpL2wwdzR1?=
- =?utf-8?B?SVBaRWRyR2hndWU2eTRKdkdwK3hEdm5RQllLbmc4eDJsSGFqdzl5azlSRzJ4?=
- =?utf-8?B?bzNkbnNhR2tZSUQ3NGNrQXdVcy9TVmRzTjRaby8zR1lCUks5TTV6ZjNpQWRL?=
- =?utf-8?B?bUZTQVNVVHcraC9QSUU0TCtZVkF6M3p5L1NxQkhBR2pDSm84ZFJHbTJ1UjBP?=
- =?utf-8?B?WG1QWjRsbGhKSHBhdDllQ3N3N0lpL3BwVVZmSDlFbFdPZjdOQ0Q0dHZ6dG1z?=
- =?utf-8?B?dGc1U3hvZi81amdDZXFxS29qYTRRdFJhamd4NUNHY0FROXV0TGpiOU1CZzZw?=
- =?utf-8?B?a2h2VWhqdkNsRGV3WndSYWFSUHE5NzhHdWlvZFJrUjdRS1FKNjdxOVNaZVVZ?=
- =?utf-8?B?dmJpU2dqZnZUelliMlVjRjk1bVloVVYrUThwQmJ4VWtmdlR1QnYyK200bkFN?=
- =?utf-8?B?VnlLc3VmcGxNYmVBaEZrQmVCRERUVDZvbytNV0s2RFVtM0crRzBCdGtCczJ2?=
- =?utf-8?B?QjN0RkR2Znhlcnl1MTQyb0lmNFlLVU5PMEVTeWtHcmxKWVlhOVNIOWkwdXBn?=
- =?utf-8?B?TVVJTmVwVFlFenpDL04zYTRCL0FWQ1FYbGU2eFk1SkF1dUFrM1VNSWExZHBm?=
- =?utf-8?B?OWxpSVhLUSs1QjNIbHhCdDByWGg5TUV0NTlxSEZiUjFSOXFIS2gzVHNFVFZI?=
- =?utf-8?B?bThGZnl2ZkZjUzJQQTB3MVFFeDJIcmExVlViUnFob0RSYnVPTzJpMFFESzFJ?=
- =?utf-8?B?NG5GUFdDNkRJOWpaWlpCY1ZndmtWZ0E1UkRqNTFJQzJESFZIQzN5UzdQUVZT?=
- =?utf-8?B?MXFaaVlvOXFGZnNpZU5xNDhlbXg3Z0djK0RiQ1VuY0gvQWpIeVUyaXcvcGgw?=
- =?utf-8?B?cU9nTjVnWEtHRUtRR01HbTFtUzgxT01hdGdhR2ZxbVZ4UzVHQ0V6bzNZQXJp?=
- =?utf-8?B?ZEpkQytHUXJCeVJZQUpwK0NiQ2hvWWZ0Y04xaXd3QW9PNGlMSXNFZ3l2UUZw?=
- =?utf-8?B?cythUlUyaGpnNnRtaVhVQ2FuZWtRNmF4SE1hR3B1STUxellvK1dtZElxdWg5?=
- =?utf-8?B?Y2o3NzU2OHJid0RQOXRYY2wyTWROZ1dwaGdhSzFudURXTExDZGhURjdVYlNF?=
- =?utf-8?B?bmNzTUQvc3RLT2owOFpPMGtyRDFaTkJQeFpIMER5Y3Y0Z2VkOHVHY2Vacll4?=
- =?utf-8?Q?zVtyxkbP/E8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlBjVG5nUlY1QWEybm9JdTY1QnlFTm43MlhXV0JHaUtJcWFoV2F5WWZHUEZS?=
- =?utf-8?B?VlNpYTRxeUhsODVpdS9lWklKQkpzN1YzcUY0VDZhTnRkMnJtRnMyaUtSR3pX?=
- =?utf-8?B?SzFERDNvRVFvb1A0U2hLZlZGdkc2NHkzZGFwelRxSEtQd1pGWnhQNFE1cnRa?=
- =?utf-8?B?ZmdNa2x5dkwzUmpyaFlZaFFZK1NwdWJ0USsrdGFVZ3I4RjcwZDRxNXk0K0tj?=
- =?utf-8?B?aWgydEVkbzd2elFaUFNyZVlkdnp6QUxueWNieHBLQ3o1N3V1WjR0WTJPL3dZ?=
- =?utf-8?B?Z09kVlRxVitFSmIrMkx6WDlHalZlbXFqclpCMko0ZTA1aU1aWlBMWlprQmR4?=
- =?utf-8?B?TmV6TVZLRmoxWS8vYmhVMkk0Zi9NZlBHREJjYW1ob3RRaTAzcEhzOXBGL21z?=
- =?utf-8?B?bHZBTkk4RXF3UTRoRE5VZ1pvNEs2VHlQUGhMbHFYbTUvNjlGWTBGVTJPa3Qv?=
- =?utf-8?B?RU9iMlFrYnJLWklyMFY1em5SV2szN2kzSVY1TlZsZDl5RmJnbkx3VER4ZjJY?=
- =?utf-8?B?b05ITmVrRHR0L3dhZTlsUVJ1ZHcwK1FaT0FJSjJuTkpmTW5ZRUNTNzZGMWJH?=
- =?utf-8?B?bmVibEJGTDM5MjZpdm1MUWlhQXNseFdodUtXV3FYd2szcHlXdk54ZVpkeitj?=
- =?utf-8?B?UkFRRjNVdHd3U29WUXRFNitIMVZoN3ZGczBUQW5BamJ0VlNWbUdaOUgyY28w?=
- =?utf-8?B?QTlHQTQ1ZThJYUIxNEJnMFpYa2c0NDhvUWcvWFRLZzVoSzhzMXBFenQ5VUoz?=
- =?utf-8?B?ZTNPbE1PeUJJak1scVpYVndsTVZZaFA5bHRsRGhGSmplM0lhcVF5Z2U2Tmw1?=
- =?utf-8?B?VFB2RTlKSzhkeE9LS290Z21HV3U4VUdITkIzMFlHMXZqaWdodUZsRmlGUWR6?=
- =?utf-8?B?QzBlWDR2VEhRSjVmQWxWb3BCYkZkOVZ3QU5MbTArM3RoblZWRGpQeDBnUHVZ?=
- =?utf-8?B?SVQvZDNmRCs0dFY2VEtydThaL1Q2dW5PZnB5WWRnK3dKczQvRitOeVVEWUtw?=
- =?utf-8?B?YlpHRUxNMXZqNXZROG5vbmkrYVpuT0pvTDVlYk1MS0FxR1RIVlZ0d0lpdlJx?=
- =?utf-8?B?Y0pXUzlFQ2lsYXY3Ulh0MEo3ZG84aXJabGY2eEdHaUZjc2llclJrUUNPeFgz?=
- =?utf-8?B?eTNSaHBmc3Z4YnpxQ0ZpaE9qY0piWFNqZExzUUovMVFYYmFDcFNQTnBYY1dD?=
- =?utf-8?B?TVBHeVd2Q3ZlWGwvZCtNR3ZTVlY5ekdKQ0lkekQ1QlRDZ3cyMDlPQ2pHRG9P?=
- =?utf-8?B?ZHNwOEhjTjd2NDRiTURNMVlkVlE5ZXdyS2docmJYNnlrbkZ0SExTNEtJaGRK?=
- =?utf-8?B?UDI4aTQzUXZseEtqeWRoVG91M3VOM2ZVZUVIZVQ0THJRN1FQU3AyM09rTGRw?=
- =?utf-8?B?b3VRSkJyUnJaWktnc252YStFa0laTXhKTGNJMWNWOC9OR0xGMjAvNmdERHVT?=
- =?utf-8?B?dDNZMzgyaVpzRXJDTWR6VjllRWVZNEluS2V1aW5yTkFESmFjMzhXbzR1eG1S?=
- =?utf-8?B?ZDBmbjhvZ2Y2ZGlJTWxoeW53ODVXTzJRbCtaNEJQdll3RDFIdUFJR1BQWnVi?=
- =?utf-8?B?dVpJUEtBVVVCaVpvelE2ei9pY0RnYys4MS9DeUR2cTM2eEdEMk05azZoeGZt?=
- =?utf-8?B?NHJSSUc2cWRUaFFOVjFtM1RnMkdoSTlGcUFxUGJGUGIyL1RObnlJTllRWncv?=
- =?utf-8?B?NlVQTGRaZVU1KytaRXhoZGY5VDM0dTAzU0M1MlNFZ1p4NS9PaTRyUlhUcXV1?=
- =?utf-8?B?ZitiU2ZWamZoNXU0MmFBNC8yVUhvd0RXOWwwRDlCMnJaZWlhLzBZdGhFbC9w?=
- =?utf-8?B?WU1zOEhJZG96Und0QXo3VjFYNmRNdnVJR2oveHM1em1KaXFYNEF0Q0hTZ3Bk?=
- =?utf-8?B?clBIREhKN252ZTFDQUtzNHJwSnRRZjNEZlFtYi9OcVJEWEdMWGhDUkhSUWpP?=
- =?utf-8?B?WDNpZWdZSU95aS9EMVhhWGhPZ0xiUDhUMEkyRWdaVlNwd1ErTFhTZzFEejFl?=
- =?utf-8?B?ZXdTTEcwUjFuMExmOGM2RUcyeXRDVTlkSEgrbUZCK2g3azNjdW16UVU1by9l?=
- =?utf-8?B?ZUlIN3FyRnpkS2YxQ1ltR25adkJydnRnZ3BBcWQrZE81WDFNTGRCb3J5bU44?=
- =?utf-8?Q?c1BOZkvIEs880Nn6eKDrR6dPn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eee55a24-341f-458c-6d70-08dda28b59eb
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 10:42:35.1066 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +24txkdycrIt8FJrCmtdPOj9jjG5rNw8iIm6u+Z1YMmMhyn5ep3tP8c2YCMGs1UP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7863
+Content-Type: multipart/signed; boundary="Sig_/7R8qp=RIo_YSw9KICy5ic/I";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,109 +91,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/7R8qp=RIo_YSw9KICy5ic/I
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 3 Jun 2025 08:30:23 +0000
+"Shankar, Uma" <uma.shankar@intel.com> wrote:
+
+> > -----Original Message-----
+> > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Sent: Friday, May 30, 2025 7:28 PM
+> > To: Shankar, Uma <uma.shankar@intel.com>
+> > Cc: Simon Ser <contact@emersion.fr>; Harry Wentland
+> > <harry.wentland@amd.com>; Alex Hung <alex.hung@amd.com>; dri-
+> > devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; intel-
+> > gfx@lists.freedesktop.org; wayland-devel@lists.freedesktop.org;
+> > leo.liu@amd.com; ville.syrjala@linux.intel.com; pekka.paalanen@collabor=
+a.com;
+> > mwen@igalia.com; jadahl@redhat.com; sebastian.wick@redhat.com;
+> > shashank.sharma@amd.com; agoins@nvidia.com; joshua@froggi.es;
+> > mdaenzer@redhat.com; aleixpol@kde.org; xaver.hugl@gmail.com;
+> > victoria@system76.com; daniel@ffwll.ch; quic_naseer@quicinc.com;
+> > quic_cbraga@quicinc.com; quic_abhinavk@quicinc.com; marcan@marcan.st;
+> > Liviu.Dudau@arm.com; sashamcintosh@google.com; Borah, Chaitanya Kumar
+> > <chaitanya.kumar.borah@intel.com>; louis.chauvet@bootlin.com
+> > Subject: Re: [PATCH V8 32/43] drm/colorop: Add 1D Curve Custom LUT type
+> >=20
+> > On Thu, 22 May 2025 11:33:00 +0000
+> > "Shankar, Uma" <uma.shankar@intel.com> wrote:
+> >  =20
+> > > One request though: Can we enhance the lut samples from existing
+> > > 16bits to 32bits as lut precision is going to be more than 16 in cert=
+ain hardware. =20
+> > While adding the new UAPI, lets extend this to 32 to make it future pro=
+of. =20
+> > > Reference:
+> > > https://patchwork.freedesktop.org/patch/642592/?series=3D129811&rev=
+=3D4
+> > >
+> > > +/**
+> > > + * struct drm_color_lut_32 - Represents high precision lut values
+> > > + *
+> > > + * Creating 32 bit palette entries for better data
+> > > + * precision. This will be required for HDR and
+> > > + * similar color processing usecases.
+> > > + */
+> > > +struct drm_color_lut_32 {
+> > > +	/*
+> > > +	 * Data for high precision LUTs
+> > > +	 */
+> > > +	__u32 red;
+> > > +	__u32 green;
+> > > +	__u32 blue;
+> > > +	__u32 reserved;
+> > > +}; =20
+> >=20
+> > Hi,
+> >=20
+> > I suppose you need this much precision for optical data? If so, floatin=
+g-point would
+> > be much more appropriate and we could probably keep 16-bit storage.
+> >=20
+> > What does the "more than 16-bit" hardware actually use? ISTR at least A=
+MD
+> > having some sort of float'ish point internal pipeline?
+> >=20
+> > This sounds the same thing as non-uniformly distributed taps in a LUT.
+> > That mimics floating-point input while this feels like floating-point o=
+utput of a LUT.
+> >=20
+> > I've recently decided for myself (and Weston) that I will never store o=
+ptical data in
+> > an integer format, because it is far too wasteful. That's why the elect=
+rical
+> > encodings like power-2.2 are so useful, not just for emulating a CRT. =
+=20
+>=20
+> Hi Pekka,
+> Internal pipeline in hardware can operate at higher precision than the in=
+put framebuffer
+> to plane engines. So, in case we have optical data of 16bits or 10bits pr=
+ecision, hardware
+> can scale this up to higher precision in internal pipeline in hardware to=
+ take care of rounding
+> and overflow issues. Even FP16 optical data will be normalized and conver=
+ted internally for
+> further processing.
+
+Is it integer or floating-point?
+
+If we take the full range of PQ as optical and put it into 16-bit
+integer format, the luminance step from code 1 to code 2 is 0.15 cd/m=C2=B2.
+That seems like a huge step in the dark end. Such a step would
+probably need to be divided over several taps in a LUT, which wouldn't
+be possible.
+
+In that sense, if a LUT is used for the PQ EOTF, I totally agree that
+16-bit integer won't be even nearly enough precision.
+
+This actually points out the caveat that increasing the number of taps
+in a LUT can cause the LUT to become non-monotonic when the sample
+precision runs out. That is, consecutive taps don't always increase in
+value.
+
+> Input to LUT hardware can be 16bits or even higher, so the look up table =
+we program can
+> be of higher precision than 16 (certain cases 24 in Intel pipeline). This=
+ is later truncated to bpc supported
+> in output formats from sync (10, 12 or 16), mostly for electrical value t=
+o be sent to sink.
+>=20
+> Hence requesting to increase the container from current u16 to u32, to ge=
+t advantage of higher
+> precision luts.
+
+My argument though is to use a floating-point format for the LUT samples
+instead of adding more and more integer bits. That naturally puts more
+precision where it is needed: near zero.
+
+A driver can easily convert that to any format the hardware needs.
+
+However, it might make best sense for a driver to expose a LUT with a
+format that best matches the hardware precision, especially
+floating-point vs. integer.
+
+I guess we may eventually need both 32 bpc integer and 16 (or 32) bpc
+floating-point.
 
 
-On 6/3/25 11:52, wangtao wrote:
-> First determine if dmabuf reads from or writes to the file.
-> Then call exporter's rw_file callback function.
-> 
-> Signed-off-by: wangtao <tao.wangtao@honor.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 32 ++++++++++++++++++++++++++++++++
->  include/linux/dma-buf.h   | 16 ++++++++++++++++
->  2 files changed, 48 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 5baa83b85515..fc9bf54c921a 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -523,7 +523,38 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
->  	spin_unlock(&dmabuf->name_lock);
->  }
->  
-> +static ssize_t dma_buf_rw_file(struct dma_buf *dmabuf, loff_t my_pos,
-> +	struct file *file, loff_t pos, size_t count, bool is_write)
-> +{
-> +	if (!dmabuf->ops->rw_file)
-> +		return -EINVAL;
-> +
-> +	if (my_pos >= dmabuf->size)
-> +		count = 0;
-> +	else
-> +		count = min_t(size_t, count, dmabuf->size - my_pos);
-> +	if (!count)
-> +		return 0;
-> +
-> +	return dmabuf->ops->rw_file(dmabuf, my_pos, file, pos, count, is_write);
-> +}
-> +
-> +static ssize_t dma_buf_copy_file_range(struct file *file_in, loff_t pos_in,
-> +	struct file *file_out, loff_t pos_out,
-> +	size_t count, unsigned int flags)
-> +{
-> +	if (is_dma_buf_file(file_in) && file_out->f_op->write_iter)
-> +		return dma_buf_rw_file(file_in->private_data, pos_in,
-> +				file_out, pos_out, count, true);
-> +	else if (is_dma_buf_file(file_out) && file_in->f_op->read_iter)
-> +		return dma_buf_rw_file(file_out->private_data, pos_out,
-> +				file_in, pos_in, count, false);
-> +	else
-> +		return -EINVAL;
-> +}
-> +
->  static const struct file_operations dma_buf_fops = {
-> +	.fop_flags = FOP_MEMORY_FILE,
->  	.release	= dma_buf_file_release,
->  	.mmap		= dma_buf_mmap_internal,
->  	.llseek		= dma_buf_llseek,
-> @@ -531,6 +562,7 @@ static const struct file_operations dma_buf_fops = {
->  	.unlocked_ioctl	= dma_buf_ioctl,
->  	.compat_ioctl	= compat_ptr_ioctl,
->  	.show_fdinfo	= dma_buf_show_fdinfo,
-> +	.copy_file_range = dma_buf_copy_file_range,
->  };
->  
->  /*
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 36216d28d8bd..d3636e985399 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -22,6 +22,7 @@
->  #include <linux/fs.h>
->  #include <linux/dma-fence.h>
->  #include <linux/wait.h>
-> +#include <uapi/linux/dma-buf.h>
->  
->  struct device;
->  struct dma_buf;
-> @@ -285,6 +286,21 @@ struct dma_buf_ops {
->  
->  	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->  	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
-> +
-> +	/**
-> +	 * @rw_file:
-> +	 *
-> +	 * If an Exporter needs to support Direct I/O file operations, it can
-> +	 * implement this optional callback. The exporter must verify that no
-> +	 * other objects hold the sg_table, ensure exclusive access to the
-> +	 * dmabuf's sg_table, and only then proceed with the I/O operation.
+Thanks,
+pq
 
-Explain why and not what. E.g. something like "Allows direct I/O between this DMA-buf and the file".
+--Sig_/7R8qp=RIo_YSw9KICy5ic/I
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Completely drop mentioning the sg_table, that is irrelevant. Exclusive access depends on how the exporter implements the whole thing.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Christian.
+iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmg+05wACgkQI1/ltBGq
+qqeRKg/4zw43UUJlzyeuKGFOfQYVK1NTXcg/bfOcxZWkdCvI7jB3aYBljVHjlnD8
+DpHvKYdDtKp+W8ixe9MpPBk+eL2a5wF1Szxo3gX+tiDRExayDaqOMphDXNw8aCAK
+YpwaMYcNH9VinSNTeLawOzm/Qs7tVxSIKxNqX4/uNW7YmtmT79Bq/QN+DuB8NvS9
+etwZctYYpm3Aa2f2QTyF8uy6GcRwmSh3yKYjEs6lCHjA09ekO8VPKTTzP+YEUTtx
+Wv0WzRhVzfm59CX7P2u/sfpl8uq2TSk3I4k2H2oK+lKpj/tbTvXF3kySLHm7UvY5
+OKtEZIvRDsZaW85d7aUrTehXgWkxjLFCOp1rgg09DSc8mBPU4Fkvn78j6afl4dZW
+n6mmk88TwiNkCIZecb4hzDXdUx6gl5suKGfJlgOe3TQyz05ng2tyd0FyW0/Wzizx
+rsy18wsKLdj23XhjqBOR3HitPEx6f+hqNBJVKxazYPl55dNm2SuNS/MeR/bsuqru
+C8WtPjr3WFosg1UPVePESvCZW28/FrZvgtnBdP3X3hQKOJH2KypcPGblYboOv4Z0
+dRIr+7F7cidi8reLWx3Hwq7LALyrdDsvu5bfE5ofqIiVdrAwy4pJhD9Vcu+wPyHi
+JjEvr6nnYN8IFnxhUweiswPbj6RJi15JyaanKfN7afC6zagfFw==
+=C9X5
+-----END PGP SIGNATURE-----
 
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	ssize_t (*rw_file)(struct dma_buf *dmabuf, loff_t my_pos,
-> +		struct file *file, loff_t pos, size_t count, bool is_write);
->  };
->  
->  /**
-
+--Sig_/7R8qp=RIo_YSw9KICy5ic/I--
