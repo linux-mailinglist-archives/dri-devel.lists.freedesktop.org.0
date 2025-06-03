@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058A6ACC313
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 11:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B18FACC316
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 11:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7801310E5E3;
-	Tue,  3 Jun 2025 09:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6776210E6DF;
+	Tue,  3 Jun 2025 09:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AStVO9L5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sDzoBpzU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7769110E618;
- Tue,  3 Jun 2025 09:32:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1848F10E6DC;
+ Tue,  3 Jun 2025 09:32:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8EA0C61126;
+ by dfw.source.kernel.org (Postfix) with ESMTP id D6B825C544B;
+ Tue,  3 Jun 2025 09:29:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EF8C4CEED;
  Tue,  3 Jun 2025 09:32:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B145C4CEEF;
- Tue,  3 Jun 2025 09:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1748943120;
- bh=vu+k3OVXrurN0RDNX/7oaLaHr4+RCz+6uUmJJ1xRlw8=;
+ s=k20201202; t=1748943124;
+ bh=zZqb+juyV2Gb8VcSm5wm2p8p57d1rLPa6J1u4dkRt3U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AStVO9L5QlzmiP0MOdqk9vID9qjB2nKFZAiYkkRJNlgh2IPqsaAqOUmMkURZHmfKn
- W6vtH6yGFxN4IcLZNLjTfSi8/Bmg/AdRAkohcidBeOXfMtoXzo4lUoC2HEClnQU9KU
- VHh6wWn3JlpncWWJSWKgQuPJrPgn1+nfVG4W+qFMV/TfEptRICmBgrt3ukB1f4/hhn
- Qri4Yhjk0lI622PpglqmaRZDx1V7PhX9IbGKAojfPJxrj0O/7qRbUEu4jLRY1FwUSS
- jO1elk1dlm1pfE8XQoEUPStE6cQneFNkXq9gnin2vNwqxBsLG4nCs5Pc6B9CuPatPS
- Ny629OCECm08g==
+ b=sDzoBpzUr0Och6Hfve0Eha+YAJ5WqhwF2eHHKBjosT4vk1+xNjwsr5HcSX9/zZN2U
+ 5W87v778jw8CJz6E/gdk64LMwPFAiWJonm1KPdiPU8zwwnpdlXSMY0MrlY9ckxQV+F
+ U6s3uGFP5iJi5l8S5skpU/Xx+T3jz3qznBoJzjvdjEi3YwEG+2m/xoUzsMb5cIVw2E
+ cBmm07dABGQb3r7009ke5g2bKGgnK2YdyvUaDEaVMnT2TfS7/izQB+17OOrWGnl/Qt
+ hUcqVOWiSVZslmViQAlrduamQ5MHLEJR5VfxAZA2dOGeJ+1/iBgRlAnesJH0Ee3uXj
+ VpxleU3v7n+DQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -44,10 +44,9 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [RFC PATCH 1/6] drm/sched: Avoid memory leaks with cancel_job()
- callback
-Date: Tue,  3 Jun 2025 11:31:26 +0200
-Message-ID: <20250603093130.100159-3-phasta@kernel.org>
+Subject: [RFC PATCH 2/6] drm/sched/tests: Implement cancel_job()
+Date: Tue,  3 Jun 2025 11:31:27 +0200
+Message-ID: <20250603093130.100159-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250603093130.100159-2-phasta@kernel.org>
 References: <20250603093130.100159-2-phasta@kernel.org>
@@ -68,103 +67,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since its inception, the GPU scheduler can leak memory if the driver
-calls drm_sched_fini() while there are still jobs in flight.
+The GPU scheduler now provides a new callback to prevent memory leaks on
+scheduler teardown. The callback is optional, but should be implemented
+since it simplifies the cleanup code path.
 
-The simplest way to solve this in a backwards compatible manner is by
-adding a new callback, drm_sched_backend_ops.cancel_job(), which
-instructs the driver to signal the hardware fence associated with the
-job. Afterwards, the scheduler can savely use the established free_job()
-callback for freeing the job.
+Moreover, the unit tests serve as a resource for understanding the
+canonical usage of the scheduler API and should therefore support the
+callback.
 
-Implement the new backend_ops callback cancel_job().
+Provide the backend_ops callback cancel_job() in the unit tests.
 
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+This code is WIP and still buggy. Take it more as an RFC. It seems that
+it interferes negatively with timeout handling, which is broken in the
+sense of the timeout handler not signaling the hardware fence.
+
+That should be repaired and cleaned up, but it's probably better to do
+that in a separate series.
+
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 34 ++++++++++++++++----------
- include/drm/gpu_scheduler.h            |  9 +++++++
- 2 files changed, 30 insertions(+), 13 deletions(-)
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 71 +++++++------------
+ drivers/gpu/drm/scheduler/tests/sched_tests.h |  4 +-
+ 2 files changed, 25 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index d20726d7adf0..3f14f1e151fa 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1352,6 +1352,18 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+index 7f947ab9d322..33864b179704 100644
+--- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
++++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+@@ -55,7 +55,7 @@ void drm_mock_sched_entity_free(struct drm_mock_sched_entity *entity)
+ 	drm_sched_entity_destroy(&entity->base);
  }
- EXPORT_SYMBOL(drm_sched_init);
  
-+static void drm_sched_kill_remaining_jobs(struct drm_gpu_scheduler *sched)
-+{
-+	struct drm_sched_job *job, *tmp;
-+
-+	/* All other accessors are stopped. No locking necessary. */
-+	list_for_each_entry_safe_reverse(job, tmp, &sched->pending_list, list) {
-+		sched->ops->cancel_job(job);
-+		list_del(&job->list);
-+		sched->ops->free_job(job);
+-static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
++static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job, int err)
+ {
+ 	struct drm_mock_scheduler *sched =
+ 		drm_sched_to_mock_sched(job->base.sched);
+@@ -63,8 +63,11 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
+ 	lockdep_assert_held(&sched->lock);
+ 
+ 	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
+-	list_move_tail(&job->link, &sched->done_list);
+-	dma_fence_signal_locked(&job->hw_fence);
++	list_del(&job->link);
++	if (!dma_fence_is_signaled(&job->hw_fence)) {
++		dma_fence_set_error(&job->hw_fence, err);
++		dma_fence_signal(&job->hw_fence);
 +	}
+ 	complete(&job->done);
+ }
+ 
+@@ -89,7 +92,7 @@ drm_mock_sched_job_signal_timer(struct hrtimer *hrtimer)
+ 			break;
+ 
+ 		sched->hw_timeline.cur_seqno = job->hw_fence.seqno;
+-		drm_mock_sched_job_complete(job);
++		drm_mock_sched_job_complete(job, 0);
+ 	}
+ 	spin_unlock_irqrestore(&sched->lock, flags);
+ 
+@@ -212,26 +215,33 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
+ 
+ static void mock_sched_free_job(struct drm_sched_job *sched_job)
+ {
+-	struct drm_mock_scheduler *sched =
+-			drm_sched_to_mock_sched(sched_job->sched);
+ 	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
+-	unsigned long flags;
+ 
+-	/* Remove from the scheduler done list. */
+-	spin_lock_irqsave(&sched->lock, flags);
+-	list_del(&job->link);
+-	spin_unlock_irqrestore(&sched->lock, flags);
+ 	dma_fence_put(&job->hw_fence);
+-
+ 	drm_sched_job_cleanup(sched_job);
+ 
+ 	/* Mock job itself is freed by the kunit framework. */
+ }
+ 
++static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
++{
++	struct drm_mock_scheduler *sched =
++		drm_sched_to_mock_sched(sched_job->sched);
++	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
++
++	hrtimer_cancel(&job->timer);
++
++	spin_lock_irq(&sched->lock);
++	if (!dma_fence_is_signaled(&job->hw_fence))
++		drm_mock_sched_job_complete(job, -ECANCELED);
++	spin_unlock_irq(&sched->lock);
 +}
 +
- /**
-  * drm_sched_fini - Destroy a gpu scheduler
-  *
-@@ -1359,19 +1371,11 @@ EXPORT_SYMBOL(drm_sched_init);
-  *
-  * Tears down and cleans up the scheduler.
-  *
-- * This stops submission of new jobs to the hardware through
-- * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
-- * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
-- * There is no solution for this currently. Thus, it is up to the driver to make
-- * sure that:
-- *
-- *  a) drm_sched_fini() is only called after for all submitted jobs
-- *     drm_sched_backend_ops.free_job() has been called or that
-- *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
-- *     after drm_sched_fini() ran are freed manually.
-- *
-- * FIXME: Take care of the above problem and prevent this function from leaking
-- * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
-+ * This stops submission of new jobs to the hardware through &struct
-+ * drm_sched_backend_ops.run_job. If &struct drm_sched_backend_ops.cancel_job
-+ * is implemented, all jobs will be canceled through it and afterwards cleaned
-+ * up through &struct drm_sched_backend_ops.free_job. If cancel_job is not
-+ * implemented, memory could leak.
-  */
- void drm_sched_fini(struct drm_gpu_scheduler *sched)
- {
-@@ -1401,6 +1405,10 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 	/* Confirm no work left behind accessing device structures */
- 	cancel_delayed_work_sync(&sched->work_tdr);
- 
-+	/* Avoid memory leaks if supported by the driver. */
-+	if (sched->ops->cancel_job)
-+		drm_sched_kill_remaining_jobs(sched);
-+
- 	if (sched->own_submit_wq)
- 		destroy_workqueue(sched->submit_wq);
- 	sched->ready = false;
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index e62a7214e052..81dcbfc8c223 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -512,6 +512,15 @@ struct drm_sched_backend_ops {
-          * and it's time to clean it up.
- 	 */
- 	void (*free_job)(struct drm_sched_job *sched_job);
-+
-+	/**
-+	 * @cancel_job: Used by the scheduler to guarantee remaining jobs' fences
-+	 * get signaled in drm_sched_fini().
-+	 *
-+	 * Drivers need to signal the passed job's hardware fence with
-+	 * -ECANCELED in this callback. They must not free the job.
-+	 */
-+	void (*cancel_job)(struct drm_sched_job *sched_job);
+ static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
+ 	.run_job = mock_sched_run_job,
+ 	.timedout_job = mock_sched_timedout_job,
+-	.free_job = mock_sched_free_job
++	.free_job = mock_sched_free_job,
++	.cancel_job = mock_sched_cancel_job,
  };
  
  /**
+@@ -265,7 +275,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
+ 	sched->hw_timeline.context = dma_fence_context_alloc(1);
+ 	atomic_set(&sched->hw_timeline.next_seqno, 0);
+ 	INIT_LIST_HEAD(&sched->job_list);
+-	INIT_LIST_HEAD(&sched->done_list);
+ 	spin_lock_init(&sched->lock);
+ 
+ 	return sched;
+@@ -280,38 +289,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
+  */
+ void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
+ {
+-	struct drm_mock_sched_job *job, *next;
+-	unsigned long flags;
+-	LIST_HEAD(list);
+-
+-	drm_sched_wqueue_stop(&sched->base);
+-
+-	/* Force complete all unfinished jobs. */
+-	spin_lock_irqsave(&sched->lock, flags);
+-	list_for_each_entry_safe(job, next, &sched->job_list, link)
+-		list_move_tail(&job->link, &list);
+-	spin_unlock_irqrestore(&sched->lock, flags);
+-
+-	list_for_each_entry(job, &list, link)
+-		hrtimer_cancel(&job->timer);
+-
+-	spin_lock_irqsave(&sched->lock, flags);
+-	list_for_each_entry_safe(job, next, &list, link)
+-		drm_mock_sched_job_complete(job);
+-	spin_unlock_irqrestore(&sched->lock, flags);
+-
+-	/*
+-	 * Free completed jobs and jobs not yet processed by the DRM scheduler
+-	 * free worker.
+-	 */
+-	spin_lock_irqsave(&sched->lock, flags);
+-	list_for_each_entry_safe(job, next, &sched->done_list, link)
+-		list_move_tail(&job->link, &list);
+-	spin_unlock_irqrestore(&sched->lock, flags);
+-
+-	list_for_each_entry_safe(job, next, &list, link)
+-		mock_sched_free_job(&job->base);
+-
+ 	drm_sched_fini(&sched->base);
+ }
+ 
+@@ -346,7 +323,7 @@ unsigned int drm_mock_sched_advance(struct drm_mock_scheduler *sched,
+ 		if (sched->hw_timeline.cur_seqno < job->hw_fence.seqno)
+ 			break;
+ 
+-		drm_mock_sched_job_complete(job);
++		drm_mock_sched_job_complete(job, 0);
+ 		found++;
+ 	}
+ unlock:
+diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+index fbba38137f0c..a905db835ccc 100644
+--- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
++++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+@@ -32,9 +32,8 @@
+  *
+  * @base: DRM scheduler base class
+  * @test: Backpointer to owning the kunit test case
+- * @lock: Lock to protect the simulated @hw_timeline, @job_list and @done_list
++ * @lock: Lock to protect the simulated @hw_timeline, @job_list
+  * @job_list: List of jobs submitted to the mock GPU
+- * @done_list: List of jobs completed by the mock GPU
+  * @hw_timeline: Simulated hardware timeline has a @context, @next_seqno and
+  *		 @cur_seqno for implementing a struct dma_fence signaling the
+  *		 simulated job completion.
+@@ -49,7 +48,6 @@ struct drm_mock_scheduler {
+ 
+ 	spinlock_t		lock;
+ 	struct list_head	job_list;
+-	struct list_head	done_list;
+ 
+ 	struct {
+ 		u64		context;
 -- 
 2.49.0
 
