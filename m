@@ -2,187 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704EEACD780
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 07:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C080CACD841
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 09:11:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF1E10E6D3;
-	Wed,  4 Jun 2025 05:37:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h1AZtIb6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E5E10E7BC;
+	Wed,  4 Jun 2025 07:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1767F10E5CB;
- Wed,  4 Jun 2025 05:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749015431; x=1780551431;
- h=message-id:date:from:subject:to:cc:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=AAQWa2bvTrHLEEPXTzxMdth5B0JYff/qtw7yiyXCN0I=;
- b=h1AZtIb6+XFZhZAiqExGdcgXCDye2zhrxlM5BFdtzK4lyjUsUja/KnFH
- bftq38uP2Y7byQV9BwXlc/f3IvcgVtWrJOIqNi6XJBj7QQ+IqPAI8yTO5
- yg9xvAfcJ9/sVTOwiWp2s1pbrJ4kOOkfAw4Mq6GRgLml9OnmqfkXPUvC3
- EsBqTLXO1sB6SzvlZaJfPeLNsieEzZpqEerE3wYf+lKvG5f/lK67tkZyZ
- GPz8+CrzZEx9j914FXZCkcTwBygLIkbLoeqcbaMDDDNgJg4h1l3mYoppv
- pfzkwFn5LGIgtxdlgFBqqQzciNFsbORaEl0w0erkJMQOwkZPoRRYcgHLj w==;
-X-CSE-ConnectionGUID: pvy/nIEJSeGEyhZeC+XrPA==
-X-CSE-MsgGUID: IFoQLMcfTPSZn6kSw1lEQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="50773533"
-X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="50773533"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 22:37:02 -0700
-X-CSE-ConnectionGUID: 3HNPd7GmQv2XnW4XEmAUxw==
-X-CSE-MsgGUID: XXhNeBJKRRuR6hy5gac8tA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="145044267"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 22:37:02 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 3 Jun 2025 22:37:01 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 3 Jun 2025 22:37:01 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.62)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Tue, 3 Jun 2025 22:37:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t9YE6M1PZO4OYNVOZTI1d/giNO8J2DJFWz6RW3pfmkMZl+rZOt3Q09aTyEJGxY9SeWAcC6m/4K+yAAOTDaZ9C1B+KWKgwrbagaMXQs+LjVCyqPophr0MqL70TqvUvQvSaxqNm1ei3nlgzcHhy22jNbOwfK+cOr/sJrGdsbiF/xTI6nNXIWW59OYoZSCHCo9ECiIy9hMvyIOrWpGbf/EIMpUJX+CPgNLYYgIXtygMe9XGjsUBPdRDfZ3BI//jQ0DUFGrD1vKeKW0qHkD+e3fqjena1r9Cy23UWgGLj2Rw50xIVOAfkuWVVPBrWa9MA7q+htUQLqmBp96Bx6qcCRnXDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qtr+RGCZIzkpnCKvgZv0dgnBwTdE5B1Yzlzgj5xtFu4=;
- b=F5ZbFYZAZ91qOvUFRcFKKUTguN9wMtPQ/akUxht70UaxSazQ8YnWBk6vBvj0zd2rQ4S6HY7zrciyFRltbfSWIAiaVHL13qOSoaHQJ5Mvb7NgP2tbvY7FqSIOiONR3036gdtWD42vsHoG76Ci+nU4yr9tgE1VtQpAcc6cqYAtmVHLeR6mMYZK2rxr9qHXwyoq9GF2KmaCgaHC2URMjmlH3d85nA3LzXi11OJ9wePIgCwVZLgMMSAQelsQwTc1FVA/xXA4yPeZOsqAQlhz8WM7pGUpYaPTIvxvw5U92/BbuINSFNUpFbusdV+0OwL2MWhhPWhrlqczB4MtFHoLjQOkYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5536.namprd11.prod.outlook.com (2603:10b6:5:39b::15)
- by SA3PR11MB7415.namprd11.prod.outlook.com (2603:10b6:806:318::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.31; Wed, 4 Jun
- 2025 05:36:53 +0000
-Received: from DM4PR11MB5536.namprd11.prod.outlook.com
- ([fe80::e353:636a:37f:21ef]) by DM4PR11MB5536.namprd11.prod.outlook.com
- ([fe80::e353:636a:37f:21ef%6]) with mapi id 15.20.8792.034; Wed, 4 Jun 2025
- 05:36:53 +0000
-Message-ID: <3d339343-39b0-482a-88c8-11097ddbccdf@intel.com>
-Date: Wed, 4 Jun 2025 11:06:46 +0530
-User-Agent: Mozilla Thunderbird
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-Subject: Re: [RFC 5/9] drm/xe/xe_late_bind_fw: Load late binding firmware
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>
-References: <20250429160956.1014376-1-badal.nilawar@intel.com>
- <20250429160956.1014376-6-badal.nilawar@intel.com>
- <6e381497-cc19-4aa5-a6d0-cc4deccfbcdc@intel.com>
-Content-Language: en-US
-In-Reply-To: <6e381497-cc19-4aa5-a6d0-cc4deccfbcdc@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0022.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:b8::7) To DM4PR11MB5536.namprd11.prod.outlook.com
- (2603:10b6:5:39b::15)
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8134D10E048;
+ Tue,  3 Jun 2025 14:17:33 +0000 (UTC)
+X-QQ-mid: esmtpsz17t1748960179t92f8d0ba
+X-QQ-Originating-IP: 7Unthp6zRkf2GCBo0PISOzyxqfWe8p0qMqpIANg83dk=
+Received: from [127.0.0.1] ( [45.8.186.102]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 03 Jun 2025 22:16:14 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5516064207330598275
+Message-ID: <712A2410D11E9A7E+27a43d64-1116-41ba-addc-83aa5f761a28@radxa.com>
+Date: Tue, 3 Jun 2025 22:16:14 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5536:EE_|SA3PR11MB7415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53178587-967e-4788-af55-08dda329cfdb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NE55QVY4NU9PaVZrdDFBeU1uZ0FicUxvaHQvc2dsVEZzUm9NdUF0SjgwTG4r?=
- =?utf-8?B?WVZMOGVDNXFNc01hV3doYjI0WUcybzc0b01SZkhqZjNmNEVnL2NSdHpWKytz?=
- =?utf-8?B?aVhhQzJESnBpWERRTkhhVFVpQzdWS1FweVdKUC82eXFKM1BQK3BmaFpUYVRJ?=
- =?utf-8?B?b1pDb25XMVByMkRtMTJXNFF1V3ZucG8yaU9FWEgzTExMTDNNVXBkc21XNFpZ?=
- =?utf-8?B?dHB6RjFGWjV4V3A3VFJCVkVad2JmQUVDNUIrd1VjaHdUU0s5WU1wU1Ira1Np?=
- =?utf-8?B?cVpZd3k2d0c5WnkwUndMYTNRU2R1eTZwQWNRckgxeGhCVGJrUEh3ejd2elhD?=
- =?utf-8?B?cGRFWWRDNzl3cWlmc3hhSHRzdlYvZDRPT2ZSbkgyd3NiUkNVY2lxMFJNWDdp?=
- =?utf-8?B?VmNHeHc2b1V0b3VPWkc3ckhPbkI0WHBnRjRRY0MvZXE5dE9KS2F3Z09seFBJ?=
- =?utf-8?B?WE5IRk5YaWw1cEVYbzBYQ3Nybmk0QmllT01qdGc5NjZWRjJMcWQrNVg5L3Ey?=
- =?utf-8?B?SEFIa2lsNjM3TGhGeDRSdGN3aUNzbEYwYXZQQzVPbTF3UGllK01OVFFuTStJ?=
- =?utf-8?B?SVlueVBPR0Y4bGp4WHVMWENNSFZwb2tMQmRqV08rYkNTa1Z1OEtHK0lIbFFt?=
- =?utf-8?B?Q2hJbElnVDZISU1GRDV6cXR1REUzZ0pEd0I1SVJwOU5pbTROSVBsdi9RS2R2?=
- =?utf-8?B?MGtiUm12MFdSbHpRMzNYYXA3ak83RitYNEdEN0pTSFh6VXlpS0VseFBUU3J2?=
- =?utf-8?B?RG43SUlWckx6VWJ3Vm4zQW4yL0o4L3BNVmd5bHcxMUFDYk5VRjBSVmIrTnNC?=
- =?utf-8?B?VGJHSVVoTnZqeXhPYUhKdEtwWTV6bHZlM1BkUEM5YjVoQ2ZzQ3RpY0lJa0VD?=
- =?utf-8?B?TzJRZmpIQ0Q4ZHdMTWZIMkZCZnhOZnZRWlViUkZrOTBPMzRJUGJjcUFaYkhB?=
- =?utf-8?B?aWdFbWpqZ005ZzhDU2pSOVgxTGtNNVdqU09IRUx0bHFuVEphNVFtQS94Q3d4?=
- =?utf-8?B?ekowbXFxVTZwYytEMGwwTzdPaGMzZGI4Y0JlQklQNCtPamgzMU56ZEN0cXhh?=
- =?utf-8?B?djRXempBR0lUVGFnUVhKaU03aW95VDd2LzNrTThrS0VEWHQ1em15L3hNcTRQ?=
- =?utf-8?B?cjZ5WlB2Q21zY2g5MXdNeVQvWFhJa3N3aU1HazJDUG1YdTlSNkJwRWxpamE0?=
- =?utf-8?B?TWtmcTRnSHdhREpsOUY1MnR2R1F5MzVIdHJpNlRsc2E5UGNMSVZEdkNzeGdu?=
- =?utf-8?B?aGZCYUY3VmQwL3lLSTRSVEowZGdTdW11cWVyaXRIc1FKOHJUeXJDa3lYMkEr?=
- =?utf-8?B?Rm5BanpXWXZNemVHUCsvcXNLZ2g4QjZET3BtMy9TRDJ2RTBpQVRpUXJhZ2xV?=
- =?utf-8?B?WUpqTWRCc3JCcmVodkt0TEdya0tiRFZxa0dnWEY1dFFLRERMRStMZ0dsSVZp?=
- =?utf-8?B?MmkyM3NMQ2FadHR2RnBCU1Z2ZzlPNHpZNG1QOFlkdnk1NkNwdEtUcjZINFdw?=
- =?utf-8?B?TXdENGRjL3lVR3hQWno5RHZBeFY2cmoxRmpzN1FaVVVHWXJxTXdrMFNzQTdi?=
- =?utf-8?B?ZUJQMDhhREVDTUd0Qi9oUG4wbS9QL3d6UytTYy8yQWhlODc2cVczVnYxajVq?=
- =?utf-8?B?OXErVUlPblI3bWpyQkdvU3RZRUV6NmovUjI3QUtGTFk1RkZDUjF3VTNCT1M2?=
- =?utf-8?B?eGlwbWlaeVZBR3pkcUFieWRpR1lsTTFZNlc4bGg0ditoOVhxVGFFOVZITjRy?=
- =?utf-8?B?S2dzRzhSaVZpUjJleHhZYjZiQnhLcjhLM1hlT3BQTU56b2ZvZjVuRGNiOU1a?=
- =?utf-8?B?ZFFKZ1NVbCtaODZXc0g1ZlFMbHZsUExqUXkwVXF0dUpodVF2SzNIeVZvWThv?=
- =?utf-8?B?ck9sTUI0d05yOVFoWWVRUG9pU0hyRDVHQXR2cjE4Y2NaSS94dXJ6ZC9RNTlx?=
- =?utf-8?Q?IIN2lRJfYhg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5536.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVZ6Y1QwTVMrMC9pTVBkR3B4ZU1mVEliZGsvL3grM2E5ZUtoV2tEZVZYUElN?=
- =?utf-8?B?bndKTUF2UnlzeXZOOG1LaGt1Q1hDZGxJcEUxMHM3NmJOWGkvWVR5MDdGbll3?=
- =?utf-8?B?QmNxT2o0MXFjSlE0bU9FaWxvbTJTRnNTdmRWZkQwZDk2TVIwR1VzR3VCQTlG?=
- =?utf-8?B?QTFGczhmWGc3aSs4TUE5TE1MeGlkbm9uUFg1QnZyWDBmTWZNcG80NmVsNGEr?=
- =?utf-8?B?c0lPek5VS1hCTHVyUnpWNCtiMWZMcEhORENLQnR3amdoTXVNb1M2VnRhY2kw?=
- =?utf-8?B?bFMyV056NS9LcUZXWTQ1K0hZMk4rYVkvNlF0KzJreUdLMThTRGhuZ3M4QmRF?=
- =?utf-8?B?aWxkU1FEOWMrbnk5RDNBRTRQcE9ZYmMyUlNlOW5IeUNGakFReVRPeDIvaVVU?=
- =?utf-8?B?cklIOG9DU2RjK3Vxa1NpQmV5MHJoSE12UXdoYjhMbWYvODBTL3hNb3A4NGtB?=
- =?utf-8?B?ZTNxTmZBNmxLWXNsMVFybTlNOVdVNjR4MGtocWlyaTZqVXYzc3k3TTJ2UjJF?=
- =?utf-8?B?ejd5cTVUU1NTTDR1Y3RJWFhKeUpQdnhVZlFEOHNOS3AvZ1NOMGlROVBlM2ZM?=
- =?utf-8?B?cDhzVjAyUTVrZFRmWVVyRWdWYlFJL2grUDE1Vk52bnlWRWozTUNtaVFFR2k1?=
- =?utf-8?B?OXA5Q2R1ZkovQlJmdlh6TUJ2MFlEd1N5MGZPOEVnc1ppcGVheTRpRkNFUWhm?=
- =?utf-8?B?eWFCYTZqeDUydEo4a0NVdUs0b2RPaHM5VHk4UFpscURCMlZGUG5oRU5mOGhv?=
- =?utf-8?B?NjBGMVJNZnJhckYwVlRGNVl5NHE4akRFMGw3aTRDTWxZY3loTTUzSHprd2FT?=
- =?utf-8?B?bUNzYmVtZHdyV2dOdVZoYkkzZHhlQ0VkbC9GMFJ2aFZwcnRvWVUzUXpQcko3?=
- =?utf-8?B?SVZ3TmRFMjlFRlN5bVNmQ2tyRnpZYUQ1U29yaGpZeTlUb2hwQnRPZ0lBWWs1?=
- =?utf-8?B?M2RaTXBXWUdnR2RCME16S29vZElQSFJqRUxjT2R6d1dsd3JMVEhjY0I2YWw4?=
- =?utf-8?B?bEZCczZ1YUJzVWl4bjhpanI2K1NBRC92ODZkbUptMDQyTkJMOWtodmVrbW9P?=
- =?utf-8?B?SzJ6UmEyb29ZMHFDOUFSVURFWWxvM0cvQmQxbjdGUjkvQXJoM1BCd1Z4SnNL?=
- =?utf-8?B?Z1ZvMFdsbmFwVDNVaUFkZnBSM2hSY0ZZRjdOSkJwaVdWbjZ4bWk2bkVublNl?=
- =?utf-8?B?T0xoTWE1MFgrUlhhTVlpKy9QRk5UM3VvNjYrQnVWM1QvbHhZVmRmcHVGSjVO?=
- =?utf-8?B?Nm9hdlFYdHk5dEoxK0pRRTdxMm1kV3FaME9YOVgxYVhoNFpGWVVZZHh0Q3Rp?=
- =?utf-8?B?U1M1WDFLSFlDd0FMb3VrS0VIaEFmUWlGdFFQQ3puQVB4QW10bWtVLzZoWEZU?=
- =?utf-8?B?QWtPSVlvU0VpaktXcm80Vyt1YVpQTmhiVW5zQjlPQlZYV1RsL3ZoZGlSaGZY?=
- =?utf-8?B?RG0xZzBSMWJ3eWM3aFcvb0ZEejB5ZjlvZ0k5ZU5QamNmNFdYV0ZQeG1RY3ox?=
- =?utf-8?B?eGRKN1dRWUp3cWMybk0zbHBaOTRqYTBXN1N4U3R3d3gybTNQN1BWT0JSYTNh?=
- =?utf-8?B?UjkyUStyUlM0a3JMV1ZqMU1CUjVxUzFyQmtJdyt6bERTQ2hXZ3BEcFlnUW1z?=
- =?utf-8?B?ZWFkRTZ4MllZRVlYakdpMnE1ek5yU3pyRUVsNEpIMFo5QVdRVlFkMWVtSUNh?=
- =?utf-8?B?T1dpb3M0MnJRdVdwNFBQY2pLV05CMmZ6NERsdjh2RnFIdFlxU0lkaWlIdEJa?=
- =?utf-8?B?cnJtNGJ6M1VuTy8xanVxdkVNMEkxNkxMTjJvSjl3d3BKdG5jQ0lRNGR1KzVj?=
- =?utf-8?B?T3JKbU5CNndEQVRrcFQ2Rmp0NXZGUksrdGVsZHFOMHBzZGVJVm5VbGFIdTY5?=
- =?utf-8?B?cnlBNVBJNVU5VE9DYmQ3bW5MdzcrVDEzWjZyRnpNS0d6WlJrQlN1NG44Y1Qv?=
- =?utf-8?B?QVZHbjY5ZExENFdzYURIaFBOb3U3S0RjR2FmS0R0MW9EWEdnNytJeUpCbDlv?=
- =?utf-8?B?bVY1Ry9SN3JSYytadE9kZEU1TWRXOE5sRHdEUXNQWTI1WklML3Y4VmtRdzds?=
- =?utf-8?B?TDcrVTdHWGFpWStvakRQMDgyTEhWVHI4Z29YVjBiOHc4VnVGaTYrcjgxaVlj?=
- =?utf-8?Q?w3/YviTUBlT4AD8DUEkk3PByC?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53178587-967e-4788-af55-08dda329cfdb
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5536.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 05:36:53.6083 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SRr4n1hB57WE/LLYioWbl+45Omarn3LIaJVDShB16E/LqKMh/jl8IZf1zvS/GBHmWfi3CmfIf/pr8RqpjXwBqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7415
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] drm/msm/dp: reuse generic HDMI codec implementation
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Hermes Wu <Hermes.wu@ite.com.tw>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+References: <20250423-dp-hdmi-audio-v7-1-8407a23e55b2@oss.qualcomm.com>
+ <4E62D52FC6135E5B+a6b1634e-5c66-4db5-bb1e-bf64e2e8d8a2@radxa.com>
+ <os3cmusf2nrdf3zq45s52a72x4osnd4thlgcgykcalyiuitcha@tnb576gj4m27>
+From: Xilin Wu <sophon@radxa.com>
+Content-Language: en-US
+In-Reply-To: <os3cmusf2nrdf3zq45s52a72x4osnd4thlgcgykcalyiuitcha@tnb576gj4m27>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OFwcIyq3IdMx5mbUqpsEPIGjjz2jBFV+3UjWd5zFxFBnV6mpXZdKUZqv
+ Fa7ZdQXJGcv0rz/T32NTPoUn5aU1qkdfxQDaoYFF+jlFMBUCEm+CzhNtC2F1IUAl6Sdxvwo
+ CKFGQhfpuTC13TOpWtz1muXAeao9PS7gBiDDUuf5xIKdDV3imhuTSsXZODRrnoC1QVkUyG1
+ OCFha1MOysWUJIlbO0E4MvypyqeZzBlvE70PwbpIf9sfGuCguUtNdvpUF6xvdHy+gannc2f
+ xtbkeGpXcSKBegMd1h9L4jxHbgjgYUW9gMsl+JHpYuk/E3qwg1ox9L32/FtTsPS3XGX2DxE
+ i8mZVTAksNRO/7kEA49kyGUG2X0ufFws7osQNpKxNNFZToyNZFx+wiLbTdYr9SKocx1ZE/V
+ MdBwHXU+gIVEIWdtpfsrbDVfy0kuJ5i/DVZOl/J7QLrSNXjLBoeY4zfbpmGyQ6SvvPiOwP/
+ NN1HqqT8lzlqgdcoUoamdETGqd4HYYCfTCA0Pt2LQAwfNDks2J7Lqb01HKEvSYo9ykJ1vyI
+ 8ZyV79Ur2+fOuiZYB3IDRarIkGaEbJbsC06izwrEsPPX6ebPWiCuLL5W8aIFSGvHdnIAE5n
+ hi93Q0xdG+am5v40ei9mjt06zi6UBtJReb1eQJC7fq/9OTVDAYzLFaytU1OipxgmLhn01bk
+ vAiWmDPalO059H5cd4mRDZNUYJ/RmVQo2P5Cm9twM6/ViS1xWUQ3TnQJRtQ3chYHcUjUGQp
+ jgB4ZblkSSR6nn3KNCInBGb7F4AsZf2H/RmsBecfUyzhi9WifdbuDfpIjtSYqIcIv8dcVoq
+ IFJAP3IvXQYH0XJ9JSztKVxvVW6SF8dWBd5uPWNccfRxXoS1a5MMLqCRIUFXadXQgWrH7QC
+ A2WbCp28Cr2aHsMFhw3drsBgzbjn4EhbdTAC3qqTczyHToTf5eqyv1VpGDmi3EBFTYO6nbW
+ AhqtSfwk/cAcGmnCmRMDBY4XYcklxfho3GJ82813MJ2t5+ZrJW0SU1hV43IYXM7nDkSUJl+
+ qxA25ijzGAAtept/bxQphsu5H1kBh5i0xZRgAaqA==
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
+X-Mailman-Approved-At: Wed, 04 Jun 2025 07:11:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,213 +81,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2025/6/3 22:06:36, Dmitry Baryshkov wrote:
+> On Thu, May 29, 2025 at 10:40:12AM +0800, Xilin Wu wrote:
+>> On 2025/4/24 01:52:45, Dmitry Baryshkov wrote:
+>>> From: Dmitry Baryshkov <lumag@kernel.org>
+>>>
+>>> The MSM DisplayPort driver implements several HDMI codec functions
+>>> in the driver, e.g. it manually manages HDMI codec device registration,
+>>> returning ELD and plugged_cb support. In order to reduce code
+>>> duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
+>>> integration.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>> ---
+>>> A lot of DisplayPort bridges use HDMI Codec in order to provide audio
+>>> support. Present DRM HDMI Audio support has been written with the HDMI
+>>> and in particular DRM HDMI Connector framework support, however those
+>>> audio helpers can be easily reused for DisplayPort drivers too.
+>>>
+>>> Patches by Hermes Wu that targeted implementing HDMI Audio support in
+>>> the iTE IT6506 driver pointed out the necessity of allowing one to use
+>>> generic audio helpers for DisplayPort drivers, as otherwise each driver
+>>> has to manually (and correctly) implement the get_eld() and plugged_cb
+>>> support.
+>>>
+>>> Implement necessary integration in drm_bridge_connector and provide an
+>>> example implementation in the msm/dp driver.
+>>> ---
+>>> Changes in v7:
+>>> - Dropped applied patches
+>>> - Link to v6: https://lore.kernel.org/r/20250314-dp-hdmi-audio-v6-0-dbd228fa73d7@oss.qualcomm.com
+>>>
+>>> Changes in v6:
+>>> - Added DRM_BRIDGE_OP_DP_AUDIO and separate set of DisplayPort audio
+>>>     callbacks to the drm_bridge interface (Maxime)
+>>> - Link to v5: https://lore.kernel.org/r/20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org
+>>>
+>>> Changes in v5:
+>>> - Rebased on top of linux-next, also handling HDMI audio piece of the
+>>>     MSM HDMI driver.
+>>> - Link to v4: https://lore.kernel.org/r/20250301-dp-hdmi-audio-v4-0-82739daf28cc@linaro.org
+>>>
+>>> Changes in v4:
+>>> - Rebased on linux-next, adding DRM_BRIDGE_OP_HDMI_AUDIO to Synopsys QP
+>>>     HDMI driver.
+>>> - Drop outdated comment regarding subconnector from the commit message.
+>>> - Link to v3: https://lore.kernel.org/r/20250219-dp-hdmi-audio-v3-0-42900f034b40@linaro.org
+>>>
+>>> Changes in v3:
+>>> - Dropped DRM_BRIDGE_OP_DisplayPort, added DRM_BRIDGE_OP_HDMI_AUDIO
+>>>     (Laurent, Maxime)
+>>> - Dropped the subconnector patch (again)
+>>> - Link to v2: https://lore.kernel.org/r/20250209-dp-hdmi-audio-v2-0-16db6ebf22ff@linaro.org
+>>>
+>>> Changes in v2:
+>>> - Added drm_connector_attach_dp_subconnector_property() patches
+>>> - Link to v1: https://lore.kernel.org/r/20250206-dp-hdmi-audio-v1-0-8aa14a8c0d4d@linaro.org
+>>> ---
+>>>    drivers/gpu/drm/msm/Kconfig         |   1 +
+>>>    drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------------
+>>>    drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
+>>>    drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
+>>>    drivers/gpu/drm/msm/dp/dp_display.h |   6 --
+>>>    drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
+>>>    6 files changed, 31 insertions(+), 170 deletions(-)
+>>>
+>>
+>> This change breaks DP audio on the qcs6490 platform, tested on kernel
+>> next-20250528.
+> 
+> I can not confirm this issue here (though I tested it on a different
+> hardware). Do you have any patches on top of linux-next?
+> 
 
-On 08-05-2025 05:14, Daniele Ceraolo Spurio wrote:
->
->
-> On 4/29/2025 9:09 AM, Badal Nilawar wrote:
->> Load late binding firmware
+I have this patch series applied, but I don't think it could be relevant:
+
+[PATCH v4 0/8] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp boards
+https://lore.kernel.org/all/20250527111227.2318021-1-quic_pkumpatl@quicinc.com/
+
 >>
->> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
->> ---
->>   drivers/gpu/drm/xe/xe_device.c       |  2 +
->>   drivers/gpu/drm/xe/xe_late_bind_fw.c | 91 +++++++++++++++++++++++++++-
->>   drivers/gpu/drm/xe/xe_late_bind_fw.h |  1 +
->>   3 files changed, 92 insertions(+), 2 deletions(-)
+>> [    0.368035] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x70020000
+>> [    0.369359] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+>> dai_count 0
+>> [    0.369362] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+>> Missing hw_params
+>> [    0.369364] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+>> Invalid parameters
+>> [    0.369366] hdmi-audio-codec hdmi-audio-codec.0.auto: probe with driver
+>> hdmi-audio-codec failed with error -22
+>> [    0.370536] [drm] Initialized msm 1.12.0 for ae01000.display-controller
+>> on minor 0
 >>
->> diff --git a/drivers/gpu/drm/xe/xe_device.c 
->> b/drivers/gpu/drm/xe/xe_device.c
->> index d83864e7189c..30a416323b37 100644
->> --- a/drivers/gpu/drm/xe/xe_device.c
->> +++ b/drivers/gpu/drm/xe/xe_device.c
->> @@ -894,6 +894,8 @@ int xe_device_probe(struct xe_device *xe)
->>         xe_late_bind_fw_init(&xe->late_bind);
->>   +    xe_late_bind_fw_load(&xe->late_bind);
->> +
->
-> Why does this need to be a separated call from xe_late_bind_fw_init?
-In subsequent patches xe_late_bind_fw_load called during S2idle/S3/rpm 
-resume.
->
->>       err = xe_oa_init(xe);
->>       if (err)
->>           return err;
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> index 297238fd3d16..7d2bc959027d 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> @@ -16,6 +16,16 @@
->>   #include "xe_late_bind_fw.h"
->>   #include "xe_pcode.h"
->>   #include "xe_pcode_api.h"
->> +#include "xe_pm.h"
->> +
->> +/*
->> + * The component should load quite quickly in most cases, but it 
->> could take
->> + * a bit. Using a very big timeout just to cover the worst case 
->> scenario
->> + */
->> +#define LB_INIT_TIMEOUT_MS 20000
->> +
->> +#define LB_FW_LOAD_RETRY_MAXCOUNT 40
->> +#define LB_FW_LOAD_RETRY_PAUSE_MS 50
->>     static const char * const fw_id_to_name[] = {
->>           [FAN_CONTROL_ID] = "fan_control",
->> @@ -45,6 +55,78 @@ static int late_bind_fw_num_fans(struct 
->> xe_late_bind *late_bind)
->>           return 0;
->>   }
->>   +static void late_bind_work(struct work_struct *work)
->> +{
->> +    struct xe_late_bind_fw *lbfw = container_of(work, struct 
->> xe_late_bind_fw, work);
->> +    struct xe_late_bind *late_bind = container_of(lbfw, struct 
->> xe_late_bind,
->> +                              late_bind_fw[lbfw->id]);
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    int retry = LB_FW_LOAD_RETRY_MAXCOUNT;
->> +    int ret;
->> +    int slept;
->> +
->> +    if (!late_bind->component_added)
->> +        return;
->> +
->> +    if (!lbfw->valid)
->> +        return;
->> +
->> +    /* we can queue this before the component is bound */
->> +    for (slept = 0; slept < LB_INIT_TIMEOUT_MS; slept += 100) {
->> +        if (late_bind->component)
->> +            break;
->> +        msleep(100);
->> +    }
->> +
->> +    xe_pm_runtime_get(xe);
->> +    mutex_lock(&late_bind->mutex);
->
-> You're locking the mutex here but you're not checking that any of the 
-> protected data is valid (late_bind->component can be NULL when we exit 
-> from the above for loop, or it might have changed from valid to NULL 
-> in between).
->
->> +    drm_dbg(&xe->drm, "Load %s firmware\n", fw_id_to_name[lbfw->id]);
->> +
->> +    do {
->> +        ret = 
->> late_bind->component->ops->push_config(late_bind->component->mei_dev,
->> +                                 lbfw->type, lbfw->flags,
->> +                                 lbfw->payload, lbfw->payload_size);
->> +        if (!ret)
->> +            break;
->> +        msleep(LB_FW_LOAD_RETRY_PAUSE_MS);
->> +    } while (--retry && ret == -EAGAIN);
->
-> In which scenario can this call return -EAGAIN ? As far as I can see 
-> the mei driver only returns that on a non-blocking call, which is not 
-> what we're doing here. Am I missing a path somewhere?
-Discussed offline with Sasha, we should be using -EBUSY here as 
-mei_cldev_enable() can return -EBUSY.
->
->> +
->> +    if (ret)
->> +        drm_err(&xe->drm, "Load %s firmware failed with err %d\n",
->> +            fw_id_to_name[lbfw->id], ret);
->> +    else
->> +        drm_dbg(&xe->drm, "Load %s firmware successful\n",
->> +            fw_id_to_name[lbfw->id]);
->> +
->> +    mutex_unlock(&late_bind->mutex);
->> +    xe_pm_runtime_put(xe);
->> +}
->> +
->> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
->> +{
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    struct xe_late_bind_fw *lbfw;
->> +    int id;
->> +
->> +    if (!late_bind->component_added)
->> +        return -EINVAL;
->> +
->> +    for (id = 0; id < MAX_ID; id++) {
->> +        lbfw = &late_bind->late_bind_fw[id];
->> +        if (lbfw->valid) {
->> +            drm_dbg(&xe->drm, "Queue work: to load %s firmware\n",
->> +                fw_id_to_name[lbfw->id]);
->> +            queue_work(late_bind->wq, &lbfw->work);
->
-> Do we need to flush this work before suspend to make sure it has 
-> completed before the HW goes into D3Hot? Similarly, do we need to 
-> flush it on driver unload to make sure it's done before we de-allocate 
-> stuff?
-Sure, I will flush this before unbind.
->
->> +        }
->> +    }
->> +    return 0;
->> +}
->> +
->> +/**
->> + * late_bind_fw_init() - initialize late bind firmware
->> + *
->> + * Return: 0 if the initialization was successful, a negative errno 
->> otherwise.
->> + */
->>   static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 id)
->>   {
->>       struct xe_device *xe = late_bind_to_xe(late_bind);
->> @@ -93,6 +175,7 @@ static int late_bind_fw_init(struct xe_late_bind 
->> *late_bind, u32 id)
->>         memcpy(lb_fw->payload, fw->data, lb_fw->payload_size);
->>       release_firmware(fw);
->> +    INIT_WORK(&lb_fw->work, late_bind_work);
->>       lb_fw->valid = true;
->>         return 0;
->> @@ -108,12 +191,17 @@ int xe_late_bind_fw_init(struct xe_late_bind 
->> *late_bind)
->>       int id;
->>       int ret;
->>   +    late_bind->wq = 
->> create_singlethread_workqueue("late-bind-ordered-wq");
->
-> Where is this WQ destroyed? Also, I think that using 
-> alloc_ordered_workqueue would be preferred.
-I missed that, will fix it.
->
-> Daniele
->
->> +    if (!late_bind->wq)
->> +        return -ENOMEM;
->> +
->>       for (id = 0; id < MAX_ID; id++) {
->>           ret = late_bind_fw_init(late_bind, id);
->>           if (ret)
->>               return ret;
->>       }
->> -    return ret;
->> +
->> +    return 0;
->>   }
->>     static int xe_late_bind_component_bind(struct device *xe_kdev,
->> @@ -179,7 +267,6 @@ int xe_late_bind_init(struct xe_late_bind 
->> *late_bind)
->>       }
->>         late_bind->component_added = true;
->> -    /* the component must be removed before unload, so can't use 
->> drmm for cleanup */
->>         return 0;
->>   }
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> index e88c637b15a6..edd0e4c0650e 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
->> @@ -13,5 +13,6 @@ struct xe_late_bind;
->>   int xe_late_bind_init(struct xe_late_bind *late_bind);
->>   void xe_late_bind_remove(struct xe_late_bind *late_bind);
->>   int xe_late_bind_fw_init(struct xe_late_bind *late_bind);
->> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
->>     #endif
->
+>> Manually reverting this change solves the problem.
+> 
+> It is suspicious, since dai_count can not be 0. We set
+> hdmi_audio_max_i2s_playback_channels to 8, which in turn should set the
+> hdmi_codec_pdata.i2s to 1.
+> 
+
+It suddenly comes to my mind that I'm using a kernel with everything 
+compiled as builtin. Could that be a possible issue?
+
+
+-- 
+Best regards,
+Xilin Wu <sophon@radxa.com>
+
