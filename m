@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDABACC175
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 09:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314D2ACC1AA
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 10:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C67A410E6CF;
-	Tue,  3 Jun 2025 07:50:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UdPLoXtD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70FD510E69F;
+	Tue,  3 Jun 2025 08:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B1E10E6B2;
- Tue,  3 Jun 2025 07:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1748937023; x=1780473023;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2b+Lt+jj6zUv09XyeDRrBS+vwes1UhmGbRceear2L5Y=;
- b=UdPLoXtD92lpEjOnxJOkdwQ9NWOHvN1Ck+r4dVhGKoOLBMJUeELZGT6S
- EAoPdEgX54TZG+mzo2dl+LEZg535U/aYBdmHLluVCC+g0lqkL0IEF8K87
- EhaebLOZvsiXBguS7aRNp/MqY7gsvveo/yCziy1XE4+VxZNnXtnNViXlS
- 1RDoho+G9y5uoajlSPnvjxPEKIS1pHi0Yl6Mr5GrT3zEuc3ICxaVVK3zx
- XJ2mrd9AH3+mPePfJs0nsLBgoJajaUw6R4J/cbd3MgNZwLxuKuTxQ0+Y9
- ylCghkhhRf2WpkXTqBYtAnUyZCFzDP3VIimJvOdAiuTMr4+fEqUrdOdEE w==;
-X-CSE-ConnectionGUID: GtfEuWamTlmv7fnyGrT8Ag==
-X-CSE-MsgGUID: utFcO1BHRtGpisA4hEKN8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="76356222"
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="76356222"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 00:50:23 -0700
-X-CSE-ConnectionGUID: oiDy6JSdQJSJMaPDfErwfw==
-X-CSE-MsgGUID: nKmMygTQTE2myML0zaXZDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; d="scan'208";a="144671575"
-Received: from unknown (HELO rtauro-desk.iind.intel.com) ([10.227.90.111])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2025 00:50:20 -0700
-From: Riana Tauro <riana.tauro@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: riana.tauro@intel.com, anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- raag.jadav@intel.com, himal.prasad.ghimiray@intel.com,
- frank.scarbrough@intel.com
-Subject: [PATCH 4/4] drm/xe/xe_hw_error: Handle CSC Firmware reported Hardware
- errors
-Date: Tue,  3 Jun 2025 13:44:00 +0530
-Message-ID: <20250603081409.1509709-5-riana.tauro@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250603081409.1509709-1-riana.tauro@intel.com>
-References: <20250603081409.1509709-1-riana.tauro@intel.com>
+X-Greylist: delayed 570 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Jun 2025 08:05:45 UTC
+Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 73CF210E69F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 08:05:45 +0000 (UTC)
+Received: by lynxeye.de (Postfix, from userid 501)
+ id 409E4E74071; Tue,  3 Jun 2025 09:56:05 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham version=3.3.1
+Received: from [192.168.178.25] (a89-182-71-6.net-htp.de [89.182.71.6])
+ by lynxeye.de (Postfix) with ESMTPSA id 4D19BE74067;
+ Tue,  3 Jun 2025 09:56:04 +0200 (CEST)
+Message-ID: <38974e3c6c7933166c19fb8d93bf20020e159a81.camel@lynxeye.de>
+Subject: Re: ttm vs aarch64 mappings
+From: Lucas Stach <dev@lynxeye.de>
+To: Dave Airlie <airlied@gmail.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, Thomas
+ =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Will
+ Deacon <will@kernel.org>
+Date: Tue, 03 Jun 2025 09:56:04 +0200
+In-Reply-To: <CAPM=9ty3STCUsa=a06RzNvHD+SbTONPVqpA9UEp6=tgt9+fYHg@mail.gmail.com>
+References: <CAPM=9tx++LWvKMfS556+CDcw-bWxf6vD6JtiwpAjspuc7Qeh_A@mail.gmail.com>
+ <c2571f57-3be4-4f8a-b442-b8f01dc5979f@amd.com>
+ <CAPM=9ty3STCUsa=a06RzNvHD+SbTONPVqpA9UEp6=tgt9+fYHg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,189 +55,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support to handle CSC firmware reported errors. When CSC firmware
-errors are encoutered, a error interrupt is received by the GFX device as
-a MSI interrupt.
+Am Dienstag, dem 03.06.2025 um 06:37 +1000 schrieb Dave Airlie:
+> On Mon, 2 Jun 2025 at 21:51, Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>=20
+> [...]
+> >=20
+> > > Has anyone else come across this problem with TTM on aarch64? or
+> > > understand if I'm missing something.
+> >=20
+> > If I'm not completely mistaken both pgprot_dmacoherent and pgprot_write=
+combine map to MT_NORMAL_NC because there is no such thing as uncached syst=
+em memory without write combining on aarch64.
+> >=20
+> > I mean why would you want to do this except for getting the MMIO write =
+ordering right? Avoiding write memory barriers?
+>=20
+> I'm not 100% sure why tegra does it in the first place, I suspect
+> working around lack of knowledge on what is correct and just hey this
+> works, so move on.
+>=20
+As long as you directly map the pages in RAM writecombine is absolutely
+fine for Tegra. However, at some point the Tegra implementation did map
+BOs through the "VRAM" access BAR of the GPU, which isn't able to deal
+with bufferable mappings for some reason (at least that was the case on
+GK20A). I'm not sure how things are working right now, it's a long time
+since I last looked into this code.
 
-Device Source control registers indicates the source of the error as CSC
-The HEC error status register indicates that the error is firmware reported
-Depending on the type of error, the error cause is written to the HEC
-Firmware error register.
-
-On encountering such CSC firmware errors, the graphics device is
-non-recoverable from driver context. The only way to recover from these
-errors is firmware flash. The device is then wedged and userspace is
-notified with a drm uevent
-
-Signed-off-by: Riana Tauro <riana.tauro@intel.com>
----
- drivers/gpu/drm/xe/regs/xe_gsc_regs.h      |  2 +
- drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  7 ++-
- drivers/gpu/drm/xe/xe_device_types.h       |  3 +
- drivers/gpu/drm/xe/xe_hw_error.c           | 65 +++++++++++++++++++++-
- 4 files changed, 75 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h b/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
-index 7702364b65f1..fcb6003f3226 100644
---- a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
-@@ -13,6 +13,8 @@
- 
- /* Definitions of GSC H/W registers, bits, etc */
- 
-+#define BMG_GSC_HECI1_BASE	0x373000
-+
- #define MTL_GSC_HECI1_BASE	0x00116000
- #define MTL_GSC_HECI2_BASE	0x00117000
- 
-diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-index ed9b81fb28a0..c146b9ef44eb 100644
---- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-@@ -6,10 +6,15 @@
- #ifndef _XE_HW_ERROR_REGS_H_
- #define _XE_HW_ERROR_REGS_H_
- 
-+#define HEC_UNCORR_ERR_STATUS(base)                    XE_REG((base) + 0x118)
-+#define    UNCORR_FW_REPORTED_ERR                      BIT(6)
-+
-+#define HEC_UNCORR_FW_ERR_DW0(base)                    XE_REG((base) + 0x124)
-+
- #define DEV_ERR_STAT_NONFATAL			0x100178
- #define DEV_ERR_STAT_CORRECTABLE		0x10017c
- #define DEV_ERR_STAT_REG(x)			XE_REG(_PICK_EVEN((x), \
- 								  DEV_ERR_STAT_CORRECTABLE, \
- 								  DEV_ERR_STAT_NONFATAL))
--
-+#define   XE_CSC_ERROR				BIT(17)
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index fb3617956d63..1325ae917c99 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -239,6 +239,9 @@ struct xe_tile {
- 	/** @memirq: Memory Based Interrupts. */
- 	struct xe_memirq memirq;
- 
-+	/** @csc_hw_error_work: worker to report CSC HW errors */
-+	struct work_struct csc_hw_error_work;
-+
- 	/** @pcode: tile's PCODE */
- 	struct {
- 		/** @pcode.lock: protecting tile's PCODE mailbox data */
-diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-index 0f2590839900..ad1e244ea612 100644
---- a/drivers/gpu/drm/xe/xe_hw_error.c
-+++ b/drivers/gpu/drm/xe/xe_hw_error.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2025 Intel Corporation
-  */
- 
-+#include "regs/xe_gsc_regs.h"
- #include "regs/xe_hw_error_regs.h"
- #include "regs/xe_irq_regs.h"
- 
-@@ -10,6 +11,8 @@
- #include "xe_hw_error.h"
- #include "xe_mmio.h"
- 
-+#define  HEC_UNCORR_FW_ERR_BITS 4
-+
- /* Error categories reported by hardware */
- enum hardware_error {
- 	HARDWARE_ERROR_CORRECTABLE = 0,
-@@ -18,6 +21,13 @@ enum hardware_error {
- 	HARDWARE_ERROR_MAX,
- };
- 
-+static const char * const hec_uncorrected_fw_errors[] = {
-+	"Fatal",
-+	"CSE Disabled",
-+	"FD Corruption",
-+	"Data Corruption"
-+};
-+
- static const char *hw_error_to_str(const enum hardware_error hw_err)
- {
- 	switch (hw_err) {
-@@ -32,6 +42,54 @@ static const char *hw_error_to_str(const enum hardware_error hw_err)
- 	}
- }
- 
-+static void csc_hw_error_work(struct work_struct *work)
-+{
-+	struct xe_tile *tile = container_of(work, typeof(*tile), csc_hw_error_work);
-+	struct xe_device *xe = tile_to_xe(tile);
-+
-+	xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_FW_FLASH);
-+	xe_device_declare_wedged(xe);
-+}
-+
-+static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
-+{
-+	const char *hw_err_str = hw_error_to_str(hw_err);
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_mmio *mmio = &tile->mmio;
-+	u32 base, err_bit, err_src;
-+	unsigned long fw_err;
-+
-+	if (xe->info.platform != XE_BATTLEMAGE)
-+		return;
-+
-+	/* Not supported in BMG */
-+	if (hw_err == HARDWARE_ERROR_CORRECTABLE)
-+		return;
-+
-+	base = BMG_GSC_HECI1_BASE;
-+	lockdep_assert_held(&xe->irq.lock);
-+	err_src = xe_mmio_read32(mmio, HEC_UNCORR_ERR_STATUS(base));
-+	if (!err_src) {
-+		drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported HEC_ERR_STATUS_%s blank\n",
-+				    tile->id, hw_err_str);
-+		return;
-+	}
-+
-+	if (err_src & UNCORR_FW_REPORTED_ERR) {
-+		fw_err = xe_mmio_read32(mmio, HEC_UNCORR_FW_ERR_DW0(base));
-+		for_each_set_bit(err_bit, &fw_err, HEC_UNCORR_FW_ERR_BITS) {
-+			drm_err_ratelimited(&xe->drm, HW_ERR
-+					    "%s: HEC Uncorrected FW %s error reported, bit[%d] is set\n",
-+					     hw_err_str, hec_uncorrected_fw_errors[err_bit],
-+					     err_bit);
-+
-+			schedule_work(&tile->csc_hw_error_work);
-+		}
-+	}
-+
-+	xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
-+}
-+
- static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
- {
- 	const char *hw_err_str = hw_error_to_str(hw_err);
-@@ -50,7 +108,8 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
- 		goto unlock;
- 	}
- 
--	/* TODO: Process errrors per source */
-+	if (err_src & XE_CSC_ERROR)
-+		csc_hw_error_handler(tile, hw_err);
- 
- 	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
- 
-@@ -101,8 +160,12 @@ static void process_hw_errors(struct xe_device *xe)
-  */
- void xe_hw_error_init(struct xe_device *xe)
- {
-+	struct xe_tile *tile = xe_device_get_root_tile(xe);
-+
- 	if (!IS_DGFX(xe) || IS_SRIOV_VF(xe))
- 		return;
- 
-+	INIT_WORK(&tile->csc_hw_error_work, csc_hw_error_work);
-+
- 	process_hw_errors(xe);
- }
--- 
-2.47.1
-
+Regards,
+Lucas
