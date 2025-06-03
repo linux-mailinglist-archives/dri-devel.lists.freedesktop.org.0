@@ -2,84 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD626ACC674
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 14:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC01ACC67F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 14:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A9810E690;
-	Tue,  3 Jun 2025 12:25:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="enwutzNw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038B310E606;
+	Tue,  3 Jun 2025 12:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A120B10E690
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 12:25:42 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-e740a09eae0so4799314276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 05:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1748953541; x=1749558341; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q0chqfdrdIvg4hy8yKc8WRhiOM1bdd348viYZ4BbWjw=;
- b=enwutzNwX6nSKFTrlJzvB5xFey/3j7PwX8IivORCT872lNI58yOLGC5HGcy5Wwf4J/
- TV4VuhngrlvvnXD2ufhf6M3LoOE3LfGzR2Zb+xcGAiJKIvJSjHw6MA7OxlzRjU7XrftS
- VfwuDyvsxfbLBnmHhjwh355fu4G912TKGai9wOgEdC5gMBv4+B+7gbQzuQy3w4fkLVfv
- yNLIgqm13nAv+e5wVBz8K9p2PCnzEKbVhR8N98GVDOVrQEDCxO99qOegQcEGqduRFK+G
- Ry6btk71xpByaRfpMKoMviqho0JfA4chB4niNCOdhw/FWGsfVxRpp4g5bJxDxEVNOczW
- MaIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748953541; x=1749558341;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q0chqfdrdIvg4hy8yKc8WRhiOM1bdd348viYZ4BbWjw=;
- b=QoxM92E76OMO2kb3a/l1X/AOcScprVIYI0y4Igv6JbRgC13WFxsfgYUeHyUwchK8A+
- x4LXhqWXZzkUDFC/ReQ9S2oSco95I7dNpiGC0+MPDnY+SHyMaRnovzv/MQhTpE4MOVRn
- RlUuF5U005jiA8nzyIht91PLivxJjDACR2D/4Le3J2LmAho1nKAbOmDVO+diXspUhl2w
- j2/UF2sj8u0EgaIG49Q6kS5iWIEdLKpvL9vQ9NNJ80VDHAUPkMkCW8YySlzgqxC0xmAd
- Jd56Nifgqz6uSYmsVYPSIDjDAv4XHP53DaujVUZeW0tZJrG7NqvIA0FKZ6yRtOcapNNQ
- gKqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU857sDhloqe+9IJzuRO90VdPh+Ms/7sbZiQ9gC3FsxVXch1zMt883RyIBLwaCtMAhhJgmfgn7Yw6A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4M5EPK1kkzCjHU89T8D9nI6SFBoMIjWjDUmA9Av24SXLsrl29
- LPjvBr4p/wra9VtFSX6JiLw0eJxRgOCPacka+oZU66Zc4aVz1ZCequSm0bZOpxSnoxKkI6rebVX
- 5S6g3fsUfJ6GQMXP/3Y07bqayB4yRo53yTfVtHAqaCA==
-X-Gm-Gg: ASbGncv6ml7JGQkyuE0N6OCsCTQMQfQD/uJNAu2yfUbg+E3W0IHAVsGULRnwKH+DXb0
- Ymgj5CULtXhI8cEYYwZ3zUCcmskRdgUK67OicW2XL6DpEUwMrs5X0kCRZZgfv1gwHlZ71iJk5aK
- kc95aTTrTvSkPXY+VoQETG/P5yuhq+cu1M
-X-Google-Smtp-Source: AGHT+IEJrWfxa9Bh6hqeqnweQzaVkjYvLD0ahWEYQ41oZGruPcsUvZuu97cItSkDZzbw9aGHdeGYbXtGb/PCj/51Oeg=
-X-Received: by 2002:a05:6902:2b04:b0:e7d:988e:e7be with SMTP id
- 3f1490d57ef6-e7f821a3acbmr24109793276.43.1748953541373; Tue, 03 Jun 2025
- 05:25:41 -0700 (PDT)
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5CB10E606
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 12:26:08 +0000 (UTC)
+Received: from w011.hihonor.com (unknown [10.68.20.122])
+ by mta20.hihonor.com (SkyGuard) with ESMTPS id 4bBVHk1MspzYl3PS;
+ Tue,  3 Jun 2025 20:23:46 +0800 (CST)
+Received: from a012.hihonor.com (10.68.23.251) by w011.hihonor.com
+ (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 3 Jun
+ 2025 20:26:03 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a012.hihonor.com
+ (10.68.23.251) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 3 Jun
+ 2025 20:26:02 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Tue, 3 Jun 2025 20:26:02 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
+ <kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>, 
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+ <brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
+ <amir73il@gmail.com>
+CC: "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "jstultz@google.com"
+ <jstultz@google.com>, "tjmercier@google.com" <tjmercier@google.com>,
+ "jack@suse.cz" <jack@suse.cz>, "baolin.wang@linux.alibaba.com"
+ <baolin.wang@linux.alibaba.com>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "wangbintian(BintianWang)" <bintian.wang@honor.com>, yipengxiang
+ <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>, "hanfeng
+ 00012985" <feng.han@honor.com>
+Subject: RE: [PATCH v4 2/4] dmabuf: Implement copy_file_range callback for
+ dmabuf direct I/O prep
+Thread-Topic: [PATCH v4 2/4] dmabuf: Implement copy_file_range callback for
+ dmabuf direct I/O prep
+Thread-Index: AQHb1G1oLKp2r/EedEGXp6nhARLCSbPwuW0AgAChKbA=
+Date: Tue, 3 Jun 2025 12:26:02 +0000
+Message-ID: <54fa25e19d834d06b758885d00f4fc63@honor.com>
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <20250603095245.17478-3-tao.wangtao@honor.com>
+ <ec85db1b-d536-4954-bad9-d5b1f3388492@amd.com>
+In-Reply-To: <ec85db1b-d536-4954-bad9-d5b1f3388492@amd.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.163.18.240]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CGME20250529222402eucas1p1c9e0ddd3efd62e078e5de2cf71655f58@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
-In-Reply-To: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 3 Jun 2025 14:25:04 +0200
-X-Gm-Features: AX0GCFtQed31aP5hPCNMM0HA628iK-r2BM1mtBEnivi2Jm8ggPrVV8N_s24C_LE
-Message-ID: <CAPDyKFqL9Xpau1BDnaa828s066zj=aVOAQOy1tCS=ztKN0ZsfA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] Add TH1520 GPU support with power sequencing
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,40 +81,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 May 2025 at 00:24, Michal Wilczynski
-<m.wilczynski@samsung.com> wrote:
->
-> This patch series introduces support for the Imagination IMG BXM-4-64
-> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
-> managing the GPU's complex power-up and power-down sequence, which
-> involves multiple clocks and resets.
->
-> The TH1520 GPU requires a specific sequence to be followed for its
-> clocks and resets to ensure correct operation. Initial discussions and
-> an earlier version of this series explored managing this via the generic
-> power domain (genpd) framework. However, following further discussions
-> with kernel maintainers [1], the approach has been reworked to utilize
-> the dedicated power sequencing (pwrseq) framework.
->
-> This revised series now employs a new pwrseq provider driver
-> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
-> encapsulates the SoC specific power sequence details. The Imagination
-> GPU driver (pvr_device.c) is updated to act as a consumer of this power
-> sequencer, requesting the "gpu-power" target. The sequencer driver,
-> during its match phase with the GPU device, acquires the necessary clock
-> and reset handles from the GPU device node to perform the full sequence.
->
-> This approach aligns with the goal of abstracting SoC specific power
-> management details away from generic device drivers and leverages the
-> pwrseq framework as recommended.
-
-Just wanted to share my view. I have looked through the series and to
-me this seems like the correct approach, nice work!
-
-Feel free to add my Reviewed-by tag for the series, even if I think
-there may be some comments to address from Bartosz etc.
-
-[...]
-
-Kind regards
-Uffe
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBKdW5lIDMsIDIw
+MjUgNjo0MiBQTQ0KPiBUbzogd2FuZ3RhbyA8dGFvLndhbmd0YW9AaG9ub3IuY29tPjsgc3VtaXQu
+c2Vtd2FsQGxpbmFyby5vcmc7DQo+IGtyYXhlbEByZWRoYXQuY29tOyB2aXZlay5rYXNpcmVkZHlA
+aW50ZWwuY29tOyB2aXJvQHplbml2LmxpbnV4Lm9yZy51azsNCj4gYnJhdW5lckBrZXJuZWwub3Jn
+OyBodWdoZEBnb29nbGUuY29tOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOw0KPiBhbWlyNzNp
+bEBnbWFpbC5jb20NCj4gQ2M6IGJlbmphbWluLmdhaWduYXJkQGNvbGxhYm9yYS5jb207IEJyaWFu
+LlN0YXJrZXlAYXJtLmNvbTsNCj4ganN0dWx0ekBnb29nbGUuY29tOyB0am1lcmNpZXJAZ29vZ2xl
+LmNvbTsgamFja0BzdXNlLmN6Ow0KPiBiYW9saW4ud2FuZ0BsaW51eC5hbGliYWJhLmNvbTsgbGlu
+dXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkcmktDQo+IGRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZzsgbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnOyBsaW51eC0NCj4ga2VybmVsQHZn
+ZXIua2VybmVsLm9yZzsgbGludXgtZnNkZXZlbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiBt
+bUBrdmFjay5vcmc7IHdhbmdiaW50aWFuKEJpbnRpYW5XYW5nKSA8YmludGlhbi53YW5nQGhvbm9y
+LmNvbT47DQo+IHlpcGVuZ3hpYW5nIDx5aXBlbmd4aWFuZ0Bob25vci5jb20+OyBsaXVsdSAwMDAx
+MzE2Nw0KPiA8bGl1bHUubGl1QGhvbm9yLmNvbT47IGhhbmZlbmcgMDAwMTI5ODUgPGZlbmcuaGFu
+QGhvbm9yLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAyLzRdIGRtYWJ1ZjogSW1wbGVt
+ZW50IGNvcHlfZmlsZV9yYW5nZSBjYWxsYmFjayBmb3INCj4gZG1hYnVmIGRpcmVjdCBJL08gcHJl
+cA0KPiANCj4gDQo+IA0KPiBPbiA2LzMvMjUgMTE6NTIsIHdhbmd0YW8gd3JvdGU6DQo+ID4gRmly
+c3QgZGV0ZXJtaW5lIGlmIGRtYWJ1ZiByZWFkcyBmcm9tIG9yIHdyaXRlcyB0byB0aGUgZmlsZS4N
+Cj4gPiBUaGVuIGNhbGwgZXhwb3J0ZXIncyByd19maWxlIGNhbGxiYWNrIGZ1bmN0aW9uLg0KPiA+
+DQo+ID4gU2lnbmVkLW9mZi1ieTogd2FuZ3RhbyA8dGFvLndhbmd0YW9AaG9ub3IuY29tPg0KPiA+
+IC0tLQ0KPiA+ICBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwgMzIgKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysNCj4gPiAgaW5jbHVkZS9saW51eC9kbWEtYnVmLmggICB8IDE2ICsr
+KysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspDQo+
+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMv
+ZG1hLWJ1Zi9kbWEtYnVmLmMNCj4gPiBpbmRleCA1YmFhODNiODU1MTUuLmZjOWJmNTRjOTIxYSAx
+MDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+ID4gKysrIGIvZHJp
+dmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiA+IEBAIC01MjMsNyArNTIzLDM4IEBAIHN0YXRpYyB2
+b2lkIGRtYV9idWZfc2hvd19mZGluZm8oc3RydWN0IHNlcV9maWxlDQo+ICptLCBzdHJ1Y3QgZmls
+ZSAqZmlsZSkNCj4gPiAgCXNwaW5fdW5sb2NrKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+ID4gIH0N
+Cj4gPg0KPiA+ICtzdGF0aWMgc3NpemVfdCBkbWFfYnVmX3J3X2ZpbGUoc3RydWN0IGRtYV9idWYg
+KmRtYWJ1ZiwgbG9mZl90IG15X3BvcywNCj4gPiArCXN0cnVjdCBmaWxlICpmaWxlLCBsb2ZmX3Qg
+cG9zLCBzaXplX3QgY291bnQsIGJvb2wgaXNfd3JpdGUpIHsNCj4gPiArCWlmICghZG1hYnVmLT5v
+cHMtPnJ3X2ZpbGUpDQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gKw0KPiA+ICsJaWYgKG15
+X3BvcyA+PSBkbWFidWYtPnNpemUpDQo+ID4gKwkJY291bnQgPSAwOw0KPiA+ICsJZWxzZQ0KPiA+
+ICsJCWNvdW50ID0gbWluX3Qoc2l6ZV90LCBjb3VudCwgZG1hYnVmLT5zaXplIC0gbXlfcG9zKTsN
+Cj4gPiArCWlmICghY291bnQpDQo+ID4gKwkJcmV0dXJuIDA7DQo+ID4gKw0KPiA+ICsJcmV0dXJu
+IGRtYWJ1Zi0+b3BzLT5yd19maWxlKGRtYWJ1ZiwgbXlfcG9zLCBmaWxlLCBwb3MsIGNvdW50LA0K
+PiA+ICtpc193cml0ZSk7IH0NCj4gPiArDQo+ID4gK3N0YXRpYyBzc2l6ZV90IGRtYV9idWZfY29w
+eV9maWxlX3JhbmdlKHN0cnVjdCBmaWxlICpmaWxlX2luLCBsb2ZmX3QgcG9zX2luLA0KPiA+ICsJ
+c3RydWN0IGZpbGUgKmZpbGVfb3V0LCBsb2ZmX3QgcG9zX291dCwNCj4gPiArCXNpemVfdCBjb3Vu
+dCwgdW5zaWduZWQgaW50IGZsYWdzKQ0KPiA+ICt7DQo+ID4gKwlpZiAoaXNfZG1hX2J1Zl9maWxl
+KGZpbGVfaW4pICYmIGZpbGVfb3V0LT5mX29wLT53cml0ZV9pdGVyKQ0KPiA+ICsJCXJldHVybiBk
+bWFfYnVmX3J3X2ZpbGUoZmlsZV9pbi0+cHJpdmF0ZV9kYXRhLCBwb3NfaW4sDQo+ID4gKwkJCQlm
+aWxlX291dCwgcG9zX291dCwgY291bnQsIHRydWUpOw0KPiA+ICsJZWxzZSBpZiAoaXNfZG1hX2J1
+Zl9maWxlKGZpbGVfb3V0KSAmJiBmaWxlX2luLT5mX29wLT5yZWFkX2l0ZXIpDQo+ID4gKwkJcmV0
+dXJuIGRtYV9idWZfcndfZmlsZShmaWxlX291dC0+cHJpdmF0ZV9kYXRhLCBwb3Nfb3V0LA0KPiA+
+ICsJCQkJZmlsZV9pbiwgcG9zX2luLCBjb3VudCwgZmFsc2UpOw0KPiA+ICsJZWxzZQ0KPiA+ICsJ
+CXJldHVybiAtRUlOVkFMOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0
+IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7DQo+ID4gKwkuZm9wX2ZsYWdzID0gRk9Q
+X01FTU9SWV9GSUxFLA0KPiA+ICAJLnJlbGVhc2UJPSBkbWFfYnVmX2ZpbGVfcmVsZWFzZSwNCj4g
+PiAgCS5tbWFwCQk9IGRtYV9idWZfbW1hcF9pbnRlcm5hbCwNCj4gPiAgCS5sbHNlZWsJCT0gZG1h
+X2J1Zl9sbHNlZWssDQo+ID4gQEAgLTUzMSw2ICs1NjIsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7DQo+ID4gIAkudW5sb2NrZWRfaW9jdGwJ
+PSBkbWFfYnVmX2lvY3RsLA0KPiA+ICAJLmNvbXBhdF9pb2N0bAk9IGNvbXBhdF9wdHJfaW9jdGws
+DQo+ID4gIAkuc2hvd19mZGluZm8JPSBkbWFfYnVmX3Nob3dfZmRpbmZvLA0KPiA+ICsJLmNvcHlf
+ZmlsZV9yYW5nZSA9IGRtYV9idWZfY29weV9maWxlX3JhbmdlLA0KPiA+ICB9Ow0KPiA+DQo+ID4g
+IC8qDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9s
+aW51eC9kbWEtYnVmLmggaW5kZXgNCj4gPiAzNjIxNmQyOGQ4YmQuLmQzNjM2ZTk4NTM5OSAxMDA2
+NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaA0KPiA+ICsrKyBiL2luY2x1ZGUv
+bGludXgvZG1hLWJ1Zi5oDQo+ID4gQEAgLTIyLDYgKzIyLDcgQEANCj4gPiAgI2luY2x1ZGUgPGxp
+bnV4L2ZzLmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9kbWEtZmVuY2UuaD4NCj4gPiAgI2luY2x1
+ZGUgPGxpbnV4L3dhaXQuaD4NCj4gPiArI2luY2x1ZGUgPHVhcGkvbGludXgvZG1hLWJ1Zi5oPg0K
+PiA+DQo+ID4gIHN0cnVjdCBkZXZpY2U7DQo+ID4gIHN0cnVjdCBkbWFfYnVmOw0KPiA+IEBAIC0y
+ODUsNiArMjg2LDIxIEBAIHN0cnVjdCBkbWFfYnVmX29wcyB7DQo+ID4NCj4gPiAgCWludCAoKnZt
+YXApKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCBpb3N5c19tYXAgKm1hcCk7DQo+ID4g
+IAl2b2lkICgqdnVubWFwKShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgaW9zeXNfbWFw
+ICptYXApOw0KPiA+ICsNCj4gPiArCS8qKg0KPiA+ICsJICogQHJ3X2ZpbGU6DQo+ID4gKwkgKg0K
+PiA+ICsJICogSWYgYW4gRXhwb3J0ZXIgbmVlZHMgdG8gc3VwcG9ydCBEaXJlY3QgSS9PIGZpbGUg
+b3BlcmF0aW9ucywgaXQgY2FuDQo+ID4gKwkgKiBpbXBsZW1lbnQgdGhpcyBvcHRpb25hbCBjYWxs
+YmFjay4gVGhlIGV4cG9ydGVyIG11c3QgdmVyaWZ5IHRoYXQgbm8NCj4gPiArCSAqIG90aGVyIG9i
+amVjdHMgaG9sZCB0aGUgc2dfdGFibGUsIGVuc3VyZSBleGNsdXNpdmUgYWNjZXNzIHRvIHRoZQ0K
+PiA+ICsJICogZG1hYnVmJ3Mgc2dfdGFibGUsIGFuZCBvbmx5IHRoZW4gcHJvY2VlZCB3aXRoIHRo
+ZSBJL08gb3BlcmF0aW9uLg0KPiANCj4gRXhwbGFpbiB3aHkgYW5kIG5vdCB3aGF0LiBFLmcuIHNv
+bWV0aGluZyBsaWtlICJBbGxvd3MgZGlyZWN0IEkvTyBiZXR3ZWVuDQo+IHRoaXMgRE1BLWJ1ZiBh
+bmQgdGhlIGZpbGUiLg0KPiANCj4gQ29tcGxldGVseSBkcm9wIG1lbnRpb25pbmcgdGhlIHNnX3Rh
+YmxlLCB0aGF0IGlzIGlycmVsZXZhbnQuIEV4Y2x1c2l2ZSBhY2Nlc3MNCj4gZGVwZW5kcyBvbiBo
+b3cgdGhlIGV4cG9ydGVyIGltcGxlbWVudHMgdGhlIHdob2xlIHRoaW5nLg0KPiANCldpbGwgZml4
+IHRoaXMgc2hvcnRseS4NCg0KUmVnYXJkcywNCldhbmd0YW8uDQo+IFJlZ2FyZHMsDQo+IENocmlz
+dGlhbi4NCj4gDQo+ID4gKwkgKg0KPiA+ICsJICogUmV0dXJuczoNCj4gPiArCSAqDQo+ID4gKwkg
+KiAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuDQo+ID4g
+KwkgKi8NCj4gPiArCXNzaXplX3QgKCpyd19maWxlKShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBs
+b2ZmX3QgbXlfcG9zLA0KPiA+ICsJCXN0cnVjdCBmaWxlICpmaWxlLCBsb2ZmX3QgcG9zLCBzaXpl
+X3QgY291bnQsIGJvb2wgaXNfd3JpdGUpOw0KPiA+ICB9Ow0KPiA+DQo+ID4gIC8qKg0KDQo=
