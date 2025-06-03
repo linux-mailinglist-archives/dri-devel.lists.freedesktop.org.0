@@ -2,87 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46E3ACC589
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25FFACC5CE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 13:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B810910E2B6;
-	Tue,  3 Jun 2025 11:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6DAD10E24E;
+	Tue,  3 Jun 2025 11:53:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Y4T0hNdP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BiyXegF1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D75510E308
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 11:34:57 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-ad51ef2424bso1053757966b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 04:34:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1748950496; x=1749555296; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PFuIusTcNlDtr7ACZcv5YKK7AZMWko4TWKZs3oesbaA=;
- b=Y4T0hNdPLh+yFPxc06PfESFWdLYHQ9f3CbyE2zsyYdex7eJy/4ggbHl22a4lhaDh97
- J8jIOtHX0yukbmowf52TycNtpldr66OFXOF1RKDvZ5gprSDF1PNpVqMo+R4JRyNIxnrH
- fZ0+sPnfAeqNNJyIlm8wRoH6vKkYEx0thZ9Nk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748950496; x=1749555296;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PFuIusTcNlDtr7ACZcv5YKK7AZMWko4TWKZs3oesbaA=;
- b=W32h8pEiAV65prS2fhHwMqD518z32pedQTz5p1oIrBIONXbPPNHw33884dFVkHRjs+
- Ns4fiRPaJ8HsQLBSVzRH5JRk0IbYjf6D9u4dpaM7iHT5Dz8CmyN9M9Is/2IsAkbinf8r
- C0/tVBmaaSFwi0+jz9i7hzEtm/01QDcYFnIEVaotklERVoE6vwt5N3YVhRowGtyJba1S
- FdZmkgsNngJIgTNgZ3it+IZ1tF4ZCCwjawYnzSHTNO6sUbvvoaZVMPjCub1znXJSjc1R
- ZyKcnOphpn8mZf423gczAl1OMbZLei/Pbh+PQVdlY3YDJxL45wa5slCAefWhWTfYqmEt
- B92Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXEA1mDjM+UIGqMl5+MnNZOKEKJWFhgYkNyCK+kUip3J08Pk13tzQgxxjOlnLyOqJ/VzB9a6RzJ37Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2pUr+3qJd3XXicV7S4LrE7s4F1WOr6eO3YQcuSYhA94O1krCb
- 3oWoyvoZSES/aWddETQVX5sfQMOPulYoOfHITnWTLaGPCdxg1/KeFCMOuYDAHPBBXb8=
-X-Gm-Gg: ASbGncvPjVJZ0xTo4S5xxAVPzoRxnTEitol37mvs5BeQHmGEfpab9ILDXaADdSI7/pN
- O6NY74cuooeeLN1G9ohaEcN3KWhJpdX5qz4zxogswIlzEhRme9b9SZE4DQ1P4UHJ5CjWFdrCeHL
- TmT0PuEPdC2s1nzP+G8bBxw4B1D9QYXSz4Y5Q3kwlKBqsdAtI5zDtIj5PdayBNcmPNb4sb1Cb8l
- RNqwrLJjvi9C5cjbiQaiudLegze5aU60v66+lIfkhaN3zlWQKw+NKTK4ri6pQGzvXTjcrUAehOG
- f5ZdyuhmUur8DREKf1vrFeWtpJLFGFZpMa3VvO2/tCP/pCZSZMrTdCqS/IqcbHzZy0lzTg8X/w=
- =
-X-Google-Smtp-Source: AGHT+IHPWtzNUL2u4/jUFXfcGlOj2qM2hFzF0WBNUy3wZrggtO4Ww38E9t7xnP6lMA5OPdTNoCN+zg==
-X-Received: by 2002:a17:907:728d:b0:ad9:16c8:9fee with SMTP id
- a640c23a62f3a-adb493a9b11mr1291087966b.3.1748950495484; 
- Tue, 03 Jun 2025 04:34:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ada6ad6ac07sm947772366b.177.2025.06.03.04.34.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 04:34:54 -0700 (PDT)
-Date: Tue, 3 Jun 2025 13:34:53 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alex Deucher <alexdeucher@gmail.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, phasta@kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- tursulin@ursulin.net, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/sched: optimize drm_sched_job_add_dependency
-Message-ID: <aD7d3ewxzKAPSWjr@phenom.ffwll.local>
-References: <aDCCF0JFhO7lR2VJ@cassiopeiae> <aDCDJ-sK9rRI6wse@cassiopeiae>
- <cd64af4d-f5b3-4f18-9be6-636624833075@amd.com>
- <08bb986281fefb5cbdb35c63a56e1bbd923d9297.camel@mailbox.org>
- <74c4b9d8-5e25-438e-97c5-5aa2035fb9bd@amd.com>
- <cbd3eaa4c228c0d0688745e8a539103eb2278a0b.camel@mailbox.org>
- <aDcB0AbQiHOVUyAU@phenom.ffwll.local>
- <CADnq5_NiMOhc95h-GLRjAD7LXyQ=9nb=Uvim1rwX4n9tekLkyA@mail.gmail.com>
- <aDcgAG0R-NxT0PaC@pollux> <aDch5McYYa3AVtTV@pollux>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D5010E24E;
+ Tue,  3 Jun 2025 11:53:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1748951608; x=1780487608;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mLrPvPCoIseAvMK7yzYSe7ZQ6TqXWL+oY5ypd8T0b04=;
+ b=BiyXegF1pmTtrjeY5sI+3qs83bJpBHJUE/FgK2e/ryGXLqCyoZr9tPPZ
+ 6u2QJDLpS1xEq01JQUoFRrhGeCboUGA+yfUrLzgqgRK0lt9x8Ofy1hHwM
+ P2shAC1+54HCwLv8QO/9TaP+6OEb+1LUzVKvrf5Jl30vAFrili7hc/67B
+ qRfIOSPQ4mpbhSknRPggrLYHM6iWmOiO9jcbea114awZkpVLgNLCSSe0c
+ NAmMRkNawIULw1keJXoYdbDTcplSHuzMf3CzAbWP0NfKwaRCZkJ5ISAn2
+ U/rOP7/ezpDMZvmihQ8v/gDO7YD6ksuxe+aQ1Y0P3fUEDxDytJ+cmMy10 g==;
+X-CSE-ConnectionGUID: BoaHEZ4IRBCt48nRBtTiNg==
+X-CSE-MsgGUID: 2bByFR7RTwuHEd0oEsziEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="53616390"
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="53616390"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2025 04:53:27 -0700
+X-CSE-ConnectionGUID: o3W8DgHnTtCAJyInaGhuiA==
+X-CSE-MsgGUID: 83o5mtmjTiKeZJJVBCRYQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; d="scan'208";a="149993292"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2025 04:53:21 -0700
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>, Raag Jadav <raag.jadav@intel.com>
+Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH v12 00/10] mtd: add driver for Intel discrete graphics
+Date: Tue,  3 Jun 2025 14:39:43 +0300
+Message-ID: <20250603113953.3599816-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aDch5McYYa3AVtTV@pollux>
-X-Operating-System: Linux phenom 6.12.25-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,69 +80,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 04:47:00PM +0200, Danilo Krummrich wrote:
-> On Wed, May 28, 2025 at 04:39:01PM +0200, Danilo Krummrich wrote:
-> > On Wed, May 28, 2025 at 09:29:30AM -0400, Alex Deucher wrote:
-> > > On Wed, May 28, 2025 at 8:45 AM Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > > > I do occasionally find it useful as a record of different approaches
-> > > > considered, which sometimes people fail to adequately cover in their
-> > > > commit messages. Also useful indicator of how cursed a patch is :-)
-> > > >
-> > > > But as long as anything relevant does end up in the commit message and
-> > > > people don't just delete stuff I don't care how it's done at all. It's
-> > > > just that the cost of deleting something that should have been there can
-> > > > be really nasty sometimes, and storage is cheap.
-> > > 
-> > > I like them for the same reasons.  Also, even with links, sometimes
-> > > there are forks of the conversation that get missed that a changelog
-> > > provides some insight into.  I find it useful in my own development as
-> > > I can note what I've changed in a patch and can retain that in the
-> > > commit rather than as something I need to track separately and then
-> > > add to the patches when I send them out.
-> > 
-> > Personally, I don't think it's super useful in the commit message, it still
-> > remains in the patches sent to the mailing list though. And since we put lore
-> > links everywhere, it's easily accessible, *including* the context of why a
-> > change was made from one version to another, i.e. the full conversation.
-> > 
-> > However, if we really want that, we should make it an offical thing, since
-> > currently the kernel's process documentation [1] clearly states otherwise:
-> > 
-> > "Please put this information after the '---' line which separates the changelog
-> > from the rest of the patch. The version information is not part of the changelog
-> > which gets committed to the git tree. It is additional information for the
-> > reviewers. If it's placed above the commit tags, it needs manual interaction to
-> > remove it."
-> > 
-> > Alternatively, it can go into the cover letter.
-> 
-> One additional note:
-> 
-> This is not me trying to be super bureaucratic; instead I think being consistent
-> in the process across the whole kernel results in a better experience for (new)
-> contributors.
+Add driver for access to Intel discrete graphics card
+internal NVM device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide mtd driver to register this device with MTD framework.
 
-Yeah I agree with this part, which is why in the past I didn't ask people
-to keep that part, but also won't complain if it's kept. The entire goal
-being "minimal amount to get to a commit message that's hopefully
-complete". I think with b4 this has now also become a bit easier than 10+
-years ago.
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+and "spi: add driver for Intel discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in mtd subsystem.
 
-Also all the kernel fd.o lists are on lore and the archive on fd.o is
-under our control, so hopefully the archive situation shouldn't ever be an
-issue for us.
+This series intended to be pushed through drm-xe-next.
 
-Anyway no strong opinion from me, but we might want to document that we're
-a bit more relaxed here.
+V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
+    Enable NVM device on Battlemage HW (xe driver patch)
+    Fix overwrite register address (xe driver patch)
+    Add Rodrigo's r-b
 
-*shrugs*
+V3: Use devm_pm_runtime_enable to simplify flow.
+    Drop print in i915 unload that was accidentally set as error.
+    Drop HAS_GSC_NVM macro in line with latest Xe changes.
+    Add more Rodrigo's r-b and Miquel's ack.
 
-Cheers, Sima
+V4: Add patch that always creates mtd master device
+    and adjust mtd-intel-dg power management to use this device.
 
-> 
-> > [1] https://docs.kernel.org/process/submitting-patches.html#commentary
+V5: Fix master device creation to accomodate for devices without
+    partitions (create partitoned master in this case)
+    Rebase over latest drm-xe-next
+    Add ack's
+V6: Fix master device release (use rigth idr in release)
+    Rebase over latest drm-xe-next
+    Grammar and style fixes
+
+V7: Add patch with non-posted erase support (fix hang on BMG)
+    Rebase over latest drm-xe-next
+
+V8: Create separate partition device under master device, if requested
+    and configure parent of usual partitions to this partition.
+    Rebase over drm-tip.
+
+V9: Fix checkpatch warning on non-posted erase patch.
+    Add Rodrigo's review and ack.
+
+V10: Drop master device creation patch as it now in mtd-next.
+     Drop power-management patch, it will be merged lately after
+     master device patch is propagated.
+     Rebase over drm-tip.
+
+V11: Fix review comments.
+     Add reviewed-by.
+     Add cleanup in error path.
+     Add PADDING region that exists on some BMG devices.
+
+V12: Add Raag's r-b.
+     Rebase over drm-tip.
+
+Alexander Usyskin (9):
+  mtd: add driver for intel graphics non-volatile memory device
+  mtd: intel-dg: implement region enumeration
+  mtd: intel-dg: implement access functions
+  mtd: intel-dg: register with mtd
+  mtd: intel-dg: align 64bit read and write
+  drm/i915/nvm: add nvm device for discrete graphics
+  drm/i915/nvm: add support for access mode
+  drm/xe/nvm: add on-die non-volatile memory device
+  drm/xe/nvm: add support for access mode
+
+Reuven Abliyev (1):
+  drm/xe/nvm: add support for non-posted erase
+
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   3 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/intel_nvm.c      | 121 ++++
+ drivers/gpu/drm/i915/intel_nvm.h      |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
+ drivers/gpu/drm/xe/xe_device.c        |   5 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   6 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_nvm.c           | 167 ++++++
+ drivers/gpu/drm/xe/xe_nvm.h           |  15 +
+ drivers/gpu/drm/xe/xe_pci.c           |   6 +
+ drivers/mtd/devices/Kconfig           |  11 +
+ drivers/mtd/devices/Makefile          |   1 +
+ drivers/mtd/devices/mtd_intel_dg.c    | 830 ++++++++++++++++++++++++++
+ include/linux/intel_dg_nvm_aux.h      |  32 +
+ 19 files changed, 1236 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+ create mode 100644 drivers/mtd/devices/mtd_intel_dg.c
+ create mode 100644 include/linux/intel_dg_nvm_aux.h
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.0
+
