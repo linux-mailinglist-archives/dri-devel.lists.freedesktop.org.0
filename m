@@ -2,120 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F28FACC442
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6134AACC492
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 12:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B15510E5B7;
-	Tue,  3 Jun 2025 10:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07EE010E19B;
+	Tue,  3 Jun 2025 10:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HQ5oROgZ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cQQpPzrf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7417810E5B7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 10:24:45 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5539JnIs002000
- for <dri-devel@lists.freedesktop.org>; Tue, 3 Jun 2025 10:24:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=8X/sdHFYG4xEls9KgUDjyGuo
- Kkp1AX+QACpgspI0LJs=; b=HQ5oROgZMVVuu3tSigG8HkTg7bnK44pS11ajrjga
- ty5ORBWMri/ln0RysVOeAa5/dFvdLbsxAVZWFhcLpYvlaCUrXBK9BlK3W6pIUkjs
- EBToKoh9MrCD5kFUJ48yxY8Y3isvkwMWU3q1hK6nJOUMTcezSukoadf5IdOLqV6w
- sr1BYbyMft6j2Rpc4EgvMdqy9ykGqb5CCcy4RWceHLwH191LJ+uKv6oXinr/UqUq
- spTBif9cEg414zA/w9D8+XihOXRxf9lvwPv3xS/Nvu/S9v1ROhiBdIU585rR45yP
- SQzkhSyp75PMm0Y/siaT+qzGl5LU1mMWvil2W85x/1SXHg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8ta7ta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 10:24:44 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5f3b8b1a1so952277185a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 03:24:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748946284; x=1749551084;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8X/sdHFYG4xEls9KgUDjyGuoKkp1AX+QACpgspI0LJs=;
- b=fiOmbrxSktySPaA/aikpBW/DKl1aaAtER5xYmlyl3GTrXL84mo1Ww6QOFW2wV8ZiCL
- Ju7mRMFukGi2QFouU8NFrAftGmtsH4K4RzvzkTSZTeU5wohIj64zn5sSeQb+qfqKV+gg
- /ea4ibAu6cvIACljuBbt0Q7IszT5bxKpPYNsyXi6I5CheKd3fQYp5pbDP0xMroBoCWrb
- N2LcplOKpDLwuziu/JGAC2ZYq30MbWvvXhW6bEOP2MR/Co4Bi8PXVfCIWzybgKMp6XEJ
- ivlWJeauZghNKx4yMfW1kLqGXmZPEorPi0J5nHw2nlw/ib7IyFIuFSLAU7HYSiqXMp0h
- EjAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVx7IIvL570bv3XU/a/l4Kkt0YCn5o+4MPOb7enfTBo1nMBJPghzvgYoHcuc2AVO3GDoBFW2MP9468=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTpSFKLGxz2Lol+Jqw7TYhtyZqtLQhXRdqgYzztQw/smZyizH9
- M3KKi8Eit6JguDH1HWlgP0X0nD4iKNjMPRTWmnt9exGYJiVPrgDmexgETHMN5wZeOtaIP7QoMyt
- aGIgjm6btWp/jWTeHF0XVCoUhQb0vxnxbvBY+BDw4IsFaGgblL8BcVd1uU41/mmczDrdT/jQ=
-X-Gm-Gg: ASbGncurs73z7UKweMhuoiBns23InGtqzqX2dUYcyYCWPqX+bUGD5kviZOEPKPEqg8a
- BiUvM78TuhSwLmuk9KmApSog7L0imOlFS0PmGjR7VwQSR1tJj2E50YghIpjp9+wbZryRIhQgmeu
- RyUL/85kPyd0zdJDWF8G/Ck0fE24/ZCvBCyAM3i7kyLpdmR2ZmCUeNA46gsxiIMESFCQdBgxSNh
- KVRGDqBivr1qgdQQmWP+F1ttQa4Zcow0/Pe3a3j0EOEVNeIm5xWtvnxX8cW071IBWEcqj27N6hm
- AKWptX2C7CEYoRjX32XZGMpi3mKIgmexB++Zn0Soet2dN+2JYYOR9gAd1ZtyQRH107YLv9MuuHM
- =
-X-Received: by 2002:a05:620a:2a05:b0:7cd:565b:dbc9 with SMTP id
- af79cd13be357-7d0eacaff1emr1546420385a.26.1748946283782; 
- Tue, 03 Jun 2025 03:24:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEIHzhH2SJMVGYPwtzq1agpq1FHt0yACqP7MZbotmEP0Z6ueg0f6IDu07/7/Dr+I9bfBtdGsA==
-X-Received: by 2002:a05:620a:2a05:b0:7cd:565b:dbc9 with SMTP id
- af79cd13be357-7d0eacaff1emr1546416385a.26.1748946283327; 
- Tue, 03 Jun 2025 03:24:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55337913421sm1880194e87.117.2025.06.03.03.24.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 03:24:42 -0700 (PDT)
-Date: Tue, 3 Jun 2025 13:24:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 11/12] drm/msm/dpu: support plane splitting in
- quad-pipe case
-Message-ID: <5hmgt4v4nop3xpqt34wq4yyfjnypkrnlrr5fnt6r72k5c6r4vn@ykmg5ni6hjyt>
-References: <20250603-v6-15-quad-pipe-upstream-v11-0-c3af7190613d@linaro.org>
- <20250603-v6-15-quad-pipe-upstream-v11-11-c3af7190613d@linaro.org>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C5210E19B
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 10:42:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QOYuCfo2fSx45oBHmg8SPwCLQ9/S0pMGq/y71kBnFL/1a1anLTjWnHM8jP6P9gdjk2wROilvQ8B/rRL8crEJPQwXCBmCOK6XupyL4sG+3FnqH1R6+FSi4+Tjrk6aw+9z/sZsiQ13IL8Pd/lwqb6kpL2Vt+f4qFSvXd2bWsTcwpiIPwBZ+LNF7GWW2CVx6XwDQiEH/UipofT8IUro3v3kRBPb6ofjoSW9aQ4o8TDoWJuYgUmcDGf2m5PolzMUVFCLo7J3qe/m6Wo8S4/OExD+VDnQlA2myS4d1vSvGk+MWmt+hbSPcyub4Z0WKiy6aN80L4E3P2vuWwkW00OHJ8SbrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m8tyd3y/5UeOKysL/tMZuJCliFYoGRCphFtDLv37FzE=;
+ b=yifeOnMgVC/wj9Kn9AUyC+d05br07kqlrKq3woKUbhmJFA0cNVRIjk08LxQrLkiOHfptxcfIhy0OqLGShgoqP/3QCEaJ4rwjjmGfb7geHM9p+BY8jNtLMC6squ+uaGuuKlt2S+H9JxY3WgApW2m0jPsWV5+phko92fBz2h7WdsxAbb2+oLL8V76BVJKwyBgmMGV6jLzxrqh98VkSVGAZ+J9u31ujeD80hZY8VXjPXCtm49bhv64hWw+bmSr+qKvjwE0tJlGKr170kcPXNw0+ncEsKxsEJPza88Z59LOi5+gXIxDPF9rECAbYZqKHpGMLAVBBomwp8DSEfXPgsO+suA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8tyd3y/5UeOKysL/tMZuJCliFYoGRCphFtDLv37FzE=;
+ b=cQQpPzrfMSuH/TfZ1M+uPOH0KhBWlAiyBp6qKjfA5+2N/TGa58iBLfBfKKHZVrBhSn71FQFADV+/WbiJVcOQJyZfTZ1xBQ1osYk5r8AZiYwPcaqaPBl4XsYenRzRMDxXBbD+oY81rKrF7Au2Y+nGW7k9CxsPauKJoXQfCYpFzC8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB7863.namprd12.prod.outlook.com (2603:10b6:510:28b::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Tue, 3 Jun
+ 2025 10:42:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
+ 10:42:35 +0000
+Message-ID: <ec85db1b-d536-4954-bad9-d5b1f3388492@amd.com>
+Date: Tue, 3 Jun 2025 12:42:26 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] dmabuf: Implement copy_file_range callback for
+ dmabuf direct I/O prep
+To: wangtao <tao.wangtao@honor.com>, sumit.semwal@linaro.org,
+ kraxel@redhat.com, vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, hughd@google.com, akpm@linux-foundation.org,
+ amir73il@gmail.com
+Cc: benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ jstultz@google.com, tjmercier@google.com, jack@suse.cz,
+ baolin.wang@linux.alibaba.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, bintian.wang@honor.com, yipengxiang@honor.com,
+ liulu.liu@honor.com, feng.han@honor.com
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <20250603095245.17478-3-tao.wangtao@honor.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250603095245.17478-3-tao.wangtao@honor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250603-v6-15-quad-pipe-upstream-v11-11-c3af7190613d@linaro.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDA5MCBTYWx0ZWRfX327dpyH4b/lZ
- JPqZ43haeO6cEct1h3mWz/FZfeaE6ZEGwhharKQG90XT58NHG5JSLxga60qCjp/e5/O4jai8fxH
- XeaCWmD3aL5BfOiA2h1FL58+0jxwxNyBdzCNs8BYtJQctNd4d1v2JsCWgmHEF4abKHf2krUN5Z6
- R3D4xQYLTvjEHHU1eR8uJgvEpeFfR8fOSpVuD+GUb9w19iDlzwrXElzXWEOuBB82SD6qbnSIsh8
- QNwmpK4TZouwrJRBwXM6KJqojeBDmP+g3QqBcJllb0vPS0IaSrPiB20T4V/LQK7N+qxEjDEosez
- ShasYvTcF8eEOZMSVeLopPfdsSDQ+2lgYCWJsW96Mj2zApxD+IFOVdedsL5/QaWg1N1QXvoxW4C
- jrEXV1AG815fFDmDKlQnyA0r/nQYp3LXN3cDAee/D477BsF2PC+85L1AykDvG/4IxAxZCjkV
-X-Proofpoint-ORIG-GUID: BMFvxpfmZX543eb0QPlgrNvoRPx5oeww
-X-Authority-Analysis: v=2.4 cv=OuxPyz/t c=1 sm=1 tr=0 ts=683ecd6c cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8 a=OoP3oNsDoWyiozS0VdIA:9
- a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: BMFvxpfmZX543eb0QPlgrNvoRPx5oeww
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506030090
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB7863:EE_
+X-MS-Office365-Filtering-Correlation-Id: eee55a24-341f-458c-6d70-08dda28b59eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NGxXUjRrTk9TM0pISnFiRlkySnhHZXNpRjJkc3NISWExaW14ekpsVU12Y0Fu?=
+ =?utf-8?B?T1BlY3VKNEZwTjUyY1JHQjlCdS8vUllCVkpCZmp3OWJ3akZmSXVQVW8yM0FQ?=
+ =?utf-8?B?c0o5cDUwcUFFYWxVNUFiNXBvY0E1OHZaejlJWWZBNllsYVJTRUltTnU5cFhG?=
+ =?utf-8?B?VllUM1R1M25rWi8xeE5oUmd2NVhYWjFiOFBLQ3MrUm5PcDdmZldTek1ZMnN4?=
+ =?utf-8?B?MmF2L0hVRkRuMEJ6MWpWY3ptN0xuYTlTVDJqUjI2NTZub2ZiNFFtYkozajlS?=
+ =?utf-8?B?NEpIaCtiZWJ0elRSeUMwNzYwQUJKWExCNFVURG1xRjM0NENwOWZsQTZQalg2?=
+ =?utf-8?B?eTFUNE9qU29yUUcxN0RYSXpFNk51MG9yOENSN0ROUi9PWWQ5Z2VsVUNXYWt4?=
+ =?utf-8?B?Wjd4c200T2czMDhNL1hSVVlia0F6NVJMYjNiRWZxbWFObTF2emVrSk1EYXlS?=
+ =?utf-8?B?c3dZQ1ZTTlJGTUtTZnR1cHptSjV4dUhCc0pwSHVNcjVOb21id2Vacm5abVoz?=
+ =?utf-8?B?Z3loekh3K1lpcjFuTThSQmE2clBRWEt2Vy9YWlQ2L3ArWkU5d252NkJjZjla?=
+ =?utf-8?B?aGtrMWRjS3pHVVNkMmpqR2R5QW1vcndVK01MZHA3TGNzQUduM3E3K3BMRXNM?=
+ =?utf-8?B?anJHbHplK1g1dWhDdHd2eTVvSEhiVUVKNFdFem05NU5PUzRLNGF2ZWdrcHdP?=
+ =?utf-8?B?SzY1QWljRDJVUEtrdEM5VUh6UDZlSGo0OUR6ZzMyK3JvRjB1NnVpL2wwdzR1?=
+ =?utf-8?B?SVBaRWRyR2hndWU2eTRKdkdwK3hEdm5RQllLbmc4eDJsSGFqdzl5azlSRzJ4?=
+ =?utf-8?B?bzNkbnNhR2tZSUQ3NGNrQXdVcy9TVmRzTjRaby8zR1lCUks5TTV6ZjNpQWRL?=
+ =?utf-8?B?bUZTQVNVVHcraC9QSUU0TCtZVkF6M3p5L1NxQkhBR2pDSm84ZFJHbTJ1UjBP?=
+ =?utf-8?B?WG1QWjRsbGhKSHBhdDllQ3N3N0lpL3BwVVZmSDlFbFdPZjdOQ0Q0dHZ6dG1z?=
+ =?utf-8?B?dGc1U3hvZi81amdDZXFxS29qYTRRdFJhamd4NUNHY0FROXV0TGpiOU1CZzZw?=
+ =?utf-8?B?a2h2VWhqdkNsRGV3WndSYWFSUHE5NzhHdWlvZFJrUjdRS1FKNjdxOVNaZVVZ?=
+ =?utf-8?B?dmJpU2dqZnZUelliMlVjRjk1bVloVVYrUThwQmJ4VWtmdlR1QnYyK200bkFN?=
+ =?utf-8?B?VnlLc3VmcGxNYmVBaEZrQmVCRERUVDZvbytNV0s2RFVtM0crRzBCdGtCczJ2?=
+ =?utf-8?B?QjN0RkR2Znhlcnl1MTQyb0lmNFlLVU5PMEVTeWtHcmxKWVlhOVNIOWkwdXBn?=
+ =?utf-8?B?TVVJTmVwVFlFenpDL04zYTRCL0FWQ1FYbGU2eFk1SkF1dUFrM1VNSWExZHBm?=
+ =?utf-8?B?OWxpSVhLUSs1QjNIbHhCdDByWGg5TUV0NTlxSEZiUjFSOXFIS2gzVHNFVFZI?=
+ =?utf-8?B?bThGZnl2ZkZjUzJQQTB3MVFFeDJIcmExVlViUnFob0RSYnVPTzJpMFFESzFJ?=
+ =?utf-8?B?NG5GUFdDNkRJOWpaWlpCY1ZndmtWZ0E1UkRqNTFJQzJESFZIQzN5UzdQUVZT?=
+ =?utf-8?B?MXFaaVlvOXFGZnNpZU5xNDhlbXg3Z0djK0RiQ1VuY0gvQWpIeVUyaXcvcGgw?=
+ =?utf-8?B?cU9nTjVnWEtHRUtRR01HbTFtUzgxT01hdGdhR2ZxbVZ4UzVHQ0V6bzNZQXJp?=
+ =?utf-8?B?ZEpkQytHUXJCeVJZQUpwK0NiQ2hvWWZ0Y04xaXd3QW9PNGlMSXNFZ3l2UUZw?=
+ =?utf-8?B?cythUlUyaGpnNnRtaVhVQ2FuZWtRNmF4SE1hR3B1STUxellvK1dtZElxdWg5?=
+ =?utf-8?B?Y2o3NzU2OHJid0RQOXRYY2wyTWROZ1dwaGdhSzFudURXTExDZGhURjdVYlNF?=
+ =?utf-8?B?bmNzTUQvc3RLT2owOFpPMGtyRDFaTkJQeFpIMER5Y3Y0Z2VkOHVHY2Vacll4?=
+ =?utf-8?Q?zVtyxkbP/E8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlBjVG5nUlY1QWEybm9JdTY1QnlFTm43MlhXV0JHaUtJcWFoV2F5WWZHUEZS?=
+ =?utf-8?B?VlNpYTRxeUhsODVpdS9lWklKQkpzN1YzcUY0VDZhTnRkMnJtRnMyaUtSR3pX?=
+ =?utf-8?B?SzFERDNvRVFvb1A0U2hLZlZGdkc2NHkzZGFwelRxSEtQd1pGWnhQNFE1cnRa?=
+ =?utf-8?B?ZmdNa2x5dkwzUmpyaFlZaFFZK1NwdWJ0USsrdGFVZ3I4RjcwZDRxNXk0K0tj?=
+ =?utf-8?B?aWgydEVkbzd2elFaUFNyZVlkdnp6QUxueWNieHBLQ3o1N3V1WjR0WTJPL3dZ?=
+ =?utf-8?B?Z09kVlRxVitFSmIrMkx6WDlHalZlbXFqclpCMko0ZTA1aU1aWlBMWlprQmR4?=
+ =?utf-8?B?TmV6TVZLRmoxWS8vYmhVMkk0Zi9NZlBHREJjYW1ob3RRaTAzcEhzOXBGL21z?=
+ =?utf-8?B?bHZBTkk4RXF3UTRoRE5VZ1pvNEs2VHlQUGhMbHFYbTUvNjlGWTBGVTJPa3Qv?=
+ =?utf-8?B?RU9iMlFrYnJLWklyMFY1em5SV2szN2kzSVY1TlZsZDl5RmJnbkx3VER4ZjJY?=
+ =?utf-8?B?b05ITmVrRHR0L3dhZTlsUVJ1ZHcwK1FaT0FJSjJuTkpmTW5ZRUNTNzZGMWJH?=
+ =?utf-8?B?bmVibEJGTDM5MjZpdm1MUWlhQXNseFdodUtXV3FYd2szcHlXdk54ZVpkeitj?=
+ =?utf-8?B?UkFRRjNVdHd3U29WUXRFNitIMVZoN3ZGczBUQW5BamJ0VlNWbUdaOUgyY28w?=
+ =?utf-8?B?QTlHQTQ1ZThJYUIxNEJnMFpYa2c0NDhvUWcvWFRLZzVoSzhzMXBFenQ5VUoz?=
+ =?utf-8?B?ZTNPbE1PeUJJak1scVpYVndsTVZZaFA5bHRsRGhGSmplM0lhcVF5Z2U2Tmw1?=
+ =?utf-8?B?VFB2RTlKSzhkeE9LS290Z21HV3U4VUdITkIzMFlHMXZqaWdodUZsRmlGUWR6?=
+ =?utf-8?B?QzBlWDR2VEhRSjVmQWxWb3BCYkZkOVZ3QU5MbTArM3RoblZWRGpQeDBnUHVZ?=
+ =?utf-8?B?SVQvZDNmRCs0dFY2VEtydThaL1Q2dW5PZnB5WWRnK3dKczQvRitOeVVEWUtw?=
+ =?utf-8?B?YlpHRUxNMXZqNXZROG5vbmkrYVpuT0pvTDVlYk1MS0FxR1RIVlZ0d0lpdlJx?=
+ =?utf-8?B?Y0pXUzlFQ2lsYXY3Ulh0MEo3ZG84aXJabGY2eEdHaUZjc2llclJrUUNPeFgz?=
+ =?utf-8?B?eTNSaHBmc3Z4YnpxQ0ZpaE9qY0piWFNqZExzUUovMVFYYmFDcFNQTnBYY1dD?=
+ =?utf-8?B?TVBHeVd2Q3ZlWGwvZCtNR3ZTVlY5ekdKQ0lkekQ1QlRDZ3cyMDlPQ2pHRG9P?=
+ =?utf-8?B?ZHNwOEhjTjd2NDRiTURNMVlkVlE5ZXdyS2docmJYNnlrbkZ0SExTNEtJaGRK?=
+ =?utf-8?B?UDI4aTQzUXZseEtqeWRoVG91M3VOM2ZVZUVIZVQ0THJRN1FQU3AyM09rTGRw?=
+ =?utf-8?B?b3VRSkJyUnJaWktnc252YStFa0laTXhKTGNJMWNWOC9OR0xGMjAvNmdERHVT?=
+ =?utf-8?B?dDNZMzgyaVpzRXJDTWR6VjllRWVZNEluS2V1aW5yTkFESmFjMzhXbzR1eG1S?=
+ =?utf-8?B?ZDBmbjhvZ2Y2ZGlJTWxoeW53ODVXTzJRbCtaNEJQdll3RDFIdUFJR1BQWnVi?=
+ =?utf-8?B?dVpJUEtBVVVCaVpvelE2ei9pY0RnYys4MS9DeUR2cTM2eEdEMk05azZoeGZt?=
+ =?utf-8?B?NHJSSUc2cWRUaFFOVjFtM1RnMkdoSTlGcUFxUGJGUGIyL1RObnlJTllRWncv?=
+ =?utf-8?B?NlVQTGRaZVU1KytaRXhoZGY5VDM0dTAzU0M1MlNFZ1p4NS9PaTRyUlhUcXV1?=
+ =?utf-8?B?ZitiU2ZWamZoNXU0MmFBNC8yVUhvd0RXOWwwRDlCMnJaZWlhLzBZdGhFbC9w?=
+ =?utf-8?B?WU1zOEhJZG96Und0QXo3VjFYNmRNdnVJR2oveHM1em1KaXFYNEF0Q0hTZ3Bk?=
+ =?utf-8?B?clBIREhKN252ZTFDQUtzNHJwSnRRZjNEZlFtYi9OcVJEWEdMWGhDUkhSUWpP?=
+ =?utf-8?B?WDNpZWdZSU95aS9EMVhhWGhPZ0xiUDhUMEkyRWdaVlNwd1ErTFhTZzFEejFl?=
+ =?utf-8?B?ZXdTTEcwUjFuMExmOGM2RUcyeXRDVTlkSEgrbUZCK2g3azNjdW16UVU1by9l?=
+ =?utf-8?B?ZUlIN3FyRnpkS2YxQ1ltR25adkJydnRnZ3BBcWQrZE81WDFNTGRCb3J5bU44?=
+ =?utf-8?Q?c1BOZkvIEs880Nn6eKDrR6dPn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eee55a24-341f-458c-6d70-08dda28b59eb
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 10:42:35.1066 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +24txkdycrIt8FJrCmtdPOj9jjG5rNw8iIm6u+Z1YMmMhyn5ep3tP8c2YCMGs1UP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7863
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,180 +174,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 03, 2025 at 03:10:10PM +0800, Jun Nie wrote:
-> The content of every half of screen is sent out via one interface in
-> dual-DSI case. The content for every interface is blended by a LM
-> pair in quad-pipe case, thus a LM pair should not blend any content
-> that cross the half of screen in this case. Clip plane into pipes per
-> left and right half screen ROI if topology is quad pipe case.
+
+
+On 6/3/25 11:52, wangtao wrote:
+> First determine if dmabuf reads from or writes to the file.
+> Then call exporter's rw_file callback function.
 > 
-> The clipped rectangle on every half of screen is futher handled by two
-> pipes if its width exceeds a limit for a single pipe.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: wangtao <tao.wangtao@honor.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  11 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |   2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 137 +++++++++++++++++++++---------
->  3 files changed, 110 insertions(+), 40 deletions(-)
+>  drivers/dma-buf/dma-buf.c | 32 ++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf.h   | 16 ++++++++++++++++
+>  2 files changed, 48 insertions(+)
 > 
-> @@ -886,35 +887,94 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 5baa83b85515..fc9bf54c921a 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -523,7 +523,38 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+>  	spin_unlock(&dmabuf->name_lock);
+>  }
 >  
->  	max_linewidth = pdpu->catalog->caps->max_linewidth;
+> +static ssize_t dma_buf_rw_file(struct dma_buf *dmabuf, loff_t my_pos,
+> +	struct file *file, loff_t pos, size_t count, bool is_write)
+> +{
+> +	if (!dmabuf->ops->rw_file)
+> +		return -EINVAL;
+> +
+> +	if (my_pos >= dmabuf->size)
+> +		count = 0;
+> +	else
+> +		count = min_t(size_t, count, dmabuf->size - my_pos);
+> +	if (!count)
+> +		return 0;
+> +
+> +	return dmabuf->ops->rw_file(dmabuf, my_pos, file, pos, count, is_write);
+> +}
+> +
+> +static ssize_t dma_buf_copy_file_range(struct file *file_in, loff_t pos_in,
+> +	struct file *file_out, loff_t pos_out,
+> +	size_t count, unsigned int flags)
+> +{
+> +	if (is_dma_buf_file(file_in) && file_out->f_op->write_iter)
+> +		return dma_buf_rw_file(file_in->private_data, pos_in,
+> +				file_out, pos_out, count, true);
+> +	else if (is_dma_buf_file(file_out) && file_in->f_op->read_iter)
+> +		return dma_buf_rw_file(file_out->private_data, pos_out,
+> +				file_in, pos_in, count, false);
+> +	else
+> +		return -EINVAL;
+> +}
+> +
+>  static const struct file_operations dma_buf_fops = {
+> +	.fop_flags = FOP_MEMORY_FILE,
+>  	.release	= dma_buf_file_release,
+>  	.mmap		= dma_buf_mmap_internal,
+>  	.llseek		= dma_buf_llseek,
+> @@ -531,6 +562,7 @@ static const struct file_operations dma_buf_fops = {
+>  	.unlocked_ioctl	= dma_buf_ioctl,
+>  	.compat_ioctl	= compat_ptr_ioctl,
+>  	.show_fdinfo	= dma_buf_show_fdinfo,
+> +	.copy_file_range = dma_buf_copy_file_range,
+>  };
 >  
-> -	drm_rect_rotate(&pipe_cfg->src_rect,
-> +	drm_rect_rotate(&init_pipe_cfg.src_rect,
->  			new_plane_state->fb->width, new_plane_state->fb->height,
->  			new_plane_state->rotation);
+>  /*
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 36216d28d8bd..d3636e985399 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -22,6 +22,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/wait.h>
+> +#include <uapi/linux/dma-buf.h>
 >  
-> -	if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
-> -	     _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) > max_mdp_clk_rate) {
-> -		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-> -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> -			return -E2BIG;
-> +	/*
-> +	 * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topology, 2 mixer pair
-> +	 * configs for left and right half screen in case of 4:4:2 topology.
-> +	 * But we may have 2 rect to split wide plane that exceeds limit with 1
-> +	 * config for 2:2:1. So need to handle both wide plane splitting, and
-> +	 * two halves of screen splitting for quad-pipe case. Check dest
-> +	 * rectangle left/right clipping first, then check wide rectangle
-> +	 * splitting in every half next.
+>  struct device;
+>  struct dma_buf;
+> @@ -285,6 +286,21 @@ struct dma_buf_ops {
+>  
+>  	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+>  	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> +
+> +	/**
+> +	 * @rw_file:
+> +	 *
+> +	 * If an Exporter needs to support Direct I/O file operations, it can
+> +	 * implement this optional callback. The exporter must verify that no
+> +	 * other objects hold the sg_table, ensure exclusive access to the
+> +	 * dmabuf's sg_table, and only then proceed with the I/O operation.
+
+Explain why and not what. E.g. something like "Allows direct I/O between this DMA-buf and the file".
+
+Completely drop mentioning the sg_table, that is irrelevant. Exclusive access depends on how the exporter implements the whole thing.
+
+Regards,
+Christian.
+
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
 > +	 */
-> +	num_stages = (num_lm + 1) / 2;
+> +	ssize_t (*rw_file)(struct dma_buf *dmabuf, loff_t my_pos,
+> +		struct file *file, loff_t pos, size_t count, bool is_write);
+>  };
+>  
+>  /**
 
-I thought we agreed to loop over all stages, dropping the need for
-num_lm.
-
-> +	/* iterate mixer configs for this plane, to separate left/right with the id */
-> +	for (stage_id = 0; stage_id < num_stages; stage_id++) {
-> +		struct drm_rect mixer_rect = {
-> +			.x1 = stage_id * mode->hdisplay / num_stages,
-> +			.y1 = 0,
-> +			.x2 = (stage_id + 1) * mode->hdisplay / num_stages,
-> +			.y2 = mode->vdisplay
-> +			};
-> +		int cfg_idx = stage_id * PIPES_PER_STAGE;
-> +
-> +		pipe_cfg = &pstate->pipe_cfg[cfg_idx];
-> +		r_pipe_cfg = &pstate->pipe_cfg[cfg_idx + 1];
-> +
-> +		drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
-> +		pipe_cfg->dst_rect = new_plane_state->dst;
-> +
-> +		DPU_DEBUG_PLANE(pdpu, "checking src " DRM_RECT_FMT
-> +				" vs clip window " DRM_RECT_FMT "\n",
-> +				DRM_RECT_ARG(&pipe_cfg->src_rect),
-> +				DRM_RECT_ARG(&mixer_rect));
-> +
-> +		/*
-> +		 * If this plane does not fall into mixer rect, check next
-> +		 * mixer rect.
-> +		 */
-> +		if (!drm_rect_clip_scaled(&pipe_cfg->src_rect,
-> +					  &pipe_cfg->dst_rect,
-> +					  &mixer_rect)) {
-> +			memset(pipe_cfg, 0, 2 * sizeof(struct dpu_sw_pipe_cfg));
-> +
-> +			continue;
->  		}
->  
-> -		*r_pipe_cfg = *pipe_cfg;
-> -		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-> -		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-> -		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-> -		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-> -	} else {
-> -		memset(r_pipe_cfg, 0, sizeof(*r_pipe_cfg));
-> -	}
-> +		pipe_cfg->dst_rect.x1 -= mixer_rect.x1;
-> +		pipe_cfg->dst_rect.x2 -= mixer_rect.x1;
-> +
-> +		DPU_DEBUG_PLANE(pdpu, "Got clip src:" DRM_RECT_FMT " dst: " DRM_RECT_FMT "\n",
-> +				DRM_RECT_ARG(&pipe_cfg->src_rect), DRM_RECT_ARG(&pipe_cfg->dst_rect));
-> +
-> +		/* Split wide rect into 2 rect */
-> +		if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
-> +		     _dpu_plane_calc_clk(mode, pipe_cfg) > max_mdp_clk_rate) {
-> +
-> +			if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-> +				DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> +						DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> +				return -E2BIG;
-> +			}
-> +
-> +			memcpy(r_pipe_cfg, pipe_cfg, sizeof(struct dpu_sw_pipe_cfg));
-> +			pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-> +			pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-> +			r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-> +			r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-> +			DPU_DEBUG_PLANE(pdpu, "Split wide plane into:"
-> +					DRM_RECT_FMT " and " DRM_RECT_FMT "\n",
-> +					DRM_RECT_ARG(&pipe_cfg->src_rect),
-> +					DRM_RECT_ARG(&r_pipe_cfg->src_rect));
-> +		} else {
-> +			memset(r_pipe_cfg, 0, sizeof(struct dpu_sw_pipe_cfg));
-> +		}
->  
-> -	drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> -			    new_plane_state->fb->width, new_plane_state->fb->height,
-> -			    new_plane_state->rotation);
-> -	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0)
-> -		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> -				    new_plane_state->fb->width, new_plane_state->fb->height,
-> +		drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> +				    new_plane_state->fb->width,
-> +				    new_plane_state->fb->height,
->  				    new_plane_state->rotation);
->  
-> +		if (drm_rect_width(&r_pipe_cfg->src_rect) != 0)
-> +			drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> +					    new_plane_state->fb->width,
-> +					    new_plane_state->fb->height,
-> +					    new_plane_state->rotation);
-> +	}
-> +
->  	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
->  
->  	return 0;
-> @@ -997,20 +1057,17 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
->  		drm_atomic_get_new_plane_state(state, plane);
->  	struct dpu_plane *pdpu = to_dpu_plane(plane);
->  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-> -	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
-> -	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
-> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
-> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
-> -	int ret = 0;
-> -
-> -	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
-> -					  &crtc_state->adjusted_mode,
-> -					  new_plane_state);
-> -	if (ret)
-> -		return ret;
-> +	struct dpu_sw_pipe *pipe;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg;
-> +	int ret = 0, i;
->  
-> -	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> -		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg,
-> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
-> +		pipe = &pstate->pipe[i];
-> +		pipe_cfg = &pstate->pipe_cfg[i];
-> +		if (!pipe->sspp)
-> +			continue;
-> +		DPU_DEBUG_PLANE(pdpu, "pipe %d is in use, validate it\n", i);
-> +		ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
->  						  &crtc_state->adjusted_mode,
->  						  new_plane_state);
->  		if (ret)
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With best wishes
-Dmitry
