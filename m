@@ -2,100 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957EBACCC88
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 19:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864A6ACCCA5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 20:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6638D10E0F3;
-	Tue,  3 Jun 2025 17:55:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 868D610E1F8;
+	Tue,  3 Jun 2025 18:04:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="T1HpdBfg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zzw1Lhtt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83D7B10E0F3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 17:55:09 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-ac3eb3fdd2eso1138416866b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 10:55:09 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7CCE10E1F8;
+ Tue,  3 Jun 2025 18:04:24 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-3a510432236so1542065f8f.0; 
+ Tue, 03 Jun 2025 11:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1748973307; x=1749578107;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fC/6H+NAYLMVj5GzwzsNQxA9cPRU1IAN6ZNdrc7a8/Y=;
- b=T1HpdBfgbYWar/bDh3L0HJOlRYe3ZQU5Oe66P4xrCwMfunsmBdUGHoP+8VudXdhnxM
- JXIqJqdngw/Gw+fzU9YhYp0EsdtV6Aq4BojMeMFnRVzSu4BlGV2E3RY3MWj5luBA24GD
- x4ROqDYN/pqZaDeQsF04AmdzRY/8CT3lLiI2U=
+ d=gmail.com; s=20230601; t=1748973863; x=1749578663; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UUV+ii5u6eXM/9z4t0zPuEnw9506tcp6lSpVIjqTuQM=;
+ b=Zzw1LhtttT33lgm4QKmKO60S5KXUn/O5jFw5ppRsIoeoKiJPmPKEh3EqE055Sb38ZZ
+ cbkUTV1VneC7Vj/BDjiVzb0NRSNJDrcAS+Z/nZK9dQ9M2jMFsns8bJiQ4eb0Du0ONUod
+ RYWS+1kWpIo3Ye4+AVHdCvkbITpkyZaJF7cEiKfGKcCwdqTZ8Y0IjU8qYqP7+IIOPc5a
+ nUM6hLbmWWFkdk27687jPnYEch3bWAPw6mtB0xpLPGunbIMCHYUlQ92DrehcfIJwQGn5
+ zZSRpz3wpfZ/hyWJk2GTNbuLOBzbLucZhLBh6bIRjm9NSLg2m6DOVTJlkExFNY6G12pM
+ PbLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748973307; x=1749578107;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1748973863; x=1749578663;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fC/6H+NAYLMVj5GzwzsNQxA9cPRU1IAN6ZNdrc7a8/Y=;
- b=cGIFqp6NxQ1sNF0dUQCgIu7sTVFmjXokM54fp2fT+ch5pzLp37b43qJmZ0SZ0rmOxi
- i8CSWqwnqNQda1nzjyfOrYsmv4c7DYPTtIhACbwBG23aOxWJSxInxHhjl8JO4Mkogcze
- VEsWpS31hSU76oYFMmgzZctyUcowMfxTNZ3olcwpcPvtbFU4He/MWcSv64J0/UyFzMKD
- qwp7c0vpq3g9NDPFdWGlqizIAfxCxpJWmhnILT+TOfTcGk3dBWW148sc1LjvpflLDc0M
- aUkMncVqGvqAucBhiFtyc2X1ydnP0h+39mieD4IvBKJKkILk3HYoVU6evtS22DZldUIc
- nAkQ==
+ bh=UUV+ii5u6eXM/9z4t0zPuEnw9506tcp6lSpVIjqTuQM=;
+ b=hK2d0jrNdpAsJgo0D9iH8Y/ngSjAnp+nfEpUmDADcB1+4cCyI3eVqQykzbvo98UsBE
+ luQG/jOWmLHmHosZSb77aWRFyU6Pyja+VJpxGGNavpXiMBTcF6qsoV59jHu4VaQayaeC
+ ARdf6oe9crdJWw6exRmrZh0gZqfQan8BSmi6wBGBbVFplFD+zrwcH/GHPr83726jj+HI
+ B6o8BfKsctVsUbfpj4LArTnD9mx4HcydkSK+0aGMdtZznZSyHw+7vMjqELsjcsAnzKGh
+ 1Iw+imxX8gU7qDQ+7GG2Ow5SZ4qNkVghpQFCCAlTVbE/4fOUKuj0j4yXgjCSvfEH7l92
+ tAwA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUviW2Q2As/1MPRFoH/B7tL7KwnsC2539L37uYny9jRN6xtTsRjHM8eYJgPzpmNGDA1r/73JLF+b6I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPB3xiiYnvJJsa1vWq4PQI29UmwRYv3GvpcD/uHWj1l4MZFHN8
- vfHJBxpHlrp29YoDUVTffFb+aP1mg1mtcYNUZmVqbgXc7SZCYw+f+F5NZ7iyB5IV0fOPMhS8vL0
- obMU/p+Y=
-X-Gm-Gg: ASbGncsDUTm7NwVd3fw8fFrrowk2tnmd+TPGa1OGLXDX4wwI08t6Sh0+DUfSkefVEpM
- 8+r4EdYWbgdsyGBPAyyPOFAo8PKRCj3o0qFkD0E2LOWVzH9jUz1g5NFJpaFnTHbLiX5vns9A9Ci
- 7Y5/z3aQH3CMMEl3wHTZdpiBzZfpVKwBwrO1SPFKCRV5a9ReJSEyHzW/TruPz6jZQzkHNmkExzX
- d/QkSC8lSi5i8SqhKIanVyCwuSkJnx+XpHVK0cDEHH5PtH7S4A/pyB3mECio8zXrwCn4fsLM4CW
- CHKkonbzaf6BmNeilkN/D3pG0/YsjrbAEMbXHQ463NlMgljeYd80wOYnLeTUdNQobgKgeygxACU
- cKdpvdzGo6xiPcQRuww9vZC1Vpw==
-X-Google-Smtp-Source: AGHT+IGr7AWlTLZZ6I6jRCI3UHveXoH3EF5kvIp8yBSa2uSawTxl30ZMntbjP19bGK9kb36h2IrNvw==
-X-Received: by 2002:a17:906:6a0a:b0:ad5:3a97:8438 with SMTP id
- a640c23a62f3a-adb3242e81fmr1808200266b.41.1748973307217; 
- Tue, 03 Jun 2025 10:55:07 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
- [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ada6ad39e58sm994306166b.146.2025.06.03.10.55.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jun 2025 10:55:06 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-60461fc88d7so11879641a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 10:55:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVRdjNQUNPe2NFC6RXmj+APMl/wHPjXqGzugvg2SqOVxln6ORvLOUTSfp9kUiJww9YDVMEGfvD4ASg=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:1d4b:b0:602:17a1:c672 with SMTP id
- 4fb4d7f45d1cf-6056dd5cd6emr17985307a12.8.1748973305522; Tue, 03 Jun 2025
- 10:55:05 -0700 (PDT)
+ AJvYcCWfWCGMI5NLqbAu2c28EA7Mltas5FUJcHuiXHTpMRuHflMyB45Xa92xUlglI5IHJ5Rp3qxfApTvB9I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKjfokffkpTBmyoDCSbe9ZKR4cOtk5tqsyr+PyJYkYyP9LcReB
+ MQBk7R1G7Ezos+pX4mjdfAUjaybLi8ncmA+ZW5Xn/UuA05rH1+orwdK9
+X-Gm-Gg: ASbGnctbDu4kfS9X8i/UUV5BIOlEtE1hAPCHy+MMl+fRxxOWwOszq5Ssf+d8o46LtsV
+ 2vnlor0y44j8GffhTMIKHDC1gB+pquB0weeK7RB18dN1J5Pnh0GuO1KrO8TLExlR+Vkhiykhbdq
+ CL5WKOoC317u5Sjd81OXBJXl7oOSKi2tBsHBNc2HAOO9nVULvutAcsQHoFrTp8eidIMiGuYoMCV
+ 1xRS3LxttDE0oYeuZtNqrUUqkKVIzfy9joYkiq1d6d16ICWIgT/SZyXGOQDwJhhgvKasnzyY1lN
+ 0x7Yn1MZamyEhLU1+WRUkWe9UItWWepGu6AiayT4LY8kbFMH9HjpwrHPSgpIknc=
+X-Google-Smtp-Source: AGHT+IFWDRZ5DMF8AWYghMojAC19CnsoSoHQTSNpwtp6Jv2nP6IRBRnbRL5Y916DRs9zZwsULYr8uQ==
+X-Received: by 2002:a05:6000:18ad:b0:3a3:727d:10e8 with SMTP id
+ ffacd0b85a97d-3a4fe3a6ac9mr9056440f8f.50.1748973863165; 
+ Tue, 03 Jun 2025 11:04:23 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:397c:823b:f900:56d9])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a4efe5b887sm19468210f8f.18.2025.06.03.11.04.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jun 2025 11:04:22 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/xe/hwmon: fix uninitialised access in
+ xe_hwmon_pcode_write_power_limit
+Date: Tue,  3 Jun 2025 19:03:33 +0100
+Message-Id: <20250603180333.32117-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20250602170500.48713a2b@gandalf.local.home>
- <20250602171458.7ceabb1c@gandalf.local.home>
- <aD4boBrdZXtz_5kL@casper.infradead.org>
- <fc2b6a94-bd2d-a5d9-c935-381a1613f47e@google.com>
- <20250603102959.20c85adb@gandalf.local.home>
- <aD8iL4cFoXpIVK_0@casper.infradead.org>
- <20250603132736.554f611d@gandalf.local.home>
-In-Reply-To: <20250603132736.554f611d@gandalf.local.home>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 3 Jun 2025 10:54:49 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
-X-Gm-Features: AX0GCFuRcH8vVPhe4YXVxMZojF04nrgUVpEyUgoXeIKviV3b1cQy4lAyiTFx_xs
-Message-ID: <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
-Subject: Re: [PATCH] mm: Fix compile error when CONFIG_SHMEM is not set
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Hugh Dickins <hughd@google.com>, 
- LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
- Andrew Morton <akpm@linux-foundation.org>,
- Christian Koenig <christian.koenig@amd.com>, 
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=n
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,34 +88,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Jun 2025 at 10:26, Steven Rostedt <rostedt@goodmis.org> wrote:
->
->  config DRM_TTM
->         tristate
-> -       depends on DRM && MMU
-> +       depends on DRM && MMU && SHMEM
+val0/val1 are not initialised and are passed to xe_pcode_read():
 
-Yeah, except I think you should just make it be
+    xe_hwmon_pcode_write_power_limit()
+      └─▶ xe_pcode_read()
+            └─▶ pcode_mailbox_rw()
+                  └─▶ __pcode_mailbox_rw()
 
-          depends on DRM && SHMEM
+If __pcode_mailbox_rw fails, val0/val1 could be left
+uninitialised leading to xe_hwmon_pcode_write_power_limit()
+to access them via drm_dbg. Or an uninitialised val0/val1
+could be dereferenced inside __pcode_mailbox_rw.
 
-because SHMEM already depends on MMU.
+To fix zero-initialise them to avoid potential UB and 
+propagate error on failure.
 
-That said, our docs already say that if you disable SHMEM, it gets
-replaced by RAMFS, so maybe just having a ramfs version is the
-RightThing(tm).
+Fixes: 7596d839f622 ("drm/xe/hwmon: Add support to manage power limits though mailbox")
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+---
+ drivers/gpu/drm/xe/xe_hwmon.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I don't think such a ramfs version should just return 0 - much less an
-error. I think it should always redirty the page.
+diff --git a/drivers/gpu/drm/xe/xe_hwmon.c b/drivers/gpu/drm/xe/xe_hwmon.c
+index 0d32e977537c..04acb47488a0 100644
+--- a/drivers/gpu/drm/xe/xe_hwmon.c
++++ b/drivers/gpu/drm/xe/xe_hwmon.c
+@@ -179,7 +179,7 @@ static int xe_hwmon_pcode_write_power_limit(const struct xe_hwmon *hwmon, u32 at
+ 					    u32 uval)
+ {
+ 	struct xe_tile *root_tile = xe_device_get_root_tile(hwmon->xe);
+-	u32 val0, val1;
++	u32 val0 = 0, val1 = 0;
+ 	int ret = 0;
+ 
+ 	ret = xe_pcode_read(root_tile, PCODE_MBOX(PCODE_POWER_SETUP,
+@@ -190,9 +190,11 @@ static int xe_hwmon_pcode_write_power_limit(const struct xe_hwmon *hwmon, u32 at
+ 						  READ_PL_FROM_PCODE : READ_PL_FROM_FW),
+ 						  &val0, &val1);
+ 
+-	if (ret)
++	if (ret) {
+ 		drm_dbg(&hwmon->xe->drm, "read failed ch %d val0 0x%08x, val1 0x%08x, ret %d\n",
+ 			channel, val0, val1, ret);
++		return ret;
++	}
+ 
+ 	if (attr == PL1_HWMON_ATTR)
+ 		val0 = uval;
+-- 
+2.39.5
 
-IOW, I think the "ramfs" version should look something like
-
-        folio_mark_dirty(folio);
-        if (wbc->for_reclaim)
-                return AOP_WRITEPAGE_ACTIVATE;  /* Return with folio locked */
-        folio_unlock(folio);
-        return 0;
-
-which is what shmem does for the "page is locked" case.
-
-            Linus
