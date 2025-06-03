@@ -2,139 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE592ACC6CD
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 14:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF22ACC6DE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 14:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5365B10E013;
-	Tue,  3 Jun 2025 12:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE7810E1B6;
+	Tue,  3 Jun 2025 12:43:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EMFK6w35";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l/O9T+6O";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EMFK6w35";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l/O9T+6O";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yt3Xrthf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8C710E1B7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 12:40:40 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2ACA11F7B5;
- Tue,  3 Jun 2025 12:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748954439; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MmB0IG5i/ot/uj8oiNr6ycLyY1acTI0Bjk/0dnYdgUU=;
- b=EMFK6w3555N4zZCyeab240OMkr9lXLZFsBLwlXMOof9W//ABEtSKm68rqPLIlSwv1JoE/H
- mADaaxei4n0jAeqSAne6vVqU2QF3ESmCIgY/iFrQvlD4VbvEKEH1BhgqGib5X8t8lq+/ba
- 5C/6j5oF1RBgGnajpngTSCYfGrQIOVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748954439;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MmB0IG5i/ot/uj8oiNr6ycLyY1acTI0Bjk/0dnYdgUU=;
- b=l/O9T+6OCL4gABskVPPQBdPJ3uKUoXwnBOAzmmWMqTblHlxEGFRqZwQusXzJ8aU+EtENQB
- 44SUjulBslp5z/Aw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1748954439; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MmB0IG5i/ot/uj8oiNr6ycLyY1acTI0Bjk/0dnYdgUU=;
- b=EMFK6w3555N4zZCyeab240OMkr9lXLZFsBLwlXMOof9W//ABEtSKm68rqPLIlSwv1JoE/H
- mADaaxei4n0jAeqSAne6vVqU2QF3ESmCIgY/iFrQvlD4VbvEKEH1BhgqGib5X8t8lq+/ba
- 5C/6j5oF1RBgGnajpngTSCYfGrQIOVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1748954439;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MmB0IG5i/ot/uj8oiNr6ycLyY1acTI0Bjk/0dnYdgUU=;
- b=l/O9T+6OCL4gABskVPPQBdPJ3uKUoXwnBOAzmmWMqTblHlxEGFRqZwQusXzJ8aU+EtENQB
- 44SUjulBslp5z/Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA89F13A1D;
- Tue,  3 Jun 2025 12:40:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZHEMNEbtPmjyfAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Jun 2025 12:40:38 +0000
-Message-ID: <35b01b87-6345-4d59-99be-e39daa226dd5@suse.de>
-Date: Tue, 3 Jun 2025 14:40:38 +0200
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489DC10E1B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 12:43:16 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ad89333d603so1071470466b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 05:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1748954595; x=1749559395; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6sJx8mcfGnFO4aX8W0GB5TfU4SPvOLM9fzBj8cbSzfg=;
+ b=Yt3XrthfKjbTC/rcvt1nhl+/qZHojQixBk5k96N0c+SWB3SwY3dH9R7NlPIvDoCO78
+ UXfjo5FivWKooSbIxctjAzvD/TU8By8iWjVvk50PL4scHpmb77NkJUlhsMIr6n56AL6q
+ RMLjB+oUU/TpMan1fhOoYt9InwUJwy4R2r0FAj4WESFSwPjf8oUfNzmC7yZTRQ22I7Ig
+ znJxfyR6Kd8JfAuBk3F1ZXc21jyqI10lc2YNJPbNh6Sk3KWWI7NebzqQOams46hrBB53
+ sfz3dHf6/q2ewo5YGQqUS163z+TCavzyFtGdFt/ix/qsXPDK678b8N0d+7wZT7VX3dce
+ eC4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748954595; x=1749559395;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6sJx8mcfGnFO4aX8W0GB5TfU4SPvOLM9fzBj8cbSzfg=;
+ b=XWI8zsGIqTDIdsWcdWTSkMVFZk1cAsHgOG0AwO7lXskTIjrIPljyy2BtgCn8akwVye
+ 7zM3DsPIxJs87yvO6AklAhUcJwqa4j2wgKy8AxGFDkbaMV8Ai4vrj03zP9dHs0fmVHNB
+ cuDomdvWsI85CzsvkLai4Jqf4ROrEq1ABghyiNOlzZmtHSMLvzZrcAdgYDoG/j1gsbsb
+ vnd8aMuMfQMuh9n/vblmUp5gdPOL6n3ze6f9rf7MUVrAIncLjx/OSMdboPJeWns/d/uM
+ yCnMrhOrbkU2tVf5cKZh1liayjOWZSO6zRNp2pg2cim2AsdSfZbiWIeyNturwcSOBzqB
+ GI4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrrFXs/cB3qMQMP0HgcAQaSfwv1MaHM1+BEmdKVOZtEilNjtDTFxGvXsm/ChhiEgzgPU3WF/FC0g8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxb6oIhiAcrrEdSLWbfzL7y0fQDHumb0DIPW0s2B9MYfGX1zsvQ
+ 1jLDlmtLbRwV59Z9EICJAwlJcgHeeXM3Hp8fshS/nNROftNGGQBKWMvyhgPIUqR7IRGmTjvniSK
+ wL6Lo7/wLN9Dd1Bc7+Q6J7Btc5/9H+a4=
+X-Gm-Gg: ASbGncv8Rbt7sO7yXzp4LJpfwS2EUTPBRIQMPtzjnRy6+oDeYPnG8dShan2I5RkWvRJ
+ wdMm4lL85KW0qAv9ukTHThij9I+Npv05DmYYFmAgOZvWVCeSZ2DKkccziZWrxiv65uoQUgxSFxA
+ PA7VdyxBtIeSPi0MahQep6K/J33QMD2dcq
+X-Google-Smtp-Source: AGHT+IF0Y8eVa/wSpXz4raSNLDvjA9m62FPSA+BLGsYc090YPQ60EU4GYYJzLpKbTnA9JxXmd1DxAASt8NsK3GIUg8M=
+X-Received: by 2002:a17:906:85a:b0:adb:413a:a981 with SMTP id
+ a640c23a62f3a-adb413aaac4mr1029791066b.14.1748954594439; Tue, 03 Jun 2025
+ 05:43:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/gem: Fix race in drm_gem_handle_create_tail()
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- intel-xe@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- stable@vger.kernel.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@intel.com>
-References: <20250528091307.1894940-1-simona.vetter@ffwll.ch>
- <20250528091307.1894940-2-simona.vetter@ffwll.ch>
- <2e60074d-8efd-4880-8620-9d9572583c88@suse.de>
- <aD7gcvEaZzoDRRc1@phenom.ffwll.local>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aD7gcvEaZzoDRRc1@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,vger.kernel.org,kernel.org,gmail.com,ffwll.ch,intel.com];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email, intel.com:email,
- ffwll.ch:email, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <20250603095245.17478-2-tao.wangtao@honor.com>
+ <CAOQ4uxgYmSLY25WtQjHxvViG0eNSSsswF77djBJZsSJCq1OyLA@mail.gmail.com>
+ <0cb2501aea054796906e2f6a23a86390@honor.com>
+In-Reply-To: <0cb2501aea054796906e2f6a23a86390@honor.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 3 Jun 2025 14:43:02 +0200
+X-Gm-Features: AX0GCFuHzQzF8AX68GwDBFhePF7quh1p9www-VHHK49I3nQ44uIdAWZ_lLdxIa4
+Message-ID: <CAOQ4uxi5eyXocmFaDdT_1Jvo0ZiEf66bC9u5qn6B2Rdd_Fuqyw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memory file
+ with direct I/O
+To: wangtao <tao.wangtao@honor.com>
+Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>, 
+ "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>, 
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "brauner@kernel.org" <brauner@kernel.org>, 
+ "hughd@google.com" <hughd@google.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>, 
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "jstultz@google.com" <jstultz@google.com>, 
+ "tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>, 
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, 
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+ "wangbintian(BintianWang)" <bintian.wang@honor.com>,
+ yipengxiang <yipengxiang@honor.com>, 
+ liulu 00013167 <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,195 +107,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 03.06.25 um 13:45 schrieb Simona Vetter:
-> On Mon, Jun 02, 2025 at 05:15:58PM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 28.05.25 um 11:12 schrieb Simona Vetter:
->>> Object creation is a careful dance where we must guarantee that the
->>> object is fully constructed before it is visible to other threads, and
->>> GEM buffer objects are no difference.
->>>
->>> Final publishing happens by calling drm_gem_handle_create(). After
->>> that the only allowed thing to do is call drm_gem_object_put() because
->>> a concurrent call to the GEM_CLOSE ioctl with a correctly guessed id
->>> (which is trivial since we have a linear allocator) can already tear
->>> down the object again.
->>>
->>> Luckily most drivers get this right, the very few exceptions I've
->>> pinged the relevant maintainers for. Unfortunately we also need
->>> drm_gem_handle_create() when creating additional handles for an
->>> already existing object (e.g. GETFB ioctl or the various bo import
->>> ioctl), and hence we cannot have a drm_gem_handle_create_and_put() as
->>> the only exported function to stop these issues from happening.
->>>
->>> Now unfortunately the implementation of drm_gem_handle_create() isn't
->>> living up to standards: It does correctly finishe object
->>> initialization at the global level, and hence is safe against a
->>> concurrent tear down. But it also sets up the file-private aspects of
->>> the handle, and that part goes wrong: We fully register the object in
->>> the drm_file.object_idr before calling drm_vma_node_allow() or
->>> obj->funcs->open, which opens up races against concurrent removal of
->>> that handle in drm_gem_handle_delete().
->>>
->>> Fix this with the usual two-stage approach of first reserving the
->>> handle id, and then only registering the object after we've completed
->>> the file-private setup.
->>>
->>> Jacek reported this with a testcase of concurrently calling GEM_CLOSE
->>> on a freshly-created object (which also destroys the object), but it
->>> should be possible to hit this with just additional handles created
->>> through import or GETFB without completed destroying the underlying
->>> object with the concurrent GEM_CLOSE ioctl calls.
->>>
->>> Note that the close-side of this race was fixed in f6cd7daecff5 ("drm:
->>> Release driver references to handle before making it available
->>> again"), which means a cool 9 years have passed until someone noticed
->>> that we need to make this symmetry or there's still gaps left :-/
->>> Without the 2-stage close approach we'd still have a race, therefore
->>> that's an integral part of this bugfix.
->>>
->>> More importantly, this means we can have NULL pointers behind
->>> allocated id in our drm_file.object_idr. We need to check for that
->>> now:
->>>
->>> - drm_gem_handle_delete() checks for ERR_OR_NULL already
->>>
->>> - drm_gem.c:object_lookup() also chekcs for NULL
->>>
->>> - drm_gem_release() should never be called if there's another thread
->>>     still existing that could call into an IOCTL that creates a new
->>>     handle, so cannot race. For paranoia I added a NULL check to
->>>     drm_gem_object_release_handle() though.
->>>
->>> - most drivers (etnaviv, i915, msm) are find because they use
->>>     idr_find, which maps both ENOENT and NULL to NULL.
->>>
->>> - vmgfx is already broken vmw_debugfs_gem_info_show() because NULL
->>>     pointers might exist due to drm_gem_handle_delete(). This needs a
->>>     separate patch. This is because idr_for_each_entry terminates on the
->>>     first NULL entry and so might not iterate over everything.
->>>
->>> - similar for amd in amdgpu_debugfs_gem_info_show() and
->>>     amdgpu_gem_force_release(). The latter is really questionable though
->>>     since it's a best effort hack and there's no way to close all the
->>>     races. Needs separate patches.
->>>
->>> - xe is really broken because it not uses idr_for_each_entry() but
->>>     also drops the drm_file.table_lock, which can wreak the idr iterator
->>>     state if you're unlucky enough. Maybe another reason to look into
->>>     the drm fdinfo memory stats instead of hand-rolling too much.
->>>
->>> - drm_show_memory_stats() is also broken since it uses
->>>     idr_for_each_entry. But since that's a preexisting bug I'll follow
->>>     up with a separate patch.
->>>
->>> Reported-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->>> Cc: stable@vger.kernel.org
->>> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
->>> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
->>> ---
->>>    drivers/gpu/drm/drm_gem.c | 10 +++++++++-
->>>    include/drm/drm_file.h    |  3 +++
->>>    2 files changed, 12 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>> index 1e659d2660f7..e4e20dda47b1 100644
->>> --- a/drivers/gpu/drm/drm_gem.c
->>> +++ b/drivers/gpu/drm/drm_gem.c
->>> @@ -279,6 +279,9 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->>>    	struct drm_file *file_priv = data;
->>>    	struct drm_gem_object *obj = ptr;
->>> +	if (WARN_ON(!data))
->>> +		return 0;
->>> +
->>>    	if (obj->funcs->close)
->>>    		obj->funcs->close(obj, file_priv);
->>> @@ -399,7 +402,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->>>    	idr_preload(GFP_KERNEL);
->>>    	spin_lock(&file_priv->table_lock);
->>> -	ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
->>> +	ret = idr_alloc(&file_priv->object_idr, NULL, 1, 0, GFP_NOWAIT);
->>>    	spin_unlock(&file_priv->table_lock);
->>>    	idr_preload_end();
->>> @@ -420,6 +423,11 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->>>    			goto err_revoke;
->>>    	}
->>> +	/* mirrors drm_gem_handle_delete to avoid races */
->>> +	spin_lock(&file_priv->table_lock);
->>> +	obj = idr_replace(&file_priv->object_idr, obj, handle);
->>> +	WARN_ON(obj != NULL);
->> A DRM print function would be preferable. The obj here is an errno pointer.
->> Should the errno code be part of the error message?
->>
->> If it fails, why does the function still succeed?
-> This is an internal error that should never happen, at that point just
-> bailing out is the way to go.
+On Tue, Jun 3, 2025 at 2:38=E2=80=AFPM wangtao <tao.wangtao@honor.com> wrot=
+e:
 >
-> Also note that the error code here is just to satisfy the function
-> signature that id_for_each expects, we don't look at it ever (since if
-> there's no bugs, it should never fail). I learned this because I actually
-> removed the int return value and stuff didn't compile :-)
-
-I see.
-
 >
-> I can use drm_WARN_ON if you want me to though?
-
-If you use drm_WARN_ON, you can add
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
 >
-> I'll also explain this in the commit message for the next round.
-> -Sima
+> > -----Original Message-----
+> > From: Amir Goldstein <amir73il@gmail.com>
+> > Sent: Tuesday, June 3, 2025 6:57 PM
+> > To: wangtao <tao.wangtao@honor.com>
+> > Cc: sumit.semwal@linaro.org; christian.koenig@amd.com;
+> > kraxel@redhat.com; vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk;
+> > brauner@kernel.org; hughd@google.com; akpm@linux-foundation.org;
+> > benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> > jstultz@google.com; tjmercier@google.com; jack@suse.cz;
+> > baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> > kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
+> > mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
+> > yipengxiang <yipengxiang@honor.com>; liulu 00013167
+> > <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
+> > Subject: Re: [PATCH v4 1/4] fs: allow cross-FS copy_file_range for memo=
+ry
+> > file with direct I/O
+> >
+> > On Tue, Jun 3, 2025 at 11:53=E2=80=AFAM wangtao <tao.wangtao@honor.com>=
+ wrote:
+> > >
+> > > Memory files can optimize copy performance via copy_file_range callba=
+cks:
+> > > -Compared to mmap&read: reduces GUP (get_user_pages) overhead
+> > > -Compared to sendfile/splice: eliminates one memory copy -Supports
+> > > dma-buf direct I/O zero-copy implementation
+> > >
+> > > Suggested by: Christian K=C3=B6nig <christian.koenig@amd.com> Suggest=
+ed by:
+> > > Amir Goldstein <amir73il@gmail.com>
+> > > Signed-off-by: wangtao <tao.wangtao@honor.com>
+> > > ---
+> > >  fs/read_write.c    | 64 +++++++++++++++++++++++++++++++++++++-----
+> > ----
+> > >  include/linux/fs.h |  2 ++
+> > >  2 files changed, 54 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/fs/read_write.c b/fs/read_write.c index
+> > > bb0ed26a0b3a..ecb4f753c632 100644
+> > > --- a/fs/read_write.c
+> > > +++ b/fs/read_write.c
+> > > @@ -1469,6 +1469,31 @@ COMPAT_SYSCALL_DEFINE4(sendfile64, int,
+> > out_fd,
+> > > int, in_fd,  }  #endif
+> > >
+> > > +static const struct file_operations *memory_copy_file_ops(
+> > > +                       struct file *file_in, struct file *file_out) =
+{
+> > > +       if ((file_in->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> > > +           (file_in->f_mode & FMODE_CAN_ODIRECT) &&
+> > > +           file_in->f_op->copy_file_range && file_out->f_op->write_i=
+ter)
+> > > +               return file_in->f_op;
+> > > +       else if ((file_out->f_op->fop_flags & FOP_MEMORY_FILE) &&
+> > > +                (file_out->f_mode & FMODE_CAN_ODIRECT) &&
+> > > +                file_in->f_op->read_iter && file_out->f_op->copy_fil=
+e_range)
+> > > +               return file_out->f_op;
+> > > +       else
+> > > +               return NULL;
+> > > +}
+> > > +
+> > > +static int essential_file_rw_checks(struct file *file_in, struct fil=
+e
+> > > +*file_out) {
+> > > +       if (!(file_in->f_mode & FMODE_READ) ||
+> > > +           !(file_out->f_mode & FMODE_WRITE) ||
+> > > +           (file_out->f_flags & O_APPEND))
+> > > +               return -EBADF;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Performs necessary checks before doing a file copy
+> > >   *
+> > > @@ -1484,9 +1509,16 @@ static int generic_copy_file_checks(struct fil=
+e
+> > *file_in, loff_t pos_in,
+> > >         struct inode *inode_out =3D file_inode(file_out);
+> > >         uint64_t count =3D *req_count;
+> > >         loff_t size_in;
+> > > +       bool splice =3D flags & COPY_FILE_SPLICE;
+> > > +       const struct file_operations *mem_fops;
+> > >         int ret;
+> > >
+> > > -       ret =3D generic_file_rw_checks(file_in, file_out);
+> > > +       /* The dma-buf file is not a regular file. */
+> > > +       mem_fops =3D memory_copy_file_ops(file_in, file_out);
+> > > +       if (splice || mem_fops =3D=3D NULL)
+> >
+> > nit: use !mem_fops please
+> >
+> > Considering that the flag COPY_FILE_SPLICE is not allowed from userspac=
+e
+> > and is only called by nfsd and ksmbd I think we should assert and deny =
+the
+> > combination of mem_fops && splice because it is very much unexpected.
+> >
+> > After asserting this, it would be nicer to write as:
+> >         if (mem_fops)
+> >                ret =3D essential_file_rw_checks(file_in, file_out);
+> >         else
+> >                ret =3D generic_file_rw_checks(file_in, file_out);
+> >
+> Got it. Thanks.
+> > > +       else
+> > > +               ret =3D essential_file_rw_checks(file_in, file_out);
+> > >         if (ret)
+> > >                 return ret;
+> > >
+> > > @@ -1500,8 +1532,10 @@ static int generic_copy_file_checks(struct fil=
+e
+> > *file_in, loff_t pos_in,
+> > >          * and several different sets of file_operations, but they al=
+l end up
+> > >          * using the same ->copy_file_range() function pointer.
+> > >          */
+> > > -       if (flags & COPY_FILE_SPLICE) {
+> > > +       if (splice) {
+> > >                 /* cross sb splice is allowed */
+> > > +       } else if (mem_fops !=3D NULL) {
+> >
+> > With the assertion that splice && mem_fops is not allowed if (splice ||
+> > mem_fops) {
+> >
+> > would go well together because they both allow cross-fs copy not only c=
+ross
+> > sb.
+> >
+> Git it.
 >
->> Best regards
->> Thomas
->>
->>> +	spin_unlock(&file_priv->table_lock);
->>>    	*handlep = handle;
->>>    	return 0;
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 5c3b2aa3e69d..d344d41e6cfe 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -300,6 +300,9 @@ struct drm_file {
->>>    	 *
->>>    	 * Mapping of mm object handles to object pointers. Used by the GEM
->>>    	 * subsystem. Protected by @table_lock.
->>> +	 *
->>> +	 * Note that allocated entries might be NULL as a transient state when
->>> +	 * creating or deleting a handle.
->>>    	 */
->>>    	struct idr object_idr;
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
+> > > +               /* cross-fs copy is allowed for memory file. */
+> > >         } else if (file_out->f_op->copy_file_range) {
+> > >                 if (file_in->f_op->copy_file_range !=3D
+> > >                     file_out->f_op->copy_file_range) @@ -1554,6
+> > > +1588,7 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t p=
+os_in,
+> > >         ssize_t ret;
+> > >         bool splice =3D flags & COPY_FILE_SPLICE;
+> > >         bool samesb =3D file_inode(file_in)->i_sb =3D=3D
+> > > file_inode(file_out)->i_sb;
+> > > +       const struct file_operations *mem_fops;
+> > >
+> > >         if (flags & ~COPY_FILE_SPLICE)
+> > >                 return -EINVAL;
+> > > @@ -1574,18 +1609,27 @@ ssize_t vfs_copy_file_range(struct file *file=
+_in,
+> > loff_t pos_in,
+> > >         if (len =3D=3D 0)
+> > >                 return 0;
+> > >
+> > > +       if (splice)
+> > > +               goto do_splice;
+> > > +
+> > >         file_start_write(file_out);
+> > >
+> >
+> > goto do_splice needs to be after file_start_write
+> >
+> > Please wait for feedback from vfs maintainers before posting another
+> > version addressing my review comments.
+> >
+> Are you asking whether both the goto do_splice and the do_splice label sh=
+ould
+> be enclosed between file_start_write and file_end_write?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+No I was just wrong please ignore this comment.
 
+Thanks,
+Amir.
