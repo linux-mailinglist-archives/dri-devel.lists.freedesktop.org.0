@@ -2,164 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DAAACC89B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 16:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3365DACC8B6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 16:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF70D10E62C;
-	Tue,  3 Jun 2025 14:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E5510E607;
+	Tue,  3 Jun 2025 14:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tba1RTyj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g0IupHWi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2074.outbound.protection.outlook.com [40.107.236.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C600710E20B;
- Tue,  3 Jun 2025 14:00:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o60cI6FZ17/lrskzl+WOT/UD5Dt17iqTDUT1HEZaV+LoZhyqebQiTvkMzR4NxQl9ucqap8CxKzY4INqcvVUxUUkRmRTbxQhLPDdgkbIdzzzev8T/HZE83cHqWQlxI4JwzAcryrRA1tT7t3eLr7SjWGtLIDla1sdO7WzzsZsd7FHL/Jfp+x1bx3SAkxnR38TKtrw0xl3pfNq3BIT6EzNbIDoEGfQRYjbBwG3awYtZ8wvrnpMxU/7+9wajndHYFqgeAEfRtevfi0gpoPACEQXd+8FujB7yXasA7Kx5ZYVs7ogJmeWsFpHcY19t+EhroXksxDQ7+1gg8FoDdXZZLDotHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EIp9/2S88QeOFvI1ayGg1v0yiduhQ+wee95DOK+6Z5c=;
- b=wl58RNc0b5miN13pWkEwyrb0MUwQASAQaUhnkZCL14Eqk8dZ8v5h59KwTzUoDy9RqMiL+Yj0q5St+ByP+708tjyCRcFZKYZW9QfKeMbEMbFkwAwu8JCrAK543diwT3iLqy2xXG9B1SeevYCLoO8HovDPDLzWCgMPrph3VYJ1yjQDRKcgZlc8tGuOg36HtjnOpQPBzJHKcKp2f9K05zj5WgInkg8xgihSA5gUvcXcN2P1XCcUN7BYOaD/BuPBgD/LOY9qODzPzuhwPYyyloil/cHBc5EHyEgG93ZarxYoRaMSZd72zVg/U/Cnu6jOBzeQRfncMvxEYNtdoVEtM79kCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EIp9/2S88QeOFvI1ayGg1v0yiduhQ+wee95DOK+6Z5c=;
- b=tba1RTyjAqitCsdu/lwYKJ4GHP/uOZQqVcQ1RfM/x32HW0G0y+yKCmmsDaIh32ArH+Of6irP5sAZomR9PcFEB2rOxrbt86AN07Jyhckq13KP/6RMvgb+gAoDG5gSzKZXgacgPbLCeFTo+TflAf64UpDnzyQNRjTxu2kDyz4H0wA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ1PR12MB6073.namprd12.prod.outlook.com (2603:10b6:a03:488::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Tue, 3 Jun
- 2025 14:00:33 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
- 14:00:33 +0000
-Message-ID: <da0db1bb-64fa-4a42-b14a-694e98c6f057@amd.com>
-Date: Tue, 3 Jun 2025 16:00:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6BF10E70E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 14:06:41 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5539JItt028422
+ for <dri-devel@lists.freedesktop.org>; Tue, 3 Jun 2025 14:06:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=P79HZCGGzpLszEZA+F4RiB1q
+ d+qJD3xGy88FeOcJCl4=; b=g0IupHWiqVe2u0vwirrZQWTBFNl6UUPIqtkr+FHk
+ xaoPCLAmD1+DLbl1nfgZkTpLbaTEY4nExBZ66IZVvVHrEzYthyF0aVUBwCznJPu4
+ ZUyU/RrRXHXr52358YVxqqzPmD5i5RaLd1IL6puF/nuENMWR8CpCwffvfYmiSaQt
+ 9DHa2X0oA9I2QpHK3la8dAShSdKuSkze4Tw1LE2MFZkjFbUgEktRutpvxQ8y9Wj3
+ 8zi7pHtHeNPiZTGiVIwFf5NxJNMmsLOW4X4DYxswVIwPpN9c2cKXE3m33d2NQZJX
+ pBqpf4WYctbE4EKOZfYb9BgNzYwRMumZaBJYiVFX5Mndng==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8ttspk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 14:06:40 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c92425a8b1so692457685a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 07:06:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1748959600; x=1749564400;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P79HZCGGzpLszEZA+F4RiB1qd+qJD3xGy88FeOcJCl4=;
+ b=tfnd55uDedLCVZrAIaJRsKwEYMN811Fvkm7CZRpA27haXrqaKlWMqYFpk6YgLzfGNr
+ VCgnejw416zIhtXKPwC7rq8KxVmvK0cy+W3d9TdeN7eQVRUXfCKSaWaaYCn7+X+rIKgU
+ 5QWFmXvlPOFMj5nOq0/z8cHf1Gj4HW0ve8sdXBZTajDnbONJehmn4DFS1tVqJ9ctHWm0
+ hRgYsqZAzx1qfaH/iQ9wNc8SPVCOnLhYzNcWC21u4u/HaFeN7cBTeH8I7HrQrvCHyUyr
+ f9VmtLZLnoUIDk/42Iq6ZDdRPA/lDmUqQ3yA8X0fhiBp/pzZSc5BGLIpHZusaREFK4wY
+ IFGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQYxapg0ZJshr20/TY07JXvnDIJ7pLj7/waDBx8FTGOvy3PzC2gTzpRPUIfG0J9P28mvPSEFhebI0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyCf0TUscjRfop4yHHpqyO1Bzgi0crYNZHRu8zycDIaQrS4Ez6a
+ XO5HO7qtJR2IvMCIpftfTJI4b3fdnUGJDAtzOovSe5urZHI226uBq76iZ71JCJNvoXp8zp8eiwB
+ zgQDFJtI/dfiwIZ+vhNOuZFtWuTQy+fp8WYnhC/aSEFyTgRHg35EhZcuvssGdkkrFD1S/jCY=
+X-Gm-Gg: ASbGncsKPC/3pyL3uqYmX6zrq9yMey1QT9jxMxDWZovne/IVDT9swVxA7WbJNmpmT01
+ GVtOCgsJiSTIJoZkMDm2p/EY6LsamIxRwvfE7RJEaKzwxtNV4n/uUUyFHQCaeivu+MzJvLnjy0E
+ K+/GZmK+V66772c+uonMjlMWpCTBwNxwyI7/oQhBE1GyECXwmreAAT2radMKP1h4Dt/e6kngl3L
+ txc6Os9fwH6RXqE3Znh3s3j4XP+uUuTDAe1q0bebjMSvAVNquMSD+q+EhaTFVxX60/YEHqE49cd
+ 7KGZojwxXLyVIDy53YIbzsOe87k8O6A6JjhhA77mbSAl3Q0KVcyyzAPYN9+Kt3X254GupNyvX/o
+ =
+X-Received: by 2002:a05:620a:a00b:b0:7d2:18ba:8700 with SMTP id
+ af79cd13be357-7d218ba871emr13866185a.7.1748959600001; 
+ Tue, 03 Jun 2025 07:06:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGCFH6zwlFkK+QWD7PKj+40nA0Wy3DB5UxfoqOZyIIpf1wDqJqvJzHMX7eoemJHigQulmJrkw==
+X-Received: by 2002:a05:620a:a00b:b0:7d2:18ba:8700 with SMTP id
+ af79cd13be357-7d218ba871emr13859085a.7.1748959599447; 
+ Tue, 03 Jun 2025 07:06:39 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55337937837sm1914464e87.230.2025.06.03.07.06.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jun 2025 07:06:38 -0700 (PDT)
+Date: Tue, 3 Jun 2025 17:06:36 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xilin Wu <sophon@radxa.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
- <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
- <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
- <d483076a-b12f-4ade-b699-ee488df298ba@igalia.com>
- <2ffc513c-2d11-4b76-b9c9-c7cb7841e386@amd.com>
- <7598fd9c-7169-4a01-a24a-b9e666e9a915@igalia.com>
- <3b614b74-4e6a-4e8a-9390-6f65ce788d02@amd.com>
- <055d9c65-b338-406f-a0e1-1e1b80b89566@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <055d9c65-b338-406f-a0e1-1e1b80b89566@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR18CA0001.namprd18.prod.outlook.com
- (2603:10b6:208:23c::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Hermes Wu <Hermes.wu@ite.com.tw>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v7] drm/msm/dp: reuse generic HDMI codec implementation
+Message-ID: <os3cmusf2nrdf3zq45s52a72x4osnd4thlgcgykcalyiuitcha@tnb576gj4m27>
+References: <20250423-dp-hdmi-audio-v7-1-8407a23e55b2@oss.qualcomm.com>
+ <4E62D52FC6135E5B+a6b1634e-5c66-4db5-bb1e-bf64e2e8d8a2@radxa.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6073:EE_
-X-MS-Office365-Filtering-Correlation-Id: 765f2317-e498-4090-2cb5-08dda2a70205
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K2FUdlNGL1NpQkxHQ3NxODZUeEpKVlBWckRCNWk2Rk9peUg4UXVhZmM0UjRj?=
- =?utf-8?B?bmUyZDRMOFRwWVJpaGNtNkpMMWFPZU4yZkxSemZoMllHZ2tMajJKTGxUeUl6?=
- =?utf-8?B?TkRHa2lGbHp0YzZVSlNENDcrNkR5Qk5yQzRTMnFVL2hUTyt2ZGRvMlpZejVU?=
- =?utf-8?B?UmFCWlkzVjBmWGh3WmJ1aUgzbWgxdUpTQk5CRWJ1OURwZkdrZDd3QnY5bSs1?=
- =?utf-8?B?czhoV2pzSFRodHhoOWxtakh1NGpPUlRoMnQ5NWNoUW1xK3IzT2R1aW56enRr?=
- =?utf-8?B?QWRkQm0wRlpHcGtBN2pRRFlkQVl5eEdRV3NCOWdBSm9EUm9FWGF2Ym81am1R?=
- =?utf-8?B?MklNY21wWmZTRmhpVWFOLzBnV0tKZlFWRkd3U0Frc1ZZSjgrK01xdkROM3pp?=
- =?utf-8?B?ZEFhM3prWjM0Y3IwWlFmZFBRb1Z3WTBKVExmL1ErTDhoMEtXdFlPeWtEdzU4?=
- =?utf-8?B?L3FRcWJXQlRVUWZoanF0ekRaQytiQ25QUFNUQ3dhaTk3ZWFvVGI0V2llOE5o?=
- =?utf-8?B?YldUTUwxdXNGMERkaDNNS0JpZiszM0Jzc3B2WXo4VGhJbFl2K3RjWlhtamJq?=
- =?utf-8?B?REhpdUd5c3paWFhrbGM1czFvQ1FyRTJ2MkdWTnlGTnZMMFg1Y0kyYVNMbHd2?=
- =?utf-8?B?SG1HMkRHZUZQUVk4c2NJUWhBY2RFQzIxd1Vkd2ZuVW03V2sycjdMSG1wTEVk?=
- =?utf-8?B?WWNnS3RYTUZ2QlZmWjYzc1pXaVJ1NnYvTHVucm9kanRjeHowTEtsNnV6L0xs?=
- =?utf-8?B?VzMxVWIvb1hpQW9TRlJ2SU5ic0RGRVZSb3ZGbU85SDBjUTRPOEZ3N1VOd2Zo?=
- =?utf-8?B?RGl5Sml5cUpYVGMrcjh1bFQweHprVG1NY0hsakxOdXFjaDJMTmVDQTVhUU1N?=
- =?utf-8?B?RmFKUzA0dkc2aUtjNWYxWTB6L21SdHRiQ0pndkgrbGlna2ZnMHp2MGlDR25G?=
- =?utf-8?B?bXJRTVVHWThZdzBuSU1yWXVJZFdwMG5NQjQ5QmNqaVVyMEc1c2xCVUtnZS8z?=
- =?utf-8?B?eEN5MlNHc2t1Y2pXNlUySUJwZlJIemZQVm4rVWMrM0d4THgxZGlDZVJEVHRs?=
- =?utf-8?B?aDcyYlBvc1d3U1RFNWpBbkJXUzQ2R1pFTUpFMHFkcGVtTVpzcXU1WXhLalJO?=
- =?utf-8?B?VVlkNkxKRS9rWWlmK0M4aGNGR3VGOTk1Rnp4RnhWUWdvcjFWdjMvZFQ4WVdH?=
- =?utf-8?B?dkc5RkU1VzIwTjNROTZHdk5Mbkd0OHliMVNYeXpld3hEYXlXRzV0YkxhWis0?=
- =?utf-8?B?bWV0QWtWQXVUNlgwbGd1c3RiNHZmeUtmUCtWcGR2cWc3UDV3SnFJS2dGR2dS?=
- =?utf-8?B?Qk5INko2OWFXdDZuNDJ0R0pacGsweGFCazg2ZEFkdXJ5VFM3dVNrcXQ3OG5j?=
- =?utf-8?B?YXJtem1OcVZibDhvdTZvQTJDN3pVSXg5SmZrN3JqNi9IS05Ib0tnZHJ0TEh2?=
- =?utf-8?B?VS8zUklUdWtWYXdycGpMa0lqUmJTaklHMVFvcDdjTVp5Mm91ZldtMSs5Z0ZQ?=
- =?utf-8?B?QVRHWnlQcjM4VXpKRzU5alFSWnVNbVBic0VZaUcrOWxsYkpSS1Z0T3F4RDdE?=
- =?utf-8?B?YmJjVmhFa0x5OGtoQ0ZQQzNMeFdZbzhZUkdaRXBqamlaWlVaYi9MZEhaK2RH?=
- =?utf-8?B?ckhuYkJlOVZpMWo4TmJ2akJZZlY5RmVTOHovbUxoTUdYbU1yM2lDR0hmMGF3?=
- =?utf-8?B?cFNRN29neHdpMndhblhqcmFpZHB6U2Z2bHVQRkExSSthNkFhWHhMd0FPMzJB?=
- =?utf-8?B?Y1lJUXVObWJSZWpUQzlYTXpLbDJNT2pweVJMbDdpSnViQy90N1hXM05RQXh2?=
- =?utf-8?B?L0xMMTlaWTVHQ3ROZ2d1UEJEVEVrWjJqTENSbjNzNXZjdFU2dk5Hckk3QVJN?=
- =?utf-8?B?aVE2VWRVSXI1cSs1Y0hjMk55ZlNNS0VGU1VrWlNSRzlrQXQwdDVidmNyZW9h?=
- =?utf-8?Q?cggnkrwNk40=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmVKNEpZSEVQaGtpWWplc0JhcksxWVU3eGdFZzdQbm1TRGlWbW1QNUN5eUNH?=
- =?utf-8?B?Z2VpSTI3dEZoamFlZnplbTNMK3FNUDhvRTJJQWMrU3o3OEsvVThWRjFxQ0hu?=
- =?utf-8?B?cFZCWVRYMUVQOXFPbnRVL0FPTXhZQTJIRmcwblU2dVU1T3I3Yko2c3kyS3Zx?=
- =?utf-8?B?VExIckNwZGt5cy8zN3FoRTZYUXdLVFpqOG1TNlo3S3dXbTZPSVZnbnFuVlht?=
- =?utf-8?B?aGo3V1ZWcU41ckJJRXk1ZVlTQWZGRlJDVWFXK1cxQ2J0ZEZGUEdBS1dpaEFz?=
- =?utf-8?B?MEFBcUxZZjhCM3ZiTVgxMUFyL0lzaklNSFdrOXlGSmdGQS9Fd0E5MThDL29I?=
- =?utf-8?B?alkxMnp5dU81dmg5ZWtES0lpVTV6c1ZwZ1B1MFJuVWt3YXFraHdzRGI4TTJq?=
- =?utf-8?B?S21BcDdvQXFSTUpDMTY2ajBYTzQ2OTZTVi85V3N2bkVSMzdHUEJtYWh2aFNk?=
- =?utf-8?B?QVJOdHNra2lFUkFHWnlxTmZ0YkJkUVR6Sm5XSzcxNks4K2J2cEtDTTZGS3Jx?=
- =?utf-8?B?SFgzWXZsdjIrd0tPaW9OY3kwSUVWY3hVU1A4Sm1TNGZOVWtVN1ZySVdoZ25S?=
- =?utf-8?B?TllyVGFVSHNuazFRVVhzTFFZY2M5dWRhSkkvY2FRREFkSkdsbktIMTJwbHFp?=
- =?utf-8?B?K1QzZkIyeWsrVEE3dkFuUjIzcjhSa281T0NDUGkzcEtCZE1sYm5EQlNHV3Z5?=
- =?utf-8?B?UXZLUWxyWndBTFRUanlWcndWUVo2dDVOSThYNnc3S09Tc1NMbnpBdktWVEpG?=
- =?utf-8?B?U0ZXcW5TN0p4VVIzemhDanlxdElhVTAzWmN1QUtKTGZnKzI3RndCYmpPdWh2?=
- =?utf-8?B?b0Mxb25RQUExRlk5MHNzTHhNcTNJbHlhQktxYk9PaEpZcVVWTEtBYmxSR0tw?=
- =?utf-8?B?ZTdkRStEekNBTHhJajgzVFkxUnl5ckpvZGtndGx5V0xYdzFjQm1uUWVWbHdG?=
- =?utf-8?B?TkRoREsxdkViZHdmTDhFVnNSQ0ZuQTNpb3pMT3YxeGpaY3ZhV2daWGxHd0sv?=
- =?utf-8?B?YmhkMUtvalVyZ0wzUDRuN2gwY1E1Uk1vSDdzZTFlYlJVK2RGVjRLSjRoQVRq?=
- =?utf-8?B?SG5iQmRoemZpTElJUWJuRmtScVdrOXlISDlYZGdTSlhFeXlRS2VtZnVld0Qx?=
- =?utf-8?B?dnBTMVIwRkhUTXdVSGRYSXZMR3k4c3BqcG9qdUFTQk14VzVKdFlUNnphbTJw?=
- =?utf-8?B?a2VFcmFIbjVVdy81MTZvZnZnYnEwZy8zc05YWnVJUlkzNTg3MmNLK0JrZE1R?=
- =?utf-8?B?aDhMV3pBSnUrY0ZzZkxsV3NwaU1ENlk0Snl0TEJqWjhuNTlBckdOOWhPZjRQ?=
- =?utf-8?B?aVZ0UGZ3NlQrZVg1L09FQzFBaGR6QzFvK0Nxd2p1NkxuUzVqdDlkVnJ4VEx0?=
- =?utf-8?B?V1FBRWZSMzN2Tml4cGhTeTcwMTBmQ3E5Zks3YWNZRUV4dlNRS1hCRHhEOGlP?=
- =?utf-8?B?R0FDN3NzcmNLRjlrbG5iZVlqR2pGQnhGWmMwMmh1QzA2ZlpHeC9KSEdHd0lo?=
- =?utf-8?B?T0hGbHpWeGd6c29WeHk2U3NpMHROL3RnRXdLam9nSFcvaWFTNnZZTGhseC9J?=
- =?utf-8?B?bXRGbXRqdVJUMDZObkt1UHhJM0taZk1sZmlOVjlzTmR1dHZ6OFd4MXlRSGlN?=
- =?utf-8?B?RERJbXA5dG8vTkwxNm1ySTBJME9qQ1dNN1pnUnZNWklKNXljWVBMRUVzdGQ0?=
- =?utf-8?B?UWdHVEs4OGxCTDZjVENsQWZPcWI3SHNSZEVEZVVubDFRVnlTb2VLbXQ3WkVJ?=
- =?utf-8?B?Q0plZDZNSzc0MzArZExQd0JsM0ZjUW1oeU14RTJHcHQ4NmZSTkE1WlNDSGE2?=
- =?utf-8?B?bkZ0eml1R0hWeHRVL09TdVcrN0VFNGhxMXYzSFBiQ3pSTU43WjJZU3FHTHBo?=
- =?utf-8?B?Y0V1My9EdFJpM20wN005VjBYYWhjd2N0QWcwVVBjWnlKSzlINzd4NHNFd3Rl?=
- =?utf-8?B?Ym1Nb05iUzBRVTd5MDlIMmZpUENYMG9abFVYcFdjOXZ4VFBKSUFQOHgza1ZV?=
- =?utf-8?B?VTEyNjVGQlFFeGJxZmNOcG9CaWVzVmlzVUdHMkFUOUxHTW90UkdBaWoyNmIv?=
- =?utf-8?B?bUN2Qnpoblo1dlVUVmtFekF5RGgxTVN1bjZGSjBhSXJhb1dDU0I4dDhpdms5?=
- =?utf-8?Q?WV8U1cSSDw8/3LP4SqVQa4j7Z?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 765f2317-e498-4090-2cb5-08dda2a70205
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 14:00:33.5515 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nog53k5gceN9xV+dh5cEwvMqSHljf9I1BAdIWR2PDoabEOGOcRBe3tnHI6ywcrSP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6073
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4E62D52FC6135E5B+a6b1634e-5c66-4db5-bb1e-bf64e2e8d8a2@radxa.com>
+X-Proofpoint-GUID: WgZfqomIwBCbjoVRsZNeOjv2B4k27-2s
+X-Authority-Analysis: v=2.4 cv=Qspe3Uyd c=1 sm=1 tr=0 ts=683f0170 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=ksxQWNrZAAAA:8 a=_j8PdYOvoN43mqFH8V4A:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22 a=l7WU34MJF0Z5EO9KEJC3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDEyMiBTYWx0ZWRfX6z2MXSjOnPpj
+ omVDfYX/pNXQ79bsImC1x1Qy/tMfpNShEkTW328zHOT9ri5/rLt0gS0KdsBHMTB/JwQJhAM4oZ3
+ sNSMXNFxRPx2sd+OfjuVDreihrz9866ap+621YwisLmUB4VbUThlAyGOgybM9W/N+85AIK5UZMy
+ EACq1Oclvd+xvx6ZFtSDFF9jZZonJGt/AfGOgdchPKKcZFGDM8kBsQy/z2I/2ghw/AhqnQ1zK4m
+ 8pK9UvL4gCmQCW+B8qVUB2lTsz8Xv1ylVPX1nUBux8iWx2vB+mPwA9BkmlX2a4jHFiuAJCjw2/V
+ 0XezmpDgthWYKHVP4ft+Ht9DhoqvExfBRawbbbiHBkxJrcvmWP18Q34EgxkFbTooq+nif6gH+oB
+ XlCRFJT/S76GFGY4RwxEgvhC+wR9UcxMakfOHFRxhTgsv+a0RQl5TK08MpWJdQcU1sAH87Mh
+X-Proofpoint-ORIG-GUID: WgZfqomIwBCbjoVRsZNeOjv2B4k27-2s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 phishscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506030122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,343 +135,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/3/25 14:48, Tvrtko Ursulin wrote:
+On Thu, May 29, 2025 at 10:40:12AM +0800, Xilin Wu wrote:
+> On 2025/4/24 01:52:45, Dmitry Baryshkov wrote:
+> > From: Dmitry Baryshkov <lumag@kernel.org>
+> > 
+> > The MSM DisplayPort driver implements several HDMI codec functions
+> > in the driver, e.g. it manually manages HDMI codec device registration,
+> > returning ELD and plugged_cb support. In order to reduce code
+> > duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
+> > integration.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> > A lot of DisplayPort bridges use HDMI Codec in order to provide audio
+> > support. Present DRM HDMI Audio support has been written with the HDMI
+> > and in particular DRM HDMI Connector framework support, however those
+> > audio helpers can be easily reused for DisplayPort drivers too.
+> > 
+> > Patches by Hermes Wu that targeted implementing HDMI Audio support in
+> > the iTE IT6506 driver pointed out the necessity of allowing one to use
+> > generic audio helpers for DisplayPort drivers, as otherwise each driver
+> > has to manually (and correctly) implement the get_eld() and plugged_cb
+> > support.
+> > 
+> > Implement necessary integration in drm_bridge_connector and provide an
+> > example implementation in the msm/dp driver.
+> > ---
+> > Changes in v7:
+> > - Dropped applied patches
+> > - Link to v6: https://lore.kernel.org/r/20250314-dp-hdmi-audio-v6-0-dbd228fa73d7@oss.qualcomm.com
+> > 
+> > Changes in v6:
+> > - Added DRM_BRIDGE_OP_DP_AUDIO and separate set of DisplayPort audio
+> >    callbacks to the drm_bridge interface (Maxime)
+> > - Link to v5: https://lore.kernel.org/r/20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org
+> > 
+> > Changes in v5:
+> > - Rebased on top of linux-next, also handling HDMI audio piece of the
+> >    MSM HDMI driver.
+> > - Link to v4: https://lore.kernel.org/r/20250301-dp-hdmi-audio-v4-0-82739daf28cc@linaro.org
+> > 
+> > Changes in v4:
+> > - Rebased on linux-next, adding DRM_BRIDGE_OP_HDMI_AUDIO to Synopsys QP
+> >    HDMI driver.
+> > - Drop outdated comment regarding subconnector from the commit message.
+> > - Link to v3: https://lore.kernel.org/r/20250219-dp-hdmi-audio-v3-0-42900f034b40@linaro.org
+> > 
+> > Changes in v3:
+> > - Dropped DRM_BRIDGE_OP_DisplayPort, added DRM_BRIDGE_OP_HDMI_AUDIO
+> >    (Laurent, Maxime)
+> > - Dropped the subconnector patch (again)
+> > - Link to v2: https://lore.kernel.org/r/20250209-dp-hdmi-audio-v2-0-16db6ebf22ff@linaro.org
+> > 
+> > Changes in v2:
+> > - Added drm_connector_attach_dp_subconnector_property() patches
+> > - Link to v1: https://lore.kernel.org/r/20250206-dp-hdmi-audio-v1-0-8aa14a8c0d4d@linaro.org
+> > ---
+> >   drivers/gpu/drm/msm/Kconfig         |   1 +
+> >   drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------------
+> >   drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
+> >   drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
+> >   drivers/gpu/drm/msm/dp/dp_display.h |   6 --
+> >   drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
+> >   6 files changed, 31 insertions(+), 170 deletions(-)
+> > 
 > 
-> On 03/06/2025 13:40, Christian König wrote:
->> On 6/3/25 13:30, Tvrtko Ursulin wrote:
->>>
->>> On 02/06/2025 19:00, Christian König wrote:
->>>> On 6/2/25 17:25, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 02/06/2025 15:42, Christian König wrote:
->>>>>> On 6/2/25 15:05, Tvrtko Ursulin wrote:
->>>>>>>
->>>>>>> Hi,
->>>>>>>
->>>>>>> On 15/05/2025 14:15, Christian König wrote:
->>>>>>>> Hey drm-misc maintainers,
->>>>>>>>
->>>>>>>> can you guys please backmerge drm-next into drm-misc-next?
->>>>>>>>
->>>>>>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
->>>>>>>
->>>>>>> Looks like the backmerge is still pending?
->>>>>>
->>>>>> Yes, @Maarten, @Maxime and @Thomas ping on this.
->>>>>>
->>>>>>> In the meantime, Christian, any chance you will have some bandwith to think about the tail end of the series? Specifically patch 6 and how that is used onward.
->>>>>>
->>>>>> Well the RCU grace period is quite a nifty hack. I wanted to go over it again after merging the first patches from this series.
->>>>>>
->>>>>> In general looks like a good idea to me, I just don't like that we explicitely need to expose dma_fence_access_begin() and dma_fence_access_end().
->>>>>>
->>>>>> Especially we can't do that while calling fence->ops->release.
->>>>>
->>>>> Hm why not? You think something will take offence of the rcu_read_lock()?
->>>>
->>>> Yes, especially it is perfectly legitimate to call synchronize_rcu() or lock semaphores/mutexes from that callback.
->>>>
->>>> Either keep the RCU critical section only for the trace or even better come up with some different approach, e.g. copying the string under the RCU lock or something like that.
->>>
->>> Hmm but the kerneldoc explicity says callback can be called from irq context:
->>>
->>>      /**
->>>       * @release:
->>>       *
->>>       * Called on destruction of fence to release additional resources.
->>>       * Can be called from irq context.  This callback is optional. If it is
->>>       * NULL, then dma_fence_free() is instead called as the default
->>>       * implementation.
->>>       */
->>>      void (*release)(struct dma_fence *fence);
->>
->> Ah, right. I mixed that up with the dma-buf object.
->>
->> Yeah in that case that is probably harmless. We delegate the final free to a work item if necessary anyway.
->>
->> But I would still like to avoid having the RCU cover the release as well. Or why is there any reason why we would explicitely want to do this?
-> 
-> I can't remember there was a particular reason. Obviously the driver/timeline name vfunc access I needed a dma_fence_access_begin/end() block so maybe I was just sloppy and put the end at the end of the function instead of at the end of the block which can dereference them.
+> This change breaks DP audio on the qcs6490 platform, tested on kernel
+> next-20250528.
 
-Yeah that's the next topic I would rather like to improve. We are kind of hiding that the returned strings are using RCU protection.
-
-In other words it would be nicer if we could add an __rcu tag to the get_driver_name/get_timeline_name callbacks and let the automated tools complain if somebody isn't doing the proper RCU handling.
-
-The problem is that as far as I know that is not supported by the automated tools (would be cool if somebody could double check that).
-
-+We would need to convert the get_timeline/get_timeline_name function to something like func(struct dma_fence *fence, const char __rcu **out) to make that work.
-
-Regards,
-Christian.
+I can not confirm this issue here (though I tested it on a different
+hardware). Do you have any patches on top of linux-next?
 
 > 
-> I will pull it earlier for the next respin, assuming no gotchas get discovered in the process.
+> [    0.368035] [drm:dpu_kms_hw_init:1173] dpu hardware revision:0x70020000
+> [    0.369359] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+> dai_count 0
+> [    0.369362] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+> Missing hw_params
+> [    0.369364] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_probe:
+> Invalid parameters
+> [    0.369366] hdmi-audio-codec hdmi-audio-codec.0.auto: probe with driver
+> hdmi-audio-codec failed with error -22
+> [    0.370536] [drm] Initialized msm 1.12.0 for ae01000.display-controller
+> on minor 0
 > 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>> Tvrtko
->>>>>
->>>>>>>> On 5/15/25 11:49, Tvrtko Ursulin wrote:
->>>>>>>>> With the goal of reducing the need for drivers to touch (and dereference)
->>>>>>>>> fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
->>>>>>>>> the fence->flags.
->>>>>>>>>
->>>>>>>>> Drivers which were setting this flag are changed to use new
->>>>>>>>> dma_fence_init64() instead of dma_fence_init().
->>>>>>>>>
->>>>>>>>> v2:
->>>>>>>>>      * Streamlined init and added kerneldoc.
->>>>>>>>>      * Rebase for amdgpu userq which landed since.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com> # v1
->>>>>>>>> ---
->>>>>>>>>      drivers/dma-buf/dma-fence-chain.c             |  5 +-
->>>>>>>>>      drivers/dma-buf/dma-fence.c                   | 69 ++++++++++++++-----
->>>>>>>>>      .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 +-
->>>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
->>>>>>>>>      .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
->>>>>>>>>      include/linux/dma-fence.h                     | 14 ++--
->>>>>>>>>      6 files changed, 64 insertions(+), 41 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->>>>>>>>> index 90424f23fd73..a8a90acf4f34 100644
->>>>>>>>> --- a/drivers/dma-buf/dma-fence-chain.c
->>>>>>>>> +++ b/drivers/dma-buf/dma-fence-chain.c
->>>>>>>>> @@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
->>>>>>>>>      }
->>>>>>>>>        const struct dma_fence_ops dma_fence_chain_ops = {
->>>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>>          .get_driver_name = dma_fence_chain_get_driver_name,
->>>>>>>>>          .get_timeline_name = dma_fence_chain_get_timeline_name,
->>>>>>>>>          .enable_signaling = dma_fence_chain_enable_signaling,
->>>>>>>>> @@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>>>>>>>>                  seqno = max(prev->seqno, seqno);
->>>>>>>>>          }
->>>>>>>>>      -    dma_fence_init(&chain->base, &dma_fence_chain_ops,
->>>>>>>>> -               &chain->lock, context, seqno);
->>>>>>>>> +    dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
->>>>>>>>> +             context, seqno);
->>>>>>>>>            /*
->>>>>>>>>           * Chaining dma_fence_chain container together is only allowed through
->>>>>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>>>>>>> index f0cdd3e99d36..705b59787731 100644
->>>>>>>>> --- a/drivers/dma-buf/dma-fence.c
->>>>>>>>> +++ b/drivers/dma-buf/dma-fence.c
->>>>>>>>> @@ -989,24 +989,9 @@ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->>>>>>>>>      }
->>>>>>>>>      EXPORT_SYMBOL(dma_fence_describe);
->>>>>>>>>      -/**
->>>>>>>>> - * dma_fence_init - Initialize a custom fence.
->>>>>>>>> - * @fence: the fence to initialize
->>>>>>>>> - * @ops: the dma_fence_ops for operations on this fence
->>>>>>>>> - * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>>> - * @context: the execution context this fence is run on
->>>>>>>>> - * @seqno: a linear increasing sequence number for this context
->>>>>>>>> - *
->>>>>>>>> - * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>>> - * refcount after committing with this fence, but it will need to hold a
->>>>>>>>> - * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>>> - *
->>>>>>>>> - * context and seqno are used for easy comparison between fences, allowing
->>>>>>>>> - * to check which fence is later by simply using dma_fence_later().
->>>>>>>>> - */
->>>>>>>>> -void
->>>>>>>>> -dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>> -           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>>> +static void
->>>>>>>>> +__dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>> +             spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
->>>>>>>>>      {
->>>>>>>>>          BUG_ON(!lock);
->>>>>>>>>          BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->>>>>>>>> @@ -1017,9 +1002,55 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>>          fence->lock = lock;
->>>>>>>>>          fence->context = context;
->>>>>>>>>          fence->seqno = seqno;
->>>>>>>>> -    fence->flags = 0UL;
->>>>>>>>> +    fence->flags = flags;
->>>>>>>>>          fence->error = 0;
->>>>>>>>>            trace_dma_fence_init(fence);
->>>>>>>>>      }
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_fence_init - Initialize a custom fence.
->>>>>>>>> + * @fence: the fence to initialize
->>>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>>> + * @context: the execution context this fence is run on
->>>>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>>>> + *
->>>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>>> + *
->>>>>>>>> + * context and seqno are used for easy comparison between fences, allowing
->>>>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>>>> + */
->>>>>>>>> +void
->>>>>>>>> +dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>> +           spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>>> +{
->>>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
->>>>>>>>> +}
->>>>>>>>>      EXPORT_SYMBOL(dma_fence_init);
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
->>>>>>>>> + * @fence: the fence to initialize
->>>>>>>>> + * @ops: the dma_fence_ops for operations on this fence
->>>>>>>>> + * @lock: the irqsafe spinlock to use for locking this fence
->>>>>>>>> + * @context: the execution context this fence is run on
->>>>>>>>> + * @seqno: a linear increasing sequence number for this context
->>>>>>>>> + *
->>>>>>>>> + * Initializes an allocated fence, the caller doesn't have to keep its
->>>>>>>>> + * refcount after committing with this fence, but it will need to hold a
->>>>>>>>> + * refcount again if &dma_fence_ops.enable_signaling gets called.
->>>>>>>>> + *
->>>>>>>>> + * Context and seqno are used for easy comparison between fences, allowing
->>>>>>>>> + * to check which fence is later by simply using dma_fence_later().
->>>>>>>>> + */
->>>>>>>>> +void
->>>>>>>>> +dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>> +         spinlock_t *lock, u64 context, u64 seqno)
->>>>>>>>> +{
->>>>>>>>> +    __dma_fence_init(fence, ops, lock, context, seqno,
->>>>>>>>> +             BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
->>>>>>>>> +}
->>>>>>>>> +EXPORT_SYMBOL(dma_fence_init64);
->>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>>> index 1a7469543db5..79713421bffe 100644
->>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
->>>>>>>>> @@ -134,7 +134,6 @@ static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
->>>>>>>>>      }
->>>>>>>>>        static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
->>>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>>          .get_driver_name = amdgpu_eviction_fence_get_driver_name,
->>>>>>>>>          .get_timeline_name = amdgpu_eviction_fence_get_timeline_name,
->>>>>>>>>          .enable_signaling = amdgpu_eviction_fence_enable_signaling,
->>>>>>>>> @@ -160,9 +159,9 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
->>>>>>>>>          ev_fence->evf_mgr = evf_mgr;
->>>>>>>>>          get_task_comm(ev_fence->timeline_name, current);
->>>>>>>>>          spin_lock_init(&ev_fence->lock);
->>>>>>>>> -    dma_fence_init(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>>>> -               &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>>>> -               atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>>>> +    dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
->>>>>>>>> +             &ev_fence->lock, evf_mgr->ev_fence_ctx,
->>>>>>>>> +             atomic_inc_return(&evf_mgr->ev_fence_seq));
->>>>>>>>>          return ev_fence;
->>>>>>>>>      }
->>>>>>>>>      diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>>> index 029cb24c28b3..5e92d00a591f 100644
->>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
->>>>>>>>> @@ -239,8 +239,8 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
->>>>>>>>>          fence = &userq_fence->base;
->>>>>>>>>          userq_fence->fence_drv = fence_drv;
->>>>>>>>>      -    dma_fence_init(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>>>> -               fence_drv->context, seq);
->>>>>>>>> +    dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
->>>>>>>>> +             fence_drv->context, seq);
->>>>>>>>>            amdgpu_userq_fence_driver_get(fence_drv);
->>>>>>>>>          dma_fence_get(fence);
->>>>>>>>> @@ -334,7 +334,6 @@ static void amdgpu_userq_fence_release(struct dma_fence *f)
->>>>>>>>>      }
->>>>>>>>>        static const struct dma_fence_ops amdgpu_userq_fence_ops = {
->>>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>>          .get_driver_name = amdgpu_userq_fence_get_driver_name,
->>>>>>>>>          .get_timeline_name = amdgpu_userq_fence_get_timeline_name,
->>>>>>>>>          .signaled = amdgpu_userq_fence_signaled,
->>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>>> index 51cddfa3f1e8..5d26797356a3 100644
->>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
->>>>>>>>> @@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
->>>>>>>>>      }
->>>>>>>>>        static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
->>>>>>>>> -    .use_64bit_seqno = true,
->>>>>>>>>          .get_driver_name = amdgpu_tlb_fence_get_driver_name,
->>>>>>>>>          .get_timeline_name = amdgpu_tlb_fence_get_timeline_name
->>>>>>>>>      };
->>>>>>>>> @@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->>>>>>>>>          INIT_WORK(&f->work, amdgpu_tlb_fence_work);
->>>>>>>>>          spin_lock_init(&f->lock);
->>>>>>>>>      -    dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>>>> -               vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>>>> +    dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
->>>>>>>>> +             vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->>>>>>>>>            /* TODO: We probably need a separate wq here */
->>>>>>>>>          dma_fence_get(&f->base);
->>>>>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>>>>>>> index 48b5202c531d..a34a0dcdc446 100644
->>>>>>>>> --- a/include/linux/dma-fence.h
->>>>>>>>> +++ b/include/linux/dma-fence.h
->>>>>>>>> @@ -97,6 +97,7 @@ struct dma_fence {
->>>>>>>>>      };
->>>>>>>>>        enum dma_fence_flag_bits {
->>>>>>>>> +    DMA_FENCE_FLAG_SEQNO64_BIT,
->>>>>>>>>          DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>>>>>>          DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>>>>>>>>          DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->>>>>>>>> @@ -124,14 +125,6 @@ struct dma_fence_cb {
->>>>>>>>>       *
->>>>>>>>>       */
->>>>>>>>>      struct dma_fence_ops {
->>>>>>>>> -    /**
->>>>>>>>> -     * @use_64bit_seqno:
->>>>>>>>> -     *
->>>>>>>>> -     * True if this dma_fence implementation uses 64bit seqno, false
->>>>>>>>> -     * otherwise.
->>>>>>>>> -     */
->>>>>>>>> -    bool use_64bit_seqno;
->>>>>>>>> -
->>>>>>>>>          /**
->>>>>>>>>           * @get_driver_name:
->>>>>>>>>           *
->>>>>>>>> @@ -262,6 +255,9 @@ struct dma_fence_ops {
->>>>>>>>>      void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>>                  spinlock_t *lock, u64 context, u64 seqno);
->>>>>>>>>      +void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>>>>>>> +              spinlock_t *lock, u64 context, u64 seqno);
->>>>>>>>> +
->>>>>>>>>      void dma_fence_release(struct kref *kref);
->>>>>>>>>      void dma_fence_free(struct dma_fence *fence);
->>>>>>>>>      void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->>>>>>>>> @@ -454,7 +450,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
->>>>>>>>>           * 32bit sequence numbers. Use a 64bit compare when the driver says to
->>>>>>>>>           * do so.
->>>>>>>>>           */
->>>>>>>>> -    if (fence->ops->use_64bit_seqno)
->>>>>>>>> +    if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
->>>>>>>>>              return f1 > f2;
->>>>>>>>>            return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
->>>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
+> Manually reverting this change solves the problem.
 
+It is suspicious, since dai_count can not be 0. We set
+hdmi_audio_max_i2s_playback_channels to 8, which in turn should set the
+hdmi_codec_pdata.i2s to 1.
+
+> 
+> -- 
+> Best regards,
+> Xilin Wu <sophon@radxa.com>
+
+-- 
+With best wishes
+Dmitry
