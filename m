@@ -2,161 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098C7ACCAFF
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 18:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183A8ACCB14
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 18:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC0B10E90D;
-	Tue,  3 Jun 2025 16:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048DE10E5C5;
+	Tue,  3 Jun 2025 16:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GPdbwrB9";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oQmq8kfc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qz61EFl2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FFxHicqc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i6OHtlHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFEA10E90A;
- Tue,  3 Jun 2025 16:10:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AAUG/Zqa6ZLEAfGiWbFKdhKpcL86D94o9Yfr67j9kZp+qT4BnMg5XmPt4aetzphyu4UBoV0LztiHGi3JBablPv2Bly9M2wfa1ZaspXZ7p1OADkocllTru6BVM2IA/WcF5Dzg3p/qtRdkPnt0biXayZ5Q2Gk7Lxd8NH7AAftqQaLnOZAneEAQsvQP5J+4n6KxrSbOmOxJCLX2ohyHoZZ+A9KetdhIFycsi+SNQJpwxYt9ptkF3uEcrixISoZ1AkbpQztPQ8d0pR7B+S37BakPIzqXV8xs1/AqQhM4u9oXbuoTjb6+dGGzuCSk15uusCrZciVprlG63bOn07npkjd/XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PHn8O3IhbyXFu2sN1maRcWVw6aE62t0K/mkmR2nGdWQ=;
- b=tusnzAn2owmdpd3uRPNwKwS/+aEOgEhBhPtIK/aAN2/i1wHhptDing+/Y7sT9fml5kIvJaNuO875PAPRJXTMu9CkZZCrrnGBhNa/546WDKf7RDnt2XKUQvYpRak7TGQ9Gqi0TV2U4sB1hapZJFUntlvqHcvqC6rfkqpMPIKKL/S/r/KoX8QyXnCIBy0pr61l59Luwi1peH6l1C5bl9akroAOQXm1gFnyLDl1TdQ6aQUKes9OHqOftYVUEuaPSy5Z9rDB4+oYKZeatHUrUaPTosF9uQjAdnVxUge5JQ96edcpbyy8wOPRpZZA7iRowQPZrPlCzRkuinekobAEK5aE4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PHn8O3IhbyXFu2sN1maRcWVw6aE62t0K/mkmR2nGdWQ=;
- b=GPdbwrB9B7AoXVmGJyRl0ib/RfTccNbywKFtw7xVYW/vsMBDHdQgoGUPnZU6NGrDHqZCU1Xy4sa2o+/qfutb0BVzpM1K0ETsEdUDI4HoJ6K8dXeClpLDQm5VFam2pLgqNTRBjttxrFgHEEvNqLKNuBB7DEGidhbFZFmxjVr8fB8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA0PPF89A593F05.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bd8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Tue, 3 Jun
- 2025 16:10:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Tue, 3 Jun 2025
- 16:10:46 +0000
-Message-ID: <45240bbc-5b64-4e55-85c8-d8abb16abcfa@amd.com>
-Date: Tue, 3 Jun 2025 18:10:41 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dma-fence: Use a flag for 64-bit seqnos
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com
-References: <20250515095004.28318-1-tvrtko.ursulin@igalia.com>
- <20250515095004.28318-3-tvrtko.ursulin@igalia.com>
- <c93c05be-b2c8-42a2-84d1-32b90743eb82@amd.com>
- <b59cadff-da9a-409f-a5ed-96aafdfe3f0b@igalia.com>
- <13c5edf6-ccad-4a06-85d4-dccf2afd0c62@amd.com>
- <20250603-outrageous-kakapo-of-felicity-6dc41a@houat>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250603-outrageous-kakapo-of-felicity-6dc41a@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR03CA0015.namprd03.prod.outlook.com
- (2603:10b6:208:23a::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50FD410E5C5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 16:15:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E51AC2192D;
+ Tue,  3 Jun 2025 16:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748967340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+hUXKsw+XdrLsCxboRt50/8rmWxUAwRQPgZpo9H7SzU=;
+ b=oQmq8kfc8PLXcAgCRff+bO+qQGxQFiLRQsxdxZ/afbak582s3UKSow0b578DFYNfpn5fv5
+ ZVt7QXGXOLVl1bXifCaAK2LAZBdk1lW4cwLWyrz9NUujmR0KOjXLQDL4lrf5cn28j0ltih
+ m5eLPZ8Fgt0/wjweY1oKkUxELfRMPMU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748967340;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+hUXKsw+XdrLsCxboRt50/8rmWxUAwRQPgZpo9H7SzU=;
+ b=Qz61EFl2QQ1jLhifKWe5ZI7pBfP7Z4Yrjru4QXSv+wRyl2mkRl4t/gGAtRc8VzivSncPws
+ xanFdnUmwRr3nmBg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FFxHicqc;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=i6OHtlHN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1748967339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+hUXKsw+XdrLsCxboRt50/8rmWxUAwRQPgZpo9H7SzU=;
+ b=FFxHicqc3JJvvR7QNAhOlt/eXKxeK7//nO3yrM5QhUpzymOHeERYB4jOs/7KliLqvpaXwF
+ sHv3F0jmpLTBprpwTE5QiCUCHWHYwrOLjVeFMP8C8UiFKZlBvTn2XG7tW6PeIvEIj+AEC4
+ UdeLwnVB/gDtS9ujc0xX6cvST8mZq5k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1748967339;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+hUXKsw+XdrLsCxboRt50/8rmWxUAwRQPgZpo9H7SzU=;
+ b=i6OHtlHNDjQIzbu3R0SxgGVfAvf/ZAinUVUSD2XhIrbXDRGn/33QVchDnSaDrrp357odxO
+ VXQOhJTaST0HnEDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BBA9313A92;
+ Tue,  3 Jun 2025 16:15:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sTAiLKsfP2h3RgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Jun 2025 16:15:39 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/format-helper: Normalize BT.601 factors to 256
+Date: Tue,  3 Jun 2025 18:11:50 +0200
+Message-ID: <20250603161158.423962-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PPF89A593F05:EE_
-X-MS-Office365-Filtering-Correlation-Id: 961ccede-40ac-4b62-0e78-08dda2b932f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bGJtc0lDVTZOY21jMUF6YXVUZ0hqWVgzVVQ0NXkzeWt0cmxNbU50UnRmVjE4?=
- =?utf-8?B?ZDd1NlNBVlNYZUVrY0NPMm43QWpkMzJnTlBuM3Vnd1JKODVzZVZISWNzYnUr?=
- =?utf-8?B?UmR3Z2VBcHhvdWNaSnFCV3F1UzZraXRJaE1QRDh4aExxakY0R2JyZnJ1RUc1?=
- =?utf-8?B?UFRtN0RLYU5pc0RaZXhZc3p1bFI5b0pYK1JLdW5KZVp2S1VZVEtBMXV5dm5S?=
- =?utf-8?B?dEsrcXA5K0U2UmhmRVRiR0ZpaGhMYXpmNEdaOW12cG8rSUJzV2ZybGYySGlY?=
- =?utf-8?B?TzZ3SkNualNqb1lhWkt4QmZxdml1MmF4cmZ1Y2RFVkhsbENua2ZTM0VOV25W?=
- =?utf-8?B?bllMZ2M1YUhnN0dPeTF0d0R1cEpBY3JBMlZmYUVQRFdNNURBVVF3emRaUU14?=
- =?utf-8?B?Vk1abE9SNGlMdzc4SndkOGo0TFJTckhQbTVUVVZGbmc1eU5abnRzRU85VVBH?=
- =?utf-8?B?em1vRHlIQWZKVHdBMUxZWG1PRzRUQlhLZFVVZGJKSWRTZlhBN3ZlbWsxdVdY?=
- =?utf-8?B?QktlajBHenFNR0Y3a1Y1c1pGRkhNTFFyWkZpMDREMVVtbkszdm0rc3dqQjRZ?=
- =?utf-8?B?TkQ5bW9wRGoyT1Ftb1NGZlhXMEhFUXJwYUxjaTkzZjNFMmdKaEdrd2pKVW50?=
- =?utf-8?B?K0VVRlZNbFM3ckZRNlB3Nlc3M2gwb0c1c3FMc3pYTlJTU3NrRzJrZGRodmhy?=
- =?utf-8?B?WWNOY1d5SFVDc2hQNDh3Y1BwRW5EUHUxQS9oQjlUMGN3cWkwR2lwODZDK2Mx?=
- =?utf-8?B?bE5QdzhINkRUam1oWUlyNk5LeGJua0pNZmhMeEVJcHJCL3krTE8yb3NrMWhT?=
- =?utf-8?B?UlZiUTROVFNLbmZrT0hGYlhzUUtXc2k1L3lrM0h2UUo0Qm9lSWpOaTNZQlhj?=
- =?utf-8?B?VExodkxkUXNNL1pncnViVit0c0RUUXdTY0g3WjNta1poTmhBaUF4ZlZoRlND?=
- =?utf-8?B?ZSsvVCtyZ2puMGppQU9HM2Q3V2lyb1dmR3RIeDlVeGpzemh4YnBPaTFMMW1t?=
- =?utf-8?B?RXpISC84cFp2eTJVTmx3S0ZRQlZDYWVsRllGdjdPTGRVelU3UktHWERCZVc3?=
- =?utf-8?B?eGtTU2V4Vko3MEsvOVlTT1pVRFhjWjc1dG9MZVR2MW1Fb0Ywd2RiWTREY2dX?=
- =?utf-8?B?dkFkUEN2anA1d1QwNEh3SGI4Y2kzbFdsMFAvTVZDQ3BCV3VQYU5oL3Z5cm42?=
- =?utf-8?B?ODU2Qjhud2lIaFUzb3hubXB5WDlVRlN1RmtDQ3hSSXJOZFR5ODZBczNaNjJR?=
- =?utf-8?B?Zlp5OWlJb2FYdDhoN2hpcnpqVklEWUc5bzdFeW9rdkh2TnpFVEhHRUwxOU9Z?=
- =?utf-8?B?RWhzWnVkYndIaXFlZkhlb3NmK05jN1hRWDI0M0JRRDFZR1pwMUxQTWRiZ2hT?=
- =?utf-8?B?b0lRSXdYd0JrRmxabE5LY0RlV1luOXR6dWJ4WUFXaW5xK28vZ0xWTGVYek53?=
- =?utf-8?B?Q1RkUjcrcHBJaWtjaldyazcxMHBjWk15VTZjQVVsRk5PTk5JWnQ3d3lsdW96?=
- =?utf-8?B?UEY3MlN4bkkrcEJCK0JNREZDa00yQ1JIQmsxR1dVa1VOZXZ5YXU5eDBRRDM3?=
- =?utf-8?B?NVhXMVdNV2RvSWRKS09RTXRPSktOck9KQjRxbFN4aWh0bzNkWjd5dWpsK2x2?=
- =?utf-8?B?MlRySGhPY0IrSU9admlRcEF5dnpHRDJ4MW9USlJHUGlKTzEyMG1nTktOekJ6?=
- =?utf-8?B?QXRrcnFkYkhXWmNCYi9YTXRuUmpXYlFwMVFkMXE4ek5zbjVkTXNQN0JWZk5P?=
- =?utf-8?B?TUplcjhBNjMra3pMQ3Z6eTA1NnJ2MEJTV2ZRb3BYQnRkMGY4ZDE3Tm5OT0dY?=
- =?utf-8?B?VDQ0VnFGbHErd2lTdU9SRkU4aGhHaW1uRlR4cGFMM2tQTmZoMU9MSEFMZHhQ?=
- =?utf-8?B?OWh3YTA5SjlreC8xcmJtbmYyc2JKMEltMURXYUtUODNyMksrT0hrdGcrM2F4?=
- =?utf-8?Q?1fqHJ98sNNw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVFRcjFTQ1F0MmZhUVJldjFSMkRoOEdKZW5GSE1IdXJNQUE0NU9GYnhJNTAy?=
- =?utf-8?B?emlBLys3VFpKUHp2aW1rRnRUZHFWam5IRXFCNTlSbjZiWHA4SGJFVFJSdTU1?=
- =?utf-8?B?N2xCdzZ1R0sxenVyc0VZaXQ0R09mZ0JVWXlacTVwY0ErUWhFU25CNHdNRTE5?=
- =?utf-8?B?R3ZGWXVNN0dhWndCenRnY05oZW5na256WkJSNzFlcFUzNWFValQ0RGFFdTZs?=
- =?utf-8?B?bng4V0FaMmhxU3ZIeFlXOEJrSllUUWtkUlhsUWs0aGl6NE9hbk9ZVzZEMG1s?=
- =?utf-8?B?NXZKeUgzSTEySC9yK016US9seFl3RW5LS2Z1ZHpvUFhDU2NCR1pzemRnNWFV?=
- =?utf-8?B?SVozaTBQTnVvQjFRQVlHTjlMTkN4UjFwbDFocE5hQ0hiVDhzcW9RTEpSR1pG?=
- =?utf-8?B?UFJXMThjZ2FWSjRqaU9lVjhtajlMdkFwaEw3VnY5bFpCNnVGMVhzbVdEVzJN?=
- =?utf-8?B?S0ZMamFINXplOEhVeVhXaGtUOXpaSWxwdUFia1VHQVpuUFZJdnFaQlZ2N0ZX?=
- =?utf-8?B?bGw0S1F2RnluUS9SU24vbFdGZkpObmp3bFk4V3JIWTZieDN4TlV2RHVKSTh0?=
- =?utf-8?B?VXlSZkMxd2RxUjlNOG1qUjY1c3lPaitDTVgrcmtzV1hYRWVRcXRQUnpJZC81?=
- =?utf-8?B?K0NYK3BXY3AvZ3l5b3ZpUVg1KytBT2Q5ZE5haThSTVowa2c3cHdRWWdhZ1Jp?=
- =?utf-8?B?SjdxSE5kKzBwd0JhRzVpZldmVkVmblRML3paOEU0Rkx3OElpV0JWNDFtbERX?=
- =?utf-8?B?a1JTUEoyRU5oaUF0VXdnajF2by9wZWFVRjltZDNvYWdJTGgzTE9oeUYxbTJi?=
- =?utf-8?B?RlVyZjFXZGtHL1N0eDkrR05ZVlFHeE5ZblgxREhqMG5ieG1OazhuYzEwdjJC?=
- =?utf-8?B?cDY5U3A3VzJQVGlGUlRxakVuVU5VNDBjM1ZWek5hclJHTGVpWXZzU0RBc1lZ?=
- =?utf-8?B?czlCaWdVTUNGcm9XOU9NbGhTMDhzaTJ3WGM1QmpoblV5bjE5SUtyN0ZrUk5w?=
- =?utf-8?B?MzBlM2xCbTdDQnBTQ245RVlKWGFjTGdVS09kMDZMSlFVVTczeGU3R0FWU2lz?=
- =?utf-8?B?dkJtUFdMSTUyYXFUeEVFNzYzcGR2cGprcFVlZU1GMUNuT1NTQmVKUmV6emc0?=
- =?utf-8?B?citMcXZ3cFFSQ2pKckZIdjBHb3F5SFYrV3B0eEZNZTZyamo1azFNOURRYVoz?=
- =?utf-8?B?aUNIMzZ4QkZoazZjVnBieWpraERodEN0M0VrU0ROUzBXeVkyb0RrdFE2bURK?=
- =?utf-8?B?RXc0UEp5RFE4OG9hVFZtZ0Vib2RBem1xSm9KTkxja2Vnb0c2d0o3Und1eWM3?=
- =?utf-8?B?Yjl0MEpBUFFhbi9tNkNsVzhjdzBBS2xSdVBSd0p0UytoRGh4bHlDdUxVZGhu?=
- =?utf-8?B?R29jbEg3N2ZIdnI0WkkyNmhNMURhZjYzdGsxOHBva0U0QzRXV0dtbS9aSm00?=
- =?utf-8?B?QjRDcVV5aFBoeW80ZTNJM1AvWnA3ZFp1RTBUOXNNWkM5VVFhK29Jc1djcnNO?=
- =?utf-8?B?MVNaZlplUmRNUnlqYTl6YnBTR2VVZWlTQUZFQ25qb3NTM08rNXl3aUErdm5v?=
- =?utf-8?B?aDZwelRMbWxSTzJiZE4rTk5xWjNCNmx5RjFNWW1LMzZ4SkdSbXdvb0dNQk9q?=
- =?utf-8?B?MzBDanE0UjFJdkhWZ3JnUmJaM3BOVlgwZVRQS3dyK1ZZcXBqSWtjRUs0bWVK?=
- =?utf-8?B?YUZJNnlJSlJBaVZuUVBEVFVRNzNuQ1FrQkN5aGJ1RnRnY052N0lEdS84R241?=
- =?utf-8?B?U1NLbEcvQ2YyRFdyQ2VQcjVJekgyZE5HdkFxaTN6cDd0U2R3T05xbzBoN0t0?=
- =?utf-8?B?SjRkMW41bWZYVS9sNzczUkZNaE1yZ1BKNUROeGMwOWtHSkRpOVBGemNheXFE?=
- =?utf-8?B?OGRxVmNGNUdycTdtNjV2QTFncy8zTTFGZXM4VmZrSmp3aFVJZ1d2MThmS1Fw?=
- =?utf-8?B?dm5XblZUOTRJVHFaeTI1R0xJREdSSlZpdFJLY0Uyc2dINFFicHQ3RWQ3dVA0?=
- =?utf-8?B?Z1VQeVZyRTczTmR4NlNJMmVvNUQ2aDlieEJsSmpJT0hLSzZjTHdtS29BaFE2?=
- =?utf-8?B?UUpZYW84U2JuWDJRa0xSTGZ1RHJDV1ZNTXUrc28yZDNMWXFRMkF4NEVQQUhW?=
- =?utf-8?Q?L75W7YdH3LOalKdmhbpNeK+Q5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 961ccede-40ac-4b62-0e78-08dda2b932f3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 16:10:46.6332 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WHOYQmpp7cRJftvJipcUuSd0mksJViY+PHxEQnsDSQTOveeoKE3aOHGVGDtvFYqa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF89A593F05
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E51AC2192D
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:dkim, suse.de:email]
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,29 +114,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/3/25 15:13, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Jun 02, 2025 at 04:42:27PM +0200, Christian König wrote:
->> On 6/2/25 15:05, Tvrtko Ursulin wrote:
->>> On 15/05/2025 14:15, Christian König wrote:
->>>> Hey drm-misc maintainers,
->>>>
->>>> can you guys please backmerge drm-next into drm-misc-next?
->>>>
->>>> I want to push this patch here but it depends on changes which are partially in drm-next and partially in drm-misc-next.
->>>
->>> Looks like the backmerge is still pending?
->>
->> Yes, @Maarten, @Maxime and @Thomas ping on this.
-> 
-> It's done
+BT.601 weights RGB components by certain factors to convert the
+color to grayscale. Normalize the constants to 256 instead of 10.
+Allows for slightly more precise rounding. The division by 256 can
+be compiled as an 8-bit shift, which might be faster on some hardware.
 
-Thanks, I will start merge things tomorrow.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_format_internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Christian.
-
-> 
-> Maxime
+diff --git a/drivers/gpu/drm/drm_format_internal.h b/drivers/gpu/drm/drm_format_internal.h
+index 9f857bfa368d..3020ff267513 100644
+--- a/drivers/gpu/drm/drm_format_internal.h
++++ b/drivers/gpu/drm/drm_format_internal.h
+@@ -42,7 +42,7 @@ static inline u32 drm_pixel_xrgb8888_to_r8_bt601(u32 pix)
+ 	u32 b =  pix & 0x000000ff;
+ 
+ 	/* ITU-R BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
+-	return (3 * r + 6 * g + b) / 10;
++	return (77 * r + 150 * g + 29 * b) / 256;
+ }
+ 
+ static inline u32 drm_pixel_xrgb8888_to_rgb332(u32 pix)
+-- 
+2.49.0
 
