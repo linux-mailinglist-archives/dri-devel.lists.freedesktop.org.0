@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A367ACCDB8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 21:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDACFACCDC4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 21:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6719910E19C;
-	Tue,  3 Jun 2025 19:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4362110E669;
+	Tue,  3 Jun 2025 19:43:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MYbwFU0s";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Wsr43rha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
- [209.85.161.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0555110E0D9
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 19:42:02 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id
- 006d021491bc7-60be827f2b7so143298eaf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 12:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1748979722; x=1749584522; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FgLtrMgHhQ/oGFMvm8sSOBZ5dDdVEtN1pzHrZf4N+fU=;
- b=MYbwFU0svDjyv1i2r3o9w8XHihTYAo3vsrrAGw0U1SCoe9tT0K+cF72oNh4yhtAzJa
- s+V/0QqRenxAwhOl509SHKjaLeVZPT1X2V3Mbl5WsIlLdW1bCYXSNOXjoKj7XiNu0wg5
- 5OvadUvF71mvG2KGAGcc9V06el+ORBtXu5D6Bimtiw5h7w+nDoxMmCLrurukLpA4CI73
- 1izJNzbz/jXZ+X2AcWq1ypRYpuVD8sj3OePrNV1UWSXNMB5iiQ19f1L3YCpLX1VHsusS
- +Hr+a7zXIoOnTXp8wnRxgFnRWCvWspjsoNNxKSAH2YPYnnWT0GBaTH/CluIjm7OBB+MF
- 742g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748979722; x=1749584522;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FgLtrMgHhQ/oGFMvm8sSOBZ5dDdVEtN1pzHrZf4N+fU=;
- b=Xdi5vdnS6dILPwEFE3hrpULodFX5AHx5nnd0+qoSFLO7MF151+L/bAmxQZq2HST/pE
- 7Z8UunyTDMvQOHP9vmEMr0jEA0Qed8CUmVmILgZhjThjXVcovKoqKO7qvf5xToabVN+M
- 9p8P0wegS9JyD9zrmxeCMdfpUuDLUOd2mjpCB4XAKg83FG6poSjqnrtj5XKIujedKiIb
- JqC4pnOainDcUJ333BEAhYE310EviDzBeLR9PrfVWbzj6IgG6QickTlJ9oazibXx43K8
- VuXbwZrtM+3WF2x33FACqn4ZNtWZuvMDzcL+pJe7q45ZgpT0PXWHXZHFXJo6vLhgCE9N
- ILEw==
-X-Gm-Message-State: AOJu0YxZJr9Eb2u9iFjGPQl6mez887Hk9NfsFrhG45P6pTqzD1g64hai
- l/GGiATDsgCaA3DzkwSOHlNJwRtedj3DZplStDdA6uSyEgkI+IsnicX4TJYhuA==
-X-Gm-Gg: ASbGncu8IO9TGG8VwkM+JmKBpmjY5himiu1wtq61Ca+Vc1MTuTOX1yacvl/dNCr7F/o
- hk40V5bzHJSx1/q1T2r5JyvSk1fQL3tNxLqlP1B1e6AfyhH9QGyAOD74Wo9IT89JqNWyXqGPfTN
- mnR8e0iYRj041r5IcZVbpt4TW2UsIFnuJeq10fRlNfXfOvpAxiQmQaLR5Pyt3vIOBMvMFoUeInt
- r73cRbQwP1ZEDG7hPBPgKUAtr7eEyfThzEFyUcTJHXDYLy7brofcJI3mpd3ZepwQzRJinZYePJV
- K8FIyDv72Sx50nWdo3Q6TiHA0X/pBx8EaDCffMYKzbOV724z2olK6XYdSXWlFjlkIFybjOs=
-X-Google-Smtp-Source: AGHT+IE9tiwKq/R/e3U5EawJb79KooQ4IxNgVCBv1cslv8xmu0yJpXxxMeDxU3qVBvLMhI+JZsrssA==
-X-Received: by 2002:a4a:dc48:0:b0:608:3493:b807 with SMTP id
- 006d021491bc7-60efdd1f98dmr1851832eaf.2.1748979722009; 
- Tue, 03 Jun 2025 12:42:02 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:fb0:1bcf:d19a:d10c:4358:1346])
- by smtp.gmail.com with ESMTPSA id
- 006d021491bc7-60c14c88f96sm1967615eaf.17.2025.06.03.12.42.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 12:42:01 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- sebastian.reichel@collabora.com, heiko@sntech.de, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, tzimmermann@suse.de,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
- airlied@gmail.com, quic_jesszhan@quicinc.com, neil.armstrong@linaro.org,
- javierm@redhat.com, megi@xff.cz, Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 4/4] arm64: dts: rockchip: Add DSI panel support for
- gameforce-ace
-Date: Tue,  3 Jun 2025 14:39:30 -0500
-Message-ID: <20250603193930.323607-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250603193930.323607-1-macroalpha82@gmail.com>
-References: <20250603193930.323607-1-macroalpha82@gmail.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E0810E669
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 19:43:26 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250603194324euoutp0113131abe8f3a3bbdb4d0b45381c9b66b~Fn921ZJ8N1156211562euoutp01S
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 19:43:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250603194324euoutp0113131abe8f3a3bbdb4d0b45381c9b66b~Fn921ZJ8N1156211562euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1748979804;
+ bh=k6PWReahnB4o9xhLZy2nP1dUtfgYd6gAWiwYwq7Ovuw=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=Wsr43rhawhY4vbAbAfmkUF6zLCXJipuCtFZbq6YWOT5dlxIpjpUKIarA3+gdWtEFs
+ EQz3hxPD2W+ry28gzBtnQUhOm7RSWkB/LBLOeOT2XV7kdQUR1ZioZHFNrs4o4B1cWb
+ nytr3LQkfl/nwMeuH+Mrte0WLT+A/pel4488Ejms=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250603194324eucas1p2752406c355cfbd93e1acf8ccb30d9f55~Fn92HrNH50957009570eucas1p2i;
+ Tue,  3 Jun 2025 19:43:24 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250603194322eusmtip2c13b4dfea6d39b7a619c012500cf58f9~Fn91EU57e2231322313eusmtip2B;
+ Tue,  3 Jun 2025 19:43:22 +0000 (GMT)
+Message-ID: <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
+Date: Tue, 3 Jun 2025 21:43:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, Frank
+ Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250603194324eucas1p2752406c355cfbd93e1acf8ccb30d9f55
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
+X-EPHeader: CA
+X-CMS-RootMailID: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
+References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
+ <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
+ <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
+ <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,118 +87,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
 
-Enable the DSI controller, DSI DCPHY, and Huiling hl055fhav028c
-1080x1920 panel for the Gameforce Ace.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../dts/rockchip/rk3588s-gameforce-ace.dts    | 66 +++++++++++++++++++
- 1 file changed, 66 insertions(+)
+On 6/3/25 15:28, Krzysztof Kozlowski wrote:
+> On Fri, May 30, 2025 at 12:23:50AM GMT, Michal Wilczynski wrote:
+>> Update the Imagination PVR DRM driver to leverage the pwrseq framework
+>> for managing the power sequence of the GPU on the T-HEAD TH1520 SoC.
+>>
+>> In pvr_device_init(), the driver now attempts to get a handle to the
+>> "gpu-power" sequencer target using devm_pwrseq_get(). If successful,
+>> the responsibility for powering on and off the GPU's core clocks and
+>> resets is delegated to the power sequencer. Consequently, the GPU
+>> driver conditionally skips acquiring the GPU reset line if the pwrseq
+>> handle is obtained, as the sequencer's match function will acquire it.
+>> Clock handles are still acquired by the GPU driver for other purposes
+>> like devfreq.
+>>
+>> The runtime PM callbacks, pvr_power_device_resume() and
+>> pvr_power_device_suspend(), are modified to call pwrseq_power_on() and
+>> pwrseq_power_off() respectively when the sequencer is present.  If no
+>> sequencer is found, the driver falls back to its existing manual clock
+>> and reset management. A helper function,
+>> pvr_power_off_sequence_manual(), is introduced to encapsulate the manual
+>> power-down logic.
+>>
+>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>> ---
+>>  drivers/gpu/drm/imagination/Kconfig      |  1 +
+>>  drivers/gpu/drm/imagination/pvr_device.c | 33 +++++++++++--
+>>  drivers/gpu/drm/imagination/pvr_device.h |  6 +++
+>>  drivers/gpu/drm/imagination/pvr_power.c  | 82 +++++++++++++++++++++-----------
+>>  4 files changed, 89 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+>> index 3bfa2ac212dccb73c53bdc2bc259bcba636e7cfc..737ace77c4f1247c687cc1fde2f139fc2e118c50 100644
+>> --- a/drivers/gpu/drm/imagination/Kconfig
+>> +++ b/drivers/gpu/drm/imagination/Kconfig
+>> @@ -11,6 +11,7 @@ config DRM_POWERVR
+>>  	select DRM_SCHED
+>>  	select DRM_GPUVM
+>>  	select FW_LOADER
+>> +  select POWER_SEQUENCING
+> 
+> Messed indent.
+> 
+>>  	help
+>>  	  Choose this option if you have a system that has an Imagination
+>>  	  Technologies PowerVR (Series 6 or later) or IMG GPU.
+>> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+>> index 8b9ba4983c4cb5bc40342fcafc4259078bc70547..19d48bbc828cf2b8dbead602e90ff88780152124 100644
+>> --- a/drivers/gpu/drm/imagination/pvr_device.c
+>> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+>> @@ -25,6 +25,7 @@
+>>  #include <linux/interrupt.h>
+>>  #include <linux/platform_device.h>
+>>  #include <linux/pm_runtime.h>
+>> +#include <linux/pwrseq/consumer.h>
+>>  #include <linux/reset.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/stddef.h>
+>> @@ -631,10 +632,34 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>>  	if (err)
+>>  		return err;
+>>  
+>> -	/* Get the reset line for the GPU */
+>> -	err = pvr_device_reset_init(pvr_dev);
+>> -	if (err)
+>> -		return err;
+>> +	/*
+>> +	 * Try to get a power sequencer. If successful, it will handle clocks
+>> +	 * and resets. Otherwise, we fall back to managing them ourselves.
+>> +	 */
+>> +	pvr_dev->pwrseq = devm_pwrseq_get(dev, "gpu-power");
+>> +	if (IS_ERR(pvr_dev->pwrseq)) {
+>> +		int pwrseq_err = PTR_ERR(pvr_dev->pwrseq);
+>> +
+>> +		/*
+>> +		 * If the error is -EPROBE_DEFER, it's because the
+>> +		 * optional sequencer provider is not present
+>> +		 * and it's safe to fall back on manual power-up.
+> 
+> It is safe but why it is desirable? The rule is rather to defer the
+> probe, assuming this is probe path.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-index 873a2bd6a6de..bb7c1b732cc2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-@@ -7,6 +7,7 @@
- #include <dt-bindings/leds/common.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- #include <dt-bindings/pwm/pwm.h>
-+#include <dt-bindings/soc/rockchip,vop2.h>
- #include <dt-bindings/thermal/thermal.h>
- #include <dt-bindings/usb/pd.h>
- #include "rk3588s.dtsi"
-@@ -456,6 +457,42 @@ &cpu_b3 {
- 	cpu-supply = <&vdd_cpu_big1_s0>;
- };
- 
-+&dsi0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "huiling,hl055fhav028c", "himax,hx8399c";
-+		reg = <0>;
-+		backlight = <&backlight>;
-+		iovcc-supply = <&vcc3v3_lcd0_n>;
-+		pinctrl-0 = <&lcd_rst>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
-+		rotation = <90>;
-+		vcc-supply = <&vcc3v3_lcd0_n>;
-+
-+		port {
-+			mipi_panel_in: endpoint {
-+				remote-endpoint = <&dsi0_out_panel>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsi0_in {
-+	dsi0_in_vp3: endpoint {
-+		remote-endpoint = <&vp3_out_dsi0>;
-+	};
-+};
-+
-+&dsi0_out {
-+	dsi0_out_panel: endpoint {
-+		remote-endpoint = <&mipi_panel_in>;
-+	};
-+};
-+
- &gpu {
- 	mali-supply = <&vdd_gpu_s0>;
- 	status = "okay";
-@@ -633,6 +670,10 @@ &i2s0_sdi0
- 	status = "okay";
- };
- 
-+&mipidcphy0 {
-+	status = "okay";
-+};
-+
- &package_thermal {
- 	polling-delay = <1000>;
- 
-@@ -769,6 +810,13 @@ lcd_bl_en: lcd-bl-en {
- 		};
- 	};
- 
-+	lcd_rst {
-+		lcd_rst: lcd-rst {
-+			rockchip,pins =
-+				<1 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pcie-pins {
- 		pcie_rst: pcie-rst {
- 			rockchip,pins =
-@@ -1239,3 +1287,21 @@ bluetooth {
- 		shutdown-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_HIGH>;
- 	};
- };
-+
-+&vop {
-+	status = "okay";
-+};
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&vp3 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	vp3_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
-+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
-+		remote-endpoint = <&dsi0_in_vp3>;
-+	};
-+};
+Yeah this is probe path.
+
+The GPU node will depend on the AON node, which will be the sole
+provider for the 'gpu-power' sequencer (based on the discussion in patch
+1).
+
+Therefore, if the AON/pwrseq driver has already completed its probe, and
+devm_pwrseq_get() in the GPU driver subsequently returns -EPROBE_DEFER
+(because pwrseq_get found 'no match' on the bus for 'gpu-power'), the
+interpretation is that the AON driver did not register this optional
+sequencer. Since AON is the only anticipated source, it implies the
+sequencer won't become available later from its designated provider.
+This specific scenario is when we intend to fall back to manual power
+management, which pvr driver is capable of, it just doesn't work for the
+TH1520 SoC, as it has a custom requirements implemented by the pwrseq
+driver.
+
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
+
+Best regards,
 -- 
-2.43.0
-
+Michal Wilczynski <m.wilczynski@samsung.com>
