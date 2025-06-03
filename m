@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31C5ACC80B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 15:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC67ACC833
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jun 2025 15:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3C910E5D3;
-	Tue,  3 Jun 2025 13:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7FBD10E5A2;
+	Tue,  3 Jun 2025 13:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="UaHMzgf3";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="BlNh+VJ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC7410E5D3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 13:38:39 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6face367320so41861236d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 06:38:39 -0700 (PDT)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F384310E5A2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jun 2025 13:47:50 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-2e3dea42465so3500066fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 06:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1748957919; x=1749562719; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1748958469; x=1749563269; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2YoBzO9/Vr83m9kWgElnZwYJY0cXKTy7GFrgVmwfY4k=;
- b=UaHMzgf3Gaebs7XfuHIgK94O0dWRP+zG1nQNGLg2W0ZCA7ZV9IDZeAj69f1sNYdIVL
- sd0Z+PZoR+NAGmFei9FY7XKG5ftrpotbm8qVBcWS6cZSniygy+JPbYZKjQc/EZneIEGp
- oauyLdcmu17/7ig41AiC70a/KLIktu85U0nHNYjOjFWUOVjDr9iVp3q48BBxZeBOmXD6
- 5sUpKl0GmTp4B+rcHZiR3LB/lhrVhLuR+4ngWsrjJ+8Gin9pPDuPQfXbv1u8b+iU8WKz
- MNPRgRvY02QiM/C8UyjNEAp7K49rDCtNrnXhjYWOUILn65Pq3832z5RJkB4hJ9arIBXg
- YfnQ==
+ bh=UpF3njOJtHrMyikmrAfZ4zzOg2YUvEVFUbKoE3kb2rM=;
+ b=BlNh+VJ51n6N4EkPPcZYDOCtrRSDUV1gd3zMLuOqCydIJATKfrLkQLgyu1RHLE/+HO
+ Y3nmZVSjmYoyuKJ91zk/hcGOAWeb3wsqXAdACp3a0S838sjOLot+bROZ57wSwDesaj9n
+ jTxrsJWo0dLlplyF9fgIIEZG23C1hgCbTwZm8kqHq+Z6vcaXYSznRy6T86Nu5WPOt9Bn
+ xzL2gk3gfmKNDmO+duux6n486eDuqSMUc0+u2WEJn/wYAa3vutaazWFelvXUTbSPz2U3
+ WXRoZZejcKE7H0/wtojGQxlEX0ohZU2zZeEflq0TACgmjS2+glErtxlEiypmMaUW/tPr
+ LJCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1748957919; x=1749562719;
+ d=1e100.net; s=20230601; t=1748958469; x=1749563269;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2YoBzO9/Vr83m9kWgElnZwYJY0cXKTy7GFrgVmwfY4k=;
- b=vnZiHRxKeNSd3vTXD/yYiIDTliiuI6U4r0WplIg+hMTvbdEWUbth6KKdqoObteNkNR
- IApycEzCmojSZS8k8pAbLd5eY4zn6Hadi/vzM+U+qlcFt2vSNZQv0EIqNdAadfWSDR4y
- uIeTdtMRhFnwR9In4kibwWLLx8Yv7eA6yhQssCFLTANUYPvCJ3ccKVp44M2jnZPFw4gp
- ePT4h8zeYBVwTxQnhTDuJCOEqfR5uROcMoQ7TudDK7l4mZPU57cbxYisYg4Yp+ZqQnz3
- 4woV6KA0U+oX96pbunfbkiTU8W3OoA3IL0Mx2fomgIdZr9Gv4URh20VSlniBfukwUiGe
- jAFw==
+ bh=UpF3njOJtHrMyikmrAfZ4zzOg2YUvEVFUbKoE3kb2rM=;
+ b=VYT/YGqxAyhLtNlv+70H7y5gjDkDV9ljbwqhWo6VR8BGGvQpOpkXBNM31vdUk9kzY/
+ HgINrIBLyewt8XPZEghPxF5DYjj4ma8b2fwAgpBw9rMb4FXoqTVJZ0CxoSN3pQQ9cddr
+ 72r1lZa/CjBlSXeoktftG1EZb5URYVgcrLRWgH82SUEq8nvKWp0qTKz7Ylgi7duGSfzh
+ yS2rEctARLM9uizADlpnnhS4OtntEh+D7nNpXnwRhPQGtvv3GAQqHnKnsfaRDt3i0J9l
+ V26GpF4+KCr1fZgOh1Z1wnjcGNXxkELQA7q9Chb8E/G2t5fwKWsuiotD59Fx8LxBNWmT
+ MHPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXEp/hryebBUu2Y8Ikvxqh0MnamDQ+du943PUsJYg+7ZjITqwjagH+JDwJof02QluxPWzVe4BI7RF8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2ZEdqaubRg7rRZSPS+NAZsRu9WnQs0trp1Kvx4SD28iWKzxcl
- 05wVJ/X4cIzBR5DzPUebky1oxsG4UOR9h+CmK6Md+g918REeO8ntMs79/LqBajb5Z2M=
-X-Gm-Gg: ASbGnctxZxI2dpU+OwvFVy6HBmQPOtR9vz1Wt0PEvxvWGfGkEDHCpzzKGd6ThZlfyLh
- /nqS/HzVwrqYFjKNwpAGwKq0DWBYsxWAlZgSC3v6Op6wJOcl8aw2R21y06WiMxrjXKKq4bC1+fY
- Py0sjMeF1u/EVyzlugDxMSXvBJ+taZmk30lZOVDqbbJ724CJ99x6X5RF8p+VisiM6iCeLiJoHnG
- pkJcJOLR0MWmlwMbKiFQsmq1cGyUysjgZEQikB0gfcEosOXYuSsWiYwuOzZzVTuRGTOrMckciGX
- UBH4T163knNFtY/EuLO+Xd1BgUrJahTRt3hRBH+sLEBwKGSzvYe1YvxyVzv0lkqgttHv7MLRUZb
- 5cPpFi3vbdPdPN7ELHSbITicq27g=
-X-Google-Smtp-Source: AGHT+IFNNgr1gOgNIDIKGgPc3bhuHOtoZeZOnCuhf1c+LALW25Lvqo21bVxhfooiSUL50e5IoEYUCA==
-X-Received: by 2002:a05:6214:194d:b0:6f5:3a79:a4b2 with SMTP id
- 6a1803df08f44-6fad191b357mr264142056d6.14.1748957918424; 
- Tue, 03 Jun 2025 06:38:38 -0700 (PDT)
+ AJvYcCVsTYruv63iLT6JJ2fTZPNjGWZ7HaYlLorXZogKd4qQYz1sAfu//Uw1Ar9St0FRzfTF6B1lNUxRc+4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/jjma8ZdoBdvnjoRIBmtMKLS6MzS3z3gYLnSZgzjxsnZqTLxy
+ Y1XgxGaRTqtJWWDDk9qCP12sjFnAjDkGlmy60TCDkFd7dYufhmJXs6bWOz69lknQijHhFLQPZ7t
+ eOq1z
+X-Gm-Gg: ASbGnct0qS++Y5+JV9IcOQ25S0qMAhZW8qcYcMwQpGe4EplPygjzS+e7rF4NtUM4Wvz
+ z/xiTsImfunQc6NuCOUQlYdz8XiMaRjFHr2E7OmoEZHoZcJvfvElsmhsElzBYia5Wvpds49g/i6
+ oWBOTRusQB0rMdVbSOMtkRevWHwof7V2iusIU0reQLZjN2CaRdhgjJls1DzGyuA83BKDFLMPf3K
+ dnmAT3hqu06DwWwg8j/fozMxQEICTFSeMA+JIIlGvx2x5tSfnVlrWOguPM6+PsYGprK/nly6pCC
+ q1WTk7bdc0c3UUJwq63SW8Dezok1M3xaTg2tQdvono1FMn3ISPPiCRH3yAMZv8sAWTUskLwzGoZ
+ sqZXGiuUOavoh1KQXI9O0/xwKyjw=
+X-Google-Smtp-Source: AGHT+IEn/uCXnqGk9mGrQEIlQbsguMg4s70jmRhOs28+dV79kPuZtTFgI19mnXFgGkPMbOXTAF/Qjg==
+X-Received: by 2002:a05:620a:278d:b0:7c5:d71c:6a47 with SMTP id
+ af79cd13be357-7d211676724mr394455585a.8.1748958459265; 
+ Tue, 03 Jun 2025 06:47:39 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.167.56.70]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6fac6e1a681sm80140746d6.98.2025.06.03.06.38.37
+ af79cd13be357-7d09a195d7dsm840098585a.78.2025.06.03.06.47.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jun 2025 06:38:37 -0700 (PDT)
+ Tue, 03 Jun 2025 06:47:38 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1uMRqf-00000001h6M-29EG;
- Tue, 03 Jun 2025 10:38:37 -0300
-Date: Tue, 3 Jun 2025 10:38:37 -0300
+ (envelope-from <jgg@ziepe.ca>) id 1uMRzO-00000001hB3-1CmA;
+ Tue, 03 Jun 2025 10:47:38 -0300
+Date: Tue, 3 Jun 2025 10:47:38 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Alistair Popple <apopple@nvidia.com>
 Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
@@ -78,14 +79,15 @@ Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
  linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, John@groves.net
-Subject: Re: [PATCH 05/12] mm: Remove remaining uses of PFN_DEV
-Message-ID: <20250603133837.GF386142@ziepe.ca>
+Subject: Re: [PATCH 06/12] mm/gup: Remove pXX_devmap usage from
+ get_user_pages()
+Message-ID: <20250603134738.GG386142@ziepe.ca>
 References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
- <ee89c9f307c6a508fe8495038d6c3aa7ce65553b.1748500293.git-series.apopple@nvidia.com>
+ <c4d81161c6d04a7ae3f63cc087bdc87fb25fd8ea.1748500293.git-series.apopple@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ee89c9f307c6a508fe8495038d6c3aa7ce65553b.1748500293.git-series.apopple@nvidia.com>
+In-Reply-To: <c4d81161c6d04a7ae3f63cc087bdc87fb25fd8ea.1748500293.git-series.apopple@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +103,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 29, 2025 at 04:32:06PM +1000, Alistair Popple wrote:
-> PFN_DEV was used by callers of dax_direct_access() to figure out if the
-> returned PFN is associated with a page using pfn_t_has_page() or
-> not. However all DAX PFNs now require an assoicated ZONE_DEVICE page so can
-> assume a page exists.
-> 
-> Other users of PFN_DEV were setting it before calling
-> vmf_insert_mixed(). This is unnecessary as it is no longer checked, instead
-> relying on pfn_valid() to determine if there is an associated page or not.
+On Thu, May 29, 2025 at 04:32:07PM +1000, Alistair Popple wrote:
+> GUP uses pXX_devmap() calls to see if it needs to a get a reference on
+> the associated pgmap data structure to ensure the pages won't go
+> away. However it's a driver responsibility to ensure that if pages are
+> mapped (ie. discoverable by GUP) that they are not offlined or removed
+> from the memmap so there is no need to hold a reference on the pgmap
+> data structure to ensure this.
+
+Yes, the pgmap refcounting never made any sense here.
+
+But I'm not sure this ever got fully fixed up?
+
+To solve races with GUP fast we need a IPI/synchronize_rcu after all
+VMAs are zapped and before the pgmap gets destroyed. Granted it is a
+very small race in gup fast, it still should have this locking.
+
+> Furthermore mappings with PFN_DEV are no longer created, hence this
+> effectively dead code anyway so can be removed.
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/gpu/drm/gma500/fbdev.c     |  2 +-
->  drivers/gpu/drm/omapdrm/omap_gem.c |  5 ++---
->  drivers/s390/block/dcssblk.c       |  3 +--
->  drivers/vfio/pci/vfio_pci_core.c   |  6 ++----
->  fs/cramfs/inode.c                  |  2 +-
->  include/linux/pfn_t.h              | 25 ++-----------------------
->  mm/memory.c                        |  4 ++--
->  7 files changed, 11 insertions(+), 36 deletions(-)
+>  include/linux/huge_mm.h |   3 +-
+>  mm/gup.c                | 162 +----------------------------------------
+>  mm/huge_memory.c        |  40 +----------
+>  3 files changed, 5 insertions(+), 200 deletions(-)
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
