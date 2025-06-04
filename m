@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EE9ACE5BF
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 22:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAC3ACE5CE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 22:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8CB610E849;
-	Wed,  4 Jun 2025 20:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06CD10E7DE;
+	Wed,  4 Jun 2025 20:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nppct.ru header.i=@nppct.ru header.b="cLPu9zpX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ybfbtgko";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37EBB10E849
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 20:29:07 +0000 (UTC)
-Received: from mail.nppct.ru (localhost [127.0.0.1])
- by mail.nppct.ru (Postfix) with ESMTP id 208DD1C11F4
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 23:29:05 +0300 (MSK)
-Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
- reason="pass (just generated,
- assumed good)" header.d=nppct.ru
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
- content-transfer-encoding:content-type:content-type:in-reply-to
- :from:from:content-language:references:to:subject:subject
- :user-agent:mime-version:date:date:message-id; s=dkim; t=
- 1749068943; x=1749932944; bh=7Vka/a7srNrY341gvWXRamDvv2uHEGS89KE
- na72dgGQ=; b=cLPu9zpXZO/nuJfs4r77DnDgv63Fz/JplevuFmtJCi7nDOsWlgN
- nm5twIHsqq7hK0RHA90UGUU0hQRrjURE3aLOmhBB1yJUIMbMHpThPqdw+BoVshPf
- hg+nW4fdTcIl8Okhbmp584uCbhPNraWZqQj7BaQTgR7gcdyMQKAgAXHI=
-X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
-Received: from mail.nppct.ru ([127.0.0.1])
- by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 7qHSkKicC2wp for <dri-devel@lists.freedesktop.org>;
- Wed,  4 Jun 2025 23:29:03 +0300 (MSK)
-Received: from [192.168.1.67] (unknown [46.72.98.152])
- by mail.nppct.ru (Postfix) with ESMTPSA id 236421C08AD;
- Wed,  4 Jun 2025 23:28:55 +0300 (MSK)
-Message-ID: <f4d1268f-bbf3-49c1-be27-6199ec685329@nppct.ru>
-Date: Wed, 4 Jun 2025 23:28:54 +0300
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C6610E7B5;
+ Wed,  4 Jun 2025 20:37:44 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3dc6f653152so1307145ab.3; 
+ Wed, 04 Jun 2025 13:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749069463; x=1749674263; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=XFwt8jx0g/c+CABPRMM8ZkkvfXfeIDPzYoKjG59j/ew=;
+ b=Ybfbtgko9y4ZZYuNyKc+1lganOlSrrYF/tNU36RtOvTn+aXfafRX19+n9HSmIxRhPI
+ sU4cbVlgCIygsapD2HIxgh/afYdgYj81ZjTIqeVPiQHuWGb1GZTTvPBEf8LbwmouDzys
+ QgMBmSC1Q0KyYEmMT7ydYkB4x65HeqOzHlMGxoDm7nBPdyItABdOpM89DmJE/17TBWmv
+ W8aZ5XuBQZ8zN0nJdwZcPqOsfQo/Z7H12YVquhHECLBna2QNihsyF372jv24uPgML/qB
+ IyCUWSJv7tG3x3/5klT8BrvOAmQ4MZ7Sml7EyQl+p12z3o6ZEtCuT5WJqnMbhvDlAnFL
+ PABA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749069463; x=1749674263;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XFwt8jx0g/c+CABPRMM8ZkkvfXfeIDPzYoKjG59j/ew=;
+ b=r5lUdR2Ds+JADpRfsgtqBDt+QJ7nJ7rI60n0fjR1HrlBmQrGMbgf3or6KxSV8owMGm
+ fKWfw2AWEFQSPaD79hGMtR5snBu8Gp9p5uzwzZz4p5H3UdFz7sXEx9NV3MD2Jdy0Taxb
+ pftro+iVXxO9lFXg+R8fQnpJ2vg5h8aI73pq5eW9RPdemJKCqeA76sLmFBP41sToN39B
+ IBuL5yKRjIrOBVseA98zz/IWPZq8QPQbGOWvEoJ8S8d/P+uqxhDy9gSMasDtlToj0RV9
+ mroyczeXvkdk8eqtlw9yVJ53XZAeQyC43N14g/lIAaA/pg8ab3kjNQsQTVyJAi6XWTaK
+ e89Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAc/FYS2qxjhMMrdynbst2GnXQk7qLqhKdqNXRm8mgEJCnOMgdOJ/+Tv93KkeQP4obaVXbKeJEj4A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yywpa2bajYVZUsgQAcQs39ogxOiNiCa6u8GDKsvDeGXK+VoKNND
+ VnEnvz+26us9LFsoEm1UgMyEzSvSPLrLt3IAJB5U7OhoGmx43aLtLHSlRteF6iCR9BouA5GHpnN
+ P0RJ3PVCg0CPk9cWnutIL0rVuX0qi4g8=
+X-Gm-Gg: ASbGncsJWwIpFb7vYGfEG7n9eXQsNVWLvaXRvjOcJ0fM2Etxkm0zHwSvoftIAwmJrc2
+ qY6CNMh1KxJj8uMDY/qCh912M245YDiN+w9pYWkxn0YksM5M2b/Iz0focdvbtDgVX/8B9GRbrgX
+ W4pvHvzkRyS97kghW0xtehyoZdrHzoHhqM0dvxWvjj8Gb+vBHQkI/evqHmZTv1wl9Z
+X-Google-Smtp-Source: AGHT+IEkEn+Ys6yp8GhjuhLo+PHMDiCMbG10n36RLxCtVWagLr2ATCucAOGms2ilLGEuUYqFxod590RMviUUeMvmCio=
+X-Received: by 2002:a05:6e02:32c3:b0:3dc:868e:dae7 with SMTP id
+ e9e14a558f8ab-3ddbedd26e1mr52052875ab.15.1749069463257; Wed, 04 Jun 2025
+ 13:37:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: fix NULL dereference in gfx_v9_0_kcq() and
- kiq_init_queue()
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sunil Khatri <sunil.khatri@amd.com>, Vitaly Prosyak
- <vitaly.prosyak@amd.com>, Srinivasan Shanmugam
- <srinivasan.shanmugam@amd.com>, Jiadong Zhu <Jiadong.Zhu@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, Prike Liang <Prike.Liang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- stable@vger.kernel.org
-References: <20250524055546.1001268-1-sdl@nppct.ru>
- <CADnq5_MyV_C-XJCQEiXKLQhhEGErq7SnvhqFE1AauQPJvt5aYw@mail.gmail.com>
- <bee381b3-305b-46e5-ae59-d816c491fce5@nppct.ru>
- <CADnq5_P-1xGEjJpe--HFFQUaz9A=AO7mQwTXNCZJ693UgdaW0w@mail.gmail.com>
-Content-Language: ru
-From: SDL <sdl@nppct.ru>
-In-Reply-To: <CADnq5_P-1xGEjJpe--HFFQUaz9A=AO7mQwTXNCZJ693UgdaW0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 4 Jun 2025 13:37:31 -0700
+X-Gm-Features: AX0GCFtZPDMs3-fiKOKQL4sBwvvhTHcy7kFG4Zeir1ucFEyfE5oK_zHqGpJR7UA
+Message-ID: <CAF6AEGuW1kpUijxzLCc4TKph72-PfXvHTttNu214_1GB-R8qwg@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2025-06-04 for v6.16,
+ the mailmap addition
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,40 +82,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Simona,
 
-04.06.2025 22:34, Alex Deucher пишет:
-> On Wed, Jun 4, 2025 at 3:30 PM SDL <sdl@nppct.ru> wrote:
->>
->>> On Sat, May 24, 2025 at 2:14 AM Alexey Nepomnyashih <sdl@nppct.ru> wrote:
->>>> A potential NULL pointer dereference may occur when accessing
->>>> tmp_mqd->cp_hqd_pq_control without verifying that tmp_mqd is non-NULL.
->>>> This may happen if mqd_backup[mqd_idx] is unexpectedly NULL.
->>>>
->>>> Although a NULL check for mqd_backup[mqd_idx] existed previously, it was
->>>> moved to a position after the dereference in a recent commit, which
->>>> renders it ineffective.
->>> I don't think it's possible for mqd_backup to be NULL at this point.
->>> We would have failed earlier in init if the mqd backup allocation
->>> failed.
->>>
->>> Alex
->> In scenarios such as GPU reset or power management resume, there is no
->> strict
->> guarantee that amdgpu_gfx_mqd_sw_init() (via ->sw_init()) is invoked before
->> gfx_v9_0_kiq_init_queue(). As a result, mqd_backup[] may remain
->> uninitialized,
->> and dereferencing it without a NULL check can lead to a crash.
->>
->> Most other uses of mqd_backup[] in the driver explicitly check for NULL,
->> indicating that uninitialized entries are an expected condition and
->> should be handled
->> accordingly.
-> sw_init() is only called once at driver load time.  everything is
-> allocated at that point.  If that fails, the driver would not have
-> loaded in the first place.  I don't think it's possible for it to be
-> NULL.
->
-> Alex
-Thanks for the review! I agree with your point.
+Some mailmap/MAINTAINER "fixes", as there have been some recent email
+address changes and shufflings for drm/msm :-)
 
-Alexey
+The following changes since commit fc5c669c902c3039aa41731b6c58c0960d0b1bbf:
+
+  dt-bindings: display: msm: correct example in SM8350 MDSS schema
+(2025-05-13 21:53:34 +0300)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2025-06-04
+
+for you to fetch changes up to ee11d953fd230b4e1c28388913826ca832ae8444:
+
+  MAINTAINERS: .mailmap: update Rob Clark's email address (2025-06-04
+13:26:41 -0700)
+
+----------------------------------------------------------------
+Just some mailmap/MAINTAINER email address updates
+
+----------------------------------------------------------------
+Abhinav Kumar (2):
+      MAINTAINERS: drop myself as maintainer
+      MAINTAINERS: update my email address
+
+Akhil P Oommen (1):
+      mailmap: Update entry for Akhil P Oommen
+
+Rob Clark (1):
+      MAINTAINERS: .mailmap: update Rob Clark's email address
+
+ .mailmap    |  5 ++++-
+ MAINTAINERS | 11 ++++++-----
+ 2 files changed, 10 insertions(+), 6 deletions(-)
