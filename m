@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE99ACDCBC
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 13:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F62ACDCC4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 13:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C66E710E0FC;
-	Wed,  4 Jun 2025 11:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68BA710E728;
+	Wed,  4 Jun 2025 11:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="daq2ym1s";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Cn41GxCh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDEBA10E0FC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:36:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46BD10E67B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749037011;
+ s=mimecast20190719; t=1749037076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=C8a5MQW08d15nKShazDfS7QPFXLU7R+rb+4mnDBz0bw=;
- b=daq2ym1sCnl9TeWNBLRMZl0ybHSWy06A9d+F8ghKJncuKAHadFFuam9VIQH792g/HKwTs3
- VrBhXoOdvT7WXzolt6cK4eU5KzX5YYv/MzwM2oC+3kjPZwNTJxGxwmZG55Tzc9CLNqbqKT
- VqPzAjJy9T7RwfWZ+lN/1NFaiG8hDdc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8yGTTsgiDWY8J2g+V2j1fiTS+GMay2l9LmYid1VFYpE=;
+ b=Cn41GxChIw7KHk+fedDSEY3pX7knkRH1PK4ffXvLYZXl4m9NewrIID2Fn1eGpQ//tynI+c
+ 1WMseoOcUqghSJbz9sqmGduNjZBwt6mSxAE8fgstuS0Uze9/mSV6ygSBXHwHuZcZw70KLy
+ p0aCTARUChluJTTfFiWBZQHXERMib+4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-5t1ZKvfxPsio85_3lT6_pg-1; Wed, 04 Jun 2025 07:36:49 -0400
-X-MC-Unique: 5t1ZKvfxPsio85_3lT6_pg-1
-X-Mimecast-MFC-AGG-ID: 5t1ZKvfxPsio85_3lT6_pg_1749037009
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-451ecc3be97so6771545e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 04:36:49 -0700 (PDT)
+ us-mta-688-Oid339CnOWmmV6yaw5VL7w-1; Wed, 04 Jun 2025 07:37:52 -0400
+X-MC-Unique: Oid339CnOWmmV6yaw5VL7w-1
+X-Mimecast-MFC-AGG-ID: Oid339CnOWmmV6yaw5VL7w_1749037071
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a4e6d426b1so426433f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 04:37:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749037008; x=1749641808;
+ d=1e100.net; s=20230601; t=1749037071; x=1749641871;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C8a5MQW08d15nKShazDfS7QPFXLU7R+rb+4mnDBz0bw=;
- b=pknHPj1qlh83zV5oLLoHvUvCoYt9ouDRfHD0qdLDhJsxZdLLOb+JE93G5qz78g45ak
- AAcMoqckA3++S35zRRXfCoW6d9omZHwBWQw7tdL1HFzMFZdwLuuCVoMHhbSseNkuHolA
- m0xVp22QsPsQfrObPLgWuKg/FSY9gobYGdIlTcAQm/qbvACcxjZbFOwUW+j72XzlEoQL
- LDScqRe66BM7Cudqhu5rUY9tgHiVtXBjhfj+LmsmnGy0EwPCW/Mb0EXDsi61dJP86TAV
- PN4gvpel8f4yjucRvukml30HyP63LgvJvVcV8YzDnKeQWdi85mVYT3KZw0RUP5NtXgEJ
- EtNw==
+ bh=8yGTTsgiDWY8J2g+V2j1fiTS+GMay2l9LmYid1VFYpE=;
+ b=PPDSgra8mWeiskCdu9R/YQCXcrSkw4VBaBGXuv9sbCJK1glbchlw+NyjKBsjLRDCUW
+ 0ltvRX4NuMDsAJ4ivc92memPWC03MWos/3biTAv0pvTZpncW8+i1ZySKqxFiH/ZHBDXU
+ Aw0jzvkS3P79xMmZ1w0Ur6I14ElOe1nb+bjjtUTCHjhOGbQwoR+bBdrOpvJMjOpn/mM7
+ a8vwRCe+qgP/KZT4bAlRrzn8dlNNfq86vESGZU8scIZntUh/++az5IarOktOeN3bdKFi
+ mXAGJmCmmKGmUfdDndm66SeaT4bGkqCRielnSCMj82FYhHuhQQFLM8bz1v0Qu8KXwMhJ
+ Ei6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRmsRw9sKTbGY7xkoV7MYT9p+9FJTIfakeaMxXuS6j5IafW1j4u2hEQ17fjuUhVaAczBMprqLh5k8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx46joyTLF4c2f04j7cAjzhj9etVENcB21HPJfA6e8en1njGwOl
- 5JCUcm9lW6K0bvn1i7/FMrnMeTO0Z+3rpRBfspNbaASa44jFKjhBytfLgLkQjoDEZbHD0/qhIo9
- ++5pbNrFHB9cSi72iCxLCxTMP3dkl7hqEhtdCRYqIvNRUP7HDn5mEtRz0j3xnbYcyY0mwLA==
-X-Gm-Gg: ASbGncuYMf+13SmD0tKaMYm9nVOiBibNTvStEeBcu1phkbkpzjpvw/y520o2pxWGlpC
- qiiABAxjjASj97gwMUXsNF/XgjRhGRZg/oWcByKbDPikwwZ0T6WkWuA4MR1jZnuXWFmT7MdK2Tw
- d0bKPdxh7ksfR7yqf7U4JENilIe8og4FTfFVt6amvqY78k4oGXIhsciZWyNmmVRLs+zcuw60Dcf
- gCwzYO7RJbI1lU1FxpiyWHtTrnLCMBDTc2dPIddGGwvmqxnpmYWVxlDodF0d4AxtJcwKQjJfijG
- FRlaDjVG1x/h865NecokZzj6dNLxpALoTtYedKszWhqmLvt4n+vcLbpTxwP6N/H1K80yyg==
-X-Received: by 2002:a05:600c:348c:b0:450:cac5:45e7 with SMTP id
- 5b1f17b1804b1-451f0f00596mr20628185e9.1.1749037008616; 
- Wed, 04 Jun 2025 04:36:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9aGn1JqRF4v9GdB7S5N+Iv4QLVcuOxMVMUOmJ0PIBUt0HXZfcX/tKKMNX89n1OdgImFWvrQ==
-X-Received: by 2002:a05:600c:348c:b0:450:cac5:45e7 with SMTP id
- 5b1f17b1804b1-451f0f00596mr20627935e9.1.1749037008186; 
- Wed, 04 Jun 2025 04:36:48 -0700 (PDT)
+ AJvYcCWDpTemRprL5NTAH/xEtduUdDG74qN6aLoEQo3t6z5x+6e2g4oDfVgdgAhhFneO56R6OsFfZTtAbIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9eBaIwoAmO6CiDevS22VgpVSOO4WeN1iIqZGkXDL834d3RSgY
+ QHjI+UAP32GgiUa2CH1stkfRyIcg82jorfDyrIFifKeZMyF4d3yESMTLKu1rdlpb8RaxHIXeN/o
+ rhsKd+YFVi7xEI8Mputa11JxeAVbCdPoTT5kmUmHfVTOAvyTq532V5FSEyx1qe7XyQdQTPg==
+X-Gm-Gg: ASbGncvqQrzDK+RpFmax+s3WxgTzCPuGXvwcICEkN/ASq3lrTWGAYnWMOi/7j5aMkEK
+ faYg+1N7JTV1OUg5IdauCCVxkLWKIA2LZIeBjXrTu0oMTkYO8zPRRQQWRfZw/9ehD7gLiSGpsuB
+ PWpUU2vqWKFHVsEeo83dP9vklW9wrthkJyN9vQZmPu3vQcvZuo6Vi60vosqbZwdZQGGJ8gBYjgk
+ HjV1O4XMjs8X0ylPq1Z/jDpKi3FgbluuezNKHakAkr+sZaE+wKrvyAAXsUCwQ+K6GUoqMdT85tq
+ y60KLMWwfkyofxUPhAPDU6a6BfIFdVVPoiWN1khHUSiADeALlBlI4DbXhbOegcfa4ThDzGFGHmK
+ UfDy+
+X-Received: by 2002:a05:6000:2204:b0:3a4:e624:4ec9 with SMTP id
+ ffacd0b85a97d-3a51d507a12mr2123880f8f.3.1749037071498; 
+ Wed, 04 Jun 2025 04:37:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFv9JPJbgrjB229TymXofASXM6iZs/ATYKLOE2MEqqHr8KFbOvdQ2US8CPOluWqVOJ3OvEbgQ==
+X-Received: by 2002:a05:6000:2204:b0:3a4:e624:4ec9 with SMTP id
+ ffacd0b85a97d-3a51d507a12mr2123854f8f.3.1749037071124; 
+ Wed, 04 Jun 2025 04:37:51 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d7f8edf9sm194938895e9.3.2025.06.04.04.36.47
+ ffacd0b85a97d-3a4f009748fsm21172908f8f.80.2025.06.04.04.37.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jun 2025 04:36:47 -0700 (PDT)
+ Wed, 04 Jun 2025 04:37:50 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
 Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
@@ -75,16 +76,16 @@ Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
  airlied@gmail.com, quic_jesszhan@quicinc.com, neil.armstrong@linaro.org,
  megi@xff.cz, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/4] drm/panel: himax-hx8394: Add Support for Huiling
- hl055fhav028c
-In-Reply-To: <20250603193930.323607-4-macroalpha82@gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: rockchip: Add DSI panel support for
+ gameforce-ace
+In-Reply-To: <20250603193930.323607-5-macroalpha82@gmail.com>
 References: <20250603193930.323607-1-macroalpha82@gmail.com>
- <20250603193930.323607-4-macroalpha82@gmail.com>
-Date: Wed, 04 Jun 2025 13:36:46 +0200
-Message-ID: <878qm7agc1.fsf@minerva.mail-host-address-is-not-set>
+ <20250603193930.323607-5-macroalpha82@gmail.com>
+Date: Wed, 04 Jun 2025 13:37:49 +0200
+Message-ID: <875xhbagaa.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fCfbTRBlZKPk0naAwsnx52VvVaPlYXn04zkGGOk5OrY_1749037009
+X-Mimecast-MFC-PROC-ID: ZZqY-_E7VWrqXcKeJ_Wj4GNfc7gHHfXje07IjcUqyAs_1749037071
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,11 +107,8 @@ Chris Morgan <macroalpha82@gmail.com> writes:
 
 > From: Chris Morgan <macromorgan@hotmail.com>
 >
-> Add support for the Huiling hl055fhav028c panel as used on the
-> Gameforce Ace handheld gaming console. This panel uses a Himax HX8399C
-> display controller and requires a sparsely documented vendor provided
-> init sequence. The display resolution is 1080x1920 and is 70mm by 127mm
-> as stated in the manufacturer's documentation.
+> Enable the DSI controller, DSI DCPHY, and Huiling hl055fhav028c
+> 1080x1920 panel for the Gameforce Ace.
 >
 > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > ---
