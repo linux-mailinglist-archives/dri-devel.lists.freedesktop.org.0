@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064E5ACDCAB
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 13:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE99ACDCBC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 13:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D14A810E0B6;
-	Wed,  4 Jun 2025 11:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66E710E0FC;
+	Wed,  4 Jun 2025 11:36:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G6fdLWAY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="daq2ym1s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2384310E0B6
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:35:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDEBA10E0FC
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749036940;
+ s=mimecast20190719; t=1749037011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a4SrfMIm9jFVTdR/mkZH4AtBbhuKX900QP9yhvs/m5M=;
- b=G6fdLWAYSrCAAQ2jKcq0xryONeVF926ecfNfwOIlyFNQbmrG6ftd352HTCQ3ZkkrEzezLe
- SONhQ4J8cPmCA+PEmqCiAQ0A2MqKn4mlcWfK/yzAMquL8rJiy08Bh6bXJVUjdqh/YaeQZp
- 42Nbn8EUWOrVnd8kvRuNwGU3OLXb69g=
+ bh=C8a5MQW08d15nKShazDfS7QPFXLU7R+rb+4mnDBz0bw=;
+ b=daq2ym1sCnl9TeWNBLRMZl0ybHSWy06A9d+F8ghKJncuKAHadFFuam9VIQH792g/HKwTs3
+ VrBhXoOdvT7WXzolt6cK4eU5KzX5YYv/MzwM2oC+3kjPZwNTJxGxwmZG55Tzc9CLNqbqKT
+ VqPzAjJy9T7RwfWZ+lN/1NFaiG8hDdc=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-qp1EqN24MiimQdh326rvCA-1; Wed, 04 Jun 2025 07:35:39 -0400
-X-MC-Unique: qp1EqN24MiimQdh326rvCA-1
-X-Mimecast-MFC-AGG-ID: qp1EqN24MiimQdh326rvCA_1749036938
+ us-mta-582-5t1ZKvfxPsio85_3lT6_pg-1; Wed, 04 Jun 2025 07:36:49 -0400
+X-MC-Unique: 5t1ZKvfxPsio85_3lT6_pg-1
+X-Mimecast-MFC-AGG-ID: 5t1ZKvfxPsio85_3lT6_pg_1749037009
 Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-450d9f96f61so41020085e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 04:35:38 -0700 (PDT)
+ 5b1f17b1804b1-451ecc3be97so6771545e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 04:36:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749036937; x=1749641737;
+ d=1e100.net; s=20230601; t=1749037008; x=1749641808;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a4SrfMIm9jFVTdR/mkZH4AtBbhuKX900QP9yhvs/m5M=;
- b=QGwGsY3rNB+Gp6J7oxltkdQirtpq/aIUBrnRY++iZLVMysnJsLtqiNWLErhVhFLtG6
- /FktD15wqGCPITTP8SUrbeWj+dw60qSJj/nTdKyuV2mYhhE38s9ioh3VYlvcxsySRwbd
- jcVm1j+evEfIemAgbI6CIR88TFmMixS/dV87fDiiUHi6wYk7PUfjqtyuuhLJ4EmTjrXh
- emQwqiDIjSUF4W3+r0Dg3fLeM7jYq9O3TuJdUTJrdovB5aGg+WO86BDOPrE6/bByV54F
- /wKWkBI8K5mmDRA15J7Sv6j8md8O+ZuLWhvrSv/vHrZRlfS2DiwsQ3gxewhxlPy6n8Vm
- yjfg==
+ bh=C8a5MQW08d15nKShazDfS7QPFXLU7R+rb+4mnDBz0bw=;
+ b=pknHPj1qlh83zV5oLLoHvUvCoYt9ouDRfHD0qdLDhJsxZdLLOb+JE93G5qz78g45ak
+ AAcMoqckA3++S35zRRXfCoW6d9omZHwBWQw7tdL1HFzMFZdwLuuCVoMHhbSseNkuHolA
+ m0xVp22QsPsQfrObPLgWuKg/FSY9gobYGdIlTcAQm/qbvACcxjZbFOwUW+j72XzlEoQL
+ LDScqRe66BM7Cudqhu5rUY9tgHiVtXBjhfj+LmsmnGy0EwPCW/Mb0EXDsi61dJP86TAV
+ PN4gvpel8f4yjucRvukml30HyP63LgvJvVcV8YzDnKeQWdi85mVYT3KZw0RUP5NtXgEJ
+ EtNw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxtBWzVm78jGbVY8cGBUOIyZlQeB1NvwI3LEq4ttM7zmYxKdsysxCOiVLC+fa2McUs9cHZuZ2RbWg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytQjTu8hEMBnJHyg7cRbV+HZMok1WIRnj8NKX0WQcO5hRNFC8H
- 7DU8UtMRG+xWkDTL80pDh0tFHtoUMFQ2/Y88APEotqIQfOQRFYMWeXYOPnW03ve1MusUnZ2vrXG
- 5G1KcLPVNnbuf+56MCD/KC/7H7MlDN5udEBVkeVDehZPNw609hG7kV0PV0q+ypNDdN3LS2w==
-X-Gm-Gg: ASbGncs2LzYx32aiV43B4uyp72/E9k8X+Rw49qseMY+xSYAZa6A6OV2KP7zo+kuTOSS
- zDfVEawoj1Pjm+3IdEzvA4vvjXBTbDh+fLtT+iTYEajfr3ZIcRmhNHSSniH2thoX3B3CJMml+cF
- SXFdXFfdFyxp7qQf2oRvt2JE8smSluA1Ilcb6XUa3Ux1DWTz46tfVfBLLmoOwKlp6czacLYR4Tt
- RDZxb3luFLeTKHBJREKtVQVyB+9gPYqNbsYDUCA/EbLRv9W/1ViADGCLmx/ljsJdA3yYKBaPDuy
- NG1KsIAxnm4Vfsi26N4kGISI2uf7km9C+ADvKDyzOSVUPuGTm/UmdYtgv0lC16max88boA==
-X-Received: by 2002:a05:600c:1c1c:b0:440:6852:5b31 with SMTP id
- 5b1f17b1804b1-451f0a76c9cmr26306565e9.10.1749036937670; 
- Wed, 04 Jun 2025 04:35:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE2JCqAr3AXCZtfAAEbxsPG/hvMjfjjFgOZI2FeVSDsnVIYOAlE1+oc4JeCPXVE9Jp927Nn8Q==
-X-Received: by 2002:a05:600c:1c1c:b0:440:6852:5b31 with SMTP id
- 5b1f17b1804b1-451f0a76c9cmr26306175e9.10.1749036937284; 
- Wed, 04 Jun 2025 04:35:37 -0700 (PDT)
+ AJvYcCWRmsRw9sKTbGY7xkoV7MYT9p+9FJTIfakeaMxXuS6j5IafW1j4u2hEQ17fjuUhVaAczBMprqLh5k8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx46joyTLF4c2f04j7cAjzhj9etVENcB21HPJfA6e8en1njGwOl
+ 5JCUcm9lW6K0bvn1i7/FMrnMeTO0Z+3rpRBfspNbaASa44jFKjhBytfLgLkQjoDEZbHD0/qhIo9
+ ++5pbNrFHB9cSi72iCxLCxTMP3dkl7hqEhtdCRYqIvNRUP7HDn5mEtRz0j3xnbYcyY0mwLA==
+X-Gm-Gg: ASbGncuYMf+13SmD0tKaMYm9nVOiBibNTvStEeBcu1phkbkpzjpvw/y520o2pxWGlpC
+ qiiABAxjjASj97gwMUXsNF/XgjRhGRZg/oWcByKbDPikwwZ0T6WkWuA4MR1jZnuXWFmT7MdK2Tw
+ d0bKPdxh7ksfR7yqf7U4JENilIe8og4FTfFVt6amvqY78k4oGXIhsciZWyNmmVRLs+zcuw60Dcf
+ gCwzYO7RJbI1lU1FxpiyWHtTrnLCMBDTc2dPIddGGwvmqxnpmYWVxlDodF0d4AxtJcwKQjJfijG
+ FRlaDjVG1x/h865NecokZzj6dNLxpALoTtYedKszWhqmLvt4n+vcLbpTxwP6N/H1K80yyg==
+X-Received: by 2002:a05:600c:348c:b0:450:cac5:45e7 with SMTP id
+ 5b1f17b1804b1-451f0f00596mr20628185e9.1.1749037008616; 
+ Wed, 04 Jun 2025 04:36:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG9aGn1JqRF4v9GdB7S5N+Iv4QLVcuOxMVMUOmJ0PIBUt0HXZfcX/tKKMNX89n1OdgImFWvrQ==
+X-Received: by 2002:a05:600c:348c:b0:450:cac5:45e7 with SMTP id
+ 5b1f17b1804b1-451f0f00596mr20627935e9.1.1749037008186; 
+ Wed, 04 Jun 2025 04:36:48 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a4efe5b7a5sm21683535f8f.15.2025.06.04.04.35.36
+ 5b1f17b1804b1-450d7f8edf9sm194938895e9.3.2025.06.04.04.36.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jun 2025 04:35:36 -0700 (PDT)
+ Wed, 04 Jun 2025 04:36:47 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
 Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
@@ -75,16 +75,16 @@ Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
  airlied@gmail.com, quic_jesszhan@quicinc.com, neil.armstrong@linaro.org,
  megi@xff.cz, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: display: himax-hx8394: Add Huiling
+Subject: Re: [PATCH 3/4] drm/panel: himax-hx8394: Add Support for Huiling
  hl055fhav028c
-In-Reply-To: <20250603193930.323607-3-macroalpha82@gmail.com>
+In-Reply-To: <20250603193930.323607-4-macroalpha82@gmail.com>
 References: <20250603193930.323607-1-macroalpha82@gmail.com>
- <20250603193930.323607-3-macroalpha82@gmail.com>
-Date: Wed, 04 Jun 2025 13:35:35 +0200
-Message-ID: <87bjr3age0.fsf@minerva.mail-host-address-is-not-set>
+ <20250603193930.323607-4-macroalpha82@gmail.com>
+Date: Wed, 04 Jun 2025 13:36:46 +0200
+Message-ID: <878qm7agc1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: bl3VNFQoZypNuRr-BvJ7pDnXVmMBZv-dLtFww7Ivd4w_1749036938
+X-Mimecast-MFC-PROC-ID: fCfbTRBlZKPk0naAwsnx52VvVaPlYXn04zkGGOk5OrY_1749037009
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,10 +106,11 @@ Chris Morgan <macroalpha82@gmail.com> writes:
 
 > From: Chris Morgan <macromorgan@hotmail.com>
 >
-> Add compatible string for the Huiling hl055fhav028c. This panel is
-> based on the Himax HX8399C display controller which is extremely
-> similar to the existing HX8394. Add a new constant for
-> himax,hx8399c for this new display controller as well.
+> Add support for the Huiling hl055fhav028c panel as used on the
+> Gameforce Ace handheld gaming console. This panel uses a Himax HX8399C
+> display controller and requires a sparsely documented vendor provided
+> init sequence. The display resolution is 1080x1920 and is 70mm by 127mm
+> as stated in the manufacturer's documentation.
 >
 > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > ---
