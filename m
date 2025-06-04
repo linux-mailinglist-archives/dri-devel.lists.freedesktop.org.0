@@ -2,80 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08023ACDDC8
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8451CACDDCA
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F4810E846;
-	Wed,  4 Jun 2025 12:21:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="gPjZEk+G";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06DC10E7B0;
+	Wed,  4 Jun 2025 12:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6514C10E846
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 12:21:44 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-4a43cbc1ab0so77950381cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 05:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1749039703; x=1749644503;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yaZTpWyg0hpKHYyjrUj3+OP2gwR0EFDPrHBmPT8RlVM=;
- b=gPjZEk+Gy94q5+k2lLqzJp+CXQJ0mZ/evN7qA682y+cfNKUrYfHdU+73xscmsEJLKT
- i9FV74eBtGysCK3hDtTObaBUVXHnB0KGNiKVSw8IezitDgIWk3x++BEOQoZUcdb7vict
- q9wkmYq8aHpUCgmaxLSdOYIA4GenGBZIdgefnJop57tnAuXPqzb+0Btisz+Dcam3K0yn
- /7rmYMU6EMItlpmC2QyhXRf/Ps2pYlt+HDEJpacpAaEKBpGB+YJq3HDB/x/z8zTDGKiO
- h2dRNYRj17lr+JrDv9tgYsRLXIjfcueGMgKWAG0ZEijSTXOG70EKJ8hhHt7kKbg/3j4f
- KyzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749039703; x=1749644503;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yaZTpWyg0hpKHYyjrUj3+OP2gwR0EFDPrHBmPT8RlVM=;
- b=JS9W1xuyFv9vq+LeCsxVfQXe8Eyuwsessv7EV/jv7fRtBOlFcDvX6FKAurYtKeM1We
- +7o0aBTXOSg4tCy4rd0VmNyHPwS6iHBuY7fzJVmF7u/t+FB/Dr95ZehiNc38k6YADb86
- PwwnKTdaWQbW6Xoyh9NGtEwLtvr1PX4Cysij3DlP2ouElhCEvQ/IZY0i7diOym/OvtGM
- IC183rPbkxg7y+s8lXfViH9Vw366VfZvZ+Q5VEjGSoW3n3dNRsJgtiAY4Y78V1qPDdl1
- EL093jyNOuoihZzyT49hS0rXIpRj88rLBqeiB1jANKr42y3xRTi7wkgoL/uK+Tqp5eLP
- V8oA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVk90UV4Xlcq2eFfsbrhWiXm0B5Cz33tKdUHHtvtor6c7dvVtmJKDL7FWXMVVy/3FeCaGpJXW94KfI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6cls852+2jS9T9ySOZ3iH91BN6zuFUSu5h2Q9hYrMR/VH0x2a
- WAxKIykwmhUhBDFQhJgOUJhgmGHC06QGI/ugFt3nr9SB67ltLeTtvhPAIEdm20f3qj2OYgmKo7D
- kXHSaKXBRhcEl1npuFbchf0f3xHEdi4wQCiaL598Jpw==
-X-Gm-Gg: ASbGncvQJdU0/RkF5F9fFisksmsew4PIfY39sapTV+L7NORKZtZePMWI94K/ETd2XDE
- jPP24dDfLN8OlQak+KuMaiY53/Qe4/yNvoBM5X0SB1BS/BvMlnTDbrbgjXz4c84fCuKPwCaENhA
- 0NJqSsl94KqWmc+z8D0b2/ZghOETr95Q==
-X-Google-Smtp-Source: AGHT+IGBhb9oN9Dnm4FiGYp7zAjk8KUthNG2jfK6LDnEP2PSQ1B7bbxENdlAigbtFAXPzwkkLJkzP6CGB7NZEJFpiUw=
-X-Received: by 2002:a05:622a:5806:b0:4a4:2fad:7cdd with SMTP id
- d75a77b69052e-4a5a585f07cmr36560661cf.24.1749039703440; Wed, 04 Jun 2025
- 05:21:43 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0808210E7E3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 12:21:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id EACE46112A;
+ Wed,  4 Jun 2025 12:21:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB936C4CEEF;
+ Wed,  4 Jun 2025 12:21:48 +0000 (UTC)
+Date: Wed, 4 Jun 2025 08:23:04 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
+Cc: Hugh Dickins <hughd@google.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Matthew Wilcox	 <willy@infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, Andrew Morton
+ <akpm@linux-foundation.org>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui	 <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost	 <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH] mm: Fix compile error when CONFIG_SHMEM is not set
+Message-ID: <20250604082304.6f13e9c0@gandalf.local.home>
+In-Reply-To: <3262455c0ac3bff64522fff47c0281943c9f76ea.camel@linux.intel.com>
+References: <20250602170500.48713a2b@gandalf.local.home>
+ <20250602171458.7ceabb1c@gandalf.local.home>
+ <aD4boBrdZXtz_5kL@casper.infradead.org>
+ <fc2b6a94-bd2d-a5d9-c935-381a1613f47e@google.com>
+ <20250603102959.20c85adb@gandalf.local.home>
+ <aD8iL4cFoXpIVK_0@casper.infradead.org>
+ <20250603132736.554f611d@gandalf.local.home>
+ <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
+ <20250603140632.168190f9@gandalf.local.home>
+ <dca861b8-a29d-b2b3-eba7-32aaf2b8eff7@google.com>
+ <20250604080409.448a27e4@gandalf.local.home>
+ <3262455c0ac3bff64522fff47c0281943c9f76ea.camel@linux.intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20250604090054.7070-1-mail@etehtsea.me>
-In-Reply-To: <20250604090054.7070-1-mail@etehtsea.me>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 4 Jun 2025 13:21:31 +0100
-X-Gm-Features: AX0GCFuX5NY6Hf5wXDs-Pk8QnTYrnxwjGyh7lfIG_jr6I0hdBynp5Y1APmOGjzA
-Message-ID: <CAPj87rMU9qcdEmAVuH7E7ENkHCn5zveKA-Sk2bvCB=6BwxR4Ug@mail.gmail.com>
-Subject: Re: [PATCH V5 RESEND] drm/rockchip: Reject AFBC for res >2560 on
- rk3399
-To: Konstantin Shabanov <mail@etehtsea.me>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dan Callaghan <djc@djc.id.au>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,18 +63,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Jun 2025 at 10:01, Konstantin Shabanov <mail@etehtsea.me> wrote:
-> As it isn't supported by rk3399. From the datasheet[1]
-> ("1.2.10 Video IN/OUT", "Display Interface", p. 17):
->
->   Support AFBC function co-operation with GPU
->     * support 2560x1600 UI
->
-> Signed-off-by: Konstantin Shabanov <mail@etehtsea.me>
-> Reported-by: Dan Callaghan <djc@djc.id.au>
-> Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7968
+On Wed, 04 Jun 2025 14:18:06 +0200
+Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
 
-Acked-by: Daniel Stone <daniels@collabora.com>
+> Let me know if you want me to send a patch for that.
 
-Cheers,
-Daniel
+This is a simple fix. I can send the patch and make sure it fixes my builds.
+
+Thanks,
+
+-- Steve
