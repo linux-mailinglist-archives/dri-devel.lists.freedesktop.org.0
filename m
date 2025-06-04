@@ -2,96 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BDCACD832
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 09:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CDCACD844
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 09:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28A3110E040;
-	Wed,  4 Jun 2025 07:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18AC10E26A;
+	Wed,  4 Jun 2025 07:11:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="D0/7G6hV";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="rBAFGaNj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4879810E040
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 07:03:55 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-4034118aeb7so1409331b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 00:03:55 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD0C10E70C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 07:11:44 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-70e3ac940ecso48175097b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 00:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1749020634; x=1749625434;
- darn=lists.freedesktop.org; 
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=40ajQCpqDRjpuGjCnS6LNsF3WHnh2o2xFeFnau3dKQk=;
- b=D0/7G6hVY0aI81oE8/AraV/xRL3RfPEYcTrzv9auQtQiZ6M4pFaeh1zGitfuTpT5Rw
- eJRitmE3Rz4JCgsfUGrvq1Abb0ZDNgRtAIfqtV3sAjEY62rtwMJHhwjzc+wVS2EN3pho
- f3LnnYR5+HnBunvc9J0fW2tOxPIoPw6+W50H6K3iamkjqo1ed9tMrnkRYuGLDijbRuGN
- jzn1Co5iXQN/SjSE83XFxL9AyoLGjS5nL3rQKpWlyemKNs4Jfln7k1BX8ijiR6DMBDa5
- +axdXM+c/iIGBv6q3YaJKuLTKcTzNIlI4u6GeACm381RRC1aBcZtfjaENCNZbTo5DE23
- tpkw==
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1749021098;
+ x=1749625898; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p+nHXGLB1NoYThzl7RUIYtz2LHj026ykSFmZ3xBykhI=;
+ b=rBAFGaNjppCsN60vMswIAe7PEe0hDKe6uq6bCO7JHD1JHWaHu2bfaXWaWTs7lDRIrH
+ +elrZxplRZQQZNLu7exXG0AojRjnl1Ce1zzthCeGvwMECUHz23FYdjihEH4QpDBSO7vu
+ W0+tDHgJv26sTlpvPRJkR+SFmj9jZBipuwmhIK8ml4f/o6JjzGG0UXnTXIyzIfitSkra
+ ywm7JubXE/5LAFj+UMmW7lmZfawXRkM7q2QpVu80powFqNUxIh2ASvpbt5r70W3Kp2K+
+ zzh+/cp5oEsCYrreIQ4YHSSDI7nP3wNP536713oxVcN4yBjYRfS6l9xD9/VsZR4mEOBr
+ 4ObQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749020634; x=1749625434;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=40ajQCpqDRjpuGjCnS6LNsF3WHnh2o2xFeFnau3dKQk=;
- b=peSpW1YFAm6Dxx0gCTOXr2LDwQcunbYxmD5dWIMpgGS+tAQFsXPdkhsvRHPYffhyrg
- h0S4eeLT4JV8KExHUkBAkmV9TcJIN0mNAYNpefku32GXuEaC7pMiSLtlEAx2ZePHUzfP
- 1+Xduz+Kd9vZV3CJIpNdPu/93HFXYTEeY5JPYQYVXtEExmxVFroyG2uQrMVmv8lA+AB7
- ogxwsl9u54Afx6yN6fjp3c7c5nWSTaIoyU8gw2NX+viRrSTJuNmH/ZjqNbAgtJoAuBa/
- rQlr8tuuBhnfxGeuj87QZACZw7zvtm/EQ+lUqYBlYGG2cEzwtQbSIXjDHPE1qu7Dzaf8
- zknw==
+ d=1e100.net; s=20230601; t=1749021098; x=1749625898;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p+nHXGLB1NoYThzl7RUIYtz2LHj026ykSFmZ3xBykhI=;
+ b=VUDgLmU8oHEzbLIoiCIXAg8PUrG0HVxPAB5Hf5k/c3YURK543WupY+EY6tFBONoZRP
+ FmB5P4XT86jKmu6fM16a/ChXkvtJ7J78mLnrwAhqQohQzIm1yuOGly6331c/QWHDtMi1
+ 1wboQEmDsnukBX31fHC/LL9d6PIhmO0WI9VgBa5/OVhB71Fr8wD/J92buyKXYWjDmbOX
+ 0dvhSQa8wrJBiwxtToxlCagd6xGQCTcoerS5+e1x+PSYsYzDubqCGsn39yx/EbDHB6xI
+ P37vb04YUXMPEWu9t39WUtVV9xK7O0SoUd5eZoRqDbIy/ri0fTHUQYRnVRkwNOEEe4+F
+ 6pAQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfj+EG+RP1z9+FPrTGf/gSfk8YeVV8/43yfXnFen5AwR9yIXh3wywEQRcPm3efY5rOmmo30ujtPfw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEzAfMaxc/JE+YHdbfbVrsbtF6yImlhvDNJ5wyute/PZvNQghG
- d0bgHEoKEccjK9TOldhXqTXh4VaBEfL1F0iomLIFTajKPOPdsZmheQSEX96HuiYpMg==
-X-Gm-Gg: ASbGncv/e5gQjOY1cTt7a/aeHTP1ozwL2+fOyYx8/FW+6Ia6BUWzqU2p2JCiLQR5Wep
- 5X1QIXZUdKsbJ5R9XBb3uN5T6Mt+4nnFoWaTVhFpsL/gY8u1BTY26ee9tlBAcX0woghS5Czrrnu
- S7aX/zO5ulgFJAlTEykF/YoxiZ6nfDFZhpmYjEKsE59oQNmHgmTBvVU8i7szcx93n2daP5zuaiq
- 23L+OcH3G7evCc31XU6LS3OIzfn8xirK5hGD7CVDiRhk8ZCo0dRyMpcn5bYJcn8jSSCk8h6+Lkj
- pETHkjzd3GLl996WfiCCi6ypmGO4UqQkxrNaiaSdR4JqHBfhXZ5oDI0kUhaoTJicuV/MaMi9TOs
- RUidtZoGOE8Kz9+6oZyaDynsBTepre0jWiMAuviYYOSWDOQ==
-X-Google-Smtp-Source: AGHT+IFdbMc3chGS05aazK3NptvjeJGMEive3vKl+DZZ1wIg+JEq+OKIn9JnQGVLtzmO09GrSJUS4w==
-X-Received: by 2002:a05:6808:6b96:b0:3f6:a476:f7d3 with SMTP id
- 5614622812f47-408f0ed6388mr1629259b6e.9.1749020634210; 
- Wed, 04 Jun 2025 00:03:54 -0700 (PDT)
-Received: from darker.attlocal.net
- (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
- by smtp.gmail.com with ESMTPSA id
- 5614622812f47-40678bf3374sm2140123b6e.8.2025.06.04.00.03.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jun 2025 00:03:52 -0700 (PDT)
-Date: Wed, 4 Jun 2025 00:03:18 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Steven Rostedt <rostedt@goodmis.org>
-cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Matthew Wilcox <willy@infradead.org>, Hugh Dickins <hughd@google.com>, 
- LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, 
- Matthew Auld <matthew.auld@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] mm: Fix compile error when CONFIG_SHMEM is not set
-In-Reply-To: <20250603140632.168190f9@gandalf.local.home>
-Message-ID: <dca861b8-a29d-b2b3-eba7-32aaf2b8eff7@google.com>
-References: <20250602170500.48713a2b@gandalf.local.home>
- <20250602171458.7ceabb1c@gandalf.local.home>
- <aD4boBrdZXtz_5kL@casper.infradead.org>
- <fc2b6a94-bd2d-a5d9-c935-381a1613f47e@google.com>
- <20250603102959.20c85adb@gandalf.local.home>
- <aD8iL4cFoXpIVK_0@casper.infradead.org>
- <20250603132736.554f611d@gandalf.local.home>
- <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
- <20250603140632.168190f9@gandalf.local.home>
+ AJvYcCU/Pz7xBElvSsm4WCQ1LVoTHsg4KWF0FQuAf6bGxDtiFIVagKarwEuqBgJjekTTu5jfvR+TUgmHYWw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQvjGCi38faudbaT1vUU2YaWpubZodKyzzZ805GzylUjNkbIGf
+ 5qSli/Nb5zz3DBiMnitZLDJ/aI3x6bSe0jT1NA3zLwd6jokQRnbZ04vD6Uay6j3hQ8FIIkLeneT
+ sxCNjk3jxVQ==
+X-Gm-Gg: ASbGncumQSkpdXzMUclynJBrZmsjlqgzAAWf9dLHsH4/ya8tvnI8Jz1f5wjrYSiWUFS
+ l96pHhoGgX/0CWd5KHtXb9H/T+cH+QMCKSEuv4vl7ZM7ErSnysfIQLYnEG7p6PrXTG1uskh/UPn
+ jCRyKTuLY4H5HBRrAP1u1wi9NoWXRgZ7as/Rii4pUFJt7cWF8AJQ7SIXURRMU/nqm2Y1bhrEvYI
+ 4xGLis6f/QIGSNEp/Mg4PUdoXvDQuQR33VvLWLe5QdH4VNSDql6q6SkD7YpE60FiF2PBEqzlbkG
+ keJ1jMW3pj7sir5vojeXZ2Lk3i7DbD4NljDqli9FCIUtxyfddg8+Rv5/QL7fCW09sx4BOt0JfDv
+ WGa2gf3JQcuCCQAS15W+H/j6ME2s0CQ==
+X-Google-Smtp-Source: AGHT+IHOICXli0y6HlsONxtF+FfTFnRu8z6r3utkS7HS/JFYSntho+c66AmjG00hBfwjwarlN3QGrw==
+X-Received: by 2002:a05:690c:7407:b0:70f:8883:eb1a with SMTP id
+ 00721157ae682-710d9a22199mr23519967b3.6.1749021098526; 
+ Wed, 04 Jun 2025 00:11:38 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-70f8acd994esm28924767b3.79.2025.06.04.00.11.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jun 2025 00:11:37 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-e812c817de0so3663605276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 00:11:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXq5AN0EApOvbCXERHvpSI93tU8wlp8dNR20gaELsYi+3FKBE0yPIOh3XV0sS468Waf+31J/n/gtr8=@lists.freedesktop.org
+X-Received: by 2002:a05:6902:6c12:b0:e81:4200:e227 with SMTP id
+ 3f1490d57ef6-e8179ef4b9amr1895455276.40.1749021096375; Wed, 04 Jun 2025
+ 00:11:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="-1463770367-150941725-1749020632=:5058"
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net>
+ <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
+ <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
+In-Reply-To: <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Wed, 4 Jun 2025 09:11:25 +0200
+X-Gmail-Original-Message-ID: <CAAObsKCZiBmy2kBm76V0cWfsLBbHnKzG4CS-bRUBc25k22K20A@mail.gmail.com>
+X-Gm-Features: AX0GCFuzVw9QOJbPU8rAaiE__0pakSdSWD2x8uriT207nU1DMDYnxHzJRzNlcz4
+Message-ID: <CAAObsKCZiBmy2kBm76V0cWfsLBbHnKzG4CS-bRUBc25k22K20A@mail.gmail.com>
+Subject: Re: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Kever Yang <kever.yang@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,99 +120,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1463770367-150941725-1749020632=:5058
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-Adding Thomas Hellstr=C3=B6m, father of ttm_backup_backup_page():
-Steve doesn't have CONFIG_SHMEM=3Dy, so now gets a build error because
-there's no shmem_writeout(); whereas before 6.16, backup_backup
-writeback would have oopsed on calling NULL ram_aops.writepage
-when CONFIG_SHMEM is not set.
-
-On Tue, 3 Jun 2025, Steven Rostedt wrote:
-> On Tue, 3 Jun 2025 10:54:49 -0700
-> Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> > On Tue, 3 Jun 2025 at 10:26, Steven Rostedt <rostedt@goodmis.org> wrote=
-:
+On Wed, May 28, 2025 at 5:34=E2=80=AFPM Tomeu Vizoso <tomeu@tomeuvizoso.net=
+> wrote:
+>
+> On Wed, May 28, 2025 at 3:41=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> >
+> > On Tue, May 20, 2025 at 5:27=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso=
+.net> wrote:
 > > >
-> > >  config DRM_TTM
-> > >         tristate
-> > > -       depends on DRM && MMU
-> > > +       depends on DRM && MMU && SHMEM =20
-> >=20
-> > Yeah, except I think you should just make it be
-> >=20
-> >           depends on DRM && SHMEM
-> >=20
-> > because SHMEM already depends on MMU.
->=20
-> Yeah, if I had made this a real patch I would have done that, but this wa=
-s
-> only for seeing it it would work.
+> > > Add the bindings for the Neural Processing Unit IP from Rockchip.
+> > >
+> > > v2:
+> > > - Adapt to new node structure (one node per core, each with its own
+> > >   IOMMU)
+> > > - Several misc. fixes from Sebastian Reichel
+> > >
+> > > v3:
+> > > - Split register block in its constituent subblocks, and only require
+> > >   the ones that the kernel would ever use (Nicolas Frattaroli)
+> > > - Group supplies (Rob Herring)
+> > > - Explain the way in which the top core is special (Rob Herring)
+> > >
+> > > v4:
+> > > - Change required node name to npu@ (Rob Herring and Krzysztof Kozlow=
+ski)
+> > > - Remove unneeded items: (Krzysztof Kozlowski)
+> > > - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> > > - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> > > - Fix example (Krzysztof Kozlowski)
+> > >
+> > > v5:
+> > > - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> > > - Streamline compatible property (Krzysztof Kozlowski)
+> > >
+> > > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > ---
+> > >  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++=
+++++++++++
+> > >  1 file changed, 147 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rk=
+nn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-c=
+ore.yaml
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d=
+43c4b8250cdd1b9ee86
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core=
+.yaml
+> > > @@ -0,0 +1,147 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yam=
+l#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Neural Processing Unit IP from Rockchip
+> > > +
+> > > +maintainers:
+> > > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > +
+> > > +description:
+> > > +  Rockchip IP for accelerating inference of neural networks, based o=
+n NVIDIA's
+> > > +  open source NVDLA IP.
+> > > +
+> > > +  There is to be a node per each core in the NPU. In Rockchip's desi=
+gn there
+> > > +  will be one core that is special and needs to be powered on before=
+ any of the
+> > > +  other cores can be used. This special core is called the top core =
+and should
+> > > +  have the compatible string that corresponds to top cores.
+> >
+> > Is this really a distinction in the h/w? If you change which core is
+> > the top one in the DT, does it still work?
+>
+> No, I really need to power on that one before the others can work (the
+> first core is also marked as special in a diagram in the TRM).
+>
+> > > +
+> > > +properties:
+> > > +  $nodename:
+> > > +    pattern: '^npu@[a-f0-9]+$'
+> > > +
+> > > +  compatible:
+> > > +    enum:
+> > > +      - rockchip,rk3588-rknn-core-top
+> > > +      - rockchip,rk3588-rknn-core
+> > > +
+> > > +  reg:
+> > > +    maxItems: 3
+> > > +
+> > > +  reg-names:
+> > > +    items:
+> > > +      - const: pc
+> > > +      - const: cna
+> > > +      - const: core
+> > > +
+> > > +  clocks:
+> > > +    minItems: 2
+> > > +    maxItems: 4
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: aclk
+> > > +      - const: hclk
+> > > +      - const: npu
+> > > +      - const: pclk
+> > > +    minItems: 2
+> >
+> > It is odd that the non-top cores only have bus clocks and no module
+> > clock. But based on the clock names, I'm guessing the aclk/hclk are
+> > not shared, but the npu and pclk are shared. Since you make the top
+> > core probe first, then it will enable the shared clocks and the
+> > non-top cores don't have to worry about them. If so, that is wrong as
+> > it is letting the software design define the bindings.
+>
+> Yes, I think it's probably as you say, but I don't know how I could
+> check. Maybe Kever, Heiko or Sebastian would have any ideas?
 
-Many in drivers/gpu/drm do already "select SHMEM",
-so I came to think that
+So I talked with Kever and Heiko about this, and the npu and pclk
+clocks are indeed shared among cores.
 
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -188,6 +188,7 @@ source "drivers/gpu/drm/display/Kconfig"
- config DRM_TTM
- =09tristate
- =09depends on DRM && MMU
-+=09select SHMEM
- =09help
- =09  GPU memory management subsystem for devices with multiple
- =09  GPU memory types. Will be enabled automatically if a device driver
+Regards,
 
-would be the right answer.
-
-But perhaps that adds bloat to kernels that don't need backup_backup
-writeback, and some #ifdef CONFIG_SHMEMs in or around backup_backup
-would be more to the point.  Maybe add that "select SHMEM" line
-before rc1, then refine ttm_backup.c with #ifdefs at leisure?
-
-But I just don't appreciate backup_backup and its place in the
-drm world: it's a matter for Thomas and dri-devel to work out.
-
->=20
-> >=20
-> > That said, our docs already say that if you disable SHMEM, it gets
-> > replaced by RAMFS, so maybe just having a ramfs version is the
-> > RightThing(tm).
-> >=20
-> > I don't think such a ramfs version should just return 0 - much less an
-> > error. I think it should always redirty the page.
-> >=20
-> > IOW, I think the "ramfs" version should look something like
-> >=20
-> >         folio_mark_dirty(folio);
-> >         if (wbc->for_reclaim)
-> >                 return AOP_WRITEPAGE_ACTIVATE;  /* Return with folio lo=
-cked */
-> >         folio_unlock(folio);
-> >         return 0;
-> >=20
-> > which is what shmem does for the "page is locked" case.
->=20
-> I'll let someone that understand the code a bit more than I do to make su=
-ch
-> a change. My patch was just a "this makes my system build" thing and let
-> those that know this code do the RightThing(tm).
-
-I did start out from the position that mm/shmem.c should provide a good
-shmem_writeout() stub for the tiny !CONFIG_SHMEM case.  But seeing as
-nobody else has wanted it before, and backup_backup would have been
-crashing in such a case, it now seems to me pointless to add such a stub.
-
-Unless all those drm "select SHMEM"s got added long ago to avoid exactly
-such crashes, and a shmem stub is preferred throughout drivers/gpu/drm.
-
-I vote for the "select SHMEM", but Thomas and dri-devel and Linus
-should decide.
-
-Hugh
----1463770367-150941725-1749020632=:5058--
+Tomeu
