@@ -2,96 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14F1ACD7EC
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 08:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BDCACD832
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 09:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 000DD10E07F;
-	Wed,  4 Jun 2025 06:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A3110E040;
+	Wed,  4 Jun 2025 07:03:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="wUljoKC5";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="D0/7G6hV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820D410E07F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 06:36:33 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-54b10594812so7734593e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 23:36:32 -0700 (PDT)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4879810E040
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 07:03:55 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-4034118aeb7so1409331b6e.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 00:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1749018991; x=1749623791;
+ d=google.com; s=20230601; t=1749020634; x=1749625434;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D9K32ZU1XZ7DXPyePnHI+L2d3Xh8pDC7EJ8l3Ins/TM=;
- b=wUljoKC5Ka1dKu836N4bTIiFKrAqKTd7sLqKqEKZ72mkKshEZUjTBQ8L8Utp9cy2q3
- 1kwLrQhpgNrV08P6qfzJWxkQw5GtpZ8acNQnn1iAclGxHMfByvRdlCPluoxyiVjwJMBb
- tCpmtfaW01/+3v/3gjvlFmdIXgzgamxjeSlDgayPVHbttf6Zr2iFo2jdet2MonLO53sf
- fUhaP0Obg1ijNG85PKWpCv1E1l6mBC4vjN6UJEz5uR6N2tOgBjvlPcf+DzqDhQti+MKH
- j+8cocOHV/yTYvd1LlY3Z/vgbxiIPUfQelCbKqReDsDArNJMK9wliA36+rwTNqMUVGP6
- XBIg==
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=40ajQCpqDRjpuGjCnS6LNsF3WHnh2o2xFeFnau3dKQk=;
+ b=D0/7G6hVY0aI81oE8/AraV/xRL3RfPEYcTrzv9auQtQiZ6M4pFaeh1zGitfuTpT5Rw
+ eJRitmE3Rz4JCgsfUGrvq1Abb0ZDNgRtAIfqtV3sAjEY62rtwMJHhwjzc+wVS2EN3pho
+ f3LnnYR5+HnBunvc9J0fW2tOxPIoPw6+W50H6K3iamkjqo1ed9tMrnkRYuGLDijbRuGN
+ jzn1Co5iXQN/SjSE83XFxL9AyoLGjS5nL3rQKpWlyemKNs4Jfln7k1BX8ijiR6DMBDa5
+ +axdXM+c/iIGBv6q3YaJKuLTKcTzNIlI4u6GeACm381RRC1aBcZtfjaENCNZbTo5DE23
+ tpkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749018991; x=1749623791;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=D9K32ZU1XZ7DXPyePnHI+L2d3Xh8pDC7EJ8l3Ins/TM=;
- b=NTlyJbERL0TZC6DvwqwB/vPeNT54XaJjGJVjbNYAzI5XhcHsYnI1/U/w/LVngWSneY
- L0aX1ozOQ+hCyqE8rhiz0k2N7TtCgq3QFDlSMPpmxbj7bxyU5roY/CEPwNZzqV6fd9ZH
- orJ6fsGQi1puiL1IzQZI2q/Livpct1ZrO3R1Yg3AMwkzyHg6D1WcB9/mfmN1TgNytMy/
- 1dAxRgSPMltYtqEGPaMfUZ7usR4tcXJtKzxMkmv2+yyW3ZvyN9eSr/34mTRKq5aEPL0V
- +One31BlU3Ar2FnQW0p5x51GBBghTh4XS8cDN4hl3mRbcwzCkU5lcTJPkOu295gNv2HX
- VvjQ==
+ d=1e100.net; s=20230601; t=1749020634; x=1749625434;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=40ajQCpqDRjpuGjCnS6LNsF3WHnh2o2xFeFnau3dKQk=;
+ b=peSpW1YFAm6Dxx0gCTOXr2LDwQcunbYxmD5dWIMpgGS+tAQFsXPdkhsvRHPYffhyrg
+ h0S4eeLT4JV8KExHUkBAkmV9TcJIN0mNAYNpefku32GXuEaC7pMiSLtlEAx2ZePHUzfP
+ 1+Xduz+Kd9vZV3CJIpNdPu/93HFXYTEeY5JPYQYVXtEExmxVFroyG2uQrMVmv8lA+AB7
+ ogxwsl9u54Afx6yN6fjp3c7c5nWSTaIoyU8gw2NX+viRrSTJuNmH/ZjqNbAgtJoAuBa/
+ rQlr8tuuBhnfxGeuj87QZACZw7zvtm/EQ+lUqYBlYGG2cEzwtQbSIXjDHPE1qu7Dzaf8
+ zknw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXp9SKPNXW2BpnfuelC/9UNZ93zDK0RZ/imY4u9Tep6p02jIQghzkeNHfLwnumLFyxbc1kX/ugNhwY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwH0pcbiwAOao/TB4oluoX7ZeuX69FXRVqkImAKjIaVzXRH3id
- Biuy0MnbNI+WV+aCw/QKDzhqgTm2IHJUcgmFasBdjX5RvumBpDGXAYC3U2dglLghtsyN30CX2uE
- 8e9awTulXWTp1ga1S6QlKB4S3S27llSpVcqYop96YVg==
-X-Gm-Gg: ASbGncu/zHSZnA7lgmQyiILXIiHWYgSsyaeMyf9Vp3GJGz9sC95jMQoNOdiiGLtJ/Aa
- nP0kOgaVtb1lu7/FTtmJCZORkVauXvb4Xk8sZlWB8qNhxK2iTjohE+n8TXDmbWE3h8TGGDH7akD
- UxPcaIIeJJPcCXR82SiuPtxhAYzwh0qIyruJ9dlNvLLqhhpgfoLOZr4sbBTtsx3j3cdC5ryt2Zd
- xM=
-X-Google-Smtp-Source: AGHT+IGNn5KBz1XRTjIkzj6b6e6ObvNtG1QhrXiTlXPwZa2NH6Gn7Xw0y4y87hgGMzhfMTB1WYM8NYUps+Cmt6+hJMs=
-X-Received: by 2002:a05:6512:1192:b0:553:2ed2:15b5 with SMTP id
- 2adb3069b0e04-55356df2fe7mr504394e87.57.1749018991176; Tue, 03 Jun 2025
- 23:36:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20250529222403eucas1p1923fe09240be34e3bbadf16822574d75@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <20250530-apr_14_for_sending-v3-1-83d5744d997c@samsung.com>
- <CAMRc=Me9cWfe2mL=Q6JQbAFjpd55MOBZuAWC793Us0criiQr4Q@mail.gmail.com>
- <4519844e-b1c0-40a7-b856-a6e4a80c6334@samsung.com>
- <20250603-cuddly-certain-mussel-4fbe96@kuoka>
- <CAMRc=MfXashaEscE1vF_P6cs9iOCBerfNFiB4yC+TX76fZ87nA@mail.gmail.com>
- <05aa1fad-acf6-4cea-9a20-e54a2a4669b7@samsung.com>
-In-Reply-To: <05aa1fad-acf6-4cea-9a20-e54a2a4669b7@samsung.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 4 Jun 2025 08:36:20 +0200
-X-Gm-Features: AX0GCFusZW-oAOcE0lriS1jLbCdqE2F5QAmjvVg87YP8T3XsEwEGxH56sPN1Z7A
-Message-ID: <CAMRc=McDb13ZOM5v5gYBAT40Z6eNd8am6gy=FysWU72cG1172w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] dt-bindings: power: Add T-HEAD TH1520 GPU power
- sequencer
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ AJvYcCXfj+EG+RP1z9+FPrTGf/gSfk8YeVV8/43yfXnFen5AwR9yIXh3wywEQRcPm3efY5rOmmo30ujtPfw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyEzAfMaxc/JE+YHdbfbVrsbtF6yImlhvDNJ5wyute/PZvNQghG
+ d0bgHEoKEccjK9TOldhXqTXh4VaBEfL1F0iomLIFTajKPOPdsZmheQSEX96HuiYpMg==
+X-Gm-Gg: ASbGncv/e5gQjOY1cTt7a/aeHTP1ozwL2+fOyYx8/FW+6Ia6BUWzqU2p2JCiLQR5Wep
+ 5X1QIXZUdKsbJ5R9XBb3uN5T6Mt+4nnFoWaTVhFpsL/gY8u1BTY26ee9tlBAcX0woghS5Czrrnu
+ S7aX/zO5ulgFJAlTEykF/YoxiZ6nfDFZhpmYjEKsE59oQNmHgmTBvVU8i7szcx93n2daP5zuaiq
+ 23L+OcH3G7evCc31XU6LS3OIzfn8xirK5hGD7CVDiRhk8ZCo0dRyMpcn5bYJcn8jSSCk8h6+Lkj
+ pETHkjzd3GLl996WfiCCi6ypmGO4UqQkxrNaiaSdR4JqHBfhXZ5oDI0kUhaoTJicuV/MaMi9TOs
+ RUidtZoGOE8Kz9+6oZyaDynsBTepre0jWiMAuviYYOSWDOQ==
+X-Google-Smtp-Source: AGHT+IFdbMc3chGS05aazK3NptvjeJGMEive3vKl+DZZ1wIg+JEq+OKIn9JnQGVLtzmO09GrSJUS4w==
+X-Received: by 2002:a05:6808:6b96:b0:3f6:a476:f7d3 with SMTP id
+ 5614622812f47-408f0ed6388mr1629259b6e.9.1749020634210; 
+ Wed, 04 Jun 2025 00:03:54 -0700 (PDT)
+Received: from darker.attlocal.net
+ (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+ by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-40678bf3374sm2140123b6e.8.2025.06.04.00.03.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jun 2025 00:03:52 -0700 (PDT)
+Date: Wed, 4 Jun 2025 00:03:18 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Steven Rostedt <rostedt@goodmis.org>
+cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Matthew Wilcox <willy@infradead.org>, Hugh Dickins <hughd@google.com>, 
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH] mm: Fix compile error when CONFIG_SHMEM is not set
+In-Reply-To: <20250603140632.168190f9@gandalf.local.home>
+Message-ID: <dca861b8-a29d-b2b3-eba7-32aaf2b8eff7@google.com>
+References: <20250602170500.48713a2b@gandalf.local.home>
+ <20250602171458.7ceabb1c@gandalf.local.home>
+ <aD4boBrdZXtz_5kL@casper.infradead.org>
+ <fc2b6a94-bd2d-a5d9-c935-381a1613f47e@google.com>
+ <20250603102959.20c85adb@gandalf.local.home>
+ <aD8iL4cFoXpIVK_0@casper.infradead.org>
+ <20250603132736.554f611d@gandalf.local.home>
+ <CAHk-=whb2rMUCGsaNQC4pkCikJ7iX2_Tc1ye5_a6R9-vAkd2Cg@mail.gmail.com>
+ <20250603140632.168190f9@gandalf.local.home>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="-1463770367-150941725-1749020632=:5058"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,38 +107,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 3, 2025 at 8:24=E2=80=AFPM Michal Wilczynski
-<m.wilczynski@samsung.com> wrote:
-> >
-> > Agreed. And as far as implementation goes, you can have the same
-> > driver be a PM domain AND pwrseq provider. It just has to bind to the
-> > device node that represents an actual component, not a made-up
-> > "convenience" node.
->
-> Sure - this can be done using existing AON node.
->
-> To keep the pwrseq code organized in drivers/power/sequencing/, a
-> similar approach to our th1520-pd driver interfacing with the AON
-> firmware library (drivers/firmware/thead,th1520-aon.c) could work.
->
-> The idea would be to treat code like pwrseq-thead-aon.c (changed from a
-> current pwrseq-thead-gpu.c) as a library. It would export its necessary
-> functions (e.g., for specific sequence init/deinit steps) using
-> EXPORT_SYMBOL_GPL. The main AON driver would then call these to provide
-> the pwrseq functionality.
->
-> This will introduce a compile-time dependency, as expected.
->
-> An alternative would be to keep the driver in drivers/power/sequencing/
-> as a platform driver and start it up using, for example, an auxiliary
-> bus. This is similar to what the JH7110 clock driver
-> (drivers/clk/starfive/clk-starfive-jh7110-sys.c) is doing with a reset
-> driver. This could offer a cleaner separation of roles if that's
-> preferred.
->
-> Please let me know which way would be preferred.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I forgot the auxiliary bus is a thing. Yeah, definitely use that, it's
-more elegant than a library function IMO.
+---1463770367-150941725-1749020632=:5058
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Bart
+Adding Thomas Hellstr=C3=B6m, father of ttm_backup_backup_page():
+Steve doesn't have CONFIG_SHMEM=3Dy, so now gets a build error because
+there's no shmem_writeout(); whereas before 6.16, backup_backup
+writeback would have oopsed on calling NULL ram_aops.writepage
+when CONFIG_SHMEM is not set.
+
+On Tue, 3 Jun 2025, Steven Rostedt wrote:
+> On Tue, 3 Jun 2025 10:54:49 -0700
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > On Tue, 3 Jun 2025 at 10:26, Steven Rostedt <rostedt@goodmis.org> wrote=
+:
+> > >
+> > >  config DRM_TTM
+> > >         tristate
+> > > -       depends on DRM && MMU
+> > > +       depends on DRM && MMU && SHMEM =20
+> >=20
+> > Yeah, except I think you should just make it be
+> >=20
+> >           depends on DRM && SHMEM
+> >=20
+> > because SHMEM already depends on MMU.
+>=20
+> Yeah, if I had made this a real patch I would have done that, but this wa=
+s
+> only for seeing it it would work.
+
+Many in drivers/gpu/drm do already "select SHMEM",
+so I came to think that
+
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -188,6 +188,7 @@ source "drivers/gpu/drm/display/Kconfig"
+ config DRM_TTM
+ =09tristate
+ =09depends on DRM && MMU
++=09select SHMEM
+ =09help
+ =09  GPU memory management subsystem for devices with multiple
+ =09  GPU memory types. Will be enabled automatically if a device driver
+
+would be the right answer.
+
+But perhaps that adds bloat to kernels that don't need backup_backup
+writeback, and some #ifdef CONFIG_SHMEMs in or around backup_backup
+would be more to the point.  Maybe add that "select SHMEM" line
+before rc1, then refine ttm_backup.c with #ifdefs at leisure?
+
+But I just don't appreciate backup_backup and its place in the
+drm world: it's a matter for Thomas and dri-devel to work out.
+
+>=20
+> >=20
+> > That said, our docs already say that if you disable SHMEM, it gets
+> > replaced by RAMFS, so maybe just having a ramfs version is the
+> > RightThing(tm).
+> >=20
+> > I don't think such a ramfs version should just return 0 - much less an
+> > error. I think it should always redirty the page.
+> >=20
+> > IOW, I think the "ramfs" version should look something like
+> >=20
+> >         folio_mark_dirty(folio);
+> >         if (wbc->for_reclaim)
+> >                 return AOP_WRITEPAGE_ACTIVATE;  /* Return with folio lo=
+cked */
+> >         folio_unlock(folio);
+> >         return 0;
+> >=20
+> > which is what shmem does for the "page is locked" case.
+>=20
+> I'll let someone that understand the code a bit more than I do to make su=
+ch
+> a change. My patch was just a "this makes my system build" thing and let
+> those that know this code do the RightThing(tm).
+
+I did start out from the position that mm/shmem.c should provide a good
+shmem_writeout() stub for the tiny !CONFIG_SHMEM case.  But seeing as
+nobody else has wanted it before, and backup_backup would have been
+crashing in such a case, it now seems to me pointless to add such a stub.
+
+Unless all those drm "select SHMEM"s got added long ago to avoid exactly
+such crashes, and a shmem stub is preferred throughout drivers/gpu/drm.
+
+I vote for the "select SHMEM", but Thomas and dri-devel and Linus
+should decide.
+
+Hugh
+---1463770367-150941725-1749020632=:5058--
