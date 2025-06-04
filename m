@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56867ACE273
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 18:53:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E16EACE2B9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 19:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A021110E035;
-	Wed,  4 Jun 2025 16:53:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WXT6NWtA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67E4510E0DF;
+	Wed,  4 Jun 2025 17:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB85710E788
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 16:53:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D1BA94A06A;
- Wed,  4 Jun 2025 16:53:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F77C4CEE4;
- Wed,  4 Jun 2025 16:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749056028;
- bh=hhaoHECGZqzEpU9MTiy2t7cqLq5LWg93CmxEmAbN2pM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WXT6NWtAmVdO6YCKYmBq1oxfVRkO/uSH6SnVzBZ9qhEGoHV3lrl4Jx8S+qcptwIK+
- Jur1H7p5sTLycJzMoZkbRM6r91ygI3u/LdNCS+r7jOOZFKrVF2iX8OADTmL7YRXbqI
- RBYvJtHKr2U7FrsWXRo7ajPyntQ0ic276AXO2okaHqaufPnVMpuVNuT90qqJyH14eF
- uWxGA259OB44qflNK5oQnKvnd1AR2vnoGaXmK4FAQEgAMbC/KupBpbMCGzNl2qQVfc
- dn0OII6WNP5UCHsQJU2kTp/IOQCG0R52C8VCfGA4d+JvOSKm7gBnogf8CfuUwqhARt
- 5j4NlWpwaoqFg==
-Date: Wed, 4 Jun 2025 18:53:44 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Philipp Stanner <phasta@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sched: Discourage usage of separate workqueues
-Message-ID: <aEB6GOTlC_Z_Rq8b@cassiopeiae>
-References: <20250604081657.124453-2-phasta@kernel.org>
- <7a09c357-2d28-4dd6-b637-4387cc430938@amd.com>
- <aEBhIzccXBPyt_58@phenom.ffwll.local>
- <aEB4DFFE2C7gElRL@lstrano-desk.jf.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DDF0D10E784
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 17:03:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DF2F1758;
+ Wed,  4 Jun 2025 10:03:17 -0700 (PDT)
+Received: from [10.57.26.187] (unknown [10.57.26.187])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 358D43F59E;
+ Wed,  4 Jun 2025 10:03:30 -0700 (PDT)
+Message-ID: <cc21a090-801d-4b32-bac2-01cebf896c85@arm.com>
+Date: Wed, 4 Jun 2025 18:03:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEB4DFFE2C7gElRL@lstrano-desk.jf.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/10] accel/rocket: Add IOCTL for BO creation
+To: Daniel Stone <daniel@fooishbar.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Rob Herring <robh@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
+ <20250604-6-10-rocket-v6-6-237ac75ddb5e@tomeuvizoso.net>
+ <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +54,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 04, 2025 at 09:45:00AM -0700, Matthew Brost wrote:
-> On Wed, Jun 04, 2025 at 05:07:15PM +0200, Simona Vetter wrote:
-> > We should definitely document this trick better though, I didn't find any
-> > place where that was documented.
+On 2025-06-04 5:18 pm, Daniel Stone wrote:
+> Hi Tomeu,
+> I have some bad news ...
 > 
-> This is a good idea.
+> On Wed, 4 Jun 2025 at 08:57, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+>> +int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *file)
+>> +{
+>> +       [...]
+>> +
+>> +       /* This will map the pages to the IOMMU linked to core 0 */
+>> +       sgt = drm_gem_shmem_get_pages_sgt(shmem_obj);
+>> +       if (IS_ERR(sgt)) {
+>> +               ret = PTR_ERR(sgt);
+>> +               goto err;
+>> +       }
+>> +
+>> +       /* Map the pages to the IOMMUs linked to the other cores, so all cores can access this BO */
+> 
+> So, uh, this is not great.
+> 
+> We only have a single IOMMU context (well, one per core, but one
+> effective VMA) for the whole device. Every BO that gets created, gets
+> mapped into the IOMMU until it's been destroyed. Given that there is
+> no client isolation and no CS validation, that means that every client
+> has RW access to every BO created by any other client, for the
+> lifetime of that BO.
+> 
+> I really don't think that this is tractable, given that anyone with
+> access to the device can exfiltrate anything that anyone else has
+> provided to the device.
+> 
+> I also don't think that CS validation is tractable tbh.
+> 
+> So I guess that leaves us with the third option: enforcing context
+> separation within the kernel driver.
+> 
+> The least preferable option I can think of is that rkt sets up and
+> tears down MMU mappings for each job, according to the BO list
+> provided for it. This seems like way too much overhead - especially
+> with RK IOMMU ops having been slow enough within DRM that we expended
+> a lot of effort in Weston doing caching of DRM BOs to avoid doing this
+> unless completely necessary. It also seems risky wrt allocating memory
+> in drm_sched paths to ensure forward progress.
+> 
+> Slightly more preferable than this would be that rkt kept a
+> per-context list of BOs and their VA mappings, and when switching
+> between different contexts, would tear down all MMU mappings from the
+> old context and set up mappings from the new. But this has the same
+> issues with drm_sched.
+> 
+> The most preferable option from where I sit is that we could have an
+> explicit notion of driver-managed IOMMU contexts, such that rkt could
+> prepare the IOMMU for each context, and then switching contexts at
+> job-run time would be a matter of changing the root DTE pointer and
+> issuing a flush. But I don't see that anywhere in the user-facing
+> IOMMU API, and I'm sure Robin (CCed) will be along shortly to explain
+> why it's not possible ...
 
-I think - and I also mentioned this a few times in the patch series that added
-the workqueue support - we should also really document the pitfalls of this.
+On the contrary, it's called iommu_attach_group() :)
 
-If the scheduler shares a workqueue with the driver, the driver needs to take
-special care when submitting work that it's not possible to prevent run_job and
-free_job work from running by doing this.
+In fact this is precisely the usage model I would suggest for this sort 
+of thing, and IIRC I had a similar conversation with the Ethos driver 
+folks a few years back. Running your own IOMMU domain is no biggie, see 
+several other DRM drivers (including rockchip). As long as you have a 
+separate struct device per NPU core then indeed it should be perfectly 
+straightforward to maintain distinct IOMMU domains per job, and 
+attach/detach them as part of scheduling the jobs on and off the cores. 
+Looks like rockchip-iommu supports cross-instance attach, so if 
+necessary you should already be OK to have multiple cores working on the 
+same job at once, without needing extra work at the IOMMU end.
 
-For instance, if it's a single threaded workqueue and the driver submits work
-that allocates with GFP_KERNEL, this is a deadlock condition.
+> Either way, I wonder if we have fully per-context mappings, userspace
+> should not manage IOVAs in the VM_BIND style common to newer drivers,
+> rather than relying on the kernel to do VA allocation and inform
+> userspace of them?
 
-More generally, if the driver submits N work that, for instance allocates with
-GFP_KERNEL, it's also a deadlock condition if N == max_active.
+Indeed if you're using the IOMMU API directly then you need to do your 
+own address space management either way, so matching bits of process VA 
+space is pretty simple to put on the table.
+
+Thanks,
+Robin.
+
+> 
+> I'm really sorry this has come so late in the game.
+> 
+> Cheers,
+> Daniel
+
