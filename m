@@ -2,112 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5ABACDD7B
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCABFACDDB8
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55DC710E0E4;
-	Wed,  4 Jun 2025 12:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3240910E0EE;
+	Wed,  4 Jun 2025 12:17:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FdBrv4tr";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Q8iXRUlj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 598EA10E0E4
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 12:08:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D155B4A652;
- Wed,  4 Jun 2025 12:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30703C4CEE7;
- Wed,  4 Jun 2025 12:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749038881;
- bh=JGjvHMM1UBKGBFe4oZgVTLwSUN2F5OP2sQO5HIWNYtY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FdBrv4trwT8p4QmYOPtphbxL67Hs8mAoetDvfecAQ9X7mG6NEeEg86fFwRBKIb5yw
- 9xxA45tU48kgDkxYCJkFKBOpwBzuEMTDJ3PQWfYiiAatmaX9jr2GtmOZCU1L+epMbz
- EWJMTuS3BxLWO+cCTLzndZATxUOdxrbAcvXxvfnSWsbq63nCDaWOhhZX4CorFaNO+n
- 32r4wf8qolXonz5q7PTShuuy0FC0HURETE7XOt5R8IuXw88ZsOVx3MfhjuQHSl3v0k
- 9peoZreNNQfq/ZyBjuMScg60tkc2suxcYqRBv4w5Ale/r14DjqywcHmJ0O7ZnE1NWP
- 48tRCM0HZeGng==
-Message-ID: <cc4dbf7c-e023-403c-88be-4691f97a0ff0@kernel.org>
-Date: Wed, 4 Jun 2025 14:07:52 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D81210E0EE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 12:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749039474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4JFYZJ+eGP+Jjx7gL7++d9D9bzVW/u2sg2wAgJZ/KQ=;
+ b=Q8iXRUljDcjTN3amWKqU/QVxWdoraCknkac0Kml5FJQW3zHX9Vsde4h61rXuhpVNeN3TB/
+ /r6M43cUBNgao8qE5FPKtRnDXVSkh7xIS+I/VCLNBOL/qV0+yV3DfT/PgWixMTImukelEW
+ jhsDuLR3HaDXYFUqrd3H7tYG+owm4HY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-bJw8g2bUO7WjnXq7X7HxbA-1; Wed, 04 Jun 2025 08:17:53 -0400
+X-MC-Unique: bJw8g2bUO7WjnXq7X7HxbA-1
+X-Mimecast-MFC-AGG-ID: bJw8g2bUO7WjnXq7X7HxbA_1749039472
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-450d9f96f61so41421195e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 05:17:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749039472; x=1749644272;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=r4JFYZJ+eGP+Jjx7gL7++d9D9bzVW/u2sg2wAgJZ/KQ=;
+ b=BZmsb23QVDeEj2TMEoAhzmWB5MqMJgTksYtQ8VRbymqkbw3dfK6NEhGcXcq4E62OSb
+ ckGsevlTy6S+TQkM7cl/3OnNN7yH+wcg94g3BovDaegjosb+f1Qk8Pvw5pfgAuMRB2oS
+ DN6e+CAY5NQu4wLpHAniFcBu4YCyb/xbgjgQdE3lQmuAB0oCBzvDAKvVpCjtUGkqWf/3
+ kaKUWd3iybwP2/DsJCrqWWZ7IQA/HqrtQvaLgnFoFPWR+9V9WvVG7ebpu2GKo6Ki4qrC
+ HTF9GbHpotvW31rerFIVQwC2RdQ/KRDAMiVtm1AtoCXiWrrOXQvXnkfKceSlXoPLxZpM
+ GLJw==
+X-Gm-Message-State: AOJu0YzRMEX/BvXhNEElCm6ACjq7bCyhsd0Wo3k39nH5L1/AOVgefLgX
+ J81IDqNvUYTza2cMvVmEHXO1iXkllpiToly909GJSWLwrxt2xrTbQza5QN7fabA6ge9+InFHUIW
+ uc66O/6fz1ym1XzPCo8HQ3GqguLu45SxrtXXYXuqDTHtulp4LSxU2UHe6UlbEEdC/u70olw==
+X-Gm-Gg: ASbGnctoS5zbTD6VBEUPCtHy1teQPlRrmiR5eiSMQoJWghaYH5mzVvcWj+gHiK3MONV
+ aJ7U05OhYE4pt7sEarA4IXN213wNi9EP+hK0GqpAoky6CalvI9ac7aOACQQM8L2bjOxv79b7Klw
+ NKEiiRTxNqAHJeVG76wJXxxxXk3HfFhjUHOkowyY93Z2gshJWrF/qSivkwG/nGb8+Z+tw7CjeQ2
+ j9sPaFHnJ9qfdNH/wmbyE5VVLAQ8gC9cBHk6MDcYI2ZmqOyWLHrP3far+ZnYR6KFHyeLWGD00xg
+ KHTlSpiC2IKa3nJmIP/Hyx7KkI4jATYSSm5LB2AaEVkLQFAJ5U/fDeoA6u3+c7wJLzqf5Q==
+X-Received: by 2002:a05:600c:3b9d:b0:43c:f8fc:f6a6 with SMTP id
+ 5b1f17b1804b1-451f0a75ccamr23279625e9.9.1749039471990; 
+ Wed, 04 Jun 2025 05:17:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGyAY+FvfEBTsxFIWcn0kZ4K5Z6vfe47K2WXR6uUWM9NHYUcL2zpFehWTBJQkrF/THrJgajow==
+X-Received: by 2002:a05:600c:3b9d:b0:43c:f8fc:f6a6 with SMTP id
+ 5b1f17b1804b1-451f0a75ccamr23279365e9.9.1749039471554; 
+ Wed, 04 Jun 2025 05:17:51 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-450d7fa23f4sm205570065e9.14.2025.06.04.05.17.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jun 2025 05:17:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/format-helper: Normalize BT.601 factors to 256
+In-Reply-To: <20250603161158.423962-1-tzimmermann@suse.de>
+References: <20250603161158.423962-1-tzimmermann@suse.de>
+Date: Wed, 04 Jun 2025 14:17:49 +0200
+Message-ID: <8734cfaefm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
- management
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
- <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
- <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
- <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
- <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
- <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: EAdDwFtMXjhwigXv3GVh5bitBHzHs-kNk5ClFpNkeLA_1749039472
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,75 +93,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/06/2025 13:53, Michal Wilczynski wrote:
->>>
->>> The GPU node will depend on the AON node, which will be the sole
->>> provider for the 'gpu-power' sequencer (based on the discussion in patch
->>> 1).
->>>
->>> Therefore, if the AON/pwrseq driver has already completed its probe, and
->>> devm_pwrseq_get() in the GPU driver subsequently returns -EPROBE_DEFER
->>> (because pwrseq_get found 'no match' on the bus for 'gpu-power'), the
->>> interpretation is that the AON driver did not register this optional
->>> sequencer. Since AON is the only anticipated source, it implies the
->>> sequencer won't become available later from its designated provider.
->>
->> I don't understand why you made this assumption. AON could be a module
->> and this driver built-in. AON will likely probe later.
-> 
-> You're absolutely right that AON could be a module and would generally
-> probe later in that scenario. However, the GPU device also has a
-> 'power-domains = <&aon TH1520_GPU_PD>' dependency. If the AON driver (as
-> the PM domain provider) were a late probing module, the GPU driver's
-> probe would hit -EPROBE_DEFER when its power domain is requested
-> which happens before attempting to get other resources like a power
-> sequencer.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Huh, so basically you imply certain hardware design and certain DTS
-description in your driver code. Well, that's clearly fragile design to
-me, because you should not rely how hardware properties are presented in
-DTS. Will work here on th1520 with this DTS, won't work with something else.
+> BT.601 weights RGB components by certain factors to convert the
+> color to grayscale. Normalize the constants to 256 instead of 10.
+> Allows for slightly more precise rounding. The division by 256 can
+> be compiled as an 8-bit shift, which might be faster on some hardware.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Especially that this looks like generic Imagination GPU code, common to
-multiple devices, not TH1520 only specific.
+Makes sense.
 
-> 
-> So, if the GPU driver's code does reach the devm_pwrseq_get(dev,
-> "gpu-power") call, it strongly implies the AON driver has already
-> successfully probed.
-> 
-> This leads to the core challenge with the optional 'gpu-power'
-> sequencer: Even if the AON driver has already probed, if it then chooses
-> not to register the "gpu-power" sequence (because it's an optional
-> feature), pwrseq_get() will still find "no device matched" on the
-> pwrseq_bus and return EPROBE_DEFER.
-> 
-> If the GPU driver defers here, as it normally should for -EPROBE_DEFER,
-> it could wait indefinitely for an optional sequence that its
-> already probed AON provider will not supply.
-> 
-> Anyway I think you're right, that this is probably confusing and we
-> shouldn't rely on this behavior.
-> 
-> To solve this, and to allow the GPU driver to correctly handle
-> -EPROBE_DEFER when a sequencer is genuinely expected, I propose using a
-> boolean property on the GPU's DT node, e.g.
-> img,gpu-expects-power-sequencer. If the GPU node provides this property
-> it means the pwrseq 'gpu-power' is required.
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-No, that would be driver design in DTS.
-
-I think the main problem is the pwrseq API: you should get via phandle,
-not name of the pwrseq controller. That's how all producer-consumer
-relationships are done in OF platforms.
-
-It's also fragile to rely on names in case of systems with multiple
-similar devices. This does not affect your platform and this hardware in
-general, but shows issues with interface: imagine multiple gpus and
-multiple pwr sequence devices. Which one should be obtained?
-gpu-power-1? But if GPUs are the same class of devices (e.g. 2x TG1520
-GPU) this is just imprecise.
-
-
+-- 
 Best regards,
-Krzysztof
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
