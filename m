@@ -2,88 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BF0ACE0EE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 17:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0989BACE0F4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 17:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A599510E73B;
-	Wed,  4 Jun 2025 15:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D202B10E128;
+	Wed,  4 Jun 2025 15:09:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Kjg3iNri";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HrMKuExW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5BD10E730
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 15:07:21 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3a3798794d3so5789618f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 08:07:21 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C253710E755
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 15:09:27 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-31306794b30so151153a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 08:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1749049640; x=1749654440; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=nLNe9PZGn0K8HUE/OJhh4z5UPfVBQh5eKwFNHa6KR70=;
- b=Kjg3iNritEGXTB/ynAEFMQw90j6pga39pR7Q8Ls8nCAeW/oC8+o9GqaKY+fTSmLkux
- mYDNexebSU+mLJamyopasmn5k3h6y54r6Qa2FGNVyU78ginjGuxmBlZZzSzZNDfjdJut
- wl6IL0rFlIas3hzvAcuyLLfm0NFzexhvsC/X4=
+ d=gmail.com; s=20230601; t=1749049767; x=1749654567; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rp7b9UWglKz6wOi8/Z6EppjceiKVGJSk3hfX62HZXNw=;
+ b=HrMKuExWFA71YRqQBUqGE/GcxLOYAiAHZLL0gTZhdRdsaezGjsUWXA5ke/yAkLolQb
+ Hm4LnFzvFDeZh7nr08ZX23OatMpQFibLC5hiU12Q2Q+nh+41L1GykET2wmOsBcE1hsYH
+ y43YnYI0HE7MTX0LfmAdMjr2ZqurZA3tsRhrZme+Z9Hudq3CXwtene60HIfduZd1mIT6
+ Qkw7h/5hndPyG0EbKaKjYcJz9k0rEkUg2w5bi4sFu3Fs+BzUeuJ0PzXKZd72B5YYgG9u
+ PcNsqZNmX1EYGOfFmBf/kSzqR3qZTPBjLxcNBdsAuTyiCX1l511vjH2oUyJrUPn74b+C
+ 91aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749049640; x=1749654440;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nLNe9PZGn0K8HUE/OJhh4z5UPfVBQh5eKwFNHa6KR70=;
- b=DdKAD6SFa8VfR/sV9ny0zJdIreSPDuyGs8OiqeWR8IWyTSyTUJ8IIPxSmbHG+h49M0
- VskT2BJdN52jpLDz3vr6rjJY+1eUYuJxqEqQdjATB2YIulrlMChN4GofjGfp6c66BVYY
- vUgq54t3SIf+6C8kYQ8rbmVy6Ff6iWYWGxb56D9tULvYfiaY1Mx7NXn9ifRAvA4I6kW2
- ZQ0dMGXKKfhFqOuvexyySBMzdRnL/N7Zrsl+F3k61ocVvkNOh9Jr+IhT9IjoRHFDxRBQ
- d0nnxvITeGYnIAiWrhJ38qvCgM3YubzGB46s+WzeOclXJXbyNLtf6Rkahmw2zh8g+WP2
- apbw==
+ d=1e100.net; s=20230601; t=1749049767; x=1749654567;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rp7b9UWglKz6wOi8/Z6EppjceiKVGJSk3hfX62HZXNw=;
+ b=EtZGlQwzTe31IXVqRNCcTfhWr2yj7V2cmJSMNnqwZdB2t9m80j41DXUnsm6rElrNlD
+ 9Gg5ixpwPMyNSRrvIeq1iN2Ki/kRV/HL1lfqu58sy92V2sV9Cl6Y6VjysidKwK/mHjmZ
+ jmY6AnFVt1MaMH5tqt2uksFvmpcmRjFDm8img7jH7goOrz1sNkhKhCSXM8ucVo93Icez
+ AcdLIdkLiSj3R6OgmuFiqiEaJDhRGpD4yXOhfbRD0U4Lv8E9ODbipmVatccx9O/THyYa
+ ZXpwJLfboPNzFJxmgyJRYEnUYUaQOWKB+MLHZ0L1TBcsx/R9jPDR0lpOJYsHsT9OI4V2
+ yPqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCaDxt0ibmR+MWjyiwwEd23mSa/0lPSdNx2EtO86xXazyOMF+Gs+vtBeiQ0lj5xmD8QE8+LaT2s4Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2jf5nA/b1LIxPQrwpYlffiTzNK5DupkSpGPFjfQlkr0Fx0VFM
- w9twk4m+ZfbNDeoIeahkhKVghAlY2X+zorUDmvZr4PVlTCKwXVFglLR9whuFlegIiFk=
-X-Gm-Gg: ASbGncvqLG2le/u+YIE5wIszBtALXj1V5CWDvXsRFMfOa8mvIZD2riCEuiqC2oPHjBw
- 3ZTwuaXtDfhuYmEZOV+neOsQDGI/wAKaZMejL96IBCfAqUONYeonWt46piY64cExRr/5+RnhtW1
- nfgrhMNRnsnvsBVg3AT+5AlyuLXURERRKBNSTTsdPm0r2vUG2tpCTgvUpbhn4/LqXEBMBAZ4Wvd
- fucs7fG1c1VuVGPnhInDcxYUzfWVUFAgZmogpa6bbNokp5j/DaWaqvHzmmQQnzReHnQaqdLrXva
- 7UHf7/J8xlifz8m1iIyLkw6jpunaTQClPt/eWhOdv8A7Br81/oV3G9UBds/72jw=
-X-Google-Smtp-Source: AGHT+IH2Zjdx0sOvzJfPV5Mri2bdBbG1xpMSCNMUBcoLGEUL4Yhh8rTWxisXo6OxmWgNv3hsjQLN2w==
-X-Received: by 2002:a05:6000:420f:b0:3a4:db49:94aa with SMTP id
- ffacd0b85a97d-3a51d904540mr2742307f8f.21.1749049639709; 
- Wed, 04 Jun 2025 08:07:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-450d8006952sm198017885e9.32.2025.06.04.08.07.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jun 2025 08:07:18 -0700 (PDT)
-Date: Wed, 4 Jun 2025 17:07:15 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sched: Discourage usage of separate workqueues
-Message-ID: <aEBhIzccXBPyt_58@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250604081657.124453-2-phasta@kernel.org>
- <7a09c357-2d28-4dd6-b637-4387cc430938@amd.com>
+ AJvYcCWyNsh0Y9NKgfqzVdSHwo/fr/0rqfS+SUxTTNfp7CG2PnTMVnRTak63oeLUwYbRgarIkNB0ksH45Kw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwipPycESUw1oXspYzztfI08NkZR0RmR6SlCDf2hSxYPP5PEpEK
+ YK5Y0GTl3/Ad3Km7LK7VwzHWIPuaeHBGFPleVFSe+TULy+9JD7c9SNo6pbs8MVc7OeHAAVZIlsB
+ 4ecgFmFMVfmt9DHvJsz2aL9EXDCS7Stc=
+X-Gm-Gg: ASbGncsto8WjOQQOEyCBXMSzQjv+MfFf/wJ37H+iLiC+evUy1dnPI7gosCHe8iZn4eL
+ +6Lghjg4ZjFVTg3RRph/cZctfx07NNz5EBx5Z00aqP/cFRr4+OhOLh/2xNuRKuUEiD4vC90RXhK
+ fvlPs7UPIduE6vVKBhXrvFpNb7JA75T2AE9uyNeW7mvbfF
+X-Google-Smtp-Source: AGHT+IGthoBbpaqBJcrGYHMDUW3KcRg4ercfQBsQMliy5ivIZJikYWNyrmxDmSk4vIwwl3Qj5v5xi3blOFwndRjH62w=
+X-Received: by 2002:a17:90b:48c6:b0:30a:80bc:ad4 with SMTP id
+ 98e67ed59e1d1-3130cabf1f7mr1711680a91.0.1749049767203; Wed, 04 Jun 2025
+ 08:09:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7a09c357-2d28-4dd6-b637-4387cc430938@amd.com>
-X-Operating-System: Linux phenom 6.12.25-amd64 
+References: <20250530200918.391912-1-aurabindo.pillai@amd.com>
+ <CADnq5_P1Wf+QmV7Xivk7j-0uSsZHD3VcoROUoSoRa2oYmcO2jw@mail.gmail.com>
+ <jn3rvqffhemwjltd6z5ssa2lfpszsw4w7c4kjmkqqbum6zqvmi@pv6x2rkbeys6>
+ <CADnq5_PHv+yxYqH8QxjMorn=PBpLekmLkW4XNNYaCN0iMLjZQw@mail.gmail.com>
+ <2025060410-skinning-unguided-a3de@gregkh>
+ <od2jpxazsa6ee6fqom7owcgh53lz3wjjjk4scoe2mxjzrytl7f@jwwwxfuo4pkj>
+In-Reply-To: <od2jpxazsa6ee6fqom7owcgh53lz3wjjjk4scoe2mxjzrytl7f@jwwwxfuo4pkj>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 4 Jun 2025 11:09:15 -0400
+X-Gm-Features: AX0GCFt2PBa2_eEVwZO7kfuI3uEXaUUmdBuNz1Ww735Vt7eI_4g4qnI1dSIpmks
+Message-ID: <CADnq5_OdFQhokdysSHdeBca=UViCcqKWmfbedMAadWFWBiNE=Q@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/amd/display: more liberal vmin/vmax update
+ for freesync"
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, 
+ stable@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,105 +92,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 04, 2025 at 11:41:25AM +0200, Christian König wrote:
-> On 6/4/25 10:16, Philipp Stanner wrote:
-> > struct drm_sched_init_args provides the possibility of letting the
-> > scheduler use user-controlled workqueues, instead of the scheduler
-> > creating its own workqueues. It's currently not documented who would
-> > want to use that.
-> > 
-> > Not sharing the submit_wq between driver and scheduler has the advantage
-> > of no negative intereference between them being able to occur (e.g.,
-> > MMU notifier callbacks waiting for fences to get signaled). A separate
-> > timeout_wq should rarely be necessary, since using the system_wq could,
-> > in the worst case, delay a timeout.
-> > 
-> > Discourage the usage of own workqueues in the documentation.
-> > 
-> > Suggested-by: Danilo Krummrich <dakr@kernel.org>
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> >  include/drm/gpu_scheduler.h | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 81dcbfc8c223..11740d745223 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -590,14 +590,17 @@ struct drm_gpu_scheduler {
-> >   *
-> >   * @ops: backend operations provided by the driver
-> >   * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-> > - *	       allocated and used.
-> > + *	       allocated and used. It is recommended to pass NULL unless there
-> > + *	       is a good reason not to.
-> 
-> Yeah, that's probably a good idea. I'm not sure why xe and nouveau actually wanted that.
+On Wed, Jun 4, 2025 at 10:55=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> Hello Alex,
+>
+> On Wed, Jun 04, 2025 at 03:29:58PM +0200, Greg KH wrote:
+> > On Wed, Jun 04, 2025 at 09:15:14AM -0400, Alex Deucher wrote:
+> > > On Wed, Jun 4, 2025 at 5:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> > > <u.kleine-koenig@baylibre.com> wrote:
+> > > > On Fri, May 30, 2025 at 04:14:09PM -0400, Alex Deucher wrote:
+> > > > > Already included in my -fixes PR for this week:
+> > > > > https://lists.freedesktop.org/archives/amd-gfx/2025-May/125350.ht=
+ml
+> > > >
+> > > > Note the way this was done isn't maximally friendly to our stable
+> > > > maintainers though.
+> > > >
+> > > > The commit in your tree (1b824eef269db44d068bbc0de74c94a8e8f9ce02) =
+is a
+> > > > tad better than the patch that Aurabindo sent as it has:
+> > > >
+> > > >         This reverts commit cfb2d41831ee5647a4ae0ea7c24971a92d5dfa0=
+d ...
+> > > >
+> > > > which at least is a known commit and has Cc: stable.
+> > > >
+> > > > However this is still a bit confusing as commit cfb2d41831ee has no=
+ Cc:
+> > > > stable, but a duplicate in mainline: f1c6be3999d2 that has Cc: stab=
+le.
+> > > >
+> > > > So f1c6be3999d2 was backported to 6.14.7 (commit
+> > > > 4ec308a4104bc71a431c75cc9babf49303645617), 6.12.29 (commit
+> > > > 468034a06a6e8043c5b50f9cd0cac730a6e497b5) and 6.6.91 (commit
+> > > > c8a91debb020298c74bba0b9b6ed720fa98dc4a9). But it might not be obvi=
+ous
+> > > > that 1b824eef269db44d068bbc0de74c94a8e8f9ce02 needs backporting to =
+trees
+> > > > that don't contain cfb2d41831ee (or a backport of it).
+> > > >
+> > > > Please keep an eye on that change that it gets properly backported.
+>
+> I'm not sure if my mail was already enough to ensure that
+> 1b824eef269db44d068bbc0de74c94a8e8f9ce02 will be backported to stable,
+> so that request still stands.
+>
+> > > DRM patches land in -next first since that is where the developers
+> > > work and then bug fixes get cherry-picked to -fixes.  When a patch is
+> > > cherry-picked to -fixes, we use cherry-pick -x to keep the reference
+> > > to the original commit and then add stable CC's as needed.  See this
+> > > thread for background:
+> > > https://lore.kernel.org/dri-devel/871px5iwbx.fsf@intel.com/T/#t
+>
+> Yeah I thought so. The problem isn't per se that there are duplicates,
+> but that they are not handled with the needed care. I don't know about
+> Greg's tooling, but my confusion would have been greatly reduced if you
+> reverted f1c6be3999d2 instead of cfb2d41831ee. That is the older commit
+> (with POV =3D mainline) and the one that has the relevant information (Cc=
+:
+> stable and the link to cfb2d41831ee).
 
-The idea of this trick is that you have a fw scheduler which only has one
-queue, and a bunch of other things in your driver that also need to be
-stuffed into this fw queue (or handled by talking with the fw through
-these ringbuffers).
+The revert cc'd stable so it should go to stable.  You can check the
+cherry-picked commits to see what patches they were cherry-picked from
+to see if you need to apply them to stable kernels.
 
-If you use one single-threaded wq for everything then you don't need
-additional locking anymore, and a lot of things become easier.
+>
+> Getting this wrong is just a big waste of time and patience (or if the
+> backport is missed results in systems breaking for problems that are
+> already known and fixed).
 
-We should definitely document this trick better though, I didn't find any
-place where that was documented.
+Tons of patches end up getting cherry-picked to stable without anyone
+even asking for them via Sasha's scripts.  Won't this cause the same
+problem?
 
-Maybe a new overview section about "how to concurrency with drm/sched"?
-That's also a good place to better highlight the existing documentation
-for the 2nd part here.
-
-> >   * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
-> >   *	     as there's usually one run-queue per priority, but may be less.
-> >   * @credit_limit: the number of credits this scheduler can hold from all jobs
-> >   * @hang_limit: number of times to allow a job to hang before dropping it.
-> >   *		This mechanism is DEPRECATED. Set it to 0.
-> >   * @timeout: timeout value in jiffies for submitted jobs.
-> > - * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is used.
-> > + * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is
-> > + *		used. It is recommended to pass NULL unless there is a good
-> > + *		reason not to.
-> 
-> Well, that's a rather bad idea.
-> 
-> Using a the same single threaded work queue for the timeout of multiple
-> schedulers instances has the major advantage of being able to handle
-> their occurrence sequentially.
-> 
-> In other words multiple schedulers post their timeout work items on the
-> same queue, the first one to run resets the specific HW block in
-> question and cancels all timeouts and work items from other schedulers
-> which use the same HW block.
-> 
-> It was Sima, I and a few other people who came up with this approach
-> because both amdgpu and IIRC panthor implemented that in their own
-> specific way, and as usual got it wrong.
-> 
-> If I'm not completely mistaken this approach is now used by amdgpu,
-> panthor, xe and imagination and has proven to be rather flexible and
-> reliable. It just looks like we never documented that you should do it
-> this way.
-
-It is documented, just not here. See the note in
-drm_sched_backend_ops.timedout_job at the very bottom.
-
-We should definitely have a lot more cross-links between the various
-pieces of this puzzle though, that's for sure :-)
-
-Cheers, Sima
-
-> 
-> Regards,
-> Christian.
-> 
-> >   * @score: score atomic shared with other schedulers. May be NULL.
-> >   * @name: name (typically the driver's name). Used for debugging
-> >   * @dev: associated device. Used for debugging
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Alex
