@@ -2,79 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6199ACD61E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 04:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F158ACD670
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 05:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD5210E69B;
-	Wed,  4 Jun 2025 02:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C774510E02A;
+	Wed,  4 Jun 2025 03:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tzmOPzlc";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="c/GpJUv8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2C710E250;
- Wed,  4 Jun 2025 02:58:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 902EF4497D;
- Wed,  4 Jun 2025 02:58:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60BD9C4CEF8;
- Wed,  4 Jun 2025 02:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749005880;
- bh=fYjZRivWn2Fn+oWmzNXQqN7xuN63eEwOfSVBHQpA9yc=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=tzmOPzlcgHGjZGee02gOEJaooaeiPs6Hq2uTgVrRFWafpP9RNER3zkljIebv6FXa+
- hTZBI6iBod0WT/TKZ706Yrggh57ak3c4oKk3Ht6d4xA4Xi7FhVKoMsEqnSokqq/ZGB
- xXxiqhYOtAavbpQE6eBTb7WH7iNVWnellAU088j5ZL4LXbaUCJkBg6p9pdp+cKw92v
- jasip2nA3BEg7RIFwBqIbO/024UCyV7JlAN5FrRzhGu3LjZMaGkPl8qnQoZc7Iyz+M
- hn5BAxZAUlN4qMgGkl+4zHr3q7VqP5RfbPizwkr0Dl354YkKH8U7Q3jPvAidLEk/Cx
- 35AJUACPOtEGQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 55682C61CE7;
- Wed,  4 Jun 2025 02:58:00 +0000 (UTC)
-From: Mingcong Bai via B4 Relay <devnull+jeffbai.aosc.io@kernel.org>
-Date: Wed, 04 Jun 2025 10:57:59 +0800
-Subject: [PATCH v2 5/5] drm/xe/query: use PAGE_SIZE as the minimum page
- alignment
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBE1910E02A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 03:23:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jr8t8rryO7sagnj9+2ilIFZK3QtA9s6v1jrmY3E4LfhTtb7UoGKIp3erYDVnAsGdr2idw8qn3MMd7q90rHCCIlkLg1lU2mcxP/M+t83zLjFrLfDAEyeq7yuVQrKTRvFQyX6UqbH4GZvLlcxfzQZ4aZ7o4EyAeSvGTsILBCT7R9cQzHdueQNGp29EUpCWceCSFCidcZk33jH1RDRh4JKIl0IlIogxOCAQ8wHYfE45sk1uc2tbJkWvwJIGmkD2ImEQUrw9StR7P3OiIvLsLrwKkr7RHKD1VU9ahyzLJmD+5AHqR48oc7L2v4jFni4IHj1eKLec2nBzxppn3o4Uyp1+/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t/oXCYfs8p22yX2veREcR01aN8OcxQDVRRVacg1XFbU=;
+ b=TbqWUCHLlCYrMVlrplKYOCPpqan16Li7ICOVwaRpiK18yILeoST54HEX0lKQq+HkK2qeGCdPhL8JesBo32yzJiv20dsrekxlJffAOg2UVBcq/2S/g7Ae4HK388uOYrzpARzBw2J1gPko3FD/2IHbYY2NukPAkRTT2RBklcpzUtijH2GPKzpS8S91CaBo5kEz+cEHftpaRqBH/oDVD6CFFOAJmO2W+dKBuNw6UZpaDEi++2Bsk4fer3RNHARmQR5oFH9edzjuhQE0n4qHKkOEP1ZpSwNFd66Armugaj5Gq0lsdtnn8757T/K8lOdiPfaZx9V2gaNGlZ5TNa9GVwZPKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t/oXCYfs8p22yX2veREcR01aN8OcxQDVRRVacg1XFbU=;
+ b=c/GpJUv8OW8i2Vhs66PzdqcH8lTANEO98IkESHP8wftmKVjZBtpNtZdJq52MuAL8ZZaKZaGDTRPZE0VTRDJlXhelhnhuoupo7wcjONfBQPSEfIMyWWslO+JtxuPNv2jfTtxUzZxQGqlyXd8o/jF8KiSLRph75RQHkcslbWm+xaMY0j7xZS1n1X1OaxIqeYT4qk30+1C8uer+2ksjtlGx8yH1ZXI5q6e31P1sJ1MN1RBQ1MRF1wqxIyAZyRDg1X2JNO7emDUMC4hoPrOUPF2NhIBgS+miG0a7lWy77GiqN3X8QRAGpyG5aQsrynlhPeMzPEPPa4gUyujeVjoYGnAtYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7728.namprd12.prod.outlook.com (2603:10b6:8:13a::10)
+ by MW3PR12MB4345.namprd12.prod.outlook.com (2603:10b6:303:59::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Wed, 4 Jun
+ 2025 03:23:01 +0000
+Received: from DS0PR12MB7728.namprd12.prod.outlook.com
+ ([fe80::f790:9057:1f2:6e67]) by DS0PR12MB7728.namprd12.prod.outlook.com
+ ([fe80::f790:9057:1f2:6e67%5]) with mapi id 15.20.8769.022; Wed, 4 Jun 2025
+ 03:23:01 +0000
+Date: Wed, 4 Jun 2025 13:22:56 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com, 
+ dan.j.williams@intel.com, jgg@ziepe.ca, willy@infradead.org, david@redhat.com, 
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
+ hch@lst.de, 
+ zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org, balbirs@nvidia.com,
+ lorenzo.stoakes@oracle.com, linux-arm-kernel@lists.infradead.org,
+ loongarch@lists.linux.dev, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-cxl@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, John@groves.net
+Subject: Re: [PATCH 01/12] mm: Remove PFN_MAP, PFN_SG_CHAIN and PFN_SG_LAST
+Message-ID: <ekafxsxxsf3y7mhgiogo6yoh7k45vfqwd73i3tzjb7gtsjdt5t@vwga6qbn3jcz>
+References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
+ <cb45fa705b2eefa1228e262778e784e9b3646827.1748500293.git-series.apopple@nvidia.com>
+ <20250529124620.00006ac7@huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529124620.00006ac7@huawei.com>
+X-ClientProxiedBy: SY5P282CA0110.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:20b::15) To DS0PR12MB7728.namprd12.prod.outlook.com
+ (2603:10b6:8:13a::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250604-upstream-xe-non-4k-v2-v2-5-ce7905da7b08@aosc.io>
-References: <20250604-upstream-xe-non-4k-v2-v2-0-ce7905da7b08@aosc.io>
-In-Reply-To: <20250604-upstream-xe-non-4k-v2-v2-0-ce7905da7b08@aosc.io>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Francois Dugast <francois.dugast@intel.com>, 
- =?utf-8?q?Zbigniew_Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>, 
- =?utf-8?q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>, 
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Zhanjun Dong <zhanjun.dong@intel.com>, 
- Matt Roper <matthew.d.roper@intel.com>, 
- Alan Previn <alan.previn.teres.alexis@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Mateusz Naklicki <mateusz.naklicki@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Kexy Biscuit <kexybiscuit@aosc.io>, Shang Yatsen <429839446@qq.com>, 
- Mingcong Bai <jeffbai@aosc.io>, Wenbin Fang <fangwenbin@vip.qq.com>, 
- Haien Liang <27873200@qq.com>, Jianfeng Liu <liujianfeng1994@gmail.com>, 
- Shirong Liu <lsr1024@qq.com>, Haofeng Wu <s2600cw2@126.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749005878; l=3034;
- i=jeffbai@aosc.io; s=20250604; h=from:subject:message-id;
- bh=gWL8RWOcZ+T5Uids7FBARXCOIx0PC8BeNHiC9X6HMCs=;
- b=SYj4MCax89jyQea100fjLf4kZD36vhAK0FGEdfap8OjkmEqmBIJy1U6DSXpbD8+A6LNaB4VOa
- HFLJ8fi3pqUCLJqcyuS8rHEFY0aR/tgQFeec9DKh2shI8/4m+0UoZyq
-X-Developer-Key: i=jeffbai@aosc.io; a=ed25519;
- pk=MJdgklflDF+Xz9x2Lp+ogEnEyk8HRosMGiqLgWbFctY=
-X-Endpoint-Received: by B4 Relay for jeffbai@aosc.io/20250604 with auth_id=422
-X-Original-From: Mingcong Bai <jeffbai@aosc.io>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7728:EE_|MW3PR12MB4345:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54683ab3-b473-4e53-b754-08dda3171c38
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GVr/G4aJ4rDXJVN4SS0786b5vXzk5qo/hRdaGlcWRe8FkqPbwICk4ehwscxl?=
+ =?us-ascii?Q?xcdLpuiTM24Qj1o2eNAJyQgljAnkK+TsX2J8Pm8V5c/GH6sa/Jic5HEL8wHf?=
+ =?us-ascii?Q?/2xGkmduMiVp0brTzrxaaGKPaDd5WV+BMKLrjNLCjid62HYDQR/wJ3hNcUrN?=
+ =?us-ascii?Q?Zj3NtxGNaZDhhP1zzNAecafPt56UYXy4vf6wx84auk6piQ7Ewi0jtsr5vI10?=
+ =?us-ascii?Q?7Q9FHTfwFB9L9xQM1vbA9kH7O4yiBJaz6w7OHEbMe4YmHwJhdo9hEtKi5fBX?=
+ =?us-ascii?Q?W855iLktJDG37B0F19jFGoJeUzD7q7auOSE++GAMfrSwZo/QCirU2wSXJAZy?=
+ =?us-ascii?Q?p0IS8rrysxFpyfSm5cWWYbY+dvLZvDazRvAJ0TCpXsVRxTTVtBlxA+DLeI+O?=
+ =?us-ascii?Q?pRKjy/GSG2N/5l+QlI3HENYNsKum6FfnvLRsdyRNJXMzB/ydrNwhYlmXpqfg?=
+ =?us-ascii?Q?bz/vGLchmCO/AqhD2osrCNAQraGaceB10wYtxwwESGU+a8H+dz67xkom8R0M?=
+ =?us-ascii?Q?TaELbWFqcwh2JQkriMPa0yIz9iK7I5fa+dy36geVcr0u1sxbBUDpV83+xAH9?=
+ =?us-ascii?Q?6a2NMo+tddV3KE2SMqyM+vkBS6tDjjaRupWKIe14GLqmKfmIcRSEhXDUQ4vA?=
+ =?us-ascii?Q?BXSk4qcyVpJNAlkN/oqS5fDhuW5REr99jvUQEPm9ioUe+qRWPdx9w0CB004L?=
+ =?us-ascii?Q?4TVzLV2GRGSHTleO5nRRcdVr0aIgkI8XZ84cEAOyjpZHj1DXkzGexNMXqpEG?=
+ =?us-ascii?Q?hbpvZ9pvZ7YilDJXw6LU4k2GN7vTNzKH+pevv5akcl310eyrLdq8q+gj4dAQ?=
+ =?us-ascii?Q?oMoznIGk5VVpapIrSUAb2PY2Rv2KZTmg5KG42i+poZ08ELsEt3EMYOsynM8J?=
+ =?us-ascii?Q?Z4Qw/wEfv+VUF/R4rgXyvp9wEwdKy9fUn0qziYTtln4CUrZ/F8Uom6C1Trd1?=
+ =?us-ascii?Q?PCUxYXFtIATfhg9LOESYDpmlCacpFHXCcWaFG4JVCX+N/0HcUnAjW5RvCrCD?=
+ =?us-ascii?Q?G1T1dgMPcR2JtTw9Ih6lg3iJrmIFdV8wUFp09vOU6hfUcWppt1m6t1pv2pI0?=
+ =?us-ascii?Q?QsIO7oH3q3gRa8z4C2wwG+sjLK/eD8ZLwhXkeMSG3m7W6rloeu4PagVZCImE?=
+ =?us-ascii?Q?P8FUM8heulsmBDUfzEm+hbMw7jVPnQQCOF7Lba3Z7vFej7e7MkTDdll/1rEp?=
+ =?us-ascii?Q?CkF8BQkFMYqKxugeL0KD75XQe7bwUEzqj7Tn/+olBNbEUi7UJASexG0AJrRE?=
+ =?us-ascii?Q?86j+TO2DYEyPI5MOhSSdQcHoj7VoIQrUKiIOF4PPKXLNtLdLPlT5GRNvOLDY?=
+ =?us-ascii?Q?9Z8Wf0UmPxVjttTeIow+Wi8ezurkAuAxVeDdclPPfVaLRANgCPg/+ghfIE/6?=
+ =?us-ascii?Q?Af2eGBT70mUwa2snRdg+yqXEi1PzWjfQuK/Jt0ZuvYR4mUoEr/hRr351hzAP?=
+ =?us-ascii?Q?+TmTFYN5sKw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7728.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pIX7+dq6PKkLyFyjZE8czFpOvTTVkffwyxAG9efM7oyH7oUehlUPBAFOvQcy?=
+ =?us-ascii?Q?zj+HapJQ7+BXsqTq+xMOYBBjIMDBggbec5UsR0DBbjtQ2MkR0cQIiYjjeK/1?=
+ =?us-ascii?Q?g7vmDUZR6wjVBSfBS5uXREduiRxwpDNhRKcboyVnDaytrqqMJaeF+3aL554Q?=
+ =?us-ascii?Q?GaGYMW6Py4X7a7JMXSvCcLIvBRMcexcG1W0XfqhQr+xYk8TOctFt6zWZluJ+?=
+ =?us-ascii?Q?bRWB0D11tOhLwGtFWwtpPt/qALp3TTceSplPBO7R1tTpVZ0HILquY8w0ZUTP?=
+ =?us-ascii?Q?+KuKG4ROXjFrmgL1JUX1IVBhVHN47FWIpJlqY12jUOfkhVlcldXykm/aS4lI?=
+ =?us-ascii?Q?ShzckjKgeM8zpRLJFljv4dWfBFeFyJ2/cv/HNn7ccZ1/kPQqJx5S9GaOTvQ2?=
+ =?us-ascii?Q?FQhZphXMufkKNFcecZKsmmWlaxh503NsQ/S3NVoCNUn5fmPuXqncBJ7gdcyd?=
+ =?us-ascii?Q?fbWeFz6WcTU5iNwGbsGOYmjBCqrPC9oAIgI/d9yKsqDCaUtiCX3l5p8UQ9Iz?=
+ =?us-ascii?Q?Rvd69wvQG8Fl/8LSTps/glSOkg9h/lX27LbSvK+oUujqEUfaTQrEAbRcje9T?=
+ =?us-ascii?Q?xbkgIRJ80tXrfRq394yrWRSQQnY3lgMPD2rfdPsHuAQtOtNSLqFtEGok3mn1?=
+ =?us-ascii?Q?NXa7SZHRSRx0eJLmB+U5DLvmwAW1PB36Drzxt7YrHmI0CYRGvw4WLCm8j9Q6?=
+ =?us-ascii?Q?mV3ea9MlmziLLw8nWo4WIz5TSeMLwHY8mrl07+OLdqIcGeVvKC7XhijSqIJh?=
+ =?us-ascii?Q?064E43X3p0+HkiVljF519hLIq5Mo/X/3rxVHQSSzsbE1a6ieKxtoTL25zU4u?=
+ =?us-ascii?Q?pRz77Z9AgmW+Ycx4l+WYaxnWgMyPhEaAhcjZo37NtqXSMixhLIukijKEepXW?=
+ =?us-ascii?Q?Glpp0FMnm/LXC5wyyvSPt2spbzVvdD7f7KKaQkp4mFp0JLZi2ZIXbzNxsnL1?=
+ =?us-ascii?Q?LOcZbWACMA5uL+CDVrIZ93qFNxcRqWt5iX9Qp3o+Riu84F1qc5h8JhJG5znG?=
+ =?us-ascii?Q?p9VzvN9CdTrH2ROBaR6mquPgNmWmwvIyC0oSS4Pg25LWNPmR4XnE14vazqb2?=
+ =?us-ascii?Q?8Y4INjQB72sEkoyWwUGt08IjXSkIZmPSubQugVEjUHzUXwY6vICzPOFFZYVv?=
+ =?us-ascii?Q?ZJNlvWo3CAkxuxRsTOB3OdlAZoEhBn96QBdgDSyEsJMJ3Z0cJ0H+ed/E8Cu0?=
+ =?us-ascii?Q?GB88e4XIU84oeUDVrTBYM60ZeU3ep1wutMrXWDo1Z5pyLZJfFxs3S1eKITxO?=
+ =?us-ascii?Q?0A65GKqTOlthaUxkkKD1d9H1A+pVngBaNkacSHNpDYF2WTkRc0OZXgjMh3dI?=
+ =?us-ascii?Q?+1H6UWnZXLmYYup68fihgSKVX+hJSdSsvX3S9yhyHHneakevxrlVagActhkn?=
+ =?us-ascii?Q?vMkS7Mjxf/B+f/9ujWuY1T7hQNLeVXeJtCoG7yeu5brhXa/gWik/ZIqOIqwU?=
+ =?us-ascii?Q?3IlSw0OT697Lr5+OxdxKFlciG2WAVNL2C30R4kKWUFRVmL6VEhAdurm/P9Du?=
+ =?us-ascii?Q?8TgSE8oE+I25men7qL5A2hmWguoAPOPILRVTbQE/560pYXpHHeeSC4DA/7M+?=
+ =?us-ascii?Q?Ts8prSBazKjaZXmP3/mBzaOHIlBFB1Bgy5GCIaPf?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54683ab3-b473-4e53-b754-08dda3171c38
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7728.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 03:23:01.1366 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oXLK1uYBPiIVPBcHZiJsRK2eEKSOW9NBAvaQ56JrerO1xO1FdZPiqsLpWadurR7oEnBxW2pVHxsHjnylhwywSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4345
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,69 +153,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: jeffbai@aosc.io
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mingcong Bai <jeffbai@aosc.io>
+On Thu, May 29, 2025 at 12:46:20PM +0100, Jonathan Cameron wrote:
+> On Thu, 29 May 2025 16:32:02 +1000
+> Alistair Popple <apopple@nvidia.com> wrote:
+> 
+> > The PFN_MAP flag is no longer used for anything, so remove it. The
+> > PFN_SG_CHAIN and PFN_SG_LAST flags never appear to have been used so
+> > also remove them.
+> 
+> Superficial thing but you seem to be be removing PFN_SPECIAL as well and
+> this description and patche description don't mention that.
+> 
+> > 
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> On superficial comment inline.
+> 
+> > ---
+> >  include/linux/pfn_t.h             | 31 +++----------------------------
+> >  mm/memory.c                       |  2 --
+> >  tools/testing/nvdimm/test/iomap.c |  4 ----
+> >  3 files changed, 3 insertions(+), 34 deletions(-)
+> > 
+> > diff --git a/include/linux/pfn_t.h b/include/linux/pfn_t.h
+> > index 2d91482..46afa12 100644
+> > --- a/include/linux/pfn_t.h
+> > +++ b/include/linux/pfn_t.h
+> > @@ -5,26 +5,13 @@
+> 
+> 
+> 
+> > diff --git a/tools/testing/nvdimm/test/iomap.c b/tools/testing/nvdimm/test/iomap.c
+> > index e431372..ddceb04 100644
+> > --- a/tools/testing/nvdimm/test/iomap.c
+> > +++ b/tools/testing/nvdimm/test/iomap.c
+> > @@ -137,10 +137,6 @@ EXPORT_SYMBOL_GPL(__wrap_devm_memremap_pages);
+> >  
+> >  pfn_t __wrap_phys_to_pfn_t(phys_addr_t addr, unsigned long flags)
+> >  {
+> > -	struct nfit_test_resource *nfit_res = get_nfit_res(addr);
+> > -
+> > -	if (nfit_res)
+> > -		flags &= ~PFN_MAP;
+> >          return phys_to_pfn_t(addr, flags);
+> 
+> Maybe not the time to point it out, but what is going on with indent here?
+> Looks like some spaces snuck in for that last line.
 
-As this component hooks into userspace API, it should be assumed that it
-will play well with non-4KiB/64KiB pages.
+Yeah weird. I don't think that was me. In any case this gets deleted entirely
+later in the series so won't bother to fix it here.
 
-Use `PAGE_SIZE' as the final reference for page alignment instead.
-
-Cc: stable@vger.kernel.org
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-Fixes: 801989b08aff ("drm/xe/uapi: Make constant comments visible in kernel doc")
-Tested-by: Mingcong Bai <jeffbai@aosc.io>
-Tested-by: Wenbin Fang <fangwenbin@vip.qq.com>
-Tested-by: Haien Liang <27873200@qq.com>
-Tested-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Tested-by: Shirong Liu <lsr1024@qq.com>
-Tested-by: Haofeng Wu <s2600cw2@126.com>
-Link: https://github.com/FanFansfan/loongson-linux/commit/22c55ab3931c32410a077b3ddb6dca3f28223360
-Link: https://t.me/c/1109254909/768552
-Co-developed-by: Shang Yatsen <429839446@qq.com>
-Signed-off-by: Shang Yatsen <429839446@qq.com>
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
----
- drivers/gpu/drm/xe/xe_query.c | 2 +-
- include/uapi/drm/xe_drm.h     | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
-index 2dbf4066d86ff225eee002d352e1233c8d9519b9..fe94a7781fa04fb277d5cc8b973b145293d3d066 100644
---- a/drivers/gpu/drm/xe/xe_query.c
-+++ b/drivers/gpu/drm/xe/xe_query.c
-@@ -346,7 +346,7 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
- 	config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=
- 			DRM_XE_QUERY_CONFIG_FLAG_HAS_LOW_LATENCY;
- 	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
--		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
-+		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : PAGE_SIZE;
- 	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
- 	config->info[DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY] =
- 		xe_exec_queue_device_get_max_priority(xe);
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 9c08738c3b918ee387f51a68ba080057c6d5716f..f92eb8c3317a09baad4550024bb3beea02850010 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -397,8 +397,11 @@ struct drm_xe_query_mem_regions {
-  *      has low latency hint support
-  *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR - Flag is set if the
-  *      device has CPU address mirroring support
-- *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
-- *    required by this device, typically SZ_4K or SZ_64K
-+ *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment required
-+ *    by this device and the CPU. The minimum page size for the device is
-+ *    usually SZ_4K or SZ_64K, while for the CPU, it is PAGE_SIZE. This value
-+ *    is calculated by max(min_gpu_page_size, PAGE_SIZE). This alignment is
-+ *    enforced on buffer object allocations and VM binds.
-  *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
-  *  - %DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY - Value of the highest
-  *    available exec queue priority
-
--- 
-2.49.0
-
-
+> >  }
+> >  EXPORT_SYMBOL(__wrap_phys_to_pfn_t);
+> 
