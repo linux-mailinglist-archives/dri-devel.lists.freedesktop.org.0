@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78B9ACDD3E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 13:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45061ACDD62
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD4C10E7B6;
-	Wed,  4 Jun 2025 11:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B518410E68E;
+	Wed,  4 Jun 2025 12:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="VUQivGpu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WAaTc6MZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C569C10E7B6
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:53:56 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250604115351euoutp01d81e3ad9629747c97aac30211f26b3d3~F1NK2CUIb2503425034euoutp01e
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 11:53:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250604115351euoutp01d81e3ad9629747c97aac30211f26b3d3~F1NK2CUIb2503425034euoutp01e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1749038031;
- bh=s/0qhETp0/O5tfeuPDSpC29l+QS4DsX1qeaGhsBy0I4=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=VUQivGpuXwfTvpBVWD1oWFdPgrlPaqvo8usOtfrEEyMhn3X9zaHLn/ZJvzMCOaNVm
- tThqy1WUXxJeweaD4C6PA2Tr6afc9y6mcEVGtHV1cW7xjKehfa9S0SRk67bkRDLdcy
- 4vmdhCVu7nbznSCVPy1xyUByvCZtPorTzTysaG3M=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250604115351eucas1p2029645aec0becbaea4623fed73756400~F1NKR_He42239722397eucas1p2f;
- Wed,  4 Jun 2025 11:53:51 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250604115349eusmtip2988a156336ef42213eda6e883df452af~F1NJJo9GR1421814218eusmtip2Y;
- Wed,  4 Jun 2025 11:53:49 +0000 (GMT)
-Message-ID: <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
-Date: Wed, 4 Jun 2025 13:53:49 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5EC10E6A2;
+ Wed,  4 Jun 2025 12:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749038509; x=1780574509;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=5uYOx3CB6u/X6OaqsKXCzL9wycFBnRygRPmG3aAModk=;
+ b=WAaTc6MZsXI+p6g26g47+O3fUWbKNivBJxVLo6F9vqLB5epbajrs4SvK
+ RoirKglVKS9a0/DBeQZADtrRgTBuvy4EUqFgiXxFyxuLp5nUs116rWQ3h
+ gfGuYToDyeYoi7zQvJzW4l6guqgUIsX6g7UJL5qnQyzgWkpQUr+3gxCJj
+ R5qegWLo6beu90zDiCQwvGfwY6VCbVaTevPBrL9PCEUDRh1Uum9Ixk4NP
+ Kd/Gt2IFsrb7I5kdz5AMWlmRAfO7W6/885wpR7uyWvRUJ1Nk5KATieKYB
+ GvxsE3cV2N74Z3zM++B9H0NEtAPhrG0P5P4jE7yIHx7cQ9ZpI69cJv7yF Q==;
+X-CSE-ConnectionGUID: /E+Ugt/ESpm3tKPWOdxD8w==
+X-CSE-MsgGUID: JYsNW4fJR0GerJNoNNTayA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62169245"
+X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="62169245"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 05:01:49 -0700
+X-CSE-ConnectionGUID: PAuo9/JWS5SD/zD1RrgNwQ==
+X-CSE-MsgGUID: nLXiz6nlRWebh++8vnW1eg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="145042432"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.121])
+ ([10.245.245.121])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 05:01:46 -0700
+Message-ID: <245c58afa07f1f7fcd168491e5f4073eaef982aa.camel@linux.intel.com>
+Subject: Re: [PATCH v2 0/3] drm/gpusvm, drm/pagemap, drm/xe: Restructure
+ migration in preparation for multi-device
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com, 
+ apopple@nvidia.com, airlied@gmail.com, Simona Vetter
+ <simona.vetter@ffwll.ch>, 	felix.kuehling@amd.com, Matthew Brost
+ <matthew.brost@intel.com>, dakr@kernel.org,  "Mrozek, Michal"
+ <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, "Yang, Philip"	 <Philip.Yang@amd.com>
+Date: Wed, 04 Jun 2025 14:01:44 +0200
+In-Reply-To: <b19b3deb-5a14-459c-b076-08be55a62769@amd.com>
+References: <20250604093536.95982-1-thomas.hellstrom@linux.intel.com>
+ <b19b3deb-5a14-459c-b076-08be55a62769@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
- management
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, Frank
- Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
- <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250604115351eucas1p2029645aec0becbaea4623fed73756400
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
-X-EPHeader: CA
-X-CMS-RootMailID: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
-References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
- <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
- <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
- <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,82 +78,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+On Wed, 2025-06-04 at 12:01 +0200, Christian K=C3=B6nig wrote:
+> Hi Thomas,
+>=20
+> please make sure to loop in Kuehling, Felix <Felix.Kuehling@amd.com>
+> and Yang, Philip <Philip.Yang@amd.com> for that kind of stuff.
+>=20
+> I'm absolutely not deep enough in the pagemap handling to judge any
+> of that here.
+>=20
+> Thanks,
+> Christian.
+
+Sure, Felix was CC'd and I'll make sure Philip will be CC'd on the next
+revision.
+
+Thanks,
+Thomas
 
 
-On 6/4/25 08:36, Krzysztof Kozlowski wrote:
-> On 03/06/2025 21:43, Michal Wilczynski wrote:
->>>> +	 * and resets. Otherwise, we fall back to managing them ourselves.
->>>> +	 */
->>>> +	pvr_dev->pwrseq = devm_pwrseq_get(dev, "gpu-power");
->>>> +	if (IS_ERR(pvr_dev->pwrseq)) {
->>>> +		int pwrseq_err = PTR_ERR(pvr_dev->pwrseq);
->>>> +
->>>> +		/*
->>>> +		 * If the error is -EPROBE_DEFER, it's because the
->>>> +		 * optional sequencer provider is not present
->>>> +		 * and it's safe to fall back on manual power-up.
->>>
->>> It is safe but why it is desirable? The rule is rather to defer the
->>> probe, assuming this is probe path.
->>
->> Yeah this is probe path.
->>
->> The GPU node will depend on the AON node, which will be the sole
->> provider for the 'gpu-power' sequencer (based on the discussion in patch
->> 1).
->>
->> Therefore, if the AON/pwrseq driver has already completed its probe, and
->> devm_pwrseq_get() in the GPU driver subsequently returns -EPROBE_DEFER
->> (because pwrseq_get found 'no match' on the bus for 'gpu-power'), the
->> interpretation is that the AON driver did not register this optional
->> sequencer. Since AON is the only anticipated source, it implies the
->> sequencer won't become available later from its designated provider.
-> 
-> I don't understand why you made this assumption. AON could be a module
-> and this driver built-in. AON will likely probe later.
+>=20
+> On 6/4/25 11:35, Thomas Hellstr=C3=B6m wrote:
+> > This patchset modifies the migration part of drm_gpusvm to
+> > drm_pagemap and
+> > adds a populate_mm() op to drm_pagemap.
+> >=20
+> > The idea is that the device that receives a pagefault determines if
+> > it wants to
+> > migrate content and to where. It then calls the populate_mm()
+> > method of relevant
+> > drm_pagemap.
+> >=20
+> > This functionality was mostly already in place, but hard-coded for
+> > xe only without
+> > going through a pagemap op. Since we might be dealing with separate
+> > devices moving
+> > forward, it also now becomes the responsibilit of the populate_mm()
+> > op to
+> > grab any necessary local device runtime pm references and keep them
+> > held while
+> > its pages are present in an mm (struct mm_struct).
+> >=20
+> > On thing to decide here is whether the populate_mm() callback
+> > should sit on a
+> > struct drm_pagemap for now while we sort multi-device usability out
+> > or whether
+> > we should add it (or something equivalent) to struct dev_pagemap.
+> >=20
+> > v2:
+> > - Rebase.
+> >=20
+> > Matthew Brost (1):
+> > =C2=A0 drm/gpusvm, drm/pagemap: Move migration functionality to
+> > drm_pagemap
+> >=20
+> > Thomas Hellstr=C3=B6m (2):
+> > =C2=A0 drm/pagemap: Add a populate_mm op
+> > =C2=A0 drm/xe: Implement and use the drm_pagemap populate_mm op
+> >=20
+> > =C2=A0Documentation/gpu/rfc/gpusvm.rst=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+12 +-
+> > =C2=A0drivers/gpu/drm/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
+> > =C2=A0drivers/gpu/drm/drm_gpusvm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 760 +----------------------
+> > -
+> > =C2=A0drivers/gpu/drm/drm_pagemap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 846
+> > +++++++++++++++++++++++++++
+> > =C2=A0drivers/gpu/drm/xe/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_bo_types.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 2 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_device_types.h |=C2=A0=C2=A0 2 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 129 ++--
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_tile.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 11 +
+> > =C2=A0drivers/gpu/drm/xe/xe_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> > =C2=A0include/drm/drm_gpusvm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 96 ---
+> > =C2=A0include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 135 +++++
+> > =C2=A013 files changed, 1107 insertions(+), 914 deletions(-)
+> > =C2=A0create mode 100644 drivers/gpu/drm/drm_pagemap.c
+> >=20
+>=20
 
-You're absolutely right that AON could be a module and would generally
-probe later in that scenario. However, the GPU device also has a
-'power-domains = <&aon TH1520_GPU_PD>' dependency. If the AON driver (as
-the PM domain provider) were a late probing module, the GPU driver's
-probe would hit -EPROBE_DEFER when its power domain is requested
-which happens before attempting to get other resources like a power
-sequencer.
-
-So, if the GPU driver's code does reach the devm_pwrseq_get(dev,
-"gpu-power") call, it strongly implies the AON driver has already
-successfully probed.
-
-This leads to the core challenge with the optional 'gpu-power'
-sequencer: Even if the AON driver has already probed, if it then chooses
-not to register the "gpu-power" sequence (because it's an optional
-feature), pwrseq_get() will still find "no device matched" on the
-pwrseq_bus and return EPROBE_DEFER.
-
-If the GPU driver defers here, as it normally should for -EPROBE_DEFER,
-it could wait indefinitely for an optional sequence that its
-already probed AON provider will not supply.
-
-Anyway I think you're right, that this is probably confusing and we
-shouldn't rely on this behavior.
-
-To solve this, and to allow the GPU driver to correctly handle
--EPROBE_DEFER when a sequencer is genuinely expected, I propose using a
-boolean property on the GPU's DT node, e.g.
-img,gpu-expects-power-sequencer. If the GPU node provides this property
-it means the pwrseq 'gpu-power' is required.
-
-I didn't want to use this approach at first, as it seemed to me like the
-pwrseq API had a hands-off approach for the DT with its matching logic,
-but it seems unavoidable at this point.
-
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
