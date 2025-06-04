@@ -2,106 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D9AACE1CD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 17:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36427ACE210
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 18:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBDA10E752;
-	Wed,  4 Jun 2025 15:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD6010E21F;
+	Wed,  4 Jun 2025 16:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jyElyr/m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RfJN4O6l";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jyElyr/m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RfJN4O6l";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MJf2oh15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAFB10E752
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 15:52:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 66793207A1;
- Wed,  4 Jun 2025 15:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749052359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vcrVBu6KTu+PBwHVLsxLqSJRgus1DmIDCaw8Kxu4FFs=;
- b=jyElyr/m2n4x3u2y77Byp5ZDfOkipCcVs/S6rmEnWRZub2M1DSUoqB8pfzMRghiCNK2T7b
- b5ghGMbdtnYGTAYJJ8ynfKerr/ecVN10/N7l8YGp3VTpX1GpAeBi0tACnjuLDp3/Kxpf4K
- y9K9J2/Hn28besO7h+62FMY0yja2YVA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749052359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vcrVBu6KTu+PBwHVLsxLqSJRgus1DmIDCaw8Kxu4FFs=;
- b=RfJN4O6l7saSsr1o2/eMIhWHMXzOPVCQT+cL0vcEdLyqFy21psFBShvA/PPaKEBxhSj+LA
- LhfVH43L/6UM5vBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749052359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vcrVBu6KTu+PBwHVLsxLqSJRgus1DmIDCaw8Kxu4FFs=;
- b=jyElyr/m2n4x3u2y77Byp5ZDfOkipCcVs/S6rmEnWRZub2M1DSUoqB8pfzMRghiCNK2T7b
- b5ghGMbdtnYGTAYJJ8ynfKerr/ecVN10/N7l8YGp3VTpX1GpAeBi0tACnjuLDp3/Kxpf4K
- y9K9J2/Hn28besO7h+62FMY0yja2YVA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749052359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vcrVBu6KTu+PBwHVLsxLqSJRgus1DmIDCaw8Kxu4FFs=;
- b=RfJN4O6l7saSsr1o2/eMIhWHMXzOPVCQT+cL0vcEdLyqFy21psFBShvA/PPaKEBxhSj+LA
- LhfVH43L/6UM5vBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E0DE13AD9;
- Wed,  4 Jun 2025 15:52:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YL4NBsdrQGgkGAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 04 Jun 2025 15:52:39 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arthurgrillo@riseup.net, jose.exposito89@gmail.com, javierm@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/3] drm/format-helper: Move drm_fb_build_fourcc_list() to
- sysfb helpers
-Date: Wed,  4 Jun 2025 17:45:44 +0200
-Message-ID: <20250604154844.28995-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250604154844.28995-1-tzimmermann@suse.de>
-References: <20250604154844.28995-1-tzimmermann@suse.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA3AA10E21F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 16:18:12 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5549eXlc012594
+ for <dri-devel@lists.freedesktop.org>; Wed, 4 Jun 2025 16:18:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ /FKalLodIY+3cT9Xt0G1l7UIsgPISWBmeyASaI94Pws=; b=MJf2oh1583p/fAql
+ cBM6gNOQUiQ08Q8LoFU7I679R315ixTjNItYAbyN/93DrpJbZNPHi89pnTqW8LQx
+ PVQhlUmM94eVf8EEA8W/HkgjM1onIAFG0fWSyZRr5qZwT08/vO7US2WWLMQiAlEb
+ rnsZ/uQZj/WVwuBGfaQi6DqT89+OLVpl4796ihbJ5SEKmYmOhrkQV98qdhrdtB0R
+ NRSrfs8BqWpC+nLyuIIHEOmcJ3owTkeGiaED+8quTpLHzoR2EEj1hQQwjU+BmVRm
+ a5U6CHrp/xwAoQdZB0qs82IJ5g9WDENpvSYuPEH+u0JS5cRt2DBV5wGY/ocmajRL
+ 0P24Pg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 472be82d8s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 16:18:12 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-747ddba7c90so69963b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 09:18:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749053891; x=1749658691;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/FKalLodIY+3cT9Xt0G1l7UIsgPISWBmeyASaI94Pws=;
+ b=i19k5rqu2TYK6qcLc8gjrWTvfzTS2xbNNcV1Fp+Gwa2YA5OhPE1oqyZCLgoZj/Olya
+ 9zZzuWVEZVUSVdEN7wFL1dQ2KONCEHVbQIq17aqTEqNDQGLRC0uoJzShvXmW37g+krfb
+ dW7T7PRwHQaJnlvg1HCk/6kxmUVLzw2/5tYUjMGzKevawIT10UANKfn/OwSEmjFwb0NB
+ TDG/3x9vpGwTKoEoM3lbJYH5K5rp7DWpDHFpjY30G1d+fRq1LL98M1w3v4xzUzIZlDeh
+ loLhOpD2QZPRFPgCL5v2/x14bIHKh7VIXMcJoup09Z2XJi1C3eb3n49i74EoptN6Ll8A
+ sXxQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvJF4iWT9sLlO+J4if0tEYfpO+ruUrLlXx+74OKOECyTITTJon1/UE702IKHYd8kfw2eHoymi3rrw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8OY0V8FhTt+XTaM2IWYN89HjG8jDHvVbxDkOvhzlrliHJgurW
+ 3HNsPTwDFg7PHNWfT6OYREXyqZe0leJyXNIzD66DMBXj35T5d62FgDEWyiW2nVGqnfoB+82jYiy
+ r/0/hSRjt8KNDIl6XHqS/shQfjhyRdkKbYB2ScfF/Gh08ZSm9EBVXCh779OulVyYBtel8Usw=
+X-Gm-Gg: ASbGncvKLeUdBd2+PVMVgIWtypl3290keQTiYSqVJIAfc39IDBBkEefDjYu4yRPqSqv
+ TBkJFaShYhi+2ktjJX5fV+AE+WJxLLuNCuVubXn0gpSJ1GpYow2m/gfkRqj608jqqsOXoMfqiiK
+ 5D6PdrSVbUf9IPciYnGt88ORTilVxLmtZ3HEouBlgDznGAUG6Ls1Pg26kX0expY1JscjysVYNE2
+ nMdsCWuyYMQiGg87fkgKlVVMB2NUrM2EcQR+qLoQE0oYjiNahZpzZpDHHs2Eh6SqxypQpP7O9IK
+ sbau/3HeLlMREPqyLpo1Oh0Ua3CZm+JqZ8P8LTzc3I4ZmaS+5EburoukmdyoYw==
+X-Received: by 2002:a05:6a21:338f:b0:1f5:92ac:d6a1 with SMTP id
+ adf61e73a8af0-21d22a6d399mr5102656637.4.1749053891316; 
+ Wed, 04 Jun 2025 09:18:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHso7G09k9UvuycvraO1NDz4fm/Vag8N+EPM5/nbAn3PNvuV5tem1zGbbXZtmexx1nDcVU5uQ==
+X-Received: by 2002:a05:6a21:338f:b0:1f5:92ac:d6a1 with SMTP id
+ adf61e73a8af0-21d22a6d399mr5102616637.4.1749053890774; 
+ Wed, 04 Jun 2025 09:18:10 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b2eceb02e93sm8956129a12.16.2025.06.04.09.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jun 2025 09:18:10 -0700 (PDT)
+Message-ID: <0423ac43-0a12-4f0f-ade3-61364d4abf93@oss.qualcomm.com>
+Date: Wed, 4 Jun 2025 10:18:08 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: 1.84
-X-Spam-Level: *
-X-Spamd-Result: default: False [1.84 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_SPAM_SHORT(2.94)[0.980]; SUSPICIOUS_RECIPS(1.50)[];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TAGGED_RCPT(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
- FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- RCVD_COUNT_TWO(0.00)[2];
- FREEMAIL_TO(0.00)[riseup.net,gmail.com,redhat.com,linux.intel.com,kernel.org]; 
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Reorder doorbell unregister and command queue
+ destruction
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com,
+ lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>,
+ stable@vger.kernel.org
+References: <20250604154450.1209596-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250604154450.1209596-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=bNYWIO+Z c=1 sm=1 tr=0 ts=684071c4 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
+ a=XIlkvbPez1Y0lOnEMrgA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-GUID: 433N1IV_xawogEIFZKoOfskMEeS2OV5P
+X-Proofpoint-ORIG-GUID: 433N1IV_xawogEIFZKoOfskMEeS2OV5P
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDEyMiBTYWx0ZWRfX2n4RrWN7X5Ws
+ RfjRIE6miYCVKBKfKDjNXU79SrvsjwwC5QZSNExJ1v0agOpHknS7+1gHacsWQxGdleifXeMLa+K
+ LVtCq/cT2TEhMMqIoUTB8Sp+0bjQMGSPsW7Ct8t1PFCikSiuTQIzOKOoim0bnEW8MUziMAYAQ1j
+ mKpx9WUW6esq5WQhYkvkTUnFa/iBRu7sH9ph6ZBH6wWav5ciu/5/EdZjm8uFKOqddEPKsYNA5qa
+ eNPuiW4M/vqWummBtto7dNWEuiGHnJfh5aZdIaWPsmZO60X7bnUchBwQrWf+4Icyevi1RS5T5pY
+ zQhQgWij6FjjKPTVqrEeGZb99c3ne4A0n2v2l3VXacBzASlcBaWEK7XqJ3Ax+rPPM8KWn7p8qQe
+ nhi6uRWQ9yD02sE8yhYaI8r7KnOSUXYpZmBDZxo8RwdV2HiFKV7sQKldXHLskFt7628OoZFh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-04_03,2025-06-03_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 impostorscore=0 spamscore=0 clxscore=1015
+ mlxlogscore=999 adultscore=0 bulkscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506040122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,451 +125,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only sysfb drivers use drm_fb_build_fourcc_list(). Move the function
-to sysfb helpers and rename it accordingly. Update drivers and tests.
+On 6/4/2025 9:44 AM, Maciej Falkowski wrote:
+> From: Karol Wachowski <karol.wachowski@intel.com>
+> 
+> Refactor ivpu_cmdq_unregister() to ensure the doorbell is unregistered
+> before destroying the command queue. The NPU firmware requires doorbells
+> to be unregistered prior to command queue destruction.
+> 
+> If doorbell remains registered when command queue destroy command is sent
+> firmware will automatically unregister the doorbell, making subsequent
+> unregister attempts no-operations (NOPs).
+> 
+> Ensure compliance with firmware expectations by moving the doorbell
+> unregister call ahead of the command queue destruction logic,
+> thus preventing unnecessary NOP operation.
+> 
+> Fixes: 2a18ceff9482 ("accel/ivpu: Implement support for hardware scheduler")
+> Cc: <stable@vger.kernel.org> # v6.11+
+> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_format_helper.c           | 138 ------------------
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   4 +
- drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     | 138 ++++++++++++++++++
- drivers/gpu/drm/sysfb/efidrm.c                |   4 +-
- drivers/gpu/drm/sysfb/ofdrm.c                 |   5 +-
- drivers/gpu/drm/sysfb/simpledrm.c             |   5 +-
- drivers/gpu/drm/sysfb/vesadrm.c               |   4 +-
- drivers/gpu/drm/tests/drm_sysfb_helper_test.c |   9 +-
- include/drm/drm_format_helper.h               |   4 -
- 9 files changed, 155 insertions(+), 156 deletions(-)
+Huh?  This was posted to the list on May 15th, and Jacek applied it to 
+drm-misc-fixes on May 28th.
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 73b5a80771cc..da79100895ff 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -1338,141 +1338,3 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 	}
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_mono);
--
--static uint32_t drm_fb_nonalpha_fourcc(uint32_t fourcc)
--{
--	/* only handle formats with depth != 0 and alpha channel */
--	switch (fourcc) {
--	case DRM_FORMAT_ARGB1555:
--		return DRM_FORMAT_XRGB1555;
--	case DRM_FORMAT_ABGR1555:
--		return DRM_FORMAT_XBGR1555;
--	case DRM_FORMAT_RGBA5551:
--		return DRM_FORMAT_RGBX5551;
--	case DRM_FORMAT_BGRA5551:
--		return DRM_FORMAT_BGRX5551;
--	case DRM_FORMAT_ARGB8888:
--		return DRM_FORMAT_XRGB8888;
--	case DRM_FORMAT_ABGR8888:
--		return DRM_FORMAT_XBGR8888;
--	case DRM_FORMAT_RGBA8888:
--		return DRM_FORMAT_RGBX8888;
--	case DRM_FORMAT_BGRA8888:
--		return DRM_FORMAT_BGRX8888;
--	case DRM_FORMAT_ARGB2101010:
--		return DRM_FORMAT_XRGB2101010;
--	case DRM_FORMAT_ABGR2101010:
--		return DRM_FORMAT_XBGR2101010;
--	case DRM_FORMAT_RGBA1010102:
--		return DRM_FORMAT_RGBX1010102;
--	case DRM_FORMAT_BGRA1010102:
--		return DRM_FORMAT_BGRX1010102;
--	}
--
--	return fourcc;
--}
--
--static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t fourcc)
--{
--	const uint32_t *fourccs_end = fourccs + nfourccs;
--
--	while (fourccs < fourccs_end) {
--		if (*fourccs == fourcc)
--			return true;
--		++fourccs;
--	}
--	return false;
--}
--
--/**
-- * drm_fb_build_fourcc_list - Filters a list of supported color formats against
-- *                            the device's native formats
-- * @dev: DRM device
-- * @native_fourccs: 4CC codes of natively supported color formats
-- * @native_nfourccs: The number of entries in @native_fourccs
-- * @fourccs_out: Returns 4CC codes of supported color formats
-- * @nfourccs_out: The number of available entries in @fourccs_out
-- *
-- * This function create a list of supported color format from natively
-- * supported formats and additional emulated formats.
-- * At a minimum, most userspace programs expect at least support for
-- * XRGB8888 on the primary plane. Devices that have to emulate the
-- * format, and possibly others, can use drm_fb_build_fourcc_list() to
-- * create a list of supported color formats. The returned list can
-- * be handed over to drm_universal_plane_init() et al. Native formats
-- * will go before emulated formats. Native formats with alpha channel
-- * will be replaced by such without, as primary planes usually don't
-- * support alpha. Other heuristics might be applied
-- * to optimize the order. Formats near the beginning of the list are
-- * usually preferred over formats near the end of the list.
-- *
-- * Returns:
-- * The number of color-formats 4CC codes returned in @fourccs_out.
-- */
--size_t drm_fb_build_fourcc_list(struct drm_device *dev,
--				const u32 *native_fourccs, size_t native_nfourccs,
--				u32 *fourccs_out, size_t nfourccs_out)
--{
--	/*
--	 * XRGB8888 is the default fallback format for most of userspace
--	 * and it's currently the only format that should be emulated for
--	 * the primary plane. Only if there's ever another default fallback,
--	 * it should be added here.
--	 */
--	static const uint32_t extra_fourccs[] = {
--		DRM_FORMAT_XRGB8888,
--	};
--	static const size_t extra_nfourccs = ARRAY_SIZE(extra_fourccs);
--
--	u32 *fourccs = fourccs_out;
--	const u32 *fourccs_end = fourccs_out + nfourccs_out;
--	size_t i;
--
--	/*
--	 * The device's native formats go first.
--	 */
--
--	for (i = 0; i < native_nfourccs; ++i) {
--		/*
--		 * Several DTs, boot loaders and firmware report native
--		 * alpha formats that are non-alpha formats instead. So
--		 * replace alpha formats by non-alpha formats.
--		 */
--		u32 fourcc = drm_fb_nonalpha_fourcc(native_fourccs[i]);
--
--		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
--			continue; /* skip duplicate entries */
--		} else if (fourccs == fourccs_end) {
--			drm_warn(dev, "Ignoring native format %p4cc\n", &fourcc);
--			continue; /* end of available output buffer */
--		}
--
--		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
--
--		*fourccs = fourcc;
--		++fourccs;
--	}
--
--	/*
--	 * The extra formats, emulated by the driver, go second.
--	 */
--
--	for (i = 0; (i < extra_nfourccs) && (fourccs < fourccs_end); ++i) {
--		u32 fourcc = extra_fourccs[i];
--
--		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
--			continue; /* skip duplicate and native entries */
--		} else if (fourccs == fourccs_end) {
--			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
--			continue; /* end of available output buffer */
--		}
--
--		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
--
--		*fourccs = fourcc;
--		++fourccs;
--	}
--
--	return fourccs - fourccs_out;
--}
--EXPORT_SYMBOL(drm_fb_build_fourcc_list);
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-index cb08a88242cc..1424b63dde99 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-@@ -93,6 +93,10 @@ static inline struct drm_sysfb_device *to_drm_sysfb_device(struct drm_device *de
-  * Plane
-  */
- 
-+size_t drm_sysfb_build_fourcc_list(struct drm_device *dev,
-+				   const u32 *native_fourccs, size_t native_nfourccs,
-+				   u32 *fourccs_out, size_t nfourccs_out);
-+
- int drm_sysfb_plane_helper_atomic_check(struct drm_plane *plane,
- 					struct drm_atomic_state *new_state);
- void drm_sysfb_plane_helper_atomic_update(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-index ffaa2522ab96..1bcdb5ee8f09 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-@@ -47,6 +47,144 @@ EXPORT_SYMBOL(drm_sysfb_mode);
-  * Plane
-  */
- 
-+static u32 to_nonalpha_fourcc(u32 fourcc)
-+{
-+	/* only handle formats with depth != 0 and alpha channel */
-+	switch (fourcc) {
-+	case DRM_FORMAT_ARGB1555:
-+		return DRM_FORMAT_XRGB1555;
-+	case DRM_FORMAT_ABGR1555:
-+		return DRM_FORMAT_XBGR1555;
-+	case DRM_FORMAT_RGBA5551:
-+		return DRM_FORMAT_RGBX5551;
-+	case DRM_FORMAT_BGRA5551:
-+		return DRM_FORMAT_BGRX5551;
-+	case DRM_FORMAT_ARGB8888:
-+		return DRM_FORMAT_XRGB8888;
-+	case DRM_FORMAT_ABGR8888:
-+		return DRM_FORMAT_XBGR8888;
-+	case DRM_FORMAT_RGBA8888:
-+		return DRM_FORMAT_RGBX8888;
-+	case DRM_FORMAT_BGRA8888:
-+		return DRM_FORMAT_BGRX8888;
-+	case DRM_FORMAT_ARGB2101010:
-+		return DRM_FORMAT_XRGB2101010;
-+	case DRM_FORMAT_ABGR2101010:
-+		return DRM_FORMAT_XBGR2101010;
-+	case DRM_FORMAT_RGBA1010102:
-+		return DRM_FORMAT_RGBX1010102;
-+	case DRM_FORMAT_BGRA1010102:
-+		return DRM_FORMAT_BGRX1010102;
-+	}
-+
-+	return fourcc;
-+}
-+
-+static bool is_listed_fourcc(const u32 *fourccs, size_t nfourccs, u32 fourcc)
-+{
-+	const u32 *fourccs_end = fourccs + nfourccs;
-+
-+	while (fourccs < fourccs_end) {
-+		if (*fourccs == fourcc)
-+			return true;
-+		++fourccs;
-+	}
-+	return false;
-+}
-+
-+/**
-+ * drm_sysfb_build_fourcc_list - Filters a list of supported color formats against
-+ *                               the device's native formats
-+ * @dev: DRM device
-+ * @native_fourccs: 4CC codes of natively supported color formats
-+ * @native_nfourccs: The number of entries in @native_fourccs
-+ * @fourccs_out: Returns 4CC codes of supported color formats
-+ * @nfourccs_out: The number of available entries in @fourccs_out
-+ *
-+ * This function create a list of supported color format from natively
-+ * supported formats and additional emulated formats.
-+ * At a minimum, most userspace programs expect at least support for
-+ * XRGB8888 on the primary plane. Sysfb devices that have to emulate
-+ * the format should use drm_sysfb_build_fourcc_list() to create a list
-+ * of supported color formats. The returned list can be handed over to
-+ * drm_universal_plane_init() et al. Native formats will go before
-+ * emulated formats. Native formats with alpha channel will be replaced
-+ * by equal formats without alpha channel, as primary planes usually
-+ * don't support alpha. Other heuristics might be applied to optimize
-+ * the sorting order. Formats near the beginning of the list are usually
-+ * preferred over formats near the end of the list.
-+ *
-+ * Returns:
-+ * The number of color-formats 4CC codes returned in @fourccs_out.
-+ */
-+size_t drm_sysfb_build_fourcc_list(struct drm_device *dev,
-+				   const u32 *native_fourccs, size_t native_nfourccs,
-+				   u32 *fourccs_out, size_t nfourccs_out)
-+{
-+	/*
-+	 * XRGB8888 is the default fallback format for most of userspace
-+	 * and it's currently the only format that should be emulated for
-+	 * the primary plane. Only if there's ever another default fallback,
-+	 * it should be added here.
-+	 */
-+	static const u32 extra_fourccs[] = {
-+		DRM_FORMAT_XRGB8888,
-+	};
-+	static const size_t extra_nfourccs = ARRAY_SIZE(extra_fourccs);
-+
-+	u32 *fourccs = fourccs_out;
-+	const u32 *fourccs_end = fourccs_out + nfourccs_out;
-+	size_t i;
-+
-+	/*
-+	 * The device's native formats go first.
-+	 */
-+
-+	for (i = 0; i < native_nfourccs; ++i) {
-+		/*
-+		 * Several DTs, boot loaders and firmware report native
-+		 * alpha formats that are non-alpha formats instead. So
-+		 * replace alpha formats by non-alpha formats.
-+		 */
-+		u32 fourcc = to_nonalpha_fourcc(native_fourccs[i]);
-+
-+		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
-+			continue; /* skip duplicate entries */
-+		} else if (fourccs == fourccs_end) {
-+			drm_warn(dev, "Ignoring native format %p4cc\n", &fourcc);
-+			continue; /* end of available output buffer */
-+		}
-+
-+		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
-+
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	/*
-+	 * The extra formats, emulated by the driver, go second.
-+	 */
-+
-+	for (i = 0; (i < extra_nfourccs) && (fourccs < fourccs_end); ++i) {
-+		u32 fourcc = extra_fourccs[i];
-+
-+		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
-+			continue; /* skip duplicate and native entries */
-+		} else if (fourccs == fourccs_end) {
-+			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
-+			continue; /* end of available output buffer */
-+		}
-+
-+		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
-+
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	return fourccs - fourccs_out;
-+}
-+EXPORT_SYMBOL(drm_sysfb_build_fourcc_list);
-+
- int drm_sysfb_plane_helper_atomic_check(struct drm_plane *plane,
- 					struct drm_atomic_state *new_state)
- {
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index 46912924636a..9562f9dc7835 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -271,8 +271,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    efi->formats, ARRAY_SIZE(efi->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       efi->formats, ARRAY_SIZE(efi->formats));
- 
- 	primary_plane = &efi->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &efidrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
-index c9415f0cb3ed..8d8ab39c5f36 100644
---- a/drivers/gpu/drm/sysfb/ofdrm.c
-+++ b/drivers/gpu/drm/sysfb/ofdrm.c
-@@ -15,7 +15,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fbdev_shmem.h>
--#include <drm/drm_format_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -1015,8 +1014,8 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    odev->formats, ARRAY_SIZE(odev->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       odev->formats, ARRAY_SIZE(odev->formats));
- 
- 	primary_plane = &odev->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &ofdrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
-index a1c3119330de..8530a3ef8a7a 100644
---- a/drivers/gpu/drm/sysfb/simpledrm.c
-+++ b/drivers/gpu/drm/sysfb/simpledrm.c
-@@ -18,7 +18,6 @@
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_shmem.h>
--#include <drm/drm_format_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -765,8 +764,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    sdev->formats, ARRAY_SIZE(sdev->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       sdev->formats, ARRAY_SIZE(sdev->formats));
- 
- 	primary_plane = &sdev->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &simpledrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 7945544ba73e..86e0b88dd51b 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -402,8 +402,8 @@ static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    vesa->formats, ARRAY_SIZE(vesa->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       vesa->formats, ARRAY_SIZE(vesa->formats));
- 
- 	primary_plane = &vesa->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &vesadrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/tests/drm_sysfb_helper_test.c b/drivers/gpu/drm/tests/drm_sysfb_helper_test.c
-index 88a4bf28c745..33acd3f02dc6 100644
---- a/drivers/gpu/drm/tests/drm_sysfb_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_sysfb_helper_test.c
-@@ -2,10 +2,11 @@
- 
- #include <kunit/test.h>
- 
--#include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_kunit_helpers.h>
- 
-+#include "../sysfb/drm_sysfb_helper.h"
-+
- #define TEST_BUF_SIZE 50
- 
- struct fb_build_fourcc_list_case {
-@@ -141,9 +142,9 @@ static void drm_test_fb_build_fourcc_list(struct kunit *test)
- 	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
- 
--	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
--						params->native_fourccs_size,
--						fourccs_out, TEST_BUF_SIZE);
-+	nfourccs_out = drm_sysfb_build_fourcc_list(drm, params->native_fourccs,
-+						   params->native_fourccs_size,
-+						   fourccs_out, TEST_BUF_SIZE);
- 
- 	KUNIT_EXPECT_EQ(test, nfourccs_out, params->expected_fourccs_size);
- 	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 49a2e09155d1..0d3ee2a1313f 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -134,8 +134,4 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 			     const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			     const struct drm_rect *clip, struct drm_format_conv_state *state);
- 
--size_t drm_fb_build_fourcc_list(struct drm_device *dev,
--				const u32 *native_fourccs, size_t native_nfourccs,
--				u32 *fourccs_out, size_t nfourccs_out);
--
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
--- 
-2.49.0
-
+-Jeff
