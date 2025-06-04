@@ -2,145 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA560ACD679
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 05:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE2FACD692
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 05:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1740010E29E;
-	Wed,  4 Jun 2025 03:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD9310E6F0;
+	Wed,  4 Jun 2025 03:30:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dtScJbE0";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="YK8bCoH0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3246010E29E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 03:23:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nDrXIftySgLLYanckg7gcNktK2cVnZtpBR99hCBOGZs4rJdr0fEscE3yMwDzm2gYTW/DRiiQmbtJDDdgQJohSz36C/9wDYBHaqwOkJ2seDXI0ALnlci4W98kA/duSwkRPvsm2EC2Tf9OV6EKUM+Mb43jq+4vXsewLsPpah/2ZG/S7iSJKRjRphcQVaNA/Ov3S6IGL5A3gvJrYOKAkjbAD4+47Gl2846JAcuhKBv1wsYrhlHCkjLtCzbhzCOBt7AfVcwP0X5ipKZdog2uHS/j4cb8VsPPBHvItWjcQlAzZkhXJluz1dv5CykW8JIqEcR6JWpKD8n6yLRi7DlksUeMyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iVrMq+2phiuQI++sLZ7/W2FmwHDwbhFujpNR8TI6UW4=;
- b=PXfNta3Mk3Q/JyIgIoGPP9Gj+GM6vFPtPBJCOZmE1mzMyaQhalEs6pIsivLoqBJwyEM9jwdAXQooxkEphTUykhIEc6B+GpprbW1pYwu0gNfvxVmaiBm71OQL6up35JRNsNLmCi9O09X7MVHPIGPk3qPtD1Emo+JntbkF0Gtz/CHL0uTpxH4SdwfbHPeNIYyywRVV6gC4ZT0kKfnjnEwGTFi9FnWNf13kL79yANvGn773TYRuaolICIn136rG12frTYzgrjs2nXjql9FLxSlGA6byDYCwdj/zoQ3Rpne2HuVQKFGZ4b3CYSKzEPqPkepmBNnkgR9rveVRu/6AqRdTlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iVrMq+2phiuQI++sLZ7/W2FmwHDwbhFujpNR8TI6UW4=;
- b=dtScJbE08pMFL0kkvqLxBBfKMaIEylv6vuHR0YIbLaaRs3/B3QPVYDWH6887eLTkNnEYg4445f3wwOE5fFlOv4okobJHE/d2K7NaFK1xkBWhsMy/xCQRvNnTUvJbA96n3DUA8mGavRxKxpzjtfptkxrYZu6ZPMrOnuzgOjMuJ92SfZqiGgTYS+ufmg+g0X1Hm5YMhRcnDo43b3pUoT/JoQqbOfU28CLUQpo6j2xIYfPvVbGHd0CX1sIAlCtGkJ4udwWrCNJ7LK+tQg3mcMrULaK35l+VHi2v3FrPVBT8+2wWNIHNUHHOQ93kryw7Se3Iu01FhUVJg9ZPka5bDL2TnA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7728.namprd12.prod.outlook.com (2603:10b6:8:13a::10)
- by MW3PR12MB4345.namprd12.prod.outlook.com (2603:10b6:303:59::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Wed, 4 Jun
- 2025 03:23:44 +0000
-Received: from DS0PR12MB7728.namprd12.prod.outlook.com
- ([fe80::f790:9057:1f2:6e67]) by DS0PR12MB7728.namprd12.prod.outlook.com
- ([fe80::f790:9057:1f2:6e67%5]) with mapi id 15.20.8769.022; Wed, 4 Jun 2025
- 03:23:44 +0000
-Date: Wed, 4 Jun 2025 13:23:39 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com, 
- dan.j.williams@intel.com, jgg@ziepe.ca, willy@infradead.org, david@redhat.com, 
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com, 
- zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org, balbirs@nvidia.com,
- lorenzo.stoakes@oracle.com, linux-arm-kernel@lists.infradead.org,
- loongarch@lists.linux.dev, 
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-cxl@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, John@groves.net
-Subject: Re: [PATCH 01/12] mm: Remove PFN_MAP, PFN_SG_CHAIN and PFN_SG_LAST
-Message-ID: <sldyvyn4lodqgcj3zfh6p6dxkp66aqwrzk66tgj7afog2u6wb6@wcb2b4dxqbdk>
-References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
- <cb45fa705b2eefa1228e262778e784e9b3646827.1748500293.git-series.apopple@nvidia.com>
- <20250602045427.GA21646@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250602045427.GA21646@lst.de>
-X-ClientProxiedBy: SY5P282CA0008.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:208::7) To CY8PR12MB7705.namprd12.prod.outlook.com
- (2603:10b6:930:84::9)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B331410E6D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 03:30:53 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-52934f4fb23so4282102e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jun 2025 20:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1749007850; x=1749612650;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fOC+m4zOJ34UxxPz/TiQmD5iaJADylPzttows/BWe1k=;
+ b=YK8bCoH0FR2gzwi/aBS8LZfSAOOnQ7l2k7rgKNlwaA96/yQp267DuPTWDT6LFL7I/5
+ +ws9/vSNoDiwP6Gn/MZ4M5YLMz/o0WEMnY77+EJI8OVNnAfgVhmalDwZlmV+wJQVmqM5
+ GxuHbFmj7aV1a9s01WuWj3GwWMbNTuEeHV2ZqcNpA6f8eE6kk5ruvzQe2lvLCrvOgEyW
+ mWvO1nHHI6Xola17p47nvBoapa3QakK2r0+lDUgA3flSfwzOaRamJcL08Py0FFqJV+pg
+ suFz19F0su8v2hVMET9cR4IugIQjSF3OW6Nq4e9jlUcquhs2PNTlwxqX0K2SqL37VIAO
+ wD/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749007850; x=1749612650;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fOC+m4zOJ34UxxPz/TiQmD5iaJADylPzttows/BWe1k=;
+ b=AaxGClqSr1VrbKZA6uk8Dx71T6xJz86AFI3MKNKv2xE3flC2bSJLnIB1ZaETZe3nwY
+ tajxADQb73RcqTpJUNw7OPFKbsCRN7Uykgr4WtKw3jeGZGvH3g2u5RuQ/tQYm0x/twth
+ zPy4lmpaItBLe0kxsvVsMhHR/I83/YtfLyTI+r5Iw7rV9tL/0qm49Fnd84SPU8kNFTfM
+ L0d7Rur73huPmesxnPmvSmH2k5ruVqd1w5wsAyVrRk5wgV+n79OYqxezEaTiB0uE08Z9
+ ethc82SPIUm3uYxJAzTxJxKT3ZFP/tDVg2XytkUmtxYvTT+8L8BlK+fO5Mg0yqHKJqts
+ VUYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPHCmxXTfhA2Jb5Lw4ArN00tEWO9OO3NBNe3CLSJXC7kKE6xL881yCtHPz3QbeBWybdJ4kxH+gzXI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGOwwSjj6waVQZB2LLaVKc0wkJGqI1+iHgMxqj8byh/FP7pQPl
+ JWNjW88+H/nSbWDCFAVM165wlP1zrihN8RDb21OB8rmPEWjR/Yn5tJVMbpBNop4+HJ9Fmebahdw
+ yfeROhwUeVSWHf7erx6AyL+Lw/2SMhFiGDT2i2pA/
+X-Gm-Gg: ASbGnctqoetnOb9/p5vTbDqMeaQCqPIyx7ZeoOX8v+2t7WkRULLQA8ZF5xnKGBRgBMW
+ sj3d5z2A+T/JDUANTMCj8WWrHrv/2hMx+mj8UG+0+NGSkv00tuJekiF6EdYSV5T3sugHKch8clK
+ 5IO+8Jj2seqCtXJMM+fnMiNcN5VPKLcYgmDMwFMJST6lWdYjoGlKcnlZcZgC50o44NcPhXr/rF3
+ w==
+X-Google-Smtp-Source: AGHT+IG5bw78Odqgpd3EBpVfqxdEd4THXeUjYORslhfe3Gche7FcK086w9JV/cR2nIVnS6RTWNlPCnRW0vrV7HVy6qs=
+X-Received: by 2002:a05:6102:b0b:b0:4e2:82c3:661c with SMTP id
+ ada2fe7eead31-4e746d8c858mr770783137.11.1749007850171; Tue, 03 Jun 2025
+ 20:30:50 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7728:EE_|MW3PR12MB4345:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5caa23f-58d1-4328-0632-08dda31735b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pqFt2n3iuRZLEfoe5AXeeq8v6G9EmCYAuHPvCXwhCAyPF58YJwc/eUG8cw0L?=
- =?us-ascii?Q?OJu1kmZusG6fFUZJ6Bnlt+IQQykPDOF1D/HXtwcX+wQNnctFBEArn4iIxGPA?=
- =?us-ascii?Q?rVNuPJdA2gWKQpS/LnfhOgElmMISVml1zolCxQzmLMqLNC4sGIcDLVLinSyI?=
- =?us-ascii?Q?0BxByidsXZ68qx+q9I9dSbDq1pyiHKGBaga3ySHggRQGPCxeRkiGa6+iy9Ot?=
- =?us-ascii?Q?nYzslgrD6S+dccOVhVX2QPyUS+fp+OWmotHzJxiL7F1vkNQEzCAyxx1V61sF?=
- =?us-ascii?Q?pm+DL7/F5EonXSD0KXGYkvXkyoonihvGyIfmUN3Bj8UfT6t1fBAXOAr8SdO5?=
- =?us-ascii?Q?H+h82mZDDHhh545Wdlg2ml2RKfYMpbiYquVuXY7O9MQaiyl+BHeZfb5VbSf+?=
- =?us-ascii?Q?j5K8eFkQzAIrpdt8q2XNej+3/9wYbDqudTMgrB19toyuBoB9E6itIyt5zJHn?=
- =?us-ascii?Q?4kRixx/y3qtSpLER7SPwYzWAh5G7ITexh+7ZT8YKQSzx7WZPZJCfiPTyg8Ze?=
- =?us-ascii?Q?epS0ACsq/JGpwKH5nKvB2z+iB8wufZqG07WpGOz+Uuaj6jeMISzNuxt6sjSe?=
- =?us-ascii?Q?LVBHO34KI5BZR1bsfcPsO+7LZKUxo10PcAx2YXjXqkGon8cHSG6VG9DbKUR8?=
- =?us-ascii?Q?C4PhMCIzwEjlyaWb4jsHwf7CtYRv8C9K52vTjp5qz3oUVtqJBRMpVadduryX?=
- =?us-ascii?Q?2kyRuDSSy9s0DxkfLqa2Ir52+LGgew2grekJs6lqSrxb72n9rU9VhkMAzvj+?=
- =?us-ascii?Q?6GP9aKpPP9/RSGSWcvVl0ND2XQxLratvytM0sihz4SffUBeJlT30pjFiaQBo?=
- =?us-ascii?Q?21heNvRpb/dyKf4oE7s4kF6jUmw6psWLzqXu6eb7O/R8pkwiuA6hh5fe8ng1?=
- =?us-ascii?Q?wTmLDgTjoZ/loXcnMpololzaAj0w7JfMd+V3PZPdcRIMdVhcOwUBYIfb7v1k?=
- =?us-ascii?Q?oKrA9LVPjJh5oAanDGXiMHg5owawaEtQ/veVREnTTdkuz7mkbFuxkIR0Ydfx?=
- =?us-ascii?Q?FxYkmwbtsKSlZDH9xGaN1pghawwZCH13F0wibPuOATQMJztZYgolH7GknVHn?=
- =?us-ascii?Q?T+FVRXLG3pUa0e5oIqast60shWrPCizJ+EP7dTZCKJw+Q2ChzUShrcqrMITT?=
- =?us-ascii?Q?4iJUDatXaAqAAWjopjjqu9I9vqETB2tpSvNMtAHUZhz7nfh7Hq3n3oDJoqSh?=
- =?us-ascii?Q?M+g1bjERukKpHeRd62BK+yhX/S8xFsQw7QY7JR/Thf1yspId4DHDwexVAMbg?=
- =?us-ascii?Q?fKetxcIDv/yrhwWDtKIo/c5y1AXH54vO/lXyhOOkMAcQlHAMmy9w0m3Y+/tJ?=
- =?us-ascii?Q?can3W2KB1kCKTPwQmGCrMksKFmhCOgs9Q+V9mqOjm6w43gSZIa8wpcsV/KJl?=
- =?us-ascii?Q?wYTjYB6/PFaUH1JtSA26eejspULoBYW61jMpV2GYaXcuusqaUg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7728.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qy2DMj68wAWpIG+RGzMYqsRXSRDQxEmz56qaVUfpK+W6snydV13OVZNR4V2r?=
- =?us-ascii?Q?DujbvT3XrSauGG7E1/LQtzr+DAjao2FwR6V62vTR7QP10FJOs/itcMgy97B7?=
- =?us-ascii?Q?JBki+Xj26LElChK2csinC3UYbnI9a9h1715G53kO6L2mVl14iXurzMeEM6dF?=
- =?us-ascii?Q?gz9futvPACKdWHA03gdpO72ve554zq89m1I3xcaTqlWHZBXGbErO5Z2Y2BnH?=
- =?us-ascii?Q?hhsDBlCViUpQGj8ouyUibK9vmnatUZxm45osJyDOAWx55l/bnSLlf85GDy1C?=
- =?us-ascii?Q?qUgd8hF9DtIUdxVNi86mfd526HIfafEvGDnFR+G+PrfV0OVrgkZCGJWUi8xm?=
- =?us-ascii?Q?966hM9BjsIoHqQqByhDGNUf4NCsS5FYwpYbsVyp3pu6LF26nlF+HbwMTncMQ?=
- =?us-ascii?Q?NqfwAPw/1DXFNl+o5OYsB/QZU50hK3LVlgDB01aEjpaNHFiU/GuUr2HXJtd9?=
- =?us-ascii?Q?3Ac+7IDhvhl53HwxVA97Dxr5g6Uf8rJuZrXIxfOtPK8HLG6XKdy3F0NjE+cU?=
- =?us-ascii?Q?FrFEBwXMvsBfQeUcu8QvVmzv53sD4bxgsQjkrzSQ7A1LywDYn7iuaSrTuQR9?=
- =?us-ascii?Q?jcamQIOfcXOF6eWGF495PFn18rNnFFBQv3BLF9vkJTiEcXwNSjUqLtG15j5t?=
- =?us-ascii?Q?Dmtan/efDMC8cF57NOTdFP+fWJjNrHyzJPCSukiI6bwthKqSWbwHrKTy9d1V?=
- =?us-ascii?Q?M9IpKKaO00cRTwO5g9bhz0EiK1c5iieOaoCb5an4BsfJqN/VLU5iO1zKBx/N?=
- =?us-ascii?Q?8Go8Ic2C3FbIh9F9cqaa/AvMgmgwKBE9ggTRjyJNbDM3H+ZFh924L24HlJb/?=
- =?us-ascii?Q?dpR5dusIbxHBEoVnyGdMvPU8NO1R28h3sfXqYulAwaCNT6VGBqXC/O8Zrf6o?=
- =?us-ascii?Q?K/It0MDkbZy8Y3crhuFlSZ1AaSYIS5egVH2OgHm99AFX2FPcWNt+IqP6vrc0?=
- =?us-ascii?Q?Ak8pTMOfxVwDtK0cBs3/C0VFRCdeFwM48QbGoN8+uwxEupOQzgAFW5bw/lkU?=
- =?us-ascii?Q?/YsFG04RbNSEhbNWB4ixpluoriIx1R7D2++5V3eFTw2DqQsJREAwleuNW/2y?=
- =?us-ascii?Q?oZGTD81yfVaU/ejgQ/Y4Jj+5NPGICR8WDDhpmnQMMr2BbBXL00HVvS8935ky?=
- =?us-ascii?Q?SOQB/pJ1c2NRYricJT4QwqBrt+ZvW/t11zqSek4L4NOo70INbWlIt14uPu6d?=
- =?us-ascii?Q?5/nqU3z7kIgJeRt4mDAg/pYripp8lb7D3gfS/+jG/NT5WorWs1QVNlJaNscX?=
- =?us-ascii?Q?jjl2NxQF3LVuFhXpAOdg9gtdfEClwS8oyiMzak5t6MU8M+XBI1epX7SEK4kB?=
- =?us-ascii?Q?rdgo6hJnOU6VYIQk8CmR4n3VFUvNviikykawYqY9eEN/x0Y/xHsgXcVTl3ds?=
- =?us-ascii?Q?2+C7lIUCmAlXGK9WcLTnyy9fohhxcmHhmtCKCL01WWcs2v1FX8SkxHXuvXfG?=
- =?us-ascii?Q?v468HzY+Mh/9j2zyeLpNaVlbdIxxxUxee+O/OGm0wNSW7cxXGJqw+V1U2jzN?=
- =?us-ascii?Q?Ka5fmMVNQc27SGjB/hg2MyvvQatg4wm3VB+uXjfJlhyRTKft5Di6lo2Q7mA9?=
- =?us-ascii?Q?Dcz4snkAMqvVKGy9vZ5Sj7hti8FKXf8gKlVCgV51?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5caa23f-58d1-4328-0632-08dda31735b8
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7705.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 03:23:44.2020 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L8m8A61nMDuMFEPvXbLRdbe4eUq/0x05It8NnrEcnYJ/0PGACEcpSH2zMw8+FSE6DMUPmruHXjTNe+nxNFnkkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4345
+References: <20250526132755.166150-1-acarmina@redhat.com>
+ <20250526132755.166150-2-acarmina@redhat.com>
+ <20250529090129.GZ24938@noisy.programming.kicks-ass.net>
+ <CAGegRW76X8Fk_5qqOBw_aqBwAkQTsc8kXKHEuu9ECeXzdJwMSw@mail.gmail.com>
+ <20250530140140.GE21197@noisy.programming.kicks-ass.net>
+ <202505301037.D816A49@keescook>
+ <20250531102304.GF21197@noisy.programming.kicks-ass.net>
+ <20250602-phenomenal-turkey-of-hurricane-aadcde@houat>
+ <20250603122603.GK21197@noisy.programming.kicks-ass.net>
+In-Reply-To: <20250603122603.GK21197@noisy.programming.kicks-ass.net>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Wed, 4 Jun 2025 12:30:38 +0900
+X-Gm-Features: AX0GCFsGfqrM-mb1TX-evfPNlSjXcsDpFP46rFQa5C7LWSuPpBr8suouJ-eIUyU
+Message-ID: <CAGS_qxoxkcDyUDKPYWAV2Sk1Df0kMYaDpSwinxUTyhtWpjkr6g@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] bug/kunit: Core support for suppressing warning
+ backtraces
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alessandro Carminati <acarmina@redhat.com>, linux-kselftest@vger.kernel.org, 
+ Dan Carpenter <dan.carpenter@linaro.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Ville Syrjala <ville.syrjala@linux.intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>, 
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, 
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ dri-devel@lists.freedesktop.org, 
+ kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+ Mark Rutland <mark.rutland@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,18 +110,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 02, 2025 at 06:54:27AM +0200, Christoph Hellwig wrote:
-> On Thu, May 29, 2025 at 04:32:02PM +1000, Alistair Popple wrote:
-> > The PFN_MAP flag is no longer used for anything, so remove it. The
-> > PFN_SG_CHAIN and PFN_SG_LAST flags never appear to have been used so
-> > also remove them.
-> > 
-> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> FYI, unlike the rest of the series that has some non-trivial work
-> this feels like a 6.16-rc candidate as it just removes dead code
-> and we'd better get that in before a new user or even just a conflict
-> sneaks in.
+On Tue, Jun 3, 2025 at 9:26=E2=80=AFPM Peter Zijlstra <peterz@infradead.org=
+> wrote:
+>
+> On Mon, Jun 02, 2025 at 01:13:29PM +0200, Maxime Ripard wrote:
+>
+> > > I can't operate kunit
+> >
+> > Why not?
+>
+> Too complicated. People have even wrecked tools/testing/selftests/ to
+> the point that it is now nearly impossible to run the simple selftests
+> :-(
+>
+> And while I don't mind tests -- they're quite useful. Kunit just looks
+> to make it all more complicated that it needs to be. Not to mention
+> there seems to be snakes involved -- and I never can remember how that
+> works.
 
-Good idea. I have just sent it as a stand-alone patch.
+I've been out of the loop for a while, but I'm curious.
+What parts in particular are the most annoying, or is it basically all of t=
+hem?
+
+Is it that adding a new test file requires editing at least 3 files
+(Makefile, Kconfig, the actual test.c file)?
+Is it editing/writing new tests because the C API is hard to use? (Has
+too many funcs to know how to do simple things, etc.?)
+
+For me personally, it's the first part about all the additional edits
+you have to make.
+I _hate_ doing it, but can't think of a good alternative that feels it
+makes the right tradeoffs (implementation complexity, requiring users
+to learn some new system or not, etc.)
+
+>
+> Basically, if the stuff takes more effort to make run, than the time it
+> runs for, its a loss. And in that respect much of the kernel testing
+> stuff is a fail. Just too damn hard to make work.
+>
+> I want to: make; ./run.sh or something similarly trivial. But clearly
+> that is too much to task these days :-(
+
+Agreed that ultimately, it would be nice if it was as simple as one of thes=
+e
+$ run_kunit_tests --suite=3Dtest_suite_name
+$ run_kunit_tests --in_file=3Dlib/my_test.c
+or something similar.
+
+But while I don't see a way to get there, if you've set your new test
+config to `default KUNIT_ALL_TESTS` and are fine running on UML, then
+it could be as simple as
+$ ./tools/testing/kunit/kunit.py run
+
+It should basically do what you want: `make` to regen the .config and
+build and then execute the tests.
+
+But I can see these pain points with it,
+a) it'll run a bunch of other tests too by default but they shouldn't
+be failing, nor should they add too much build or test runtime
+overhead.
+b) if the new test you're adding doesn't work on UML, you'd have to
+fiddle with enabling more kconfig options or switch arches
+c) it can be confusing how it has multiple subcommands in addition to
+`run` and it's not immediately clear when/why you'd ever use them
+d) the fact it's not like kselftest and just part of make, i.e. `make
+TARGETS=3D"foo" kselftest`
+   * even if kunit.py was dead simple (and it's not, but I don't think
+it's _that_ complex), it's another tool to learn and keep in your
+head.
+
+Do these cover what you've experienced?
+Or are there others?
+
+>
+> I spent almost a full day trying to get kvm selftests working a couple
+> of weeks ago; that's time I don't have. And it makes me want to go hulk
+> and smash things.
+
+Stepping back, I think there'll always be relatively simple things
+that take a bit too much effort to do in KUnit.
+
+But I'd like to get to the point where anyone can feel comfortable
+doing the very simple things.
+And I don't want it to be with the caveat of "after they've read 10
+pages of docs", because none of us have the time for that, as you say.
+
+E.g. If someone is introducing a new data structure, it should be easy
+to ask them to learn a enough KUnit so that they write _basic_ sanity
+tests for it and add it to their patch series.
+Maybe it's annoying to cover all edge cases properly and very
+difficult to try and test concurrent read/writes, but those are
+inherently harder problems.
+
+Cheers,
+Daniel
