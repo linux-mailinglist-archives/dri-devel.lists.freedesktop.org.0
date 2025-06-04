@@ -2,69 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF741ACDDD8
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0C6ACDDFF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 14:32:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C5D10E908;
-	Wed,  4 Jun 2025 12:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0008810E77B;
+	Wed,  4 Jun 2025 12:32:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EhXTjvaC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ryATeKJS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C47710E8CB;
- Wed,  4 Jun 2025 12:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749039963; x=1780575963;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=EFkzfqm1FA/pnUlUVk4/tkPBvTq7nP68gf7IeW/2B0w=;
- b=EhXTjvaCdoJe9SUD5eQ4XyGVolhq4qgixu37m1PL4IJMWTod9TUmUCwU
- DWGarE/CrPzfe9EZ95lOkVSw62jiiWiDjYHAY/UllnxvKtM/9XtKCY5Yd
- gOajgiS4U5gr/ZxM4wCwrQvgQhyTMJj65pzf+iRO83NaTdHZZ21sOna1P
- p9H3gErjAY/fonh68MVHxMD7+/ze3fgKc3sKhW3IeWAZkfpKMQtbritgf
- anRoN9vtYtkVYZgXWYHVM0vNIYtz2N++toROl0YiOVWlOYNRa/u8Uf+yz
- YRaQL+iUqa2yva/aSq5SLIDhiJzXlafCJQ9DcK5NeSkZ7tsNY2TDryW7a g==;
-X-CSE-ConnectionGUID: Gqd6L//UT0ubdM9pL2MMNA==
-X-CSE-MsgGUID: qjcd3gsFT3eltHglPkmM1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="53745741"
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="53745741"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 05:26:02 -0700
-X-CSE-ConnectionGUID: lH/3sueOTVeh6pK8IT9H7Q==
-X-CSE-MsgGUID: 4OTG5hFBSAutbZbNmejlmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="145133647"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.124])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 05:25:56 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 4 Jun 2025 15:25:52 +0300 (EEST)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v9 5/6] PCI: Allow drivers to control VF BAR size
-In-Reply-To: <20250527120637.665506-6-michal.winiarski@intel.com>
-Message-ID: <a6dd1c15-7c0c-bb60-9784-f3a18bc8b765@linux.intel.com>
-References: <20250527120637.665506-1-michal.winiarski@intel.com>
- <20250527120637.665506-6-michal.winiarski@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A9A10E723;
+ Wed,  4 Jun 2025 12:32:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5218BA503ED;
+ Wed,  4 Jun 2025 12:32:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6DDC4CEE7;
+ Wed,  4 Jun 2025 12:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749040352;
+ bh=mLZQYCpTNUqM/1tCyZE09oapdxkD7YSl8k8SirzlWtw=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=ryATeKJSm+Q2F7n9q011EWbhtZQbtrXhNXI0uoZYVIvGrnU+OHf++5oy3xf2ztQMV
+ D+zzAC4yi/ABKoQJAJlfzfIkGwm4PUsgY4jxsAPKs4Q6XqhIA/F1Tez8970BWBuC9x
+ P3ro7EX7kZ72259+SiPHDPe93h2U8WE3BzlXEbNrU/tQST5mHxyNZxT9VC1Eb3piu6
+ ZF0USYLHyRYUyVgjc9RqtLJSDIDvWzvJswWmaR/LElrykAND9tb6FaC2L2KifTaVpL
+ rGPMhwf/hGxEr1SbSoYB0TQFErECFwZmw1hZJx1Z3yfkuYKRNzQPIvshoc1B9ycSYw
+ loMFjGtsvJgFA==
+Message-ID: <0c0e8c720705d86b37a103346bccc36de4f5b025.camel@kernel.org>
+Subject: Re: [PATCH v13 0/9] ref_tracker: add ability to register a debugfs
+ file for a ref_tracker_dir
+From: Jeff Layton <jlayton@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"	
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni	
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula	
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Krzysztof Karas	
+ <krzysztof.karas@intel.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim
+ Ijaz	 <qasdev00@gmail.com>, Nathan Chancellor <nathan@kernel.org>, Andrew
+ Lunn	 <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
+ <thomas.weissschuh@linutronix.de>
+Date: Wed, 04 Jun 2025 08:32:29 -0400
+In-Reply-To: <20250603192949.3a7fc085@kernel.org>
+References: <20250603-reftrack-dbgfs-v13-0-7b2a425019d8@kernel.org>
+ <20250603192949.3a7fc085@kernel.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-318291348-1749039952=:979"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,167 +147,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-318291348-1749039952=:979
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Tue, 27 May 2025, Micha=C5=82 Winiarski wrote:
-
-> Drivers could leverage the fact that the VF BAR MMIO reservation is
-> created for total number of VFs supported by the device by resizing the
-> BAR to larger size when smaller number of VFs is enabled.
+On Tue, 2025-06-03 at 19:29 -0700, Jakub Kicinski wrote:
+> On Tue, 03 Jun 2025 07:27:11 -0400 Jeff Layton wrote:
+> > For those just joining in, this series adds a new top-level
+> > "ref_tracker" debugfs directory, and has each ref_tracker_dir register =
+a
+> > file in there as part of its initialization. It also adds the ability t=
+o
+> > register a symlink with a more human-usable name that points to the
+> > file, and does some general cleanup of how the ref_tracker object names
+> > are handled.
+> >=20
+> > This reposting is mostly to address Krzysztof's comments. I've dropped
+> > the i915 patch, and rebased the rest of the series on top.
+> >=20
+> > Note that I still see debugfs: warnings in the i915 driver even when we
+> > gate the registration of the debugfs file on the classname pointer bein=
+g
+> > NULL. Here is a CI report from v12:
+> >=20
+> >     https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_148490v8/bat-arl=
+s-6/igt@i915_selftest@live@workarounds.html
+> >=20
+> > I think the i915 driver is doing something it shouldn't with these
+> > objects. They seem to be initialized more than once, which could lead
+> > to leaked ref_tracker objects. It would be good for one of the i915
+> > maintainers to comment on whether this is a real problem.
 >=20
-> Add a pci_iov_vf_bar_set_size() function to control the size and a
-> pci_iov_vf_bar_get_sizes() helper to get the VF BAR sizes that will
-> allow up to num_vfs to be successfully enabled with the current
-> underlying reservation size.
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/pci/iov.c   | 73 +++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/pci.h |  6 ++++
->  2 files changed, 79 insertions(+)
->=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index f34173c70b32a..ac4375954c947 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -8,11 +8,15 @@
->   */
-> =20
->  #include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +#include <linux/log2.h>
->  #include <linux/pci.h>
-> +#include <linux/sizes.h>
->  #include <linux/slab.h>
->  #include <linux/export.h>
->  #include <linux/string.h>
->  #include <linux/delay.h>
-> +#include <asm/div64.h>
->  #include "pci.h"
-> =20
->  #define VIRTFN_ID_LEN=0917=09/* "virtfn%u\0" for 2^32 - 1 */
-> @@ -1313,3 +1317,72 @@ int pci_sriov_configure_simple(struct pci_dev *dev=
-, int nr_virtfn)
->  =09return nr_virtfn;
->  }
->  EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
-> +
-> +/**
-> + * pci_iov_vf_bar_set_size - set a new size for a VF BAR
-> + * @dev: the PCI device
-> + * @resno: the resource number
-> + * @size: new size as defined in the spec (0=3D1MB, 31=3D128TB)
-> + *
-> + * Set the new size of a VF BAR that supports VF resizable BAR capabilit=
-y.
-> + * Unlike pci_resize_resource(), this does not cause the resource that
-> + * reserves the MMIO space (originally up to total_VFs) to be resized, w=
-hich
-> + * means that following calls to pci_enable_sriov() can fail if the reso=
-urces
-> + * no longer fit.
-> + *
-> + * Return: 0 on success, or negative on failure.
-> + */
-> +int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
-> +{
-> +=09u32 sizes;
-> +=09int ret;
-> +
-> +=09if (!pci_resource_is_iov(resno))
-> +=09=09return -EINVAL;
-> +
-> +=09if (pci_iov_is_memory_decoding_enabled(dev))
-> +=09=09return -EBUSY;
-> +
-> +=09sizes =3D pci_rebar_get_possible_sizes(dev, resno);
-> +=09if (!sizes)
-> +=09=09return -ENOTSUPP;
-> +
-> +=09if (!(sizes & BIT(size)))
-> +=09=09return -EINVAL;
-> +
-> +=09ret =3D pci_rebar_set_size(dev, resno, size);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09pci_iov_resource_set_size(dev, resno, pci_rebar_size_to_bytes(size));
-> +
-> +=09return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_set_size);
-> +
-> +/**
-> + * pci_iov_vf_bar_get_sizes - get VF BAR sizes allowing to create up to =
-num_vfs
-> + * @dev: the PCI device
-> + * @resno: the resource number
-> + * @num_vfs: number of VFs
-> + *
-> + * Get the sizes of a VF resizable BAR that can accommodate @num_vfs wit=
-hin
-> + * the currently assigned size of the resource @resno.
-> + *
-> + * Return: A bitmask of sizes in format defined in the spec (bit 0=3D1MB=
-,
-> + * bit 31=3D128TB).
-> + */
-> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs=
-)
-> +{
-> +=09u64 vf_len =3D pci_resource_len(dev, resno);
-> +=09u32 sizes;
-> +
-> +=09if (!num_vfs)
-> +=09=09return 0;
-> +
-> +=09do_div(vf_len, num_vfs);
-> +=09sizes =3D (roundup_pow_of_two(vf_len + 1) - 1) >> ilog2(SZ_1M);
-> +
-> +=09return sizes & pci_rebar_get_possible_sizes(dev, resno);
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_get_sizes);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index ab62bcb5f99c6..cc633b1a13d51 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -2437,6 +2437,8 @@ int pci_sriov_set_totalvfs(struct pci_dev *dev, u16=
- numvfs);
->  int pci_sriov_get_totalvfs(struct pci_dev *dev);
->  int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
->  resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
-> +int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size);
-> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs=
-);
->  void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
-> =20
->  /* Arch may override these (weak) */
-> @@ -2489,6 +2491,10 @@ static inline int pci_sriov_get_totalvfs(struct pc=
-i_dev *dev)
->  #define pci_sriov_configure_simple=09NULL
->  static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev,=
- int resno)
->  { return 0; }
-> +static inline int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno=
-, int size)
-> +{ return -ENODEV; }
-> +static inline u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resn=
-o, int num_vfs)
-> +{ return 0; }
->  static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool pr=
-obe) { }
->  #endif
-> =20
->=20
+> I still see the fs crashes:
+> https://netdev-3.bots.linux.dev/vmksft-packetdrill-dbg/results/149560/2-t=
+cp-slow-start-slow-start-app-limited-pkt/stderr
+> I'll hide this series from patchwork for now. We will pull from Linus
+> on Thu, I'll reactivate it and let's see if the problem was already
+> fixed.
 
-Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+Sorry, I never got any mail about those failures. I would have looked
+at that sooner. It looks like the last netns reference can be put in a
+rcu callback? That makes sense.
 
+I think ref_tracker_dir_exit() has to remain safe to call from any
+context. Perhaps we can defer the dentry deletion to the system_wq?
+
+We can drop this series for now. I'll have to think about this.
+
+Thanks,
 --=20
- i.
-
---8323328-318291348-1749039952=:979--
+Jeff Layton <jlayton@kernel.org>
