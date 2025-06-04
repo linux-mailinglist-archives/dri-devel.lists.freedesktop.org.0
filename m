@@ -2,169 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5E5ACD71F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 06:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704EEACD780
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 07:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E89DC10E260;
-	Wed,  4 Jun 2025 04:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF1E10E6D3;
+	Wed,  4 Jun 2025 05:37:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ud5+A968";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h1AZtIb6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88B1C10E05C;
- Wed,  4 Jun 2025 04:18:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1767F10E5CB;
+ Wed,  4 Jun 2025 05:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749015431; x=1780551431;
+ h=message-id:date:from:subject:to:cc:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=AAQWa2bvTrHLEEPXTzxMdth5B0JYff/qtw7yiyXCN0I=;
+ b=h1AZtIb6+XFZhZAiqExGdcgXCDye2zhrxlM5BFdtzK4lyjUsUja/KnFH
+ bftq38uP2Y7byQV9BwXlc/f3IvcgVtWrJOIqNi6XJBj7QQ+IqPAI8yTO5
+ yg9xvAfcJ9/sVTOwiWp2s1pbrJ4kOOkfAw4Mq6GRgLml9OnmqfkXPUvC3
+ EsBqTLXO1sB6SzvlZaJfPeLNsieEzZpqEerE3wYf+lKvG5f/lK67tkZyZ
+ GPz8+CrzZEx9j914FXZCkcTwBygLIkbLoeqcbaMDDDNgJg4h1l3mYoppv
+ pfzkwFn5LGIgtxdlgFBqqQzciNFsbORaEl0w0erkJMQOwkZPoRRYcgHLj w==;
+X-CSE-ConnectionGUID: pvy/nIEJSeGEyhZeC+XrPA==
+X-CSE-MsgGUID: IFoQLMcfTPSZn6kSw1lEQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="50773533"
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="50773533"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2025 22:37:02 -0700
+X-CSE-ConnectionGUID: 3HNPd7GmQv2XnW4XEmAUxw==
+X-CSE-MsgGUID: XXhNeBJKRRuR6hy5gac8tA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="145044267"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2025 22:37:02 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 3 Jun 2025 22:37:01 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 3 Jun 2025 22:37:01 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.62)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Tue, 3 Jun 2025 22:37:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DPwd0l68ohOdCwAEDZfZMfhRtrl1VW/LZ+QJ3NPrxFjvgcAsmUHzKivt1U2xT702SOcxcU8w+5a2J+KDgY9+dsg1y4MbZf/ihBvDySfQ4XOz95+yzlCGLMUTsoHTjpUjyTiv2QCwzxBPuliekHkIR9gFWaQ/zzHY/Bdb448Qw0KK8eGK+OPJRbnsx+GXizghhR+iHxLyV6XYvnFzTXSMXokEC7wchyrPTe3vDrbg/mtYP+jDNxqkV2SP7AwAmwbU52opa0NDZKuYaiiNo0hDLGBIDyMfjUlU7wbmsHZAEfUU8iPWjAByBY5u4xxeCcs6HIdStnyusDiuIbHkVJszYw==
+ b=t9YE6M1PZO4OYNVOZTI1d/giNO8J2DJFWz6RW3pfmkMZl+rZOt3Q09aTyEJGxY9SeWAcC6m/4K+yAAOTDaZ9C1B+KWKgwrbagaMXQs+LjVCyqPophr0MqL70TqvUvQvSaxqNm1ei3nlgzcHhy22jNbOwfK+cOr/sJrGdsbiF/xTI6nNXIWW59OYoZSCHCo9ECiIy9hMvyIOrWpGbf/EIMpUJX+CPgNLYYgIXtygMe9XGjsUBPdRDfZ3BI//jQ0DUFGrD1vKeKW0qHkD+e3fqjena1r9Cy23UWgGLj2Rw50xIVOAfkuWVVPBrWa9MA7q+htUQLqmBp96Bx6qcCRnXDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZMSsrfHLspD/IpCSOTEIy2wFrUSU9TK0Wc1yJVPQVhY=;
- b=t/f5oTiFAITVI+yh5svbFMeqJ5CnArwC+f4eUKUvUc96P9qjIOhqaY7EsudY4jHR9vWlP+xQx1cSZe9oYzcZ9RdDUY2NLE18DH0SRJ+qYhLDV/Nt21aRL1jc5kg63JgddD6/Wjui4a01v7srpOKe3l/5GYax274TLPm6AWpLFVaEZcSJj6rMGgVHf2VhLgiZCpbk7ZLXG6lyaBfsKD/ti/owDY+mWbDRdys1Gb3oSLDbFUtQyixG08xNEQtc88QH3piKLBFEQh9GNHP5YNDp5F6h0bLz3jCPb89wd9VpHZVSyMuQBFs9g06ZoLK4HyeFkdaBB42e2PxKvSTQvcalcw==
+ bh=qtr+RGCZIzkpnCKvgZv0dgnBwTdE5B1Yzlzgj5xtFu4=;
+ b=F5ZbFYZAZ91qOvUFRcFKKUTguN9wMtPQ/akUxht70UaxSazQ8YnWBk6vBvj0zd2rQ4S6HY7zrciyFRltbfSWIAiaVHL13qOSoaHQJ5Mvb7NgP2tbvY7FqSIOiONR3036gdtWD42vsHoG76Ci+nU4yr9tgE1VtQpAcc6cqYAtmVHLeR6mMYZK2rxr9qHXwyoq9GF2KmaCgaHC2URMjmlH3d85nA3LzXi11OJ9wePIgCwVZLgMMSAQelsQwTc1FVA/xXA4yPeZOsqAQlhz8WM7pGUpYaPTIvxvw5U92/BbuINSFNUpFbusdV+0OwL2MWhhPWhrlqczB4MtFHoLjQOkYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZMSsrfHLspD/IpCSOTEIy2wFrUSU9TK0Wc1yJVPQVhY=;
- b=ud5+A9684XY19GMudcjhS7KMCb9iKFQwkBj91ANyIuFfF0xwXluiUy0FGXd9twuOXs+vtsD5ICmqfwjzu2Nq2Pqnz+j+IqeoBVR2sT9HJiW7TI1CxwFGuodEPUmpL+uZmRXYm5wrZYXaCsw2LfUpQFN4Q34PCoo/RTgk/RqiEqWXw7XGK+b37uw94N3HdEOugmF6LqVWPXj/JhhRFuwG0tewv9K/QbMIol/1CJMUws6F4YwIjsSrgOueqbpa6lmp3nztSbsSNp9Wpk5+2cc0lRIEQoBhtjBkz/mMMpSDbuOJpwcg1HJEyMiAQ5ajx40I4/NsIwCSMJv7k+4ZfT0rqw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH3PR12MB9731.namprd12.prod.outlook.com (2603:10b6:610:253::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Wed, 4 Jun
- 2025 04:18:41 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8792.034; Wed, 4 Jun 2025
- 04:18:41 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Jun 2025 13:18:37 +0900
-Message-Id: <DADGJZGG5PXE.170H96D26HIN6@nvidia.com>
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 17/20] gpu: nova-core: compute layout of the FRTS region
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250521-nova-frts-v4-0-05dfd4f39479@nvidia.com>
- <20250521-nova-frts-v4-17-05dfd4f39479@nvidia.com>
- <632966ba8231e8f3c20350b217b225301280cdd3.camel@redhat.com>
-In-Reply-To: <632966ba8231e8f3c20350b217b225301280cdd3.camel@redhat.com>
-X-ClientProxiedBy: TYWPR01CA0042.jpnprd01.prod.outlook.com
- (2603:1096:400:17f::13) To MN2PR12MB3997.namprd12.prod.outlook.com
- (2603:10b6:208:161::11)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com (2603:10b6:5:39b::15)
+ by SA3PR11MB7415.namprd11.prod.outlook.com (2603:10b6:806:318::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.31; Wed, 4 Jun
+ 2025 05:36:53 +0000
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::e353:636a:37f:21ef]) by DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::e353:636a:37f:21ef%6]) with mapi id 15.20.8792.034; Wed, 4 Jun 2025
+ 05:36:53 +0000
+Message-ID: <3d339343-39b0-482a-88c8-11097ddbccdf@intel.com>
+Date: Wed, 4 Jun 2025 11:06:46 +0530
+User-Agent: Mozilla Thunderbird
+From: "Nilawar, Badal" <badal.nilawar@intel.com>
+Subject: Re: [RFC 5/9] drm/xe/xe_late_bind_fw: Load late binding firmware
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
+ <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>
+References: <20250429160956.1014376-1-badal.nilawar@intel.com>
+ <20250429160956.1014376-6-badal.nilawar@intel.com>
+ <6e381497-cc19-4aa5-a6d0-cc4deccfbcdc@intel.com>
+Content-Language: en-US
+In-Reply-To: <6e381497-cc19-4aa5-a6d0-cc4deccfbcdc@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA0PR01CA0022.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:b8::7) To DM4PR11MB5536.namprd11.prod.outlook.com
+ (2603:10b6:5:39b::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB9731:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d4e78de-5b16-4a59-0cc2-08dda31ee2f0
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5536:EE_|SA3PR11MB7415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53178587-967e-4788-af55-08dda329cfdb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|10070799003|1800799024|7416014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dmtva2xRMXFacU9mbzdSYmh0ejhkVTRrOVJnWlNWWHhzNlUxZ1BGWTl6ZTBr?=
- =?utf-8?B?clZjbDlKNTNJT2g5QXd4SVpvYnRSMk05bUZaU0oyNjB4VmNld1JEWldBR0dl?=
- =?utf-8?B?Y0ZBcXJRL3BwL0VLV3lCQnBjcFIxQ2k1cUw5TmtBSnVoTFJ5cFRCSTd0R21w?=
- =?utf-8?B?d1VEMDZCOEFsZDNzSmFXS01SMXRMSUZzdGoraDZKWW4xc01NaUFMYVREQTZm?=
- =?utf-8?B?bzEvaHlBd3U4aXFDS3BLN1kwOTNNdG1WL24zOUVHZlVZQ0tsYTh5V09QNXdn?=
- =?utf-8?B?UUVwVjQ5ZmhTOUVuWWgxaURaSHJmdlZaZ0ZPMmJIQU4yN3hkbFBnZVhkYmdo?=
- =?utf-8?B?bTRQQmt5elRvcXA5azhUZUo3WXFaVUtBd1g1dUxmTUlKT0lmYTQzU2pIWXRo?=
- =?utf-8?B?b2VyZGtFamxFQndtRlFnRUZ0a0VCbHN6MFlaN3lSRFVlb3JpSytoUTZyRzFi?=
- =?utf-8?B?WEp1V3llSmxvZ280NWZqcjdNaHRtVURBN2xwQXl1SGpvRGxDV204ZjNsUnlF?=
- =?utf-8?B?cWR5VklXYlJOZkVCM1J4ODVOVWNtZWFpbkxZZXpVRmt2N3hDSHFxN0RDYllP?=
- =?utf-8?B?NUk4ajFvTm9OamluUU85MlNpc0QxNmVXU09ocEFxNjFSYWNFdWRrQ0xRL09j?=
- =?utf-8?B?ZVlkbElXaDNZUzFxUXl4bVFmVm9yUk5TTkhNVElnZFNwWmo2ZjEwSWJpV2Fq?=
- =?utf-8?B?YXVaU2UxNFE3RGVrUzd0a1libTFrWjFJY0pkWVd4dUFvbC8vdE9VWDBDZk1C?=
- =?utf-8?B?b0R2YkxHT0ZHRUpOelowaU9Jdktpb2hVMUUyNzhyUnczbXBhdEN6TWhma0pL?=
- =?utf-8?B?NERDdDJKT0VLbnJDY3hYL04xUEFESTBDbGNVR09xYlBPNVZuMUhMaXpxTnNq?=
- =?utf-8?B?bVZEeFF2ajFDcXdwcytYeEU1bXpvQ3kyRWpmQWFrYlFOeGFJK29SbFp4Ymo4?=
- =?utf-8?B?ZlRWU0VDYWNjZnhoNHYvUkc4ZTJVeTJNbTZQTDFHZGhyejR6NS9tK21SL0xD?=
- =?utf-8?B?alA2blkxemc3djdyODRYYXRqa1hMOVBDZDFaT1lVUWtpNHluYUp3RzlQaGYz?=
- =?utf-8?B?emFEaWs5TDdxQmhtY2RTUW94blUzZnR5MW1BTXpDVDlXUnp1WG4yZ1Z1QzE4?=
- =?utf-8?B?Ukx0VVlMSUFodjdaKzh4WmJUaFlIVlliN0FKOWtFcmo2bGMrMTBSMDJnTFYy?=
- =?utf-8?B?Q2NvUlFadUkrK0pScVpHUGNZTHBvT1kzRzZGaGo0Qi9xUDBNVU0vV0JaQUwy?=
- =?utf-8?B?RTNEZjJ4L3E4NUpKV0JuU0JybFNNTi9lYjZRd2ZGdjZzWUJPUzIvb2dKUWE5?=
- =?utf-8?B?MjFUZXdNR2lzU09RRTRLL1NmelJxdVBQU3JkdVJjSElzbzFGTGVDSFJtUDRt?=
- =?utf-8?B?ekZEZmY2ejcrYlI0djZjRXlpVnpBMFZzbHA2WHdZK3hqajFka0N1MFJzUnQv?=
- =?utf-8?B?Q2dYRURmU2lDWDA4aXdRRG1vbFZUNEh2RmFHbGd6b05ZT1RQM2VzbmVGS3dj?=
- =?utf-8?B?cndmQy9ScWtHbXBXSFFYd3BCbGhYdkhWS3E1UzlNMTlneDNiK3RHeVowbVlV?=
- =?utf-8?B?em9TeU1JWnNIbklldWZra3pFU09zRktNQkxLNXlMeEJqUmRHRTdBVlNkdzZO?=
- =?utf-8?B?My9wLzE0Z3l1Mld3UU9hRHhidzRGY0lNNXRiNzdjMGFEcUk3QzlJWUhCU3ZX?=
- =?utf-8?B?UkJPQ3d0Rm93RjczOTVyVlVnMW03K3BjL3RBN0pGdlN2QVJmbkRGZzQwNEty?=
- =?utf-8?B?S2lFQ052MUdTY3ZaR2txLzMwNFNoK0QzMnNVZnYxNFRkb0RIWUFqU2dlYk5U?=
- =?utf-8?B?M0dXVHJHYkphZU1iMTdHQWFrbUkwbUdJR21Ob0VTRkNqTmxLMTZPUVhYWUx4?=
- =?utf-8?B?a0FER1RwQ3NMeFZMVUhPMjU0d2Qyek81Q3BZaTc4OUFsd0dnNW8wdG4wODB3?=
- =?utf-8?B?M0t5MXU4SG9tUXNXZ0V4Nkl3SFlESVFRM0hSalpkNEtZNTZYMW12YnpHVEF2?=
- =?utf-8?B?NmtudWxtTXBRPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NE55QVY4NU9PaVZrdDFBeU1uZ0FicUxvaHQvc2dsVEZzUm9NdUF0SjgwTG4r?=
+ =?utf-8?B?WVZMOGVDNXFNc01hV3doYjI0WUcybzc0b01SZkhqZjNmNEVnL2NSdHpWKytz?=
+ =?utf-8?B?aVhhQzJESnBpWERRTkhhVFVpQzdWS1FweVdKUC82eXFKM1BQK3BmaFpUYVRJ?=
+ =?utf-8?B?b1pDb25XMVByMkRtMTJXNFF1V3ZucG8yaU9FWEgzTExMTDNNVXBkc21XNFpZ?=
+ =?utf-8?B?dHB6RjFGWjV4V3A3VFJCVkVad2JmQUVDNUIrd1VjaHdUU0s5WU1wU1Ira1Np?=
+ =?utf-8?B?cVpZd3k2d0c5WnkwUndMYTNRU2R1eTZwQWNRckgxeGhCVGJrUEh3ejd2elhD?=
+ =?utf-8?B?cGRFWWRDNzl3cWlmc3hhSHRzdlYvZDRPT2ZSbkgyd3NiUkNVY2lxMFJNWDdp?=
+ =?utf-8?B?VmNHeHc2b1V0b3VPWkc3ckhPbkI0WHBnRjRRY0MvZXE5dE9KS2F3Z09seFBJ?=
+ =?utf-8?B?WE5IRk5YaWw1cEVYbzBYQ3Nybmk0QmllT01qdGc5NjZWRjJMcWQrNVg5L3Ey?=
+ =?utf-8?B?SEFIa2lsNjM3TGhGeDRSdGN3aUNzbEYwYXZQQzVPbTF3UGllK01OVFFuTStJ?=
+ =?utf-8?B?SVlueVBPR0Y4bGp4WHVMWENNSFZwb2tMQmRqV08rYkNTa1Z1OEtHK0lIbFFt?=
+ =?utf-8?B?Q2hJbElnVDZISU1GRDV6cXR1REUzZ0pEd0I1SVJwOU5pbTROSVBsdi9RS2R2?=
+ =?utf-8?B?MGtiUm12MFdSbHpRMzNYYXA3ak83RitYNEdEN0pTSFh6VXlpS0VseFBUU3J2?=
+ =?utf-8?B?RG43SUlWckx6VWJ3Vm4zQW4yL0o4L3BNVmd5bHcxMUFDYk5VRjBSVmIrTnNC?=
+ =?utf-8?B?VGJHSVVoTnZqeXhPYUhKdEtwWTV6bHZlM1BkUEM5YjVoQ2ZzQ3RpY0lJa0VD?=
+ =?utf-8?B?TzJRZmpIQ0Q4ZHdMTWZIMkZCZnhOZnZRWlViUkZrOTBPMzRJUGJjcUFaYkhB?=
+ =?utf-8?B?aWdFbWpqZ005ZzhDU2pSOVgxTGtNNVdqU09IRUx0bHFuVEphNVFtQS94Q3d4?=
+ =?utf-8?B?ekowbXFxVTZwYytEMGwwTzdPaGMzZGI4Y0JlQklQNCtPamgzMU56ZEN0cXhh?=
+ =?utf-8?B?djRXempBR0lUVGFnUVhKaU03aW95VDd2LzNrTThrS0VEWHQ1em15L3hNcTRQ?=
+ =?utf-8?B?cjZ5WlB2Q21zY2g5MXdNeVQvWFhJa3N3aU1HazJDUG1YdTlSNkJwRWxpamE0?=
+ =?utf-8?B?TWtmcTRnSHdhREpsOUY1MnR2R1F5MzVIdHJpNlRsc2E5UGNMSVZEdkNzeGdu?=
+ =?utf-8?B?aGZCYUY3VmQwL3lLSTRSVEowZGdTdW11cWVyaXRIc1FKOHJUeXJDa3lYMkEr?=
+ =?utf-8?B?Rm5BanpXWXZNemVHUCsvcXNLZ2g4QjZET3BtMy9TRDJ2RTBpQVRpUXJhZ2xV?=
+ =?utf-8?B?WUpqTWRCc3JCcmVodkt0TEdya0tiRFZxa0dnWEY1dFFLRERMRStMZ0dsSVZp?=
+ =?utf-8?B?MmkyM3NMQ2FadHR2RnBCU1Z2ZzlPNHpZNG1QOFlkdnk1NkNwdEtUcjZINFdw?=
+ =?utf-8?B?TXdENGRjL3lVR3hQWno5RHZBeFY2cmoxRmpzN1FaVVVHWXJxTXdrMFNzQTdi?=
+ =?utf-8?B?ZUJQMDhhREVDTUd0Qi9oUG4wbS9QL3d6UytTYy8yQWhlODc2cVczVnYxajVq?=
+ =?utf-8?B?OXErVUlPblI3bWpyQkdvU3RZRUV6NmovUjI3QUtGTFk1RkZDUjF3VTNCT1M2?=
+ =?utf-8?B?eGlwbWlaeVZBR3pkcUFieWRpR1lsTTFZNlc4bGg0ditoOVhxVGFFOVZITjRy?=
+ =?utf-8?B?S2dzRzhSaVZpUjJleHhZYjZiQnhLcjhLM1hlT3BQTU56b2ZvZjVuRGNiOU1a?=
+ =?utf-8?B?ZFFKZ1NVbCtaODZXc0g1ZlFMbHZsUExqUXkwVXF0dUpodVF2SzNIeVZvWThv?=
+ =?utf-8?B?ck9sTUI0d05yOVFoWWVRUG9pU0hyRDVHQXR2cjE4Y2NaSS94dXJ6ZC9RNTlx?=
+ =?utf-8?Q?IIN2lRJfYhg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(10070799003)(1800799024)(7416014)(366016)(921020);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5536.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnNPcFd5TFFQWXJlVUJ0T0d1QW5JaVBvS1ZLMlUrVXJhK2JZaGRNQSthY3RN?=
- =?utf-8?B?bUt2Qk0wRFlZSU5wYlZMc3QwYUdnQVRmbEdUbkVrdDk0d0tsQ2VDWDFnSTlV?=
- =?utf-8?B?M3RsNEpqV2lxNzhSUGVOa0RPbHBjeVBOanZSMjg0WVgvUGFhbXpxYTVxYU9i?=
- =?utf-8?B?anFYMVBoUVV2aTBOMXhMYXo5ZGVJT1AxOFJmMkwxL2ozaEg5ZWVDTlV6WWcw?=
- =?utf-8?B?ckZ4ZklWaFBpTWFjRC8xbWkvSEpBalloNFJxRWsrM2poZ05FVWJMT0RYb0ZD?=
- =?utf-8?B?VFl5NWhkcEMzVlZmWjR1ajcwcmNtTXlVVm5DNUJEcldGSm1SNG5kc1o0WVlq?=
- =?utf-8?B?VVQzbTgvakt3ZnB1UnpuVXFCd09GdGx2Qk0xUVp5NExOVDRlYmV5cjNDTTVm?=
- =?utf-8?B?R0NUZncyZEJXc3Q3N09mbHJyMDBhOEZGVFljaVB3Z3d2YlptS1p3ajZNelRz?=
- =?utf-8?B?MU9OMldnN2RWRDd0REZoZ0hTTENkNndTR1pxcHBib1lyTjlzVUd0NWFSS2p1?=
- =?utf-8?B?dWoxQ3F1T0pWbWpDd1QwWmQyaEFBQXBockdFdGhHQ0xqSFdQbXZIR0ZIV0I1?=
- =?utf-8?B?UGNkZ3UzbHJTTVc4VysyeUhIdFZaZEpOTjhYcWJJNWl2akpzaHR6Wm16aUVl?=
- =?utf-8?B?bzR2c05OdllUV0tDOEpQamJabWtrMFZVeng3VWxDVUxXRkY0dzNvMllrOEUz?=
- =?utf-8?B?WjNuTHpkc3pJSU9nNFMxcUdVMCt0aE5wUXIrMDVjSFQ4V2REYXB1YkN3NjZy?=
- =?utf-8?B?dktaWkpTRDV5a3VWVEJaS1psZ1RmbkRud0tLSEZZQTRMZGVjVXFJS1kzMFEz?=
- =?utf-8?B?ZVl2VG56U0FEU1h3d3Z2aVE2TVRINVU5VDZRNmpyYXQ5MERzVTFHTjVZeDVu?=
- =?utf-8?B?ZHVCWDQ5VXdaMm9sSythdlNGQXduaXpVTHJramVYUm5YMStrN1loNERKQmpn?=
- =?utf-8?B?TTdCRnBpczJyUXIvdVA0R1REVXcxUjV1aCtWV3RtTHQrYnV5QzRtTWpxeXJM?=
- =?utf-8?B?N3RqSGgyckZYZXlDZWgwbDdrQTFtaW1UYldTSkhWTkRwN1l5VFllYlBmc3J3?=
- =?utf-8?B?Yk5ESFRXOUxnZnMyRmpVMURVT2hjYlNQTnBFOFNrRmVFSG1jQ2JLUzVBSHBa?=
- =?utf-8?B?dGE1VmNZcitUbnNEVU9tbnJ4a2YrakZMRlV0TW5MQ2wxeUQ5cjZGczdyYlBt?=
- =?utf-8?B?QmxvV2sycjY1WlAzVzVmZ1JobktFZEgzTC85cFhLUE4xZDc3RE9IampSTUts?=
- =?utf-8?B?UURSUS9DUkdnbWVsYmpEV3RNajJSQmVJcWY1SmVDR05vWGxuV0N0UUkzZFda?=
- =?utf-8?B?Ri90Z0xhUmlDVGxsb2lwWGRWNGVNSm5qdHNrNjc3aTk3VHNBbHJiREFmczlH?=
- =?utf-8?B?bWo3NVVYNXJrTmR0NDJkUmR5Uzlndm9Kb0NjTm5GNkw2QTJNRU5kNEVtUXp1?=
- =?utf-8?B?MkhSNUJQTUZDcWJmNWJKd3A0Zm1Ec2VXZU40NzEzK25pcGNXV0gwTHFMbUt6?=
- =?utf-8?B?ckhEdlM3SlFjQ1lIbUp2Q1FyUjZVSmt3UzdNUG1kZnpYVi94MS81dk5LSDcz?=
- =?utf-8?B?SndkUU54TklEYVh3bDg3ME9qZ2s1bjdIY3BMK2NZOThWVUZPYWQxWEF2dXMv?=
- =?utf-8?B?MnVlWENFWjlZdi9tc0RmSkRXQnhWYVpLdkJTV1RwcnN0TkhFeTgrL25VQWVQ?=
- =?utf-8?B?T0NWK1dYWGZSY0pYNHJJaFNsaWpOMmhUUFJXUzR4R3lncFZ4dTlobzNHZDNW?=
- =?utf-8?B?M01vQjBqQlN5clVQVjk5Q0cyNTRSdkgwUTFwK0JjaVhDcGdRRDVqSWs0ZzZM?=
- =?utf-8?B?RHc5b1hHY1RWbHBQTkhhM0dvSS80aklDMUw5TU5DdGRtTFlmdVhvN3liOG80?=
- =?utf-8?B?dW03WlF2bGpsVGFIKzcrWDcvZDZhU21UWHpoeC81TUxEYmJrVmk4eitVKzB0?=
- =?utf-8?B?WDdHT3h2Q1J1TVRWd1NOaEZ2RlJvNytBdGRrUy91OWJuMlFtTit2Q2xpdkNa?=
- =?utf-8?B?Qy8wNGdNTk5LVHk1UEhVVXhMYjR0aEhvZlhLYmZMK21hNWcvN1lSSlFNdWFZ?=
- =?utf-8?B?TlluUXI5cnFyNHpHaDVKdjRBRnZEdityZkllaTlKRUg3OTZRRXZnclpEU21s?=
- =?utf-8?B?ZHJYUGhlcUxxcmphdU5BTXIva1VNYjJ5NkthVXJ2UjhYcUtWSC9yejY2bWQz?=
- =?utf-8?Q?5uFNd5cMjzBI21sTNpyz6baMy/ocOFqCSiujvrJ9KPMf?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d4e78de-5b16-4a59-0cc2-08dda31ee2f0
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3997.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVZ6Y1QwTVMrMC9pTVBkR3B4ZU1mVEliZGsvL3grM2E5ZUtoV2tEZVZYUElN?=
+ =?utf-8?B?bndKTUF2UnlzeXZOOG1LaGt1Q1hDZGxJcEUxMHM3NmJOWGkvWVR5MDdGbll3?=
+ =?utf-8?B?QmNxT2o0MXFjSlE0bU9FaWxvbTJTRnNTdmRWZkQwZDk2TVIwR1VzR3VCQTlG?=
+ =?utf-8?B?QTFGczhmWGc3aSs4TUE5TE1MeGlkbm9uUFg1QnZyWDBmTWZNcG80NmVsNGEr?=
+ =?utf-8?B?c0lPek5VS1hCTHVyUnpWNCtiMWZMcEhORENLQnR3amdoTXVNb1M2VnRhY2kw?=
+ =?utf-8?B?bFMyV056NS9LcUZXWTQ1K0hZMk4rYVkvNlF0KzJreUdLMThTRGhuZ3M4QmRF?=
+ =?utf-8?B?aWxkU1FEOWMrbnk5RDNBRTRQcE9ZYmMyUlNlOW5IeUNGakFReVRPeDIvaVVU?=
+ =?utf-8?B?cklIOG9DU2RjK3Vxa1NpQmV5MHJoSE12UXdoYjhMbWYvODBTL3hNb3A4NGtB?=
+ =?utf-8?B?ZTNxTmZBNmxLWXNsMVFybTlNOVdVNjR4MGtocWlyaTZqVXYzc3k3TTJ2UjJF?=
+ =?utf-8?B?ejd5cTVUU1NTTDR1Y3RJWFhKeUpQdnhVZlFEOHNOS3AvZ1NOMGlROVBlM2ZM?=
+ =?utf-8?B?cDhzVjAyUTVrZFRmWVVyRWdWYlFJL2grUDE1Vk52bnlWRWozTUNtaVFFR2k1?=
+ =?utf-8?B?OXA5Q2R1ZkovQlJmdlh6TUJ2MFlEd1N5MGZPOEVnc1ppcGVheTRpRkNFUWhm?=
+ =?utf-8?B?eWFCYTZqeDUydEo4a0NVdUs0b2RPaHM5VHk4UFpscURCMlZGUG5oRU5mOGhv?=
+ =?utf-8?B?NjBGMVJNZnJhckYwVlRGNVl5NHE4akRFMGw3aTRDTWxZY3loTTUzSHprd2FT?=
+ =?utf-8?B?bUNzYmVtZHdyV2dOdVZoYkkzZHhlQ0VkbC9GMFJ2aFZwcnRvWVUzUXpQcko3?=
+ =?utf-8?B?SVZ3TmRFMjlFRlN5bVNmQ2tyRnpZYUQ1U29yaGpZeTlUb2hwQnRPZ0lBWWs1?=
+ =?utf-8?B?M2RaTXBXWUdnR2RCME16S29vZElQSFJqRUxjT2R6d1dsd3JMVEhjY0I2YWw4?=
+ =?utf-8?B?bEZCczZ1YUJzVWl4bjhpanI2K1NBRC92ODZkbUptMDQyTkJMOWtodmVrbW9P?=
+ =?utf-8?B?SzJ6UmEyb29ZMHFDOUFSVURFWWxvM0cvQmQxbjdGUjkvQXJoM1BCd1Z4SnNL?=
+ =?utf-8?B?Z1ZvMFdsbmFwVDNVaUFkZnBSM2hSY0ZZRjdOSkJwaVdWbjZ4bWk2bkVublNl?=
+ =?utf-8?B?T0xoTWE1MFgrUlhhTVlpKy9QRk5UM3VvNjYrQnVWM1QvbHhZVmRmcHVGSjVO?=
+ =?utf-8?B?Nm9hdlFYdHk5dEoxK0pRRTdxMm1kV3FaME9YOVgxYVhoNFpGWVVZZHh0Q3Rp?=
+ =?utf-8?B?U1M1WDFLSFlDd0FMb3VrS0VIaEFmUWlGdFFQQ3puQVB4QW10bWtVLzZoWEZU?=
+ =?utf-8?B?QWtPSVlvU0VpaktXcm80Vyt1YVpQTmhiVW5zQjlPQlZYV1RsL3ZoZGlSaGZY?=
+ =?utf-8?B?RG0xZzBSMWJ3eWM3aFcvb0ZEejB5ZjlvZ0k5ZU5QamNmNFdYV0ZQeG1RY3ox?=
+ =?utf-8?B?eGRKN1dRWUp3cWMybk0zbHBaOTRqYTBXN1N4U3R3d3gybTNQN1BWT0JSYTNh?=
+ =?utf-8?B?UjkyUStyUlM0a3JMV1ZqMU1CUjVxUzFyQmtJdyt6bERTQ2hXZ3BEcFlnUW1z?=
+ =?utf-8?B?ZWFkRTZ4MllZRVlYakdpMnE1ek5yU3pyRUVsNEpIMFo5QVdRVlFkMWVtSUNh?=
+ =?utf-8?B?T1dpb3M0MnJRdVdwNFBQY2pLV05CMmZ6NERsdjh2RnFIdFlxU0lkaWlIdEJa?=
+ =?utf-8?B?cnJtNGJ6M1VuTy8xanVxdkVNMEkxNkxMTjJvSjl3d3BKdG5jQ0lRNGR1KzVj?=
+ =?utf-8?B?T3JKbU5CNndEQVRrcFQ2Rmp0NXZGUksrdGVsZHFOMHBzZGVJVm5VbGFIdTY5?=
+ =?utf-8?B?cnlBNVBJNVU5VE9DYmQ3bW5MdzcrVDEzWjZyRnpNS0d6WlJrQlN1NG44Y1Qv?=
+ =?utf-8?B?QVZHbjY5ZExENFdzYURIaFBOb3U3S0RjR2FmS0R0MW9EWEdnNytJeUpCbDlv?=
+ =?utf-8?B?bVY1Ry9SN3JSYytadE9kZEU1TWRXOE5sRHdEUXNQWTI1WklML3Y4VmtRdzds?=
+ =?utf-8?B?TDcrVTdHWGFpWStvakRQMDgyTEhWVHI4Z29YVjBiOHc4VnVGaTYrcjgxaVlj?=
+ =?utf-8?Q?w3/YviTUBlT4AD8DUEkk3PByC?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53178587-967e-4788-af55-08dda329cfdb
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5536.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 04:18:41.4588 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 05:36:53.6083 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kdKgJlbRlRYE4D79jyxmSAqUGjjOsZbxLuJj8f/3x+1IW27rce5goTSSwWG4Qrg8mBRp3NNmclO6Nciw8WBAaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9731
+X-MS-Exchange-CrossTenant-UserPrincipalName: SRr4n1hB57WE/LLYioWbl+45Omarn3LIaJVDShB16E/LqKMh/jl8IZf1zvS/GBHmWfi3CmfIf/pr8RqpjXwBqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7415
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,238 +198,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jun 4, 2025 at 6:14 AM JST, Lyude Paul wrote:
-> On Wed, 2025-05-21 at 15:45 +0900, Alexandre Courbot wrote:
->> FWSEC-FRTS is run with the desired address of the FRTS region as
->> parameter, which we need to compute depending on some hardware
->> parameters.
->>=20
->> Do this in a `FbLayout` structure, that will be later extended to
->> describe more memory regions used to boot the GSP.
->>=20
->> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+
+On 08-05-2025 05:14, Daniele Ceraolo Spurio wrote:
+>
+>
+> On 4/29/2025 9:09 AM, Badal Nilawar wrote:
+>> Load late binding firmware
+>>
+>> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 >> ---
->>  drivers/gpu/nova-core/gpu.rs              |  4 ++
->>  drivers/gpu/nova-core/gsp.rs              |  3 ++
->>  drivers/gpu/nova-core/gsp/fb.rs           | 77 ++++++++++++++++++++++++=
-+++++++
->>  drivers/gpu/nova-core/gsp/fb/hal.rs       | 30 ++++++++++++
->>  drivers/gpu/nova-core/gsp/fb/hal/ga100.rs | 24 ++++++++++
->>  drivers/gpu/nova-core/gsp/fb/hal/ga102.rs | 24 ++++++++++
->>  drivers/gpu/nova-core/gsp/fb/hal/tu102.rs | 28 +++++++++++
->>  drivers/gpu/nova-core/nova_core.rs        |  1 +
->>  drivers/gpu/nova-core/regs.rs             | 76 ++++++++++++++++++++++++=
-++++++
->>  9 files changed, 267 insertions(+)
->>=20
->> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
->> index 39b1cd3eaf8dcf95900eb93d43cfb4f085c897f0..7e03a5696011d12814995928=
-b2984cceae6b6756 100644
->> --- a/drivers/gpu/nova-core/gpu.rs
->> +++ b/drivers/gpu/nova-core/gpu.rs
->> @@ -7,6 +7,7 @@
->>  use crate::falcon::{gsp::Gsp, sec2::Sec2, Falcon};
->>  use crate::firmware::{Firmware, FIRMWARE_VERSION};
->>  use crate::gfw;
->> +use crate::gsp::fb::FbLayout;
->>  use crate::regs;
->>  use crate::util;
->>  use crate::vbios::Vbios;
->> @@ -239,6 +240,9 @@ pub(crate) fn new(
->> =20
->>          let _sec2_falcon =3D Falcon::<Sec2>::new(pdev.as_ref(), spec.ch=
-ipset, bar, true)?;
->> =20
->> +        let fb_layout =3D FbLayout::new(spec.chipset, bar)?;
->> +        dev_dbg!(pdev.as_ref(), "{:#x?}\n", fb_layout);
+>>   drivers/gpu/drm/xe/xe_device.c       |  2 +
+>>   drivers/gpu/drm/xe/xe_late_bind_fw.c | 91 +++++++++++++++++++++++++++-
+>>   drivers/gpu/drm/xe/xe_late_bind_fw.h |  1 +
+>>   3 files changed, 92 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_device.c 
+>> b/drivers/gpu/drm/xe/xe_device.c
+>> index d83864e7189c..30a416323b37 100644
+>> --- a/drivers/gpu/drm/xe/xe_device.c
+>> +++ b/drivers/gpu/drm/xe/xe_device.c
+>> @@ -894,6 +894,8 @@ int xe_device_probe(struct xe_device *xe)
+>>         xe_late_bind_fw_init(&xe->late_bind);
+>>   +    xe_late_bind_fw_load(&xe->late_bind);
 >> +
->>          // Will be used in a later patch when fwsec firmware is needed.
->>          let _bios =3D Vbios::new(pdev, bar)?;
->> =20
->> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..27616a9d2b7069b18661fc97=
-811fa1cac285b8f8
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/gsp.rs
->> @@ -0,0 +1,3 @@
->> +// SPDX-License-Identifier: GPL-2.0
+>
+> Why does this need to be a separated call from xe_late_bind_fw_init?
+In subsequent patches xe_late_bind_fw_load called during S2idle/S3/rpm 
+resume.
+>
+>>       err = xe_oa_init(xe);
+>>       if (err)
+>>           return err;
+>> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c 
+>> b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+>> index 297238fd3d16..7d2bc959027d 100644
+>> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
+>> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+>> @@ -16,6 +16,16 @@
+>>   #include "xe_late_bind_fw.h"
+>>   #include "xe_pcode.h"
+>>   #include "xe_pcode_api.h"
+>> +#include "xe_pm.h"
 >> +
->> +pub(crate) mod fb;
->> diff --git a/drivers/gpu/nova-core/gsp/fb.rs b/drivers/gpu/nova-core/gsp=
-/fb.rs
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..e65f2619b4c03c4fa51bb24f=
-3d60e8e7008e6ca5
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/gsp/fb.rs
->> @@ -0,0 +1,77 @@
->> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * The component should load quite quickly in most cases, but it 
+>> could take
+>> + * a bit. Using a very big timeout just to cover the worst case 
+>> scenario
+>> + */
+>> +#define LB_INIT_TIMEOUT_MS 20000
 >> +
->> +use core::ops::Range;
+>> +#define LB_FW_LOAD_RETRY_MAXCOUNT 40
+>> +#define LB_FW_LOAD_RETRY_PAUSE_MS 50
+>>     static const char * const fw_id_to_name[] = {
+>>           [FAN_CONTROL_ID] = "fan_control",
+>> @@ -45,6 +55,78 @@ static int late_bind_fw_num_fans(struct 
+>> xe_late_bind *late_bind)
+>>           return 0;
+>>   }
+>>   +static void late_bind_work(struct work_struct *work)
+>> +{
+>> +    struct xe_late_bind_fw *lbfw = container_of(work, struct 
+>> xe_late_bind_fw, work);
+>> +    struct xe_late_bind *late_bind = container_of(lbfw, struct 
+>> xe_late_bind,
+>> +                              late_bind_fw[lbfw->id]);
+>> +    struct xe_device *xe = late_bind_to_xe(late_bind);
+>> +    int retry = LB_FW_LOAD_RETRY_MAXCOUNT;
+>> +    int ret;
+>> +    int slept;
 >> +
->> +use kernel::num::NumExt;
->> +use kernel::prelude::*;
+>> +    if (!late_bind->component_added)
+>> +        return;
 >> +
->> +use crate::driver::Bar0;
->> +use crate::gpu::Chipset;
->> +use crate::regs;
+>> +    if (!lbfw->valid)
+>> +        return;
 >> +
->> +mod hal;
+>> +    /* we can queue this before the component is bound */
+>> +    for (slept = 0; slept < LB_INIT_TIMEOUT_MS; slept += 100) {
+>> +        if (late_bind->component)
+>> +            break;
+>> +        msleep(100);
+>> +    }
 >> +
->> +/// Layout of the GPU framebuffer memory.
->> +///
->> +/// Contains ranges of GPU memory reserved for a given purpose during t=
-he GSP bootup process.
->> +#[derive(Debug)]
->> +#[expect(dead_code)]
->> +pub(crate) struct FbLayout {
->> +    pub fb: Range<u64>,
->> +    pub vga_workspace: Range<u64>,
->> +    pub frts: Range<u64>,
+>> +    xe_pm_runtime_get(xe);
+>> +    mutex_lock(&late_bind->mutex);
+>
+> You're locking the mutex here but you're not checking that any of the 
+> protected data is valid (late_bind->component can be NULL when we exit 
+> from the above for loop, or it might have changed from valid to NULL 
+> in between).
+>
+>> +    drm_dbg(&xe->drm, "Load %s firmware\n", fw_id_to_name[lbfw->id]);
+>> +
+>> +    do {
+>> +        ret = 
+>> late_bind->component->ops->push_config(late_bind->component->mei_dev,
+>> +                                 lbfw->type, lbfw->flags,
+>> +                                 lbfw->payload, lbfw->payload_size);
+>> +        if (!ret)
+>> +            break;
+>> +        msleep(LB_FW_LOAD_RETRY_PAUSE_MS);
+>> +    } while (--retry && ret == -EAGAIN);
+>
+> In which scenario can this call return -EAGAIN ? As far as I can see 
+> the mei driver only returns that on a non-blocking call, which is not 
+> what we're doing here. Am I missing a path somewhere?
+Discussed offline with Sasha, we should be using -EBUSY here as 
+mei_cldev_enable() can return -EBUSY.
+>
+>> +
+>> +    if (ret)
+>> +        drm_err(&xe->drm, "Load %s firmware failed with err %d\n",
+>> +            fw_id_to_name[lbfw->id], ret);
+>> +    else
+>> +        drm_dbg(&xe->drm, "Load %s firmware successful\n",
+>> +            fw_id_to_name[lbfw->id]);
+>> +
+>> +    mutex_unlock(&late_bind->mutex);
+>> +    xe_pm_runtime_put(xe);
 >> +}
 >> +
->> +impl FbLayout {
->> +    /// Computes the FB layout.
->> +    pub(crate) fn new(chipset: Chipset, bar: &Bar0) -> Result<Self> {
->> +        let hal =3D chipset.get_fb_fal();
+>> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
+>> +{
+>> +    struct xe_device *xe = late_bind_to_xe(late_bind);
+>> +    struct xe_late_bind_fw *lbfw;
+>> +    int id;
 >> +
->> +        let fb =3D {
->> +            let fb_size =3D hal.vidmem_size(bar);
+>> +    if (!late_bind->component_added)
+>> +        return -EINVAL;
 >> +
->> +            0..fb_size
->> +        };
->> +
->> +        let vga_workspace =3D {
->> +            let vga_base =3D {
->> +                const NV_PRAMIN_SIZE: u64 =3D 0x100000;
+>> +    for (id = 0; id < MAX_ID; id++) {
+>> +        lbfw = &late_bind->late_bind_fw[id];
+>> +        if (lbfw->valid) {
+>> +            drm_dbg(&xe->drm, "Queue work: to load %s firmware\n",
+>> +                fw_id_to_name[lbfw->id]);
+>> +            queue_work(late_bind->wq, &lbfw->work);
 >
-> Don't leave those size constants out, they're getting lonely :C
-
-Not quite sure where I should put these; they are not used (for now)
-anywhere else, so the relevant scope is not obvious to me. Any
-suggestion?
-
+> Do we need to flush this work before suspend to make sure it has 
+> completed before the HW goes into D3Hot? Similarly, do we need to 
+> flush it on driver unload to make sure it's done before we de-allocate 
+> stuff?
+Sure, I will flush this before unbind.
 >
->> +                let base =3D fb.end - NV_PRAMIN_SIZE;
->> +
->> +                if hal.supports_display(bar) {
->> +                    match regs::NV_PDISP_VGA_WORKSPACE_BASE::read(bar).=
-vga_workspace_addr() {
->
-> Considering how long register names are by default, I wonder if we should=
- just
-> be doing:
->
-> `use crate::regs::*`
->
-> Instead, since the NV_* makes it pretty unambiguous already.
-
-We could - I'm just a bit wary of introducing lots of (unrelated)
-register names into the file's namespace... Maybe we should split
-`regs.rs` into smaller sub-modules, e.g. `pdisp`, `pfb`, `pfalcon`, etc?
-
->
->> +                        Some(addr) =3D> {
->> +                            if addr < base {
->> +                                const VBIOS_WORKSPACE_SIZE: u64 =3D 0x2=
-0000;
->> +
->> +                                // Point workspace address to end of fr=
-amebuffer.
->> +                                fb.end - VBIOS_WORKSPACE_SIZE
->> +                            } else {
->> +                                addr
->> +                            }
->> +                        }
->> +                        None =3D> base,
->> +                    }
->> +                } else {
->> +                    base
->> +                }
->> +            };
->> +
->> +            vga_base..fb.end
->> +        };
->> +
->> +        let frts =3D {
->> +            const FRTS_DOWN_ALIGN: u64 =3D 0x20000;
->> +            const FRTS_SIZE: u64 =3D 0x100000;
->> +            let frts_base =3D vga_workspace.start.align_down(FRTS_DOWN_=
-ALIGN) - FRTS_SIZE;
->> +
->> +            frts_base..frts_base + FRTS_SIZE
->> +        };
->> +
->> +        Ok(Self {
->> +            fb,
->> +            vga_workspace,
->> +            frts,
->> +        })
->> +    }
->> +}
->> diff --git a/drivers/gpu/nova-core/gsp/fb/hal.rs b/drivers/gpu/nova-core=
-/gsp/fb/hal.rs
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..9f8e777e90527026a3906116=
-6c6af6257a066aca
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/gsp/fb/hal.rs
->> @@ -0,0 +1,30 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +use crate::driver::Bar0;
->> +use crate::gpu::Chipset;
->> +
->> +mod ga100;
->> +mod ga102;
->> +mod tu102;
->> +
->> +pub(crate) trait FbHal {
->> +    /// Returns `true` is display is supported.
->> +    fn supports_display(&self, bar: &Bar0) -> bool;
->> +    /// Returns the VRAM size, in bytes.
->> +    fn vidmem_size(&self, bar: &Bar0) -> u64;
+>> +        }
+>> +    }
+>> +    return 0;
 >> +}
 >> +
->> +impl Chipset {
->> +    /// Returns the HAL corresponding to this chipset.
->> +    pub(super) fn get_fb_fal(self) -> &'static dyn FbHal {
->> +        use Chipset::*;
+>> +/**
+>> + * late_bind_fw_init() - initialize late bind firmware
+>> + *
+>> + * Return: 0 if the initialization was successful, a negative errno 
+>> otherwise.
+>> + */
+>>   static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 id)
+>>   {
+>>       struct xe_device *xe = late_bind_to_xe(late_bind);
+>> @@ -93,6 +175,7 @@ static int late_bind_fw_init(struct xe_late_bind 
+>> *late_bind, u32 id)
+>>         memcpy(lb_fw->payload, fw->data, lb_fw->payload_size);
+>>       release_firmware(fw);
+>> +    INIT_WORK(&lb_fw->work, late_bind_work);
+>>       lb_fw->valid = true;
+>>         return 0;
+>> @@ -108,12 +191,17 @@ int xe_late_bind_fw_init(struct xe_late_bind 
+>> *late_bind)
+>>       int id;
+>>       int ret;
+>>   +    late_bind->wq = 
+>> create_singlethread_workqueue("late-bind-ordered-wq");
+>
+> Where is this WQ destroyed? Also, I think that using 
+> alloc_ordered_workqueue would be preferred.
+I missed that, will fix it.
+>
+> Daniele
+>
+>> +    if (!late_bind->wq)
+>> +        return -ENOMEM;
 >> +
->> +        match self {
->> +            TU102 | TU104 | TU106 | TU117 | TU116 =3D> tu102::TU102_HAL=
-,
->> +            GA100 =3D> ga100::GA100_HAL,
->> +            GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD1=
-04 | AD106 | AD107 =3D> {
+>>       for (id = 0; id < MAX_ID; id++) {
+>>           ret = late_bind_fw_init(late_bind, id);
+>>           if (ret)
+>>               return ret;
+>>       }
+>> -    return ret;
+>> +
+>> +    return 0;
+>>   }
+>>     static int xe_late_bind_component_bind(struct device *xe_kdev,
+>> @@ -179,7 +267,6 @@ int xe_late_bind_init(struct xe_late_bind 
+>> *late_bind)
+>>       }
+>>         late_bind->component_added = true;
+>> -    /* the component must be removed before unload, so can't use 
+>> drmm for cleanup */
+>>         return 0;
+>>   }
+>> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h 
+>> b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+>> index e88c637b15a6..edd0e4c0650e 100644
+>> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
+>> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+>> @@ -13,5 +13,6 @@ struct xe_late_bind;
+>>   int xe_late_bind_init(struct xe_late_bind *late_bind);
+>>   void xe_late_bind_remove(struct xe_late_bind *late_bind);
+>>   int xe_late_bind_fw_init(struct xe_late_bind *late_bind);
+>> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
+>>     #endif
 >
-> Hopefully I'm not hallucinating us adding #[derive(Ordering)] or whatever=
- it's
-> called now that I'm 17 patches deep but, couldn't we use ranges here w/r/=
-t to
-> the model numbers?
-
-I wish we could, but Rust doesn't allow this yet:
-
-    error[E0029]: only `char` and numeric types are allowed in range patter=
-ns
-      --> drivers/gpu/nova-core/gsp/fb/hal.rs:23:13
-      |
-    23 |             TU102..TU116 =3D> tu102::TU102_HAL,
-      |             -----^^-----
-      |             |      |
-      |             |      this is of type `Chipset` but it should be `char=
-` or numeric
-      |             this is of type `Chipset` but it should be `char` or nu=
-meric
-
-Applying `#[repr(u32)]` on `Chipset` does not enable ranges unfortunately.
-
->
-> Otherwise:
->
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-Thank you!
-
