@@ -2,171 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C886CACE232
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 18:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED80ACE240
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 18:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2403D10E77D;
-	Wed,  4 Jun 2025 16:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2BA10E768;
+	Wed,  4 Jun 2025 16:34:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Acav7xgT";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dnCiDsER";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 529CF10E7D1;
- Wed,  4 Jun 2025 16:28:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 546F610E768;
+ Wed,  4 Jun 2025 16:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749054481; x=1780590481;
+ t=1749054890; x=1780590890;
  h=date:from:to:cc:subject:message-id:reply-to:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=tDYB/RcTH9Wp2RI2yEDiMDQHJKsL0/MbD1HU8BXMVOw=;
- b=Acav7xgTWeMghTPcPZ2CRbd3pxANmjQMsvcgvLKRn//UpHjcqPPCgo7P
- dndCo0gRSpC5XBNIyh9xa3DdXSZ4KBMEZWE0sMzc/jEu/cpe+fENdzAJd
- FPp3sJEa99kISw0USnJata3oMPd7ImTe4JowyjnCS8bDyFKv/XVQAsyWf
- 2h+kXCpz1eQCoFmohO4fbhnqOEUJxolrQ48CrhHIariqQFqpnYcmJh2gr
- HtU2vpT1cphS5GJovSn/90SnRAVXmLwi1d/XrFvUVkYTYGEDsBWKOctmG
- bDERQeo3W8r+rLgWaLab6eKQvUCMsoX1itRTlDwpouAatkC1U4PM5WNbJ w==;
-X-CSE-ConnectionGUID: vetZ0EffQA2Y6MhS4yeAhA==
-X-CSE-MsgGUID: NDF7neu0RU6O4pQPXRku1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50263341"
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="50263341"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 09:28:01 -0700
-X-CSE-ConnectionGUID: OBAdN8rkQvmgsEBIu/tc2g==
-X-CSE-MsgGUID: op9VIPfiT2qXreOkFoAV4w==
+ bh=HGnuXc6xF0csZy3Gy+id5fcz+UsGP/KIIOY2gbHzgdw=;
+ b=dnCiDsERavCiqzMOj3f7PEAVDMK+7PXkvTl0+49x6MS7+4hMjzaQnH/+
+ LfFQYDVM9kbUIN7HayfB4EIBRdl7kmxVINvrGV+PKtIPd7mqcalx+P1j+
+ zspl4vFpC8f1slGiyj7eKVXKQJauYYJYyPeiwJHm0xoDlXgANtUrPTLYa
+ 05GCnITvP4qcZUTcJYyezTJr1o3tnA7dS4aPArzfN7ZRVHFF5OSsERbMq
+ JLDA+3H4N4owKljEonvY2ZDBlzxyQNVBCNFNn9M0EXXXdcePCZw5Xc4Pd
+ 5Z0AITmMJQrP7PjQSaIRPNdIgDsH5zeECx/MHrqGRijY5DplyCqulZQ9N w==;
+X-CSE-ConnectionGUID: gyjp8f2+TDGdi0cJ+OlIXw==
+X-CSE-MsgGUID: NeUIU5Q+SJaK7uZJNx0NuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="38781233"
+X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="38781233"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 09:34:43 -0700
+X-CSE-ConnectionGUID: aA4/PrdDSgyLUFZZGJF+Cw==
+X-CSE-MsgGUID: MH+bC/1LSlac4CCxk66DPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="146176085"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 09:28:00 -0700
+X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="146218637"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 09:34:42 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 4 Jun 2025 09:27:59 -0700
+ 15.2.1544.25; Wed, 4 Jun 2025 09:34:42 -0700
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 4 Jun 2025 09:27:59 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.55)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.2.1544.25 via Frontend Transport; Wed, 4 Jun 2025 09:34:42 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.62) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Wed, 4 Jun 2025 09:27:59 -0700
+ 15.1.2507.55; Wed, 4 Jun 2025 09:34:41 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M+GjDRQxEM2CRpleT5ml5MuRIP+iUe76B/zFnQGkTo7rBNSNquJhSs0Q/ywAtAlr6ikQceFYMf9Whd6VwrMLu8vOB/vFJszzl+3QnRrDfYF6hHUuHjCWiM3WJ6OiB9bj2Thw8VYlJLHM7dpVdsAiUVEjpaqVSMYQr12/SXcaxhky9c1Prm0wTC6i3Ya71LcpUIEl150k6QNBdx7+xTfJ99MP8wjsnRd2LqTFJYNBEjZj4gmwDVzyGrjVYv720LZ1DOM5YQxT0CBhcEnqYU7z44ABPm2m3uFCZDBUffeUs1BCiIAaXK6kl0lB2i8pDP0Y8ymovlHukijoMcqZHGGcpg==
+ b=wNcaR4XBcAwJf9gLOY0H+wfP4I2wOep8PoTTvtejD28eFviXuuVzn3tq0ptip+JbABH8RRoJbNUn4BTQ/MufFeALNo5eAhn1F5oytnqgHDpz6WbO1aEBZo2UFkVzCxkMvB+sH1xnMpg+3eas0JnoqN4vUZmuscDGxOs0IdjH2M9lJwf8ieOkkyJCRjpecPWePn/sSIXTYTjIa4SToQYVsHcTe7p5Fsv4KhABkapULfMt+uxtWLkxsYnX05XO132dhZ9Std/lx06BEuoUf5db0sCsmAY+HR8zHzaWRsJv66wh2EVx91t/83i8EVDcOAMnBfPP9pEJ8GPWUb+sS6Rjng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RCpXHx6+p81T8fg9XPXz/sYVw9C6qARqldnwJmqeOtI=;
- b=bmEj/9UZA55FSVr6Lc6dG/zSy/961F5O6ECkl50M4Vdk5K1LBNXV7YkjJKo7PGGueHfBIkXROAokuuTdrtLGxh8qdkaffYJv1UrDr9hTLnISvsj3m1nP1iA15zci2TA5foRW50WpZdZSYbYeVnDFLawBZM1U4s1IVqmBpISsJGeK0fdyjC4HU5lBu1SdHUriznIaC1ZxpLTwg6D/dpDCUI3Noem6HcjZt1uItynyOuwaDUvvGboERh2vwuHTAOvso2hInrV+Qt+KzCkr6RYex3XyiwnBRBmwOJqim4Pjo7sE7LTcjSZ5reldSSe3FvnS57s+vyXcM4vGfjK/s8RyTw==
+ bh=bx/7Srr7XgNv/vdU/bNMqFI2db0hXqGJ4li0EvnJFH8=;
+ b=b38gPiJsYdZyEiAHnz/3g6fVZAmAI8JSRrRQdzEIZAgJYth+fAYcXT+WAMn+Ec3INsYqpfSiFrRhzwHRXyWh7o7/0u+/HFVImwmH6+1QV3hLNlvYjjtHoDDO3iAbVKbnX8JP8Cte2d1hZMKzsh76ozw+s+kR39oLlxPu2KdlpmXM4eeGkyp40JhuTxHdyQMlhxcQ2i6YS+N1RDbWb4aAJQqg5MD1php5raI/XMA/hC8oVhcErYhl1H/D2QB+vDAZ5LBW7fk+Y+QzZ5BiNYrAM/KjSG0B9OeXlMS1a4qqaO24SJa4O8Agv2SJVxURMAyziVAaIwEw5t3MR7hl8ULzRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by DS4PPF2AD6B04BA.namprd11.prod.outlook.com (2603:10b6:f:fc02::16)
+ by IA1PR11MB8830.namprd11.prod.outlook.com (2603:10b6:208:599::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.20; Wed, 4 Jun
- 2025 16:27:57 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Wed, 4 Jun
+ 2025 16:34:39 +0000
 Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f%2]) with mapi id 15.20.8769.037; Wed, 4 Jun 2025
- 16:27:57 +0000
-Date: Wed, 4 Jun 2025 19:27:50 +0300
+ 16:34:39 +0000
+Date: Wed, 4 Jun 2025 19:34:32 +0300
 From: Imre Deak <imre.deak@intel.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>
 CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
  <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 2/4] drm/edid: Add support for quirks visible to DRM
- core and drivers
-Message-ID: <aEB0Blqeb5JhK6Aq@ideak-desk>
-References: <20250603121543.17842-3-imre.deak@intel.com>
- <20250604091315.16703-1-imre.deak@intel.com>
- <5e16fc31d59f2f284a0be57bf0e508c13ebb0a1a@intel.com>
+Subject: Re: [PATCH v2 3/4] drm/dp: Add an EDID quirk for the DPCD register
+ access probe
+Message-ID: <aEB1mEt9vnbS1bO3@ideak-desk>
+References: <20250603121543.17842-4-imre.deak@intel.com>
+ <20250603153627.33645-1-imre.deak@intel.com>
+ <8e9b69d29d95d6d228fe04e40cdef9e30e5410f1@intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5e16fc31d59f2f284a0be57bf0e508c13ebb0a1a@intel.com>
-X-ClientProxiedBy: VI1PR04CA0092.eurprd04.prod.outlook.com
- (2603:10a6:803:64::27) To SJ0PR11MB4845.namprd11.prod.outlook.com
+In-Reply-To: <8e9b69d29d95d6d228fe04e40cdef9e30e5410f1@intel.com>
+X-ClientProxiedBy: VI1P190CA0044.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:800:1bb::16) To SJ0PR11MB4845.namprd11.prod.outlook.com
  (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|DS4PPF2AD6B04BA:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78cfcd8e-e5a3-4b30-0025-08dda384c3f4
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|IA1PR11MB8830:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a7a9eb7-1b3c-4d68-256d-08dda385b349
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?QW3cjL/jPvJzl8mHKAkpZQhUcBcvHd4L80otiCVuL5Rh6hw9G7CktVA32M?=
- =?iso-8859-1?Q?L7bnNly51e3aES+C3e3+UwqwrI1n0zFIiN9CTlfZQpsko4boLKga2BMfST?=
- =?iso-8859-1?Q?TXDUCPCnUS461vqisaS3jSUocXjsm9kyLjJ73hdn9eGREv45Fz72u7bJCg?=
- =?iso-8859-1?Q?4QnQyMoYfkAOcygE/fDUogWNWGasdgdL2odd3kT8rTC0ebWd3+81GtsC5D?=
- =?iso-8859-1?Q?ZVHlDzdOPJ62mwLlSYrPH0Mzs0Fz6lwETgWq65En1fKQbG1netd6W9umRY?=
- =?iso-8859-1?Q?Un4j9jPZ3GOY4KH/FaNiM32WXoYTxqbDwHsEg+45+Go+IkbcjPJNZtYNij?=
- =?iso-8859-1?Q?KXeHX2+ORFKxJAYNMuQmVl3W8PGYd6XMgNgoZC92tPgQ1Rrlvmzriy1vym?=
- =?iso-8859-1?Q?fhgMn9ZthL7eeHemeJgczcZWMPLsgH2d0aCcbbFF8XenTGPDEXOZTl9+RX?=
- =?iso-8859-1?Q?X5JcoiZ/Sbj7fjJig6kNBjPK5Lg0BmFQO8FP3s1V83ZTwrpXAsdnKnQSkH?=
- =?iso-8859-1?Q?QG0tue9ugufIsI4iwk3v3dDz4VOl9hgs+IBBK6JQq6KpA1EqPUQqS48zjo?=
- =?iso-8859-1?Q?mUd2rBe6CnXoau0HHN2frVZdHVGB4R3mv1e6/dfMNGsrMTkwKuP/2xHkr5?=
- =?iso-8859-1?Q?x8CumU+/bEI74hu+80oqj6bhrt06xXPL7CHVjSjtXFR7FFBBb9nrSoxkQX?=
- =?iso-8859-1?Q?R9DGb0Tw9RcnFXyNtmXJQEHqtSgio+DcFmeotiZSpYFPM7n+BOvnW0Rc3l?=
- =?iso-8859-1?Q?12oqCTJ5AokCGGq/W/332qbSiNT1FEeyEw7nb78BFJ16oN/4MDaRxb3R7Q?=
- =?iso-8859-1?Q?mqZZ1vQ6dHt7ONr72KjK5byTfAfowr4n1cNGylhXcDEDODHeIUxmIaKYHB?=
- =?iso-8859-1?Q?oFnCi2MhFqB0RKjWuJ2tP8hp4AN9kvaMRxHG98dIrpuswzYp57xAw9Ffle?=
- =?iso-8859-1?Q?10+f1eQ8yFEdpEhzUgC7orLR7xnLoCuulkD3a9oNHtHcanEBmXuQ82mKvE?=
- =?iso-8859-1?Q?2iA4QXiI+7OHQISlQdlZddYNtu7GGhspYYpgaAYUVMP3w3a/J3JSlXu62x?=
- =?iso-8859-1?Q?YciGR/XZCcuQILqQ9nmDbjDSTfebFtlu/pTepfQlCNKXyoEBxU2r7wVLC4?=
- =?iso-8859-1?Q?pdfNH87suj/y7niekgmPkhqpdselZbwWbdu8Ljbfek9UZ0Dn/lUBcd0XxD?=
- =?iso-8859-1?Q?fzi358NV3cyUXdTpc4D+hLxRhoU+bRF24gwK6T2L0FbpgrWri0V6hRO921?=
- =?iso-8859-1?Q?NHUSMO3R4wLB9t86HOr4blYBqPsvvEM4MUxqtTiaNfb3XucCoEJanugOL1?=
- =?iso-8859-1?Q?JvzjSsmWMhQA2vJHLjhvJ4HAPR4V9mJxf1IBtfw5k+m59qrM7LJx31xScw?=
- =?iso-8859-1?Q?hNMv0e56zJipwvAPWHd5IBTak0FQok5pLQxRGQavGm+XSQhyEz1nUBBG9P?=
- =?iso-8859-1?Q?mubZrGXXsETYyTGBwFHcXl1jCXn8GbgsjTcclTHwFJxWhmA9FLsFoUfuBQ?=
- =?iso-8859-1?Q?4=3D?=
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?OZBFdgSjqf4uxim8yOdKg03ZkX5DI2MvxadAF3epAW7hWJDM7bfNpkRg6x?=
+ =?iso-8859-1?Q?ppPXAIUdXikJetTeVQ4DmrKN056hK5nVi17TH+bIa9SR/1BWlpGC3woZXT?=
+ =?iso-8859-1?Q?Cz6MqEseDTFU+2VzH5A6+GYZW232Ln6k67AtylE9Q2Ryke2f91sHYs0cmX?=
+ =?iso-8859-1?Q?39c4QCoXDX8iSFdV/wgOYfUkbdu0pr//0InmIQEFq6aAk0Bv3GUiWA2CoI?=
+ =?iso-8859-1?Q?LxWmzk5YbESsOOqFZ/qhV0jaHo9SQyv1ikq27LAMhpIMYrx+jpO8qTUF0s?=
+ =?iso-8859-1?Q?WZJlH9rxk2qltuGeq9jcW6VrTeBKY+05PfbQrH9mpy1oJFcXmxCVUwX9jb?=
+ =?iso-8859-1?Q?OT4ngyt8w230L8lWrIgjlp2OTds1iXkv5KVBYPIJp3/1gfhBcWZNQpkqG9?=
+ =?iso-8859-1?Q?EZMVuIGl+h7jzeo5xd8EKu7gK2LE3iKO94dxSzCH54EKVjtnEtXSgnqDCK?=
+ =?iso-8859-1?Q?6K2s2co3Lc0WKzCkaubCLsG1jq45EA+0LbNvf4A/yrTojhUvE7Kj211cxC?=
+ =?iso-8859-1?Q?jmTwri4WJ4UY6QJpCi9f1JZCQMeSsWhwsW/N4Cs+JnHdnIGa56Ww9KFcoe?=
+ =?iso-8859-1?Q?8LTPuJVFA5JZrGJe+5m0mtwlwK/96GZBxttfCaBmWlFCZjf/EX6Lh9MBiA?=
+ =?iso-8859-1?Q?t98btUF16MbH6R3EMONVOMcl8iEu+vBGYzMOZ1aybfUtvLGMjMKtpLPCZ8?=
+ =?iso-8859-1?Q?CPUYqk8LgfRlj5onb3fppFNPiYMzQ2zLQbzbb7N6GeXQQFOKCYV7iCWUHM?=
+ =?iso-8859-1?Q?Ni6H4opfSbrTqdwTPVqIVHwBei23deLKZV5EWR+vA88FksBhmHof+nOirx?=
+ =?iso-8859-1?Q?vAbNAhwvHsNge71rOwjhtdBJmst/4eIo+/lIOzrzw1suWlNNeDarn5KW3g?=
+ =?iso-8859-1?Q?ZWo7wZFRAN4yFvoOUFavt9XFi27S13nt9L6tqsSwv6CVIVGsTlKjcgQsry?=
+ =?iso-8859-1?Q?gcY3qxHdyQHWBx+JQDc36SVUu+gMRFMmmiEe++hCDcIVUhnB//agTf9qPQ?=
+ =?iso-8859-1?Q?KVj9w5ou7nol66/y+jZKs7UIuG19q6/E0YLTBK/VcC0qcItmxwNa+TDVDe?=
+ =?iso-8859-1?Q?PTQxJDuBBHRbUSakbyX5wN5+5zgqXzNgtDRNdKADL/RLE3JJ+ZCIWh6xUB?=
+ =?iso-8859-1?Q?hqOyHfBcoT0f9pcjRW8AGd6yn/uTXV6mi7sAkcdf0fvzVkfpQmSJkAW4fz?=
+ =?iso-8859-1?Q?abazyMbC34acysG4Z0lems2GV02t3qAEzKTk3xCdlGtJY8rEHpdXZTWo1G?=
+ =?iso-8859-1?Q?6iwMdFcV6xVCZP/HiBs2BPCHnU6j9cDdlSzPfopmR4qAaDV9BJb7kSFzRt?=
+ =?iso-8859-1?Q?L4KWkDca8ksVyr+5r7oPbNX6IHcGVUdzIvJlh9y8nndaLMJ4f9wbkAuyzE?=
+ =?iso-8859-1?Q?kRhesvlmTJf2fa9GZaTxlHXJQ+MyVCUTgO9+TXywGSP4kH2OuXIoX3RgLm?=
+ =?iso-8859-1?Q?zON28Mc3OMuEpvOGMdn37WWP8JnM10dot8y2P92TT9RhmWuNPj7zlrans7?=
+ =?iso-8859-1?Q?U=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?PuvpTu+1x18r/5wtolizp+ykAKELKMe+r1xsoltaWpaW5AS2ej/q4wsRYb?=
- =?iso-8859-1?Q?R/PJRuthfGcjnORz5mfInTN8ps0f4homqBHasxiva/mLsmNR40efHALinH?=
- =?iso-8859-1?Q?xkyCwsmWtrGlvc2gV1BHonM5msaV4Oo1n7wbgRqePQCIcE4+omNvvXypEG?=
- =?iso-8859-1?Q?zEhDRd8Ie3FvGOxC4i5jIoP6z3CPfBtNu34oU6lqXI60wIZD1CejgjoTW+?=
- =?iso-8859-1?Q?Rq+ocPAcmeCvZWYY+YgNLi551kPagouUxCXCYdeJJ0OkEitONHVN2j+sgE?=
- =?iso-8859-1?Q?7F5Z66C1KfCGh7FmRMqY0U9015RxO9GWCFGLVVFwEBmhTuqvOJaN9Vx8Pc?=
- =?iso-8859-1?Q?zxpq6/X2aAcXYmYOJZmBxstUuQdSVCGtVrFIwc2E77QCaLR/fcjtlS7DJm?=
- =?iso-8859-1?Q?o4KiGAcJF3EWNRt958l7DxFmccirvf8o7R7uqPAfpBP9/0V2huOGwsg3QC?=
- =?iso-8859-1?Q?r55tQVmC+nq9Qihn4mew7BjF3qSO2XUrkk1zexqVpEt+g9qCo7tuNulD/F?=
- =?iso-8859-1?Q?lZ9r+zM4qA/TBu9vBXo8mqnqyy/H1I90Kh7aWQYm/O7MNPTrUZcA/Msmc7?=
- =?iso-8859-1?Q?eCqoo1bwD/0qAM7QiRwqWKPcbcDlvlGTF2uQMQTmi6ND7x3MZBMvc8fQe8?=
- =?iso-8859-1?Q?Wv4itrjksIFrPJRS+i/UcSZsTADTGIwa4vWhKFYkv2cwSJ3frKJnOP3HxN?=
- =?iso-8859-1?Q?8pfpFv0IpMjRCjHl7jn7NW2bUP2edB+3jT794WUctMgT2ApbZuRm9nRCRm?=
- =?iso-8859-1?Q?kecyNTJchq7hK/04CMx3oK7x66TjAn93Zrm9RxPxcwd/idmZ5Hwtt1hnra?=
- =?iso-8859-1?Q?lKIgZWOMecabaNEJ6UodCKNMQ/USFoSliURstcYteXlMW72lD4PqMOe3ui?=
- =?iso-8859-1?Q?ixvWKQtC+0xl5ie0oJN3/qmaroFlFE93Iak9EbAtFQt5vwnPrbr0ROGqaQ?=
- =?iso-8859-1?Q?dscBn4fTLorWwN/A3qd8Je2NIGAM4L0HqqByHRrx0iKxTfPIgNVVmV/ym0?=
- =?iso-8859-1?Q?A4ThTDi9C/ukPewKqJ1Plk8RRe8cayXRN1CN9Ra6Iw+c4HUyd96CvaJP5x?=
- =?iso-8859-1?Q?X3LCy2uYN7m6KHCcLx/P+HqS71qUyXSYIRhujBWF6lZzQ2KAoz/UTVjAHb?=
- =?iso-8859-1?Q?EC7IGXV5E4DKeeviqjwqyPh1o2pzwrbQJxGyHlOp1rOfXqRNhjudYc5hti?=
- =?iso-8859-1?Q?0MwXivzmKvRyWH9pGhrNli09sQkzl3mdD9l8XpQH/KlEDupn8F0fQNuOij?=
- =?iso-8859-1?Q?tnP6e9Bfi4yCbJ6UWGUi4ntDIuDtfkQEGLvNwsaI6F1PJAa9uM1MydRK5A?=
- =?iso-8859-1?Q?jPXC7LdACKTu/nWq/gtVnhRHg+PkFagIdTTuN6UHuGNtIwcJZ/4b/eR42e?=
- =?iso-8859-1?Q?S7NauTF++grmpQ0zx4VByScAm4ULLkMVP2Ya/UXm9ga7R6pHDIrfiVxe7B?=
- =?iso-8859-1?Q?o41NJh16BgfEPUjZ+FVDsqtCFIks0c8SIuVnbZdyjjZMqmuU6GjUiHsCs3?=
- =?iso-8859-1?Q?bHJuWNzIlPV1pgGqGFOjiE4yn1ZexCbrlGO13xKKHjGz+dyDcUM5qCgsSx?=
- =?iso-8859-1?Q?svObjYXwVoTrOQN/R4rKKyJcPNZYWdA+DR6h6u/mtD+kIQIlaF2HcwIx6s?=
- =?iso-8859-1?Q?eYYwbMRmTxorCRqfCu4Ehjq7Xf8hJaC9IV?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78cfcd8e-e5a3-4b30-0025-08dda384c3f4
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?q71EW8V9yk4ViI/Zg92vG9qpt0SqUFsyZjxZkN3u0doGqdcHHAdDaEmBb5?=
+ =?iso-8859-1?Q?5jC+nUu3rrO6qQp7BIwj5abMsAzZqPJbY6bmGM5kORXoSl936X23sKuUtP?=
+ =?iso-8859-1?Q?eJsWT6gCLtALcLdUyH2T6vvDXm4Zh0GnjuqY3oMgk7UQCP7Uc5Gs6WlxQ3?=
+ =?iso-8859-1?Q?n2b8Yl7uRhV/dCVWq75u/OKJnRsqrRB+bsNSKX5t7Qd0V6FvhwDyplKaQm?=
+ =?iso-8859-1?Q?46l1WcsVJZ0Ta9Igh1Hog03xJKobmADH6efFpWFF1ThNxo21Ul4+U7AVGf?=
+ =?iso-8859-1?Q?r/LymfcKP9sN1/h9/mLerbP/fWxFaTIIj3RF7yd69XKx3VbK3uIVAKRwVb?=
+ =?iso-8859-1?Q?dQtDYZ5emRfubwI5HLoqo7rF4M59s8T5kVWYmLjtjF+Pu02dnFxo9ZPmnw?=
+ =?iso-8859-1?Q?3jXMeze4wMrRosQ2PqSCubMsx3mx9EPrRHGFz5OGvfYvl6uLmZ2mH3hKQL?=
+ =?iso-8859-1?Q?LX4dBMKHmzKa3/wDg6uuLNk0bFa//NF2RcSANzUQBjIC07CdTRyVn2DCrJ?=
+ =?iso-8859-1?Q?Qyp5kLqq/np8BdQdI/vzbVcV3EeIRsk4NaJEZTO3IdXvyhSnj5LQs2JhlH?=
+ =?iso-8859-1?Q?tRODQtkpU0NHcs8GmeZJtr+AGzwxlSTen/CSfVnuG89/J7i4Op1k9hgF5Y?=
+ =?iso-8859-1?Q?CaStUseEjYFZdn27VnFX6g4vtB7Xv2eiv1ZEdirCqqpJibe+a0LhG6ukw0?=
+ =?iso-8859-1?Q?Gwe2tWhvaJGtWthE770NcsdvfBSUEAjswWYcrmS4AwXvNo676s1N1tyhZR?=
+ =?iso-8859-1?Q?kTxOiqeZ7qj3pv/M7UwlCaRIjx5Yc8CPKedv/FRNDTQRxkIKV0/WWxd0LX?=
+ =?iso-8859-1?Q?REfKxdfws9PZoSjLK8kwb6snf79cezX/5JuLWZxAV+mVgQnQ7To4AD56cA?=
+ =?iso-8859-1?Q?nLRaI0BDDdFp86wqN4xuxYbSLars2aDxACEVZUMWom8b3MAIdVN6KlX3c0?=
+ =?iso-8859-1?Q?JchTpQpQS+Gg/1yHxhKm3iCcAOE8R8cFB/c61HgRuTvm1Jilr7H4cWgDVK?=
+ =?iso-8859-1?Q?z+a4F3sGSwTDBs1d4bzvuKBoMs7bhNIoqa+UDE1VmkrR+4KhSu6Kj87Xc6?=
+ =?iso-8859-1?Q?bDGmwRH1Jd4hMj2f82xHt1HYeS9sMejiQR9UF0QnXKYoP2ResaHRuRpsVV?=
+ =?iso-8859-1?Q?XinnF5R/kT+T3iw0734/5CQRT59AGsfASPbgLLO8ypKCoC0dmJU2lJWfFc?=
+ =?iso-8859-1?Q?ntlTs2GFO4L58Bb20/2EszA95me9OpV7TgYuX14Mrq0JiGJaRemNbCAFna?=
+ =?iso-8859-1?Q?3mQ8BM+RjeUp37oC6TVSe6Pwps/OsFozMgxWfOnCIsvhxTpN7hDdqdaYDA?=
+ =?iso-8859-1?Q?hVOaSdO5i8rwxA/usTqa4Nh8tXY4m4A336ItTXdbDOOundVXRpUePvY75A?=
+ =?iso-8859-1?Q?GFR1vuzJZf+U2w/OeJQjF7p5w9EXpU0uGnelHBmCKDJSReZ5dPZfQ7sLmx?=
+ =?iso-8859-1?Q?C8yNCRfbVjlGbdY//PkWf0nei7Oo7NhwrtOUvEl3vionB6erAMLkB6QcR7?=
+ =?iso-8859-1?Q?zcSWXwW1+yO6F/X1+f1HzGXRP2CnLeFt0vKcDlo04LS5HdtU8UazF3yhV8?=
+ =?iso-8859-1?Q?gSkeJ9HwmUuTnSj/KpXctdcWukUVvxT2l7CG4t+H0u+WINu6qqhYIB2glS?=
+ =?iso-8859-1?Q?F0nBo7WMkqjsT5XLvjBZmMDeIpGU+saMvT?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7a9eb7-1b3c-4d68-256d-08dda385b349
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 16:27:57.7830 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 16:34:39.1706 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IYv5Jg/nT8OO/kMngsxEkSP135yGLUmixvpYUlFZaSwHf03uswTMPAb/SenDHGMy1DNQYNrRJbrHR9Tu7MhUTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2AD6B04BA
+X-MS-Exchange-CrossTenant-UserPrincipalName: KNgJBB4Zbc/P5nLqddyqzTXSo8+ETQM+oYuza+Y0nIYF2X7JSYdZAz8EbB4ET7BywRRIReSixYkEYdxKYDFEoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8830
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -184,202 +184,138 @@ Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 04, 2025 at 01:02:57PM +0300, Jani Nikula wrote:
-> On Wed, 04 Jun 2025, Imre Deak <imre.deak@intel.com> wrote:
-> > Add support for EDID based quirks which can be queried outside of the
-> > EDID parser iteself by DRM core and drivers. There are at least two such
-> > quirks applicable to all drivers: the DPCD register access probe quirk
-> > and the 128b/132b DPRX Lane Count Conversion quirk (see 3.5.2.16.3 in
-> > the v2.1a DP Standard). The latter quirk applies to panels with specific
-> > EDID panel names, accordingly add support for defining quirks based on
-> > the EDID panel name.
+On Wed, Jun 04, 2025 at 01:11:08PM +0300, Jani Nikula wrote:
+> On Tue, 03 Jun 2025, Imre Deak <imre.deak@intel.com> wrote:
+> > Reading DPCD registers has side-effects and some of these can cause a
+> > problem for instance during link training. Based on this it's better to
+> > avoid the probing quirk done before each DPCD register read, limiting
+> > this to the monitor which requires it. Add an EDID quirk for this. Leave
+> > the quirk enabled by default, allowing it to be disabled after the
+> > monitor is detected.
 > >
-> > v2: Reset global_quirks in drm_reset_display_info().
+> > v2: Fix lockdep wrt. drm_dp_aux::hw_mutex when calling
+> >     drm_dp_dpcd_set_probe_quirk() with a dependent lock already held.
 > >
 > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
 > > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > > ---
-> >  drivers/gpu/drm/drm_edid.c  | 34 +++++++++++++++++++++++++++-------
-> >  include/drm/drm_connector.h |  5 +++++
-> >  include/drm/drm_edid.h      |  5 +++++
-> >  3 files changed, 37 insertions(+), 7 deletions(-)
+> >  drivers/gpu/drm/display/drm_dp_helper.c | 13 ++++++++++++-
+> >  drivers/gpu/drm/drm_edid.c              |  3 +++
+> >  include/drm/display/drm_dp_helper.h     |  6 ++++++
+> >  include/drm/drm_edid.h                  |  3 ++-
+> >  4 files changed, 23 insertions(+), 2 deletions(-)
 > >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index dc622c78db9d4..4dad677ac6ebe 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -691,6 +691,17 @@ void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered)
+> >  }
+> >  EXPORT_SYMBOL(drm_dp_dpcd_set_powered);
+> >  
+> > +/**
+> > + * drm_dp_dpcd_set_dpcd_probe_quirk() - Set whether a probing before DPCD access is done
+> > + * @aux: DisplayPort AUX channel
+> > + * @enable: Enable the probing if required
+> > + */
+> > +void drm_dp_dpcd_set_probe_quirk(struct drm_dp_aux *aux, bool enable)
+> > +{
+> > +	WRITE_ONCE(aux->dpcd_probe_disabled, !enable);
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_dpcd_set_probe_quirk);
+> 
+> We don't use this yet, which feels a bit odd.
+
+It's used in the next driver patch and I wanted to keep the DRM core and
+driver changes separate.
+
+> > +
+> >  /**
+> >   * drm_dp_dpcd_read() - read a series of bytes from the DPCD
+> >   * @aux: DisplayPort AUX channel (SST or MST)
+> > @@ -724,7 +735,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+> >  	 * We just have to do it before any DPCD access and hope that the
+> >  	 * monitor doesn't power down exactly after the throw away read.
+> >  	 */
+> > -	if (!aux->is_remote) {
+> > +	if (!aux->is_remote && !READ_ONCE(aux->dpcd_probe_disabled)) {
+> 
+> I think it would be worth it to add a small helper to decide whether to
+> do a dpcd probe. It would include the ->is_remote check as well, and the
+> big comment could be moved there, simplifying drm_dp_dpcd_read().
+
+Ok, can do this.
+
+> 
+> >  		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
+> >  		if (ret < 0)
+> >  			return ret;
 > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 74e77742b2bd4..5d3a25cbc4d36 100644
+> > index e867315253493..9250b425ae230 100644
 > > --- a/drivers/gpu/drm/drm_edid.c
 > > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -114,15 +114,21 @@ struct drm_edid_match_closure {
-> >  #define LEVEL_GTF2	2
-> >  #define LEVEL_CVT	3
-> >  
-> > -#define EDID_QUIRK(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _quirks) \
-> > +#define PANEL_NAME_ANY	NULL
-> > +
-> > +#define DRM_EDID_QUIRK(_panel_id, _panel_name, _quirks) \
-> >  { \
-> >  	.ident = { \
-> > -		.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, \
-> > -						     vend_chr_2, product_id), \
-> > +		.panel_id = _panel_id, \
-> > +		.name = _panel_name, \
-> >  	}, \
-> >  	.quirks = _quirks \
-> >  }
-> >  
-> > +#define EDID_QUIRK(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _quirks) \
-> > +	DRM_EDID_QUIRK(drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, product_id), \
-> > +		       PANEL_NAME_ANY, _quirks)
-> > +
-> 
-> I'm not sure why this has to change. It's not explained in the commit
-> message.
-
-The reason for the change is to add a way to define quirks based on the
-panel name, also referred to in the commit message. I can drop it from
-this patchset, adding it only later.
-
-> 
-> >  static const struct edid_quirk {
-> >  	const struct drm_edid_ident ident;
-> >  	u32 quirks;
-> > @@ -248,6 +254,9 @@ static const struct edid_quirk {
-> >  	EDID_QUIRK('A', 'U', 'O', 0x1111, EDID_QUIRK_NON_DESKTOP),
-> 
-> Don't we want the other quirk list also be this concise?
-
-The quirk defined by the standard is panel name based. Imo the new macro
-to add a quirk should allow for matching any panel ID _or_ any panel
-name and I came up with the way above. But I'll drop it from this
-patchset and use only EDID_QUIRK adding the DPCD probe quirk needed for
-now.
-
+> > @@ -255,6 +255,9 @@ static const struct edid_quirk {
 > >  };
 > >  
-> > +static const struct edid_quirk global_edid_quirk_list[] = {
-> > +};
-> > +
+> >  static const struct edid_quirk global_edid_quirk_list[] = {
+> > +	/* HP ZR24w DP AUX DPCD access requires probing to prevent corruption. */
+> > +	DRM_EDID_QUIRK(drm_edid_encode_panel_id('H', 'W', 'P', 0x2869), PANEL_NAME_ANY,
+> > +		       BIT(DRM_EDID_QUIRK_DP_DPCD_PROBE)),
+> 
+> So I think we should keep using EDID_QUIRK(), and maybe add
+> EDID_QUIRK_NAME() companion to also assign a name != NULL, so we don't
+> have to pass PANEL_NAME_ANY to all uses. Less verbose that way I think.
+
+Imo one macro should accept a quirk matching any panel ID or any panel
+name; but for now I can drop the change adding a way for that and use
+EDID_QUIRK() here.
+
+> 
+> >  };
+> >  
 > >  /*
-> >   * Autogenerated from the DMT spec.
-> >   * This table is copied from xfree86/modes/xf86EdidModes.c.
-> > @@ -2937,13 +2946,14 @@ EXPORT_SYMBOL(drm_edid_duplicate);
-> >   *
-> >   * Return: A u32 represents the quirks to apply.
-> >   */
-> > -static u32 edid_get_quirks(const struct drm_edid *drm_edid)
-> > +static u32 edid_get_quirks(const struct drm_edid *drm_edid,
-> > +			   const struct edid_quirk *quirk_list, int quirk_list_size)
-> >  {
-> >  	const struct edid_quirk *quirk;
-> >  	int i;
-> >  
-> > -	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
-> > -		quirk = &edid_quirk_list[i];
-> > +	for (i = 0; i < quirk_list_size; i++) {
-> > +		quirk = &quirk_list[i];
-> >  		if (drm_edid_match(drm_edid, &quirk->ident))
-> >  			return quirk->quirks;
-> >  	}
-> > @@ -6614,6 +6624,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
-> >  	info->vics_len = 0;
-> >  
-> >  	info->quirks = 0;
-> > +	info->global_quirks = 0;
-> 
-> So I am not sure if we really need or want two lists.
-> 
-> I think we could have
-> 
-> drm_edid.h:
-> 
-> enum drm_edid_quirk {
-> 	/* ... */
-> 	DRM_EDID_QUIRK_MAX,
-> };
-> 
-> drm_edid.c:
-> 
-> enum drm_edid_internal_quirk {
-> 	FOO_QUIRK = DRM_EDID_QUIRK_MAX,
->         /* etc ... */
-> };
-> 
-> And just make info->quirks big enough. I think it feels simpler overall.
-
-The internal quirks are not listed in an enum. That conversion is a
-bigger change, but I agree it's a better way to define quirks. Did that
-now, will follow up with it, this also allows using a single quirk list
-as you suggested.
-
-> >  
-> >  	info->source_physical_address = CEC_PHYS_ADDR_INVALID;
-> >  }
-> > @@ -6660,7 +6671,10 @@ static void update_display_info(struct drm_connector *connector,
-> >  
-> >  	edid = drm_edid->edid;
-> >  
-> > -	info->quirks = edid_get_quirks(drm_edid);
-> > +	info->quirks = edid_get_quirks(drm_edid, edid_quirk_list,
-> > +				       ARRAY_SIZE(edid_quirk_list));
-> > +	info->global_quirks = edid_get_quirks(drm_edid, global_edid_quirk_list,
-> > +					      ARRAY_SIZE(global_edid_quirk_list));
-> >  
-> >  	info->width_mm = edid->width_cm * 10;
-> >  	info->height_mm = edid->height_cm * 10;
-> > @@ -7566,3 +7580,9 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid)
-> >  		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
-> >  }
-> >  EXPORT_SYMBOL(drm_edid_is_digital);
-> > +
-> > +bool drm_edid_has_quirk(struct drm_connector *connector, enum drm_edid_quirk quirk)
-> > +{
-> > +	return connector->display_info.global_quirks & BIT(quirk);
-> > +}
-> > +EXPORT_SYMBOL(drm_edid_has_quirk);
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 73903c3c842f3..996ecf229f8c7 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -847,6 +847,11 @@ struct drm_display_info {
+> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> > index e4ca35143ff96..75fa9548aefa0 100644
+> > --- a/include/drm/display/drm_dp_helper.h
+> > +++ b/include/drm/display/drm_dp_helper.h
+> > @@ -523,10 +523,16 @@ struct drm_dp_aux {
+> >  	 * @no_zero_sized: If the hw can't use zero sized transfers (NVIDIA)
 > >  	 */
-> >  	u32 quirks;
-> >  
-> > +	/**
-> > +	 * @global_quirks: EDID based quirks. Can be queried by DRM core and drivers.
-> 
-> Might mention that you should not access directly, but using
-> drm_edid_has_quirk().
-
-Ok, will add a comment to quirks about this.
-
-> > +	 */
-> > +	u32 global_quirks;
+> >  	bool no_zero_sized;
 > > +
-> >  	/**
-> >  	 * @source_physical_address: Source Physical Address from HDMI
-> >  	 * Vendor-Specific Data Block, for CEC usage.
+> > +	/**
+> > +	 * @dpcd_probe_disabled: If probing before a DPCD access is disabled.
+> > +	 */
+> > +	bool dpcd_probe_disabled;
+> 
+> Is this a negative just so it's false by default?
+
+Yes.
+
+> 
+> >  };
+> >  
+> >  int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
+> >  void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered);
+> > +void drm_dp_dpcd_set_probe_quirk(struct drm_dp_aux *aux, bool enable);
+> >  ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+> >  			 void *buffer, size_t size);
+> >  ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
 > > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> > index b38409670868d..3d8e168521c82 100644
+> > index 3d8e168521c82..a878805c81d97 100644
 > > --- a/include/drm/drm_edid.h
 > > +++ b/include/drm/drm_edid.h
-> > @@ -109,6 +109,10 @@ struct detailed_data_string {
-> >  #define DRM_EDID_CVT_FLAGS_STANDARD_BLANKING (1 << 3)
+> > @@ -110,7 +110,8 @@ struct detailed_data_string {
 > >  #define DRM_EDID_CVT_FLAGS_REDUCED_BLANKING  (1 << 4)
 > >  
-> > +enum drm_edid_quirk {
-> > +	DRM_EDID_QUIRK_NONE,
-> > +};
-> > +
-> >  struct detailed_data_monitor_range {
-> >  	u8 min_vfreq;
-> >  	u8 max_vfreq;
-> > @@ -476,5 +480,6 @@ void drm_edid_print_product_id(struct drm_printer *p,
-> >  u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid);
-> >  bool drm_edid_match(const struct drm_edid *drm_edid,
-> >  		    const struct drm_edid_ident *ident);
-> > +bool drm_edid_has_quirk(struct drm_connector *connector, enum drm_edid_quirk quirk);
+> >  enum drm_edid_quirk {
+> > -	DRM_EDID_QUIRK_NONE,
+> > +	/* Do a dummy read before DPCD accesses, to prevent corruption. */
+> > +	DRM_EDID_QUIRK_DP_DPCD_PROBE,
+> >  };
 > >  
-> >  #endif /* __DRM_EDID_H__ */
+> >  struct detailed_data_monitor_range {
 > 
 > -- 
 > Jani Nikula, Intel
