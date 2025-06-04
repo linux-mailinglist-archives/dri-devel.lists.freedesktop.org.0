@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAC3ACE5CE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 22:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CE4ACE5F1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 23:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06CD10E7DE;
-	Wed,  4 Jun 2025 20:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E702A10E085;
+	Wed,  4 Jun 2025 21:03:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ybfbtgko";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PwwqrDkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88C6610E7B5;
- Wed,  4 Jun 2025 20:37:44 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id
- e9e14a558f8ab-3dc6f653152so1307145ab.3; 
- Wed, 04 Jun 2025 13:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749069463; x=1749674263; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=XFwt8jx0g/c+CABPRMM8ZkkvfXfeIDPzYoKjG59j/ew=;
- b=Ybfbtgko9y4ZZYuNyKc+1lganOlSrrYF/tNU36RtOvTn+aXfafRX19+n9HSmIxRhPI
- sU4cbVlgCIygsapD2HIxgh/afYdgYj81ZjTIqeVPiQHuWGb1GZTTvPBEf8LbwmouDzys
- QgMBmSC1Q0KyYEmMT7ydYkB4x65HeqOzHlMGxoDm7nBPdyItABdOpM89DmJE/17TBWmv
- W8aZ5XuBQZ8zN0nJdwZcPqOsfQo/Z7H12YVquhHECLBna2QNihsyF372jv24uPgML/qB
- IyCUWSJv7tG3x3/5klT8BrvOAmQ4MZ7Sml7EyQl+p12z3o6ZEtCuT5WJqnMbhvDlAnFL
- PABA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749069463; x=1749674263;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XFwt8jx0g/c+CABPRMM8ZkkvfXfeIDPzYoKjG59j/ew=;
- b=r5lUdR2Ds+JADpRfsgtqBDt+QJ7nJ7rI60n0fjR1HrlBmQrGMbgf3or6KxSV8owMGm
- fKWfw2AWEFQSPaD79hGMtR5snBu8Gp9p5uzwzZz4p5H3UdFz7sXEx9NV3MD2Jdy0Taxb
- pftro+iVXxO9lFXg+R8fQnpJ2vg5h8aI73pq5eW9RPdemJKCqeA76sLmFBP41sToN39B
- IBuL5yKRjIrOBVseA98zz/IWPZq8QPQbGOWvEoJ8S8d/P+uqxhDy9gSMasDtlToj0RV9
- mroyczeXvkdk8eqtlw9yVJ53XZAeQyC43N14g/lIAaA/pg8ab3kjNQsQTVyJAi6XWTaK
- e89Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXAc/FYS2qxjhMMrdynbst2GnXQk7qLqhKdqNXRm8mgEJCnOMgdOJ/+Tv93KkeQP4obaVXbKeJEj4A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yywpa2bajYVZUsgQAcQs39ogxOiNiCa6u8GDKsvDeGXK+VoKNND
- VnEnvz+26us9LFsoEm1UgMyEzSvSPLrLt3IAJB5U7OhoGmx43aLtLHSlRteF6iCR9BouA5GHpnN
- P0RJ3PVCg0CPk9cWnutIL0rVuX0qi4g8=
-X-Gm-Gg: ASbGncsJWwIpFb7vYGfEG7n9eXQsNVWLvaXRvjOcJ0fM2Etxkm0zHwSvoftIAwmJrc2
- qY6CNMh1KxJj8uMDY/qCh912M245YDiN+w9pYWkxn0YksM5M2b/Iz0focdvbtDgVX/8B9GRbrgX
- W4pvHvzkRyS97kghW0xtehyoZdrHzoHhqM0dvxWvjj8Gb+vBHQkI/evqHmZTv1wl9Z
-X-Google-Smtp-Source: AGHT+IEkEn+Ys6yp8GhjuhLo+PHMDiCMbG10n36RLxCtVWagLr2ATCucAOGms2ilLGEuUYqFxod590RMviUUeMvmCio=
-X-Received: by 2002:a05:6e02:32c3:b0:3dc:868e:dae7 with SMTP id
- e9e14a558f8ab-3ddbedd26e1mr52052875ab.15.1749069463257; Wed, 04 Jun 2025
- 13:37:43 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C2910E085;
+ Wed,  4 Jun 2025 21:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749071005; x=1780607005;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:to:cc;
+ bh=Fybfpl+9NRRoM+EOI6O4wAg0E8lwrxs97y3QuiCUKKc=;
+ b=PwwqrDkOdDf4lur1GQn0OCPyRUP81u6VmqjzHw3zAOlrfDsiJXjUfGwS
+ aItTJzD/QC9ED5jQ10uYmtV9CzHNcFOU1qbibxzcsMvwqKqpqHoqaytWv
+ Gtd7t5Eiy473/6SCjh8rRNzQKXHAleW4LxGDp9fmWN+AftKssoYFOn3z4
+ 1Zg73YAVou2LQMdPUUMRSkrzLqoiN+yOcL7A6hGCkHgpFprwIdeh6sPXc
+ vdRhg+HIwLmmjPdl84xdWH7ubU2jVRku+KTdGiQmkcoDWp7/xEoqNBZHK
+ iC1188LqpT5CtaUq8lncHJYogJHz/R+yjL+7flfb0T5scAZUfpjKDOetq g==;
+X-CSE-ConnectionGUID: OBbAMt+HRjWIM/OclY4k/g==
+X-CSE-MsgGUID: JWwkaMprQfat0iapnbgmaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62530238"
+X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; d="scan'208";a="62530238"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 14:03:24 -0700
+X-CSE-ConnectionGUID: eCszTzyTRlSkawbUpvgRjA==
+X-CSE-MsgGUID: wuNqWI6ITYWCMQl6HrIc3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; d="scan'208";a="176178606"
+Received: from jekeller-desk.jf.intel.com ([10.166.241.15])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 14:03:24 -0700
+From: Jacob Keller <jacob.e.keller@intel.com>
+Date: Wed, 04 Jun 2025 14:03:15 -0700
+Subject: [PATCH] drm/nouveau/bl: Use kasprintf for interface name
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 4 Jun 2025 13:37:31 -0700
-X-Gm-Features: AX0GCFtZPDMs3-fiKOKQL4sBwvvhTHcy7kFG4Zeir1ucFEyfE5oK_zHqGpJR7UA
-Message-ID: <CAF6AEGuW1kpUijxzLCc4TKph72-PfXvHTttNu214_1GB-R8qwg@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2025-06-04 for v6.16,
- the mailmap addition
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250604-jk-nouveua-drm-bl-snprintf-fix-v1-1-79b1593ad664@intel.com>
+X-B4-Tracking: v=1; b=H4sIAJO0QGgC/x2NMQ6DMAwAv4I811JqGoZ+peoQEqc1bQ1yACEh/
+ k7U8W6426GwCRe4NzsYr1Jk1ArXSwPxHfTFKKkykCPvOnfD4YM6LisvAZP9sP9i0clE54xZNow
+ Ugycf2kQZamQyrvo/eDyP4wR50NWVcAAAAA==
+X-Change-ID: 20250604-jk-nouveua-drm-bl-snprintf-fix-c2ca525a3d2f
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Ben Skeggs <bskeggs@redhat.com>, Pierre Moreau <pierre.morrow@free.fr>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Philip Li <philip.li@intel.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+ Jacob Keller <jacob.e.keller@intel.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,39 +76,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+The nouveau_get_backlight_name() function generates a unique name for the
+backlight interface, appending an id from 1 to 99 for all backlight devices
+after the first.
 
-Some mailmap/MAINTAINER "fixes", as there have been some recent email
-address changes and shufflings for drm/msm :-)
+GCC 15 (and likely other compilers) produce the following
+-Wformat-truncation warning:
 
-The following changes since commit fc5c669c902c3039aa41731b6c58c0960d0b1bbf:
+nouveau_backlight.c: In function ‘nouveau_backlight_init’:
+nouveau_backlight.c:56:69: error: ‘%d’ directive output may be truncated writing between 1 and 10 bytes into a region of size 3 [-Werror=format-truncation=]
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                                                                     ^~
+In function ‘nouveau_get_backlight_name’,
+    inlined from ‘nouveau_backlight_init’ at nouveau_backlight.c:351:7:
+nouveau_backlight.c:56:56: note: directive argument in the range [1, 2147483647]
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                                                        ^~~~~~~~~~~~~~~~
+nouveau_backlight.c:56:17: note: ‘snprintf’ output between 14 and 23 bytes into a destination of size 15
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  dt-bindings: display: msm: correct example in SM8350 MDSS schema
-(2025-05-13 21:53:34 +0300)
+The warning started appearing after commit ab244be47a8f ("drm/nouveau:
+Fix a potential theorical leak in nouveau_get_backlight_name()") This fix
+for the ida usage removed the explicit value check for ids larger than 99.
+The compiler is unable to intuit that the ida_alloc_max() limits the
+returned value range between 0 and 99.
 
-are available in the Git repository at:
+The warning has gone unfixed for some time, with at least one kernel test
+robot report. The code breaks W=1 builds, which is especially frustrating
+with the introduction of CONFIG_WERROR.
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2025-06-04
+Refactor the function to avoid the fixed-length buffer entirely. Use
+kasprintf to allocate a buffer of appropriate size. This avoids the need
+for BL_NAME_SIZE and resolves the -Wformat-truncation warning, fixing W=1
+builds.
 
-for you to fetch changes up to ee11d953fd230b4e1c28388913826ca832ae8444:
+Compile tested only.
 
-  MAINTAINERS: .mailmap: update Rob Clark's email address (2025-06-04
-13:26:41 -0700)
+Fixes: ab244be47a8f ("drm/nouveau: Fix a potential theorical leak in nouveau_get_backlight_name()")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312050324.0kv4PnfZ-lkp@intel.com/
+Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+---
+This could also be fixed by simply increasing BL_NAME_SIZE to 24, making it
+large enough to fit any size integer into its format string, or by checking
+the return value of snprintf.
+---
+ drivers/gpu/drm/nouveau/nouveau_backlight.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-----------------------------------------------------------------
-Just some mailmap/MAINTAINER email address updates
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index d47442125fa183146135f3725eae161c68e2a900..d3cf69fe2eeb33c24ee698db19b34a56a72f51cb 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -42,22 +42,21 @@
+ #include "nouveau_acpi.h"
+ 
+ static struct ida bl_ida;
+-#define BL_NAME_SIZE 15 // 12 for name + 2 for digits + 1 for '\0'
+ 
+-static bool
+-nouveau_get_backlight_name(char backlight_name[BL_NAME_SIZE],
+-			   struct nouveau_backlight *bl)
++static char *
++nouveau_get_backlight_name(struct nouveau_backlight *bl)
+ {
+ 	const int nb = ida_alloc_max(&bl_ida, 99, GFP_KERNEL);
+ 
+ 	if (nb < 0)
+-		return false;
+-	if (nb > 0)
+-		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+-	else
+-		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight");
++		return NULL;
++
+ 	bl->id = nb;
+-	return true;
++
++	if (nb > 0)
++		return kasprintf(GFP_KERNEL, "nv_backlight%d", nb);
++	else
++		return kasprintf(GFP_KERNEL, "nv_backlight");
+ }
+ 
+ static int
+@@ -293,9 +292,9 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 	struct nouveau_backlight *bl;
+ 	struct nouveau_encoder *nv_encoder = NULL;
+ 	struct nvif_device *device = &drm->client.device;
+-	char backlight_name[BL_NAME_SIZE];
+ 	struct backlight_properties props = {0};
+ 	const struct backlight_ops *ops;
++	char *backlight_name;
+ 	int ret;
+ 
+ 	if (apple_gmux_present()) {
+@@ -348,7 +347,8 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 		goto fail_alloc;
+ 	}
+ 
+-	if (!nouveau_get_backlight_name(backlight_name, bl)) {
++	backlight_name = nouveau_get_backlight_name(bl);
++	if (!backlight_name) {
+ 		NV_ERROR(drm, "Failed to retrieve a unique name for the backlight interface\n");
+ 		goto fail_alloc;
+ 	}
+@@ -356,6 +356,7 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 	props.type = BACKLIGHT_RAW;
+ 	bl->dev = backlight_device_register(backlight_name, connector->kdev,
+ 					    nv_encoder, ops, &props);
++	kfree(backlight_name);
+ 	if (IS_ERR(bl->dev)) {
+ 		if (bl->id >= 0)
+ 			ida_free(&bl_ida, bl->id);
 
-----------------------------------------------------------------
-Abhinav Kumar (2):
-      MAINTAINERS: drop myself as maintainer
-      MAINTAINERS: update my email address
+---
+base-commit: 90b83efa6701656e02c86e7df2cb1765ea602d07
+change-id: 20250604-jk-nouveua-drm-bl-snprintf-fix-c2ca525a3d2f
 
-Akhil P Oommen (1):
-      mailmap: Update entry for Akhil P Oommen
+Best regards,
+-- 
+Jacob Keller <jacob.e.keller@intel.com>
 
-Rob Clark (1):
-      MAINTAINERS: .mailmap: update Rob Clark's email address
-
- .mailmap    |  5 ++++-
- MAINTAINERS | 11 ++++++-----
- 2 files changed, 10 insertions(+), 6 deletions(-)
