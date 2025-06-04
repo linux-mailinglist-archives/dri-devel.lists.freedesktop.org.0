@@ -2,38 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1906FACD5A3
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 04:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266B4ACD5BD
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 04:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F0B10E262;
-	Wed,  4 Jun 2025 02:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0819610E025;
+	Wed,  4 Jun 2025 02:38:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cb1ohwlp";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cVDEXVN4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4974F10E262;
- Wed,  4 Jun 2025 02:29:56 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD5210E025;
+ Wed,  4 Jun 2025 02:38:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 74D6961127;
- Wed,  4 Jun 2025 02:29:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327BFC4CEED;
- Wed,  4 Jun 2025 02:29:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749004191;
- bh=bPqB4UZU6V2fT7jBdDYxwFtvGjfygIA1UIxiMxSiYi4=;
+ by sea.source.kernel.org (Postfix) with ESMTP id 6385A4A015;
+ Wed,  4 Jun 2025 02:38:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BABC4CEEF;
+ Wed,  4 Jun 2025 02:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1749004705;
+ bh=5LknMU9rKRcy1V8M/qjdNcpnPrDlru7bTCB1snpWuss=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Cb1ohwlpgzrn2LhpNWN9eSYPo632mfVce3z+QmIb31Ycm7qWykyjpbyuBRd8porrQ
- DN6aG/r6DntLjj7aAMoCw8yzFKlQ5Y+t5nt8SXZd2gIWdE4whVNA68hyTmeQrU4V+B
- ZBMVPfrJGmN5LEZcQm13UliqEQEm+7aBIZWm2lbyZ7T61I+Puj37un75lo9qyq4TND
- bC0rdTS64c9HmoIix8EU+KFY9lm9DdWV1vsq3HEHMScaeRst7JXJDpvhdzBb8m1TU7
- r0IsZPBrLEbM2GtVExYC/BNRT2AjA9skoeRlT92Z+JszUNQUPf3VO245g1s1+N6muI
- v+M/uhmVxT38g==
-Date: Tue, 3 Jun 2025 19:29:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
+ b=cVDEXVN4YyJdlsmQA7dMICujsUpBPH9NR59vj/MT7X38O3W19IporL5kJnoQbOUHA
+ 77NxCWDe7rZ7oSLnFLw+ZRQwr7FrU1jVQXkj2y7U8Vf04ON3mgM3kZjN+s/VbvWKTJ
+ s0oSTLtTonnbwNwB6PH7Uo6bXB5WUapfie4/rQ74=
+Date: Tue, 3 Jun 2025 19:38:24 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>, "David S. Miller"
  <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
  <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -45,14 +42,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
  Qasim Ijaz <qasdev00@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
  Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ intel-gfx@lists.freedesktop.org, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
  <thomas.weissschuh@linutronix.de>
 Subject: Re: [PATCH v13 0/9] ref_tracker: add ability to register a debugfs
  file for a ref_tracker_dir
-Message-ID: <20250603192949.3a7fc085@kernel.org>
-In-Reply-To: <20250603-reftrack-dbgfs-v13-0-7b2a425019d8@kernel.org>
+Message-Id: <20250603193824.f0ba97cd26e7ed4152a91921@linux-foundation.org>
+In-Reply-To: <20250603192949.3a7fc085@kernel.org>
 References: <20250603-reftrack-dbgfs-v13-0-7b2a425019d8@kernel.org>
-MIME-Version: 1.0
+ <20250603192949.3a7fc085@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,30 +69,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 03 Jun 2025 07:27:11 -0400 Jeff Layton wrote:
-> For those just joining in, this series adds a new top-level
-> "ref_tracker" debugfs directory, and has each ref_tracker_dir register a
-> file in there as part of its initialization. It also adds the ability to
-> register a symlink with a more human-usable name that points to the
-> file, and does some general cleanup of how the ref_tracker object names
-> are handled.
-> 
-> This reposting is mostly to address Krzysztof's comments. I've dropped
-> the i915 patch, and rebased the rest of the series on top.
-> 
-> Note that I still see debugfs: warnings in the i915 driver even when we
-> gate the registration of the debugfs file on the classname pointer being
-> NULL. Here is a CI report from v12:
-> 
->     https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_148490v8/bat-arls-6/igt@i915_selftest@live@workarounds.html
-> 
-> I think the i915 driver is doing something it shouldn't with these
-> objects. They seem to be initialized more than once, which could lead
-> to leaked ref_tracker objects. It would be good for one of the i915
-> maintainers to comment on whether this is a real problem.
+On Tue, 3 Jun 2025 19:29:49 -0700 Jakub Kicinski <kuba@kernel.org> wrote:
 
-I still see the fs crashes:
-https://netdev-3.bots.linux.dev/vmksft-packetdrill-dbg/results/149560/2-tcp-slow-start-slow-start-app-limited-pkt/stderr
-I'll hide this series from patchwork for now. We will pull from Linus
-on Thu, I'll reactivate it and let's see if the problem was already
-fixed.
+> > I think the i915 driver is doing something it shouldn't with these
+> > objects. They seem to be initialized more than once, which could lead
+> > to leaked ref_tracker objects. It would be good for one of the i915
+> > maintainers to comment on whether this is a real problem.
+> 
+> I still see the fs crashes:
+> https://netdev-3.bots.linux.dev/vmksft-packetdrill-dbg/results/149560/2-tcp-slow-start-slow-start-app-limited-pkt/stderr
+> I'll hide this series from patchwork for now. We will pull from Linus
+> on Thu, I'll reactivate it and let's see if the problem was already
+> fixed.
+
+Ah.  I dropped the copy from mm.git.
