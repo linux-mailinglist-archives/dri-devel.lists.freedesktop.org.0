@@ -2,61 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DE2ACDC0F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 12:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A86DACDC27
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 12:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1007910E715;
-	Wed,  4 Jun 2025 10:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892D610E600;
+	Wed,  4 Jun 2025 10:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ftBSYJD7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iwt2UIhb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784F010E600;
- Wed,  4 Jun 2025 10:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749033839; x=1780569839;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=0HSLugeSnhV9sYxcrnzzq7+6J5CDJUPyKHIls88ft1I=;
- b=ftBSYJD7jcAdGukkuERrUWag2H6jrVwoqo7H5asR9xXC9meeY9uzrqZ0
- OArwDW+UYMnexVJNnGz6iWggW9ClbAjep7fs19LVkNMst++GgzCAKHk8p
- SHjd9f/pcqt5ZxQ6+Ddm4aEUEPbJbMQBicy3wAnL1bRZM8CY570+SvntP
- hJjTg9EzEnhAfgAshrrsYo6S+VHEZyQwW18cO5Po5ztATcrP3EIV1hm1l
- Ogum3w6hIoWCZ0H9dty7ZovoOhcV2GlbbezuUfW/hnwA8A+Ire8UCE1LN
- z2d6YeKTCwuqmdW7PztQ5XQQ8XbF83BHbZTYrlS8pyRWAEIib9YOINxtR g==;
-X-CSE-ConnectionGUID: zTZ7Yjp+QHSczGellbTRiQ==
-X-CSE-MsgGUID: ntR0jI5LQP629Hf/wCfvdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="50976813"
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="50976813"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 03:43:58 -0700
-X-CSE-ConnectionGUID: k8Z/teZlRgaW7FzPsrvnng==
-X-CSE-MsgGUID: EzkwzdghT7C9g38Y5yOuDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; d="scan'208";a="145022329"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 03:43:55 -0700
-Date: Wed, 4 Jun 2025 13:43:52 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- himal.prasad.ghimiray@intel.com, frank.scarbrough@intel.com
-Subject: Re: [PATCH 1/4] drm: Add a firmware flash method to device wedged
- uevent
-Message-ID: <aEAjaGK9BYK89U3Z@black.fi.intel.com>
-References: <20250603081409.1509709-1-riana.tauro@intel.com>
- <20250603081409.1509709-2-riana.tauro@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE20610E600
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jun 2025 10:51:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id EA178A501B7;
+ Wed,  4 Jun 2025 10:51:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33FF2C4CEE7;
+ Wed,  4 Jun 2025 10:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749034279;
+ bh=UCEfnjbgjemB7iS4saU8V8U10oXHF3AzXkN2nknaRYE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iwt2UIhbRd8AU4xNki733+dLh8FsjWptGhN9vrPhQXVx1FGbPApH6zUYi6TyEQGM9
+ l01qXdVdepzevbXPjjmhKPI5MJL3jNamFtTurnd8oUNmx3bvZIBo9CthMbYkUxMXE4
+ tSl1oCwfUOinlJnJmdNVs2UAznZrSY0WFFqabbJJoHbT5Tf/ayGVSZijLo8mSmIVBA
+ A3wSuAUYsTFmIu4BAqalR9NqmNR1O4he5PLGHX9F+sEiSFVa+TqFp7aK2LJUSWAW2X
+ lfjaG0jkbMUowyIB8nOfQRTjGmuAPhlSVGRfQf8hU/oE3nK10gYPnlWgiO0orPMnvX
+ pWsmehfU6X4lg==
+Date: Wed, 4 Jun 2025 10:51:16 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Helge Deller <deller@gmx.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+ Zsolt Kajtar <soci@c64.rulez.org>, stable@vger.kernel.org
+Subject: Re: [PATCH] sysfb: Fix screen_info type check for VGA
+Message-ID: <aEAlJMrX8VfkkVaI@google.com>
+References: <20250603154838.401882-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250603081409.1509709-2-riana.tauro@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250603154838.401882-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +61,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 03, 2025 at 01:43:57PM +0530, Riana Tauro wrote:
-> A device is declared wedged when it is non-recoverable from
-> the driver context. Some firmware errors can also cause
-> the device to enter this state and the only method to recover
-> from this would be to do a firmware flash
+On Tue, Jun 03, 2025 at 05:48:20PM +0200, Thomas Zimmermann wrote:
+> Use the helper screen_info_video_type() to get the framebuffer
+> type from struct screen_info. Handle supported values in sorted
+> switch statement.
 > 
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> ---
->  Documentation/gpu/drm-uapi.rst | 6 +++---
->  drivers/gpu/drm/drm_drv.c      | 2 ++
->  include/drm/drm_device.h       | 1 +
->  3 files changed, 6 insertions(+), 3 deletions(-)
+> Reading orig_video_isVGA is unreliable. On most systems it is a
+> VIDEO_TYPE_ constant. On some systems with VGA it is simply set
+> to 1 to signal the presence of a VGA output. See vga_probe() for
+> an example. Retrieving the screen_info type with the helper
+> screen_info_video_type() detects these cases and returns the
+> appropriate VIDEO_TYPE_ constant. For VGA, sysfb creates a device
+> named "vga-framebuffer".
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 4863a4deb0ee..524224afb09f 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -422,9 +422,8 @@ Current implementation defines three recovery methods, out of which, drivers
->  can use any one, multiple or none. Method(s) of choice will be sent in the
->  uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
->  more side-effects. If driver is unsure about recovery or method is unknown
-> -(like soft/hard system reboot, firmware flashing, physical device replacement
-> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
-> -will be sent instead.
-> +(like soft/hard system reboot, physical device replacement or any other procedure
-> +which can't be attempted on the fly), ``WEDGED=unknown`` will be sent instead.
->  
->  Userspace consumers can parse this event and attempt recovery as per the
->  following expectations.
-> @@ -435,6 +434,7 @@ following expectations.
->      none            optional telemetry collection
->      rebind          unbind + bind driver
->      bus-reset       unbind + bus reset/re-enumeration + bind
-> +    firmware-flash  unbind + firmware flash + bind
+> The sysfb code has been taken from vga16fb, where it likely didn't
+> work correctly either. With this bugfix applied, vga16fb loads for
+> compatible vga-framebuffer devices.
+> 
+> Fixes: 0db5b61e0dc0 ("fbdev/vga16fb: Create EGA/VGA devices in sysfb code")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+> Cc: Zsolt Kajtar <soci@c64.rulez.org>
+> Cc: <stable@vger.kernel.org> # v6.1+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Can you guarantee this to be generic for all drivers?
-
-Raag
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
