@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBAAACDBAA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 12:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E516EACDBB6
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jun 2025 12:13:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD2610E726;
-	Wed,  4 Jun 2025 10:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3C510E77C;
+	Wed,  4 Jun 2025 10:13:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XYSPhixF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KPXZesX+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E2D10E646;
- Wed,  4 Jun 2025 10:11:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF96710E6E6;
+ Wed,  4 Jun 2025 10:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749031874; x=1780567874;
+ t=1749032029; x=1780568029;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=UKTuN8dMUiFvGYw3XQzXjqX7yw68TU86YeKNV8ood0k=;
- b=XYSPhixFlrOJ3FLGJQyHivVfpCTggMA/zrsRXT5UeqGN2pbiLpDOrR/E
- SZLz76XrDXe+lbcJkCOvcGoabEPeTV8ei2Cwy/dNe1DI8TmJ62OBeloL0
- NyVXlZe9W/P93jxSFqV6vBV7LEwwO+dqQsIbKLAZs9fWh0iAOpzGdIKSf
- N7fPWhkX7YDp9Ew4GaKgJ52LgA7IB40oO1/GzM2EWOaagEZCS0CizrSic
- Y63EL5ISJ9pcjantMTCWDFxtVeBENKvKSwlFB0F2tLy0Lv+yvDRO1IIoh
- IVk0pb6tuHMxwUAgyOrkkJhLroujub1KOkDJtgXZnjQsmvpDw4CpqAu3M Q==;
-X-CSE-ConnectionGUID: i5nHP3JuTjyMvZPEuUvFRA==
-X-CSE-MsgGUID: M95kVDnWSV+vQpFOD7B+XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="50973649"
-X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="50973649"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 03:11:13 -0700
-X-CSE-ConnectionGUID: 6m41okHkSoSro9dtiCWpCg==
-X-CSE-MsgGUID: fOXuwbufSQuPA9y4w9hDeA==
+ bh=TbcMFpHOsgJdnGGY/iCTM/i4pkazg6N7lvJw55HZTv8=;
+ b=KPXZesX+/Ay/2s6/1bOQIsCEKvI8rfCmbp3t4Q3jB9UaQ+N6pBL6vrWw
+ vF4+tYiZaoUH/IDE0VstJzA0n/ySk62xRD/Ub8rpeFDz9kOMvLptnp2Fm
+ UhlIlFc/KxwuUezVhE7PsgWx7ziWHl5xRHOVd2rkpCqV14uFgo/Fn0Z0D
+ c6Eh3Bc5c5m0lrv9zWP5MLrvlPSSViqGGsBFTm/rdQ7oDoaTXPzSDtBTX
+ mMJqOY/b84gCLOM6WBJU8e698UxBI8Q49T5NDa+YDm73n7vRlSnJaYXpO
+ 0rtOzCIaZHR+hEAPB4oijyNcBWmuU0BLkk3sZlmDjBUKh57If9ucZHLwN Q==;
+X-CSE-ConnectionGUID: 7AsB772gQKm6cIENhLdX5w==
+X-CSE-MsgGUID: fevl9O4PQ/yEyipb2zyHZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="62159931"
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="62159931"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 03:13:49 -0700
+X-CSE-ConnectionGUID: TaUVLxhMRFeR8uniTQVPDw==
+X-CSE-MsgGUID: QdgOnuVzSQKhnWNwTyVN2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="145035847"
+X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; d="scan'208";a="150295852"
 Received: from abityuts-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.245.101])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 03:11:11 -0700
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2025 03:13:46 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 3/4] drm/dp: Add an EDID quirk for the DPCD register
- access probe
-In-Reply-To: <20250603153627.33645-1-imre.deak@intel.com>
+Subject: Re: [PATCH 4/4] drm/i915/dp: Disable the AUX DPCD probe quirk if
+ it's not required
+In-Reply-To: <20250603121543.17842-5-imre.deak@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250603121543.17842-4-imre.deak@intel.com>
- <20250603153627.33645-1-imre.deak@intel.com>
-Date: Wed, 04 Jun 2025 13:11:08 +0300
-Message-ID: <8e9b69d29d95d6d228fe04e40cdef9e30e5410f1@intel.com>
+References: <20250603121543.17842-1-imre.deak@intel.com>
+ <20250603121543.17842-5-imre.deak@intel.com>
+Date: Wed, 04 Jun 2025 13:13:44 +0300
+Message-ID: <ffe402bd1afd50b2e3d7ebf72c26de149e6b2258@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,126 +76,113 @@ On Tue, 03 Jun 2025, Imre Deak <imre.deak@intel.com> wrote:
 > Reading DPCD registers has side-effects and some of these can cause a
 > problem for instance during link training. Based on this it's better to
 > avoid the probing quirk done before each DPCD register read, limiting
-> this to the monitor which requires it. Add an EDID quirk for this. Leave
-> the quirk enabled by default, allowing it to be disabled after the
-> monitor is detected.
->
-> v2: Fix lockdep wrt. drm_dp_aux::hw_mutex when calling
->     drm_dp_dpcd_set_probe_quirk() with a dependent lock already held.
+> this to the monitor which requires it. The only known problematic
+> monitor is an external SST sink, so keep the quirk disabled always for
+> eDP and MST sinks. Reenable the quirk after a hotplug event and after
+> resuming from a power state without hotplug support, until the
+> subsequent EDID based detection.
+
+It's a bummer we have to do this in so many places. :(
+
+
 >
 > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 > Cc: Jani Nikula <jani.nikula@linux.intel.com>
 > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 13 ++++++++++++-
->  drivers/gpu/drm/drm_edid.c              |  3 +++
->  include/drm/display/drm_dp_helper.h     |  6 ++++++
->  include/drm/drm_edid.h                  |  3 ++-
->  4 files changed, 23 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp.c      | 11 +++++++++--
+>  drivers/gpu/drm/i915/display/intel_dp_aux.c  |  2 ++
+>  drivers/gpu/drm/i915/display/intel_hotplug.c | 10 ++++++++++
+>  3 files changed, 21 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
-splay/drm_dp_helper.c
-> index dc622c78db9d4..4dad677ac6ebe 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -691,6 +691,17 @@ void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux,=
- bool powered)
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 208a953b04a2f..d65a18fc1aeb9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5747,6 +5747,11 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
+>  	/* Below we depend on display info having been updated */
+>  	drm_edid_connector_update(&connector->base, drm_edid);
+>=20=20
+> +	if (!intel_dp_is_edp(intel_dp))
+> +		drm_dp_dpcd_set_probe_quirk(&intel_dp->aux,
+> +					    drm_edid_has_quirk(&connector->base,
+> +							       DRM_EDID_QUIRK_DP_DPCD_PROBE));
+> +
+>  	vrr_capable =3D intel_vrr_is_capable(connector);
+>  	drm_dbg_kms(display->drm, "[CONNECTOR:%d:%s] VRR capable: %s\n",
+>  		    connector->base.base.id, connector->base.name, str_yes_no(vrr_capa=
+ble));
+> @@ -5881,6 +5886,7 @@ intel_dp_detect(struct drm_connector *_connector,
+>  	intel_dp_print_rates(intel_dp);
+>=20=20
+>  	if (intel_dp->is_mst) {
+> +		drm_dp_dpcd_set_probe_quirk(&intel_dp->aux, false);
+>  		/*
+>  		 * If we are in MST mode then this connector
+>  		 * won't appear connected or have anything
+> @@ -6321,10 +6327,11 @@ intel_dp_hpd_pulse(struct intel_digital_port *dig=
+_port, bool long_hpd)
+>  	 * complete the DP tunnel BW request for the latter connector/encoder
+>  	 * waiting for this encoder's DPRX read, perform a dummy read here.
+>  	 */
+> -	if (long_hpd)
+> +	if (long_hpd) {
+> +		drm_dp_dpcd_set_probe_quirk(&intel_dp->aux, true);
+> +
+>  		intel_dp_read_dprx_caps(intel_dp, dpcd);
+>=20=20
+> -	if (long_hpd) {
+>  		intel_dp->reset_link_params =3D true;
+>  		intel_dp_invalidate_source_oui(intel_dp);
+>=20=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux.c b/drivers/gpu/dr=
+m/i915/display/intel_dp_aux.c
+> index bf8e8e0cc19c9..410252ba6fd16 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux.c
+> @@ -835,6 +835,8 @@ void intel_dp_aux_init(struct intel_dp *intel_dp)
+>=20=20
+>  	intel_dp->aux.transfer =3D intel_dp_aux_transfer;
+>  	cpu_latency_qos_add_request(&intel_dp->pm_qos, PM_QOS_DEFAULT_VALUE);
+> +
+> +	drm_dp_dpcd_set_probe_quirk(&intel_dp->aux, !intel_dp_is_edp(intel_dp));
 >  }
->  EXPORT_SYMBOL(drm_dp_dpcd_set_powered);
 >=20=20
-> +/**
-> + * drm_dp_dpcd_set_dpcd_probe_quirk() - Set whether a probing before DPC=
-D access is done
-> + * @aux: DisplayPort AUX channel
-> + * @enable: Enable the probing if required
-> + */
-> +void drm_dp_dpcd_set_probe_quirk(struct drm_dp_aux *aux, bool enable)
-> +{
-> +	WRITE_ONCE(aux->dpcd_probe_disabled, !enable);
-> +}
-> +EXPORT_SYMBOL(drm_dp_dpcd_set_probe_quirk);
-
-We don't use this yet, which feels a bit odd.
-
+>  static enum aux_ch default_aux_ch(struct intel_encoder *encoder)
+> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/d=
+rm/i915/display/intel_hotplug.c
+> index 74fe398663d63..1093c6c3714c0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
+> @@ -33,6 +33,7 @@
+>  #include "intel_display_core.h"
+>  #include "intel_display_rpm.h"
+>  #include "intel_display_types.h"
+> +#include "intel_dp.h"
+>  #include "intel_hdcp.h"
+>  #include "intel_hotplug.h"
+>  #include "intel_hotplug_irq.h"
+> @@ -906,9 +907,18 @@ void intel_hpd_poll_enable(struct intel_display *dis=
+play)
+>   */
+>  void intel_hpd_poll_disable(struct intel_display *display)
+>  {
+> +	struct intel_encoder *encoder;
 > +
->  /**
->   * drm_dp_dpcd_read() - read a series of bytes from the DPCD
->   * @aux: DisplayPort AUX channel (SST or MST)
-> @@ -724,7 +735,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsi=
-gned int offset,
->  	 * We just have to do it before any DPCD access and hope that the
->  	 * monitor doesn't power down exactly after the throw away read.
->  	 */
-> -	if (!aux->is_remote) {
-> +	if (!aux->is_remote && !READ_ONCE(aux->dpcd_probe_disabled)) {
-
-I think it would be worth it to add a small helper to decide whether to
-do a dpcd probe. It would include the ->is_remote check as well, and the
-big comment could be moved there, simplifying drm_dp_dpcd_read().
-
->  		ret =3D drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
->  		if (ret < 0)
->  			return ret;
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index e867315253493..9250b425ae230 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -255,6 +255,9 @@ static const struct edid_quirk {
->  };
+>  	if (!HAS_DISPLAY(display))
+>  		return;
 >=20=20
->  static const struct edid_quirk global_edid_quirk_list[] =3D {
-> +	/* HP ZR24w DP AUX DPCD access requires probing to prevent corruption. =
-*/
-> +	DRM_EDID_QUIRK(drm_edid_encode_panel_id('H', 'W', 'P', 0x2869), PANEL_N=
-AME_ANY,
-> +		       BIT(DRM_EDID_QUIRK_DP_DPCD_PROBE)),
-
-So I think we should keep using EDID_QUIRK(), and maybe add
-EDID_QUIRK_NAME() companion to also assign a name !=3D NULL, so we don't
-have to pass PANEL_NAME_ANY to all uses. Less verbose that way I think.
-
->  };
->=20=20
->  /*
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/dr=
-m_dp_helper.h
-> index e4ca35143ff96..75fa9548aefa0 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -523,10 +523,16 @@ struct drm_dp_aux {
->  	 * @no_zero_sized: If the hw can't use zero sized transfers (NVIDIA)
->  	 */
->  	bool no_zero_sized;
+> +	for_each_intel_dp(display->drm, encoder) {
+> +		struct intel_dp *intel_dp =3D enc_to_intel_dp(encoder);
 > +
-> +	/**
-> +	 * @dpcd_probe_disabled: If probing before a DPCD access is disabled.
-> +	 */
-> +	bool dpcd_probe_disabled;
-
-Is this a negative just so it's false by default?
-
->  };
+> +		if (!intel_dp_is_edp(intel_dp))
+> +			drm_dp_dpcd_set_probe_quirk(&intel_dp->aux, true);
+> +	}
+> +
+>  	WRITE_ONCE(display->hotplug.poll_enabled, false);
 >=20=20
->  int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
->  void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered);
-> +void drm_dp_dpcd_set_probe_quirk(struct drm_dp_aux *aux, bool enable);
->  ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
->  			 void *buffer, size_t size);
->  ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 3d8e168521c82..a878805c81d97 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -110,7 +110,8 @@ struct detailed_data_string {
->  #define DRM_EDID_CVT_FLAGS_REDUCED_BLANKING  (1 << 4)
->=20=20
->  enum drm_edid_quirk {
-> -	DRM_EDID_QUIRK_NONE,
-> +	/* Do a dummy read before DPCD accesses, to prevent corruption. */
-> +	DRM_EDID_QUIRK_DP_DPCD_PROBE,
->  };
->=20=20
->  struct detailed_data_monitor_range {
+>  	spin_lock_irq(&display->irq.lock);
 
 --=20
 Jani Nikula, Intel
