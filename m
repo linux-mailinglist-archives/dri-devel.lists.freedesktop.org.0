@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AEFACEED7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 14:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D262ACEED9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 14:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875E710E85B;
-	Thu,  5 Jun 2025 12:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9FA10E8C9;
+	Thu,  5 Jun 2025 12:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="TxFWlq3/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VmAAhXWz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 484 seconds by postgrey-1.36 at gabe;
- Thu, 05 Jun 2025 12:03:33 UTC
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
- [95.215.58.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0086710E85B
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 12:03:33 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749124522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gtr0k1J84OtDZN/TagpeD6dbRf6DmdogmCvrsj264r0=;
- b=TxFWlq3/cnBrYdtM+7qQzjMqiBrk93LzjBHaaorU0djMlt4UBcDsXRPdqjrws7+/nZHZlU
- j4/7bAxX99M8O7seotVKPrfLknOmDKVTcuUDP4Gsf1BsdJYyDnP+uHzvQWcufMKJvjeCir
- 5O/sYSSlZIs2mCG5DlBeE/vPyNCDoT7mh0Sy3isHT1tDHvZoAcwcQHwrrJkCwkO92NRPwV
- kBT3L1CW/agHZKbp117kW7SOj+HKJc4tNAG7UF36SHwNnmencZpu/uvryGUJj5pVASkzyj
- gIUfwpg+fwhQcTQXIVV6HzxmeFQtSCKkl9GaJSEMqDhdPFhlNdXiVTGNRdjijA==
-Content-Type: multipart/signed;
- boundary=9d06b052148c9375f18638bf3f5cd716439c8e5c58d9fb6cc23c0863546f;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 05 Jun 2025 13:54:50 +0200
-Message-Id: <DAEKVTXT0FHB.TOVX7BU9ZYXA@cknow.org>
-Cc: <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <sebastian.reichel@collabora.com>, <heiko@sntech.de>,
- <conor+dt@kernel.org>, <krzk+dt@kernel.org>, <robh@kernel.org>,
- <tzimmermann@suse.de>, <mripard@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <simona@ffwll.ch>,
- <airlied@gmail.com>, <quic_jesszhan@quicinc.com>,
- <neil.armstrong@linaro.org>, <javierm@redhat.com>, <megi@xff.cz>, "Chris
- Morgan" <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/4] drm/panel: himax-hx8394: Add Support for Huiling
- hl055fhav028c
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Chris Morgan" <macroalpha82@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20250603193930.323607-1-macroalpha82@gmail.com>
- <20250603193930.323607-4-macroalpha82@gmail.com>
-In-Reply-To: <20250603193930.323607-4-macroalpha82@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6294F10E8C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 12:04:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D6C7F4A3FC;
+ Thu,  5 Jun 2025 12:04:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AF1C4CEE7;
+ Thu,  5 Jun 2025 12:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749125049;
+ bh=lCVZA25/isGuQai3LP6gi6FwlJVk5NeO2+7NBohc5SU=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=VmAAhXWzVGBjeWNpVW2wh+mAxiJcDJYA6OUElXSkndlFiRbwoupeUKMTH94sxLGvI
+ mm+H/Gf2F7yPxlLw3e05dd0veLXsk1JP4wjON1COr10tlCInZjoSa7vOOesZdr9d96
+ gUOhYR2G5S6tS+73HgdIsXGy6YWJgRN8aWYW/EKfjs3ZHWxP+MMaJm2zNM99QG71LN
+ 6u/uC+PiBbdLJ33bKUgN8BjrnLIAr+4iPVhyTo6jd6bdl2vM+pfnbPwBAOm/6o6A6f
+ lmP5838AChfUmUz4tXi4HnRBYEm8WQTUGcFn9QLj5penqKRJvzkYco8PtO6YVZQ4Mz
+ ZmTOk2gmbJV4w==
+X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
+ linux-coco@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+ yilun.xu@intel.com, yilun.xu@linux.intel.com,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com,
+ linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
+ shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
+ kevin.tian@intel.com
+Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
+ TEE-IO support
+In-Reply-To: <20250529053513.1592088-20-yilun.xu@linux.intel.com>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-20-yilun.xu@linux.intel.com>
+Date: Thu, 05 Jun 2025 17:33:52 +0530
+Message-ID: <yq5ah60u8kev.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +70,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---9d06b052148c9375f18638bf3f5cd716439c8e5c58d9fb6cc23c0863546f
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Xu Yilun <yilun.xu@linux.intel.com> writes:
 
-On Tue Jun 3, 2025 at 9:39 PM CEST, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+> Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
+> expected to be called by userspace when CoCo VM issues TDI bind/unbind
+> command to VMM. Specifically for TDX Connect, these commands are some
+> secure Hypervisor call named GHCI (Guest-Hypervisor Communication
+> Interface).
 >
-> Add support for the Huiling hl055fhav028c panel as used on the
-> Gameforce Ace handheld gaming console. This panel uses a Himax HX8399C
-> display controller and requires a sparsely documented vendor provided
-> init sequence. The display resolution is 1080x1920 and is 70mm by 127mm
-> as stated in the manufacturer's documentation.
+> The TSM TDI bind/unbind operations are expected to be initiated by a
+> running CoCo VM, which already have the legacy assigned device in place.
+> The TSM bind operation is to request VMM make all secure configurations
+> to support device work as a TDI, and then issue TDISP messages to move
+> the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
 >
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/gpu/drm/panel/panel-himax-hx8394.c | 142 +++++++++++++++++++++
->  1 file changed, 142 insertions(+)
+> Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
+> device to TDISP ERROR state.
 >
-> diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm=
-/panel/panel-himax-hx8394.c
-> index ff994bf0e3cc..16e450b156b7 100644
-> --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-> +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-> @@ -477,6 +477,147 @@ static const struct hx8394_panel_desc mchp_ac40t08a=
-_desc =3D {
->  	.init_sequence =3D mchp_ac40t08a_init_sequence,
->  };
-> <snip>
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+> Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+>
+
+....
+
 > +
-> +static const struct drm_display_mode hl055fhav028c_mode =3D {
-> +	.hdisplay	=3D 1080,
-> +	.hsync_start	=3D 1080 + 32,
-> +	.hsync_end	=3D 1080 + 32 + 8,
-> +	.htotal		=3D 1080 + 32 + 8 + 32,
-> +	.vdisplay	=3D 1920,
-> +	.vsync_start	=3D 1920 + 16,
-> +	.vsync_end	=3D 1920 + 16 + 2,
-> +	.vtotal		=3D 1920 + 16 + 2 + 14,
-
-Shouldn't this be 's/14/16/' ?
-
-Cheers,
-  Diederik
-
-> +	.clock		=3D 134920,
-> +	.flags		=3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> +	.width_mm	=3D 70,
-> +	.height_mm	=3D 127,
-> +};
+> +	/* To ensure no host side MMIO access is possible */
+> +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
+> +	if (ret)
+> +		goto out_unlock;
 > +
-> +static const struct hx8394_panel_desc hl055fhav028c_desc =3D {
-> +	.mode =3D &hl055fhav028c_mode,
-> +	.lanes =3D 4,
-> +	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST,
-> +	.format =3D MIPI_DSI_FMT_RGB888,
-> +	.init_sequence =3D hl055fhav028c_init_sequence,
-> +};
+>
+
+I am hitting failures here with similar changes. Can you share the Qemu
+changes needed to make this pci_request_regions_exclusive successful.
+Also after the TDI is unbound, we want the region ownership backto
+"vfio-pci" so that things continue to work as non-secure device. I don't
+see we doing that. I could add a pci_bar_deactivate/pci_bar_activate in
+userspace which will result in vfio_unmap()/vfio_map(). But that doesn't
+release the region ownership.
+
+
+> +	ret = vfio_iommufd_tsm_bind(&vdev->vdev, tsm_bind.vdevice_id);
+> +	if (ret)
+> +		goto out_release_region;
 > +
->  static int hx8394_enable(struct drm_panel *panel)
->  {
->  	struct hx8394 *ctx =3D panel_to_hx8394(panel);
-> @@ -683,6 +824,7 @@ static void hx8394_remove(struct mipi_dsi_device *dsi=
-)
-> =20
->  static const struct of_device_id hx8394_of_match[] =3D {
->  	{ .compatible =3D "hannstar,hsd060bhw4", .data =3D &hsd060bhw4_desc },
-> +	{ .compatible =3D "huiling,hl055fhav028c", .data =3D &hl055fhav028c_des=
-c },
->  	{ .compatible =3D "powkiddy,x55-panel", .data =3D &powkiddy_x55_desc },
->  	{ .compatible =3D "microchip,ac40t08a-mipi-panel", .data =3D &mchp_ac40=
-t08a_desc },
->  	{ /* sentinel */ }
+> +	vdev->is_tsm_bound = true;
+> +	mutex_unlock(&vdev->vdev.dev_set->lock);
+> +
+> +	return 0;
+> +
+> +out_release_region:
+> +	pci_release_regions(pdev);
+> +out_unlock:
+> +	mutex_unlock(&vdev->vdev.dev_set->lock);
+> +	return ret;
+> +}
 
-
---9d06b052148c9375f18638bf3f5cd716439c8e5c58d9fb6cc23c0863546f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEGFowAKCRDXblvOeH7b
-bibaAQDwhyT1xBS5bV1lt1k41DO7hNeAcfefxy119hDgQjbmLAD+IAlCYrTHSfiK
-GqmrYXKMwRA/W3GNEP3F8PSPxQWDdQ0=
-=5nUe
------END PGP SIGNATURE-----
-
---9d06b052148c9375f18638bf3f5cd716439c8e5c58d9fb6cc23c0863546f--
+-aneesh
