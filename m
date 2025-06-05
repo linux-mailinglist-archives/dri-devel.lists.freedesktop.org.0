@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9774DACED15
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1608FACED2D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:58:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5947210E10A;
-	Thu,  5 Jun 2025 09:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 248A210EA1F;
+	Thu,  5 Jun 2025 09:58:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aaTyqTXT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bIb1TikC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5776910E10A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749116882; x=1780652882;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/VL9o7ChNpJtoUsc5ibEOwDBnVANVkT3Ha++wcl3fYE=;
- b=aaTyqTXTyAJOqU1M1DaDkQN2jng8MG5y7WV8IkJyUtraxF4jZ469KTvd
- N1DNqS+LgAOG9cZt7ecmZ44/2ivmaH5uLEG8o1iaQqd6FNdGb1IXpE+e0
- BQq7juFCImzvxN5Uu8fURVglitdaPYo/Nnuq5BwT3GJCFvJDNqbv2gHK4
- Bl/SV6HfSvJUmjkLcxIf24+r/e2vhiwZjgCw2DdpwgHcEnA5kMnLvYM1d
- Ww8569bGryfTP4JvLvYPHjRovORGj6KPPtcLh60N+Zl23ETe6Na5BYo8U
- L5quvJfqI6Y2xOF61cNmXML83+IBBlRHobXCm16CjoFnu+gKQdh1RbSmK w==;
-X-CSE-ConnectionGUID: 08D1eIBPSUGf9WATF+Cceg==
-X-CSE-MsgGUID: n1g8upYKR8ySD+g2H7sl0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="61894010"
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="61894010"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2025 02:48:02 -0700
-X-CSE-ConnectionGUID: bZl8PvLtTTmumH8CpnrPsQ==
-X-CSE-MsgGUID: NroY4ThARXa4bErMmRN2Vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="145358422"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa006.jf.intel.com with ESMTP; 05 Jun 2025 02:47:55 -0700
-Date: Thu, 5 Jun 2025 17:41:17 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
- linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- vivek.kasireddy@intel.com, yilun.xu@intel.com,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
- kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5aplfn210z.fsf@kernel.org>
- <aD24r44v0g1NgeZs@yilunxu-OptiPlex-7050>
- <yq5ajz5r8w6p.fsf@kernel.org>
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EAF10E9F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:58:29 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e812c817de0so791373276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 02:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1749117507; x=1749722307; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4zPdTQVDPRTSNl8wo5w6MeNmYmfyR+yoWh8tW6/DZaY=;
+ b=bIb1TikCkHdcsGACydxikznViVO6ZcnXPzAoSsfuZfV1i6ua05Y4EydcaPengj0iKN
+ Z2Tgx6M4XN1nkPsYkQH5zaf/x1ZeB9eSmARcODCu7Suyu8NrSfR2TMnZhNKkBDbMZgt+
+ hHRQOHHy0SVhRJflY7Z4rypGPCpEKxCRoVUk82X8ROoPwTi+lTz4NWQbxR8N2wJM3MSK
+ 8VVpHKwAbSGjUZsknzugEKTu7F4hI2PcDKi4fI4wdojfHdCvc7raeU8yDePwfVFWty6D
+ OfizjCttivV8XZo+IKTlNYt8GAKNXcveGk02p+lqp5YvXzerFMr28bsDA4onURTQuKYg
+ g8tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749117507; x=1749722307;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4zPdTQVDPRTSNl8wo5w6MeNmYmfyR+yoWh8tW6/DZaY=;
+ b=dyU0VgVaVs44T8Np3ZO2J0MDELZECdvrzXU7NCyb1d0YHCRrrHnowTlhL9lgSYEb3f
+ AJIYg3Y1lnTLLvhhBJridfCfhAynpNu9Q1nLOv7W9DXOfOG0X24qVob/aa+4Ph5Q1O10
+ HOTdJ0V/T/NXtQAPQ5P5bK9Q8sw6paFFilWBvjzHgjD5mc7haCrodd4rAPBLaynysK8H
+ pKY7MKrObpqoyYmKXtlChc+F/OIfFq0anUASmiks7W8hLZ3DSeHkMxH1CD03KlzR/HFy
+ q64Jk9fFOigXpP2k4kNV2pA7n/ga1m+QRzNVUDOpM/XYnUB4QsbeBccDT2cidaBin7Vz
+ 6t7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXa4jlMErnV3MPUufx+jej14eqRtPZjSBsXLvQxZwXXBdxU6o/ON9T72Jy+2hN8hzZp0xKo9vkYteE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywdb5xaZMkUVM5goLCS2I663G/Fb7jatpFGTF8LEVNuAOFlTdtJ
+ Hc5MxOCEeghVr8qUnOtBVy0CN8UFkazVTzqK4swvq6wxsLnHkwknb3zAEnwBZgfh6fFaw1ix7ER
+ U9BhbhYlczV3eXKck4AI84T9yZdmbDpRMIep/R8bNXg==
+X-Gm-Gg: ASbGncu0WzZbc3re5NBoXAVDdSCO5ALdzhRbMmM7PXwLNdR7it8fgwLcPESucnw2mRB
+ ie2nlqefzQNX8AsdaidmtK8Ux/SNgRl4sU1EYroRzmBNlEzZJQ1kq6QYE4a+Rx2n9QXjMuUfbnb
+ ic4TNz2/Y6SPlTl8gSCYHkvqvSn3QWqKTbeA==
+X-Google-Smtp-Source: AGHT+IEs9z2qDMjfH7cC75fVmmSjHZHDht5i6D5bKkcjTo5PY949JkkRdQafZEhuxNNXbWaU8JI1NrPxlkNCttr89yg=
+X-Received: by 2002:a05:6902:1006:b0:e81:89b9:f7fb with SMTP id
+ 3f1490d57ef6-e8189b9fd46mr2688470276.20.1749117507589; Thu, 05 Jun 2025
+ 02:58:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5ajz5r8w6p.fsf@kernel.org>
+References: <CGME20250529222410eucas1p2e1d41a2fc717caef1aed51367a7db944@eucas1p2.samsung.com>
+ <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
+ <20250530-apr_14_for_sending-v3-7-83d5744d997c@samsung.com>
+ <CAPDyKFpYfZNthdRN=pCv4FEdFCzrKEH4aFBy4ew-xLKtpbJ5Tg@mail.gmail.com>
+ <e39c6748-59aa-4c4a-98f3-263751a120c1@imgtec.com>
+In-Reply-To: <e39c6748-59aa-4c4a-98f3-263751a120c1@imgtec.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 5 Jun 2025 11:57:51 +0200
+X-Gm-Features: AX0GCFs9t2KTNaikDlvnZamDB-7XXtdndYPeCom5IA-jJ40VSGgqWKBlwED7Z-4
+Message-ID: <CAPDyKFrxqp30RWGoudVsy2NR7dSUoKwxc=nk3Bqp9RVZGZ6_vQ@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Drew Fustini <drew@pdp7.com>,
+ Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Frank Binns <Frank.Binns@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,86 +102,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 04, 2025 at 07:07:18PM +0530, Aneesh Kumar K.V wrote:
-> Xu Yilun <yilun.xu@linux.intel.com> writes:
-> 
-> > On Sun, Jun 01, 2025 at 04:15:32PM +0530, Aneesh Kumar K.V wrote:
-> >> Xu Yilun <yilun.xu@linux.intel.com> writes:
-> >> 
-> >> > Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
-> >> > expected to be called by userspace when CoCo VM issues TDI bind/unbind
-> >> > command to VMM. Specifically for TDX Connect, these commands are some
-> >> > secure Hypervisor call named GHCI (Guest-Hypervisor Communication
-> >> > Interface).
-> >> >
-> >> > The TSM TDI bind/unbind operations are expected to be initiated by a
-> >> > running CoCo VM, which already have the legacy assigned device in place.
-> >> > The TSM bind operation is to request VMM make all secure configurations
-> >> > to support device work as a TDI, and then issue TDISP messages to move
-> >> > the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
-> >> >
-> >> > Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
-> >> > device to TDISP ERROR state.
-> >> >
-> >> 
-> >> Any reason these need to be a vfio ioctl instead of iommufd ioctl?
-> >> For ex: https://lore.kernel.org/all/20250529133757.462088-3-aneesh.kumar@kernel.org/
+On Wed, 4 Jun 2025 at 18:48, Matt Coster <Matt.Coster@imgtec.com> wrote:
+>
+> On 03/06/2025 13:27, Ulf Hansson wrote:
+> > On Fri, 30 May 2025 at 00:24, Michal Wilczynski
+> > <m.wilczynski@samsung.com> wrote:
+> >>
+> >> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+> >> TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+> >> the GPU using the drm/imagination driver.
+> >>
+> >> By adding this node, the kernel can recognize and initialize the GPU,
+> >> providing graphics acceleration capabilities on the Lichee Pi 4A and
+> >> other boards based on the TH1520 SoC.
+> >>
+> >> Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
+> >> controlled programatically.
+> >>
+> >> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> >> ---
+> >>  arch/riscv/boot/dts/thead/th1520.dtsi | 22 ++++++++++++++++++++++
+> >>  1 file changed, 22 insertions(+)
+> >>
+> >> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+> >> index 6170eec79e919b606a2046ac8f52db07e47ef441..ee937bbdb7c08439a70306f035b1cc82ddb4bae2 100644
+> >> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+> >> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+> >> @@ -225,6 +225,13 @@ aonsys_clk: clock-73728000 {
+> >>                 #clock-cells = <0>;
+> >>         };
+> >>
+> >> +       gpu_mem_clk: mem-clk {
+> >> +               compatible = "fixed-clock";
+> >> +               clock-frequency = <0>;
+> >> +               clock-output-names = "gpu_mem_clk";
+> >> +               #clock-cells = <0>;
+> >> +       };
+> >> +
+> >>         stmmac_axi_config: stmmac-axi-config {
+> >>                 snps,wr_osr_lmt = <15>;
+> >>                 snps,rd_osr_lmt = <15>;
+> >> @@ -504,6 +511,21 @@ clk: clock-controller@ffef010000 {
+> >>                         #clock-cells = <1>;
+> >>                 };
+> >>
+> >> +               gpu: gpu@ffef400000 {
+> >> +                       compatible = "thead,th1520-gpu", "img,img-bxm-4-64",
+> >> +                                    "img,img-rogue";
+> >> +                       reg = <0xff 0xef400000 0x0 0x100000>;
+> >> +                       interrupt-parent = <&plic>;
+> >> +                       interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
+> >> +                       clocks = <&clk_vo CLK_GPU_CORE>,
+> >> +                                <&gpu_mem_clk>,
+> >> +                                <&clk_vo CLK_GPU_CFG_ACLK>;
+> >> +                       clock-names = "core", "mem", "sys";
+> >> +                       power-domains = <&aon TH1520_GPU_PD>;
+> >> +                       power-domain-names = "a";
 > >
-> > A general reason is, the device driver - VFIO should be aware of the
-> > bound state, and some operations break the bound state. VFIO should also
-> > know some operations on bound may crash kernel because of platform TSM
-> > firmware's enforcement. E.g. zapping MMIO, because private MMIO mapping
-> > in secure page tables cannot be unmapped before TDI STOP [1].
+> > If the power-domain-names are really needed, please pick a
+> > useful/descriptive name.
+>
+> This isn't the first time our unfortunate power domain names have come
+> up [1][2]. Sadly, we're stuck with them for Rogue.
+
+Wow, that's really crazy.
+
+BTW, are there any reasons why you can't rely on attaching them by
+index instead, via dev_pm_domain_attach_by_id() for example? Thus
+entirely drop the names in the DT docs?
+
+It sounds like the names don't really have a meaning, or do they?
+
+>
+> Matt
+>
+> [1]: https://lore.kernel.org/r/ff4e96e4-ebc2-4c50-9715-82ba3d7b8612@imgtec.com/
+> [2]: https://lore.kernel.org/r/cc6a19b3-ba35-465c-9fa6-a764df7c01c1@imgtec.com/
+>
 > >
-> > Specifically, for TDX Connect, the firmware enforces MMIO unmapping in
-> > S-EPT would fail if TDI is bound. For AMD there seems also some
-> > requirement about this but I need Alexey's confirmation.
-> >
-> > [1] https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
-> >
-> 
-> According to the TDISP specification (Section 11.2.6), clearing either
-> the Bus Master Enable (BME) or Memory Space Enable (MSE) bits will cause
-> the TDI to transition to an error state. To handle this gracefully, it
-> seems necessary to unbind the TDI before modifying the BME or MSE bits.
 
-Yes. But now the suggestion is never let VFIO do unbind, instead VFIO
-should block these operations when device is bound.
+[...]
 
-> 
-> If I understand correctly, we also need to unmap the Stage-2 mapping due
-> to the issue described in commit
-> abafbc551fddede3e0a08dee1dcde08fc0eb8476. Are there any additional
-> reasons we would want to unmap the Stage-2 mapping for the BAR (as done
-> in vfio_pci_zap_and_down_write_memory_lock)?
-
-I think no more reason. 
-
-> 
-> Additionally, with TDX, it appears that before unmapping the Stage-2
-> mapping for the BAR, we should first unbind the TDI (ie, move it to the
-> "unlock" state?) Is this step related Section 11.2.6 of the TDISP spec,
-> or is it driven by a different requirement?
-
-No, this is not device side TDISP requirement. It is host side
-requirement to fix DMA silent drop issue. TDX enforces CPU S2 PT share
-with IOMMU S2 PT (does ARM do the same?), so unmap CPU S2 PT in KVM equals
-unmap IOMMU S2 PT.
-
-If we allow IOMMU S2 PT unmapped when TDI is running, host could fool
-guest by just unmap some PT entry and suppress the fault event. Guest
-thought a DMA writting is successful but it is not and may cause
-data integrity issue.
-
-This is not a TDX specific problem, but different vendors has different
-mechanisms for this. For TDX, firmware fails the MMIO unmap for S2. For
-AMD, will trigger some HW protection called "ASID fence" [1]. Not sure
-how ARM handles this?
-
-https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
-
-Thanks,
-Yilun
-
-> 
-> -aneesh
+Kind regards
+Uffe
