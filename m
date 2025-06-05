@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718DBACF698
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 20:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3658ACF799
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 21:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22C2F10E2D7;
-	Thu,  5 Jun 2025 18:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEE610E2C8;
+	Thu,  5 Jun 2025 19:07:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HknfJRJG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lBuaDEEq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC7910E83D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 18:32:04 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F068943A44;
- Thu,  5 Jun 2025 18:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1749148322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zPZNF5bEHba9k6vIOW/VukHg1eq0fNfZYGtVAdLeg+g=;
- b=HknfJRJGzx8XPl8qn4PYSCthquzFJMwaozl0rT0LwbSM7P0U2fYePSF0VhijC3QRVPEUHD
- eKd2cwPK9GEVAaQ0WR9JzJbGpIKVx1OibtDrNpdyHoih7jf0S/2Zz33kSUya31mUjOsVW2
- JQ6yR6gxWkRRlPrRWkYp385G9LEuzF6V2kKCjJfsjtHTnOe2fRj6nGUowDkXY0qcOSUnaI
- NKq6I6ARt3lfStzlpnvWmyuFQI798gUi2dzAF36P/833U5VEyne8ALgqymJg6woZlEQzFl
- zpCwX69S1glyfLqkF89B0ZWhzmyqp27JBPJlDpUpvTXbFj07asF6Gbnk8ozWjA==
-Date: Thu, 5 Jun 2025 20:31:58 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Anusha
- Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, =?UTF-8?B?SGVydsOp?= Codina
- <herve.codina@bootlin.com>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 3/3] drm/tests: bridge: add KUnit tests for
- devm_drm_bridge_alloc()
-Message-ID: <20250605203158.0846e8de@booty>
-In-Reply-To: <20250527-smiling-peacock-from-uranus-dc032f@houat>
-References: <20250516-drm-bridge-alloc-doc-test-v8-0-7e356fd58ba5@bootlin.com>
- <20250516-drm-bridge-alloc-doc-test-v8-3-7e356fd58ba5@bootlin.com>
- <20250527-smiling-peacock-from-uranus-dc032f@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1884410E2DC;
+ Thu,  5 Jun 2025 19:07:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749150449; x=1780686449;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=C/XhCzNvGRMw8779oAUL0VkITURez1r6nZ1DhVNYE6I=;
+ b=lBuaDEEq6bywA0xAgTzTWZzn3Dpu38U/cZGN0lLYRDN5FwRWp7JeqDMO
+ ZKxjDyZSATLFLPJy+ElNsPTt24tm/Pg2MKbfzHWD+RZxfcXdbMFI+QHqb
+ 0tePRIq81KToSOneDJoJKUOEBkCupx5+cZ4RJxl0uoz+t3el2UlJLGd2O
+ g8kuoW8r9T2e92I78URmvd1/eYE/i3UiE/VHvBBfHZ68WSGvOd1MwJP2b
+ mvgbdo9NripLTvoWonPS/BlDG1tAwezQtI3s5jK1BewGacB8AY7g3vJSS
+ MkOt3YtjiLndansFIjRpJAGmWRm5jUCYhCxrND4wrwtIl6E3D4WGhKryq g==;
+X-CSE-ConnectionGUID: kmPtGtd/QBGO5CVUpNpDBg==
+X-CSE-MsgGUID: HggPSvfHSWWWdlIwEYJPCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="38919376"
+X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; d="scan'208";a="38919376"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 12:07:28 -0700
+X-CSE-ConnectionGUID: GrC4chEyQ3qeeacC8p+QEg==
+X-CSE-MsgGUID: bpy3oorHTruEV22QO8mP9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; d="scan'208";a="149451753"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.59])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 12:07:26 -0700
+Date: Thu, 5 Jun 2025 21:07:15 +0200
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-next-fixes
+Message-ID: <aEHq44uIAZwfK-mG@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegtddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvuddvrddutdehrdduhedtrddvhedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdduvddruddthedrudehtddrvdehvddphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmo
- hhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +78,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+Dave, Simona
+This week's drm-xe-next-fixes pull. Quite a few this week.
 
-thanks for reviewing this series.
+One thing to be aware of is a conflict in "Create LRC bo without VM",
+Looks like a commit got pulled into drm-xe-fixes that is not in drm-xe-next-fixes,
+and pulling this branch will likely conflict with that once Linus merges.
 
-On Tue, 27 May 2025 18:10:31 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+Thanks,
+Thomas
 
-[...]
+drm-xe-next-fixes-2025-06-05:
+Driver Changes:
+- A couple of vm init fixes (Matt Auld)
+- Hwmon fixes (Karthik)
+- Drop reduntant conversion to bool (Raag)
+- Fix CONFIG_INTEL_VSEC dependency (Arnd)
+- Rework eviction rejection of bound external bos (Thomas)
+- Stop re-submitting signalled jobs (Matt Auld)
+- A couple of pxp fixes (Daniele)
+- Add back a fix that got lost in a merge (Matt Auld)
+- Create LRC bo without VM (Niranjana)
+- Fix for the above fix (Maciej)
 
-> > @@ -422,11 +424,93 @@ static struct kunit_suite drm_bridge_helper_reset_crtc_test_suite = {
-> >  	.test_cases = drm_bridge_helper_reset_crtc_tests,
-> >  };
-> >  
-> > +struct drm_bridge_alloc_test_ctx {  
-> 
-> drm_bridge_alloc_priv
-> 
-> > +	struct device *dev;
-> > +	struct dummy_drm_bridge *dummy_br;
-> > +	bool destroyed;  
-> 
-> This can be in drm_bridge_priv
+The following changes since commit 40493d97b329f8185c0f04dc0ef2b9ffc58e7f3b:
 
-Not really, because drm_bridge_priv will be freed just after calling
-.destroy, and we need .destroyed after the free happened.
+  drm/xe: Add missing documentation of rpa_freq (2025-05-28 17:23:13 +0200)
 
-[...]
+are available in the Git repository at:
 
-> > +static const struct drm_bridge_funcs drm_bridge_dummy_funcs = {
-> > +	.destroy = dummy_drm_bridge_destroy,
-> > +};  
-> 
-> And same here, you don't need to create yet another function set, just
-> add it to the existing ones.
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-fixes-2025-06-05
 
-OK, but it implies further changes.
+for you to fetch changes up to 7c7c5cb5b5bf9d8ccc6a51b28687c9e7ff7f1890:
 
-In this version of this patch, the alloc tests being introduced use
-drm_bridge_alloc_priv, while the other tests using the existing
-function sets rely on drm_bridge_init_priv which has different fields.
-So if all tests will call .destroy, we always need a valid struct
-pointer for drm_bridge_priv.data.
+  drm/xe: remove unmatched xe_vm_unlock() from __xe_exec_queue_init() (2025-06-05 18:55:46 +0200)
 
-Based on this, I think the only solution is to not introduce
-drm_bridge_alloc_priv, and instead put its members (struct device *dev and bool
-destroyed) to drm_bridge_init_priv, and then use drm_bridge_init_priv
-for all tests.
+----------------------------------------------------------------
+Driver Changes:
+- A couple of vm init fixes (Matt Auld)
+- Hwmon fixes (Karthik)
+- Drop reduntant conversion to bool (Raag)
+- Fix CONFIG_INTEL_VSEC dependency (Arnd)
+- Rework eviction rejection of bound external bos (Thomas)
+- Stop re-submitting signalled jobs (Matt Auld)
+- A couple of pxp fixes (Daniele)
+- Add back a fix that got lost in a merge (Matt Auld)
+- Create LRC bo without VM (Niranjana)
+- Fix for the above fix (Maciej)
 
-The change is not very invasive, and perhaps even a cleanup, thus I'm
-going to send as above in v9.
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/xe/vsec: fix CONFIG_INTEL_VSEC dependency
 
+Daniele Ceraolo Spurio (2):
+      drm/xe/pxp: Use the correct define in the set_property_funcs array
+      drm/xe/pxp: Clarify PXP queue creation behavior if PXP is not ready
 
-I'm OK with all the other changes you proposed. All queued for v9.
+Karthik Poosa (2):
+      drm/xe/hwmon: Add support to manage power limits though mailbox
+      drm/xe/hwmon: Move card reactive critical power under channel card
 
-Luca
+Maciej Patelczyk (1):
+      drm/xe: remove unmatched xe_vm_unlock() from __xe_exec_queue_init()
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Matthew Auld (4):
+      drm/xe/vm: move rebind_work init earlier
+      drm/xe/vm: move xe_svm_init() earlier
+      drm/xe/sched: stop re-submitting signalled jobs
+      drm/xe/guc_submit: add back fix
+
+Niranjana Vishwanathapura (1):
+      drm/xe: Create LRC BO without VM
+
+Raag Jadav (1):
+      drm/xe: drop redundant conversion to bool
+
+Thomas Hellström (1):
+      drm/xe: Rework eviction rejection of bound external bos
+
+ .../ABI/testing/sysfs-driver-intel-xe-hwmon        |  20 +-
+ drivers/gpu/drm/xe/Kconfig                         |   3 +-
+ drivers/gpu/drm/xe/regs/xe_mchbar_regs.h           |  10 +-
+ drivers/gpu/drm/xe/regs/xe_pcode_regs.h            |   4 -
+ drivers/gpu/drm/xe/xe_bo.c                         |  48 ++-
+ drivers/gpu/drm/xe/xe_device_sysfs.c               |   2 +-
+ drivers/gpu/drm/xe/xe_device_types.h               |   4 +
+ drivers/gpu/drm/xe/xe_exec_queue.c                 |  15 +-
+ drivers/gpu/drm/xe/xe_gpu_scheduler.h              |  10 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |  11 +
+ drivers/gpu/drm/xe/xe_hwmon.c                      | 388 +++++++++++++++------
+ drivers/gpu/drm/xe/xe_lrc.c                        |  23 +-
+ drivers/gpu/drm/xe/xe_pci.c                        |   5 +
+ drivers/gpu/drm/xe/xe_pcode.c                      |  11 +
+ drivers/gpu/drm/xe/xe_pcode.h                      |   3 +
+ drivers/gpu/drm/xe/xe_pcode_api.h                  |   7 +
+ drivers/gpu/drm/xe/xe_pxp.c                        |   8 +-
+ drivers/gpu/drm/xe/xe_vm.c                         |  27 +-
+ drivers/gpu/drm/xe/xe_vm.h                         |  69 ++++
+ drivers/gpu/drm/xe/xe_vm_types.h                   |   8 +
+ include/uapi/drm/xe_drm.h                          |   5 +
+ 21 files changed, 493 insertions(+), 188 deletions(-)
