@@ -2,97 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7D2ACEB7D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 10:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711FDACEB7E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 10:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48DDA10E807;
-	Thu,  5 Jun 2025 08:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F7E10E813;
+	Thu,  5 Jun 2025 08:10:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="MLE6kj5l";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KG8DVzVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16BA10E807
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 08:10:26 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-54afb5fcebaso773234e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 01:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1749111025; x=1749715825;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1EnW/yxpvBpxax3gx1shRrGfyOQX14oH8W/BcrsAWl4=;
- b=MLE6kj5l5g7KfW7gwep2/IgSkfbwk3aLSlkmX1cRNmjRYE0wEO/3WxhOBWKk3xqNvd
- loUqSAwI/Zi69JtGuP44xjmXdr1h61SAH/2xiEKyXmZnRy+loOF5wZsmmf3RFSGNb1aA
- eaZuIBt1KaXvnqMU0JveeW/ObV2N71wmElKKnEzvOM15spb5SCIfB/ptL5ipsCjaZPgg
- lS/9btUEfmD/6OiP+yp90HVOiY+lWU9tQ047Rwpq9Bo8J7S4CxFl/WzKapoulkCBq61q
- Cg3ojTW4SKhWYw+J2PEoHdv7MxrLfNeXJ/H/d3Xt/5if9PioH44gE0cbFSJvguabRRbZ
- gfBg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC0D10E813
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 08:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749111036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/aafh01NTxR+A0AeWsHCsf2rjG1YaF5gheNCJp/ghJg=;
+ b=KG8DVzVskntnGLCD+VJBp+Vdv+Nztmwd7O88DFJbuNtlzCTpeWcstKkq4NlsoSLMeW/5jX
+ 00ipGbcZC1SEfFv8KQQNDqeADzF6sjLo18gXtRTu4VSXBsESAGgWrHAqlF4ULGlsjZqE/+
+ Ux/PpFnN41zs/99eekjo+Z5AA4/Pu8Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-131-Ns03lwVZOEOe-3GG93QpGg-1; Thu, 05 Jun 2025 04:10:35 -0400
+X-MC-Unique: Ns03lwVZOEOe-3GG93QpGg-1
+X-Mimecast-MFC-AGG-ID: Ns03lwVZOEOe-3GG93QpGg_1749111034
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-451d2037f1eso3892595e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 01:10:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749111025; x=1749715825;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1EnW/yxpvBpxax3gx1shRrGfyOQX14oH8W/BcrsAWl4=;
- b=U3gHOdHLYupHA6FUjMOtVuP80MgKgYYSioJM5/BAyxqO31CGaGIb3gpSIdrm1sO8SO
- sbK6vQpCScaE1990ImhyO3otMfTOPUHylC7ABt3hfPPPyI5kKqKzW16qa+Eab4W0pptw
- URW/FK7hbqlz+Aqmrk4jcl/OZtOwiK4DXQ8jsafRyJ4BthfPzAizEI9nqdToEaclXX1R
- GxZxCe/m84SW5VDxU0llvW/N2H13wGHzUmwjQRXgW8gMueTmdJPHsnIif3cSjCxA0NG5
- /lMDzlxl1UQY1Sy3HtIIcVySy2Ilemx2VBY8PtgKGdRe+b7JQMa6CQjgtAwZIYKLDWLm
- DS8w==
+ d=1e100.net; s=20230601; t=1749111034; x=1749715834;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=/aafh01NTxR+A0AeWsHCsf2rjG1YaF5gheNCJp/ghJg=;
+ b=bFKjHLV6hzqRTaHln3AAyt/AUxnovwMC4xgIGsKRdzezfhttlBDk6zR+GRq7meAhNW
+ KLsy6MV2G4pujb2pBlD1zd/2aAszbwqgcH+6B9x4N0i1E1j0IeDhXm8AHLcnBPBk119R
+ MTSkLx7cToOkqoMJn/+DUiy53obBfwa8g7Gn39lQ9yV3KNeBnV3Fxi7ZkmDv25IUR8wz
+ qeUqubR31FIWaCT8G7fn3AXmR75LYq1lLzGmE0EaeelHV7kGHXfA2TTK1N8xlHEuRWFm
+ zpmmiCB32gsjonFKSOvMUiw4ROZIGOcvQNs440mOG1zAAYsxAujziZMocGcvBXFufG95
+ /FSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVXYRdNlsEqatoS24EmuahuU8KeqJKOzaONLEFdi6+oEzrGWSGO8xzNLAivPPGJEpaBvq74X89FYwI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxP7X8ClaO1RZnG+Linl3on2a1rfVZthBO6pYYeijmp/3zJU3vK
- VkDozQIWrX8QR9DYZ66NOQAqg1mIJpH/7QbVEm/TqykSVBp4V8YaCvJYsG66Vi9Ea6BfwPaOn4x
- AYr2GdniTtBWMtcy3tv1ciUIGfnk1wc7RTL5WlIGyOQ==
-X-Gm-Gg: ASbGncv/PqHrLkPJYvHdJVozYZOWjKNMIw8nhy+M/wPCQCMSOSt4J5uBSm/eFZfh25f
- KVJ/naCgxg+nKrinGG2Pwpks/52Ln9FCnEsNiVJAYPUqTMTHq/y5BFDeB8ULzAnfCetJQtaglfE
- uYy5snftFiSnk51b/0ypNLOYuD/cP6WNkblnetudZB6bTKrGt8k7zXH3LhHy88ub8=
-X-Google-Smtp-Source: AGHT+IFmvaUxKM2YmSDzUPFoymenSB08cxuJBJYeqTxsL+DsKne2xe1WD05RHO30V66uoOomO/WhoKlJDKAjJemViv0=
-X-Received: by 2002:a05:6512:1101:b0:553:24b7:2f61 with SMTP id
- 2adb3069b0e04-55356df2b3cmr1838173e87.57.1749111024615; Thu, 05 Jun 2025
- 01:10:24 -0700 (PDT)
+ AJvYcCUXIUPR6x8hie4e8NIXHa1+rYMJG+qpFx3B1tlFOmX74RcOmsqlFZrWqB6F7xy8IdUSAmdYjCwGBAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCL3p4X4G7dGqd83W7NGKHvwD93sI6GkMfIWBwN5N9a52UZ52t
+ AoAcCbPKM/e2Xk4iGxdPs8Qu7qtpccl2M9uU1BqY2QABZnWTrSCAEkk2FrNBd5MQDoMKHsmGHJZ
+ AqYSKea4Dh6jf2as8CTFLDSQok9EbhK6tUsr3cP9V17smzgQsknuPxurQyXdq0htxhB86ww==
+X-Gm-Gg: ASbGncsVAK3Mp++LwLwwvDbrXDMyYwzoXFDPLIl04q55vWzMLShK6NREfCu11Hit3Ev
+ 49rkeB/w+uOKci5WasqePjCLy+S0HfVv0AS/fGId/o4QAKVZpQNjRMpZyzAhiJNJJj+SMhvmBpN
+ Aj9Ar8HArvF2s7Nbhd3Xi03/gXLsS6Vh+Idv/hsp81sxInBXZZiXx4QAFexvPidAaOnbF3qu1eq
+ 431Yy1G5+rWhfyywBhSqOi9HYiKaswiV6def9LRPvfPdY+zhiuYGTGZx08WJAocx7Vgfl1MLNd7
+ TO6e0M2CXQHEQXwTZK0fgaaYztgFv2+ObUF9kJlm2ywOGn/4qUJrRCmTaxkQRx+qCdVuzY1NcAA
+ J9nX+X8hIISIwzklOa1pIaPyUtrIKIupzNmAK
+X-Received: by 2002:a05:600c:3b2a:b0:43d:97ea:2f4 with SMTP id
+ 5b1f17b1804b1-451f0a730b0mr58780825e9.12.1749111033965; 
+ Thu, 05 Jun 2025 01:10:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQaYAgZhu0/nJvvDbz/QegVm0m1Rp5DMdQtvjdR9TXdNKm057xHvIDTOC0STgOwPWMrDD66g==
+X-Received: by 2002:a05:600c:3b2a:b0:43d:97ea:2f4 with SMTP id
+ 5b1f17b1804b1-451f0a730b0mr58780185e9.12.1749111033420; 
+ Thu, 05 Jun 2025 01:10:33 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f27:ec00:4f4d:d38:ba97:9aa2?
+ (p200300d82f27ec004f4d0d38ba979aa2.dip0.t-ipconnect.de.
+ [2003:d8:2f27:ec00:4f4d:d38:ba97:9aa2])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-451fb178895sm10101345e9.14.2025.06.05.01.10.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jun 2025 01:10:32 -0700 (PDT)
+Message-ID: <ba6fe395-d18d-46fe-8ba5-7b84bbf23c13@redhat.com>
+Date: Thu, 5 Jun 2025 10:10:31 +0200
 MIME-Version: 1.0
-References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
- <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
- <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
- <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
- <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
- <cc4dbf7c-e023-403c-88be-4691f97a0ff0@kernel.org>
- <c7774790-07c3-469d-a994-9e84108ad21d@samsung.com>
-In-Reply-To: <c7774790-07c3-469d-a994-9e84108ad21d@samsung.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 5 Jun 2025 10:10:12 +0200
-X-Gm-Features: AX0GCFvEjcOAzs8GqTAWhoTL8unWEk1FSQC7E_ts2kCxQpL9-TEmMcPX7FYfnJE
-Message-ID: <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
- management
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Drew Fustini <drew@pdp7.com>,
- Guo Ren <guoren@kernel.org>, 
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
+ memory framebuffers
+To: Michael Kelley <mhklinux@outlook.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "deller@gmx.de" <deller@gmx.de>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc: "weh@microsoft.com" <weh@microsoft.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "hch@lst.de" <hch@lst.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20250523161522.409504-1-mhklinux@outlook.com>
+ <20250523161522.409504-4-mhklinux@outlook.com>
+ <de0f2cb8-aed6-436f-b55e-d3f7b3fe6d81@redhat.com>
+ <SN6PR02MB41573C075152ECD8428CAF5ED46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <e069436f-764d-464d-98ac-36a086297632@redhat.com>
+ <SN6PR02MB4157A3F9E646C060553E5D90D46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <SN6PR02MB41574078A6785C3E2E1A6391D46CA@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <SN6PR02MB41574078A6785C3E2E1A6391D46CA@SN6PR02MB4157.namprd02.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: zbGRle4fCuKOcqh7rXk1RXcVlg7YmQlM7gWvi8EdJRc_1749111034
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,117 +168,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 5, 2025 at 9:47=E2=80=AFAM Michal Wilczynski
-<m.wilczynski@samsung.com> wrote:
->
->
->
-> On 6/4/25 14:07, Krzysztof Kozlowski wrote:
-> > On 04/06/2025 13:53, Michal Wilczynski wrote:
-> >>>>
-> >>>> The GPU node will depend on the AON node, which will be the sole
-> >>>> provider for the 'gpu-power' sequencer (based on the discussion in p=
-atch
-> >>>> 1).
-> >>>>
-> >>>> Therefore, if the AON/pwrseq driver has already completed its probe,=
- and
-> >>>> devm_pwrseq_get() in the GPU driver subsequently returns -EPROBE_DEF=
-ER
-> >>>> (because pwrseq_get found 'no match' on the bus for 'gpu-power'), th=
-e
-> >>>> interpretation is that the AON driver did not register this optional
-> >>>> sequencer. Since AON is the only anticipated source, it implies the
-> >>>> sequencer won't become available later from its designated provider.
-> >>>
-> >>> I don't understand why you made this assumption. AON could be a modul=
-e
-> >>> and this driver built-in. AON will likely probe later.
-> >>
-> >> You're absolutely right that AON could be a module and would generally
-> >> probe later in that scenario. However, the GPU device also has a
-> >> 'power-domains =3D <&aon TH1520_GPU_PD>' dependency. If the AON driver=
- (as
-> >> the PM domain provider) were a late probing module, the GPU driver's
-> >> probe would hit -EPROBE_DEFER when its power domain is requested
-> >> which happens before attempting to get other resources like a power
-> >> sequencer.
-> >
-> > Huh, so basically you imply certain hardware design and certain DTS
-> > description in your driver code. Well, that's clearly fragile design to
-> > me, because you should not rely how hardware properties are presented i=
-n
-> > DTS. Will work here on th1520 with this DTS, won't work with something =
-else.
-> >
-> > Especially that this looks like generic Imagination GPU code, common to
-> > multiple devices, not TH1520 only specific.
-> >
-> >>
-> >> So, if the GPU driver's code does reach the devm_pwrseq_get(dev,
-> >> "gpu-power") call, it strongly implies the AON driver has already
-> >> successfully probed.
-> >>
-> >> This leads to the core challenge with the optional 'gpu-power'
-> >> sequencer: Even if the AON driver has already probed, if it then choos=
-es
-> >> not to register the "gpu-power" sequence (because it's an optional
-> >> feature), pwrseq_get() will still find "no device matched" on the
-> >> pwrseq_bus and return EPROBE_DEFER.
-> >>
-> >> If the GPU driver defers here, as it normally should for -EPROBE_DEFER=
-,
-> >> it could wait indefinitely for an optional sequence that its
-> >> already probed AON provider will not supply.
-> >>
-> >> Anyway I think you're right, that this is probably confusing and we
-> >> shouldn't rely on this behavior.
-> >>
-> >> To solve this, and to allow the GPU driver to correctly handle
-> >> -EPROBE_DEFER when a sequencer is genuinely expected, I propose using =
-a
-> >> boolean property on the GPU's DT node, e.g.
-> >> img,gpu-expects-power-sequencer. If the GPU node provides this propert=
-y
-> >> it means the pwrseq 'gpu-power' is required.
-> >
-> > No, that would be driver design in DTS.
-> >
-> > I think the main problem is the pwrseq API: you should get via phandle,
-> > not name of the pwrseq controller. That's how all producer-consumer
-> > relationships are done in OF platforms.
->
-> Bart,
-> Given Krzysztof's valid concerns about the current name based
-> lookup in pwrseq_get() and the benefits of phandle based resource
-> linking in OF platforms: Would you be open to a proposal for extending
-> the pwrseq API to allow consumers to obtain a sequencer (or a specific
-> target sequence) via a phandle defined in their Device Tree node? For
-> instance, a consumer device could specify power-sequencer =3D
-> <&aon> and a new API variant could resolve this.
->
+On 04.06.25 23:58, Michael Kelley wrote:
+> From: Michael Kelley <mhklinux@outlook.com> Sent: Tuesday, June 3, 2025 10:25 AM
+>>
+>> From: David Hildenbrand <david@redhat.com> Sent: Tuesday, June 3, 2025 12:55 AM
+>>>
+>>> On 03.06.25 03:49, Michael Kelley wrote:
+>>>> From: David Hildenbrand <david@redhat.com> Sent: Monday, June 2, 2025 2:48 AM
+>>>>>
+> 
+> [snip]
+> 
+>>>>>> @@ -182,20 +221,34 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+>>>>>>     	}
+>>>>>>
+>>>>>>     	/*
+>>>>>> -	 * We want the page to remain locked from ->page_mkwrite until
+>>>>>> -	 * the PTE is marked dirty to avoid mapping_wrprotect_range()
+>>>>>> -	 * being called before the PTE is updated, which would leave
+>>>>>> -	 * the page ignored by defio.
+>>>>>> -	 * Do this by locking the page here and informing the caller
+>>>>>> -	 * about it with VM_FAULT_LOCKED.
+>>>>>> +	 * The PTE must be marked writable before the defio deferred work runs
+>>>>>> +	 * again and potentially marks the PTE write-protected. If the order
+>>>>>> +	 * should be switched, the PTE would become writable without defio
+>>>>>> +	 * tracking the page, leaving the page forever ignored by defio.
+>>>>>> +	 *
+>>>>>> +	 * For vmalloc() framebuffers, the associated struct page is locked
+>>>>>> +	 * before releasing the defio lock. mm will later mark the PTE writaable
+>>>>>> +	 * and release the struct page lock. The struct page lock prevents
+>>>>>> +	 * the page from being prematurely being marked write-protected.
+>>>>>> +	 *
+>>>>>> +	 * For FBINFO_KMEMFB framebuffers, mm assumes there is no struct page,
+>>>>>> +	 * so the PTE must be marked writable while the defio lock is held.
+>>>>>>     	 */
+>>>>>> -	lock_page(pageref->page);
+>>>>>> +	if (info->flags & FBINFO_KMEMFB) {
+>>>>>> +		unsigned long pfn = page_to_pfn(pageref->page);
+>>>>>> +
+>>>>>> +		ret = vmf_insert_mixed_mkwrite(vmf->vma, vmf->address,
+>>>>>> +					       __pfn_to_pfn_t(pfn, PFN_SPECIAL));
+>>>>>
+>>>>> Will the VMA have VM_PFNMAP or VM_MIXEDMAP set? PFN_SPECIAL is a
+>>>>> horrible hack.
+>>>>>
+>>>>> In another thread, you mention that you use PFN_SPECIAL to bypass the
+>>>>> check in vm_mixed_ok(), so VM_MIXEDMAP is likely not set?
+>>>>
+>>>> The VMA has VM_PFNMAP set, not VM_MIXEDMAP.  It seemed like
+>>>> VM_MIXEDMAP is somewhat of a superset of VM_PFNMAP, but maybe that's
+>>>> a wrong impression.
+>>>
+>>> VM_PFNMAP: nothing is refcounted except anon pages
+>>>
+>>> VM_MIXEDMAP: anything with a "struct page" (pfn_valid()) is refcounted
+>>>
+>>> pte_special() is a way for GUP-fast to distinguish these refcounted (can
+>>> GUP) from non-refcounted (camnnot GUP) pages mapped by PTEs without any
+>>> locks or the VMA being available.
+>>>
+>>> Setting pte_special() in VM_MIXEDMAP on ptes that have a "struct page"
+>>> (pfn_valid()) is likely very bogus.
+>>
+>> OK, good to know.
+>>
+>>>
+>>>> vm_mixed_ok() does a thorough job of validating the
+>>>> use of __vm_insert_mixed(), and since what I did was allowed, I thought
+>>>> perhaps it was OK. Your feedback has set me straight, and that's what I
+>>>> needed. :-)
+>>>
+>>> What exactly are you trying to achieve? :)
+>>>
+>>> If it's mapping a page with a "struct page" and *not* refcounting it,
+>>> then vmf_insert_pfn() is the current way to achieve that in a VM_PFNMAP
+>>> mapping. It will set pte_special() automatically for you.
+>>>
+>>
+>> Yes, that's what I'm using to initially create the special PTE in the
+>> .fault callback.
+>>
+>>>>
+>>>> But the whole approach is moot with Alistair Popple's patch set that
+>>>> eliminates pfn_t. Is there an existing mm API that will do mkwrite on a
+>>>> special PTE in a VM_PFNMAP VMA? I didn't see one, but maybe I missed
+>>>> it. If there's not one, I'll take a crack at adding it in the next version of my
+>>>> patch set.
+>>>
+>>> I assume you'd want vmf_insert_pfn_mkwrite(), correct? Probably
+>>> vmf_insert_pfn_prot() can be used by adding PAGE_WRITE to pgprot. (maybe
+>>> :) )
+>>
+>> Ok, I'll look at that more closely. The sequence is that the special
+>> PTE gets created with vmf_insert_pfn(). Then when the page is first
+>> written to, the .pfn_mkwrite callback is invoked by mm. The question
+>> is the best way for that callback to mark the existing PTE as writable.
+>>
+> 
+> FWIW, vmf_insert_pfn_prot() won't work. It calls insert_pfn() with
+> the "mkwrite" parameter set to 'false', in which case insert_pfn()
+> does nothing if the PTE already exists.
 
-I can be open to it all I want, but I bet Krzysztof won't be open to
-introducing anything like a power-sequencer device property in DT
-bindings. Simply because there's no such thing in the physical world.
-The concept behind the power sequencing framework was to bind
-providers to consumers based on existing links modelling real device
-properties (which a "power-sequencer" is not). I commented on it under
-another email saying that you already have a link here - the
-power-domains property taking the aon phandle. In your pwrseq
-provider's match() callback you can parse and resolve it back to the
-aon node thus making sure you're matching the consumer with the
-correct provider.
+Ah, you are worried about the "already exists but is R/O case".
 
-Please take a look at the existing wcn pwrseq driver which does a
-similar thing but parses the regulator properties of the power
-management unit (in the pwrseq_qcom_wcn_match() function).
+> 
+> So I would need to create a new API that does appropriate validation
+> for a VM_PFNMAP VMA, and then calls insert_pfn() with the "mkwrite"
+> parameter set to 'true'.
 
-We've tried to do something like what you're proposing for years and
-it always got stuck on the fact that DT must not make up bogus
-properties only to satisfy the driver implementation. We've done it in
-the past, that's true, but just because we didn't know any better and
-DT maintainers are currently much stricter as to what kind of
-properties to allow.
+IMHO, nothing would speak against vmf_insert_pfn_mkwrite().
 
-Bartosz
+Much better than using that "mixed" ... beauty of a function.
+
+-- 
+Cheers,
+
+David / dhildenb
+
