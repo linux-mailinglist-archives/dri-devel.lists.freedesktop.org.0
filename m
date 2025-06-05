@@ -2,128 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E25AACF4F1
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 19:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63369ACF4E7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 19:05:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033AC10E917;
-	Thu,  5 Jun 2025 17:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2AD10E134;
+	Thu,  5 Jun 2025 17:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aax4s851";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="irttrjNo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0716A10E917
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 17:05:24 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5559JYvU028353
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Jun 2025 17:05:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=EbkEQB58Ld4nL18JV6VryQl6iNajcUl8L84
- E7nzQctY=; b=aax4s85163gigXOSCZo619XDaKDt2qlpNzNsSo6iIDinkkkA9XR
- 7N0tEUSYs468CyM/SiPAVXrv/8/tFNOW0ua1CKRACVnsO3Jaz08IfJTcJOx4jevv
- wiLmSUf00tacOdChRGW3NVNOdtRuBOl5EuwdU9kZe3uez0svHNgm+vLi76Jb0yvP
- EVMgSBLXnftYBeKl2gUzx6uNuhYnSFQ8BjRMfvKbOLewvddx4CJZ+Oc9HVgBcKDR
- K1ouMASrQxWy8wI3lvYTNqX8AniBEeAIGy3s2M38l3LupsooqHZTVFq0JB5ZA/3S
- QwQ9vixeP1o31tTmwpgzODijGlgBKJbdabw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8t228w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 17:05:23 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-3122368d82bso1860358a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 10:05:23 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D28810E134
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 17:04:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749143093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=mpvfIUXNy+0YI+niMZHhnnE2dkA26uyrgOmKrnHQckE=;
+ b=irttrjNo4uZAbzuJrhqaPlRP7rdBMRKsmadZ1yc+YUCoQS35qn9eODRo5z/MZfaDJaFK2y
+ bY3W95yCCi/3++JTF7o+k3lQ42CzTJ8QC7meYVCzZDwrqAPP/DdUWt4p/Ra3hmG0JO+l3c
+ gA4RaYPocfS6nOBnhLtDj+wPHbRYarQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-670-P_4aCn34Nky7c73yGzfWCQ-1; Thu, 05 Jun 2025 13:04:52 -0400
+X-MC-Unique: P_4aCn34Nky7c73yGzfWCQ-1
+X-Mimecast-MFC-AGG-ID: P_4aCn34Nky7c73yGzfWCQ_1749143091
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-450cb902173so6993165e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 10:04:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749143122; x=1749747922;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EbkEQB58Ld4nL18JV6VryQl6iNajcUl8L84E7nzQctY=;
- b=qJXuejd8ZxtooC1HzoCNBSgL/YwlTd802lL1vhwum67K01jJJ80GFzcTLOv8zB4xrY
- iqg/bLmk5sjTSS3S2M7WVM1+X9io96GvcH009qUTCi419qc/xHM7bE9GjCkxY8Lwyhov
- 7UXZHVAWMzZ7jWrFPNGJ4hrE4+QEM4mdI/pmMb6CTCmIi+RIr5TlnuL+huMee1VoDAUu
- jyKBud9/BknufJGWHj+Vm/jeVHbw1/M8Bb8jP6nCdc6mP+rnuwcqKwCtxJQhXBC2WVpy
- 8Hw2Aa50gvi1iBl/KdnuPELBL6kC+IidZBxlDsZj4FDQ2RS0cWYUD+dwz5tl953iUnRN
- 3r9w==
+ d=1e100.net; s=20230601; t=1749143091; x=1749747891;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=mpvfIUXNy+0YI+niMZHhnnE2dkA26uyrgOmKrnHQckE=;
+ b=E3IupNAJh/B2tQJZBuMnDKsM2kwJQrU6eUV7X74DV5Phf+KlknEoUf1IIfzpqbVcYd
+ wpbVw/iJ8amfZU+FEuHnrLO0zcX1QcgxhwXxIHyUgDDkOHtRcjPYw9GW4en5EETW7lSZ
+ UWFkdFUDv01pg8gBp1L9OaodCY0p/cQCfFrKJs2aZFkFrHvQCKMINPd4ziHUXYOhfPSu
+ J7RU9omXqd1ax1YbXeJ+1ttPkQn0yzbgzGdDKWBOQmHQws0Dg7G3cg4x1tPsGz9jL4fb
+ cEDvNEl4eV5S1KCOoMT5FL2/ZOUiUolvwtD5PXnSqQXwxzRc8U6/mvaWqNn15ce60DH5
+ cogQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcXYYNjZbnMZObTNgBpMP7jt3YV/lqMzQNP7UexwxPnZ6mNOfqaVUWobUelwuavWtIuJAwyheLShA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPi+zP2YsONHyl1UL2jBXDAEdNqh+5nk+gpt9GwZjC+BIyYzaR
- ZZqUrMbJqJ7IydomqWuZ4zHe+ibv+0l18pNciQvor+xt1vWDCjltMHaTapK/IaKkugeMiW6L5f7
- 7THn98ao2WzUqmj9VB1UgDNfAYDpE9VdioBlY4cFyXjrqJmiWajlyH71mUp8uTuHvABds/7s=
-X-Gm-Gg: ASbGnctsV6F2KM/YPRZPR76jK6dKuxd7/YCNRNNks4/Ck2UVYMVbxQy2rH8T1sUoZbR
- esId7AaMBOxG7ZtHE0Ot2M5XeofFs4Jk1Hv/hUVmm7zEELbmf33v5NpSHucQuE/WH3e/XlBL6Dd
- ql+9u4CTzmR7eJK5TKiIhyM+d4n1dmGcJbY70UtjgS0QM/+SZc9CZy/bWAWfHB8qFKn2MhdAcKB
- B5WXkrpyOgsa8xMZeMpTjn+AepXeXAOSUHX9FpW9Ku5u0QTEedn/oAPLg47ZKCZ+w5mmOWjBA+a
- HTerNMqRpV0lxbjthSADvHXCtrPJzFkl
-X-Received: by 2002:a17:90b:3c8b:b0:311:f99e:7f4a with SMTP id
- 98e67ed59e1d1-313476822a8mr553671a91.26.1749143122143; 
- Thu, 05 Jun 2025 10:05:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPJUfGbJeepthRjlidQ5BtvtcAZ1b5FdMU7vtyVPeWNPG8V6k9gBXP8rxjS/GImIe6wJ3m7Q==
-X-Received: by 2002:a17:90b:3c8b:b0:311:f99e:7f4a with SMTP id
- 98e67ed59e1d1-313476822a8mr553575a91.26.1749143121480; 
- Thu, 05 Jun 2025 10:05:21 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:89fa:e299:1a34:c1f5])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-313318e6932sm1544185a91.5.2025.06.05.10.05.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jun 2025 10:05:21 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: robdclark@gmail.com, rob.clark@oss.qualcomm.com
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
- GPUs), Eugene Lepshy <fekz115@gmail.com>,
- freedreno@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
- GPUs), Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Jun Nie <jun.nie@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linux-arm-msm@vger.kernel.org (open list:DRM DRIVER for Qualcomm Adreno GPUs), 
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v6 00/40] drm/msm: sparse / "VM_BIND" support
-Date: Thu,  5 Jun 2025 10:03:26 -0700
-Message-ID: <20250605170436.158386-1-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.49.0
+ AJvYcCXrtAO04VHWULySS4eSGe0BX8/QwBNXd8gAIR+KefveYwyTbloHUHJkHXkuPELxYx9DPKAzodxAc4s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEKWrf1+SQ1GTN2DIayCC+CyKGnIrMsXtT/hlW7aftxasujGDl
+ jnUsi79KMEWOEgQBy83Uvi8Vt3EJXfAhQ889jUcvdcsTwfd7eo3WnfREbmm1iorEsMAJbkWbpqZ
+ FIelJN720k08+nBl/ui+yYDBB1xZB/xdjqMDF1Xgz35djsel3OTtche2BHJ3yaYvrqLv5Zw==
+X-Gm-Gg: ASbGncv2HRaGqtkBpAyAaXG0yS/LS92OZXn2mXdS2nvRHSa6t+zNzNE9poUy23t8ZXQ
+ t7p8h3royZbehZz0qZLovTSaApHspwsTl2BDhLHbYyfi2t6q6JDhdJg20fWqyAyi0yXZ0fHmlgA
+ YMI8yHOiUFnWRTG9BooxblyO/gGkARnOmGlCCbi3omJYMxicv/X98OMmMOchfwGTmci3ssoexpZ
+ giHhsRAiuTcJO9234p7/qlnpTcJz+j9iw3knEmpwmGd6tS1W5Qw8Bev/eml6UvGtsxNuAuQqAF8
+ BxZmD8cQVQVYHbcAP+pNW1Qv9038ng6JytVyKOCDk5Y=
+X-Received: by 2002:a05:600c:628e:b0:442:f861:3536 with SMTP id
+ 5b1f17b1804b1-451f8875262mr47786685e9.7.1749143090826; 
+ Thu, 05 Jun 2025 10:04:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGVQE089ry3sB9Y7MBF2Kawt3CRt9isls3pFu6UKzMYUnWY0Ft7AZGjD26+zCdRTOtAOs+xQg==
+X-Received: by 2002:a05:600c:628e:b0:442:f861:3536 with SMTP id
+ 5b1f17b1804b1-451f8875262mr47785945e9.7.1749143090353; 
+ Thu, 05 Jun 2025 10:04:50 -0700 (PDT)
+Received: from [192.168.3.141] (p4fe0f5ef.dip0.t-ipconnect.de.
+ [79.224.245.239]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-451f9919648sm30388695e9.31.2025.06.05.10.04.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jun 2025 10:04:49 -0700 (PDT)
+Message-ID: <79f75185-ac45-47c6-8f56-2ffa1e4815b0@redhat.com>
+Date: Thu, 5 Jun 2025 19:04:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=RMizH5i+ c=1 sm=1 tr=0 ts=6841ce53 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=zBYVM8QCAAAA:8
- a=ajksXRGWIgAGF9WJ9h0A:9 a=eVM1_HBmYRkA:10 a=YgSuLXRpIuYA:10
- a=te1wHPZ5H10A:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=ArXkYGXkE6hBHcUMFODu:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDE1MSBTYWx0ZWRfX1aYGSScJnGZH
- w8bm7oCmqY4R1Xvjb4DjwgAtWAuXjY7CNw6O5M3gK3rIuVYlu8kSBb0hESPzG6zgw74ygoOG7ix
- mtzJhQeZPWAaMYyoeAdyqaKcMZwie0TZJv0GRglbB3O7Cxouolp4c25jl/kfM0d8ZvvZzh4h4+T
- wFvrW+Pg0uYCTSYhoHVMV1O2lOB1SkgAzFnpdkKZCCOkqNXqBaHJSqkOmx0x5t7ZSILGMFGgJ1v
- Yo6tYD0Q3cVhgo5jQ0qZ99V+CSaPOMpEOiD1SQhJCGlObbflmn8S+uD6ylQ3HQ9hE/MGEqoyN4t
- YVDrcbvOFQqCzDeILVDOJrTVkAVI792kpUZnM2iwRYxL5Eic7sW238apMosrevpYuN6/u+5r8Ai
- A/JvULDGWwBaX9h0gQHVY87x2aeBfSQhf1huilwmLQSgwZhxqQfiTWEq+f2nIV51PEKn76Lo
-X-Proofpoint-GUID: wFOxVd8J2_qub7nceQz_9lfjxFKoD2li
-X-Proofpoint-ORIG-GUID: wFOxVd8J2_qub7nceQz_9lfjxFKoD2li
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-05_04,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- clxscore=1011 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506050151
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/12] mm: Remove redundant pXd_devmap calls
+To: Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
+ gerald.schaefer@linux.ibm.com, willy@infradead.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org,
+ balbirs@nvidia.com, lorenzo.stoakes@oracle.com,
+ linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, John@groves.net
+References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
+ <2ee5a64581d2c78445e5c4180d7eceed085825ca.1748500293.git-series.apopple@nvidia.com>
+ <6841026c50e57_249110022@dwillia2-xfh.jf.intel.com.notmuch>
+ <20250605120909.GA44681@ziepe.ca>
+ <897590f7-99a5-4053-8566-76623b929c7c@redhat.com>
+ <6841c63b3cb25_249110060@dwillia2-xfh.jf.intel.com.notmuch>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <6841c63b3cb25_249110060@dwillia2-xfh.jf.intel.com.notmuch>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: _MTuSZE2udqTLBdulamU6nijU8wZB1dFZI8eLUWe6Kk_1749143091
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,194 +160,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
-Memory[2] in the form of:
+On 05.06.25 18:30, Dan Williams wrote:
+> David Hildenbrand wrote:
+>> On 05.06.25 14:09, Jason Gunthorpe wrote:
+>>> On Wed, Jun 04, 2025 at 07:35:24PM -0700, Dan Williams wrote:
+>>>
+>>>> If all dax pages are special, then vm_normal_page() should never find
+>>>> them and gup should fail.
+>>>>
+>>>> ...oh, but vm_normal_page_p[mu]d() is not used in the gup path, and
+>>>> 'special' is not set in the pte path.
+>>>
+>>> That seems really suboptimal?? Why would pmd and pte be different?
+>>>
+>>>> I think for any p[mu]d where p[mu]d_page() is ok to use should never set
+>>>> 'special', right?
+>>>
+>>> There should be dedicated functions for installing pages and PFNs,
+>>> only the PFN one would set the special bit.
+>>>
+>>> And certainly your tests *should* be failing as special entries should
+>>> never ever be converted to struct page.
+>>
+>> Worth reviewing [1] where I clean that up and describe the current
+>> impact. ;)
+> 
+> Will do.
+> 
+>> What's even worse about this pte_devmap()/pmd_devmap()/... shit (sorry!
+>> but it's absolute shit) is that some pte_mkdev() set the pte special,
+>> while others ... don't.
+> 
+> As the person who started the turd rolling into this pile that Alistair
+> is heroically cleaning up, I approve this characterization.
+> 
+>> E.g., loongarch
+>>
+>> static inline pte_t pte_mkdevmap(pte_t pte)	{ pte_val(pte) |=
+>> _PAGE_DEVMAP; return pte; }
+>>
+>> I don't even know how it can (could) survive vm_normal_page().
+> 
+> Presently "can" because dax switched away from vmf_insert_mixed() to
+> vmf_insert_page(), "could" in the past was the devmap hack to avoid
+> treating VM_MIXEDMAP as !vm_normal_page().
 
-1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
-   MAP_NULL/UNMAP commands
+The thing is, in vm_normal_page() if we have CONFIG_ARCH_HAS_PTE_SPECIAL 
+-- which loongarch sets -- if we don't see pte_special(), we will assume 
+that it is refcounted.
 
-2. A new VM_BIND ioctl to allow submitting batches of one or more
-   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
+	if (likely(!pte_special(pte))
+		goto check_pfn;
 
-I did not implement support for synchronous VM_BIND commands.  Since
-userspace could just immediately wait for the `SUBMIT` to complete, I don't
-think we need this extra complexity in the kernel.  Synchronous/immediate
-VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
+So if pte_mkdevmap() does not set pte_special(), then ... 
+vm_normal_page() would detect it as normal, although it isn't normal?
 
-The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
-
-Changes in v6:
-- Drop io-pgtable-arm patch as it has already been picked up in the
-  iommu tree.
-- Rework to drop gpuvm changes.  To mitigate the limitation of gpuvm
-  when it comes to lazy unmap (and to avoid ~5ms of unmap per pageflip!)
-  a vma_ref refcount is added.  This refcount is incremented when a BO
-  is pinned for scanout, and for userspace handles and dma-bufs.  The
-  VMA is torn down when this count drops to zero, breaking the reference
-  loop between the VM_BO and BO.  But as long as a pin or userspace
-  handle is keeping a reference to the BO live, we allow the harmless
-  reference loop to live.  (This is only for kernel managed VMs, which
-  includes the kms VM.)  If no userspace process has some sort of
-  handle to the BO, it is unlikely to be reused again.  (The exception
-  is GET_FB, but in that case the vma_ref >= 1 due to pin for scan-
-  out.)
-- Drop gpu sched changes for throttling and move this into the driver.
-  We can re-visit a more generic solution when some other driver
-  realizes they need the same thing.
-- Link to v5: https://lore.kernel.org/all/20250519175348.11924-1-robdclark@gmail.com/
-
-Changes in v5:
-- Improved drm/sched enqueue_credit comments, and better define the
-  return from drm_sched_entity_push_job()
-- Improve DRM_GPUVM_VA_WEAK_REF comments, and additional WARN_ON()s to
-  make it clear that some of the gpuvm functionality is not available
-  in this mode.
-- Link to v4: https://lore.kernel.org/all/20250514175527.42488-1-robdclark@gmail.com/
-
-Changes in v4:
-- Various locking/etc fixes
-- Optimize the pgtable preallocation.  If userspace sorts the VM_BIND ops
-  then the kernel detects ops that fall into the same 2MB last level PTD
-  to avoid duplicate page preallocation.
-- Add way to throttle pushing jobs to the scheduler, to cap the amount of
-  potentially temporary prealloc'd pgtable pages.
-- Add vm_log to devcoredump for debugging.  If the vm_log_shift module
-  param is set, keep a log of the last 1<<vm_log_shift VM updates for
-  easier debugging of faults/crashes.
-- Link to v3: https://lore.kernel.org/all/20250428205619.227835-1-robdclark@gmail.com/
-
-Changes in v3:
-- Switched to seperate VM_BIND ioctl.  This makes the UABI a bit
-  cleaner, but OTOH the userspace code was cleaner when the end result
-  of either type of VkQueue lead to the same ioctl.  So I'm a bit on
-  the fence.
-- Switched to doing the gpuvm bookkeeping synchronously, and only
-  deferring the pgtable updates.  This avoids needing to hold any resv
-  locks in the fence signaling path, resolving the last shrinker related
-  lockdep complaints.  OTOH it means userspace can trigger invalid
-  pgtable updates with multiple VM_BIND queues.  In this case, we ensure
-  that unmaps happen completely (to prevent userspace from using this to
-  access free'd pages), mark the context as unusable, and move on with
-  life.
-- Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclark@gmail.com/
-
-Changes in v2:
-- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
-  merged.
-- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
-  This includes ensuring that vm_bo objects are allocated up front, pre-
-  allocating VMA objects, and pre-allocating pages used for pgtable updates.
-  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
-  were initially added for panthor.
-- Add back support for BO dumping for devcoredump.
-- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
-
-[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
-[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
-[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
-
-Rob Clark (40):
-  drm/gem: Add ww_acquire_ctx support to drm_gem_lru_scan()
-  drm/msm: Rename msm_file_private -> msm_context
-  drm/msm: Improve msm_context comments
-  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
-  drm/msm: Remove vram carveout support
-  drm/msm: Collapse vma allocation and initialization
-  drm/msm: Collapse vma close and delete
-  drm/msm: Don't close VMAs on purge
-  drm/msm: Stop passing vm to msm_framebuffer
-  drm/msm: Refcount framebuffer pins
-  drm/msm: drm_gpuvm conversion
-  drm/msm: Convert vm locking
-  drm/msm: Use drm_gpuvm types more
-  drm/msm: Split out helper to get iommu prot flags
-  drm/msm: Add mmu support for non-zero offset
-  drm/msm: Add PRR support
-  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
-  drm/msm: Drop queued submits on lastclose()
-  drm/msm: Lazily create context VM
-  drm/msm: Add opt-in for VM_BIND
-  drm/msm: Mark VM as unusable on GPU hangs
-  drm/msm: Add _NO_SHARE flag
-  drm/msm: Crashdump prep for sparse mappings
-  drm/msm: rd dumping prep for sparse mappings
-  drm/msm: Crashdump support for sparse
-  drm/msm: rd dumping support for sparse
-  drm/msm: Extract out syncobj helpers
-  drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
-  drm/msm: Add VM_BIND submitqueue
-  drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
-  drm/msm: Support pgtable preallocation
-  drm/msm: Split out map/unmap ops
-  drm/msm: Add VM_BIND ioctl
-  drm/msm: Add VM logging for VM_BIND updates
-  drm/msm: Add VMA unmap reason
-  drm/msm: Add mmu prealloc tracepoint
-  drm/msm: use trylock for debugfs
-  drm/msm: Bump UAPI version
-  drm/msm: Defer VMA unmap for fb unpins
-  drm/msm: Add VM_BIND throttling
-
- drivers/gpu/drm/drm_gem.c                     |   14 +-
- drivers/gpu/drm/msm/Kconfig                   |    1 +
- drivers/gpu/drm/msm/Makefile                  |    1 +
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
- drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
- drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
- drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   99 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   11 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   20 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   22 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    2 -
- drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   18 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   18 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
- drivers/gpu/drm/msm/msm_drv.c                 |  184 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   29 +-
- drivers/gpu/drm/msm/msm_fb.c                  |   30 +-
- drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
- drivers/gpu/drm/msm/msm_gem.c                 |  553 +++---
- drivers/gpu/drm/msm/msm_gem.h                 |  277 ++-
- drivers/gpu/drm/msm/msm_gem_prime.c           |   48 +
- drivers/gpu/drm/msm/msm_gem_shrinker.c        |  104 +-
- drivers/gpu/drm/msm/msm_gem_submit.c          |  306 ++--
- drivers/gpu/drm/msm/msm_gem_vma.c             | 1486 ++++++++++++++++-
- drivers/gpu/drm/msm/msm_gpu.c                 |  211 ++-
- drivers/gpu/drm/msm/msm_gpu.h                 |  147 +-
- drivers/gpu/drm/msm/msm_gpu_trace.h           |   14 +
- drivers/gpu/drm/msm/msm_iommu.c               |  302 +++-
- drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
- drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
- drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
- drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c          |   10 +-
- drivers/gpu/drm/msm/msm_submitqueue.c         |   96 +-
- drivers/gpu/drm/msm/msm_syncobj.c             |  172 ++
- drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
- include/drm/drm_gem.h                         |   10 +-
- include/uapi/drm/msm_drm.h                    |  149 +-
- 56 files changed, 3553 insertions(+), 1260 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
- create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
+But maybe I am missing something important.
 
 -- 
-2.49.0
+Cheers,
+
+David / dhildenb
 
