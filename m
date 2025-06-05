@@ -2,142 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72570ACEC82
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792CEACEC99
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A74A10E836;
-	Thu,  5 Jun 2025 09:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E138810E7F6;
+	Thu,  5 Jun 2025 09:08:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="02fpIwko";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a7U9Yb+S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDE510E836
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:00:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dnnP5+/bmOW3reT89I1TONDXryU+mJoglUhr0qDM0ITmli86M3vcW9htqzyTkge+sLhKh2F/VK06etRcdcSWzVaMOFiFulknh4QBGj1so7XofR2TlOYQOuwHHwPA2eqJzDbu0zJk6IhZWBes9ymKzoIDeYNH8QmiwNlPJZFMnH1mX6NHkQmQQFpjM3tgZbRM5CK40IUnVRF19AGn/RFnoJKD27rH02J4S8vMvewct/9RExMX9iZPxc46r4IgD8weD9z9VxCU13ci+osduT6F91XqhsP5rVlhOYli9MWInzLV+67pK2ieqWnCw+fuADjS6Rc8bSLRLxAJGz5DGC0/jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VRzv0GpSnySfpC1aB5JTAISMlT0XdKK7hSAUdiCYkBs=;
- b=tr98ximqE3LiQ1LGWqXFNNf+hblkZ+ZU5fxkFnQC8kZ9WTby4I0vmDDe1pVpxv/yDtEAllKENVCI55jXi4taYK4kYZBsf/JZaAuMCDI6QIs+ZnDvBDCEfoMMTpxvULI9uqOrbpxSz+e2Yhsx4f+AmWQOKPzwwij93LFMNqFd2lvdxXwtGc+gbU/lEySv8dkbom7PVtTFH2NTM29IDn2ProHelAqXeJd4ZoEuAAW4ZgUOxQSPbGQVk15VuBvLqy2arjv/j42O1WfaaC0djyNlPtGkIiTgnPSA54LeUG/6vYTDXhcyBNdUUBZm3AAh+Th2cWUIWlt9KY9pJr7pCqELmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VRzv0GpSnySfpC1aB5JTAISMlT0XdKK7hSAUdiCYkBs=;
- b=02fpIwkoNRwH3gTMc5418x6wcLfsAE1H1A03RgOjBL6KsaO3lyAH6ar4zxLqxMg7kjY7ogu4W41Ir0maY3CIAfOe/JKErl9qiIqD57Jqb9pIZ2reWY5eNo9Hy7U3ow5U8xKzjXMOaUdc4XRDOxwO02DJVSlRGKEGJN08HUGHU1o=
-Received: from SJ0PR05CA0041.namprd05.prod.outlook.com (2603:10b6:a03:33f::16)
- by MW4PR12MB6707.namprd12.prod.outlook.com (2603:10b6:303:1ee::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Thu, 5 Jun
- 2025 09:00:32 +0000
-Received: from BY1PEPF0001AE1A.namprd04.prod.outlook.com
- (2603:10b6:a03:33f:cafe::24) by SJ0PR05CA0041.outlook.office365.com
- (2603:10b6:a03:33f::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.9 via Frontend Transport; Thu, 5
- Jun 2025 09:00:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BY1PEPF0001AE1A.mail.protection.outlook.com (10.167.242.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8792.29 via Frontend Transport; Thu, 5 Jun 2025 09:00:31 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 5 Jun
- 2025 04:00:29 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 5 Jun
- 2025 04:00:29 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 5 Jun 2025 04:00:28 -0500
-Message-ID: <6a4f4df9-0305-a89d-0ed7-8fedf0e31ffc@amd.com>
-Date: Thu, 5 Jun 2025 02:00:28 -0700
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B8210E7F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:08:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 48290A504E4;
+ Thu,  5 Jun 2025 09:08:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1743C4CEE7;
+ Thu,  5 Jun 2025 09:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749114482;
+ bh=CyX7HgtIvMmKLzh8J3zSwCHKH/WTU9NyS5ypKYnMkxc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=a7U9Yb+SqGsm+c80AqmOszRWqlGlkSCDyTv4P/UyrbaxB1hSRaWX+Qw1/s7uqBcUI
+ zIXZuDVKPICC1BBKKI4pWjTi0LNYgD9C3LlyXMKv6IGgwMlSjaT6C07tfw4/Q8R4+v
+ ZaOK2W8iTP92vrNH5sC5PcdFm/i8co6sQqtbt6joyXj98ccvEeBm9kQQEpuqSzeikS
+ IOQLTGwZotPp2jcGeFooVFZ9zO3f+lq0zrP7h070oEw6cXVqxRLcboVS5/1CtnVByW
+ VNi5btXUikB1fDG2/PHTmBiGcBTpDP13Tr2OFOm0/zhhfVQnF36GM3YDXBfU2p6ZBY
+ 7aO0bJbHhAzrg==
+Message-ID: <4302310a-b233-4cea-9a4b-d463fd1f455f@kernel.org>
+Date: Thu, 5 Jun 2025 11:07:53 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/ivpu: Use dma_resv_lock() instead of a custom mutex
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
+ <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
+ <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
+ <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
+ <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
+ <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
+ <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
+ <cc4dbf7c-e023-403c-88be-4691f97a0ff0@kernel.org>
+ <c7774790-07c3-469d-a994-9e84108ad21d@samsung.com>
+ <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <jeff.hugo@oss.qualcomm.com>, <stable@vger.kernel.org>
-References: <20250528154325.500684-1-jacek.lawrynowicz@linux.intel.com>
- <26b8a17e-500d-d89d-de9f-c17108a6831d@amd.com>
- <a52588be-b487-433a-a74f-eaa1d7a88654@linux.intel.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <a52588be-b487-433a-a74f-eaa1d7a88654@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1A:EE_|MW4PR12MB6707:EE_
-X-MS-Office365-Filtering-Correlation-Id: e87bbed1-e464-4e17-4ba9-08dda40f6d1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YTJCMzNkQU81UGRHNGgwby9BM0ZwVEZIZU1ZS01YM29Ec3ZJb2hXeHYwbXhW?=
- =?utf-8?B?cWJmWm1JRmNHaWhPVXpkYlFjSENUSmRheUZpTXNtblYzVkZSRzJvc1VPbUJ3?=
- =?utf-8?B?L2dWdythUG42TnhuYUpLZVFFRTk1VXBabGFrRkJudDU2RjJFK1EzUjhRcmpG?=
- =?utf-8?B?ZGJsWmpUWVF2NUZ5VGNCTUp2c1ZGdDlVYVd4MnE5VVhsWmVpTmR2MGZadEdX?=
- =?utf-8?B?clM5S0VZOVhRcDZySVRReHZjd0dNd1k1ei9sRTZ0M0RFUTRGQ0U1SWJwM1VJ?=
- =?utf-8?B?Slc3RERCc1d6WGhYaUMvV1Fwa1ZzZU1nWmFsNmtzeThkSDhWeXJqQ1V6azhD?=
- =?utf-8?B?cnNiNWxuemZra1RBcWxySlI5WjR3UXN3WHVPMmpyN2tER1dPb3k1N3BNYjlQ?=
- =?utf-8?B?QTZRN1JoVkpKenZUVFprSGJuKzIwc0RlSVgzOURRMC9GclhzOXAveHNmcm1J?=
- =?utf-8?B?OEJ2U0JWekpoVER6SFVCS04yN1VxODVndDc2THN5dmZ1bThJOW5LcTBHUXY3?=
- =?utf-8?B?a3ByVlREZXl1UE5uSjZiMVNubUxrdjlINHlDZTFYeHRtWU4wNlJ6Tm9SZjdI?=
- =?utf-8?B?ekZJSHdWM3hiSU4xOHdZbVFhZDFwUGNGcnBrM0hGZGNWeDQ0RWxKS1JTYm9j?=
- =?utf-8?B?V3ZEYVVoaWtqS3Y0c0tUYVgrblJBMjZ6UkplTm1kWVZRUkxIWTJoWk53UTFw?=
- =?utf-8?B?aUtIY2lIN1hkSHRVUTRHZHhSeDZ3ejlzOXlERm5LcVJXdEY0RnVDV1psWjdR?=
- =?utf-8?B?QmI2YSttWE5INXMzMmczN2Z1dEk2VUMyQnlNeUQvT0JxOHZROGFYQVpzU3Yy?=
- =?utf-8?B?UnBuYkFKOXZUMDg1aThtdG42WTgzSERnRlZMNGczM2tyL1FKT2x5ZDFXRFBW?=
- =?utf-8?B?L3pWeUQ3QnMxTVlMRVY2bTcvWUdnVFVkZWR5NG95R1YvazdBT2lsWDQwQTU4?=
- =?utf-8?B?bzBySmpuM2lEU2FXa2ZtOGMvaU4ySlRiK002TmJKbmp5QWxvckJRK3NpemtC?=
- =?utf-8?B?ZE9BNFpzOHduSmJ0YnB0WjFWbHdTeGtqaDVMNm1ZaGRVUnRZZlg5bjZROHN6?=
- =?utf-8?B?RFZFR2xCNHFOK0R4S2RTN0VzdHBDUHdVeGpjb2hGQitLSytnVUVwK2hEL2FJ?=
- =?utf-8?B?RGkxMVhRc3JLQjBQODRJZ0dyYUhHRWVrRzdzMVF5U0JvMjJQOHNnNElIbmVB?=
- =?utf-8?B?aDBseDNXcG5xRGdoQWpHR0ZGZDJ6TGpWdzVSUWNrOWxURXo0T3hFUlBIT2RE?=
- =?utf-8?B?d3lQaFBzaWozMlNtWUNRR1JWUkN2TWdZSm5pSnEzeU1aT1hnVjFGYVA1UkhE?=
- =?utf-8?B?TDlUNUVGaFVvT0tCbTdKZXRhOXlqMEZGbmlkRU1FcElibnBkUlEvVlg1a2R5?=
- =?utf-8?B?UmtXZ2lqdkdQUkl5ZTNaTVpOaGw4RWRiVXk4Y3o1VWNhM0l5ZWRLSG5ScWdh?=
- =?utf-8?B?MyswRGU0MmdERGZZTlhqS0dreUNXM0xQc2tXdVhEWjFuMzg5aW5qNFpHQzN6?=
- =?utf-8?B?ODNXZGVXbE84Sm9ISXVVa1RPZVQ4WHZvVVoxS0tmcVFCMnUyVURDZ0ZOcElj?=
- =?utf-8?B?a1l5WklUZ1VoL01qSUFPQTBxOE9NVkJKSUhnT1ZJMk5TTmdrclg2dTlnNG1I?=
- =?utf-8?B?d0ZNMXR5NXNDbHlHOCthUjNMQm1HaElZMUNGeHc5NzREQ3NEYkdhOHhnMUV1?=
- =?utf-8?B?QmVRNm9aNExuSnBub1pKWUc0SXV6N29iSUtmVVlPT04yUmZ4RzhPM2FwcXlO?=
- =?utf-8?B?WGU1OFZFVWJ6czRaWnJCemdWaGtGNTFpbzl5WXVjZFVndjdHaFRvU3E3Y2VT?=
- =?utf-8?B?RHhDbGVISTNsa2VtN3RjWUFocjRZMmZJVU5pVktiZC83UldhVFJDb2t6V283?=
- =?utf-8?B?RHZwSktZSmgzTUxTTmdTb3JvWmVpbjZRcC8zVFJ5M0NTYTBKWlFZNks3dHpu?=
- =?utf-8?B?TENLVklDUkdoRytEN3MxR1BTMWluMXhFNzhhTHpSbkFNaERqS2U5SEpSMkpt?=
- =?utf-8?B?L2pTVUt4Y3B4WHFIU3IwMHBwZ0VkVTlLTGdyM2tCYTJ4YVBiYmNTUDhzK1dB?=
- =?utf-8?Q?DFsZlr?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 09:00:31.7121 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e87bbed1-e464-4e17-4ba9-08dda40f6d1a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BY1PEPF0001AE1A.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6707
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,123 +126,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 05/06/2025 10:10, Bartosz Golaszewski wrote:
+>>
+>> Bart,
+>> Given Krzysztof's valid concerns about the current name based
+>> lookup in pwrseq_get() and the benefits of phandle based resource
+>> linking in OF platforms: Would you be open to a proposal for extending
+>> the pwrseq API to allow consumers to obtain a sequencer (or a specific
+>> target sequence) via a phandle defined in their Device Tree node? For
+>> instance, a consumer device could specify power-sequencer =
+>> <&aon> and a new API variant could resolve this.
+>>
+> 
+> I can be open to it all I want, but I bet Krzysztof won't be open to
+> introducing anything like a power-sequencer device property in DT
+> bindings. Simply because there's no such thing in the physical world.
 
-On 6/2/25 05:58, Jacek Lawrynowicz wrote:
-> Hi,
->
-> On 5/28/2025 7:50 PM, Lizhi Hou wrote:
->> On 5/28/25 08:43, Jacek Lawrynowicz wrote:
->>> This fixes a potential race conditions in:
->>>    - ivpu_bo_unbind_locked() where we modified the shmem->sgt without
->>>      holding the dma_resv_lock().
->>>    - ivpu_bo_print_info() where we read the shmem->pages without
->>>      holding the dma_resv_lock().
->>>
->>> Using dma_resv_lock() also protects against future syncronisation
->>> issues that may arise when accessing drm_gem_shmem_object or
->>> drm_gem_object members.
->>>
->>> Fixes: 42328003ecb6 ("accel/ivpu: Refactor BO creation functions")
->>> Cc: <stable@vger.kernel.org> # v6.9+
->>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->>> ---
->>>    drivers/accel/ivpu/ivpu_gem.c | 63 +++++++++++++++++++----------------
->>>    drivers/accel/ivpu/ivpu_gem.h |  1 -
->>>    2 files changed, 34 insertions(+), 30 deletions(-)
->>>
->>> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
->>> index c193a80241f5f..5908268ca45e9 100644
->>> --- a/drivers/accel/ivpu/ivpu_gem.c
->>> +++ b/drivers/accel/ivpu/ivpu_gem.c
->>> @@ -33,6 +33,16 @@ static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, con
->>>             (bool)bo->base.base.import_attach);
->>>    }
->>>    +static inline int ivpu_bo_lock(struct ivpu_bo *bo)
->>> +{
->>> +    return dma_resv_lock(bo->base.base.resv, NULL);
->>> +}
->>> +
->>> +static inline void ivpu_bo_unlock(struct ivpu_bo *bo)
->>> +{
->>> +    dma_resv_unlock(bo->base.base.resv);
->>> +}
->>> +
->>>    /*
->>>     * ivpu_bo_pin() - pin the backing physical pages and map them to VPU.
->>>     *
->>> @@ -43,22 +53,22 @@ static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, con
->>>    int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
->>>    {
->>>        struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
->>> +    struct sg_table *sgt;
->>>        int ret = 0;
->>>    -    mutex_lock(&bo->lock);
->>> -
->>>        ivpu_dbg_bo(vdev, bo, "pin");
->>> -    drm_WARN_ON(&vdev->drm, !bo->ctx);
->>>    -    if (!bo->mmu_mapped) {
->>> -        struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
->>> +    sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
->>> +    if (IS_ERR(sgt)) {
->>> +        ret = PTR_ERR(sgt);
->>> +        ivpu_err(vdev, "Failed to map BO in IOMMU: %d\n", ret);
->>> +        return ret;
->>> +    }
->>>    -        if (IS_ERR(sgt)) {
->>> -            ret = PTR_ERR(sgt);
->>> -            ivpu_err(vdev, "Failed to map BO in IOMMU: %d\n", ret);
->>> -            goto unlock;
->>> -        }
->>> +    ivpu_bo_lock(bo);
->>>    +    if (!bo->mmu_mapped) {
->>> +        drm_WARN_ON(&vdev->drm, !bo->ctx);
->>>            ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt,
->>>                               ivpu_bo_is_snooped(bo));
->>>            if (ret) {
->>> @@ -69,7 +79,7 @@ int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
->>>        }
->>>      unlock:
->>> -    mutex_unlock(&bo->lock);
->>> +    ivpu_bo_unlock(bo);
->>>          return ret;
->>>    }
->>> @@ -84,7 +94,7 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
->>>        if (!drm_dev_enter(&vdev->drm, &idx))
->>>            return -ENODEV;
->>>    -    mutex_lock(&bo->lock);
->>> +    ivpu_bo_lock(bo);
->>>          ret = ivpu_mmu_context_insert_node(ctx, range, ivpu_bo_size(bo), &bo->mm_node);
->>>        if (!ret) {
->>> @@ -94,7 +104,7 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
->>>            ivpu_err(vdev, "Failed to add BO to context %u: %d\n", ctx->id, ret);
->>>        }
->>>    -    mutex_unlock(&bo->lock);
->>> +    ivpu_bo_unlock(bo);
->>>          drm_dev_exit(idx);
->>>    @@ -105,7 +115,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->>>    {
->>>        struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
->>>    -    lockdep_assert(lockdep_is_held(&bo->lock) || !kref_read(&bo->base.base.refcount));
->>> +    lockdep_assert(dma_resv_held(bo->base.base.resv) || !kref_read(&bo->base.base.refcount));
->>>          if (bo->mmu_mapped) {
->>>            drm_WARN_ON(&vdev->drm, !bo->ctx);
->>> @@ -123,14 +133,12 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->>>        if (bo->base.base.import_attach)
->>>            return;
->>>    -    dma_resv_lock(bo->base.base.resv, NULL);
->>>        if (bo->base.sgt) {
->>>            dma_unmap_sgtable(vdev->drm.dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
->>>            sg_free_table(bo->base.sgt);
->>>            kfree(bo->base.sgt);
->>>            bo->base.sgt = NULL;
->> Maybe not directly modify sgt but use drm_gem_shmem_purge()?
-> drm_gem_shmem_purge() also removes user mapping and backing pages.
-> In ivpu_bo_unbind_locked() we only want to unmap the buffer from the device as it being turned off.
-> We don't want to crash user process in this case and this will probably be the result of drm_gem_shmem_purge() na mmpapped buffer.
->
->> Will it potentially memleak without calling drm_gem_shmem_put_pages()? (if the bo is mmap, vmap etc)
-> There is no memory leak. We are calling drm_gem_shmem_get_pages_sgt() only once per object and drm_gem_shmem_free() frees all backing memory.
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
->
-> Regards,
-> Jacek
+Yep
+
+> The concept behind the power sequencing framework was to bind
+> providers to consumers based on existing links modelling real device
+> properties (which a "power-sequencer" is not). I commented on it under
+> another email saying that you already have a link here - the
+> power-domains property taking the aon phandle. In your pwrseq
+
+Exactly.
+
+
+Best regards,
+Krzysztof
