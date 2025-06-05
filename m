@@ -2,91 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1608FACED2D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A11DACED34
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 248A210EA1F;
-	Thu,  5 Jun 2025 09:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3F010E978;
+	Thu,  5 Jun 2025 09:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bIb1TikC";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Mr8Adekt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EAF10E9F4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:58:29 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e812c817de0so791373276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 02:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749117507; x=1749722307; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4zPdTQVDPRTSNl8wo5w6MeNmYmfyR+yoWh8tW6/DZaY=;
- b=bIb1TikCkHdcsGACydxikznViVO6ZcnXPzAoSsfuZfV1i6ua05Y4EydcaPengj0iKN
- Z2Tgx6M4XN1nkPsYkQH5zaf/x1ZeB9eSmARcODCu7Suyu8NrSfR2TMnZhNKkBDbMZgt+
- hHRQOHHy0SVhRJflY7Z4rypGPCpEKxCRoVUk82X8ROoPwTi+lTz4NWQbxR8N2wJM3MSK
- 8VVpHKwAbSGjUZsknzugEKTu7F4hI2PcDKi4fI4wdojfHdCvc7raeU8yDePwfVFWty6D
- OfizjCttivV8XZo+IKTlNYt8GAKNXcveGk02p+lqp5YvXzerFMr28bsDA4onURTQuKYg
- g8tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749117507; x=1749722307;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4zPdTQVDPRTSNl8wo5w6MeNmYmfyR+yoWh8tW6/DZaY=;
- b=dyU0VgVaVs44T8Np3ZO2J0MDELZECdvrzXU7NCyb1d0YHCRrrHnowTlhL9lgSYEb3f
- AJIYg3Y1lnTLLvhhBJridfCfhAynpNu9Q1nLOv7W9DXOfOG0X24qVob/aa+4Ph5Q1O10
- HOTdJ0V/T/NXtQAPQ5P5bK9Q8sw6paFFilWBvjzHgjD5mc7haCrodd4rAPBLaynysK8H
- pKY7MKrObpqoyYmKXtlChc+F/OIfFq0anUASmiks7W8hLZ3DSeHkMxH1CD03KlzR/HFy
- q64Jk9fFOigXpP2k4kNV2pA7n/ga1m+QRzNVUDOpM/XYnUB4QsbeBccDT2cidaBin7Vz
- 6t7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXa4jlMErnV3MPUufx+jej14eqRtPZjSBsXLvQxZwXXBdxU6o/ON9T72Jy+2hN8hzZp0xKo9vkYteE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywdb5xaZMkUVM5goLCS2I663G/Fb7jatpFGTF8LEVNuAOFlTdtJ
- Hc5MxOCEeghVr8qUnOtBVy0CN8UFkazVTzqK4swvq6wxsLnHkwknb3zAEnwBZgfh6fFaw1ix7ER
- U9BhbhYlczV3eXKck4AI84T9yZdmbDpRMIep/R8bNXg==
-X-Gm-Gg: ASbGncu0WzZbc3re5NBoXAVDdSCO5ALdzhRbMmM7PXwLNdR7it8fgwLcPESucnw2mRB
- ie2nlqefzQNX8AsdaidmtK8Ux/SNgRl4sU1EYroRzmBNlEzZJQ1kq6QYE4a+Rx2n9QXjMuUfbnb
- ic4TNz2/Y6SPlTl8gSCYHkvqvSn3QWqKTbeA==
-X-Google-Smtp-Source: AGHT+IEs9z2qDMjfH7cC75fVmmSjHZHDht5i6D5bKkcjTo5PY949JkkRdQafZEhuxNNXbWaU8JI1NrPxlkNCttr89yg=
-X-Received: by 2002:a05:6902:1006:b0:e81:89b9:f7fb with SMTP id
- 3f1490d57ef6-e8189b9fd46mr2688470276.20.1749117507589; Thu, 05 Jun 2025
- 02:58:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20250529222410eucas1p2e1d41a2fc717caef1aed51367a7db944@eucas1p2.samsung.com>
- <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <20250530-apr_14_for_sending-v3-7-83d5744d997c@samsung.com>
- <CAPDyKFpYfZNthdRN=pCv4FEdFCzrKEH4aFBy4ew-xLKtpbJ5Tg@mail.gmail.com>
- <e39c6748-59aa-4c4a-98f3-263751a120c1@imgtec.com>
-In-Reply-To: <e39c6748-59aa-4c4a-98f3-263751a120c1@imgtec.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 5 Jun 2025 11:57:51 +0200
-X-Gm-Features: AX0GCFs9t2KTNaikDlvnZamDB-7XXtdndYPeCom5IA-jJ40VSGgqWKBlwED7Z-4
-Message-ID: <CAPDyKFrxqp30RWGoudVsy2NR7dSUoKwxc=nk3Bqp9RVZGZ6_vQ@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
- node
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Drew Fustini <drew@pdp7.com>,
- Guo Ren <guoren@kernel.org>, 
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Frank Binns <Frank.Binns@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9608A10E978
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:59:36 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bCg0N535zz9t7b;
+ Thu,  5 Jun 2025 11:59:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1749117572; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hDdQmDYmHeeSabXLUlS6vBspu5rauZhRjYKirbrPyK4=;
+ b=Mr8AdektLf7qqjY1OnEWTxUNVof3JPgBDO0ELrwMijU8jUi4j/Gyom0KQpTfaFjt5Rj6vk
+ ZhDMMIvOWRCJMTnUAXIzoOm06Wbx31xhBEFCPKBdglCEs7T3dJBSFHXqy3EFyMR3Ojrj6q
+ wJAlGNlsxv6v06iQcIBF9YQIwC22u4bYiKeqAVx4pqqU42h9bf6cD7C0XqxSQnThx7CKbx
+ DiFAuAtIgY6XCX71ckpsQV1GZCVinpbMHZRnvwuXDAMLZlEsis+dl6tBbolUWzlfSwBLgA
+ H2jvFWsfpfKcCQ25I88NhTveEEitXksmObebGqKKCxRszKcUjqdzyuBn7SGtjg==
+Message-ID: <0e117b173891294369f158872fdec132fe6bcbc1.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Discourage usage of separate workqueues
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 05 Jun 2025 11:59:28 +0200
+In-Reply-To: <aEBhIzccXBPyt_58@phenom.ffwll.local>
+References: <20250604081657.124453-2-phasta@kernel.org>
+ <7a09c357-2d28-4dd6-b637-4387cc430938@amd.com>
+ <aEBhIzccXBPyt_58@phenom.ffwll.local>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: e6943d585bc301b67a2
+X-MBO-RS-META: axrmkt5ann4pfocdh4sm5k73k6khxa9u
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,89 +65,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Jun 2025 at 18:48, Matt Coster <Matt.Coster@imgtec.com> wrote:
->
-> On 03/06/2025 13:27, Ulf Hansson wrote:
-> > On Fri, 30 May 2025 at 00:24, Michal Wilczynski
-> > <m.wilczynski@samsung.com> wrote:
-> >>
-> >> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
-> >> TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
-> >> the GPU using the drm/imagination driver.
-> >>
-> >> By adding this node, the kernel can recognize and initialize the GPU,
-> >> providing graphics acceleration capabilities on the Lichee Pi 4A and
-> >> other boards based on the TH1520 SoC.
-> >>
-> >> Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
-> >> controlled programatically.
-> >>
-> >> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> >> ---
-> >>  arch/riscv/boot/dts/thead/th1520.dtsi | 22 ++++++++++++++++++++++
-> >>  1 file changed, 22 insertions(+)
-> >>
-> >> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-> >> index 6170eec79e919b606a2046ac8f52db07e47ef441..ee937bbdb7c08439a70306f035b1cc82ddb4bae2 100644
-> >> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
-> >> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-> >> @@ -225,6 +225,13 @@ aonsys_clk: clock-73728000 {
-> >>                 #clock-cells = <0>;
-> >>         };
-> >>
-> >> +       gpu_mem_clk: mem-clk {
-> >> +               compatible = "fixed-clock";
-> >> +               clock-frequency = <0>;
-> >> +               clock-output-names = "gpu_mem_clk";
-> >> +               #clock-cells = <0>;
-> >> +       };
-> >> +
-> >>         stmmac_axi_config: stmmac-axi-config {
-> >>                 snps,wr_osr_lmt = <15>;
-> >>                 snps,rd_osr_lmt = <15>;
-> >> @@ -504,6 +511,21 @@ clk: clock-controller@ffef010000 {
-> >>                         #clock-cells = <1>;
-> >>                 };
-> >>
-> >> +               gpu: gpu@ffef400000 {
-> >> +                       compatible = "thead,th1520-gpu", "img,img-bxm-4-64",
-> >> +                                    "img,img-rogue";
-> >> +                       reg = <0xff 0xef400000 0x0 0x100000>;
-> >> +                       interrupt-parent = <&plic>;
-> >> +                       interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
-> >> +                       clocks = <&clk_vo CLK_GPU_CORE>,
-> >> +                                <&gpu_mem_clk>,
-> >> +                                <&clk_vo CLK_GPU_CFG_ACLK>;
-> >> +                       clock-names = "core", "mem", "sys";
-> >> +                       power-domains = <&aon TH1520_GPU_PD>;
-> >> +                       power-domain-names = "a";
-> >
-> > If the power-domain-names are really needed, please pick a
-> > useful/descriptive name.
->
-> This isn't the first time our unfortunate power domain names have come
-> up [1][2]. Sadly, we're stuck with them for Rogue.
+On Wed, 2025-06-04 at 17:07 +0200, Simona Vetter wrote:
+> On Wed, Jun 04, 2025 at 11:41:25AM +0200, Christian K=C3=B6nig wrote:
+> > On 6/4/25 10:16, Philipp Stanner wrote:
+> > > struct drm_sched_init_args provides the possibility of letting
+> > > the
+> > > scheduler use user-controlled workqueues, instead of the
+> > > scheduler
+> > > creating its own workqueues. It's currently not documented who
+> > > would
+> > > want to use that.
+> > >=20
+> > > Not sharing the submit_wq between driver and scheduler has the
+> > > advantage
+> > > of no negative intereference between them being able to occur
+> > > (e.g.,
+> > > MMU notifier callbacks waiting for fences to get signaled). A
+> > > separate
+> > > timeout_wq should rarely be necessary, since using the system_wq
+> > > could,
+> > > in the worst case, delay a timeout.
+> > >=20
+> > > Discourage the usage of own workqueues in the documentation.
+> > >=20
+> > > Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > > =C2=A0include/drm/gpu_scheduler.h | 7 +++++--
+> > > =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/include/drm/gpu_scheduler.h
+> > > b/include/drm/gpu_scheduler.h
+> > > index 81dcbfc8c223..11740d745223 100644
+> > > --- a/include/drm/gpu_scheduler.h
+> > > +++ b/include/drm/gpu_scheduler.h
+> > > @@ -590,14 +590,17 @@ struct drm_gpu_scheduler {
+> > > =C2=A0 *
+> > > =C2=A0 * @ops: backend operations provided by the driver
+> > > =C2=A0 * @submit_wq: workqueue to use for submission. If NULL, an
+> > > ordered wq is
+> > > - * =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allocated and used.
+> > > + * =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allocated and used. It is re=
+commended to pass NULL
+> > > unless there
+> > > + * =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 is a good reason not to.
+> >=20
+> > Yeah, that's probably a good idea. I'm not sure why xe and nouveau
+> > actually wanted that.
+>=20
+> The idea of this trick is that you have a fw scheduler which only has
+> one
+> queue, and a bunch of other things in your driver that also need to
+> be
+> stuffed into this fw queue (or handled by talking with the fw through
+> these ringbuffers).
+>=20
+> If you use one single-threaded wq for everything then you don't need
+> additional locking anymore, and a lot of things become easier.
+>=20
+> We should definitely document this trick better though, I didn't find
+> any
+> place where that was documented.
+>=20
+> Maybe a new overview section about "how to concurrency with
+> drm/sched"?
+> That's also a good place to better highlight the existing
+> documentation
+> for the 2nd part here.
 
-Wow, that's really crazy.
 
-BTW, are there any reasons why you can't rely on attaching them by
-index instead, via dev_pm_domain_attach_by_id() for example? Thus
-entirely drop the names in the DT docs?
+Let us first create consensus about when providing workqueues by the
+driver makes sense. Correct wrong statements:
 
-It sounds like the names don't really have a meaning, or do they?
+   1. Using a single threaded workqueue for timeout_wq is useful for
+      guaranteeing that timeouts handlers are performed in the correct
+      order. (Christian)
+   2. Independently from the point above, using the very same single
+      threaded wq for both timeout_wq and submit_wq allows for dropping
+      locks from the driver's callbacks.
+   3. Driver and scheduler sharing workqueues risks deadlocking, as
+      described by Danilo.
 
->
-> Matt
->
-> [1]: https://lore.kernel.org/r/ff4e96e4-ebc2-4c50-9715-82ba3d7b8612@imgtec.com/
-> [2]: https://lore.kernel.org/r/cc6a19b3-ba35-465c-9fa6-a764df7c01c1@imgtec.com/
->
-> >
 
-[...]
+I'm wondering about the following now:
+   1. Why does the scheduler by default use the system_wq for timeouts?
+      Could it make sense for us to always use a single threaded wq?
+      After all, each scheduler only ever has 1 work item for timeouts
+      in the air.
+   2. Isn't point 2 from above purely a trick to avoid locking in the
+      callbacks? If it is, I'm not convinced yet that we really want to
+      actively recommend that. The callback implementations I've seen
+      usually only need their fence context lock, and many drivers
+      don't use their own workqueues to begin with.
+      But I guess having a sentence somewhere teasering at the
+      possibility wouldn't be hurtful.
 
-Kind regards
-Uffe
+
+My current feeling right now is that we should document why the
+mechanism exists and discourage using it. It's optional, not really
+necessary, risks deadlocking and making that more waterproof would
+require more substantial work, like maybe lockdep assertions suggested
+by Matthew.
+
+I'm for the more leightweight way.
+
+
+>=20
+> > > =C2=A0 * @num_rqs: Number of run-queues. This may be at most
+> > > DRM_SCHED_PRIORITY_COUNT,
+> > > =C2=A0 * =C2=A0=C2=A0=C2=A0=C2=A0 as there's usually one run-queue pe=
+r priority, but may
+> > > be less.
+> > > =C2=A0 * @credit_limit: the number of credits this scheduler can hold
+> > > from all jobs
+> > > =C2=A0 * @hang_limit: number of times to allow a job to hang before
+> > > dropping it.
+> > > =C2=A0 * This mechanism is DEPRECATED. Set it to 0.
+> > > =C2=A0 * @timeout: timeout value in jiffies for submitted jobs.
+> > > - * @timeout_wq: workqueue to use for timeout work. If NULL, the
+> > > system_wq is used.
+> > > + * @timeout_wq: workqueue to use for timeout work. If NULL, the
+> > > system_wq is
+> > > + * used. It is recommended to pass NULL unless there is a good
+> > > + * reason not to.
+> >=20
+> > Well, that's a rather bad idea.
+> >=20
+> > Using a the same single threaded work queue for the timeout of
+> > multiple
+> > schedulers instances has the major advantage of being able to
+> > handle
+> > their occurrence sequentially.
+> >=20
+> > In other words multiple schedulers post their timeout work items on
+> > the
+> > same queue, the first one to run resets the specific HW block in
+> > question and cancels all timeouts and work items from other
+> > schedulers
+> > which use the same HW block.
+> >=20
+> > It was Sima, I and a few other people who came up with this
+> > approach
+> > because both amdgpu and IIRC panthor implemented that in their own
+> > specific way, and as usual got it wrong.
+> >=20
+> > If I'm not completely mistaken this approach is now used by amdgpu,
+> > panthor, xe and imagination and has proven to be rather flexible
+> > and
+> > reliable. It just looks like we never documented that you should do
+> > it
+> > this way.
+>=20
+> It is documented, just not here. See the note in
+> drm_sched_backend_ops.timedout_job at the very bottom.
+>=20
+> We should definitely have a lot more cross-links between the various
+> pieces of this puzzle though, that's for sure :-)
+
+Docu is in far better shape by now than it was last year, but there's
+still much to do.
+
+However, we probably also don't want to scather over too many places,
+as it becomes harder to keep the docu consistent.
+
+
+P.
+
+>=20
+> Cheers, Sima
+>=20
+> >=20
+> > Regards,
+> > Christian.
+> >=20
+> > > =C2=A0 * @score: score atomic shared with other schedulers. May be
+> > > NULL.
+> > > =C2=A0 * @name: name (typically the driver's name). Used for debuggin=
+g
+> > > =C2=A0 * @dev: associated device. Used for debugging
+> >=20
+>=20
+
