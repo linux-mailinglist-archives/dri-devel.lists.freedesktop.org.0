@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC589ACE9D8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAE3ACEA10
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:21:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1576010E93A;
-	Thu,  5 Jun 2025 06:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB4C10E26F;
+	Thu,  5 Jun 2025 06:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A474310E93A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:12:10 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF48A10E26F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:21:04 +0000 (UTC)
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-475-1Dm5o0UrMLSP-nRXZd6KAw-1; Thu,
- 05 Jun 2025 02:12:05 -0400
-X-MC-Unique: 1Dm5o0UrMLSP-nRXZd6KAw-1
-X-Mimecast-MFC-AGG-ID: 1Dm5o0UrMLSP-nRXZd6KAw_1749103925
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-3-LDVhy8I9ObC4a7QR6ZmgLA-1; Thu,
+ 05 Jun 2025 02:19:57 -0400
+X-MC-Unique: LDVhy8I9ObC4a7QR6ZmgLA-1
+X-Mimecast-MFC-AGG-ID: LDVhy8I9ObC4a7QR6ZmgLA_1749104396
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BEA09180045B; Thu,  5 Jun 2025 06:12:04 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0FC3119560B0; Thu,  5 Jun 2025 06:19:56 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.64.136.101])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id B257D18002B3; Thu,  5 Jun 2025 06:12:02 +0000 (UTC)
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 3C38919560AE; Thu,  5 Jun 2025 06:19:53 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Christian Koenig <christian.koenig@amd.com>,
  Matthew Brost <matthew.brost@intel.com>
 Subject: drm/ttm: port ttm pools to NUMA aware lru_list
-Date: Thu,  5 Jun 2025 16:08:33 +1000
-Message-ID: <20250605061156.1234511-1-airlied@gmail.com>
+Date: Thu,  5 Jun 2025 16:19:20 +1000
+Message-ID: <20250605061951.1234583-1-airlied@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7t3ZqIDGhB-8E_fchU3KaGbR69VGaSKW4_sxFMa2YSY_1749103925
+X-Mimecast-MFC-PROC-ID: ehuVH4ZjUXm9EcO7QtwRfRfiAZFNETbzkiEE3ud_1qM_1749104396
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
 content-type: text/plain; charset=WINDOWS-1252; x-default=true
@@ -58,6 +58,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+(RH email ate this the first time).
 
 This is a bit of a tangent before continuing the tangent that is memcg awar=
 e pools.
