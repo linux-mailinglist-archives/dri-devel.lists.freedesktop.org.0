@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB66ACEA0D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0EBACEA0E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C18C210E7A6;
-	Thu,  5 Jun 2025 06:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B07A410E7BD;
+	Thu,  5 Jun 2025 06:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4753410E7A6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:20:17 +0000 (UTC)
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2792310E7BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:20:22 +0000 (UTC)
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-172-EMN1Ee3yOsSfGaNV7ALDNA-1; Thu,
- 05 Jun 2025 02:20:15 -0400
-X-MC-Unique: EMN1Ee3yOsSfGaNV7ALDNA-1
-X-Mimecast-MFC-AGG-ID: EMN1Ee3yOsSfGaNV7ALDNA_1749104414
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-290-V6QxDkgrMZ6FuhdaPzqumw-1; Thu,
+ 05 Jun 2025 02:20:18 -0400
+X-MC-Unique: V6QxDkgrMZ6FuhdaPzqumw-1
+X-Mimecast-MFC-AGG-ID: V6QxDkgrMZ6FuhdaPzqumw_1749104417
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 020B319560A2; Thu,  5 Jun 2025 06:20:14 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 5C2D818002A4; Thu,  5 Jun 2025 06:20:17 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.64.136.101])
  by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7AA3819560AE; Thu,  5 Jun 2025 06:20:11 +0000 (UTC)
+ id 389C919560AE; Thu,  5 Jun 2025 06:20:14 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Christian Koenig <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Dave Airlie <airlied@redhat.com>,
- Dave Chinner <david@fromorbit.com>
-Subject: [PATCH 4/5] ttm/pool: make pool shrinker NUMA aware
-Date: Thu,  5 Jun 2025 16:19:24 +1000
-Message-ID: <20250605061951.1234583-5-airlied@gmail.com>
+ Matthew Brost <matthew.brost@intel.com>, Dave Airlie <airlied@redhat.com>
+Subject: [PATCH 5/5] ttm/pool: track allocated_pages per numa node.
+Date: Thu,  5 Jun 2025 16:19:25 +1000
+Message-ID: <20250605061951.1234583-6-airlied@gmail.com>
 In-Reply-To: <20250605061951.1234583-1-airlied@gmail.com>
 References: <20250605061951.1234583-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DV0ELauLp021dkNu1jF8ZsGkGAkwOeBNbYc_qLJ_Ml0_1749104414
+X-Mimecast-MFC-PROC-ID: J2ELhYChl0ymBtJZQ4zf-0t3tOiLwT2DrARpw_-iJuc_1749104417
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
 content-type: text/plain; charset=WINDOWS-1252; x-default=true
@@ -64,117 +63,167 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This enable NUMA awareness for the shrinker on the
-ttm pools.
+This gets the memory sizes from the nodes and stores the limit
+as 50% of those. I think eventually we should drop the limits
+once we have memcg aware shrinking, but this should be more NUMA
+friendly, and I think seems like what people would prefer to
+happen on NUMA aware systems.
 
 Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Dave Chinner <david@fromorbit.com>
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 35 +++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/ttm/ttm_pool.c | 57 +++++++++++++++++++++++++---------
+ 1 file changed, 43 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.=
 c
-index ad06f2f8fd2d..902dd682afc0 100644
+index 902dd682afc0..508b50f6901b 100644
 --- a/drivers/gpu/drm/ttm/ttm_pool.c
 +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -405,12 +405,11 @@ static struct ttm_pool_type *ttm_pool_select_type(str=
-uct ttm_pool *pool,
- =09return NULL;
+@@ -114,10 +114,11 @@ struct ttm_pool_tt_restore {
+=20
+ static unsigned long page_pool_size;
+=20
+-MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool");
++MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool pe=
+r NUMA node");
+ module_param(page_pool_size, ulong, 0644);
+=20
+-static atomic_long_t allocated_pages;
++static unsigned long pool_node_limit[MAX_NUMNODES];
++static atomic_long_t allocated_pages[MAX_NUMNODES];
+=20
+ static struct ttm_pool_type global_write_combined[NR_PAGE_ORDERS];
+ static struct ttm_pool_type global_uncached[NR_PAGE_ORDERS];
+@@ -299,7 +300,7 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt=
+, int nid, struct page *p
+ =09list_lru_add(&pt->pages, &p->lru, nid, NULL);
+ =09rcu_read_unlock();
+ =09spin_unlock(&pt->lock);
+-=09atomic_long_add(1 << pt->order, &allocated_pages);
++=09atomic_long_add(1 << pt->order, &allocated_pages[nid]);
  }
 =20
--/* Free pages using the global shrinker list */
--static unsigned int ttm_pool_shrink(void)
-+/* Free pages using the per-node shrinker list */
-+static unsigned int ttm_pool_shrink(int nid, unsigned long num_to_free)
+ struct take_one_info {
+@@ -315,7 +316,7 @@ static enum lru_status take_one_from_lru(struct list_he=
+ad *item,
+ =09struct ttm_pool_type *pt =3D info->pt;
+ =09struct page *p =3D container_of(item, struct page, lru);
+ =09list_lru_isolate(list, item);
+-=09atomic_long_sub(1 << pt->order, &allocated_pages);
++=09atomic_long_sub(1 << pt->order, &allocated_pages[page_to_nid(p)]);
+ =09info->out =3D p;
+ =09return LRU_REMOVED;
+ }
+@@ -360,7 +361,7 @@ static enum lru_status pool_free_page(struct list_head =
+*item,
+=20
+ =09list_lru_isolate(list, item);
+=20
+-=09atomic_long_sub(1 << pt->order, &allocated_pages);
++=09atomic_long_sub(1 << pt->order, &allocated_pages[page_to_nid(p)]);
+ =09ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
+ =09return LRU_REMOVED;
+ }
+@@ -914,11 +915,13 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool,=
+ struct ttm_tt *tt,
+  */
+ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
  {
- =09struct ttm_pool_type *pt;
- =09unsigned int num_pages;
--=09struct page *p;
-=20
- =09down_read(&pool_shrink_rwsem);
- =09spin_lock(&shrinker_lock);
-@@ -418,13 +417,8 @@ static unsigned int ttm_pool_shrink(void)
- =09list_move_tail(&pt->shrinker_list, &shrinker_list);
- =09spin_unlock(&shrinker_lock);
-=20
--=09p =3D ttm_pool_type_take(pt, ttm_pool_nid(pt->pool));
--=09if (p) {
--=09=09ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
--=09=09num_pages =3D 1 << pt->order;
--=09} else {
--=09=09num_pages =3D 0;
--=09}
-+=09num_pages =3D list_lru_walk_node(&pt->pages, nid, pool_free_page, pt, &=
-num_to_free);
-+=09num_pages *=3D 1 << pt->order;
- =09up_read(&pool_shrink_rwsem);
-=20
- =09return num_pages;
-@@ -773,6 +767,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, stru=
-ct ttm_tt *tt,
- =09=09pt =3D ttm_pool_select_type(pool, page_caching, order);
- =09=09if (pt && allow_pools)
- =09=09=09p =3D ttm_pool_type_take(pt, ttm_pool_nid(pool));
++=09int nid =3D ttm_pool_nid(pool);
 +
- =09=09/*
- =09=09 * If that fails or previously failed, allocate from system.
- =09=09 * Note that this also disallows additional pool allocations using
-@@ -921,8 +916,10 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_t=
-t *tt)
- {
  =09ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
 =20
--=09while (atomic_long_read(&allocated_pages) > page_pool_size)
--=09=09ttm_pool_shrink();
-+=09while (atomic_long_read(&allocated_pages) > page_pool_size) {
-+=09=09unsigned long diff =3D page_pool_size - atomic_long_read(&allocated_=
+-=09while (atomic_long_read(&allocated_pages) > page_pool_size) {
+-=09=09unsigned long diff =3D page_pool_size - atomic_long_read(&allocated_=
 pages);
-+=09=09ttm_pool_shrink(ttm_pool_nid(pool), diff);
-+=09}
+-=09=09ttm_pool_shrink(ttm_pool_nid(pool), diff);
++=09while (atomic_long_read(&allocated_pages[nid]) > pool_node_limit[nid]) =
+{
++=09=09unsigned long diff =3D pool_node_limit[nid] - atomic_long_read(&allo=
+cated_pages[nid]);
++=09=09ttm_pool_shrink(nid, diff);
+ =09}
  }
  EXPORT_SYMBOL(ttm_pool_free);
-=20
-@@ -1179,7 +1176,7 @@ static unsigned long ttm_pool_shrinker_scan(struct sh=
+@@ -1178,7 +1181,7 @@ static unsigned long ttm_pool_shrinker_scan(struct sh=
 rinker *shrink,
- =09unsigned long num_freed =3D 0;
-=20
  =09do
--=09=09num_freed +=3D ttm_pool_shrink();
-+=09=09num_freed +=3D ttm_pool_shrink(sc->nid, sc->nr_to_scan);
+ =09=09num_freed +=3D ttm_pool_shrink(sc->nid, sc->nr_to_scan);
  =09while (num_freed < sc->nr_to_scan &&
- =09       atomic_long_read(&allocated_pages));
+-=09       atomic_long_read(&allocated_pages));
++=09       atomic_long_read(&allocated_pages[sc->nid]));
 =20
-@@ -1319,11 +1316,15 @@ static int ttm_pool_debugfs_shrink_show(struct seq_=
-file *m, void *data)
- =09=09.nr_to_scan =3D TTM_SHRINKER_BATCH,
- =09};
- =09unsigned long count;
+ =09sc->nr_scanned =3D num_freed;
+=20
+@@ -1189,7 +1192,7 @@ static unsigned long ttm_pool_shrinker_scan(struct sh=
+rinker *shrink,
+ static unsigned long ttm_pool_shrinker_count(struct shrinker *shrink,
+ =09=09=09=09=09     struct shrink_control *sc)
+ {
+-=09unsigned long num_pages =3D atomic_long_read(&allocated_pages);
++=09unsigned long num_pages =3D atomic_long_read(&allocated_pages[sc->nid])=
+;
+=20
+ =09return num_pages ? num_pages : SHRINK_EMPTY;
+ }
+@@ -1233,8 +1236,12 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_=
+type *pt,
+ /* Dump the total amount of allocated pages */
+ static void ttm_pool_debugfs_footer(struct seq_file *m)
+ {
+-=09seq_printf(m, "\ntotal\t: %8lu of %8lu\n",
+-=09=09   atomic_long_read(&allocated_pages), page_pool_size);
 +=09int nid;
-=20
- =09fs_reclaim_acquire(GFP_KERNEL);
--=09count =3D ttm_pool_shrinker_count(mm_shrinker, &sc);
--=09seq_printf(m, "%lu/%lu\n", count,
--=09=09   ttm_pool_shrinker_scan(mm_shrinker, &sc));
++
 +=09for_each_node(nid) {
-+=09=09sc.nid =3D nid;
-+=09=09count =3D ttm_pool_shrinker_count(mm_shrinker, &sc);
-+=09=09seq_printf(m, "%d: %lu/%lu\n", nid, count,
-+=09=09=09   ttm_pool_shrinker_scan(mm_shrinker, &sc));
++=09=09seq_printf(m, "\ntotal node%d\t: %8lu of %8lu\n", nid,
++=09=09=09   atomic_long_read(&allocated_pages[nid]), pool_node_limit[nid])=
+;
 +=09}
- =09fs_reclaim_release(GFP_KERNEL);
+ }
 =20
- =09return 0;
-@@ -1371,7 +1372,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ /* Dump the information for the global pools */
+@@ -1333,6 +1340,22 @@ DEFINE_SHOW_ATTRIBUTE(ttm_pool_debugfs_shrink);
+=20
  #endif
- #endif
 =20
--=09mm_shrinker =3D shrinker_alloc(0, "drm-ttm_pool");
-+=09mm_shrinker =3D shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
- =09if (!mm_shrinker)
- =09=09return -ENOMEM;
++static inline uint64_t ttm_get_node_memory_size(int nid)
++{
++        /* This is directly using si_meminfo_node implementation as the
++         * function is not exported.
++         */
++        int zone_type;
++        uint64_t managed_pages =3D 0;
++
++        pg_data_t *pgdat =3D NODE_DATA(nid);
++
++        for (zone_type =3D 0; zone_type < MAX_NR_ZONES; zone_type++)
++                managed_pages +=3D
++                        zone_managed_pages(&pgdat->node_zones[zone_type]);
++        return managed_pages * PAGE_SIZE;
++}
++
+ /**
+  * ttm_pool_mgr_init - Initialize globals
+  *
+@@ -1344,8 +1367,14 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ {
+ =09unsigned int i;
 =20
+-=09if (!page_pool_size)
+-=09=09page_pool_size =3D num_pages;
++=09int nid;
++=09for_each_node(nid) {
++=09=09if (!page_pool_size) {
++=09=09=09uint64_t node_size =3D ttm_get_node_memory_size(nid);
++=09=09=09pool_node_limit[nid] =3D (node_size >> PAGE_SHIFT) / 2;
++=09=09} else
++=09=09=09pool_node_limit[nid] =3D page_pool_size;
++=09}
+=20
+ =09spin_lock_init(&shrinker_lock);
+ =09INIT_LIST_HEAD(&shrinker_list);
 --=20
 2.49.0
 
