@@ -2,70 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080F1ACF647
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 20:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0327AACF69B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 20:32:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4654D10E2BB;
-	Thu,  5 Jun 2025 18:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26DA10E2EA;
+	Thu,  5 Jun 2025 18:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="oGrQd+3p";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HuFgLxs4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03FF610E2BB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 18:12:03 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 555IBWHL4149014;
- Thu, 5 Jun 2025 13:11:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1749147092;
- bh=ZzS1C5EvMT0MXg6EMhBdqMlyprF5jw+kGcG1nrN8/TI=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=oGrQd+3pNARA6+k/hmqCeS8+r8m2yRrpoqV4Q4ITGuSDAMxfckwYpHSxgleCR7fDk
- iyhAzea31K2E1n00JOdmffcKv+63NQKkt5R2+DXW7PI2f6S9MZbkwxKrRZs8bzvit6
- onHdWDtH5TgAjln1KxJktBhyPtVVaMTzEGnuU/7Y=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 555IBWWr2938539
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Thu, 5 Jun 2025 13:11:32 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 5
- Jun 2025 13:11:31 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 5 Jun 2025 13:11:31 -0500
-Received: from [10.249.137.120] ([10.249.137.120])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 555IBJYT4061280;
- Thu, 5 Jun 2025 13:11:21 -0500
-Message-ID: <75d3df52-c6b0-4235-b81f-288009a3c3a7@ti.com>
-Date: Thu, 5 Jun 2025 23:41:18 +0530
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v13 0/4] drm/atomic-helper: Re-order CRTC and Bridge ops
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF2A10E2D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 18:32:09 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 555HDFi7019389
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Jun 2025 18:32:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=EbkEQB58Ld4nL18JV6VryQl6iNajcUl8L84
+ E7nzQctY=; b=HuFgLxs45bFXN3TASiM9MayDYeBJFMD7eulzvKG59uiguFE40JL
+ MhXF/4ZIC6N/cni+NUmuZJhkLglT/+HBz0Ze9oY7cFfT7oEvOLdFrFGx+dHfA4qC
+ Bb5fnlk7ab15bsDpIzWzMeSFliDQNfa4yQk5cEeoU6kmUqXHsLxGvU147LDqe6Vl
+ PHyZiZh7agujSbk3uO3bxKHM7uezWPBwJxtbmB6Qq9WaxMfWwdkXes/pETisIxTu
+ jnwONT7KI+d01Hy+zFGf4LwbqFIZNlfOtk8zLvRNA01FA2z+EfVq3cnlMZrkh39f
+ cAuxx6hILAe2jY1rVajzZfDJs19zxlWaa/Q==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8ta9fm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 18:32:08 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-2355651d204so11988445ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 11:32:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749148328; x=1749753128;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EbkEQB58Ld4nL18JV6VryQl6iNajcUl8L84E7nzQctY=;
+ b=Hov79qm+MPWNzzFElaqr4JD0voqN8FoyDTYEmw6+IxEjiyGqbBYVA7OY9EyL8TxeE9
+ mv9FeBXJ3ShI48C8WZHvhBne0KQJppFPdkVzpRbK7Owzy3yo0t4++tqErCk2tEYv8LUl
+ aQkquJCc0IkNWTpxWAPksE8PsY/GbNH/uhRGj92rENVbaLr001r8VpR1D/0z+JwHIP2n
+ w4+Mc2yf3y1kgtz7gMAiL2AreaKGXUsXsvE0jEhmHN+y4QDURSX6+bPQkNbOdqcKdaFa
+ Mrwz2Jxbh0bKw7yZsz31A9uZvxoyQmOM7StxU7pf13PJeaPOoKz9m6LfJ5FqEQetrn00
+ hDhg==
+X-Gm-Message-State: AOJu0YxqXsXmuoInCo6WF6KPEa2bIMUvt5Sh6aAGNqb3/X6k+7nfIK6+
+ OnCv+WgThvpSAlTuJAd6YUI7R56R0oImLpfJyKdhrUw3VkpMFhAxnz5w3Rezn+rXDikIjWj9O1X
+ 4/rNfb6PdcyE5ZGa+SYb7Ldc/WyJNtLku6abp30ZCuj4uUDjjgqFKLYrfGSFuPJ/2FW8ySVOWQn
+ jAn3g=
+X-Gm-Gg: ASbGnctB1IqewbmAJTVny/+0XpZS5/qe5OZJfzM6Bjuo1pz4GzOc+h7o+TcfgSNztbX
+ /aMqRBg2pvwRNRxwpDBaKz5R0AUJ1hlIIDL7JsVMOLuDTRjkjru6g6DTass2u+yP5HhyFrb/3E5
+ 4EErd5daT6PExJF/s+9qm4HasjK+04kMPL+M+D0/CxBZum3wefvWt67FxpRM6KSi0IP67IOZxDc
+ oLY6knMez1iR3T/zfqtk/AJp0lxVfRZml+MZp67/OsqT/n82yX13bgWDZZUIRV0HXoglgqE9lmN
+ aAqo3oU3xR5nFYJ6byhf0A==
+X-Received: by 2002:a17:902:d54e:b0:235:6aa:1675 with SMTP id
+ d9443c01a7336-23601ee0108mr4448725ad.52.1749148327886; 
+ Thu, 05 Jun 2025 11:32:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE8anFpbUiAtQTPh5i+Y3L4P6zV7H6CR2FiWWEvnWMcwq9/7jX7gsE9Cmpi8vb0MAgBmCT3fw==
+X-Received: by 2002:a17:902:d54e:b0:235:6aa:1675 with SMTP id
+ d9443c01a7336-23601ee0108mr4448185ad.52.1749148327473; 
+ Thu, 05 Jun 2025 11:32:07 -0700 (PDT)
+Received: from localhost ([2601:1c0:5000:d5c:89fa:e299:1a34:c1f5])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23506cd75e1sm122853425ad.112.2025.06.05.11.32.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jun 2025 11:32:07 -0700 (PDT)
+From: Rob Clark <robin.clark@oss.qualcomm.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Connor Abbott <cwabbott0@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Eugene Lepshy <fekz115@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Jun Nie <jun.nie@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
+ linux-kernel@vger.kernel.org (open list),
+ linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
- <linux-kernel@vger.kernel.org>, Nishanth Menon <nm@ti.com>, Vignesh
- Raghavendra <vigneshr@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>
-References: <20250605171524.27222-1-aradhya.bhatia@linux.dev>
-Content-Language: en-US
-From: "Thakkar, Devarsh" <devarsht@ti.com>
-In-Reply-To: <20250605171524.27222-1-aradhya.bhatia@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maxime Ripard <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v6 00/40] drm/msm: sparse / "VM_BIND" support
+Date: Thu,  5 Jun 2025 11:28:45 -0700
+Message-ID: <20250605183111.163594-1-robin.clark@oss.qualcomm.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=eJQTjGp1 c=1 sm=1 tr=0 ts=6841e2a8 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=zBYVM8QCAAAA:8
+ a=ajksXRGWIgAGF9WJ9h0A:9 a=eVM1_HBmYRkA:10 a=YgSuLXRpIuYA:10
+ a=te1wHPZ5H10A:10 a=GvdueXVYPmCkWapjIL-Q:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=ArXkYGXkE6hBHcUMFODu:22
+X-Proofpoint-ORIG-GUID: r4saADne2yzPnJPNe38QEEFvz7s9V4O_
+X-Proofpoint-GUID: r4saADne2yzPnJPNe38QEEFvz7s9V4O_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDE2MyBTYWx0ZWRfX+vrsZKATQCqX
+ 4dnhPSuLzJtuWfcp0x+Fuzk+lRtq3cllTitsh/t6cPe/CdVMU3hhIvBPJAT9x2nvvk0oflD/Cgd
+ 25mgOvkP6UfR+QVPbnzbxFMUUVdsoypqg9L73Kp6Yb0VvlpdGgxdnw5UUvnjg8bCtKcq7ju54Wz
+ 4gQFwg3m+iNJFceKwUx06ehCExMsO+Wev6fEv32RT9QERD9nL9Sdx2p6FjLsp9nOHgE3UmsdIPH
+ Xn6RpObygi1WWz76pI3HX9hoFQzxjI2p8FUgQDE9+8FikCHTYzvM7mdGkaVfy69mJnWLKeYMOCw
+ GiDI2Vkx0wZ8XTuKFOoMtA4QHPe/JNzhQm9581sMKavTnTFzpG3qBDdVP7BOGzBF67Dn41W4A96
+ /ZJ0uyTOqtr0t6lZIBTPVCuH0LIO+yBKyR3wiDZi1RpO5ha31zi817AXDsAv/k0GrvAQH4j+
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-05_05,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
+ phishscore=0 mlxscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506050163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,270 +138,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Aradhya,
+Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
+Memory[2] in the form of:
 
-Thanks for the patch series.
+1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
+   MAP_NULL/UNMAP commands
 
-On 6/5/2025 10:45 PM, Aradhya Bhatia wrote:
-> Hello all,
-> 
-> This series re-orders the sequences in which the drm CRTC and the drm
-> Bridge get enabled and disabled with respect to each other.
-> 
-> The bridge pre_enable calls have been shifted before the crtc_enable and
-> the bridge post_disable calls have been shifted after the crtc_disable.
-> 
-> This has been done as per the definition of bridge pre_enable.
-> "The display pipe (i.e. clocks and timing signals) feeding this bridge will
-> not yet be running when this callback is called".
-> 
-> Since CRTC is also a source feeding the bridge, it should not be enabled
-> before the bridges in the pipeline are pre_enabled.
-> 
-> The original sequence. for display pipe enable looks like:
-> 
->       crtc_enable
-> 
->       bridge[n]_pre_enable
->       ...
->       bridge[1]_pre_enable
-> 
->       encoder_enable
-> 
->       bridge[1]_enable
->       ...
->       bridge[n]_enable
-> 
-> The sequence of enable after this patch-set will look like:
-> 
->       bridge[n]_pre_enable
->       ...
->       bridge[1]_pre_enable
-> 
->       crtc_enable
->       encoder_enable
-> 
->       bridge[1]_enable
->       ...
->       bridge[n]_enable
-> 
-> 
-> For the disable sequence, this is what the original looks like:
-> 
->       bridge[n]_disable
->       ...
->       bridge[1]_disable
-> 
->       encoder_disable
-> 
->       bridge[1]_post_disable
->       ...
->       bridge[n]_post_disable
-> 
->       crtc_disable
-> 	        
-> This is what the disable sequence will be, after this series of patches:
-> 
->       bridge[n]_disable
->       ...
->       bridge[1]_disable
-> 
->       encoder_disable
->       crtc_disable
-> 
->       bridge[1]_post_disable
->       ...
->       bridge[n]_post_disable
-> 
-> This series further updates the bridge API definitions to accurately
-> reflect the updated scenario.
-> 
-> This series is a subset of its v11[0] which had 14 patches in the revision.
-> 9 of those 14 patches (which were specific to the cdns-dsi bridge driver)
-> were merged[1].
-> 
-> Regards
-> Aradhya
-> 
-> ---
-> 
-> References:
-> [0]: Revision v11 of this series.
-> https://lore.kernel.org/all/20250329113925.68204-1-aradhya.bhatia@linux.dev/
-> 
-> [1]: Patches 1 through 9 getting merged.
-> https://lore.kernel.org/all/174335361171.2556605.12634785416741695829.b4-ty@oss.qualcomm.com/
-> 
-> 
-> ---
-> Change Log:
-> 
->   - Changes in v13:
->     - Style  changes in patch 2/4. (Thomas)
->     - Squash patch v12:4/5 into v12:3/5, which is now v13:3/4. (Thomas)
->     - Add R-b tags from Thomas Zimmermann in patches 1-3.
->     - Rebase onto latest drm-misc-next.
-> 
->   - Changes in v12:
->     - Drop patches 1 through 9 since they have been merged.
->     - Rebase onto newer drm-misc-next.
->     - Re-word the patch 3/4, ("drm/bridge: Update the bridge enable/disable doc")
->       to make it more readable.
-> 
->   - Changes in v11:
->     - Add patch v11:13/14 ("drm/bridge: Update the bridge enable/disable doc"),
->       that updates the documentation about the order of the various bridge
->       enable/disable hooks being called wrt the CRTC and encoder hooks.
->     - Rebase on drm-misc-next instead of linux-next.
->       As part of rebase, accommodate the following change:
->       - Change patch v10:08/13 ("drm/bridge: cdns-dsi: Support atomic bridge
->         APIs") to v11:08/13 ("drm/bridge: cdns-dsi: Add input format
->         negotiation"), since Maxime has already updated the bridge hooks to
->         their atomic versions in commit 68c98e227a96 ("drm/bridge: cdns-csi:
->         Switch to atomic helpers").
->         My new patch now only adds the format negotiation hook for the cdns-dsi.
->         (Note: Since the new patch is now only a subset of the old one, without
->         any change in logic, I decided to carry forward the R-b and T-b tags.)
->     - Add Alexander Sverdlin's T-b in patches 10, 11, 12.
-> 
->   - Changes in v10:
->     - Rebase on latest linux-next (next-20250226).
->     - As part of rebase, update the patches to accommodate a couple of
->       widespread changes in DRM Framework -
->         - All the ("drm/atomic-helper: Change parameter name of ***") commits.
->         - All the ("drm/bridge: Pass full state to ***") commits.
->       (These updates are only trivial substitutions.)
->     - Add Tomi Valkeinen's T-b tags in all the patches.
-> 
->   - Changes in v9:
->     - Fix the oops in 11/13 - where the encoder_bridge_enable _was_ pre_enabling
->       the bridges instead of enabling.
->     - Add the following tags:
->       - Dmitry Baryshkov's R-b in patches 2, 10, 11, and A-b in patch 12.
->       - Jayesh Choudhary's R-b in patch 12.
->       - Tomi Valkeinen's R-b in patches 2, 10, 11, 12.
-> 
->   - Changes in v8:
->     - Move the phy de-initialization to bridge post_disable() instead of bridge
->       disable() in patch-3.
->     - Copy the private bridge state (dsi_cfg), in addition to the bridge_state,
->       in patch-9.
->     - Split patch v7:11/12 into three patches, v8:{10,11,12}/13, to separate out
->       different refactorings into different patches, and improve bisectability.
->     - Move patch v7:02/12 down to v8:06/12, to keep the initial patches for
->       fixes only.
->     - Drop patch v7:04/12 as it doesn't become relevant until patch v7:12/12.
->     - Add R-b tags of Dmitry Baryshkov in patch-9 and patch-3, and of
->       Tomi Valkeinen in patch-9.
->    
->   - Changes in v7:
->     - phy_init()/exit() were called from the PM path in v6. Change it back to
->       the bridge enable/disable path in patch-3, so that the phy_init() can go
->       back to being called after D-Phy reset assert.
->     - Reword commit text in patch-5 to explain the need of the fix.
->     - Drop the stray code in patch-10.
->     - Add R-b tag of Dmitry Baryshkov in patch-6.
-> 
->   - Changes in v6:
->     - Reword patch 3 to better explain the fixes around phy de-init.
->     - Fix the Lane ready timeout condition in patch 7.
->     - Fix the dsi _bridge_atomic_check() implementation by adding a new
->       bridge state structure in patch 10.
->     - Rework and combine patches v5:11/13 and v5:12/13 to v6:11/12.
->     - Generate the patches of these series using the "patience" algorithm.
->       Note: All patches, except v6:11/12, *do not* differ from their default
->       (greedy) algorithm variants.
->       For patch 11, the patience algorithm significantly improves the readability.
->     - Rename and move the Bridge enable/disable enums from public to private
->       in patch 11.
->     - Add R-b tags of Tomi Valkeinen in patch 6, and Dmitry Baryshkov in patch 2.
-> 
->   - Changes in v5:
->     - Fix subject and description in patch 1/13.
->     - Add patch to check the return value of
->       phy_mipi_dphy_get_default_config() (patch: 6/13).
->     - Change the Clk and Data Lane ready timeout from forever to 5s.
->     - Print an error instead of calling WARN_ON_ONCE in patch 7/13.
->     - Drop patch v4-07/11: "drm/bridge: cdns-dsi: Reset the DCS write FIFO".
->       There has been some inconsistencies found with this patch upon further
->       testing. This patch was being used to enable a DSI panel based on ILITEK
->       ILI9881C bridge. This will be debugged separately.
->     - Add patch to move the DSI mode check from _atomic_enable() to
->       _atomic_check() (patch: 10/13).
->     - Split patch v4-10/11 into 2 patches - 11/13 and 12/13.
->       Patch 11/13 separates out the Encoder-Bridge operations into a helper
->       function *without* changing the logic. Patch 12/13 then changes the order
->       of the encoder-bridge operations as was intended in the original patch.
->     - Add detailed comment for patch 13/13.
->     - Add Tomi Valkeinen's R-b in patches 1, 2, 4, 5, 7, 8, 9, 13.
-> 
->   - Changes in v4:
->     - Add new patch, "drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()",
->       to update to an auto-managed way of finding next bridge in the chain.
->     - Drop patch "drm/bridge: cdns-dsi: Fix the phy_initialized variable" and
->       add "drm/bridge: cdns-dsi: Fix Phy _init() and _exit()" that properly
->       de-initializes the Phy and maintains the initialization state.
->     - Reword patch "drm/bridge: cdns-dsi: Reset the DCS write FIFO" to explain
->       the HW concerns better.
->     - Add R-b tag from Dmitry Baryshkov for patches 1/11 and 8/11.
-> 
->   - Changes in v3:
->     - Reword the commit message for patch "drm/bridge: cdns-dsi: Fix OF node
->       pointer".
->     - Add a new helper API to figure out DSI host input pixel format
->       in patch "drm/mipi-dsi: Add helper to find input format".
->     - Use a common function for bridge pre-enable and enable, and bridge disable
->       and post-disable, to avoid code duplication.
->     - Add T-b tag from Dominik Haller in patch 5/10. (Missed to add it in v2).
->     - Add R-b tag from Dmitry Baryshkov for patch 8/10.
-> 
->   - Changes in v2:
->     - Drop patch "drm/tidss: Add CRTC mode_fixup"
->     - Split patch "drm/bridge: cdns-dsi: Fix minor bugs" into 4 separate ones
->     - Drop support for early_enable/late_disable APIs and instead re-order the
->       pre_enable / post_disable APIs to be called before / after crtc_enable /
->       crtc_disable.
->     - Drop support for early_enable/late_disable in cdns-dsi and use
->       pre_enable/post_disable APIs instead to do bridge enable/disable.
-> 
-> 
-> Previous versions:
-> 
-> v1:  https://lore.kernel.org/all/20240511153051.1355825-1-a-bhatia1@ti.com/
-> v2:  https://lore.kernel.org/all/20240530093621.1925863-1-a-bhatia1@ti.com/
-> v3:  https://lore.kernel.org/all/20240617105311.1587489-1-a-bhatia1@ti.com/
-> v4:  https://lore.kernel.org/all/20240622110929.3115714-1-a-bhatia1@ti.com/
-> v5:  https://lore.kernel.org/all/20241019195411.266860-1-aradhya.bhatia@linux.dev/
-> v6:  https://lore.kernel.org/all/20250111192738.308889-1-aradhya.bhatia@linux.dev/
-> v7:  https://lore.kernel.org/all/20250114055626.18816-1-aradhya.bhatia@linux.dev/
-> v8:  https://lore.kernel.org/all/20250126191551.741957-1-aradhya.bhatia@linux.dev/
-> v9:  https://lore.kernel.org/all/20250209121032.32655-1-aradhya.bhatia@linux.dev/
-> v10: https://lore.kernel.org/all/20250226155228.564289-1-aradhya.bhatia@linux.dev/
-> v11: https://lore.kernel.org/all/20250329113925.68204-1-aradhya.bhatia@linux.dev/
-> v12: https://lore.kernel.org/all/20250406131642.171240-1-aradhya.bhatia@linux.dev/
-> 
-> ---
-> 
-> Aradhya Bhatia (4):
->   drm/atomic-helper: Refactor crtc & encoder-bridge op loops into
->     separate functions
->   drm/atomic-helper: Separate out bridge pre_enable/post_disable from
->     enable/disable
->   drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
->   drm/bridge: cdns-dsi: Use pre_enable/post_disable to enable/disable
-> 
+2. A new VM_BIND ioctl to allow submitting batches of one or more
+   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
 
-For the series,
-Tested-by: Devarsh Thakkar <devarsht@ti.com>
+I did not implement support for synchronous VM_BIND commands.  Since
+userspace could just immediately wait for the `SUBMIT` to complete, I don't
+think we need this extra complexity in the kernel.  Synchronous/immediate
+VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
 
-Regards
-Devarsh
+The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
 
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    |  64 +++--
->  drivers/gpu/drm/drm_atomic_helper.c           | 160 +++++++++--
->  include/drm/drm_bridge.h                      | 249 +++++++++++++-----
->  3 files changed, 355 insertions(+), 118 deletions(-)
-> 
-> 
-> base-commit: 0b3d99425891e3c4a87259afb88fbd1168dc7707
+Changes in v6:
+- Drop io-pgtable-arm patch as it has already been picked up in the
+  iommu tree.
+- Rework to drop gpuvm changes.  To mitigate the limitation of gpuvm
+  when it comes to lazy unmap (and to avoid ~5ms of unmap per pageflip!)
+  a vma_ref refcount is added.  This refcount is incremented when a BO
+  is pinned for scanout, and for userspace handles and dma-bufs.  The
+  VMA is torn down when this count drops to zero, breaking the reference
+  loop between the VM_BO and BO.  But as long as a pin or userspace
+  handle is keeping a reference to the BO live, we allow the harmless
+  reference loop to live.  (This is only for kernel managed VMs, which
+  includes the kms VM.)  If no userspace process has some sort of
+  handle to the BO, it is unlikely to be reused again.  (The exception
+  is GET_FB, but in that case the vma_ref >= 1 due to pin for scan-
+  out.)
+- Drop gpu sched changes for throttling and move this into the driver.
+  We can re-visit a more generic solution when some other driver
+  realizes they need the same thing.
+- Link to v5: https://lore.kernel.org/all/20250519175348.11924-1-robdclark@gmail.com/
+
+Changes in v5:
+- Improved drm/sched enqueue_credit comments, and better define the
+  return from drm_sched_entity_push_job()
+- Improve DRM_GPUVM_VA_WEAK_REF comments, and additional WARN_ON()s to
+  make it clear that some of the gpuvm functionality is not available
+  in this mode.
+- Link to v4: https://lore.kernel.org/all/20250514175527.42488-1-robdclark@gmail.com/
+
+Changes in v4:
+- Various locking/etc fixes
+- Optimize the pgtable preallocation.  If userspace sorts the VM_BIND ops
+  then the kernel detects ops that fall into the same 2MB last level PTD
+  to avoid duplicate page preallocation.
+- Add way to throttle pushing jobs to the scheduler, to cap the amount of
+  potentially temporary prealloc'd pgtable pages.
+- Add vm_log to devcoredump for debugging.  If the vm_log_shift module
+  param is set, keep a log of the last 1<<vm_log_shift VM updates for
+  easier debugging of faults/crashes.
+- Link to v3: https://lore.kernel.org/all/20250428205619.227835-1-robdclark@gmail.com/
+
+Changes in v3:
+- Switched to seperate VM_BIND ioctl.  This makes the UABI a bit
+  cleaner, but OTOH the userspace code was cleaner when the end result
+  of either type of VkQueue lead to the same ioctl.  So I'm a bit on
+  the fence.
+- Switched to doing the gpuvm bookkeeping synchronously, and only
+  deferring the pgtable updates.  This avoids needing to hold any resv
+  locks in the fence signaling path, resolving the last shrinker related
+  lockdep complaints.  OTOH it means userspace can trigger invalid
+  pgtable updates with multiple VM_BIND queues.  In this case, we ensure
+  that unmaps happen completely (to prevent userspace from using this to
+  access free'd pages), mark the context as unusable, and move on with
+  life.
+- Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclark@gmail.com/
+
+Changes in v2:
+- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
+  merged.
+- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
+  This includes ensuring that vm_bo objects are allocated up front, pre-
+  allocating VMA objects, and pre-allocating pages used for pgtable updates.
+  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
+  were initially added for panthor.
+- Add back support for BO dumping for devcoredump.
+- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
+
+[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
+[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
+[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
+
+Rob Clark (40):
+  drm/gem: Add ww_acquire_ctx support to drm_gem_lru_scan()
+  drm/msm: Rename msm_file_private -> msm_context
+  drm/msm: Improve msm_context comments
+  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
+  drm/msm: Remove vram carveout support
+  drm/msm: Collapse vma allocation and initialization
+  drm/msm: Collapse vma close and delete
+  drm/msm: Don't close VMAs on purge
+  drm/msm: Stop passing vm to msm_framebuffer
+  drm/msm: Refcount framebuffer pins
+  drm/msm: drm_gpuvm conversion
+  drm/msm: Convert vm locking
+  drm/msm: Use drm_gpuvm types more
+  drm/msm: Split out helper to get iommu prot flags
+  drm/msm: Add mmu support for non-zero offset
+  drm/msm: Add PRR support
+  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
+  drm/msm: Drop queued submits on lastclose()
+  drm/msm: Lazily create context VM
+  drm/msm: Add opt-in for VM_BIND
+  drm/msm: Mark VM as unusable on GPU hangs
+  drm/msm: Add _NO_SHARE flag
+  drm/msm: Crashdump prep for sparse mappings
+  drm/msm: rd dumping prep for sparse mappings
+  drm/msm: Crashdump support for sparse
+  drm/msm: rd dumping support for sparse
+  drm/msm: Extract out syncobj helpers
+  drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
+  drm/msm: Add VM_BIND submitqueue
+  drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
+  drm/msm: Support pgtable preallocation
+  drm/msm: Split out map/unmap ops
+  drm/msm: Add VM_BIND ioctl
+  drm/msm: Add VM logging for VM_BIND updates
+  drm/msm: Add VMA unmap reason
+  drm/msm: Add mmu prealloc tracepoint
+  drm/msm: use trylock for debugfs
+  drm/msm: Bump UAPI version
+  drm/msm: Defer VMA unmap for fb unpins
+  drm/msm: Add VM_BIND throttling
+
+ drivers/gpu/drm/drm_gem.c                     |   14 +-
+ drivers/gpu/drm/msm/Kconfig                   |    1 +
+ drivers/gpu/drm/msm/Makefile                  |    1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   99 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   11 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    2 -
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   18 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   18 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  184 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   29 +-
+ drivers/gpu/drm/msm/msm_fb.c                  |   30 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |  553 +++---
+ drivers/gpu/drm/msm/msm_gem.h                 |  277 ++-
+ drivers/gpu/drm/msm/msm_gem_prime.c           |   48 +
+ drivers/gpu/drm/msm/msm_gem_shrinker.c        |  104 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |  306 ++--
+ drivers/gpu/drm/msm/msm_gem_vma.c             | 1486 ++++++++++++++++-
+ drivers/gpu/drm/msm/msm_gpu.c                 |  211 ++-
+ drivers/gpu/drm/msm/msm_gpu.h                 |  147 +-
+ drivers/gpu/drm/msm/msm_gpu_trace.h           |   14 +
+ drivers/gpu/drm/msm/msm_iommu.c               |  302 +++-
+ drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
+ drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
+ drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
+ drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |   10 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c         |   96 +-
+ drivers/gpu/drm/msm/msm_syncobj.c             |  172 ++
+ drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
+ include/drm/drm_gem.h                         |   10 +-
+ include/uapi/drm/msm_drm.h                    |  149 +-
+ 56 files changed, 3553 insertions(+), 1260 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
+
+-- 
+2.49.0
 
