@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E37AACF05C
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 15:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A0AACF062
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 15:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9079F10E2F6;
-	Thu,  5 Jun 2025 13:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A7210E81F;
+	Thu,  5 Jun 2025 13:25:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZO3dMJBz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sSfFlbor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E39A10E2F6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 13:25:10 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5532a30ac45so985564e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 06:25:10 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B4310E81F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 13:25:38 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-32918fe5334so9981541fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 06:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749129909; x=1749734709; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1749129937; x=1749734737; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
  bh=ph8J09n5JKQD535azyDhvY/sp5bOQf//77AfpWmxs2Y=;
- b=ZO3dMJBzsse3Qifm3xdnbniEQGf84ZPMQuVp4/CY46cv3ZIj9TlSZZtjjEBrMpM+PG
- fnLO/puXxXQVMJa3fEM5zhLiUPtMFqt1uM3I+emW8aNLucGUk1JHE3zLX1NVXwCurkP2
- TH1/RzXS6lOXJNEh6w7t4blNWINXeuab+DxrH0ic1CZtQk3g86Tw41RSIlM3ENeTL4Gl
- QY0+ZmgOMnfOB9X22/cG2MSsZ+3wspseL8GD8fu+A0iHYk7YbnsXRWNM2z5fs3CN3ypp
- QxsyO8tmuGJidv6E+wvjq4G/Z4grf7QoLVW504pA00fVM7nLcPRp+0w9Tlxb9tZoc2Wb
- aIWQ==
+ b=sSfFlborCGtNiLH3tRNxWYv+J/Ddb2cVeKBimWOgZmwAjtS3mHPmEWMFqbsoewHev7
+ JDs3HkozuHCq9/9k413DrzjkX7eGmeEW5Qegqz+NbEEhu8PeCX7r4D7N4GpoL645Tjxz
+ BErI0xJVXDmUqE0eQaCDHuOtc1+qq2uB2CUensk/swDqV/ZUAxmJYJ44Ps9mozgAV19K
+ UbpKTfU3y5DNISxo9MAxmTtjuvevY0j+Mgj7l0DFaRZwxa2CJhJl+ggfe6fUW1efxwar
+ vZQVPFqjmBHOXkG2usKxwiB+LiHllJ9y/VW3UEAUBGcnQFKmRDl4PnCaycctlnzXmptg
+ eIWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749129909; x=1749734709;
+ d=1e100.net; s=20230601; t=1749129937; x=1749734737;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=ph8J09n5JKQD535azyDhvY/sp5bOQf//77AfpWmxs2Y=;
- b=XGdOOQcTDZw1waKa/xcqIMufAajeS1behDxu8k/IbBLxICdHo9/GSsvkHgn4ly6tHg
- FYqm3i3Jf+kFsxFBtnlJXmzWk3PqfepPLgpDW0sUIR9/vRzmUuZ/WFWIoUSXDq9PdE/1
- gV1k0lRf5J1ITCmR7hm7ivdrfHpxuDKqjDvkX4+XOQbxSu4leCEepWRsBsRsE7MGwuO1
- AJ3z6LZw+E6HAbbOtbX8o7UqLwQ2FkXhYXHCgxOPo9DECgFZU+T2hk7t7o4KUIQyUeOY
- vzGyliwb79dFk7Um9ep7uw+fspk2+k+yEN7gsjWUYIXbDZg0uq6uIOcoI1uUZITtZ63P
- qYlw==
+ b=IIch7fRVBcyes5HpByJm8RwvnlzF+VEQE5g7duMZwPqd5tMin+rGQKwOqHAaSOyqxn
+ xCiU2SFuaWfH0zDNmzQocLN/G8sRH1qH+Xdt9Ru5p6ybUw5y6TloAsFo0lyKiacLcKBs
+ 4iDKNBvR0UmNKLpG+uylGeNpgJxojzDRMJRvsNkkmhwXFZephxF0H7Rpm4RgsaVqazcV
+ /bkcajHxNxsLktJIPahwA+151Eyfj/7czO8qN/wCUJDdcYwKm9HRtR6KRm3D+EPopBkr
+ 9BUFAywfMndEbcb8tccjOLIjycaCG2JSy4xu3dcu+Q/buzQL1aTfx2qMF+AqpPGnkyKL
+ K/aw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXSVsrP2waMMBs911F7wBKDMoV87NiTNlSRLTwolr2HEk6UkpBXafseyxb2Dvr8r5MseyQPCeOuZ1I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxD08V2wQgiHmmkxyBuJHBHh9V19NzzI8T62QN+YpiGodazWgk6
- k9oYU+AFWsjFYQ/DJWlpwVgOrmLnNBTvJEO72UzQtCqLrQJBwfoIaUYhd06x8koH9pZkuBmRz0F
- rOqyPdwi2lUvzdHJlqjbJMX28ivm1+Mw87AcoBxS2qQ==
-X-Gm-Gg: ASbGncvyiNZgkQWzavXgb4T3OssKpkZSRF/N3nUk/V2x1MrSEaKgM3tXjw3ut4P+x93
- 7jYUunIPR/2PgTDYhUDTgYXCAmTx7+OmrR3C1wdPbNdq9fftpnH2hVgG+GWwLW80A0FL1hbB+86
- Fh6jzxYWp7MjW5ERtw6/5UZAoN7NK6hpcDP0NwnTsTpbg=
-X-Google-Smtp-Source: AGHT+IF3sXGaPyJ0XISPPhd4itJm+I/bxd4yDXWrIuh/urkZa6iB32j4QI8PHWP6SsXF9fH8sesBFbcCxG3XmlTi4jA=
-X-Received: by 2002:a05:6512:2250:b0:553:2159:8716 with SMTP id
- 2adb3069b0e04-5535d9382afmr1191878e87.26.1749129908619; Thu, 05 Jun 2025
- 06:25:08 -0700 (PDT)
+ AJvYcCVsdYFTd7vPRuUWHOGS73SLBHku4AQZL8bIyr3T9U9lnqPRxmk6CGVbQHs20YpmsbazxVyx7TsGpRk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzR+bY7Qqih2kJTMPGybQkCQucwMD6CyUS4nrvidfiqNRO2xSDM
+ nTkHoNuTyvGel1AOWATJBiZiwPohMy0WaaWOdA3x55KwGf66i4AzD3EXvai9PhW405C+MqngRAt
+ 1C5SYZzGvE4GuZ2C+N61DnIQ/iBSZRPMpvdSmqPscIw==
+X-Gm-Gg: ASbGncuPSmbCk1pXQ7EgBxQsp3DRD/fGbYUkutOOFYX58uZYxlFfBjYps4puDB24SRe
+ Uq+0D81dcov5rgK5+dxoXi04jRollSJeB+57o9Ug1Qht6t9nobhIf64fBfqCqaItVi1UlgG09Pb
+ IRQUFjcpic32DLDweHWctEN5FwGPK/YY6k
+X-Google-Smtp-Source: AGHT+IEXDLuUxYBO7fxS8P8ms4WiU/xJFKvEp/hKMmovCR15hms9m/g0A6FghTW4kUyhFWDODOXMqMLjOLenFT8s9LA=
+X-Received: by 2002:a05:651c:994:b0:30b:f283:5ef8 with SMTP id
+ 38308e7fff4ca-32ac71bfedfmr18601411fa.18.1749129936758; Thu, 05 Jun 2025
+ 06:25:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
- <20250529-b4-drm_panel_mass_driver_convert_part3-v2-31-5d75a3711e40@redhat.com>
-In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-31-5d75a3711e40@redhat.com>
+ <20250529-b4-drm_panel_mass_driver_convert_part3-v2-36-5d75a3711e40@redhat.com>
+In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-36-5d75a3711e40@redhat.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 5 Jun 2025 15:24:56 +0200
-X-Gm-Features: AX0GCFsuDOnRf8VOFhj72Sq5BRDaYd4ZYfTzaT_rcR04We-Hc_s5kA1IErejF1M
-Message-ID: <CACRpkdbisyKvG20fDV9tHcipr-+en8Hj+pZtvv0512oxzYwp4w@mail.gmail.com>
-Subject: Re: [PATCH v2 31/46] panel/truly-nt35521: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 5 Jun 2025 15:25:24 +0200
+X-Gm-Features: AX0GCFsdE6ka4seBq476pc4kVds9Z70NwuFBL-Ad03eDGyeURiB9xBYNtFeP04Q
+Message-ID: <CACRpkdbbwGOF6URoYtjci-muvBHUhT8pRu6JXR71n3LpicgSzQ@mail.gmail.com>
+Subject: Re: [PATCH v2 36/46] panel/tpo-tpg110: Use refcounted allocation in
+ place of devm_kzalloc()
 To: Anusha Srivatsa <asrivats@redhat.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
