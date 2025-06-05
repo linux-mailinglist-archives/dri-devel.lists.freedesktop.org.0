@@ -2,164 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D6AACF46A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 18:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82946ACF475
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 18:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED5710E30F;
-	Thu,  5 Jun 2025 16:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B5E10E2B2;
+	Thu,  5 Jun 2025 16:36:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="SQ0XXtIK";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="XYymoCap";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2069.outbound.protection.outlook.com [40.107.243.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 597CD10E30F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 16:33:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AiawvG/Qu59L3kyBL4Sml4OdA6/p8YLIrIdrWstf5e42CNiJbVjEJwfcgob+hWGvaBrF6kXSS3Vf0klGIRfioc/i7wnDD8ghIgoCvaGGRsZRBlhsOFNHffp8KP/Ex7RL+KX6oknyqN8E92IfTk1Pn+65qGeP9Qyry1djypTsWZkPvPvg62MMp+LuGIZ95UHBrtqwHZNfdIOujGULY6zVza0VOYGm+/5cWX1s5pKdOR34qNWAFsfsK61OybjCDJZRJzSPC//u/96iswgS3rWDaSWC47uHoq5QeQ7CIZcV0A7tWo1jez/bOJRLLVUlCTYzWB/bVdR7fIVOA59CXhd53g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i5Tb4cwPCnlzYs3BJhczqqnWDXqOrnSISnzWIPbqO1Y=;
- b=CMhlWBdpHutK9RDgzeqUw+xSv61wYzoZfrrIZpUK5QpWMqWVeVgvzywAN9eMPblYavooHHC+/RHRfimZiIlEABVNJsxTKDQfmwFHK8wyGsj+Oc3k1u6TGYpgmoUi0VQcyttrFslTfpQk+lD2Id8A19Cov9NniGkJydiLovVB8uHZtJWqi0mMiBuidFI/TSvmxzt/EjgqOx1zHNs3e7qG7vhLSNhcy9MgZL9crVweORZ1n6+bN6yioq7SDrqKjSwkOfZemeqCyc5JdK1Yj2kq78hk7/1JkIAiidO1Og6acmBgzcuoeIDKzGlaZZutxZQxQS6peSrIuMCyq58ArH9ufA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i5Tb4cwPCnlzYs3BJhczqqnWDXqOrnSISnzWIPbqO1Y=;
- b=SQ0XXtIKK+qt+GHAgKfXYvQdMVKPwuB7lY47Z7NnPQJap04ee6RaEB7dGPFmd2JebmtshiVltzfVL0lk3JdVAn9oWjKO7C09yj4PnIbJUGHLi928ZBASgwfTUfIxxyhMtUWrEXJ5/hpY8+XJLgPtqu1IEiobJm+JAtZqPW7r3eWACt4/6xzkD3sth8XL4krWxGBfI6O5057suCiZimdT+UjIGVXzZr55PYAlEPOdCMdWnI4A1x/y9z2xlfCvZZinFHMGVrozV+FZ+5tcSbHVOe487VKeZprZ2IrZThQbkEFX4TjlS0yFpLc62DJECsNQWEwjfbNPU1gHgSVGAnTgpg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB5877.namprd12.prod.outlook.com (2603:10b6:510:1d5::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Thu, 5 Jun
- 2025 16:33:41 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8792.034; Thu, 5 Jun 2025
- 16:33:41 +0000
-Date: Thu, 5 Jun 2025 13:33:39 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
- yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
- simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
- iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <20250605163339.GE19710@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5ah60u8kev.fsf@kernel.org> <20250605151029.GC19710@nvidia.com>
- <yq5a7c1q88oy.fsf@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yq5a7c1q88oy.fsf@kernel.org>
-X-ClientProxiedBy: YT4PR01CA0313.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10a::23) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC410E2B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 16:36:39 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id
+ 6a1803df08f44-6facf4d8e9eso13656566d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 09:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1749141398; x=1749746198;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m/AMED1uCKw6PLorZVcAc+las3T70VIL6/pCq2JraOc=;
+ b=XYymoCapLV/VjGfEQFRUUmbVE1KbGXaI29p809KwdVS4CG9/YsFpHyvmERFPDBHH6D
+ QIDY6pZYoOkQFPeJ4GAoHNqw14AA+x05k5WhnQ/PKW3EIujHUP/5ZIOjdga30xOE97zN
+ 9FSrYuS+i6kMuDzecwY+9t3dnwxcoyqxoN91+mHdPttpOSufJ8NEJEMT/vDnhBgl/AIe
+ 2/ITaVmMrgUgY/96nboPANYzn4lOrdlIjHS56+NgfgNCwL4CKgmEFByqMWvV9v2O5PdE
+ hnjK9ROffcFckI6y7v6d9UM/Lp3EPfFQPtdaTRqCci6fr3CnrjBqoGfm4gSscnvsSOD7
+ kpaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749141398; x=1749746198;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m/AMED1uCKw6PLorZVcAc+las3T70VIL6/pCq2JraOc=;
+ b=Ec560U/PbDPgFSh/Vo+KW8I7rXp52eqUAfFlbMmCegR6BiJffueWaG/BWbwkn8Ubir
+ 10ZFBcaol/3SZRFQQ5kLVlV1YK4Mxx8XStf+5MT5wPwnGnpDc4ID3x0UeEpG/m1Ynccm
+ bKsJyGuPnd0eohW3r59OCiOzV2BKeKHJsiM6AwEQINXPZklDVooGdZ8PV3c6PUVuJXvg
+ hrGAJ4QOLhTZ/rKUv7G8xAMSOFpbCvguEaYHa67PzgZRdC2dpZ0Kom1I2PThJfTjApNS
+ i/CY2FwuULsyn8Htxd7q2zsqRiOZXFTYDyiLc/vYS9igtPL1TOi07ESgC51SbNdN8fJk
+ xlOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPZ6KaQLOXRWouyudA+VzKehXdDPcg2EMHNxUaI/+9yA0gegPzC6/hkyrdQK2bRgO4gNVKaNAipww=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQT2wa89t+3X0rnFfpVsuqEwOigFngvvVt/8odWyMGgZw12ImB
+ 1sit/yX4pRRUAMEP3JxdQPHCBhMOPgjaizxxO9+jT7vyTN1sH1yyhbZPfl1vZdkI5919ZGMnbJC
+ yYXdEnqjoWOT6TopcvUvDU7pRDKSWiIn+eKvIQleSDg==
+X-Gm-Gg: ASbGncsnicsg3uaTUMfFum6EeU/j7vOwcixUYzq0BYn7pODpJHR3iR0btN55lZ9xJ4/
+ kHjOEzNFkk0UVigWVKCxLi0RjtXKpqIJVE+Pv52A/7h3xsQEMEptpkvwVPLtUWPaCO/Fc8V3twp
+ EX2O4ALEWLuF6VJmPCBhkEnTCg7DrYT3o=
+X-Google-Smtp-Source: AGHT+IH/vUqInLnUsBsqIxZVLljlV2JNq6TLN0zeIbDOndYPLtFZP9dtkbRS+wnOk9zZ8yyAo/Oy9zg7yUbo3S0v9LM=
+X-Received: by 2002:ad4:5dc8:0:b0:6f8:8fdf:f460 with SMTP id
+ 6a1803df08f44-6fb08f4d0a5mr2148076d6.9.1749141397948; Thu, 05 Jun 2025
+ 09:36:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB5877:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2e799e4-00e5-4983-2b52-08dda44ebaf1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cjM0WDQ4VHgxNGJOM0JEOWdqUTRYUVJZY0pMM3FQUzQ5a25ZNFV0VjRKMk53?=
- =?utf-8?B?T0VHZzBlR0EyS1F4OCtkM0gwTE5nYlMyNytWTTh6QkU0MEdRVDV0d3hramt2?=
- =?utf-8?B?NTdjem81Sk01UTU4OWlxbmhaa2Njckxobk8wVnkwbWRZak1VbndhVFRzMHdp?=
- =?utf-8?B?UHlsRUhuVHV0c0crM0NlOHR0NThYTXJ5emdVcURvcHdxUVNydjFHNjU2YXpW?=
- =?utf-8?B?RzkxOVQ2dnVPdGFpYk5kNnhtQkszSzl3QlNoa0s0YUM1aWxBRUpkRnY2dXZR?=
- =?utf-8?B?ZEdlRkVVbVlmbFRMK00xNzlxb0libVN1VzFpYnNvOTNMT2ZGd0RUTGZJbE1U?=
- =?utf-8?B?VTVIejRNVVBvcXM4RjNJZkFEaUd5dkIxZy8vSXRTMnZwbnFmMXRiUVJmRDVS?=
- =?utf-8?B?ZTJrbHBmbExIVERnVW42bUdBanRjbUtLZDlBdmpjWjdZNE9jcEhwUEQwNWlt?=
- =?utf-8?B?T0RnOHR6cC9qM3N4Tit3Tml0aDRtVlFkd3J2Tll0SHFKSVB4Z3BTVUxOUkEz?=
- =?utf-8?B?QlN6V2tiRkxuKzR3L0t0WGdGQ0p0YXRkSkY0UkYwVXNoMXIweklIT2NETmVD?=
- =?utf-8?B?b044Q3NEMzNqVElkckxWdFJsS2R1V2ovZW0zbHFoSkJHTFd4SXBkQTdyUXk1?=
- =?utf-8?B?TFp0SU5sQkNkZU1OR3lpZmRkT28zQnV1S21yUm9UNm1RbHhucC82dkxzZ21y?=
- =?utf-8?B?Y25VTkNBS3hFczVMUFY3TGdoaDFZb1RTOENuY3ZGRCtLd25oTWZvdzZLL3Fw?=
- =?utf-8?B?NGxjZll0aURZNyt3ajBmM3VIVmNrVlVQbktmdnZTc1FnZWdzRFFHMGZIMm1E?=
- =?utf-8?B?Nmp0SlF0bzVKTDhjZ1paY2pEZGplS2ZLMGVrNGNYYzJ2Mk1PV2tWL016SjZE?=
- =?utf-8?B?Wis2RzQ0SlpGam1raENsdHdCcjRBWW5Nb0pCREpPTkgvUzRGUmlIZUlRcy9R?=
- =?utf-8?B?VWVHeXBRWXhxSm9aYW5sQjY1WjRGUWFYcExVSDBwTW5QbHBsT0pQUzBBSWl0?=
- =?utf-8?B?cSt4UHE1L1JWRlpJOVRza2lJRk5JTlZDTlRzbkg5dUNGNnU5S2lrdDlFRHRZ?=
- =?utf-8?B?b1AvRDcyS3FHeWkySGtmdzNFWS9HdVhtNFk0ZnlSeU9WUUdxWWpDazZwd2hs?=
- =?utf-8?B?eFlkWnBOT2JIYkU1ZFp0eHFwdHpKNlB6dXhxeVMwNHF0ZVVKREpvSWJVVlJP?=
- =?utf-8?B?dGxYTUFvb3NUMVQyQTNSNmNtL3lnMzJkNTQxZVpEQ20xZkFTK0xEVVN0NEZ2?=
- =?utf-8?B?S1FobS9JZkliTHFYbTV6Y0t6UGZXOEFlb3RsaFBPNmk1eWRyN1l6VDdxSEFa?=
- =?utf-8?B?VXRBaENYblFWS1B1aGR1Y0VmbW1QTjBTMEtMTW5aY1RtVXJ4a05SWDFPMFk3?=
- =?utf-8?B?V3Z1R1VXK3RKQjM5cUNudDBQY1dJcG9QMUt3QnJuNnkzL3JuQWpPVHdYdjhZ?=
- =?utf-8?B?QlVkaFVWL1psdGNMS1pXUncrb1VoM0tTZXFCdlUybHF0RjUxenFCcSs3TTVt?=
- =?utf-8?B?YyttOHY4YlVocFJwcFF3Y3pNVDhNck9jL1dacTRjYlBqZThnUVYzb1ZHUlhJ?=
- =?utf-8?B?c1dxS1VObmE4cjZYWVNpWW9aOHM1NS9JcDlZbXp0dDlaNDZUZW5OYy8xZ0dV?=
- =?utf-8?B?ZUdXODVyNUlZVmhmTm5VbUV1R0ViTUtSMExDNS8vaWtOd3Y3Z1FmcnNCb3Fa?=
- =?utf-8?B?TVZSalVPYkFNUjlhNUx1SWwrTWR1Q3VDWXpsWld1ZDgzV3N2M2dNeWk0MXk4?=
- =?utf-8?B?bld3V243MDJMQnJJTUlEUVBKMjR5YUV4VzBMVUI0L3NNT2g3ZVRvOFFwUzBW?=
- =?utf-8?B?TUlKUnp1UkVVNi9uUFFSZHZCUzRJWklpenVZL1QzeWt5VldGTFUrN1ZKVkI2?=
- =?utf-8?B?QTYrUXJIWDVMK3NLRXJkbHcxSThUK0JselA0L0dkdkxWWVE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WS9hcHJ2dHBSQk5aM05ncEhMaDhPY0hBTUk5blQ2UFBwN29mSHNoWUtwS0p3?=
- =?utf-8?B?Z3Y2YlNGMEJSU2NZVVF6UllEWVdsaGJVS0Fic3JxUkg4SWRUVzlPNG1VdmhO?=
- =?utf-8?B?OGZnY2tpUkZTVXhic285YzE2dTEyOFNoNmdoeE9tV0VwdUY3dC9UU2psOExa?=
- =?utf-8?B?WER1M3RYYzhWZ00wUDNvSlBoNStuYjVIajBvMjg2V2RFVEgyeFJIS1ltYU5X?=
- =?utf-8?B?MCtRU3RGdHlqVE1qaFpRbnMxL0tPSDJmaUtqMDFUVHFVVDhOQzYvZFYxUitj?=
- =?utf-8?B?MDU3a01NNGkzMDZtb3VaUWloazlGM0wraGpzUXE2clZiakJheitLSkY4bElx?=
- =?utf-8?B?dTRFd1dFYUJ4TldjT0tVMWpiM1hFa1ZkTU9YMXU4dmJ0WEFMajU3RVhGOEE5?=
- =?utf-8?B?NDMvZHZSUmlPN1l0VXZXVWY2NExERlVrZURSMUlVckZ1aEtuZzVKV2N5QXJD?=
- =?utf-8?B?OExLTTdRek1TRUYvODRxKzdhSi9FaFVrenFQS0g4VG9QT0lhN2VMaU40bFN1?=
- =?utf-8?B?VnNpbk40c3UvNWEwa2M2bXJkL0RhbzRzRzF0a08zVm12bXl0V0dyZU9FWVM2?=
- =?utf-8?B?ZmlsMzRXUGQ1U2YzZ2tFcFpSMElOT05oQXhGTytWTEQ5YjNCZWtXYW1qN3ds?=
- =?utf-8?B?eGlxaXEwZ2Q3d1EzUUpYc3lMVzhCdG1pRCtTZDQzbGV1TEU5UXdJQjI4ZFlw?=
- =?utf-8?B?bDVWcFpPUDF2T05PZDFhT0hlWCttZmdvWjJyaGIzVEx6b0s1eUxJUnIzazQv?=
- =?utf-8?B?eHhsU2x0K0pBaktJV0VPcW9WUDRjTEF0UTB1dm1xMitGOWxId1NJZU4yR1E2?=
- =?utf-8?B?QmozOHFoKzgyZU9GYitHTW5tRCtYV0dzdWVCSitxZkg3cHpTdU1INnZmVnVW?=
- =?utf-8?B?NGJ6K0dNZTVtb2VuU2NCeVNMRG0vbmVscERpSG1Da3dUbUlkQlRIZkZTTnAy?=
- =?utf-8?B?dmhtclR3OGRidVZmNW0zT2VXSHRrUThyZzZFR3g2WHBpRDBDaCt4cWhkNFM2?=
- =?utf-8?B?MmF6aTBUaXg0ZTNTS2RVTGdoK2JFdkpLK3lTa0xHUXVjaUdLVjM2VmVkSklv?=
- =?utf-8?B?TTA0V2FzbUkvaGxnVEdESmJnV3ExdUN4UTIrU1Nja3BzTkY0R2tnZlhyYlMx?=
- =?utf-8?B?QVJYNWZMbkN2RjlpMGJMOENpelFDTkxBR0FtaERFYTBzOEZ4VlVra2pCWnJW?=
- =?utf-8?B?b0tEQkpDRmppVExVaitBMy9nc3BRRHNLYzJDYTRSZ0pOcXhLd0w0alZOY3N3?=
- =?utf-8?B?QzVmMDZ1QXpHVk5vNnVpTW1zUmxQWXJ6RmhPZ0U1MTJFQnJreGFiRmpZVWI2?=
- =?utf-8?B?Vy80Uk9SWjFFRDg2SXhPRG5ydkZrZGxGMkhFMkdiaERqOFI5OVhjWk5yREJX?=
- =?utf-8?B?bHlKMDN5S2hRRVl4aUVmM0p1OEZKekN2RC80VWFQcklHb3crbmJHTGdtUkRs?=
- =?utf-8?B?NXpzNlEzaUIzRlB2VGd0V3kzdE5QRWhWS0RWVk8xdWp5d1ZZbXQ0MVFiRStm?=
- =?utf-8?B?anZIUmVtNEZnN1hoUU5lM0Nuekt1T2IxS0dpckd1UnNXZ2ZFajUzTmlzN1Uy?=
- =?utf-8?B?UjBEclNWdmtaKzdLaDJVYjI4M253QTZTWDlSYVJDNGxSTVhSNW5TclFmVDd6?=
- =?utf-8?B?eTB3WXdtK1BEWHJyUVIvOU1kRVEyQVNQcndWNnltR202bERjcU04VDNXVkp3?=
- =?utf-8?B?SEg3Rk5kU0Q1bWV0MzR0L2NpR295ajN0TE90c1R1MVc0czRmazdPMEVIejJK?=
- =?utf-8?B?aDg2T3hLUjlrTEJUU0RZVXo1OXE2aDNBS1ZCcVJ4VHFIOURyOHBJNVE4OWJY?=
- =?utf-8?B?dmpOcDR2VTN2QmFCTFBnYVpxeXM4Q21YVmg1cWluLzUrWmp3SlZ4UmRKZFV2?=
- =?utf-8?B?bStxQXd1dk40ZVRFSDNoQnNMY2lYVFJmT0VOcm5DYjFKZEtMWEI1ajc2SVU3?=
- =?utf-8?B?bmp2UE1WUjVqK0owcm1jTmlXTWxzYjVCYWJJbFFUTjREcXp5NWlyalZlQ294?=
- =?utf-8?B?Q1NrQzAxSGtOSVJWQXRTTno4U1NtK2lXVmhQZlF0MEZ3M09LelZZZGxDaWlP?=
- =?utf-8?B?eWdXQlp0R25aVUszZ1NRQWJOOG12MHFabitnSU5YTFNzSFU2RE1UK1pZanpN?=
- =?utf-8?Q?1/oTF4E5ifFHHZduri/uJNmVY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2e799e4-00e5-4983-2b52-08dda44ebaf1
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 16:33:40.9033 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kF2cMeVP+8Q7Z8UXKgG22mbbXYK8Z2MGFkElzpUHa3ylGOQw9pLc/+9u/jdDhsXj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5877
+References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
+ <20250604-6-10-rocket-v6-6-237ac75ddb5e@tomeuvizoso.net>
+ <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
+ <cc21a090-801d-4b32-bac2-01cebf896c85@arm.com>
+ <CAAObsKDMhuqYtn=+xR6-n=Uk+5_rU91OqVKyQ5cxhqfTo5svjg@mail.gmail.com>
+ <3a8e1101-469b-4686-b160-6fdb1737a636@arm.com>
+ <CAAObsKCjv=K7Dk=QD+MAqwWUNyw_pCh2Eqij3Qwx1jzKoKg4zw@mail.gmail.com>
+In-Reply-To: <CAAObsKCjv=K7Dk=QD+MAqwWUNyw_pCh2Eqij3Qwx1jzKoKg4zw@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 5 Jun 2025 17:36:26 +0100
+X-Gm-Features: AX0GCFsF7cxglaKZSX8Koz---6tL_CI5LfT0LL-n_NzmXSV0kUJg5xHMCVro-r4
+Message-ID: <CAPj87rOggG6_wNHvv55onxcw00UxASUJYK2pmdkc+oUmYFyp2w@mail.gmail.com>
+Subject: Re: [PATCH v6 06/10] accel/rocket: Add IOCTL for BO creation
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,48 +96,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 05, 2025 at 09:47:01PM +0530, Aneesh Kumar K.V wrote:
-> Jason Gunthorpe <jgg@nvidia.com> writes:
-> 
-> > On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
-> >
-> >> > +
-> >> > +	/* To ensure no host side MMIO access is possible */
-> >> > +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
-> >> > +	if (ret)
-> >> > +		goto out_unlock;
-> >> > +
-> >> >
-> >> 
-> >> I am hitting failures here with similar changes. Can you share the Qemu
-> >> changes needed to make this pci_request_regions_exclusive successful.
-> >> Also after the TDI is unbound, we want the region ownership backto
-> >> "vfio-pci" so that things continue to work as non-secure device. I don't
-> >> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate in
-> >> userspace which will result in vfio_unmap()/vfio_map(). But that doesn't
-> >> release the region ownership.
-> >
-> > Again, IMHO, we should not be doing this dynamically. VFIO should do
-> > pci_request_regions_exclusive() once at the very start and it should
-> > stay that way.
-> >
-> > There is no reason to change it dynamically.
-> >
-> > The only decision to make is if all vfio should switch to exclusive
-> > mode or if we need to make it optional for userspace.
-> 
-> We only need the exclusive mode when the device is operating in secure
-> mode, correct? That suggests we’ll need to dynamically toggle this
-> setting based on the device’s security state.
+On Thu, 5 Jun 2025 at 17:32, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> On Thu, Jun 5, 2025 at 3:37=E2=80=AFPM Robin Murphy <robin.murphy@arm.com=
+> wrote:
+> > It should only need a single IOMMU domain per DRM client, so no faffing
+> > about replicating mappings. iommu_paging_domain_alloc() does need *an*
+> > appropriate target device so it can identify the right IOMMU driver, bu=
+t
+> > that in itself doesn't preclude attaching other devices to the resultin=
+g
+> > domain as well as (or even instead of) the nominal one. In general, not
+> > all IOMMU drivers support cross-instance attach so it may fail with
+> > -EINVAL, and *that*'s when you might need to fall back to allocating
+> > multiple per-instance domains - but as I say since this is a
+> > Rockchip-specific driver where the IOMMU *is* intended to support this
+> > already, you don't need to bother.
+>
+> Ok, I did just that and it's working great in my testing:
+>
+> I create a domain when the client opens the DRM connection and map all
+> its BOs to it. Then when a job is about to start, I detach whatever
+> domain was attached to the core's group and attach that client's
+> domain.
+>
+> Will send a v7 with it in a couple of days.
 
-No, if the decision is that VFIO should allow this to be controlled by
-userspace then userspace will tell iommufd to run in regions_exclusive
-mode prior to opening the vfio cdev and VFIO will still do it once at
-open time and never change it.
+Awesome, thanks so much for that Tomeu!
 
-The only thing request_regions does is block other drivers outside
-vfio from using this memory space. There is no reason at all to change
-this dynamically. A CC VMM using VFIO will never use a driver outside
-VFIO to touch the VFIO controlled memory.
-
-Jason
+Cheers,
+Daniel
