@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D05ACEBD4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 10:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0719CACEBD8
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 10:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0356010E7E1;
-	Thu,  5 Jun 2025 08:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DE910E82E;
+	Thu,  5 Jun 2025 08:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C5RhRI3F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NRboUpVx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BE610E7E1;
- Thu,  5 Jun 2025 08:29:07 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4012D10E80F;
+ Thu,  5 Jun 2025 08:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749112148; x=1780648148;
+ t=1749112149; x=1780648149;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=msdj1AYmalQuuPBSP9WfLNtk4xirKIfVLhXYVixZSZs=;
- b=C5RhRI3FUoQsBTNZz95pJTEa/iNO0uq0H2etQvgxkK59BDd5vEtAZ408
- X+W9dzdCjp1tCwu1gn4KRvk50VWR1YhLlnNPxFVzpbL8dmKvbN7H1NfUy
- VuXndsi1d2rPMqlUlMTPziSiffDuFCsM8jIa0OHCmY6sSoKIGzTaxrCb/
- XIf3IhrU0mK3CKg6eC5Uczjro5zAjCpWEvrwMM5IXCGkHDzMWAeHKmB9J
- 3zVedAHJu6uxmU+zULMwlQu/RKjztULt4vau14nzKZEM9pqpV+KtAyoNQ
- nnWzCCGb1YKCDQn+zlr7VAnwl56jn76D/zfpVxCnnh6GHSKwd2pGpcPDO Q==;
-X-CSE-ConnectionGUID: fSkGDgYZQL2N3S0bKMTfOw==
-X-CSE-MsgGUID: cE0EfPUcRc2I0VzgjQJimQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50456224"
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="50456224"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2025 01:29:07 -0700
-X-CSE-ConnectionGUID: kDJwkvtoQMySDyP3q2LfhQ==
-X-CSE-MsgGUID: /XwMztosR+qQL3fXANruNg==
+ bh=UPLg6GUF9vYtyxrWcPgE3FKDrb9f7SOUdTWG3w7LAhQ=;
+ b=NRboUpVxPtRt61yMOhYeWeWd8VMstjkBIXcuVfaN/Zftk0YKesjzGI03
+ Q/z3cuQgujilYcWNnZqzwuq7CQ8EL2qmpsLqj+nMS70c18ZOLV4vqTUUC
+ OFEhomdONqvTIj6STjhSEMAA9qP9nllL+RfmqZr5fpQFxvo2Y+szuxDLk
+ XczdhrCGLI+uQ0QmocOViWmG2FDVi6zh2dL9Llo4Pz7mD+Fx5Qqfgb5az
+ 87lXFbL4TqBSoP4PTaQ4gTtqZ4PgjYHkliK+ELtNdG3lN29jZq5ockYdf
+ 5C1p7JbtiK9f82NEwtz0xO5/U6ifP1FjhbRMM74JqQ9WU9y5YeDn8M5V+ g==;
+X-CSE-ConnectionGUID: 2NOKXqI4RO+/y1JWz/kGjg==
+X-CSE-MsgGUID: RiqNEbUPSImdDRTCc2IVDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68771636"
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="68771636"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 01:29:09 -0700
+X-CSE-ConnectionGUID: ml+CTKqFS6WAKsUTWMoBRA==
+X-CSE-MsgGUID: fTBI1Y7JTRKireApia7w9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="150454093"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2025 01:29:05 -0700
+X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; d="scan'208";a="149274089"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 01:29:09 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 5 Jun 2025 01:29:08 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 5 Jun 2025 01:29:04 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.1544.25 via Frontend Transport; Thu, 5 Jun 2025 01:29:08 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.50) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 5 Jun 2025 01:29:04 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Thu, 5 Jun 2025 01:29:04 -0700
+ 15.1.2507.55; Thu, 5 Jun 2025 01:29:06 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V7+RFNANCk7m/Xp3acLXzVYoevaNmmeFtZb8vurqWYuvpAnXxm34ah3i56rdNJhBHSKoIewL02emV1fhhPc8ErIdInSxPnvFhdBqS2YGPxMHjlihtI4D5kC+8SPRUubv7kOVK4xhCslSKokro6yS+mOwBrAzBFHjmE3azpMvPq5PjQPno34fgPOZoPzo35/83lBE3525g/elQeQEQeN5uzH0VlukciQDNrsA3B6umTOeix1u8VItnvmxX7gEehO9rpXfd6zle7cwKPE/gbAJM8TMkVx5ZQxh4qjXifhFlpLHxWi7nTaIYtD26uIEXHcwyZ9fyhJS7mK0Zdh0w1+jCA==
+ b=ENMlgmCx1Lxv7DOZcpZQtURwfSnZtrTJz5N68RFgjzcfONtKLhtUm/GPk9DkBIPCNH/UoABX8hMIY29ZVZORaeuGxWBfJ7VoLVwea/3cI0iSvweU5JwXW8KCaBkfanZ510uWP27Kw7wD4SAUCr3qoDDKIuNU3jh7EIL8RUWnVL4DedffCKsvOvmDmkqomUnYQWnDECqMRW2B0BpNDAF7C4HaFgNGxakPB8J7JqHgjCYiy7cdDEoAd82rtaP0fXUIQ27wNtdBfM+QztEN2EbtSNRtRYEeLhy6sc21Cty7z2zCdPXpZqkMOmNFEVpq4MLUUz/EGRcEIdgsl6c3bkTIDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Py4St3eYU6tXRK12AhzJcCBObdzG15huHIV67vfdxo=;
- b=ICe6f3GE/1ac2cubFvi4QyySN8IjoamBeogiw6N6fQpQQtIYm5qDJMaZU1ZEpQpj85waqX8Iofpz0555VkcryGIURGQGjLHM2ZZYnosSF7qSj0LudOfQGM1mT6zbjegrXldzmuICQ74V72AMiKlCif36wuLAfhIqS7f2nbjg1S/1QTreZAgamp6TkoPWaq/xDmP43EsJJQPdxkdy6Tl+RWxeaQxqz772y4belvBPyA0hYgGivYVw/KypQtFjuVpInYNn61CLOJ/aZBdeIDGlIGlyg+m6wVAqzYx6j6DkK0jsinh9o0VIEXKTyJWETzvRxNH+xCLKDNCatgJyGUcFIA==
+ bh=wWioKjQLdDncDdmUyAGXDn7g+0RuCpwe1uyjqNkO/60=;
+ b=GtOnpp0FH/9jIf8wEDCbmZ3N26yn/zInFDukeZ7rj/XQPSPI8b2g2FI8A5y2bxF7QNBGVbFuVzr2+rn2nh1JUfsR8FE09A9nFSpQsBvM87JRbk5hrxI0ewwDPbtoQfoC7Phg5d96ysyCQyrR93gxLsfZqJHN5FmVPK43vSh3anVoRQX7EVmYNmCf5zrx8pl8Je+/hQZlOuNIXC6301382S9SQBpD/mEdqdsGCvgLfHGAJPyKE2Y7c2/rL4QxlTMKVJ30wmGPxTa7z+eggE1Akyz40IHmXbxFFt06YsbnSRyOZC7+f9WmpcGQ0LznEhqAWNqFwcCn2ygXHl54WQZk+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,97 +69,116 @@ Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
  by CY5PR11MB6439.namprd11.prod.outlook.com (2603:10b6:930:34::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Thu, 5 Jun
- 2025 08:29:02 +0000
+ 2025 08:29:05 +0000
 Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f%2]) with mapi id 15.20.8769.037; Thu, 5 Jun 2025
- 08:29:02 +0000
+ 08:29:05 +0000
 From: Imre Deak <imre.deak@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>
-CC: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 2/5] drm/edid: Define the quirks in an enum list
-Date: Thu, 5 Jun 2025 11:28:47 +0300
-Message-ID: <20250605082850.65136-3-imre.deak@intel.com>
+CC: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v3 3/5] drm/edid: Add support for quirks visible to DRM core
+ and drivers
+Date: Thu, 5 Jun 2025 11:28:48 +0300
+Message-ID: <20250605082850.65136-4-imre.deak@intel.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20250605082850.65136-1-imre.deak@intel.com>
 References: <20250605082850.65136-1-imre.deak@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: WA0P291CA0011.POLP291.PROD.OUTLOOK.COM
  (2603:10a6:1d0:1::23) To SJ0PR11MB4845.namprd11.prod.outlook.com
  (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CY5PR11MB6439:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e505c69-d669-44d8-c5ad-08dda40b06e7
+X-MS-Office365-Filtering-Correlation-Id: 9040fe98-1396-466e-52f6-08dda40b0851
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OUkoeQjnTDZwbKswHG8oDdahiMTEO99z5wgdq7Afo7hZh2bjd/KZv8UyaLNf?=
- =?us-ascii?Q?45k0KWN7e+R0drY1mgo1uwIzwTEpsquFEqLMS8uAvqLiWChwPhyXogyhOxty?=
- =?us-ascii?Q?j2nGl9iFzg21+zPM7c245h9ZbQyEWcMj8lLccTjlMk5tWoJOsPiO1DXkbUED?=
- =?us-ascii?Q?MlDIO8cucU/NXE+3Fk5XcVBvs6CpJwSVYIQYlJspbjKsDJsMZmrlBwI/9vmb?=
- =?us-ascii?Q?ZlWKjWKAROzqjZZJFJ3R7Of9xzaPfuJ2PZAnnUuTuaNEmnEMP1AiGZA8PYKg?=
- =?us-ascii?Q?CRnnsYaUMqpbiLXa/JeH6QyFNIr/K+4W91rsos7CBsMaoPcJ0yWBm2Sv/bOB?=
- =?us-ascii?Q?QXQ0ZCsACOundgJe501RviRUQf3WB5XTl9DAIMHEYD3mB5kpADkFOxQvwfNJ?=
- =?us-ascii?Q?mBOb/L90ihpWH7tH4FoMISenmCXso9wtveaWlFYI73tzyjNddbNMe6ZKbBOS?=
- =?us-ascii?Q?gF4niFlhm3J1KfjnFZAglrMGRRXQgm4p8OpdRlWD2Zo/LL7QWp0dGL0nzjsD?=
- =?us-ascii?Q?cvxbIB5YhoTQAzbVKcxc3wW2IWesfv6mzqmGrOyMNn/oQYFpUweq1wYHTql+?=
- =?us-ascii?Q?DNFQEXNMV2FVQuFWVMWYlLXZfTBMiK3daUITP9BQkMMAqmb/WDfaszsFfQgV?=
- =?us-ascii?Q?iu+ct7NVJUHQVhxyfbNwletFtLeSTdoMHiYgYgfAXP8OJkW17TsRy0LRNOyp?=
- =?us-ascii?Q?a/+x50Tcy3TBtj5vY6y743U996BXV4XAwnU6kAQcq4YA7VV57PzweTHwNI9s?=
- =?us-ascii?Q?OS8HQ4XAShPPIIrC5/r+w2vsaH6Zh5bFE0KlLi0d3Vc0bD07GG8gOYBwjPhD?=
- =?us-ascii?Q?yB2gewgEzaDBJ1RtPhrMXaOjG+ZBEj6uzo/Tf+7VGjs9UaieTJMs3aWUuRV+?=
- =?us-ascii?Q?MAA7zyTwg0TP+rEikYejDdR8ySz+VQKrcHPjEHa+avv1T2xCC/65fILVzd97?=
- =?us-ascii?Q?l1qAJ0eFDNn1WlpfjuaFlj4AXXBfYNKUt96lOhC9qRgnZB+TxoQJ5nyQZM3X?=
- =?us-ascii?Q?yiHFcLr1ILpMr9LhQgBh0cLSMCSE+Ha1l+zPqC67OSD6OMD3+vIz2a0gfhAk?=
- =?us-ascii?Q?0Q41m8XpKpUAd+ivFw+h5oJMen106+X7vpr1LJkdA5vN1NzQrFwK7DNRF03s?=
- =?us-ascii?Q?ZSPSE4Gwku6bvBsYdoaPK1i17Qw2pUbTn5XEZIgsZIxfVop5ML76Thxo3i0g?=
- =?us-ascii?Q?wxLmCImNsUGCpokP0YSAd+zcnnOx4Wlgm2lHBcYbvLk20w9tUP3a6BAQSceK?=
- =?us-ascii?Q?B6uuLUjipds4otm63J0rBbpC777g0a23PVx8LAvE/KcyjYkaZoBbFLtfgtNL?=
- =?us-ascii?Q?fAQI3tN3D/GqC8hIMy+MKx9LKIGRJUN2V5y1xZV900/ws7t75VSM8fJlTf+J?=
- =?us-ascii?Q?zHKb7coiRyOGDGQQubMZC3nKT11urMwnwF0XNogy0MfwBaiYWFjZN4j7cP9m?=
- =?us-ascii?Q?K7Kqvmm7z80=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UjBLWFhsQ2NuWFVoSnNVaXdQSjNIM3Ntazc4a3lLT0paTFp4QVB0R25RUmtY?=
+ =?utf-8?B?c1JMYmM2RmxydUw2L1paNjJPV1U0R2dZSjNyZHlUVVNzU3NHWFJ2TDVuQS90?=
+ =?utf-8?B?T3lwTllaWXh1anZoYmFjc2xtN2Zva2docEZ1aTFjRVVUdi9aeVVESGVFWDBH?=
+ =?utf-8?B?R2llUGdTZkdQcU1WSHNGQXI5YTJFNVpwVjc1R3I2YkYwMlNScU1YN1QyM054?=
+ =?utf-8?B?WWtHODVEcWh5MmdlTHl6aFdYTkJ4V21GRldpTHpaSXAwZ1VmcElSS2I3aGVZ?=
+ =?utf-8?B?eHJ3bEF0YTVLaVpSOUlTTlpzd1FRcE55RzBmR2hzYmluaWtsNEFVL0wvVkNC?=
+ =?utf-8?B?UVc3azFkMGdKQmN1R2E1NEdhNVhRcXNNSVU2bGxEbno3NnZ0RmZCNnl4SHZo?=
+ =?utf-8?B?VnN0TFFqUURWTG5IYUQwa3Vqdm5YWjdSblI5TnBQOHVFalduNmZwOE9RL05t?=
+ =?utf-8?B?RDVvM0dmMlVVZ1pLZGdCWEZheE1Gd1lhOGRmN0MxQ0FMeDdhZDJNRGJXWW1n?=
+ =?utf-8?B?QkJYc0lpQjVXemhBNkpnb0kxaHVxak01dFM5cXY3RlVWVDgyczdMVVU4Rzdz?=
+ =?utf-8?B?TXN0Qm1VWUFucmZNYXQ5ZU1VV2FOU0tPQUNsTzduTHZEQzJ5S3BTUXZyZ043?=
+ =?utf-8?B?d1lOMjRPUE11TnFuQ3VjakVpeXZrNjVML0FST29PQ3Vhc1YzMjZvZjFVVTVM?=
+ =?utf-8?B?eWVyL2dhSDQrTUc5Q3VlMS9COVc4MjBZQjJzcldxRnk4SW95YnZPSXVpK1Bs?=
+ =?utf-8?B?QWNWUkRKem8xNXdBeE40SnhkdC9IR0hocy9vaVNoMjFGaFpRZEF4UDZ1aWIx?=
+ =?utf-8?B?UUxzUEZ2cXNPTFlNYVIzaHUwc2czZUU0a0c1cm1QOTBJcGkyMjhIbCs3ZDMx?=
+ =?utf-8?B?NCtBR3lnbGZQTS9TcjQ2aWhCcWVXaWNZZ2w5NkZGVWdhZXdQaGlmUmVzZDdD?=
+ =?utf-8?B?N0JPZUJvMERpQWsxSEdybUN0dUlwSHlXQ3FSOHZRaEI5T3BSRmovcnlGQk9F?=
+ =?utf-8?B?QnB3Y1NnMExDb2E4djZFak5RdnRlSVBXTnplamZzWSs2S1hpeHJjdHQzeEJG?=
+ =?utf-8?B?V0c1T2hZdGlwRmFlS29DWVhGQTU5WjhEQzJzbUNCOVM4MExWd0VCVGZLVm13?=
+ =?utf-8?B?ZUcxeGVpZFJFb1hGYklrMmtmM2JvbWNaS1ZrdEJwbm9oejBmZTUrdk5DRmFX?=
+ =?utf-8?B?d3ZzTnpvUC9MOWVidUxwbHVIYnBMRlRWNW9sbzlRNjFzZnc1dzlhV1dNajZv?=
+ =?utf-8?B?a0dkUC9OQ0FoQmc2RytPaXZUZXBSOXRoeTAyZFkrNmNYYmNFaDlxcDNUSFlU?=
+ =?utf-8?B?T09QUGVNcGFpa1A4NUVlNDhmaWhBbWUxK1I1WTlQRkJnakxUZ2FpNHVxUWxB?=
+ =?utf-8?B?eTRzT3FOUnVjVTFiL09HdmJ5aVBtT2ZtVDNGdk0yOG1OZ200TURrL3c5T3Y3?=
+ =?utf-8?B?MVRZVVZZQ0k2Z1RKdVh1WUwzZVAxQzdnTUFQNHZwODNxajQwZVRtM0RyNG0x?=
+ =?utf-8?B?NGd2QjZpM0Z4ZDFhYTdOaFRJb1paMXR2ckdObU9sSkJBTG90S1JRa3RXNDZ4?=
+ =?utf-8?B?WnhtdVFiR0hRVkVWNW1vdjR6aGhPSlpUdUdhaDV4TThBNW9qbVJqRDBJQkZP?=
+ =?utf-8?B?TVFOME05QVRaam0yY242VTFzL3dNamkzV2oxbHJjK3haRkNHUWxUaFBhMU44?=
+ =?utf-8?B?dFJnY28vWmRESGE3a0Z0eGlDSWJIWnJnUmhwVVZDVHptK0tTQmNwZjgrYzl6?=
+ =?utf-8?B?cllWaWZscHdrZk9Vb2IwVnNlOHRUOEE1MTVQYnplMXk1TytCeE11T3oxUTE0?=
+ =?utf-8?B?Szlrczg3QkJScFByYW05TnE4SDFTLzNOTlcxMWtJSXM5QzM2UllRaXlwazR2?=
+ =?utf-8?B?bFYxOG5NSkJmZVNLcDdRNWVOWVBXRTU3VWxreTI2WEZud1NhTUY2WDR3TVVo?=
+ =?utf-8?Q?Po7fkox7dtY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KBZYdMEbYYrZ/aAwZbOLXILQsPnnKtTUz2kcq8nJFxKZFch5zqxZ87iwLwpV?=
- =?us-ascii?Q?Pkw36PRV+c+U+D4bR6aVr8GP8qTBBvyDCHJWKbF7zhPDMhJnhi/hk96bieh0?=
- =?us-ascii?Q?kBs8ge8k4JCJZFlvazlAKqEMV74uRc/XQepYT9n4NkYGV/xOWser8iwV8ASk?=
- =?us-ascii?Q?tsFcbGxgppiWUZL6q3EJFIiQKvg3g4ihhpPemruQmDby3UD/q6+UK//JlfjT?=
- =?us-ascii?Q?I0DPyAeJ19kqKVQXFf1S1QAJoBDZJ+lNTkBA1bdPqPIv5xMtIRTdMNz/5jpC?=
- =?us-ascii?Q?1FrfytxqyRkxThLES9xUOpqgpk/e7cNj++P6QXNuAPFMjtWqEIJB3exLsap6?=
- =?us-ascii?Q?FewbEMlSxRDIQ+L+bCgKGDhGhhSgqXkNslEEptDHjbevOq+7KeCV2Ng3rv4G?=
- =?us-ascii?Q?JZjm2lHlpYuaodPUBjJQbpLYUcfaujBUmVadWfigaIaXGzoSbsNQr20A7zdM?=
- =?us-ascii?Q?c/qI0Hh1tPURaz4k6DkFzShO00OYw6yNMr3QBwXfsBxCUYRIQLThuI3Sr+zy?=
- =?us-ascii?Q?QlJ4pZ5J3Y9cJ1NAUpQ7owtOnnEkQXof/oM5g9HjXz72/vmK1sQDAzAFWw5B?=
- =?us-ascii?Q?PZGbVJDScm51VdAN4yafREv0U9wRshYwDaAkxWFkX6bT4jKjRfUIzx4y90EQ?=
- =?us-ascii?Q?q7b1RNWbCSSq7M2BqC5xXadY5UDknLhOfMARkRFhgndW75NrcoiBY+DE+vCw?=
- =?us-ascii?Q?I9KgeT5xCL+UukWoMSgWj79d/eU/Vis3giHTdiLsGD0Vd9ROT+qwC0EpowOh?=
- =?us-ascii?Q?6pB36YvcMrdv6ojwzfchO0F/Qw8mD64r9fdy56DppTTabNORqWSJGSwqy92K?=
- =?us-ascii?Q?PSDUYNvTMgjXaGMp7bg3LRlUz6CH6ghLvkAIg+yLZR6UgEAucFt1cmMFME8p?=
- =?us-ascii?Q?BPWr5O0Iv5uhkveSEkRBwJQezbBxzi7oPEiFfR7CvVu363Y8C3Jf8PxZ1lgX?=
- =?us-ascii?Q?jJPGmy/i8ccKvC1PekykdcUPyUOh7rA0w/KT2LgS70Uue2ubm2OrHw5ubk8l?=
- =?us-ascii?Q?64+XP0EFdR/chKO/gHMlIPaDZtXPbSlj0CoIkEWevyJzIVRB23oJVuwfRv+j?=
- =?us-ascii?Q?yVjLnmh4QFyxBV9Bcs9jjmPD7zc79Td8kfKSXPfyCsvRkFZyrr7oC3HXS8Yn?=
- =?us-ascii?Q?JZRCP69YIhP1h25isZYlbaHBViIQMpziYiVsP+vrRlMF5vwcbDjbsfxbFg97?=
- =?us-ascii?Q?sX/MKVxdFmjI0Os+imBHU0jCX8DOS81/hJqDuwDteWHLFeLSASIACQ4cn9+f?=
- =?us-ascii?Q?28t2v4iOQFTuL4gvoZJnxBt8jgBYWg8MUFZzRHfBupRvOJmQWXVnkHrzhN5o?=
- =?us-ascii?Q?x8VEvCPJwk4p6LfJ5uUtprZ6/pvPUG36oMrwm88g46SsvSvf7RlPtftTiOYJ?=
- =?us-ascii?Q?nAZEU5+4i3eErfoZYKtGnpXXB9OeXA62ulGQbK87w+hMKghTQPhQcSFn6rEy?=
- =?us-ascii?Q?sfVfTeFK0KkZOt2qvOneqVEALaJq54B4VferzViQMQZT/guGhogjklvWvbJ8?=
- =?us-ascii?Q?5Khr9WsG8gN96qD9u0jCkzxGot9pxHKRp8zEeqxrSlwCtmJ1h5prPAzWRByV?=
- =?us-ascii?Q?3PqbcsEmapm+wEHooueGpE7jbhI+6g9IlpPcobkZ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e505c69-d669-44d8-c5ad-08dda40b06e7
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWE1bE5UdDhpYXZyVHpNeDVGWG5mM1ZiUGc1d1NyN21IeCthT0ZhQW94VndS?=
+ =?utf-8?B?cVI0MHdDTW5PbW0yMlQzNVB3TjM0OSs2c1QrM0FTSTc4TUF3NjJtTnR6dXJo?=
+ =?utf-8?B?bDZYbDJNOUJqNUVKUDdQSFR5NzZZQjlQdklReGVGMzVDaUMzcjg2eSt4WXNV?=
+ =?utf-8?B?WGkrOG8rUlBJcnJETzZSUTJSd3BUTGtvZlRPR1hXUWhJSk5JeERhUDErYy9R?=
+ =?utf-8?B?dzZpblVZWmFvSFZ2ejRLcVBXdXM2Zzh5K1hJQ09RcUhXaHd5ZFpnUGtEdmRD?=
+ =?utf-8?B?VXFVWHE4enhYSkNlbDRlZEFmTGJpTktoU0lodFBXaFdBMitWZHVHMEEzcUdG?=
+ =?utf-8?B?Tm43WnJtMmVqQTVKTUU5K2k0V2dEcUVGQ1V0TWlVTjdiQ2FCamZJSFBrWklk?=
+ =?utf-8?B?TnlpU3BuS1g3UUw0ejE4aFRTOVFDdVBERzduRlVzYmRwelRtV0JGQzhQNGE0?=
+ =?utf-8?B?WDR2YnFDdkthRndwdEV0VzFFbjJwNm9CcThINkpFNEt0K3dVVFZaRnZTbnY4?=
+ =?utf-8?B?b3E1VHgzZzJiRlAxeW9Ua2g3SkFZNE9tZy9IaHAxU2dTMm9xV0RKdmNna21s?=
+ =?utf-8?B?NHBRUlBYL3Rwb0UrbXNrc1lwSWhhOFUxTTR1Z3hsRFhQelNob1ZmaXNrVllL?=
+ =?utf-8?B?NDhuZFZITXFMM3RVV3d3THJYbUhSMDkvSmFUOGZJMW5QTlY4dTJ4SXVTUjFB?=
+ =?utf-8?B?WitNWmJYbkdLT1FlQ2daN2I5bVFOYlprQzhZeXlndEU2OVZ0VVZoQ2ZCbmdO?=
+ =?utf-8?B?YkdZUC9lc3E1TytvWlQwdzJhQ3FJeUhJcFQ2NCs3aG4ybFRBNndSQWs0eC8v?=
+ =?utf-8?B?Wk1BdFpVaXJvR0xCRnZOTitzOVNGdlAwajg4ZEtFdjVuenB1ZXVRNW5PMkl6?=
+ =?utf-8?B?WDU0YXdzRnZVRFpyYW1ZMmhsOEhjdWo3T2NGOXpmSDZZSnlldXFLWEdnVENT?=
+ =?utf-8?B?VzNydlM3OE4vcGxqamo5ak5sSnV0aUoxdW40ZTR5d1YxTFU4N1J1L1dzeWxt?=
+ =?utf-8?B?c1Y1YXZ1ckxXOUtOY1JkSGNiREt6OXlJdUlHd245R2RuS0QzbWlXdmRiNDh1?=
+ =?utf-8?B?NFJhUXZZY1RpSTM2K25OUlE1Qnp2eVo5YUJSK0RWbW9Tb0JMYnppU1lsakph?=
+ =?utf-8?B?UmRYSno2MWxFcnMxdHFYWTlITGxrMC9xMVpNNUE1WUVUcjJsellHUjFkeGtt?=
+ =?utf-8?B?eEo4eEloODFXcU1EeGsvVXBRdXk0V1BFZCsrSTZTbGUrQkdmK3A3cDViaWlp?=
+ =?utf-8?B?VW1FS0FmN1VUaXRKaVJtU01ILzRXNmx0UjROMXlDemJhTWw0azd6dmlEdjJZ?=
+ =?utf-8?B?Z3p4ekt1dVRBQlR6bU5mbFU0Q3NTWEl6RVJaNEU3MEN2MEVRVGZhbXF1ZmZS?=
+ =?utf-8?B?dWJJQWo4YTUrM1NDNmxFcVNtQ2J5NERCVG42U1lYM1BIRE1DTmhQK2lPOGVQ?=
+ =?utf-8?B?VW5mdjM4KzFVT0Y3dmliS3BadXNwejF6Y0NuWEZlbERzZlhjaVlrbzcyOUxt?=
+ =?utf-8?B?SytENHVoZ1BrZkZDWER6dkNKL2lwb2RxRHR6aGc2ckMrbG1iODMwaTkrVDZ6?=
+ =?utf-8?B?WmRwWmt1NFhuQ0FGZlNkU3lhTEZuVnh6dTBhN1I3YWFBV1Bua1pRdGpnOFhq?=
+ =?utf-8?B?RjhKWFJHZmwwbm5SRjBEeVBEVEEvZG5ocTFLYTczcndISkppUUFzT2sxZUpk?=
+ =?utf-8?B?NE1xeE5BQW0zUlB2WEwzSTNHTmZFdEU1QnViYTZCY2d2dzFVY290YlpuWFpm?=
+ =?utf-8?B?eXVDWlFzRTFaOXFWN0U4Z2ZYazRMZUhocmJmS3U0aEVBRk9adkpnSG5VTzRB?=
+ =?utf-8?B?enNGZ2kraFI2V1A3OCt4UityTlRKOWtWajljRzBXZUxKVlAvNE8vbFlKbzc2?=
+ =?utf-8?B?TDE1aHFqYzdITzd2NFdYSlI4a3BJOGQ5NUdKd25UdEMxQ3dUam9DbTN3MEdO?=
+ =?utf-8?B?REJaTmlpY2hCeFhYR1B0L1QwTzVaQW8wTWtOUGFva3ZFSDRGbTVuVVlVTldy?=
+ =?utf-8?B?MEhxOTN2ZWQ0OWxlb2xrVzBoYWFzR3pGMHNwRCtrSncvUGg1cFFSMC9VdVZF?=
+ =?utf-8?B?S3JucjdTVzV4VnJQWE9UR05oNXdpbi9EeERmTi9XbWg2NDB5UXhMSnJGL3p0?=
+ =?utf-8?Q?8kJkZKxPLobyqhysG1bBcKqGu?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9040fe98-1396-466e-52f6-08dda40b0851
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 08:29:02.7787 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 08:29:04.9836 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Km9ziFDp+SN5FHPTPyUtsHbvmrGMbq+CVChCdLKLJjEWbTTnC/2ntuO0Q71BLERiDRG9O6STmFC3/e6VmMeZUA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: MSUtzNZ4mkWUMzxD3t5grygJp6049Vcd1K/6O2eOe076kE/kCWEk8siXPoyg8gztTA9xi63VaOL5iOheDKrCBQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6439
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -177,406 +196,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An enum list is better suited to define a quirk list, do that. This
-makes looking up a quirk more robust and also allows for separating
-quirks internal to the EDID parser and global quirks which can be
-queried outside of the EDID parser (added as a follow-up).
+Add support for EDID based quirks which can be queried outside of the
+EDID parser iteself by DRM core and drivers. There are at least two such
+quirks applicable to all drivers: the DPCD register access probe quirk
+and the 128b/132b DPRX Lane Count Conversion quirk (see 3.5.2.16.3 in
+the v2.1a DP Standard). The latter quirk applies to panels with specific
+EDID panel names, support for defining a quirk this way will be added as
+a follow-up.
 
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+v2: Reset global_quirks in drm_reset_display_info().
+v3: (Jani)
+- Use one list for both the global and internal quirks.
+- Drop change for panel name specific quirks.
+- Add comment about the way quirks should be queried.
+
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 218 +++++++++++++++++++------------------
- 1 file changed, 112 insertions(+), 106 deletions(-)
+ drivers/gpu/drm/drm_edid.c  | 8 +++++++-
+ include/drm/drm_connector.h | 4 +++-
+ include/drm/drm_edid.h      | 5 +++++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 74e77742b2bd4..857ae0c47a1c3 100644
+index 857ae0c47a1c3..9cca1e6e4736c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -66,34 +66,36 @@ static int oui(u8 first, u8 second, u8 third)
-  * on as many displays as possible).
-  */
+@@ -68,7 +68,7 @@ static int oui(u8 first, u8 second, u8 third)
  
--/* First detailed mode wrong, use largest 60Hz mode */
--#define EDID_QUIRK_PREFER_LARGE_60		(1 << 0)
--/* Reported 135MHz pixel clock is too high, needs adjustment */
--#define EDID_QUIRK_135_CLOCK_TOO_HIGH		(1 << 1)
--/* Prefer the largest mode at 75 Hz */
--#define EDID_QUIRK_PREFER_LARGE_75		(1 << 2)
--/* Detail timing is in cm not mm */
--#define EDID_QUIRK_DETAILED_IN_CM		(1 << 3)
--/* Detailed timing descriptors have bogus size values, so just take the
-- * maximum size and use that.
-- */
--#define EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE	(1 << 4)
--/* use +hsync +vsync for detailed mode */
--#define EDID_QUIRK_DETAILED_SYNC_PP		(1 << 6)
--/* Force reduced-blanking timings for detailed modes */
--#define EDID_QUIRK_FORCE_REDUCED_BLANKING	(1 << 7)
--/* Force 8bpc */
--#define EDID_QUIRK_FORCE_8BPC			(1 << 8)
--/* Force 12bpc */
--#define EDID_QUIRK_FORCE_12BPC			(1 << 9)
--/* Force 6bpc */
--#define EDID_QUIRK_FORCE_6BPC			(1 << 10)
--/* Force 10bpc */
--#define EDID_QUIRK_FORCE_10BPC			(1 << 11)
--/* Non desktop display (i.e. HMD) */
--#define EDID_QUIRK_NON_DESKTOP			(1 << 12)
--/* Cap the DSC target bitrate to 15bpp */
--#define EDID_QUIRK_CAP_DSC_15BPP		(1 << 13)
-+enum drm_edid_internal_quirk {
-+	/* First detailed mode wrong, use largest 60Hz mode */
-+	EDID_QUIRK_PREFER_LARGE_60,
-+	/* Reported 135MHz pixel clock is too high, needs adjustment */
-+	EDID_QUIRK_135_CLOCK_TOO_HIGH,
-+	/* Prefer the largest mode at 75 Hz */
-+	EDID_QUIRK_PREFER_LARGE_75,
-+	/* Detail timing is in cm not mm */
-+	EDID_QUIRK_DETAILED_IN_CM,
-+	/* Detailed timing descriptors have bogus size values, so just take the
-+	 * maximum size and use that.
-+	 */
-+	EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE,
-+	/* use +hsync +vsync for detailed mode */
-+	EDID_QUIRK_DETAILED_SYNC_PP,
-+	/* Force reduced-blanking timings for detailed modes */
-+	EDID_QUIRK_FORCE_REDUCED_BLANKING,
-+	/* Force 8bpc */
-+	EDID_QUIRK_FORCE_8BPC,
-+	/* Force 12bpc */
-+	EDID_QUIRK_FORCE_12BPC,
-+	/* Force 6bpc */
-+	EDID_QUIRK_FORCE_6BPC,
-+	/* Force 10bpc */
-+	EDID_QUIRK_FORCE_10BPC,
-+	/* Non desktop display (i.e. HMD) */
-+	EDID_QUIRK_NON_DESKTOP,
-+	/* Cap the DSC target bitrate to 15bpp */
-+	EDID_QUIRK_CAP_DSC_15BPP,
-+};
- 
- #define MICROSOFT_IEEE_OUI	0xca125c
- 
-@@ -128,124 +130,124 @@ static const struct edid_quirk {
- 	u32 quirks;
- } edid_quirk_list[] = {
- 	/* Acer AL1706 */
--	EDID_QUIRK('A', 'C', 'R', 44358, EDID_QUIRK_PREFER_LARGE_60),
-+	EDID_QUIRK('A', 'C', 'R', 44358, BIT(EDID_QUIRK_PREFER_LARGE_60)),
- 	/* Acer F51 */
--	EDID_QUIRK('A', 'P', 'I', 0x7602, EDID_QUIRK_PREFER_LARGE_60),
-+	EDID_QUIRK('A', 'P', 'I', 0x7602, BIT(EDID_QUIRK_PREFER_LARGE_60)),
- 
- 	/* AEO model 0 reports 8 bpc, but is a 6 bpc panel */
--	EDID_QUIRK('A', 'E', 'O', 0, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('A', 'E', 'O', 0, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* BenQ GW2765 */
--	EDID_QUIRK('B', 'N', 'Q', 0x78d6, EDID_QUIRK_FORCE_8BPC),
-+	EDID_QUIRK('B', 'N', 'Q', 0x78d6, BIT(EDID_QUIRK_FORCE_8BPC)),
- 
- 	/* BOE model on HP Pavilion 15-n233sl reports 8 bpc, but is a 6 bpc panel */
--	EDID_QUIRK('B', 'O', 'E', 0x78b, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('B', 'O', 'E', 0x78b, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* CPT panel of Asus UX303LA reports 8 bpc, but is a 6 bpc panel */
--	EDID_QUIRK('C', 'P', 'T', 0x17df, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('C', 'P', 'T', 0x17df, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* SDC panel of Lenovo B50-80 reports 8 bpc, but is a 6 bpc panel */
--	EDID_QUIRK('S', 'D', 'C', 0x3652, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('S', 'D', 'C', 0x3652, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* BOE model 0x0771 reports 8 bpc, but is a 6 bpc panel */
--	EDID_QUIRK('B', 'O', 'E', 0x0771, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('B', 'O', 'E', 0x0771, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* Belinea 10 15 55 */
--	EDID_QUIRK('M', 'A', 'X', 1516, EDID_QUIRK_PREFER_LARGE_60),
--	EDID_QUIRK('M', 'A', 'X', 0x77e, EDID_QUIRK_PREFER_LARGE_60),
-+	EDID_QUIRK('M', 'A', 'X', 1516, BIT(EDID_QUIRK_PREFER_LARGE_60)),
-+	EDID_QUIRK('M', 'A', 'X', 0x77e, BIT(EDID_QUIRK_PREFER_LARGE_60)),
- 
- 	/* Envision Peripherals, Inc. EN-7100e */
--	EDID_QUIRK('E', 'P', 'I', 59264, EDID_QUIRK_135_CLOCK_TOO_HIGH),
-+	EDID_QUIRK('E', 'P', 'I', 59264, BIT(EDID_QUIRK_135_CLOCK_TOO_HIGH)),
- 	/* Envision EN2028 */
--	EDID_QUIRK('E', 'P', 'I', 8232, EDID_QUIRK_PREFER_LARGE_60),
-+	EDID_QUIRK('E', 'P', 'I', 8232, BIT(EDID_QUIRK_PREFER_LARGE_60)),
- 
- 	/* Funai Electronics PM36B */
--	EDID_QUIRK('F', 'C', 'M', 13600, EDID_QUIRK_PREFER_LARGE_75 |
--				       EDID_QUIRK_DETAILED_IN_CM),
-+	EDID_QUIRK('F', 'C', 'M', 13600, BIT(EDID_QUIRK_PREFER_LARGE_75) |
-+					 BIT(EDID_QUIRK_DETAILED_IN_CM)),
- 
- 	/* LG 27GP950 */
--	EDID_QUIRK('G', 'S', 'M', 0x5bbf, EDID_QUIRK_CAP_DSC_15BPP),
-+	EDID_QUIRK('G', 'S', 'M', 0x5bbf, BIT(EDID_QUIRK_CAP_DSC_15BPP)),
- 
- 	/* LG 27GN950 */
--	EDID_QUIRK('G', 'S', 'M', 0x5b9a, EDID_QUIRK_CAP_DSC_15BPP),
-+	EDID_QUIRK('G', 'S', 'M', 0x5b9a, BIT(EDID_QUIRK_CAP_DSC_15BPP)),
- 
- 	/* LGD panel of HP zBook 17 G2, eDP 10 bpc, but reports unknown bpc */
--	EDID_QUIRK('L', 'G', 'D', 764, EDID_QUIRK_FORCE_10BPC),
-+	EDID_QUIRK('L', 'G', 'D', 764, BIT(EDID_QUIRK_FORCE_10BPC)),
- 
- 	/* LG Philips LCD LP154W01-A5 */
--	EDID_QUIRK('L', 'P', 'L', 0, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE),
--	EDID_QUIRK('L', 'P', 'L', 0x2a00, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE),
-+	EDID_QUIRK('L', 'P', 'L', 0, BIT(EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE)),
-+	EDID_QUIRK('L', 'P', 'L', 0x2a00, BIT(EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE)),
- 
- 	/* Samsung SyncMaster 205BW.  Note: irony */
--	EDID_QUIRK('S', 'A', 'M', 541, EDID_QUIRK_DETAILED_SYNC_PP),
-+	EDID_QUIRK('S', 'A', 'M', 541, BIT(EDID_QUIRK_DETAILED_SYNC_PP)),
- 	/* Samsung SyncMaster 22[5-6]BW */
--	EDID_QUIRK('S', 'A', 'M', 596, EDID_QUIRK_PREFER_LARGE_60),
--	EDID_QUIRK('S', 'A', 'M', 638, EDID_QUIRK_PREFER_LARGE_60),
-+	EDID_QUIRK('S', 'A', 'M', 596, BIT(EDID_QUIRK_PREFER_LARGE_60)),
-+	EDID_QUIRK('S', 'A', 'M', 638, BIT(EDID_QUIRK_PREFER_LARGE_60)),
- 
- 	/* Sony PVM-2541A does up to 12 bpc, but only reports max 8 bpc */
--	EDID_QUIRK('S', 'N', 'Y', 0x2541, EDID_QUIRK_FORCE_12BPC),
-+	EDID_QUIRK('S', 'N', 'Y', 0x2541, BIT(EDID_QUIRK_FORCE_12BPC)),
- 
- 	/* ViewSonic VA2026w */
--	EDID_QUIRK('V', 'S', 'C', 5020, EDID_QUIRK_FORCE_REDUCED_BLANKING),
-+	EDID_QUIRK('V', 'S', 'C', 5020, BIT(EDID_QUIRK_FORCE_REDUCED_BLANKING)),
- 
- 	/* Medion MD 30217 PG */
--	EDID_QUIRK('M', 'E', 'D', 0x7b8, EDID_QUIRK_PREFER_LARGE_75),
-+	EDID_QUIRK('M', 'E', 'D', 0x7b8, BIT(EDID_QUIRK_PREFER_LARGE_75)),
- 
- 	/* Lenovo G50 */
--	EDID_QUIRK('S', 'D', 'C', 18514, EDID_QUIRK_FORCE_6BPC),
-+	EDID_QUIRK('S', 'D', 'C', 18514, BIT(EDID_QUIRK_FORCE_6BPC)),
- 
- 	/* Panel in Samsung NP700G7A-S01PL notebook reports 6bpc */
--	EDID_QUIRK('S', 'E', 'C', 0xd033, EDID_QUIRK_FORCE_8BPC),
-+	EDID_QUIRK('S', 'E', 'C', 0xd033, BIT(EDID_QUIRK_FORCE_8BPC)),
- 
- 	/* Rotel RSX-1058 forwards sink's EDID but only does HDMI 1.1*/
--	EDID_QUIRK('E', 'T', 'R', 13896, EDID_QUIRK_FORCE_8BPC),
-+	EDID_QUIRK('E', 'T', 'R', 13896, BIT(EDID_QUIRK_FORCE_8BPC)),
- 
- 	/* Valve Index Headset */
--	EDID_QUIRK('V', 'L', 'V', 0x91a8, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b0, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b1, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b2, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b3, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b4, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b5, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b6, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b7, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b8, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91b9, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91ba, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91bb, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91bc, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91bd, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91be, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('V', 'L', 'V', 0x91bf, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('V', 'L', 'V', 0x91a8, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b0, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b1, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b2, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b3, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b4, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b5, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b6, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b7, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b8, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91b9, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91ba, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91bb, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91bc, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91bd, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91be, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('V', 'L', 'V', 0x91bf, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* HTC Vive and Vive Pro VR Headsets */
--	EDID_QUIRK('H', 'V', 'R', 0xaa01, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('H', 'V', 'R', 0xaa02, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('H', 'V', 'R', 0xaa01, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('H', 'V', 'R', 0xaa02, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* Oculus Rift DK1, DK2, CV1 and Rift S VR Headsets */
--	EDID_QUIRK('O', 'V', 'R', 0x0001, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('O', 'V', 'R', 0x0003, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('O', 'V', 'R', 0x0004, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('O', 'V', 'R', 0x0012, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('O', 'V', 'R', 0x0001, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('O', 'V', 'R', 0x0003, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('O', 'V', 'R', 0x0004, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('O', 'V', 'R', 0x0012, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* Windows Mixed Reality Headsets */
--	EDID_QUIRK('A', 'C', 'R', 0x7fce, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('L', 'E', 'N', 0x0408, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('F', 'U', 'J', 0x1970, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('D', 'E', 'L', 0x7fce, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('S', 'E', 'C', 0x144a, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('A', 'U', 'S', 0xc102, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('A', 'C', 'R', 0x7fce, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('L', 'E', 'N', 0x0408, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('F', 'U', 'J', 0x1970, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('D', 'E', 'L', 0x7fce, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('S', 'E', 'C', 0x144a, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('A', 'U', 'S', 0xc102, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* Sony PlayStation VR Headset */
--	EDID_QUIRK('S', 'N', 'Y', 0x0704, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('S', 'N', 'Y', 0x0704, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* Sensics VR Headsets */
--	EDID_QUIRK('S', 'E', 'N', 0x1019, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('S', 'E', 'N', 0x1019, BIT(EDID_QUIRK_NON_DESKTOP)),
- 
- 	/* OSVR HDK and HDK2 VR Headsets */
--	EDID_QUIRK('S', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
--	EDID_QUIRK('A', 'U', 'O', 0x1111, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('S', 'V', 'R', 0x1019, BIT(EDID_QUIRK_NON_DESKTOP)),
-+	EDID_QUIRK('A', 'U', 'O', 0x1111, BIT(EDID_QUIRK_NON_DESKTOP)),
- };
- 
- /*
-@@ -2951,6 +2953,12 @@ static u32 edid_get_quirks(const struct drm_edid *drm_edid)
- 	return 0;
+ enum drm_edid_internal_quirk {
+ 	/* First detailed mode wrong, use largest 60Hz mode */
+-	EDID_QUIRK_PREFER_LARGE_60,
++	EDID_QUIRK_PREFER_LARGE_60 = DRM_EDID_QUIRK_NUM,
+ 	/* Reported 135MHz pixel clock is too high, needs adjustment */
+ 	EDID_QUIRK_135_CLOCK_TOO_HIGH,
+ 	/* Prefer the largest mode at 75 Hz */
+@@ -2959,6 +2959,12 @@ static bool drm_edid_has_internal_quirk(struct drm_connector *connector,
+ 	return connector->display_info.quirks & BIT(quirk);
  }
  
-+static bool drm_edid_has_internal_quirk(struct drm_connector *connector,
-+					enum drm_edid_internal_quirk quirk)
++bool drm_edid_has_quirk(struct drm_connector *connector, enum drm_edid_quirk quirk)
 +{
 +	return connector->display_info.quirks & BIT(quirk);
 +}
++EXPORT_SYMBOL(drm_edid_has_quirk);
 +
  #define MODE_SIZE(m) ((m)->hdisplay * (m)->vdisplay)
  #define MODE_REFRESH_DIFF(c,t) (abs((c) - (t)))
  
-@@ -2960,7 +2968,6 @@ static u32 edid_get_quirks(const struct drm_edid *drm_edid)
-  */
- static void edid_fixup_preferred(struct drm_connector *connector)
- {
--	const struct drm_display_info *info = &connector->display_info;
- 	struct drm_display_mode *t, *cur_mode, *preferred_mode;
- 	int target_refresh = 0;
- 	int cur_vrefresh, preferred_vrefresh;
-@@ -2968,9 +2975,9 @@ static void edid_fixup_preferred(struct drm_connector *connector)
- 	if (list_empty(&connector->probed_modes))
- 		return;
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 73903c3c842f3..137773dd138ea 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -843,7 +843,9 @@ struct drm_display_info {
+ 	int vics_len;
  
--	if (info->quirks & EDID_QUIRK_PREFER_LARGE_60)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_PREFER_LARGE_60))
- 		target_refresh = 60;
--	if (info->quirks & EDID_QUIRK_PREFER_LARGE_75)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_PREFER_LARGE_75))
- 		target_refresh = 75;
+ 	/**
+-	 * @quirks: EDID based quirks. Internal to EDID parsing.
++	 * @quirks: EDID based quirks. DRM core and drivers can query the
++	 * @drm_edid_quirk quirks using drm_edid_has_quirk(), the rest of
++	 * the quirks also tracked here are internal to EDID parsing.
+ 	 */
+ 	u32 quirks;
  
- 	preferred_mode = list_first_entry(&connector->probed_modes,
-@@ -3474,7 +3481,6 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 						  const struct drm_edid *drm_edid,
- 						  const struct detailed_timing *timing)
- {
--	const struct drm_display_info *info = &connector->display_info;
- 	struct drm_device *dev = connector->dev;
- 	struct drm_display_mode *mode;
- 	const struct detailed_pixel_timing *pt = &timing->data.pixel_data;
-@@ -3508,7 +3514,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 		return NULL;
- 	}
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index b38409670868d..77fd42608e706 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -109,6 +109,10 @@ struct detailed_data_string {
+ #define DRM_EDID_CVT_FLAGS_STANDARD_BLANKING (1 << 3)
+ #define DRM_EDID_CVT_FLAGS_REDUCED_BLANKING  (1 << 4)
  
--	if (info->quirks & EDID_QUIRK_FORCE_REDUCED_BLANKING) {
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_FORCE_REDUCED_BLANKING)) {
- 		mode = drm_cvt_mode(dev, hactive, vactive, 60, true, false, false);
- 		if (!mode)
- 			return NULL;
-@@ -3520,7 +3526,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 	if (!mode)
- 		return NULL;
++enum drm_edid_quirk {
++	DRM_EDID_QUIRK_NUM,
++};
++
+ struct detailed_data_monitor_range {
+ 	u8 min_vfreq;
+ 	u8 max_vfreq;
+@@ -476,5 +480,6 @@ void drm_edid_print_product_id(struct drm_printer *p,
+ u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid);
+ bool drm_edid_match(const struct drm_edid *drm_edid,
+ 		    const struct drm_edid_ident *ident);
++bool drm_edid_has_quirk(struct drm_connector *connector, enum drm_edid_quirk quirk);
  
--	if (info->quirks & EDID_QUIRK_135_CLOCK_TOO_HIGH)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_135_CLOCK_TOO_HIGH))
- 		mode->clock = 1088 * 10;
- 	else
- 		mode->clock = le16_to_cpu(timing->pixel_clock) * 10;
-@@ -3551,7 +3557,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 
- 	drm_mode_do_interlace_quirk(mode, pt);
- 
--	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_DETAILED_SYNC_PP)) {
- 		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
- 	} else {
- 		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-@@ -3564,12 +3570,12 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 	mode->width_mm = pt->width_mm_lo | (pt->width_height_mm_hi & 0xf0) << 4;
- 	mode->height_mm = pt->height_mm_lo | (pt->width_height_mm_hi & 0xf) << 8;
- 
--	if (info->quirks & EDID_QUIRK_DETAILED_IN_CM) {
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_DETAILED_IN_CM)) {
- 		mode->width_mm *= 10;
- 		mode->height_mm *= 10;
- 	}
- 
--	if (info->quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE)) {
- 		mode->width_mm = drm_edid->edid->width_cm * 10;
- 		mode->height_mm = drm_edid->edid->height_cm * 10;
- 	}
-@@ -6734,26 +6740,26 @@ static void update_display_info(struct drm_connector *connector,
- 	drm_update_mso(connector, drm_edid);
- 
- out:
--	if (info->quirks & EDID_QUIRK_NON_DESKTOP) {
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_NON_DESKTOP)) {
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Non-desktop display%s\n",
- 			    connector->base.id, connector->name,
- 			    info->non_desktop ? " (redundant quirk)" : "");
- 		info->non_desktop = true;
- 	}
- 
--	if (info->quirks & EDID_QUIRK_CAP_DSC_15BPP)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_CAP_DSC_15BPP))
- 		info->max_dsc_bpp = 15;
- 
--	if (info->quirks & EDID_QUIRK_FORCE_6BPC)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_FORCE_6BPC))
- 		info->bpc = 6;
- 
--	if (info->quirks & EDID_QUIRK_FORCE_8BPC)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_FORCE_8BPC))
- 		info->bpc = 8;
- 
--	if (info->quirks & EDID_QUIRK_FORCE_10BPC)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_FORCE_10BPC))
- 		info->bpc = 10;
- 
--	if (info->quirks & EDID_QUIRK_FORCE_12BPC)
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_FORCE_12BPC))
- 		info->bpc = 12;
- 
- 	/* Depends on info->cea_rev set by drm_parse_cea_ext() above */
-@@ -6918,7 +6924,6 @@ static int add_displayid_detailed_modes(struct drm_connector *connector,
- static int _drm_edid_connector_add_modes(struct drm_connector *connector,
- 					 const struct drm_edid *drm_edid)
- {
--	const struct drm_display_info *info = &connector->display_info;
- 	int num_modes = 0;
- 
- 	if (!drm_edid)
-@@ -6948,7 +6953,8 @@ static int _drm_edid_connector_add_modes(struct drm_connector *connector,
- 	if (drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ)
- 		num_modes += add_inferred_modes(connector, drm_edid);
- 
--	if (info->quirks & (EDID_QUIRK_PREFER_LARGE_60 | EDID_QUIRK_PREFER_LARGE_75))
-+	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_PREFER_LARGE_60) ||
-+	    drm_edid_has_internal_quirk(connector, EDID_QUIRK_PREFER_LARGE_75))
- 		edid_fixup_preferred(connector);
- 
- 	return num_modes;
+ #endif /* __DRM_EDID_H__ */
 -- 
 2.44.2
 
