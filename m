@@ -2,178 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2097ACE819
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 03:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381AAACE820
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 04:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF8110E0D8;
-	Thu,  5 Jun 2025 01:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E6410E226;
+	Thu,  5 Jun 2025 02:01:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n5HHfbDv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GDcJYXVh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32CFA10E0D8
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 01:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749088772; x=1780624772;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=nfpL2OcIVjcodReoWXVyoH7czE33uISBGzdtHIVOSEg=;
- b=n5HHfbDvJoqSD87EiyFVDDUiFCXEqTVPQDMKYbCh6VofsCiuh0UQSHCG
- K/k+hIJq7SlGRZh0bdfguthWfteKYA6lw0hydFLZv+QWfcJzzeCnQWlBC
- fbc+6oiU1ufqNtWVCnCcQUtZ+ozOfv6YNbymkTisI1xHFrZ7rlP2HHfIv
- lBfcRz5J2KV/jM4EbHV2VwtLKN2Aia91OUPJJff7A2bJjZXdck9i5anBC
- 0CGeUtz09TV4xED1UcnhAwXWFU2EeJDCloH11NF7uKzMzZIyHwWkKpIHE
- aWG1ZuRRY/sMj/Okey9fTapq732sDFbClUtMzMrxTTpvQcW7M4Js7K0Ym A==;
-X-CSE-ConnectionGUID: rmCCBwzRQ6+ex5rPBx0/sA==
-X-CSE-MsgGUID: UKaVIgb4TLWv+26oWAG1gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68629857"
-X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; d="scan'208";a="68629857"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 18:59:21 -0700
-X-CSE-ConnectionGUID: ydu45TO3TYWVz4FbtTlzyg==
-X-CSE-MsgGUID: P9YSHCfOTeG78AKFpYDl+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; d="scan'208";a="146345170"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2025 18:59:20 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 4 Jun 2025 18:59:19 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 4 Jun 2025 18:59:19 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (40.107.101.68)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 4 Jun 2025 18:59:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ianb8mKH6KTunPBhiCQH+urgj8rgqAIggKyPasHu7eW1zkDhpWV21C0s/zb6ALIIatINr1u7QUL0utxIcSa72wa9lVcOMEDSVA8vLQozfjt3wYcxCoU5SjzxHLRWOv9BglCzLByCZl00dyMLl0WmY0r0kzucKlSGTYalMJqQ/R4zm3TTgD0l9pR2fSXHQRNtmm7j7xYnqMCKKJU/C2tui5s2JovDU/nJE2B7pRvVxnImyVRMlYaDhtTrqc2ystwK9wTknfzUsDvkM8l3F4wasFeQYhJfCuT9XCqYFe/dC9hBA/UJJhmSTerSKgbnwf78bjZ4lAkgYa3eapzqSINg+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TqeZhNZeWFKq4OswiArec8QoaYfEsdU2+7yW+M6B0rI=;
- b=ueUv/oGGF5StVDMmDB75ukMqUJDL3p2QSIGkqRhhvfFtunL+4NxR6twQrl78QYwC0iHqu3peTunXAdQg1HM8CmPHFo4uBzRcYpbILGzW/TvmOZXRHlPVsJ+holGVKq4gsM1b02JNJd0w7okUWFMCa8HZYF4WsWc/bJW0/3p03T2o7OAtUJDQaaiBHw4+yjVCOjJ6641m0Wud8/aQpzudC3DjXdnKWjtqJNiwSU8DT/ERYY5lSB8TaX+c+0ESSCWguQ2jaS/N9jS1liPv814jtQJf5P6+qMzeJZ8nxQqYE0E2W8awx0z34DYdvPGxffdIV7otchJgRb6gUWjjFAswpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by MW3PR11MB4604.namprd11.prod.outlook.com (2603:10b6:303:2f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.21; Thu, 5 Jun
- 2025 01:59:12 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8769.031; Thu, 5 Jun 2025
- 01:59:12 +0000
-Date: Wed, 4 Jun 2025 18:59:09 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, <linux-mm@kvack.org>
-CC: Alistair Popple <apopple@nvidia.com>, <gerald.schaefer@linux.ibm.com>,
- <dan.j.williams@intel.com>, <jgg@ziepe.ca>, <willy@infradead.org>,
- <david@redhat.com>, <linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>, 
- <linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
- <zhang.lyra@gmail.com>, <debug@rivosinc.com>, <bjorn@kernel.org>,
- <balbirs@nvidia.com>, <lorenzo.stoakes@oracle.com>,
- <linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
- <linux-cxl@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <John@groves.net>
-Subject: Re: [PATCH 03/12] mm/pagewalk: Skip dax pages in pagewalk
-Message-ID: <6840f9ed3785a_249110084@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
- <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
-X-ClientProxiedBy: SJ0PR13CA0098.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::13) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F2510E226
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 02:01:19 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b2f0faeb994so480301a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 19:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749088879; x=1749693679; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=B4XY4QyVzfpslN+lSr0r9kDuHIIiF3VbHDAvnPwfeec=;
+ b=GDcJYXVhuFTiPreaalLhCIvKu77HpZU6GIhsV5hNlh7VmEzZX3/YnesWfmHsoMdTNt
+ aQHSoNfE6pwOAjospX3UgEw4INl91CV55qk8wkN8FW34t7MtdCRMZikkl51eJQzd/H86
+ 858+fMPT98gNyiZ2SkVR0mIBlx5bSg4XUmI72uSAVA20iSsId7JUa3ijD3lkBF1zwhPa
+ 3imZ3dj0xYmpyB4LwuubhHqUUeVC86z8H10x7Qw91tRDg/9eYJZhJFMaAwCJhTB/BvPV
+ ILdjQAvl2CoypDlFL1rAzyD4hKcutHsoiUYITI56UJ1By7KHsOKsmOX3F7f+1Lg7JTcY
+ oG0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749088879; x=1749693679;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B4XY4QyVzfpslN+lSr0r9kDuHIIiF3VbHDAvnPwfeec=;
+ b=WlHuziQnt5o+d+JogJzK/7iOIl6EmpOcBeu/l26OU9vVk2uC28IgFnDH8oJvRkB6KD
+ HVTIji3/6+WjmtHXVHMoTEQx7Ap9zp9NsQAhAgkkDWs8oG8NrdQ/qcPIsFdN91Lu3xwQ
+ NbPKKEv3p50iNwIq5pUz5m1Gde7pfzUWR+A4aN687X7OqWBZoini6Marc5kTkSU2z5Ex
+ T3po5rdBpsU14lRexyouZMaA+YMs3eV+uaRGoS9526vg8FJseDSVSWLgufuAUe2vQodq
+ FMZSbC/8YcV+GBQHdpPx74AgKcEw2jj4EGfQAPtDPdPYH/FAgfT1vrvJHsmODqhjwj4R
+ WGUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjL6dt+IpFWWNx/DmZGmKGMjP2+D5tvc6qbyav0L0sEeWpfgbFGpdlovQPNPhFpTkdYLfEbcgJrXM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpBAq4FP0tHhnRuMO7lBmGo32DVR7ppQmi+TM79FVeUDP7R/ZM
+ cWIAuOTwhhSmFibu630hbDxRTvu3ja6KtQeZ2+hvkePYMxa6h0fFQSx0
+X-Gm-Gg: ASbGncs+ahAEALaVREZ6FNTBFx8k6eRoFpZcQ3kCcdtWVfSgEh8sFy2P7P8AZmrZd4O
+ Q06zwCLW+JJc1bl1BL5nivfzgWjUjaig4P8WeHjZD2xuJM6URovmS25ApZPSkm0/NneOWhqaxrq
+ zpq/I01K5v/od7EcwYg5pPV0oERaYj6cjB3KbkE3VuAs/8HcwwV7fwOssSlBr3Nu31xtx2zR79f
+ Q1k9tYyu6wARjGv86nDLPHe98qsgzIIVs6jevCS827Q4tm24jCzOAvW0kMaGFmh5VxKfLELyKoA
+ FF5jWZWfT3kigePDkZ0Wd59US7bFB4zOBWauaj8hWHxHV+ZaIys=
+X-Google-Smtp-Source: AGHT+IGyZy18YKprGlTzoo34XE4Q33oI40JvIwcZGv4ymlfnzos5D3EVaruPWivmKI3pyBJL2DdAxQ==
+X-Received: by 2002:a17:902:cecf:b0:234:8ec1:4aea with SMTP id
+ d9443c01a7336-235e1200863mr66986925ad.52.1749088879071; 
+ Wed, 04 Jun 2025 19:01:19 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b2eceb297c8sm9365315a12.26.2025.06.04.19.01.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jun 2025 19:01:18 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id ABA104209E8C; Thu, 05 Jun 2025 09:01:14 +0700 (WIB)
+Date: Thu, 5 Jun 2025 09:01:14 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
+Message-ID: <aED6ahMoKjO11JVv@archie.me>
+References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
+ <aDz-Pq4eMAYmzqsJ@archie.me> <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|MW3PR11MB4604:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62dec856-fda4-4beb-5aa7-08dda3d49120
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?39Wf5m4ct40NCB4EVaGzBhBzU+gpjZXTYoweYWfgP1RBBhvZZGXzFVD0rcD7?=
- =?us-ascii?Q?AgrmrnlYTTuo4vW4doKUZX10xG2YTNKEVJbfarL09eOyqIaYE7t6P9DiKgzF?=
- =?us-ascii?Q?OhhHLh0zIOU9wKYQahDf1ao5Kwva1bLGRbiT/aeF4ABS0rXfScuA3oQWTZsB?=
- =?us-ascii?Q?QdT6tupnmtb97wQaIgdzh68oV8tJ9aSUw45ruo7KMr+or1pf/NQBfjhbhZpd?=
- =?us-ascii?Q?2+5nT3mx6lr/QMqvC5U2t1OpzBuytf9/BNo2tItDOuaKwpVtqhPFzHR4UKWE?=
- =?us-ascii?Q?eHMF/Sj/fzQovwgWqKJ2dstXUjgKL+NWudsw9JG4la/NixjzpxARPxD1XV96?=
- =?us-ascii?Q?GkJiFwmhNdfE65VzEMonA+eI1SJNEVg3zQL7tG/K2zRCxmBqstPOFVajWTcc?=
- =?us-ascii?Q?P7UE6eOUmnSPeHpFw1AMvqmBHhZVXvZWm1aeMMdVYwQLYNk4qeMOUIzYqOiS?=
- =?us-ascii?Q?1MEaYozM0NGBnDj7vk12Q1dHkcEX1IbS75nAONsDpFvhaHZyTkEXDLr3o+7T?=
- =?us-ascii?Q?2S2CL6yxdPvu/TAMZevpbJr5zwIr6grXvjcBisrliAz2YuBLoIcC6Bm/Z2zI?=
- =?us-ascii?Q?Ob9m9y+GS9aRZ7AiAhZxDS3/3K3v/rQM7BZujj8nvrlJ/pBg0cGSXjnu/1TX?=
- =?us-ascii?Q?s1SchLDw6C6skjx/NREhsHdN+tJZywxqLSrqDE8OHUSPi5ocEjyq06dfMPIi?=
- =?us-ascii?Q?x+bxs1jPLGGlQBIvJMtGQZMB2NCI6qlncagvMbud/ydiO1JY7sbvuGSpegEF?=
- =?us-ascii?Q?BmJBuTv4Be4oehA4mDjW4t9vfFKudZYcgfe8W4xDjlbmRRVoMgAj4Njz6R4M?=
- =?us-ascii?Q?I9fIeumTwqLEZs2n/vLYdN5gVeK9aL/rsQuf2/eRdVbqUoinjEonF5Z0pSnT?=
- =?us-ascii?Q?6pTTMiL3mXZ2aKVegbr7qL1I6h+I0xR7CtZ4Vz7Zgoa/yjQL7jASJvUu+r5U?=
- =?us-ascii?Q?mCMRBsJQWcQxYwYe8ooKMcM1EytECUHFtnl0Rwh3TKhagucOKShKozNp9yK2?=
- =?us-ascii?Q?RUcEg4vSdJ2E9qNIr0OPRNb2+T7V/b3olyf5Nq619bm7PV5W5aGsaovuBp0i?=
- =?us-ascii?Q?OysQQ+TqlOwAYhErjC8jWAGG8rhf1HVmYDQSEb/bQmUbtEddXk8nc/F7FO6n?=
- =?us-ascii?Q?lcTJ+kAtsEiT9RwQbxsCebOtKjLfczlcdeSZG4f+mKVtnezmrh/+f40Df6tn?=
- =?us-ascii?Q?jSOT7NSoG/VMzpW/9bFj5ZejgbD8ybNYoDms07ZlLegHezJTBAxLuUQJjrd8?=
- =?us-ascii?Q?wmVHOE6+05EX00Gr28C/bMtGHBwzpgppL9i36NQdR71+3W0MsFZtSChO64ug?=
- =?us-ascii?Q?LtOM09bSLVcDj7hpx69vRQ1eSLdgbsnjRbfz85NpsV/xY7dIEcOm3M/wjuUS?=
- =?us-ascii?Q?lY4EW8UyCWqj/viumkx+d3+IEAmzG24y+9dzJxolvQLi9kQoYbrB/ooljb9f?=
- =?us-ascii?Q?0kHnhF7GHdI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR11MB8107.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lA1l8sWjxQ+gmRzLx+OkHn+bBccCHYBpO7CBmL/5MX2FhrIUVtcZ3d4+Bu/f?=
- =?us-ascii?Q?lf4FQruRQ6R3y/AvAX6XxKu8oTm0Vf8nD/shh+vUeAetcieFKm69ZG74KnNL?=
- =?us-ascii?Q?5+dgiZbZl3flBB/8t6RWBmr17DNo2YVRu6VI5Dci1WAo3AjePmTc1GBj0Nva?=
- =?us-ascii?Q?2IxlhjGwzPNzTeq4/nfLFB6O98IU3PICs10Och+q5utmEc8r8y5BYsHOG/1L?=
- =?us-ascii?Q?YATQo5pmbjEwf43WaGID2SCZFZOALeBc/d2GuN5Ui5O6ObaYjgU2FrEzkwIe?=
- =?us-ascii?Q?HZIYvV1CtH6zJIBPq1rCiZSir+NFzWLghlfxU+nD4I57H/gGX+eNZkt3p5Ca?=
- =?us-ascii?Q?JraWCEuHPBRygAayk+zG9S+XdKMEUQ2anQFgaXoKH6WaQX+/gOc1bNmV7Aur?=
- =?us-ascii?Q?y5POMR4KMGwU8JmUKhUc04UkoYx0oQtvwxD/Cmt82hSXXVnKuDKQliE3CY6S?=
- =?us-ascii?Q?9IdtwNvsKKgHiXnMWgmw33oEigqdJ8Wp7+m0fN1g32RBKuv8bROsY/mcq8rs?=
- =?us-ascii?Q?iSRC9yHUYALG8nszRUQNJizcpLBbum0Zt+FQHDJUwMGp7deDfAshtLIC2XbN?=
- =?us-ascii?Q?qh0ksyU5tNtut0aKJWP1WGPlLRUOrvTh52jDf8OZLLQb+A/xOpp1C++DnXRh?=
- =?us-ascii?Q?MBiCHUiUbmFNcd33wLCTG8fiKsxS4NwFqhW5AdYoRTNSzPVAWkRxe0Cw2IKs?=
- =?us-ascii?Q?3em2TsrACLX4n/jiLWaBOnURFgTN9Ubk6VbTsO5bLIKcrFC7RzVzCcJoudxm?=
- =?us-ascii?Q?dDC4KW6iudniUc61FNFwVBpN06MYtyT3o42xYyZ2Ll6ym29X0eOgaglRmN9A?=
- =?us-ascii?Q?TBlcFj4w2n3Q/bFU/4rdLrm0oJngISxjewET6S/QYO8UN5xMnpW6dLY1eUrw?=
- =?us-ascii?Q?xTdXOrY0OxDCDyf+m2fi7vNirEIQw5jGXHwE1adsfIw1V0Kk0U6Pj9VqebmE?=
- =?us-ascii?Q?J2s3hTQeNkiAuubZc8fRXv1vQfXc5OE6rwHFA/7sRLQQLPb5SjjOtTW3JoSU?=
- =?us-ascii?Q?Cs+ogMWjW6rVcVLGedEPtB9c0Y0908g09fH3YTgbmbUqzIj0ckzrMIPhQnvX?=
- =?us-ascii?Q?vxQfb2KLuppOPAFcH4b+NrtR3tvDGTC5EXKR08hpg+tnFKvUxb/BroL+GAuU?=
- =?us-ascii?Q?KQ4iKbRBVZ1KpepVMsJvStGEsMAOwTkLtkxqhRYbB0TIyDHMV+YfIseRLxbo?=
- =?us-ascii?Q?xGDA3UCr6AlmYAL8QbN987ywmzWaPTsgAxZIPXokwjpY1FJGz8esvVj9S+vd?=
- =?us-ascii?Q?0EB/+RO8od3eB0bvBrCzKG0wKwrmnMHkxBqP4833I2Mvdum65Dtyus3IuF20?=
- =?us-ascii?Q?pvlRlUcTXdY8J4TF2K1eNDDxnCD6AGnGjGy8Ai+WVrMI54FppcHXDsp9ytjR?=
- =?us-ascii?Q?pu0t/rnYzGlW5DaQIn64xDg7dYJ8ADnCxoN2wv2whKN9ZbO2HX/+bzHsdndz?=
- =?us-ascii?Q?NC2FOm7Ig95itmQ/hB1j8kR5PcOjqeZW8NeBbo3pIH4lbB7PpTXXawUx1hMb?=
- =?us-ascii?Q?fl233kejYKYBjEKA4wl2+A88vRcdXwOgy4WR1l3U910pn0Th5oUAIrdl6IOq?=
- =?us-ascii?Q?RWRERHth6ccKGLCSZ3jfdj6q7YIDzQq1+Qac/dKwfGB2Luajaf22xo2UWs6F?=
- =?us-ascii?Q?5g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62dec856-fda4-4beb-5aa7-08dda3d49120
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 01:59:12.1877 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ihh09ZvmuQw5JCe9POBPH4PwjvSWvMcggnsK8h6POm3gtlrQr36mz+OCChi6bMo+50UN5xYJcFhvtA6gbApuOhZeSUPMKwfqdHNrpShtwJM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4604
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="esmnYBZSXAl4HZ/C"
+Content-Disposition: inline
+In-Reply-To: <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,130 +94,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alistair Popple wrote:
-> Previously dax pages were skipped by the pagewalk code as pud_special() or
-> vm_normal_page{_pmd}() would be false for DAX pages. Now that dax pages are
-> refcounted normally that is no longer the case, so add explicit checks to
-> skip them.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> ---
->  include/linux/memremap.h | 11 +++++++++++
->  mm/pagewalk.c            | 12 ++++++++++--
->  2 files changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 4aa1519..54e8b57 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -198,6 +198,17 @@ static inline bool folio_is_fsdax(const struct folio *folio)
->  	return is_fsdax_page(&folio->page);
->  }
->  
-> +static inline bool is_devdax_page(const struct page *page)
-> +{
-> +	return is_zone_device_page(page) &&
-> +		page_pgmap(page)->type == MEMORY_DEVICE_GENERIC;
-> +}
-> +
-> +static inline bool folio_is_devdax(const struct folio *folio)
-> +{
-> +	return is_devdax_page(&folio->page);
-> +}
-> +
->  #ifdef CONFIG_ZONE_DEVICE
->  void zone_device_page_init(struct page *page);
->  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> diff --git a/mm/pagewalk.c b/mm/pagewalk.c
-> index e478777..0dfb9c2 100644
-> --- a/mm/pagewalk.c
-> +++ b/mm/pagewalk.c
-> @@ -884,6 +884,12 @@ struct folio *folio_walk_start(struct folio_walk *fw,
->  		 * support PUD mappings in VM_PFNMAP|VM_MIXEDMAP VMAs.
->  		 */
->  		page = pud_page(pud);
-> +
-> +		if (is_devdax_page(page)) {
-> +			spin_unlock(ptl);
-> +			goto not_found;
-> +		}
-> +
->  		goto found;
->  	}
->  
-> @@ -911,7 +917,8 @@ struct folio *folio_walk_start(struct folio_walk *fw,
->  			goto pte_table;
->  		} else if (pmd_present(pmd)) {
->  			page = vm_normal_page_pmd(vma, addr, pmd);
-> -			if (page) {
-> +			if (page && !is_devdax_page(page) &&
-> +			    !is_fsdax_page(page)) {
 
-It just looks awkward to say "yup, normal page, but not *that*
-'normal'".
+--esmnYBZSXAl4HZ/C
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What about something like the below? Either way you can add:
+On Wed, Jun 04, 2025 at 04:37:27PM +0200, Simona Vetter wrote:
+> On Mon, Jun 02, 2025 at 08:28:30AM +0700, Bagas Sanjaya wrote:
+> > On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
+> > > Add an overview diagram of Linux DRM architecture for
+> > > graphics and compute to introduction.rst
+> > >=20
+> > > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> > > ---
+> > > <snipped>...
+> > > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/i=
+ntroduction.rst
+> > > index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec=
+52a45d0f3f4561424e0 100644
+> > > --- a/Documentation/gpu/introduction.rst
+> > > +++ b/Documentation/gpu/introduction.rst
+> > > @@ -14,7 +14,45 @@ including the TTM memory manager, output configura=
+tion and mode setting,
+> > >  and the new vblank internals, in addition to all the regular features
+> > >  found in current kernels.
+> > > =20
+> > > -[Insert diagram of typical DRM stack here]
+> > > +Overview of the Linux DRM Architecture
+> > > +--------------------------------------
+> > > +::
+> > > +
+> > > +        +-----------------------------+
+> > > +        |     User-space Apps         |
+> > > +        | (Games, Browsers, ML, etc.) |
+> > > +        +-----------------------------+
+> > > +                      |
+> > > +                      v
+> > > +        +---------------------------------------+
+> > > +        |    Graphics APIs   |   Compute APIs   |
+> > > +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+> > > +        +---------------------------------------+
+> > > +                |                   |
+> > > +                v                   v
+> > > +        +---------------------+  +-----------------------+
+> > > +        |  User-space Driver  |  |    Compute Runtime    |
+> > > +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+> > > +        +---------------------+  +-----------------------+
+> > > +                |                   |
+> > > +                +--------+----------+
+> > > +                         |
+> > > +                         v
+> > > +                +-----------------------+
+> > > +                |   libdrm (DRM API)    |
+> > > +                +-----------------------+
+> > > +                          |
+> > > +                          v
+> > > +        +-------------------------------------------+
+> > > +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
+> > > +        |     nouveau, etc.)                        |
+> > > +        +-------------------------------------------+
+> > > +                |                       |
+> > > +                v                       v
+> > > +        +----------------+     +-------------------+
+> > > +        | GPU Display HW |     | GPU Compute Units |
+> > > +        +----------------+     +-------------------+
+> > > +
+>=20
+> I'm a bit late to the party, apologies. I'm not sure how much use there is
+> in an extremely simplified diagram like this, least because it's really
+> incomplete and leaves out the entire display and compositor side.
+>=20
+> My idea was that we'd instead link to the large pile of introductory and
+> overview talks further down in this file, if people want to get an
+> overview over what drm does.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+So the stub that's being patched here can be removed, right?
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 12d96659e8b4..4e549669166b 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2471,6 +2471,27 @@ struct folio *vm_normal_folio_pmd(struct vm_area_struct *vma,
- struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
- 				pmd_t pmd);
- 
-+/* return normal pages backed by the page allocator */
-+static inline struct page *vm_normal_gfp_pmd(struct vm_area_struct *vma,
-+					     unsigned long addr, pmd_t pmd)
-+{
-+	struct page *page = vm_normal_page_pmd(vma, addr, pmd);
-+
-+	if (!is_devdax_page(page) && !is_fsdax_page(page))
-+		return page;
-+	return NULL;
-+}
-+
-+static inline struct page *vm_normal_gfp_pte(struct vm_area_struct *vma,
-+					     unsigned long addr, pte_t pte)
-+{
-+	struct page *page = vm_normal_page(vma, addr, pte);
-+
-+	if (!is_devdax_page(page) && !is_fsdax_page(page))
-+		return page;
-+	return NULL;
-+}
-+
- void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
- 		  unsigned long size);
- void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
-diff --git a/mm/pagewalk.c b/mm/pagewalk.c
-index cca170fe5be5..54bfece05323 100644
---- a/mm/pagewalk.c
-+++ b/mm/pagewalk.c
-@@ -914,9 +914,8 @@ struct folio *folio_walk_start(struct folio_walk *fw,
- 			spin_unlock(ptl);
- 			goto pte_table;
- 		} else if (pmd_present(pmd)) {
--			page = vm_normal_page_pmd(vma, addr, pmd);
--			if (page && !is_devdax_page(page) &&
--			    !is_fsdax_page(page)) {
-+			page = vm_normal_gfp_pmd(vma, addr, pmd);
-+			if (page) {
- 				goto found;
- 			} else if ((flags & FW_ZEROPAGE) &&
- 				    is_huge_zero_pmd(pmd)) {
-@@ -949,9 +948,8 @@ struct folio *folio_walk_start(struct folio_walk *fw,
- 	fw->pte = pte;
- 
- 	if (pte_present(pte)) {
--		page = vm_normal_page(vma, addr, pte);
--		if (page && !is_devdax_page(page) &&
--		    !is_fsdax_page(page))
-+		page = vm_normal_gfp_pte(vma, addr, pte);
-+		if (page)
- 			goto found;
- 		if ((flags & FW_ZEROPAGE) &&
- 		    is_zero_pfn(pte_pfn(pte))) {
+>=20
+> If you want I guess you could add some links to the relevant wikipedia
+> pages, I think they also do a fairly decent job of explaining the big
+> picture.
 
+What articles?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--esmnYBZSXAl4HZ/C
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaED6agAKCRD2uYlJVVFO
+o+P/AP46+k76LZr5ysuDahlolJMYUhTpQvrwrM4YWtWsu9yU8QEA9v9QEfg1I8Ew
+mwig43hchoMKvLYr3f/QQu4dFHZ1fQ0=
+=capg
+-----END PGP SIGNATURE-----
+
+--esmnYBZSXAl4HZ/C--
