@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9FFACF6C4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 20:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1570ACF6C6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 20:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36D010E9D2;
-	Thu,  5 Jun 2025 18:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF8C10E9ED;
+	Thu,  5 Jun 2025 18:32:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jiM/bpZ7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nCgqBwvc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 863FF10E96A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 18:32:54 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55593qcj007709
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Jun 2025 18:32:54 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4E610E9ED
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 18:32:56 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 555AE7TQ011697
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Jun 2025 18:32:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=ZmGKliz2HfS
- kLFaMboPGj46o2FCBYdJ6NdGmIRY3dt8=; b=jiM/bpZ7zNpc+vJjH40exJvMVGF
- sZ8pOG32e1uWNY98RpOn2vTEfPgg2z8nRX/v6Hr+jtG7ULbmtdlrrB9JftRTwf9K
- ozMd5b3w3V6jH0IjilHt8mRfgnarcyjCxQKHYf6pVqotbvjYLNkUKnkFa4Z2v/o6
- p4+JqDHJhtEr6mzhhmxuA0YOFELOqo0XX3FBGbjBQZ8wIglcAl551aLY5lPAf8rp
- Ww297rmTeMr85hLtEENlbsY1Q62Gfyf6LtIhIvYj1JBwNMrbJyQvRl2+PJDu2Nlh
- MoVNMRI1663AVLQzl2BDICWj2hdq3QWfjgoxWWsxG7UT704SnPYQ/I1v2IQ==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8t29p0-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=ffdUUPweRzg
+ vpO3v9DoMvCSyNHDyemApNNm03T9kbrM=; b=nCgqBwvcddObPEvajmL7730nKjU
+ /vphKVp4/wfzO9IZG+mUCSlP7tSU3GaTGt2ZMXBkf7xHGVtxhVEtF/0DmdxQIz57
+ XY35OBMcI5sEtRteJjWr5EYXSSJGDNe6bexcOa1MpqCEaQrVMFpBjmAdaJvHSBnn
+ 6xseS24P4kwMN42wZACQ9HZS+39/zL7cFBtbpTOJgjnhzWDw6VHhAEdtb30p4JV7
+ o1yVwyuLt08w6dLObLF00I0yThX/jaQQqt+/FQ6zQ8trW3cQE+fwFyhBQw89b57x
+ iMbDEOEk4jzepqsG4HjCxcEYraW6BdMpUU5rQYkb6/CVQMRuO6sN+ZMnuuw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47202wg07u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 18:32:54 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b090c7c2c6aso735895a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 11:32:53 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 18:32:55 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-235e7550f7bso12953165ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 11:32:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749148373; x=1749753173;
+ d=1e100.net; s=20230601; t=1749148374; x=1749753174;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZmGKliz2HfSkLFaMboPGj46o2FCBYdJ6NdGmIRY3dt8=;
- b=XHY+l+iY8zQaFZWOaEjZdZ1DWXT5q+cLdL4NXEg0vk3BfqOowlb+M33iJUBSH07KK7
- xLLMlDze/Qlyo+EtAZ1y9SwbCfdq8immk48QUXKfpoVsZm4K9JTIF5FTUQ1QHKkHKcXg
- qRFmCV6g5whGVzbMMElz31T4J+MDzFiSB5vx2aM2iKto4pnPw4Nd8dnlYYaIH+0hLZGq
- 4Urj3oAKS0uKb3lmadtKjEhm4hWFY2WIxqzZw1okWVSoSd40xLQ6NVm80W+pBYcioGD9
- CeVilgA2yivOd0ifGHDWpTjjoIa2lUO/7TWBW2OsNyfm8V5dNGcre+bR7RFlYtronNC1
- 44Gg==
-X-Gm-Message-State: AOJu0Yy9AmC6kC7KKJb+fxZ9Yb7K5CyyJhpwh6kM0EBaDs7Ao6epZbIX
- 7yV1G56Flf4xd2Rsc6K8uK4OKx95uwT/4q8N5F5gKilGELS55w1zaEINP8VM+glitxzstismSqo
- d1uR/9yZ+X4MC1wRMwVbNMmEpGYg16TCXjh4Bn9eAYIW/YBx0mR0s9kGFBmNbzaQXvgD8t1z/fU
- XwWRA=
-X-Gm-Gg: ASbGncs0XYOTEMJcNGGYsWKdjEKGz6cloanIhzwcYK0bgSSq0IG+WVtyYclIITEpGuq
- cc7NqYHo0t/Z4wgbhdd4bbrHVpbAMLdrG8qJ4RwLNCUscVhgVotVlCdrWp3xZhad4T333z0ArqE
- UC+iF6iT6Jft/jmkBMWoJWwEHc7Xw53AXeTYXE0MfpJWS8DiGRDOQnlR9wlyzF4/++zrf6h3hf4
- CV+qv77TwaiOt1z9hEoZeRx6r2+NblsYABQmYz4+ult1ES5sINg0coorcjE87RgKXfli/kBgwIC
- AP8HQV8RL8RNSJnQFkhlUA==
-X-Received: by 2002:a17:90b:554d:b0:311:c5d9:2c79 with SMTP id
- 98e67ed59e1d1-31346c50561mr888513a91.21.1749148372990; 
- Thu, 05 Jun 2025 11:32:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHyetsmd5uwbFaFtMcmZkbXRpee07zjRboGQZE4XMHIFA39QakUNWJDzUUaxfsPJ5Rk9vOEJw==
-X-Received: by 2002:a17:90b:554d:b0:311:c5d9:2c79 with SMTP id
- 98e67ed59e1d1-31346c50561mr888471a91.21.1749148372577; 
- Thu, 05 Jun 2025 11:32:52 -0700 (PDT)
+ bh=ffdUUPweRzgvpO3v9DoMvCSyNHDyemApNNm03T9kbrM=;
+ b=NVXAl6TvCUDhBBFAUJCyJjLspGfg2i1mJtihdqQ5D0Shprw9oiPWMKS+QrrHCT+r88
+ vFiBTSSnaDihhqk6YlZ2l5IYfOVNSYNZf7hCQhjCWNyO5u7tUl1YsjItb0RhU81AErZ2
+ zAGjg1rN4HY/CRTSG2udcj0uNYao0VbCF01weocwDhxwOBz7QL7T+Nc3bMJPmJZ7UBJL
+ mdz9Q+A5hbuNoBYbp3kDHHmqV338S6KGrDUJZuKA1HG+7uLHKAoGoFqmlihvlJmeQghB
+ 9sDMncZkwadiRmngy8k+50mXbaSGImvam7py4Zcb4ug20IMoeQ8cthSGVFgyQKPEylzB
+ e9Yw==
+X-Gm-Message-State: AOJu0YxeUyoWZgW5sUAuPN88M1mhkW+0+eostfVi36Sl2hySXey/u0ba
+ 7hhvyI8GFHlBROZ21RWkiRwhwycnSEgBOSNZDSgJz2aSQrCmwlvOlysvZkTV2JN8v9OsV/4n+zK
+ +EfGONU1MYxAvXJVGfmXHQxpaV8C50hg31r0lMp34YBOhOzc86biDyRP4AWHB5ImHOerFVDFPt+
+ QVp9A=
+X-Gm-Gg: ASbGncuVl3DHKpar3ZhsZZ2yeHUExXHZCydw9VVHaJj+6kR51qjAlawQSH8ruRBQVOz
+ 8DoBfFYRyihifEw6efADm6xoW86Glxe/blULvt39Mo9y0jwjoqBabtM5dDu4PBPqm3ASm5bmNh9
+ skBOWlQHs7+TgMe2sSiNVjAhbtJy/60C9+SL7svJueT2YR+fWgUK32TSCWVT/H2AYzlJb4rwtWt
+ I1mYQdN90QvbWi6wyQMyuqAhYlt/+zVKAzi5BrdTxle8x/5XErKytUyxX/Y4YhAhbjwJzhj4DAK
+ PO3k0pJ+wmJ4pceMLobwQg==
+X-Received: by 2002:a17:903:8c6:b0:235:f55d:99cd with SMTP id
+ d9443c01a7336-23601d04741mr5714505ad.9.1749148374198; 
+ Thu, 05 Jun 2025 11:32:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5kPTJZ9p7ITwX2L2PkFEST+pWrFDoURTl9jpp7xvKlXfywvcT8Oeg8Fe8Ntp7oh74HigMLA==
+X-Received: by 2002:a17:903:8c6:b0:235:f55d:99cd with SMTP id
+ d9443c01a7336-23601d04741mr5714185ad.9.1749148373797; 
+ Thu, 05 Jun 2025 11:32:53 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:89fa:e299:1a34:c1f5])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31349fc5460sm61213a91.23.2025.06.05.11.32.52
+ d9443c01a7336-23506cd75f7sm122855085ad.111.2025.06.05.11.32.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jun 2025 11:32:52 -0700 (PDT)
+ Thu, 05 Jun 2025 11:32:53 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -78,37 +78,38 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v6 17/40] drm/msm: Rename msm_gem_vma_purge() -> _unmap()
-Date: Thu,  5 Jun 2025 11:29:02 -0700
-Message-ID: <20250605183111.163594-18-robin.clark@oss.qualcomm.com>
+Subject: [PATCH v6 18/40] drm/msm: Drop queued submits on lastclose()
+Date: Thu,  5 Jun 2025 11:29:03 -0700
+Message-ID: <20250605183111.163594-19-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250605183111.163594-1-robin.clark@oss.qualcomm.com>
 References: <20250605183111.163594-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=RMizH5i+ c=1 sm=1 tr=0 ts=6841e2d6 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=jqtXezU9Yb2X64KsF0MA:9
- a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDE2NCBTYWx0ZWRfXynCdm1Z+IEr1
- 50znn8W7jJXWJxpUj1p9hECXgGSS1flnWy1gP7jHJTL6WGYzXXK/bSd59+aSj5arcfd6r9yHK0n
- evxHVpxPrJpwYMCCKmxIoGz9z6NQURI0eV/EnTGS5wWwXgJZbQceILT7VlDBw4Gg4M1VdfIfaXE
- mYGFpNmwVcZqcQmmg06QuxGTiXDm3AKQbKf31a6boCE1oUZrQiaypv/vjF+zD87/hZU3mtkVAgb
- gWIPTGXzai6lTMlr2I4unwXX57u6cUSS88GgUF5Lw6tZyuv7qHDA5k4SLCq4rQfelACPYflDcyp
- ZIGxCZA8/jy6rX0W8EwKTqp/wm/nNI8oijB9uHXc1VCJJMqMyTwYKD354S/UTk3kr4JenEe51P/
- iWX8gHcqcBF00zfXPwPjNObcx9Go0Xvz/5waBGZzRYcubRlz2jlaGiwt82Fb6OQigfqzK+Yz
-X-Proofpoint-GUID: RdTXLq6HVFPM_OoDqX1AFKTdbyxfOj0q
-X-Proofpoint-ORIG-GUID: RdTXLq6HVFPM_OoDqX1AFKTdbyxfOj0q
+X-Proofpoint-ORIG-GUID: bCorMRDoMSMED63oC1lJGd4vFwelBsZT
+X-Proofpoint-GUID: bCorMRDoMSMED63oC1lJGd4vFwelBsZT
+X-Authority-Analysis: v=2.4 cv=Y/D4sgeN c=1 sm=1 tr=0 ts=6841e2d7 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=Vc5hAS3c26tUa1HFGawA:9
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDE2NSBTYWx0ZWRfX67Z70Gsuxe1K
+ SVG4b8V1ef68XWJ5YDRIcNd25EX5pZ0fG65qmN4jFsVuASjBOxyZ7qJlZSmA5ev+YgbU2ViR9yL
+ bbGe8T4abHbnG5yG9NkTrkIKV2u8L0djHO3S5gGlAXs8bSDpPHs9VxpRW/UkNAJiZuy+pktBnqv
+ 3ekwpYL0VY1htGYoANy/7WqonxaNaqucaDKk3xi/Fcu8eYoR54KLf2rvEvu5C6sXAIGo4nrC/qg
+ 8FkngFLJRJubCk3kBKSh3my82dsWxgeobKV0j7ZfnVuNAW7gIqxxi2DhdH4117jgl5UEH/d139C
+ OjrERou0Z+SD+eB/OQO4vqh664rXYzCSxjza5uDCCgiwRXNstm3G3DUoG9N6HeXU0PnMVRjiFc+
+ oTJ/piIhU844Xs2WAMkO51ucic3B8PBKWelCLZK5pLJsT1hU0HdwLDN9pWLr5/dWd0jw9GeM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-05_05,2025-06-05_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 adultscore=0 mlxlogscore=974 mlxscore=0
- clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506050164
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506050165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,73 +127,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This is a more descriptive name.
+If we haven't written the submit into the ringbuffer yet, then drop it.
+The submit still retires through the normal path, to preserve fence
+signalling order, but we can skip the IB's to userspace cmdstream.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_gem.c     | 6 +++---
- drivers/gpu/drm/msm/msm_gem.h     | 2 +-
- drivers/gpu/drm/msm/msm_gem_vma.c | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c        | 1 +
+ drivers/gpu/drm/msm/msm_gpu.h        | 8 ++++++++
+ drivers/gpu/drm/msm/msm_ringbuffer.c | 6 ++++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 194a15802a5f..89fead77c0d8 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -61,7 +61,7 @@ static void detach_vm(struct drm_gem_object *obj, struct drm_gpuvm *vm)
- 		drm_gpuvm_bo_for_each_va (vma, vm_bo) {
- 			if (vma->vm != vm)
- 				continue;
--			msm_gem_vma_purge(vma);
-+			msm_gem_vma_unmap(vma);
- 			msm_gem_vma_close(vma);
- 			break;
- 		}
-@@ -437,7 +437,7 @@ put_iova_spaces(struct drm_gem_object *obj, struct drm_gpuvm *vm, bool close)
- 		drm_gpuvm_bo_get(vm_bo);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 6ef29bc48bb0..5909720be48d 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -250,6 +250,7 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
  
- 		drm_gpuvm_bo_for_each_va_safe (vma, vmatmp, vm_bo) {
--			msm_gem_vma_purge(vma);
-+			msm_gem_vma_unmap(vma);
- 			if (close)
- 				msm_gem_vma_close(vma);
- 		}
-@@ -615,7 +615,7 @@ static int clear_iova(struct drm_gem_object *obj,
- 	if (!vma)
- 		return 0;
- 
--	msm_gem_vma_purge(vma);
-+	msm_gem_vma_unmap(vma);
- 	msm_gem_vma_close(vma);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 2dd9a7f585f4..ec1a7a837e52 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -111,7 +111,7 @@ struct msm_gem_vma {
- struct drm_gpuva *
- msm_gem_vma_new(struct drm_gpuvm *vm, struct drm_gem_object *obj,
- 		u64 offset, u64 range_start, u64 range_end);
--void msm_gem_vma_purge(struct drm_gpuva *vma);
-+void msm_gem_vma_unmap(struct drm_gpuva *vma);
- int msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt);
- void msm_gem_vma_close(struct drm_gpuva *vma);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index ef0efd87e4a6..e16a8cafd8be 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -21,7 +21,7 @@ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
- }
- 
- /* Actually unmap memory for the vma */
--void msm_gem_vma_purge(struct drm_gpuva *vma)
-+void msm_gem_vma_unmap(struct drm_gpuva *vma)
+ static void context_close(struct msm_context *ctx)
  {
- 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
- 	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
++	ctx->closed = true;
+ 	msm_submitqueue_close(ctx);
+ 	msm_context_put(ctx);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index d8425e6d7f5a..bfaec80e5f2d 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -362,6 +362,14 @@ struct msm_context {
+ 	 */
+ 	int queueid;
+ 
++	/**
++	 * @closed: The device file associated with this context has been closed.
++	 *
++	 * Once the device is closed, any submits that have not been written
++	 * to the ring buffer are no-op'd.
++	 */
++	bool closed;
++
+ 	/** @vm: the per-process GPU address-space */
+ 	struct drm_gpuvm *vm;
+ 
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index bbf8503f6bb5..b8bcd5d9690d 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -17,6 +17,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 	struct msm_fence_context *fctx = submit->ring->fctx;
+ 	struct msm_gpu *gpu = submit->gpu;
+ 	struct msm_drm_private *priv = gpu->dev->dev_private;
++	unsigned nr_cmds = submit->nr_cmds;
+ 	int i;
+ 
+ 	msm_fence_init(submit->hw_fence, fctx);
+@@ -36,8 +37,13 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 	/* TODO move submit path over to using a per-ring lock.. */
+ 	mutex_lock(&gpu->lock);
+ 
++	if (submit->queue->ctx->closed)
++		submit->nr_cmds = 0;
++
+ 	msm_gpu_submit(gpu, submit);
+ 
++	submit->nr_cmds = nr_cmds;
++
+ 	mutex_unlock(&gpu->lock);
+ 
+ 	return dma_fence_get(submit->hw_fence);
 -- 
 2.49.0
 
