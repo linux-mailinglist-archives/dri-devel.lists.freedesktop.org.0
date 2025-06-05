@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347C1ACF314
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 17:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC90EACF316
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 17:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85D7710E995;
-	Thu,  5 Jun 2025 15:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E57310E898;
+	Thu,  5 Jun 2025 15:30:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EgLzXo0B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YDUa6UlP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EgLzXo0B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YDUa6UlP";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DpfIyMpt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J3CCjzUS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W2WK5XIz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kcBUrlVB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DCCF10E980
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 15:30:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1D310E933
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 15:30:40 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 843F733757;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F09DE33775;
  Thu,  5 Jun 2025 15:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749137419; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1749137420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Aui/Pqqqwzsq0sYniA2Zk5/xKPB5gd5V5Ac7NebTvmk=;
- b=EgLzXo0BwgYRtFQUkQuL0eqrUrtzEBzQHWbRcGJ6as23j2K39mhP0JiS+LF4cumHVyZar1
- iC5syaxvgfhxo1oKsWZkpAae2QBzf1Lq4gQNWnEscp7MVNe+FeTPuc4j6nL67CRTm36WjQ
- 1V5hZzqsnVQwS0uU2dv7phcAOsSmvI4=
+ bh=TWZYf/4Hp4po+YB+KpUBSXdQFsIqSWkSI0Twjkm0c10=;
+ b=DpfIyMptzj1CViu0SpRLDE4DXbsTW5Ng1Mimhe/0Ql4f2t7gAWxK8TJ0nN6cKpYMknCghO
+ u97qqIMz7avbs5KUxkQErEz5cRslaGEPfCIQqiZFhc/sRCgCLIy4EkgKrIt2hTMrARB5jV
+ MCUvFzlbB9zygXC6Ly06s66fa1SZFlI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749137419;
+ s=susede2_ed25519; t=1749137420;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Aui/Pqqqwzsq0sYniA2Zk5/xKPB5gd5V5Ac7NebTvmk=;
- b=YDUa6UlP42UzsMm5F1EMHmviQreWXaofqV3ajG4HdbrOlNoFq71rT9HWcgU1Q5wuy5Dev3
- 4Hm3bLvPSEIPcKAQ==
+ bh=TWZYf/4Hp4po+YB+KpUBSXdQFsIqSWkSI0Twjkm0c10=;
+ b=J3CCjzUSn9nulESTF2+XIXA/hgbkRnFaZC6jMpGzl1GihGBfUVgD8gjt4xyWQIzATR5o/1
+ QwT4d3EypGy58kBg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -49,27 +49,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Aui/Pqqqwzsq0sYniA2Zk5/xKPB5gd5V5Ac7NebTvmk=;
- b=EgLzXo0BwgYRtFQUkQuL0eqrUrtzEBzQHWbRcGJ6as23j2K39mhP0JiS+LF4cumHVyZar1
- iC5syaxvgfhxo1oKsWZkpAae2QBzf1Lq4gQNWnEscp7MVNe+FeTPuc4j6nL67CRTm36WjQ
- 1V5hZzqsnVQwS0uU2dv7phcAOsSmvI4=
+ bh=TWZYf/4Hp4po+YB+KpUBSXdQFsIqSWkSI0Twjkm0c10=;
+ b=W2WK5XIzycyrSzYU+Rkomw3+1kQIGywLGtnhydI08Y2JA1Md2jj3kChtxjxXUhr6YuZsfa
+ llsB4oXCQXcYySGlWwIW6mCawamFg0F09Rh5T0wvJu4UZnJ4cUepRexDZOfkiQqxOkrn1R
+ xx86uevk2RO0/RNA1z5FCODgt6u+qR4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1749137419;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Aui/Pqqqwzsq0sYniA2Zk5/xKPB5gd5V5Ac7NebTvmk=;
- b=YDUa6UlP42UzsMm5F1EMHmviQreWXaofqV3ajG4HdbrOlNoFq71rT9HWcgU1Q5wuy5Dev3
- 4Hm3bLvPSEIPcKAQ==
+ bh=TWZYf/4Hp4po+YB+KpUBSXdQFsIqSWkSI0Twjkm0c10=;
+ b=kcBUrlVBQdp+MN5pVAyJHRL6Gj8hr31WwYctFAfR4QRlQgzsSFc/hwV8bnyXJjOV3aoHaF
+ IUnY/MuYjCc5ixAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1AEAD13A1D;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8ADCD1373E;
  Thu,  5 Jun 2025 15:30:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mMRIBQu4QWj3XwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id aHVwIAu4QWj3XwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 05 Jun 2025 15:30:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: mhklinux@outlook.com, maarten.lankhorst@linux.intel.com,
@@ -79,23 +79,21 @@ To: mhklinux@outlook.com, maarten.lankhorst@linux.intel.com,
  fvogt@suse.com
 Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
  virtualization@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 5/6] drm/hypervdrm: Use vblank timer
-Date: Thu,  5 Jun 2025 17:24:43 +0200
-Message-ID: <20250605152637.98493-6-tzimmermann@suse.de>
+Subject: [PATCH 6/6] drm/fb-helper: Synchronize dirty worker with vblank
+Date: Thu,  5 Jun 2025 17:24:44 +0200
+Message-ID: <20250605152637.98493-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250605152637.98493-1-tzimmermann@suse.de>
 References: <20250605152637.98493-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -1.30
 X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
  NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
  ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
  TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
  RCPT_COUNT_TWELVE(0.00)[16]; MIME_TRACE(0.00)[0:+];
  TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
  FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
@@ -106,6 +104,8 @@ X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com]
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,148 +121,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HyperV's virtual hardware does not provide vblank interrupts. Use a
-vblank timer to simulate the interrupt in software. Rate-limits the
-display's update frequency to the display-mode settings. Avoids
-excessive CPU overhead with compositors that do not rate-limit their
-output.
+Before updating the display from the console's shadow buffer, the dirty
+worker now waits for a vblank. This allows several screen updates to pile
+up and acts as a rate limiter. If a DRM master is present, it could
+interfere with the vblank. Don't wait in this case.
+
+v3:
+	* add back helper->lock
+	* acquire DRM master status while waiting for vblank
+v2:
+	* don't hold helper->lock while waiting for vblank
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/hyperv/hyperv_drm.h         |  4 ++
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 70 +++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ drivers/gpu/drm/drm_fb_helper.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
-index 9e776112c03e..730e4a37545d 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm.h
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
-@@ -6,12 +6,16 @@
- #ifndef _HYPERV_DRM_H_
- #define _HYPERV_DRM_H_
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 937c3939e502..e0b780634a84 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -364,9 +364,29 @@ static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
+ 	struct drm_device *dev = helper->dev;
+ 	struct drm_clip_rect *clip = &helper->damage_clip;
+ 	struct drm_clip_rect clip_copy;
++	struct drm_crtc *crtc;
+ 	unsigned long flags;
+ 	int ret;
  
-+#include <drm/drm_vblank.h>
-+#include <drm/drm_vblank_timer.h>
-+
- #define VMBUS_MAX_PACKET_SIZE 0x4000
- 
- struct hyperv_drm_device {
- 	/* drm */
- 	struct drm_device dev;
- 	struct drm_plane plane;
-+	struct drm_vblank_timer vtimer;
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 	struct drm_connector connector;
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index f7d2e973f79e..ed19e471b96f 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -97,6 +97,28 @@ static const uint64_t hyperv_modifiers[] = {
- 	DRM_FORMAT_MOD_INVALID
- };
- 
-+static void hyperv_crtc_helper_atomic_flush(struct drm_crtc *crtc,
-+					    struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	struct drm_pending_vblank_event *event;
-+
-+	spin_lock_irq(&dev->event_lock);
-+
-+	event = crtc_state->event;
-+	crtc_state->event = NULL;
-+
-+	if (event) {
-+		if (drm_crtc_vblank_get(crtc) == 0)
-+			drm_crtc_arm_vblank_event(crtc, event);
-+		else
-+			drm_crtc_send_vblank_event(crtc, event);
++	/*
++	 * Rate-limit update frequency to vblank. If there's a DRM master
++	 * present, it could interfere while we're waiting for the vblank
++	 * event. Don't wait in this case.
++	 */
++	mutex_lock(&helper->lock);
++	if (!drm_master_internal_acquire(helper->dev)) {
++		goto unlock;
 +	}
++	crtc = helper->client.modesets[0].crtc;
++	ret = drm_crtc_vblank_get(crtc);
++	if (!ret) {
++		drm_crtc_wait_one_vblank(crtc);
++		drm_crtc_vblank_put(crtc);
++	}
++	drm_master_internal_release(helper->dev);
++unlock:
++	mutex_unlock(&helper->lock);
 +
-+	spin_unlock_irq(&dev->event_lock);
-+}
-+
- static void hyperv_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 					     struct drm_atomic_state *state)
- {
-@@ -110,13 +132,49 @@ static void hyperv_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 				crtc_state->mode.hdisplay,
- 				crtc_state->mode.vdisplay,
- 				plane_state->fb->pitches[0]);
-+
-+	drm_crtc_vblank_on(crtc);
-+}
-+
-+static void hyperv_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *crtc_state)
-+{
-+	drm_crtc_vblank_off(crtc);
- }
+ 	if (drm_WARN_ON_ONCE(dev, !helper->funcs->fb_dirty))
+ 		return;
  
- static const struct drm_crtc_helper_funcs hyperv_crtc_helper_funcs = {
- 	.atomic_check = drm_crtc_helper_atomic_check,
-+	.atomic_flush = hyperv_crtc_helper_atomic_flush,
- 	.atomic_enable = hyperv_crtc_helper_atomic_enable,
-+	.atomic_disable = hyperv_crtc_helper_atomic_disable,
- };
- 
-+static int hyperv_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	struct hyperv_drm_device *hv = to_hv(crtc->dev);
-+
-+	drm_vblank_timer_start(&hv->vtimer);
-+
-+	return 0;
-+}
-+
-+static void hyperv_crtc_disable_vblank(struct drm_crtc *crtc)
-+{
-+	struct hyperv_drm_device *hv = to_hv(crtc->dev);
-+
-+	drm_vblank_timer_cancel(&hv->vtimer);
-+}
-+
-+static bool hyperv_crtc_get_vblank_timestamp(struct drm_crtc *crtc,
-+					     int *max_error, ktime_t *vblank_time,
-+					     bool in_vblank_irq)
-+{
-+	struct hyperv_drm_device *hv = to_hv(crtc->dev);
-+
-+	return drm_vblank_timer_get_vblank_timestamp(&hv->vtimer, max_error,
-+						     vblank_time, in_vblank_irq);
-+}
-+
- static const struct drm_crtc_funcs hyperv_crtc_funcs = {
- 	.reset = drm_atomic_helper_crtc_reset,
- 	.destroy = drm_crtc_cleanup,
-@@ -124,6 +182,9 @@ static const struct drm_crtc_funcs hyperv_crtc_funcs = {
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+	.enable_vblank = hyperv_crtc_enable_vblank,
-+	.disable_vblank = hyperv_crtc_disable_vblank,
-+	.get_vblank_timestamp = hyperv_crtc_get_vblank_timestamp,
- };
- 
- static int hyperv_plane_atomic_check(struct drm_plane *plane,
-@@ -285,6 +346,15 @@ int hyperv_mode_config_init(struct hyperv_drm_device *hv)
- 		return ret;
- 	}
- 
-+	/* Vertical blanking */
-+
-+	ret = drm_vblank_init(dev, 1);
-+	if (ret)
-+		return ret;
-+	ret = drmm_vblank_timer_init(&hv->vtimer, &hv->crtc, NULL);
-+	if (ret)
-+		return ret;
-+
- 	drm_mode_config_reset(dev);
- 
- 	return 0;
 -- 
 2.49.0
 
