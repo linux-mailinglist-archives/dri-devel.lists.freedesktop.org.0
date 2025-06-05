@@ -2,102 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6002ACEFB6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 14:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661FAACEFD7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 15:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22AE110E278;
-	Thu,  5 Jun 2025 12:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0805110E27D;
+	Thu,  5 Jun 2025 13:02:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="vv1QtY64";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jQBnzzit";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F43710E278
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 12:57:16 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-e812c817de0so930752276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 05:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1749128235;
- x=1749733035; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8P9yRldB8efdjVI/GGOevnbpBNvIMbrliEBkXndufro=;
- b=vv1QtY642rZOJSo6W74vbcF/EPQ0AemnRTu8Gp97saSxMiT4975pZbLiVOsHxSnvQS
- kU7aQS2PAobvwBBGvwAn1JgGpLp0cZEUOWmTPLJTO4N9pyWZjabFz16n1qLlwpacvPeV
- cY7mPo34GGGjQZXxpD9wXNbHH1PO8CdPvx6yisDndmFxk3SL2xhZkGUi4mfGK5uGUnBj
- qQ/OX+fjlOXr+VkqSLe+G+iPGamE8tK+ENJ34oNZBOYjyF7x6cBV0fNwQi1NFTOqsxcG
- iXBXTfkJcIWIGLtinTJMH3QLKX/d3UhaKCgjx5LngAhaxxsMrHGX1h2stP9wbP74mlUh
- Zthg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8855110E27D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 13:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749128571;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xg498BWU6yCD+3EXYlmoQ452Swm7wT/w2qqavlOm8pU=;
+ b=jQBnzzitZ9fOxanrVar6jUnGWUtm4+yoLU5n6iXLOxuVQ2dPN3zaeJ3HgEKtdI4Ilc1Jly
+ oCULvBV2X5zLHUPjuamDdioEjjgeqg34Vbpfh84t6WpiEP4ddCTAW9WnRwymceqrlDhTQv
+ k/iR6KxskjK4kAgJGofYC9qtb+o95JE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-wBrsYLUfPnOToa2MGJa8Zg-1; Thu, 05 Jun 2025 09:02:50 -0400
+X-MC-Unique: wBrsYLUfPnOToa2MGJa8Zg-1
+X-Mimecast-MFC-AGG-ID: wBrsYLUfPnOToa2MGJa8Zg_1749128569
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-450db029f2aso4295375e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 06:02:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749128235; x=1749733035;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8P9yRldB8efdjVI/GGOevnbpBNvIMbrliEBkXndufro=;
- b=FAKILicpMkzVdRLpc3TrImyYCtuKi0L/FOFj5JTsoLDQQ4iucbqOPkAztzHB86PieI
- 3DFNekr3blycWakJ8rTCOzAWaaSjXs9Eaqapb7u+JBmG/Q0Js3/YPnnxaj+1SYR7KcZK
- rYR6wSJvle3FfpdTaHNTQaqVUBgDFbKn4t0LAkl4OJBOQlchHupaZu1D/RoJmpAKXrhc
- qt2IMc+8Gd86WvezoY8jRN4k34nSsDzNk+/oCTWA68EU9XtFFHMX66oTAeppEWEVGkcX
- objmspReQi0CmDTjvs/8xJvo1lgkVpyx3cIJuRlWo35G3Xw6tTlvIMcwZECpj3wtT7R4
- FsuA==
+ d=1e100.net; s=20230601; t=1749128569; x=1749733369;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xg498BWU6yCD+3EXYlmoQ452Swm7wT/w2qqavlOm8pU=;
+ b=ZnjrRPW2Q2YSU00tm6G3GnSTttCzlwvBUYNAFePhEeUtyU1unpt/pcH98ZVS882xeo
+ 72oqvP6hr6flfSgFvGuoCSvQJL34nNUxHUyTlCFABz+EWeUaOXLE1OdryybkeYE6dMM3
+ F/jg/Na+rbum/IwkJOwsbjiVYjvrOz0STydG5DmHa/JFyqYkbDyv8O1AHBXfNXzmjC5W
+ DQM5MLMms7EF2rpNYsy6RyhM7hRrrkvndEWGcqs9gTvsdKIz8F1pZ7bfUuPbs8fwRa1S
+ skN1TFWfvH2cAIacXLke0z8tLj/yYchYd0yCGtgKFDZWvgFD4u7ytaS++D6GAHi4nVkS
+ eT6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrC6Eyxs/H7rG5yqsrqFxP+EnQUiRTbBOKTe6guFfSfFtA9NpCLtklIRtwkfIfKDP/8bNj/rd+RVA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzR+NYIUcW4Sk1aauAOd7AedYRpxesIlLG94t0+xzBK/pTgIJk7
- GbuMFQyOHpmi2zvFUUuB2HyWQuvZrNa4x4KVBxN7FTvRljA9y8c0Yzzrf3myTzSMtqIOy5QWhkt
- w+mJITWzFRw==
-X-Gm-Gg: ASbGncu2XE9JEQWZmG/LWK9EtoiGDSsd0/OwmaW+KjfH7j1QaMASWH0SusGJq0AtuWv
- b5Mo/S5D48U8hNeln2JI1ytWeLw+reUwX2Y+OTsXpAKVYk4eZxyDOvOlbg9lAN6mw1MtSzEs24i
- cj6x8LfKwRExLsmWS2TJAQnnwVCkFx3d0iwaSbhDpo+iG5ugiK/vVS0YgL0Ki7g8GmRWYYjeZ2z
- tpI2p2BjPVZkEVs/NL521RJCEdOkSibjKx5id1VEoMiNZAS0Pyf6pTOkxKyZbpXR9ZOxGMVxe3p
- w+WUWA6VOD1Y8rSB3gY0169GULitOc+I4SQF6sMrQ6gO3N6+yJr1w0T/8cGzbgIr2DIvQwtEBQM
- KWmdxI2yRWjEXpdhbCTiKTzIRG5a0P1k0ZdGIBhh5
-X-Google-Smtp-Source: AGHT+IEWoZLq8najf/Pv65KjGrCQ1erWAHKeKk+fXzABBQvA7za+ZtTz3+x7Wdyv/9qV02f4EWdr5A==
-X-Received: by 2002:a05:6902:70b:b0:e7d:6a66:d0cd with SMTP id
- 3f1490d57ef6-e8179ef2ad1mr9161664276.35.1749128235117; 
- Thu, 05 Jun 2025 05:57:15 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-e8128d5a14bsm2622962276.35.2025.06.05.05.57.13
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCW+cuq3GoSr/NeMpwLMMtyGW5HuJceSBx8Lbtvg2DSzlGCuenpVcL1ywxAsUh2Cldcaz9UN1lfoQIE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQFZNHfz76BmviwoLSuYSGEio8JDjRzRVAykzPhZHYYia863hg
+ 5VnzDR5uINLK0oPSm0kgkVmAty47gF98ZHG7FL6yvs/ro7C1p3H+ZhqjZ7LebEv2q2nkcDFq3K4
+ LfTHKmaBB3RAT/HFNBZe52wJGRPm7XB621Ctic8w1WUlI2bJUvU9LjehOCXGfELmE9cHf+pxtBD
+ ojFA==
+X-Gm-Gg: ASbGncsJhVHuUNRA4WTsqV/KrGgO9R+g+sRFfUoWytvHQxEwhaXQzNsWpqbzj09hD0Y
+ NloOUZeV0p2wvGlXwn8GlxinnQWekfr/WV2h6RWIdJCLeV0zFU2okuY/iN3eIAJVs6UKuJ/zs9E
+ h/yq9UlbRipQzKQkDtdizzRMQYrfxcextjLQqY+O4Z8fJPD4o4U5taDoW/b7Iyx1j2fzcMAc/y9
+ 2l9QlDtup0yZOzeWzIoaCiPH+NeJDidPc0Olu+Kja93Wq80c9nfoiLydflsPWV5nxlsLUyHZezs
+ 0UmZfoRWshPwGx5K7L7KBv7CAsE8+xTuwZH5cvBtAs2xIKobnkg=
+X-Received: by 2002:a05:6000:2204:b0:3a1:f564:cd9d with SMTP id
+ ffacd0b85a97d-3a51d961c1fmr5842949f8f.36.1749128569248; 
+ Thu, 05 Jun 2025 06:02:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFLOWcpTWTCDyXBY4w2ZvbieYKYJr5NwdKMUi24PSZUQgwCDHfdsFZ1q9E35GmfdHu/7yFH7g==
+X-Received: by 2002:a05:6000:2204:b0:3a1:f564:cd9d with SMTP id
+ ffacd0b85a97d-3a51d961c1fmr5842816f8f.36.1749128568020; 
+ Thu, 05 Jun 2025 06:02:48 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a4f00a13fasm24830979f8f.98.2025.06.05.06.02.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jun 2025 05:57:13 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e7dc3df7ac3so912521276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 05:57:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYnoUqXFqAxQQyjm8zm2awZ+HwrJCaTDqzUlaODuL6tFIMgzEU8Emb2KFd5KUQQuBBGmRwmnOpisE=@lists.freedesktop.org
-X-Received: by 2002:a05:6902:1245:b0:e81:49ba:47ef with SMTP id
- 3f1490d57ef6-e8179de2e64mr8284874276.27.1749128233149; Thu, 05 Jun 2025
- 05:57:13 -0700 (PDT)
+ Thu, 05 Jun 2025 06:02:47 -0700 (PDT)
+Message-ID: <f1927c1b-95b7-4d98-9d95-fcd52bd06766@redhat.com>
+Date: Thu, 5 Jun 2025 15:02:46 +0200
 MIME-Version: 1.0
-References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
- <20250604-6-10-rocket-v6-6-237ac75ddb5e@tomeuvizoso.net>
- <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
- <cc21a090-801d-4b32-bac2-01cebf896c85@arm.com>
- <CAAObsKDMhuqYtn=+xR6-n=Uk+5_rU91OqVKyQ5cxhqfTo5svjg@mail.gmail.com>
- <CAPj87rOKGcufM0xB+uMCxhs0SdXCHpViyTd+jQ0+=B1kSihvVw@mail.gmail.com>
-In-Reply-To: <CAPj87rOKGcufM0xB+uMCxhs0SdXCHpViyTd+jQ0+=B1kSihvVw@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Thu, 5 Jun 2025 14:57:02 +0200
-X-Gmail-Original-Message-ID: <CAAObsKC2UCA2gfcS5M6FHodOGWh-D8_+ia_VJhp5K64wx8F5cA@mail.gmail.com>
-X-Gm-Features: AX0GCFvkLrhe0xTjkvrmlzVcmcIDMHbj0V1goAH3SY_Lo_zCTT8XJB_kX_AKtNs
-Message-ID: <CAAObsKC2UCA2gfcS5M6FHodOGWh-D8_+ia_VJhp5K64wx8F5cA@mail.gmail.com>
-Subject: Re: [PATCH v6 06/10] accel/rocket: Add IOCTL for BO creation
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC drm-misc-next v2 1/1] drm/hyperv: Add support for
+ drm_panic
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, drawat.floss@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250526090117.80593-1-ryasuoka@redhat.com>
+ <20250526090117.80593-2-ryasuoka@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250526090117.80593-2-ryasuoka@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hfqoOYyJUGLaIG0HyepAMmy7CVqEdTdGvOZpCki_4lA_1749128569
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,34 +107,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 5, 2025 at 2:29=E2=80=AFPM Daniel Stone <daniel@fooishbar.org> =
-wrote:
->
-> Hey,
->
-> On Thu, 5 Jun 2025 at 08:41, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> > > Indeed if you're using the IOMMU API directly then you need to do you=
-r
-> > > own address space management either way, so matching bits of process =
-VA
-> > > space is pretty simple to put on the table.
-> >
-> > My impression was that the VM_BIND facility is intended for SVM as in
-> > OpenCL and maybe Vulkan?
-> >
-> > Guess my question is, what would such an accelerator driver win by
-> > letting userspace manage the address space?
->
-> I mean, not a lot gained, but otoh there's also not much to be gained
-> by using the kernel's range allocator either, and it saves userspace a
-> roundtrip to discover the VA for a BO it just created/mapped?
+On 26/05/2025 11:01, Ryosuke Yasuoka wrote:
+> Add drm_panic module for hyperv drm so that panic screen can be
+> displayed on panic.
 
-Oh, I just map on creation and return the VA as an out arg in the
-creation ioctl.
+I've just pushed it to drm-misc-next.
 
-So it just seemed the simplest approach, with the least custom code in
-the driver.
+Thanks for your contribution.
 
-Cheers,
+-- 
 
-Tomeu
+Jocelyn
+
+> 
+> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+> ---
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 36 +++++++++++++++++++++
+>   1 file changed, 36 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> index f7d2e973f79e..945b9482bcb3 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> @@ -17,6 +17,7 @@
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_panic.h>
+>   #include <drm/drm_plane.h>
+>   
+>   #include "hyperv_drm.h"
+> @@ -181,10 +182,45 @@ static void hyperv_plane_atomic_update(struct drm_plane *plane,
+>   	}
+>   }
+>   
+> +static int hyperv_plane_get_scanout_buffer(struct drm_plane *plane,
+> +					   struct drm_scanout_buffer *sb)
+> +{
+> +	struct hyperv_drm_device *hv = to_hv(plane->dev);
+> +	struct iosys_map map = IOSYS_MAP_INIT_VADDR_IOMEM(hv->vram);
+> +
+> +	if (plane->state && plane->state->fb) {
+> +		sb->format = plane->state->fb->format;
+> +		sb->width = plane->state->fb->width;
+> +		sb->height = plane->state->fb->height;
+> +		sb->pitch[0] = plane->state->fb->pitches[0];
+> +		sb->map[0] = map;
+> +		return 0;
+> +	}
+> +	return -ENODEV;
+> +}
+> +
+> +static void hyperv_plane_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct hyperv_drm_device *hv = to_hv(plane->dev);
+> +	struct drm_rect rect;
+> +
+> +	if (!plane->state || !plane->state->fb)
+> +		return;
+> +
+> +	rect.x1 = 0;
+> +	rect.y1 = 0;
+> +	rect.x2 = plane->state->fb->width;
+> +	rect.y2 = plane->state->fb->height;
+> +
+> +	hyperv_update_dirt(hv->hdev, &rect);
+> +}
+> +
+>   static const struct drm_plane_helper_funcs hyperv_plane_helper_funcs = {
+>   	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+>   	.atomic_check = hyperv_plane_atomic_check,
+>   	.atomic_update = hyperv_plane_atomic_update,
+> +	.get_scanout_buffer = hyperv_plane_get_scanout_buffer,
+> +	.panic_flush = hyperv_plane_panic_flush,
+>   };
+>   
+>   static const struct drm_plane_funcs hyperv_plane_funcs = {
+
