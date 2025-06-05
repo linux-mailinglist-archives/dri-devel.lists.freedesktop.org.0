@@ -2,47 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FE4ACEA11
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCECBACEA7F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 08:55:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A1510E7FF;
-	Thu,  5 Jun 2025 06:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6344D10E99F;
+	Thu,  5 Jun 2025 06:55:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HVbQmuSI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C39210E7DF
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:21:10 +0000 (UTC)
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-396-f3kZVP4OPsusL11BpOg6pg-1; Thu,
- 05 Jun 2025 02:21:07 -0400
-X-MC-Unique: f3kZVP4OPsusL11BpOg6pg-1
-X-Mimecast-MFC-AGG-ID: f3kZVP4OPsusL11BpOg6pg_1749104466
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id C2B0E180035E; Thu,  5 Jun 2025 06:21:06 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.101])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 3452A180045B; Thu,  5 Jun 2025 06:21:04 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org
-Subject: [PATCH] drm/xe: don't store the xe device pointer inside xe_ttm_tt
-Date: Thu,  5 Jun 2025 16:21:02 +1000
-Message-ID: <20250605062103.1234620-1-airlied@gmail.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630AF10E93D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 06:55:41 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3a510432236so482029f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jun 2025 23:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1749106540; x=1749711340; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Oyx0ftJ64FlzpC17BLoghE0ntQMOF4o150mtfRdZYiw=;
+ b=HVbQmuSItS8PBDWrfL+KlH7Z5F9q63CstnVKwFXmRTY1p52NHMiNM3+gEW8J3BrwOF
+ MrQRtWR9hsOl9iVrBpptk2DVT7WgrqljRxORL7LJXIULYd58mJNy3uo2hGXOich8874G
+ K7VRpg3NNMLc391nf3ZhJ5/we5mMbO1AN2oSyYQ5noCoiHTNOHqc8OkYTmwDLb5033IP
+ CQrNND6f/Mg6gBMLxaUmjksLTkuQ5iShzNvS8XlRKD+EFu9MC3+Ssk0ejxFaefK/FuwN
+ KVbsmYOpQOKYvYUbsoJyWyizBeNNvdCX+pBQIskUyPi4/Ca2nasmIdPotArVPWqpE0XT
+ O9tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749106540; x=1749711340;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Oyx0ftJ64FlzpC17BLoghE0ntQMOF4o150mtfRdZYiw=;
+ b=CNdz1NaTaKWNUO3V9Ow0+4KiP33AkbvjuD2QK23FPPDkcxASRbqrcLnGv+LcJgQKtW
+ YDmx/v2FtGK9INFrXXthk6soSIRfRI6UteMklwAfRuj2pNdj7LOlSHErQDmogfgp+uvc
+ H2S+V5P4+SngXc+qoybN1MwGNTpjzMznizBj1dsS4a7pocUm0UoBJps05aBdpbKj8hg8
+ anvWSdSEWOL7TB+yum4/O5HTamctsdFwtoY1vMeiZrbbb0fXUDocWC7pOHryxaRo7zeJ
+ VfzfoFlN0T06ZasYVuMNi+z+iOHAzebZpBaBSolyRquYjrbUh2XN5ENswly+JjN5ZuSm
+ 9edg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUU4qdQGWT2MFvDji0mnWZHGICNdWIUaVbXeY8h4J06Yu2emYZNzTi5uVBbzX2KfFwHbbXVUmaYajw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8TT6VV3dOlVm2QQmyuUk1QgUJpp2XtJLWy7VSWUQJohDA7fN7
+ R1p49ZWwQoLxPTmuGXGoll1BUzWA3Fzc23PRZ1g5dxlukalVAGpXdsyd6PiTFed12+E=
+X-Gm-Gg: ASbGnctbL8r17DfYTZQG7l3usiYrCRNbSIUBgh7PrUkCXdVSmpI0nTP7Op8A1NyO+1j
+ va0cK3v42x1PjhJX2Da3hvmCSeosJLSEUa0WjM82/Nvcidr0PcLULLbzsg9JCUBrCIdWMEXGewo
+ R4OobRlo2YDli6M1mytoT8+eFD+AnbEtg0vYDO2sgG/pbXSZF8szTzE+lutkDUOBomlu/PQjv1g
+ TrRzIkPJ8MxdkTaTnTUmH2vy9y1HTvNCO1UHi024kS6/TK8X+c2LFYyMBvukeY7GBswfI0WIUV0
+ qpgFYLypIFjTGP7yWU1bVaTc7h9tsMt07Aw+VBJJGaMtBcPAOFoG4SVMNiU+iWZyGhxcNjiL
+X-Google-Smtp-Source: AGHT+IFrS7bC9yM6c1Umhr2I5M7bqyTsyWg+etIUGp1hD7NgyJNk9bH2qumwy99MkZcbUNMkog9zVA==
+X-Received: by 2002:a05:6000:2504:b0:3a4:d64a:3df6 with SMTP id
+ ffacd0b85a97d-3a51d8efcc8mr4223971f8f.3.1749106539874; 
+ Wed, 04 Jun 2025 23:55:39 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a526057278sm1910099f8f.63.2025.06.04.23.55.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jun 2025 23:55:39 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+In-Reply-To: <20250519133345.257138-1-andriy.shevchenko@linux.intel.com>
+References: <20250519133345.257138-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] drm/panel: ili9341: Remove unused member from
+ struct ili9341
+Message-Id: <174910653899.1422723.14584247273343467171.b4-ty@linaro.org>
+Date: Thu, 05 Jun 2025 08:55:38 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qSdF3lI-aSYPyGIISSTHL9S7hAR9KqOPExirhVlWMBg_1749104466
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,292 +94,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+Hi,
 
-This device pointer is nearly always available without storing
-an extra copy for each tt in the system.
+On Mon, 19 May 2025 16:33:45 +0300, Andy Shevchenko wrote:
+> struct device *dev from struct ili9341 is not used anywhere, remove it.
+> 
+> 
 
-Just noticed this while reading over the xe shrinker code.
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/xe/tests/xe_bo.c |  4 +--
- drivers/gpu/drm/xe/xe_bo.c       | 59 ++++++++++++++++----------------
- 2 files changed, 32 insertions(+), 31 deletions(-)
+[1/1] drm/panel: ili9341: Remove unused member from struct ili9341
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0f9c561a7a63ec0a7d69c227b090ee6defa45d35
 
-diff --git a/drivers/gpu/drm/xe/tests/xe_bo.c b/drivers/gpu/drm/xe/tests/xe=
-_bo.c
-index 378dcd0fb414..77ca1ab527ec 100644
---- a/drivers/gpu/drm/xe/tests/xe_bo.c
-+++ b/drivers/gpu/drm/xe/tests/xe_bo.c
-@@ -514,9 +514,9 @@ static int shrink_test_run_device(struct xe_device *xe)
- =09=09 * other way around, they may not be subject to swapping...
- =09=09 */
- =09=09if (alloced < purgeable) {
--=09=09=09xe_ttm_tt_account_subtract(&xe_tt->ttm);
-+=09=09=09xe_ttm_tt_account_subtract(xe, &xe_tt->ttm);
- =09=09=09xe_tt->purgeable =3D true;
--=09=09=09xe_ttm_tt_account_add(&xe_tt->ttm);
-+=09=09=09xe_ttm_tt_account_add(xe, &xe_tt->ttm);
- =09=09=09bo->ttm.priority =3D 0;
- =09=09=09spin_lock(&bo->ttm.bdev->lru_lock);
- =09=09=09ttm_bo_move_to_lru_tail(&bo->ttm);
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 61d208c85281..f35a7786a56f 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -336,15 +336,13 @@ static void xe_evict_flags(struct ttm_buffer_object *=
-tbo,
- /* struct xe_ttm_tt - Subclassed ttm_tt for xe */
- struct xe_ttm_tt {
- =09struct ttm_tt ttm;
--=09/** @xe - The xe device */
--=09struct xe_device *xe;
- =09struct sg_table sgt;
- =09struct sg_table *sg;
- =09/** @purgeable: Whether the content of the pages of @ttm is purgeable. =
-*/
- =09bool purgeable;
- };
-=20
--static int xe_tt_map_sg(struct ttm_tt *tt)
-+static int xe_tt_map_sg(struct xe_device *xe, struct ttm_tt *tt)
- {
- =09struct xe_ttm_tt *xe_tt =3D container_of(tt, struct xe_ttm_tt, ttm);
- =09unsigned long num_pages =3D tt->num_pages;
-@@ -359,13 +357,13 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
- =09ret =3D sg_alloc_table_from_pages_segment(&xe_tt->sgt, tt->pages,
- =09=09=09=09=09=09num_pages, 0,
- =09=09=09=09=09=09(u64)num_pages << PAGE_SHIFT,
--=09=09=09=09=09=09xe_sg_segment_size(xe_tt->xe->drm.dev),
-+=09=09=09=09=09=09xe_sg_segment_size(xe->drm.dev),
- =09=09=09=09=09=09GFP_KERNEL);
- =09if (ret)
- =09=09return ret;
-=20
- =09xe_tt->sg =3D &xe_tt->sgt;
--=09ret =3D dma_map_sgtable(xe_tt->xe->drm.dev, xe_tt->sg, DMA_BIDIRECTIONA=
-L,
-+=09ret =3D dma_map_sgtable(xe->drm.dev, xe_tt->sg, DMA_BIDIRECTIONAL,
- =09=09=09      DMA_ATTR_SKIP_CPU_SYNC);
- =09if (ret) {
- =09=09sg_free_table(xe_tt->sg);
-@@ -376,12 +374,12 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
- =09return 0;
- }
-=20
--static void xe_tt_unmap_sg(struct ttm_tt *tt)
-+static void xe_tt_unmap_sg(struct xe_device *xe, struct ttm_tt *tt)
- {
- =09struct xe_ttm_tt *xe_tt =3D container_of(tt, struct xe_ttm_tt, ttm);
-=20
- =09if (xe_tt->sg) {
--=09=09dma_unmap_sgtable(xe_tt->xe->drm.dev, xe_tt->sg,
-+=09=09dma_unmap_sgtable(xe->drm.dev, xe_tt->sg,
- =09=09=09=09  DMA_BIDIRECTIONAL, 0);
- =09=09sg_free_table(xe_tt->sg);
- =09=09xe_tt->sg =3D NULL;
-@@ -400,24 +398,24 @@ struct sg_table *xe_bo_sg(struct xe_bo *bo)
-  * Account ttm pages against the device shrinker's shrinkable and
-  * purgeable counts.
-  */
--static void xe_ttm_tt_account_add(struct ttm_tt *tt)
-+static void xe_ttm_tt_account_add(struct xe_device *xe, struct ttm_tt *tt)
- {
- =09struct xe_ttm_tt *xe_tt =3D container_of(tt, struct xe_ttm_tt, ttm);
-=20
- =09if (xe_tt->purgeable)
--=09=09xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, 0, tt->num_pages);
-+=09=09xe_shrinker_mod_pages(xe->mem.shrinker, 0, tt->num_pages);
- =09else
--=09=09xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, tt->num_pages, 0);
-+=09=09xe_shrinker_mod_pages(xe->mem.shrinker, tt->num_pages, 0);
- }
-=20
--static void xe_ttm_tt_account_subtract(struct ttm_tt *tt)
-+static void xe_ttm_tt_account_subtract(struct xe_device *xe, struct ttm_tt=
- *tt)
- {
- =09struct xe_ttm_tt *xe_tt =3D container_of(tt, struct xe_ttm_tt, ttm);
-=20
- =09if (xe_tt->purgeable)
--=09=09xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, 0, -(long)tt->num_pag=
-es);
-+=09=09xe_shrinker_mod_pages(xe->mem.shrinker, 0, -(long)tt->num_pages);
- =09else
--=09=09xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, -(long)tt->num_pages,=
- 0);
-+=09=09xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
- }
-=20
- static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
-@@ -436,7 +434,6 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffe=
-r_object *ttm_bo,
- =09=09return NULL;
-=20
- =09tt =3D &xe_tt->ttm;
--=09xe_tt->xe =3D xe;
-=20
- =09extra_pages =3D 0;
- =09if (xe_bo_needs_ccs_pages(bo))
-@@ -527,21 +524,23 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_=
-dev, struct ttm_tt *tt,
- =09=09return err;
-=20
- =09xe_tt->purgeable =3D false;
--=09xe_ttm_tt_account_add(tt);
-+=09xe_ttm_tt_account_add(ttm_to_xe_device(ttm_dev), tt);
-=20
- =09return 0;
- }
-=20
- static void xe_ttm_tt_unpopulate(struct ttm_device *ttm_dev, struct ttm_tt=
- *tt)
- {
-+=09struct xe_device *xe =3D ttm_to_xe_device(ttm_dev);
-+
- =09if ((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
- =09    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE))
- =09=09return;
-=20
--=09xe_tt_unmap_sg(tt);
-+=09xe_tt_unmap_sg(xe, tt);
-=20
- =09ttm_pool_free(&ttm_dev->pool, tt);
--=09xe_ttm_tt_account_subtract(tt);
-+=09xe_ttm_tt_account_subtract(xe, tt);
- }
-=20
- static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct ttm_tt *t=
-t)
-@@ -789,7 +788,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo,=
- bool evict,
- =09/* Bo creation path, moving to system or TT. */
- =09if ((!old_mem && ttm) && !handle_system_ccs) {
- =09=09if (new_mem->mem_type =3D=3D XE_PL_TT)
--=09=09=09ret =3D xe_tt_map_sg(ttm);
-+=09=09=09ret =3D xe_tt_map_sg(xe, ttm);
- =09=09if (!ret)
- =09=09=09ttm_bo_move_null(ttm_bo, new_mem);
- =09=09goto out;
-@@ -812,7 +811,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo,=
- bool evict,
- =09=09(!ttm && ttm_bo->type =3D=3D ttm_bo_type_device);
-=20
- =09if (new_mem->mem_type =3D=3D XE_PL_TT) {
--=09=09ret =3D xe_tt_map_sg(ttm);
-+=09=09ret =3D xe_tt_map_sg(xe, ttm);
- =09=09if (ret)
- =09=09=09goto out;
- =09}
-@@ -958,7 +957,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo,=
- bool evict,
- =09=09if (timeout < 0)
- =09=09=09ret =3D timeout;
-=20
--=09=09xe_tt_unmap_sg(ttm_bo->ttm);
-+=09=09xe_tt_unmap_sg(xe, ttm_bo->ttm);
- =09}
-=20
- =09return ret;
-@@ -968,6 +967,7 @@ static long xe_bo_shrink_purge(struct ttm_operation_ctx=
- *ctx,
- =09=09=09       struct ttm_buffer_object *bo,
- =09=09=09       unsigned long *scanned)
- {
-+=09struct xe_device *xe =3D ttm_to_xe_device(bo->bdev);
- =09long lret;
-=20
- =09/* Fake move to system, without copying data. */
-@@ -982,7 +982,7 @@ static long xe_bo_shrink_purge(struct ttm_operation_ctx=
- *ctx,
- =09=09if (lret)
- =09=09=09return lret;
-=20
--=09=09xe_tt_unmap_sg(bo->ttm);
-+=09=09xe_tt_unmap_sg(xe, bo->ttm);
- =09=09ttm_bo_move_null(bo, new_resource);
- =09}
-=20
-@@ -993,7 +993,7 @@ static long xe_bo_shrink_purge(struct ttm_operation_ctx=
- *ctx,
- =09=09=09      .allow_move =3D false});
-=20
- =09if (lret > 0)
--=09=09xe_ttm_tt_account_subtract(bo->ttm);
-+=09=09xe_ttm_tt_account_subtract(xe, bo->ttm);
-=20
- =09return lret;
- }
-@@ -1043,7 +1043,7 @@ long xe_bo_shrink(struct ttm_operation_ctx *ctx, stru=
-ct ttm_buffer_object *bo,
- =09struct xe_ttm_tt *xe_tt =3D container_of(tt, struct xe_ttm_tt, ttm);
- =09struct ttm_place place =3D {.mem_type =3D bo->resource->mem_type};
- =09struct xe_bo *xe_bo =3D ttm_to_xe_bo(bo);
--=09struct xe_device *xe =3D xe_tt->xe;
-+=09struct xe_device *xe =3D ttm_to_xe_device(bo->bdev);
- =09bool needs_rpm;
- =09long lret =3D 0L;
-=20
-@@ -1080,7 +1080,7 @@ long xe_bo_shrink(struct ttm_operation_ctx *ctx, stru=
-ct ttm_buffer_object *bo,
- =09=09xe_pm_runtime_put(xe);
-=20
- =09if (lret > 0)
--=09=09xe_ttm_tt_account_subtract(tt);
-+=09=09xe_ttm_tt_account_subtract(xe, tt);
-=20
- out_unref:
- =09xe_bo_put(xe_bo);
-@@ -1381,7 +1381,8 @@ int xe_bo_dma_unmap_pinned(struct xe_bo *bo)
- =09=09=09ttm_bo->sg =3D NULL;
- =09=09=09xe_tt->sg =3D NULL;
- =09=09} else if (xe_tt->sg) {
--=09=09=09dma_unmap_sgtable(xe_tt->xe->drm.dev, xe_tt->sg,
-+=09=09=09dma_unmap_sgtable(ttm_to_xe_device(ttm_bo->bdev)->drm.dev,
-+=09=09=09=09=09  xe_tt->sg,
- =09=09=09=09=09  DMA_BIDIRECTIONAL, 0);
- =09=09=09sg_free_table(xe_tt->sg);
- =09=09=09xe_tt->sg =3D NULL;
-@@ -2293,7 +2294,7 @@ int xe_bo_pin_external(struct xe_bo *bo)
-=20
- =09ttm_bo_pin(&bo->ttm);
- =09if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
--=09=09xe_ttm_tt_account_subtract(bo->ttm.ttm);
-+=09=09xe_ttm_tt_account_subtract(xe, bo->ttm.ttm);
-=20
- =09/*
- =09 * FIXME: If we always use the reserve / unreserve functions for lockin=
-g
-@@ -2341,7 +2342,7 @@ int xe_bo_pin(struct xe_bo *bo)
-=20
- =09ttm_bo_pin(&bo->ttm);
- =09if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
--=09=09xe_ttm_tt_account_subtract(bo->ttm.ttm);
-+=09=09xe_ttm_tt_account_subtract(xe, bo->ttm.ttm);
-=20
- =09/*
- =09 * FIXME: If we always use the reserve / unreserve functions for lockin=
-g
-@@ -2377,7 +2378,7 @@ void xe_bo_unpin_external(struct xe_bo *bo)
-=20
- =09ttm_bo_unpin(&bo->ttm);
- =09if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
--=09=09xe_ttm_tt_account_add(bo->ttm.ttm);
-+=09=09xe_ttm_tt_account_add(xe, bo->ttm.ttm);
-=20
- =09/*
- =09 * FIXME: If we always use the reserve / unreserve functions for lockin=
-g
-@@ -2409,7 +2410,7 @@ void xe_bo_unpin(struct xe_bo *bo)
- =09}
- =09ttm_bo_unpin(&bo->ttm);
- =09if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
--=09=09xe_ttm_tt_account_add(bo->ttm.ttm);
-+=09=09xe_ttm_tt_account_add(xe, bo->ttm.ttm);
- }
-=20
- /**
---=20
-2.49.0
+-- 
+Neil
 
