@@ -2,56 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BFFACEFAF
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 14:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6002ACEFB6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 14:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED95810E968;
-	Thu,  5 Jun 2025 12:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22AE110E278;
+	Thu,  5 Jun 2025 12:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="B6OdNHm0";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="vv1QtY64";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E3010E808
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 12:55:53 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749128148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iLfh3z3SZ208p/eWHCxbn+NAgJHxxAz/VVAyyqXWVco=;
- b=B6OdNHm0lZBSI3WoeIBsMpzxSbbchv6Knk0kJHIKNyIaCFjw9LqNx1owLrFTshwQ5X2U7V
- FhnPkyd0uVHEa58cYxQkq/7h3rAIF6GYEjPUXcvnpghwIvTu+spiTOrPgKZAfqdrxo6tjF
- d8hoUqO0qiHpztfSrgt4CG2zhyb9trMEik43WfAIq/D2+5P7g6NZyglS1N+osbpKTxMVaC
- px1ecg1Biiz9HfR92Inqy2wTFEI4Ogn3Ia2uiUU6fT7vF190bzpaxO8SPG9fLwEi9Utrrm
- qHbbyS7A5/TfnvPafiB2YqqQKmrxiiFZJs6ZFN+BbObuZQfE7HlkPT6U8Hsh1A==
-Content-Type: multipart/signed;
- boundary=1d6a4595b3996cc7b6eed68782d8a2b1bd983f8490a29966be91698fee5d;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 05 Jun 2025 14:55:08 +0200
-Message-Id: <DAEM5ZXWOVLM.10IJV82EMBVCK@cknow.org>
-Cc: <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <sebastian.reichel@collabora.com>, <conor+dt@kernel.org>,
- <krzk+dt@kernel.org>, <robh@kernel.org>, <tzimmermann@suse.de>,
- <mripard@kernel.org>, <maarten.lankhorst@linux.intel.com>,
- <simona@ffwll.ch>, <airlied@gmail.com>, <quic_jesszhan@quicinc.com>,
- <neil.armstrong@linaro.org>, <javierm@redhat.com>, <megi@xff.cz>, "Chris
- Morgan" <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/4] drm/panel: himax-hx8394: Add Support for Huiling
- hl055fhav028c
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Chris Morgan"
- <macroalpha82@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20250603193930.323607-1-macroalpha82@gmail.com>
- <20250603193930.323607-4-macroalpha82@gmail.com>
- <DAEKVTXT0FHB.TOVX7BU9ZYXA@cknow.org> <2932680.yaVYbkx8dN@diego>
-In-Reply-To: <2932680.yaVYbkx8dN@diego>
-X-Migadu-Flow: FLOW_OUT
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F43710E278
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 12:57:16 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-e812c817de0so930752276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 05:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1749128235;
+ x=1749733035; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8P9yRldB8efdjVI/GGOevnbpBNvIMbrliEBkXndufro=;
+ b=vv1QtY642rZOJSo6W74vbcF/EPQ0AemnRTu8Gp97saSxMiT4975pZbLiVOsHxSnvQS
+ kU7aQS2PAobvwBBGvwAn1JgGpLp0cZEUOWmTPLJTO4N9pyWZjabFz16n1qLlwpacvPeV
+ cY7mPo34GGGjQZXxpD9wXNbHH1PO8CdPvx6yisDndmFxk3SL2xhZkGUi4mfGK5uGUnBj
+ qQ/OX+fjlOXr+VkqSLe+G+iPGamE8tK+ENJ34oNZBOYjyF7x6cBV0fNwQi1NFTOqsxcG
+ iXBXTfkJcIWIGLtinTJMH3QLKX/d3UhaKCgjx5LngAhaxxsMrHGX1h2stP9wbP74mlUh
+ Zthg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749128235; x=1749733035;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8P9yRldB8efdjVI/GGOevnbpBNvIMbrliEBkXndufro=;
+ b=FAKILicpMkzVdRLpc3TrImyYCtuKi0L/FOFj5JTsoLDQQ4iucbqOPkAztzHB86PieI
+ 3DFNekr3blycWakJ8rTCOzAWaaSjXs9Eaqapb7u+JBmG/Q0Js3/YPnnxaj+1SYR7KcZK
+ rYR6wSJvle3FfpdTaHNTQaqVUBgDFbKn4t0LAkl4OJBOQlchHupaZu1D/RoJmpAKXrhc
+ qt2IMc+8Gd86WvezoY8jRN4k34nSsDzNk+/oCTWA68EU9XtFFHMX66oTAeppEWEVGkcX
+ objmspReQi0CmDTjvs/8xJvo1lgkVpyx3cIJuRlWo35G3Xw6tTlvIMcwZECpj3wtT7R4
+ FsuA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrC6Eyxs/H7rG5yqsrqFxP+EnQUiRTbBOKTe6guFfSfFtA9NpCLtklIRtwkfIfKDP/8bNj/rd+RVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzR+NYIUcW4Sk1aauAOd7AedYRpxesIlLG94t0+xzBK/pTgIJk7
+ GbuMFQyOHpmi2zvFUUuB2HyWQuvZrNa4x4KVBxN7FTvRljA9y8c0Yzzrf3myTzSMtqIOy5QWhkt
+ w+mJITWzFRw==
+X-Gm-Gg: ASbGncu2XE9JEQWZmG/LWK9EtoiGDSsd0/OwmaW+KjfH7j1QaMASWH0SusGJq0AtuWv
+ b5Mo/S5D48U8hNeln2JI1ytWeLw+reUwX2Y+OTsXpAKVYk4eZxyDOvOlbg9lAN6mw1MtSzEs24i
+ cj6x8LfKwRExLsmWS2TJAQnnwVCkFx3d0iwaSbhDpo+iG5ugiK/vVS0YgL0Ki7g8GmRWYYjeZ2z
+ tpI2p2BjPVZkEVs/NL521RJCEdOkSibjKx5id1VEoMiNZAS0Pyf6pTOkxKyZbpXR9ZOxGMVxe3p
+ w+WUWA6VOD1Y8rSB3gY0169GULitOc+I4SQF6sMrQ6gO3N6+yJr1w0T/8cGzbgIr2DIvQwtEBQM
+ KWmdxI2yRWjEXpdhbCTiKTzIRG5a0P1k0ZdGIBhh5
+X-Google-Smtp-Source: AGHT+IEWoZLq8najf/Pv65KjGrCQ1erWAHKeKk+fXzABBQvA7za+ZtTz3+x7Wdyv/9qV02f4EWdr5A==
+X-Received: by 2002:a05:6902:70b:b0:e7d:6a66:d0cd with SMTP id
+ 3f1490d57ef6-e8179ef2ad1mr9161664276.35.1749128235117; 
+ Thu, 05 Jun 2025 05:57:15 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e8128d5a14bsm2622962276.35.2025.06.05.05.57.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jun 2025 05:57:13 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e7dc3df7ac3so912521276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 05:57:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYnoUqXFqAxQQyjm8zm2awZ+HwrJCaTDqzUlaODuL6tFIMgzEU8Emb2KFd5KUQQuBBGmRwmnOpisE=@lists.freedesktop.org
+X-Received: by 2002:a05:6902:1245:b0:e81:49ba:47ef with SMTP id
+ 3f1490d57ef6-e8179de2e64mr8284874276.27.1749128233149; Thu, 05 Jun 2025
+ 05:57:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
+ <20250604-6-10-rocket-v6-6-237ac75ddb5e@tomeuvizoso.net>
+ <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
+ <cc21a090-801d-4b32-bac2-01cebf896c85@arm.com>
+ <CAAObsKDMhuqYtn=+xR6-n=Uk+5_rU91OqVKyQ5cxhqfTo5svjg@mail.gmail.com>
+ <CAPj87rOKGcufM0xB+uMCxhs0SdXCHpViyTd+jQ0+=B1kSihvVw@mail.gmail.com>
+In-Reply-To: <CAPj87rOKGcufM0xB+uMCxhs0SdXCHpViyTd+jQ0+=B1kSihvVw@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Thu, 5 Jun 2025 14:57:02 +0200
+X-Gmail-Original-Message-ID: <CAAObsKC2UCA2gfcS5M6FHodOGWh-D8_+ia_VJhp5K64wx8F5cA@mail.gmail.com>
+X-Gm-Features: AX0GCFvkLrhe0xTjkvrmlzVcmcIDMHbj0V1goAH3SY_Lo_zCTT8XJB_kX_AKtNs
+Message-ID: <CAAObsKC2UCA2gfcS5M6FHodOGWh-D8_+ia_VJhp5K64wx8F5cA@mail.gmail.com>
+Subject: Re: [PATCH v6 06/10] accel/rocket: Add IOCTL for BO creation
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,124 +113,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---1d6a4595b3996cc7b6eed68782d8a2b1bd983f8490a29966be91698fee5d
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-On Thu Jun 5, 2025 at 2:46 PM CEST, Heiko St=C3=BCbner wrote:
-> Am Donnerstag, 5. Juni 2025, 13:54:50 Mitteleurop=C3=A4ische Sommerzeit s=
-chrieb Diederik de Haas:
->> On Tue Jun 3, 2025 at 9:39 PM CEST, Chris Morgan wrote:
->> > From: Chris Morgan <macromorgan@hotmail.com>
->> >
->> > Add support for the Huiling hl055fhav028c panel as used on the
->> > Gameforce Ace handheld gaming console. This panel uses a Himax HX8399C
->> > display controller and requires a sparsely documented vendor provided
->> > init sequence. The display resolution is 1080x1920 and is 70mm by 127m=
-m
->> > as stated in the manufacturer's documentation.
->> >
->> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->> > ---
->> >  drivers/gpu/drm/panel/panel-himax-hx8394.c | 142 ++++++++++++++++++++=
-+
->> >  1 file changed, 142 insertions(+)
->> >
->> > diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/=
-drm/panel/panel-himax-hx8394.c
->> > index ff994bf0e3cc..16e450b156b7 100644
->> > --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
->> > +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
->> > @@ -477,6 +477,147 @@ static const struct hx8394_panel_desc mchp_ac40t=
-08a_desc =3D {
->> >  	.init_sequence =3D mchp_ac40t08a_init_sequence,
->> >  };
->> > <snip>
->> > +
->> > +static const struct drm_display_mode hl055fhav028c_mode =3D {
->> > +	.hdisplay	=3D 1080,
->> > +	.hsync_start	=3D 1080 + 32,
->> > +	.hsync_end	=3D 1080 + 32 + 8,
->> > +	.htotal		=3D 1080 + 32 + 8 + 32,
->> > +	.vdisplay	=3D 1920,
->> > +	.vsync_start	=3D 1920 + 16,
->> > +	.vsync_end	=3D 1920 + 16 + 2,
->> > +	.vtotal		=3D 1920 + 16 + 2 + 14,
->>=20
->> Shouldn't this be 's/14/16/' ?
+On Thu, Jun 5, 2025 at 2:29=E2=80=AFPM Daniel Stone <daniel@fooishbar.org> =
+wrote:
 >
-> Could you give a reason for why you think so please, so that we
-> don't dance around the perceived problem too long :-) .
+> Hey,
+>
+> On Thu, 5 Jun 2025 at 08:41, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> > > Indeed if you're using the IOMMU API directly then you need to do you=
+r
+> > > own address space management either way, so matching bits of process =
+VA
+> > > space is pretty simple to put on the table.
+> >
+> > My impression was that the VM_BIND facility is intended for SVM as in
+> > OpenCL and maybe Vulkan?
+> >
+> > Guess my question is, what would such an accelerator driver win by
+> > letting userspace manage the address space?
+>
+> I mean, not a lot gained, but otoh there's also not much to be gained
+> by using the kernel's range allocator either, and it saves userspace a
+> roundtrip to discover the VA for a BO it just created/mapped?
 
-Yeah, sorry.
-.htotal appears like the value from .hsync_end + .hsync_start (minus the
-1080) and with that same logic, I would expect .vtotal to be .vsync_end
-+ vsync_start (minus the 1920). So the '14' could've been a typo.
+Oh, I just map on creation and return the VA as an out arg in the
+creation ioctl.
 
-Hope that clarifies my thought process.
+So it just seemed the simplest approach, with the least custom code in
+the driver.
 
 Cheers,
-  Diederik
 
-> The front-porch / back-porch values are not generally identical
-> that is more a random event.
->
-> Grabbing a random panel like the panel-leadtek-ltk050h3146w.c
-> you'll see the values not matching.
->
-> So those timing values are specific to the panel and in the common
-> case not identical.
->
->
-> Heiko
->
->>=20
->> Cheers,
->>   Diederik
->>=20
->> > +	.clock		=3D 134920,
->> > +	.flags		=3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->> > +	.width_mm	=3D 70,
->> > +	.height_mm	=3D 127,
->> > +};
->> > +
->> > +static const struct hx8394_panel_desc hl055fhav028c_desc =3D {
->> > +	.mode =3D &hl055fhav028c_mode,
->> > +	.lanes =3D 4,
->> > +	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST,
->> > +	.format =3D MIPI_DSI_FMT_RGB888,
->> > +	.init_sequence =3D hl055fhav028c_init_sequence,
->> > +};
->> > +
->> >  static int hx8394_enable(struct drm_panel *panel)
->> >  {
->> >  	struct hx8394 *ctx =3D panel_to_hx8394(panel);
->> > @@ -683,6 +824,7 @@ static void hx8394_remove(struct mipi_dsi_device *=
-dsi)
->> > =20
->> >  static const struct of_device_id hx8394_of_match[] =3D {
->> >  	{ .compatible =3D "hannstar,hsd060bhw4", .data =3D &hsd060bhw4_desc =
-},
->> > +	{ .compatible =3D "huiling,hl055fhav028c", .data =3D &hl055fhav028c_=
-desc },
->> >  	{ .compatible =3D "powkiddy,x55-panel", .data =3D &powkiddy_x55_desc=
- },
->> >  	{ .compatible =3D "microchip,ac40t08a-mipi-panel", .data =3D &mchp_a=
-c40t08a_desc },
->> >  	{ /* sentinel */ }
->>=20
->>=20
-
-
---1d6a4595b3996cc7b6eed68782d8a2b1bd983f8490a29966be91698fee5d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEGTzAAKCRDXblvOeH7b
-bjh1AP9cGBzcHoj4/QSIYlzp1KnpbeOVmTCmlp3PliPz3aPnzAEAnj7ufwBOTtNa
-CNe/bOF3w/MM46lqxolwBK0aDDsEwQ4=
-=awq7
------END PGP SIGNATURE-----
-
---1d6a4595b3996cc7b6eed68782d8a2b1bd983f8490a29966be91698fee5d--
+Tomeu
