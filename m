@@ -2,85 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82946ACF475
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 18:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D6FACF4E4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 19:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B5E10E2B2;
-	Thu,  5 Jun 2025 16:36:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D650C10E356;
+	Thu,  5 Jun 2025 17:02:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="XYymoCap";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DOB5lUmS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC410E2B2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 16:36:39 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-6facf4d8e9eso13656566d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 09:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1749141398; x=1749746198;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m/AMED1uCKw6PLorZVcAc+las3T70VIL6/pCq2JraOc=;
- b=XYymoCapLV/VjGfEQFRUUmbVE1KbGXaI29p809KwdVS4CG9/YsFpHyvmERFPDBHH6D
- QIDY6pZYoOkQFPeJ4GAoHNqw14AA+x05k5WhnQ/PKW3EIujHUP/5ZIOjdga30xOE97zN
- 9FSrYuS+i6kMuDzecwY+9t3dnwxcoyqxoN91+mHdPttpOSufJ8NEJEMT/vDnhBgl/AIe
- 2/ITaVmMrgUgY/96nboPANYzn4lOrdlIjHS56+NgfgNCwL4CKgmEFByqMWvV9v2O5PdE
- hnjK9ROffcFckI6y7v6d9UM/Lp3EPfFQPtdaTRqCci6fr3CnrjBqoGfm4gSscnvsSOD7
- kpaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749141398; x=1749746198;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m/AMED1uCKw6PLorZVcAc+las3T70VIL6/pCq2JraOc=;
- b=Ec560U/PbDPgFSh/Vo+KW8I7rXp52eqUAfFlbMmCegR6BiJffueWaG/BWbwkn8Ubir
- 10ZFBcaol/3SZRFQQ5kLVlV1YK4Mxx8XStf+5MT5wPwnGnpDc4ID3x0UeEpG/m1Ynccm
- bKsJyGuPnd0eohW3r59OCiOzV2BKeKHJsiM6AwEQINXPZklDVooGdZ8PV3c6PUVuJXvg
- hrGAJ4QOLhTZ/rKUv7G8xAMSOFpbCvguEaYHa67PzgZRdC2dpZ0Kom1I2PThJfTjApNS
- i/CY2FwuULsyn8Htxd7q2zsqRiOZXFTYDyiLc/vYS9igtPL1TOi07ESgC51SbNdN8fJk
- xlOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPZ6KaQLOXRWouyudA+VzKehXdDPcg2EMHNxUaI/+9yA0gegPzC6/hkyrdQK2bRgO4gNVKaNAipww=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQT2wa89t+3X0rnFfpVsuqEwOigFngvvVt/8odWyMGgZw12ImB
- 1sit/yX4pRRUAMEP3JxdQPHCBhMOPgjaizxxO9+jT7vyTN1sH1yyhbZPfl1vZdkI5919ZGMnbJC
- yYXdEnqjoWOT6TopcvUvDU7pRDKSWiIn+eKvIQleSDg==
-X-Gm-Gg: ASbGncsnicsg3uaTUMfFum6EeU/j7vOwcixUYzq0BYn7pODpJHR3iR0btN55lZ9xJ4/
- kHjOEzNFkk0UVigWVKCxLi0RjtXKpqIJVE+Pv52A/7h3xsQEMEptpkvwVPLtUWPaCO/Fc8V3twp
- EX2O4ALEWLuF6VJmPCBhkEnTCg7DrYT3o=
-X-Google-Smtp-Source: AGHT+IH/vUqInLnUsBsqIxZVLljlV2JNq6TLN0zeIbDOndYPLtFZP9dtkbRS+wnOk9zZ8yyAo/Oy9zg7yUbo3S0v9LM=
-X-Received: by 2002:ad4:5dc8:0:b0:6f8:8fdf:f460 with SMTP id
- 6a1803df08f44-6fb08f4d0a5mr2148076d6.9.1749141397948; Thu, 05 Jun 2025
- 09:36:37 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE10910E134;
+ Thu,  5 Jun 2025 17:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749142964; x=1780678964;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=yjO+rl+hMJQpjrsEwT2wZSb6PfHcGK0YScayDZMCJsw=;
+ b=DOB5lUmS6XsADij2KDR+5KGdOeKA2WOPWfBc46ouIJlPfT47dNixvF/m
+ 6hUcuHv6ORH93jfZLReJVCENKa5M7HlqDdp9pDbk/Amo2NLxyBnjeFP/C
+ OkivY3FLz3VU/nGxmm9ypI4v11QE8XsPc7OCs5lTZPOvXVNt06nkVWFdW
+ KqU/4Ok1ZMNhuuBkEuNz3oH8zsgNyy0VkuMe0mYfWlsVZa/EHawmkKnZy
+ MmjJ/z5BGDElOvNxEJX5rWZ5iesrBauLLqxgWWzLq1qY4wIlEvMGhzvWg
+ NWZyuSG+zVxuj80i9fmx6+Q5psdozHDcNDoX9/ExpJyYCyjeaQ3jsrMa7 A==;
+X-CSE-ConnectionGUID: S+Y9tWKDT5Gf2BcjZ762cQ==
+X-CSE-MsgGUID: Vfe3ou2EQMObbTdc1+ErTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="53904562"
+X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; d="scan'208";a="53904562"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 10:02:43 -0700
+X-CSE-ConnectionGUID: y8YZ9KCXQPWDV6VvyYqIfQ==
+X-CSE-MsgGUID: clOBw9/0RF+Sd4EHiI1hSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; d="scan'208";a="146548021"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.244.183])
+ ([10.245.244.183])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 10:02:40 -0700
+Message-ID: <14c2eff8-701d-4699-b187-08862715e1ac@linux.intel.com>
+Date: Thu, 5 Jun 2025 19:02:37 +0200
 MIME-Version: 1.0
-References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
- <20250604-6-10-rocket-v6-6-237ac75ddb5e@tomeuvizoso.net>
- <CAPj87rPv7Pd5tbXhpRLaUJCGB8JmD4kfF50WRsEiST2gvtg3Bg@mail.gmail.com>
- <cc21a090-801d-4b32-bac2-01cebf896c85@arm.com>
- <CAAObsKDMhuqYtn=+xR6-n=Uk+5_rU91OqVKyQ5cxhqfTo5svjg@mail.gmail.com>
- <3a8e1101-469b-4686-b160-6fdb1737a636@arm.com>
- <CAAObsKCjv=K7Dk=QD+MAqwWUNyw_pCh2Eqij3Qwx1jzKoKg4zw@mail.gmail.com>
-In-Reply-To: <CAAObsKCjv=K7Dk=QD+MAqwWUNyw_pCh2Eqij3Qwx1jzKoKg4zw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 5 Jun 2025 17:36:26 +0100
-X-Gm-Features: AX0GCFsF7cxglaKZSX8Koz---6tL_CI5LfT0LL-n_NzmXSV0kUJg5xHMCVro-r4
-Message-ID: <CAPj87rOggG6_wNHvv55onxcw00UxASUJYK2pmdkc+oUmYFyp2w@mail.gmail.com>
-Subject: Re: [PATCH v6 06/10] accel/rocket: Add IOCTL for BO creation
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,32 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Jun 2025 at 17:32, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> On Thu, Jun 5, 2025 at 3:37=E2=80=AFPM Robin Murphy <robin.murphy@arm.com=
-> wrote:
-> > It should only need a single IOMMU domain per DRM client, so no faffing
-> > about replicating mappings. iommu_paging_domain_alloc() does need *an*
-> > appropriate target device so it can identify the right IOMMU driver, bu=
-t
-> > that in itself doesn't preclude attaching other devices to the resultin=
-g
-> > domain as well as (or even instead of) the nominal one. In general, not
-> > all IOMMU drivers support cross-instance attach so it may fail with
-> > -EINVAL, and *that*'s when you might need to fall back to allocating
-> > multiple per-instance domains - but as I say since this is a
-> > Rockchip-specific driver where the IOMMU *is* intended to support this
-> > already, you don't need to bother.
->
-> Ok, I did just that and it's working great in my testing:
->
-> I create a domain when the client opens the DRM connection and map all
-> its BOs to it. Then when a job is about to start, I detach whatever
-> domain was attached to the core's group and attach that client's
-> domain.
->
-> Will send a v7 with it in a couple of days.
+Hi Dave, Simona,
 
-Awesome, thanks so much for that Tomeu!
+Small list of fixes for v6.16-rc1!
 
-Cheers,
-Daniel
+Best regards!
+~Maarten
+
+drm-misc-next-fixes-2025-06-05:
+drm-misc-fixes for v6.16-rc1:
+- Fixes for nt37801 panel
+- Fix null deref in HDMI audio helper.
+- Fixes for analogix_dp.
+The following changes since commit 7c1a9408ce5f34ded5a85db81cf80e0975901685:
+
+  Merge tag 'drm-msm-next-2025-05-16' of https://gitlab.freedesktop.org/drm/msm into drm-next (2025-05-19 11:05:58 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2025-06-05
+
+for you to fetch changes up to fd03f82a026cc03cb8051a8c6487c99f96c9029f:
+
+  drm/bridge: analogix_dp: Fix clk-disable removal (2025-05-28 16:53:31 +0300)
+
+----------------------------------------------------------------
+drm-misc-fixes for v6.16-rc1:
+- Fixes for nt37801 panel
+- Fix null deref in HDMI audio helper.
+- Fixes for analogix_dp.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/panel: nt37801: select CONFIG_DRM_DISPLAY_DSC_HELPER
+
+Damon Ding (1):
+      drm/bridge: analogix_dp: Remove the unnecessary calls to clk_disable_unprepare() during probing
+
+Dan Carpenter (1):
+      drm/panel: nt37801: Fix IS_ERR() vs NULL check in probe()
+
+Heiko Stuebner (1):
+      drm/bridge: analogix_dp: Fix clk-disable removal
+
+Nicolas Frattaroli (1):
+      drm/connector: only call HDMI audio helper plugged cb if non-null
+
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 20 ++++++--------------
+ drivers/gpu/drm/display/drm_hdmi_audio_helper.c    |  3 ++-
+ drivers/gpu/drm/panel/Kconfig                      |  2 ++
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c      |  4 ++--
+ 4 files changed, 12 insertions(+), 17 deletions(-)
