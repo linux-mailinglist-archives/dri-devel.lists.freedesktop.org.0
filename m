@@ -2,115 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792CEACEC99
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69098ACECC9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jun 2025 11:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E138810E7F6;
-	Thu,  5 Jun 2025 09:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19DAB10E104;
+	Thu,  5 Jun 2025 09:27:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a7U9Yb+S";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UDS4Ey5b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B8210E7F6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:08:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 48290A504E4;
- Thu,  5 Jun 2025 09:08:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1743C4CEE7;
- Thu,  5 Jun 2025 09:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749114482;
- bh=CyX7HgtIvMmKLzh8J3zSwCHKH/WTU9NyS5ypKYnMkxc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=a7U9Yb+SqGsm+c80AqmOszRWqlGlkSCDyTv4P/UyrbaxB1hSRaWX+Qw1/s7uqBcUI
- zIXZuDVKPICC1BBKKI4pWjTi0LNYgD9C3LlyXMKv6IGgwMlSjaT6C07tfw4/Q8R4+v
- ZaOK2W8iTP92vrNH5sC5PcdFm/i8co6sQqtbt6joyXj98ccvEeBm9kQQEpuqSzeikS
- IOQLTGwZotPp2jcGeFooVFZ9zO3f+lq0zrP7h070oEw6cXVqxRLcboVS5/1CtnVByW
- VNi5btXUikB1fDG2/PHTmBiGcBTpDP13Tr2OFOm0/zhhfVQnF36GM3YDXBfU2p6ZBY
- 7aO0bJbHhAzrg==
-Message-ID: <4302310a-b233-4cea-9a4b-d463fd1f455f@kernel.org>
-Date: Thu, 5 Jun 2025 11:07:53 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90EF710E104
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jun 2025 09:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=I0C9stOe9RN4H1EQdBa5SHVsy2V5RbQVPbAs6WsVd8c=; b=UDS4Ey5bLPQxPj5qcEGYOFawKt
+ rpscUHm5jXmL+/JDi+ZZS/0eJzsotq+5AbnpA0C+t9/8V+dq4QT8mp+gABDhICN9l2133+YiZDGAh
+ l/XvGCFoDTv7Z8E4O9RyLsw7JmG7/GEIcz/67wEU5mkDSHbxTnAx7ByyvRy+9cydDe5dvc3YXdK/X
+ E1cJ81Mvu12g9ZZp0vHeFPLt25Vx5EIhyo7DDYu1oRZkeOb6ZN/GRjamiVWsnOZ9aIX4B6F1+/x86
+ 6uJtf2Epxm21eGLpm5yZKEFCV9Bia/Zp/K1XC1t7kGgdbG/PYZIaI14fWKVcLQPIuz6iIeTQ6j4p9
+ iiriZk0A==;
+Received: from 170.red-81-39-42.dynamicip.rima-tde.net ([81.39.42.170]
+ helo=[10.0.21.177]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uN6t1-00HS66-O1; Thu, 05 Jun 2025 11:27:47 +0200
+Message-ID: <26c90825-35d3-4362-9eaa-28316c7b6b6b@igalia.com>
+Date: Thu, 5 Jun 2025 11:27:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
- management
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
- <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
- <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
- <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
- <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
- <cc4dbf7c-e023-403c-88be-4691f97a0ff0@kernel.org>
- <c7774790-07c3-469d-a994-9e84108ad21d@samsung.com>
- <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] drm/v3d: Avoid NULL pointer dereference in
+ `v3d_job_update_stats()`
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ stable@vger.kernel.org
+References: <20250602151451.10161-1-mcanal@igalia.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Organization: Igalia
+In-Reply-To: <20250602151451.10161-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,32 +64,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/06/2025 10:10, Bartosz Golaszewski wrote:
->>
->> Bart,
->> Given Krzysztof's valid concerns about the current name based
->> lookup in pwrseq_get() and the benefits of phandle based resource
->> linking in OF platforms: Would you be open to a proposal for extending
->> the pwrseq API to allow consumers to obtain a sequencer (or a specific
->> target sequence) via a phandle defined in their Device Tree node? For
->> instance, a consumer device could specify power-sequencer =
->> <&aon> and a new API variant could resolve this.
->>
-> 
-> I can be open to it all I want, but I bet Krzysztof won't be open to
-> introducing anything like a power-sequencer device property in DT
-> bindings. Simply because there's no such thing in the physical world.
+This patch is:
 
-Yep
+Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
 
-> The concept behind the power sequencing framework was to bind
-> providers to consumers based on existing links modelling real device
-> properties (which a "power-sequencer" is not). I commented on it under
-> another email saying that you already have a link here - the
-> power-domains property taking the aon phandle. In your pwrseq
+But I have a question. Could we see this scenario of the process finishing
+before other access to job->file->driver_priv in other parts of the v3d 
+driver?
 
-Exactly.
+Regards,
 
+Chema
 
-Best regards,
-Krzysztof
+El 2/6/25 a las 17:14, Maíra Canal escribió:
+> The following kernel Oops was recently reported by Mesa CI:
+>
+> [  800.139824] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000588
+> [  800.148619] Mem abort info:
+> [  800.151402]   ESR = 0x0000000096000005
+> [  800.155141]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [  800.160444]   SET = 0, FnV = 0
+> [  800.163488]   EA = 0, S1PTW = 0
+> [  800.166619]   FSC = 0x05: level 1 translation fault
+> [  800.171487] Data abort info:
+> [  800.174357]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+> [  800.179832]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [  800.184873]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [  800.190176] user pgtable: 4k pages, 39-bit VAs, pgdp=00000001014c2000
+> [  800.196607] [0000000000000588] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
+> [  800.205305] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+> [  800.211564] Modules linked in: vc4 snd_soc_hdmi_codec drm_display_helper v3d cec gpu_sched drm_dma_helper drm_shmem_helper drm_kms_helper drm drm_panel_orientation_quirks snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm i2c_brcmstb snd_timer snd backlight
+> [  800.234448] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.25+rpt-rpi-v8 #1  Debian 1:6.12.25-1+rpt1
+> [  800.244182] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+> [  800.250005] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  800.256959] pc : v3d_job_update_stats+0x60/0x130 [v3d]
+> [  800.262112] lr : v3d_job_update_stats+0x48/0x130 [v3d]
+> [  800.267251] sp : ffffffc080003e60
+> [  800.270555] x29: ffffffc080003e60 x28: ffffffd842784980 x27: 0224012000000000
+> [  800.277687] x26: ffffffd84277f630 x25: ffffff81012fd800 x24: 0000000000000020
+> [  800.284818] x23: ffffff8040238b08 x22: 0000000000000570 x21: 0000000000000158
+> [  800.291948] x20: 0000000000000000 x19: ffffff8040238000 x18: 0000000000000000
+> [  800.299078] x17: ffffffa8c1bd2000 x16: ffffffc080000000 x15: 0000000000000000
+> [  800.306208] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+> [  800.313338] x11: 0000000000000040 x10: 0000000000001a40 x9 : ffffffd83b39757c
+> [  800.320468] x8 : ffffffd842786420 x7 : 7fffffffffffffff x6 : 0000000000ef32b0
+> [  800.327598] x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : ffffffd842784980
+> [  800.334728] x2 : 0000000000000004 x1 : 0000000000010002 x0 : 000000ba4c0ca382
+> [  800.341859] Call trace:
+> [  800.344294]  v3d_job_update_stats+0x60/0x130 [v3d]
+> [  800.349086]  v3d_irq+0x124/0x2e0 [v3d]
+> [  800.352835]  __handle_irq_event_percpu+0x58/0x218
+> [  800.357539]  handle_irq_event+0x54/0xb8
+> [  800.361369]  handle_fasteoi_irq+0xac/0x240
+> [  800.365458]  handle_irq_desc+0x48/0x68
+> [  800.369200]  generic_handle_domain_irq+0x24/0x38
+> [  800.373810]  gic_handle_irq+0x48/0xd8
+> [  800.377464]  call_on_irq_stack+0x24/0x58
+> [  800.381379]  do_interrupt_handler+0x88/0x98
+> [  800.385554]  el1_interrupt+0x34/0x68
+> [  800.389123]  el1h_64_irq_handler+0x18/0x28
+> [  800.393211]  el1h_64_irq+0x64/0x68
+> [  800.396603]  default_idle_call+0x3c/0x168
+> [  800.400606]  do_idle+0x1fc/0x230
+> [  800.403827]  cpu_startup_entry+0x40/0x50
+> [  800.407742]  rest_init+0xe4/0xf0
+> [  800.410962]  start_kernel+0x5e8/0x790
+> [  800.414616]  __primary_switched+0x80/0x90
+> [  800.418622] Code: 8b170277 8b160296 11000421 b9000861 (b9401ac1)
+> [  800.424707] ---[ end trace 0000000000000000 ]---
+> [  800.457313] ---[ end Kernel panic - not syncing: Oops: Fatal exception in interrupt ]---
+>
+> This issue happens when the file descriptor is closed before the jobs
+> submitted by it are completed. When the job completes, we update the
+> global GPU stats and the per-fd GPU stats, which are exposed through
+> fdinfo. If the file descriptor was closed, then the struct `v3d_file_priv`
+> and its stats were already freed and we can't update the per-fd stats.
+>
+> Therefore, if the file descriptor was already closed, don't update the
+> per-fd GPU stats, only update the global ones.
+>
+> Cc: stable@vger.kernel.org # v6.12+
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_sched.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index 466d28ceee28..5ed676304964 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -199,7 +199,6 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   	struct v3d_dev *v3d = job->v3d;
+>   	struct v3d_file_priv *file = job->file->driver_priv;
+>   	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+> -	struct v3d_stats *local_stats = &file->stats[queue];
+>   	u64 now = local_clock();
+>   	unsigned long flags;
+>   
+> @@ -209,7 +208,12 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   	else
+>   		preempt_disable();
+>   
+> -	v3d_stats_update(local_stats, now);
+> +	/* Don't update the local stats if the file context has already closed */
+> +	if (file)
+> +		v3d_stats_update(&file->stats[queue], now);
+> +	else
+> +		drm_dbg(&v3d->drm, "The file descriptor was closed before job completion\n");
+> +
+>   	v3d_stats_update(global_stats, now);
+>   
+>   	if (IS_ENABLED(CONFIG_LOCKDEP))
