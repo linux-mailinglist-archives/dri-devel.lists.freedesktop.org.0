@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642A5ACFEBA
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866B4ACFEC0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692D210EA1D;
-	Fri,  6 Jun 2025 09:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C7010E9D3;
+	Fri,  6 Jun 2025 09:06:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pML5cLSh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MpYhs8kK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6174410EA26
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 09:04:55 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-450cf0120cdso17869185e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 02:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749200694; x=1749805494; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=u22QGRwwJcexG344pLAuyEqJQtDbVkBJOvRPUpkYyrs=;
- b=pML5cLShrD5fhZe37+M+EXgKcdMxrmZ5NUZPtJcWqOK6rYYeqV8+pgscoBFXuheCEg
- ZHZJpYFyMYaty1SFDxZ0IpSmUBhTB+lxPeZPWPekShAKLqsbJmi12ge5YYnRrWN3r0l0
- 7Z5C7Bqmodin4U0npQ2e/y9FgZMFHN2O3DkWCd42CG9BNf2bdG/VQdZG1AVWdSRExvyr
- C4g/kpwGOXasxAifGFvKk/A7DXg8wgmcLbBJ4Rn2YFjp7BeKlRfTjllsEtHVznrHr0uR
- jTpHqDce7qNmO7RRxZAOzBjCcx6dTq0caqLS7iEnKCW5DsEIelfc9Xks4MD5mToOD3y6
- Sd1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749200694; x=1749805494;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u22QGRwwJcexG344pLAuyEqJQtDbVkBJOvRPUpkYyrs=;
- b=dEKDG+QatjWejjmHaUha4/oCMC8bSRMZGJuz5LRPQCXMk6mqdGwt8ChQBX0cbDu2Px
- /sqQ5doe2uec2l1EUhM4xf85LC1yEfbytRYJpQy8xEsMViACwsxeQpdmSUug5JyYvsI3
- E2bjyleADb6gv6/J3kl8HwvlXKPaja74fCWaY0SBEhTNVKPB5cyFo9xwwXHui55Z5IOM
- M3GKHqwtoc2KWLe5jn1cPCNba257IpuaE5uPOBgl1M+ASkSxaj1YN4Jd4Co+Mt6Ut76O
- xXMN7PdY0N5M4lfytM32wOVT+Pz4USv+fd/SIlbGwmDY2gO7RzCXENZnrjLW1WobYMot
- GwZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3EGQ76I7MOQ/RRMfwzntxMTbPq+M51ihwPhqgNVIL9GJAGSwyjVADs4YkDgVKxZhY6rYyLbpncp4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxF3zCtljn/ElR4+tDsgZ0tcEGaBoz5jGpD1FupPkI+IkGqhyuV
- zUss0DgUBy84qgEsO4Nd/BHJxqioppAsVPaxfF+4Obe0M9nPnQxQbfHwlsRNJ2lOZ+c=
-X-Gm-Gg: ASbGncs0y+fhD8OSq2xPTJDNSMfzjwmxknnDDD7CNuGwfc5co4Am2qk34LFj2tcTNU/
- ua8H4w6QbhpFYtQASMXZoc3WZs6++akEk4zH3D6Zfmdl+r7qLlWHTxZXo6EJVGwqtlvYCPX2vOO
- 5ks/H3AKhC23jMlpOK7KfoA0e0P6pOiF0Oahgc8gsnI7n4qx9/GNHC3qO4AVg/MW5zPFY1+g1Go
- Ua7Zd9KZmaoswZ5h1S8Ia3B6V3qKVwWT3pZqIzkeKlytseInCggb3L7kHmt2MR8EPMy+Fhnne0b
- VQAgbqBzmmm1nmpJcNTC+pMpl6v7G47waj/sUOEYzf9Phn96/xUk0+Su
-X-Google-Smtp-Source: AGHT+IGH8f3CnE94XpqqdfYVCG9k/7hxNJbSdjv+c/qZQ3TVj4IPHFuU+kXHjf6bXNo01qdvKdGN4w==
-X-Received: by 2002:a05:600c:871a:b0:442:cab1:e092 with SMTP id
- 5b1f17b1804b1-4520135f5cemr25871865e9.11.1749200693818; 
- Fri, 06 Jun 2025 02:04:53 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-45203e6e424sm17461325e9.0.2025.06.06.02.04.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jun 2025 02:04:53 -0700 (PDT)
-Date: Fri, 6 Jun 2025 12:04:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frederic Weisbecker <frederic@kernel.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/i915/selftests: Fix error pointer vs NULL in
- __mock_request_alloc()
-Message-ID: <aEKvMfJ63V7i-6xU@stanley.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7109F10E9D3;
+ Fri,  6 Jun 2025 09:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749200780; x=1780736780;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mGcWq4AHM9vSKx1HsHn7pZ4bzsJm8LKCTeOTqtjCmKE=;
+ b=MpYhs8kKAsqQ6UOstmc3vL7srbaZs5rgWLFGUqeYiSQPLhR5FL5wB3zL
+ Xb4masPBerrLvd9Snz1SMtLdLi2xHja7Dgtkv92xwPmGdzvl6vt4Iz6qT
+ yj4bBzMiHFDV9jsGwlbI1QgJj4s9iMZB/ARfSYyQGfxVgvv6wKokUtxiq
+ k9OrqmWIYdS3N80U7hiN5VQJAVz8Cyf1+Yq7BaMvaTBXR/6yifzFfpXOK
+ qblDAlVuKy1qqwbhbgBa3v7chHIfcPNzsq9Q7BXAC32AAFJMT6vOJQdf0
+ 5wi2jWQbQuv1ZjxgxIsqCxHVnQSXVCrVX6EPttWJ2lnBGGmfr5fEfr6d3 Q==;
+X-CSE-ConnectionGUID: HvgoMmK+Qh2NPgSzkviSsQ==
+X-CSE-MsgGUID: oW93TBhhSlycQXkuN6gYNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="68785043"
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; d="scan'208";a="68785043"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2025 02:06:18 -0700
+X-CSE-ConnectionGUID: hTtImtKfT2qjEdKB5As6pA==
+X-CSE-MsgGUID: 8dSymWCKTDqZ8zcco/Wmug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; d="scan'208";a="146289390"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.33])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2025 02:06:12 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Wysocki Rafael J <rafael.j.wysocki@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>, simon1.yang@intel.com,
+ Doug Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH 0/4] drm/panel, drm/i915: ACPI support for panel follower
+Date: Fri,  6 Jun 2025 12:05:08 +0300
+Message-Id: <cover.1749199013.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,35 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The __mock_request_alloc() implements the smoketest->request_alloc()
-function pointer.  It's called from __igt_breadcrumbs_smoketest().
-It's supposed to return error pointers, and returning NULL will lead to
-a NULL pointer dereference.
+Hi all -
 
-Fixes: 52c0fdb25c7c ("drm/i915: Replace global breadcrumbs with per-context interrupt tracking")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/i915/selftests/i915_request.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+This series expands panel follower to ACPI, and enables drm_panel on
+i915.
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-index 88870844b5bd..e349244a5fba 100644
---- a/drivers/gpu/drm/i915/selftests/i915_request.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-@@ -290,7 +290,12 @@ struct smoketest {
- static struct i915_request *
- __mock_request_alloc(struct intel_context *ce)
- {
--	return mock_request(ce, 0);
-+	struct i915_request *rq;
-+
-+	rq = mock_request(ce, 0);
-+	if (!rq)
-+		return ERR_PTR(-ENOMEM);
-+	return rq;
- }
- 
- static struct i915_request *
+Patch 1 makes panel follower matching independent of DT, making it also
+work with ACPI. Similar to DT, you can use a _DSD "panel" property to
+describe the dependency.
+
+Patches 2-4 add drm_panel support to i915 DSI, making it possible to
+have followers be notified of panel states.
+
+It's not a whole lot of code, but I simply could not have done it
+alone. Thanks to Heikki and Rafael for ACPI insights, Shawn for testing
+and feedback, Simon for providing ASL, Doug and Maxime for drm_panel
+insights. Much appreciated!
+
+Alas that's not all. While this has been tested to work on an ACPI
+system, it has not been tested to not regress on DT systems. I wouldn't
+dream of merging this before that, but we don't have such systems
+handy. Could anyone provide their Tested-by on a DT system with panel
+followers, please?
+
+
+BR,
+Jani.
+
+
+Jani Nikula (4):
+  drm/panel: use fwnode based lookups for panel followers
+  drm/i915/panel: add panel register/unregister
+  drm/i915/panel: register drm_panel and call prepare/unprepare for ICL+
+    DSI
+  drm/i915/panel: sync panel prepared state at register
+
+ drivers/gpu/drm/drm_panel.c                   |  39 ++++--
+ drivers/gpu/drm/i915/display/icl_dsi.c        |   4 +
+ .../gpu/drm/i915/display/intel_connector.c    |  23 ++-
+ .../drm/i915/display/intel_display_types.h    |   4 +
+ drivers/gpu/drm/i915/display/intel_panel.c    | 131 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_panel.h    |   6 +
+ 6 files changed, 187 insertions(+), 20 deletions(-)
+
 -- 
-2.47.2
+2.39.5
 
