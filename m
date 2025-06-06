@@ -2,84 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8885AD025A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 14:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46604AD0298
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 14:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5722310EA88;
-	Fri,  6 Jun 2025 12:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDFF10EA82;
+	Fri,  6 Jun 2025 12:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SAlssYPS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UsuohR8B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0B210E37F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 12:38:05 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3a503d9ef59so1669859f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 05:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1749213484; x=1749818284; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=K4RGkwRtwLz/ApyoBObDOLrgrSMH07hxl8gkzqpa9lE=;
- b=SAlssYPSFU75boFbajoxIroKKhQC5MxhjwSFGhqmQA1D5BIfj7206oGUJUslmS9qz6
- xtMu1+F0xzOhWITr3DPMk9Cf4THwe7KQa7+dv2ufejrQSYRP1rS6NsxUg3+nHazDCa0Z
- 6JOj6gmEPEYlUyVAYG9mIsoYyYk5W1JcyFnRE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749213484; x=1749818284;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K4RGkwRtwLz/ApyoBObDOLrgrSMH07hxl8gkzqpa9lE=;
- b=wIgFit/U37bINs1xQYQhRg1WQc2zG4zeORGf4mfQE5F45LSut8UBMUNA3bUor/ATsQ
- 4Wvv3HOAjdUO/T07bhquimOAMNNwSS2PJQUG/O4SliXSuIA2E0h3bZkMLVPtWRhwNUeq
- fol02Je3Vs8lh4w3KQgNsbeMHMevn5+nMZlIyqU0xbuCxGKmVnl03k7wxRoy78FLCQmc
- YdUYXSny7aJ3md1U4XQUGvfMW1Fr1apSQzC3ZFayJpfHXdpimTLiuTbACJQdBYDILXFs
- xo/P8EPLZAK0Xnsz/iI4EZD2F1P5wZ1z0X+LQ3vmxSSwXiFkZ/lTw9xakC+PDMXFsln4
- /dDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8SSku9duguVIBZ0EfrnW0hy7a5yKRxGuo86O/59y/WrGlybYLgQl5t2EQ1La0N6/uTDAaYxR+rjI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhC5r6dQqLt7ER6I+LWqHn03scmIPaHdfej21X60E9pLz5qP5s
- 9RqJckuEFtiXQOOAtjQ4xvWSlNBuIeI51dmjzyDSDJp/gZuSYzd+cbi26PtKBwcqva4=
-X-Gm-Gg: ASbGnctQ/sNcKJKejOILRsIAvicj4mDI5W6vKBKbL7dMp4vPigYhVF3+rxzzsP/kL48
- oMZ3To78OIYuFQ6oNF9IiV3rj4Nz1RlJv6bbUKh4n0iuePkZWyUIfL+7BrDLYYqtWxPrh+l6pw6
- kvRTbaBILVUVKBTzmYT/m2uhdYYMq+YLX8N3Bt9PT8M6VIR9De9VaSwGRimjDhQaZITQeW7i2xl
- DNW817h+dZcEaRn3rQFZcnPUBloVKEvIii9RhZeB+e4VfY8WoPDCR77DvEFSGIeiJDMLWQUO8CO
- p6c1FLhkUa387k25kNuXrUDrshIgRtm2LCADGYBKpE6IfbEgFAhsBmxFO26hRaM=
-X-Google-Smtp-Source: AGHT+IFOw67PVNk8q11ZmC1f2g0emtQP8TMaOJnWBq/fbR5Ey7/O01xLkairF/ed2N64Zcgf1Hh0Iw==
-X-Received: by 2002:a05:6000:26c8:b0:3a3:7077:aba1 with SMTP id
- ffacd0b85a97d-3a531ce677bmr2722476f8f.48.1749213483789; 
- Fri, 06 Jun 2025 05:38:03 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a5322ae43fsm1762351f8f.25.2025.06.06.05.38.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jun 2025 05:38:03 -0700 (PDT)
-Date: Fri, 6 Jun 2025 14:38:01 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <aELhKAjV2bMRPORf@phenom.ffwll.local>
-References: <20250528153550.GA21050@linux.fritz.box>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B8D10EA90
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 12:52:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1749214333;
+ bh=ONaGR/IRVw2brl1DvzP1xMGhlckfUTMY9+SsqjrbfPg=;
+ h=From:Date:Subject:To:Cc:From;
+ b=UsuohR8BVGL3hoDGKOENRcMyYwrH7PXGB6nIzpJJcd9dsTKapwMwwIYfjThp3U4Dj
+ CjE2pYUEez99p0mmuzfBhOyyKiF2s5qLMNNuLg1/ULMYVLKfBrQOcphJAoWk+ZdXLF
+ 8mpXv9jZ7u29tNa4f4z3ZtyBkBmPeDp23ebvVPLnErLe6Ya8E07dAEON8q91eTq1vy
+ YE7i54WFjwBLn6EPsvWC0EPaxXsrsfgkWbzr6zcnnsLhNigHIDiCZJOSmMwaiF8+8+
+ HU0+OVLXzNp3JVyHzzy3KVfNdix50em8HlLgSO+7aG3reF1ziMjJpsr7sErTDDwjIf
+ f9gp6zkfw5Mng==
+Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
+ [83.113.51.247])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: laeyraud)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1A8D817E0097;
+ Fri,  6 Jun 2025 14:52:13 +0200 (CEST)
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Date: Fri, 06 Jun 2025 14:50:12 +0200
+Subject: [PATCH] drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528153550.GA21050@linux.fritz.box>
-X-Operating-System: Linux phenom 6.12.25-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250606-mtk_dpi-mt8195-fix-wrong-color-v1-1-47988101b798@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAAPkQmgC/zWN0QrCMAxFf6Xk2UBX2NT9igzp1mwGbTvbqoOxf
+ zc4fAon3HvPCpkSU4ZWrZDozZljEKgOCoabDRMhO2Ew2tS60Q36cr+6meWeqnONIy/4STFMOMR
+ HTFhb2+uxccaZI8jInEgiP8Gl2znR8yWesj+ht5mk7D2XVgVaCv5d0G3bF5y7KZShAAAA
+X-Change-ID: 20250606-mtk_dpi-mt8195-fix-wrong-color-5aab0f6d2d27
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749214333; l=1912;
+ i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
+ bh=ONaGR/IRVw2brl1DvzP1xMGhlckfUTMY9+SsqjrbfPg=;
+ b=r+8ZRVrWvUhL7zhQKD0bz2TF1ADcbbp8UxfIUYKGE063dqymCkH8GA0zB9oOA53Fu0uliBLWk
+ yAQnN9JQ/64DgZai79+2/AT7eYsADajmrCfzOgjnNv6+STVh5slLa1M
+X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
+ pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,89 +75,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 28, 2025 at 05:35:50PM +0200, Thomas Zimmermann wrote:
-> Hi Dave, Sima,
-> 
-> this is the weekly PR for drm-misc-fixes. Besides DRM, the bugfix
-> for dummycon possibly affects fbcon and fbdev output as well.
-> 
-> Best regards
-> Thomas
-> 
-> drm-misc-fixes-2025-05-28:
-> Short summary of fixes pull:
-> 
-> drm-scheduler:
-> - signal scheduled fence when killing job
-> 
-> dummycon:
-> - trigger deferred takeover when switching consoles
-> 
-> ivpu:
-> - improve logging
-> - update firmware filenames
-> - reorder steps in command-queue unregistering
-> The following changes since commit 6692dbc15e5ed40a3aa037aced65d7b8826c58cd:
-> 
->   drm/edid: fixed the bug that hdr metadata was not reset (2025-05-19 12:26:08 +0300)
+Reorder output format arrays in both MT8195 DPI and DP_INTF block
+configuration by decreasing preference order instead of alphanumeric
+one, as expected by the atomic_get_output_bus_fmts callback function
+of drm_bridge controls, so the RGB ones are used first during the
+bus format negotiation process.
 
-Pulled into drm-fixes, thanks.
--Sima
+Fixes: 20fa6a8fc588 ("drm/mediatek: mtk_dpi: Allow additional output formats on MT8195/88")
+Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-05-28
-> 
-> for you to fetch changes up to 4557cc834712eca4eae7adbd9f0a06bdd8f79c99:
-> 
->   accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction (2025-05-28 11:49:29 +0200)
-> 
-> ----------------------------------------------------------------
-> Short summary of fixes pull:
-> 
-> drm-scheduler:
-> - signal scheduled fence when killing job
-> 
-> dummycon:
-> - trigger deferred takeover when switching consoles
-> 
-> ivpu:
-> - improve logging
-> - update firmware filenames
-> - reorder steps in command-queue unregistering
-> 
-> ----------------------------------------------------------------
-> Jacek Lawrynowicz (2):
->       accel/ivpu: Improve buffer object logging
->       accel/ivpu: Use firmware names from upstream repo
-> 
-> Karol Wachowski (1):
->       accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction
-> 
-> Lin.Cao (1):
->       drm/scheduler: signal scheduled fence when kill job
-> 
-> Thomas Zimmermann (1):
->       dummycon: Trigger redraw when switching consoles with deferred takeover
-> 
->  drivers/accel/ivpu/ivpu_fw.c             | 12 ++++++------
->  drivers/accel/ivpu/ivpu_gem.c            | 25 +++++++++++++++++--------
->  drivers/accel/ivpu/ivpu_gem.h            |  1 +
->  drivers/accel/ivpu/ivpu_job.c            |  8 ++++----
->  drivers/gpu/drm/scheduler/sched_entity.c |  1 +
->  drivers/video/console/dummycon.c         | 18 +++++++++++++-----
->  6 files changed, 42 insertions(+), 23 deletions(-)
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 6fb85bc6487a019cdcdb3770dc06a1deab8d5bda..a2fdceadf209f6d2166e7523b82ca18c82c7d435 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -1095,7 +1095,6 @@ static const u32 mt8183_output_fmts[] = {
+ };
+ 
+ static const u32 mt8195_dpi_output_fmts[] = {
+-	MEDIA_BUS_FMT_BGR888_1X24,
+ 	MEDIA_BUS_FMT_RGB888_1X24,
+ 	MEDIA_BUS_FMT_RGB888_2X12_LE,
+ 	MEDIA_BUS_FMT_RGB888_2X12_BE,
+@@ -1103,18 +1102,19 @@ static const u32 mt8195_dpi_output_fmts[] = {
+ 	MEDIA_BUS_FMT_YUYV8_1X16,
+ 	MEDIA_BUS_FMT_YUYV10_1X20,
+ 	MEDIA_BUS_FMT_YUYV12_1X24,
++	MEDIA_BUS_FMT_BGR888_1X24,
+ 	MEDIA_BUS_FMT_YUV8_1X24,
+ 	MEDIA_BUS_FMT_YUV10_1X30,
+ };
+ 
+ static const u32 mt8195_dp_intf_output_fmts[] = {
+-	MEDIA_BUS_FMT_BGR888_1X24,
+ 	MEDIA_BUS_FMT_RGB888_1X24,
+ 	MEDIA_BUS_FMT_RGB888_2X12_LE,
+ 	MEDIA_BUS_FMT_RGB888_2X12_BE,
+ 	MEDIA_BUS_FMT_RGB101010_1X30,
+ 	MEDIA_BUS_FMT_YUYV8_1X16,
+ 	MEDIA_BUS_FMT_YUYV10_1X20,
++	MEDIA_BUS_FMT_BGR888_1X24,
+ 	MEDIA_BUS_FMT_YUV8_1X24,
+ 	MEDIA_BUS_FMT_YUV10_1X30,
+ };
 
+---
+base-commit: b3bded85d838336326ce78e394e7818445e11f20
+change-id: 20250606-mtk_dpi-mt8195-fix-wrong-color-5aab0f6d2d27
+
+Best regards,
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+
