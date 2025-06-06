@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87262AD0113
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 13:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9286AD00B5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 12:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B81410E35F;
-	Fri,  6 Jun 2025 11:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B2810E337;
+	Fri,  6 Jun 2025 10:46:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DtE0BkTt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D76E10EA3D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 11:11:17 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 5A3AD6002C18;
- Fri,  6 Jun 2025 11:45:57 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id DAvTjK_YH0C4; Fri,  6 Jun 2025 11:45:52 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 810AB6003C3B;
- Fri,  6 Jun 2025 11:45:51 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
- s=mail; t=1749206751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g3RaW7nJDY4u0LgCaykCArI3bAHh2H+SVvOp/hfhgUg=;
- b=Xc9ZCPYrHFG5E5SkpLETHHz2Kkbzf5BzgsIeC7MhYq8dyOF4d8glxXhgu0rbb3jkMaDiHp
- 8qUTrvEdB9rYPUSBg2WQ88eaDohmZegGtvakWR1o7C+PHYslhg4cONyvF034pdaYhFwc7w
- 9r5nKQnYON05kBIiDk3NF6yInetiMpI=
-Received: from [192.168.1.151] (unknown
- [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 5B86336008B;
- Fri,  6 Jun 2025 11:45:51 +0100 (WEST)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Date: Fri, 06 Jun 2025 11:45:36 +0100
-Subject: [PATCH 3/3] arm64: tegra: Add NVJPG node
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3AAD10E337
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 10:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1749206791;
+ bh=gP7zhnvVOaSrXBkdcJcqYZvIvxhaiTvAhnHbEn99qQk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DtE0BkTtV+Ui75dsaW+kEgEMQ2LNiPHbI7LEvo+CxejIkk8CS19GiINveF4O5wifN
+ zlL9pfAjaUuHne6PRiohcxiafiDTWDDUvWXBE+diAZ8q0JLuim8lnNrlL/Z7PcpyAG
+ 4viBkpQfwKn2RCNmSSIzFDVKKwB9hC+TOdHOeAX8BddEZMYKVAAS3jBn0xq16V1Unw
+ baPxph5mGc4oggB4Wo5mDwXt7HbMl7bYRMlBL2eRlc+hPbudEX3ZXxcViAXTMogb2R
+ qDBKvRg9RIZpIu+qqWs/bJAovQdLlMNz2nJLfJ0lLZBwh/3C1ahF3VrZrdoAQ13ajt
+ d46l7qix2zyKA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 881A017E0C99;
+ Fri,  6 Jun 2025 12:46:31 +0200 (CEST)
+Date: Fri, 6 Jun 2025 12:46:26 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v5 0/2] drm/panthor: Add 64-bit register accessors
+Message-ID: <20250606124626.449469a9@collabora.com>
+In-Reply-To: <20250606101835.41840-1-boris.brezillon@collabora.com>
+References: <20250606101835.41840-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-diogo-nvjpg-v1-3-5f2c36feeb39@tecnico.ulisboa.pt>
-References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
-In-Reply-To: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749206748; l=1018;
- i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
- bh=+723/NY6KvxdN/NVCwc/Xg4at7iqHe19s5FcoIyfirg=;
- b=vLVZFQrZn4UcAC2DS79V2Tka/+rkbmSG2SzFuLdk4ZaguRvAfmXaJBG5imLAXrQZTN3HcBvjK
- 2koOIxwEcb8CUFXkIxVk29ff3avixffo84Bk5LHkmdxtHFSMpUXoJBU
-X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
- pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +62,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Tegra X1 chip contains a NVJPG accelerator capable of
-encoding/decoding JPEG files in hardware, so add its DT node.
+On Fri,  6 Jun 2025 12:18:33 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+> Hi all,
+> 
+> This patch series adds support for 64-bit and poll register accessors in
+> the Panthor DRM driver and performs a cleanup of the 64-bit register
+> definitions.
+> 
+> The first patch introduces new accessor functions to simplify and
+> standardize 64-bit and polling register operations. The second patch
+> refactors the existing 64-bit register definitions for improved clarity
+> and consistency.
+> 
+> v5:
+> - Rebased so I can apply cleanly with dim b4-shazam
+> 
+> v4:
+> - [PATCH 1/2]:
+>   - Fixed missing check against mask value in PWRTRANS register polling.
+>   - Removed panthor_gpu_read_timestamp() and
+>     panthor_gpu_read_timestamp_offset() in favour of direct register
+>     access as they currently only serve as wrapper functions.
+> - [PATCH 2/2]:
+>   - Updated the register names inline with the removal of the two
+>     timestamp functions.
+> - Picked up Rb tags from Liviu and Steven
+> - Link to v3: https://lore.kernel.org/dri-devel/20250411164805.2015088-1-karunika.choo@arm.com/
+> v3:
+> - Picked up Rb tags from Boris.
+> - Link to v2: https://lore.kernel.org/dri-devel/20250411151140.1815435-1-karunika.choo@arm.com/
+> v2:
+> - Updated padding of the poll functions as requested
+> - Removed *_HI register definitions and renamed *_LO registers
+> - Link to v1: https://lore.kernel.org/dri-devel/20250410163546.919749-1-karunika.choo@arm.com/
+> 
+> Regards,
+> 
+> Boris
+> 
+> Karunika Choo (2):
+>   drm/panthor: Add 64-bit and poll register accessors
+>   drm/panthor: Clean up 64-bit register definitions
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 6f8cdf012f0f12a16716e9d479c46b330bbb7dda..087f38256fd40f57c4685e907f9682eb49ee31db 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -253,7 +253,13 @@ vic@54340000 {
- 		nvjpg@54380000 {
- 			compatible = "nvidia,tegra210-nvjpg";
- 			reg = <0x0 0x54380000 0x0 0x00040000>;
--			status = "disabled";
-+			clocks = <&tegra_car TEGRA210_CLK_NVJPG>;
-+			clock-names = "nvjpg";
-+			resets = <&tegra_car 195>;
-+			reset-names = "nvjpg";
-+
-+			iommus = <&mc TEGRA_SWGROUP_NVJPG>;
-+			power-domains = <&pd_nvjpg>;
- 		};
- 
- 		dsib: dsi@54400000 {
+Queued to drm-misc-next.
 
--- 
-2.49.0
+> 
+>  drivers/gpu/drm/panthor/panthor_device.h |  71 ++++++++++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |   4 +-
+>  drivers/gpu/drm/panthor/panthor_fw.c     |   9 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 159 +++++------------------
+>  drivers/gpu/drm/panthor/panthor_gpu.h    |  12 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c    |  34 ++---
+>  drivers/gpu/drm/panthor/panthor_regs.h   |  90 ++++---------
+>  7 files changed, 157 insertions(+), 222 deletions(-)
+> 
 
