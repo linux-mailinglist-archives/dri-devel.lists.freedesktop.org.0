@@ -2,177 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64965AD0129
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 13:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C1EAD019C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 14:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AC510EA70;
-	Fri,  6 Jun 2025 11:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC6B10E37B;
+	Fri,  6 Jun 2025 12:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="K4XSxYRD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SeNM+vw6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4A9010EA67
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 11:21:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OMH3eJ3eDrXRSOEt35moK28RiMam/psoBhTYmmKxhP+TavkOHoRGjd3WEwas7srOtNh3yXP0JLXi+pDkONnkxXMCV2ygPsjgpP01Yf1XyFSywT8JIL8Z6vgwtyX4sqY9kGeiswUTt+Gb/pre+xtH04NrRSL07tkfXb0LtGMSplbvAxydhlBeAUyBAkhqT/SKP8Pnci8kqkECFM54TMYTv8IDYe+W9IoaMS+U0Pmz8sPAJo/8I10HMSXDZdU4fwEGCVzbYVf6SLarVY+ChBVCJUNo0T/wXdi+wpqf5IxYqMQJ/emqgMZ7/Xqlro64ot43zdEpGm30pg7vAhjWMGO0tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ebMxtEElMePjAJIxLtoSH0aUNAIqzDaSD0SbSVcXdE=;
- b=BdG3y/syRrSGKPeMKvOQ8WoOziaKuQULQBta3gl139SUDJ9iRAGL0jvbtqqik04YKQdM+J3jJ2mND/D5tvdD9xDJv3CdCTsibWX6Z81hAfzwcUbZxwI02cYGb5vxU7qOeXMs/m47ymf9qy76yVnBqoV4x71x8/4/DcnBelht4nuBIIEcN+XPyg8QSbcYzFTs4arxL+5Fkpw9QL5sPDGRTENHGGMk/KevEix3EEQr62et1YQiFBkXSiOyvQQ+VxE8vYQwmQKyoaoNIUeM6rQnTPejjZW5ibI6nOqjMixul7FTIi5pobfOcsVE+/geGJC4kk/m5XrHA+rA1jWKyZH1rQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7ebMxtEElMePjAJIxLtoSH0aUNAIqzDaSD0SbSVcXdE=;
- b=K4XSxYRDVLMuBgcg7wC2eKGtzutChLyyfrRvFx/FxvpUp79WC4dBROQN2lXylwNEgtWNBGdokdXdMhj+wgLCjcb7qHnWfCVr8Kpx2TA116I+JBz4m40JrJiZWSOVeSC4IvRwgDhLxaudlgnxVRzGwXrGOGy6qBovaOTam4DUOBg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB7448.namprd12.prod.outlook.com (2603:10b6:510:214::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.38; Fri, 6 Jun
- 2025 11:20:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Fri, 6 Jun 2025
- 11:20:58 +0000
-Message-ID: <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
-Date: Fri, 6 Jun 2025 13:20:48 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-To: wangtao <tao.wangtao@honor.com>, Christoph Hellwig <hch@infradead.org>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "hughd@google.com" <hughd@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "amir73il@gmail.com" <amir73il@gmail.com>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz"
- <jack@suse.cz>, "baolin.wang@linux.alibaba.com"
- <baolin.wang@linux.alibaba.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "wangbintian(BintianWang)" <bintian.wang@honor.com>,
- yipengxiang <yipengxiang@honor.com>, liulu 00013167 <liulu.liu@honor.com>,
- hanfeng 00012985 <feng.han@honor.com>
-References: <20250603095245.17478-1-tao.wangtao@honor.com>
- <aD7x_b0hVyvZDUsl@infradead.org>
- <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
- <aD72alIxu718uri4@infradead.org> <5d36abace6bf492aadd847f0fabc38be@honor.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5d36abace6bf492aadd847f0fabc38be@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR12CA0025.namprd12.prod.outlook.com
- (2603:10b6:208:a8::38) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3718C10E37B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 12:03:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 90D846000A;
+ Fri,  6 Jun 2025 12:03:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16BFC4CEEB;
+ Fri,  6 Jun 2025 12:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749211401;
+ bh=6oz9cLgBpq1+bwaTR5/JwtLIYahXmjDOpJo1Ih+IxD4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SeNM+vw6o2R/VlOg+xOelhhzCXW9usTQ42ANhiV95Y2x9Zn03fWe3qeJLHG/Irx/V
+ Ql+SwV5H4mHoIKAcoaq2UwshrQHD6bGBm4u6t2zp9iHtjOBL0ZO9RabpIdByFPnF0h
+ nqzutpLb25wSNP2wH9Foo26YdAFUOUXmRhUVtbiPA3qPycHZ1fc6C8cXHnKZfVN+WK
+ xT3fOBQgnFjYwte/ANAF2HV/22aK4vTebfl33KbuQ5bPgOrZYwCk0Z72Q37FigH+8c
+ eqeO+OdQDej06AfYvflVWtrLcZWKoxbZUqoCCKaYZuYGy8Kmsvx7XGjdirdcgiNxpO
+ sdTSFPhyYXnPQ==
+Date: Fri, 6 Jun 2025 14:03:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 2/4] drm/panel/samsung-dsicm: Keep up with refcounting
+Message-ID: <20250606-radical-rigorous-buzzard-ca09cd@houat>
+References: <20250604-of_drm_find_panel_part1-v1-0-c632e12e131d@redhat.com>
+ <20250604-of_drm_find_panel_part1-v1-2-c632e12e131d@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7448:EE_
-X-MS-Office365-Filtering-Correlation-Id: 908e8520-cca5-4e3d-5de1-08dda4ec3640
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SHp4Y3ZEL1VnNlQrenJsZ0M4M0w2UU81NkNSODFZRVhEMnJrOU4ramlKQ3h4?=
- =?utf-8?B?bU9QRmlzUC9BOU9JNGlPK3B4Y0IrSXZKYnRwbWNMdmlqTC94eTJVOTNyRDNJ?=
- =?utf-8?B?MEVnTEhoWXA5NVZ6MGJYcjM1RXRtQjdLcjJvclduWmJZS1NjRndFM1NLL0E2?=
- =?utf-8?B?M0hFRVFuMG91aDdPcUZuTFpGVUc1ZmFHbWpNS1RMQkc0alhWcGVUaSt4bkRJ?=
- =?utf-8?B?eVZ0eUw0TTdVRStPcVBocG40eTlOS1dEVmk1cmJub3hJdWRVdEc3ZTF3dmFT?=
- =?utf-8?B?cHZ0d0hTZEQ0WGc5bWc2T1l5d1lmVWtNVEpwY2NzYUhKTE53RzlaUlRXYm5n?=
- =?utf-8?B?OWRwZzBoZUpaWnFmV3pJNkVuS2xqNWExbDRGSGY0VFB6WGU3U3VyUy9YYXZK?=
- =?utf-8?B?Ry9WaGpnWEhDaGNiS29ZZTdkZEdzUDVBeSt1ZjlhYllybzEzNEVzQTArTFJv?=
- =?utf-8?B?RTJzZVhEV0xLWVVWN2wvQStISUU1VThJaTFyU3RER3M5WGh0aElSdml5cEsx?=
- =?utf-8?B?cllaZk5aZjN6SytQekpjQzZseXVVT1hTSzlCQjRxdkJXa1BOUlNRcVdxSmw3?=
- =?utf-8?B?Z0xYcDdqOCt6TGI4dnZQeW42Mm93Ylc0Nis0WDZvazZhWk5CcXprVXRGRVVM?=
- =?utf-8?B?SGgxbmtnUHlFdmJZdisybjVLckpVcjVCcXRIWTRoM1drRGdOSVUwakpvd2VJ?=
- =?utf-8?B?UEhxSHBqTks3MkY3Q2E0NUNPdXNiUVVsTDRhR0sxTkVkS2ZOaDRNOVcxYjVH?=
- =?utf-8?B?clRxWG9NK1hBZlFXNDY1QWtMRDdwUEEwMGpqSGFDUWhScGxCU1JMSndVbW5R?=
- =?utf-8?B?Mk9BN2JtandkT05CTjZ2b2hiazgvc1U0VkJzSC9xc24zYjJ0VHlwWWZvZmpv?=
- =?utf-8?B?Yk1ud3Y3eUl3SjZnYnZudzhkeHVsQmNXUm45QXZVdzQ3dktYaWF4ZGoyVzR4?=
- =?utf-8?B?Nk1kVFF0YmtHamdGNlFtRXRVbmZuZEtEZ01tYmF1RFhMdFJBdTQ3a00zYVZP?=
- =?utf-8?B?aHRvVnNrSHZsWHpHSTMwQTNjSUZacTJPMURER2RHVnBRZU9rYVF0ZGJEalY4?=
- =?utf-8?B?NW1SNTJFSG1FZDAvN0xqUXNSZEpCWGg2NjlxUU5pZldwTHNGY2YyR1hMSHVY?=
- =?utf-8?B?cFJnOFBPRjNCckpiRnlBamFxNlJReEFTa25jQ0JLRmMyK1RQLzVENHdHLzBo?=
- =?utf-8?B?Ti9PUGY3eEJEaDJuZTJLUE5OaWZuend5aTBVWGxvQ3ZQMW9zWDkzVlNWNGVp?=
- =?utf-8?B?THlzSDlmM2poQ29XV1lpN3o3QlJPbjc4L3BhQ3NidHZRRmVjMGhuQWljSUky?=
- =?utf-8?B?OFJYK1BkblZ0MmFWZStvVEhjR3MwZWlzUUl6OWV4Vy8rWG53UHZlQ0Y0Tlk1?=
- =?utf-8?B?YVJCVmFBT3pBMmI2R0RnNWE4blQ1cWFaVnExM3ZyYzBJZGEwN2JtSW1KbTda?=
- =?utf-8?B?Q1BMbTRtbURXak5BaUkwWmMvb2lpYWhUVUpYaHVSUGtZMm1lUzZNeTZ6Z05G?=
- =?utf-8?B?MUp6UWEvbWZwT1IwYUoveWQxMk1Qb093dWM0cnJ4Y1lQVVNuTnNBaTZ4b3E4?=
- =?utf-8?B?ZVFya0VSYUc2MVhLNXZtaXM1UzZRcTB3NjU0WWRIVUxRc01VNXRLb2xkVzZH?=
- =?utf-8?B?YnJWOHl6OTMxY01obTU3QlVndVhoeUtOcGt0bGFZYlh1WGFTQmVIbEo1dkdG?=
- =?utf-8?B?Ty9SWkdsQ21FcjgyREtvUzFvdkF2aXNPb1cwWVE4RmFTdkw5aVYwdmcwWlEy?=
- =?utf-8?B?ZGV5YjlVZHdaenhERm5xZEFpR0tmVFZXQndhWlBoMGZtUWw5VE5PcGRCUThG?=
- =?utf-8?B?NHVkNFVoS3p1eWZ5S1NreWZrRE1LNENWMGZ1SE92cGplODRvNFRQK3Q1VTZN?=
- =?utf-8?B?dUw3Y3JhQ3FGTERJVmkrRG5kYkxFWkdDVHlBeVZ4ZTRGNXpxYXRXMHpqbkpM?=
- =?utf-8?Q?+HZbZsyQfJs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1V6anIyRUlaeGFuYWFYVHVRVU1zOEF3cmN0VVltbGU5RFQ1OHRsYUxYb0da?=
- =?utf-8?B?dDBJbll4QUQ2TGxYWnFTclh6ZFlMUW9oY0gwL2JjQkF4NHpwYnNxRE9QNVZC?=
- =?utf-8?B?Ti8vbk1vbHBBckE3ZlpTYk9RTzBFdDZkVjVBQTNxYmkwaEFwT3NDenRyWC9F?=
- =?utf-8?B?TFl4VnhTL1htWDRUbXRMTFVRUXIwMnFnaVdMYklvK1FCc041RVBqVmNmdEdU?=
- =?utf-8?B?a2M3NEpKUTdsZ1BGNDBzbWZVdm94bUR1bXd6bGhvck85K05VeWRBamxuRnVW?=
- =?utf-8?B?SHFiR3lNbkZZNjJwK1Z5NVdMRi9tUlF1eTZ4bzlhbVEzelVqQnpNY2J0Tm41?=
- =?utf-8?B?WTM0YTFQT3ZhbWpDSFdFd0MyZkRCRGt1MnJEclFXd3JRYXdPMFdiUlZOZGcz?=
- =?utf-8?B?d2NYNndWUXBOMm4yNG5OYmN3VnNsVzZzQXRib01OeEp5R0twMVNtTlZzOHNY?=
- =?utf-8?B?VjVycncxSUU2OXJkUnY1cW1ZTSt4NHl6ZVkxYUJXN2l3UkF2M0pSUVV6MnVq?=
- =?utf-8?B?NXVhQW41RS8wZmFoMGsvcGErdHZrQUJkN254UnhsUklxUFdvejVYckhYYmJU?=
- =?utf-8?B?bTlBZW9BcHpaOWdTUURXSjQyZExaSFBaSUNiUms3bkkybU9qQTZZemV4WktV?=
- =?utf-8?B?dDI1SEVoNUd2RFpKdGFjaVFqVGdrcDlUU1AxQk1lNXVVc0h4YXhmUGZramcr?=
- =?utf-8?B?Nll2TjB5U3pqMzhHVXJweEJ2aXEwLzN2dFh5MlRRN21IK211K3ZCdDVaNnl3?=
- =?utf-8?B?dUV2Tkd1ajVjeFdVa0ZaOE5TRFJUNlNET3YzZmIyWVFrVlZ5blA1RzV6UzNX?=
- =?utf-8?B?ZHNKbU5jTWVRWUhSbWtuL21qOUlrRml3ZFZ4eFlrNzdJRUZBTVNmeWVCWVJu?=
- =?utf-8?B?WnFEUTJSSmNsN3FPd1habnlEYTBGZDBpa1d3QmYvL1FSVDIzR3FzSDNKZjlY?=
- =?utf-8?B?STFpM2ZjS3IzVzc5eDFubUFHajEzNVhMRXU0QWVCYzMzRFI0SjBGSTBpNnRT?=
- =?utf-8?B?YWhzcThvZGdadWFRMHhVQUR2ZVptc2s5VFFPajJEczUzUE50WFV5NWlIQUkz?=
- =?utf-8?B?YkJkbWlxeUNSc3lyMGVVSHZQUFZDajkwQm1lUjZmdERsVC9wd2dDalM1eDQ5?=
- =?utf-8?B?dXExeU5kNFlDTlZVa1BPaXRrSGE2MmNHTmRDVmVzRkNWZ0NueCtUVDJhWUVH?=
- =?utf-8?B?ZVArNVRpRHQxQXNiUnZuR2w2WkRMTkM4OXRubUtkM1ZFY1hWSzVHakYvR0FJ?=
- =?utf-8?B?clVGLzlQems3LzhoTFUxRVVwTHBNMnY4SnFCK3hhbE5VODJ3Z1Z2V0FFUmNv?=
- =?utf-8?B?bFp3aDJ1NGxGelhPN0hQY3kvOVQ4LzFUSTU5aDlDbUxFREhjcFY3NEJtNnpB?=
- =?utf-8?B?ZnY1Qzd5MENXbXVoU2IybTNOVlNjTWZNRTd0ZW9xbG5SUTF2Yy9ibFgzczFC?=
- =?utf-8?B?b094aW9uTFRaRXArWE9UYWlML0tSeDBjenE3Y3ZMRCtRNXpEZnI3LzFNZWw2?=
- =?utf-8?B?eTNOYjhhNFo2M29OU0Y0ZUpmRExSWS9vOHFuelhQaE9jbllhWG5Zc0NiU1NY?=
- =?utf-8?B?NWg3YWJoVnVCQmhZOGZDS0ljMzRqK1M5Z3B6L0pMWFJVUjBxWEhaUG9vRmtB?=
- =?utf-8?B?eUt2R1YrYWlodTEyaEkwTUVkeU9ESHZlRlpRa2taaWUwZE55WENCZlBMZHA0?=
- =?utf-8?B?OEFFaE5WMEt3djJqTlBOWjdhVG82MnlXOTE0RkhOV0htWjhaY2hubWN3NlV0?=
- =?utf-8?B?cTlxaDBGenRKeWV6K2VmSkhvWDFtVWZpWHlpRkc2TE5KY3hCSktBYm9VYXNW?=
- =?utf-8?B?djVXR0FCVmZuQ25yYWE3RWJmMXo4OHF2bXYzSGFiUWJaeWYxbkczQ2l4dUQ5?=
- =?utf-8?B?ZkFTeWtxKzFFV05OMmlSaW5HNVZMNnIwVWZxRDQ3RHZQeWZEeUdQVWM2MVd3?=
- =?utf-8?B?cFdmVWhXZkZuZFZqTGlXVGN1bDdiNWFlTk80SzZ4MGRtTWtjMXE1VnNsZjQz?=
- =?utf-8?B?MnIzR1dmVlRZbHd1dlF6Vi9rOUc2ZnVFbkxUU0FON042ZDRjSEgxeG9scGRS?=
- =?utf-8?B?Ly95eEUvOElTRHp5VEoxQ0FhQUV3STEzdmxpd2hIbFZJRTh3eW1Rc3RZcDF6?=
- =?utf-8?Q?nN1yBgiveWxeuznWSu+tvR0lG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 908e8520-cca5-4e3d-5de1-08dda4ec3640
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2025 11:20:58.7828 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QNQHQA2MPreVu/8FZ7eCTbIh0Fm5x5i1XTDgeCC+XoZlSyKtgA/s1PYnGKL57Uj0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7448
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="naqzmlhexuyovrm5"
+Content-Disposition: inline
+In-Reply-To: <20250604-of_drm_find_panel_part1-v1-2-c632e12e131d@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,60 +75,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/6/25 11:52, wangtao wrote:
-> 
-> 
->> -----Original Message-----
->> From: Christoph Hellwig <hch@infradead.org>
->> Sent: Tuesday, June 3, 2025 9:20 PM
->> To: Christian König <christian.koenig@amd.com>
->> Cc: Christoph Hellwig <hch@infradead.org>; wangtao
->> <tao.wangtao@honor.com>; sumit.semwal@linaro.org; kraxel@redhat.com;
->> vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk; brauner@kernel.org;
->> hughd@google.com; akpm@linux-foundation.org; amir73il@gmail.com;
->> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
->> jstultz@google.com; tjmercier@google.com; jack@suse.cz;
->> baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
->> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
->> kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
->> mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
->> yipengxiang <yipengxiang@honor.com>; liulu 00013167
->> <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
->> Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via
->> copy_file_range
->>
->> On Tue, Jun 03, 2025 at 03:14:20PM +0200, Christian König wrote:
->>> On 6/3/25 15:00, Christoph Hellwig wrote:
->>>> This is a really weird interface.  No one has yet to explain why
->>>> dmabuf is so special that we can't support direct I/O to it when we
->>>> can support it to otherwise exotic mappings like PCI P2P ones.
->>>
->>> With udmabuf you can do direct I/O, it's just inefficient to walk the
->>> page tables for it when you already have an array of all the folios.
->>
->> Does it matter compared to the I/O in this case?
->>
->> Either way there has been talk (in case of networking implementations) that
->> use a dmabuf as a first class container for lower level I/O.
->> I'd much rather do that than adding odd side interfaces.  I.e. have a version
->> of splice that doesn't bother with the pipe, but instead just uses in-kernel
->> direct I/O on one side and dmabuf-provided folios on the other.
-> If the VFS layer recognizes dmabuf type and acquires its sg_table
-> and folios, zero-copy could also be achieved. I initially thought
-> dmabuf acts as a driver and shouldn't be handled by VFS, so I made
-> dmabuf implement copy_file_range callbacks to support direct I/O
-> zero-copy. I'm open to both approaches. What's the preference of
-> VFS experts?
 
-That would probably be illegal. Using the sg_table in the DMA-buf implementation turned out to be a mistake.
+--naqzmlhexuyovrm5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/4] drm/panel/samsung-dsicm: Keep up with refcounting
+MIME-Version: 1.0
 
-The question Christoph raised was rather why is your CPU so slow that walking the page tables has a significant overhead compared to the actual I/O?
+On Wed, Jun 04, 2025 at 10:45:11PM -0500, Anusha Srivatsa wrote:
+> Put the panel reference back when driver is no
+> longer using it.
+>=20
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index 0014c497e3fe7d8349a119dbdda30d65d816cccf..3667855ff0d6d1b608c579573=
+de657af7fd14388 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1748,6 +1748,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi=
+_host *host,
+>  			dsi->out_bridge =3D ERR_PTR(-EINVAL);
+>  	}
+> =20
+> +	drm_panel_put(panel);
+>  	of_node_put(remote);
+> =20
+>  	if (IS_ERR(dsi->out_bridge)) {
 
-Regards,
-Christian.
+Explaining in your commit log why you think it's a good idea to put it
+there would be really nice. In particular, it looks super odd to me that
+you would put the panel reference in attach.
 
-> 
-> Regards,
-> Wangtao.
-> 
+Also, your patch doesn't work, and you have a reference inbalance. You
+have one taken by the panel driver, put in remove. You have one in
+drm_panel_add, put in drm_panel_remove. Which reference do you put here?
 
+This applies to your other patches too.
+
+Maxime
+
+--naqzmlhexuyovrm5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaELY/wAKCRAnX84Zoj2+
+diBYAXwKsnGG/hDaACTi2QF85rFrKiFaFWibUe+aygZ2K7/QBjFUhuAmCr4gs9ij
+KBDYTjQBgNXlwuo0a1Tzh+JZDgdPXgj1NZYl1UppVoWcYCBkxzww5vfwCw0+YexU
+o1W0BPKmpA==
+=VbEd
+-----END PGP SIGNATURE-----
+
+--naqzmlhexuyovrm5--
