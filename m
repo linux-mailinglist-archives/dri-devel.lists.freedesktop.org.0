@@ -2,51 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F0CACFF6B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09118ACFFD1
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED0010EA18;
-	Fri,  6 Jun 2025 09:37:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T5pTlqaM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365EE10EA20;
+	Fri,  6 Jun 2025 09:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B7910EA2F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 09:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1749202646;
- bh=QUwVHqoMWsoCK+fzlEa7FjiaHBOKpAJaQwZgIoR27NM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=T5pTlqaMY8vHSXBwaCdVqSmB+gFoe09+5TzxRo2R5ttg/JIJlWNsd7ktUZKN4tqRG
- l0sH3KcvpOG4PheYDR8UnEjTs54cGHmfKF63+o+IoLdfhyDDvvnFbk7lgtbC5Hoz+Z
- mw533ZqECQGVj6nb96kreYCK+UxNpIDd7TW28EtaFVkkGUICYt4yz3iQCzwA+cY3e9
- Lj7d2MTkVFBilAax230MDkbjwem9hfKMPTI+kf75fzAsGmIjStGK4KRoTdljnqaxd+
- dclUftPrdhSB/newB2/kuNn11BD3hxrI+TlnHOV98kv76cryhlqGsrXE3fnDH5lcXX
- beEqTuRfcxdCQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 004D217E04D6;
- Fri,  6 Jun 2025 11:37:25 +0200 (CEST)
-Date: Fri, 6 Jun 2025 11:37:22 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v3 0/2] drm/panthor: Fix panthor+FEX-Emu
-Message-ID: <20250606113722.48082b43@collabora.com>
-In-Reply-To: <20250606080932.4140010-1-boris.brezillon@collabora.com>
-References: <20250606080932.4140010-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D5810EA20
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 09:53:07 +0000 (UTC)
+Received: from w013.hihonor.com (unknown [10.68.26.19])
+ by mta22.hihonor.com (SkyGuard) with ESMTPS id 4bDGm20Yh8zYm12N;
+ Fri,  6 Jun 2025 17:50:58 +0800 (CST)
+Received: from a015.hihonor.com (10.68.27.88) by w013.hihonor.com
+ (10.68.26.19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
+ 2025 17:52:55 +0800
+Received: from a010.hihonor.com (10.68.16.52) by a015.hihonor.com
+ (10.68.27.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
+ 2025 17:52:54 +0800
+Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
+ a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
+ Fri, 6 Jun 2025 17:52:54 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Christoph Hellwig <hch@infradead.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+ <christian.koenig@amd.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
+ <kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>, 
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+ <brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
+ <amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
+ <benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
+ <Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
+ "tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>, 
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
+ <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
+ <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
+Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
+Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAE6kCg
+Date: Fri, 6 Jun 2025 09:52:54 +0000
+Message-ID: <5d36abace6bf492aadd847f0fabc38be@honor.com>
+References: <20250603095245.17478-1-tao.wangtao@honor.com>
+ <aD7x_b0hVyvZDUsl@infradead.org>
+ <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
+ <aD72alIxu718uri4@infradead.org>
+In-Reply-To: <aD72alIxu718uri4@infradead.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.163.18.240]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +80,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  6 Jun 2025 10:09:30 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> Hello,
-> 
-> This is an attempt a couple bugs exposed by FEX-Emu. The first one
-> is pretty trivial and should be uncontroversial, since it's just
-> a missing padding field in one of our uAPI structs. We are getting
-> away with it on arm32 because of the alignment rules provided by
-> the Arm ABI, but x86 has relaxed constraints for u64 fields, and
-> this bug is definitely hit when running a 32-bit x86 mesa binary
-> under FEX Emu.
-> 
-> The second fix is addressing a problem we have because FEX-Emu is
-> an aarch64 process executing 32-bit x86 code, meaning the check
-> we do on the is-32bit-task check we do to figure out the MMIO
-> offset seen by the user won't work. In order to fix that, we add
-> an ioctl to let the user explicitly set this offset. The offset
-> can only be set early on, if no MMIO range has been mapped before.
-> 
-> With those, and the mesa MR at [1], I managed to run a 32-bit x86
-> glmark2 through FEX without using the host mesa (if we were to use
-> the thunked mesa lib, both the kernel and mesa would use
-> MMIO_OFFSET_64BIT, and the problem doesn't exist anymore).
-> 
-> Regards,
-> 
-> Boris
-> 
-> Changes in v2:
-> - Simplify the logic in patch2 to have a lockless solution that's
->   still safe for what we need
-> 
-> Changes in v3:
-> - Fix a comment
-> 
-> [1]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34573
-> 
-> Boris Brezillon (2):
->   drm/panthor: Add missing explicit padding in drm_panthor_gpu_info
->   drm/panthor: Fix the user MMIO offset logic for emulators
 
-Queued to drm-misc-next.
+> -----Original Message-----
+> From: Christoph Hellwig <hch@infradead.org>
+> Sent: Tuesday, June 3, 2025 9:20 PM
+> To: Christian K=F6nig <christian.koenig@amd.com>
+> Cc: Christoph Hellwig <hch@infradead.org>; wangtao
+> <tao.wangtao@honor.com>; sumit.semwal@linaro.org; kraxel@redhat.com;
+> vivek.kasireddy@intel.com; viro@zeniv.linux.org.uk; brauner@kernel.org;
+> hughd@google.com; akpm@linux-foundation.org; amir73il@gmail.com;
+> benjamin.gaignard@collabora.com; Brian.Starkey@arm.com;
+> jstultz@google.com; tjmercier@google.com; jack@suse.cz;
+> baolin.wang@linux.alibaba.com; linux-media@vger.kernel.org; dri-
+> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; linux-
+> kernel@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
+> mm@kvack.org; wangbintian(BintianWang) <bintian.wang@honor.com>;
+> yipengxiang <yipengxiang@honor.com>; liulu 00013167
+> <liulu.liu@honor.com>; hanfeng 00012985 <feng.han@honor.com>
+> Subject: Re: [PATCH v4 0/4] Implement dmabuf direct I/O via
+> copy_file_range
+>=20
+> On Tue, Jun 03, 2025 at 03:14:20PM +0200, Christian K=F6nig wrote:
+> > On 6/3/25 15:00, Christoph Hellwig wrote:
+> > > This is a really weird interface.  No one has yet to explain why
+> > > dmabuf is so special that we can't support direct I/O to it when we
+> > > can support it to otherwise exotic mappings like PCI P2P ones.
+> >
+> > With udmabuf you can do direct I/O, it's just inefficient to walk the
+> > page tables for it when you already have an array of all the folios.
+>=20
+> Does it matter compared to the I/O in this case?
+>=20
+> Either way there has been talk (in case of networking implementations) th=
+at
+> use a dmabuf as a first class container for lower level I/O.
+> I'd much rather do that than adding odd side interfaces.  I.e. have a ver=
+sion
+> of splice that doesn't bother with the pipe, but instead just uses in-ker=
+nel
+> direct I/O on one side and dmabuf-provided folios on the other.
+If the VFS layer recognizes dmabuf type and acquires its sg_table
+and folios, zero-copy could also be achieved. I initially thought
+dmabuf acts as a driver and shouldn't be handled by VFS, so I made
+dmabuf implement copy_file_range callbacks to support direct I/O
+zero-copy. I'm open to both approaches. What's the preference of
+VFS experts?
 
-> 
->  drivers/gpu/drm/panthor/panthor_device.h | 18 ++++++++
->  drivers/gpu/drm/panthor/panthor_drv.c    | 56 +++++++++++++++++-------
->  include/uapi/drm/panthor_drm.h           | 41 +++++++++++++++++
->  3 files changed, 99 insertions(+), 16 deletions(-)
-> 
+Regards,
+Wangtao.
 
