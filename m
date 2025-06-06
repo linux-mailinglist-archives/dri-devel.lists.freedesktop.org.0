@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37275ACFC9B
+	by mail.lfdr.de (Postfix) with ESMTPS id 8658CACFC9C
 	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 08:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAB110E3FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB3110E806;
 	Fri,  6 Jun 2025 06:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FB5A10E3BB
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 06:29:08 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-acb5ec407b1so308187366b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 23:29:08 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0AC110E3FA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 06:29:09 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-ad1b94382b8so295547866b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jun 2025 23:29:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749191347; x=1749796147;
+ d=1e100.net; s=20230601; t=1749191348; x=1749796148;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iPukWtw2G3pjbqdi0Ei1Rnuvtpi0YW6Xb0VOKSKt6ek=;
- b=lIjNQ7DGSlcFMnkUM/PcWrO6jXKy5VOe2CmUCgyfxj+QrZNBwUtCmxNZrZZhjwYFNc
- iOQWel4cxmMZCJNKevntbaL+cWUwLv7Zg759mv+5yBWLFXlSXicgPPr72OV/QBuiENy7
- KAWNHNHzG5udmA/t624ZHCz6jNujRQUZBpCIUnctiQYSeie/Qvt089IdtwVagW6DbL6M
- k6DN/2/8xhynUqegXZ7e+o+vtnBzsoWmyjUio3q1J8hKELjjpqkNcYpmHcBCQozl2ir/
- r13R61qZNjOC36Z6e9TEMhiLBhgaO7FohDk33+BsDsGko+uNDRnaIsiEyi4RF99wOSUU
- J1FQ==
+ bh=pJr+6I0y8wgx5+GjQkoroOueGabTjocLtcws9SVOMk8=;
+ b=o4BuhZj77uLjQfpadB0PUPaWG1APQHde/WPzWZnklvXFzUN0KhdXCLDIkfra88CsAv
+ N85sekzWtwvPvB+8arwqgWD1UYUFrTIWaq73ZuTHer8j6tJdAkvJNPvBsnVMwStXEvv7
+ B95fTkukrPJgewdpLoE7drCfBFtSKH4L7kDusDW1ODTgVOGYFebtbhAtSw6abEvj9BSG
+ 8pJDxSNzecfZjg0MpYvKlgqZ1RMIpjmfeLT5EuQyw0xqp5SHXQdPhM0QP3J62I100iaU
+ TELWFQk3C1zsDkdfQan5slL6tP1gY/DpfuPCDSctJ7c/5Y7ps/mPrIzE6rryh9PBOjVu
+ ga8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9dupRmPSCGzcEQyXh2upFuPnwskJ1sc3suMIDRWlAIOiAZ/4aPKOHTSkvNrDR02GjAjMPpXq/4uQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOqBXmts5IVCGH1KneRFa7nNQuP5eE4n3YNKTB6Gdrnf/mEgpg
- 6rCyHllXoEzsG+IHHe/go57z5sun5GDB16IONdiRKLKpKdkvLrj6D7N8
-X-Gm-Gg: ASbGncvjYInUmDFCOv1gNlAG23VwOCi2WGt75KecGOTHKLTpXLJrMiKYKn+L9aT4/Ss
- s/MwyghDMlv2DP3JsWMNZRapJ06jQ/qxBtuS88//+VGDd+E1fLMCldf4UsIHxkbvRbfzn5K+sLV
- k42cpR5HEzVLEdRzEOd9OumMu9W2/8sK3wadLnfizCOgcJt4WO2fV+DqcCjOwlkKYlLdlnjTOgd
- BLwIcHdHmlzHSab6K3ycfjitBkIitkZXXosAZi/ymtHHSNMzdS7gEqzmjERHfSeLwY+cmJAapcd
- qWsuMKr77iNHsjYgpyNXURQud+Bx3Q0ZDjvq0IA+7/gMGLvUXM0NRGZa2zSupnh4Go2LCUDsvaq
- djKC3zDgzng==
-X-Google-Smtp-Source: AGHT+IEsag9vw6Nn7OEnilm+FmZVJ6FdiJUajR3eq5nDZMSo0SkP7dbEPJwLxYEQcAnCF8Ld4GIxJg==
-X-Received: by 2002:a17:906:6a16:b0:ade:7c3:7e14 with SMTP id
- a640c23a62f3a-ade1ab8771dmr170871266b.46.1749191346629; 
- Thu, 05 Jun 2025 23:29:06 -0700 (PDT)
+ AJvYcCWK/ZDY1BlNjEZkK1Epr+saLQ8hy7QXfcUME5PhrSpc6+tdbLyxkfoUrRL9Nl+pP899R+zi3cDyt3w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyhf+T+cLAu6JeLCvRKI8w5FH/iQXNqGFgKiFjwy5MDnZU29e+o
+ Ubb0DxYH6B17Wv2uJJ0Vb6TZc1EK6RPLjQ6xdAZhNv0XTcp8P/htFJqcGC4tJuzp
+X-Gm-Gg: ASbGncuiiVBd/X2OTTKKchPjo3hETltfIOOJCDxvdBlPwRkLP1VYSPzEk6NJ7DcS9Ks
+ 7G1Y1XN+KAwQVt8TFek3C/9YjMiZPedxz/QOZl0MjEZUZAOxbnuKs/7/D6B4S8fgbv1Jlf7BW7H
+ FosW6FPGds4KvhupKGp8ZE+rsEYHmkAMzbIH35mc5XmoiYqx52ocY//fXVF+vlezGaiDCCCVPIf
+ 30YRJ6XXmSVBE2PzrGhKTSmdLjcB/m3u+2Gr2y1SsatIwgZuIiSTzCpRLbNp8dlgoQpvIAJ7jdA
+ 3Z3tOiRUqG3B7skKpwuLbAVCKO3NYmBfdNjMVdsNw1SjcdRuvmFUITDd+AF9rNxi2kWSVrdFJIX
+ zrCkkaOsWeARNeg3NeCvX
+X-Google-Smtp-Source: AGHT+IHnyqurZxzafHeloJvbM/ETAgSyRUe/eH/yNdQk8BARF2W2S6z0ut2EY9GgmVYWL9DWoqgdpw==
+X-Received: by 2002:a17:907:9694:b0:ad8:a9fc:8146 with SMTP id
+ a640c23a62f3a-ade1a9e82c8mr145557166b.44.1749191348270; 
+ Thu, 05 Jun 2025 23:29:08 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.04
+ a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jun 2025 23:29:06 -0700 (PDT)
+ Thu, 05 Jun 2025 23:29:07 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 06 Jun 2025 08:28:26 +0200
-Subject: [PATCH v7 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Date: Fri, 06 Jun 2025 08:28:27 +0200
+Subject: [PATCH v7 07/10] arm64: dts: rockchip: add pd_npu label for RK3588
+ power domains
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250606-6-10-rocket-v7-7-dc16cfe6fe4e@tomeuvizoso.net>
 References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -73,8 +74,7 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,170 +91,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the bindings for the Neural Processing Unit IP from Rockchip.
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-v2:
-- Adapt to new node structure (one node per core, each with its own
-  IOMMU)
-- Several misc. fixes from Sebastian Reichel
+The NPU of the RK3588 has an external supply. This supply also affects
+the power domain of the NPU, not just the NPU device nodes themselves.
+Since correctly modelled boards will want the power domain to be aware
+of the regulator so that it doesn't always have to be on, add a label to
+the NPU power domain node so board files can reference it.
 
-v3:
-- Split register block in its constituent subblocks, and only require
-  the ones that the kernel would ever use (Nicolas Frattaroli)
-- Group supplies (Rob Herring)
-- Explain the way in which the top core is special (Rob Herring)
-
-v4:
-- Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
-- Remove unneeded items: (Krzysztof Kozlowski)
-- Fix use of minItems/maxItems (Krzysztof Kozlowski)
-- Add reg-names to list of required properties (Krzysztof Kozlowski)
-- Fix example (Krzysztof Kozlowski)
-
-v5:
-- Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-- Streamline compatible property (Krzysztof Kozlowski)
-
-v6:
-- Remove mention to NVDLA, as the hardware is only incidentally related
-  (Kever Yang)
-- Mark pclk and npu clocks as required by all clocks (Rob Herring)
-
-v7:
-- Remove allOf section, not needed now that all nodes require 4 clocks
-  (Heiko Stübner)
-
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 118 +++++++++++++++++++++
- 1 file changed, 118 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..0588c085a723a34f4fa30a9680ea948d960b092f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-@@ -0,0 +1,118 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Neural Processing Unit IP from Rockchip
-+
-+maintainers:
-+  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-+
-+description:
-+  Rockchip IP for accelerating inference of neural networks.
-+
-+  There is to be a node per each core in the NPU. In Rockchip's design there
-+  will be one core that is special because it is able to redistribute work to
-+  the other cores by forwarding register writes and sharing data. This special
-+  core is called the top core and should have the compatible string that
-+  corresponds to top cores.
-+
-+properties:
-+  $nodename:
-+    pattern: '^npu@[a-f0-9]+$'
-+
-+  compatible:
-+    enum:
-+      - rockchip,rk3588-rknn-core-top
-+      - rockchip,rk3588-rknn-core
-+
-+  reg:
-+    maxItems: 3
-+
-+  reg-names:
-+    items:
-+      - const: pc
-+      - const: cna
-+      - const: core
-+
-+  clocks:
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: hclk
-+      - const: npu
-+      - const: pclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+  npu-supply: true
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 2
-+
-+  reset-names:
-+    items:
-+      - const: srst_a
-+      - const: srst_h
-+
-+  sram-supply: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - iommus
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - npu-supply
-+  - sram-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/rk3588-power.h>
-+    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-+
-+    bus {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      npu@fdab0000 {
-+        compatible = "rockchip,rk3588-rknn-core-top";
-+        reg = <0x0 0xfdab0000 0x0 0x1000>,
-+              <0x0 0xfdab1000 0x0 0x1000>,
-+              <0x0 0xfdab3000 0x0 0x1000>;
-+        reg-names = "pc", "cna", "core";
-+        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-+        assigned-clock-rates = <200000000>;
-+        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-+                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-+        clock-names = "aclk", "hclk", "npu", "pclk";
-+        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-+        iommus = <&rknn_mmu_top>;
-+        npu-supply = <&vdd_npu_s0>;
-+        power-domains = <&power RK3588_PD_NPUTOP>;
-+        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-+        reset-names = "srst_a", "srst_h";
-+        sram-supply = <&vdd_npu_mem_s0>;
-+      };
-+    };
-+...
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 1e18ad93ba0ebdad31642b88ff0f90ef4e8dc76f..335b4489691b6299c4fe28342e827f07c920c665 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -837,7 +837,7 @@ power: power-controller {
+ 			status = "okay";
+ 
+ 			/* These power domains are grouped by VD_NPU */
+-			power-domain@RK3588_PD_NPU {
++			pd_npu: power-domain@RK3588_PD_NPU {
+ 				reg = <RK3588_PD_NPU>;
+ 				#power-domain-cells = <0>;
+ 				#address-cells = <1>;
 
 -- 
 2.49.0
