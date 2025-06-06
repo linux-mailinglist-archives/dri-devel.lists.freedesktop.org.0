@@ -2,49 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5ACBACFA2B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 01:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0316BACFAB6
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 03:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E608010E045;
-	Thu,  5 Jun 2025 23:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E9D10E2FB;
+	Fri,  6 Jun 2025 01:28:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="PQLd0QGu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iEzUVX7I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB5410E045;
- Thu,  5 Jun 2025 23:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1749167233;
- bh=15JvHcWTxIrumm959n5nDF+mUowsUAutYuadJfJTyv0=;
- h=Date:From:To:Cc:Subject:From;
- b=PQLd0QGuWnbp+uhMzA6EicYQNkgdhWk2t4zS0hsNjRdS7bjzO30j0BhNddGU+9Phq
- ZzkcNBo0OYOFXWXeyHFy1tkJ5+lkVXJ6Y4GVbPX9k0cOezhDCUQYJAio8Yx8B2ZjKe
- D884G8AYko9X8ZUx/4N3YyIRZFe9XEqeFMUC9O6xa76+XisbimGSdUGchOWaoWJyCJ
- VWSVcpQ8Q9JicWs6YHtzWEWVS+dqQkuLcaFugV4tCM1swD4CppbP0iGcxeqWTiJ1XC
- cvNm56WMYzhNArqGm1+voED/DoNZIzBlU2B7cWRHqnKDQIcHxVg9cyf3GxQfmIypWb
- nEiKmJW5HTfHw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4bD1MM6xG7z4wbd;
- Fri,  6 Jun 2025 09:47:11 +1000 (AEST)
-Date: Fri, 6 Jun 2025 09:47:11 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Jacek Lawrynowicz
- <jacek.lawrynowicz@linux.intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm-misc-fixes tree with Linus' tree
-Message-ID: <20250606094711.4b9909af@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7B710E319
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 01:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749173332; x=1780709332;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mmO6t2nxNp7O6T3etaZF1E1QaseaqFlqJHGPybmOXdA=;
+ b=iEzUVX7IaUTew/6QmktRC5vcRnQG3MHrPkb4zOrDCijBP4I4r1nwU7mQ
+ TCwAinVqIQUPXavhnRZNTpfeQqW3NqvpJS4Hb4sBHzXlWX2BGCK1rWUli
+ IaIzzbp2QupgLcMNhUOto0pVKjpFFagRWzqdwPlFHlF3xWVRPmZ8GWBQG
+ GEcbAYXiiQsVPgj6xpBPdNFJYNeVDcmzDrWzCfa35GIpW4Cp1+MjJnfoT
+ 76T0CwyvcGwYZR1JyLTiecRWfXub37Ww2UgvW6Inoaq04ulEFSw0Ie0kR
+ r4eGJstCDrqFwMAOHSNCO+V69XfPumz6xl+2ijCAzNnem8qdEWC7XzfuG w==;
+X-CSE-ConnectionGUID: 0Nu30ySOSqaQMm3XUdNblA==
+X-CSE-MsgGUID: IcfimK/2Q3uuAL3WLpe/tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51197054"
+X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; d="scan'208";a="51197054"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2025 18:28:51 -0700
+X-CSE-ConnectionGUID: 4yeMr70GQ/yKyOMGEsDEbg==
+X-CSE-MsgGUID: LpHLK8swSy+l0X9Vw0hXuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; d="scan'208";a="176536453"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 05 Jun 2025 18:28:49 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uNLt1-0004cP-04;
+ Fri, 06 Jun 2025 01:28:47 +0000
+Date: Fri, 6 Jun 2025 09:28:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arthurgrillo@riseup.net,
+ jose.exposito89@gmail.com, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/3] drm/format-helper: Move drm_fb_build_fourcc_list()
+ to sysfb helpers
+Message-ID: <202506060951.1Ad66SUT-lkp@intel.com>
+References: <20250604154844.28995-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RPEO+toMXI_H5DxlpAIfJIy";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250604154844.28995-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,142 +73,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RPEO+toMXI_H5DxlpAIfJIy
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-Hi all,
+kernel test robot noticed the following build errors:
 
-Today's linux-next merge of the drm-misc-fixes tree got a conflict in:
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20250605]
+[cannot apply to drm-exynos/exynos-drm-next drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  drivers/accel/ivpu/ivpu_gem.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-tests-Do-not-use-drm_fb_blit-in-format-helper-tests/20250604-235451
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250604154844.28995-4-tzimmermann%40suse.de
+patch subject: [PATCH 3/3] drm/format-helper: Move drm_fb_build_fourcc_list() to sysfb helpers
+config: arm-randconfig-003-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060951.1Ad66SUT-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060951.1Ad66SUT-lkp@intel.com/reproduce)
 
-between commit:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506060951.1Ad66SUT-lkp@intel.com/
 
-  835b14ce4ee3 ("accel/ivpu: s/drm_gem_shmem_v[un]map/drm_gem_shmem_v[un]ma=
-p_locked/")
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-from Linus' tree and commit:
+>> ERROR: modpost: "drm_sysfb_build_fourcc_list" [drivers/gpu/drm/tests/drm_sysfb_helper_test.ko] undefined!
 
-  98d3f772ca7d ("accel/ivpu: Use dma_resv_lock() instead of a custom mutex")
-
-from the drm-misc-fixes tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/accel/ivpu/ivpu_gem.c
-index e0d242d9f3e5,248bfebeaa22..000000000000
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@@ -28,11 -28,21 +28,21 @@@ static inline void ivpu_dbg_bo(struct i
-  {
-  	ivpu_dbg(vdev, BO,
-  		 "%6s: bo %8p vpu_addr %9llx size %8zu ctx %d has_pages %d dma_mapped %=
-d mmu_mapped %d wc %d imported %d\n",
-- 		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx ? bo->ctx->id : 0,
-+ 		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx_id,
-  		 (bool)bo->base.pages, (bool)bo->base.sgt, bo->mmu_mapped, bo->base.map=
-_wc,
- -		 (bool)bo->base.base.import_attach);
- +		 (bool)drm_gem_is_imported(&bo->base.base));
-  }
- =20
-+ static inline int ivpu_bo_lock(struct ivpu_bo *bo)
-+ {
-+ 	return dma_resv_lock(bo->base.base.resv, NULL);
-+ }
-+=20
-+ static inline void ivpu_bo_unlock(struct ivpu_bo *bo)
-+ {
-+ 	dma_resv_unlock(bo->base.base.resv);
-+ }
-+=20
-  /*
-   * ivpu_bo_pin() - pin the backing physical pages and map them to VPU.
-   *
-@@@ -122,10 -130,9 +130,9 @@@ static void ivpu_bo_unbind_locked(struc
-  		bo->ctx =3D NULL;
-  	}
- =20
- -	if (bo->base.base.import_attach)
- +	if (drm_gem_is_imported(&bo->base.base))
-  		return;
- =20
-- 	dma_resv_lock(bo->base.base.resv, NULL);
-  	if (bo->base.sgt) {
-  		dma_unmap_sgtable(vdev->drm.dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
-  		sg_free_table(bo->base.sgt);
-@@@ -277,12 -285,16 +285,16 @@@ static void ivpu_gem_bo_free(struct drm
-  	list_del(&bo->bo_list_node);
-  	mutex_unlock(&vdev->bo_list_lock);
- =20
-- 	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAG=
-E_READ));
-+ 	drm_WARN_ON(&vdev->drm, !drm_gem_is_imported(&bo->base.base) &&
-+ 		    !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
-+ 	drm_WARN_ON(&vdev->drm, ivpu_bo_size(bo) =3D=3D 0);
-+ 	drm_WARN_ON(&vdev->drm, bo->base.vaddr);
- =20
-  	ivpu_bo_unbind_locked(bo);
-- 	mutex_destroy(&bo->lock);
-+ 	drm_WARN_ON(&vdev->drm, bo->mmu_mapped);
-+ 	drm_WARN_ON(&vdev->drm, bo->ctx);
- =20
- -	drm_WARN_ON(obj->dev, bo->base.pages_use_count > 1);
- +	drm_WARN_ON(obj->dev, refcount_read(&bo->base.pages_use_count) > 1);
-  	drm_gem_shmem_free(&bo->base);
-  }
- =20
-@@@ -361,9 -376,9 +376,9 @@@ ivpu_bo_create(struct ivpu_device *vdev
-  		goto err_put;
- =20
-  	if (flags & DRM_IVPU_BO_MAPPABLE) {
-- 		dma_resv_lock(bo->base.base.resv, NULL);
-+ 		ivpu_bo_lock(bo);
- -		ret =3D drm_gem_shmem_vmap(&bo->base, &map);
- +		ret =3D drm_gem_shmem_vmap_locked(&bo->base, &map);
-- 		dma_resv_unlock(bo->base.base.resv);
-+ 		ivpu_bo_unlock(bo);
- =20
-  		if (ret)
-  			goto err_put;
-@@@ -386,9 -401,9 +401,9 @@@ void ivpu_bo_free(struct ivpu_bo *bo
-  	struct iosys_map map =3D IOSYS_MAP_INIT_VADDR(bo->base.vaddr);
- =20
-  	if (bo->flags & DRM_IVPU_BO_MAPPABLE) {
-- 		dma_resv_lock(bo->base.base.resv, NULL);
-+ 		ivpu_bo_lock(bo);
- -		drm_gem_shmem_vunmap(&bo->base, &map);
- +		drm_gem_shmem_vunmap_locked(&bo->base, &map);
-- 		dma_resv_unlock(bo->base.base.resv);
-+ 		ivpu_bo_unlock(bo);
-  	}
- =20
-  	drm_gem_object_put(&bo->base.base);
-
---Sig_/RPEO+toMXI_H5DxlpAIfJIy
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmhCLH8ACgkQAVBC80lX
-0GwSkAf/XLMVorC/BQUng2JSoICcDyVMT2c370vhORQ395nwOU8qmllWek21qUJc
-eQYPyKsLCyGKI9r4yKzaeaOF+I3XfXm1GrjpfFvtyKQX973y23AyQ6x8lBy9xF0E
-SVhpCOJpYn6dtpbXWQqiO4MobQPJta+mG+4JI0TfkGvTXCNIfUzRCK5GAyHeSQfJ
-y7OUfYoRRxhTcsVNuNniiaZgZuAorQ6ovRwwf/eYNinOelAZEmVLLVqxBs19LKvQ
-7c9XeczI4LkYQ4IVogwo5dFdhdB14m9ytzdOOpSA4ViTJDcXGMD49omGJhCxSf6o
-SAa4SerGGmZkukBZ+6VWMdqgMBtDew==
-=YM/O
------END PGP SIGNATURE-----
-
---Sig_/RPEO+toMXI_H5DxlpAIfJIy--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
