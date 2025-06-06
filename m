@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52BCACFE75
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 10:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8EAACFE77
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 10:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5430C10E988;
-	Fri,  6 Jun 2025 08:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7022510E9B3;
+	Fri,  6 Jun 2025 08:41:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MnQe2X3g";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ecdgv+ik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D66A10E988
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 08:41:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6333E439E7;
- Fri,  6 Jun 2025 08:41:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9178D10E9B3
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 08:41:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F517432F6;
+ Fri,  6 Jun 2025 08:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1749199303;
+ t=1749199314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aPvksxlf0Hyl0GWx9oF/FuC5ulQtC/iEwpumUiyWezs=;
- b=MnQe2X3gm/AWI6pN0PHB5SuT0ajW8eUsm1oWoqS3aSuJHgHf0D+DliE9SkFDRpyq49UNGW
- 8FcY1hljn/Bt7JTUt8WGGFRs9QQKMygRcja+paVHzYwIzTwCl9M+tqQWXP/391ZGXAK6tX
- 8QRLP7QJ32Th3tpQ5cXnZy4eTfTID2+G1DNg8qdVT0P8vEZd3B6o6Ll3xi0j3H09GG969I
- Lpsfe1kB1DXUYrPjiQnSGPMDK/ftXJp7BcSavg7ky3dH4j2Eub+Bd/utE/z8oN78Xhg+sE
- 5eYipAQD911ot/RDcZ+fMcEdTEOAIVmCrSxFWP02MWb7zyKj4k4tf5yyrTxzIg==
+ bh=X7gkpeD02m42+Q8lo9vTdVvKSU1AoFKlmD/QgXdBYsg=;
+ b=ecdgv+ikCDahE6D4S7NyPFR/ttLSmH+B91yJFjdrSgrx26x7nEOM+OzC98EOcsGySK3/BO
+ vSy3Jqd35x/Je6IaDOaRoIu02DZgcsagwAe4kaX7fMq9ssxIbARbZfHHTZV1K63y5Epwhx
+ YQytrgZu7aY6yJUVhNAt7PtyMajBR372xhwYTLb3RPZEfOAzLgqMsUNsHwYRtd/6sRlkqC
+ X5czCxs1vOXS49+N8gm3PrMUZHqZfNDzDxCp7L4Ec0mx7P3LJ9wGWR/ZVdKy+YGjnSmSAi
+ Fp4aRRCNeDvvqZViox1omO1paE+g3Sr6hKcYcwbWn3RjU6ejUY8Ht+BDOVEo7w==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 06 Jun 2025 10:41:19 +0200
-Subject: [PATCH v9 1/3] drm/tests: bridge: convert to
- devm_drm_bridge_alloc() API
+Date: Fri, 06 Jun 2025 10:41:20 +0200
+Subject: [PATCH v9 2/3] drm/bridge: add a .destroy func
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-drm-bridge-alloc-doc-test-v9-1-b5bf7b43ed92@bootlin.com>
+Message-Id: <20250606-drm-bridge-alloc-doc-test-v9-2-b5bf7b43ed92@bootlin.com>
 References: <20250606-drm-bridge-alloc-doc-test-v9-0-b5bf7b43ed92@bootlin.com>
 In-Reply-To: <20250606-drm-bridge-alloc-doc-test-v9-0-b5bf7b43ed92@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,8 +56,8 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepfeejrdduiedvrdduvdefrdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeefjedrudeivddruddvfedrhedvpdhhvghloheplgduledvrdduieekrddvhedvrddvfeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhumhgrgheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhli
- hhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehjefgudegvddukeegvedtgfduudehtdfgteefvefgheekjeehvdeihfdtfffhkeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeefjedrudeivddruddvfedrhedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepfeejrdduiedvrdduvdefrdehvddphhgvlhhopegludelvddrudeikedrvdehvddrvdefhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddtpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhmpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepl
+ hhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,270 +74,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new DRM bridge allocation API, which is the only supported now, for
-the kunit tests.
+Some users of DRM bridges may need to execute specific code just before
+deallocation.
 
-This change is more massive than for the typical DRM bridge driver because
-struct drm_bridge_init_priv currently embeds a struct drm_bridge, which is
-not supported anymore. We now have to use devm_drm_bridge_alloc() to
-dynamically allocate a "private driver struct", which is a bit awkward here
-because there is no real bridge driver. Thus let's add a "dummy" DRM bridge
-struct to represent it.
+As of now the only known user would be KUnit tests.
 
-As a nice cleanup we can now move the enable_count and disable_count
-members, which are counting bridge-specific events, into the new "private
-driver struct" (and avoid adding new unnecessary indirections).
-
-Also add a trivial bridge_to_dummy_bridge() function just like many drivers
-do.
-
+Suggested-by: Maxime Ripard <mripard@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
 
 Changes in v9:
-* rename struct dummy_drm_bridge to drm_bridge_priv (and related variables
-  accordingly)
-* slightly improve struct drm_bridge_priv docs
-* fix typo in commit message, improve commit message
+- move .destroy before .detach in struct drm_bridge_funcs declaration for
+  alphabetic ordering
+- Add Maxime's Acked-by
+- Fix typo in commit message
 
-This patch was added in v8.
+This patch was added in v8. The .destroy callback had appeared in v5 as
+well [5], but as part of a larger patch and for different reasons that do
+not apply anymore.
+
+[5] https://lore.kernel.org/all/20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com/#t
 ---
- drivers/gpu/drm/tests/drm_bridge_test.c | 87 +++++++++++++++++++--------------
- 1 file changed, 51 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/drm_bridge.c |  2 ++
+ include/drm/drm_bridge.h     | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
-index ff88ec2e911c9cc9a718483f09d4c764f45f991a..af1b9f9694b0091e6eaef78cb71e39327ad8c3fa 100644
---- a/drivers/gpu/drm/tests/drm_bridge_test.c
-+++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-@@ -10,29 +10,43 @@
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index d0e81639927a73422671b7b43f3e8a946f1d4300..bf34cc5ab0316889186ddf5ebb3a984b09eeb86c 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -203,6 +203,8 @@ static void __drm_bridge_free(struct kref *kref)
+ {
+ 	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
  
- #include <kunit/test.h>
++	if (bridge->funcs->destroy)
++		bridge->funcs->destroy(bridge);
+ 	kfree(bridge->container);
+ }
  
-+/*
-+ * Mimick the typical "private" struct defined by a bridge driver, which
-+ * embeds a bridge plus other fields.
-+ *
-+ * Having at least one member before @bridge ensures we test non-zero
-+ * @bridge offset.
-+ */
-+struct drm_bridge_priv {
-+	unsigned int enable_count;
-+	unsigned int disable_count;
-+	struct drm_bridge bridge;
-+};
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 0af5db244db8580ea0c9af1d9a373b7bf62ee699..dbd6503f33ba917fbcfb73b985d9c34910f04e0f 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -77,6 +77,16 @@ struct drm_bridge_funcs {
+ 	int (*attach)(struct drm_bridge *bridge, struct drm_encoder *encoder,
+ 		      enum drm_bridge_attach_flags flags);
+ 
++	/**
++	 * @destroy:
++	 *
++	 * This callback is invoked when the bridge is about to be
++	 * deallocated.
++	 *
++	 * The @destroy callback is optional.
++	 */
++	void (*destroy)(struct drm_bridge *bridge);
 +
- struct drm_bridge_init_priv {
- 	struct drm_device drm;
- 	struct drm_plane *plane;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder encoder;
--	struct drm_bridge bridge;
-+	struct drm_bridge_priv *test_bridge;
- 	struct drm_connector *connector;
--	unsigned int enable_count;
--	unsigned int disable_count;
- };
- 
-+static struct drm_bridge_priv *bridge_to_priv(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct drm_bridge_priv, bridge);
-+}
-+
- static void drm_test_bridge_enable(struct drm_bridge *bridge)
- {
--	struct drm_bridge_init_priv *priv =
--		container_of(bridge, struct drm_bridge_init_priv, bridge);
-+	struct drm_bridge_priv *priv = bridge_to_priv(bridge);
- 
- 	priv->enable_count++;
- }
- 
- static void drm_test_bridge_disable(struct drm_bridge *bridge)
- {
--	struct drm_bridge_init_priv *priv =
--		container_of(bridge, struct drm_bridge_init_priv, bridge);
-+	struct drm_bridge_priv *priv = bridge_to_priv(bridge);
- 
- 	priv->disable_count++;
- }
-@@ -45,8 +59,7 @@ static const struct drm_bridge_funcs drm_test_bridge_legacy_funcs = {
- static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,
- 					  struct drm_atomic_state *state)
- {
--	struct drm_bridge_init_priv *priv =
--		container_of(bridge, struct drm_bridge_init_priv, bridge);
-+	struct drm_bridge_priv *priv = bridge_to_priv(bridge);
- 
- 	priv->enable_count++;
- }
-@@ -54,8 +67,7 @@ static void drm_test_bridge_atomic_enable(struct drm_bridge *bridge,
- static void drm_test_bridge_atomic_disable(struct drm_bridge *bridge,
- 					   struct drm_atomic_state *state)
- {
--	struct drm_bridge_init_priv *priv =
--		container_of(bridge, struct drm_bridge_init_priv, bridge);
-+	struct drm_bridge_priv *priv = bridge_to_priv(bridge);
- 
- 	priv->disable_count++;
- }
-@@ -102,6 +114,10 @@ drm_test_bridge_init(struct kunit *test, const struct drm_bridge_funcs *funcs)
- 	if (IS_ERR(priv))
- 		return ERR_CAST(priv);
- 
-+	priv->test_bridge = devm_drm_bridge_alloc(dev, struct drm_bridge_priv, bridge, funcs);
-+	if (IS_ERR(priv->test_bridge))
-+		return ERR_CAST(priv->test_bridge);
-+
- 	drm = &priv->drm;
- 	priv->plane = drm_kunit_helper_create_primary_plane(test, drm,
- 							    NULL,
-@@ -125,9 +141,8 @@ drm_test_bridge_init(struct kunit *test, const struct drm_bridge_funcs *funcs)
- 
- 	enc->possible_crtcs = drm_crtc_mask(priv->crtc);
- 
--	bridge = &priv->bridge;
-+	bridge = &priv->test_bridge->bridge;
- 	bridge->type = DRM_MODE_CONNECTOR_VIRTUAL;
--	bridge->funcs = funcs;
- 
- 	ret = drm_kunit_bridge_add(test, bridge);
- 	if (ret)
-@@ -173,7 +188,7 @@ static void drm_test_drm_bridge_get_current_state_atomic(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- retry_commit:
--	bridge = &priv->bridge;
-+	bridge = &priv->test_bridge->bridge;
- 	bridge_state = drm_atomic_get_bridge_state(state, bridge);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bridge_state);
- 
-@@ -228,7 +243,7 @@ static void drm_test_drm_bridge_get_current_state_legacy(struct kunit *test)
- 	 * locking. The function would return NULL in all cases anyway,
- 	 * so we don't really have any concurrency to worry about.
- 	 */
--	bridge = &priv->bridge;
-+	bridge = &priv->test_bridge->bridge;
- 	KUNIT_EXPECT_NULL(test, drm_bridge_get_current_state(bridge));
- }
- 
-@@ -253,7 +268,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_bridge_init_priv *priv;
- 	struct drm_display_mode *mode;
--	struct drm_bridge *bridge;
-+	struct drm_bridge_priv *bridge_priv;
- 	int ret;
- 
- 	priv = drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs);
-@@ -279,14 +294,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	bridge = &priv->bridge;
--	KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
--	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-+	bridge_priv = priv->test_bridge;
-+	KUNIT_ASSERT_EQ(test, bridge_priv->enable_count, 1);
-+	KUNIT_ASSERT_EQ(test, bridge_priv->disable_count, 0);
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- retry_reset:
--	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
-+	ret = drm_bridge_helper_reset_crtc(&bridge_priv->bridge, &ctx);
- 	if (ret == -EDEADLK) {
- 		drm_modeset_backoff(&ctx);
- 		goto retry_reset;
-@@ -296,8 +311,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic(struct kunit *test)
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
--	KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->enable_count, 2);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->disable_count, 1);
- }
- 
- /*
-@@ -309,7 +324,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_bridge_init_priv *priv;
- 	struct drm_display_mode *mode;
--	struct drm_bridge *bridge;
-+	struct drm_bridge_priv *bridge_priv;
- 	int ret;
- 
- 	priv = drm_test_bridge_init(test, &drm_test_bridge_atomic_funcs);
-@@ -318,14 +333,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
- 	mode = drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
- 
--	bridge = &priv->bridge;
--	KUNIT_ASSERT_EQ(test, priv->enable_count, 0);
--	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-+	bridge_priv = priv->test_bridge;
-+	KUNIT_ASSERT_EQ(test, bridge_priv->enable_count, 0);
-+	KUNIT_ASSERT_EQ(test, bridge_priv->disable_count, 0);
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- retry_reset:
--	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
-+	ret = drm_bridge_helper_reset_crtc(&bridge_priv->bridge, &ctx);
- 	if (ret == -EDEADLK) {
- 		drm_modeset_backoff(&ctx);
- 		goto retry_reset;
-@@ -335,8 +350,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_atomic_disabled(struct kunit *
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	KUNIT_EXPECT_EQ(test, priv->enable_count, 0);
--	KUNIT_EXPECT_EQ(test, priv->disable_count, 0);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->enable_count, 0);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->disable_count, 0);
- }
- 
- /*
-@@ -348,7 +363,7 @@ static void drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_bridge_init_priv *priv;
- 	struct drm_display_mode *mode;
--	struct drm_bridge *bridge;
-+	struct drm_bridge_priv *bridge_priv;
- 	int ret;
- 
- 	priv = drm_test_bridge_init(test, &drm_test_bridge_legacy_funcs);
-@@ -374,14 +389,14 @@ static void drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	bridge = &priv->bridge;
--	KUNIT_ASSERT_EQ(test, priv->enable_count, 1);
--	KUNIT_ASSERT_EQ(test, priv->disable_count, 0);
-+	bridge_priv = priv->test_bridge;
-+	KUNIT_ASSERT_EQ(test, bridge_priv->enable_count, 1);
-+	KUNIT_ASSERT_EQ(test, bridge_priv->disable_count, 0);
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- retry_reset:
--	ret = drm_bridge_helper_reset_crtc(bridge, &ctx);
-+	ret = drm_bridge_helper_reset_crtc(&bridge_priv->bridge, &ctx);
- 	if (ret == -EDEADLK) {
- 		drm_modeset_backoff(&ctx);
- 		goto retry_reset;
-@@ -391,8 +406,8 @@ static void drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	KUNIT_EXPECT_EQ(test, priv->enable_count, 2);
--	KUNIT_EXPECT_EQ(test, priv->disable_count, 1);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->enable_count, 2);
-+	KUNIT_EXPECT_EQ(test, bridge_priv->disable_count, 1);
- }
- 
- static struct kunit_case drm_bridge_helper_reset_crtc_tests[] = {
+ 	/**
+ 	 * @detach:
+ 	 *
 
 -- 
 2.49.0
