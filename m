@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749F4AD01AE
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 14:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E4DAD01B2
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 14:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9FF10EA6D;
-	Fri,  6 Jun 2025 12:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9318E10EA6E;
+	Fri,  6 Jun 2025 12:06:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PqMSgIee";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Es386YUI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FAE10EA36
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 12:06:20 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 433B510EA6E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 12:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749211579;
+ s=mimecast20190719; t=1749211591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P3qImNDgs5IKpXU7/qApHixAm6FFP9iiOGE/4sAcQeA=;
- b=PqMSgIeeFOe316NaL0rWfH7N6aqYFq2RJwYS79pNwqcIY4GohS6BlfGLY5ThbOPJ+GkYVX
- 1ZZL22opzr2NsShInno3d8NeoxDAKCL+UOiV9OINoBIIHGCtGKJ2sgfOev7LVeVJFsj4OB
- Y21QPIqevUuGsy+UeiljejYdfM6jkzk=
+ bh=deJBe+dw+c7pFRTX7PwmH5oQvdEyNmO/6Njb6mekRlc=;
+ b=Es386YUI5JMKtHlaSF/dEWXEG3+H1HTqgKsc3ZVF4aF7QpnqzVJshizML4w5GVMTjswGx3
+ hcDnjK34uqxswu/yQF4Vc/OQe5OEiX9Zbd+HfxzZsQ+Eh9JfcLhxht3ytho3QYnVMluMMT
+ zifNH1FpjJRIHf+pxnTzxwhQBXX5gSo=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-590-toXoOkylOterjQg5xUPlQg-1; Fri,
- 06 Jun 2025 08:06:14 -0400
-X-MC-Unique: toXoOkylOterjQg5xUPlQg-1
-X-Mimecast-MFC-AGG-ID: toXoOkylOterjQg5xUPlQg_1749211572
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-639-uOIuhcEuONG7YWYwCyin-Q-1; Fri,
+ 06 Jun 2025 08:06:28 -0400
+X-MC-Unique: uOIuhcEuONG7YWYwCyin-Q-1
+X-Mimecast-MFC-AGG-ID: uOIuhcEuONG7YWYwCyin-Q_1749211586
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 09DBC1800EC5; Fri,  6 Jun 2025 12:06:12 +0000 (UTC)
+ id 0A6F91800772; Fri,  6 Jun 2025 12:06:26 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.44.33.65])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id B9DA718003FD; Fri,  6 Jun 2025 12:06:02 +0000 (UTC)
+ id ED5CD18002A5; Fri,  6 Jun 2025 12:06:19 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
@@ -58,12 +58,14 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v8 4/9] drm/ttm: Add ttm_bo_kmap_try_from_panic()
-Date: Fri,  6 Jun 2025 13:48:08 +0200
-Message-ID: <20250606120519.753928-5-jfalempe@redhat.com>
+Subject: [PATCH v8 5/9] drm/i915: Add intel_bo_panic_setup and
+ intel_bo_panic_finish
+Date: Fri,  6 Jun 2025 13:48:09 +0200
+Message-ID: <20250606120519.753928-6-jfalempe@redhat.com>
 In-Reply-To: <20250606120519.753928-1-jfalempe@redhat.com>
 References: <20250606120519.753928-1-jfalempe@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,72 +83,280 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the ttm bo is backed by pages, then it's possible to safely kmap
-one page at a time, using kmap_try_from_panic().
-Unfortunately there is no way to do the same with ioremap, so it
-only supports the kmap case.
-This is needed for proper drm_panic support with xe driver.
+Implement both functions for i915 and xe, they prepare the work for
+drm_panic support.
+They both use kmap_try_from_panic(), and map one page at a time, to
+write the panic screen on the framebuffer.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
 
+
+v5:
+ * Use iosys_map for intel_bo_panic_map().
+
+v7:
+ * Return int for i915_gem_object_panic_map() (Ville Syrjälä)
+
 v8:
- * Added in v8
+ * Complete rewrite, to use kmap_try_from_panic() which is safe
+   to call from a panic handler
 
- drivers/gpu/drm/ttm/ttm_bo_util.c | 27 +++++++++++++++++++++++++++
- include/drm/ttm/ttm_bo.h          |  1 +
- 2 files changed, 28 insertions(+)
+ drivers/gpu/drm/i915/display/intel_bo.c    | 11 +++
+ drivers/gpu/drm/i915/display/intel_bo.h    |  3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  4 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 92 ++++++++++++++++++++++
+ drivers/gpu/drm/xe/display/intel_bo.c      | 55 +++++++++++++
+ 5 files changed, 165 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 15cab9bda17f..9c3f3b379c2a 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -377,6 +377,33 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
- 	return (!map->virtual) ? -ENOMEM : 0;
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_bo.c b/drivers/gpu/drm/i915/display/intel_bo.c
+index fbd16d7b58d9..83dbd8ae16fe 100644
+--- a/drivers/gpu/drm/i915/display/intel_bo.c
++++ b/drivers/gpu/drm/i915/display/intel_bo.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: MIT
+ /* Copyright © 2024 Intel Corporation */
  
-+/**
-+ *
-+ * ttm_bo_kmap_try_from_panic
-+ *
-+ * @bo: The buffer object
-+ * @page: The page to map
-+ *
-+ * Sets up a kernel virtual mapping using kmap_local_page_try_from_panic().
-+ * This can safely be called from the panic handler, if you make sure the bo
-+ * is the one being displayed, so is properly allocated, and won't be modified.
-+ *
-+ * Returns the vaddr, that you can use to write to the bo, and that you should
-+ * pass to kunmap_local() when you're done with this page, or NULL if the bo
-+ * is in iomem.
-+ */
-+void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page)
++#include <drm/drm_panic.h>
+ #include "gem/i915_gem_mman.h"
+ #include "gem/i915_gem_object.h"
+ #include "gem/i915_gem_object_frontbuffer.h"
+@@ -57,3 +58,13 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
+ {
+ 	i915_debugfs_describe_obj(m, to_intel_bo(obj));
+ }
++
++int intel_bo_panic_setup(struct drm_gem_object *obj, struct drm_scanout_buffer *sb)
 +{
-+	if (page + 1 > PFN_UP(bo->resource->size))
-+		return NULL;
-+
-+	if (!bo->resource->bus.is_iomem && bo->ttm->pages && bo->ttm->pages[page])
-+		return kmap_local_page_try_from_panic(bo->ttm->pages[page]);
-+
-+	return NULL;
++	return i915_gem_object_panic_setup(to_intel_bo(obj), sb);
 +}
-+EXPORT_SYMBOL(ttm_bo_kmap_try_from_panic);
++
++void intel_bo_panic_finish(struct drm_gem_object *obj)
++{
++	return i915_gem_object_panic_finish(to_intel_bo(obj));
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_bo.h b/drivers/gpu/drm/i915/display/intel_bo.h
+index ea7a2253aaa5..9ac087ea275d 100644
+--- a/drivers/gpu/drm/i915/display/intel_bo.h
++++ b/drivers/gpu/drm/i915/display/intel_bo.h
+@@ -4,6 +4,7 @@
+ #ifndef __INTEL_BO__
+ #define __INTEL_BO__
+ 
++#include <drm/drm_panic.h>
+ #include <linux/types.h>
+ 
+ struct drm_gem_object;
+@@ -23,5 +24,7 @@ struct intel_frontbuffer *intel_bo_set_frontbuffer(struct drm_gem_object *obj,
+ 						   struct intel_frontbuffer *front);
+ 
+ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj);
++int intel_bo_panic_setup(struct drm_gem_object *obj, struct drm_scanout_buffer *sb);
++void intel_bo_panic_finish(struct drm_gem_object *obj);
+ 
+ #endif /* __INTEL_BO__ */
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index c34f41605b46..9a0c1019dcad 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -9,6 +9,7 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_panic.h>
+ 
+ #include "intel_memory_region.h"
+ #include "i915_gem_object_types.h"
+@@ -691,6 +692,9 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_object *obj)
+ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
+ int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
+ 
++int i915_gem_object_panic_setup(struct drm_i915_gem_object *obj, struct drm_scanout_buffer *sb);
++void i915_gem_object_panic_finish(struct drm_i915_gem_object *obj);
 +
  /**
-  * ttm_bo_kmap
-  *
-diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-index cf027558b6db..8c0ce3fa077f 100644
---- a/include/drm/ttm/ttm_bo.h
-+++ b/include/drm/ttm/ttm_bo.h
-@@ -429,6 +429,7 @@ int ttm_bo_init_validate(struct ttm_device *bdev, struct ttm_buffer_object *bo,
- int ttm_bo_kmap(struct ttm_buffer_object *bo, unsigned long start_page,
- 		unsigned long num_pages, struct ttm_bo_kmap_obj *map);
- void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
-+void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page);
- int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map);
- void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map);
- int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo);
+  * i915_gem_object_pin_map - return a contiguous mapping of the entire object
+  * @obj: the object to map into kernel address space
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 7f83f8bdc8fb..9bdbac3d9433 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2014-2016 Intel Corporation
+  */
+ 
++#include <drm/drm_panic.h>
+ #include <drm/drm_cache.h>
+ #include <linux/vmalloc.h>
+ 
+@@ -354,6 +355,97 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+ 	return vaddr ?: ERR_PTR(-ENOMEM);
+ }
+ 
++static struct page **i915_panic_pages;
++static int i915_panic_page = -1;
++static void *i915_panic_vaddr;
++
++static void i915_panic_kunmap(void)
++{
++	if (i915_panic_vaddr) {
++		drm_clflush_virt_range(i915_panic_vaddr, PAGE_SIZE);
++		kunmap_local(i915_panic_vaddr);
++		i915_panic_vaddr = NULL;
++	}
++}
++
++static struct page **i915_gem_object_panic_pages(struct drm_i915_gem_object *obj)
++{
++	unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
++	struct page *page;
++	struct page **pages;
++	struct sgt_iter iter;
++
++	pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_ATOMIC);
++	if (!pages)
++		return NULL;
++
++	i = 0;
++	for_each_sgt_page(page, iter, obj->mm.pages)
++		pages[i++] = page;
++	return pages;
++}
++
++/*
++ * The scanout buffer pages are not mapped, so for each pixel,
++ * use kmap_local_page_try_from_panic() to map the page, and write the pixel.
++ * Try to keep the map from the previous pixel, to avoid too much map/unmap.
++ */
++static void i915_gem_object_panic_page_set_pixel(struct drm_scanout_buffer *sb, unsigned int x,
++						 unsigned int y, u32 color)
++{
++	unsigned int new_page;
++	unsigned int offset;
++
++	offset = y * sb->pitch[0] + x * sb->format->cpp[0];
++
++	new_page = offset >> PAGE_SHIFT;
++	offset = offset % PAGE_SIZE;
++	if (new_page != i915_panic_page) {
++		i915_panic_kunmap();
++		i915_panic_page = new_page;
++		i915_panic_vaddr = kmap_local_page_try_from_panic(
++				   i915_panic_pages[i915_panic_page]);
++	}
++	if (i915_panic_vaddr) {
++		u32 *pix = i915_panic_vaddr + offset;
++		*pix = color;
++	}
++}
++
++/*
++ * Setup the gem framebuffer for drm_panic access.
++ * Use current vaddr if it exists, or setup a list of pages.
++ * pfn is not supported yet.
++ */
++int i915_gem_object_panic_setup(struct drm_i915_gem_object *obj, struct drm_scanout_buffer *sb)
++{
++	enum i915_map_type has_type;
++	void *ptr;
++
++	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
++	if (ptr) {
++		if (i915_gem_object_has_iomem(obj))
++			iosys_map_set_vaddr_iomem(&sb->map[0], (void __iomem *)ptr);
++		else
++			iosys_map_set_vaddr(&sb->map[0], ptr);
++
++		return 0;
++	}
++	if (i915_gem_object_has_struct_page(obj)) {
++		i915_panic_pages = i915_gem_object_panic_pages(obj);
++		sb->set_pixel = i915_gem_object_panic_page_set_pixel;
++		i915_panic_page = -1;
++		return 0;
++	}
++	return -EOPNOTSUPP;
++}
++
++void i915_gem_object_panic_finish(struct drm_i915_gem_object *obj)
++{
++	i915_panic_kunmap();
++	i915_panic_page = -1;
++}
++
+ /* get, pin, and map the pages of the object into kernel space */
+ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+ 			      enum i915_map_type type)
+diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
+index 27437c22bd70..eb9a3400c110 100644
+--- a/drivers/gpu/drm/xe/display/intel_bo.c
++++ b/drivers/gpu/drm/xe/display/intel_bo.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: MIT
+ /* Copyright © 2024 Intel Corporation */
+ 
++#include <drm/drm_cache.h>
+ #include <drm/drm_gem.h>
+ 
+ #include "xe_bo.h"
+@@ -59,3 +60,57 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
+ {
+ 	/* FIXME */
+ }
++
++static int xe_panic_page = -1;
++static void *xe_panic_vaddr;
++static struct xe_bo *xe_panic_bo;
++
++static void xe_panic_kunmap(void)
++{
++	if (xe_panic_vaddr) {
++		drm_clflush_virt_range(xe_panic_vaddr, PAGE_SIZE);
++		kunmap_local(xe_panic_vaddr);
++		xe_panic_vaddr = NULL;
++	}
++}
++/*
++ * The scanout buffer pages are not mapped, so for each pixel,
++ * use kmap_local_page_try_from_panic() to map the page, and write the pixel.
++ * Try to keep the map from the previous pixel, to avoid too much map/unmap.
++ */
++static void xe_panic_page_set_pixel(struct drm_scanout_buffer *sb, unsigned int x,
++				    unsigned int y, u32 color)
++{
++	unsigned int new_page;
++	unsigned int offset;
++
++	offset = y * sb->pitch[0] + x * sb->format->cpp[0];
++
++	new_page = offset >> PAGE_SHIFT;
++	offset = offset % PAGE_SIZE;
++	if (new_page != xe_panic_page) {
++		xe_panic_kunmap();
++		xe_panic_page = new_page;
++		xe_panic_vaddr = ttm_bo_kmap_try_from_panic(&xe_panic_bo->ttm,
++							    xe_panic_page);
++	}
++	if (xe_panic_vaddr) {
++		u32 *pix = xe_panic_vaddr + offset;
++		*pix = color;
++	}
++}
++
++int intel_bo_panic_setup(struct drm_gem_object *obj, struct drm_scanout_buffer *sb)
++{
++	struct xe_bo *bo = gem_to_xe_bo(obj);
++
++	xe_panic_bo = bo;
++	sb->set_pixel = xe_panic_page_set_pixel;
++	return 0;
++}
++
++void intel_bo_panic_finish(struct drm_gem_object *obj)
++{
++	xe_panic_kunmap();
++	xe_panic_page = -1;
++}
 -- 
 2.49.0
 
