@@ -2,72 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2242BACFBFA
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 06:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF1CACFC38
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 07:31:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F64C10E33A;
-	Fri,  6 Jun 2025 04:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD9810E359;
+	Fri,  6 Jun 2025 05:31:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="no3Tv67G";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z9rHZrvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F72610E33A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 04:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749184376; x=1780720376;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=yLDNyNn/xDL5lmtA4zeU4VCRJdc6yerfu8f1Dqe1TBs=;
- b=no3Tv67G4C4xG8zvOBub2OTbgx9JcKM/pjKZlZHoOdwqOyNfXJSggHpP
- fu8w7aSqiyG4avgvqNgEobn6AZLoWSSVFhTo0kIGwlnrsyHhuCuAI+2/h
- OX+C+baGsp1rRfOabHubU9Zm8w0e9hg2C0NHfYHd9cIgMQrDvKtnHjoU5
- jH86xFAPSRXsCfaIvRRwruwbLoijucHG2Wa0LlKnfFTlB7CYVdN98h7Z5
- +Bgz6Xcn9myPS0KWtv1/MNask/WPSCJObsWN+1mAOKg09wObdussryQ2P
- mDW552H8CuxK5bUDbJxjUemSwY/1KkWZyk60Qgt3rZ/VRWcm2wDuxV2WW Q==;
-X-CSE-ConnectionGUID: KLcUtwnLSOGkAuK4iAun8Q==
-X-CSE-MsgGUID: czdjh9uLSKmQf5H8GE3VzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51468943"
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; d="scan'208";a="51468943"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2025 21:32:54 -0700
-X-CSE-ConnectionGUID: a2NVxN3HTFG+xIUIK89PUA==
-X-CSE-MsgGUID: 8D/PmArNSKGGUGligSxiFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; d="scan'208";a="182904220"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa001.jf.intel.com with ESMTP; 05 Jun 2025 21:32:47 -0700
-Date: Fri, 6 Jun 2025 12:26:07 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, kvm@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
- yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
- simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
- iommu@lists.linux.dev, kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-Message-ID: <aEJt39oExEUDg/Dh@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5ah60u8kev.fsf@kernel.org> <20250605151029.GC19710@nvidia.com>
- <yq5a7c1q88oy.fsf@kernel.org> <20250605163339.GE19710@nvidia.com>
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC3D710E359;
+ Fri,  6 Jun 2025 05:31:41 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-235ea292956so17804655ad.1; 
+ Thu, 05 Jun 2025 22:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749187901; x=1749792701; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dzlXgy5IGuV11bydpJNOntnZHJEgtC/+n57kSppntuY=;
+ b=Z9rHZrvX1eKp49FCXznwDiekkJTVSo7fHOs0nnUffM7HjbzoMPXgwaoMh8JguVEvMy
+ kfz2lBC7k3W/+xdNuofVOPaHGmSNy1k58Ym5Ecr+lUgj8zVPJpDbFAgWuBNnPhaQpGPD
+ O+usNZnlgUshlJmeaxMqADjlHILUQH1S2dYIvzwas5YGmFmTRLA6H4wEzd/uXkyZep/z
+ coPBvgsxlHhTM09H//gAGzLtUT/7nAVNqTDFjNev0CSl7eaDLYMAihzu9zY+l37ZF/UN
+ 4ztLB4AfnQEz9txlFLFjRtyr6uRnbBbv9pkyjEcJ3lM/xluDAwqsIDAWSqII5HUekZiX
+ 45SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749187901; x=1749792701;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dzlXgy5IGuV11bydpJNOntnZHJEgtC/+n57kSppntuY=;
+ b=GM59jQe9v6GnM0bplbMSzeCl9mGCLxRPfAek4pa7TqyOY0V7l+o9q+K1RnO87cxeQy
+ vr8drPVnQgVFplvsqfWwjFhvQNN0g3KfTA3aoF6rBoeYgOcbp8R4Z8eZ916BTo/Ku0jx
+ 7W0s6PqbFmbM/Pnn9LXYKVNJMX/pe7sUvTIHkApeTnrQuPND9clHkjR84F+qkCmE7J+1
+ Bq+InajaoQPqUVKek1aAI2GYg5YsZLSs0hKMFH857cDoUGkRonP6SPBvqLmWVXyYJ2kS
+ YozIqhSA3T9n6iuxCHCQDTOc2WYyw4wqIwWuiQlTie3RN3bN4gSgX8KzlRpa1cC0qVGr
+ LJlg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWPEpeuwBWgVYE8pM1XSxW31skUBx2+SqSBa9nPMTnvFZvUyUd+/3wVsIS3Iu9GOynxfAEUkpOFBz4d@lists.freedesktop.org,
+ AJvYcCWxX81yWwgHciuLaRzo2cOI43kFZv7pZMdxcXFaAtl68lJj1u0jOrmIT7MFK6gV/jntDUnJxUSb4W4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDQS8DuDqg+5juHJTRol6M3+hYtinYxO5wYIPlWshbJ9Kw86L8
+ 2k8EwC29c2ja/ft2KsVd0hIBMdFTd3QUxbMdBtBHZYOuoASc/BAgCLlk
+X-Gm-Gg: ASbGnctFN/c0peFBQkmKEJJ3UC6c9J31X1QH3MeAMpEiIvQa3wWseN9PvdPZkppFjzn
+ NF3j4BZa5OZUxnLYvlqgmWy2ga4bBOp+9F3gX9lFyaMsG0mcUmk9l5b3DwzqpJdLSRJaN7j2mn0
+ ouyuV1dkA5+rkzr7D8DCm9oCKeb/PCTEkeRVPWM8QEiNQuuMHud8TDOAObxaLrTTVPqn1ax+VZl
+ z72BShCMvyambH2LnoZpF2dN8HElNd1PeGOR3PKr2WoL6Rx/xzXHJSc2UP8S322VG/KFODwk28M
+ kvfs687VDUGMz/1xvGgmdmo/my21wwqS6WvoengiknCJLE6QKxfH8nK6lDuO
+X-Google-Smtp-Source: AGHT+IHm9V8MInY7eid9ZjIu/qmANGOMoaeiN5kAiiPpPU+C0cJpEdUtkuzqSwl6yjJEnE728bmZPg==
+X-Received: by 2002:a17:903:41c9:b0:235:6e7:8df2 with SMTP id
+ d9443c01a7336-23601d975acmr29530675ad.41.1749187901230; 
+ Thu, 05 Jun 2025 22:31:41 -0700 (PDT)
+Received: from nuvole.. ([144.202.86.13]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-236034109cfsm4765675ad.200.2025.06.05.22.31.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jun 2025 22:31:40 -0700 (PDT)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: quic_amakhija@quicinc.com
+Cc: Laurent.pinchart@ideasonboard.com, andersson@kernel.org,
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dmitry.baryshkov@oss.qualcomm.com, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ konradybcio@kernel.org, krzk+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
+ neil.armstrong@linaro.org, quic_abhinavk@quicinc.com,
+ quic_jesszhan@quicinc.com, quic_rajeevny@quicinc.com,
+ quic_vproddut@quicinc.com, rfoss@kernel.org, robdclark@gmail.com,
+ robh+dt@kernel.org, robh@kernel.org, sean@poorly.run
+Subject: Re: [PATCH v8 RESEND 0/2] Add DSI display support for SA8775P target
+Date: Fri,  6 Jun 2025 13:31:22 +0800
+Message-ID: <20250606053122.523651-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250604071851.1438612-1-quic_amakhija@quicinc.com>
+References: <20250604071851.1438612-1-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250605163339.GE19710@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,70 +96,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 05, 2025 at 01:33:39PM -0300, Jason Gunthorpe wrote:
-> On Thu, Jun 05, 2025 at 09:47:01PM +0530, Aneesh Kumar K.V wrote:
-> > Jason Gunthorpe <jgg@nvidia.com> writes:
-> > 
-> > > On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
-> > >
-> > >> > +
-> > >> > +	/* To ensure no host side MMIO access is possible */
-> > >> > +	ret = pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
-> > >> > +	if (ret)
-> > >> > +		goto out_unlock;
-> > >> > +
-> > >> >
-> > >> 
-> > >> I am hitting failures here with similar changes. Can you share the Qemu
-> > >> changes needed to make this pci_request_regions_exclusive successful.
+On Wed,  4 Jun 2025 12:48:49 +0530 Ayushi Makhija <quic_amakhija@quicinc.com> wrote:
+> This series enables the support for DSI to DP bridge ports
+> (labled as DSI0 and DSI1) of the Qualcomm's SA8775P Ride platform.
+>
+> SA8775P SoC has DSI controller v2.5.1 and DSI PHY v4.2.
+> The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
+> Since I am just an amateur, so I followed some applied examples, like [1]
+> If you mind this, I will describe in next version.
 
-Jason has described the suggested static lockdown flow and we could
-try on that.  I just wanna help position your immediate failure.
+Hi, Ayushi. I think this series had been verified to work. Do you have
+any idea in my case? According to the public information, SA8775P is
+equipped with Adreno DPU1199, SA8295P(almost identical to SC8280XP) too.
+And SC8280XP has the same dsi version and dsi phy. And my device tree
+nodes for the DSI0 and DSI1 are almost same as yours. I got
+`dsi_err_worker: status=4` only with a blanking screen.
 
-Maybe you still have QEMU mmapped the MMIO region.
-
-int vfio_pci_core_mmap()
-{
-...
-
-	if (!vdev->barmap[index]) {
-		ret = pci_request_selected_regions(pdev,
-						   1 << index, "vfio-pci");
-...
-}
-
-Even for static lockdown, userspace should not mmap the MMIOs anymore.
-
-Thanks,
-Yilun
-
-> > >> Also after the TDI is unbound, we want the region ownership backto
-> > >> "vfio-pci" so that things continue to work as non-secure device. I don't
-> > >> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate in
-> > >> userspace which will result in vfio_unmap()/vfio_map(). But that doesn't
-> > >> release the region ownership.
-> > >
-> > > Again, IMHO, we should not be doing this dynamically. VFIO should do
-> > > pci_request_regions_exclusive() once at the very start and it should
-> > > stay that way.
-> > >
-> > > There is no reason to change it dynamically.
-> > >
-> > > The only decision to make is if all vfio should switch to exclusive
-> > > mode or if we need to make it optional for userspace.
-> > 
-> > We only need the exclusive mode when the device is operating in secure
-> > mode, correct? That suggests we’ll need to dynamically toggle this
-> > setting based on the device’s security state.
-> 
-> No, if the decision is that VFIO should allow this to be controlled by
-> userspace then userspace will tell iommufd to run in regions_exclusive
-> mode prior to opening the vfio cdev and VFIO will still do it once at
-> open time and never change it.
-> 
-> The only thing request_regions does is block other drivers outside
-> vfio from using this memory space. There is no reason at all to change
-> this dynamically. A CC VMM using VFIO will never use a driver outside
-> VFIO to touch the VFIO controlled memory.
-> 
-> Jason
+Best wishes,
+Pengyu
