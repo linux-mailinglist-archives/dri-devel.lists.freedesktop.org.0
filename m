@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAF1ACFF26
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77A3ACFF57
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 11:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1928710E9CA;
-	Fri,  6 Jun 2025 09:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6E310E2F0;
+	Fri,  6 Jun 2025 09:33:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="W8wJm07W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aHjUGbiM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B1E10E9CA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 09:20:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1749201641; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nzyi95xiWzKt7OEWNMu5E1KNY8xSywTW3tCv/p2angM74H2VjK0l6cbeNJWJ298VXE7X8qYjpszF1k+9cLAUZnXcSPsylxdVB6jKDzxMFOi3rEANEhgfpXRivoGUGb2Bzq+8eirOQzcXeytyn2AA1mB0mmahTO0sGrvnbHaiu3E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1749201641;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Eoma7VE8zBbmkSZqRjLMFcnJ8YljGbTiLj0UCYHlAT0=; 
- b=PYsKU8X6p5fkEcHAFY8hlJOChD0WTG2oFUF6dsPpoAub/HSlPcMGhQdGYVX7EJwOtdBNLoZaoH9hzSqgzk3yywmYW8Sqm4sugBU/aOlny78itsBEeRdKUCyDY5D45cUGg7hoV0LlsQ60X7a8LINU/Ea8tCGFVrBv+2iVym6sExQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749201641; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=Eoma7VE8zBbmkSZqRjLMFcnJ8YljGbTiLj0UCYHlAT0=;
- b=W8wJm07WNGiJ+m+LKUqIbkD+PnponFs4yfkz+c5LhNxgQTrGWgD7GObZMUFK2rHN
- eAeAOERA46ia74rvkmi7fOdLbdUXrwC/DmHL2Phu0cOV4JgkxWyYRz0RvPiRqJ82eG+
- WDOBXxat9J8zN2lJLvUoTx64SvX1iBC6QBVLgXV4=
-Received: by mx.zohomail.com with SMTPS id 1749201638651978.6010401659372;
- Fri, 6 Jun 2025 02:20:38 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
-Date: Fri, 06 Jun 2025 11:20:32 +0200
-Message-ID: <6946302.MhkbZ0Pkbq@workhorse>
-In-Reply-To: <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7291410E2F0
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 09:33:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 85C4261139;
+ Fri,  6 Jun 2025 09:33:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A5FC4CEEB;
+ Fri,  6 Jun 2025 09:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749202382;
+ bh=a/cSRPXXvWMntEronSsbDihFTabNg3hkGiuEn4chUIA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=aHjUGbiMRTgqmKBI5/NKSytER+wD+f8xtIQAG9im9jNLtdG0Euimvzu7mf27OGY9+
+ 02d4tGq5I3JSdFyRFuprtiwxviESlUW+rjOju0gNhU9O+51pPm9ArY1Jb4zZ9+iaFL
+ 4+tfVM5CGBw9LbksFk0KUh5/3IXXkhxjz3MX4gFhNP8vwp4S3zppGj+T6jvzfDfI3b
+ mC65zomebElguFf6DZbQwXmqg3dRm2SZQ7UVQMkAS0eZMMVEXIPjCElKMlyC9MjPDR
+ 1CanswgBu1tw1VRmrDvt8/qS2s2JGvUgF4Q+c893ZONew80RB7FZKa7htzlP+zA8/a
+ BvOmCaJ/eEw3w==
+X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+ yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+ yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
+ simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
+ iommu@lists.linux.dev, kevin.tian@intel.com
+Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
+ TEE-IO support
+In-Reply-To: <20250605163339.GE19710@nvidia.com>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-20-yilun.xu@linux.intel.com>
+ <yq5ah60u8kev.fsf@kernel.org> <20250605151029.GC19710@nvidia.com>
+ <yq5a7c1q88oy.fsf@kernel.org> <20250605163339.GE19710@nvidia.com>
+Date: Fri, 06 Jun 2025 15:02:49 +0530
+Message-ID: <yq5a1prx8bb2.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,220 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
+Jason Gunthorpe <jgg@nvidia.com> writes:
 
-On Friday, 6 June 2025 08:28:30 Central European Summer Time Tomeu Vizoso wrote:
-> From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> 
-> The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> and the npu's supply. Add this regulator, and enable all the NPU bits.
-> Also add the regulator as a domain-supply to the pd_npu power domain.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> @@ -316,6 +316,28 @@ regulator-state-mem {
->  	};
->  };
->  
-> +&i2c1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c1m2_xfer>;
-> +	status = "okay";
-> +
-> +	vdd_npu_s0: regulator@42 {
-> +		compatible = "rockchip,rk8602";
-> +		reg = <0x42>;
-> +		fcs,suspend-voltage-selector = <1>;
-> +		regulator-name = "vdd_npu_s0";
-> +		regulator-boot-on;
-> +		regulator-min-microvolt = <550000>;
-> +		regulator-max-microvolt = <950000>;
-> +		regulator-ramp-delay = <2300>;
-> +		vin-supply = <&vcc5v0_sys>;
-> +
-> +		regulator-state-mem {
-> +			regulator-off-in-suspend;
-> +		};
-> +	};
-> +};
-> +
->  &i2c6 {
->  	status = "okay";
->  
-> @@ -440,6 +462,10 @@ &pd_gpu {
->  	domain-supply = <&vdd_gpu_s0>;
->  };
->  
-> +&pd_npu {
-> +	domain-supply = <&vdd_npu_s0>;
-> +};
-> +
->  &pinctrl {
->  	hdmirx {
->  		hdmirx_hpd: hdmirx-5v-detection {
-> @@ -500,6 +526,36 @@ &pwm1 {
->  	status = "okay";
->  };
->  
-> +&rknn_core_top {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_core_1 {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_core_2 {
-> +	npu-supply = <&vdd_npu_s0>;
-> +	sram-supply = <&vdd_npu_s0>;
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_top {
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_1 {
-> +	status = "okay";
-> +};
-> +
-> +&rknn_mmu_2 {
-> +	status = "okay";
-> +};
-> +
->  &saradc {
->  	vref-supply = <&avcc_1v8_s0>;
->  	status = "okay";
-> 
-> 
+> On Thu, Jun 05, 2025 at 09:47:01PM +0530, Aneesh Kumar K.V wrote:
+>> Jason Gunthorpe <jgg@nvidia.com> writes:
+>>=20
+>> > On Thu, Jun 05, 2025 at 05:33:52PM +0530, Aneesh Kumar K.V wrote:
+>> >
+>> >> > +
+>> >> > +	/* To ensure no host side MMIO access is possible */
+>> >> > +	ret =3D pci_request_regions_exclusive(pdev, "vfio-pci-tsm");
+>> >> > +	if (ret)
+>> >> > +		goto out_unlock;
+>> >> > +
+>> >> >
+>> >>=20
+>> >> I am hitting failures here with similar changes. Can you share the Qe=
+mu
+>> >> changes needed to make this pci_request_regions_exclusive successful.
+>> >> Also after the TDI is unbound, we want the region ownership backto
+>> >> "vfio-pci" so that things continue to work as non-secure device. I do=
+n't
+>> >> see we doing that. I could add a pci_bar_deactivate/pci_bar_activate =
+in
+>> >> userspace which will result in vfio_unmap()/vfio_map(). But that does=
+n't
+>> >> release the region ownership.
+>> >
+>> > Again, IMHO, we should not be doing this dynamically. VFIO should do
+>> > pci_request_regions_exclusive() once at the very start and it should
+>> > stay that way.
+>> >
+>> > There is no reason to change it dynamically.
+>> >
+>> > The only decision to make is if all vfio should switch to exclusive
+>> > mode or if we need to make it optional for userspace.
+>>=20
+>> We only need the exclusive mode when the device is operating in secure
+>> mode, correct? That suggests we=E2=80=99ll need to dynamically toggle th=
+is
+>> setting based on the device=E2=80=99s security state.
+>
+> No, if the decision is that VFIO should allow this to be controlled by
+> userspace then userspace will tell iommufd to run in regions_exclusive
+> mode prior to opening the vfio cdev and VFIO will still do it once at
+> open time and never change it.
+>
 
-Feel free to replace this patch with the following, if your series is
-based on linux-next or v6.16. It moves the enablement into the new
-shared ROCK 5B/5B+ dtsi, and I've added a regulator-enable-ramp-delay
-while I was at it because I've run into hard-to-reproduce problems
-relating to it before that Heiko quickly identified and fixed in his
-recent series[1] for basically all already present regulators. Remains
-to be seen if the final patch lands in that form but this should make
-it easier for people to try out as it means a bad luck roll for the
-day won't make them run into as many weird issues.
+So this will be handled by setting
+vdevice::flags =3D IOMMUFD_PCI_REGION_EXCLUSIVE in
+iommufd_vdevice_alloc_ioctl()? And we set this flag when starting a
+secure guest, regardless of whether the device is TEE-capable or not
 
-[1]: https://lore.kernel.org/all/20250605185001.377055-1-heiko@sntech.de/
+and vfio_pci_core_mmap() will do
 
----
-From ff1c370a158f4340aa5dfa4ed5034e815e5371be Mon Sep 17 00:00:00 2001
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 3 Jun 2025 17:03:10 +0200
-Subject: [PATCH] arm64: dts: rockchip: enable NPU on ROCK 5B/+
+	if (!vdev->barmap[index]) {
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
-
-The 5B+'s regulator setup is identical to the 5B in this regard, so it
-goes in the shared .dtsi.
-
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- .../boot/dts/rockchip/rk3588-rock-5b.dtsi     | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-index 51e83f0ed809..5a20cc2555fb 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-@@ -332,6 +332,29 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-enable-ramp-delay = <500>;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		};
-+	};
-+};
-+
- &i2c3 {
- 	status = "okay";
- };
-@@ -521,6 +544,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -585,6 +612,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_top {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
--- 
-2.49.0
+		if (core_vdev->iommufd_device &&
+		    iommufd_vdevice_region_exclusive(core_vdev->iommufd_device))
+			ret =3D pci_request_selected_regions_exclusive(pdev,
+							1 << index, "vfio-pci");
+		else
+			ret =3D pci_request_selected_regions(pdev,
+						1 << index, "vfio-pci");
 
 
 
 
+>
+> The only thing request_regions does is block other drivers outside
+> vfio from using this memory space. There is no reason at all to change
+> this dynamically. A CC VMM using VFIO will never use a driver outside
+> VFIO to touch the VFIO controlled memory.
+>
+> Jason
+
+-aneesh
