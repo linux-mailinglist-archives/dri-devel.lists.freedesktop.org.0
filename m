@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC7AAD04EF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 17:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1B1AD0526
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 17:28:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1C910EAD7;
-	Fri,  6 Jun 2025 15:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAC110EADE;
+	Fri,  6 Jun 2025 15:28:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b2M3nuJz";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="flVvogXo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5820410E38E;
- Fri,  6 Jun 2025 15:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749222774; x=1780758774;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=e48Pq0rx6OoOU7LpKHiM+GTbdj0nGWbWtPBBT1wNfJw=;
- b=b2M3nuJzxI3GXKOoyASaGF+JZYdIogXNV7vpIoN5I+MTV6caIlkZ0Rto
- VuZG0m5hBhgpOxQ2IsUPHT2c02s7UyD70Uri0nBI6958+GtX45d2JJNbp
- gAQB8NORrYDT1iz7qmtrZ1GYTA9PY3ft89b+gjQMiyu8igiPwqvpw3BNA
- WOrm6VyuBMQOZOPhc3lJgwuv31Y4AuxvZqI32fOYtxjsJB+EIH9PBgMSr
- +TGvo1VdP7JPOldroMYijnRBPWCIMMzttsCt9WPF+x9AehjRFOPmi92pc
- wAu46ev4cZzRM2ghoVbh6nDByhjapiPDccz8TzTFPgUbcIK109KSeHty0 Q==;
-X-CSE-ConnectionGUID: 4WQpST8KSua4pIMasCUNKw==
-X-CSE-MsgGUID: Brgvmg+NQtKVx1u+XFwvYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54004346"
-X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; d="scan'208";a="54004346"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2025 08:12:54 -0700
-X-CSE-ConnectionGUID: covtjDdtTaW6K6rVfniBsQ==
-X-CSE-MsgGUID: enLoMfLhS6+jCpCcOhJqvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; d="scan'208";a="149689122"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2025 08:12:52 -0700
-Date: Fri, 6 Jun 2025 18:12:48 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- himal.prasad.ghimiray@intel.com, frank.scarbrough@intel.com
-Subject: Re: [PATCH 2/4] drm/xe: Add a helper function to set recovery method
-Message-ID: <aEMFcBSWL_jPMYKa@black.fi.intel.com>
-References: <20250603081409.1509709-1-riana.tauro@intel.com>
- <20250603081409.1509709-3-riana.tauro@intel.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FB710E38E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 15:27:53 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43ea40a6e98so28923565e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 08:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1749223672; x=1749828472; darn=lists.freedesktop.org; 
+ h=content-disposition:mime-version:mail-followup-to:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HV+zyLjQ0HNvp2YJ2dyJWt9/49NJYivF2xYtOj/CuJk=;
+ b=flVvogXovgM9PcVWZBRMBgnjTUGIVAO+pbjghRKqIqoYWQ04Yjrpp0sEbqV0IS85yQ
+ 3Ynu+GX64zQp20F2MeKLAx2LeYIrh69fLqoUSL7sWozmlJPrOFhQG5rPuJG3IJeUwRCQ
+ nYgOTSFM1xyVVgN9kXVdo7tlkuMj8UIoVwf0k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749223672; x=1749828472;
+ h=content-disposition:mime-version:mail-followup-to:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HV+zyLjQ0HNvp2YJ2dyJWt9/49NJYivF2xYtOj/CuJk=;
+ b=wFp974p/A+A4b8cgelrpkcKyOp+6MPBNQttkFSOPJIiAImMZ/Jl5/h+Ogb+1NPEFmX
+ 0X6FZ9hW6g3RaTdp+oqfUer9az8MNi0xEifuAVhpn1pAp0SPhwboBbuS8ywNpM+zaVe7
+ lJjl+Ii126FONyvkKNOd9+qBFdhPkMetgvmoh25W9KJiiWkztcFSlFOjX484OwDXg2kL
+ xgbNqs7lS/HIn6ERgdplgLcF8rrs4mnVU6FiSUpo5dMc0QOaUjuc9hce3/5+8FLdug0u
+ jx5//Emiqa69H7zsSm26gDhFhFsQMNhuwt3WSEk4IjlSRsqO+iYSdws3fvFMkE1vKaqN
+ cOpA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8eGxxzPLvIyzMM8FQoxxukdDmZHP2rU+XobnvopFYmOVK5Qt6/Xs51k1w20imGd7scU24RzQN6z8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+SJUsInNYlRm5JRQyzKoTVmXND+ACaHH2Jz5WxemZu9mZr/NV
+ mCGEC0AQEqVixXMDJwpErk4Pn+o4VLDQ80J6iXK9xUMUNNFtUheZBPX3yaJo/sG1Hao=
+X-Gm-Gg: ASbGncvlEhFPKiJbGi/vMfeEH1p/07wsOEeoazewUwM7BVmkcNGUUVm1fQGC+Ov5Ctx
+ L/xOgmgD5t63IEaaaumEUc0NaU51kYgptHHTwY0ZFF+pW3OHN4fLR9JNYMRogzCwGKsR5HpJUnH
+ ooTrBfyyAmP7CGVc6vRQtOECj95v/hJNS07djjRslbteuXeOYQ9wcgJIPHCDnPocdvu41IaTM5h
+ 8uESHZqFbVxKJjaonU4Ha1btJv9iY8ShG5kjNmH08P0O5864oBRv49vWTi+o3IZ3P+FlhY2UhkK
+ z39rZNY86R6gRQd3JQso5RWYOkYiIeKdz9Ux1JCdBcX3K72YAONS94daW7+0bDfZKcawJjfARA=
+ =
+X-Google-Smtp-Source: AGHT+IEcaPeLT7DBJWnAMobQr9n3IUdJGVV6M4ddpXjS8Lw4C+oT20Nu8NffeHJtFVcrfNR8SyTNMw==
+X-Received: by 2002:adf:ce8e:0:b0:3a4:f513:7f03 with SMTP id
+ ffacd0b85a97d-3a531cafabdmr2549452f8f.44.1749223671948; 
+ Fri, 06 Jun 2025 08:27:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a532463905sm2202708f8f.92.2025.06.06.08.27.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jun 2025 08:27:51 -0700 (PDT)
+Date: Fri, 6 Jun 2025 17:27:48 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Airlie <airlied@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [PULL] drm-fixes, yet another one
+Message-ID: <aEMI9P_NF-K-_sLv@phenom.ffwll.local>
+Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250603081409.1509709-3-riana.tauro@intel.com>
+X-Operating-System: Linux phenom 6.12.25-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,122 +89,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 03, 2025 at 01:43:58PM +0530, Riana Tauro wrote:
-> Add a helper function to set recovery method. The recovery
-> method has to be set before declaring the device wedged and sending the
-> drm wedged uevent. If no method is set, default unbind/re-bind method
-> will be set
-> 
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_device.c       | 30 +++++++++++++++++++++-------
->  drivers/gpu/drm/xe/xe_device.h       |  1 +
->  drivers/gpu/drm/xe/xe_device_types.h |  2 ++
->  3 files changed, 26 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-> index 660b0c5126dc..3fd604ebdc6e 100644
-> --- a/drivers/gpu/drm/xe/xe_device.c
-> +++ b/drivers/gpu/drm/xe/xe_device.c
-> @@ -1120,16 +1120,28 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
->  	xe_pm_runtime_put(xe);
->  }
->  
-> +/**
-> + * xe_device_set_wedged_method - Set wedged recovery method
-> + * @xe: xe device instance
+Hi Linus,
 
-Missing @method
+Another small batch of drm fixes, this time with a different baseline and
+hence separate. Also due to this context conflict in ivpu with what you
+have already, linux-next resolution matches what I have:
 
-> + *
-> + * Set wedged recovery method to be sent using drm wedged uevent.
-> + */
-> +void xe_device_set_wedged_method(struct xe_device *xe, unsigned long method)
-> +{
-> +	xe->wedged.method = method;
-> +}
-> +
->  /**
->   * xe_device_declare_wedged - Declare device wedged
->   * @xe: xe device instance
->   *
-> - * This is a final state that can only be cleared with a module
-> - * re-probe (unbind + bind).
-> - * In this state every IOCTL will be blocked so the GT cannot be used.
-> + * This is a final state that can only be cleared with the method specified
-> + * in the drm wedged uevent. The method needs to be set using xe_device_set_wedged_method
-> + * before declaring the device as wedged or the default method of reprobe (unbind/re-bind)
-> + * will be sent. In this state every IOCTL will be blocked so the GT cannot be used.
+https://lore.kernel.org/dri-devel/20250606094711.4b9909af@canb.auug.org.au/
 
-The file convention seems like 80 characters for kernel doc, so let's
-stick to it.
+Cheers, Sima
 
->   * In general it will be called upon any critical error such as gt reset
-> - * failure or guc loading failure. Userspace will be notified of this state
-> - * through device wedged uevent.
-> + * failure or guc loading failure or firmware failure.
-> + * Userspace will be notified of this state through device wedged uevent.
->   * If xe.wedged module parameter is set to 2, this function will be called
->   * on every single execution timeout (a.k.a. GPU hang) right after devcoredump
->   * snapshot capture. In this mode, GT reset won't be attempted so the state of
-> @@ -1152,6 +1164,11 @@ void xe_device_declare_wedged(struct xe_device *xe)
->  		return;
->  	}
->  
-> +	/* If no wedge recovery method is set, use default */
-> +	if (!xe->wedged.method)
-> +		xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_REBIND
-> +					    | DRM_WEDGE_RECOVERY_BUS_RESET);
+drm-fixes-2025-06-06:
+drm-fixes for v6.16-rc1
 
-Although there are no strict rules about this, we usually don't begin a
-new line with a symbol.
+Drivers:
+- ivpu: dma_resv locking, warnings, reset failure handling, improve
+  logging, update fw file names, fix cmdqueue unregister
+- panel-simple: add Evervision VGG644804
 
-> +
->  	if (!atomic_xchg(&xe->wedged.flag, 1)) {
->  		xe->needs_flr_on_fini = true;
->  		drm_err(&xe->drm,
-> @@ -1161,8 +1178,7 @@ void xe_device_declare_wedged(struct xe_device *xe)
->  			dev_name(xe->drm.dev));
->  
->  		/* Notify userspace of wedged device */
-> -		drm_dev_wedged_event(&xe->drm,
-> -				     DRM_WEDGE_RECOVERY_REBIND | DRM_WEDGE_RECOVERY_BUS_RESET);
-> +		drm_dev_wedged_event(&xe->drm, xe->wedged.method);
+Core Changes:
+- sysfb: screen_info type check
+- video: screen_info for relocated pci fb
+- drm/sched: signal fence of killed job
+- dummycon: deferred takeover fix
 
-I was a bit late to realize it when I originally added this. The event
-call should be after xe_gt_declare_wedged() to comply with wedging rules.
-We notify userspace *after* we're done with driver cleanup.
+Cheers, Sima
 
-Raag
+The following changes since commit 0ff41df1cb268fc69e703a08a57ee14ae967d0ca:
 
->  	}
->  
->  	for_each_gt(gt, xe, id)
-> diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
-> index 0bc3bc8e6803..06350740aac5 100644
-> --- a/drivers/gpu/drm/xe/xe_device.h
-> +++ b/drivers/gpu/drm/xe/xe_device.h
-> @@ -191,6 +191,7 @@ static inline bool xe_device_wedged(struct xe_device *xe)
->  }
->  
->  void xe_device_declare_wedged(struct xe_device *xe);
-> +void xe_device_set_wedged_method(struct xe_device *xe, unsigned long method);
->  
->  struct xe_file *xe_file_get(struct xe_file *xef);
->  void xe_file_put(struct xe_file *xef);
-> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> index b93c04466637..fb3617956d63 100644
-> --- a/drivers/gpu/drm/xe/xe_device_types.h
-> +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> @@ -559,6 +559,8 @@ struct xe_device {
->  		atomic_t flag;
->  		/** @wedged.mode: Mode controlled by kernel parameter and debugfs */
->  		int mode;
-> +		/** @wedged.method: Recovery method to be sent in the drm device wedged uevent */
-> +		unsigned long method;
->  	} wedged;
->  
->  	/** @bo_device: Struct to control async free of BOs */
-> -- 
-> 2.47.1
-> 
+  Linux 6.15 (2025-05-25 16:09:23 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-06-06
+
+for you to fetch changes up to 6f7e234f74caf5f8863bbca51b1b135d0736b0b3:
+
+  Merge tag 'drm-misc-fixes-2025-06-06' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes (2025-06-06 14:38:51 +0200)
+
+----------------------------------------------------------------
+drm-fixes for v6.16-rc1
+
+Drivers:
+- ivpu: dma_resv locking, warnings, reset failure handling, improve
+  logging, update fw file names, fix cmdqueue unregister
+- panel-simple: add Evervision VGG644804
+
+Core Changes:
+- sysfb: screen_info type check
+- video: screen_info for relocated pci fb
+- drm/sched: signal fence of killed job
+- dummycon: deferred takeover fix
+
+----------------------------------------------------------------
+Jacek Lawrynowicz (4):
+      accel/ivpu: Improve buffer object logging
+      accel/ivpu: Use firmware names from upstream repo
+      accel/ivpu: Use dma_resv_lock() instead of a custom mutex
+      accel/ivpu: Fix warning in ivpu_gem_bo_free()
+
+Karol Wachowski (2):
+      accel/ivpu: Reorder Doorbell Unregister and Command Queue Destruction
+      accel/ivpu: Trigger device recovery on engine reset/resume failure
+
+Lin.Cao (1):
+      drm/scheduler: signal scheduled fence when kill job
+
+Michael Walle (1):
+      drm/panel-simple: fix the warnings for the Evervision VGG644804
+
+Simona Vetter (2):
+      Merge tag 'drm-misc-fixes-2025-05-28' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-misc-fixes-2025-06-06' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+
+Thomas Zimmermann (3):
+      dummycon: Trigger redraw when switching consoles with deferred takeover
+      video: screen_info: Relocate framebuffers behind PCI bridges
+      sysfb: Fix screen_info type check for VGA
+
+ drivers/accel/ivpu/ivpu_fw.c             | 12 ++---
+ drivers/accel/ivpu/ivpu_gem.c            | 91 +++++++++++++++++++-------------
+ drivers/accel/ivpu/ivpu_gem.h            |  2 +-
+ drivers/accel/ivpu/ivpu_job.c            | 14 ++---
+ drivers/accel/ivpu/ivpu_jsm_msg.c        |  9 +++-
+ drivers/firmware/sysfb.c                 | 26 ++++++---
+ drivers/gpu/drm/panel/panel-simple.c     |  5 +-
+ drivers/gpu/drm/scheduler/sched_entity.c |  1 +
+ drivers/video/console/dummycon.c         | 18 +++++--
+ drivers/video/screen_info_pci.c          | 75 ++++++++++++++++----------
+ 10 files changed, 158 insertions(+), 95 deletions(-)
+
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
