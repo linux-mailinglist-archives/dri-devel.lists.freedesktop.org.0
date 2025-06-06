@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC73AD0921
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jun 2025 22:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93597AD09F4
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jun 2025 00:11:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1A810EBBF;
-	Fri,  6 Jun 2025 20:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468BC10EB77;
+	Fri,  6 Jun 2025 22:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="U0+gVIzl";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="SqsxsVVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF1810EBBC
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 20:37:38 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-604f5691bceso5151043a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 13:37:38 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21BEF10EC40
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 22:10:53 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-6071ac9dc3eso4060899a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 15:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1749242257; x=1749847057;
+ d=googlemail.com; s=20230601; t=1749247851; x=1749852651;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fTnbotTKBrDuh9yFMLlTHsKfcYmOYKw+giMri+h4htU=;
- b=U0+gVIzlNG4TMQBcD/5Yns1TD8cEtIcftkFXf6rWJPJcX8l5eCZ5JCce83yS1E+1ok
- W+aXQPKYlMY5HB3gDjRucRnaXaIDtuvonQe5jL1CCv5eievMZdslVc14oGGm8iibVrSA
- 2ewdYmCna/TVFUhnHRQogv8qvcSg2Ld4w1qaXfQsiLdUhY9ZFneo1u6UucP0wBV4IBrr
- pW8Wq8OSpbFBD0b2C9hpfdvaUpcY8W2U3fJOCk7fwd8L8397LnY9H4sXVzWkNt3BMlRQ
- lWCC5hQDePH72ZJivu3tEI+E3SPStmquTtJm1Lk47Tx/ZbjjfYkilQKY+e/B5uXN1zH/
- 0TmQ==
+ bh=N3ygnVw/n+6bwn53y0Mh0mYQycS7zL+z+SR1TPl0nEc=;
+ b=SqsxsVVtlBHc7twkV6yTgl/SSsR1rUQlrvMMX1qPLwtK02FgHk0TAht6X/zCzfQZcE
+ oBGOgIVX+HJZwhtMw55/ijFGInhv5U558dLNAxk0FQAi0eDh507cHG0SZxP0wN4AJgm+
+ C0Nrn07OODaeyS/cMf20nXkBq0LuuxNMP2v1KUgI9NC50Zo4sm8a3+5yPMHsUyYMHG1C
+ 7huSWyDfLWlIP5LV059auwnlb01qlGSOkx/pJrWjQRFjgDCrF2FpGYkGN3ZpimLXJukv
+ sn72l39ZqrC2coSlufiItpzWfrLDl0YuyH0jKkehjyf2ocGFWHQsNPFan3d77XRQEfEp
+ NNEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749242257; x=1749847057;
+ d=1e100.net; s=20230601; t=1749247851; x=1749852651;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fTnbotTKBrDuh9yFMLlTHsKfcYmOYKw+giMri+h4htU=;
- b=syOR2HuX66sL+1rlWLv1XjHcpG0qtd5SAhTAlvR0Ie2UgO6LxXcLzdCfCvV437Y/YI
- W9HhqSHQHf0qVXvelIXXLiRAB8evtiOFYNNnvcyj6if+SPwH4/VxW9b4xUG7EAzi4MMk
- gQNJtWzZp8JnZ2eLrWB7h7hT6ZlLCBpMEQW1Xt3hJbuZtutPbmaE2hT1j8+m1srk9Cnp
- XPKbK9nuFGbGiaHgOn2dCrHDUUFv7/sFjalJSNo2wqH6ZRkYdl9gcaDj7Y44H1L3ssVL
- H2a/fxi3wagrSXRzbQ+XgkeRBkr+nTPdbSFLauhVPZp+nNwkYDFg0EMlC0j+uKaDYDie
- 1gOw==
+ bh=N3ygnVw/n+6bwn53y0Mh0mYQycS7zL+z+SR1TPl0nEc=;
+ b=snBqZMHokeR5xBpAP0pZniXrmEAyfzrEbLtptLicDa4wJ3H3etMXMmWpTaHP7eBE/6
+ ZDLputqFbNV+UBIswvifYAcgWcTQdBQyZdzKXLoZua4nGsANTShCs8UfKl1ePS6haW9m
+ Hl01bI8nbFxj5hD3275dCkE5c1vcJInnKbGnbLWqDpAu7jHkM75sskrgif9MDvqTV2WQ
+ ao0DLgFEBfbU2A0BtrJHq2Iw9/3gZvEnj4gKcZ41Ju6MN/PE3lgpDQuOLIjyNQdpKYhH
+ fShyMpLje3kZ+GoGwotqAx5EHZSi0UhlQlXo9+PZUtioYUAu981bXatINPMCWR57s42g
+ r4Rw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJ8torgcM0tDjNv0+VhaRx85MD4DLJw8ULkoGXMXRGZ/XBnOmo2WuD34t1D6dMKWNRJO6Wkfvk8EI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAKjve5rOVw/cRS0xpwhPQcCOoXWGoJKQD3Xg5SHi/MewbCEhN
- Yba3hvXQ9app3LVN92ClhknWoA6VNowQ1dFqF7rFNImJSc2XDuBfkopY
-X-Gm-Gg: ASbGncsqkFlbu5jK5zEsLuL9m9XFspSnxKX56GbRNErWDpO02CAquQKGMRykmnvpJ8p
- HqwUwAbhEohRZS0iG7Ft71I0T3W/N+fM4y5R8FSnUVHt2Bmt8CLMqcrBZvpe69pQP5t9GRRqf0V
- LgsG7dy5GqNhEjwGW0cMfdz5eBEeBRxKV8LM4L6rtxrtAiCGDeRLgzBqySOUKKStN+V0HiVABLM
- 08gHgRjDlv6u550eXxJFnuTmMw4mIPZ3IJrKzDePJTztmDFV9Ku+3FjE4Y6R/v/OLYWOSlF+/3Z
- gxPDBEVZcChWF3ZiSbITawk7jPliK1a2FkseNIlNBKoyEeGcVChZbuZGnOvaDuJrsmvpwEg40LU
- gLVWU+E4ZJr2TDCf8+RxGZ/fhouWrk+soPRME6m6Y9OoGjRp2S+DhZlKzkPrTuFEE/ZjJnILl3S
- vbGHPiBDQ/vodYNo3Q3Eow03/aGq8IeQ==
-X-Google-Smtp-Source: AGHT+IFdovf47zA5w77hCKENzRX0iCD+h8wdbY0d2TkUMANo/kiX7t5oGgF0SPw/Z8mbPgOCYyvO0Q==
-X-Received: by 2002:a17:907:3f95:b0:ad8:9811:c0c2 with SMTP id
- a640c23a62f3a-ade1ab2b859mr396798066b.61.1749242256967; 
- Fri, 06 Jun 2025 13:37:36 -0700 (PDT)
+ AJvYcCWbzCaczhVLJvSqYEaX+A5+9QumCvhQDA5zpNOnrWBxFrEZultCzzprA/33B6WVjofEq+jQUvHfOhU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqAwcOrhslb6kqdr4MrQ/d8ITMFJCb+bHSXm4B3vMoJd1k6vna
+ LCwqbSo8+HriXzB55MYLZ8DEUTa/A75ZowavK8lerP5eUUrzZ2Sou8RG
+X-Gm-Gg: ASbGncs0HczOkeTTYCChsaYOGoSPnj0hzo5U+vSZVnSGMgAFbY6sRXfKyuDtuBeilYs
+ Z1DoSo9/HJzxOyCpSUBcgzsX6clX4aqMh/t2Yd+wmF44kvBOIrkTdZTb/ifinhBn4uL2wL1E32g
+ RcH6bS4JaFNUuqAYazHWndf4Q5qw79nFZG0zHz/jni/Q2iKfgBm/xwEbmTfCKO8lgd2yzI6BWc0
+ oYu+1FVj4Hlqc/gpqJM3y28KGMfV+rSK3mWDv0sntmXw8dukTvSCzEyF+XWaHvLxKr6ujK3hvWA
+ eKHgZFFO7mztRj7J06SdtILqjpH+HOBtK/QFULkhUho3Y3e1x/cvqyphlknL1O1g3rg7ikkzLN7
+ YNUp1gxmLDHqa0UguZOeGRdiuJzX3uPyhxYgZhnOkJd+Ug9dr/K+neu2b6FPYE3zSo+gLWx9Nzt
+ tO6XgIUtkhOEfef2p2W2KXUt06N73AvA==
+X-Google-Smtp-Source: AGHT+IF2GDmxSpU2PUP8gOk0whzGQdZbH1jzBstBC+SVXNfKpbrPiO7RDCeI9rjuTtfJwFYp3Msy5Q==
+X-Received: by 2002:a17:907:9628:b0:ad8:9e80:6bb1 with SMTP id
+ a640c23a62f3a-ade1aa933admr431541366b.18.1749247851398; 
+ Fri, 06 Jun 2025 15:10:51 -0700 (PDT)
 Received: from localhost.localdomain
- (dynamic-2a02-3100-a016-f000-1e86-0bff-fe2f-57b7.310.pool.telefonica.de.
- [2a02:3100:a016:f000:1e86:bff:fe2f:57b7])
+ (dynamic-2a02-3100-a032-8c00-1e86-0bff-fe2f-57b7.310.pool.telefonica.de.
+ [2a02:3100:a032:8c00:1e86:bff:fe2f:57b7])
  by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-ade1db55f3dsm172072366b.60.2025.06.06.13.37.35
+ a640c23a62f3a-ade1dc78f47sm178605166b.153.2025.06.06.15.10.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jun 2025 13:37:35 -0700 (PDT)
+ Fri, 06 Jun 2025 15:10:49 -0700 (PDT)
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 To: linux-amlogic@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH] drm/meson: fix debug log statement when setting the HDMI
- clocks
-Date: Fri,  6 Jun 2025 22:37:29 +0200
-Message-ID: <20250606203729.3311592-1-martin.blumenstingl@googlemail.com>
+Subject: [PATCH] drm/meson: use vclk_freq instead of pixel_freq in debug print
+Date: Sat,  7 Jun 2025 00:10:31 +0200
+Message-ID: <20250606221031.3419353-1-martin.blumenstingl@googlemail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -92,29 +91,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "phy" and "vclk" frequency labels were swapped, making it more
-difficult to debug driver errors. Swap the label order to make them
-match with the actual frequencies printed to correct this.
+meson_vclk_vic_supported_freq() has a debug print which includes the
+pixel freq. However, within the whole function the pixel freq is
+irrelevant, other than checking the end of the params array. Switch to
+printing the vclk_freq which is being compared / matched against the
+inputs to the function to avoid confusion when analyzing error reports
+from users.
 
 Fixes: e5fab2ec9ca4 ("drm/meson: vclk: add support for YUV420 setup")
 Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 ---
- drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/meson/meson_vclk.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 47136bbbe8c6..ab08d690d882 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -109,7 +109,7 @@ static void meson_encoder_hdmi_set_vclk(struct meson_encoder_hdmi *encoder_hdmi,
- 		venc_freq /= 2;
+diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
+index 3325580d885d..c4123bb958e4 100644
+--- a/drivers/gpu/drm/meson/meson_vclk.c
++++ b/drivers/gpu/drm/meson/meson_vclk.c
+@@ -790,9 +790,9 @@ meson_vclk_vic_supported_freq(struct meson_drm *priv,
+ 	}
  
- 	dev_dbg(priv->dev,
--		"vclk:%lluHz phy=%lluHz venc=%lluHz hdmi=%lluHz enci=%d\n",
-+		"phy:%lluHz vclk=%lluHz venc=%lluHz hdmi=%lluHz enci=%d\n",
- 		phy_freq, vclk_freq, venc_freq, hdmi_freq,
- 		priv->venc.hdmi_use_enci);
- 
+ 	for (i = 0 ; params[i].pixel_freq ; ++i) {
+-		DRM_DEBUG_DRIVER("i = %d pixel_freq = %lluHz alt = %lluHz\n",
+-				 i, params[i].pixel_freq,
+-				 PIXEL_FREQ_1000_1001(params[i].pixel_freq));
++		DRM_DEBUG_DRIVER("i = %d vclk_freq = %lluHz alt = %lluHz\n",
++				 i, params[i].vclk_freq,
++				 PIXEL_FREQ_1000_1001(params[i].vclk_freq));
+ 		DRM_DEBUG_DRIVER("i = %d phy_freq = %lluHz alt = %lluHz\n",
+ 				 i, params[i].phy_freq,
+ 				 PHY_FREQ_1000_1001(params[i].phy_freq));
 -- 
 2.49.0
 
