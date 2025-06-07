@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93597AD09F4
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jun 2025 00:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B60AD0BD2
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jun 2025 10:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468BC10EB77;
-	Fri,  6 Jun 2025 22:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEC110E294;
+	Sat,  7 Jun 2025 08:03:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="SqsxsVVt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BRl9WB13";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21BEF10EC40
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jun 2025 22:10:53 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-6071ac9dc3eso4060899a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jun 2025 15:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1749247851; x=1749852651;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=N3ygnVw/n+6bwn53y0Mh0mYQycS7zL+z+SR1TPl0nEc=;
- b=SqsxsVVtlBHc7twkV6yTgl/SSsR1rUQlrvMMX1qPLwtK02FgHk0TAht6X/zCzfQZcE
- oBGOgIVX+HJZwhtMw55/ijFGInhv5U558dLNAxk0FQAi0eDh507cHG0SZxP0wN4AJgm+
- C0Nrn07OODaeyS/cMf20nXkBq0LuuxNMP2v1KUgI9NC50Zo4sm8a3+5yPMHsUyYMHG1C
- 7huSWyDfLWlIP5LV059auwnlb01qlGSOkx/pJrWjQRFjgDCrF2FpGYkGN3ZpimLXJukv
- sn72l39ZqrC2coSlufiItpzWfrLDl0YuyH0jKkehjyf2ocGFWHQsNPFan3d77XRQEfEp
- NNEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749247851; x=1749852651;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N3ygnVw/n+6bwn53y0Mh0mYQycS7zL+z+SR1TPl0nEc=;
- b=snBqZMHokeR5xBpAP0pZniXrmEAyfzrEbLtptLicDa4wJ3H3etMXMmWpTaHP7eBE/6
- ZDLputqFbNV+UBIswvifYAcgWcTQdBQyZdzKXLoZua4nGsANTShCs8UfKl1ePS6haW9m
- Hl01bI8nbFxj5hD3275dCkE5c1vcJInnKbGnbLWqDpAu7jHkM75sskrgif9MDvqTV2WQ
- ao0DLgFEBfbU2A0BtrJHq2Iw9/3gZvEnj4gKcZ41Ju6MN/PE3lgpDQuOLIjyNQdpKYhH
- fShyMpLje3kZ+GoGwotqAx5EHZSi0UhlQlXo9+PZUtioYUAu981bXatINPMCWR57s42g
- r4Rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbzCaczhVLJvSqYEaX+A5+9QumCvhQDA5zpNOnrWBxFrEZultCzzprA/33B6WVjofEq+jQUvHfOhU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzqAwcOrhslb6kqdr4MrQ/d8ITMFJCb+bHSXm4B3vMoJd1k6vna
- LCwqbSo8+HriXzB55MYLZ8DEUTa/A75ZowavK8lerP5eUUrzZ2Sou8RG
-X-Gm-Gg: ASbGncs0HczOkeTTYCChsaYOGoSPnj0hzo5U+vSZVnSGMgAFbY6sRXfKyuDtuBeilYs
- Z1DoSo9/HJzxOyCpSUBcgzsX6clX4aqMh/t2Yd+wmF44kvBOIrkTdZTb/ifinhBn4uL2wL1E32g
- RcH6bS4JaFNUuqAYazHWndf4Q5qw79nFZG0zHz/jni/Q2iKfgBm/xwEbmTfCKO8lgd2yzI6BWc0
- oYu+1FVj4Hlqc/gpqJM3y28KGMfV+rSK3mWDv0sntmXw8dukTvSCzEyF+XWaHvLxKr6ujK3hvWA
- eKHgZFFO7mztRj7J06SdtILqjpH+HOBtK/QFULkhUho3Y3e1x/cvqyphlknL1O1g3rg7ikkzLN7
- YNUp1gxmLDHqa0UguZOeGRdiuJzX3uPyhxYgZhnOkJd+Ug9dr/K+neu2b6FPYE3zSo+gLWx9Nzt
- tO6XgIUtkhOEfef2p2W2KXUt06N73AvA==
-X-Google-Smtp-Source: AGHT+IF2GDmxSpU2PUP8gOk0whzGQdZbH1jzBstBC+SVXNfKpbrPiO7RDCeI9rjuTtfJwFYp3Msy5Q==
-X-Received: by 2002:a17:907:9628:b0:ad8:9e80:6bb1 with SMTP id
- a640c23a62f3a-ade1aa933admr431541366b.18.1749247851398; 
- Fri, 06 Jun 2025 15:10:51 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-2a02-3100-a032-8c00-1e86-0bff-fe2f-57b7.310.pool.telefonica.de.
- [2a02:3100:a032:8c00:1e86:bff:fe2f:57b7])
- by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-ade1dc78f47sm178605166b.153.2025.06.06.15.10.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jun 2025 15:10:49 -0700 (PDT)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: linux-amlogic@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH] drm/meson: use vclk_freq instead of pixel_freq in debug print
-Date: Sat,  7 Jun 2025 00:10:31 +0200
-Message-ID: <20250606221031.3419353-1-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.49.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D1510E182;
+ Sat,  7 Jun 2025 08:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749283407; x=1780819407;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Gs0/L07bwWRmKkXQfcoB3ZbYMxp58VlEV5ty/NWVzHE=;
+ b=BRl9WB13S+VxninucD12Q8SGx07lsp0hS3WOWJnPeHEjS+dDQtV6r2Mk
+ bRV7LBNdKhcFhaJoufa2R0cd9JS0wqsTMieImymsbkN+LAlg/18pU8BGE
+ 8g8+SG0ZAeVGASO8VpPF9+2YlEFWJsIosBUbSzpUA1Kk4dOWsVvjK39Vs
+ m8FTv+iUe2h1zCUxT7581rbn+FBkOpOFYLEjjq76bbu8OFHoXA8NxBcKR
+ 80CN2bExJvO0+BGQXKvD34VWYrP6jyCjuxmkgnuqSQ7SFg7gT+wWd8uK8
+ ib0Z2n0lRB8kYs7Unio0xYymM18eRi4lmgXk2GDbkZjWvB0SoKNHbW+9U w==;
+X-CSE-ConnectionGUID: h0sGMOp5RyyWZD+75pISvg==
+X-CSE-MsgGUID: wiYKGhdjQWOV/Y5k/DPlaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="61696884"
+X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; d="scan'208";a="61696884"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2025 01:03:27 -0700
+X-CSE-ConnectionGUID: MheFn8i6R9uGWhmdgN3QJQ==
+X-CSE-MsgGUID: TI28mgLoTF67k20E3fuf+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; d="scan'208";a="150861704"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 07 Jun 2025 01:03:23 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uNoWO-0005YD-2T;
+ Sat, 07 Jun 2025 08:03:20 +0000
+Date: Sat, 7 Jun 2025 16:02:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Badal Nilawar <badal.nilawar@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, alexander.usyskin@intel.com,
+ gregkh@linuxfoundation.org, daniele.ceraolospurio@intel.com, jgg@nvidia.com
+Subject: Re: [PATCH v2 10/10] [CI]drm/xe/xe_late_bind_fw: Select
+ INTEL_MEI_LATE_BIND for CI Do not review
+Message-ID: <202506071532.WlVvupfu-lkp@intel.com>
+References: <20250606175707.1403384-11-badal.nilawar@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250606175707.1403384-11-badal.nilawar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,36 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-meson_vclk_vic_supported_freq() has a debug print which includes the
-pixel freq. However, within the whole function the pixel freq is
-irrelevant, other than checking the end of the params array. Switch to
-printing the vclk_freq which is being compared / matched against the
-inputs to the function to avoid confusion when analyzing error reports
-from users.
+Hi Badal,
 
-Fixes: e5fab2ec9ca4 ("drm/meson: vclk: add support for YUV420 setup")
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
- drivers/gpu/drm/meson/meson_vclk.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
-index 3325580d885d..c4123bb958e4 100644
---- a/drivers/gpu/drm/meson/meson_vclk.c
-+++ b/drivers/gpu/drm/meson/meson_vclk.c
-@@ -790,9 +790,9 @@ meson_vclk_vic_supported_freq(struct meson_drm *priv,
- 	}
- 
- 	for (i = 0 ; params[i].pixel_freq ; ++i) {
--		DRM_DEBUG_DRIVER("i = %d pixel_freq = %lluHz alt = %lluHz\n",
--				 i, params[i].pixel_freq,
--				 PIXEL_FREQ_1000_1001(params[i].pixel_freq));
-+		DRM_DEBUG_DRIVER("i = %d vclk_freq = %lluHz alt = %lluHz\n",
-+				 i, params[i].vclk_freq,
-+				 PIXEL_FREQ_1000_1001(params[i].vclk_freq));
- 		DRM_DEBUG_DRIVER("i = %d phy_freq = %lluHz alt = %lluHz\n",
- 				 i, params[i].phy_freq,
- 				 PHY_FREQ_1000_1001(params[i].phy_freq));
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250606]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/mei-bus-add-mei_cldev_mtu-interface/20250607-015525
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250606175707.1403384-11-badal.nilawar%40intel.com
+patch subject: [PATCH v2 10/10] [CI]drm/xe/xe_late_bind_fw: Select INTEL_MEI_LATE_BIND for CI Do not review
+config: alpha-kismet-CONFIG_INTEL_MEI_LATE_BIND-CONFIG_DRM_XE-0-0 (https://download.01.org/0day-ci/archive/20250607/202506071532.WlVvupfu-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250607/202506071532.WlVvupfu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071532.WlVvupfu-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_MEI_LATE_BIND when selected by DRM_XE
+   WARNING: unmet direct dependencies detected for INTEL_MEI_LATE_BIND
+     Depends on [n]: INTEL_MEI [=n] && DRM_XE [=y]
+     Selected by [y]:
+     - DRM_XE [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=y]=y [=y]) && (INTEL_VSEC [=n] || !INTEL_VSEC [=n]) && (X86_PLATFORM_DEVICES [=n] || !X86 || !ACPI)
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
