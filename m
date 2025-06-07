@@ -2,65 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960A9AD0D75
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jun 2025 14:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D18AD0DD3
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jun 2025 16:15:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9D910E4B2;
-	Sat,  7 Jun 2025 12:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D722C10E36D;
+	Sat,  7 Jun 2025 14:15:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="vt3qx6Qr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FL8FIhGi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC1110E4AB
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jun 2025 12:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=oLS1KFEltUOFGxNGj6XeO70K6kHeWgsxYD83o7TwBko=; b=vt3qx6Qr4XYNUfbW89rhyMhIHK
- RUsbuFW40hCFrw9qF7mmgY0m7xNo9YwcgAKicthWaEpFY9uhrdV1nQl5UckilstXJ9RkXaaqKVl0c
- dtsshpIjfiRZ8USENmNvKtqjOsR9M1CbJG/wGi1R+21+bnzuPx789C7DhxRN7nIrXe/ArMbEpysTd
- IZISLJXQsJwlhumSW8zTdRLDYqGP9PepWKUWFPnz3gbQu1asOKBKZvJPQJKUWq8/VOeQujsGMzfYl
- zLmm2V1p2WbbZwcTIWHSG5osyYRCJmRl9c8voR2hD1sEg7cN3sIEOnmKotN7APZKxIaFN+Gkt9CEa
- iOE4OwZQ==;
-Received: from i53875b1f.versanet.de ([83.135.91.31] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uNsas-0001Lo-C8; Sat, 07 Jun 2025 14:24:14 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
-Date: Sat, 07 Jun 2025 14:24:12 +0200
-Message-ID: <10540765.0AQdONaE2F@diego>
-In-Reply-To: <6946302.MhkbZ0Pkbq@workhorse>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
- <6946302.MhkbZ0Pkbq@workhorse>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1A810E36D
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jun 2025 14:15:44 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 557AtQIQ023157
+ for <dri-devel@lists.freedesktop.org>; Sat, 7 Jun 2025 14:15:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=jQEDDMTmKsjlbrJ1T/mYsq
+ l9DaM6HWHTltiou3XAwfQ=; b=FL8FIhGiYfRPpEb5zkLb6X5evl8aRpePWsUbgj
+ woUE1/DwDvnrHExHMp86Y2NnGAGH8/6eHoXVwl16OL2JwcBbDMgPU+BeKCwWRkEX
+ 64IVk1M3Ymg5qahJWQOyE049C7C5MfZzR26IjVHAgH4DtOE8wXEoA5Il4rsHSqqG
+ Y5HfoXWT4TSlOhEICgLJmvhmdl0qxpl8oWL9ND0t8lGt8H8nWaGhkJA2wk3qgPrE
+ FD3O9AfKYzcbbK2+/46BQwXO/yiQr5e6FjlpJsbcZH/vOktcLBEcH/729bn7MLpj
+ ZCIirVPQgI7MuWu0Fuk8GMWZF8V/fE3hPnGyhjop79OUPT+w==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474e6j8m52-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jun 2025 14:15:43 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-b26e33ae9d5so3171236a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jun 2025 07:15:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749305743; x=1749910543;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jQEDDMTmKsjlbrJ1T/mYsql9DaM6HWHTltiou3XAwfQ=;
+ b=HJMKHxdJ+9HNJlCXBq5yMKmBxqOYNMy9LmPZBnFKHrRHulDkRCrfp7SVtBtBbiW5Yg
+ p7cOA1QReZR3hskuTmlvQmMzyilG83ZfxHZTAV7A9bEU5DcgNr/THJZZMUj0HoMKPPTh
+ FZpHnG6MinMWNrq8nU4uwody4Um7SzRPzBRb7SkZ7mVSnp+uU6eMI0yT950ZAKCXRa3j
+ 4ygBqfyZMqY+UVKZ+Ww3QuUbuAfv3ONG7NSBWenUg9KYRWPGEQjUZXfJbcdheOgTmKUr
+ cTbtajhE6CtGqwg/2fZ325KtWGCS+v4o+r1HM1nvnxCgnIVpgV0N/um7PtVMj6B900Rb
+ E+Sw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVyrq5YYByFtWiSn9kMUmOZTWE2kLolZoCslz56uHUYZXkbypL9X0Y6jUyuoL17DFX6rpTug10R4vY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwilyNGlznZFR+npAphKeRO9OzF0kQ1GkRJuXUFWw7QJckZkGEX
+ yhOhUnIyJJa3pi8dEYrDIAVztgMWt02vw9YfAHyQijMK23clsbP9tzeu8t04p2Cx3HZRXX6SWpC
+ G3Zex4vlZiWb8KnSvMfldrrWbmO6Bdx+ECNWBTQ7gNYIiw+FN00gS3Jn98L8XbsClJx6vptE=
+X-Gm-Gg: ASbGncvvLovDp+r0vcKi8r9SRTDvI01pfRUqtRTTkpjEJGaf/3o7sKFq4HdQO5hsjXW
+ hY2/nLgzf49NyvVf2KeoD1UqLMrXbO8vyWtJBgXOdBX+kyT/9E3tYrHY0fljkvNRS7muNInh6mq
+ Mz84aiPQ1OLH/1vXwomKYMC5mw5YJ30OrJc8MS8AOZCUrlim48/y77iii4k5LiDZvaffi3a1Lvb
+ bYceHio3DF30B8TUOXul5TzpYWZplAL2HHkU/LgUVzdaIv67CwFG2EzklRP+fgy4STjrZSHIcDL
+ UTHlwNBI+aT9aVcFAO9nPQ==
+X-Received: by 2002:a17:902:e750:b0:235:f4f7:a654 with SMTP id
+ d9443c01a7336-23601d09641mr109277615ad.22.1749305742578; 
+ Sat, 07 Jun 2025 07:15:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGjF9YeOEhWSWfxr+m+2RrgoG06THK+k2+nMjTup1J4LstKl/tmEjXBkTr4o+5QwdlWwirKMQ==
+X-Received: by 2002:a17:902:e750:b0:235:f4f7:a654 with SMTP id
+ d9443c01a7336-23601d09641mr109276915ad.22.1749305742176; 
+ Sat, 07 Jun 2025 07:15:42 -0700 (PDT)
+Received: from [10.213.111.143] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23603405732sm27500435ad.155.2025.06.07.07.15.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Jun 2025 07:15:41 -0700 (PDT)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: [PATCH 0/3] Support for Adreno X1-45 GPU
+Date: Sat, 07 Jun 2025 19:44:58 +0530
+Message-Id: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGNJRGgC/y3MQQrDIBCF4avIrDugNg00VylZTHXSziKaqi1Cy
+ N0jSZf/g/etkDkJZxjUCol/kiWGFuaiwL0pvBjFtwar7U33+orVLEg+cYhozd2TnXznqIN2WBJ
+ PUg/sMZ6d+PNtZjlHeFJmdHGepQwqcC34d3sYt20HBKPUqo0AAAA=
+X-Change-ID: 20250603-x1p-adreno-219da2fd4ca4
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749305735; l=1043;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=1R/4cAeIAzLJOWp/GuFrSGG6zEJyy/eVJqkUetChkPE=;
+ b=T5B1TBD6n1ZXjWmBzYGz79OW1hjAwODNgkAjFeCeljEAqh+W/4n6lU8z1zkK0ykWF3R7mJUA7
+ 8yVMyFfn9g6BOOwS52MkZTyflD73udKJg7pyStIQ/5hNiAqyx8r065a
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Authority-Analysis: v=2.4 cv=Id6HWXqa c=1 sm=1 tr=0 ts=6844498f cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=vb8sKYNj6oKrwasmUUsA:9
+ a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-ORIG-GUID: 68qWlXlOMZPlGmytAFIH9AMXkFSqpSry
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA3MDEwMiBTYWx0ZWRfXwLMBduoEcEZU
+ 5N7F+qtxWMr+CPRrt8lGYThZ8QaAMPHkiN6sBUWa62vOvhIJMEh/Xp5XEJ6ACWhp+hrqgeRgmOe
+ +xdgi+OWNOp7Hjyqmp22pNZ/DNRsnwYIW2qieAXHR8hoF2Na/wt428YAy4G2pjclQuYt563n1rZ
+ dEJMHyVt0KvPQ+EBhGRX6upBF6doMbCxhwhpahlnEsXPfcMt7UCJNRwLDP57n3v0DW7FcmM0gx5
+ MSwjUKWy0IiBocxkzFesoE7oD7FROESbuEJolrLo3LoSeFAyYBAltrxjYO48mM3HdPyy5gro7KW
+ HUFwmpJkfbrEof0cmHXMAK/cDHcp+o/C2DhXHPYb/eKJmGLLkYM9i/JzAPq8CJggZ4PRHP/NC0A
+ HYQ4P7rFtMrz5m/uNjwxsz3XBh8DW6cAADdwUdWTBK5i+M7cyWTVxiVLGC0UYa70BoxK9mO0
+X-Proofpoint-GUID: 68qWlXlOMZPlGmytAFIH9AMXkFSqpSry
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-07_06,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=609
+ clxscore=1011 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506070102
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,243 +141,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 6. Juni 2025, 11:20:32 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Nicolas Frattaroli:
-> Hi Tomeu,
->=20
-> On Friday, 6 June 2025 08:28:30 Central European Summer Time Tomeu Vizoso=
- wrote:
-> > From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> >=20
-> > The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> > and the npu's supply. Add this regulator, and enable all the NPU bits.
-> > Also add the regulator as a domain-supply to the pd_npu power domain.
-> >=20
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++=
-++++++++
-> >  1 file changed, 56 insertions(+)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm=
-64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1=
-997e9e53a01d84973 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > @@ -316,6 +316,28 @@ regulator-state-mem {
-> >  	};
-> >  };
-> > =20
-> > +&i2c1 {
-> > +	pinctrl-names =3D "default";
-> > +	pinctrl-0 =3D <&i2c1m2_xfer>;
-> > +	status =3D "okay";
-> > +
-> > +	vdd_npu_s0: regulator@42 {
-> > +		compatible =3D "rockchip,rk8602";
-> > +		reg =3D <0x42>;
-> > +		fcs,suspend-voltage-selector =3D <1>;
-> > +		regulator-name =3D "vdd_npu_s0";
-> > +		regulator-boot-on;
-> > +		regulator-min-microvolt =3D <550000>;
-> > +		regulator-max-microvolt =3D <950000>;
-> > +		regulator-ramp-delay =3D <2300>;
-> > +		vin-supply =3D <&vcc5v0_sys>;
-> > +
-> > +		regulator-state-mem {
-> > +			regulator-off-in-suspend;
-> > +		};
-> > +	};
-> > +};
-> > +
-> >  &i2c6 {
-> >  	status =3D "okay";
-> > =20
-> > @@ -440,6 +462,10 @@ &pd_gpu {
-> >  	domain-supply =3D <&vdd_gpu_s0>;
-> >  };
-> > =20
-> > +&pd_npu {
-> > +	domain-supply =3D <&vdd_npu_s0>;
-> > +};
-> > +
-> >  &pinctrl {
-> >  	hdmirx {
-> >  		hdmirx_hpd: hdmirx-5v-detection {
-> > @@ -500,6 +526,36 @@ &pwm1 {
-> >  	status =3D "okay";
-> >  };
-> > =20
-> > +&rknn_core_top {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_core_1 {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_core_2 {
-> > +	npu-supply =3D <&vdd_npu_s0>;
-> > +	sram-supply =3D <&vdd_npu_s0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_top {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_1 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&rknn_mmu_2 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> >  &saradc {
-> >  	vref-supply =3D <&avcc_1v8_s0>;
-> >  	status =3D "okay";
-> >=20
-> >=20
->=20
-> Feel free to replace this patch with the following, if your series is
-> based on linux-next or v6.16. It moves the enablement into the new
-> shared ROCK 5B/5B+ dtsi, and I've added a regulator-enable-ramp-delay
-> while I was at it because I've run into hard-to-reproduce problems
-> relating to it before that Heiko quickly identified and fixed in his
-> recent series[1] for basically all already present regulators. Remains
-> to be seen if the final patch lands in that form but this should make
-> it easier for people to try out as it means a bad luck roll for the
-> day won't make them run into as many weird issues.
->=20
-> [1]: https://lore.kernel.org/all/20250605185001.377055-1-heiko@sntech.de/
+Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
+version). X1-45 is a smaller version of X1-85 with lower core count and
+smaller memories. From UMD perspective, this is similar to "FD735"
+present in Mesa.
 
-Reading that just now reminds me to point to=20
-https://lore.kernel.org/lkml/20250606190418.478633-1-heiko@sntech.de/
+Tested Glmark & Vkmark on Debian Gnome desktop.
 
-As Chen Yu pointed out in the reply to v2, this is more a property of the
-regulator IC itself, so likely should go into the driver.
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+---
+Akhil P Oommen (3):
+      arm64: defconfig: Enable X1P42100_GPUCC driver
+      drm/msm/adreno: Add Adreno X1-45 support
+      arm64: dts: qcom: Add GPU support to X1P42100 SoC
 
-So with a bit of luck after 6.16-rc1 all the fan53555 clones should use
-somewhat hardware-accurate enable-times.
+ arch/arm64/boot/dts/qcom/x1e80100.dtsi    |   7 ++
+ arch/arm64/boot/dts/qcom/x1p42100-crd.dts |   4 +
+ arch/arm64/boot/dts/qcom/x1p42100.dtsi    | 121 +++++++++++++++++++++++++++++-
+ arch/arm64/configs/defconfig              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  38 ++++++++++
+ 5 files changed, 170 insertions(+), 1 deletion(-)
+---
+base-commit: b3bded85d838336326ce78e394e7818445e11f20
+change-id: 20250603-x1p-adreno-219da2fd4ca4
 
-
-> From ff1c370a158f4340aa5dfa4ed5034e815e5371be Mon Sep 17 00:00:00 2001
-> From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> Date: Tue, 3 Jun 2025 17:03:10 +0200
-> Subject: [PATCH] arm64: dts: rockchip: enable NPU on ROCK 5B/+
->=20
-> The NPU on the ROCK5B uses the same regulator for both the sram-supply
-> and the npu's supply. Add this regulator, and enable all the NPU bits.
-> Also add the regulator as a domain-supply to the pd_npu power domain.
->=20
-> The 5B+'s regulator setup is identical to the 5B in this regard, so it
-> goes in the shared .dtsi.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  .../boot/dts/rockchip/rk3588-rock-5b.dtsi     | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm6=
-4/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> index 51e83f0ed809..5a20cc2555fb 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-> @@ -332,6 +332,29 @@ regulator-state-mem {
->  	};
->  };
-> =20
-> +&i2c1 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&i2c1m2_xfer>;
-> +	status =3D "okay";
-> +
-> +	vdd_npu_s0: regulator@42 {
-> +		compatible =3D "rockchip,rk8602";
-> +		reg =3D <0x42>;
-> +		fcs,suspend-voltage-selector =3D <1>;
-> +		regulator-name =3D "vdd_npu_s0";
-> +		regulator-boot-on;
-> +		regulator-enable-ramp-delay =3D <500>;
-> +		regulator-min-microvolt =3D <550000>;
-> +		regulator-max-microvolt =3D <950000>;
-> +		regulator-ramp-delay =3D <2300>;
-> +		vin-supply =3D <&vcc5v0_sys>;
-> +
-> +		regulator-state-mem {
-> +			regulator-off-in-suspend;
-> +		};
-> +	};
-> +};
-> +
->  &i2c3 {
-
-I think your patch here has some other dependency still?
-Because in the rk3588-rock-5b.dtsi there is no i2c3 yet
-In torvalds' branch from _just now_ ;-) .
-
-
-Heiko
-
->  	status =3D "okay";
->  };
-> @@ -521,6 +544,10 @@ &pd_gpu {
->  	domain-supply =3D <&vdd_gpu_s0>;
->  };
-> =20
-> +&pd_npu {
-> +	domain-supply =3D <&vdd_npu_s0>;
-> +};
-> +
->  &pinctrl {
->  	hdmirx {
->  		hdmirx_hpd: hdmirx-5v-detection {
-> @@ -585,6 +612,36 @@ &pwm1 {
->  	status =3D "okay";
->  };
-> =20
-> +&rknn_core_top {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_core_1 {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_core_2 {
-> +	npu-supply =3D <&vdd_npu_s0>;
-> +	sram-supply =3D <&vdd_npu_s0>;
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_top {
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_1 {
-> +	status =3D "okay";
-> +};
-> +
-> +&rknn_mmu_2 {
-> +	status =3D "okay";
-> +};
-> +
->  &saradc {
->  	vref-supply =3D <&avcc_1v8_s0>;
->  	status =3D "okay";
->=20
-
-
-
+Best regards,
+-- 
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
 
