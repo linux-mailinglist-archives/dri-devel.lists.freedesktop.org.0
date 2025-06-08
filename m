@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC8FAD14D0
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 23:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631FCAD14D4
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 23:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D1B10ED85;
-	Sun,  8 Jun 2025 21:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A44F10EDAD;
+	Sun,  8 Jun 2025 21:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="T+mDi41e";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j0TunHry";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="L2C4AF21";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZUUqGiMv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6F10E069
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9DE10E077
  for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 14:38:16 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bFcrd3xwfz9sl9;
- Sun,  8 Jun 2025 16:29:37 +0200 (CEST)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bFcrg5n5qz9tLb;
+ Sun,  8 Jun 2025 16:29:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1749392979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZeCefA3P5IASqdj+LeZ+xE90hGJvP5XfofYKX5OpXho=;
+ b=L2C4AF21HqDBj8ASogL2wuEE6MNQZD8vYUKMgtWH3GkdKBawEmm0iBnN/eJu6Cbet/Wss6
+ OzO0ugfUyHiyNAiktyjETs2YpaeF/8uUxnLZBVu9oWNGmF9A6ByEquRnVcdNS/kR8/O5qD
+ kKJHucCUIYYvTvjpHzCvw0zdIqdmrNjy9/6ZrGGXWUA3jZnoc1UwN1yxRXC1yy5ckebaTB
+ pJYrGAYWZJ9GDdDMNLu4DaoZWUjDZuMNhQPWEiybAaBwgQSU0YfdudMTB5OeMVV+PnzcNA
+ 74b6MLVwmnqH8HM89clPP6lvpYLDS5WRh1skc4VUnPc7Y3nTfA6Ck5641D0gJw==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; t=1749392977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9J8blQsWo7BOLQ4jNbFGgSSU1FckxjNy8U5kLWiewAo=;
- b=T+mDi41e+paGnN3TxMn2Spf2OUqJcDbztsbhmaUHmR0XjWR9U1HutkbwSuUfy/z59xVDk3
- PAUWt9SoZjlrzzghg6StYx0pQdY4nWZHOqilsxO3QmRUifPHL1Be+I2u6DE/+3A80D4KIq
- 1FMo7ZRcKXRrBFtZWnrxnnW+rW3glK+udGnc/KDsMNps5Bm0oNTt1oLGsSvUQ448QN7M1Q
- rJVyv1UDJAYC2+VatXgHtAWpQQmmyOBt4ULHuhFHSPjDaFOAOUYXuq2AnDls9YfK0yDW5Z
- GEeWZFQ5/kGIVWe0ZDJmKtOfVPODTF/9FWZMgLBr8jMS9hj5jV4Itp9IrRJ9Rg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1749392975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9J8blQsWo7BOLQ4jNbFGgSSU1FckxjNy8U5kLWiewAo=;
- b=j0TunHrySTzOQuO+GBGwUPDcR7sxg3055wGE6hb0ZG+b6RzjNuE4kruDQTelraOeeb4kCZ
- y09i1aS3tDmzOQcRUs5JA7LqAx7CZzZf+ceGSqBtMrfEzUrJeLadGvH2DU11vwudo4GEKa
- WlzCDX4naolakbXm/JhXAv6Q1cIpgFYwiJCXgeArWQ/iolLQy6zfJUdKFTT998E2gSFJKq
- fvYNlixB2NumizZBCvHfo2FS9qHg84avYcxmw8UB+ggIffmmqajmKQz2Sgw6mW5JvUP8qs
- 5l+SsVGQYTXXQbTd1e6CRfROh2Qw6RLlV4Lj3vkPG0HAqKGbiI22jCQDfDq1wg==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZeCefA3P5IASqdj+LeZ+xE90hGJvP5XfofYKX5OpXho=;
+ b=ZUUqGiMv7evt2R/zvdGnNl4enFOawgSZdVYB2Oh2K4JCY7tABrUwzTJpl+3SAO4vkIpH7+
+ s9v30QQ8mudktclhovhk6k54j7fQE82lZ+Vz8vp9o01+JdQpD4BPJ+OQyh05be2U1dvAKu
+ kpZeHmyeDjFd91V936i5CsXm3+EPFLMIzyOpKSb1J+99Lmdm3Auj/fjTdEigwloFCGnK/b
+ F9JPrw/aRWEk/qN02r326oW7/lN7XpkWba9ho3W/uqFbIAXP8DAMrGctQ5eFQ5xuSBATaC
+ BpCaoO0Cyl6daM7xTEyPsnYZ5SBcKtMQlPxLxmEWVzYdEE7IbKqmEechRmLl0Q==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -57,13 +59,16 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: ili9881c: Document 7" Raspberry Pi 720x1280
-Date: Sun,  8 Jun 2025 16:28:16 +0200
-Message-ID: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 2/3] drm/panel: ilitek-ili9881c: Allow configuration of the
+ number of lanes
+Date: Sun,  8 Jun 2025 16:28:17 +0200
+Message-ID: <20250608142908.54121-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org>
+References: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ows1prewrt6horcoxewo74xiu8j5fjmn
-X-MBO-RS-ID: f2afb79cbd609a55522
+X-MBO-RS-META: sxb63c6q46ru8tuix71q97gg3wsxs8z7
+X-MBO-RS-ID: e4380f2ea91e0367887
 X-Mailman-Approved-At: Sun, 08 Jun 2025 21:44:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,9 +85,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the 7" Raspberry Pi 720x1280 DSI panel based on ili9881.
+Not all panels use all 4 data lanes, so allow configuration based
+on the compatible string.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Based on https://github.com/raspberrypi/linux 0d7ac78a3dd9 ("Extending ili9881c driver support for nwe080 panel")
+by Dave Stevenson <dave.stevenson@raspberrypi.com> and others
 ---
 Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
@@ -99,21 +108,54 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-index baf5dfe5f5eb..a51af61d4846 100644
---- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-@@ -19,6 +19,7 @@ properties:
-           - ampire,am8001280g
-           - bananapi,lhr050h41
-           - feixin,k101-im2byl02
-+          - raspberrypi,dsi-7inch
-           - startek,kd050hdfia020
-           - tdo,tl050hdv35
-           - wanchanglong,w552946aba
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+index 28cd7560e5db..2f5ae69148cc 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+@@ -43,6 +43,7 @@ struct ili9881c_desc {
+ 	const struct drm_display_mode *mode;
+ 	const unsigned long mode_flags;
+ 	u8 default_address_mode;
++	unsigned int lanes;
+ };
+ 
+ struct ili9881c {
+@@ -1549,7 +1550,7 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
+ 
+ 	dsi->mode_flags = ctx->desc->mode_flags;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->lanes = 4;
++	dsi->lanes = ctx->desc->lanes;
+ 
+ 	return mipi_dsi_attach(dsi);
+ }
+@@ -1567,6 +1568,7 @@ static const struct ili9881c_desc lhr050h41_desc = {
+ 	.init_length = ARRAY_SIZE(lhr050h41_init),
+ 	.mode = &lhr050h41_default_mode,
+ 	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
++	.lanes = 4,
+ };
+ 
+ static const struct ili9881c_desc k101_im2byl02_desc = {
+@@ -1574,6 +1576,7 @@ static const struct ili9881c_desc k101_im2byl02_desc = {
+ 	.init_length = ARRAY_SIZE(k101_im2byl02_init),
+ 	.mode = &k101_im2byl02_default_mode,
+ 	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
++	.lanes = 4,
+ };
+ 
+ static const struct ili9881c_desc kd050hdfia020_desc = {
+@@ -1599,6 +1602,7 @@ static const struct ili9881c_desc w552946aba_desc = {
+ 	.mode = &w552946aba_default_mode,
+ 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+ 		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
++	.lanes = 4,
+ };
+ 
+ static const struct ili9881c_desc am8001280g_desc = {
 -- 
 2.47.2
 
