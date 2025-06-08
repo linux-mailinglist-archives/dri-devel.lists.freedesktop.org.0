@@ -2,74 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11D2AD14CC
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 23:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B12EAD1421
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 22:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7519C10ED74;
-	Sun,  8 Jun 2025 21:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB3110F202;
+	Sun,  8 Jun 2025 20:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="h2xiA374";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bG0OOju8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GJ4Sp6wm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA5B510E013
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 14:35:00 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bFcrk10M2z9sly;
- Sun,  8 Jun 2025 16:29:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1749392982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pe6bGH6Is74azrG3uqaeirz18hUf2T0m+t+rN8im4ZE=;
- b=h2xiA374RWNzT5IHaJ61Z4UT0GLXE0i04gMeC3CzC5b+A4bsEg9mzA3GlbkC3MuDkRDcvm
- /No/BqS4+TYMZB5vvAGv3O3/MHWoDqGsNSmC4018cRkIjMfOiNvaIQnGRT43OWIIuU1x/L
- Zpg7fUpxScFyxmjrbEEDswnbzrvTz8FmDU69fy+SUjgjQ4o4oYLh2EdryuvQ5zCiyPLUZh
- SNWHdhKQrSJweWPBZnOs3uR5y+W5Z32/4pJbV1R+8I34wVgsO6Ji1aXKx7MiT+wgg4/vgU
- sWvOOWHJa/Mc7usnMnuReWvQPNcp7v5vk32VI7cJS/sg/JcZ+vX29G8FQPNzOA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1749392979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pe6bGH6Is74azrG3uqaeirz18hUf2T0m+t+rN8im4ZE=;
- b=bG0OOju8awl5+qzvQGJ/cVmlz19+O2pY/3UngHShMuvR8+0P+5KBk8/cu/oN/hWvWtxx8x
- 96ee/W9KoH29+72glKW3MCuwXaKmCg5kFbm8kbZHuNBNuiN6FvjND465QzUH4wGf5aBvP1
- C+9LLQzEW6L9oKyQxRWRpu39wuc4+lAx02LpaiPJDMmRBm/A6nSHW0NRNRpXGLSx+L0op/
- 0zyCR4mo7fqqIzPGNaqHl/GJRbdolHrCEC7RN7HDxvS023tQi5fIpTW2YQlcRKZxGA3HDk
- 7XojNpwjfP84zDj3OUocsjQxIlUv2etrXvK3SMOYMwmE81qP1w39UdZiQ/N2Fg==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/3] drm/panel: ilitek-ili9881c: Add configuration for 7"
- Raspberry Pi 720x1280
-Date: Sun,  8 Jun 2025 16:28:18 +0200
-Message-ID: <20250608142908.54121-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org>
-References: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF1FC10F1FE;
+ Sun,  8 Jun 2025 20:10:47 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558JvfDA013294;
+ Sun, 8 Jun 2025 20:10:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VMqwClsGucxOnCvIC7ieB8B3Zk2MDDXeIyx8pwhbeik=; b=GJ4Sp6wmMdsUKdSu
+ 7XqPo69suRCI2VnCm7g6IliYhqnccb16OjIL4/cDiRS/25F6MOJ4FbOM2m8VjYpK
+ crH+93b0DmUeKWbPssRaBl7g80xquR8lKr4H1UxJHHynbr/8BCsWme20mrrZLC2c
+ iWgIn0QICd/exWbG+Kpf3qmds7szksYVVeZ3APJvnHwB78SjaDtuFpJZWzy6RqmJ
+ 2SCdjM7/gEnwxjdkPwJQw6r3OATzMk2YYw1ouw+ldSQHWl43DxJY1ly+xKWQw6vM
+ YlJrvw8xqZhRg9AFpH9yUjFLgS7F9hzODjR6F6WwUI3p0w5H38akCwvjDmK5NJ9L
+ h+bUSg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ce9m1rv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 08 Jun 2025 20:10:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 558KAY2n004996
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 8 Jun 2025 20:10:34 GMT
+Received: from [10.216.51.238] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 8 Jun 2025
+ 13:10:27 -0700
+Message-ID: <421aadf3-9e2d-4028-bfe2-e29d2ade8432@quicinc.com>
+Date: Mon, 9 Jun 2025 01:40:23 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ojwokkgacb8eec69zyus74sngrbbem5s
-X-MBO-RS-ID: 869d8b436132603a40e
-X-Mailman-Approved-At: Sun, 08 Jun 2025 21:44:43 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] drm/msm/adreno: Add Adreno X1-45 support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Akhil P Oommen
+ <akhilpo@oss.qualcomm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ "Konrad Dybcio" <konradybcio@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, Bjorn Andersson
+ <andersson@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+References: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
+ <20250607-x1p-adreno-v1-2-a8ea80f3b18b@oss.qualcomm.com>
+ <5xb35clc3wnnwpdnmqfminl4z6ok6nhoxg65hwgyxegxguby5d@fuks7fc2n3pf>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <5xb35clc3wnnwpdnmqfminl4z6ok6nhoxg65hwgyxegxguby5d@fuks7fc2n3pf>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: BszDk49latyru2SxwMd1H6DHiNz1f0QD
+X-Authority-Analysis: v=2.4 cv=drjbC0g4 c=1 sm=1 tr=0 ts=6845ee3c cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8
+ a=XhjLoxLiZ051MZkV3CIA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: BszDk49latyru2SxwMd1H6DHiNz1f0QD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDE2MyBTYWx0ZWRfX7gpHMqsCA/Mu
+ SgkW+NQvexJf4ppn59QwKvLVTctgDptCXm1Go0AgfDSQVF90IF7qQZt7UBidbrznfHjyYjNmfea
+ BC5/m9zYvXkr7oqpvn/nvX20CMYZ/AxivdZapB0eu5gdQIY6CsPL3dkXvq+KC2VMSOlradtXddu
+ iEOyfA2gUvZrQyBjQ9CoNm6Y13MabNwtmoHPojmZ2gOkiRrGh7QyOxBVNPhmz0vPvkiBway6Qtg
+ fg5ApBxl+phdBN0AoplyHwBzZIaSXPi8CciPYFHOK39KF4SG0yhEn9pdd9uXb9Hukyt6ECvWvG1
+ x/nm6LGK6cCqi8qt+eAmO1o6d3RMt+rRwhr75e6Gm3UCZkJJc/cN0dPa/jpu8RUPrsHxKgTioOi
+ K1qG/EJmzaQIuBPXDdVvgNb5OL/d+Rtv8OEjSMYN/mujHypnzbx4un5ICQIDHTPVkbycsbQH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-08_04,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011
+ priorityscore=1501 suspectscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506080163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,283 +112,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add configuration for the 7" Raspberry Pi 720x1280 DSI panel
-based on ili9881.
+On 6/8/2025 1:44 AM, Dmitry Baryshkov wrote:
+> On Sat, Jun 07, 2025 at 07:45:00PM +0530, Akhil P Oommen wrote:
+>> Add support for Adreno X1-45 GPU present Snapdragon X1P42100
+>> series of compute chipsets. This GPU is a smaller version of
+>> X1-85 GPU with lower core count and smaller internal memories.
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 38 +++++++++++++++++++++++++++++++
+>>  1 file changed, 38 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>> index 70f7ad806c34076352d84f32d62c2833422b6e5e..2db748ce7df57a9151ed1e7f1b025a537bb5f653 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>> @@ -1474,6 +1474,44 @@ static const struct adreno_info a7xx_gpus[] = {
+>>  			},
+>>  		},
+>>  		.preempt_record_size = 3572 * SZ_1K,
+>> +	}, {
+>> +		.chip_ids = ADRENO_CHIP_IDS(0x43030c00),
+>> +		.family = ADRENO_7XX_GEN2,
+>> +		.fw = {
+>> +			[ADRENO_FW_SQE] = "gen71500_sqe.fw",
+>> +			[ADRENO_FW_GMU] = "gen71500_gmu.bin",
+> 
+> Any chance of getting these and ZAP into linux-firmware?
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Based on https://github.com/raspberrypi/linux 0d7ac78a3dd9 ("Extending ili9881c driver support for nwe080 panel")
-by Dave Stevenson <dave.stevenson@raspberrypi.com> and others
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 219 ++++++++++++++++++
- 1 file changed, 219 insertions(+)
+Yeah. Haven't got the legal clearance to publish the firmwares yet. Will
+post it in a few days.
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 2f5ae69148cc..06c5ef9a4946 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -1224,6 +1224,199 @@ static const struct ili9881c_instr am8001280g_init[] = {
- 	ILI9881C_COMMAND_INSTR(MIPI_DCS_WRITE_POWER_SAVE, 0x00),
- };
- 
-+static const struct ili9881c_instr rpi_7inch_init[] = {
-+	ILI9881C_SWITCH_PAGE_INSTR(3),
-+	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x02, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x03, 0x73),
-+	ILI9881C_COMMAND_INSTR(0x04, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x05, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x06, 0x0a),
-+	ILI9881C_COMMAND_INSTR(0x07, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x08, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x09, 0x61),
-+	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0c, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0f, 0x61),
-+	ILI9881C_COMMAND_INSTR(0x10, 0x61),
-+	ILI9881C_COMMAND_INSTR(0x11, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x12, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x13, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x14, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x15, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x16, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x17, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x18, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x19, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1e, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
-+	ILI9881C_COMMAND_INSTR(0x20, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x21, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x23, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x24, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x25, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x27, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x28, 0x33),
-+	ILI9881C_COMMAND_INSTR(0x29, 0x03),
-+	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x30, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x33, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x34, 0x04),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x36, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x37, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
-+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x40, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x41, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x42, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x43, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x44, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x50, 0x10),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x32),
-+	ILI9881C_COMMAND_INSTR(0x52, 0x54),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x76),
-+	ILI9881C_COMMAND_INSTR(0x54, 0x98),
-+	ILI9881C_COMMAND_INSTR(0x55, 0xba),
-+	ILI9881C_COMMAND_INSTR(0x56, 0x10),
-+	ILI9881C_COMMAND_INSTR(0x57, 0x32),
-+	ILI9881C_COMMAND_INSTR(0x58, 0x54),
-+	ILI9881C_COMMAND_INSTR(0x59, 0x76),
-+	ILI9881C_COMMAND_INSTR(0x5a, 0x98),
-+	ILI9881C_COMMAND_INSTR(0x5b, 0xba),
-+	ILI9881C_COMMAND_INSTR(0x5c, 0xdc),
-+	ILI9881C_COMMAND_INSTR(0x5d, 0xfe),
-+	ILI9881C_COMMAND_INSTR(0x5e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x5f, 0x0e),
-+	ILI9881C_COMMAND_INSTR(0x60, 0x0f),
-+	ILI9881C_COMMAND_INSTR(0x61, 0x0c),
-+	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
-+	ILI9881C_COMMAND_INSTR(0x63, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x64, 0x07),
-+	ILI9881C_COMMAND_INSTR(0x65, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x66, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x67, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x68, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x69, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x6a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x6d, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x6e, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6f, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x70, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x71, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x72, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x73, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x74, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x75, 0x0e),
-+	ILI9881C_COMMAND_INSTR(0x76, 0x0f),
-+	ILI9881C_COMMAND_INSTR(0x77, 0x0c),
-+	ILI9881C_COMMAND_INSTR(0x78, 0x0d),
-+	ILI9881C_COMMAND_INSTR(0x79, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x7a, 0x07),
-+	ILI9881C_COMMAND_INSTR(0x7b, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7c, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7d, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7f, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x80, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x81, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x82, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x83, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x84, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x85, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x86, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x87, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x88, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x89, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
-+	ILI9881C_SWITCH_PAGE_INSTR(4),
-+	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x6E, 0x2A),
-+	ILI9881C_COMMAND_INSTR(0x6F, 0x33),
-+	ILI9881C_COMMAND_INSTR(0x3B, 0x98),
-+	ILI9881C_COMMAND_INSTR(0x3a, 0x94),
-+	ILI9881C_COMMAND_INSTR(0x8D, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x76),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
-+	ILI9881C_COMMAND_INSTR(0xB5, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
-+	ILI9881C_SWITCH_PAGE_INSTR(1),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x7d),
-+	ILI9881C_COMMAND_INSTR(0x55, 0x8f),
-+	ILI9881C_COMMAND_INSTR(0x40, 0x33),
-+	ILI9881C_COMMAND_INSTR(0x50, 0x96),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x96),
-+	ILI9881C_COMMAND_INSTR(0x60, 0x23),
-+	ILI9881C_COMMAND_INSTR(0xA0, 0x08),
-+	ILI9881C_COMMAND_INSTR(0xA1, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xA2, 0x2a),
-+	ILI9881C_COMMAND_INSTR(0xA3, 0x10),
-+	ILI9881C_COMMAND_INSTR(0xA4, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xA5, 0x28),
-+	ILI9881C_COMMAND_INSTR(0xA6, 0x1c),
-+	ILI9881C_COMMAND_INSTR(0xA7, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xA8, 0x7e),
-+	ILI9881C_COMMAND_INSTR(0xA9, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
-+	ILI9881C_COMMAND_INSTR(0xAB, 0x6b),
-+	ILI9881C_COMMAND_INSTR(0xAC, 0x1a),
-+	ILI9881C_COMMAND_INSTR(0xAD, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xAE, 0x4b),
-+	ILI9881C_COMMAND_INSTR(0xAF, 0x20),
-+	ILI9881C_COMMAND_INSTR(0xB0, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xB1, 0x50),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0x64),
-+	ILI9881C_COMMAND_INSTR(0xB3, 0x39),
-+	ILI9881C_COMMAND_INSTR(0xC0, 0x08),
-+	ILI9881C_COMMAND_INSTR(0xC1, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xC2, 0x2a),
-+	ILI9881C_COMMAND_INSTR(0xC3, 0x10),
-+	ILI9881C_COMMAND_INSTR(0xC4, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xC5, 0x28),
-+	ILI9881C_COMMAND_INSTR(0xC6, 0x1c),
-+	ILI9881C_COMMAND_INSTR(0xC7, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xC8, 0x7e),
-+	ILI9881C_COMMAND_INSTR(0xC9, 0x1d),
-+	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
-+	ILI9881C_COMMAND_INSTR(0xCB, 0x6b),
-+	ILI9881C_COMMAND_INSTR(0xCC, 0x1a),
-+	ILI9881C_COMMAND_INSTR(0xCD, 0x18),
-+	ILI9881C_COMMAND_INSTR(0xCE, 0x4b),
-+	ILI9881C_COMMAND_INSTR(0xCF, 0x20),
-+	ILI9881C_COMMAND_INSTR(0xD0, 0x27),
-+	ILI9881C_COMMAND_INSTR(0xD1, 0x50),
-+	ILI9881C_COMMAND_INSTR(0xD2, 0x64),
-+	ILI9881C_COMMAND_INSTR(0xD3, 0x39),
-+};
-+
- static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
- {
- 	return container_of(panel, struct ili9881c, panel);
-@@ -1450,6 +1643,23 @@ static const struct drm_display_mode am8001280g_default_mode = {
- 	.height_mm	= 151,
- };
- 
-+static const struct drm_display_mode rpi_7inch_default_mode = {
-+	.clock          = 83330,
-+
-+	.hdisplay	= 720,
-+	.hsync_start	= 720 + 239,
-+	.hsync_end	= 720 + 239 + 33,
-+	.htotal		= 720 + 239 + 33 + 50,
-+
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 20,
-+	.vsync_end	= 1280 + 20 + 2,
-+	.vtotal		= 1280 + 20 + 2 + 30,
-+
-+	.width_mm	= 90,
-+	.height_mm	= 151,
-+};
-+
- static int ili9881c_get_modes(struct drm_panel *panel,
- 			      struct drm_connector *connector)
- {
-@@ -1613,6 +1823,14 @@ static const struct ili9881c_desc am8001280g_desc = {
- 		      MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
- };
- 
-+static const struct ili9881c_desc rpi_7inch_desc = {
-+	.init = rpi_7inch_init,
-+	.init_length = ARRAY_SIZE(rpi_7inch_init),
-+	.mode = &rpi_7inch_default_mode,
-+	.mode_flags =  MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM,
-+	.lanes = 2,
-+};
-+
- static const struct of_device_id ili9881c_of_match[] = {
- 	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
- 	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
-@@ -1620,6 +1838,7 @@ static const struct of_device_id ili9881c_of_match[] = {
- 	{ .compatible = "tdo,tl050hdv35", .data = &tl050hdv35_desc },
- 	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
- 	{ .compatible = "ampire,am8001280g", .data = &am8001280g_desc },
-+	{ .compatible = "raspberrypi,dsi-7inch", &rpi_7inch_desc },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ili9881c_of_match);
--- 
-2.47.2
+-Akhil.
+
+> 
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> 
+> 
 
