@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8444AD11ED
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 13:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84F3AD11F1
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 13:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2019910E1C6;
-	Sun,  8 Jun 2025 11:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78BA10E1D0;
+	Sun,  8 Jun 2025 11:43:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nVGkSVzM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aDO/6iO+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308A110E19B
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 11:37:15 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558AudY9028468
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 11:37:14 GMT
+Received: from mx0b-0031df01.pphosted.com (unknown [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1770D10E1DA
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 11:43:38 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558Bd6ng023598
+ for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 11:43:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=2XzvULEwIZqT6WbSLPw/hGHn
- Rhu/r9F1q68TDz91od0=; b=nVGkSVzMEP1BV1NPpXFEm//Y8xlsVTHbXklUQdsw
- hRYoGCCfXJUf085a+4LwnRpBw6Upzv/bYjxhzZJ4dDf7cgo+JpX8NpDgbHe7bW5y
- c+BhrJjVYCKdOjPNtxFtxi0hMcQWLaCw5QcEvI8oXd/8ulhoZUpiHdC+PBryLNTx
- g9IQmtJOdN8D+NwBBtyUK9hHvjgfeYrR7IVENdHr1HTQlnNMPXiou4ppMlzumYVc
- E9fSqoerTPIQRy69XVhp/5uKrGWcNUcG30eqDvolnNRZNx2wlCEB06NcwgUICHF8
- xPGusO5EHGrGm6WiUWgTk/MlYEvbylzRmbshseR110OMYw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474dn62j88-1
+ :references:subject:to; s=qcppdkim1; bh=KTYnpnxP2jDpRXwJfnn4X1n+
+ ANjLC5E6uu5I3qOiUUA=; b=aDO/6iO+EV0Qu9gsE9AHLjjhV1BHkuPYR5N4vWnO
+ 7Nt7rnWHQa2v5niBYHf1HWgOvRUxlAnqxx9oXBdxOIdsIcPmx4GAB++AgUDX96Wm
+ 0hgP5DthfTkYulikj+KQWgl77AHcEhV1JJTpjlT2Gqv15Pjb1j6htpST+44r5SQy
+ il+Y0CPp/zvWitCAvgeM7wvdd7T9Iesdg5xJLB7FF3ex55i/Dc0qm6HU27WUtUsD
+ 548nA2kJuvCHkg3MVRwJe9zXxNj5ZP5J6SSRD7bjBtO5qLbYdyMxaZi3LMk0nifU
+ jf5mwZslDcT98azHv2XbZyMkigiPJ231QeqMn8D7cUaEMg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474dt9jpya-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 11:37:14 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d09bc05b77so556571585a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 04:37:13 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 11:43:26 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c9305d29abso654257385a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 04:43:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749382633; x=1749987433;
+ d=1e100.net; s=20230601; t=1749383006; x=1749987806;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2XzvULEwIZqT6WbSLPw/hGHnRhu/r9F1q68TDz91od0=;
- b=Vc5EJuNChHILQE27czvo+LJF3PTCDfFn31zi331rvzIlISAE8O3YulEeX2S7LINbyb
- t2r9iMab9pP3tTM18d44sAppdRlUNnsxLt1PJoWy91v8IW4vAY8YKwzkGPS6bQlmGPkE
- /pU9lh6UKxhOoISR3Gty+heNu8UtTDpDKtocIiKtn1gC669Rj8bkQupQMgt4bg4+JVY4
- OPfOHCixV8ydx/ptsRGzPgsuIqem9ESQ6I9VSsHN/Bud99y7TzrWtApKv7yFS/m+fX3T
- ppxMTqENPwP/dP+RtsCT6cdQPEs116f37YUBFYATSxT15Hmd/BwDreTt7Koze7Ta0R3/
- Nezg==
+ bh=KTYnpnxP2jDpRXwJfnn4X1n+ANjLC5E6uu5I3qOiUUA=;
+ b=H28RRUzHuJqslh+4YnvLDTcxAE0LYN6LjzWmbdKoMGyw7W5z7o5UWSlmmgk3yLi77l
+ xGLnBoW7RhSue3UyR1Eq00Lc1O7hklwAZNgzqe9FHpVOid8rZ54lghT3HbFvfPIVTEbj
+ BA/g/0AnoYmbDhq4VaiwbmXqX5qsr9+qFzDRNjPozqTY41WSctKqvEFRo7ms7SQophNB
+ ZOVRXz4ZET7vgRM/m2g/T/32cPtPSdk4hPJjJIfexhz2v8epNPZB4vYnm/W95r6Kanqy
+ aNbCWDzpmjk0bnnKUKcXB/xkvxxpv7HtnmdA0I1VJJBgYtJlxCyrUYmA3lIYNyu7clGe
+ pXkg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCy8VvBmPqFzF5IHMWgGSnHkBeiZO6fpNG/KOc52d29tXLWO/YS52oVZVRDnLBkqbmBQauKdGIpYE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyvKTjyPD9y0F9Ngu+vdRNEPwXK4uoEvP0nv3p1slR1+8ne7ZoK
- H+r6uarIiJJfL4obX0RqxkIOHG5oGBg5PHW+AUxNP/QqOWVaFwjuQSuCetJgKNuTfaZSe6VtawE
- JxID7oO+2GCM2ZDKhNG6LgcN5p3ub0lw+Q68AgFfkANaZ7mYSKiubqAKmcdqD0uAPcoYRxnA=
-X-Gm-Gg: ASbGncuAfxXErwzq8vB61ISxkq4FaKBFuBVQdq04izasGPsfQZCFtSAf+MUV2raztfv
- Yz1lvjWoVvYDtNP3do8iRLGiuemn1bagV+hUgBoTA10/QhIw6QDSEdzD0AZzOZjq0uj1hpevNgD
- /eLwh/GZ+Ul9m11Q310DeEtDl5eUAurZyJJyPnAggl2iLNyQz9qgwtxppXFVtaMY8R1qO7gxSWo
- w/DyjYnEF1zdTj1DJy+vxBQMVoMeUxdyBqpJrY0xtRqhNlrXaYwEA1+3Vs6HczKRWEXHLJhto6J
- F4GXtjiNqVkJ9AucRUZ0S7w4CELe3Ocwau5Tn3W2tPiJhPh7frnJY5KpOPO8PzgITm61hHqqF7k
- UuPiniNNugQ==
-X-Received: by 2002:a05:620a:454e:b0:7d3:9108:2f55 with SMTP id
- af79cd13be357-7d3910831e4mr275252785a.50.1749382632817; 
- Sun, 08 Jun 2025 04:37:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMwLr0kqZ/s9Dd7WLfEY/47VaiSC3va5UAfPRrc1sQoQyVjYy/udgQ25TowUq/UHeft7uV0w==
-X-Received: by 2002:a05:620a:454e:b0:7d3:9108:2f55 with SMTP id
- af79cd13be357-7d3910831e4mr275250185a.50.1749382632465; 
- Sun, 08 Jun 2025 04:37:12 -0700 (PDT)
+ AJvYcCVSBB3k4VgbejdDwCd2iciTr/AAp1rHAQ7gGORpgb28D7/INsA8bGBU9QrgxssPdkPLStMsGqCEoYo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPe3rHCMv1NKqT7KmkIvY9TYXW15DcY/JgWRy4fuGCGkuIQfc6
+ kR1g4MEgcir0HB5a6Sfxz5IhYmGOT/VgM2P9czPiz55oB+qM7Gj1dOTSQF9I4aoRimctQXZ6AXY
+ mvColSOQDa5rYifRnOjrzhWfw1LKX8afCA4aIImlDvhf99+3ByqU9hea22Tw5Uy4ZIc8RI1w=
+X-Gm-Gg: ASbGncvdyHxpZJAecdWvNMip1z3WZdg1/OuWQRaV+Der+kUkWM6KKQ+2S+L7y9OmHZF
+ sBumSYt/5Mt4MrmUAduCZxh/djmxNDhj8pduEEvxdGMh3fa5YhsWWR7rpmbLTazZ2qwvGW5xFsc
+ 0I67BCH5KCTIsuYuyChv1f36BWP/Ml1VK6oUyUA2tJ8jehEDc0QfAyygZbfSilHOjYO/yfmuYxC
+ z48ZWocV/07Aj8NMDpS8hEEWg7NBtaarL7kVccFM3eeMR8XCndX0l6zF6GTb9lRvOuMvG5sM1h+
+ IiWVVcCPwb960EVJRiTvV81ZXJsWv7yelnzYQ3tcHCVX/3sFsOBpH0W+K59pBEcaeU0XGGwfBwU
+ ClAmH3b6rBA==
+X-Received: by 2002:a05:620a:488a:b0:7c7:a5b7:b288 with SMTP id
+ af79cd13be357-7d22986ea6amr1667821885a.19.1749383006144; 
+ Sun, 08 Jun 2025 04:43:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFx/EpAODosk83tulqFuHuiVq5dUCTu3lISRNpkj+6RBz25vmWkLHW7LWuHxX4phMvcGJfeXw==
+X-Received: by 2002:a05:620a:488a:b0:7c7:a5b7:b288 with SMTP id
+ af79cd13be357-7d22986ea6amr1667817885a.19.1749383005732; 
+ Sun, 08 Jun 2025 04:43:25 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55367731451sm741875e87.203.2025.06.08.04.37.08
+ 2adb3069b0e04-5536772a22csm753989e87.144.2025.06.08.04.43.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jun 2025 04:37:10 -0700 (PDT)
-Date: Sun, 8 Jun 2025 14:37:07 +0300
+ Sun, 08 Jun 2025 04:43:24 -0700 (PDT)
+Date: Sun, 8 Jun 2025 14:43:22 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Yongbang Shi <shiyongbang@huawei.com>
 Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
@@ -83,37 +82,37 @@ Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
  shenjian15@huawei.com, shaojijie@huawei.com,
  jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-dp 02/10] drm/hisilicon/hibmc: fix dp probabilistical
- detect errors after HPD irq
-Message-ID: <r3tnmjl5bnlyhgblhfqwouu57oh5tfpmfsrx5xczzmsovalvse@mujphkc4mv5k>
+Subject: Re: [PATCH drm-dp 03/10] drm/hisilicon/hibmc: fix irq_request()'s
+ irq name variable is local
+Message-ID: <oof3yrny3x5vglnjvcsz6brpn2a4l2nkmpepnykojqquytfj56@vz5sk7coojhw>
 References: <20250530095432.1206966-1-shiyongbang@huawei.com>
- <20250530095432.1206966-3-shiyongbang@huawei.com>
+ <20250530095432.1206966-4-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250530095432.1206966-3-shiyongbang@huawei.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDA5MCBTYWx0ZWRfX9XEv5dZB4I5F
- MANauFjlbZuMTnTckVup1rZL49LMUYs2+VokHIno/Jv9/fhMEZw6c93lgNwIqiSlpI4BHIfFZe0
- 6TRnHm4zyDbtebsOIoi37WDvjSh0A9xh+GX0BypuYOxDbq8WgaIB9nOhcj9nBefuxe9s9QIg5EI
- X4bvluEbvTckll9+kS10XP6zLxhhVnv/3pqjAqwIa2ryH73OO2g5GgtkTqSNCPBvwlrx4R/JCmp
- ACk6UPRfqAEGlFHEGV5jOC+Si0iqxWWL4rXzZ5uO5LJ3TiyEE90mUcGr4enNiXnuLWjjI7JbaWe
- ffAtvycVkLNu2BA8XX4LzywBSeRObDgmfXJPJPGvgVdtuIjsNnMa8cx6W5sVR0SwhlHRXstMk94
- OO5C0ql3esiPBmNa6iFWlyeeueydJHarkoAY/drkEag2VzHngTtsfp2/58LgTWBQkwlYZv5z
-X-Proofpoint-GUID: kOR4yg8yMPFKSmhmGFGFh2hvrPL9ffNF
-X-Authority-Analysis: v=2.4 cv=FaQ3xI+6 c=1 sm=1 tr=0 ts=684575ea cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=2Qv6WW4UP-kDLlFIgDAA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: kOR4yg8yMPFKSmhmGFGFh2hvrPL9ffNF
+In-Reply-To: <20250530095432.1206966-4-shiyongbang@huawei.com>
+X-Authority-Analysis: v=2.4 cv=KpNN2XWN c=1 sm=1 tr=0 ts=6845775e cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=OipRdqZyLDe-kEwkaogA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: L-k-Ow4L1J_eS5aeGfiumhTYwDlz6Nn6
+X-Proofpoint-ORIG-GUID: L-k-Ow4L1J_eS5aeGfiumhTYwDlz6Nn6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDA5MSBTYWx0ZWRfX8dSjYrST7R5D
+ 8wMC8P7PIPqpPp34toHd1V2p5PRHlBwUfXA44zxQwe5nFYHjRrCvJiWOFFNHrvRgGdl5WrILjJ+
+ VMuYo+5Lo84k0FmUkUyZ0IEBvUZqujDqQANQBolFvFv313G9kRBZvodeJ7J5IcJLQ29E4s0bkt2
+ v94hOi+DYClqz8aqlm9/Q4KTKpyZs3kk/l60+/Pq6aqVaurVcZ4RSDo32dOHf5p4GxX/eyUivNi
+ hhTLWZN9Owtx4WfAEIFR6DV8N39S0tfl0Jn6ssaC0wKxs2hCAHDNti3B6ygRQKFjknAmY9l7yBA
+ kIgZU4e7jtaqThY2sad8U7vFICGViTkSJxc0oaWE8GosG6BRKhCtLCHoMwRZn7bkw/fWw8p2fOb
+ IGSN1byCXz/KSzqyRD6KhSuVyelpiyStTJ4OQ2ZGobVATNMQ2/TChZIcZTTlwCrLIAn0M4ZY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 clxscore=1015 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506080090
+ mlxscore=0 phishscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506080091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,118 +128,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 05:54:24PM +0800, Yongbang Shi wrote:
+On Fri, May 30, 2025 at 05:54:25PM +0800, Yongbang Shi wrote:
 > From: Baihan Li <libaihan@huawei.com>
 > 
-> The debouncing when HPD pulled out still remains sometimes, 200ms still can
-> not ensure helper_detect() is correct. So add a flag to hold the sink
-> status, and changed detect_ctx() functions by using flag to check status.
+> The local variable of irq name is passed to devm_request_threaded_irq(),
+> which will make request_irq failed. Using the global irq name instead
+> of it to fix.
+
+This doesn't explain, why does it fail and which IRQ name is actually
+expected.
+
 > 
-> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
+> Fixes: b11bc1ae4658 ("drm/hisilicon/hibmc: Add MSI irq getting and requesting for HPD")
 > Signed-off-by: Baihan Li <libaihan@huawei.com>
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  1 +
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 38 +++++++++++++------
->  2 files changed, 28 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> index 665f5b166dfb..68867475508c 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> @@ -50,6 +50,7 @@ struct hibmc_dp {
->  	struct drm_dp_aux aux;
->  	struct hibmc_dp_cbar_cfg cfg;
->  	u32 irq_status;
-> +	int hpd_status;
->  };
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index 768b97f9e74a..4cdcc34070ee 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -32,7 +32,7 @@
 >  
->  int hibmc_dp_hw_init(struct hibmc_dp *dp);
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> index d06832e62e96..191fb434baa7 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> @@ -13,7 +13,8 @@
->  #include "hibmc_drm_drv.h"
->  #include "dp/dp_hw.h"
+>  DEFINE_DRM_GEM_FOPS(hibmc_fops);
 >  
-> -#define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
-> +#define HIBMC_DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
-> +#define HIBMC_DP_MASKED_SINK_HPD_UNPLUG_INT	BIT(3)
+> -static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "vblank", "hpd" };
+> +static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "hibmc-vblank", "hibmc-hpd" };
+
+Please point to the corresponding IRQ names as currently implemented in
+the upstream kernel.
+
 >  
->  static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+>  static irqreturn_t hibmc_interrupt(int irq, void *arg)
 >  {
-> @@ -34,9 +35,12 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->  static int hibmc_dp_detect(struct drm_connector *connector,
->  			   struct drm_modeset_acquire_ctx *ctx, bool force)
->  {
-> -	mdelay(200);
-> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
->  
-> -	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
-> +	if (dp->hpd_status)
-> +		return connector_status_connected;
-> +	else
-> +		return connector_status_disconnected;
->  }
->  
->  static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-> @@ -115,22 +119,34 @@ irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
->  {
->  	struct drm_device *dev = (struct drm_device *)arg;
->  	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
-> +	struct hibmc_dp *dp = &priv->dp;
->  	int idx;
->  
->  	if (!drm_dev_enter(dev, &idx))
->  		return -ENODEV;
->  
-> -	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
-> -		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
-> -		hibmc_dp_hpd_cfg(&priv->dp);
-> +	if (dp->hpd_status) { /* only check unplug int when the last status is HPD in */
-
-I think this way you'll ignore HPD short pulses. Could you possibly
-clarify whether it is the case or not?
-
-> +		if ((dp->irq_status & HIBMC_DP_MASKED_SINK_HPD_UNPLUG_INT)) {
-> +			drm_dbg_dp(dev, "HPD OUT isr occur.");
-> +			hibmc_dp_reset_link(dp);
-> +			dp->hpd_status = 0;
-> +			if (dev->registered)
-> +				drm_connector_helper_hpd_irq_event(&dp->connector);
-> +		} else {
-> +			drm_warn(dev, "HPD OUT occurs, irq status err: %u", dp->irq_status);
-
-These should be ratelimited.
-
-> +		}
->  	} else {
-> -		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
-> -		hibmc_dp_reset_link(&priv->dp);
-> +		if (dp->irq_status & HIBMC_DP_MASKED_SINK_HPD_PLUG_INT) {
-> +			drm_dbg_dp(&priv->dev, "HPD IN isr occur.");
-> +			hibmc_dp_hpd_cfg(dp);
-> +			dp->hpd_status = 1;
-> +			if (dev->registered)
-> +				drm_connector_helper_hpd_irq_event(&dp->connector);
-> +		} else {
-> +			drm_warn(dev, "HPD IN occurs, irq status err: %u", dp->irq_status);
-> +		}
->  	}
->  
-> -	if (dev->registered)
-> -		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
-
-There is no need to, just call this function always at the end of the
-ISR handler as it is done currently.
-
-> -
->  	drm_dev_exit(idx);
->  
->  	return IRQ_HANDLED;
-> -- 
-> 2.33.0
-> 
 
 -- 
 With best wishes
