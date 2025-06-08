@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85B7AD1206
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A153AD1208
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0794510E1DC;
-	Sun,  8 Jun 2025 12:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749B610E010;
+	Sun,  8 Jun 2025 12:47:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XRfq1nR+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dx8hJnb6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF4110E1DC
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:44:47 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5589RbHu007424
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 12:44:41 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D099610E1E9
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:47:28 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558AN0if030317
+ for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 12:47:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=iGiYE3kM5YZPUiuD1eTcOXlS
- Uq6N4NpuwGV5LvhG9Xo=; b=XRfq1nR+k9CCJnQAROM9lLWx2fQPr1OH+aarI/Ql
- pyO/pQr3xWeaM1QRXdhKN8Ab58h3BEOwGD+GVOkosDTo96QWLKA3EK5WNSoAjMlV
- yjlQRltWHTjtoP8mm+bxDb95SCLh9KeHZVIIPJtItXvoqk21FTyGjcr7h0P9+zec
- hrDeL5bnilqKEm78D5Jpe/1Hph/icYFCc2SXbCZuBhCn05HhPVK2xAz4Gfvb3OpQ
- SiT/QgB8KvpE57EIDGsblJaXFFSEdCm4crfu95piMmyYDuWyOTL7ZuwlmmKBQv0L
- eGiFk8IZakqkWdF7lv5hGbvFbBl+w7pNvRdZImQhiV+Xfg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ce9jxnm-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FtzvagP+ojVDO/HcnHcU2k2JnIiS/sqFpa0Po2l+OrI=; b=dx8hJnb67AaSVgNf
+ ZNt6nfP82tP2sivY5qX0m4NL5zHC5zC8/esLnD4S1EHW/TdB2ztkOgZsXeOE14D5
+ 3/5/Papry/A69vfjE96VC1uRqqhqRn4DOibdHxQ96/MSur9QvEWGkBFTqbtV4E0h
+ nmgCNE/NzKDDbawvw3sCsUQ1tBLaO7HwCue9AuEwN2h1JmHRVaIUAlf2PeXA7yaY
+ +xdpTR1wxtzAnDtJHoI6vRM6KmpgHFs+Ktm1r63eZs/5BhgH/lQUQuZQI101bp7t
+ 6tE2lQczs9qyhTx7G2mlDE15vbIRG1mYyqcSiWbA7bJi6NEp8XsH+hkGoj+wxsH/
+ /m+2NA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ekpjmnu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 12:44:41 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c9305d29abso659882485a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 05:44:41 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 12:47:28 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6faca0f2677so100280696d6.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 05:47:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749386680; x=1749991480;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iGiYE3kM5YZPUiuD1eTcOXlSUq6N4NpuwGV5LvhG9Xo=;
- b=A6CiBfWwf1b5Gr++9v3lqpk0OqeULgElZExe31qBmlU7OR3rsrVOV7vSqU3DAmPtZo
- RyGF7ri78DAPThOoMPzCyEsN+6PdvaN1ntGi0GLfBdvHY+vnW1NayJpZOUSqvBUjJPho
- khReALkk0UoyDGLfpSy/1AbEOcfY+iptokRby7tBruVobzWQeUMPwZonem0iGM60zrRj
- SgtirZVd85iuWifca4nQ0rFyZYUI8lo06Pw5nXyUZfa/7JKXkoflPkLi/8rzo7ynSzmk
- 98fqEsQ0VDHAhst3lj1MWYk9GtrEMmnE6ctubbbtRHDDzDAwcA78J0zM416S5Xt7LXuG
- xElg==
+ d=1e100.net; s=20230601; t=1749386847; x=1749991647;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FtzvagP+ojVDO/HcnHcU2k2JnIiS/sqFpa0Po2l+OrI=;
+ b=HQr0ptiYIk4E/3XWzGTxW0HZnVvvtBkerCNfuuQdhyKThoaYGzUsA0iN5qfhkmjiTJ
+ hBcGJ3OuOgF1LRrC69cyGuDz+kJVBbfAx4hSc+5G5tOQ53tUnGieiGXhUPUQQP4ePJ+A
+ 2aS8mpWHwXeJUn9HV+OgImM2w5d/86UjWVM/JohzJfTPVDCKNpvu40kjzvrmw4KJGl6S
+ iqC5CHHVXrIj3WyWBAzX7G1NzhTPKSZ7RdEdMHxPiyOnBmZxs8nsEPOXc/IEqBQE802D
+ /+Vif7E2HL4MGqHUjk4jx6YSxpVlRTeNTD/J/IqBLFihBqKRKEEiqoHRCgVFJnz2rPE1
+ BTUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXulU6jKUKpt+61yTlEJYEgSDgJHs4pin2IU4tgLS7oNGA52z4VEDDC74DXp0iec8zDoSb4a1Y5mtA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgciiFRxJll7mV2JLIddvVLsWBQhaNas49rPirHvMnOtudYTk6
- H0QlhpaRKHQMZS92zsFOxBwcdOgIjbdp7qncaHC9l6c8iULg2eoOXhsQv5yV7fANS/A75iWGoZm
- KzN7R9BUNU6phsX0VbkUOPc3OqseYEfpcU+J9EENhUgJmYLikaEh1pYpYLNVTBB/qqjherao=
-X-Gm-Gg: ASbGncsZ2oCS6MllAD5mx+YGJkeYhJgC3V+AsB0btGNTxHaQqLC1T/8N/xYdHPS9yaq
- p7u/X091oiigVih/WRcOS59X90YO0dAv/hkkYMYzC5Vyk1dhQVM7Yc9JWtLPQjDCcq5IAxdjdlD
- 0AdvV7iuql169cCJNwruO5lqOSZPb0SbQ0mrqud+ALssEL73SQt8eeiG2GKxN5z30DkUyO/AwpD
- 0JrYCuCWO3haV+v4DObdLVXXNFszigvi0oAO4qGPWV8Rqoj3ti/ojb3ZZn7DKOfBuWh9IscbgbY
- Tw0icktOEt7RaD2tOJaY43N+oyXgWnqS7EuEY49XgCW5kFl8xdHqLoj96whyL6nEqdyne3+Ot2I
- lMnDffAv+Rg==
-X-Received: by 2002:a05:620a:60f2:b0:7d3:8ef8:186e with SMTP id
- af79cd13be357-7d38ef81ademr341903485a.14.1749386680682; 
- Sun, 08 Jun 2025 05:44:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQiEsdoeH+8RHm0slrLj8I9TSy7hvtZgmHk+h/uIyDaO7CapPiLSz8XD0SZvSal5zQRcDs5Q==
-X-Received: by 2002:a05:620a:60f2:b0:7d3:8ef8:186e with SMTP id
- af79cd13be357-7d38ef81ademr341900585a.14.1749386680355; 
- Sun, 08 Jun 2025 05:44:40 -0700 (PDT)
+ AJvYcCWx/uj6zeL0mYZ+qB2PUNUuT7/VlDY0GYI+9wKKx2b2qy11Hv1Gx6HG4AztGaBpBAgnzMeN19T6ohw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxA1L8Fb6IcvDh8s5JpJWPqFy2QHE1uTxKYmdb+kjBLJ6SCzyRK
+ CR77epAFi8iK7TqBnTrAVFGUY3wnz6pBphWAR65YPqF1G6dI1Kx7pjhnLghRm0tEEkUwKWxkkfn
+ GMkqBkZNayiUzJlsrhTHuHGT9b6lAryQqe3p44xVbtgHzdO4/TwlUiijuEB7pNzL8uD7dPHU=
+X-Gm-Gg: ASbGnct0CJuXrPgU2jtd65skKQZ4Ig8iS/hHgnvPkbMY8JlZljixKwRDF1VhFbTttSU
+ 5eEPts3xygEpF2Uo1B0AXHTI4L9CK6zDljZ9ax58UBoOasj5ldfiRdz+F+8QSGMTh0I0lKktoAJ
+ Ix3Tk9QGdp8N65dm89nceUIjmwJaxkpQIGLFr91atf36kYOmUL/4KyvIoqRBlsVMUUcDZVWuzJq
+ kMfFy0asEgfdBQp0eWzrZMhDJ1t/o3X04THx+mbJ6RS7zmG37n80/K+a2lnIITkUXSclie0f+cs
+ Go67wuCC9UsvIyS3V8/sVbwWQlmSGZQAxYwDsatg1GPPOIqMUtg5cdnmLkL+X8NMwST1uHZT1OV
+ VQlDlWUsBvA==
+X-Received: by 2002:a05:6214:29ef:b0:6fa:fea5:4d7c with SMTP id
+ 6a1803df08f44-6fb09057dbcmr130135256d6.40.1749386846881; 
+ Sun, 08 Jun 2025 05:47:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEki7LMROzmgW218EZLkb0KCWkTUAXONFilomWwrdXcxbx64sPstNyw31il0lfR0U8RVhedSw==
+X-Received: by 2002:a05:6214:29ef:b0:6fa:fea5:4d7c with SMTP id
+ 6a1803df08f44-6fb09057dbcmr130135006d6.40.1749386846493; 
+ Sun, 08 Jun 2025 05:47:26 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32ae1b0cf7fsm7200681fa.12.2025.06.08.05.44.39
+ 38308e7fff4ca-32ae1cab69esm7248801fa.52.2025.06.08.05.47.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jun 2025 05:44:39 -0700 (PDT)
-Date: Sun, 8 Jun 2025 15:44:37 +0300
+ Sun, 08 Jun 2025 05:47:25 -0700 (PDT)
+Date: Sun, 8 Jun 2025 15:47:23 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Yongbang Shi <shiyongbang@huawei.com>
 Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
@@ -83,37 +84,38 @@ Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
  shenjian15@huawei.com, shaojijie@huawei.com,
  jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-dp 08/10] drm/hisilicon/hibmc: fix DP no showing
- after HPD with VGA connected
-Message-ID: <qv3frn7zaqzxatag5y7g3p6u5ulywife5aqovhjppjokglptwg@vl4ponlnbbtv>
+Subject: Re: [PATCH drm-dp 09/10] drm/hisilicon/hibmc: fix HPD no showing
+ with VGA para of GRUB
+Message-ID: <5nansqkys4d3wlsefql6itgnpdoxhgjo7kkmovpm3gfbphxcs6@4anxx7hzoimh>
 References: <20250530095432.1206966-1-shiyongbang@huawei.com>
- <20250530095432.1206966-9-shiyongbang@huawei.com>
+ <20250530095432.1206966-10-shiyongbang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250530095432.1206966-9-shiyongbang@huawei.com>
-X-Proofpoint-GUID: vCQ7Rqoudk_hoFH3Ogy6IDcpKM5ECZOz
-X-Authority-Analysis: v=2.4 cv=drjbC0g4 c=1 sm=1 tr=0 ts=684585b9 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=qIQg4bjnobHRwzQDxS0A:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: vCQ7Rqoudk_hoFH3Ogy6IDcpKM5ECZOz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEwMCBTYWx0ZWRfX5tOfBTylLbDz
- vL2mi7zxWA3v5vrnT8qBaymPUiU5XOJN+tM1h9iY353xjom4Jv3JCgeWjHhHsKZCzxltGEVpToY
- bRT+WmMr+556HnUckd1bHuS2Di1tV5khBca9+AtgRVmranLqL/iobVp4tBlUrgncs/1nONJLAlm
- X+z+SVnxKB1h80IeeeCHK/XRnEoZ8ZgnN/Wx56IIjUPS4bIH5e5sQ7VrlxUJux0UDQwwuSUtK+L
- MI9TdAAIHG7slPEHkXuqeCbHUq7EnzaQlss5RrYUfc6VW5n2PoyMyahSmTxWKP7zb7j/Zb7+TXQ
- WA5ZauCe8eAuQb1fXvzRT7TaMkLSpcydN7Ihk52PsV3GNn9SZrMZtgbzmYS4xY9eMzs8LszLGFd
- E+0xd6Tsbhp3UD2/GYG9k+GkGk5UV++PqH/5MfeRWq7XqHZ3YS/36ItMh/MiB6xED8BfIhHc
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530095432.1206966-10-shiyongbang@huawei.com>
+X-Authority-Analysis: v=2.4 cv=JcO8rVKV c=1 sm=1 tr=0 ts=68458660 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=fAYD1edJq5gPyj3QMjgA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEwMCBTYWx0ZWRfXzMMNjg3qQvzo
+ on1mctbI1ghF5dsg+xZEWUDyxORVlar9pHhOMDlq9dL6dIU1JM2oYxGK8OD7O+mMTyND1CS9sXm
+ tdQttojE3+9pj46Lpmv5x/5GnUQzSHz1OVjoawnVlC/jrNOO9EcTJxXUvhnXC9D0zPoy5ZbhAkS
+ euegIcJrY6NJkbmkticzN2LqHGDsECMQRJJlLyCTb/mVEs+vPN35uOUkSk8jumT9QcLAZEixD6Y
+ wPCeWmPOXw+LwSmQnc48+EviuOwq5LHj+caxulKN9DpE0WfbQk2y591+etwvt00CeffFlNaiWZ9
+ nfxytSTpy7a+CEKvh3xIMs8ZSdkpjygbVqpv7HR+HRLNjCaB3dsbwkSDE1v050IcR7FX+vSi4oz
+ HBZ3csH5ngP/JiNqrGjk4FA+BCMiHXwfwvsf5xlGIl7w4/m+WA6JvlCC3Yo4uk6mavXhb2uM
+X-Proofpoint-GUID: fV1zbZvcCctDz6CD6zQ-I7UhK64GaTw8
+X-Proofpoint-ORIG-GUID: fV1zbZvcCctDz6CD6zQ-I7UhK64GaTw8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 bulkscore=0 mlxlogscore=651 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506080100
+ mlxlogscore=999 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506080100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,25 +131,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 05:54:30PM +0800, Yongbang Shi wrote:
+On Fri, May 30, 2025 at 05:54:31PM +0800, Yongbang Shi wrote:
 > From: Baihan Li <libaihan@huawei.com>
 > 
-> If the system started with VGA connected, the desktop like GDM cannot get
-> DP's CRTC when DP device is plugged in, because there is only one crtc
-> sharing use of VGA and DP. So change VGA to disconnected when DP is
-> connected.
+> In early OS versions， there is a bug in hibmc-drm driver previously,
 
-NAK. I think we discussed this when the previous patch was submitted.
+Which OS? What does that mean? Why do we need to workaround userspace
+issues in the kernel?
 
-VGA and DP are independent. It should be user's choice whether to use
-VGA or DP if both are connected.
-
+> so some OS add a VGA parameter in GRUB(video=VGA-1:640x480-32@60me) to
+> fix the bug, that will config a force VGA mode to drm driver. However, the
+> HPD problem exists that mentioned in previous patch, so change VGA's status
+> in force() to compatible with some older OS versions.
 > 
-> Fixes: 4c962bc929f1 ("drm/hisilicon/hibmc: Add vga connector detect functions")
+> Fixes: f9698f802e50 ("drm/hisilicon/hibmc: Restructuring the header dp_reg.h")
 > Signed-off-by: Baihan Li <libaihan@huawei.com>
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 73dd3d5fc26c..d609ccda2f2a 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -61,6 +61,19 @@ static int hibmc_vdac_detect(struct drm_connector *connector, struct drm_modeset
+>  	return connector_status_connected;
+>  }
+>  
+> +static void hibmc_vdac_force(struct drm_connector *connector)
+> +{
+> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(connector->dev);
+> +	struct hibmc_dp *dp = &priv->dp;
+> +
+> +	if (dp->hpd_status) {
+> +		connector->status = connector_status_disconnected;
+> +		return;
+> +	}
+> +
+> +	connector->status = connector_status_connected;
+
+You are again trying to tie VGA and DP status, so NAK.
+
+> +}
+> +
+>  static void hibmc_connector_destroy(struct drm_connector *connector)
+>  {
+>  	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
+> @@ -81,6 +94,7 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
+>  	.reset = drm_atomic_helper_connector_reset,
+>  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +	.force = hibmc_vdac_force,
+>  };
+>  
+>  static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
+> -- 
+> 2.33.0
+> 
 
 -- 
 With best wishes
