@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5556EAD12EC
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 17:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B123AD12F0
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 17:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF8510E013;
-	Sun,  8 Jun 2025 15:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C9910E183;
+	Sun,  8 Jun 2025 15:21:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ur/e/rz0";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pz6uu8ru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7BC10E077
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 15:21:09 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558EMekM025262
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 15:21:05 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D12910E103
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 15:21:47 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558CWSJV001994
+ for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 15:21:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=ARly3iWlpNIqzAYd9MtCXivRpJr86X7fc2ZmLtLZOsw=; b=Ur
- /e/rz0w8/a+19M7/Kz3Piy5m7bWjXlSvICahqVak+RcLKDz3ZnP2IGvijVEcq4p7
- 65Zm0vghVCXgr9wk06eCFHKlHwNer3o/dE1ITtM0k3t7POKGl4JaAdUTA6YQe5BP
- g/L6H0mIkijZaY8zWnem/WSL4qIB1ozC0k6eZxvblzvjVIVM/D/sL243WvqSC55w
- oSvJyRhBsP/wzw9cnkKKP7zvZfGukBDhgTRs5Pnklxs6VQpJWDGdJ05CkfPl5i1+
- Xl6laJrNvrIK7UbF1NM+/eBAGGEFolQ3erTj8cZmCVjcYyhWJKhdFNY6KGp0bFRZ
- Y+yQ4olSlZWH/qbAMPsQ==
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474crkucnr-1
+ qcppdkim1; bh=eBW87gG+bs7XTeUanjoqFUZo93HnKMO9MXlkJu+f3B4=; b=Pz
+ 6uu8ruZbbxQJBWUXgV7JoCc7DBOj9QCBE60RwlPOXfeA8Xxzc7Ffhwn92PGbcJaa
+ DVAdP+4/zh0K33sE2OxLMn5Iwq8JuQS9jKtDCZDUe3KJXC5cObD13UyoKb70iBmo
+ AAgLje+TV0Z9b/VYYs8oa9oa9KGoFrwxndeTr0Z6DfL3TXfeFVLQoE040kMgzbXR
+ 1njLB2t1KIfGbeBTXdyaktZuc4qggx61LgIJHhlST3b29aqKO7xvsJqvJkThSIJT
+ uj6saz0zK4/2pPa8Nx3ARz2hCjM6+khqfnJt+yJPnm/0wrNwbUrJuUa8SaGTFdne
+ tpfmjWkvzake6hBeU68Q==
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474e6jb1ey-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 15:21:05 +0000 (GMT)
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-2d50f1673ddso3417425fac.3
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 08:21:05 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 15:21:46 +0000 (GMT)
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-2e3b719adeeso1417455fac.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 08:21:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749396064; x=1750000864;
+ d=1e100.net; s=20230601; t=1749396105; x=1750000905;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ARly3iWlpNIqzAYd9MtCXivRpJr86X7fc2ZmLtLZOsw=;
- b=bQgwu3FMggZI14yRfKDmke+FGLS3MkB9ai3O9HlCPDlZeRtMBKOznXq5Y8D5d/nJ3F
- m40UqKzAfqoDzyl1Yv5Wotvq7s/89/8F8sjLWH8H387JngHSK3tNzOFdRS7aoQOWMdwe
- VI+ke5Nye01haI1QeMO4kS6qtj996gydn3vqo4FoH/ICqnLbjvlNPvmMzGpWoBXQFMbe
- HD2K9gfaT2Cq1HAxAQNXpMC0pu88+OaSEMGzz3B6c3Yhj4sP1napAQRCtrT3250U+nqI
- oUibGHT70vlN8/LfGAhJOsvD0rsX0LdoRObuY2WJNoBIq+I3B3wb2nnvKtY6mqsDeKZY
- yaSg==
+ bh=eBW87gG+bs7XTeUanjoqFUZo93HnKMO9MXlkJu+f3B4=;
+ b=lc/WGpHk4lFwhqaCLQsv/my7DVO09JwM8WDr/LmFxreQiJoLvDABWalf0MXZAMm8wo
+ rxcBT2ysMmNzqJTJ5EwVUzFBahRAMycB/cQNgzn0SWrarYd/dOrjp1I9p51PyiSwV/ju
+ 97eiWRa8lTyOKomyfTVLyB+ZBPLOSqvBumkJf/vgmy+KyoDyYZ2nEof+1gm94M8F3Sy5
+ RNn3qA7NEgwRuYl3zr0i6WklxGrlzi9F8B982S2wwEINozRVYdByhrUoAGmuvHP04ip3
+ BCw77HFrAkMmM5F1XYFqA8j9YVrW/1vhUrVG5R/dCjkPlyGJNC7rkI6dCuWH8Wm6nAWi
+ p/Xw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWR0fA8tfyzyvhLdsXQXUpHZeGXl945jg3tfH5ri7IZ0eQGvKBYTyhe9MyntjHt9Og0jRYGZwR/1A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyRjTBtPM8ceprxUjhF0XUe3K7yrqwX38LpF/CVSDtXVJ6904K
- NFvGhKiduQchRmvl+OSs6l/chdqWIFIDS7naUB4umWgc4K7xoo6Xalv6yhFD9wup1pMU8vFvh+r
- FuUiiOIdGc9QIpY69goY/0Ha3+80+wYXpfBRo7DpSbI3JVaxcqQZ5ItKy1SymgphHocbrZW3VDx
- x/mPHme7RrIHZtSAX5CKbllj9ZcFivr0rUU7K/YIk3NWY85Q==
-X-Gm-Gg: ASbGncti1/fZlEcFjditlO/5Lo4tK4lzH6/yTfx3VOcEua5CoJjTBxbA7INppViWS5q
- drf7MfckoicIZhJmyA+6NyjrCQ1hMfTwp13O2+EzaqqKe/5X0SH9MuXJ2oUIE5wRjvF4drHU9OH
- K6+L3D7HtjQcvvTosMb4Wh0CDB
-X-Received: by 2002:a05:6870:ac12:b0:29e:69a9:8311 with SMTP id
- 586e51a60fabf-2ea0144ba3amr6816659fac.36.1749396064516; 
- Sun, 08 Jun 2025 08:21:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAWAH6Ab4oqavVO0cSzKqIIFsz6MUMfKz1wXxlfdQzbbi1QowXCZXvQkHllVm94d8QKx6h4kmPkpPskODmpfE=
-X-Received: by 2002:a05:6870:ac12:b0:29e:69a9:8311 with SMTP id
- 586e51a60fabf-2ea0144ba3amr6816642fac.36.1749396064076; Sun, 08 Jun 2025
- 08:21:04 -0700 (PDT)
+ AJvYcCW3EnSPgdmZ9jKQpHWy1+Rh6UhpWSfStf13c+qItAEBN1RJCLKxtzaQlsSREPeZtRfCl0J2/CE/eJ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTAinphFaE+q2Sxl0qiA2wCaghBF+yp7ZFUYOBUK8XFjXzucJK
+ Bng3YMuZh6B0N8Iye4+YrqtkSxP7qjHEXlgSrAFDVbAP5iEzxreZ1vTmBt+GvcGmlYUd8dyk3V2
+ gy4a2+NcNVvS/LR1BqtpO7S75gCWjJQ+PqhaeWllvf70oJnzpM/qM+bHzNspxiXzmt9KuiHzkbC
+ WUFditR4pqFqWHyJdRl6Zvylt3jctfxAIM2sbLJSmcDSeasA==
+X-Gm-Gg: ASbGncsaKAjkRbLtUN8p+KrP8DbK+U8+0IjNgnDtQg70HQRg/YNDdZSZR+MLzcXMOli
+ iedLunU4w1zCQh8VhJLrFW29apjycPhwhvkyVgk6f7CiPx594Z/SQTeP/IePzSUEH6ylk0A68KY
+ tnwsQxIYkMgTVW65emyXGYn0+yBK0qGQOjInU=
+X-Received: by 2002:a05:6871:7b0c:b0:2c2:b9cc:afb8 with SMTP id
+ 586e51a60fabf-2ea007a9e74mr5430095fac.7.1749396105520; 
+ Sun, 08 Jun 2025 08:21:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGeiwEJ5iaDlOgKPAjvzclsMxV+Ve51cmb4U8YPN6w25l7BtGOQgh5AvGBbsmLKSAPaB7+VQf5sDKWINoqBQY8=
+X-Received: by 2002:a05:6871:7b0c:b0:2c2:b9cc:afb8 with SMTP id
+ 586e51a60fabf-2ea007a9e74mr5430084fac.7.1749396105225; Sun, 08 Jun 2025
+ 08:21:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
- <20250607-x1p-adreno-v1-3-a8ea80f3b18b@oss.qualcomm.com>
- <wayrour74vlli27xrtxi2ff2v7q7ye2yknmk2mjpur5ry5gruv@hhh2mdb6lw2i>
- <CACSVV03X5EyAb5yCPDn1ot8vOFV_dKG7f6+yO5t9srr31AiUKw@mail.gmail.com>
- <rwjc7zkitubi6cdre5a7owmo76nopavkgifvvn6yq2mv2hrth4@bhwbodchd2gx>
-In-Reply-To: <rwjc7zkitubi6cdre5a7owmo76nopavkgifvvn6yq2mv2hrth4@bhwbodchd2gx>
+In-Reply-To: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
 From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Sun, 8 Jun 2025 08:20:53 -0700
-X-Gm-Features: AX0GCFtydAmtbV6Rp4iejZxpRB2yINWVjffEi3Za62jYcssm6EGfCxtisSwuJgg
-Message-ID: <CACSVV03mNkELWDB_uxdjEa5GeWZUY=42O8QG4qTrg6zquT1Bgw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: Add GPU support to X1P42100 SoC
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
+Date: Sun, 8 Jun 2025 08:21:33 -0700
+X-Gm-Features: AX0GCFulliz7op4BWmvcmnZlyStVB3chNWH7TufZIrZInNo_JnqWpgSQFphHTQk
+Message-ID: <CACSVV01A8aqyoM4KYuUYVXTHnM1egn5-4UxqPrQVVjuvxxbC6g@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Support for Adreno X1-45 GPU
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -94,26 +89,26 @@ Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=dsLbC0g4 c=1 sm=1 tr=0 ts=6845aa61 cx=c_pps
- a=zPxD6eHSjdtQ/OcAcrOFGw==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=JnfCEjz01w2RNyQ6EiwA:9 a=QEXdDO2ut3YA:10
- a=y8BKWJGFn5sdPF1Y92-H:22
-X-Proofpoint-GUID: TBdxIv4mYJG9h_jGRmFiRBYky2BCAdKN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEyMiBTYWx0ZWRfX90Tu+b4KJIHP
- Wp6i8xVhTcffd8dd+iUXLy4HMU8Upxb6pwfuubfw8LG6oxywps7uMw2ziuf/PoG1QFlEx9ywezz
- 5PB+m4k9PRVQKIfa3jfQ0Yv5gXivhVCEAAIhMLUNkhZwjV526Rim08NZ7nBHHYa6G7OksXldxIA
- 2EV7xnz7t18JF7lN1Z6fSpEfbY5RAf0vTWmbWu99vtHJx0Hm7PzbV2kFbVfXZstfiNqBESsEk8M
- q6ym/CrJ1pCsKz4FQcioM8F2UB0HM3tthMB62Uws+AkstPrJvWi61qFE2k2zew2sleWYKksmqsQ
- WCtWCx2iWUfl6qnm5gUmN77Ter76SqGHL5bQkfbaN/FGAU5ee2P9CSORlSLLe5il+vTvIZHKXKg
- 1btIZUVmtFzyoIkcaz571M4qH2IIPWYhmU9t/0ihJqGiIuLNz7vHAX8fvC+0rYfd1JmlPoqc
-X-Proofpoint-ORIG-GUID: TBdxIv4mYJG9h_jGRmFiRBYky2BCAdKN
+X-Authority-Analysis: v=2.4 cv=Id6HWXqa c=1 sm=1 tr=0 ts=6845aa8a cx=c_pps
+ a=nSjmGuzVYOmhOUYzIAhsAg==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8 a=MXl9TKsJXw4pWBb3H3sA:9 a=QEXdDO2ut3YA:10
+ a=1zu1i0D7hVQfj8NKfPKu:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: qzy4Sa14NO_R6hJ29RzMQREyrELhsOn-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEyMiBTYWx0ZWRfXx5vEiyBrrcHO
+ yN0VVnzxmjojw/ZO79uvL0fxFXdsHggE8i+A7/YcndEDVhPra3B8uGg5ysHTWdD7xM24JprM7vL
+ ouuHLnwwC3429dOnSrRkv1An2//wg5zKBBaao/9xylqXpM4UpjKTfki4O2kBAXDcPZcTGeN40Ii
+ LZFE8L/e9a7DL3djW9IXJNFdB/97YeYH5K3u6wUkGS5YLZPwFEWfK9XtW77JUIr96jE/WRYBrxa
+ h9PiRCWP4DuzxAmwD9z1JrVzYvH1pkQlP60SO7dS8uXWznOyaBwyT5T/yfWXCfBRKq3yAxpYsOP
+ 5Ijz1HTrvksdiyr1L6+hcLd/RF+PNsa7Hd8HWx9yTNmwTcDYfWTD4i05ZXKOEJxCBOyYcWPiQXt
+ ZeWksC+yEu//T9l9Cr6/nXRDQvdc9wFElXvv1w/wNlTaokOBy0qXwmhm79pm0GNyoGFanEvM
+X-Proofpoint-GUID: qzy4Sa14NO_R6hJ29RzMQREyrELhsOn-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-08_02,2025-06-05_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 bulkscore=0 adultscore=0 phishscore=0
- suspectscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=734
+ clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
  definitions=main-2506080122
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,192 +127,42 @@ Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 8, 2025 at 8:09=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
+On Sat, Jun 7, 2025 at 7:15=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qualcomm=
+.com> wrote:
 >
-> On Sun, Jun 08, 2025 at 07:10:11AM -0700, Rob Clark wrote:
-> > On Sat, Jun 7, 2025 at 1:17=E2=80=AFPM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >
-> > > On Sat, Jun 07, 2025 at 07:45:01PM +0530, Akhil P Oommen wrote:
-> > > > X1P42100 SoC has a new GPU called Adreno X1-45 which is a smaller
-> > > > version of Adreno X1-85 GPU. Describe this new GPU and also add
-> > > > the secure gpu firmware path that should used for X1P42100 CRD.
-> > > >
-> > > > Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> > > > ---
-> > > >  arch/arm64/boot/dts/qcom/x1e80100.dtsi    |   7 ++
-> > > >  arch/arm64/boot/dts/qcom/x1p42100-crd.dts |   4 +
-> > > >  arch/arm64/boot/dts/qcom/x1p42100.dtsi    | 121 ++++++++++++++++++=
-+++++++++++-
-> > > >  3 files changed, 131 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/bo=
-ot/dts/qcom/x1e80100.dtsi
-> > > > index a8eb4c5fe99fe6dd49af200a738b6476d87279b2..558d7d387d771077024=
-4fcc901f461384dd9b0d4 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> > > > +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> > > > @@ -8245,6 +8245,13 @@ sbsa_watchdog: watchdog@1c840000 {
-> > > >                       interrupts =3D <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH=
->;
-> > > >               };
-> > > >
-> > > > +             qfprom: efuse@221c8000 {
-> > > > +                     compatible =3D "qcom,x1e80100-qfprom", "qcom,=
-qfprom";
-> > > > +                     reg =3D <0 0x221c8000 0 0x1000>;
-> > > > +                     #address-cells =3D <1>;
-> > > > +                     #size-cells =3D <1>;
-> > > > +             };
-> > > > +
-> > > >               pmu@24091000 {
-> > > >                       compatible =3D "qcom,x1e80100-llcc-bwmon", "q=
-com,sc7280-llcc-bwmon";
-> > > >                       reg =3D <0 0x24091000 0 0x1000>;
-> > > > diff --git a/arch/arm64/boot/dts/qcom/x1p42100-crd.dts b/arch/arm64=
-/boot/dts/qcom/x1p42100-crd.dts
-> > > > index cf07860a63e97c388909fb5721ae7b9729b6c586..cf999c2cf8d4e0af830=
-78253fd39ece3a0c26a49 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/x1p42100-crd.dts
-> > > > +++ b/arch/arm64/boot/dts/qcom/x1p42100-crd.dts
-> > > > @@ -15,3 +15,7 @@ / {
-> > > >       model =3D "Qualcomm Technologies, Inc. X1P42100 CRD";
-> > > >       compatible =3D "qcom,x1p42100-crd", "qcom,x1p42100";
-> > > >  };
-> > > > +
-> > > > +&gpu_zap_shader {
-> > > > +     firmware-name =3D "qcom/x1p42100/gen71500_zap.mbn";
-> > > > +};
-> > > > diff --git a/arch/arm64/boot/dts/qcom/x1p42100.dtsi b/arch/arm64/bo=
-ot/dts/qcom/x1p42100.dtsi
-> > > > index 27f479010bc330eb6445269a1c46bf78ec6f1bd4..5ed461ed5cca271d436=
-47888aa6eacac3de2ac9d 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/x1p42100.dtsi
-> > > > +++ b/arch/arm64/boot/dts/qcom/x1p42100.dtsi
-> > > > @@ -17,15 +17,134 @@
-> > > >  /delete-node/ &cpu_pd9;
-> > > >  /delete-node/ &cpu_pd10;
-> > > >  /delete-node/ &cpu_pd11;
-> > > > +/delete-node/ &gpu_opp_table;
-> > > >  /delete-node/ &pcie3_phy;
-> > > >
-> > > >  &gcc {
-> > > >       compatible =3D "qcom,x1p42100-gcc", "qcom,x1e80100-gcc";
-> > > >  };
-> > > >
-> > > > -/* The GPU is physically different and will be brought up later */
-> > > > +&gmu {
-> > > > +     /delete-property/ compatible;
-> > > > +     compatible =3D "qcom,adreno-gmu-x145.0", "qcom,adreno-gmu";
-> > > > +};
-> > > > +
-> > > > +&qfprom {
-> > > > +     gpu_speed_bin: gpu_speed_bin@119 {
-> > > > +             reg =3D <0x119 0x2>;
-> > > > +             bits =3D <7 9>;
-> > > > +     };
-> > > > +};
-> > > > +
-> > > >  &gpu {
-> > > >       /delete-property/ compatible;
-> > >
-> > > I think, you can drop this line.
-> > >
-> > > > +
-> > > > +     compatible =3D "qcom,adreno-43030c00", "qcom,adreno";
-> > > > +
-> > > > +     nvmem-cells =3D <&gpu_speed_bin>;
-> > > > +     nvmem-cell-names =3D "speed_bin";
-> > > > +
-> > > > +     gpu_opp_table: opp-table {
-> > > > +             compatible =3D "operating-points-v2-adreno", "operati=
-ng-points-v2";
-> > > > +
-> > > > +             opp-1400000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <1400000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L4>=
-;
-> > > > +                     opp-peak-kBps =3D <16500000>;
-> > > > +                     qcom,opp-acd-level =3D <0xa8295ffd>;
-> > > > +                     opp-supported-hw =3D <0x3>;
-> > > > +             };
-> > > > +
-> > > > +             opp-1250000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <1250000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L3>=
-;
-> > > > +                     opp-peak-kBps =3D <16500000>;
-> > > > +                     qcom,opp-acd-level =3D <0x882a5ffd>;
-> > > > +                     opp-supported-hw =3D <0x7>;
-> > > > +             };
-> > > > +
-> > > > +             opp-1107000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <1107000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L1>=
-;
-> > > > +                     opp-peak-kBps =3D <16500000>;
-> > > > +                     qcom,opp-acd-level =3D <0x882a5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             opp-1014000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <1014000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO>;
-> > > > +                     opp-peak-kBps =3D <14398438>;
-> > > > +                     qcom,opp-acd-level =3D <0xa82a5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             opp-940000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <940000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> > > > +                     opp-peak-kBps =3D <14398438>;
-> > > > +                     qcom,opp-acd-level =3D <0xa82a5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             opp-825000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <825000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_NOM>;
-> > > > +                     opp-peak-kBps =3D <12449219>;
-> > > > +                     qcom,opp-acd-level =3D <0x882b5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             opp-720000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <720000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L2>;
-> > > > +                     opp-peak-kBps =3D <10687500>;
-> > > > +                     qcom,opp-acd-level =3D <0xa82c5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             opp-666000000-0 {
-> > > > +                     opp-hz =3D /bits/ 64 <666000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> > > > +                     opp-peak-kBps =3D <8171875>;
-> > > > +                     qcom,opp-acd-level =3D <0xa82d5ffd>;
-> > > > +                     opp-supported-hw =3D <0xf>;
-> > > > +             };
-> > > > +
-> > > > +             /* Only applicable for SKUs which has 666Mhz as Fmax =
-*/
-> > > > +             opp-666000000-1 {
-> > > > +                     opp-hz =3D /bits/ 64 <666000000>;
-> > > > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> > > > +                     opp-peak-kBps =3D <16500000>;
-> > >
-> > > This looks odd, why is it so high?
-> >
-> > You want max bandwidth on max opp
+> Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
+> version). X1-45 is a smaller version of X1-85 with lower core count and
+> smaller memories. From UMD perspective, this is similar to "FD735"
+> present in Mesa.
 >
-> Yes, but can it actually sustain / provide this BW?
+> Tested Glmark & Vkmark on Debian Gnome desktop.
 >
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 
-I'd have to trust Akhil on that one, but I have no reason to believe
-otherwise.  Just pointing out we've done analogous things elsewhere
-(for ex, cpu bw for sc7180-lite.dtsi)
+fyi, mesa part: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3=
+5404
 
 BR,
 -R
+
+> ---
+> Akhil P Oommen (3):
+>       arm64: defconfig: Enable X1P42100_GPUCC driver
+>       drm/msm/adreno: Add Adreno X1-45 support
+>       arm64: dts: qcom: Add GPU support to X1P42100 SoC
+>
+>  arch/arm64/boot/dts/qcom/x1e80100.dtsi    |   7 ++
+>  arch/arm64/boot/dts/qcom/x1p42100-crd.dts |   4 +
+>  arch/arm64/boot/dts/qcom/x1p42100.dtsi    | 121 ++++++++++++++++++++++++=
++++++-
+>  arch/arm64/configs/defconfig              |   1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  38 ++++++++++
+>  5 files changed, 170 insertions(+), 1 deletion(-)
+> ---
+> base-commit: b3bded85d838336326ce78e394e7818445e11f20
+> change-id: 20250603-x1p-adreno-219da2fd4ca4
+>
+> Best regards,
+> --
+> Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>
