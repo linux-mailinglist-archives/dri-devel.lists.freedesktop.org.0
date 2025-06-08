@@ -2,57 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDF4AD120D
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C68AD120F
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 588C110E04C;
-	Sun,  8 Jun 2025 12:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD1910E1EB;
+	Sun,  8 Jun 2025 12:54:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="Smldvf+d";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="R+JJ+Zso";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
- [91.218.175.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEAE10E04C
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:53:51 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749387226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UoAoTWaDhudNjz1U5V7+hAboAbqegZdb7n3FPRiJ6jE=;
- b=Smldvf+dIob+0gqgKw8jY2ot8r+9vfSeqg7sf8KdvWn7yjT33epEVpXDwfF+8IiBaKqXSo
- az8nsef6eVErRJrLAxG3nSTgXGlPXGRwF/STMDPTNK+XzDjpYNEnXWGgMCC8QAicS1GMQj
- hi01PNEt/KriG7HE0OK+HKPDjCD9cw5YG31tn34sdLwa/CA3XaZ5tzN20RrzXeJfn33hDl
- eU2gBVtllZ35s04rg9aZeTf0s4xFZtr//XWY3p27D6XeuTcscllloV2Vob1mS48npwz7pc
- ipMchx37YYFf4TK2KpNfUHLJhYo1Lhndi/lxIcVL0YVl6alCDzx5I9Qnz+XyNA==
-Content-Type: multipart/signed;
- boundary=dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Sun, 08 Jun 2025 14:53:37 +0200
-Message-Id: <DAH60H3HYG7M.3NFXBJ7576RH1@cknow.org>
-Cc: "Piotr Zalewski" <pZ010001011111@proton.me>, <hjc@rock-chips.com>,
- <heiko@sntech.de>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
- <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
- color_mgmt_changed in atomic_enable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Andy Yan" <andyshrk@163.com>
-References: <20241206192013.342692-3-pZ010001011111@proton.me>
- <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
- <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
- <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
- <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
-In-Reply-To: <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A94210E1EB
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:54:11 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558CsAxO012559;
+ Sun, 8 Jun 2025 12:54:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Uk66EcMqOcniRlqMz93nVMxX
+ OXKxc66pHl1w0CSMStI=; b=R+JJ+ZsosTZ2afGWcO3uUfrAxLNybX0NwR5X3MaS
+ jV08N2aN7kHCKQ31ym94XM+Sf7D+i7/HV5OeyH4daI8A0RPk/kwK4xkIjLA6fBJj
+ kxCdHp8HWtod8UcqbCJXCNV6ZiGVMvG2zR431Sm+mmizgm0sDihohxo6tvqpmPbd
+ OpZk+LvMW+/xLIIQ5DkVpd9csFcSvYtkGeiE8WogoCMW/f61wYu0OREyPz+9AwCg
+ 0++21a9u2Jc3fp9fKsmXixMsrm+IFwtOTXbB0cHr8lJD55gFLgn2Oey1AQsBC2br
+ 3m/bfbNhDjHNDTDdKoUP/WpRFGnLz0hMleWeUsQQP+XGgg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ce9jy9g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 12:54:10 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7caef20a528so890015285a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 05:54:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749387250; x=1749992050;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Uk66EcMqOcniRlqMz93nVMxXOXKxc66pHl1w0CSMStI=;
+ b=gO0qzTiEt7YcmRL1GO8MSiKpe8awhsNG7jvXLhzEg4SnbrgDwzi4GbSHDnRxQy0mmx
+ ZPN3hGwiG2ggC/14lhmYXHw/9z8OFP28yLZj+q8hLpgdAogCB2Su1x+nLMSolQH36RH5
+ MgWcQIQmdOYF1rUecMDYjSlMioctUAYfi0+YzS5ffAsMxIViRPk0TpqeuK66oDytjoFV
+ U9nkI2aeSkDcKxVQws077BvcTBcnOzPMNOEfusxMnhC6ai+QdbDtl5jQ3Ki1TalmagjJ
+ ACtO7SW4I8clvvq4rXVtBELaG1o6+d9lTjyCYh1pFrXuu4o3NlrIEeFa2ieZ5BGcT29d
+ hjXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXScVCmlOqQvfdQonofaAfkOUxIAH+WRycVjVwbiK2It2/lqzYuOEjHFoUHwxuB0/LM4DG2NsZ4koU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypI7ttv6LElo6tUZ0y1UbOpv7VyKLwYmBIbxTZPETjwZ1qIRgm
+ GahdEjP/qjWY5u51YKrZAOTF6fI8iYCV7axhy9kH5FkYe0USjyK0n7Yd79YKWHFTiyeAXC922EM
+ PfPS27Vf6qNlZWeqfGZXda8TuBuqRZ5kSCbtg9WqkhyhRTNU1wgMQ4kwlVvM8r9zRP73M6hA=
+X-Gm-Gg: ASbGnct6QNnoY4b0Gs9IQqvgYlBYEFXZXnS0cmrzE/2zH2MTUWJq29Ush2JPXD2hFTY
+ UG3MShQGv2Gm459vNkyMqVuc3L6y/EXbvfUobRKOpLj8E7tJ35Tlk1A3hn83vJHsxfRrTgkrNtB
+ qDBiImusFHtq0ho9sykwCScZQxhvJeuKrtdbCgyRjyhnMxKJodSmdMXqFlGNzdXutjmqn5ok4Zi
+ 2fZJGw/jzo9Z3y4+bGIUBfAeMZhxkAQjNUt15M070MbFNLUUWbppdBfPvSahS7Sk0+IuUeyMrIH
+ Ggy1NL5p48d6clHC1ZirZ/VCjlQFZWk+JJ5IA57pQlnrNhGFBjLw5IBLdd17Wb915NTsuT/4eCN
+ xWCjfVaaQaw==
+X-Received: by 2002:a05:620a:3946:b0:7d3:8ec6:e059 with SMTP id
+ af79cd13be357-7d38ec6e14emr416232485a.3.1749387249686; 
+ Sun, 08 Jun 2025 05:54:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEwyBsU/HMmzxV6s0ub4aI5Io68R14o1IAEtcKgz+pJpWDjuh+2APzvgWqbFMOTBt12Q08VIA==
+X-Received: by 2002:a05:620a:3946:b0:7d3:8ec6:e059 with SMTP id
+ af79cd13be357-7d38ec6e14emr416230685a.3.1749387249384; 
+ Sun, 08 Jun 2025 05:54:09 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553676d049asm753487e87.12.2025.06.08.05.54.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Jun 2025 05:54:07 -0700 (PDT)
+Date: Sun, 8 Jun 2025 15:54:05 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ kong.kongxinwei@hisilicon.com, liangjian010@huawei.com,
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com,
+ shenjian15@huawei.com, shaojijie@huawei.com,
+ jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-dp 10/10] drm/hisilicon/hibmc: fix no showing problem
+ with loading hibmc manually
+Message-ID: <czs4ingsrnuaqlbn3f7ko65pzhydcuuiglyh5ksrpfcz5zur74@vzgzyjkcae63>
+References: <20250530095432.1206966-1-shiyongbang@huawei.com>
+ <20250530095432.1206966-11-shiyongbang@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250530095432.1206966-11-shiyongbang@huawei.com>
+X-Proofpoint-GUID: KMSsidNsrmbrrnerqCZyDTLl11Fleflq
+X-Authority-Analysis: v=2.4 cv=drjbC0g4 c=1 sm=1 tr=0 ts=684587f2 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=ETqUBGNnfF6ie6NgWnwA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: KMSsidNsrmbrrnerqCZyDTLl11Fleflq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEwMiBTYWx0ZWRfXwjW6iSABnyfr
+ xBqXVf06eVxGoZ3cq52Ip9qs+Ye6OuYjFGw98c59KgVx6/ZdALdnaSxiEE6eOtZclFH4uHjDHXk
+ o/BDS0M091kbh90QMYDa/OdSKogzXlIfuKmXoW/02tSJEvraa9j2ZSqp/GuyheCNo/OCVavV3vR
+ 17C6ZxwFcrIPiLNc+UlfDErvln35CUmssRAUaggt1lYSXBdMRp7x00wk33/f1LUBgEuTPWayj2C
+ Oxt7FbvWWdWzZCKAJGeZbxdQ0zaploxeuJtyAxKlDBGbKPCrsqJzsvQk7h/Y7YC4Up6GklB9rn+
+ /N4KpTtXhkOJbIY6AfOb0wO858kPTPisD0qV94Nw6cKc2emmxMiEQ3IMbyjEknX8kkBkVgIP7p4
+ QLekXcCH/+VtSmHGXTxgdFy/DA7VeDfCZHqE5cYvLTpNKS4lsmU758wpib3s52n4/sOQeBVU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506080102
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,136 +129,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, May 30, 2025 at 05:54:32PM +0800, Yongbang Shi wrote:
+> From: Baihan Li <libaihan@huawei.com>
+> 
+> When using command rmmod and insmod, there is no showing in second time
+> insmoding. Because DP controller won't send HPD signals, if connection
+> doesn't change or controller isn't reset. So add reset before unreset
+> in hibmc_dp_hw_init().
+> 
+> Fixes: 94ee73ee3020 ("drm/hisilicon/hibmc: add dp hw moduel in hibmc driver")
 
-Hi Andy,
+Technically... yes and no. The function was written this way in that
+commit, however HPD signals were not handled until the latter commit.
 
-On Sun Jun 8, 2025 at 2:10 PM CEST, Andy Yan wrote:
-> At 2025-06-08 19:08:50, "Diederik de Haas" <didi.debian@cknow.org> wrote:
->>On Sat Jun 7, 2025 at 5:32 PM CEST, Piotr Zalewski wrote:
->>> On Thursday, June 5th, 2025 at 10:13 PM, Diederik de Haas <didi.debian@=
-cknow.org> wrote:
->>>> Since kernel 6.14-rc1 I have the problem that visual output is no long=
-er
->>>> shown on my PineTab2 and a `git bisect` pointed to this patch/commit
->>>> as the culprit. What is important to note is that `CONFIG_DRM=3Dm` see=
-ms
->>>> to be required as the problem does not occur with `CONFIG_DRM=3Dy`.
->>>>=20
->>>> Near the end of my bisect session, something interesting occurred.
->>>> I was booted into a 'bad' kernel (ie no visual output) and when I
->>>> started to build my final kernel, I closed the lid of the PineTab2 whi=
-ch
->>>> made it go into suspend. When my final kernel was built, I opened the
->>>> lid again, which made it resume, to transfer my final kernel to it.
->>>> And much to my surprise, I then did have visual output.
->>>> When I read the (below) commit message of the 'offending' commit, it m=
-ay
->>>> not be such a surprise after all.
->>>>=20
->>>> I did try it on a Quartz64-B (also rk3566) and it did not have any iss=
-ue
->>>> (output via HDMI).
->>>> I don't know what the cause for this issue is, hopefully you do.
->>>
->>> I tested and confirmed that this happens with drm=3Dm but also in my ca=
-se=20
->>> it happened when drm=3Dy. After some testing I found out that at boot m=
-odeset
->>
->>Interesting that it also happened with drm=3Dy.
->>As you're more knowledgeable then I am with this, maybe look through
->>https://lists.sr.ht/~diederik/pine64-discuss/<D9AM2OOLREO0.2JMAI42J06TW0@=
-cknow.org>
->>
->>to see if you may spot something relevant?
->>
->>> happened twice and at short interval and since this patch allows for ga=
-mma=20
->>> LUT update regardless of color_mgmt_changed state this makes DSP CTRL G=
-AMMA=20
->>> LUT EN bit to be unset twice too. It seems that VOP does not like it. I=
-=20
->>
->>Happy to see you found the cause :-)
->>Do you happen to know why it was unset twice? That sounds suboptimal.
->>But (IIUC) setting a bit to a value it already has causing issues,
->>sounds surprising as well.
->
-> I have conducted tests on both rk3566-box-demo (with drm set to y) and rk=
-3568-lubancat-2 (with drm set to m),=20
-> but I was unable to reproduce this issue. Could you two please share your=
- kernel defconfig and the corresponding kernel startup logs?=20
-> Additionally, both of my two boards tested with HDMI output. What kind of=
- display interface does your board use for output?
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> index 4f93d60b932b..e1b9589ce639 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> @@ -172,13 +172,15 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
+>  	dp_dev->link.cap.lanes = 0x2;
+>  	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
+>  
+> -	/* hdcp data */
+> -	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
+>  	/* int init */
+>  	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
+>  	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
+>  	/* rst */
+> +	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
+> +	usleep_range(30, 50);
+>  	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
+> +	/* hdcp data */
+> +	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
 
-I wasn't able to reproduce this issue on my PINE64 Quartz-B (rk3566)=20
-with HDMI output either, but the problem is present on a PineTab2 [1]
-(also rk3566) which uses a MIPI DSI connection to the display panel.
+There are two independent changes here. Split them into two commits.
 
-Kernel config:
-https://paste.sr.ht/~diederik/aa747ed170aa01cc759fbe1ffd9cebe8c887b10b
+>  	/* clock enable */
+>  	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
+>  
+> -- 
+> 2.33.0
+> 
 
-dmesg kernel 6.14-rc1:
-https://paste.sr.ht/~diederik/733fbf8bb7f6aee8b68cf5a652157d445462c24a
-
-dmesg kernel 6.14-rc1 with Piotr's patch:
-https://paste.sr.ht/~diederik/db1af672cfb611acbfbdf35adb6f170e5c38febc
-
-Both dmesg outputs contain a suspend-resume cycle.
-I'm using a USB Wi-Fi adapter for the wireless connection.
-
-[1] https://wiki.pine64.org/wiki/PineTab2
-
-Happy to provide more info and/or do some tests.
-
-Cheers,
-  Diederik
-
->>> patched vop2_vp_dsp_lut_disable function so that dsp_ctrl is set only i=
-f=20
->>> GAMMA LUT EN bit is set. I checked that this also does not break the ga=
-mma=20
->>> lut functionality with emphasis on out-of/into suspend behavior.
->>>
->>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu=
-/drm/rockchip/rockchip_drm_vop2.c
->>> index d0f5fea15e21..7ddf311b38c6 100644
->>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>> @@ -897,6 +897,9 @@ static void vop2_vp_dsp_lut_disable(struct vop2_vid=
-eo_port *vp)
->>>  {
->>>  	u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
->>> =20
->>> +	if ((dsp_ctrl & RK3568_VP_DSP_CTRL__DSP_LUT_EN) =3D=3D 0)
->>> +		return;
->>> +
->>>  	dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
->>>  	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
->>>  }
->>
->>I built a kernel with 6.14-rc1 + this patch and can confirm the screen
->>has output again :-)
->>
->>> I will wait with sending a patch because maybe Andy has something to ad=
-d=20
->>> to this.
->>
->>Sounds like a plan. It could be that this issue surfaced an underlaying
->>issue and if so, fixing that would be even better.
-
---dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEWH1AAKCRDXblvOeH7b
-bhl7AQDIBrUguAnNscCeQXQtCZLqeiXP+l3DJm6F2Fj0mB1XQQD+OL05kGhhBoXv
-BdqaHKsLNeSC2+SVVWtKTeiyRT6t9As=
-=I/5o
------END PGP SIGNATURE-----
-
---dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d--
+-- 
+With best wishes
+Dmitry
