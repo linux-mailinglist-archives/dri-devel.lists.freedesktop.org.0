@@ -2,120 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A153AD1208
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDF4AD120D
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 14:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749B610E010;
-	Sun,  8 Jun 2025 12:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 588C110E04C;
+	Sun,  8 Jun 2025 12:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dx8hJnb6";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="Smldvf+d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D099610E1E9
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:47:28 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558AN0if030317
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 12:47:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- FtzvagP+ojVDO/HcnHcU2k2JnIiS/sqFpa0Po2l+OrI=; b=dx8hJnb67AaSVgNf
- ZNt6nfP82tP2sivY5qX0m4NL5zHC5zC8/esLnD4S1EHW/TdB2ztkOgZsXeOE14D5
- 3/5/Papry/A69vfjE96VC1uRqqhqRn4DOibdHxQ96/MSur9QvEWGkBFTqbtV4E0h
- nmgCNE/NzKDDbawvw3sCsUQ1tBLaO7HwCue9AuEwN2h1JmHRVaIUAlf2PeXA7yaY
- +xdpTR1wxtzAnDtJHoI6vRM6KmpgHFs+Ktm1r63eZs/5BhgH/lQUQuZQI101bp7t
- 6tE2lQczs9qyhTx7G2mlDE15vbIRG1mYyqcSiWbA7bJi6NEp8XsH+hkGoj+wxsH/
- /m+2NA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ekpjmnu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 12:47:28 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6faca0f2677so100280696d6.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 05:47:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749386847; x=1749991647;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FtzvagP+ojVDO/HcnHcU2k2JnIiS/sqFpa0Po2l+OrI=;
- b=HQr0ptiYIk4E/3XWzGTxW0HZnVvvtBkerCNfuuQdhyKThoaYGzUsA0iN5qfhkmjiTJ
- hBcGJ3OuOgF1LRrC69cyGuDz+kJVBbfAx4hSc+5G5tOQ53tUnGieiGXhUPUQQP4ePJ+A
- 2aS8mpWHwXeJUn9HV+OgImM2w5d/86UjWVM/JohzJfTPVDCKNpvu40kjzvrmw4KJGl6S
- iqC5CHHVXrIj3WyWBAzX7G1NzhTPKSZ7RdEdMHxPiyOnBmZxs8nsEPOXc/IEqBQE802D
- /+Vif7E2HL4MGqHUjk4jx6YSxpVlRTeNTD/J/IqBLFihBqKRKEEiqoHRCgVFJnz2rPE1
- BTUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWx/uj6zeL0mYZ+qB2PUNUuT7/VlDY0GYI+9wKKx2b2qy11Hv1Gx6HG4AztGaBpBAgnzMeN19T6ohw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxA1L8Fb6IcvDh8s5JpJWPqFy2QHE1uTxKYmdb+kjBLJ6SCzyRK
- CR77epAFi8iK7TqBnTrAVFGUY3wnz6pBphWAR65YPqF1G6dI1Kx7pjhnLghRm0tEEkUwKWxkkfn
- GMkqBkZNayiUzJlsrhTHuHGT9b6lAryQqe3p44xVbtgHzdO4/TwlUiijuEB7pNzL8uD7dPHU=
-X-Gm-Gg: ASbGnct0CJuXrPgU2jtd65skKQZ4Ig8iS/hHgnvPkbMY8JlZljixKwRDF1VhFbTttSU
- 5eEPts3xygEpF2Uo1B0AXHTI4L9CK6zDljZ9ax58UBoOasj5ldfiRdz+F+8QSGMTh0I0lKktoAJ
- Ix3Tk9QGdp8N65dm89nceUIjmwJaxkpQIGLFr91atf36kYOmUL/4KyvIoqRBlsVMUUcDZVWuzJq
- kMfFy0asEgfdBQp0eWzrZMhDJ1t/o3X04THx+mbJ6RS7zmG37n80/K+a2lnIITkUXSclie0f+cs
- Go67wuCC9UsvIyS3V8/sVbwWQlmSGZQAxYwDsatg1GPPOIqMUtg5cdnmLkL+X8NMwST1uHZT1OV
- VQlDlWUsBvA==
-X-Received: by 2002:a05:6214:29ef:b0:6fa:fea5:4d7c with SMTP id
- 6a1803df08f44-6fb09057dbcmr130135256d6.40.1749386846881; 
- Sun, 08 Jun 2025 05:47:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEki7LMROzmgW218EZLkb0KCWkTUAXONFilomWwrdXcxbx64sPstNyw31il0lfR0U8RVhedSw==
-X-Received: by 2002:a05:6214:29ef:b0:6fa:fea5:4d7c with SMTP id
- 6a1803df08f44-6fb09057dbcmr130135006d6.40.1749386846493; 
- Sun, 08 Jun 2025 05:47:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32ae1cab69esm7248801fa.52.2025.06.08.05.47.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jun 2025 05:47:25 -0700 (PDT)
-Date: Sun, 8 Jun 2025 15:47:23 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- kong.kongxinwei@hisilicon.com, liangjian010@huawei.com,
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com,
- shenjian15@huawei.com, shaojijie@huawei.com,
- jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-dp 09/10] drm/hisilicon/hibmc: fix HPD no showing
- with VGA para of GRUB
-Message-ID: <5nansqkys4d3wlsefql6itgnpdoxhgjo7kkmovpm3gfbphxcs6@4anxx7hzoimh>
-References: <20250530095432.1206966-1-shiyongbang@huawei.com>
- <20250530095432.1206966-10-shiyongbang@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250530095432.1206966-10-shiyongbang@huawei.com>
-X-Authority-Analysis: v=2.4 cv=JcO8rVKV c=1 sm=1 tr=0 ts=68458660 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=fAYD1edJq5gPyj3QMjgA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDEwMCBTYWx0ZWRfXzMMNjg3qQvzo
- on1mctbI1ghF5dsg+xZEWUDyxORVlar9pHhOMDlq9dL6dIU1JM2oYxGK8OD7O+mMTyND1CS9sXm
- tdQttojE3+9pj46Lpmv5x/5GnUQzSHz1OVjoawnVlC/jrNOO9EcTJxXUvhnXC9D0zPoy5ZbhAkS
- euegIcJrY6NJkbmkticzN2LqHGDsECMQRJJlLyCTb/mVEs+vPN35uOUkSk8jumT9QcLAZEixD6Y
- wPCeWmPOXw+LwSmQnc48+EviuOwq5LHj+caxulKN9DpE0WfbQk2y591+etwvt00CeffFlNaiWZ9
- nfxytSTpy7a+CEKvh3xIMs8ZSdkpjygbVqpv7HR+HRLNjCaB3dsbwkSDE1v050IcR7FX+vSi4oz
- HBZ3csH5ngP/JiNqrGjk4FA+BCMiHXwfwvsf5xlGIl7w4/m+WA6JvlCC3Yo4uk6mavXhb2uM
-X-Proofpoint-GUID: fV1zbZvcCctDz6CD6zQ-I7UhK64GaTw8
-X-Proofpoint-ORIG-GUID: fV1zbZvcCctDz6CD6zQ-I7UhK64GaTw8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506080100
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEAE10E04C
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 12:53:51 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1749387226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UoAoTWaDhudNjz1U5V7+hAboAbqegZdb7n3FPRiJ6jE=;
+ b=Smldvf+dIob+0gqgKw8jY2ot8r+9vfSeqg7sf8KdvWn7yjT33epEVpXDwfF+8IiBaKqXSo
+ az8nsef6eVErRJrLAxG3nSTgXGlPXGRwF/STMDPTNK+XzDjpYNEnXWGgMCC8QAicS1GMQj
+ hi01PNEt/KriG7HE0OK+HKPDjCD9cw5YG31tn34sdLwa/CA3XaZ5tzN20RrzXeJfn33hDl
+ eU2gBVtllZ35s04rg9aZeTf0s4xFZtr//XWY3p27D6XeuTcscllloV2Vob1mS48npwz7pc
+ ipMchx37YYFf4TK2KpNfUHLJhYo1Lhndi/lxIcVL0YVl6alCDzx5I9Qnz+XyNA==
+Content-Type: multipart/signed;
+ boundary=dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Sun, 08 Jun 2025 14:53:37 +0200
+Message-Id: <DAH60H3HYG7M.3NFXBJ7576RH1@cknow.org>
+Cc: "Piotr Zalewski" <pZ010001011111@proton.me>, <hjc@rock-chips.com>,
+ <heiko@sntech.de>, <andy.yan@rock-chips.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
+ <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
+ color_mgmt_changed in atomic_enable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Andy Yan" <andyshrk@163.com>
+References: <20241206192013.342692-3-pZ010001011111@proton.me>
+ <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
+ <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
+ <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
+ <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
+In-Reply-To: <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,64 +68,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 30, 2025 at 05:54:31PM +0800, Yongbang Shi wrote:
-> From: Baihan Li <libaihan@huawei.com>
-> 
-> In early OS versions， there is a bug in hibmc-drm driver previously,
+--dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Which OS? What does that mean? Why do we need to workaround userspace
-issues in the kernel?
+Hi Andy,
 
-> so some OS add a VGA parameter in GRUB(video=VGA-1:640x480-32@60me) to
-> fix the bug, that will config a force VGA mode to drm driver. However, the
-> HPD problem exists that mentioned in previous patch, so change VGA's status
-> in force() to compatible with some older OS versions.
-> 
-> Fixes: f9698f802e50 ("drm/hisilicon/hibmc: Restructuring the header dp_reg.h")
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> index 73dd3d5fc26c..d609ccda2f2a 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> @@ -61,6 +61,19 @@ static int hibmc_vdac_detect(struct drm_connector *connector, struct drm_modeset
->  	return connector_status_connected;
->  }
->  
-> +static void hibmc_vdac_force(struct drm_connector *connector)
-> +{
-> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(connector->dev);
-> +	struct hibmc_dp *dp = &priv->dp;
-> +
-> +	if (dp->hpd_status) {
-> +		connector->status = connector_status_disconnected;
-> +		return;
-> +	}
-> +
-> +	connector->status = connector_status_connected;
+On Sun Jun 8, 2025 at 2:10 PM CEST, Andy Yan wrote:
+> At 2025-06-08 19:08:50, "Diederik de Haas" <didi.debian@cknow.org> wrote:
+>>On Sat Jun 7, 2025 at 5:32 PM CEST, Piotr Zalewski wrote:
+>>> On Thursday, June 5th, 2025 at 10:13 PM, Diederik de Haas <didi.debian@=
+cknow.org> wrote:
+>>>> Since kernel 6.14-rc1 I have the problem that visual output is no long=
+er
+>>>> shown on my PineTab2 and a `git bisect` pointed to this patch/commit
+>>>> as the culprit. What is important to note is that `CONFIG_DRM=3Dm` see=
+ms
+>>>> to be required as the problem does not occur with `CONFIG_DRM=3Dy`.
+>>>>=20
+>>>> Near the end of my bisect session, something interesting occurred.
+>>>> I was booted into a 'bad' kernel (ie no visual output) and when I
+>>>> started to build my final kernel, I closed the lid of the PineTab2 whi=
+ch
+>>>> made it go into suspend. When my final kernel was built, I opened the
+>>>> lid again, which made it resume, to transfer my final kernel to it.
+>>>> And much to my surprise, I then did have visual output.
+>>>> When I read the (below) commit message of the 'offending' commit, it m=
+ay
+>>>> not be such a surprise after all.
+>>>>=20
+>>>> I did try it on a Quartz64-B (also rk3566) and it did not have any iss=
+ue
+>>>> (output via HDMI).
+>>>> I don't know what the cause for this issue is, hopefully you do.
+>>>
+>>> I tested and confirmed that this happens with drm=3Dm but also in my ca=
+se=20
+>>> it happened when drm=3Dy. After some testing I found out that at boot m=
+odeset
+>>
+>>Interesting that it also happened with drm=3Dy.
+>>As you're more knowledgeable then I am with this, maybe look through
+>>https://lists.sr.ht/~diederik/pine64-discuss/<D9AM2OOLREO0.2JMAI42J06TW0@=
+cknow.org>
+>>
+>>to see if you may spot something relevant?
+>>
+>>> happened twice and at short interval and since this patch allows for ga=
+mma=20
+>>> LUT update regardless of color_mgmt_changed state this makes DSP CTRL G=
+AMMA=20
+>>> LUT EN bit to be unset twice too. It seems that VOP does not like it. I=
+=20
+>>
+>>Happy to see you found the cause :-)
+>>Do you happen to know why it was unset twice? That sounds suboptimal.
+>>But (IIUC) setting a bit to a value it already has causing issues,
+>>sounds surprising as well.
+>
+> I have conducted tests on both rk3566-box-demo (with drm set to y) and rk=
+3568-lubancat-2 (with drm set to m),=20
+> but I was unable to reproduce this issue. Could you two please share your=
+ kernel defconfig and the corresponding kernel startup logs?=20
+> Additionally, both of my two boards tested with HDMI output. What kind of=
+ display interface does your board use for output?
 
-You are again trying to tie VGA and DP status, so NAK.
+I wasn't able to reproduce this issue on my PINE64 Quartz-B (rk3566)=20
+with HDMI output either, but the problem is present on a PineTab2 [1]
+(also rk3566) which uses a MIPI DSI connection to the display panel.
 
-> +}
-> +
->  static void hibmc_connector_destroy(struct drm_connector *connector)
->  {
->  	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
-> @@ -81,6 +94,7 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
->  	.reset = drm_atomic_helper_connector_reset,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.force = hibmc_vdac_force,
->  };
->  
->  static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
-> -- 
-> 2.33.0
-> 
+Kernel config:
+https://paste.sr.ht/~diederik/aa747ed170aa01cc759fbe1ffd9cebe8c887b10b
 
--- 
-With best wishes
-Dmitry
+dmesg kernel 6.14-rc1:
+https://paste.sr.ht/~diederik/733fbf8bb7f6aee8b68cf5a652157d445462c24a
+
+dmesg kernel 6.14-rc1 with Piotr's patch:
+https://paste.sr.ht/~diederik/db1af672cfb611acbfbdf35adb6f170e5c38febc
+
+Both dmesg outputs contain a suspend-resume cycle.
+I'm using a USB Wi-Fi adapter for the wireless connection.
+
+[1] https://wiki.pine64.org/wiki/PineTab2
+
+Happy to provide more info and/or do some tests.
+
+Cheers,
+  Diederik
+
+>>> patched vop2_vp_dsp_lut_disable function so that dsp_ctrl is set only i=
+f=20
+>>> GAMMA LUT EN bit is set. I checked that this also does not break the ga=
+mma=20
+>>> lut functionality with emphasis on out-of/into suspend behavior.
+>>>
+>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu=
+/drm/rockchip/rockchip_drm_vop2.c
+>>> index d0f5fea15e21..7ddf311b38c6 100644
+>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>> @@ -897,6 +897,9 @@ static void vop2_vp_dsp_lut_disable(struct vop2_vid=
+eo_port *vp)
+>>>  {
+>>>  	u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+>>> =20
+>>> +	if ((dsp_ctrl & RK3568_VP_DSP_CTRL__DSP_LUT_EN) =3D=3D 0)
+>>> +		return;
+>>> +
+>>>  	dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+>>>  	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+>>>  }
+>>
+>>I built a kernel with 6.14-rc1 + this patch and can confirm the screen
+>>has output again :-)
+>>
+>>> I will wait with sending a patch because maybe Andy has something to ad=
+d=20
+>>> to this.
+>>
+>>Sounds like a plan. It could be that this issue surfaced an underlaying
+>>issue and if so, fixing that would be even better.
+
+--dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEWH1AAKCRDXblvOeH7b
+bhl7AQDIBrUguAnNscCeQXQtCZLqeiXP+l3DJm6F2Fj0mB1XQQD+OL05kGhhBoXv
+BdqaHKsLNeSC2+SVVWtKTeiyRT6t9As=
+=I/5o
+-----END PGP SIGNATURE-----
+
+--dd3c07efb9d99c286c094c5faf160fb096648f1e935abee08db29ed3060d--
