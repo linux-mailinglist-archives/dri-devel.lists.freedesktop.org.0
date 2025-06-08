@@ -2,145 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F10AD126A
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 15:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A670AD1289
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jun 2025 16:10:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDC610E1A0;
-	Sun,  8 Jun 2025 13:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB5510E023;
+	Sun,  8 Jun 2025 14:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="e9i/76q/";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CHyg7LiC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2700310E1B6
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 13:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1749388663; x=1749993463; i=deller@gmx.de;
- bh=62pR7ZjXswN9oSVWvZB3gA99ZofQlDnhD67435sehVo=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=e9i/76q/kofG7QrR0HG3b+WVN6i+ZPr0a7NcXJVWE8Gge1c7vrfEWZK8jtuiHm0D
- u9ceRsk6TmPgPBIg7pPzMOm+a0igZHm9bnK84UvvIC4WS7/BcFlDJDKac27Uryps7
- o31Aty3R3Cfgdsb5zxCyeNeeLnVVFDB9CPbmWYROd7spmJQ9oPaql7r+ek1ChFdYx
- 9/UCPAgvGL37soNhgqwydwFiOxAP8mAHwugYJ2kZNaxdbTTKXk3BNrV3kSa+PUz+E
- N85cFKuNuHp/usmlY3tRCq6G6Q6hcyyVd/+7e35zyIbNNNEYptMn464oEnGyMyb9O
- iVGRzLiZe5U0Do05WA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.172] ([109.250.63.171]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72sJ-1uU2JT0bdP-001i93; Sun, 08
- Jun 2025 15:12:16 +0200
-Message-ID: <ffaead6b-e9d9-46cf-ad08-aa6a46dbe74a@gmx.de>
-Date: Sun, 8 Jun 2025 15:12:15 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F99710E002
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 14:10:24 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558DwFI1009206
+ for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 14:10:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=yO2PTptqLO3J42jrF/h3pZfi+qlyfdweEdQ+r5qxEE8=; b=CH
+ yg7LiCRv4rvgF/3pTGCDSbQyGJkGoSqh0si9urg82KJ6HH2xb9C06FQMdw0CYuGN
+ jWBU1icw28udLpA7au2l4bsCbcgYkVDIc1BJTnmRundJQ7gP+D7NkglMphoG13iv
+ J303ljCEZEMFgzMkxCKCiIUzM0LVWCdKNkJsjS5T0rxwa/u0lq9eWCKYlNeLmvJ1
+ nqBSA+SpBarXvYlSq+7e4y3rJXyRZdEjQwXYPnsju7tg7Wl1gJMxohZKhBBgsAfl
+ JQJWfcBIkEnTXdHJYEzrEmJUd7kn0kOVqNjmGsQwZfJAXXScp6IfGSLNkp/AkxTW
+ vftf+rh/NNbYGRWDGI4w==
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474dt9k1c8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 14:10:23 +0000 (GMT)
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-2e926f54767so3628301fac.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 07:10:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749391823; x=1749996623;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yO2PTptqLO3J42jrF/h3pZfi+qlyfdweEdQ+r5qxEE8=;
+ b=lWfKmdHTR7BFC5XmtEhUqxTPFeP6wsbm0P0X/s4BswEey4cOekXOOekZrUzyzXUMYB
+ YzYDXtsJEylI90s8IgCR5QE1p8X9DSZcu89icUjs8CGx6mvkvpm5s+PkYWwt7nv6XVj1
+ EbtH+VUkTB4oX/O34FGdMdbydp/k5TwRjgg4r6kNuAduz3oTMX4mptHuYz8y6HsOrHq0
+ 9DrF3B2cOx1bFMvOcUTAafCEUDCvO21egUHsW47BlTILngwYZPkOwBFXfYz5x28CL7r3
+ R/AqzPjYv8j91U2DvfNSxFwsE8WUV63gt/9fK4HAnuVnSsQVo/+kE5YJbKGctPP/An13
+ 7AxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuSf6v1yCrtiOEvwCmXb4+ht5Rg3VxKr1h1d+sCEGgnlsiVu6jP/iU7CCS60IRQMI7Jom02N9QPuE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YweFaFec+Qe/vKvRaKoEwfGEXRMYR0iFR6MKyIyhoce3ZeVdS8j
+ dSPk3mcYB/yczufr2v5n7sP7R+9srHxGdpV3zCYBvxOeuJ8krZE9euPkHOb2U5D9m+ZP6F0bILP
+ lRBpN6Lo3QJL8MOu9Mj6QS5mUAp0MgmdYokp+McKkUd33ZPxVXHxp9F0wxT16F7sm/2hl1m/SHq
+ BEuk75EBQ789M2ohMncQaKpUBZyTXVmt7L6wpu/zoTGwsiaw==
+X-Gm-Gg: ASbGncu/PvHSvvaDRO2IZPDME0I3lNc475P3ZdY7+16XS1u9ow8A+HYRmKHJY4mB3PZ
+ TDVYtMOeVqSw1t9iOZ3DzTQkhGY/J+Jgg7Q7GomoYUikvpxL7ljsNvWszW8FMVrQx/XwjLm6tl4
+ lPX84x2J3CC7b63e9p62vU+Q4J
+X-Received: by 2002:a05:6870:a89b:b0:2b8:608d:5dd1 with SMTP id
+ 586e51a60fabf-2ea24557e69mr2394043fac.18.1749391822712; 
+ Sun, 08 Jun 2025 07:10:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF/1vxTU2Bz/RL3b0T47zztUUQuS+wl46jL0gULc1T9pUpmM4Jcmy2KcloGXMk7S33UepnxfJaeGsBnweZ2wPk=
+X-Received: by 2002:a05:6870:a89b:b0:2b8:608d:5dd1 with SMTP id
+ 586e51a60fabf-2ea24557e69mr2394030fac.18.1749391822287; Sun, 08 Jun 2025
+ 07:10:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: pm3fb: Fix potential divide by zero
-To: Alex Guo <alexguo1023@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250607194959.2457473-1-alexguo1023@gmail.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20250607194959.2457473-1-alexguo1023@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
+ <20250607-x1p-adreno-v1-3-a8ea80f3b18b@oss.qualcomm.com>
+ <wayrour74vlli27xrtxi2ff2v7q7ye2yknmk2mjpur5ry5gruv@hhh2mdb6lw2i>
+In-Reply-To: <wayrour74vlli27xrtxi2ff2v7q7ye2yknmk2mjpur5ry5gruv@hhh2mdb6lw2i>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Sun, 8 Jun 2025 07:10:11 -0700
+X-Gm-Features: AX0GCFsFNZiZEbNB5QOKdtpp_35NfPnwsAoCQZgzyWAJVSbekumFsonguuDtz3U
+Message-ID: <CACSVV03X5EyAb5yCPDn1ot8vOFV_dKG7f6+yO5t9srr31AiUKw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: Add GPU support to X1P42100 SoC
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KiChRPU2fCErll9U/cYDgg49Hk+59W4LumbQcwmVnJqW/NEnr46
- 4LBI+I/RvH2AJPHmlLmWk5wDcI8aQjwtdSYxlZugAxTvvTsHrTNYaoMkJ1ptiH6MMBjyULE
- pdQ8wBrV8xVwUmGa2bOyfJhF/KSD++suyoGpO0in0zDd4zCDHJOKIbnKSHHUyF0wmOYcdpT
- YB1MOfU3TAZ4pMXDRr6OQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jcW29+F8gYM=;na0x3UrBlxcbcTURs2I1EtUuzfl
- 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
- CJaugzXvr+YsPTMqKrdt3ykDo
+X-Authority-Analysis: v=2.4 cv=KpNN2XWN c=1 sm=1 tr=0 ts=684599cf cx=c_pps
+ a=zPxD6eHSjdtQ/OcAcrOFGw==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=EUspDBNiAAAA:8 a=rPe8LK6Ab3Gl33toulsA:9 a=QEXdDO2ut3YA:10
+ a=y8BKWJGFn5sdPF1Y92-H:22
+X-Proofpoint-GUID: Nv3Ugls_T9QmsXQVxI-mn2fdQDBOlI5S
+X-Proofpoint-ORIG-GUID: Nv3Ugls_T9QmsXQVxI-mn2fdQDBOlI5S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDExMiBTYWx0ZWRfX+hnCrOH4ZS0V
+ fXVXuENyi8GWGvMcy/WAbEkyG9m4EQ7vcd8YjU2kfaIZSdlN7lhR2pDA7NiShmZrVIcK6lT7LkJ
+ YSfZN2l1EkKb7oqrxQf2x3aCWicfebUCSlRXEbBTVGeD8YRoP2XjYU6efMpDyrfoYsWBZ4DoJCP
+ ipFTN0xI3nzyx8SdTTQxTiQdssH58IISL/DW+V0NNtxW+blaro84Gft9cP1WCdFL7mxTKh1Qb75
+ WWl5302ojKbzNdilV1y0OdKxKH3XGdRlpRN6t/OjKfaVogZCauzqQpelTOl6MYvrXMR/b60lpJk
+ Ti7rzXzasULdJW1ecAg52AHiP5RqUL4LOtiXBdPy5VLL0DjujeGllln4dHlEEbQlzh3+lq50WU+
+ VlD6OJJ8zDDQbSJk7H1N2InjKXW7kZpouZRIfwtYoCHG1bscgY2FFA16KywsMZHcd4p17Qw2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
+ spamscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506080112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,26 +126,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/7/25 21:49, Alex Guo wrote:
-> variable var->pixclock can be set by user. In case it equals to
->   zero, divide by zero would occur in pm3fb_check_var. Similar
-> crashes have happened in other fbdev drivers. There is no check
-> and modification on var->pixclock along the call chain to
-> pm3fb_check_var. So we fix this by checking whether 'pixclock'
-> is zero.
->=20
-> Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
-> Error out if 'pixclock' equals zero")
->=20
-> Signed-off-by: Alex Guo <alexguo1023@gmail.com>
-> ---
->   drivers/video/fbdev/pm3fb.c | 3 +++
->   1 file changed, 3 insertions(+)
+On Sat, Jun 7, 2025 at 1:17=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Sat, Jun 07, 2025 at 07:45:01PM +0530, Akhil P Oommen wrote:
+> > X1P42100 SoC has a new GPU called Adreno X1-45 which is a smaller
+> > version of Adreno X1-85 GPU. Describe this new GPU and also add
+> > the secure gpu firmware path that should used for X1P42100 CRD.
+> >
+> > Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> > ---
+> >  arch/arm64/boot/dts/qcom/x1e80100.dtsi    |   7 ++
+> >  arch/arm64/boot/dts/qcom/x1p42100-crd.dts |   4 +
+> >  arch/arm64/boot/dts/qcom/x1p42100.dtsi    | 121 ++++++++++++++++++++++=
++++++++-
+> >  3 files changed, 131 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/d=
+ts/qcom/x1e80100.dtsi
+> > index a8eb4c5fe99fe6dd49af200a738b6476d87279b2..558d7d387d7710770244fcc=
+901f461384dd9b0d4 100644
+> > --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+> > @@ -8245,6 +8245,13 @@ sbsa_watchdog: watchdog@1c840000 {
+> >                       interrupts =3D <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
+> >               };
+> >
+> > +             qfprom: efuse@221c8000 {
+> > +                     compatible =3D "qcom,x1e80100-qfprom", "qcom,qfpr=
+om";
+> > +                     reg =3D <0 0x221c8000 0 0x1000>;
+> > +                     #address-cells =3D <1>;
+> > +                     #size-cells =3D <1>;
+> > +             };
+> > +
+> >               pmu@24091000 {
+> >                       compatible =3D "qcom,x1e80100-llcc-bwmon", "qcom,=
+sc7280-llcc-bwmon";
+> >                       reg =3D <0 0x24091000 0 0x1000>;
+> > diff --git a/arch/arm64/boot/dts/qcom/x1p42100-crd.dts b/arch/arm64/boo=
+t/dts/qcom/x1p42100-crd.dts
+> > index cf07860a63e97c388909fb5721ae7b9729b6c586..cf999c2cf8d4e0af8307825=
+3fd39ece3a0c26a49 100644
+> > --- a/arch/arm64/boot/dts/qcom/x1p42100-crd.dts
+> > +++ b/arch/arm64/boot/dts/qcom/x1p42100-crd.dts
+> > @@ -15,3 +15,7 @@ / {
+> >       model =3D "Qualcomm Technologies, Inc. X1P42100 CRD";
+> >       compatible =3D "qcom,x1p42100-crd", "qcom,x1p42100";
+> >  };
+> > +
+> > +&gpu_zap_shader {
+> > +     firmware-name =3D "qcom/x1p42100/gen71500_zap.mbn";
+> > +};
+> > diff --git a/arch/arm64/boot/dts/qcom/x1p42100.dtsi b/arch/arm64/boot/d=
+ts/qcom/x1p42100.dtsi
+> > index 27f479010bc330eb6445269a1c46bf78ec6f1bd4..5ed461ed5cca271d4364788=
+8aa6eacac3de2ac9d 100644
+> > --- a/arch/arm64/boot/dts/qcom/x1p42100.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/x1p42100.dtsi
+> > @@ -17,15 +17,134 @@
+> >  /delete-node/ &cpu_pd9;
+> >  /delete-node/ &cpu_pd10;
+> >  /delete-node/ &cpu_pd11;
+> > +/delete-node/ &gpu_opp_table;
+> >  /delete-node/ &pcie3_phy;
+> >
+> >  &gcc {
+> >       compatible =3D "qcom,x1p42100-gcc", "qcom,x1e80100-gcc";
+> >  };
+> >
+> > -/* The GPU is physically different and will be brought up later */
+> > +&gmu {
+> > +     /delete-property/ compatible;
+> > +     compatible =3D "qcom,adreno-gmu-x145.0", "qcom,adreno-gmu";
+> > +};
+> > +
+> > +&qfprom {
+> > +     gpu_speed_bin: gpu_speed_bin@119 {
+> > +             reg =3D <0x119 0x2>;
+> > +             bits =3D <7 9>;
+> > +     };
+> > +};
+> > +
+> >  &gpu {
+> >       /delete-property/ compatible;
+>
+> I think, you can drop this line.
+>
+> > +
+> > +     compatible =3D "qcom,adreno-43030c00", "qcom,adreno";
+> > +
+> > +     nvmem-cells =3D <&gpu_speed_bin>;
+> > +     nvmem-cell-names =3D "speed_bin";
+> > +
+> > +     gpu_opp_table: opp-table {
+> > +             compatible =3D "operating-points-v2-adreno", "operating-p=
+oints-v2";
+> > +
+> > +             opp-1400000000 {
+> > +                     opp-hz =3D /bits/ 64 <1400000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L4>;
+> > +                     opp-peak-kBps =3D <16500000>;
+> > +                     qcom,opp-acd-level =3D <0xa8295ffd>;
+> > +                     opp-supported-hw =3D <0x3>;
+> > +             };
+> > +
+> > +             opp-1250000000 {
+> > +                     opp-hz =3D /bits/ 64 <1250000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L3>;
+> > +                     opp-peak-kBps =3D <16500000>;
+> > +                     qcom,opp-acd-level =3D <0x882a5ffd>;
+> > +                     opp-supported-hw =3D <0x7>;
+> > +             };
+> > +
+> > +             opp-1107000000 {
+> > +                     opp-hz =3D /bits/ 64 <1107000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO_L1>;
+> > +                     opp-peak-kBps =3D <16500000>;
+> > +                     qcom,opp-acd-level =3D <0x882a5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             opp-1014000000 {
+> > +                     opp-hz =3D /bits/ 64 <1014000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_TURBO>;
+> > +                     opp-peak-kBps =3D <14398438>;
+> > +                     qcom,opp-acd-level =3D <0xa82a5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             opp-940000000 {
+> > +                     opp-hz =3D /bits/ 64 <940000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_NOM_L1>;
+> > +                     opp-peak-kBps =3D <14398438>;
+> > +                     qcom,opp-acd-level =3D <0xa82a5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             opp-825000000 {
+> > +                     opp-hz =3D /bits/ 64 <825000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_NOM>;
+> > +                     opp-peak-kBps =3D <12449219>;
+> > +                     qcom,opp-acd-level =3D <0x882b5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             opp-720000000 {
+> > +                     opp-hz =3D /bits/ 64 <720000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L2>;
+> > +                     opp-peak-kBps =3D <10687500>;
+> > +                     qcom,opp-acd-level =3D <0xa82c5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             opp-666000000-0 {
+> > +                     opp-hz =3D /bits/ 64 <666000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L1>;
+> > +                     opp-peak-kBps =3D <8171875>;
+> > +                     qcom,opp-acd-level =3D <0xa82d5ffd>;
+> > +                     opp-supported-hw =3D <0xf>;
+> > +             };
+> > +
+> > +             /* Only applicable for SKUs which has 666Mhz as Fmax */
+> > +             opp-666000000-1 {
+> > +                     opp-hz =3D /bits/ 64 <666000000>;
+> > +                     opp-level =3D <RPMH_REGULATOR_LEVEL_SVS_L1>;
+> > +                     opp-peak-kBps =3D <16500000>;
+>
+> This looks odd, why is it so high?
 
-applied.
+You want max bandwidth on max opp
 
-Thanks!
-Helge
+BR,
+-R
