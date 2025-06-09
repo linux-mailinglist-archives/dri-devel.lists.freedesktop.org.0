@@ -2,134 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826ECAD2552
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 20:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97987AD257B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 20:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABF5110E425;
-	Mon,  9 Jun 2025 18:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5883010E417;
+	Mon,  9 Jun 2025 18:23:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LWsFtez9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CwAw4tLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFAAD10E425;
- Mon,  9 Jun 2025 18:10:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0561F49E18;
- Mon,  9 Jun 2025 18:10:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319DAC4CEF4;
- Mon,  9 Jun 2025 18:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749492654;
- bh=4IjOKBBaC5ky4JS7SyZ9B+F+9YR54CTR3N9CKCMgMmg=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=LWsFtez9kKosUybOV2fbdDYZTtPpBDjbr2B3kqEjpdYDey+C/3J5OfDICbZ8GAxKb
- fe7esrIhSypFFvME8GiKeRmZZUeEJkSiTR3sT+qvXtk4mc8U4ZDxNgkxiVn4DU039n
- LLpiwy+OJev4+s5q9brKaxrtAym7JSH6DzqCkFFG5PSNTRVOCi186h7t6wCNJFuTBY
- YYLzIYGWM8vro8O5OR1nWGK3KgditpGS7Fm67AdPKpEzT6GFadLTMAcDSv0gRWQ+6Q
- r5NQ6lB+vrLp/6Y9eeaufJWALcZmkAIXUW/EVSE9hhSPGMoZmTTMC3w5/u/3M7Ijq+
- WgX9ElLHFHPPg==
-Message-ID: <f2110674637d775d3d453da8d7171f9f6461ff92.camel@kernel.org>
-Subject: Re: [PATCH v12 03/10] ref_tracker: add a top level debugfs
- directory for ref_tracker
-From: Jeff Layton <jlayton@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Andrew Morton	
- <akpm@linux-foundation.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>,  Simon Horman <horms@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joonas Lahtinen	
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
- Nathan Chancellor	 <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- linux-kernel@vger.kernel.org, 	netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 	intel-gfx@lists.freedesktop.org
-Date: Mon, 09 Jun 2025 14:10:52 -0400
-In-Reply-To: <378d6754aad9991b859a5c2136f4a4211e9fafea@intel.com>
-References: <20250529-reftrack-dbgfs-v12-0-11b93c0c0b6e@kernel.org>
- <20250529-reftrack-dbgfs-v12-3-11b93c0c0b6e@kernel.org>
- <378d6754aad9991b859a5c2136f4a4211e9fafea@intel.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F48E10E3E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 18:23:36 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-ad89c32a7b5so744195266b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 11:23:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749493415; x=1750098215; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
+ b=CwAw4tLHPghk7VMdoGKqRK4lLbpF8L5lNCTLgKB1drXNy2neuFEPqyCjqDJNvMNsHG
+ q8J4lMUp+qjU/+pHvEH3qWL2EVvPjinGXhxCHemY6iZ+r7sIHutUA5yF4/5BVsYDyqqX
+ I3oDkH9qwmKzcBQHdmWEz8oBRsuUL0Mf+FYW2gz0sw9vBwlWyqwGblzWAGGsybvTdDwp
+ UBY1ZMgHeTjdqJWoxPTy31FgCnJ+1YTAgdemU91EP6LvCz4AGSDfVT52APFnvvt0OdUL
+ aq7f/6YkM/0gDJBkZBLyiFfxIR6jZORXJ70FxYVzjsxYuiz5zoXwrItYR/ZZWZBuoPWX
+ 3p9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749493415; x=1750098215;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
+ b=gGkRBqXgcTfALdRfI+r5gNCnZ6K4jeG/LK/zVLsQbESDAw6ZZ6FiXrIQcXUH0BkQB8
+ oos4R0Wp77NAuVNdgJ72nWjiW2jlcTkXAjsG14bfisE08/7MvUJTnumKE63LJSx63VD1
+ FjsJqSshatKVL0PVZFobSBzqRZ/801O/1MfAsOgsmTs5UA3NejDmQNgY215hPtiRnlfo
+ Cyi68hmLdMatBaKcCqyQfKgmOSFzEh/QBv9t2U0mSCuhzGlvaxoEalI1oVDOLEBoa9C0
+ Y5VrvQ0Xy87LJhoASdCMSck9DpNUMYlR6RF4DcaDDv4foIhkkahP50SXpTWH804VLwHv
+ WVNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbvHhi4k7ptVzd/6YA/m7tBEoO8zNE4wkm8I4uGSr7icEhkw1Zf+Dl8JshrHui6uRcQT/801Hr0Rg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNM4oluNzs/JTCA1rk5HpJyLfDJPuKeFxloPY04mub4jDC+4r2
+ SL8Lalueg32ejmeTJUTdm2MZIN7bZ+RDaSC7wssP8uF1XAQYkAhusJjouRxUWMUgIGacmpbURmA
+ Gl+hsQ1SLy/s1nMztjMoW2bF/6ZuxOPk=
+X-Gm-Gg: ASbGnctcdWibICM0MKeBVa/e+gY9M2aZjJJyJFMM8R89IZWkFISY42SXRNt+uNXjCZY
+ zvFOpvdraql7fAG0buvWWMLLFEV8DiSEWxX4qFOiZFNOxsfHHqYGNrKZFFsdu088yHRXEmdUqoh
+ rmaeQK32h2adxK9osFyPTlHutDSwZ7t4puSac0Mn+3VWW6GOTIE6aZnGcSmR2ntoGwRj/1x+8jr
+ 4hxWw==
+X-Google-Smtp-Source: AGHT+IFtV58+b7TdEn169blBTSTg97IoZAMWiVqeKLwKeXRa9wvFaPoz+n0HH+xJYo631uo3xl7Wtx01TrmgPDB7kbo=
+X-Received: by 2002:a17:907:1b16:b0:adb:469d:221f with SMTP id
+ a640c23a62f3a-ade1aa15864mr1341933766b.31.1749493414544; Mon, 09 Jun 2025
+ 11:23:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
+ <aDz-Pq4eMAYmzqsJ@archie.me> <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
+In-Reply-To: <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Date: Mon, 9 Jun 2025 14:23:24 -0400
+X-Gm-Features: AX0GCFtT5VtTHa-jojzi8kLV9z5EuWYa1-xJcEXWWcyNlt2BE-xhusWO-NpDrzU
+Message-ID: <CAC0Z3JupfeHHrfj7ZeQ3E-1+E9jBrd9SPBn-eJUjEMN6iMB3aw@mail.gmail.com>
+Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,54 +90,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-06-04 at 12:12 +0300, Jani Nikula wrote:
-> On Thu, 29 May 2025, Jeff Layton <jlayton@kernel.org> wrote:
-> > Add a new "ref_tracker" directory in debugfs. Each individual refcount
-> > tracker can register files under there to display info about
-> > currently-held references.
-> >=20
-> > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
-> >  lib/ref_tracker.c | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> >=20
-> > diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-> > index de71439e12a3bab6456910986fa611dfbdd97980..d374e5273e1497cac0d70c0=
-2c282baa2c3ab63fe 100644
-> > --- a/lib/ref_tracker.c
-> > +++ b/lib/ref_tracker.c
-> > @@ -273,3 +273,16 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
-> >  	return 0;
-> >  }
-> >  EXPORT_SYMBOL_GPL(ref_tracker_free);
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +#include <linux/debugfs.h>
-> > +
-> > +static struct dentry *ref_tracker_debug_dir =3D (struct dentry *)-ENOE=
-NT;
->=20
-> Nitpick, please prefer ERR_PTR(-ENOENT) over casting inline.
->=20
->=20
-Sorry I didn't respond to this earlier. I'd prefer that too, but when I
-try that, I get:
+Hi,
 
-lib/ref_tracker.c:327:47: error: initializer element is not constant
-  327 | static struct dentry *ref_tracker_debug_dir =3D ERR_PTR(-ENOENT);
-      |                                               ^~~~~~~
+Should I go ahead make the diagram more detailed or just add the links
+in 'Slides and articles' & 'Conference talks'  to the existing
+diagram?
 
+Best regards,
 
->=20
-> > +
-> > +static int __init ref_tracker_debugfs_init(void)
-> > +{
-> > +	ref_tracker_debug_dir =3D debugfs_create_dir("ref_tracker", NULL);
-> > +	return 0;
-> > +}
-> > +late_initcall(ref_tracker_debugfs_init);
-> > +#endif /* CONFIG_DEBUG_FS */
-
---=20
-Jeff Layton <jlayton@kernel.org>
+On Wed, Jun 4, 2025 at 10:37=E2=80=AFAM Simona Vetter <simona.vetter@ffwll.=
+ch> wrote:
+>
+> On Mon, Jun 02, 2025 at 08:28:30AM +0700, Bagas Sanjaya wrote:
+> > On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
+> > > Add an overview diagram of Linux DRM architecture for
+> > > graphics and compute to introduction.rst
+> > >
+> > > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> > > ---
+> > > <snipped>...
+> > > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/i=
+ntroduction.rst
+> > > index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec=
+52a45d0f3f4561424e0 100644
+> > > --- a/Documentation/gpu/introduction.rst
+> > > +++ b/Documentation/gpu/introduction.rst
+> > > @@ -14,7 +14,45 @@ including the TTM memory manager, output configura=
+tion and mode setting,
+> > >  and the new vblank internals, in addition to all the regular feature=
+s
+> > >  found in current kernels.
+> > >
+> > > -[Insert diagram of typical DRM stack here]
+> > > +Overview of the Linux DRM Architecture
+> > > +--------------------------------------
+> > > +::
+> > > +
+> > > +        +-----------------------------+
+> > > +        |     User-space Apps         |
+> > > +        | (Games, Browsers, ML, etc.) |
+> > > +        +-----------------------------+
+> > > +                      |
+> > > +                      v
+> > > +        +---------------------------------------+
+> > > +        |    Graphics APIs   |   Compute APIs   |
+> > > +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+> > > +        +---------------------------------------+
+> > > +                |                   |
+> > > +                v                   v
+> > > +        +---------------------+  +-----------------------+
+> > > +        |  User-space Driver  |  |    Compute Runtime    |
+> > > +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+> > > +        +---------------------+  +-----------------------+
+> > > +                |                   |
+> > > +                +--------+----------+
+> > > +                         |
+> > > +                         v
+> > > +                +-----------------------+
+> > > +                |   libdrm (DRM API)    |
+> > > +                +-----------------------+
+> > > +                          |
+> > > +                          v
+> > > +        +-------------------------------------------+
+> > > +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
+> > > +        |     nouveau, etc.)                        |
+> > > +        +-------------------------------------------+
+> > > +                |                       |
+> > > +                v                       v
+> > > +        +----------------+     +-------------------+
+> > > +        | GPU Display HW |     | GPU Compute Units |
+> > > +        +----------------+     +-------------------+
+> > > +
+>
+> I'm a bit late to the party, apologies. I'm not sure how much use there i=
+s
+> in an extremely simplified diagram like this, least because it's really
+> incomplete and leaves out the entire display and compositor side.
+>
+> My idea was that we'd instead link to the large pile of introductory and
+> overview talks further down in this file, if people want to get an
+> overview over what drm does.
+>
+> If you want I guess you could add some links to the relevant wikipedia
+> pages, I think they also do a fairly decent job of explaining the big
+> picture.
+>
+> Thanks, Sima
+>
+>
+> > >
+> > >  Style Guidelines
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> >
+> > The patch LGTM, thanks!
+> >
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> >
+> > --
+> > An old man doll... just what I always wanted! - Clara
+>
+>
+>
+> --
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
