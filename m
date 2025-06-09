@@ -2,119 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3065AD1543
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 00:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F784AD1666
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 02:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A4210E1FE;
-	Sun,  8 Jun 2025 22:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB3CF10E5D9;
+	Mon,  9 Jun 2025 00:51:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BujmzGng";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MkORAGaF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD0110E1FE
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jun 2025 22:36:04 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 558LNLnd014607
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Jun 2025 22:36:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=5UMciADcDBohw7l3Afqy21k4
- B5zDCEQKS7YSGnXaHgg=; b=BujmzGngVGPBb8uj3Mj5Gt7f1sKcye6En4vb5nnW
- 5LTynp70edvk8QYYqK0naItmgF6aDsUQETuMaFYFa6HTLQm/sdCJIzlKs+NPW7IB
- K0UHG5oWKcP7R9RP1CnAh3An7oPjEhMa175nhsu7LHLAbKnPcTM9BPBcZPZhTxSY
- nOUzr+s3+Z7f3KjJDqJV+S+3pmwtowJG7yCIdR+FpvqAqlgFtNdEWwpkHtsy1+rF
- 9jH5DB/mCetSuSuZI6PA5otnNaSk+tCmlMYWBkENEmxblRqTyLZ7vmLlrlTlIBS/
- 71O+fiYLKqBIDxoKq9PWu5IlJ+PrlIAwBTC+17hUinOUcA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474b4j42jy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 22:36:03 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c92425a8b1so608431785a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jun 2025 15:36:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749422162; x=1750026962;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5UMciADcDBohw7l3Afqy21k4B5zDCEQKS7YSGnXaHgg=;
- b=wpUzbdLvHVhBU2t345KCCjWbnByEsH1JYnCzuMQ1OmYWrq1H0gAvXuW7hVfTA/PNQW
- WmxOWV5R9+Za3AuUn+362S2R4FiTlPtZhTwlQIr5mHvaE84p58+/wk8Mwj//pfE1ZjAw
- fiDvStssI6cCR+DYFUmAGBohVJ5JiMaEQR3Iu8n2PJg5jecILu1CiHTHx8VBTp3SQY/H
- sM3KinUoVL1SbcS6H8X8dz9cKqamAT5jNFEvg/Fy3SrOffNqgh0wQZQSJW14xZ8cebIB
- n78oWtueylGF9hUnbJz9z6x5XB/ukiXcXrlHFqh1jFSJM/OJV86M83M8MWKNOI6Bgrzn
- l37g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqGCc+UmjMwsbFeZ3mlp/x960+SzqfJm1XyqKakrEinq2pYkwVrzrzDyNVCPuiksD0NGbW8WvdmbE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJ9++b2IHozkScOWs3CBUbXM/BB/H6BES2HykLnSdXx23nZ5wr
- dmrR1YYYEdmLdQfoE97AF4nmTJp57qifcXCGSyO6KSfm1bXPvLvyTKL2REWoV4U2GfnsgRtu65f
- SlfpY5aWhKMp/p8rGPOXwdet4jR3VaV8B51RCSLOy/ikOPP+RkTWL7ypQ1cWe/n8mQYNYZvI=
-X-Gm-Gg: ASbGncszCekcFU/S/QShs3UdJWq5/G7N4xDQ8VqRdgD21X3T3oKKOlkvJ5B9z+3gMEe
- pxO3ldaASja4i82D3vVJVsY5SPJauZ/d/Aujp8634sbSbf39hOTG/Tr/Rn+H2uk4f5+m7LhOv7k
- Vti983iV/u1DRvVnGQJF9sDvjyfeNb7/0u30tfOoymX1F9GkPMY8nghmcU50rbBFNYMm2F/tLb1
- W8P851qfAua4bbm+1Y8cEmu/8tHUvq6kqvnDVZpyzkeSYe2yd7F1IfscKCZ/BL6fDuDD9T5Yz9s
- 9zU0WiKOFTufe1C+H2H/JuSi5KMEeiSTGwLXPe9DyPIS2GTwrSdT6pIFau9H+CZguxycsvSo/tz
- MMvHndXjh2w==
-X-Received: by 2002:a05:620a:3912:b0:7d0:9a17:7b93 with SMTP id
- af79cd13be357-7d38726d9f7mr1026519185a.25.1749422162524; 
- Sun, 08 Jun 2025 15:36:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGXlQeV3tbfCn8ZNJPWj35kb5AP7pQ1oBAPDaVCFROWwmvnWZ9k6Uz3+DKk6ZgzIutglpKe9w==
-X-Received: by 2002:a05:620a:3912:b0:7d0:9a17:7b93 with SMTP id
- af79cd13be357-7d38726d9f7mr1026516185a.25.1749422162205; 
- Sun, 08 Jun 2025 15:36:02 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-553676d0183sm899166e87.49.2025.06.08.15.35.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jun 2025 15:36:00 -0700 (PDT)
-Date: Mon, 9 Jun 2025 01:35:57 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "James A. MacInnes" <james.a.macinnes@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, Vara Reddy <quic_varar@quicinc.com>,
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
- Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/disp: Correct porch timing for SDM845
-Message-ID: <3tmpywm2ipqbdhbu6qga7eb64jk6lcqpqvatmkgwwd36qcqkip@7yazfvwlvwit>
-References: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
- <20250212-sdm845_dp-v2-2-4954e51458f4@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3DD10E5D9
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749430284; x=1780966284;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
+ b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
+ ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
+ yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
+ sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
+ AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
+ zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh A==;
+X-CSE-ConnectionGUID: Jj9Vu+G0QX+R2Er+KIRcFQ==
+X-CSE-MsgGUID: o+niCTh/R2SpARotd7JR9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497139"
+X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; d="scan'208";a="51497139"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2025 17:51:23 -0700
+X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
+X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; d="scan'208";a="151605279"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uOQjN-0006fF-0l;
+ Mon, 09 Jun 2025 00:51:17 +0000
+Date: Mon, 9 Jun 2025 08:51:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
+References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212-sdm845_dp-v2-2-4954e51458f4@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDE4NCBTYWx0ZWRfX5okO/3aKylp2
- 97vvrqDzD0/rCg+707XJZduMIiA4OKtGeCOy/i9FXCf6v++JzGbwh1Jid8K1zm8zwIQFfEBTv2v
- QoA8Hw+hrikL8R8VF1F3VCVQ+KvifnSd0YHLmGFY8KvFY1LVw40LhTbvV1SvNKTQYYJ/nBN4I+p
- JDSfM9bJMS7Qk+zRSV6rFUnQeEoV7bpYQUeZ5Di+FUzl3+AjfPSsJQlTKc5MoltnH6lE57B0BXO
- 18PQHrpPy1/UWBlRCs3QSGIWLvSlsWqtE7dMPNHdZjB8ZzK/UYl6HUVdsdtjlTIq+nM0wsY0yDw
- 0LPe1cu8ijIuX3qlXMNskqyl+Tpbsm+TDH6320GvvsBn9tA0dbPaEY4PRTN1pJK1E+dKqSo1GmU
- fiDw7pqYLu3A/UNwpBJj4UCXvVC/0kpN7975Y2wTSnLaIP5vOgwbU2do0za2ATexnaE8nPdm
-X-Proofpoint-GUID: QBrJoM9rEShBIWUP48fIRN96aCyAwcKr
-X-Authority-Analysis: v=2.4 cv=Te6WtQQh c=1 sm=1 tr=0 ts=68461053 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=OnwjkJn3o8bp6UkAWykA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: QBrJoM9rEShBIWUP48fIRN96aCyAwcKr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-08_05,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
- bulkscore=0 malwarescore=0 adultscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=999 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506080184
+In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,19 +81,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2025 at 03:03:47PM -0800, James A. MacInnes wrote:
-> Type-C DisplayPort inoperable due to incorrect porch settings.
-> - Re-used wide_bus_en as flag to prevent porch shifting
-> 
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Signed-off-by: James A. MacInnes <james.a.macinnes@gmail.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
+Hi Marek,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on geert-renesas-devel/next]
+[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+         |                                                                                                       ~~~
+         |                                                                                                       %zu
+    1064 |                                          wc, msg->rx_len);
+         |                                              ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+         |                                                                                    ~~~
+         |                                                                                    %zu
+    1090 |                                          msg->rx_len);
+         |                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+
+  1020	
+  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
+  1022						      const struct mipi_dsi_msg *msg)
+  1023	{
+  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
+  1026		u32 reg, data, status, wc;
+  1027		int i, ret;
+  1028	
+  1029		/* RX transfer received data validation and parsing starts here. */
+  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
+  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
+  1032			/* Clear TATO Turn-Around TimeOut bit. */
+  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
+  1034			return -ETIMEDOUT;
+  1035		}
+  1036	
+  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
+  1038	
+  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+  1040			/* Transfer with zero-length RX */
+  1041			if (!(reg & RXPSR_RCVACK)) {
+  1042				/* No ACK on RX response received */
+  1043				return -EINVAL;
+  1044			}
+  1045		} else {
+  1046			/* Transfer with non-zero-length RX */
+  1047			if (!(reg & RXPSR_RCVRESP)) {
+  1048				/* No packet header of RX response received */
+  1049				return -EINVAL;
+  1050			}
+  1051	
+  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
+  1053				/* Incorrect response payload */
+  1054				return -ENODATA;
+  1055			}
+  1056	
+  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
+  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
+  1059				/* Read Long Packet Response length from packet header. */
+  1060				wc = data & 0xffff;
+  1061				if (wc > msg->rx_len) {
+  1062					dev_warn(dsi->dev,
+  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+> 1064						 wc, msg->rx_len);
+  1065					wc = msg->rx_len;
+  1066				}
+  1067	
+  1068				if (wc > 16) {
+  1069					dev_warn(dsi->dev,
+  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
+  1071						 wc);
+  1072					wc = 16;
+  1073				}
+  1074	
+  1075				for (i = 0; i < msg->rx_len; i++) {
+  1076					if (!(i % 4))
+  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
+  1078	
+  1079					rx_buf[i] = data & 0xff;
+  1080					data >>= 8;
+  1081				}
+  1082			} else {	/* Short Packet Response */
+  1083				if (msg->rx_len >= 1)
+  1084					rx_buf[0] = data & 0xff;
+  1085				if (msg->rx_len >= 2)
+  1086					rx_buf[1] = (data >> 8) & 0xff;
+  1087				if (msg->rx_len >= 3) {
+  1088					dev_warn(dsi->dev,
+  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+  1090						 msg->rx_len);
+  1091				}
+  1092			}
+  1093		}
+  1094	
+  1095		if (reg & RXPSR_RCVAKE) {
+  1096			/* Acknowledge and Error report received */
+  1097			return -EFAULT;
+  1098		}
+  1099	
+  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1101					!(status & PPIDL0SR_DIR),
+  1102					2000, 10000, false, dsi, PPIDL0SR);
+  1103		if (ret < 0) {
+  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
+  1105			return ret;
+  1106		}
+  1107	
+  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1109					status & PPIDL0SR_STPST,
+  1110					2000, 10000, false, dsi, PPIDL0SR);
+  1111		if (ret < 0) {
+  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
+  1113			return ret;
+  1114		}
+  1115	
+  1116		return 0;
+  1117	}
+  1118	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
