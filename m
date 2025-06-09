@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18439AD1F71
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 15:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4482CAD1F87
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 15:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F7710E38F;
-	Mon,  9 Jun 2025 13:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F86010E38C;
+	Mon,  9 Jun 2025 13:47:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PRtIz9Br";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rFLBMo0H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F06D10E38F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 13:46:23 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E889E10E38C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 13:46:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 877885C5522;
- Mon,  9 Jun 2025 13:44:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F9FC4CEEB;
- Mon,  9 Jun 2025 13:46:20 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 68F49629DC;
+ Mon,  9 Jun 2025 13:46:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19403C4CEED;
+ Mon,  9 Jun 2025 13:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749476781;
- bh=N15FAyzt7MMYc8Spk0zWPQIRL21MN1ZoTF3KScracOM=;
+ s=k20201202; t=1749476819;
+ bh=4xgaNV/25Sr/6yY7vJhhNXhnqW3+Pt0AiV/ZUqM58gE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PRtIz9BriiPmBg4psKTKNeXLGFNHikE52cNq0+zHPSzuqlRDn1HlIaoHIV0HqA2zQ
- r6LIBEsMUrNzFVztGCW+i6w42bxRxtdK5ZPRFSLFrQmL7t+YVgHuSBgVpQnaF/Csjz
- 6M5iPYX/gcHpXnXqQP+I7Ns0uAFUFibJQKMDn+XFDQjGDwejg6yK49rSHbowQXoyzR
- btGZF9nBB8pW9ujvb5t/MXut2HjAS3PiYUc9Um38g3fTJ4+OP1hKILqOMsO89qmroF
- Ne3tpqlFzmOZBpIZ+rd+BHGpqvhRywcyLePEtn0Zve5GpxLHPQNTc8jyTUdou0RR0+
- lhx3j8No6HiMQ==
+ b=rFLBMo0HaGb3bx7MOrE9pSIbkft90hMgha7rlsBZJVU0611gat6KdQOw523CxVEOz
+ c95py1l3Bi22fxoXd9ll4wXWgg+/ubKAOWLJDrP28FQjuoBOg5S36e09kDO82Q4+3n
+ ZhMQgLu0WQ5nTXzFlOu3f09mkcKaDz7AfjifDh+Vj7Vq7pPS/8WeK4rUSCiSpVwOUx
+ XIYOYb/KM38Nys8a7Cg9c5LDW6yBGnNz4jJLWcYAbXU7kOfKd+LXMixq8brTGZAAOy
+ rbWRGnk/9ETEaXDLeo9aspUe22b4rVXGl8NczMDxMI3OdaByxA38hjpbwAtpjdky9o
+ AIoSBuY/A854g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -37,18 +37,18 @@ Cc: "Lin.Cao" <lincao12@amd.com>, Philipp Stanner <phasta@kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Sasha Levin <sashal@kernel.org>, matthew.brost@intel.com, dakr@kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 07/23] drm/scheduler: signal scheduled fence when
+Subject: [PATCH AUTOSEL 6.6 04/18] drm/scheduler: signal scheduled fence when
  kill job
-Date: Mon,  9 Jun 2025 09:45:54 -0400
-Message-Id: <20250609134610.1343777-7-sashal@kernel.org>
+Date: Mon,  9 Jun 2025 09:46:38 -0400
+Message-Id: <20250609134652.1344323-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250609134610.1343777-1-sashal@kernel.org>
-References: <20250609134610.1343777-1-sashal@kernel.org>
+In-Reply-To: <20250609134652.1344323-1-sashal@kernel.org>
+References: <20250609134652.1344323-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.32
+X-stable-base: Linux 6.6.93
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -193,10 +193,10 @@ low since it only affects the error handling path.
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 002057be0d84a..c9c50e3b18a23 100644
+index 53130a50584ca..eed3b8bed9e40 100644
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -189,6 +189,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+@@ -167,6 +167,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
  {
  	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
  
