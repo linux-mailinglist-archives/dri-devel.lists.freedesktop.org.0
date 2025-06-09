@@ -2,108 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B232AD2503
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 19:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374CBAD2510
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 19:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E570610E237;
-	Mon,  9 Jun 2025 17:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6448D10E411;
+	Mon,  9 Jun 2025 17:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S0POP8uv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="e65QfGjf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10A210E15E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 17:34:15 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-3a4f72cba73so3838738f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 10:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749490454; x=1750095254; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=9BmRKlj/RMDP5IzXSFzdO4da8XFCR2YzozS+rvgK1WE=;
- b=S0POP8uvp1hEHIL0i/M1nWpNmPeStdU1lXbTBn3IIdbG0pFctAZPNA2j0CU0yajGuB
- u4IMMuDkrSWXDiZW6s4u3D2qHj8OVrIBP8v1+etDlVfsiAo7dZCP5nnMFQmGC/NHI2qe
- i9BfLPYreW6jHrvoWSdBA52tqydkCvg95at94qgRDBA0lE/G2h3/IUrwX0CvwAmypiMa
- dinBRxlrCJgWwfY8L09tqMfCbylshinPfCi2GRaOj4p72hZzv3ckGoJ+bdOyL3RXdkSB
- Q9LcfgRa9zwQnzZr60HgrlvOGoECUns2dmaZN5+u2AZ5xzudno3q+k1FsWWu75Jv7FP4
- zG3g==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA35610E41D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 17:37:48 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5599Io6D019421
+ for <dri-devel@lists.freedesktop.org>; Mon, 9 Jun 2025 17:37:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 0mD1/0CoskR/YlijKuKFXQSB2LX4lWU/ihQ9C+M2R1A=; b=e65QfGjfmnEbu4p3
+ UihaUlZiORk3Gozu9dLSaMSP9mF34+aiX4WazCx72GGLHI/OpvsWfbzMTiyI8CJ7
+ mLLawg5hHG4k6Y9ElBnt/LhzrUX3PFK6kg0ClvFNa2HHuhvKvyZdKST+ve7kkN5C
+ t5fxlPVuJXdK3KSDbmG2Agn7iX++l5ruXwifbVXyKLSFpyHuvOhjHdqTUSuYTTRb
+ 0Vd5vWEbDBJHOr9XFJxjsL1END05UxhmjxlBVCA+w5wE6Wb5C6RRhAni4d15POmL
+ wnqBFAOEkKtRCz23tHkxlX7dA320UncHJ7y//sisuXdb/j/lF4azs/8Ky3nkMHkv
+ VhFB8A==
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ccv6q9g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 17:37:48 +0000 (GMT)
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-2e95bf2f61dso2943467fac.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 10:37:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749490454; x=1750095254;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=9BmRKlj/RMDP5IzXSFzdO4da8XFCR2YzozS+rvgK1WE=;
- b=j169s0xfND9G+8hSreEF+GFeqB3j9Zocqnu7aE81/rwcHTG77oLS745mrH2lo8IR9F
- 5rOAUZA/cMNKxJrtAwCxNxtupGbQ2u0Yx2DAlGAJmXbTpk4KhQ7WZMcGvGatXqof9/0L
- wUCQaDE4yBQ+tzfHN5dQVoAl9XHtvAvVzTiQGtURGRFRcAzTNNU1IoipW6tO5IFa/HTm
- w3t1X1wVC5er+Pvl6Lzssqwmt90B2UPm+MZvyXKHNkyClw0j3zvSwjr3JAbSZ6ehQGVP
- 1VDRiC/HKwKvhw9fOSiCbAe2tAQ6sD6a1Vo5Z3I3xwUJ3bjkbgwRBcuoiLhm021yExHj
- jb8A==
+ d=1e100.net; s=20230601; t=1749490666; x=1750095466;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0mD1/0CoskR/YlijKuKFXQSB2LX4lWU/ihQ9C+M2R1A=;
+ b=q8QJbbJOIEZauzaO282bAqKdtQGklpDtBaI7CYzkDnASNLshLu7pzXV69/+nLuew25
+ Qg3Cph9NTqR1dd2sepfIMViOkfIwb4nHiFsY5cm8thn61G7MehHrf2pscyaqAg+lnhBO
+ 5JgT0X4lV0py9OKnVSnvfCx+RutSYzS6xKI19T5X3I7ww3/4ihHo1i4R7NKRoMAHlJyr
+ ohmzPwWpCQoGH1hHAp3z+P+OHa/njAW1aV8ffYOb+tJB5fZb2lU2JcdQbzU1c5eqiDDS
+ Jd2DkpoxTuU4WWYR7XDFuCuv4G1Qv9ONdUQqFWL+GYgxjnMiS5MiDdmgQ1RX9kc/r8g1
+ TC+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6ZdIMCQxVVlMYdnAjq/v9YJStwqRmhc5VQ/X3wWJq0n2hxVDocmcuNF++dO7hOmBwqwlGzuBNOiA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzY9JBRLjpzS78jT7JyzOkl7Ny98B7ZP0tYR+MckkaNJ34yhwQ5
- boglJwKkRHmfoMofZJ0Jve1Dg41/mRh+/FMGNdv90Hkwgt5GWiW0K6TgnMM7PwOZp1o=
-X-Gm-Gg: ASbGncvHP7DbYXeu6JDWjmapAtpmOIZbgfxXWdR5nVgBSDR4cVT8saCwPZXcX0PkYub
- fmhocstGgdUCo2zxPwMyyDiInRgcq0FerjxeQhahQozw+gcQl4EKGn1jpvcdHrHUBNHah/nXPuz
- ORBHDNNmw+JlXxQJZiuRTh9umCeMXBi3j0fywWy4fcEDeqfFt8ckTOJgzgZEaTwm8DhQr5jRaLM
- HfL/RlcWqoAjhvz0KWoJSqMe+hGyfjiSMvZtM4of46sJUPmtJJKrhWDo7UO9li7+q1hDg1RrU3x
- B7YG6S52eFz0/Fe5zJTTJEzKfVGCE6n8SMR4ZKo+YWZrexHUtPIsJO96YidDjSll2DNd+iJIPlg
- l4qOx40PD9r+Wb3AphzXFkR50KUxk
-X-Google-Smtp-Source: AGHT+IGkaYk2ZR7eBVSuTYhU38XKPy8+5RJ/cs78kF616gKs+MS4l8QgLXSnlOu4Zk+j1JmLSxgFAw==
-X-Received: by 2002:a5d:64c6:0:b0:3a4:eb7a:2ccb with SMTP id
- ffacd0b85a97d-3a551417255mr318548f8f.16.1749490454350; 
- Mon, 09 Jun 2025 10:34:14 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:d049:de0c:efef:b94d?
- ([2a01:e0a:3d9:2080:d049:de0c:efef:b94d])
+ AJvYcCVcL6e8FET6dGy35wVPOYVT2tnDjHYkmnb1xKyNbD4slJJhgV5JzIPP4EMbVY/9YzTrsEeWrSLeKqU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXtk1+XNRFWDcs6KRUUkp+VZtrpKnr7efW7y1oyNgPdxovplQw
+ bibCh1SQiuSP0B1xED52TNij4Ywe8JLWtbAmfQinCnBSRUEhNoWIacIWYQoC+wdTPicOF7o0PSR
+ x1+CMwOcAjjgzhwn1PdLs13vXD+iQiy+EVIqCxKHMq/IMf5TYnN9aBQZebkAfI54btccVqS+rDT
+ Xf1nI=
+X-Gm-Gg: ASbGncugUlpfPrjKZ5sLQqvo0EUdihZSnOOAWfrXBUDW6DYP7TxRhQzSeUlKhRJJRFB
+ puvtZQI1L8t3daOlVfmzZuCuUxUo1ivLDWzwGusZsIKynVW+BTRKucnaVtMccFZA8i9whwO6TX1
+ ZUiyahLwCU5GlaJs5WNlufHg45JHfl3Z8Nn2bP+s+a/V8j6EBIS/cMzMKgwxrFEhVBEZltf9l9P
+ ijObe7bxJCwYV/bXOO2kCg4BADAaVUKxSDJQqfNkbR9vx1wzijGBG91fGZah5iio04WGRGvtg+8
+ J2HQXSbKZ7JmqNFD+XKkkOL/okReeCodAnyakTG2UjU++Xw858RvkhDXqIR5A0vIDj886IpPOz2
+ oOeIY9nEiVPnmhw==
+X-Received: by 2002:a05:6871:e61e:b0:2d9:7a9e:99ef with SMTP id
+ 586e51a60fabf-2ea768af10bmr294873fac.1.1749490666211; 
+ Mon, 09 Jun 2025 10:37:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDybc/cT1a1uzm8usYYLOngzIkeYWJ3oezh6aMZj11iyv41ICeZDa+085dK1+g2POh2T0oFw==
+X-Received: by 2002:a05:6214:1c8b:b0:6fa:9ca0:c67e with SMTP id
+ 6a1803df08f44-6fb238dc2e9mr7311616d6.5.1749490654418; 
+ Mon, 09 Jun 2025 10:37:34 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9?
+ (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-452730d162asm113789415e9.39.2025.06.09.10.34.11
+ 38308e7fff4ca-32ae1b347afsm11373071fa.34.2025.06.09.10.37.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jun 2025 10:34:12 -0700 (PDT)
-Message-ID: <04556296-bcda-436f-b462-6b1718dafd00@linaro.org>
-Date: Mon, 9 Jun 2025 19:34:11 +0200
+ Mon, 09 Jun 2025 10:37:32 -0700 (PDT)
+Message-ID: <951f781a-d823-4240-a1c8-b9ea85ba64e0@oss.qualcomm.com>
+Date: Mon, 9 Jun 2025 20:37:31 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/meson: use vclk_freq instead of pixel_freq in debug
- print
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250606221031.3419353-1-martin.blumenstingl@googlemail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250606221031.3419353-1-martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH 3/3] drm/msm/adreno: Check for recognized GPU before bind
+To: Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250609170438.20793-1-robin.clark@oss.qualcomm.com>
+ <20250609170438.20793-4-robin.clark@oss.qualcomm.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250609170438.20793-4-robin.clark@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: f-wYEue40YL8I0UD3K5su5NYXQhxWvmX
+X-Authority-Analysis: v=2.4 cv=TsLmhCXh c=1 sm=1 tr=0 ts=68471bec cx=c_pps
+ a=nSjmGuzVYOmhOUYzIAhsAg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=4MAclHcQAAAA:8 a=ciEtJq1xeetoClZ_GcsA:9
+ a=QEXdDO2ut3YA:10 a=1zu1i0D7hVQfj8NKfPKu:22 a=6vtlOZhwcO7ZS_iRoh4Z:22
+X-Proofpoint-GUID: f-wYEue40YL8I0UD3K5su5NYXQhxWvmX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDEzMyBTYWx0ZWRfXyJWlEB3ARQop
+ W6IdBbgH8VxA6d8zAffqccNIOup9yTHWU3VkxYdxiHwZSAUiSDCAjA/7I4fjh5kvnZr1m8ity38
+ FOsJU70uPeX3BKfUU8mmflq5noLgJHA5E+84JeoLEdZXPBegWCi2wl9hDTF6xh+uJtkm3EBkDtF
+ e/7a27cPNuWexZVKq2ZvnBWcKnl2k0WhTUqkykQwPo+mUfI5jjaiy3O4g8hOqQyF0GojRlIVez5
+ RA/CMJjex05kD6F7vzM2nGO5B/NnbbpSGgzmlNlKE9r9julTEn56hTbHT6nCNHIhoipLwKX+vlg
+ sR953I9QHOHSBsdQL1txCzgTPB+P05HSGWCCtrl5nFiv6reag11wm2hiA3AB8oRs/Qo9t5v2iH+
+ 617p2wQFfXeUyRFmvAH4g6OrEo7gEHscdpeqA3FfmSna380+aT93L7YCx9VbgmchybqPWFFd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-09_07,2025-06-09_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 impostorscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506090133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,40 +129,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/06/2025 00:10, Martin Blumenstingl wrote:
-> meson_vclk_vic_supported_freq() has a debug print which includes the
-> pixel freq. However, within the whole function the pixel freq is
-> irrelevant, other than checking the end of the params array. Switch to
-> printing the vclk_freq which is being compared / matched against the
-> inputs to the function to avoid confusion when analyzing error reports
-> from users.
+On 09/06/2025 20:04, Rob Clark wrote:
+> If we have a newer dtb than kernel, we could end up in a situation where
+> the GPU device is present in the dtb, but not in the drivers device
+> table.  We don't want this to prevent the display from probing.  So
+> check that we recognize the GPU before adding the GPU component.
 > 
-> Fixes: e5fab2ec9ca4 ("drm/meson: vclk: add support for YUV420 setup")
-> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 > ---
->   drivers/gpu/drm/meson/meson_vclk.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/msm/adreno/adreno_device.c | 29 ++++++++++++++++++----
+>   drivers/gpu/drm/msm/msm_drv.c              |  2 +-
+>   drivers/gpu/drm/msm/msm_gpu.h              |  1 +
+>   3 files changed, 26 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
-> index 3325580d885d..c4123bb958e4 100644
-> --- a/drivers/gpu/drm/meson/meson_vclk.c
-> +++ b/drivers/gpu/drm/meson/meson_vclk.c
-> @@ -790,9 +790,9 @@ meson_vclk_vic_supported_freq(struct meson_drm *priv,
->   	}
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 504174dbe6d6..002aaf365322 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -178,6 +178,26 @@ static int find_chipid(struct device_node *node, uint32_t *chipid)
+>   	return 0;
+>   }
 >   
->   	for (i = 0 ; params[i].pixel_freq ; ++i) {
-> -		DRM_DEBUG_DRIVER("i = %d pixel_freq = %lluHz alt = %lluHz\n",
-> -				 i, params[i].pixel_freq,
-> -				 PIXEL_FREQ_1000_1001(params[i].pixel_freq));
-> +		DRM_DEBUG_DRIVER("i = %d vclk_freq = %lluHz alt = %lluHz\n",
-> +				 i, params[i].vclk_freq,
-> +				 PIXEL_FREQ_1000_1001(params[i].vclk_freq));
->   		DRM_DEBUG_DRIVER("i = %d phy_freq = %lluHz alt = %lluHz\n",
->   				 i, params[i].phy_freq,
->   				 PHY_FREQ_1000_1001(params[i].phy_freq));
+> +bool adreno_has_gpu(struct device_node *node)
+> +{
+> +	const struct adreno_info *info;
+> +	uint32_t chip_id;
+> +	int ret;
+> +
+> +	ret = find_chipid(node, &chip_id);
+> +	if (ret)
+> +		return false;
+> +
+> +	info = adreno_info(chip_id);
+> +	if (!info) {
+> +		pr_warn("%s: Unknown GPU revision: %"ADRENO_CHIPID_FMT"\n",
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Please use %pOFf instead of %s (and node instead of node->full_name).
+
+Other than that, LGTM.
+
+> +			node->full_name, ADRENO_CHIPID_ARGS(chip_id));
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>   static int adreno_bind(struct device *dev, struct device *master, void *data)
+>   {
+>   	static struct adreno_platform_config config = {};
+> @@ -188,18 +208,17 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>   	int ret;
+>   
+>   	ret = find_chipid(dev->of_node, &config.chip_id);
+> -	if (ret)
+> +	/* We shouldn't have gotten this far if we can't parse the chip_id */
+> +	if (WARN_ON(ret))
+>   		return ret;
+>   
+>   	dev->platform_data = &config;
+>   	priv->gpu_pdev = to_platform_device(dev);
+>   
+>   	info = adreno_info(config.chip_id);
+> -	if (!info) {
+> -		dev_warn(drm->dev, "Unknown GPU revision: %"ADRENO_CHIPID_FMT"\n",
+> -			ADRENO_CHIPID_ARGS(config.chip_id));
+> +	/* We shouldn't have gotten this far if we don't recognize the GPU: */
+> +	if (!WARN_ON(info))
+>   		return -ENXIO;
+> -	}
+>   
+>   	config.info = info;
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 87ee9839ca4a..40eb04bab35e 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -956,7 +956,7 @@ static int add_gpu_components(struct device *dev,
+>   	if (!np)
+>   		return 0;
+>   
+> -	if (of_device_is_available(np))
+> +	if (of_device_is_available(np) && adreno_has_gpu(np))
+>   		drm_of_component_match_add(dev, matchptr, component_compare_of, np);
+>   
+>   	of_node_put(np);
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 5508885d865f..56bd1a646b83 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -729,6 +729,7 @@ msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task,
+>   void msm_gpu_cleanup(struct msm_gpu *gpu);
+>   
+>   struct msm_gpu *adreno_load_gpu(struct drm_device *dev);
+> +bool adreno_has_gpu(struct device_node *node);
+>   void __init adreno_register(void);
+>   void __exit adreno_unregister(void);
+>   
+
+
+-- 
+With best wishes
+Dmitry
