@@ -2,146 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E15AD166C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 03:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6B4AD16CB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 04:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CF810F4CB;
-	Mon,  9 Jun 2025 00:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73AA10E009;
+	Mon,  9 Jun 2025 02:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k2kDOmY9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c0kBymWW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1252310EEF6;
- Mon,  9 Jun 2025 00:59:41 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2320d06b728so32221335ad.1; 
- Sun, 08 Jun 2025 17:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749430780; x=1750035580; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=1UZ3G3hP2PMByn8gAasj2ugyuBhdWDYhYy8rSg1DMCk=;
- b=k2kDOmY9mDm/FBmd5ns82vPeshsoljxGmsl7UuTG8bXpsnExLBFDZsrLerXBS2ZRQK
- x3kGx7xypGjKduTqzEulHssGSPLWLrx9nd2qI8w/e23L2SEDIBasqXShrd6K3X8wRHgv
- XhBub8Oh58CYZUq+Dq5azJ7AI1vWp7zRNUeizrNyO/5moNPQwc42xbqywIpTDkc3KV05
- mZLdbUTdYnjhb2WqTuz2Gj+CCrogWU5x9X405IgghRIeeWlgJAfjxJttbldIXcw0VNTN
- +N07vRS7HgSkAgrzWn7huDWtkCGys4oeURmQtonMLqijwT+EeKrPLySR/b/k10JFGobK
- rNRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749430780; x=1750035580;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1UZ3G3hP2PMByn8gAasj2ugyuBhdWDYhYy8rSg1DMCk=;
- b=WiwOB691xbm0NDNAvyuzLEl8VGLbt9+9TxMsJGxGg6dFjQNXZp7aF4jApTRhpSnSMg
- EU9YzOlqmunfcYOqp5S/kkFaIqiLoXDB1GaU3Xd4dJjAe8v3a11BPhsgPykSqiuzrF1S
- oTzzsOAMLEDT4MMN1Dc2VW7qQoDjoau01LPFxRSrMeHWcodD9FK90TiW4LoVCYHeWG71
- z9PhSIqbAxxTDY2qrz9AvAcGw++xdbhvahPKhgjRGdBlUA3MuMMQMamfqSJo/jYPKnT8
- +GIQrTeyjEaDOm89YVT0iQx0W/xcPkRb/pNaU7rfRuNUOrxUdREk+dBDLgSHW93KSgFy
- VhAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3ENjBbLd9ThRVk5bP8Eea0B7Tu25FweMuRwyQ19cEd0TNR9IBap1Q5HNL3Ah1Lkujki7HB9TLELwy@lists.freedesktop.org,
- AJvYcCU5izimjzogkMcN/a9J2QxndEAfTvnkX1772mmWJXFUqM4yjZwoJ22p+SNrDR2bim9qvK4eyFKqz0o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5HXUs13LAC5zEs2nUXVaVy4MlBITcrO/HeEp0XzB/EZRSNWy2
- aypN0uEp50bGBTf3SEQth3uryR6E7wlAnA31Hx5tWJMui16+UloEPTzN
-X-Gm-Gg: ASbGncuroSgw+nqvmtV7zz+KG4Ug8OB3fYWvXNrHo2sOq+sDRizjCwd7Y3upIgNVno1
- 4GtXDlOBRHy1+S/EJr68gLxJNblUmMfy8juklb2DNZqT8bnRkn8EM0Rl8vGG50DJUd85yutQAIV
- sVb2EVnlIFAJ6a6H3+cKUcp61gL3c/Sphjex4pKqihzNWwTMlqZKYNUIWZRHtpmENfo0poALrek
- chJcREmCjrnp6RoPO6iakoAjA9Cucy/sJ/fnHsgdzdAtaTn9u0cG1088zdZ29ffIN097rx2hj5x
- u7hpcOg0Tklvzj3hxplIqQR1Q52Ux4N/3SbjegSDVKZ5T33/p8w/HG2vU0cQalWbC67UOIgzLdX
- 43wU05FsGSNTVDgdkFcE7tn0tTVVvxMJbQw16bfwikSD69w==
-X-Google-Smtp-Source: AGHT+IFx7Bw//bf81ZFuNLNFxpt0Z3XFm1C4VkqMkhOt4fhQ54pvjlNDTtmhS80ppAjEon3na2MsaA==
-X-Received: by 2002:a17:902:e84b:b0:234:cf24:3be8 with SMTP id
- d9443c01a7336-23601d172bbmr161947955ad.28.1749430780376; 
- Sun, 08 Jun 2025 17:59:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5?
- ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23603096983sm44234525ad.85.2025.06.08.17.59.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jun 2025 17:59:39 -0700 (PDT)
-Message-ID: <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net>
-Date: Sun, 8 Jun 2025 17:59:37 -0700
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8EA310E009
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 02:25:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A89BCA414DD;
+ Mon,  9 Jun 2025 02:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFA7C4CEEE;
+ Mon,  9 Jun 2025 02:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749435895;
+ bh=JikvJDoUGRQoKS5a6Vqsu5jIrpZBcJJsqsOrm0ocGrw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=c0kBymWWTh7UD9q9569esGrA+9QcPEo29In+ln9201+NdDWT6lX1mktfh2pJBFmS9
+ y8EBbtDr9jOhVPacbjXTFgCjEivQa0ql7p1MuoO8FnwXFtYZu00grXhB5qet1eLLgi
+ pqD3gGD3rxW8qIXNoQd9IE+pYwvmYb1MVa5eTFTdWvlgV1Q2EitgfeihgCiXAppaTn
+ KN/oPjorbi27qMhvoPzVztIAA5c/2fPnTVaflKAdpYwCeSwmXZcB1oPO8LzNSzFVhj
+ eCDZ+IWP+wjrfLjq1W6jpX3iaXrSjbo8G1l2kKyD3xfNDO2tMWmDeHIn7VwgETQdmr
+ l8QWsZNByCILw==
+From: Mario Limonciello <superm1@kernel.org>
+To: mario.limonciello@amd.com,
+	bhelgaas@google.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org
+Subject: [RFC PATCH] PCI/VGA: Look at all PCI display devices in VGA arbiter
+Date: Sun,  8 Jun 2025 21:24:21 -0500
+Message-ID: <20250609022435.348589-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- "Usyskin, Alexander" <alexander.usyskin@intel.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
- <vigneshr@ti.com>, "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "Poosa, Karthik" <karthik.poosa@intel.com>,
- "Abliyev, Reuven" <reuven.abliyev@intel.com>,
- "Weil, Oren jer" <oren.jer.weil@intel.com>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250302140921.504304-1-alexander.usyskin@intel.com>
- <20250302140921.504304-2-alexander.usyskin@intel.com>
- <9dfb2954-fc3e-464c-a4fd-8c1a4dffa327@roeck-us.net>
- <CY5PR11MB63666AE267B9F1609213D93CED68A@CY5PR11MB6366.namprd11.prod.outlook.com>
- <87bjqyja7o.fsf@bootlin.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <87bjqyja7o.fsf@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,63 +56,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/8/25 12:37, Miquel Raynal wrote:
-> Hi Guenter,
-> 
-> On 08/06/2025 at 07:00:10 GMT, "Usyskin, Alexander" <alexander.usyskin@intel.com> wrote:
-> 
->>> Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
->>>
->>> Hi,
->>>
->>> On Sun, Mar 02, 2025 at 04:09:11PM +0200, Alexander Usyskin wrote:
->>>> Create master device without partition when
->>>> CONFIG_MTD_PARTITIONED_MASTER flag is unset.
->>>>
->>>> This streamlines device tree and allows to anchor
->>>> runtime power management on master device in all cases.
->>>>
->>>> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
->>>
->>> Several of my qemu boot tests fail to boot from mtd devices with this patch
->>> in the mainline kernel. Reverting it fixes the problem. As far as I can
->>> see this affects configurations with CONFIG_MTD_PARTITIONED_MASTER=y
->>> when
->>> trying to boot from an mtd partition other than mtdblock0, with the
->>> mtd partition data in devicetree (.../aspeed/openbmc-flash-layout.dtsi).
->>> Is there a guidance describing the changed behavior, by any chance,
->>> and how the boot command line now needs to look like when using one of
->>> the flash partitions as root file system ?
->>>
->>> Thanks,
->>> Guenter
->>
->> I've tried to make is as transparent as possible for the existing users.
->> Only change is that now every partition has master that is not partitioned.
->> Is the CONFIG_MTD_PARTITIONED_MASTER=n fixed the problem for you?
-> 
-> No change is expected, can you please describe the devices that you
-> observe with and without the patch? Maybe there is something wrong in
-> the core logic.
-> 
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-I am trying to boot supermicro-x11spi-bmc in qemu from flash partition 6.
-The qemu command line is something like
+On an A+N mobile system the APU is not being selected by some desktop
+environments for any rendering tasks. This is because the neither GPU
+is being treated as "boot_vga" but that is what some environments use
+to select a GPU [1].
 
-     qemu-system-arm -M supermicro-x11spi-bmc,fmc-model=n25q256a13,spi-model=n25q256a13 \
-	-kernel arch/arm/boot/zImage -no-reboot -snapshot \
-	-audio none \
-	-drive file=/tmp/flash,format=raw,if=mtd,index=1 \
-	-nic user \
-	--append "root=/dev/mtdblock6 rootwait console=ttyS4,115200 earlycon=uart8250,mmio32,0x1e784000,115200n8" \
-	-dtb arch/arm/boot/dts/aspeed/aspeed-bmc-supermicro-x11spi.dtb \
-	-nographic -monitor null -serial stdio
+The VGA arbiter driver only looks at devices that report as PCI display
+VGA class devices. Neither GPU on the system is a display VGA class
+device:
 
-This is with aspeed_g5_defconfig. Note that the flash models need to be specified.
-The default flashes are no longer recognized when booting from qemu since commit
-947c86e481a0 ("mtd: spi-nor: macronix: Drop the redundant flash info fields").
+c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
 
-The above only works with this patch reverted (or with v6.15 and older, of course).
+So neither device gets the boot_vga sysfs file. The vga_is_boot_device()
+function already has some handling for integrated GPUs by looking at the
+ACPI HID entries, so if all PCI display class devices are looked at it
+actually can detect properly with this device ordering.  However if there
+is a different ordering it could flag the wrong device.
 
-Guenter
+Modify the VGA arbiter code and matching sysfs file entries to examine all
+PCI display class devices. After every device is added to the arbiter list
+make a pass on all devices and explicitly check whether one is integrated.
+
+This will cause all GPUs to gain a `boot_vga` file, but the correct device
+(APU in this case) will now show `1` and the incorrect device shows `0`.
+Userspace then picks the right device as well.
+
+Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/pci/pci-sysfs.c |  2 +-
+ drivers/pci/vgaarb.c    | 53 ++++++++++++++++++++++++++---------------
+ include/linux/pci.h     | 15 ++++++++++++
+ 3 files changed, 50 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 268c69daa4d57..c314ee1b3f9ac 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 
+-	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
++	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+ 		return a->mode;
+ 
+ 	return 0;
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 78748e8d2dbae..8281144747487 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -139,7 +139,7 @@ void vga_set_default_device(struct pci_dev *pdev)
+ {
+ 	if (vga_default == pdev)
+ 		return;
+-
++	vgaarb_info(&pdev->dev, "selecting as VGA boot device\n");
+ 	pci_dev_put(vga_default);
+ 	vga_default = pci_dev_get(pdev);
+ }
+@@ -676,9 +676,9 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+ 	}
+ 
+ 	/*
+-	 * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+-	 * other VGA devices, it is the best candidate so far.
+-	 */
++	* Vgadev has neither IO nor MEM enabled.  If we haven't found any
++	* other VGA devices, it is the best candidate so far.
++	*/
+ 	if (!boot_vga)
+ 		return true;
+ 
+@@ -751,6 +751,31 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+ 		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
+ }
+ 
++static
++void vga_arbiter_select_default_device(void)
++{
++	struct pci_dev *candidate = vga_default_device();
++	struct vga_device *vgadev;
++
++	list_for_each_entry(vgadev, &vga_list, list) {
++		if (vga_is_boot_device(vgadev)) {
++			/* check if one is an integrated GPU, use that if so */
++			if (candidate) {
++				if (vga_arb_integrated_gpu(&candidate->dev))
++					break;
++				if (vga_arb_integrated_gpu(&vgadev->pdev->dev)) {
++					candidate = vgadev->pdev;
++					break;
++				}
++			} else
++				candidate = vgadev->pdev;
++		}
++	}
++
++	if (candidate)
++		vga_set_default_device(candidate);
++}
++
+ /*
+  * Currently, we assume that the "initial" setup of the system is not sane,
+  * that is, we come up with conflicting devices and let the arbiter's
+@@ -816,13 +841,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+ 		bus = bus->parent;
+ 	}
+ 
+-	if (vga_is_boot_device(vgadev)) {
+-		vgaarb_info(&pdev->dev, "setting as boot VGA device%s\n",
+-			    vga_default_device() ?
+-			    " (overriding previous)" : "");
+-		vga_set_default_device(pdev);
+-	}
+-
+ 	vga_arbiter_check_bridge_sharing(vgadev);
+ 
+ 	/* Add to the list */
+@@ -833,6 +851,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+ 		vga_iostate_to_str(vgadev->owns),
+ 		vga_iostate_to_str(vgadev->locks));
+ 
++	vga_arbiter_select_default_device();
+ 	spin_unlock_irqrestore(&vga_lock, flags);
+ 	return true;
+ fail:
+@@ -1499,8 +1518,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+ 
+ 	vgaarb_dbg(dev, "%s\n", __func__);
+ 
+-	/* Only deal with VGA class devices */
+-	if (!pci_is_vga(pdev))
++	/* Only deal with display devices */
++	if (!pci_is_display(pdev))
+ 		return 0;
+ 
+ 	/*
+@@ -1548,12 +1567,8 @@ static int __init vga_arb_device_init(void)
+ 
+ 	/* Add all VGA class PCI devices by default */
+ 	pdev = NULL;
+-	while ((pdev =
+-		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+-			       PCI_ANY_ID, pdev)) != NULL) {
+-		if (pci_is_vga(pdev))
+-			vga_arbiter_add_pci_device(pdev);
+-	}
++	while ((pdev = pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev)))
++		vga_arbiter_add_pci_device(pdev);
+ 
+ 	pr_info("loaded\n");
+ 	return rc;
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 05e68f35f3923..e77754e43c629 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -744,6 +744,21 @@ static inline bool pci_is_vga(struct pci_dev *pdev)
+ 	return false;
+ }
+ 
++/**
++ * pci_is_display - Check if a PCI device is a display controller
++ * @pdev: Pointer to the PCI device structure
++ *
++ * This function determines whether the given PCI device corresponds
++ * to a display controller. Display controllers are typically used
++ * for graphical output and are identified based on their class code.
++ *
++ * Return: true if the PCI device is a display controller, false otherwise.
++ */
++static inline bool pci_is_display(struct pci_dev *pdev)
++{
++	return (pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY;
++}
++
+ #define for_each_pci_bridge(dev, bus)				\
+ 	list_for_each_entry(dev, &bus->devices, bus_list)	\
+ 		if (!pci_is_bridge(dev)) {} else
+-- 
+2.43.0
 
