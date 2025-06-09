@@ -2,118 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56C6AD22F5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 17:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58E6AD2300
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 17:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2101810E3B5;
-	Mon,  9 Jun 2025 15:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7479110E236;
+	Mon,  9 Jun 2025 15:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="a8DfLomd";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XTINnSIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BE910E3B5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 15:51:13 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 559A3C7a004538
- for <dri-devel@lists.freedesktop.org>; Mon, 9 Jun 2025 15:51:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=K+GJtEmFeWWV7acoRA4FQCe7
- suMJMwpWj1BE28bV0Ww=; b=a8DfLomddNxsdSt1oNauMa1WiRDQR41rKMnCrldL
- mMbZS+/IXuFye+VD9bJ5A3IPH0PIk9ZQHS2pl/42durVPDVZ/+Slzt0/1CgxMQNz
- ZE56kus+FBFoFT0dtvQfc1fqdoKOohjkHS0Dp/N3XVkir9lTVPCCIQBN1XhG6Qi7
- 0ZRCMWQuFPXeLhfBn3/5iu3r9ybN6c7566IQQH+4FMAIXLBzwDiZOMSfFbuXgvev
- HxJKMfB5c/08YpfcvkEbyOGViDnCJtNHpikWGLb0dVihNutLnZmd8YBDa/pVPQcG
- n0XufbzxXfYwKdep1aENBv997oPpLuuIi/vcS3U89Q0Xcg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474e6jeasu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 15:51:12 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5e28d0cc0so693664585a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 08:51:12 -0700 (PDT)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD8110E07C;
+ Mon,  9 Jun 2025 15:53:08 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-b271f3ae786so2968617a12.3; 
+ Mon, 09 Jun 2025 08:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749484387; x=1750089187; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=9k5+Ykngl8b7HVjIc8RfX/THRGAxyweF7cixLGl/oLQ=;
+ b=XTINnSIf9lFKOtVyfV/CuIiP7MEbgWl3PvkfxT8UEx/K5fy1fd/G4asFAQ7eZXiam4
+ 1meJcHDQ9IMT7kbB/fcGk5heBhvNuCk4GIhVF/taGyxL5SKju83/sqSJc05WjCnr9msh
+ TkWm+7jTCA4vTIBx7cE9gHZy4rv3zvRMYYuSgHhjP9v5i66EFW3xuo5aPsQ67+ADrKSE
+ FjhcHpEUzmxkrMODAG7cSIuELikggt+gj9CG8QjP1kwDe2WxFLzrcxQHMOSfCovBjBpy
+ rgGyQbXh40mKfYRotyR3NJ/9fS+XDObxoF4wptIohqPt3IcYV67dR6bsl4/trTJ83aQO
+ IMTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749484271; x=1750089071;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1749484387; x=1750089187;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K+GJtEmFeWWV7acoRA4FQCe7suMJMwpWj1BE28bV0Ww=;
- b=FnPvsKuKdIZ06tJ87D7tt0zsxYlZg45PfKsTJ+N1DmH44+TX/6DOUhq9HRZC7CUfpY
- EGwl7yXmRjoHa2VT1GSnsY4ZyCY2Xe6TFFd7BenF8FzeYZhkGfHSnFV17qTshl03QnJ3
- LYEuDQyQ7t1WKmXDnbM0hyKcr2lp2F0qFzWDj+60+OXc8JJDHuUkh2AmRBcsrv1KEeOH
- L7axiagOdtohummWcPb5dCoq5KJ6VqPmTRW3Ar2hwwu3L8627RM23oFCrLsQzzi1IpZP
- AsWwWr2r3pGv0QURLfCT4TpS2U+l8acrlOq4Q8RD4olotLVPHXL6hiPmoZ9g3JJbUx+f
- NGZA==
+ bh=9k5+Ykngl8b7HVjIc8RfX/THRGAxyweF7cixLGl/oLQ=;
+ b=ULsRVlERKV+l/vqIdWxrG+7egWKFAJ/4wXWn6+2HIClDiE5UHLdbB/UPjgeFEQfyul
+ ziGO4xw/j39TFxAFAqI2HsDiM3THZC4QbYiHp1HX1DzoPCneupVVeZt51NlwR8iCyXvC
+ MjRbJppDjPFk1onKdD6xHkMCtpN0xIm5KbYkbVxNum5klwmOwhWNeSBJI2eWFi34NGnx
+ e0RAvoyIrI1CNucMmsBN6bgV+yPLLg5T+CwIIN520/PW8b3RoWygqh+XZBHeD8TRZjvY
+ QuFGJxJxIF/bGlQsy2h1iYmuXAs6/54LqE9krfe0fP6ft3OMTEIOyRJsJzf+U9fBDoJO
+ KWLw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGaFpwaf5eg5Bqw9xJ97T44ugbjteiCsUo5kSDs+rwQSREHzH+2PCgg5SB0MaADClunkPoWrEh2ts=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyp4pYtd1VtI2jPdAHKJtrgFSoNnUnEA7IERoxPl2u6oVwSXojO
- 4Z0/Ch0ss17EFtUxlsaH2aE2x6d0huasOQf3Qg51hxDEKMCq8RvqfILT20WKGYyvrgzOUueUI9/
- T/ccHOsn/kstJKf/ZYtwveVRBBC6U+07RwiQjOSTondkr+rSTCaL43O555j7K07ac4qwO9g0=
-X-Gm-Gg: ASbGncufhVKTnr5p06EOv6n4qoyM6N1dwDX1MDDRFJzAmEnFwlSZwR3VZp3WK8mAxNO
- ZdGenjeWueAaGKpR/C1FhpTFJS7tJW0sNqF/pOa+AI6gZWRhUcBlYcS/3HMfWZ02vQNbrhbzvyH
- fuBFpm1PbzI8sCjFWAt2mwg369REUIgxEIH4ps2+RJ+k8bWIqSU5t5NvFB06h5u1UJBM22pTmcy
- kulVbFhq8CW7yMNXznE3JlVAdelM26VJL4gllAfDJllQ9n0mhBEEUXqFfXS0FJ/+UuNrZNbyGej
- UTxvwRg2/xCsntHp5G+ysi8l453XKe+T5g06t1uJdcCZHNPPNj1S+w8RXUEoXYrhXh40GkfGtTE
- =
-X-Received: by 2002:a05:620a:2694:b0:7c5:a41a:b1a with SMTP id
- af79cd13be357-7d22985b912mr1886686285a.10.1749484271320; 
- Mon, 09 Jun 2025 08:51:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHkgTWv8MC/AitIaS/DA4ob4l3D99JLGsatSu5WEducw95bQhwsH7AW9Oj21iwH8CSCiLhHEg==
-X-Received: by 2002:a05:620a:2694:b0:7c5:a41a:b1a with SMTP id
- af79cd13be357-7d22985b912mr1886681885a.10.1749484270922; 
- Mon, 09 Jun 2025 08:51:10 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCV1h0rFCbq8F04d1fe6Yiarfup/aiWXTA5Jw6GxAZ/UxA9Z7yisVqZlMxcRfIUPywaaOz7+V6nCm8vF@lists.freedesktop.org,
+ AJvYcCVYu47x9YURxjv9sOTIeBsZIhHnrIOHD6wC/tg49CtpIBvTycbE+gKG6qSSu8tIrZXGiDFp0AU5W8E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3yAwVXsPMfw0day2hjuu/WAJBH1+QmKCSbUFNK5UQkBkpQ8Kp
+ dJ1srkkFvVEKFqEwOZXVWoFNK28V5Q6o4DD8M/73jVIJiqHJ0ZDn/FPz
+X-Gm-Gg: ASbGnct18+ws/PezXtp4i2m1Y7gg4qB9dM4KUmsDV1lNYR1IRrLK9KRwxNbV1w0y0t0
+ cLOWhwHYU6CwbJOAGdIxCTnToMIKZl3LHRcby+50e/usmXzpzMcCLzWtDtjqp6FZSfais2JXOOh
+ i/aAewTKCoFAAiwb6F/bOfjGtW0FGKk//4i+hPlk3PqzYuAC3uzWoQ3Cxb/T5qF2pzyFyZKbitK
+ cUeT0SBTsPcSB7BFehsqtNHHj5gsN58jikGlEq4XLHqZN6uCLTA5zA+weQJlWSQLWiV/oucIMDk
+ 0HwVfl0+gLoVEY6gyRsxMZLcMT58HJdw8pQYhUi/Ft8QRfswde2kLuTo4lTxkDk9g/+oR0QUpby
+ /SWTH5M6BkMcNyQ6mnF9XbH62GSpHXzu3vMk=
+X-Google-Smtp-Source: AGHT+IHn6XGqRb0r+PScKvY1/LXjodqC4uuhJh/N8+E16Q0KZPbEdLymBASG89/eXT0jhBGc4IFnsQ==
+X-Received: by 2002:a05:6a21:6009:b0:21c:fa68:b47c with SMTP id
+ adf61e73a8af0-21ee25b3bb4mr21289655637.18.1749484386972; 
+ Mon, 09 Jun 2025 08:53:06 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5?
+ ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5536772a817sm1205198e87.171.2025.06.09.08.51.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jun 2025 08:51:10 -0700 (PDT)
-Date: Mon, 9 Jun 2025 18:51:08 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 29/38] drm/msm/dp: add connector abstraction for DP MST
-Message-ID: <fcmbo5qhiifo3erfnejgtu6es2nmeo3c5r4plbutj23gdtydng@xy3mqkhbsjia>
-References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
- <20250609-msm-dp-mst-v2-29-a54d8902a23d@quicinc.com>
+ 41be03b00d2f7-b2f5f66a88dsm5448241a12.40.2025.06.09.08.53.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jun 2025 08:53:06 -0700 (PDT)
+Message-ID: <2e5ebbdd-2a57-4f1f-85c6-7c2dff127b50@roeck-us.net>
+Date: Mon, 9 Jun 2025 08:53:04 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250609-msm-dp-mst-v2-29-a54d8902a23d@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=Id6HWXqa c=1 sm=1 tr=0 ts=684702f0 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8 a=BF5CnLKeIFxmMbDrz1YA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Y_Gm5Bw1gD9KBaHF5vfZWgy4NbwZ6YMP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDExNyBTYWx0ZWRfX/gERMs/CcifS
- HTVClWu54OS/0Rz1Fayzj+zJiuV7P/QxR8N/tmUcj88mwsl03jFPCGTQM+w8xaaneva8W9XIit8
- d/Crs1/S7z4F8NsKfIALnzJ/zT3m8Nvw2v6GsgW+SJih6KLONuEyFIvj9NzD14GySVTge7J03ku
- XwT4cMeSAiTGhmu3oSIQE2LBiD3qkjbfy7yv8ycf5/PmwL2dVb79phWXZ5GFgxg4zx66MQYtTyY
- A/elmoqdgqD3MLWT598f+UuxLSBJMjNTfAYjjNTUX6mMXEOj/e643CoT6bMsA/6r/NH+k5BNjYA
- PLmwI49wlAYvipZjuNkiAr2htUnbil/osHGBdmIMZz+ieNhTSiZmJAZi7vqO9NeYlk1GRYgWaAp
- WOnqh81mxNM75D0OM/Hk58CvqqPcJaotM/Bm0lZoPHWJDe1MJGK1dRzlwISzwc54SqJXKX7O
-X-Proofpoint-GUID: Y_Gm5Bw1gD9KBaHF5vfZWgy4NbwZ6YMP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_06,2025-06-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506090117
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+To: "Usyskin, Alexander" <alexander.usyskin@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Poosa, Karthik" <karthik.poosa@intel.com>,
+ "Abliyev, Reuven" <reuven.abliyev@intel.com>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250302140921.504304-1-alexander.usyskin@intel.com>
+ <20250302140921.504304-2-alexander.usyskin@intel.com>
+ <9dfb2954-fc3e-464c-a4fd-8c1a4dffa327@roeck-us.net>
+ <CY5PR11MB63666AE267B9F1609213D93CED68A@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <87bjqyja7o.fsf@bootlin.com>
+ <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net>
+ <87ikl5xnbc.fsf@bootlin.com>
+ <CY5PR11MB63660CFA966BCA1B44528BB1ED6BA@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <4d55ac06-c357-4d78-b8b8-5b26486ce529@roeck-us.net>
+ <CY5PR11MB63662D21B2C7B1A1C2E6BC4BED6BA@CY5PR11MB6366.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CY5PR11MB63662D21B2C7B1A1C2E6BC4BED6BA@CY5PR11MB6366.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,88 +162,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 09, 2025 at 08:21:48PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On 6/9/25 08:16, Usyskin, Alexander wrote:
+>> Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+>>
+>> On 6/9/25 05:23, Usyskin, Alexander wrote:
+>>>> Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+>>>>
+>>>>
+>>>>>>>> Several of my qemu boot tests fail to boot from mtd devices with this
+>>>> patch
+>>>>>>>> in the mainline kernel. Reverting it fixes the problem. As far as I can
+>>>>>>>> see this affects configurations with
+>>>> CONFIG_MTD_PARTITIONED_MASTER=y
+>>>>>>>> when
+>>>>>>>> trying to boot from an mtd partition other than mtdblock0, with the
+>>>>>>>> mtd partition data in devicetree (.../aspeed/openbmc-flash-
+>> layout.dtsi).
+>>>>>>>> Is there a guidance describing the changed behavior, by any chance,
+>>>>>>>> and how the boot command line now needs to look like when using
+>> one
+>>>> of
+>>>>>>>> the flash partitions as root file system ?
+>>>>>>>>
+>>>>>>>> Thanks,
+>>>>>>>> Guenter
+>>>>>>>
+>>>>>>> I've tried to make is as transparent as possible for the existing users.
+>>>>>>> Only change is that now every partition has master that is not
+>> partitioned.
+>>>>>>> Is the CONFIG_MTD_PARTITIONED_MASTER=n fixed the problem for
+>> you?
+>>>>>> No change is expected, can you please describe the devices that you
+>>>>>> observe with and without the patch? Maybe there is something wrong in
+>>>>>> the core logic.
+>>>>>>
+>>>>>
+>>>>> I am trying to boot supermicro-x11spi-bmc in qemu from flash partition 6.
+>>>>> The qemu command line is something like
+>>>>>
+>>>>>       qemu-system-arm -M supermicro-x11spi-bmc,fmc-
+>>>> model=n25q256a13,spi-model=n25q256a13 \
+>>>>> 	-kernel arch/arm/boot/zImage -no-reboot -snapshot \
+>>>>> 	-audio none \
+>>>>> 	-drive file=/tmp/flash,format=raw,if=mtd,index=1 \
+>>>>> 	-nic user \
+>>>>> 	--append "root=/dev/mtdblock6 rootwait console=ttyS4,115200
+>>>> earlycon=uart8250,mmio32,0x1e784000,115200n8" \
+>>>>> 	-dtb arch/arm/boot/dts/aspeed/aspeed-bmc-supermicro-x11spi.dtb
+>>>> \
+>>>>> 	-nographic -monitor null -serial stdio
+>>>>>
+>>>>> This is with aspeed_g5_defconfig. Note that the flash models need to be
+>>>> specified.
+>>>>> The default flashes are no longer recognized when booting from qemu
+>> since
+>>>> commit
+>>>>> 947c86e481a0 ("mtd: spi-nor: macronix: Drop the redundant flash info
+>>>> fields").
+>>>>>
+>>>>> The above only works with this patch reverted (or with v6.15 and older, of
+>>>> course).
+>>>>>
+>>>>> Guenter
+>>>>
+>>>> Alexander, can you please investigate? We need a fix because Guenter
+>>>> might not be the only affecter user. Otherwise this patch can't stand,
+>>>> unfortunately.
+>>>>
+>>>> Thanks,
+>>>> Miquèl
+>>>
+>>> Maybe something is moved, and it is not /dev/mtdblock6 now.
+>>>
+>>
+>> With this patch:
+>>
+>> # ls -l /dev/*mtd*
+>> crw-------    1 root     root       90,   0 Jan  1 00:00 /dev/mtd0
+>> crw-------    1 root     root       90,   1 Jan  1 00:00 /dev/mtd0ro
+>> crw-------    1 root     root       90,   2 Jan  1 00:00 /dev/mtd1
+>> crw-------    1 root     root       90,   3 Jan  1 00:00 /dev/mtd1ro
+>> crw-------    1 root     root      244,   0 Jan  1 00:00 /dev/mtd_master0
+>> crw-------    1 root     root      244,   1 Jan  1 00:00 /dev/mtd_master1
+>> brw-------    1 root     root       31,   0 Jan  1 00:00 /dev/mtdblock0
+>> brw-------    1 root     root       31,   1 Jan  1 00:00 /dev/mtdblock1
+>> ~ # ls /proc/mtd
+>> /proc/mtd
+>> ~ # cat /proc/mtd
+>> dev:    size   erasesize  name
+>> mtd0: 02000000 00010000 "bmc"
+>> mtd1: 02000000 00010000 "pnor"
+>>
+>> After reverting it:
+>>
+>> # ls -l /dev/mtd*
+>> crw-------    1 root     root       90,   0 Jan  1 00:00 /dev/mtd0
+>> crw-------    1 root     root       90,   1 Jan  1 00:00 /dev/mtd0ro
+>> crw-------    1 root     root       90,   2 Jan  1 00:00 /dev/mtd1
+>> crw-------    1 root     root       90,   3 Jan  1 00:00 /dev/mtd1ro
+>> crw-------    1 root     root       90,   4 Jan  1 00:00 /dev/mtd2
+>> crw-------    1 root     root       90,   5 Jan  1 00:00 /dev/mtd2ro
+>> crw-------    1 root     root       90,   6 Jan  1 00:00 /dev/mtd3
+>> crw-------    1 root     root       90,   7 Jan  1 00:00 /dev/mtd3ro
+>> crw-------    1 root     root       90,   8 Jan  1 00:00 /dev/mtd4
+>> crw-------    1 root     root       90,   9 Jan  1 00:00 /dev/mtd4ro
+>> crw-------    1 root     root       90,  10 Jan  1 00:00 /dev/mtd5
+>> crw-------    1 root     root       90,  11 Jan  1 00:00 /dev/mtd5ro
+>> crw-------    1 root     root       90,  12 Jan  1 00:00 /dev/mtd6
+>> crw-------    1 root     root       90,  13 Jan  1 00:00 /dev/mtd6ro
+>> brw-------    1 root     root       31,   0 Jan  1 00:00 /dev/mtdblock0
+>> brw-------    1 root     root       31,   1 Jan  1 00:00 /dev/mtdblock1
+>> brw-------    1 root     root       31,   2 Jan  1 00:00 /dev/mtdblock2
+>> brw-------    1 root     root       31,   3 Jan  1 00:00 /dev/mtdblock3
+>> brw-------    1 root     root       31,   4 Jan  1 00:00 /dev/mtdblock4
+>> brw-------    1 root     root       31,   5 Jan  1 00:00 /dev/mtdblock5
+>> brw-------    1 root     root       31,   6 Jan  1 00:00 /dev/mtdblock6
+>> ~ # cat /proc/mtd
+>> dev:    size   erasesize  name
+>> mtd0: 02000000 00010000 "bmc"
+>> mtd1: 00060000 00010000 "u-boot"
+>> mtd2: 00020000 00010000 "u-boot-env"
+>> mtd3: 00440000 00010000 "kernel"
+>> mtd4: 01740000 00010000 "rofs"
+>> mtd5: 00400000 00010000 "rwfs"
+>> mtd6: 02000000 00010000 "pnor"
+>>
+>> I am trying to boot from "pnor". It looks like the partition data (from
+>> devicetree)
+>> is now ignored. mtdblock6 used to be the second flash.
+>>
+>> Guenter
 > 
-> Add connector abstraction for the DP MST. Each MST encoder
-> is connected through a DRM bridge to a MST connector and each
-> MST connector has a DP panel abstraction attached to it.
+> Is this with CONFIG_MTD_PARTITIONED_MASTER?
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_mst_drm.c | 515 ++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_mst_drm.h |   3 +
->  2 files changed, 518 insertions(+)
 
-> +
-> +static enum drm_mode_status msm_dp_mst_connector_mode_valid(struct drm_connector *connector,
-> +							    const struct drm_display_mode *mode)
-> +{
-> +	struct msm_dp_mst_connector *mst_conn;
-> +	struct msm_dp *dp_display;
-> +	struct drm_dp_mst_port *mst_port;
-> +	struct msm_dp_panel *dp_panel;
-> +	struct msm_dp_mst *mst;
-> +	u16 full_pbn, required_pbn;
-> +	int available_slots, required_slots;
-> +	struct msm_dp_mst_bridge_state *dp_bridge_state;
-> +	int i, slots_in_use = 0, active_enc_cnt = 0;
-> +	const u32 tot_slots = 63;
-> +
-> +	if (drm_connector_is_unregistered(connector))
-> +		return 0;
-> +
-> +	mst_conn = to_msm_dp_mst_connector(connector);
-> +	dp_display = mst_conn->msm_dp;
-> +	mst = dp_display->msm_dp_mst;
-> +	mst_port = mst_conn->mst_port;
-> +	dp_panel = mst_conn->dp_panel;
-> +
-> +	if (!dp_panel || !mst_port)
-> +		return MODE_ERROR;
-> +
-> +	for (i = 0; i < mst->max_streams; i++) {
-> +		dp_bridge_state = to_msm_dp_mst_bridge_state(&mst->mst_bridge[i]);
-> +		if (dp_bridge_state->connector &&
-> +		    dp_bridge_state->connector != connector) {
-> +			active_enc_cnt++;
-> +			slots_in_use += dp_bridge_state->num_slots;
-> +		}
-> +	}
-> +
-> +	if (active_enc_cnt < DP_STREAM_MAX) {
-> +		full_pbn = mst_port->full_pbn;
-> +		available_slots = tot_slots - slots_in_use;
-> +	} else {
-> +		DRM_ERROR("all mst streams are active\n");
-> +		return MODE_BAD;
-> +	}
-> +
-> +	required_pbn = drm_dp_calc_pbn_mode(mode->clock, (connector->display_info.bpc * 3) << 4);
-> +
-> +	required_slots = msm_dp_mst_find_vcpi_slots(&mst->mst_mgr, required_pbn);
-> +
-> +	if (required_pbn > full_pbn || required_slots > available_slots) {
-> +		drm_dbg_dp(dp_display->drm_dev,
-> +			   "mode:%s not supported. pbn %d vs %d slots %d vs %d\n",
-> +			   mode->name, required_pbn, full_pbn,
-> +			   required_slots, available_slots);
-> +		return MODE_BAD;
-> +	}
+Yes
 
-I almost missed this. Could you please point me, do other drivers
-perform mode_valid() check based on the current slots available or not?
-Could you please point me to the relevant code in other drivers? Because
-it doesn't look correct to me. The mode on the screen remains valid no
-matter if I plug or unplug other devices. The atomic_check() should fail
-if we don't have enough resources (which includes slots).
+> I think that mtd_is_partition is ambiguous now.
+> We always have master partition when CONFIG_MTD_PARTITIONED_MASTER
+> is enabled and parent check is useless.
+> We must check grandparent in this case.
+> Miquel, am I right?
+> 
+> We can return to older patch version that have created partition
+> instead of the master device.
+> Or try to fix mtd_is_partition, like below.
+> Guenter, is below patch helps?
+> 
+No, it does not make a difference. Partitions are still not created.
 
-> +
-> +	return msm_dp_display_mode_valid(dp_display, &dp_display->connector->display_info, mode);
-> +}
-> +
+Guenter
 
--- 
-With best wishes
-Dmitry
