@@ -2,70 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F784AD1666
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 02:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E15AD166C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 03:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB3CF10E5D9;
-	Mon,  9 Jun 2025 00:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CF810F4CB;
+	Mon,  9 Jun 2025 00:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MkORAGaF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k2kDOmY9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3DD10E5D9
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749430284; x=1780966284;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
- b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
- ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
- yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
- sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
- AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
- zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh A==;
-X-CSE-ConnectionGUID: Jj9Vu+G0QX+R2Er+KIRcFQ==
-X-CSE-MsgGUID: o+niCTh/R2SpARotd7JR9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497139"
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; d="scan'208";a="51497139"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2025 17:51:23 -0700
-X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
-X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; d="scan'208";a="151605279"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uOQjN-0006fF-0l;
- Mon, 09 Jun 2025 00:51:17 +0000
-Date: Mon, 9 Jun 2025 08:51:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
-References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1252310EEF6;
+ Mon,  9 Jun 2025 00:59:41 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2320d06b728so32221335ad.1; 
+ Sun, 08 Jun 2025 17:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749430780; x=1750035580; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=1UZ3G3hP2PMByn8gAasj2ugyuBhdWDYhYy8rSg1DMCk=;
+ b=k2kDOmY9mDm/FBmd5ns82vPeshsoljxGmsl7UuTG8bXpsnExLBFDZsrLerXBS2ZRQK
+ x3kGx7xypGjKduTqzEulHssGSPLWLrx9nd2qI8w/e23L2SEDIBasqXShrd6K3X8wRHgv
+ XhBub8Oh58CYZUq+Dq5azJ7AI1vWp7zRNUeizrNyO/5moNPQwc42xbqywIpTDkc3KV05
+ mZLdbUTdYnjhb2WqTuz2Gj+CCrogWU5x9X405IgghRIeeWlgJAfjxJttbldIXcw0VNTN
+ +N07vRS7HgSkAgrzWn7huDWtkCGys4oeURmQtonMLqijwT+EeKrPLySR/b/k10JFGobK
+ rNRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749430780; x=1750035580;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1UZ3G3hP2PMByn8gAasj2ugyuBhdWDYhYy8rSg1DMCk=;
+ b=WiwOB691xbm0NDNAvyuzLEl8VGLbt9+9TxMsJGxGg6dFjQNXZp7aF4jApTRhpSnSMg
+ EU9YzOlqmunfcYOqp5S/kkFaIqiLoXDB1GaU3Xd4dJjAe8v3a11BPhsgPykSqiuzrF1S
+ oTzzsOAMLEDT4MMN1Dc2VW7qQoDjoau01LPFxRSrMeHWcodD9FK90TiW4LoVCYHeWG71
+ z9PhSIqbAxxTDY2qrz9AvAcGw++xdbhvahPKhgjRGdBlUA3MuMMQMamfqSJo/jYPKnT8
+ +GIQrTeyjEaDOm89YVT0iQx0W/xcPkRb/pNaU7rfRuNUOrxUdREk+dBDLgSHW93KSgFy
+ VhAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3ENjBbLd9ThRVk5bP8Eea0B7Tu25FweMuRwyQ19cEd0TNR9IBap1Q5HNL3Ah1Lkujki7HB9TLELwy@lists.freedesktop.org,
+ AJvYcCU5izimjzogkMcN/a9J2QxndEAfTvnkX1772mmWJXFUqM4yjZwoJ22p+SNrDR2bim9qvK4eyFKqz0o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5HXUs13LAC5zEs2nUXVaVy4MlBITcrO/HeEp0XzB/EZRSNWy2
+ aypN0uEp50bGBTf3SEQth3uryR6E7wlAnA31Hx5tWJMui16+UloEPTzN
+X-Gm-Gg: ASbGncuroSgw+nqvmtV7zz+KG4Ug8OB3fYWvXNrHo2sOq+sDRizjCwd7Y3upIgNVno1
+ 4GtXDlOBRHy1+S/EJr68gLxJNblUmMfy8juklb2DNZqT8bnRkn8EM0Rl8vGG50DJUd85yutQAIV
+ sVb2EVnlIFAJ6a6H3+cKUcp61gL3c/Sphjex4pKqihzNWwTMlqZKYNUIWZRHtpmENfo0poALrek
+ chJcREmCjrnp6RoPO6iakoAjA9Cucy/sJ/fnHsgdzdAtaTn9u0cG1088zdZ29ffIN097rx2hj5x
+ u7hpcOg0Tklvzj3hxplIqQR1Q52Ux4N/3SbjegSDVKZ5T33/p8w/HG2vU0cQalWbC67UOIgzLdX
+ 43wU05FsGSNTVDgdkFcE7tn0tTVVvxMJbQw16bfwikSD69w==
+X-Google-Smtp-Source: AGHT+IFx7Bw//bf81ZFuNLNFxpt0Z3XFm1C4VkqMkhOt4fhQ54pvjlNDTtmhS80ppAjEon3na2MsaA==
+X-Received: by 2002:a17:902:e84b:b0:234:cf24:3be8 with SMTP id
+ d9443c01a7336-23601d172bbmr161947955ad.28.1749430780376; 
+ Sun, 08 Jun 2025 17:59:40 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5?
+ ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23603096983sm44234525ad.85.2025.06.08.17.59.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Jun 2025 17:59:39 -0700 (PDT)
+Message-ID: <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net>
+Date: Sun, 8 Jun 2025 17:59:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ "Usyskin, Alexander" <alexander.usyskin@intel.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Poosa, Karthik" <karthik.poosa@intel.com>,
+ "Abliyev, Reuven" <reuven.abliyev@intel.com>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250302140921.504304-1-alexander.usyskin@intel.com>
+ <20250302140921.504304-2-alexander.usyskin@intel.com>
+ <9dfb2954-fc3e-464c-a4fd-8c1a4dffa327@roeck-us.net>
+ <CY5PR11MB63666AE267B9F1609213D93CED68A@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <87bjqyja7o.fsf@bootlin.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <87bjqyja7o.fsf@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,160 +157,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On 6/8/25 12:37, Miquel Raynal wrote:
+> Hi Guenter,
+> 
+> On 08/06/2025 at 07:00:10 GMT, "Usyskin, Alexander" <alexander.usyskin@intel.com> wrote:
+> 
+>>> Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+>>>
+>>> Hi,
+>>>
+>>> On Sun, Mar 02, 2025 at 04:09:11PM +0200, Alexander Usyskin wrote:
+>>>> Create master device without partition when
+>>>> CONFIG_MTD_PARTITIONED_MASTER flag is unset.
+>>>>
+>>>> This streamlines device tree and allows to anchor
+>>>> runtime power management on master device in all cases.
+>>>>
+>>>> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+>>>
+>>> Several of my qemu boot tests fail to boot from mtd devices with this patch
+>>> in the mainline kernel. Reverting it fixes the problem. As far as I can
+>>> see this affects configurations with CONFIG_MTD_PARTITIONED_MASTER=y
+>>> when
+>>> trying to boot from an mtd partition other than mtdblock0, with the
+>>> mtd partition data in devicetree (.../aspeed/openbmc-flash-layout.dtsi).
+>>> Is there a guidance describing the changed behavior, by any chance,
+>>> and how the boot command line now needs to look like when using one of
+>>> the flash partitions as root file system ?
+>>>
+>>> Thanks,
+>>> Guenter
+>>
+>> I've tried to make is as transparent as possible for the existing users.
+>> Only change is that now every partition has master that is not partitioned.
+>> Is the CONFIG_MTD_PARTITIONED_MASTER=n fixed the problem for you?
+> 
+> No change is expected, can you please describe the devices that you
+> observe with and without the patch? Maybe there is something wrong in
+> the core logic.
+> 
 
-kernel test robot noticed the following build warnings:
+I am trying to boot supermicro-x11spi-bmc in qemu from flash partition 6.
+The qemu command line is something like
 
-[auto build test WARNING on geert-renesas-devel/next]
-[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+     qemu-system-arm -M supermicro-x11spi-bmc,fmc-model=n25q256a13,spi-model=n25q256a13 \
+	-kernel arch/arm/boot/zImage -no-reboot -snapshot \
+	-audio none \
+	-drive file=/tmp/flash,format=raw,if=mtd,index=1 \
+	-nic user \
+	--append "root=/dev/mtdblock6 rootwait console=ttyS4,115200 earlycon=uart8250,mmio32,0x1e784000,115200n8" \
+	-dtb arch/arm/boot/dts/aspeed/aspeed-bmc-supermicro-x11spi.dtb \
+	-nographic -monitor null -serial stdio
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
-patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
+This is with aspeed_g5_defconfig. Note that the flash models need to be specified.
+The default flashes are no longer recognized when booting from qemu since commit
+947c86e481a0 ("mtd: spi-nor: macronix: Drop the redundant flash info fields").
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
+The above only works with this patch reverted (or with v6.15 and older, of course).
 
-All warnings (new ones prefixed by >>):
+Guenter
 
->> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-         |                                                                                                       ~~~
-         |                                                                                                       %zu
-    1064 |                                          wc, msg->rx_len);
-         |                                              ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-         |                                                                                    ~~~
-         |                                                                                    %zu
-    1090 |                                          msg->rx_len);
-         |                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-
-  1020	
-  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
-  1022						      const struct mipi_dsi_msg *msg)
-  1023	{
-  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
-  1026		u32 reg, data, status, wc;
-  1027		int i, ret;
-  1028	
-  1029		/* RX transfer received data validation and parsing starts here. */
-  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
-  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
-  1032			/* Clear TATO Turn-Around TimeOut bit. */
-  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
-  1034			return -ETIMEDOUT;
-  1035		}
-  1036	
-  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
-  1038	
-  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-  1040			/* Transfer with zero-length RX */
-  1041			if (!(reg & RXPSR_RCVACK)) {
-  1042				/* No ACK on RX response received */
-  1043				return -EINVAL;
-  1044			}
-  1045		} else {
-  1046			/* Transfer with non-zero-length RX */
-  1047			if (!(reg & RXPSR_RCVRESP)) {
-  1048				/* No packet header of RX response received */
-  1049				return -EINVAL;
-  1050			}
-  1051	
-  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
-  1053				/* Incorrect response payload */
-  1054				return -ENODATA;
-  1055			}
-  1056	
-  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
-  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
-  1059				/* Read Long Packet Response length from packet header. */
-  1060				wc = data & 0xffff;
-  1061				if (wc > msg->rx_len) {
-  1062					dev_warn(dsi->dev,
-  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-> 1064						 wc, msg->rx_len);
-  1065					wc = msg->rx_len;
-  1066				}
-  1067	
-  1068				if (wc > 16) {
-  1069					dev_warn(dsi->dev,
-  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
-  1071						 wc);
-  1072					wc = 16;
-  1073				}
-  1074	
-  1075				for (i = 0; i < msg->rx_len; i++) {
-  1076					if (!(i % 4))
-  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
-  1078	
-  1079					rx_buf[i] = data & 0xff;
-  1080					data >>= 8;
-  1081				}
-  1082			} else {	/* Short Packet Response */
-  1083				if (msg->rx_len >= 1)
-  1084					rx_buf[0] = data & 0xff;
-  1085				if (msg->rx_len >= 2)
-  1086					rx_buf[1] = (data >> 8) & 0xff;
-  1087				if (msg->rx_len >= 3) {
-  1088					dev_warn(dsi->dev,
-  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-  1090						 msg->rx_len);
-  1091				}
-  1092			}
-  1093		}
-  1094	
-  1095		if (reg & RXPSR_RCVAKE) {
-  1096			/* Acknowledge and Error report received */
-  1097			return -EFAULT;
-  1098		}
-  1099	
-  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1101					!(status & PPIDL0SR_DIR),
-  1102					2000, 10000, false, dsi, PPIDL0SR);
-  1103		if (ret < 0) {
-  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
-  1105			return ret;
-  1106		}
-  1107	
-  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1109					status & PPIDL0SR_STPST,
-  1110					2000, 10000, false, dsi, PPIDL0SR);
-  1111		if (ret < 0) {
-  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
-  1113			return ret;
-  1114		}
-  1115	
-  1116		return 0;
-  1117	}
-  1118	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
