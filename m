@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D46AD170C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 04:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50459AD170E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 04:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5D7110E212;
-	Mon,  9 Jun 2025 02:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84CA910E230;
+	Mon,  9 Jun 2025 02:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LaxxAOyL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iOYZtfjn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D4988697;
- Mon,  9 Jun 2025 02:46:43 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFBA10E213;
+ Mon,  9 Jun 2025 02:46:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 76FB66135E;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 61120A4032B;
+ Mon,  9 Jun 2025 02:46:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FB40C4CEEE;
  Mon,  9 Jun 2025 02:46:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CAEC4CEF0;
- Mon,  9 Jun 2025 02:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749437202;
- bh=0MvAj5fHNZer/gyNTD5dRZtPAGVeCT2cGvpl98GWx+c=;
+ s=k20201202; t=1749437203;
+ bh=OloXrw3xRIAtL6oQ+ic+cZq3x0zPylu+4Y8fZrphD2w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LaxxAOyLWFOQmv9lQkh9+Fi91ZLvu6Y5hAWU3k71XQxqmvLZK1pNm3rjlUn8lcRRp
- AuiOzWQnuayJxAvDcxRiY6gLhMkjBWsDA8YPQXCkd52EXKgtlVjquZKTQis4Oo4eRW
- 8pSm7pMnDY0kPqZexcw13jHZYd7dAsoLAzLFzTB/tO+5Z/iAiO1v9Sh/oyYXJI7QbT
- rANBEiO+Xt1tDe6Kh56NaYhTCpdtStgg5DShKMSghJX7aqgCFe6n69i0ZkDkJEpPcM
- 9eJNKCs8rC4vLaVRYD0qFxJSfTZOQHRuZmt85Epv3JeWB8ZMfIRR1SE0RvSWtEAsOh
- TcqTli5wNlqXw==
+ b=iOYZtfjnX7mRmNhehMbarMUyvinQ1IZmG62gX2LMonv9S+oOssImBrb39ii7EpCFd
+ fb7eCQ4QLwAGMBWvXmeXT1PU7Bf5+juQs9383AgXBguhl2MkpQUqXQTiHQJI+h/TC3
+ 41W5B4REpqzJ/92N3o0UUtSOf+OmqsgIMvD5SGoMTGz5KcnZd9EAiDvk9Jsp+A5WCo
+ ZBrB2Kvzc4MhCuvnSj+CP8dCNmahOn1L2kXNyePN1HgLzIp3Ory/9uLNyJwl36+Ehx
+ OfS/NvULqOdvcksibsgFrJ2Ty7FPqXP/hmbW/MeSTnV3ogSYn46vJYLlcDtDvPmwh3
+ mQITDbkIEmPoQ==
 From: Mario Limonciello <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Alex Deucher <alexander.deucher@amd.com>,
@@ -45,19 +45,14 @@ Cc: amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
  linux-scsi@vger.kernel.org (open list:SCSI SUBSYSTEM),
  linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
- Mario Limonciello <mario.limonciello@amd.com>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- Denis Benato <benato.denis96@gmail.com>,
- =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>
-Subject: [PATCH v3 3/5] drm/amd: Avoid evicting resources at S5
-Date: Sun,  8 Jun 2025 21:46:17 -0500
-Message-ID: <20250609024619.407257-4-superm1@kernel.org>
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v3 4/5] scsi: Add PM_EVENT_POWEROFF into suspend callbacks
+Date: Sun,  8 Jun 2025 21:46:18 -0500
+Message-ID: <20250609024619.407257-5-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250609024619.407257-1-superm1@kernel.org>
 References: <20250609024619.407257-1-superm1@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,35 +71,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-Normally resources are evicted on dGPUs at suspend or hibernate and
-on APUs at hibernate.  These steps are unnecessary when using the S4 callbacks
-to put the system into S5.
+When the ACPI core uses hibernation callbacks for shutdown drivers
+will receive PM_EVENT_POWEROFF and should handle it the same as
+PM_EVENT_HIBERNATE would have been used.
 
-Cc: AceLan Kao <acelan.kao@canonical.com>
-Cc: Kai-Heng Feng <kaihengf@nvidia.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Denis Benato <benato.denis96@gmail.com>
-Cc: Merthan Karakaş <m3rthn.k@gmail.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++++
- 1 file changed, 4 insertions(+)
+v3:
+ * New patch
+---
+ drivers/scsi/mesh.c | 1 +
+ drivers/scsi/stex.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 8edd88328749b..c5d8f6d551238 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4966,6 +4966,10 @@ static int amdgpu_device_evict_resources(struct amdgpu_device *adev)
- 	if (!adev->in_s4 && (adev->flags & AMD_IS_APU))
+diff --git a/drivers/scsi/mesh.c b/drivers/scsi/mesh.c
+index 1c15cac41d805..768b85eecc8fd 100644
+--- a/drivers/scsi/mesh.c
++++ b/drivers/scsi/mesh.c
+@@ -1762,6 +1762,7 @@ static int mesh_suspend(struct macio_dev *mdev, pm_message_t mesg)
+ 	case PM_EVENT_SUSPEND:
+ 	case PM_EVENT_HIBERNATE:
+ 	case PM_EVENT_FREEZE:
++	case PM_EVENT_POWEROFF:
+ 		break;
+ 	default:
  		return 0;
- 
-+	/* No need to evict when going to S5 through S4 callbacks */
-+	if (system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF)
-+		return 0;
-+
- 	ret = amdgpu_ttm_evict_resources(adev, TTM_PL_VRAM);
- 	if (ret)
- 		DRM_WARN("evicting device resources failed\n");
+diff --git a/drivers/scsi/stex.c b/drivers/scsi/stex.c
+index 63ed7f9aaa937..ee9372e1f7f07 100644
+--- a/drivers/scsi/stex.c
++++ b/drivers/scsi/stex.c
+@@ -1965,6 +1965,7 @@ static int stex_choice_sleep_mic(struct st_hba *hba, pm_message_t state)
+ 	case PM_EVENT_SUSPEND:
+ 		return ST_S3;
+ 	case PM_EVENT_HIBERNATE:
++	case PM_EVENT_POWEROFF:
+ 		hba->msi_lock = 0;
+ 		return ST_S4;
+ 	default:
 -- 
 2.43.0
 
