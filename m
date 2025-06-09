@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE371AD2625
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 20:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4BCAD2629
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 20:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7AE10E225;
-	Mon,  9 Jun 2025 18:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 416D310E430;
+	Mon,  9 Jun 2025 18:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xrs7N1q4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BeQjhE0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9E810E1D3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 18:54:32 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 559GebaQ000933
- for <dri-devel@lists.freedesktop.org>; Mon, 9 Jun 2025 18:54:31 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7441C10E433
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 18:54:44 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55996cT3014709
+ for <dri-devel@lists.freedesktop.org>; Mon, 9 Jun 2025 18:54:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ol8PDG/DdkJ6brMjCQQkiTgY
- 8p3wDi/HNTyGiH3uujY=; b=Xrs7N1q4BL8pGdFZFko+/h5MmbRBA5Cg2qicx7fn
- sNZcVPieF02AA5TGbJlY1kttzTNEM+fqjv/AWrBoqtEaJovLbUixIPEgZUe7azuX
- yYH8engzC3xfiA2iu3gKnRbljmbKXHA2+l2ysESyrMhotjWnjB6Ze7QND/3RrseK
- z0ALHpQCxajEKIPWEuBCivTs+IMK+6YSjcIwFyYUEX/P33u6jW7n6WpH8HMWHTJI
- z7USDKL8uejVZ2S/L6b0V6/baDQxy4plucprQzhtlEZGNmgVV60FvXKd1oaBh2hj
- 4TDjfVQk8v0apE42uBRpsIGj4p0BctBSly4drSfg6DFqgQ==
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2t9qhw-1
+ :references:subject:to; s=qcppdkim1; bh=0Q7j6JWLfPAIL0zTecYfobk0
+ dPt4Avr6FVotIxI6daM=; b=BeQjhE0bIDAzAZ9450ceDp5t5AFtsbnnpPL7K7lD
+ lY7CXnC9+u/2cJLe2hAP05S9UhNYODDnkThUmBkNaoIZ3sBlwRVQi38IRBp2NUkE
+ O+7hmUk5zqhQKIse4m9cOW3SBO7NBC5UjKavLOVSPgWR7gAn+j5r8vPwPO++mE52
+ qYCHiJhLo0XwKfxag3OJoBbvqSKDu+6VPk7fhpAAKZJPGlFcSMidTsCuVEl5m3J0
+ 0I5E413QGPINSfDzmJS2Ul2N6NKVimM+to4dwxiA9GxtZ4qhg1sidqquRit7eOW9
+ 94CIR7AyRK1ng/FgbdeaFZbI/d8GwueuUxKIMOYAALhr/A==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474dn66w23-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 18:54:31 +0000 (GMT)
-Received: by mail-ot1-f70.google.com with SMTP id
- 46e09a7af769-72bc3351885so4582625a34.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 11:54:31 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 18:54:43 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7d0981315c8so472542385a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 11:54:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749495270; x=1750100070;
+ d=1e100.net; s=20230601; t=1749495283; x=1750100083;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ol8PDG/DdkJ6brMjCQQkiTgY8p3wDi/HNTyGiH3uujY=;
- b=m208n8GpOewUtN2awx3ao6MtsrQt2GIYLuxY1NgoGPaGu82shSK4vXkl3gts79PxDT
- 5EOMw93LToMmYJo2u8AMF/EjJKTs9xP1tCqifrOv9auJe4V659I/hs9Tq3+gG6hHaYn9
- fxuHlAWsg/EsH03yHfjX2yg21XzC7+miN0OVtFeop/6np3OHAQdepocW5wUwxFKxu2mn
- YqaRioW5apXrsmbvjWIwcxLd+8RluU7FsYYFVnyjEwSmXBfYQOav6WibWBDy2IJJYGXb
- bc6O46jilIwdCxPtNm31hxVtWd/qNoe3V0blVdSemfVRn9iNnSzv2LB07Z6FO0WiruCb
- n50A==
-X-Gm-Message-State: AOJu0YxEDojTOhWjdED08v9DTmIPaF03pXtPS6ZIGnkkEXw84pRa86kS
- AnA7c5BhCrc7sPz7QKvzBajrJlfuefSuoQBZTST8oatz4zEhZJXc4sBbq4M6SjVEGQK0qIZprdz
- HdFre7kzwrnXL0HqNCglhBnmY3PRo6b2qzUTzV8qtWtB3MehsoZCCQeSlM8xEmsSah/iqzFY450
- ba59I=
-X-Gm-Gg: ASbGncv7og9Ab8UlBvctUnmrmV7je53SzlUU4xz+Vg83xT9CKM6aus+OukVU5408+IT
- NtKF98Y7kAGed/b6eYAU11XJjlTf4klcy3iFaY4oairmJL1RQon4yIuAmLI5Nsj3Pn02fDRZjUm
- kq3k7AaCCe0ke2HLfX+kWON/uAxNKfVf52WuXzpVnoNNJ2RL7jRxWcuwCk0ILZOSBgGCMpQJ9cs
- 9U6GxtABLhWfvvMkE8UX4GasLCW+1LARTovurMCGygatqD0cv9pL0m4USkbIqRgoFjPchN+jDn4
- qltpuXnbWp1C1XorEryh9tPBePF2HacfjXUcsrzsyRruM+S4DUpFBLbyUxci5ylEOW9i9/uMQAc
- =
-X-Received: by 2002:a05:6830:610f:b0:72b:9180:cc6c with SMTP id
- 46e09a7af769-73888dca7a9mr9715421a34.7.1749495269989; 
- Mon, 09 Jun 2025 11:54:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHO2dqN7vYHPlmZV87m41nP8/ZqssxU5L+Yh0s+1ZIu2+sJsllrp9Mz+wf1imIYHMK4S61yLQ==
-X-Received: by 2002:a05:620a:2b83:b0:7d3:90ab:814a with SMTP id
- af79cd13be357-7d390ab8376mr930036185a.24.1749495258901; 
- Mon, 09 Jun 2025 11:54:18 -0700 (PDT)
+ bh=0Q7j6JWLfPAIL0zTecYfobk0dPt4Avr6FVotIxI6daM=;
+ b=Z8NEgXebu6RVsViHvyeAsI3lkVmUuK/SRhQ5y2gh3lZU3qmqXKfJqAG4NnaTDEFBmC
+ yhOPjg6IDxbSrMUpE9edL9XbuurGo0Y4POo/NZbxBiqiNMe4Hybx11QpMnli+gretJK9
+ 1W5uWsKLRWdTK/akJzGkFvvlIJHJ9Cxxx0TBOwvpt+8XXGFaJN9lcyaJd/xhMO0K0lW3
+ Ja0s5I2u8zcp4am6z51yPnIpQKurW7QbE/IHbaVl3cK9PIy7GAoBMtNunSTBpeH61tNm
+ 3zTaYzE66R/Z5aEK0YwHCIv1/95FRPp/YLw04fIgnaaoi6VrhzF7KR9rH4ndm6YI3m1i
+ dxoA==
+X-Gm-Message-State: AOJu0Yy9s6AMfJln6+NkOYzguTMmNDMP94Uxfkt2JZJHWAYNA94EeRjm
+ Kuph7MtZ7fH64qMvheRFhieBM4aTd+pPEEubFPnPjwh/LX61pJgRhpja1MPBWo9oimxbPMZAL4N
+ X6l6SJEOcJbGT4rYIYOvbPWNB5Z9gJGa0kvUVwOTYSwOt+yC7ZXJH6KtCInoOhUnKoaZY3rQ=
+X-Gm-Gg: ASbGnctMwOO73bbh4NjrM42+T1M7BRPdWVCi+aRmk/+zMsRanD5gGFQ5xAOGsz5ni+b
+ NrcLm70z+oFRn3SFCyMupKKO1Zg7U+AGqwZEA5mL0vSXpihRIxl9QEYELVrQEHEg3ocLjGHrnCs
+ EM8yuUfbPrr62YNbTBdYK5Vk3B+EPxdUarr1Yvac4cUF0RY0vCjY7DeujeckRJOjx6/n+Hde4zX
+ +j/l7mWdGD5ipoUZfFx3GDOpUfVWEaKJkbD/TVxsB1xMGrG7DGNaf/z+JhL9JjgEuq8wStqG56V
+ oqIw6lWxw9QQj/zCHnhFUnxmcPDG47uUCv9//fOZlxjFg0OsueG1rQTuAKmUf0Yy0zMpEfY9iBE
+ PGzMZRpZjyg==
+X-Received: by 2002:a05:620a:2a10:b0:7d0:a0af:1ec0 with SMTP id
+ af79cd13be357-7d22995c589mr1782744185a.14.1749495282640; 
+ Mon, 09 Jun 2025 11:54:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEyj0Zi9Wm7AlJmus5lOeyDznWCCczyVFTC/lx3IzF8V10z6/pDpyYpLgHsXKeVB0xoCMPtOw==
+X-Received: by 2002:a05:620a:2a10:b0:7d0:a0af:1ec0 with SMTP id
+ af79cd13be357-7d22995c589mr1782742085a.14.1749495282327; 
+ Mon, 09 Jun 2025 11:54:42 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-553676d0476sm1266162e87.35.2025.06.09.11.54.16
+ 2adb3069b0e04-5536772ab63sm1293535e87.178.2025.06.09.11.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jun 2025 11:54:17 -0700 (PDT)
-Date: Mon, 9 Jun 2025 21:54:15 +0300
+ Mon, 09 Jun 2025 11:54:41 -0700 (PDT)
+Date: Mon, 9 Jun 2025 21:54:40 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -81,37 +80,36 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] drm/msm/adreno: Check for recognized GPU before
- bind
-Message-ID: <jowyn4tkqy3f7tiqzkp7nw627ddqgzgqms3q4rp5kveiqh3xc7@wzbhbaxxuftc>
+Subject: Re: [PATCH v2 2/3] drm/msm/adreno: Pass device_node to find_chipid()
+Message-ID: <hv5zpb66oynxm4ge5ugvtgfqkwukxjazcsutn6phi4ll4lpuvu@r3t4dti5pfri>
 References: <20250609182439.28432-1-robin.clark@oss.qualcomm.com>
- <20250609182439.28432-4-robin.clark@oss.qualcomm.com>
+ <20250609182439.28432-3-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250609182439.28432-4-robin.clark@oss.qualcomm.com>
-X-Proofpoint-GUID: SKU-UhbsBoP2l-0Tmusl8YySfgOUoHkv
-X-Authority-Analysis: v=2.4 cv=GoxC+l1C c=1 sm=1 tr=0 ts=68472de7 cx=c_pps
- a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=X8FaSnKV0AetLU2DVmwA:9 a=CjuIK1q_8ugA:10
- a=EXS-LbY8YePsIyqnH6vw:22
-X-Proofpoint-ORIG-GUID: SKU-UhbsBoP2l-0Tmusl8YySfgOUoHkv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDE0MyBTYWx0ZWRfX1npOkA/BNG8G
- Zg8L2vzfUDsPRHfwGRbuOOYrLe7OGbotCvCp+EVgvdTHvQdiiHPzYPweiWJ/F5hqcovCcwWW6sw
- EwwC0QpIhkzdcqVvnaEUaDxanIkqGxtJcxDc560PpgOM1Ee/IgJzQ7GTYRaeNu2S81KToi4WtWj
- MxH3yWbtV+i2J+X/KyhpoEjAVT4xSguatnsH/bAb+bdxYtDsYzXIIqVxi/7OPuoZ1E33QKpAPAM
- u+mpsVGS2jGi1gqEwvHcrT/aT8d0PZl9fzS2Stv94/GajGt3i89ZJ8boMtXGcemwPZlYuoTmu22
- LbbaN+ItusrLifqpPTqepZ8O6CsoaJsH6dGBxtTpGQ7sN+RTVe/03xou1SlohsdkHu3mgAo68QQ
- c6hVaXMkVBGozAxpXh/ai4epwPh+pzygTeep/1juBH26+nC7svkMXBYikg4FQBGnnUWcqXR3
+In-Reply-To: <20250609182439.28432-3-robin.clark@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDE0NCBTYWx0ZWRfXwkqAPh1XmaTq
+ 4ZjH61F6Wk7BFTPq53dYMMtKKRFiu0T4/fl0+fa3k48Ez3K3mCtY2Fu3gTQj7lLifEX5OUphVUs
+ dJlqmNY9f6HoaxkOPjg4dsRNIfdov0O16sg//VY701qh6keaDGUWeig+GVV0aOHlAqiIskJfQDJ
+ ogdr//ae37UrJFJX+q3cRnM7uVvtLDOAw7E9MkIJtPkyQEFNb3JQaL1UO8nb4sMIWljT8HylC38
+ BzQo+3mKXshRMNJDKVA/InPakJAcE/Prmcel7vFvIbJuwjo+M06yt11CdE0WdjgLwUJ8Pz7atNM
+ u7rQkSWNsrDjVxidobswGXIATLuwa5H0AWguKHQt11Ij2aMf57I6ABb3OffF2KJUyUEQkl1MkMv
+ eJVOd4BAyUtWnMaYRe1en0wg6P4OTo8mE/popsbfjf986eYePVB4SoYrEEodC0unQyNrCxer
+X-Proofpoint-GUID: kWtGhq0y2vYOvzP9k7OR0aT4lXLBS7_N
+X-Authority-Analysis: v=2.4 cv=FaQ3xI+6 c=1 sm=1 tr=0 ts=68472df4 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=-2mmMjQWwNZ6YRhNbUMA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: kWtGhq0y2vYOvzP9k7OR0aT4lXLBS7_N
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-09_07,2025-06-09_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=776 adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
+ mlxlogscore=815 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1015 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506090143
+ engine=8.19.0-2505280000 definitions=main-2506090144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,20 +125,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 09, 2025 at 11:24:37AM -0700, Rob Clark wrote:
-> If we have a newer dtb than kernel, we could end up in a situation where
-> the GPU device is present in the dtb, but not in the drivers device
-> table.  We don't want this to prevent the display from probing.  So
-> check that we recognize the GPU before adding the GPU component.
+On Mon, Jun 09, 2025 at 11:24:36AM -0700, Rob Clark wrote:
+> We are going to want to re-use this before the component is bound, when
+> we don't yet have the device pointer (but we do have the of node).
 > 
 > v2: use %pOF
 > 
 > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 29 ++++++++++++++++++----
->  drivers/gpu/drm/msm/msm_drv.c              |  2 +-
->  drivers/gpu/drm/msm/msm_gpu.h              |  1 +
->  3 files changed, 26 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
