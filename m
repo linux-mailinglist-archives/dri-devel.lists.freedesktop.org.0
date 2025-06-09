@@ -2,120 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A507DAD1E0F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 14:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A29AD1E32
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 14:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428A110E286;
-	Mon,  9 Jun 2025 12:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD53F10E2DB;
+	Mon,  9 Jun 2025 12:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ppOgmj1U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ULe1llwC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A2510E238
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 12:48:25 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5598Og8s002426
- for <dri-devel@lists.freedesktop.org>; Mon, 9 Jun 2025 12:48:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=cyXFr9Y7VCghsyBDYdoliPS4
- dImMk/Plhfn+EfNGrh8=; b=ppOgmj1UytR9V80yaQB3qZgPIFTj4AMrsnGFWyHP
- 556ZFaJ1ECNjt/F2UBKpHd0rKAfqkWFhxkWnG5BTJuwJvU1cisPUiyXCFls8k4uH
- ffiApl5ovhv7z4r8u5VY8kg6FPGjeX2PDrS3zVesCxvB1vaRx5Ur3SVfSe43RLfg
- 9TM0OHQA4WIbf9xsvdvQwoszPJQKwloPbp6OP5eAV3Okw18dsrua4JX4oDJErXwa
- UM3ZX0ETmXsHvD49XvZdndBoLOd+2VgZBq11/zDu9tXRNd5NpuDKs7eEoC+2Qi5D
- DIkJumhx2GVAzMAMU7zdkaCnGQ2ybpUIw638pfz/XFyrxQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2y0sgf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 12:48:24 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c53e316734so675988585a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 05:48:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749473303; x=1750078103;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cyXFr9Y7VCghsyBDYdoliPS4dImMk/Plhfn+EfNGrh8=;
- b=BCA3CHGIZnFH7H5L5U914plG+qXO0POKT9HlOFr+zptl1kDR1k5k5B9YA+UeqeCFet
- M6KaxA1LFdRuGoU89v0guY40yxoLvJ41ytSyHxGpPdoWEMRul+6Es66m7U2RfodDqY8o
- PXi1G2ncfvYL5UEFSM1yo04rvakStlEYMZRSsFeC53bzUT/NNXaKtVkG0zgvUGm/YFx2
- +u4HdsxBk3lpU1b/Lsdw/AaKpEVocf3+pka6zC5K5wVUxPWymvSGu+/xfAofGruzjLmm
- obcGKzmwMR0TRuFdzQXJDLj7jNM5ERHQWGD+q9/VoG3NIdFLLG9tE3MGFOkchnqBjR1V
- azkQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDMTVe+s66cuuPGq4y6wIhQ+Adho6Ld1tMouGenk290RWxuj/pJau1CS7acCL104H1t9qJNAFXrg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywt41Iaa1k6n1Sy/zCcXR/NuWFhMo8llB8K+Bw59advevUfdWG7
- K5yrmexVTBQdXfX2qyOCBn9e+Uop4baYYyHLqXliQPOgdd+fxecfvzvCPIq3sKIxwZFph74f06Q
- lyDFwubXVm72Mq7hO6IcMypYuBew725gouBbqKuALxuURzG6Fg60SMo0ps2E8zzHLKRDQ8ReV74
- yJEcE=
-X-Gm-Gg: ASbGncuwEmHrn15C/kMSvAGOE0P0CNp0GidHO/V5wkeNjifrYybgCaLx9PxucEfOKYt
- DaP8ArSo0ErMA39+H2CoGwqDmO9gGVokOQgbGJJQva1X/fg+bAjmDqxy95af3/p50zSj7I5jfZ+
- +aM3Pfq1rXV143z/GbiM6WCGbuo2NQuSEpjqsB7lBitCEf2ngHNfaxRqGeKrMQir2dv/AqgcZYv
- m+Q887DUt+6ZlagZdzzvfDVDoE2vSZT4qJeQkvY2c15LszRNabeWe/o6sStENVru1vB0XJN25wZ
- 4dCpBiayg9NC8YTRb8//h/w9FJrCkCtazluUuusbtNdGnty7WqADdcTiKCmjMqHnnf5/EkDz+82
- T1mc+XBm7tw==
-X-Received: by 2002:a05:620a:31a3:b0:7d2:2a6:2dec with SMTP id
- af79cd13be357-7d22987e5a8mr2018509185a.30.1749473303315; 
- Mon, 09 Jun 2025 05:48:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKm0NMJWSaZh2z/7vc6FgW1171qs+SXoa6vIis6CtV0cigHkuKg7hRjWnXTpnl2/Cl7Qaj4A==
-X-Received: by 2002:a05:620a:31a3:b0:7d2:2a6:2dec with SMTP id
- af79cd13be357-7d22987e5a8mr2018503685a.30.1749473302861; 
- Mon, 09 Jun 2025 05:48:22 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55367722172sm1154372e87.98.2025.06.09.05.48.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jun 2025 05:48:21 -0700 (PDT)
-Date: Mon, 9 Jun 2025 15:48:19 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 02/38] drm/msm/dp: remove dp_display's dp_mode and use
- dp_panel's instead
-Message-ID: <kq6tb2wnte6v5z7uxgzc22kjwcevgvcdluzqbelvnbpbxlkotd@ltlv3u2guj4u>
-References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
- <20250609-msm-dp-mst-v2-2-a54d8902a23d@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 190158902A;
+ Mon,  9 Jun 2025 12:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749473765; x=1781009765;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=LOclCg6ohvinj+uruM8+4S4g4U8MnFjGLa81ANq19po=;
+ b=ULe1llwCLf14CTjmVmt0OTBHSENtBhAYQonNfBD+ux2zOUXiHsMP+5PY
+ l+XHQpAQ1UkPvk3o+QHVt8JEh7GN4X8dIA8vJ4r6kBEkIUXYwGBXSJ6sx
+ PICNaVcPdDZ3p2zOfAIDDINL6F/qYjHWGp6ttd3BBLNonFBlsKESkpKMe
+ sAskB9E6BcGs07qjp2swERXRCMJYhAUdptMz5BDf/sD0AYha+D9exKEJ5
+ PhqjG+TANQU9P06nmOr+vNpJ60YK/HkMRlF6S9bOf2QJxbCnb4o43IwjM
+ Gh0R/E9yyv3GUP8bJKZkpXfDIouRGFFNrZP+XCUP3x2NmxXsjk+QzXO5N A==;
+X-CSE-ConnectionGUID: ATsT8f6YSSeF5yqQHYKGfg==
+X-CSE-MsgGUID: KTorHvNBQQ+HgVj4Wx83cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51406726"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; d="scan'208";a="51406726"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2025 05:56:04 -0700
+X-CSE-ConnectionGUID: v5Sr626QT+2EDCqaM0C+0A==
+X-CSE-MsgGUID: JWVZiQq4RbGrENALkiExGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; d="scan'208";a="146435093"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2025 05:56:04 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 9 Jun 2025 05:56:04 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 9 Jun 2025 05:56:04 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.43) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 9 Jun 2025 05:56:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kYe8Z2ICn1P3uxNJ7bxbDSi4fJ1WQS+M0QdL2ai4kH8uC19TsUSzd3fOte9sXWaIJZjo4oqnoHUoBFG+PQ47mR4VhzYfPo/QrLIkkdXXfJ2GbzGLww4HX4VlnIYWkKirEZd4uVDkMtEttEIBMb4atBeooMBDaYQizjvHq8q8cGbKq/bR551AHHZDlOrNJd2+xxmYkqM5XmkKAh+v5Xo4KnqGKpGWxW+CTx8lfmQ1EXGl373vUzSHU4pKYvACQDoJTDfiLorMk1kdfIvI13pbnarylyHlC7CQkjxtNjhQhVHrbpZ2oWGEd/lcwuwFN6wFRD7KiTwjh/20c0aQsqySOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zV+43160qEhHjCud8CspmKaRU2nbTAy6WiOubF6lX9E=;
+ b=Vug1yd0kX+9M1CCiLT8dy1O7zEBrP0Nym9IuL+UPMDSvAHhkSrj+gNQNU46ygM6zgJWwYSmBvyQgtjdSZu/JlgwMhsssCm+rf7uzPKiah6UAVA0tPWAwXkDPraMAI5XJMYUQluNdUpr+FGUf6KhRKVJaz7YqIuHiJ7whmR3f7eVxJazvCFuEgzQpuAbUY5hPgJoJE2qcwkI+ObhnJgg5g+0TBKKGKb42yDT2zcw4DKzvytdBlG2Y2oTOzgJKyWAtHFWL4N5qGyIJJvkQg1zteVEKjv1XlMrpWVEeFFjKvPhxZaGUjGZE4ydHSyrAX8YloEBZl5UdUJ+I2DAvGNVedA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by IA1PR11MB6467.namprd11.prod.outlook.com (2603:10b6:208:3a5::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.21; Mon, 9 Jun
+ 2025 12:56:01 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%2]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
+ 12:56:01 +0000
+From: Imre Deak <imre.deak@intel.com>
+To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Jani Nikula
+ <jani.nikula@intel.com>
+Subject: [PATCH v4 4/5] drm/dp: Add an EDID quirk for the DPCD register access
+ probe
+Date: Mon, 9 Jun 2025 15:55:55 +0300
+Message-ID: <20250609125556.109538-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20250605082850.65136-5-imre.deak@intel.com>
+References: <20250605082850.65136-5-imre.deak@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DU7P191CA0026.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:54e::6) To PH0PR11MB4840.namprd11.prod.outlook.com
+ (2603:10b6:510:43::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250609-msm-dp-mst-v2-2-a54d8902a23d@quicinc.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDA5NSBTYWx0ZWRfXy9txZ7zEGHfO
- U1cmqVHXYlf5sRxCtuEIcOFfYZUxeYubq0bJ7EGnfeJaGQZDddGfnrGSGNq56A/vKJG7Pl+fqPO
- dPnnu2TprRmdQ+bZ+SMJpKlcTN3XmLU7JqH57eBW/OrevqsDoL6VG2aOlRNg6M5Ss4wa4mhZO6V
- cMRoXGwkk6bGFxvtvLb+c8zUaaQ6Yi41y8aSeowIg3TS7JtZsEZRxbRu2v/lVkdYSnBdiKg+lk9
- vB6N/aoW3vs3MG7eYzIrM4vdlxXljzZuIXL3QWosOSB95dCu56ZXqnfcjUWmVlljeuLt2ztiAiP
- ifLCA9lSSnGrWp9r6jCumiOwbfAofNRxqlkgeODukkOq38cG+ZNLIKpfRBZQ1dhCq/JAy5C8MSp
- 6LqpRhRC1DWP9G27eB03c/o00iVcmRCXKkpMM3XTX0welubDkr8K6DdUJ4cPylSOiGBFz2Lb
-X-Proofpoint-GUID: rpUU0wYMuDI2WPUChl0dESCs7oQ2W5Fr
-X-Proofpoint-ORIG-GUID: rpUU0wYMuDI2WPUChl0dESCs7oQ2W5Fr
-X-Authority-Analysis: v=2.4 cv=f+BIBPyM c=1 sm=1 tr=0 ts=6846d818 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8 a=LRmimyFsA7i-Op6yJAUA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_05,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0
- malwarescore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506090095
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|IA1PR11MB6467:EE_
+X-MS-Office365-Filtering-Correlation-Id: edf1f8c4-a1b4-414d-db54-08dda754fc66
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U2FiRW4zbXgrSkMzejRUaDcydENnTXJvK3dlT0lPdTV2ZGVldmx0bXhYWGh2?=
+ =?utf-8?B?ZFNldVZPRDlWbFRHdWVzSDJSWUdXSitEN0ZaRzMrUStPY3NJaVpIQTNTdGgw?=
+ =?utf-8?B?WjYzWE1ZVngxYTRzMlFIejN6NlFtM1JiS1hBT3Rsc25yYjQ1bFdGcUxkVksy?=
+ =?utf-8?B?MHd6dXUwWHhQVUo0bFAvdkg2NFlBU1RveVF5dUtyN0toT3pmZm5ydEk5QWk4?=
+ =?utf-8?B?dllIUEFHTC9xZUJMZm5zT0hjdWNzdExuNWttMzJsV1dYejMxYzF2UHh0RjlD?=
+ =?utf-8?B?WlhsemRleFVkWlMrVnZHMnNQYUw0NFc4NmNINTBoRDYzODMzQktRNGJxVWZa?=
+ =?utf-8?B?TlVxQXZ3Q01GSGVMTGF5OXV0VFZZamVyYUhZVUFwb0xsSlBkTHo1MENmSEhp?=
+ =?utf-8?B?a3V1a3BCczR5VG5TRDVFRnB0VWlyVjJVajNTTTVHbHFUOG4vWHU0eHVIeTdJ?=
+ =?utf-8?B?eWtKNnc5djZ1UE14MGFpNXFsQ0lSbWJYR2huQ2E2T1VpenpyeHRRa1NMNnJ1?=
+ =?utf-8?B?WnpDQ2FScmdsbkpzM1dGUWxzclhQREV3M242Q0FCM1dKUlNoYXZMeTFDeldJ?=
+ =?utf-8?B?Mjd0cmMzQkVkeTNzS1pHY3R5K1h3dnhTQllrSTlsWHhmMVpyRnhSSkUwMFJn?=
+ =?utf-8?B?OGhaSk1UL2NoSFE4V0ZPUEZmSzUvTVExcTMyUlVxTzAvc0huaGU2cHR4Lzlu?=
+ =?utf-8?B?R0RSNDNpVGZqZU5rMjlCcm9ibDU4VSs0ZUtMdHVvbzJLb1J4UDF3WEVHQmRN?=
+ =?utf-8?B?YXprdlhkM2t3dkVQYmZSQ3F4SzAvNThBV3RDUHQzaXZKNmdPd3d4WkZLVWhq?=
+ =?utf-8?B?QVJqMWxJVEdRTnpZb04wTnZpcWNQU0tJUmlUS1FSUmFzZFhiRzlaUTlHdjNa?=
+ =?utf-8?B?QWt3czVubFRLNUprWUFYUmdoN0k2V09MNnV2TVFtQmNYM0V3R1JWNThqVEwr?=
+ =?utf-8?B?ZERuQ2xqY1daYk8zOEYzUnpHUll1NXBrTkNhOFZCenZ6MHRNVnp0ZndZVHBr?=
+ =?utf-8?B?bHhTWlNHdHNmbDZ1a2NoOUxja3k3bStrTzlDeFRtYjk3YjVaVEdqMUZ2UzFw?=
+ =?utf-8?B?bkc4bmwxUjlDdjVYNXg1UlZLZElRK3lVMEJoeW9RWFNzbmgzMXdhcUd1T20x?=
+ =?utf-8?B?a1N6a29NUHdpczlYR1FFT3JnMmIxS1QyL09SRVJpUnA1U01ydEpFYWtiU2xu?=
+ =?utf-8?B?Nnl4dDJCWVZJZy9HZlRwYlpEdC90emdUbFJkN2F4UGl2TnpiSkJJR1dFekFW?=
+ =?utf-8?B?UzBBbDRPMm84T2x2WE9IOGVhaGxFMjFlVmthd2tpM3BlRmhVZnkrUEtSTVdy?=
+ =?utf-8?B?QjRIL3g3VThqWWl5aXhhT0UwLzNOSTVaWGZ6UjJSSHNkMFFrTEJlaTB3azdH?=
+ =?utf-8?B?bjhTREJWMVBWaWFMWnJ1RkVEaDJtd0NiWTIzUlRKRWRhWCtOVklLYUtwcmpu?=
+ =?utf-8?B?VEZadERKMnpSbFB1V1VKSGp6bGlzK1ljdHJycUxHWkpETDl4VlpOeW5lUko3?=
+ =?utf-8?B?cllhYkRQV2o0eGxrKy9nQWlNdTl4UnMwZ3p1WkpYKzNmbXdlVzAwQm4wTWdu?=
+ =?utf-8?B?NkZXOFRidThyNFZSZmJjOU5iTkVkUVBVSnBxZm9nMlhmRi9GVFpnNkpndXgr?=
+ =?utf-8?B?WFMxdFpuVndhQWxJczFOSkhwRnp0RE1JM29hRGdNSW4yTys0QkU5RWpiZnNk?=
+ =?utf-8?B?TFZyZ1RRWTFHMjRqWW5rVkFSQ2NoY1J1SWt5T0VFY2dEeDVEN3Y0TGxqOHRN?=
+ =?utf-8?B?bnhaeVdqMzBHTk8ybDhuY0ZWcUNJYVNndDdnY25VNTNZTXo2NE9oM2c5R1g2?=
+ =?utf-8?B?dGhmQmd3aWNDbndMY3UzaE9xVXpJVGlhcTRoRGx6ODd2YUVYeGJUdGtXZERU?=
+ =?utf-8?B?MFBhL1RrY2pJUjZRVWxjZzV5Y3JwUzVJK1VQUExoTDI4Q2NwRndTVUtDeDZQ?=
+ =?utf-8?Q?jIegS10p2F4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmFYeFFkWUQxQUpxbUhGeU9kZ0ttUjFzNGJVZ3ZTZEZJdXFGQ2VtY2ZMQ01Q?=
+ =?utf-8?B?eWcydmljMlo0eE52Qy9CamVGdk9KeERQSkJkWXlHdTRCYzhacUZrUUNjcE9F?=
+ =?utf-8?B?SWxQMTExY3I4RkVkckdmSDFHcHE5ZGtjY2NKVlc2a3hqNk9IeGZ6Y1NFMk8x?=
+ =?utf-8?B?ZmNtUmRCR3dFQ0FOUzZjbmp6eVZLdWpVeDFaNEl5d1hXSHlGR0RnL3gwSC8v?=
+ =?utf-8?B?REUyNFZlV1pYejRvK20za2ZkM2dkOGVzN3ZsVzR5UTJkWXFqR1NGWGVjOElt?=
+ =?utf-8?B?OEJqMmdPaXA2ZUxRaWFobHV1eDdEYkhyUElkMFNaQnBZQjlYNlI1K2JzSGIr?=
+ =?utf-8?B?aFc0WnNmZ1ZMUWJQQ1ZJWXIzUmhCNmZObmlOQk44VHhTWit1MTZkbUFLb1lo?=
+ =?utf-8?B?Qk1EUE0wdlhEb3A3N2Z4d3dhQjBjK211NEZwcEsrbUt0d1IwYnEyczREMkNt?=
+ =?utf-8?B?R1NGTjRkT25tVG9rcTlJU0E4d1l5YzlSRFZqcTVHUTgvWXd2RUg5K05zd2Rh?=
+ =?utf-8?B?Q2xVWmhqTThid21mbzUvZ0swSGpYb2lSKzZZZHlSZHppRHUyaWxwdlZTeXdt?=
+ =?utf-8?B?blNXMXNrcjU2ZnJacmR5V1R1T3gvL2UwTmphK0YrWW9PeE1sUWJkbmlCTVpR?=
+ =?utf-8?B?R2h3M2FIL3RvTkxBN2NFY3JXb1pVOHZMREdPcUxKWjlmT3JRTHY3RGNJQ2NZ?=
+ =?utf-8?B?RkViNEZoVU1oWnJET3A4RXRiVDMvVXNTNkdhMC9ZNHVqZ0tiTWZXc2I4ODFs?=
+ =?utf-8?B?VmpxRm1hb1Q1eUlpbGZZbE1xcmtvQmxqdW51MzhFaWVCeElCSlE3NThLcFlX?=
+ =?utf-8?B?UFdlS0hQTG1lelcvMUxRSStJQVplZmRlZlp5TlhYMEZRRk1HWFhrN2Y5T3hI?=
+ =?utf-8?B?VTlMSG5RMWpPanZVZGsrMnV2dElobGpWNmd5M1I2WWhrZnA1WXJtdFlwbHR1?=
+ =?utf-8?B?WDhyZzM5OUdjb0h5eDhvQ0pieVNWQWtKSVRVSUwzQW1zZlZDcXJIbCtzYVMw?=
+ =?utf-8?B?NWFWSE9qRDRVaUNxLzdKRnhTT2pjUkE0ejNWWjRsR1BEczV6VVVSYTByZDl2?=
+ =?utf-8?B?NTRLYUVFQUVXRklhcDMybjJnZkxaVWhFQ04zTUNxbUNVRHhoZ0RjRHRGVnU5?=
+ =?utf-8?B?TjViVTZBcGhBUkxTL0k4VGV3cnBKckRFeVhLZ3N6eHBMSDRPN2dtelRCZmIw?=
+ =?utf-8?B?UHJNMEZNK2FuK25NOXIzcHVjRFFtcThsaWlKU1U5a0dqSjdOQ2ZyamxNTkpN?=
+ =?utf-8?B?TThqVUpFUjgrbENQYVF4TGRNTGN4K3g5VUpVZVlYQm5SVUhDOFN1a0hkNjFF?=
+ =?utf-8?B?dDQ5NDhCNklwNWdmRDhPTUpXeEVKcnlxRnlPWUkydXQ4bndoYk13L3cwbXFK?=
+ =?utf-8?B?cjBYcGZxRmwwdUlHZHYzN2l0MlF6NE9ZRTlkMG1NWURVSmhxL3gvWjlSWnlE?=
+ =?utf-8?B?dWp1RStNU25vQld6ZkZIY2ZIaE5zRG4raGRqVU5ocW5HSHNkNzh3R2hESkZl?=
+ =?utf-8?B?VHgrRUlaMWoxREswU1R1WmZhcFc3OFNRZ2lIUnI5V29oOFBBSWhsalZnL2V6?=
+ =?utf-8?B?Tk1TWkZsMGxJSkQ5Q0xzNmFJeGlZZmU5aEdsa0w5UHMyTEdIK0laRDY3ZGQy?=
+ =?utf-8?B?QmovS0Mrd0RIMWVQQnRINklxQzlsRWI1clRxbkYyS2F0UGRuWFVFYjQzdGc1?=
+ =?utf-8?B?T3IzUkhwbm1nLzZYTEgwMU9wZ2NDVmhjSlhBL3o0ZzRPd01DZFpNUlNzaVc4?=
+ =?utf-8?B?U3k1NzdNVVcwSmVFYmdPenN3b01xK2tFQ3ZYN0Flckwxb0Z5M3VmQlU3aU14?=
+ =?utf-8?B?MnpYcjFvNXVnbHdobmJKRXlyQUh3Vlh1WnhnRDNOc2hZMHVsRlVZQXJtM1FN?=
+ =?utf-8?B?M2YrUzlodU5RcUU4ZlExNzZLbnV0ZUNzdzUvcHBRQSs2TFBVNklIdWt2ak1R?=
+ =?utf-8?B?S1ozeUJBMUx1UmE3Ym96NjduZjVPb3dJb2xzL2hQSnZSMU96ek9YeGljU0NY?=
+ =?utf-8?B?RysxaU1DTHhFU1BTWnNzMzVmY2hVTEdWNXY0YnNtdll6RVZENHFOWW51aFVB?=
+ =?utf-8?B?ZnV5TDlXZUk1azJYa1lLVGwvMGNYUUphUXpMQUorZ29JL1JNeUhZQTk0aDhB?=
+ =?utf-8?Q?mY8mEqdBQ6WrKLRQz5Q7jK2qd?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: edf1f8c4-a1b4-414d-db54-08dda754fc66
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4840.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 12:56:01.5782 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aF86mKgNM8Acvl+RggGFJL+QNf/l9WYbP66guECuvaMkrhoGOr3DEpUgWQGeM+uY3xfVAGHiXD5LnCYeUstWiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6467
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,163 +197,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 09, 2025 at 08:21:21PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> dp_display caches the current display mode and then passes it onto
-> the panel to be used for programming the panel params. Remove this
-> two level passing and directly populated the panel's dp_display_mode
-> instead.
+Reading DPCD registers has side-effects and some of these can cause a
+problem for instance during link training. Based on this it's better to
+avoid the probing quirk done before each DPCD register read, limiting
+this to the monitor which requires it. Add an EDID quirk for this. Leave
+the quirk enabled by default, allowing it to be disabled after the
+monitor is detected.
 
-- Why do we need to cache / copy it anyway? Can't we just pass the
-  corresponding drm_atomic_state / drm_crtc_state / drm_display_mode ?
+v2: Fix lockdep wrt. drm_dp_aux::hw_mutex when calling
+    drm_dp_dpcd_set_probe_quirk() with a dependent lock already held.
+v3: Add a helper for determining if DPCD probing is needed. (Jani)
+v4:
+- s/drm_dp_dpcd_set_probe_quirk/drm_dp_dpcd_set_probe (Jani)
+- Fix documentation of drm_dp_dpcd_set_probe().
+- Add comment at the end of internal quirk entries.
 
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 76 ++++++++++++++-----------------------
->  1 file changed, 29 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 4a9b65647cdef1ed6c3bb851f93df0db8be977af..9d2db9cbd2552470a36a63f70f517c35436f7280 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -92,7 +92,6 @@ struct msm_dp_display_private {
->  	struct msm_dp_panel   *panel;
->  	struct msm_dp_ctrl    *ctrl;
->  
-> -	struct msm_dp_display_mode msm_dp_mode;
->  	struct msm_dp msm_dp_display;
->  
->  	/* wait for audio signaling */
-> @@ -806,16 +805,29 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
->  }
->  
->  static int msm_dp_display_set_mode(struct msm_dp *msm_dp_display,
-> -			       struct msm_dp_display_mode *mode)
-> +				   const struct drm_display_mode *adjusted_mode,
-> +				   struct msm_dp_panel *msm_dp_panel)
->  {
-> -	struct msm_dp_display_private *dp;
-> +	u32 bpp;
->  
-> -	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
-> +	drm_mode_copy(&msm_dp_panel->msm_dp_mode.drm_mode, adjusted_mode);
-> +
-> +	if (msm_dp_display_check_video_test(msm_dp_display))
-> +		bpp = msm_dp_display_get_test_bpp(msm_dp_display);
-> +	else
-> +		bpp = msm_dp_panel->connector->display_info.bpc * 3;
-> +
-> +	msm_dp_panel->msm_dp_mode.bpp = bpp;
-> +
-> +	msm_dp_panel->msm_dp_mode.v_active_low =
-> +		!!(adjusted_mode->flags & DRM_MODE_FLAG_NVSYNC);
-> +	msm_dp_panel->msm_dp_mode.h_active_low =
-> +		!!(adjusted_mode->flags & DRM_MODE_FLAG_NHSYNC);
-> +	msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 =
-> +		drm_mode_is_420_only(&msm_dp_panel->connector->display_info, adjusted_mode) &&
-> +		msm_dp_panel->vsc_sdp_supported;
->  
-> -	drm_mode_copy(&dp->panel->msm_dp_mode.drm_mode, &mode->drm_mode);
-> -	dp->panel->msm_dp_mode.bpp = mode->bpp;
-> -	dp->panel->msm_dp_mode.out_fmt_is_yuv_420 = mode->out_fmt_is_yuv_420;
-> -	msm_dp_panel_init_panel_info(dp->panel);
-> +	msm_dp_panel_init_panel_info(msm_dp_panel);
->  	return 0;
->  }
->  
-> @@ -1431,10 +1443,13 @@ bool msm_dp_needs_periph_flush(const struct msm_dp *msm_dp_display,
->  bool msm_dp_wide_bus_available(const struct msm_dp *msm_dp_display)
->  {
->  	struct msm_dp_display_private *dp;
-> +	struct msm_dp_panel *dp_panel;
->  
->  	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
->  
-> -	if (dp->msm_dp_mode.out_fmt_is_yuv_420)
-> +	dp_panel = dp->panel;
-> +
-> +	if (dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
->  		return false;
->  
->  	return dp->wide_bus_supported;
-> @@ -1496,10 +1511,6 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
->  	bool force_link_train = false;
->  
->  	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
-> -	if (!msm_dp_display->msm_dp_mode.drm_mode.clock) {
-> -		DRM_ERROR("invalid params\n");
-> -		return;
-> -	}
->  
->  	if (dp->is_edp)
->  		msm_dp_hpd_plug_handle(msm_dp_display, 0);
-> @@ -1517,15 +1528,6 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
->  		return;
->  	}
->  
-> -	rc = msm_dp_display_set_mode(dp, &msm_dp_display->msm_dp_mode);
-> -	if (rc) {
-> -		DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
-> -		mutex_unlock(&msm_dp_display->event_mutex);
-> -		return;
-> -	}
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 42 +++++++++++++++++--------
+ drivers/gpu/drm/drm_edid.c              |  8 +++++
+ include/drm/display/drm_dp_helper.h     |  6 ++++
+ include/drm/drm_edid.h                  |  3 ++
+ 4 files changed, 46 insertions(+), 13 deletions(-)
 
-It should be done other way around: keep this call and drop
-msm_dp_bridge_mode_set().
-
-> -
-> -	hpd_state =  msm_dp_display->hpd_state;
-> -
->  	if (hpd_state == ST_CONNECTED && !dp->power_on) {
->  		msm_dp_display_host_phy_init(msm_dp_display);
->  		force_link_train = true;
-> @@ -1604,33 +1606,13 @@ void msm_dp_bridge_mode_set(struct drm_bridge *drm_bridge,
->  	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
->  	msm_dp_panel = msm_dp_display->panel;
->  
-> -	memset(&msm_dp_display->msm_dp_mode, 0x0, sizeof(struct msm_dp_display_mode));
-> -
-> -	if (msm_dp_display_check_video_test(dp))
-> -		msm_dp_display->msm_dp_mode.bpp = msm_dp_display_get_test_bpp(dp);
-> -	else /* Default num_components per pixel = 3 */
-> -		msm_dp_display->msm_dp_mode.bpp = dp->connector->display_info.bpc * 3;
-> -
-> -	if (!msm_dp_display->msm_dp_mode.bpp)
-> -		msm_dp_display->msm_dp_mode.bpp = 24; /* Default bpp */
-> -
-> -	drm_mode_copy(&msm_dp_display->msm_dp_mode.drm_mode, adjusted_mode);
-> -
-> -	msm_dp_display->msm_dp_mode.v_active_low =
-> -		!!(msm_dp_display->msm_dp_mode.drm_mode.flags & DRM_MODE_FLAG_NVSYNC);
-> -
-> -	msm_dp_display->msm_dp_mode.h_active_low =
-> -		!!(msm_dp_display->msm_dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
-> -
-> -	msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 =
-> -		drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode) &&
-> -		msm_dp_panel->vsc_sdp_supported;
-> +	msm_dp_display_set_mode(dp, adjusted_mode, msm_dp_panel);
->  
->  	/* populate wide_bus_support to different layers */
-> -	msm_dp_display->ctrl->wide_bus_en =
-> -		msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 ? false : msm_dp_display->wide_bus_supported;
-> -	msm_dp_display->catalog->wide_bus_en =
-> -		msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 ? false : msm_dp_display->wide_bus_supported;
-> +	msm_dp_display->ctrl->wide_bus_en = msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 ?
-> +		false : msm_dp_display->wide_bus_supported;
-> +	msm_dp_display->catalog->wide_bus_en = msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 ?
-> +		false : msm_dp_display->wide_bus_supported;
->  }
->  
->  void msm_dp_bridge_hpd_enable(struct drm_bridge *bridge)
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index dc622c78db9d4..632358b23b333 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -691,6 +691,34 @@ void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered)
+ }
+ EXPORT_SYMBOL(drm_dp_dpcd_set_powered);
+ 
++/**
++ * drm_dp_dpcd_set_probe() - Set whether a probing before DPCD access is done
++ * @aux: DisplayPort AUX channel
++ * @enable: Enable the probing if required
++ */
++void drm_dp_dpcd_set_probe(struct drm_dp_aux *aux, bool enable)
++{
++	WRITE_ONCE(aux->dpcd_probe_disabled, !enable);
++}
++EXPORT_SYMBOL(drm_dp_dpcd_set_probe);
++
++static bool dpcd_access_needs_probe(struct drm_dp_aux *aux)
++{
++	/*
++	 * HP ZR24w corrupts the first DPCD access after entering power save
++	 * mode. Eg. on a read, the entire buffer will be filled with the same
++	 * byte. Do a throw away read to avoid corrupting anything we care
++	 * about. Afterwards things will work correctly until the monitor
++	 * gets woken up and subsequently re-enters power save mode.
++	 *
++	 * The user pressing any button on the monitor is enough to wake it
++	 * up, so there is no particularly good place to do the workaround.
++	 * We just have to do it before any DPCD access and hope that the
++	 * monitor doesn't power down exactly after the throw away read.
++	 */
++	return !aux->is_remote && !READ_ONCE(aux->dpcd_probe_disabled);
++}
++
+ /**
+  * drm_dp_dpcd_read() - read a series of bytes from the DPCD
+  * @aux: DisplayPort AUX channel (SST or MST)
+@@ -712,19 +740,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+ {
+ 	int ret;
+ 
+-	/*
+-	 * HP ZR24w corrupts the first DPCD access after entering power save
+-	 * mode. Eg. on a read, the entire buffer will be filled with the same
+-	 * byte. Do a throw away read to avoid corrupting anything we care
+-	 * about. Afterwards things will work correctly until the monitor
+-	 * gets woken up and subsequently re-enters power save mode.
+-	 *
+-	 * The user pressing any button on the monitor is enough to wake it
+-	 * up, so there is no particularly good place to do the workaround.
+-	 * We just have to do it before any DPCD access and hope that the
+-	 * monitor doesn't power down exactly after the throw away read.
+-	 */
+-	if (!aux->is_remote) {
++	if (dpcd_access_needs_probe(aux)) {
+ 		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
+ 		if (ret < 0)
+ 			return ret;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 9cca1e6e4736c..9c8822b337e2e 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -248,6 +248,14 @@ static const struct edid_quirk {
+ 	/* OSVR HDK and HDK2 VR Headsets */
+ 	EDID_QUIRK('S', 'V', 'R', 0x1019, BIT(EDID_QUIRK_NON_DESKTOP)),
+ 	EDID_QUIRK('A', 'U', 'O', 0x1111, BIT(EDID_QUIRK_NON_DESKTOP)),
++
++	/*
++	 * @drm_edid_internal_quirk entries end here, following with the
++	 * @drm_edid_quirk entries.
++	 */
++
++	/* HP ZR24w DP AUX DPCD access requires probing to prevent corruption. */
++	EDID_QUIRK('H', 'W', 'P', 0x2869, BIT(DRM_EDID_QUIRK_DP_DPCD_PROBE)),
+ };
+ 
+ /*
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index e4ca35143ff96..3e35a68b2b412 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -523,10 +523,16 @@ struct drm_dp_aux {
+ 	 * @no_zero_sized: If the hw can't use zero sized transfers (NVIDIA)
+ 	 */
+ 	bool no_zero_sized;
++
++	/**
++	 * @dpcd_probe_disabled: If probing before a DPCD access is disabled.
++	 */
++	bool dpcd_probe_disabled;
+ };
+ 
+ int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
+ void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered);
++void drm_dp_dpcd_set_probe(struct drm_dp_aux *aux, bool enable);
+ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+ 			 void *buffer, size_t size);
+ ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 77fd42608e706..3d1aecfec9b2a 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -110,6 +110,9 @@ struct detailed_data_string {
+ #define DRM_EDID_CVT_FLAGS_REDUCED_BLANKING  (1 << 4)
+ 
+ enum drm_edid_quirk {
++	/* Do a dummy read before DPCD accesses, to prevent corruption. */
++	DRM_EDID_QUIRK_DP_DPCD_PROBE,
++
+ 	DRM_EDID_QUIRK_NUM,
+ };
+ 
 -- 
-With best wishes
-Dmitry
+2.44.2
+
