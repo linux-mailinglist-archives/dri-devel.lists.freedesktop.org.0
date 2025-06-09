@@ -2,45 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6B4AD16CB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 04:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39656AD16FC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 04:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E73AA10E009;
-	Mon,  9 Jun 2025 02:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB9D10E16F;
+	Mon,  9 Jun 2025 02:46:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c0kBymWW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahwv+vtK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8EA310E009
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 02:25:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0145A10E13A;
+ Mon,  9 Jun 2025 02:46:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A89BCA414DD;
- Mon,  9 Jun 2025 02:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFA7C4CEEE;
- Mon,  9 Jun 2025 02:24:54 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 13F7BA40698;
+ Mon,  9 Jun 2025 02:46:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5DA05C4CEF0;
+ Mon,  9 Jun 2025 02:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749435895;
- bh=JikvJDoUGRQoKS5a6Vqsu5jIrpZBcJJsqsOrm0ocGrw=;
- h=From:To:Cc:Subject:Date:From;
- b=c0kBymWWTh7UD9q9569esGrA+9QcPEo29In+ln9201+NdDWT6lX1mktfh2pJBFmS9
- y8EBbtDr9jOhVPacbjXTFgCjEivQa0ql7p1MuoO8FnwXFtYZu00grXhB5qet1eLLgi
- pqD3gGD3rxW8qIXNoQd9IE+pYwvmYb1MVa5eTFTdWvlgV1Q2EitgfeihgCiXAppaTn
- KN/oPjorbi27qMhvoPzVztIAA5c/2fPnTVaflKAdpYwCeSwmXZcB1oPO8LzNSzFVhj
- eCDZ+IWP+wjrfLjq1W6jpX3iaXrSjbo8G1l2kKyD3xfNDO2tMWmDeHIn7VwgETQdmr
- l8QWsZNByCILw==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	bhelgaas@google.com
-Cc: dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org
-Subject: [RFC PATCH] PCI/VGA: Look at all PCI display devices in VGA arbiter
-Date: Sun,  8 Jun 2025 21:24:21 -0500
-Message-ID: <20250609022435.348589-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+ s=k20201202; t=1749437180;
+ bh=2SxArbrB8je/tYYEyDh9yj/6QRX2ZLFw71MwMjhKfvw=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=ahwv+vtK4Ihm45UZOq+vmdsLJcbuBV6hncY9msf8ryJ+KwR06oABzXnJmuvCNHnQZ
+ NXbdOVMFpusP3NzciYwiqBeJH2kDL/CfDQpa+0EDZjr/AW2KiymwuO0Y89kGtW4Dht
+ KHqANuQPdrABEiRPY4SLR5qhX9T2iUnelAeeGLFK/h0tjwZVPlCabqCC1vAEezr7hZ
+ ADuZ1Xo/AHj8hKkUzZ7zfeRDN0AqYdlYQScShafW9AtUBxKAtGLdo1U2wov+zV/9hR
+ Lys9vlEJOLAqL0PH/K187ASr0ReE2PTEaOMuu7If4ARVuXx6qQ/Z8HlOys+4ZUdH5Z
+ NIznqyYfsL5FQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 46F84C5AD49;
+ Mon,  9 Jun 2025 02:46:20 +0000 (UTC)
+From: Vincent Mailhol via B4 Relay
+ <devnull+mailhol.vincent.wanadoo.fr@kernel.org>
+Subject: [PATCH v2 0/3] bits: Split asm and non-asm GENMASK*() and unify
+ definitions
+Date: Mon, 09 Jun 2025 11:45:44 +0900
+Message-Id: <20250609-consolidate-genmask-v2-0-b8cce8107e49@wanadoo.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANhKRmgC/22OQQ7CIBBFr9LMWhpKW2K68h6mCwpDS7SggKhpe
+ nexdenyTf5/fxYI6A0G6IoFPCYTjLMZ2KEAOQk7IjEqMzDKWlozSqSzwV2NEhHJiHYW4UK4VJS
+ JQSh9ZJCbN4/avDbrud/Z4/2R5XE/wiACZtU8m9gViZcVJ15W8A1PJkTn39tHqdrSv3H2dzxVh
+ JK2GbSquWx5U5+ewgrlXKk99Ou6fgADHuF75AAAAA==
+X-Change-ID: 20250320-consolidate-genmask-6cd02abadf82
+To: Yury Norov <yury.norov@gmail.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>, 
+ David Laight <David.Laight@ACULAB.COM>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3731;
+ i=mailhol.vincent@wanadoo.fr; h=from:subject:message-id;
+ bh=2SxArbrB8je/tYYEyDh9yj/6QRX2ZLFw71MwMjhKfvw=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDBluXu9+nQ2fvOh/0NVzq17dnPvg85z81NTufTMrTQ6nT
+ 2E89zTLo6OUhUGMi0FWTJFlWTknt0JHoXfYob+WMHNYmUCGMHBxCsBECpMZ/op4/TwxxcP54eKo
+ /J2/zab9Lsx0flllaigg5aTgdf61uQXDP6PZl37vX9mYVG5yfi6r6DetPxkV0w6oa2T/n1R6acG
+ cLWwA
+X-Developer-Key: i=mailhol.vincent@wanadoo.fr; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+X-Endpoint-Received: by B4 Relay for mailhol.vincent@wanadoo.fr/default
+ with auth_id=291
+X-Original-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,190 +89,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mailhol.vincent@wanadoo.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+This is a subset of below series:
 
-On an A+N mobile system the APU is not being selected by some desktop
-environments for any rendering tasks. This is because the neither GPU
-is being treated as "boot_vga" but that is what some environments use
-to select a GPU [1].
+  bits: Fixed-type GENMASK_U*() and BIT_U*()
+  Link: https://lore.kernel.org/r/20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr
 
-The VGA arbiter driver only looks at devices that report as PCI display
-VGA class devices. Neither GPU on the system is a display VGA class
-device:
+Yury suggested to split the above series in two steps:
 
-c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
-c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
+  #1 Introduce the new fixed type GENMASK_U*() (already merged upstream)
+  #2 Consolidate the existing GENMASK*()
 
-So neither device gets the boot_vga sysfs file. The vga_is_boot_device()
-function already has some handling for integrated GPUs by looking at the
-ACPI HID entries, so if all PCI display class devices are looked at it
-actually can detect properly with this device ordering.  However if there
-is a different ordering it could flag the wrong device.
+This new series is the resulting step #2 following the split.
 
-Modify the VGA arbiter code and matching sysfs file entries to examine all
-PCI display class devices. After every device is added to the arbiter list
-make a pass on all devices and explicitly check whether one is integrated.
+And thus, this series consolidate all the non-asm GENMASK*() so that
+they now all depend on GENMASK_TYPE() which was introduced in step #1.
 
-This will cause all GPUs to gain a `boot_vga` file, but the correct device
-(APU in this case) will now show `1` and the incorrect device shows `0`.
-Userspace then picks the right device as well.
+To do so, I had to split the definition of the asm and non-asm
+GENMASK(). I think this is controversial. So I initially implemented a
+first draft in which both the asm and non-asm version would rely on
+the same helper macro, i.e. adding this:
 
-Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/pci/pci-sysfs.c |  2 +-
- drivers/pci/vgaarb.c    | 53 ++++++++++++++++++++++++++---------------
- include/linux/pci.h     | 15 ++++++++++++
- 3 files changed, 50 insertions(+), 20 deletions(-)
+  #define __GENMASK_TYPE(t, w, h, l)		\
+  	(((t)~_ULL(0) << (l)) &			\
+  	 ((t)~_ULL(0) >> (w - 1 - (h))))
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..c314ee1b3f9ac 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 
--	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
-+	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
- 		return a->mode;
- 
- 	return 0;
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 78748e8d2dbae..8281144747487 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -139,7 +139,7 @@ void vga_set_default_device(struct pci_dev *pdev)
- {
- 	if (vga_default == pdev)
- 		return;
--
-+	vgaarb_info(&pdev->dev, "selecting as VGA boot device\n");
- 	pci_dev_put(vga_default);
- 	vga_default = pci_dev_get(pdev);
- }
-@@ -676,9 +676,9 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
- 	}
- 
- 	/*
--	 * Vgadev has neither IO nor MEM enabled.  If we haven't found any
--	 * other VGA devices, it is the best candidate so far.
--	 */
-+	* Vgadev has neither IO nor MEM enabled.  If we haven't found any
-+	* other VGA devices, it is the best candidate so far.
-+	*/
- 	if (!boot_vga)
- 		return true;
- 
-@@ -751,6 +751,31 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
- 		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
- }
- 
-+static
-+void vga_arbiter_select_default_device(void)
-+{
-+	struct pci_dev *candidate = vga_default_device();
-+	struct vga_device *vgadev;
-+
-+	list_for_each_entry(vgadev, &vga_list, list) {
-+		if (vga_is_boot_device(vgadev)) {
-+			/* check if one is an integrated GPU, use that if so */
-+			if (candidate) {
-+				if (vga_arb_integrated_gpu(&candidate->dev))
-+					break;
-+				if (vga_arb_integrated_gpu(&vgadev->pdev->dev)) {
-+					candidate = vgadev->pdev;
-+					break;
-+				}
-+			} else
-+				candidate = vgadev->pdev;
-+		}
-+	}
-+
-+	if (candidate)
-+		vga_set_default_device(candidate);
-+}
-+
- /*
-  * Currently, we assume that the "initial" setup of the system is not sane,
-  * that is, we come up with conflicting devices and let the arbiter's
-@@ -816,13 +841,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 		bus = bus->parent;
- 	}
- 
--	if (vga_is_boot_device(vgadev)) {
--		vgaarb_info(&pdev->dev, "setting as boot VGA device%s\n",
--			    vga_default_device() ?
--			    " (overriding previous)" : "");
--		vga_set_default_device(pdev);
--	}
--
- 	vga_arbiter_check_bridge_sharing(vgadev);
- 
- 	/* Add to the list */
-@@ -833,6 +851,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 		vga_iostate_to_str(vgadev->owns),
- 		vga_iostate_to_str(vgadev->locks));
- 
-+	vga_arbiter_select_default_device();
- 	spin_unlock_irqrestore(&vga_lock, flags);
- 	return true;
- fail:
-@@ -1499,8 +1518,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
- 
- 	vgaarb_dbg(dev, "%s\n", __func__);
- 
--	/* Only deal with VGA class devices */
--	if (!pci_is_vga(pdev))
-+	/* Only deal with display devices */
-+	if (!pci_is_display(pdev))
- 		return 0;
- 
- 	/*
-@@ -1548,12 +1567,8 @@ static int __init vga_arb_device_init(void)
- 
- 	/* Add all VGA class PCI devices by default */
- 	pdev = NULL;
--	while ((pdev =
--		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
--			       PCI_ANY_ID, pdev)) != NULL) {
--		if (pci_is_vga(pdev))
--			vga_arbiter_add_pci_device(pdev);
--	}
-+	while ((pdev = pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev)))
-+		vga_arbiter_add_pci_device(pdev);
- 
- 	pr_info("loaded\n");
- 	return rc;
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 05e68f35f3923..e77754e43c629 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -744,6 +744,21 @@ static inline bool pci_is_vga(struct pci_dev *pdev)
- 	return false;
- }
- 
-+/**
-+ * pci_is_display - Check if a PCI device is a display controller
-+ * @pdev: Pointer to the PCI device structure
-+ *
-+ * This function determines whether the given PCI device corresponds
-+ * to a display controller. Display controllers are typically used
-+ * for graphical output and are identified based on their class code.
-+ *
-+ * Return: true if the PCI device is a display controller, false otherwise.
-+ */
-+static inline bool pci_is_display(struct pci_dev *pdev)
-+{
-+	return (pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY;
-+}
-+
- #define for_each_pci_bridge(dev, bus)				\
- 	list_for_each_entry(dev, &bus->devices, bus_list)	\
- 		if (!pci_is_bridge(dev)) {} else
--- 
+to uapi/bits.h. And then, the different GENMASK()s would look like
+this:
+
+  #define __GENMASK(h, l) __GENMASK_TYPE(unsigned long, __BITS_PER_LONG, h, l)
+
+and so on.
+
+I implemented it, and the final result looked quite ugly. Not only do
+we need to manually provide the width each time, the biggest concern
+is that adding this to the uapi is asking for trouble. Who knows how
+people are going to use this? And once it is in the uapi, there is
+virtually no way back.
+
+Adding to this, that macro can not even be generalised to u128
+integers, whereas after the split, it can.
+
+And so, after implementing both, the asm seems way cleaner than the
+non-asm split and is, I think, the best compromise.
+
+Aside from the split, the asm's GENMASK() and GENMASK_ULL() are left
+untouched. While there are some strong incentives to also simplify
+these as pointed by David Laight in this thread:
+
+  https://lore.kernel.org/all/20250309102312.4ff08576@pumpkin/
+
+this series deliberately limit its scope to the non-asm variants.
+
+Here are the bloat-o-meter stats:
+
+  $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o
+  add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-9 (-4)
+  Function                                     old     new   delta
+  intel_psr_invalidate                         352     354      +2
+  mst_stream_compute_config                   1589    1590      +1
+  intel_psr_flush                              707     708      +1
+  intel_dp_compute_link_config                1338    1339      +1
+  intel_drrs_activate                          398     395      -3
+  cfg80211_inform_bss_data                    5137    5131      -6
+  Total: Before=23333846, After=23333842, chg -0.00%
+
+(done with GCC 12.4.1 on an x86_64 defconfig)
+
+--
 2.43.0
+
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+Changes from v1:
+
+  - Meanwhile, in commit db6fe4d61ece ("lib: Move KUnit tests into
+    tests/ subdirectory"), lib/test_bits.c was moved to
+    lib/tests/test_bits.c.
+    Rebase onto: 6.16-rc1
+
+  - Minor editorial changes to the cover letter.
+
+  - Aside from the above, this is just a resend.
+
+  - Link to v1: https://lore.kernel.org/r/20250322-consolidate-genmask-v1-0-54bfd36c5643@wanadoo.fr
+
+---
+Vincent Mailhol (3):
+      bits: split the definition of the asm and non-asm GENMASK*()
+      bits: unify the non-asm GENMASK*()
+      test_bits: add tests for __GENMASK() and __GENMASK_ULL()
+
+ include/linux/bits.h  | 29 ++++++-----------------------
+ lib/tests/test_bits.c | 19 +++++++++++++++++++
+ 2 files changed, 25 insertions(+), 23 deletions(-)
+---
+base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
+change-id: 20250320-consolidate-genmask-6cd02abadf82
+
+Best regards,
+-- 
+Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
 
