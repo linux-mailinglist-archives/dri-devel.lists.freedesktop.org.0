@@ -2,85 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BBCAD29D0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 00:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C907AD292E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 00:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3669C10E26D;
-	Mon,  9 Jun 2025 22:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E754E10E1A6;
+	Mon,  9 Jun 2025 22:09:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GRbjvvlm";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="C+mrltTf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3850A10E06E;
- Mon,  9 Jun 2025 12:22:27 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-73bf5aa95e7so3110809b3a.1; 
- Mon, 09 Jun 2025 05:22:27 -0700 (PDT)
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C99B810E1A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 22:09:41 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id
+ d9443c01a7336-23636167b30so2892565ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 15:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749471747; x=1750076547; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YBch+ffur1O0Rgja7qluq4MVSQH3W827o3L8nkl80n0=;
- b=GRbjvvlmMwuoc0s5sz2gvE12okDQHv/WsweSIRbYZL3cEH/Jud4+C79ge/Gz79XB6t
- cPRw/e++1ALap2+3ST7qq7ORqJOzDrzab3vU44+226QkJQcsjCWlwuURBaGnjQF1hUvv
- 83oLiev+Uos9bxms+dpe8Yx/LY0rVZ3nOZNY2SX2aeATVccB6c2QTDEJfMAmezRQLCY+
- fSHavWXOKNt0XJ69roU+xdhjESzXukD5ZXvX/h2YiN+CwOIo6vO6Lnk/kwIcXpLXl7nF
- eepS9Hfjkwv14dOeD7a8J9/3lNBLrKy1nQ0uykVdpGpSi6ZFjF+SnJwACkpd67GfSSup
- s0nA==
+ d=chromium.org; s=google; t=1749506978; x=1750111778;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lo+xuu6/evF7Kj69JUrQ4+v7ESydcrUGBnfBq/70hhU=;
+ b=C+mrltTfcX9ISuvEmi8Vw7mM3e/fphr66RP38cjHZ71mHv9t28sAaS8A0NpUsU6mOR
+ ffTj5iBykCotyfn5zWSiEe08m9dT5M/yNq2UoEf4wKipxO+fY1Uvpuzv1++xnB1jvqHA
+ b5eRWq/2+bEalvv1QESzitHPLinKjGtaRFXnQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749471747; x=1750076547;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YBch+ffur1O0Rgja7qluq4MVSQH3W827o3L8nkl80n0=;
- b=vhPC5V+/X4jsB09v2yRRXTfkzDaOswwpmDXQgSFmNfBHqdyRVXIzdYHUFvtm3CiuQf
- xW/BJ/QO6QTvcRz9MButn9wr8Cp+YLywkGhsTB/5TQfS6ekZz7LA4vdnWIOFFP1d4nd5
- jZ5ZV8nbOGiJpxvLoLORSGJxELN/ximLc01k0cv2yCjZYMiAyPq1Tsun7FGgfJh3l8Zu
- F/APbs2gvag8rn7DK6sxeS2hqtw1c7GFqRzAZkJJsKE80utKPe/4QXxo2UxzTjrdSVg8
- zsXslVkL6g0RIv7HdLAep47G3n29plepMZczMlf9ULMo64G4vbS1MIXRyXxVzyjyXL3c
- JUXQ==
+ d=1e100.net; s=20230601; t=1749506978; x=1750111778;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Lo+xuu6/evF7Kj69JUrQ4+v7ESydcrUGBnfBq/70hhU=;
+ b=GA5823SELvFUiRqrISqmW/h5T4jlXIIKLtFyuo7ti16lfz2hvktGSiC8ZkODMtqqlw
+ T9rwLUeLDPve6NYB377Vzv4r47WT8pQBV9L9Uf9ZjGMnE9UuStk5LGIbY4DBrdqm0Lq3
+ f7QOM/NfznMndopUmQZTLQz5MbTJjpdTkt2JCQXjiwsrmiBkqMPTkz2KysGoStGimReN
+ FX8N0XJsUfJzX/278dakF32myZT8b+e3FWvQvIswfANVvrUSa6EARUwEY7eKJN6vjqct
+ dV49twBPi0iwdPPDF4ZPERvT75Hc8AikCXHe7lpskpMQnPVFNyt8GFXJBoOG7FkZgzqg
+ BRfw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWKDS1RG7RPtQacvbRwAa7QZemfCgws69tvlzTu7kkoChuVzzTNFu6Z44W4HfXV6Kfve2p7d4daig==@lists.freedesktop.org,
- AJvYcCXaW5/uC/bucENfCAqlBr3WtdomKC7pr4Fh2RjhHdR9b/ED4ZjK3xg+LzdYYiv22jIrCPEVoezIBno=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDsDHPOiBgN/G49bDb3caJDRMlodvJZZnBYDyn2QKoTo2H9Jkd
- HQ3eGvr+vieSAMjUgPMu8MgSgUdAVsGhFaa8+zQybaoCI5jRG1f52U8S
-X-Gm-Gg: ASbGncsFJ91DgpXczzLqrSHQuLo5ZULHnrsBZtYm0DAWBxaasFnRmwX2hOsoRQ0RTB+
- MJVOw2aN48DUXqpPKQy/pcYtJi7qPbQzIXzSvmOwSfP7VspQV5mJn4sC3XKE7Wr+OltDQdrr8Th
- si4yqCkl3NI/Pe5imm+p94efBsI3UXjykytfF3tltuVOQlQgo2B2FFQUlSFu3CtRyhXWHG9g3zM
- QE/LKledvac4Ib88S/6TcMhbGBwC/n43KuM0PdNXN+1gfemGIlk8JoVl/hTEGgzybwa2DUl6zE+
- y4pXlX0Vn7eaT06OEmrJrmJYQb/bg91EGhU4ssb4iMM0NQyEGeeNUd+mNV3iHhKKTzDJJrWX
-X-Google-Smtp-Source: AGHT+IFN/6jpjwnUWAnmieziowXquVGyIPIEOCFl8zdXOz/2r+NiQoJ5BLmsN49W1/EDBbcGUv3y0g==
-X-Received: by 2002:a05:6a21:6e41:b0:21f:62e7:cd08 with SMTP id
- adf61e73a8af0-21f62e7ce8dmr5864666637.8.1749471746484; 
- Mon, 09 Jun 2025 05:22:26 -0700 (PDT)
-Received: from pop-os.. ([201.49.69.163]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b2f5f7827c0sm5170285a12.62.2025.06.09.05.22.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jun 2025 05:22:26 -0700 (PDT)
-From: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
-To: rafael@kernel.org, viresh.kumar@linaro.org, dakr@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, mcgrof@kernel.org,
- russ.weight@linux.dev, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, leitao@debian.org, gregkh@linuxfoundation.org,
- david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org,
- fujita.tomonori@gmail.com, tamird@gmail.com, igor.korotin.linux@gmail.com,
- walmeida@microsoft.com, anisse@astier.eu
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, trintaeoitogc@gmail.com
-Subject: [PATCH] rust: module: remove deprecated author key
-Date: Mon,  9 Jun 2025 09:22:00 -0300
-Message-Id: <20250609122200.179307-1-trintaeoitogc@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCVmntIK5BZPm8vI9P2HO+ByJz9D3U8txXTRyEw/wabTYO8ryHcMhgcTgDE4d2Uu2I442oMD5Rkx9pU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5+4cuD7YN+2/b5F0plc9m6fyVcuPo3xvXi/vef0PCqQboA4Ty
+ McAeK12T8ds1OTTNwBi1/JJCuldCClafKw8bGsWgc2X4usIoW11RJSyK4bHO3JgPtDLTH7xMDVr
+ rg69rir6K
+X-Gm-Gg: ASbGncstednJ04iVpQ7mj4nQq65LUIQnUfgPnG5u6nACy+15mCvB1PGT6xWrFvyDzsZ
+ LVf7XzWbJY9ErvLcJMydKRldES2zRwXtwyhMP0b2THcgeNSoIP0m6+ox8dtbwzwx9ANEam9a5/c
+ YhsWUk6LjkPE7vfKTxDjBqiZYrkdhXUlDuVy6lAUBh9H6/w//Ls85jlEU24k2rZ/LZn0Zhd7qXN
+ 4kEcq8Yufg1MRb6KNulgdUDYXIUMuExfTKqA+EBfvln1Ucp6Jdn7DRCG7gkaDJ8klpR7yLPN3cJ
+ mBajmxN75r9iJGeHFmh6lUaBTOAMBB7ZeVMf5IXX2aa+t3PKJxlvp4rZGJapyHfecs4o8dZe0NH
+ jxYDUiuQYhIGqig7kPALg74gaOSsPqQ==
+X-Google-Smtp-Source: AGHT+IFAcD9DDgL9e9McE+6cMEGh4HmMHMHxsy79Mi78bC4sdzg/piaVhMr6clxVN7yhFRBgSgotlQ==
+X-Received: by 2002:a17:902:da82:b0:235:c9a7:d5f5 with SMTP id
+ d9443c01a7336-23601d01f72mr178516435ad.13.1749506978174; 
+ Mon, 09 Jun 2025 15:09:38 -0700 (PDT)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com.
+ [209.85.214.178]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2360340fa57sm59018365ad.196.2025.06.09.15.09.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jun 2025 15:09:37 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2353a2bc210so41444805ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jun 2025 15:09:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUI6aAHrgml1sHw2dvnidpXDoaFUbsHqJS1goIzIgY3fi3LL05bdkDBVu6ITxGo61u+Ml4/VpmreTQ=@lists.freedesktop.org
+X-Received: by 2002:a17:903:1b45:b0:234:c2e7:a103 with SMTP id
+ d9443c01a7336-23601d82e8bmr214458545ad.33.1749506977132; Mon, 09 Jun 2025
+ 15:09:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 09 Jun 2025 22:53:28 +0000
+References: <20250529110418.481756-1-j-choudhary@ti.com>
+ <2baf3c31-3edf-4c26-bd44-1d0560134871@ti.com>
+ <CAMuHMdUi7pf1YfKRjMv_7VuKwjR5XekRXfcEzuPScGzHraGjyQ@mail.gmail.com>
+ <84fdbd23-d694-453f-a225-dbac19b34719@ti.com>
+In-Reply-To: <84fdbd23-d694-453f-a225-dbac19b34719@ti.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 9 Jun 2025 15:09:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XaR6Pq7E-13zR5PC_u=3SD=sc05_TzxWJR2FS040zESg@mail.gmail.com>
+X-Gm-Features: AX0GCFuY9zmj0FHZgee9_PnbGi-N3ssFASItEBDN5ajNB22ll-m4fMNSbkRbwcE
+Message-ID: <CAD=FV=XaR6Pq7E-13zR5PC_u=3SD=sc05_TzxWJR2FS040zESg@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
+ connector type
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
+ tomi.valkeinen@ideasonboard.com, max.krummenacher@toradex.com, 
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ kieran.bingham+renesas@ideasonboard.com, linux-kernel@vger.kernel.org, 
+ max.oss.09@gmail.com, devarsht@ti.com, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, ernestvanhoecke@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,141 +113,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 38559da6afb2 ("rust: module: introduce `authors` key") introduced
-a new `authors` key to support multiple module authors, while keeping
-the old `author` key for backward compatibility.
+Hi,
 
-Now that all in-tree modules have migrated to `authors`, remove:
-1. The deprecated `author` key support from the module macro
-2. Legacy `author` entries from remaining modules
+On Mon, Jun 2, 2025 at 4:05=E2=80=AFAM Jayesh Choudhary <j-choudhary@ti.com=
+> wrote:
+>
+> Hello Geert, Krzysztof,
+>
+> (continuing discussion from both patches on this thread...)
+>
+> On 30/05/25 13:25, Geert Uytterhoeven wrote:
+> > Hi Jayesh,
+> >
+> > CC devicetree
+> >
+> > On Fri, 30 May 2025 at 04:54, Jayesh Choudhary <j-choudhary@ti.com> wro=
+te:
+> >> On 29/05/25 16:34, Jayesh Choudhary wrote:
+> >>> By default, HPD was disabled on SN65DSI86 bridge. When the driver was
+> >>> added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-en=
+able
+> >>> call which was moved to other function calls subsequently.
+> >>> Later on, commit "c312b0df3b13" added detect utility for DP mode. But=
+ with
+> >>> HPD_DISABLE bit set, all the HPD events are disabled[0] and the debou=
+nced
+> >>> state always return 1 (always connected state).
+> >>>
+> >>> Set HPD_DISABLE bit conditionally based on "no-hpd" property.
+> >>> Since the HPD_STATE is reflected correctly only after waiting for deb=
+ounce
+> >>> time (~100-400ms) and adding this delay in detect() is not feasible
+> >>> owing to the performace impact (glitches and frame drop), remove runt=
+ime
+> >>> calls in detect() and add hpd_enable()/disable() bridge hooks with ru=
+ntime
+> >>> calls, to detect hpd properly without any delay.
+> >>>
+> >>> [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
+> >>>
+> >>> Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge conn=
+ector operations for DP")
+> >>> Cc: Max Krummenacher <max.krummenacher@toradex.com>
+> >>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> >>> ---
+> >>>
+> >>> Changelog v2->v3:
+> >>> - Change conditional based on no-hpd property to address [1]
+> >>> - Remove runtime calls in detect() with appropriate comments
+> >>> - Add hpd_enable() and hpd_disable() in drm_bridge_funcs
+> >>> - Not picking up "Tested-by" tag as there are new changes
+> >>>
+> >>> v2 patch link:
+> >>> <https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.c=
+om/>
+> >>>
+> >>> [1]: <https://lore.kernel.org/all/mwh35anw57d6nvre3sguetzq3miu4kd43ro=
+kegvul7fk266lys@5h2euthpk7vq/>
+> >
+> > Thanks for your patch!
+> >
+> >>> This would also require dts changes in all the nodes of sn65dsi86
+> >>> to ensure that they have no-hpd property.
+> >>
+> >> DTS patch is posted now:
+> >> <https://lore.kernel.org/all/20250529112423.484232-1-j-choudhary@ti.co=
+m/>
+> >
+> > On all Renesas platforms handled by that patch, the DP bridge's HPD pin
+> > is wired to the HPD pin on the mini-DP connector.  What am I missing?
+>
+> If the bridge's HPD is connected to that of the connector, then I am
+> pretty certain HPD will not work for renesas platform. The detect hook
+> always gives "connected" state in the driver (even if it is unplugged).
+> Do you have different observation on your end?
+> If not, then we do need something like this patch while addressing the
+> backwards-compatibility concerns.
+>
+> During v1 RFC[2], I did observe that renesas also have DisplayPort
+> connector type and might require hpd, but since the support was
+> already there and no issue was raised, I assumed it does not require
+> HPD.
+>
+> [2]:
+> https://lore.kernel.org/all/01b43a16-cffa-457f-a2e1-87dd27869d18@ti.com/
+>
+>
+> >
+> > Regardless, breaking backwards-compatibility with existing DTBs is
+> > definitely a no-go.
 
-Signed-off-by: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
----
- drivers/cpufreq/rcpufreq_dt.rs        | 2 +-
- drivers/gpu/drm/nova/nova.rs          | 2 +-
- drivers/gpu/nova-core/nova_core.rs    | 2 +-
- rust/kernel/firmware.rs               | 2 +-
- rust/macros/module.rs                 | 6 ------
- samples/rust/rust_configfs.rs         | 2 +-
- samples/rust/rust_driver_auxiliary.rs | 2 +-
- 7 files changed, 6 insertions(+), 12 deletions(-)
+FWIW, we are in a little bit of a sticky situation here. We were in a
+bit of a bad place from the start because the Linux driver ignored HPD
+from the beginning but we didn't actually document that people should
+be setting the "no-hpd" property until a little bit later. You can see
+some discussion about this in commit 1dbc979172af ("dt-bindings:
+drm/bridge: ti-sn65dsi86: Document no-hpd") where I noted "this is
+somewhat of a backward-incompatible change." ...but, at the time, it
+wasn't really a big deal because there were very few users (the one in
+tree at the time was cheza, which was a dev board used internally at
+Google).
 
-diff --git a/drivers/cpufreq/rcpufreq_dt.rs b/drivers/cpufreq/rcpufreq_dt.rs
-index 94ed81644fe1..bdf4b844de42 100644
---- a/drivers/cpufreq/rcpufreq_dt.rs
-+++ b/drivers/cpufreq/rcpufreq_dt.rs
-@@ -220,7 +220,7 @@ fn probe(
- module_platform_driver! {
-     type: CPUFreqDTDriver,
-     name: "cpufreq-dt",
--    author: "Viresh Kumar <viresh.kumar@linaro.org>",
-+    authors: ["Viresh Kumar <viresh.kumar@linaro.org>"],
-     description: "Generic CPUFreq DT driver",
-     license: "GPL v2",
- }
-diff --git a/drivers/gpu/drm/nova/nova.rs b/drivers/gpu/drm/nova/nova.rs
-index 902876aa14d1..64fd670e99e1 100644
---- a/drivers/gpu/drm/nova/nova.rs
-+++ b/drivers/gpu/drm/nova/nova.rs
-@@ -12,7 +12,7 @@
- kernel::module_auxiliary_driver! {
-     type: NovaDriver,
-     name: "Nova",
--    author: "Danilo Krummrich",
-+    authors: ["Danilo Krummrich"],
-     description: "Nova GPU driver",
-     license: "GPL v2",
- }
-diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-index 618632f0abcc..f405d7a99c28 100644
---- a/drivers/gpu/nova-core/nova_core.rs
-+++ b/drivers/gpu/nova-core/nova_core.rs
-@@ -13,7 +13,7 @@
- kernel::module_pci_driver! {
-     type: driver::NovaCore,
-     name: "NovaCore",
--    author: "Danilo Krummrich",
-+    authors: ["Danilo Krummrich"],
-     description: "Nova Core GPU driver",
-     license: "GPL v2",
-     firmware: [],
-diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index 2494c96e105f..ed2fc20cba9b 100644
---- a/rust/kernel/firmware.rs
-+++ b/rust/kernel/firmware.rs
-@@ -181,7 +181,7 @@ unsafe impl Sync for Firmware {}
- /// module! {
- ///    type: MyModule,
- ///    name: "module_firmware_test",
--///    author: "Rust for Linux",
-+///    authors: ["Rust for Linux"],
- ///    description: "module_firmware! test module",
- ///    license: "GPL",
- /// }
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index 2ddd2eeb2852..5dd276a2e5cb 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -94,7 +94,6 @@ struct ModuleInfo {
-     type_: String,
-     license: String,
-     name: String,
--    author: Option<String>,
-     authors: Option<Vec<String>>,
-     description: Option<String>,
-     alias: Option<Vec<String>>,
-@@ -108,7 +107,6 @@ fn parse(it: &mut token_stream::IntoIter) -> Self {
-         const EXPECTED_KEYS: &[&str] = &[
-             "type",
-             "name",
--            "author",
-             "authors",
-             "description",
-             "license",
-@@ -134,7 +132,6 @@ fn parse(it: &mut token_stream::IntoIter) -> Self {
-             match key.as_str() {
-                 "type" => info.type_ = expect_ident(it),
-                 "name" => info.name = expect_string_ascii(it),
--                "author" => info.author = Some(expect_string(it)),
-                 "authors" => info.authors = Some(expect_string_array(it)),
-                 "description" => info.description = Some(expect_string(it)),
-                 "license" => info.license = expect_string_ascii(it),
-@@ -179,9 +176,6 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
-     // Rust does not allow hyphens in identifiers, use underscore instead.
-     let ident = info.name.replace('-', "_");
-     let mut modinfo = ModInfoBuilder::new(ident.as_ref());
--    if let Some(author) = info.author {
--        modinfo.emit("author", &author);
--    }
-     if let Some(authors) = info.authors {
-         for author in authors {
-             modinfo.emit("author", &author);
-diff --git a/samples/rust/rust_configfs.rs b/samples/rust/rust_configfs.rs
-index 60ddbe62cda3..af04bfa35cb2 100644
---- a/samples/rust/rust_configfs.rs
-+++ b/samples/rust/rust_configfs.rs
-@@ -14,7 +14,7 @@
- module! {
-     type: RustConfigfs,
-     name: "rust_configfs",
--    author: "Rust for Linux Contributors",
-+    authors: ["Rust for Linux Contributors"],
-     description: "Rust configfs sample",
-     license: "GPL",
- }
-diff --git a/samples/rust/rust_driver_auxiliary.rs b/samples/rust/rust_driver_auxiliary.rs
-index 3e15e6d002bb..abf3d55ed249 100644
---- a/samples/rust/rust_driver_auxiliary.rs
-+++ b/samples/rust/rust_driver_auxiliary.rs
-@@ -114,7 +114,7 @@ fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self, Error> {
- module! {
-     type: SampleModule,
-     name: "rust_driver_auxiliary",
--    author: "Danilo Krummrich",
-+    authors: ["Danilo Krummrich"],
-     description: "Rust auxiliary driver",
-     license: "GPL v2",
- }
--- 
-2.34.1
+...so, as of that change in May of 2020, it was documented that eDP
+users were _supposed_ to be setting NO_HPD. I even remember Bjorn
+requesting the "or is otherwise unusable" phrasing because we pretty
+much wanted to set this property on everyone using sn65dsi86 as eDP
+(even if they have HPD hooked up) because the debouncing time is so
+long that it was better to hardcode the max delay instead of reading
+the HPD line. Of course, even though we documented that they were
+supposed to have the "no-hpd" property didn't necessarily mean that
+everyone did. The code has never enforced it. I don't believe it even
+checks the property...
 
+So if there are dts files out there that don't set the property and
+they were submitted after the bindings change in 2020, _technically_
+they've been wrong the whole time. We're not changing history by
+adding a new requirement so much as fixing broken DTS files. Although
+the Linux driver always allowed them to get away with being broken,
+technically DTS is separate from Linux so if they've been violating
+the bindings then they've been wrong. :-P That being said, they've
+been working and it would be nice to keep them working if we can, but
+one could make an argument that maybe it would be OK to require them
+to change...
+
+
+> Got it.
+> Let me try to figure out a way to fix it without messing it up.
+
+While a bit on the ugly side, it seems like perhaps you could just do this:
+
+1. If enable_comms is called before the bridge probe happens, just go
+ahead and disable HPD.
+
+2. When the bridge probe happens, if you notice that HPD should be
+enabled and comms are on you can just enable HPD then (grabbing the
+comms_mutex while doing it).
+
+3. Any subsequent enable_comms called after the bridge probe happens
+shouldn't disable HPD.
+
+...you'd probably want a comment about the fact that "no-hpd" property
+is unreliable, which is why we can't figure this out in a better way.
+
+
+-Doug
