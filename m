@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B29AD28DC
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 23:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A24AD29CE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 00:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EA010E1E0;
-	Mon,  9 Jun 2025 21:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2B310E42F;
+	Mon,  9 Jun 2025 22:53:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=foxmail.com header.i=@foxmail.com header.b="idtq2HgY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 611 seconds by postgrey-1.36 at gabe;
- Mon, 09 Jun 2025 21:37:24 UTC
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F413410E1A6;
- Mon,  9 Jun 2025 21:37:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by lithops.sigma-star.at (Postfix) with ESMTP id 9BB70298562;
- Mon,  9 Jun 2025 23:27:11 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
- by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id ET2xpdSYUI12; Mon,  9 Jun 2025 23:27:10 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by lithops.sigma-star.at (Postfix) with ESMTP id 32565298566;
- Mon,  9 Jun 2025 23:27:10 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
- by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id VSRsIT4TuOoV; Mon,  9 Jun 2025 23:27:10 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
- by lithops.sigma-star.at (Postfix) with ESMTP id E3468298562;
- Mon,  9 Jun 2025 23:27:09 +0200 (CEST)
-Date: Mon, 9 Jun 2025 23:27:09 +0200 (CEST)
-From: Richard Weinberger <richard@nod.at>
-To: Guenter Roeck <linux@roeck-us.net>, 
- Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Karthik Poosa <karthik.poosa@intel.com>, 
- Reuven Abliyev <reuven.abliyev@intel.com>, 
- Oren Weil <oren.jer.weil@intel.com>, 
- linux-mtd <linux-mtd@lists.infradead.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- intel-gfx <intel-gfx@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Message-ID: <1176847729.134356549.1749504429656.JavaMail.zimbra@nod.at>
-In-Reply-To: <2e5ebbdd-2a57-4f1f-85c6-7c2dff127b50@roeck-us.net>
-References: <20250302140921.504304-1-alexander.usyskin@intel.com>
- <87bjqyja7o.fsf@bootlin.com>
- <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net>
- <87ikl5xnbc.fsf@bootlin.com>
- <CY5PR11MB63660CFA966BCA1B44528BB1ED6BA@CY5PR11MB6366.namprd11.prod.outlook.com>
- <4d55ac06-c357-4d78-b8b8-5b26486ce529@roeck-us.net>
- <CY5PR11MB63662D21B2C7B1A1C2E6BC4BED6BA@CY5PR11MB6366.namprd11.prod.outlook.com>
- <2e5ebbdd-2a57-4f1f-85c6-7c2dff127b50@roeck-us.net>
-Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Jun 2025 09:49:46 UTC
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com
+ [203.205.221.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D703B10E09B;
+ Mon,  9 Jun 2025 09:49:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1749462568;
+ bh=SmniMHqvZWFuqEmiIWWjPLL01AF0Q8ESLGE7t/Sogxg=;
+ h=From:To:Cc:Subject:Date;
+ b=idtq2HgYxd2w3wWn39SQiGj+xATdRhVT2L58cSCsy6mKHSGdiwDV9gZqGQmHjp3q8
+ EUi4oer1gkAZhf5NH0k3Q/eod+0ZULAlqBYfcWsut7+TgOsl7VGqgVOWw4ulk4gp3e
+ QLvLOZKQ8kiElIB7YqXwmh2RAz7TVyneiVa+VZIY=
+Received: from localhost.localdomain ([58.208.27.5])
+ by newxmesmtplogicsvrszgpuc5-0.qq.com (NewEsmtp) with SMTP
+ id 927B7009; Mon, 09 Jun 2025 17:36:39 +0800
+X-QQ-mid: xmsmtpt1749461799troe02dud
+Message-ID: <tencent_03FB073FD3015AE02485DD6839D6571EBC06@qq.com>
+X-QQ-XMAILINFO: OQac6g2KrvnW0ceRmcxfNhsHzSagz0pC/3jPClfdEiuQtKjOS6oANK6zvhUWk/
+ LLSKJVCrZ6/6JoYrzqUQeapXBgQRtSEOJ6n45Jx7YyP1M2C5E/7JeofNz2sOtaZwV04TUaN34dl1
+ gs7YJ1SxiXd0FKjsIv/8XY3oziX7d1P3ByA8jdrvS+wKwdkX+A4HwhtO0mhyJK75pJzUxKAHbOsE
+ 0YaZIctyDxYHbpUezRVLEX976dZbq1+8z4Z9ZfaOrU5CwRYW6Y0x8C1gLw4Wou+QT4MU/szYo2WT
+ 4Vtl66SEGapUzYSrBhN35ilWNFyUrFYYUHLrK1YAd7EMJP7tk9LazG4vg8aBUOoHOIg0dYmkbaWt
+ B//3HxX469PmAp7bdKXNsfkin02icxGi0NT/ySA2P9LOEHSaPl0HA71DCw+wVj/bq6RhP5408HkN
+ tPkIUnbs6Y3uyYEPvceq0gs9MGbx+vgcaeehpLPTfz0i6fyfJy67TAEex0FX1KVvjiAzewc8uztW
+ HbvGV4h90ENMNrgHgW/jmVIyZcKmOSCalS1KNQTT90g10AIKgPILhom8RqD8cJM99rB3Vrh80bRo
+ UaZFxe2IlZWf4BoWhNic8SFxEwZntV7GZMQncsSbz83XAZW6vtkd71rCHXOzzCmL24kTfcG7eTC4
+ PKl29XLCBgf81ERGjSss78Gtl31WN60s2tRNNv+9Hfzbmng5ef8Pa+ZpqhUkV66l3uRxSJY+6g7j
+ IBJmdDYjWasW6LbzngAnBib234Tr5S+0cOWOBB7R9dmy6rxgPSLaeRoNsU2ARay2DG9CrxDtIynt
+ 8YIPRhrjYJz5zez1snIO+Oxm9+3tlnLuSkKnXswad8cOm6gf3woJvsNXC0HFu+r2RSJlfJaGEy/Z
+ EJ1LOi2wJmFlzSj4s3ETCPDDDZBbXHcf23zBoSRb+Moftn386HhN26AXN1d++kHhgzZkgEXrgZ3d
+ V1EHKU3BZj4yAD5vLus8dHJ4GkEmzgaMBK+fB1TZVmvdtnbxbAW12FMJXB25QV6JrBb5MtiSAkJ1
+ kBuMO/nBcORzUtCWnlS/SOtofPEhJ6/5yXcJgXPn6Psd3OSmnB
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: francisco_flynn <francisco_flynn@foxmail.com>
+To: Felix.Kuehling@amd.com
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ francisco_flynn <francisco_flynn@foxmail.com>
+Subject: [PATCH] drm/amdkfd: register HMM dev memory to DMA-able range first
+Date: Mon,  9 Jun 2025 17:36:23 +0800
+X-OQ-MSGID: <20250609093623.964017-1-francisco_flynn@foxmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF139
- (Linux)/8.8.12_GA_3809)
-Thread-Topic: core: always create master device
-Thread-Index: THmojBJHtC1GOaAOJStu5UV1FSAWmA==
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 09 Jun 2025 22:53:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,53 +74,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Guenter Roeck" <linux@roeck-us.net>
->>> I am trying to boot from "pnor". It looks like the partition data (from
->>> devicetree)
->>> is now ignored. mtdblock6 used to be the second flash.
->>>
->>> Guenter
->>=20
->> Is this with CONFIG_MTD_PARTITIONED_MASTER?
->>=20
->=20
-> Yes
->=20
->> I think that mtd_is_partition is ambiguous now.
->> We always have master partition when CONFIG_MTD_PARTITIONED_MASTER
->> is enabled and parent check is useless.
->> We must check grandparent in this case.
->> Miquel, am I right?
->>=20
->> We can return to older patch version that have created partition
->> instead of the master device.
->> Or try to fix mtd_is_partition, like below.
->> Guenter, is below patch helps?
->>=20
-> No, it does not make a difference. Partitions are still not created.
+HMM device memory is allocated at the top of
+iomem_resource, when iomem_resource is larger than
+GPU device's dma mask, after devm_memremap_pages,
+max_pfn will also be update and exceed device's
+dma mask, when there are multiple card on system
+need to be init, ttm_device_init would be called
+with use_dma32=true, and this is not necessary at
+all. let's request dev memory region at DMA-able
+range first.
 
-Looks like all partition parsing is broken when CONFIG_MTD_PARTITIONED_MAST=
-ER=3Dy is set.
-Alexander, I was able to reproduce with MTDRAM and the mtdparts=3D kernel p=
-arameter.
-Build with CONFIG_MTD_MTDRAM=3Dy and CONFIG_MTD_PARTITIONED_MASTER=3Dy,
-pass mtdparts=3D\"mtdram test device:256k(foo)ro,-(bar)\" to the kernel com=
-mand line.
+Signed-off-by: francisco_flynn <francisco_flynn@foxmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Before your change:
-$ cat /proc/mtd=20
-dev:    size   erasesize  name
-mtd0: 00400000 00020000 "mtdram test device"
-mtd1: 00040000 00020000 "foo"
-mtd2: 003c0000 00020000 "bar"
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index 79251f22b702..3856b9fd2a70 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -1020,6 +1020,7 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
+ 	struct amdgpu_kfd_dev *kfddev = &adev->kfd;
+ 	struct dev_pagemap *pgmap;
+ 	struct resource *res = NULL;
++	struct resource temp_res = iomem_resource;
+ 	unsigned long size;
+ 	void *r;
+ 
+@@ -1042,7 +1043,10 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
+ 		pgmap->range.end = adev->gmc.aper_base + adev->gmc.aper_size - 1;
+ 		pgmap->type = MEMORY_DEVICE_COHERENT;
+ 	} else {
+-		res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
++		temp_res.end = dma_get_mask(adev->dev);
++		res = devm_request_free_mem_region(adev->dev, &temp_res, size);
++		if (IS_ERR(res))
++			res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
+ 		if (IS_ERR(res))
+ 			return PTR_ERR(res);
+ 		pgmap->range.start = res->start;
+-- 
+2.25.1
 
-After:
-$ cat /proc/mtd
-dev:    size   erasesize  name
-mtd0: 00400000 00020000 "mtdram test device"
-
-Hope this helps!
-
-Thanks,
-//richard
