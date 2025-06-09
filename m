@@ -2,74 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70638AD1ADC
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 11:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9D7AD1B52
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jun 2025 12:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C9F10E03A;
-	Mon,  9 Jun 2025 09:43:30 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="F2FIVahq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A4D10E055;
+	Mon,  9 Jun 2025 10:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 50732 seconds by postgrey-1.36 at gabe;
- Mon, 09 Jun 2025 09:43:25 UTC
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE9110E00A;
- Mon,  9 Jun 2025 09:43:25 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 840E743122;
- Mon,  9 Jun 2025 09:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1749462202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E4UgXCTTbnvHTrs3VX9TJ5+oerjkN8m/Ze1sEVtj3/o=;
- b=F2FIVahqxhWL8ygtZGnIRv3UVAlCxUn+9Pw6GtMfhalXGsZlVkZ2Rm77s3BY2zuRdb78lr
- jBXlvV57Sbhiflz9/0iFKSwL7sL+8yDcQY0TvU7Hp6tULiFFlnkE7r4VF41OmUr7q3rtVB
- L1TzWHN6FWANQcJ0muLsWtNyf8t5YA69TKnHn+K4yvWTbZJre6jUooiF4PkTlUri1jKsWt
- Q+HlcSNyYvCrQQutvNPU8/0bEfydjmOTvGZ/eiwd8j9w/wYeIPU5kaU7lmfkicjuzgcOhN
- 6bS1QVLEEvUNVmeQ4s/HH1ZEOH93UvyG7zhSp3QvAg7M+uVMBhcP4sH1hVLQew==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: "Usyskin, Alexander" <alexander.usyskin@intel.com>,  Richard Weinberger
- <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,  "De Marchi,
- Lucas" <lucas.demarchi@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>,  "Vivi, Rodrigo"
- <rodrigo.vivi@intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
- "Poosa, Karthik" <karthik.poosa@intel.com>,  "Abliyev, Reuven"
- <reuven.abliyev@intel.com>,  "Weil, Oren jer" <oren.jer.weil@intel.com>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 01/11] mtd: core: always create master device
-In-Reply-To: <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net> (Guenter
- Roeck's message of "Sun, 8 Jun 2025 17:59:37 -0700")
-References: <20250302140921.504304-1-alexander.usyskin@intel.com>
- <20250302140921.504304-2-alexander.usyskin@intel.com>
- <9dfb2954-fc3e-464c-a4fd-8c1a4dffa327@roeck-us.net>
- <CY5PR11MB63666AE267B9F1609213D93CED68A@CY5PR11MB6366.namprd11.prod.outlook.com>
- <87bjqyja7o.fsf@bootlin.com>
- <2f3d3ff9-e483-42cc-aaed-f376d46a6701@roeck-us.net>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 09 Jun 2025 11:43:19 +0200
-Message-ID: <87ikl5xnbc.fsf@bootlin.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CE9810E040
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 10:17:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 164661515
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 03:16:54 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B46B63F673
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jun 2025 03:17:12 -0700 (PDT)
+Date: Mon, 9 Jun 2025 11:17:09 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/arm/hdlcd: Replace struct simplefb_format with
+ custom type
+Message-ID: <aEa0pQJ9FFhJgWkR@e110455-lin.cambridge.arm.com>
+References: <20250527094336.73524-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdeludefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtgfesthhqredttderjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedutedtfeelvefgjeevuedukefhtefgiefftdekffffteduheduheelgedutdetueenucffohhmrghinhepughtshhirdhishenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehlihhnuhigsehrohgvtghkqdhushdrnhgvthdprhgtphhtthhopegrlhgvgigrnhguvghrrdhushihshhkihhnsehinhhtvghlrdgtohhmpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrghtpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopehluhgtrghsrdguvghmrghrtghhihesihhnthgvlhdrt
- ghomhdprhgtphhtthhopehthhhomhgrshdrhhgvlhhlshhtrhhomheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehrohgurhhighhordhvihhvihesihhnthgvlhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250527094336.73524-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,60 +47,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, May 27, 2025 at 11:42:57AM +0200, Thomas Zimmermann wrote:
+> Map DRM FourCC codes to pixel descriptions with internal type struct
+> hdlcd_format. Reorder formats by preference. Avoid simplefb's struct
+> simplefb_format, which is for parsing "simple-framebuffer" DT nodes.
+> 
+> The HDLCD drivers uses struct simplefb_format and its default
+> initializer SIMPLEFB_FORMATS to map DRM_FORMAT_ constants to pixel
+> descriptions. The simplefb helpers are for parsing "simple-framebuffer"
+> DT nodes and should be avoided in other context. Therefore replace
+> it in hdlcd with the custom type struct hdlcd_format and the pixel
+> descriptions from PIXEL_FORMAT_ constants.
+> 
+> Plane formats exported to userspace are roughly sorted as preferred
+> by hardware and/or driver. SIMPLEFB_FORMATS currently puts 16-bit
+> formats to the top of the list. Changing to struct hdlcd_format
+> allows for reordering the format list. 32-bit formats are now the
+> preferred ones.
+> 
+> This change also removes including <linux/platform_data/simplefb.h>,
+> which includes several unrelated headers, such as <linux/fb.h>.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/arm/hdlcd_crtc.c | 32 +++++++++++++++++++++++---------
+>  include/video/pixel_format.h     | 15 +++++++++++++++
+>  2 files changed, 38 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
+> index 3cfefadc7c9d..6fabe65ec0a2 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
+> @@ -11,8 +11,8 @@
+>  
+>  #include <linux/clk.h>
+>  #include <linux/of_graph.h>
+> -#include <linux/platform_data/simplefb.h>
+>  
+> +#include <video/pixel_format.h>
+>  #include <video/videomode.h>
+>  
+>  #include <drm/drm_atomic.h>
+> @@ -28,6 +28,25 @@
+>  #include "hdlcd_drv.h"
+>  #include "hdlcd_regs.h"
+>  
+> +struct hdlcd_format {
+> +	u32 fourcc;
+> +	struct pixel_format pixel;
+> +};
+> +
+> +static const struct hdlcd_format supported_formats[] = {
+> +	{ DRM_FORMAT_XRGB8888, PIXEL_FORMAT_XRGB8888 },
+> +	{ DRM_FORMAT_ARGB8888, PIXEL_FORMAT_ARGB8888 },
+> +	{ DRM_FORMAT_XBGR8888, PIXEL_FORMAT_XBGR8888 },
+> +	{ DRM_FORMAT_ABGR8888, PIXEL_FORMAT_ABGR8888 },
+> +	{ DRM_FORMAT_XRGB2101010, PIXEL_FORMAT_XRGB2101010},
+> +	{ DRM_FORMAT_ARGB2101010, PIXEL_FORMAT_ARGB2101010},
+> +	{ DRM_FORMAT_RGB565, PIXEL_FORMAT_RGB565 },
+> +	{ DRM_FORMAT_RGBA5551, PIXEL_FORMAT_RGBA5551 },
+> +	{ DRM_FORMAT_XRGB1555, PIXEL_FORMAT_XRGB1555 },
+> +	{ DRM_FORMAT_ARGB1555, PIXEL_FORMAT_ARGB1555 },
+> +	{ DRM_FORMAT_RGB888, PIXEL_FORMAT_RGB888 },
+> +};
+> +
+>  /*
+>   * The HDLCD controller is a dumb RGB streamer that gets connected to
+>   * a single HDMI transmitter or in the case of the ARM Models it gets
+> @@ -73,8 +92,6 @@ static const struct drm_crtc_funcs hdlcd_crtc_funcs = {
+>  	.disable_vblank = hdlcd_crtc_disable_vblank,
+>  };
+>  
+> -static struct simplefb_format supported_formats[] = SIMPLEFB_FORMATS;
 
->>>> Several of my qemu boot tests fail to boot from mtd devices with this =
-patch
->>>> in the mainline kernel. Reverting it fixes the problem. As far as I can
->>>> see this affects configurations with CONFIG_MTD_PARTITIONED_MASTER=3Dy
->>>> when
->>>> trying to boot from an mtd partition other than mtdblock0, with the
->>>> mtd partition data in devicetree (.../aspeed/openbmc-flash-layout.dtsi=
-).
->>>> Is there a guidance describing the changed behavior, by any chance,
->>>> and how the boot command line now needs to look like when using one of
->>>> the flash partitions as root file system ?
->>>>
->>>> Thanks,
->>>> Guenter
->>>
->>> I've tried to make is as transparent as possible for the existing users.
->>> Only change is that now every partition has master that is not partitio=
-ned.
->>> Is the CONFIG_MTD_PARTITIONED_MASTER=3Dn fixed the problem for you?
->> No change is expected, can you please describe the devices that you
->> observe with and without the patch? Maybe there is something wrong in
->> the core logic.
->>=20
->
-> I am trying to boot supermicro-x11spi-bmc in qemu from flash partition 6.
-> The qemu command line is something like
->
->     qemu-system-arm -M supermicro-x11spi-bmc,fmc-model=3Dn25q256a13,spi-m=
-odel=3Dn25q256a13 \
-> 	-kernel arch/arm/boot/zImage -no-reboot -snapshot \
-> 	-audio none \
-> 	-drive file=3D/tmp/flash,format=3Draw,if=3Dmtd,index=3D1 \
-> 	-nic user \
-> 	--append "root=3D/dev/mtdblock6 rootwait console=3DttyS4,115200 earlycon=
-=3Duart8250,mmio32,0x1e784000,115200n8" \
-> 	-dtb arch/arm/boot/dts/aspeed/aspeed-bmc-supermicro-x11spi.dtb \
-> 	-nographic -monitor null -serial stdio
->
-> This is with aspeed_g5_defconfig. Note that the flash models need to be s=
-pecified.
-> The default flashes are no longer recognized when booting from qemu since=
- commit
-> 947c86e481a0 ("mtd: spi-nor: macronix: Drop the redundant flash info fiel=
-ds").
->
-> The above only works with this patch reverted (or with v6.15 and older, o=
-f course).
->
-> Guenter
+Sorry, I was on holiday when you've sent the patch and it fell to the bottom of the pile.
 
-Alexander, can you please investigate? We need a fix because Guenter
-might not be the only affecter user. Otherwise this patch can't stand,
-unfortunately.
 
-Thanks,
-Miqu=C3=A8l
+When I did the initial patch for HDLCD using the SIMPLEFB_FORMATS was convenient as I
+didn't had to type all the "supported" formats, even if the one carrying the alpha
+channel were ignored (HDLCD only has one plane). If we're going to move the supported
+formats in this file I would suggest trimming it down to remove all the alpha-channel
+formats as they are pointless to list as supported. If there is no other user of the
+formats added in pixel_format.h then that should slim down the patch considerably.
+
+Best regards,
+Liviu
+
+> -
+>  /*
+>   * Setup the HDLCD registers for decoding the pixels out of the framebuffer
+>   */
+> @@ -83,15 +100,12 @@ static int hdlcd_set_pxl_fmt(struct drm_crtc *crtc)
+>  	unsigned int btpp;
+>  	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
+>  	const struct drm_framebuffer *fb = crtc->primary->state->fb;
+> -	uint32_t pixel_format;
+> -	struct simplefb_format *format = NULL;
+> +	const struct pixel_format *format = NULL;
+>  	int i;
+>  
+> -	pixel_format = fb->format->format;
+> -
+>  	for (i = 0; i < ARRAY_SIZE(supported_formats); i++) {
+> -		if (supported_formats[i].fourcc == pixel_format)
+> -			format = &supported_formats[i];
+> +		if (supported_formats[i].fourcc == fb->format->format)
+> +			format = &supported_formats[i].pixel;
+>  	}
+>  
+>  	if (WARN_ON(!format))
+> diff --git a/include/video/pixel_format.h b/include/video/pixel_format.h
+> index b5104b2a3a13..5ad2386e2014 100644
+> --- a/include/video/pixel_format.h
+> +++ b/include/video/pixel_format.h
+> @@ -23,6 +23,12 @@ struct pixel_format {
+>  #define PIXEL_FORMAT_XRGB1555 \
+>  	{ 16, false, { .alpha = {0, 0}, .red = {10, 5}, .green = {5, 5}, .blue = {0, 5} } }
+>  
+> +#define PIXEL_FORMAT_ARGB1555 \
+> +	{ 16, false, { .alpha = {15, 1}, .red = {10, 5}, .green = {5, 5}, .blue = {0, 5} } }
+> +
+> +#define PIXEL_FORMAT_RGBA5551 \
+> +	{ 16, false, { .alpha = {0, 1}, .red = {11, 5}, .green = {6, 5}, .blue = {1, 5} } }
+> +
+>  #define PIXEL_FORMAT_RGB565 \
+>  	{ 16, false, { .alpha = {0, 0}, .red = {11, 5}, .green = {5, 6}, .blue = {0, 5} } }
+>  
+> @@ -32,10 +38,19 @@ struct pixel_format {
+>  #define PIXEL_FORMAT_XRGB8888 \
+>  	{ 32, false, { .alpha = {0, 0}, .red = {16, 8}, .green = {8, 8}, .blue = {0, 8} } }
+>  
+> +#define PIXEL_FORMAT_ARGB8888 \
+> +	{ 32, false, { .alpha = {24, 8}, .red = {16, 8}, .green = {8, 8}, .blue = {0, 8} } }
+> +
+>  #define PIXEL_FORMAT_XBGR8888 \
+>  	{ 32, false, { .alpha = {0, 0}, .red = {0, 8}, .green = {8, 8}, .blue = {16, 8} } }
+>  
+> +#define PIXEL_FORMAT_ABGR8888 \
+> +	{ 32, false, { .alpha = {24, 8}, .red = {0, 8}, .green = {8, 8}, .blue = {16, 8} } }
+> +
+>  #define PIXEL_FORMAT_XRGB2101010 \
+>  	{ 32, false, { .alpha = {0, 0}, .red = {20, 10}, .green = {10, 10}, .blue = {0, 10} } }
+>  
+> +#define PIXEL_FORMAT_ARGB2101010 \
+> +	{ 32, false, { .alpha = {30, 1}, .red = {20, 10}, .green = {10, 10}, .blue = {0, 10} } }
+> +
+>  #endif
+> -- 
+> 2.49.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
