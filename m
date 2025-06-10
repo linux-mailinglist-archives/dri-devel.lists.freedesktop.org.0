@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECF4AD32EB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 11:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AAAAD3308
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 12:02:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D72610E292;
-	Tue, 10 Jun 2025 09:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F2F10E4DE;
+	Tue, 10 Jun 2025 10:02:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZTFvFE/7";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TyNXnWp/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B9B10E292
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 09:58:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1514D169;
- Tue, 10 Jun 2025 11:57:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1749549478;
- bh=RAxa8eTNx+BBiaQgCdS697j8LqDE6hZhl4PgNuwVzOM=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4068D10E4D8;
+ Tue, 10 Jun 2025 10:02:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 928495C3B9A;
+ Tue, 10 Jun 2025 10:00:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4620C4CEED;
+ Tue, 10 Jun 2025 10:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1749549768;
+ bh=10QgRGlAdUB6j196B6SS3g0F3Ydy3EG+vkL/4Ux7/yU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZTFvFE/7wv9Lt//6o9XPbsEd+rhIqdoLhYd/5g/icDwc5IbeywXteOg3XEZqPgQ9q
- XmNLlzLlknxcXHixykb+zLwGbBzl3mDXtjdwsccu4JD0ipttXyTAfaN98fmiiAw3V0
- APxGpwvGqnb64KA2v8NM806tRiBtaTng2NCW70fM=
-Date: Tue, 10 Jun 2025 12:57:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas,rzg2l-du: Add support for
- RZ/V2N SoC
-Message-ID: <20250610095753.GD24465@pendragon.ideasonboard.com>
-References: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ b=TyNXnWp/XjQS6G0rz7cg62OU0fVgQI9t7GZyP3AL8lXjRSLvNNWVvo1Z+C1Px+G7C
+ bfqql6lAhNvSWb97v6YVR9KqPc3dTHQ0C28RU9QR3dM9hWRLhKix+ccrwYeW3O2O5D
+ aTb/expteWzTEbdnUl7Um7Q3L0vVug/814OLGsXE=
+Date: Tue, 10 Jun 2025 12:02:46 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, rafael@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ mcgrof@kernel.org, russ.weight@linux.dev, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, lossin@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, leitao@debian.org, david.m.ertman@intel.com,
+ ira.weiny@intel.com, leon@kernel.org, fujita.tomonori@gmail.com,
+ tamird@gmail.com, igor.korotin.linux@gmail.com, anisse@astier.eu,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH] rust: module: remove deprecated author key
+Message-ID: <2025061038-trash-clammy-6e49@gregkh>
+References: <20250609122200.179307-1-trintaeoitogc@gmail.com>
+ <CANiq72==Xybm956Ete95e3YH7MTresNd3szxLg7GdzvhW1O+jg@mail.gmail.com>
+ <826956a9-6a43-404a-8130-11a4a3dc663a@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <826956a9-6a43-404a-8130-11a4a3dc663a@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +70,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
-
-Thank you for the patch.
-
-On Tue, Jun 10, 2025 at 12:19:05AM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Jun 09, 2025 at 07:47:55PM +0200, Danilo Krummrich wrote:
+> On 09.06.2025 19:39, Miguel Ojeda wrote:
+> > On Mon, Jun 9, 2025 at 2:22 PM Guilherme Giacomo Simoes
+> > <trintaeoitogc@gmail.com> wrote:
+> >>
+> >> Now that all in-tree modules have migrated to `authors`, remove:
+> > 
+> > Nit: I would have said "most modules", since we have new/remaining
+> > ones (no need for a new version for this).
+> > 
+> > I think this patch is OK -- we could wait to do this more cycles, but
+> > if we are doing it, then probably the sooner we do it, the simpler.
+> > 
+> >>  drivers/cpufreq/rcpufreq_dt.rs        | 2 +-
+> >>  drivers/gpu/drm/nova/nova.rs          | 2 +-
+> >>  drivers/gpu/nova-core/nova_core.rs    | 2 +-
+> >>  rust/kernel/firmware.rs               | 2 +-
+> >>  samples/rust/rust_configfs.rs         | 2 +-
+> >>  samples/rust/rust_driver_auxiliary.rs | 2 +-
+> > 
+> > Andreas, Danilo, Greg, Viresh: if nobody is against it, I will apply
+> > it this cycle. Acked-by's for your bits appreciated, of course.
 > 
-> Document support for the DU IP found on the Renesas RZ/V2N (R9A09G056) SoC.
-> The DU IP is functionally identical to that on the RZ/V2H(P) SoC, so no
-> driver changes are needed. The existing `renesas,r9a09g057-du` compatible
-> will be used as a fallback for the RZ/V2N SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-Assuming this gets merged after
-https://lore.kernel.org/r/20250530165906.411144-2-prabhakar.mahadev-lad.rj@bp.renesas.com
-("[PATCH v6 01/12] dt-bindings: display: renesas, rzg2l-du: Add support
-for RZ/V2H(P) SoC"),
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  .../devicetree/bindings/display/renesas,rzg2l-du.yaml          | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> index 1e32d14b6edb..2cc66dcef870 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -25,6 +25,9 @@ properties:
->            - enum:
->                - renesas,r9a07g054-du    # RZ/V2L
->            - const: renesas,r9a07g044-du # RZ/G2L fallback
-> +      - items:
-> +          - const: renesas,r9a09g056-du # RZ/V2N
-> +          - const: renesas,r9a09g057-du # RZ/V2H(P) fallback
->  
->    reg:
->      maxItems: 1
-
--- 
-Regards,
-
-Laurent Pinchart
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
