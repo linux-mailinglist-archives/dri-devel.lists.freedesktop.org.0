@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F7FAD41BE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 20:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBAFAD41DE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 20:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B543589D4D;
-	Tue, 10 Jun 2025 18:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56CA010E356;
+	Tue, 10 Jun 2025 18:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="GCRJidNf";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="KPmY2IS0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637E389D4D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 18:13:02 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C7310E5EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 18:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1749579180; x=1750183980; i=deller@gmx.de;
- bh=f1X+AO6h0JCkfXlVYWeqqMQFiaIhQ7oWX6CcoziL1qA=;
+ s=s31663417; t=1749579881; x=1750184681; i=deller@gmx.de;
+ bh=uaXSjmpcH4s/lkjBsb/Lg1NU9lJA8+bexTjVCbmDWSk=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=GCRJidNfE0aQuW5SKpw1Q+QsHKWRIgebH9nuoZOeB6EQnWyAFb7XeefzbtpQxGBU
- l1iT6nNO+Fqukxmdt5mhYUW8tFgDUJnougjerZyCbuFIDUd33cdcRKAHobDib94N6
- toabDciZRVKzPKkmwLUDnDi9/pb2+hCUNeiAURgwrioAoJwvYSK7dpd2yazK7PoNJ
- 1TCW917hv/SCLuKYl22djiFPoRE0Fr0OsLYwbEi8Dwk4eSiBe03vkjmhKoPAUWGSL
- DhL0FH408SN0qm4oGVb7wbiR8yzzatBDdgD4xzjqxLwWSzmq7m3HSqNhfJrg2mmTo
- e2DNSIbZvMZGDjEhag==
+ b=KPmY2IS0dDVsnKmUy1p2dE2aTbajH5S5anxdirP3wVnvj7DjH+tSrpQkVtEEGPl3
+ R+tBhZGPF2wGmPXpkCqerNn4QSrxHUttL+UnIFhC31mnfeuvj9DFZKMkVUQPSySj4
+ raeicEshDt/FlJ1oOrGt3BhcnR8jlz/HzLwWVaApGD/F628Yxg+ALwlSPaO8tAejZ
+ ArPPAUBWEz6/hDUg/gPHvXQ/+JWr08xceVw3KZ4VJd9hS/ibqoc05HnsIkwP4cLea
+ HOqtaZ/QyYfup9xMcI0CCoaWMgfm5gualtXBg9BqUxhPQwiOGDK06j6Gv0WUja8JH
+ mOTV9UX3iZ6NyAO9xQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.172] ([109.250.63.171]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVNAr-1uI4ey3TCZ-00Thpo; Tue, 10
- Jun 2025 20:12:59 +0200
-Message-ID: <c9ef633b-4d78-4aa5-91eb-d290cbbae17e@gmx.de>
-Date: Tue, 10 Jun 2025 21:59:40 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M8hZD-1uTiUD2xPd-007HYi; Tue, 10
+ Jun 2025 20:24:40 +0200
+Message-ID: <7928576a-dffb-4d27-a04b-8257d7f25383@gmx.de>
+Date: Tue, 10 Jun 2025 22:10:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/14] fbdev/c2p: Include <linux/export.h>
+Subject: Re: [PATCH 04/14] fbdev/cyber2000fb: Unexport symbols
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 References: <20250610105948.384540-1-tzimmermann@suse.de>
- <20250610105948.384540-4-tzimmermann@suse.de>
+ <20250610105948.384540-5-tzimmermann@suse.de>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,60 +87,60 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250610105948.384540-4-tzimmermann@suse.de>
+In-Reply-To: <20250610105948.384540-5-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XTmGzcZJjLShiB3SLo6s7XBcuAaOPAJ0J+Tzseqz/sqrq/KgYww
- OAU4qkhO/MUu6F06IuTVgXkHQg8Og39g9xKaxPQ0+jNvZN16SV3ofGCK2q49BDDOHisxpe/
- w11REs3V9ohf+eRSDBjI9fB8IKfMyGGTSWLz/Fqq9DANRS2bp19j3il0jQ994SCx95upSXc
- NfHmV0ttNibxehgviiR8w==
+X-Provags-ID: V03:K1:UefUmg4sCRw3607JZMVEwyI/jpc1DTrLth50WgH+38wNmJnOHm4
+ l5AJICb9g5y53PzJOvS6VkvXcYa0tlKzAlaSGFasscCuze85RCAZ+QEdvPmt/KOS1WJLg7Q
+ lls/IKKJiT/kkEoEX8wlxdofqTHfAr0EIzZKRpmdiw/lEbU9sZ6uYNpQL/rrePsFCzbJkYH
+ d0upm2Y48+Sxj6naVKkGQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:StcGF6Nd8eA=;5yz/iJDXv59zjnbb2fXL2iNbZTr
- 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
+UI-OutboundReport: notjunk:1;M01:P0:3xYZMWIZ7iE=;49Vob1POehb7TLjhqsTLjwy6ri/
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,17 +157,64 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/10/25 12:56, Thomas Zimmermann wrote:
-> Fix the compile-time warnings
+> Fix the compile-time warning
 >=20
->    drivers/video/fbdev/c2p_iplan2.c: warning: EXPORT_SYMBOL() is used, b=
-ut #include <linux/export.h> is missing
->    drivers/video/fbdev/c2p_planar.c: warning: EXPORT_SYMBOL() is used, b=
-ut #include <linux/export.h> is missing
+>    drivers/video/fbdev/cyber2000fb.c: warning: EXPORT_SYMBOL() is used, =
+but #include <linux/export.h> is missing
+>=20
+> The affected symbols are not used outside of their module.
 >=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/video/fbdev/c2p_iplan2.c | 1 +
->   drivers/video/fbdev/c2p_planar.c | 1 +
->   2 files changed, 2 insertions(+)
+>   drivers/video/fbdev/cyber2000fb.c | 4 ----
+>   1 file changed, 4 deletions(-)
 
-Reviewed-by: Helge Deller <deller@gmx.de>
+
+Seems those functions were used for some capture card/tv driver
+functionality in the past.
+Maybe we should simply remove those functions today?
+
+Helge
+
+>=20
+> diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyb=
+er2000fb.c
+> index 986760b90465..fcc565b2d98c 100644
+> --- a/drivers/video/fbdev/cyber2000fb.c
+> +++ b/drivers/video/fbdev/cyber2000fb.c
+> @@ -1089,7 +1089,6 @@ void cyber2000fb_enable_extregs(struct cfb_info *c=
+fb)
+>   		cyber2000_grphw(EXT_FUNC_CTL, old, cfb);
+>   	}
+>   }
+> -EXPORT_SYMBOL(cyber2000fb_enable_extregs);
+>  =20
+>   /*
+>    * Disable access to the extended registers
+> @@ -1109,7 +1108,6 @@ void cyber2000fb_disable_extregs(struct cfb_info *=
+cfb)
+>   	else
+>   		cfb->func_use_count -=3D 1;
+>   }
+> -EXPORT_SYMBOL(cyber2000fb_disable_extregs);
+>  =20
+>   /*
+>    * Attach a capture/tv driver to the core CyberX0X0 driver.
+> @@ -1135,7 +1133,6 @@ int cyber2000fb_attach(struct cyberpro_info *info,=
+ int idx)
+>  =20
+>   	return int_cfb_info !=3D NULL;
+>   }
+> -EXPORT_SYMBOL(cyber2000fb_attach);
+>  =20
+>   /*
+>    * Detach a capture/tv driver from the core CyberX0X0 driver.
+> @@ -1143,7 +1140,6 @@ EXPORT_SYMBOL(cyber2000fb_attach);
+>   void cyber2000fb_detach(int idx)
+>   {
+>   }
+> -EXPORT_SYMBOL(cyber2000fb_detach);
+>  =20
+>   #ifdef CONFIG_FB_CYBER2000_DDC
+>  =20
+
