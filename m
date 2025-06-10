@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25CD1AD2E3F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 09:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CF9AD2E41
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 09:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E8E10E474;
-	Tue, 10 Jun 2025 07:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE1610E47F;
+	Tue, 10 Jun 2025 07:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192C110E266;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B22010E472;
  Tue, 10 Jun 2025 07:02:57 +0000 (UTC)
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tomasz Lis <tomasz.lis@intel.com>,
- Maarten Lankhorst <dev@lankhorst.se>
-Subject: [PATCH v2 1/5] drm/mm: Introduce address space shifting
-Date: Tue, 10 Jun 2025 09:02:35 +0200
-Message-ID: <20250610070241.875636-2-dev@lankhorst.se>
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <dev@lankhorst.se>
+Subject: [PATCH v2 2/5] drm/xe: Start using ggtt->start in preparation of
+ balloon removal
+Date: Tue, 10 Jun 2025 09:02:36 +0200
+Message-ID: <20250610070241.875636-3-dev@lankhorst.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250610070241.875636-1-dev@lankhorst.se>
 References: <20250610070241.875636-1-dev@lankhorst.se>
@@ -39,79 +40,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomasz Lis <tomasz.lis@intel.com>
+Instead of having ggtt->size point to the end of ggtt, have ggtt->size
+be the actual size of the GGTT, and introduce ggtt->start to point to
+the beginning of GGTT.
 
-Due to resource reprovisioning, sometimes a need arises to move
-a living address space to a new area, preserving all the nodes
-and holes stored within.
+This will allow a massive cleanup of GGTT in case of SRIOV-VF.
 
-It is possible to do that by removing all nodes to a temporary list,
-reiniting the drm_mm instance and re-adding everything while applying
-a shift to each node. But that is a lot of extra work for a task
-which could be done internally without any node shuffle operations.
-
-This change introduces an interface which allows to shift the range
-without pruning the whole drm_mm instance.
-
-Having a drm_mm interface for such shift significantly simplifies
-the code required to adjust a KMD for a change in base address
-of a space managed by drm_mm instance.
-
-Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
-Link: https://lore.kernel.org/r/20250204224136.3183710-2-tomasz.lis@intel.com
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/gpu/drm/drm_mm.c | 24 ++++++++++++++++++++++++
- include/drm/drm_mm.h     |  1 +
- 2 files changed, 25 insertions(+)
+ drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c |  2 +-
+ drivers/gpu/drm/xe/xe_ggtt.c                | 60 ++++++++++-----------
+ drivers/gpu/drm/xe/xe_ggtt_types.h          |  4 +-
+ 3 files changed, 34 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index ca254611b3823..ce3bd8b5e41f0 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -917,6 +917,30 @@ struct drm_mm_node *drm_mm_scan_color_evict(struct drm_mm_scan *scan)
+diff --git a/drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c b/drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c
+index 537766cdd882e..12a8970a5ca1c 100644
+--- a/drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c
++++ b/drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c
+@@ -67,7 +67,7 @@ static int guc_buf_test_init(struct kunit *test)
+ 
+ 	KUNIT_ASSERT_EQ(test, 0,
+ 			xe_ggtt_init_kunit(ggtt, DUT_GGTT_START,
+-					   DUT_GGTT_START + DUT_GGTT_SIZE));
++					   DUT_GGTT_SIZE));
+ 
+ 	kunit_activate_static_stub(test, xe_managed_bo_create_pin_map,
+ 				   replacement_xe_managed_bo_create_pin_map);
+diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+index 7b11fa1356f0b..937cff3d44811 100644
+--- a/drivers/gpu/drm/xe/xe_ggtt.c
++++ b/drivers/gpu/drm/xe/xe_ggtt.c
+@@ -126,7 +126,7 @@ static void ggtt_update_access_counter(struct xe_ggtt *ggtt)
+ static void xe_ggtt_set_pte(struct xe_ggtt *ggtt, u64 addr, u64 pte)
+ {
+ 	xe_tile_assert(ggtt->tile, !(addr & XE_PTE_MASK));
+-	xe_tile_assert(ggtt->tile, addr < ggtt->size);
++	xe_tile_assert(ggtt->tile, addr < ggtt->start + ggtt->size);
+ 
+ 	writeq(pte, &ggtt->gsm[addr >> XE_PTE_SHIFT]);
  }
- EXPORT_SYMBOL(drm_mm_scan_color_evict);
+@@ -222,18 +222,18 @@ static const struct xe_ggtt_pt_ops xelpg_pt_wa_ops = {
+ 	.ggtt_set_pte = xe_ggtt_set_pte_and_flush,
+ };
  
-+/**
-+ * drm_mm_shift - move the range of addresses managed by this @mm
-+ * @mm: the drm_mm structure instance to shift
-+ * @shift: the shift value to be added to addresses of all nodes
-+ *
-+ * The function shifts all nodes by given offset, moving the address space
-+ * range managed by this @mm.
-+ */
-+void drm_mm_shift(struct drm_mm *mm, s64 shift)
-+{
-+	struct drm_mm_node *node;
-+
-+	/*
-+	 * Head node represents a hole, with negative size and start at the end
-+	 * of addressable area. This means it is never present within nodes
-+	 * list - needs to be shifted separately.
-+	 */
-+	mm->head_node.start += shift;
-+
-+	drm_mm_for_each_node(node, mm)
-+		node->start += shift;
-+}
-+EXPORT_SYMBOL(drm_mm_shift);
-+
- /**
-  * drm_mm_init - initialize a drm-mm allocator
-  * @mm: the drm_mm structure to initialize
-diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
-index f654874c4ce67..798e5a4f07add 100644
---- a/include/drm/drm_mm.h
-+++ b/include/drm/drm_mm.h
-@@ -465,6 +465,7 @@ static inline int drm_mm_insert_node(struct drm_mm *mm,
- void drm_mm_remove_node(struct drm_mm_node *node);
- void drm_mm_init(struct drm_mm *mm, u64 start, u64 size);
- void drm_mm_takedown(struct drm_mm *mm);
-+void drm_mm_shift(struct drm_mm *mm, s64 shift);
+-static void __xe_ggtt_init_early(struct xe_ggtt *ggtt, u32 reserved)
++static void __xe_ggtt_init_early(struct xe_ggtt *ggtt, u64 start, u64 size)
+ {
+-	drm_mm_init(&ggtt->mm, reserved,
+-		    ggtt->size - reserved);
++	ggtt->start = start;
++	ggtt->size = size;
++	drm_mm_init(&ggtt->mm, start, ggtt->size);
+ 	mutex_init(&ggtt->lock);
+ 	primelockdep(ggtt);
+ }
+ 
+-int xe_ggtt_init_kunit(struct xe_ggtt *ggtt, u32 reserved, u32 size)
++int xe_ggtt_init_kunit(struct xe_ggtt *ggtt, u32 start, u32 size)
+ {
+-	ggtt->size = size;
+-	__xe_ggtt_init_early(ggtt, reserved);
++	__xe_ggtt_init_early(ggtt, start, size);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_IF_KUNIT(xe_ggtt_init_kunit);
+@@ -254,26 +254,32 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
+ 	struct xe_device *xe = tile_to_xe(ggtt->tile);
+ 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+ 	unsigned int gsm_size;
++	u64 ggtt_start, wopcm = xe_wopcm_size(xe), ggtt_size;
+ 	int err;
+ 
+-	if (IS_SRIOV_VF(xe) || GRAPHICS_VERx100(xe) >= 1250)
+-		gsm_size = SZ_8M; /* GGTT is expected to be 4GiB */
+-	else
+-		gsm_size = probe_gsm_size(pdev);
+-
+-	if (gsm_size == 0) {
+-		drm_err(&xe->drm, "Hardware reported no preallocated GSM\n");
+-		return -ENOMEM;
++	if (!IS_SRIOV_VF(xe)) {
++		if (GRAPHICS_VERx100(xe) >= 1250)
++			gsm_size = SZ_8M; /* GGTT is expected to be 4GiB */
++		else
++			gsm_size = probe_gsm_size(pdev);
++		if (gsm_size == 0) {
++			drm_err(&xe->drm, "Hardware reported no preallocated GSM\n");
++			return -ENOMEM;
++		}
++		ggtt_start = wopcm;
++		ggtt_size = (gsm_size / 8) * (u64) XE_PAGE_SIZE - ggtt_start;
++	} else {
++		/* GGTT is expected to be 4GiB */
++		ggtt_start = wopcm;
++		ggtt_size = SZ_4G - ggtt_start;
+ 	}
+ 
+ 	ggtt->gsm = ggtt->tile->mmio.regs + SZ_8M;
+-	ggtt->size = (gsm_size / 8) * (u64) XE_PAGE_SIZE;
+-
+ 	if (IS_DGFX(xe) && xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K)
+ 		ggtt->flags |= XE_GGTT_FLAGS_64K;
+ 
+-	if (ggtt->size > GUC_GGTT_TOP)
+-		ggtt->size = GUC_GGTT_TOP;
++	if (ggtt_size + ggtt_start > GUC_GGTT_TOP)
++		ggtt_size = GUC_GGTT_TOP - ggtt_start;
+ 
+ 	if (GRAPHICS_VERx100(xe) >= 1270)
+ 		ggtt->pt_ops = (ggtt->tile->media_gt &&
+@@ -284,7 +290,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
+ 		ggtt->pt_ops = &xelp_pt_ops;
+ 
+ 	ggtt->wq = alloc_workqueue("xe-ggtt-wq", 0, WQ_MEM_RECLAIM);
+-	__xe_ggtt_init_early(ggtt, xe_wopcm_size(xe));
++	__xe_ggtt_init_early(ggtt, ggtt_start, ggtt_size);
+ 
+ 	err = drmm_add_action_or_reset(&xe->drm, ggtt_fini_early, ggtt);
+ 	if (err)
+@@ -520,11 +526,9 @@ void xe_ggtt_node_remove_balloon_locked(struct xe_ggtt_node *node)
+ static void xe_ggtt_assert_fit(struct xe_ggtt *ggtt, u64 start, u64 size)
+ {
+ 	struct xe_tile *tile = ggtt->tile;
+-	struct xe_device *xe = tile_to_xe(tile);
+-	u64 __maybe_unused wopcm = xe_wopcm_size(xe);
+ 
+-	xe_tile_assert(tile, start >= wopcm);
+-	xe_tile_assert(tile, start + size < ggtt->size - wopcm);
++	xe_tile_assert(tile, start >= ggtt->start);
++	xe_tile_assert(tile, start + size <= ggtt->start + ggtt->size);
+ }
  
  /**
-  * drm_mm_clean - checks whether an allocator is clean
+@@ -830,14 +834,12 @@ u64 xe_ggtt_largest_hole(struct xe_ggtt *ggtt, u64 alignment, u64 *spare)
+ {
+ 	const struct drm_mm *mm = &ggtt->mm;
+ 	const struct drm_mm_node *entry;
+-	u64 hole_min_start = xe_wopcm_size(tile_to_xe(ggtt->tile));
+ 	u64 hole_start, hole_end, hole_size;
+ 	u64 max_hole = 0;
+ 
+ 	mutex_lock(&ggtt->lock);
+-
+ 	drm_mm_for_each_hole(entry, mm, hole_start, hole_end) {
+-		hole_start = max(hole_start, hole_min_start);
++		hole_start = max(hole_start, ggtt->start);
+ 		hole_start = ALIGN(hole_start, alignment);
+ 		hole_end = ALIGN_DOWN(hole_end, alignment);
+ 		if (hole_start >= hole_end)
+@@ -930,15 +932,13 @@ u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer
+ {
+ 	const struct drm_mm *mm = &ggtt->mm;
+ 	const struct drm_mm_node *entry;
+-	u64 hole_min_start = xe_wopcm_size(tile_to_xe(ggtt->tile));
+ 	u64 hole_start, hole_end, hole_size;
+ 	u64 total = 0;
+ 	char buf[10];
+ 
+ 	mutex_lock(&ggtt->lock);
+-
+ 	drm_mm_for_each_hole(entry, mm, hole_start, hole_end) {
+-		hole_start = max(hole_start, hole_min_start);
++		hole_start = max(hole_start, ggtt->start);
+ 		hole_start = ALIGN(hole_start, alignment);
+ 		hole_end = ALIGN_DOWN(hole_end, alignment);
+ 		if (hole_start >= hole_end)
+diff --git a/drivers/gpu/drm/xe/xe_ggtt_types.h b/drivers/gpu/drm/xe/xe_ggtt_types.h
+index c5e999d58ff2a..a27919302d6b2 100644
+--- a/drivers/gpu/drm/xe/xe_ggtt_types.h
++++ b/drivers/gpu/drm/xe/xe_ggtt_types.h
+@@ -22,7 +22,9 @@ struct xe_gt;
+ struct xe_ggtt {
+ 	/** @tile: Back pointer to tile where this GGTT belongs */
+ 	struct xe_tile *tile;
+-	/** @size: Total size of this GGTT */
++	/** @start: Start offset of GGTT */
++	u64 start;
++	/** @size: Total usable size of this GGTT */
+ 	u64 size;
+ 
+ #define XE_GGTT_FLAGS_64K BIT(0)
 -- 
 2.45.2
 
