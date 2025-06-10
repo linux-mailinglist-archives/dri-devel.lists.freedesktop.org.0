@@ -2,84 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC11AD370E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 14:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB48BAD373B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 14:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328CB10E53E;
-	Tue, 10 Jun 2025 12:46:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757B610E054;
+	Tue, 10 Jun 2025 12:50:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E8JD63HS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F7GQc7RQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDB010E53E;
- Tue, 10 Jun 2025 12:46:54 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-312a806f002so581667a91.3; 
- Tue, 10 Jun 2025 05:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749559614; x=1750164414; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ya7o+Lr6b2111pfm+fOXNxAnjNXhwd42toZrtju/Tv4=;
- b=E8JD63HSBchcrU5vw0hKIf9x0HKHY6ie7iOEXerZFbsJVlPzl2ww3TfaIRVPuO+Zwc
- hWSI8aJklbOYXRV9WfLBouNtgm6WaJ8SPZJKFSjFwE+/H8usC7O5ilThieYTmy3nYebN
- ZS7xE3BhNjcG0SQltumigfTp5kCqXkoS0N4MgE+KMjPq8UFUu/0qpOfM67fANLP0oGcm
- y4Qnia9PVkaolFga6pkLTjYZ3w0cYFVSwY6ulrhgLjR2jY6ZvHxkqKMbH2nh8hvCI6+c
- trJjeQ11RgBjkgkJ+f4Tisi0uLfwq3BtXNtiGNp5rK/f1KCkQqifiwwxPsryzrjRxtKB
- fbNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749559614; x=1750164414;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ya7o+Lr6b2111pfm+fOXNxAnjNXhwd42toZrtju/Tv4=;
- b=dvjDo2VtLFWeN4mWynb9ESc3RjTltUYBNKffPlH7iog1PrRyXlqxDmUvaSpWJRbSiE
- D1K0vNu9x9TMgE7DhrdwtneRQo1TGvKktXhOuW8cKeWshlW+2xjYbvFbPr/9mGMiF2wF
- zUSvRvbs/olDja9KttITqh47I7vZCKNkrfPR90/vLBdrDb02SXnGfEQcmhqg0NpDpjKu
- rMoIxZVJTWJUloInN//a+dkNErNI+kVlcVFV7cILOIBa+/m/QBnlmUF0iXSE2vDCTB9G
- xtwBy48SHZkA7eklyx5PQfUFubrp8/yc8kxTCpjgDVTQ6FLa7ROilcg9r5Z3mbL1N8Lu
- R+Tw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUCXRklSsm+9DABNNfPSBacbubXSmu0PD6pVtfhlNOPheGzBUZfLD3WwG10cfM/eNj3OX/3pchQog8=@lists.freedesktop.org,
- AJvYcCUfo400s0kpBFKjwXugNnjNQ2NIWUXO4XNOt6e7oveL4fF3JuTBTVDl+zOE36FgnJ/L5NFJsipuOA==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxaFkMJhVRuj1GyMujf7vH5dK/wGNpBCKiIVKTztwGVGQIUu0Xl
- AMLhusnMCBhbCNIa8TsT/CciFhiRdYh0BZcQZyqlbXipQl8vSwaD7FfQu8i1Lhy7QboDTk8ejXx
- 7nlKh7ZKqyaz03S8jaIiQwU/lyRO4I4Y=
-X-Gm-Gg: ASbGncut4RHn7x7Zj8De4OyFV5MBBtNvmkErFHGCRTtQN255/8KG7edFyxEGa94r4mr
- 9reTuVGJ82ujjdP4Qx9RX+CooivnXw0dJbRxOAtOonIzKBSzfS6vPuZfI7pOwLSZhcDIRNsdvb2
- uTBQjrxFnCqltr3txki63wcqTlrbsvl1wjv1U2oYE5yTk=
-X-Google-Smtp-Source: AGHT+IEak5d16e/5FrsMogvb1aEvjHnaJk7Qj3Vrs9GwfeQHFh/sg4iyrbpHnOUv6MegVuwuZCa6n+gnNmqXuYGQFIA=
-X-Received: by 2002:a17:90a:d006:b0:311:e9a6:332e with SMTP id
- 98e67ed59e1d1-3134ded1839mr9415395a91.0.1749559614021; Tue, 10 Jun 2025
- 05:46:54 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4FA710E054;
+ Tue, 10 Jun 2025 12:50:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8CECF4A6E1;
+ Tue, 10 Jun 2025 12:50:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35285C4CEF1;
+ Tue, 10 Jun 2025 12:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749559817;
+ bh=7QpkMQMXtn6bcXn+GLCixu8zGcxbjjq8un/lPEBMnVI=;
+ h=From:Date:Subject:To:Cc:From;
+ b=F7GQc7RQ+F0IJCdqY94Kv4ovWFYpciWBNBN3n3ToM1BxxreW8XTNXdwe+ckHm8Xww
+ T7IJkYouR8gd+16bN9SOt+mFg/BBfT4RiDAhEeJrtuCeRc7/QUiourBnp4xWvFn4mj
+ QE0VQ1vxJq9lezeoj3KXQEC4HzFlX1vK6wFKOX4Z6nIpURA5lILlEYUc1WN/r08hn8
+ 6d4ha6j40uuJhkS7zG0Z+7s77vuR+Cyd33mjYGPIV2Hs1Vfq8pnvtngi6IVPcxXIVu
+ ZJ54mptB0ckWWz9y9wvnbFmXxlFB0kLmjqkBcwNlcZQEsULOX8+CtPH/FQ+vUaEJqV
+ /WzEIkVzWTOvg==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Date: Tue, 10 Jun 2025 14:50:03 +0200
+Subject: [PATCH] drm/msm/dpu: Fill in min_prefill_lines for SC8180X
 MIME-Version: 1.0
-References: <CANiq72kORZjTe3tPEBueDi57TGF7KfxgTSw4Tn0DQeK_X5hi5A@mail.gmail.com>
- <20250610123731.194853-1-trintaeoitogc@gmail.com>
-In-Reply-To: <20250610123731.194853-1-trintaeoitogc@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 10 Jun 2025 14:46:41 +0200
-X-Gm-Features: AX0GCFtd5VuHi7D87lqv4TVaYUAR41PmcpqldSut2APhu3FYkvxSfE5YRo6MsDs
-Message-ID: <CANiq72mtY6rQekToxOSWDMVs+0Sdg0NqvNBJn1zRLTKexSmsbA@mail.gmail.com>
-Subject: Re: [PATCH] rust: module: remove deprecated author key
-To: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
-Cc: a.hindborg@kernel.org, airlied@gmail.com, alex.gaynor@gmail.com, 
- aliceryhl@google.com, anisse@astier.eu, bjorn3_gh@protonmail.com, 
- boqun.feng@gmail.com, dakr@kernel.org, david.m.ertman@intel.com, 
- dri-devel@lists.freedesktop.org, fujita.tomonori@gmail.com, gary@garyguo.net, 
- gregkh@linuxfoundation.org, igor.korotin.linux@gmail.com, ira.weiny@intel.com, 
- leitao@debian.org, leon@kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, lossin@kernel.org, 
- maarten.lankhorst@linux.intel.com, mcgrof@kernel.org, mripard@kernel.org, 
- nouveau@lists.freedesktop.org, ojeda@kernel.org, rafael@kernel.org, 
- russ.weight@linux.dev, rust-for-linux@vger.kernel.org, simona@ffwll.ch, 
- tamird@gmail.com, tmgross@umich.edu, tzimmermann@suse.de, 
- viresh.kumar@linaro.org, walmeida@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250610-topic-dpu_8180_mpl-v1-1-f480cd22f11c@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPopSGgC/x3M3QpAQBBA4VfRXNuatdHyKpIwgyk/2y5S8u42l
+ 9/FOQ8E9sIBquQBz5cE2bcInSYwzN02sRKKhgyzHAuN6tidDIrc2VptsV3dokpjjLXcIxFBDJ3
+ nUe5/Wjfv+wEw8pW8ZAAAAA==
+X-Change-ID: 20250610-topic-dpu_8180_mpl-933388eb0ddd
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749559812; l=1066;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=iE/yOryfr8u/J14k5vdj37MOoWRLYDlk7LCl9lLaqKE=;
+ b=/3ym+TuMMf6qgrZEIiGeqXTPB8s739mqTCyW2nxcn3cXJjZHUCFEee6La/zDxv7RuGt7gJz63
+ 8iBtDMZZ6PEADjErF4GBzqzz8j7nVQW1dwSyHNPfIOEMYE/ncI4qhkn
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,19 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 10, 2025 at 2:37=E2=80=AFPM Guilherme Giacomo Simoes
-<trintaeoitogc@gmail.com> wrote:
->
-> Maybe, after this patch we can make a checkpatch change for check the `au=
-thors`
-> key (and MODULE_AUTHOR for C side), and throw a WARN if the author is a n=
-ame
-> (not a url, or "rust for linux") and don't have a email address.
->
-> Unless you guys tell me otherwise, I guess this is not so priority.
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-It is not a priority, and even if it were, it would be an independent
-change, i.e. not for this patch series, so no worries :)
+Based on the downstream release, predictably same value as for SM8150.
 
-Cheers,
-Miguel
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index d6f8b1030c68a428a144428b422b63b960c2fdba..6c04f41f9bacc3be2d2259d3b3e2099934f473f7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -383,6 +383,7 @@ static const struct dpu_perf_cfg sc8180x_perf_data = {
+ 	.min_core_ib = 2400000,
+ 	.min_llcc_ib = 800000,
+ 	.min_dram_ib = 800000,
++	.min_prefill_lines = 24,
+ 	.danger_lut_tbl = {0xf, 0xffff, 0x0},
+ 	.safe_lut_tbl = {0xfff0, 0xf000, 0xffff},
+ 	.qos_lut_tbl = {
+
+---
+base-commit: b27cc623e01be9de1580eaa913508b237a7a9673
+change-id: 20250610-topic-dpu_8180_mpl-933388eb0ddd
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
