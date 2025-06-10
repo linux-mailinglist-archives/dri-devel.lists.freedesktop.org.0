@@ -2,98 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FE1AD3955
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E16AD3963
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 963E110E563;
-	Tue, 10 Jun 2025 13:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D89110E565;
+	Tue, 10 Jun 2025 13:35:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hyL+nHh7";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lEIYMhku";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d1B5y5vs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lEIYMhku";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d1B5y5vs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D53510E563
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749562465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JaThg5+r5uhS87jz3/gzU48kE9fYSYuQjTKSX+XLaXk=;
- b=hyL+nHh7jTDTEE7wSwT5g0dflJmAth8X5LKyZ2Reo/paG/UKvvb2dHML+zL2i5susO8+wb
- e5RN+j5/VYiuNKiQBMPabQPOcaRG+SRos56IGn5dvGO/oqd7nFfDO9WFMW0Q3bT2ZoaoeA
- NIHgK7OYnI4FDuOi7kT+Y8z6nlIm7Y4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-bW8Z6JlzMYC0VfoyW6n7wg-1; Tue, 10 Jun 2025 09:34:22 -0400
-X-MC-Unique: bW8Z6JlzMYC0VfoyW6n7wg-1
-X-Mimecast-MFC-AGG-ID: bW8Z6JlzMYC0VfoyW6n7wg_1749562461
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-ade32b5771bso303019466b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 06:34:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749562461; x=1750167261;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JaThg5+r5uhS87jz3/gzU48kE9fYSYuQjTKSX+XLaXk=;
- b=TPSR2J04NbAcumApObTLs3GbG3plF2FgaXRm9YntcuAwnS6kGaLlNOpE1yRJDkwbXL
- LyBraWxR57R5Dc9hAuVt7Rd7/OQx4StPjw2sx1hqul2XyMB4sH7U1BmXOQbMX+ewjmxu
- +0ZslBLvjBum5IX2B3dwhDCHaDrTa+NwcBswTUZ0M7uyUqSaU40NAdzs8uF1i1NLe1yS
- BuDBhqpBaDZr4lpZAyeURMoWCoBrZ09l5JmQgxcIHRdpzKO3P9cftLo9ykFcIQUJDnu9
- 7IbKb5sO4/OFbsf0xYrKM1B9RS/8UnTI0lpo94sQTXhobF6zbxxC67AUcrGl4ygwCb9C
- 8ePw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbUovD5lyoCxjyHCwf5NVg7u/4Jo4DvNrl+NumShF3RLHWxg69zJR9eBLLIoaY05ili5tsYZXodDw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMy7hJnka5vO7OxKrCR/Mndduq2uDDxkSUECBuS2HIMxvH5PbX
- mtcUq75B6lxRDUZ7AOr0QXFumbkgs+cP+GwCHN/3iVQiXddIyYJwUD60A4BiDtb8UWxGwQijjwi
- Hg3pdqdD+BPcCj8AhranHheVOA8O7bTai8lJGYdEWa6W8RXSFi/G/szCIt6CVQHeeVd2MAA==
-X-Gm-Gg: ASbGnctbUxX5iS4KIThX7ZVmCwvwaZ7bTaiJDEq/Ot60Qr7HQ4SYMmDuu+e6EM7+C9j
- 6+BOkYrfjl7JftrCbvQBJH1f3nLW6siHgds3EtcNKHdamTcOHwmrYiA8Pb4wRN3t/Hy2BGs9w3V
- dtmWZudXzWVFCN2/3OaSIkXQYhvstmbqsPziRE/t1fpKbAjdZh1THomMggXyXO1m0Oy9c3qcNbR
- tBPU7hPfukqmG+Ng7Ti30BiFBG/Qp05uP+QBk9EAP51wsDzuGzAmNjKY4NBQDKmg51d6TdYhVul
- BLfK0YQXzbB8baZU31QVpAGyUQgT
-X-Received: by 2002:a17:907:9627:b0:ad2:4fa0:88cd with SMTP id
- a640c23a62f3a-ade1a9161d5mr1556452266b.9.1749562460784; 
- Tue, 10 Jun 2025 06:34:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVQJ9XKVtgWAPBPx92DgJukt6mEoSr0j96sE8wez5IFUYtTCsIHQA0fNWr/TED56i/nhFt1g==
-X-Received: by 2002:a17:907:9627:b0:ad2:4fa0:88cd with SMTP id
- a640c23a62f3a-ade1a9161d5mr1556448066b.9.1749562460153; 
- Tue, 10 Jun 2025 06:34:20 -0700 (PDT)
-Received: from sgarzare-redhat ([193.207.220.112])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ade1db57856sm727888966b.63.2025.06.10.06.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 06:34:19 -0700 (PDT)
-Date: Tue, 10 Jun 2025 15:34:13 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>, 
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] virtgpu: deallocate capsets on device deinit
-Message-ID: <4si3wc7jhfcyukrepw3wi6zmylqf7b5ilnlxfpbbexcijcvlnz@3r2zcpxne275>
-References: <20250505-virtgpu-queue-cleanup-v1-v1-0-810923da2b1e@linaro.org>
- <20250505-virtgpu-queue-cleanup-v1-v1-3-810923da2b1e@linaro.org>
- <5271820d-7afd-45e5-8103-b7d4fc818278@collabora.com>
- <c3ae2790-20d8-4220-848e-7b02b185e893@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD5810E565
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:35:38 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6E95421235;
+ Tue, 10 Jun 2025 13:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749562537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gTmEhdoHVb6uY0oY0vbTC4f5IiJdu+a6VqnidlGOLi4=;
+ b=lEIYMhkudkp/tFDSR5YhMaZuY2Iho+keNu2F6wJ0xYPxAqoUI1DG1bh7Yi7SZ98nBMghkL
+ IICPv4JDU/tTREFSfvt8gMe1o7ooZxkb0jBKER98IuEMf2m3OC3DzFogYMJfpRfQeK+p1W
+ hkRW7y/LiBj2tHO7TlU+IIu9RlngDpA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749562537;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gTmEhdoHVb6uY0oY0vbTC4f5IiJdu+a6VqnidlGOLi4=;
+ b=d1B5y5vsY6V/S96rQfoD3HKryygGOF8EGUIq+/9EsknhDg5hAu2vkKABm/Zd+oIivzwLRf
+ KXz54wz+CAgyLoBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749562537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gTmEhdoHVb6uY0oY0vbTC4f5IiJdu+a6VqnidlGOLi4=;
+ b=lEIYMhkudkp/tFDSR5YhMaZuY2Iho+keNu2F6wJ0xYPxAqoUI1DG1bh7Yi7SZ98nBMghkL
+ IICPv4JDU/tTREFSfvt8gMe1o7ooZxkb0jBKER98IuEMf2m3OC3DzFogYMJfpRfQeK+p1W
+ hkRW7y/LiBj2tHO7TlU+IIu9RlngDpA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749562537;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gTmEhdoHVb6uY0oY0vbTC4f5IiJdu+a6VqnidlGOLi4=;
+ b=d1B5y5vsY6V/S96rQfoD3HKryygGOF8EGUIq+/9EsknhDg5hAu2vkKABm/Zd+oIivzwLRf
+ KXz54wz+CAgyLoBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2156B13964;
+ Tue, 10 Jun 2025 13:35:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sy4KBqk0SGhNKAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 10 Jun 2025 13:35:37 +0000
+Message-ID: <9350317a-b6dc-4ba5-9bd5-2a63066cc460@suse.de>
+Date: Tue, 10 Jun 2025 15:35:36 +0200
 MIME-Version: 1.0
-In-Reply-To: <c3ae2790-20d8-4220-848e-7b02b185e893@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: uJWQy3dnuxmZFORyTtzT19MuaPCiYh5I6bjQjf1_81Y_1749562461
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] PCI/VGA: Look at all PCI display devices in VGA
+ arbiter
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+ bhelgaas@google.com
+Cc: dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+References: <20250609022435.348589-1-superm1@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250609022435.348589-1-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_FIVE(0.00)[5]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,30 +139,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 05, 2025 at 07:22:35PM +0300, Dmitry Osipenko wrote:
->On 5/5/25 18:58, Dmitry Osipenko wrote:
->> On 5/5/25 11:59, Manos Pitsidianakis wrote:
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
->>> index 7b3c4d314f8eee692e2842a7056d6dc64936fc2f..a8b751179332b9ec2fbba1392a6ee0e638a5192e 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
->>> @@ -286,6 +286,10 @@ void virtio_gpu_deinit(struct drm_device *dev)
->>>  	flush_work(&vgdev->cursorq.dequeue_work);
->>>  	flush_work(&vgdev->config_changed_work);
->>>  	virtio_reset_device(vgdev->vdev);
->>> +	spin_lock(&vgdev->display_info_lock);
->>> +	drmm_kfree(dev, vgdev->capsets);
->>> +	vgdev->capsets = NULL;
->>> +	spin_unlock(&vgdev->display_info_lock);
->>
->> Isn't this lock superfluous?
+Hi
+
+Am 09.06.25 um 04:24 schrieb Mario Limonciello:
+> From: Mario Limonciello <mario.limonciello@amd.com>
 >
->Wait a minute, vgdev->capsets is allocated using drmm, hence it's
->auto-freed when DRM device is freed. This patch shouldn't be needed.
+> On an A+N mobile system the APU is not being selected by some desktop
+> environments for any rendering tasks. This is because the neither GPU
+> is being treated as "boot_vga" but that is what some environments use
+> to select a GPU [1].
+>
+> The VGA arbiter driver only looks at devices that report as PCI display
+> VGA class devices. Neither GPU on the system is a display VGA class
+> device:
+>
+> c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+> c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
 
-Yep, good point. I mean the patch is not wrong, but I think we can avoid 
-it.
+My understanding of vgaarb is that it manages concurrent usage of the 
+fixed VGA I/O ports. So are these actually VGA devices? I'm concerned 
+about vgaarb handling devices that aren't VGA and possible side effects 
+of that.
 
-Thanks,
-Stefano
+As a side note, there's also video_is_primary_device(), which we use for 
+fbcon and which also uses vga_default_device() on x86. [1] This helper 
+should likely return the same value as sysfs' boot_vga attribute.
+
+[1] https://elixir.bootlin.com/linux/v6.15.1/C/ident/video_is_primary_device
+
+>
+> So neither device gets the boot_vga sysfs file. The vga_is_boot_device()
+> function already has some handling for integrated GPUs by looking at the
+> ACPI HID entries, so if all PCI display class devices are looked at it
+> actually can detect properly with this device ordering.  However if there
+> is a different ordering it could flag the wrong device.
+>
+> Modify the VGA arbiter code and matching sysfs file entries to examine all
+> PCI display class devices. After every device is added to the arbiter list
+> make a pass on all devices and explicitly check whether one is integrated.
+>
+> This will cause all GPUs to gain a `boot_vga` file, but the correct device
+> (APU in this case) will now show `1` and the incorrect device shows `0`.
+> Userspace then picks the right device as well.
+>
+> Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>   drivers/pci/pci-sysfs.c |  2 +-
+>   drivers/pci/vgaarb.c    | 53 ++++++++++++++++++++++++++---------------
+>   include/linux/pci.h     | 15 ++++++++++++
+>   3 files changed, 50 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> index 268c69daa4d57..c314ee1b3f9ac 100644
+> --- a/drivers/pci/pci-sysfs.c
+> +++ b/drivers/pci/pci-sysfs.c
+> @@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+>   	struct device *dev = kobj_to_dev(kobj);
+>   	struct pci_dev *pdev = to_pci_dev(dev);
+>   
+> -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+> +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+>   		return a->mode;
+>   
+>   	return 0;
+> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> index 78748e8d2dbae..8281144747487 100644
+> --- a/drivers/pci/vgaarb.c
+> +++ b/drivers/pci/vgaarb.c
+> @@ -139,7 +139,7 @@ void vga_set_default_device(struct pci_dev *pdev)
+>   {
+>   	if (vga_default == pdev)
+>   		return;
+> -
+> +	vgaarb_info(&pdev->dev, "selecting as VGA boot device\n");
+
+vgaarb_dbg() please.
+
+>   	pci_dev_put(vga_default);
+>   	vga_default = pci_dev_get(pdev);
+>   }
+> @@ -676,9 +676,9 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>   	}
+>   
+>   	/*
+> -	 * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+> -	 * other VGA devices, it is the best candidate so far.
+> -	 */
+> +	* Vgadev has neither IO nor MEM enabled.  If we haven't found any
+> +	* other VGA devices, it is the best candidate so far.
+> +	*/
+
+This should be a separate patch.
+
+Best regards
+Thomas
+
+>   	if (!boot_vga)
+>   		return true;
+>   
+> @@ -751,6 +751,31 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+>   		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
+>   }
+>   
+> +static
+> +void vga_arbiter_select_default_device(void)
+> +{
+> +	struct pci_dev *candidate = vga_default_device();
+> +	struct vga_device *vgadev;
+> +
+> +	list_for_each_entry(vgadev, &vga_list, list) {
+> +		if (vga_is_boot_device(vgadev)) {
+> +			/* check if one is an integrated GPU, use that if so */
+> +			if (candidate) {
+> +				if (vga_arb_integrated_gpu(&candidate->dev))
+> +					break;
+> +				if (vga_arb_integrated_gpu(&vgadev->pdev->dev)) {
+> +					candidate = vgadev->pdev;
+> +					break;
+> +				}
+> +			} else
+> +				candidate = vgadev->pdev;
+> +		}
+> +	}
+> +
+> +	if (candidate)
+> +		vga_set_default_device(candidate);
+> +}
+> +
+>   /*
+>    * Currently, we assume that the "initial" setup of the system is not sane,
+>    * that is, we come up with conflicting devices and let the arbiter's
+> @@ -816,13 +841,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>   		bus = bus->parent;
+>   	}
+>   
+> -	if (vga_is_boot_device(vgadev)) {
+> -		vgaarb_info(&pdev->dev, "setting as boot VGA device%s\n",
+> -			    vga_default_device() ?
+> -			    " (overriding previous)" : "");
+> -		vga_set_default_device(pdev);
+> -	}
+> -
+>   	vga_arbiter_check_bridge_sharing(vgadev);
+>   
+>   	/* Add to the list */
+> @@ -833,6 +851,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>   		vga_iostate_to_str(vgadev->owns),
+>   		vga_iostate_to_str(vgadev->locks));
+>   
+> +	vga_arbiter_select_default_device();
+>   	spin_unlock_irqrestore(&vga_lock, flags);
+>   	return true;
+>   fail:
+> @@ -1499,8 +1518,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>   
+>   	vgaarb_dbg(dev, "%s\n", __func__);
+>   
+> -	/* Only deal with VGA class devices */
+> -	if (!pci_is_vga(pdev))
+> +	/* Only deal with display devices */
+> +	if (!pci_is_display(pdev))
+>   		return 0;
+>   
+>   	/*
+> @@ -1548,12 +1567,8 @@ static int __init vga_arb_device_init(void)
+>   
+>   	/* Add all VGA class PCI devices by default */
+>   	pdev = NULL;
+> -	while ((pdev =
+> -		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+> -			       PCI_ANY_ID, pdev)) != NULL) {
+> -		if (pci_is_vga(pdev))
+> -			vga_arbiter_add_pci_device(pdev);
+> -	}
+> +	while ((pdev = pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev)))
+> +		vga_arbiter_add_pci_device(pdev);
+>   
+>   	pr_info("loaded\n");
+>   	return rc;
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 05e68f35f3923..e77754e43c629 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -744,6 +744,21 @@ static inline bool pci_is_vga(struct pci_dev *pdev)
+>   	return false;
+>   }
+>   
+> +/**
+> + * pci_is_display - Check if a PCI device is a display controller
+> + * @pdev: Pointer to the PCI device structure
+> + *
+> + * This function determines whether the given PCI device corresponds
+> + * to a display controller. Display controllers are typically used
+> + * for graphical output and are identified based on their class code.
+> + *
+> + * Return: true if the PCI device is a display controller, false otherwise.
+> + */
+> +static inline bool pci_is_display(struct pci_dev *pdev)
+> +{
+> +	return (pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY;
+> +}
+> +
+>   #define for_each_pci_bridge(dev, bus)				\
+>   	list_for_each_entry(dev, &bus->devices, bus_list)	\
+>   		if (!pci_is_bridge(dev)) {} else
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
