@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CEEAD34E8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 13:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C02AD3576
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 14:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61410E281;
-	Tue, 10 Jun 2025 11:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F4F10E514;
+	Tue, 10 Jun 2025 12:01:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="qEphA0by";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T93oAm5X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
- [91.218.175.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3AC10E281
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 11:27:33 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749554848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d87frpROuVlGjEVB2mDm08MDEd+CmIU52hSdyqvceiU=;
- b=qEphA0bypSgalnt0eO6vtYktEmcT1tqDQmDGVchsVK7Vutp9rmNvpR40+2CQme4157wFp2
- xAHP+DlDfd83sPJM3UB69HaZd04M0dDSTFUjuJRwcEKEc+JazVGgydcLufOrUyxnyLaiTJ
- pMiHUVkDm/+k0rwIrUhr5+opjCEzF2Pb8/kKG8mu2DAD8uyXFSEMSeDldf8z0L2S5sYsv+
- /5YayGjaSEFoS8uQkeaRCPYFWC0yGxk6GipS74DAdFkf+ltf1jhEKGCB31zq14SdxoubCl
- EckApz/WnAvBer+2JYvU3PZijI4uLTl1s+Yuz0FVmgK51RcGC7oMSWArIx4L4A==
-Content-Type: multipart/signed;
- boundary=1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 10 Jun 2025 13:27:13 +0200
-Message-Id: <DAITFEPGXB6Z.38FAE9O9NSSLX@cknow.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Piotr Zalewski" <pZ010001011111@proton.me>
-Cc: <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
- <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
- color_mgmt_changed in atomic_enable
-References: <20241206192013.342692-3-pZ010001011111@proton.me>
- <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
- <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
- <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
- <4z0y_F1ZT_xfO0-DwU-D5NwL3t3wHuGmivOB3QFjDsn0hzpz_hOeU63pRVBIgSU1j89jmYPq-TJHPqMCj3fAygwwX6IaPoVsqKqVi2jxmCc=@proton.me>
-In-Reply-To: <4z0y_F1ZT_xfO0-DwU-D5NwL3t3wHuGmivOB3QFjDsn0hzpz_hOeU63pRVBIgSU1j89jmYPq-TJHPqMCj3fAygwwX6IaPoVsqKqVi2jxmCc=@proton.me>
-X-Migadu-Flow: FLOW_OUT
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD4D10E51C;
+ Tue, 10 Jun 2025 12:01:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 062A761127;
+ Tue, 10 Jun 2025 12:01:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E786C4CEED;
+ Tue, 10 Jun 2025 12:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749556863;
+ bh=hYLYj1PjMDMLf7k9NtmDZopw4OPTvlCnJFgSTWNC8vI=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=T93oAm5XFcKYT1E/oV/Tz2n+NFeTBoGAK1hXke+h2VUSDs9KfEMPnC+uITS44hWXK
+ rVaSaSBgs13DS9Wz99QENvu4ajFNfbN1QuVmrWqakWQTmDMLZCyWUaHvEzizT3Lg1r
+ AYsg/AAM4xMtM+AyeDYVYdMY2s6SAAPwjuPdHdZZb2ghuVv0OuNWCs6BCIdeSeDsDI
+ ZP2b8QIxyqHuS4iYtmAL1XbdfDymR3zt4uANNzXTYTHeHYgGbmQonI4heUEOMhyzcm
+ jaVNiwkAkOHEt9Exlj/kwhoFxtQ31hX0LbXJBAYO3HGEF+JM4EfjCr1TMfxwzkwrHT
+ +05wgcN6XtPsQ==
+Message-ID: <d6b65b2a8b807ac5c0ce3294733631eb@kernel.org>
+Date: Tue, 10 Jun 2025 12:01:00 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Jani Nikula" <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/4] drm/panel: use fwnode based lookups for panel
+ followers
+In-Reply-To: <1ed7cfca02f8cf14347dadfe027197dc15791383.1749199013.git.jani.nikula@intel.com>
+References: <1ed7cfca02f8cf14347dadfe027197dc15791383.1749199013.git.jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, simon1.yang@intel.com, "Doug
+ Anderson" <dianders@chromium.org>,
+ "Heikki Krogerus" <heikki.krogerus@linux.intel.com>, "Jessica
+ Zhang" <jessica.zhang@oss.qualcomm.com>, "Lee Shawn C" <shawn.c.lee@intel.com>,
+ "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Wysocki Rafael J" <rafael.j.wysocki@intel.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,103 +62,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, 6 Jun 2025 12:05:09 +0300, Jani Nikula wrote:
+> Use firmware node based lookups for panel followers, to make the code
+> independent of OF and device tree, and make it work also for ACPI with
+> an appropriate _DSD.
+> 
+> ASL example:
+> 
+> [ ... ]
 
-Hi Piotr,
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-On Tue Jun 10, 2025 at 12:37 AM CEST, Piotr Zalewski wrote:
-> Hi Diederik, sorry for late response
-
-No need to be sorry :-)
-
-(late? Less then 2 days vs my ~4 months before the git bisect ...)
-
->> Interesting that it also happened with drm=3Dy.
->
-> I actually checked now and i don't have the issue with drm=3Dy, sorry for=
-=20
-> misinforming you all, hopefully no one's time was wasted.
-
-Good to know, thanks :-)
-
->> > happened twice and at short interval and since this patch allows for g=
-amma
->> > LUT update regardless of color_mgmt_changed state this makes DSP CTRL =
-GAMMA
->> > LUT EN bit to be unset twice too. It seems that VOP does not like it. =
-I
->>=20
->> Happy to see you found the cause :-)
->> Do you happen to know why it was unset twice? That sounds suboptimal.
->
-> It is due to DRM modeset which can happens when CRTC (display) config cha=
-nges=20
-> "significantly". AFAIK modeset happens def. when you go out of suspend or
-> display timings change. I might have been fooled by serial console last t=
-ime
-> as it does not appear to happen twice in short interval when i review the=
-=20
-> journal entries.
->
->> But (IIUC) setting a bit to a value it already has causing issues,
->> sounds surprising as well.
->
-> Depends on what hardware does, when you write to a register it might caus=
-e
-> many other things to happen and seems like for vop2 it messes something u=
-p.
-
-I didn't know that, thanks.
-
-> I made a second patch so that the first write is not permitted but all=20
-> subsequent are permitted (regardless of lut en state) - issue disappeared=
-=20
-> too. So it might be that very first write to dsp lut disable happens too=
-=20
-> fast (in relation to something else)?. It is not intuitive because when d=
-rm is
-> a module it happens usually like ~second later.
->
-> part of the log with drm=3Dy
-> ```
-> [    6.543099] rockchip-drm display-subsystem: [drm] GAMMA LUT DISABLE
-> ```
->
-> part of the log with drm=3Dm
-> ```
-> [    7.944120] rockchip-drm display-subsystem: [drm] GAMMA LUT DISABLE
-> ```
-
-My first (uneducated) hunch was a timing issue and ``=3Dm`` can reveal
-issues which you wouldn't see with ``=3Dy``.
-Andy already found an issue "that shouldn't happen" and my latest test
-also had an unexpected result. So (eventually) we'll figure it out :-)
-
->> Sounds like a plan. It could be that this issue surfaced an underlaying
->> issue and if so, fixing that would be even better.
->
-> When i have time this week I will check on what version of the kernel i=
-=20
-> tested gamma lut when i sent the patches and test there.
-
-I think it would be beneficial if you'd do the tests that Andy asked
-'me' to do too, so we can compare results.
-FWIW: I have the 4GB RAM version.
-
-Cheers,
-  Diederik
-
---1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEgWmQAKCRDXblvOeH7b
-bga5AP46kC7i4GeX+4vWp7Yxj8oZG/p/M87NvkPeVbBlmVSxNwD/aKazZBYfZhA9
-N8AQj5r2cn8N8/pLuRozO0FJiPY+iAk=
-=thoO
------END PGP SIGNATURE-----
-
---1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff--
+Thanks!
+Maxime
