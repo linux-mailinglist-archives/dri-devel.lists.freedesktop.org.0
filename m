@@ -2,64 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02ABBAD407C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 19:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1335AAD4161
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 19:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C7C10E0E6;
-	Tue, 10 Jun 2025 17:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB8C10E134;
+	Tue, 10 Jun 2025 17:59:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jVkK7fX5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="c6fpe9tP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A038E10E0E6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:25:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4F4A74A56A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:25:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DDB4C4CEED
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749576303;
- bh=uGaxqA/n55skUK7iM1lEPRwdjsKEEQgHiBQmAwX0wmM=;
- h=From:To:Subject:Date:From;
- b=jVkK7fX5R80nVUBrPE6WeXSjcla2ncL64cNgOt/Nu8ujrMoJO7pz8n637YtlMdy0N
- 3L3/eaBaNngUHEmWALRGzLz73drG7Pef6C2MDEb6s4T0hisZbwxsmnx0/SQPznthj/
- ViUBBbh/hvr3PeBX8z895OZ78LHRRULT7H4rxpSoTBL36nrF4O84E9tdUZmetVzHYV
- B2JXvLsQNLoq38JkHherQWRZVqGYGrUuMGMoSe9rxlvFE8v/gNDFJ6wKJJbSknp/H3
- gRt/SsflsqWoiZ5SCqkPfq3ucJVxJvsC+HYj1tCKd14XrM/+nvhfr1SawdaS6Xmclp
- 84ojwKm5M8ilQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 145E3C3279F; Tue, 10 Jun 2025 17:25:03 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220218] New: amdgpu: crash in
- dc_dmub_srv_apply_idle_power_optimizations
-Date: Tue, 10 Jun 2025 17:25:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ein4rth@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220218-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FE810E121
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:59:27 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55AHIvqZ017182
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:59:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=HdRdwAi5R4mg7+CZqegw72RDGkaSuNv85KQ
+ OZooFeP4=; b=c6fpe9tP3IIguRdAG2VVxcPkbKJpU+JY3P3BblW8vTpTlaUzDo5
+ BDMIjMMxKnDHzXaJA1Fx63K1/w1k77Bh3JkZ+2Hv/WWUrYJAeCWT2jZF3wQlyXtR
+ t9WRrgCYJf0AVEF4x+Y69MVpyswiKl3ATvzFgWJdT89slIHwc+Zep1tKQQmCp2D0
+ rxQg0r3erau4WfUZlLIPXrqYxomoEXBxvoW97kMZqAQKGirGNTudk6RFkFo3kV6p
+ nQMfAXfBMz9ZLrJ35Syg21Lg83dKc6u+9IKSQ6LL7A69pBThpK212stct4Lmc2zs
+ UvR4HfClcKOCkbthzidww/EZ9qUxLTyHdNA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4766mck3q0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 17:59:25 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-23632fd6248so13963215ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 10:59:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749578364; x=1750183164;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HdRdwAi5R4mg7+CZqegw72RDGkaSuNv85KQOZooFeP4=;
+ b=RinqUmhmupJldzK9UyDBG4J9AjQsF3hY04P9RKVJq1u+0ySYpFw/R53sGA+jhqkyMe
+ DpKlxE72xS9QsHWCtl+5EFXhe7nP8g1qEvVdS9xMLD064/C1Ev1Y2z9tsiuU///C+2ZA
+ z1trmJxGanoXGgHhV5IT+0BOeMT/p/dd0U9hHAV33Uj0a0rp9peJrt+0MWtBuha2A+ps
+ wSSvlY7Ym7Pxk7eRAUp+xfYSJeEPBadxRg3w+I6Zggkhi3iN5eqMkZZNSqG5YQVQ/dgu
+ kCocYvN8Qt/aYQOq8muff2Oc+RsuWY1DcMzcbZCIWOmKRwWCQJV+8c2KGBi/rZziEHKa
+ ZlzA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0r/r6xbxkTGA8d39l+pkFJTtNyt8eqsj/SAPsb3H4iLiIv+LB0/Cc+iNKeG5SlrXYNIJ2f0INMFc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzg0YJHnH75EAIXbPbtI3z+aVgOtoUABoL1yFk+S4RPiGVloTOd
+ i3zzLw4NycYEWaAjGd9t60gntIqN/VlhyUZiWOPWNbJR0umCVevEX0bXn2nMQCd9fihh714O7j+
+ 0r2DTb8OACfZLF9/ZpEvxm1qgPf48AOQWwqIgVG4b4SxKwmHcnKSzjkOByjAxiN0C28xg4JlKWY
+ TgjPI=
+X-Gm-Gg: ASbGnct0xj7XtShVeuBBHIvUTRe/p6KlyW8sR0nqUmXH0v4Cwipb45WTWBGb46d+MpR
+ Y0eFvz+skUv1yTnDXMdHehPcLnphAvyWA0TkgdW/yiJjXYjp9HhZiI+dgDJD2ek6RFKjve6ybuM
+ PzpGnKjTyO/k7NQ9Eg1gCNNfCGDDQadGXE4/stM8jb6y5yY26UiTjS9xnghpnYu1lVXiHUlbf9P
+ O4JS6fQodWDRSJt7E4z0fXru3A1WE4HSANlOnb8Flk5Uqv9soF8sytQravjulVt57KbSofIElQz
+ nmJxlP+Oo1csHPDW5VXyk+4MN7rYoj/iVqQUckJzAqhf5hAMSW9nqMxpujP+/HhdjGfhVzw=
+X-Received: by 2002:a17:903:8c7:b0:235:c9a7:d5f5 with SMTP id
+ d9443c01a7336-23641a9e732mr2753405ad.13.1749578363609; 
+ Tue, 10 Jun 2025 10:59:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG/R/oyCTjIMyBrFffehV01N2xGnaQ7ZprY81iHDm8RPqdVN33MzJSoYmS6cZGq8g2YH9MZrg==
+X-Received: by 2002:a17:903:8c7:b0:235:c9a7:d5f5 with SMTP id
+ d9443c01a7336-23641a9e732mr2753055ad.13.1749578363199; 
+ Tue, 10 Jun 2025 10:59:23 -0700 (PDT)
+Received: from jhugo-lnx.qualcomm.com (i-global254.qualcomm.com.
+ [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-236034059cbsm73798635ad.165.2025.06.10.10.59.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jun 2025 10:59:22 -0700 (PDT)
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+To: quic_carlv@quicinc.com, quic_thanson@quicinc.com, lizhi.hou@amd.com,
+ jacek.lawrynowicz@linux.intel.com, quic_yabdulra@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] accel/qaic: Use dev_printk() in RAS
+Date: Tue, 10 Jun 2025 11:59:12 -0600
+Message-Id: <20250610175912.2086773-1-jeff.hugo@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=T8KMT+KQ c=1 sm=1 tr=0 ts=6848727d cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=rOUgymgbAAAA:8 a=EUspDBNiAAAA:8
+ a=HoyUafP1cdkc2dKxyUcA:9 a=uG9DUKGECoFWVXl0Dc02:22 a=MP9ZtiD8KjrkvI0BhSjB:22
+X-Proofpoint-ORIG-GUID: 80LLVUQUNsvKnJ9Vv2IpyIFRn-3MM-ch
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEwMDE0NiBTYWx0ZWRfX20lau4xEz1sQ
+ FL+D2i7e2ZenmQoaY4sWhplZxUcYxuBGJ5A/zxr1jP/lZ1og/MERBZZuOfwAPFXXkcRblR/NU8m
+ 1l9AfVtc23fbwoRLTbZ96ngJXAXWCgUasX0O2YU9GbyFNSetavjASqbfZt6VCPEm4OkEwPAY61C
+ AuHbQ9vpexGDV+1RRANVOcZwbzM1F2phQ2lc6dl9Ig/yxUOAeP3jXevWd1x/Sjp/KJlNu3ur/D1
+ qA227AnX/fe930BnbG/nRQgAsiBIjegeR375jHDnwWOhvQxab7CpUOIthu7Tz3nBAju0ksgOOgR
+ EbRAdoRRBi+nu+ZWvwFLY2F/viBRDh6J4nEEPceZV6SqhKBVWNrCkKUz+IAWbM+VNDnopGqQ8CL
+ hzSIMEdiVDXJCjSP1AK25YWc9Cp1kG3P1K7P3aNLUWr89AqFPkpvTtWvMfMWBbG1f6adeuGD
+X-Proofpoint-GUID: 80LLVUQUNsvKnJ9Vv2IpyIFRn-3MM-ch
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-10_08,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506100146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,121 +120,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220218
+pci_printk() was removed with commit 1c8a0ed2043c ("PCI: Remove unused pci_printk()")
+so change to using dev_printk().
 
-            Bug ID: 220218
-           Summary: amdgpu: crash in
-                    dc_dmub_srv_apply_idle_power_optimizations
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ein4rth@gmail.com
-        Regression: No
+Fixes: c11a50b170e7 ("accel/qaic: Add Reliability, Accessibility, Serviceability (RAS)")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20250610124809.1e1ff0cd@canb.auug.org.au/
+Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+---
+ drivers/accel/qaic/qaic_ras.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-hardware: AMD Ryzen AI 9 HX 370
-kernel: 6.15.1 (Gnome desktop)
+diff --git a/drivers/accel/qaic/qaic_ras.c b/drivers/accel/qaic/qaic_ras.c
+index 39c6f9cf98cc..914ffc4a9970 100644
+--- a/drivers/accel/qaic/qaic_ras.c
++++ b/drivers/accel/qaic/qaic_ras.c
+@@ -322,7 +322,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 
+ 	switch (msg->source) {
+ 	case SOC_MEM:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n    0x%llx\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -338,7 +338,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 			   soc_syndrome->error_address[7]);
+ 		break;
+ 	case PCIE:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -348,7 +348,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 		switch (msg->err_type) {
+ 		case CE:
+ 			/*
+-			 * Modeled after AER prints. This continues the pci_printk() from a few
++			 * Modeled after AER prints. This continues the dev_printk() from a few
+ 			 * lines up. We reduce duplication of code, but also avoid re-printing the
+ 			 * PCI device info so that the end result looks uniform to the log user.
+ 			 */
+@@ -381,7 +381,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 		}
+ 		break;
+ 	case DDR:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    Instance %d\n    Count %d\n    Data 31_0 0x%x 0x%x\n    Data 63_32 0x%x 0x%x\n    Data 95_64 0x%x 0x%x\n    Data 127_96 0x%x 0x%x\n    Parity bits 0x%x\n    Address msb 0x%x\n    Address lsb 0x%x\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    Instance %d\n    Count %d\n    Data 31_0 0x%x 0x%x\n    Data 63_32 0x%x 0x%x\n    Data 95_64 0x%x 0x%x\n    Data 127_96 0x%x 0x%x\n    Parity bits 0x%x\n    Address msb 0x%x\n    Address lsb 0x%x\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -402,7 +402,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 			   ddr_syndrome->addr_lsb);
+ 		break;
+ 	case SYS_BUS1:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    instance %d\n    %s\n    err_type %d\n    address0 0x%x\n    address1 0x%x\n    address2 0x%x\n    address3 0x%x\n    address4 0x%x\n    address5 0x%x\n    address6 0x%x\n    address7 0x%x\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    instance %d\n    %s\n    err_type %d\n    address0 0x%x\n    address1 0x%x\n    address2 0x%x\n    address3 0x%x\n    address4 0x%x\n    address5 0x%x\n    address6 0x%x\n    address7 0x%x\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -421,7 +421,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 			   sysbus1_syndrome->addr[7]);
+ 		break;
+ 	case SYS_BUS2:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    instance %d\n    valid %d\n    word error %d\n    non-secure %d\n    opc %d\n    error code %d\n    transaction type %d\n    address space %d\n    operation type %d\n    len %d\n    redirect %d\n    path %d\n    ext_id %d\n    lsb2 %d\n    msb2 %d\n    lsb3 %d\n    msb3 %d\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    instance %d\n    valid %d\n    word error %d\n    non-secure %d\n    opc %d\n    error code %d\n    transaction type %d\n    address space %d\n    operation type %d\n    len %d\n    redirect %d\n    path %d\n    ext_id %d\n    lsb2 %d\n    msb2 %d\n    lsb3 %d\n    msb3 %d\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -446,7 +446,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 			   sysbus2_syndrome->msb3);
+ 		break;
+ 	case NSP_MEM:
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    NSP ID %d\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    NSP ID %d\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n    0x%x\n",
+ 			   err_class_str[msg->err_type],
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+@@ -476,7 +476,7 @@ static void decode_ras_msg(struct qaic_device *qdev, struct ras_data *msg)
+ 		else
+ 			class = "Warning";
+ 
+-		pci_printk(level, qdev->pdev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    %s threshold\n    %d deg C\n",
++		dev_printk(level, &qdev->pdev->dev, "RAS event.\nClass:%s\nDescription:%s %s %s\nError Threshold for this report %d\nSyndrome:\n    %s threshold\n    %d deg C\n",
+ 			   class,
+ 			   err_type_str[msg->err_type],
+ 			   "error from",
+-- 
+2.34.1
 
-[  760.250963] WARNING: CPU: 3 PID: 2475 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:1543
-dc_dmub_srv_apply_idle_power_optimizations+0x1d5/0x550 [amdgpu]
-[  760.251383] Modules linked in: snd_seq_dummy snd_hrtimer rfcomm snd_seq
-snd_seq_device cdc_ether usbnet r8152 mii libphy nft_fib_inet nft_fib_ipv4
-nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reje=
-ct
-nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
-nf_tables cmac algif_hash algif_skcipher af_alg bnep snd_acp70 snd_acp_i2s
-snd_acp_pdm snd_acp_pcm snd_sof_amd_acp70 snd_sof_amd_acp63 snd_sof_amd_van=
-gogh
-snd_sof_amd_rembrandt snd_sof_amd_renoir snd_sof_amd_acp vfat fat snd_sof_p=
-ci
-snd_sof_xtensa_dsp snd_sof snd_sof_utils snd_pci_ps intel_rapl_msr amd_atl
-snd_soc_acpi_amd_match snd_amd_sdw_acpi amdgpu intel_rapl_common soundwire_=
-amd
-soundwire_generic_allocation snd_hda_codec_conexant soundwire_bus
-snd_hda_codec_generic snd_soc_sdca snd_hda_codec_hdmi mt7921e snd_soc_core
-mt7921_common snd_hda_intel snd_compress snd_intel_dspcfg uvcvideo ac97_bus
-mt792x_lib snd_intel_sdw_acpi videobuf2_vmalloc snd_pcm_dmaengine uvc amdxcp
-mt76_connac_lib snd_rpl_pci_acp6x videobuf2_memops
-[  760.251435]  drm_panel_backlight_quirks btusb snd_hda_codec videobuf2_v4=
-l2
-drm_buddy snd_acp_pci mt76 btrtl videobuf2_common snd_amd_acpi_mach btintel
-snd_acp_legacy_common drm_exec snd_pci_acp6x btbcm snd_hda_core mac80211
-drm_suballoc_helper videodev kvm_amd btmtk snd_pci_acp5x drm_ttm_helper
-snd_hwdep ttm libarc4 snd_rn_pci_acp3x bluetooth i2c_algo_bit snd_pcm kvm
-snd_acp_config mc spd5118 asus_wmi snd_timer cfg80211 irqbypass
-drm_display_helper snd_soc_acpi sparse_keymap amdxdna snd rapl amd_pmf cec
-wmi_bmof rfkill i2c_piix4 thunderbolt gpu_sched snd_pci_acp3x soundcore amd=
-tee
-k10temp i2c_smbus amd_sfh joydev platform_profile mousedev amd_pmc mac_hid =
-loop
-nfnetlink ip_tables x_tables dm_crypt encrypted_keys trusted asn1_encoder t=
-ee
-polyval_clmulni polyval_generic ghash_clmulni_intel sha512_ssse3 sdhci_pci =
-nvme
-sha256_ssse3 sha1_ssse3 sdhci_uhs2 ucsi_acpi nvme_core aesni_intel sdhci
-hid_multitouch typec_ucsi cqhci crypto_simd cryptd mmc_core video ccp roles
-sp5100_tco nvme_keyring i2c_hid_acpi typec nvme_auth wmi
-[  760.251512]  i2c_hid serio_raw dm_mod pkcs8_key_parser crypto_user
-[  760.251521] CPU: 3 UID: 0 PID: 2475 Comm: kworker/u96:3 Not tainted
-6.15.1-arch1-2 #1 PREEMPT(full)  cd63386364b969355862abafc710704c8116e874
-[  760.251526] Hardware name: PCSpecialist Lafite Pro V 14M/X4SP4NAL, BIOS
-N.1.10PCS02 03/20/2025
-[  760.251531] Workqueue: dm_vblank_control_workqueue
-amdgpu_dm_crtc_vblank_control_worker [amdgpu]
-[  760.252049] RIP: 0010:dc_dmub_srv_apply_idle_power_optimizations+0x1d5/0=
-x550
-[amdgpu]
-[  760.252419] Code: ff ff 44 0f b6 c5 48 c7 c2 00 55 54 c2 48 c7 c6 20 9d =
-5e
-c2 48 c7 c7 70 47 09 c2 e8 45 a9 b5 c5 40 84 ed 75 bc e9 90 fe ff ff <0f> 0=
-b 41
-c7 44 24 68 00 00 00 00 48 83 c4 10 5b 5d 41 5c 41 5d 41
-[  760.252421] RSP: 0018:ffffcd7d862d3d40 EFLAGS: 00010286
-[  760.252425] RAX: 00000000ffffffff RBX: ffff8a1083800000 RCX:
-0000000000000001
-[  760.252427] RDX: 0000000000000181 RSI: 00000000000036a3 RDI:
-ffff8a1090380000
-[  760.252428] RBP: ffffcd7ddf941e00 R08: ffffcd7d862d3ce4 R09:
-0000000000001540
-[  760.252430] R10: ffff8a104109c880 R11: ffff8a108c18a000 R12:
-ffff8a104109c880
-[  760.252430] R13: 0000000000000005 R14: 0000000000000002 R15:
-000000000000066a
-[  760.252432] FS:  0000000000000000(0000) GS:ffff8a1fd45ef000(0000)
-knlGS:0000000000000000
-[  760.252434] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  760.252436] CR2: 00005589f4737de8 CR3: 00000004ad224000 CR4:
-0000000000f50ef0
-[  760.252438] PKRU: 55555554
-[  760.252439] Call Trace:
-[  760.252445]  <TASK>
-[  760.252450]  ? __slab_free+0xe4/0x310
-[  760.252460]  dcn35_apply_idle_power_optimizations+0xd1/0xf0 [amdgpu
-9195822a555765587a485333de7887baecb6b29e]
-[  760.252884]  dc_allow_idle_optimizations_internal+0xe5/0x360 [amdgpu
-9195822a555765587a485333de7887baecb6b29e]
-[  760.253055]  amdgpu_dm_crtc_vblank_control_worker+0x157/0x2b0 [amdgpu
-9195822a555765587a485333de7887baecb6b29e]
-[  760.253182]  ? __pwq_activate_work+0x35/0xb0
-[  760.253186]  process_one_work+0x190/0x350
-[  760.253189]  worker_thread+0x2d7/0x410
-[  760.253190]  ? __pfx_worker_thread+0x10/0x10
-[  760.253191]  kthread+0xf9/0x240
-[  760.253194]  ? __pfx_kthread+0x10/0x10
-[  760.253195]  ret_from_fork+0x31/0x50
-[  760.253199]  ? __pfx_kthread+0x10/0x10
-[  760.253200]  ret_from_fork_asm+0x1a/0x30
-[  760.253204]  </TASK>
-[  760.253205] ---[ end trace 0000000000000000 ]---
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
