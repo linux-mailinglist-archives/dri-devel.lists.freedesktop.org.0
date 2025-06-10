@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2DAAD30FE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 10:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93B2AD3102
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 10:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9688210E4A0;
-	Tue, 10 Jun 2025 08:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDC310E4C9;
+	Tue, 10 Jun 2025 08:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MpwKaJms";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cfOIb8NO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F141710E49F;
- Tue, 10 Jun 2025 08:56:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D36B110E4BB;
+ Tue, 10 Jun 2025 08:58:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 21BA3A5101B;
- Tue, 10 Jun 2025 08:56:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907D6C4CEED;
- Tue, 10 Jun 2025 08:56:02 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id F2E98A51024;
+ Tue, 10 Jun 2025 08:58:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A436C4CEED;
+ Tue, 10 Jun 2025 08:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749545768;
- bh=FDylNM5QiKDVslap+v69luYbNSSeUxYW7i/sVB1GflI=;
+ s=k20201202; t=1749545882;
+ bh=cFuJa1MbaQff0D7/bg5dOYx+v1MxdgpT1Fbr8faIue8=;
  h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=MpwKaJmscN1m61JeMuiBSNXN04P15jq1shwdEt0PGS9cTHeGx6whJWd9idQvI5qF0
- Y1HX7p8J8Yk9n8V3hxj9UwSRBQwRVTz4DIpRSqpaDlGRmZ2vEQ5BdnvDLiAXJkv1iD
- rL2lfRcKhaVmjG4DJyjH8ARKr7s5FD5OEBbmnakyhltz1OH09yj2yanzliL4BcQWLG
- dPpjlqKoyxWOzO48ba76ZkrJflVMutLfxa5W7mnViJu7ocCb2Y3Kl8z2yftNwENtMM
- VjAd73v8nyQsg9PlDv8pz/Az+2on8uxvxC+2/niv60Uos6Tp3bsdk8IlpeVY3JqJVn
- rXd5xQpKDqt3w==
+ b=cfOIb8NOcXGU/mySXLxZkDRzL5vdr78k1PL0AQIb6in8sw9/Q/pNhYrpJKrOtgOMn
+ c/fYLdNp8wf8zizDUB//BynCOy0f2+lToIYd1bZVffz673hKoY6zWgkX9EH0Y7Mde0
+ SMNn2/8E2XrJCOXaIl8e/E7kyKGSrfQv5B86uhtLIQ5Fob+HMnLokFhbJwXboRxAmo
+ IruBZ/WmEqUxDNta+rNrXxngd2itlzd6Q/ubdNZTv4MZ0cjuGmqvq6KIHTGKRvRAeN
+ jCoiBQvU7orzJj01HBDY7e0JzP/LoJlqNUfmp58Ku9xQBfGnRJjhAy+A3tyVXzpgXd
+ karynLUNxTcJw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Jun 2025 10:56:00 +0200
-Message-Id: <DAIQ7MZ4BJN8.3QO6IHT7OPWFS@kernel.org>
+Date: Tue, 10 Jun 2025 10:57:54 +0200
+Message-Id: <DAIQ9342ZFYD.3VQVI80A18HKX@kernel.org>
 Cc: <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <rust-for-linux@vger.kernel.org>
@@ -71,26 +71,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon Jun 9, 2025 at 2:22 PM CEST, Guilherme Giacomo Simoes wrote:
-> Commit 38559da6afb2 ("rust: module: introduce `authors` key") introduced
-> a new `authors` key to support multiple module authors, while keeping
-> the old `author` key for backward compatibility.
->
-> Now that all in-tree modules have migrated to `authors`, remove:
-> 1. The deprecated `author` key support from the module macro
-> 2. Legacy `author` entries from remaining modules
->
-> Signed-off-by: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
-> ---
->  drivers/cpufreq/rcpufreq_dt.rs        | 2 +-
->  drivers/gpu/drm/nova/nova.rs          | 2 +-
->  drivers/gpu/nova-core/nova_core.rs    | 2 +-
->  rust/kernel/firmware.rs               | 2 +-
->  rust/macros/module.rs                 | 6 ------
->  samples/rust/rust_configfs.rs         | 2 +-
->  samples/rust/rust_driver_auxiliary.rs | 2 +-
->  7 files changed, 6 insertions(+), 12 deletions(-)
+> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/n=
+ova_core.rs
+> index 618632f0abcc..f405d7a99c28 100644
+> --- a/drivers/gpu/nova-core/nova_core.rs
+> +++ b/drivers/gpu/nova-core/nova_core.rs
+> @@ -13,7 +13,7 @@
+>  kernel::module_pci_driver! {
+>      type: driver::NovaCore,
+>      name: "NovaCore",
+> -    author: "Danilo Krummrich",
+> +    authors: ["Danilo Krummrich"],
 
-Reviewed-by: Benno Lossin <lossin@kernel.org>
+Unrelated to this change, I think we should add email addresses to
+people in authors. Possibly enforce it by scanning each author element
+and checking if there is an email address.
+
+>      description: "Nova Core GPU driver",
+>      license: "GPL v2",
+>      firmware: [],
+> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> index 2494c96e105f..ed2fc20cba9b 100644
+> --- a/rust/kernel/firmware.rs
+> +++ b/rust/kernel/firmware.rs
+> @@ -181,7 +181,7 @@ unsafe impl Sync for Firmware {}
+>  /// module! {
+>  ///    type: MyModule,
+>  ///    name: "module_firmware_test",
+> -///    author: "Rust for Linux",
+> +///    authors: ["Rust for Linux"],
+
+We would need to special case "Rust for Linux Developers" or something
+similar. But in several cases -- such as this one, we should just name
+the actual authors.
+
+What do you guys think?
 
 ---
 Cheers,
