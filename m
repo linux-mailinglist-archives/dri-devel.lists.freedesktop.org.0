@@ -2,89 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F41EAD30CD
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 10:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2DAAD30FE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 10:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F92C10E0D3;
-	Tue, 10 Jun 2025 08:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9688210E4A0;
+	Tue, 10 Jun 2025 08:56:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MBe4ACAO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MpwKaJms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72A4210E0D3;
- Tue, 10 Jun 2025 08:48:53 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-742af84818cso3606908b3a.1; 
- Tue, 10 Jun 2025 01:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749545333; x=1750150133; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
- b=MBe4ACAObCBt2TSOtCKdiOgbMYBC9DqEUu28mpVc9XNXn6HWq6G6tSPVevZXR8S3W2
- igmZ5plsP2yH8FC4ewF2CYUl08WwA5Sdw9057HC9P7Zm5pI25+kEVelyT5TfvDB6luvq
- kgb6EyXNfBViOPdEjcIC+rjr1CiHGJygq2lEpCsyX96K5IwmDqCaDm/tenUEOGxgzj0+
- nCyJ3+AIgz/cFv7GzzqxgUonuJu3oNKNolOwjOvhc43sPxIv8BPsurDZgw4OWxtRZelf
- jtxEZ1FTvMs/kktLsLdZ+E7nu5GERytGAQWulfmyrF0jyRaQSnj8B/X0NERI+CRKJ4Qr
- 2ggw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749545333; x=1750150133;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
- b=mJ88smU4A25+mYigu5hAsJFZ0KnhSi7I+sMipsITdcoE7ojmjY3TUz6SLr54kehgp0
- SbtLskhgvnI/vULRHxe6sFLE02xSa9M2JGBrlLxvuWOGbeWUb+uvGLosd1PiufwD2P/8
- yC8KdKSj4EZZRyXTQbxZBx/S+2jzf2rZMJb5mMDm83NQAYrzqNKustGb710A8Rl60zsl
- KE+mRQySHNBLH+nY9Mk5HkKJ42wbQ3SZL3+QayD4fchImhU2mcPVg4WWUhjJQs7EhcQX
- hDbjYkKPccxg4lvl5LOchZVcdY6jfYrjn3MY0Rks0r9cdDPYSKHkvouZG/hxpoaU5xWZ
- Q5Uw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqe2LsAK+ZFJR5KtHnPF3KBBx0Ub57J0YMEKtsqBMw3y3D03NAv2VKf3wKqZbIIHGSGdv0Pc8wFA==@lists.freedesktop.org,
- AJvYcCXISpifbvN6yxdvFFHzRUpvnZR/dqM1QKW37RxajPiEjxZJ7qEvi9+4hDE3BzUwRgTu6YF+Twv39z4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7Um2q/v5d+Ak46vL10Q5MrKfmmwWY5FtcI8901ftzbKcn8J4F
- k+TfU1mc/33R24Y1d511uU2VPIciZkJIUPz8tkrS0usmBsHxuihvgeTd
-X-Gm-Gg: ASbGnctgkB40tHUGH4kFxGsa58ccc89eNIC5yGr1iwqRLIJqw9c3+zmkX1BxjUmWZ3g
- JickbaVueCtSeSfdYSJgDrGxFMIlzt/Bg5RJt7c94mvIqfRokRYC8bEyLAL0oh5erwK5+HhCChe
- sdwA10xXj6KHs0Pip7iMM5sT2RXaWrkYfaqRGUOJbZi0Mnun4yNVRNtnGoHZXTBAhLQ2B7whZYV
- +lK/bquaXqJEmHaDbSE9wj0zgbAAEUbuoopdpa8izVQ4jPwCMKOSNPaXMoxtZ2dGQNhAKB6Dbbe
- ue0OaUKEHQJ17/S8gKXAitmSGQEeeL2DDnBoIHydbAvaU2YNOmFBs7/HeH/1Ag==
-X-Google-Smtp-Source: AGHT+IFp/a3BJUfZ11EtegJLCPwKpNZ2/owGoOb3Tq08bJgJCCkw3iG0UF0qdzi7S7gLYdonMEMPwA==
-X-Received: by 2002:a05:6a00:806:b0:737:9b:582a with SMTP id
- d2e1a72fcca58-74827f3dab7mr23442739b3a.24.1749545332268; 
- Tue, 10 Jun 2025 01:48:52 -0700 (PDT)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7482af38307sm7205070b3a.14.2025.06.10.01.48.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 01:48:51 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
- id 33DBB4209E8C; Tue, 10 Jun 2025 15:48:49 +0700 (WIB)
-Date: Tue, 10 Jun 2025 15:48:48 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Nouveau <nouveau@lists.freedesktop.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Dave Airlie <airlied@redhat.com>,
- Timur Tabi <ttabi@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>
-Subject: Re: [PATCH] Documentation: nouveau: Update GSP message queue
- kernel-doc reference
-Message-ID: <aEfxcKv7pJ5L6wiP@archie.me>
-References: <20250610065258.41467-1-bagasdotme@gmail.com>
- <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Y8RoNhFPCm0EIgnk"
-Content-Disposition: inline
-In-Reply-To: <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F141710E49F;
+ Tue, 10 Jun 2025 08:56:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 21BA3A5101B;
+ Tue, 10 Jun 2025 08:56:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907D6C4CEED;
+ Tue, 10 Jun 2025 08:56:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749545768;
+ bh=FDylNM5QiKDVslap+v69luYbNSSeUxYW7i/sVB1GflI=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=MpwKaJmscN1m61JeMuiBSNXN04P15jq1shwdEt0PGS9cTHeGx6whJWd9idQvI5qF0
+ Y1HX7p8J8Yk9n8V3hxj9UwSRBQwRVTz4DIpRSqpaDlGRmZ2vEQ5BdnvDLiAXJkv1iD
+ rL2lfRcKhaVmjG4DJyjH8ARKr7s5FD5OEBbmnakyhltz1OH09yj2yanzliL4BcQWLG
+ dPpjlqKoyxWOzO48ba76ZkrJflVMutLfxa5W7mnViJu7ocCb2Y3Kl8z2yftNwENtMM
+ VjAd73v8nyQsg9PlDv8pz/Az+2on8uxvxC+2/niv60Uos6Tp3bsdk8IlpeVY3JqJVn
+ rXd5xQpKDqt3w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Jun 2025 10:56:00 +0200
+Message-Id: <DAIQ7MZ4BJN8.3QO6IHT7OPWFS@kernel.org>
+Cc: <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH] rust: module: remove deprecated author key
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Guilherme Giacomo Simoes" <trintaeoitogc@gmail.com>,
+ <rafael@kernel.org>, <viresh.kumar@linaro.org>, <dakr@kernel.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <mcgrof@kernel.org>, <russ.weight@linux.dev>, <ojeda@kernel.org>,
+ <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <a.hindborg@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>, <leitao@debian.org>,
+ <gregkh@linuxfoundation.org>, <david.m.ertman@intel.com>,
+ <ira.weiny@intel.com>, <leon@kernel.org>, <fujita.tomonori@gmail.com>,
+ <tamird@gmail.com>, <igor.korotin.linux@gmail.com>,
+ <walmeida@microsoft.com>, <anisse@astier.eu>
+X-Mailer: aerc 0.20.1
+References: <20250609122200.179307-1-trintaeoitogc@gmail.com>
+In-Reply-To: <20250609122200.179307-1-trintaeoitogc@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,80 +70,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon Jun 9, 2025 at 2:22 PM CEST, Guilherme Giacomo Simoes wrote:
+> Commit 38559da6afb2 ("rust: module: introduce `authors` key") introduced
+> a new `authors` key to support multiple module authors, while keeping
+> the old `author` key for backward compatibility.
+>
+> Now that all in-tree modules have migrated to `authors`, remove:
+> 1. The deprecated `author` key support from the module macro
+> 2. Legacy `author` entries from remaining modules
+>
+> Signed-off-by: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
+> ---
+>  drivers/cpufreq/rcpufreq_dt.rs        | 2 +-
+>  drivers/gpu/drm/nova/nova.rs          | 2 +-
+>  drivers/gpu/nova-core/nova_core.rs    | 2 +-
+>  rust/kernel/firmware.rs               | 2 +-
+>  rust/macros/module.rs                 | 6 ------
+>  samples/rust/rust_configfs.rs         | 2 +-
+>  samples/rust/rust_driver_auxiliary.rs | 2 +-
+>  7 files changed, 6 insertions(+), 12 deletions(-)
 
---Y8RoNhFPCm0EIgnk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Benno Lossin <lossin@kernel.org>
 
-On Tue, Jun 10, 2025 at 12:34:06AM -0700, Randy Dunlap wrote:
->=20
->=20
-> On 6/9/25 11:52 PM, Bagas Sanjaya wrote:
-> > Commit c472d828348caf ("drm/nouveau/gsp: move subdev/engine impls to
-> > subdev/gsp/rm/r535/") moves GSP-RM message queue implementation in
-> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c to versioned path in
-> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c, but forgets to
-> > update kernel-doc reference in nouveau docs, hence triggers htmldocs
-> > warnings:
-> >=20
-> > ERROR: Cannot find file ./drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> > WARNING: No kernel-doc for file ./drivers/gpu/drm/nouveau/nvkm/subdev/g=
-sp/r535.c
-> >=20
-> > Update the reference.
-> >=20
-> > Fixes: c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subd=
-ev/gsp/rm/r535/")
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  Documentation/gpu/nouveau.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.=
-rst
-> > index b8c801e0068cb0..878fb1ade31e4c 100644
-> > --- a/Documentation/gpu/nouveau.rst
-> > +++ b/Documentation/gpu/nouveau.rst
-> > @@ -25,7 +25,7 @@ providing a consistent API to upper layers of the dri=
-ver stack.
-> >  GSP Support
-> >  ------------------------
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> > +.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
->=20
-> Are you sure?  Did that work for you?
->=20
-> I see
-> /**
->  * DOC: GSP message queue element
->=20
-> in drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c but not in the
-> file that you referenced.  Maybe it just keeps moving around...
-
-Indeed, the same GSP docs as in v6.15.
-
->=20
->=20
-> This works for me. Please send a v2 if you see the need to.
-
-OK. I will send v2 tomorrow.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---Y8RoNhFPCm0EIgnk
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEfxawAKCRD2uYlJVVFO
-o2kRAP9CJA+u5eZWn1qw86oxaYpm5u/xyz/pc+6HFOmnzwlzUQEAjpmbsMGbxIGC
-fShVOwx9gI6Zig+qYWmiMGOve5PQYQ8=
-=g2xs
------END PGP SIGNATURE-----
-
---Y8RoNhFPCm0EIgnk--
+---
+Cheers,
+Benno
