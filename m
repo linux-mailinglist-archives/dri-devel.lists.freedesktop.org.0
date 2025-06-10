@@ -2,84 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ACEAD3106
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 10:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94EAAD3111
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 11:01:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B1810E26B;
-	Tue, 10 Jun 2025 08:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE4C10E4BB;
+	Tue, 10 Jun 2025 09:01:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E1AvQvgQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nZ1ragm5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2286210E26B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 08:58:36 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-450cf0120cdso45194505e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 01:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749545915; x=1750150715; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=c36DuMc83AVOnhqeN6b3+cmZHTuPxXfhTO8yY7xbqj0=;
- b=E1AvQvgQtFk3egWXbd1BL7Gvu3TIPvu6O18lKBnf49P2cm562hxzvy7ANiblDT9YV4
- lcvzK5Bi53xf2Y1/lvHhZYOUpTfkubUYdIJTsYopgdT80pUVS9u1LypfwfnKkh+q+eJ6
- akmPkXahGuYxQ5PvapHLrOgRRAeWBWioXyfq1vUAecR488dzVEv/EVSKIM9NbC0051MV
- 1ZOvqrrsvhjZ2p2jXCivYXa9uUDc17veKVA/pFcO4XQ98ixmKBWLrvqNPujEZWhdRhHY
- 1b9LkSISvKBEZnN5XeCUM+DuIVis9p7koj7oG6wgRw9jOQDCiX6ztScShrczenqe05Ec
- RZ8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749545915; x=1750150715;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c36DuMc83AVOnhqeN6b3+cmZHTuPxXfhTO8yY7xbqj0=;
- b=oK4m8DO++HNkTjjQE8I7oT3C6iAnMb4xe+l0wklZRSfC1Q4Q2w/8A1ulDcNXIBeOe8
- S4VCH2Met8pCqTZ6OT1IOgQIO0AJPYWhZ89ROT2F8w8XO8s4FS+9BGVM63Q6MHhvz2BQ
- QDo31fELVk8MmelUt31l3yCaCxye0cTZ5rwOdnOIwZloP7foOwfT+0W8tT+OLrZCnbpY
- Q2Gjq3BdbsLGvn3gttQmdp7Epzti2ZBNQ/GU87J0yNZN8/o2xTtII9kZpsGhpwXPTRV8
- 3O5xH2EUnzeyd9YV1hC+uhtMhvZRHY3Wr+4NbNPGvzoNyzT+pOOIgXkURpO8zp9few3T
- r9bA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSeptGBlfqwcmxHKjJM4VjP9XeQUlHnqS0LHWVT3VI0JQUFdUKNts5R2dYMUqru/7E+5RGTFQU0TM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3Gin+0+EHuAaNL9/DCyJ+lXJN88RhPde3zYX/AWRWkkbV69t2
- et0i1DVpDYRyYMc4bSxV69HgBW53zi19MU10bMQeu5BFldN2HGD73Nl2iWhCpQ==
-X-Gm-Gg: ASbGncvQouKuKCpkbbmhTEyVQdTxD0w2dqk3FPmyfe6PgjnfnHXCq45UlCWSNK9Yc3+
- g3sjF2JxwSBWXVZoVOT8+W2le75vHK2clZ3ayhDej1cm8IxJ9tdo5tiwqFDD+obDyDxpWTQTFW1
- RxxEBTAuEkmhr0LkLrCGBe91YT3eJwlxn7k5xIni2wPkuQSH5jEx7rSxl9TUDTZ3X9vac5S5RqJ
- waLyAhsW8EaIQfr0N3zV1Y46XvzdweVOjzNfYPwxgQ6TmEsRnyiIUDDrn+TFhcMp/PDNZ7MO4y8
- smVz3NkyyoLR0UyTxHXBMPJ1LG47QyuMAgLe6bZVM5YM3XnzWYXsZC2CJSGKSK89/ex/EqajAid
- bWQ7SjMAkl/9dRCCIZhhC5d1uwcv2dyWnuRHIA7V+1/kr3Pf/
-X-Google-Smtp-Source: AGHT+IE1/l/BHFvm2kuDy24IpYdRMXIUpOH1axcX1ng7Cfy61VsEvmnvDVUtQx7F+RDB1XpaMvWHLA==
-X-Received: by 2002:a05:600c:37c9:b0:43d:1b95:6d0e with SMTP id
- 5b1f17b1804b1-452013d7e24mr136087495e9.23.1749545914323; 
- Tue, 10 Jun 2025 01:58:34 -0700 (PDT)
-Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-452730c7756sm132335935e9.33.2025.06.10.01.58.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 01:58:32 -0700 (PDT)
-Date: Tue, 10 Jun 2025 10:58:30 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
-Message-ID: <lxgh2rtt2fqbmom64vbmtkly2dqcnivwvlhxt6zscwskhzsrne@kd66mumdaukf>
-References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0591C10E4A1;
+ Tue, 10 Jun 2025 09:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749546076; x=1781082076;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=+7Cjjzil9J0qbebsqsHnMgMaKLbMVSeP+LY3DIuLYaE=;
+ b=nZ1ragm5taE5SYznD/+QQZDp+MSncDrZ+ZL9haXWOfqXoT9hrzTT8agu
+ IVoQt0l5Tb82XS+XSI1AL17FapDK3nt4z5SefmEqWPhwlH2LDFkzeZuXQ
+ QEJAy557IBO0/vJUSn1xhD3ejmKHhb8KBPOIQE4XrAqrxUxOMaOWjb+ma
+ HgQEzkh/rSr5wThyoowl4rA5EOjSY5ZtyeR9L4UsVmuOSn8gm8/u9A6FG
+ z6USz3oJjEte85OETtAXpAldz+3ZHCFxX4BNlaV0aA4IAqy7sQ8S45XSp
+ 5r3jMH9Jg2YGCFShiTWWO0pYu5rLhODQLaz9sjRdKLAaNmmAsmvlPHMMx w==;
+X-CSE-ConnectionGUID: UbVw9PkbQDCq2oqq8hFN8g==
+X-CSE-MsgGUID: PAOfq7NXSTaMcI5v45ejTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="62259414"
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; d="scan'208";a="62259414"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2025 02:01:02 -0700
+X-CSE-ConnectionGUID: W4s5YNPXT/C/Sm/+cp4D/A==
+X-CSE-MsgGUID: Jjbeb9RaQ2i7HTKC2Y8n1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; d="scan'208";a="147743059"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.174])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2025 02:00:59 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, Heikki
+ Krogerus <heikki.krogerus@linux.intel.com>, "Wysocki, Rafael J"
+ <rafael.j.wysocki@intel.com>, "Lee, Shawn C" <shawn.c.lee@intel.com>,
+ "Yang,
+ Simon1" <simon1.yang@intel.com>, Doug Anderson <dianders@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: RE: [PATCH 2/4] drm/i915/panel: add panel register/unregister
+In-Reply-To: <CH3PR11MB7300BA6615F69441C62DCB1FBA6AA@CH3PR11MB7300.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1749199013.git.jani.nikula@intel.com>
+ <b737d4bc8b91df630cd4db4648f3a3571989cfd8.1749199013.git.jani.nikula@intel.com>
+ <CH3PR11MB7300BA6615F69441C62DCB1FBA6AA@CH3PR11MB7300.namprd11.prod.outlook.com>
+Date: Tue, 10 Jun 2025 12:00:55 +0300
+Message-ID: <b68a90a5a3b6514172076d6782310398bb5233df@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3lv7qylzds7dx5y5"
-Content-Disposition: inline
-In-Reply-To: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,53 +77,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 10 Jun 2025, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+>> -----Original Message-----
+>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Jani
+>> Nikula
+>> Sent: Friday, June 6, 2025 2:35 PM
+>> To: dri-devel@lists.freedesktop.org
+>> Cc: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; Heikki
+>> Krogerus <heikki.krogerus@linux.intel.com>; Wysocki, Rafael J
+>> <rafael.j.wysocki@intel.com>; Lee, Shawn C <shawn.c.lee@intel.com>; Yang,
+>> Simon1 <simon1.yang@intel.com>; Doug Anderson <dianders@chromium.org>;
+>> Maxime Ripard <mripard@kernel.org>; Nikula, Jani <jani.nikula@intel.com>
+>> Subject: [PATCH 2/4] drm/i915/panel: add panel register/unregister
+>> 
+>> Add panel register/unregister functions, and handle backlight
+>> register/unregister from there. This is in preparation for adding more panel
+>> specific register/unregister functionality.
+>> 
+>> Cc: Lee Shawn C <shawn.c.lee@intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  .../gpu/drm/i915/display/intel_connector.c    | 23 +++++++++----------
+>>  drivers/gpu/drm/i915/display/intel_panel.c    | 10 ++++++++
+>>  drivers/gpu/drm/i915/display/intel_panel.h    |  2 ++
+>>  3 files changed, 23 insertions(+), 12 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/display/intel_connector.c
+>> b/drivers/gpu/drm/i915/display/intel_connector.c
+>> index 9a61c972dce9..2867d76d1a5e 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_connector.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_connector.c
+>> @@ -32,7 +32,6 @@
+>> 
+>>  #include "i915_drv.h"
+>>  #include "i915_utils.h"
+>> -#include "intel_backlight.h"
+>>  #include "intel_connector.h"
+>>  #include "intel_display_core.h"
+>>  #include "intel_display_debugfs.h"
+>> @@ -153,36 +152,36 @@ void intel_connector_destroy(struct drm_connector
+>> *connector)
+>>  	kfree(connector);
+>>  }
+>> 
+>> -int intel_connector_register(struct drm_connector *connector)
+>> +int intel_connector_register(struct drm_connector *_connector)
+>>  {
+>> -	struct intel_connector *intel_connector =
+>> to_intel_connector(connector);
+>> -	struct drm_i915_private *i915 = to_i915(connector->dev);
+>> +	struct intel_connector *connector = to_intel_connector(_connector);
+>> +	struct drm_i915_private *i915 = to_i915(_connector->dev);
+> Can intel_display be used over here?
 
---3lv7qylzds7dx5y5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
-MIME-Version: 1.0
+i915 is passed to i915_inject_probe_failure() below, so no.
 
-On Fri, Jun 06, 2025 at 11:45:33AM +0100, Diogo Ivo wrote:
-> Hello,
->=20
-> This series adds support for the NVJPG hardware accelerator found in the
-> Tegra210 SoC.
->=20
-> The kernel driver is essentially a copy of the NVDEC driver as both
-> engines are Falcon-based.
->=20
-> For the userspace part I have written a Mesa Gallium backend [1] that,
-> while still very much experimental, works in decoding images with VA-API.
+BR,
+Jani.
 
-Nice. It's good to see that there's some use in this after all. I
-haven't taken an in-depth look yet, but from a high-level point of view
-this looks like what I had imagined back when I started out with this
-driver.
+>
+> Apart from the above one, patch looks good to me.
+> Reviewed-by: Arun R Murthy <arun.r.murthy@gmail.com>
+>
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
+>
+>>  	int ret;
+>> 
+>> -	ret = intel_backlight_device_register(intel_connector);
+>> +	ret = intel_panel_register(connector);
+>>  	if (ret)
+>>  		goto err;
+>> 
+>>  	if (i915_inject_probe_failure(i915)) {
+>>  		ret = -EFAULT;
+>> -		goto err_backlight;
+>> +		goto err_panel;
+>>  	}
+>> 
+>> -	intel_connector_debugfs_add(intel_connector);
+>> +	intel_connector_debugfs_add(connector);
+>> 
+>>  	return 0;
+>> 
+>> -err_backlight:
+>> -	intel_backlight_device_unregister(intel_connector);
+>> +err_panel:
+>> +	intel_panel_unregister(connector);
+>>  err:
+>>  	return ret;
+>>  }
+>> 
+>> -void intel_connector_unregister(struct drm_connector *connector)
+>> +void intel_connector_unregister(struct drm_connector *_connector)
+>>  {
+>> -	struct intel_connector *intel_connector =
+>> to_intel_connector(connector);
+>> +	struct intel_connector *connector = to_intel_connector(_connector);
+>> 
+>> -	intel_backlight_device_unregister(intel_connector);
+>> +	intel_panel_unregister(connector);
+>>  }
+>> 
+>>  void intel_connector_attach_encoder(struct intel_connector *connector, diff --
+>> git a/drivers/gpu/drm/i915/display/intel_panel.c
+>> b/drivers/gpu/drm/i915/display/intel_panel.c
+>> index f5c972880391..5ae302bee191 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_panel.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
+>> @@ -462,3 +462,13 @@ void intel_panel_fini(struct intel_connector
+>> *connector)
+>>  		drm_mode_destroy(connector->base.dev, fixed_mode);
+>>  	}
+>>  }
+>> +
+>> +int intel_panel_register(struct intel_connector *connector) {
+>> +	return intel_backlight_device_register(connector);
+>> +}
+>> +
+>> +void intel_panel_unregister(struct intel_connector *connector) {
+>> +	intel_backlight_device_unregister(connector);
+>> +}
+>> diff --git a/drivers/gpu/drm/i915/display/intel_panel.h
+>> b/drivers/gpu/drm/i915/display/intel_panel.h
+>> index b60d12322e5d..3d592a4404f3 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_panel.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_panel.h
+>> @@ -23,6 +23,8 @@ void intel_panel_init_alloc(struct intel_connector
+>> *connector);  int intel_panel_init(struct intel_connector *connector,
+>>  		     const struct drm_edid *fixed_edid);  void
+>> intel_panel_fini(struct intel_connector *connector);
+>> +int intel_panel_register(struct intel_connector *connector); void
+>> +intel_panel_unregister(struct intel_connector *connector);
+>>  enum drm_connector_status
+>>  intel_panel_detect(struct drm_connector *connector, bool force);  bool
+>> intel_panel_use_ssc(struct intel_display *display);
+>> --
+>> 2.39.5
+>
 
-This made my day, thank you!
-
-Thierry
-
---3lv7qylzds7dx5y5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmhH87IACgkQ3SOs138+
-s6HLMg//bv8OnrB5czvRgzKb2t59uKLvAvodsTpKUTy5YXB2PLldaCpE1l2oHkAn
-eIois2Zr9hMylXWqBKUGLETNcOtWej6AWR0oMLhkoIH8KDNvNE1YW4JO7POoM6OA
-dEWYwpChmWXtOF3hCyvmdJm98ZSQ5mwgrNi+wXT41nNakrL9JIxAcudGzvyWwpAn
-bj1cr4m5B24HBvC7ypiPuY/h+I0X92Dki94ohrfKL9Yxd5Vuh9MGlS6PgAcBeyhN
-1m1BAt/Zu7na+o9DUBDuMATP20l0ihdG5igGOexNPukHPxJnoKVLGa5prTQFKIYQ
-zvQqltXKCKI+b7LX0brONmPUXlofvze8yEAcvgWTnZXwDNJ7wuN0QLGN436BUCg7
-4qd2nK9GzmpzWUeIMwKYhPbi4wTxJesVExq3YV0Uoa7plRtDNmsgMs00c4oHiz6K
-yTF39A8KNfMYrpPbKyr7D87kDvs9wcNXHjZ28K+UlTcaoSWFrEqF2RczZIsactAR
-kOHRfH6yoZeWdCu+2rJf1PE7uK5LQ19jhJbQ1vPTZEvxliltJwCRrIxu0IywIPAO
-5xMWS6Wp0diivI1/MsPtVETrmYIJRzh/eCCK5hEgv+T3Gpkm8+n+NBV3sKGAZlBI
-6jRhggMjO/AqskjEZzpPT5I2tZoCnOFT5SaeKfz5bXAygyWB6UE=
-=INjt
------END PGP SIGNATURE-----
-
---3lv7qylzds7dx5y5--
+-- 
+Jani Nikula, Intel
