@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E47AD3A5A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 16:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C62AD3A5C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 16:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1BC10E575;
-	Tue, 10 Jun 2025 14:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6F910E581;
+	Tue, 10 Jun 2025 14:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fhd+LTr8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xIGB0at8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A9C10E578
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:06:32 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-3a4ef05f631so521517f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 07:06:32 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3485810E58C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:06:34 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3a4e575db1aso720801f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 07:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749564391; x=1750169191; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1749564393; x=1750169193; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=J+s2K9q0nfSbrKocqSr/McebFVTHHj9+pTuCq5ceG5Q=;
- b=fhd+LTr8bVjcKwcvcnIUDJwD5Oy7CzFI2xpaloFmdAfZXQmcdYEekhK4S1w/gYKEwN
- ifIWEiJB0IGLg9681MQ49LMwJdwrVC+RqoTTQQnVNBnb2I/DG9pOJm0OpnUtwXh5iapN
- i6yj+O44dqFY4OTgQ+/TPb0ykFNB98G6N3yH52oEM4TdVN7Yuc/iL1VNwa05h8TpgTsS
- SsB6O8wS2RYQ6pAAzKlY1uyo7OImn+X3h3c3nNyCDTizn0+jjS0GY0rWJLtD9MUgcwU3
- gSBi2ovVu9LXFR4JdoaVxcgOKNzFuxPgMXjVGaJjDCeG8CDODu4NjhOh4qI+0yRCm5Tk
- h3TQ==
+ :reply-to; bh=O7Xnhdm6O067a6DKPfqxzqYdx8kufZxaDc0SclDxluo=;
+ b=xIGB0at8zEnDd7aPES5xmafDOG2/XtjQIB5dauwnzXIvNZEjCt6FYO2aqjZBAmqxmu
+ WK1BNPs1kqVFGIUFxNBd+z5M7zy3u8wgV/1C9qrzdU8f/IKGEhfaSDejz8vcp1J8elAe
+ W8OV8vpOGeeId0fyycMPG5K15csbOJOl7VVquRY1XT8mn8NH5zkJq3e4NjQ8b1Ki0wjz
+ 3jU9thyDwDlDZdoh6mrvOnwXpNuPS6inaZzgccmPE3PkzutzCSzDWPWVakKLFrxfTr1+
+ 2F97pc1WoJIq84FUd7VrKcTnml8dwQI0hxgiInNAECbTns0okYZRwXTCZW9JSDyq6DHQ
+ h6Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749564391; x=1750169191;
+ d=1e100.net; s=20230601; t=1749564393; x=1750169193;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J+s2K9q0nfSbrKocqSr/McebFVTHHj9+pTuCq5ceG5Q=;
- b=UZ7vS6UHn9OBfhRxi0msUmz0JubIFBenTCy9tdGGtdaotpCcuvsx+2bJHIGjgjCTHH
- EwDVE3mpLE88CYhQmzWBJLBSbf3WxRexBrIPpDFHEX5xfOPcWKXD3N/qMc48WPnofNeQ
- gKmEaMTnv7QGSjP8/FDIzJmOa9v3uimWS+StpBft1Ax/DWMOx/U8iltBZwwYNnb9GwX/
- vclRQOQGV7uAqd5j79MKk7277M/8NMBEb+MCO8WrxboeLLhKzB8dKqV1nuh0uZuw+wP6
- G+jfjHXHdreG8cLMtg8GMR6e50Qns9sYWMxSZCAdkG6YHjIDYsl5nClPT2VMVFmq+AQr
- 77lg==
+ bh=O7Xnhdm6O067a6DKPfqxzqYdx8kufZxaDc0SclDxluo=;
+ b=RUUycb4gFvbZyF9yVulqTVgYuqEH+j0zM+l/N/0MGdMSudjUMV4cLtUvitDyFlqEw2
+ 50AWQE1n1rq7w8X52Y8837Ce8AcU3QsPghWzsCdH/ouDHxPTtDEUeMnttPNFfzPktBzm
+ J506j9aWc7koywUazgqAjGmPAK6O4xiZCy5M0qPFZGIrNlV788LaYr0VJk634gm37LLp
+ jfNBgnbAMtpTPPLrwlAouBFSG7U4x3kzole/hZ7eaxki2WuEMhWgN6QZ0cRjD7O6N4Iw
+ ExjGuTX8eE5GqUHXygebmqFPSOlec2hiEj0ADhd4K+ZsAKOlUUvYyzpbZYuKpizEdAOs
+ z/lA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVzxSelFkGg+JsFLmtrkf51mbeSVUaHDcB0JSzk0HTAFybSKOyT/wlPmf6IE1hyoMErUZeKrBeneDk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGAGvLrmVg/RUREnyZ0172t+cOwPfRl8aQo0p//giPbnyX+4/5
- aG2AUlTftMrpV7st4dvSStJ21ypJhg/MplqP7DamiNQn8ABclsTMTeX5oUNZhpjyeEc=
-X-Gm-Gg: ASbGncvlkppQwCzEH4Gt4LRFdZdjcJoHHcJXna5OYtAF5vdSVqoZAvWWB/py5Pv1jDI
- YAWQnw/btUArn3rpEn3suugdEs6mvUpbN43Dnf3548c3ytYEWXcLDaze8XiLjM5OV0S6kXKOUWi
- 2LzP8Y8sGLm/OZ3kNLTka3Lbh1O/alyyYZ2GoiGvvZmDY4yfoj1huMHtzUy+hH7kAnwChghO/IK
- QDgH8/Y6rTMitlx8ZHGenWq5Gt9UAMtMUr466yKYS+r/mBGXYgbqUvpCpKXrG4IszoeWXXkwe8v
- rysxd9AL+W07KX0RDNvq/pPwqiaWYqqDlKA6X4IfWKHkXDW+qMM8M0EVEjvfoUL9j+Ys7DnK1Ma
- 3kn135A==
-X-Google-Smtp-Source: AGHT+IGOD7neS88gds4HjMSeiykUy2lf9EPuFamRjB8ThGGIlXT3+gNiU9q5oyf/nxbFns/0GxUlTA==
-X-Received: by 2002:a05:6000:26d3:b0:3a4:d7c7:89d1 with SMTP id
- ffacd0b85a97d-3a531789bb8mr5438073f8f.4.1749564390577; 
- Tue, 10 Jun 2025 07:06:30 -0700 (PDT)
+ AJvYcCW5Wfo+T0v2GbPQyRZ+6OLuK6xYrPQ1fqjl+ElRkG0QlWq21xrbdr4mvSHcGsfbcSRhOxrbBLjOqGU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVD+Gtr0Lv0BbgVWLZGd092s2Mtc156aFmLopCzyenAiXFGQPm
+ M564tAGWsfPRD97VnxsUN5XxBZpQSdL6WarLnQxzHAlxWBA/1ltCggNyxAKcIlXOBt4=
+X-Gm-Gg: ASbGncveSBItb2kN8pvlvgYsVPYwOCUY9ToDTHZ4jdTSMfBc5QOuU0eQ5eNMg2m6dK1
+ TS1tu6Ofe9Ya1F+uujL/NjWtX1+1xSkMkQmUTmeFBxQ6n0hOk8ynl3wjmaKeCtG0As595KWoaMU
+ GhOJX3aXrUjLwDJaFmo1WCUSfVrZ0AFvyQnNS4SssR5lZFQc+ihFR7HU8djcFe4ywOYTcswaGfH
+ DuCLCkOQpWXsnlgzp582SK2ahVHYPUChmfmSO7czm63wyAF5QKA6/l+Dp6OCoUmFNYCVLJdRGGJ
+ dVfCHjeV0I2OqUsmrEjyQDvy2X87FFgVtDnK8miPChecju+5KQ1IRQkdEs8awkRRgpr+6ri/d4l
+ bM6qoYw==
+X-Google-Smtp-Source: AGHT+IGOYy6gNJvwDYDuWTcTmfKk+w0ICVA8j4N6n4/MeNFl8oHxLLgNUbYgeuEtyugbX6DHbnBWOg==
+X-Received: by 2002:a05:6000:4284:b0:3a3:6a3f:bc61 with SMTP id
+ ffacd0b85a97d-3a533169e7bmr4838341f8f.7.1749564392604; 
+ Tue, 10 Jun 2025 07:06:32 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a53244df06sm12734469f8f.69.2025.06.10.07.06.28
+ ffacd0b85a97d-3a53244df06sm12734469f8f.69.2025.06.10.07.06.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 07:06:30 -0700 (PDT)
+ Tue, 10 Jun 2025 07:06:32 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 10 Jun 2025 16:05:48 +0200
-Subject: [PATCH v6 10/17] drm/msm/dsi/phy: Add support for SM8750
+Date: Tue, 10 Jun 2025 16:05:49 +0200
+Subject: [PATCH v6 11/17] drm/msm/dsi: Add support for SM8750
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250610-b4-sm8750-display-v6-10-ee633e3ddbff@linaro.org>
+Message-Id: <20250610-b4-sm8750-display-v6-11-ee633e3ddbff@linaro.org>
 References: <20250610-b4-sm8750-display-v6-0-ee633e3ddbff@linaro.org>
 In-Reply-To: <20250610-b4-sm8750-display-v6-0-ee633e3ddbff@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
@@ -89,24 +89,23 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  linux-clk@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
  Srinivas Kandagatla <srini@kernel.org>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
+ Rob Clark <robin.clark@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10153;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7262;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=rD/vxqx5nSUfP2XbOh0k+p4MMI3tgwoJRLYjdRzeMRE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoSDvHUNhdu3vSKx/mraq9Kly5KAZiQfWX7c0JK
- 41wUf+BNMSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaEg7xwAKCRDBN2bmhouD
- 14IjD/wP95Wp0SNg33Fm+5sDnjY4h7IEFpwDtESb5WPp2bnpxwdKV543cD2webG8KFgWAqn3t64
- P3Mtm+DSpy2AWdtJNpoicTOyWL355MkW95Qpja0snlHcN2fF9X4HrvkdcxKMcOpWgJT9u1o9sd/
- bL9ZN6SbtAcYUxNi0q3Rfnuaqt4FrqNe47bZirxwfilTaDK4S/k1XhnyP3o5buo7nd8bH3ecsNB
- cw6P26Hffj+bjI1ywxyNja0sYZrrzmafQlp5wdFGkj4DFsVbCvfxYuc5YLPq0h91MoZP21ye3kb
- FfTvfW8YgicTuo5dRZwxg/E5BecI6ybNfqhibhmTrwlPNCYeSRfdEBMpKgk7vQfTTnA1htJqPIs
- 9NS/3srf0SRZDdplpVsepChyX1uMMC+k09vu8rugzNKPjLAqD6+pV4dTYEex7M9efbuZtgmBhrB
- 6b4EwnKk9vFCr5/Mg6Ih375zIJe5/SOZa4tqq9dWvcRHzvsQz4RFbjoK0E4ZvVxWRMp9/ciapgu
- /2/MO17YPelMXquw7n6qIpC/4PSRXQ/sfUtl89b5FYd+g+J7jihSzgxwLJEcxDRD+5cSFh0f+nn
- jdYhFueUP2R4/7U2+OwVmATGv3BK34IJeQbl9yr2xZJEmz2BDNlQTjqK687QEAtjRIjwSLmFuc5
- 1rY6JjXSnZt4PTA==
+ bh=RVRVpDpk5e02GBpHtLhC0zusFHyQp8dYyvMNvbXaCMM=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoSDvIDUbJ5ORF7joqZD6O3hJp706AO4TzyryqB
+ Qv3Jjc6uAeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaEg7yAAKCRDBN2bmhouD
+ 16wDD/9s8xESUj9eoTpTjqRpca/XfYi7KbfOZtPrPIeYYQ1YnnFV+zuM5K7ewyqr+G8XfEzZXTb
+ zSHXvou4p0civOltuE1swZk5662u1xGLHHlGxjyoJkQsUrnqiqrTVclnENvnyMgi9fZDjAmMV9I
+ WV+OtZRCCTodmNM+toiRT84FF1PUkZY+16rztGcqTWCQge9UndUk3OEyevR4l/JTNHSjLDbB0FO
+ 4w3kvULr8KJxOC9zrp/VutF5AnkrkQWkDaJkCpUMRs2h4QNtwm+97aE4a+L2nA5xmgImzkcebjI
+ O9sufazjN8voiYDZiEh5GsMLzPD/t+hh7khpZRhCZRE+q6WXJwoPYS1ZPJ8saEe1rU3pCQlzL9+
+ 73bIU9XySDDIcf87HbAl5a68uC+JM/+v/MunYVUuNzE9bV+RIrErO7uLC3bNKJMPF0Emo3kbPaj
+ oeWj8b2Y2ir5SUhRXwZY/3aH6rj9UUSSu3JHIML7D+KyqsLnBgh/Pd5baYlnYpqYzCGRQrarmtb
+ lG+XPBXXFTD0XbMx5Q9YL1sBjWqZdx1MPqoMIYkaDSQNPHiRBWH5RR+zHWeEvQqmwdzJ2rDPXFk
+ QPp6iQpO4PXKzPCF0XQi03+0EiPpvddddvEZRzp/aj3B22WVO1ou0LmzDmR4Se+vLEXCfNqrcNE
+ mBeGqf57qzHnytw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,241 +123,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DSI PHY v7.0 on Qualcomm SM8750 SoC which comes with an
-incompatible hardware interface change:
+Add support for DSI on Qualcomm SM8750 SoC with notable difference:
 
-ICODE_ACCUM_STATUS_LOW and ALOG_OBSV_BUS_STATUS_1 registers - their
-offsets were just switched.  Currently these registers are not used in
-the driver, so the easiest is to document both but keep them commented
-out to avoid conflict.
+DSI PHY PLLs, the parents of pixel and byte clocks, cannot be used as
+parents before DSI PHY is configured, the PLLs are prepared and their
+initial rate is set.  Therefore assigned-clock-parents are not working
+here and driver is responsible for reparenting clocks with proper
+procedure: see dsi_clk_init_6g_v2_9().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 ---
 
-Changes in v2:
-1. Fix pll freq check for clock inverters
-   160000000ULL -> 163000000ULL
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |  2 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 79 ++++++++++++++++++++--
- .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 14 ++++
- 4 files changed, 90 insertions(+), 6 deletions(-)
+Changes in v6:
+1. Drop redundant parent clock enable, because this was fixed in the
+   DISP CC clock controller driver.
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 5973d7325699bf5fc67c4cf93fcaf04abb618b46..221f12db5f8b7686b2f37524322ea3e118f503b1 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -597,6 +597,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
- 	  .data = &dsi_phy_4nm_8550_cfgs },
- 	{ .compatible = "qcom,sm8650-dsi-phy-4nm",
- 	  .data = &dsi_phy_4nm_8650_cfgs },
-+	{ .compatible = "qcom,sm8750-dsi-phy-3nm",
-+	  .data = &dsi_phy_3nm_8750_cfgs },
- #endif
- 	{}
+Changes in v5:
+1. Only reparent byte and pixel clocks while PLLs is prepared. Setting
+   rate works fine with earlier DISP CC patch for enabling their parents
+   during rate change.
+
+Changes in v3:
+1. Drop 'struct msm_dsi_config sm8750_dsi_cfg' and use sm8650 one.
+---
+ drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 14 +++++++++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 61 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 78 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 87496db203d6c7582eadcb74e94eb56a219df292..93c028a122f3a59b1632da76472e0a3e781c6ae8 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -98,6 +98,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi);
+ int msm_dsi_runtime_suspend(struct device *dev);
+ int msm_dsi_runtime_resume(struct device *dev);
+ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
++int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host);
+ int dsi_link_clk_set_rate_v2(struct msm_dsi_host *msm_host);
+ int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
+ int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
+@@ -115,6 +116,7 @@ int dsi_dma_base_get_6g(struct msm_dsi_host *msm_host, uint64_t *iova);
+ int dsi_dma_base_get_v2(struct msm_dsi_host *msm_host, uint64_t *iova);
+ int dsi_clk_init_v2(struct msm_dsi_host *msm_host);
+ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
++int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host);
+ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+ void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index 7675558ae2e5293ff2f239e8b19154f2a5c86957..fed8e9b67011cac1f766a5bc47bd5117304ab0fd 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -273,6 +273,18 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
+ 	.calc_clk_rate = dsi_calc_clk_rate_6g,
  };
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 82baec385b3224c8b3e36742230d806c4fe68cbb..93fb5a30a755f7cade56af271640670cbb2e50a0 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -63,6 +63,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8775p_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_5nm_sar2130p_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8550_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8650_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_3nm_8750_cfgs;
  
- struct msm_dsi_dphy_timing {
- 	u32 clk_zero;
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index c8b4a84b38340e0f907e0123299b493768454160..fd405e257f89181f32432dc4865475eeb7a88f5f 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -51,6 +51,8 @@
- #define DSI_PHY_7NM_QUIRK_V4_3		BIT(3)
- /* Hardware is V5.2 */
- #define DSI_PHY_7NM_QUIRK_V5_2		BIT(4)
-+/* Hardware is V7.0 */
-+#define DSI_PHY_7NM_QUIRK_V7_0		BIT(5)
- 
- struct dsi_pll_config {
- 	bool enable_ssc;
-@@ -139,9 +141,30 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_7nm *pll, struct dsi_pll_config
- 	dec_multiple = div_u64(pll_freq * multiplier, divider);
- 	dec = div_u64_rem(dec_multiple, multiplier, &frac);
- 
--	if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1)
-+	if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1) {
- 		config->pll_clock_inverters = 0x28;
--	else if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
-+	} else if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
-+		if (pll_freq < 163000000ULL)
-+			config->pll_clock_inverters = 0xa0;
-+		else if (pll_freq < 175000000ULL)
-+			config->pll_clock_inverters = 0x20;
-+		else if (pll_freq < 325000000ULL)
-+			config->pll_clock_inverters = 0xa0;
-+		else if (pll_freq < 350000000ULL)
-+			config->pll_clock_inverters = 0x20;
-+		else if (pll_freq < 650000000ULL)
-+			config->pll_clock_inverters = 0xa0;
-+		else if (pll_freq < 700000000ULL)
-+			config->pll_clock_inverters = 0x20;
-+		else if (pll_freq < 1300000000ULL)
-+			config->pll_clock_inverters = 0xa0;
-+		else if (pll_freq < 2500000000ULL)
-+			config->pll_clock_inverters = 0x20;
-+		else if (pll_freq < 4000000000ULL)
-+			config->pll_clock_inverters = 0x00;
-+		else
-+			config->pll_clock_inverters = 0x40;
-+	} else if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
- 		if (pll_freq <= 1300000000ULL)
- 			config->pll_clock_inverters = 0xa0;
- 		else if (pll_freq <= 2500000000ULL)
-@@ -260,7 +283,8 @@ static void dsi_pll_config_hzindep_reg(struct dsi_pll_7nm *pll)
- 			vco_config_1 = 0x01;
- 	}
- 
--	if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
-+	if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
-+	    (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
- 		if (pll->vco_current_rate < 1557000000ULL)
- 			vco_config_1 = 0x08;
- 		else
-@@ -669,6 +693,7 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
- static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
- {
- 	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(phy->vco_hw);
-+	void __iomem *base = phy->base;
- 	u32 data = 0x0;	/* internal PLL */
- 
- 	DBG("DSI PLL%d", pll_7nm->phy->id);
-@@ -678,6 +703,9 @@ static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
- 		break;
- 	case MSM_DSI_PHY_MASTER:
- 		pll_7nm->slave = pll_7nm_list[(pll_7nm->phy->id + 1) % DSI_MAX];
-+		/* v7.0: Enable ATB_EN0 and alternate clock output to external phy */
-+		if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)
-+			writel(0x07, base + REG_DSI_7nm_PHY_CMN_CTRL_5);
- 		break;
- 	case MSM_DSI_PHY_SLAVE:
- 		data = 0x1; /* external PLL */
-@@ -966,7 +994,8 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
- 
- 	/* Request for REFGEN READY */
- 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) ||
--	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
-+	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
-+	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
- 		writel(0x1, phy->base + REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10);
- 		udelay(500);
- 	}
-@@ -1000,7 +1029,20 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
- 		lane_ctrl0 = 0x1f;
- 	}
- 
--	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
-+	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
-+		if (phy->cphy_mode) {
-+			/* TODO: different for second phy */
-+			vreg_ctrl_0 = 0x57;
-+			vreg_ctrl_1 = 0x41;
-+			glbl_rescode_top_ctrl = 0x3d;
-+			glbl_rescode_bot_ctrl = 0x38;
-+		} else {
-+			vreg_ctrl_0 = 0x56;
-+			vreg_ctrl_1 = 0x19;
-+			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3c :  0x03;
-+			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x3c;
-+		}
-+	} else if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
- 		if (phy->cphy_mode) {
- 			vreg_ctrl_0 = 0x45;
- 			vreg_ctrl_1 = 0x41;
-@@ -1066,6 +1108,7 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
- 
- 	/* program CMN_CTRL_4 for minor_ver 2 chipsets*/
- 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
-+	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0) ||
- 	    (readl(base + REG_DSI_7nm_PHY_CMN_REVISION_ID0) & (0xf0)) == 0x20)
- 		writel(0x04, base + REG_DSI_7nm_PHY_CMN_CTRL_4);
- 
-@@ -1182,7 +1225,8 @@ static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
- 
- 	/* Turn off REFGEN Vote */
- 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) ||
--	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2)) {
-+	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
-+	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
- 		writel(0x0, base + REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10);
- 		wmb();
- 		/* Delay to ensure HW removes vote before PHY shut down */
-@@ -1453,3 +1497,26 @@ const struct msm_dsi_phy_cfg dsi_phy_4nm_8650_cfgs = {
- 	.num_dsi_phy = 2,
- 	.quirks = DSI_PHY_7NM_QUIRK_V5_2,
- };
-+
-+const struct msm_dsi_phy_cfg dsi_phy_3nm_8750_cfgs = {
-+	.has_phy_lane = true,
-+	.regulator_data = dsi_phy_7nm_98000uA_regulators,
-+	.num_regulators = ARRAY_SIZE(dsi_phy_7nm_98000uA_regulators),
-+	.ops = {
-+		.enable = dsi_7nm_phy_enable,
-+		.disable = dsi_7nm_phy_disable,
-+		.pll_init = dsi_pll_7nm_init,
-+		.save_pll_state = dsi_7nm_pll_save_state,
-+		.restore_pll_state = dsi_7nm_pll_restore_state,
-+		.set_continuous_clock = dsi_7nm_set_continuous_clock,
-+	},
-+	.min_pll_rate = 600000000UL,
-+#ifdef CONFIG_64BIT
-+	.max_pll_rate = 5000000000UL,
-+#else
-+	.max_pll_rate = ULONG_MAX,
-+#endif
-+	.io_start = { 0xae95000, 0xae97000 },
-+	.num_dsi_phy = 2,
-+	.quirks = DSI_PHY_7NM_QUIRK_V7_0,
++static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_9_host_ops = {
++	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2_9,
++	.link_clk_enable = dsi_link_clk_enable_6g,
++	.link_clk_disable = dsi_link_clk_disable_6g,
++	.clk_init_ver = dsi_clk_init_6g_v2_9,
++	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
++	.tx_buf_get = dsi_tx_buf_get_6g,
++	.tx_buf_put = dsi_tx_buf_put_6g,
++	.dma_base_get = dsi_dma_base_get_6g,
++	.calc_clk_rate = dsi_calc_clk_rate_6g,
 +};
-diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-index d49122b88d14896ef3e87b783a1691f85b61aa9c..f41516dd0567ca7406b0d41c9410e28084f2b03c 100644
---- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-+++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-@@ -35,6 +35,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 	<reg32 offset="0x00028" name="CTRL_1"/>
- 	<reg32 offset="0x0002c" name="CTRL_2"/>
- 	<reg32 offset="0x00030" name="CTRL_3"/>
-+	<reg32 offset="0x001b0" name="CTRL_5"/>
- 	<reg32 offset="0x00034" name="LANE_CFG0"/>
- 	<reg32 offset="0x00038" name="LANE_CFG1"/>
- 	<reg32 offset="0x0003c" name="PLL_CNTRL"/>
-@@ -200,11 +201,24 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 	<reg32 offset="0x01b0" name="COMMON_STATUS_ONE"/>
- 	<reg32 offset="0x01b4" name="COMMON_STATUS_TWO"/>
- 	<reg32 offset="0x01b8" name="BAND_SEL_CAL"/>
-+	<!--
-+	Starting with SM8750, offset moved from 0x01bc to 0x01cc, however
-+	we keep only one register map.  That's not a problem, so far,
-+	because this register is not used.  The register map should be split
-+	once it is going to be used.  Comment out the code to prevent
-+	any misuse due to the change in the offset.
- 	<reg32 offset="0x01bc" name="ICODE_ACCUM_STATUS_LOW"/>
-+	<reg32 offset="0x01cc" name="ICODE_ACCUM_STATUS_LOW"/>
-+	-->
- 	<reg32 offset="0x01c0" name="ICODE_ACCUM_STATUS_HIGH"/>
- 	<reg32 offset="0x01c4" name="FD_OUT_LOW"/>
- 	<reg32 offset="0x01c8" name="FD_OUT_HIGH"/>
-+	<!--
-+	Starting with SM8750, offset moved from 0x01cc to 0x01bc, however
-+	we keep only one register map.  See above comment.
- 	<reg32 offset="0x01cc" name="ALOG_OBSV_BUS_STATUS_1"/>
-+	<reg32 offset="0x01bc" name="ALOG_OBSV_BUS_STATUS_1"/>
-+	-->
- 	<reg32 offset="0x01d0" name="PLL_MISC_CONFIG"/>
- 	<reg32 offset="0x01d4" name="FLL_CONFIG"/>
- 	<reg32 offset="0x01d8" name="FLL_FREQ_ACQ_TIME"/>
++
+ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+ 	{MSM_DSI_VER_MAJOR_V2, MSM_DSI_V2_VER_MINOR_8064,
+ 		&apq8064_dsi_cfg, &msm_dsi_v2_host_ops},
+@@ -318,6 +330,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+ 		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+ 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
+ 		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
++	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_9_0,
++		&sm8650_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
+ };
+ 
+ const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+index 65b0705fac0eeb1b7d7b001576215b8578c67e25..38f303f2ed04c37916c9aca148ccb569e816e35f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+@@ -31,6 +31,7 @@
+ #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
+ #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
+ #define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
++#define MSM_DSI_6G_VER_MINOR_V2_9_0	0x20090000
+ 
+ #define MSM_DSI_V2_VER_MINOR_8064	0x0
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 4d75529c0e858160761f5eb55db65e5d7565c27b..6400f72a66f0af2ffd8900a9cc3c8fa3f79b626c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -119,6 +119,15 @@ struct msm_dsi_host {
+ 	struct clk *pixel_clk;
+ 	struct clk *byte_intf_clk;
+ 
++	/*
++	 * Clocks which needs to be properly parented between DISPCC and DSI PHY
++	 * PLL:
++	 */
++	struct clk *byte_src_clk;
++	struct clk *pixel_src_clk;
++	struct clk *dsi_pll_byte_clk;
++	struct clk *dsi_pll_pixel_clk;
++
+ 	unsigned long byte_clk_rate;
+ 	unsigned long byte_intf_clk_rate;
+ 	unsigned long pixel_clk_rate;
+@@ -269,6 +278,38 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host)
+ 	return ret;
+ }
+ 
++int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host)
++{
++	struct device *dev = &msm_host->pdev->dev;
++	int ret;
++
++	ret = dsi_clk_init_6g_v2(msm_host);
++	if (ret)
++		return ret;
++
++	msm_host->byte_src_clk = devm_clk_get(dev, "byte_src");
++	if (IS_ERR(msm_host->byte_src_clk))
++		return dev_err_probe(dev, PTR_ERR(msm_host->byte_src_clk),
++				     "can't get byte_src clock\n");
++
++	msm_host->dsi_pll_byte_clk = devm_clk_get(dev, "dsi_pll_byte");
++	if (IS_ERR(msm_host->dsi_pll_byte_clk))
++		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_byte_clk),
++				     "can't get dsi_pll_byte clock\n");
++
++	msm_host->pixel_src_clk = devm_clk_get(dev, "pixel_src");
++	if (IS_ERR(msm_host->pixel_src_clk))
++		return dev_err_probe(dev, PTR_ERR(msm_host->pixel_src_clk),
++				     "can't get pixel_src clock\n");
++
++	msm_host->dsi_pll_pixel_clk = devm_clk_get(dev, "dsi_pll_pixel");
++	if (IS_ERR(msm_host->dsi_pll_pixel_clk))
++		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_pixel_clk),
++				     "can't get dsi_pll_pixel clock\n");
++
++	return 0;
++}
++
+ static int dsi_clk_init(struct msm_dsi_host *msm_host)
+ {
+ 	struct platform_device *pdev = msm_host->pdev;
+@@ -370,6 +411,26 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
+ 	return 0;
+ }
+ 
++int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host)
++{
++	struct device *dev = &msm_host->pdev->dev;
++	int ret;
++
++	/*
++	 * DSI PHY PLLs have to be enabled to allow reparenting to them, so
++	 * cannot use assigned-clock-parents.
++	 */
++	ret = clk_set_parent(msm_host->byte_src_clk, msm_host->dsi_pll_byte_clk);
++	if (ret)
++		dev_err(dev, "Failed to parent byte_src -> dsi_pll_byte: %d\n", ret);
++
++	ret = clk_set_parent(msm_host->pixel_src_clk, msm_host->dsi_pll_pixel_clk);
++	if (ret)
++		dev_err(dev, "Failed to parent pixel_src -> dsi_pll_pixel: %d\n", ret);
++
++	return dsi_link_clk_set_rate_6g(msm_host);
++}
++
+ int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
+ {
+ 	int ret;
 
 -- 
 2.45.2
