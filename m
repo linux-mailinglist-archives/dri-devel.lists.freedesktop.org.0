@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C656AD3211
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 11:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7386CAD3224
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 11:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63AD710E4CA;
-	Tue, 10 Jun 2025 09:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9124F10E4CB;
+	Tue, 10 Jun 2025 09:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oDj5OPeL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eU2iLa13";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBA710E4C8;
- Tue, 10 Jun 2025 09:31:32 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C11C410E4CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 09:33:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 92536A50FD2;
- Tue, 10 Jun 2025 09:31:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CD7C4CEED;
- Tue, 10 Jun 2025 09:31:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0B6C760007;
+ Tue, 10 Jun 2025 09:33:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5097C4CEED;
+ Tue, 10 Jun 2025 09:33:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749547891;
- bh=BO97OAsXfqwgbvY0qB23trz3Pz5fZ7baV/z18Q+sb08=;
+ s=k20201202; t=1749548034;
+ bh=f82rGVWrjBouF2BTswBLqRANHumddvbr8a+wkNyzR4k=;
  h=From:To:Cc:Subject:Date:From;
- b=oDj5OPeLTOFcf0lt91d44gt25Q8AcRpd+Oo2/BmAXQb43RYIF4uNEcTO/0xyOd14q
- k/+5qVX72XAzp/PF9G5XWDmCydbl/O3Y4GQhyvKaJnYdSwVN6/q/zX+BJhQ69MIOBa
- gygex0aNnTwmLcCjJb/2K89AQouE6PZWuUFBErR1gD4G6O99Cn2v3bUobGtRs+aaYD
- so3eoflcorpSX7m+phyhHlWDm3/6AncLav0598+QJ/crj/KGaMVIY7G/23EV5e9H5I
- T8ayfw6e2DaY7nRCofVNM2tdsr+mUUrAaLA3xfsfmgoFoN4vqLDoAH7I7cutS4iGBd
- aT2VH3LnWqQDQ==
+ b=eU2iLa13FDxPa1xFykinwvwxfaaK0xrlfoF5ZFZZtDWwD5aAJ80Sf+DgZKIuF4X6O
+ QoEcXA55nhnY9jk4zQqe/eHGWCpbwp/CMjB0r1RyzBgbuJOITJIwaP5CPrZbnpNqEw
+ Thm55C8JLKvQJP/iDKEZ7G7uxyKKCXG15Zf4Hv4BDSGp3ZZ2ifi8VopUXSiSqma1Cm
+ 9UwsYghqz5vZGkAbI72NNK8xU2mT9rj+NOWoInx02fxL5MWJILGBw7+ykKGrf7eMa6
+ vRA2+VWBESdd3Pjf5iozQPdDa+rfcMaFuOsTALp8+9HDQ2uhFkM09ib/zzPqDAMCvy
+ I8pKgAPP/o+Dw==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Sunil Khatri <sunil.khatri@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: [PATCH] drm/radeon: reduce stack frame size for radeon_cs_ioctl
-Date: Tue, 10 Jun 2025 11:31:20 +0200
-Message-Id: <20250610093125.2645138-1-arnd@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/test: reduce stack size in drm_exec_test
+Date: Tue, 10 Jun 2025 11:33:46 +0200
+Message-Id: <20250610093350.2645965-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,38 +61,94 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Clang inlines radeon_cs_parser_relocs() into radeon_cs_ioctl(), and
-since both of these use a lot of stack space, the sum of them can
-make it exceed a limit of 1280 bytes:
+test_prepare_array() is one of the functions that uses more than
+a kilobyte of stack on 64-bit machines, though it stays under
+the usual warning limit of 2KB:
 
-drivers/gpu/drm/radeon/radeon_cs.c:669:5: error: stack frame size (1328) exceeds limit (1280) in 'radeon_cs_ioctl' [-Werror,-Wframe-larger-than]
-  669 | int radeon_cs_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
-      |     ^
+drivers/gpu/drm/tests/drm_exec_test.c: In function 'test_prepare_array':
+drivers/gpu/drm/tests/drm_exec_test.c:171:1: error: the frame size of 1304 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
 
-Mark radeon_cs_parser_relocs as noinline_for_stack, so clang and gcc
-both behave in a consistent way. Calling into radeon_cs_parser_relocs()
-still uses a lot of stack space here, but this is not any worse than it
-already was, and the other code paths are better now.
+In order to eventually lower that limit, change the two large
+drm_gem_object objects to be statically allocated. This works here
+because the tests are always called sequentially, and it is simpler than
+using kzalloc().
 
-Fixes: c9b76548899c ("drm/radeon: validate relocations in the order determined by userspace v3")
+Fixes: 9710631cc8f3 ("drm: add drm_exec selftests v4")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/radeon/radeon_cs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/tests/drm_exec_test.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index b8e6202f1d5b..220a9b107b15 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -78,7 +78,7 @@ static void radeon_cs_buckets_get_list(struct radeon_cs_buckets *b,
- 	}
+diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+index d6c4dd1194a0..f2ac06a07707 100644
+--- a/drivers/gpu/drm/tests/drm_exec_test.c
++++ b/drivers/gpu/drm/tests/drm_exec_test.c
+@@ -18,6 +18,8 @@
+ 
+ #include "../lib/drm_random.h"
+ 
++static struct drm_gem_object gobj, gobj2;
++
+ struct drm_exec_priv {
+ 	struct device *dev;
+ 	struct drm_device *drm;
+@@ -54,7 +56,6 @@ static void sanitycheck(struct kunit *test)
+ static void test_lock(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+-	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+@@ -74,7 +75,6 @@ static void test_lock(struct kunit *test)
+ static void test_lock_unlock(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+-	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+@@ -101,7 +101,6 @@ static void test_lock_unlock(struct kunit *test)
+ static void test_duplicates(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+-	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+@@ -128,7 +127,6 @@ static void test_duplicates(struct kunit *test)
+ static void test_prepare(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+-	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+@@ -150,13 +148,11 @@ static void test_prepare(struct kunit *test)
+ static void test_prepare_array(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+-	struct drm_gem_object gobj1 = { };
+-	struct drm_gem_object gobj2 = { };
+-	struct drm_gem_object *array[] = { &gobj1, &gobj2 };
++	struct drm_gem_object *array[] = { &gobj, &gobj2 };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(priv->drm, &gobj1, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj, PAGE_SIZE);
+ 	drm_gem_private_object_init(priv->drm, &gobj2, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+@@ -166,7 +162,7 @@ static void test_prepare_array(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+ 	drm_exec_fini(&exec);
+ 
+-	drm_gem_private_object_fini(&gobj1);
++	drm_gem_private_object_fini(&gobj);
+ 	drm_gem_private_object_fini(&gobj2);
  }
  
--static int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
-+static noinline_for_stack int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
- {
- 	struct radeon_cs_chunk *chunk;
- 	struct radeon_cs_buckets buckets;
 -- 
 2.39.5
 
