@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340F8AD46BD
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 01:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6860AD46EA
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 01:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D7110E2DC;
-	Tue, 10 Jun 2025 23:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B0110E314;
+	Tue, 10 Jun 2025 23:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dgzOnPss";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JtU5ah7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAAE10E314
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 23:33:08 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-70e3e0415a7so4151537b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 16:33:08 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3975010E314
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 23:42:46 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-70e64b430daso58714787b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 16:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749598387; x=1750203187; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1749598965; x=1750203765; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QlG8KwxfPBX8caQBZm1QvHCHRc2s6v2Ip6KIurSeMk4=;
- b=dgzOnPssqLM44CPZbTWe0Gfx6GdESl/qE4FP5L9+v+ogz1GJMJnRI1Jmjay46Iwb6Z
- JbvTQf2FlsCIyieACtIL8YyvcmIdRBCw6ZInK78w5z7H8cSgMHEdV/vWU/rJKmAOK2Is
- lNOKpQrZIolkSWmTImKwjcpzvRy75ZXG2Yjk5H2KxZu3k/xfPqg7PXItNqjIY++4puTu
- MxL9ohXj9Q30E94VD9vBPIr7fEwlzlSKqhFFM3qp5gEQSRHotS0OaoKTJoM/WGkdy5hF
- LC/pO3cxxkn5mXozB437RPFfJK8mlrylfrY3TcXnuFs69kSjZPcr54664LR4sK7L5h0z
- Qq5g==
+ bh=w8TOOutMUvALC8WwNkTaCsFKpE+sJJdgWJ/3tM22tTY=;
+ b=JtU5ah7md7R6N3G0zoT0as5WoZn9nUjKjVm947XGzPJFLZYZ0JDlYbfOdPOzt3gUm8
+ icSppKkse4VjSSDW0H4KGpr3aE7AxMMW/gCfXaAizrbt09ntj+bu9pz8QzMfv3V5EL9l
+ e/Xpxprzthf4Y0gabTxHVNlizR5QENCFoMXkZYJrrbQG54wsEmLCIPAGMIbxRdOLsM8I
+ 0wRDh2fkHOnNZ5GQJV7PiI2rwhkvHN1g+r0Kj8GwVq5K/B/6QV+aq9wBF8f6zDQfkc1T
+ w9TtN580Z6tiKyRPpmCdzi/fhPmve+X8Zz8Dk+cj5FVsVB3PR/NkxSI4SfAIo/ya+niq
+ 0gBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749598387; x=1750203187;
+ d=1e100.net; s=20230601; t=1749598965; x=1750203765;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QlG8KwxfPBX8caQBZm1QvHCHRc2s6v2Ip6KIurSeMk4=;
- b=j4hifbtY8Nc630j904C2ZxQ7AMHHpnpxY8DmxZ+yWd2gaRE50gkfOKcFoLT/CsYU6U
- QAuFwInUQqErG1uQAmq9eyS66u/RShRl7ESG7V8GWDcrzZjkOUnWxBXXq0zJJ/jqQTfa
- iX1M43dCQ6fGfHpHpmVFuETnEnTsurVnWaY89angBPok6oAxeIMw6CXGRVEOKohsdMjG
- aOSu4d9RcICmNa6blc8flTF3P3MOpGHdhT/R3npuVs4SGQRKmmNJVxC9b19uBq9B1irs
- QGIF0a0FHc6FFmZo5RREuDfqakG/Fp4CNHhSQTP9hkFcgPHhz6S10G+KP3n9ZIeANr4B
- HGDg==
-X-Gm-Message-State: AOJu0YzlwhfHnpYF5rBLG93RyQrGAzHn33FcZx7sGjIuxbVLYnZl2nZH
- TtwiEY98zvQHLBlGrGkFlZHerdAAcXT7Dxq0vXrDNvO838XUphmvMGSehfjs5IfXAvb1RzVWb3K
- LJ0pjFbCvbc3GRo5BYIvEyx+taImYuAA=
-X-Gm-Gg: ASbGnctoBJzE/ijGlpV11oW9PXLAJaL6dzc1gWsQa8cSghgMmIeheMJww2Vwt20UJNt
- xHyXZT4UlCDGWBepXFHKHbIRtkk4uMDtmeYnd20exEMZ6TSkwgvbgiSMQd8VjGax4yjezqf5Vmg
- pp04uO/yCg3AARdRmEZz0YUUS/fvP05kcSnPeg4xADx+1Lzdl8/zbApko09xfQ0uibu4KzlULfQ
- o3k
-X-Google-Smtp-Source: AGHT+IGVrr9uX5LKYo7QPgj60De7se7ytrmqfvIsOMv3rt1Jnm8vWg4Kull3rCOJt0sC5X+Ks7kUo+LohLVoNkEu+iw=
-X-Received: by 2002:a05:690c:6d02:b0:70d:8e1f:ec2b with SMTP id
- 00721157ae682-71140a03d6cmr20654027b3.6.1749598387571; Tue, 10 Jun 2025
- 16:33:07 -0700 (PDT)
+ bh=w8TOOutMUvALC8WwNkTaCsFKpE+sJJdgWJ/3tM22tTY=;
+ b=cH6GIB/q0ZhrcfKD2Xza4nrBZnGUWSue+ZtNfeCXQ/4Ld7oitFuWKqyMJuwyp19dzL
+ Z40tax0C6NcYf1JgXQVJXH9HoQrQqEYJgKYvy7zkM2H+SPeZIQ3c9SOkTXYZChhj1af3
+ rkth5UvZN1xkspbipkxREmHoXwez+kjfSbhLYFe1o/s9th+hb5F5aV8nkmIuwiycNqom
+ 4NG3D3HOpbJTo5KQVPR/GFjjZn0OxPWGazVLMNeN3uCdCvMHRzzV52dZ5XTM2f5bNXo+
+ uT5xcS4JBT43iuTacQp0utk0mSXahWgZphaRX1u/pMNbU+8Cd6BV4eCLpoWO+onqataR
+ aeZw==
+X-Gm-Message-State: AOJu0YzdpxPfX7dZiBT7hJEGVp/OG5KAM8puwIrkfDHhAN1TmeiIw31S
+ 6TuH+3mA1E+3hnuPmFayO6+/DHDYkriCVAIXImWwrWyL3YIMyZqxg6CJHXQOkeehrXSoOmCujB7
+ IZGU9p2wZ7QkIpokztqo1UpnAghpwu+GLIR3d
+X-Gm-Gg: ASbGncvugFX/cawAunis6KZsBry0sIdxVQjwlcyMVvLsgjcql4KdzsZ9Xa+CW2pMrlI
+ vgiZsHe8d7Vp/5KlmSfud3PzZqAu3eK+fGdIXKFHpP98VA0sWad/LybLf3TIR2iIgOaE0opl2HR
+ jsF/rB4rV7i7uuJ8L4dUMMDLmO9FK9PahPRaXCCMh9T8zBIWY98UB+DuiY2tIAQGCjkTyfHYPyH
+ Btb
+X-Google-Smtp-Source: AGHT+IG8IoJerZ9tPJ57NFpBkzz98vWZVZi+W/mowhH2S6wkZcUT5h6Wr5HLAvZVb90V7W6BL9k4JKRAyiQVW9Pr9Cc=
+X-Received: by 2002:a05:690c:88f:b0:70d:ed5d:b4cd with SMTP id
+ 00721157ae682-71140aa3759mr21079987b3.17.1749598965016; Tue, 10 Jun 2025
+ 16:42:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250602143216.2621881-1-karunika.choo@arm.com>
- <20250602143216.2621881-4-karunika.choo@arm.com>
-In-Reply-To: <20250602143216.2621881-4-karunika.choo@arm.com>
+ <20250602143216.2621881-7-karunika.choo@arm.com>
+In-Reply-To: <20250602143216.2621881-7-karunika.choo@arm.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 10 Jun 2025 16:32:56 -0700
-X-Gm-Features: AX0GCFvOCbEP8MnPbQ6VEYV4dkCIrXnlZn4I2acKhzd06nQBGDO0OcRQYsCgnt0
-Message-ID: <CAPaKu7T5Rf+N-T7f-Vh0tB72AdDWx+nipqGjfWDnvDk=sOosGA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] drm/panthor: Simplify getting the GPU model name
+Date: Tue, 10 Jun 2025 16:42:33 -0700
+X-Gm-Features: AX0GCFsPgbmH7h-7FibXupnGA8CRFEpg_fxdZD0NolKWkcQmC88U5VOsnQXyKJk
+Message-ID: <CAPaKu7TN33c71bQPWMApXQjLOO0gFsC=5rKnuKb0+jfcGPGgFg@mail.gmail.com>
+Subject: Re: [PATCH v4 6/7] drm/panthor: Support GPU_CONTROL cache flush based
+ on feature bit
 To: Karunika Choo <karunika.choo@arm.com>
 Cc: dri-devel@lists.freedesktop.org, nd@arm.com, 
  Boris Brezillon <boris.brezillon@collabora.com>,
@@ -88,83 +89,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 2, 2025 at 8:16=E2=80=AFAM Karunika Choo <karunika.choo@arm.com=
+On Mon, Jun 2, 2025 at 7:42=E2=80=AFAM Karunika Choo <karunika.choo@arm.com=
 > wrote:
 >
-> This patch replaces the panthor_model structure with a simple switch
-> case based on the product_id which is in the format of:
->         ((arch_major << 24) | product_major)
+> As the FLUSH_MEM and FLUSH_PT commands are deprecated in GPUs from
+> Mali-Gx20 onwards, this patch adds support for performing cache
+> maintenance via the FLUSH_CACHES command in GPU_CONTROL, in place of
+> FLUSH_MEM and FLUSH_PT based on PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH
+> feature bit.
 >
-> This simplifies comparison and allows extending of the function to
-> accommodate naming differences based on supported GPU features.
+> This patch also enables cache maintenance via GPU_CONTROL for Mali-Gx10
+> and Mali-Gx15 GPUs for consistency.
 >
 > Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_hw.c   | 63 +++++++-------------------
->  drivers/gpu/drm/panthor/panthor_regs.h |  2 +
->  2 files changed, 19 insertions(+), 46 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_hw.c  |  6 +++++
+>  drivers/gpu/drm/panthor/panthor_hw.h  |  6 +++++
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 35 +++++++++++++++++++++++++++
+>  3 files changed, 47 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panth=
 or/panthor_hw.c
-> index 576cda231c1c..421f84fde7d0 100644
+> index f5127a4b02dc..5ec9d7f28368 100644
 > --- a/drivers/gpu/drm/panthor/panthor_hw.c
 > +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-<snipped>
->  static void panthor_hw_info_init(struct panthor_device *ptdev)
->  {
-> -       const struct panthor_model *model;
-> -       u32 arch_major, product_major;
-> +       const char *gpu_model_name =3D get_gpu_model_name(ptdev);
-Move this to after panthor_gpu_info_init below.
-
-We want to init gpu info before dumping it in general.  And in fact,
-get_gpu_model_name will depend on gpu_features/shader_present in a
-later patch so this is a real bug.
->         u32 major, minor, status;
->
->         panthor_gpu_info_init(ptdev);
->
-> -       arch_major =3D GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-> -       product_major =3D GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
->         major =3D GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
->         minor =3D GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
->         status =3D GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
->
-> -       for (model =3D gpu_models; model->name; model++) {
-> -               if (model->arch_major =3D=3D arch_major &&
-> -                   model->product_major =3D=3D product_major)
-> -                       break;
-> -       }
-> -
->         drm_info(&ptdev->base,
-> -                "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> -                model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-> +                "%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> +                gpu_model_name, ptdev->gpu_info.gpu_id >> 16,
->                  major, minor, status);
->
->         drm_info(&ptdev->base,
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/pan=
-thor/panthor_regs.h
-> index 48bbfd40138c..e7a81686afdb 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -19,6 +19,8 @@
->  #define   GPU_VER_MINOR(x)                             (((x) & GENMASK(1=
-1, 4)) >> 4)
->  #define   GPU_VER_STATUS(x)                            ((x) & GENMASK(3,=
- 0))
->
-> +#define GPU_PROD_ID_MAKE(arch_major, prod_major)       (((arch_major) <<=
- 24) | (prod_major))
-This macro has no hw significance and is only used to decide the model
-conveniently.  It should be moved to panthor_hw.c.
-
-
->  #define GPU_L2_FEATURES                                        0x4
->  #define  GPU_L2_FEATURES_LINE_SIZE(x)                  (1 << ((x) & GENM=
-ASK(7, 0)))
->
-> --
-> 2.49.0
->
+> @@ -99,9 +99,15 @@ static void panthor_hw_info_init(struct panthor_device=
+ *ptdev)
+>  static struct panthor_hw panthor_hw_devices[] =3D {
+>         {
+>                 .arch_major =3D 10,
+> +               .features =3D {
+> +                       BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
+> +               },
+>         },
+>         {
+>                 .arch_major =3D 11,
+> +               .features =3D {
+> +                       BIT(PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH)
+> +               },
+>         },
+>  };
+Are there going to be major archs which do not support
+PANTHOR_HW_FEATURE_GPU_CTRL_CACHE_FLUSH?  If not, we don't need the
+feature bit.
