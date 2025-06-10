@@ -2,92 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BBDAD38A5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF3DAD3889
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC9B10E557;
-	Tue, 10 Jun 2025 13:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB2710E54F;
+	Tue, 10 Jun 2025 13:14:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AfLrph1J";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qx0NUSpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B44F10E557
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:16:28 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-addcea380eeso766819266b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 06:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1749561387; x=1750166187; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xHIqhioRnhNt4aLsaniXn+7U4R/QZgWIuNSgSngcP8Y=;
- b=AfLrph1Jbmc1DJCq3/l9JXeJv+GpFoDTXhYnWP4q6kv/VJoYlG4FQ8WtQazS0llP4T
- /lUrPd3Xe+5EgPE+qdWzgIE3NBt7/NK+EWwTJM3aIuLiylrpH99T8VdISUi+4s6xudkH
- Pf4uH6YCT+/bMPvCCdVyquv74IYVE4JLlXw4SM3vufFnYwqX0cbXqaz7jGicKjJQWpfx
- Q7rk234WrWvAOIwg+CFX/GVrUHClbNOrc14AssQL3Zl93nLwdH+iIIsYofjxiAKnMwmi
- cKT+rpfCnQ5rsGlAvVRqDMT09WcV/D1biGqHUHILwnIT4WqMYlWSulyqLOoNBsVFIRfR
- h0nA==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAF610E54D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:14:40 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55A8Yplh007717
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:14:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=g6IwQRxCUScwxoqS0e4XHRFL
+ lV7pUybK/kFVnN3gEOo=; b=Qx0NUSpLbFRnnJwDivnuJ8s4sTgo/boEDUuXyXQO
+ Hi3V1oGCKilWewi9Kvax9DwsZZrjE/iDYqJokwD8VleptqpE8QTEeJAMJa7qiwNO
+ TAoL83Y08TAcNzd7J8zkiSHVT5PD2oWVUpFK0uF09lldeLvhVdab1RqQn5M87ASE
+ T4gxcUO4jZ1lORlFqVaJDBPpkiGYFLSIvKwQjte9AZ4/rctHDy/JwvBuCNBfoic4
+ IoBMBOeFPainOeALttPyrefHeGXPcwAe/N7ekcfS7VxFb1WAyGc69bG1KLlVmZaJ
+ kRGzGhbIme2+B1E6KVlmNYC0trNKTGBx7ZuW0iSenhvonA==
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ekps894-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:14:39 +0000 (GMT)
+Received: by mail-ot1-f70.google.com with SMTP id
+ 46e09a7af769-739f707258dso361080a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 06:14:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749561387; x=1750166187;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xHIqhioRnhNt4aLsaniXn+7U4R/QZgWIuNSgSngcP8Y=;
- b=K6DrYHwFNEYqyqH80w9sQMwMeUlDTwgL1Frn6AaAbJQOYBQChQh9Eif4zTyZUAYJAz
- j98a12l3PsglKP1J+2nI+UbjL1UOHYYLQb2yj0pbD68mFl2aLvU6uLj9zxcDVx8uVEyI
- sZyM4/laisDMU7U1RTLZpVspZ3mrfDCdlEzrRy2buZKrFv90OhIFWDIVthSujb2vAF9W
- I3yjxCkhTWp7hep0w0Yu7NVM1pj9LPhWE9yZlkXqD96YYRII91GY/4KmyKgdOqkTv64E
- VNCUWNDekevA+S62jruhnqqD1wEt/8Y4W7c31AVY1fEuI9Ue6B+XDb7slfuJN30nXTEm
- +c6A==
+ d=1e100.net; s=20230601; t=1749561278; x=1750166078;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g6IwQRxCUScwxoqS0e4XHRFLlV7pUybK/kFVnN3gEOo=;
+ b=MCk8cc14AbpsxjpQ3Fv27SHpiBenghuhCMKlfRgSD/Z/mZAmx5MYXlHMOCUWonfF4A
+ hRJbT7PV0G3JyEcZh9K1+R05VDV0Ybdup+XafakXJiqnRkRySfsvnWW3dsLJlrqeUU+8
+ nqQmL+yogxMXyxzQcF0N72p4jyldfLCwcl4Lwjzir31PjxbrTTeLj47OBXMHRRQdzfL5
+ H0KXHmpiKEEA8KFkeP4mBNZW7mFkrr9UBjYyXZeFurQbzsDzQsGeRcXI4bFDpN8OV4Mi
+ f0QssI00/xatq5puFvuR1pgz7/XnQK60fvbGFDGv1wOEURr82eqRRNBX24T7WQ3+/EkC
+ ZM+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUR/cvuzuhm84E2DQVIfRGR2PmHkmfYKddf3Q58PdRswdhcDen+UVREkBh3mhbZYQqRjKzhCP5LuxA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgDQtdBNeQC8amy72+q6J3lrX+xeenbfInls4YOJEx1kEGRitd
- io8/2yyMmWy5NjXOLEFT9CwXxRnwNpr4w1i236e9UmoJQRlaZYw+IcS4DhFb0CVKkd0=
-X-Gm-Gg: ASbGncs5OMrne1tv4uSlxgu94zbvP7gS2iwV/zfpl32ga5xfZGY/iZg78dS0s5f5iGs
- wuwYNSA2f2uteYqIAu8o+ksWALhWVNgEaot8JcC4vxyHJbKSvu+rW+ilNAKtR3l9bxOS0NXe8Q4
- lnxfuDwOZiTOfWskAWfhNwUC1LfLIpXgqJj4t2C6Fztw0uA6X3FZix//oaz75muzmJJsdWb0Ddj
- m7WXReBspdEMh0wfffsdWM7RiZcZELXugYYnecH5YRn3T3j9XppiOyeyG1D0VV5KiKbt94K7GMY
- zd9l2oxPyNAMs+grmFtjEnAEpmTL5QK9XTxoO20xKa1OL3ROMZ783ywQGrTk3QNFr06ejlaNBDZ
- AYG2AX9UhzSaGZKBdSi5qXqosvCdTvKd7WnT9AW8=
-X-Google-Smtp-Source: AGHT+IFRIlvxt0K3SM6xhnBaF7S6vn8tyjGnih1oB83ay9sZPd3eAVoEgV9w1AjoIqTxnsVFcfN65g==
-X-Received: by 2002:a17:907:8690:b0:ad8:9466:3348 with SMTP id
- a640c23a62f3a-ade1a978de5mr1630006366b.36.1749561386585; 
- Tue, 10 Jun 2025 06:16:26 -0700 (PDT)
-Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
- [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ade3206a1efsm643651666b.67.2025.06.10.06.16.24
+ AJvYcCVa+vAPBCYOqCMb9nwIX2ykzKu+W6HW+NU7lyIojYnnLMfxcELyS1fEKtLwLzp49NyvNsinFbWI79U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKakQQqyzeHHJEgRvs4TIQblvMtkfJ/Hi7sQRiY+3uT7tokndh
+ jZLrEV/wi6URXuJsNNCXcKWqHvw3N55mzNNmo/ccMfP7FXOPiDO21Az7WPe4iLYZaQtuBbP3Y8r
+ L0aMG/pJUZpPrqhLrstbJzAELx3KVp2RlJG067FMObPUG+DBdYlKHK0niDBsFQn+ucFQY4NtDoN
+ llYHg=
+X-Gm-Gg: ASbGncunk3EVzQXlu7gFsLEvgQtzTVHMzq2TKwLu1xM65oG0YP/FmgAvY6RENfUv0kn
+ JUwuGv4yYN49glX56Yi9BtB7YMhM+fOvhYn17lY4ttCCl/gJpafdRF6BeRg8+eVOJtoeuyjLlq4
+ lJD8SOTXhw0o4xAVLca2iTJJJ2kEfRhwyBKaxe2IpRAEYj2KzCRN6oZUn/1w90nlUlGz/2VI43H
+ Jca+vS7eeyrNJuv77RW54oVwFzSTox0eSpBxdBDSxEWS05Pz4XRr2ywcc87m/SiW4uiEVHhLq+y
+ gexE8d7ISXPmdTV3jJeYvLDZaS6eMJD3gv4uyUJf+4gIY+fvaVpzhIYTJ+28wFJiz1Vt3igSkjt
+ 06CQ1ZQ59Nw0Ju6Xz6tb6toer24c+dgaER3Y=
+X-Received: by 2002:a05:6830:6c10:b0:72b:a3f3:deb6 with SMTP id
+ 46e09a7af769-73888da0fa6mr9517710a34.4.1749561277571; 
+ Tue, 10 Jun 2025 06:14:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEYQC8rt3kTrusAsNuIp+4RWIrv68jhYVstYuYleyxm6ZO9onHgFJwUJlqd4EmrytlbgstvxQ==
+X-Received: by 2002:a05:620a:28d4:b0:7ca:f37a:2b4e with SMTP id
+ af79cd13be357-7d22987fcffmr2356233685a.23.1749561265466; 
+ Tue, 10 Jun 2025 06:14:25 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5536772a3basm1520440e87.155.2025.06.10.06.14.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 06:16:25 -0700 (PDT)
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Garg <sumit.garg@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
- Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v10 9/9] optee: smc abi: dynamic protected memory allocation
-Date: Tue, 10 Jun 2025 15:13:53 +0200
-Message-ID: <20250610131600.2972232-10-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250610131600.2972232-1-jens.wiklander@linaro.org>
-References: <20250610131600.2972232-1-jens.wiklander@linaro.org>
+ Tue, 10 Jun 2025 06:14:24 -0700 (PDT)
+Date: Tue, 10 Jun 2025 16:14:22 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH] drm/msm/dpu: Fill in min_prefill_lines for SC8180X
+Message-ID: <skvwhicmdzewywoxm2bims4e6geandodztd6apmrolzqpzcibo@fqnjrs5shp3r>
+References: <20250610-topic-dpu_8180_mpl-v1-1-f480cd22f11c@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610-topic-dpu_8180_mpl-v1-1-f480cd22f11c@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=JcO8rVKV c=1 sm=1 tr=0 ts=68482fbf cx=c_pps
+ a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=HWQ8LJbAKwhtnRb1DegA:9 a=CjuIK1q_8ugA:10
+ a=EXS-LbY8YePsIyqnH6vw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEwMDEwNCBTYWx0ZWRfX0eaL8wxMnuiv
+ /pOT93c33FHfPH+sC4a+UErEjEKSB4+aEi9PRmzKRAjfkclqdOIvtzE1WYIxQiNElS6OTtelko+
+ A00kL6xlGrKjpY8M74JB9Q3pYm8i79VbJycmZ7Kno3cbcOIGWh819sfg8VvCN5XiyilvHCOS0s1
+ 3twiw8YPhj3sqs2CbxfkxB+9Kd+fmM52f6GWJzs5w0EM4f++w/7uptyNlEEvV03y8N+qOWjJhBX
+ HEAlBihVdFkFpx773KfKhecUA3HYKW8a7DZU6TqEdQtuos7TdHxYe38uCaXqN1itHMTL+hLRylO
+ JI+KkB2V+yqJIWp/kO6pSNRc6kVOwJIRagIHDBvEcjeZyNmPtTOn7KxPRKPyaWBMK8I3Ho29DpQ
+ jGr2V4pfBOXkVvvLRYrkBep7S3YJOh295m131f5eEeg6D11ILEQSsyn3T5aGUHSXDwg/o6nF
+X-Proofpoint-GUID: EVuOshI3Qpc_Eu8158NoDeRdrFsb4yTk
+X-Proofpoint-ORIG-GUID: EVuOshI3Qpc_Eu8158NoDeRdrFsb4yTk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-10_05,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=854 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506100104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,122 +131,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the OP-TEE backend driver for dynamic protected memory
-allocation using the SMC ABI.
+On Tue, Jun 10, 2025 at 02:50:03PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> Based on the downstream release, predictably same value as for SM8150.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 1 +
 
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
----
- drivers/tee/optee/smc_abi.c | 78 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+Fixes: f3af2d6ee9ab ("drm/msm/dpu: Add SC8180x to hw catalog")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index cf106d15e64e..fd1d873de941 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -965,6 +965,70 @@ static int optee_smc_do_call_with_arg(struct tee_context *ctx,
- 	return rc;
- }
- 
-+static int optee_smc_lend_protmem(struct optee *optee, struct tee_shm *protmem,
-+				  u16 *end_points, unsigned int ep_count,
-+				  u32 use_case)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_LEND_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-+	msg_arg->params[0].u.value.a = use_case;
-+	msg_arg->params[1].attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
-+	msg_arg->params[1].u.tmem.buf_ptr = protmem->paddr;
-+	msg_arg->params[1].u.tmem.size = protmem->size;
-+	msg_arg->params[1].u.tmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+	protmem->sec_world_id = (u_long)protmem;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
-+static int optee_smc_reclaim_protmem(struct optee *optee,
-+				     struct tee_shm *protmem)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_RECLAIM_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
-+	msg_arg->params[0].u.rmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS)
-+		rc = -EINVAL;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
- /*
-  * 5. Asynchronous notification
-  */
-@@ -1216,6 +1280,8 @@ static const struct optee_ops optee_ops = {
- 	.do_call_with_arg = optee_smc_do_call_with_arg,
- 	.to_msg_param = optee_to_msg_param,
- 	.from_msg_param = optee_from_msg_param,
-+	.lend_protmem = optee_smc_lend_protmem,
-+	.reclaim_protmem = optee_smc_reclaim_protmem,
- };
- 
- static int enable_async_notif(optee_invoke_fn *invoke_fn)
-@@ -1628,14 +1694,20 @@ static struct tee_protmem_pool *static_protmem_pool_init(struct optee *optee)
- 
- static int optee_protmem_pool_init(struct optee *optee)
- {
-+	bool protm = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM;
-+	bool dyn_protm = optee->smc.sec_caps &
-+			 OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM;
- 	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
- 	struct tee_protmem_pool *pool = ERR_PTR(-EINVAL);
--	int rc;
-+	int rc = -EINVAL;
- 
--	if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM))
-+	if (!protm && !dyn_protm)
- 		return 0;
- 
--	pool = static_protmem_pool_init(optee);
-+	if (protm)
-+		pool = static_protmem_pool_init(optee);
-+	if (dyn_protm && IS_ERR(pool))
-+		pool = optee_protmem_alloc_dyn_pool(optee, heap_id);
- 	if (IS_ERR(pool))
- 		return PTR_ERR(pool);
- 
+>  1 file changed, 1 insertion(+)
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
