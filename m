@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE33AD2E6F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 09:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C638AD2E71
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 09:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD5710E477;
-	Tue, 10 Jun 2025 07:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4CA10E47C;
+	Tue, 10 Jun 2025 07:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GGwNJdvl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZLX03CTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6F9210E472;
- Tue, 10 Jun 2025 07:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749539741; x=1781075741;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rCqGwz7zedTJ2RQSCyeJ2YeiiQ4CI6xrq7Q5IEgEQlU=;
- b=GGwNJdvlR6Ku/C3b0hOmujNNuTJmsn/CFdYYHRafAuqs8wxdVH+8It7C
- naS821kNDHqFNWZw73keHczbUVIVNl+5uMv83AA1oYIyMLZ+I3S0+lypq
- Ea4AUK/STrl+9emQlPRsCx1ooLEpey24QIseRjxvMpycNcae2QsWzxDAy
- DT4rOl4J+UjCOpzu5Zn4dWdJVMXIL9NMxuPvbUMhmv/QrkTt+UC+svIYz
- Wg4rZ0G8DVqW1J7RvGjRezAHtSgT7S7EaAjG3IF07MduDjNBLe6oRSMvU
- 8gpnZoDtg/bzUUAj0zecywLj9rGnEsQLbkKVPFNyRyUrswDpBftCUiuk0 Q==;
-X-CSE-ConnectionGUID: STn7wlTtRWqTETUuEjjElg==
-X-CSE-MsgGUID: eE0b9biSSwWRPOc7M38Zag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="39256287"
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; d="scan'208";a="39256287"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2025 00:15:40 -0700
-X-CSE-ConnectionGUID: cc7AaFCcRWe7MlgjHLhM7w==
-X-CSE-MsgGUID: 0PDIT9JMQ5av4f3D8PsPpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; d="scan'208";a="146657771"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa006.jf.intel.com with ESMTP; 10 Jun 2025 00:15:38 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uOtCp-0007uv-2O;
- Tue, 10 Jun 2025 07:15:35 +0000
-Date: Tue, 10 Jun 2025 15:14:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3 2/7] drm/syncobj: Do not allocate an array to store
- zeros when waiting
-Message-ID: <202506101443.xwvcZ2hC-lkp@intel.com>
-References: <20250609113313.75395-3-tvrtko.ursulin@igalia.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A018B10E47C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 07:16:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C09665C0F74;
+ Tue, 10 Jun 2025 07:13:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05171C4CEEF;
+ Tue, 10 Jun 2025 07:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749539765;
+ bh=VVeZwsdiJWk7Vp1ob8BKLU+Sz7mH3BRMCSNflC704p0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZLX03CTtDl+hdWdsGPJ/Cv4JQy54Y2BW/+T+c/8PKxEwcCIVkBTGcimkbUe1gHCNf
+ cTIWurWIInUIfWCbN/NDv/+9SbnofhsyL+vE8u2nCqMgDAi91ZX6wiRdbVdi3hLF73
+ OTOk7NhQ30chXE/F/nhsxJ1oDjaltui0TwGuw/LdazvsdJBbwJkV90VAEnqXUL1d0f
+ +osNYY0qR4hHbyBXdVqHVB5q5kzhK5a+r9XaynW+YDhXqRGeMltfIZZ55NnPiz1YUN
+ JGRSJdQULqF0DJUoblOXivB8Wah+NczxvoDGxA+l5eLMG8q4lymwP9T9PwgKEmTfvU
+ 2KLZj5e3ezEPg==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250609113313.75395-3-tvrtko.ursulin@igalia.com>
+Date: Tue, 10 Jun 2025 09:15:59 +0200
+From: Michael Walle <mwalle@kernel.org>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: Doug Anderson <dianders@chromium.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: fix REFCLK setting
+In-Reply-To: <9272e36e-e764-4007-9d9e-8e09b9c08d34@ti.com>
+References: <20250528132148.1087890-1-mwalle@kernel.org>
+ <CAD=FV=WfV1Kr5hFSqf=t0OS3qFSGfQ3_+LQ-57nMKHXRSYvZ-w@mail.gmail.com>
+ <9272e36e-e764-4007-9d9e-8e09b9c08d34@ti.com>
+Message-ID: <c0027ff0e63bcc0fd21aab37af991baf@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+Hi Jayesh,
 
-kernel test robot noticed the following build errors:
+>>> +       /*
+>>> +        * After EN is deasserted and an external clock is detected, 
+>>> the bridge
+>>> +        * will sample GPIO3:1 to determine its frequency. The driver 
+>>> will
+>>> +        * overwrite this setting. But this is racy. Thus we have to 
+>>> wait a
+>>> +        * couple of us. According to the datasheet the GPIO lines 
+>>> has to be
+>>> +        * stable at least 5 us (td5) but it seems that is not enough 
+>>> and the
+>>> +        * refclk frequency value is lost/overwritten by the bridge 
+>>> itself.
+>>> +        * Waiting for 20us seems to work.
+>>> +        */
+>>> +       usleep_range(20, 30);
+>> 
+>> It might be worth pointing at _where_ the driver overwrites this
+>> setting, or maybe at least pointing to something that makes it easy to
+>> find which exact bits you're talking about.
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on linus/master drm/drm-next drm-misc/drm-misc-next v6.16-rc1 next-20250606]
-[cannot apply to v3.1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Yeah, Jayesh just pointed that out below. I'll add add it to the 
+comment.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-syncobj-Remove-unhelpful-helper/20250609-194350
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250609113313.75395-3-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v3 2/7] drm/syncobj: Do not allocate an array to store zeros when waiting
-config: arm-davinci_all_defconfig (https://download.01.org/0day-ci/archive/20250610/202506101443.xwvcZ2hC-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506101443.xwvcZ2hC-lkp@intel.com/reproduce)
+>> This looks reasonable to me, though.
+> 
+> I think we are talking about SN_DPPLL_SRC_REG[3:1] bits?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506101443.xwvcZ2hC-lkp@intel.com/
+Yes.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+> What exact mismatch are you observing in register value?
 
->> ERROR: modpost: "__get_user_bad" [drivers/gpu/drm/drm.ko] undefined!
+The one set by the chip itself vs the one from the driver, see below.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> I am assuming that you have a clock at REFCLK pin. For that:
+
+Yes, I'm using an external clock.
+
+> If refclk is described in devicetree node, then I see that
+> the driver modifies it in every resume call based solely on the
+> clock value in dts.
+
+Exactly. But that is racy with what the chip itself is doing. I.e.
+if you don't have that usleep() above, the chip will win the race
+and the refclk frequency setting will be set according to the
+external GPIOs (which is poorly described in the datasheet, btw),
+regardless what the linux driver is setting (because that I2C write
+happens too early).
+
+> If refclk is not described in dts, then this register is modified by 
+> the
+> driver only when pre_enable() calls enable_comms(). Here also, the
+> value depends on crtc_mode and the refclk_rate often would not be equal
+> to the values in "ti_sn_bridge_dsiclk_lut" (supported frequencies), and
+> you would fallback to "001" register value.
+
+> Rest of time, I guess it depends on reading the status from GPIO and
+> changing the register.
+
+Not "rest of the time", the reading of the strapping option from the
+GPIO always happens if an external refclk is detected. It's part of
+the chip after all. It will just sometimes be overwritten by the
+linux driver.
+
+> Is the latter one your usecase?
+
+My use case is that the GPIO setting is wrong on my board (it's really
+non-existent) and I'm relying on the linux driver to set the correct
+frequency.
+
+HTH,
+-michael
