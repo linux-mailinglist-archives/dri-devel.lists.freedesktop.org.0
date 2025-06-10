@@ -2,96 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25EDAD34E5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 13:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CEEAD34E8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 13:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1791810E510;
-	Tue, 10 Jun 2025 11:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61410E281;
+	Tue, 10 Jun 2025 11:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="zrTiJGlO";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Chk2bphT";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="qEphA0by";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b6-smtp.messagingengine.com
- (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374D510E510
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 11:27:06 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 7D5042540103;
- Tue, 10 Jun 2025 07:27:05 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Tue, 10 Jun 2025 07:27:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1749554825;
- x=1749641225; bh=yuDbo2GW1JzHKoT1DngI1u1qLCDPh52Z9n938BLR8Hs=; b=
- zrTiJGlO2ci1+axaxZsPc6PQHD6SYH//C+2Tv6G0ywd44/0TdMrweZwcZpWJitur
- Qjes3FI9doHEhtyYBwIwPUviaQqab5d/DSTbfRoiuUfe6/ptf+Wa/G7OFpMYCQO8
- 90qmHDUFbEe+ojrSJFZ7VLLuZdASCiD0ZGuKdqcJEU4o28iKgiNQzQkJjQMvcVvF
- qbf4vimYA7zuEimcCNqp7GDHC6NqW5RPBMp/4ZKXPDOnPHvIoxHeAZ/5Kr1O/FA9
- PEtYAhD6VU5kUbHxhYNNUTVT4+RgpYdPgKgQtluQZXl3OpEEMeV/48N572b/4NOp
- Pm4f7vHDqxVdBpz0b/a6VQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749554825; x=
- 1749641225; bh=yuDbo2GW1JzHKoT1DngI1u1qLCDPh52Z9n938BLR8Hs=; b=C
- hk2bphTu8ab2tZ58nmZfBQFDPJIhl2sFEYbmP29EiqVXRuB8lN5n4zxlFYKNhlmn
- Yd1RBo7ojwAnVkNTKL2LExaxFQeIHn8SgG0Xqest6WYvtX7L8gV/zkjDNhIXvBQC
- JtEhPOWb4WUyl0/rx5+ihImFl2f/p7ramCQYWQvD7I94S8UDciHYhbXxIPRanKOk
- WxJvZm2SQHKLWEAa8Aze1aCXktWqIihpGsqi8vbM4TstNaEru43dzB/Vpxx8i1DG
- 3SKqQnezCSWl8it+3BsntNr1rRPeCLaC2Q42gC8+zMYIGYx0v64cKQMmTyK3Wo7r
- e2bjJp3Y0VSLThydZJz2A==
-X-ME-Sender: <xms:iBZIaJMMINykXGFrF7dbfsE92sE7A9algJW8pV1S6xq0q7Wxpg5QhA>
- <xme:iBZIaL-Ia97AHVOGJvKIYkr2yFDuLqajMQLupbCmVtyz6Hm3H4TRq2WLvZhm5uNaB
- qkCjkdCbd3wgntyONQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddutdeijecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
- tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
- druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
- gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeel
- pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrihihrghnughhihhmrghnudegse
- hgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnugihsehkvghrnhgvlhdrohhrghdprhgt
- phhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhse
- hlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepughrihdquggvvhgv
- lheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuh
- igqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepthii
- ihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhfsgguvg
- hvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
- vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:iRZIaIQrGfpPzIu76UcAcu7BdyFSd2LhEjxJJ5TZFLkuBs2jW283wQ>
- <xmx:iRZIaFuLY_Q52LZFl8G703CuiH8dMr0WXsK5N4Gl1rh9y2cXMSPj4A>
- <xmx:iRZIaBfcvRtZvgg3dAZHK2MpCQF0wg0As6zYEpSyqyqAOKTwfHAgqA>
- <xmx:iRZIaB38rbuiwMRMP411ha8C5PurhFFJbXnW9bjb1fGD6BNlcNo10g>
- <xmx:iRZIaCLwED6Q6-yoN7h0d8YP6-cJC6M3qCrDJ1RkEaQ7c7AZb6ree3dI>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id D99F7700061; Tue, 10 Jun 2025 07:27:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-MIME-Version: 1.0
-X-ThreadId: T6da4eef3dd4d532c
-Date: Tue, 10 Jun 2025 13:26:43 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Arnd Bergmann" <arnd@kernel.org>, "Andy Shevchenko" <andy@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Riyan Dhiman" <riyandhiman14@gmail.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Message-Id: <39920a53-0458-484c-bb6d-9d4bfaa38472@app.fastmail.com>
-In-Reply-To: <20250610112357.3306246-1-arnd@kernel.org>
-References: <20250610112357.3306246-1-arnd@kernel.org>
-Subject: Re: [PATCH] [v2] staging: fbtft: reduce stack usage
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
+ [91.218.175.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3AC10E281
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 11:27:33 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1749554848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d87frpROuVlGjEVB2mDm08MDEd+CmIU52hSdyqvceiU=;
+ b=qEphA0bypSgalnt0eO6vtYktEmcT1tqDQmDGVchsVK7Vutp9rmNvpR40+2CQme4157wFp2
+ xAHP+DlDfd83sPJM3UB69HaZd04M0dDSTFUjuJRwcEKEc+JazVGgydcLufOrUyxnyLaiTJ
+ pMiHUVkDm/+k0rwIrUhr5+opjCEzF2Pb8/kKG8mu2DAD8uyXFSEMSeDldf8z0L2S5sYsv+
+ /5YayGjaSEFoS8uQkeaRCPYFWC0yGxk6GipS74DAdFkf+ltf1jhEKGCB31zq14SdxoubCl
+ EckApz/WnAvBer+2JYvU3PZijI4uLTl1s+Yuz0FVmgK51RcGC7oMSWArIx4L4A==
+Content-Type: multipart/signed;
+ boundary=1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 10 Jun 2025 13:27:13 +0200
+Message-Id: <DAITFEPGXB6Z.38FAE9O9NSSLX@cknow.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Piotr Zalewski" <pZ010001011111@proton.me>
+Cc: <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
+ <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
+ color_mgmt_changed in atomic_enable
+References: <20241206192013.342692-3-pZ010001011111@proton.me>
+ <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
+ <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
+ <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
+ <4z0y_F1ZT_xfO0-DwU-D5NwL3t3wHuGmivOB3QFjDsn0hzpz_hOeU63pRVBIgSU1j89jmYPq-TJHPqMCj3fAygwwX6IaPoVsqKqVi2jxmCc=@proton.me>
+In-Reply-To: <4z0y_F1ZT_xfO0-DwU-D5NwL3t3wHuGmivOB3QFjDsn0hzpz_hOeU63pRVBIgSU1j89jmYPq-TJHPqMCj3fAygwwX6IaPoVsqKqVi2jxmCc=@proton.me>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,29 +67,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 10, 2025, at 13:23, Arnd Bergmann wrote:
+--1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
->  {
->  	struct device *dev = par->info->device;
-> -	int buf[64], count, index, i, j, ret;
-> +	u32 buf[64], count, index, i, j, ret;
->  	u32 *values;
->  	u32 val;
-> 
+Hi Piotr,
 
-I was too quick to update this one, please ignore v2 and
-wait for v3 after I've tested it some more with the (hopefully)
-correct version:
+On Tue Jun 10, 2025 at 12:37 AM CEST, Piotr Zalewski wrote:
+> Hi Diederik, sorry for late response
 
-@@ -842,7 +864,8 @@ EXPORT_SYMBOL(fbtft_unregister_framebuffer);
- static int fbtft_init_display_from_property(struct fbtft_par *par)
- {
-        struct device *dev = par->info->device;
--       int buf[64], count, index, i, j, ret;
-+       int count, index, i, j, ret;
-+       u32 buf[64];
-        u32 *values;
-        u32 val;
+No need to be sorry :-)
 
+(late? Less then 2 days vs my ~4 months before the git bisect ...)
 
-     Arnd
+>> Interesting that it also happened with drm=3Dy.
+>
+> I actually checked now and i don't have the issue with drm=3Dy, sorry for=
+=20
+> misinforming you all, hopefully no one's time was wasted.
+
+Good to know, thanks :-)
+
+>> > happened twice and at short interval and since this patch allows for g=
+amma
+>> > LUT update regardless of color_mgmt_changed state this makes DSP CTRL =
+GAMMA
+>> > LUT EN bit to be unset twice too. It seems that VOP does not like it. =
+I
+>>=20
+>> Happy to see you found the cause :-)
+>> Do you happen to know why it was unset twice? That sounds suboptimal.
+>
+> It is due to DRM modeset which can happens when CRTC (display) config cha=
+nges=20
+> "significantly". AFAIK modeset happens def. when you go out of suspend or
+> display timings change. I might have been fooled by serial console last t=
+ime
+> as it does not appear to happen twice in short interval when i review the=
+=20
+> journal entries.
+>
+>> But (IIUC) setting a bit to a value it already has causing issues,
+>> sounds surprising as well.
+>
+> Depends on what hardware does, when you write to a register it might caus=
+e
+> many other things to happen and seems like for vop2 it messes something u=
+p.
+
+I didn't know that, thanks.
+
+> I made a second patch so that the first write is not permitted but all=20
+> subsequent are permitted (regardless of lut en state) - issue disappeared=
+=20
+> too. So it might be that very first write to dsp lut disable happens too=
+=20
+> fast (in relation to something else)?. It is not intuitive because when d=
+rm is
+> a module it happens usually like ~second later.
+>
+> part of the log with drm=3Dy
+> ```
+> [    6.543099] rockchip-drm display-subsystem: [drm] GAMMA LUT DISABLE
+> ```
+>
+> part of the log with drm=3Dm
+> ```
+> [    7.944120] rockchip-drm display-subsystem: [drm] GAMMA LUT DISABLE
+> ```
+
+My first (uneducated) hunch was a timing issue and ``=3Dm`` can reveal
+issues which you wouldn't see with ``=3Dy``.
+Andy already found an issue "that shouldn't happen" and my latest test
+also had an unexpected result. So (eventually) we'll figure it out :-)
+
+>> Sounds like a plan. It could be that this issue surfaced an underlaying
+>> issue and if so, fixing that would be even better.
+>
+> When i have time this week I will check on what version of the kernel i=
+=20
+> tested gamma lut when i sent the patches and test there.
+
+I think it would be beneficial if you'd do the tests that Andy asked
+'me' to do too, so we can compare results.
+FWIW: I have the 4GB RAM version.
+
+Cheers,
+  Diederik
+
+--1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEgWmQAKCRDXblvOeH7b
+bga5AP46kC7i4GeX+4vWp7Yxj8oZG/p/M87NvkPeVbBlmVSxNwD/aKazZBYfZhA9
+N8AQj5r2cn8N8/pLuRozO0FJiPY+iAk=
+=thoO
+-----END PGP SIGNATURE-----
+
+--1a690bef81fb6f944ba894a0b6204d1559cb35f27fa37f9df3ad43d1b8ff--
