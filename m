@@ -2,83 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13F1AD3AF6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 16:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164D3AD3B43
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 16:36:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA18510E578;
-	Tue, 10 Jun 2025 14:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E689210E2CA;
+	Tue, 10 Jun 2025 14:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Ils1jUdI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mn4SUFjE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9969E10E56C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:17:39 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3a3798794d3so4736545f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 07:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1749565058; x=1750169858;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L7FQPUI2t4fKh9B8qtLSyYwsxdJre2h+7ztMs/P0P7U=;
- b=Ils1jUdIfvYP685UsqKM/WjawOuRzvebe8OXhfd0cUy/UJJywwiLinxz8Xg99LvsOh
- PFGgADL3qSouEY6IxK94qxYHMrmBoyIhgKYg33cw+0N7QG3LhRcmWeYXwVlL26+D6QjQ
- dLeh3fMjRPsWMYHmOB0Yqv/2XkSLq8PvSiF5QwG+BnxkiD87A75byhv1FdkCo5oPS1v1
- weIzI7UW6oWa3ZoHOQU1R/wr3pRe3axb8AJf1R/NMd7hv0wyIv7NqylettGyvKFpo/PO
- lpdoWrA3c7dqBJfFMBop9r+xT7RPZ4jm9WiJ2SbxDCu1evvCBDrV5RddRqKkpt4nVgRb
- aNGw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FF010E571
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:36:45 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55A6Vwqw001322
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:36:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ BVZlJK/GxgJY/X9zC0XGrcWqi+GkfHWHyAwskSfnpf8=; b=mn4SUFjE8MRlZ8ke
+ th4z4VSdiSRULhatOTzsxH3y97c1zG7QDfIUZKTm/6V7IOw8NTJXEcce9bnlNkqa
+ dCLMgWGT83cZ+cqcYHmJ1t0AOAJp+mIkzzFgGlxhI847Sosgzv6wmT3F56XbzxDq
+ c2p2JWle1/byMaVeY9OiCTu06028CUH6HFQ+pJdZxVYxs7U4hnb9HtReEdkxIQvJ
+ ENBqgx+f9YrdpNbPDQnELhIYRDkrzTeHi5MwIOiHy9tpTmTXvzOGgWQUSyyS6acy
+ 88+43FAPKs6bOFi2QEzWcinAkUqHruexI4hoD8Eo/hdnPfd8c3UxCNHFY/AjFLIe
+ Rf/1+A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2tcekm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 14:36:44 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d09b74dc4bso95859385a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 07:36:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749565058; x=1750169858;
+ d=1e100.net; s=20230601; t=1749566204; x=1750171004;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L7FQPUI2t4fKh9B8qtLSyYwsxdJre2h+7ztMs/P0P7U=;
- b=h4XJLTrq4gNN1nRaElPDjUq8CfelLlcNrM/3dqyX3tfzk/YhoFqn199hjjKuoi3Be/
- YPf12p6mBbInMEsoahDK9u5bFfQ56/3BtkyQrl5yf4Oi/JRNxfNgYzuQ6z4Y2E2V9k0K
- TOouyVRMHWNAWP+KtVKhI8d1alHPi9ViYiQ7HSo/SaavmT8JTCK1PIqNnNiVWfHVwgbI
- NsqA1QTy3FlqGAp04LNsSGnKpepJRlcTpzRLNJjhm9bJjpWqzM9Fo2sP2dHgun1yKDaj
- YRyO6wODCFEPQiHSmYBkzbf9b7wyb95fO3Q+xizV6eVxT4shDnDVq5EX4xYJXHIN2lQ5
- aGkA==
+ bh=BVZlJK/GxgJY/X9zC0XGrcWqi+GkfHWHyAwskSfnpf8=;
+ b=JiNYvqVH0tzCKBbMmFvV/3GwVVKoJHvAVr8XRGvk8hvys91vmmzx7/HfWbhDcIGheM
+ ACk3unJLn0WQsX2tuRO7mYL4AJrrGhhEGiTmMQ0oVe3tbVf0jmWoQTZQ0E6RUb8tfDP5
+ oAhMILFfo0UzyXbEm74jlZSlPxHX5801DE9vHqQ7fDEgWwW/GpSmNGfTyX0hQnfX4Hjc
+ Cxj4Ld//i59r1ZXUlmVJF5fGfrvac7Nj8JnXbVdf/N2G3cM9qFH2PqC8mRCPzDwC2SfL
+ uDnyYAk2uURWLjnRSFIKcJbQuv0bPP74amWH4J5tIFeamiTywl+QzXGWLWxq/WZY8yOi
+ htKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYUsaZP5w4jT0sVE+l9YuTBzQBpqxrJF2IkG6eAWj1Mffhuz8h5KRj69qzLPcU7g/O1Znj4G9Dlew=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcH05bdTaHQmkDC1VD21Y2aeIdsajijKQWLXbQzwTT6SYM12PG
- pg5Du3oqB6OgSofxXbOzrzIcbk0JsvCX1+w+kGxemEOzI2s8KT8OiQHi6oxaE3uTcng=
-X-Gm-Gg: ASbGncuN7ztQLw8jSKygOpbTQTUbjwiQ+h+HtVkj1GYdzBW9t6Vwlo9/TgGDWeLpyn5
- 4xULrDAckI0j7CS0jM4FbrGhCb3BgbvM5+k0on4zWTX2KmmWLI6L5S4erfjJfIX8omz8fgs6n8m
- wl9EQ0CLlu4XYQ27BFkQQadICvF4TtZ7kS3+aAfm7gxuVwZC35R38Cv/Wg+DjNUR898cmDC5Soz
- lQKuWGO5j0Cjeuz2fQqapuC20VyaE63TyFvOy0GCYEDGk7MjBrjtjtd1XXFCrQ4EY6EhUlRTd5V
- 4HBPIS5O7einhFkGEkBuuM3npjM7S3zHL6DOHfEtbJPMv9BZTHfLVLWYCKzqlwQJDxwSUoYBOL8
- H
-X-Google-Smtp-Source: AGHT+IEomsRBijSCauKahXmuN9DoALYK71K7BXkR2JKtgSOuJFyLBUMw3W56VvXiuEzOAN9bZpH/tQ==
-X-Received: by 2002:a05:6000:2503:b0:3a4:ec23:dba5 with SMTP id
- ffacd0b85a97d-3a5319b17c0mr15062186f8f.5.1749565057467; 
- Tue, 10 Jun 2025 07:17:37 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a53229de17sm12762433f8f.18.2025.06.10.07.17.36
+ AJvYcCXyrTBSCXG9XyNpjl6Ss3ux8PS2gm9fn7PKKzCm4gC3eESszJZ+E2qSH8aOBL5K5VAS1a6B+bhb0q8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9QZB1ZHlfzymH0J60XjODg5BO2T28/mwr3xsZhsC23l3SKaO/
+ PboFuNFaq715nGaaep1t388sinhe7fNrSTINjxNVEiH6bPOEdF0x0DcZzuqo9THBezkq5/e8nyI
+ bHDQ0BpDa8asqcfF4k5pQuOJKEHtNk+cKpmm5N792xMlFHrs/JZQEQWd0GKKL4bhzIYiNEi0=
+X-Gm-Gg: ASbGncvUz2Lq3os7CGtqcpYUG8mL6DrDxH1jZEDTRkS2bJoF+cnEnJj4qcxvYOvR53t
+ aM3yrMJh/Ft4vSRtLcMlRsMBCY5dedQJ6EQi+QsNs6s6CTzne+IFxI+1YxDwmrV/zVRhhXfDN6/
+ GzbEBqJXQwYuPocthRODiHeaWqxnzujccKhy6iy0lmo9Nhr9jGLThE7nES/rVp+HB96Th2xKyWy
+ neKB3QJF1YbqQl+361YhaUuqJR7C86vSir6YKbxM4xB7iCcNMXgQ0Zvpk78m6BYTzXQxYVYQanP
+ mXPoCa0VbAzvsf9hzUH23dHY+sb5IRpylP9PSXqMf7eawNutJNMml57ocDFZ/3GKgYzpo+37As0
+ x
+X-Received: by 2002:a05:620a:1905:b0:7c0:c024:d5 with SMTP id
+ af79cd13be357-7d33ddf703amr932426885a.8.1749566203889; 
+ Tue, 10 Jun 2025 07:36:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBbQ7SHFJAIcnH7aGz2wAofoXXYsrztV5V109VXWdIgAcLNVnSvMvyMhOqmTXg8HcgDxWrxA==
+X-Received: by 2002:a05:620a:1905:b0:7c0:c024:d5 with SMTP id
+ af79cd13be357-7d33ddf703amr932424885a.8.1749566203410; 
+ Tue, 10 Jun 2025 07:36:43 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ade1d7542c8sm734986766b.21.2025.06.10.07.36.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jun 2025 07:17:37 -0700 (PDT)
-Message-ID: <349a1cea-3377-4022-bebc-6b67f18077bb@ursulin.net>
-Date: Tue, 10 Jun 2025 15:17:36 +0100
+ Tue, 10 Jun 2025 07:36:42 -0700 (PDT)
+Message-ID: <33fe6caa-6720-4af2-a0d8-44b75b6792da@oss.qualcomm.com>
+Date: Tue, 10 Jun 2025 16:36:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: fix compare in WARN_ON_ONCE
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dan.carpenter@linaro.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20250605085336.62156-1-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250605085336.62156-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 2/3] drm/msm/adreno: Add Adreno X1-45 support
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
+ <20250607-x1p-adreno-v1-2-a8ea80f3b18b@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250607-x1p-adreno-v1-2-a8ea80f3b18b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: W9nSHxx6JcIcOVbrEKDApxR4Kbxi0udm
+X-Authority-Analysis: v=2.4 cv=GoxC+l1C c=1 sm=1 tr=0 ts=684842fc cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=KtEEE0qNWcsMKkko6jcA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: W9nSHxx6JcIcOVbrEKDApxR4Kbxi0udm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEwMDExNiBTYWx0ZWRfX2aePBERkyLHu
+ FwaRudfWIupa/bgEbMUS5hzZPsIW3+lLflAoad2HLKaaB/9K+9uyQ/c5a9cS1QTDDx53odUQdDg
+ 7nUaQk7TCOQZfHr0p5DdkWmsiXmSpZVnysjis3UeUmR5Yutk0feTOI82rP/hAlkvpau4Cjdm0ZE
+ xibHkSjkqGedQ5Xjv/tlh+7fxPtHDgrdqtbjXmbhpkSw+8ALQQq2aNr6fPOINIne4vb9ezf4GSo
+ f5IclUMpSwRFxTZol7jqceAp6seZfnYAQT5hkdB7vLwYzrT4RfuUra5lo2Fi8RDkPPsY3JIQ0i/
+ Iz8E2FgyM84GPioqqBbS0dXxeAC6CfcfOT14CNscai1sTB9xJGzVGGW8QepX499uQXa0kDLlflu
+ pbmrQk9ZXtvKCD/i1Y3TI9KFd2gOuXEtGYQ5gX3NUoVFy4O8V/NU3e4H4yBCCzK77esB+5go
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-10_05,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506100116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,63 +136,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 05/06/2025 09:53, Christian König wrote:
-> Smatch pointed out this trivial typo:
-> 	drivers/dma-buf/dma-buf.c:1123 dma_buf_map_attachment()
-> 	warn: passing positive error code '16' to 'ERR_PTR'
+On 6/7/25 4:15 PM, Akhil P Oommen wrote:
+> Add support for Adreno X1-45 GPU present Snapdragon X1P42100
+> series of compute chipsets. This GPU is a smaller version of
+> X1-85 GPU with lower core count and smaller internal memories.
 > 
-> drivers/dma-buf/dma-buf.c
->      1113         dma_resv_assert_held(attach->dmabuf->resv);
->      1114
->      1115         if (dma_buf_pin_on_map(attach)) {
->      1116                 ret = attach->dmabuf->ops->pin(attach);
->      1117                 /*
->      1118                  * Catch exporters making buffers inaccessible even when
->      1119                  * attachments preventing that exist.
->      1120                  */
->      1121                 WARN_ON_ONCE(ret == EBUSY);
->                                               ^^^^^
-> This was probably intended to be -EBUSY?
-> 
->      1122                 if (ret)
-> --> 1123                         return ERR_PTR(ret);
->                                                  ^^^
-> Otherwise we will eventually crash.
-> 
->      1124         }
->      1125
->      1126         sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
->      1127         if (!sg_table)
->      1128                 sg_table = ERR_PTR(-ENOMEM);
->      1129         if (IS_ERR(sg_table))
->      1130                 goto error_unpin;
->      1131
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
->   drivers/dma-buf/dma-buf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 0c48d41dd5eb..451714008e8a 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1060,7 +1060,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->   		 * Catch exporters making buffers inaccessible even when
->   		 * attachments preventing that exist.
->   		 */
-> -		WARN_ON_ONCE(ret == EBUSY);
-> +		WARN_ON_ONCE(ret == -EBUSY);
->   		if (ret)
->   			return ERR_PTR(ret);
->   	}
 
-Thread bump FTW ;)
+Matches what I had running, I don't know the source for fuses but
+I trust you
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Regards,
-
-Tvrtko
-
+Konrad
