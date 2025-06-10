@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBD1AD386F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E0EAD386E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jun 2025 15:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61FE110E54E;
-	Tue, 10 Jun 2025 13:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694E010E548;
+	Tue, 10 Jun 2025 13:12:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dLX5Fx1s";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YCknIPAT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A189010E547
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:12:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A553C10E553
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 13:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749561167;
+ s=mimecast20190719; t=1749561169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xKBj4p2Vjm1RVX1kUZg3pFVIOXv8dd+d+30EbLY8ru4=;
- b=dLX5Fx1s3tIntSvBxvp7y90snBsOPhjPThvgecrTng1b2bB25opyb3y0tVpOVdmIfdKY4P
- 6MaReDeo6VnUqyHFmChCrV5K2iGJb9AAOjWrHIQyvw33g7dUi7pkAD+8VToVT8CUg6vHH0
- 0jcUmSG4fjdzdZu1AtgTUh40wrXoQ1M=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PECxVyikQ9zU3hJ7MtiQUOf3zC4eClOuuMti35ulFIo=;
+ b=YCknIPATYGcDCupirDj9gZR4XOtXHsWh71ewJJZBP84dBhNeYIlkdpL48IohV2+1i7n5N3
+ OX77WvTqQBAw+ao7R4o3n8RkDKRPdM65SZFvYk2aSPISkQU1C7MGunNXJs0sWVU9xAF3MB
+ mv89LwiMc6QivUM6jzWz2NssR1k/C2A=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-MwNDZ27-NvyBApcRA6cZiA-1; Tue, 10 Jun 2025 09:12:46 -0400
-X-MC-Unique: MwNDZ27-NvyBApcRA6cZiA-1
-X-Mimecast-MFC-AGG-ID: MwNDZ27-NvyBApcRA6cZiA_1749561166
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d0aa9cdecdso502419185a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 06:12:46 -0700 (PDT)
+ us-mta-314-XbBe8EHTORmh8RSpNxPaHA-1; Tue, 10 Jun 2025 09:12:48 -0400
+X-MC-Unique: XbBe8EHTORmh8RSpNxPaHA-1
+X-Mimecast-MFC-AGG-ID: XbBe8EHTORmh8RSpNxPaHA_1749561168
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7d097fd7b32so1314291785a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jun 2025 06:12:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749561166; x=1750165966;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xKBj4p2Vjm1RVX1kUZg3pFVIOXv8dd+d+30EbLY8ru4=;
- b=unc2iZ09LVVp+klPwD6CcXf3yz/7SgZMrL4pEu21PjVTsXUJdn0Fj1/11ArQVpz7z4
- GvH2Bdomoqc+yeFpqVTHStLhfz1SpHBSMxOEcQIgDHTxdqgjEHx/dBo5FIemj2/n1iV0
- zw9Ch9evuCWivirQ1Qt561gjyRLXT9ENEoIK0x8XA1Oslan1G9/i7BkXT3220+NibGXb
- xDFmY52YIdA7yQwygqjLDNJnxuNoFNEH9gnyPuRR8amIcBbZExAmjAwTFrGITQfVT1/u
- ggokobKf/Az4LImCvhf+WcFcxq6JNAz66aKNGyy6nSwFOFNTg2XpwnQYzStV+qtb7ZR/
- QPSw==
+ d=1e100.net; s=20230601; t=1749561168; x=1750165968;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PECxVyikQ9zU3hJ7MtiQUOf3zC4eClOuuMti35ulFIo=;
+ b=mM8t8ef1Itav8tT+8pEtcuELUNPFSEDMzqQdKoNKwh49iE4IMG+3e/8UStlFC45Pcw
+ VAtB8A2Yzotfc0fxbcAABzegsb6KeiyW40Ysu/Zt5WC4LmMl0ja9u6s1JeQOSKjzK+7v
+ nWcPdyZEzZDd0i2C2URPHKdd37o2ryZ5vKOXyYhwDhArt28O941dWdN03ta85TvmyIb8
+ ZYGgfBZSjMuLlESDH4lOGrvKGxwdnNdJZoWYo+McuOsjzr9/Uni/Mrias6XoQl3DVyyz
+ vIIIYL9DdYu9FQJogod8TDo9K6trDNMRkgCjZgSVlntlS6ffKBk8thyPlN9Y6P+mLP7l
+ JbrQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXiAhJEeXNohvD1Ii9i8G5Pn+toc/rc+GjhD4dprV2/X6xWnmk6kcB55BLp7uWlqGaafqOmDj1l9dQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGT+BxFEaeAgZUoNsJaOeCdcoTjhFolVJuCxto9Qx9MDN58WdC
- C9gW1gQwdFeCKRS7XitOsaBnbOkafcu0vClzXK2Do6FigOEhBAHz3dYAFYGPD422putV6KJAGxO
- O+x6sSyayYwnUZIr2WaAAX1UF6S8Zj7faviouWXp52JVDVvVNy/ANewxGAi3fvqQPBlo3dg==
-X-Gm-Gg: ASbGncuMXwse+wpTOLqg33ONTrA8+EsmvkIXV0IQ4hsNKaJcvYMY12VStSA7jy09jlP
- j2tj1ZE5sx2AMsZghOhJO84sA4UZ/P1BSPgwLd+hWi3enGaIlvY+PNPuh5LclOeejccQIF2WOwm
- gXFhWnv2/D3Bx0T87aWDNBwg+XUCpehHqX7pbiO5PUT28Uec9xJx6sFqT6XMK0IrWo6/srN4R/k
- jmKJp0velW374wsmUTI4WhEaXVgSn7qmf1xW16q9gnbkHFHLFOxXgRO4APWVirjC3pc+p++93a2
- yCSZRzKhJYDMZbxiYac1748V5e9aE1HhrGGZb0/G0z9a40IIjHNaqw==
-X-Received: by 2002:a05:620a:8386:b0:7c9:5501:80d2 with SMTP id
- af79cd13be357-7d22995ec82mr2171099085a.15.1749561165965; 
- Tue, 10 Jun 2025 06:12:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFrYOJLYnD20Za7bwTGNM2Zhi1hWiuol78eHZNm8ukeun1kZlhQxetU40CFKtTARDHt7p13cw==
-X-Received: by 2002:a05:620a:8386:b0:7c9:5501:80d2 with SMTP id
- af79cd13be357-7d22995ec82mr2171094985a.15.1749561165513; 
- Tue, 10 Jun 2025 06:12:45 -0700 (PDT)
+ AJvYcCUAtba34LyrofzQRT3Bvqy5/tm2Sm3CIU8FD1NAJRSvev4AY5pyCpdWyjt++IzGl4OT5lhqHBxe2hg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8PfOtu45wLpd9jnq3qULXPjjdwXulENQ/ABnMuCmlZT354Duv
+ aGcrVU9IszLFT9IE8S6Yp3lYuaQIJavD1hZcL4zs0u11si0Dxp9C24QCi2ZaKODPDHaAiThZdym
+ 2solBWXoKCbWaKufBblXDDkA39tu/tXuvTHSF83aOGqqbO5dCeC3pE9k0Kp8b6rpUrDlEIFa6rt
+ mwIA==
+X-Gm-Gg: ASbGncv44tKvPxIa/FWyK9E5mNLZcxwBHyie3U/pFu+jqq1x7NJe+ke1pfdzl9VSxur
+ DVkyYbH24c+nKX6BXus6Cm4DNZkjINkSIS2HVWj41D/XhZ1daaUwOItuBo5dwd8vM9H1LSHdRzT
+ /JFxLEiej6475fjCJOvx6eiDh1vMsdFrSe/vCQ21ThA98yvfjyBowJo42Y9iv8TBASuCi1wUALc
+ iREcaVQ+hWIFpJmN+d3lvgne4bf+f02Wy7MCCRK1G/sTNihi9occMfkQIt2rGu+4C+HlfiRzeSi
+ aBFBvlayGD7h+sHG12/32kPE7ZjimR4JY//WYQPHMjlE+2swm0wD+Q==
+X-Received: by 2002:a05:620a:454b:b0:7cc:fef2:51b9 with SMTP id
+ af79cd13be357-7d2298ec18fmr2737089585a.52.1749561167964; 
+ Tue, 10 Jun 2025 06:12:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG5bCzCA/Bb8gTxULZZifA/R0afXX8wGKlcmbzwfFYe6YdDUcmddGY0FzDv8nfqETa2Ner9Hg==
+X-Received: by 2002:a05:620a:454b:b0:7cc:fef2:51b9 with SMTP id
+ af79cd13be357-7d2298ec18fmr2737085985a.52.1749561167617; 
+ Tue, 10 Jun 2025 06:12:47 -0700 (PDT)
 Received: from jkangas-thinkpadp1gen3.rmtuswa.csb
  ([2601:1c2:4301:5e20:98fe:4ecb:4f14:576b])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7d25170615bsm696832285a.9.2025.06.10.06.12.43
+ af79cd13be357-7d25170615bsm696832285a.9.2025.06.10.06.12.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jun 2025 06:12:45 -0700 (PDT)
+ Tue, 10 Jun 2025 06:12:47 -0700 (PDT)
 From: Jared Kangas <jkangas@redhat.com>
 To: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
  Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
@@ -76,13 +78,15 @@ To: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
 Cc: mripard@kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  linux-kernel@vger.kernel.org, Jared Kangas <jkangas@redhat.com>
-Subject: [PATCH v4 0/3] dma-buf: heaps: Use constant name for CMA heap
-Date: Tue, 10 Jun 2025 06:12:28 -0700
-Message-ID: <20250610131231.1724627-1-jkangas@redhat.com>
+Subject: [PATCH v4 1/3] Documentation: dma-buf: heaps: Fix code markup
+Date: Tue, 10 Jun 2025 06:12:29 -0700
+Message-ID: <20250610131231.1724627-2-jkangas@redhat.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250610131231.1724627-1-jkangas@redhat.com>
+References: <20250610131231.1724627-1-jkangas@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 50p04dPd3ZWvDK3apbuQ_mn53CdKSRFRGbFQWrvIvMU_1749561166
+X-Mimecast-MFC-PROC-ID: wpu_8wRKg2V1cmrl9j4rbgcfo6ZHvhdzSV7Y9fCgo1w_1749561168
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -101,57 +105,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Code snippets should be wrapped in double backticks to follow
+reStructuredText semantics; the use of single backticks uses the
+:title-reference: role by default, which isn't quite what we want.
+Add double backticks to code snippets to fix this.
 
-This patch series is based on a previous discussion around CMA heap
-naming. [1] The heap's name depends on the device name, which is
-generally "reserved", "linux,cma", or "default-pool", but could be any
-arbitrary name given to the default CMA area in the devicetree. For a
-consistent userspace interface, the series introduces a constant name
-for the CMA heap, and for backwards compatibility, an additional Kconfig
-that controls the creation of a legacy-named heap with the same CMA
-backing.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Jared Kangas <jkangas@redhat.com>
+---
+ Documentation/userspace-api/dma-buf-heaps.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The ideas to handle backwards compatibility in [1] are to either use a
-symlink or add a heap node with a duplicate minor. However, I assume
-that we don't want to create symlinks in /dev from module initcalls, and
-attempting to duplicate minors would cause device_create() to fail.
-Because of these drawbacks, after brainstorming with Maxime Ripard, I
-went with creating a new node in devtmpfs with its own minor. This
-admittedly makes it a little unclear that the old and new nodes are
-backed by the same heap when both are present. The only approach that I
-think would provide total clarity on this in userspace is symlinking,
-which seemed like a fairly involved solution for devtmpfs, but if I'm
-wrong on this, please let me know.
-
-Changelog:
-
-v4:
-  - Fix ERR_PTR() usage for negative return value.
-
-v3:
-  - Extract documentation markup fix to separate patch.
-  - Adjust DEFAULT_CMA_NAME per discussion in [2].
-  - Warn if the legacy heap name and the default heap name are the same.
-  - Fix DMABUF_HEAPS_CMA_LEGACY prompt.
-  - Touch up commit log wording.
-
-v2:
-  - Use tabs instead of spaces for large vertical alignment.
-
-[1]: https://lore.kernel.org/all/f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com/
-[2]: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com/
-
-Jared Kangas (3):
-  Documentation: dma-buf: heaps: Fix code markup
-  dma-buf: heaps: Parameterize heap name in __add_cma_heap()
-  dma-buf: heaps: Give default CMA heap a fixed name
-
- Documentation/userspace-api/dma-buf-heaps.rst | 11 +++---
- drivers/dma-buf/heaps/Kconfig                 | 10 ++++++
- drivers/dma-buf/heaps/cma_heap.c              | 36 +++++++++++++++----
- 3 files changed, 46 insertions(+), 11 deletions(-)
-
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+index 535f49047ce64..23bd0bd7b0654 100644
+--- a/Documentation/userspace-api/dma-buf-heaps.rst
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -19,7 +19,7 @@ following heaps:
+  - The ``cma`` heap allocates physically contiguous, cacheable,
+    buffers. Only present if a CMA region is present. Such a region is
+    usually created either through the kernel commandline through the
+-   `cma` parameter, a memory region Device-Tree node with the
+-   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+-   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
++   ``cma`` parameter, a memory region Device-Tree node with the
++   ``linux,cma-default`` property set, or through the ``CMA_SIZE_MBYTES`` or
++   ``CMA_SIZE_PERCENTAGE`` Kconfig options. Depending on the platform, it
+    might be called ``reserved``, ``linux,cma``, or ``default-pool``.
 -- 
 2.49.0
 
