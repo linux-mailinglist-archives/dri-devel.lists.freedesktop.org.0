@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33538AD57D4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5A5AD57DB
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0687710E66E;
-	Wed, 11 Jun 2025 14:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BC710E6A6;
+	Wed, 11 Jun 2025 14:01:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="shBDD5Hn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oliHIxB1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EC110E36F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B196A10E66E;
  Wed, 11 Jun 2025 14:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ANAFi1NPyqD+2kdN952tHhlUNqILPXh5GK6S4j/IE3g=; b=shBDD5HnPRXcv1nKCm1Fq0E+Oz
- RS4OCsYNdO/E84+nHdu0qozG/+YoYDRO6wYkiFvgx0WOj5nTKXYCqUHCpcPzyRx7UGFKwMO0tpmtu
- 5euIKLv0c5UA+wignMwYUDS9Yxa54QmSOg7IYJhs/p6bW2ZHZXNEycxAF4AhY2UPYPPTyWJZ2xEow
- Lool0M74Z/X1p3oaStYIsB9IEIl15/pw9PXdbZT/RgpVOMM9tPVutZ/5CUnvM0fDo+qmsxiSoR8WS
- QdmouTPU3szmEt3uSklWwMHcembyRuN+DmGMbn4JMbjSfnJaG3WbbDjrak1zKD750zXTMc5uBwWI4
- +D20LWrw==;
+ bh=6Zn5xX5lQkf4T2J1bFqndEIX/CSdFYvmBFIB9IJtSFg=; b=oliHIxB1B6FKzbFdopU94BzwzT
+ qnYzooDUkJ3hMkBJri8eWuPJqxS/Tv1F/loTkuVcGlYbwzNxQwhmWzc4q7SGhbeWYBdbVKZwTvWSh
+ lSKxK8/hMwPCEmcDP87PJ+DiKFZnehUqogF49Kzlq7kfqLi2KY24yeRV0QcOYT5Ekhrpwog5kQPE/
+ UnUY56v1w4bTRkAxA2x5kiR/J7m32oAMw5WRSZSyF8wi3szkWGd/65JxMAFEsxvEFABVAoNuGg8Cs
+ WmLqTaGSMBQX9a1O0dVYl1lLmjrPGGEtyWYmSsweIBVYnVFayiiYZtQ+B2F6mA41A5ztkOgf2KkMs
+ 5005HDwg==;
 Received: from [81.79.92.254] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uPM0i-002DwJ-3v; Wed, 11 Jun 2025 16:01:00 +0200
+ id 1uPM0i-002DwL-V1; Wed, 11 Jun 2025 16:01:01 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
@@ -39,10 +39,12 @@ Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v5 0/6] A few drm_syncobj optimisations
-Date: Wed, 11 Jun 2025 15:00:51 +0100
-Message-ID: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
+Subject: [PATCH v5 1/6] drm/syncobj: Remove unhelpful helper
+Date: Wed, 11 Jun 2025 15:00:52 +0100
+Message-ID: <20250611140057.27259-2-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
+In-Reply-To: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
+References: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,99 +63,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A small set of drm_syncobj optimisations which should make things a tiny bit
-more efficient on the CPU side of things.
+Helper which fails to consolidate the code and instead just forks into two
+copies of the code based on a boolean parameter is not very helpful or
+readable. Lets just remove it and proof in the pudding is the net smaller
+code.
 
-Improvement seems to be around 1.5%* more FPS if observed with "vkgears
--present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
-definitive claim on the numbers since there is some run to run variance. But, as
-suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
-to be able to show the ministat analysis.
-
-x before
-+ after
-+------------------------------------------------------------+
-|                          x         +                       |
-|                   x      x         +                       |
-|                   x      xx      ++++                      |
-|                 x x      xx x    ++++                      |
-|                 x xx   x xx x+   ++++                      |
-|                xxxxx   xxxxxx+   ++++ + +                  |
-|                xxxxxxx xxxxxx+x  ++++ +++                  |
-|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
-|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
-|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
-|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
-|               |_______A______|                             |
-|                             |______A_______|               |
-+------------------------------------------------------------+
-    N           Min           Max        Median           Avg        Stddev
-x 135      21697.58     22809.467     22321.396     22307.707     198.75011
-+ 118     22200.746      23277.09       22661.4     22671.442     192.10609
-Difference at 95.0% confidence
-    363.735 +/- 48.3345
-    1.63054% +/- 0.216672%
-    (Student's t, pooled s = 195.681)
-
-Or when tested on Intel Alderlake, KDE Wayland:
-
-x base
-+ syncobj
-+--------------------------------------------------------------+
-|                                                       +      |
-|                                                       +   +  |
-|                                                       +   +  |
-|                                                       +  ++  |
-|                                                       ++ ++  |
-|                                       x               ++ ++  |
-|                       x               x             + ++ ++  |
-|                       x          xx   xx x x        +++++++  |
-|                       x   x   xx xxx xxxx*xxx      +++++++++ |
-|x       xx x  x    x  xx xxxxxxxxxx*xxx****xxx  +x+ ++++++++++|
-|                      |__________A_M_______|     |____A_M___| |
-+--------------------------------------------------------------+
-    N           Min           Max        Median           Avg        Stddev
-x  55      7158.232      8058.753      7803.506     7754.5195     191.69526
-+  55       7801.23      8272.271      8172.435     8150.6303     105.84085
-Difference at 95.0% confidence
-    396.111 +/- 57.8717
-    5.10813% +/- 0.746296%
-    (Student's t, pooled s = 154.838)
-
-Scores may seem low but I had to fix to conservative CPU freq to avoid some
-pretty strong thermal throttling causing wild swings within a run. Nevertheless
-the improvement is clearly shown here as well.
-
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+---
 v2:
- * Implemented review feedback - see patch change logs.
+ * Assign timeout to a local variable.
+---
+ drivers/gpu/drm/drm_syncobj.c | 100 ++++++++++++++++------------------
+ 1 file changed, 46 insertions(+), 54 deletions(-)
 
-v3:
- * Moved #define DRM_SYNCOBJ_FAST_PATH_ENTRIES one patch earlier for less churn.
-
- v3.1:
- * Consolidated testing results.
-
-v4:
- * Kernel test robot reports 32-bit ARM does not implement 64-bit get/put_user.
-   Switch to copy_to/from_user in relevant places.
-
-v5:
- * Fixed copy_from_user argument order mixup.
-
-Cc: Maíra Canal <mcanal@igalia.com>
-
-Tvrtko Ursulin (6):
-  drm/syncobj: Remove unhelpful helper
-  drm/syncobj: Do not allocate an array to store zeros when waiting
-  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
-  drm/syncobj: Avoid temporary allocation in
-    drm_syncobj_timeline_signal_ioctl
-  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
-  drm/syncobj: Add a fast path to drm_syncobj_array_find
-
- drivers/gpu/drm/drm_syncobj.c | 277 ++++++++++++++++++----------------
- 1 file changed, 147 insertions(+), 130 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 636cd83ca29e..e2d97dd6e45b 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -1248,42 +1248,6 @@ signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec)
+ }
+ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
+ 
+-static int drm_syncobj_array_wait(struct drm_device *dev,
+-				  struct drm_file *file_private,
+-				  struct drm_syncobj_wait *wait,
+-				  struct drm_syncobj_timeline_wait *timeline_wait,
+-				  struct drm_syncobj **syncobjs, bool timeline,
+-				  ktime_t *deadline)
+-{
+-	signed long timeout = 0;
+-	uint32_t first = ~0;
+-
+-	if (!timeline) {
+-		timeout = drm_timeout_abs_to_jiffies(wait->timeout_nsec);
+-		timeout = drm_syncobj_array_wait_timeout(syncobjs,
+-							 NULL,
+-							 wait->count_handles,
+-							 wait->flags,
+-							 timeout, &first,
+-							 deadline);
+-		if (timeout < 0)
+-			return timeout;
+-		wait->first_signaled = first;
+-	} else {
+-		timeout = drm_timeout_abs_to_jiffies(timeline_wait->timeout_nsec);
+-		timeout = drm_syncobj_array_wait_timeout(syncobjs,
+-							 u64_to_user_ptr(timeline_wait->points),
+-							 timeline_wait->count_handles,
+-							 timeline_wait->flags,
+-							 timeout, &first,
+-							 deadline);
+-		if (timeout < 0)
+-			return timeout;
+-		timeline_wait->first_signaled = first;
+-	}
+-	return 0;
+-}
+-
+ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 				  void __user *user_handles,
+ 				  uint32_t count_handles,
+@@ -1346,9 +1310,12 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_wait *args = data;
++	ktime_t deadline, *pdeadline = NULL;
++	u32 count = args->count_handles;
+ 	struct drm_syncobj **syncobjs;
+ 	unsigned int possible_flags;
+-	ktime_t t, *tp = NULL;
++	u32 first = ~0;
++	long timeout;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+@@ -1361,27 +1328,38 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+-	if (args->count_handles == 0)
++	if (count == 0)
+ 		return 0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+-				     args->count_handles,
++				     count,
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+-		t = ns_to_ktime(args->deadline_nsec);
+-		tp = &t;
++		deadline = ns_to_ktime(args->deadline_nsec);
++		pdeadline = &deadline;
+ 	}
+ 
+-	ret = drm_syncobj_array_wait(dev, file_private,
+-				     args, NULL, syncobjs, false, tp);
++	timeout = drm_timeout_abs_to_jiffies(args->timeout_nsec);
++	timeout = drm_syncobj_array_wait_timeout(syncobjs,
++						 NULL,
++						 count,
++						 args->flags,
++						 timeout,
++						 &first,
++						 pdeadline);
+ 
+-	drm_syncobj_array_free(syncobjs, args->count_handles);
++	drm_syncobj_array_free(syncobjs, count);
+ 
+-	return ret;
++	if (timeout < 0)
++		return timeout;
++
++	args->first_signaled = first;
++
++	return 0;
+ }
+ 
+ int
+@@ -1389,9 +1367,12 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 				struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_timeline_wait *args = data;
++	ktime_t deadline, *pdeadline = NULL;
++	u32 count = args->count_handles;
+ 	struct drm_syncobj **syncobjs;
+ 	unsigned int possible_flags;
+-	ktime_t t, *tp = NULL;
++	u32 first = ~0;
++	long timeout;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+@@ -1405,27 +1386,38 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+-	if (args->count_handles == 0)
++	if (count == 0)
+ 		return 0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+-				     args->count_handles,
++				     count,
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+-		t = ns_to_ktime(args->deadline_nsec);
+-		tp = &t;
++		deadline = ns_to_ktime(args->deadline_nsec);
++		pdeadline = &deadline;
+ 	}
+ 
+-	ret = drm_syncobj_array_wait(dev, file_private,
+-				     NULL, args, syncobjs, true, tp);
++	timeout = drm_timeout_abs_to_jiffies(args->timeout_nsec);
++	timeout = drm_syncobj_array_wait_timeout(syncobjs,
++						 u64_to_user_ptr(args->points),
++						 count,
++						 args->flags,
++						 timeout,
++						 &first,
++						 pdeadline);
+ 
+-	drm_syncobj_array_free(syncobjs, args->count_handles);
++	drm_syncobj_array_free(syncobjs, count);
+ 
+-	return ret;
++	if (timeout < 0)
++		return timeout;
++
++	args->first_signaled = first;
++
++	return 0;
+ }
+ 
+ static void syncobj_eventfd_entry_fence_func(struct dma_fence *fence,
 -- 
 2.48.0
 
