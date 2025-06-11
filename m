@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC2DAD5D99
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 19:58:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE75AD5DA7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 19:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61FA610E154;
-	Wed, 11 Jun 2025 17:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABFC110E701;
+	Wed, 11 Jun 2025 17:59:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="WkGh9g68";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="R2yckc6b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E3D10E154
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 17:58:17 +0000 (UTC)
-Date: Wed, 11 Jun 2025 13:52:19 -0400
+X-Greylist: delayed 313 seconds by postgrey-1.36 at gabe;
+ Wed, 11 Jun 2025 17:59:47 UTC
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566F510E6DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 17:59:47 +0000 (UTC)
+Date: Wed, 11 Jun 2025 13:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1749664344;
+ s=key1; t=1749664472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4xFAvj2G5VnN2oADUrjOMQLWSOzD8+mWMWxdA4/gXps=;
- b=WkGh9g68gWOHLnoNJXve7+hzhqKiQAdR0Rj2NXjDUlGVWZX161sjbqguO+g/sxHPJ0Hpq+
- KLWaJQh0bx6ndqXMpvcQP/Y3tnZVGEU7ZheePnFoegfMFq5p2wn/CraG//QBRUH032nazx
- HTPz8t4b+NrczcM3aEMNBf8xZeAaVnxIioyk+5t9SolpoofK9fGl/v4RJIFSe/+Y4FSz/S
- xCJ7tetaSPzQk7U4usSIJCroH6cbYALUSXstGLeSR+/Fk4t3usc3vWWZRoHdfMjy19Od98
- jql7hgU2r+FswNQ0YiQY7H7YD4ArtkVbBjV1RA2krIu5r0TsjfqMsKByaXa+GQ==
+ bh=7FqzQMbtN46MspgzRLzfkBpN56u2tDVXmIle8ZV/dB4=;
+ b=R2yckc6bmzZk4s5WE8kaNgGeZlyfwhXLd8Za/KDmBBgDom2THZmz36Ym3HMjwRgBVG0rWb
+ vMiknBmb0KbudvIGthcospMNqqc4sWJfsOjGLl4g4FK9GOHZHwfOZiBAYtkwre3kxYW21V
+ z/SPFz/+eXw01gb9S6WqkxjAoewGkJ+fdmRQ5thRQUq3j+6mYlHW4P1GJX9D5t92RWSxqB
+ wXz8RyLPexYeBIb3dsHnrq7uciaQTEeNAhp2MiDvjw6v13Db42a3ME4CMPgIAvVBHPoDz6
+ YPDa3of5HyHXPXvZtNumP2hCVvJtcynlemUhaFCzf3AXf54vhecjj4lv8uN4+w==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -43,14 +45,14 @@ Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
  linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: Add Apple SoC GPU
-Message-ID: <aEnCUycX_x1zNN1D@blossom>
+Subject: Re: [PATCH 2/2] arm64: dts: Add Apple SoC GPU
+Message-ID: <aEnCthA1AXrWqxEi@blossom>
 References: <20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com>
- <20250611-sgx-dt-v1-1-7a11f3885c60@gmail.com>
+ <20250611-sgx-dt-v1-2-7a11f3885c60@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250611-sgx-dt-v1-1-7a11f3885c60@gmail.com>
+In-Reply-To: <20250611-sgx-dt-v1-2-7a11f3885c60@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,19 +69,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +      - description: Driver-opaque calibration blob
-> +      - description: Calibration blob
-...
-> +      - const: hw-cal-a
-> +      - const: hw-cal-b
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-For me these descriptions raise more questions than what they're meant
-to describe... Maybe "First hardware calibration blob" and "Second
-hardware calibration blob" or something. I don't fully get why A is
-opaque and B is not, I don't think there's really such a distinction in
-reality.
 
-> +    description:
-> +      MacOS version the current firmware is paired with, used to pick
-
-macOS
