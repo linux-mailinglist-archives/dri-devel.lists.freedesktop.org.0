@@ -2,105 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44EFAD625B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 00:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C51FAD6238
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 00:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B91C110E0CD;
-	Wed, 11 Jun 2025 22:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5FE10E0A0;
+	Wed, 11 Jun 2025 22:12:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GZN2u701";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZU7A/J7f";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GZN2u701";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZU7A/J7f";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="Db/FT/FE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577AC10E618
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 11:07:18 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3DDC41F38E;
- Wed, 11 Jun 2025 11:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749640036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
- b=GZN2u701ghojHqZgzEHxiWI4QaurCcqWhvcf+MUY9ZoUZzc/xwHo1Kg63qqtJidSL1DgpT
- /BYpbnbOkteY663j+/CGNl1DIQBffWYP8KAM7StP8GH7vDctvr1ChukYfr0dkb18sgsm2A
- zfIyY5E+jmG0lFaKD4Eiew+gyZBV6KM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749640036;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
- b=ZU7A/J7fVHMCCgDz7+DSce+1nW62ruVSEhmR9LxOfiAfg3VQgqVzxq8B+nVzIZk1cJuDuP
- uatBAS777Wb2FBBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749640036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
- b=GZN2u701ghojHqZgzEHxiWI4QaurCcqWhvcf+MUY9ZoUZzc/xwHo1Kg63qqtJidSL1DgpT
- /BYpbnbOkteY663j+/CGNl1DIQBffWYP8KAM7StP8GH7vDctvr1ChukYfr0dkb18sgsm2A
- zfIyY5E+jmG0lFaKD4Eiew+gyZBV6KM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749640036;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
- b=ZU7A/J7fVHMCCgDz7+DSce+1nW62ruVSEhmR9LxOfiAfg3VQgqVzxq8B+nVzIZk1cJuDuP
- uatBAS777Wb2FBBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA4FE137FE;
- Wed, 11 Jun 2025 11:07:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ve9kJmNjSWj+HQAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Wed, 11 Jun 2025 11:07:15 +0000
-Date: Wed, 11 Jun 2025 12:07:13 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>, 
- dri-devel@lists.freedesktop.org, patches@lists.linux.dev
-Subject: Re: [PATCH drm-misc-fixes] drm/sitronix: st7571-i2c: Select
- VIDEOMODE_HELPERS
-Message-ID: <jkwafulqm5ohw6kssy3yr7akosoxihkkbemadrnoaysmhjmwgd@lg3d7qtwtwhc>
-References: <20250610-drm-st7571-i2c-select-videomode-helpers-v1-1-d30b50ff6e64@kernel.org>
+X-Greylist: delayed 171283 seconds by postgrey-1.36 at gabe;
+ Wed, 11 Jun 2025 22:12:19 UTC
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch
+ [79.135.106.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8CC10E0A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 22:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1749679937; x=1749939137;
+ bh=e7+TKwLiFTgSLhj8SFeUWygx/8rXRPa8q4Cd0wJL3rg=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=Db/FT/FEExCRwvGk1CN8lOHpwtjVSGl3U1GLOPiDQ5Q5hqNNj+rDEC2tXKRgXAIhp
+ QxVpLFCbWVlLIc92chKJ+skDN4Z1dQCJ/MAzbw24d7RDMnZwgqKOvRsvdbKeXGffGx
+ 5koby5t+pb+hMExtOT2jiexTDvw3J9vdTddrzxPeL+1edVzxgGDyE3u8TUWCgxfhtk
+ kS8wUX/lQJPcp0V5qoMl5OZNJOqkTRZVRBf4phwWaaGKMLM+L8WNL270xYg4x1seGo
+ 4I9QaV+p7ZGKXETtuQbV/6ayfj+6zE2rwhDHTkOsc49VC1hW266yjEDfDyhKmcPEQW
+ 32dB7iSBeorAg==
+Date: Wed, 11 Jun 2025 22:12:11 +0000
+To: Andy Yan <andyshrk@163.com>
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: Diederik de Haas <didi.debian@cknow.org>, hjc@rock-chips.com,
+ heiko@sntech.de, andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ Dang Huynh <danct12@riseup.net>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
+ color_mgmt_changed in atomic_enable
+Message-ID: <zJBqdllX3IT9_-h9G49ay_GuU4nVf_n2Daxe1vL7PavA21RmMyH-vOqxdpahIknlp0_lpwwsxZyNyyQrF30rJquCjd6BcUU-FBgO0MM45iA=@proton.me>
+In-Reply-To: <562b38e5.a496.1975f09f983.Coremail.andyshrk@163.com>
+References: <20241206192013.342692-3-pZ010001011111@proton.me>
+ <DAI0A1Y753FJ.B0NMT8L5VPEH@cknow.org>
+ <4b380a57.8ab2.197591815a8.Coremail.andyshrk@163.com>
+ <DAISW8MXEU0G.3AMRSKNYQUJY8@cknow.org>
+ <4e600374.6dc7.1975df03a2d.Coremail.andyshrk@163.com>
+ <DAJNEG81JCU5.35KVU8KAT5MDU@cknow.org>
+ <b25ddc.a29c.1975eea8033.Coremail.andyshrk@163.com>
+ <DAJPBG7GPPH2.3BDCMH0U3FU0E@cknow.org>
+ <562b38e5.a496.1975f09f983.Coremail.andyshrk@163.com>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: 02c8703b38a58061d7584929d53a73e3d33835da
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610-drm-st7571-i2c-select-videomode-helpers-v1-1-d30b50ff6e64@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spamd-Result: default: False [-2.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_RHS_NOT_FQDN(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- URIBL_BLOCKED(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,redhat.com,gmail.com,lists.freedesktop.org,lists.linux.dev];
- RCVD_TLS_ALL(0.00)[]; MISSING_XM_UA(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
- TAGGED_RCPT(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[]
-X-Spam-Level: 
-X-Mailman-Approved-At: Wed, 11 Jun 2025 22:26:11 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,27 +71,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 10, 2025 at 12:40:38PM -0700, Nathan Chancellor wrote:
-> This driver requires of_get_display_timing() from
-> CONFIG_VIDEOMODE_HELPERS but does not select it. If no other driver
-> selects it, there will be a failure from the linker if the driver is
-> built in or modpost if it is a module.
-> 
->   ERROR: modpost: "of_get_display_timing" [drivers/gpu/drm/sitronix/st7571-i2c.ko] undefined!
-> 
-> Select CONFIG_VIDEOMODE_HELPERS to resolve the build failure.
-> 
-> Fixes: 4b35f0f41ee2 ("drm/st7571-i2c: add support for Sitronix ST7571 LCD controller")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-We've been observing these build failures regularly on certain configs in our
-internal -rc1 branch, and this patch fixes it perfectly, thanks for tracking it
-down!
 
-Feel free to add:
-Tested-by: Pedro Falcato <pfalcato@suse.de>
-and
-Acked-by: Pedro Falcato <pfalcato@suse.de>
 
--- 
-Pedro
+
+Hi Andy and Diederik
+
+>=20
+> The root case for the problem is now clear=E3=80=82
+>=20
+> Most of the registers in VOP need to write the cfd_done register(call vop=
+2_cfg_done)
+> after you have configured the registers. Then, they will take effect only=
+ when the VSYNC event occurs(It doesn't take effect immediately after you f=
+inish writing.).
+> This also includes all the VP_DSP_CTRL registers.
+>=20
+> see the code:
+>=20
+> vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+>=20
+> vop2_crtc_atomic_try_set_gamma(vop2, vp, crtc, crtc_state);
+> -->
+>=20
+> static void vop2_vp_dsp_lut_disable(struct vop2_video_port vp)
+> {
+> u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
+>=20
+>=20
+> When we read this register, we are reading the actual effective value,
+> not the one(dsp_ctrl) that was just written in before (it has not yet tak=
+en effect)
+>=20
+> So when we continue to write about this register here, we overwrite the a=
+ctual
+> value we originally intended to put in.
+>=20
+>=20
+> dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
+> vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> }
+>=20
+> I think the correct solution should be similar to the Windows-related reg=
+istry settings.
+> All the registers related to Video Ports should be set as non-volatile, s=
+ee:
+> /
+> * The window registers are only updated when config done is written.
+> * Until that they read back the old value. As we read-modify-write
+> * these registers mark them as non-volatile. This makes sure we read
+> * the new values from the regmap register cache.
+> */
+> static const struct regmap_range vop2_nonvolatile_range[] =3D {
+> regmap_reg_range(0x1000, 0x23ff),
+> };
+>=20
+> static const struct regmap_access_table vop2_volatile_table =3D {
+> .no_ranges =3D vop2_nonvolatile_range,
+> .n_no_ranges =3D ARRAY_SIZE(vop2_nonvolatile_range),
+> };
+>=20
+
+I'm wondering that perhaps making a separate code path for gamma
+LUT enable in atomic enable would fix it? IIUC we set config.=20
+earlier in atomic_enable and write dsp_ctrl + cfg_done with proper
+configuration but since there wasn't a vsync the read of dsp ctrl
+in lut disable is not correct (or we cannot be sure it is correct).
+Putting try set gamma LUT before first dsp ctrl write and make it
+use the dsp_ctrl value so far written in atomic enable could also
+fix the issue because we wouldn't read dsp ctrl value from the=20
+register.
+
+> Actually, there is another question. I still haven't figured out why
+> this problem doesn't occur when compiling rockchipdrm=3Dy .
+>=20
+
+I applied your patch and run a test on both versions. This is what
+i got with drm=3Dm, so the same result as diederik.
+```
+[    8.138482] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000000
+[    8.139093] vop2_vp_dsp_lut_disable dsp_ctrl: 0x0000000f
+```
+This is what i got with drm=3Dy. So it seems with drm=3Dy read value in=20
+the register _is_ what was written earlier in atomic enable i.e value is=20
+vaild? Maybe it is just "unfortunate" timing?
+```
+[    6.646991] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000000
+[    6.647594] vop2_vp_dsp_lut_disable dsp_ctrl: 0x00010000
+```
+
+I will have time to spend more on this over the weekend.
+
+Best regards, Piotr Zalewski
