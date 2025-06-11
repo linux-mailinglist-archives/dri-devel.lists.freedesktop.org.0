@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D11AD570A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 15:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33538AD57D4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2775E10E65C;
-	Wed, 11 Jun 2025 13:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0687710E66E;
+	Wed, 11 Jun 2025 14:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j82pf381";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="shBDD5Hn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8432C10E366;
- Wed, 11 Jun 2025 13:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749648729; x=1781184729;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eSDv28MuTdwZ6xTMeqLdugHcHec2hDq5By/9GkUZe3g=;
- b=j82pf3812PnnESkwJj9ifMm7vpzhIGaOammCq0koJRM4Jn2icMsLaF/I
- BJEb8gfn8Q4o8xANDg+DmQ2ggrmR1azIbI6/66ATLeUbHA0Ffb1uPgmU7
- 2uEc4XsuUGkANYVPPjR4oywIu1n3GwbrPuNhBafzq4XW5d6sRsHkIIsai
- hCOmNd2ux8ewkIgMgBUKftYaNypgDZpnD3pporl5brXhltF3nVdLG2LJ8
- cL5eK2hPhg+Dp25PaO+PIUM+RwJv0swfWe2Yp/j5xNyvKdeLnuFFrca4l
- qo0F/9q46Eb0pw6p3p8ARpe6AlObdPSd9jF/SbQmUwt+ye/Pn5DpIMd/q w==;
-X-CSE-ConnectionGUID: NSIL5LsOQuu+A7ok3l4eDg==
-X-CSE-MsgGUID: 3U0Y0UTEQ2u1La0VmIneqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51014381"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="51014381"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 06:32:08 -0700
-X-CSE-ConnectionGUID: 071oI+h3Qji4k13VB1TsaA==
-X-CSE-MsgGUID: Q8gjurnuS2eCKUnDRZRfiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="184407810"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 11 Jun 2025 06:31:49 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uPLYQ-000AVO-28;
- Wed, 11 Jun 2025 13:31:46 +0000
-Date: Wed, 11 Jun 2025 21:30:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
- amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48EC110E36F;
+ Wed, 11 Jun 2025 14:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ANAFi1NPyqD+2kdN952tHhlUNqILPXh5GK6S4j/IE3g=; b=shBDD5HnPRXcv1nKCm1Fq0E+Oz
+ RS4OCsYNdO/E84+nHdu0qozG/+YoYDRO6wYkiFvgx0WOj5nTKXYCqUHCpcPzyRx7UGFKwMO0tpmtu
+ 5euIKLv0c5UA+wignMwYUDS9Yxa54QmSOg7IYJhs/p6bW2ZHZXNEycxAF4AhY2UPYPPTyWJZ2xEow
+ Lool0M74Z/X1p3oaStYIsB9IEIl15/pw9PXdbZT/RgpVOMM9tPVutZ/5CUnvM0fDo+qmsxiSoR8WS
+ QdmouTPU3szmEt3uSklWwMHcembyRuN+DmGMbn4JMbjSfnJaG3WbbDjrak1zKD750zXTMc5uBwWI4
+ +D20LWrw==;
+Received: from [81.79.92.254] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uPM0i-002DwJ-3v; Wed, 11 Jun 2025 16:01:00 +0200
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store
- zeros when waiting
-Message-ID: <202506112101.YHxD1SCt-lkp@intel.com>
-References: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v5 0/6] A few drm_syncobj optimisations
+Date: Wed, 11 Jun 2025 15:00:51 +0100
+Message-ID: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,190 +61,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+A small set of drm_syncobj optimisations which should make things a tiny bit
+more efficient on the CPU side of things.
 
-kernel test robot noticed the following build warnings:
+Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+-present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+definitive claim on the numbers since there is some run to run variance. But, as
+suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
+to be able to show the ministat analysis.
 
-[auto build test WARNING on drm-exynos/exynos-drm-next]
-[also build test WARNING on linus/master v6.16-rc1 next-20250611]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+x before
++ after
++------------------------------------------------------------+
+|                          x         +                       |
+|                   x      x         +                       |
+|                   x      xx      ++++                      |
+|                 x x      xx x    ++++                      |
+|                 x xx   x xx x+   ++++                      |
+|                xxxxx   xxxxxx+   ++++ + +                  |
+|                xxxxxxx xxxxxx+x  ++++ +++                  |
+|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+|               |_______A______|                             |
+|                             |______A_______|               |
++------------------------------------------------------------+
+    N           Min           Max        Median           Avg        Stddev
+x 135      21697.58     22809.467     22321.396     22307.707     198.75011
++ 118     22200.746      23277.09       22661.4     22671.442     192.10609
+Difference at 95.0% confidence
+    363.735 +/- 48.3345
+    1.63054% +/- 0.216672%
+    (Student's t, pooled s = 195.681)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-syncobj-Remove-unhelpful-helper/20250610-163819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250610083001.4120-3-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store zeros when waiting
-config: x86_64-randconfig-121-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/reproduce)
+Or when tested on Intel Alderlake, KDE Wayland:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506112101.YHxD1SCt-lkp@intel.com/
+x base
++ syncobj
++--------------------------------------------------------------+
+|                                                       +      |
+|                                                       +   +  |
+|                                                       +   +  |
+|                                                       +  ++  |
+|                                                       ++ ++  |
+|                                       x               ++ ++  |
+|                       x               x             + ++ ++  |
+|                       x          xx   xx x x        +++++++  |
+|                       x   x   xx xxx xxxx*xxx      +++++++++ |
+|x       xx x  x    x  xx xxxxxxxxxx*xxx****xxx  +x+ ++++++++++|
+|                      |__________A_M_______|     |____A_M___| |
++--------------------------------------------------------------+
+    N           Min           Max        Median           Avg        Stddev
+x  55      7158.232      8058.753      7803.506     7754.5195     191.69526
++  55       7801.23      8272.271      8172.435     8150.6303     105.84085
+Difference at 95.0% confidence
+    396.111 +/- 57.8717
+    5.10813% +/- 0.746296%
+    (Student's t, pooled s = 154.838)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_syncobj.c:1090:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got unsigned long long [noderef] [usertype] __user * @@
-   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     expected void *to
-   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     got unsigned long long [noderef] [usertype] __user *
->> drivers/gpu/drm/drm_syncobj.c:1090:59: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long * @@
-   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     expected void const [noderef] __user *from
-   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     got unsigned long long *
+Scores may seem low but I had to fix to conservative CPU freq to avoid some
+pretty strong thermal throttling causing wild swings within a run. Nevertheless
+the improvement is clearly shown here as well.
 
-vim +1090 drivers/gpu/drm/drm_syncobj.c
+v2:
+ * Implemented review feedback - see patch change logs.
 
-  1056	
-  1057	static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
-  1058							  u64 __user *user_points,
-  1059							  uint32_t count,
-  1060							  uint32_t flags,
-  1061							  signed long timeout,
-  1062							  uint32_t *idx,
-  1063							  ktime_t *deadline)
-  1064	{
-  1065		struct syncobj_wait_entry *entries;
-  1066		uint32_t signaled_count, i;
-  1067		struct dma_fence *fence;
-  1068	
-  1069		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1070			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1071			might_sleep();
-  1072			lockdep_assert_none_held_once();
-  1073		}
-  1074	
-  1075		entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
-  1076		if (!entries)
-  1077			return -ENOMEM;
-  1078	
-  1079		/* Walk the list of sync objects and initialize entries.  We do
-  1080		 * this up-front so that we can properly return -EINVAL if there is
-  1081		 * a syncobj with a missing fence and then never have the chance of
-  1082		 * returning -EINVAL again.
-  1083		 */
-  1084		signaled_count = 0;
-  1085		for (i = 0; i < count; ++i) {
-  1086			struct dma_fence *fence;
-  1087	
-  1088			entries[i].task = current;
-  1089			if (user_points &&
-> 1090			    copy_from_user(user_points++, &entries[i].point,
-  1091					   sizeof(*user_points))) {
-  1092				timeout = -EFAULT;
-  1093				goto cleanup_entries;
-  1094			}
-  1095			fence = drm_syncobj_fence_get(syncobjs[i]);
-  1096			if (!fence ||
-  1097			    dma_fence_chain_find_seqno(&fence, entries[i].point)) {
-  1098				dma_fence_put(fence);
-  1099				if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1100					     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1101					continue;
-  1102				} else {
-  1103					timeout = -EINVAL;
-  1104					goto cleanup_entries;
-  1105				}
-  1106			}
-  1107	
-  1108			if (fence)
-  1109				entries[i].fence = fence;
-  1110			else
-  1111				entries[i].fence = dma_fence_get_stub();
-  1112	
-  1113			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
-  1114			    dma_fence_is_signaled(entries[i].fence)) {
-  1115				if (signaled_count == 0 && idx)
-  1116					*idx = i;
-  1117				signaled_count++;
-  1118			}
-  1119		}
-  1120	
-  1121		if (signaled_count == count ||
-  1122		    (signaled_count > 0 &&
-  1123		     !(flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL)))
-  1124			goto cleanup_entries;
-  1125	
-  1126		/* There's a very annoying laxness in the dma_fence API here, in
-  1127		 * that backends are not required to automatically report when a
-  1128		 * fence is signaled prior to fence->ops->enable_signaling() being
-  1129		 * called.  So here if we fail to match signaled_count, we need to
-  1130		 * fallthough and try a 0 timeout wait!
-  1131		 */
-  1132	
-  1133		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1134			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1135			for (i = 0; i < count; ++i)
-  1136				drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
-  1137		}
-  1138	
-  1139		if (deadline) {
-  1140			for (i = 0; i < count; ++i) {
-  1141				fence = entries[i].fence;
-  1142				if (!fence)
-  1143					continue;
-  1144				dma_fence_set_deadline(fence, *deadline);
-  1145			}
-  1146		}
-  1147	
-  1148		do {
-  1149			set_current_state(TASK_INTERRUPTIBLE);
-  1150	
-  1151			signaled_count = 0;
-  1152			for (i = 0; i < count; ++i) {
-  1153				fence = entries[i].fence;
-  1154				if (!fence)
-  1155					continue;
-  1156	
-  1157				if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
-  1158				    dma_fence_is_signaled(fence) ||
-  1159				    (!entries[i].fence_cb.func &&
-  1160				     dma_fence_add_callback(fence,
-  1161							    &entries[i].fence_cb,
-  1162							    syncobj_wait_fence_func))) {
-  1163					/* The fence has been signaled */
-  1164					if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL) {
-  1165						signaled_count++;
-  1166					} else {
-  1167						if (idx)
-  1168							*idx = i;
-  1169						goto done_waiting;
-  1170					}
-  1171				}
-  1172			}
-  1173	
-  1174			if (signaled_count == count)
-  1175				goto done_waiting;
-  1176	
-  1177			if (timeout == 0) {
-  1178				timeout = -ETIME;
-  1179				goto done_waiting;
-  1180			}
-  1181	
-  1182			if (signal_pending(current)) {
-  1183				timeout = -ERESTARTSYS;
-  1184				goto done_waiting;
-  1185			}
-  1186	
-  1187			timeout = schedule_timeout(timeout);
-  1188		} while (1);
-  1189	
-  1190	done_waiting:
-  1191		__set_current_state(TASK_RUNNING);
-  1192	
-  1193	cleanup_entries:
-  1194		for (i = 0; i < count; ++i) {
-  1195			drm_syncobj_remove_wait(syncobjs[i], &entries[i]);
-  1196			if (entries[i].fence_cb.func)
-  1197				dma_fence_remove_callback(entries[i].fence,
-  1198							  &entries[i].fence_cb);
-  1199			dma_fence_put(entries[i].fence);
-  1200		}
-  1201		kfree(entries);
-  1202	
-  1203		return timeout;
-  1204	}
-  1205	
+v3:
+ * Moved #define DRM_SYNCOBJ_FAST_PATH_ENTRIES one patch earlier for less churn.
+
+ v3.1:
+ * Consolidated testing results.
+
+v4:
+ * Kernel test robot reports 32-bit ARM does not implement 64-bit get/put_user.
+   Switch to copy_to/from_user in relevant places.
+
+v5:
+ * Fixed copy_from_user argument order mixup.
+
+Cc: Maíra Canal <mcanal@igalia.com>
+
+Tvrtko Ursulin (6):
+  drm/syncobj: Remove unhelpful helper
+  drm/syncobj: Do not allocate an array to store zeros when waiting
+  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+  drm/syncobj: Avoid temporary allocation in
+    drm_syncobj_timeline_signal_ioctl
+  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+  drm/syncobj: Add a fast path to drm_syncobj_array_find
+
+ drivers/gpu/drm/drm_syncobj.c | 277 ++++++++++++++++++----------------
+ 1 file changed, 147 insertions(+), 130 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.0
+
