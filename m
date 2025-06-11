@@ -2,152 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E0AAD5964
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91449AD5996
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 17:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB0E10E394;
-	Wed, 11 Jun 2025 14:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB0510E680;
+	Wed, 11 Jun 2025 15:06:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="g0hIRPQh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g0mPoUAh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60B8410E394;
- Wed, 11 Jun 2025 14:57:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WSoEioGGU7Cq/4GBcZn5NzvN5Nh4u35E73Y0/WOwjR+sRiGyt+HbuyE5k7BGii8UmLmzWbhKJLeyM+02bD5nW/pq9aGHpjrGNME6c+fdMjIoRMzWwXbvJtSzwAaE73w2P+oG9h0Q6DtZRaUuWCg/lj9yp3rMf2BKzeku4bT7Y3eyxALM/7WDxgN7CQeSPMxPYMdznQhmghGuH73XEK6owJPqzTwDdQmtmnzY9T1d4ixyxaX1Molr/voKj6zh8PEYAfOSrgkrW4eg1SbSJ7VUCOA2im77JwZ97JC30rasVHOJm2jxSn8+ij7YrtaR+/qwdKdeluWjCrIlXg1MhgziEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NhPsQcogm9ss21Xw34OhfuwVioQNiS0Py8SkvT2bz+c=;
- b=gDergMZjWtOoTO0/1CQL/qTraQsLdpJD/uqi8TIMgkczwOnIOItu3vK2yYHtI7WwC4e9XzwY79065L44mLu+2Ghhxdl72nIgoD6xeo/3lUMISl4qf5mL1RHAMrIOrcJgrsSRALeAA0+v8How4ulDC5y6F0mBzFTkLe1JLYr+Qe+hgJWPLluiPOMCAvpItuUevUo7megywmrBhRC6Zb5/7dxKoogS7qVA0o1faYxCDAs1CjzVwMxR+2fDaoJBcdh1EHqcm0U4U0Z0ZDWSpbfkjnS+DPXEfS30RmPtxqobH8CktrPDYtvoVy6U42izzqLWWetGnuAe6MxoRpzqAQQd+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NhPsQcogm9ss21Xw34OhfuwVioQNiS0Py8SkvT2bz+c=;
- b=g0hIRPQhYldcwyTYYm2FOBw1bPVTV5y8/3acJTIZueZjs0x+oyxPsMgcAasqv3VkSQdcIHMF66dpvEPSRhv2e83zZrsdGrwPOTJrrnz3UPMSolskv41XSMQL+60SNsD9gSMxZ+3YSQSStcstI2aLR3GM2vXzsWCqWbmHttT8IB4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BY5PR12MB4307.namprd12.prod.outlook.com (2603:10b6:a03:20c::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Wed, 11 Jun
- 2025 14:57:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 11 Jun 2025
- 14:57:54 +0000
-Message-ID: <dc661205-1e5b-4697-863b-36a299365219@amd.com>
-Date: Wed, 11 Jun 2025 16:57:50 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- Philipp Stanner <phasta@kernel.org>, dri-devel@lists.freedesktop.org
-References: <aEmR9420vj-ISz-W@cassiopeiae>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aEmR9420vj-ISz-W@cassiopeiae>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR15CA0064.namprd15.prod.outlook.com
- (2603:10b6:208:237::33) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9377910E680
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 15:06:52 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3a50fc7ac4dso6007f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 08:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749654411; x=1750259211; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rZvstCIx0930gy+FitWy2h9ieXUWIADy6nD/O8Xen/w=;
+ b=g0mPoUAhG1a2zXQm/gNsHFGUvW60fP54naXnVpwgsZqJ2tfmkgPiFDaNkxbMyHl0Tf
+ E3/U6KmJxchirvtJOKDhVMslSf2/OENexGH6HXDUclUT7HexQviM2kJWdkMtrUfiwY3A
+ R8RzLv7nyCzkANWA65mWiA6qJWIRjcqihBRCXmzv7/giQL/9nTJVRSZ3dWbYxJ3njUxe
+ QNb6FtYxTtOG8imFwGVbBl9SpWVqsUy0kU0UjyqFTmmMp7NZo+6O4y/SFN/+VizePMMb
+ +wnH/j4tIrQIQbJmOnRErPyxm7A92qp2wjdz9BnLiWeXh++J2pSDJ7UDj+t1RxfAx9Cg
+ 2VDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749654411; x=1750259211;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rZvstCIx0930gy+FitWy2h9ieXUWIADy6nD/O8Xen/w=;
+ b=i6BcaS/pDeCQ2kc7X0HpU8m/fH+avfcxImnu0yla+nns5NN0qaX1tDLoIzvute9fqt
+ xzdDDX0xLdAFAbx59cq0H/ZKqHf8T0C2hRg9NJi4TPxahSbeMK5A+AZ0TprW7TNs5iwa
+ No9D9AHE7X/EPag9zVYVY7Vx1jMOkIZ8jBosl5fw1RV0WLs3W4apEbMdff+v4t02zMhe
+ zHxNmNHUTIs23OpMPHp3RKnl8f6tel7u7uv+GVrz6lrQ788biwaTp3v03kDV/zw27bNI
+ jJCejcKB2EWq5GGyy6t/jxkkJj2cNNOCVAhbaxVKHBn9XxmWGvIWJmkPRQeZ8Zwte/dz
+ qoeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU+TB+XMlncWHkhl2V4Kk9t7CnfgfOjaAVCeTnUQC5E04ohKW9LDjFQGN7VjT490OlFw8bpfnxQ6U4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwO5DL5eYZOxCsCgDQ+bkxS5PYNMLZg725pMzChqNZ5o9AeUB6l
+ 4bKbWZHpzwiio+6wCknliMbK/VkQiLVNqWaphcsU6+C+8xkK/h/XsUS2
+X-Gm-Gg: ASbGnctBf0fQ+/QSRPbb+G5PGgbqh47ItJx5EmT5y45wg7KYTCKfrn/sk7g/1eHfIaq
+ O5Mjcbyp40YxF2feIxg3CRsWyMZPcPRHNWuuKt1cOaE7dD0aVCAjgXcH3Fua0IvxF3GunaNKZDb
+ wg5RMah9eIZk7IDLhXDiyZlwzhCD+H8giMDyiW9o9pH5Ci+5JYCY92Q/VoIa49Vkw879EwG9UjJ
+ Rw2gPEk0QuO6/RnuYaYgLjuNLP6LnGfCUxh6oa7tJnwxbT2xRNtREb2jTIV7fbTc0YE5EJsQ/cf
+ 1fHzeVaN/Ac34/3pz09jMjVy+57hzR5G4WX0WMcSth2bkCSD+HVBM8ycNdJ3i4WUdRPKCEGpdKg
+ Cg/k5JB4sUlh9kt0EzMwJJZcBA1bcF333AnGhd14ht7Ft73g2
+X-Google-Smtp-Source: AGHT+IH7gCL0A1jwyehirZD75wEUOdI2MNoMc6qGX53PjwOW0K3sU25NqW7e29pI1Cuyu7enpaum4w==
+X-Received: by 2002:a05:6000:2304:b0:3a4:f50b:ca2 with SMTP id
+ ffacd0b85a97d-3a558689146mr2940381f8f.8.1749654410702; 
+ Wed, 11 Jun 2025 08:06:50 -0700 (PDT)
+Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a532436871sm15373810f8f.49.2025.06.11.08.06.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jun 2025 08:06:49 -0700 (PDT)
+Date: Wed, 11 Jun 2025 17:06:47 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
+Message-ID: <4cibh66elviiatataa45lsfcyeovkqyxe4fjvfh7uqddhsbe6z@svt2dgeafrdh>
+References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
+ <mz5sytol6aw7ouwiimmrd7lqhtvq6nj7pqpxq4ie6em6nwvvkh@2cux3no33gre>
+ <621a9459-f2dd-4b19-a083-0e62f1a42f50@kapsi.fi>
+ <96b721cd-7223-4b28-a3fd-a4d92c9d5142@tecnico.ulisboa.pt>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4307:EE_
-X-MS-Office365-Filtering-Correlation-Id: 400493cf-59c9-4b4e-02e7-08dda8f85862
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UkIzaUc0WjBxTEl3MG9FQ29KK1BjWHUwWXdxaC93Q2RKUkMzZEh0N3NXSU5x?=
- =?utf-8?B?WkZGZTAxMEIwS2FVWC9mVWpndWVQR3lTQXVoTDQydFBnZFc4ajZtdDAvM2xV?=
- =?utf-8?B?MFlWSXo5R1B2bGFiZVllNlg0U3p5b0lWNGxCNkY4L0pScnFYaHlKb1BzSFc1?=
- =?utf-8?B?enBKRUVLaWN2T2lXYktUZkFJM3RmempGdHBPTHBiVTFRTjBxMmZYWXVvRjVC?=
- =?utf-8?B?ekFVb20ydHJxVDJUdGZBTVdYMHhtZTNwbVVpUmNEWHh3U2lKQkNsbWZXUE5Z?=
- =?utf-8?B?K2dPSVJLdUUxVk5PQlRvWGlEd09RV2djeVVTSjNCMHBoVnVGSUxyWWFLbUpP?=
- =?utf-8?B?WC80SlIxMHpGeTBGc1FndlhVSFhqNWtGcWEweUdQYWtPZkRoM3FLeHRIakRl?=
- =?utf-8?B?NEkwQkVSekpyZ080eVNNajBlZk9FV2F4NkUrVmpOV1gwbmJVK1pCUUxoNXJo?=
- =?utf-8?B?eU9CeFdBMDExT0RWZVdlRGREUTVKaU1oMDRsc2JUWUdjQlhLRTYvL0NMaDh4?=
- =?utf-8?B?MGZkV2ZHaXN6WHBMNzF4MHVqUzg4elR2bHNSUWM5eE5IOW8relg1dHN5MERt?=
- =?utf-8?B?QXJ6M3JQcTg3cW52UVhzbjNuNlZQd2RLeHFiMTlBS1RVMHA1ZlNnQWFsaG9M?=
- =?utf-8?B?bk1sY0VDYWhpWFNJQlZxRk5uQzZOOWF2S3dHNHRNcDV0Z3BNSExLVXpvMmFG?=
- =?utf-8?B?b0krMkI3L1h3ZmZML3B5N0Z4dTNBOWRGQmJSQzRMUDlQY0xZTU1WTm9nUHRS?=
- =?utf-8?B?bytZRXRQV3dwU3RTdHo3Q1Bad1pDcW5FRmg1S2l4Um5td1htTEtja0xpVWlP?=
- =?utf-8?B?RkZFVm1wR0p1elRsZDlhWFdpTXlyQWF2UlpDWm1HY0x5bVRUS2xzQnU1dXBS?=
- =?utf-8?B?cG5vMVRJT1ZzaDQwa2lpU0hRRkYxcmtaWjh4UjRUTUkxeEJBcnYwZmZLSDhq?=
- =?utf-8?B?OVRXRC9rcjNVUEJqdWZ5UjdsYThFZjMyYi90WFF0RFJKd0NieFRPUStaRy9h?=
- =?utf-8?B?Rkt0NEFwYUdtVFVSaUFPb2poZHJOZCtrSWJvK3lPNzlEMzYxcUdjRS9kTytJ?=
- =?utf-8?B?OGhEOXNHbGwxS0dhZ2ljVDNrUVEyUlU0MnE0bHBJc295Mi9Zc3RmWlZMZnk0?=
- =?utf-8?B?MkM1V3V2RDlvRnlKbEFZOE40enIySmNPM21KYW9aRWlpY3BrajhySlJVdUlR?=
- =?utf-8?B?d2ErbUVXWlFTTWVpNDVXZ3MralRLdlJuRHlzcEwyU0lMZzFKNG9sQXl6eE12?=
- =?utf-8?B?MndjV2ZlN2JqR2hVK3lPdFMvVDE1cWRIdkx4NCtiUVp1WTRlMEhxb0x0bVZN?=
- =?utf-8?B?Y0w4QUtza1JpbVpVd2dLVjFhcFdyTWcyNEJwTnNWWHZ5aDJxN2lMeCtkN0VD?=
- =?utf-8?B?NkFtZldSbjIrcXEvTFgvMGVjU0NlVXZxOTVNaUpRMkRTeldjRlkrK21NWlBB?=
- =?utf-8?B?VmpxQzJxQjF1YWdRdHUwNVNERTFDTmhuSU1tdUlwMVl2QlNtVzZHMHdDTFIz?=
- =?utf-8?B?MWhDUjVhVkg2QStWMnNmMGo2cXpZQ011dWNlQlVFZmVEeTF5V3FPUDRRb3Nn?=
- =?utf-8?B?WTJCUzBKWXJ0bGhZMUozVE4xWktacUpFdkt2OGNUU3FlSlEyL0szWlhsSHRR?=
- =?utf-8?B?T091M0s0cGJnbWlPN1p6TWRnVDViUFhVSkFIMWJmTU00VEFvcEVyMlUvSS9m?=
- =?utf-8?B?dzBCeEhTVmZZWlo4VDAzWGtTUVB1aDZTcGt6b1ZFbDExKzluSmQxcTJxYmVN?=
- =?utf-8?B?dy9ncU85MG1VeVJ2UlEzb1Z1UjcwbnVITVhpUmxCNEU1MC9WenQzalhsZFRy?=
- =?utf-8?B?ZVpocGxRY1F6bWJRc2d6eDNxcHQxbVpUNlNwVDByRGI2R3FQeUdqT2ZnOUtL?=
- =?utf-8?B?UXFHMnRJQWxJcXdvRDhGaExXdDVLeHBGSlJUU1F6TnpsbC9zQU05NHArY1Uz?=
- =?utf-8?Q?uQVKSjfhkLM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDdWNnlZYXJENTRsWU9SS3hsQjB2YmdNTjl3MytMYTVpZDUwazh2NmhVbmto?=
- =?utf-8?B?Y2w5aStLS0pobWo2SVRoaXkzS1RheUxKY1BZeitLd1R5UWpvRllxbWFtUGtz?=
- =?utf-8?B?di81L3BUZ3k0UnJiaE1qNEF2Y3l6Smk3TC9UaGRnVnUyRzNVMmhIYlJXRGhy?=
- =?utf-8?B?dTRqYnpZT0hUeTZ1MjhsRmRSQlQ5cytJNUJkblprb05iTEliMWlmT1V3QVNT?=
- =?utf-8?B?S0VhZzFDU0xkQ1hUbDdwOGZEakNFc0xVV05UOGxEY0puTUZUaUVWbXZNZ0o4?=
- =?utf-8?B?Z0ZiZE1wazJDWjRHdkY0dDBtQ1p5WXNKK0YvZmdtcmQzMG9SRDlJZFlZdE5P?=
- =?utf-8?B?b0NvWFNSd2pZR2s3WFpYVDRGSDM4RjhKMERLeG52QTZPWnpDTVJGNmdWTTM1?=
- =?utf-8?B?ZCt4dXlNQjRzY2l3UEQzSEFDY3cxNWNzMWlZYXcwYmtOQUJqS2pOejBwMHFr?=
- =?utf-8?B?TlpTanFTWGlsNUVlakZMZDZrMmQzQXpSTlN0dGRLN04wRXZHS1lYcHpVSTRZ?=
- =?utf-8?B?VldQMW9pUFd2OTUwS1QxU09CdC9FbHM4NGNvWktiMkpYTUtSNVllN1FwNWZo?=
- =?utf-8?B?Q3l0UEZJVkd2M0lxVFEybm1Fc1pGUTJRLzFUdTdocExHNmdhVTBFN0FheXFR?=
- =?utf-8?B?UFVCTEVlREFkYlJ2aXR1dXFrME9CdnVVQ2pSaFdxUnpKVmVrYXMxMHVUaStq?=
- =?utf-8?B?VFhLa2c5K2VhU0NUaDJxMTJPU2o0NmxYVXdVaVh1aUJoaGt2L2poMDJqS0dQ?=
- =?utf-8?B?VmZYTzJWZWFkMkZIWEEvR0VmVXU0K1V0Q2NZZnFGanBWQjF5MmNGYklCMmZz?=
- =?utf-8?B?VG42Mk0vNWwvOVROK3h5RUZ3aTdWRGxJTlhZeGU4TVM4R09mMHJoZDVad1E5?=
- =?utf-8?B?WncxU3orRmxtdys3Skk1ck1mREl3UVZET3RweVBkRkplUFNMbjRaRHFGNWQz?=
- =?utf-8?B?ZUxYYytYYTQ2V0tNRjdtQmRyd2ovODZkQTgwNHlWRW1xZGk0ZkxQVFhVMFdi?=
- =?utf-8?B?d3k1TW9MQUNQU0NmSUxoamdidEFSemlmczVxVzdyaElzOThmUWU4byt4amxx?=
- =?utf-8?B?VDBKUzZudWZtV1dmWUgrV1JZSEFUbTJFUUVBb0RHZGFrV1Z3WWdxKzFmVHQ4?=
- =?utf-8?B?UmVmb3ZwcFM4QmNmNGsvcVhxZnpESFpKSUhWUDFWM2MrMDJraThBUmJ2NElQ?=
- =?utf-8?B?c0V4bmMrSWQ1VUx3V3ZEOUl1a3ZKTGh5dm5nRCtvcjE2SExmOFZxQ0h3blhM?=
- =?utf-8?B?c284MFlsNmMxdjFGSzVkZ0YwTjZXYzJwSnNZK2orSjZVV2paNXAxYXVGY3Y2?=
- =?utf-8?B?SlR6R2h2VkUzTS95QkVZeEdIOFVsTXVhQlQzRFJhTzRRY1ovWUlKbGZUN1Nv?=
- =?utf-8?B?c0pucG53TGJRUzZJUlphamFQaHpMcGhRY2ZhSjZaLzNFRjU5RkVlbkUxVGlZ?=
- =?utf-8?B?MWo0UlpUYTBvbTBMTFZialc5U0dISTdCRlpiZlhhWDY4eW9HMHdIUjlnRmVr?=
- =?utf-8?B?aTlaUlhSYmJ1WUxlSkxIcUZmWExjemlpenUvWkswS3lFbEFTQkluZmJCZm1k?=
- =?utf-8?B?dGZSZVFmVWhvMjlVWTd4QkR1RVNkVUwrOTVkMkxuWVYvaHN6a2tQUjdzaTJE?=
- =?utf-8?B?aml0anJCb052U0FiaENMQUx2dnVYV29ubkxLT2pJYmpCZ1F5VVZWYUUxNGhq?=
- =?utf-8?B?T2JpR0lxOGxLcmZ3N0gvOGIvKzJqMTMxOUdQUU93QzVlUGwwYkI2a3dONnJi?=
- =?utf-8?B?L3EwMjludnA4R1Y4bFpOUjNteHlENzd6VmErRFFrMHJQWXoySW53T3lGQnRl?=
- =?utf-8?B?bk9JNVlJMHhzV1hSdUVaOUxBYjIwSmVmdjRVV0JiNldvSkdPcjlxNDdBQlVj?=
- =?utf-8?B?bUtSZ1ZCZ2NpWUpSbHZHQTczclg4b3BmS2pUMmplVlh6OHY4d2YveGp3bi9t?=
- =?utf-8?B?ZENsbTlhRTZkOWQ3d0RWUWhLQ0tZL3F1QWVqS3RWTExNbkx4WWhDRXlIbkFn?=
- =?utf-8?B?eWJ1U2ZBUEdEdW9sK0xPWFEzek9kOTYvR1lJZVR4VzJlbUo3Vy90NU1SQ2xC?=
- =?utf-8?B?STdVdXQvL2lBMS81TVhIZzZEZnpIby9Dc0lvdlBWRjZ2R1NRVG5VM3lRcDVx?=
- =?utf-8?Q?Wrpkqa18OhnyUrlql5sem0QfM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 400493cf-59c9-4b4e-02e7-08dda8f85862
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 14:57:54.6259 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i+UROEOAfWAa/uzlnkoe9osG/EPN/rH7knkNLn8Pz8AI1QDsL6IFEfSXYm03Rb7y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4307
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ahdzzbv4aoxgwn2z"
+Content-Disposition: inline
+In-Reply-To: <96b721cd-7223-4b28-a3fd-a4d92c9d5142@tecnico.ulisboa.pt>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,65 +99,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/11/25 16:25, Danilo Krummrich wrote:
-> (Cc: dri-devel)
-> 
-> On Tue, Jun 10, 2025 at 03:05:34PM +0200, Christian König wrote:
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> index 5a8bc6342222..6108a6f9dba7 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> @@ -44,6 +44,22 @@
->>>  struct amdgpu_fence;
->>>  enum amdgpu_ib_pool_type;
->>>  
->>> +/* Internal kernel job ids. (decreasing values, starting from U64_MAX). */
->>> +#define AMDGPU_KERNEL_JOB_ID_VM_UPDATE              (18446744073709551615ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_VM_UPDATE_PDES         (18446744073709551614ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_VM_UPDATE_RANGE        (18446744073709551613ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_VM_PT_CLEAR            (18446744073709551612ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_TTM_MAP_BUFFER         (18446744073709551611ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_TTM_ACCESS_MEMORY_SDMA (18446744073709551610ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER        (18446744073709551609ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE       (18446744073709551608ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_MOVE_BLIT              (18446744073709551607ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER       (18446744073709551606ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_CLEANER_SHADER         (18446744073709551605ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_FLUSH_GPU_TLB          (18446744073709551604ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_KFD_GART_MAP           (18446744073709551603ULL)
->>> +#define AMDGPU_KERNEL_JOB_ID_VCN_RING_TEST          (18446744073709551602ULL)
-> 
-> Why not
-> 
-> 	(U64_MAX - {1, 2, ...})?
 
-That's what Pierre came up with as well, but I thought that this is ugly because it makes it hard to match the numbers from the trace back to something in the code.
+--ahdzzbv4aoxgwn2z
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
+MIME-Version: 1.0
 
->> Mhm, reiterating our internal discussion on the mailing list.
->>
->> I think it would be nicer if we could use negative values for the kernel submissions and positive for userspace. But as discussed internally we would need to adjust the scheduler trace points for that once more.
->>
->> @Philip and @Danilo any opinion on that?
-> 
-> Both, the U64_MAX and the positive-negative approach, are a bit hacky. I wonder
-> why we need client_id to be a u64, wouldn't a u32 not be enough?
+On Wed, Jun 11, 2025 at 01:05:40PM +0100, Diogo Ivo wrote:
+>=20
+>=20
+> On 6/10/25 10:52 AM, Mikko Perttunen wrote:
+> > On 6/10/25 6:05 PM, Thierry Reding wrote:
+> > > On Fri, Jun 06, 2025 at 11:45:33AM +0100, Diogo Ivo wrote:
+> > > > Hello,
+> > > >=20
+> > > > This series adds support for the NVJPG hardware accelerator found i=
+n the
+> > > > Tegra210 SoC.
+> > > >=20
+> > > > The kernel driver is essentially a copy of the NVDEC driver as both
+> > > > engines are Falcon-based.
+> > > >=20
+> > > > For the userspace part I have written a Mesa Gallium backend [1] th=
+at,
+> > > > while still very much experimental, works in decoding images
+> > > > with VA- API.
+> > > >=20
+> > > > I have been using ffmpeg to call VA-API with the following command:
+> > > >=20
+> > > > ffmpeg -v verbose -hwaccel vaapi -hwaccel_device
+> > > > /dev/dri/renderD129 -i <input.jpg> -pix_fmt bgra -f fbdev
+> > > > /dev/fb0
+> > > >=20
+> > > > which decodes <input.jpg> and shows the result in the framebuffer.
+> > > >=20
+> > > > The firmware for the engine can be obtained from a Linux for Tegra
+> > > > distribution.
+> > >=20
+> > > By the way, have you tried running this on anything newer than Tegra2=
+10?
+> > > Given your progress on this, we can probably start thinking about
+> > > submitting the binaries to linux-firmware.
+> >=20
+> > FWIW, the impression I have is that NVJPG is basically unchanged all the
+> > way to Tegra234. So if we add stream ID support and the firmwares, it'll
+> > probably just work. Tegra234 has the quirk that it has two instances of
+> > NVJPG -- these have to be distinguished by their different class IDs.
+> > But we should go ahead with the T210 support first.
+>=20
+> I have a question here, what exactly are the stream IDs? While working
+> on the driver this came up and I didn't manage to figure it out.
 
-That can trivially overflow on long running boxes.
+Stream IDs are a way to identify memory transactions as belonging to a
+certain device. This comes into play when working with the IOMMU (which
+is a Tegra SMMU on Tegra210 and earlier, and an ARM SMMU on Tegra) and
+is used to isolate DMA capable devices. Basically for every stream ID
+you get a separate I/O address space. NVJPG will have its own address
+space, and so will VIC. Each device can only access whatever has been
+mapped to it's I/O address space. That means NVJPG can't interfere with
+VIC and vice-versa. And neither can any of these engines read from or
+write to random system memory if badly programmed.
 
-> Anyways, if client_id remains to be a u64, we could add a global DRM constant
-> instead, e.g.
-> 
-> 	#define DRM_CLIENT_ID_MAX	0x0fffffffffffffff
-> 	#define DRM_KERNEL_ID_BASE	(DRM_CLIENT_ID_MAX + 1)
-> 
-> And in drm_file_alloc() fail if we're out of IDs.
+For Tegra SMMU there's no such thing as programmable stream IDs, so the
+stream ID is fixed for the given device.
 
-Mhm, I wouldn't mind printing the client id as hex and then always setting the highest bit for kernel submissions.
+On newer chips (Tegra186 and later, or maybe it wasn't until Tegra194),
+certain IP blocks have special registers that can be used to override
+the stream ID. There's also a way to set the stream ID via command
+streams, which means that you can have different I/O address spaces (I
+think we call them memory context) per engine, which means that you can
+isolate different processes using the same engine from each other.
 
-But when we keep printing them as base 10 it kind of becomes unreadable.
+Again, for Tegra210 that's nothing we need to worry about. For newer
+chips it's probably just a matter of adding .get_streamid_offset() and
+=2Ecan_use_memory_ctx() implementations.
 
-Christian.
+Thierry
 
-> 
-> I think this would be much cleaner.
+--ahdzzbv4aoxgwn2z
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmhJm4MACgkQ3SOs138+
+s6FNWBAAtJCLRWy3HnLpatC3L34V9NYYS65LIc6i75tLGDS4+bBBVllqqYZrDaMc
+2QXib+yx+tG3P1z43Nq+Cp26YfjIRVdLqlOiQ89bURxrCas6jTBg4o8N8mYIkS62
+s9p/Q+YO58bNDfPVGhXOfSLTLciU5i/ull7kAkJMYmAsI31Bt1HywLimUCwHwdlC
+sSzGKK38fIZdwKYqR1yAEmtKzc04lOZGXN74/OW8o+h77WrLUlcwIpKb8mF3Q4Sc
+wzGX3IJah5vmZHWBnWvWo3ans257qlqz7B6P6lEe3jgPhhs1yL1TD4ii7X8T/sc2
+l6wHexytUYYPgWYOV+nIzqrL+F2SU+52YDVng4ADB1HtvdH4X/ransteUoo59MEc
+9glcqy40Y6PCAwXwQGGizpQ88Tlg6ttBru0npckcN44iJuHksyca9JO1crBlWoMs
+OiRpu8/YOzVGKHlolwhNfFdcJ77C1UP/UoHSnCndgVuTx14ZoFZVjhCpBqwlviU2
+7luQxXj5LZdk3sxnlP+q054H8udEC9PDavNwwO4jpH+0mcFZH06lpSGad67nOVgA
+dVTI15W89MocI4CDrbq8wLOlDJijKz5ztoLwm+e5V0BXgu4SrdvbuCvcnRlxvphV
+wX0oNHG2ZZ6OZFZQ2eaWAxWniSkNKFfuV3lnVMlz7B4bR6hmD1E=
+=pPIb
+-----END PGP SIGNATURE-----
+
+--ahdzzbv4aoxgwn2z--
