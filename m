@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CE7AD55F8
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 14:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA06AD5614
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 14:55:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D6210E662;
-	Wed, 11 Jun 2025 12:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C13D10E37A;
+	Wed, 11 Jun 2025 12:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D21410E664
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 12:52:36 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.105])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4bHQSM0KvHzRk2j;
- Wed, 11 Jun 2025 20:48:19 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 549E11402ED;
- Wed, 11 Jun 2025 20:52:32 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA4C10E37A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 12:54:58 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4bHQW662QszRk36;
+ Wed, 11 Jun 2025 20:50:42 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+ by mail.maildlp.com (Postfix) with ESMTPS id 24A2A180B64;
+ Wed, 11 Jun 2025 20:54:56 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 11 Jun 2025 20:52:32 +0800
+ 15.2.1544.11; Wed, 11 Jun 2025 20:54:55 +0800
 Received: from [10.159.166.136] (10.159.166.136) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 11 Jun 2025 20:52:31 +0800
-Message-ID: <426246e9-ccfe-40a7-81b6-a15ac1ee32e9@huawei.com>
-Date: Wed, 11 Jun 2025 20:52:29 +0800
+ 15.2.1544.11; Wed, 11 Jun 2025 20:54:55 +0800
+Message-ID: <1de56e48-2104-4181-8b94-20c97001a81c@huawei.com>
+Date: Wed, 11 Jun 2025 20:54:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-dp 10/10] drm/hisilicon/hibmc: fix no showing problem
- with loading hibmc manually
+Subject: Re: [PATCH drm-dp 09/10] drm/hisilicon/hibmc: fix HPD no showing with
+ VGA para of GRUB
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -42,12 +42,12 @@ CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <jani.nikula@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
 References: <20250530095432.1206966-1-shiyongbang@huawei.com>
- <20250530095432.1206966-11-shiyongbang@huawei.com>
- <czs4ingsrnuaqlbn3f7ko65pzhydcuuiglyh5ksrpfcz5zur74@vzgzyjkcae63>
+ <20250530095432.1206966-10-shiyongbang@huawei.com>
+ <5nansqkys4d3wlsefql6itgnpdoxhgjo7kkmovpm3gfbphxcs6@4anxx7hzoimh>
 From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <czs4ingsrnuaqlbn3f7ko65pzhydcuuiglyh5ksrpfcz5zur74@vzgzyjkcae63>
+In-Reply-To: <5nansqkys4d3wlsefql6itgnpdoxhgjo7kkmovpm3gfbphxcs6@4anxx7hzoimh>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.159.166.136]
 X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
  kwepemq100007.china.huawei.com (7.202.195.175)
@@ -67,53 +67,62 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> On Fri, May 30, 2025 at 05:54:32PM +0800, Yongbang Shi wrote:
+> On Fri, May 30, 2025 at 05:54:31PM +0800, Yongbang Shi wrote:
 >> From: Baihan Li <libaihan@huawei.com>
 >>
->> When using command rmmod and insmod, there is no showing in second time
->> insmoding. Because DP controller won't send HPD signals, if connection
->> doesn't change or controller isn't reset. So add reset before unreset
->> in hibmc_dp_hw_init().
+>> In early OS versions， there is a bug in hibmc-drm driver previously,
+> Which OS? What does that mean? Why do we need to workaround userspace
+> issues in the kernel?
+
+We use OpenEuler 22.03, there is a VGA cfg(video=VGA-1:640x480-32@60me) in GRUB args.
+If it exists, it will affect DP HPD.
+
+
+>> so some OS add a VGA parameter in GRUB(video=VGA-1:640x480-32@60me) to
+>> fix the bug, that will config a force VGA mode to drm driver. However, the
+>> HPD problem exists that mentioned in previous patch, so change VGA's status
+>> in force() to compatible with some older OS versions.
 >>
->> Fixes: 94ee73ee3020 ("drm/hisilicon/hibmc: add dp hw moduel in hibmc driver")
-> Technically... yes and no. The function was written this way in that
-> commit, however HPD signals were not handled until the latter commit.
-
-Alright, can I put 2 commits here?
-
-
+>> Fixes: f9698f802e50 ("drm/hisilicon/hibmc: Restructuring the header dp_reg.h")
 >> Signed-off-by: Baihan Li <libaihan@huawei.com>
 >> ---
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> index 4f93d60b932b..e1b9589ce639 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> @@ -172,13 +172,15 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->>   	dp_dev->link.cap.lanes = 0x2;
->>   	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> index 73dd3d5fc26c..d609ccda2f2a 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> @@ -61,6 +61,19 @@ static int hibmc_vdac_detect(struct drm_connector *connector, struct drm_modeset
+>>   	return connector_status_connected;
+>>   }
 >>   
->> -	/* hdcp data */
->> -	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
->>   	/* int init */
->>   	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->>   	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->>   	/* rst */
->> +	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->> +	usleep_range(30, 50);
->>   	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->> +	/* hdcp data */
->> +	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
-> There are two independent changes here. Split them into two commits.
-
-Okay!
-
-
->>   	/* clock enable */
->>   	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
+>> +static void hibmc_vdac_force(struct drm_connector *connector)
+>> +{
+>> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(connector->dev);
+>> +	struct hibmc_dp *dp = &priv->dp;
+>> +
+>> +	if (dp->hpd_status) {
+>> +		connector->status = connector_status_disconnected;
+>> +		return;
+>> +	}
+>> +
+>> +	connector->status = connector_status_connected;
+> You are again trying to tie VGA and DP status, so NAK.
+>
+>> +}
+>> +
+>>   static void hibmc_connector_destroy(struct drm_connector *connector)
+>>   {
+>>   	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
+>> @@ -81,6 +94,7 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
+>>   	.reset = drm_atomic_helper_connector_reset,
+>>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>> +	.force = hibmc_vdac_force,
+>>   };
 >>   
+>>   static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
 >> -- 
 >> 2.33.0
 >>
