@@ -2,61 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA93AD61D4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 23:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44EFAD625B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 00:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B99310E745;
-	Wed, 11 Jun 2025 21:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B91C110E0CD;
+	Wed, 11 Jun 2025 22:26:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EidgVnMi";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GZN2u701";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZU7A/J7f";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GZN2u701";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZU7A/J7f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D4E10E745
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 21:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1749678526;
- bh=p125Qdh7AXpcJlrV+7yqlZZwam5I0mnuIIk+bsJi8UU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=EidgVnMiQFzztrReyrHUBVJ/dgBh0iS528uSU6ZSU0dw/oVXjLTONw6yvYb3IBPqR
- fKgkeucn1eAdTsG9IGr5r2aUrGrxN6zYq7QdHqiCmC4B2zFZDg7TQ2Scgu1sd8Vkma
- /SDNw9lX2QVSf79dLPn5C6nN0SqBisjOIt9F2xoXzfsDGUwlygMqnwXUlB33nyq/cD
- J+eh0MSZQk8Vd1Il9blFhNbKZsEAk+7KZhyEnvNY1mRQzI+tfGnnc6nJ1MWCJYMAHN
- elozjHQDkEKzQZ3L1vxI/6Li0jeFjXFFpvi0NF2PChhCmw9F5Y1S3CwcqhF6ed1T5e
- 1bPu91kPSGFTQ==
-Received: from localhost (unknown [212.93.144.165])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 577AC10E618
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 11:07:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id EFA8C17E0342;
- Wed, 11 Jun 2025 23:48:45 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 12 Jun 2025 00:47:49 +0300
-Subject: [PATCH 3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source to
- VOP2 on rk3576
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
-References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
-In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3DDC41F38E;
+ Wed, 11 Jun 2025 11:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749640036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
+ b=GZN2u701ghojHqZgzEHxiWI4QaurCcqWhvcf+MUY9ZoUZzc/xwHo1Kg63qqtJidSL1DgpT
+ /BYpbnbOkteY663j+/CGNl1DIQBffWYP8KAM7StP8GH7vDctvr1ChukYfr0dkb18sgsm2A
+ zfIyY5E+jmG0lFaKD4Eiew+gyZBV6KM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749640036;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
+ b=ZU7A/J7fVHMCCgDz7+DSce+1nW62ruVSEhmR9LxOfiAfg3VQgqVzxq8B+nVzIZk1cJuDuP
+ uatBAS777Wb2FBBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749640036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
+ b=GZN2u701ghojHqZgzEHxiWI4QaurCcqWhvcf+MUY9ZoUZzc/xwHo1Kg63qqtJidSL1DgpT
+ /BYpbnbOkteY663j+/CGNl1DIQBffWYP8KAM7StP8GH7vDctvr1ChukYfr0dkb18sgsm2A
+ zfIyY5E+jmG0lFaKD4Eiew+gyZBV6KM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749640036;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yszc8ZxnAc6Iyln4ZFrzJAqKJWDPXNV2ZOTEiPJKG/k=;
+ b=ZU7A/J7fVHMCCgDz7+DSce+1nW62ruVSEhmR9LxOfiAfg3VQgqVzxq8B+nVzIZk1cJuDuP
+ uatBAS777Wb2FBBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA4FE137FE;
+ Wed, 11 Jun 2025 11:07:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ve9kJmNjSWj+HQAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Wed, 11 Jun 2025 11:07:15 +0000
+Date: Wed, 11 Jun 2025 12:07:13 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: kernel@collabora.com, Andy Yan <andyshrk@163.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-X-Mailer: b4 0.14.2
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>, 
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev
+Subject: Re: [PATCH drm-misc-fixes] drm/sitronix: st7571-i2c: Select
+ VIDEOMODE_HELPERS
+Message-ID: <jkwafulqm5ohw6kssy3yr7akosoxihkkbemadrnoaysmhjmwgd@lg3d7qtwtwhc>
+References: <20250610-drm-st7571-i2c-select-videomode-helpers-v1-1-d30b50ff6e64@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610-drm-st7571-i2c-select-videomode-helpers-v1-1-d30b50ff6e64@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MID_RHS_NOT_FQDN(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ URIBL_BLOCKED(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,redhat.com,gmail.com,lists.freedesktop.org,lists.linux.dev];
+ RCVD_TLS_ALL(0.00)[]; MISSING_XM_UA(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
+ TAGGED_RCPT(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[]
+X-Spam-Level: 
+X-Mailman-Approved-At: Wed, 11 Jun 2025 22:26:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +116,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
-char rate via phy_configure_opts_hdmi"), the workaround of passing the
-rate from DW HDMI QP bridge driver via phy_set_bus_width() became
-partially broken, as it cannot reliably handle mode switches anymore.
+On Tue, Jun 10, 2025 at 12:40:38PM -0700, Nathan Chancellor wrote:
+> This driver requires of_get_display_timing() from
+> CONFIG_VIDEOMODE_HELPERS but does not select it. If no other driver
+> selects it, there will be a failure from the linker if the driver is
+> built in or modpost if it is a module.
+> 
+>   ERROR: modpost: "of_get_display_timing" [drivers/gpu/drm/sitronix/st7571-i2c.ko] undefined!
+> 
+> Select CONFIG_VIDEOMODE_HELPERS to resolve the build failure.
+> 
+> Fixes: 4b35f0f41ee2 ("drm/st7571-i2c: add support for Sitronix ST7571 LCD controller")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Attempting to fix this up at PHY level would not only introduce
-additional hacks, but it would also fail to adequately resolve the
-display issues that are a consequence of the system CRU limitations.
+We've been observing these build failures regularly on certain configs in our
+internal -rc1 branch, and this patch fixes it perfectly, thanks for tracking it
+down!
 
-Instead, proceed with the solution already implemented for RK3588: make
-use of the HDMI PHY PLL as a better suited DCLK source for VOP2. This
-will not only address the aforementioned problem, but it should also
-facilitate the proper operation of display modes up to 4K@60Hz.
-
-It's worth noting that anything above 4K@30Hz still requires high TMDS
-clock ratio and scrambling support, which hasn't been mainlined yet.
-
-Fixes: d74b842cab08 ("arm64: dts: rockchip: Add vop for rk3576")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3576.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-index 6a13fe0c3513fb2ff7cd535aa70e3386c37696e4..b1ac23035dd789f0478bf10c78c74ef167d94904 100644
---- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-@@ -1155,12 +1155,14 @@ vop: vop@27d00000 {
- 				 <&cru HCLK_VOP>,
- 				 <&cru DCLK_VP0>,
- 				 <&cru DCLK_VP1>,
--				 <&cru DCLK_VP2>;
-+				 <&cru DCLK_VP2>,
-+				 <&hdptxphy>;
- 			clock-names = "aclk",
- 				      "hclk",
- 				      "dclk_vp0",
- 				      "dclk_vp1",
--				      "dclk_vp2";
-+				      "dclk_vp2",
-+				      "pll_hdmiphy0";
- 			iommus = <&vop_mmu>;
- 			power-domains = <&power RK3576_PD_VOP>;
- 			rockchip,grf = <&sys_grf>;
+Feel free to add:
+Tested-by: Pedro Falcato <pfalcato@suse.de>
+and
+Acked-by: Pedro Falcato <pfalcato@suse.de>
 
 -- 
-2.49.0
-
+Pedro
