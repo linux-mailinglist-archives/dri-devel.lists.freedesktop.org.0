@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D76AD5F8B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 21:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B32AD5F92
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 21:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4F710E718;
-	Wed, 11 Jun 2025 19:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A876B10E743;
+	Wed, 11 Jun 2025 19:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="idYpzeTa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="D7A71Bjy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2C710E718
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 19:55:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58FAE10E743
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 19:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,21 +22,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xe4RIIzgX25xHJmGlWn9Yv8sOsUIfA7SC2v8Rtix/Rc=; b=idYpzeTadLJTZRr+ms5kwn6yFw
- 6f9Qe3w4wGFaRBlIillGp6aUTOiQzF8Rdi3IgUiTFNAIRyUc8bmwcmyOG+V72aLw6Y22WJYxtk6xe
- IsrQenLH7BwfcCOCkyLRd6aAJiP+zA5RF8PD7kSYOdOKdVU+vCf9mcYvPt+sBx9vnk8kgcOnkX60s
- fEqoNFQ9HGMc1keEwaWmZJ9PWSpPzz6K28vKuneL/Ba/EdjuM47O8KZ7fT1nlL7wO7b3/CjX4lGRs
- 8teGCa8/8R0qRQjmDebC81AvGQCGEylW+dxp193J1VLJ+/ji1JhHnfETVcnBwue5nqFlwdkMzblny
- SWNQwIcQ==;
+ bh=OwBx4LQLrUpRGjyqmky6VGtQ1FUpgs981MRRO546hPE=; b=D7A71BjykR/O4nQWgiqf6omVLq
+ NlOj3RWT5Aw6L3B7iNIybKuwhquuQRWQ2LAuOBqwXne6OMGZve0a1U1HjrWyb2zygGMHihXGwQXL6
+ a/z9/OsAZtJJdyURGxNerZpB3y+nxsNalVTbuLHNso9T6j0tlBKYr6LgE1mhRSMgYF0+b4qwzsKfk
+ VGikWvw9fr9nd6dlIYRM8N04cfHH4WgXs5zuXBsw2onTW1Yl4EKYxEUdHHfY1OtGR6wv3wTIW7rJ9
+ OOu+A6yos7PXGvmWR4Cc8rkwWh7CtOm2hfz21f1fFZjfZ++C51aKhx3LOYhR7JDGLBRpYx/SswxKz
+ 1Nb22v5A==;
 Received: from [187.36.208.198] (helo=[192.168.1.111])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uPRY4-002LY4-Ae; Wed, 11 Jun 2025 21:55:48 +0200
-Message-ID: <eba688fe-d270-420b-9619-121fb4b8ba1d@igalia.com>
-Date: Wed, 11 Jun 2025 16:55:40 -0300
+ id 1uPRZM-002Lal-KA; Wed, 11 Jun 2025 21:57:08 +0200
+Message-ID: <e7b4738a-6d7f-40ac-84bd-e88dd0432cdc@igalia.com>
+Date: Wed, 11 Jun 2025 16:57:00 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/8] drm/vkms: Add support for ARGB8888 formats
+Subject: Re: [PATCH v4 3/8] drm/vkms: Add support for ARGB16161616 formats
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
  <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -50,7 +50,7 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com
 References: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
- <20250530-b4-new-color-formats-v4-2-ef5f9f48376c@bootlin.com>
+ <20250530-b4-new-color-formats-v4-3-ef5f9f48376c@bootlin.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -77,7 +77,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
  uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
  raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20250530-b4-new-color-formats-v4-2-ef5f9f48376c@bootlin.com>
+In-Reply-To: <20250530-b4-new-color-formats-v4-3-ef5f9f48376c@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,81 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
-
 On 5/30/25 11:05, Louis Chauvet wrote:
-> The formats XRGB8888 and ARGB8888 were already supported.
+> The formats XRGB16161616 and ARGB16161616 were already supported.
 > Add the support for:
-> - XBGR8888
-> - RGBX8888
-> - BGRX8888
-> - ABGR8888
-> - RGBA8888
-> - BGRA8888
+> - ABGR16161616
+> - XBGR16161616
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
 
-[...]
-
-> +READ_LINE_ARGB8888(RGBX8888_read_line, px, 0xFF, px[3], px[2], px[1])
-> +READ_LINE_ARGB8888(BGRX8888_read_line, px, 0xFF, px[1], px[2], px[3])
-
-How did you test those two formats? I noticed that IGT (kms_plane tests)
-doesn't test them.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
 Best Regards,
 - Maíra
 
->   
->   READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
->   READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
-> +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
-> +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+> ---
+>   drivers/gpu/drm/vkms/vkms_formats.c | 6 ++++++
+>   drivers/gpu/drm/vkms/vkms_plane.c   | 2 ++
+>   2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index f5c52c3d10a3..95771bff5202 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -442,7 +442,9 @@ READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+>   READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
 >   
 >   READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
+> +READ_LINE_le16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
 >   READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
-> @@ -644,10 +649,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
->   	switch (format) {
->   	case DRM_FORMAT_ARGB8888:
->   		return &ARGB8888_read_line;
-> -	case DRM_FORMAT_XRGB8888:
-> -		return &XRGB8888_read_line;
->   	case DRM_FORMAT_ABGR8888:
->   		return &ABGR8888_read_line;
-> +	case DRM_FORMAT_BGRA8888:
-> +		return &BGRA8888_read_line;
-> +	case DRM_FORMAT_RGBA8888:
-> +		return &RGBA8888_read_line;
-> +	case DRM_FORMAT_XRGB8888:
-> +		return &XRGB8888_read_line;
-> +	case DRM_FORMAT_XBGR8888:
-> +		return &XBGR8888_read_line;
-> +	case DRM_FORMAT_RGBX8888:
-> +		return &RGBX8888_read_line;
-> +	case DRM_FORMAT_BGRX8888:
-> +		return &BGRX8888_read_line;
+> +READ_LINE_le16161616(XBGR16161616_read_line, px, cpu_to_le16(0xFFFF), px[0], px[1], px[2])
+>   
+>   READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
+>   
+> @@ -665,8 +667,12 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>   		return &BGRX8888_read_line;
 >   	case DRM_FORMAT_ARGB16161616:
 >   		return &ARGB16161616_read_line;
+> +	case DRM_FORMAT_ABGR16161616:
+> +		return &ABGR16161616_read_line;
 >   	case DRM_FORMAT_XRGB16161616:
+>   		return &XRGB16161616_read_line;
+> +	case DRM_FORMAT_XBGR16161616:
+> +		return &XBGR16161616_read_line;
+>   	case DRM_FORMAT_RGB565:
+>   		return &RGB565_read_line;
+>   	case DRM_FORMAT_NV12:
 > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index e3fdd161d0f0..b7f498944c50 100644
+> index b7f498944c50..505847ec8508 100644
 > --- a/drivers/gpu/drm/vkms/vkms_plane.c
 > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -14,8 +14,13 @@
->   
->   static const u32 vkms_formats[] = {
->   	DRM_FORMAT_ARGB8888,
-> -	DRM_FORMAT_XRGB8888,
->   	DRM_FORMAT_ABGR8888,
-> +	DRM_FORMAT_BGRA8888,
-> +	DRM_FORMAT_RGBA8888,
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_XBGR8888,
-> +	DRM_FORMAT_RGBX8888,
-> +	DRM_FORMAT_BGRX8888,
+> @@ -22,7 +22,9 @@ static const u32 vkms_formats[] = {
+>   	DRM_FORMAT_RGBX8888,
+>   	DRM_FORMAT_BGRX8888,
 >   	DRM_FORMAT_XRGB16161616,
+> +	DRM_FORMAT_XBGR16161616,
 >   	DRM_FORMAT_ARGB16161616,
+> +	DRM_FORMAT_ABGR16161616,
 >   	DRM_FORMAT_RGB565,
+>   	DRM_FORMAT_NV12,
+>   	DRM_FORMAT_NV16,
 > 
 
