@@ -2,145 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E97AD63C8
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 01:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F934AD63FB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 01:45:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08BFE10E740;
-	Wed, 11 Jun 2025 23:18:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F63E10E74A;
+	Wed, 11 Jun 2025 23:45:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="uDOYp/l7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Uk92e2Re";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10olkn2076.outbound.protection.outlook.com [40.92.41.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D59F10E740
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 23:18:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eRQBpwmxHNCDeLIkRMD0vi51qvGhgBwYnHvye0ak9EvWLtp3cw9k62H7gU1XHlWfpOlMjV7vQL7evcqG+HB5GzEETY6K44OnPfl2C+RMCDskInBH1nFsypuTcUKkZf8wYfcDmwrmN6pNc1BvSPbVrfjpyRWvVLhw5RUpDm/VRzZE5vBOg1vi4wI8a13bbIY4ItKJGvGAMaQ025o9nzhXetsnjNP/rv6czWSrj0vbVbnJfQx2oOCBbZ9sBLeBQHyHtkJX9s92k2ZCNUdKjY77XFDY6VFJwmQg8B8UYOgkIUVBqskU09YASYxtT5D98PKcjh0GJMu57ZPAUw56U/Fpbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i07YXafGM+D2rVqESTDkkWRAyEq1oE/cEH2CTVZX+go=;
- b=wRT5tgS5ebpGN3wfr7FZ0x20LjS0foLzAH3MRBO2Vl0iPEdSUgISwCT7TogDEofWKdjyoDQ/faqy9kMIIHzpMAVtksqiVOwE2IhWh4vC3doTavSpTnua5RP9d3WKRRqLOHurNwRqraQdZJKYkQfHdRyoJnISs49HrT87tE96uRdD4L8i1EihXN96uOxoSui5Vl0YD2NLyeWv69QbMkm07K8ooDk7CCNZYUu8ahMpkLsWfi39g2beIR6ix6NExdINwVkg6StH7JehH99RutTHvoFyswryHCH0XQia1+SNSKDa4gWmGULLUh29qFmwH4TqtBaR6eGgdZderksY7o/OLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i07YXafGM+D2rVqESTDkkWRAyEq1oE/cEH2CTVZX+go=;
- b=uDOYp/l7EK1cmm3NdAXnRJj36lyH0Eu1yS8OYK5wcbexhRebohXROLmMMpLxaIqLevzV2aGbzc+3yUf+OuWKZVbT0zrwJAcDhOmfbh/Jw1QiHvpd0pV8VfRuhFl6sDcj+5kujg38YCPXCSsJ3QCQ9IlWYNmeZVX8msYh7H4LXzi760hP/jFBoAtNQEwVcD8vpVV9JN3UdW7Ji+/NhkhJ4KzYgdG0ZnZjW81uWr6vrg5sxD0FrbuTQCUaJNBpnjtNJ52/kiKSJWT/2baztOJvRZfVmgETFP2tmDCs9uFrLUsB0yUg8r7hYIFCOZ0ltBB5VeyQnBOCry9co+oiG14Cfw==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by CH2PR02MB6553.namprd02.prod.outlook.com (2603:10b6:610:34::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.22; Wed, 11 Jun
- 2025 23:18:02 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.8835.018; Wed, 11 Jun 2025
- 23:18:02 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter
- <simona.vetter@ffwll.ch>
-CC: David Hildenbrand <david@redhat.com>, "simona@ffwll.ch" <simona@ffwll.ch>, 
- "deller@gmx.de" <deller@gmx.de>, "haiyangz@microsoft.com"
- <haiyangz@microsoft.com>, "kys@microsoft.com" <kys@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
- <decui@microsoft.com>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "weh@microsoft.com" <weh@microsoft.com>,
- "hch@lst.de" <hch@lst.de>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-fbdev@vger.kernel.org"
- <linux-fbdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
- <linux-hyperv@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: RE: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
- memory framebuffers
-Thread-Topic: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
- memory framebuffers
-Thread-Index: AQHby/4dA8oNLnhKakm3U+ZOuvHFDrPvrtEAgAEJQeCAAFCFAIAAuDlwgAD4GoCAAG28AIAAbZyQgAEy0YCAAB38UIAJ0FOA
-Date: Wed, 11 Jun 2025 23:18:02 +0000
-Message-ID: <SN6PR02MB41579713B557A32674252865D475A@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20250523161522.409504-1-mhklinux@outlook.com>
- <20250523161522.409504-4-mhklinux@outlook.com>
- <de0f2cb8-aed6-436f-b55e-d3f7b3fe6d81@redhat.com>
- <SN6PR02MB41573C075152ECD8428CAF5ED46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <c0b91a50-d3e7-44f9-b9c5-9c3b29639428@suse.de>
- <SN6PR02MB4157871127ED95AD24EDF96DD46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <9a93813c-4d7c-45ef-b5a2-0ad37e7a078a@suse.de>
- <aEBcCjMWZJgbsRas@phenom.ffwll.local>
- <SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <154aa365-0e27-458c-b801-62fd1cbfa169@suse.de>
- <SN6PR02MB4157F630284939E084486AFED46FA@SN6PR02MB4157.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB4157F630284939E084486AFED46FA@SN6PR02MB4157.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|CH2PR02MB6553:EE_
-x-ms-office365-filtering-correlation-id: 8daafcc1-e114-4c4f-5805-08dda93e36a1
-x-ms-exchange-slblob-mailprops: iS5pQZgsAQCkRkOLrFZHmAr0JELdoGfPtujHw4I6FbTXLsgE7Haj1PKxl2u6EE+EEg4wTPDgqqTchmctohFwqqOCSGgI+QaTj7iRXjJ0Xku6ErpLClUW2QFI5ZhmbO/In8oHIrOMJJO8eqKycyIhXIS5O+HwACWwxHO+QtMajI01B7q0XVa7gHcSTa/CtFGBvBxb7dykaIZuFHa6GmKIIfYPns0PnCI26u6DBHvV+BAvDF3OlpTBNJ8ZKHywXvywa0YK22QX7a3fHgRT18JWDvl5ML2tuwZHUnFduyxmND+ee1BTM/TFPl/AD4xbED4bE1MdoJIRASBqX3kwtGZN4N5Ny4d2hXxUztzojU88z9hjsShmE9qFwAHLq9SWz/KO+smY701zsh4sy41vuF0JkqWQawa0UuBOUCd8e3RYYk9pMoes5Y82X7EyfvMRGNCZx40TOxKtSpqebXRsAPDZE7vDbFUcly1LGAxZzN+waKAN1+QHVx+zMexTILF2nZDPX3mxTqIaW5EfTn3RISPQnWhrLWsO9oeGkT2dlt8BKj0Q3ST6UjU42aPgL0NVM8ez0FcuusRzEaeG6j+XIgzd0/MzGIPuaPmS2yDHnLepVKxcQi235jKfa5WIaMsNjkhJSaucUoUDDzH8T1GFUIe6LNy+MQGHSfY8HPHuTM/j/lz2VIE0qoE8u98o05zJJjUCPy3O5YfEOZemaq/AIC1fX/gPqpekO9mp1dquRJ5SbulZV9n4bm6oJvwtW+CA4eDXIiS7wGg15Xovsa1FeKkg0Wn3jnTullu6lzaw01my4O+Ngd2ojVt/4BthannSvxbP
-x-microsoft-antispam: BCL:0;
- ARA:14566002|461199028|15080799009|19110799006|41001999006|8062599006|8060799009|1602099012|52005399003|3412199025|4302099013|440099028|10035399007|102099032;
-x-microsoft-antispam-message-info: =?us-ascii?Q?f7cQcZWn4SkSC+CJK6H8BbC22uQSZtRs0FRbc0fxHXnegNcULK+Wj+i0BdJE?=
- =?us-ascii?Q?dxhHgBq5RHZMDsMbbPWQAnsaZ1z+tYRza+VHO8rYWh7hA1o5K4BvTiOffH8s?=
- =?us-ascii?Q?A6q7x/V8nxXdloWtwEFVEqT2FMue3hisgXEA3I+NyDTD/b6XCDjeWvMe5GKI?=
- =?us-ascii?Q?Hzlz7W4SWZU4uHhtMBlZGOJF7Kw/SUf3A7Ldy0YNnjJvle2ux00zNCqWYMwQ?=
- =?us-ascii?Q?1Zs4pnIOvbQRjEALhKgpqYA482cuqUGUB0524VBav43dynKMe09s8gZdLPXT?=
- =?us-ascii?Q?8PrUIagQ9I54UjNXP4eaLjx3DJnjLsDYTrWGdowUVd7SezAx8tM5Iqw1j2kG?=
- =?us-ascii?Q?XQyUnSbzCxsmjSeib4qkYNX9U8rFbTrGIjbZ4PJf6HP2jbw78fGW+BfgeoUX?=
- =?us-ascii?Q?JAuTHlsEGE7Snrn2/Nn1XXu+d1XRnuaxvbUhxOfxybRwI805jRDxku4W4tnN?=
- =?us-ascii?Q?ixTlUdq5U9DtCSF6D+Eu4YFs7wXDC+/bR2OsO2jHsBLi7JI29KXe6lNgqlzx?=
- =?us-ascii?Q?jLkdg43zQ4sSJGh0mdd1LLOSrfmuGkL975oKKM9qKhwIiLE1SvZ4mYa3mpe4?=
- =?us-ascii?Q?EJd8OC9eFdMREQ7cT7Yt25abS1eFSYdk+BuSaQ+E83NoNLijbD+tzMPHD4oV?=
- =?us-ascii?Q?OYJBIKXCtM+wCD+3QvDi11t1J6cAbq1P8jVADjVF1B0jGpGs+qo3ru0DvTo8?=
- =?us-ascii?Q?/KNlAeK24CECtdY/W2OGO9GxI80hhkrkcljT77/NWUExRqNwOAK9zF0fINfT?=
- =?us-ascii?Q?3z7QgsHv1wUQIoZO3iOM+L9CNBBejPVVjI60uQ06Gz9cVuWJl9AyFNcG6zTc?=
- =?us-ascii?Q?bRwMEU1bjEkMKeLRT31aR64Glq8b8pzzUEt83/nxq0o6jwIhBNGQRUvWm9Qb?=
- =?us-ascii?Q?ossVHDP1jfpsCD0Fuj4avmI6+nX/Cf4dodDJyD+nskukpVTif9gbi4E7Tm/W?=
- =?us-ascii?Q?wQngh1i4Dqzn6iBcuoYymJUk/aXa9Dl1i+/P/1dcsYI0mXF2jZG3Jd8rE6fM?=
- =?us-ascii?Q?EiYf584UWA6vyNXBf5vceok9Tlu9NU39nBqDNgnJh0m/MNt6veEXqWN8HthT?=
- =?us-ascii?Q?MIUXBuK1QWO6EqobEyrsh/0HMlZrOnLo+hyRy/tbob2oQwArljiTQd/3O2RS?=
- =?us-ascii?Q?VXQ+doKkFue+iDFmE4WZaq6c4GDze2xT9rpCQF5GBfx++RUSyLbA1At+q5A3?=
- =?us-ascii?Q?Ml+c4Q+UCfiYkTme8rDP3RweKfCW3G8uN/+960TGqu5ipZ04M4XhegVYZaiE?=
- =?us-ascii?Q?hobuVwWqS+PZQFMErRXQsjNUbQHk5xEk2prA/vBWJgDnsZQxe0v6n2oH415O?=
- =?us-ascii?Q?dki3fCA0hac0YVFkHIr3yQ0n?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YQxefKfgQ/lJHRoT+t8O2PssOm9mLq5rBZbWTT30zpoX9f3zGwHvis42sJDO?=
- =?us-ascii?Q?rowHQXVdDNNBVzRnsiIt2Wr9UnKup5wU9hG7QqDxca8s/n9mwfBSL7a7+Cgm?=
- =?us-ascii?Q?1GdT4jTqGwuEdcrEsh0ZVrdDkE0k9qvtTNSI+T87hlWwbd44BcBGH889qHQx?=
- =?us-ascii?Q?EqGIEqmIQz8mFHCJkmcvNpSxpAAfvDsHVwKmQln/1t/am19SO6mEoduBEnra?=
- =?us-ascii?Q?94qr7jnw3VFvDd+hK/7bVOp2xfEFEVRUpDCxCZpR+orvxX5coVrlZoNWwggd?=
- =?us-ascii?Q?lfTA/Pd4Uasq168bHpfOkr5QDalrbqpWWiZpYvpoYM2TDjWfsZcHmiaW54pq?=
- =?us-ascii?Q?rhWF9pnEeXTffJPmwMoAj2RrduwPCidY9gvvoRdeo96T6FfnUHDI/EizQbTy?=
- =?us-ascii?Q?PL0bpeYctECi6RcjGgIlAMSKmrNWHYrjB1NOXG5ctMY4+H4jXWm+r38wJGnp?=
- =?us-ascii?Q?g8lt3ZmME0hX1vLpw+Uc2H2fZ/N8VdblXRCvdbq7BE3mxFB7mnM79e0kgCq+?=
- =?us-ascii?Q?p1VQw9wMlf670M6AJx/0YH/7vLp7psWrT6Ff3foqR17IsN/QJplnPgqEAlms?=
- =?us-ascii?Q?K/ELAs8cHzRIPxnxIDaKNgbSqa1ltSkJrZpUk2e19+Ht+bHLwc5lSogEbHk9?=
- =?us-ascii?Q?Q5OOL3U3xd5gkEBy7ncym4zphGJfNHuGcZhabybmutWeE0S8+Snq8Ts0/ldG?=
- =?us-ascii?Q?VTUKwQGWFkVKfnjtOvfJlYU6yHRmmdhhArsDKfoc+ToSAaVozZZmXvONOZX2?=
- =?us-ascii?Q?0UBG/vsgTyk9ypGW42ZytcYSe6tkj579DHXxF3Ed9cm2AJWm2BmjQRYTJnmp?=
- =?us-ascii?Q?iKKjJfWrs0qWEcAySJygqN9K2tnfU7Zqq+BCD2yvKtbqLEa2xWByvny6qgnM?=
- =?us-ascii?Q?J5KW8v1hbpT8kuWRvqPFvCvVCTNJ8XGwEErbMpADAnn/2kyQ3f2Xtzg3I3ai?=
- =?us-ascii?Q?2q/dBUHW7iPH+wlYmsFyaE91YmBedpxS9zxxOOv4aCK157gsi+AQ6ToqeiPS?=
- =?us-ascii?Q?SLNhcyTWIsWWzn5oT+9x9MHPSEUKqN5rE7iisoWuKwQXh4miNTelu8xOjZxL?=
- =?us-ascii?Q?T3U178oAKulQuRbKXV3wCTH/OVLXFc8n8nCIvPyJmrb4EVevgIHD9QNm+2xb?=
- =?us-ascii?Q?sORj74OOqpDB+oiwGS5Ymv4dwN6HrfHxqgy03z/3XZIDu5Q5Xp8yc32i2YDp?=
- =?us-ascii?Q?vrmF/dLEejqKxFQEBXhbiA6Ceibd34cKMQtZhq+ZoWJM0ndXaqSOK5Gm14M?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B40B10E74A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 23:45:23 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55BMFCYq032126
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 23:45:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kL/Liu/GqjPKUC4NnGw8PIVD+TNpkbMa+VGstZWsdgM=; b=Uk92e2ReIMb6itzQ
+ XyMYOmDFaHlbqT8QN2wh6CaJU1Ifca/48IbFjhYf0+tLT2k/ooeR962mAS9uSgn6
+ DBV5FAp6c3B42an+/WXAF9p+uIsKm1+2v4BNG7WjwiMjdyvCyrVp9uyysSO6g/xf
+ HczRBQrYHaWmK9pVwNKXeKHOKCF9hCS6vi+dtdQl+FLmpy5vNSgx9HWNsklA1AJP
+ XxdFs/vJVAzCr701hqw4eR3RE0cIBgJnA24yZhpF+f4cUgjGKHvQ8nGElozBvV6O
+ BLZ+YX0+TxXymijBPxCu7AITs8GciqOOUAq/+qdgxb2jKmiEgMkK/IY2U9wf8+5Y
+ XB2lBA==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 477jdwr5qj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 23:45:21 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-b2c3e576201so1152095a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 16:45:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749685520; x=1750290320;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kL/Liu/GqjPKUC4NnGw8PIVD+TNpkbMa+VGstZWsdgM=;
+ b=kGrDXHvfxrvsB8IiWXdDsSqb8tk5nskPn5GyhOJ9Wa+fJq/dbCh+EVrF/xZohlj2bA
+ 9/LjowcrKRvW++zWLgf7GF5glPe1On1Tajfdhh75xDI2RZX2RZavEcLqzux8CUVFxQ2b
+ hbkV1Yq/8UuZLJEwWIQ8pp0LQdB+OAFPbKxkDrONedNUyQVHusyDLBfkiht59pHH2QvT
+ ID7buNkpWv3A5Y7YDRw5UY6mC/wXbGNCty2VPtCsoErKE/DG9jocy6gb++FLCnv6NiSP
+ uxCAsumSN2qSuWZ9wo3pDwWVgREi8X+aR+O76H4A2AOU/FyAyaESbv1+ecZMNSNV0cSb
+ u/KA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeAaOPlP5pdVDMurVK/CwiDgb30Ars2DC2zYGH9jY43SVX6+Ru/+7tKtuNziGOb7XkvP6ecscxTFg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUZfkTAvzTN2J8//sJoBuoSfY/1qtRPsuSfSemEhgvr3r1jhwD
+ gW1bH6LjMsdVVA1bg0vFIHEfP7wdDtGgFtWv1gSOvzp7sUUkpgfbJU7Yz/2r3U1bfck2obZKAa6
+ OKt21X0DTR5FDP+eqlDQTgxoLFOgmFoYiN07kpuX40YGSjXeuTaoDh20kdZkOvaevEqoAnw==
+X-Gm-Gg: ASbGncsj9MzZCKQEFKKTCmYBUrveuMDRDciGerAKdVkhXC9ElWJIBH0lipFukiKhCl0
+ zccwu2X2rwEePl7GjlEJXjvE19sAqzy9Orrc1jPJT39hrNiw0e/jrT7KJN1mfwvx1pSsJuDnSdL
+ 6zm7h+AnstT+5OKFMnzDtnfKJn+Sa3Os2E0yCtIeVRek5XFeF4UIRjrfUYc1cH6a0/zWKa8biFk
+ /lBwRQis47ICKKau8I5XxqabtDqpoAXVmX8rrE13QG51JvKJnSVy5BWUR/NWANyP57YiM/ByqPV
+ 2yG83CwWzqRhO4OoRTQAn2dR4l6iY8qr+2sbGLE8nVMFBqXf5vuGcFtFok+eqdtYUdz54ZDRS4P
+ FYfG2KZ1cB4UZYKS8kQ5O
+X-Received: by 2002:a17:90b:1d49:b0:311:a5ab:3d47 with SMTP id
+ 98e67ed59e1d1-313bfd7ab92mr1604734a91.1.1749685520269; 
+ Wed, 11 Jun 2025 16:45:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFAMR6wEIIwnne3OpDAIO64Df49wCTs/N/zWmX8iRNFkPwGVeKGubpgXpgrWv1YmWUP5MvRNQ==
+X-Received: by 2002:a17:90b:1d49:b0:311:a5ab:3d47 with SMTP id
+ 98e67ed59e1d1-313bfd7ab92mr1604694a91.1.1749685519759; 
+ Wed, 11 Jun 2025 16:45:19 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au.
+ [1.41.240.65]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-313c1b499cbsm200694a91.26.2025.06.11.16.45.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jun 2025 16:45:19 -0700 (PDT)
+Message-ID: <8f9a7ca7-5098-40c6-94b2-490a857d7dae@oss.qualcomm.com>
+Date: Thu, 12 Jun 2025 09:45:10 +1000
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8daafcc1-e114-4c4f-5805-08dda93e36a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2025 23:18:02.5508 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6553
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+To: Andrew Davis <afd@ti.com>, Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
+ <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+ <f686130b-009f-4feb-bae1-022938c85923@ti.com>
+Content-Language: en-US
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <f686130b-009f-4feb-bae1-022938c85923@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDIwMCBTYWx0ZWRfX0UOcoqy6sGVr
+ HYfAR9tXEdk/BlLeR8RS/yA1H6chcsbLfjJk84xLRcQzOzIQ59XtpYCJ9ErgHAeLQyXvudKPKpd
+ wZ+J2P7nGf1B/70PDIi9XuUf4La9VoOpjsLRV/QQymBbblv/RJ6hbF9CbLFDJ1apAtgTeBF/0Nl
+ G/nw5GVMvhyAv8gO6xUIvKn8GeQ5slmLKEcOKx+3lXMSBcD3+L1DRy9aNyLBm12fs6c7nM/upQG
+ x6foki1/w534NjrH3UPOqonkblra65j9uStBvTrF1JLx4AolAHMsD97wIJ2T/pqXO6BYxdNK88f
+ T/wAjOqlD1CiM3aVZZcS71JmIRktL5FjqMixh8D3lIHGFx6fvE3COq/KImgLYo/bVu53vJupFfA
+ gHcYxpKAv4IyqF1oatDE0UH6icarb9N4HGjxOD8JMqjprk0KYKMX9NPr4PvDbbbr6zqGrVQk
+X-Proofpoint-ORIG-GUID: FAVs1GeVc9v_wWa_d67VNIHsVmGEMhbF
+X-Proofpoint-GUID: FAVs1GeVc9v_wWa_d67VNIHsVmGEMhbF
+X-Authority-Analysis: v=2.4 cv=Jce8rVKV c=1 sm=1 tr=0 ts=684a1511 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=ri7p8OPjmTxfXj7m-Z0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_10,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506110200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,98 +137,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Kelley Sent: Thursday, June 5, 2025 10:39 AM
->=20
-> From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Thursday, June 5, 202=
-5
-> 8:36 AM
-> >
-> > Hi
-> >
-> > Am 04.06.25 um 23:43 schrieb Michael Kelley:
-> > [...]
-> > > Nonetheless, there's an underlying issue. A main cause of the differe=
-nce
-> > > is the number of messages to Hyper-V to update dirty regions. With
-> > > hyperv_fb using deferred I/O, the messages are limited 20/second, so
-> > > the total number of messages to Hyper-V is about 480. But hyperv_drm
-> > > appears to send 3 messages to Hyper-V for each line of output, or a t=
-otal of
-> > > about 3,000,000 messages (~90K/second). That's a lot of additional lo=
-ad
-> > > on the Hyper-V host, and it adds the 10 seconds of additional elapsed
-> > > time seen in the guest. There also this ugly output in dmesg because =
-the
-> > > ring buffer for sending messages to the Hyper-V host gets full -- Hyp=
-er-V
-> > > doesn't always keep up, at least not on my local laptop where I'm
-> > > testing:
-> > >
-> > > [12574.327615] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12574.327684] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12574.327760] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12574.327841] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12597.016128] hyperv_sendpacket: 6211 callbacks suppressed
-> > > [12597.016133] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12597.016172] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12597.016220] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > > [12597.016267] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm]
-> > *ERROR* Unable to send packet via vmbus; error -11
-> > >
-> > > hyperv_drm could be fixed to not output the ugly messages, but there'=
-s
-> > > still the underlying issue of overrunning the ring buffer, and excess=
-ively
-> > > hammering on the host. If we could get hyperv_drm doing deferred I/O,=
- I
-> > > would feel much better about going full-on with deprecating hyperv_fb=
-.
-> >
-> > I try to address the problem with the patches at
-> >
-> > https://lore.kernel.org/dri-devel/20250605152637.98493-1-
-> tzimmermann@suse.de/
-> >
-> > Testing and feedback is much appreciated.
-> >
->=20
-> Nice!
->=20
-> I ran the same test case with your patches, and everything works well. Th=
-e
-> hyperv_drm numbers are now pretty much the same as the hyperv_fb
-> numbers for both elapsed time and system CPU time -- within a few percent=
-.
-> For hyperv_drm, there's no longer a gap in the elapsed time and system
-> CPU time. No errors due to the guest-to-host ring buffer being full. Tota=
-l
-> messages to Hyper-V for hyperv_drm are now a few hundred instead of 3M.
-> The hyperv_drm message count is still a little higher than for hyperv_fb,
-> presumably because the simulated vblank rate in hyperv_drm is higher than
-> the 20 Hz rate used by hyperv_fb deferred I/O. But the overall numbers ar=
-e
-> small enough that the difference is in the noise. Question: what is the d=
-efault
-> value for the simulated vblank rate? Just curious ...
->=20
+Hi Andrew,
 
-FYI, I'm seeing this message occasionally when running with your simulated
-vblank code and hyperv_drm:
+On 6/12/2025 8:40 AM, Andrew Davis wrote:
+> On 5/27/25 1:56 AM, Amirreza Zarrabi wrote:
+>> For drivers that can transfer data to the TEE without using shared
+>> memory from client, it is necessary to receive the user address
+>> directly, bypassing any processing by the TEE subsystem. Introduce
+>> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
+>> userspace buffers.
+>>
+> 
+> Could you expand on this, what is the issue with normal MEMREF?
+> 
 
-[90920.128278] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] vblan=
-k timer overrun
+QTEE supports two types of data passing: (1) memory objects and (2) buffers.
+A memory object can be a normal shared memory (shm) instance. However, a
+buffer is an [offset, size] pair referring to the transport memory shared
+with QTEE (established at the begining of the invocation).
 
-"Occasionally" is about a dozen occurrences over the last day or so. I can'=
-t
-yet correlate to any particular activity in the VM. The graphics console ha=
-s
-not been very busy.
+There is no direct representation of VALUE in the QTEE ABI, so even basic
+data types, such as int, must be passed as a buffer [offset, sizeof(int)].
+VALUE cannot be used because it only represents a u64 data size. While MEMREF
+is an option, it requires additional ioctl calls and memory copies.
 
-Michael
+For example, if you need to send three integers to QTEE, you would require:
+  (1) Three ioctl calls to allocate three shared memory pages.
+  (2) Three memcpy operations to copy each integer into its respective shared memory.
+  (3) Three memcpy operations to transfer data from shared memory to the
+      transport buffer shared with QTEE.
+
+You can optimize this slightly by making a single ioctl call for shared
+memory allocation. However, the backend still needs to inspect the shared
+memory, parse it, and extract the data and size information.
+
+With UBUF user pass user address and size, and ther is only one copy_from_use
+in the backend.
+
+Regards,
+Amir  
+
+> Andrew
+> 
+>> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>> ---
+>>   drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
+>>   include/linux/tee_drv.h  |  6 ++++++
+>>   include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>>   3 files changed, 55 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+>> index b9ea5a85278c..74e40ed83fa7 100644
+>> --- a/drivers/tee/tee_core.c
+>> +++ b/drivers/tee/tee_core.c
+>> @@ -387,6 +387,17 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>>               params[n].u.value.b = ip.b;
+>>               params[n].u.value.c = ip.c;
+>>               break;
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+>> +            params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+>> +            params[n].u.ubuf.size = ip.b;
+>> +
+>> +            if (!access_ok(params[n].u.ubuf.uaddr,
+>> +                       params[n].u.ubuf.size))
+>> +                return -EFAULT;
+>> +
+>> +            break;
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>> @@ -455,6 +466,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>>                   put_user(p->u.value.c, &up->c))
+>>                   return -EFAULT;
+>>               break;
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+>> +            if (put_user((u64)p->u.ubuf.size, &up->b))
+>> +                return -EFAULT;
+>> +            break;
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>>               if (put_user((u64)p->u.memref.size, &up->b))
+>> @@ -655,6 +671,13 @@ static int params_to_supp(struct tee_context *ctx,
+>>               ip.b = p->u.value.b;
+>>               ip.c = p->u.value.c;
+>>               break;
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+>> +            ip.a = (u64)p->u.ubuf.uaddr;
+>> +            ip.b = p->u.ubuf.size;
+>> +            ip.c = 0;
+>> +            break;
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>> @@ -757,6 +780,16 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>>               p->u.value.b = ip.b;
+>>               p->u.value.c = ip.c;
+>>               break;
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+>> +        case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+>> +            p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+>> +            p->u.ubuf.size = ip.b;
+>> +
+>> +            if (!access_ok(params[n].u.ubuf.uaddr,
+>> +                       params[n].u.ubuf.size))
+>> +                return -EFAULT;
+>> +
+>> +            break;
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>           case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>>               /*
+>> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+>> index a54c203000ed..78bbf12f02f0 100644
+>> --- a/include/linux/tee_drv.h
+>> +++ b/include/linux/tee_drv.h
+>> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>>       struct tee_shm *shm;
+>>   };
+>>   +struct tee_param_ubuf {
+>> +    void * __user uaddr;
+>> +    size_t size;
+>> +};
+>> +
+>>   struct tee_param_value {
+>>       u64 a;
+>>       u64 b;
+>> @@ -92,6 +97,7 @@ struct tee_param {
+>>       u64 attr;
+>>       union {
+>>           struct tee_param_memref memref;
+>> +        struct tee_param_ubuf ubuf;
+>>           struct tee_param_value value;
+>>       } u;
+>>   };
+>> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+>> index d0430bee8292..3e9b1ec5dfde 100644
+>> --- a/include/uapi/linux/tee.h
+>> +++ b/include/uapi/linux/tee.h
+>> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT    6
+>>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT    7    /* input and output */
+>>   +/*
+>> + * These defines userspace buffer parameters.
+>> + */
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT    8
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT    9
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT    10    /* input and output */
+>> +
+>>   /*
+>>    * Mask for the type part of the attribute, leaves room for more types
+>>    */
+>> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>>   /**
+>>    * struct tee_ioctl_param - parameter
+>>    * @attr: attributes
+>> - * @a: if a memref, offset into the shared memory object, else a value parameter
+>> - * @b: if a memref, size of the buffer, else a value parameter
+>> + * @a: if a memref, offset into the shared memory object,
+>> + *     else if a ubuf, address of the user buffer,
+>> + *     else a value parameter
+>> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
+>>    * @c: if a memref, shared memory identifier, else a value parameter
+>>    *
+>> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
+>> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+>> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
+>> - * indicates that none of the members are used.
+>> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+>> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+>> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+>> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+>> + * are used.
+>>    *
+>>    * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>>    * identifier representing the shared memory object. A memref can reference
+>>
+
