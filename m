@@ -2,72 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA77AD606A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 22:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D9AAD606E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 22:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2A310E732;
-	Wed, 11 Jun 2025 20:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43BFF10E71A;
+	Wed, 11 Jun 2025 20:57:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WaMypwD8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HFXMqJz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324B410E71A;
- Wed, 11 Jun 2025 20:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749675289; x=1781211289;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=eKmSOkzdxVVul/hPeQ8DgKIeSjxZ8vSw2NWi03EzGs0=;
- b=WaMypwD8yVEp9tmaEJ6q0p/UrOBwZSLKRgLvoYdVrwdDEDh5RVWGeGjh
- mfi6ynDJ5GxLVjd3TFouhK15HcmDTygZRpWAIw2IKJ8jbNMq6inw0mapA
- TuiuvpOC3evd3B91tPcEfvGryLFD1rTx7MXJJwIF0H57tDH52P+z0nBvb
- Yab0uas5tPBlayU50K1E6sFRKb6F8zZ3HVeEkMxEoeXS5IOc3b3HubnNu
- Gl4VZWgs6STnWeTnBDYZJ9Jdftyeps8CeVL2gGRj43fh50rVx5jnUv5Ot
- eu9HuUaMA/v56dUZgA2wH52Znc25HLYRYBxAfP6u58DYTSutNiM8oYFM+ A==;
-X-CSE-ConnectionGUID: f0PiZjD+RAG74Oh+COUgtA==
-X-CSE-MsgGUID: auRFgrqsSD2p0NctNbjaWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="69395097"
-X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; d="scan'208";a="69395097"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 13:54:48 -0700
-X-CSE-ConnectionGUID: pMDvgjCaQ7G27MRwXMMN1Q==
-X-CSE-MsgGUID: JjozI0owS7e5vv/exMOANg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; d="scan'208";a="178216137"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.195])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 13:54:43 -0700
-Date: Wed, 11 Jun 2025 22:54:40 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Gote, Nitin R" <nitin.r.gote@intel.com>
-Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- "Auld, Matthew" <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- "Brzezinka, Sebastian" <sebastian.brzezinka@intel.com>,
- "Niemiec, Krzysztof" <krzysztof.niemiec@intel.com>,
- "Karas, Krzysztof" <krzysztof.karas@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA
- alloc error
-Message-ID: <aEntEHqvZ10SaE8u@ashyti-mobl2.lan>
-References: <20250611104352.1014011-2-janusz.krzysztofik@linux.intel.com>
- <IA3PR11MB89873936B6D887A59ABD909CD075A@IA3PR11MB8987.namprd11.prod.outlook.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D48510E080
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 20:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=heqO83ybWSX7bAoFs5DbLG/Q1FmmE+Ar4ZaZgfL2jFA=; b=HFXMqJz2HAfBwym5cUsqRg077s
+ Kh6bP4724h5WwfQkeSxXKaCmbU9bbyEIUlpbt7nRdqkm8tyATp9ekoO2jOALQROVeyLe9fE/AujAD
+ /FYBWYGGP7KXc/NYQMAJ7UOE0rTa41kaR7NFEUkjI5YBrWNXsIwrPxOmh1hs0HST6ALwVeK5AJp2A
+ CXmzqigc5wBymuojXbbemXjogsE9KITPMxNOzX9S06I7LKCzXO5045BzVYby61NvJurpJUEc3njeX
+ zm5tezYfr7HIP2tn+SwqmmX8E9smrz60xERcl0nNZqbC6YAqpuaqZSKY0e8prAq8GXeq+ItD4eG/1
+ ny4ZsUZA==;
+Received: from [187.36.208.198] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uPSVV-002Mdq-Qj; Wed, 11 Jun 2025 22:57:14 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH] drm/vkms: Compile all tests with CONFIG_DRM_VKMS_KUNIT_TEST
+Date: Wed, 11 Jun 2025 17:56:49 -0300
+Message-ID: <20250611205704.334527-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <IA3PR11MB89873936B6D887A59ABD909CD075A@IA3PR11MB8987.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,17 +62,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nitin,
+The Kconfig option `CONFIG_DRM_VKMS_KUNIT_TESTS` does not exist. However,
+the VKMS format tests use such an option for compilation, meaning that
+they are not compiled at all.
 
-On Wed, Jun 11, 2025 at 03:45:30PM +0000, Gote, Nitin R wrote:
-> [...]
-> > Subject: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA alloc
-> > error
-> >
-> 
-> Generally, it's preferred to use "drm/i915/gt:" file path over "drm/i915/ring_submission:"† file name in the†commit title.
+Use the Kconfig option `CONFIG_DRM_VKMS_KUNIT_TEST` to compile all VKMS
+KUnit tests.
 
-good observation, I missed it. I agree with Nitin on this, it can
-be fixed before merging.
+Fixes: 3e897853debd ("drm/vkms: Create KUnit tests for YUV conversions")
+Signed-off-by: Ma√≠ra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vkms/tests/Makefile | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Andi
+diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
+index 0ee077942ae2..5750f0bd9d40 100644
+--- a/drivers/gpu/drm/vkms/tests/Makefile
++++ b/drivers/gpu/drm/vkms/tests/Makefile
+@@ -1,4 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+-obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms_config_test.o
+-obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_format_test.o
++vkms-kunit-tests-y := \
++	vkms_config_test.o \
++	vkms_format_test.o
++
++obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms-kunit-tests.o
+-- 
+2.49.0
+
