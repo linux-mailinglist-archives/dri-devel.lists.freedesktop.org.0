@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3552CAD6001
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 22:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B13AD601B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 22:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F8410E730;
-	Wed, 11 Jun 2025 20:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABBC910E720;
+	Wed, 11 Jun 2025 20:32:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YpWeAupw";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Vhg2KtV0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0363C10E730
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 20:24:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE1610E282
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 20:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,22 +22,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=urMjQ5pcYA9bXztsxyIkm8DNknDyIXbtY9fAwYXwP4w=; b=YpWeAupwXY3qCcRctIorCceEN5
- LCEytFR3x2mr9Q+BKbyaZm/SMTADN3IUKWWTupspYGRayaNMZwvAXPy7/sSwO5af4qas5kR5qCgjU
- u2NsFwF8cuGDXtsG0hAXiI3v5YdOhZrt4hDM+SOLsJwR6bs7Fwjeytew0jd+twGyZRZWB0iXjRvJH
- OftDrhu3+aaTOhtNJuvGe7tHOgH0p362W2e1tbK80+YwAQKmFRcmqOo8S7xz9bC1BqcJVdTp5xVmr
- fNgesq3HEiTNPmeQJf50XCkoccjwJCb5FWzNaI74P6GDnj/f9jqdr5Q3b6PYxXVnh8yI+Rdv/i0Nx
- cHCx2zEg==;
+ bh=I1ROOz6q/EtfqWpNZah1S7LaOISIKhDuAQrSuQeGxzc=; b=Vhg2KtV0+qzSWlNWX9NfA84Kjh
+ QMYR3gGu6ltzYWI0KGjwDBbYSZF/wtjMZQ07D40h9yJUUbUJCR0e3UfdXo3m+nkE1RwDBKvTJabwX
+ W00qHCy7ul2CtbFXry6cxM2oHlXQl/Q/ThMliOlvF6SYuEXDrQtW8KaWjZozMCS6lV7tOMPtd8Rp+
+ PZrL+giQ186jidXJIhrvKgibKMAtMoqRmmf9hevEu+XpFASa93W8OMaIGb/PIL1jfUm+ON6Mef4Ze
+ Vn36OblS9nURA921ZCtUkFL+4rsuOnDQ+XE4wRg6tECaIBxALexqyx2jghy5JDMuUeQPW9MAQ0YdS
+ AGU0W9vA==;
 Received: from [187.36.208.198] (helo=[192.168.1.111])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uPRzq-002M63-Ls; Wed, 11 Jun 2025 22:24:30 +0200
-Message-ID: <0d522681-8a48-4f66-9b4c-32966068c6b8@igalia.com>
-Date: Wed, 11 Jun 2025 17:24:22 -0300
+ id 1uPS7e-002MEE-QP; Wed, 11 Jun 2025 22:32:35 +0200
+Message-ID: <87cc0c8e-5c25-49d1-88a5-52cc263c7c5f@igalia.com>
+Date: Wed, 11 Jun 2025 17:32:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] drm/vkms: Change YUV helpers to support u16 inputs
- for conversion
+Subject: Re: [PATCH v4 7/8] drm/vkms: Create helper macro for YUV formats
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
  <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -51,7 +50,7 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com
 References: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
- <20250530-b4-new-color-formats-v4-6-ef5f9f48376c@bootlin.com>
+ <20250530-b4-new-color-formats-v4-7-ef5f9f48376c@bootlin.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -78,7 +77,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
  uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
  raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20250530-b4-new-color-formats-v4-6-ef5f9f48376c@bootlin.com>
+In-Reply-To: <20250530-b4-new-color-formats-v4-7-ef5f9f48376c@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,136 +98,128 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Louis,
 
 On 5/30/25 11:06, Louis Chauvet wrote:
-> Some YUV format uses 16 bit values, so change the helper function for
-> conversion to support those new formats.
-> 
-> Add support for the YUV format P010
-
-Hum, I don't think this patch added support for P010.
-
+> The callback functions for line conversion are almost identical for
+> semi-planar formats. The generic READ_LINE_YUV_SEMIPLANAR macro
+> generate all the required boilerplate to process a line from a
+> semi-planar format.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->   drivers/gpu/drm/vkms/tests/vkms_format_test.c | 103 +++++++++++++-------------
->   drivers/gpu/drm/vkms/vkms_formats.c           |  26 ++++---
->   drivers/gpu/drm/vkms/vkms_formats.h           |   4 +-
->   3 files changed, 68 insertions(+), 65 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_formats.c | 75 ++++++++++++++++++++++++-------------
+>   1 file changed, 48 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> index 2e1daef94831..272e18a82f9c 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> @@ -23,7 +23,7 @@ MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
->    *     machine endianness
->    */
->   struct pixel_yuv_u8 {
-> -	u8 y, u, v;
-> +	u16 y, u, v;
->   };
->   
->   /*
-> @@ -64,7 +64,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
->   	 *                     in_bits = 16,
->   	 *                     in_legal = False,
->   	 *                     in_int = True,
-> -	 *                     out_bits = 8,
-> +	 *                     out_bits = 16,
->   	 *                     out_legal = False,
->   	 *                     out_int = True)
->   	 *
-> @@ -76,13 +76,13 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
->   		.range = DRM_COLOR_YCBCR_FULL_RANGE,
->   		.n_colors = 6,
->   		.colors = {
-> -			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> -			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> -			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> -			{ "red",   { 0x4c, 0x55, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> -			{ "green", { 0x96, 0x2c, 0x15 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> -			{ "blue",  { 0x1d, 0xff, 0x6b }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-> -		},
-> +			{ "white",	{ 0xffff, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> +			{ "gray",	{ 0x8080, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> +			{ "black",	{ 0x0000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> +			{ "red",	{ 0x4c8b, 0x54ce, 0xffff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> +			{ "green",	{ 0x9645, 0x2b33, 0x14d1 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> +			{ "blue",	{ 0x1d2f, 0xffff, 0x6b2f }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-
-Is there an explicit need of those tabs? They make the line length
-exceed 100 columns.
-
-[...]
-
 > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index 5106441f916b..261e822e9618 100644
+> index 261e822e9618..8ecd75d063f4 100644
 > --- a/drivers/gpu/drm/vkms/vkms_formats.c
 > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -279,16 +279,17 @@ static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
->   	return out_pixel;
->   }
+> @@ -485,35 +485,56 @@ READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
+>    * - Convert YUV and YVU with the same function (a column swap is needed when setting up
+>    * plane->conversion_matrix)
+>    */
+> -static void semi_planar_yuv_read_line(const struct vkms_plane_state *plane, int x_start,
+> -				      int y_start, enum pixel_read_direction direction, int count,
+> -				      struct pixel_argb_u16 out_pixel[])
+> -{
+> -	u8 *y_plane;
+> -	u8 *uv_plane;
+> -
+> -	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
+> -			       &y_plane);
+> -	packed_pixels_addr_1x1(plane->frame_info,
+> -			       x_start / plane->frame_info->fb->format->hsub,
+> -			       y_start / plane->frame_info->fb->format->vsub, 1,
+> -			       &uv_plane);
+> -	int step_y = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> -	int step_uv = get_block_step_bytes(plane->frame_info->fb, direction, 1);
+> -	int subsampling = get_subsampling(plane->frame_info->fb->format, direction);
+> -	int subsampling_offset = get_subsampling_offset(direction, x_start, y_start);
+> -	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
 >   
-> -VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
-> -							    const struct conversion_matrix *matrix)
-> +VISIBLE_IF_KUNIT
-> +struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
-> +					      u16 y, u16 channel_1, u16 channel_2)
->   {
->   	u16 r, g, b;
->   	s64 fp_y, fp_channel_1, fp_channel_2;
->   	s64 fp_r, fp_g, fp_b;
->   
-> -	fp_y = drm_int2fixp(((int)y - matrix->y_offset) * 257);
-> -	fp_channel_1 = drm_int2fixp(((int)channel_1 - 128) * 257);
-> -	fp_channel_2 = drm_int2fixp(((int)channel_2 - 128) * 257);
-> +	fp_y = drm_int2fixp((int)y - matrix->y_offset * 257);
-> +	fp_channel_1 = drm_int2fixp((int)channel_1 - 128 * 257);
-> +	fp_channel_2 = drm_int2fixp((int)channel_2 - 128 * 257);
- >   >   	fp_r = drm_fixp_mul(matrix->matrix[0][0], fp_y) +
->   	       drm_fixp_mul(matrix->matrix[0][1], fp_channel_1) +
-> @@ -310,7 +311,7 @@ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1,
->   
->   	return argb_u16_from_u16161616(0xffff, r, g, b);
->   }
-> -EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-> +EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv161616);
->   
->   /**
->    * READ_LINE() - Generic generator for a read_line function which can be used for format with one
-> @@ -504,8 +505,8 @@ static void semi_planar_yuv_read_line(const struct vkms_plane_state *plane, int
->   	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
->   
->   	for (int i = 0; i < count; i++) {
-> -		*out_pixel = argb_u16_from_yuv888(y_plane[0], uv_plane[0], uv_plane[1],
-> -						  conversion_matrix);
-> +		*out_pixel = argb_u16_from_yuv161616(conversion_matrix, y_plane[0] * 257,
-> +						     uv_plane[0] * 257, uv_plane[1] * 257);
->   		out_pixel += 1;
->   		y_plane += step_y;
->   		if ((i + subsampling_offset + 1) % subsampling == 0)
-> @@ -549,8 +550,9 @@ static void planar_yuv_read_line(const struct vkms_plane_state *plane, int x_sta
->   	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
->   
->   	for (int i = 0; i < count; i++) {
-> -		*out_pixel = argb_u16_from_yuv888(*y_plane, *channel_1_plane, *channel_2_plane,
-> -						  conversion_matrix);
-> +		*out_pixel = argb_u16_from_yuv161616(conversion_matrix,
-> +						     *y_plane * 257, *channel_1_plane * 257,
-> +						     *channel_2_plane * 257);
->   		out_pixel += 1;
->   		y_plane += step_y;
->   		if ((i + subsampling_offset + 1) % subsampling == 0) {
-> @@ -690,9 +692,9 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
->   	case DRM_FORMAT_BGRX8888:
->   		return &BGRX8888_read_line;
->   	case DRM_FORMAT_RGB888:
-> -		return RGB888_read_line;
-> +		return &RGB888_read_line;
->   	case DRM_FORMAT_BGR888:
-> -		return BGR888_read_line;
-> +		return &BGR888_read_line;
+> -	for (int i = 0; i < count; i++) {
+> -		*out_pixel = argb_u16_from_yuv161616(conversion_matrix, y_plane[0] * 257,
+> -						     uv_plane[0] * 257, uv_plane[1] * 257);
+> -		out_pixel += 1;
+> -		y_plane += step_y;
+> -		if ((i + subsampling_offset + 1) % subsampling == 0)
+> -			uv_plane += step_uv;
+> -	}
+> +/**
+> + * READ_LINE_YUV_SEMIPLANAR() - Generic generator for a read_line function which can be used for yuv
+> + * formats with two planes and block_w == block_h == 1.
+> + *
+> + * @function_name: Function name to generate
+> + * @pixel_1_name: temporary pixel name for the first plane used in the @__VA_ARGS__ parameters
 
-This should be in the previous patch.
+s/temporary/Temporary
+
+> + * @pixel_2_name: temporary pixel name for the second plane used in the @__VA_ARGS__ parameters
+> + * @pixel_1_type: Used to specify the type you want to cast the pixel pointer on the plane 1
+> + * @pixel_2_type: Used to specify the type you want to cast the pixel pointer on the plane 2
+> + * @callback: Callback to call for each pixels. This function should take
+> + *            (struct conversion_matrix*, @__VA_ARGS__) as parameter and return a pixel_argb_u16
+
+s/struct conversion_matrix*/struct conversion_matrix *
+
+> + * @__VA_ARGS__: Argument to pass inside the callback. You can use @pixel_1_name and @pixel_2_name
+> + *               to access current pixel values
+> + */
+> +#define READ_LINE_YUV_SEMIPLANAR(function_name, pixel_1_name, pixel_2_name, pixel_1_type,	\
+> +				 pixel_2_type, callback, ...)					\
+> +static void function_name(const struct vkms_plane_state *plane, int x_start,			\
+> +		 int y_start, enum pixel_read_direction direction, int count,			\
+> +		 struct pixel_argb_u16 out_pixel[])						\
+> +{												\
+> +	u8 *plane_1;										\
+> +	u8 *plane_2;										\
+
+For now, how do you feel about keeping it as `y_plane` and `uv_plane`.
+For me, it has more semantic information and eases the understanding.
+
+With those nits,
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
 Best Regards,
 - Maíra
+
+> +												\
+> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,				\
+> +			       &plane_1);							\
+> +	packed_pixels_addr_1x1(plane->frame_info,						\
+> +			       x_start / plane->frame_info->fb->format->hsub,			\
+> +			       y_start / plane->frame_info->fb->format->vsub, 1,		\
+> +			       &plane_2);							\
+> +	int step_1 = get_block_step_bytes(plane->frame_info->fb, direction, 0);			\
+> +	int step_2 = get_block_step_bytes(plane->frame_info->fb, direction, 1);			\
+> +	int subsampling = get_subsampling(plane->frame_info->fb->format, direction);		\
+> +	int subsampling_offset = get_subsampling_offset(direction, x_start, y_start);		\
+> +	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;		\
+> +												\
+> +	for (int i = 0; i < count; i++) {							\
+> +		pixel_1_type *(pixel_1_name) = (pixel_1_type *)plane_1;				\
+> +		pixel_2_type *(pixel_2_name) = (pixel_2_type *)plane_2;				\
+> +		*out_pixel = (callback)(conversion_matrix, __VA_ARGS__);			\
+> +		out_pixel += 1;									\
+> +		plane_1 += step_1;								\
+> +		if ((i + subsampling_offset + 1) % subsampling == 0)				\
+> +			plane_2 += step_2;							\
+> +	}											\
+>   }
+>   
+> +READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
+> +			 y[0] * 257, uv[0] * 257, uv[1] * 257)
+> +
+>   /*
+>    * This callback can be used for YUV format where each color component is
+>    * stored in a different plane (often called planar formats). It will
+> @@ -713,7 +734,7 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>   	case DRM_FORMAT_NV21:
+>   	case DRM_FORMAT_NV61:
+>   	case DRM_FORMAT_NV42:
+> -		return &semi_planar_yuv_read_line;
+> +		return &YUV888_semiplanar_read_line;
+>   	case DRM_FORMAT_YUV420:
+>   	case DRM_FORMAT_YUV422:
+>   	case DRM_FORMAT_YUV444:
+> 
 
