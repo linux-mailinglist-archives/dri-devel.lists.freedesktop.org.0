@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450A8AD57E6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293F6AD580B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 16:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B3A10E689;
-	Wed, 11 Jun 2025 14:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F68910E690;
+	Wed, 11 Jun 2025 14:09:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aTgux2sq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CwMTla00";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086EF10E36F;
- Wed, 11 Jun 2025 14:01:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08FAF10E68E;
+ Wed, 11 Jun 2025 14:09:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Bdiydh6YnY/wdLLWPwblgEctpDY1uo+Xv/ipgChf6IA=; b=aTgux2sqNAAuZQLLoFS7MmBKtB
- 46jMmfftPuVVl/gKmyffkH0ML8slWtV3X3wZfg9OsvMDzO7Uc70xWARALsDL+a4zmVF3et2/EDjFO
- 1i36cbI40vv8pR4bLRvrS8X5xwUD/+wdOR3D1IiLyF53sPswRdoeKF2y/fu4HR2lP8HTZAcKzsBDe
- 3q4xxumw9mo6F3174ojBuTpwhmEiZqEDHif5S/kZbTw0X3yb7mateLUrPth3651kRhhv0nsxWOzCJ
- flDCYgUczGIun6VVv58yeERRbnVthk/m1OcVN7hrj9yy8G68dl3I4qGga/nzArJguT8LJb4vRxANr
- Rx9qreFg==;
-Received: from [81.79.92.254] (helo=localhost)
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oeIaObaRwA0rV8/Y63Yf41V/JNhDgjNWBT7LI4V4kls=; b=CwMTla00N1G3CI3OHnrreQSkNc
+ hKT0trD9NDKuDmloRLpbTz7Ysga0TOtgc9D+0waf0znlCeAw1FrTGafSgGXcIShpj5OVpb/e8sZ8l
+ Ol/6Rx0In4+EpseT9kZ9P9PbE4EYzzLYHuKmqlko4ItZNjPiRrLlXTkPcPE7db1SnzaZuRiNdu0FV
+ PcrmUuiY5XI+yneSNurQYNBL0azz7yNPuIymlSoVg9eBWT89g5ttnlFp5k4PZ7ONacQzQWoIoSUax
+ JCFO4T9HZXdW91b1uKq9Dho4jFrCLRvLWQCqDqt0JZo7YiH+ZqiKT7t900njWUxFhQkpg7u95NbdD
+ 7Et6F06Q==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uPM0n-002Dwu-9v; Wed, 11 Jun 2025 16:01:05 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v5 6/6] drm/syncobj: Add a fast path to drm_syncobj_array_find
-Date: Wed, 11 Jun 2025 15:00:57 +0100
-Message-ID: <20250611140057.27259-7-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
-References: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uPM8O-002E4m-KH; Wed, 11 Jun 2025 16:08:56 +0200
+Message-ID: <055b0531-a090-446b-b249-07f534faf84f@igalia.com>
+Date: Wed, 11 Jun 2025 15:08:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/4] dma-fence: Add safe access helpers and document
+ the rules
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Rob Clark <robdclark@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
+ <20250610164226.10817-4-tvrtko.ursulin@igalia.com>
+ <0c89db67-50f0-46e0-ac0e-bf050f543cb4@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <0c89db67-50f0-46e0-ac0e-bf050f543cb4@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,241 +70,336 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Running the Cyberpunk 2077 benchmark we can observe that the lookup helper
-is relatively hot, but the 97% of the calls are for a single object. (~3%
-for two points, and never more than three points. While a more trivial
-workload like vkmark under Plasma is even more skewed to single point
-lookups.)
 
-Therefore lets add a fast path to bypass the kmalloc_array/kfree and use a
-pre-allocated stack array for those cases.
+On 11/06/2025 12:43, Christian König wrote:
+> On 6/10/25 18:42, Tvrtko Ursulin wrote:
+>> Dma-fence objects currently suffer from a potential use after free problem
+>> where fences exported to userspace and other drivers can outlive the
+>> exporting driver, or the associated data structures.
+>>
+>> The discussion on how to address this concluded that adding reference
+>> counting to all the involved objects is not desirable, since it would need
+>> to be very wide reaching and could cause unloadable drivers if another
+>> entity would be holding onto a signaled fence reference potentially
+>> indefinitely.
+>>
+>> This patch enables the safe access by introducing and documenting a
+>> contract between fence exporters and users. It documents a set of
+>> contraints and adds helpers which a) drivers with potential to suffer from
+>> the use after free must use and b) users of the dma-fence API must use as
+>> well.
+>>
+>> Premise of the design has multiple sides:
+>>
+>> 1. Drivers (fence exporters) MUST ensure a RCU grace period between
+>> signalling a fence and freeing the driver private data associated with it.
+>>
+>> The grace period does not have to follow the signalling immediately but
+>> HAS to happen before data is freed.
+>>
+>> 2. Users of the dma-fence API marked with such requirement MUST contain
+>> the complete access to the data within a single code block guarded by
+>> rcu_read_lock() and rcu_read_unlock().
+>>
+>> The combination of the two ensures that whoever sees the
+>> DMA_FENCE_FLAG_SIGNALED_BIT not set is guaranteed to have access to a
+>> valid fence->lock and valid data potentially accessed by the fence->ops
+>> virtual functions, until the call to rcu_read_unlock().
+>>
+>> 3. Module unload (fence->ops) disappearing is for now explicitly not
+>> handled. That would required a more complex protection, possibly needing
+>> SRCU instead of RCU to handle callers such as dma_fence_release() and
+>> dma_fence_wait_timeout(), where race between
+>> dma_fence_enable_sw_signaling, signalling, and dereference of
+>> fence->ops->wait() would need a sleeping SRCU context.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
----
-v2:
- * Added comments describing how the fast path arrays were sized.
- * Make container freeing criteria clearer by using a boolean.
----
- drivers/gpu/drm/drm_syncobj.c | 56 +++++++++++++++++++++++++++--------
- 1 file changed, 44 insertions(+), 12 deletions(-)
+Thanks Christian!
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index be5905dca87f..65c301852f0d 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1259,6 +1259,8 @@ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
- static int drm_syncobj_array_find(struct drm_file *file_private,
- 				  u32 __user *handles,
- 				  uint32_t count,
-+				  struct drm_syncobj **stack_syncobjs,
-+				  u32 stack_count,
- 				  struct drm_syncobj ***syncobjs_out)
- {
- 	struct drm_syncobj **syncobjs;
-@@ -1268,9 +1270,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
- 	if (!access_ok(handles, count * sizeof(*handles)))
- 		return -EFAULT;
- 
--	syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
--	if (!syncobjs)
--		return -ENOMEM;
-+	if (count > stack_count) {
-+		syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
-+		if (!syncobjs)
-+			return -ENOMEM;
-+	} else {
-+		syncobjs = stack_syncobjs;
-+	}
- 
- 	for (i = 0; i < count; i++) {
- 		u32 handle;
-@@ -1292,25 +1298,31 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
- err_put_syncobjs:
- 	while (i-- > 0)
- 		drm_syncobj_put(syncobjs[i]);
--	kfree(syncobjs);
-+
-+	if (syncobjs != stack_syncobjs)
-+		kfree(syncobjs);
- 
- 	return ret;
- }
- 
- static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
--				   uint32_t count)
-+				   uint32_t count,
-+				   bool free_container)
- {
- 	uint32_t i;
- 
- 	for (i = 0; i < count; i++)
- 		drm_syncobj_put(syncobjs[i]);
--	kfree(syncobjs);
-+
-+	if (free_container)
-+		kfree(syncobjs);
- }
- 
- int
- drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 		       struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_wait *args = data;
- 	ktime_t deadline, *pdeadline = NULL;
- 	u32 count = args->count_handles;
-@@ -1336,6 +1348,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1354,7 +1368,7 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 						 &first,
- 						 pdeadline);
- 
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
- 
- 	if (timeout < 0)
- 		return timeout;
-@@ -1368,6 +1382,7 @@ int
- drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 				struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_timeline_wait *args = data;
- 	ktime_t deadline, *pdeadline = NULL;
- 	u32 count = args->count_handles;
-@@ -1394,6 +1409,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1412,7 +1429,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 						 &first,
- 						 pdeadline);
- 
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
- 
- 	if (timeout < 0)
- 		return timeout;
-@@ -1529,6 +1546,7 @@ int
- drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_array *args = data;
- 	struct drm_syncobj **syncobjs;
- 	uint32_t i;
-@@ -1546,6 +1564,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1553,7 +1573,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 	for (i = 0; i < args->count_handles; i++)
- 		drm_syncobj_replace_fence(syncobjs[i], NULL);
- 
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles,
-+			       syncobjs != stack_syncobjs);
- 
- 	return 0;
- }
-@@ -1562,6 +1583,7 @@ int
- drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_array *args = data;
- 	struct drm_syncobj **syncobjs;
- 	uint32_t i;
-@@ -1579,6 +1601,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1589,7 +1613,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 			break;
- 	}
- 
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles,
-+			       syncobjs != stack_syncobjs);
- 
- 	return ret;
- }
-@@ -1598,6 +1623,7 @@ int
- drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 				  struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_timeline_array *args = data;
- 	uint64_t __user *points = u64_to_user_ptr(args->points);
- 	uint32_t i, j, count = args->count_handles;
-@@ -1617,6 +1643,8 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1653,7 +1681,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- err_chains:
- 	kfree(chains);
- out:
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
- 
- 	return ret;
- }
-@@ -1661,6 +1689,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 			    struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
- 	struct drm_syncobj_timeline_array *args = data;
- 	struct drm_syncobj **syncobjs;
- 	uint64_t __user *points = u64_to_user_ptr(args->points);
-@@ -1679,6 +1708,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1722,7 +1753,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 		if (ret)
- 			break;
- 	}
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles,
-+			       syncobjs != stack_syncobjs);
- 
- 	return ret;
- }
--- 
-2.48.0
+I have pinged xe maintainers for acks to merge the whole series via 
+drm-misc-next and pending positive reply I can push it all.
+
+Regards,
+
+Tvrtko
+
+> 
+>> ---
+>>   drivers/dma-buf/dma-fence.c      | 111 ++++++++++++++++++++++++++++---
+>>   include/linux/dma-fence.h        |  31 ++++++---
+>>   include/trace/events/dma_fence.h |  38 +++++++++--
+>>   3 files changed, 157 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 74f9e4b665e3..3f78c56b58dc 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -511,12 +511,20 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>>   
+>>   	dma_fence_enable_sw_signaling(fence);
+>>   
+>> -	trace_dma_fence_wait_start(fence);
+>> +	if (trace_dma_fence_wait_start_enabled()) {
+>> +		rcu_read_lock();
+>> +		trace_dma_fence_wait_start(fence);
+>> +		rcu_read_unlock();
+>> +	}
+>>   	if (fence->ops->wait)
+>>   		ret = fence->ops->wait(fence, intr, timeout);
+>>   	else
+>>   		ret = dma_fence_default_wait(fence, intr, timeout);
+>> -	trace_dma_fence_wait_end(fence);
+>> +	if (trace_dma_fence_wait_end_enabled()) {
+>> +		rcu_read_lock();
+>> +		trace_dma_fence_wait_end(fence);
+>> +		rcu_read_unlock();
+>> +	}
+>>   	return ret;
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_wait_timeout);
+>> @@ -533,16 +541,23 @@ void dma_fence_release(struct kref *kref)
+>>   	struct dma_fence *fence =
+>>   		container_of(kref, struct dma_fence, refcount);
+>>   
+>> +	rcu_read_lock();
+>>   	trace_dma_fence_destroy(fence);
+>>   
+>> -	if (WARN(!list_empty(&fence->cb_list) &&
+>> -		 !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags),
+>> -		 "Fence %s:%s:%llx:%llx released with pending signals!\n",
+>> -		 dma_fence_driver_name(fence),
+>> -		 dma_fence_timeline_name(fence),
+>> -		 fence->context, fence->seqno)) {
+>> +	if (!list_empty(&fence->cb_list) &&
+>> +	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+>> +		const char __rcu *timeline;
+>> +		const char __rcu *driver;
+>>   		unsigned long flags;
+>>   
+>> +		driver = dma_fence_driver_name(fence);
+>> +		timeline = dma_fence_timeline_name(fence);
+>> +
+>> +		WARN(1,
+>> +		     "Fence %s:%s:%llx:%llx released with pending signals!\n",
+>> +		     rcu_dereference(driver), rcu_dereference(timeline),
+>> +		     fence->context, fence->seqno);
+>> +
+>>   		/*
+>>   		 * Failed to signal before release, likely a refcounting issue.
+>>   		 *
+>> @@ -556,6 +571,8 @@ void dma_fence_release(struct kref *kref)
+>>   		spin_unlock_irqrestore(fence->lock, flags);
+>>   	}
+>>   
+>> +	rcu_read_unlock();
+>> +
+>>   	if (fence->ops->release)
+>>   		fence->ops->release(fence);
+>>   	else
+>> @@ -982,11 +999,21 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+>>    */
+>>   void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+>>   {
+>> +	const char __rcu *timeline;
+>> +	const char __rcu *driver;
+>> +
+>> +	rcu_read_lock();
+>> +
+>> +	timeline = dma_fence_timeline_name(fence);
+>> +	driver = dma_fence_driver_name(fence);
+>> +
+>>   	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+>> -		   dma_fence_driver_name(fence),
+>> -		   dma_fence_timeline_name(fence),
+>> +		   rcu_dereference(driver),
+>> +		   rcu_dereference(timeline),
+>>   		   fence->seqno,
+>>   		   dma_fence_is_signaled(fence) ? "" : "un");
+>> +
+>> +	rcu_read_unlock();
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_describe);
+>>   
+>> @@ -1055,3 +1082,67 @@ dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>   			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_init64);
+>> +
+>> +/**
+>> + * dma_fence_driver_name - Access the driver name
+>> + * @fence: the fence to query
+>> + *
+>> + * Returns a driver name backing the dma-fence implementation.
+>> + *
+>> + * IMPORTANT CONSIDERATION:
+>> + * Dma-fence contract stipulates that access to driver provided data (data not
+>> + * directly embedded into the object itself), such as the &dma_fence.lock and
+>> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+>> + * after the fence has been signalled. Drivers are allowed to free that data,
+>> + * and some do.
+>> + *
+>> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+>> + * between signalling the fence and freeing said data.
+>> + *
+>> + * As such access to the driver name is only valid inside a RCU locked section.
+>> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+>> + * by the &rcu_read_lock and &rcu_read_unlock pair.
+>> + */
+>> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>> +{
+>> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> +			 "RCU protection is required for safe access to returned string");
+>> +
+>> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>> +		return fence->ops->get_driver_name(fence);
+>> +	else
+>> +		return "detached-driver";
+>> +}
+>> +EXPORT_SYMBOL(dma_fence_driver_name);
+>> +
+>> +/**
+>> + * dma_fence_timeline_name - Access the timeline name
+>> + * @fence: the fence to query
+>> + *
+>> + * Returns a timeline name provided by the dma-fence implementation.
+>> + *
+>> + * IMPORTANT CONSIDERATION:
+>> + * Dma-fence contract stipulates that access to driver provided data (data not
+>> + * directly embedded into the object itself), such as the &dma_fence.lock and
+>> + * memory potentially accessed by the &dma_fence.ops functions, is forbidden
+>> + * after the fence has been signalled. Drivers are allowed to free that data,
+>> + * and some do.
+>> + *
+>> + * To allow safe access drivers are mandated to guarantee a RCU grace period
+>> + * between signalling the fence and freeing said data.
+>> + *
+>> + * As such access to the driver name is only valid inside a RCU locked section.
+>> + * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
+>> + * by the &rcu_read_lock and &rcu_read_unlock pair.
+>> + */
+>> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>> +{
+>> +	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> +			 "RCU protection is required for safe access to returned string");
+>> +
+>> +	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>> +		return fence->ops->get_driver_name(fence);
+>> +	else
+>> +		return "signaled-timeline";
+>> +}
+>> +EXPORT_SYMBOL(dma_fence_timeline_name);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 10a849cb2d3f..64639e104110 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -378,15 +378,28 @@ bool dma_fence_remove_callback(struct dma_fence *fence,
+>>   			       struct dma_fence_cb *cb);
+>>   void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>>   
+>> -static inline const char *dma_fence_driver_name(struct dma_fence *fence)
+>> -{
+>> -	return fence->ops->get_driver_name(fence);
+>> -}
+>> -
+>> -static inline const char *dma_fence_timeline_name(struct dma_fence *fence)
+>> -{
+>> -	return fence->ops->get_timeline_name(fence);
+>> -}
+>> +/**
+>> + * DOC: Safe external access to driver provided object members
+>> + *
+>> + * All data not stored directly in the dma-fence object, such as the
+>> + * &dma_fence.lock and memory potentially accessed by functions in the
+>> + * &dma_fence.ops table, MUST NOT be accessed after the fence has been signalled
+>> + * because after that point drivers are allowed to free it.
+>> + *
+>> + * All code accessing that data via the dma-fence API (or directly, which is
+>> + * discouraged), MUST make sure to contain the complete access within a
+>> + * &rcu_read_lock and &rcu_read_unlock pair.
+>> + *
+>> + * Some dma-fence API handles this automatically, while other, as for example
+>> + * &dma_fence_driver_name and &dma_fence_timeline_name, leave that
+>> + * responsibility to the caller.
+>> + *
+>> + * To enable this scheme to work drivers MUST ensure a RCU grace period elapses
+>> + * between signalling the fence and freeing the said data.
+>> + *
+>> + */
+>> +const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
+>> +const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+>>   
+>>   /**
+>>    * dma_fence_is_signaled_locked - Return an indication if the fence
+>> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+>> index 84c83074ee81..4814a65b68dc 100644
+>> --- a/include/trace/events/dma_fence.h
+>> +++ b/include/trace/events/dma_fence.h
+>> @@ -34,14 +34,44 @@ DECLARE_EVENT_CLASS(dma_fence,
+>>   		  __entry->seqno)
+>>   );
+>>   
+>> -DEFINE_EVENT(dma_fence, dma_fence_emit,
+>> +/*
+>> + * Safe only for call sites which are guaranteed to not race with fence
+>> + * signaling,holding the fence->lock and having checked for not signaled, or the
+>> + * signaling path itself.
+>> + */
+>> +DECLARE_EVENT_CLASS(dma_fence_unsignaled,
+>> +
+>> +	TP_PROTO(struct dma_fence *fence),
+>> +
+>> +	TP_ARGS(fence),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__string(driver, fence->ops->get_driver_name(fence))
+>> +		__string(timeline, fence->ops->get_timeline_name(fence))
+>> +		__field(unsigned int, context)
+>> +		__field(unsigned int, seqno)
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		__assign_str(driver);
+>> +		__assign_str(timeline);
+>> +		__entry->context = fence->context;
+>> +		__entry->seqno = fence->seqno;
+>> +	),
+>> +
+>> +	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
+>> +		  __get_str(driver), __get_str(timeline), __entry->context,
+>> +		  __entry->seqno)
+>> +);
+>> +
+>> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_emit,
+>>   
+>>   	TP_PROTO(struct dma_fence *fence),
+>>   
+>>   	TP_ARGS(fence)
+>>   );
+>>   
+>> -DEFINE_EVENT(dma_fence, dma_fence_init,
+>> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_init,
+>>   
+>>   	TP_PROTO(struct dma_fence *fence),
+>>   
+>> @@ -55,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
+>>   	TP_ARGS(fence)
+>>   );
+>>   
+>> -DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
+>> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_enable_signal,
+>>   
+>>   	TP_PROTO(struct dma_fence *fence),
+>>   
+>>   	TP_ARGS(fence)
+>>   );
+>>   
+>> -DEFINE_EVENT(dma_fence, dma_fence_signaled,
+>> +DEFINE_EVENT(dma_fence_unsignaled, dma_fence_signaled,
+>>   
+>>   	TP_PROTO(struct dma_fence *fence),
+>>   
+> 
 
