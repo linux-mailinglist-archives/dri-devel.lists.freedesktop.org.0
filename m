@@ -2,46 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8BDAD5250
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E24AD5258
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:44:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18AFC10E613;
-	Wed, 11 Jun 2025 10:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3634410E614;
+	Wed, 11 Jun 2025 10:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ixQg2U+2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dcEwfu98";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6162F10E610;
- Wed, 11 Jun 2025 10:43:58 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB22910E614
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 10:44:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 351914A5F7;
- Wed, 11 Jun 2025 10:43:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CFDCC4CEF2;
- Wed, 11 Jun 2025 10:43:55 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1614A629E6;
+ Wed, 11 Jun 2025 10:44:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FF4C4CEFC;
+ Wed, 11 Jun 2025 10:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749638638;
- bh=SxVgloiedDddTuoCzwRU31NMinDlF8gzHdqvxB0Y+0A=;
+ s=k20201202; t=1749638647;
+ bh=bHrCHOgwGjRWRvrwMBlrDMz/V9EnLCSbaj497+WUi0w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ixQg2U+29+/lnRxdF08lMlWPo4ehb0oLFJRyRMG0Fcn9ALezaO55pnUfGSRXrbK6o
- KYvWB+fLAJH64xlX/dLoX1WFTSnRw0HYZF2x4t3Z/W4A2uN/FukIf8uAFf9OsX9DJi
- LOXpLPH7ILsPFvT9V0G1wfX7+ML0D22Nlt7swPZpZi1hblDMmtoVN00pZ0vvEyzU5Q
- SSAnAzEe4/p0aJvFypqdFuUx6odQMI2dzrJ4WMdcn7qFRptN7ndahRvGvudArxSBzW
- X4BWbE33XgyvbI2NTp2CgSs8YhJdlBM9bsXDI9Ue53YCeIxhx7boy3F03CaY2UI8wj
- 5+CzdgU64CGrw==
+ b=dcEwfu98nkqqSB4o90Y1qUZh4uFBn2FsNk7WKVDGMNQjYKUtIx46sJdEH75+a+wjt
+ 1IZdXMLJmtD8V9Y6ErkWJbKuuFqcdFF5/ZpokfbIrY4WQVRyE8HcUAoMqRAFrKJAuj
+ N0L9EPAXBGjCVnp0oe2ijFYQuAnZP0LYObKfzD8T+o7rfO01cuGbT2ED6XjX5qUBwp
+ jEJPI48YsSRsHZf/om8yqplMfUWG5aH1BFGy/QFE2da5ZJ2cNqClCPjBe/UjLhjgG7
+ DbpP6VgrVsfW2eqY3cBqIOzP9KD4naEdzkgP+lBEtbSydY6w5adZFoUvD4dudBs2WR
+ iTRpojUVDiIuA==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: tglx@linutronix.de, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm: use dev_fwnode()
-Date: Wed, 11 Jun 2025 12:43:32 +0200
-Message-ID: <20250611104348.192092-4-jirislaby@kernel.org>
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] gpu: ipu-v3: Use dev_fwnode()
+Date: Wed, 11 Jun 2025 12:43:35 +0200
+Message-ID: <20250611104348.192092-7-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250611104348.192092-1-jirislaby@kernel.org>
 References: <20250611104348.192092-1-jirislaby@kernel.org>
@@ -69,37 +65,27 @@ using of_node with of_fwnode_handle().
 So use the dev_fwnode() helper.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Simona Vetter <simona@ffwll.ch>
-
----
-
-Cc: linux-arm-msm@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/ipu-v3/ipu-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 709979fcfab6..5ea2a2241246 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -150,8 +150,7 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
+index 333f36e0a715..521d7ec10d85 100644
+--- a/drivers/gpu/ipu-v3/ipu-common.c
++++ b/drivers/gpu/ipu-v3/ipu-common.c
+@@ -1169,7 +1169,7 @@ static int ipu_irq_init(struct ipu_soc *ipu)
+ 	};
+ 	int ret, i;
  
- 	dev = msm_mdss->dev;
- 
--	domain = irq_domain_create_linear(of_fwnode_handle(dev->of_node), 32,
--			&msm_mdss_irqdomain_ops, msm_mdss);
-+	domain = irq_domain_create_linear(dev_fwnode(dev), 32, &msm_mdss_irqdomain_ops, msm_mdss);
- 	if (!domain) {
- 		dev_err(dev, "failed to add irq_domain\n");
- 		return -EINVAL;
+-	ipu->domain = irq_domain_create_linear(of_fwnode_handle(ipu->dev->of_node), IPU_NUM_IRQS,
++	ipu->domain = irq_domain_create_linear(dev_fwnode(ipu->dev), IPU_NUM_IRQS,
+ 					       &irq_generic_chip_ops, ipu);
+ 	if (!ipu->domain) {
+ 		dev_err(ipu->dev, "failed to add irq domain\n");
 -- 
 2.49.0
 
