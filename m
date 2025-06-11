@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FF5AD5679
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 15:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D11AD570A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 15:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 930CC10E65D;
-	Wed, 11 Jun 2025 13:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2775E10E65C;
+	Wed, 11 Jun 2025 13:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lin4t3r3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j82pf381";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB3710E65C;
- Wed, 11 Jun 2025 13:06:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8432C10E366;
+ Wed, 11 Jun 2025 13:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749647184; x=1781183184;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=+3SsH5RlAXxF2ByurNd2y6VfoEUbQMA/ii+Zwls1D8g=;
- b=lin4t3r3YTiOaNTHPqdA8Hyl4IrVWlf+O+SbDuP87pDAbABMDyOsfWR9
- yeZpQFsQNoTqm6jsmpqaE0gxcO44WZj0977i0lIJ+GUqKerh7ovrCUsBu
- WRBVNHaeXepwK4tJ0S0oKrv4SrEvE1UNwHShLtVJZ+mfGseHI2UIWO9YZ
- 7UDutjGaxNgQeXOZr3TTl8kMVN73kPtBoC9lN/eJM9Srvqy1y7YoW8awi
- MAeXiGCXddJSCufwzwFeyemONWhAl8YkS6Qz8Zm9UkUJhN4z0QFFVkgYB
- pvOjjZ2uQfVC40XO/VfJM2ySaB1jH5biWKJ5gRmkNWkHqS5Odb4r3UzTj Q==;
-X-CSE-ConnectionGUID: YOTxJw6ER5q/DwJUSL2KgQ==
-X-CSE-MsgGUID: WXMRl4s7Qr+Z79ScsSG39g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51653456"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="51653456"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 06:06:17 -0700
-X-CSE-ConnectionGUID: bn+mofJ6REmpWpuKG8Swfg==
-X-CSE-MsgGUID: eL25yZGJTRGd1pq2ArQhPA==
+ t=1749648729; x=1781184729;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=eSDv28MuTdwZ6xTMeqLdugHcHec2hDq5By/9GkUZe3g=;
+ b=j82pf3812PnnESkwJj9ifMm7vpzhIGaOammCq0koJRM4Jn2icMsLaF/I
+ BJEb8gfn8Q4o8xANDg+DmQ2ggrmR1azIbI6/66ATLeUbHA0Ffb1uPgmU7
+ 2uEc4XsuUGkANYVPPjR4oywIu1n3GwbrPuNhBafzq4XW5d6sRsHkIIsai
+ hCOmNd2ux8ewkIgMgBUKftYaNypgDZpnD3pporl5brXhltF3nVdLG2LJ8
+ cL5eK2hPhg+Dp25PaO+PIUM+RwJv0swfWe2Yp/j5xNyvKdeLnuFFrca4l
+ qo0F/9q46Eb0pw6p3p8ARpe6AlObdPSd9jF/SbQmUwt+ye/Pn5DpIMd/q w==;
+X-CSE-ConnectionGUID: NSIL5LsOQuu+A7ok3l4eDg==
+X-CSE-MsgGUID: 3U0Y0UTEQ2u1La0VmIneqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51014381"
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="51014381"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2025 06:32:08 -0700
+X-CSE-ConnectionGUID: 071oI+h3Qji4k13VB1TsaA==
+X-CSE-MsgGUID: Q8gjurnuS2eCKUnDRZRfiA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="151978345"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.209])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 06:06:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Kahola, Mika" <mika.kahola@intel.com>, "Deak, Imre"
- <imre.deak@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: RE: [PATCH v4 5/5] drm/i915/dp: Disable the AUX DPCD probe quirk if
- it's not required
-In-Reply-To: <IA4PR11MB92798E24D1D7C055690222B5EF6AA@IA4PR11MB9279.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250605082850.65136-6-imre.deak@intel.com>
- <20250609125556.109538-2-imre.deak@intel.com>
- <IA4PR11MB92798E24D1D7C055690222B5EF6AA@IA4PR11MB9279.namprd11.prod.outlook.com>
-Date: Wed, 11 Jun 2025 16:06:11 +0300
-Message-ID: <e3855aaacdea284b29e18396b7f056325ed52995@intel.com>
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="184407810"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 11 Jun 2025 06:31:49 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uPLYQ-000AVO-28;
+ Wed, 11 Jun 2025 13:31:46 +0000
+Date: Wed, 11 Jun 2025 21:30:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+ amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store
+ zeros when waiting
+Message-ID: <202506112101.YHxD1SCt-lkp@intel.com>
+References: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,173 +74,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Jun 2025, "Kahola, Mika" <mika.kahola@intel.com> wrote:
->> -----Original Message-----
->> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of I=
-mre Deak
->> Sent: Monday, 9 June 2025 15.56
->> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri=
--devel@lists.freedesktop.org
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>; Jani Nikula=
- <jani.nikula@linux.intel.com>
->> Subject: [PATCH v4 5/5] drm/i915/dp: Disable the AUX DPCD probe quirk if=
- it's not required
->>=20
->> Reading DPCD registers has side-effects and some of these can cause a pr=
-oblem for instance during link training. Based on this it's
->> better to avoid the probing quirk done before each DPCD register read, l=
-imiting this to the monitor which requires it. The only
->> known problematic monitor is an external SST sink, so keep the quirk dis=
-abled always for eDP and MST sinks. Reenable the quirk
->> after a hotplug event and after resuming from a power state without hotp=
-lug support, until the subsequent EDID based detection.
->>=20
->> v2: Add a helper for determining the need/setting the probing. (Jani)
->>=20
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->
-> Jani has already reviewed most of the patch and now that this check for d=
-pcd probe requirement is in place, the patch looks ok to me.
->
-> Reviewed-by: Mika Kahola <mika.kahola@intel.com>
+Hi Tvrtko,
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+kernel test robot noticed the following build warnings:
 
->
->> Signed-off-by: Imre Deak <imre.deak@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_dp.c      | 31 ++++++++++++++++++--
->>  drivers/gpu/drm/i915/display/intel_dp.h      |  1 +
->>  drivers/gpu/drm/i915/display/intel_dp_aux.c  |  2 ++  drivers/gpu/drm/i=
-915/display/intel_hotplug.c |  6 ++++
->>  4 files changed, 38 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i=
-915/display/intel_dp.c
->> index 208a953b04a2f..c089036a745fd 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -5791,6 +5791,28 @@ intel_dp_detect_sdp_caps(struct intel_dp *intel_d=
-p)
->>  		drm_dp_as_sdp_supported(&intel_dp->aux, intel_dp->dpcd);  }
->>=20
->> +static bool intel_dp_needs_dpcd_probe(struct intel_dp *intel_dp, bool
->> +force_on_external) {
->> +	struct intel_connector *connector =3D intel_dp->attached_connector;
->> +
->> +	if (intel_dp_is_edp(intel_dp))
->> +		return false;
->> +
->> +	if (force_on_external)
->> +		return true;
->> +
->> +	if (intel_dp->is_mst)
->> +		return false;
->> +
->> +	return drm_edid_has_quirk(&connector->base,
->> +DRM_EDID_QUIRK_DP_DPCD_PROBE); }
->> +
->> +void intel_dp_dpcd_set_probe(struct intel_dp *intel_dp, bool
->> +force_on_external) {
->> +	drm_dp_dpcd_set_probe(&intel_dp->aux,
->> +			      intel_dp_needs_dpcd_probe(intel_dp, force_on_external)); }
->> +
->>  static int
->>  intel_dp_detect(struct drm_connector *_connector,
->>  		struct drm_modeset_acquire_ctx *ctx,
->> @@ -5919,6 +5941,8 @@ intel_dp_detect(struct drm_connector *_connector,
->>  	if (status !=3D connector_status_connected && !intel_dp->is_mst)
->>  		intel_dp_unset_edid(intel_dp);
->>=20
->> +	intel_dp_dpcd_set_probe(intel_dp, false);
->> +
->>  	if (!intel_dp_is_edp(intel_dp))
->>  		drm_dp_set_subconnector_property(&connector->base,
->>  						 status,
->> @@ -5949,6 +5973,8 @@ intel_dp_force(struct drm_connector *_connector)
->>  		return;
->>=20
->>  	intel_dp_set_edid(intel_dp);
->> +
->> +	intel_dp_dpcd_set_probe(intel_dp, false);
->>  }
->>=20
->>  static int intel_dp_get_modes(struct drm_connector *_connector) @@ -632=
-1,10 +6347,11 @@ intel_dp_hpd_pulse(struct
->> intel_digital_port *dig_port, bool long_hpd)
->>  	 * complete the DP tunnel BW request for the latter connector/encoder
->>  	 * waiting for this encoder's DPRX read, perform a dummy read here.
->>  	 */
->> -	if (long_hpd)
->> +	if (long_hpd) {
->> +		intel_dp_dpcd_set_probe(intel_dp, true);
->> +
->>  		intel_dp_read_dprx_caps(intel_dp, dpcd);
->>=20
->> -	if (long_hpd) {
->>  		intel_dp->reset_link_params =3D true;
->>  		intel_dp_invalidate_source_oui(intel_dp);
->>=20
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i=
-915/display/intel_dp.h
->> index eff3414c05dbf..0657f56811966 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.h
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
->> @@ -213,5 +213,6 @@ int intel_dp_compute_min_hblank(struct intel_crtc_st=
-ate *crtc_state,
->>  				const struct drm_connector_state *conn_state);
->>=20
->>  int intel_dp_dsc_bpp_step_x16(const struct intel_connector *connector);
->> +void intel_dp_dpcd_set_probe(struct intel_dp *intel_dp, bool
->> +force_on_external);
->>=20
->>  #endif /* __INTEL_DP_H__ */
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux.c b/drivers/gpu/d=
-rm/i915/display/intel_dp_aux.c
->> index bf8e8e0cc19c9..7bec964c0496f 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_aux.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux.c
->> @@ -835,6 +835,8 @@ void intel_dp_aux_init(struct intel_dp *intel_dp)
->>=20
->>  	intel_dp->aux.transfer =3D intel_dp_aux_transfer;
->>  	cpu_latency_qos_add_request(&intel_dp->pm_qos, PM_QOS_DEFAULT_VALUE);
->> +
->> +	intel_dp_dpcd_set_probe(intel_dp, true);
->>  }
->>=20
->>  static enum aux_ch default_aux_ch(struct intel_encoder *encoder) diff -=
--git a/drivers/gpu/drm/i915/display/intel_hotplug.c
->> b/drivers/gpu/drm/i915/display/intel_hotplug.c
->> index 74fe398663d63..901fda434af12 100644
->> --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
->> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
->> @@ -33,6 +33,7 @@
->>  #include "intel_display_core.h"
->>  #include "intel_display_rpm.h"
->>  #include "intel_display_types.h"
->> +#include "intel_dp.h"
->>  #include "intel_hdcp.h"
->>  #include "intel_hotplug.h"
->>  #include "intel_hotplug_irq.h"
->> @@ -906,9 +907,14 @@ void intel_hpd_poll_enable(struct intel_display *di=
-splay)
->>   */
->>  void intel_hpd_poll_disable(struct intel_display *display)  {
->> +	struct intel_encoder *encoder;
->> +
->>  	if (!HAS_DISPLAY(display))
->>  		return;
->>=20
->> +	for_each_intel_dp(display->drm, encoder)
->> +		intel_dp_dpcd_set_probe(enc_to_intel_dp(encoder), true);
->> +
->>  	WRITE_ONCE(display->hotplug.poll_enabled, false);
->>=20
->>  	spin_lock_irq(&display->irq.lock);
->> --
->> 2.44.2
->
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.16-rc1 next-20250611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---=20
-Jani Nikula, Intel
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-syncobj-Remove-unhelpful-helper/20250610-163819
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250610083001.4120-3-tvrtko.ursulin%40igalia.com
+patch subject: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store zeros when waiting
+config: x86_64-randconfig-121-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506112101.YHxD1SCt-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_syncobj.c:1090:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got unsigned long long [noderef] [usertype] __user * @@
+   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     expected void *to
+   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     got unsigned long long [noderef] [usertype] __user *
+>> drivers/gpu/drm/drm_syncobj.c:1090:59: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long * @@
+   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     expected void const [noderef] __user *from
+   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     got unsigned long long *
+
+vim +1090 drivers/gpu/drm/drm_syncobj.c
+
+  1056	
+  1057	static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+  1058							  u64 __user *user_points,
+  1059							  uint32_t count,
+  1060							  uint32_t flags,
+  1061							  signed long timeout,
+  1062							  uint32_t *idx,
+  1063							  ktime_t *deadline)
+  1064	{
+  1065		struct syncobj_wait_entry *entries;
+  1066		uint32_t signaled_count, i;
+  1067		struct dma_fence *fence;
+  1068	
+  1069		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+  1070			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
+  1071			might_sleep();
+  1072			lockdep_assert_none_held_once();
+  1073		}
+  1074	
+  1075		entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
+  1076		if (!entries)
+  1077			return -ENOMEM;
+  1078	
+  1079		/* Walk the list of sync objects and initialize entries.  We do
+  1080		 * this up-front so that we can properly return -EINVAL if there is
+  1081		 * a syncobj with a missing fence and then never have the chance of
+  1082		 * returning -EINVAL again.
+  1083		 */
+  1084		signaled_count = 0;
+  1085		for (i = 0; i < count; ++i) {
+  1086			struct dma_fence *fence;
+  1087	
+  1088			entries[i].task = current;
+  1089			if (user_points &&
+> 1090			    copy_from_user(user_points++, &entries[i].point,
+  1091					   sizeof(*user_points))) {
+  1092				timeout = -EFAULT;
+  1093				goto cleanup_entries;
+  1094			}
+  1095			fence = drm_syncobj_fence_get(syncobjs[i]);
+  1096			if (!fence ||
+  1097			    dma_fence_chain_find_seqno(&fence, entries[i].point)) {
+  1098				dma_fence_put(fence);
+  1099				if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+  1100					     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
+  1101					continue;
+  1102				} else {
+  1103					timeout = -EINVAL;
+  1104					goto cleanup_entries;
+  1105				}
+  1106			}
+  1107	
+  1108			if (fence)
+  1109				entries[i].fence = fence;
+  1110			else
+  1111				entries[i].fence = dma_fence_get_stub();
+  1112	
+  1113			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
+  1114			    dma_fence_is_signaled(entries[i].fence)) {
+  1115				if (signaled_count == 0 && idx)
+  1116					*idx = i;
+  1117				signaled_count++;
+  1118			}
+  1119		}
+  1120	
+  1121		if (signaled_count == count ||
+  1122		    (signaled_count > 0 &&
+  1123		     !(flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL)))
+  1124			goto cleanup_entries;
+  1125	
+  1126		/* There's a very annoying laxness in the dma_fence API here, in
+  1127		 * that backends are not required to automatically report when a
+  1128		 * fence is signaled prior to fence->ops->enable_signaling() being
+  1129		 * called.  So here if we fail to match signaled_count, we need to
+  1130		 * fallthough and try a 0 timeout wait!
+  1131		 */
+  1132	
+  1133		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+  1134			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
+  1135			for (i = 0; i < count; ++i)
+  1136				drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
+  1137		}
+  1138	
+  1139		if (deadline) {
+  1140			for (i = 0; i < count; ++i) {
+  1141				fence = entries[i].fence;
+  1142				if (!fence)
+  1143					continue;
+  1144				dma_fence_set_deadline(fence, *deadline);
+  1145			}
+  1146		}
+  1147	
+  1148		do {
+  1149			set_current_state(TASK_INTERRUPTIBLE);
+  1150	
+  1151			signaled_count = 0;
+  1152			for (i = 0; i < count; ++i) {
+  1153				fence = entries[i].fence;
+  1154				if (!fence)
+  1155					continue;
+  1156	
+  1157				if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
+  1158				    dma_fence_is_signaled(fence) ||
+  1159				    (!entries[i].fence_cb.func &&
+  1160				     dma_fence_add_callback(fence,
+  1161							    &entries[i].fence_cb,
+  1162							    syncobj_wait_fence_func))) {
+  1163					/* The fence has been signaled */
+  1164					if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL) {
+  1165						signaled_count++;
+  1166					} else {
+  1167						if (idx)
+  1168							*idx = i;
+  1169						goto done_waiting;
+  1170					}
+  1171				}
+  1172			}
+  1173	
+  1174			if (signaled_count == count)
+  1175				goto done_waiting;
+  1176	
+  1177			if (timeout == 0) {
+  1178				timeout = -ETIME;
+  1179				goto done_waiting;
+  1180			}
+  1181	
+  1182			if (signal_pending(current)) {
+  1183				timeout = -ERESTARTSYS;
+  1184				goto done_waiting;
+  1185			}
+  1186	
+  1187			timeout = schedule_timeout(timeout);
+  1188		} while (1);
+  1189	
+  1190	done_waiting:
+  1191		__set_current_state(TASK_RUNNING);
+  1192	
+  1193	cleanup_entries:
+  1194		for (i = 0; i < count; ++i) {
+  1195			drm_syncobj_remove_wait(syncobjs[i], &entries[i]);
+  1196			if (entries[i].fence_cb.func)
+  1197				dma_fence_remove_callback(entries[i].fence,
+  1198							  &entries[i].fence_cb);
+  1199			dma_fence_put(entries[i].fence);
+  1200		}
+  1201		kfree(entries);
+  1202	
+  1203		return timeout;
+  1204	}
+  1205	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
