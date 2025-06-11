@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D0FAD518B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652ACAD518F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D329310E279;
-	Wed, 11 Jun 2025 10:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE64F10E26C;
+	Wed, 11 Jun 2025 10:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ftrPI9gI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qv/qZYFc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6139010E30E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 10:23:41 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-4a442a3a2bfso114616351cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 03:23:41 -0700 (PDT)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A062B10E60A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 10:23:43 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-4a44b0ed780so84900581cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 03:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749637420; x=1750242220; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1749637423; x=1750242223; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3zUYH66sAi4M6SnRnDRUP9N7P8+78tvCpZpLM0hP8f0=;
- b=ftrPI9gIr1e/7g3OdakU5u6hSd0oKX8zVr2+jGMisglGWRkbDnflX1QqUri4Zg8a+6
- Qlp7vcZLja2JKvLEiAZC71Wes2c1lBjgaSVDvyoBP8ctZ+rFHDyBsE73YgYmREdG+qGo
- 1ohfx7IZxqSqTosis/Ibbw3s7LMVX8pc/RGjADNqguMnC7PNbRBJwk8GDpGyU48rWBok
- QLAZ3V1/PCpoIyitbgJBF5qjqFAfUmpWQLd1BbdYEqv4KhYhRoeLWnJzB/Bt71duqKjw
- d01s0LsfB0iKnIsPGPX/q0EOVYp/53/HJKkwV8gGVvvatoenVvjOaAsRhSr2krmEJu40
- 2CoA==
+ :reply-to; bh=BwuzOkwr2WXLbNIqZ4PjxHxYIhjL5EaV2fkU8tqfaYg=;
+ b=Qv/qZYFcL0sHcUrRLoOr//YnYGN19Ns/42ppgcwp5r9yz3+p8YJ839cAthzsH+YtfE
+ vYalpW5CVInmmCwb4QLZC8oStuyH/Hs22xF5z4W7OY3AocpSyPvkJLDYeTIVrJS2D+JX
+ qgLesAAIkZovOOmaKe9lU4sgBM0FyNce+cHgVhqHCHxv8svJaIY7PAswn0DshreGUDjQ
+ yZ1syyf4zqhWoi59wpvCIktCyxhMBzzg3OABWMgWtvXeDAhT/QoWd9BcysNs2SlEYTN8
+ nfHIHv2egXPDdciTFp219ofK0GzsWqB4y1loA/QqjFeK5Q2+uTW+l7iQDf+u4V3jQBEq
+ f19Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749637420; x=1750242220;
+ d=1e100.net; s=20230601; t=1749637423; x=1750242223;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3zUYH66sAi4M6SnRnDRUP9N7P8+78tvCpZpLM0hP8f0=;
- b=A1/YGzCUknra3g2gouZitlxxfMcW5bPTOOqYNBBjs3+AxBZ096Q/3F5bb4SdlSvZVA
- PYG97jCXzzWwh+9Dc828bYfUViJioHabGNzKvOePXimOeVlr/uaGdJJl6InJLOCTaajA
- fwdvq966TSIuetjgnWNXR0J4X1P9vVG/AVB9GFsmN8MU7C7vInPoDK01vda3agWoVXnm
- kpnQWoWeu52dqKe/7HTShZ9mn3lG/cM0NmK145tOWE/FLa1gHEhhzPMPJAaNVOj2yjKp
- Lhdvl+Vyo7Zd0nPqkew7K3/VlmK12ykZ6siIqT2IyJOD/QZVpJye1p3gTKizCT+zoIlV
- KhOA==
+ bh=BwuzOkwr2WXLbNIqZ4PjxHxYIhjL5EaV2fkU8tqfaYg=;
+ b=PRPSB263M4QIFAovu12T3gkFnTSik6fAVF5F9+KOsu2jolG/HxhVrXKeptANZkSfd1
+ Ym3ooPrAojZrLnrjj97fjhf7DNPgQo+65QZC0jp9ZXZL83/5tMmt42ds3mHnm5sIixcE
+ 2zpjfQ/sjsKZh0F7G9PxhdEUweobL7PJ0N3WErIxNBoSfYRyu/Z5yIOuwLe+xl7exwmu
+ gPDSo/g8j4NSb7L9yKqjb8u3rQTrlWNKbwV/RDa2y9xLDSA/deRcwG0kaayew2hu/Dy+
+ kPyMmYxiIjo9K+lCm4Uuqvnxvh+JWd2BKVNnL5FH45nSHjEvLJMXtel+9+5Ont1koJ+d
+ 4Szw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUPQCoxKWAmnENM2Z1b14xQ75yhrID0S6iwfxHtERuWPRU7/IOcJ7Y4Q2e9Cin5nuaYP5lU4VPKflI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRHHRJEETYJX2QU9LFSsWTyT8kMWybhLnRKKeMuU6t04KGg1V2
- OOmPry6YkZtyTDQ/l7FaAQ2YIiyr+TmgvFxV5SkxvQGokfr103hjkmtL
-X-Gm-Gg: ASbGncsACaowQHMt2wubWXx72n3IcNQmH8pHxvGXq4zmEFU7dglIaVoGm9gnb2jXdYj
- DPtI4s2q90ehZHWgOFrH5A9trXmVHENM6s3B1lGnFeIE7v1brtqnvyqH8gsptDV7YgF0VcNoWlb
- l7UzjBcm28Psh96oFS/jQHSRACaNWFIpgr1lYCDplmmMSdmwD8oUY+gUyUS5LEAjOWKRNv3I6vD
- CRJmTNW7JaQ0BOcb8wgjEegP2kMGsnQU3NI7HVSnL+TZe/qaJ4Wgi1bsWDLPB5RDei6flGAR13V
- LV9LhQwFFwgwYjsncFwQPtyRpGEx3BxzF8MjCcIrqj8AXaBE92+JXCOT2Dv3hvJedf4=
-X-Google-Smtp-Source: AGHT+IGodjTiDzYzaYbdpnH5N4FiwK0k6INV5kLplUVd33gCvZuYk755vGupfng1qLMMcQ+unK6ODg==
-X-Received: by 2002:a05:622a:1929:b0:476:b7cf:4d42 with SMTP id
- d75a77b69052e-4a714c5a834mr32371381cf.27.1749637420294; 
- Wed, 11 Jun 2025 03:23:40 -0700 (PDT)
+ AJvYcCWxigAjy5AbrEQUpoE8eV60pl5Pjr8m0GID1ZxwKZk99Vqp3Rf0Xeh65xRwrljXFzw/bVgxzBD7IcU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw46s6lE2BooaE4rOiLskOCWTgCuP2QY7eJrstpHkfpGM99m21n
+ aMPoaZUD3H7L6P1wWgpaaBUbaNcj2spn6vOxlkE+69mlCRHZglfafVkg
+X-Gm-Gg: ASbGnctqJp0EjQuhk9xo1pbbHDsEH0EqLxmPNLurEBT+ZjNVwfN4KY4LASnnwvp1jLR
+ itskdCrz755+6TNcaFxu76HF/XG4Qc/iAeipbbI45ie2FAAC7qhveyel4o1+0Wd+32/IiJpR34Q
+ d/wgMPfseHdkRt1Hi+LjmXxrCG92g9kwnans/C77W0vSAhjOxGxgK4xgbXq1VdmSPF7PtcUmaCW
+ CemT8ZzoYtBjkdCCJIRtjNPOORt0+4xyq3xeqCwh5W80uyZ9Zu/kuGqDcoiObTVLewS5iToVTNN
+ 8RolTyy4DoIq63vqV1PSSuVtwInwwbjyvAhLLEXTnCrpHCaNEuyjNJxULOIz0bfgh7rJfsbt2Vx
+ W+w==
+X-Google-Smtp-Source: AGHT+IHtIidebIfTt2jkkrOO6cFXeDxcrBR6iqFW0QLdbmEyB32yNlITHUCKNzRDp0DfY2l6KJd6Hg==
+X-Received: by 2002:a05:622a:1b29:b0:4a6:f774:dec5 with SMTP id
+ d75a77b69052e-4a714bd9ceemr41400951cf.31.1749637422582; 
+ Wed, 11 Jun 2025 03:23:42 -0700 (PDT)
 Received: from 1.0.0.127.in-addr.arpa ([204.93.149.208])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a61114ff18sm85664341cf.6.2025.06.11.03.23.38
+ d75a77b69052e-4a61114ff18sm85664341cf.6.2025.06.11.03.23.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jun 2025 03:23:39 -0700 (PDT)
+ Wed, 11 Jun 2025 03:23:42 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 11 Jun 2025 06:23:26 -0400
-Subject: [PATCH v11 2/6] rust: enable `clippy::ptr_cast_constness` lint
+Date: Wed, 11 Jun 2025 06:23:27 -0400
+Subject: [PATCH v11 3/6] rust: enable `clippy::as_ptr_cast_mut` lint
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-ptr-as-ptr-v11-2-ce5b41c6e9c6@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250611-ptr-as-ptr-v11-3-ce5b41c6e9c6@gmail.com>
 References: <20250611-ptr-as-ptr-v11-0-ce5b41c6e9c6@gmail.com>
 In-Reply-To: <20250611-ptr-as-ptr-v11-0-ce5b41c6e9c6@gmail.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -122,80 +123,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In Rust 1.72.0, Clippy introduced the `ptr_cast_constness` lint [1]:
+In Rust 1.66.0, Clippy introduced the `as_ptr_cast_mut` lint [1]:
 
-> Though `as` casts between raw pointers are not terrible,
-> `pointer::cast_mut` and `pointer::cast_const` are safer because they
-> cannot accidentally cast the pointer to another type.
+> Since `as_ptr` takes a `&self`, the pointer won’t have write
+> permissions unless interior mutability is used, making it unlikely
+> that having it as a mutable pointer is correct.
 
-There are only 3 affected sites:
-- `*mut T as *const U as *mut U` becomes `(*mut T).cast()`.
-- `&self as *const Self as *mut Self` becomes
-  `core::ptr::from_ref(self).cast_mut()`.
-- `*const T as *mut _` becommes `(*const T).cast_mut()`.
+There is only one affected callsite, and the change amounts to replacing
+`as _` with `.cast_mut().cast()`. This doesn't change the semantics, but
+is more descriptive of what's going on.
 
-Apply these changes and enable the lint -- no functional change
-intended.
+Apply this change and enable the lint -- no functional change intended.
 
-Link: https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness [1]
+Link: https://rust-lang.github.io/rust-clippy/master/index.html#as_ptr_cast_mut [1]
 Reviewed-by: Benno Lossin <benno.lossin@proton.me>
 Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- Makefile                        | 1 +
- rust/kernel/block/mq/request.rs | 4 ++--
- rust/kernel/drm/device.rs       | 4 ++--
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ Makefile              | 1 +
+ rust/kernel/devres.rs | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 21cc6e312ec9..5eeddfbf5900 100644
+index 5eeddfbf5900..bb33023f87c3 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -485,6 +485,7 @@ export rust_common_flags := --edition=2021 \
- 			    -Aclippy::needless_lifetimes \
- 			    -Wclippy::no_mangle_with_rust_abi \
- 			    -Wclippy::ptr_as_ptr \
-+			    -Wclippy::ptr_cast_constness \
- 			    -Wclippy::undocumented_unsafe_blocks \
- 			    -Wclippy::unnecessary_safety_comment \
- 			    -Wclippy::unnecessary_safety_doc \
-diff --git a/rust/kernel/block/mq/request.rs b/rust/kernel/block/mq/request.rs
-index 4a5b7ec914ef..af5c9ac94f36 100644
---- a/rust/kernel/block/mq/request.rs
-+++ b/rust/kernel/block/mq/request.rs
-@@ -69,7 +69,7 @@ pub(crate) unsafe fn aref_from_raw(ptr: *mut bindings::request) -> ARef<Self> {
-         // INVARIANT: By the safety requirements of this function, invariants are upheld.
-         // SAFETY: By the safety requirement of this function, we own a
-         // reference count that we can pass to `ARef`.
--        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr as *const Self as *mut Self)) }
-+        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr.cast())) }
-     }
+@@ -479,6 +479,7 @@ export rust_common_flags := --edition=2021 \
+ 			    -Wrust_2018_idioms \
+ 			    -Wunreachable_pub \
+ 			    -Wclippy::all \
++			    -Wclippy::as_ptr_cast_mut \
+ 			    -Wclippy::ignored_unit_patterns \
+ 			    -Wclippy::mut_mut \
+ 			    -Wclippy::needless_bitwise_bool \
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index e5475ff62da3..237182446db3 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -140,7 +140,7 @@ fn remove_action(this: &Arc<Self>) {
+             bindings::devm_remove_action_nowarn(
+                 this.dev.as_raw(),
+                 Some(this.callback),
+-                this.as_ptr() as _,
++                this.as_ptr().cast_mut().cast(),
+             )
+         };
  
-     /// Notify the block layer that a request is going to be processed now.
-@@ -155,7 +155,7 @@ pub(crate) fn wrapper_ref(&self) -> &RequestDataWrapper {
-         // the private data associated with this request is initialized and
-         // valid. The existence of `&self` guarantees that the private data is
-         // valid as a shared reference.
--        unsafe { Self::wrapper_ptr(self as *const Self as *mut Self).as_ref() }
-+        unsafe { Self::wrapper_ptr(core::ptr::from_ref(self).cast_mut()).as_ref() }
-     }
- }
- 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 624d7a4c83ea..ef66deb7ce23 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -83,8 +83,8 @@ impl<T: drm::Driver> Device<T> {
-         major: T::INFO.major,
-         minor: T::INFO.minor,
-         patchlevel: T::INFO.patchlevel,
--        name: T::INFO.name.as_char_ptr() as *mut _,
--        desc: T::INFO.desc.as_char_ptr() as *mut _,
-+        name: T::INFO.name.as_char_ptr().cast_mut(),
-+        desc: T::INFO.desc.as_char_ptr().cast_mut(),
- 
-         driver_features: drm::driver::FEAT_GEM,
-         ioctls: T::IOCTLS.as_ptr(),
 
 -- 
 2.49.0
