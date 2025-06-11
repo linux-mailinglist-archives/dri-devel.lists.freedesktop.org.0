@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A639BAD53B9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 13:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3968AD53D3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 13:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17DE710E627;
-	Wed, 11 Jun 2025 11:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B8B110E62E;
+	Wed, 11 Jun 2025 11:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PDP9PBo/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RQzubqUj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2FFA10E61F;
- Wed, 11 Jun 2025 11:22:42 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC0E10E623;
+ Wed, 11 Jun 2025 11:25:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6638F43E9F;
- Wed, 11 Jun 2025 11:22:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF3EEC4CEEE;
- Wed, 11 Jun 2025 11:22:36 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 79D80A50A6A;
+ Wed, 11 Jun 2025 11:25:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14BFC4CEEE;
+ Wed, 11 Jun 2025 11:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749640962;
- bh=docsndFI6Pu2XiM5fhPypxl5HJBhGvZAfSKa9arbkFY=;
+ s=k20201202; t=1749641150;
+ bh=1fZ+iceq3RPjXWpAsNdBQALGaGO5Tot/BSmkCc/YjWM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PDP9PBo/LYCXBfQVelEBN/Z6h+1sGl43me9RqV2mdNPiuSrXcTOX5E7srWXDxtsPu
- gRXWwmUHGY4GgGe/mF6JXJBg5AY/8xPGwRSo6yRcfcEtz4xckFscb7Cgb9Ma+5tf5U
- hy581ySOpQA7DuLaVzyHsEoXUluxKQbGuA34TxjvWVO2o61WSASYs3zCi5/sbdkCZW
- i97MmVXropQ3P1zruX8V7ijad/EYSxyxl0Xnez0s5+r603Oq0i+5VgiFAxo7tAcHkW
- FbagN9CswA8sZMHJ+nZInFf1LObaTqYIBw44ynOynJHKHvTroW0PCCTr5foGmG5sJA
- 7U9uLRaS2IMdQ==
-Message-ID: <1ee554e4-d813-47cd-a1ab-9eaa4634cdb1@kernel.org>
-Date: Wed, 11 Jun 2025 13:22:35 +0200
+ b=RQzubqUj7ApoX0vizvn2DXbNxCOpNjDNCC3JNSjLHPGxM9KYccS7o/lKlZmNy4/B6
+ DTEgGXTvAkRJ3uPAaB0C1WYOdLtqFyDDbB+XABhfvEu4nW6x7RkWVC7c7bH3f6LiOi
+ zJZnEmM1YiWo0V4xjrk7NsMDIiBn8o1J2nIT1UaG/ONtW7x4L1VRBeCwlVu7Kvxvid
+ WmN9vWQQNoRXqQJZDhrb8knyPprdNvCeayD7I4iGGDyx+Uh0G0KPAV7DAYMvE7InnZ
+ JvUVTOpJn0AtAHWo1OLttS3hdlRVGElw38m228Ze3Clfl9u7kJaVLFl3n5vImMhtD2
+ pF+INMBkrmVOA==
+Message-ID: <810f7614-ed73-471e-bc5b-3305816737da@kernel.org>
+Date: Wed, 11 Jun 2025 13:25:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: Add GPU support to X1P42100 SoC
+Subject: Re: [PATCH v2 2/4] arm64: defconfig: Enable X1P42100_GPUCC driver
 To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
@@ -52,7 +52,7 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-pm@vger.kernel.org
 References: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
- <20250611-x1p-adreno-v2-4-5074907bebbd@oss.qualcomm.com>
+ <20250611-x1p-adreno-v2-2-5074907bebbd@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -98,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250611-x1p-adreno-v2-4-5074907bebbd@oss.qualcomm.com>
+In-Reply-To: <20250611-x1p-adreno-v2-2-5074907bebbd@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,29 +117,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/06/2025 13:15, Akhil P Oommen wrote:
-> +		opp-280000000 {
-> +			opp-hz = /bits/ 64 <280000000>;
-> +			opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
-> +			opp-peak-kBps = <2136719>;
-> +			qcom,opp-acd-level = <0xc82f5ffd>;
-> +			opp-supported-hw = <0x1f>;
-> +		};
-> +	};
-> +
->  };
->  
->  &gpucc {
-> @@ -41,6 +150,13 @@ &pcie6a_phy {
->  	compatible = "qcom,x1p42100-qmp-gen4x4-pcie-phy";
->  };
->  
-> +&qfprom {
-> +	gpu_speed_bin: gpu_speed_bin@119 {
+> In order to enable GPU support in Snapdragon X1P42100
+> (8 CPU core version found on Asus Zenbook A14 and other
 
-No underscores. You need to align downstream code to upstream. See
-coding style.
-
-
+There is no A14 upstream board DTS in next. Your commit msg should
+provide rationale for this, e.g. which upstream boards use this driver.
 
 Best regards,
 Krzysztof
