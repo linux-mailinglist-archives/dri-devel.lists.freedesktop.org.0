@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D962AD641A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 02:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD29AD64E1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 03:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF0010E74D;
-	Thu, 12 Jun 2025 00:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C12210E2AB;
+	Thu, 12 Jun 2025 01:04:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="B89YEpc1";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ZNtAdT5q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD1C10E74E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 00:01:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1749686457; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RfUJLgL3uiMWBMZumyBvXpsPE2UMpPd3FQWhCEKj5YlW8CpCzh8drQyfbMrEH8EI96d+2L11XOX5VD8utD7ZQvI72LE3wD2WqVRCfseYEcpBtT89TeHnQkNROZlE4l4T30nS1s5igLVgQ6v8kOUqwsQ1WQi9yn43D3hkqHIXd4M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1749686457;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=vGmPNxgIyEoEQtADc8X3nicC6jEVHqGcMDg8y3I/t3o=; 
- b=B+8YjO+uqewQPSBMsMZO6HJPPCQm9iq5yZbYGgyvPx9snSvvqPnZ8jtAq+qoggS+EzUENfcIHw3z5Y1WcmVQeji7a1RpZvILe0SwcMk83npw/qm0ZAUqQ0XP0wIKnQV1QNN6DPKM+YkqsHtxkwVDzB9EXxBmX0V3TC9R0hZvKIw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
- dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749686457; 
- s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=vGmPNxgIyEoEQtADc8X3nicC6jEVHqGcMDg8y3I/t3o=;
- b=B89YEpc18TsrakKZypLJ7xGiQ6kWyg6E59pyj89kKZmDWb8r5NGmKQEPYBR0D3Fx
- NOmEBD89GluYxB12j6rZV/ZLix7X6ZnTqRW+Xn5Cg0Q5qqzsIW6u1ft1kCPfBt/+hqq
- pup6vSnHDcfX3ZuwlZ+C2RdyjA7nJpHzR9/gtB8U=
-Received: by mx.zohomail.com with SMTPS id 1749686454865928.7893063021048;
- Wed, 11 Jun 2025 17:00:54 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, Andy Yan <andyshrk@163.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source
- to VOP2 on rk3576
-Date: Wed, 11 Jun 2025 20:00:52 -0400
-Message-ID: <6011857.DvuYhMxLoT@trenzalore>
-In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
-References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
- <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
+X-Greylist: delayed 8644 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Jun 2025 01:04:53 UTC
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C23310E399
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 01:04:52 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55BMeZ482743681;
+ Wed, 11 Jun 2025 17:40:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1749681635;
+ bh=3ScxWKcILfYH0VS/UgTIF+jQeDfTkbMiB6a5wGY1/a8=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=ZNtAdT5qT05X/zaXIfzUes9m+pF2G5opXg7GQwjXVpOUyQ/toDs3hVTzrYl3Y39rU
+ vq19vAvQHD1nijThP5FXt4F1YP1gPrA/w6El2jRWYSukeplnPguQUkeojqHk2e9mJt
+ dtdbjbdU5OCcAwwfTYwxLLb4ct1jhNcIhs75+Qmo=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55BMeZlV1457760
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 11 Jun 2025 17:40:35 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 11
+ Jun 2025 17:40:35 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 11 Jun 2025 17:40:35 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55BMeYtX1182750;
+ Wed, 11 Jun 2025 17:40:34 -0500
+Message-ID: <f686130b-009f-4feb-bae1-022938c85923@ti.com>
+Date: Wed, 11 Jun 2025 17:40:33 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, Jens Wiklander
+ <jens.wiklander@linaro.org>, Sumit Garg <sumit.garg@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu
+ <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
+ <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>, Sumit Garg
+ <sumit.garg@oss.qualcomm.com>, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
+ <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,65 +82,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
+On 5/27/25 1:56 AM, Amirreza Zarrabi wrote:
+> For drivers that can transfer data to the TEE without using shared
+> memory from client, it is necessary to receive the user address
+> directly, bypassing any processing by the TEE subsystem. Introduce
+> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
+> userspace buffers.
+> 
 
-On Wednesday, 11 June 2025 17:47:49 EDT Cristian Ciocaltea wrote:
-> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
-> char rate via phy_configure_opts_hdmi"), the workaround of passing the
-> rate from DW HDMI QP bridge driver via phy_set_bus_width() became
-> partially broken, as it cannot reliably handle mode switches anymore.
-> 
-> Attempting to fix this up at PHY level would not only introduce
-> additional hacks, but it would also fail to adequately resolve the
-> display issues that are a consequence of the system CRU limitations.
-> 
-> Instead, proceed with the solution already implemented for RK3588: make
-> use of the HDMI PHY PLL as a better suited DCLK source for VOP2. This
-> will not only address the aforementioned problem, but it should also
-> facilitate the proper operation of display modes up to 4K@60Hz.
-> 
-> It's worth noting that anything above 4K@30Hz still requires high TMDS
-> clock ratio and scrambling support, which hasn't been mainlined yet.
-> 
-> Fixes: d74b842cab08 ("arm64: dts: rockchip: Add vop for rk3576")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Could you expand on this, what is the issue with normal MEMREF?
+
+Andrew
+
+> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 > ---
->  arch/arm64/boot/dts/rockchip/rk3576.dtsi | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>   drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
+>   include/linux/tee_drv.h  |  6 ++++++
+>   include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>   3 files changed, 55 insertions(+), 6 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-> b/arch/arm64/boot/dts/rockchip/rk3576.dtsi index
-> 6a13fe0c3513fb2ff7cd535aa70e3386c37696e4..b1ac23035dd789f0478bf10c78c74ef16
-> 7d94904 100644 --- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-> @@ -1155,12 +1155,14 @@ vop: vop@27d00000 {
->  				 <&cru HCLK_VOP>,
->  				 <&cru DCLK_VP0>,
->  				 <&cru DCLK_VP1>,
-> -				 <&cru DCLK_VP2>;
-> +				 <&cru DCLK_VP2>,
-> +				 <&hdptxphy>;
->  			clock-names = "aclk",
->  				      "hclk",
->  				      "dclk_vp0",
->  				      "dclk_vp1",
-> -				      "dclk_vp2";
-> +				      "dclk_vp2",
-> +				      "pll_hdmiphy0";
->  			iommus = <&vop_mmu>;
->  			power-domains = <&power RK3576_PD_VOP>;
->  			rockchip,grf = <&sys_grf>;
-
-I tested this on the ROCK 4D and can confirm that:
- - New modes like 2K are now working
- - Mode changes is now correctly supported
-
-So,
-Tested-By: Detlev Casanova <detlev.casanova@collabora.com>
-
-Regards,
-
-Detlev.
-
-
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index b9ea5a85278c..74e40ed83fa7 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -387,6 +387,17 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>   			params[n].u.value.b = ip.b;
+>   			params[n].u.value.c = ip.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+> +			params[n].u.ubuf.size = ip.b;
+> +
+> +			if (!access_ok(params[n].u.ubuf.uaddr,
+> +				       params[n].u.ubuf.size))
+> +				return -EFAULT;
+> +
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -455,6 +466,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>   			    put_user(p->u.value.c, &up->c))
+>   				return -EFAULT;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			if (put_user((u64)p->u.ubuf.size, &up->b))
+> +				return -EFAULT;
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>   			if (put_user((u64)p->u.memref.size, &up->b))
+> @@ -655,6 +671,13 @@ static int params_to_supp(struct tee_context *ctx,
+>   			ip.b = p->u.value.b;
+>   			ip.c = p->u.value.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			ip.a = (u64)p->u.ubuf.uaddr;
+> +			ip.b = p->u.ubuf.size;
+> +			ip.c = 0;
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -757,6 +780,16 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>   			p->u.value.b = ip.b;
+>   			p->u.value.c = ip.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+> +			p->u.ubuf.size = ip.b;
+> +
+> +			if (!access_ok(params[n].u.ubuf.uaddr,
+> +				       params[n].u.ubuf.size))
+> +				return -EFAULT;
+> +
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>   			/*
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index a54c203000ed..78bbf12f02f0 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>   	struct tee_shm *shm;
+>   };
+>   
+> +struct tee_param_ubuf {
+> +	void * __user uaddr;
+> +	size_t size;
+> +};
+> +
+>   struct tee_param_value {
+>   	u64 a;
+>   	u64 b;
+> @@ -92,6 +97,7 @@ struct tee_param {
+>   	u64 attr;
+>   	union {
+>   		struct tee_param_memref memref;
+> +		struct tee_param_ubuf ubuf;
+>   		struct tee_param_value value;
+>   	} u;
+>   };
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index d0430bee8292..3e9b1ec5dfde 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT	6
+>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT	7	/* input and output */
+>   
+> +/*
+> + * These defines userspace buffer parameters.
+> + */
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT	8
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
+> +
+>   /*
+>    * Mask for the type part of the attribute, leaves room for more types
+>    */
+> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>   /**
+>    * struct tee_ioctl_param - parameter
+>    * @attr: attributes
+> - * @a: if a memref, offset into the shared memory object, else a value parameter
+> - * @b: if a memref, size of the buffer, else a value parameter
+> + * @a: if a memref, offset into the shared memory object,
+> + *     else if a ubuf, address of the user buffer,
+> + *     else a value parameter
+> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
+>    * @c: if a memref, shared memory identifier, else a value parameter
+>    *
+> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
+> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
+> - * indicates that none of the members are used.
+> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+> + * are used.
+>    *
+>    * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>    * identifier representing the shared memory object. A memref can reference
+> 
