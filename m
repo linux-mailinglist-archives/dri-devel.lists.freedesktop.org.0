@@ -2,51 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804D9AD4D60
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 09:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD0CAD4D79
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 09:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD3F10E35B;
-	Wed, 11 Jun 2025 07:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF1610E383;
+	Wed, 11 Jun 2025 07:54:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GHoM41bH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ArSFXXBt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GHoM41bH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ArSFXXBt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2256810E35B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 07:46:31 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id
- e9e14a558f8ab-3ddd02c8bffso82644215ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 00:46:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749627991; x=1750232791;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wJQYX4ht+z6t6dbB+Oe7UWnCz1EkkvIUIfzk0yOqfzA=;
- b=BdpFndMBETwRH/JD3FsYTdxmwjgMrOuK+Bi2MsiBIbf/eSCMrfDcDrf4On/sWdnjd5
- vmls4LoilFFRVBJTYGCaYM9OiJ6sUFkubfxU5xlel2oZ5ffluEzMEH2NC3TtrfOXB98v
- fYOeryo3HaSFbPnE2XwH7/i/uDntRtycqDKociIhhQ+mZMWZPuxCYvlwd6ImVyRxcKdk
- HB4J0NymIzQwEoN9ZZtTOfSD2esIhXRI//1CQTeLTAG3X5HsJEi3hZG60H/o5y/qqcx2
- 1p6Gni1NuVCpefiwf4Vi3jNw98geRnagMJMhAkBdI3boK5gs+ymaZXceni2Tabf3Sb/q
- fERQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZWNY6RrN3MPsymVX0cSvdVN3gUOoP+YHohabCV+liMl/jKo3QDau6CoIh6ClOOQRkd30lFlrt1cc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHnVPw/jJ4pScPZufVc1wk+YoAiYrjV3bX1qsXKxHJdJs3EroG
- 9JVLUFZPOBZR0TX8DmGmcBoRcAZlIj53dV+tBdJpHfMlANKsArHV2VCo+M7XVoga3mlbjFug/VN
- eILpdecpAdk3heoGEJ456G3BVR7rqWtwIkg4DcmZCp7soUiVQWUnOKXW+cY4=
-X-Google-Smtp-Source: AGHT+IHHdveevBdbL721x+5J/WieNE1O77deO3ouXaSVyKHnG99k7DWE6nuShOh44QmeYvETkRCpdE9iT/O0Yp+vcebOUhsbw4pN
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD7D210E2F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 07:54:12 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 839B91F766;
+ Wed, 11 Jun 2025 07:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749628451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6WzaQvc5ygxOkd5pGN5Yob4w4dJOtKou/ixoDdGr5RE=;
+ b=GHoM41bHq17ynZpHmW404biWG1aCuWqFPe0OUsn5w9eT52UqvSjlHFYS7QwZVFzUpZ/pZ7
+ Vp/EMTqmmw1mGC+9ifGOPHU9Fn1sRsqWjHE298Vml1MUN1mRmuDIOLdCHLod4cmK0iLl2G
+ zwxjkSeTrE/aI32sVlSKNJa0ffBMc84=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749628451;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6WzaQvc5ygxOkd5pGN5Yob4w4dJOtKou/ixoDdGr5RE=;
+ b=ArSFXXBtHaVnJYg2md+8yAvYzrAv/o4rUcmrWJf8zj1CEt91pW3QBcchrLqv20vaNTnzgM
+ n1QgC+abpyw4oRAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749628451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6WzaQvc5ygxOkd5pGN5Yob4w4dJOtKou/ixoDdGr5RE=;
+ b=GHoM41bHq17ynZpHmW404biWG1aCuWqFPe0OUsn5w9eT52UqvSjlHFYS7QwZVFzUpZ/pZ7
+ Vp/EMTqmmw1mGC+9ifGOPHU9Fn1sRsqWjHE298Vml1MUN1mRmuDIOLdCHLod4cmK0iLl2G
+ zwxjkSeTrE/aI32sVlSKNJa0ffBMc84=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749628451;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6WzaQvc5ygxOkd5pGN5Yob4w4dJOtKou/ixoDdGr5RE=;
+ b=ArSFXXBtHaVnJYg2md+8yAvYzrAv/o4rUcmrWJf8zj1CEt91pW3QBcchrLqv20vaNTnzgM
+ n1QgC+abpyw4oRAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65AE6139CE;
+ Wed, 11 Jun 2025 07:54:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ld10FyM2SWggYAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Jun 2025 07:54:11 +0000
+Message-ID: <d22d761e-afaa-43c0-b8ab-8f0078443828@suse.de>
+Date: Wed, 11 Jun 2025 09:54:11 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a92:c242:0:b0:3dd:9a7e:13f4 with SMTP id
- e9e14a558f8ab-3ddf42628e5mr25309115ab.6.1749627991085; Wed, 11 Jun 2025
- 00:46:31 -0700 (PDT)
-Date: Wed, 11 Jun 2025 00:46:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68493457.050a0220.33aa0e.0367.GAE@google.com>
-Subject: [syzbot] Monthly fbdev report (Jun 2025)
-From: syzbot <syzbot+list6c47f600adb8edca7977@syzkaller.appspotmail.com>
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/arm/hdlcd: Replace struct simplefb_format with
+ custom type
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
+References: <20250610073027.322944-1-tzimmermann@suse.de>
+ <aEhgi_5EMNZuN_T9@e110455-lin.cambridge.arm.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aEhgi_5EMNZuN_T9@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +139,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello fbdev maintainers/developers,
+Hi
 
-This is a 31-day syzbot report for the fbdev subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fbdev
+Am 10.06.25 um 18:42 schrieb Liviu Dudau:
+> On Tue, Jun 10, 2025 at 09:28:55AM +0200, Thomas Zimmermann wrote:
+>> Map DRM FourCC codes to pixel descriptions with an internal struct
+>> type. Avoid simplefb's struct simplefb_format, which is for parsing
+>> "simple-framebuffer" DT nodes. Drop the unsupported formats with
+>> alpha channel from the list.
+>>
+>> The HDLCD drivers uses struct simplefb_format and its default
+>> initializer SIMPLEFB_FORMATS to map DRM_FORMAT_ constants to pixel
+>> descriptions. The simplefb helpers are for parsing "simple-framebuffer"
+>> DT nodes and should be avoided in other context. Therefore replace it
+>> in hdlcd with a custom struct type and pixel descriptions from
+>> PIXEL_FORMAT_ constants.
+>>
+>> This change also removes including <linux/platform_data/simplefb.h>,
+>> which includes several unrelated headers, such as <linux/fb.h>.
+>>
+>> v2:
+>> - drop unsupported alpha formats (Liviu)
+>> - keep original sorting of formats (Javier)
+>> - use anonymous type for supported_formats
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>
+> Are you happy to merge this yourself?
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 5 issues are still open and 26 have already been fixed.
+Yes, merged now.
 
-Some of the still happening issues:
+Best regards
+Thomas
 
-Ref Crashes Repro Title
-<1> 1720    Yes   KASAN: vmalloc-out-of-bounds Write in imageblit (4)
-                  https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
-<2> 146     Yes   KASAN: slab-out-of-bounds Read in fbcon_prepare_logo
-                  https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
-<3> 20      Yes   KASAN: global-out-of-bounds Read in bit_putcs (3)
-                  https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
-<4> 11      No    KASAN: vmalloc-out-of-bounds Write in fillrect
-                  https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
+>
+> Best regards,
+> Liviu
+>
+>> ---
+>>   drivers/gpu/drm/arm/hdlcd_crtc.c | 23 +++++++++++++++--------
+>>   1 file changed, 15 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> index 3cfefadc7c9d..806da0aaedf7 100644
+>> --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
+>> @@ -11,8 +11,8 @@
+>>   
+>>   #include <linux/clk.h>
+>>   #include <linux/of_graph.h>
+>> -#include <linux/platform_data/simplefb.h>
+>>   
+>> +#include <video/pixel_format.h>
+>>   #include <video/videomode.h>
+>>   
+>>   #include <drm/drm_atomic.h>
+>> @@ -73,7 +73,17 @@ static const struct drm_crtc_funcs hdlcd_crtc_funcs = {
+>>   	.disable_vblank = hdlcd_crtc_disable_vblank,
+>>   };
+>>   
+>> -static struct simplefb_format supported_formats[] = SIMPLEFB_FORMATS;
+>> +static const struct {
+>> +	u32 fourcc;
+>> +	struct pixel_format pixel;
+>> +} supported_formats[] = {
+>> +	{ DRM_FORMAT_RGB565, PIXEL_FORMAT_RGB565 },
+>> +	{ DRM_FORMAT_XRGB1555, PIXEL_FORMAT_XRGB1555 },
+>> +	{ DRM_FORMAT_RGB888, PIXEL_FORMAT_RGB888 },
+>> +	{ DRM_FORMAT_XRGB8888, PIXEL_FORMAT_XRGB8888 },
+>> +	{ DRM_FORMAT_XBGR8888, PIXEL_FORMAT_XBGR8888 },
+>> +	{ DRM_FORMAT_XRGB2101010, PIXEL_FORMAT_XRGB2101010},
+>> +};
+>>   
+>>   /*
+>>    * Setup the HDLCD registers for decoding the pixels out of the framebuffer
+>> @@ -83,15 +93,12 @@ static int hdlcd_set_pxl_fmt(struct drm_crtc *crtc)
+>>   	unsigned int btpp;
+>>   	struct hdlcd_drm_private *hdlcd = crtc_to_hdlcd_priv(crtc);
+>>   	const struct drm_framebuffer *fb = crtc->primary->state->fb;
+>> -	uint32_t pixel_format;
+>> -	struct simplefb_format *format = NULL;
+>> +	const struct pixel_format *format = NULL;
+>>   	int i;
+>>   
+>> -	pixel_format = fb->format->format;
+>> -
+>>   	for (i = 0; i < ARRAY_SIZE(supported_formats); i++) {
+>> -		if (supported_formats[i].fourcc == pixel_format)
+>> -			format = &supported_formats[i];
+>> +		if (supported_formats[i].fourcc == fb->format->format)
+>> +			format = &supported_formats[i].pixel;
+>>   	}
+>>   
+>>   	if (WARN_ON(!format))
+>> -- 
+>> 2.49.0
+>>
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
