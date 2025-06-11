@@ -2,64 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBB1AD557F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 14:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D79EAD558B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 14:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E30B010E64E;
-	Wed, 11 Jun 2025 12:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A452010E651;
+	Wed, 11 Jun 2025 12:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="Vvw64LLd";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="m4QutV/x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
- [91.218.175.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9433610E64C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 12:26:54 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749644812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TzoweW1VyuVNEJZRGyBVGxqfzPWF4RZHCiNkVHUDk5Y=;
- b=Vvw64LLdbK0WMs8ryRBDkxbCsO1tPIylYEbe2NZlDCc/zQnb/cxEl6FRfjx5fL8BpQLy5E
- axaimd8A1ci1qOdfjgoUYTI2zHTtN+HdZyW7hlvB293ZJRwvWa78w95x/LmeMypyi3c6na
- DnQUWtrTHgSQ4HjBfkr7YslDMyuAw3TZX/svyfphxJHLvS8+T9EtahrCtb0nXDaqA4+zHg
- LfYOYCYRhNGMmiuv2UBudtbgp3mr7AjWeR8ZEl8VGwMhuPLXjDCu+f0ThXAdT2R18hfWAT
- 34k0t56pA7W44CLGzQyvyjcM8QZPhwWNEpEMAtgA/gfWf0zitS1Q1kDy7HcQgQ==
-Content-Type: multipart/signed;
- boundary=1bd61a99ad02106f912f5090cc57499a933afac880da8b9c6edd0841a2a5;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Wed, 11 Jun 2025 14:26:38 +0200
-Message-Id: <DAJPBG7GPPH2.3BDCMH0U3FU0E@cknow.org>
-Cc: "Piotr Zalewski" <pZ010001011111@proton.me>, <hjc@rock-chips.com>,
- <heiko@sntech.de>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
- <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
- <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
- color_mgmt_changed in atomic_enable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Andy Yan" <andyshrk@163.com>
-References: <20241206192013.342692-3-pZ010001011111@proton.me>
- <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
- <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
- <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
- <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
- <DAH60H3HYG7M.3NFXBJ7576RH1@cknow.org>
- <3161fa6a.93d0.19753f8c5e0.Coremail.andyshrk@163.com>
- <DAI0A1Y753FJ.B0NMT8L5VPEH@cknow.org>
- <4b380a57.8ab2.197591815a8.Coremail.andyshrk@163.com>
- <DAISW8MXEU0G.3AMRSKNYQUJY8@cknow.org>
- <4e600374.6dc7.1975df03a2d.Coremail.andyshrk@163.com>
- <DAJNEG81JCU5.35KVU8KAT5MDU@cknow.org>
- <b25ddc.a29c.1975eea8033.Coremail.andyshrk@163.com>
-In-Reply-To: <b25ddc.a29c.1975eea8033.Coremail.andyshrk@163.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB97410E650;
+ Wed, 11 Jun 2025 12:29:32 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B9DEBG029570;
+ Wed, 11 Jun 2025 12:29:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lceMfIGYuCPCZ+W3coEkS0Ut+HidNJnVCjzT2QYpkyc=; b=m4QutV/xaKTpKISA
+ NOwmIrj73dsc3KE2A3orL22BZtxj66vP/LhJHNPXNSDxoCBhsfUWXRfqcHZmXJxc
+ NSHBVV5/ciMSesHHPlF2yiIhkZx5hZvwX1I6WB6Mm2SUA6b3iziXEM+X2Jz7XuNN
+ CxdkVsuTWXNq1SJ23PZHm7OSh12YcYZ4k5RipN/vzXCm9SttyJ9yG2hO2HrkBg0L
+ qrZ+YAZrIr+6OGdRfDjaoqfQtpf7TnQ70o+gaRmnzH0XbU2Z4UMwUji23leDIVTT
+ TjGdWt0RdRgmHmqHfu8I9L1VOw/66MAGtlhrov+yOeopM8mFUnSl2k+LDIwdI1lV
+ YciKMQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474d124y0w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jun 2025 12:29:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55BCT1Xi020022
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jun 2025 12:29:01 GMT
+Received: from [10.216.28.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Jun
+ 2025 05:28:52 -0700
+Message-ID: <80dae86f-fb3b-4469-9322-7996811d33cc@quicinc.com>
+Date: Wed, 11 Jun 2025 17:58:49 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] arm64: defconfig: Enable X1P42100_GPUCC driver
+To: Krzysztof Kozlowski <krzk@kernel.org>, Akhil P Oommen
+ <akhilpo@oss.qualcomm.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry
+ Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>
+References: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
+ <20250611-x1p-adreno-v2-2-5074907bebbd@oss.qualcomm.com>
+ <810f7614-ed73-471e-bc5b-3305816737da@kernel.org>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <810f7614-ed73-471e-bc5b-3305816737da@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xvORiqpGvBtv2J1sNLJ6NcrW_sSxcy2e
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDEwNyBTYWx0ZWRfX6S74eAHxepUr
+ DKO7C/ah9ofD43oLGaXM/WDQTt6dBTT4+CthKexuMHKsaRmv+IxRMl4kNygf9T8BldHdFVztYRl
+ XXWC2i9tmGleOrLnFh3oa/tLlFquN0K3KZ/XhM0rXUdf08GskL+L0+xQQoEAmHgTEIJIx8snut7
+ Wos9ulCOCB2QReriLLbHz3jFAlCYtRRnNv4NmLjSBz4NYR6oOmyKVsdn2NCQeq4JSvpN8s8z1Fi
+ ZpQELKsNK48FQvo338aE6WMnvNPsDzOkVqI/4MW3aghAAxUV/zU5KL8qPJuVe4KKQ1RIS9D4m4u
+ nILZ+yvWO5kNiUXjSaaM/NvFFtA68BY5b9X1VhhI5BUhJbq/DKBe/yVJXi/ztW7LLy+iHFF1e6y
+ Je67yY3fTdTwLBzAbT8skLYeVbZbMlG7HLYeVgq1N4G3CiODf+86ULL4PnbVGNsHDz4b/SAo
+X-Authority-Analysis: v=2.4 cv=GYkXnRXL c=1 sm=1 tr=0 ts=684976a4 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=cSTdfOdMco8EzcehTqUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: xvORiqpGvBtv2J1sNLJ6NcrW_sSxcy2e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_05,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ impostorscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506110107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,275 +115,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---1bd61a99ad02106f912f5090cc57499a933afac880da8b9c6edd0841a2a5
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 6/11/2025 4:55 PM, Krzysztof Kozlowski wrote:
+> On 11/06/2025 13:15, Akhil P Oommen wrote:
+>> In order to enable GPU support in Snapdragon X1P42100
+>> (8 CPU core version found on Asus Zenbook A14 and other
+> 
+> There is no A14 upstream board DTS in next. Your commit msg should
+> provide rationale for this, e.g. which upstream boards use this driver.
+> 
 
-Hi,
+Will replace "Asus Zenbook" with "X1P42100 CRD" which is supported upstream.
 
-On Wed Jun 11, 2025 at 2:15 PM CEST, Andy Yan wrote:
-> At 2025-06-11 18:56:31, "Diederik de Haas" <didi.debian@cknow.org> wrote:
->>On Wed Jun 11, 2025 at 9:41 AM CEST, Andy Yan wrote:
->>> At 2025-06-10 19:02:11, "Diederik de Haas" <didi.debian@cknow.org> wrot=
-e:
->>>>On Tue Jun 10, 2025 at 11:07 AM CEST, Andy Yan wrote:
->>>>> At 2025-06-09 20:36:41, "Diederik de Haas" <didi.debian@cknow.org> wr=
-ote:
->>>>>>On Mon Jun 9, 2025 at 11:15 AM CEST, Andy Yan wrote:
->>>>>>> At 2025-06-08 20:53:37, "Diederik de Haas" <didi.debian@cknow.org> =
-wrote:
->>>>>>>>On Sun Jun 8, 2025 at 2:10 PM CEST, Andy Yan wrote:
->>>>>>>>> At 2025-06-08 19:08:50, "Diederik de Haas" <didi.debian@cknow.org=
-> wrote:
->>>>>>>>>>On Sat Jun 7, 2025 at 5:32 PM CEST, Piotr Zalewski wrote:
->>>>>>>>>>> On Thursday, June 5th, 2025 at 10:13 PM, Diederik de Haas <didi=
-.debian@cknow.org> wrote:
->>>>>>>>>>>> Since kernel 6.14-rc1 I have the problem that visual output is=
- no longer
->>>>>>>>>>>> shown on my PineTab2 and a `git bisect` pointed to this patch/=
-commit
->>>>>>>>>
->>>>>>>>> I have conducted tests on both rk3566-box-demo (with drm set to y=
-)
->>>>>>>>> and rk3568-lubancat-2 (with drm set to m), but I was unable to
->>>>>>>>> reproduce this issue. Could you two please share your kernel
->>>>>>>>> defconfig and the corresponding kernel startup logs?
->>>>>>>>> Additionally, both of my two boards tested with HDMI output. What
->>>>>>>>> kind of display interface does your board use for output?
->>>>>>>>
->>>>>>>>I wasn't able to reproduce this issue on my PINE64 Quartz-B (rk3566=
-)=20
->>>>>>>>with HDMI output either, but the problem is present on a PineTab2 [=
-1]
->>>>>>>>(also rk3566) which uses a MIPI DSI connection to the display panel=
-.
->>>>>>>>
->>>>>>>>Kernel config:
->>>>>>>>https://paste.sr.ht/~diederik/aa747ed170aa01cc759fbe1ffd9cebe8c887b=
-10b
->>>>>>>>
->>>>>>>>dmesg kernel 6.14-rc1:
->>>>>>>>https://paste.sr.ht/~diederik/733fbf8bb7f6aee8b68cf5a652157d445462c=
-24a
->>>>>>>>
->>>>>>>>dmesg kernel 6.14-rc1 with Piotr's patch:
->>>>>>>>https://paste.sr.ht/~diederik/db1af672cfb611acbfbdf35adb6f170e5c38f=
-ebc
->>>>>>>>
->>>>>>>>Both dmesg outputs contain a suspend-resume cycle.
->>>>>>>>I'm using a USB Wi-Fi adapter for the wireless connection.
->>>>>>>>
->>>>>>>>[1] https://wiki.pine64.org/wiki/PineTab2
->>>>>>>>
->>>>>>>>Happy to provide more info and/or do some tests.
->>>>>>>
->>>>>>> Can you apply the patch in the attachment, reproduce this issue(wit=
-hout Piotr's patch),=20
->>>>>>> and then provide me with a copy of the kernel log?
->>>>>>
->>>>>>Same test as above, but added ``dmesg | grep "vop2_"`` at the end as =
-well
->>>>>>
->>>>>>dmesg kernel 6.14-rc1 with Andy's print_lut_0609_1710 patch:
->>>>>>https://paste.sr.ht/~diederik/ac356ee8b0f7e772c7310293d99d95644f59a4e=
-e
->>>>>
->>>>> root@pt2-scmi:~# dmesg | grep "vop2_"
->>>>> [    4.996281] rockchip-drm display-subsystem: bound fe040000.vop (op=
-s vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>>>> [    5.005207] rockchip-drm display-subsystem: bound fe0a0000.hdmi (o=
-ps vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>>>> [    5.006798] rockchip-drm display-subsystem: bound fe060000.dsi (op=
-s vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>>>> [    5.021204] vop2_crtc_atomic_try_set_gamma  gamma_lut: 00000000000=
-00000
->>>>> [    5.021219] vop2_vp_dsp_lut_disable dsp_ctrl: 0x0000000f
->>>>>
->>>>> It seems that dsp_ctrl: 0x0000000f , this value is not what we expect=
-ed.
->>>>>
->>>>> The expected is 0x00010000.
->>>>>
->>>>> Could you please do an experiment for me? When there is no display on=
- your screen,=20
->>>>> execute the following command and see if the screen can resume displa=
-ying:
->>>>>
->>>>> ./data/io  -w -4 0xfe040d00 0x10000; io -w -4 0xfe040000 0x28002=20
->>>>>
->>>>> I have placed the io tool in the attachment.
->>>>>
->>>>> You can use command like bellow to read back to confirm if what you w=
-rite has taken effect:
->>>>> io -r -4 -l 0x100  0xfe040d00=20
->>>>>
->>>>> you may need to make CONFIG_DEVMEM=3Dy so that you can write the regi=
-ster by io command.
->>>>
->>>>I renamed it as ``andy-io`` and performed the test:
->>>>
->>> 7543:# CONFIG_IO_STRICT_DEVMEM is not set
->>>
->>> CONFIG_IO_STRICT_DEVMEM should not be set to y if you want to access an=
- IO address from usersapce.
->>
->>That last one seems to be the culprit:
->>
->>My kernel config is based upon Debian's and in commit
->>ef7e196951aa ("[arm*,powerpc*,s390x,x86] Enable IO_STRICT_DEVMEM")
->>
->>I found "can be reverted using the kernel parameter: iomem=3Drelaxed", so
->>I added that parameter and rebooted:
->>
->>```sh
->>root@pt2-scmi:~# echo 'just (re-)booted into my PineTab2; screen is blank=
-'
->>just (re-)booted into my PineTab2; screen is blank
->>root@pt2-scmi:~# uname -a
->>Linux pt2-scmi 6.14.0-rc1-00001-gfbe17d9b77b0 #18 SMP Mon Jun  9 13:17:28=
- CEST 2025 aarch64 GNU/Linux
->>root@pt2-scmi:~# cat /proc/cmdline=20
->>root=3DUUID=3D42bbb627-189b-49e3-ae42-699815dc2cbb ignore_loglevel ro roo=
-twait earlycon console=3Dtty0 console=3DttyS2,1500000n8 fw_devlink=3Doff io=
-mem=3Drelaxed
->>root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
->>fe040d00:  0000000f 00000000 00000000 00000000
->>fe040d10:  00000010 00000000 00000000 00000000
->>fe040d20:  00000000 00000000 00000000 00000000
->>fe040d30:  01b70010 00500370 00100510 10001000
->>fe040d40:  00000000 00000000 03b00010 00500370
->>fe040d50:  05120004 00100510 00000000 00000000
->>fe040d60:  00000000 00000000 00000000 00000000
->>fe040d70:  00000000 00000000 00000000 00000000
->>fe040d80:  15110903 00030911 1a150b04 00040b15
->>fe040d90:  15110903 00030911 00000000 00000000
->>fe040da0:  00000000 00000000 00000000 00000000
->>fe040db0:  00000000 00000000 00000000 00000000
->>fe040dc0:  00000000 00000000 00000000 00000000
->>fe040dd0:  00000000 00000000 00000000 00000000
->>fe040de0:  00000000 00000000 00000000 00000000
->>fe040df0:  00000000 00000000 00000000 00000000
->>root@pt2-scmi:~# ./andy-io -w -4 0xfe040d00 0x10000
->>root@pt2-scmi:~# echo 'screen just turned on \o/'
->>screen just turned on \o/
->
-> Do you mean the screen is turned on(that you see the display on the scree=
-n) here ?
+-Akhil.
 
-Yep. Before the ``-w`` command the screen was blank/black and after the
-``-w`` command the (sway based) login screen was visible.
+> Best regards,
+> Krzysztof
 
->> root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
->>fe040d00:  00010000 00000000 00000000 00000000
->>fe040d10:  00000010 00000000 00000000 00000000
->>fe040d20:  00000000 00000000 00000000 00000000
->>fe040d30:  01b70010 00500370 00100510 10001000
->>fe040d40:  00000000 00000000 03b00010 00500370
->>fe040d50:  05120004 00100510 00000000 00000000
->>fe040d60:  00000000 00000000 00000000 00000000
->>fe040d70:  00000000 00000000 00000000 00000000
->>fe040d80:  15110903 00030911 1a150b04 00040b15
->>fe040d90:  15110903 00030911 00000000 00000000
->>fe040da0:  00000000 00000000 00000000 00000000
->>fe040db0:  00000000 00000000 00000000 00000000
->>fe040dc0:  00000000 00000000 00000000 00000000
->>fe040dd0:  00000000 00000000 00000000 00000000
->>fe040de0:  00000000 00000000 00000000 00000000
->>fe040df0:  00000000 00000000 00000000 00000000
->>root@pt2-scmi:~# ./andy-io -w -4 0xfe040000 0x28002
->>root@pt2-scmi:~# echo "screen is still on ... don't see any changes on sc=
-reen"
->>screen is still on ... don't see any changes on screen
->>root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
->>fe040d00:  00010000 00000000 00000000 00000000
->>fe040d10:  00000010 00000000 00000000 00000000
->>fe040d20:  00000000 00000000 00000000 00000000
->>fe040d30:  01b70010 00500370 00100510 10001000
->>fe040d40:  00000000 00000000 03b00010 00500370
->>fe040d50:  05120004 00100510 00000000 00000000
->>fe040d60:  00000000 00000000 00000000 00000000
->>fe040d70:  00000000 00000000 00000000 00000000
->>fe040d80:  15110903 00030911 1a150b04 00040b15
->>fe040d90:  15110903 00030911 00000000 00000000
->>fe040da0:  00000000 00000000 00000000 00000000
->>fe040db0:  00000000 00000000 00000000 00000000
->>fe040dc0:  00000000 00000000 00000000 00000000
->>fe040dd0:  00000000 00000000 00000000 00000000
->>fe040de0:  00000000 00000000 00000000 00000000
->>fe040df0:  00000000 00000000 00000000 00000000
->>```
->>
->>For completeness, I then closed the lid and opened it again:
->>
->>```sh
->>root@pt2-scmi:~# dmesg | grep "vop2_"
->>[    5.128785] rockchip-drm display-subsystem: bound fe040000.vop (ops vo=
-p2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>[    5.138031] rockchip-drm display-subsystem: bound fe0a0000.hdmi (ops v=
-op2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>[    5.139641] rockchip-drm display-subsystem: bound fe060000.dsi (ops vo=
-p2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>[    5.160937] vop2_crtc_atomic_try_set_gamma  gamma_lut: 000000000000000=
-0
->>[    5.160950] vop2_vp_dsp_lut_disable dsp_ctrl: 0x0000000f
->>[ 1931.879232] vop2_crtc_atomic_try_set_gamma  gamma_lut: 000000000000000=
-0
->>[ 1931.879245] vop2_vp_dsp_lut_disable dsp_ctrl: 0x00010000
->>```
->>
->>Cheers,
->>  Diederik
->>
->>>>> [   73.750524] vop2_crtc_atomic_try_set_gamma  gamma_lut: 00000000000=
-00000
->>>>> [   73.750542] vop2_vp_dsp_lut_disable dsp_ctrl: 0x00010000
->>>>>>>>>>> patched vop2_vp_dsp_lut_disable function so that dsp_ctrl is se=
-t only if=20
->>>>>>>>>>> GAMMA LUT EN bit is set. I checked that this also does not brea=
-k the gamma=20
->>>>>>>>>>> lut functionality with emphasis on out-of/into suspend behavior=
-.
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/dri=
-vers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>>>> index d0f5fea15e21..7ddf311b38c6 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>>>> @@ -897,6 +897,9 @@ static void vop2_vp_dsp_lut_disable(struct =
-vop2_video_port *vp)
->>>>>>>>>>>  {
->>>>>>>>>>>  	u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
->>>>>>>>>>> =20
->>>>>>>>>>> +	if ((dsp_ctrl & RK3568_VP_DSP_CTRL__DSP_LUT_EN) =3D=3D 0)
->>>>>>>>>>> +		return;
->>>>>>>>>>> +
->>>>>>>>>>>  	dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
->>>>>>>>>>>  	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
->>>>>>>>>>>  }
->>>>>>>>>>
->>>>>>>>>>I built a kernel with 6.14-rc1 + this patch and can confirm the s=
-creen
->>>>>>>>>>has output again :-)
->>>>>>>>>>
->>>>>>>>>>> I will wait with sending a patch because maybe Andy has somethi=
-ng to add=20
->>>>>>>>>>> to this.
->>>>>>>>>>
->>>>>>>>>>Sounds like a plan. It could be that this issue surfaced an under=
-laying
->>>>>>>>>>issue and if so, fixing that would be even better.
->>
-
-
---1bd61a99ad02106f912f5090cc57499a933afac880da8b9c6edd0841a2a5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaEl2BQAKCRDXblvOeH7b
-bj8CAP9k8P9uUMP1hR0diALNWGgTFwtXLPSGNUkmF92M/APjxQEAyhGwbdP5e599
-gcBwjGontmUy9IZcVcQupO6LrrxjnAY=
-=qXta
------END PGP SIGNATURE-----
-
---1bd61a99ad02106f912f5090cc57499a933afac880da8b9c6edd0841a2a5--
