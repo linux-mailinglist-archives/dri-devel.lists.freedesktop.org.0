@@ -2,64 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF60AD5260
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8BDAD5250
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:44:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DADF10E029;
-	Wed, 11 Jun 2025 10:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18AFC10E613;
+	Wed, 11 Jun 2025 10:43:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DCU8NimI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ixQg2U+2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFDC10E029;
- Wed, 11 Jun 2025 10:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749638680; x=1781174680;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fICu3n1Lm5yzbVGXCn5F7dL2CxBCcCQZG3Rjaa803TM=;
- b=DCU8NimIGXzUQrJhsdJ+iMi8KOo7GKOGFqsPue91DZ2DqcB0X2m+pGY/
- uKMb/CSOLwqxVLacGq9a/kpv0p/D5ZvRQ+dGi6ceRuqFmmTB5IVB0vSlv
- ZTv1ZnXfWeALlJOlpcDQKhej3VApBm/qtjNHexlLccAn+aUBBDHRifJPY
- PuzeGV8HyC7+wIPoBep2TisKFlFtzXc6tC8nYv6xHL6wUis1Xh4APHftc
- M19XGuSr2JO+52A0S8Xyt56cYLiOtYYmez/7mXgGWObG5YYMLb+Z6BAF6
- 0IWRWSV4RDGoMZtfKiPkIiOHAi9X90PkIVyKZvI6f3QoCx9oqBtNIhrNr Q==;
-X-CSE-ConnectionGUID: IkUxbHLeS0u2MnZQJ+JI3A==
-X-CSE-MsgGUID: 1Tu82EMCT1uZj2rBdofLvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="63185233"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="63185233"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 03:44:40 -0700
-X-CSE-ConnectionGUID: x8h206HfToyns7AvouPoJg==
-X-CSE-MsgGUID: fD0lTdoMS1iRiXBYTnG0zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; d="scan'208";a="152442920"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.229])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 03:44:36 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA alloc
- error
-Date: Wed, 11 Jun 2025 12:42:13 +0200
-Message-ID: <20250611104352.1014011-2-janusz.krzysztofik@linux.intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6162F10E610;
+ Wed, 11 Jun 2025 10:43:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 351914A5F7;
+ Wed, 11 Jun 2025 10:43:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CFDCC4CEF2;
+ Wed, 11 Jun 2025 10:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749638638;
+ bh=SxVgloiedDddTuoCzwRU31NMinDlF8gzHdqvxB0Y+0A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ixQg2U+29+/lnRxdF08lMlWPo4ehb0oLFJRyRMG0Fcn9ALezaO55pnUfGSRXrbK6o
+ KYvWB+fLAJH64xlX/dLoX1WFTSnRw0HYZF2x4t3Z/W4A2uN/FukIf8uAFf9OsX9DJi
+ LOXpLPH7ILsPFvT9V0G1wfX7+ML0D22Nlt7swPZpZi1hblDMmtoVN00pZ0vvEyzU5Q
+ SSAnAzEe4/p0aJvFypqdFuUx6odQMI2dzrJ4WMdcn7qFRptN7ndahRvGvudArxSBzW
+ X4BWbE33XgyvbI2NTp2CgSs8YhJdlBM9bsXDI9Ue53YCeIxhx7boy3F03CaY2UI8wj
+ 5+CzdgU64CGrw==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: tglx@linutronix.de, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm: use dev_fwnode()
+Date: Wed, 11 Jun 2025 12:43:32 +0200
+Message-ID: <20250611104348.192092-4-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250611104348.192092-1-jirislaby@kernel.org>
+References: <20250611104348.192092-1-jirislaby@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,115 +62,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following error has been reported sporadically by CI when a test
-unbinds the i915 driver on a ring submission platform:
+irq_domain_create_simple() takes fwnode as the first argument. It can be
+extracted from the struct device using dev_fwnode() helper instead of
+using of_node with of_fwnode_handle().
 
-<4> [239.330153] ------------[ cut here ]------------
-<4> [239.330166] i915 0000:00:02.0: [drm] drm_WARN_ON(dev_priv->mm.shrink_count)
-<4> [239.330196] WARNING: CPU: 1 PID: 18570 at drivers/gpu/drm/i915/i915_gem.c:1309 i915_gem_cleanup_early+0x13e/0x150 [i915]
-...
-<4> [239.330640] RIP: 0010:i915_gem_cleanup_early+0x13e/0x150 [i915]
-...
-<4> [239.330942] Call Trace:
-<4> [239.330944]  <TASK>
-<4> [239.330949]  i915_driver_late_release+0x2b/0xa0 [i915]
-<4> [239.331202]  i915_driver_release+0x86/0xa0 [i915]
-<4> [239.331482]  devm_drm_dev_init_release+0x61/0x90
-<4> [239.331494]  devm_action_release+0x15/0x30
-<4> [239.331504]  release_nodes+0x3d/0x120
-<4> [239.331517]  devres_release_all+0x96/0xd0
-<4> [239.331533]  device_unbind_cleanup+0x12/0x80
-<4> [239.331543]  device_release_driver_internal+0x23a/0x280
-<4> [239.331550]  ? bus_find_device+0xa5/0xe0
-<4> [239.331563]  device_driver_detach+0x14/0x20
-...
-<4> [357.719679] ---[ end trace 0000000000000000 ]---
+So use the dev_fwnode() helper.
 
-If the test also unloads the i915 module then that's followed with:
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
 
-<3> [357.787478] =============================================================================
-<3> [357.788006] BUG i915_vma (Tainted: G     U  W        N ): Objects remaining on __kmem_cache_shutdown()
-<3> [357.788031] -----------------------------------------------------------------------------
-<3> [357.788204] Object 0xffff888109e7f480 @offset=29824
-<3> [357.788670] Allocated in i915_vma_instance+0xee/0xc10 [i915] age=292729 cpu=4 pid=2244
-<4> [357.788994]  i915_vma_instance+0xee/0xc10 [i915]
-<4> [357.789290]  init_status_page+0x7b/0x420 [i915]
-<4> [357.789532]  intel_engines_init+0x1d8/0x980 [i915]
-<4> [357.789772]  intel_gt_init+0x175/0x450 [i915]
-<4> [357.790014]  i915_gem_init+0x113/0x340 [i915]
-<4> [357.790281]  i915_driver_probe+0x847/0xed0 [i915]
-<4> [357.790504]  i915_pci_probe+0xe6/0x220 [i915]
-...
-
-Closer analysis of CI results history has revealed a dependency of the
-error on a few IGT tests, namely:
-- igt@api_intel_allocator@fork-simple-stress-signal,
-- igt@api_intel_allocator@two-level-inception-interruptible,
-- igt@gem_linear_blits@interruptible,
-- igt@prime_mmap_coherency@ioctl-errors,
-which invisibly trigger the issue, then exhibited with first driver unbind
-attempt.
-
-All of the above tests perform actions which are actively interrupted with
-signals.  Further debugging has allowed to narrow that scope down to
-DRM_IOCTL_I915_GEM_EXECBUFFER2, and ring_context_alloc(), specific to ring
-submission, in particular.
-
-If successful then that function, or its execlists or GuC submission
-equivalent, is supposed to be called only once per GEM context engine,
-followed by raise of a flag that prevents the function from being called
-again.  The function is expected to unwind its internal errors itself, so
-it may be safely called once more after it returns an error.
-
-In case of ring submission, the function first gets a reference to the
-engine's legacy timeline and then allocates a VMA.  If the VMA allocation
-fails, e.g. when i915_vma_instance() called from inside is interrupted
-with a signal, then ring_context_alloc() fails, leaving the timeline held
-referenced.  On next I915_GEM_EXECBUFFER2 IOCTL, another reference to the
-timeline is got, and only that last one is put on successful completion.
-As a consequence, the legacy timeline, with its underlying engine status
-page's VMA object, is still held and not released on driver unbind.
-
-Get the legacy timeline only after successful allocation of the context
-engine's VMA.
-
-v2: Add a note on other submission methods (Krzysztof Karas):
-    Both execlists and GuC submission use lrc_alloc() which seems free
-    from a similar issue.
-
-Fixes: 75d0a7f31eec ("drm/i915: Lift timeline into intel_context")
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12061
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Krzysztof Karas <krzysztof.karas@intel.com>
-Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Reviewed-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_ring_submission.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-index a876a34455f11..2a6d79abf25b5 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-@@ -610,7 +610,6 @@ static int ring_context_alloc(struct intel_context *ce)
- 	/* One ringbuffer to rule them all */
- 	GEM_BUG_ON(!engine->legacy.ring);
- 	ce->ring = engine->legacy.ring;
--	ce->timeline = intel_timeline_get(engine->legacy.timeline);
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+---
+ drivers/gpu/drm/msm/msm_mdss.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index 709979fcfab6..5ea2a2241246 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -150,8 +150,7 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
  
- 	GEM_BUG_ON(ce->state);
- 	if (engine->context_size) {
-@@ -623,6 +622,8 @@ static int ring_context_alloc(struct intel_context *ce)
- 		ce->state = vma;
- 	}
+ 	dev = msm_mdss->dev;
  
-+	ce->timeline = intel_timeline_get(engine->legacy.timeline);
-+
- 	return 0;
- }
- 
+-	domain = irq_domain_create_linear(of_fwnode_handle(dev->of_node), 32,
+-			&msm_mdss_irqdomain_ops, msm_mdss);
++	domain = irq_domain_create_linear(dev_fwnode(dev), 32, &msm_mdss_irqdomain_ops, msm_mdss);
+ 	if (!domain) {
+ 		dev_err(dev, "failed to add irq_domain\n");
+ 		return -EINVAL;
 -- 
 2.49.0
 
