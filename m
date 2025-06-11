@@ -2,160 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1A1AD5477
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 13:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5AFAD547D
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 13:48:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 521CD10E639;
-	Wed, 11 Jun 2025 11:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1872910E63A;
+	Wed, 11 Jun 2025 11:48:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VlMGPn3F";
+	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="nS0nlRsc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2079.outbound.protection.outlook.com [40.107.212.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C59010E2D0;
- Wed, 11 Jun 2025 11:47:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oRGrL2/EwPZAtM3Q9iK2nP665TmjmZjFL56+65j4IvCSLH8YumZ9Mf+J21rpVmY1U2Fumbb+B/jRbPEkercoTupr7roZ3OVHQyPbFN3ypDLsBdnDbrn0eitLx5MIdzoJtABk2p//wrHo7zOB0S9JJecmvtxD+LJ/Me2L+pbqnJ//Us+/pEx/XO/46RzK33eGcRHcoezbPCskc1D2nG7ZV8F4dOUFP451YVE+Nn1R3zqWdbl1otWpG0Y7s1BLhk4H9gX12L8qnSQ0rw2IO8LAJk9WrguRLfWx/GGB8KjP7HIlEpr99OOYOikcBnUsE2rXYEgBo1I97U8QK1JRnkHXLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GfdWa3eStW0e+2P6HrFzP7p6CV8XGk/iPjVg0XYBw7U=;
- b=vqn0wXwgnACii1Si2OoP6Jc0zbt8MVSdTpHsF9btIZQTbHEoCb9vbsKvjuOG81uNFAbWCjNnWLOM4gPNtQ9mK//LULrY+hXd7xGul2DPYeSpbU/qgMk6r94Sp/YGnfE6F2+/wAb1AgsyugjVTHVhLSNKEcRzrHZwXJYkAyoUqpVDGAKgppj5lFja0Au8uNPg+oe7rCsL80WTBcorzjorbEe/ahBl+Xs5znCXi1batsU9kDvpIuqZx3nnxb3+C0sr1cJh3Tu1ISmWM6m66+ERouCdRhW1ETfXaPN/9RH4qC4hYznRD8na7Z+4PwFAP3OTRn26yy6/+Hcmhn/9tmOUAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GfdWa3eStW0e+2P6HrFzP7p6CV8XGk/iPjVg0XYBw7U=;
- b=VlMGPn3FrmKJWoo3Y0vp/278pVCfxkKUQhg1MweEiDTChsB+c0nLS7SOwvNDrNULK0d3FfTgXFV9Kz7Hr7s8dx2qgooXrmmiI45SMoAo/g1PsZyAFBkDbUCHyOSXaNXqIyxxHD4Pt+jKvN8WGNrsoqWsk77ZeuOZwuk1hHReJ3s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6368.namprd12.prod.outlook.com (2603:10b6:208:3d2::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.39; Wed, 11 Jun
- 2025 11:47:22 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 11 Jun 2025
- 11:47:22 +0000
-Message-ID: <c88cee5b-d7b0-401c-85b7-1aea3d6ad231@amd.com>
-Date: Wed, 11 Jun 2025 13:47:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/4] sync_file: Protect access to driver and timeline
- name
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Rob Clark <robdclark@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
- <20250610164226.10817-2-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250610164226.10817-2-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN0PR03CA0019.namprd03.prod.outlook.com
- (2603:10b6:208:52f::29) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEF9610E63A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 11:47:57 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 9DC196003010;
+ Wed, 11 Jun 2025 12:47:48 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id 0b2qLiOQMRWj; Wed, 11 Jun 2025 12:47:46 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id B7514600300D;
+ Wed, 11 Jun 2025 12:47:45 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+ s=mail; t=1749642466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=asfj8P0qBl+47/jdsiGM3FqMrZ4mD4Q9Fmdq7rUrsPM=;
+ b=nS0nlRscUryncl2VrCpg9Drtep5/5mB+xDfRFEae1u6GFaOWQcLulY+h2Oyl5lnccdAe4j
+ HtHYY/mtuReuUFo0O8HNQRPscns/FhqeuBi29p2B9XAyjIj7hjDvY7CpELzZk9l8/MIdpq
+ jTbXVb2r/07TwBGvDLnd5K2RGsYPtDI=
+Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown
+ [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id EDDCE360061;
+ Wed, 11 Jun 2025 12:47:43 +0100 (WEST)
+Message-ID: <da94459b-1e06-4e07-936c-51aac41c0d26@tecnico.ulisboa.pt>
+Date: Wed, 11 Jun 2025 12:47:20 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6368:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f03d7bc-1841-4d57-8760-08dda8ddba11
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YjlWTGI4bTdyV3lOQ0JNbHV1WjBsTlFqTlc1Q2FwTjlIYkRjdUs0c2V5d2g4?=
- =?utf-8?B?TVRaTzF6aDlNeFVQNjNJdE9MRWlWa0xaM1UwcUt0R2gvbGRaUnZvam9aTFlj?=
- =?utf-8?B?bDRzZTF3eElzTWM3cmg4NTJZN2wybG52ZkRhSnZFaGFycTZpMzZnMHA2Umsv?=
- =?utf-8?B?OFpJTjlIWkRBZVZQd2I1ZjBlckZlNnBrSm45QXN0aCtJZFhkSGd1Y09pSjRS?=
- =?utf-8?B?cW5zNFJGQW05VFlnRmJzdTlmK0ZFSUVmd0RGcDRZM2Jwd09UbDdoVmtvM0xK?=
- =?utf-8?B?Q2VkeURya2ZCbk1ucS9FQ1ZMdHNvei9kQ0pVTld3UVF0RzZPeW5ic2Z3WWJQ?=
- =?utf-8?B?RjQydHRjbStSMWFSMXVESDQ5ZVcxSVdkU0dSbTFRa05LZkVDN2t1UVFYNGlM?=
- =?utf-8?B?cWtjWktWdnM5eGFTZGw4YTlZTGkyNUxvU1hlR2Z2ek91UE9wSzdmVXFRL0o1?=
- =?utf-8?B?SEtBRHRmTVZnMkpXNzZHZG8vQUtVZ2NoZWpJWDhMOTMzRFhKbWpoeFUxMjdx?=
- =?utf-8?B?Z1g0aU1rS1hOOTZ2a1BuOERWeE1uODlWTDh5L3RNNjd1VDNKTTlrcVJ1OUVE?=
- =?utf-8?B?U0pYU3dCcGd1czNaa0U4ajBqK0p4aDVpTjlXUWpvUkhUTlJhdjhaSWUrQ20z?=
- =?utf-8?B?eXdRUGRwRWRIV1hiditaRkNWNGlNWUQ2YndJek4yelYzWnJhVUZoWUdLL0RZ?=
- =?utf-8?B?ZTdnbmticnVyNitnQzFkYVJnMC9lU2RvTm1iUlFoUVlieVpJVXZONGQzMUps?=
- =?utf-8?B?aHU0U0FhR3NpYng4WFpKZy9jTlR3NnFjeWRBZTlGc2gwcEh2VDlZdVBGQWNB?=
- =?utf-8?B?TDljbDdDMmRNRW5uL3IrWlc0RzZuVFl2eTJId3hpbERES0hGU3k3MDBVeXpH?=
- =?utf-8?B?Z05XeHR3eHR0eExHYktjajRqTE1QVDIzdUJlclZYR0hyckF6K0JWNHBtUXA2?=
- =?utf-8?B?bi9HeURaLzN5K2Z2NWhheVJKV2xPcVFINUpOVG5UMGU1K1BNemJYU3h4SFRY?=
- =?utf-8?B?dzc1eHA5d1JIYXU0NlM4eUtGSzgreGZrSGtRMEh1VjQxcnduRW0xSm9CbDNQ?=
- =?utf-8?B?b0dHSSt5Y3dicUJteGczdkQrU2dPdkRhOHA3emVnUHhKSVM5RnBqSi9UQzds?=
- =?utf-8?B?T2NTMXFmUkNCcUI4MXZ0cklBRmlvUWFRWjRNaVJGQlVNSEdiS1FHN3VZL3Bj?=
- =?utf-8?B?bVhZaGJQWnpKUHRyYWovMUM0ME5abkJIWGdJWmFKd1IrUDdBNGlLSTFlaXQz?=
- =?utf-8?B?M1hKSStqOUtSUFpSRk5zS2JocWlzVWlNTGdrUDhTSUhITHZyNjlYbkdVMGY0?=
- =?utf-8?B?bW82Q3ZBUWFUZXNrNGs5Mk5wdDZvQ2FmWmlzQzlQMzdXWFFhMERoSXRYeml4?=
- =?utf-8?B?cEdlUDNxclNaTS9MMWVLNGlQU2VtZGV1cGdQZjNveEhMMDh5bkpYUCtKMVBy?=
- =?utf-8?B?YytGT3JiVStSQVJCeXhCemc0RVpZS1pMbXpveVlIZm9BU3FZL2l2NEZqWitE?=
- =?utf-8?B?aVNsVFlZQ21LTE8rWlVwbDFwNG9GMGs4Q25yMEJNYUhGUmp3MGtCeWR6Rld5?=
- =?utf-8?B?cFV4NzZQYnA0RXlyVE5TRXdRZGNTZG5ySVIrb2pDZTI4dy9Oa2U0S0psYk1R?=
- =?utf-8?B?UGNGNkZDdnJOa0ZGYmRWblhhUmhJSEdJSkJ4WGd6R3ArUGtCY0R5ZytPSjhk?=
- =?utf-8?B?aFhJOUUvZzVHTE96T1hwSDh4MjJGNldUeTN5bDdSejcvUmU2eHpVbXI2QkFG?=
- =?utf-8?B?QjVvWVg5Q25rZTRGbWF6ZnBwcmVQck5mMUVlQm9PakhXZ3pLaUl3M0RmTkk0?=
- =?utf-8?B?R2dpdXpOTG93aUt3c2FNZU9qVmJ6YTZSZVVhc2o0NUVFZFpKbUlMbkxSM1B1?=
- =?utf-8?B?ZGhTSytBV2VIcU5BdjV0ODlaTEpBWU5PYzFyWlJPMldtdS9OU0R4c2gwYUtu?=
- =?utf-8?Q?nQkl1NfIQHc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RVpnZlZZeENLN0lJUHQzenQrK2pDTjAwOGcvVWU2SlhURUd0azhGQTI0bjBM?=
- =?utf-8?B?OU9xaUthRFFOZGRteFBDdHkzZUVPYU1RekdBdFIzMW92MGx0TWlhVjBzNERU?=
- =?utf-8?B?eGM2R0hpQUFLdDc5SVo5Wmh0bnBRSmZVNjU4YTBqNEJFRDBYWDRNUi9PU1BT?=
- =?utf-8?B?SGZIbzRFWXNwSlpiRk5kYVJsTGxQWmYrTUxlNE9JWnoxeVBnY0xJbXdrcXd4?=
- =?utf-8?B?cUVxbnVwUE0xSFI3QVZXS1VGWTUzZlVYZ3g5REZGdnBiTmQ4MlcwcXlnNzV2?=
- =?utf-8?B?cEprUythbUk4VUREYTluZ3EycjdGTkxxd3VtdlByUUZyQ0NLT0dxbW1uempw?=
- =?utf-8?B?V3h3VlRpRDZ6QWNwcHFxcjQ1bS9jMzd3OFFhUlJnZHo3QzN3VTVEeTRKZEZu?=
- =?utf-8?B?N1FiYVdldzBFRytDWGtsZUU3d212Zy8xbkJoamcxek01RXV6SW9LWlNkbVlS?=
- =?utf-8?B?cElYbStnbURuU0VvVzR3Ryt2dlB4N29oVTE5MTZZV2V4ZGVSNzVXVFg0ZlVx?=
- =?utf-8?B?YUM0aWtwU0Z5SXM3WHN5aHZ4WEFldkw4bFpEa0V5V09QbUxrMHdnTXNvZnlN?=
- =?utf-8?B?VVphak9RQ0FuYWc0aUZEQ2g2TDUxUndMTzhVT2hoZ2pwQnhoblZJT1VoNjdI?=
- =?utf-8?B?di9xWk5ZZnRBTHJUSkIvcGhqTWYrV0VZelpVQ0diZjFtVXJjODhuVDBHb3FG?=
- =?utf-8?B?NEVmeEdHNkJkTmxlZEV1RkpTUVV0SnlXR0g1NUtyQWZqblVtWVFrUy90bTlP?=
- =?utf-8?B?c3NvM21tZ2k3a0x0NEZMM1cwUktqS1pZMWNLM0s1SVluWWllbDNzd0t0TlMy?=
- =?utf-8?B?YWJ3bnJ5L1BSQmhPbDB3Zng0ZERXRG9lR3RvM3I3SGh2dnN6OTBuMURRRnk5?=
- =?utf-8?B?Z1c4Q3NSY1cxMlZkZU9FQkI0YkxWbEZjUHJJTVUvOCtIaDVCdEc2ZnZxZHpU?=
- =?utf-8?B?UzVjOTZXVzQvN3BxM0luN01PNzluYk13dTRHNGFIV0xPYisrRHRZL08ySXZo?=
- =?utf-8?B?b2Z2L3Z5YkZiU0gxL2lOelRkdk9jQ0pHdldJWUoydUw2Rk1IRnpCY09QdzV4?=
- =?utf-8?B?ZzFqVjlGVnFFelg0VVI1VEwyYmQ1d1hVczJIT1BQWFdZSjc5bU9TMHpjc2h0?=
- =?utf-8?B?MkZmM1V2RkJhVHNvM0tkS2xjOUMvSUNGZnZXRy9vZXR0SnVvbXRNUk5qRFdV?=
- =?utf-8?B?Q0x4UXNnbThHbUxwNnE5ZVUxVkJYK01IK1hIMytyMmVmcUd5RjQ2VFB5RVdq?=
- =?utf-8?B?RzJodnB4MXY1L2p2V3dRT3djMUF3cDc1QnRGMnNOMkFhVkRsTlFKcGxkR3Nh?=
- =?utf-8?B?d2xYeUp5ZnZrQ0hOZnBvTXlYRlQ5SVkxV0NuQWFhSGhZUCszTG9WSTR5cVZ4?=
- =?utf-8?B?VVVZNGRneTVTY1Q2UmVJcFFOUFRjZHozSXhKOFB3allqQ0EyaVJkZ0VPZE9q?=
- =?utf-8?B?RVY4amFHaSt5bGRBc2FBWGdnWkJ5YnNIeCtDV0w3SVhhZ0t0OGJGdysrWDds?=
- =?utf-8?B?YitSQ3dDM2NpNmgwMldyRVBscGx1TFNhbXAyY2NHa1h4aGd5VGdETWNlcElQ?=
- =?utf-8?B?N2NKQkVxd2dQaStTREUxcEFYZzdFZHhlZDh1b2x1ZDJ3dW5tWmsxNytucU1I?=
- =?utf-8?B?b3gvRjlLZ0o0c2gvdi9NWWJCZHVQVE4vaUFuckp0Y3NyRmg4b3VhSXIrSjU3?=
- =?utf-8?B?bmRTVUpBOWU4TlRNSFNiSVpnanZCMUxBUmNjWXZhOEZ6NS9McjNVek4xTEJ2?=
- =?utf-8?B?UU1mdzcwbDc4L1BGdjF5ZXU1eEVuVlRXcWxjd0V0cEhDTUhNanVvU2NucmQw?=
- =?utf-8?B?dUtlWWFmRElwYktXRTFwaGJPUDhYaXR1TERhUG1aWGpvSmxGVEFRclBmWHM3?=
- =?utf-8?B?ejJGR0hBdjJxSms1Vkc1WnV3OVZ6dkpJSnY4SENDb1lZaHRYODNMY2NKd1c5?=
- =?utf-8?B?eWNibDNkQkJtYjdoT3M1UVVaSHJtWWtNM3VQdDByUExWWE5KekNPaEloNWhG?=
- =?utf-8?B?Q2I5TUV5UkhhbEZ4SVVzQ01jbXRNYkh4SEFVR0pET1R3QlJ3MzdWejFyWjAv?=
- =?utf-8?B?NVBlS3dFRmdqeHhsaStQMTNYNDdoK3UzRHAzbndSdnd1bHNTdDRxeWdvRFkx?=
- =?utf-8?Q?0LkEnr5L/TiukmChLIfoSJ2pO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f03d7bc-1841-4d57-8760-08dda8ddba11
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 11:47:22.0947 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gBzpZ2Aa79EHIpMktb7qIErVnR8jBLZ4TDfQI273eXKkMTGjJcJO1hB2VpjJzqyq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6368
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/tegra: Add NVJPG driver
+To: Mikko Perttunen <cyndis@kapsi.fi>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
+ <20250606-diogo-nvjpg-v1-1-5f2c36feeb39@tecnico.ulisboa.pt>
+ <811ad406-4afb-45c5-9783-683779f874cc@kapsi.fi>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <811ad406-4afb-45c5-9783-683779f874cc@kapsi.fi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,73 +77,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/10/25 18:42, Tvrtko Ursulin wrote:
-> Protect the access to driver and timeline name which otherwise could be
-> freed as dma-fence exported is signalling fences.
-> 
-> This prepares the code for incoming dma-fence API changes which will start
-> asserting these accesses are done from a RCU locked section.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Hi Mikko, thanks for the quick review!
 
-> ---
->  drivers/dma-buf/sync_file.c | 24 ++++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
+On 6/10/25 4:26 AM, Mikko Perttunen wrote:
+> On 6/6/25 7:45 PM, Diogo Ivo wrote:
+>> Add support for booting and using NVJPG on Tegra210 to the Host1x
+>> and TegraDRM drivers. This driver only supports the new TegraDRM uAPI.
 > 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 212df4b849fe..747e377fb954 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -135,12 +135,18 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
->  		strscpy(buf, sync_file->user_name, len);
->  	} else {
->  		struct dma_fence *fence = sync_file->fence;
-> +		const char __rcu *timeline;
-> +		const char __rcu *driver;
->  
-> +		rcu_read_lock();
-> +		driver = dma_fence_driver_name(fence);
-> +		timeline = dma_fence_timeline_name(fence);
->  		snprintf(buf, len, "%s-%s%llu-%lld",
-> -			 dma_fence_driver_name(fence),
-> -			 dma_fence_timeline_name(fence),
-> +			 rcu_dereference(driver),
-> +			 rcu_dereference(timeline),
->  			 fence->context,
->  			 fence->seqno);
-> +		rcu_read_unlock();
->  	}
->  
->  	return buf;
-> @@ -262,9 +268,17 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
->  static int sync_fill_fence_info(struct dma_fence *fence,
->  				 struct sync_fence_info *info)
->  {
-> -	strscpy(info->obj_name, dma_fence_timeline_name(fence),
-> +	const char __rcu *timeline;
-> +	const char __rcu *driver;
-> +
-> +	rcu_read_lock();
-> +
-> +	driver = dma_fence_driver_name(fence);
-> +	timeline = dma_fence_timeline_name(fence);
-> +
-> +	strscpy(info->obj_name, rcu_dereference(timeline),
->  		sizeof(info->obj_name));
-> -	strscpy(info->driver_name, dma_fence_driver_name(fence),
-> +	strscpy(info->driver_name, rcu_dereference(driver),
->  		sizeof(info->driver_name));
->  
->  	info->status = dma_fence_get_status(fence);
-> @@ -273,6 +287,8 @@ static int sync_fill_fence_info(struct dma_fence *fence,
->  			ktime_to_ns(dma_fence_timestamp(fence)) :
->  			ktime_set(0, 0);
->  
-> +	rcu_read_unlock();
-> +
->  	return info->status;
->  }
->  
+> Hello Diogo -- I'm happy to see this driver!
+> 
+>>
+>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+>> ---
+>>   drivers/gpu/drm/tegra/Makefile |   1 +
+>>   drivers/gpu/drm/tegra/drm.c    |   2 +
+>>   drivers/gpu/drm/tegra/drm.h    |   1 +
+>>   drivers/gpu/drm/tegra/nvjpg.c  | 379 +++++++++++++++++++++++++++++++ 
+>> ++++++++++
+>>   4 files changed, 383 insertions(+)
+>> ...
+>> +
+>> +static __maybe_unused int nvjpg_runtime_resume(struct device *dev)
+>> +{
+>> +    struct nvjpg *nvjpg = dev_get_drvdata(dev);
+>> +    int err;
+>> +
+>> +    err = clk_prepare_enable(nvjpg->clk);
+>> +    if (err < 0)
+>> +        return err;
+>> +
+>> +    usleep_range(20, 30);
+>> +
+>> +    if (nvjpg->rst) {
+>> +        err = reset_control_acquire(nvjpg->rst);
+>> +        if (err < 0) {
+>> +            dev_err(dev, "failed to acquire reset: %d\n", err);
+>> +            goto disable_clk;
+>> +        }
+>> +
+>> +        err = reset_control_deassert(nvjpg->rst);
+>> +        if (err < 0) {
+>> +            dev_err(dev, "failed to deassert reset: %d\n", err);
+>> +            goto release_reset;
+>> +        }
+>> +
+>> +        usleep_range(20, 30);
+>> +    }
+> 
+> Do we need this manual reset handling? NVJPG is only on T210+ where the 
+> power domain code handles the reset as well. Did you run into any issues 
+> with it?
 
+Everything works just fine without the manual reset handling. I was
+unsure if I should add it to the driver and in the end I decided to do
+it because I thought that it would be better if the driver had explicit
+control over it. However if delegating this to the power domain code is
+enough I'll delete it for v2.
+
+>> +
+>> +    err = nvjpg_load_falcon_firmware(nvjpg);
+>> +    if (err < 0)
+>> +        goto assert_reset;
+>> +
+>> +    err = falcon_boot(&nvjpg->falcon);
+>> +    if (err < 0)
+>> +        goto assert_reset;
+>> +
+>> +    return 0;
+>> +
+>> +assert_reset:
+>> +    reset_control_assert(nvjpg->rst);
+>> +release_reset:
+>> +    reset_control_release(nvjpg->rst);
+>> +disable_clk:
+>> +    clk_disable_unprepare(nvjpg->clk);
+>> +    return err;
+>> +}
+>> ...
+>> +
+>> +static int nvjpg_probe(struct platform_device *pdev)
+>> +{
+>> +    struct device *dev = &pdev->dev;
+>> +    struct nvjpg *nvjpg;
+>> +    int err;
+>> +
+>> +    /* inherit DMA mask from host1x parent */
+>> +    err = dma_coerce_mask_and_coherent(dev, *dev->parent->dma_mask);
+>> +    if (err < 0) {
+>> +        dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
+>> +        return err;
+>> +    }
+>> +
+>> +    nvjpg = devm_kzalloc(dev, sizeof(*nvjpg), GFP_KERNEL);
+>> +    if (!nvjpg)
+>> +        return -ENOMEM;
+>> +
+>> +    nvjpg->config = of_device_get_match_data(dev);
+>> +
+>> +    nvjpg->regs = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+> 
+> This can be devm_platform_ioremap_resource -- slightly simpler.
+
+Thanks, I'll update that for v2.
+
+>> +    if (IS_ERR(nvjpg->regs))
+>> +        return PTR_ERR(nvjpg->regs);
+>> +
+>> +    nvjpg->rst = devm_reset_control_get_exclusive_released(&pdev- 
+>> >dev, "nvjpg");
+>> +    if (IS_ERR(nvjpg->rst)) {
+>> +        err = PTR_ERR(nvjpg->rst);
+>> +
+>> +        if (err != -EBUSY || WARN_ON(!pdev->dev.pm_domain)) {
+>> +            dev_err(&pdev->dev, "failed to get reset control: %d\n",
+>> +                err);
+>> +            return err;
+>> +        }
+>> +
+>> +        /*
+>> +         * At this point, the reset control is most likely being used
+>> +         * by the generic power domain implementation. With any luck
+>> +         * the power domain will have taken care of resetting the SOR
+>> +         * and we don't have to do anything.
+>> +         */
+>> +        nvjpg->rst = NULL;
+>> +    }
+> 
+> I see you've taken this from sor.c, but I think it should be 
+> unnecessary. I imagine the code in sor.c is overcomplicated as well, 
+> maybe because we used not to have the power domain implementation.
+
+Following my comment above I'll delete this block for v2.
+
+>> +
+>> +    nvjpg->clk = devm_clk_get(dev, "nvjpg");
+>> +    if (IS_ERR(nvjpg->clk)) {
+>> +        dev_err(&pdev->dev, "failed to get clock\n");
+>> +        return PTR_ERR(nvjpg->clk);
+>> +    }
+> 
+> Probably a good idea to set the clock rate to max (see vic.c).
+
+Sounds good, I'll update it for v2.
+
+>> +
+>> +    nvjpg->falcon.dev = dev;
+>> +    nvjpg->falcon.regs = nvjpg->regs;
+>> +
+>> +    err = falcon_init(&nvjpg->falcon);
+>> +    if (err < 0)
+>> +        return err;
+>> +
+>> +    platform_set_drvdata(pdev, nvjpg);
+>> +
+>> +    INIT_LIST_HEAD(&nvjpg->client.base.list);
+>> +    nvjpg->client.base.ops = &nvjpg_client_ops;
+>> +    nvjpg->client.base.dev = dev;
+>> +    nvjpg->client.base.class = HOST1X_CLASS_NVJPG;
+>> +    nvjpg->dev = dev;
+>> +
+>> +    INIT_LIST_HEAD(&nvjpg->client.list);
+>> +    nvjpg->client.version = nvjpg->config->version;
+>> +    nvjpg->client.ops = &nvjpg_ops;
+>> +
+>> +    err = host1x_client_register(&nvjpg->client.base);
+>> +    if (err < 0) {
+>> +        dev_err(dev, "failed to register host1x client: %d\n", err);
+>> +        goto exit_falcon;
+>> +    }
+>> +
+>> +    pm_runtime_use_autosuspend(dev);
+>> +    pm_runtime_set_autosuspend_delay(dev, 500);
+>> +    devm_pm_runtime_enable(dev);
+>> +
+>> +    return 0;
+>> +
+>> +exit_falcon:
+>> +    falcon_exit(&nvjpg->falcon);
+>> +
+>> +    return err;
+>> +}
+>> +
+>> +static void nvjpg_remove(struct platform_device *pdev)
+>> +{
+>> +    struct nvjpg *nvjpg = platform_get_drvdata(pdev);
+>> +
+>> +    host1x_client_unregister(&nvjpg->client.base);
+>> +    falcon_exit(&nvjpg->falcon);
+>> +}
+>> +
+>> +static const struct dev_pm_ops nvjpg_pm_ops = {
+>> +    SET_RUNTIME_PM_OPS(nvjpg_runtime_suspend, nvjpg_runtime_resume, 
+>> NULL)
+>> +    SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>> +                pm_runtime_force_resume)
+>> +};
+> 
+> There are modern, improved variants with no SET_ prefix.
+
+I'll update it for v2 as well.
+
+Thank you for your time!
+Diogo
