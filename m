@@ -2,188 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA1CAD4769
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 02:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CA6AD4847
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 03:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD8610E318;
-	Wed, 11 Jun 2025 00:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51D4F10E071;
+	Wed, 11 Jun 2025 01:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nS3beO+L";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YW9F7Zon";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D89B10E045;
- Wed, 11 Jun 2025 00:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749601113; x=1781137113;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=8vbF+cAtiWD8XgvyWnqzcT+vZ7SiZNxj59Zq/usUz4g=;
- b=nS3beO+LNlDrsJ5EloOnZwbiyq7m2kdB+u+aAUGP1cUmoSdEjBKeC0mZ
- 7Y9EZHX2fUg3tPCEqeHkUY8nM2o7yrX0jrySIVEoOmzYz6LEQS0MMIpZ/
- rcib8Pe4H6GKp6sbi5KIi2Ein1ND4s1zIVDEHQ+j+qYLUQTssoFYmwP9p
- Wu/2/5hFi/fjR8smHIdYmeVXxB5aRaRJMbgwMBZ0qgZNON3kw6NIsQzJY
- BBMSqnUlRi3gQQemY6ar07SNsnNdTFbjRUDOuFRHX+v5flzFzTBpQdRv9
- 3uQqru6aYbVJj4JuXeTAteXFkgRWflNIkd+2DdT+V8uVyv09T0sXKhdlG Q==;
-X-CSE-ConnectionGUID: 9yZ8GEiZSRaGn+rB9d3qwA==
-X-CSE-MsgGUID: Eguxp0LmTTWFZM0FywDjxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51440533"
-X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; d="scan'208";a="51440533"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2025 17:18:26 -0700
-X-CSE-ConnectionGUID: mbIpkJuUSaKc1sU4FSyFJw==
-X-CSE-MsgGUID: PjVCw3gGTe+M/sxN66064w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; d="scan'208";a="152138315"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2025 17:18:25 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 10 Jun 2025 17:18:24 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 10 Jun 2025 17:18:24 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.70)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Tue, 10 Jun 2025 17:18:24 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA86310E071
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 01:56:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vXNm6E/1LozzUBgevp1TZpSqg06iY8jR8majgdz8qHnTxyyCDmeyF7nFHFXZ5YBllp3538CJdBI9orJb9FJl5gBHfJOHkOUP1VWE//EPlFkk53MSn8s+k/Gi+PmAM61VBqDbmRWvw9mYj+ZMtEfsL9ZtPR1IeV5970+8WDfHle7k5M5Exh6TPMH1ZRNhEdEs5S10FfSQg0LPZBAXhwOUHXSlGyudAmnscLHBNGwCrsIjcIIRfBoGLMwau7Gn3c3rCCZwV9sL33dyHDhnPqeSo1E9uJUSxfmswvd5O+os9KK111yip9WP4t5UokN7l7LT296EbsZzJW9QAudG6tqvUw==
+ b=k00/fFMIJ8S6690rXXd6Ei3BKiJiPkzhS7YyNtQJAueBXH8YPRsrkCV1wR9WLTCwJWUbNIFYtn2UF7rE5y82BCeGI4a0jl2ZXbj/ECF2YnGYckzD7cp5lqEh0E795AK6qbG0CN/0xpIJPItV7YzAr0nd67ZpqsBTpJg0YTjP7hIJKb9yBmKj7QiWv4jBQl1vqJZP+9T7GCdAGhocNeuBmEUxxi+ZZN7fX8azOQGYOb1TFa9UebG9v3jA8BNZGgdPxGKtXgsHsEy8dJBCQ+03ad6dg03xGXmm17F4Ovvo6XtaY9thObcV6QfxxvfIDY7jiwl98MQD7IwdpIwjaUyEiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S40Sv4zvvMRxAs5wgNOy40GVwZPOhgQ1QYnS2M9TvAI=;
- b=JwfAH1GRmzzXipd3C95DjvnfhQCsASBl7KACNBM/rNA8Il2Bu86SlJo6X/y/gYlTTVEn2IE4LqeHZDCGBBbFu3Yi27lvKE4Lso2boQJxLKh3aw7XsqnUQm99CvAbIv6lEMzfVuQO6NXwJPmYocHb1e9b4Hkvzzaa1oXiSq8SxbU9LHbgS00n8MvDOYmLqYEZS8eClwav5edYBFoc3FigwDVlR/5k/EuO5pE2SxyHbZgXJOLmFce1vqkZlV+Q2gC35E0VGP8WfTFzttvjZ3ijpHRz8KR7dM1OvMYktDIin26RepDSXrzR4a5Ic4sWsTNWqoTPndTR5FhhDOZqZqO12g==
+ bh=Kg/UojDZeIWBtpTiBBhp2CZHqxPSH2RZpr1n2jLIjcg=;
+ b=xVA1gdrehXorISPYA7V/CnIbhtd8Puzy7gOxqh7XOqRIKCdCXe9O72297F4BWrXwSVM2r43HP/6EwXyw5S2zknwlzF5WWn7VnAjZX3BRkolSFigcP4tHAoFF8wuRvlRV5WmJK3HEI42gJ0d4xpE2kBJizJ2JP++y69W2LaPcrifaReK6GLZdhikY5fc15q58U1J2uikLpwNcWJvVKVsyKP70B7EefEZnrBw4U8ILeFXB2UWrMim80LqinZf2At39PNRdY2r6WHtgeijhY8DSGTxbuKviPqPKbr5dyFc+vzuc1hLNU/yTlDBdsSYHvU58E54DLiN0I0qut/rPbdzXZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kg/UojDZeIWBtpTiBBhp2CZHqxPSH2RZpr1n2jLIjcg=;
+ b=YW9F7Zonetavh44FavB87Gz/5VQxcmkQz0hVfWj684v6rPEdYQvWRwv3xXYtRFPLTRTjguv1+psX6Ni1/BrJ3grkazHQfas08hwHFR10KWFh5AtJ6BH6ZkTiiYHc0qkRITmvNlhTFYIq7iB0kAwFrIz8gFowXBunqRB4M/8A+6o=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
- by DS4PPF409BB8CE8.namprd11.prod.outlook.com (2603:10b6:f:fc02::21)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
+ by MW6PR12MB7072.namprd12.prod.outlook.com (2603:10b6:303:238::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.25; Wed, 11 Jun
- 2025 00:17:26 +0000
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50]) by PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50%4]) with mapi id 15.20.8813.024; Wed, 11 Jun 2025
- 00:17:25 +0000
-Message-ID: <a51e1b65-dece-4ac4-808d-8749a1a21d8f@intel.com>
-Date: Tue, 10 Jun 2025 17:17:24 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/10] drm/xe/xe_late_bind_fw: Load late binding
- firmware
-To: Badal Nilawar <badal.nilawar@intel.com>, <intel-xe@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>, <jgg@nvidia.com>
-References: <20250606175707.1403384-1-badal.nilawar@intel.com>
- <20250606175707.1403384-6-badal.nilawar@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Wed, 11 Jun
+ 2025 01:55:55 +0000
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f]) by CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f%5]) with mapi id 15.20.8792.038; Wed, 11 Jun 2025
+ 01:55:54 +0000
+Message-ID: <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
+Date: Wed, 11 Jun 2025 11:55:44 +1000
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
+ using TSM
+To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
+ seanjc@google.com, alex.williamson@redhat.com, jgg@nvidia.com,
+ dan.j.williams@intel.com, linux-coco@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+ yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+ yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com,
+ linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
+ shameerali.kolothum.thodi@huawei.com, aneesh.kumar@kernel.org,
+ iommu@lists.linux.dev, kevin.tian@intel.com
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
 Content-Language: en-US
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20250606175707.1403384-6-badal.nilawar@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0185.namprd05.prod.outlook.com
- (2603:10b6:a03:330::10) To PH7PR11MB7605.namprd11.prod.outlook.com
- (2603:10b6:510:277::5)
+X-ClientProxiedBy: SY5PR01CA0011.ausprd01.prod.outlook.com
+ (2603:10c6:10:1fa::17) To CH3PR12MB9194.namprd12.prod.outlook.com
+ (2603:10b6:610:19f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|DS4PPF409BB8CE8:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c1a5590-fa7e-4696-71c8-08dda87d57ef
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|MW6PR12MB7072:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f409da2-9ec3-46c3-d2db-08dda88b197a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cEpDTStweXlTcndPRzBtWmkvL0lmTWovcnlWL29adG15U1RhSHlQbVNDZ2M2?=
- =?utf-8?B?NXJWL0RJZXphYUxrSDJTYzM4ZTVMRStwbzgwTnlnc3RzYW9JdGczZzg0bFVY?=
- =?utf-8?B?cHJpMjZ0QjVSRUhQVnpOZEhya2VDV0wvWDlXdjAwaTRmYThZdkN5dEw4clpZ?=
- =?utf-8?B?YUpGMXdhNC9zYTA4ZXltc2JXUUhpOGsrU2hEd2ZzTmdMNzB2L05xYnYrTm5E?=
- =?utf-8?B?Q2lmMkZTbzQ2M2dXUVQ1cVFWZmFLT1ZUVEw4VXc5ZXJLeVFaR2xuYzF3WWxN?=
- =?utf-8?B?KzFxQWdsdkc3bEEyUzZweElRL1dXQnNuVWRYaHU3OStQMEN1VDVGYXd6Sm1F?=
- =?utf-8?B?V3pDQSsxNU9yY0VGejFLYjdiNG9PT1pGanFhYURsQTFEMjdscTFNOEthZUlC?=
- =?utf-8?B?QU8xczE2YTl1NEtDV3R2KzhRZ2lNdkR2b0owT3BxN09rZ1dFYlVyWkdnWGlt?=
- =?utf-8?B?S2plTDhyY0tHbFNaTUp4NTBKSFBQWm1WNjRHdncrTkViQk5xU0FTY0ZUOHhX?=
- =?utf-8?B?eHhwNFBFV051Rlh3Q253Vmprd0hFVXFHVy9OSUVmTGNWdTIrOWRNdlJnYks3?=
- =?utf-8?B?OWRQdjQ1YmhOaFp2QnB1OXR4YUJnRncrUWR5c1pTRGtFVU10S251S0RaUWpt?=
- =?utf-8?B?ZG1QSFl4T0Y2NnNIbmQ3YUtkNXMwVmdvcXQ4U2NoSGpqRVppMTE4bXRYZWZF?=
- =?utf-8?B?V0JGK0lKKzR1b0lYYnF4VXIwUGhKbEVtanVsSnF0NEtUdW1uT0tHeEpDMUtB?=
- =?utf-8?B?MzMvejV2cXBieFNoVUtqZTdXcHBmTk92V3dLbm5pbHVEQVlWNUhQbVd4VW5S?=
- =?utf-8?B?OWg1WXBQdUVqeWlhTk9SS0lhVkhRWVRLZi9peEFoT0hqSzlpNXpDOWVtVjhJ?=
- =?utf-8?B?NzFEeGQvT0w1bjJpOEN0THZma001K1MvUVRoaDFiRWJZemI1cGkxVG9hR1Yy?=
- =?utf-8?B?K0VwYzNVTVlzbFpPR1ZLa2RFdnV5U3RHTEtvaFlmWEIzQmhVZnozYisvdkdF?=
- =?utf-8?B?YnlIMGlEOFFTaU94Vk9vZG9HdW9Gdlg4NHViVHkvYW04ZW8xNXI0Q1FRYklB?=
- =?utf-8?B?aVB3MFl0aWs0WXRic1hqc2FXei9Bdjk5T3dTb3B2ampWdERNWjFvNUNMV0ZK?=
- =?utf-8?B?N3NwTDRPV1d5K1FXNTRnc3BhTEsvaHMwU1ZyRXluUWFCZDd6eXJhUVg5TDU1?=
- =?utf-8?B?ejUzSjd4d09MYnpKNHF5YytpUDJqTmorZVJmalpQN01abGJOaHp4ZDlPUXg5?=
- =?utf-8?B?UkpqaDFJRWkvVnVFNTZIV2VXcHFMM1dONWZQK3N5VkNzSVAxSXVXek01VUt0?=
- =?utf-8?B?S1NwWTZ6Q0NINUpVVkVQQlhVVFA1Z2xyaFZObjRSNE40bndDNTd4NjBHSEhC?=
- =?utf-8?B?ckY5eGttejRMY3VyRVNXRlY2NWNsNW1QSW1CUXM4ZkJrMVFzWEVzMS9FblJB?=
- =?utf-8?B?NExncFlCSFA4TDA3MHJtQXhDaTV6ZTEvQ1Z5MUZKRldzL0NBMXNFTFhCRitx?=
- =?utf-8?B?U3pSZFdLTGpMVnZmVHlJVk00S2psaVBwNDVuQjlVVHJSTFpnTmJ0S0tGVXhD?=
- =?utf-8?B?U0djUEh0Rzg0V1B3Yk1zdlJIZWE0WUMxdDdKc1puK1JYcVNORXFJUTdrZi9U?=
- =?utf-8?B?WkYxWTVVc2ppRHNBcTRtVVhZVGhvZ3BtdXczeDRHN1dXaCtVUldpTTM5R00y?=
- =?utf-8?B?RVlSOHhYQ1p1UlhWQmwvM3haZjJFb21xOG5yQXVaWVh0c0dwUHJ5TC8wL0lp?=
- =?utf-8?B?WWY5VnFuZ2kzZTMwcTJZeUJOd1FYcExxZzVPTG9IMVArSGUwWFJ5S0V3RkRI?=
- =?utf-8?B?RDNHVE1UTkFZWDU3U2I0SkZMUTFnLzVZSGJtWDBlUW5oeXYyRDExb0p1ZlZ2?=
- =?utf-8?B?QU5xamNaM2JLNGFtaTR0WnlpdHNpblNDL1Bwb1JScDIwbHMrcGx6ZlQ4a2E5?=
- =?utf-8?Q?CwaYlW/AfH4=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R1J0czRCM0gyZzNrRWh2V3FrWm8ySDFJMFp6d1RFV2t5WGpxNExnZmxCZWVv?=
+ =?utf-8?B?SThYT3hkYUpjaTRrd1Jva3RKRVU1OXNKRlFTRUY0RnZraHpQUHBUUXJzN010?=
+ =?utf-8?B?c0NKdXMzNHQ3YlF3aXVVS2diZWh4dzZXMnhzOFFnb3Q1Ymp5SU1COUpYVS94?=
+ =?utf-8?B?MzJVWnZ3QU9JenhCZk1kdmY4OW03TlR0YWtuclQxZGppVmgrb0ZjUVVHTEhK?=
+ =?utf-8?B?Ty9KS1RnbVY4cW14SndGVFdVWityamlkVnFNWVNka2pHQTc4QS9Ic0sxSkg2?=
+ =?utf-8?B?WEpWVUJ4aTlkelloWS9nTWdEeWhoUzYySWpYejZBWVBuc0RNOUsrTUNuKzdW?=
+ =?utf-8?B?cyttWnNHSHRYbmpDT09MVUo3R3NuTG9NdFF1bFVtTFZxRnlta3hwelA3Z0Fx?=
+ =?utf-8?B?K0svMEVGdTl6UXVyOThYMzFVNUt3K3NqaWxLK0cwa1FNWG5lbTJXbno0QVJo?=
+ =?utf-8?B?SVR4R0hUNEtPS2NSUEhIeFRiZmxjMGlFNnRlN3BOM1U0b3pkcERaeGo0OFFF?=
+ =?utf-8?B?ZTVQZDZwMi9jemFZNkl6UWpHUTlPeFNmNGRuTkY3cm9hTWl3K1g5aUU5Z1Yv?=
+ =?utf-8?B?NUpzUkYxSHRCUm1xMldNdVUzT2l6clMvQzB2K00vS2QwWW1RMnlQVHMyZ2ZO?=
+ =?utf-8?B?R284ZE1SeWxXMlpjZEpUUloxVGx4ci9OSkUrcUFxM2liaVVkTGdNVndkZndR?=
+ =?utf-8?B?bFFQc25PVno5OFZ5SGpVQThuVG9nSjNoK3I4Y2wwQ0VqZm9rZXVuWEw4NTZE?=
+ =?utf-8?B?eU9neU8xQ0pNV29zMUhxOTd2TjA5QWdLb2JjSEYxd25OdWtOZTg4Qmx3bW1h?=
+ =?utf-8?B?VE9CNm5yeTVwN0Z5b0NMWjZwSGFjYk92YVZJUDUzck9FSEREcEhkaDJjcUlZ?=
+ =?utf-8?B?aUg4RHg5TGwyRWZVM3NFdHZ2SE9pMG5zRHcxSlRwZ2RuOVpSRHBGVVlPNzZq?=
+ =?utf-8?B?eEVSMkhIZVR1SVArdGpvekV6YlVlczJxNzVPaVZtRFYzR21hOGtpV2p6UDhj?=
+ =?utf-8?B?MVlTcC9vWTRObjROdmJ1YzBiT1FQalVsWlBIZmFHZUJUSStCQU1BbUdGdXlQ?=
+ =?utf-8?B?dFJYQ2xqL0JqSm81bGZPWUJVRzlBQ0k5NHk3M1I2c3hBTS96WXFOY0EwT2c0?=
+ =?utf-8?B?dlF4MXdUcXlSdUFOdG5FUlMwK3J1ejFHYUk3a1BWY1lXcklwMlFPZGVOYzY3?=
+ =?utf-8?B?M3YvTWRJcFRVMGhNNUlra0c2b0FrNjBxbkgrcVhjVEh2TjMwMFgxYWFLS2gv?=
+ =?utf-8?B?NjE4a3poMkthb2J1QWJWd2tMWmlnY3pSRTZXMjVIVXFnQURSdkpOUENQNFlm?=
+ =?utf-8?B?c0pvUFpubE96cDdKajBPdVVLUUZHTDU0b0ZFdE8wVllFd2UySXEvRURWc0o5?=
+ =?utf-8?B?M3VVZ3hNVnhHNVErOGZuREttTnBtQ1hSM2hoQUpQaFZkeVJvcFNwQi8wVVhW?=
+ =?utf-8?B?SHVaL3A3ZXh3T3BXQnJDaDJhY0tiUkhuVHJVOXBBZE5GQis1TGdOSXJkTC9Q?=
+ =?utf-8?B?YU1sWExtLzhZcXJxbWliT2ZJMnMrNjFNMFNBSFNINVhqVlZzOW55Y2RoLyti?=
+ =?utf-8?B?ZFhpY3h6RU4rL2h4Z1UrSGhDMTNCVkFpNURKTjRDTDhOUjNEQ1RKNitEUlpY?=
+ =?utf-8?B?WTZqL0ZsMURDWGFhN1hLZERWb2VwejFFUlQrVnRiQTZYcHByVVlzSFE5dlBY?=
+ =?utf-8?B?R2tocFh3U2lUWXlobFF2UEtTQUMyMnVGMUlTNFlKN3E5ejU5S2FaYmVXOGN3?=
+ =?utf-8?B?M3BuT1FxOGJ5VEdUKzduYkdmSmZpQVVZTkRSSXZVVmhNRFlpSGF2WEVucGI5?=
+ =?utf-8?B?SkpMZlpSby9Zalk1alhtQkJGcWJYTGROWkg4a20yYWFkUFo0MlJiNHJ2aWJp?=
+ =?utf-8?B?L1Z6VktCWDVrTkNDdlF5OGdmOTZpdE1Xd1phMDBoNWdHV2xnYjFPaWFrK3Fu?=
+ =?utf-8?B?emN5RnQ0bk5oalFaT1hJOGFSQ0IzRDNYQlB6dTlHNnc1dlE2WWdTVjVoWHVy?=
+ =?utf-8?Q?wMtTW9rCDb6U2njm2DJhU5p0ZbDN1o=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB9194.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVdaTU9DZE1pbUxIVjVJYzlGMWFEZHpnUzJ6ZWwzMDlVN0I3TS9uaG9BYk1z?=
- =?utf-8?B?cEhLc2dQRVVoV0ZBbUVaUW9vN29FcGI2V2NDblhVNGRLZEpRcXU0bzhlazNx?=
- =?utf-8?B?UDBGbW5BN0ZPZkVhTjF5eCszZ1RJVThuZmRLaStwOGk1WnFSeStRTU1sTlRr?=
- =?utf-8?B?R05uRnpVNUdxWGJSZTIyNW50VzU4aXkrVEtZNkNvQTg1aS9qb254QXBxbEdr?=
- =?utf-8?B?MU9oQ0wwakF2OEVQQVBnWXRRdVpVUjVjVEQwaGxxTy8rT3RaaXlPaXZlamkw?=
- =?utf-8?B?ZTU5Um4zL0FINlJBd3VneU9vK1lqU2pjV3d6UzlZc3dIckNhaVJXb2U4ZW8v?=
- =?utf-8?B?YVlQU3pMMmdRRHd6K29ZN2oycmNRQno3VFhibzk0QURtUTFFa3ZyRXY4a3M0?=
- =?utf-8?B?ZXJCc3Jib1BFNThheU1jVUpFdUJ1cFl6ekpxOUpuNnRTNWYxM2lSWHl0bk9v?=
- =?utf-8?B?MkZNOUcyR1VINk5HTm9TTlRLclFIVXhhaE52czFMOFpFU0o2WVJReDRVM2Yr?=
- =?utf-8?B?b1dkMjM0NGx2bnRYVnpBUmc0eFNOMU9ETGZ5WlVrVVE1N1VqWXQvaGRpTk04?=
- =?utf-8?B?YWx4RGJ3eFJHQXB2WlM2UmdLVXA4MTE0UHVyTWRDSlFKTU1ucFJ5OUpmNU9J?=
- =?utf-8?B?YXhwWEhZejltUzVuUFhPak1FbFBYcVY4UGFTK1UyNkZPd2o1MUs2b0RiSmgw?=
- =?utf-8?B?aVd2U0ZsZ3J2LzV1c3cvZ2tqLzJXUmkrTURrNE1vQmJPbS9NNXRSZjQ0MmlQ?=
- =?utf-8?B?WTUwa2ZYRjRWak8vdnArUVJQK3NIZmxqOWtNdGl5YXhvKzZSbTJUdW45WUpQ?=
- =?utf-8?B?dm1WVERrOTdEMWJlenpnNklZT1hvVVJkWFhadU4yb2tMT0tpdVVIcnFQOWRH?=
- =?utf-8?B?SDNraGx1ejhkcEtZRW1IOFlnS0RJVW8xSFpod2FmdFVnMXRkUis2NVFpdnM1?=
- =?utf-8?B?UGFCOUNZdEdZY0N5Z3B4Z0lQMWZ5KzJGSmhsc0pYc2w0cWI2YWVjSjhMeWpQ?=
- =?utf-8?B?WGJUeHpQWi8vdTBMTkFQVnB4RU4wNFVoZzFzdnhEZXlVdHVRNXZtSW9xa1Nm?=
- =?utf-8?B?K3ZOWVdMSjVjZFVnZmU4MHNsdUZIdlovOCtqVWFkaUsrZFVDMHFtS2NpT3Na?=
- =?utf-8?B?RkN5QXZkU1JtNjFsUGN0Z3dDWDRJTTR5SUpvUW9QcUg5Vjl5blhyV3BucHFp?=
- =?utf-8?B?blN6S0tqWGZoRjVWWFRhbVVSY05VeEIrK2x6ZVVzMlNVNktaVTU2VDJ4MVE0?=
- =?utf-8?B?VUlRWHBZTGpub0FNVCs1eE1ibFFPalZxQUkyd2ljZENHVmRQSW40SDAxRXQ1?=
- =?utf-8?B?dExrTXBIU2NWODA4SjZnNHNlRExCdlVzVEdBbzc1TzJSdmNYL1A5eGNNdllI?=
- =?utf-8?B?UlRhY1BkOXVyWVFvTWpCUFZBQ285MHkzYXY5c0NZZ2I0K3JrQzVRSGFEU1l5?=
- =?utf-8?B?V3R3d25TbGZ4UDd1OXRTR2hQYVBVbUhlblorWE5WWFZDR1lNMENEOW5vVGN4?=
- =?utf-8?B?Y2t6RlJGbGhXQUxpaTJRVzJoMXdrS0dxNkVId2h1emYycml5WW5YMmM4Z3pu?=
- =?utf-8?B?K1prUWxPeVE4d1pOQXFGY0VvdVptOHZ4cTRDc2NhN1VPTEJET2JXRVdzaXJP?=
- =?utf-8?B?NVBtTzluYlFUV0dMVE1UUXNJL1JFM1RRYkc5YVpQQVBCL1BrY1VLUGs3K1Vr?=
- =?utf-8?B?MWtVRDVNdStRVnlEbmRvdmZEbmtlUVcySUtaTElJbFM4OFdKeHBGK3lLOXhF?=
- =?utf-8?B?MGJVaFdBMGQ2SSs3YThiRS9hTGVNWEovRzMvSktVOVk3WithNGg1ZGdYVVNj?=
- =?utf-8?B?TVhJQldyR2FNamRKQUNZTERZaFlocTNDNkRCRDdyVS9Qcmk4OVVWMUxRVHBJ?=
- =?utf-8?B?dm5JSnJHenJ2ZmpYYURHQW1jcWdqMkM4NTAzeTlpU2pJczIwMDJhbkRKQkg5?=
- =?utf-8?B?a0FnbmRKczc4WDhncFpFTWdHNzY2VVJ3dXpYZG01OTYwenJUSlNzN240OERZ?=
- =?utf-8?B?Tm9CVit2MDQyWmpnZWxac3hWdzk1aURtbVdpdVNxcW13MEtKZ3o1OG1DUXNl?=
- =?utf-8?B?eDlzNndxb0FwMkFFY2RoQXdIaG01dk54RENaSmJpNFUwbTZ5a0dNRnpQMGNR?=
- =?utf-8?B?alhOZk1Yc0VJQnVHS2w5dFp0TWpPZlN0WFdoaS9ZZlp4SXpiQ0VLalNmSDBn?=
- =?utf-8?Q?TJMcSyM6ORapwyxvtFNH6VM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c1a5590-fa7e-4696-71c8-08dda87d57ef
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3JWc0tnUTZyWGNPNTNMcWZTL1BKd1FBbEd1bDVaUTIzc3I5TFJWNGVlL2dR?=
+ =?utf-8?B?OFY5K1pRc1dOeGU0NVlBTzZjTWlFRlBsSGNJVGRzLzMrSVliTytLaWJ2RHh1?=
+ =?utf-8?B?T3JjVE5kWDUrQnM5YUJ0VHFRd2RpcWplc3UxRi9uWXBlZjFxNS9xaTdsdDBy?=
+ =?utf-8?B?VS9sWlp6b2twUC9BQ0dHbHlDR0dkVllYZGcxR3F4TGdDNGpNeGlXSW1FN1BM?=
+ =?utf-8?B?aFVRL2c2dDhSZ25CTnlnZDFITk82Y2U2V0lYMCt0VWRrcHNsMi9mYmdzQVRH?=
+ =?utf-8?B?LzJyTnNwaFBkMUtDQ3IybFhGUmdlNHV3bThhdGFPTmlaZ0krU3ZJTUlFVzhL?=
+ =?utf-8?B?Y3d6SVBrWFhzSFBPRkhhcXgwY0VoRXpwWnFVa3AyZ01SVFZUME1LSG1KRHk1?=
+ =?utf-8?B?cGVySWVUWjdEbXEzcm85bk5USmxxUWNSU1FsazgyQXAydmdIM2h5cUdiUk9i?=
+ =?utf-8?B?YTVsc1dvOW5GVkl0Y0l2ZnZUNmp2d05xck1HYWJDL0kyUjljTEFoTk1mR2N1?=
+ =?utf-8?B?dHZDZ3RnQVlrQWUwZHVFSXU1ekZBclBGb2RHaExVc3BYYkpPV251d2NVZStB?=
+ =?utf-8?B?dWpRNzF5bWlZb1l4aGx4Nlc4Z1dUM2lRV2c5QkQwUmV5Nm9ZZkJ0M3hXdW5i?=
+ =?utf-8?B?MlRMaFI0UloxY1RiT3JacFJnNnZua2NJOXYyUEJGWFoyaWtXMGxvN25qTTM2?=
+ =?utf-8?B?aGhvSXZVK2pxeHJ1czdVS2lpNUlhYWdyUjFRNm1MQ1RnOEptNGNMRUgvdWlT?=
+ =?utf-8?B?OFFRODJSSXBYTnFPTFNHQTNnWFdWRlIvYXdYMm5zSGNMYnpaeUExRWh1MXZq?=
+ =?utf-8?B?SlBqUXhJZVJxZUZhMzRKWW1kdTB5Z1I3ejZpRXl6YWZmblNOampWYTBsdnkr?=
+ =?utf-8?B?TjdEVGlvcDZsdTlPbjgvNDdNT0tMaDhmK3BMNzMvRmt0MC82YlJjcjQyWFE0?=
+ =?utf-8?B?dzI4MHI5dXhvQ2wwbnpPTm5Eazg1K3J3cHZ5Y29zbEg5Ylo3L3FtZ1ZWTUxO?=
+ =?utf-8?B?THFQNEZBeEEwNGZGSmNsRmh4TkY1cy9UTHdzcDB2YWNCUTdaQmRMVHlYRWdi?=
+ =?utf-8?B?dEdYcUtFcHl0SGZLY0k5cjVIUW9KcFNqYU5Fcmw0d0lGRUdhdTgxNFJzMUZh?=
+ =?utf-8?B?V20xbHVHY3JJZmNQc3pVMG1XaTVlT1ZXK0F0MjJhRXBKRDdYYVlRSXB2bHN1?=
+ =?utf-8?B?dVlVR2R1WWVNRXUwSy9rTnZDN2U1SDFqSUNHM0hhTEdiMVFxUDJld1ZPM1Qr?=
+ =?utf-8?B?enk1blRqNG1kd3U1SzRSN3U3NmsyMnkzNHlUT0ptQ0hOZGMxL2R6K2pVa3FE?=
+ =?utf-8?B?M1RoWFk4cmRvUnAwZ3FRN2FSaG5lRVNLcUtMbzNKbk9JRFVrT1pjRGo3eHRQ?=
+ =?utf-8?B?cEFjMElQRkU0RXUxUHRiQ29uMm8zZTFaL1RoYmtuaWRPNDFkREU2cjFtWUkr?=
+ =?utf-8?B?K2M5d1AwejRYbGE2Q3AvQzRVMXo4eGtOV2ovYmVuSGRNZzRSTUNZTXQ2QU1V?=
+ =?utf-8?B?b2JSTSt3MjVBOUdOcU1ocW0wYVlNQ2pBdGtwRW1tb1gyZlFkSjFkelJFYzlC?=
+ =?utf-8?B?WFh0cVErU2xRQUNaclRrZytlUzZySWhlM0xTekZxdzdFd092cm5HQTF5WmJr?=
+ =?utf-8?B?WWptcWducjRjN2JHK2tybXYwQXNWWXVjSnY0UVpUNlFVVVJraDV6WVhaQ2Uz?=
+ =?utf-8?B?b1RqaXJDK3JTMlhZK09hekdlNFVYdDliV0ZaNC9kVlQzSjE0TjZ3T2E2c1pN?=
+ =?utf-8?B?MWdKUlhPK1Z5b0pJRGd0SmVDRERxcTRzWnJCWEMwQXVjSDQ5aFhFTThjNzkw?=
+ =?utf-8?B?clhPcGlxNHBGUHRJOUFZRitySUsxWUx3NWF0SWNoVEF3VFVNY1Fha0VveUwx?=
+ =?utf-8?B?aVN1bGNsZlYrY0h2SXJ3bFBQRDhhV2x5ZzVpZkVzMDR1OXp6L1NiaVRZV2lh?=
+ =?utf-8?B?em1uTGZ5c1h2VzdUbzZuNUJCTlRpUUxXWEZ4NDN3Syt2dlJmK2RsMVUzNVVG?=
+ =?utf-8?B?OWxHVzdjdnkySEtZREJsU05pTzNvUkxNNVZZdFBpSmNuNXZxS2NsdjdJQWtl?=
+ =?utf-8?B?MjE2d1RBdkQyd0V0NzFBZC81S3FnUHdYNjhEbHdHYXl6YmZ4QWFqSldmVU1F?=
+ =?utf-8?Q?6iC7RxE4g8fIN0e1s+Z2kqtiQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f409da2-9ec3-46c3-d2db-08dda88b197a
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 00:17:25.7942 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 01:55:54.5319 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WiGhd8v/WDdcn8JV/waWZGPV7pFKPy0jYowRlee0C9uxm0Kl4O5oWOLd0pYqu0LVwzX9/YRBvx2qcEy0uU/CFFyVkpeKqlzUhl/4dHbSyWc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF409BB8CE8
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: b0Hz61nuQzU92/92WQpbSTSUNOruvF140qwHAw9q05C1zOCMN30XVi6rh9cfjEk+DPnnG9k34vZ59RycndeOfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,247 +174,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+Is there a QEMU tree using this somewhere?
+Also it would be nice to have this tree pushed somewhere, saves time. Thanks,
 
 
-On 6/6/2025 10:57 AM, Badal Nilawar wrote:
-> Load late binding firmware
->
-> v2:
->   - s/EAGAIN/EBUSY/
->   - Flush worker in suspend and driver unload (Daniele)
->
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_late_bind_fw.c       | 121 ++++++++++++++++++++-
->   drivers/gpu/drm/xe/xe_late_bind_fw.h       |   1 +
->   drivers/gpu/drm/xe/xe_late_bind_fw_types.h |   5 +
->   3 files changed, 126 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> index 0231f3dcfc18..7fe304c54374 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> @@ -16,6 +16,16 @@
->   #include "xe_late_bind_fw.h"
->   #include "xe_pcode.h"
->   #include "xe_pcode_api.h"
-> +#include "xe_pm.h"
-> +
-> +/*
-> + * The component should load quite quickly in most cases, but it could take
-> + * a bit. Using a very big timeout just to cover the worst case scenario
-> + */
-> +#define LB_INIT_TIMEOUT_MS 20000
-> +
-> +#define LB_FW_LOAD_RETRY_MAXCOUNT 40
-> +#define LB_FW_LOAD_RETRY_PAUSE_MS 50
 
-Are those retry values spec'd anywhere? For GSC we use those because the 
-GSC specs say to retry in 50ms intervals for up to 2 secs to give time 
-for the GSC to do proxy handling. Does it make sense to do the same in 
-this case, given that there is no proxy involved?
+On 29/5/25 15:34, Xu Yilun wrote:
+> This series is the generic host side (KVM/VFIO/IOMMUFD) support for the
+> whole life cycle of private device assignment. It follows the
+> previously discussed flow chart [1], aim to better illustrate the
+> overall flow of private device assignment, find out and narrow down the
+> gaps of different vendors, and reach some common directions.
+> 
+> This series is based on Dan's Core TSM infrastructure series [2].  To
+> give a clear overview of what components are needed, it also includes
+> some existing WIP patchsets in community.
+> 
+> This series has 3 sections:
+> 
+> Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
+> Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
+> The concern for get_pfn() kAPI [4] is not addressed so are marked as
+> HACK, will investigate later.
+> 
+> Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
+> & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
+> 
+> Patch 23 - 30 is a solution to meet the TDX specific sequence
+> enforcement on various device Unbind cases, including converting device
+> back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
+> prototype and finally implement the Unbind enforcement inside the
+> driver. To be honest it is still awkward to me, but I need help.
+> 
+> This series don't include the VMEXIT handle for GHCI/GHCB calls for
+> Bind/Unbind/Guest request, cause it involves vendor specific code. The
+> general idea is KVM should just pass these calls to QEMU, QEMU parses
+> out the command and call the newly introduced VFIO/IOMMUFD IOCTLs.
+> 
+> With additional TDX Connect specific patches (not published), passed
+> engineering test for trusted DMA in TD.
+> 
+> [1]: https://lore.kernel.org/all/aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050/
+> [2]: https://lore.kernel.org/all/20250516054732.2055093-1-dan.j.williams@intel.com/
+> [3]: https://lore.kernel.org/kvm/20250307052248.405803-1-vivek.kasireddy@intel.com/
+> [4]: https://lore.kernel.org/all/20250107142719.179636-1-yilun.xu@linux.intel.com/
+> [5]: https://lore.kernel.org/all/20250319173202.78988-3-shameerali.kolothum.thodi@huawei.com/
+> > 
+> Alexey Kardashevskiy (1):
+>    iommufd/vdevice: Add TSM Guest request uAPI
+> 
+> Dan Williams (2):
+>    coco/tdx_tsm: Introduce a "tdx" subsystem and "tsm" device
+>    coco/tdx_tsm: TEE Security Manager driver for TDX
+> 
+> Shameer Kolothum (2):
+>    iommufd/device: Associate a kvm pointer to iommufd_device
+>    iommu/arm-smmu-v3-iommufd: Pass in kvm pointer to viommu_alloc
+> 
+> Vivek Kasireddy (3):
+>    vfio: Export vfio device get and put registration helpers
+>    vfio/pci: Share the core device pointer while invoking feature
+>      functions
+>    vfio/pci: Allow MMIO regions to be exported through dma-buf
+> 
+> Wu Hao (1):
+>    coco/tdx_tsm: Add connect()/disconnect() handlers prototype
+> 
+> Xu Yilun (21):
+>    HACK: dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
+>    fixup! vfio/pci: fix dma-buf revoke typo on reset
+>    HACK: vfio/pci: Support get_pfn() callback for dma-buf
+>    KVM: Support vfio_dmabuf backed MMIO region
+>    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
+>    KVM: x86/mmu: Handle page fault for private MMIO
+>    vfio/pci: Export vfio dma-buf specific info for importers
+>    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
+>    fixup! iommufd/selftest: Sync iommufd_device_bind() change to selftest
+>    fixup: iommu/selftest: Sync .viommu_alloc() change to selftest
+>    iommufd/viommu: track the kvm pointer & its refcount in viommu core
+>    iommufd/device: Add TSM Bind/Unbind for TIO support
+>    iommufd/viommu: Add trusted IOMMU configuration handlers for vdev
+>    vfio/pci: Add TSM TDI bind/unbind IOCTLs for TEE-IO support
+>    vfio/pci: Do TSM Unbind before zapping bars
+>    fixup! PCI/TSM: Change the guest request type definition
+>    coco/tdx_tsm: Add bind()/unbind()/guest_req() handlers prototype
+>    PCI/TSM: Add PCI driver callbacks to handle TSM requirements
+>    vfio/pci: Implement TSM handlers for MMIO
+>    iommufd/vdevice: Implement TSM handlers for trusted DMA
+>    coco/tdx_tsm: Manage TDX Module enforced operation sequences for
+>      Unbind
+> 
+>   Documentation/virt/kvm/api.rst                |   7 +
+>   arch/x86/Kconfig                              |   1 +
+>   arch/x86/kvm/mmu/mmu.c                        |  25 +-
+>   drivers/dma-buf/dma-buf.c                     |  87 +++-
+>   .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |   1 +
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   1 +
+>   drivers/iommu/iommufd/device.c                |  89 +++-
+>   drivers/iommu/iommufd/iommufd_private.h       |  10 +
+>   drivers/iommu/iommufd/main.c                  |   3 +
+>   drivers/iommu/iommufd/selftest.c              |   3 +-
+>   drivers/iommu/iommufd/viommu.c                | 202 ++++++++-
+>   drivers/vfio/iommufd.c                        |  24 +-
+>   drivers/vfio/pci/Makefile                     |   1 +
+>   drivers/vfio/pci/vfio_pci.c                   |   1 +
+>   drivers/vfio/pci/vfio_pci_config.c            |  26 +-
+>   drivers/vfio/pci/vfio_pci_core.c              | 161 ++++++-
+>   drivers/vfio/pci/vfio_pci_dmabuf.c            | 411 ++++++++++++++++++
+>   drivers/vfio/pci/vfio_pci_priv.h              |  26 ++
+>   drivers/vfio/vfio_main.c                      |   2 +
+>   drivers/virt/coco/host/Kconfig                |  10 +
+>   drivers/virt/coco/host/Makefile               |   3 +
+>   drivers/virt/coco/host/tdx_tsm.c              | 328 ++++++++++++++
+>   drivers/virt/coco/host/tdx_tsm_bus.c          |  70 +++
+>   include/linux/dma-buf.h                       |  13 +
+>   include/linux/iommu.h                         |   4 +-
+>   include/linux/iommufd.h                       |  12 +-
+>   include/linux/kvm_host.h                      |  25 +-
+>   include/linux/pci-tsm.h                       |  19 +-
+>   include/linux/pci.h                           |   3 +
+>   include/linux/tdx_tsm_bus.h                   |  17 +
+>   include/linux/vfio.h                          |  27 ++
+>   include/linux/vfio_pci_core.h                 |   3 +
+>   include/uapi/linux/iommufd.h                  |  36 ++
+>   include/uapi/linux/kvm.h                      |   1 +
+>   include/uapi/linux/vfio.h                     |  67 +++
+>   virt/kvm/Kconfig                              |   6 +
+>   virt/kvm/Makefile.kvm                         |   1 +
+>   virt/kvm/kvm_main.c                           |  32 +-
+>   virt/kvm/kvm_mm.h                             |  19 +
+>   virt/kvm/vfio_dmabuf.c                        | 151 +++++++
+>   40 files changed, 1868 insertions(+), 60 deletions(-)
+>   create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+>   create mode 100644 drivers/virt/coco/host/tdx_tsm.c
+>   create mode 100644 drivers/virt/coco/host/tdx_tsm_bus.c
+>   create mode 100644 include/linux/tdx_tsm_bus.h
+>   create mode 100644 virt/kvm/vfio_dmabuf.c
+> 
+> 
+> base-commit: 88c473f04098a0f5ac6fbaceaad2daa842006b6a
 
->   
->   static const char * const fw_type_to_name[] = {
->   		[CSC_LATE_BINDING_TYPE_FAN_CONTROL] = "fan_control",
-> @@ -39,6 +49,95 @@ static int late_bind_fw_num_fans(struct xe_late_bind *late_bind)
->   		return 0;
->   }
->   
-> +static void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
-> +{
-> +	struct xe_device *xe = late_bind_to_xe(late_bind);
-> +	struct xe_late_bind_fw *lbfw;
-> +
-> +	lbfw = &late_bind->late_bind_fw;
-> +	if (lbfw->valid && late_bind->wq) {
-> +		drm_dbg(&xe->drm, "Flush work: load %s firmware\n",
-> +			fw_type_to_name[lbfw->type]);
-> +			flush_work(&lbfw->work);
-> +	}
-> +}
-> +
-> +static void late_bind_work(struct work_struct *work)
-> +{
-> +	struct xe_late_bind_fw *lbfw = container_of(work, struct xe_late_bind_fw, work);
-> +	struct xe_late_bind *late_bind = container_of(lbfw, struct xe_late_bind,
-> +						      late_bind_fw);
-> +	struct xe_device *xe = late_bind_to_xe(late_bind);
-> +	int retry = LB_FW_LOAD_RETRY_MAXCOUNT;
-> +	int ret;
-> +	int slept;
-> +
-> +	if (!late_bind->component_added)
-> +		return;
-> +
-> +	if (!lbfw->valid)
-> +		return;
-
-The first check is redundant because lbfw->valid can't be true if 
-late_bind->component_added is false with the current code.
-
-> +
-> +	/* we can queue this before the component is bound */
-> +	for (slept = 0; slept < LB_INIT_TIMEOUT_MS; slept += 100) {
-> +		if (late_bind->component.ops)
-> +			break;
-> +		msleep(100);
-> +	}
-> +
-> +	xe_pm_runtime_get(xe);
-> +	mutex_lock(&late_bind->mutex);
-> +
-> +	if (!late_bind->component.ops) {
-> +		drm_err(&xe->drm, "Late bind component not bound\n");
-> +		goto out;
-> +	}
-> +
-> +	drm_dbg(&xe->drm, "Load %s firmware\n", fw_type_to_name[lbfw->type]);
-> +
-> +	do {
-> +		ret = late_bind->component.ops->push_config(late_bind->component.mei_dev,
-> +							    lbfw->type, lbfw->flags,
-> +							    lbfw->payload, lbfw->payload_size);
-> +		if (!ret)
-> +			break;
-> +		msleep(LB_FW_LOAD_RETRY_PAUSE_MS);
-> +	} while (--retry && ret == -EBUSY);
-> +
-> +	if (ret)
-> +		drm_err(&xe->drm, "Load %s firmware failed with err %d\n",
-> +			fw_type_to_name[lbfw->type], ret);
-> +	else
-> +		drm_dbg(&xe->drm, "Load %s firmware successful\n",
-> +			fw_type_to_name[lbfw->type]);
-> +out:
-> +	mutex_unlock(&late_bind->mutex);
-> +	xe_pm_runtime_put(xe);
-> +}
-> +
-> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
-> +{
-> +	struct xe_device *xe = late_bind_to_xe(late_bind);
-> +	struct xe_late_bind_fw *lbfw;
-> +
-> +	if (!late_bind->component_added)
-> +		return -EINVAL;
-> +
-> +	lbfw = &late_bind->late_bind_fw;
-> +	if (lbfw->valid) {
-> +		drm_dbg(&xe->drm, "Queue work: to load %s firmware\n",
-> +			fw_type_to_name[lbfw->type]);
-
-This log seems a bit too specific, also given that you also have logs 
-inside the work
-
-Daniele
-
-> +			queue_work(late_bind->wq, &lbfw->work);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * late_bind_fw_init() - initialize late bind firmware
-> + *
-> + * Return: 0 if the initialization was successful, a negative errno otherwise.
-> + */
->   static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 type)
->   {
->   	struct xe_device *xe = late_bind_to_xe(late_bind);
-> @@ -87,6 +186,7 @@ static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 type)
->   
->   	memcpy(lb_fw->payload, fw->data, lb_fw->payload_size);
->   	release_firmware(fw);
-> +	INIT_WORK(&lb_fw->work, late_bind_work);
->   	lb_fw->valid = true;
->   
->   	return 0;
-> @@ -99,7 +199,17 @@ static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 type)
->    */
->   int xe_late_bind_fw_init(struct xe_late_bind *late_bind)
->   {
-> -	return late_bind_fw_init(late_bind, CSC_LATE_BINDING_TYPE_FAN_CONTROL);
-> +	int ret;
-> +
-> +	late_bind->wq = alloc_ordered_workqueue("late-bind-ordered-wq", 0);
-> +	if (!late_bind->wq)
-> +		return -ENOMEM;
-> +
-> +	ret = late_bind_fw_init(late_bind, CSC_LATE_BINDING_TYPE_FAN_CONTROL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return xe_late_bind_fw_load(late_bind);
->   }
->   
->   static int xe_late_bind_component_bind(struct device *xe_kdev,
-> @@ -122,6 +232,8 @@ static void xe_late_bind_component_unbind(struct device *xe_kdev,
->   	struct xe_device *xe = kdev_to_xe_device(xe_kdev);
->   	struct xe_late_bind *late_bind = &xe->late_bind;
->   
-> +	xe_late_bind_wait_for_worker_completion(late_bind);
-> +
->   	mutex_lock(&late_bind->mutex);
->   	late_bind->component.ops = NULL;
->   	mutex_unlock(&late_bind->mutex);
-> @@ -140,9 +252,16 @@ static void xe_late_bind_remove(void *arg)
->   	if (!late_bind->component_added)
->   		return;
->   
-> +	xe_late_bind_wait_for_worker_completion(late_bind);
-> +
->   	component_del(xe->drm.dev, &xe_late_bind_component_ops);
->   	late_bind->component_added = false;
-> +	if (late_bind->wq) {
-> +		destroy_workqueue(late_bind->wq);
-> +		late_bind->wq = NULL;
-> +	}
->   	mutex_destroy(&late_bind->mutex);
-> +
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> index a8b47523b203..166957e84c2f 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> @@ -12,5 +12,6 @@ struct xe_late_bind;
->   
->   int xe_late_bind_init(struct xe_late_bind *late_bind);
->   int xe_late_bind_fw_init(struct xe_late_bind *late_bind);
-> +int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> index c427e141c685..690680e8ff22 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> @@ -9,6 +9,7 @@
->   #include <linux/iosys-map.h>
->   #include <linux/mutex.h>
->   #include <linux/types.h>
-> +#include <linux/workqueue.h>
->   
->   #define MAX_PAYLOAD_SIZE (1024 * 4)
->   
-> @@ -43,6 +44,8 @@ struct xe_late_bind_fw {
->   	u8  payload[MAX_PAYLOAD_SIZE];
->   	/** @late_bind_fw.payload_size: late binding blob payload_size */
->   	size_t payload_size;
-> +	/** @late_bind_fw.work: worker to upload latebind blob */
-> +	struct work_struct work;
->   };
->   
->   /**
-> @@ -71,6 +74,8 @@ struct xe_late_bind {
->   	struct mutex mutex;
->   	/** @late_bind.late_bind_fw: late binding firmware */
->   	struct xe_late_bind_fw late_bind_fw;
-> +	/** @late_bind.wq: workqueue to submit request to download late bind blob */
-> +	struct workqueue_struct *wq;
->   };
->   
->   #endif
+-- 
+Alexey
 
