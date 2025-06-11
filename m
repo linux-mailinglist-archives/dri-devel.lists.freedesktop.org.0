@@ -2,62 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32728AD52D0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 12:56:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24E0AD535F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 13:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4276F10E608;
-	Wed, 11 Jun 2025 10:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B61E210E61D;
+	Wed, 11 Jun 2025 11:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="zxWRTJH6";
+	dkim=pass (1024-bit key; unprotected) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="LGMCOdnk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
- [95.215.58.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7281E10E608
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 10:56:45 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1749639403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YoYbVA7QEhk4hkPF7xY31Sp6NZtCSfOd/QGAZ3kTo1Q=;
- b=zxWRTJH6ib6sxaSjgnVt4oisR6Zv1MspwUJw2KCusuDsvZv+BeAgZ8EFRnl/7nCytvz2/E
- PLYA6bTkgK+Zg1OYUAlvRLZTZ8X2AlSCheDdZHHdZskLwZaoYOnTgmdLC0nPpj3ofqvK7D
- LAVjC66m0RTfcTb9S9N42NodkWCp4zb2YqzJd0k2jk4iL7idBtoSawxXEwpSnvn4fT1/43
- o1bLQmKjBdzTK3wAi/hcfIpJHVOO9Cj+pRWznXeaqNhe4s+1fEwD/fGPEIh15V4BDDWPZI
- eh2Qb3l0Auj4ucwr5IY9d3nxA9CBg4C/UPIWrfhLOb2tzOLrC0uzK/YfwhR81g==
-Content-Type: multipart/signed;
- boundary=a4d8278668cf62ac91c63ba6ccdfa836f097c79d7159de51dde4b95f51bb;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Wed, 11 Jun 2025 12:56:31 +0200
-Message-Id: <DAJNEG81JCU5.35KVU8KAT5MDU@cknow.org>
-Cc: "Piotr Zalewski" <pZ010001011111@proton.me>, <hjc@rock-chips.com>,
- <heiko@sntech.de>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, "Dang Huynh"
- <danct12@riseup.net>, <dri-devel@lists.freedesktop.org>,
- <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
- color_mgmt_changed in atomic_enable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Andy Yan" <andyshrk@163.com>
-References: <20241206192013.342692-3-pZ010001011111@proton.me>
- <DAEVDSTMWI1E.J454VZN0R9MA@cknow.org>
- <mArHDRo5bhIAjG8sDOR-kM7DsVdbXxxcC8hfuEEPfUWIdMwNnSUy8ZFoLis66DFSuIEq8TrnAxUGkyo5IUTGw3AG4k3vuVVz0fsoI27BAms=@proton.me>
- <DAH3S8O66J47.3NT18EJCXWKL9@cknow.org>
- <47773829.1fce.1974f732545.Coremail.andyshrk@163.com>
- <DAH60H3HYG7M.3NFXBJ7576RH1@cknow.org>
- <3161fa6a.93d0.19753f8c5e0.Coremail.andyshrk@163.com>
- <DAI0A1Y753FJ.B0NMT8L5VPEH@cknow.org>
- <4b380a57.8ab2.197591815a8.Coremail.andyshrk@163.com>
- <DAISW8MXEU0G.3AMRSKNYQUJY8@cknow.org>
- <4e600374.6dc7.1975df03a2d.Coremail.andyshrk@163.com>
-In-Reply-To: <4e600374.6dc7.1975df03a2d.Coremail.andyshrk@163.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11022098.outbound.protection.outlook.com [52.101.43.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85DB10E61B
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 11:13:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XMYPjQ0RoY00dOylmWcFehLhfZWVxIUvyRhMrk/tKCSXsB+Tb9xBJv6fqFlJu75yzpBx8lORvbNZzPptKT26dcV70/QaeItfh7cIKIFqx5SNTXaRF1uD7xP2QTX+w2SF0NsdOrEmBFyKXdrnrQ2detUDggcFt48ThU1OjeRa8fOp/jI0v4cXWOmBTf1PygaBLLYjwGUjsvd2DJm1Ihg1JUAnjOhErAupLe2YIlLKfjr43khSLU/LGRzk3/DtM6wRiKL9s08goywtVbb48AcVBPm2NwEDLcQSKJC7MfNj87xTfmD/3JphEAJ1ZZUn59CxolUZXrxDo4sT2rNAwx5SwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8wfYE70336bv3aCdUFpUIxvE3MP6r1HCDaIgfGZx2bs=;
+ b=MK5a2ZqAnRDoWVv2rPokpPmYI+FnuY0SiaoOdgEQ9B3UfvxGueOB8gIhw95tNYVNKvcjWecpSvnVqFpEMAXtN4NG5TrJfqJ2Qx515ZOij/RW4BEKqNlshDfqJ+ezD4tlaQ5kGEBOuchNHDY2hnqIvb0hhDq2Xc7t6FFI6DNC7qm9n+uS/haM+PoKebXDsPbDgg35ozpfVPl8W9XEursEEcYKcFL02pD88BIOTdrN9LYS7plB9XbfQPI7IuxJ0Dffw2A3vs72zSKAcIqcHrCWFeKBOxwMIUtPBEsmHf2lXHusjOQO0Eszzomt3Xm3FKA6QRBmvf3d3XQstVr4N+wZ3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
+ header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8wfYE70336bv3aCdUFpUIxvE3MP6r1HCDaIgfGZx2bs=;
+ b=LGMCOdnk5vUhVHwnv1XqwlpAqh9uB13+GauC5jshI5dToq24nyGjTpqX3e1xhy8kk+YCiYI6Hn0v5WBy0mLA06eAF2Qg1Ur2odqXW7lQyQr8loFYO8WUqIiJMyR+3SzDlmMsHn55jBxx93XNAGCzcZrP8/NET7mp0MbPedc5Pi0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
+ by BN0PR08MB6949.namprd08.prod.outlook.com (2603:10b6:408:124::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Wed, 11 Jun
+ 2025 11:13:22 +0000
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401%6]) with mapi id 15.20.8835.018; Wed, 11 Jun 2025
+ 11:13:22 +0000
+From: John Keeping <jkeeping@inmusicbrands.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: John Keeping <jkeeping@inmusicbrands.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: fix ssd132x_clear_screen() columns
+Date: Wed, 11 Jun 2025 12:13:06 +0100
+Message-ID: <20250611111307.1814876-1-jkeeping@inmusicbrands.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0418.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a0::22) To MW4PR08MB8282.namprd08.prod.outlook.com
+ (2603:10b6:303:1bd::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|BN0PR08MB6949:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9eeb574-312b-4727-f98b-08dda8d8f9e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|52116014|376014|1800799024|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?RJVIwo+XYkqkaabVlPefk05ZnrLYeKOkCGQgZSUtix9Oefb7lu/vh7zYyU+u?=
+ =?us-ascii?Q?tBzi/IMXrA7geyg+yfxxxJoeUIQkUz+ll7YSrAt4uUp2J8Sr9ahy8Cep8xaH?=
+ =?us-ascii?Q?ifeMzUZQC06NRgL+/EWaHWz1yIQMWbT/oC65JLov+RLRSSqb8DUOeqBNS8iL?=
+ =?us-ascii?Q?zsfSIo2MN7F43xE+Tn10R37aAOpr0MtrrfTgfZpz1CsZoYT/Sjy/E1bmKczX?=
+ =?us-ascii?Q?l/qoBrVwc4kyzqkwDPbw8ERprNOrAIbyICf4qkHjsCO/HHP7FKfAm1wfUdMi?=
+ =?us-ascii?Q?WudJjcePvXKpl/xas3sF/wTDGyzAb05V9AvS5+zZ+sVNwWL9UuE81VkXK+/d?=
+ =?us-ascii?Q?nWPTxAKlAsIzqpyzi3mpXM2CJcLe3gamyzZeRWrAJdxSKDQG1NGei9CPt5Wq?=
+ =?us-ascii?Q?IA1Vi/Nf8z/TiqWMEpI8sah0T6DxT6JNQi6OIIeFzuZrglD94RBAJJz4d+4O?=
+ =?us-ascii?Q?+tZMGD90iJpN7TLkD8RS76wYlmzWk5c5GsdbG6NNob4UZPVdMOGbeaJMb43I?=
+ =?us-ascii?Q?xPa/0bwToQuUqDJCx1eobfmXGaHv/ZcZdHYZVLBjtwljZt9E4nF54sjzF8MS?=
+ =?us-ascii?Q?pGto/KLDD+1EfCNnMFbsy3BeI1vCaJWS2FqCmJiOjNL3Pspjbc/c11ARO3ux?=
+ =?us-ascii?Q?1NscZlRoZITQysXhh3D7Kywd4Oez7aGbVwJADtLi8cJ2RfNDB5rDec8DgQng?=
+ =?us-ascii?Q?nj4ODYkEiRtHpXKTnC31ZDY/vpQnnoqTu7VRz+LAh1FLKPMfY9QVuDuTrNG6?=
+ =?us-ascii?Q?VVt96gvixFBBgX/m77TDx63RoPvSN0By48j+Tkqg8EOvnSPd6IluxSA1KqN+?=
+ =?us-ascii?Q?jLc0lOMNKJJbzU1pJM4UPkGtKDlyhAVsV+5FvTwnXMbpp/L+l6ESp6skTR23?=
+ =?us-ascii?Q?GlevErxCPWC2Ni6PXT99JtVK+PJRtOP2h3RAgxML5/8P+Ozq9UFJZHfJI7FR?=
+ =?us-ascii?Q?jZPoMOwQpHuIHWJZAS2ZYOk8TplwyG65RHn6SM69oJKYdnLTJxufaL6gNQbc?=
+ =?us-ascii?Q?dJncE0t0b0HW20v/Q4rUQcF5cDJ//yQ8N5sEkg0Qp88/F/rafdVSSh2sRNeJ?=
+ =?us-ascii?Q?p2UHdKL6w3vdteDpm549D3i5kc29ato1NYJOr5+EkpyV+p+75QtCPlJXPCc8?=
+ =?us-ascii?Q?TGTBLNslGFymyoNFe6VaJK26ZPU+QtWI+F+MB2sgtvdM2Kx5IEQMTo6edKD6?=
+ =?us-ascii?Q?sHqmj3jHhoQT5no1+olDdg/lYfkp6iBtdXhyxNc13+lPPdjtX7civfJkfUcZ?=
+ =?us-ascii?Q?uFxt4fPj9tb5685jppMwlOoUZFQlXuivVyopkQyQo7pdHMZpanwt6Ivhyl4m?=
+ =?us-ascii?Q?ELkFkKQnULOIxrOCZWsXIG/gooeizXLoMlG84ki8neAyiVVkNe8bd9zkPvJM?=
+ =?us-ascii?Q?ztDXbqf7H0Gaq+03kYz7YPaBm8kO8t2tQSBYdXUUfcioXT2hnhAQMPVIbl65?=
+ =?us-ascii?Q?L6rs3Pn9Sa7iwtN4lKgA4ZNriiJLEbcWw1oSkAMySGtqy/YRNBTNFQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR08MB8282.namprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pRkLf3Z9vTrGWN/EdKBVkL4d1yalhrKKLbOJ6BIdbmwb+QXpyI/YzRrYiRzh?=
+ =?us-ascii?Q?G4Xh1v6CG9+s4+o4WRjU5ykHmI0kZuurGWP3VpH7YX+uUiTIGiURG7WTovnO?=
+ =?us-ascii?Q?sSo+hYUC9GkBcrjINJpKkC96EASgID6zvQGCIgvDgRQ1DPwkJL++pUSS5YcZ?=
+ =?us-ascii?Q?78xCp2NmpYmZTCTiM2l+HeJF4IArWzFKcWr45Jd3oS2hboaEIHtaIzW1YGDt?=
+ =?us-ascii?Q?10EGXr/LGV5JNlWYdSjL3XTk84YuRHxDAwLj5QSnr6sdU//f8o6GMQYWylGb?=
+ =?us-ascii?Q?FQuuWbQhNN0A5wQN5C9bYH+SssBTqsCBEIGnNqcmtwD1/g67pkYGWrYg1dbA?=
+ =?us-ascii?Q?T0Tn97XI55LH3AQswC0OPfMLzDOKBfZuNv2wavGRVHD/5WqYD6iyj1D8DYo1?=
+ =?us-ascii?Q?RZRUNL22jCfNTlXY0kRKqh1VMabTTcrwvMu5tt3vj8ppN6WsEY9/AWLl9kLt?=
+ =?us-ascii?Q?U+sPdvaKrZnq1q4vQWXtRfPCr3W5gJAHLh7kEosvY6AjVVJxdVbDni6hajFt?=
+ =?us-ascii?Q?XfA7AgHag6uz5GFsp+EOTWhhdwUZBjIompWShoVRsJJMOdKzR1POf/quBWEK?=
+ =?us-ascii?Q?DAZv0tbFk1gcp2Bu2PtSidMeWw5Cv+h9CIJQIcrgyeeCwEwpWM+bX2+EfIOw?=
+ =?us-ascii?Q?6jWR+022esofsBwEFbHdlkFep//PAUkPnXuqqwAGcxGi02pa/e76grtQ9hAL?=
+ =?us-ascii?Q?312PBHTS9Vapnc/5e/dtAy3jYKgKTPpkQHVWCORiA/pMJ6nhQEuFZzwx+zi4?=
+ =?us-ascii?Q?0ftVlfqc3gGOd7y5V76gDUnj+aSd15vGB8iWv9WceYRCpDCrQWQqZPKRe0hY?=
+ =?us-ascii?Q?fxpC4dwpJR0M0apiqInXroRROAZ5/NNDjgcIfuL2eIlDleDRij9OJFqAjtZv?=
+ =?us-ascii?Q?pDhFUmP8z7PxVx3FQyvcmbgkdPjxTsezUDuz+9KLIjf6Ixs0xnF1Kcllki3x?=
+ =?us-ascii?Q?V5mG5HcO9rzjrCQmGEyLZqaMZJ3fuvHrn5TcUrKpFOzrm62u86c153kbktdu?=
+ =?us-ascii?Q?j2n76wvUljF45AxEsu+nq2k4+Mac4/drTjljrPVkLFQRoDPhZ4qiCxzoUJQ8?=
+ =?us-ascii?Q?N3maPqdYZLazqzTP0q7AbLMnlSM0i3Rf4HaEc1JPpsMSSDZ3+AHuh9y+8bwY?=
+ =?us-ascii?Q?N2fVOOUwPZZouFk91DxjmbdHjacRAxklGwTYGAVkI8s6VbejFEBBZclT2sSN?=
+ =?us-ascii?Q?P0xe8RQ4DGb+yXMF5ej0TfWsb1V9Ie61j/2HP50PcnQJYRQTIE1yLG9skgdO?=
+ =?us-ascii?Q?XJELUfcG02ojbPcF/+eI7QZoB4RIFbSIbsBDwWLR/jw+VzFsNrUGHXI1MTyD?=
+ =?us-ascii?Q?s/XV+cum5vuqDu67226cm6XlwiZ/L3Y5DnDl2mIadHCPoxZbRe3mc+pnD8I7?=
+ =?us-ascii?Q?SoQaSSFS6zknH04vjNLEx1aNlk0Ld4ix0Rb9oyPE5DAcv/7hiOXZDGiWk0r0?=
+ =?us-ascii?Q?buJz9mqeKWEqEcj7UcAGOrDGiDPTpy7uIIoJV0QskqDfxBz/ouOALaSUZM1B?=
+ =?us-ascii?Q?JDt7BbPzjnWYONAC9yzQ2hZbNZWAOWXHKX4CtCe8TM1pTzptsOp65tGQJ1xR?=
+ =?us-ascii?Q?vSGcaLxOj12kjzetbmrI2r+Ik3sKeF0uwgHWKkcb5WNO5+TbNaOaa52ffXQX?=
+ =?us-ascii?Q?rw=3D=3D?=
+X-OriginatorOrg: inmusicbrands.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9eeb574-312b-4727-f98b-08dda8d8f9e3
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 11:13:21.9495 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: shP/Yi2LpyToz36y54rzJ5Vh5mTceoZzJbJVOAXOuw8fLfcgzXxrBoQ0q19g58JFlkuTBr0e392/pSVOEMQ6y0Qx0biGQFImfELkIn5Fq7k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR08MB6949
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,288 +150,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---a4d8278668cf62ac91c63ba6ccdfa836f097c79d7159de51dde4b95f51bb
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+The number of columns relates to the width, not the height.  Use the
+correct variable.
 
-Hi Andy,
+Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+---
+ drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed Jun 11, 2025 at 9:41 AM CEST, Andy Yan wrote:
-> At 2025-06-10 19:02:11, "Diederik de Haas" <didi.debian@cknow.org> wrote:
->>On Tue Jun 10, 2025 at 11:07 AM CEST, Andy Yan wrote:
->>> At 2025-06-09 20:36:41, "Diederik de Haas" <didi.debian@cknow.org> wrot=
-e:
->>>>On Mon Jun 9, 2025 at 11:15 AM CEST, Andy Yan wrote:
->>>>> At 2025-06-08 20:53:37, "Diederik de Haas" <didi.debian@cknow.org> wr=
-ote:
->>>>>>On Sun Jun 8, 2025 at 2:10 PM CEST, Andy Yan wrote:
->>>>>>> At 2025-06-08 19:08:50, "Diederik de Haas" <didi.debian@cknow.org> =
-wrote:
->>>>>>>>On Sat Jun 7, 2025 at 5:32 PM CEST, Piotr Zalewski wrote:
->>>>>>>>> On Thursday, June 5th, 2025 at 10:13 PM, Diederik de Haas <didi.d=
-ebian@cknow.org> wrote:
->>>>>>>>>> Since kernel 6.14-rc1 I have the problem that visual output is n=
-o longer
->>>>>>>>>> shown on my PineTab2 and a `git bisect` pointed to this patch/co=
-mmit
->>>>>>>
->>>>>>> I have conducted tests on both rk3566-box-demo (with drm set to y)
->>>>>>> and rk3568-lubancat-2 (with drm set to m), but I was unable to
->>>>>>> reproduce this issue. Could you two please share your kernel
->>>>>>> defconfig and the corresponding kernel startup logs?
->>>>>>> Additionally, both of my two boards tested with HDMI output. What
->>>>>>> kind of display interface does your board use for output?
->>>>>>
->>>>>>I wasn't able to reproduce this issue on my PINE64 Quartz-B (rk3566)=
-=20
->>>>>>with HDMI output either, but the problem is present on a PineTab2 [1]
->>>>>>(also rk3566) which uses a MIPI DSI connection to the display panel.
->>>>>>
->>>>>>Kernel config:
->>>>>>https://paste.sr.ht/~diederik/aa747ed170aa01cc759fbe1ffd9cebe8c887b10=
-b
->>>>>>
->>>>>>dmesg kernel 6.14-rc1:
->>>>>>https://paste.sr.ht/~diederik/733fbf8bb7f6aee8b68cf5a652157d445462c24=
-a
->>>>>>
->>>>>>dmesg kernel 6.14-rc1 with Piotr's patch:
->>>>>>https://paste.sr.ht/~diederik/db1af672cfb611acbfbdf35adb6f170e5c38feb=
-c
->>>>>>
->>>>>>Both dmesg outputs contain a suspend-resume cycle.
->>>>>>I'm using a USB Wi-Fi adapter for the wireless connection.
->>>>>>
->>>>>>[1] https://wiki.pine64.org/wiki/PineTab2
->>>>>>
->>>>>>Happy to provide more info and/or do some tests.
->>>>>
->>>>> Can you apply the patch in the attachment, reproduce this issue(witho=
-ut Piotr's patch),=20
->>>>> and then provide me with a copy of the kernel log?
->>>>
->>>>Same test as above, but added ``dmesg | grep "vop2_"`` at the end as we=
-ll
->>>>
->>>>dmesg kernel 6.14-rc1 with Andy's print_lut_0609_1710 patch:
->>>>https://paste.sr.ht/~diederik/ac356ee8b0f7e772c7310293d99d95644f59a4ee
->>>
->>> root@pt2-scmi:~# dmesg | grep "vop2_"
->>> [    4.996281] rockchip-drm display-subsystem: bound fe040000.vop (ops =
-vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>> [    5.005207] rockchip-drm display-subsystem: bound fe0a0000.hdmi (ops=
- vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>> [    5.006798] rockchip-drm display-subsystem: bound fe060000.dsi (ops =
-vop2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
->>> [    5.021204] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000=
-000
->>> [    5.021219] vop2_vp_dsp_lut_disable dsp_ctrl: 0x0000000f
->>>
->>> It seems that dsp_ctrl: 0x0000000f , this value is not what we expected=
-.
->>>
->>> The expected is 0x00010000.
->>>
->>> Could you please do an experiment for me? When there is no display on y=
-our screen,=20
->>> execute the following command and see if the screen can resume displayi=
-ng:
->>>
->>> ./data/io  -w -4 0xfe040d00 0x10000; io -w -4 0xfe040000 0x28002=20
->>>
->>> I have placed the io tool in the attachment.
->>>
->>> You can use command like bellow to read back to confirm if what you wri=
-te has taken effect:
->>> io -r -4 -l 0x100  0xfe040d00=20
->>>
->>> you may need to make CONFIG_DEVMEM=3Dy so that you can write the regist=
-er by io command.
->>
->>I renamed it as ``andy-io`` and performed the test:
->>
->>```sh
->>root@pt2-scmi:~# echo 'just (re-)booted into my PineTab2; screen is blank=
-'
->>just (re-)booted into my PineTab2; screen is blank
->>root@pt2-scmi:~# uname -a
->>Linux pt2-scmi 6.14.0-rc1-00001-gfbe17d9b77b0 #18 SMP Mon Jun  9 13:17:28=
- CEST 2025 aarch64 GNU/Linux
->>root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
->>mmap() failed: Operation not permitted
->>root@pt2-scmi:~# grep CONFIG_DEVMEM /boot/config-6.14.0-rc1-00001-gfbe17d=
-9b77b0
->>CONFIG_DEVMEM=3Dy
->>root@pt2-scmi:~# ./andy-io -w -4 0xfe040d00 0x10000
->>mmap() failed: Operation not permitted
->>root@pt2-scmi:~# ./andy-io -w -4 0xfe040000 0x28002
->>mmap() failed: Operation not permitted
->>```
->
-> This is my config about DEVMEM:
->
-> ~/WorkSpace/linux-next$ rg DEVMEM .config
-> 1014:CONFIG_NET_DEVMEM=3Dy
-> 3069:CONFIG_DEVMEM=3Dy
-> 7280:CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED=3Dy
-> 7542:CONFIG_STRICT_DEVMEM=3Dy
-> 7543:# CONFIG_IO_STRICT_DEVMEM is not set
->
-> CONFIG_IO_STRICT_DEVMEM should not be set to y if you want to access an I=
-O address from usersapce.
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index dd2006d51c7a2..eec43d1a55951 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -974,7 +974,7 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
+ 
+ static void ssd132x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
+ {
+-	unsigned int columns = DIV_ROUND_UP(ssd130x->height, SSD132X_SEGMENT_WIDTH);
++	unsigned int columns = DIV_ROUND_UP(ssd130x->width, SSD132X_SEGMENT_WIDTH);
+ 	unsigned int height = ssd130x->height;
+ 
+ 	memset(data_array, 0, columns * height);
+-- 
+2.49.0
 
-That last one seems to be the culprit:
-
-root@pt2-scmi:~# grep DEVMEM /boot/config-6.14.0-rc1-00001-gfbe17d9b77b0
-CONFIG_NET_DEVMEM=3Dy
-CONFIG_DEVMEM=3Dy
-CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED=3Dy
-CONFIG_STRICT_DEVMEM=3Dy
-CONFIG_IO_STRICT_DEVMEM=3Dy
-
-My kernel config is based upon Debian's and in commit
-ef7e196951aa ("[arm*,powerpc*,s390x,x86] Enable IO_STRICT_DEVMEM")
-
-I found "can be reverted using the kernel parameter: iomem=3Drelaxed", so
-I added that parameter and rebooted:
-
-```sh
-root@pt2-scmi:~# echo 'just (re-)booted into my PineTab2; screen is blank'
-just (re-)booted into my PineTab2; screen is blank
-root@pt2-scmi:~# uname -a
-Linux pt2-scmi 6.14.0-rc1-00001-gfbe17d9b77b0 #18 SMP Mon Jun  9 13:17:28 C=
-EST 2025 aarch64 GNU/Linux
-root@pt2-scmi:~# cat /proc/cmdline=20
-root=3DUUID=3D42bbb627-189b-49e3-ae42-699815dc2cbb ignore_loglevel ro rootw=
-ait earlycon console=3Dtty0 console=3DttyS2,1500000n8 fw_devlink=3Doff iome=
-m=3Drelaxed
-root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
-fe040d00:  0000000f 00000000 00000000 00000000
-fe040d10:  00000010 00000000 00000000 00000000
-fe040d20:  00000000 00000000 00000000 00000000
-fe040d30:  01b70010 00500370 00100510 10001000
-fe040d40:  00000000 00000000 03b00010 00500370
-fe040d50:  05120004 00100510 00000000 00000000
-fe040d60:  00000000 00000000 00000000 00000000
-fe040d70:  00000000 00000000 00000000 00000000
-fe040d80:  15110903 00030911 1a150b04 00040b15
-fe040d90:  15110903 00030911 00000000 00000000
-fe040da0:  00000000 00000000 00000000 00000000
-fe040db0:  00000000 00000000 00000000 00000000
-fe040dc0:  00000000 00000000 00000000 00000000
-fe040dd0:  00000000 00000000 00000000 00000000
-fe040de0:  00000000 00000000 00000000 00000000
-fe040df0:  00000000 00000000 00000000 00000000
-root@pt2-scmi:~# ./andy-io -w -4 0xfe040d00 0x10000
-root@pt2-scmi:~# echo 'screen just turned on \o/'
-screen just turned on \o/
-root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
-fe040d00:  00010000 00000000 00000000 00000000
-fe040d10:  00000010 00000000 00000000 00000000
-fe040d20:  00000000 00000000 00000000 00000000
-fe040d30:  01b70010 00500370 00100510 10001000
-fe040d40:  00000000 00000000 03b00010 00500370
-fe040d50:  05120004 00100510 00000000 00000000
-fe040d60:  00000000 00000000 00000000 00000000
-fe040d70:  00000000 00000000 00000000 00000000
-fe040d80:  15110903 00030911 1a150b04 00040b15
-fe040d90:  15110903 00030911 00000000 00000000
-fe040da0:  00000000 00000000 00000000 00000000
-fe040db0:  00000000 00000000 00000000 00000000
-fe040dc0:  00000000 00000000 00000000 00000000
-fe040dd0:  00000000 00000000 00000000 00000000
-fe040de0:  00000000 00000000 00000000 00000000
-fe040df0:  00000000 00000000 00000000 00000000
-root@pt2-scmi:~# ./andy-io -w -4 0xfe040000 0x28002
-root@pt2-scmi:~# echo "screen is still on ... don't see any changes on scre=
-en"
-screen is still on ... don't see any changes on screen
-root@pt2-scmi:~# ./andy-io -r -4 -l 0x100 0xfe040d00
-fe040d00:  00010000 00000000 00000000 00000000
-fe040d10:  00000010 00000000 00000000 00000000
-fe040d20:  00000000 00000000 00000000 00000000
-fe040d30:  01b70010 00500370 00100510 10001000
-fe040d40:  00000000 00000000 03b00010 00500370
-fe040d50:  05120004 00100510 00000000 00000000
-fe040d60:  00000000 00000000 00000000 00000000
-fe040d70:  00000000 00000000 00000000 00000000
-fe040d80:  15110903 00030911 1a150b04 00040b15
-fe040d90:  15110903 00030911 00000000 00000000
-fe040da0:  00000000 00000000 00000000 00000000
-fe040db0:  00000000 00000000 00000000 00000000
-fe040dc0:  00000000 00000000 00000000 00000000
-fe040dd0:  00000000 00000000 00000000 00000000
-fe040de0:  00000000 00000000 00000000 00000000
-fe040df0:  00000000 00000000 00000000 00000000
-```
-
-For completeness, I then closed the lid and opened it again:
-
-```sh
-root@pt2-scmi:~# dmesg | grep "vop2_"
-[    5.128785] rockchip-drm display-subsystem: bound fe040000.vop (ops vop2=
-_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
-[    5.138031] rockchip-drm display-subsystem: bound fe0a0000.hdmi (ops vop=
-2_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
-[    5.139641] rockchip-drm display-subsystem: bound fe060000.dsi (ops vop2=
-_crtc_atomic_try_set_gamma.part.0 [rockchipdrm])
-[    5.160937] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000000
-[    5.160950] vop2_vp_dsp_lut_disable dsp_ctrl: 0x0000000f
-[ 1931.879232] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000000
-[ 1931.879245] vop2_vp_dsp_lut_disable dsp_ctrl: 0x00010000
-```
-
-Cheers,
-  Diederik
-
->>> [   73.750524] vop2_crtc_atomic_try_set_gamma  gamma_lut: 0000000000000=
-000
->>> [   73.750542] vop2_vp_dsp_lut_disable dsp_ctrl: 0x00010000
->>>>>>>>> patched vop2_vp_dsp_lut_disable function so that dsp_ctrl is set =
-only if=20
->>>>>>>>> GAMMA LUT EN bit is set. I checked that this also does not break =
-the gamma=20
->>>>>>>>> lut functionality with emphasis on out-of/into suspend behavior.
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drive=
-rs/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>> index d0f5fea15e21..7ddf311b38c6 100644
->>>>>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>>> @@ -897,6 +897,9 @@ static void vop2_vp_dsp_lut_disable(struct vo=
-p2_video_port *vp)
->>>>>>>>>  {
->>>>>>>>>  	u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
->>>>>>>>> =20
->>>>>>>>> +	if ((dsp_ctrl & RK3568_VP_DSP_CTRL__DSP_LUT_EN) =3D=3D 0)
->>>>>>>>> +		return;
->>>>>>>>> +
->>>>>>>>>  	dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
->>>>>>>>>  	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
->>>>>>>>>  }
->>>>>>>>
->>>>>>>>I built a kernel with 6.14-rc1 + this patch and can confirm the scr=
-een
->>>>>>>>has output again :-)
->>>>>>>>
->>>>>>>>> I will wait with sending a patch because maybe Andy has something=
- to add=20
->>>>>>>>> to this.
->>>>>>>>
->>>>>>>>Sounds like a plan. It could be that this issue surfaced an underla=
-ying
->>>>>>>>issue and if so, fixing that would be even better.
-
-
---a4d8278668cf62ac91c63ba6ccdfa836f097c79d7159de51dde4b95f51bb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaElg4wAKCRDXblvOeH7b
-bmACAQCSoNS6Gw/ZFv1MZIK3MH/6gyoGQlg1klGD1xTa7fPjTgEA7SSLkxnYODfo
-2QoO+naIdYCWGlz30qR9hljlhv/PJQE=
-=Mfjh
------END PGP SIGNATURE-----
-
---a4d8278668cf62ac91c63ba6ccdfa836f097c79d7159de51dde4b95f51bb--
