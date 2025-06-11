@@ -2,114 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78C4AD5AA1
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 17:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51875AD5AB8
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jun 2025 17:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FEF10E6AE;
-	Wed, 11 Jun 2025 15:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9057010E3BA;
+	Wed, 11 Jun 2025 15:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q2C/oqyy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SvjQGE8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pzmUiJi/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SvjQGE8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pzmUiJi/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A22A10E6AE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 15:36:27 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B9EntW021815
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 15:36:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GBpg7FRyPE2bOJtUQWGo/9McLlAo2Q//lTabaKYPhZI=; b=Q2C/oqyytHXh6n9X
- FJfs1Lidsh3BZTURLYn8OFNAW0KKj9Siuh3t4MrsW4ixee82vxGnWU+PuByS5Q1m
- GMg4wSF3hisP8GpR8RxrXtWW+5PRO/cVzlahvp3HzT7cemVc3g1v2bzPty+knR5M
- yUtk63ZEe/XnrzEZIinCuhSgVhc8ShKhptBefnXLG5ODlLIhz8p9VW/zOI+KvusR
- ZXyN44ReQK6TK3SbZoi/7EF+OYPo2EkBcH0UOXdDudrwE3xKFOQ3b8iPdzgO9VgH
- MK/QeA3yO+tCRRkmLgQoRkQbnrlBZW9gC9KQa+D7raSARTkJEA6agkqIH6UELzh9
- x0NzSw==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474eqcnfd3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 15:36:26 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b26e4fe0c08so4367370a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 08:36:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749656186; x=1750260986;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GBpg7FRyPE2bOJtUQWGo/9McLlAo2Q//lTabaKYPhZI=;
- b=sOeNYSe3ito7YGirnzI4XdAOw9lm9NOwPt4nBbtO62dijj4BgFfAcSQ0PnBqP0+MuI
- GA85zUQBNrlW1+oZvpbnmGIlPk608KsIDoeLKy62bRgFOomxYdfoBa7PcrOTn5y0qwED
- T2OqezqzU4ha/x5bbg+e2DxFG7yXjVI9sct7fd2XFXk1SCzVJyQXIB7cLM3D2sRrFnaJ
- FnTT3xaf/uSt8+1baN+etiQqfkzehH5ucioclOZAinyNSz7OT7Q2LjxaHRT9ImyS2RpG
- CDMQhQsaPia3v7YTklajXo6eDfmnwlXFkbizd2m1McRf7ekoGluq/mbOP29Hr9wzmpm6
- EOgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXM3tb6WjpjrddKJ92Oox9gpunJXwBaVSf1mKNvxjIrsw+GZZFt47+Uqpb2RKPfpM22Xj74TdvCSD8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKzLWCHTCfPoi6vbMes4Aj33LWIcnQz+cpnLm+yjSwdz98TuEw
- XiPrZamLQ0uOaKkWTi+ruXdVqHAn7ELU0YsGykG8Il4/O6X3elS38rsWIGDMHc9JjmJzVRRtW9G
- DzlFr9OXDDLyCkgPfc2W4l46BQqu6gq/j+4CmqG/ntnKeqr+Q/ayxN3ghLCYMEOqjDYA44wA=
-X-Gm-Gg: ASbGncvNq7S882jdSvEe8R1qwPffuQvgyBxNAinOTL9mM1eratZ9N2sLzV9rsOMr7Nc
- a7k1WWSz+wqfnJZZQU0OY00C8uEZXeDRObdFpsYmXXun+BCuNsYv3y3uTAItTgNgfX3uG/PJYWa
- kVPJNJC3KQq42YW24lcyq6mZ+8rgmcNdrNC3JWeyhg5fFzp6+94rMyex8P+klWN5+eK5ut6kg3x
- 2vpWb9sQkqZcRKHvVR39v2aVKWYa0u6qeJnwSgaW3qwgX+F0PKI9RdAo1hgEgwS3h6u3obXSttb
- pr5eqtR/TG2MtDxb2z5ixbhiVjkP/dS05uObSw3UqH0Vfjdqjrx5z0vDVI7GZLpTdvLE0IDi
-X-Received: by 2002:a17:903:178b:b0:235:f3b0:ae81 with SMTP id
- d9443c01a7336-23641b198bcmr43701795ad.27.1749656185728; 
- Wed, 11 Jun 2025 08:36:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNe+ViZORDsP5Y/hLxF0FbUul9r0/EOhNQ+GwB+CKWOeGphnXlvWwwX3PPzsWyGWUpQjQ9/g==
-X-Received: by 2002:a17:903:178b:b0:235:f3b0:ae81 with SMTP id
- d9443c01a7336-23641b198bcmr43701565ad.27.1749656185373; 
- Wed, 11 Jun 2025 08:36:25 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23603097070sm88818405ad.62.2025.06.11.08.36.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jun 2025 08:36:25 -0700 (PDT)
-Message-ID: <4e9508c6-8eac-4930-93c2-ebfe65df16c2@oss.qualcomm.com>
-Date: Wed, 11 Jun 2025 09:36:23 -0600
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6821E10E3BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 15:38:36 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 23CDD218EB;
+ Wed, 11 Jun 2025 15:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749656315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Dwhrw/EHSGZ+qlML6k1JAfb4u3M0ventqUmJA+/Di9A=;
+ b=SvjQGE8UppzZxpL7EVJXlU6S+nk4KnfHbjI7n0zZD3z+4njLtJTHljumo9EvFziAATt5ND
+ dF/gwvfxqLI+2J0Cy5F2TcUfTmNGBYdClz3HwphpPWSILZBWJBEZEglBaKKQ2ThVGULy01
+ WE5mQo/g+pUfToGZj5JiB3FpS4w30Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749656315;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Dwhrw/EHSGZ+qlML6k1JAfb4u3M0ventqUmJA+/Di9A=;
+ b=pzmUiJi/0DjIZjNK+zoQ2GBpNnQax7iIpEronpASwSBvtB5M+NZgT5rMpwOukHswZIYsle
+ wjSt2kVGbqMSOeAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749656315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Dwhrw/EHSGZ+qlML6k1JAfb4u3M0ventqUmJA+/Di9A=;
+ b=SvjQGE8UppzZxpL7EVJXlU6S+nk4KnfHbjI7n0zZD3z+4njLtJTHljumo9EvFziAATt5ND
+ dF/gwvfxqLI+2J0Cy5F2TcUfTmNGBYdClz3HwphpPWSILZBWJBEZEglBaKKQ2ThVGULy01
+ WE5mQo/g+pUfToGZj5JiB3FpS4w30Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749656315;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Dwhrw/EHSGZ+qlML6k1JAfb4u3M0ventqUmJA+/Di9A=;
+ b=pzmUiJi/0DjIZjNK+zoQ2GBpNnQax7iIpEronpASwSBvtB5M+NZgT5rMpwOukHswZIYsle
+ wjSt2kVGbqMSOeAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1534139CE;
+ Wed, 11 Jun 2025 15:38:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ogynNfqiSWiqdwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Jun 2025 15:38:34 +0000
+Message-ID: <fb6d8eb9-cdc1-4d07-8a55-928282c9e7ad@suse.de>
+Date: Wed, 11 Jun 2025 17:38:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Use dev_printk() in RAS
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, lizhi.hou@amd.com,
- jacek.lawrynowicz@linux.intel.com, quic_yabdulra@quicinc.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250610175912.2086773-1-jeff.hugo@oss.qualcomm.com>
- <20250611083602.169893da@canb.auug.org.au>
+Subject: Re: [PATCH] drm/ssd130x: fix ssd132x_clear_screen() columns
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ John Keeping <jkeeping@inmusicbrands.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250611111307.1814876-1-jkeeping@inmusicbrands.com>
+ <87y0tycumu.fsf@minerva.mail-host-address-is-not-set>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250611083602.169893da@canb.auug.org.au>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87y0tycumu.fsf@minerva.mail-host-address-is-not-set>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDEzMSBTYWx0ZWRfX/ohAw1UpWRRp
- ag9C/UJLM7B9sT+yAG0RzevXD10nxUjhxsg+7Pg3tK9RbnqMhLqxNDWfc2iMU7PIXqiTlbSfCMN
- lRu6QzdIs5oQELV7Nb7FhtSvrKoqiLY6fzH1rP2a6aOsPZsDnWMUw8LCmphOWeMcKQm+keUMj48
- Z3m1oR2xRQ82zr0CgboDBhOCquV+Va6Ipe63fmaC7CH2JZTJGV1c/hfF8YujGgBv+ATKZ3NvD/6
- ALE2WKMcgLCvGce0qK6aD423X1Fd27mWMfVQ7uGg1OECuAOG9UuMoTwG86UFQzzo1tK/V7PHfTR
- tAYathE9AqzOOVkrZKtXIozJlfdAYUmaqHlcoV6hEC9OcRw9p+sMV8eHK9oSzy3ynQCIJNxUYTC
- J0m7fUn9Uv4vkUBp/uJovVGcZ3EZHZyUQYXTrX8rqnFDGNPzHcvtezBIcSnGkQkGzn13boGd
-X-Authority-Analysis: v=2.4 cv=Q7TS452a c=1 sm=1 tr=0 ts=6849a27a cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=rOUgymgbAAAA:8
- a=EUspDBNiAAAA:8 a=CiQAVfEbOHSXt17sDtkA:9 a=QEXdDO2ut3YA:10
- a=3WC7DwWrALyhR5TkjVHa:22 a=MP9ZtiD8KjrkvI0BhSjB:22
-X-Proofpoint-GUID: sZ8yZUayCFc4-do4qTpiyJNm_9C3pIjM
-X-Proofpoint-ORIG-GUID: sZ8yZUayCFc4-do4qTpiyJNm_9C3pIjM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-11_05,2025-06-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- bulkscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 impostorscore=0
- priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506110131
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_DN_SOME(0.00)[]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,27 +143,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/10/2025 4:36 PM, Stephen Rothwell wrote:
-> Hi Jeff,
-> 
-> On Tue, 10 Jun 2025 11:59:12 -0600 Jeff Hugo <jeff.hugo@oss.qualcomm.com> wrote:
+Hi
+
+Am 11.06.25 um 14:47 schrieb Javier Martinez Canillas:
+> John Keeping <jkeeping@inmusicbrands.com> writes:
+>
+> Hello John,
+>
+>> The number of columns relates to the width, not the height.  Use the
+>> correct variable.
 >>
->> pci_printk() was removed with commit 1c8a0ed2043c ("PCI: Remove unused pci_printk()")
->> so change to using dev_printk().
->>
->> Fixes: c11a50b170e7 ("accel/qaic: Add Reliability, Accessibility, Serviceability (RAS)")
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Closes: https://lore.kernel.org/all/20250610124809.1e1ff0cd@canb.auug.org.au/
->> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>> Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
 >> ---
->>   drivers/accel/qaic/qaic_ras.c | 16 ++++++++--------
->>   1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> Thanks.  I will apply that to the drm-misc tree merge until it is
-> applied to the drm-misc tree itself.
-> 
+>>   drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+>> index dd2006d51c7a2..eec43d1a55951 100644
+>> --- a/drivers/gpu/drm/solomon/ssd130x.c
+>> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+>> @@ -974,7 +974,7 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
+>>   
+>>   static void ssd132x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
+>>   {
+>> -	unsigned int columns = DIV_ROUND_UP(ssd130x->height, SSD132X_SEGMENT_WIDTH);
+>> +	unsigned int columns = DIV_ROUND_UP(ssd130x->width, SSD132X_SEGMENT_WIDTH);
+>>   	unsigned int height = ssd130x->height;
+>>   
+> Ups, indeed. Thanks for fixing it!
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Thank you very much for the report. Pushed to drm-misc-next. Hopefully 
-it will make its way to you via normal channels very soon.
+Could you please add a Fixes tag before merging the patch? Thanks!
 
--Jeff
+Best regards
+Thomas
+
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
