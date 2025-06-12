@@ -2,174 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10F7AD674A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 07:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFF7AD676A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 07:41:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4203E10E77A;
-	Thu, 12 Jun 2025 05:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7542210E18A;
+	Thu, 12 Jun 2025 05:40:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KY7vbZxO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SDCnCT8F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F33D10E71F;
- Thu, 12 Jun 2025 05:27:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 462C510E070;
+ Thu, 12 Jun 2025 05:40:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749706062; x=1781242062;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=GQN9O7bt0WcH5BI0wFl7xtJM8vYp+WmAsVC+gO/EmA0=;
- b=KY7vbZxOS6A7/T5iP8C1c85gjCb59mF+e1SAvjnrE1LQyW28rEI34tRf
- /nX7NToE1R59c9YYUcOHMtPbYdlxutzD8UKZA9xGW5WGF+LULVDfZ8Qz5
- 93ZdxU9moVC/KxkM5zkB70hG+holzxx1jdX2OsuHTMeyn4KNls2Pgvndw
- vCxmvpChks30NGlHGHiKqCqO5lHYmhoMX5uOlDsCnGdESedsTY1GXrtQr
- Vz7mEKSlrnf9gjw130ndzEvru12KoFuaTj6wT0q6KCdaiFFYTwHqY8aMz
- jo1ClzS0SAlfKhS4iubu3K6j9Q27JT3Gph4Gd/Ac2Ph8wVKGG9wvMxP3C A==;
-X-CSE-ConnectionGUID: iOI4t0jlQIybSY32rGaU5g==
-X-CSE-MsgGUID: BESYYghyQR2+dCBy+nT1bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="63276560"
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="63276560"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 22:27:42 -0700
-X-CSE-ConnectionGUID: ltr3oTQ4SyiOaCbx0uSuWg==
-X-CSE-MsgGUID: 2dZvFoX9QUGXGgICZIXaXw==
+ t=1749706854; x=1781242854;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=ciQ6XCS4pt0uHgpLAW8P07tIoXpBtR0nHRI9eLkcmho=;
+ b=SDCnCT8FMMMowHSP95NowmzuxgwS3dqPm/GkVuSc+FTAy13c+0HEO/Jc
+ Sm8bKvFfWvqflu51ofprZaZW936KMjIf5qyhnDZvb1yVICKmG3OSblI1a
+ cmkqqBSKNU8o6p6MqCY4gxfnp3SnS/uMtZekzSx21QX7B6kqZpwDbmR44
+ vk2WI8bXPXNC+tRR5ggtv3XMp7N3heCQ+4RMUDiEOvmUgfFNNArT1bQQw
+ iZSZ01HGl0kvdxAprM7rDAtDlQVaMmr7tUCvXfjT2TC7faU74j8mH/uRI
+ /hlKLR2h2v7U1/BHqHKHpzanAGdVVmI4AvQjFBH/7FQ8saW/DeXBZV+/X Q==;
+X-CSE-ConnectionGUID: rdhZan+sTOqEb6Zse9aK2w==
+X-CSE-MsgGUID: bSPU3zf+TO+dW2kuqpel6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="74404121"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="74404121"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2025 22:40:53 -0700
+X-CSE-ConnectionGUID: WGXXmyz9RyqjtjtsZ8YSuw==
+X-CSE-MsgGUID: YvFJWUqVTuG8h7shSryFoA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="147316492"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="147400751"
 Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2025 22:27:42 -0700
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2025 22:40:53 -0700
 Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
  ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 11 Jun 2025 22:27:41 -0700
+ 15.2.1544.25; Wed, 11 Jun 2025 22:40:52 -0700
 Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
  ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 11 Jun 2025 22:27:41 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.69)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.1544.25 via Frontend Transport; Wed, 11 Jun 2025 22:40:52 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.82) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 11 Jun 2025 22:27:41 -0700
+ 15.2.1544.25; Wed, 11 Jun 2025 22:40:50 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X0pvBkNHziePrkau4YhF7sNRJmMsrgWIfN33GzXrbvEhY/WyTeRlo+Ph7GZgmwV2pPGvhvC7lZKfMX7FBkBtLQ7mdR/Iux8riexoSamYZjx3isy/z4daurvwyAGjKNIIqH8ub14mZ3Va3l1+7D5eDnLaw9CTrwN82XleZt2sz3DHThR8XL0dskyO3HD7HtLP83bPiYQt0pDUpz/gyVw+3IZMHJx6Bx2iVyz8vsFYPSF1upgSYSpj3S8/FQGxbp3b0ZmkYnJa4oNknrP1IrV0ri80vdb1kNh6LrFYmH0cmgjGuL8AEcbUPC1Z3ZcnUndoqXXdbUMvdtq+IKtl9n/oVw==
+ b=iJ6sA/y1LxJiK71mBl0cRQgy4wcj/i/QNOtZeO5aCyMxXzzAY/xU4wOQiFOxTXlw0g12QwVHg12CaWMI9jkR3tX/5nm2KpeiaQHP3mb8XkHyi+kZPdmVpwhWj5dt9mKwXg/jbdId92ieCJ0qnj+RyYPO3WkMir8s+Vk90zC24tyGM1/DvLzGJl/VxBPAmi3yEld/xRHBjTRoHMREatrQN2SG5piz/R3DioGMfTNjoBCZkIyeFHsAKNOEVcVvEOEbjIf8NTy3dsl4LvPUViGa0XnYoivTlcihZZkFPjVKU4qgzpkYpApvIfYne/02vJSChk+vmeZE8EEVFfMeowNjQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nVHyqu6wUVIU3CnvCt92yeqM7S326whyiAhnNBbovOY=;
- b=XGQPnRB311ZFvx7Q5oyJKw/w/aw9twCkszr7LYcd1HnIaY52o1WlkZTYdtRhJIZUy03gfB2P9SAsCQkakAfiHHzLpF0jZYFaGLwiC7XNqVwL9DOWGOUBlETOipg2ZWPryU0FiIQFRF7KG3SY+zT45EYupPZR6hP/rPjfERFeLlnoIMBA0h3rhwEIBHhmsIQeD9ZzFrz4eFXaET1gnKEeTkFRcPxE5OhWJpQhap/LLxCI24SEw1nJaznuMg4wK8FbjE5VPW0hEPci3+9i9oRyrcS8Cl4dCyMc2qOGB3Vqm5OopzfK1BJ6P71FhqdnZ/rIR4sATGxFonls3+nXY+I4UA==
+ bh=JQ7YRRxmdSqq0dIvTGBKxOVKtk22XcEj6e3miipk2ak=;
+ b=syyTk7rG5Eku6QzQN08Nq/C4uSXuXzYa7VDZsb6MxMsVkeeVYiUeBUpUTfGTG/Zb7KbtiNPHCIfrIODb7CVHWA7eLNN4knHq6M8ooPSdENjZto4ykLxjBvSudGz773qXdBfxCwRG9ru16Zi39yA/tsPX+N2zY3c1ppy93QIPD6AvFrx3HYqd+DBrGMRpeYG2FdsbCowGE6fcVI1ycoBjw01rHKpB4YkBvuNdj3zfnQaWYY47bUZPNlo87oMUKhljp/A9e2TfAEpSTcu7+gEnBhCX5FdmMx8VHFdimEmwyFkXHQf5xDtYIkfceWlcAQU8I+LccIOsZaFczukUSg1jcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Thu, 12 Jun
- 2025 05:27:25 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%3]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
- 05:27:25 +0000
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-CC: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Subject: RE: [PATCH 02/13] drm/dp: Add argument in drm_edp_backlight_init
-Thread-Topic: [PATCH 02/13] drm/dp: Add argument in drm_edp_backlight_init
-Thread-Index: AQHbrPQipcauEveqs0KSE0MBbUwk9LP/WWkw
-Date: Thu, 12 Jun 2025 05:27:25 +0000
-Message-ID: <IA0PR11MB730791819AC67833719A07ADBA74A@IA0PR11MB7307.namprd11.prod.outlook.com>
-References: <20250414041637.128039-1-suraj.kandpal@intel.com>
- <20250414041637.128039-3-suraj.kandpal@intel.com>
-In-Reply-To: <20250414041637.128039-3-suraj.kandpal@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|PH0PR11MB4855:EE_
-x-ms-office365-filtering-correlation-id: acff7dae-8e08-4b1a-3285-08dda971d0d9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|7053199007|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?oOh+TKyalghTJGtnB0yDc+vkZ+KCcjB0jwCsH1yO4par4lTn9hZ4z525XFkA?=
- =?us-ascii?Q?04bXpjl5ifb+noCUclMHrWEE/UwknZodfM97hbqkNY1Rma9IzWUiLDWoZztw?=
- =?us-ascii?Q?flhe0hiGt4fm3Yddmx4bV2y00qS3V4GpDtV4Y68fXBZRSePCVaQ+FvTO6Wvk?=
- =?us-ascii?Q?PIpF0h+iwtGxYGu5R5k2F6M8H4J+LP74bSpWx0HTlXLXRt0xFOw51Csl7wPR?=
- =?us-ascii?Q?JyNKD1x2B2A9q1L0qml0MDUc3VT095l05J6NKPkDYuaki4601Cd/6MQUJHh8?=
- =?us-ascii?Q?rSVCyQa0PB34pYNf4RNM/YfwzWjyG64vW8lWKA4n52AlYgLMeMgRF4vM9chf?=
- =?us-ascii?Q?mG7f+dNe9KugHUbwm7uUEP0Yk1CABCeOQ7nsYFZKWkaFmjUICRdRByR7XZVI?=
- =?us-ascii?Q?tyOcjhy7CU//ZhPwq/Df9cm/1C7W0q/lnyaQ0Ih51c+1f5Xe+GjWFejq+cEl?=
- =?us-ascii?Q?tHIAt5JEffwjwmHHsxQrYLzS2rTVn4caRD8gJOd7mwJrTeXyza+c+WILpLSY?=
- =?us-ascii?Q?vJPmF8GRfwDWfvjysF/wafBLJSKOAR2DimWb6kimzJB8n1CBcMIJ5PAXOfhS?=
- =?us-ascii?Q?4dn2mOHe+36hFWs41GAr3ta/dFV2ThpBEn8gGF8ntauk9i6GVbKbPAXJSoNQ?=
- =?us-ascii?Q?XsNsVoHnvouVwxrA62gewdvrbo/bCFCgyFwPIVGAVXxvZO++NHbeoRSpo18m?=
- =?us-ascii?Q?brxRjuot/1JeRDzhGWabkmjUiWdJudckH8bhEE61AusvADwnQaP5cEiB3EvD?=
- =?us-ascii?Q?xQkkbEL3T/imaS2rZlqq7NzvBR6+LKZVlbfluH5S79ra5F3/0gA959zyYk5h?=
- =?us-ascii?Q?nRQHdl7KpZbgQ3tg5Bas/vwpl4B+wVhM8iUmhfyNYPtMBi9SccEHDn6avTq2?=
- =?us-ascii?Q?2D5HdM5lJ43lVSTWEAb+0r4AJ9jT0gFqn6oFrbYizW/Bks84JkF+eqdu5rnK?=
- =?us-ascii?Q?yCIJf2YAsQm6/H6qxBzil//oNLmdeZXEv2XbdJKtQ4ZgdMUskpLjQkXC8/Vq?=
- =?us-ascii?Q?3mk7hE5GKR/56IytRkqXwdfzzK4vcQ7JDsjraPNTVEsjlvhWSXGI2vnNeAjm?=
- =?us-ascii?Q?Yvnb7LHJQNBBYLd3d4ULAos1GKGCOOGvYrkRDix994AeahLzOk+2uUwcRvY7?=
- =?us-ascii?Q?4m07/OfNbYONz9I3qj79xFTsGhjNv8cEp8qeyQFM3cf7gkt1/AOSNo5pQAO9?=
- =?us-ascii?Q?3yV+1+Ozc/JXUJ5ZMoNCxWRIbF98cxuzto9fbTU+MqW3V83BTWh6TXppA27p?=
- =?us-ascii?Q?8VlUC1QzMxF/G8tKUOep7FLQV1tnUpPWZdl1fZR+sL/oV5PBnKyMgaVQDInI?=
- =?us-ascii?Q?02cQB5A3Wd3AODEL9Ipe9V2V7WN9SRYh6IWb3qN7o8ibWB1M0rKG3pKygYI/?=
- =?us-ascii?Q?KSo+bNmFTSHYMn8EjIlLeZAKcLXd1FM7zRmlu53NWIsTJr20c9/EBQ05aX5g?=
- =?us-ascii?Q?PT/y0/Cb1WuIZF27ts2qBx6EgDJWEc50BLfyjMR1jTcoWGyrrUpSr82ezKvA?=
- =?us-ascii?Q?KuYx/iduGqTP+XI=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tHZPANAXuNQFJ4ZZLMwHRANy8ldWU0OeVXpBHL18aLATUOlq/m4a5NCD0G+M?=
- =?us-ascii?Q?Lj+Q14eytTawqbOVEX+hrjNIEslmuFrlK1MVekuovnAArs0DoVr7uShppnYd?=
- =?us-ascii?Q?JTOj7CP5F/59PC5fsSyhH37OLbclGUam8MHmALbtxIC9QJgh8dqaRxpypK03?=
- =?us-ascii?Q?gFlWk6+2OUDQDWQ4lw0qfX2Ih95iRGTSt4GyQX0Brp6eKAKn8Xub9CMtOCot?=
- =?us-ascii?Q?sx9lZII8BXUHANzXnnEBiBI1BYDMCo8GeIRNKUUoD5phvR+yHfkgJ4OiDKKi?=
- =?us-ascii?Q?SUn/CbhXGRLfZwmdHrFn3lX9ulPLxQ+xqR9b+gXsp+2S8VsfEiJovj/Z6lnD?=
- =?us-ascii?Q?CRPz4S7knTLTBkOKpt1bhIZNvjCMazxZHYm+YW9RtgizoZ6DXD3vn0jXRzyT?=
- =?us-ascii?Q?zI9LXAX3au55vfNBkwGenXnDF1qfH/KEpmJAPBwh93DQ08UpuGkOun+vtqYc?=
- =?us-ascii?Q?lM2G5UKilEdcEnMDjoQMCHonvQh/y9uztKq2XPF8YMXrEfQ7eOfcqpGh5fcp?=
- =?us-ascii?Q?/5H0MTGsUdWuXnx9R5rItn5OohaW/vu39wxYzHP7jWVskuL06nFeZSjl8524?=
- =?us-ascii?Q?P/+e07Kv46fLr2oqmMcYeG9XCIl7cqkBYyRCmFO2w3Zm9iNWCYLJ5IsN/FA+?=
- =?us-ascii?Q?k02QxSjQzsTRr9s+v7yGCwK0TAVqy5DEB+z1gsnAuIzm2h6T80oCKTBtXbe5?=
- =?us-ascii?Q?aJReL6BaXBt9vFCbWcE7HZmCR8D3n41w2mScZ2LFVzJOMMJ4MU4P0u0fuIGl?=
- =?us-ascii?Q?RlHe7EBTd2ZXTJz9chHiSDFAjgiRbODtcZXm1R5eQl69XIGJFoJ16pSUF/uf?=
- =?us-ascii?Q?4dvWircW5TM1XLhPLDmFTaw/ykuMNJi34oLSITCszpZX0fk2bXXSPgie1EPm?=
- =?us-ascii?Q?sQC8Bm9WKwmAMRT+V6VJ/5206kE3PTateQyoXInIZUD1UECtwbatSYk34grn?=
- =?us-ascii?Q?7NvqrEdheZxa5UfSfpxXwZxzoMdu97/cZpJArVR/tcOR3JxBwPOj5+K5WwsT?=
- =?us-ascii?Q?5fX3S131zAxivSSg4t47HYCFMSfXWwSSciv7BsBgrER4b1par74YAUyAzPiN?=
- =?us-ascii?Q?vEToH18QUzynm+5Ja+Vn6jypZIP5vJRSMhQ839h57QS1TVz4POboEY9iAHw0?=
- =?us-ascii?Q?3lq5rDUpNnv+5l7UkexWblPSE2iLqj+Q5zqiIHh++nZXB0NMuZZIi6MNnAHk?=
- =?us-ascii?Q?jAWtOumJIMKkl0fnD9gf1Ix/xDyNLmbHCnAgmqEcWsLXI+Ndou6KgobqssIr?=
- =?us-ascii?Q?mR+StFhpgn1s8eAw1FphiJUOjt/kutcja3Z6dW36Y8HoGod9TuLIgVlzT83U?=
- =?us-ascii?Q?8ftO+dGlavu8ECdSaol6atFFKvnbb5x7yBy1xxaL0kZY3Z8jA5iK9gued52E?=
- =?us-ascii?Q?ZB31AT3Yrv8UX/BY7iVQRcNLgkLx5NF0bSCo6nKLcIeJFiSXEq+BkZAzgLt3?=
- =?us-ascii?Q?7yUrP7udl5cZdB9zJKrg3D1CX8I/OLKKlmrmysTp1bAb7CiidTrfrOnanDvL?=
- =?us-ascii?Q?qOURAjMDeIHEfwf9xh1F+WmVyiNVR2NUNp8pS3wa/wnOJUk5tx5BDMw1cHOC?=
- =?us-ascii?Q?VJ1urjFGKV2atBu3WpckIinRSwhRlHxCdgXtSSp5?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by LV3PR11MB8765.namprd11.prod.outlook.com (2603:10b6:408:21d::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.33; Thu, 12 Jun
+ 2025 05:40:29 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 05:40:29 +0000
+Date: Thu, 12 Jun 2025 00:40:26 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Juston Li <justonli@chromium.org>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Yiwei Zhang <zzyiwei@google.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
+Message-ID: <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
+References: <20250611225145.1739201-1-justonli@chromium.org>
+ <20250611225145.1739201-2-justonli@chromium.org>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250611225145.1739201-2-justonli@chromium.org>
+X-ClientProxiedBy: BY5PR17CA0011.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::24) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|LV3PR11MB8765:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d9f9218-a833-499a-f85f-08dda973a3bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8yZl2YTkQIDj0gOgy3qJSuea6ks4KMzVi6PpSvbVL1O58dwAOjQZT20imkVk?=
+ =?us-ascii?Q?X/Pn/0dwITPo0my8DUGFffI6MJfwcJGyLHuela3DmPOfpQq9SJmdi4tesA0A?=
+ =?us-ascii?Q?f+KN9dYerW3qKOm/pdmE9dC1/J3CaTfLXjHq25+CWBw9FxZfpAw1mILywd14?=
+ =?us-ascii?Q?07aifomRMjiCKjrPubzCErmjzdE0SJQQRU2OObhB7bwJONijr5JFkoe9wObC?=
+ =?us-ascii?Q?u8dJIVylNMg+nM3OQc/tkTKvvncD6bQSqXXthn2IxJ79Y4PPkqKIV/D0Gv1T?=
+ =?us-ascii?Q?emtjy+OQbSyx3dPlv8zVP7McGyccLSAIpPZ+w9iy7pMb41Xnq9SIRDvOb4vz?=
+ =?us-ascii?Q?YBKQqPCI2OCLw6ey2h6gvwYKEv7HZ54LjFEOxcf54TJonw4dUj+hCH8VG7MG?=
+ =?us-ascii?Q?8HngzQxHcVaasb/YQLGHR9T9y/a2Nb8JMHobErKWsP9YclQkJVJE8yDfazsf?=
+ =?us-ascii?Q?Ahg/EVpAhV2n72HlxIqGTVwJc3yveVgqSL4GrIc53/aA6hO+qLayV2ulpCsZ?=
+ =?us-ascii?Q?S+T7NIHn08aALrNWdS1bJTM9boM4solwArYXHGCqVsMJwXG4yo4aXuY4O44A?=
+ =?us-ascii?Q?1UzAMUPTZEoR2oYOOC8HiFmdcXSWcD7dNa6mfD6bPRy45F5AI4ywkG9jJyPI?=
+ =?us-ascii?Q?bv7rdkLfbnThLDUjrh2EptK8Jtdo8QnoKgdg6u0UyAlLRYxRyY20nKoL1KlF?=
+ =?us-ascii?Q?8aiLqmHUsLV1FnMAhbeL4AzGerL9/Bm5vonaU47gYXsiIlzf2FEH9PnZcF5Q?=
+ =?us-ascii?Q?1oYWh59fh2Wp6vV8/RQiBRKI6sAUSMC3YYjDHT0g4yqN2Q09GjQsn4uia2Vx?=
+ =?us-ascii?Q?PhqfX3vSesTdE+AOJerdf68/7NVa3M6T/nVoLQHroAMRMR3RtBZUN9S0UIko?=
+ =?us-ascii?Q?FptPwmklPWkhESdt8sVU1wzuhpnhbY2k66v+MKQlZIHJirjIeoyRDAYpc9kr?=
+ =?us-ascii?Q?N7kYU7OO8yl1ObTHtTqiY9MSeDQOiY7e9CuEskJZA41LbalJFuuan/L6+r7f?=
+ =?us-ascii?Q?BM75e2h5AvGrlVbByZjecfTVxXo4YMrLaetvaNCeegZP+Bz5hmK7NZ+Kksgt?=
+ =?us-ascii?Q?SbOKeP1+PN1Rsgf4QphAvlr09wVdBAT+/9sidCxGUpJqG3UumSYCuMiemzQh?=
+ =?us-ascii?Q?+MaZoOa+1QHNJDPh7snJYgfWsxw/Ff/iFRGXZL58N9QJUq81QMFXFaR2b6y+?=
+ =?us-ascii?Q?4+rTJoMyZRfrUoVrJj2FhBq1P4lgx4JPfkLHrzZ9lojUW/UTRk6j2tTCat9o?=
+ =?us-ascii?Q?gtBUZ9qMMzvh0ba6avzanQNMj3mNemZUaCgu2EgdKfBPGSPh9L03OUkrgWe4?=
+ =?us-ascii?Q?y4rRIdrNvcli+M9ZzU863ILlBYC3CMGbfCH5kqIwk0YHPzU9O2yeBd4W1GFw?=
+ =?us-ascii?Q?QhwBBJrb/09fxC9RU7CzFeIZKZNvmnce1tG3nJO8Fy1DFQ2xKE+gtMMH5MZl?=
+ =?us-ascii?Q?Hpv/e5eWcUY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yhiGledMokvLg7rYC0dhPFJ4zwKtBLL/EhO9BehT1SGlHlmtq4a4YOknL2k/?=
+ =?us-ascii?Q?k260aEHqsDUruuNCdtci9YBiDnTFqXLxOgvm3aXLxAEO1RhU/8hE/9iM4f0U?=
+ =?us-ascii?Q?SWrGqGKS1wotFRDC6GIfKdrN6JvsLEcw/cWSsvg1FTZkZSRH1aHZumTUA5TN?=
+ =?us-ascii?Q?54tZ94OU6EcvL8XoinIC2nhQZMFh0DfI3WIgEWqcl4ValyzXZV97iO0JPMjc?=
+ =?us-ascii?Q?oXwaReknXQJDCJTkFd0BQUM3XjseLz9Uk7L8pcVh0EDONKxX7rPTHXYA/T7i?=
+ =?us-ascii?Q?Ll+CrybzgV7PqI7KVksRGsfTQ+c6gdrLcfKBKy5SnO35kCDHhsPvQxnrl1wU?=
+ =?us-ascii?Q?MapSrap6rl4p/5RShgzwQ61KRbJFvfXvRiWRrEi4FXtwzKQqzOVl50WZpneo?=
+ =?us-ascii?Q?UWWfjtXgMyJgP/uNs9Cm/FEc+ytfybZlw5aQagAmqmyd/Le9a/1DkeDC5VsB?=
+ =?us-ascii?Q?ri8JL2NKTNI5bma0Jov0wlZhZqZwg2h3TOLnb70zbBuBTvP80fioAYxbMuNf?=
+ =?us-ascii?Q?8CHOBisCK9sJKAHcFlSNK5bIma256n/MMw+MgRa1lfZ4ZMN3IUj6+6WOOiub?=
+ =?us-ascii?Q?2WV9uRV0AcZyvktkeUBtoBZGmwjrisgqdQydP6iUsGJgnQlwg6E8EAdP5ohb?=
+ =?us-ascii?Q?GYEsS13j9VTolBrlLeQpzupN5ERRkXPjx8bmGG65t7FKqkUf/ViQJL1SsYea?=
+ =?us-ascii?Q?obAVW28LGUH+/Ty+vsVOnwhLhSSE5T+KJwI2qcq3ePEwJ9LarWMcqgiLZEjz?=
+ =?us-ascii?Q?wTfBgijoVqcj0ymkTanlB3ORI94ybDA3HY70iiDDiCz317ZGij2yTBcJVCBJ?=
+ =?us-ascii?Q?VvAdbFxDGqZAx+5dB2f9ZSMXgjGztGldGavjYwFjtbNvT7T+k0SoQbcIYSTX?=
+ =?us-ascii?Q?hy8TqdSAS2vMD4xTM60aOTt5kJAguQO5+4mDnUMNcRKe5zisMMYzhLT5smVG?=
+ =?us-ascii?Q?KXC753LsIEaoEbjyb34fQZOTAwZBHLnBsKZfS5zwKT6Xs5/wssamLDlcQWuU?=
+ =?us-ascii?Q?2mtrwbDtye/3hEKfpnyBsRRscPO4VSF7DQi40cMtzJXAC4oc0G2twpsr47KW?=
+ =?us-ascii?Q?yngvK+CpyjBWk2tGQ/zuEhgAB8DQFjl6TpdDsMrTnMeLu9o4OEPBwy1PQWF+?=
+ =?us-ascii?Q?ejKcfNxgNoOJ37dMLYvajpKabLNndrsPR1jxHXcZz6ZhllV4ko66nKX82qdg?=
+ =?us-ascii?Q?K8Ims+onx28AESY5bOk7jl0zlzTYuyMVOAC1pal8E2Mc0PXDl8ZtDorHyhIJ?=
+ =?us-ascii?Q?TG2MumXLqOyw5B3uK7Kp7isnPfAP65F+YwmajoHB1rbi5n4bzMOJOoPat0JU?=
+ =?us-ascii?Q?iCNsC12TW1esKPOy7dpET4Uf8CGoQmoG2FUDnRbAO7EKIp+ew8Qrshz3ZVKV?=
+ =?us-ascii?Q?UKipwDN/Nf7DUiDIJsJGhpipzmyihNW4JX+og5uMJgjYKQiEtOxX7ecp99Da?=
+ =?us-ascii?Q?DPHkRytbM09fWM01S+VBf+fOWpfBAc8rFLFVVLYmlZnXw4WY/WSPlJ5/t89S?=
+ =?us-ascii?Q?BLTL6Uo3p89Ojj/FS83p/TRzBjiO8l4SHT/gFSDwWVqr1twAKx+xxMw4Fk1t?=
+ =?us-ascii?Q?kWUkJiJ81WnNoZnKkXn0fP7fYLCfc9qsu4mCA6HJW4tusqPbNEgo6pR7e9IP?=
+ =?us-ascii?Q?Tg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9f9218-a833-499a-f85f-08dda973a3bf
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acff7dae-8e08-4b1a-3285-08dda971d0d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2025 05:27:25.6214 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TWBrcq7fxQXOYHYFFkqJQDYYZnP7qHZiTEY6FLJuQ/LOcicLsd4w3ruJW1dKRvm6g3Jbef5ybYoAT0h4r+FQWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4855
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 05:40:29.1684 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N0iZgWUeRhqQU2Dvn5X5QNECe2uz/D451mOvjaIfLTZVzrWc6MZmQ+Jz66+usT/vP2jHv9qFTCibXCUD6aFKy6I8DpXnIlAI29RRqmX+hso=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8765
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -186,137 +180,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Kandpal, Suraj <suraj.kandpal@intel.com>
-> Sent: Monday, April 14, 2025 9:46 AM
-> To: nouveau@lists.freedesktop.org; dri-devel@lists.freedesktop.org; intel=
--
-> xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> Cc: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>; Murthy, Arun R
-> <arun.r.murthy@intel.com>; Kandpal, Suraj <suraj.kandpal@intel.com>
-> Subject: [PATCH 02/13] drm/dp: Add argument in drm_edp_backlight_init
->=20
-> Add bool argument in drm_edp_backlight init to provide the drivers option=
- to
-> choose if they want to use luminance values to manipulate brightness.
->=20
-> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
-Reviewed-by: Arun R Murthy <arun.r.murthy@gmail.com>
+On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
+>Add TRACE_GPU_MEM tracepoints for tracking global and per-process GPU
+>memory usage.
+>
+>These are required by VSR on Android 12+ for reporting GPU driver memory
+>allocations.
+>
+>v3:
+> - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
+>   per-driver Kconfig (Lucas)
+>
+>v2:
+> - Use u64 as preferred by checkpatch (Tvrtko)
+> - Fix errors in comments/Kconfig description (Tvrtko)
+> - drop redundant "CONFIG" in Kconfig
+>
+>Signed-off-by: Juston Li <justonli@chromium.org>
+>Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>---
+> drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
+> drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
+> 2 files changed, 63 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>index 4e39188a021ab..89a3d23e3b800 100644
+>--- a/drivers/gpu/drm/xe/xe_bo.c
+>+++ b/drivers/gpu/drm/xe/xe_bo.c
+>@@ -19,6 +19,8 @@
+>
+> #include <kunit/static_stub.h>
+>
+>+#include <trace/events/gpu_mem.h>
+>+
+> #include "xe_device.h"
+> #include "xe_dma_buf.h"
+> #include "xe_drm_client.h"
+>@@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct xe_device *xe, struct ttm_tt *tt)
+> 		xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
+> }
+>
+>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>+static void update_global_total_pages(struct ttm_device *ttm_dev, long num_pages)
+>+{
+>+	struct xe_device *xe = ttm_to_xe_device(ttm_dev);
+>+	u64 global_total_pages =
+>+		atomic64_add_return(num_pages, &xe->global_total_pages);
+>+
+>+	trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
+>+}
+>+
+>+static void update_process_mem(struct drm_file *file, ssize_t size)
+>+{
+>+	struct xe_file *xef = to_xe_file(file);
+>+	u64 process_mem = atomic64_add_return(size, &xef->process_mem);
+>+
+>+	rcu_read_lock(); /* Locks file->pid! */
+>+	trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)), process_mem);
 
-Thanks and Regards,
-Arun R Murthy
---------------------
+Isn't the first arg supposed to be the gpu id? Doesn't this become
+invalid when I have e.g. LNL + BMG and the trace is enabled?
 
->  drivers/gpu/drm/display/drm_dp_helper.c               | 7 ++++---
->  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 2 +-
->  drivers/gpu/drm/nouveau/nouveau_backlight.c           | 2 +-
->  include/drm/display/drm_dp_helper.h                   | 2 +-
->  4 files changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
-> b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 41de7a92d76d..99b27e5e3365 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -4231,6 +4231,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux
-> *aux, struct drm_edp_backlight_i
->   * @edp_dpcd: A cached copy of the eDP DPCD
->   * @current_level: Where to store the probed brightness level, if any
->   * @current_mode: Where to store the currently set backlight control mod=
-e
-> + * @need_luminance: Tells us if a we want to manipulate backlight using
-> + luminance values
->   *
->   * Initializes a &drm_edp_backlight_info struct by probing @aux for it's
-> backlight capabilities,
->   * along with also probing the current and maximum supported brightness
-> levels.
-> @@ -4243,7 +4244,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux
-> *aux, struct drm_edp_backlight_i  int  drm_edp_backlight_init(struct
-> drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
->  		       u16 driver_pwm_freq_hz, const u8
-> edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
-> -		       u16 *current_level, u8 *current_mode)
-> +		       u16 *current_level, u8 *current_mode, bool
-> need_luminance)
->  {
->  	int ret;
->=20
-> @@ -4254,7 +4255,7 @@ drm_edp_backlight_init(struct drm_dp_aux *aux,
-> struct drm_edp_backlight_info *bl
->  	if (edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
->  		bl->lsb_reg_used =3D true;
->  	if ((edp_dpcd[0] & DP_EDP_15) && edp_dpcd[3] &
-> -	    (DP_EDP_PANEL_LUMINANCE_CONTROL_CAPABLE))
-> +	    (DP_EDP_PANEL_LUMINANCE_CONTROL_CAPABLE) &&
-> need_luminance)
->  		bl->luminance_set =3D true;
->=20
->  	/* Sanity check caps */
-> @@ -4372,7 +4373,7 @@ int drm_panel_dp_aux_backlight(struct drm_panel
-> *panel, struct drm_dp_aux *aux)
->  	bl->aux =3D aux;
->=20
->  	ret =3D drm_edp_backlight_init(aux, &bl->info, 0, edp_dpcd,
-> -				     &current_level, &current_mode);
-> +				     &current_level, &current_mode, false);
->  	if (ret < 0)
->  		return ret;
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 20ab90acb351..d658e77b43d8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -601,7 +601,7 @@ static int intel_dp_aux_vesa_setup_backlight(struct
-> intel_connector *connector,
->  	} else {
->  		ret =3D drm_edp_backlight_init(&intel_dp->aux, &panel-
-> >backlight.edp.vesa.info,
->  					     panel->vbt.backlight.pwm_freq_hz,
-> intel_dp->edp_dpcd,
-> -					     &current_level, &current_mode);
-> +					     &current_level, &current_mode,
-> false);
->  		if (ret < 0)
->  			return ret;
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> index d47442125fa1..b938684a9422 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> @@ -262,7 +262,7 @@ nv50_backlight_init(struct nouveau_backlight *bl,
->  				 nv_conn->base.name);
->=20
->  			ret =3D drm_edp_backlight_init(&nv_conn->aux, &bl-
-> >edp_info, 0, edp_dpcd,
-> -						     &current_level,
-> &current_mode);
-> +						     &current_level,
-> &current_mode, false);
->  			if (ret < 0)
->  				return ret;
->=20
-> diff --git a/include/drm/display/drm_dp_helper.h
-> b/include/drm/display/drm_dp_helper.h
-> index b8fdc09737fc..ef0786a0af4a 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -850,7 +850,7 @@ struct drm_edp_backlight_info {  int
-> drm_edp_backlight_init(struct drm_dp_aux *aux, struct
-> drm_edp_backlight_info *bl,
->  		       u16 driver_pwm_freq_hz, const u8
-> edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
-> -		       u16 *current_level, u8 *current_mode);
-> +		       u16 *current_level, u8 *current_mode, bool
-> need_luminance);
->  int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct
-> drm_edp_backlight_info *bl,
->  				u16 level);
->  int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct
-> drm_edp_backlight_info *bl,
-> --
-> 2.34.1
+>+	rcu_read_unlock();
+>+}
+>+#else
+>+static inline void update_global_total_pages(struct ttm_device *ttm_dev, long num_pages)
+>+{
+>+}
+>+
+>+static inline void update_process_mem(struct drm_file *file, ssize_t size)
+>+{
+>+}
+>+#endif
+>+
+> static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+> 				       u32 page_flags)
+> {
+>@@ -525,6 +556,7 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
+>
+> 	xe_tt->purgeable = false;
+> 	xe_ttm_tt_account_add(ttm_to_xe_device(ttm_dev), tt);
+>+	update_global_total_pages(ttm_dev, tt->num_pages);
+>
+> 	return 0;
+> }
+>@@ -541,6 +573,7 @@ static void xe_ttm_tt_unpopulate(struct ttm_device *ttm_dev, struct ttm_tt *tt)
+>
+> 	ttm_pool_free(&ttm_dev->pool, tt);
+> 	xe_ttm_tt_account_subtract(xe, tt);
+>+	update_global_total_pages(ttm_dev, -(long)tt->num_pages);
+> }
+>
+> static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct ttm_tt *tt)
+>@@ -1653,6 +1686,15 @@ static void xe_gem_object_free(struct drm_gem_object *obj)
+> 	ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
+> }
+>
+>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>+static int xe_gem_object_open(struct drm_gem_object *obj,
+>+			      struct drm_file *file_priv)
+>+{
+>+	update_process_mem(file_priv, obj->size);
+>+	return 0;
+>+}
+>+#endif
+>+
+> static void xe_gem_object_close(struct drm_gem_object *obj,
+> 				struct drm_file *file_priv)
+> {
+>@@ -1665,6 +1707,8 @@ static void xe_gem_object_close(struct drm_gem_object *obj,
+> 		ttm_bo_set_bulk_move(&bo->ttm, NULL);
+> 		xe_bo_unlock(bo);
+> 	}
+>+
+>+	update_process_mem(file_priv, -obj->size);
+> }
+>
+> static vm_fault_t xe_gem_fault(struct vm_fault *vmf)
+>@@ -1762,6 +1806,9 @@ static const struct vm_operations_struct xe_gem_vm_ops = {
+>
+> static const struct drm_gem_object_funcs xe_gem_object_funcs = {
+> 	.free = xe_gem_object_free,
+>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>+	.open = xe_gem_object_open,
+>+#endif
+> 	.close = xe_gem_object_close,
+> 	.mmap = drm_gem_ttm_mmap,
+> 	.export = xe_gem_prime_export,
+>diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+>index e5d02a47a5287..b797e766ccbc2 100644
+>--- a/drivers/gpu/drm/xe/xe_device_types.h
+>+++ b/drivers/gpu/drm/xe/xe_device_types.h
+>@@ -641,6 +641,14 @@ struct xe_device {
+> 		unsigned int fsb_freq, mem_freq, is_ddr3;
+> 	};
+> #endif
+>+
+>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>+	/**
+>+	 * @global_total_pages: global GPU page usage tracked for gpu_mem
+>+	 * tracepoints
+>+	 */
+>+	atomic64_t global_total_pages;
+>+#endif
+> };
+>
+> /**
+>@@ -702,6 +710,14 @@ struct xe_file {
+>
+> 	/** @refcount: ref count of this xe file */
+> 	struct kref refcount;
+>+
+>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>+	/**
+>+	 * @process_mem: per-process GPU memory usage tracked for gpu_mem
+>+	 * tracepoints
+>+	 */
+>+	atomic64_t process_mem;
 
+so... this is not per-process, it's actually "per dev node" open. Does
+this map correctly to the intended use and how it's handled in msm?
+
+
+Lucas De Marchi
+
+>+#endif
+> };
+>
+> #endif
+>-- 
+>2.50.0.rc1.591.g9c95f17f64-goog
+>
