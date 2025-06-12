@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F8BAD63FF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 01:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D962AD641A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 02:01:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5786410E756;
-	Wed, 11 Jun 2025 23:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF0010E74D;
+	Thu, 12 Jun 2025 00:01:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="rvGeDmRj";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oE8eFusl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="B89YEpc1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA3510E74E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jun 2025 23:49:33 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bHj7F02x1z9thZ;
- Thu, 12 Jun 2025 01:49:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1749685769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=gal4hXabFurfA9QGeEXIKzO4wZ6zbjpSU652c76bN8g=;
- b=rvGeDmRjPLP92DzzWR2xRKoaLoYF1YuDm5IPB9CS4rLgyz9YzsUfIjc1iIk3zH2hCIIxj5
- C1N0vLEUnFam35WsEySY1KFi0qc+Dae468g4nI1OaA9eJbuRuk9kKUEvRbB0lahrnaxMWW
- O2TsJcCmdAmR5qdqEqq0gvvU0PlxGh67KSgpePxm6aWBmBlDfnfkcMbts9b20N/BU5ApLV
- 62BzeAuel5KzT0PFWX6AKh9weEBFIIlUHSbAfCYhfDtAyecOs/ZoRKfLBSCs870KWMbhkm
- thd7wfvX/5cno3WhVZwNBwelXIzgNVi3csZS0dhC0xKw2D9TfkVH3heXNeg8TQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1749685767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=gal4hXabFurfA9QGeEXIKzO4wZ6zbjpSU652c76bN8g=;
- b=oE8eFuslJkbVukzvUK4II+FelmU2AFX+vtDbd+9qdIfT7nExfRsigOpbu6n1bVexuodlNh
- GGMH+6jp3ITKu5qkV2SDUEew2TfSgtQqwaCBZ1UEIyQUlnOzSyppMChV2ymlJn80YmnKmD
- m1xgeRpDxULW7t1OO+oGapnlsn8gnUijZheFHxQNj3BBvx+1yNU+mK3sBjcXVSRuaXOjwj
- 2oXgCRj3mmi8xI85YChVY8FCelKhyq3wSTFV42gf1PAgNUE/15v+1Q52iq2iffGTRrWeKl
- A7h0G3rXUIsWf6esMW4PW6C+ZDMFRbIV5vi7gEGBAPhuT1RIFJ2iJUUG2djTGg==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD1C10E74E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 00:01:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749686457; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RfUJLgL3uiMWBMZumyBvXpsPE2UMpPd3FQWhCEKj5YlW8CpCzh8drQyfbMrEH8EI96d+2L11XOX5VD8utD7ZQvI72LE3wD2WqVRCfseYEcpBtT89TeHnQkNROZlE4l4T30nS1s5igLVgQ6v8kOUqwsQ1WQi9yn43D3hkqHIXd4M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1749686457;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=vGmPNxgIyEoEQtADc8X3nicC6jEVHqGcMDg8y3I/t3o=; 
+ b=B+8YjO+uqewQPSBMsMZO6HJPPCQm9iq5yZbYGgyvPx9snSvvqPnZ8jtAq+qoggS+EzUENfcIHw3z5Y1WcmVQeji7a1RpZvILe0SwcMk83npw/qm0ZAUqQ0XP0wIKnQV1QNN6DPKM+YkqsHtxkwVDzB9EXxBmX0V3TC9R0hZvKIw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+ dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749686457; 
+ s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=vGmPNxgIyEoEQtADc8X3nicC6jEVHqGcMDg8y3I/t3o=;
+ b=B89YEpc18TsrakKZypLJ7xGiQ6kWyg6E59pyj89kKZmDWb8r5NGmKQEPYBR0D3Fx
+ NOmEBD89GluYxB12j6rZV/ZLix7X6ZnTqRW+Xn5Cg0Q5qqzsIW6u1ft1kCPfBt/+hqq
+ pup6vSnHDcfX3ZuwlZ+C2RdyjA7nJpHzR9/gtB8U=
+Received: by mx.zohomail.com with SMTPS id 1749686454865928.7893063021048;
+ Wed, 11 Jun 2025 17:00:54 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-Date: Thu, 12 Jun 2025 01:49:01 +0200
-Message-ID: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: kernel@collabora.com, Andy Yan <andyshrk@163.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source
+ to VOP2 on rk3576
+Date: Wed, 11 Jun 2025 20:00:52 -0400
+Message-ID: <6011857.DvuYhMxLoT@trenzalore>
+In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
+References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+ <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: krmt9hucpdm55z3fm6ypp5963sxt7dyt
-X-MBO-RS-ID: 1f6924fa28fca0224f8
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,42 +78,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use u8 to hold lane count in struct ili9881c_desc {} to avoid
-alignment gap between default_address_mode and lanes members.
-The ili9881c controller can only operate up to 4 DSI lanes, so
-there is no chance this value can ever be larger than 4. No
-functional change.
+Hi Cristian,
 
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wednesday, 11 June 2025 17:47:49 EDT Cristian Ciocaltea wrote:
+> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
+> char rate via phy_configure_opts_hdmi"), the workaround of passing the
+> rate from DW HDMI QP bridge driver via phy_set_bus_width() became
+> partially broken, as it cannot reliably handle mode switches anymore.
+> 
+> Attempting to fix this up at PHY level would not only introduce
+> additional hacks, but it would also fail to adequately resolve the
+> display issues that are a consequence of the system CRU limitations.
+> 
+> Instead, proceed with the solution already implemented for RK3588: make
+> use of the HDMI PHY PLL as a better suited DCLK source for VOP2. This
+> will not only address the aforementioned problem, but it should also
+> facilitate the proper operation of display modes up to 4K@60Hz.
+> 
+> It's worth noting that anything above 4K@30Hz still requires high TMDS
+> clock ratio and scrambling support, which hasn't been mainlined yet.
+> 
+> Fixes: d74b842cab08 ("arm64: dts: rockchip: Add vop for rk3576")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3576.dtsi | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> b/arch/arm64/boot/dts/rockchip/rk3576.dtsi index
+> 6a13fe0c3513fb2ff7cd535aa70e3386c37696e4..b1ac23035dd789f0478bf10c78c74ef16
+> 7d94904 100644 --- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> @@ -1155,12 +1155,14 @@ vop: vop@27d00000 {
+>  				 <&cru HCLK_VOP>,
+>  				 <&cru DCLK_VP0>,
+>  				 <&cru DCLK_VP1>,
+> -				 <&cru DCLK_VP2>;
+> +				 <&cru DCLK_VP2>,
+> +				 <&hdptxphy>;
+>  			clock-names = "aclk",
+>  				      "hclk",
+>  				      "dclk_vp0",
+>  				      "dclk_vp1",
+> -				      "dclk_vp2";
+> +				      "dclk_vp2",
+> +				      "pll_hdmiphy0";
+>  			iommus = <&vop_mmu>;
+>  			power-domains = <&power RK3576_PD_VOP>;
+>  			rockchip,grf = <&sys_grf>;
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index ac433345a179..84927302957a 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -43,7 +43,7 @@ struct ili9881c_desc {
- 	const struct drm_display_mode *mode;
- 	const unsigned long mode_flags;
- 	u8 default_address_mode;
--	unsigned int lanes;
-+	u8 lanes;
- };
- 
- struct ili9881c {
--- 
-2.47.2
+I tested this on the ROCK 4D and can confirm that:
+ - New modes like 2K are now working
+ - Mode changes is now correctly supported
+
+So,
+Tested-By: Detlev Casanova <detlev.casanova@collabora.com>
+
+Regards,
+
+Detlev.
+
 
