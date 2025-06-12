@@ -2,179 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA98FAD6EB5
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 13:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C74AD6EBE
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 13:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4118110E759;
-	Thu, 12 Jun 2025 11:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C348810E777;
+	Thu, 12 Jun 2025 11:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MfRY+GaW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kGRlwwLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D3C10E0F0;
- Thu, 12 Jun 2025 11:13:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749726825; x=1781262825;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=WMq3LbjrvFj4zs4gVOwYsmDKqZ21Ktu3Tp+j2mdhZW8=;
- b=MfRY+GaWGPjMYlXfNieEp8DfIxJKWONNcElS4EbSVyjJg2XBV9RIIeXD
- 3L2uR2mJCpGlZjrlj17ASA0By9NIlUUKlP+fSw2//oBf/vyg/TKY3l42r
- Sk2KW0DYU1hixo8ZhO1fie14lXqyqk8jUj0YUp9CG1Wt+wTB/+UEeI7sA
- 3kPNsHCtxGiLajup/m8Y5naJL4HFahuV0wiihub2LuEQ8iKKMM3nyBzcN
- KXy79HXdOHc4IqcrmzWoxmJHXk4AyoHPDrz8OFU9C8pIFCENkEoFkGVCX
- kIkFIxlB3R2JqKkY//FxMeuoNRbql455Vr5lzE76O1QwEL9tNwqwkg9Y5 A==;
-X-CSE-ConnectionGUID: wctTK/puQeeiZGSUDkH/bQ==
-X-CSE-MsgGUID: rWM1UsmfQ/am7PC6fHR1Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="62177749"
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="62177749"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 04:13:45 -0700
-X-CSE-ConnectionGUID: iqjnaYInRf+cLGh8verz9g==
-X-CSE-MsgGUID: xsjTYyp4T0eamTLBUbLPBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="147479643"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 04:13:44 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 12 Jun 2025 04:13:43 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 12 Jun 2025 04:13:43 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.54)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 12 Jun 2025 04:13:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rEOu4l5sRtzNbhzyJs7i/4Dsx4C1VY6aAex2jyNvF9V3wBPUveupDvRyixOQBSlrVsQm/idY5ANXpIPiWt0gc164RIQ14bI/GPHKyFnMhSdwt+TIbYAWqA8hF2lveiQwfPT48Bom6ndBkqHEpOd9HYWdswkLw58FKw2NEqwm6Ye4WaIA0HxwDshO+G+Whsmn8JVUERowTbuZgfwPSNeA8EplNLbeCAfF+twug/ELMKUEzirvehNPsGrTDCgNYqQ06eHef+/SJDn41MgWQqyTwudi+oKE0EED79s8INIl+cYr4y3+KGzCyxwIFZr1WWaMJTTbd1MtItIIJZ3hobNBvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TuwDWHIpp5kvXRcMrSpEmJUsN1d3i9tPKcOerRn532Q=;
- b=pjcval21yWRiF+5RiVaAh33X77OLyoZmjPc64JAlgbik29PKXaLL6+Rv/bn5DTcoKg2nA8OAaa0KLUhyf4qtQP7YpohVICizm4FJthcUGZ5BZok8cBBHX2AUFjceVhpyMgGZ9Mk29K+66VG6/OXYbtfI4ni2/F2XAg3DLddNRcGlf2VjF5dV7deq14+Lr3t+F+ZJLRYeJViFf72mwKHUtav9WfSk/AZViuLE1BxsL9wyTvyDA9KEBUD78MJejSN5wYmgWaEYVuxmog81r2L2MHcuZit8sINe/1OXYHeMpclxe/cLzLZw3md5NXQs1JLedC5AGNsmoYE6nx5pwKqEOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by DS7PR11MB6062.namprd11.prod.outlook.com (2603:10b6:8:75::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Thu, 12 Jun
- 2025 11:13:27 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%3]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
- 11:13:27 +0000
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-CC: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Subject: RE: [PATCH 03/13] drm/dp: Add argument for luminance range info in
- drm_edp_backlight_init
-Thread-Topic: [PATCH 03/13] drm/dp: Add argument for luminance range info in
- drm_edp_backlight_init
-Thread-Index: AQHbrPQjxmDvPxxadkOJV/gto6LZRrP/W3kggABU6wCAAAreoA==
-Date: Thu, 12 Jun 2025 11:13:27 +0000
-Message-ID: <IA0PR11MB7307ED398EE421D9A54A686CBA74A@IA0PR11MB7307.namprd11.prod.outlook.com>
-References: <20250414041637.128039-1-suraj.kandpal@intel.com>
- <20250414041637.128039-4-suraj.kandpal@intel.com>
- <IA0PR11MB73072A82012F059738260626BA74A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <DM3PPF208195D8D82C92D58A8780E866EE6E374A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-In-Reply-To: <DM3PPF208195D8D82C92D58A8780E866EE6E374A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|DS7PR11MB6062:EE_
-x-ms-office365-filtering-correlation-id: 303f4c41-0141-47af-29f4-08dda9a22801
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|38070700018|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?sKLud2qUVNJNK01ZT+fHXxsoV8giP5gX2Ch5CwGEEcoi3zHBWMgQpqcbTsAR?=
- =?us-ascii?Q?fUOYQRQHVOvH9hYXgjSxAkbH5Io5oZhgHqsW+6P/RHGUyzpsl+wHXaPgl5os?=
- =?us-ascii?Q?hrZjl4nwcrjdoZVz9+AszraE3OUllKaNc9sY8333SPNcPGW3vGXQakNmEBiG?=
- =?us-ascii?Q?yj2suNBwHF69Jq7aSMVWjFhvMV3dIkBC/gfi6A/w9S+JWUsFAb9oVGhE3ldc?=
- =?us-ascii?Q?Eq35FfaTz4ZkqtuHywZO5nJIBMkmZqL9bEBUmjUpn1EBX854iPXdxRz1lX+P?=
- =?us-ascii?Q?10f2WkU6HRzYU9KgEjbAfnOwQt8oEQB2e0Xd8t6s7yf7fI6o+AxbVLrnDyvK?=
- =?us-ascii?Q?BN4clEfXlFA9W2AfmAwxHNLl9ykgN1Q+MlBcgV1fQykcBL8XCcyhdeXWaQk6?=
- =?us-ascii?Q?H3ehjIr84bLCxvW7vyZxszEX9Ng8/VK6MGQOgPn6drwKAs3KqbiZFiulRifK?=
- =?us-ascii?Q?1w3LRkyByfocjfjUOLJw9Vb4/87v2sdF9VyzQAt7QRRRgLvHI4LmvN+FHvpt?=
- =?us-ascii?Q?FZWxtjSBpBrmlxds1OAkpVZJNzl10lwxOOsNWWgV9DQ/JVBn39I1hLJWnk+8?=
- =?us-ascii?Q?oQVqK7eEvvM32AxtCAj1UTNkVb6xRgISGxInNklvZ75BcOY4k+M+/GHpq9OH?=
- =?us-ascii?Q?RbO+/L5pNwZQhKB/64SpsG4DHfLe6o5lAwaP9Wh40PCYJZ4qQ5g1K062Gpch?=
- =?us-ascii?Q?6qd8UV7VCwYZDGb8lxChzzEEuCA3KJoUTIgDXXKsLCx/aXGrTwZDC3kwsSBB?=
- =?us-ascii?Q?gJ3rNH7xqD+WMqdShLeuijnNJeDHiSemZjk1AvxPhw3zKvlx82vtGYyaqxfC?=
- =?us-ascii?Q?XdnMs/mp3kIZJKEzV1tqP6OvF4EGdgiJMpXZ50PEQF5YT/xmOHLdjWXFUE1+?=
- =?us-ascii?Q?19BBiAjnGLdMCccN8is6EtIDj34fKfdCdRgX89NXdXXJZWg1cTIAgKyC3BzG?=
- =?us-ascii?Q?bhaZ4oAZtnVoI4sVZLqbbho/2UJ5rh55fLbhIWi4C/F1tBY7mxVyX5ekLdli?=
- =?us-ascii?Q?WUxnFro0X+l36QNzdG3UePwaJYjv7KBItMKY0MXAUcCTNBtDgTw41geimhBy?=
- =?us-ascii?Q?kd1pm7oDWG7oFPEyubxJvJEHmnf10U59o+p6XUExalBJhJe+ym/zPl7YU8jV?=
- =?us-ascii?Q?NX0EOnA8FTYR30LiKC9dOi7ZAsAx26/iHDePy8hFK9OLOKrFQ/G8m+hi/pVZ?=
- =?us-ascii?Q?d2ds19sLg5wtPa80kLgVNkb3G9PQue6/vOP22F5TbxiSoehG146eULoccFfy?=
- =?us-ascii?Q?oNC0geASnpBoEMahFxC1IXsXPjT2dvnB07NgrTJusaDpYIA2LyWKVX6ZZDR7?=
- =?us-ascii?Q?PNUwh/MApkRdnSGaNAJz7MkN87y9tdL2OfX03opkqNHeb/CG9H1+f+3bWX7E?=
- =?us-ascii?Q?XZtk+vPX6tKmRwoSYw/oYuRnDu0WTchWmmAfRwWiIF/Wy1PgjFWHLwuLzG4D?=
- =?us-ascii?Q?cKWbjR3BHFVkIhmbZ+O+XZI3pNIpPyiIOcSuIBASAslZpaLeZ8A/6e+1knB3?=
- =?us-ascii?Q?qPdBNOUdNNHb6So=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(7053199007); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UGo9mrbEIpsZ2F1TxJ4wNjAQpvEj09CSwSbRvP3f2RgI02gAoPMBKCR47gpz?=
- =?us-ascii?Q?yAQbKkK66v5xsYwVyhmc+xjPuTiyutXs4MGmBlCTEVVi20913EJB5SBUQDOP?=
- =?us-ascii?Q?MCFXNZiStLTXaR7BEwEGQjqQpDPqEveP3THQvOeXij9vA7iwxNOZjBuME5UT?=
- =?us-ascii?Q?U7EPxMqWOMQ4p/FNRQL4T2JYEeyGXLA2sItzCabboDkk1tXzXFwYtEw1fCvl?=
- =?us-ascii?Q?y7r3Jf8NW71VTgMIxL2xtAbrntplw1/qpiGsBapnGpalLqr7biq8xLq2JI76?=
- =?us-ascii?Q?h6Nsccf7fetzOAWRu+JtK712vIsN/QqT4DxUutc7cuTIUMrlKVKSSlMezCO8?=
- =?us-ascii?Q?rA4rFLzzyAuQ6ObsT1IkkBWYlZyUJTQsu7bZNhuzcuJHkiNhkFl0Mr2JOa7s?=
- =?us-ascii?Q?LMklE6ncZTjay41yu1XOc1yCXY7xMfHx717NIdR2On99bnS2OungxopcI8xo?=
- =?us-ascii?Q?6ODtiLBwtC3wgoKH46O3HnW0IJF6zpzc14vBgBRXBkQECVLrr3IA4cMl8dUD?=
- =?us-ascii?Q?Po+bVxuRQDXn0xyNwbwyNotsl0vJA//uvvFECQ76m/bwSkbwWaGex1rPvspc?=
- =?us-ascii?Q?jDWBpLOiB0i2C1vz0Neyk8ghDD0nBpWo3RMBUfu621QNTZ1EzHMUOHOplPkL?=
- =?us-ascii?Q?7I3KZvMwsO+24IKSpSjej5PkeD3O3uhg+zF9jj54/6knq2QLl/SMbG/dCGqR?=
- =?us-ascii?Q?6YAxHhD+uFNTUQdnAVVeXcpF4H9XH5l/rfIpBC7CTVnZPneOhj4ELfNn99VU?=
- =?us-ascii?Q?MtCGdN4S6yRWRNkdGy+iJ8ZcosBf7DrhAz74fE5WHvzMuGxyRqWUGrIaVf3V?=
- =?us-ascii?Q?CEhdJ9R1FldamyFfH6JLVK5/nZw3ZJYPVAHAkOcvOKZEW3C5cNL2kSd4Czf5?=
- =?us-ascii?Q?fURAmefimrCtUycJ9mXCLMv4FSbXLed0BEnOq0r3riqtFB4hNuLRw5LY5pU1?=
- =?us-ascii?Q?s/aCUEgHizQmGENNa0KXHDeCOCjCrYSZrGFurEOAH+yXi3fjxg0fh8aeFH1M?=
- =?us-ascii?Q?AnCNjPJ0a6uMzNFu4avzkEmRiHbN7GYJAmeF8AI5okw7siL4IikkUvuSjE06?=
- =?us-ascii?Q?zcsLY53ZZ2A4GYeq9IOk+HrNVcnHvHj8657XE7zYEbNOanKRDcDuKH//YBZL?=
- =?us-ascii?Q?I2zGrS7hCefdU3XpaQMIpeXfhJgN0CefdBcMbsHg8iutY6zH2gd0YiLB1pkI?=
- =?us-ascii?Q?tkpS4z37V1pmONu9xHKMmcJ6edkDJhYDHEzI87rVGVx7lQUBfOG/KrEKduof?=
- =?us-ascii?Q?LzkmiFP+A6xOdvOOWU3O8Xm60sHQafgjt7b6m9vLttXB04uXOndJEsv/Lh8L?=
- =?us-ascii?Q?S+nKG4Gz3j7guSB2Dwu1LzTW3mYB1syPpUXvwptGTuXLU/2nAX2p7VyEvHLz?=
- =?us-ascii?Q?JCaK27cUFUabliOyIsnOX0gvoboyVd3WzzK0ecTX2BXskQK4vSH9UmkB74w1?=
- =?us-ascii?Q?IqeUOPga8LADGPn2f4IktPezw70SCxp6OI/bTEcHJJHaz05zeYjbPqjiRNHU?=
- =?us-ascii?Q?dcy53G+SaJkSK3635ZJt3CkOMhGef+dTOyB5MD/WV2scJgN07Z9WWjyfuVWo?=
- =?us-ascii?Q?jdYRiXWxZvk2b2eY+lLzWOU07HDF6f67q9qf6Lzu?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6AD10E777
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:16:32 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55C8DjNk013459
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:16:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vpfX2NMeoo7UDS517K3UcKESErQZe/+g/3vF2bOfmOQ=; b=kGRlwwLtyi3yroLp
+ vPcTrdIh6peGLvQwI3oLukBUag1AnQQzJTzFv5o+A6t9WdNSRrJjsNI5at3wiOjd
+ uLxRB7QPEOVmypLuI0zx3FbFSzHqFtEg8ita12yT3ivdVNiKNPajb1W8LC5YNvdq
+ 3F1Ts3TxQWS4nIc6u7brkDlyp0Sod5YwZxmv4vUJXOTuveiDeLbd2bngNPQGfORP
+ Uey8wAkryAzw5UvIoPaVZPan6wZWAt0W6ut0Rmp/9SWDfFuE114auelY8QVe8uc0
+ Q4J/0hz2/12L36B1NXCTfg1K6Of3gkxtlLldIpRQ3j7Jnd9eqROIy6vhhWQu5hGP
+ HWu5UA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 476fmnfwfn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:16:31 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6fad5f1e70fso17633616d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 04:16:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749726990; x=1750331790;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vpfX2NMeoo7UDS517K3UcKESErQZe/+g/3vF2bOfmOQ=;
+ b=EEC4J8CiyBiV/10JXRX5n/OR8+g1TMqAmrsxV8XNFLP101UK6Jyzqz70mNin4zXrtq
+ 8twV8o4/be4XN8RP9umCUnMBB4lNiJ1ULJ/RpYS/LAb/fbEKqfgNJX6IQaiJ5XecduLF
+ Jgpo81HV6XWA7mkCcGuwjd0gnVR61QQaXcWqdePJHEln4a+MGfT+gWHjmakXYSDkPBle
+ lnNeeiZSXovAJxdLKdYSPc0+miFObZ5AOAMadifdjvomEwkq47XGzbakOqnhVYwWujN5
+ sYzVRxZ14i+PKjRI7r7A0pD5NobhOdBNdbdoCDr9VD0SeqWWXRCOkuwZGOPBkUyog1Ci
+ jTLQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmdEbpQOGBvUZlVpalybkXEunThTqiiUVuOVOHFpHlUFYzjmhNyc5y26bzbJhy/ZrMRiVhTA1v1zA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGn5vC+/t1AzHxLV7lkmGVVf7OjU5v/omlg1Jdd+vHG9xCkjTY
+ kGqkqbssI2HRnO88MJtZUD493MUomQcTNgddTs+gWy3G+sKStOKZBOLrLPgiSjCF0LrBaSOVQce
+ VJY56pFPkB4VetpMKXNfbNtGaHHz7XN4+nA9WSIdv1lCQxA7PdljJaWW3AUNXkDMF5zyVqyY=
+X-Gm-Gg: ASbGncuuN6iFdnizmn4kMal+5w74BhMxFpIrK5h5QtA5/VfRUsAgeA+zQSfi5LJ4ei3
+ DuW+64QwsWGebwlFXSDogxp0Re+wFrUJh69p1q1OsYRkwveKJMJzWLxYqLgvPfPTQEMplKEYGI1
+ vBpoO4G5wY6qkIlfvXCmYp8z3ohrp6u63l/9XActpDPX4ocpBva2eO8rm8mG3dD/re29B64FajM
+ rzJpHWjci/Bb/px7nEPl4LMG50atHM/8E2uYGsLzNjrlV6LQ+r7QzrvSUOPWH9FDB3bbB0iysVP
+ mm9RWQawvRr1FS5CUdYVUJN2TDzxKuhdfzMJg+ZiMGt8m4uR4A0a0mOtBFTCTppgAFuUKCm3AY+
+ fvU97lVNBZW+aRQljPQUvAgpM
+X-Received: by 2002:a05:6214:cc1:b0:6fa:cd9e:7fe1 with SMTP id
+ 6a1803df08f44-6fb3464a613mr35975636d6.24.1749726989967; 
+ Thu, 12 Jun 2025 04:16:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHetYtA3HieDljs7UJWghv1brQVUM/Q0GTlBER+BwKf79FavNV1DFHrP4isixdHDMlhem16WQ==
+X-Received: by 2002:a05:6214:cc1:b0:6fa:cd9e:7fe1 with SMTP id
+ 6a1803df08f44-6fb3464a613mr35975096d6.24.1749726989420; 
+ Thu, 12 Jun 2025 04:16:29 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9?
+ (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553ac1aa036sm77231e87.128.2025.06.12.04.16.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jun 2025 04:16:27 -0700 (PDT)
+Message-ID: <aaae04d2-8f1a-4aa2-8f02-9b46d5a35207@oss.qualcomm.com>
+Date: Thu, 12 Jun 2025 14:16:26 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 303f4c41-0141-47af-29f4-08dda9a22801
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2025 11:13:27.7326 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SaMGan48iX5vrIjW/Lfu+TVJ2ndhvQuRZJrNRBywu7frJgmE+xup78DkM4X5RYzXxFhi9Rg/IB2RrRFv2J0h8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6062
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/5] misc: fastrpc: Move all remote heap allocations to
+ a new list
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: srinivas.kandagatla@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org,
+ Alexey Klimov <alexey.klimov@linaro.org>
+References: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
+ <20250513042825.2147985-3-ekansh.gupta@oss.qualcomm.com>
+ <sgfcaujjpbvirwx7cwebgj46uwlcvgr4cgcnav5fmwmjsf4uku@iytanuqqiwxo>
+ <71eb4b35-51a3-411c-838d-4af19631325a@oss.qualcomm.com>
+ <tdae3jb7zbkbzvk546j5jnxnfkeux2bwrbz3i5gsehecj65n7v@2hseuptlk2a2>
+ <999d2ca0-b3d3-4fa2-b131-092bef4951c8@oss.qualcomm.com>
+ <CAO9ioeUW=v_CBUchJEt3PArbzBbUgznFO8TK-j=2yUkv8S1Baw@mail.gmail.com>
+ <bddf894f-1d79-40b4-9f80-355746c122da@oss.qualcomm.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <bddf894f-1d79-40b4-9f80-355746c122da@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: r1IcSsCevSejq9VUQROH7GR0g1ek3Wo0
+X-Proofpoint-GUID: r1IcSsCevSejq9VUQROH7GR0g1ek3Wo0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDA4NiBTYWx0ZWRfX1IuexZQ6eibi
+ aJxAABcVxGXMRKr5PjKrdDCqRsz4NNTFrBOF5Z4jvO7+uDm722/EoYlkHX6sExdZLI1SaHs3XN1
+ BNDnTPWk0WosK4lERSkbViib4eGaI6mHQ/AyQSttN2eMb6xezHDnYY7SntsVABSgCYUpAfupL7Y
+ wo9SIgHsN1/f5JnEr7x+Mhd7JTCcd9gU0mynPMWH+gZ9J50LLg/SZzuFt9NzDWTPDMM3eYa1t98
+ MhkaF3mPVyzj++h+eXXaBEaMZJMRi4TiQ2Bo6VkMsOZhMLVxfZBvm4p6d2x5aVwKlmjluaSTcmT
+ Z1kzfwqqnuxBCj56ClYVB0ng1FLkIfVAa3Pp7XLJFMaW5Z2no41fjrVAFsv5bEr/n6dy++5tF6k
+ 94G8S9jp7CE7CZBeqDg6t8r393N74ppH5p3zbSHu6lfMNdAPNKCb05prs3DpLCVv3B480AJ/
+X-Authority-Analysis: v=2.4 cv=K8wiHzWI c=1 sm=1 tr=0 ts=684ab70f cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=D513OUjRMiX1TR4FSfYA:9
+ a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-12_07,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506120086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,68 +135,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > -----Original Message-----
-> > > From: Kandpal, Suraj <suraj.kandpal@intel.com>
-> > > Sent: Monday, April 14, 2025 9:46 AM
-> > > To: nouveau@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
-> > > intel- xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> > > Cc: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>; Murthy, Arun R
-> > > <arun.r.murthy@intel.com>; Kandpal, Suraj <suraj.kandpal@intel.com>
-> > > Subject: [PATCH 03/13] drm/dp: Add argument for luminance range info
-> > > in drm_edp_backlight_init
-> > >
-> > > Add new argument to drm_edp_backlight_init which gives the
-> > > drm_luminance_range_info struct which will be needed to set the min
-> > > and max values for backlight.
-> > >
-> > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/display/drm_dp_helper.c               | 5 ++++-
-> > >  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 5 +++--
-> > >  drivers/gpu/drm/nouveau/nouveau_backlight.c           | 5 ++++-
-> > >  include/drm/display/drm_dp_helper.h                   | 1 +
-> > >  4 files changed, 12 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
-> > > b/drivers/gpu/drm/display/drm_dp_helper.c
-> > > index 99b27e5e3365..3b309ac5190b 100644
-> > > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > > @@ -4227,6 +4227,8 @@ drm_edp_backlight_probe_state(struct
-> > drm_dp_aux
-> > > *aux, struct drm_edp_backlight_i
-> > >   * interface.
-> > >   * @aux: The DP aux device to use for probing
-> > >   * @bl: The &drm_edp_backlight_info struct to fill out with
-> > > information on the backlight
-> > > + * @lr: The &drm_luminance_range_info struct which is used to get
-> > > + the min max when using *luminance override
-> > >   * @driver_pwm_freq_hz: Optional PWM frequency from the driver in hz
-> > >   * @edp_dpcd: A cached copy of the eDP DPCD
-> > >   * @current_level: Where to store the probed brightness level, if
-> > > any @@ -
-> > > 4243,6 +4245,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux
-> > > *aux, struct drm_edp_backlight_i
-> > >   */
-> > >  int
-> > >  drm_edp_backlight_init(struct drm_dp_aux *aux, struct
-> > > drm_edp_backlight_info *bl,
-> > > +		       struct drm_luminance_range_info *lr,
-> > Would it be better to have this drm_luminance_range_info inside the
-> > drm_edp_backlight_info?
->=20
-> The thing is we fill drm_edp_backlight_info struct in drm_edp_backlight_i=
-nit
-> Which means we would have to pass it anyways. So having a reference of th=
-is in
-> drm_edp_backlight_info didn't make sense.
->=20
-The main intention for this ask is two xx_info struct passed as argument.
-Moreover luminance is part of backlight and this new element is _info and t=
-here already exists backlight_info. So wondering is luminance can be put in=
-side backlight_info. The caller of this function can fill the luminance par=
-t and then make a call.
+On 12/06/2025 08:13, Ekansh Gupta wrote:
+> 
+> 
+> On 5/22/2025 5:39 PM, Dmitry Baryshkov wrote:
+>> On Thu, 22 May 2025 at 07:54, Ekansh Gupta
+>> <ekansh.gupta@oss.qualcomm.com> wrote:
+>>>
+>>>
+>>> On 5/19/2025 6:59 PM, Dmitry Baryshkov wrote:
+>>>> On Mon, May 19, 2025 at 04:36:13PM +0530, Ekansh Gupta wrote:
+>>>>> On 5/19/2025 3:46 PM, Dmitry Baryshkov wrote:
+>>>>>> On Tue, May 13, 2025 at 09:58:22AM +0530, Ekansh Gupta wrote:
+>>>>>>> Remote heap allocations are not organized in a maintainable manner,
+>>>>>>> leading to potential issues with memory management. As the remote
+>>>>>> Which issues? I think I have been asking this question previously.
+>>>>>> Please expand the commit message here.
+>>>>> This is mostly related to the memory clean-up and the other patch where
+>>>>> unmap request was added, I'll try to pull more details about the issue
+>>>>> scenario.
+>>>> Thanks.
+>>>>
+>>>>>>> heap allocations are maintained in fl mmaps list, the allocations
+>>>>>>> will go away if the audio daemon process is killed but there are
+>>>>>> What is audio daemon process?
+>>>>> As audio PD on DSP is static, there is HLOS process(audio daemon) required to
+>>>>> attach to audio PD to fulfill it's memory and file operation requirements.
+>>>>>
+>>>>> This daemon can be thought of to be somewhat similar to rootPD(adsprpcd) or
+>>>>> sensorsPD(sscrpcd) daemons. Although, there is a slight difference in case of audio
+>>>>> daemon as it is required to take additional information and resources to audio PD
+>>>>> while attaching.
+>>>> I find it a little bit strange to see 'required' here, while we have
+>>>> working audio setup on all up platforms up to and including SM8750
+>>>> without any additional daemons. This is the primary reason for my
+>>>> question: what is it, why is it necessary, when is it necessary, etc.
+>>> This daemon is critical to facilitate dynamic loading and memory
+>>> requirement for audio PD(running on DSP for audio processing). Even
+>>> for audio testing on SM8750, I believe Alexey was enabling this daemon.
+>> Could you please point out the daemon sources?
+>>
+>> As far as I remember, we didn't need it on any of the platforms up to
+>> and including SM8650, that's why I'm asking.
+> This source was used for testing audio use case on SM8750:
+> https://github.com/quic/fastrpc/blob/development/src/adsprpcd.c
+> 
+> The use case tried by Alexey as per my knowledge is audio playback where dynamic
+> loading was needed but he can give more details on the use case.
 
-Thanks and Regards,
-Arun R Murthy
---------------------
+Okay.
+You need to be more specific in the commit messages.
+
+- It is a normal adsprpcd.
+- It is only required for compressed audio playback.
+
+> 
+> He was observing failures and panic which got resolved after picking this patch series.
+
+Which failures? Panic in which driver?
+
+>>
+>>> What is it?
+>>> - HLOS process to attached to audio PD to fulfill the requirements that
+>>> cannot be met by DSP alone(like file operations, memory etc.)
+>>>
+>>> Why is it necessary?
+>>> - There are limitation on DSP for which the PD requirements needs to be
+>>> taken to HLOS. For example, DSP does not have it's own file system, so
+>>> any file operation request it PD(say for dynamic loading) needs to be
+>>> taken to HLOS(using listener/reverse calls) and is fulfilled there.
+>>> Similarly memory requirement is another example.
+>>>
+>>> When is it necessary?
+>>> - When audio PD needs to perform any task that requires HLOS relying
+>>> operations like dynamic loading etc.
+>> This doesn't exactly answer the question. I can play and capture audio
+>> on most of the platforms that I tested without using extra daemon. So,
+>> when is it necessary?
+> For use case details, I'll let Alexey comment here.
+> 
+> The daemons major requirement is to facilitate any dynamic loading or memory
+> requirements from DSP audio PD. The daemons are already supported for
+> different types of static PDs to facilitate these requirements(fops and memory).
+
+So... compressed audio only or a normal playback / capture too?
+
+> 
+>>
+> 
+
+
+-- 
+With best wishes
+Dmitry
