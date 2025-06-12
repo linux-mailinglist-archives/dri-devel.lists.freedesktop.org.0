@@ -2,58 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF0DAD6FA2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 13:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F936AD6FA7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84CC710E3C5;
-	Thu, 12 Jun 2025 11:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAA910E7EF;
+	Thu, 12 Jun 2025 12:02:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YIbqRhcg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="quVBfAKr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA30610E3C5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:59:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8431F445F4;
- Thu, 12 Jun 2025 11:59:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1180BC4CEEA;
- Thu, 12 Jun 2025 11:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749729575;
- bh=FKOlBvAwUREHDR/8KhJup1MEyA23nPKaBwO+OQk6+/g=;
- h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
- b=YIbqRhcguOtZ9iqaHcXctAB+Yw/FCOtuCHuyQ/UR3abQ2D6R/qZzsknTmUQEWTZwZ
- uYre7eOHfOETOND0mHkFnxP6f3T2piJQwsCSt7+Szd/pgrwakjz3pU5fOCxzWMUo8z
- HfCzq0TCH5Gk/qloZskgXgTGTLcd9rp39SqKZdenywHE5NWpfeD3zOVPblOPB7h1Kb
- 5SOk0wLhao7W0TjclAs5iot5ZAHNogMHhzRWjKtfdZO7XBJOooblS66RyAfn/zdfZt
- idynOzAHyQX+wFqI1lCb113SZMkkEnPXx9esSJ47Hdp9L/yUCte8kIBN4SMGSs3GTT
- oRUMhbObQtZ/Q==
-Content-Type: multipart/signed;
- boundary=8857958cc2b3b1e14f9588e336e03fd15d02f1cc0813e76c9a0ecfbe0aa8;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Thu, 12 Jun 2025 13:59:31 +0200
-Message-Id: <DAKJD89W5O3D.1WXVSY2RLLEFZ@kernel.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: fix REFCLK setting
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Jayesh Choudhary" <j-choudhary@ti.com>, "Doug Anderson"
- <dianders@chromium.org>
-X-Mailer: aerc 0.16.0
-References: <20250528132148.1087890-1-mwalle@kernel.org>
- <CAD=FV=WfV1Kr5hFSqf=t0OS3qFSGfQ3_+LQ-57nMKHXRSYvZ-w@mail.gmail.com>
- <9272e36e-e764-4007-9d9e-8e09b9c08d34@ti.com>
- <c0027ff0e63bcc0fd21aab37af991baf@kernel.org>
- <affbef6e-f253-4dbb-bf64-3cc7d244acbb@ti.com>
-In-Reply-To: <affbef6e-f253-4dbb-bf64-3cc7d244acbb@ti.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2054.outbound.protection.outlook.com [40.107.220.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD5410E7EF;
+ Thu, 12 Jun 2025 12:02:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tIZAH2JlgagZDPbpHvjCorYPCwEEJOtGk9OApTlbr1EdePw5jNb8K5Hryoa0mvTr4L7gMPYA54r0TeJRqe+C8tIQKdTxLARGJBBO3nCkIm4c9buEnIbOHR+s3B62QLhyPlYYlmG5DpfopfxJLMm6Sz5apKz42t26lhQv0BmNVOYfAIKRUs5tqQnzyQS2HhJ0jURBfdKypAuWU4WL9rMvNkRIs3l6ta5KdX41/Pt7qGsVVHikHesqM2VD7zgwEGmjE0EycXad0WArYmu6aHu0kwik/KQit8qbghjpDQFw4mnQHKGLMULuQrCw1YOn1GTSPrYKwHVAEBhdUren9PykPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uxSNAJXbLbk68jxDgzD9poMQCu7Cb7Ll84pfa+WXEjE=;
+ b=i1xLjhLwhCGBr4Ek33brKPIxsHb8ruCmMTZMHxltVBUdsO5q+wAXtQzAcwhHPMvRioKeCm38JfsY3wavnwpluaqTAA+s7vmArGO1/5kQ1R/E16nHIXGuDuuFGr0BiIrL4VuUib0FfHdBpTBnRQOIKhL7RFq9G1ndIfD8CyB67XH24p8j7t4PHsuw96XVGBVR69PRKbk6/4HQp7xEwotz37rjwlmPBV8klpdMrVAJplJzh37vzAm5OeGJyhLBdLCQxTJeiSbmadwlaMev4dNQMvIpgPjMJxFZSnYfV09bGqlmDdHtF2CcnLNtbN/OXhbvomH98qEyChA23+eF7L4Q/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uxSNAJXbLbk68jxDgzD9poMQCu7Cb7Ll84pfa+WXEjE=;
+ b=quVBfAKrVwYwc5rtoU5rO8Lt0ZTPPtKFHtxir4Y5FL+D0S7KWO4MrKcnm+zO3BaTzZMY3+dKxo2PLhzRNRvmMpJTvKeHg0bT73j7rexkCjTp5x3QNi6aCkNerNv00hQMIKyn7NXKCI768P8w6/UPAW32pUimxwD/MKT2txDaFVo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB9172.namprd12.prod.outlook.com (2603:10b6:610:198::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Thu, 12 Jun
+ 2025 12:02:44 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Thu, 12 Jun 2025
+ 12:02:43 +0000
+Message-ID: <6984bb7e-8026-49f8-a683-a8142f0d013c@amd.com>
+Date: Thu, 12 Jun 2025 14:02:39 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 6/6] drm/syncobj: Add a fast path to
+ drm_syncobj_array_find
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <michel.daenzer@mailbox.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>
+References: <20250611140057.27259-1-tvrtko.ursulin@igalia.com>
+ <20250611140057.27259-7-tvrtko.ursulin@igalia.com>
+ <b57b6549-7dbe-45fe-ab8e-4232041ec1a5@amd.com>
+ <10e83252-e565-4cb4-9bc2-ae238528df92@igalia.com>
+ <c17f25ef-390a-43e3-a467-45e64048ed6c@amd.com>
+ <28ec6760-c2d4-472e-84fd-211bfea47d4b@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <28ec6760-c2d4-472e-84fd-211bfea47d4b@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0241.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9172:EE_
+X-MS-Office365-Filtering-Correlation-Id: 874e1f81-83e9-465d-d365-08dda9a909e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TTNJbjJtdklkZkJnWEE1N0pHSzdjU3FibVF6RnEyK3VJM24wb2pVVWdaeUpH?=
+ =?utf-8?B?Wit5NExPVTMzR3cyN0o3cWYrcW5kajlyK0ZvQXgwRTdFVCtRYjhQN1RNd2ha?=
+ =?utf-8?B?TUxwU2hDRXVnbHYzZGRONjN6cllBek9TWURQSWNvR3ZWWGtFZXRLbXZaU1pB?=
+ =?utf-8?B?aVd3bVp6UWt0Zit6YW0zRVpjWXdkTUUwajZ1VEdpMVpJRnFwOTI2MnR5UEk2?=
+ =?utf-8?B?cEYzTlZ6RXFDT0lpazk5dDhjd0tjQ0dDazk3ZFNrbDNta2JUNDJ4TExuaDRx?=
+ =?utf-8?B?N3J1c0FKRGE2YnZ1ajBuQW51WEllOVF1QWFpQWJXMWdhUW1HNEVSOFlYYWVN?=
+ =?utf-8?B?cGdqYnJsRWZ3TmkzMFdHR2RYYVJpRnlrMkxqTThIb3FUYTZyRVFqR2Jzanhn?=
+ =?utf-8?B?Y0hFb0xsUk5QSk50b3N2QU9XUERwdVlVRk1XMG4zTGZCWTZGVDErMGQwby9X?=
+ =?utf-8?B?eDlzbFpoNlY1eWJhYzkvVG1QQzFzQ3FpL2M1d0dwZnRNcmE2ZW05MExsNU14?=
+ =?utf-8?B?bExLcTlxQmRKaWo4OXh0SktQeGN6ZTlJL25nRFV3WlVtZTU2S2ZaQ0QvQXp3?=
+ =?utf-8?B?a1BxcFYwNFJLZGFHdzJTNHgxQjVmTDVQZWR4aUp2V2M3ZmY0MWJxQUM0cUhm?=
+ =?utf-8?B?dHIvdnNwdXAraXJYK1Z2OTFkZ3BYOGpWQXZjSGVhMnAxNSt0Ym5tMm92RGtO?=
+ =?utf-8?B?dGJGZS9RMVI0OUhMSHpsUHREdEV0aDM0c0V4QWIxUVcwNHVsNEdpc3VoMXhO?=
+ =?utf-8?B?ejh0YWNNUkMwKzFoaWN5VnpBa1l2Ym50WmxmTWpqNE9aTFgydnFzclRvY0g5?=
+ =?utf-8?B?NGV2TjNrallXVXJqSkJDd3prYyt4VnAwcEVxNjZmczJHN3VnNU1pSVVIdFBH?=
+ =?utf-8?B?alJUMm83UU1JMFl1ZE9UbmR1SlhRbTNoMWhmaEZRNnpuYlBSNS9JYjhock5n?=
+ =?utf-8?B?bGN2YzVMZGNEUHAvV045d0ZHS3h6NFdmRTVzdUsvWWxHcHRxNzUwWWpPZ3p5?=
+ =?utf-8?B?LzhtY1JDZFplTWduS2t5UjRHaGxxSVZDS1VsdEpZRzlITHRMMEw5aTB3VE5E?=
+ =?utf-8?B?U2dkZjFzUjZBc3VCZXY5SUFla1UyZXZPSU1SSjlWNGFHYU0xNGwweXFLLzlF?=
+ =?utf-8?B?dWxZUXMybi8vcFVCbHNlQUo1Uldsc3JZaWw5Q3I1clBsbzFyTFF5TnlqbkJM?=
+ =?utf-8?B?NVNVUUxLVnJlMTZaMm9XMGNYbWZUb0xKRGZCWTB2c2tJSmFBWGhIRmJrdHNH?=
+ =?utf-8?B?ZnQ4MjNlZEtOMzFENjdDa3pubHhqVmVyTXdYOTQyVzRHOG54U3ZpWUFBV2t0?=
+ =?utf-8?B?VnJwcGI2eldmNTVhS1RPUUUvN1B3SU1tdlVZWlIwTkNOamxVS3dNUTdBbnNw?=
+ =?utf-8?B?TVppckgyRVVPQ0F0MkV3M3Yvbys1L2toeCtWS2E1Ly9UaGVFUUlPSEZvM3JZ?=
+ =?utf-8?B?ek5OTU0rRHdwdk1pOC9YVUc2czVobTErSWIyZ2k1Qm5rTWxYZXcxaVlJSDRD?=
+ =?utf-8?B?Yi9maktEQkIrSkhjMWw2YmlSWUlKNEhGdUloNmJjRUdWV09zWEVwaVFCU29z?=
+ =?utf-8?B?c2wxOWRGblJNOGZQQ1lLZ1hCcU0rMnNPeGttUHlueS9KVVdXZmlsOGk1OGdI?=
+ =?utf-8?B?RStIcStJaGVZNmpaNmc1bGR4ZzRZeUp5U2RTK0p4di80U1pFZlUzOWpCSGRM?=
+ =?utf-8?B?Y01QNThUL2h3alFKMlR4WWE0Q01WeGJFUUlzaXc4SFRMeDduSFFHU1BkaERj?=
+ =?utf-8?B?eVFsR2w2dWVhWHhhYVFCdnRIQlpQVTlpdHFaeU1OSXBVdFM3b0NPNDJ3N25O?=
+ =?utf-8?B?T3djcFdxb3VGOERqVFYydlF0VWdJUm1IU0dVbUNrREJuZ0R0bW1XQ0NhRWpM?=
+ =?utf-8?B?M0U2UDVlcGZiaFFTRU85bGF3S0VpelIvTkdIUXY2YUdLWnJHSmNIL0Z0NVRS?=
+ =?utf-8?Q?cb083sWZPd0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnZsUmNWeHBRYTB3NTVUVTZRVXkyUlZSSEhycDVEQ2Uvd0xtdHBmR3BjRCtX?=
+ =?utf-8?B?U1liOE1yakRqRExaelNZdElmRDFCS0xNWmlITWlwTEJQRnNFSVJCU2MyS0Zl?=
+ =?utf-8?B?Wlp2K1dESnF4SGMwZWhDOTVtZnVQMGExYkpacHFzbVpTUTVFWXc5U0dmOW41?=
+ =?utf-8?B?UU1kWml4eHdWN25zWFNpMGxNeFJTV0dmRUZoM3RGNVBpZ2dtZVdEQlFxRktF?=
+ =?utf-8?B?QlVmQ09PVkR6VXIxY2dhczJnbTF3VXNualg4R25wOURTNjJrQUtTbThENTJ2?=
+ =?utf-8?B?UzczV1RFbXRONGVqSFpnUTVRcmY4STBXUm5BS2RwdEYzOHpLUDNFN1F0VjJQ?=
+ =?utf-8?B?b2ZRdjJEZFloVWRhZW1lUDEvNjA1bTRIVUZaSFI1OENYM2U2aWpLMU40c1hN?=
+ =?utf-8?B?R1lDdHVWRE01R3FldDdhNGI2bHRnL2JFVnkvdVZnSkJXOUVuc1RDekV3ZytG?=
+ =?utf-8?B?OHRaVDA1VVVKclErUzJnREVsYmtHdXFPaEtOSHliVkp1dFp0WGxTYitGK1Vu?=
+ =?utf-8?B?eG8xSWtWalVRUnE4S3VlUU5pT0gyc3BQL1U1emxPZ2tvYndQeitrSU9xYjly?=
+ =?utf-8?B?TjYwOTJsd25zMjdOUVdDdUJrOHBVTXd0aXdHSVRpYU02bkFjUm9sWGZPQUky?=
+ =?utf-8?B?MXQ3WEptS0ZXVXp2QnZCRTBKR3Erc0trNDQyTExTd3RvbThzaVNHdlR0RlRD?=
+ =?utf-8?B?Zk9PSnV2b3EvTnY4UEF2Z1hRc1JLQW11U0dJK1FUS2hGMVM1NVBoaFZOOXZQ?=
+ =?utf-8?B?ckdYSzhkR2pCUlJBTzF3eitoQ0JZU20yei9NTVgyZEdKMkJ1djh5aFdaZkxy?=
+ =?utf-8?B?T2lKcHVKZkZFQVZoMStEblNZTW5iKzNHekk4ZlRQeU1KajBKb2N6OUhNQWlx?=
+ =?utf-8?B?ZzFHQXFXWDA3b3gySGZTRXVmMnhTWk9DYkc2a2ZFOFgrSGZ4WDhVV1JSK0Nw?=
+ =?utf-8?B?dWE3cUp6TlJQRVJ3aDFnYUpQUmJ2R1F3S3NyYnV1TldOODVRdm5tZ2lLcnlI?=
+ =?utf-8?B?RE1FK3FXeW5aVlUzZ25hRWtyZVQ5SklMYnBvVlYrd20rZUFESWFYS25qaVFi?=
+ =?utf-8?B?cmo1TnJqQVVhNDVhQTBOR0lOaEJma043cUU2cnJlZzdWazZqTldJa3FlRkVB?=
+ =?utf-8?B?OU45QmFqdVZaeUNwMFBhQ0EyVGZVbi9tOHdDT09FOVVZODB0Q1dRMXg2RUt3?=
+ =?utf-8?B?QW9DQW5RdEd4SnhLSXYvUER4bU92dVFUcXV1Zm1jcGxROUxleEhlWHBFKzZX?=
+ =?utf-8?B?SjlBdVJxTkVXZlFBZ0ZPUkh2bENhdHdCTWdpenVyRmxwWWQza0NNckhQY1NK?=
+ =?utf-8?B?THBwSHYwSFgwdXBHV01YUGduR3NvemNET1BRL01HSlkwV0RkTGhEQ2RFdDRh?=
+ =?utf-8?B?ZlhyUkE2cENid1dWS3BqU2dNelF4ZmNvOGpVWWRHRzczU09lQ3ZyZURTbzJT?=
+ =?utf-8?B?NmpiS0wrN1FKMm5yQVJKajV5V0g0NnJvZXV5R3FmcmtwMmV5R29taGNvckpD?=
+ =?utf-8?B?UzdRUURoRXJ1SmhmR2piclNXNGdEQXhLNGpTZDlMbTM0djRIRldqbGpIaStj?=
+ =?utf-8?B?SHgxL09WVlNPS0RKb1hYYzJ1ZldoSXgxNmxISitQREphVzhiU09vMDZUNHJ5?=
+ =?utf-8?B?TTFVVjRMbkRpdEE4cElYTDJDNjAwa2tDV3Vkc2NwL2srOGkyODkveW1PTFg0?=
+ =?utf-8?B?ZXdnTUROUWNqSWw1dldmcm04VTZKeHBGODVmUmZBcmNreEFwdzlWTm9pNzFM?=
+ =?utf-8?B?N3QvRHJiY1cxMlVyWGRYTVZCN0hITXhyQzZ5enZUWU9oR1dqdFNsNHFZU1Z2?=
+ =?utf-8?B?cysrMCsxSkorUEhIR0F6MGhEMkduTWtESnl2clpvK2xqdjRGa0NNY1FiRlFm?=
+ =?utf-8?B?NWxTQ05qR3krOTlabnJDbnAxK2dXSUpGUGxlOE51MUlIc3FPYStGWWxZR3E1?=
+ =?utf-8?B?NnZMSnFETVBqaE5YOVhZQ2l0NlRWc3FvQ0dDblRMSGdOcGkvUS9SQjZob2k0?=
+ =?utf-8?B?VXBqYjdYWHBUWG9nTWxqbElHOW03VTc3d1U2OWlTMS9CSTBJRVJWWnZxbUlZ?=
+ =?utf-8?B?OWNkQnMxT3h3WmNUQ3hiNTNWTXpqNE92K2xtNUV3ZFdJNWQxVnlTK0VRUUph?=
+ =?utf-8?Q?ZrOfu2CHPGoNhqIfjioEiwuZ7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 874e1f81-83e9-465d-d365-08dda9a909e4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 12:02:43.8608 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IQIiDK0pEwUDKLmR3ysMS232fk0NL1J1Ohbr6OOBzUZQWku5OhgEkxVBgmLw85uK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,170 +170,270 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---8857958cc2b3b1e14f9588e336e03fd15d02f1cc0813e76c9a0ecfbe0aa8
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 6/12/25 12:58, Tvrtko Ursulin wrote:
+> 
+> On 12/06/2025 08:21, Christian König wrote:
+>> On 6/11/25 17:29, Tvrtko Ursulin wrote:
+>>>
+>>> On 11/06/2025 15:21, Christian König wrote:
+>>>> On 6/11/25 16:00, Tvrtko Ursulin wrote:
+>>>>> Running the Cyberpunk 2077 benchmark we can observe that the lookup helper
+>>>>> is relatively hot, but the 97% of the calls are for a single object. (~3%
+>>>>> for two points, and never more than three points. While a more trivial
+>>>>> workload like vkmark under Plasma is even more skewed to single point
+>>>>> lookups.)
+>>>>>
+>>>>> Therefore lets add a fast path to bypass the kmalloc_array/kfree and use a
+>>>>> pre-allocated stack array for those cases.
+>>>>
+>>>> Have you considered using memdup_user()? That's using a separate bucket IIRC and might give similar performance.
+>>>
+>>> I haven't but I can try it. I would be surprised if it made a (positive) difference though.
+>>
+>> Yeah, it's mostly for extra security I think.
+> 
+> On this topic, this discussion prompted me to quickly cook up some trivial cleanups for amdgpu to use memdup_user & co where it was easy. Series is on the mailing list but I did not copy you explicitly giving chance for someone else to notice it and off load you a bit.
 
-Hi Jayesh,
+Yeah, I know I always wanted to give that task to a student or interim :)
 
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * After EN is deasserted=
- and an external clock is detected,=20
-> >>>> the bridge
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * will sample GPIO3:1 to=
- determine its frequency. The=20
-> >>>> driver will
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * overwrite this setting=
-. But this is racy. Thus we have to=20
-> >>>> wait a
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * couple of us. Accordin=
-g to the datasheet the GPIO lines=20
-> >>>> has to be
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * stable at least 5 us (=
-td5) but it seems that is not=20
-> >>>> enough and the
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * refclk frequency value=
- is lost/overwritten by the bridge=20
-> >>>> itself.
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Waiting for 20us seems=
- to work.
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usleep_range(20, 30);
-> >>>
-> >>> It might be worth pointing at _where_ the driver overwrites this
-> >>> setting, or maybe at least pointing to something that makes it easy t=
-o
-> >>> find which exact bits you're talking about.
-> >=20
-> > Yeah, Jayesh just pointed that out below. I'll add add it to the commen=
-t.
-> >=20
-> >>> This looks reasonable to me, though.
-> >>
-> >> I think we are talking about SN_DPPLL_SRC_REG[3:1] bits?
-> >=20
-> > Yes.
-> >=20
-> >> What exact mismatch are you observing in register value?
-> >=20
-> > The one set by the chip itself vs the one from the driver, see below.
-> >=20
-> >> I am assuming that you have a clock at REFCLK pin. For that:
-> >=20
-> > Yes, I'm using an external clock.
-> >=20
-> >> If refclk is described in devicetree node, then I see that
-> >> the driver modifies it in every resume call based solely on the
-> >> clock value in dts.
-> >=20
-> > Exactly. But that is racy with what the chip itself is doing. I.e.
-> > if you don't have that usleep() above, the chip will win the race
-> > and the refclk frequency setting will be set according to the
-> > external GPIOs (which is poorly described in the datasheet, btw),
-> > regardless what the linux driver is setting (because that I2C write
-> > happens too early).
->
-> I am a little confused here.
-> Won't it be opposite?
-> If we have this delay here, GPIO will stabilize and set the register
-> accordingly?
+Alex is the one usually picking up amdgpu patches from the mailing list, but I'm happy to add an rb if necessary.
 
-What do you mean by GPIO? Maybe we are talking about the very same
-thing. From my understanding there are two "parties" involved here:
+>>> And I realised I need to repeat the benchmarks anyway, since in v4 I had to stop doing access_ok+__get_user, after kernel test robot let me know 64-bit get_user is a not a thing on all platforms. I thought the gains are from avoiding allocations but, as you say, now I need to see if copy_from_user doesn't nullify them..
+>>>
+>>>> If that is still not sufficient I'm really wondering if we shouldn't have a macro for doing this. It's a really common use case as far as I can see.
+>>>
+>>> Hmm macro for what exactly?
+>>
+>> Like a macro which uses an array on the stack for small (<4) number of values and k(v)malloc() for large ones.
+>>
+>> IIRC there is also a relatively new functionality which allows releasing the memory automatically when we leave the function.
+> 
+> Okay I will have a look at all those options. But it's going to the bottom of my priority pile so it might be a while.
 
-(1) the linux driver
-(2) the bridge IC that comes out of reset when EN is asserted
+I'm also perfectly fine with the solution you came up in those patches here for now if that improves the performance at hand.
 
-And both are trying to write to the same setting.
+Just wanted to point out that it is possible that somebody has an use case where X sync_obj handles are asked for timeline fences and that now becomes slower because of that here.
 
-From what I understand, is that (2) is running some kind of state
-machine or even firmware that will figure out if there is a refclk
-present. If so it will sample the GPIOs and set the refclk frequency
-setting accordingly. This happens autonomously after EN is asserted.
+Regards,
+Christian.
 
-Now there is also (1) which will assert the EN signal and shortly
-after trying to write the refclk frequency setting.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+>>>>> ---
+>>>>> v2:
+>>>>>    * Added comments describing how the fast path arrays were sized.
+>>>>>    * Make container freeing criteria clearer by using a boolean.
+>>>>> ---
+>>>>>    drivers/gpu/drm/drm_syncobj.c | 56 +++++++++++++++++++++++++++--------
+>>>>>    1 file changed, 44 insertions(+), 12 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+>>>>> index be5905dca87f..65c301852f0d 100644
+>>>>> --- a/drivers/gpu/drm/drm_syncobj.c
+>>>>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>>>>> @@ -1259,6 +1259,8 @@ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
+>>>>>    static int drm_syncobj_array_find(struct drm_file *file_private,
+>>>>>                      u32 __user *handles,
+>>>>>                      uint32_t count,
+>>>>> +                  struct drm_syncobj **stack_syncobjs,
+>>>>> +                  u32 stack_count,
+>>>>>                      struct drm_syncobj ***syncobjs_out)
+>>>>>    {
+>>>>>        struct drm_syncobj **syncobjs;
+>>>>> @@ -1268,9 +1270,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+>>>>>        if (!access_ok(handles, count * sizeof(*handles)))
+>>>>>            return -EFAULT;
+>>>>>    -    syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
+>>>>> -    if (!syncobjs)
+>>>>> -        return -ENOMEM;
+>>>>> +    if (count > stack_count) {
+>>>>> +        syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
+>>>>> +        if (!syncobjs)
+>>>>> +            return -ENOMEM;
+>>>>> +    } else {
+>>>>> +        syncobjs = stack_syncobjs;
+>>>>> +    }
+>>>>>          for (i = 0; i < count; i++) {
+>>>>>            u32 handle;
+>>>>> @@ -1292,25 +1298,31 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+>>>>>    err_put_syncobjs:
+>>>>>        while (i-- > 0)
+>>>>>            drm_syncobj_put(syncobjs[i]);
+>>>>> -    kfree(syncobjs);
+>>>>> +
+>>>>> +    if (syncobjs != stack_syncobjs)
+>>>>> +        kfree(syncobjs);
+>>>>>          return ret;
+>>>>>    }
+>>>>>      static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
+>>>>> -                   uint32_t count)
+>>>>> +                   uint32_t count,
+>>>>> +                   bool free_container)
+>>>>>    {
+>>>>>        uint32_t i;
+>>>>>          for (i = 0; i < count; i++)
+>>>>>            drm_syncobj_put(syncobjs[i]);
+>>>>> -    kfree(syncobjs);
+>>>>> +
+>>>>> +    if (free_container)
+>>>>> +        kfree(syncobjs);
+>>>>>    }
+>>>>>      int
+>>>>>    drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>                   struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_wait *args = data;
+>>>>>        ktime_t deadline, *pdeadline = NULL;
+>>>>>        u32 count = args->count_handles;
+>>>>> @@ -1336,6 +1348,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         count,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1354,7 +1368,7 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>                             &first,
+>>>>>                             pdeadline);
+>>>>>    -    drm_syncobj_array_free(syncobjs, count);
+>>>>> +    drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
+>>>>>          if (timeout < 0)
+>>>>>            return timeout;
+>>>>> @@ -1368,6 +1382,7 @@ int
+>>>>>    drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>                    struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_timeline_wait *args = data;
+>>>>>        ktime_t deadline, *pdeadline = NULL;
+>>>>>        u32 count = args->count_handles;
+>>>>> @@ -1394,6 +1409,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         count,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1412,7 +1429,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>                             &first,
+>>>>>                             pdeadline);
+>>>>>    -    drm_syncobj_array_free(syncobjs, count);
+>>>>> +    drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
+>>>>>          if (timeout < 0)
+>>>>>            return timeout;
+>>>>> @@ -1529,6 +1546,7 @@ int
+>>>>>    drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+>>>>>                struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_array *args = data;
+>>>>>        struct drm_syncobj **syncobjs;
+>>>>>        uint32_t i;
+>>>>> @@ -1546,6 +1564,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         args->count_handles,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1553,7 +1573,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+>>>>>        for (i = 0; i < args->count_handles; i++)
+>>>>>            drm_syncobj_replace_fence(syncobjs[i], NULL);
+>>>>>    -    drm_syncobj_array_free(syncobjs, args->count_handles);
+>>>>> +    drm_syncobj_array_free(syncobjs, args->count_handles,
+>>>>> +                   syncobjs != stack_syncobjs);
+>>>>>          return 0;
+>>>>>    }
+>>>>> @@ -1562,6 +1583,7 @@ int
+>>>>>    drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>                 struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_array *args = data;
+>>>>>        struct drm_syncobj **syncobjs;
+>>>>>        uint32_t i;
+>>>>> @@ -1579,6 +1601,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         args->count_handles,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1589,7 +1613,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>                break;
+>>>>>        }
+>>>>>    -    drm_syncobj_array_free(syncobjs, args->count_handles);
+>>>>> +    drm_syncobj_array_free(syncobjs, args->count_handles,
+>>>>> +                   syncobjs != stack_syncobjs);
+>>>>>          return ret;
+>>>>>    }
+>>>>> @@ -1598,6 +1623,7 @@ int
+>>>>>    drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>                      struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_timeline_array *args = data;
+>>>>>        uint64_t __user *points = u64_to_user_ptr(args->points);
+>>>>>        uint32_t i, j, count = args->count_handles;
+>>>>> @@ -1617,6 +1643,8 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         count,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1653,7 +1681,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>    err_chains:
+>>>>>        kfree(chains);
+>>>>>    out:
+>>>>> -    drm_syncobj_array_free(syncobjs, count);
+>>>>> +    drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
+>>>>>          return ret;
+>>>>>    }
+>>>>> @@ -1661,6 +1689,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+>>>>>    int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>>>>>                    struct drm_file *file_private)
+>>>>>    {
+>>>>> +    struct drm_syncobj *stack_syncobjs[DRM_SYNCOBJ_FAST_PATH_ENTRIES];
+>>>>>        struct drm_syncobj_timeline_array *args = data;
+>>>>>        struct drm_syncobj **syncobjs;
+>>>>>        uint64_t __user *points = u64_to_user_ptr(args->points);
+>>>>> @@ -1679,6 +1708,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>>>>>        ret = drm_syncobj_array_find(file_private,
+>>>>>                         u64_to_user_ptr(args->handles),
+>>>>>                         args->count_handles,
+>>>>> +                     stack_syncobjs,
+>>>>> +                     ARRAY_SIZE(stack_syncobjs),
+>>>>>                         &syncobjs);
+>>>>>        if (ret < 0)
+>>>>>            return ret;
+>>>>> @@ -1722,7 +1753,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>>>>>            if (ret)
+>>>>>                break;
+>>>>>        }
+>>>>> -    drm_syncobj_array_free(syncobjs, args->count_handles);
+>>>>> +    drm_syncobj_array_free(syncobjs, args->count_handles,
+>>>>> +                   syncobjs != stack_syncobjs);
+>>>>>          return ret;
+>>>>>    }
+>>>>
+>>>
+>>
+> 
 
-With this patch we will delay the register write from (1) to a point
-after (2) updated its refclk setting. Thus (1) will win.
-
-> In the driver, I came across the case when we do not have refclk.
-> (My platform does have a refclk, I am just removing the property from
-> the dts node to check the affect of GPIO[3:1] in question because clock
-> is not a required property for the bridge as per the bindings)
-
-I'd expect that in this case the refclk is set according to the GPIO
-strapping. Correct?
-
-> In the ti_sn65dsi86_probe(), before we read SN_DEVICE_ID_REGS,
-> when we go to resume(), we do not do enable_comms() that calls
-> ti_sn_bridge_set_refclk_freq() to set SN_DPPLL_SRC_REG.
-> I see that register read for SN_DEVICE_ID_REGS fails in that case.
-
-Does it work with the property still in the device tree? I might try
-that on my board later.
-
-> Adding this delay fixes that issue. This made me think that we need
-> the delay for GPIO to stabilize and set the refclk.
->
-> Is my understanding incorrect?
-
-Unfortunately, the datasheet is really sparse on details here, but
-maybe the bridge needs some time after EN is assert to respond on
-the I2C bus in general. I'm basing my guesswork on the td5 timing
-with the vague description "GPIO[3:1] stable after EN assertion". I
-assume that somewhere during that time the chip will sample the
-GPIOs and do something with that setting (presumable setting its
-internal refclk frequency setting). FWIW there is also a td4
-("GPIO[3:1] stable before EN assertion"). Both td4 and td5, makes
-me believe that this is not some setting which is sampled (and hold)
-at reset, otherwise td5 wouldn't make much sense.
-
-> I am totally on board with your change especially after observing the
-> above but is my understanding incorrect somewhere?
->
-> Warm Regards,
-> Jayesh
->
-> >=20
-> >> If refclk is not described in dts, then this register is modified by t=
-he
-> >> driver only when pre_enable() calls enable_comms(). Here also, the
-> >> value depends on crtc_mode and the refclk_rate often would not be equa=
-l
-> >> to the values in "ti_sn_bridge_dsiclk_lut" (supported frequencies), an=
-d
-> >> you would fallback to "001" register value.
-> >=20
-> >> Rest of time, I guess it depends on reading the status from GPIO and
-> >> changing the register.
-> >=20
-> > Not "rest of the time", the reading of the strapping option from the
-> > GPIO always happens if an external refclk is detected. It's part of
-> > the chip after all. It will just sometimes be overwritten by the
-> > linux driver.
-> >=20
-> >> Is the latter one your usecase?
-> >=20
-> > My use case is that the GPIO setting is wrong on my board (it's really
-> > non-existent) and I'm relying on the linux driver to set the correct
-> > frequency.
-> >=20
-> > HTH,
-> > -michael
-
-
---8857958cc2b3b1e14f9588e336e03fd15d02f1cc0813e76c9a0ecfbe0aa8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaErBIxIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/it1wF/eikbWKB9PK6T8iVBtE7h6BTi0wl8nMri
-Z8hsMY+70ZYucENExgnqak+aWH33RCAFAX9WF+8buyy+I7L6xPtnNxLyD8A3COwt
-uMflT8Slu+lnp4nqBAzTE4uIdI9AWfIhcyQ=
-=1Y6Q
------END PGP SIGNATURE-----
-
---8857958cc2b3b1e14f9588e336e03fd15d02f1cc0813e76c9a0ecfbe0aa8--
