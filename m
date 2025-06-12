@@ -2,121 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8201EAD69E7
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2532AD6A01
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A7C10E78A;
-	Thu, 12 Jun 2025 08:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42CA10E725;
+	Thu, 12 Jun 2025 08:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hWchK8px";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s1CohyRj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 961C610E78A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 08:06:03 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55BIiMZv026034
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 08:06:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=gYLKSuEg9yfr55w0b30ljKxa
- Qtj5FKzqcidTfQG7b1s=; b=hWchK8pxGoMT2/EG1HZjedxu+PirePqVOZPXDA3W
- 5N7W/ppp/7y8/AbzqgzDPXSdNpwsHrSHQJGKBLRbxnwUnH8oNqH64hMyR3QPlwAK
- qVnvLLcpuGey6Zu4mq0Vbg1QAeuAaXh5FFrnQxjs8sCHgYLepdSYHIic8NOMK/Zy
- XnU+CxuLkgojBgZrHS20tYzvntbOBCRHwvdhl2JUCOzIZhmEwR6hj25m8quPsmSA
- XfH15gFX9TXVHQNqsz+E9AySOg43qGEIbklGh745jjzoHPcuwaUBSXJoRH+jU9b7
- 4Uqi7kCPVUW/4LXVPSae4TCl/RctH7klKLoaM8HJCgj9BQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2yahxn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 08:06:01 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c793d573b2so115979285a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 01:06:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749715560; x=1750320360;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gYLKSuEg9yfr55w0b30ljKxaQtj5FKzqcidTfQG7b1s=;
- b=CVYC9g+duOwgXn5DoQUZjpkhyDQXhHwEdeVGEeLdOgQbYI3QeoVEJT5T42pOCBEb12
- UntAuQHr/3vA6110wOjH+eA/5VQ5UgyNUDjKojQXlKbSuZDs5DfmO2p004SWOVGWKsRc
- /ZZ3iCgaxqH0hE6oKmY8i6v3bzRjRXu3IU8ytMj9D0uN8s1kCWnVUvR5mGxXypkgmK/6
- iXdnDNE/SbfDwpwXKfBRGxLyROgukpTlpGl1BKbmhBMechJGC8zn8cYK2b4XVOJByULT
- LBYY57lTu//F8vLLERKb0lwpSt5nLQPPruYakgNEWdjoMMxtea01jgwmt3uHhHiAxtDp
- dFCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVA2qGrWauwKRyxSP5ibeqYXcJbls0CAwGnVjol+WJqmJh0G7nVLC5kW5c6ZpMvwpUJ1gA2UPVv4ZU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOXQW12QDXnKR4w1ezc1be5HETjiWX7xznTMwcEM1rzbn8z0LH
- lbZntVAOn+FUd3Z06/RhwQei4Qo0Ph6bJr11Uizdao63QCkdXaRcYWZqcinJfI/J73XLhepIQzz
- z8BQbwhjx8G5+CwAV+UYoThU+kQiJrFR9ZJJk4N4v3p0Ib5MckSr4PxFcxoHj1RQNNMyck1w=
-X-Gm-Gg: ASbGncse5MCqWUNzj1XCQ3KkEUmoGbs5Hy1FwGNDgmInxTqA+FJHcB+C4Gn5lBlJFds
- zbBaeEhuG0kHGhGlWVWjm7VwZFoTsq3utqxLFeVt5ZjndUwsJX8J3Tkz1GzuIrbxYSVtUwLNFwf
- YrVdXxgF+94EDOvIu6M199GNHuNRxuihA0pAFlf4sxGOmDvHukXf0USWrXQ8cvbMAz8xcWMO3Um
- mzVvh6lR4QTl/8FhhEcHP9JpjJ8Owi/wLq3FJDxjYP57A09/rjWYyind3gN1FDhRKAoMGBmGK+f
- mBIalKG6XrdCz3ARXNfQSh8VkQjE5/esU4We55FNeoLPVCbATi1z2eY//OyfLyY0d15cvq4K7Pf
- loNdZDA3ZMMi/nHx35a1XP/UOKGJLgpaZTYw=
-X-Received: by 2002:a05:620a:2d8a:b0:7d3:a6bd:93fc with SMTP id
- af79cd13be357-7d3a88e236emr679314785a.28.1749715560597; 
- Thu, 12 Jun 2025 01:06:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGtEx7/LfcxXUMv7FkqbwpLWknBCvl7pRsgiOfE3tIOvpsdV/K8xXm+GR9qDQXkbL/OA9rOLw==
-X-Received: by 2002:a05:620a:2d8a:b0:7d3:a6bd:93fc with SMTP id
- af79cd13be357-7d3a88e236emr679311185a.28.1749715560158; 
- Thu, 12 Jun 2025 01:06:00 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32b3307ae32sm1370641fa.39.2025.06.12.01.05.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jun 2025 01:05:59 -0700 (PDT)
-Date: Thu, 12 Jun 2025 11:05:57 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: srinivas.kandagatla@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org
-Subject: Re: [PATCH v1 5/5] misc: fastrpc: Add missing unmapping
- user-requested remote heap
-Message-ID: <qw64xqfnyy76f6oawtaecvraejcwyml5k7oxdy67adj2rh46lq@nupxbuy3vwu4>
-References: <20250513042825.2147985-1-ekansh.gupta@oss.qualcomm.com>
- <20250513042825.2147985-6-ekansh.gupta@oss.qualcomm.com>
- <22uccyp5m2szry7bpitqcav5nlvwch5eqh4mdacfedidgrnyhx@vsjobngwdkmb>
- <dc67df54-2a19-4318-acd4-b96b8549b64d@oss.qualcomm.com>
- <7ogkoxsowpd2x5qmjog4qx5eu4eiinvtnyjz5hfufgna2hz7na@oxzmowlnelxb>
- <61dd2c3f-20ac-484e-8a45-f42fd5f42b86@oss.qualcomm.com>
- <CAO9ioeX1uE3ty5oSezYOLJKqf8G5dLYAS5nRiNvryWTk0RPdEQ@mail.gmail.com>
- <f3d376cc-6e2d-4ac3-88f6-3104eec67acf@oss.qualcomm.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2153B10E063;
+ Thu, 12 Jun 2025 08:12:03 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 868E8D6;
+ Thu, 12 Jun 2025 10:11:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1749715913;
+ bh=8WwmhFtL9eosA22O6PZS8QonHwy8kOwjvtU9HLAd/Mk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=s1CohyRjx44OEVAmWk98stT2zZMSlbEy73AVELxdX2h5KRmV+rS1QwaBu+QfSA1qN
+ OhCbnI7kO8KcLMT7lrLn06Uhsf9CiF7Vs4jlCz3vlMPk6QDjNsDY5H17EEyIiwIUrs
+ /1X9kTXxoJNFavlSTwvk0QOIm9p0Cnp4fXSH0SQ4=
+Message-ID: <e2545be1-583d-4ad7-8a17-b2ee157f82d7@ideasonboard.com>
+Date: Thu, 12 Jun 2025 11:11:57 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3d376cc-6e2d-4ac3-88f6-3104eec67acf@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDA2MSBTYWx0ZWRfX19Df64N9dist
- yzfWQd2YyuGe4jKHJirjtmdLVS3xRkTE/LvJQppGzsEnBnFBDVir93zujw9jtbTCJ5BmYljWTPw
- avJkZAtmhXbY1o9KiMMKVU0JWaWV8ckvRGQtDPBEgegmorTgROJ8ThLDX7yF3v2FFRbagR6Gzk0
- LVAx14GwrFuYqxNYTOcU+OPhVNZgYBWT+wgjrugFe/EHpK2sEx5sMwIskV6FjWEK6WsU21w1IBW
- BVg8TGpjbxhf1KoJAxcMgIPPAXDrJMUD94JvRhcw5BGLzVjrvFQqdB3rgAM40C2RSsdGLXZyeh7
- lbtawPh+qieo/qmzpeVK+qgEoeiAzaLTPyq8RHpYTjRcEdC4f1SqnIWjZdR/RGlY0ipWT85BLBf
- HGpJdYLEgpg4loCnCol00pnnyYbnYDc94FUeEwDbFofAGhkGOReuozbVo+zrFa+erMC2AJd+
-X-Proofpoint-GUID: GuxU3o6m7sSLule5IqehTVKWM9Yw5h02
-X-Proofpoint-ORIG-GUID: GuxU3o6m7sSLule5IqehTVKWM9Yw5h02
-X-Authority-Analysis: v=2.4 cv=f+BIBPyM c=1 sm=1 tr=0 ts=684a8a6a cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=QxY6PIr9u2238qDpXlUA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-12_05,2025-06-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0
- malwarescore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506120061
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/25] drm/dumb-buffers: Sanitize output on errors
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, geert@linux-m68k.org
+References: <20250311155120.442633-1-tzimmermann@suse.de>
+ <20250311155120.442633-2-tzimmermann@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250311155120.442633-2-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,56 +107,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 10:50:10AM +0530, Ekansh Gupta wrote:
-> 
-> 
-> On 5/22/2025 5:43 PM, Dmitry Baryshkov wrote:
-> > On Thu, 22 May 2025 at 08:01, Ekansh Gupta
-> > <ekansh.gupta@oss.qualcomm.com> wrote:
-> >>
-> >>
-> >> On 5/19/2025 7:04 PM, Dmitry Baryshkov wrote:
-> >>> On Mon, May 19, 2025 at 04:28:34PM +0530, Ekansh Gupta wrote:
-> >>>> On 5/19/2025 4:22 PM, Dmitry Baryshkov wrote:
-> >>>>> On Tue, May 13, 2025 at 09:58:25AM +0530, Ekansh Gupta wrote:
-> >>>>>> User request for remote heap allocation is supported using ioctl
-> >>>>>> interface but support for unmap is missing. This could result in
-> >>>>>> memory leak issues. Add unmap user request support for remote heap.
-> >>>>> Can this memory be in use by the remote proc?
-> >>>> Remote heap allocation request is only intended for audioPD. Other PDs
-> >>>> running on DSP are not intended to use this request.
-> >>> 'Intended'. That's fine. I asked a different question: _can_ it be in
-> >>> use? What happens if userspace by mistake tries to unmap memory too
-> >>> early? Or if it happens intentionally, at some specific time during
-> >>> work.
-> >> If the unmap is restricted to audio daemon, then the unmap will only
-> >> happen if the remoteproc is no longer using this memory.
-> >>
-> >> But without this restriction, yes it possible that some userspace process
-> >> calls unmap which tries to move the ownership back to HLOS which the
-> >> remoteproc is still using the memory. This might lead to memory access
-> >> problems.
-> > This needs to be fixed in the driver. We need to track which memory is
-> > being used by the remoteproc and unmap it once remoteproc stops using
-> > it, without additional userspace intervention.
-> If it's the audio daemon which is requesting for unmap then it basically means that
-> the remoteproc is no longer using the memory. Audio PD can request for both grow
-> and shrink operations for it's dedicated heap. The case of grow is already supported
-> from fastrpc_req_mmap but the case of shrink(when remoteproc is no longer using the
-> memory) is not yet available. This memory is more specific to audio PD rather than
-> complete remoteproc.
-> 
-> If we have to control this completely from driver then I see a problem in freeing/unmapping
-> the memory when the PD is no longer using the memory.
+Hi,
 
-What happens if userspace requests to free the memory that is still in
-use by the PD
-
-How does PD signal the memory is no longer in use?
-
-> >
+On 11/03/2025 17:47, Thomas Zimmermann wrote:
+> The ioctls MODE_CREATE_DUMB and MODE_MAP_DUMB return results into a
+> memory buffer supplied by user space. On errors, it is possible that
+> intermediate values are being returned. The exact semantics depends
+> on the DRM driver's implementation of these ioctls. Although this is
+> most-likely not a security problem in practice, avoid any uncertainty
+> by clearing the memory to 0 on errors.
 > 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_dumb_buffers.c | 40 ++++++++++++++++++++++--------
+>  1 file changed, 29 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+> index 70032bba1c97..9916aaf5b3f2 100644
+> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> @@ -99,7 +99,30 @@ int drm_mode_create_dumb(struct drm_device *dev,
+>  int drm_mode_create_dumb_ioctl(struct drm_device *dev,
+>  			       void *data, struct drm_file *file_priv)
+>  {
+> -	return drm_mode_create_dumb(dev, data, file_priv);
+> +	struct drm_mode_create_dumb *args = data;
+> +	int err;
+> +
+> +	err = drm_mode_create_dumb(dev, args, file_priv);
+> +	if (err) {
+> +		args->handle = 0;
+> +		args->pitch = 0;
+> +		args->size = 0;
+> +	}
+> +	return err;
+> +}
+> +
+> +static int drm_mode_mmap_dumb(struct drm_device *dev, struct drm_mode_map_dumb *args,
+> +			      struct drm_file *file_priv)
+> +{
+> +	if (!dev->driver->dumb_create)
+> +		return -ENOSYS;
+> +
+> +	if (dev->driver->dumb_map_offset)
+> +		return dev->driver->dumb_map_offset(file_priv, dev, args->handle,
+> +						    &args->offset);
+> +	else
+> +		return drm_gem_dumb_map_offset(file_priv, dev, args->handle,
+> +					       &args->offset);
+>  }
+>  
+>  /**
+> @@ -120,17 +143,12 @@ int drm_mode_mmap_dumb_ioctl(struct drm_device *dev,
+>  			     void *data, struct drm_file *file_priv)
+>  {
+>  	struct drm_mode_map_dumb *args = data;
+> +	int err;
+>  
+> -	if (!dev->driver->dumb_create)
+> -		return -ENOSYS;
+> -
+> -	if (dev->driver->dumb_map_offset)
+> -		return dev->driver->dumb_map_offset(file_priv, dev,
+> -						    args->handle,
+> -						    &args->offset);
+> -	else
+> -		return drm_gem_dumb_map_offset(file_priv, dev, args->handle,
+> -					       &args->offset);
+> +	err = drm_mode_mmap_dumb(dev, args, file_priv);
+> +	if (err)
+> +		args->offset = 0;
+> +	return err;
+>  }
+>  
+>  int drm_mode_destroy_dumb(struct drm_device *dev, u32 handle,
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+ Tomi
+
