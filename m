@@ -2,48 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CA9AD7499
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 16:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFDCAD749D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 16:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E73310E87F;
-	Thu, 12 Jun 2025 14:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09FE10E065;
+	Thu, 12 Jun 2025 14:51:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YBrPlBKN";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lQFGu7Fv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 531FB10E065
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 14:51:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 514BAA4BDF1;
- Thu, 12 Jun 2025 14:51:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99461C4CEEA;
- Thu, 12 Jun 2025 14:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749739884;
- bh=0qTRo/pmUhEjT80nAp8EEXMwEdEowH/xG6PhDIwPuN8=;
- h=From:To:Cc:Subject:Date:From;
- b=YBrPlBKNH2a4/bws8W6neqOmymaes6R2+S7rFQ/FRrqsuxUIS+ukWKJupJBcEj0/d
- KsKX/GnYGqtJvT3Bz3/iGnT6cUja76N/vtSr93k8ISCvreiB7Vnwl34/Ow0MobvunE
- BRJG/c3t1O/P328EqHMyEWCb3UdWFZgD8LnOqw7cR/mwofBpastZO/GVVDwuyZT/nF
- W0HzDGXI7DPXc3tYr/Hi/Gg8IDIWcJ4J7+HGkSWoHU4U19olRiv3OTrbnFnnwAhkKs
- 2Z8Tv26brwyFn4dJ5lNt35AaDWhy/kcdgpGB/yH7f5kWjvSG+feyD8s55eDCg+dxAT
- Byz24fe1YstxA==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: [PATCH v2] drm/sched: Clarify scenarios for separate workqueues
-Date: Thu, 12 Jun 2025 16:49:54 +0200
-Message-ID: <20250612144953.111829-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B879E10E881
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 14:51:35 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-312e747d2d8so1899834a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 07:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1749739893; x=1750344693;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZF8QzGPobTCQxU3cK3KGjHnmiAyxl3Hnpr6d0zTgBdg=;
+ b=lQFGu7FvbI4xLrR4zQZPN2AOX0untzP2su8YBuwVAcxm6xy03AscR9J9wpzzMx0xr9
+ P2ZAn3vuFqVqm4l7x2Bo4qDved64hkSLit2EmBjIb8M4cw41L3w+BoIKMEuEY9tA06Tx
+ H57STF1R8ZN4etwrEQEJTNpmBiL53bZPuxam8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749739893; x=1750344693;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZF8QzGPobTCQxU3cK3KGjHnmiAyxl3Hnpr6d0zTgBdg=;
+ b=p7rPYM+x0cCXzpqQemx4cKe/nLyWmOHPmDZ4+0JqI8JY9BeblB2+VVmr9R71ebbbcd
+ +HsqMmQ5a4Gb5p7WMC44AEF0V0qo3uY2h0hZKCHpGOBh+SWhZwpQKpWExgasVZz31032
+ jAaoY22K00W4hFhhWc8+2MKlNjArjd7eNrW55941XYcL0XqPruMcxtW5y+wAx9hrh16k
+ LSS8Tjoy6Tbb8a1rcNfxoYk2jyJ8tJbeQbg8pCEViZ9BHFkAV2El0vyRo0hhhVNHms4o
+ d8/I3HvWCP0QT5sPnEpt8AOmcMaHQvXrag9B1w+HHqE2zcflktXvjRoZC6FVJo1h+ZDN
+ Hhgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWV4XFHfPAxAIpwe2e8EwFqp8VWHF9ewGN9e4lqQ9LAFTx7L8bP2NzxDNs2y+SAJmvS+b6QV/9nJmE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywe6gJLlOleFBXRHLWU/mhR9dK+wMX+fOh7DvJadwt5qPmJMrsq
+ +H5nTHE4FbaAA3O/6+CfYADx2zTcGCDrcilIMAfnvt1ClaXDgb1Wpwx93I12NjPi9HGxCxYzhXS
+ Rk8Y=
+X-Gm-Gg: ASbGncuLjbmj1vlNkTp8l07eXYjaxaIKVSGl7TQwK4B9KiPWobuqyrMGtih0qnrRdVc
+ uNrvLGcbXvSy6ZHmT2V6/WI0vU1FDzZcEhBEzL9QNGF8Lv0IuO4g/Dunn+iF7W3c4y2meAYJSgM
+ ZgoYLTOWAeqbrSsnNg+H/M4DgBXvou+IiHUSHAuxDMb4zR5vHyCEsXzfEHWgPXEpAFF4jARpg9H
+ 2ILCMsSrl7XNXKZQVJ9btfAOyQlM2XY0KOczSV2nI+nFCcMrxEU5ooSvPyIFWIAtyTG2FyGNI7M
+ E9a3e9roS0M2bnvADSa/1YdNKODZcNuUObAW/qK3QSnJY2NhVOC887uYUbQCRVCSVJ3DRaHyAcH
+ +6NCs+sDjQ6uVOoqOIAoClVWDZXtd9YxDPOREcZa7
+X-Google-Smtp-Source: AGHT+IFh6W8cqTOnD4ALrQcFuFizoyE51wZEtfTpbOI/VIP9thlolEMI8Cdh4d5/IQeHQ1n0M00jxQ==
+X-Received: by 2002:a17:90b:5866:b0:311:b5ac:6f7d with SMTP id
+ 98e67ed59e1d1-313bfd90b31mr5726135a91.6.1749739893334; 
+ Thu, 12 Jun 2025 07:51:33 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com.
+ [209.85.215.179]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-313c1bd9aecsm1543051a91.15.2025.06.12.07.51.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jun 2025 07:51:32 -0700 (PDT)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-b2fd091f826so820815a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 07:51:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUneS6bmqP+oYEerytMiNx6A/FZ1N5MJfvyOWQPN8Pvc6xYIGHhguv0hv/hUI/ErKo7RaDxbgNAXSA=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:3b90:b0:311:9cdf:a8a4 with SMTP id
+ 98e67ed59e1d1-313bfd90bb1mr4862616a91.8.1749739891134; Thu, 12 Jun 2025
+ 07:51:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250611052947.5776-1-j-choudhary@ti.com>
+ <CAD=FV=WvH73d78De3PrbiG7b6OaS_BysGtxQ=mJTj4z-h0LYWA@mail.gmail.com>
+ <547a35f4-abc0-4808-9994-ccc70eb3c201@ti.com>
+In-Reply-To: <547a35f4-abc0-4808-9994-ccc70eb3c201@ti.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 12 Jun 2025 07:51:19 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XzSOqnLQCjDiJX7wrGH0UGq839a84v3QT9cj3eK+AeRA@mail.gmail.com>
+X-Gm-Features: AX0GCFvUog-W0Yq8ScavOChYN1RdpooYMU-w84jaSxr5YZftWGA6ukEIfk_PLzY
+Message-ID: <CAD=FV=XzSOqnLQCjDiJX7wrGH0UGq839a84v3QT9cj3eK+AeRA@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
+ connector type
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
+ tomi.valkeinen@ideasonboard.com, max.krummenacher@toradex.com, 
+ ernestvanhoecke@gmail.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, kieran.bingham+renesas@ideasonboard.com, 
+ linux-kernel@vger.kernel.org, max.oss.09@gmail.com, devarsht@ti.com, 
+ geert@linux-m68k.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,117 +108,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct drm_sched_init_args provides the possibility of letting the
-scheduler use user-controlled workqueues, instead of the scheduler
-creating its own workqueues. It's currently not documented who would
-want to use that.
+Hi,
 
-Not sharing the submit_wq between driver and scheduler has the advantage
-of no negative intereference between them being able to occur (e.g.,
-MMU notifier callbacks waiting for fences to get signaled).
+On Wed, Jun 11, 2025 at 9:39=E2=80=AFPM Jayesh Choudhary <j-choudhary@ti.co=
+m> wrote:
+>
+> Hello Doug,
+>
+> On 12/06/25 03:08, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Tue, Jun 10, 2025 at 10:29=E2=80=AFPM Jayesh Choudhary <j-choudhary@=
+ti.com> wrote:
+> >>
+> >> @@ -1195,9 +1203,17 @@ static enum drm_connector_status ti_sn_bridge_d=
+etect(struct drm_bridge *bridge)
+> >>          struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge)=
+;
+> >>          int val =3D 0;
+> >>
+> >> -       pm_runtime_get_sync(pdata->dev);
+> >> +       /*
+> >> +        * The chip won't report HPD right after being powered on as
+> >> +        * HPD_DEBOUNCED_STATE reflects correct state only after the
+> >> +        * debounce time (~100-400 ms).
+> >> +        * So having pm_runtime_get_sync() and immediately reading
+> >> +        * the register in detect() won't work, and adding delay()
+> >> +        * in detect will have performace impact in display.
+> >> +        * So remove runtime calls here.
+> >
+> > That last sentence makes sense in a commit message, but not long term.
+> > Someone reading the code later won't understand what "remove" means.
+> > If you change "remove" to "omit" then it all makes sense, though. You
+> > could also say that a pm_runtime reference will be grabbed by
+> > ti_sn_bridge_hpd_enable().
+>
+> Okay. Will edit this.
+>
+> >
+> >
+> >> +        */
+> >> +
+> >>          regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> >> -       pm_runtime_put_autosuspend(pdata->dev);
+> >>
+> >>          return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> >>                                           : connector_status_disconnec=
+ted;
+> >> @@ -1220,6 +1236,20 @@ static void ti_sn65dsi86_debugfs_init(struct dr=
+m_bridge *bridge, struct dentry *
+> >>          debugfs_create_file("status", 0600, debugfs, pdata, &status_f=
+ops);
+> >>   }
+> >>
+> >> +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
+> >> +{
+> >> +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> >> +
+> >> +       pm_runtime_get_sync(pdata->dev);
+> >> +}
+> >> +
+> >> +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
+> >> +{
+> >> +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> >> +
+> >> +       pm_runtime_put_sync(pdata->dev);
+> >> +}
+> >> +
+> >>   static const struct drm_bridge_funcs ti_sn_bridge_funcs =3D {
+> >>          .attach =3D ti_sn_bridge_attach,
+> >>          .detach =3D ti_sn_bridge_detach,
+> >> @@ -1234,6 +1264,8 @@ static const struct drm_bridge_funcs ti_sn_bridg=
+e_funcs =3D {
+> >>          .atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicat=
+e_state,
+> >>          .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_st=
+ate,
+> >>          .debugfs_init =3D ti_sn65dsi86_debugfs_init,
+> >> +       .hpd_enable =3D ti_sn_bridge_hpd_enable,
+> >> +       .hpd_disable =3D ti_sn_bridge_hpd_disable,
+> >>   };
+> >>
+> >>   static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
+> >> @@ -1322,7 +1354,8 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >>                             ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MOD=
+E_CONNECTOR_eDP;
+> >>
+> >>          if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> >> -               pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID | DRM_BRIDGE_=
+OP_DETECT;
+> >> +               pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID | DRM_BRIDGE_=
+OP_DETECT |
+> >> +                                   DRM_BRIDGE_OP_HPD;
+> >
+> > I think you also need this in the "DRM_MODE_CONNECTOR_DisplayPort" if t=
+est:
+> >
+> > /*
+> >   * If comms were already enabled they would have been enabled
+> >   * with the wrong value of HPD_DISABLE. Update it now. Comms
+> >   * could be enabled if anyone is holding a pm_runtime reference
+> >   * (like if a GPIO is in use). Note that in most cases nobody
+> >   * is doing AUX channel xfers before the bridge is added so
+> >   * HPD doesn't _really_ matter then. The only exception is in
+> >   * the eDP case where the panel wants to read the EDID before
+> >   * the bridge is added. We always consistently have HPD disabled
+> >   * for eDP.
+> >   */
+> > mutex_lock(&pdata->comms_mutex);
+> > if (pdata->comms_enabled)
+> >    regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> >      HPD_DISABLE, 0);
+> > mutex_unlock(&pdata->comms_mutex);
+> >
+> > Does that sound right?
+>
+>
+> Here I don't think it is necessary to add this because enable_comms
+> will be called again after probe either in hpd_enable() (in case
+> refclk exist) or pre_enable() (in case it doesn't) with correct value.
 
-Add a new docu section for concurrency in drm/sched.
+I don't think that's necessarily true, is it? From my memory, this happens:
 
-Discourage the usage of own workqueues in the documentation. Document
-when using them can make sense. Warn about pitfalls.
+1. Main driver probe and we create the sub-devices, like the GPIO,
+backlight, and AUX.
 
-Co-authored-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
-Changes in v2:
-  - Add new docu section for concurrency in the scheduler. (Sima)
-  - Document what an ordered workqueue passed to the scheduler can be
-    useful for. (Christian, Sima)
-  - Warn more detailed about potential deadlocks. (Danilo)
----
- include/drm/gpu_scheduler.h | 54 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 51 insertions(+), 3 deletions(-)
+2. As soon as the GPIO probe happens, someone could conceivably claim
+one of the GPIOs and set it as an output, which would cause a
+"pm_runtime" reference to be held indefinitely.
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 81dcbfc8c223..00c528e62485 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -21,6 +21,49 @@
-  *
-  */
- 
-+/**
-+ * DOC: Concurrency in drm/sched
-+ *
-+ * The DRM GPU Scheduler interacts with drivers through the callbacks defined in
-+ * &struct drm_sched_backend_ops. These callbacks can be invoked by the scheduler
-+ * at any point in time if not stated otherwise explicitly in the callback
-+ * documentation.
-+ *
-+ * For most use cases, passing the recommended default parameters in &struct
-+ * drm_sched_init_args is sufficient. There are some special circumstances,
-+ * though:
-+ *
-+ * For timeout handling, it makes a lot of sense for drivers with HARDWARE
-+ * scheduling to have the timeouts (e.g., for different hardware rings) occur
-+ * sequentially, for example to allow for detecting which job timedout first
-+ * and, therefore, caused the hang. Thereby, it is determined which &struct
-+ * drm_sched_entity has to be killed and which entities' jobs must be
-+ * resubmitted after a GPU reset.
-+ *
-+ * This can be achieved by passing an ordered workqueue in &struct
-+ * drm_sched_init_args.timeout_wq. Also take a look at the documentation of
-+ * &struct drm_sched_backend_ops.timedout_job.
-+ *
-+ * Furthermore, for drivers with hardware that supports FIRMWARE scheduling,
-+ * the driver design can be simplified a bit by providing one ordered workqueue
-+ * for both &struct drm_sched_init_args.timeout_wq and
-+ * &struct drm_sched_init_args.submit_wq. Reason being that firmware schedulers
-+ * should always have one scheduler instance per firmware runqueue and one
-+ * entity per scheduler instance. If that scheduler instance then shares one
-+ * ordered workqueue with the driver, locking can be very lightweight or
-+ * dropped alltogether.
-+ *
-+ * NOTE that sharing &struct drm_sched_init_args.submit_wq with the driver
-+ * theoretically can deadlock. It must be guaranteed that submit_wq never has
-+ * more than max_active - 1 active tasks, or if max_active tasks are reached at
-+ * least one of them does not execute operations that may block on dma_fences
-+ * that potentially make progress through this scheduler instance. Otherwise,
-+ * it is possible that all max_active tasks end up waiting on a dma_fence (that
-+ * can only make progress through this schduler instance), while the
-+ * scheduler's queued work waits for at least one of the max_active tasks to
-+ * finish. Thus, this can result in a deadlock.
-+ */
-+
- #ifndef _DRM_GPU_SCHEDULER_H_
- #define _DRM_GPU_SCHEDULER_H_
- 
-@@ -499,7 +542,7 @@ struct drm_sched_backend_ops {
- 	 * timeout handlers of different schedulers. One way to achieve this
- 	 * synchronization is to create an ordered workqueue (using
- 	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
--	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * in &struct drm_sched_init_args.timeout_wq. This will guarantee
- 	 * that timeout handlers are executed sequentially.
- 	 *
- 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
-@@ -590,14 +633,19 @@ struct drm_gpu_scheduler {
-  *
-  * @ops: backend operations provided by the driver
-  * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-- *	       allocated and used.
-+ *	       allocated and used. It is recommended to pass NULL unless there
-+ *	       is a good reason not to. For details, see &DOC: Concurrency in
-+ *	       drm/sched.
-  * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
-  *	     as there's usually one run-queue per priority, but may be less.
-  * @credit_limit: the number of credits this scheduler can hold from all jobs
-  * @hang_limit: number of times to allow a job to hang before dropping it.
-  *		This mechanism is DEPRECATED. Set it to 0.
-  * @timeout: timeout value in jiffies for submitted jobs.
-- * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is used.
-+ * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is
-+ *		used. An ordered workqueue could be passed to achieve timeout
-+ *		synchronization. See &DOC: Concurreny in drm/sched and &struct
-+ *		drm_sched_backend_ops.timedout_job.
-  * @score: score atomic shared with other schedulers. May be NULL.
-  * @name: name (typically the driver's name). Used for debugging
-  * @dev: associated device. Used for debugging
--- 
-2.49.0
+3. After AUX probes, we create the bridge sub-device.
 
+4. When the bridge probe runs, comms will still be enabled because the
+"pm_runtime" reference keeps them on.
+
+...there's also the issue that we use "autosuspend" and thus comms can
+still be left on for a chunk of time even after there are no
+"pm_runtime" references left.
+
+-Doug
