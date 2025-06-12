@@ -2,85 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DBBAD74CE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 16:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3060AAD7500
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1901710E061;
-	Thu, 12 Jun 2025 14:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 955B110E87D;
+	Thu, 12 Jun 2025 15:00:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="UBs+WhFP";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
- [209.85.221.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB6910E061
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 14:57:44 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id
- 71dfb90a1353d-53119fe46d8so306008e0c.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 07:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749740261; x=1750345061;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YLGpxLsJSw4q7Wykq729C6wwN0Wlwd+qKs8+s0wgaMA=;
- b=iVVciW2jwT5z3U91pWAt16AqJamHOJxyEUXqNgSAVL3KldvFoF9M+tKkI9aRVhSE8q
- B3oTBYxj0qmoiXVmRHsISkhiggfQurDCNI6R+2FGK5hfaQ0w6daeY4GLDGZhTBydyPQi
- PONxJvDAf50oaFVEm0DNxhdw1x+e7aBl4zgs1CV82ksjoVn+Pb9G0heGcAXHA6oJn9dj
- gKqXwJluUgtWovHBUEcw65GxlE2VNLdzXJg1IeiG2J9bxg/D951ygYmZeTc6ykNS98XI
- drf0Wh+JxhtrDpa3+NagzWOqeU0LtU9YHfvKDIIizf+ux3PxFvF04Qql125npQrYZqhI
- 2+Rg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZ2dPrh8gqjBO3cTmP2NqVlDqBLzoB4PWcWTkNzVQ+nXqNZLw/I2cfABTq3jXpLT5GRd2m1gXgDuA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycDr42Ykqkxi7vfPcbWwzPstk9r9BjLOTaDIDRawjOLIzzm+9Y
- RfLIPVBFgfh8n1Eb5azRaK1aE3Zb5JNj7D3GZMrTBuVVABeJ3xmEhlcmlqVmEP36
-X-Gm-Gg: ASbGnctdC8K3OIxf4rNXrfhAhuE++5gC4qnyU5fcnW61bNVtzbSlXEDmOWUqe70tGaz
- PzDg6yZh5v7qJpyrlL8i0qDeHalgx1p6m2jkncFziz8VX72lQrQI/pFtnorB2dsPTdofT7lU/9Y
- OTOWZHpEVYVnzofD7k4VWUy0VkyIUiklJ+KFWs2KA++xGNaGgZRB2mbv+J4bS5d2C3OJ0vWVzFe
- IkxuH4uWsShoQ81dpva+NflzPs2uPMPFxm2bZKIJEy1XCBBMswWgd4OFl5N3V+G4p/jd/LkFgNm
- zojPRcTo4tHu2gvkKeUbLy7wZYMHonLlLrXp/GI0IUw/76SS3srGzK2q0lZkJKN3Fd8fBoSmLUn
- UdCMSqZ5Xpf2lF4WOnW3dGiUVQrwZ
-X-Google-Smtp-Source: AGHT+IHENhrVZZuaa9YuCkAlNUXHRo1opBz53SpH5U1xkfKJuwku8OGmxuJAhsF7KeroTNQ86EnzMg==
-X-Received: by 2002:a05:6122:3c4e:b0:530:65b3:4920 with SMTP id
- 71dfb90a1353d-53122284e0fmr6950793e0c.5.1749740261315; 
- Thu, 12 Jun 2025 07:57:41 -0700 (PDT)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com.
- [209.85.221.179]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5312f65147bsm312489e0c.31.2025.06.12.07.57.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jun 2025 07:57:40 -0700 (PDT)
-Received: by mail-vk1-f179.google.com with SMTP id
- 71dfb90a1353d-527a2b89a11so385642e0c.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 07:57:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWv9ePSPADrzqbN2NedUk2DItEpoEA9FySK8hM87qp8fISmgT2YS35a5ZWEU9c3la6xXUnglUhfr78=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:d8c:b0:529:f50:7904 with SMTP id
- 71dfb90a1353d-531223a9d6emr7462655e0c.9.1749740259843; Thu, 12 Jun 2025
- 07:57:39 -0700 (PDT)
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7534110E87D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:00:39 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 14A5A260A0;
+ Thu, 12 Jun 2025 17:00:38 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Ma3iOkFIL4ux; Thu, 12 Jun 2025 17:00:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1749740435; bh=hyszOhcRbzyjfVvsWkNpk+hVLWy3Vif4GHa8XCtb/z0=;
+ h=From:Subject:Date:To:Cc;
+ b=UBs+WhFPGmXf10maD/KCA03fqTS+jQmw0BJes/UnNzmC3xIEuLH2la6i7Qp2XZk4N
+ 3H8QosxjTDSMl6IvaERdEF5o/9lFwU01jdjA0Po7JFJvMiyp3ZABsTzTt4d6yCBiXb
+ yOwlZi+8sc4hHDFjd14rxmfDdpm5jWajdicBwrQoVgHycyO9FJjoAbxM4ebi1EV7sG
+ HxXyQu0I9+eoI17KoDJCUIKGAF1MMtvRXXAbDbQHyrlSqLTeNMMTI9CDxedjW9U9zf
+ iAmientABoTM6Z65Y4RkCs/kkdFAX3sdeN/HQXDj3qX4m2FhuoDL8gcj5zWB0Mkfsy
+ 2JIEUcWipbuaA==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v2 0/2] Samsung Exynos 7870 DECON driver support
+Date: Thu, 12 Jun 2025 20:29:18 +0530
+Message-Id: <20250612-exynosdrm-decon-v2-0-d6c1d21c8057@disroot.org>
 MIME-Version: 1.0
-References: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 16:57:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVpP2g_XVgV-Lo-iDonioykPxOdj5u66yacGBBKwCFiVQ@mail.gmail.com>
-X-Gm-Features: AX0GCFs6fvXldOJS-VLbdO_0YPI2sLemmxiH0HgmfiLcqEebgyfY3165_oOXBxo
-Message-ID: <CAMuHMdVpP2g_XVgV-Lo-iDonioykPxOdj5u66yacGBBKwCFiVQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas,rzg2l-du: Add support for
- RZ/V2N SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEbrSmgC/2WNQQ6CMBBFr0JmbU3bIIIr72FYSGeAWdgxU0Igh
+ LtbSVy5fC/572+QSJkS3IoNlGZOLDGDPxUQxmccyDBmBm99aRt3NbSsURLqyyAFiaYM3teIDn3
+ XQ169lXpejuKjzTxymkTX42B2X/trNX+t2RlrqnCpKxdc6Gx5R04qMp1FB2j3ff8Ax0hFv7AAA
+ AA=
+X-Change-ID: 20240917-exynosdrm-decon-4c228dd1d2bf
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>, 
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ stable@vger.kernel.org
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749740428; l=1203;
+ i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
+ bh=hyszOhcRbzyjfVvsWkNpk+hVLWy3Vif4GHa8XCtb/z0=;
+ b=RBepMzepmmvN9MEFlWtkAYr8CSmXHsbMD5QHpkFVOAJxzE4dbCgTT+mxjmvjvSYo2dr+5RnEc
+ 0Fi3M5ecoAzBnDtWAjPc8ngbIx8joImgFgyZP9PLH1uivMD+tNAjOEP
+X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
+ pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,25 +77,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Jun 2025 at 01:19, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Document support for the DU IP found on the Renesas RZ/V2N (R9A09G056) SoC.
-> The DU IP is functionally identical to that on the RZ/V2H(P) SoC, so no
-> driver changes are needed. The existing `renesas,r9a09g057-du` compatible
-> will be used as a fallback for the RZ/V2N SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+This patch series aims at adding support for Exynos7870's DECON in the
+Exynos7 DECON driver. It introduces a driver data struct so that support
+for DECON on other SoCs can be added to it in the future.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+It also fixes a few bugs in the driver, such as functions receiving bad
+pointers.
 
-Gr{oetje,eeting}s,
+Tested on Samsung Galaxy J7 Prime (samsung-on7xelte), Samsung Galaxy A2
+Core (samsung-a2corelte), and Samsung Galaxy J6 (samsung-j6lte).
 
-                        Geert
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v2:
+- Add a new commit to prevent an occasional panic under circumstances.
+- Rewrite and redo [v1 2/6] to be a more sensible commit.
+- Link to v1: https://lore.kernel.org/r/20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org
 
+---
+Kaustabh Chakraborty (2):
+      drm/exynos: exynos7_drm_decon: fix call of decon_commit()
+      drm/exynos: exynos7_drm_decon: add vblank check in IRQ handling
+
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+---
+base-commit: 0bb71d301869446810a0b13d3da290bd455d7c78
+change-id: 20240917-exynosdrm-decon-4c228dd1d2bf
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
