@@ -2,96 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2532AD6A01
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827F3AD6A5B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42CA10E725;
-	Thu, 12 Jun 2025 08:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B18B10E298;
+	Thu, 12 Jun 2025 08:21:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s1CohyRj";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EwsimSqV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QgeKHOak";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EwsimSqV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QgeKHOak";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2153B10E063;
- Thu, 12 Jun 2025 08:12:03 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 868E8D6;
- Thu, 12 Jun 2025 10:11:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1749715913;
- bh=8WwmhFtL9eosA22O6PZS8QonHwy8kOwjvtU9HLAd/Mk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=s1CohyRjx44OEVAmWk98stT2zZMSlbEy73AVELxdX2h5KRmV+rS1QwaBu+QfSA1qN
- OhCbnI7kO8KcLMT7lrLn06Uhsf9CiF7Vs4jlCz3vlMPk6QDjNsDY5H17EEyIiwIUrs
- /1X9kTXxoJNFavlSTwvk0QOIm9p0Cnp4fXSH0SQ4=
-Message-ID: <e2545be1-583d-4ad7-8a17-b2ee157f82d7@ideasonboard.com>
-Date: Thu, 12 Jun 2025 11:11:57 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D62910E7A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 08:21:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2C749218C8;
+ Thu, 12 Jun 2025 08:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749716485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fCzFfffWtIgd7GHztd47USg1t8uP8FHiNx37CO14Y2I=;
+ b=EwsimSqVJs5oTS3/ydvhs8gd2ycUWQmnurw0+Dr6sXHq2V9ZLCm/BezZPZw68Rz8C1B8mj
+ +Xus4zbxWGQ1ypDfo3NGdJPXYyidwrGap8teYX6GF3obHt4gTNfmtVMd+Q1UQdPwvxVCsq
+ 04jUMDz/H1nfBaK+BCjWoAkO7hEviVs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749716485;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fCzFfffWtIgd7GHztd47USg1t8uP8FHiNx37CO14Y2I=;
+ b=QgeKHOakgujO9GnmtIogAyf8jzAVy+O/8OG038t3Ox5PthzU8bPVp548V/GcpM46doRbQW
+ aLPgjea8hQ0cVuCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EwsimSqV;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QgeKHOak
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749716485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fCzFfffWtIgd7GHztd47USg1t8uP8FHiNx37CO14Y2I=;
+ b=EwsimSqVJs5oTS3/ydvhs8gd2ycUWQmnurw0+Dr6sXHq2V9ZLCm/BezZPZw68Rz8C1B8mj
+ +Xus4zbxWGQ1ypDfo3NGdJPXYyidwrGap8teYX6GF3obHt4gTNfmtVMd+Q1UQdPwvxVCsq
+ 04jUMDz/H1nfBaK+BCjWoAkO7hEviVs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749716485;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=fCzFfffWtIgd7GHztd47USg1t8uP8FHiNx37CO14Y2I=;
+ b=QgeKHOakgujO9GnmtIogAyf8jzAVy+O/8OG038t3Ox5PthzU8bPVp548V/GcpM46doRbQW
+ aLPgjea8hQ0cVuCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB80E132D8;
+ Thu, 12 Jun 2025 08:21:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qgZKMASOSmgILAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Jun 2025 08:21:24 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, soci@c64.rulez.org, simona@ffwll.ch, linux@armlinux.org.uk,
+ FlorianSchandinat@gmx.de, alchark@gmail.com, krzk@kernel.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/14] fbdev: Fix warnings related to including
+ <linux/export.h>
+Date: Thu, 12 Jun 2025 10:16:23 +0200
+Message-ID: <20250612081738.197826-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/25] drm/dumb-buffers: Sanitize output on errors
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, geert@linux-m68k.org
-References: <20250311155120.442633-1-tzimmermann@suse.de>
- <20250311155120.442633-2-tzimmermann@suse.de>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250311155120.442633-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_TO(0.00)[gmx.de,c64.rulez.org,ffwll.ch,armlinux.org.uk,gmail.com,kernel.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[12]; ARC_NA(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+ FROM_EQ_ENVFROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 2C749218C8
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,82 +118,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Some source files in fbdev do not include <linux/export.h> properly;
+others do when they don't have to. The build scripts warn about these
+cases.
 
-On 11/03/2025 17:47, Thomas Zimmermann wrote:
-> The ioctls MODE_CREATE_DUMB and MODE_MAP_DUMB return results into a
-> memory buffer supplied by user space. On errors, it is possible that
-> intermediate values are being returned. The exact semantics depends
-> on the DRM driver's implementation of these ioctls. Although this is
-> most-likely not a security problem in practice, avoid any uncertainty
-> by clearing the memory to 0 on errors.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_dumb_buffers.c | 40 ++++++++++++++++++++++--------
->  1 file changed, 29 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
-> index 70032bba1c97..9916aaf5b3f2 100644
-> --- a/drivers/gpu/drm/drm_dumb_buffers.c
-> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
-> @@ -99,7 +99,30 @@ int drm_mode_create_dumb(struct drm_device *dev,
->  int drm_mode_create_dumb_ioctl(struct drm_device *dev,
->  			       void *data, struct drm_file *file_priv)
->  {
-> -	return drm_mode_create_dumb(dev, data, file_priv);
-> +	struct drm_mode_create_dumb *args = data;
-> +	int err;
-> +
-> +	err = drm_mode_create_dumb(dev, args, file_priv);
-> +	if (err) {
-> +		args->handle = 0;
-> +		args->pitch = 0;
-> +		args->size = 0;
-> +	}
-> +	return err;
-> +}
-> +
-> +static int drm_mode_mmap_dumb(struct drm_device *dev, struct drm_mode_map_dumb *args,
-> +			      struct drm_file *file_priv)
-> +{
-> +	if (!dev->driver->dumb_create)
-> +		return -ENOSYS;
-> +
-> +	if (dev->driver->dumb_map_offset)
-> +		return dev->driver->dumb_map_offset(file_priv, dev, args->handle,
-> +						    &args->offset);
-> +	else
-> +		return drm_gem_dumb_map_offset(file_priv, dev, args->handle,
-> +					       &args->offset);
->  }
->  
->  /**
-> @@ -120,17 +143,12 @@ int drm_mode_mmap_dumb_ioctl(struct drm_device *dev,
->  			     void *data, struct drm_file *file_priv)
->  {
->  	struct drm_mode_map_dumb *args = data;
-> +	int err;
->  
-> -	if (!dev->driver->dumb_create)
-> -		return -ENOSYS;
-> -
-> -	if (dev->driver->dumb_map_offset)
-> -		return dev->driver->dumb_map_offset(file_priv, dev,
-> -						    args->handle,
-> -						    &args->offset);
-> -	else
-> -		return drm_gem_dumb_map_offset(file_priv, dev, args->handle,
-> -					       &args->offset);
-> +	err = drm_mode_mmap_dumb(dev, args, file_priv);
-> +	if (err)
-> +		args->offset = 0;
-> +	return err;
->  }
->  
->  int drm_mode_destroy_dumb(struct drm_device *dev, u32 handle,
+Clean up to fix the related warnings. While at it, also fix trailing
+whitespaces in the affected files.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+v2:
+- remove unused functions (Helge)
 
- Tomi
+Thomas Zimmermann (14):
+  fbdev: Remove trailing whitespaces
+  fbdev: Include <linux/export.h>
+  fbdev/c2p: Include <linux/export.h>
+  fbdev/cyber2000fb: Unexport symbols
+  fbdev/matroxfb: Remove trailing whitespaces
+  fbdev/matroxfb: Include <linux/export.h>
+  fbdev/omap: Include <linux/export.h>
+  fbdev/omap2: Include <linux/export.h>
+  fbdev/omap2: Do not include <linux/export.h>
+  fbdev/mb862xx: Do not include <linux/export.h>
+  fbdev/pxafb: Unexport symbol
+  fbdev/sisfb: Unexport symbols
+  fbdev/viafb: Include <linux/export.h>
+  fbdev/viafb: Do not include <linux/export.h>
+
+ drivers/video/fbdev/c2p_iplan2.c              |  1 +
+ drivers/video/fbdev/c2p_planar.c              |  1 +
+ drivers/video/fbdev/core/cfbcopyarea.c        |  2 +
+ drivers/video/fbdev/core/cfbfillrect.c        |  2 +
+ drivers/video/fbdev/core/cfbimgblt.c          |  2 +
+ drivers/video/fbdev/core/fb_ddc.c             |  1 +
+ drivers/video/fbdev/core/fb_defio.c           |  1 +
+ drivers/video/fbdev/core/fb_io_fops.c         |  1 +
+ drivers/video/fbdev/core/fb_sys_fops.c        |  2 +
+ drivers/video/fbdev/core/fbcmap.c             |  1 +
+ drivers/video/fbdev/core/fbcon.c              |  1 +
+ drivers/video/fbdev/core/fbmon.c              |  2 +
+ drivers/video/fbdev/core/modedb.c             |  1 +
+ drivers/video/fbdev/core/svgalib.c            |  1 +
+ drivers/video/fbdev/core/syscopyarea.c        |  2 +
+ drivers/video/fbdev/core/sysfillrect.c        |  2 +
+ drivers/video/fbdev/core/sysimgblt.c          |  2 +
+ drivers/video/fbdev/cyber2000fb.c             | 36 -----------
+ drivers/video/fbdev/cyber2000fb.h             |  2 -
+ drivers/video/fbdev/macmodes.c                |  3 +-
+ drivers/video/fbdev/matrox/g450_pll.c         | 26 ++++----
+ drivers/video/fbdev/matrox/matroxfb_DAC1064.c | 47 +++++++-------
+ drivers/video/fbdev/matrox/matroxfb_Ti3026.c  |  1 +
+ drivers/video/fbdev/matrox/matroxfb_accel.c   |  2 +
+ drivers/video/fbdev/matrox/matroxfb_base.c    |  1 +
+ drivers/video/fbdev/matrox/matroxfb_g450.c    | 62 ++++++++++---------
+ drivers/video/fbdev/matrox/matroxfb_misc.c    | 21 ++++---
+ drivers/video/fbdev/mb862xx/mb862xx-i2c.c     |  1 -
+ drivers/video/fbdev/omap/lcd_dma.c            |  1 +
+ drivers/video/fbdev/omap/lcdc.c               |  2 +
+ drivers/video/fbdev/omap/omapfb_main.c        |  2 +
+ drivers/video/fbdev/omap2/omapfb/dss/apply.c  |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/core.c   |  1 +
+ .../fbdev/omap2/omapfb/dss/dispc-compat.c     |  1 +
+ .../video/fbdev/omap2/omapfb/dss/display.c    |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c    |  1 -
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c |  1 +
+ .../fbdev/omap2/omapfb/dss/dss_features.c     |  1 +
+ .../video/fbdev/omap2/omapfb/dss/manager.c    |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/output.c |  1 +
+ .../video/fbdev/omap2/omapfb/dss/overlay.c    |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/sdi.c    |  1 -
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  1 +
+ .../video/fbdev/omap2/omapfb/omapfb-ioctl.c   |  1 -
+ drivers/video/fbdev/omap2/omapfb/vrfb.c       |  1 +
+ drivers/video/fbdev/pxafb.c                   | 17 +----
+ drivers/video/fbdev/sbuslib.c                 |  1 +
+ drivers/video/fbdev/sis/sis.h                 |  2 -
+ drivers/video/fbdev/sis/sis_main.c            | 25 --------
+ drivers/video/fbdev/via/via-core.c            |  1 +
+ drivers/video/fbdev/via/via-gpio.c            |  1 -
+ drivers/video/fbdev/via/via_i2c.c             |  1 +
+ drivers/video/fbdev/wmt_ge_rops.c             |  1 +
+ include/linux/platform_data/video-pxafb.h     |  1 -
+ include/video/sisfb.h                         |  6 --
+ 55 files changed, 134 insertions(+), 168 deletions(-)
+
+-- 
+2.49.0
 
