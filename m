@@ -2,73 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DAAAD6BB0
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 11:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13591AD6BB4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 11:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB2D10E793;
-	Thu, 12 Jun 2025 09:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 703E510E7BF;
+	Thu, 12 Jun 2025 09:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fiXjbYES";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HZ9bL8jC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE8210E793;
- Thu, 12 Jun 2025 09:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749719311; x=1781255311;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vPDeoOnUG9T7WpDp8aMQporpD7A0NAgX7Ug3eOgz77E=;
- b=fiXjbYESt6gGlTNp4hXl1+ego66JPRs7WUql2FHGM+yiRfQ0XmqcAlvL
- /BPs4UFm/UEELs1/n/l3lvMctmTWSKevP5t9GGKo9YoW8gpNRZKO2uHHi
- wIoAa0tFPR8sJj5GPMQBZg3PCcfqbTmFrgLINsQTcVlO1aaagqC7J6Dpy
- XLbBVJQGd3FAQ2aJIpYibXKburZolrWErCSxVD34XVMLJa1c91zM7AJcQ
- 9z2AwhBHF9dHDTlxU0cAKIugbjiSupjrd2m30IJnAnEEaaxNSPPJw+/g+
- kc+2GD6T01MIjdaQXMaE7CMp+vUKGAqhIYJA/gqLij5vbnBcL/yrXUveW Q==;
-X-CSE-ConnectionGUID: K1dXX67zSqKlOzGoMDhPNw==
-X-CSE-MsgGUID: 7D8W3Qy0RUGdzZdSc/OM3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="39500915"
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="39500915"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 02:08:24 -0700
-X-CSE-ConnectionGUID: ligeonFMTCuMLQMkH4LxqQ==
-X-CSE-MsgGUID: U0GmRdzyRMeS7MRNtOkkCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="152606712"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.244.156])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 02:08:21 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: "Gote, Nitin R" <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- "Auld, Matthew" <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- "Brzezinka, Sebastian" <sebastian.brzezinka@intel.com>,
- "Niemiec, Krzysztof" <krzysztof.niemiec@intel.com>,
- "Karas, Krzysztof" <krzysztof.karas@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA
- alloc error
-Date: Thu, 12 Jun 2025 11:08:18 +0200
-Message-ID: <8536974.T7Z3S40VBb@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <aEntEHqvZ10SaE8u@ashyti-mobl2.lan>
-References: <20250611104352.1014011-2-janusz.krzysztofik@linux.intel.com>
- <IA3PR11MB89873936B6D887A59ABD909CD075A@IA3PR11MB8987.namprd11.prod.outlook.com>
- <aEntEHqvZ10SaE8u@ashyti-mobl2.lan>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88F5510E7BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 09:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749719317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LpG3MW4qTy0ylo792gOjW9hrHjsXhjR7SwrnfuuBuMA=;
+ b=HZ9bL8jCS9XPlhemszd5tqR3w2G+cL90x2Sm1jIMdIASF1ROvuEnt0PyR4T6tJ4pfD3J9n
+ By17byEjAS5iikK8fiIIntp2pVEDmM38QNK7+/Zg+0fnfEBngNvcbdCJtf/IGTM5+eGGOK
+ J6dvuvvbhl+CnbkSLnB0bZ0DMq/Xum8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-695--pa4uIa-PUGUckiw53zpFQ-1; Thu, 12 Jun 2025 05:08:36 -0400
+X-MC-Unique: -pa4uIa-PUGUckiw53zpFQ-1
+X-Mimecast-MFC-AGG-ID: -pa4uIa-PUGUckiw53zpFQ_1749719315
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43eea5a5d80so3283995e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 02:08:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749719315; x=1750324115;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LpG3MW4qTy0ylo792gOjW9hrHjsXhjR7SwrnfuuBuMA=;
+ b=wcPpQnGzBy27fUKMVZC/hjLu1Y7sBAVIL5o3tXol5ca26NXviylkYgSdxJN0U9rxrj
+ zGPyI2iwfALJVJJlIuyapQdxL+RMJaYUz+If8jslWlhNjE2xjqBiaruJ+Ly2nijnpLfS
+ /9B2TqeftuW6LUbvEXg4LZnO20LVoTsMNtU9I7nSmr8m/hBNprbhoztFO/3/A0w+TbEr
+ qsfhP+UPTBlTiA22Vvqc15GjOH5kcOAycH3MPBbJlhACJjcutWxZ3XDYqgptXPhiA2Yh
+ 2hTS8qzUo7CvcnZYqIHICMT+J4SzcOLWT9npitFftXhmESkyPrQ228MITDk4stg28LFc
+ NzHw==
+X-Gm-Message-State: AOJu0Yxo6Eqwh1qdR0lgnLJyYSMGI6iX4fOdkE0ZcLCFIh4I1sEPzBmz
+ rbVMAuVrnL06SsysyAFiiXLH27Cq5BABtZRn8LoHkzaOeNt5j0zIq++Mi5hNNsUya6C/8e56jfF
+ iPpxhEqy8oCq3IHgEkgsvB53CLM3zarZrVn7hTELGzAcaEO6IkaGuV9coNPxOYZzWYia5ww==
+X-Gm-Gg: ASbGncuMVSQIC5yIKlzzZyI4UyM52+APfdSRwXruhmgdyN1naXbE9l0IIHeB8RbLdvK
+ 6FG1LILARxEf9aSIawWYOuZQoEVqCUsKnSuTUtZj5xiahsdnprkFPq4ljpnbGNhTDRkbr0wetry
+ 7/OSUnqOfsLkcUVhTakKN6zmLitVl5DOXuvSzaaJx9Vi56tazbm2NGF/w42xbLhJK7770lxgTbf
+ JsOIIQMAZfyPnmBSB8nDd0zKtcJT7LRvXqIY5YmSzIClO94kDtC0aq+pRFTp3uVPcDUtgIzu0JN
+ zaEIyXOUrk2FqFhf5JTrIbU7GdPAqe4yGeKpB/aPA4TMu8fz+EiU1TNTteH/SQ==
+X-Received: by 2002:a05:600c:8b02:b0:450:b9c0:c7d2 with SMTP id
+ 5b1f17b1804b1-4532d25a1edmr19698515e9.11.1749719315317; 
+ Thu, 12 Jun 2025 02:08:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQgksg4q4ZOX8jIzGCR5VPPqFTQ8tXbEdqMo7eSmb/uRrbkuC7l+7M7AW+CxJUKQI38WUa0w==
+X-Received: by 2002:a05:600c:8b02:b0:450:b9c0:c7d2 with SMTP id
+ 5b1f17b1804b1-4532d25a1edmr19698285e9.11.1749719314866; 
+ Thu, 12 Jun 2025 02:08:34 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4532e232219sm13901285e9.9.2025.06.12.02.08.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jun 2025 02:08:34 -0700 (PDT)
+Message-ID: <55479b68-5bbf-4d25-a99a-13fd11b542ea@redhat.com>
+Date: Thu, 12 Jun 2025 11:08:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mgag200: Do not include <linux/export.h>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250612085308.203861-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250612085308.203861-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fUMjHNn6f8IoJuflJEzbZOiojfU2WDurtob0mw-pz90_1749719315
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +99,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 11 June 2025 22:54:40 CEST Andi Shyti wrote:
-> Hi Nitin,
+On 12/06/2025 10:53, Thomas Zimmermann wrote:
+> Fix the compile-time warning
 > 
-> On Wed, Jun 11, 2025 at 03:45:30PM +0000, Gote, Nitin R wrote:
-> > [...]
-> > > Subject: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA alloc
-> > > error
-> > >
-> > 
-> > Generally, it's preferred to use "drm/i915/gt:" file path over "drm/i915/ring_submission:"  file name in the commit title.
+>    drivers/gpu/drm/mgag200/mgag200_ddc.c: warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
 > 
-> good observation, I missed it. I agree with Nitin on this, it can
-> be fixed before merging.
+Thanks, it looks good to me.
 
-I'm not sure.  I found no single word on the *subsystem* component of the 
-canonical patch format subject line (or commit message) expected to reflect 
-any directory structure in case of DRM.  However, if you think it should for 
-some reason, or you just don't recognize i915 ring submission as a good 
-candidate for the subsystem component of the commit message, then I'm OK with 
-drm/i915/gt, but then, the summary phrase of the commit message seems too 
-general for the whole GT subsystem, not pointing to ring submission as the 
-only submission method out of the three that's affected, and needs to be 
-rephrased, I believe, while still kept short enough.  Maybe "Fix *legacy* 
-timeline held on VMA alloc error" (with the 'left' word dropped)?
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Thanks,
-Janusz
-
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_ddc.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> Andi
-> 
-
-
-
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_ddc.c b/drivers/gpu/drm/mgag200/mgag200_ddc.c
+> index 6d81ea8931e8..c31673eaa554 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_ddc.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_ddc.c
+> @@ -26,7 +26,6 @@
+>    * Authors: Dave Airlie <airlied@redhat.com>
+>    */
+>   
+> -#include <linux/export.h>
+>   #include <linux/i2c-algo-bit.h>
+>   #include <linux/i2c.h>
+>   #include <linux/pci.h>
 
