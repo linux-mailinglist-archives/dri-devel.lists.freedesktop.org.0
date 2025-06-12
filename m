@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48334AD7A40
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDD9AD7A42
 	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9174210E133;
-	Thu, 12 Jun 2025 18:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C71510E12D;
+	Thu, 12 Jun 2025 18:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="djpoFY4h";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="C/DpYOMm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA4D110E133
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:59:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1749754744; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE84B10E138
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:59:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749754756; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=W2Xd/MRETaSRWhXoaqi9hIgxR58OJXZ9/fr8OWlueEKqoMF3L2dNJyaabTILOnOSpx43bLsWBM/M57E/UbOIy5LzUit8rz0ekYYaqtn2tvlcGoIz/6KXXef9HkAfrn3qZnuVf8YmK2k6Qipt67j4Cp7qZ9V7l82W82PtruE6OMY=
+ b=CBOIvPdpnwhgCTvwe5sFBAfTEl1njLX0zXVDFaCppVlhfCyypgYpxxtSL3MvGguVqa3MorehB9fHEzAFJsLfUEZAJq2jpS1vD1N4F1QKdQnxnagxaceUz7COQxdmypk5mv9yuu2Rq9Yx3Ys2hPTBmJ6dP9HjsDGSX3g02WSVO7w=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1749754744;
+ s=zohoarc; t=1749754756;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=M6zK0OgGM/CnVtmZRXHUCPu/tj9ZRgyPTrSU5UVMDC0=; 
- b=kPvBLF1wV3wXD7+rQZd35kgxj+jmx9io2Qgo50ADZjzTBUqPXdWjFmG3BQijqclbVJvHpLo/lHF0uNukphKYu+PLnWBeeU+0vhe//9/6kumJhqj8bvMLIm8TAraxAReNvpKavGCK3wtjw5Dzzb3ezQcjAAkxzG6MuvelMUC9Zfg=
+ bh=9ZnQKAbaT78Eae/Xd9b9B4optwHktbrLeo53MJUOU8A=; 
+ b=aMfnfFNSgMbenS1kxLhqaMWkxoPMTW+BVRIClzu6DFZyNd6JjIInsKLevQitKO08vbcMwwHWL334pYCMMlimP8GzqCo7p8gizC9MGrMsvOpcW+9xilv5qieCw73p6jlT2qyz5d6H5B0D7NmUyG3qDxisYnwiIefflkzjFUrW4jI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749754744; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749754756; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=M6zK0OgGM/CnVtmZRXHUCPu/tj9ZRgyPTrSU5UVMDC0=;
- b=djpoFY4h7aflc431qIQDc6dxzn6q2Eot0jbtSeTYciE31RABj7ifal6I9wZ8i9E2
- /g5TL4RdzIx5JJWZC6oTZA7hn23Nljjr5yVEr3fApDck/s1QRbqVykfL+YhC/JkCjiA
- 51EqjVpFKsb1S/ed3nnxtRYlPFh1xoVZKjTpTj6o=
-Received: by mx.zohomail.com with SMTPS id 1749754741989226.8065694691487;
- Thu, 12 Jun 2025 11:59:01 -0700 (PDT)
+ bh=9ZnQKAbaT78Eae/Xd9b9B4optwHktbrLeo53MJUOU8A=;
+ b=C/DpYOMmh2lAuNT39xKgRN55s5SBB3h6AmIl9sB2Uyc9N6Ul3a5MVrS7R+GVeSnB
+ v6XXSviAvelQwebESxh2ezJayYI7HFwDVsQQFaGAUXrmNSurxCFly9jTRLCpqoh/ull
+ PEjGdNqFU4mkz5VpswIWL9s4I7LntUy3PmDjl3eQ=
+Received: by mx.zohomail.com with SMTPS id 1749754755002991.4213948311354;
+ Thu, 12 Jun 2025 11:59:15 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 12 Jun 2025 20:56:14 +0200
-Subject: [PATCH 12/20] phy: rockchip-usb: switch to HWORD_UPDATE macro
+Date: Thu, 12 Jun 2025 20:56:15 +0200
+Subject: [PATCH 13/20] drm/rockchip: dw_hdmi: switch to HWORD_UPDATE*
+ macros
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-byeword-update-v1-12-f4afb8f6313f@collabora.com>
+Message-Id: <20250612-byeword-update-v1-13-f4afb8f6313f@collabora.com>
 References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
 In-Reply-To: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -103,136 +104,165 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 drivers that use constant masks.
 
-Remove this driver's HIWORD_UPDATE macro, and replace all instances of
-it with (hopefully) equivalent HWORD_UPDATE instances. To do this, a few
-of the defines are being adjusted, as HWORD_UPDATE shifts up the value
-for us. This gets rid of the icky update(mask, mask) shenanigans.
+Remove this driver's very own HIWORD_UPDATE macro, and replace all
+instances of it with equivalent instantiations of HWORD_UPDATE or
+HWORD_UPDATE_CONST, depending on whether it's in an initializer.
 
-The benefit of using HWORD_UPDATE is that it does more checking of the
-input, hopefully catching errors. In practice, a shared definition makes
-code more readable than several different flavours of the same macro,
-and the shifted value helps as well.
+This gives us better error checking, and a centrally agreed upon
+signature for this macro, to ease in code comprehension.
 
-I do not have the hardware that uses this particular driver, so it's
-compile-tested only as far as my own testing goes.
+Because HWORD_UPDATE/HWORD_UPDATE_CONST shifts the value to the mask
+(like FIELD_PREP et al do), a lot of macro instantiations get easier to
+read.
+
+This was tested on an RK3568 ODROID M1, as well as an RK3399 ROCKPro64.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usb.c | 51 +++++++++++++--------------------
- 1 file changed, 20 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 80 +++++++++++++----------------
+ 1 file changed, 36 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-usb.c b/drivers/phy/rockchip/phy-rockchip-usb.c
-index 666a896c8f0a08443228914a039b95974e15ba58..23c9885ec717ffeb6e4589dd0851b0307366738c 100644
---- a/drivers/phy/rockchip/phy-rockchip-usb.c
-+++ b/drivers/phy/rockchip/phy-rockchip-usb.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2014 ROCKCHIP, Inc.
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index f737e7d46e667f2411a77aa8d1004637c50fbc5c..e8cb7fae6c22903db32f498459b22372a131963d 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2014, Rockchip Electronics Co., Ltd.
   */
  
 +#include <linux/bitfield.h>
  #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/io.h>
-@@ -24,9 +25,6 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+@@ -54,8 +55,6 @@
+ #define RK3568_HDMI_SDAIN_MSK		BIT(15)
+ #define RK3568_HDMI_SCLIN_MSK		BIT(14)
  
- static int enable_usb_uart;
- 
--#define HIWORD_UPDATE(val, mask) \
--		((val) | (mask) << 16)
+-#define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
 -
- #define UOC_CON0					0x00
- #define UOC_CON0_SIDDQ					BIT(13)
- #define UOC_CON0_DISABLE				BIT(4)
-@@ -38,10 +36,10 @@ static int enable_usb_uart;
- #define UOC_CON3					0x0c
- /* bits present on rk3188 and rk3288 phys */
- #define UOC_CON3_UTMI_TERMSEL_FULLSPEED			BIT(5)
--#define UOC_CON3_UTMI_XCVRSEELCT_FSTRANSC		(1 << 3)
--#define UOC_CON3_UTMI_XCVRSEELCT_MASK			(3 << 3)
--#define UOC_CON3_UTMI_OPMODE_NODRIVING			(1 << 1)
--#define UOC_CON3_UTMI_OPMODE_MASK			(3 << 1)
-+#define UOC_CON3_UTMI_XCVRSEELCT_FSTRANSC		1U
-+#define UOC_CON3_UTMI_XCVRSEELCT_MASK			GENMASK(4, 3)
-+#define UOC_CON3_UTMI_OPMODE_NODRIVING			1U
-+#define UOC_CON3_UTMI_OPMODE_MASK			GENMASK(2, 1)
- #define UOC_CON3_UTMI_SUSPENDN				BIT(0)
+ /**
+  * struct rockchip_hdmi_chip_data - splite the grf setting of kind of chips
+  * @lcdsel_grf_reg: grf register offset of lcdc select
+@@ -359,17 +358,14 @@ static void dw_hdmi_rk3228_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
  
- struct rockchip_usb_phys {
-@@ -79,7 +77,7 @@ struct rockchip_usb_phy {
- static int rockchip_usb_phy_power(struct rockchip_usb_phy *phy,
- 					   bool siddq)
- {
--	u32 val = HIWORD_UPDATE(siddq ? UOC_CON0_SIDDQ : 0, UOC_CON0_SIDDQ);
-+	u32 val = HWORD_UPDATE(UOC_CON0_SIDDQ, siddq);
+ 	dw_hdmi_phy_setup_hpd(dw_hdmi, data);
  
- 	return regmap_write(phy->base->reg_base, phy->reg_offset, val);
+-	regmap_write(hdmi->regmap,
+-		RK3228_GRF_SOC_CON6,
+-		HIWORD_UPDATE(RK3228_HDMI_HPD_VSEL | RK3228_HDMI_SDA_VSEL |
+-			      RK3228_HDMI_SCL_VSEL,
+-			      RK3228_HDMI_HPD_VSEL | RK3228_HDMI_SDA_VSEL |
+-			      RK3228_HDMI_SCL_VSEL));
+-
+-	regmap_write(hdmi->regmap,
+-		RK3228_GRF_SOC_CON2,
+-		HIWORD_UPDATE(RK3228_HDMI_SDAIN_MSK | RK3228_HDMI_SCLIN_MSK,
+-			      RK3228_HDMI_SDAIN_MSK | RK3228_HDMI_SCLIN_MSK));
++	regmap_write(hdmi->regmap, RK3228_GRF_SOC_CON6,
++		     HWORD_UPDATE(RK3228_HDMI_HPD_VSEL, 1) |
++		     HWORD_UPDATE(RK3228_HDMI_SDA_VSEL, 1) |
++		     HWORD_UPDATE(RK3228_HDMI_SCL_VSEL, 1));
++
++	regmap_write(hdmi->regmap, RK3228_GRF_SOC_CON2,
++		     HWORD_UPDATE(RK3228_HDMI_SDAIN_MSK, 1) |
++		     HWORD_UPDATE(RK3328_HDMI_SCLIN_MSK, 1));
  }
-@@ -332,29 +330,24 @@ static int __init rockchip_init_usb_uart_common(struct regmap *grf,
- 	 * but were not present in the original code.
- 	 * Also disable the analog phy components to save power.
- 	 */
--	val = HIWORD_UPDATE(UOC_CON0_COMMON_ON_N
--				| UOC_CON0_DISABLE
--				| UOC_CON0_SIDDQ,
--			    UOC_CON0_COMMON_ON_N
--				| UOC_CON0_DISABLE
--				| UOC_CON0_SIDDQ);
-+	val = HWORD_UPDATE(UOC_CON0_COMMON_ON_N, 1) |
-+	      HWORD_UPDATE(UOC_CON0_DISABLE, 1) |
-+	      HWORD_UPDATE(UOC_CON0_SIDDQ, 1);
- 	ret = regmap_write(grf, regoffs + UOC_CON0, val);
- 	if (ret)
- 		return ret;
  
--	val = HIWORD_UPDATE(UOC_CON2_SOFT_CON_SEL,
--			    UOC_CON2_SOFT_CON_SEL);
-+	val = HWORD_UPDATE(UOC_CON2_SOFT_CON_SEL, 1);
- 	ret = regmap_write(grf, regoffs + UOC_CON2, val);
- 	if (ret)
- 		return ret;
+ static enum drm_connector_status
+@@ -381,15 +377,13 @@ dw_hdmi_rk3328_read_hpd(struct dw_hdmi *dw_hdmi, void *data)
+ 	status = dw_hdmi_phy_read_hpd(dw_hdmi, data);
  
--	val = HIWORD_UPDATE(UOC_CON3_UTMI_OPMODE_NODRIVING
--				| UOC_CON3_UTMI_XCVRSEELCT_FSTRANSC
--				| UOC_CON3_UTMI_TERMSEL_FULLSPEED,
--			    UOC_CON3_UTMI_SUSPENDN
--				| UOC_CON3_UTMI_OPMODE_MASK
--				| UOC_CON3_UTMI_XCVRSEELCT_MASK
--				| UOC_CON3_UTMI_TERMSEL_FULLSPEED);
-+	val = HWORD_UPDATE(UOC_CON3_UTMI_SUSPENDN, 0) |
-+	      HWORD_UPDATE(UOC_CON3_UTMI_OPMODE_MASK,
-+			   UOC_CON3_UTMI_OPMODE_NODRIVING) |
-+	      HWORD_UPDATE(UOC_CON3_UTMI_XCVRSEELCT_MASK,
-+			   UOC_CON3_UTMI_XCVRSEELCT_FSTRANSC) |
-+	      HWORD_UPDATE(UOC_CON3_UTMI_TERMSEL_FULLSPEED, 1);
- 	ret = regmap_write(grf, UOC_CON3, val);
- 	if (ret)
- 		return ret;
-@@ -380,10 +373,8 @@ static int __init rk3188_init_usb_uart(struct regmap *grf,
- 	if (ret)
- 		return ret;
+ 	if (status == connector_status_connected)
+-		regmap_write(hdmi->regmap,
+-			RK3328_GRF_SOC_CON4,
+-			HIWORD_UPDATE(RK3328_HDMI_SDA_5V | RK3328_HDMI_SCL_5V,
+-				      RK3328_HDMI_SDA_5V | RK3328_HDMI_SCL_5V));
++		regmap_write(hdmi->regmap, RK3328_GRF_SOC_CON4,
++			     HWORD_UPDATE(RK3328_HDMI_SDA_5V, 1) |
++			     HWORD_UPDATE(RK3328_HDMI_SCL_5V, 1));
+ 	else
+-		regmap_write(hdmi->regmap,
+-			RK3328_GRF_SOC_CON4,
+-			HIWORD_UPDATE(0, RK3328_HDMI_SDA_5V |
+-					 RK3328_HDMI_SCL_5V));
++		regmap_write(hdmi->regmap, RK3328_GRF_SOC_CON4,
++			     HWORD_UPDATE(RK3328_HDMI_SDA_5V, 0) |
++			     HWORD_UPDATE(RK3328_HDMI_SCL_5V, 0));
+ 	return status;
+ }
  
--	val = HIWORD_UPDATE(RK3188_UOC0_CON0_BYPASSSEL
--				| RK3188_UOC0_CON0_BYPASSDMEN,
--			    RK3188_UOC0_CON0_BYPASSSEL
--				| RK3188_UOC0_CON0_BYPASSDMEN);
-+	val = HWORD_UPDATE(RK3188_UOC0_CON0_BYPASSSEL, 1) |
-+	      HWORD_UPDATE(RK3188_UOC0_CON0_BYPASSDMEN, 1);
- 	ret = regmap_write(grf, RK3188_UOC0_CON0, val);
- 	if (ret)
- 		return ret;
-@@ -430,10 +421,8 @@ static int __init rk3288_init_usb_uart(struct regmap *grf,
- 	if (ret)
- 		return ret;
+@@ -400,21 +394,21 @@ static void dw_hdmi_rk3328_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
+ 	dw_hdmi_phy_setup_hpd(dw_hdmi, data);
  
--	val = HIWORD_UPDATE(RK3288_UOC0_CON3_BYPASSSEL
--				| RK3288_UOC0_CON3_BYPASSDMEN,
--			    RK3288_UOC0_CON3_BYPASSSEL
--				| RK3288_UOC0_CON3_BYPASSDMEN);
-+	val = HWORD_UPDATE(RK3288_UOC0_CON3_BYPASSSEL, 1) |
-+	      HWORD_UPDATE(RK3288_UOC0_CON3_BYPASSDMEN, 1);
- 	ret = regmap_write(grf, RK3288_UOC0_CON3, val);
- 	if (ret)
- 		return ret;
+ 	/* Enable and map pins to 3V grf-controlled io-voltage */
+-	regmap_write(hdmi->regmap,
+-		RK3328_GRF_SOC_CON4,
+-		HIWORD_UPDATE(0, RK3328_HDMI_HPD_SARADC | RK3328_HDMI_CEC_5V |
+-				 RK3328_HDMI_SDA_5V | RK3328_HDMI_SCL_5V |
+-				 RK3328_HDMI_HPD_5V));
+-	regmap_write(hdmi->regmap,
+-		RK3328_GRF_SOC_CON3,
+-		HIWORD_UPDATE(0, RK3328_HDMI_SDA5V_GRF | RK3328_HDMI_SCL5V_GRF |
+-				 RK3328_HDMI_HPD5V_GRF |
+-				 RK3328_HDMI_CEC5V_GRF));
+-	regmap_write(hdmi->regmap,
+-		RK3328_GRF_SOC_CON2,
+-		HIWORD_UPDATE(RK3328_HDMI_SDAIN_MSK | RK3328_HDMI_SCLIN_MSK,
+-			      RK3328_HDMI_SDAIN_MSK | RK3328_HDMI_SCLIN_MSK |
+-			      RK3328_HDMI_HPD_IOE));
++	regmap_write(hdmi->regmap, RK3328_GRF_SOC_CON4,
++		     HWORD_UPDATE(RK3328_HDMI_HPD_SARADC, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_CEC_5V, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_SDA_5V, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_SCL_5V, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_HPD_5V, 0));
++	regmap_write(hdmi->regmap, RK3328_GRF_SOC_CON3,
++		     HWORD_UPDATE(RK3328_HDMI_SDA5V_GRF, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_SCL5V_GRF, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_HPD5V_GRF, 0) |
++		     HWORD_UPDATE(RK3328_HDMI_CEC5V_GRF, 0));
++	regmap_write(hdmi->regmap, RK3328_GRF_SOC_CON2,
++		     HWORD_UPDATE(RK3328_HDMI_SDAIN_MSK, 1) |
++		     HWORD_UPDATE(RK3328_HDMI_SCLIN_MSK, 1) |
++		     HWORD_UPDATE(RK3328_HDMI_HPD_IOE, 0));
+ 
+ 	dw_hdmi_rk3328_read_hpd(dw_hdmi, data);
+ }
+@@ -442,8 +436,8 @@ static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
+ 
+ static struct rockchip_hdmi_chip_data rk3288_chip_data = {
+ 	.lcdsel_grf_reg = RK3288_GRF_SOC_CON6,
+-	.lcdsel_big = HIWORD_UPDATE(0, RK3288_HDMI_LCDC_SEL),
+-	.lcdsel_lit = HIWORD_UPDATE(RK3288_HDMI_LCDC_SEL, RK3288_HDMI_LCDC_SEL),
++	.lcdsel_big = HWORD_UPDATE_CONST(RK3288_HDMI_LCDC_SEL, 0),
++	.lcdsel_lit = HWORD_UPDATE_CONST(RK3288_HDMI_LCDC_SEL, 1),
+ 	.max_tmds_clock = 340000,
+ };
+ 
+@@ -479,8 +473,8 @@ static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
+ 
+ static struct rockchip_hdmi_chip_data rk3399_chip_data = {
+ 	.lcdsel_grf_reg = RK3399_GRF_SOC_CON20,
+-	.lcdsel_big = HIWORD_UPDATE(0, RK3399_HDMI_LCDC_SEL),
+-	.lcdsel_lit = HIWORD_UPDATE(RK3399_HDMI_LCDC_SEL, RK3399_HDMI_LCDC_SEL),
++	.lcdsel_big = HWORD_UPDATE_CONST(RK3399_HDMI_LCDC_SEL, 0),
++	.lcdsel_lit = HWORD_UPDATE_CONST(RK3399_HDMI_LCDC_SEL, 1),
+ 	.max_tmds_clock = 594000,
+ };
+ 
+@@ -597,10 +591,8 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 
+ 	if (hdmi->chip_data == &rk3568_chip_data) {
+ 		regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
+-			     HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
+-					   RK3568_HDMI_SCLIN_MSK,
+-					   RK3568_HDMI_SDAIN_MSK |
+-					   RK3568_HDMI_SCLIN_MSK));
++			     HWORD_UPDATE(RK3568_HDMI_SDAIN_MSK, 1) |
++			     HWORD_UPDATE(RK3568_HDMI_SCLIN_MSK, 1));
+ 	}
+ 
+ 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
 
 -- 
 2.49.0
