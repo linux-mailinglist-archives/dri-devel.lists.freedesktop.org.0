@@ -2,87 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E05AD6D31
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 12:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E23AD6D81
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 12:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4AA10E76D;
-	Thu, 12 Jun 2025 10:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3BD710E755;
+	Thu, 12 Jun 2025 10:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c9MVRztx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BaJzVZi5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB72C10E76D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 10:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749723094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pGBy51vLwHxiRFzlFG6sAE4XXz4ixGxJT7JNZmx6ya0=;
- b=c9MVRztxT7N9fkYi6XwKUP8uPc1dqdE5cKtzuayNWQyd+55ZmUSuJEKI4ZKra4oT9OEgM4
- Y4qJgzOYuDkNjLTp2iy251On6MgioK8KgtiFcpC6Yi14EdCG4HR1aRCRdY7mExUaSJKepq
- Um53b/FeM2SG46TgI4Q45XLlqjyrKcc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-312-62ymOTIAMR-nsknXAGnsdg-1; Thu, 12 Jun 2025 06:11:33 -0400
-X-MC-Unique: 62ymOTIAMR-nsknXAGnsdg-1
-X-Mimecast-MFC-AGG-ID: 62ymOTIAMR-nsknXAGnsdg_1749723093
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-450df53d461so6098925e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 03:11:33 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0158110E755
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 10:22:34 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-607cc1a2bd8so1452039a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 03:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749723753; x=1750328553; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ELcPuvNKLZu6Ryw5rajS8NLZ+N5vs8CjzH8DFZ2k5qY=;
+ b=BaJzVZi5NxXEhllZyBw1O+wK859fMcivLp4JUtwjTnmTADft47BtysHrQkoHt4LfKn
+ d1mpvC++ubDdlEX5xSN8aqORNp1spRkhgyTAs8hSJoZzf1+uFpx+vPAKo9pXEVH4eACo
+ op+JikkBJWdh2lqZ3HH93ZXvh+Y42M86S4lbTQ08qC3nOmTmzXtu5tQ6FOERSSLfOgPp
+ 3/ukMZqOczU/eYKb3y9L6IoJElZEB1wLUBO10MHGCi6lDrQnLjFzzvZyxn6zEHHuzKHC
+ gwFy/tXlDOx0yC+PP0MKzRkI7no3no/cxSkbPtrfa6AAZs3yJAOp/8JJ0kKrrXghp3WQ
+ j32w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749723092; x=1750327892;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pGBy51vLwHxiRFzlFG6sAE4XXz4ixGxJT7JNZmx6ya0=;
- b=nsjXwSxF2yoRM00PMTe6DbkEFrmCocNWE4zC/KnusY9Jliq0dYxncDw6a+vQjcKNR5
- LrfB2+6VpbKY4UVb9uSr+KuFOfPUMbbGDigepxtNQOmNyQUqnIDqg2nHdbazViqqCbRd
- bRPPChbMQ9ym+x0vbrhALXASO3d/szweVX4dL9aVSWZav6cL/SoLAyerp7pkmv5ErY0b
- 4p5kHw6l3VtW4CXAuuvJYcCFmr1cZocsR/6PM2U7r09YNyxbCp0pAWzMAs9jtagmU1K7
- BucAtrE8jRwC8xr34U5NK+6cE85ls5sZk7ePIJwZeuE8BsvVHwBgJCZSC362/bG88V3r
- KRYg==
-X-Gm-Message-State: AOJu0YxO1ZCBvK3ksMKdSYW7N89AL88dSYMrD42f4EOFM2nFG+mfGoZj
- 9aRUSh01JUZUSl3YuhSyJ1TOGkav8SZ0WKq+3XE3ZO8shGDWUperHCYXxd6Y4lRSiX71ef1gzKQ
- mhtl4AxNP6xicvXF9pRP5GJ4us5VuZ9FeXic2jhblU/hHoQmnpHww9tlD27M3v7r1YAEu7Q==
-X-Gm-Gg: ASbGncsCdIATo3UyLX1j7VdaEgOWWjMPqCRk0yc51843oqrP8S5ebal1RdyXwvwtRPn
- lGw6cqBo9/R+Epm4GJG9+GTkOPVIw5EvKjnTrF4EgKdFWu5VFgdKqRkgS9FpRyPuSLeXncPm7mD
- 0YOSTWTpLRAGC7DmurUEJbQuCTXg9ie0Y+LFsAvyYqna0giR4pDSsN71mimc5mBYif+J3ApYc2S
- WpATZtT4EhpKuVQ5Nt3Re9E9btpoXZH8NPBWGCSnHaVsdl0/V/aTPlpvNIuT0aMhdZa+yxS+gP7
- fLxuAP+CdFmycM8FkSEpEPzZKiFBd8GaO4+dlPIB0dqn/iBUdP/Z92ixXRYGrJ+LIUmKrulAqmG
- XFGsJ
-X-Received: by 2002:a05:600c:3487:b0:442:cd03:3e2 with SMTP id
- 5b1f17b1804b1-4532b8c566fmr31029965e9.2.1749723092561; 
- Thu, 12 Jun 2025 03:11:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGIRwSDETjsZDvA9ygkTiRFeiyQOH8GnjwgKrGOBot/g2hhj30nslnq4PXXYLc3PE0ueXti5Q==
-X-Received: by 2002:a05:600c:3487:b0:442:cd03:3e2 with SMTP id
- 5b1f17b1804b1-4532b8c566fmr31029745e9.2.1749723092226; 
- Thu, 12 Jun 2025 03:11:32 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ d=1e100.net; s=20230601; t=1749723753; x=1750328553;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ELcPuvNKLZu6Ryw5rajS8NLZ+N5vs8CjzH8DFZ2k5qY=;
+ b=EtEJidSt7ufjahSIysS2WbS/dVX5SqDaqTUXT/2CUNKZUoZj6JpCIe7ZFWU/l9ID+D
+ N1pTI/TPiIyNwYp8Sl4l/YXjgXw67od5vb/pzseRKQNLfp9goHVJfPpbhaRonaC/orUR
+ EXD4F4fQSSAviJkegXnTt/hb7JbhEmYmuTENz9ypYZfos1YRU+0/VDyPPuYOsZCqxrFe
+ Cp1wtYl3W9b2X77EbU3J7YcjKMLwCIulvXeVHWuzMGteEOWmMk57+7THdOxXpGv9i4WT
+ HyBAcgvCopFhF91hHFeKfCzXh4MQxnRy+C9CbBEM6F0Ya4ttpQS7Y71MEqqu23SCMu22
+ TqHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWP8kqocEUQjWNABUxGzez4dg5vVbazBMVga5ZtsYm7ejMoq7q3nPTZhBceGNphq/AV7I4Cv0H+Iwg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywvw82LKlc+1cRUNlIkZa/LJ0ch9bkdhH2tRJBu8ZbzBCnANtcS
+ ao+3/IH2Dm8UFetScSl467Mo0GoTALrDUDBpKhJ5bFRL8MGRfeyrmDmA
+X-Gm-Gg: ASbGncsj4soU3KNR492TwJd3S/Ghzz+4tapjZ40/BAT9/QgobKlj1G3/eGfO1v6YIaA
+ MppYB//HBVtGaXnhqeE1PmGNhGUrMkjgrgIBMNg/yvM3olSTVY+VOQchLnpN/h8ttrcxTH94mia
+ pG77zK0lx4wT2v0lAjFdUKpD2eNNt3n53AXod4REUXDIQ37x85M2ItARczek4G/2R1vp/JlxhFu
+ khfeU371nUAwaJzxPat7eC3YRiB9UWHgrjI0tH3c7yR//v/6rpmjaHMLmP/DOuDNoyZSHlOcQSh
+ yM+0cGLkSAzpp8ct+RsRel4Z8JrnpeP6O7fR8+L0qLQ3UXq0fUBWtuCOUnFEl53W0AKpdaAKZOO
+ RjSmlNpBYcw==
+X-Google-Smtp-Source: AGHT+IE0/bTYEFCNhrQjD7YEJLFi+GzwBTgnJRxUstfNcaX5VD81i0FvmEvIypNuTLGINT6BjMUjbg==
+X-Received: by 2002:a05:6402:40c5:b0:607:f431:33f4 with SMTP id
+ 4fb4d7f45d1cf-6086b2a46c4mr1919282a12.16.1749723753038; 
+ Thu, 12 Jun 2025 03:22:33 -0700 (PDT)
+Received: from smtpclient.apple ([89.66.237.154])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-453305a0d9dsm7950045e9.21.2025.06.12.03.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jun 2025 03:11:31 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, arthurgrillo@riseup.net,
- jose.exposito89@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/3] drm/format-helper: Move drm_fb_build_fourcc_list()
- to sysfb helpers
-In-Reply-To: <20250604154844.28995-4-tzimmermann@suse.de>
-References: <20250604154844.28995-1-tzimmermann@suse.de>
- <20250604154844.28995-4-tzimmermann@suse.de>
-Date: Thu, 12 Jun 2025 12:11:30 +0200
-Message-ID: <87ikl1w9pp.fsf@minerva.mail-host-address-is-not-set>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: q4RjUqB-nsU4YlJbWFDj4RygoRGcDlBe-GipQMC9vHw_1749723093
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+ 4fb4d7f45d1cf-6086a551a2esm939584a12.1.2025.06.12.03.22.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Jun 2025 03:22:32 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source
+ to VOP2 on rk3576
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
+Date: Thu, 12 Jun 2025 12:22:19 +0200
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ =?utf-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com,
+ Andy Yan <andyshrk@163.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <01D5D2D8-392B-4926-884E-1A4FB87C03CF@gmail.com>
+References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+ <20250612-rk3576-hdmitx-fix-v1-3-4b11007d8675@collabora.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,22 +105,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Thomas,
 
-> Only sysfb drivers use drm_fb_build_fourcc_list(). Move the function
-> to sysfb helpers and rename it accordingly. Update drivers and tests.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Wiadomo=C5=9B=C4=87 napisana przez Cristian Ciocaltea =
+<cristian.ciocaltea@collabora.com> w dniu 11 cze 2025, o godz. 23:47:
+>=20
+> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
+> char rate via phy_configure_opts_hdmi"), the workaround of passing the
+> rate from DW HDMI QP bridge driver via phy_set_bus_width() became
+> partially broken, as it cannot reliably handle mode switches anymore.
+>=20
+> Attempting to fix this up at PHY level would not only introduce
+> additional hacks, but it would also fail to adequately resolve the
+> display issues that are a consequence of the system CRU limitations.
+>=20
+> Instead, proceed with the solution already implemented for RK3588: =
+make
+> use of the HDMI PHY PLL as a better suited DCLK source for VOP2. This
+> will not only address the aforementioned problem, but it should also
+> facilitate the proper operation of display modes up to 4K@60Hz.
+>=20
+> It's worth noting that anything above 4K@30Hz still requires high TMDS
+> clock ratio and scrambling support, which hasn't been mainlined yet.
+>=20
+> Fixes: d74b842cab08 ("arm64: dts: rockchip: Add vop for rk3576")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
+> arch/arm64/boot/dts/rockchip/rk3576.dtsi | 6 ++++--
+> 1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi =
+b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> index =
+6a13fe0c3513fb2ff7cd535aa70e3386c37696e4..b1ac23035dd789f0478bf10c78c74ef1=
+67d94904 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+> @@ -1155,12 +1155,14 @@ vop: vop@27d00000 {
+> <&cru HCLK_VOP>,
+> <&cru DCLK_VP0>,
+> <&cru DCLK_VP1>,
+> - <&cru DCLK_VP2>;
+> + <&cru DCLK_VP2>,
+> + <&hdptxphy>;
+> clock-names =3D "aclk",
+>      "hclk",
+>      "dclk_vp0",
+>      "dclk_vp1",
+> -      "dclk_vp2";
+> +      "dclk_vp2",
+> +      "pll_hdmiphy0";
+> iommus =3D <&vop_mmu>;
+> power-domains =3D <&power RK3576_PD_VOP>;
+> rockchip,grf =3D <&sys_grf>;
+>=20
+> --=20
+> 2.49.0
+>=20
+>=20
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Cristian,
+It fixes fractional hd modes for me on rk3576.
+Thx for this fix!
+ =20
