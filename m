@@ -2,130 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F2AD753B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E65AD7566
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6913D10E88D;
-	Thu, 12 Jun 2025 15:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D48910E896;
+	Thu, 12 Jun 2025 15:12:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D9pJDTIC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h55Yrfpo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D15E10E890;
- Thu, 12 Jun 2025 15:07:32 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-7d098f7bd77so116898585a.0; 
- Thu, 12 Jun 2025 08:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749740850; x=1750345650; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ak1LLtwfOBZwskRiUyNHNLlsyugdrztZNAWM/dn6MRU=;
- b=D9pJDTICFxMiFzwKW5doNpYDUDKrAdOND5EJUhxmWPU9Z5gtH2t+g8QBfTxbyrU4Yn
- FcPYAMrRraxebkxVPERh70BJfiNZlOVREodctP8+QbV12CHUOAfWzXPpQfGVcdlK+vV2
- kHLEH3DsN86AgdC2HuyeJv1E2se+8MerdLkCl7vHmnM8UCsKdiVDBeVFAaR2oLUYxfUF
- TGPyz32oAN5/cEjcI7eYucOfcr+T3SMLC7I1Q25OX2LmHFrAlC2od24Xc6Se7nwKu16/
- kLXJLyOIAhc87vGUtqHc+O9MkayMpUhIxD7crXWf7ylR1yZJ5tp86HWaRG+zlfVyhFmH
- tPVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749740850; x=1750345650;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ak1LLtwfOBZwskRiUyNHNLlsyugdrztZNAWM/dn6MRU=;
- b=nUHRcFMP7p93pI+dWVrQRi6q1BbGSpYxQNQOT6a7VEIkYfhJ8YiSB8cy4ViPDCQYQJ
- VPaOzKMotx0ku4Cs+ca7+NQau347dXKqYVuoG4zY+24h2SsgmNgzQ3uAR8xsKNAVNwrR
- Jwk+IbsHzXPXHia7HksoK1DkD7fBvu5SAS55JcNOKRf8fM6SN67z1s9I3JZYIOPV3CpM
- MOd30iPig/Ib9gmsJ26z/1t+NHxg+IBJ2X+49lStLPV/WaQDM1N4qZFaLv1uO3inkiJH
- rGjBATVDcJgZ6FdA68RTRKxo8RHWsI8r1vBHjtJTf6Uzmz5v4aDL8VgPkRCUjDowt6y+
- jGWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWz7+ythaW1fqYqDfSXUOLBS1V9JyhyK4zc+cey7rcMXqpiGVtvuhcbsH6cq7HzWNBzeco4VWa2WPU=@lists.freedesktop.org,
- AJvYcCXZMjDchpDSHXK1wTALs++EXjxakJBa6tMe/XnzKjgIrnsYEvcAM4OXLqvkwoh05NyHyxUt6mS0Hg==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxaN4tq8CBiI0Wk1Z6i2KwkpskA18fCx1VnoS80S7bY3kbTHRjk
- BLm3c6IkS7VdG6Hlzowrb4BQ3Jhk4z5VKUcKdEC7aJgnlSk9udWnnIsc
-X-Gm-Gg: ASbGncvcFmoTTQNdB29S7nKYFTv13XZ3Q0++s+JVsXVnVmw0xP3Ti5g+SsR5T70u8/i
- oV/dqzjE8SQb3Fw6PJJp4kodk06UNBk7GGOwVx/OfIqWw5XvAoozRzu2/LwsTjdX1ZhQsL39W1+
- VbnYtE1PZWo4uat2/zfQWizIqXc7kHrLuYIM9iLyWUaJD9bw2dBlqtEfflqebxl1HQlJqrdfYkj
- Ya7vHnfoioczrrBe0Ysi8SxMCOFoC2KroeqZPdSQ8g+rXajbCRYY/mp5g/+nfXb5Xy3CHLE/bW7
- gmjKiRdAeHeOLAObGxcMRajDs+ah2RCYcbOtltBbCzrTktvMEf60X2ywbGv58SmMcv5XmmtEvx1
- 6D9tDQ2r2mfOobmfUUXW7c9NDF3QYQOSz5ELgFmCJs7d/5+5bfSLy
-X-Google-Smtp-Source: AGHT+IEWKSZx6VTctdm5flg6YAMB36hqq32ZNEDxmUm3MgkF6Ea8BVoTaEKdXSFIYzRhM3toOK+vxg==
-X-Received: by 2002:a05:620a:9518:b0:7d2:26b4:9a91 with SMTP id
- af79cd13be357-7d3b2d767demr440353885a.2.1749740850284; 
- Thu, 12 Jun 2025 08:07:30 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com
- (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7d3b8eaccc4sm50231485a.74.2025.06.12.08.07.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jun 2025 08:07:29 -0700 (PDT)
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal
- [10.202.2.41])
- by mailfauth.phl.internal (Postfix) with ESMTP id 181D01200068;
- Thu, 12 Jun 2025 11:07:29 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Thu, 12 Jun 2025 11:07:29 -0400
-X-ME-Sender: <xms:MO1KaDgHMEhzVqJlxjRbGTXEXxba_2qIWf9aziNlqYslBuHKbBIICQ>
- <xme:MO1KaAB_hWLwQ_KumJ9goIyJTHl87nDGHJeoV1QZvQQbv-hbn9Cjd73UXTi7KVseK
- j8DwPJNENniuMWQgQ>
-X-ME-Received: <xmr:MO1KaDFrUe4Ns8hrcz79ANJs6xQ4RjzbYopnsXhnYAPv_Iqbn3chdQh1LIM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduheefkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
- necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
- drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
- ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
- ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
- hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedvhedpmhho
- uggvpehsmhhtphhouhhtpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiughirgdrtg
- homhdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegr
- lhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrg
- hrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgr
- ihhlrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
- dprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthho
- pehtmhhgrhhoshhssehumhhitghhrdgvughupdhrtghpthhtohepuggrkhhrsehkvghrnh
- gvlhdrohhrgh
-X-ME-Proxy: <xmx:Me1KaAQWCDPz59Di9vz5U0N7B10kWFcUgfBUHSaSuaYRWrDPAGDxhg>
- <xmx:Me1KaAy8LP5ECCWuA5HrBXqqBuQqGMr4JwYSc-CpMHn3FCregyUwBA>
- <xmx:Me1KaG519a0LAZhG7fNKhrZEThmGhIkE5KsbPgZMF2oy0NiZe-j-Gg>
- <xmx:Me1KaFxlCbEIwqzjbg901zjDvebFIzJjneViKSvTbXkr3wyENdQ0tw>
- <xmx:Me1KaAidkRMYTHUUSt0MLjkxQgk755O_1_iwQspLEApSUd7t61Y08YXn>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Jun 2025 11:07:28 -0400 (EDT)
-Date: Thu, 12 Jun 2025 08:07:27 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
-Message-ID: <aErtL6yxLu3Azbsm@tardis.local>
-References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
- <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6141410E41F;
+ Thu, 12 Jun 2025 15:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749741131; x=1781277131;
+ h=message-id:date:subject:from:to:cc:references:
+ in-reply-to:mime-version;
+ bh=MH56iqS6CMMkHKlRH2i77LuaJPrzyWmoyYdIBtcqjzg=;
+ b=h55YrfpoKWqw+LtwfW1IQkoU7X9Ozfvmm+3w4whue0YuVvHlmKQlimMY
+ pmUofF1ADIGxpaoinE3oMz6+z0rCxfHW1UgzCGIryFTgRNI1qt4+tj6FB
+ g2SEkdsrwh3X00N1nwMGLTFZ+aGm6r4Y+992kywMYYCrAt1ywGTJUUoNG
+ 292bgRa8VrUVjMYeukKmW1fPvvQgEiQQQ+hiHb73v4lKZcFZdsQUh16h0
+ 70Cq66FLis8octu0UY5Eauc6IYJJRTbJ3goyk4EPBqNCoPPKPhNcFspqY
+ jo7yAPPGsPS7mwLWTab1C1YQDTvAIBu/UEwCn9fu/RUntU234MMip2QlU g==;
+X-CSE-ConnectionGUID: n+iu6d1XQGufEddcwnhjsA==
+X-CSE-MsgGUID: BcG2Se2gRGmcLHMLIDXcnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="54556230"
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208,217";a="54556230"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 08:12:05 -0700
+X-CSE-ConnectionGUID: VaZqRkbsRfWiL+SO463unA==
+X-CSE-MsgGUID: WtAa6tUJQS23gUit5KTsUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+ d="scan'208,217";a="147393466"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 08:11:49 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 08:11:49 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 12 Jun 2025 08:11:49 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.72)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 08:11:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g2lSmBi9y1A6648+MozpTICCDPArXcoqw7sPt5l9HTS8+6TeWNjrNMsz8stmZ9Dh0/H26ezDd0V8blRjutTSp898AditFG/i2o6Xztqld7YXSKGFmPYY3GYDtu00CmLMJpm3HteMzF4aTm3JGgcXNO8AU3QBODKUB25JBTX6s+AjqwMJ/cgvDCcsqIIjqgM6sVkIT73EYmpvYP1ciF/mzB1dWagF6ftgyaD5e4Vvc4Uv0Qj0kE4QgRhgWkLD/Y6jec1J2u9/mtDIUs92hmHd9Y7cWZXUvk/w6FEacx3Nm+ed4OIo9uzWa3MpFQmLd0foZYMJeQlGeLw7ukF2dsFC/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dt5dEkocsvqk200wZUAyszdOfIUGobn6pp7UNmPvfJg=;
+ b=O1QAQ89iJvgnmL+anI3yhtYcFCabhYczzq+O0tincr27ktgvk+EPB4QuL8AXt+v6au/WCUz+BwW8rJAuQXXEIWNY/narUNeurlFY6N+okvd7kvZzoOC6Es5619lAZj2317+oBtxu4H+DKVa0egBvvBEN0bbFU+Sn//cDWGx0EMCZZE5U5IQ8Ul4MDPAqY8jFf+jm7lSd2mpj4rwlKorPwSZukga/JiwdqKcPxz4lqsFEvHQCMUn4bEhRUF0HDHz2mhYOA9qJ9gZ48avqa32gs/MsocOVamrzurfl7pMzYYzez6zFlIq3gYsQ6CLpRgyoR48Kv1JCL5tQAExusgFf5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
+ by BL3PR11MB6433.namprd11.prod.outlook.com (2603:10b6:208:3b9::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.19; Thu, 12 Jun
+ 2025 15:11:31 +0000
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 15:11:30 +0000
+Content-Type: multipart/alternative;
+ boundary="------------OmqmnxHyfubsaSaACC1nADtO"
+Message-ID: <4b7e9d3c-90a4-40fa-abda-b90d7107a2d0@intel.com>
+Date: Thu, 12 Jun 2025 20:41:22 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/10] drm/xe/xe_late_bind_fw: Initialize late binding
+ firmware
+From: "Nilawar, Badal" <badal.nilawar@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
+ <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>, <jgg@nvidia.com>
+References: <20250606175707.1403384-1-badal.nilawar@intel.com>
+ <20250606175707.1403384-5-badal.nilawar@intel.com>
+ <18e1fbea-497a-4a54-94f5-57174ca58119@intel.com>
+ <d4497be8-3536-47a4-99b9-58b5f1468172@intel.com>
+Content-Language: en-US
+In-Reply-To: <d4497be8-3536-47a4-99b9-58b5f1468172@intel.com>
+X-ClientProxiedBy: MA0PR01CA0078.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ad::20) To BN9PR11MB5530.namprd11.prod.outlook.com
+ (2603:10b6:408:103::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|BL3PR11MB6433:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcce252e-cb38-43a2-ff73-08dda9c36915
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|8096899003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K01SQ0IxWXRiM0M3azhtRVVBVkVPeGsyZUZidUVQRU0zRDYrQzJYZ1c3WExw?=
+ =?utf-8?B?QU9jUnFsbzY4L1pYWjRlRmNMVDY4dFQwaHhhaFFqczYxQkVCY0pOUldBWTBu?=
+ =?utf-8?B?Q2pxM05MVEdNWHcwbGp0bVZqQ0dTRkdoZ2ZqNlk1Z0UxK3lwWUlCMUZWaTND?=
+ =?utf-8?B?RVloQzZDQmJocjVxaytDek8yU00wd1pTZ1Y5ZkpNK25paHlNbE9OYTJ3YVFL?=
+ =?utf-8?B?Vm8wdFlQKzZSemlNT2JYVVFEOEJ1akNTTmhRNUM0US96MVdRSks5Q2E4STNN?=
+ =?utf-8?B?aHBkTnZ6MmN5bDRRVVo0c0x4NkJtbStvajJVK24rM0NXbExjS01qeXVCWWNL?=
+ =?utf-8?B?WjBLdkpGNlUwakdUVW00aEh3MVpyRjlkeFFNaDJFMnhJS2h3OEhXV3FOTnhG?=
+ =?utf-8?B?VFV5bmFkVmNkNUZ2THBQZ0tHVEh0QWVhT3llYW10Zno4aER1RUtxbVFQSU9O?=
+ =?utf-8?B?TXdZMjVlSWZ4cWgyYTZaUGlEb2NUUUcxT0I0SjRCOEZKQkRjdGd4eHJuVWNZ?=
+ =?utf-8?B?OWtpQTZEMUx3ZEl5SUNyMUdIckR4Z21hci8zVWozeTc3dmNwcWpLMGJ2L0hy?=
+ =?utf-8?B?c2MzdC90QlpGZXQxdFNDeUNMTDZxbXdqcUdrVnp2N2Y4MUpXZ21SYnVCZ0RG?=
+ =?utf-8?B?anFteGVnWG1mQ2o4V3JhQUY5bGY0ZjY5S3VaYUtsUUJlaDJFbWdUbktZVXox?=
+ =?utf-8?B?bTB6Vks5THBnak4zcGROMi9UbjdXZDF6MitGQ3hXcGhndkoxZ1FLYmV4Z0JC?=
+ =?utf-8?B?K3NHOVRHRFhiUzlKS216TVByZlVlTStrSytoZy91WmZweUxHUFNrTDJiSDVx?=
+ =?utf-8?B?VDFNOFdwRE5tZWh2WGxrSVJnbStPN0I0YS9TTHFuQjlxRUJRZXFyTy9URW52?=
+ =?utf-8?B?UlBMeWlXbFJVUnRud3Z5aGpjRklXTmxXYmRIV21QcnNSTmlwbXJ2MTIyRUla?=
+ =?utf-8?B?d0VmU1lBa0Mva1FWZUVKcm5ZTzZwMEFsZTdtMlhxNXNMc1JoejJLQm00d3c3?=
+ =?utf-8?B?eEdBOGRxSVBLNWVZeWJQM1luTEsycjFKSVZ3V2xlUGdadUFqcnRiaU9meXZF?=
+ =?utf-8?B?ZjFVTTc0S2o4d3N3amhCVTRRL0Q5NDYwcjByb0dDc2llZFBMOEJqellhYVow?=
+ =?utf-8?B?THFiVXllZ1dYZ0IxaERONCt6RVd4M2lGaCt4ejVYd2h1VGFZWTlDSUZuR2xX?=
+ =?utf-8?B?T2UvYndWaUpSRTZKNWhnZnV6VVJ3ZjZJMTlhMXp3U2RLeUlFbGZ3b0l0THJi?=
+ =?utf-8?B?UE5RanpFTE5zMDd2RktrQkNZcUpQQ2wxL2Zkc2o2MXpRVjdLdnVQVklZVUJk?=
+ =?utf-8?B?KzdmZVMwTHFKVzhMMmZwSVo0Sy9BK2VKd1kzOS9WcUs5MjlLakF5WjRINVBH?=
+ =?utf-8?B?ajA3enNVL1REd0ZTTStwQnRkaTlBRm45QnloUnRDQXR5RlpZQmpmQlBURk5B?=
+ =?utf-8?B?bHlIMmhoUnFVd0lmNzl1bXpiZmhXeWg2SFByR0NBQndSVUJqNSt6ODBoWVB2?=
+ =?utf-8?B?eEtzbDZtNlNmbEppelJYYktVaEoxazA3V0pWN1RnTzRieTJTUWdtYWI1dFJz?=
+ =?utf-8?B?SXFHRXNseGVmZkZTRmkwdm0xSDNwUnY1amhhS2tzNmV3Rk8xQ0lGTkJWKzZa?=
+ =?utf-8?B?bm1ZbDhyWGowY1ZsdTNyZmI4K3JTR3Z1NGs2ajUzM0FvZTl2c3U5QU5PT3Zn?=
+ =?utf-8?B?WkE5cVpabXVDNnhPQ3U4dWR0bmh4NHF3cERKQVBYMlAxb01Xd0RWdmQ1cUVE?=
+ =?utf-8?B?S2k4SzFJTEgvdlJGRUhSQ29GVVFydllJVjEveUt6NUJEQ1pPbEpmS0djYkVL?=
+ =?utf-8?B?RXk0TWIvaFhzaDVFN0RpcXJ6bDQwdHlzRDdMUzZIV1hFTndVQjJ6T1VlQ2FX?=
+ =?utf-8?B?UTU4L09wTU9IUktFS3g4RU5jKytlbzVKeHBRSFB5UFV5cFNNN21PRklzSjJP?=
+ =?utf-8?Q?65oJGot+94w=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(8096899003); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3RuVTBJdktMdmxDRzRDSzVvSWlhVDMyaUJXZ0dHS1lqd0NDbTErRHlHVU41?=
+ =?utf-8?B?Wi9ieHRqTEdkYytVaXh3QVdtN0xFM081VmxHN0d0V1JldXFlWHFFZGN0OUds?=
+ =?utf-8?B?M1ltTFJJeTZWck16dUVLSDZET0NBUmcrSDdHNHFrNzJSdGtia3Q0SjBwQWE2?=
+ =?utf-8?B?QmlzRWFLdjhYUkJRQis4TzVIanJnMzlkYjhaOU41VmQxYmVndDhZT3lqbWR0?=
+ =?utf-8?B?Und3cXJwR2RGMU5YSnVoNW9HQlRpZ1FoWmttd21CUnFWUitHWkw2NjZqVW1P?=
+ =?utf-8?B?TzN4SVBJT3NvS2YwMEVOUko3RmZCZE9kN3h6cEk0OTUwb0x3aTI5WjMwMFM2?=
+ =?utf-8?B?aWhOeUo1VytzTnl4Nk44T0J2cks2cGpPQk9BcVpHRjhYZUUvQTNJUHdWZmxp?=
+ =?utf-8?B?YnIrMXcyczNDM1o1aEJhbXpWZUJLOXVwUndTZkc1OHZjNXExU0NFSy9VcjNr?=
+ =?utf-8?B?ejhjUUVJR2lGUkd0Y1V0UHhIYXNSR0JqL2xRUVdrNHZFa1JQMnhaUE5JM3o5?=
+ =?utf-8?B?Qm5oNDJzV2pLdi9iU0xwcytib2J2UkRzNmUxeXlNWSsvVmJRWUZGajEzWDN6?=
+ =?utf-8?B?M0hrZXJNTlVDejY0UTVETHJwOHk4Z0xpY3ZIL2E4ZThoRXllSVRNRlpoakV2?=
+ =?utf-8?B?L1ZPYk1lNjRDZ0RtbWgrWlBmcTY1TGJLS3EzRlZ1NU1lMTdPbnVGdXpwSjdY?=
+ =?utf-8?B?SzRlb3NUbk9sNFQweUJXRXRrK0xHNi93Qnh0QnlwTmkwVGlTZy9wZ2txNitN?=
+ =?utf-8?B?bFNuSWhkR1dPY3QzR1FTWWtya3ozdnNITnJUbTAyRG45dUdFcWtDMTVHYW1Z?=
+ =?utf-8?B?S0NwOW9ESEQ5VDVlWEt5ODlKMmoraUxKUk1OOU5qWEU5RFduc3lDeGhscjhU?=
+ =?utf-8?B?WS9uZW9mVTB0MDI2anlKV2NJK0xTWmtzRnZ1Qjd3cHRkUWQ0dkJrRVFnSko2?=
+ =?utf-8?B?V1pSZzVrMkRKMWMySkN2SXIyK2FSVkRoUWlJVi9IL0ZLQTdMeVNFZkZsMzV2?=
+ =?utf-8?B?N0ZHdUx4MjZObzg5YnN6dUF4UlVWVVlhb3VJRCtCQ0xhYWVkZld2em9SVE1M?=
+ =?utf-8?B?czg1WHhKRXhtcjYyRkFJVzJkWE5GMkdVUmdXRXhIVHZicnhhZEQ5emEvVCtG?=
+ =?utf-8?B?T3NIUW1MWUFTK1ZlRkFzUGdubGdDOVVKZjJSTXQ2K25LbWduY0JaZFg2NTEx?=
+ =?utf-8?B?OURNNlZjNVZoY1UybXJkakpFZ0ZHQ0tCV1ZyRUMxUTZPRkl1SWZyZXpUTkpY?=
+ =?utf-8?B?QmZ4ZnBIeTU4aU9udjlYdlBjYW5wMGlBTTcrd3ZVZ1BkM1FRK0NqVFdmZElr?=
+ =?utf-8?B?TnpkWU9WZHk2eUhmOHJvUUNaOTB2M1FrTU5ERzFRSEs1VXNDRVFBRE56SUls?=
+ =?utf-8?B?NEN2VUovQ3BZLzQ1TGUzcmFrdW1QOXdRenhXeUVKZWRIZmxEK2J5ODd4NVcx?=
+ =?utf-8?B?Ty9ocjFhOS9QSkxudjhqTFZFTU4yTVpoTitpUEd2SWFKdEZZbjJmczVnMEFz?=
+ =?utf-8?B?VnRWQVo4SHViTWZkalFmUUFBallUUTJuK3p4UmpkZERRaCtQMFdHN0d2anFm?=
+ =?utf-8?B?alY4RHlLUEh2eDBSSmJMdStMV1ZoR2FpZVZ2aGV2SVUzcit1cjNLb04rZEJu?=
+ =?utf-8?B?STd6ZGZVRmtxTDF0eWV5RGdGelgralNiTGtmZkpndWtmV1lNTndyZEo4K2E3?=
+ =?utf-8?B?L0J1eXgzSEFKSWVZSlpUc3JhSVhhc2czdzBRT0FYUWJPVmUvMys2T0pjK0Jk?=
+ =?utf-8?B?QWJ6dzJrT3JTMm5NNzdZWkNIWWw0Vk1jQmlwTTE0ZlNteG1adU9tMjR3V0J4?=
+ =?utf-8?B?bis4MjZvNllaOXFXdy96b1cxbXE1akU4cmZaVnpMSnRteEtPL2h3MFcwcGsv?=
+ =?utf-8?B?Qkc5MlFBN3BGRDF1Ykk3eEg4d2pSQkxBY0J3bk5NVk5YN0VKQk4rR3RvZlJX?=
+ =?utf-8?B?dHRkdklvWXU5RkhvQm02MWNIdGorNFJjMFp0YVVnaHlSZTBtSm4xYjQ5Nm9v?=
+ =?utf-8?B?MGZXbWM3S2NtN2krN0dTQmNLbXJrZEpPL2JXVGMzSWhvZVMvZy84MnhKdFZm?=
+ =?utf-8?B?QnFvZTBWZnNUMzFEcWNyempSUDZ6TGhUTVdlYTBsQ2d6U2VXMXRqdUlXQmpo?=
+ =?utf-8?B?L1F6Sk1GZGM5Tys0UWFTMmxEL1M2YnIvV2U2OFVzQm11NjF3ZXZpZEJXTXpT?=
+ =?utf-8?B?ZXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcce252e-cb38-43a2-ff73-08dda9c36915
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 15:11:30.7881 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UI3Yh/KKgXqpan/7l32PoN8Ls4aqxvmPjPwfCeusFkzaKPH5Gp7iMfe0zglxnVZQydn8HhNwPo+c01iJmItMPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6433
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,236 +202,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 11:01:32PM +0900, Alexandre Courbot wrote:
-> Introduce the `num` module, featuring the `PowerOfTwo` unsigned wrapper
-> that guarantees (at build-time or runtime) that a value is a power of
-> two.
-> 
-> Such a property is often useful to maintain. In the context of the
-> kernel, powers of two are often used to align addresses or sizes up and
-> down, or to create masks. These operations are provided by this type.
-> 
-> It is introduced to be first used by the nova-core driver.
-> 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  rust/kernel/lib.rs |   1 +
->  rust/kernel/num.rs | 173 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 174 insertions(+)
-> 
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 6b4774b2b1c37f4da1866e993be6230bc6715841..2955f65da1278dd4cba1e4272ff178b8211a892c 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -89,6 +89,7 @@
->  pub mod mm;
->  #[cfg(CONFIG_NET)]
->  pub mod net;
-> +pub mod num;
->  pub mod of;
->  #[cfg(CONFIG_PM_OPP)]
->  pub mod opp;
-> diff --git a/rust/kernel/num.rs b/rust/kernel/num.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ee0f67ad1a89e69f5f8d2077eba5541b472e7d8a
-> --- /dev/null
-> +++ b/rust/kernel/num.rs
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Numerical and binary utilities for primitive types.
-> +
-> +use crate::build_assert;
-> +use core::borrow::Borrow;
-> +use core::fmt::Debug;
-> +use core::hash::Hash;
-> +use core::ops::Deref;
-> +
-> +/// An unsigned integer which is guaranteed to be a power of 2.
-> +#[derive(Debug, Clone, Copy)]
-> +#[repr(transparent)]
-> +pub struct PowerOfTwo<T>(T);
-> +
-> +macro_rules! power_of_two_impl {
-> +    ($($t:ty),+) => {
-> +        $(
-> +            impl PowerOfTwo<$t> {
-> +                /// Validates that `v` is a power of two at build-time, and returns it wrapped into
-> +                /// `PowerOfTwo`.
-> +                ///
-> +                /// A build error is triggered if `v` cannot be asserted to be a power of two.
-> +                ///
-> +                /// # Examples
-> +                ///
-> +                /// ```
-> +                /// use kernel::num::PowerOfTwo;
-> +                ///
-> +                /// let v = PowerOfTwo::<u32>::new(256);
-> +                /// assert_eq!(v.value(), 256);
-> +                /// ```
-> +                #[inline(always)]
-> +                pub const fn new(v: $t) -> Self {
+--------------OmqmnxHyfubsaSaACC1nADtO
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Then this function should be unsafe, because an invalid `v` can create
-an invalid PowerOfTwo.
 
-> +                    build_assert!(v.count_ones() == 1);
-> +                    Self(v)
-> +                }
-> +
-> +                /// Validates that `v` is a power of two at runtime, and returns it wrapped into
-> +                /// `PowerOfTwo`.
-> +                ///
-> +                /// `None` is returned if `v` was not a power of two.
-> +                ///
-> +                /// # Examples
-> +                ///
-> +                /// ```
-> +                /// use kernel::num::PowerOfTwo;
-> +                ///
-> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(16).unwrap().value(), 16);
-> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(15), None);
-> +                /// ```
-> +                #[inline(always)]
-> +                pub const fn try_new(v: $t) -> Option<Self> {
-> +                    match v.count_ones() {
-> +                        1 => Some(Self(v)),
-> +                        _ => None,
-> +                    }
-> +                }
-> +
-> +                /// Returns the value of this instance.
-> +                ///
-> +                /// It is guaranteed to be a power of two.
-> +                ///
-> +                /// # Examples
-> +                ///
-> +                /// ```
-> +                /// use kernel::num::PowerOfTwo;
-> +                ///
-> +                /// let v = PowerOfTwo::<u32>::new(256);
-> +                /// assert_eq!(v.value(), 256);
-> +                /// ```
-> +                #[inline(always)]
-> +                pub const fn value(&self) -> $t {
-> +                    self.0
-> +                }
-> +
-> +                /// Returns the mask corresponding to `self.value() - 1`.
-> +                #[inline(always)]
-> +                pub const fn mask(&self) -> $t {
-> +                    self.0.wrapping_sub(1)
-> +                }
-> +
-> +                /// Aligns `self` down to `alignment`.
-> +                ///
-> +                /// # Examples
-> +                ///
-> +                /// ```
-> +                /// use kernel::num::PowerOfTwo;
-> +                ///
-> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_down(0x4fff), 0x4000);
-> +                /// ```
-> +                #[inline(always)]
-> +                pub const fn align_down(self, value: $t) -> $t {
+On 12-06-2025 16:05, Nilawar, Badal wrote:
+>>> +static int late_bind_fw_init(struct xe_late_bind *late_bind, u32 type)
+>>> +{
+>>> +    struct xe_device *xe = late_bind_to_xe(late_bind);
+>>> +    struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+>>> +    struct xe_late_bind_fw *lb_fw;
+>>> +    const struct firmware *fw;
+>>> +    u32 num_fans;
+>>> +    int ret;
+>>> +
+>>> +    if (!late_bind->component_added)
+>>> +        return 0;
+>>> +
+>>> +    lb_fw = &late_bind->late_bind_fw;
+>>> +
+>>> +    lb_fw->type = type;
+>>
+>> Should we validate that "type" is sane?
+> You mean if type is not max supported type. Sure, I will add.
+IMO we don't need to validate type, CSC will return -4 i.e. invalid 
+parameter error.
+--------------OmqmnxHyfubsaSaACC1nADtO
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I'm late to party, but could we instead implement:
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 12-06-2025 16:05, Nilawar, Badal
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:d4497be8-3536-47a4-99b9-58b5f1468172@intel.com">
+      <blockquote type="cite" style="color: #007cff;">
+        <blockquote type="cite" style="color: #007cff;">+static int
+          late_bind_fw_init(struct xe_late_bind *late_bind, u32 type)
+          <br>
+          +{
+          <br>
+          +&nbsp;&nbsp;&nbsp; struct xe_device *xe = late_bind_to_xe(late_bind);
+          <br>
+          +&nbsp;&nbsp;&nbsp; struct pci_dev *pdev = to_pci_dev(xe-&gt;drm.dev);
+          <br>
+          +&nbsp;&nbsp;&nbsp; struct xe_late_bind_fw *lb_fw;
+          <br>
+          +&nbsp;&nbsp;&nbsp; const struct firmware *fw;
+          <br>
+          +&nbsp;&nbsp;&nbsp; u32 num_fans;
+          <br>
+          +&nbsp;&nbsp;&nbsp; int ret;
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp; if (!late_bind-&gt;component_added)
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp; lb_fw = &amp;late_bind-&gt;late_bind_fw;
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp; lb_fw-&gt;type = type;
+          <br>
+        </blockquote>
+        <br>
+        Should we validate that &quot;type&quot; is sane?
+        <br>
+      </blockquote>
+      You mean if type is not max supported type. Sure, I will add.</blockquote>
+    IMO we don't need to validate type, CSC will return -4 i.e. invalid
+    parameter error.&nbsp;
+  </body>
+</html>
 
-    pub const fn round_down<i32>(value: i32, shift: i32) -> i32 {
-        value & !((1 << shift) - 1)
-    }
-
-    pub const fn round_up<i32>(value: i32, shift: i32) -> i32 {
-        let mask = (1 << shift) - 1;
-        value.wrapping_add(mask) & !mask
-    }
-
-? It's much harder to pass an invalid alignment with this.
-
-Regards,
-Boqun
-
-> +                    value & !self.mask()
-> +                }
-> +
-> +                /// Aligns `value` up to `self`.
-> +                ///
-> +                /// Wraps around to `0` if the requested alignment pushes the result above the
-> +                /// type's limits.
-> +                ///
-> +                /// # Examples
-> +                ///
-> +                /// ```
-> +                /// use kernel::num::PowerOfTwo;
-> +                ///
-> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_up(0x4fff), 0x5000);
-> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_up(0x4000), 0x4000);
-> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_up(0x0), 0x0);
-> +                /// assert_eq!(PowerOfTwo::<u16>::new(0x100).align_up(0xffff), 0x0);
-> +                /// ```
-> +                #[inline(always)]
-> +                pub const fn align_up(self, value: $t) -> $t {
-> +                    self.align_down(value.wrapping_add(self.mask()))
-> +                }
-> +            }
-> +        )+
-> +    };
-> +}
-> +
-> +power_of_two_impl!(usize, u8, u16, u32, u64, u128);
-> +
-> +impl<T> Deref for PowerOfTwo<T> {
-> +    type Target = T;
-> +
-> +    fn deref(&self) -> &Self::Target {
-> +        &self.0
-> +    }
-> +}
-> +
-> +impl<T> PartialEq for PowerOfTwo<T>
-> +where
-> +    T: PartialEq,
-> +{
-> +    fn eq(&self, other: &Self) -> bool {
-> +        self.0 == other.0
-> +    }
-> +}
-> +
-> +impl<T> Eq for PowerOfTwo<T> where T: Eq {}
-> +
-> +impl<T> PartialOrd for PowerOfTwo<T>
-> +where
-> +    T: PartialOrd,
-> +{
-> +    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
-> +        self.0.partial_cmp(&other.0)
-> +    }
-> +}
-> +
-> +impl<T> Ord for PowerOfTwo<T>
-> +where
-> +    T: Ord,
-> +{
-> +    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
-> +        self.0.cmp(&other.0)
-> +    }
-> +}
-> +
-> +impl<T> Hash for PowerOfTwo<T>
-> +where
-> +    T: Hash,
-> +{
-> +    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
-> +        self.0.hash(state);
-> +    }
-> +}
-> +
-> +impl<T> Borrow<T> for PowerOfTwo<T> {
-> +    fn borrow(&self) -> &T {
-> +        &self.0
-> +    }
-> +}
-> 
-> -- 
-> 2.49.0
-> 
+--------------OmqmnxHyfubsaSaACC1nADtO--
