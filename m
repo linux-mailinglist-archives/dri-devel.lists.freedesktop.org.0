@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30D1AD7851
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 18:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F58FAD7878
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 18:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F88610E03B;
-	Thu, 12 Jun 2025 16:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A8D10E0AC;
+	Thu, 12 Jun 2025 16:46:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EFdc2kph";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="c6pw1RMd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63CF010E033;
- Thu, 12 Jun 2025 16:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749746001; x=1781282001;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=knpY9TnrIN/QfoSgT+7uq4ApwvboXq1mAPt+MQMAoLQ=;
- b=EFdc2kphxbAdaELK/Cv+EbEBvsrrxXatTZdAyKvzB01/EArghxQt/85k
- uyA2szE1hqIhxLbznMBwWPA/WLfxqvqTNtcvsvH8Th8R9u+kA69sMr4IO
- ydazqXL4en8nyKPXP2K1cUlfrHgeLVPtyGaanozwHKeKwzipKpWb4eVrl
- chxqLnuluGeQYJ5H/YFoMjbdkRdEMon4eBq3UvYibzWw1XoHrUveIUqo/
- u2kIJuCmhppWUSDyO/iCWifNBId+7kqJIXUCb5WGx3ofWmL24wPZTeEFx
- 89Eeyrbij8Ch1o5lslasZD4bPPsuLbVgk9KytD3tY1atd2nAdaZs2aaK4 Q==;
-X-CSE-ConnectionGUID: dbdlOqtQTG+Za3CicnW/nQ==
-X-CSE-MsgGUID: a0nAwWvhRq2sg+ujtXxagw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="55742798"
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="55742798"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 09:33:21 -0700
-X-CSE-ConnectionGUID: wXq6CVcLQCWHIRErkPbKBA==
-X-CSE-MsgGUID: F5oDRIxUSqaD/5gteABZYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="148067853"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora)
- ([10.245.244.109])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 09:33:17 -0700
-Date: Thu, 12 Jun 2025 18:33:06 +0200
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-fixes
-Message-ID: <aEsBQoh5Si3ouPgE@fedora>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18A1910E033;
+ Thu, 12 Jun 2025 16:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=eTRNXW0fVGge2AWOB3MBFp05UH3BIqXQgyaRGEov/9o=; b=c6pw1RMdhgyBHvLW0z+HqZKxAB
+ OtEmk+VL7J9K/o4VRJ1Gy8xcd9dfQu3yL+FJLQawSnl9okL+BXIRh4RXghtWGZX6dEiUMmSN+0q63
+ zM6URuVowG7tgLN2IB38vANoX8YvysAueqvHoU8GzBIlJE5CRXScV/wosrQBgmGFIpPaPuyjuf+7q
+ dihv3cSFiXwDFtGpgm068Ye4sg1EJYMePj/C46v8DxVJCjetz/Tvt1WaFzZMDSm5kKgyzVEMNzCBj
+ twUSoMksyH93K/O6IWusXx6ezOz3v/tAmwUEcaXtVwfeiE7KFBV1xt8TsmH0y+Ia0PnzhGTjdhK2+
+ /GlK8yKQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uPl4n-002i0g-Fo; Thu, 12 Jun 2025 18:46:53 +0200
+Message-ID: <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
+Date: Thu, 12 Jun 2025 17:46:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Juston Li <justonli@chromium.org>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Yiwei Zhang <zzyiwei@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250611225145.1739201-1-justonli@chromium.org>
+ <20250611225145.1739201-2-justonli@chromium.org>
+ <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,42 +65,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona
 
-Two fixes for 6.16-rc2.
+On 12/06/2025 06:40, Lucas De Marchi wrote:
+> On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
+>> Add TRACE_GPU_MEM tracepoints for tracking global and per-process GPU
+>> memory usage.
+>>
+>> These are required by VSR on Android 12+ for reporting GPU driver memory
+>> allocations.
+>>
+>> v3:
+>> - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
+>>   per-driver Kconfig (Lucas)
+>>
+>> v2:
+>> - Use u64 as preferred by checkpatch (Tvrtko)
+>> - Fix errors in comments/Kconfig description (Tvrtko)
+>> - drop redundant "CONFIG" in Kconfig
+>>
+>> Signed-off-by: Juston Li <justonli@chromium.org>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>> drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
+>> drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
+>> 2 files changed, 63 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>> index 4e39188a021ab..89a3d23e3b800 100644
+>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>> @@ -19,6 +19,8 @@
+>>
+>> #include <kunit/static_stub.h>
+>>
+>> +#include <trace/events/gpu_mem.h>
+>> +
+>> #include "xe_device.h"
+>> #include "xe_dma_buf.h"
+>> #include "xe_drm_client.h"
+>> @@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct 
+>> xe_device *xe, struct ttm_tt *tt)
+>>         xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
+>> }
+>>
+>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>> +static void update_global_total_pages(struct ttm_device *ttm_dev, 
+>> long num_pages)
+>> +{
+>> +    struct xe_device *xe = ttm_to_xe_device(ttm_dev);
+>> +    u64 global_total_pages =
+>> +        atomic64_add_return(num_pages, &xe->global_total_pages);
+>> +
+>> +    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
+>> +}
+>> +
+>> +static void update_process_mem(struct drm_file *file, ssize_t size)
+>> +{
+>> +    struct xe_file *xef = to_xe_file(file);
+>> +    u64 process_mem = atomic64_add_return(size, &xef->process_mem);
+>> +
+>> +    rcu_read_lock(); /* Locks file->pid! */
+>> +    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)), 
+>> process_mem);
+> 
+> Isn't the first arg supposed to be the gpu id? Doesn't this become
+> invalid when I have e.g. LNL + BMG and the trace is enabled?
 
-Thanks,
-Thomas
+Good point.
 
-drm-xe-fixes-2025-06-12:
-Driver Changes:
-- Fix regression disallowing 64K SVM migration (Maarten)
-- Use a bounce buffer for WA BB (Lucas)
+u32 gpu_id does not seem possible to map to anything useful.
 
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+Shall we replace it with a string obtained from dev_name(struct device 
+*) ? As only Android parses them I think we can get still away with 
+changing the tracepoints ABI.
 
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+> 
+>> +    rcu_read_unlock();
+>> +}
+>> +#else
+>> +static inline void update_global_total_pages(struct ttm_device 
+>> *ttm_dev, long num_pages)
+>> +{
+>> +}
+>> +
+>> +static inline void update_process_mem(struct drm_file *file, ssize_t 
+>> size)
+>> +{
+>> +}
+>> +#endif
+>> +
+>> static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+>>                        u32 page_flags)
+>> {
+>> @@ -525,6 +556,7 @@ static int xe_ttm_tt_populate(struct ttm_device 
+>> *ttm_dev, struct ttm_tt *tt,
+>>
+>>     xe_tt->purgeable = false;
+>>     xe_ttm_tt_account_add(ttm_to_xe_device(ttm_dev), tt);
+>> +    update_global_total_pages(ttm_dev, tt->num_pages);
+>>
+>>     return 0;
+>> }
+>> @@ -541,6 +573,7 @@ static void xe_ttm_tt_unpopulate(struct ttm_device 
+>> *ttm_dev, struct ttm_tt *tt)
+>>
+>>     ttm_pool_free(&ttm_dev->pool, tt);
+>>     xe_ttm_tt_account_subtract(xe, tt);
+>> +    update_global_total_pages(ttm_dev, -(long)tt->num_pages);
+>> }
+>>
+>> static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct 
+>> ttm_tt *tt)
+>> @@ -1653,6 +1686,15 @@ static void xe_gem_object_free(struct 
+>> drm_gem_object *obj)
+>>     ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
+>> }
+>>
+>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>> +static int xe_gem_object_open(struct drm_gem_object *obj,
+>> +                  struct drm_file *file_priv)
+>> +{
+>> +    update_process_mem(file_priv, obj->size);
+>> +    return 0;
+>> +}
+>> +#endif
+>> +
+>> static void xe_gem_object_close(struct drm_gem_object *obj,
+>>                 struct drm_file *file_priv)
+>> {
+>> @@ -1665,6 +1707,8 @@ static void xe_gem_object_close(struct 
+>> drm_gem_object *obj,
+>>         ttm_bo_set_bulk_move(&bo->ttm, NULL);
+>>         xe_bo_unlock(bo);
+>>     }
+>> +
+>> +    update_process_mem(file_priv, -obj->size);
+>> }
+>>
+>> static vm_fault_t xe_gem_fault(struct vm_fault *vmf)
+>> @@ -1762,6 +1806,9 @@ static const struct vm_operations_struct 
+>> xe_gem_vm_ops = {
+>>
+>> static const struct drm_gem_object_funcs xe_gem_object_funcs = {
+>>     .free = xe_gem_object_free,
+>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>> +    .open = xe_gem_object_open,
+>> +#endif
+>>     .close = xe_gem_object_close,
+>>     .mmap = drm_gem_ttm_mmap,
+>>     .export = xe_gem_prime_export,
+>> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/ 
+>> xe/xe_device_types.h
+>> index e5d02a47a5287..b797e766ccbc2 100644
+>> --- a/drivers/gpu/drm/xe/xe_device_types.h
+>> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+>> @@ -641,6 +641,14 @@ struct xe_device {
+>>         unsigned int fsb_freq, mem_freq, is_ddr3;
+>>     };
+>> #endif
+>> +
+>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>> +    /**
+>> +     * @global_total_pages: global GPU page usage tracked for gpu_mem
+>> +     * tracepoints
+>> +     */
+>> +    atomic64_t global_total_pages;
+>> +#endif
+>> };
+>>
+>> /**
+>> @@ -702,6 +710,14 @@ struct xe_file {
+>>
+>>     /** @refcount: ref count of this xe file */
+>>     struct kref refcount;
+>> +
+>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>> +    /**
+>> +     * @process_mem: per-process GPU memory usage tracked for gpu_mem
+>> +     * tracepoints
+>> +     */
+>> +    atomic64_t process_mem;
+> 
+> so... this is not per-process, it's actually "per dev node" open. Does
+> this map correctly to the intended use and how it's handled in msm?
 
-are available in the Git repository at:
+Per struct drm_file. Yes it is the same, both do it via 
+drm_gem_object_funcs->open/close.
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-06-12
+Regards,
 
-for you to fetch changes up to 9c7632faad434c98f1f2cc06f3647a5a5d05ddbf:
+Tvrtko
 
-  drm/xe/lrc: Use a temporary buffer for WA BB (2025-06-12 18:09:50 +0200)
+> 
+> Lucas De Marchi
+> 
+>> +#endif
+>> };
+>>
+>> #endif
+>> -- 
+>> 2.50.0.rc1.591.g9c95f17f64-goog
+>>
 
-----------------------------------------------------------------
-Driver Changes:
-- Fix regression disallowing 64K SVM migration (Maarten)
-- Use a bounce buffer for WA BB (Lucas)
-
-----------------------------------------------------------------
-Lucas De Marchi (1):
-      drm/xe/lrc: Use a temporary buffer for WA BB
-
-Maarten Lankhorst (1):
-      drm/xe/svm: Fix regression disallowing 64K SVM migration
-
- drivers/gpu/drm/xe/xe_lrc.c | 24 ++++++++++++++++++++----
- drivers/gpu/drm/xe/xe_svm.c |  2 +-
- 2 files changed, 21 insertions(+), 5 deletions(-)
