@@ -2,93 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E56CAD6FAF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F132AD6FB8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:06:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C6E10E7EA;
-	Thu, 12 Jun 2025 12:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDAFC10E805;
+	Thu, 12 Jun 2025 12:06:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="hq88WZBS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I36WF1Z1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364E210E7E9;
- Thu, 12 Jun 2025 12:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oldschoolsolutions.biz; s=s1-ionos; t=1749729771; x=1750334571;
- i=jens.glathe@oldschoolsolutions.biz;
- bh=9TF4TS7HJTGPNOkFIxQGNmmFmjlfd1e/5O/TAB6Zj10=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=hq88WZBS/UZk1CLqJ5Y4whdiepavhaheE0DTj4N4enSKSJdgOwD+GJYaadckRVAg
- tH7sdODyk/6WnQDGA4UQiRPA5SKO8Af1vUDluLzz6r9SB5aETlnfVYDtlTy7Qp7wA
- UfT050iwsWJQuo+DwgtWo5awDbUTcfyFjoL2JS7m49bcrbzMPzgrY9MRNPWO/SY0D
- 0iiDSI7upSlLysms9LbaWXg4P7LXeJb284oldpPzGIUb53F/Cm9vE1wf4RVJHBh0V
- ZsJOGf5zSuo0r3KjnWwr2UNTfvI8aeMS684Pxd137VnC4yMI+DEII0DzZ2rDYk3dF
- PwHJ1i/8xmlqoszmgw==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.0.192] ([91.64.235.193]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MY6TD-1uKSMI1X8H-00LaH9; Thu, 12 Jun 2025 14:02:51 +0200
-Message-ID: <0e6fd97d-9a56-426b-8b98-dc8aa50d02d2@oldschoolsolutions.biz>
-Date: Thu, 12 Jun 2025 14:02:47 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7883310E7F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:06:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1749730011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+6AfO1YybxLGPmROnZhI75QLnlG9tkbcH/GZMCHyp4Q=;
+ b=I36WF1Z1cFB+NsMwY1ehWPPd+sSVT26J/OyQ/AreWUGgi6t6btt5yTFkVrZyDQVMyaFViK
+ 4s47XANlN9izc3ye+tvc/7Iy0aZsLPmytorH52DIns0SBbVVBG0m9PSVP6PEpYYRcevwEY
+ olD25FFgkSHeKJuyBeg3omh6VjbjlBk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-562-1aaKvJ6pOQmT0jaBi6bgiQ-1; Thu, 12 Jun 2025 08:06:48 -0400
+X-MC-Unique: 1aaKvJ6pOQmT0jaBi6bgiQ-1
+X-Mimecast-MFC-AGG-ID: 1aaKvJ6pOQmT0jaBi6bgiQ_1749730007
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-452ff9e054eso4692365e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 05:06:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749730007; x=1750334807;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+6AfO1YybxLGPmROnZhI75QLnlG9tkbcH/GZMCHyp4Q=;
+ b=OrhXNtMIFrkRX8SXYfROYWqpMzwkz6t+gROKZbPc3x9fKWHTUBQ8h4OXejfT+le96Q
+ AgJ/XQJoY9DAgohAREAiatxq1n4mq/nq9MLMwwc87QHNDsxRPHob8ju2SdryLzMsvmkT
+ 1nDKPE9yw0/odBFWiyG0ptV2WbrmEcSZgRh5tUY3Mpzvk23lIQnf/bok783G0GNcYH6i
+ CxEEDS6p2lW+IrEFzBsluvNlG7L4AN/z7kS+s9lIdfsIX20MHprESuqMepQ4oq1oSt3N
+ jUs7vvMsdJAOlTph0iGNPXdjuyZNt+S3LANwVZgaStcux1CwOlbzuc3MWCDarjYxuTc1
+ Cb1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXmPN6fGPdF3Zcc+Ijh4RlnxwNBVTAmF0qf4seRoR9zYi4a9FuoBOQQR7U0NEwDYclgr2sbRdP6laY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/oTNwz7lTv1BBiOulpwi6d422nXb4Cl5AHTMNyNGl2rB0uwEU
+ D3JiH/SnR6ytEuOrgGAAyGPXKijAdAT4GniKXJFqhV5BL9kBmjyc9NqP5G+HQgv5Oe6FvFfKyK/
+ Xj9AsbM5xwSKfJseoBLjwuUtzYk8kZGD+yVQn8lS5R0of8VVoDX14MI7Zv4LOAw3EKMalUw==
+X-Gm-Gg: ASbGnctFHeKn3agK6T1mu9MAe/USvCeJ5d+CP+PD6OsFjz34jf1j6xKHrozurTm7aqN
+ LA+uWdwBz1BCkE3B6ujXhxtmgiWGIBV3sk7L+vVLWN+NhHHT1TJhxtOjLDVpQ4ZT1TcwvdKxfXO
+ wGOBIrp7i6Ihp3WGzgzQ0QgeLaoWvV6uI345QPzYgdq9+jeROhUqSeadr+QVt7WlZYfg1M0bD+6
+ 4BAVed9w32hI13lhue7PbLsNu68wuC05BpPEm95c/eaHmVMNFPHjRp6cRhSu54tEORIjjP2BlJ0
+ S/KYyYUuifTvvcorsLboVB7Sf/f7tHCj5wx77SjEtAMPlWX8XXjHfBtux44a4wzAYi/kN9Btsbl
+ Pp5cD
+X-Received: by 2002:a05:600c:4f07:b0:450:d3b9:a5fc with SMTP id
+ 5b1f17b1804b1-4532490d350mr60458905e9.27.1749730007374; 
+ Thu, 12 Jun 2025 05:06:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECOqBPukEfbMMYv+M4kFQvSfoApbouCQboDsRv8ZIe+hsTnwqXQ+pN68YZ/SnG6HPde8Y/Ew==
+X-Received: by 2002:a05:600c:4f07:b0:450:d3b9:a5fc with SMTP id
+ 5b1f17b1804b1-4532490d350mr60458475e9.27.1749730006945; 
+ Thu, 12 Jun 2025 05:06:46 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4532e224888sm19001155e9.1.2025.06.12.05.06.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jun 2025 05:06:46 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: John Keeping <jkeeping@inmusicbrands.com>
+Cc: John Keeping <jkeeping@inmusicbrands.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/ssd130x: fix ssd132x_clear_screen() columns
+In-Reply-To: <20250611111307.1814876-1-jkeeping@inmusicbrands.com>
+References: <20250611111307.1814876-1-jkeeping@inmusicbrands.com>
+Date: Thu, 12 Jun 2025 14:06:45 +0200
+Message-ID: <87cyb9w4dm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] Support for Adreno X1-45 GPU
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
-Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PA710ORLSCeaHxN8hFzgvAQEIwCwCDgAqOPxruFizn/AlMGjSUW
- 85uyv+NKj8CJmTO0sQnvMTIrZKQ6go/mQ+6xlAatX56T7sbfoY9mrlGxuK9GqULgAmnaFnI
- SRZ9HjMKSXySd+iYIlVnC8F/m6mNicG0sb5pyedZWjPtYWzcuTS7566I4WNuxQLOEyqK+x9
- Bh/Uz2SCZsJOfkrhXHa1g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:L1EqaybFqPc=;SH5yWekgKGHaAg1DHQsy+EzoiJq
- Fl33glttMNku1XZ3PTQbtb1rmTcDXbw/vl6qSCG/34IBmm/DS8vKdIccBDVBP8bvI/DqmMJez
- 6byvoL6GFFNM1CzDtjKWZABX9NJ4LnQbkIpGuj1Y/Z6MN9X3klsIW2zF8chmAuuQdzLNN0pqA
- PoqPsBYemVKVNhE3XnbyZCuHtha/Q0gfKOyhl5icS1r70P47mUuNWR4cfk9LEjrRm//zd/8cY
- WzQ5F792ABH62d95D1KWBO8AjRUshhpAHKvH4ThW7NJ60XhXuPnqMZeyRmeOusx+NBn2FpgxF
- J0yLdMiIMLTAk41h1Dlhg7zy4o6gjT9jsegg9l9k5X9Bi0hTsjtQiRJFTnY6Id4dmxT5GlMEq
- RenJBljZbzGPcA/rFtr0cukkKmtA8osWr+fsey1+lXU8LCSXGwi+dATMTpW7JnR0ingmsdM+Z
- YKUjVso7pM+kd4zpmNR2Q3JPozM3VMR0ZDH+t/STUVNeiFgCDYUaPmHczxPJTpBRdpBKLehhR
- SOySjY8o/cs8vTG0PQnUjCgO6NdHRt81X0Vq9/2gcoRAxjBfhQuV0cHJ+Kx0fTpsY8ubz1ul/
- myEmfKl1BwJ0nnK636uqKlkh2pVOgN6i3lZv2UbRmtjtIAJ6IMiXQ969R+AGuuyIQ8UxH6sxt
- FZigztwQCqqYwZGlABZzY7ZGb8sXiHw+CRSHq7Tf2ddwl8rz4H+ALxOBNFuYtWo6Q30NT0RTs
- gfW8TXxhGDGay92JfTOmmaePFtXJXKmhHUytOWrvwfmJoA5/qvqFXkwfm9hsZCAyLMW6Rr5Nv
- Dup8v0DVyMrM9CjYr4zCsEarLgGkTGOAF2BPED53kmP5iQBCPKoYLz72NlKRgyNfdUyWDNy2K
- dTtdW7K8AYxt4ZhH6eSVWHQsBd5pfUy/svx8mJJtnNhTKhNsJLu2+Wfr+PASg7eIRHHtH6T/I
- b5Qsn35pG1HRk11oxA8Rzvhwb4SgPmuJN4SRzV1JNj6roLIRwB55utfAiGpMdIZRTHr0aMd2q
- tzMaB2gTpJt/8iT3lypRZuSrQPxIe7Bl/tGWiqwNJiwZ+IvsYb3DhRyx1PyWON/xc8OdnGgcj
- K/9WeZoUvksWB2cXT2ppehye2Ng5A+QwmgTeKoHp4meAOiNN7ZSSndmchBFGVrYA503WOpm0f
- LDurQ1mJ9EQVTQJOMtYM9kqpDTt0rhwRxzYGgkkOygitExSsr6C1TVGcAf3Vesk4tG+6Ctkvw
- PPtbXm1kMH5pmSk86Ek+TqY9T93192Ci7WQ5rE/vF4qmA3DhitQJDGZn+Hyxtx4b4Qn0+aOUx
- 4vBkLmiZxmrdt2llTj0c44+bd707cNzq/WJQNEfhJ5RhEeHG0fNTFv9106zHmCODAl2l44zqX
- v/xI4aoMh/F4Yb/2uTgcBijj7AMpCZ+9s8g7pkk0Dn81sYe3pNcjsb+Ix/t+fed23Qp+bv82f
- KOWpJFA==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: tfBfsvyoq2zweRQukTsMprvQMCxMbVAJ1r2w5kYnpeA_1749730007
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,27 +100,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/11/25 13:15, Akhil P Oommen wrote:
+John Keeping <jkeeping@inmusicbrands.com> writes:
 
-> Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
-> version). X1-45 is a smaller version of X1-85 with lower core count and
-> smaller memories. From UMD perspective, this is similar to "FD735"
-> present in Mesa.
+Hello John,
+
+> The number of columns relates to the width, not the height.  Use the
+> correct variable.
 >
-Hi Akhil,
+> Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+> ---
 
-when loading the driver (still without firmware files) I'm getting a=20
-speedbin warning:
+Pushed to drm-misc (drm-misc-fixes). Thanks!
 
-[=C2=A0=C2=A0=C2=A0 3.318341] adreno 3d00000.gpu: [drm:a6xx_gpu_init [msm]=
-] *ERROR*=20
-missing support for speed-bin: 233. Some OPPs may not be supported by=20
-hardware
+-- 
+Best regards,
 
-I've seen that there is a table for speed bins, this one is not there.=20
-Tested on a Lenovo ThinkBook 16 G7 QOY.
-
-with best regards
-
-Jens
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
