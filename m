@@ -2,97 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0671AAD6B26
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54A9AD6B48
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 10:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B48A10E0F1;
-	Thu, 12 Jun 2025 08:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4BF10E78C;
+	Thu, 12 Jun 2025 08:47:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P97DiLsE";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BmEqgN5q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB90F10E0F1;
- Thu, 12 Jun 2025 08:43:13 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55F0C250;
- Thu, 12 Jun 2025 10:43:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1749717784;
- bh=DFZAKZf8wHZi/y9r247ZL0ZUXvFSN1yMyupDQcqZ3+0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=P97DiLsEsf/6i8aVwoi/8/jCDHmL9CIaqVE6F1kh5oZibLMLuYmgz4R5sZGO7dayi
- A9sBXgz1SuZs74C1VD4Xp16/e+PXSodQRenE1+LjsblMSGLXpOt87yMih54vtsY4Sp
- 87w8fmpZjBB9PIYbdL6yYmzS28ULBjvl9UmrLU2M=
-Message-ID: <d7e016fd-3d0e-4822-a404-a53ba11e5dc4@ideasonboard.com>
-Date: Thu, 12 Jun 2025 11:43:08 +0300
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FCAF10E78C
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 08:47:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pSL9av6rLnjDPtQYRhNRYroKRPv+gLmUwgKutWEYHtOLsqcEI9nHXX7KPetIGTjxh8q1nCP1N7zufimj1VwflAF7axvvKCSfFeMiYrvUrd2kKhKzsPZo1vonT+4ZoBVYeXneQNkoiETo8/iboXRxxKKCbyMss6yhFFuCiL35Hwm5P6dIAFKdTu9rn1/OSGl/2YavDigjYk2IvYDEblTbJRb9J4wIKj36svopOX6WLHYfqr7QQEj+fWzcJqqdmmH8IxybtsvUYkaNj4oCneXDAir4CvTa/LEw2RknElocja4hZ4V+DZxFHInRUgQ9YkqrtB2AeFQdCBsUIV0ASPt5DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0gBLu/HtAKyzpB5+V3m/GmUdRvYCGUrHYIL5WI49w2c=;
+ b=tACQnuiEjKyvPfK1IVTXMjDoyRdZskkeqmhPavraj+UE5axNWRR96ES3sM+P149acYO5uNHwpjpmzNPf6/DziLRuYe6Cd3KUeyVamsBAERAUHpc6XUmBz8AMdQujqh1t+hGi8CW7bmL/ultZsMwn4MFH2psIwmmD/vlXEz+AF+Fu1uKbCoOT5khVooE9UEinrTOQm9MCNu+3Vm9JZXofIevPRekD1bjq0Qt4ZQf16dtJNvPx2Io8NICpr68dI+vQdOmq3yBMhwcsCKP0mTk9gcS4pQdNOox3abeMnBVvTKwHd/co5uABu2t4X2MDlCHydp48hI0gKUeovdNzcxwCVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0gBLu/HtAKyzpB5+V3m/GmUdRvYCGUrHYIL5WI49w2c=;
+ b=BmEqgN5qUJtu7ik5y+0hTpYfp9N5x7SL8NOp+S9rq0AvVGYipGxgJSi0yOG6V6ZP/82hO+k65NUSTFZgbtyoxrBuwpBq1/ddUOwRfIECJoaI5oNNHI7d34BH2O8PIIQDh+VP4LVAuxU+LDWatz7lEASv4u7qMCA6oWKIlFM2/SSqsyXjIZYgNUPNJSAqqHWeAQjBUedJKbCZ+z4USq0U4g5QJUg8uvta4kzZFcA8q0u4R0IKGy3mxz2IT5kBEbvBE6bA+swJbn3Mw0+Qt/d/ttfvtNw+Wf7dcgtzFSzqLoS0Nc2YZh1LH+OBX3vG8qgOIC98Jh5GYLR+sNJtBGaIHw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7728.namprd12.prod.outlook.com (2603:10b6:8:13a::10)
+ by DM6PR12MB4201.namprd12.prod.outlook.com (2603:10b6:5:216::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Thu, 12 Jun
+ 2025 08:47:22 +0000
+Received: from DS0PR12MB7728.namprd12.prod.outlook.com
+ ([fe80::f790:9057:1f2:6e67]) by DS0PR12MB7728.namprd12.prod.outlook.com
+ ([fe80::f790:9057:1f2:6e67%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 08:47:21 +0000
+Date: Thu, 12 Jun 2025 18:47:17 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: David Hildenbrand <david@redhat.com>, Christoph Hellwig <hch@lst.de>, 
+ linux-mm@kvack.org, gerald.schaefer@linux.ibm.com, jgg@ziepe.ca,
+ willy@infradead.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com, 
+ zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org, balbirs@nvidia.com,
+ lorenzo.stoakes@oracle.com, linux-arm-kernel@lists.infradead.org,
+ loongarch@lists.linux.dev, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-cxl@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, John@groves.net
+Subject: Re: [PATCH 03/12] mm/pagewalk: Skip dax pages in pagewalk
+Message-ID: <wqzr4hv4vv4wd2mcy5m2gapy6n5ipvex7hst4locic4dbeu3cr@47crvlk4kubj>
+References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
+ <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
+ <6840f9ed3785a_249110084@dwillia2-xfh.jf.intel.com.notmuch>
+ <20250605074637.GA7727@lst.de>
+ <b064c820-1735-47db-96e3-6f2b00300c67@redhat.com>
+ <6841c408e85d3_249110075@dwillia2-xfh.jf.intel.com.notmuch>
+ <axbj5vrowokxfmrm3gl6tw3mn6xbzz7uwbxkf75bbgmzf7htwc@vcr5ajluw3rn>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <axbj5vrowokxfmrm3gl6tw3mn6xbzz7uwbxkf75bbgmzf7htwc@vcr5ajluw3rn>
+X-ClientProxiedBy: SY5PR01CA0006.ausprd01.prod.outlook.com
+ (2603:10c6:10:1fa::10) To DS0PR12MB7728.namprd12.prod.outlook.com
+ (2603:10b6:8:13a::10)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/25] drm/gem-dma: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, geert@linux-m68k.org
-References: <20250311155120.442633-1-tzimmermann@suse.de>
- <20250311155120.442633-4-tzimmermann@suse.de>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250311155120.442633-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7728:EE_|DM6PR12MB4201:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2da20c0-3203-4f07-f14e-08dda98dbedd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qVLUNKBV672PUP59FyxRTw06X2NrNwLWk7p5KT+0CqSPGmfXD4vWXpuFOFFL?=
+ =?us-ascii?Q?fbymzibWhRTt1bXMi8mKscZDFM37p5IVAykTSG8nLCU88OoWG+9DvQrzhvVl?=
+ =?us-ascii?Q?3AcyL+pII45q3CsMKArPJ/JxFGxCv1QueSGrulLUUOeN6dqglnhD4LYrHWrT?=
+ =?us-ascii?Q?rY+MHqTi92iAJ7OgOXpzqIAQSKVSmihpaNGSmrnvc73dKhI8tIenzKucGSKH?=
+ =?us-ascii?Q?a/OVtsLCElodqSdQtWLy80Iyimv0bUsNTms89KzpvnGTdvx3QdH/ghJmYY5M?=
+ =?us-ascii?Q?ErcDiviQDQBO6Xqh8fOb1VsRN/QN6WqzHdXMokSnOBcfZM5zBJ7032cZnHV+?=
+ =?us-ascii?Q?eSB6VTFCkKpyZ1vi8IL3elqrFVfN86wKeN2vECXTlTLC4L4U2DHsNIYFM9qP?=
+ =?us-ascii?Q?+a38WBgEgDOYkji8KMYrhy8G86mqtYkc7U0bjtB7RZOIDgME+jJGuQWgCdqw?=
+ =?us-ascii?Q?3ZLAKfbYwDBCciYCAn1OwM/DnBW/d2ZsXit9H134oUcZACXeMsexcn0bE6Sv?=
+ =?us-ascii?Q?TQhRhtzrJgqTmejdoRTnK3ze0ahD4CLfxrfAZbgwBNwKfAdc9WPtMXO6WmFG?=
+ =?us-ascii?Q?6OCpvpuZdBo4ETX89GbylD19SBJaGGFc3kom2Sobie/+2iYMv62wjIG8LKjP?=
+ =?us-ascii?Q?flWEZVltTSNAxxRMff2FfTMhLgFEgwhoVT+88o29iJYw3TlX1YY8PD+re3ix?=
+ =?us-ascii?Q?rqY+pBPGlEi+a3AY8KakAv2o8FC79rzcvw0pMc42S2/uuVxRghYyRO1DUFiI?=
+ =?us-ascii?Q?PiVfM/prdGwioCE5dj0aWuTtNTEbs7yajIlqrbec8KCSi4VjdMGughNldNAc?=
+ =?us-ascii?Q?zaDf+s8BSDHinS46Z8q+mQUM5u30lxIQCvpPU5MUwnG7TFcQ7KPwLuwip4i7?=
+ =?us-ascii?Q?d5FpN98QsmiNa4sbCacjcgjzZV1WFRmPDTXWxJRz/tAfAcSL4aTiVTtJBO4Z?=
+ =?us-ascii?Q?JAPdsJrHrKKi9l66QfWiSR96onoNsgZjll1KsxKRQ+Q7yvmFZYqc7xRYlTRv?=
+ =?us-ascii?Q?TY2uEb7rhEQvMtqojqzymGdA/0D2hL9145i7712RvcHZBWBj0AuO47sZo3ir?=
+ =?us-ascii?Q?a3cu5ijg8UPN4Rxv98DQ87A2/8BVNexgQx7UmDLdVY6ae8zV8uUEhs53FbpM?=
+ =?us-ascii?Q?hVgR56fW02Auu+CRwxtgprjhVPdlJbrCasfuyDgx6TRyTPJgpokmGYKSTzG7?=
+ =?us-ascii?Q?uPF08dTv0YJN5xz2i/SBND1C9KrG1WwKX93vr4ACCn6yi6ulL9Ur7V6xC142?=
+ =?us-ascii?Q?o3XzmUhjgUyWhKcIExvrEUpwNqKR2hs2TRPyMDYdrIh2evD5KxlRaexjMsrT?=
+ =?us-ascii?Q?q1JpWFOGvy9Oloe8rl1eXIk13Id50qaQskQAmWKmi3y9hwcF6ANhxLvuu7K5?=
+ =?us-ascii?Q?rpA/qLq3noTIub2CQoLh0jSOLJ9zcpJJHafBIYiG1LoZQKRHGZAPIFpSSeLk?=
+ =?us-ascii?Q?3ZLOtfS87Jw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7728.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5KlA2IZ1GML2S6ER+/2zlr+vx9BIeU6c0/udDAp60oU2gEuOrUmHQpHAum5H?=
+ =?us-ascii?Q?wh0ukWzMuLpiewTSjO2qXpI5eoKxOVpUXpxgkjfzaYcQBiXBOCgM4GmtGikh?=
+ =?us-ascii?Q?1V+cghh5Elpl8QMZ6JLeDLLWVThk9ZfOayqp2mzN80xZYZmITlYnCYuJx77h?=
+ =?us-ascii?Q?hw7wEZ2FI5txeO6rN536cV9f64jFezdI3Nx+OnoxfHTHc+ZqrCqj0F7GlaN2?=
+ =?us-ascii?Q?Fg1nhvoKi0obfos58BnIUhYB+2vjlX/T/l+ui39q1YMZ/ddXElpcu8UjPYSZ?=
+ =?us-ascii?Q?A/KYwLokHokij8m8gD5QYG3Hy+Y9lUJ2DMeGTwWKz3UJmwK8ai5CpSsZgLl1?=
+ =?us-ascii?Q?8yjOhM3jtHetE44wsZH36v9Q3t2EhZi6BcokY2VYW2kRJ+aCVuxRCes06em5?=
+ =?us-ascii?Q?HjkitfIMVr7jeFHcNFGwOLnCRMCXip4DpGrXD6zoLM55XEjUTQUQF69QKDxW?=
+ =?us-ascii?Q?tP95W/bh7zCa+DGbECk/IWyAmHiYkLO6u1hPwCiB66qyBvr5sssHyth2TFAa?=
+ =?us-ascii?Q?Xbj/c9ba4nVAiEGcw3eSRYMNC+vQPpysMfhXOm+uqFqbUlX0kBxvqoCzlL/v?=
+ =?us-ascii?Q?eMLXREq6oA+toR5VdmDsFKUBadeKp5GOWoKgnNNt71M39cTf8fEdz8JQqMeB?=
+ =?us-ascii?Q?RwPsk6Mssfxp1+BZOWOLN+d3S/0hHnV6U3WZaXuoz0JtWwmiCfIf5lsnzJoa?=
+ =?us-ascii?Q?Ni3bJMwCMaxkqkoJKTh9eZs0tHluawxiUW/Ru2VGmlex28GbuJlKsiyO+jvA?=
+ =?us-ascii?Q?ZaikE2t73Y5MBKlPzmgHcG71w+gAs6ayLE64vEmzxwfU8Uv06Qd+ijvuxBU7?=
+ =?us-ascii?Q?6W46eYDkMhD+Mwib+01iUtBfegSuxNqm6POyyFawALA1KSUuLdcvcl9/ecUY?=
+ =?us-ascii?Q?odsT2Njw4F1skesWBrgeiYFg5+yHP/AiqhNSShagYHqsl5QiOcg+W8+MYFxs?=
+ =?us-ascii?Q?sIljPlk1nlfEtqm0OBir+y6XOgsWLEeTueoCeGtRayeLHuLLzS+HaBarajQk?=
+ =?us-ascii?Q?nb1H1E1mV34DgYUAhviO9Yu+uqVuCdizDxZirMy1RnZqWKmUi2tz3qAcidg+?=
+ =?us-ascii?Q?Pqoc93kFjxhomMFVShmp7pBgRH87lEOHkn/TySfSpPIlJhbgay26E4+PePy1?=
+ =?us-ascii?Q?l6j8kI7Q8jXK7DHv+0wX5VOBw4OX2AERv7xZe9VrLoNrIv4sTIOpEFNrGoQU?=
+ =?us-ascii?Q?GlW+0oLwr1JY12bupwBVHdG2txZbcsqZVFf/jxfv/pWsUzmB6I0nfd0oacKe?=
+ =?us-ascii?Q?slN6BNOf1m6f88epmVPmC6/Jzc1fsbu/dWIF9WArgeuLdYM5RMo1mE5p9y0W?=
+ =?us-ascii?Q?Q8xTl+vIK89UJa065BX/Iw6ABNl9mtlDWIB1DyidmEdoW0euI5tMe5RexotZ?=
+ =?us-ascii?Q?Q4Mm0cZD09VsrC/jUaN8B4WpAHHQeoTw6yEsuj97qSOeNQj6Q7e8lTaCn5Wa?=
+ =?us-ascii?Q?UFjk26XCLV99NYnmAhJr+6pkNUAN4HT6B4YdgwP4ZUG1589aqDDpWFpoCl76?=
+ =?us-ascii?Q?7GVbw4dNEE1XQLxKaxj02ze9FrSmUHjpixUyp/89c1LUGqjAfHZJAE/L8cml?=
+ =?us-ascii?Q?EXkLkZkF/iFid6+fAMlP69XpRr9x351ui/400k72?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2da20c0-3203-4f07-f14e-08dda98dbedd
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7728.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 08:47:21.6036 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8ycjP1ftMoJS44LK8+Qq+frPsDFCii0bnuNtOP/7c0eCjCCO2D4tYcWbsvt0KU7r7rCME8AvPqOC5Kl3L/amhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4201
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,72 +159,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 11/03/2025 17:47, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. Align the pitch to a multiple of 8.
+On Thu, Jun 12, 2025 at 05:02:13PM +1000, Alistair Popple wrote:
+> On Thu, Jun 05, 2025 at 09:21:28AM -0700, Dan Williams wrote:
+> > David Hildenbrand wrote:
+> > > On 05.06.25 09:46, Christoph Hellwig wrote:
+> > > > On Wed, Jun 04, 2025 at 06:59:09PM -0700, Dan Williams wrote:
+> > > >> +/* return normal pages backed by the page allocator */
+> > > >> +static inline struct page *vm_normal_gfp_pmd(struct vm_area_struct *vma,
+> > > >> +					     unsigned long addr, pmd_t pmd)
+> > > >> +{
+> > > >> +	struct page *page = vm_normal_page_pmd(vma, addr, pmd);
+> > > >> +
+> > > >> +	if (!is_devdax_page(page) && !is_fsdax_page(page))
+> > > >> +		return page;
+> > > >> +	return NULL;
+> > > > 
+> > > > If you go for this make it more straight forward by having the
+> > > > normal path in the main flow:
+> > > > 
+> > > > 	if (is_devdax_page(page) || is_fsdax_page(page))
+> > > > 		return NULL;
+> > > > 	return page;
+> > > 
+> > > +1
+> > > 
+> > > But I'd defer introducing that for now if avoidable. I find the naming 
+> > > rather ... suboptimal :)
+> > 
+> > Agree, that was a "for lack of a better term" suggestion, but the
+> > suggestion is indeed lacking.
 > 
-> Push the current calculation into the only direct caller imx. Imx's
-> hardware requires the framebuffer width to be aligned to 8. The
-> driver's current approach is actually incorrect, as it only guarantees
-> this implicitly and requires bpp to be a multiple of 8 already. A
-> later commit will fix this problem by aligning the scanline pitch
-> such that an aligned width still fits into each scanline's memory.
-> 
-> A number of other drivers are build on top of gem-dma helpers and
-> implement their own dumb-buffer allocation. These drivers invoke
-> drm_gem_dma_dumb_create_internal(), which is not affected by this
-> commit.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_dma_helper.c     | 7 +++++--
->  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 2 ++
->  2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> index b7f033d4352a..49be9b033610 100644
-> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -20,6 +20,7 @@
->  #include <drm/drm.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_dumb_buffers.h>
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_vma_manager.h>
->  
-> @@ -304,9 +305,11 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
->  			    struct drm_mode_create_dumb *args)
->  {
->  	struct drm_gem_dma_object *dma_obj;
-> +	int ret;
->  
-> -	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> -	args->size = args->pitch * args->height;
-> +	ret = drm_mode_size_dumb(drm, args, SZ_8, 0);
-> +	if (ret)
-> +		return ret;
->  
->  	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
->  						 &args->handle);
-> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> index ec5fd9a01f1e..e7025df7b978 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> @@ -145,6 +145,8 @@ static int imx_drm_dumb_create(struct drm_file *file_priv,
->  	int ret;
->  
->  	args->width = ALIGN(width, 8);
-> +	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	args->size = args->pitch * args->height;
->  
->  	ret = drm_gem_dma_dumb_create(file_priv, drm, args);
->  	if (ret)
+> I don't like the naming either ... maybe that is motivation enough for me to
+> audit the callers and have them explicitly filter the pages they don't want.
 
-Won't the pitch and size just be overwritten by the
-drm_gem_dma_dumb_create() call?
-
- Tomi
-
+Which actually most of them already do. The only ones I'm unsure about are both
+in s390 so I'll be conservative and add checks for folio_is_zone_device() there.
