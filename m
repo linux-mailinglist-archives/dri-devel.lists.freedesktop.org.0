@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900C5AD7A13
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C86AD7A18
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E632310E116;
-	Thu, 12 Jun 2025 18:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 711F710E10D;
+	Thu, 12 Jun 2025 18:57:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="MKyukhD9";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="WAK+vIz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EBF10E110
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:57:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1749754637; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856E110E10D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:57:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749754651; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=cQ/34ghqKuGjcrWPS7b1Wq9MVwd24fiYy33dfNtZnwjp0TIlEGsMMZkTkkw84nbbhyDSgqmMOg6aYVQUnswX2KLbY0zwxv0fjczYXuNmDI9AjiDoJ53+BOvo0HtFYsCaa1N4+iXE/Gt8d2kk9TDm8pR2k9zH/lnXEDwCkrRV/oc=
+ b=UEyFt0My6Tx57VlsVbAn+L/PzxHg0V1PVWp+0Z6S/LOPyFbP001POGENLGKzpfV1qwLIwkwh0iQQHr4u0waniFL7zjoiP2HTDvf0WRRc1x0gwqdwOKRPvGZ4F3SLj0tjLmq+5V5Qvj+l8WBkfKgMbeyiMhzQpVH70j/1y5uq+C8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1749754637;
+ s=zohoarc; t=1749754651;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=9FbAT/kFTYAJV4B26t5chvy2NGDoQ0MYqsffVQGJEKY=; 
- b=XyyXjlQtxQmWzzagFz4yGtANAwqMiepjym1NS8jMP7V5pzr6sadWHFUOWHGQQA1lmJOUo+2QVCccrPjUdAHykFtt2qVQfI5NJMoC0aurpHLczUmmCxA+FIBFmqkGSy+zMtgNP71TMcvQCucOhyMW1/vo/Z+nd2aexOPze1q130I=
+ bh=w61WQ83ZUwib69um1YfaUCr6dLg3DGxUyrk3WxNVqeo=; 
+ b=broGtzCUfi5qaijw+A8UWX3vRc7GmFasZzqHbXFoPWkCswDJaCKgF0wrI7B8s0xW0k6g5EzcO06mrp1SUnx17q7RpgN0DGAz02RkVyGij2+88XPmmKa9T7r44M7yu2x/Cv/jsQlzAOTidFj/VI0c1LdsTgUKj/jtCqKx7GdzQpw=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749754637; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749754651; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=9FbAT/kFTYAJV4B26t5chvy2NGDoQ0MYqsffVQGJEKY=;
- b=MKyukhD9mQguSmr/ZgdeSbDoZqzeO5gjhx6xYALY/foknYyAnNv2HJdJdbqSA2Gk
- dxkFofcpizGOU+UgoFrzslUvu4X+WEoVS+h5BQsh12DO2+BCeOD6RwVJoRJvirAWqIk
- 4vQvnFeC037T1+7jdCaeWd4mGVHpghNxJIBdYm7U=
-Received: by mx.zohomail.com with SMTPS id 1749754636246148.0365477005737;
- Thu, 12 Jun 2025 11:57:16 -0700 (PDT)
+ bh=w61WQ83ZUwib69um1YfaUCr6dLg3DGxUyrk3WxNVqeo=;
+ b=WAK+vIz29CcEtw89zxcFchzJLHGQXcd15BwTiGlmKu/9+nnkbNxL3/CC3Z+7wYHk
+ 88C9/MQArtuBJCDDRHB3eQFukXNDGC9aKn3Ow8SBJxhcFT0eX0pGkSEeyXOLkVKtQQI
+ MZuPIC4cTtR/OTq0lp7jRVstuw7kje6cnAQZP3uY=
+Received: by mx.zohomail.com with SMTPS id 1749754649558158.1279376244986;
+ Thu, 12 Jun 2025 11:57:29 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 12 Jun 2025 20:56:06 +0200
-Subject: [PATCH 04/20] media: synopsys: hdmirx: replace macros with
- bitfield variants
+Date: Thu, 12 Jun 2025 20:56:07 +0200
+Subject: [PATCH 05/20] drm/rockchip: lvds: switch to HWORD_UPDATE macro
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-byeword-update-v1-4-f4afb8f6313f@collabora.com>
+Message-Id: <20250612-byeword-update-v1-5-f4afb8f6313f@collabora.com>
 References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
 In-Reply-To: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -104,39 +103,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 drivers that use constant masks.
 
-Replace the UPDATE macro with bitfield.h's FIELD_PREP, to give us
-additional error checking.
+Remove rockchip_lvds.h's own HIWORD_UPDATE macro, and replace all
+instances of it with bitfield.h's HWORD_UPDATE macro, which gives us
+more error checking.
 
-Also, replace the HIWORD_UPDATE macro at the same time with bitfield.h's
-new HWORD_UPDATE macro, which also gives us additional error checking.
-
-The UPDATE/HIWORD_UPDATE macros are left as wrappers around the
-bitfield.h macros, in order to not rock the boat too much, and keep the
-changes easy to review.
+For the slightly-less-trivial case of the 2-bit width instance, the
+results were checked during development to match all possible input
+values (0 to 3, inclusive).
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_lvds.h | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-index 220ab99ca61152b36b0a08b398ddefdb985709a5..cd5250e282a5c9de9a75ea73f26496ed53766dff 100644
---- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-+++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-@@ -8,10 +8,11 @@
- #ifndef DW_HDMIRX_H
- #define DW_HDMIRX_H
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.h b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+index ca83d7b6bea733588849d3ff379cf8540405462b..568fe8d7918586581a461493d57d7b95f4c9eebc 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.h
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+@@ -9,6 +9,9 @@
+ #ifndef _ROCKCHIP_LVDS_
+ #define _ROCKCHIP_LVDS_
  
 +#include <linux/bitfield.h>
- #include <linux/bitops.h>
++#include <linux/bits.h>
++
+ #define RK3288_LVDS_CH0_REG0			0x00
+ #define RK3288_LVDS_CH0_REG0_LVDS_EN		BIT(7)
+ #define RK3288_LVDS_CH0_REG0_TTL_EN		BIT(6)
+@@ -106,18 +109,16 @@
+ #define LVDS_VESA_18				2
+ #define LVDS_JEIDA_18				3
  
--#define UPDATE(x, h, l)		(((x) << (l)) & GENMASK((h), (l)))
--#define HIWORD_UPDATE(v, h, l)	(((v) << (l)) | (GENMASK((h), (l)) << 16))
-+#define UPDATE(x, h, l)		(FIELD_PREP(GENMASK((h), (l)), (x)))
-+#define HIWORD_UPDATE(v, h, l)	(HWORD_UPDATE(GENMASK((h), (l)), (v)))
+-#define HIWORD_UPDATE(v, h, l)  ((GENMASK(h, l) << 16) | ((v) << (l)))
+-
+ #define PX30_LVDS_GRF_PD_VO_CON0		0x434
+-#define   PX30_LVDS_TIE_CLKS(val)		HIWORD_UPDATE(val,  8,  8)
+-#define   PX30_LVDS_INVERT_CLKS(val)		HIWORD_UPDATE(val,  9,  9)
+-#define   PX30_LVDS_INVERT_DCLK(val)		HIWORD_UPDATE(val,  5,  5)
++#define   PX30_LVDS_TIE_CLKS(val)		HWORD_UPDATE(BIT(8), (val))
++#define   PX30_LVDS_INVERT_CLKS(val)		HWORD_UPDATE(BIT(9), (val))
++#define   PX30_LVDS_INVERT_DCLK(val)		HWORD_UPDATE(BIT(5), (val))
  
- /* SYS_GRF */
- #define SYS_GRF_SOC_CON1			0x0304
+ #define PX30_LVDS_GRF_PD_VO_CON1		0x438
+-#define   PX30_LVDS_FORMAT(val)			HIWORD_UPDATE(val, 14, 13)
+-#define   PX30_LVDS_MODE_EN(val)		HIWORD_UPDATE(val, 12, 12)
+-#define   PX30_LVDS_MSBSEL(val)			HIWORD_UPDATE(val, 11, 11)
+-#define   PX30_LVDS_P2S_EN(val)			HIWORD_UPDATE(val,  6,  6)
+-#define   PX30_LVDS_VOP_SEL(val)		HIWORD_UPDATE(val,  1,  1)
++#define   PX30_LVDS_FORMAT(val)			HWORD_UPDATE(GENMASK(14, 13), (val))
++#define   PX30_LVDS_MODE_EN(val)		HWORD_UPDATE(BIT(12), (val))
++#define   PX30_LVDS_MSBSEL(val)			HWORD_UPDATE(BIT(11), (val))
++#define   PX30_LVDS_P2S_EN(val)			HWORD_UPDATE(BIT(6), (val))
++#define   PX30_LVDS_VOP_SEL(val)		HWORD_UPDATE(BIT(1), (val))
+ 
+ #endif /* _ROCKCHIP_LVDS_ */
 
 -- 
 2.49.0
