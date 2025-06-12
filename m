@@ -2,61 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E06FAD727A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 15:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5260AD72D3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 16:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71E7210E45F;
-	Thu, 12 Jun 2025 13:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2759410E80D;
+	Thu, 12 Jun 2025 14:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qOvo1HsZ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cDQ09VfG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RvjmwBtH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cDQ09VfG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RvjmwBtH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4578110E45F;
- Thu, 12 Jun 2025 13:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6MLOiEcKgEGTK92EJfXESEVjUwnph+8UbZ89FGNGFIA=; b=qOvo1HsZx49RfVfCBKMhddoIYA
- h+4CZjEdSAITLzpZRV0IolJvMe2o+nz2ILDGpZW8JhRITnJEir4Q4llYle049TCWSaUuIveEeSZsC
- iL3OL3bdwhMo/bjVBuQMtOwOkSZbwLs2tpfX8df+9hSn8EdoF38nXNBEyndJ7zmehKtsrNM+Ejlef
- wW5jbiFBEUREelM3JacTBIgGjRBXwytqG+aJxkdjbHjpJD8zFM5W2vPeNJ87dsfiM8p/OtkqbUoUK
- Th9/2+qMoRebv32CiO3NUM0erBPoTpR/Ts5x6ZNjRydFOzogLavgLhmL/2rnU1DEjecaiyumyC3jS
- drGYGMEA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uPiGi-002ei0-Tp; Thu, 12 Jun 2025 15:47:00 +0200
-Message-ID: <e28175e3-f62a-460d-88bc-3d9d5be78e11@igalia.com>
-Date: Thu, 12 Jun 2025 14:46:59 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068CE10E7F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 14:00:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 12CAE1F88B;
+ Thu, 12 Jun 2025 14:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749736837; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=picueuN1jed/8Axg0MPNhc6krDJ3vIGwclGbDJiCVMI=;
+ b=cDQ09VfGFEiQL2zUsEeILXaPCVYY9ciSnZtO3pl4hVmPyKzZH9sLbGdankRfP4IxsjTmT9
+ YyhBG7/HIzLk7FbLkvrCV4Pg0W1TvJbtMvOS4F8PsmT2ATe+4HGOH+p/vTPrGv3iyFd2jv
+ mTU3BMMQh4nNIer+RUBTqIVJUn6fXjk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749736837;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=picueuN1jed/8Axg0MPNhc6krDJ3vIGwclGbDJiCVMI=;
+ b=RvjmwBtHneTaI5CXU8evzLygm4izbF69ybpKhNBwA0MhcVo+gQgtRl+xwG9DVT3smYZMwg
+ W10t+HbDOTg8jwCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749736837; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=picueuN1jed/8Axg0MPNhc6krDJ3vIGwclGbDJiCVMI=;
+ b=cDQ09VfGFEiQL2zUsEeILXaPCVYY9ciSnZtO3pl4hVmPyKzZH9sLbGdankRfP4IxsjTmT9
+ YyhBG7/HIzLk7FbLkvrCV4Pg0W1TvJbtMvOS4F8PsmT2ATe+4HGOH+p/vTPrGv3iyFd2jv
+ mTU3BMMQh4nNIer+RUBTqIVJUn6fXjk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749736837;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=picueuN1jed/8Axg0MPNhc6krDJ3vIGwclGbDJiCVMI=;
+ b=RvjmwBtHneTaI5CXU8evzLygm4izbF69ybpKhNBwA0MhcVo+gQgtRl+xwG9DVT3smYZMwg
+ W10t+HbDOTg8jwCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA1C413A6D;
+ Thu, 12 Jun 2025 14:00:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id H7/0L4TdSmhwFAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Jun 2025 14:00:36 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: arthurgrillo@riseup.net, jose.exposito89@gmail.com, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/3] drm/tests: Update format-helper tests for sysfb
+Date: Thu, 12 Jun 2025 15:52:21 +0200
+Message-ID: <20250612135658.232535-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/6] drm/sched: Avoid memory leaks by canceling
- job-by-job
-To: Danilo Krummrich <dakr@kernel.org>, phasta@kernel.org
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250603093130.100159-2-phasta@kernel.org>
- <fae980fa-e173-4921-90e2-6a4f6b8833a8@igalia.com>
- <8256799772c200103124c0c10490a9c1db04e355.camel@mailbox.org>
- <aEnzZts6acAtg3IX@cassiopeiae>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <aEnzZts6acAtg3IX@cassiopeiae>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid];
+ FROM_HAS_DN(0.00)[]; TAGGED_RCPT(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FREEMAIL_TO(0.00)[riseup.net,gmail.com,redhat.com,linux.intel.com,kernel.org]; 
+ RCPT_COUNT_SEVEN(0.00)[7]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +106,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The helpers drm_fb_blit() and drm_fb_build_fourcc_list() will be
+integrated into sysfb helpers. Update the DRM format-helper tests
+accordingly in patches 1 and 2.
 
-On 11/06/2025 22:21, Danilo Krummrich wrote:
->> On Tue, 2025-06-03 at 13:27 +0100, Tvrtko Ursulin wrote:
->>> On 03/06/2025 10:31, Philipp Stanner wrote:
->>> What I am not that ecstatic about is only getting the Suggested-by
->>> credit in 1/6. Given it is basically my patch with some cosmetic
->>> changes
->>> like the kernel doc and the cancel loop extracted to a helper.
->>
->> Sign the patch off and I give you the authorship if you want.
-> 
-> AFAICS, the proposal of having cancel_job() has been a review comment which has
-> been clarified with a reference patch.
+The change to drm_fb_build_fourcc_list() is simple enough that we
+can apply it here in patch 3.
 
-Right, this one:
+v2:
+- fix test filename (Maxime)
+- fix dependencies (kernel test robot)
 
-https://lore.kernel.org/dri-devel/20250418113211.69956-1-tvrtko.ursulin@igalia.com/
+Thomas Zimmermann (3):
+  drm/tests: Do not use drm_fb_blit() in format-helper tests
+  drm/tests: Test drm_fb_build_fourcc_list() in separate test suite
+  drm/format-helper: Move drm_fb_build_fourcc_list() to sysfb helpers
 
-> IMO, the fact that after some discussion Philipp decided to go with this
-> suggestion and implement the suggestion in his patch series does not result in
-> an obligation for him to hand over authorship of the patch he wrote to the
-> person who suggested the change in the context of the code review.
+ drivers/gpu/drm/Kconfig.debug                 |   1 +
+ drivers/gpu/drm/drm_format_helper.c           | 246 +++++++----------
+ drivers/gpu/drm/drm_format_internal.h         |   8 +
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   4 +
+ drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     | 138 ++++++++++
+ drivers/gpu/drm/sysfb/efidrm.c                |   4 +-
+ drivers/gpu/drm/sysfb/ofdrm.c                 |   5 +-
+ drivers/gpu/drm/sysfb/simpledrm.c             |   5 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   4 +-
+ drivers/gpu/drm/tests/Makefile                |   3 +-
+ .../gpu/drm/tests/drm_format_helper_test.c    | 250 ++----------------
+ .../gpu/drm/tests/drm_sysfb_modeset_test.c    | 167 ++++++++++++
+ include/drm/drm_format_helper.h               |  13 +-
+ 13 files changed, 451 insertions(+), 397 deletions(-)
+ create mode 100644 drivers/gpu/drm/tests/drm_sysfb_modeset_test.c
 
-It is fine. Just that instead of rewriting we could have also said 
-something along the lines of "Okay lets go with your version after all, 
-just please tweak this or that". Which in my experience would have been 
-more typical.
-
-> Anyways, it seems that Philipp did offer it however, so this seems to be
-> resolved?
-
-At the end of the day the very fact a neater solution is going in is the 
-main thing for me. Authorship is not that important, only that the way 
-of working I follow, both as a maintainer and a colleague, aspires to be 
-more like what I described in the previous paragraph.
-
-I am not sure I can review this version though. It feels it would be too 
-much like reviewing my own code so wouldn't carry the fully weight of 
-review. Technically I probably could, but in reality someone else should 
-probably better do it.
-
-Regards,
-
-Tvrtko
+-- 
+2.49.0
 
