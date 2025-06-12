@@ -2,167 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8397AD7BDC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 22:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC900AD7BF7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 22:10:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E48F10E185;
-	Thu, 12 Jun 2025 20:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69D010E182;
+	Thu, 12 Jun 2025 20:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="SdNd1dpw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gtm8mHtj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C16210E182;
- Thu, 12 Jun 2025 20:08:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o2Yj3BNgfqOsrF+XdvJ45VSINDwCa8A5kUNOQrWF2jKVcfmFoyYC3AGneLQvA88GQfMoMtB7QIycch4A0cvWmOXb+SNCMVln+LkL7sohKMnkZTBiAvBNY1Y/zp8PUsnZn6gG+9slnIlDl+nrswFfB+F9dnWXF+H/pbJcd5wKCVLByPwcZyb/blp287oaM334JdC+qsqCACV1nyUe/7uWaLSnTbup97b16AjGOavkAhXhg/wiVmOPdiubQ4v19XZK0OFMeSQP8Du/GNQnPbqcle4B/zslfa05V4SAA2g9BBG793GChyHAnhge3W4+UKSYd0ZDiBAGJ2WFFtS3zvmgwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+foqX2XwhyrrMRThsSaXER7U62FOgZ/4yNLBI82NflI=;
- b=uku3baDzwCVhFryIGnbgvUFUSs4v4Fuk/kwSX6yg7TBLwDsvB6SOt3FzOCuFkf2R9BeMbcRpc18d5ds+8vIdNC2WDkbIw+ni5QNHprIq7orhLkIbKinFCtTFlLuIFwyYBv5FJuc2NQAg2h4WJ34NC4UtFwTF3lILnLQt05RhYVk7q6oW0eSoKmljjgkD7Wp7IabNHkl3m5spYOR7mi7kXuQTu1v1DpiGO7lXWetJCzaXs0QXCnHUTRJlpb/vPEYEBL8WbbSAvYWXF8e5PeS2Z9TPWxA9F9HVuadI3MPrpUDq151tHjUJbKq0ZGgsbStbCUkx5ciscYTVUHAW8ILTvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+foqX2XwhyrrMRThsSaXER7U62FOgZ/4yNLBI82NflI=;
- b=SdNd1dpw/RjfeSaQM9UESiQlcbbRBlwzs/rj227kYD9dF4E/BgU7ccaBGsx7yYitF9n+W0PolM/mdEeuT1BAxDxPUUByMO5qIIM/d+i1OVnuLQR6XXnknzQfg3oJlnGJPZLn1d5FVusk6dXWK4U1d43eXoMQvqXHu0NgOB3is6THVq1fLlrmjpRggPaU80NG76CgYLIyuXjRBg2/CVqyUodVB22s7WkinDF22My5Ivpeceb39jgFOWpCUUw+K2vmbHyfXjAs5fNaBSvu0+EISZn9ebhdJ/1ig4WhK88R7Wm/XZoHpBXdUhZlFiBFvD8fM4i7cs50zE0KPhLMJtF7SQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com (2603:10b6:408:14f::7)
- by DM6PR12MB4388.namprd12.prod.outlook.com (2603:10b6:5:2a9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.35; Thu, 12 Jun
- 2025 20:08:29 +0000
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4]) by LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4%4]) with mapi id 15.20.8792.035; Thu, 12 Jun 2025
- 20:08:29 +0000
-Message-ID: <529736c9-15a1-4777-be30-cc9aa9d11a87@nvidia.com>
-Date: Thu, 12 Jun 2025 13:08:25 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A3A10E182
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 20:10:40 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id
+ 41be03b00d2f7-b2fc93728b2so1099787a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 13:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749759040; x=1750363840; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ACQzSKiLB081J7RKsan9TDO2EOdfGESNIDhEKLy5me8=;
+ b=gtm8mHtjXpphf6Rcuq1kXSU2rJUwYzOsxaD2xBzyPIECzNsCU9vVpURvz7hkTOqJ6I
+ z8P533bGW6+ZQizUYqb6JC1KPml1MqrRI5CnZOjfvchyAJ5ccirkTMI/LYVgR2oUB2aK
+ W02MbWVheS1vSUHH1t4+Ie9WyGiHkO4wbqFBRzk0dGEjUQn/7CZFok1LWqZmKzgKbXw6
+ QwiaBI2ncP5UJhpkmC7LL/GvXBXEDVmcT+JuzsqcN+fHEGGm5Yb0w4ANRjQUDdJg+WHD
+ KKhowu2luch0s2Wpv4/njNOCL36kXD+e1FyRnaGDWvOzpAG4+m2r58/yIUD0lsK8m4fk
+ 1rdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749759040; x=1750363840;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ACQzSKiLB081J7RKsan9TDO2EOdfGESNIDhEKLy5me8=;
+ b=VKIHmIYr00ZzyBSfgu4zANK1Q89yqRX70l/goJuSenDzOtgHg/sFlZUTmOdw0eMZ/v
+ aYuUXqo3juZG1drWlB4TEwxWvC2p7OfJPTZOtFnLQ+DzCW/4NoO46C51OvTJ4Uf7jKB6
+ JSo2XlsUb82N5sOHkOWjHBfC01igIRqsQ+XoE7H0myWDqB59vjEYPVfPdZ4sHyIUQS4p
+ BN+ascTdRkPpgN9d7AoodjWCUlmlx6dItf0SZ7Sshr20ly0i7IVdq5YXQzu18XxwsP0H
+ Wya0Cw2Yuknzj3hkabRjQLi+IbpQcHxol5LkHt4WUQRHnjUPpJNxZiqzyJdj5LAXj/yW
+ NSNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnxDe6b2O4ObSsYpBfnnvGXb5E3024Krh2XWwiWFPFTAoF+ywD0PF4YjRWrM6JJQRPdkMCTvIiSHw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLBv3SW9KIIHMgnkjjSoRCEzffqC6caoUxzHBJqMPb4h03Iwgy
+ ywMn9FfsjaU6bsVyQlGeNWud3RBfGy5yavZ+4WQ6JupF+BMG6Zbg9kOs
+X-Gm-Gg: ASbGncuZg48Q6OG2kY9SZEfhXUWSlgOIE2YcRLTQ/bhNfSuJPsCj620+6xeHhXEexPW
+ Ir/EGeoQL8ecEWPo80Fnawb0vcrBDjwtnkKywnd4EmfyIYQRIOYf8VFPyQIUFtm4RhonMbOvMM8
+ E5Qx+X8CqRPomjLOFDmAKB0TraMMlZh8hskDPN0JUAGjH4nglMz6y1SLXVyaYClEjjh0AbIwrgj
+ /tBdIOmRz6F21tI71jNa6UDc3qoBLfiCITkZ3oNi7dSUlmFWEWOQzmvCigLnVWz63tnZQmhtvs9
+ Dt81n6DMAGywvqBuVBaJknAgaGd5sOF4Khyd9rCOvhr9V8UH8Fx4bdSn95OuMQ==
+X-Google-Smtp-Source: AGHT+IG8TocKyZo9LiHYpgmcLhk97cCKpOT9D/IFBCoE4AePraGyNKa1PzBXNuqHoDVO+xHoWj80Yg==
+X-Received: by 2002:a05:6a21:8dc4:b0:1f5:6c94:2cd7 with SMTP id
+ adf61e73a8af0-21fad11efd4mr288514637.42.1749759040324; 
+ Thu, 12 Jun 2025 13:10:40 -0700 (PDT)
+Received: from localhost ([216.228.127.129]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b2fe1691d7fsm150701a12.69.2025.06.12.13.10.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jun 2025 13:10:39 -0700 (PDT)
+Date: Thu, 12 Jun 2025 16:10:37 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Benno Lossin <lossin@kernel.org>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
- <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
- <aErtL6yxLu3Azbsm@tardis.local>
- <f8d9af76-fc1d-4f7a-8dfb-a0606e44c56b@nvidia.com>
- <aEsy8XDy6JW8zb6v@tardis.local>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <aEsy8XDy6JW8zb6v@tardis.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0045.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::20) To LV2PR12MB5968.namprd12.prod.outlook.com
- (2603:10b6:408:14f::7)
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
+Message-ID: <aEs0PVkwFN9uRgU0@yury>
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
+ <20250612124415.3399e26b@kernel.org>
+ <22744779.EfDdHjke4D@workhorse>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5968:EE_|DM6PR12MB4388:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3337d31f-54db-48a8-6db0-08dda9ece5b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?blpIa2JNeURnL1Y4c2Y2UDVjN0kydFJpNWk1NHFJQnRxWmhManNiSlVjNU5z?=
- =?utf-8?B?amFnTnFMVTY4TXVRbWxzY1l6YnMvcHdxVHdnMEh3aVFPYTIxY2thWVZOdWRh?=
- =?utf-8?B?b08weHgzQTB3SGppckV5cWw3RTlhNUFVTjZXUGk5T0N6NXgxQ1ZOYkxWZmFa?=
- =?utf-8?B?OUpZTWFXRFJwZ2VVUGlFYkJXOHQvSURSTVF5TEJlc3djUi9iWTB3bUVJY0pZ?=
- =?utf-8?B?cTlCM09TMjU0NmdBNkY0ZmhUcHhuNzJkUzJIcnE2Sm9IemhWeFVoQUpMVTJi?=
- =?utf-8?B?eHpKUkdub28wZDlVcDdTVVZBSDdHL3VzNHJVRGpPTE9KTDZRalEzd2lnMzA5?=
- =?utf-8?B?czhDRDVNRHhFVjhMTkRVRTkyaEhOcXg3Z3M3czlSamhLc2tORCtJQVRXTkVH?=
- =?utf-8?B?U3ZVeVJkb0pZN0hzVEwyMHFVNnRuaVpwa0NxZHljMXJDL0t0czMySE9hRFBG?=
- =?utf-8?B?NHFkc1ZPSDlnSHh1d0hLemZVUXJ4Zm1KRnRuMGlzUkY3L1dUeUlxblZVQUlu?=
- =?utf-8?B?YWljM21QSGY3YXFSeTlDeHVHOXFRTWVmU3BuMUNaQjBMSm1Ja1pRRXVJL2k2?=
- =?utf-8?B?SERMeHdJTi96cmpzSDFLQ1F3ejlyK3R1T0puTnZRS1AyM3RVeC9ZS1lpczJI?=
- =?utf-8?B?bG9aUjZLNDBodGM0OEJrVlBTaUNwOXBkNnBxLzRoT1VYUlRxWTgyNHRTTkJo?=
- =?utf-8?B?cTFML3RENW0yYjBMNTd4TFJ2QUNtTTAyTVltSFdWcFlFakE3amxvRUdiMWNL?=
- =?utf-8?B?bElCQmhzSjNrR05UcHJxL1BhM3Jic1JkSE44SXg1Z0s2NGN4bEtnVWIrNFNu?=
- =?utf-8?B?bTMrb2UvMTNoRXRaWDF1UDlKVnJaeW5WZ3FaNk82UlBYUjZCK1VMalRmV2t0?=
- =?utf-8?B?ZmJqWXl2RHFhSlpOeHZmV2RaWlRGN002N2VIbWJyMUdIQnVQeEZBWXhxbVpB?=
- =?utf-8?B?Z3oySER4Ky9jNVJpTWJXUmxyNjZIcE4xcDl4MGp0M215QXVQd2FHUERtYUI5?=
- =?utf-8?B?UC9IV0lkaFdFY2VmYzJwZzhJR3h3UURLQXZEbGYyb2FodzhFMHdBWStGRjNo?=
- =?utf-8?B?QkR4Q1FjVmk5SVpzdE8vMnNoNzdjWDlrK1lwRHFuNTU1Q3RkdVRuRW93NC83?=
- =?utf-8?B?cWI1SlJ1elJGOHlJc0xydW1jMVNyblJwazIwODJaZmtNRTd0Wi8vM2ZtdnRq?=
- =?utf-8?B?Tzk0bm5jVmpROHhxWEdncmtNSGUzaTZQOUttTXNpQXV6RHNFcTl4U3g0d2JR?=
- =?utf-8?B?RU91NFJOb1VBdGtaTmRTOEx5S0RxWHF1bmZMZ09mQ2JBQURVR3o0cXdRQ25K?=
- =?utf-8?B?eE9aVzZjZzg4VmFsMEtLcVN3SGNPSzlBTlM5R0tJUjQwamNvSHVhTC8rRFB1?=
- =?utf-8?B?N0RwSllESk1vS0Eyb2t2eENhaVhKaUYvbTJtZHhOSFQ4YmMza0NqU2c4c1R6?=
- =?utf-8?B?SmNBOW9MbDhTRG5INE51S29rdTdXODZZck9lVVF1aytLMUZZM0srSGJpeno4?=
- =?utf-8?B?RWx0QkJYZnhBNkpnL0pTYk0vYjQ0dDYvbEZiWG8rYnNPN0l2dDEyNXRVVW5q?=
- =?utf-8?B?WmtvelBiVmZXcWNoaU8rYjNPQnBCdUpDcVlsTnNaYkVhd25hK2dYcnRSUTI5?=
- =?utf-8?B?UHpPMEk0VzFCR2JhUTVpaHFDMGNhUEVnNXNaakZwbUdIeTg5RU5uMmh2NTlL?=
- =?utf-8?B?TkdUbnVSeDFmSGs3NklKeVZhSSsrc2hNMTBZTUFhby92eTVaY2o5bm9Oczdt?=
- =?utf-8?B?TktRaHF4cUszUzZpbzVYMHU3TERPRktNTjZjek9NZlVPQmlzYUE3Y3ZtUlc1?=
- =?utf-8?B?N3JURVNSYmhocWhHd3ZmU3Btb09vV2VtTkNmOFZML3kzUzF3aUFhekdIcDNk?=
- =?utf-8?B?eDRTRmtva2RBcndva3FXTlB3QW8rUzJTWGxqMEI2N1d5bmozaDkzeDFLNHVw?=
- =?utf-8?Q?erc9V5jc8+0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5968.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUdRK0NPanJuRGdYd3d6K3FsandhbGQvQm1PL2RFWkRVellOTzN5STJVZC9p?=
- =?utf-8?B?aVdVb3JrZDlVQ3NWaEN5bFZidmQ3bzNvUG9TdmwyOHRaUS9IU0JKczEwUmc0?=
- =?utf-8?B?WXRHM2ZjalV2VVczQXJoOUdsc00yTWQyRFBiY05wY1hrL0JWdlNGZHhqYlQx?=
- =?utf-8?B?NS92anlGUjV2NzFxcUVTcGwxYklYYndFWlZDUng4K2R1VldNVXVyTDNsU2Iv?=
- =?utf-8?B?YWMrcjFpVG5TNXhXbHp0aWFtYXNFaXU0N296ZDNYeThpWVJXajZiWHpaT0Ni?=
- =?utf-8?B?MHlwZEVTZlNDd1UxZUNJRTlsc3FGa3lxSGZxMzljUkxGNnVtSnBLVVBYUVNJ?=
- =?utf-8?B?cExRU1JXekJPZHVKTWtna0hPM2oxMG9GMUNONXo0OHZBaW1qUk9Xam9HR3pE?=
- =?utf-8?B?R0U4YUhHZENTOXVCeXBrb014SUNhZDhSQTlHMkRZL3h6dVFVOVhVcmk4TUN1?=
- =?utf-8?B?RmJJcjUvcWtKWDU3M0dOU01INVZYbUhJbjMyUGVTTW84SXlyb2MwMVQ5M0RN?=
- =?utf-8?B?Z1RCU2VnSlRvSDZKVDUxRlg3bW02SUxpdXNWcTI1aFdLeEpXT2c4S1ZqZ1RX?=
- =?utf-8?B?MmtaQ0d4UmY0SC9DcUdrczNOcVdzSG05MHlpZk5uRU96MVRTaUZhODd4eDhL?=
- =?utf-8?B?RUthaWdzNy9EMGI5S0RHdFFDVmZ6d3dSZEpZclpuNkxweHhCdWdqVnNHS0RE?=
- =?utf-8?B?WHVNTlN0Ukk5QldpQUdNUHhFTVFlSEtnRmVvanpCTndBekFJQWlnOHYvYmlR?=
- =?utf-8?B?ZDJRS2NmZjltSmxCWXFIdVFkaGlUWWNQS2JJYnFhSWJQNWcvTXNVREdxbHdI?=
- =?utf-8?B?RmRpQUUwTkZxUjZzd0gwVlJVdDFmVVJFYS9kazVhcFhsNm9sUXVpQitFU0cz?=
- =?utf-8?B?NVNzMnVZeTE5NXp4MkpFbk93K29vajF3QWFkM1FQb0wwcXh1VVhnemZNU0w1?=
- =?utf-8?B?RWVjNUtxd1puWHRRVEVwY1VpbTczQ2YySHVqSmVGQU9UNE5tVGZqRVR1YTF4?=
- =?utf-8?B?NkoxY1RFMU9ZNjZLSlE0RlhHNXlrTmZuZEhER1NzM2hsL2tLVXR3Tk44dHQw?=
- =?utf-8?B?bkUzd0xyL3pkZjJ0U2J1Tm9HQXhudFFPUllFTjF0Z01kd1JRQjVkUytzSUtz?=
- =?utf-8?B?emU4QWJieFdlL1k2RlN0cTVtYWtjbXlYazVXOG1YVWVBOGhFKzRsRWx1RXVF?=
- =?utf-8?B?ckVPdU1EcXJnZ1Q5KzE0ZjIrSDJDV05sQnlnL0NOWGhRclBHWGM2MkVDdWI0?=
- =?utf-8?B?ZGNCQzR5Sy85Q1NhMU5UcTlrWGoxU0tyRElqd3p3UkI3Q1FQL3RKN2E4L01t?=
- =?utf-8?B?K0JxSld0UHYrTkNxekIzVXpTRTJDOUJuM0d6S0ZzU3dIYjlCNXVlcUtXd0M0?=
- =?utf-8?B?UUt1OGFoTDJxZHJMZWZ1YjFudXlKcDZEbFVUZ0t5MjhISUg0d3g1eGZCbVVG?=
- =?utf-8?B?VGc1cnFQaFZzOGtLYVFkbDh0TzU2eG9PSXRNakxVS3FNWVlSMzZHUWxvUXRM?=
- =?utf-8?B?TExidlpUb3ZNL0o5UGtzUEVIdXc3Ni9DRTlCdjN5WUhDNTRpM2IrZFczSVhw?=
- =?utf-8?B?VngrUkZqQ1hoZmxCQnBFNTBGUml4UGJzZ0s1N01kWjhOaUNXK3BseGc0YTcz?=
- =?utf-8?B?ME9PVzFLemxoS3lYeGZzNk44RHcyMmhwbjFkcUV6Q2NFaGRlZjlBc3FyRkY5?=
- =?utf-8?B?d3djMG4rSFBKaFlEcWdSMjYwY3ZQa2xqcDF5dGlGS0JBL0M0bUpmSkpCRW8z?=
- =?utf-8?B?eVhmYk54VENNbnB1N0NUSDFDYkV0dlNHWmd4YWF5dlJXQkkyNTA3aEtrYVBP?=
- =?utf-8?B?elN2eG5tRVp3aEVGN1l1a3g4cXNBVmlvcnhrR3puRE1oeW1TRU96Z1dFdUR2?=
- =?utf-8?B?OU9tUmg1cGdLNHZZVGI0NktyR1R3NGh2TFF4L3ZYY2lWOHFzQUMvUmFHOGsr?=
- =?utf-8?B?dWF5dmQvZ25PWjRNLzVhMU1uejlydUE4Yy9OdW1mUS9CL2hBVUx3ZmhYamJ2?=
- =?utf-8?B?endmYXhaazZBOHJyb2pSVEJXMkJUblZwZ2E5YTNDcWpnZXFCMXBtSlBJSm95?=
- =?utf-8?B?dXZuOGc4eUlETVBCOSt1TUd1WWZ2aXZ4ejdMenBCQm1MbUhvc2x6Q3d1ZVRw?=
- =?utf-8?Q?DskyY1esDpx92n32jte9XG4VG?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3337d31f-54db-48a8-6db0-08dda9ece5b5
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5968.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 20:08:28.9845 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P2YjIuNzSM8RUeT2BhbrdZZJrHCg22Hgyeipxw+3qMWyTqJ5v9rL9kxFsXHJTW47+aEYAiZ6TXmweFNdvG4EVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4388
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22744779.EfDdHjke4D@workhorse>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,48 +127,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/12/25 1:05 PM, Boqun Feng wrote:
-> On Thu, Jun 12, 2025 at 01:00:12PM -0700, John Hubbard wrote:
->> On 6/12/25 8:07 AM, Boqun Feng wrote:
->>> On Thu, Jun 12, 2025 at 11:01:32PM +0900, Alexandre Courbot wrote:
->> ...
->>>> +                #[inline(always)]
->>>> +                pub const fn align_down(self, value: $t) -> $t {
->>>
->>> I'm late to party, but could we instead implement:
->>>
->>>     pub const fn round_down<i32>(value: i32, shift: i32) -> i32 {
->>>         value & !((1 << shift) - 1)
->>>     }
->>>
->>>     pub const fn round_up<i32>(value: i32, shift: i32) -> i32 {
->>>         let mask = (1 << shift) - 1;
->>>         value.wrapping_add(mask) & !mask
->>>     }
->>
->> Just a naming concern here.
->>
->> The function name, and the "shift" argument is extremely odd there.
->> And that's because it is re-inventing the concept of align_down()
->> and align_up(), but with a misleading name and a hard to understand
->> "shift" argument.
->>
->> If you are "rounding" to a power of two, that's normally called
->> alignment, at least in kernel code. And if you are rounding to the
->> nearest...integer, for example, that's rounding.
->>
->> But "rounding" with a "shift" argument? That's a little too 
->> creative! :) 
->>
+On Thu, Jun 12, 2025 at 09:50:12PM +0200, Nicolas Frattaroli wrote:
+> On Thursday, 12 June 2025 21:44:15 Central European Summer Time Jakub Kicinski wrote:
+> > On Thu, 12 Jun 2025 20:56:03 +0200 Nicolas Frattaroli wrote:
+> > > Hardware of various vendors, but very notably Rockchip, often uses
+> > > 32-bit registers where the upper 16-bit half of the register is a
+> > > write-enable mask for the lower half.
+> > 
+> > Please limit the spread of this weirdness to a rockchip or "hiword"
+> > specific header. To a normal reader of bitfield.h these macros will
+> > be equally confusing and useless.
+> > 
 > 
-> Oh, sorry, I should have mentioned where I got these names, see
-> round_up() and round_down() in include/linux/math.h. But no objection to
-> find a better name for "shift".
+> That is how this change started out, and then a different maintainer told
+> me that this is a commonly used thing (see: the sunplus patch), and
+> Rockchip just happens to have a lot of these with consistent naming.
 
-lol, perfect response! So my complaint is really about the kernel's existing
-math.h, rather than your proposal. OK then. :)
+That other maintainer was me, and the macro is indeed not used by rockchip
+weirdness solely:
 
-thanks,
--- 
-John Hubbard
+$ git grep HIWORD | grep -v rockchip | wc -l
+326
 
+I don't think that that having HWORD_UPDATE() in bitfield.h is a wrong
+thing. Jakub, if you do, we can just create a new header for it.
+
+Thanks,
+Yury
