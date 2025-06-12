@@ -2,101 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3592AAD70A2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A73AD70B4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC1310E836;
-	Thu, 12 Jun 2025 12:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C00910E803;
+	Thu, 12 Jun 2025 12:46:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="DQAQkgj4";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="brIy1qbS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UIUDWQpo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a2-smtp.messagingengine.com
- (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C59DA10E835
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:41:27 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfout.phl.internal (Postfix) with ESMTP id DA4E2138032B;
- Thu, 12 Jun 2025 08:41:26 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Thu, 12 Jun 2025 08:41:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1749732086;
- x=1749818486; bh=vdZKbGDbpvt9W2XJe9j+di/nQDtbx+SBBwgfEySjMIo=; b=
- DQAQkgj48q1fN+wl4EKziOQKsTJcdhS9YQRtR5uL7TwKyPl5nr74rOl6JuqrivTl
- xFEMmSs/NMKWXknlL4ddeXFwiVEMXbdROoHdwiAOBrtmYhmEu5pDV60kTSqE/Q54
- Hl1yySylKzAE8kDvGIR79PdDc7TewWAKW0MWsxiusksoIaiFsBLr7xYXrYYYmdTD
- Dz2jiZdbaNVtkSie7T9bCkgvzRQVCLSrAZwKDRywHMO5MMZx6DPWjoVOjOWw3gYX
- tVkRPspdQUzohQkzwRWVB5pX9Q1gSSr6doCJee98q+BJjyYQ/3ta1N4c87cW93lM
- jDRtRllW1Y7uCQm81MTvFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749732086; x=
- 1749818486; bh=vdZKbGDbpvt9W2XJe9j+di/nQDtbx+SBBwgfEySjMIo=; b=b
- rIy1qbSVX9cIdrC0k4EA6tgRSAfFq078dvj9lxYBCA/XBbzrK6KqLFwynJe/8QCm
- prWvZ3azO7737RYKaiSVm5VRwp7SrX0wyJ86/BrLPrW8Hs58stSpC7QH/3B7x5wG
- T5UzgjZZlhrkuEyVubSEOaT58X0AEU/iezzMORVujYCgJCrAZE5WplnSR2Yosvqq
- 1EYLWO6jAywBQeve1NJbrpDMRtHp7R1fxmwNhj9d7TKm3h/42Ued3vHe1chWQoe0
- C1QuMo7YvYpAsT/n0g4HxbwtM4LvfaxKWDJSIMfmCVU8IAIBvQvZAjxrAscTnktk
- hLJIpr64Qvnzb/e9sHgRA==
-X-ME-Sender: <xms:9cpKaMM3lyjzhNeqdJ6rhZn8JNUVqXAQERnKGgKGAWaaNY6AhS0j0w>
- <xme:9cpKaC8MNu61LjDgo09TeGsL8n1d7zLmWWb50NU9hqly26GAJjT_NhY4ySyjZBHfD
- ScFPD7wyi122G66G_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduhedtlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
- tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
- druggvqeenucggtffrrghtthgvrhhnpeekvdefgfeigedtuddujeduueekleefuedvtdeh
- fefhjefhvddtkedufeekjefhkeenucffohhmrghinhepghhouggsohhlthdrohhrghenuc
- evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnuges
- rghrnhgusgdruggvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpd
- hrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhi
- vggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitghkrdguvghsrghulhhnihgvrh
- hsodhlkhhmlhesghhmrghilhdrtghomhdprhgtphhtthhopehjuhhsthhinhhsthhithht
- sehgohhoghhlvgdrtghomhdprhgtphhtthhopehmohhrsghosehgohhoghhlvgdrtghomh
- dprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgu
- rdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
- hmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgv
- rhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:9cpKaDTCqfC60KXO5wbhTldgUaHUkmBC-LRuw0hZjg2X3Myb-PBjSQ>
- <xmx:9cpKaEvUlWHhyoi0aE_fmzCgHWke3NEy1QlNCMCbBIp0KAd93Jc7UQ>
- <xmx:9cpKaEeK7iRkd4twcPiE5K7_-PjVi-v-NAS3CEPDACiHL2OT8KOung>
- <xmx:9cpKaI1GJ5ZyZE9iGUHczX0TvgNbfcbvch_gJUcRGO2tu9MkXHm6OA>
- <xmx:9spKaBuZGBOokQNR9tOfVXyogu175bYrQExiZ-CRtIEp56oQ_V-X-9az>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id C9BED700062; Thu, 12 Jun 2025 08:41:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32BAF10E803;
+ Thu, 12 Jun 2025 12:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749732389; x=1781268389;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gb8KCXL5ftr+nRXPftTSwsFDcFq7LpB45MjM9jxvW6M=;
+ b=UIUDWQpoJdl47Ho2W/8TryNfCoLgwwKOpln5/NDTDYeNUmPASsuS6pHY
+ 6AqYzUiaROf/2XmiDXkNQmtI8P/tuYRJP0A9OlaQ4wPEkxX7VSTnjqcry
+ AzN6T976Eti2E3Yg5qhC8As+BVD6LD9fOxiiaLxfxCzRTzRrTAXX6TYoK
+ Upem1BRuG+H8X+FZJjOl4/fN2Bm5nYFhI59ivTXXHsx1z5lxfQ/DyOwzN
+ tmBAhNJ+jOMLWvAO7ks28KvjZCmdcpwqWteIYs2yx72VhpLM44A5a8QdG
+ 6AQA5L+Cw3oujIqa6lANrmdMjre7o1/Gwd9ayu/wWDn2a41vF/ZvpGknu A==;
+X-CSE-ConnectionGUID: 43e04qvRT+ynKP0+xdj3rA==
+X-CSE-MsgGUID: bSE8QZu3T+igXP99DAxsdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="63254560"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="63254560"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 05:46:23 -0700
+X-CSE-ConnectionGUID: fboF2MJtQEy+HZ2cqdngrA==
+X-CSE-MsgGUID: 6NyVFhzVS4S1htx9L0aTbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="152423779"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.242])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 05:46:21 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+	jani.nikula@intel.com
+Subject: [PATCH] drm/i915/panel: make panel funcs static
+Date: Thu, 12 Jun 2025 15:46:17 +0300
+Message-Id: <20250612124617.626958-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-X-ThreadId: T7abef826b1a41757
-Date: Thu, 12 Jun 2025 14:40:45 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- linux <linux@treblig.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
- "Simona Vetter" <simona@ffwll.ch>, "Nathan Chancellor" <nathan@kernel.org>
-Message-Id: <4a81fc44-7c93-49d1-891b-dae11cd5e74a@app.fastmail.com>
-In-Reply-To: <f4e42ca9-d6f2-401b-9a53-d3b41915c6a0@ideasonboard.com>
-References: <20250610092737.2641862-1-arnd@kernel.org>
- <f4e42ca9-d6f2-401b-9a53-d3b41915c6a0@ideasonboard.com>
-Subject: Re: [PATCH] drm: omapdrm: reduce clang stack usage
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,73 +69,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025, at 09:58, Tomi Valkeinen wrote:
-> On 10/06/2025 12:27, Arnd Bergmann wrote:
->>  
->> -static void dispc_restore_context(struct dispc_device *dispc)
->> +static noinline_for_stack void dispc_restore_context(struct dispc_device *dispc)
->>  {
->>  	int i, j;
->>  
->
-> While I don't think this causes any harm, but... What's going on here?
-> If I compile with gcc (x86 or arm), I see stack usage in few hundreds of
-> bytes. If I compile with LLVM=1, the stack usage jumps to over a thousand.
->
-> Is clang just broken? I don't see anything special with
-> dispc_restore_context() or dispc_runtime_resume(), so is this same thing
-> happening all around the kernel, and we need to sprinkle noinlines
-> everywhere?
->
-> Or do we get some extra debugging feature enabled only on clang with
-> allmodconfig, and that is eating the stack?
+The drm panel funcs should be static, fix it.
 
-There is no general answer here, but a combination of multiple
-effects going on at the same time throughout the kernel, which lead
-to clang observing excessive stack usage in some files when gcc
-does not:
+Fixes: 3fdd5bfbd638 ("drm/i915/panel: register drm_panel and call prepare/unprepare for ICL+ DSI")
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_panel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- both compilers have a number of corner cases where they run off
-  and do something crazy for unusual input (usually crypto code),
-  but since gcc has more users, most files that trigger only gcc
-  already have workarounds in place, while the ones that trigger
-  with clang are still missing them
+diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
+index f956919dc648..e28ad72c4f2b 100644
+--- a/drivers/gpu/drm/i915/display/intel_panel.c
++++ b/drivers/gpu/drm/i915/display/intel_panel.c
+@@ -502,7 +502,7 @@ static void intel_panel_sync_state(struct intel_connector *connector)
+ 	drm_modeset_unlock(&display->drm->mode_config.connection_mutex);
+ }
+ 
+-const struct drm_panel_funcs dummy_panel_funcs = {
++static const struct drm_panel_funcs dummy_panel_funcs = {
+ };
+ 
+ int intel_panel_register(struct intel_connector *connector)
+-- 
+2.39.5
 
-- The inlining algorithm works the opposite way on clang vs gcc,
-  while gcc always starts inlining leaf functions into their callers
-  and does this recursively, clang starts with global functions
-  and inlines its direct callees first. If you have deeply nested
-  static functions that could all be inlined, both stop at some
-  point, but the resulting object code looks completely different,
-  and the stack usage is a symptom of this. I've added 'noinline'
-  for some of the cases like this where I know both result in
-  the same (harmless) stack usage through the call chain, but
-  only clang warns about it.
-
-- clang has previously had bugs where it tracks the lifetime of
-  stack variables incorrectly, so multiple variables that
-  should share the same stack slot won't. Some of these are
-  fixed now, others are a result of the different inlining, and
-  some others are likely still bugs we should fix in clang
-
-- CONFIG_KMSAN disables some optimizations that are required
-  for reducing stack usage, and at the moment this is only
-  implemented in clang but not gcc.
-
-- CONFIG_KASAN has some similar issues as KMSAN but is not
-  quite as bad here.
-
-- CONFIG_KASAN_STACK tends to use more stack with clang than gcc
-  because of implementation choices around how hard it should
-  try to detect array overflows. This could be changed by having
-  clang make similar decisions to gcc here, but for now we just
-  require using CONFIG_EXPERT=y to enable KASAN_STACK on clang.
-
-I have managed to produce a testcase for this file that shows
-how clang produces huge stack usage when gcc does not,
-in this case it seems to be triggered by -fsanitize=kernel-address
-
-https://godbolt.org/z/TT88zPYf6
-
-
-      Arnd
