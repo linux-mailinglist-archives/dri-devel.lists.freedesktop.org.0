@@ -2,144 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C48AD7E94
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 00:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF02EAD7F31
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 01:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4C810E08B;
-	Thu, 12 Jun 2025 22:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBBA10E0BD;
+	Thu, 12 Jun 2025 23:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dfy8YJEz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M1dY5CXU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A5310E08B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 22:50:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C9WtQqMeYgsDK4LXBtPI8DJUYjSW8IsK+o0jdImkm4iFIWC7RxzHR392Uwj0+7JPKw1slYF94HGzOZbH3yYXhJBE1PtrrAE1ncA+fqes3vIIOP5jz+jcG0DcJu3xXYB+OmHcQYQAFxnP0gELxsfRRPALYPIJPAEcIY79Qs+BrDjWSByx5Mj/M6SB3TQnZKlkhndk4fZil2ARr6J4bOywQCcLPQHvon3d+W/arEOgN8cU9n2f/G+wErFBjU4pEnAiFsWrYTHSXd02cMEOjS/U77g+p8UNk04JNO9Be1tzYFmpTbXio/1vqkY2JiusHYFlZOyXBjHO/LLMgYzn21st8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uoZL4nQnsuPbbzobiwxxLfLDempiqsD7YWenTsnQ5u0=;
- b=Vop0HI6zQH0oxxJNykd7snjXPvI4IF8f9wbj9rtTk0E1BaaPuU01Fp/a4E14i3NKeFYvFVgBuR01CSzLV1gnF9inBKLfY20e/1uo854M56w1x/FDBzmUZmmFWPd0gdb0fOP4bWtrNeH/zg4lgUAHKdKqt7yvZPYhboFbXAHH4kMdAM3Dj5lY8pS/Of0kR/CYP6uDJwZ0SnowcG2zavIdGb+E4a5c6bthsnu2Cj0WJshBzAN1S06abtYY/dh+SLRkxepUyUeJh4T8pOGkorZaQEL5sMuehMKj9/2e30Hp5WF+R1QbYAAGn3vdLjc4lhUj+CoLlAOJ0hxGjPm9HQW+bQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uoZL4nQnsuPbbzobiwxxLfLDempiqsD7YWenTsnQ5u0=;
- b=Dfy8YJEzOexRWYLoog+n4L1hAGuVETR935zrjAXp0MFimi07TGwkjDngRmyaghJxabOq9UQ0U/Ox6sciTHrhFEXRsngAhv+KVXN8w95mCQtpy9jwolbnURzuz5Bllu5cCydU1GO7eK6Ddji0y4IbZGDLbBWNLq4so4j7eULdzXF/vUERIodo1QoW4qQOLY44AnaTiS2DJ/TpiguvSBZqsNiNqoczICjaGBSLqc074I77cPzguucTpfmhxU1nAqOhLqWJEHLbIo0wUWlJHbBJuP35XV5IpQqvoxzJFkk0vyfvoQS8XxpsRWE6Puqm8Dg0ytUx9m9iP1vFhp78ArH2iQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7728.namprd12.prod.outlook.com (2603:10b6:8:13a::10)
- by DM6PR12MB4138.namprd12.prod.outlook.com (2603:10b6:5:220::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Thu, 12 Jun
- 2025 22:50:20 +0000
-Received: from DS0PR12MB7728.namprd12.prod.outlook.com
- ([fe80::f790:9057:1f2:6e67]) by DS0PR12MB7728.namprd12.prod.outlook.com
- ([fe80::f790:9057:1f2:6e67%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
- 22:50:20 +0000
-Date: Fri, 13 Jun 2025 08:50:15 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com, 
- dan.j.williams@intel.com, jgg@ziepe.ca, willy@infradead.org, david@redhat.com, 
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
- hch@lst.de, 
- zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org, balbirs@nvidia.com,
- linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, 
- linux-riscv@lists.infradead.org, linux-cxl@vger.kernel.org,
- dri-devel@lists.freedesktop.org, John@groves.net
-Subject: Re: [PATCH 03/12] mm/pagewalk: Skip dax pages in pagewalk
-Message-ID: <q6wgtlud6gyz47fxpxnaxh7vv647kz3h4qyrnsjelxq2nocfai@pvllo4c3spfx>
-References: <cover.541c2702181b7461b84f1a6967a3f0e823023fcc.1748500293.git-series.apopple@nvidia.com>
- <1799c6772825e1401e7ccad81a10646118201953.1748500293.git-series.apopple@nvidia.com>
- <fda482ca-ed0a-4c1e-a94d-38e3cfce0258@lucifer.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fda482ca-ed0a-4c1e-a94d-38e3cfce0258@lucifer.local>
-X-ClientProxiedBy: SY4P282CA0013.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:a0::23) To DS0PR12MB7728.namprd12.prod.outlook.com
- (2603:10b6:8:13a::10)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A37210E0A4;
+ Thu, 12 Jun 2025 23:48:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6FD575C6772;
+ Thu, 12 Jun 2025 23:46:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58AC1C4CEEA;
+ Thu, 12 Jun 2025 23:48:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749772111;
+ bh=O/72JgDCcxrRU5EXgsc21mqxUG13GVYUayVLib8RrAk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M1dY5CXUddceuif/EUp4AJDlXiOFIg15mHIIdFmccQVSX93PGRoXCBhpovIckbEFK
+ t3KsDvQKlY/EA6WkWfg/Wi4WhXcd/YG8SvQeOlSIP8fzN4SfGiIu0RblyWrqmTpPuK
+ 0EdUVXMAqdFOTt7yk2RUCyUSBBFnHVl69mDOxtiGjZtCTNUy+1qPIQ7sCYqmTsZhWR
+ +cfnVgtl6WE+vHFyWqkdsttgEkMwoWA6XmJC4t6ffC3eI6heNDldM8nMg9sTwuAxyc
+ mz2SS/T9CpbBs5+On70NJJdyySeKRXcJQgKM49f04RgwW4yMcTC7tDmZy8teItiSL5
+ 6l4K1m14wPcmg==
+Date: Fri, 13 Jun 2025 01:48:27 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ Philipp Stanner <phasta@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
+Message-ID: <aEtnS6kvh1mssFTb@cassiopeiae>
+References: <aEmR9420vj-ISz-W@cassiopeiae>
+ <dc661205-1e5b-4697-863b-36a299365219@amd.com>
+ <aEmcpsXwS8dLNGUg@cassiopeiae>
+ <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7728:EE_|DM6PR12MB4138:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6cdde14-4bd0-4708-e1d5-08ddaa038203
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/I/gpqyKPCXbZtOvGagQ7C3fdiL0ajL6Sc+ET0we2xvEimifd4hauH2a2Lnf?=
- =?us-ascii?Q?0hYUPKpgbMliarz65l5uYEMGCKgtkYJzP2D42Ficbir5/5YSAvGX19WLCsCR?=
- =?us-ascii?Q?SwBxSmZ+0zIeJE47Vl8+rUdUyZribyupZm6Yx2nUcugrSn3yeRc0y/samFzd?=
- =?us-ascii?Q?mrTTAaN0uiVmZHZ9h3JgFcHb/WBPWAcQt7/V10mIbotsgPuDiPFov9u17/d7?=
- =?us-ascii?Q?CYnhvojmvXP8mNlFB4C9eoJEyN57OVC3ijNQKsdBW1pef8jvu85rmpDTKN3L?=
- =?us-ascii?Q?maUxIQw04+iY+2iqY92Nr4RhVDglcdKAbEPA/fUqxh56Sn9M7aE/KtvUCcgw?=
- =?us-ascii?Q?Nc50jGpCE9vkV1DpNJgUHj1OEsyXBwd2nSbW1AJdSwVZUN6mAHd1nn7Cz29a?=
- =?us-ascii?Q?yjwYh4lN/nv0784X3vyDxkhmoKVK68yjK3Ag6cCLKdf4o3F4JQ9h3kgYJbC/?=
- =?us-ascii?Q?h0XtuwCRNvdGW1TB7PGjjHfdls+C0KtYQaRre59LaAik8KGNUEKoatZXmD7v?=
- =?us-ascii?Q?/stOh1Ex0ASLcvm5UIVx5UeOMhC3hgEemA+D9EX/UzRb5+u30sLixYEjG4o4?=
- =?us-ascii?Q?WyTjhCjjDGOE+MuEC88Se0MK6/1twzIn1w/Vy3I/TKHY3D3i9PKbo5phUx+z?=
- =?us-ascii?Q?umNoEmu7T+mIwgcYXLC2e8mvIVXuIsiTigoKETJqOCrVgDgKnRbBpF913q+Y?=
- =?us-ascii?Q?/y0GWhKNMmsYMoIOaJRAfw0wympvSXWHQOxtEXNqmoK9b6tzaOD4pNHOi/1X?=
- =?us-ascii?Q?9YZo+YvnEWlMrZO7X5Sr5oFbfV6FkkHwLwa839HGpBYiFznfS4yNfgifDdh1?=
- =?us-ascii?Q?VS/sMz2djbLoHlBHm671b0jNDzxaf43VDmFqhxZIOLpATA1g2ZswwPNeOpE2?=
- =?us-ascii?Q?KLZB7OO4/MttboAVP2ljpqqKYeWN6ZWK9CWAclPxXDme/dKtfZEHrC7LMus3?=
- =?us-ascii?Q?cMM5i5SKeZkUs2a4L2YfSX44sPgHCg9RgYYxge2oTG8We+AbHY8vShAF20hv?=
- =?us-ascii?Q?EKECrM3dgY3ifbl0ElF8fHm7KF1MpjtjxBjqswQwPg+wuTnzwkHoQ+8VvVbq?=
- =?us-ascii?Q?5vM+aDc+K6Yx8RVmJkmaN+acYutCPZrKR4n4JCQPYF/3sr0rH5USDtYPmom3?=
- =?us-ascii?Q?Eu7jG3lvK6tPx3eyWx6DFBLcLFqfTyAnafUdh2J9GKDmqfVLfzlA6jbNNDF1?=
- =?us-ascii?Q?YXY2FCQNeXnLRSReEKS70fXNe1igjoCVmKarE1XoVysxRm7J7ZVweRatzwZo?=
- =?us-ascii?Q?BPe9HwlFmahTDz4/3FD8nLChLHoH0OkKhv7j6Vwh5HwMPGyLfVubGgpNXhpN?=
- =?us-ascii?Q?+4TKdUaePhgzQq6wzAU/RlftE2pqGDOHyGo1C8DOeLDWihHQrJLKPqpLuCIA?=
- =?us-ascii?Q?yf8owpId/sNxJsxSBhVvCWBGeo1aozdU8AsoPXqgc6vNZ4ajYPq6Ng63mgmf?=
- =?us-ascii?Q?m4ywDXp+WlE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7728.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nH+VVf3zCUBGiXeNYBib0WbsJt47SPfZLDDzEnfxRGfLhMATJi5IysCbD3ON?=
- =?us-ascii?Q?TCi2bYGN9Bmy7jUciTYm9QRy1bl6ai9gn2KAWTGKeT1hALcEQ4iVcWVpkxeg?=
- =?us-ascii?Q?eV1MF8s28mgUwknLiOF20APMPgs+pEew8UW/OR1427AhxjgnBHpLDtnQS5Ng?=
- =?us-ascii?Q?oBWZSNM+b7DeDWDzfju/taWCmeICFDCEtL5XxaM+weExgOYgjSOmiiWw+opt?=
- =?us-ascii?Q?+MRiSekn60x4RywrHpU5onZ08okj/K/SBEnTPFUqGFIGmgm4Cz/2s1LSn+u9?=
- =?us-ascii?Q?2WfPpHZ4y3M1hIw3IiaKCsD5Dv64/nKNPNP+/VQfA4ukd7ALRzuIOUnTQnR4?=
- =?us-ascii?Q?M6tN+W4KvJW891VFKxNFTOAw5jCdMjoKBlWXAo5ku0BEAbxIjdeTP3mWidSk?=
- =?us-ascii?Q?HmeTp+cjllYFuZCLEAotmnH3oySGc5By0ECx2Wf+5r59aDLmH5LhBXrQqALY?=
- =?us-ascii?Q?ZyHc0DA08jB78/kdyTaQiKBTJmm4nZesIX8rSYAEobxHZWgcJuPal445gnv6?=
- =?us-ascii?Q?Y+jjjCRqYmsUhurC8NNwxH5b+Eau//dpoThxOLrhzjgDeUyNtey68bNujzCn?=
- =?us-ascii?Q?RK1jU8qDkwN3vBefOZ2QCJP5wWFULetlwwf8riUf1OGZpP8CY9ZRZZjg3hh8?=
- =?us-ascii?Q?+EjFAQolzmMrROunGFo5HIdRRWEUCUKb3YupN+QUGJa98hoL2ZNeCdZcqrra?=
- =?us-ascii?Q?qjqbcH20i3kAefAI9OaCOkJ1iR70szOYtW8I1N/GSriBkXX6rAcNdOp6pwJb?=
- =?us-ascii?Q?9Gl2/UWAd7o2PqkJzk+T1+TDGnAzIIrFAmtqV21LMW45JezsWM9EdD8P3hNG?=
- =?us-ascii?Q?l9QUGYgrnD+cDZ+A6DYyAMtVIbcALOLRTba8an14jze57uN8x5LMDqdhi13i?=
- =?us-ascii?Q?K3svhgQXV+CTllOKG5CQqw2yLe0uyIO2o57HTZrwX4bG0KVIhzgZtu6Prcvt?=
- =?us-ascii?Q?+GzsuGMbGPJ1JfEUcXznP7z8nNd7c075Qap5Q6w40SAxnjxkjvDGHtv1yS9g?=
- =?us-ascii?Q?MwRPJNdNpXrM7tsKBbVuraUfD5GwZStnUoFhU7/m4x7Vrmxfevg6f2/Q9KO4?=
- =?us-ascii?Q?24iUSWBzScjL6VEK3SfMvW+rG6DWjyqJbWbuc3mnRtwsjJie26UyvK2zdBLe?=
- =?us-ascii?Q?+EsnFcY4o7y1EFHxl0ekAUq5ogmGoOxBGIS1JOOOPCLn3SObaZGcALu4+MNN?=
- =?us-ascii?Q?pe6ultKxzEps2dz9nJTG8Gqeakx9JO6u7cAQMSEpn3deNeZoi5FAwHA5cf1J?=
- =?us-ascii?Q?aaCKhad6oEolXWhnRY1y5MznZB7GjvwEdlYgDnuSTjMwOZdeuZjnzlK3iogg?=
- =?us-ascii?Q?xLWMEC5leIvx10tzuB4lMKXt5Dm7JNaKghZ80iGKyKIbxSGQ0qt7+uvRNy50?=
- =?us-ascii?Q?bfoXX+DkrMoTC1mj31nUMANU37p065Bcd96psb0Y2ekIWtK9M0aaww3fpo/p?=
- =?us-ascii?Q?fPzo97uFqHEEpqMq/eD+zyagfP+3pOIkK5xaf73yhlTsoygB2JzrivfSGUZ5?=
- =?us-ascii?Q?iP1hrF67l9bSGR1VO0OymiKqEPRnG+y4czY1IBTESf1naQGhbEZsQLocojf9?=
- =?us-ascii?Q?uowGiS4syEzrVWYAu3hhm4L6gTuE282yDSmvCQzV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6cdde14-4bd0-4708-e1d5-08ddaa038203
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7728.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 22:50:20.7643 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FtDGNWNNX+HY+Par/I5yX6UMlbA+iRMLtO/gMt47T9psWU/Zdmt21bxa5Tgmq5JKtZYoU2/OParbmhQV9YfpAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4138
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,98 +62,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 03:15:31PM +0100, Lorenzo Stoakes wrote:
-> On Thu, May 29, 2025 at 04:32:04PM +1000, Alistair Popple wrote:
-> > Previously dax pages were skipped by the pagewalk code as pud_special() or
-> > vm_normal_page{_pmd}() would be false for DAX pages. Now that dax pages are
-> > refcounted normally that is no longer the case, so add explicit checks to
-> > skip them.
-> >
-> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> > ---
-> >  include/linux/memremap.h | 11 +++++++++++
-> >  mm/pagewalk.c            | 12 ++++++++++--
-> >  2 files changed, 21 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> > index 4aa1519..54e8b57 100644
-> > --- a/include/linux/memremap.h
-> > +++ b/include/linux/memremap.h
-> > @@ -198,6 +198,17 @@ static inline bool folio_is_fsdax(const struct folio *folio)
-> >  	return is_fsdax_page(&folio->page);
-> >  }
-> >
-> > +static inline bool is_devdax_page(const struct page *page)
-> > +{
-> > +	return is_zone_device_page(page) &&
-> > +		page_pgmap(page)->type == MEMORY_DEVICE_GENERIC;
-> > +}
-> > +
-> > +static inline bool folio_is_devdax(const struct folio *folio)
-> > +{
-> > +	return is_devdax_page(&folio->page);
-> > +}
-> > +
-> >  #ifdef CONFIG_ZONE_DEVICE
-> >  void zone_device_page_init(struct page *page);
-> >  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> > diff --git a/mm/pagewalk.c b/mm/pagewalk.c
-> > index e478777..0dfb9c2 100644
-> > --- a/mm/pagewalk.c
-> > +++ b/mm/pagewalk.c
-> > @@ -884,6 +884,12 @@ struct folio *folio_walk_start(struct folio_walk *fw,
-> >  		 * support PUD mappings in VM_PFNMAP|VM_MIXEDMAP VMAs.
-> >  		 */
-> >  		page = pud_page(pud);
-> > +
-> > +		if (is_devdax_page(page)) {
+On Thu, Jun 12, 2025 at 09:00:34AM +0200, Christian König wrote:
+> On 6/11/25 17:11, Danilo Krummrich wrote:
+> >>>> Mhm, reiterating our internal discussion on the mailing list.
+> >>>>
+> >>>> I think it would be nicer if we could use negative values for the kernel submissions and positive for userspace. But as discussed internally we would need to adjust the scheduler trace points for that once more.
+> >>>>
+> >>>> @Philip and @Danilo any opinion on that?
+> >>>
+> >>> Both, the U64_MAX and the positive-negative approach, are a bit hacky. I wonder
+> >>> why we need client_id to be a u64, wouldn't a u32 not be enough?
+> >>
+> >> That can trivially overflow on long running boxes.
+> > 
+> > I don't know if "trivially" is the word of choice given that the number is
+> > 4,294,967,295.
+> > 
+> > But I did indeed miss that this is a for ever increasing atomic. Why is it an
+> > atomic? Why is it not an IDA?
 > 
-> Is it only devdax that can exist at PUD leaf level, not fsdax?
+> Well IDA has some extra overhead compared to an ever increasing atomic, additional to that it might not be the best choice to re-use numbers for clients in a trace log.
 
-Correct.
+I think the overhead is not relevant at all, this is called from
+drm_file_alloc(). The only path I can see where this is called is
+drm_client_init(), which isn't high frequent stuff at all, is it?
 
-> > +			spin_unlock(ptl);
-> > +			goto not_found;
-> > +		}
-> > +
-> >  		goto found;
-> >  	}
-> >
-> > @@ -911,7 +917,8 @@ struct folio *folio_walk_start(struct folio_walk *fw,
-> >  			goto pte_table;
-> >  		} else if (pmd_present(pmd)) {
-> >  			page = vm_normal_page_pmd(vma, addr, pmd);
-> > -			if (page) {
-> > +			if (page && !is_devdax_page(page) &&
-> > +			    !is_fsdax_page(page)) {
-> >  				goto found;
-> >  			} else if ((flags & FW_ZEROPAGE) &&
-> >  				    is_huge_zero_pmd(pmd)) {
-> > @@ -945,7 +952,8 @@ struct folio *folio_walk_start(struct folio_walk *fw,
-> >
-> >  	if (pte_present(pte)) {
-> >  		page = vm_normal_page(vma, addr, pte);
-> > -		if (page)
-> > +		if (page && !is_devdax_page(page) &&
-> > +		    !is_fsdax_page(page))
-> >  			goto found;
-> >  		if ((flags & FW_ZEROPAGE) &&
-> >  		    is_zero_pfn(pte_pfn(pte))) {
-> 
-> I'm probably echoing others here (and I definitely particularly like Dan's
-> suggestion of a helper function here, and Jason's suggestion of explanatory
-> comments), but would also be nice to not have to do this separately at each page
-> table level and instead have something that you can say 'get me normal non-dax
-> page at page table level <parameter>'.
+It seems to me that we should probably use IDA here.
 
-I did the filtering here because I was trying to avoid unintended behavioural
-changes and was being lazy by not auditing the callers. Turns out naming is
-harder than doing this properly so I'm going to go with Jason and David's
-suggestion and drop the filtering entirely. It will then be up to callers to
-define what is "normal" for them by filtering out folio types they don't care
-about. Most already do filter out zone device folios or DAX VMA's anyway, and I
-will add some commentary to this effect in the respin.
+> On the other hand using smaller numbers is usually nicer for manual inspection.
 
-> > --
-> > git-series 0.9.1
-> 
+Another option is to just add an interface to get a kernel client_id from the
+same atomic / IDA.
