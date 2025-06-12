@@ -2,173 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD121AD7983
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3138DAD79E3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:46:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C5610E0C7;
-	Thu, 12 Jun 2025 18:02:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37DB10E066;
+	Thu, 12 Jun 2025 18:46:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k9HiKdN2";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="CcoPp2e+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0A510E0C7;
- Thu, 12 Jun 2025 18:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749751348; x=1781287348;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=C8hrJcL/7VgBjOflEr6o5gn/MzatCrJTjB8M5Pa/4GQ=;
- b=k9HiKdN205OOCVNomqnsEWxsU+m8Qf/7SwOFl6PQ/2fjmUAavFdVPy/H
- ULH9qjwr0ypXg5Cjj7qdXUqFQlSuQgCtcRmx22TEQySySK7kvzAJ4YteH
- FnYswbK5/yNLphH6a/0LIxEnSC73Bd4TqW4him70tSYDtzPreVTtDa6Le
- 9Qamd9R9hnecIB9o8hMhzJczPGGH48nDxb2ebqw1GdoNzEOos8oxdMf6S
- Rv/ymLijKRqpbuZCIsBsJatMfF0x6IsmVwqW2eiPIUN1Ql7ZHc421Ofs1
- EedmFDKC8MQUqQSx4TdVx1IG1b6iDb+UJdMrV79dipIDM18fwE3qG9Lm4 g==;
-X-CSE-ConnectionGUID: 0J4YN/XSSx6P8GkkAdTJ3g==
-X-CSE-MsgGUID: yz4bNGr0Tfyekzv2PkThXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51665606"
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="51665606"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 11:02:28 -0700
-X-CSE-ConnectionGUID: Gk9Xb3WFQa2ob+Z/vzv0EQ==
-X-CSE-MsgGUID: kKO2qRaqQ/2evT6uOUU3Eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="152503858"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 11:02:28 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 12 Jun 2025 11:02:27 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 12 Jun 2025 11:02:27 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.73)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 12 Jun 2025 11:02:25 -0700
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011018.outbound.protection.outlook.com [52.101.125.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9099110E066
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:46:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BJxzfX0U9A0NDYxjoYBrCEyc2S85Cca/mrS3wsey19kfWp/iDw/imHyJ+g+SbHC+8QmaHtTrOolPWusa3yY4KrjqIddZCXs6oUfbu5B1G6EYD+ypcAQmR7YjecEhgJS3Jy8hvmGNyZUtAc1p0ppImSst/09yvXRoGivySLPMnbFQrNd2Q0euCDlOtXl4Q98mCpee11P6qVZmdpkC3YdINiMJI3TB2Ik9cFsr+eo0mJ7jk6A2fh7Zckke90kd0Gn5/qAK/SOG5ueI+eYqzd/WX4v5LhsmIXQDt62NcLZPhBMn7tFu7aQlG4NlH3ML5XP8d6K9y639Nl/ae0K09ktVng==
+ b=xvE3Nn3ZXEMgjG8FbVZXAH4xW+QObo3rZJrEslIl54maPjan/pfLlHObNAqIzGJ05W5zDPevZ5IYqBpTp5n4PTt7jj+ExB8EN/iSZuA1EO1XiTpclVtbEXtsxYt2L+xAwvmxSoaZYEd7ZmQuk9JvuWI1SbymOZYW/5vN/nekFtWEg+6FAAnFO8LhFD3nYVfipk9k32ie1jGw4745LZ6Vi8lHx4x9K86jxwyvbVAwPtWKwUOY4LGDLlJZTYzyz/ZZbxmVKFkCdEwXEXGlOZW6UuOSXwZOkO0ToK5E5/BV5otckKoRfV1WRc9xu92IbRQ/lbkGPQ4CoWgg15BAkQNygQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j7gxSht8mONJRe7FHtMsr5vq0kxge+9rqddO0tv08vU=;
- b=E4cuNEjiE0/+okjxwsnnoJTwKH9g/bzg+potJmMu4I+UQ75tTx9JmWBjCRjoaLPjeDDWAYMM5/Th7DSAsD0UR+vxFn2zrZ6XrnQK8yPOHI3GxOMWjAadr9UdWu+T/MuIWOC6PuULibP+2QZfeDb1UyaShtF0XhOArJ80N7XFJ/PbO/KZLGgZ9Of4iyfR8IYxMglcpeljmrLW0oAvZoNTN2wdJIp2GO3h1ZGn7aWmL5D8BXhfycqYOegd2MG52Y9Lud5wewa7/B3jbo9B3KX1Cf/LCTYPwDqpmBcX5hshAZ8dZDnYg6Hmm/nkqR9mvAC7eM3PUt69kn8ow2AX/3m5zA==
+ bh=4iG1Ur8aUNdurEfk8KHXS9ES11l5BPvKWs1c/plCaoQ=;
+ b=dIsCVipEkTQW2YptoG0nOda0k/nWm5poYDlZsaGo/G2I95glIn4s6fduxT0Cq7YMvAYHnIx1gHOO68F1ag9vsx+yVJ1obFAAi0rM7i3ysw6N8js2h3Afjzj0fhf8uclRr0LcAFff3EjCMidtIIPvwOtXIJ/Yr0lEOx/aeqRsLwV1sEbCfyr6bmA67Ftz62nplkjRaD35JkWCIS084vgKZhOnafBhFrZfripYulewU5AQL2munz8kA7CBkZjICJRCaeFccXrQcAuJXf+cwk/7fyI5CjXVbm7vBlVtEFCOxUo+TfjLvDgZJfc/in1Jf0yS1qpbtOP2JELLQB3YfU+T/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DM6PR11MB4724.namprd11.prod.outlook.com (2603:10b6:5:2ad::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.24; Thu, 12 Jun
- 2025 18:01:56 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
- 18:01:56 +0000
-Date: Thu, 12 Jun 2025 13:01:53 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-CC: Juston Li <justonli@chromium.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Yiwei Zhang <zzyiwei@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
-Message-ID: <p7wq3wrsddp7pk7bk5follhkc4f7ybgmc2o4e652jc2cfuqbhh@tckgwpy3khcn>
-References: <20250611225145.1739201-1-justonli@chromium.org>
- <20250611225145.1739201-2-justonli@chromium.org>
- <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
- <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
-X-ClientProxiedBy: SJ0PR05CA0141.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::26) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iG1Ur8aUNdurEfk8KHXS9ES11l5BPvKWs1c/plCaoQ=;
+ b=CcoPp2e+nk71m6YahAlnxC2C13WrcQlKcalOASPhLLA7dYp/S5bvDMEVt1m3HuRzIN/pAOTI+5KuQcJ1dG8mmVk6zRqnJGqYIm1gYPhllapytPOApk43PJzoL8atWCYwcgF4JH7EciT6qaYhIOXeezKAYpZPdQYAd2rTuLb6D4k=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSCPR01MB13443.jpnprd01.prod.outlook.com (2603:1096:604:331::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Thu, 12 Jun
+ 2025 18:46:03 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8835.023; Thu, 12 Jun 2025
+ 18:45:56 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Fabrizio
+ Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v7 0/9] drm: renesas: rz-du: mipi_dsi: Prepare driver to
+ support RZ/V2H(P) SoC
+Thread-Topic: [PATCH v7 0/9] drm: renesas: rz-du: mipi_dsi: Prepare driver to
+ support RZ/V2H(P) SoC
+Thread-Index: AQHb2ZHKfJ0kCzT1QEqvZdyBd28TS7P/4RPg
+Date: Thu, 12 Jun 2025 18:45:56 +0000
+Message-ID: <TY3PR01MB1134613C19F77704DBE20C15C8674A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250609225630.502888-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250609225630.502888-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSCPR01MB13443:EE_
+x-ms-office365-filtering-correlation-id: 381c066e-d3b0-4362-bc5c-08dda9e15dff
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|38070700018|921020; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?wgpQJwKsp9LIazJJ0GkYWwIJBxQI0bypJ2rjcLcvfnv85EFK+KVhYx/aFRuj?=
+ =?us-ascii?Q?87NgEtIXgwgh0gGE7CIF5TnhbE2c8L23uJVjQTQCN05wHKPHLM22uSBNPrk9?=
+ =?us-ascii?Q?QbUS+l80ewSzecn6f+U78CPsm4d55RGZDlFj1Tox2bgdzgoMQNEHXF+TP2W9?=
+ =?us-ascii?Q?kJd6geK/GtX98K8poVjxO7cdPPRavtenLcqYsn2kc692SrNTGAZBKqIaz6fQ?=
+ =?us-ascii?Q?O081pS55KVkuPulg3UhtUOI4H3Md2dvj4y8378cifWZm9WGRpJfBTD7Qur3F?=
+ =?us-ascii?Q?GAnyVNHOzUnEtL167FQd+WK8YorsG6Lev9jOMXPzBE6/zPDwjXBvUmPxold1?=
+ =?us-ascii?Q?P6TsRyDHW+nKQxYbXwIZjjdt/GQZPlmR2L6gT+TvHbX1PoRpFlUcVFXcPaVv?=
+ =?us-ascii?Q?Cs5m5Gp/Axl4YvZt/dc+uur6BfsiMF/6ErFCVMDazixuNrdhw0/Ld+5nMlL5?=
+ =?us-ascii?Q?XXud6O8nwC54IqxjerjbcZAnMJ2grT9OeEr3hiMXlhp+ffkCeGr+/IEIHXVZ?=
+ =?us-ascii?Q?jeRGVRAZ5cvl1CAi1Jr60I+Y5bpku7E2VGpfTo9ZRCOYJ/S49EjVnuKVdhHZ?=
+ =?us-ascii?Q?E/RRy04gXi6mxaIloIcvHsuVCZBmBbBmT83t1/NXUTGWv06DvYZy1veuiOVD?=
+ =?us-ascii?Q?N9CZ7T900lYNkhzf529Bb+mwlKfDrsfUo1bxqOWLuIAD4N+xrBoRqGtLaNTU?=
+ =?us-ascii?Q?WDko5FHQ/cXBQ69pFTVQcba7rkWyFDCsqCkHuLDbckxh6gihiJoEsk1W+vIq?=
+ =?us-ascii?Q?uZWpbwVgG0vE6Y1tMmnWTTpVHvynefKs9pTtB4d6Y5w8VbbkFqJxMVdRyarx?=
+ =?us-ascii?Q?6ooO71Ifps4pjux1wMvQjPEMqR/+TmerhZoCMpOQdFWnHFy/5IcDh4AtuZdM?=
+ =?us-ascii?Q?68/QclAuaLcfWVdrdoBKVr9YDHeYRGRbb8MNo8wd4zc1oKu03CxVzJa0CDNf?=
+ =?us-ascii?Q?eyMzyiP0NRHoQ6U7z30cUGQzNwbAgibyuZnetlHfEtwov2EnrEP6RgxgXN28?=
+ =?us-ascii?Q?JQLdOZTOqLXSFYNr0vij+Vm34HRcNWVuBfHzotiffUpuE980dbqaib1wtn4e?=
+ =?us-ascii?Q?aBaw5jcNA2jSo9gFkMjOpaPudQ97UyVNvHszqZGXWh+UxEbDPON43uAxCSMb?=
+ =?us-ascii?Q?zU54cNJVRMeMnGzVix31b0OUJH/Z4f6H0ieZtAbJlAmgL8vIKpviPFrzkCnG?=
+ =?us-ascii?Q?KvIUC2dbfcTOufBrZM5CDKO6kPoOf3gsxHGpzSpw+FtkKNp+NCrKTpbsE27p?=
+ =?us-ascii?Q?zmaBtRo7es6Ft6/L5OZcrZ83hKiN5RUjmVomFMVUvL4q3Uuvq035SxYPRf85?=
+ =?us-ascii?Q?RjMkvr2q3RMuaP40kYRw92bb922aedo5Ck/j99MK1apX9IGGPdciwrvgvvpH?=
+ =?us-ascii?Q?QcPxNZdURRO7KW43HBrp7nUGlhAwWBEEgZrIjanskN+kEZWu7Z2BKro6arKM?=
+ =?us-ascii?Q?vhn067z0gnqQu0MyNI5fLywyOCu16Q+cUn4BlRbxn7DbRQuQG4iZjHCPRNcT?=
+ =?us-ascii?Q?XYAPVYYe56fD2Ls=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018)(921020);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nLkOnA+wsZGLi8pBu7Q6bGNOkPhhXbSnm8D7S1M1H4ZGTK6JE9HaiA9afatC?=
+ =?us-ascii?Q?MkBRmGQr58zK/nq83PKgXl5/nsWVuWsv2hmKKTg1oGSVxbCR2uHpoudio/kQ?=
+ =?us-ascii?Q?X+80GqyrT1aRFbahjnUAc5ppPKsPZqEYYigNw5cTsjGdxa+uhOTQTDRyQdq6?=
+ =?us-ascii?Q?bZ8vQPgxG8GymwNQ4QFk9xSejmAlgOe9/tKNuGnNM3ZKBDifcwGITrfKgUq5?=
+ =?us-ascii?Q?ZicT1c8z6YBj4ew0HJlvU9uMQ6gJa8Poj+VLNfDNyDpUpcUdyPdMYI//5kib?=
+ =?us-ascii?Q?t846B8PnXKJM+dpz3rhGgCQCRPkN7UUJt+ZjO6LswlaAULzazcV5FiVr3D0y?=
+ =?us-ascii?Q?2JwSOG8PCQX8dVDebT9iV3QGmbRHYnYlU9AjlJF8evEBLRCEeFd8p8guPNLZ?=
+ =?us-ascii?Q?PSBpOfvDAWYsMiZmqCE+Gs+XniI8rxI/jvZHwx3xUN28CusVMcfOQ18WDBIi?=
+ =?us-ascii?Q?88pDAITQ6QjbHd8kY64ol9Pgsn5Q4YZg2NUBdr4upSHel8U4XrLcvAyalSPD?=
+ =?us-ascii?Q?2RWZwKTZvTiq9GUjIxuMLXRE2FZ5+x4kBRIHhpkGJVPm87bQ8cH3ZL7NV4Aa?=
+ =?us-ascii?Q?OYmOB7aJ0BGbZjUgEAIcN3B5rQTBuF0bJQElj1RqxcCLw57VNWBHHxbKurn1?=
+ =?us-ascii?Q?5AkvHJz/FTu9rUTHsEoIKXjwrQxrU59KC+Yh4dAWPogeHlmFNKuPBCNh7ymi?=
+ =?us-ascii?Q?x5AgG5zU1sD2DhDLKCf82N/wOkp063pvPa8+erjPeEOudmSgwqj9lUDPebWp?=
+ =?us-ascii?Q?vfisl2t7nQG2JP5L8tgqGimEQ7vUa6XgSheN6K6DA3JhDkqZDFe5fH30CZOx?=
+ =?us-ascii?Q?0xHYSynwR04W+zPbkfyB4HPT7DwdHBaaUh614c4UzgyJyD5UJRkXGIUL5ap8?=
+ =?us-ascii?Q?fsjabopVyvOMdwagEpwkzMJGliCm5vV1vbNC9PdTdf8CbwpYzxpt6eljJxrR?=
+ =?us-ascii?Q?IsoKFG3ZCzu2kuoZYXNpqN8p8MSFQW6wI6Z5U5kk3qze08KfKoG0WcxDb+Pu?=
+ =?us-ascii?Q?AdPgWxsYwhtqP5W6tFBQhCXIKz8k9EAzaGioL363Bup/ESB4Wct/W9r1TNbx?=
+ =?us-ascii?Q?S4ZzZBFUn5ukfVvYzYfQ9viQcFZDegGC/OkB+8BGki4b4QZux56VRf/8VWLh?=
+ =?us-ascii?Q?wODLhF3O6WNJcYxbZoFAX+F970IVFY+K82WLj7tDBxV+eEAQgkD/J9B2uIIl?=
+ =?us-ascii?Q?SnjnMZ9pbnfVh3lQq4x3PORmZmUrd0Q+aNnWiIn7SPjYuwpdujdOgDiUIw7j?=
+ =?us-ascii?Q?lNGZ/e70VQBqRW24RyEbP2fhiPkxds2+64yEL4SpG/iJ8XnpAy5zBwsqgkW3?=
+ =?us-ascii?Q?xkQ0qQwjA0x6lX3Fd1K/yQoKwaK49j98EiaekeZXHUkYyZc7ztqY86O/bUWF?=
+ =?us-ascii?Q?bB9FfJa2aStYIDnB4gpUFPapMxKi0KIB/wmN1xhdlZnn7QDFa/mArCRAXPo6?=
+ =?us-ascii?Q?wEAhWFyTCGwlF9eKxvDMvQJhO4f/TR8/kH8Kjy6JTg4iQhMPBdpkQOVVRNJE?=
+ =?us-ascii?Q?xXAmD8K8s3iI4IoQ/5iD8/cPgVbJIeYnUFbPyCHTS/2BHW+NR3Vh5R3wsDzh?=
+ =?us-ascii?Q?J3Kh/jSu0E5G50OX4yt5ovqo4TV9BJrM+jpP14JGJpS/BFuHIJlNyaQFPJH/?=
+ =?us-ascii?Q?xw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM6PR11MB4724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f051271-781d-4265-fc4c-08dda9db3816
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?bzmCC6m3YbN6Js5Pcxa3Pszsua6XfO1ecovcQjCue/os7AUJ9SOvhrCGAv?=
- =?iso-8859-1?Q?SnqckSu91h91n+TGiXc5SfB12EE11Y6LMkmPnGfTp3GgG0t35FVNWkgE0z?=
- =?iso-8859-1?Q?8lETl1a3XTVEgL3FUBORqPambXLfq8PfVZioyp29H/UbxEG/AHgQiVXMQV?=
- =?iso-8859-1?Q?DGZfXpGLaCqq1CC3oDRwtSkjTPZNcOGlAfobpXYjxKY6ZVIzIUO9KcN+jK?=
- =?iso-8859-1?Q?+5CzskHXznqrS5gxRYwsa+6B/lNXLAgKL08w+xHvyzI3dUb1xKj2qbhS3b?=
- =?iso-8859-1?Q?I+p5wjJGlaqnhx0qdrP+kanXg4TotBtmiYqi8htNaoL+691pIRzbCXD18M?=
- =?iso-8859-1?Q?ytXPP9UWJncU0ah1MyR/dyLnD3LRBhY9bRbn+bHXiQc7NbVRKphSgQlM+E?=
- =?iso-8859-1?Q?WdG45nSVxPqUI1sF/apdOGJyn4T+SE2w/vxEHXlw4I3z4kVj3b0+PeNxiU?=
- =?iso-8859-1?Q?VQtrp8DChAS/KVPelY/zqKjyVhqhubzM7ECp3dQQXzd/bwH5S/Z9Lc5f8n?=
- =?iso-8859-1?Q?bs0X+y7ZYyxg0qAjGZ9EDf68qSQRxKTsS5mUUWYHDelsTAUyf5piYlHtYH?=
- =?iso-8859-1?Q?xSWtYumQNY0kfXHH7WUFl415CJ68/RmcAl1GfyNkRX1pdgLGLDkcUVYVed?=
- =?iso-8859-1?Q?AG4LLqR+VkcGUoDVSNFV/3yqP8bXKcYy0K8dcCiUIdsVhI6D2QA7/Z4nMB?=
- =?iso-8859-1?Q?K0IabvvABKVOIKN1g3PrE7sQdolKk0serBtzT5+rHC7ybcNcexH0G36TI6?=
- =?iso-8859-1?Q?MIEi0mSp6vfyaJ/uwu0wrPn4Y7lWdTRaDg4xRCNeDyrfk/MGoRIsrGM+xK?=
- =?iso-8859-1?Q?FEWuo8jB+4h4/Yyp6Do/LbOVf+bIOygg7NKwqlUzEtqGYme/1leAdWmBre?=
- =?iso-8859-1?Q?eT5Mp06c24UPpZi3JUnnPOVo+d684ggTWPUnhL1nwGGI2H+e+J84YEz946?=
- =?iso-8859-1?Q?sZBGwYG4b4I35zXAwrTF81pRctEy9KR+X9Uk6+9Dp/wRhEdz0LuERdU7xA?=
- =?iso-8859-1?Q?p8OJ0S8ZcVfDq8OCBDYpvE94IL/yOuJrd9MTiA61VhAY3Z10DL1n+fCrUd?=
- =?iso-8859-1?Q?qrB7S0gN3kGo+EX2pByko8Wsk+1JsYeDU5JBRnfgOZkamvb7S3y04c9CFA?=
- =?iso-8859-1?Q?P5MO1dWxg/UvY9MAWFDO0dXPmhmlMri8fNh+3MCGSP+QIVrETX/s5O7bUP?=
- =?iso-8859-1?Q?YQgv+LJBn237chIBcHvDbpYQDbE+9FnFrA5SgB7zkZq3dIKtR9BYfvlelA?=
- =?iso-8859-1?Q?JswQ8aELZAlulFYpH7g4eu7w1qBBDzbC7ITVYKb1GYFW/L4Gdm0Ixv8O5K?=
- =?iso-8859-1?Q?RLYG92cUotQ1+0Nlc568vhF1hLiz6IUZrxRM9gtOqO2immY1LFFHgn97mm?=
- =?iso-8859-1?Q?aE73BAcBNI8f3OKEr7FsYFxccZMEExZUdypG0lT8IH0qi2CWAVIU+whD1M?=
- =?iso-8859-1?Q?B4UXJ+TG3DK4GtjlGqG9TveeziUAOQpsnaVfGtNB8tsVA9eq/FDjRxMCSa?=
- =?iso-8859-1?Q?Q=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?7/3AnVpkiBPwkec4l+3KidWCQ4UORXIfn4NerS7eeVV9ATs91UtTSjbapJ?=
- =?iso-8859-1?Q?wksYCzBtUWPhhRiUoTrPMaF5L5z9GDtpKF35f8Di467hnOBEGB2qCRLujD?=
- =?iso-8859-1?Q?r9NKYlvc/TexkArg4CwzU0340c431PgOCmuKYauCi0duU/eUX3lA87TfvV?=
- =?iso-8859-1?Q?f0B5VGIDuOxn7qmkL2fKBZA/40AWXrpFIDsy5kiyERUr5z+ZkxFDjnVhkS?=
- =?iso-8859-1?Q?hCUpKignVuEhrkilCTzHBEVMkI4ah1m5a5DM8vvY9iBUENP3cicWC7Qewh?=
- =?iso-8859-1?Q?YcExdxuBlK4AGvlqNSY+C/kCxIJWsqwyaSGzxJ2vkhmdqTyD7NPMPqVx63?=
- =?iso-8859-1?Q?6fdsVwtHyDsgX0gZTBIdPi3wKE7BXvMe2XLq0D1QOZ65SflNBQoFrBxr7R?=
- =?iso-8859-1?Q?TKpJ61+td4GcEtMLkhs0m6CDNXmf1TvxvwHPGNen/x+8uKc3A1y0gm3Q49?=
- =?iso-8859-1?Q?aZmZaRCavIiLGHHb17kMDlOTxSpsgUx8tZqJWacXpV/DYCUClJOvyqYXPP?=
- =?iso-8859-1?Q?0EcjxkJaTAZfci0w6L458I1BYKv3LUoAHMCg3jN82ru/ubLB1oHfxnUZkI?=
- =?iso-8859-1?Q?N0TzDDotEeqy0Tf30sVB53e1JdsRWKS+iqCGctrbv0JNal97tb06eGJvkY?=
- =?iso-8859-1?Q?+dZ3ZR/39GJBXMQa2QfXKbpDE2OGW0wjP7mbladgHWVRgXYUoEwDt/5t9r?=
- =?iso-8859-1?Q?Jx1lGVjlh/pgMjmUAGbAM/EuNrEk1e1v5ep2x53RvQj4idbGOCB4ArMh6+?=
- =?iso-8859-1?Q?/FZjuF+EwEqQjD65DTvwt8+RcQVeUlkML6bPg/PscwS8sWUHePdV1cM0Uc?=
- =?iso-8859-1?Q?gGJ8K/z47+qKiOpNpTput7M7oCzAt0JlSIAmdhRZbUv/MdMU7WjlycbZl0?=
- =?iso-8859-1?Q?EMSFAiNKjcfBsIhCxwrv7iekLIYHUGoZTR21gi7RbtFwO3Kz4PooWWvmjs?=
- =?iso-8859-1?Q?MMZFF+FyL/wYEwAk92zOktPt5VX16buxeuXVqzibH/Ol1eZCAN8lhBAp8Y?=
- =?iso-8859-1?Q?xsCMoCS4/6WwwGtVfyZXDANmd7rWw2Q4XBihfIUd/OUsXJvFrFtqgk+iR2?=
- =?iso-8859-1?Q?y+8VyiTnlGV2A6rX9vQ9GKN9uvdY2QxCFp1xM047972kZ7LqoOjIdrNAYp?=
- =?iso-8859-1?Q?9D6gmIQ1Fv9j9VLaq06yxie0XfFgJUjzKaaVDU9SAfWAj9Ez6T9/YH7Gqx?=
- =?iso-8859-1?Q?9dErqrMN8Hk9maJeYvPjsuidTe7xWgPfbdIlHTHI2iP7KQdQvIH7UC0Dy8?=
- =?iso-8859-1?Q?lLtwt/bUwGzUotQdngfgda96L10IGdbEZUTozQsYgtG2pRKjjnXCB2ofq2?=
- =?iso-8859-1?Q?Kp8/MvctRrVpWqJmgWaU651rUQdOsi3j6sS453TR1fNDiwfsEvOrVA+brP?=
- =?iso-8859-1?Q?m/tbDZlb+/aTwBzLQc2G2+iQDJTvdkUBeXxvgRqcme2LfZDI1gOi8LT7lz?=
- =?iso-8859-1?Q?GMKut5XQ0GL9YgTbIeKrxLuNm0EujbL7CSJscw4tGCAePQX07m7wXPEw2N?=
- =?iso-8859-1?Q?joqdVq2Rpr7pEYFNBOVQE9DBy8hBQ8XjLwSOqE8uYE8kkR5EFFzzGInY9q?=
- =?iso-8859-1?Q?kDHnJQR+KwHDaykWCQw49EbgOg5I0LnTIajHIuiWuDTrCHHaIEkslICCEm?=
- =?iso-8859-1?Q?NES0SLujN5NmPLLpEWbuEywejvLn8zIvZ1dd4XGwEWRgLFRF+4qs9aHA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f051271-781d-4265-fc4c-08dda9db3816
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 18:01:56.2982 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F7oTNbxsCp8OZUeA80ZOUbZXc9BepUZhUpxrOY23xRhoet2fPJfLPzz5yWlxqe0bp+q3E5YbZanQTzhyZxTGvvUYK1Qc1I45D31uERGXRjw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4724
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 381c066e-d3b0-4362-bc5c-08dda9e15dff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2025 18:45:56.5825 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cyXONNBg8dlsvVmMs4iNmK+r0AvLe2vevlQIF/gsIf1qNWbfQion3xVV0103DlMrLRNozT2HSRHKBvHmKW5IPki/xBU33h4TJmRRUadFFJo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB13443
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,86 +162,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 05:46:52PM +0100, Tvrtko Ursulin wrote:
->
->On 12/06/2025 06:40, Lucas De Marchi wrote:
->>On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
->>>Add TRACE_GPU_MEM tracepoints for tracking global and per-process GPU
->>>memory usage.
->>>
->>>These are required by VSR on Android 12+ for reporting GPU driver memory
->>>allocations.
->>>
->>>v3:
->>>- Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
->>>  per-driver Kconfig (Lucas)
->>>
->>>v2:
->>>- Use u64 as preferred by checkpatch (Tvrtko)
->>>- Fix errors in comments/Kconfig description (Tvrtko)
->>>- drop redundant "CONFIG" in Kconfig
->>>
->>>Signed-off-by: Juston Li <justonli@chromium.org>
->>>Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>---
->>>drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
->>>drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
->>>2 files changed, 63 insertions(+)
->>>
->>>diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
->>>index 4e39188a021ab..89a3d23e3b800 100644
->>>--- a/drivers/gpu/drm/xe/xe_bo.c
->>>+++ b/drivers/gpu/drm/xe/xe_bo.c
->>>@@ -19,6 +19,8 @@
->>>
->>>#include <kunit/static_stub.h>
->>>
->>>+#include <trace/events/gpu_mem.h>
->>>+
->>>#include "xe_device.h"
->>>#include "xe_dma_buf.h"
->>>#include "xe_drm_client.h"
->>>@@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct 
->>>xe_device *xe, struct ttm_tt *tt)
->>>        xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
->>>}
->>>
->>>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
->>>+static void update_global_total_pages(struct ttm_device *ttm_dev, 
->>>long num_pages)
->>>+{
->>>+    struct xe_device *xe = ttm_to_xe_device(ttm_dev);
->>>+    u64 global_total_pages =
->>>+        atomic64_add_return(num_pages, &xe->global_total_pages);
->>>+
->>>+    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
->>>+}
->>>+
->>>+static void update_process_mem(struct drm_file *file, ssize_t size)
->>>+{
->>>+    struct xe_file *xef = to_xe_file(file);
->>>+    u64 process_mem = atomic64_add_return(size, &xef->process_mem);
->>>+
->>>+    rcu_read_lock(); /* Locks file->pid! */
->>>+    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)), 
->>>process_mem);
->>
->>Isn't the first arg supposed to be the gpu id? Doesn't this become
->>invalid when I have e.g. LNL + BMG and the trace is enabled?
->
->Good point.
->
->u32 gpu_id does not seem possible to map to anything useful.
 
-maybe minor_id? although I'm not sure if the intention is to share this
-outside drm as seems the case.
 
->
->Shall we replace it with a string obtained from dev_name(struct device 
->*) ? As only Android parses them I think we can get still away with 
->changing the tracepoints ABI.
+> -----Original Message-----
+> From: Prabhakar <prabhakar.csengg@gmail.com>
+> Sent: 09 June 2025 23:56
+> Subject: [PATCH v7 0/9] drm: renesas: rz-du: mipi_dsi: Prepare driver to =
+support RZ/V2H(P) SoC
+>=20
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Hi All,
+>=20
+> This patch series prepares the MIPI DSI driver to support the Renesas
+> RZ/V2H(P) SoC. These patches were originally part of series [0], but I ha=
+ve split them into two parts
+> to make them easier to review and merge.
+>=20
+> v6->v7:
+> - Rebased the changes on drm-misc/next
+> - Dropped DU patches as they are already applied
+> - Fixed revie comments from Laurent
+> - Dropped patch 12/12 from v6 "drm: renesas: rz-du: mipi_dsi: Add
+>   support for LPCLK clock handling" as suggested by Laurent
+>=20
+> v5->v6:
+> - Added reviewed tag from Biju and Laurent
+> - Updated commit messages
+> - Dropped parentheses around the calculation
+> - Added min_dclk above max_dclk in rzg2l_mipi_dsi_hw_info
+> - Renamed dphy_late_init to dphy_startup_late_init
+>=20
+> v4->v5:
+> - Split up the series
+> - Added Reviewed-by tag from Biju
+> - Dropped feature flags for reset and LPCLK
+> - Patch 07/12 is new.
+>=20
+> v3->v4:
+> - Corrected parameter name in rzv2h_dsi_get_pll_parameters_values()
+>   description freq_millihz
+> - Used MILLI instead of KILO
+> - Made use of mul_u32_u32() for multiplication
+> - In rzv2h_dphy_find_ulpsexit() made the array static const.
+>=20
+> v2->v3:
+> - Update the commit message for patch 1/15 to clarify the purpose
+>   of `renesas-rzv2h-dsi.h` header
+> - Used mul_u32_u32() in rzv2h_cpg_plldsi_div_determine_rate()
+> - Replaced *_mhz to *_millihz for clarity
+> - Updated u64->u32 for fvco limits
+> - Initialized the members in declaration order for
+>   RZV2H_CPG_PLL_DSI_LIMITS() macro
+> - Used clk_div_mask() in rzv2h_cpg_plldsi_div_recalc_rate()
+> - Replaced `unsigned long long` with u64
+> - Dropped rzv2h_cpg_plldsi_clk_recalc_rate() and reused
+>   rzv2h_cpg_pll_clk_recalc_rate() instead
+> - In rzv2h_cpg_plldsi_div_set_rate() followed the same style
+>   of RMW-operation as done in the other functions
+> - Renamed rzv2h_cpg_plldsi_set_rate() to rzv2h_cpg_pll_set_rate()
+> - Dropped rzv2h_cpg_plldsi_clk_register() and reused
+>   rzv2h_cpg_pll_clk_register() instead
+> - Added a guard in renesas-rzv2h-dsi.h header
+> - Reverted CSDIV0_DIVCTL2() to use DDIV_PACK()
+> - Renamed plleth_lpclk_div4 -> cdiv4_plleth_lpclk
+> - Renamed plleth_lpclk -> plleth_lpclk_gear
+> - Collected reviewed tag from Krzysztof for patch 3/15
+> - Dropped !dsi->info check in rzg2l_mipi_dsi_probe() as it
+>   is not needed.
+> - Simplified V2H DSI timings array to save space
+> - Switched to use fsleep() instead of udelay()
+>=20
+> v1->v2:
+> - Rebased the changes on top of v6.15-rc1
+> - Kept the sort order for schema validation
+> - Added  `port@1: false` for RZ/V2H(P) SoC
+> - Added enum for RZ/V2H as suggested by Krzysztof as the list
+>   will grow in the future (while adding RZ/G3E SoC).
+> - Added Reviewed-by tag from Biju and Krzysztof.
+> - Replaced individual flags as reset flag
+> - Dropped unused macros
+> - Added missing LPCLK flag to rzvv2h info
+> - Dropped FCP and VSP documentation patch and sent them separately
+>=20
+> Cheers,
+> Prabhakar
+>=20
+> Lad Prabhakar (9):
+>   drm: renesas: rz-du: mipi_dsi: Add min check for VCLK range
+>   drm: renesas: rz-du: mipi_dsi: Simplify HSFREQ calculation
+>   drm: renesas: rz-du: mipi_dsi: Use VCLK for HSFREQ calculation
+>   drm: renesas: rz-du: mipi_dsi: Add OF data support
+>   drm: renesas: rz-du: mipi_dsi: Make "rst" reset control optional for
+>     RZ/V2H(P)
+>   drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY frequency
+>     calculations
+>   drm: renesas: rz-du: mipi_dsi: Add feature flag for 16BPP support
+>   drm: renesas: rz-du: mipi_dsi: Add dphy_late_init() callback for
+>     RZ/V2H(P)
+>   drm: renesas: rz-du: mipi_dsi: Add function pointers for configuring
+>     VCLK and mode validation
+>=20
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 151 +++++++++++++-----
+>  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |   2 -
+>  2 files changed, 114 insertions(+), 39 deletions(-)
+>=20
+> --
+> 2.49.0
 
-works for me too. Is Android actually parsing it or just ignoring?
-Because afaics it's always 0 in msm.
+Applied to drm-misc-next
 
-Lucas De Marchi
+Thanks,
+Biju
+
