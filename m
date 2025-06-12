@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD29AD64E1
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 03:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AA1AD6557
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 03:58:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C12210E2AB;
-	Thu, 12 Jun 2025 01:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9745E10E079;
+	Thu, 12 Jun 2025 01:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ZNtAdT5q";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="I3aYeJZa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 8644 seconds by postgrey-1.36 at gabe;
- Thu, 12 Jun 2025 01:04:53 UTC
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C23310E399
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 01:04:52 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55BMeZ482743681;
- Wed, 11 Jun 2025 17:40:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1749681635;
- bh=3ScxWKcILfYH0VS/UgTIF+jQeDfTkbMiB6a5wGY1/a8=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=ZNtAdT5qT05X/zaXIfzUes9m+pF2G5opXg7GQwjXVpOUyQ/toDs3hVTzrYl3Y39rU
- vq19vAvQHD1nijThP5FXt4F1YP1gPrA/w6El2jRWYSukeplnPguQUkeojqHk2e9mJt
- dtdbjbdU5OCcAwwfTYwxLLb4ct1jhNcIhs75+Qmo=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55BMeZlV1457760
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 11 Jun 2025 17:40:35 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 11
- Jun 2025 17:40:35 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 11 Jun 2025 17:40:35 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55BMeYtX1182750;
- Wed, 11 Jun 2025 17:40:34 -0500
-Message-ID: <f686130b-009f-4feb-bae1-022938c85923@ti.com>
-Date: Wed, 11 Jun 2025 17:40:33 -0500
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4880110E079
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 01:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=My7ku61t0R/YRh9ePPMG3Cu/uUDaAwNFOLS11kIAzO8=; b=I3aYeJZa2lk55Pl6fTG+8F/o4w
+ ZcPCbMt7wb6UunSsp0/KS+Esydn0Hy2OmdTwZVIQos5OGtqLa4uutdi2A+eV1+0jFGwaSD+A/ABBP
+ yn6vH0UiUOwwu7MKejqcEa99scRqe/INEt3AfNkpV0d3F7pntla3AESfGF8nm2siLVEK8dyrZlLOz
+ h6goBYqPXg9AJMQYrx9cgrT65Megs03wDemCGJ/jeKC74iNrWjSY8cgcno0HXOqULibwbY3A+N+f1
+ RzG+eN3+9H6Ro00j6ndzcpCR6DYiaoEINqb+iR29j0C0WTpA4qs1kCWg4AQBe1LK3y4YwQWUYpWFj
+ h1/+Fhew==;
+Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <cyndis@kapsi.fi>) id 1uPXBH-000k9l-2B;
+ Thu, 12 Jun 2025 04:56:39 +0300
+Message-ID: <3293ae49-90c6-454c-b2f4-98ea84302c11@kapsi.fi>
+Date: Thu, 12 Jun 2025 10:55:20 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, Jens Wiklander
- <jens.wiklander@linaro.org>, Sumit Garg <sumit.garg@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu
- <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
- <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>, Sumit Garg
- <sumit.garg@oss.qualcomm.com>, Neil Armstrong <neil.armstrong@linaro.org>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
- <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
+ <mz5sytol6aw7ouwiimmrd7lqhtvq6nj7pqpxq4ie6em6nwvvkh@2cux3no33gre>
+ <621a9459-f2dd-4b19-a083-0e62f1a42f50@kapsi.fi>
+ <96b721cd-7223-4b28-a3fd-a4d92c9d5142@tecnico.ulisboa.pt>
+ <4cibh66elviiatataa45lsfcyeovkqyxe4fjvfh7uqddhsbe6z@svt2dgeafrdh>
 Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <4cibh66elviiatataa45lsfcyeovkqyxe4fjvfh7uqddhsbe6z@svt2dgeafrdh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,156 +75,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/27/25 1:56 AM, Amirreza Zarrabi wrote:
-> For drivers that can transfer data to the TEE without using shared
-> memory from client, it is necessary to receive the user address
-> directly, bypassing any processing by the TEE subsystem. Introduce
-> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
-> userspace buffers.
+On 6/12/25 12:06 AM, Thierry Reding wrote:
+> On Wed, Jun 11, 2025 at 01:05:40PM +0100, Diogo Ivo wrote:
+>>
+>>
+>> On 6/10/25 10:52 AM, Mikko Perttunen wrote:
+>>> On 6/10/25 6:05 PM, Thierry Reding wrote:
+>>>> On Fri, Jun 06, 2025 at 11:45:33AM +0100, Diogo Ivo wrote:
+>>>>> Hello,
+>>>>>
+>>>>> This series adds support for the NVJPG hardware accelerator found in the
+>>>>> Tegra210 SoC.
+>>>>>
+>>>>> The kernel driver is essentially a copy of the NVDEC driver as both
+>>>>> engines are Falcon-based.
+>>>>>
+>>>>> For the userspace part I have written a Mesa Gallium backend [1] that,
+>>>>> while still very much experimental, works in decoding images
+>>>>> with VA- API.
+>>>>>
+>>>>> I have been using ffmpeg to call VA-API with the following command:
+>>>>>
+>>>>> ffmpeg -v verbose -hwaccel vaapi -hwaccel_device
+>>>>> /dev/dri/renderD129 -i <input.jpg> -pix_fmt bgra -f fbdev
+>>>>> /dev/fb0
+>>>>>
+>>>>> which decodes <input.jpg> and shows the result in the framebuffer.
+>>>>>
+>>>>> The firmware for the engine can be obtained from a Linux for Tegra
+>>>>> distribution.
+>>>>
+>>>> By the way, have you tried running this on anything newer than Tegra210?
+>>>> Given your progress on this, we can probably start thinking about
+>>>> submitting the binaries to linux-firmware.
+>>>
+>>> FWIW, the impression I have is that NVJPG is basically unchanged all the
+>>> way to Tegra234. So if we add stream ID support and the firmwares, it'll
+>>> probably just work. Tegra234 has the quirk that it has two instances of
+>>> NVJPG -- these have to be distinguished by their different class IDs.
+>>> But we should go ahead with the T210 support first.
+>>
+>> I have a question here, what exactly are the stream IDs? While working
+>> on the driver this came up and I didn't manage to figure it out.
 > 
-
-Could you expand on this, what is the issue with normal MEMREF?
-
-Andrew
-
-> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
->   drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
->   include/linux/tee_drv.h  |  6 ++++++
->   include/uapi/linux/tee.h | 22 ++++++++++++++++------
->   3 files changed, 55 insertions(+), 6 deletions(-)
+> Stream IDs are a way to identify memory transactions as belonging to a
+> certain device. This comes into play when working with the IOMMU (which
+> is a Tegra SMMU on Tegra210 and earlier, and an ARM SMMU on Tegra) and
+> is used to isolate DMA capable devices. Basically for every stream ID
+> you get a separate I/O address space. NVJPG will have its own address
+> space, and so will VIC. Each device can only access whatever has been
+> mapped to it's I/O address space. That means NVJPG can't interfere with
+> VIC and vice-versa. And neither can any of these engines read from or
+> write to random system memory if badly programmed.
 > 
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index b9ea5a85278c..74e40ed83fa7 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -387,6 +387,17 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
->   			params[n].u.value.b = ip.b;
->   			params[n].u.value.c = ip.c;
->   			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +			params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
-> +			params[n].u.ubuf.size = ip.b;
-> +
-> +			if (!access_ok(params[n].u.ubuf.uaddr,
-> +				       params[n].u.ubuf.size))
-> +				return -EFAULT;
-> +
-> +			break;
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -455,6 +466,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
->   			    put_user(p->u.value.c, &up->c))
->   				return -EFAULT;
->   			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +			if (put_user((u64)p->u.ubuf.size, &up->b))
-> +				return -EFAULT;
-> +			break;
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->   			if (put_user((u64)p->u.memref.size, &up->b))
-> @@ -655,6 +671,13 @@ static int params_to_supp(struct tee_context *ctx,
->   			ip.b = p->u.value.b;
->   			ip.c = p->u.value.c;
->   			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +			ip.a = (u64)p->u.ubuf.uaddr;
-> +			ip.b = p->u.ubuf.size;
-> +			ip.c = 0;
-> +			break;
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -757,6 +780,16 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
->   			p->u.value.b = ip.b;
->   			p->u.value.c = ip.c;
->   			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
-> +			p->u.ubuf.size = ip.b;
-> +
-> +			if (!access_ok(params[n].u.ubuf.uaddr,
-> +				       params[n].u.ubuf.size))
-> +				return -EFAULT;
-> +
-> +			break;
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->   			/*
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index a54c203000ed..78bbf12f02f0 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -82,6 +82,11 @@ struct tee_param_memref {
->   	struct tee_shm *shm;
->   };
->   
-> +struct tee_param_ubuf {
-> +	void * __user uaddr;
-> +	size_t size;
-> +};
-> +
->   struct tee_param_value {
->   	u64 a;
->   	u64 b;
-> @@ -92,6 +97,7 @@ struct tee_param {
->   	u64 attr;
->   	union {
->   		struct tee_param_memref memref;
-> +		struct tee_param_ubuf ubuf;
->   		struct tee_param_value value;
->   	} u;
->   };
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index d0430bee8292..3e9b1ec5dfde 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
->   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT	6
->   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT	7	/* input and output */
->   
-> +/*
-> + * These defines userspace buffer parameters.
-> + */
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT	8
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
-> +
->   /*
->    * Mask for the type part of the attribute, leaves room for more types
->    */
-> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
->   /**
->    * struct tee_ioctl_param - parameter
->    * @attr: attributes
-> - * @a: if a memref, offset into the shared memory object, else a value parameter
-> - * @b: if a memref, size of the buffer, else a value parameter
-> + * @a: if a memref, offset into the shared memory object,
-> + *     else if a ubuf, address of the user buffer,
-> + *     else a value parameter
-> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
->    * @c: if a memref, shared memory identifier, else a value parameter
->    *
-> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
-> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
-> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
-> - * indicates that none of the members are used.
-> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
-> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
-> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
-> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
-> + * are used.
->    *
->    * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
->    * identifier representing the shared memory object. A memref can reference
+> For Tegra SMMU there's no such thing as programmable stream IDs, so the
+> stream ID is fixed for the given device.
 > 
+> On newer chips (Tegra186 and later, or maybe it wasn't until Tegra194),
+
+Tegra186 and newer -- all chips with the ARM SMMU. To add a little bit, 
+each engine can address two stream IDs, one for firmware and one for 
+data. All user specified buffers are mapped into the data IOMMU domain, 
+and these are switched between jobs / applications.
+
+As an aside, currently each engine has its own firmware stream ID, but 
+that's a bit wasteful, since the kernel allocates a separate IOMMU 
+domain for each. The firmwares are all read-only so they could be in a 
+shared one. We've had to consolidate these on some platforms that ran 
+out of IOMMU domains otherwise. Not really a concern with upstream 
+platforms, though.
+
+> certain IP blocks have special registers that can be used to override
+> the stream ID. There's also a way to set the stream ID via command
+> streams, which means that you can have different I/O address spaces (I
+> think we call them memory context) per engine, which means that you can
+> isolate different processes using the same engine from each other.
+> 
+> Again, for Tegra210 that's nothing we need to worry about. For newer
+> chips it's probably just a matter of adding .get_streamid_offset() and
+> .can_use_memory_ctx() implementations.
+
+Also need to program the THI_STREAMID / TRANSCFG registers during boot.
+
+Cheers,
+Mikko
+
+> 
+> Thierry
+
