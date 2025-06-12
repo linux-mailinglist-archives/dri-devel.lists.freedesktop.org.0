@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C70AD758E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AC2AD7593
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A433010E890;
-	Thu, 12 Jun 2025 15:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E22D10E89A;
+	Thu, 12 Jun 2025 15:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="gJ3mGo/k";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="erHma7rf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56EC410E415
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:18:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9068410E89A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:18:41 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 65C2523069;
- Thu, 12 Jun 2025 17:18:30 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 35F3925BB3;
+ Thu, 12 Jun 2025 17:18:40 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id rzGFH5v5AW84; Thu, 12 Jun 2025 17:18:29 +0200 (CEST)
+ id DM5PEKpx_US1; Thu, 12 Jun 2025 17:18:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1749741509; bh=bNelyn9B2iPBX/xAeabKNOJ/SJ1fiqXUANtY4YCvtYU=;
- h=From:Subject:Date:To:Cc;
- b=gJ3mGo/knt129fwJhT7FvJnW7pL9kFut0rfePWssCSW3xRlsqZ8Kx3L7C072KKnKw
- NhireUBkSezKH9Ak1s/934vY79k0EY6Ym6iQKx1HQLAHhOr3VjvXWz/KyQHxjFcV5S
- 671nK5LP98DKb5LsnBeUEMGB8Vx3429AOtwmvHyft7QNuKJACZBVgq/ywbKXzHSPMe
- tiu+wsudXihicsDjIL0D2c5l70aXGfpJuUyOkFstsaKP39yJpB5X0TkdbjN9MlU1pN
- klcfwPKV/vTQw2FiqwuKgkH/ovYv4JKllwRon0gl4Vgx4JfuRi1ovzliidJ0/cZzem
- HPOt4uAicGnUg==
+ t=1749741519; bh=ga+CnJtjgV5748cza4LG4gu4ebkb1JvJHswsAx84vNM=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc;
+ b=erHma7rfWlcmU4IJ6Bs6NFwqER9uJ54B9mCdJkblbfhy+4NKpC+yviv6pGU7HwAwr
+ omeKioAEH5enRlMtXDi/KXK6AeFIydGo5LXDwrSgnryO5V84MQ3MmYxwrPRpt0YI3F
+ pmuOpjmS1c22/kFMEyvk5bbhpTddbSWTIzlXxq4ysu1ppjLK9zVDZEFv+or4SGiMhA
+ Hmpu05GujyhxIpKvnR/nmprfBIFiQJh6PLV2ywV9MxGkpHVjusIe7C6v71JUvgM6+Y
+ vcDtOW6YVd7rnbR7ZaSZCz0MIiOCEAMP20UE8memj5M8xTSjM3q7igXl6eQrlXQEsY
+ V528ze6Bo+hWA==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Subject: [PATCH 00/12] Support for Exynos7870 DSIM bridge
-Date: Thu, 12 Jun 2025 20:48:04 +0530
-Message-Id: <20250612-exynos7870-dsim-v1-0-1a330bca89df@disroot.org>
+Date: Thu, 12 Jun 2025 20:48:05 +0530
+Subject: [PATCH 01/12] drm/bridge: samsung-dsim: separate LINK and DPHY
+ status registers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKzvSmgC/x3MQQqAIBBA0avErBNswqyuEi0kx5pFGg5EEd09a
- fkW/z8glJkExuqBTCcLp1jQ1BUsm4srKfbFgBqNNtgquu6YxPZWKy+8q4CD78iFxRmEUh2ZAl/
- /cZrf9wPSE1h9YQAAAA==
-X-Change-ID: 20250523-exynos7870-dsim-f29d6eafca52
+Message-Id: <20250612-exynos7870-dsim-v1-1-1a330bca89df@disroot.org>
+References: <20250612-exynos7870-dsim-v1-0-1a330bca89df@disroot.org>
+In-Reply-To: <20250612-exynos7870-dsim-v1-0-1a330bca89df@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
  Marek Szyprowski <m.szyprowski@samsung.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -60,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-samsung-soc@vger.kernel.org, 
  Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749741499; l=1998;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749741499; l=2711;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=bNelyn9B2iPBX/xAeabKNOJ/SJ1fiqXUANtY4YCvtYU=;
- b=7YAvpcOOIIkM5ooW+kuxBu//qdWk0BjK6t32Rhv9PQ4kmvlYPZBWr96Nl3TYXg0HBfMF0GQ96
- GYG/S1yQ12QCyobP8Cgo3Tjcc6aRElD3TsokY+ksfNMF1FKQ+8hxmUk
+ bh=ga+CnJtjgV5748cza4LG4gu4ebkb1JvJHswsAx84vNM=;
+ b=PKgLap9WeJx5HzuIdAn6iuuhJVjSoSKJGa6O6hmCk52Vt42aAUOVv9Q69GbKopFEwfuJqLPtg
+ Atf3Bb82hifBLO8Q0gzr4Ds47Vb8rmO49CtYPI68tz3luHplM1mRqsK
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,42 +81,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series introduces a lot of changes to the existing DSIM
-bridge driver, by introdcing new registers and making register offsets
-configurable for different SoCs. These preliminary changes are followed
-by the introduction of support for Exynos7870's DSIM IP block.
+Exynos7870's DSIM has separate registers for LINK and DPHY status. This
+is in contrast to other devices in the driver which use a single
+register for both.
 
-Work is heavily inspired and only possible due to Samsung's vendor
-kernel sources. Testing has been done with Samsung Galaxy J7 Prime
-(samsung-on7xelte), Samsung Galaxy A2 Core (samsung-a2corelte), and
-Samsung Galaxy J6 (samsung-j6lte), all with DSI video mode panels.
+Add their respective entries in the register list. Devices having a
+single status register have been assigned the same offset for both
+entries.
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
-Kaustabh Chakraborty (12):
-      drm/bridge: samsung-dsim: separate LINK and DPHY status registers
-      drm/bridge: samsung-dsim: add SFRCTRL register
-      drm/bridge: samsung-dsim: add flag to control header FIFO wait
-      drm/bridge: samsung-dsim: allow configuring bits and offsets of CLKCTRL register
-      drm/bridge: samsung-dsim: allow configuring the MAIN_VSA offset
-      drm/bridge: samsung-dsim: allow configuring the VIDEO_MODE bit
-      drm/bridge: samsung-dsim: allow configuring PLL_M and PLL_S offsets
-      drm/bridge: samsung-dsim: allow configuring the PLL_STABLE bit
-      drm/bridge: samsung-dsim: increase timeout value for PLL_STABLE
-      dt-bindings: samsung,mipi-dsim: document exynos7870 DSIM compatible
-      drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM bridge
-      drm/exynos: dsi: add support for exynos7870
+ drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
- .../bindings/display/bridge/samsung,mipi-dsim.yaml |  26 +++
- drivers/gpu/drm/bridge/samsung-dsim.c              | 250 +++++++++++++++++----
- drivers/gpu/drm/exynos/exynos_drm_dsi.c            |   9 +
- include/drm/bridge/samsung-dsim.h                  |  13 ++
- 4 files changed, 254 insertions(+), 44 deletions(-)
----
-base-commit: 0bb71d301869446810a0b13d3da290bd455d7c78
-change-id: 20250523-exynos7870-dsim-f29d6eafca52
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 0014c497e3fe7d8349a119dbdda30d65d816cccf..c418d9e30222ec47eec05bbdefef3df8b7fec3c4 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -29,7 +29,7 @@
+ /* returns true iff both arguments logically differs */
+ #define NEQV(a, b) (!(a) ^ !(b))
+ 
+-/* DSIM_STATUS */
++/* DSIM_DPHY_STATUS */
+ #define DSIM_STOP_STATE_DAT(x)		(((x) & 0xf) << 0)
+ #define DSIM_STOP_STATE_CLK		BIT(8)
+ #define DSIM_TX_READY_HS_CLK		BIT(10)
+@@ -238,7 +238,8 @@ enum samsung_dsim_transfer_type {
+ };
+ 
+ enum reg_idx {
+-	DSIM_STATUS_REG,	/* Status register */
++	DSIM_LINK_STATUS_REG,	/* Link status register */
++	DSIM_DPHY_STATUS_REG,	/* D-PHY status register */
+ 	DSIM_SWRST_REG,		/* Software reset register */
+ 	DSIM_CLKCTRL_REG,	/* Clock control register */
+ 	DSIM_TIMEOUT_REG,	/* Time out register */
+@@ -263,7 +264,8 @@ enum reg_idx {
+ };
+ 
+ static const unsigned int exynos_reg_ofs[] = {
+-	[DSIM_STATUS_REG] =  0x00,
++	[DSIM_LINK_STATUS_REG] =  0x00,
++	[DSIM_DPHY_STATUS_REG] =  0x00,
+ 	[DSIM_SWRST_REG] =  0x04,
+ 	[DSIM_CLKCTRL_REG] =  0x08,
+ 	[DSIM_TIMEOUT_REG] =  0x0c,
+@@ -287,7 +289,8 @@ static const unsigned int exynos_reg_ofs[] = {
+ };
+ 
+ static const unsigned int exynos5433_reg_ofs[] = {
+-	[DSIM_STATUS_REG] = 0x04,
++	[DSIM_LINK_STATUS_REG] = 0x04,
++	[DSIM_DPHY_STATUS_REG] = 0x04,
+ 	[DSIM_SWRST_REG] = 0x0C,
+ 	[DSIM_CLKCTRL_REG] = 0x10,
+ 	[DSIM_TIMEOUT_REG] = 0x14,
+@@ -689,7 +692,7 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+ 			dev_err(dsi->dev, "PLL failed to stabilize\n");
+ 			return 0;
+ 		}
+-		reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
++		reg = samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
+ 	} while ((reg & DSIM_PLL_STABLE) == 0);
+ 
+ 	dsi->hs_clock = fout;
+@@ -965,7 +968,7 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
+ 			return -EFAULT;
+ 		}
+ 
+-		reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
++		reg = samsung_dsim_read(dsi, DSIM_DPHY_STATUS_REG);
+ 		if ((reg & DSIM_STOP_STATE_DAT(lanes_mask))
+ 		    != DSIM_STOP_STATE_DAT(lanes_mask))
+ 			continue;
 
-Best regards,
 -- 
-Kaustabh Chakraborty <kauschluss@disroot.org>
+2.49.0
 
