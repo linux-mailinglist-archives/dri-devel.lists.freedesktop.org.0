@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB77CAD75FC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B04AD7610
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2569B10E4D7;
-	Thu, 12 Jun 2025 15:28:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29BB10E8AC;
+	Thu, 12 Jun 2025 15:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j+SVCPMV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EXJsmDST";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2075010E4D7;
- Thu, 12 Jun 2025 15:28:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749742089; x=1781278089;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=7t4X7O0r9uQJ8NGgD6KQHZJGALnrok/RrYVUwFzRLag=;
- b=j+SVCPMV0wT+QyY6cTE4Sh0lCBSobokwHqSOMcXImjYVne/wRFs7JbCS
- RlHZ6Zh2FAzR45PlcXhAQKBLl/6ZsoDq8pIlDu9/l6AVMmmdzsgRAew6V
- xiJgFif8HEP4awp2tuasFZBGXbHkZ1DCLrMWy7amns3nA9evznNC8AeqP
- gmHI1s+ms+DP2RC2rwVPniYRLztr15idi8o5stwDc0mPvhqJhqHaBv/Rv
- yLTi9DJYbAxJ9wCE5HYk0FY/LjXqj1Pz/59OoJYYuIvXaA/iObxt2IYVB
- 32sNnEZNSpgg2nZPteBZthAJfP8Zt6T42yjb5lFV+BGrgK1qFIZCAlFjk Q==;
-X-CSE-ConnectionGUID: NQbz4bjuQ7+U4Gc3AtUSzQ==
-X-CSE-MsgGUID: TX1Ou5JCT/WYGu5Si8OLTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="63337932"
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="63337932"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 08:28:07 -0700
-X-CSE-ConnectionGUID: qxtqFeTcS5CysZWBbQRDpw==
-X-CSE-MsgGUID: 7Lpdmqc9TFWJMiIEmaulCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; d="scan'208";a="178525817"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.242])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2025 08:28:05 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org
-Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, Ben Skeggs <bskeggs@nvidia.com>
-Subject: [PATCH] drm/nouveau/gsp: fix kernel-doc directive after file rename
-Date: Thu, 12 Jun 2025 18:27:58 +0300
-Message-Id: <20250612152758.659750-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.5
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F9010E8B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:30:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4644CA51E2E;
+ Thu, 12 Jun 2025 15:30:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2742DC4CEEA;
+ Thu, 12 Jun 2025 15:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749742217;
+ bh=ZYe5VuTizv6cLyCXZAe69ksDuxTDKafKtBpZ+ydLU8g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EXJsmDSTN5rIn9KOOJw9nkl2hFejRyVWk0FYT4/7RfqUR4KoKILK2Iixf3/y+QuCX
+ voG8hX5o+ipvNTnwr6mZ4r65oc++dZuZqUu3RJy7+tCyU5+xTkdAi5XNI2FKl8qVXu
+ qaGedbGcPwUKF/c2098M61JRLui1GvFVzbSSqwcocOeI9Wgl5TdvcLDryiBj+eASqv
+ JSRPMCV2I3Q3ft5OTLU2Rtk97XOpVLXxCjcz/oWd7UwhqJjYiy1YZDQFIVk3glfjez
+ AwNCRuxM2yOYaWNS7aNPDrkoViTAP1HbqqoXwQM9mJuYb+uzqnu9MoWgPoFaYd6HLN
+ 2CRqHL/hKCXfQ==
+Date: Thu, 12 Jun 2025 16:30:12 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: document Samsung
+ S6E8AA5X01 panel driver
+Message-ID: <20250612-lively-duplex-ff45181ffd5a@spud>
+References: <20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org>
+ <20250612-panel-samsung-s6e8aa5x01-v1-1-06dcba071ea6@disroot.org>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oIPRfQLPeZSrwhTs"
+Content-Disposition: inline
+In-Reply-To: <20250612-panel-samsung-s6e8aa5x01-v1-1-06dcba071ea6@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,33 +69,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the kernel-doc directive after the rename
-drivers/gpu/drm/nouveau/nvkm/subdev/gsp/{r535,rm/r535/gsp}.c leading to
-erros:
 
-ERROR: Cannot find file ../drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-WARNING: No kernel-doc for file ../drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+--oIPRfQLPeZSrwhTs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/rm/r535/")
-Cc: Ben Skeggs <bskeggs@nvidia.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- Documentation/gpu/nouveau.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jun 12, 2025 at 08:22:41PM +0530, Kaustabh Chakraborty wrote:
+> Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Document the
+> compatible and devicetree properties of this panel driver. Timings are
+> provided through the devicetree node as panels are available in
+> different sizes.
+>=20
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.rst
-index b8c801e0068c..878fb1ade31e 100644
---- a/Documentation/gpu/nouveau.rst
-+++ b/Documentation/gpu/nouveau.rst
-@@ -25,7 +25,7 @@ providing a consistent API to upper layers of the driver stack.
- GSP Support
- ------------------------
- 
--.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-+.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
-    :doc: GSP message queue element
- 
- .. kernel-doc:: drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
--- 
-2.39.5
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+--oIPRfQLPeZSrwhTs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaEryhAAKCRB4tDGHoIJi
+0ju+AQDPB87WoSU5h5E67DBchhB299Zn7B0ap+rS8+e1CKv4egEA7w6g031TcD0b
+YPOL3AOVGx7UaD+vN3g7XChnrc4L3A4=
+=xx6g
+-----END PGP SIGNATURE-----
+
+--oIPRfQLPeZSrwhTs--
