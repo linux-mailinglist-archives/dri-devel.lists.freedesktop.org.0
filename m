@@ -2,80 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C53CAD7A06
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60211AD7A0E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 20:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9487610E095;
-	Thu, 12 Jun 2025 18:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDB910E0E8;
+	Thu, 12 Jun 2025 18:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="4tbrhifN";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XzC/xsR7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC41C10E0E8
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:54:12 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2357c61cda7so29385ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1749754451; x=1750359251;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q/ujh3/5vqQQHx/k29tdx2BhG8SWtHTOJrjeipzmEsQ=;
- b=4tbrhifNDSym2RlzkygP8RnL5uhh35a5101i4JZROCfd5kdbMVShrO7nWKp18YQPKf
- 6s17AHk6ZAC09twY2qjvpad637Pm5I7dgvt18j1+9Snhz3jCE59uvy5PfmA+ILJdbL4V
- eguUjLH7FZequ9Nmq/QoqbHbIl0xsnk56HYOmleP3hMGygugLuv1tPtwzMQ4nrSOH9fu
- G9bS9d64UL6UNZ9jE42RMa/4OQa6Cj/cWXOjk/XHI0Zc9MEAvKGwHGLKwCi5o5BGkhhD
- hsWluMQrmyrDSe8e5gj0X1AjmP7vfnZOiHQzDo+6Ei/j0FeQ+izBmjUhHqNzgCbU8vZ5
- AZAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749754451; x=1750359251;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q/ujh3/5vqQQHx/k29tdx2BhG8SWtHTOJrjeipzmEsQ=;
- b=Z8Vqh8o5T1MbVZEFRnzRDFSXtPtuL22L2wZ7vM8/RuamT+9p7GVTDFagROfpiTOe+j
- fBz08Yqh64QxbirGkp2LO1Kl/ZCTTzmZvYZBIv6W/eCO9BJdrn3ION17WCaof+7SU9JO
- 2ztv2DOJSfp/8blrK/tbgq8rCVW757ktX30aE+RpbInOBvhOSZNI4LcAJd1RUdFOgPxx
- r2OIDGmLwlqNW8w4yVkNgXuplynRnngTLN4hwvGE8N2Thec6ZlkzigSsiqSzsPz8jUib
- BSy0P0Xi/gbtQ7N9VjGmFMQJcLSkOTIdsiKVz0F+1XDFr8YHsVCbFZ3IVTE4eJDoTShs
- GQxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXS6jpHCLIebsipTgs6Z0bHwyevPCNdyz65AIUjQ874Qknu/ZR6UF2HporzZmcmXmMRyjSE3sJR+Jg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMEA09GQBOCvnXWMVFYtBSQWb2ZKALKnxLW3mocpE0WcIJonyR
- t0r5cy+onQYJQWXWb3Q+c50QbyLG3hpmZeKSDXC40941K70+/W2nmTPmEE28sVKkNwXtaEJBPmI
- CYZfx7Nd1VjhWrnGkJmjVDaOuNJOvX1EuLZUp5m8=
-X-Gm-Gg: ASbGncvZ5QnRvCexJ7mzriZ99sTar/GMJz+T1esG3cb+WR590pq5/n7mGaAixxTZJKn
- i1vXdrg5Ow8AGK3dTWqs2uSBtLRyQMPXqIvuSoNIm1IsuRkDk73M9mM46AN+e9qCI1Cm7r0MxNu
- LwD5xb6mLnS/i+8KGnzSWePK82mMHfxzHCkUxCT6M3s3TeYFpSxeCCkfx5aiRay2VYU/L/XxVTi
- OuLG4WCRLBsDg==
-X-Google-Smtp-Source: AGHT+IFLMwOTtUYsAx6xAij+1Syo8iAX108mf5Ye5v+C5MuLx8msp2e28vZFe59t+Yq/+NR+QxacAWLZ9CtRVdtiGHs=
-X-Received: by 2002:a17:902:f68e:b0:235:e8da:8e1 with SMTP id
- d9443c01a7336-2365e958b9bmr91225ad.18.1749754450607; Thu, 12 Jun 2025
- 11:54:10 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1162910E0A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 18:56:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749754584; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=EdJZfDxsprpXvjM+Msqvvl1RDspq+yjB9A4hg93KgWxptseH4FFSNtHttZfa1cgcz5kNlnLzyywmUD+Sgl2hH44HzK9gHBFlBm3asaHSydn4R+Ch3wwpnnc5tLDvWAbqFHjpoG6BnF/OF7/tky45/4LIwJ1NPCssaAeZnc/+bso=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1749754584;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=iOnbYnaE1YbBtaVTatR6PeV03EiI8qVZV78p6KFGMJk=; 
+ b=dD1ImpFvj4DitiIHZ6VirMaIkNElMH+Liqr6H3WikImv1JXhL5B3J/Lf2jb+3E+5ZtpDXMRQg79yx/njiAOLmn+Kqi9x3tNjTdD7M5LFSIp7SeTNfE+TwFYH6pXsMcF9LUmzDgrZP2QO4yG+zvllSyeXFPLnG5FrnaHuFvt7iac=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749754584; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=iOnbYnaE1YbBtaVTatR6PeV03EiI8qVZV78p6KFGMJk=;
+ b=XzC/xsR7Xr/DpJiXhQHzQo5ryxr5+gW5+MLUrocYGyhR0dLCFAp/BzFD1hLwpIkl
+ hvQMX1pm8vJpdtfxstY7gf9C0XQ5PLueP//xoPjWNN7aSX8Xfl2rdWZoa7VO7MmoC05
+ MSWjuK5+KIi3CAPTZlg7KtbtVH3YNmUUq3yBXeCM=
+Received: by mx.zohomail.com with SMTPS id 17497545829051009.0539110789078;
+ Thu, 12 Jun 2025 11:56:22 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE macros
+Date: Thu, 12 Jun 2025 20:56:02 +0200
+Message-Id: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
 MIME-Version: 1.0
-References: <20250611225145.1739201-1-justonli@chromium.org>
- <20250611225145.1739201-2-justonli@chromium.org>
- <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
- <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
- <p7wq3wrsddp7pk7bk5follhkc4f7ybgmc2o4e652jc2cfuqbhh@tckgwpy3khcn>
-In-Reply-To: <p7wq3wrsddp7pk7bk5follhkc4f7ybgmc2o4e652jc2cfuqbhh@tckgwpy3khcn>
-From: Yiwei Zhang <zzyiwei@google.com>
-Date: Thu, 12 Jun 2025 11:53:58 -0700
-X-Gm-Features: AX0GCFv7aYTTGhbOvIbhtXDVsf05e4kPRfikE7NBXIYQpZHKE4ONyE8LXGXfYDY
-Message-ID: <CAKT=dDkjYQUSwtYwFTvWppn-2sTdwYu_FE2jfhGXd6vWkQHvgg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Juston Li <justonli@chromium.org>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMIiS2gC/yXMQQ6DIBCF4auQWXcaMIqJV2lcIEzbWSh2QFtjv
+ LukLr+XvH+HRMKUoFM7CK2cOE4F5qbAv930IuRQDJWuGm2NxmGjb5SAyxxcJqzrxmsi17YmQDn
+ NQk/+/YOP/rLQZyndfI0wuETo4zhy7tRq78aieAP9cZw6r1InjQAAAA==
+X-Change-ID: 20250610-byeword-update-445c0eea771d
+To: Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Jaehoon Chung <jh80.chung@samsung.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Shreeya Patel <shreeya.patel@collabora.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Shawn Lin <shawn.lin@rock-chips.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, 
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,99 +102,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 11:02=E2=80=AFAM Lucas De Marchi
-<lucas.demarchi@intel.com> wrote:
->
-> On Thu, Jun 12, 2025 at 05:46:52PM +0100, Tvrtko Ursulin wrote:
-> >
-> >On 12/06/2025 06:40, Lucas De Marchi wrote:
-> >>On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
-> >>>Add TRACE_GPU_MEM tracepoints for tracking global and per-process GPU
-> >>>memory usage.
-> >>>
-> >>>These are required by VSR on Android 12+ for reporting GPU driver memo=
-ry
-> >>>allocations.
-> >>>
-> >>>v3:
-> >>>- Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
-> >>>  per-driver Kconfig (Lucas)
-> >>>
-> >>>v2:
-> >>>- Use u64 as preferred by checkpatch (Tvrtko)
-> >>>- Fix errors in comments/Kconfig description (Tvrtko)
-> >>>- drop redundant "CONFIG" in Kconfig
-> >>>
-> >>>Signed-off-by: Juston Li <justonli@chromium.org>
-> >>>Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> >>>---
-> >>>drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
-> >>>drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
-> >>>2 files changed, 63 insertions(+)
-> >>>
-> >>>diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> >>>index 4e39188a021ab..89a3d23e3b800 100644
-> >>>--- a/drivers/gpu/drm/xe/xe_bo.c
-> >>>+++ b/drivers/gpu/drm/xe/xe_bo.c
-> >>>@@ -19,6 +19,8 @@
-> >>>
-> >>>#include <kunit/static_stub.h>
-> >>>
-> >>>+#include <trace/events/gpu_mem.h>
-> >>>+
-> >>>#include "xe_device.h"
-> >>>#include "xe_dma_buf.h"
-> >>>#include "xe_drm_client.h"
-> >>>@@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct
-> >>>xe_device *xe, struct ttm_tt *tt)
-> >>>        xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, =
-0);
-> >>>}
-> >>>
-> >>>+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
-> >>>+static void update_global_total_pages(struct ttm_device *ttm_dev,
-> >>>long num_pages)
-> >>>+{
-> >>>+    struct xe_device *xe =3D ttm_to_xe_device(ttm_dev);
-> >>>+    u64 global_total_pages =3D
-> >>>+        atomic64_add_return(num_pages, &xe->global_total_pages);
-> >>>+
-> >>>+    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
-> >>>+}
-> >>>+
-> >>>+static void update_process_mem(struct drm_file *file, ssize_t size)
-> >>>+{
-> >>>+    struct xe_file *xef =3D to_xe_file(file);
-> >>>+    u64 process_mem =3D atomic64_add_return(size, &xef->process_mem);
-> >>>+
-> >>>+    rcu_read_lock(); /* Locks file->pid! */
-> >>>+    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)),
-> >>>process_mem);
-> >>
-> >>Isn't the first arg supposed to be the gpu id? Doesn't this become
-> >>invalid when I have e.g. LNL + BMG and the trace is enabled?
-> >
-> >Good point.
-> >
-> >u32 gpu_id does not seem possible to map to anything useful.
->
-> maybe minor_id? although I'm not sure if the intention is to share this
-> outside drm as seems the case.
+This series was spawned by [1], where I was asked to move every instance
+of HIWORD_UPDATE et al that I could find to a common macro in the same
+series that I am introducing said common macro.
 
-Yes, that was for render minor in the case of drm.
+The first patch of the series introduces the two new macros in
+bitfield.h, called HWORD_UPDATE and HWORD_UPDATE_CONST. The latter can
+be used in initializers.
 
->
-> >
-> >Shall we replace it with a string obtained from dev_name(struct device
-> >*) ? As only Android parses them I think we can get still away with
-> >changing the tracepoints ABI.
->
-> works for me too. Is Android actually parsing it or just ignoring?
-> Because afaics it's always 0 in msm.
+This macro definition checks that the mask fits, and that the value fits
+in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
+so turning off a bit does not require using the mask as a value. Masks
+are also required to be contiguous, like with FIELD_PREP.
 
-Android has used it as part of the bpf map key:
-https://cs.android.com/android/platform/superproject/main/+/main:frameworks=
-/native/services/gpuservice/bpfprogs/gpuMem.c
+For each definition of such a macro, the driver(s) that used it were
+evaluated for three different treatments:
+ - full conversion to the new macro, for cases where replacing the
+   implementation of the old macro wouldn't have worked, or where the
+   conversion was trivial. These are the most complex patches in this
+   series, as they sometimes have to pull apart definitions of masks
+   and values due to the new semantics, which require a contiguous
+   mask and shift the value for us.
+ - replacing the implementation of the old macro with an instance of the
+   new macro, done where I felt it made the patch much easier to review
+   because I didn't want to drop a big diff on people.
+ - skipping conversion entirely, usually because the mask is
+   non-constant and it's not trivial to make it constant. Sometimes an
+   added complication is that said non-constant mask is either used in a
+   path where runtime overhead may not be desirable, or in an
+   initializer.
 
->
-> Lucas De Marchi
+Left out of conversion:
+ - drivers/mmc/host/sdhci-of-arasan.c: mask is non-constant.
+ - drivers/phy/rockchip/phy-rockchip-inno-csidphy.c: mask is
+   non-constant likely by way of runtime pointer dereferencing, even if
+   struct and members are made const.
+ - drivers/clk/rockchip/clk.h: way too many clock drivers use non-const
+   masks in the context of an initializer.
+
+I will not be addressing these 3 remaining users in this series, as
+implementing a runtime checked version on top of this and verifying that
+it doesn't cause undue overhead just for 3 stragglers is a bit outside
+the scope of wanting to get my RK3576 PWM series unblocked. Please have
+mercy.
+
+In total, I count 19 different occurrences of such a macro fixed out of
+22 I found. The vast majority of these patches have either undergone
+static testing to ensure the values end up the same during development,
+or have been verified to not break the device the driver is for at
+runtime. Only a handful are just compile-tested, and the individual
+patches remark which ones those are.
+
+This took a lot of manual work as this wasn't really something that
+could be automated: code had to be refactored to ensure masks were
+contiguous, made sense to how the hardware actually works and to human
+readers, were constant, and that the code uses unshifted values.
+
+https://lore.kernel.org/all/aD8hB-qJ4Qm6IFuS@yury/ [1]
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Nicolas Frattaroli (20):
+      bitfield: introduce HWORD_UPDATE bitfield macros
+      mmc: dw_mmc-rockchip: switch to HWORD_UPDATE macro
+      soc: rockchip: grf: switch to HWORD_UPDATE_CONST macro
+      media: synopsys: hdmirx: replace macros with bitfield variants
+      drm/rockchip: lvds: switch to HWORD_UPDATE macro
+      phy: rockchip-emmc: switch to HWORD_UPDATE macro
+      drm/rockchip: dsi: switch to HWORD_UPDATE* macros
+      drm/rockchip: vop2: switch to HWORD_UPDATE macro
+      phy: rockchip-samsung-dcphy: switch to HWORD_UPDATE macro
+      drm/rockchip: dw_hdmi_qp: switch to HWORD_UPDATE macro
+      drm/rockchip: inno-hdmi: switch to HWORD_UPDATE macro
+      phy: rockchip-usb: switch to HWORD_UPDATE macro
+      drm/rockchip: dw_hdmi: switch to HWORD_UPDATE* macros
+      ASoC: rockchip: i2s-tdm: switch to HWORD_UPDATE_CONST macro
+      net: stmmac: dwmac-rk: switch to HWORD_UPDATE macro
+      PCI: rockchip: switch to HWORD_UPDATE* macros
+      PCI: dw-rockchip: switch to HWORD_UPDATE macro
+      PM / devfreq: rockchip-dfi: switch to HWORD_UPDATE macro
+      clk: sp7021: switch to HWORD_UPDATE macro
+      phy: rockchip-pcie: switch to HWORD_UPDATE macro
+
+ drivers/clk/clk-sp7021.c                           |  21 +--
+ drivers/devfreq/event/rockchip-dfi.c               |  26 ++--
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    | 142 ++++++++++-----------
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        |  80 ++++++------
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     |  68 +++++-----
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  11 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h       |   1 -
+ drivers/gpu/drm/rockchip/rockchip_lvds.h           |  21 +--
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |  14 +-
+ .../media/platform/synopsys/hdmirx/snps_hdmirx.h   |   5 +-
+ drivers/mmc/host/dw_mmc-rockchip.c                 |   7 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c     |   3 +-
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c      |  39 +++---
+ drivers/pci/controller/pcie-rockchip.h             |  35 ++---
+ drivers/phy/rockchip/phy-rockchip-emmc.c           |   3 +-
+ drivers/phy/rockchip/phy-rockchip-pcie.c           |  72 +++--------
+ drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c  |  10 +-
+ drivers/phy/rockchip/phy-rockchip-usb.c            |  51 +++-----
+ drivers/soc/rockchip/grf.c                         |  35 +++--
+ include/linux/bitfield.h                           |  47 +++++++
+ sound/soc/rockchip/rockchip_i2s_tdm.h              |   4 +-
+ 21 files changed, 342 insertions(+), 353 deletions(-)
+---
+base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
+change-id: 20250610-byeword-update-445c0eea771d
+
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
