@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0491AD7501
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A436AD7503
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4C310E887;
-	Thu, 12 Jun 2025 15:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD6310E888;
+	Thu, 12 Jun 2025 15:01:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="jI3AIceG";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="bn6KTEPY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2D3A10E887
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:00:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7256610E88D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:01:20 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 7830325BDA;
- Thu, 12 Jun 2025 17:00:44 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 175ED25F66;
+ Thu, 12 Jun 2025 17:01:19 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id LMeiQ2439zKd; Thu, 12 Jun 2025 17:00:43 +0200 (CEST)
+ id cJPnsxm7-FXg; Thu, 12 Jun 2025 17:01:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1749740443; bh=KbVD8W1QVZAFqfq85+oBgINP5cpWpTrtB33hPtktZ+Q=;
+ t=1749740451; bh=D8o5aKxiqPDfJaP/Wlra9wiusUGgyAqkKg4+LuSvXis=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=jI3AIceGSQxra2yoTfTIA90AEBneXw4SWE6pC0dq8CDmGvDnLSQQyPZlovnj3eAnL
- QJ8f1iIm/HEkB9EhB2v1Oz1uw9fEHQTzqd/F1uiXndB0FOp2+jfOiDqM/gsf+0K1Lp
- WZZCUHNZifvvoQMnj1cO4gf4R5bI7G/zDhc3CWLg7Rh/HxLlvdrdtM8iXP2P1nlon/
- 6siEdYIR3d8jHJp/XrgVaVQLUkvXBhMAfosUtse/HtLtZX+e/MN43odHAmGfUfY7UQ
- aGhI0gCJ97dKLk5fi2JWihqjvCLw3IcQwFmBugV3Ii/G7ZsPgjfFk7nPKeOET8FxoD
- YYz5M9ZYZgJxw==
+ b=bn6KTEPYJhfvaGt2QBHkIbHgJCb0CRBaJ/IOnV4I4/F+ritPtnyNle5ZETilDMpKH
+ wlskdq4ZogKkt4ZQUyt5ACHvpcTI8ns3LoPm6eozssU35Mty+H9IrEEcjFrgUVoQXc
+ Q0OZlDCF5bT//0HqW3WkfhdCinrYgtsZqm88DDfKzT9Q3p12/NJOoAaK4s8N8yNFLC
+ chsw/wkVS/0aA2e3ZwErcEuwCtIBHyLLhpdeKlLMFhUGRvO80txL6l9d91prm4OS+5
+ 6u3RgLDsXztehL5tc6nx1BgdnbrIKc9//oTT0A57cT3cCZRqPhAYj0U+8dv1MBY78+
+ JVwwxiTm0bp7w==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Thu, 12 Jun 2025 20:29:19 +0530
-Subject: [PATCH v2 1/2] drm/exynos: exynos7_drm_decon: fix call of
- decon_commit()
+Date: Thu, 12 Jun 2025 20:29:20 +0530
+Subject: [PATCH v2 2/2] drm/exynos: exynos7_drm_decon: add vblank check in
+ IRQ handling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-exynosdrm-decon-v2-1-d6c1d21c8057@disroot.org>
+Message-Id: <20250612-exynosdrm-decon-v2-2-d6c1d21c8057@disroot.org>
 References: <20250612-exynosdrm-decon-v2-0-d6c1d21c8057@disroot.org>
 In-Reply-To: <20250612-exynosdrm-decon-v2-0-d6c1d21c8057@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
@@ -53,11 +53,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
  stable@vger.kernel.org
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749740428; l=1313;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749740428; l=1467;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=KbVD8W1QVZAFqfq85+oBgINP5cpWpTrtB33hPtktZ+Q=;
- b=3RvGk19WcfpcLnwZ3sIxU4O4s2l4UIkGy0HYA+2T/gW8t0neQhz8mhwCSXco4kguluClsWlGi
- LeoLEAjC/YgAuHmhHqrrnwVmDRmxZ4uSB9sY5rn+V+EZ6WT89QbRA/z
+ bh=D8o5aKxiqPDfJaP/Wlra9wiusUGgyAqkKg4+LuSvXis=;
+ b=e+o8Wo7jtjYn2hZT25bsk7JQTuoWvuRvUzHVhB4xhIPbD24Y+LwjAiDqnP5zIbfSGS0+N8Epw
+ 4T77CIPXp6GCgnmWlOdaABdsRVXGTKb/4QHtsL0yevgkRsR90EloPvb
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,40 +75,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-decon_commit() has a condition guard at the beginning:
+If there's support for another console device (such as a TTY serial),
+the kernel occasionally panics during boot. The panic message and a
+relevant snippet of the call stack is as follows:
 
-	if (ctx->suspended)
-		return;
+  Unable to handle kernel NULL pointer dereference at virtual address 000000000000000
+  Call trace:
+    drm_crtc_handle_vblank+0x10/0x30 (P)
+    decon_irq_handler+0x88/0xb4
+    [...]
 
-But, when it is being called from decon_atomic_enable(), ctx->suspended
-is still set to true, which prevents its execution. decon_commit() is
-vital for setting up display timing values, without which the display
-pipeline fails to function properly. Call the function after
-ctx->suspended is set to false as a fix.
+Otherwise, the panics don't happen. This indicates that it's some sort
+of race condition.
+
+Add a check to validate if the drm device can handle vblanks before
+calling drm_crtc_handle_vblank() to avoid this.
 
 Cc: stable@vger.kernel.org
 Fixes: 96976c3d9aff ("drm/exynos: Add DECON driver")
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- drivers/gpu/drm/exynos/exynos7_drm_decon.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-index f91daefa9d2bc5e314c279822047e60ee0d7ca99..43bcbe2e2917df43d7c2d27a9771e892628dd682 100644
+index 43bcbe2e2917df43d7c2d27a9771e892628dd682..c0c0f23169c993ac315fc8d7bcbd09ea6ec9966a 100644
 --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
 +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-@@ -583,9 +583,9 @@ static void decon_atomic_enable(struct exynos_drm_crtc *crtc)
- 	if (test_and_clear_bit(0, &ctx->irq_flags))
- 		decon_enable_vblank(ctx->crtc);
+@@ -636,6 +636,10 @@ static irqreturn_t decon_irq_handler(int irq, void *dev_id)
+ 	if (!ctx->drm_dev)
+ 		goto out;
  
--	decon_commit(ctx->crtc);
--
- 	ctx->suspended = false;
++	/* check if crtc and vblank have been initialized properly */
++	if (!drm_dev_has_vblank(ctx->drm_dev))
++		goto out;
 +
-+	decon_commit(ctx->crtc);
- }
+ 	if (!ctx->i80_if) {
+ 		drm_crtc_handle_vblank(&ctx->crtc->base);
  
- static void decon_atomic_disable(struct exynos_drm_crtc *crtc)
 
 -- 
 2.49.0
