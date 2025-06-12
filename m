@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CAFAD75A8
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB508AD75AF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 17:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E9310E8A8;
-	Thu, 12 Jun 2025 15:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 372B410E8A0;
+	Thu, 12 Jun 2025 15:20:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="I7aIZh6L";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="fhg1WqRc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD1B610E8A0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:19:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8763E10E8A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 15:20:07 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id B246825FB3;
- Thu, 12 Jun 2025 17:19:54 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 43C2626065;
+ Thu, 12 Jun 2025 17:20:06 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id L9C6iqa3FDfA; Thu, 12 Jun 2025 17:19:54 +0200 (CEST)
+ id RZLghuaa8o59; Thu, 12 Jun 2025 17:20:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1749741594; bh=cbcjcKOlSDiXuN1ZryxTPjxHoMCH5EADuQCdyG2cINs=;
+ t=1749741603; bh=gTjvfwIft0zOYqMzvPWu+tpH9F/eoLvFl3Vm+gEuo2U=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=I7aIZh6Ln545sq0unm1sphOQFrhraXVVGY0qJ9f1qHb6rgkTD1MKaaPDlrOh76eXy
- 3arDXBu/Y/9SmV6QiK/P4JbHat4qGTvxLNMN6+gmj7iJDtl5qrh/WK+BRwgUwddmE9
- UX3CZoiw1fGKKxyWj+S90qOOCZOekNJg/tpmYOwgGOe9jQznHGRubUmziPLU6CtYZD
- SCn3EzGATpmgQOvUt4adeYZM2Rtv+DGo0hc76JhoFMZRPwLQytUIji9IBKeJYlQ8Ck
- 7zhCHZoXEjsPBoNatdNOANAFsrrZhdja3EYKBx/zP4EW/vefEPFu9MmIxlSz+57icy
- WY46IgqVm+tAQ==
+ b=fhg1WqRcOltyD8/HdHPYHktTBYw6J0gkI9V3H/p2eCAvYod4AFivQwwiffrBd4DDH
+ C7aGs65oLOBfFdrx0sOjQ+hs6AsM53TtAmPa94+oTaDjXHlDPfGoXIa3vJZXGis52L
+ o7mCRFM2m+fhdtEEMhbRVDHd3MvD0GKQUlCxDIP4y5+rRhIqZGCLnHQRnROcQisQwC
+ 96j56gHoKzS4qEaearRb2rdgbgl04qwC9X/6oRTRcSzYJkn8pF9H7hsd8nzOL+OMzF
+ C1yc28hdFyVNMGeMy0E9FkghPLmgKz5KgwXxo05Tkqf7f0dtgbsNN2g0MY5crKTOMu
+ jYQSCIlmyTT1Q==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Thu, 12 Jun 2025 20:48:13 +0530
-Subject: [PATCH 09/12] drm/bridge: samsung-dsim: increase timeout value for
- PLL_STABLE
+Date: Thu, 12 Jun 2025 20:48:14 +0530
+Subject: [PATCH 10/12] dt-bindings: samsung,mipi-dsim: document exynos7870
+ DSIM compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-exynos7870-dsim-v1-9-1a330bca89df@disroot.org>
+Message-Id: <20250612-exynos7870-dsim-v1-10-1a330bca89df@disroot.org>
 References: <20250612-exynos7870-dsim-v1-0-1a330bca89df@disroot.org>
 In-Reply-To: <20250612-exynos7870-dsim-v1-0-1a330bca89df@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -59,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-samsung-soc@vger.kernel.org, 
  Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749741499; l=926;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749741499; l=1756;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=cbcjcKOlSDiXuN1ZryxTPjxHoMCH5EADuQCdyG2cINs=;
- b=tiIUwQi6DLbTe77YgBJLRkD2Oe6Q6xWPTXRYMY/gZ9JE/8+RjbNwurwr9+FECVQNxZx9ijXlo
- 38E3959WWPgDBF5hnJ1jpi9uvHuZh8mqko4a4TTPwBQdpQsDGOOkqyZ
+ bh=gTjvfwIft0zOYqMzvPWu+tpH9F/eoLvFl3Vm+gEuo2U=;
+ b=ufmNp6zr5Z1H2KmNf5QlVyiVd8w6ILSOscwAY9EKjp0sjOYTzRrZdK2m49hTE8q6hQ22W71p2
+ CibhNIBNSNwBKIBFn2dA8afwDoYyoMOe+aELMzc5xZdu+/W/XJNUYtV
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,28 +81,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exynos7870's DSIM requires more time to stabilize its PLL. The current
-timeout value, 1000, doesn't suffice. Increase the value to 3000, which
-is just about enough as observed experimentally.
+Add compatible string for Exynos7870 DSIM bridge controller. The
+devicetree node requires four clock sources, named:
+- bus_clk
+- phyclk_mipidphy0_bitclkdiv8
+- phyclk_mipidphy0_rxclkesc0
+- sclk_mipi
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/display/bridge/samsung,mipi-dsim.yaml | 26 ++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 5787746c63035a94c0b8b7497df61bb1e69656cd..50dcdb9b81f68098936fbb3f121a0010b11cd8dd 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -751,7 +751,7 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index 1acad99f396527192b6853f0096cfb8ae5669e6b..887f3ba1edd24a177a766b1b523d0c197ff1123a 100644
+--- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -24,6 +24,7 @@ properties:
+           - samsung,exynos5410-mipi-dsi
+           - samsung,exynos5422-mipi-dsi
+           - samsung,exynos5433-mipi-dsi
++          - samsung,exynos7870-mipi-dsi
+           - fsl,imx8mm-mipi-dsim
+           - fsl,imx8mp-mipi-dsim
+       - items:
+@@ -144,6 +145,31 @@ required:
  
- 	samsung_dsim_write(dsi, DSIM_PLLCTRL_REG, reg);
- 
--	timeout = 1000;
-+	timeout = 3000;
- 	do {
- 		if (timeout-- == 0) {
- 			dev_err(dsi->dev, "PLL failed to stabilize\n");
+ allOf:
+   - $ref: ../dsi-controller.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: samsung,exynos7870-mipi-dsi
++
++    then:
++      properties:
++        clocks:
++          minItems: 4
++
++        clock-names:
++          items:
++            - const: bus_clk
++            - const: phyclk_mipidphy0_bitclkdiv8
++            - const: phyclk_mipidphy0_rxclkesc0
++            - const: sclk_mipi
++
++        ports:
++          required:
++            - port@0
++
++      required:
++        - ports
++
+   - if:
+       properties:
+         compatible:
 
 -- 
 2.49.0
