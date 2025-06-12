@@ -2,114 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77EAD7013
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73690AD6FE3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85C810E823;
-	Thu, 12 Jun 2025 12:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE97010E811;
+	Thu, 12 Jun 2025 12:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="trrhuNiq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q5+AX6hU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="trrhuNiq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q5+AX6hU";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="d+RkCAVL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E6010E81D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:20:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2B8A61F834;
- Thu, 12 Jun 2025 12:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749730822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oEiZHNpO2Mrm7Gi7qfEOleqdlIu4/EJkxo+94JWC0vI=;
- b=trrhuNiqnwu+Iu5Xm6BWvXy6VQtb2+nHcUweY7SzabCM5SF70W4pO/Pe6MQXBUZlCfR1Nr
- Tv1uYm+E7MI+ku+U1ehGNUcKM3AEkCrImn0EqSAfmyBMNGa0WKovWqqNcSQ17kD/mJ7trT
- E0Gf5IY4eHOBodCPoXuy40b3kZDki3U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749730822;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oEiZHNpO2Mrm7Gi7qfEOleqdlIu4/EJkxo+94JWC0vI=;
- b=q5+AX6hUvIVnq+4/DuLz/ve4R8hxT7E6+7ziMuQ77Ed4fvMtp9CKy+fgljPEErRpY0A/RG
- se2WVIDwx2THWABA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=trrhuNiq;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q5+AX6hU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1749730822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oEiZHNpO2Mrm7Gi7qfEOleqdlIu4/EJkxo+94JWC0vI=;
- b=trrhuNiqnwu+Iu5Xm6BWvXy6VQtb2+nHcUweY7SzabCM5SF70W4pO/Pe6MQXBUZlCfR1Nr
- Tv1uYm+E7MI+ku+U1ehGNUcKM3AEkCrImn0EqSAfmyBMNGa0WKovWqqNcSQ17kD/mJ7trT
- E0Gf5IY4eHOBodCPoXuy40b3kZDki3U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1749730822;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oEiZHNpO2Mrm7Gi7qfEOleqdlIu4/EJkxo+94JWC0vI=;
- b=q5+AX6hUvIVnq+4/DuLz/ve4R8hxT7E6+7ziMuQ77Ed4fvMtp9CKy+fgljPEErRpY0A/RG
- se2WVIDwx2THWABA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFF79132D8;
- Thu, 12 Jun 2025 12:20:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6JBIOQXGSmhBdAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Jun 2025 12:20:21 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: simona.vetter@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 9/9] drm/ttm: Include <linux/export.h>
-Date: Thu, 12 Jun 2025 14:10:03 +0200
-Message-ID: <20250612121633.229222-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250612121633.229222-1-tzimmermann@suse.de>
-References: <20250612121633.229222-1-tzimmermann@suse.de>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7850F10E80F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:13:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749730388; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JmJQM+jRvKt3sfgWkyOX4HaeWFVmPbVAO8KKw41WsufLNG+hkfi3klar7FzBKqa0rb+LNIFbWFaE/9rwZE+W7v1Grghsny1FiPBo8dhL0YYtuBgOKYn7PojELsZdUPV8SeUsJhRonIaMm6EpPFZjyhQI9cEn3U0UtqxZhgtXQTA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1749730388;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=xHyHeKSFmeGChzEgnyhjfuWXXlgy/EN/udP8iYeBM9Y=; 
+ b=Ib9ekT7AwMRUYhGvgD9uKKP6GelvUKk6hJUYqrrJ6CRYajukgppFIPL0voa2jIlyrM90yRs02e71g334VJGyTiT4sOp+9d15BoOjXB4WPx6gOIKEO9sIp8l/KeAt2GUT/6cyZP0MsYHZ28SMss613cMocZObIwa/2LKTP+cGTrc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749730388; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=xHyHeKSFmeGChzEgnyhjfuWXXlgy/EN/udP8iYeBM9Y=;
+ b=d+RkCAVL7ZCghwxV5Eux+3bXYGhO6sl4hXL7ifOJnCTCeQn2zHcqD5oCqiGsg2z4
+ wY20o06EDmfS5LlTr/thtEU5z02fLNUC06JV0yXduO/kai1CtJB7ziqGHNeofc9ov2u
+ xQGtnTc+H1+LtJ9QDY6+Br9AGt45A8vIQDGO5a8A=
+Received: by mx.zohomail.com with SMTPS id 1749730386061466.0088473265579;
+ Thu, 12 Jun 2025 05:13:06 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-rockchip@lists.infradead.org
+Cc: kernel@collabora.com, Andy Yan <andyshrk@163.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH 0/3] arm64: dts: rockchip: Fix HDMI output on RK3576
+Date: Thu, 12 Jun 2025 14:13:00 +0200
+Message-ID: <3011644.e9J7NaK4W3@workhorse>
+In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2B8A61F834
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLa7dkhshwamq1oe933z1pzp6m)];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,204 +75,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the compile-time warnings
+On Wednesday, 11 June 2025 23:47:46 Central European Summer Time Cristian Ciocaltea wrote:
+> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
+> char rate via phy_configure_opts_hdmi"), the workaround of passing the
+> PHY rate from DW HDMI QP bridge driver via phy_set_bus_width() became
+> partially broken, unless the rate adjustment is done as with RK3588,
+> i.e. by CCF from VOP2.
+> 
+> Attempting to fix this up at PHY level would not only introduce
+> additional hacks, but it would also fail to adequately resolve the
+> display issues that are a consequence of the system CRU limitations.
+> 
+> Therefore, let's proceed with the solution already implemented for
+> RK3588, that is to make use of the HDMI PHY PLL as a more accurate DCLK
+> source in VOP2.
+> 
+> It's worth noting a follow-up patch is going to drop the hack from the
+> bridge driver altogether, while switching to HDMI PHY configuration API
+> for setting up the TMDS character rate.
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Cristian Ciocaltea (3):
+>       dt-bindings: display: vop2: Add optional PLL clock property for rk3576
+>       arm64: dts: rockchip: Enable HDMI PHY clk provider on rk3576
+>       arm64: dts: rockchip: Add HDMI PHY PLL clock source to VOP2 on rk3576
+> 
+>  .../bindings/display/rockchip/rockchip-vop2.yaml   | 56 +++++++++++++++++-----
+>  arch/arm64/boot/dts/rockchip/rk3576.dtsi           |  7 ++-
+>  2 files changed, 49 insertions(+), 14 deletions(-)
+> ---
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+> change-id: 20250611-rk3576-hdmitx-fix-e030fbdb0d17
+> 
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+> 
 
-  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/tests/ttm_mock_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_agp_backend.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_backup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_bo.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_bo_util.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_bo_vm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_execbuf_util.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_range_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_resource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/ttm/ttm_tt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+For the whole series:
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 3 +++
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  | 3 +++
- drivers/gpu/drm/ttm/ttm_agp_backend.c         | 1 +
- drivers/gpu/drm/ttm/ttm_backup.c              | 2 ++
- drivers/gpu/drm/ttm/ttm_bo.c                  | 1 +
- drivers/gpu/drm/ttm/ttm_bo_util.c             | 2 ++
- drivers/gpu/drm/ttm/ttm_bo_vm.c               | 2 ++
- drivers/gpu/drm/ttm/ttm_device.c              | 1 +
- drivers/gpu/drm/ttm/ttm_execbuf_util.c        | 2 ++
- drivers/gpu/drm/ttm/ttm_pool.c                | 1 +
- drivers/gpu/drm/ttm/ttm_range_manager.c       | 2 ++
- drivers/gpu/drm/ttm/ttm_resource.c            | 1 +
- drivers/gpu/drm/ttm/ttm_tt.c                  | 1 +
- 13 files changed, 22 insertions(+)
+Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index b91c13f46225..7aaf0d1395ff 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -2,6 +2,9 @@
- /*
-  * Copyright © 2023 Intel Corporation
-  */
-+
-+#include <linux/export.h>
-+
- #include <drm/ttm/ttm_tt.h>
- 
- #include "ttm_kunit_helpers.h"
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-index f6d1c8a2845d..d7eb6471f2ed 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-@@ -2,6 +2,9 @@
- /*
-  * Copyright © 2023 Intel Corporation
-  */
-+
-+#include <linux/export.h>
-+
- #include <drm/ttm/ttm_resource.h>
- #include <drm/ttm/ttm_device.h>
- #include <drm/ttm/ttm_placement.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-index d27691f2e451..fca0a1a3c6fd 100644
---- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-+++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-@@ -36,6 +36,7 @@
- #include <drm/ttm/ttm_tt.h>
- #include <drm/ttm/ttm_resource.h>
- #include <linux/agp_backend.h>
-+#include <linux/export.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/io.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
-index ffaab68bd5dd..cb1b8e5dadf5 100644
---- a/drivers/gpu/drm/ttm/ttm_backup.c
-+++ b/drivers/gpu/drm/ttm/ttm_backup.c
-@@ -4,6 +4,8 @@
-  */
- 
- #include <drm/ttm/ttm_backup.h>
-+
-+#include <linux/export.h>
- #include <linux/page-flags.h>
- #include <linux/swap.h>
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 0f874f1e2526..bb9c5c8e16b5 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -35,6 +35,7 @@
- #include <drm/ttm/ttm_placement.h>
- #include <drm/ttm/ttm_tt.h>
- 
-+#include <linux/export.h>
- #include <linux/jiffies.h>
- #include <linux/slab.h>
- #include <linux/sched.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index b78365dc1fed..b9a772b26fa1 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -28,6 +28,8 @@
- /*
-  * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
-  */
-+
-+#include <linux/export.h>
- #include <linux/swap.h>
- #include <linux/vmalloc.h>
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index bdfa6ecfef05..b47020fca199 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -31,6 +31,8 @@
- 
- #define pr_fmt(fmt) "[TTM] " fmt
- 
-+#include <linux/export.h>
-+
- #include <drm/ttm/ttm_bo.h>
- #include <drm/ttm/ttm_placement.h>
- #include <drm/ttm/ttm_tt.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 36075772555a..816e2cba6016 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -28,6 +28,7 @@
- #define pr_fmt(fmt) "[TTM DEVICE] " fmt
- 
- #include <linux/debugfs.h>
-+#include <linux/export.h>
- #include <linux/mm.h>
- 
- #include <drm/ttm/ttm_bo.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-index f1c60fa80c2d..bc7a83a9fe44 100644
---- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-@@ -26,6 +26,8 @@
-  *
-  **************************************************************************/
- 
-+#include <linux/export.h>
-+
- #include <drm/ttm/ttm_execbuf_util.h>
- #include <drm/ttm/ttm_bo.h>
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index a0436971b6a6..baf27c70a419 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -31,6 +31,7 @@
-  * cause they are rather slow compared to alloc_pages+map.
-  */
- 
-+#include <linux/export.h>
- #include <linux/module.h>
- #include <linux/dma-mapping.h>
- #include <linux/debugfs.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index ae11d07eb63a..db854b581d83 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -34,6 +34,8 @@
- #include <drm/ttm/ttm_range_manager.h>
- #include <drm/ttm/ttm_bo.h>
- #include <drm/drm_mm.h>
-+
-+#include <linux/export.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 006202fcd3c2..e2c82ad07eb4 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include <linux/debugfs.h>
-+#include <linux/export.h>
- #include <linux/io-mapping.h>
- #include <linux/iosys-map.h>
- #include <linux/scatterlist.h>
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 698cd4bf5e46..506e257dfba8 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -33,6 +33,7 @@
- 
- #include <linux/cc_platform.h>
- #include <linux/debugfs.h>
-+#include <linux/export.h>
- #include <linux/file.h>
- #include <linux/module.h>
- #include <linux/sched.h>
--- 
-2.49.0
+This fixes HDMI output for 4K resolutions on my RK3576 ArmSoM Sige5.
+The DTB checks and bindings checks pass as well.
+
+Kind regards,
+Nicolas Frattaroli
+
 
