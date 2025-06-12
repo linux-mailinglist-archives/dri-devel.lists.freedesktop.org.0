@@ -2,91 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69217AD6F63
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 13:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47A6AD6F8F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 13:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1ED410E7E0;
-	Thu, 12 Jun 2025 11:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36BF510E7E3;
+	Thu, 12 Jun 2025 11:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Z/kan/Xt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WrJgcFim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9FE10E7E0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 11:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1749728962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=44j4I4TXCM8K1tAGGoYj0qrHUcxAz/oIThDxTCmpNZk=;
- b=Z/kan/XtvWRH/1Se0XCpW+95ak7rqRBuLPNJA3loXqGZpEBUvtmhEseIPd7yFfOnpc1xuC
- 28FN5JuDXqGDU6q5B8wEkUsah3oYQOqtwbFQfT9KzXLdop1U1uNYCEugvk0kq9WjcneEQg
- y+qsLULrkDrnCQS0PFWAKRFkpJC/oqo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-470-aOlEKdcBOimMd3Fs6AKrHg-1; Thu, 12 Jun 2025 07:49:19 -0400
-X-MC-Unique: aOlEKdcBOimMd3Fs6AKrHg-1
-X-Mimecast-MFC-AGG-ID: aOlEKdcBOimMd3Fs6AKrHg_1749728958
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a52bfda108so451962f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 04:49:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749728958; x=1750333758;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=44j4I4TXCM8K1tAGGoYj0qrHUcxAz/oIThDxTCmpNZk=;
- b=KEy6CFy1O7FXELorKvb5Ephstnni3G6Bl9h0xBFgqge1BcqTrkBPAuTCv2XJUSrMQv
- xhyFK31X3h7zgmhkzaEiFZGeTQ5eSaxKRx0BFZxUtcG/jZjsEO7MJNe2p9tfVReK4f2w
- mUhiRiAEZmOMQnxF1jwp/2kc0TOUKy5O9NhSFSiq4tEj7aehZLw2dwS9FDrd0WVT6p1x
- hJLLKgwjCz+5hKDoP81hq1iPbtYfEzI1wad9mddjpi5JKIMxgpXBKrE7+gB57+7Iw++4
- BO3KGx244jepqL4KuO/ePbxtPp+tEfK2a9WkpOhBxun3/fSP9ZVVhjqSFJpZiuyA0VFs
- Up5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX562Z8t+rqcnGkEtOdVTD/LP7tad9jAX8k/joTebZ8OOz2RgUKyIMeLLidiFdeNnmoF0WoRubVtvU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwP+7QOtNd/3H+K7dCeprBr1YyFVG25cgM5VB6vwEJg46AcnHK5
- fN8CuQln8tuVJHCz6oQ0SsCKN4qV62n+41/0scy1CLclQoMVS8zBEhMaPHupS5lGxho6ttAtlWG
- 9GIk+hZXkfR4HNcfo+rVKLZQSd7MOnT+PzdNFoeaCYlygEUGKhr+EyamcDFLylEK6QNozMw==
-X-Gm-Gg: ASbGncuwlj4eKWdifbQ57YjMlcG9HZnbDwOZJi03ZSSNJK/12Hlck3CHU+/CHg0Bt0i
- gCGmA1WMfo/64wOZv+ttqaSJ/oZXXFufwD53evSEjfZyHh79PoMlpJybEWnC1+VuFJUDamuI4/3
- 5kFMGuArOXJ8XvVah2pqClZtzDCSu0wCwpZCouav8LOevqiwLIJhFh8VIbwO+x3lCP8TUlhemDO
- gyGN3eJCrAX1KnAil0rh5cICcM/jRxsioiL6b1VsG0NNxARK/cUkcaoWf2Qw9wBN1NT4pSZmhlB
- ARbRcYwZupaZa0aU96DcfPxOoB/CeBc92HBrUHVSfSaJ+KjldVgHTZIzDaf0W9tk5gdvpc7wza2
- oKl4v
-X-Received: by 2002:a05:6000:430e:b0:3a4:dbac:2db6 with SMTP id
- ffacd0b85a97d-3a5586f3553mr5300915f8f.49.1749728958107; 
- Thu, 12 Jun 2025 04:49:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG4WzB+LJcR1u2hK9wFwGy2wUTAL8u1WuDKJLfv52nOHBwv65vCbiVqlOIk/P6Twhu+7Lo4ig==
-X-Received: by 2002:a05:6000:430e:b0:3a4:dbac:2db6 with SMTP id
- ffacd0b85a97d-3a5586f3553mr5300892f8f.49.1749728957713; 
- Thu, 12 Jun 2025 04:49:17 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a561b4b88esm1746765f8f.79.2025.06.12.04.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jun 2025 04:49:17 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, John Keeping
- <jkeeping@inmusicbrands.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/ssd130x: fix ssd132x_clear_screen() columns
-In-Reply-To: <fb6d8eb9-cdc1-4d07-8a55-928282c9e7ad@suse.de>
-References: <20250611111307.1814876-1-jkeeping@inmusicbrands.com>
- <87y0tycumu.fsf@minerva.mail-host-address-is-not-set>
- <fb6d8eb9-cdc1-4d07-8a55-928282c9e7ad@suse.de>
-Date: Thu, 12 Jun 2025 13:49:15 +0200
-Message-ID: <87frg5w56s.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A865710E7E3;
+ Thu, 12 Jun 2025 11:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749729197; x=1781265197;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=uUQTx5mi42VjjGaXoU8tl/WfZwIOMVFPQUOacLgvD6U=;
+ b=WrJgcFimq7PbR9DxTxNjy6n0ajpdNGLfkuqjqteZijnsprhqkfBWrLqr
+ z0O+s5MQu2/EEfpVSccc7E0AMD2QYgD7F7LA/xSYbo3xx6LDWek6iHJ5W
+ Kk6Ok0Yv53A9IPBLwWU1sdbaVh0dk3I3lU5v9QQ+JYMZUtmPP1LY1MfdF
+ iRq72Bth2l3cb2DCNeLPiTx8e0JzaVLNj4rEoiu46N8As432b7kGYalZI
+ IDFrvRyuLg/Ro6Vbd7LxCFEFP+g/zw/ZmHYaFyLeHmB1H/0QnIbFOrWO6
+ YGqRb12LhOaFmxp3AoH1gq2VGanf9sZNcWYvkb5DD9DVy3BxqwQ0f6pPA w==;
+X-CSE-ConnectionGUID: n5Pwk2pOSvmIUq/ALyorgw==
+X-CSE-MsgGUID: zyRgJmN5RwKhhgt3/ip5nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="69342699"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="69342699"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 04:53:17 -0700
+X-CSE-ConnectionGUID: zBYpDSQYTfSlSn2rO3FgHQ==
+X-CSE-MsgGUID: K9tu20mETwmF1NS1Xbwp+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; d="scan'208";a="184730305"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.244.165])
+ ([10.245.244.165])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2025 04:53:12 -0700
+Message-ID: <62c06195-8bc1-4dae-8777-e86d94e4d9d9@linux.intel.com>
+Date: Thu, 12 Jun 2025 13:53:09 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: oJPT3gn42OrVI17emiR_CAqoTRPX4tGWPfTF-QS66qo_1749728958
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,54 +77,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Dave, Simona,
 
-Hello Thomas,
+Here's a pull request for v6.16-rc2, especially the EPROBE_DEFER one seems serious,
+I've had the same loop when converting xe/i915 audio to use EPROBE_DEFER. :)
 
-> Hi
->
-> Am 11.06.25 um 14:47 schrieb Javier Martinez Canillas:
->> John Keeping <jkeeping@inmusicbrands.com> writes:
->>
->> Hello John,
->>
->>> The number of columns relates to the width, not the height.  Use the
->>> correct variable.
->>>
->>> Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
->>> ---
->>>   drivers/gpu/drm/solomon/ssd130x.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
->>> index dd2006d51c7a2..eec43d1a55951 100644
->>> --- a/drivers/gpu/drm/solomon/ssd130x.c
->>> +++ b/drivers/gpu/drm/solomon/ssd130x.c
->>> @@ -974,7 +974,7 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
->>>   
->>>   static void ssd132x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
->>>   {
->>> -	unsigned int columns = DIV_ROUND_UP(ssd130x->height, SSD132X_SEGMENT_WIDTH);
->>> +	unsigned int columns = DIV_ROUND_UP(ssd130x->width, SSD132X_SEGMENT_WIDTH);
->>>   	unsigned int height = ssd130x->height;
->>>   
->> Ups, indeed. Thanks for fixing it!
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> Could you please add a Fixes tag before merging the patch? Thanks!
->
+Best regards!
+~Maarten
 
-Sure, I'll add the following tag:
+drm-misc-fixes-2025-06-12:
+drm-misc-fixes for v6.16-rc2:
+- Fix infinite EPROBE_DEFER loop in vc4 probing.
+- Fix amdxdna firmware size.
+- mode fixes for meson.
+- Kconfig fix for st7171-i2c.
+- Fix -EBUSY WARN_ON_ONCE in dma-buf
+- Use dma_sync_sgtable_for_cpu in udmabuf.
+The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
 
-Fixes: fdd591e00a9c ("drm/ssd130x: Add support for the SSD132x OLED controller family")
+  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
 
-before merging the patch.
+are available in the Git repository at:
 
--- 
-Best regards,
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-06-12
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+for you to fetch changes up to afe382843717d44b24ef5014d57dcbaab75a4052:
 
+  udmabuf: use sgtable-based scatterlist wrappers (2025-06-11 13:18:07 +0200)
+
+----------------------------------------------------------------
+drm-misc-fixes for v6.16-rc2:
+- Fix infinite EPROBE_DEFER loop in vc4 probing.
+- Fix amdxdna firmware size.
+- mode fixes for meson.
+- Kconfig fix for st7171-i2c.
+- Fix -EBUSY WARN_ON_ONCE in dma-buf
+- Use dma_sync_sgtable_for_cpu in udmabuf.
+
+----------------------------------------------------------------
+Christian König (1):
+      dma-buf: fix compare in WARN_ON_ONCE
+
+Gabriel Dalimonte (1):
+      drm/vc4: fix infinite EPROBE_DEFER loop
+
+Lizhi Hou (1):
+      accel/amdxdna: Fix incorrect PSP firmware size
+
+Marek Szyprowski (1):
+      udmabuf: use sgtable-based scatterlist wrappers
+
+Martin Blumenstingl (3):
+      drm/meson: fix debug log statement when setting the HDMI clocks
+      drm/meson: use vclk_freq instead of pixel_freq in debug print
+      drm/meson: fix more rounding issues with 59.94Hz modes
+
+Nathan Chancellor (1):
+      drm/sitronix: st7571-i2c: Select VIDEOMODE_HELPERS
+
+ drivers/accel/amdxdna/aie2_psp.c           |  4 +--
+ drivers/dma-buf/dma-buf.c                  |  2 +-
+ drivers/dma-buf/udmabuf.c                  |  5 ++-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c |  2 +-
+ drivers/gpu/drm/meson/meson_vclk.c         | 55 ++++++++++++++++++------------
+ drivers/gpu/drm/sitronix/Kconfig           |  1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c             | 12 +++----
+ 7 files changed, 47 insertions(+), 34 deletions(-)
