@@ -2,112 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C6EAD7011
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11212AD7012
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jun 2025 14:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A218810E81D;
-	Thu, 12 Jun 2025 12:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67C3210E81A;
+	Thu, 12 Jun 2025 12:20:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cQU3wJ5V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g8Md1G/5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cQU3wJ5V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g8Md1G/5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="K+OyJ1f9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0QmNc7DX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K+OyJ1f9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0QmNc7DX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD2210E817
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:20:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF7510E823
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jun 2025 12:20:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 55FD7219B5;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8F8A2219B7;
  Thu, 12 Jun 2025 12:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1749730820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBLKL+2h+VcpwPlyPvmB9xD/Ast/LSzckdriJ8oYMEE=;
- b=cQU3wJ5V6LayDg59CU76M19wJZk9IyqyH/p8AZ+ere+e5tSZwAHh+8YIwOB5cz3R13m197
- M/wEcj8BqFLXzsIKj447gPMEzR6lwUvieCtH14BHJRyvSc8hv2NOgdDo2GDI62RpjAhCYO
- p4iulvIVru64+czSUMWZiiUrrnJC8GA=
+ bh=IAP7FkX1JVnezL77kxzxEXWT2eTEjUC/sl2nw3EC+vg=;
+ b=K+OyJ1f9t40MCDWvSDyA3m+Ne80Bowa3FDV782ZRjSv/ePtqm8/5zEn/wC46nokgaKgDdc
+ 98Z/Vz7UAiEbOQ7gBmNmsLwNgm6ZgtnvI8Cj1qLNnEXMnByAegn+woAdb6Grxxkgbv5GYI
+ 8S1YMBjdbEzsDeDlpA8TsIxHypwAQtE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1749730820;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBLKL+2h+VcpwPlyPvmB9xD/Ast/LSzckdriJ8oYMEE=;
- b=g8Md1G/5yEpYgJa4WvfdxZVm+psE74eqSqt1NXXmnshJrLFubYJQtW3DfBcWOHeitI4pLk
- K56V4RK+QyN/fjAw==
+ bh=IAP7FkX1JVnezL77kxzxEXWT2eTEjUC/sl2nw3EC+vg=;
+ b=0QmNc7DXYayzAkauC2eJIUNgq0xP6xH+3wbwbNLsPkMJitncJ2GX5+AUQJFVCEHrWA99Z+
+ O64YvpRi+CxUPVDQ==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cQU3wJ5V;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="g8Md1G/5"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1749730820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBLKL+2h+VcpwPlyPvmB9xD/Ast/LSzckdriJ8oYMEE=;
- b=cQU3wJ5V6LayDg59CU76M19wJZk9IyqyH/p8AZ+ere+e5tSZwAHh+8YIwOB5cz3R13m197
- M/wEcj8BqFLXzsIKj447gPMEzR6lwUvieCtH14BHJRyvSc8hv2NOgdDo2GDI62RpjAhCYO
- p4iulvIVru64+czSUMWZiiUrrnJC8GA=
+ bh=IAP7FkX1JVnezL77kxzxEXWT2eTEjUC/sl2nw3EC+vg=;
+ b=K+OyJ1f9t40MCDWvSDyA3m+Ne80Bowa3FDV782ZRjSv/ePtqm8/5zEn/wC46nokgaKgDdc
+ 98Z/Vz7UAiEbOQ7gBmNmsLwNgm6ZgtnvI8Cj1qLNnEXMnByAegn+woAdb6Grxxkgbv5GYI
+ 8S1YMBjdbEzsDeDlpA8TsIxHypwAQtE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1749730820;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBLKL+2h+VcpwPlyPvmB9xD/Ast/LSzckdriJ8oYMEE=;
- b=g8Md1G/5yEpYgJa4WvfdxZVm+psE74eqSqt1NXXmnshJrLFubYJQtW3DfBcWOHeitI4pLk
- K56V4RK+QyN/fjAw==
+ bh=IAP7FkX1JVnezL77kxzxEXWT2eTEjUC/sl2nw3EC+vg=;
+ b=0QmNc7DXYayzAkauC2eJIUNgq0xP6xH+3wbwbNLsPkMJitncJ2GX5+AUQJFVCEHrWA99Z+
+ O64YvpRi+CxUPVDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DBCD13A6D;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B22513ADE;
  Thu, 12 Jun 2025 12:20:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GAAFBgTGSmhBdAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wIS6FATGSmhBdAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 12 Jun 2025 12:20:20 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona.vetter@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/9] drm/bridge: Include <linux/export.h>
-Date: Thu, 12 Jun 2025 14:09:57 +0200
-Message-ID: <20250612121633.229222-4-tzimmermann@suse.de>
+Subject: [PATCH 4/9] drm/client: Include <linux/export.h>
+Date: Thu, 12 Jun 2025 14:09:58 +0200
+Message-ID: <20250612121633.229222-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250612121633.229222-1-tzimmermann@suse.de>
 References: <20250612121633.229222-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 55FD7219B5
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_SHORT(-0.20)[-0.986]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+];
  FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email,linaro.org:email];
- FROM_EQ_ENVFROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -3.01
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,197 +118,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix compile-time warnings
+Fixes the compile-time warnings
 
-  drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/aux-bridge.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/aux-hpd-bridge.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/panel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/samsung-dsim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/drm_bridge.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-  drivers/gpu/drm/drm_bridge_helper.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/clients/drm_client_setup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_client.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_client_event.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_client_modeset.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_fb_helper.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_fbdev_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_fbdev_shmem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+  drivers/gpu/drm/drm_fbdev_ttm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c | 2 ++
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  | 1 +
- drivers/gpu/drm/bridge/aux-bridge.c                 | 1 +
- drivers/gpu/drm/bridge/aux-hpd-bridge.c             | 1 +
- drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c      | 2 ++
- drivers/gpu/drm/bridge/panel.c                      | 1 +
- drivers/gpu/drm/bridge/samsung-dsim.c               | 1 +
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c        | 1 +
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 1 +
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c       | 1 +
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c      | 1 +
- drivers/gpu/drm/drm_bridge.c                        | 1 +
- drivers/gpu/drm/drm_bridge_helper.c                 | 2 ++
- 13 files changed, 16 insertions(+)
+ drivers/gpu/drm/clients/drm_client_setup.c | 2 ++
+ drivers/gpu/drm/drm_client.c               | 1 +
+ drivers/gpu/drm/drm_client_event.c         | 1 +
+ drivers/gpu/drm/drm_client_modeset.c       | 2 ++
+ drivers/gpu/drm/drm_fb_helper.c            | 1 +
+ drivers/gpu/drm/drm_fbdev_dma.c            | 1 +
+ drivers/gpu/drm/drm_fbdev_shmem.c          | 1 +
+ drivers/gpu/drm/drm_fbdev_ttm.c            | 1 +
+ 8 files changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c b/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
-index b1e482994ffe..e8662168717d 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
-@@ -5,6 +5,8 @@
-  * Based on anx7808 driver obtained from chromeos with copyright:
-  * Copyright(c) 2013, Google Inc.
-  */
-+
-+#include <linux/export.h>
- #include <linux/regmap.h>
- 
- #include <drm/display/drm_dp_helper.h>
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 505eec6b819b..a1bc3e96dd35 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -9,6 +9,7 @@
- #include <linux/clk.h>
- #include <linux/component.h>
- #include <linux/err.h>
-+#include <linux/export.h>
- #include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
-index 5b219e3b87b1..b63304d3a80f 100644
---- a/drivers/gpu/drm/bridge/aux-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-bridge.c
-@@ -5,6 +5,7 @@
-  * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-  */
- #include <linux/auxiliary_bus.h>
-+#include <linux/export.h>
- #include <linux/module.h>
- #include <linux/of.h>
- 
-diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-index 3eb411f874e4..e579f947e15b 100644
---- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-@@ -5,6 +5,7 @@
-  * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-  */
- #include <linux/auxiliary_bus.h>
-+#include <linux/export.h>
- #include <linux/module.h>
- #include <linux/of.h>
- 
-diff --git a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-index 989bc497b050..0e31d5000e7c 100644
---- a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-+++ b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-@@ -5,6 +5,8 @@
-  * bridge driver for legacy DT bindings, utilizing display-timings node
-  */
+diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/drm/clients/drm_client_setup.c
+index e17265039ca8..aec2fab6d2bf 100644
+--- a/drivers/gpu/drm/clients/drm_client_setup.c
++++ b/drivers/gpu/drm/clients/drm_client_setup.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: MIT
  
 +#include <linux/export.h>
 +
- #include <drm/drm_bridge.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 6cbbfb1381a4..6361a943e213 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -5,6 +5,7 @@
+ #include <drm/clients/drm_client_setup.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index f7197a07c045..3fa38d4ac70b 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -3,6 +3,7 @@
+  * Copyright 2018 Noralf Trønnes
   */
  
- #include <linux/debugfs.h>
 +#include <linux/export.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 0014c497e3fe..f2f666b27d2d 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -14,6 +14,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/export.h>
- #include <linux/irq.h>
- #include <linux/media-bus-format.h>
- #include <linux/of.h>
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 94dddaf49b3c..7ade80f02a94 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -8,6 +8,7 @@
+ #include <linux/iosys-map.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+diff --git a/drivers/gpu/drm/drm_client_event.c b/drivers/gpu/drm/drm_client_event.c
+index bd93cd93d519..c83196ad8b59 100644
+--- a/drivers/gpu/drm/drm_client_event.c
++++ b/drivers/gpu/drm/drm_client_event.c
+@@ -3,6 +3,7 @@
+  * Copyright 2018 Noralf Trønnes
   */
- #include <linux/completion.h>
- #include <linux/hdmi.h>
-+#include <linux/export.h>
- #include <linux/i2c.h>
- #include <linux/irq.h>
- #include <linux/module.h>
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 8791408dd1ff..76c6570e2a85 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -9,6 +9,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/err.h>
-+#include <linux/export.h>
- #include <linux/hdmi.h>
- #include <linux/i2c.h>
- #include <linux/irq.h>
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index c0dc0f2976b9..8fc2e282ff11 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -11,6 +11,7 @@
- #include <linux/clk.h>
- #include <linux/component.h>
- #include <linux/debugfs.h>
-+#include <linux/export.h>
- #include <linux/iopoll.h>
- #include <linux/math64.h>
- #include <linux/media-bus-format.h>
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-index fc91aca95d12..5926a3a05d79 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-@@ -9,6 +9,7 @@
  
- #include <linux/bitfield.h>
- #include <linux/clk.h>
 +#include <linux/export.h>
- #include <linux/iopoll.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index bf34cc5ab031..d6ce7b4c019f 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -23,6 +23,7 @@
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 0f9d5ba36c81..9c2c3b0c8c47 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -8,6 +8,8 @@
+  */
  
- #include <linux/debugfs.h>
- #include <linux/err.h>
+ #include "drm/drm_modeset_lock.h"
++
 +#include <linux/export.h>
- #include <linux/media-bus-format.h>
  #include <linux/module.h>
  #include <linux/mutex.h>
-diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_bridge_helper.c
-index af80d2496194..420f29cf3e54 100644
---- a/drivers/gpu/drm/drm_bridge_helper.c
-+++ b/drivers/gpu/drm/drm_bridge_helper.c
-@@ -1,5 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
+ #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 937c3939e502..11a5b60cb9ce 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -30,6 +30,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/console.h>
++#include <linux/export.h>
+ #include <linux/pci.h>
+ #include <linux/sysrq.h>
+ #include <linux/vga_switcheroo.h>
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index 02a516e77192..8bd626ef16c7 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: MIT
  
 +#include <linux/export.h>
-+
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
+ #include <linux/fb.h>
+ #include <linux/vmalloc.h>
+ 
+diff --git a/drivers/gpu/drm/drm_fbdev_shmem.c b/drivers/gpu/drm/drm_fbdev_shmem.c
+index f824369baacd..1e827bf8b815 100644
+--- a/drivers/gpu/drm/drm_fbdev_shmem.c
++++ b/drivers/gpu/drm/drm_fbdev_shmem.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: MIT
+ 
++#include <linux/export.h>
+ #include <linux/fb.h>
+ 
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/drm_fbdev_ttm.c b/drivers/gpu/drm/drm_fbdev_ttm.c
+index 73d35d59590c..85feb55bba11 100644
+--- a/drivers/gpu/drm/drm_fbdev_ttm.c
++++ b/drivers/gpu/drm/drm_fbdev_ttm.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: MIT
+ 
++#include <linux/export.h>
+ #include <linux/moduleparam.h>
+ #include <linux/vmalloc.h>
+ 
 -- 
 2.49.0
 
