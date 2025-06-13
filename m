@@ -2,92 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49729AD8B57
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B504FAD8B63
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:56:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40FEB10E171;
-	Fri, 13 Jun 2025 11:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1918310E8EC;
+	Fri, 13 Jun 2025 11:56:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bnMCB8di";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="aH4jxm+h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0777810E171
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:55:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-451ebd3d149so13800055e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 04:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749815727; x=1750420527; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=xO4lHSnHfpkX9ey6V1hK+cOGeHbT22KfbfOMN9lyAQI=;
- b=bnMCB8diCIgU0dudYWTWSEzRusIi8FSq+ZqFPp49Dru1Xyhn/LremLzQQ8lwchw4hQ
- gBV0abtmSU3mjpVWX9N/KQp/upATPE23ABR/jBT/KwhshnYadaqTn68/cUrGa8hVS2qM
- dbfC9cuC/P62UTsDZG04YkkviiQUTJuKNBZ7nl0ugDIXLCTJQK2q0BcFHFx8N0x/sOTF
- wJl5hSyC3QBpxK2w7riIxkPkv2jH82j9audYn8j350jXH7BlqB2kGco3LYmry5xUvHWQ
- CNY17j0vK1BJ0v8hKotyhEU6po++MhcHxFgFsN/lHI7BQ5lImxBbGV+MZk25SVthUPlf
- cN6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749815727; x=1750420527;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xO4lHSnHfpkX9ey6V1hK+cOGeHbT22KfbfOMN9lyAQI=;
- b=Its+QEqm0FnkI5t/1V5we6U+55Mm1ZJRzSsTyZ91yjIgb4LjqQcQGf0nrtpOJTInR9
- /5SzxMt+0jjDGMe+aPPTKwb1OWnL5hjhjq30iTbNZoOxXQWaQhAtxlj7szN+OK5ELyjt
- SntKIC+NSWfwnwrOyQfNq7+JeHAPXMWWN1EMV1lk2EUgpCor9k/lODlZOJXPj4EIEXPU
- IY8HwNTLtQMcPz0iODd9XrI1zO2keeGER0BiOPXMEFXXl+uIPLmg99nfgkqRU6ZceucU
- OG/RTSWw/D7HzvZ0JHOQcM9dl88uCSbSUFpavEGxDx5pVu1Le3LI3V0OSxsfjmH1gZ2z
- eUJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsqMMCq3QgFbQ2wHzGAEi4msaCzSP1cMbXxCeouvTXpNdobXWFiMYa2U+HdIHdGazOaZIuAnsySDY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwG3svcMIO8xAPsVnckoNTia9UyyGqV5+Jc8Mx6U+q4VgQCIupC
- qzefb1kC80mlBzZjPonqIjZ66YO3ckolj94Pq1eTiC8KhRlGsItFoPC/
-X-Gm-Gg: ASbGnct1x+UzciVHiqXmlhjYCKXfWthjKXkk3ZG1s40Dmg/bfAD1Go+xUHuRvodpaJa
- Mwxh/lR/fq89PI/fv0ikNKvMWxikyM9gHKuxZEqW8CYkUZbv/QheJErKkkxWQrCx5jBYqUyUGy1
- zIhuJAquPkx6b+kHswU+/1ryi7M4EKniWAGHpuVmyYrCs1QzCk/AxVwtGBty2iEPv2RNhWpSAQg
- uwTOJH4yvdK8nlAakvP91Huiarw64bXE03KZE/OeYufT6+W914x7LfpqHq0bpZ9mjp4kaTegyHD
- OTpVj+EUihd1x42qy1gm83f839yfJUPc9wKH4Ng8c7g5B0fd+XYYFYK6P2zpFLu0DFNgrg==
-X-Google-Smtp-Source: AGHT+IF90CtrNYbBnmdORu8/pLVZKEnKFH8SYtwc5YbhuQ8Be6X/il+Uo2k5UArsErZqC0gE2pksjA==
-X-Received: by 2002:a05:600c:3d97:b0:43d:fa59:cc8f with SMTP id
- 5b1f17b1804b1-45334b07fe9mr26480615e9.33.1749815726197; 
- Fri, 13 Jun 2025 04:55:26 -0700 (PDT)
-Received: from fedora ([94.73.34.56]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4532e22460bsm52636405e9.6.2025.06.13.04.55.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jun 2025 04:55:25 -0700 (PDT)
-Date: Fri, 13 Jun 2025 13:55:22 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Greg KH <gregkh@linuxfoundation.org>, Jonathan.Cameron@huawei.com,
- airlied@gmail.com, aleksander.lobakin@intel.com,
- andriy.shevchenko@linux.intel.com, bhelgaas@google.com,
- broonie@kernel.org, dakr@kernel.org,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, louis.chauvet@bootlin.com,
- lukas@wunner.de, lyude@redhat.com,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, mripard@kernel.org, quic_zijuhu@quicinc.com,
- rafael@kernel.org, robin.murphy@arm.com,
- rust-for-linux@vger.kernel.org, simona@ffwll.ch
-Subject: Re: [PATCH v4 9/9] drm/vkms: convert to use faux_device
-Message-ID: <aEwRqrqn4M32ScxN@fedora>
-References: <2025022643-scouting-petticoat-492b@gregkh>
- <20250311172054.2903-1-jose.exposito89@gmail.com>
- <2025031218-oxidize-backing-e278@gregkh>
- <Z9LqHcj4n7Dd8A-H@phenom.ffwll.local> <Z9MT23hgX2c21xNA@fedora>
- <fa5f9e9c-09f6-4f92-8f6d-4e057f9fc5a9@suse.de>
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B04A510E8EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:56:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749815771; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Qv1KDSKHQdZ6+3yO0tCwx580stgqRhgdR1eWghXJTDZtyiGx7RQHmg1L90+x7dHKNUwKDNqx+eFdgx6RYh/AYMp9Hd6/27pdWg7IqAuYs0lzyer337Y71hFqHuHVoFnlqP34W+pf1C9z0iI+k+cvv6NHKnyWGS0qSKZPhBQZw+0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1749815771;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=VUFg/+2IDq4vwt7epwImt1imkzKgQYu7+Au2agn49Og=; 
+ b=eh3ccSCAwV97vjQ2Wejl6j0pAhdgnsSOVWSzjjy8ZrEXHKeNc2M5mwWWm9BIkwTb5cz/Oi6q9Pt2S/anS803yiwhmEvgBmc77wb+1bjaXFq9+vjYPiEdzk0l/AXNschpDBX4uZS71aQEx2bv7U3DuiycX8ICe4WjcYYKdPlDekg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749815771; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=VUFg/+2IDq4vwt7epwImt1imkzKgQYu7+Au2agn49Og=;
+ b=aH4jxm+h9P4jRdgkpNEEWbu91bORykVFmBm30jloQNEwnbBe+tfx0YNts1xmU4nB
+ yyLgKbYaNvsMh1bnLG0PRSriWUHXbglLceLmIP0DzHvvGJol854KtjsGEMC/EmaeY+t
+ zTbOAUKSO1OhthZ6RZXzgJskty9CPr9w578WrOX8=
+Received: by mx.zohomail.com with SMTPS id 17498157689161004.7727496495353;
+ Fri, 13 Jun 2025 04:56:08 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Tvrtko Ursulin <tursulin@igalia.com>
+Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
+Date: Fri, 13 Jun 2025 13:55:54 +0200
+Message-ID: <3683577.irdbgypaU6@workhorse>
+In-Reply-To: <5493fd6017de3f393f632125fad95945d1c4294c@intel.com>
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
+ <5493fd6017de3f393f632125fad95945d1c4294c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fa5f9e9c-09f6-4f92-8f6d-4e057f9fc5a9@suse.de>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,229 +101,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hello,
 
-Thanks for the heads up, this issue fall through the cracks.
-
-On Fri, Jun 13, 2025 at 10:15:05AM +0200, Thomas Zimmermann wrote:
-> Hi
+On Friday, 13 June 2025 10:51:15 Central European Summer Time Jani Nikula wrote:
+> On Thu, 12 Jun 2025, Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+> > Hardware of various vendors, but very notably Rockchip, often uses
+> > 32-bit registers where the upper 16-bit half of the register is a
+> > write-enable mask for the lower half.
+> >
+> > This type of hardware setup allows for more granular concurrent register
+> > write access.
+> >
+> > Over the years, many drivers have hand-rolled their own version of this
+> > macro, usually without any checks, often called something like
+> > HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
+> > semantics between them.
+> >
+> > Clearly there is a demand for such a macro, and thus the demand should
+> > be satisfied in a common header file.
+> >
+> > Add two macros: HWORD_UPDATE, and HWORD_UPDATE_CONST. The latter is a
+> > version that can be used in initializers, like FIELD_PREP_CONST. The
+> > macro names are chosen to not clash with any potential other macros that
+> > drivers may already have implemented themselves, while retaining a
+> > familiar name.
+> >
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  include/linux/bitfield.h | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 47 insertions(+)
+> >
+> > diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+> > index 6d9a53db54b66c0833973c880444bd289d9667b1..b90d88db7405f95b78cdd6f3426263086bab5aa6 100644
+> > --- a/include/linux/bitfield.h
+> > +++ b/include/linux/bitfield.h
+> > @@ -8,6 +8,7 @@
+> >  #define _LINUX_BITFIELD_H
+> >  
+> >  #include <linux/build_bug.h>
+> > +#include <linux/limits.h>
+> >  #include <linux/typecheck.h>
+> >  #include <asm/byteorder.h>
+> >  
+> > @@ -142,6 +143,52 @@
+> >  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+> >  	)
+> >  
+> > +/**
+> > + * HWORD_UPDATE() - prepare a bitfield element with a mask in the upper half
+> > + * @_mask: shifted mask defining the field's length and position
+> > + * @_val:  value to put in the field
+> > + *
+> > + * HWORD_UPDATE() masks and shifts up the value, as well as bitwise ORs the
+> > + * result with the mask shifted up by 16.
+> > + *
+> > + * This is useful for a common design of hardware registers where the upper
+> > + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> > + * register, a bit in the lower half is only updated if the corresponding bit
+> > + * in the upper half is high.
+> > + */
+> > +#define HWORD_UPDATE(_mask, _val)					 \
+> > +	({								 \
+> > +		__BF_FIELD_CHECK(_mask, ((u16) 0U), _val,		 \
+> > +				 "HWORD_UPDATE: ");			 \
+> > +		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask)) | \
+> > +		((_mask) << 16);					 \
+> > +	})
 > 
-> Am 13.03.25 um 18:20 schrieb José Expósito:
-> > On Thu, Mar 13, 2025 at 03:22:21PM +0100, Simona Vetter wrote:
-> > > On Wed, Mar 12, 2025 at 07:22:07AM +0100, Greg KH wrote:
-> > > > On Tue, Mar 11, 2025 at 06:20:53PM +0100, José Expósito wrote:
-> > > > > Hi everyone,
-> > > > > 
-> > > > > > On Tue, Feb 25, 2025 at 02:51:40PM +0100, Louis Chauvet wrote:
-> > > > > > > 
-> > > > > > > Le 25/02/2025 à 12:41, Thomas Zimmermann a écrit :
-> > > > > > > > Hi
-> > > > > > > > 
-> > > > > > > > Am 10.02.25 um 15:37 schrieb Louis Chauvet:
-> > > > > > > > > On 10/02/25 - 13:30, Greg Kroah-Hartman wrote:
-> > > > > > > > > > The vkms driver does not need to create a platform device, as there is
-> > > > > > > > > > no real platform resources associated it,  it only did so because it was
-> > > > > > > > > > simple to do that in order to get a device to use for resource
-> > > > > > > > > > management of drm resources.  Change the driver to use the faux device
-> > > > > > > > > > instead as this is NOT a real platform device.
-> > > > > > > > > > 
-> > > > > > > > > > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > > > > > > > > > Cc: Simona Vetter <simona@ffwll.ch>
-> > > > > > > > > > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > > > > > > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > > > > > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > > > > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > > > > > > Cc: David Airlie <airlied@gmail.com>
-> > > > > > > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > > > > > > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > > > > > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > > > > 
-> > > > > > > > > Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > > > > 
-> > > > > > > > > Thanks for the modification, it seems to work.
-> > > > > > > > Should this patch be merged through DRM trees? drm-misc-next is at
-> > > > > > > > v6.14-rc4 and has struct faux_device.
-> > > > > > > Hi,
-> > > > > > > 
-> > > > > > > I was not aware the faux-device was merged, as it is a new feature, I
-> > > > > > > expected it to reach drm-misc-next on 6.15-rc1.
-> > > > > > I added it to Linus's tree just so that DRM could get these changes into
-> > > > > > their tree now :)
-> > > > > > 
-> > > > > > > I plan to merge [1] today/tomorrow (well tested with platform_device), and
-> > > > > > > then I will submit an updated version of this patch (only trivial conflicts,
-> > > > > > > but never tested with multiple VKMS devices).
-> > > > > > > 
-> > > > > > > [1]:https://lore.kernel.org/all/20250218101214.5790-1-jose.exposito89@gmail.com/
-> > > > > > Great, thanks!
-> > > > > > 
-> > > > > > greg k-h
-> > > > > Testing this patch again as part of some IGT tests I'm working on,
-> > > > > I noticed that, applying this patch on top of the latest drm-misc-next
-> > > > > triggers a warning at drivers/gpu/drm/drm_gem.c:571, in
-> > > > > drm_gem_get_pages():
-> > > > > 
-> > > > >      if (WARN_ON(!obj->filp))
-> > > > >              return ERR_PTR(-EINVAL);
-> > > > I don't see how the faux bus change would have anything to do with a
-> > > > filp as that's not related as far as I can tell.  But I don't know the
-> > > > drm layer at all, where does that filp come from?
-> > > Yeah that filp is the shmem file that backs gem bo. That's very far away
-> > > from anything device/driver related datastrctures. If this is a new
-> > > failure due to the aux bux conversion then it would be really surprising.
-> > Agreed, I find it surprising, but reverting the patch removes the warning.
-> > 
-> > It's most likely an issue on my side, but I decided to double check just
-> > in case someone else is also seeing this warning.
+> i915 uses something like this for a few registers too, with the name
+> _MASKED_FIELD(). I think we could use it.
 > 
-> Any news on this issue?
-
-I tested again with drm-misc-next. At the moment of writing this, the last
-commit is 6bd90e700b42 ("drm/xe: Make dma-fences compliant with the safe
-access rules") and I still see a similar warning. The stack trace changed,
-but the warning is still present.
-
-I'm going to detail the exact steps I followed. Let's see if someone else is
-able to reproduce the issue:
-
-I started by applying the patches from this series that are not already merged:
-
- - [PATCH v4 4/9] x86/microcode: move away from using a fake platform
- - [PATCH v4 5/9] wifi: cfg80211: move away from using a fake
- - [PATCH v4 8/9] drm/vgem/vgem_drv convert to use faux_device
- - [PATCH v4 9/9] drm/vkms: convert to use faux_device
-
-The last patch has small conflict in vkms_drv.h that I solved like this:
-
-	struct vkms_device {
-		struct drm_device drm;
-		struct faux_device *faux_dev;
-		const struct vkms_config *config;
-	};
-
-And in vkms_drv.c:
-
-	static int vkms_create(struct vkms_config *config)
-	{
-		int ret;
-		struct faux_device *fdev;
-		struct vkms_device *vkms_device;
-		const char *dev_name;
-
-		dev_name = vkms_config_get_device_name(config);
-		fdev = faux_device_create(dev_name, NULL, NULL);
-		if (!fdev)
-			return -ENODEV;
-
-Next, I installed the new kernel in a QEMU virtual machine running Fedora 41.
-There is nothing special about my Fedora, it is the regular desktop version.
-
-After a reboot, "sudo modprobe vkms" shows a similar warning in dmesg.
-For reference, the warning is at the end of my email.
-
-Am I the only one sawing this warning?
-
-Jose
-
----
-
-[   69.417850] [drm] Initialized vkms 1.0.0 for vkms on minor 1
-[   69.419446] faux_driver vkms: [drm] fb1: vkmsdrmfb frame buffer device
-[   69.520944] ------------[ cut here ]------------
-[   69.520954] WARNING: CPU: 2 PID: 1015 at drivers/dma-buf/dma-buf.c:1518 dma_buf_vmap+0x212/0x540
-[   69.520992] Modules linked in: vkms snd_seq_dummy snd_hrtimer snd_seq snd_seq_device snd_timer snd soundcore nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables rfkill qrtr sunrpc binfmt_misc ppdev pktcdvd parport_pc parport pcspkr i2c_piix4 e1000 i2c_smbus joydev loop nfnetlink vsock_loopback zram vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vmw_vmci vsock bochs serio_raw ata_generic pata_acpi fuse qemu_fw_cfg
-[   69.521082] CPU: 2 UID: 42 PID: 1015 Comm: KMS thread Not tainted 6.16.0-rc1+ #3 PREEMPT(voluntary) 
-[   69.521092] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-4.fc42 04/01/2014
-[   69.521095] RIP: 0010:dma_buf_vmap+0x212/0x540
-[   69.521105] Code: 7c 41 ff 03 0f 85 0a 02 00 00 c9 e9 c8 47 0c 01 80 3c 06 00 0f 85 c4 01 00 00 48 c7 01 00 00 00 00 48 85 d2 0f 85 bd fe ff ff <0f> 0b b8 ea ff ff ff eb af 48 85 f6 0f 85 cf 01 00 00 48 89 4c 24
-[   69.521112] RSP: 0018:ffffc90006a5f690 EFLAGS: 00010246
-[   69.521125] RAX: dffffc0000000000 RBX: 1ffff92000d4beea RCX: ffff88811467dcc8
-[   69.521128] RDX: 0000000000000000 RSI: 1ffff110228cfb99 RDI: ffff88811467dcd0
-[   69.521131] RBP: ffffc90006a5f728 R08: 1ffff92000d4bed9 R09: fffff52000d4bef1
-[   69.521162] R10: fffff52000d4bef2 R11: ffff8881017f4e28 R12: ffff8881149594f0
-[   69.521165] R13: ffff888114959400 R14: 1ffff11023146b29 R15: ffff88811467dcc8
-[   69.521168] FS:  00007fbbdd1ff6c0(0000) GS:ffff888417580000(0000) knlGS:0000000000000000
-[   69.521172] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   69.521174] CR2: 00007fbbcc0345c8 CR3: 000000011ec5a000 CR4: 00000000000006f0
-[   69.521179] Call Trace:
-[   69.521182]  <TASK>
-[   69.521185]  ? __pfx_dma_buf_vmap+0x10/0x10
-[   69.521193]  ? dma_resv_get_singleton+0x9a/0x2a0
-[   69.521197]  drm_gem_shmem_vmap_locked+0xc2/0x5f0
-[   69.521208]  ? __pfx_drm_gem_shmem_vmap_locked+0x10/0x10
-[   69.521212]  ? __pfx_ww_mutex_lock+0x10/0x10
-[   69.521225]  ? sched_clock_noinstr+0xd/0x20
-[   69.521230]  ? local_clock_noinstr+0x13/0xf0
-[   69.521233]  drm_gem_shmem_object_vmap+0xd/0x20
-[   69.521237]  drm_gem_vmap_locked+0x70/0xf0
-[   69.521247]  drm_gem_vmap+0x4c/0xa0
-[   69.521250]  drm_gem_fb_vmap+0xb2/0x3b0
-[   69.521255]  vkms_prepare_fb+0x6f/0x90 [vkms]
-[   69.521264]  ? drm_atomic_helper_setup_commit+0xb7b/0x1320
-[   69.521268]  drm_atomic_helper_prepare_planes+0x19f/0xb90
-[   69.521272]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
-[   69.521276]  drm_atomic_helper_commit+0x126/0x2d0
-[   69.521279]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
-[   69.521282]  drm_atomic_commit+0x205/0x2d0
-[   69.521290]  ? _raw_spin_lock_irqsave+0x97/0xf0
-[   69.521295]  ? __pfx_drm_atomic_commit+0x10/0x10
-[   69.521299]  ? __pfx___drm_printfn_info+0x10/0x10
-[   69.521313]  ? drm_event_reserve_init+0x1cd/0x260
-[   69.521318]  drm_mode_atomic_ioctl+0x1c79/0x2d30
-[   69.521323]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-[   69.521326]  ? __kasan_check_write+0x18/0x20
-[   69.521339]  drm_ioctl_kernel+0x17b/0x2f0
-[   69.521343]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-[   69.521349]  ? __pfx_drm_ioctl_kernel+0x10/0x10
-[   69.521353]  ? __pfx_do_vfs_ioctl+0x10/0x10
-[   69.521361]  ? __kasan_check_write+0x18/0x20
-[   69.521365]  drm_ioctl+0x51b/0xbd0
-[   69.521369]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-[   69.521373]  ? __pfx_drm_ioctl+0x10/0x10
-[   69.521378]  ? selinux_file_ioctl+0xfc/0x260
-[   69.521390]  __x64_sys_ioctl+0x143/0x1d0
-[   69.521394]  x64_sys_call+0xf4b/0x1d70
-[   69.521404]  do_syscall_64+0x82/0x2a0
-[   69.521408]  ? __kasan_check_write+0x18/0x20
-[   69.521411]  ? do_user_addr_fault+0x491/0xa60
-[   69.521420]  ? irqentry_exit+0x3f/0x50
-[   69.521423]  ? exc_page_fault+0x8b/0xe0
-[   69.521426]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[   69.521430] RIP: 0033:0x7fbc078fd8ed
-[   69.521441] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-[   69.521444] RSP: 002b:00007fbbdd1fd9b0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[   69.521449] RAX: ffffffffffffffda RBX: 00007fbbcc02af60 RCX: 00007fbc078fd8ed
-[   69.521452] RDX: 00007fbbdd1fda50 RSI: 00000000c03864bc RDI: 0000000000000035
-[   69.521455] RBP: 00007fbbdd1fda00 R08: 00000000000000e0 R09: 0000000000000001
-[   69.521457] R10: 0000000000000003 R11: 0000000000000246 R12: 00007fbbdd1fda50
-[   69.521459] R13: 00000000c03864bc R14: 0000000000000035 R15: 00007fbbcc02acf0
-[   69.521464]  </TASK>
-[   69.521466] ---[ end trace 0000000000000000 ]---
-
-
-
-> Best regards
-> Thomas
+> I do think this is clearly an extension of FIELD_PREP(), though, and
+> should be be named similarly, instead of the completely deviating
+> HWORD_UPDATE().
 > 
-> > 
-> > Jose
-> > 
-> > > -Sima
-> > > 
-> > > -- 
-> > > Simona Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+> Also, we recently got GENMASK() versions with sizes, GENMASK_U16()
+> etc. so I find it inconsistent to denote size here with HWORD.
 > 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+> FIELD_PREP_MASKED_U16? MASKED_FIELD_PREP_U16? Something along those
+> lines?
+
+Yeah, I agree the name could be better. I used HWORD_UPDATE as Yury and
+I couldn't come up with a name we liked either, and Yury suggested not
+breaking from what's already there too much. I do think making the name
+more field-adjacent would be good though, as well as somehow indicating
+that it is 16 bits of data.
+
 > 
+> And perhaps that (and more potential users) could persuade Jakub that
+> this is not that weird after all?
+
+I will operate under the assumption that Jakub's opinion will not change
+as he ignored the commit message that talks about multiple vendors,
+ignored the cover letter that talks about multiple vendors, and ignored
+my e-mail where I once again made it clear to him that it's multiple
+vendors, and still claims it's a Rockchip specific convention.
+
+> 
+> 
+> BR,
+> Jani.
+> 
+
+Best Regards,
+Nicolas Frattaroli
+
+> 
+> 
+> 
+> > +
+> > +/**
+> > + * HWORD_UPDATE_CONST() - prepare a constant bitfield element with a mask in
+> > + *                        the upper half
+> > + * @_mask: shifted mask defining the field's length and position
+> > + * @_val:  value to put in the field
+> > + *
+> > + * HWORD_UPDATE_CONST() masks and shifts up the value, as well as bitwise ORs
+> > + * the result with the mask shifted up by 16.
+> > + *
+> > + * This is useful for a common design of hardware registers where the upper
+> > + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> > + * register, a bit in the lower half is only updated if the corresponding bit
+> > + * in the upper half is high.
+> > + *
+> > + * Unlike HWORD_UPDATE(), this is a constant expression and can therefore
+> > + * be used in initializers. Error checking is less comfortable for this
+> > + * version.
+> > + */
+> > +#define HWORD_UPDATE_CONST(_mask, _val)					  \
+> > +	(								  \
+> > +		FIELD_PREP_CONST(_mask, _val) |				  \
+> > +		(BUILD_BUG_ON_ZERO(const_true((u64) (_mask) > U16_MAX)) + \
+> > +		 ((_mask) << 16))					  \
+> > +	)
+> > +
+> >  /**
+> >   * FIELD_GET() - extract a bitfield element
+> >   * @_mask: shifted mask defining the field's length and position
+> 
+> 
+
+
+
+
