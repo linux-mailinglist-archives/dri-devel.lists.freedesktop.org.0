@@ -2,114 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1FFEAD8FCD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F093AAD9012
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB58710E088;
-	Fri, 13 Jun 2025 14:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B2810E023;
+	Fri, 13 Jun 2025 14:50:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pay6qyGV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oGmgGwZX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03ACF10E088
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55DAv5Ve029603
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=f8LvzWRSramzprfrBFvO2s+C1Hm+tEbtLlK
- RSfKO3eY=; b=pay6qyGVBWCIHRDWXvnRM8KGHFLmvqXlScGFJW1m0kP6ycHs2uS
- 12j1vP2HUfI22Sr7degxe/C8v4R6fxxYhLv57pLOoCbayh9KEayLx7+NK7O6hgL9
- GH+9vx7+SGAgNh/saaT/p5Mp/MKWG+EyfGDn420awxfDOvJssKc2T8S4x582lllJ
- gq1YxzsYSN/h2RX9lAiWznmrGMSyuzMbADosqAZFJ0+CCue9LRI671oLRcPz7/0n
- EeQHxpoK7V1diHe/VDtMgNat+5fbczjHOaiQZoEU1dGPr0i13bLtFLbYckKQ8Ce3
- XrhamGf/gXNpoNmmdyQ98akCJ6PWmTBC1wQ==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474d12bq34-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b2c36d3f884so1571603a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 07:41:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749825711; x=1750430511;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f8LvzWRSramzprfrBFvO2s+C1Hm+tEbtLlKRSfKO3eY=;
- b=s+QP6KefxzLQyzSqQd1q9Fx+pa8bYqPxwjdWSq5lPKDqCQG4AwT36JqxAUCgE0JE/7
- OVZrwkIJtETtaZFa/xoYfZDbiFsZVlBv+LWINKJkNhLIFbxQPcbj+Q7sK1e9fIbKxyiP
- vLFdRV4FenEZmeEI93fjChSy0GkdBYbsVTRSoQ7W5S74FnvWuBO1MGsxVH3C7VCiPhlq
- tmGNfJE3v0RQfODRay3p/wbkduUz8R59ud1lT+q/RlCc/nCTPLdPfdPe35T+jJi4ZaIM
- 1FiSS9ZeDhoHKtrYUCgCPkd+cfv335YrbhzRPiGinkFW9TDK9+Kh3lU76GdS+l5ecylZ
- ZAdA==
-X-Gm-Message-State: AOJu0YzvQX9qDWx/2DRiPSjLEk2XwH2FDYjFZqaC4P85kjdqkegmrZ2b
- ndMjd3sxzQC9x/jOrTOyHtSpXE13Vd/o8dIL2XuzHo0auh3nGQuGB1Y42xWCtC6nupDI7HHSXBN
- 2muSGcXhyhfamewgsAb8MvHfXE8+Ocn/DLHO330POa7WaotjGqGHUiq/Sj2npvIk13BRWM7QjWy
- J+6UQ=
-X-Gm-Gg: ASbGnctqnrSvja2s2vT9RqYT9GYVKCEbg7J6cs7flzbSd31+Va87OC+JR5LA3LsK8mt
- hGCoGttLLCafCy594VlokareEgnT6VQYXgsKGy4VLhjgvKMQTtEf0QFOa69DWoirsJKMM7dNIG8
- Kv1amFpqui+8J5RvPURJKF3tJQaBrdSZLxRFuMm1dbImt/j+LVrBUPmajs4Vk7hKvysvA0CW0sU
- 1h3pTkZcY/OTuYIyz6SxcVP/523ctYLdQFIIKhG8aE3pwraw54vkZDKonMH4l9EE+OVPBbLi1cB
- GxfNkTgoQN1pVKdtMEToehxRG8kzojBI
-X-Received: by 2002:a05:6a20:748c:b0:21f:a883:d1dd with SMTP id
- adf61e73a8af0-21facbdebf9mr4553243637.14.1749825710757; 
- Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7GnAOt+z7rv+BSeU7ZHDxFM735EmwOZ4MxONhEpinIvFL7k6YOrMe2Cgq92R1/zv8XQne8A==
-X-Received: by 2002:a05:6a20:748c:b0:21f:a883:d1dd with SMTP id
- adf61e73a8af0-21facbdebf9mr4553202637.14.1749825710353; 
- Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b2fe1680c5fsm1775491a12.49.2025.06.13.07.41.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BAFF10E023
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:50:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 624FCA5122E;
+ Fri, 13 Jun 2025 14:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEFC8C4CEE3;
+ Fri, 13 Jun 2025 14:50:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749826233;
+ bh=OlRopdYLDUoNVdHwF3fU+isFYmHdsc+z5amQ4RVgeNg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oGmgGwZXscmyx2ihXtkgl2GFnwJogGCLCfKTK/Z219aSWrn0JPgnOjQzQ5y/N8L1t
+ /t9ZVElu8ZH+S13mrFE5hcxjbkYWQimDzEKt6pH7WmZnvDCnf4iXHsnDl6oyei53Sl
+ NgywzItZQcw6wYuoPR5PkS93/PyIjFYB7SGvHSgolfbfdL17YNy7T3+PspNW2Y2IiO
+ xeHApnjZuMBEfpn/s60R13xyhZodxlaSYQK0q05cvdOOPsGpauZlNGOqdC38oNb84n
+ 0Uy0XaKkBAVMwnkyFNwI77C8D3Lh0fY7BzUWJhZ8diIXLFTYqi7Uvb6IgsDakJ5fyW
+ k6kwboJz8vjkA==
+Date: Fri, 13 Jun 2025 15:50:26 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm: Fix inverted WARN_ON() logic
-Date: Fri, 13 Jun 2025 07:41:44 -0700
-Message-ID: <20250613144144.27945-1-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.49.0
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v6 10/10] drm/bridge: adv7511: switch to the HDMI
+ connector helpers
+Message-ID: <4087f96c-a98e-4df2-b128-3f529d158ef8@sirena.org.uk>
+References: <20250517-drm-hdmi-connector-cec-v6-0-35651db6f19b@oss.qualcomm.com>
+ <20250517-drm-hdmi-connector-cec-v6-10-35651db6f19b@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: MPFatgwKBjpnRhr4yo_oiYkeGF7mvauF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDEwNiBTYWx0ZWRfX0gAz+2QGBPZs
- 5yPt06WQcjhjtuXeYizZahjKDj59Pj5MgHWcVGHLwpHTD6prTgmWkAQ3e4mj4nHbXgN4wCeE46w
- Yj7Z/RV2CDxZYhesAUXsoeT0LygyEoU6mU5IjTwhxAiin1FDDHIE0Vz5vsmC6HGEkFSrITxhByl
- DsiLpqQarDmOy1R2fVSPdLxRCU074GvN7/fEIb2zMrmTFoIz3MTJqAm7GDtrW7O6R7VwymCC+Xh
- /qYsyrnhZZTQNsJ7jXUY2i0NbgjcAcJIpkfh9jUc8CikCDCQ1Ht121swi0IIKN6lZD3nZl39pcN
- mqt062Tk4uZYRfuZpQVjqFhloM8uig0BmVxmKd/TcTqQLOU40OcnXzx6Gkgc+zkaYGe+BI/DavJ
- yBAun7Wwaquq/sMJbuIcoftyD7HD5qzsiNH4SCH+wvUGcvsQt1Ex1WkFBG0deYC5cQ/CAn4x
-X-Authority-Analysis: v=2.4 cv=GYkXnRXL c=1 sm=1 tr=0 ts=684c38b0 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=4MAclHcQAAAA:8 a=r-1N9bTl5XODNADl1y4A:9
- a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22 a=6vtlOZhwcO7ZS_iRoh4Z:22
-X-Proofpoint-ORIG-GUID: MPFatgwKBjpnRhr4yo_oiYkeGF7mvauF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-13_01,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 clxscore=1015 malwarescore=0 priorityscore=1501 mlxscore=0
- adultscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506130106
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="MnfbWetuNtj2sm0x"
+Content-Disposition: inline
+In-Reply-To: <20250517-drm-hdmi-connector-cec-v6-10-35651db6f19b@oss.qualcomm.com>
+X-Cookie: Chess tonight.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,29 +72,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want to WARN_ON() if info is NULL.
 
-Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Fixes: 0838fc3e6718 ("drm/msm/adreno: Check for recognized GPU before bind")
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--MnfbWetuNtj2sm0x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 0d12454b1f2e..5c52d392427f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -217,7 +217,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 
- 	info = adreno_info(config.chip_id);
- 	/* We shouldn't have gotten this far if we don't recognize the GPU: */
--	if (!WARN_ON(info))
-+	if (WARN_ON(!info))
- 		return -ENXIO;
- 
- 	config.info = info;
--- 
-2.49.0
+On Sat, May 17, 2025 at 04:59:46AM +0300, Dmitry Baryshkov wrote:
+> Rewrite the ADV7511 driver to use implementation provided by the DRM
+> HDMI connector framework, including the Audio and CEC bits. Drop the
+> in-bridge connector support and use drm_bridge_connector if the host
+> requires the connector to be provided by the bridge.
 
+In -next I'm seeing 96kHz playback to stop working in the ALSA pcm-test
+program on the avenger96 board:
+
+# # default.time7.STM32AV96HDMI.0.0.PLAYBACK - 96kHz stereo large periods
+# ok 7 # SKIP default.time7.STM32AV96HDMI.0.0.PLAYBACK
+# # rate mismatch 96000 !=3D 48000
+
+Previously the test passed.  There's also a lot of log spam introduced
+due to ELD not being available (nothing is plugged into the port on the
+board so this is correct, although I'm not sure the amount of logging is
+justified):
+
+[   67.091889] hdmi-audio-codec hdmi-audio-codec.1.auto: HDMI: Unknown ELD =
+version 0
+
+which I imagine is what's triggering the failure for 96kHz.  I didn't
+check into things but I'm guessing the drm_bridge_connector has more
+restrictive defaults than the in driver one and blocks 96kHz, I can't
+see any reference to sample rates in the deleted code.
+
+Full log:
+
+   https://lava.sirena.org.uk/scheduler/job/1473785#L1435
+
+A bisection points at this patch:
+
+# bad: [bc6e0ba6c9bafa6241b05524b9829808056ac4ad] Add linux-next specific f=
+iles for 20250613
+# good: [afc47587aec9fbefabca94da7225f371d1f24ca5] Merge branch 'for-linux-=
+next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+# good: [2555a0fa42828dae32650b1234089d34297601cc] Merge branch 'main' of g=
+it://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+# good: [8a5a5cecb79058b608e5562d8998123a3adb313c] ASoC: tas2781: Move the =
+"include linux/debugfs.h" into tas2781.h
+# good: [a4eb71ff98c4792f441f108910bd829da7a04092] regulator: rpi-panel-v2:=
+ Fix missing OF dependency
+# good: [6cafcc53eb5fffd9b9bdfde700bb9bad21e98ed3] spi: spi-mt65xx: Add sup=
+port for MT6991 Dimensity 9400 SPI IPM
+# good: [7e10d7242ea8a5947878880b912ffa5806520705] ASoC: ops: dynamically a=
+llocate struct snd_ctl_elem_value
+# good: [d6fa0ca959db8efd4462d7beef4bdc5568640fd0] regulator: rpi-panel-v2:=
+ Add missing GPIOLIB dependency
+# good: [d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b4] regulator: rpi-panel-v2:=
+ Add regulator for 7" Raspberry Pi 720x1280
+# good: [6ba68e5aa9d5d15c8877a655db279fcfc0b38b04] ASoC: renesas: msiof: Co=
+nvert to <linux/spi/sh_msiof.h>
+# good: [1f5cdb6ab45e1c06ae0953609acbb52f8946b3e8] ASoC: codecs: Add suppor=
+t for Richtek RTQ9124
+# good: [c459262159f39e6e6336797feb975799344b749b] spi: spi-pci1xxxx: Add s=
+upport for 25MHz Clock frequency in C0
+# good: [548d770c330cd1027549947a6ea899c56b5bc4e4] regulator: pca9450: Add =
+support for mode operations
+# good: [03b778d1994827ea5cc971dbdfbb457bbb7bfa5d] ASOC: rockchip: Use help=
+er function devm_clk_get_enabled()
+# good: [267be32b0a7b70cc777f8a46f0904c92c0521d89] ASoC: remove component->=
+id
+# good: [f6f914893d478b7ba08e5c375de1ced16deb5e92] ASoC: dt-bindings: tas57=
+xx: add tas5753 compatibility
+# good: [111a2c8ab462d77d1519b71b46f13ae1b46920b4] ASoC: imx-card: Use help=
+er function for_each_child_of_node_scoped()
+# good: [c95e925daa434ee1a40a86aec6476ce588e4bd77] ASoC: Intel: avs: Add rt=
+5640 machine board
+# good: [3461a688e79ffc37c08b19015c90239025facd88] crypto: testmgr - remove=
+ crc32c context format test
+# good: [9a30e332c36c52e92e5316b4a012d45284dedeb5] spi: spi-fsl-dspi: Enabl=
+e support for S32G platforms
+# good: [4965ef7ec15fd4b8f6f6bfb0f206e406ffdb6f6c] crypto: stm32 - remove c=
+rc32 and crc32c support
+# good: [ac209bde018fd320b79976657a44c23113181af6] ASoC: tas2781: Drop the =
+unnecessary symbol imply
+# good: [ece5d881004f041c2e1493436409dbcbea3ad5f8] ASoC: codecs: wcd939x: D=
+rop unused 'struct wcd939x_priv' fields
+# good: [b9ecde0bcf6a99a3ff08496d4ba90a385ebbfd68] ASoC: codecs: wcd939x: A=
+dd VDD_PX supply
+# good: [38903b792f65461c3ad1a10b07489e185be39123] crypto: inside-secure - =
+remove crc32 support
+# good: [e6e8897995a9e6028563ce36c27877e5478c8571] ASoC: qcom: sm8250: Add =
+Fairphone 5 soundcard compatible
+# good: [c8c4694ede7ed42d8d4db0e8927dea9839a3e248] regmap: kunit: Constify =
+regmap_range_cfg array
+# good: [7e17e80c3a7eb2734795f66ba946f933412d597f] Merge branch 'for-6.14/s=
+tack-order' into for-next
+git bisect start 'bc6e0ba6c9bafa6241b05524b9829808056ac4ad' 'afc47587aec9fb=
+efabca94da7225f371d1f24ca5' '2555a0fa42828dae32650b1234089d34297601cc' '8a5=
+a5cecb79058b608e5562d8998123a3adb313c' 'a4eb71ff98c4792f441f108910bd829da7a=
+04092' '6cafcc53eb5fffd9b9bdfde700bb9bad21e98ed3' '7e10d7242ea8a5947878880b=
+912ffa5806520705' 'd6fa0ca959db8efd4462d7beef4bdc5568640fd0' 'd49305862fdc4=
+d9ff1b1093b4ed7d8e0cb9971b4' '6ba68e5aa9d5d15c8877a655db279fcfc0b38b04' '1f=
+5cdb6ab45e1c06ae0953609acbb52f8946b3e8' 'c459262159f39e6e6336797feb97579934=
+4b749b' '548d770c330cd1027549947a6ea899c56b5bc4e4' '03b778d1994827ea5cc971d=
+bdfbb457bbb7bfa5d' '267be32b0a7b70cc777f8a46f0904c92c0521d89' 'f6f914893d47=
+8b7ba08e5c375de1ced16deb5e92' '111a2c8ab462d77d1519b71b46f13ae1b46920b4' 'c=
+95e925daa434ee1a40a86aec6476ce588e4bd77' '3461a688e79ffc37c08b19015c9023902=
+5facd88' '9a30e332c36c52e92e5316b4a012d45284dedeb5' '4965ef7ec15fd4b8f6f6bf=
+b0f206e406ffdb6f6c' 'ac209bde018fd320b79976657a44c23113181af6' 'ece5d881004=
+f041c2e1493436409dbcbea3ad5f8' 'b9ecde0bcf6a99a3ff08496d4ba90a385ebbfd68' '=
+38903b792f65461c3ad1a10b07489e185be39123' 'e6e8897995a9e6028563ce36c27877e5=
+478c8571' 'c8c4694ede7ed42d8d4db0e8927dea9839a3e248' '7e17e80c3a7eb2734795f=
+66ba946f933412d597f'
+# test job: [2555a0fa42828dae32650b1234089d34297601cc] https://lava.sirena.=
+org.uk/scheduler/job/1473852
+# test job: [8a5a5cecb79058b608e5562d8998123a3adb313c] https://lava.sirena.=
+org.uk/scheduler/job/1471730
+# test job: [a4eb71ff98c4792f441f108910bd829da7a04092] https://lava.sirena.=
+org.uk/scheduler/job/1468970
+# test job: [6cafcc53eb5fffd9b9bdfde700bb9bad21e98ed3] https://lava.sirena.=
+org.uk/scheduler/job/1468826
+# test job: [7e10d7242ea8a5947878880b912ffa5806520705] https://lava.sirena.=
+org.uk/scheduler/job/1465979
+# test job: [d6fa0ca959db8efd4462d7beef4bdc5568640fd0] https://lava.sirena.=
+org.uk/scheduler/job/1464722
+# test job: [d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b4] https://lava.sirena.=
+org.uk/scheduler/job/1463087
+# test job: [6ba68e5aa9d5d15c8877a655db279fcfc0b38b04] https://lava.sirena.=
+org.uk/scheduler/job/1463358
+# test job: [1f5cdb6ab45e1c06ae0953609acbb52f8946b3e8] https://lava.sirena.=
+org.uk/scheduler/job/1462946
+# test job: [c459262159f39e6e6336797feb975799344b749b] https://lava.sirena.=
+org.uk/scheduler/job/1460673
+# test job: [548d770c330cd1027549947a6ea899c56b5bc4e4] https://lava.sirena.=
+org.uk/scheduler/job/1460099
+# test job: [03b778d1994827ea5cc971dbdfbb457bbb7bfa5d] https://lava.sirena.=
+org.uk/scheduler/job/1460832
+# test job: [267be32b0a7b70cc777f8a46f0904c92c0521d89] https://lava.sirena.=
+org.uk/scheduler/job/1460282
+# test job: [f6f914893d478b7ba08e5c375de1ced16deb5e92] https://lava.sirena.=
+org.uk/scheduler/job/1460225
+# test job: [111a2c8ab462d77d1519b71b46f13ae1b46920b4] https://lava.sirena.=
+org.uk/scheduler/job/1461355
+# test job: [c95e925daa434ee1a40a86aec6476ce588e4bd77] https://lava.sirena.=
+org.uk/scheduler/job/1460941
+# test job: [3461a688e79ffc37c08b19015c90239025facd88] https://lava.sirena.=
+org.uk/scheduler/job/1467196
+# test job: [9a30e332c36c52e92e5316b4a012d45284dedeb5] https://lava.sirena.=
+org.uk/scheduler/job/1461782
+# test job: [4965ef7ec15fd4b8f6f6bfb0f206e406ffdb6f6c] https://lava.sirena.=
+org.uk/scheduler/job/1467179
+# test job: [ac209bde018fd320b79976657a44c23113181af6] https://lava.sirena.=
+org.uk/scheduler/job/1460722
+# test job: [ece5d881004f041c2e1493436409dbcbea3ad5f8] https://lava.sirena.=
+org.uk/scheduler/job/1460323
+# test job: [b9ecde0bcf6a99a3ff08496d4ba90a385ebbfd68] https://lava.sirena.=
+org.uk/scheduler/job/1460237
+# test job: [38903b792f65461c3ad1a10b07489e185be39123] https://lava.sirena.=
+org.uk/scheduler/job/1467291
+# test job: [e6e8897995a9e6028563ce36c27877e5478c8571] https://lava.sirena.=
+org.uk/scheduler/job/1460745
+# test job: [c8c4694ede7ed42d8d4db0e8927dea9839a3e248] https://lava.sirena.=
+org.uk/scheduler/job/1461037
+# test job: [7e17e80c3a7eb2734795f66ba946f933412d597f] https://lava.sirena.=
+org.uk/scheduler/job/1466743
+# test job: [bc6e0ba6c9bafa6241b05524b9829808056ac4ad] https://lava.sirena.=
+org.uk/scheduler/job/1473785
+# bad: [bc6e0ba6c9bafa6241b05524b9829808056ac4ad] Add linux-next specific f=
+iles for 20250613
+git bisect bad bc6e0ba6c9bafa6241b05524b9829808056ac4ad
+# test job: [bbd6649089ac4a8f80ee112f6ac3d08f01a8a717] https://lava.sirena.=
+org.uk/scheduler/job/1474393
+# bad: [bbd6649089ac4a8f80ee112f6ac3d08f01a8a717] Merge branch 'for-linux-n=
+ext' of https://gitlab.freedesktop.org/drm/i915/kernel
+git bisect bad bbd6649089ac4a8f80ee112f6ac3d08f01a8a717
+# test job: [c5b4393c5492555e35c08677a326c9c53b275abd] https://lava.sirena.=
+org.uk/scheduler/job/1474545
+# bad: [c5b4393c5492555e35c08677a326c9c53b275abd] drm/file: add client id t=
+o drm_file_error
+git bisect bad c5b4393c5492555e35c08677a326c9c53b275abd
+# test job: [33a46dab18c92da612778b115a600578fa4d42e1] https://lava.sirena.=
+org.uk/scheduler/job/1474646
+# bad: [33a46dab18c92da612778b115a600578fa4d42e1] drm/xe: Fix NPD when savi=
+ng default context
+git bisect bad 33a46dab18c92da612778b115a600578fa4d42e1
+# test job: [3f08c356b881d3d6302de207a98ceec1c511159e] https://lava.sirena.=
+org.uk/scheduler/job/1474667
+# bad: [3f08c356b881d3d6302de207a98ceec1c511159e] panel/novatek-nt35510: Us=
+e refcounted allocation in place of devm_kzalloc()
+git bisect bad 3f08c356b881d3d6302de207a98ceec1c511159e
+# test job: [cb8d4323302c7ad6b8baa1f5ca29f6186b30f316] https://lava.sirena.=
+org.uk/scheduler/job/1474692
+# good: [cb8d4323302c7ad6b8baa1f5ca29f6186b30f316] dt-bindings: display: ti=
+,am65x-dss: Add support for AM62L DSS
+git bisect good cb8d4323302c7ad6b8baa1f5ca29f6186b30f316
+# test job: [c53c3e87aeb7fc288dcb9dbdb22451e8721771e1] https://lava.sirena.=
+org.uk/scheduler/job/1474709
+# bad: [c53c3e87aeb7fc288dcb9dbdb22451e8721771e1] panel/himax-hx8394: Use r=
+efcounted allocation in place of devm_kzalloc()
+git bisect bad c53c3e87aeb7fc288dcb9dbdb22451e8721771e1
+# test job: [8b1a8f8b2002d31136d83e4d730b4cb41e9ee868] https://lava.sirena.=
+org.uk/scheduler/job/1474722
+# good: [8b1a8f8b2002d31136d83e4d730b4cb41e9ee868] drm/display: add CEC hel=
+pers code
+git bisect good 8b1a8f8b2002d31136d83e4d730b4cb41e9ee868
+# test job: [ae01d3183d2763ed27ab71f4ef5402b683d9ad8a] https://lava.sirena.=
+org.uk/scheduler/job/1474737
+# bad: [ae01d3183d2763ed27ab71f4ef5402b683d9ad8a] drm/bridge: adv7511: swit=
+ch to the HDMI connector helpers
+git bisect bad ae01d3183d2763ed27ab71f4ef5402b683d9ad8a
+# test job: [65a2575a68e4ff03ba887b5aef679fc95405fcd2] https://lava.sirena.=
+org.uk/scheduler/job/1474761
+# good: [65a2575a68e4ff03ba887b5aef679fc95405fcd2] drm/display: bridge-conn=
+ector: hook in CEC notifier support
+git bisect good 65a2575a68e4ff03ba887b5aef679fc95405fcd2
+# test job: [a74288c8ded7c34624e50b4aa8ca37ae6cc03df4] https://lava.sirena.=
+org.uk/scheduler/job/1474772
+# good: [a74288c8ded7c34624e50b4aa8ca37ae6cc03df4] drm/display: bridge-conn=
+ector: handle CEC adapters
+git bisect good a74288c8ded7c34624e50b4aa8ca37ae6cc03df4
+# first bad commit: [ae01d3183d2763ed27ab71f4ef5402b683d9ad8a] drm/bridge: =
+adv7511: switch to the HDMI connector helpers
+
+--MnfbWetuNtj2sm0x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMOrEACgkQJNaLcl1U
+h9D+owf/X8/1aic5Itzq+a36eWKsQXsICwsbQultkKDB9P4Gs9QWG4aENLej2HlB
+T2SmA3nd+RKRP4sjaFqAfia4TUUcmSEXLOGErczvdLBj8a4UOtHjizs9T4nhMs7J
+szQ9WmIkAEm7/z++2ACtRhuK7jxzekE63zwYvqAgI8PKwmYTDHCwQgKuPY9TfON+
+m67jnM/SA75KUyhRJefGMxoT4r7JY+Ot+vDQLa2+SZByvTvw2i1NTxNCAE4Ato5/
+SNNoEMl08WaCjC1dBMEAIJGnWRc5PRZLAgDtt2UOrZigSw0ZMCE/+ZrLMQ+AoaQS
+4RbTc7pE8a0aDEMMc+fpePQBYvODAA==
+=ru7l
+-----END PGP SIGNATURE-----
+
+--MnfbWetuNtj2sm0x--
