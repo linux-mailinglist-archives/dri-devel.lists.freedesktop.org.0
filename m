@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6487AAD94AB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 20:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB0DAD94AD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 20:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A618310EA39;
-	Fri, 13 Jun 2025 18:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB14710EA47;
+	Fri, 13 Jun 2025 18:44:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RgP6vdW7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YwZELRoP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 929C610E9A6;
- Fri, 13 Jun 2025 18:44:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595F810EA49;
+ Fri, 13 Jun 2025 18:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=SRU62zzjZpsN9hshHm9vrDZHMgBidcN7rETCCaiDACM=; b=RgP6vdW7hBlfqGAy4mMZKKRbqW
- Peaegfb3o804lkC2QsNogkCnXMnf1wPn10Kh+aY7k9+GFq6Vrz96AKj5RYtQSTvwCkGuEKKXk4UI1
- qCUm/HsJSpabDqI8Y/klEhCQblQ5EF4vK1BUyI9MozaOQmT7HTg2KiRG2H58TwJfGn3mfyu36b3QK
- B3d62GUtsc3mAsIAN5mAnlGcWbR97+Wv3oejE9BJW5FS8fObPGeJLYp1FNj+lO30IcjYC8xCPJT9B
- f6+GM0xUPKDQa8YMDHAL7V4wYTIG7WhGyhtWEP34xhYdPd59RQNiz+ei/gLlJo2xyIVXW6DJxZ38P
- lEeZAISw==;
+ bh=oOcwqzD6tOcdnoanCuqsRDl10qjCYbFL/juK82IuqGw=; b=YwZELRoPPHj0BmrWPXnXXoJqXT
+ LdWcGIjzyCGQAbnYS1p/TIAS574XtWilBE9G3QpNhQgAVw7+KNUbPH72QyHb+lZ/GHwsarzpoyEUu
+ 3tzJvDfLOsOQ71RJhk9aEROkBdDryDZzjuQP1ofoAvLbIm1yTu1G4ke4ubq+T23Km+MJPsEuPjX10
+ RiRiW0L8aqIGPNNVDbUvDcqOSV9Sri9dFwcWpmvDFF+V3rNqUIZvzQGCfTIumGXgPXBQlIpJU54TD
+ qtSxSaye5bVRxOBL4iwwO7p1fGb5jykvryPMZxTRE7WBUc68G/vs66SdAeBkbq1RKAyhRf2MaWSb0
+ TTzB/bDg==;
 Received: from [191.204.192.64] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uQ9Nr-003AD0-K3; Fri, 13 Jun 2025 20:44:12 +0200
+ id 1uQ9Nv-003AD0-I2; Fri, 13 Jun 2025 20:44:15 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: "Alex Deucher" <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -43,10 +43,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v7 4/5] drm: amdgpu: Use struct drm_wedge_task_info inside of
- struct amdgpu_task_info
-Date: Fri, 13 Jun 2025 15:43:47 -0300
-Message-ID: <20250613184348.1761020-5-andrealmeid@igalia.com>
+Subject: [PATCH v7 5/5] drm/amdgpu: Make use of drm_wedge_task_info
+Date: Fri, 13 Jun 2025 15:43:48 -0300
+Message-ID: <20250613184348.1761020-6-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250613184348.1761020-1-andrealmeid@igalia.com>
 References: <20250613184348.1761020-1-andrealmeid@igalia.com>
@@ -68,193 +67,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To avoid a cast when calling drm_dev_wedged_event(), replace pid and
-task name inside of struct amdgpu_task_info with struct
-drm_wedge_task_info.
+To notify userspace about which task (if any) made the device get in a
+wedge state, make use of drm_wedge_task_info parameter, filling it with
+the task PID and name.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
-v7: New patch
+v7:
+ - Remove struct cast, now we can use `info = &ti->task`
+ - Fix struct lifetime, move amdgpu_vm_put_task_info() after
+   drm_dev_wedged_event() call
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c      |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c           | 12 ++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h           |  3 +--
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c         |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_events.c          |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c      |  8 ++++----
- 9 files changed, 18 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 17 +++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  8 ++++++--
+ 2 files changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index 8e626f50b362..dac4b926e7be 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1786,7 +1786,7 @@ static int amdgpu_debugfs_vm_info_show(struct seq_file *m, void *unused)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 8a0f36f33f13..67cff53678e1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -6363,8 +6363,21 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
  
- 		ti = amdgpu_vm_get_task_info_vm(vm);
- 		if (ti) {
--			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->pid, ti->process_name);
-+			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->task.pid, ti->process_name);
- 			amdgpu_vm_put_task_info(ti);
- 		}
+ 	atomic_set(&adev->reset_domain->reset_res, r);
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 7b50741dc097..8a026bc9ea44 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -220,10 +220,10 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
- 	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,
- 		   coredump->reset_time.tv_nsec);
+-	if (!r)
+-		drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, NULL);
++	if (!r) {
++		struct drm_wedge_task_info *info = NULL;
++		struct amdgpu_task_info *ti = NULL;
++
++		if (job) {
++			ti = amdgpu_vm_get_task_info_pasid(adev, job->pasid);
++			if (ti)
++				info = &ti->task;
++		}
++
++		drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, info);
++
++		if (ti)
++			amdgpu_vm_put_task_info(ti);
++	}
  
--	if (coredump->reset_task_info.pid)
-+	if (coredump->reset_task_info.task.pid)
- 		drm_printf(&p, "process_name: %s PID: %d\n",
- 			   coredump->reset_task_info.process_name,
--			   coredump->reset_task_info.pid);
-+			   coredump->reset_task_info.task.pid);
- 
- 	/* SOC Information */
- 	drm_printf(&p, "\nSOC Information\n");
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 0ecc88df7208..e5e33a68d935 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -329,7 +329,7 @@ static int amdgpu_gem_object_open(struct drm_gem_object *obj,
- 
- 			dev_warn(adev->dev, "validate_and_fence failed: %d\n", r);
- 			if (ti) {
--				dev_warn(adev->dev, "pid %d\n", ti->pid);
-+				dev_warn(adev->dev, "pid %d\n", ti->task.pid);
- 				amdgpu_vm_put_task_info(ti);
- 			}
- 		}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index f2a0132521c2..0efd3fc7cf3e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -622,7 +622,7 @@ int amdgpu_vm_validate(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 
- 			pr_warn_ratelimited("Evicted user BO is not reserved\n");
- 			if (ti) {
--				pr_warn_ratelimited("pid %d\n", ti->pid);
-+				pr_warn_ratelimited("pid %d\n", ti->task.pid);
- 				amdgpu_vm_put_task_info(ti);
- 			}
- 
-@@ -2507,11 +2507,11 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
- 	if (!vm->task_info)
- 		return;
- 
--	if (vm->task_info->pid == current->pid)
-+	if (vm->task_info->task.pid == current->pid)
- 		return;
- 
--	vm->task_info->pid = current->pid;
--	get_task_comm(vm->task_info->task_name, current);
-+	vm->task_info->task.pid = current->pid;
-+	get_task_comm(vm->task_info->task.comm, current);
- 
- 	if (current->group_leader->mm != current->mm)
- 		return;
-@@ -2774,7 +2774,7 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
- 
- 		dev_warn(adev->dev,
- 			 "VM memory stats for proc %s(%d) task %s(%d) is non-zero when fini\n",
--			 ti->process_name, ti->pid, ti->task_name, ti->tgid);
-+			 ti->process_name, ti->task.pid, ti->task.comm, ti->tgid);
- 	}
- 
- 	amdgpu_vm_put_task_info(vm->task_info);
-@@ -3163,5 +3163,5 @@ inline void amdgpu_vm_print_task_info(struct amdgpu_device *adev,
- 	dev_err(adev->dev,
- 		" Process %s pid %d thread %s pid %d\n",
- 		task_info->process_name, task_info->tgid,
--		task_info->task_name, task_info->pid);
-+		task_info->task.comm, task_info->task.pid);
+ 	return r;
  }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index 3862a256b9b8..b5c3af1c5e99 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -236,9 +236,8 @@ struct amdgpu_vm_pte_funcs {
- };
- 
- struct amdgpu_task_info {
-+	struct drm_wedge_task_info task;
- 	char		process_name[TASK_COMM_LEN];
--	char		task_name[TASK_COMM_LEN];
--	pid_t		pid;
- 	pid_t		tgid;
- 	struct kref	refcount;
- };
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-index 33ed2b158fcd..f38004e6064e 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-@@ -2187,7 +2187,7 @@ static int sdma_v4_0_print_iv_entry(struct amdgpu_device *adev,
- 		dev_dbg_ratelimited(adev->dev,
- 				    " for process %s pid %d thread %s pid %d\n",
- 				    task_info->process_name, task_info->tgid,
--				    task_info->task_name, task_info->pid);
-+				    task_info->task.comm, task_info->task.pid);
- 		amdgpu_vm_put_task_info(task_info);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 0c1381b527fe..f061f691f556 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -89,6 +89,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ {
+ 	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
+ 	struct amdgpu_job *job = to_amdgpu_job(s_job);
++	struct drm_wedge_task_info *info = NULL;
+ 	struct amdgpu_task_info *ti;
+ 	struct amdgpu_device *adev = ring->adev;
+ 	int idx;
+@@ -125,7 +126,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	ti = amdgpu_vm_get_task_info_pasid(ring->adev, job->pasid);
+ 	if (ti) {
+ 		amdgpu_vm_print_task_info(adev, ti);
+-		amdgpu_vm_put_task_info(ti);
++		info = &ti->task;
  	}
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-index 9c169112a5e7..bcde34e4e0a1 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-@@ -1884,7 +1884,7 @@ static int sdma_v4_4_2_print_iv_entry(struct amdgpu_device *adev,
- 	if (task_info) {
- 		dev_dbg_ratelimited(adev->dev, " for process %s pid %d thread %s pid %d\n",
- 				    task_info->process_name, task_info->tgid,
--				    task_info->task_name, task_info->pid);
-+				    task_info->task.comm, task_info->task.pid);
- 		amdgpu_vm_put_task_info(task_info);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index 2b294ada3ec0..82905f3e54dd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-@@ -1302,7 +1302,7 @@ void kfd_signal_reset_event(struct kfd_node *dev)
- 			if (ti) {
- 				dev_err(dev->adev->dev,
- 					"Queues reset on process %s tid %d thread %s pid %d\n",
--					ti->process_name, ti->tgid, ti->task_name, ti->pid);
-+					ti->process_name, ti->tgid, ti->task.comm, ti->task.pid);
- 				amdgpu_vm_put_task_info(ti);
- 			}
+ 	/* attempt a per ring reset */
+@@ -164,13 +165,16 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 			if (amdgpu_ring_sched_ready(ring))
+ 				drm_sched_start(&ring->sched, 0);
+ 			dev_err(adev->dev, "Ring %s reset succeeded\n", ring->sched.name);
+-			drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, NULL);
++			drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, info);
+ 			goto exit;
  		}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-index 83d9384ac815..a499449fcb06 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-@@ -253,9 +253,9 @@ void kfd_smi_event_update_vmfault(struct kfd_node *dev, uint16_t pasid)
- 	task_info = amdgpu_vm_get_task_info_pasid(dev->adev, pasid);
- 	if (task_info) {
- 		/* Report VM faults from user applications, not retry from kernel */
--		if (task_info->pid)
-+		if (task_info->task.pid)
- 			kfd_smi_event_add(0, dev, KFD_SMI_EVENT_VMFAULT, KFD_EVENT_FMT_VMFAULT(
--					  task_info->pid, task_info->task_name));
-+					  task_info->task.pid, task_info->task.comm));
- 		amdgpu_vm_put_task_info(task_info);
+ 		dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.name);
  	}
- }
-@@ -359,8 +359,8 @@ void kfd_smi_event_process(struct kfd_process_device *pdd, bool start)
- 		kfd_smi_event_add(0, pdd->dev,
- 				  start ? KFD_SMI_EVENT_PROCESS_START :
- 				  KFD_SMI_EVENT_PROCESS_END,
--				  KFD_EVENT_FMT_PROCESS(task_info->pid,
--				  task_info->task_name));
-+				  KFD_EVENT_FMT_PROCESS(task_info->task.pid,
-+				  task_info->task.comm));
- 		amdgpu_vm_put_task_info(task_info);
- 	}
- }
+ 	dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
+ 
++	if (ti)
++		amdgpu_vm_put_task_info(ti);
++
+ 	if (amdgpu_device_should_recover_gpu(ring->adev)) {
+ 		struct amdgpu_reset_context reset_context;
+ 		memset(&reset_context, 0, sizeof(reset_context));
 -- 
 2.49.0
 
