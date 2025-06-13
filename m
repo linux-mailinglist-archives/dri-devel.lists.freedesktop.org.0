@@ -2,54 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4064EAD85D9
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F557AD8604
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184DE10E8FD;
-	Fri, 13 Jun 2025 08:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862AD10E903;
+	Fri, 13 Jun 2025 08:51:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qoIG0p8v";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JDwmCjL7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 778D310E2B0;
- Fri, 13 Jun 2025 08:42:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F250D6113B;
- Fri, 13 Jun 2025 08:42:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA6EC4CEEB;
- Fri, 13 Jun 2025 08:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749804144;
- bh=KXRSR1wQeLU58A3wUt/V+UwL406ER2CjT55ZE1Y4+Yo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qoIG0p8v8QeyMMSIYMO4C36MTcz2snMv22ynE3xIOXzsxryRyOhsguqPJ8E1JZneO
- SBiVFqxMto6c7LyRDMTQa9rxzO2Jvkuk8lN+uRQCAcRuXvQ1lRwsB+ul/eFvkURuLV
- c5y/e5FwaG76M1Ygf8lUtQYC3i68DL0tbQFmYKFe9DkgNmP68sePs2h9CEWz4i/8TV
- lDjMaj/bmxy/fskSC+7RMmIocTfQPFysQDZcXu1e+TFCxIHMYZpXIizjal4/G1sj/q
- /KrbNOfkj+WfrAN45KmuU0+zWYrlXqfpTJSKFHnuET/nMdoi025B36eH/n/okDTKND
- +YWy49gvjLeGQ==
-Date: Fri, 13 Jun 2025 10:42:20 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: phasta@kernel.org
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
-Message-ID: <aEvkbKGaZD2NQggd@pollux>
-References: <aEmR9420vj-ISz-W@cassiopeiae>
- <dc661205-1e5b-4697-863b-36a299365219@amd.com>
- <aEmcpsXwS8dLNGUg@cassiopeiae>
- <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com>
- <aEtnS6kvh1mssFTb@cassiopeiae>
- <099816b4-0b7b-4ac7-9bb5-22f23b1db7b7@amd.com>
- <a495f31526f19457f44d502cf2de98ab0de33383.camel@mailbox.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27EA10E903
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 08:51:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749804700; x=1781340700;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4dvU2gjTBAobluxvnHDFcItktqR+5ChasN0aGjgKaKI=;
+ b=JDwmCjL7h765qAo1Y/8XgZFufTHuz6y4SJwNaIjvxyMelImqJY9a2vVR
+ IkjM3rz/YOI2ygi6Kbk9q3wzbbTU9ilGFFdu6IeTrSQX0Wmkuah7WamNO
+ QmtZ/LRlzuLbpywXYtphkUCsV3eUXospWGmR6qhhNXLmPjwVG9Aq8j2fC
+ 3rvmPIJuUu+IbeL6BGS8sEYuZdkBI/t4BmRY59z6KDqzeRDDtumNKat1z
+ pYWpGeDxEJXOQlxwmV7zX0OtCdKACIjA2DFV4m1v/2YREkCwIbss2NWw/
+ vrJSyCPke5F9Cqd7f2P+uTTUsMMJoD+eEKBeEvxa2j0Hdt+EP0fIoQ66f A==;
+X-CSE-ConnectionGUID: 9Q4Dn29USxqZAPmO9SlZPQ==
+X-CSE-MsgGUID: Q9Z0Qd2fRXK0bh4mX/z2uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="74547616"
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="74547616"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2025 01:51:37 -0700
+X-CSE-ConnectionGUID: agVmFPqcQfiQWHXPtV8Rmw==
+X-CSE-MsgGUID: gWFTP0HTRC2RODcDIuxKFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="147619241"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.26])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2025 01:51:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Shreeya Patel
+ <shreeya.patel@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Nicolas
+ Frattaroli <frattaroli.nicolas@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Shawn Lin
+ <shawn.lin@rock-chips.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan
+ Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Qin
+ Jian <qinjian@cqplus1.com>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Tvrtko Ursulin
+ <tursulin@igalia.com>
+Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
+In-Reply-To: <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
+Date: Fri, 13 Jun 2025 11:51:15 +0300
+Message-ID: <5493fd6017de3f393f632125fad95945d1c4294c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a495f31526f19457f44d502cf2de98ab0de33383.camel@mailbox.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,21 +102,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 10:29:35AM +0200, Philipp Stanner wrote:
-> Shouldn't the xarray be used nowadays for ID allocation? I think
-> idr_alloc_cyclic() (ida_alloc_cyclic() doesn't exist) is just a wrapper
-> around the xarray anyways.
+On Thu, 12 Jun 2025, Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+> Hardware of various vendors, but very notably Rockchip, often uses
+> 32-bit registers where the upper 16-bit half of the register is a
+> write-enable mask for the lower half.
+>
+> This type of hardware setup allows for more granular concurrent register
+> write access.
+>
+> Over the years, many drivers have hand-rolled their own version of this
+> macro, usually without any checks, often called something like
+> HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
+> semantics between them.
+>
+> Clearly there is a demand for such a macro, and thus the demand should
+> be satisfied in a common header file.
+>
+> Add two macros: HWORD_UPDATE, and HWORD_UPDATE_CONST. The latter is a
+> version that can be used in initializers, like FIELD_PREP_CONST. The
+> macro names are chosen to not clash with any potential other macros that
+> drivers may already have implemented themselves, while retaining a
+> familiar name.
+>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  include/linux/bitfield.h | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>
+> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+> index 6d9a53db54b66c0833973c880444bd289d9667b1..b90d88db7405f95b78cdd6f3426263086bab5aa6 100644
+> --- a/include/linux/bitfield.h
+> +++ b/include/linux/bitfield.h
+> @@ -8,6 +8,7 @@
+>  #define _LINUX_BITFIELD_H
+>  
+>  #include <linux/build_bug.h>
+> +#include <linux/limits.h>
+>  #include <linux/typecheck.h>
+>  #include <asm/byteorder.h>
+>  
+> @@ -142,6 +143,52 @@
+>  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+>  	)
+>  
+> +/**
+> + * HWORD_UPDATE() - prepare a bitfield element with a mask in the upper half
+> + * @_mask: shifted mask defining the field's length and position
+> + * @_val:  value to put in the field
+> + *
+> + * HWORD_UPDATE() masks and shifts up the value, as well as bitwise ORs the
+> + * result with the mask shifted up by 16.
+> + *
+> + * This is useful for a common design of hardware registers where the upper
+> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> + * register, a bit in the lower half is only updated if the corresponding bit
+> + * in the upper half is high.
+> + */
+> +#define HWORD_UPDATE(_mask, _val)					 \
+> +	({								 \
+> +		__BF_FIELD_CHECK(_mask, ((u16) 0U), _val,		 \
+> +				 "HWORD_UPDATE: ");			 \
+> +		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask)) | \
+> +		((_mask) << 16);					 \
+> +	})
 
-Yes, IDR is basically xarray under the hood. But, a raw xarray (or IDR) is
-unnecessary overhead, since we don't need to store pointers.
+i915 uses something like this for a few registers too, with the name
+_MASKED_FIELD(). I think we could use it.
 
-While IDA also uses xarray under the hood, it does perform some tricks to
-provide only ID numbers, but much more efficiently.
+I do think this is clearly an extension of FIELD_PREP(), though, and
+should be be named similarly, instead of the completely deviating
+HWORD_UPDATE().
 
-Given that there's no ida_alloc_cyclic(), the atomic is probably fine, even
-though, ida_alloc_cyclic() doesn't sound like a bad idea to add in general.
+Also, we recently got GENMASK() versions with sizes, GENMASK_U16()
+etc. so I find it inconsistent to denote size here with HWORD.
 
-But maybe it's difficult due to some of the optimization tricks IDA performs.
+FIELD_PREP_MASKED_U16? MASKED_FIELD_PREP_U16? Something along those
+lines?
 
-I think we should stick to the atomic for now, but add a proper API to reserve
-kernel IDs.
+And perhaps that (and more potential users) could persuade Jakub that
+this is not that weird after all?
+
+
+BR,
+Jani.
+
+
+
+
+> +
+> +/**
+> + * HWORD_UPDATE_CONST() - prepare a constant bitfield element with a mask in
+> + *                        the upper half
+> + * @_mask: shifted mask defining the field's length and position
+> + * @_val:  value to put in the field
+> + *
+> + * HWORD_UPDATE_CONST() masks and shifts up the value, as well as bitwise ORs
+> + * the result with the mask shifted up by 16.
+> + *
+> + * This is useful for a common design of hardware registers where the upper
+> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> + * register, a bit in the lower half is only updated if the corresponding bit
+> + * in the upper half is high.
+> + *
+> + * Unlike HWORD_UPDATE(), this is a constant expression and can therefore
+> + * be used in initializers. Error checking is less comfortable for this
+> + * version.
+> + */
+> +#define HWORD_UPDATE_CONST(_mask, _val)					  \
+> +	(								  \
+> +		FIELD_PREP_CONST(_mask, _val) |				  \
+> +		(BUILD_BUG_ON_ZERO(const_true((u64) (_mask) > U16_MAX)) + \
+> +		 ((_mask) << 16))					  \
+> +	)
+> +
+>  /**
+>   * FIELD_GET() - extract a bitfield element
+>   * @_mask: shifted mask defining the field's length and position
+
+-- 
+Jani Nikula, Intel
