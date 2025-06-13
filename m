@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291E1AD852E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DA6AD8530
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3E10E8B6;
-	Fri, 13 Jun 2025 08:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC53E10E8F5;
+	Fri, 13 Jun 2025 08:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gp0DYJ7H";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MV4Fv5M3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10ED110E8B6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 08:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749801724; x=1781337724;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lGdmcR1u4VLmKmc5jy0Sy1tYwq0u7J632J3kaO6XwCY=;
- b=gp0DYJ7HJGnOR5FhhzzfMeKONxXOf97DJ6xRdwSFnv11HrikcUcfapU/
- qlAZozPnD6/Ylz+AM+NhsCQ4XcD6gFaryn/Tf5dG8+NuTcbX0yBJvpYzy
- gIbCG69o+wX3ylSXX13uJy5h1yfDHL9NUkm83gawflDbwf4jeIS+wRHtJ
- j4xPNK2jsya6trBg1IqNRoo6v4fesUP+pLq//uOxZfV+31yOgtVfIEoBt
- giWc2eLBWT+GB9aTNP7lF2ZIO1hXxR6M6yG3Tq3Zf9mELYmjKGT6uLXlR
- 64KgesqXTymP0lgIqInH/JFVdjxJe3djzv4754WCFSmsUg1JGzQdp/2TO Q==;
-X-CSE-ConnectionGUID: JUgVVjQhTK2JDtXllKoVbg==
-X-CSE-MsgGUID: AVBUbA7jSQCVQM2G1lu68Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="69454008"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="69454008"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 01:02:03 -0700
-X-CSE-ConnectionGUID: LcprCvGxS+KIQwnCnbzjSA==
-X-CSE-MsgGUID: bhDmvB6mSQO/D0BDWJv3Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="148650164"
-Received: from mellis1x-mobl.amr.corp.intel.com (HELO [10.245.252.206])
- ([10.245.252.206])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 01:01:59 -0700
-Message-ID: <5e12681e-20ab-4f89-a28d-7c6234aa7fee@linux.intel.com>
-Date: Fri, 13 Jun 2025 10:01:56 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B66A10E8F5;
+ Fri, 13 Jun 2025 08:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QBdWSHHMs+Rc6JHilzBYHadfgLs7ubNXQatg96UB80s=; b=MV4Fv5M38fYoOF10UcITDsEyqe
+ NdDcMSl6+VwCCH+RC2u6roSFnqy1hyu30tsKXdBwcwnqnBpSPi6HoGK/HyUJfwY53l73P/cftlen+
+ cXUnGzZF0HHboh4sFwkfoVwFjhOZ5aPrFGKhKb7TLKcaeVyat4dcOmsSUoqLsYcXvAg19PUUyMcJA
+ 8PzSjd84xBmLcaoiaKOwYRlB6/1tLnh6o98rHahS/v2Iv9gi8rA2Jo6prSPUWQRZH+123YELAuEGD
+ eept9KzhAxnM1sjX1quYfdbZTU5lJVD4BnCihYjadqMKDSzYskXF8A3DIp25FO6DCgAwz8TIsycM1
+ XMJwBORg==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uPzMq-002vZR-KN; Fri, 13 Jun 2025 10:02:28 +0200
+Message-ID: <3663ab48-6ac6-4903-aa08-f93c7b71ebf2@igalia.com>
+Date: Fri, 13 Jun 2025 09:02:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Add turbo flag to the DRM_IVPU_CMDQ_CREATE
- ioctl
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-References: <20250605162001.1237789-1-maciej.falkowski@linux.intel.com>
- <3a3fc0d9-afb4-4a37-bbfd-944fe7721e0a@oss.qualcomm.com>
- <62bb72af-d633-442f-a598-ec632508f074@linux.intel.com>
- <fbc00bc7-19c0-413a-bfdc-625255c12c33@oss.qualcomm.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <fbc00bc7-19c0-413a-bfdc-625255c12c33@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
+To: Yiwei Zhang <zzyiwei@google.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Juston Li <justonli@chromium.org>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250611225145.1739201-1-justonli@chromium.org>
+ <20250611225145.1739201-2-justonli@chromium.org>
+ <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
+ <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
+ <p7wq3wrsddp7pk7bk5follhkc4f7ybgmc2o4e652jc2cfuqbhh@tckgwpy3khcn>
+ <CAKT=dDkjYQUSwtYwFTvWppn-2sTdwYu_FE2jfhGXd6vWkQHvgg@mail.gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <CAKT=dDkjYQUSwtYwFTvWppn-2sTdwYu_FE2jfhGXd6vWkQHvgg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,75 +68,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 6/12/2025 3:42 PM, Jeff Hugo wrote:
-> On 6/12/2025 7:31 AM, Falkowski, Maciej wrote:
->> On 6/6/2025 6:30 PM, Jeff Hugo wrote:
+On 12/06/2025 19:53, Yiwei Zhang wrote:
+> On Thu, Jun 12, 2025 at 11:02 AM Lucas De Marchi
+> <lucas.demarchi@intel.com> wrote:
 >>
->>> On 6/5/2025 10:20 AM, Maciej Falkowski wrote:
->>>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>> On Thu, Jun 12, 2025 at 05:46:52PM +0100, Tvrtko Ursulin wrote:
+>>>
+>>> On 12/06/2025 06:40, Lucas De Marchi wrote:
+>>>> On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
+>>>>> Add TRACE_GPU_MEM tracepoints for tracking global and per-process GPU
+>>>>> memory usage.
+>>>>>
+>>>>> These are required by VSR on Android 12+ for reporting GPU driver memory
+>>>>> allocations.
+>>>>>
+>>>>> v3:
+>>>>> - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
+>>>>>   per-driver Kconfig (Lucas)
+>>>>>
+>>>>> v2:
+>>>>> - Use u64 as preferred by checkpatch (Tvrtko)
+>>>>> - Fix errors in comments/Kconfig description (Tvrtko)
+>>>>> - drop redundant "CONFIG" in Kconfig
+>>>>>
+>>>>> Signed-off-by: Juston Li <justonli@chromium.org>
+>>>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>> ---
+>>>>> drivers/gpu/drm/xe/xe_bo.c           | 47 ++++++++++++++++++++++++++++
+>>>>> drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
+>>>>> 2 files changed, 63 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>>>>> index 4e39188a021ab..89a3d23e3b800 100644
+>>>>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>>>>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>>>>> @@ -19,6 +19,8 @@
+>>>>>
+>>>>> #include <kunit/static_stub.h>
+>>>>>
+>>>>> +#include <trace/events/gpu_mem.h>
+>>>>> +
+>>>>> #include "xe_device.h"
+>>>>> #include "xe_dma_buf.h"
+>>>>> #include "xe_drm_client.h"
+>>>>> @@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct
+>>>>> xe_device *xe, struct ttm_tt *tt)
+>>>>>         xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
+>>>>> }
+>>>>>
+>>>>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+>>>>> +static void update_global_total_pages(struct ttm_device *ttm_dev,
+>>>>> long num_pages)
+>>>>> +{
+>>>>> +    struct xe_device *xe = ttm_to_xe_device(ttm_dev);
+>>>>> +    u64 global_total_pages =
+>>>>> +        atomic64_add_return(num_pages, &xe->global_total_pages);
+>>>>> +
+>>>>> +    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
+>>>>> +}
+>>>>> +
+>>>>> +static void update_process_mem(struct drm_file *file, ssize_t size)
+>>>>> +{
+>>>>> +    struct xe_file *xef = to_xe_file(file);
+>>>>> +    u64 process_mem = atomic64_add_return(size, &xef->process_mem);
+>>>>> +
+>>>>> +    rcu_read_lock(); /* Locks file->pid! */
+>>>>> +    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)),
+>>>>> process_mem);
 >>>>
->>>> Introduces a new parameter to the DRM_IVPU_CMDQ_CREATE ioctl,
+>>>> Isn't the first arg supposed to be the gpu id? Doesn't this become
+>>>> invalid when I have e.g. LNL + BMG and the trace is enabled?
 >>>
->>> Introduce
->> Ack, thanks.
+>>> Good point.
 >>>
->>>> enabling turbo mode for jobs submitted via the command queue.
->>>> Turbo mode allows jobs to run at higher frequencies,
->>>> potentially improving performance for demanding workloads.
->>>>
->>>> The change also adds the IVPU_TEST_MODE_TURBO_DISABLE flag
->>>
->>> "This change" is redundant. Just start with "Also add the..."
->> Ack, thanks.
->>>
->>>> to allow test mode to explicitly disable turbo mode
->>>> requested by the application.
->>>> The IVPU_TEST_MODE_TURBO mode has been renamed to
->>>> IVPU_TEST_MODE_TURBO_ENABLE for clarity and consistency.
->>>>
->>>> +/* Command queue flags */
->>>> +#define DRM_IVPU_CMDQ_FLAG_TURBO 0x00000001
->>>> +
->>>>   /**
->>>>    * struct drm_ivpu_cmdq_create - Create command queue for job submission
->>>>    */
->>>> @@ -462,6 +465,17 @@ struct drm_ivpu_cmdq_create {
->>>>        * %DRM_IVPU_JOB_PRIORITY_REALTIME
->>>>        */
->>>>       __u32 priority;
->>>> +    /**
->>>> +     * @flags:
->>>> +     *
->>>> +     * Supported flags:
->>>> +     *
->>>> +     * %DRM_IVPU_CMDQ_FLAG_TURBO
->>>> +     *
->>>> +     * Enable low-latency mode for the command queue. The NPU will maximize performance
->>>> +     * when executing jobs from such queue at the cost of increased power usage.
->>>> +     */
->>>> +    __u32 flags;
->>>
->>> This is going to break the struct size on compat.  You probably need a __u32 reserved to maintain 64-bit alignment. 
+>>> u32 gpu_id does not seem possible to map to anything useful.
 >>
->> Thank you for suggestion,
->> I think compat is preserved here as u32 imposes 4 byte alignment on 64bit
->> so the alignment is going to be 12 bytes on both 32bit and 64bit, I tested this manually.
->> Please correct me if I am wrong.
+>> maybe minor_id? although I'm not sure if the intention is to share this
+>> outside drm as seems the case.
 > 
-> Looks like I'm wrong.  Majority of the structures have 64-bit values, and I didn't clearly see that this specific one is only 32-bit values.
-> 
-> My initial comment was based on https://docs.kernel.org/process/botching-up-ioctls.html - specifically:
-> 
-> Pad the entire struct to a multiple of 64-bits if the structure contains 64-bit types - the structure size will otherwise differ on 32-bit versus 64-bit. Having a different structure size hurts when passing arrays of structures to the kernel, or if the kernel checks the structure size, which e.g. the drm core does.
-> 
-> Ok. This was the only functional comment, and it is resolved. The other two are trivial fixups, so I think with those -
-> 
-> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> Yes, that was for render minor in the case of drm.
 
-Thanks for pointing this out anyway. It turns out we have alignment problems with couple other structures in UAPI.
-We will send a separate fix for these.
+Or to keep the field as integer we can use dev->primary->index, which 
+would then correlate with the /sys/class/drm/card%u, in case it needs to 
+be mapped back.
+
+There is prior art in various drivers to use either dev_name or 
+dev->primary->index, but for this one it is probably easier to stick 
+with the integer so both msm can keep passing the zero and we don't have 
+to think about Android userspace forward/backward compatibility.
 
 Regards,
-Jacek
+
+Tvrtko
+
+> 
+>>
+>>>
+>>> Shall we replace it with a string obtained from dev_name(struct device
+>>> *) ? As only Android parses them I think we can get still away with
+>>> changing the tracepoints ABI.
+>>
+>> works for me too. Is Android actually parsing it or just ignoring?
+>> Because afaics it's always 0 in msm.
+> 
+> Android has used it as part of the bpf map key:
+> https://cs.android.com/android/platform/superproject/main/+/main:frameworks/native/services/gpuservice/bpfprogs/gpuMem.c
+> 
+>>
+>> Lucas De Marchi
+
