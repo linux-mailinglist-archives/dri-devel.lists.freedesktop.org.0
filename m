@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03271AD90FC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B18DAD90FD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:18:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE6F10E9F7;
-	Fri, 13 Jun 2025 15:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D62BA10EA1F;
+	Fri, 13 Jun 2025 15:18:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mbJzGigU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g4z6oaW1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C722810E9F3;
- Fri, 13 Jun 2025 15:18:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD6410EA14;
+ Fri, 13 Jun 2025 15:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749827932; x=1781363932;
+ t=1749827934; x=1781363934;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fY4Mrx8WwR8JR11/H41MQObRiMU4S+kqaInRShTXszU=;
- b=mbJzGigUSHaSpdlfCcXIdOAo5gSE5K8Zq9cTkVeWAtIPOXQOvqnY5eB7
- SOHH9ixzCKMRq5q0z044C2edOsI3R1HxSgsFgGUFK847nv8ZznoAigngg
- hLnRCzAY2mYK0r7b4SPHGj6Jgq0bgbWKwNx0oZ9TrAHiRB0CGZafZOHnj
- mGjBnoYtL3yaPzOCrvEhQcsn37XTmqyaVchWByACif4FylybMfxQf1UEh
- SGnpctqZgWKfmZ1sSIupPZDAvSHYptl01NZUFG1Qd09pAiOcf8MbYeeJX
- 5k+qm5JLYGNq+lmXe36SZ0bb+JUllrzKBSlsN/QkQ0mclDth+wgYNSzNR Q==;
-X-CSE-ConnectionGUID: dEEDVj/KTJ+UGNa0mnCcgQ==
-X-CSE-MsgGUID: oWHvxdDdRC6nooEiiIJSbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="74580683"
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="74580683"
+ bh=iHXDxxUSYzGSDqkr+m/sFrxNx/bX2WyGiRwMXiYVZZE=;
+ b=g4z6oaW10M0dacMZzs4liouzN4JmMzZ4dtgZcxiBmiMSktiHfkhPQ1tb
+ HWKXR/2HkSVGURqMzq2T7YY5DJR4QN70Jk7+fDkX9/4/IRWdtc//EdY/u
+ QqGfiglr7Xj0LuqQhTjwhAfGrueSA2QKTF2wIz2jrSn0WHKGiDfOTmjbF
+ jOa5ZkFs0rTq09/NHLOR2pMbJllCCEEm02AKmmyPax9Ll5D4tuWEwhYkq
+ CJzCBm4nS/bEE/iAr7Pe94abTPWtgER/HqGkmxPK7Y4I0HlOtmdP+pBsQ
+ WCNOzZmlp+RGzdalZiMBQR3ScxYMVjajKC7sDV3r1W30H8QMux50uXWLy A==;
+X-CSE-ConnectionGUID: 3yskXqS6ScqRBTOVgBxIdw==
+X-CSE-MsgGUID: yX1oqchbQHKXIf5ewCwaHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="74580694"
+X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="74580694"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 08:18:52 -0700
-X-CSE-ConnectionGUID: dDubtN2ASZiBXHs6JkwAEA==
-X-CSE-MsgGUID: FA6GCpW6QdSASQtV1ncCrQ==
+ 13 Jun 2025 08:18:54 -0700
+X-CSE-ConnectionGUID: Pwm8IsE+TY6rJ3LiAkkrqw==
+X-CSE-MsgGUID: Cri0dSCRSXCUkTNkhfyj5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="152618084"
+X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="152618110"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO fedora..)
  ([10.245.245.83])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 08:18:50 -0700
+ 13 Jun 2025 08:18:52 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -49,10 +49,10 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 2/3] drm/ttm,
- drm/xe: Modify the struct ttm_bo_lru_walk_cursor initialization
-Date: Fri, 13 Jun 2025 17:18:23 +0200
-Message-ID: <20250613151824.178650-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 3/3] drm/ttm, drm_xe,
+ Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
+Date: Fri, 13 Jun 2025 17:18:24 +0200
+Message-ID: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250613151824.178650-1-thomas.hellstrom@linux.intel.com>
 References: <20250613151824.178650-1-thomas.hellstrom@linux.intel.com>
@@ -74,132 +74,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of the struct ttm_operation_ctx, Pass a struct ttm_lru_walk_arg
-to enable us to easily extend the walk functionality, and to
-implement ttm_lru_walk_for_evict() using the guarded LRU iteration.
+To avoid duplicating the tricky bo locking implementation,
+Implement ttm_lru_walk_for_evict() using the guarded bo LRU iteration.
+
+To facilitate this, support ticketlocking from the guarded bo LRU
+iteration.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c | 10 +++++-----
- drivers/gpu/drm/xe/xe_shrinker.c  |  3 ++-
- include/drm/ttm/ttm_bo.h          | 16 ++++++++--------
- 3 files changed, 15 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 166 ++++++++++++------------------
+ drivers/gpu/drm/xe/xe_shrinker.c  |   7 +-
+ include/drm/ttm/ttm_bo.h          |   9 +-
+ 3 files changed, 76 insertions(+), 106 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 600145cdeb9c..62b76abac578 100644
+index 62b76abac578..9bc17ea1adb2 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -956,11 +956,11 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
-  * ttm_bo_lru_cursor_init() - Initialize a struct ttm_bo_lru_cursor
-  * @curs: The ttm_bo_lru_cursor to initialize.
+@@ -821,12 +821,6 @@ static int ttm_lru_walk_ticketlock(struct ttm_lru_walk_arg *arg,
+ 	return ret;
+ }
+ 
+-static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
+-{
+-	if (locked)
+-		dma_resv_unlock(bo->base.resv);
+-}
+-
+ /**
+  * ttm_lru_walk_for_evict() - Perform a LRU list walk, with actions taken on
+  * valid items.
+@@ -861,64 +855,21 @@ static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
+ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+ 			   struct ttm_resource_manager *man, s64 target)
+ {
+-	struct ttm_resource_cursor cursor;
+-	struct ttm_resource *res;
++	struct ttm_bo_lru_cursor cursor;
++	struct ttm_buffer_object *bo;
+ 	s64 progress = 0;
+ 	s64 lret;
+ 
+-	spin_lock(&bdev->lru_lock);
+-	ttm_resource_cursor_init(&cursor, man);
+-	ttm_resource_manager_for_each_res(&cursor, res) {
+-		struct ttm_buffer_object *bo = res->bo;
+-		bool bo_needs_unlock = false;
+-		bool bo_locked = false;
+-		int mem_type;
+-
+-		/*
+-		 * Attempt a trylock before taking a reference on the bo,
+-		 * since if we do it the other way around, and the trylock fails,
+-		 * we need to drop the lru lock to put the bo.
+-		 */
+-		if (ttm_lru_walk_trylock(&walk->arg, bo, &bo_needs_unlock))
+-			bo_locked = true;
+-		else if (!walk->arg.ticket || walk->arg.ctx->no_wait_gpu ||
+-			 walk->arg.trylock_only)
+-			continue;
+-
+-		if (!ttm_bo_get_unless_zero(bo)) {
+-			ttm_lru_walk_unlock(bo, bo_needs_unlock);
+-			continue;
+-		}
+-
+-		mem_type = res->mem_type;
+-		spin_unlock(&bdev->lru_lock);
+-
+-		lret = 0;
+-		if (!bo_locked)
+-			lret = ttm_lru_walk_ticketlock(&walk->arg, bo, &bo_needs_unlock);
+-
+-		/*
+-		 * Note that in between the release of the lru lock and the
+-		 * ticketlock, the bo may have switched resource,
+-		 * and also memory type, since the resource may have been
+-		 * freed and allocated again with a different memory type.
+-		 * In that case, just skip it.
+-		 */
+-		if (!lret && bo->resource && bo->resource->mem_type == mem_type)
+-			lret = walk->ops->process_bo(walk, bo);
+-
+-		ttm_lru_walk_unlock(bo, bo_needs_unlock);
+-		ttm_bo_put(bo);
++	ttm_bo_lru_for_each_reserved_guarded(&cursor, man, &walk->arg, bo) {
++		lret = walk->ops->process_bo(walk, bo);
+ 		if (lret == -EBUSY || lret == -EALREADY)
+ 			lret = 0;
+ 		progress = (lret < 0) ? lret : progress + lret;
+-
+-		spin_lock(&bdev->lru_lock);
+ 		if (progress < 0 || progress >= target)
+ 			break;
+ 	}
+-	ttm_resource_cursor_fini(&cursor);
+-	spin_unlock(&bdev->lru_lock);
++	if (IS_ERR(bo))
++		return PTR_ERR(bo);
+ 
+ 	return progress;
+ }
+@@ -958,10 +909,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
   * @man: The ttm resource_manager whose LRU lists to iterate over.
-- * @ctx: The ttm_operation_ctx to govern the locking.
-+ * @arg: The ttm_lru_walk_arg to govern the walk.
+  * @arg: The ttm_lru_walk_arg to govern the walk.
   *
-  * Initialize a struct ttm_bo_lru_cursor. Currently only trylocking
-  * or prelocked buffer objects are available as detailed by
-- * @ctx::resv and @ctx::allow_res_evict. Ticketlocking is not
-+ * @arg->ctx.resv and @arg->ctx.allow_res_evict. Ticketlocking is not
-  * supported.
+- * Initialize a struct ttm_bo_lru_cursor. Currently only trylocking
+- * or prelocked buffer objects are available as detailed by
+- * @arg->ctx.resv and @arg->ctx.allow_res_evict. Ticketlocking is not
+- * supported.
++ * Initialize a struct ttm_bo_lru_cursor.
   *
   * Return: Pointer to @curs. The function does not fail.
-@@ -968,11 +968,11 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
- struct ttm_bo_lru_cursor *
- ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
- 		       struct ttm_resource_manager *man,
--		       struct ttm_operation_ctx *ctx)
-+		       struct ttm_lru_walk_arg *arg)
- {
- 	memset(curs, 0, sizeof(*curs));
- 	ttm_resource_cursor_init(&curs->res_curs, man);
--	curs->arg.ctx = ctx;
-+	curs->arg = arg;
+  */
+@@ -979,21 +927,65 @@ ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
+ EXPORT_SYMBOL(ttm_bo_lru_cursor_init);
  
- 	return curs;
+ static struct ttm_buffer_object *
+-ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *curs)
++__ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
+ {
+-	struct ttm_buffer_object *bo = res->bo;
++	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
++	struct ttm_resource *res = NULL;
++	struct ttm_buffer_object *bo;
++	struct ttm_lru_walk_arg *arg = curs->arg;
+ 
+-	if (!ttm_lru_walk_trylock(curs->arg, bo, &curs->needs_unlock))
+-		return NULL;
++	ttm_bo_lru_cursor_cleanup_bo(curs);
+ 
+-	if (!ttm_bo_get_unless_zero(bo)) {
+-		if (curs->needs_unlock)
+-			dma_resv_unlock(bo->base.resv);
+-		return NULL;
++	spin_lock(lru_lock);
++	for (;;) {
++		int mem_type, ret;
++		bool bo_locked = false;
++
++		if (first) {
++			res = ttm_resource_manager_first(&curs->res_curs);
++			first = false;
++		} else {
++			res = ttm_resource_manager_next(&curs->res_curs);
++		}
++		if (!res)
++			break;
++
++		bo = res->bo;
++		if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
++			bo_locked = true;
++		else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
++			continue;
++
++		if (!ttm_bo_get_unless_zero(bo)) {
++			if (curs->needs_unlock)
++				dma_resv_unlock(bo->base.resv);
++			continue;
++		}
++
++		mem_type = res->mem_type;
++		spin_unlock(lru_lock);
++		if (!bo_locked)
++			ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
++		/*
++		 * Note that in between the release of the lru lock and the
++		 * ticketlock, the bo may have switched resource,
++		 * and also memory type, since the resource may have been
++		 * freed and allocated again with a different memory type.
++		 * In that case, just skip it.
++		 */
++		curs->bo = bo;
++		if (!ret && bo->resource && bo->resource->mem_type == mem_type)
++			return bo;
++
++		ttm_bo_lru_cursor_cleanup_bo(curs);
++		if (ret)
++			return ERR_PTR(ret);
++
++		spin_lock(lru_lock);
+ 	}
+ 
+-	curs->bo = bo;
+-	return bo;
++	spin_unlock(lru_lock);
++	return res ? bo : NULL;
  }
-@@ -983,7 +983,7 @@ ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *cur
+ 
+ /**
+@@ -1007,25 +999,7 @@ ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *cur
+  */
+ struct ttm_buffer_object *ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs)
  {
- 	struct ttm_buffer_object *bo = res->bo;
+-	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+-	struct ttm_resource *res = NULL;
+-	struct ttm_buffer_object *bo;
+-
+-	ttm_bo_lru_cursor_cleanup_bo(curs);
+-
+-	spin_lock(lru_lock);
+-	for (;;) {
+-		res = ttm_resource_manager_next(&curs->res_curs);
+-		if (!res)
+-			break;
+-
+-		bo = ttm_bo_from_res_reserved(res, curs);
+-		if (bo)
+-			break;
+-	}
+-
+-	spin_unlock(lru_lock);
+-	return res ? bo : NULL;
++	return __ttm_bo_lru_cursor_next(curs, false);
+ }
+ EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
  
--	if (!ttm_lru_walk_trylock(&curs->arg, bo, &curs->needs_unlock))
-+	if (!ttm_lru_walk_trylock(curs->arg, bo, &curs->needs_unlock))
- 		return NULL;
+@@ -1039,21 +1013,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
+  */
+ struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs)
+ {
+-	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+-	struct ttm_buffer_object *bo;
+-	struct ttm_resource *res;
+-
+-	spin_lock(lru_lock);
+-	res = ttm_resource_manager_first(&curs->res_curs);
+-	if (!res) {
+-		spin_unlock(lru_lock);
+-		return NULL;
+-	}
+-
+-	bo = ttm_bo_from_res_reserved(res, curs);
+-	spin_unlock(lru_lock);
+-
+-	return bo ? bo : ttm_bo_lru_cursor_next(curs);
++	return __ttm_bo_lru_cursor_next(curs, true);
+ }
+ EXPORT_SYMBOL(ttm_bo_lru_cursor_first);
  
- 	if (!ttm_bo_get_unless_zero(bo)) {
 diff --git a/drivers/gpu/drm/xe/xe_shrinker.c b/drivers/gpu/drm/xe/xe_shrinker.c
-index 125c836e0ee4..f8a1129da2c3 100644
+index f8a1129da2c3..1c3c04d52f55 100644
 --- a/drivers/gpu/drm/xe/xe_shrinker.c
 +++ b/drivers/gpu/drm/xe/xe_shrinker.c
-@@ -66,11 +66,12 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
+@@ -66,7 +66,10 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
  		struct ttm_resource_manager *man = ttm_manager_type(&xe->ttm, mem_type);
  		struct ttm_bo_lru_cursor curs;
  		struct ttm_buffer_object *ttm_bo;
-+		struct ttm_lru_walk_arg arg = {.ctx = ctx};
+-		struct ttm_lru_walk_arg arg = {.ctx = ctx};
++		struct ttm_lru_walk_arg arg = {
++			.ctx = ctx,
++			.trylock_only = true,
++		};
  
  		if (!man || !man->use_tt)
  			continue;
+@@ -83,6 +86,8 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
+ 			if (*scanned >= to_scan)
+ 				break;
+ 		}
++		/* Trylocks should never error, just fail. */
++		xe_assert(xe, !IS_ERR(ttm_bo));
+ 	}
  
--		ttm_bo_lru_for_each_reserved_guarded(&curs, man, ctx, ttm_bo) {
-+		ttm_bo_lru_for_each_reserved_guarded(&curs, man, &arg, ttm_bo) {
- 			if (!ttm_bo_shrink_suitable(ttm_bo, ctx))
- 				continue;
- 
+ 	return freed;
 diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-index 4e52283e5db1..8f04fa48b332 100644
+index 8f04fa48b332..d3a85d76aaff 100644
 --- a/include/drm/ttm/ttm_bo.h
 +++ b/include/drm/ttm/ttm_bo.h
-@@ -484,8 +484,8 @@ struct ttm_bo_lru_cursor {
- 	 * unlock before the next iteration or after loop exit.
- 	 */
- 	bool needs_unlock;
--	/** @arg: Common BO LRU walk arguments. */
--	struct ttm_lru_walk_arg arg;
-+	/** @arg: Pointer to common BO LRU walk arguments. */
-+	struct ttm_lru_walk_arg *arg;
- };
- 
- void ttm_bo_lru_cursor_fini(struct ttm_bo_lru_cursor *curs);
-@@ -493,7 +493,7 @@ void ttm_bo_lru_cursor_fini(struct ttm_bo_lru_cursor *curs);
- struct ttm_bo_lru_cursor *
- ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
- 		       struct ttm_resource_manager *man,
--		       struct ttm_operation_ctx *ctx);
-+		       struct ttm_lru_walk_arg *arg);
- 
- struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs);
- 
-@@ -504,9 +504,9 @@ struct ttm_buffer_object *ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs)
-  */
- DEFINE_CLASS(ttm_bo_lru_cursor, struct ttm_bo_lru_cursor *,
- 	     if (_T) {ttm_bo_lru_cursor_fini(_T); },
--	     ttm_bo_lru_cursor_init(curs, man, ctx),
-+	     ttm_bo_lru_cursor_init(curs, man, arg),
- 	     struct ttm_bo_lru_cursor *curs, struct ttm_resource_manager *man,
--	     struct ttm_operation_ctx *ctx);
-+	     struct ttm_lru_walk_arg *arg);
- static inline void *
- class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
- { return *_T; }
-@@ -517,7 +517,7 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
-  * resources on LRU lists.
-  * @_cursor: struct ttm_bo_lru_cursor to use for the iteration.
-  * @_man: The resource manager whose LRU lists to iterate over.
-- * @_ctx: The struct ttm_operation_context to govern the @_bo locking.
-+ * @_arg: The struct ttm_lru_walk_arg to govern the LRU walk.
-  * @_bo: The struct ttm_buffer_object pointer pointing to the buffer object
-  * for the current iteration.
-  *
-@@ -530,8 +530,8 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
+@@ -529,10 +529,15 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
+  * up at looping termination, even if terminated prematurely by, for
   * example a return or break statement. Exiting the loop will also unlock
   * (if needed) and unreference @_bo.
++ *
++ * Return: If locking of a bo returns an error, then iteration is terminated
++ * and @_bo is set to a corresponding error pointer. It's illegal to
++ * dereference @_bo after loop exit.
   */
--#define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _ctx, _bo)	\
--	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _ctx)		\
-+#define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _arg, _bo)	\
-+	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _arg)		\
- 		for ((_bo) = ttm_bo_lru_cursor_first(_cursor); (_bo);	\
- 		     (_bo) = ttm_bo_lru_cursor_next(_cursor))
+ #define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _arg, _bo)	\
+ 	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _arg)		\
+-		for ((_bo) = ttm_bo_lru_cursor_first(_cursor); (_bo);	\
+-		     (_bo) = ttm_bo_lru_cursor_next(_cursor))
++		for ((_bo) = ttm_bo_lru_cursor_first(_cursor);		\
++		       !IS_ERR_OR_NULL(_bo);				\
++		       (_bo) = ttm_bo_lru_cursor_next(_cursor))
  
+ #endif
 -- 
 2.49.0
 
