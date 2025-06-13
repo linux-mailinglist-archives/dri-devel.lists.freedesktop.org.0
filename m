@@ -2,89 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939D3AD8D02
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 15:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E8AAD8D7A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 15:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDCC10E2A0;
-	Fri, 13 Jun 2025 13:20:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Tc3tfICG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1DE10E010;
+	Fri, 13 Jun 2025 13:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0454910E9AC
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 13:20:56 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3a36748920cso2082114f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 06:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1749820855; x=1750425655; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=raJrCdR6b2lneSH8VF1vulY9hnsIvh06J0aLVVHMCpc=;
- b=Tc3tfICG7F3iIaFHBC3ACtbKPf29Gpq7YDJRoogF21TQWfk09rHj7xZVP6QYdrejRP
- 1nb2uXKZMFPEiOPFrirgJMK4VUcHwZsHaUrVGfrzoWRHQB/OArkTwhi6FlD9j6aEzrrp
- 8Tl45zI49bYrLaIk32m73toCBIwtQgh67oOP4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749820855; x=1750425655;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=raJrCdR6b2lneSH8VF1vulY9hnsIvh06J0aLVVHMCpc=;
- b=kXx3138WZkZyLfQODXHHRXGrTlfYouDUWSAx34Twv9D0wvqxYLnAgp7cV0IUqsZDo4
- 1eCpvGW+zWdlfnRcKuTWk95KDTTqLiGIm6tJP/n/R0fi/rq1eY0C9rBsrJpE0SSEbdV4
- l0Lr8HNa9nzDYOUKDP+gqCwxdrp+UNdWPg+50rX+8EDXaEdJoeGdR32mD71v72BFJjRm
- vJRzaMNODoRZIk000ICzZ4Ayl6/P6ltpprr6ybrqCn6QUdnAYJdqHfkB1sjYWtRuCWXr
- oIiS5ema9XOB0F+Km04EAenv1G4uOFI2Q+NaZ2nc46aglhTUbEJU2FFXjno7XFxFeAGE
- 3vWw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeh8/H5kUuK+0zcsnrFaW+0ElDO9mmTENzHQNN8Zn3KmnAUuTIyjcKTC/X9G4daLwwjH/4OGr04pU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0Az0si2P5Dg2X8kDU8Wzk3oGv97dLyZuapyTXe1KNhpaGG4Sv
- KvwTwxRNAH5y5WkSBtz0D+wR2w+JbWm/2Z0XXQO0S7DWqM4E6QQe+W26WsKcmwl/5OY=
-X-Gm-Gg: ASbGncux8sgBs/qf2oMy0h6ZOBRK7vBdRxjl7/a7pr4d48lEFB4ip0Lbp14MeWGTyvX
- 9gp8840yQj2K9H+slCWcNBF1jLjeRDv50QKg4aS3dg42VyUyTHV+3LY5wyOXN8YJZLQ6zk/LX/r
- rkfjS8hRYxcmdzm4yeVMlTWNrGnEycVZN20oXKTZnuyZ/8I28Hw5t9jaJkc2f8gsKhOyr9BVw1y
- fM1BfQYDsjs8i2SfGgaBHN6cfoC/7bjW8NfYThDlFatQetOd9t0iUfW6LtIXu8AY+98BtEFZtQm
- iNaFQ5Y3IK0PDbGnK6U6Qc9Yy93YKrr+dkG0xU2C16uEzoeOe+oT3ft+59TbxbpOxTpK5bwzQA=
- =
-X-Google-Smtp-Source: AGHT+IGBZol4ydsu67RWqT3AVYrFjt81+DWC3L2YRnHi7Intg5nYAg6KbEQhJYwKW3ivqaDkBnnsTw==
-X-Received: by 2002:a05:6000:2f86:b0:3a4:cf40:ff37 with SMTP id
- ffacd0b85a97d-3a5686dfb66mr2482182f8f.6.1749820854365; 
- Fri, 13 Jun 2025 06:20:54 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568b089c2sm2370792f8f.59.2025.06.13.06.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jun 2025 06:20:53 -0700 (PDT)
-Date: Fri, 13 Jun 2025 15:20:51 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: "Saarinen, Jani" <jani.saarinen@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/prime: remove drm_prime_lookup_buf_by_handle
-Message-ID: <aEwls5hPP9p-DPtt@phenom.ffwll.local>
-References: <20250604113234.2520-1-christian.koenig@amd.com>
- <aEBn9o-bARNut3ek@phenom.ffwll.local>
- <aEByd4gidRpxJkfp@phenom.ffwll.local>
- <7497bb60649f9459b9734514bd320033f45651e2@intel.com>
- <dca65c78-9af4-4266-b60e-ce13b5a61f06@ursulin.net>
- <39cf23f66c3f872dddbaf8948e42decc810263c6@intel.com>
- <DM8PR11MB5655FD4DC309FFFA44E87BD6E077A@DM8PR11MB5655.namprd11.prod.outlook.com>
- <362e5fc8-8cb9-4bfb-940c-555514e51912@amd.com>
- <cc1f8c8a-c01b-432d-a466-94ce532d0183@amd.com>
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DBA10E1F2;
+ Fri, 13 Jun 2025 13:45:44 +0000 (UTC)
+From: Maarten Lankhorst <dev@lankhorst.se>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <dev@lankhorst.se>
+Subject: [RFC PATCH 0/8] RFC enable IAF support on PVC.
+Date: Fri, 13 Jun 2025 15:45:19 +0200
+Message-ID: <20250613134520.2458175-10-dev@lankhorst.se>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cc1f8c8a-c01b-432d-a466-94ce532d0183@amd.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,82 +37,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 02:24:41PM +0200, Christian König wrote:
-> On 6/13/25 14:15, Christian König wrote:
-> > On 6/13/25 14:11, Saarinen, Jani wrote:
-> >> Hi, 
-> >>
-> >>> -----Original Message-----
-> >>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Jani
-> >>> Nikula
-> >>> Sent: Friday, 13 June 2025 14.02
-> >>> To: Tvrtko Ursulin <tursulin@ursulin.net>; Simona Vetter
-> >>> <simona.vetter@ffwll.ch>; Christian König
-> >>> <ckoenig.leichtzumerken@gmail.com>
-> >>> Cc: tzimmermann@suse.de; dri-devel@lists.freedesktop.org
-> >>> Subject: Re: [PATCH] drm/prime: remove drm_prime_lookup_buf_by_handle
-> >>>
-> >>> On Fri, 13 Jun 2025, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
-> >>>> On 13/06/2025 11:09, Jani Nikula wrote:
-> >>>>> On Wed, 04 Jun 2025, Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> >>>>>> On Wed, Jun 04, 2025 at 05:36:22PM +0200, Simona Vetter wrote:
-> >>>>> This regressed one of our CI IGT tests [1].
-> >>>>>
-> >>>>> BR,
-> >>>>> Jani.
-> >>>>>
-> >>>>>
-> >>>>> [1] https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14463
-> >>>>
-> >>>> It also explodes even more trivially when logging into a KDE Wayland
-> >>>> session:
-> >>>
-> >>> Smells like a revert, and back to the drawing board, perhaps?
-> > 
-> > Potentially, but any idea what's going wrong? Sounds like I missed something, but I don't see what.
-> 
-> Oh! I now see what's going on.
-> 
-> Looks like the code previously had a race condition and by removing the extra check I made the race condition 100% likely.
-> 
-> Ups, I think a simple revert won't do it here. Give me a second.
+A lot of this code is not new, it's mostly based on previous patches
+by David Kershner.
 
-Please make sure you cc: xe-devel so intel-gfx-ci can pick it up and test.
-It's a bit embarrassing.
+A lot of this code is lifted from the backport/main branch in
+https://github.com/intel-gpu/intel-gpu-i915-backports
 
-Also since this breaks things quite badly might be good to push the revert
-right away since I don't think we can land the proper fix before the w/e.
-For that
+With the recent patch series to enable MTD support, it's possible to
+enable IAF support as well. This series applies on top of the
+v12 MTD series by Alexander Usyskin.
 
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+Patch 1 enables the PSC region in MTD.
+Patch 2 adds IAF define to i915-component.
+Patch 3 adds MEI support from the backports repo. 
+Patch 4 is a small modification of the backport of the IAF code.
+Patch 5 enables loading of the fabric code in xe.
+Patch 6 is a UAPI change.
+Patch 7 is a small cleanup, should probably be sent separately.
+Patch 8 enables mapping of DMA-BUF through IAF instead of through PCI-E.
 
-Cheers, Sima
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Regards,
-> > Christian.
-> > 
-> >> I would say so. Looks like this on our CI https://intel-gfx-ci.01.org/tree/drm-tip/igt@prime_self_import@basic-with_one_bo.html 
-> >> And systems stop testing anything after (see eg https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_16692/bat-twl-1/igt_runner0.txt ) when aborts happens. 
-> >>
-> >>>
-> >>>
-> >>> BR,
-> >>> Jani.
-> >>
-> >> Br
-> >> Other Jani
-> >>>
-> >>>
-> >>> --
-> >>> Jani Nikula, Intel
-> > 
-> 
+I would like to have a discussion mostly on the last patch, I'm abusing
+the DMA-BUF api, and would like to start a discussion if this way is
+acceptable or not, or potentially ways to handle it.
+
+In particular, I have been using the following (pseudo) code:
+
+xe_dma_buf_map(...)
+{
+	if (dir == DMA_NONE) {
+		/* Only allow DMA_NONE for xe <-> xe */
+		if (attach->importer_ops != &xe_dma_buf_attach_ops)
+			return ERR_PTR(-EOPNOTSUPP);
+
+		iaf = true;
+	}
+}
+
+bo_map_dma_buf(...)
+{
+	if (dmabuf->ops == &xe_dmabuf_ops) {
+		struct xe_device *src = xe_bo_device(gem_to_xe_bo(dmabuf->priv));
+		struct xe_device *dst = xe_bo_device(bo);
+
+		if (iaf_possible(src, dst))
+			sg = dma_buf_map_attachment(attach, DMA_NONE);
+
+		if (!IS_ERR(sg)) {
+			bo->flags |= XE_BO_FLAG_IAF;
+			return sg;
+		}
+
+		/* fallback */
+	}
+
+	return dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
+}
+
+With of course:
+bo_unmap_dma_buf(...)
+{
+	dma_buf_unmap_attachment(attach, sg,
+				bo->flags & XE_BO_FLAG_IAF ?
+				DMA_NONE : DMA_BIDIRECTIONAL);
+}
+
+Maarten Lankhorst (8):
+  drm/xe: Add PSC region for PVC
+  include/drm/i915_component: Add IAF type.
+  mei: Add IAF mei component
+  drm/xe: Add fabric code from i915 backport repository.
+  drm/xe: Add support for IAF devices.
+  drm/xe/uapi: Add query ioctl for fabric connectivity
+  drm/xe: Remove unused XE_DEFAULT_GTT_SIZE_MB definition.
+  drm/xe: Allow mapping DMA-BUF buffer objects connected through IAF
+
+ drivers/gpu/drm/xe/Kconfig                    |    2 +
+ drivers/gpu/drm/xe/Makefile                   |    2 +
+ drivers/gpu/drm/xe/fabric/Kconfig             |   53 +
+ drivers/gpu/drm/xe/fabric/Makefile            |   42 +
+ drivers/gpu/drm/xe/fabric/csr.h               |  497 ++++
+ drivers/gpu/drm/xe/fabric/debugfs.c           |  112 +
+ drivers/gpu/drm/xe/fabric/debugfs.h           |   26 +
+ drivers/gpu/drm/xe/fabric/dev_diag.c          |  723 ++++++
+ drivers/gpu/drm/xe/fabric/dev_diag.h          |   15 +
+ drivers/gpu/drm/xe/fabric/error.c             | 1490 ++++++++++++
+ drivers/gpu/drm/xe/fabric/error.h             |   15 +
+ drivers/gpu/drm/xe/fabric/fw.c                | 2089 +++++++++++++++++
+ drivers/gpu/drm/xe/fabric/fw.h                |   21 +
+ drivers/gpu/drm/xe/fabric/iaf_drv.h           | 1341 +++++++++++
+ drivers/gpu/drm/xe/fabric/iaf_netlink.h       |  208 ++
+ drivers/gpu/drm/xe/fabric/io.h                |   82 +
+ drivers/gpu/drm/xe/fabric/main.c              | 1098 +++++++++
+ drivers/gpu/drm/xe/fabric/mbdb.c              | 1173 +++++++++
+ drivers/gpu/drm/xe/fabric/mbdb.h              |  171 ++
+ drivers/gpu/drm/xe/fabric/mbox.c              |  440 ++++
+ drivers/gpu/drm/xe/fabric/mbox.h              |   18 +
+ drivers/gpu/drm/xe/fabric/mei_iaf_user.c      |  440 ++++
+ drivers/gpu/drm/xe/fabric/mei_iaf_user.h      |   19 +
+ drivers/gpu/drm/xe/fabric/netlink.c           | 1532 ++++++++++++
+ drivers/gpu/drm/xe/fabric/netlink.h           |   15 +
+ drivers/gpu/drm/xe/fabric/ops.c               | 1476 ++++++++++++
+ drivers/gpu/drm/xe/fabric/ops.h               |  525 +++++
+ drivers/gpu/drm/xe/fabric/parallel.c          |   96 +
+ drivers/gpu/drm/xe/fabric/parallel.h          |   33 +
+ drivers/gpu/drm/xe/fabric/port.c              | 1884 +++++++++++++++
+ drivers/gpu/drm/xe/fabric/port.h              |   41 +
+ drivers/gpu/drm/xe/fabric/port_diag.c         | 1892 +++++++++++++++
+ drivers/gpu/drm/xe/fabric/port_diag.h         |   19 +
+ drivers/gpu/drm/xe/fabric/routing_debug.c     |  484 ++++
+ drivers/gpu/drm/xe/fabric/routing_debug.h     |   16 +
+ drivers/gpu/drm/xe/fabric/routing_engine.c    |  565 +++++
+ drivers/gpu/drm/xe/fabric/routing_engine.h    |   25 +
+ drivers/gpu/drm/xe/fabric/routing_event.c     |  249 ++
+ drivers/gpu/drm/xe/fabric/routing_event.h     |   19 +
+ drivers/gpu/drm/xe/fabric/routing_io.c        |  496 ++++
+ drivers/gpu/drm/xe/fabric/routing_io.h        |   15 +
+ drivers/gpu/drm/xe/fabric/routing_logic.c     |  934 ++++++++
+ drivers/gpu/drm/xe/fabric/routing_logic.h     |   16 +
+ drivers/gpu/drm/xe/fabric/routing_p2p.c       |  883 +++++++
+ drivers/gpu/drm/xe/fabric/routing_p2p.h       |   22 +
+ drivers/gpu/drm/xe/fabric/routing_pause.c     |  282 +++
+ drivers/gpu/drm/xe/fabric/routing_pause.h     |   16 +
+ drivers/gpu/drm/xe/fabric/routing_topology.c  |  200 ++
+ drivers/gpu/drm/xe/fabric/routing_topology.h  |  376 +++
+ .../drm/xe/fabric/selftests/routing_mock.c    |  291 +++
+ .../drm/xe/fabric/selftests/routing_mock.h    |   22 +
+ .../xe/fabric/selftests/routing_selftest.c    |  424 ++++
+ .../xe/fabric/selftests/routing_selftest.h    |   12 +
+ .../gpu/drm/xe/fabric/selftests/selftest.c    |   73 +
+ .../gpu/drm/xe/fabric/selftests/selftest.h    |   34 +
+ drivers/gpu/drm/xe/fabric/statedump.c         |  283 +++
+ drivers/gpu/drm/xe/fabric/statedump.h         |   32 +
+ drivers/gpu/drm/xe/fabric/sysfs.c             |  327 +++
+ drivers/gpu/drm/xe/fabric/sysfs.h             |   16 +
+ drivers/gpu/drm/xe/fabric/trace.c             |    8 +
+ drivers/gpu/drm/xe/fabric/trace.h             |   11 +
+ drivers/gpu/drm/xe/fabric/trace_mbx.h         |   99 +
+ drivers/gpu/drm/xe/fabric/trace_nl.h          |   54 +
+ drivers/gpu/drm/xe/fabric/trace_pm.h          |  102 +
+ drivers/gpu/drm/xe/fabric/trace_rt.h          |  110 +
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h          |   23 +
+ drivers/gpu/drm/xe/xe_bo.c                    |   85 +-
+ drivers/gpu/drm/xe/xe_bo.h                    |    4 +-
+ drivers/gpu/drm/xe/xe_device.c                |   12 +-
+ drivers/gpu/drm/xe/xe_device_types.h          |    3 +
+ drivers/gpu/drm/xe/xe_dma_buf.c               |   27 +-
+ drivers/gpu/drm/xe/xe_dma_buf.h               |    1 +
+ drivers/gpu/drm/xe/xe_ggtt.c                  |    4 +-
+ drivers/gpu/drm/xe/xe_gt_types.h              |    3 +
+ drivers/gpu/drm/xe/xe_iaf.c                   |  460 ++++
+ drivers/gpu/drm/xe/xe_iaf.h                   |   82 +
+ drivers/gpu/drm/xe/xe_irq.c                   |   16 +-
+ drivers/gpu/drm/xe/xe_nvm.c                   |    1 +
+ drivers/gpu/drm/xe/xe_pt.c                    |    4 +
+ drivers/gpu/drm/xe/xe_query.c                 |   58 +
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   23 +-
+ drivers/gpu/drm/xe/xe_vm.c                    |    2 +-
+ drivers/gpu/drm/xe/xe_vram.c                  |    4 +-
+ drivers/misc/mei/Kconfig                      |    1 +
+ drivers/misc/mei/Makefile                     |    1 +
+ drivers/misc/mei/iaf/Kconfig                  |   12 +
+ drivers/misc/mei/iaf/Makefile                 |    7 +
+ drivers/misc/mei/iaf/mei_iaf.c                |  292 +++
+ drivers/misc/mei/mkhi.h                       |    2 +
+ include/drm/intel/i915_component.h            |    1 +
+ include/drm/intel/i915_mei_iaf_interface.h    |   25 +
+ include/drm/intel/intel_iaf_platform.h        |  145 ++
+ include/linux/intel_dg_nvm_aux.h              |    2 +-
+ include/uapi/drm/xe_drm.h                     |   32 +
+ 94 files changed, 25389 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/fabric/Kconfig
+ create mode 100644 drivers/gpu/drm/xe/fabric/Makefile
+ create mode 100644 drivers/gpu/drm/xe/fabric/csr.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/debugfs.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/debugfs.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/dev_diag.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/dev_diag.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/error.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/error.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/fw.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/fw.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/iaf_drv.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/iaf_netlink.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/io.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/main.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/mbdb.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/mbdb.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/mbox.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/mbox.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/mei_iaf_user.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/mei_iaf_user.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/netlink.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/netlink.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/ops.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/ops.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/parallel.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/parallel.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/port.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/port.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/port_diag.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/port_diag.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_debug.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_debug.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_engine.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_engine.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_event.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_event.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_io.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_io.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_logic.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_logic.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_p2p.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_p2p.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_pause.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_pause.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_topology.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/routing_topology.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/routing_mock.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/routing_mock.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/routing_selftest.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/routing_selftest.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/selftest.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/selftests/selftest.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/statedump.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/statedump.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/sysfs.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/sysfs.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace.c
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace_mbx.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace_nl.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace_pm.h
+ create mode 100644 drivers/gpu/drm/xe/fabric/trace_rt.h
+ create mode 100644 drivers/gpu/drm/xe/xe_iaf.c
+ create mode 100644 drivers/gpu/drm/xe/xe_iaf.h
+ create mode 100644 drivers/misc/mei/iaf/Kconfig
+ create mode 100644 drivers/misc/mei/iaf/Makefile
+ create mode 100644 drivers/misc/mei/iaf/mei_iaf.c
+ create mode 100644 include/drm/intel/i915_mei_iaf_interface.h
+ create mode 100644 include/drm/intel/intel_iaf_platform.h
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.45.2
+
