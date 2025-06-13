@@ -2,56 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16394AD89EF
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A25AD8A14
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7243D10E954;
-	Fri, 13 Jun 2025 11:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8156B10E98F;
+	Fri, 13 Jun 2025 11:12:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="W74bGSVu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g4kKdw9S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77FB810E954
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:03:22 +0000 (UTC)
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 0CB3B25F8B;
- Fri, 13 Jun 2025 13:03:18 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vCIuwyLbpHdc; Fri, 13 Jun 2025 13:03:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1749812582; bh=xSacqbNIg/9oGP/awU7ktqaXCqSMSf5bNRHv9Vu8nMU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References;
- b=W74bGSVu8Tkpq7tIWHOgrW5bDW+opJlr9W6rbqBkSHFmg1nBgI1YXJ3qYYlPHqkHc
- 5XRB08DesTbYTA2e600cDbpii29hkzuDYpEj1arI8OmQ2fNroCbMoWsVyIKpvdHY9L
- dvFT2OqNJKZWZJhMm+l6KYlG+I0NdDgE73rEmo7MeFGe7IQQxVd7cML6QGj28V6Mg4
- 8OHWi77df+UfFnNnHne80ZmAgOJC66QxL3tiZJ10dAIg4Ac+D10tgwTjaybRjZzVz0
- wUrOaLpZCMyL3t9ygNw/9PgziZxlrHLT2wHqtrvuEhMZKOr2p6FgHOkXIIRvfIxGIt
- F/u/xfLvxfdsw==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E67710E98F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:12:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F25544A96D;
+ Fri, 13 Jun 2025 11:12:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE8AC4CEF1;
+ Fri, 13 Jun 2025 11:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1749813156;
+ bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g4kKdw9SM2bno1fEAUiCi6mw5ZmG2oOwM9TdgZeIyT1IQbX7X77HcJ1LYqfuskboa
+ JGRT3GgKJU7HfdKVHhEwM6RbZVBVlK/P5c4ZU4IqGpHDoM9jVWM/ytqZuhOEoKayrO
+ xTsq76VB+ZzyRppRpOMFJJN6JOHbjdwagkrEFx3Ng0/lhqAyAceklyVmJaQug8641Q
+ JSHHo90KaBC05xuTm1/zTU/9LwbDwYf8mzg7yZYfDEuuM89nlEVvUy9Ws3qrTN5xaj
+ +W1kJlaU5hXI6P9GIWNe9FGwWwkVeh7uwqDhoiXxU9TaeL0RzbPSSxvPd6dZscVPeL
+ 2OG33FATjlbqg==
+Date: Fri, 13 Jun 2025 12:12:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 14/20] ASoC: rockchip: i2s-tdm: switch to
+ HWORD_UPDATE_CONST macro
+Message-ID: <f38ea320-8eaa-4eea-85c1-63d44c8d359a@sirena.org.uk>
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
 MIME-Version: 1.0
-Date: Fri, 13 Jun 2025 11:03:01 +0000
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jessica
- Zhang <jessica.zhang@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm: panel: add support for Samsung S6E8AA5X01 panel
- controller
-In-Reply-To: <84ee6388-92af-49c8-988b-b79ed1453d5e@suse.de>
-References: <20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org>
- <20250612-panel-samsung-s6e8aa5x01-v1-2-06dcba071ea6@disroot.org>
- <84ee6388-92af-49c8-988b-b79ed1453d5e@suse.de>
-Message-ID: <84663a88789b993a1cab8c55af4e03a7@disroot.org>
-X-Sender: kauschluss@disroot.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="EoywhozqJ8iTP5HR"
+Content-Disposition: inline
+In-Reply-To: <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
+X-Cookie: Use extra care when cleaning on stairs.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,110 +100,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-06-13 09:39, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 12.06.25 um 16:52 schrieb Kaustabh Chakraborty:
->> Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Implement
->> a basic panel driver for such panels.
->>
->> The driver also initializes a backlight device, which works by changing
->> the panel's gamma values and aid brightness levels appropriately, with
->> the help of look-up tables acquired from downstream kernel sources.
->>
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-[...]
+--EoywhozqJ8iTP5HR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +static void s6e8aa5x01_mcs_protect(struct mipi_dsi_multi_context *dsi,
->> +				   struct s6e8aa5x01_ctx *ctx, bool protect)
-> 
-> I found this interface confusing. Rather split it up into .  It also does two different things AFAICT.
-> 
-> - The mcs_mutex protects against concurrent access from update_status and enable
+On Thu, Jun 12, 2025 at 08:56:16PM +0200, Nicolas Frattaroli wrote:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
+>=20
+> Replace the implementation of this driver's HIWORD_UPDATE macro with an
+> instance of HWORD_UPDATE_CONST. The const variant is chosen here because
+> some of the header defines are then used in initializers.
 
-mcs_mutex is meant to prevent any early access protection of the MCS commands.
-Suppose there are two functions, A and B, accessing MCS.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-ENTRY: A()
-(access protection disabled)
-...
+--EoywhozqJ8iTP5HR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-ENTRY: B()
-(access protection disabled)
-...
-(access protection enabled)
-EXIT: B()
+-----BEGIN PGP SIGNATURE-----
 
-[!] cannot access MCS commands here anymore
-(access protection enabled)
-EXIT: A()
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMB5YACgkQJNaLcl1U
+h9Bobgf/dsPkAlIpLO/GS4oVRLlRiPIWa/agIoUuXFfDugqesR7MdX12gZHAzJ9s
+BnznMlPSuOjDnlFPdVpRCgVr4iPfs88ixFAuy/SjKEjvV8VYAUBEs1sg2JykJyMZ
+SkQ69/Iii/uButuWqecqljEHZvL7j67axT7KsEimeZ1zynLexrz7vtE6t4P8p+YE
+7qrc1oKA5kjXrIug8enyLvuLzI75M7MfzuRaooCPej44mc4bjqpuH6zXCxPzAWt9
+0LEzYDn7kdMZ5Yn0Vp35b8uKRqPdQs1heacEsmiHmKPfvnY/klYg1G9M71t9OVpm
+EE2sy3C4QrYbYl73/UBH9Z7zoN/X2A==
+=9PDr
+-----END PGP SIGNATURE-----
 
-And to avoid such errors a mutex is provided.
-
-> 
-> - MSC_ACCESSPROT enable access to hardware state.
-> 
-> Maybe try this:
-> 
-> - Move msc_mutex into the callers, so that ->update_status and ->enable acquire and release the lock.
-> 
-> - Move MCS_ACCESSPROT into ->enable and ->disable and leave it accessible, if the hardware allows that.
-
-Yeah this is a good idea, I'll try it.
-
->> +{
->> +	if (protect) {
->> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0xa5, 0xa5);
->> +		mutex_unlock(&ctx->mcs_mutex);
->> +	} else {
->> +		mutex_lock(&ctx->mcs_mutex);
->> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0x5a, 0x5a);
->> +	}
->> +}
->> +
->> +static int s6e8aa5x01_update_brightness(struct backlight_device *backlight)#
-> 
-> Maybe call this function s6e8aa5x01_update_status() to match the callback.
-> 
->> +{
->> +	struct mipi_dsi_multi_context dsi = { .dsi = bl_get_data(backlight) };
->> +	struct s6e8aa5x01_ctx *ctx = mipi_dsi_get_drvdata(dsi.dsi);
->> +	u16 lvl = backlight->props.brightness;
-> 
-> backlight_get_brightness() here ?
-> 
-> 
-> I think you should also check panel->enabled and return if false. AFAIU there will be no gamma changes on disabled hardware anyway.
->
-
-The enable function is never executed when the panel is disabled. This is
-because flag checking is done by drm_panel anyway. See drm_panel_enable()
-in drivers/gpu/drm/drm_panel.c [1]
-
->> +
->> +static int s6e8aa5x01_probe(struct mipi_dsi_device *dsi)
->> +{
->> +	struct device *dev = &dsi->dev;
->> +	struct s6e8aa5x01_ctx *ctx;
->> +	int ret;
->> +
->> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> 
-> You're possibly using the instance after the hardware device has been removed. Alloc with drmm_kzalloc() or you might end up with UAF errors.
-
-Hmm, none of the panel drivers are using drmm_kzalloc(), or even any
-drmm_*(). Are you sure I must use it?
-
->> +	ret = devm_mutex_init(dev, &ctx->mcs_mutex);
-> 
-> You're taking this mutex in DRM code, so rather use drmm_mutex_init() here.
-
-(The comment by me above applies here too)
-
-> 
-> Best regards
-> Thomas
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/gpu/drm/drm_panel.c#n209
+--EoywhozqJ8iTP5HR--
