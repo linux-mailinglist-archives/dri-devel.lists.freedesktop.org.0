@@ -2,63 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B18DAD90FD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086F9AD9137
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62BA10EA1F;
-	Fri, 13 Jun 2025 15:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69F410E987;
+	Fri, 13 Jun 2025 15:25:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g4z6oaW1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CQjyG/V1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD6410EA14;
- Fri, 13 Jun 2025 15:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749827934; x=1781363934;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=iHXDxxUSYzGSDqkr+m/sFrxNx/bX2WyGiRwMXiYVZZE=;
- b=g4z6oaW10M0dacMZzs4liouzN4JmMzZ4dtgZcxiBmiMSktiHfkhPQ1tb
- HWKXR/2HkSVGURqMzq2T7YY5DJR4QN70Jk7+fDkX9/4/IRWdtc//EdY/u
- QqGfiglr7Xj0LuqQhTjwhAfGrueSA2QKTF2wIz2jrSn0WHKGiDfOTmjbF
- jOa5ZkFs0rTq09/NHLOR2pMbJllCCEEm02AKmmyPax9Ll5D4tuWEwhYkq
- CJzCBm4nS/bEE/iAr7Pe94abTPWtgER/HqGkmxPK7Y4I0HlOtmdP+pBsQ
- WCNOzZmlp+RGzdalZiMBQR3ScxYMVjajKC7sDV3r1W30H8QMux50uXWLy A==;
-X-CSE-ConnectionGUID: 3yskXqS6ScqRBTOVgBxIdw==
-X-CSE-MsgGUID: yX1oqchbQHKXIf5ewCwaHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="74580694"
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="74580694"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 08:18:54 -0700
-X-CSE-ConnectionGUID: Pwm8IsE+TY6rJ3LiAkkrqw==
-X-CSE-MsgGUID: Cri0dSCRSXCUkTNkhfyj5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; d="scan'208";a="152618110"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO fedora..)
- ([10.245.245.83])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 08:18:52 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, airlied@gmail.com,
- Matthew Brost <matthew.brost@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 3/3] drm/ttm, drm_xe,
- Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
-Date: Fri, 13 Jun 2025 17:18:24 +0200
-Message-ID: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250613151824.178650-1-thomas.hellstrom@linux.intel.com>
-References: <20250613151824.178650-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB8B10E987;
+ Fri, 13 Jun 2025 15:25:14 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-7c922169051so140821685a.0; 
+ Fri, 13 Jun 2025 08:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749828313; x=1750433113; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lAvMYCY7N602oTIv1xbvy3rwaOD5ob45HmfKgySj4yM=;
+ b=CQjyG/V1GjGSSnBeZzuJiBqfCdVbBNOeAYp0g9jN9huLpg4cWFWO6+JTGhcTDRsKYn
+ iyaLxsY/M4KUEXWRCdZ7R9aOY9kfN+IyI5fKaBLPyEz490Yx8fPzZNa71MXB7hXixACo
+ PcJ4bF0iTwzeNL9CBbQ3HHQViv8POW/sEMOw9Zfpx2U3fxoqdJtFDSTNQaEcTPbP2I9X
+ k5s46bN6a/M6031bpTeAtE5eNjRoDN2ECR/14j8k325aaKtW+WX3I78Ra6a9P/Uk1pbr
+ EZ1q1JVemvdr/YU1wgqjE7Lxt6Ds6QoDhC/74b79p/sp7PqMjDjUwMwe3Uh1O0n22C3o
+ Sj5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749828313; x=1750433113;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lAvMYCY7N602oTIv1xbvy3rwaOD5ob45HmfKgySj4yM=;
+ b=NkVJlYrG2PUaKdpPSse2tTYWwNA7TpYB/v94thTujp/Hlxf+O/WjFXOl2p3nNw/Mkm
+ KiJbustKyWUzu1J7U2Is8LwVRs3WWgWkdhRYKDQUojc3eNJ886fVpxqcinM5FnkaHuKK
+ dyvUdwP7f754RPt6UepE81qyJXznMtgzse6mzG28PIdvhMRXxiDly0ho32SPjYDSjkwg
+ s3+8tTNehUbhifa8oytsynyrx/T67M441quvqujJgyC3j6uFJY2foiTS4sUTDiedDAE/
+ p8zmHZdU7iZrosSpQjNoFzdPMHiYBLUn5wOWYLNLnRDjjMbjlDsmnK1eSM9uZfUzbggp
+ uUsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1A9vmUNKFc6U+GYnKHNoUen9RKvmvjQVYl7qtMmWylZE/QCK5FAFBA47KrTMlxFQSTydCoZ1a2/Y=@lists.freedesktop.org,
+ AJvYcCVik+vYcR63ugHIdB+fsKtCrKYNHMbX3N5r7H9PqDybuqq/gXod3tuDKPeO2oBLfA/Fo2h1/+8LQQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyrTIAMx55B7JQFL3j4Hvi4umELUUWGINZwRiei/sBntTvKxqxN
+ FcFcNYYO8VzqbJ5ZAVkYO7Kay5k2OtURpPlV6WloHGMshV6fWqQLCf7l
+X-Gm-Gg: ASbGncs1AkJWyq6CqCvRN4jVhCkw5ZZAibX3Pb3i/PwAYpDB0vetByTs4t1GXN35hrQ
+ PWZ9qEqQNJ8pgILmTq21l8NwmziBTp7AJiMQeqzVroIyX26kJYqGCW/uy8JZvDUTfEAoOFmb8z/
+ tnS5GLpdojxh+zfbAoc8hD40opTO34SaXTjnCGAO1JReAaipCdc45rKArQD3c8E241jZMWu7Vqi
+ rcXWqLQ5EbsAoV6QxAM3C0KDdCwoKPhe89+1guXOZAUUUBT/jW2xDiQ9MTDXdVW0rUfOIza3q5y
+ Hw3gP3Ur6UmvYfCflG8HfH4JsdfmHskzEdoq1Bo2bFxFmMOPd/5dNa8J+UlUOsbw6KN6hhqEBp4
+ 5ryXBtbMTfjcbu3zFZOjj778He0/B7Z1DsV6xRdU7UFOuEfoQFTF9
+X-Google-Smtp-Source: AGHT+IF0nUAxa3ReBaADmdgbTluy0nUpM5l1CqJ7CF4aRQW+mAF+H8dNcq9aeQVegX9bYVkg1XO5gw==
+X-Received: by 2002:a05:620a:2905:b0:7ca:df2c:e112 with SMTP id
+ af79cd13be357-7d3bc4b8904mr469287285a.45.1749828313083; 
+ Fri, 13 Jun 2025 08:25:13 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com
+ (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7d3b8eac852sm184655885a.71.2025.06.13.08.25.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jun 2025 08:25:12 -0700 (PDT)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfauth.phl.internal (Postfix) with ESMTP id B68461200043;
+ Fri, 13 Jun 2025 11:25:11 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 11:25:11 -0400
+X-ME-Sender: <xms:10JMaOdiZhcyzdY9O-UyB-HYPT4bQ2eExX7BSrCeeVb_lvLYlm5YuQ>
+ <xme:10JMaIPCXbrhyhWgzd2KbHv3tqiEgajb8TKENsm-AA05nZMNtwojaMca2R1AEfHoG
+ PHK8lHfRad0WPP8Iw>
+X-ME-Received: <xmr:10JMaPjb0XgDR_VD9sZev4hdAsMDoQjNbtigy7Ghh-_dV-W9yvAHZM1Hvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukeefudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+ necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
+ drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
+ ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+ hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
+ ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
+ hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedvhedpmhho
+ uggvpehsmhhtphhouhhtpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiughirgdrtg
+ homhdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegr
+ lhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrg
+ hrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgr
+ ihhlrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
+ dprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthho
+ pehtmhhgrhhoshhssehumhhitghhrdgvughupdhrtghpthhtohepuggrkhhrsehkvghrnh
+ gvlhdrohhrgh
+X-ME-Proxy: <xmx:10JMaL_kfhoKrO6X8e3fz52F0wnehq8a6jKkLf17zQC5_DLEj2z-0A>
+ <xmx:10JMaKvD4gdM7EQ95ZJZjAv5YReN4IXxytDIypr7FBVye2qNKA75zg>
+ <xmx:10JMaCGO40MMjFycUE4eFTeVCmv8MrGVbGoWc57K13ufV-rjUvrk0w>
+ <xmx:10JMaJO7nnDgCfmU5iEo8WgGK6AoKvkSkG8oC9hOFgZth1sQ5r7QFQ>
+ <xmx:10JMaHO8UP66GCv2E26QOvTPmojbt-HM3WaXjUu0O8N_sb9of3oQwtMv>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 11:25:11 -0400 (EDT)
+Date: Fri, 13 Jun 2025 08:25:10 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
+Message-ID: <aExC1j8WmkJn3Csb@Mac.home>
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+ <aErtL6yxLu3Azbsm@tardis.local>
+ <DALGWEM3TD3O.95L77CD6R62S@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DALGWEM3TD3O.95L77CD6R62S@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,292 +143,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To avoid duplicating the tricky bo locking implementation,
-Implement ttm_lru_walk_for_evict() using the guarded bo LRU iteration.
+On Fri, Jun 13, 2025 at 11:16:10PM +0900, Alexandre Courbot wrote:
+[...]
+> >> +#[repr(transparent)]
+> >> +pub struct PowerOfTwo<T>(T);
+> >> +
+> >> +macro_rules! power_of_two_impl {
+> >> +    ($($t:ty),+) => {
+> >> +        $(
+> >> +            impl PowerOfTwo<$t> {
+> >> +                /// Validates that `v` is a power of two at build-time, and returns it wrapped into
+> >> +                /// `PowerOfTwo`.
+> >> +                ///
+> >> +                /// A build error is triggered if `v` cannot be asserted to be a power of two.
+> >> +                ///
+> >> +                /// # Examples
+> >> +                ///
+> >> +                /// ```
+> >> +                /// use kernel::num::PowerOfTwo;
+> >> +                ///
+> >> +                /// let v = PowerOfTwo::<u32>::new(256);
+> >> +                /// assert_eq!(v.value(), 256);
+> >> +                /// ```
+> >> +                #[inline(always)]
+> >> +                pub const fn new(v: $t) -> Self {
+> >
+> > Then this function should be unsafe, because an invalid `v` can create
+> > an invalid PowerOfTwo.
+> 
+> Doesn't the `build_assert` below allow us to keep this method safe,
+> since it will fail at build-time if it cannot be asserted that `v` is a
+> power of two?
+> 
 
-To facilitate this, support ticketlocking from the guarded bo LRU
-iteration.
+You're right, I misunderstood a bit, so if compiler cannot be sure about
+the assertion from build_assert!() it'll still generate a build error,
+i.e. even for cases like:
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 166 ++++++++++++------------------
- drivers/gpu/drm/xe/xe_shrinker.c  |   7 +-
- include/drm/ttm/ttm_bo.h          |   9 +-
- 3 files changed, 76 insertions(+), 106 deletions(-)
+    pub fn my_power_of_two(v: i32) -> PowerOfTwo<i32> {
+        PowerOfTwo::new(v)
+    }
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 62b76abac578..9bc17ea1adb2 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -821,12 +821,6 @@ static int ttm_lru_walk_ticketlock(struct ttm_lru_walk_arg *arg,
- 	return ret;
- }
- 
--static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
--{
--	if (locked)
--		dma_resv_unlock(bo->base.resv);
--}
--
- /**
-  * ttm_lru_walk_for_evict() - Perform a LRU list walk, with actions taken on
-  * valid items.
-@@ -861,64 +855,21 @@ static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
- s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
- 			   struct ttm_resource_manager *man, s64 target)
- {
--	struct ttm_resource_cursor cursor;
--	struct ttm_resource *res;
-+	struct ttm_bo_lru_cursor cursor;
-+	struct ttm_buffer_object *bo;
- 	s64 progress = 0;
- 	s64 lret;
- 
--	spin_lock(&bdev->lru_lock);
--	ttm_resource_cursor_init(&cursor, man);
--	ttm_resource_manager_for_each_res(&cursor, res) {
--		struct ttm_buffer_object *bo = res->bo;
--		bool bo_needs_unlock = false;
--		bool bo_locked = false;
--		int mem_type;
--
--		/*
--		 * Attempt a trylock before taking a reference on the bo,
--		 * since if we do it the other way around, and the trylock fails,
--		 * we need to drop the lru lock to put the bo.
--		 */
--		if (ttm_lru_walk_trylock(&walk->arg, bo, &bo_needs_unlock))
--			bo_locked = true;
--		else if (!walk->arg.ticket || walk->arg.ctx->no_wait_gpu ||
--			 walk->arg.trylock_only)
--			continue;
--
--		if (!ttm_bo_get_unless_zero(bo)) {
--			ttm_lru_walk_unlock(bo, bo_needs_unlock);
--			continue;
--		}
--
--		mem_type = res->mem_type;
--		spin_unlock(&bdev->lru_lock);
--
--		lret = 0;
--		if (!bo_locked)
--			lret = ttm_lru_walk_ticketlock(&walk->arg, bo, &bo_needs_unlock);
--
--		/*
--		 * Note that in between the release of the lru lock and the
--		 * ticketlock, the bo may have switched resource,
--		 * and also memory type, since the resource may have been
--		 * freed and allocated again with a different memory type.
--		 * In that case, just skip it.
--		 */
--		if (!lret && bo->resource && bo->resource->mem_type == mem_type)
--			lret = walk->ops->process_bo(walk, bo);
--
--		ttm_lru_walk_unlock(bo, bo_needs_unlock);
--		ttm_bo_put(bo);
-+	ttm_bo_lru_for_each_reserved_guarded(&cursor, man, &walk->arg, bo) {
-+		lret = walk->ops->process_bo(walk, bo);
- 		if (lret == -EBUSY || lret == -EALREADY)
- 			lret = 0;
- 		progress = (lret < 0) ? lret : progress + lret;
--
--		spin_lock(&bdev->lru_lock);
- 		if (progress < 0 || progress >= target)
- 			break;
- 	}
--	ttm_resource_cursor_fini(&cursor);
--	spin_unlock(&bdev->lru_lock);
-+	if (IS_ERR(bo))
-+		return PTR_ERR(bo);
- 
- 	return progress;
- }
-@@ -958,10 +909,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
-  * @man: The ttm resource_manager whose LRU lists to iterate over.
-  * @arg: The ttm_lru_walk_arg to govern the walk.
-  *
-- * Initialize a struct ttm_bo_lru_cursor. Currently only trylocking
-- * or prelocked buffer objects are available as detailed by
-- * @arg->ctx.resv and @arg->ctx.allow_res_evict. Ticketlocking is not
-- * supported.
-+ * Initialize a struct ttm_bo_lru_cursor.
-  *
-  * Return: Pointer to @curs. The function does not fail.
-  */
-@@ -979,21 +927,65 @@ ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
- EXPORT_SYMBOL(ttm_bo_lru_cursor_init);
- 
- static struct ttm_buffer_object *
--ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *curs)
-+__ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
- {
--	struct ttm_buffer_object *bo = res->bo;
-+	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
-+	struct ttm_resource *res = NULL;
-+	struct ttm_buffer_object *bo;
-+	struct ttm_lru_walk_arg *arg = curs->arg;
- 
--	if (!ttm_lru_walk_trylock(curs->arg, bo, &curs->needs_unlock))
--		return NULL;
-+	ttm_bo_lru_cursor_cleanup_bo(curs);
- 
--	if (!ttm_bo_get_unless_zero(bo)) {
--		if (curs->needs_unlock)
--			dma_resv_unlock(bo->base.resv);
--		return NULL;
-+	spin_lock(lru_lock);
-+	for (;;) {
-+		int mem_type, ret;
-+		bool bo_locked = false;
-+
-+		if (first) {
-+			res = ttm_resource_manager_first(&curs->res_curs);
-+			first = false;
-+		} else {
-+			res = ttm_resource_manager_next(&curs->res_curs);
-+		}
-+		if (!res)
-+			break;
-+
-+		bo = res->bo;
-+		if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
-+			bo_locked = true;
-+		else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
-+			continue;
-+
-+		if (!ttm_bo_get_unless_zero(bo)) {
-+			if (curs->needs_unlock)
-+				dma_resv_unlock(bo->base.resv);
-+			continue;
-+		}
-+
-+		mem_type = res->mem_type;
-+		spin_unlock(lru_lock);
-+		if (!bo_locked)
-+			ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
-+		/*
-+		 * Note that in between the release of the lru lock and the
-+		 * ticketlock, the bo may have switched resource,
-+		 * and also memory type, since the resource may have been
-+		 * freed and allocated again with a different memory type.
-+		 * In that case, just skip it.
-+		 */
-+		curs->bo = bo;
-+		if (!ret && bo->resource && bo->resource->mem_type == mem_type)
-+			return bo;
-+
-+		ttm_bo_lru_cursor_cleanup_bo(curs);
-+		if (ret)
-+			return ERR_PTR(ret);
-+
-+		spin_lock(lru_lock);
- 	}
- 
--	curs->bo = bo;
--	return bo;
-+	spin_unlock(lru_lock);
-+	return res ? bo : NULL;
- }
- 
- /**
-@@ -1007,25 +999,7 @@ ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *cur
-  */
- struct ttm_buffer_object *ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs)
- {
--	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
--	struct ttm_resource *res = NULL;
--	struct ttm_buffer_object *bo;
--
--	ttm_bo_lru_cursor_cleanup_bo(curs);
--
--	spin_lock(lru_lock);
--	for (;;) {
--		res = ttm_resource_manager_next(&curs->res_curs);
--		if (!res)
--			break;
--
--		bo = ttm_bo_from_res_reserved(res, curs);
--		if (bo)
--			break;
--	}
--
--	spin_unlock(lru_lock);
--	return res ? bo : NULL;
-+	return __ttm_bo_lru_cursor_next(curs, false);
- }
- EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
- 
-@@ -1039,21 +1013,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
-  */
- struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs)
- {
--	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
--	struct ttm_buffer_object *bo;
--	struct ttm_resource *res;
--
--	spin_lock(lru_lock);
--	res = ttm_resource_manager_first(&curs->res_curs);
--	if (!res) {
--		spin_unlock(lru_lock);
--		return NULL;
--	}
--
--	bo = ttm_bo_from_res_reserved(res, curs);
--	spin_unlock(lru_lock);
--
--	return bo ? bo : ttm_bo_lru_cursor_next(curs);
-+	return __ttm_bo_lru_cursor_next(curs, true);
- }
- EXPORT_SYMBOL(ttm_bo_lru_cursor_first);
- 
-diff --git a/drivers/gpu/drm/xe/xe_shrinker.c b/drivers/gpu/drm/xe/xe_shrinker.c
-index f8a1129da2c3..1c3c04d52f55 100644
---- a/drivers/gpu/drm/xe/xe_shrinker.c
-+++ b/drivers/gpu/drm/xe/xe_shrinker.c
-@@ -66,7 +66,10 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
- 		struct ttm_resource_manager *man = ttm_manager_type(&xe->ttm, mem_type);
- 		struct ttm_bo_lru_cursor curs;
- 		struct ttm_buffer_object *ttm_bo;
--		struct ttm_lru_walk_arg arg = {.ctx = ctx};
-+		struct ttm_lru_walk_arg arg = {
-+			.ctx = ctx,
-+			.trylock_only = true,
-+		};
- 
- 		if (!man || !man->use_tt)
- 			continue;
-@@ -83,6 +86,8 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
- 			if (*scanned >= to_scan)
- 				break;
- 		}
-+		/* Trylocks should never error, just fail. */
-+		xe_assert(xe, !IS_ERR(ttm_bo));
- 	}
- 
- 	return freed;
-diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-index 8f04fa48b332..d3a85d76aaff 100644
---- a/include/drm/ttm/ttm_bo.h
-+++ b/include/drm/ttm/ttm_bo.h
-@@ -529,10 +529,15 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
-  * up at looping termination, even if terminated prematurely by, for
-  * example a return or break statement. Exiting the loop will also unlock
-  * (if needed) and unreference @_bo.
-+ *
-+ * Return: If locking of a bo returns an error, then iteration is terminated
-+ * and @_bo is set to a corresponding error pointer. It's illegal to
-+ * dereference @_bo after loop exit.
-  */
- #define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _arg, _bo)	\
- 	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _arg)		\
--		for ((_bo) = ttm_bo_lru_cursor_first(_cursor); (_bo);	\
--		     (_bo) = ttm_bo_lru_cursor_next(_cursor))
-+		for ((_bo) = ttm_bo_lru_cursor_first(_cursor);		\
-+		       !IS_ERR_OR_NULL(_bo);				\
-+		       (_bo) = ttm_bo_lru_cursor_next(_cursor))
- 
- #endif
--- 
-2.49.0
+where `v` is a user input and the value is unknown at the build time.
+build_assert!() will trigger.
 
+Regards,
+Boqun
+
+> >
+> >> +                    build_assert!(v.count_ones() == 1);
+> >> +                    Self(v)
+> >> +                }
+[...]
