@@ -2,84 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B8FAD8575
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FB0AD859B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DBE10E0B9;
-	Fri, 13 Jun 2025 08:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50A5D10E202;
+	Fri, 13 Jun 2025 08:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="hQTSVmz3";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="v8gfinIX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DF410E0B9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 08:25:45 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250613082540euoutp02e74ab0d5fe2f288fc4368bf2741c38ed~IjK9rL-O71283312833euoutp02B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 08:25:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250613082540euoutp02e74ab0d5fe2f288fc4368bf2741c38ed~IjK9rL-O71283312833euoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1749803140;
- bh=I8IkmX2ltxLIkn/+l8073UC2Q+m47Csc2VhEngKEE7U=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=hQTSVmz3gpTinUPWOUdrn22NBzGwzqG9vLblhR6fqYlgPSJdOhjspCRG2jRa516Uw
- 0O2rtvOD54U2FdOREeIqa8IHz0nM5Ton4y2y7sB4XdAcrq2xrO2d7Ejthw5XftV4cq
- ukCDeWAMy8dvO08ZUAiCgYZFkzfapAkyVDY8MdxQ=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250613082539eucas1p2b5a99e3e2413e78710bd36303e839cf8~IjK9Fl0ni1345813458eucas1p27;
- Fri, 13 Jun 2025 08:25:39 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250613082538eusmtip2583bf59103d68afb613b87f12210c74b~IjK8C5sOg0843108431eusmtip2D;
- Fri, 13 Jun 2025 08:25:38 +0000 (GMT)
-Message-ID: <e5d3d3b3-7ada-476f-9558-328d3d316088@samsung.com>
-Date: Fri, 13 Jun 2025 10:25:38 +0200
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55ADE10E202;
+ Fri, 13 Jun 2025 08:29:41 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bJXcx3YVtz9v10;
+ Fri, 13 Jun 2025 10:29:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1749803377; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tNpSDNdMO+AR7AGKxlxT5hD4CHTTY7xIcpDZwJEt8dc=;
+ b=v8gfinIX2Rzitbded0n7JKwEI/NpWg13y6RsTqtEddGvANJCEIJXK1Y9Xgq/7rUTSBWKCW
+ d5wpPjSLy5gqIjTqW5LuAJkv9EzO4GjakMAzlph2hIIEArmwM+DPLbzDLYdQ4gOIa40SpC
+ oPc5MClt0oQQ+0nYiKIfy2vN4rVJIadJCsTIqMsxEe5c54K4j4a+ChuiFtuVPSq8BLwo3/
+ WQPuUTBLiAWfIoXsYWe0HT/V3dgjd+t/pNRqjXWc3r7J8Lzdticw4U7l+Y/IGuiyPwe1Im
+ RpgSTw4xNwwmal7pYmrRIAujUIYzfI4YbR6I/2re+xcG2rmSHaOTzoSnXvDhew==
+Message-ID: <a495f31526f19457f44d502cf2de98ab0de33383.camel@mailbox.org>
+Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
+ Krummrich <dakr@kernel.org>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org, Philipp Stanner
+ <phasta@kernel.org>, dri-devel@lists.freedesktop.org
+Date: Fri, 13 Jun 2025 10:29:35 +0200
+In-Reply-To: <099816b4-0b7b-4ac7-9bb5-22f23b1db7b7@amd.com>
+References: <aEmR9420vj-ISz-W@cassiopeiae>
+ <dc661205-1e5b-4697-863b-36a299365219@amd.com>
+ <aEmcpsXwS8dLNGUg@cassiopeiae>
+ <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com>
+ <aEtnS6kvh1mssFTb@cassiopeiae>
+ <099816b4-0b7b-4ac7-9bb5-22f23b1db7b7@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/imagination: Use pwrseq for TH1520 GPU power
- management
-To: Krzysztof Kozlowski <krzk@kernel.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Matt Coster <matt.coster@imgtec.com>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
- <frank.binns@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <59cc6827-1602-402a-9279-96ad6285cff4@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250613082539eucas1p2b5a99e3e2413e78710bd36303e839cf8
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
-X-EPHeader: CA
-X-CMS-RootMailID: 20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1
-References: <20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com>
- <CGME20250529222405eucas1p18ed1254bf1b2d78468734656fec537e1@eucas1p1.samsung.com>
- <20250530-apr_14_for_sending-v3-3-83d5744d997c@samsung.com>
- <20250603-whispering-jaybird-of-thunder-f87867@kuoka>
- <d42a8c49-7ad2-49ef-bd9c-1e3d9981b58e@samsung.com>
- <e5a0bee2-ff74-47cf-ad2c-0c78b57ae6cf@kernel.org>
- <a6a29e58-8613-47f0-9e5c-d125da7ddb49@samsung.com>
- <cc4dbf7c-e023-403c-88be-4691f97a0ff0@kernel.org>
- <c7774790-07c3-469d-a994-9e84108ad21d@samsung.com>
- <CAMRc=Mexq9ThfG6jZUbs3wYDA9UZN-+pHnX_Y-7WO4ubXvEuCw@mail.gmail.com>
- <ad6981eb-f53a-4a7b-90bd-2e2705bd0297@samsung.com>
- <59cc6827-1602-402a-9279-96ad6285cff4@kernel.org>
+X-MBO-RS-META: fjsea1z6obwr5iqg6dy18tz7q8adyj98
+X-MBO-RS-ID: 8aa27cae7fe50eeb8a3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,70 +67,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 2025-06-13 at 10:23 +0200, Christian K=C3=B6nig wrote:
+> On 6/13/25 01:48, Danilo Krummrich wrote:
+> > On Thu, Jun 12, 2025 at 09:00:34AM +0200, Christian K=C3=B6nig wrote:
+> > > On 6/11/25 17:11, Danilo Krummrich wrote:
+> > > > > > > Mhm, reiterating our internal discussion on the mailing
+> > > > > > > list.
+> > > > > > >=20
+> > > > > > > I think it would be nicer if we could use negative values
+> > > > > > > for the kernel submissions and positive for userspace.
+> > > > > > > But as discussed internally we would need to adjust the
+> > > > > > > scheduler trace points for that once more.
+> > > > > > >=20
+> > > > > > > @Philip and @Danilo any opinion on that?
+> > > > > >=20
+> > > > > > Both, the U64_MAX and the positive-negative approach, are a
+> > > > > > bit hacky. I wonder
+> > > > > > why we need client_id to be a u64, wouldn't a u32 not be
+> > > > > > enough?
+> > > > >=20
+> > > > > That can trivially overflow on long running boxes.
+> > > >=20
+> > > > I don't know if "trivially" is the word of choice given that
+> > > > the number is
+> > > > 4,294,967,295.
+> > > >=20
+> > > > But I did indeed miss that this is a for ever increasing
+> > > > atomic. Why is it an
+> > > > atomic? Why is it not an IDA?
+> > >=20
+> > > Well IDA has some extra overhead compared to an ever increasing
+> > > atomic, additional to that it might not be the best choice to re-
+> > > use numbers for clients in a trace log.
+> >=20
+> > I think the overhead is not relevant at all, this is called from
+> > drm_file_alloc(). The only path I can see where this is called is
+> > drm_client_init(), which isn't high frequent stuff at all, is it?
+>=20
+> I don't think so. But we should really use ida_alloc_cyclic to make
+> sure that numbers are not re-used so quickly.
+
+Shouldn't the xarray be used nowadays for ID allocation? I think
+idr_alloc_cyclic() (ida_alloc_cyclic() doesn't exist) is just a wrapper
+around the xarray anyways.
+
+P.
 
 
-On 6/13/25 08:44, Krzysztof Kozlowski wrote:
-> On 11/06/2025 14:01, Michal Wilczynski wrote:
->>
->> However, this leads me back to a fundamental issue with the
->> consumer side implementation in the generic pvr_device.c driver. The
->> current fallback code is:
->>
->> /*
->>  * If the error is -EPROBE_DEFER, it's because the
->>  * optional sequencer provider is not present
->>  * and it's safe to fall back on manual power-up.
->>  */
->> if (pwrseq_err == -EPROBE_DEFER)
->>         pvr_dev->pwrseq = NULL;
->>
->> As Krzysztof noted, simply ignoring -EPROBE_DEFER is not ideal. But if I
->> change this to a standard deferred probe, the pvr_device.c driver will
-> 
-> Why? You have specific compatible for executing such quirks only for
-> given platform.
+>=20
+> >=20
+> > It seems to me that we should probably use IDA here.
+> >=20
+> > > On the other hand using smaller numbers is usually nicer for
+> > > manual inspection.
+> >=20
+> > Another option is to just add an interface to get a kernel
+> > client_id from the
+> > same atomic / IDA.
+>=20
+> That won't give us fixed numbers for in kernel clients.
+>=20
+> Regards,
+> Christian.
 
-This is due to how the pwrseq API works; it constructs a bus on which
-provider devices may appear at any time. With the current API, there is
-no way to express that a provider for a specific target will never
-appear. ('gpu-power' is the generic target name, and of course, more
-specific binding is handled in the provider's .match callback - based on
-the compatible and the node phandle like discussed previously).
-
-For all other supported SoCs, no such provider will ever appear on the
-bus, and the current pwrseq API doesn't allow a generic consumer to know
-this.
-
-However, your suggestion of handling this with a platform specific
-driver is a good path forward. It would still require a minimal addition
-to the pwrseq API to work. For example, a new SoC specific driver for
-"thead,th1520" could call a new function like
-pwrseq_enable_optional_target("gpu-power") during its probe. This would
-signal to the pwrseq core that this target is expected on the platform.
-Therefore, when the Imagination driver later calls pwrseq_get() on a
-TH1520, it would correctly result in either a match or a deferral.
-
-On all other platforms, this optional target would not be enabled. The
-pwrseq_get() call would then immediately return -ENODEV instead of
-deferring, which solves the problem and allows the other supported SoCs
-to probe correctly.
-
-I wonder whether Bartosz would be okay with such an addition.
-
-> 
->> break on all other supported SoCs. It would wait indefinitely for a
->> pwrseq-thead-gpu provider that will never appear on those platforms.
->>
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
