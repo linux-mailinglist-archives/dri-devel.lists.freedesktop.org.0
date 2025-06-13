@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E331AD93C4
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 19:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C1BAD93D8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 19:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA3D10E20F;
-	Fri, 13 Jun 2025 17:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAB3F10E1E6;
+	Fri, 13 Jun 2025 17:39:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hlXDQyyG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oT/YYuEw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F47310E1E8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 17:29:05 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9133D44451;
- Fri, 13 Jun 2025 17:28:50 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6950410E1DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 17:39:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9ED071FD30;
+ Fri, 13 Jun 2025 17:39:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1749835741;
+ t=1749836353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NIvF1qv3q2mPekX9cThcZh3+0e4WEHsvxF4etRx9qGk=;
- b=hlXDQyyG5LP6QYGgduy7owkuKHXxcEVTPwaTUY1n3MeuZNihXL6kLGJZ5RPKcRoaUM8gGX
- BG+2uasGb7G/2O+0hyMk2tgCvWpTSO4P4pUcbCo3FM4Xof2euXhrSRW9ugVWAKP8wTPh5H
- 6gbFMdeWSGcDk/Vr/mdFnFm6ZTuwUiYuuCDLYFQJWh7pmVA/7iHdS9rvwn3ndilLVDEqlP
- IlprL4j9Xg7F3PkwPpg4LgJlSwsf1f/p57BM9f34iVQtxp9fgvVV1zWuPo1AYvIL2LAuW7
- jhxQJd9kojAd0IRKzhy8/EZjTkmg5ql6a4RKbgos2thArrRav5fsDQjp3xtqhw==
-Message-ID: <115564ae-4b61-47be-9a9d-9c27acd4192c@bootlin.com>
-Date: Fri, 13 Jun 2025 19:28:49 +0200
+ bh=evayc6izC/2A+RQ7iVz8Xw0rsEmbJIbal/V42DZlpe4=;
+ b=oT/YYuEw+4WQMEtzNUPqazC/rMdNSIlVJcvb6LFF1zvjqnUbxEwI4aDCEn5Cr0Hfo5GJGS
+ bWO7z7R/JcMbDwe900R4CIVSZQu/tBqotlLnQAwRvefXZmOb6z9zAOOxCWTc9VOXKtU8YG
+ lFdDFwIKrrP5PT5oXKIlqES2HMlRebnXLm42kPDmvWYnHFz+rTrIy5NWlVFjtSu6G2A3w2
+ n9TZEnlkMS3rv+V6JlI/oefNTVAfn6bEDy/RHaUKswPP7pZTLFWiJRAC/60RlY88H+CuBu
+ r7BbKaU/wf3fJ1UImwmxK9eW4VpJ5o88GHOrPcX5cSFXDEAaoa6QDpv+wfYy5A==
+Message-ID: <e6c6b09d-7b52-4e89-9fd5-1f60916dd3cf@bootlin.com>
+Date: Fri, 13 Jun 2025 19:38:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/8] drm/vkms: Add support for ARGB8888 formats
+Subject: Re: [PATCH v4 4/8] drm/vkms: Add support for RGB565 formats
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
  <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -48,8 +48,8 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com
 References: <20250530-b4-new-color-formats-v4-0-ef5f9f48376c@bootlin.com>
- <20250530-b4-new-color-formats-v4-2-ef5f9f48376c@bootlin.com>
- <eba688fe-d270-420b-9619-121fb4b8ba1d@igalia.com>
+ <20250530-b4-new-color-formats-v4-4-ef5f9f48376c@bootlin.com>
+ <52a9eb56-f2b2-4bc6-9847-4fad426f0d50@igalia.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -106,12 +106,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <eba688fe-d270-420b-9619-121fb4b8ba1d@igalia.com>
+In-Reply-To: <52a9eb56-f2b2-4bc6-9847-4fad426f0d50@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukeehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedukeehrddutdegrddufeekrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedukeehrddutdegrddufeekrdelgedphhgvlhhopegluddtrddutddurddtrdeiiegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohepmhgtrghnrghlsehighgrlhhirgdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukeehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedukeehrddutdegrddufeekrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedukeehrddutdegrddufeekrdelgedphhgvlhhopegluddtrddutddurddtrdeiiegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohepmhgtrghnrghlsehighgrlhhirgdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrr
  ghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,101 +131,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 11/06/2025 à 21:55, Maíra Canal a écrit :
+Le 11/06/2025 à 22:02, Maíra Canal a écrit :
 > Hi Louis,
 > 
 > On 5/30/25 11:05, Louis Chauvet wrote:
->> The formats XRGB8888 and ARGB8888 were already supported.
->> Add the support for:
->> - XBGR8888
->> - RGBX8888
->> - BGRX8888
->> - ABGR8888
->> - RGBA8888
->> - BGRA8888
+>> The format RGB565 was already supported. Add the support for:
+>> - BGR565
 >>
 >> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 >> ---
+>>    drivers/gpu/drm/vkms/vkms_formats.c | 23 +++++++++++++++++++++++
+>>    drivers/gpu/drm/vkms/vkms_plane.c   |  1 +
+>>    2 files changed, 24 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>> index 95771bff5202..2c5cc8d3a14c 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>> @@ -259,6 +259,26 @@ static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
+>>    	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
+>>    }
+>>    
+>> +static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
+>> +{
+>> +	struct pixel_argb_u16 out_pixel;
+>> +
+>> +	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+>> +	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+>> +
+>> +	u16 rgb_565 = le16_to_cpu(*pixel);
+>> +	s64 fp_b = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+>> +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+>> +	s64 fp_r = drm_int2fixp(rgb_565 & 0x1f);
+>> +
+>> +	out_pixel.a = (u16)0xffff;
+>> +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>> +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+>> +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+>> +
+>> +	return out_pixel;
+>> +}
 > 
-> [...]
+> Instead of writing `argb_u16_from_BGR565()` from scratch, I wonder if
+> we could just call `argb_u16_from_RGB565()` and swap `out_pixel.b` with
+> `out_pixel.r` . For me, it looks like a cleaner approach.
+
+Thanks for the suggestion, I was looking to avoid code repetition, but I 
+did not think about this kind of "post-processing".
+
+I will do for the next revision.
+
+> Well, even without this suggestion,
 > 
->> +READ_LINE_ARGB8888(RGBX8888_read_line, px, 0xFF, px[3], px[2], px[1])
->> +READ_LINE_ARGB8888(BGRX8888_read_line, px, 0xFF, px[1], px[2], px[3])
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
 > 
-> How did you test those two formats? I noticed that IGT (kms_plane tests)
-> doesn't test them.
-
-Hi Maíra,
-
-Thanks for your review!
-
-I wrote this a long time ago, so I don't remember. I was probably greedy 
-and added all the "trivial" formats I was able to do and missed that 
-this format was not tested.
-
-For this revision, I just started kms_plane to check if it was happy 
-after the rebase, I did not check the formats one by one.
-
-Do you want me to remove those formats? I think it costs nothing to keep 
-them, especially with the new READ_LINE_ARGB8888 macro, but I will 
-comply if you think we should only merge tested formats.
-
-Thanks,
-Louis Chauvet
-
 > Best Regards,
 > - Maíra
 > 
+>> +
+>>    VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+>>    							    const struct conversion_matrix *matrix)
+>>    {
+>> @@ -447,6 +467,7 @@ READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[
+>>    READ_LINE_le16161616(XBGR16161616_read_line, px, cpu_to_le16(0xFFFF), px[0], px[1], px[2])
 >>    
->>    READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
->>    READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
->> +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
->> +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+>>    READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
+>> +READ_LINE(BGR565_read_line, px, __le16, argb_u16_from_BGR565, px)
 >>    
->>    READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
->>    READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
->> @@ -644,10 +649,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
->>    	switch (format) {
->>    	case DRM_FORMAT_ARGB8888:
->>    		return &ARGB8888_read_line;
->> -	case DRM_FORMAT_XRGB8888:
->> -		return &XRGB8888_read_line;
->>    	case DRM_FORMAT_ABGR8888:
->>    		return &ABGR8888_read_line;
->> +	case DRM_FORMAT_BGRA8888:
->> +		return &BGRA8888_read_line;
->> +	case DRM_FORMAT_RGBA8888:
->> +		return &RGBA8888_read_line;
->> +	case DRM_FORMAT_XRGB8888:
->> +		return &XRGB8888_read_line;
->> +	case DRM_FORMAT_XBGR8888:
->> +		return &XBGR8888_read_line;
->> +	case DRM_FORMAT_RGBX8888:
->> +		return &RGBX8888_read_line;
->> +	case DRM_FORMAT_BGRX8888:
->> +		return &BGRX8888_read_line;
->>    	case DRM_FORMAT_ARGB16161616:
->>    		return &ARGB16161616_read_line;
->>    	case DRM_FORMAT_XRGB16161616:
+>>    READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
+>>    
+>> @@ -675,6 +696,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>>    		return &XBGR16161616_read_line;
+>>    	case DRM_FORMAT_RGB565:
+>>    		return &RGB565_read_line;
+>> +	case DRM_FORMAT_BGR565:
+>> +		return &BGR565_read_line;
+>>    	case DRM_FORMAT_NV12:
+>>    	case DRM_FORMAT_NV16:
+>>    	case DRM_FORMAT_NV24:
 >> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->> index e3fdd161d0f0..b7f498944c50 100644
+>> index 505847ec8508..d3783a8f84c2 100644
 >> --- a/drivers/gpu/drm/vkms/vkms_plane.c
 >> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->> @@ -14,8 +14,13 @@
->>    
->>    static const u32 vkms_formats[] = {
->>    	DRM_FORMAT_ARGB8888,
->> -	DRM_FORMAT_XRGB8888,
->>    	DRM_FORMAT_ABGR8888,
->> +	DRM_FORMAT_BGRA8888,
->> +	DRM_FORMAT_RGBA8888,
->> +	DRM_FORMAT_XRGB8888,
->> +	DRM_FORMAT_XBGR8888,
->> +	DRM_FORMAT_RGBX8888,
->> +	DRM_FORMAT_BGRX8888,
->>    	DRM_FORMAT_XRGB16161616,
+>> @@ -26,6 +26,7 @@ static const u32 vkms_formats[] = {
 >>    	DRM_FORMAT_ARGB16161616,
+>>    	DRM_FORMAT_ABGR16161616,
 >>    	DRM_FORMAT_RGB565,
+>> +	DRM_FORMAT_BGR565,
+>>    	DRM_FORMAT_NV12,
+>>    	DRM_FORMAT_NV16,
+>>    	DRM_FORMAT_NV24,
 >>
 > 
 
