@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A60EAD8C20
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 14:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368D4AD8CE9
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 15:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40FA110E1FF;
-	Fri, 13 Jun 2025 12:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A733010E9AB;
+	Fri, 13 Jun 2025 13:12:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i30TSQse";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BnIQSnUO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9FF10E1FF;
- Fri, 13 Jun 2025 12:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749817800; x=1781353800;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WsVZIrioR3d3YP4WGgQ8fJYJHg7LUO1+J2YgYsziLRM=;
- b=i30TSQseWH1kxt94pRBHD6V2ksYC4AIFyPSAX3qEfBK7RlQGL7Gbmbd2
- OMvVrc/57Gc9PLBEw+w/ixe4DkVzP4KsyTI0WhfI5QlQVlK01u9hNvMxA
- 8G79N1DrX54d7F4H0wjhmdTB8sE5iJ7w+MJdJ5d3B54XhpMhOhJZiNFXE
- MqWXxDnZnyYxk6sBEjQIaNTIlPSC35decIdBVBSt4RDM+hK3ETYzb1v+G
- ceItdnUJKeFOFiO2YOa8N+LqPUgyajdPQDYTiWQiSSjoJckFw1mWVUnIu
- Qxo6EC0L6+HvAsx1TiQEz9pfjMNBm0dOg+S8YL13QFEH8ujczd9jRBxIF Q==;
-X-CSE-ConnectionGUID: a8F8IwZjTPS709eRTis2XQ==
-X-CSE-MsgGUID: T7As3rK1TwyF5bC4XSYiTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69610139"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="69610139"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 05:30:00 -0700
-X-CSE-ConnectionGUID: X8IDDJPtRWSrwgEAbX4Zmg==
-X-CSE-MsgGUID: hbuXr1PDS0SBSpI8DWCF+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="148290257"
-Received: from unknown (HELO himal-Super-Server.iind.intel.com)
- ([10.190.239.34])
- by fmviesa010.fm.intel.com with ESMTP; 13 Jun 2025 05:29:58 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 01/20] Introduce drm_gpuvm_sm_map_ops_flags enums for
- sm_map_ops
-Date: Fri, 13 Jun 2025 18:25:39 +0530
-Message-Id: <20250613125558.2607665-2-himal.prasad.ghimiray@intel.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD2610E9AA
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 13:12:07 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3a375e72473so1315915f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 06:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749820326; x=1750425126; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rig4csR40micHp8QYFZgEwHiIxTKMHujQJyJXhHgFxc=;
+ b=BnIQSnUOJW9dZsVKMuL8EJ0aCEPPqCP7alsycqNOAMxaFJhw6toyjN7eKPZIgXweqn
+ 2MJ18eC+pDzYx6q8BWJ70OWFJvk76GNqyS63fV9fNvsdaOJUKCRJD5q+UxebT30p9IXG
+ 6aoKvrAuJGj+6N1TD7luRj/dNztN8QDR00eRuuR/g32eNjZzLgPXNWEQFHh0vYa5PB2+
+ fZTc+pulUSFB5orut7cpsSVx+Zy9FLyM4gIv0b/H9UdBfQaBTJS8xkrcLTDNV7qBQOE0
+ beUFEMjCoUEWgKVLdFPFrNT7VxQzT4+Zk2q8rUbJdgSPZZH9XOhT1OTL65f+KMql6C/s
+ QXeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749820326; x=1750425126;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rig4csR40micHp8QYFZgEwHiIxTKMHujQJyJXhHgFxc=;
+ b=g9R9nyGcOjMYibriBo98FQe38y0we5jW80B3gmIIsYTdozKD8mX+xiTv97iOWDRXjl
+ /6JqV8GlNlXBtDemoIuOy9DzH9k+vzDTtA9nHfPzqptNYJu4m6buV/cdQSNeJZsKr4oP
+ 0Aoyz4aabaGaaVRw5eaHpKa0HHKlXmAmgnqxl0TFwmXoKGIRsWLgGrHMDlHuD1xD5kzI
+ +F7QXXNtOznmDZrpUSCfa3UrIpsBayP5sRUViVpALLcKJow8DCnyyhH4iN1Rl52WV3F2
+ Vnv1lQa0nCBaGqhee82rny6Anua0NlaNAm70bHOjiXJob/3CN5Yeuh8Yyf6Ly35M6LHr
+ Bz8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8IloJTLcqTu9exsjfhRyHhVLUKEb9R0l5AfUlQLeTJLdVcjKYawa+QezBINl9Qm/4ECR3EirAlkc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywce1U/atl201SnvsUkeMdjkdmoOyuZESL3mPkw2js7VAaZLw0I
+ mQO8SGzj9PRxlUrawKuCh/WVNDO0hmfDFE0+ZhZHfecenvOpaFLBMKW8
+X-Gm-Gg: ASbGncs6jP148jTfIDUr0Hb6wOwS9uUnPQgDMWQrEqXO0J4OhqBqWFMYmL6YVU6Ju/d
+ 3EQ5wOhzAs8aJUsklQ7YWEHCi8yayNLXmsfh7gB/4No3N0N0hMCX5yqzp3QgKbBTxwwO/2nLaat
+ X4qLBOFWC7i6ojpQlbyPrOAAAyCLkwFfhMrQsvwDxK8fA7tOc+1Prc3U220NawL5wmiLRTBp0lR
+ DxEDnudrpE5TIXBNjmY89GkSrVHTSwM2WsspG+9K2yeahRyKaq+SPEBN9TFPm5bYNhorVNEybh9
+ KgbhAbH6VPYYZvpWUZbL7ksUHwEKh0IwE1GjGJmzLTHs0lqqAKS5UY0GoSnEcpHV1lVHLEJKolT
+ b
+X-Google-Smtp-Source: AGHT+IGpz0N9NGlmIU1vBfxfQAE3YhHSaMIk1o5oE+7UzhlMxZXnPu1XnvbAmINHnxyPrVJ0zCIEQQ==
+X-Received: by 2002:a5d:588d:0:b0:3a4:e4ee:4ca9 with SMTP id
+ ffacd0b85a97d-3a5687163a9mr2800423f8f.23.1749820324738; 
+ Fri, 13 Jun 2025 06:12:04 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15f2:1000:ce0c:2fbe:2ade:3d45])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4531febf905sm92921905e9.0.2025.06.13.06.12.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jun 2025 06:12:04 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: jani.saarinen@intel.com, jani.nikula@linux.intel.com, tursulin@ursulin.net,
+ simona.vetter@ffwll.ch, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org
+Subject: Trying to fix drm/prime: remove drm_prime_lookup_buf_by_handle
+Date: Fri, 13 Jun 2025 15:12:00 +0200
+Message-Id: <20250613131201.2141-1-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250613125558.2607665-1-himal.prasad.ghimiray@intel.com>
-References: <20250613125558.2607665-1-himal.prasad.ghimiray@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,334 +88,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- DRM_GPUVM_SM_MAP_NOT_MADVISE: Default sm_map operations for the input
-  range.
+The problem with this patch is that we now don't check if the handle
+already existed any more, but just blindly try to add it again.
 
-- DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-  drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-user-provided range and split the existing non-GEM object VMA if the
-start or end of the input range lies within it. The operations can
-create up to 2 REMAPS and 2 MAPs. The purpose of this operation is to be
-used by the Xe driver to assign attributes to GPUVMA's within the
-user-defined range. Unlike drm_gpuvm_sm_map_ops_flags in default mode,
-the operation with this flag will never have UNMAPs and
-merges, and can be without any final operations.
+This obviously breaks re-exporting DMA-bufs but also surfaces an issue
+that we don't seem to take into account that multiple handles can point
+to the same GEM object.
 
-v2
-- use drm_gpuvm_sm_map_ops_create with flags instead of defining new
-  ops_create (Danilo)
-- Add doc (Danilo)
+Try to fix this by just ignoring adding the same DMA-buf to the rb tree
+multiple times. Not sure if that is the best approach, but it should fix
+the issue at hand.
 
-v3
-- Fix doc
-- Fix unmapping check
+Regards,
+Christian.
 
-v4
-- Fix mapping for non madvise ops
-
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
----
- drivers/gpu/drm/drm_gpuvm.c            | 93 ++++++++++++++++++++------
- drivers/gpu/drm/nouveau/nouveau_uvmm.c |  1 +
- drivers/gpu/drm/xe/xe_vm.c             |  1 +
- include/drm/drm_gpuvm.h                | 25 ++++++-
- 4 files changed, 98 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index f9eb56f24bef..030f7570b8e2 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2102,10 +2102,13 @@ static int
- __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		   const struct drm_gpuvm_ops *ops, void *priv,
- 		   u64 req_addr, u64 req_range,
-+		   enum drm_gpuvm_sm_map_ops_flags flags,
- 		   struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	struct drm_gpuva *va, *next;
- 	u64 req_end = req_addr + req_range;
-+	bool is_madvise_ops = (flags == DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE);
-+	bool needs_map = !is_madvise_ops;
- 	int ret;
- 
- 	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req_addr, req_range)))
-@@ -2118,26 +2121,35 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		u64 range = va->va.range;
- 		u64 end = addr + range;
- 		bool merge = !!va->gem.obj;
-+		bool skip_madvise_ops = is_madvise_ops && merge;
- 
-+		needs_map = !is_madvise_ops;
- 		if (addr == req_addr) {
- 			merge &= obj == req_obj &&
- 				 offset == req_offset;
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = range - req_range,
-@@ -2152,6 +2164,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr < req_addr) {
-@@ -2169,20 +2184,42 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 			u.keep = merge;
- 
- 			if (end == req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
-+				if (skip_madvise_ops)
-+					continue;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops) {
-+					ret = op_map_cb(ops, priv, req_addr,
-+							min(end - req_addr, req_end - end),
-+							NULL, req_offset);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2194,6 +2231,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr > req_addr) {
-@@ -2202,20 +2242,29 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					   (addr - req_addr);
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2230,14 +2279,16 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					return op_map_cb(ops, priv, addr,
-+							(req_end - addr), NULL, req_offset);
- 				break;
- 			}
- 		}
- 	}
--
--	return op_map_cb(ops, priv,
--			 req_addr, req_range,
--			 req_obj, req_offset);
-+	return needs_map ? op_map_cb(ops, priv, req_addr,
-+			   req_range, req_obj, req_offset) : 0;
- }
- 
- static int
-@@ -2336,15 +2387,15 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
- 		 struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	const struct drm_gpuvm_ops *ops = gpuvm->ops;
-+	enum drm_gpuvm_sm_map_ops_flags flags = DRM_GPUVM_SM_MAP_NOT_MADVISE;
- 
- 	if (unlikely(!(ops && ops->sm_step_map &&
- 		       ops->sm_step_remap &&
- 		       ops->sm_step_unmap)))
- 		return -EINVAL;
- 
--	return __drm_gpuvm_sm_map(gpuvm, ops, priv,
--				  req_addr, req_range,
--				  req_obj, req_offset);
-+	return __drm_gpuvm_sm_map(gpuvm, ops, priv, req_addr, req_range,
-+				  flags, req_obj, req_offset);
- }
- EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
- 
-@@ -2486,6 +2537,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops = {
-  * @gpuvm: the &drm_gpuvm representing the GPU VA space
-  * @req_addr: the start address of the new mapping
-  * @req_range: the range of the new mapping
-+ * @drm_gpuvm_sm_map_ops_flag: ops flag determining madvise or not
-  * @req_obj: the &drm_gem_object to map
-  * @req_offset: the offset within the &drm_gem_object
-  *
-@@ -2516,6 +2568,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops = {
- struct drm_gpuva_ops *
- drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 			    u64 req_addr, u64 req_range,
-+			    enum drm_gpuvm_sm_map_ops_flags flags,
- 			    struct drm_gem_object *req_obj, u64 req_offset)
- {
- 	struct drm_gpuva_ops *ops;
-@@ -2535,7 +2588,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 	args.ops = ops;
- 
- 	ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
--				 req_addr, req_range,
-+				 req_addr, req_range, flags,
- 				 req_obj, req_offset);
- 	if (ret)
- 		goto err_free_ops;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..26e13fcdbdb8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1303,6 +1303,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job,
- 			op->ops = drm_gpuvm_sm_map_ops_create(&uvmm->base,
- 							      op->va.addr,
- 							      op->va.range,
-+							      DRM_GPUVM_SM_MAP_NOT_MADVISE,
- 							      op->gem.obj,
- 							      op->gem.offset);
- 			if (IS_ERR(op->ops)) {
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 6ef8c4dab647..1af858a98082 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2318,6 +2318,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
- 	case DRM_XE_VM_BIND_OP_MAP:
- 	case DRM_XE_VM_BIND_OP_MAP_USERPTR:
- 		ops = drm_gpuvm_sm_map_ops_create(&vm->gpuvm, addr, range,
-+						  DRM_GPUVM_SM_MAP_NOT_MADVISE,
- 						  obj, bo_offset_or_userptr);
- 		break;
- 	case DRM_XE_VM_BIND_OP_UNMAP:
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 2a9629377633..c589b886a4fd 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -211,6 +211,27 @@ enum drm_gpuvm_flags {
- 	DRM_GPUVM_USERBITS = BIT(1),
- };
- 
-+/**
-+ * enum drm_gpuvm_sm_map_ops_flags - flags for drm_gpuvm split/merge ops
-+ */
-+enum drm_gpuvm_sm_map_ops_flags {
-+	/**
-+	 * @DRM_GPUVM_SM_MAP_NOT_MADVISE: DEFAULT sm_map ops
-+	 */
-+	DRM_GPUVM_SM_MAP_NOT_MADVISE = 0,
-+
-+	/**
-+	 * @DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-+	 * drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-+	 * user-provided range and split the existing non-GEM object VMA if the
-+	 * start or end of the input range lies within it. The operations can
-+	 * create up to 2 REMAPS and 2 MAPs. Unlike drm_gpuvm_sm_map_ops_flags
-+	 * in default mode, the operation with this flag will never have UNMAPs and
-+	 * merges, and can be without any final operations.
-+	 */
-+	DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE = BIT(0),
-+};
-+
- /**
-  * struct drm_gpuvm - DRM GPU VA Manager
-  *
-@@ -1059,8 +1080,8 @@ struct drm_gpuva_ops {
- #define drm_gpuva_next_op(op) list_next_entry(op, entry)
- 
- struct drm_gpuva_ops *
--drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
--			    u64 addr, u64 range,
-+drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm, u64 addr, u64 range,
-+			    enum drm_gpuvm_sm_map_ops_flags flags,
- 			    struct drm_gem_object *obj, u64 offset);
- struct drm_gpuva_ops *
- drm_gpuvm_sm_unmap_ops_create(struct drm_gpuvm *gpuvm,
--- 
-2.34.1
 
