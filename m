@@ -2,50 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6710AD84FA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 09:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291E1AD852E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 10:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603BC10E8D5;
-	Fri, 13 Jun 2025 07:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3E10E8B6;
+	Fri, 13 Jun 2025 08:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="vbaPMG5l";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="NLhDrFN2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gp0DYJ7H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70BFE10E8DA;
- Fri, 13 Jun 2025 07:52:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1749801088;
- bh=BWL04/2weD75YWj7pQZYoOa
- pnHaWMWo9tcBrdAgItEQ=; b=vbaPMG5l5WgGwNJ+RPvmIakQaHT8+jAU+lWcpSNoIB1PouwCo2
- kM2KnpT/x2CfAaOdNmK8Wvsg3otZ3CuVt9L+xKX/P4/MQFePfLYAeXMLK0xBHGd7TY4POCiFqeK
- YRSbHdhP48QAPlls36p6kuTm8TLfw4B0kvKs1n9X66+Lc3jCUtmuwX/4/ZQXLkQbfePnuXfnO+T
- tH6IMw26Qcr0jV4dz6ahvxvb9EpIBNOql9Mn/TQfldgatXlKsQflGGJKXTMR+cOPK7ojSADmxdp
- 3eynoVWh5i20mzkX4dV+c46RPs6j+q3NlJKb75pXDnHfi0lZDOeei4ziC34i8JYV5uA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1749801088; bh=BWL04/2weD75YWj7pQZYoOa
- pnHaWMWo9tcBrdAgItEQ=; b=NLhDrFN2FF+23QZOVr4NsYgk5AfU/fvm1x8KrWO6JxnoKaXppw
- mwmdvavZ8Hmw2JqeEdW925LJdoxyK1jngpDQ==;
-Message-ID: <0783c4ab-e26e-4c90-93f5-342e761cee29@damsy.net>
-Date: Fri, 13 Jun 2025 09:51:27 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10ED110E8B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 08:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1749801724; x=1781337724;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lGdmcR1u4VLmKmc5jy0Sy1tYwq0u7J632J3kaO6XwCY=;
+ b=gp0DYJ7HJGnOR5FhhzzfMeKONxXOf97DJ6xRdwSFnv11HrikcUcfapU/
+ qlAZozPnD6/Ylz+AM+NhsCQ4XcD6gFaryn/Tf5dG8+NuTcbX0yBJvpYzy
+ gIbCG69o+wX3ylSXX13uJy5h1yfDHL9NUkm83gawflDbwf4jeIS+wRHtJ
+ j4xPNK2jsya6trBg1IqNRoo6v4fesUP+pLq//uOxZfV+31yOgtVfIEoBt
+ giWc2eLBWT+GB9aTNP7lF2ZIO1hXxR6M6yG3Tq3Zf9mELYmjKGT6uLXlR
+ 64KgesqXTymP0lgIqInH/JFVdjxJe3djzv4754WCFSmsUg1JGzQdp/2TO Q==;
+X-CSE-ConnectionGUID: JUgVVjQhTK2JDtXllKoVbg==
+X-CSE-MsgGUID: AVBUbA7jSQCVQM2G1lu68Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="69454008"
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="69454008"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2025 01:02:03 -0700
+X-CSE-ConnectionGUID: LcprCvGxS+KIQwnCnbzjSA==
+X-CSE-MsgGUID: bhDmvB6mSQO/D0BDWJv3Rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="148650164"
+Received: from mellis1x-mobl.amr.corp.intel.com (HELO [10.245.252.206])
+ ([10.245.252.206])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2025 01:01:59 -0700
+Message-ID: <5e12681e-20ab-4f89-a28d-7c6234aa7fee@linux.intel.com>
+Date: Fri, 13 Jun 2025 10:01:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
-To: Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- Philipp Stanner <phasta@kernel.org>, dri-devel@lists.freedesktop.org
-References: <aEmR9420vj-ISz-W@cassiopeiae>
- <dc661205-1e5b-4697-863b-36a299365219@amd.com> <aEmcpsXwS8dLNGUg@cassiopeiae>
- <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com> <aEtnS6kvh1mssFTb@cassiopeiae>
+Subject: Re: [PATCH] accel/ivpu: Add turbo flag to the DRM_IVPU_CMDQ_CREATE
+ ioctl
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, lizhi.hou@amd.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+References: <20250605162001.1237789-1-maciej.falkowski@linux.intel.com>
+ <3a3fc0d9-afb4-4a37-bbfd-944fe7721e0a@oss.qualcomm.com>
+ <62bb72af-d633-442f-a598-ec632508f074@linux.intel.com>
+ <fbc00bc7-19c0-413a-bfdc-625255c12c33@oss.qualcomm.com>
 Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <aEtnS6kvh1mssFTb@cassiopeiae>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <fbc00bc7-19c0-413a-bfdc-625255c12c33@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,57 +79,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
 Hi,
 
-Le 13/06/2025 à 01:48, Danilo Krummrich a écrit :
-> On Thu, Jun 12, 2025 at 09:00:34AM +0200, Christian König wrote:
->> On 6/11/25 17:11, Danilo Krummrich wrote:
->>>>>> Mhm, reiterating our internal discussion on the mailing list.
->>>>>>
->>>>>> I think it would be nicer if we could use negative values for the kernel submissions and positive for userspace. But as discussed internally we would need to adjust the scheduler trace points for that once more.
->>>>>>
->>>>>> @Philip and @Danilo any opinion on that?
->>>>>
->>>>> Both, the U64_MAX and the positive-negative approach, are a bit hacky. I wonder
->>>>> why we need client_id to be a u64, wouldn't a u32 not be enough?
->>>>
->>>> That can trivially overflow on long running boxes.
->>>
->>> I don't know if "trivially" is the word of choice given that the number is
->>> 4,294,967,295.
->>>
->>> But I did indeed miss that this is a for ever increasing atomic. Why is it an
->>> atomic? Why is it not an IDA?
+On 6/12/2025 3:42 PM, Jeff Hugo wrote:
+> On 6/12/2025 7:31 AM, Falkowski, Maciej wrote:
+>> On 6/6/2025 6:30 PM, Jeff Hugo wrote:
 >>
->> Well IDA has some extra overhead compared to an ever increasing atomic, additional to that it might not be the best choice to re-use numbers for clients in a trace log.
+>>> On 6/5/2025 10:20 AM, Maciej Falkowski wrote:
+>>>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>>>>
+>>>> Introduces a new parameter to the DRM_IVPU_CMDQ_CREATE ioctl,
+>>>
+>>> Introduce
+>> Ack, thanks.
+>>>
+>>>> enabling turbo mode for jobs submitted via the command queue.
+>>>> Turbo mode allows jobs to run at higher frequencies,
+>>>> potentially improving performance for demanding workloads.
+>>>>
+>>>> The change also adds the IVPU_TEST_MODE_TURBO_DISABLE flag
+>>>
+>>> "This change" is redundant. Just start with "Also add the..."
+>> Ack, thanks.
+>>>
+>>>> to allow test mode to explicitly disable turbo mode
+>>>> requested by the application.
+>>>> The IVPU_TEST_MODE_TURBO mode has been renamed to
+>>>> IVPU_TEST_MODE_TURBO_ENABLE for clarity and consistency.
+>>>>
+>>>> +/* Command queue flags */
+>>>> +#define DRM_IVPU_CMDQ_FLAG_TURBO 0x00000001
+>>>> +
+>>>>   /**
+>>>>    * struct drm_ivpu_cmdq_create - Create command queue for job submission
+>>>>    */
+>>>> @@ -462,6 +465,17 @@ struct drm_ivpu_cmdq_create {
+>>>>        * %DRM_IVPU_JOB_PRIORITY_REALTIME
+>>>>        */
+>>>>       __u32 priority;
+>>>> +    /**
+>>>> +     * @flags:
+>>>> +     *
+>>>> +     * Supported flags:
+>>>> +     *
+>>>> +     * %DRM_IVPU_CMDQ_FLAG_TURBO
+>>>> +     *
+>>>> +     * Enable low-latency mode for the command queue. The NPU will maximize performance
+>>>> +     * when executing jobs from such queue at the cost of increased power usage.
+>>>> +     */
+>>>> +    __u32 flags;
+>>>
+>>> This is going to break the struct size on compat.  You probably need a __u32 reserved to maintain 64-bit alignment. 
+>>
+>> Thank you for suggestion,
+>> I think compat is preserved here as u32 imposes 4 byte alignment on 64bit
+>> so the alignment is going to be 12 bytes on both 32bit and 64bit, I tested this manually.
+>> Please correct me if I am wrong.
 > 
-> I think the overhead is not relevant at all, this is called from
-> drm_file_alloc(). The only path I can see where this is called is
-> drm_client_init(), which isn't high frequent stuff at all, is it?
+> Looks like I'm wrong.  Majority of the structures have 64-bit values, and I didn't clearly see that this specific one is only 32-bit values.
 > 
-> It seems to me that we should probably use IDA here.
+> My initial comment was based on https://docs.kernel.org/process/botching-up-ioctls.html - specifically:
 > 
->> On the other hand using smaller numbers is usually nicer for manual inspection.
-
-Re-using IDs might bring confusion in the trace logs, for instance when tracing lots of short lived 
-processes.
-
+> Pad the entire struct to a multiple of 64-bits if the structure contains 64-bit types - the structure size will otherwise differ on 32-bit versus 64-bit. Having a different structure size hurts when passing arrays of structures to the kernel, or if the kernel checks the structure size, which e.g. the drm core does.
 > 
-> Another option is to just add an interface to get a kernel client_id from the
-> same atomic / IDA.
+> Ok. This was the only functional comment, and it is resolved. The other two are trivial fixups, so I think with those -
+> 
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-Honestly I don't really see the problem with the current patch: using the last N ids for the kernel 
-jobs requires no other changes and works fine.
+Thanks for pointing this out anyway. It turns out we have alignment problems with couple other structures in UAPI.
+We will send a separate fix for these.
 
-https://gitlab.freedesktop.org/drm/amd/-/issues/4260 has a screenshot of the UMR tool using these ids.
-
-If the theoretical overlap with client drm id is a concern, adding code to drm_file_alloc() to not 
-use the last 0xff ids would be easy.
-
-btw maybe other drivers also use kernel jobs with the same semantics, in which case we might want to 
-move the special IDs definition to a shared place.
-
-Thanks,
-Pierre-Eric
-
+Regards,
+Jacek
