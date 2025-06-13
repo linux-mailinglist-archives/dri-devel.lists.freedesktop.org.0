@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97183AD8003
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 03:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7A1AD8005
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 03:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF17D10E0EF;
-	Fri, 13 Jun 2025 01:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A0210E2C2;
+	Fri, 13 Jun 2025 01:11:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kYAKXL2x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MRr00Wrm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7E0110E0C8;
- Fri, 13 Jun 2025 01:11:37 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 462FB10E0EF;
+ Fri, 13 Jun 2025 01:11:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EBA47A521CB;
- Fri, 13 Jun 2025 01:11:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 91554C4CEF1;
+ by tor.source.kernel.org (Postfix) with ESMTP id 35273629D1;
+ Fri, 13 Jun 2025 01:11:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A7234C4CEF2;
  Fri, 13 Jun 2025 01:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1749777091;
- bh=woWKYitU+ZTuRE8At30QAD+trikncUB1NYbv7oKpxSE=;
+ bh=MpayDCKyTR3MKb8+B3TDNmywonEooa+Q+4sUF0/pSGw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=kYAKXL2xGUAA2muouJo4wdPci1/dXCq3Lws0XGaIYFBFtUT1GzC+hjKFxoj+oVs3B
- YdyS5hwbfdqsqSUOPaAHz0nka8/33YGFA1S5fX2YvSRwlwPWFy4NYV/848n9mjN1xC
- 3byBlwJj0MHepj/cBkAFomkL8FeKti5BRYq3Q3cJS/svFVC6nNL8vfdJuoejbTnO6q
- nRiYFEddd5N0IORwsk4O3KVP+SD693zPVXJLRldyvvhrMYqU7U09NrO/5b/HXt1HLA
- 5X1HjlFEoflP/8gwn2Sfs7AT3r5MW5zGskEyCav8Q3zSRQHLLM3KicivCm7tPp9iF3
- b6zBuk3pBxWgg==
+ b=MRr00WrmnndL6uqvORqPcT13pNVe3pMpjIIZxPUkZzlu5+cDi+tLWacZ1xYtSLh1h
+ 1CU0mvKFMkvKeHHUylFE51+2Q51fNkKy5RgN3B3j0uH72KqwVVhX6wb3ChbB87LrFY
+ ftEKXNUmkCQVQcEOYupiFJvMKmj+NLJoMKIbTwG2zhnOLMpaQG1LJd5I8vR1wOAPOO
+ yn2dS9zMyTsmdpdUZuaWl3loP3j3QvU4fIuS1EQz83kDXqZN/3KuugpDFhLMXUZ8Ae
+ 8SN4UoogYs78O3DaZRI5dDuaMqAIJR13/fr+0D+X0vN9J5CVVdM5RWy5VUoT5PssZK
+ ChY8esV+brrIQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 88D45C71148;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9E58AC61CE8;
  Fri, 13 Jun 2025 01:11:31 +0000 (UTC)
 From: Mingcong Bai via B4 Relay <devnull+jeffbai.aosc.io@kernel.org>
-Date: Fri, 13 Jun 2025 09:11:29 +0800
-Subject: [PATCH v2 1/5] drm/xe/bo: fix alignment with non-4KiB kernel page
- sizes
+Date: Fri, 13 Jun 2025 09:11:30 +0800
+Subject: [PATCH v2 2/5] drm/xe/guc: use GUC_SIZE (SZ_4K) for alignment
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250613-upstream-xe-non-4k-v2-v2-1-934f82249f8a@aosc.io>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250613-upstream-xe-non-4k-v2-v2-2-934f82249f8a@aosc.io>
 References: <20250613-upstream-xe-non-4k-v2-v2-0-934f82249f8a@aosc.io>
 In-Reply-To: <20250613-upstream-xe-non-4k-v2-v2-0-934f82249f8a@aosc.io>
 To: Lucas De Marchi <lucas.demarchi@intel.com>, 
@@ -66,11 +65,11 @@ Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Haien Liang <27873200@qq.com>, Jianfeng Liu <liujianfeng1994@gmail.com>, 
  Shirong Liu <lsr1024@qq.com>, Haofeng Wu <s2600cw2@126.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749777090; l=7779;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749777090; l=13299;
  i=jeffbai@aosc.io; s=20250604; h=from:subject:message-id;
- bh=xSGwCQGvwAiX+QXGpf7BRIVGfqz2xRhzgtsh+/oMkpM=;
- b=ndJA9s+Q0CEASwC5edH5pMZL19PX8z0RS8kJtbZB1FLGIobXAQISANdb2DrbHhbWpNTalI3vZ
- Xscw2wmWnb5CmBeSlc+d0ZrDuzPmFy9bVu8V43q0T9kkWxs80yzNS1F
+ bh=sRr3dSRId7ulE9WtvTdpX9Xbe8lkMHy7jLflEBNaSgY=;
+ b=oee/63Vf95TzWEwaRMKXEYtAcSWFUxVqk/DtYvjp1yo0iDfpBFI2VvNVX5z805WdgnhywFFLc
+ toTCpdltZhrD1SJ+XxT5Af2Px2ix3F/dzjkhLlu4RBkn1/27KvWHWaN
 X-Developer-Key: i=jeffbai@aosc.io; a=ed25519;
  pk=MJdgklflDF+Xz9x2Lp+ogEnEyk8HRosMGiqLgWbFctY=
 X-Endpoint-Received: by B4 Relay for jeffbai@aosc.io/20250604 with auth_id=422
@@ -93,85 +92,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mingcong Bai <jeffbai@aosc.io>
 
-The bo/ttm interfaces with kernel memory mapping from dedicated GPU
-memory. It is not correct to assume that SZ_4K would suffice for page
-alignment as there are a few hardware platforms that commonly uses non-
-4KiB pages - for instance, 16KiB is the most commonly used kernel page
-size used on Loongson devices (of the LoongArch architecture).
+Per the "Firmware" chapter in "drm/xe Intel GFX Driver", as well as
+"Volume 8: Command Stream Programming" in "Intel® Arc™ A-Series Graphics
+and Intel Data Center GPU Flex Series Open-Source Programmer's Reference
+Manual For the discrete GPUs code named "Alchemist" and "Arctic Sound-M""
+and "Intel® Iris® Xe MAX Graphics Open Source Programmer's Reference
+Manual For the 2020 Discrete GPU formerly named "DG1"":
 
-Per our testing, Intel Xe/Alchemist/Battlemage families of GPUs works on
-Loongson platforms so long as "Above 4G Decoding" was enabled and
-"Resizable BAR" was set to auto in the UEFI firmware settings.
+  "The RINGBUF register sets (defined in Memory Interface Registers) are
+  used to specify the ring buffer memory areas. The ring buffer must start
+  on a 4KB boundary and be allocated in linear memory. The length of any
+  one ring buffer is limited to 2MB."
 
-Without this fix, the kernel will hang at a kernel BUG():
+The Graphics micro (μ) Controller (GuC) really expects command buffers
+aligned to 4KiB boundaries.
 
-[    7.425445] ------------[ cut here ]------------
-[    7.430032] kernel BUG at drivers/gpu/drm/drm_gem.c:181!
-[    7.435330] Oops - BUG[#1]:
-[    7.438099] CPU: 0 UID: 0 PID: 102 Comm: kworker/0:4 Tainted: G            E      6.13.3-aosc-main-00336-g60829239b300-dirty #3
-[    7.449511] Tainted: [E]=UNSIGNED_MODULE
-[    7.453402] Hardware name: Loongson Loongson-3A6000-HV-7A2000-1w-V0.1-EVB/Loongson-3A6000-HV-7A2000-1w-EVB-V1.21, BIOS Loongson-UDK2018-V4.0.05756-prestab
-[    7.467144] Workqueue: events work_for_cpu_fn
-[    7.471472] pc 9000000001045fa4 ra ffff8000025331dc tp 90000001010c8000 sp 90000001010cb960
-[    7.479770] a0 900000012a3e8000 a1 900000010028c000 a2 000000000005d000 a3 0000000000000000
-[    7.488069] a4 0000000000000000 a5 0000000000000000 a6 0000000000000000 a7 0000000000000001
-[    7.496367] t0 0000000000001000 t1 9000000001045000 t2 0000000000000000 t3 0000000000000000
-[    7.504665] t4 0000000000000000 t5 0000000000000000 t6 0000000000000000 t7 0000000000000000
-[    7.504667] t8 0000000000000000 u0 90000000029ea7d8 s9 900000012a3e9360 s0 900000010028c000
-[    7.504668] s1 ffff800002744000 s2 0000000000000000 s3 0000000000000000 s4 0000000000000001
-[    7.504669] s5 900000012a3e8000 s6 0000000000000001 s7 0000000000022022 s8 0000000000000000
-[    7.537855]    ra: ffff8000025331dc ___xe_bo_create_locked+0x158/0x3b0 [xe]
-[    7.544893]   ERA: 9000000001045fa4 drm_gem_private_object_init+0xcc/0xd0
-[    7.551639]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
-[    7.557785]  PRMD: 00000004 (PPLV0 +PIE -PWE)
-[    7.562111]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
-[    7.566870]  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
-[    7.571628] ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
-[    7.577163]  PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
-[    7.583128] Modules linked in: xe(E+) drm_gpuvm(E) drm_exec(E) drm_buddy(E) gpu_sched(E) drm_suballoc_helper(E) drm_display_helper(E) loongson(E) r8169(E) cec(E) rc_core(E) realtek(E) i2c_algo_bit(E) tpm_tis_spi(E) led_class(E) hid_generic(E) drm_ttm_helper(E) ttm(E) drm_client_lib(E) drm_kms_helper(E) sunrpc(E) la_ow_syscall(E) i2c_dev(E)
-[    7.613049] Process kworker/0:4 (pid: 102, threadinfo=00000000bc26ebd1, task=0000000055480707)
-[    7.621606] Stack : 0000000000000000 3030303a6963702b 000000000005d000 0000000000000000
-[    7.629563]         0000000000000001 0000000000000000 0000000000000000 8e1bfae42b2f7877
-[    7.637519]         000000000005d000 900000012a3e8000 900000012a3e9360 0000000000000000
-[    7.645475]         ffffffffffffffff 0000000000000000 0000000000022022 0000000000000000
-[    7.653431]         0000000000000001 ffff800002533660 0000000000022022 9000000000234470
-[    7.661386]         90000001010cba28 0000000000001000 0000000000000000 000000000005c300
-[    7.669342]         900000012a3e8000 0000000000000000 0000000000000001 900000012a3e8000
-[    7.677298]         ffffffffffffffff 0000000000022022 900000012a3e9498 ffff800002533a14
-[    7.685254]         0000000000022022 0000000000000000 900000000209c000 90000000010589e0
-[    7.693209]         90000001010cbab8 ffff8000027c78c0 fffffffffffff000 900000012a3e8000
-[    7.701165]         ...
-[    7.703588] Call Trace:
-[    7.703590] [<9000000001045fa4>] drm_gem_private_object_init+0xcc/0xd0
-[    7.712496] [<ffff8000025331d8>] ___xe_bo_create_locked+0x154/0x3b0 [xe]
-[    7.719268] [<ffff80000253365c>] __xe_bo_create_locked+0x228/0x304 [xe]
-[    7.725951] [<ffff800002533a10>] xe_bo_create_pin_map_at_aligned+0x70/0x1b0 [xe]
-[    7.733410] [<ffff800002533c7c>] xe_managed_bo_create_pin_map+0x34/0xcc [xe]
-[    7.740522] [<ffff800002533d58>] xe_managed_bo_create_from_data+0x44/0xb0 [xe]
-[    7.747807] [<ffff80000258d19c>] xe_uc_fw_init+0x3ec/0x904 [xe]
-[    7.753814] [<ffff80000254a478>] xe_guc_init+0x30/0x3dc [xe]
-[    7.759553] [<ffff80000258bc04>] xe_uc_init+0x20/0xf0 [xe]
-[    7.765121] [<ffff800002542abc>] xe_gt_init_hwconfig+0x5c/0xd0 [xe]
-[    7.771461] [<ffff800002537204>] xe_device_probe+0x240/0x588 [xe]
-[    7.777627] [<ffff800002575448>] xe_pci_probe+0x6c0/0xa6c [xe]
-[    7.783540] [<9000000000e9828c>] local_pci_probe+0x4c/0xb4
-[    7.788989] [<90000000002aa578>] work_for_cpu_fn+0x20/0x40
-[    7.794436] [<90000000002aeb50>] process_one_work+0x1a4/0x458
-[    7.800143] [<90000000002af5a0>] worker_thread+0x304/0x3fc
-[    7.805591] [<90000000002bacac>] kthread+0x114/0x138
-[    7.810520] [<9000000000241f64>] ret_from_kernel_thread+0x8/0xa4
-[    7.816489]
-[    7.817961] Code: 4c000020  29c3e2f9  53ff93ff <002a0001> 0015002c  03400000  02ff8063  29c04077  001500f7
-[    7.827651]
-[    7.829140] ---[ end trace 0000000000000000 ]---
+Current implementation uses `PAGE_SIZE' as an assumed alignment reference
+but 4KiB kernel page sizes is by no means a guarantee. On 16KiB-paged
+kernels, this causes driver failures after loading the GuC firmware:
 
-Revise all instances of `SZ_4K' with `PAGE_SIZE' and revise the call to
-`drm_gem_private_object_init()' in `*___xe_bo_create_locked()' (last call
-before BUG()) to use `size_t aligned_size' calculated from `PAGE_SIZE' to
-fix the above error.
+[    7.398317] xe 0000:09:00.0: [drm] Found dg2/g10 (device ID 56a1) display version 13.00 stepping C0
+[    7.410429] xe 0000:09:00.0: [drm] Using GuC firmware from i915/dg2_guc_70.bin version 70.36.0
+[   10.719989] xe 0000:09:00.0: [drm] *ERROR* GT0: load failed: status = 0x800001EC, time = 3297ms, freq = 2400MHz (req 2400MHz), done = 0
+[   10.732106] xe 0000:09:00.0: [drm] *ERROR* GT0: load failed: status: Reset = 0, BootROM = 0x76, UKernel = 0x01, MIA = 0x00, Auth = 0x02
+[   10.744214] xe 0000:09:00.0: [drm] *ERROR* CRITICAL: Xe has declared device 0000:09:00.0 as wedged.
+               Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new
+[   10.828908] xe 0000:09:00.0: [drm] *ERROR* GT0: GuC mmio request 0x4100: no reply 0x4100
 
-Cc: <stable@vger.kernel.org>
-Fixes: 4e03b584143e ("drm/xe/uapi: Reject bo creation of unaligned size")
+Correct this by defining `GUC_ALIGN' as `SZ_4K' in accordance with the
+references above, and revising all instances of `PAGE_SIZE' as
+`GUC_ALIGN'. Then, revise `PAGE_ALIGN()' calls as `ALIGN()' with
+`GUC_ALIGN' as their second argument (overriding `PAGE_SIZE').
+
+Cc: stable@vger.kernel.org
+Fixes: 84d15f426110 ("drm/xe/guc: Add capture size check in GuC log buffer")
+Fixes: 9c8c7a7e6f1f ("drm/xe/guc: Prepare GuC register list and update ADS size for error capture")
 Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
 Tested-by: Mingcong Bai <jeffbai@aosc.io>
 Tested-by: Wenbin Fang <fangwenbin@vip.qq.com>
@@ -185,43 +140,275 @@ Co-developed-by: Shang Yatsen <429839446@qq.com>
 Signed-off-by: Shang Yatsen <429839446@qq.com>
 Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
 ---
- drivers/gpu/drm/xe/xe_bo.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xe/xe_guc.c         |  4 ++--
+ drivers/gpu/drm/xe/xe_guc.h         |  3 +++
+ drivers/gpu/drm/xe/xe_guc_ads.c     | 32 ++++++++++++++++----------------
+ drivers/gpu/drm/xe/xe_guc_capture.c |  8 ++++----
+ drivers/gpu/drm/xe/xe_guc_ct.c      |  2 +-
+ drivers/gpu/drm/xe/xe_guc_log.c     |  5 +++--
+ drivers/gpu/drm/xe/xe_guc_pc.c      |  4 ++--
+ 7 files changed, 31 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index d99d91fe8aa98a2bfc901a998c9fc78fcb146e15..0767df4aebbab18283ba74deb5e984d5d847812c 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -1837,9 +1837,9 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
- 		flags |= XE_BO_FLAG_INTERNAL_64K;
- 		alignment = align >> PAGE_SHIFT;
- 	} else {
--		aligned_size = ALIGN(size, SZ_4K);
-+		aligned_size = ALIGN(size, PAGE_SIZE);
- 		flags &= ~XE_BO_FLAG_INTERNAL_64K;
--		alignment = SZ_4K >> PAGE_SHIFT;
-+		alignment = PAGE_SIZE >> PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/xe/xe_guc.c b/drivers/gpu/drm/xe/xe_guc.c
+index bac5471a1a7806ed7e41a241145666834a5e0eb8..95aedf9449c8c36435f963206dbdf3c86a839338 100644
+--- a/drivers/gpu/drm/xe/xe_guc.c
++++ b/drivers/gpu/drm/xe/xe_guc.c
+@@ -90,7 +90,7 @@ static u32 guc_ctl_feature_flags(struct xe_guc *guc)
+ 
+ static u32 guc_ctl_log_params_flags(struct xe_guc *guc)
+ {
+-	u32 offset = guc_bo_ggtt_addr(guc, guc->log.bo) >> PAGE_SHIFT;
++	u32 offset = guc_bo_ggtt_addr(guc, guc->log.bo) >> XE_PTE_SHIFT;
+ 	u32 flags;
+ 
+ 	#if (((CRASH_BUFFER_SIZE) % SZ_1M) == 0)
+@@ -143,7 +143,7 @@ static u32 guc_ctl_log_params_flags(struct xe_guc *guc)
+ 
+ static u32 guc_ctl_ads_flags(struct xe_guc *guc)
+ {
+-	u32 ads = guc_bo_ggtt_addr(guc, guc->ads.bo) >> PAGE_SHIFT;
++	u32 ads = guc_bo_ggtt_addr(guc, guc->ads.bo) >> XE_PTE_SHIFT;
+ 	u32 flags = ads << GUC_ADS_ADDR_SHIFT;
+ 
+ 	return flags;
+diff --git a/drivers/gpu/drm/xe/xe_guc.h b/drivers/gpu/drm/xe/xe_guc.h
+index 58338be4455856994df1d7e026b3f0fa7cc03fe9..5b30215ac5616728351d77dd028ed9f3b495cfd8 100644
+--- a/drivers/gpu/drm/xe/xe_guc.h
++++ b/drivers/gpu/drm/xe/xe_guc.h
+@@ -23,6 +23,9 @@
+ #define GUC_FIRMWARE_VER(guc) \
+ 	MAKE_GUC_VER_STRUCT((guc)->fw.versions.found[XE_UC_FW_VER_RELEASE])
+ 
++/* GuC really expects command buffers aligned to 4K boundaries. */
++#define GUC_ALIGN SZ_4K
++
+ struct drm_printer;
+ 
+ void xe_guc_comm_init_early(struct xe_guc *guc);
+diff --git a/drivers/gpu/drm/xe/xe_guc_ads.c b/drivers/gpu/drm/xe/xe_guc_ads.c
+index 44c1fa2fe7c857556708290a25ea1bdfcf674449..4f47809aa794843128221c5d2653b6f61dab202b 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ads.c
++++ b/drivers/gpu/drm/xe/xe_guc_ads.c
+@@ -143,17 +143,17 @@ static size_t guc_ads_regset_size(struct xe_guc_ads *ads)
+ 
+ static size_t guc_ads_golden_lrc_size(struct xe_guc_ads *ads)
+ {
+-	return PAGE_ALIGN(ads->golden_lrc_size);
++	return ALIGN(ads->golden_lrc_size, GUC_ALIGN);
+ }
+ 
+ static u32 guc_ads_waklv_size(struct xe_guc_ads *ads)
+ {
+-	return PAGE_ALIGN(ads->ads_waklv_size);
++	return ALIGN(ads->ads_waklv_size, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_capture_size(struct xe_guc_ads *ads)
+ {
+-	return PAGE_ALIGN(ads->capture_size);
++	return ALIGN(ads->capture_size, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_um_queues_size(struct xe_guc_ads *ads)
+@@ -168,7 +168,7 @@ static size_t guc_ads_um_queues_size(struct xe_guc_ads *ads)
+ 
+ static size_t guc_ads_private_data_size(struct xe_guc_ads *ads)
+ {
+-	return PAGE_ALIGN(ads_to_guc(ads)->fw.private_data_size);
++	return ALIGN(ads_to_guc(ads)->fw.private_data_size, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_regset_offset(struct xe_guc_ads *ads)
+@@ -183,7 +183,7 @@ static size_t guc_ads_golden_lrc_offset(struct xe_guc_ads *ads)
+ 	offset = guc_ads_regset_offset(ads) +
+ 		guc_ads_regset_size(ads);
+ 
+-	return PAGE_ALIGN(offset);
++	return ALIGN(offset, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_waklv_offset(struct xe_guc_ads *ads)
+@@ -193,7 +193,7 @@ static size_t guc_ads_waklv_offset(struct xe_guc_ads *ads)
+ 	offset = guc_ads_golden_lrc_offset(ads) +
+ 		 guc_ads_golden_lrc_size(ads);
+ 
+-	return PAGE_ALIGN(offset);
++	return ALIGN(offset, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_capture_offset(struct xe_guc_ads *ads)
+@@ -203,7 +203,7 @@ static size_t guc_ads_capture_offset(struct xe_guc_ads *ads)
+ 	offset = guc_ads_waklv_offset(ads) +
+ 		 guc_ads_waklv_size(ads);
+ 
+-	return PAGE_ALIGN(offset);
++	return ALIGN(offset, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_um_queues_offset(struct xe_guc_ads *ads)
+@@ -213,7 +213,7 @@ static size_t guc_ads_um_queues_offset(struct xe_guc_ads *ads)
+ 	offset = guc_ads_capture_offset(ads) +
+ 		 guc_ads_capture_size(ads);
+ 
+-	return PAGE_ALIGN(offset);
++	return ALIGN(offset, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_private_data_offset(struct xe_guc_ads *ads)
+@@ -223,7 +223,7 @@ static size_t guc_ads_private_data_offset(struct xe_guc_ads *ads)
+ 	offset = guc_ads_um_queues_offset(ads) +
+ 		guc_ads_um_queues_size(ads);
+ 
+-	return PAGE_ALIGN(offset);
++	return ALIGN(offset, GUC_ALIGN);
+ }
+ 
+ static size_t guc_ads_size(struct xe_guc_ads *ads)
+@@ -276,7 +276,7 @@ static size_t calculate_golden_lrc_size(struct xe_guc_ads *ads)
+ 			continue;
+ 
+ 		real_size = xe_gt_lrc_size(gt, class);
+-		alloc_size = PAGE_ALIGN(real_size);
++		alloc_size = ALIGN(real_size, GUC_ALIGN);
+ 		total_size += alloc_size;
  	}
  
- 	if (type == ttm_bo_type_device && aligned_size != size)
-@@ -1853,7 +1853,7 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
+@@ -646,12 +646,12 @@ static int guc_capture_prep_lists(struct xe_guc_ads *ads)
+ 					 offsetof(struct __guc_ads_blob, system_info));
  
- 	bo->ccs_cleared = false;
- 	bo->tile = tile;
--	bo->size = size;
-+	bo->size = aligned_size;
- 	bo->flags = flags;
- 	bo->cpu_caching = cpu_caching;
- 	bo->ttm.base.funcs = &xe_gem_object_funcs;
-@@ -1864,7 +1864,7 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
- #endif
- 	INIT_LIST_HEAD(&bo->vram_userfault_link);
+ 	/* first, set aside the first page for a capture_list with zero descriptors */
+-	total_size = PAGE_SIZE;
++	total_size = GUC_ALIGN;
+ 	if (!xe_guc_capture_getnullheader(guc, &ptr, &size))
+ 		xe_map_memcpy_to(ads_to_xe(ads), ads_to_map(ads), capture_offset, ptr, size);
  
--	drm_gem_private_object_init(&xe->drm, &bo->ttm.base, size);
-+	drm_gem_private_object_init(&xe->drm, &bo->ttm.base, aligned_size);
+ 	null_ggtt = ads_ggtt + capture_offset;
+-	capture_offset += PAGE_SIZE;
++	capture_offset += GUC_ALIGN;
  
- 	if (resv) {
- 		ctx.allow_res_evict = !(flags & XE_BO_FLAG_NO_RESV_EVICT);
+ 	/*
+ 	 * Populate capture list : at this point adps is already allocated and
+@@ -715,10 +715,10 @@ static int guc_capture_prep_lists(struct xe_guc_ads *ads)
+ 		}
+ 	}
+ 
+-	if (ads->capture_size != PAGE_ALIGN(total_size))
++	if (ads->capture_size != ALIGN(total_size, GUC_ALIGN))
+ 		xe_gt_dbg(gt, "Updated ADS capture size %d (was %d)\n",
+-			  PAGE_ALIGN(total_size), ads->capture_size);
+-	return PAGE_ALIGN(total_size);
++			  ALIGN(total_size, GUC_ALIGN), ads->capture_size);
++	return ALIGN(total_size, GUC_ALIGN);
+ }
+ 
+ static void guc_mmio_regset_write_one(struct xe_guc_ads *ads,
+@@ -966,7 +966,7 @@ static void guc_golden_lrc_populate(struct xe_guc_ads *ads)
+ 		xe_gt_assert(gt, gt->default_lrc[class]);
+ 
+ 		real_size = xe_gt_lrc_size(gt, class);
+-		alloc_size = PAGE_ALIGN(real_size);
++		alloc_size = ALIGN(real_size, GUC_ALIGN);
+ 		total_size += alloc_size;
+ 
+ 		xe_map_memcpy_to(xe, ads_to_map(ads), offset,
+diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/xe_guc_capture.c
+index 859a3ba91be54f562ea835e949f1d141ed89d486..34e9ea9b2935136fa46fbb6aac7944eb844b7fae 100644
+--- a/drivers/gpu/drm/xe/xe_guc_capture.c
++++ b/drivers/gpu/drm/xe/xe_guc_capture.c
+@@ -591,8 +591,8 @@ guc_capture_getlistsize(struct xe_guc *guc, u32 owner, u32 type,
+ 		return -ENODATA;
+ 
+ 	if (size)
+-		*size = PAGE_ALIGN((sizeof(struct guc_debug_capture_list)) +
+-				   (num_regs * sizeof(struct guc_mmio_reg)));
++		*size = ALIGN((sizeof(struct guc_debug_capture_list)) +
++			      (num_regs * sizeof(struct guc_mmio_reg)), GUC_ALIGN);
+ 
+ 	return 0;
+ }
+@@ -739,7 +739,7 @@ size_t xe_guc_capture_ads_input_worst_size(struct xe_guc *guc)
+ 	 * sequence, that is, during the pre-hwconfig phase before we have
+ 	 * the exact engine fusing info.
+ 	 */
+-	total_size = PAGE_SIZE;	/* Pad a page in front for empty lists */
++	total_size = GUC_ALIGN;	/* Pad a page in front for empty lists */
+ 	for (i = 0; i < GUC_CAPTURE_LIST_INDEX_MAX; i++) {
+ 		for (j = 0; j < GUC_CAPTURE_LIST_CLASS_MAX; j++) {
+ 			if (xe_guc_capture_getlistsize(guc, i,
+@@ -759,7 +759,7 @@ size_t xe_guc_capture_ads_input_worst_size(struct xe_guc *guc)
+ 		total_size += global_size;
+ 	}
+ 
+-	return PAGE_ALIGN(total_size);
++	return ALIGN(total_size, GUC_ALIGN);
+ }
+ 
+ static int guc_capture_output_size_est(struct xe_guc *guc)
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
+index 2447de0ebedf45759351fd6ce03a363a9459fe1a..6bd624d071e721638aa29b57dc30733089ce7a9a 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct.c
++++ b/drivers/gpu/drm/xe/xe_guc_ct.c
+@@ -212,7 +212,7 @@ int xe_guc_ct_init(struct xe_guc_ct *ct)
+ 	struct xe_bo *bo;
+ 	int err;
+ 
+-	xe_gt_assert(gt, !(guc_ct_size() % PAGE_SIZE));
++	xe_gt_assert(gt, !(guc_ct_size() % GUC_ALIGN));
+ 
+ 	ct->g2h_wq = alloc_ordered_workqueue("xe-g2h-wq", WQ_MEM_RECLAIM);
+ 	if (!ct->g2h_wq)
+diff --git a/drivers/gpu/drm/xe/xe_guc_log.c b/drivers/gpu/drm/xe/xe_guc_log.c
+index 38039c4113878007a4278d9581155158f20812ae..cd01d1033e8eefab3f49c179d1865c23771cdec1 100644
+--- a/drivers/gpu/drm/xe/xe_guc_log.c
++++ b/drivers/gpu/drm/xe/xe_guc_log.c
+@@ -15,6 +15,7 @@
+ #include "xe_force_wake.h"
+ #include "xe_gt.h"
+ #include "xe_gt_printk.h"
++#include "xe_guc.h"
+ #include "xe_map.h"
+ #include "xe_mmio.h"
+ #include "xe_module.h"
+@@ -58,7 +59,7 @@ static size_t guc_log_size(void)
+ 	 *  |         Capture logs          |
+ 	 *  +===============================+ + CAPTURE_SIZE
+ 	 */
+-	return PAGE_SIZE + CRASH_BUFFER_SIZE + DEBUG_BUFFER_SIZE +
++	return GUC_ALIGN + CRASH_BUFFER_SIZE + DEBUG_BUFFER_SIZE +
+ 		CAPTURE_BUFFER_SIZE;
+ }
+ 
+@@ -328,7 +329,7 @@ u32 xe_guc_get_log_buffer_size(struct xe_guc_log *log, enum guc_log_buffer_type
+ u32 xe_guc_get_log_buffer_offset(struct xe_guc_log *log, enum guc_log_buffer_type type)
+ {
+ 	enum guc_log_buffer_type i;
+-	u32 offset = PAGE_SIZE;/* for the log_buffer_states */
++	u32 offset = GUC_ALIGN;	/* for the log_buffer_states */
+ 
+ 	for (i = GUC_LOG_BUFFER_CRASH_DUMP; i < GUC_LOG_BUFFER_TYPE_MAX; ++i) {
+ 		if (i == type)
+diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
+index 18c623992035520ec78646240512220abee07935..eae0fccf2a76a19e03b596ea6f82aa415b07df43 100644
+--- a/drivers/gpu/drm/xe/xe_guc_pc.c
++++ b/drivers/gpu/drm/xe/xe_guc_pc.c
+@@ -1044,7 +1044,7 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
+ {
+ 	struct xe_device *xe = pc_to_xe(pc);
+ 	struct xe_gt *gt = pc_to_gt(pc);
+-	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
++	u32 size = ALIGN(sizeof(struct slpc_shared_data), GUC_ALIGN);
+ 	unsigned int fw_ref;
+ 	ktime_t earlier;
+ 	int ret;
+@@ -1172,7 +1172,7 @@ int xe_guc_pc_init(struct xe_guc_pc *pc)
+ 	struct xe_tile *tile = gt_to_tile(gt);
+ 	struct xe_device *xe = gt_to_xe(gt);
+ 	struct xe_bo *bo;
+-	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
++	u32 size = ALIGN(sizeof(struct slpc_shared_data), GUC_ALIGN);
+ 	int err;
+ 
+ 	if (xe->info.skip_guc_pc)
 
 -- 
 2.49.0
