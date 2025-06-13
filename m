@@ -2,72 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4C3AD8804
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 11:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F04AD881A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 11:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CEF10E920;
-	Fri, 13 Jun 2025 09:34:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A2C10E94B;
+	Fri, 13 Jun 2025 09:39:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fUzUnrK2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F2c2LWcG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GKdn9uns";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LxS5ai9o";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F5210E920
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 09:34:28 +0000 (UTC)
-Received: from w002.hihonor.com (unknown [10.68.28.120])
- by mta22.hihonor.com (SkyGuard) with ESMTPS id 4bJZ0q6dqXzYl4KT;
- Fri, 13 Jun 2025 17:31:55 +0800 (CST)
-Received: from a017.hihonor.com (10.68.27.165) by w002.hihonor.com
- (10.68.28.120) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 13 Jun
- 2025 17:33:55 +0800
-Received: from a010.hihonor.com (10.68.16.52) by a017.hihonor.com
- (10.68.27.165) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 13 Jun
- 2025 17:33:55 +0800
-Received: from a010.hihonor.com ([fe80::7127:3946:32c7:6e]) by
- a010.hihonor.com ([fe80::7127:3946:32c7:6e%14]) with mapi id 15.02.1544.011;
- Fri, 13 Jun 2025 17:33:55 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: Christoph Hellwig <hch@infradead.org>
-CC: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "kraxel@redhat.com"
- <kraxel@redhat.com>, "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>, 
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
- <brauner@kernel.org>, "hughd@google.com" <hughd@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>, "amir73il@gmail.com"
- <amir73il@gmail.com>, "benjamin.gaignard@collabora.com"
- <benjamin.gaignard@collabora.com>, "Brian.Starkey@arm.com"
- <Brian.Starkey@arm.com>, "jstultz@google.com" <jstultz@google.com>,
- "tjmercier@google.com" <tjmercier@google.com>, "jack@suse.cz" <jack@suse.cz>, 
- "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "wangbintian(BintianWang)"
- <bintian.wang@honor.com>, yipengxiang <yipengxiang@honor.com>, liulu 00013167
- <liulu.liu@honor.com>, hanfeng 00012985 <feng.han@honor.com>
-Subject: RE: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Topic: [PATCH v4 0/4] Implement dmabuf direct I/O via copy_file_range
-Thread-Index: AQHb1G1ol+FT389RFkuW+lwB3adoKrPw4BKAgAADywCAAAF8AIAE6kCg//+rigCABEW6AIAA1IFwgAFUd4CABPdqMA==
-Date: Fri, 13 Jun 2025 09:33:55 +0000
-Message-ID: <34c2dbc06d074ffbb8f920418636bafc@honor.com>
-References: <20250603095245.17478-1-tao.wangtao@honor.com>
- <aD7x_b0hVyvZDUsl@infradead.org>
- <09c8fb7c-a337-4813-9f44-3a538c4ee8b1@amd.com>
- <aD72alIxu718uri4@infradead.org> <5d36abace6bf492aadd847f0fabc38be@honor.com>
- <a766fbf4-6cda-43a5-a1c7-61a3838f93f9@amd.com>
- <aEZkjA1L-dP_Qt3U@infradead.org> <761986ec0f404856b6f21c3feca67012@honor.com>
- <aEg0aYQJ9h_tyum9@infradead.org>
-In-Reply-To: <aEg0aYQJ9h_tyum9@infradead.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.163.18.240]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED40A10E94B
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 09:39:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A8942218E7;
+ Fri, 13 Jun 2025 09:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749807593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SzS1ZSctsaBRvtnZ7si2XstcsBZjJStH7gLMWD6Sscs=;
+ b=fUzUnrK2iVX6iAaeW3LxjvhJ2Ney9y5vRt23ZFNMzsUyk5WS3IkDRSP62VY9x7MqGF4D66
+ t+i7VKLdkHK82YlvqX3gMF5r0Frd1Ms/23bxLoUsVkhkVHZ5JCvB9taRqNWu2ZVoC3O1fi
+ QA+/hFjE6diiWTIKH2FejnI2zGGqXmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749807593;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SzS1ZSctsaBRvtnZ7si2XstcsBZjJStH7gLMWD6Sscs=;
+ b=F2c2LWcGP+aW9rKMtvDw7eLApcVEtJhhontwHNOpb5NxBJ/DLnaQKgKrD4Mb5c0ndnQ241
+ 0rnW40NP0jvKyPDQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GKdn9uns;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LxS5ai9o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1749807592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SzS1ZSctsaBRvtnZ7si2XstcsBZjJStH7gLMWD6Sscs=;
+ b=GKdn9unsRNoRaugzdWUEIp5Z1AgyF+yvBDQqBy16y1NsOaOmojCXElpBy8RxDlTR7EODch
+ 3ffLXRU6Ll0hxJlt2+MLXeVeKP7jjsc5c7cYhm3YrgKi0aKLOFVwr81CFU7Jc78HA9aohg
+ kv1HY+cwKcifrzc25xC6SRotbA9eg2g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1749807592;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SzS1ZSctsaBRvtnZ7si2XstcsBZjJStH7gLMWD6Sscs=;
+ b=LxS5ai9oZNKMykKYwTBfE12fMTXXlhSzpuHuEDPp7NRn8t5fmQw4RK8Uhd8J+euFoZKCaf
+ +kJgijNOh0fkbxDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 484D6137FE;
+ Fri, 13 Jun 2025 09:39:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CqpIEOjxS2h1PgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Jun 2025 09:39:52 +0000
+Message-ID: <84ee6388-92af-49c8-988b-b79ed1453d5e@suse.de>
+Date: Fri, 13 Jun 2025 11:39:51 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm: panel: add support for Samsung S6E8AA5X01 panel
+ controller
+To: Kaustabh Chakraborty <kauschluss@disroot.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org>
+ <20250612-panel-samsung-s6e8aa5x01-v1-2-06dcba071ea6@disroot.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250612-panel-samsung-s6e8aa5x01-v1-2-06dcba071ea6@disroot.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A8942218E7
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ TAGGED_RCPT(0.00)[dt]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[14];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[disroot.org,linaro.org,quicinc.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,oss.qualcomm.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,17 +158,1033 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+IA0KPiBPbiBNb24sIEp1biAwOSwgMjAyNSBhdCAwOTozMjoyMEFNICswMDAwLCB3YW5ndGFv
-IHdyb3RlOg0KPiA+IEFyZSB5b3Ugc3VnZ2VzdGluZyBhZGRpbmcgYW4gSVRFUl9ETUFCVUYgdHlw
-ZSB0byBpb3ZfaXRlciwNCj4gDQo+IFllcy4NCg0KTWF5IEkgY2xhcmlmeTogRG8gYWxsIGRpc2sg
-b3BlcmF0aW9ucyByZXF1aXJlIGRhdGEgdG8gcGFzcyB0aHJvdWdoDQptZW1vcnkgKHJlYWRpbmcg
-aW50byBtZW1vcnkgb3Igd3JpdGluZyBmcm9tIG1lbW9yeSk/IEluIHRoZSBibG9jayBsYXllciwN
-CnRoZSBiaW8gc3RydWN0dXJlIHVzZXMgYmlvX2lvdl9pdGVyX2dldF9wYWdlcyB0byBjb252ZXJ0
-IGl0ZXJfdHlwZQ0Kb2JqZWN0cyBpbnRvIG1lbW9yeS1iYWNrZWQgYmlvX3ZlYyByZXByZXNlbnRh
-dGlvbnMuDQpIb3dldmVyLCBzb21lIGRtYWJ1ZnMgYXJlIG5vdCBtZW1vcnktYmFzZWQsIG1ha2lu
-ZyBwYWdlLXRvLWJpb192ZWMNCmNvbnZlcnNpb24gaW1wb3NzaWJsZS4gVGhpcyBzdWdnZXN0cyBh
-ZGRpbmcgYSBjYWxsYmFjayBmdW5jdGlvbiBpbg0KZG1hX2J1Zl9vcHMgdG8gaGFuZGxlIGRtYWJ1
-Zi0gdG8tYmlvX3ZlYyBjb252ZXJzaW9uLg0KDQpJbnRlcmVzdGluZ2x5LCBpZiBzdWNoIGEgY2Fs
-bGJhY2sgZXhpc3RzLCB0aGUgbmVlZCBmb3IgYSBkZWRpY2F0ZWQNCklURVJfRE1BQlVGIHR5cGUg
-bWlnaHQgZGlzYXBwZWFyLiBXb3VsZCB5b3UgbGlrZSB0byBkaXNjdXNzIHBvdGVudGlhbA0KaW1w
-bGVtZW50YXRpb24gdHJhZGVvZmZzIGhlcmU/DQoNClJlZ2FyZHMsDQpXYW5ndGFvLg0K
+Hi
+
+Am 12.06.25 um 16:52 schrieb Kaustabh Chakraborty:
+> Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Implement
+> a basic panel driver for such panels.
+>
+> The driver also initializes a backlight device, which works by changing
+> the panel's gamma values and aid brightness levels appropriately, with
+> the help of look-up tables acquired from downstream kernel sources.
+>
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>   drivers/gpu/drm/panel/Kconfig                    |  11 +
+>   drivers/gpu/drm/panel/Makefile                   |   1 +
+>   drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c | 922 +++++++++++++++++++++++
+>   3 files changed, 934 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index d5aa1c95c6a45b2fea9b1d7a9e8a39fe617b860c..3d92ec3d7a1e85bf099e50e78b666fa38267d05c 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -833,6 +833,17 @@ config DRM_PANEL_SAMSUNG_S6E8AA0
+>   	select DRM_MIPI_DSI
+>   	select VIDEOMODE_HELPERS
+>   
+> +config DRM_PANEL_SAMSUNG_S6E8AA5X01
+> +	tristate "Samsung S6E8AA5X01 panel"
+> +	depends on GPIOLIB && OF && REGULATOR
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for Samsung S6E8AA5X01 panel
+> +	  controller. The controller is driven by the MIPI DSI protocol with 4
+> +	  lanes. Panels are available in multiple sizes by vendors, such as in
+> +	  720x1280@60Hz or 720x1480@60Hz.
+> +
+>   config DRM_PANEL_SAMSUNG_SOFEF00
+>   	tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels"
+>   	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 73a39bc726045f3ce52fdeef8c0ec762a4a378c7..995cf2b22427897313f806280b0bc9a67a7b4879 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -86,6 +86,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI) += panel-samsung-s6e63m0-dsi.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24) += panel-samsung-s6e88a0-ams427ap24.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
+> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA5X01) += panel-samsung-s6e8aa5x01.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
+>   obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
+>   obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..1804d82ed2d1fb8af0492f4a5bf07ba661f600fb
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c
+> @@ -0,0 +1,922 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Samsung S6E8AA5X01 display panel driver.
+> + *
+> + * Copyright (C) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +/* Manufacturer Command Set */
+> +#define MCS_AIDCTL		0xb2
+> +#define MCS_ADAPTIVECTL		0xb5
+> +#define MCS_ELVSS		0xb6
+> +#define MCS_TEMPERCTL		0xb8
+> +#define MCS_PENTILE		0xc0
+> +#define MCS_GAMMACTL		0xca
+> +#define MCS_LTPSCTL		0xcb
+> +#define MCS_PCD			0xcc
+> +#define MCS_ERRFLAG		0xe7
+> +#define MCS_ACCESSPROT		0xf0
+> +#define MCS_DISPCTL		0xf2
+> +#define MCS_GAMMAUPD		0xf7
+> +
+> +#define GAMMA_CMD_LEN	34
+> +#define AID_CMD_LEN	3
+> +
+> +static const struct {
+> +	u8 gamma[GAMMA_CMD_LEN];
+> +	u8 aid[AID_CMD_LEN];
+> +} s6e8aa5x01_cmds[] = {
+> +	{
+> +		/* 5 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x94,
+> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
+> +		  0x8d, 0x8c, 0x8d, 0x89, 0x8c, 0x8e,
+> +		  0x8e, 0x8f, 0x90, 0xa3, 0xa2, 0x9a,
+> +		  0xcf, 0xca, 0x9f, 0xe6, 0xff, 0xb4,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0xa5 },
+> +	}, {
+> +		/* 6 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x8c, 0x8a, 0x8c, 0x85, 0x88, 0x8c,
+> +		  0x8b, 0x8c, 0x8e, 0xa2, 0xa2, 0x9a,
+> +		  0xd0, 0xcc, 0xa2, 0xed, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x95 },
+> +	}, {
+> +		/* 7 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x8c, 0x8a, 0x8c, 0x85, 0x88, 0x8c,
+> +		  0x8b, 0x8c, 0x8e, 0xa2, 0xa2, 0x99,
+> +		  0xc8, 0xc4, 0x9d, 0xed, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x89 },
+> +	}, {
+> +		/* 8 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
+> +		  0x8a, 0x88, 0x8b, 0x83, 0x86, 0x8b,
+> +		  0x8c, 0x8b, 0x8d, 0x9d, 0x9f, 0x97,
+> +		  0xc7, 0xc3, 0x9c, 0xf5, 0xff, 0xbb,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x7e },
+> +	}, {
+> +		/* 9 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
+> +		  0x90, 0x8f, 0x91, 0x95, 0x97, 0x94,
+> +		  0xc6, 0xc2, 0x9d, 0xf5, 0xff, 0xbb,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x73 },
+> +	}, {
+> +		/* 10 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
+> +		  0x90, 0x8f, 0x91, 0x94, 0x97, 0x93,
+> +		  0xc6, 0xc2, 0x9e, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x67 },
+> +	}, {
+> +		/* 11 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
+> +		  0x8b, 0x8b, 0x8d, 0x90, 0x93, 0x92,
+> +		  0xc5, 0xc1, 0x9c, 0xf5, 0xff, 0xbb,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x56 },
+> +	}, {
+> +		/* 12 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
+> +		  0x87, 0x86, 0x8a, 0x8c, 0x90, 0x8f,
+> +		  0xcd, 0xc9, 0xa1, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x4a },
+> +	}, {
+> +		/* 13 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
+> +		  0x87, 0x86, 0x8a, 0x8c, 0x90, 0x8e,
+> +		  0xc4, 0xbf, 0x9c, 0xf5, 0xff, 0xbb,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x3b },
+> +	}, {
+> +		/* 14 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
+> +		  0x87, 0x86, 0x89, 0x8c, 0x90, 0x8f,
+> +		  0xc2, 0xbf, 0x9c, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x35 },
+> +	}, {
+> +		/* 15 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
+> +		  0x87, 0x86, 0x89, 0x8c, 0x90, 0x8f,
+> +		  0xb7, 0xb6, 0x96, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x25 },
+> +	}, {
+> +		/* 16 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
+> +		  0x88, 0x86, 0x89, 0x8c, 0x90, 0x8f,
+> +		  0xb7, 0xb6, 0x96, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x20 },
+> +	}, {
+> +		/* 17 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
+> +		  0x86, 0x85, 0x89, 0x88, 0x8c, 0x8e,
+> +		  0xbf, 0xbe, 0x9c, 0xec, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x05, 0x11 },
+> +	}, {
+> +		/* 19 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
+> +		  0x87, 0x85, 0x89, 0x88, 0x8c, 0x8e,
+> +		  0xb3, 0xb4, 0x97, 0xeb, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0xf2 },
+> +	}, {
+> +		/* 20 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
+> +		  0x87, 0x85, 0x89, 0x89, 0x8c, 0x8e,
+> +		  0xb3, 0xb4, 0x97, 0xeb, 0xff, 0xb7,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0xe4 },
+> +	}, {
+> +		/* 21 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x8a, 0x88, 0x8b, 0x7d, 0x7e, 0x84,
+> +		  0x8c, 0x8a, 0x8c, 0x8e, 0x90, 0x8f,
+> +		  0xb6, 0xb6, 0x97, 0xe3, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0xd5 },
+> +	}, {
+> +		/* 22 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x97,
+> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
+> +		  0x8a, 0x88, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x87, 0x86, 0x88, 0x8e, 0x90, 0x8f,
+> +		  0xb6, 0xb6, 0x95, 0xe3, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0xc5 },
+> +	}, {
+> +		/* 24 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x97,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
+> +		  0x87, 0x86, 0x88, 0x8e, 0x90, 0x8f,
+> +		  0xb6, 0xb6, 0x94, 0xe3, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0xa7 },
+> +	}, {
+> +		/* 25 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x98,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
+> +		  0x87, 0x86, 0x87, 0x8e, 0x90, 0x8f,
+> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0x95 },
+> +	}, {
+> +		/* 27 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x99,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x83, 0x86, 0x8a,
+> +		  0x88, 0x87, 0x87, 0x88, 0x8b, 0x8c,
+> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0x76 },
+> +	}, {
+> +		/* 29 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x99,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x83, 0x86, 0x89,
+> +		  0x88, 0x87, 0x88, 0x88, 0x8b, 0x8b,
+> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0x54 },
+> +	}, {
+> +		/* 30 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9a,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x84, 0x86, 0x8a,
+> +		  0x87, 0x87, 0x87, 0x88, 0x8b, 0x8b,
+> +		  0xbf, 0xbf, 0x99, 0xda, 0xfa, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0x44 },
+> +	}, {
+> +		/* 32 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9a,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x89, 0x87, 0x8a, 0x84, 0x86, 0x8a,
+> +		  0x87, 0x87, 0x87, 0x89, 0x8b, 0x8b,
+> +		  0xbf, 0xbf, 0x98, 0xd2, 0xf2, 0xac,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x04, 0x1f },
+> +	}, {
+> +		/* 34 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8b, 0x87, 0x8b, 0x83, 0x86, 0x89,
+> +		  0x87, 0x87, 0x88, 0x88, 0x8b, 0x8a,
+> +		  0xbf, 0xbf, 0x98, 0xd2, 0xf2, 0xac,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0xff },
+> +	}, {
+> +		/* 37 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
+> +		  0x86, 0x86, 0x86, 0x8d, 0x90, 0x8d,
+> +		  0xc0, 0xbf, 0x9a, 0xd2, 0xf2, 0xac,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0xd3 },
+> +	}, {
+> +		/* 39 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
+> +		  0x87, 0x86, 0x87, 0x8d, 0x90, 0x8d,
+> +		  0xb6, 0xb6, 0x93, 0xda, 0xf9, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0xb3 },
+> +	}, {
+> +		/* 41 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x85,
+> +		  0x87, 0x86, 0x87, 0x8d, 0x90, 0x8d,
+> +		  0xb6, 0xb6, 0x94, 0xda, 0xf9, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0x93 },
+> +	}, {
+> +		/* 44 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x87, 0x86, 0x86, 0x85, 0x87, 0x8a,
+> +		  0xbe, 0xbe, 0x99, 0xda, 0xf9, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0x66 },
+> +	}, {
+> +		/* 47 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
+> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x88, 0x86, 0x87, 0x84, 0x87, 0x89,
+> +		  0xb4, 0xb4, 0x94, 0xe2, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0x40 },
+> +	}, {
+> +		/* 50 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
+> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x88, 0x86, 0x87, 0x84, 0x87, 0x89,
+> +		  0xb4, 0xb4, 0x95, 0xe2, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x03, 0x0e },
+> +	}, {
+> +		/* 53 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
+> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x88, 0x86, 0x87, 0x85, 0x87, 0x8a,
+> +		  0xb4, 0xb4, 0x96, 0xe2, 0xff, 0xb3,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0xe2 },
+> +	}, {
+> +		/* 56 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
+> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
+> +		  0x88, 0x86, 0x87, 0x85, 0x87, 0x8a,
+> +		  0xab, 0xab, 0x90, 0xdd, 0xf7, 0xaf,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0xb5 },
+> +	}, {
+> +		/* 60 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
+> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x82, 0x82, 0x87,
+> +		  0x83, 0x81, 0x84, 0x81, 0x84, 0x88,
+> +		  0xb3, 0xb3, 0x96, 0xcf, 0xe5, 0xa8,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x77 },
+> +	}, {
+> +		/* 64 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
+> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
+> +		  0x8a, 0x87, 0x8b, 0x82, 0x82, 0x87,
+> +		  0x83, 0x81, 0x84, 0x82, 0x84, 0x88,
+> +		  0xb2, 0xb3, 0x97, 0xcf, 0xe5, 0xa8,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x36 },
+> +	}, {
+> +		/* 68 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x9b, 0x00, 0xa6, 0x00, 0x9d,
+> +		  0x88, 0x88, 0x89, 0x89, 0x89, 0x8b,
+> +		  0x8a, 0x88, 0x8b, 0x7f, 0x80, 0x86,
+> +		  0x88, 0x86, 0x87, 0x7d, 0x7f, 0x85,
+> +		  0xb2, 0xb3, 0x97, 0xcf, 0xe5, 0xa8,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 72 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0x9c, 0x00, 0xa9, 0x00, 0xa0,
+> +		  0x88, 0x88, 0x89, 0x88, 0x88, 0x8a,
+> +		  0x8c, 0x8a, 0x8d, 0x7f, 0x81, 0x85,
+> +		  0x84, 0x82, 0x84, 0x85, 0x87, 0x8a,
+> +		  0xaa, 0xab, 0x93, 0xcf, 0xe5, 0xa8,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 77 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xa1, 0x00, 0xad, 0x00, 0xa5,
+> +		  0x89, 0x89, 0x8a, 0x88, 0x87, 0x89,
+> +		  0x8c, 0x89, 0x8d, 0x7f, 0x81, 0x85,
+> +		  0x84, 0x83, 0x84, 0x81, 0x83, 0x86,
+> +		  0xaa, 0xab, 0x93, 0xc0, 0xd3, 0xa1,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 82 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xa5, 0x00, 0xb0, 0x00, 0xa9,
+> +		  0x88, 0x89, 0x89, 0x85, 0x86, 0x89,
+> +		  0x8a, 0x88, 0x8b, 0x82, 0x82, 0x87,
+> +		  0x81, 0x80, 0x82, 0x89, 0x8b, 0x8b,
+> +		  0xa2, 0xa3, 0x8e, 0xc0, 0xd3, 0xa1,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 87 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xab, 0x00, 0xb4, 0x00, 0xad,
+> +		  0x88, 0x89, 0x8a, 0x84, 0x86, 0x88,
+> +		  0x8a, 0x88, 0x8b, 0x7f, 0x7f, 0x84,
+> +		  0x86, 0x84, 0x85, 0x85, 0x86, 0x88,
+> +		  0xa2, 0xa3, 0x8f, 0xc0, 0xd3, 0xa1,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 93 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xaf, 0x00, 0xb9, 0x00, 0xb1,
+> +		  0x88, 0x89, 0x8a, 0x84, 0x85, 0x87,
+> +		  0x8a, 0x89, 0x8b, 0x7e, 0x7e, 0x83,
+> +		  0x87, 0x86, 0x86, 0x88, 0x8a, 0x89,
+> +		  0x9c, 0x9c, 0x8b, 0xc0, 0xd3, 0xa1,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 98 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xb3, 0x00, 0xbc, 0x00, 0xb5,
+> +		  0x88, 0x88, 0x88, 0x84, 0x84, 0x86,
+> +		  0x8a, 0x88, 0x8a, 0x7f, 0x7f, 0x84,
+> +		  0x84, 0x83, 0x84, 0x88, 0x8a, 0x89,
+> +		  0x9c, 0x9c, 0x8b, 0xc0, 0xd3, 0xa1,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 105 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xb7, 0x00, 0xc0, 0x00, 0xba,
+> +		  0x87, 0x87, 0x88, 0x85, 0x85, 0x87,
+> +		  0x89, 0x88, 0x89, 0x7f, 0x7f, 0x83,
+> +		  0x81, 0x80, 0x82, 0x88, 0x8a, 0x89,
+> +		  0x9c, 0x9c, 0x8c, 0xb2, 0xc2, 0x9a,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 111 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xbb, 0x00, 0xc3, 0x00, 0xbe,
+> +		  0x87, 0x87, 0x88, 0x85, 0x85, 0x88,
+> +		  0x88, 0x87, 0x89, 0x80, 0x80, 0x84,
+> +		  0x81, 0x81, 0x82, 0x85, 0x86, 0x87,
+> +		  0x9c, 0x9c, 0x8b, 0xb2, 0xc2, 0x9a,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x15 },
+> +	}, {
+> +		/* 119 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
+> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
+> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
+> +		  0x9c, 0x9c, 0x8c, 0xb2, 0xc2, 0x9a,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x02, 0x14 },
+> +	}, {
+> +		/* 126 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
+> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
+> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
+> +		  0x9c, 0x9c, 0x8d, 0xb2, 0xc2, 0x9a,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x01, 0xde },
+> +	}, {
+> +		/* 134 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
+> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
+> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
+> +		  0x9c, 0x9c, 0x8d, 0xa4, 0xb0, 0x92,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x01, 0x94 },
+> +	}, {
+> +		/* 143 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
+> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x85,
+> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
+> +		  0x92, 0x92, 0x89, 0xab, 0xb6, 0x96,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x01, 0x46 },
+> +	}, {
+> +		/* 152 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
+> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x85,
+> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x83,
+> +		  0x92, 0x92, 0x8b, 0xab, 0xb6, 0x96,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0xfa },
+> +	}, {
+> +		/* 162 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
+> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x84,
+> +		  0x84, 0x82, 0x84, 0x80, 0x81, 0x83,
+> +		  0x92, 0x92, 0x8b, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0xac },
+> +	}, {
+> +		/* 172 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
+> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
+> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x84,
+> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x84,
+> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x57 },
+> +	}, {
+> +		/* 183 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc2, 0x00, 0xca, 0x00, 0xc5,
+> +		  0x86, 0x86, 0x87, 0x85, 0x84, 0x87,
+> +		  0x87, 0x86, 0x88, 0x7e, 0x80, 0x83,
+> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x83,
+> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 195 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xc7, 0x00, 0xce, 0x00, 0xc9,
+> +		  0x86, 0x87, 0x86, 0x83, 0x83, 0x85,
+> +		  0x85, 0x84, 0x86, 0x82, 0x82, 0x85,
+> +		  0x80, 0x80, 0x81, 0x81, 0x81, 0x84,
+> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 207 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xcc, 0x00, 0xd2, 0x00, 0xce,
+> +		  0x86, 0x86, 0x87, 0x81, 0x83, 0x84,
+> +		  0x84, 0x82, 0x84, 0x83, 0x83, 0x85,
+> +		  0x81, 0x81, 0x82, 0x7c, 0x7d, 0x81,
+> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 220 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xd1, 0x00, 0xd6, 0x00, 0xd3,
+> +		  0x86, 0x86, 0x86, 0x81, 0x83, 0x84,
+> +		  0x84, 0x82, 0x84, 0x80, 0x80, 0x83,
+> +		  0x81, 0x81, 0x82, 0x7c, 0x7d, 0x81,
+> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 234 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xd6, 0x00, 0xdb, 0x00, 0xd8,
+> +		  0x85, 0x85, 0x85, 0x81, 0x83, 0x84,
+> +		  0x83, 0x82, 0x83, 0x80, 0x80, 0x82,
+> +		  0x84, 0x82, 0x83, 0x79, 0x79, 0x7e,
+> +		  0x93, 0x92, 0x8d, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 249 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xdc, 0x00, 0xe0, 0x00, 0xdd,
+> +		  0x84, 0x84, 0x84, 0x81, 0x82, 0x83,
+> +		  0x84, 0x82, 0x84, 0x7f, 0x7f, 0x82,
+> +		  0x81, 0x80, 0x81, 0x80, 0x81, 0x82,
+> +		  0x8c, 0x8c, 0x86, 0x9d, 0xa4, 0x8e,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 265 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xe2, 0x00, 0xe5, 0x00, 0xe3,
+> +		  0x83, 0x83, 0x83, 0x81, 0x82, 0x83,
+> +		  0x82, 0x82, 0x83, 0x82, 0x81, 0x83,
+> +		  0x7f, 0x7e, 0x80, 0x7c, 0x7d, 0x80,
+> +		  0x8c, 0x8c, 0x86, 0x8e, 0x92, 0x87,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 282 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xe8, 0x00, 0xea, 0x00, 0xe9,
+> +		  0x83, 0x83, 0x83, 0x80, 0x82, 0x82,
+> +		  0x81, 0x82, 0x82, 0x82, 0x81, 0x82,
+> +		  0x81, 0x80, 0x81, 0x80, 0x80, 0x81,
+> +		  0x85, 0x85, 0x83, 0x8e, 0x92, 0x87,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 300 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xed, 0x00, 0xef, 0x00, 0xed,
+> +		  0x81, 0x82, 0x81, 0x81, 0x81, 0x82,
+> +		  0x82, 0x82, 0x83, 0x80, 0x80, 0x81,
+> +		  0x81, 0x81, 0x82, 0x83, 0x83, 0x83,
+> +		  0x80, 0x80, 0x7f, 0x8e, 0x92, 0x87,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 316 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xf3, 0x00, 0xf4, 0x00, 0xf3,
+> +		  0x80, 0x81, 0x80, 0x81, 0x81, 0x81,
+> +		  0x82, 0x82, 0x82, 0x81, 0x80, 0x81,
+> +		  0x82, 0x82, 0x83, 0x80, 0x80, 0x80,
+> +		  0x80, 0x80, 0x7f, 0x80, 0x80, 0x80,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 333 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x00, 0xf8, 0x00, 0xf8, 0x00, 0xf8,
+> +		  0x80, 0x81, 0x80, 0x81, 0x80, 0x81,
+> +		  0x81, 0x82, 0x82, 0x81, 0x80, 0x81,
+> +		  0x83, 0x83, 0x83, 0x7e, 0x7d, 0x7e,
+> +		  0x80, 0x80, 0x7f, 0x80, 0x80, 0x80,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	}, {
+> +		/* 360 nits */
+> +		{ MCS_GAMMACTL,
+> +		  0x01, 0x00, 0x01, 0x00, 0x01, 0x00,
+> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +		  0x00, 0x00, 0x00, },
+> +		{ MCS_AIDCTL, 0x00, 0x10 },
+> +	},
+> +};
+> +
+> +struct s6e8aa5x01_ctx {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	struct drm_display_mode mode;
+> +	struct backlight_device *backlight;
+> +	struct regulator_bulk_data supplies[2];
+> +	struct gpio_desc *reset_gpio;
+> +	struct mutex mcs_mutex;
+> +	u32 bus_flags;
+> +	u32 width;
+> +	u32 height;
+> +};
+> +
+> +static inline struct s6e8aa5x01_ctx *to_s6e8aa5x01_ctx(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct s6e8aa5x01_ctx, panel);
+> +}
+> +
+> +static void s6e8aa5x01_mcs_protect(struct mipi_dsi_multi_context *dsi,
+> +				   struct s6e8aa5x01_ctx *ctx, bool protect)
+
+I found this interface confusing. Rather split it up into .  It also 
+does two different things AFAICT.
+
+- The mcs_mutex protects against concurrent access from update_status 
+and enable
+
+- MSC_ACCESSPROT enable access to hardware state.
+
+Maybe try this:
+
+- Move msc_mutex into the callers, so that ->update_status and ->enable 
+acquire and release the lock.
+
+- Move MCS_ACCESSPROT into ->enable and ->disable and leave it 
+accessible, if the hardware allows that.
+> +{
+> +	if (protect) {
+> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0xa5, 0xa5);
+> +		mutex_unlock(&ctx->mcs_mutex);
+> +	} else {
+> +		mutex_lock(&ctx->mcs_mutex);
+> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0x5a, 0x5a);
+> +	}
+> +}
+> +
+> +static int s6e8aa5x01_update_brightness(struct backlight_device *backlight)#
+
+Maybe call this function s6e8aa5x01_update_status() to match the callback.
+
+> +{
+> +	struct mipi_dsi_multi_context dsi = { .dsi = bl_get_data(backlight) };
+> +	struct s6e8aa5x01_ctx *ctx = mipi_dsi_get_drvdata(dsi.dsi);
+> +	u16 lvl = backlight->props.brightness;
+
+backlight_get_brightness() here ?
+
+
+I think you should also check panel->enabled and return if false. AFAIU 
+there will be no gamma changes on disabled hardware anyway.
+
+> +
+> +	s6e8aa5x01_mcs_protect(&dsi, ctx, false);
+> +
+> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].gamma, GAMMA_CMD_LEN);
+> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].aid, AID_CMD_LEN);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_GAMMAUPD, 0x03);
+> +
+> +	s6e8aa5x01_mcs_protect(&dsi, ctx, true);
+> +
+> +	return dsi.accum_err;
+> +}
+> +
+> +static int s6e8aa5x01_prepare(struct drm_panel *panel)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
+> +	struct device *dev = &ctx->dsi->dev;
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(5000, 6000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	usleep_range(5000, 6000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e8aa5x01_unprepare(struct drm_panel *panel)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	usleep_range(5000, 6000);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e8aa5x01_enable(struct drm_panel *panel)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
+> +	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
+> +	u16 lvl = ctx->backlight->props.brightness;
+
+backlight_get_brightness() here ?
+
+> +
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi);
+> +	mipi_dsi_msleep(&dsi, 100);
+> +
+> +	s6e8aa5x01_mcs_protect(&dsi, ctx, false);
+> +
+> +	/* general panel settings */
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_PENTILE, 0xd8, 0xd8, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_PCD, 0x5c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ERRFLAG, 0xed, 0xc7, 0x23, 0x67);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_DISPCTL, 0x0c, 0x0c, 0xb9, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_LTPSCTL,
+> +				0x00, 0x45, 0x10, 0x10, 0x08, 0x32, 0x54, 0x00,
+> +				0x00, 0x00, 0x00, 0x07, 0x06, 0x00, 0x00, 0x00,
+> +				0x00, 0x00, 0x48, 0x5e, 0x00, 0x00, 0x00, 0x00,
+> +				0x00, 0x03, 0x00, 0x00, 0x00, 0xad, 0x00, 0x00,
+> +				0x08, 0x05, 0x2a, 0x54, 0x03, 0xcc, 0x00, 0xff,
+> +				0xfb, 0x03, 0x0d, 0x00, 0x11, 0x0f, 0x02, 0x03,
+> +				0x0b, 0x0c, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
+> +				0x13, 0x13, 0x13, 0x13, 0x00, 0x02, 0x03, 0x0b,
+> +				0x0c, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
+> +				0x13, 0x13);
+> +
+> +	/* sync the panel with the backlight's brightness level */
+> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].gamma, GAMMA_CMD_LEN);
+> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].aid, AID_CMD_LEN);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_GAMMAUPD, 0x03);
+> +
+> +	s6e8aa5x01_mcs_protect(&dsi, ctx, true);
+> +
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi);
+> +
+> +	return dsi.accum_err;
+> +}
+> +
+> +static int s6e8aa5x01_disable(struct drm_panel *panel)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
+> +	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
+> +
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi);
+> +	mipi_dsi_msleep(&dsi, 100);
+> +
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi);
+> +	mipi_dsi_msleep(&dsi, 150);
+> +
+> +	return dsi.accum_err;
+> +}
+> +
+> +static int s6e8aa5x01_get_modes(struct drm_panel *panel,
+> +				struct drm_connector *connector)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, &ctx->mode);
+> +	if (!mode)
+> +		return -ENOMEM;
+> +
+> +	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+> +	drm_mode_set_name(mode);
+> +
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
+> +	connector->display_info.bus_flags = ctx->bus_flags;
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct backlight_ops s6e8aa5x01_bl_ops = {
+> +	.update_status = s6e8aa5x01_update_brightness,
+> +};
+> +
+> +static const struct drm_panel_funcs s6e8aa5x01_panel_funcs = {
+> +	.prepare = s6e8aa5x01_prepare,
+> +	.unprepare = s6e8aa5x01_unprepare,
+> +	.enable = s6e8aa5x01_enable,
+> +	.disable = s6e8aa5x01_disable,
+> +	.get_modes = s6e8aa5x01_get_modes,
+> +};
+> +
+> +static int s6e8aa5x01_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct s6e8aa5x01_ctx *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+
+You're possibly using the instance after the hardware device has been 
+removed. Alloc with drmm_kzalloc() or you might end up with UAF errors.
+
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->dsi = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ctx->supplies[0].supply = "vdd";
+> +	ctx->supplies[1].supply = "vci";
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
+> +				      ctx->supplies);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
+> +
+> +	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
+> +	if (IS_ERR(ctx->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> +				     "Failed to get reset-gpios\n");
+> +
+> +	ret = devm_mutex_init(dev, &ctx->mcs_mutex);
+
+You're taking this mutex in DRM code, so rather use drmm_mutex_init() here.
+
+Best regards
+Thomas
+
+
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to initialize mutex object\n");
+> +
+> +	ret = of_get_drm_panel_display_mode(dev->of_node, &ctx->mode,
+> +					    &ctx->bus_flags);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to get panel timings\n");
+> +
+> +	ctx->backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
+> +							dsi, &s6e8aa5x01_bl_ops,
+> +							NULL);
+> +	if (IS_ERR(ctx->backlight))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->backlight),
+> +				     "Failed to register backlight device\n");
+> +
+> +	ctx->backlight->props.type = BACKLIGHT_PLATFORM;
+> +	ctx->backlight->props.brightness = ARRAY_SIZE(s6e8aa5x01_cmds) - 1;
+> +	ctx->backlight->props.max_brightness = ARRAY_SIZE(s6e8aa5x01_cmds) - 1;
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_VIDEO_NO_HFP;
+> +
+> +	drm_panel_init(&ctx->panel, dev, &s6e8aa5x01_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.prepare_prev_first = true;
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	ret = devm_mipi_dsi_attach(dev, dsi);
+> +	if (ret < 0) {
+> +		drm_panel_remove(&ctx->panel);
+> +		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void s6e8aa5x01_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct s6e8aa5x01_ctx *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +}
+> +
+> +static const struct of_device_id s6e8aa5x01_of_device_id[] = {
+> +	{ .compatible = "samsung,s6e8aa5x01" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, s6e8aa5x01_of_device_id);
+> +
+> +static struct mipi_dsi_driver s6e8aa5x01_dsi_driver = {
+> +	.probe = s6e8aa5x01_probe,
+> +	.remove = s6e8aa5x01_remove,
+> +	.driver = {
+> +		.name = "panel-samsung-s6e8aa5x01",
+> +		.of_match_table = s6e8aa5x01_of_device_id,
+> +	},
+> +};
+> +module_mipi_dsi_driver(s6e8aa5x01_dsi_driver);
+> +
+> +MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
+> +MODULE_DESCRIPTION("Samsung S6E8AA5X01 Display Panel Driver");
+> +MODULE_LICENSE("GPL");
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
