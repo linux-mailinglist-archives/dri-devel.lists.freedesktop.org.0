@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D88AD94BD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 20:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E3DAD94C3
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 20:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181E010EA37;
-	Fri, 13 Jun 2025 18:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16BC210EA33;
+	Fri, 13 Jun 2025 18:50:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vkMFy3qG";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VOiwh0Cq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40AFD10E9CA;
- Fri, 13 Jun 2025 18:48:09 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4C910EA2A;
+ Fri, 13 Jun 2025 18:50:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=olTRTL7ZRykPWqaA0DmQDWgf2ufLRGmHLXcW6pxnplzaiTCwUJQVqhbzdnHaE4nd5rc/dJaHbljQLuQFvs1mT24sE+gYVGYHke9NCzwhl20X8TOU6YzGqZ/GSPvFsTv2vpiWd6K+X4sSVlhs+qq6ZvcCOI2vgFimz3/HX5gxANo1o0cUDHAE6fXlUNc3gT5+PnDGfvhXLryICMRUAaC6b0LGyv2FMqr7hGvYGtILYLtFBcDOOAXU3qcIEmbwvdqwGsx1chpka9ee6ZB1QZMUBCSyQ8aFFFXmobzJB3JOQW0+ZjQKVEoXYTRyQ78nw0Nmq+rzZNXHrfTj7GsE8KdSWA==
+ b=aRFDoIdW9BJ2mlKeAYeIFRUaVk1yWDkYvFugRykRoTaCQpTDrvqj+dTjBJlEHK5mAJWlMzcM2/pfX+Q21x5ISaME3iAW1ECsdOJnPugiKdHiZgoGXXskkuy2FMrryz959cOk03hYxhJBAEdwlk+BsdwA7RQgLe0BLESCeR77/1eZ74JnxGDgo9hxpqO6ji8PEv2mMbClvHycwSHCk5mJTjx4gnDPvYyAMA5lPTbnpQ18KCG561EKuaKr8p/LeBaBvQ5QFjCVPNbo/i6gYJ54LROVnqEyJbL36EFDC03zwm4bUjtfMKlKYhcAs6C8XcLZDVWLbki4A7jpwebRaT9+/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o6kuaCOzIcSE2ovchyPMHs1DPPwvIJA7pWJS7pViX9s=;
- b=mUae+dF2kvnMbpCMgH3dOfDTlcp7u/go5TUphB9C4dN03SclBSXfnA2o/tyXUoh0UXfxrGxIsnbOy1KEZap3wb4P6xnvy9PCVEEGmew6iSzRFD/bRaWyQxXq7RDRyXbjfABbl3BkFb4B00OD6gNl3FwSbySWwWfw2joQyRBJR2BdcPcYLgqafZYx2X6y0pJvc5IFNscH5xU9Bo+PNWCy3sTq2Z4O/HNmfYMoMahO6eyOGirsTE83nwLmqEK1txLk6cyuKNHIHNBu0HhJ/11jOfoEwPH4cjLbArDp6iXVWSV0HHgO5VBU+73a0+Nh4fxyzkhblFp3zAhDq4OoD54S7Q==
+ bh=4aypje2J7NhJ+omdQdCg8MH6sMgJU7wTkSN5Cw8Bd4s=;
+ b=cvY/o7fCQBD14fvKrBvPaArpbtQ9jtuS8wG2+STwBfuV3JNPcaXsCGtNgzgQj0w8ADHJou9qjo9bEkiTNO4xsRGj8JOdTwCggk4fi3qap44zMfsYe+j10xO1T6xvez6m2uCVgkKp4Vm9L77v2kqX/J/4SC/K4iEEVeQ8V2sJnCIULGpHttQA5PUeJOKit18PTcSXoMU57jlfW8u+xvGKfQjFqzlAa5Qik+COEeb/sL19hVrryTCGE9bIM+r+j7xhApkqhdhz/OxdzUaolTaiCRHEKltO2dJdZuVKnJ+NKwcX7VelyZ5MG+mGZJRP5pyNGL5qNjnyjsctPgJfGGHyhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o6kuaCOzIcSE2ovchyPMHs1DPPwvIJA7pWJS7pViX9s=;
- b=vkMFy3qG3K9dNGbbjh9llEk374t2R3QwnGLkH55t/evZpMK9CvsTqxa2zAdVVtDGu8SvCIp/Yrz3zTpPB8Q0CwAuH/6yHRb8l7ttrKjRm0UYRXe4GSfM1UMPxAcOWJlfKhJc08L2Y6Z55KIG5fPPZgk7Tnis51mdR+LllwYfIj4=
+ bh=4aypje2J7NhJ+omdQdCg8MH6sMgJU7wTkSN5Cw8Bd4s=;
+ b=VOiwh0Cq2YmlbBNsoHy6Roh9x/Grp16yWPhmTtqfH2F4YW7DgLkmvJPnw5HLKYES06KY/v8GTT8dRYWN9oLMNvaXR8oN6Tq2yrAcwKo+hvFm2+Cz8lmDFlnKBAdIGzlwdLtWdieKRnE/kPwwWarP623ZEVqs5/SbsUBEnkpXyKw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
  by IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Fri, 13 Jun
- 2025 18:48:07 +0000
+ 2025 18:50:11 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.8835.018; Fri, 13 Jun 2025
- 18:48:07 +0000
-Message-ID: <2b05cc7d-c2bd-442a-87dd-d1f0abc11629@amd.com>
-Date: Fri, 13 Jun 2025 13:48:03 -0500
+ 18:50:11 +0000
+Message-ID: <df5d9e45-cdbd-4571-832b-79e2d8d5d769@amd.com>
+Date: Fri, 13 Jun 2025 13:50:07 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/14] drm/amd/display: add a mid-layer file to handle
- EDID in DC
+Subject: Re: [PATCH v4 07/14] drm/amd/display: get SADB from drm_eld when
+ parsing EDID caps
 To: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
  Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
  sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
@@ -54,104 +54,104 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
 References: <20250613150015.245917-1-mwen@igalia.com>
- <20250613150015.245917-11-mwen@igalia.com>
+ <20250613150015.245917-8-mwen@igalia.com>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250613150015.245917-11-mwen@igalia.com>
+In-Reply-To: <20250613150015.245917-8-mwen@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9P221CA0004.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:806:25::9) To MN0PR12MB6101.namprd12.prod.outlook.com
+X-ClientProxiedBy: CYZPR17CA0016.namprd17.prod.outlook.com
+ (2603:10b6:930:8c::25) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB9064:EE_
-X-MS-Office365-Filtering-Correlation-Id: e68ad83c-7696-4d4d-762c-08ddaaaad604
+X-MS-Office365-Filtering-Correlation-Id: 92d4cb4e-f1f4-40ec-29b2-08ddaaab204e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RmhsQit6K0lqU0dYWndacjhBVnN5Nk4rQVBGdUQrQlcxNUgzTmkrK3d4QUFr?=
- =?utf-8?B?djluaTRITFpWNWVhVmROY0lWYWNMdDdLSks3YjErK0N2Y1BQRzZXWWg1SVh1?=
- =?utf-8?B?SGtGMU9raFc4YUVFL3M2WVpmVlhvNDR4a252d2ZUenJVSjF0c0VVUmhyQ3Ix?=
- =?utf-8?B?TU5FQWtUMGlRbm14cU9tSFl5QUlHNlQ1YlpLNWFxOGhMRlNWM0RjUHFZVCti?=
- =?utf-8?B?b1dINTFyUGdmc1laUkNFMFIrc0ZQWWJ0UzBRMGxkS1FjNG9pNEZTRTdLMmNO?=
- =?utf-8?B?Zk9hUkNlekhuTjNGOVExZFNMaXB5ZXRLMkY4b01QVTBWUDhQMjVPdStNWkJy?=
- =?utf-8?B?aUJNOEhxS0ZsOWp2VDJCYmpobDVVSkRKaVBLMVhmc296TXRaNC9RbGZ2Wllo?=
- =?utf-8?B?cmRFMytXcmtHQ2dveVZweGRBN0t0dXF4SXErQ3AyT2hxaElQaUQrUktQSjJu?=
- =?utf-8?B?Tk1pR1FPZWVRSS93akpsb3RCWFlNUiszS1YvZ3dHcjU5Z0k3V2RDR3h6bWpX?=
- =?utf-8?B?M2RIdG1DRmRNK0Jqa3pOWDQ5Ky83c1RnV1RwUkJnMXdmNnNWay9zWjFEZGdw?=
- =?utf-8?B?ak5yWFV3dDQ1cnBEQVdjS3dqS01VL1FHdjljYXM4eEJFQU5zblg1Vk95MjNu?=
- =?utf-8?B?ZWJ2V0FoY05PR1llbkQyb1lRMHV6K2VOS004cHN3OGxmSXE0VWxMcnFtQTBU?=
- =?utf-8?B?eENRL2VMQ2dkODA0emUvRE10eUR3Vkg2YTIzTG1ScFQ2K1VTQ1hPRXBKWGor?=
- =?utf-8?B?NWppckdYMmxFUlpCbHo4cFd2YU5DKzd3R2pFUVhJZnNIYnJyck9nSmdaZWVj?=
- =?utf-8?B?c0N1WTVEbG43SUc1NHRxaU0zMnZBekdreGJxQmJzQWxwbWFSZk1OYkhxSTRp?=
- =?utf-8?B?RG05TXFTSGJPOG52NUsvajQyWXRobmlVK3JkQXlJZjdmaHcyVElKVU9DbmJw?=
- =?utf-8?B?N2hGZmc5cEY1QkRjNEFRTkNkMFJNNE5raDN6bVVRSUdSc0drdXFYMkdoRkJF?=
- =?utf-8?B?cEl5RmZsUjQxTUF6MWMwMnlPOGNMT1VPYXNYeXVMdHMxa3lEZU9sdk41cFhH?=
- =?utf-8?B?Yk9ubTg1cmM0RVRmMWJOUCtjTHJ2YmZ2MjNkNUVOL2tsbmQwSWtPeWNiR2Ru?=
- =?utf-8?B?aHkycHpySDBlRHhYRXZVcWxRQzRiVjcyRm1wV010S3laWW12SDZKZXZ6elk3?=
- =?utf-8?B?UEFwOXk2L3RPTlNmVXVMNC9LajhtUWxhYnllK3N5d1dCVTFlOHJUR05VOUMy?=
- =?utf-8?B?SXZlOE1jVVZTMEIyUGVuUnJIOUZWWkNRNTFlNy81NGpLeCt4M0IvZHRkaXgy?=
- =?utf-8?B?N3dLQjVhTmRIWlAxS0VnQitjNGdyaUVWZm5YaUIrK0VVUlFEMEwrakxGVlBK?=
- =?utf-8?B?YmN2N1p6eTJnU2hDMG5ZZWhmaWFTeFgyZEV1S1FjWFNCV3RrZlJhMDVuUVJ6?=
- =?utf-8?B?TE4rV0tjNHYxOUJqQnZtR1J2Z0M5K2NUb0JnYVpHTFVCNVlTNkNvc2JLYWho?=
- =?utf-8?B?MGoxM0wxMmQ0NVlwWmRBeE5xK2FUaHJ1M05XWHRvTDFHbk11UUJWWlN0bGJq?=
- =?utf-8?B?NE0zcDR3Z2s0a0xKM2RCdFB1TkxxdnpYQ2paaTlJZVBrWDJ5MXk4SVdBZGUy?=
- =?utf-8?B?RkdWakV6Q2tMaTRNMmFlam9IRFlCbVdWRGFmZmRIL1FoNFNzMmRXR05WY0to?=
- =?utf-8?B?UDZwS0lFMUVkdWcvTTRuMkVOZkxwVUhMOFpNQU44ZXJYOWVJcTYzZEdLS1Fx?=
- =?utf-8?B?RDRKbXBlaGhJc2JpSmVpUWd5REd4bk9ZcEtNR09UV3QyK29lQ2RjWmhmZzNP?=
- =?utf-8?B?TGVCczlXWFoxaG91OERBZm5vNFhQUUpER2F6UzZkanZpQVllVi9VY0R0T0cz?=
- =?utf-8?B?bW4zS0dPVGNRbUI1VDF5cVJBQ0tyV29KZmt4L1RNdjhMUlprNU9kZDBHOFNa?=
- =?utf-8?Q?idTaRjFTfgQ=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WnI1Y3VjYXZZQWN1N1YzWTkwQ1YzVDA5UWE5aHo0UW9zT0ZhU3RLTTNpcGZC?=
+ =?utf-8?B?aWdNbi9NaEpSZFdVb0s1eGVURlpzbmY3ZTRnd2lacUUxSzg2MFNJNGUwQVpQ?=
+ =?utf-8?B?blVLVnM2QVRXdWFXb0FLL2J2dDB3UGVEQkFyZFNiSlNnTDJYcGdZT3NWckxt?=
+ =?utf-8?B?NjA4ZU5CU3JvbUNiL0lrWnlwbWVObUNJVzNYcWFHT1Y4TGM4Zm5FbXM2ZS9O?=
+ =?utf-8?B?TU83ZERCNkJzN3orQ1QrK0tJOFhOb2NOQlBHRUlSTHA0Y3hWRjdHNkhRaFlC?=
+ =?utf-8?B?dXlxaWxWQVlLUy9PTFhDWmZMcGFNVkJodFFVenB6bUwzNFpTRlREcUVhcCtz?=
+ =?utf-8?B?dG9LanBwd1phRmJiLzh0a1VVMEdseTNxckNqeTFsbUwzYUdxb2p0NnJXQ3Jm?=
+ =?utf-8?B?WE90eHU0R0JtUHBLL1BtVk1aQ2NSWHNJamM0MXQ2YitsVDVXMWUvemF2K0ly?=
+ =?utf-8?B?VTZxbCtKWHp5UFBKYXU2YmFhTFNTdk8wTjMwM1A4RktVTWtYTjBKMC93cFdZ?=
+ =?utf-8?B?WFJrYXBoV3dMN0VJRjR4R0xSc1dnMm94Z1pBNnd1MWF5cFFkL01GeVZQY1JB?=
+ =?utf-8?B?QTRhWTNaUVlCT1NPUTd5WE1zQW85ZEtUVzZIV0hrZnVSbUR3cWRYZUJHWTR1?=
+ =?utf-8?B?ODl0SVRUV0VkTm9vSzRRMjJ2NUN1NktWOFB4RVcwMUtqK1pocFMrTldBT3Y2?=
+ =?utf-8?B?Lzl4d2dsWEZrOFkyOFhZY09WSTRmUGdhVHE2UzVIVGQyWUtXdnd2c2VrY1hq?=
+ =?utf-8?B?UUpmZjNYUXR1czI2MkJhRVdkaE1wV05xVnJBYno1Y2tKM2JVZkZwUDl2bEtT?=
+ =?utf-8?B?YWI4VE9kOExpYjNlaEFhTWJ2dlY2ZENFT1BQOExrNGFZZ1ZXdlJqSVRkOGZU?=
+ =?utf-8?B?cHUrTVQxeEVjUEt2aHVCQnZBZkRuU0U2U1JHL0plZnIxbWFKM2Qxb08xVGxi?=
+ =?utf-8?B?VjdUL3hhOTY3eFMrNmRvYVhwMEo1NkZKd3NwMHowNGR0ODM1WkljL3pxWGdV?=
+ =?utf-8?B?YnNMSElqUFRHRXB3VXdOQkVyNlI1RlQybXd0d2RrcVF6RWhhRmI1TXRPRHY2?=
+ =?utf-8?B?WXZoY3l5ZUo0S0l3VlFBNjkrWXhINXlnd1VJc1lZTkFnc2NvTEVMQ25OdU8x?=
+ =?utf-8?B?T05ObVhLZ1hZczY3STJRTld6aEVzc3dRd0Radlhwb3k0c2ZqVW9IQ2lxYnZB?=
+ =?utf-8?B?T1FkV3o3ZytPUXdZUzIraE4zSnhLSmVoaEx0R3M1b256ak9LclJRWG4rWFhT?=
+ =?utf-8?B?OTlBVHhTdnpsbTdzUkxBb20yS09qOXR0Z0ZkVFBBRlJ3U1REQmtQMm1FOEM4?=
+ =?utf-8?B?Ymt4MkRkenZMaG9ob3BLb0FXNTR2cURxYW05cEwwdHlpSXRRSkwwL3gyQUln?=
+ =?utf-8?B?bnZMVUY4VzV4TG8zbjRUWGRvUDI2TVBQeTZyZmJXSExlelNHK0RNWWZkKzhn?=
+ =?utf-8?B?amFDK05hTWpqTzloeGtUVFByVHlzNG5TR29pWDRUNS9VRzEzQUZESUdkZGRr?=
+ =?utf-8?B?aVJaL1ZrVWJHYWQxNDBPQVFIdFRUNGRTKzBmTVhyVTUvaFowVGU5VkFCa2Zl?=
+ =?utf-8?B?N01LcytDZmNzTlFyRkl4VCtBQklpaE1xMVM2bkJTUzdkQ3F1SmJZeitieXZY?=
+ =?utf-8?B?MGFtS2N2djV2VGRiSFhoQXc3eEhYeVFrUzR0YWpEVFlaSjNvWUNlQU8xRnZG?=
+ =?utf-8?B?TDJCRjJzNTh6REkzeTNJZUxiVmc5NE1yaytISkttTGpkcWRzYWkrbmkxL1lO?=
+ =?utf-8?B?dnJndGk4eTNld1JjNTlLdzJ0RE1BSWZvdlRRWCttMGtKcTRSNG52cU1Zdk1v?=
+ =?utf-8?B?clA3b2pxNmFkVXlwSEQ4aUJwUXNVT3RtSHRLT2IyT1V0VG5CVnY1WFpnSExz?=
+ =?utf-8?B?YnNIbFRhT2M1Umh2S0lvS0Q3THV4aWxJVWwvQWhZS0QxaDd1YUhFazdpWC9R?=
+ =?utf-8?Q?B+Vu2wu88vw=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGRSMUtEWnByaWF6dzFUcENxemg0WG9DTURFWkl2bTZrT0hKaS9hdmw3NjRG?=
- =?utf-8?B?UmNvbmlmSjdvaW5VTnVhcnFVQVVnaWx3Tlcrd0JnRFFjakQ4djB2YXhoMGNs?=
- =?utf-8?B?Y0hvMWU1YWZzSUloZ2M2dnU3SUF1Q1lrWE1sTkN4M0gwSXEzY3Q1MS9FL1BW?=
- =?utf-8?B?WDVBOUFnOEkvV2RIcFpGT0VVeDJHQXFYNjJLQUR6SUI3b1I5VFhpQk1VMXRr?=
- =?utf-8?B?UHl6dWJza2lHTElRNXJoU0hGQnY4UHhQdnd6RHh4bWpXZStIN3AyVkNBdUYz?=
- =?utf-8?B?akV4bi92cDIwOHlYNFdHQ3B0dGhuVXVGNXNBdE83Z0tycFhVeFpCb0pNZjl4?=
- =?utf-8?B?SDZ6UkRTTHRhcUR2OU1VZEZzTU9rbGNYRyt2aGd5UWtNaVJaalJ0WGhvMHpU?=
- =?utf-8?B?Q2ljck5oaEE5QW5oZVdEdDdlRVI5NjBsdStOcWdTRExHbGpQa001bm5yclBE?=
- =?utf-8?B?aEtVTUR0MmM1RzdGTkRYKzdxRUQwSnMwdGpZWDdocStlZnNkbXAvNnJOS1lS?=
- =?utf-8?B?OFdMZUhnZE1RWGhtZnFYdTdPYmpFRnZhY2hidkVBcGFmMTI0WXA0TWl5MWsy?=
- =?utf-8?B?elhxNk5NdjRMZHljdHdJd1FKYlBWWGhpOXFqc2V0RHE4eW94RGV2cVNFNVFk?=
- =?utf-8?B?UDVDZHNWeHRneHhWbmhGbDdaY1lEWWFneWhwRS9kYVZmSEJrbm43ZmM0UHIz?=
- =?utf-8?B?K3NVQUJBQWdwZURKZC9sZlFBczBRL2o4bFhwL3lHNlVVY1hiTEpaQVNpMmVz?=
- =?utf-8?B?Z09MZ0FEVncvcW9GMW0wVEhDY3puanlzd3U0Z1RMcC9sbkVZN2VtcDRyVGJT?=
- =?utf-8?B?cVlHR0dSUVllbkZoTXByS1BpblJweTk1L1dNRHVMYnhmbm1XTi96MHprOTFN?=
- =?utf-8?B?a0xLeXN2T1lMUnVQTXJMSitWWjJwMFNaNm1vdnRSK1lzUDI0MXlpVHIzZUxB?=
- =?utf-8?B?QW9nTytQK0xNTVo1aVpFSU5LNFQ4N1lZR2NRL01TUlVWNm93WlFnYkQxc0tH?=
- =?utf-8?B?TitVdGJlV2gyQUdKYW9BR09BZlVsMTV3UmsvRFVCcnBtT0NOSTJKTmNobit6?=
- =?utf-8?B?Nm5BdFg5RVVxSmRYYlFYNFVWd0R6RkptaFhsSXI4RzBmOWE2aXlBc2xuZnRN?=
- =?utf-8?B?N2lTUWpiNVgyUGtPRStxNVZiOGozN01vcWNvZklHWGgrYTJYaS9taWxBRjRM?=
- =?utf-8?B?VmNITGl3eDJ6ZmdaYWtmbEFqdHFpZGswVjNXZm16MHJrbjlRSEp1UmdvRXVL?=
- =?utf-8?B?Zlplbmg4OGRNK3NrdGpnaTNMN3N0YURZdm82WVhhNklkbUJkMm5BbkdhRURU?=
- =?utf-8?B?UHlMTkxHai9PNzhjWDlhQmFIdkttZ3NBNzNDRnZ0T0JVcThEYzBBMUVIQnVU?=
- =?utf-8?B?N0k4d3locnF6Q04vUHVHc3l4VGE5enVMNHdaL1RYSmZhV0JHaFJvU0hxcEJZ?=
- =?utf-8?B?cXVZMG5tdzVFcnFZNjJNajBPS2xBZ0dpSG1xUFBNR3JRZEJzY1pvUHZ3YWQr?=
- =?utf-8?B?Q1BJSVk2UXFqK2t6VUMwM3ZxYU1ScngwV2txVmdraGdPSXJtR1VCK2lpdSth?=
- =?utf-8?B?VmtRN2pNWXpxdk4vTXE5T2piemFkUzdFekd5ZXJUTE5yaUZYaU5UcWdEQ3RI?=
- =?utf-8?B?TGpwTHdYTEJqaU9wbm9WT09BYnpZeks5dUVuRStPMzE3aUhXYmYwT20yYU9s?=
- =?utf-8?B?aGVscGlsTUFqL1R2NGdXNnZEN1ZPVm90Z0xGU2ZtOW5wUUpkbUNGTldwbEhm?=
- =?utf-8?B?cEpQTjQzSTFTNTJxUDZwQ0luM20yU2QwR252OTYrNDlzMHluSU1Kb1Q1TFNh?=
- =?utf-8?B?a3RNY3lCb2pEeDUwMGk3RmEyZXJBRHQyZ202bDZaa0hUODlZbjFpczRrSTR0?=
- =?utf-8?B?WnA3Mk5BQXk5K3BGbGNCb3dQZmlEcmlkMXdFWXBZdWNTRFVsU0lJQWs2UzVC?=
- =?utf-8?B?KzBlRTh0WXpUWnNDSHBWd2RnTXZ2dnpsaEpkSHBsSGhnOCtyOW05NmpkcWsx?=
- =?utf-8?B?cWpJTEtjRVJkcitSWGVqQ3hCb1YvR0hKdGpHV0h4NDlrL2tuRW0zRUNzeWhR?=
- =?utf-8?B?dkFpWVJIMWo2Z3JzbzBmUU53aXJsR1BYWHhKNER1ODdyQ0g2ZmsxUlg5QmRU?=
- =?utf-8?Q?Zsi8aRepD0eHE8XRZlSUQXVKl?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUhBRTh3OFU0cGFzZ0FHRTI0amI3NWtGZWlseHU5SjRBMmRiTzNHVURydnBP?=
+ =?utf-8?B?VUo2S0tZdnFrZUc5NW03ZHBraS9lVFh5OTN6QW5QVUkrdVlxTjNrTmFESlVD?=
+ =?utf-8?B?U1pwQjVETmQwemY5b1FjYWxQVnpaWUpTUUxualZOTHFFSW9JUGNJaXBycHAx?=
+ =?utf-8?B?VTNjMjdxcFA2aWFhMkV0ODRtTkRTZjVZNFV1a2JyN2dxWEI0WEhkaVBCK1Nq?=
+ =?utf-8?B?bkdwSXNkK3loWW91aEQ3U2hwMm1wM0tDMHgvWnNDdk9QTXY1L3lNbGI3QVR1?=
+ =?utf-8?B?amp1eUN5NVZ5b0R5MmoxcllCKzdRa3lzNmhEaklzSzZmSVpnMmwxeWdzK3Iz?=
+ =?utf-8?B?SWJmdnN3ZHZzWHZWeVgxb2pUbnhIbEc2cFo2SFptUjQrd3pjdmJRVFRPVWND?=
+ =?utf-8?B?VTZEdnlNTVordnRwaVNpNHdrRHFxb3A4dTlGOXRNM0FjVWlNUnBPK05LM3Bl?=
+ =?utf-8?B?ZVl2KzRVR0pWS3U3bG8xTGx1K2FBc3B4UFBKdEU3bjI0R0Fhdm42T2NPM3hh?=
+ =?utf-8?B?cG9SMDQ5UjdZU1JRdVJrQW9kdndBRjNZQ0JCWFNxNVFWQ0lscGR4amxtdkF2?=
+ =?utf-8?B?eGFTa2NGOU9wS2pucHdlSEQrWnhoMTVMZ2hadk9OV2owcVppWnFHVzR3Y0FN?=
+ =?utf-8?B?VkJzUlJtMFZpdkFHNndTQW9WcTVOR0hYc09HVzJHbnRvbGxua2t4a2twTGRH?=
+ =?utf-8?B?bHdzdDkwOTdxVmRmTkhHYjYrTUY0UXdBMTJncnptbXEzNE8zSklqck5YNmd0?=
+ =?utf-8?B?VDJxQ2gyY1o2RTBSd1VEK2RnekJJVm5ud0RFK2prRUlPT01FR2s2NkgxclJ2?=
+ =?utf-8?B?NmRLazROa050OFE1KzhuZnNwS2svaUY2Q210N3BJclhpNmZOS3ZQT3BHVWZi?=
+ =?utf-8?B?aExGRGZMZUhheDF0MVliTDFaZDJ1cWFQY2RrYnUveUViemxndkZpbFVyQ1R5?=
+ =?utf-8?B?QnpWSFdMQzRyaTZzQll3L0J5L3kxWm0xSTBvV2R5Z200ajdwSFVTamFRZ2N6?=
+ =?utf-8?B?UUM5dVV0RXN0cEkyazdmcFdNYSs1eDRtdWdQUGxjVjByL1E4YmtkbnhMTzFG?=
+ =?utf-8?B?Q3FLVjRwUFp6SWxMT2tWSXIzR250RVVSbnd0Q2pYa3FIdFAyS3ZDNkpSZnBl?=
+ =?utf-8?B?TTB0cUF3YXNqMWZ1emwrcDZSRlgwczZUS3FGOWFFTVpaN1FYbnFoRGM5M3RZ?=
+ =?utf-8?B?NnBUYTlZdFVBRmVoTkZKVUh0U3RaOFJ0S1ROaFo1dlVoLzhMMEZML3hmSXJ5?=
+ =?utf-8?B?SUtmM2dYRjQ4N2xZd21GUm1JNTd6UGNPL0RaR2lNdEhWVUw3ZFdSa0o4TXVz?=
+ =?utf-8?B?YjBzWDQrOE5DbUtBQmZtc3RJL25TcnppWjVHRUFrNENYcFdVVnNyajJWcGdH?=
+ =?utf-8?B?a2tvL3lMS2FMNllaRE1WQk0rK3JBOXlJcHpmWURhZC80S200aGY5TUMvNENo?=
+ =?utf-8?B?K1NBcW1JMVd4MmFrTlgyNFNFRWdnS0lRWU0zS3Azc2Z3WEZiRWRZOFVGS2hv?=
+ =?utf-8?B?bXpkVW95d0VFaS82VG5ZcnQ3WlJabjUxOEJtWHpkNWlXOXBVOElLbGJSSld1?=
+ =?utf-8?B?d0lsT09jK0hLS1ZtaUQrSUVJQU9ERUNncU1lN3hQbmVlVnV1QkVycmFIbjhk?=
+ =?utf-8?B?VkR3MzIzTTg0QnVBY0d1YjlaR0dLM1Z2bFMvaTJrUW1HV1p0bHpvZjFNbzhu?=
+ =?utf-8?B?Q2Vhd2xNdXhFMC9KN0YyMUhIOG03ZFRaM25VRnhwczU1bkFlQXhhUkpxa0ov?=
+ =?utf-8?B?NHZYQjZ2R2ZwOHNNbkwvTnJRWWF2NytIK1pvZnBQY0RPSFJZOTdma1dqRmFq?=
+ =?utf-8?B?OUJML25jZk9qb1hmKzNOeFBtYkN1dlN6d2VjbHdneXlKMGFKaVdhQkphQTJL?=
+ =?utf-8?B?djRrUmYxNHlSNk5RNzBzTW50RmllbU5mT05yWmFhcUtzZ1pBTkNyS1lFdVBE?=
+ =?utf-8?B?Sk1COUIxV2g0VmNnc2lrcHprQXZlWHliNEhtKzhMb2xrSGVpTWxEMkhzYUUv?=
+ =?utf-8?B?U3RYNzlBUGJJQ21Rb0w4eElhN1VFT2RpM3MySnBjaXphMCs4cjduYk14M2ZG?=
+ =?utf-8?B?aDBBRlAvZmJVZ1FMVGI5d2I4UFIxc0tZdktGWWxDb1dXd3ZwQUNhcmRtQUQ5?=
+ =?utf-8?Q?Plexi/I8htMzz4WtQ4ndFpcus?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e68ad83c-7696-4d4d-762c-08ddaaaad604
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d4cb4e-f1f4-40ec-29b2-08ddaaab204e
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2025 18:48:07.0531 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2025 18:50:11.6259 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y4bl4TQ71aFXJS9vclxdejRHjLzlSpvs+2D5q93W+sODHfNMmgAm3KUkX3587A0wbMMM76VCl5oOh0Mp3K+pnw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ix0aNQ+t70/setbKPlZ54G8OPvgNF3hVBGUmWlkvIudUcKk/naMz5/gHOR/HfALz84ljzkTdhK4ctElmsBUJGg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -169,128 +169,52 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/13/2025 9:58 AM, Melissa Wen wrote:
-> From: Rodrigo Siqueira <siqueira@igalia.com>
+> drm_edid_connector_update() updates display info, filling ELD with
+> speaker allocation data in the last step of update_dislay_info(). Our
+> goal is stopping using raw edid, so we can extract SADB from drm_eld
+> instead of access raw edid to get audio caps.
 > 
-> Since DC is a shared code, this commit introduces a new file to work as
-> a mid-layer in DC for the edid manipulation.
-> 
-> v3:
-> - rebase on top of asdn
-Can you put changelog below cutlist (---)?
-> 
-> Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
-> Co-developed-by: Melissa Wen <mwen@igalia.com>
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > ---
->   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  1 +
->   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 19 +++++++++++++++++++
->   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   | 11 +++++++++++
->   .../drm/amd/display/dc/link/link_detection.c  | 17 +++--------------
->   4 files changed, 34 insertions(+), 14 deletions(-)
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 15 +++------------
+>   1 file changed, 3 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-> index 7329b8cc2576..09cb94d8e0e4 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-> @@ -39,6 +39,7 @@ AMDGPUDM = \
->   	amdgpu_dm_psr.o \
->   	amdgpu_dm_replay.o \
->   	amdgpu_dm_quirks.o \
-> +	dc_edid.o \
->   	amdgpu_dm_wb.o
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index 10af9db47c39..e7cfbee6c67f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -106,9 +106,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+>   	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+>   	const struct drm_edid *drm_edid;
+>   	struct drm_edid_product_id product_id;
+> -	int sad_count, sadb_count;
+> +	int sad_count;
+>   	int i = 0;
+> -	uint8_t *sadb = NULL;
+>   	enum dc_edid_status result = EDID_OK;
 >   
->   ifdef CONFIG_DRM_AMD_DC_FP
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-> new file mode 100644
-> index 000000000000..fab873b091f5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-> @@ -0,0 +1,19 @@
-> +// SPDX-License-Identifier: MIT
-> +#include "amdgpu_dm/dc_edid.h"
-> +#include "dc.h"
-> +
-> +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
-> +			  struct dc_sink *current_sink)
-> +{
-> +	struct dc_edid *old_edid = &prev_sink->dc_edid;
-> +	struct dc_edid *new_edid = &current_sink->dc_edid;
-> +
-> +       if (old_edid->length != new_edid->length)
-> +               return false;
-> +
-> +       if (new_edid->length == 0)
-> +               return false;
-> +
-> +       return (memcmp(old_edid->raw_edid,
-> +                      new_edid->raw_edid, new_edid->length) == 0);
-> +}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> new file mode 100644
-> index 000000000000..7e3b1177bc8a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: MIT */
-> +
-> +#ifndef __DC_EDID_H__
-> +#define __DC_EDID_H__
-> +
-> +#include "dc.h"
-> +
-> +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
-> +			  struct dc_sink *current_sink);
-> +
-> +#endif /* __DC_EDID_H__ */
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> index 863c24fe1117..344356e26f8b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> @@ -48,6 +48,8 @@
->   #include "dm_helpers.h"
->   #include "clk_mgr.h"
 >   
-> +#include "dc_edid.h"
-
-There's a problem with the header location.  If you're naming it 
-dc_edid.h but putting the header in amdgpu_dm/ directory then it's only 
-going to compile for amdgpu.
-
-I think dc_edid.h needs to go into dc/ directory.
-
-> +
->    // Offset DPCD 050Eh == 0x5A
->   #define MST_HUB_ID_0x5A  0x5A
+> @@ -156,19 +155,11 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+>   		edid_caps->audio_modes[i].sample_size = sad.byte2;
+>   	}
 >   
-> @@ -617,18 +619,6 @@ static bool detect_dp(struct dc_link *link,
->   	return true;
->   }
->   
-> -static bool is_same_edid(struct dc_edid *old_edid, struct dc_edid *new_edid)
-> -{
-> -	if (old_edid->length != new_edid->length)
-> -		return false;
+> -	sadb_count = drm_edid_to_speaker_allocation((struct edid *) edid->raw_edid, &sadb);
 > -
-> -	if (new_edid->length == 0)
-> -		return false;
+> -	if (sadb_count < 0) {
+> -		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sadb_count);
+> -		sadb_count = 0;
+> -	}
 > -
-> -	return (memcmp(old_edid->raw_edid,
-> -		       new_edid->raw_edid, new_edid->length) == 0);
-> -}
-> -
->   static bool wait_for_entering_dp_alt_mode(struct dc_link *link)
->   {
+> -	if (sadb_count)
+> -		edid_caps->speaker_flags = sadb[0];
+> +	if (connector->eld[DRM_ELD_SPEAKER])
+> +		edid_caps->speaker_flags = connector->eld[DRM_ELD_SPEAKER];
+>   	else
+>   		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
 >   
-> @@ -1105,8 +1095,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
->   		// Check if edid is the same
->   		if ((prev_sink) &&
->   		    (edid_status == EDID_THE_SAME || edid_status == EDID_OK))
-> -			same_edid = is_same_edid(&prev_sink->dc_edid,
-> -						 &sink->dc_edid);
-> +			same_edid = dc_edid_is_same_edid(prev_sink, sink);
+> -	kfree(sadb);
+>   	drm_edid_free(drm_edid);
 >   
->   		if (sink->edid_caps.panel_patch.skip_scdc_overwrite)
->   			link->ctx->dc->debug.hdmi20_disable = true;
+>   	return result;
 
