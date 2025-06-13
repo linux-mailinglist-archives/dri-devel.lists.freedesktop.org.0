@@ -2,68 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF007AD8E83
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BA8AD8E77
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AD910E9DC;
-	Fri, 13 Jun 2025 14:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C2210E9D0;
+	Fri, 13 Jun 2025 14:02:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BJHmgqmb";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JBCe5/Uo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60EF910E9E3;
- Fri, 13 Jun 2025 14:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749823421; x=1781359421;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kixAHzDg1TD80q59pwApDAL8oTbUXaGZtjRNV4tWUfg=;
- b=BJHmgqmbyDKk2YufB0L7CNg2e501vA5TeyFIlFuKuTdwqimxaXyySabd
- JkXHCgtkzTa4IMOZukbE7YrQMUfdjmXyUlFN966JbvEO5b2rPAciTtyJz
- NPNr7VU8xt/e2Oh+GIyl0QxVTceb9ktr+rWGG4FgTop3piZJiePuPVW3o
- cLVFByz6b4KS3d1VZA04X+iA4fwNd0Kv6RmBHyPiY0+96hbvLJTCqNxKK
- 65AxZaA0gj1WTliOLwRe84e8VYrehHPaxMmuoyheTw06LRa4dMP5ck+rE
- crBCgqJY1C71KGF01DGf5fMBpnpGnz/+XeMKWtuzGAFAcdAdpLaWqXmJq A==;
-X-CSE-ConnectionGUID: S2uyzeChTeuhLdI2+ckkWA==
-X-CSE-MsgGUID: tMXHiQDtR2azO4VFJ3VWWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69617650"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="69617650"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 07:03:26 -0700
-X-CSE-ConnectionGUID: PQZzvnYeR56MkR/DUmpgvw==
-X-CSE-MsgGUID: +AZaoyeFQYK03pf73/wtIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="147676770"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO fedora..)
- ([10.245.245.83])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 07:03:23 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>,
- =?UTF-8?q?Felix=20K=C3=BChling?= <felix.kuehling@amd.com>,
- "Philip Yang" <philip.yang@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v3 3/3] drm/xe: Implement and use the drm_pagemap populate_mm
- op
-Date: Fri, 13 Jun 2025 16:02:19 +0200
-Message-ID: <20250613140219.87479-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250613140219.87479-1-thomas.hellstrom@linux.intel.com>
-References: <20250613140219.87479-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F6410E9D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:02:37 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4530e6f4db4so2122525e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 07:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1749823356; x=1750428156; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=BR72CRYf/tZsZyJh78bV+xCODP+r79zbrQtaAW04L5w=;
+ b=JBCe5/UomoLSinTXOnRk2vc5P8xNetUKJc1VfKW4jvI0fVLpC1IRHDxyNW0q3uGS2H
+ aIlcTOqrxTd5IEbZoCUEvsNxCT81262zs1rvFxtpqPotf2TaVeSn/v3LCx4xJ5IwG0e9
+ H52F9PDyndsx3mNypomL00d8cMwzL8CFRVTOyVoQCefhYiZtHBHHbVIBww2G71zzcY1E
+ QW2RqHg9QoKG75iTs06x+r+4Ke9MrxQkcOe+csCrIyWV9DgNAsBBOufe/sS2Q48CAHs8
+ nRY0tRfWm3bgyMVckLpKoJ/3gkL9XDiJqgBRfgxLp7/uApQXhJKERBSOXlWnUeTFP2EH
+ OSxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749823356; x=1750428156;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BR72CRYf/tZsZyJh78bV+xCODP+r79zbrQtaAW04L5w=;
+ b=harWDZt7KTWVZrIsGHCs8ojdaKL+I12wZ9dBHz+8jGD8P202PRTsR5kGuCBG3xgjyw
+ Q4HxSsAeOi+3iEzhZl6+pAhc2ANFXKk5uswmbxmYjKTAGqVL79zrPnTJ8szsmpchMlsV
+ xPfrNI/9HL3pfVo+nCvgTb08iLw3IgKliSP0fwj4yesaNawCc27Hg2bt8ya3wQg3n/E8
+ o3uBgSkqWd0aZJR+BGAYJv3/zHBziw5jIK1vyV+SIVZh0PGdoNRuT96zG8oleIJPU1ro
+ KOn5DE3J2M38vqN2mU2QwY2wTXCppJ0eqvxS+zpmKC228LO1ZlUYwTaqOBrcgshVIuI9
+ WMCQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAIWC6Z44QDNjs/CSk8LMzfwasBX8D6BjDH/r7yHpXgBmMF28qIOGZbmZ07nuTxuRWLNzstktQIPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEQVYrpAfep0y0MFDUCXCHMOl27f69DIR2utAjzkrJfHa7P5Ec
+ zGqACfobj5i61hhPxSzShh5P12Xm2fPrpZBrofNSC4G+Y1MOrI2WGpHPq62Cq+yQTJk=
+X-Gm-Gg: ASbGncusficDVyioaXJw85uCLenm+9q9I6WY6idWWbI5m8vi34bKu2rQuqTodRLiTAs
+ DdmV2moQdbi5vof95ySjjxdcr/c+B1MgofYnRRlmXiiaK+NB48C1skrMAW39ieNs+Rn6RZSF67j
+ 0VfN1JDJE8e1VCF5UzNP60i5WzlDKMjoCTPHLBf9Tl1zBXOeKEo5Y+Cv9H83dNjWh4+HxUQ/swB
+ O/EoypADJT3reNWov15ut2DC4yrjC5R0oJOcq3YReBbH8SOGIq3GsCS0QXYwh98JkdzKounKOao
+ vo0cSQi/aOKTj9rPR/EQv/CGju+jYYAOmpMCb1aFlsHpItyuQ+w+oAevxjzUIlkLFN8MrqC2PP1
+ hK0uoY/w=
+X-Google-Smtp-Source: AGHT+IFFm+p6A3s3c92JdQ/PjxjL4ne6Il5/xS3QixUN9WcusvUDpgO0/WQqRAfuIGx27EXI54dhVA==
+X-Received: by 2002:a05:600c:858d:b0:439:a30f:2e49 with SMTP id
+ 5b1f17b1804b1-45334ad8375mr9408615e9.5.1749823354507; 
+ Fri, 13 Jun 2025 07:02:34 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a568a612d8sm2464566f8f.24.2025.06.13.07.02.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jun 2025 07:02:33 -0700 (PDT)
+Message-ID: <dbcfcb3c-0cba-45f6-aaed-b79494d96cde@linaro.org>
+Date: Fri, 13 Jun 2025 16:02:30 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 08/17] drm/msm/dsi/phy: Fix reading zero as PLL rates
+ when unprepared
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>, Srinivas Kandagatla <srini@kernel.org>
+References: <20250610-b4-sm8750-display-v6-0-ee633e3ddbff@linaro.org>
+ <20250610-b4-sm8750-display-v6-8-ee633e3ddbff@linaro.org>
+ <n5djafe2bm4cofoa3z4urfogchhfacybzou763nelttgfspo25@bywfd5febe6g>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+AhsD
+ BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmgXUEoF
+ CRaWdJoACgkQG5NDfTtBYpudig/+Inb3Kjx1B7w2IpPKmpCT20QQQstx14Wi+rh2FcnV6+/9
+ tyHtYwdirraBGGerrNY1c14MX0Tsmzqu9NyZ43heQB2uJuQb35rmI4dn1G+ZH0BD7cwR+M9m
+ lSV9YlF7z3Ycz2zHjxL1QXBVvwJRyE0sCIoe+0O9AW9Xj8L/dmvmRfDdtRhYVGyU7fze+lsH
+ 1pXaq9fdef8QsAETCg5q0zxD+VS+OoZFx4ZtFqvzmhCs0eFvM7gNqiyczeVGUciVlO3+1ZUn
+ eqQnxTXnqfJHptZTtK05uXGBwxjTHJrlSKnDslhZNkzv4JfTQhmERyx8BPHDkzpuPjfZ5Jp3
+ INcYsxgttyeDS4prv+XWlT7DUjIzcKih0tFDoW5/k6OZeFPba5PATHO78rcWFcduN8xB23B4
+ WFQAt5jpsP7/ngKQR9drMXfQGcEmqBq+aoVHobwOfEJTErdku05zjFmm1VnD55CzFJvG7Ll9
+ OsRfZD/1MKbl0k39NiRuf8IYFOxVCKrMSgnqED1eacLgj3AWnmfPlyB3Xka0FimVu5Q7r1H/
+ 9CCfHiOjjPsTAjE+Woh+/8Q0IyHzr+2sCe4g9w2tlsMQJhixykXC1KvzqMdUYKuE00CT+wdK
+ nXj0hlNnThRfcA9VPYzKlx3W6GLlyB6umd6WBGGKyiOmOcPqUK3GIvnLzfTXR5DOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92Vcmzn/jaEBcq
+ yT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbThLsSN1AuyP8wF
+ KChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH5lSCjhP4VXiG
+ q5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpFc1D/9NV/zIWB
+ G1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzePt/SvC0RhQXNj
+ XKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60RtThnhKc2kLI
+ zd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7qVT41xdJ6KqQM
+ NGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZv+PKIVf+zFKu
+ h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
+ vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <n5djafe2bm4cofoa3z4urfogchhfacybzou763nelttgfspo25@bywfd5febe6g>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,284 +154,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add runtime PM since we might call populate_mm on a foreign device.
+On 13/06/2025 15:55, Dmitry Baryshkov wrote:
+>>  
+>> @@ -361,24 +373,47 @@ static int dsi_pll_7nm_lock_status(struct dsi_pll_7nm *pll)
+>>  
+>>  static void dsi_pll_disable_pll_bias(struct dsi_pll_7nm *pll)
+>>  {
+>> +	unsigned long flags;
+>>  	u32 data;
+>>  
+>> +	spin_lock_irqsave(&pll->pll_enable_lock, flags);
+>> +	--pll->pll_enable_cnt;
+>> +	if (pll->pll_enable_cnt < 0) {
+>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>> +		DRM_DEV_ERROR_RATELIMITED(&pll->phy->pdev->dev,
+>> +					  "bug: imbalance in disabling PLL bias\n");
+>> +		return;
+>> +	} else if (pll->pll_enable_cnt > 0) {
+>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>> +		return;
+>> +	} /* else: == 0 */
+>> +
+>>  	data = readl(pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
+>>  	data &= ~DSI_7nm_PHY_CMN_CTRL_0_PLL_SHUTDOWNB;
+>>  	writel(0, pll->phy->pll_base + REG_DSI_7nm_PHY_PLL_SYSTEM_MUXES);
+>>  	writel(data, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
+>> +	spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>>  	ndelay(250);
+> 
+> What is this ndelay protecting? Is is to let the hardware to wind down
+> correctly? I'm worried about dsi_pll_disable_pll_bias() beng followed up
+> by dsi_pll_enable_pll_bias() in another thread, which would mean that
+> corresponding writes to the REG_DSI_7nm_PHY_CMN_CTRL_0 can come up
+> without any delay between them.
+> 
 
-v3:
-- Fix a kerneldoc failure (Matt Brost)
-- Revert the bo type change from device to kernel (Matt Brost)
+Great question, but why do you ask me? The code was there already and
+MSM DRM drivers are not something I know and could provide context about.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/drm_pagemap.c |   1 +
- drivers/gpu/drm/xe/xe_svm.c   | 101 ++++++++++++++++++++--------------
- drivers/gpu/drm/xe/xe_svm.h   |  10 ++--
- drivers/gpu/drm/xe/xe_tile.h  |  11 ++++
- drivers/gpu/drm/xe/xe_vm.c    |   2 +-
- 5 files changed, 76 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index e4120c8db262..e0d0a1137cb3 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -829,3 +829,4 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 
- 	return err;
- }
-+EXPORT_SYMBOL(drm_pagemap_populate_mm);
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 51b01a11a0cf..6e760a62e3c8 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -3,13 +3,17 @@
-  * Copyright © 2024 Intel Corporation
-  */
- 
-+#include <drm/drm_drv.h>
-+
- #include "xe_bo.h"
- #include "xe_gt_stats.h"
- #include "xe_gt_tlb_invalidation.h"
- #include "xe_migrate.h"
- #include "xe_module.h"
-+#include "xe_pm.h"
- #include "xe_pt.h"
- #include "xe_svm.h"
-+#include "xe_tile.h"
- #include "xe_ttm_vram_mgr.h"
- #include "xe_vm.h"
- #include "xe_vm_types.h"
-@@ -525,8 +529,10 @@ static struct xe_bo *to_xe_bo(struct drm_pagemap_devmem *devmem_allocation)
- static void xe_svm_devmem_release(struct drm_pagemap_devmem *devmem_allocation)
- {
- 	struct xe_bo *bo = to_xe_bo(devmem_allocation);
-+	struct xe_device *xe = xe_bo_device(bo);
- 
- 	xe_bo_put_async(bo);
-+	xe_pm_runtime_put(xe);
- }
- 
- static u64 block_offset_to_pfn(struct xe_vram_region *vr, u64 offset)
-@@ -720,76 +726,63 @@ static struct xe_vram_region *tile_to_vr(struct xe_tile *tile)
- 	return &tile->mem.vram;
- }
- 
--/**
-- * xe_svm_alloc_vram()- Allocate device memory pages for range,
-- * migrating existing data.
-- * @vm: The VM.
-- * @tile: tile to allocate vram from
-- * @range: SVM range
-- * @ctx: DRM GPU SVM context
-- *
-- * Return: 0 on success, error code on failure.
-- */
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
-+				      unsigned long start, unsigned long end,
-+				      struct mm_struct *mm,
-+				      unsigned long timeslice_ms)
- {
--	struct mm_struct *mm = vm->svm.gpusvm.mm;
-+	struct xe_tile *tile = container_of(dpagemap, typeof(*tile), mem.vram.dpagemap);
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct device *dev = xe->drm.dev;
- 	struct xe_vram_region *vr = tile_to_vr(tile);
- 	struct drm_buddy_block *block;
- 	struct list_head *blocks;
- 	struct xe_bo *bo;
--	ktime_t end = 0;
--	int err;
-+	ktime_t time_end = 0;
-+	int err, idx;
- 
--	if (!range->base.flags.migrate_devmem)
--		return -EINVAL;
--
--	range_debug(range, "ALLOCATE VRAM");
-+	if (!drm_dev_enter(&xe->drm, &idx))
-+		return -ENODEV;
- 
--	if (!mmget_not_zero(mm))
--		return -EFAULT;
--	mmap_read_lock(mm);
-+	xe_pm_runtime_get(xe);
- 
--retry:
--	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL,
--				 xe_svm_range_size(range),
-+ retry:
-+	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL, end - start,
- 				 ttm_bo_type_device,
- 				 XE_BO_FLAG_VRAM_IF_DGFX(tile) |
- 				 XE_BO_FLAG_CPU_ADDR_MIRROR);
- 	if (IS_ERR(bo)) {
- 		err = PTR_ERR(bo);
--		if (xe_vm_validate_should_retry(NULL, err, &end))
-+		if (xe_vm_validate_should_retry(NULL, err, &time_end))
- 			goto retry;
--		goto unlock;
-+		goto out_pm_put;
- 	}
- 
--	drm_pagemap_devmem_init(&bo->devmem_allocation,
--				vm->xe->drm.dev, mm,
-+	drm_pagemap_devmem_init(&bo->devmem_allocation, dev, mm,
- 				&dpagemap_devmem_ops,
- 				&tile->mem.vram.dpagemap,
--				xe_svm_range_size(range));
-+				end - start);
- 
- 	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
- 	list_for_each_entry(block, blocks, link)
- 		block->private = vr;
- 
- 	xe_bo_get(bo);
--	err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation,
--					    mm,
--					    xe_svm_range_start(range),
--					    xe_svm_range_end(range),
--					    ctx->timeslice_ms,
--					    xe_svm_devm_owner(vm->xe));
-+
-+	/* Ensure the device has a pm ref while there are device pages active. */
-+	xe_pm_runtime_get_noresume(xe);
-+	err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
-+					    start, end, timeslice_ms,
-+					    xe_svm_devm_owner(xe));
- 	if (err)
- 		xe_svm_devmem_release(&bo->devmem_allocation);
- 
- 	xe_bo_unlock(bo);
- 	xe_bo_put(bo);
- 
--unlock:
--	mmap_read_unlock(mm);
--	mmput(mm);
-+out_pm_put:
-+	xe_pm_runtime_put(xe);
-+	drm_dev_exit(idx);
- 
- 	return err;
- }
-@@ -898,7 +891,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 
- 	if (--migrate_try_count >= 0 &&
- 	    xe_svm_range_needs_migrate_to_vram(range, vma, IS_DGFX(vm->xe))) {
--		err = xe_svm_alloc_vram(vm, tile, range, &ctx);
-+		err = xe_svm_alloc_vram(tile, range, &ctx);
- 		ctx.timeslice_ms <<= 1;	/* Double timeslice if we have to retry */
- 		if (err) {
- 			if (migrate_try_count || !ctx.devmem_only) {
-@@ -1054,6 +1047,29 @@ int xe_svm_range_get_pages(struct xe_vm *vm, struct xe_svm_range *range,
- 
- #if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
- 
-+/**
-+ * xe_svm_alloc_vram()- Allocate device memory pages for range,
-+ * migrating existing data.
-+ * @tile: tile to allocate vram from
-+ * @range: SVM range
-+ * @ctx: DRM GPU SVM context
-+ *
-+ * Return: 0 on success, error code on failure.
-+ */
-+int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
-+		      const struct drm_gpusvm_ctx *ctx)
-+{
-+	struct drm_pagemap *dpagemap;
-+
-+	range_debug(range, "ALLOCATE VRAM");
-+
-+	dpagemap = xe_tile_local_pagemap(tile);
-+	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
-+				       xe_svm_range_end(range),
-+				       range->base.gpusvm->mm,
-+				       ctx->timeslice_ms);
-+}
-+
- static struct drm_pagemap_device_addr
- xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
- 			  struct device *dev,
-@@ -1078,6 +1094,7 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
- 
- static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
- 	.device_map = xe_drm_pagemap_device_map,
-+	.populate_mm = xe_drm_pagemap_populate_mm,
- };
- 
- /**
-@@ -1130,7 +1147,7 @@ int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
- 	return 0;
- }
- #else
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
-+int xe_svm_alloc_vram(struct xe_tile *tile,
- 		      struct xe_svm_range *range,
- 		      const struct drm_gpusvm_ctx *ctx)
- {
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 19ce4f2754a7..da9a69ea0bb1 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -70,8 +70,7 @@ int xe_svm_bo_evict(struct xe_bo *bo);
- 
- void xe_svm_range_debug(struct xe_svm_range *range, const char *operation);
- 
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
-+int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
- 		      const struct drm_gpusvm_ctx *ctx);
- 
- struct xe_svm_range *xe_svm_range_find_or_insert(struct xe_vm *vm, u64 addr,
-@@ -237,10 +236,9 @@ void xe_svm_range_debug(struct xe_svm_range *range, const char *operation)
- {
- }
- 
--static inline
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+static inline int
-+xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
-+		  const struct drm_gpusvm_ctx *ctx)
- {
- 	return -EOPNOTSUPP;
- }
-diff --git a/drivers/gpu/drm/xe/xe_tile.h b/drivers/gpu/drm/xe/xe_tile.h
-index eb939316d55b..066a3d0cea79 100644
---- a/drivers/gpu/drm/xe/xe_tile.h
-+++ b/drivers/gpu/drm/xe/xe_tile.h
-@@ -16,4 +16,15 @@ int xe_tile_init(struct xe_tile *tile);
- 
- void xe_tile_migrate_wait(struct xe_tile *tile);
- 
-+#if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
-+static inline struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
-+{
-+	return &tile->mem.vram.dpagemap;
-+}
-+#else
-+static inline struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
-+{
-+	return NULL;
-+}
-+#endif
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index d18807b92b18..d07264e8211f 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2913,7 +2913,7 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
- 
- 		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, region)) {
- 			tile = &vm->xe->tiles[region_to_mem_type[region] - XE_PL_VRAM0];
--			err = xe_svm_alloc_vram(vm, tile, svm_range, &ctx);
-+			err = xe_svm_alloc_vram(tile, svm_range, &ctx);
- 			if (err) {
- 				drm_dbg(&vm->xe->drm, "VRAM allocation failed, retry from userspace, asid=%u, gpusvm=%p, errno=%pe\n",
- 					vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
--- 
-2.49.0
-
+Best regards,
+Krzysztof
