@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4C9AD9074
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C964EAD9077
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 17:00:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27ADD10E9FA;
-	Fri, 13 Jun 2025 15:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB72410E9FF;
+	Fri, 13 Jun 2025 15:00:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eWgZMv8R";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ePr7bRyC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C588A10E9EF;
- Fri, 13 Jun 2025 15:00:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E73610EA18;
+ Fri, 13 Jun 2025 15:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,29 +22,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=vuE+IIRx+9AdFuGpsrjfbgD/yN2Yv8ncxgIQq/YgEg4=; b=eWgZMv8R5FkKJaqVVtuw4PQ4TK
- vNUYKnXpzjQF3sFNeMvj8cTa3jzjXiYVvg67ep3TnxTEuLDAqgmYSbJJYR3vJ1+Q3fkUcyV0AlW/O
- 6Hc0x5Mpx0eSClg+FBPlQIKwehhlBTV/uG1VEFQoOTKmBiOmWJKKGI9BNrSYOZ2VkfPYmXGRIxRGj
- +kMjgXiv0aW/MjsSX3GEWtEG6IBwa2rKOSXruGVYCc/4XJqzWFLV01Ps1MpxHgil3EpqsmM+l6Wy8
- JGYXYabDFxPmZRklaVS5biZbQ9/EdrfanxPkBWwPyicogmKhGo4ylEHg8Zho9x4c3RlxK24eN4uSC
- 8eXAPTyQ==;
+ bh=IbuYjP40DzstkxlxseSqEOMX3K/zhfcmf78fcNtqo68=; b=ePr7bRyCqOyule95uzgr9a3IW0
+ YXk0tC4+qxXUCmxQYTL6Mp5YKcNF4ui8MK/8gTT/RxuCk2P3tv9H4HRAPnkYbwEIoSU7I+rIjylmr
+ obzNNMW0JDSYV38LqIJYWgpwa/K0ZbPESMj7FB98UL5bWsvVtwxtfu8XRN2LxXFJw/5y/QXne4jwE
+ SxhgEyzIWg7ul9YNbIpl/QAiKKb9ilHV6KGkyELrdaIv28O0cVrKoG3bn5s+4MHvMIFbPTj8aaP6Y
+ Ygo5VvjPxX9kgEqTVMdZTyZfOX1uRDajU1qEwLpRDvOUV7WP5Jx/xdErpHKgkdM464n+pD56LJLGD
+ FxfKvu6w==;
 Received: from [189.6.13.79] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uQ5tQ-00342T-EV; Fri, 13 Jun 2025 17:00:33 +0200
+ id 1uQ5tV-00342T-Ts; Fri, 13 Jun 2025 17:00:38 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: Alex Hung <alex.hung@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
  Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
  sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, mwen@igalia.com
+ airlied@gmail.com, simona@ffwll.ch
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v4 01/14] drm/amd/display: make sure drm_edid stored in
- aconnector doesn't leak
-Date: Fri, 13 Jun 2025 11:58:03 -0300
-Message-ID: <20250613150015.245917-2-mwen@igalia.com>
+Subject: [PATCH v4 02/14] drm/amd/display: start using drm_edid helpers to
+ parse EDID caps
+Date: Fri, 13 Jun 2025 11:58:04 -0300
+Message-ID: <20250613150015.245917-3-mwen@igalia.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250613150015.245917-1-mwen@igalia.com>
 References: <20250613150015.245917-1-mwen@igalia.com>
@@ -65,29 +65,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure the drm_edid container stored in aconnector is freed when
-destroying the aconnector.
+Groundwork that allocates a temporary drm_edid from raw edid to take
+advantage of DRM common-code helpers instead of driver-specific code.
 
-Fixes: 48edb2a4 ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c    | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 78816712afbb..2f806bc6322b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7252,6 +7252,8 @@ static void amdgpu_dm_connector_destroy(struct drm_connector *connector)
- 		dc_sink_release(aconnector->dc_sink);
- 	aconnector->dc_sink = NULL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index d4395b92fb85..5543780f1024 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -108,18 +108,21 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	struct drm_connector *connector = &aconnector->base;
+ 	struct drm_device *dev = connector->dev;
+ 	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
++	const struct drm_edid *drm_edid;
+ 	struct cea_sad *sads;
+ 	int sad_count = -1;
+ 	int sadb_count = -1;
+ 	int i = 0;
+ 	uint8_t *sadb = NULL;
+-
+ 	enum dc_edid_status result = EDID_OK;
  
-+	drm_edid_free(aconnector->drm_edid);
 +
- 	drm_dp_cec_unregister_connector(&aconnector->dm_dp_aux.aux);
- 	drm_connector_unregister(connector);
- 	drm_connector_cleanup(connector);
+ 	if (!edid_caps || !edid)
+ 		return EDID_BAD_INPUT;
+ 
+-	if (!drm_edid_is_valid(edid_buf))
++	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
++
++	if (!drm_edid_valid(drm_edid))
+ 		result = EDID_BAD_CHECKSUM;
+ 
+ 	edid_caps->manufacturer_id = (uint16_t) edid_buf->mfg_id[0] |
+@@ -139,8 +142,10 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	apply_edid_quirks(dev, edid_buf, edid_caps);
+ 
+ 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
+-	if (sad_count <= 0)
++	if (sad_count <= 0) {
++		drm_edid_free(drm_edid);
+ 		return result;
++	}
+ 
+ 	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
+ 	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
+@@ -166,6 +171,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 
+ 	kfree(sads);
+ 	kfree(sadb);
++	drm_edid_free(drm_edid);
+ 
+ 	return result;
+ }
 -- 
 2.47.2
 
