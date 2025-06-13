@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FF8AD8463
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 09:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6710AD84FA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 09:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF5E10E1C5;
-	Fri, 13 Jun 2025 07:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 603BC10E8D5;
+	Fri, 13 Jun 2025 07:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pKtl3N3d";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="vbaPMG5l";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="NLhDrFN2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBDC10E1C5;
- Fri, 13 Jun 2025 07:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=30ezSC5SuiN0IChbbRZASt5M1rZUDx5UAhi1YP6jKF0=; b=pKtl3N3dNtArzKVtv7y/bpuBWj
- Et87NBgYnRm91BqJx4CM/u0+4pR95JNXUx6cKR+XyLuukbV2oVoWbWer+E2r8ceQDs/lLNJksLy6z
- j/bW1JXti2NzQ/AMj8ypECl9riVPFyEvp+vZQtb0D53cluiwEw6FHko0fyXaa7dVvZLrTspUmVzeZ
- UxBBYrOCuFYt/qa61rpkSIPS+/a3mLwo0tN3d90N0o1ocQEny8xTo9WNPgy0sreWTB57wba1rfUu1
- AkeVh50M+5C3biWbOyMABV8ghv5b1ODheC8TN7/d6LQ5P0oLWW/M5ZIHnHxhu2WnDbZp3K1gvugqp
- KBTqgMfw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uPz1K-002vBD-5Z; Fri, 13 Jun 2025 09:40:14 +0200
-Message-ID: <36c36380-6770-4776-9e85-69299e4ab11a@igalia.com>
-Date: Fri, 13 Jun 2025 08:40:12 +0100
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BFE10E8DA;
+ Fri, 13 Jun 2025 07:52:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1749801088;
+ bh=BWL04/2weD75YWj7pQZYoOa
+ pnHaWMWo9tcBrdAgItEQ=; b=vbaPMG5l5WgGwNJ+RPvmIakQaHT8+jAU+lWcpSNoIB1PouwCo2
+ kM2KnpT/x2CfAaOdNmK8Wvsg3otZ3CuVt9L+xKX/P4/MQFePfLYAeXMLK0xBHGd7TY4POCiFqeK
+ YRSbHdhP48QAPlls36p6kuTm8TLfw4B0kvKs1n9X66+Lc3jCUtmuwX/4/ZQXLkQbfePnuXfnO+T
+ tH6IMw26Qcr0jV4dz6ahvxvb9EpIBNOql9Mn/TQfldgatXlKsQflGGJKXTMR+cOPK7ojSADmxdp
+ 3eynoVWh5i20mzkX4dV+c46RPs6j+q3NlJKb75pXDnHfi0lZDOeei4ziC34i8JYV5uA==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1749801088; bh=BWL04/2weD75YWj7pQZYoOa
+ pnHaWMWo9tcBrdAgItEQ=; b=NLhDrFN2FF+23QZOVr4NsYgk5AfU/fvm1x8KrWO6JxnoKaXppw
+ mwmdvavZ8Hmw2JqeEdW925LJdoxyK1jngpDQ==;
+Message-ID: <0783c4ab-e26e-4c90-93f5-342e761cee29@damsy.net>
+Date: Fri, 13 Jun 2025 09:51:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/4] drm/xe: Make dma-fences compliant with the safe
- access rules
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250610164226.10817-1-tvrtko.ursulin@igalia.com>
- <20250610164226.10817-5-tvrtko.ursulin@igalia.com>
- <lagtnrxxqzwn4akmummmuxd4msqctbzrqbht66debl7ktzgkpm@7xn5yv5ackvl>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <lagtnrxxqzwn4akmummmuxd4msqctbzrqbht66debl7ktzgkpm@7xn5yv5ackvl>
+Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
+To: Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ Philipp Stanner <phasta@kernel.org>, dri-devel@lists.freedesktop.org
+References: <aEmR9420vj-ISz-W@cassiopeiae>
+ <dc661205-1e5b-4697-863b-36a299365219@amd.com> <aEmcpsXwS8dLNGUg@cassiopeiae>
+ <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com> <aEtnS6kvh1mssFTb@cassiopeiae>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <aEtnS6kvh1mssFTb@cassiopeiae>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,44 +63,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/06/2025 18:49, Lucas De Marchi wrote:
-> On Tue, Jun 10, 2025 at 05:42:26PM +0100, Tvrtko Ursulin wrote:
->> Xe can free some of the data pointed to by the dma-fences it exports. 
->> Most
->> notably the timeline name can get freed if userspace closes the 
->> associated
->> submit queue. At the same time the fence could have been exported to a
->> third party (for example a sync_fence fd) which will then cause an use-
->> after-free on subsequent access.
+Hi,
+
+Le 13/06/2025 à 01:48, Danilo Krummrich a écrit :
+> On Thu, Jun 12, 2025 at 09:00:34AM +0200, Christian König wrote:
+>> On 6/11/25 17:11, Danilo Krummrich wrote:
+>>>>>> Mhm, reiterating our internal discussion on the mailing list.
+>>>>>>
+>>>>>> I think it would be nicer if we could use negative values for the kernel submissions and positive for userspace. But as discussed internally we would need to adjust the scheduler trace points for that once more.
+>>>>>>
+>>>>>> @Philip and @Danilo any opinion on that?
+>>>>>
+>>>>> Both, the U64_MAX and the positive-negative approach, are a bit hacky. I wonder
+>>>>> why we need client_id to be a u64, wouldn't a u32 not be enough?
+>>>>
+>>>> That can trivially overflow on long running boxes.
+>>>
+>>> I don't know if "trivially" is the word of choice given that the number is
+>>> 4,294,967,295.
+>>>
+>>> But I did indeed miss that this is a for ever increasing atomic. Why is it an
+>>> atomic? Why is it not an IDA?
 >>
->> To make this safe we need to make the driver compliant with the newly
->> documented dma-fence rules. Driver has to ensure a RCU grace period
->> between signalling a fence and freeing any data pointed to by said fence.
->>
->> For the timeline name we simply make the queue be freed via kfree_rcu and
->> for the shared lock associated with multiple queues we add a RCU grace
->> period before freeing the per GT structure holding the lock.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+>> Well IDA has some extra overhead compared to an ever increasing atomic, additional to that it might not be the best choice to re-use numbers for clients in a trace log.
 > 
+> I think the overhead is not relevant at all, this is called from
+> drm_file_alloc(). The only path I can see where this is called is
+> drm_client_init(), which isn't high frequent stuff at all, is it?
 > 
-> Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> It seems to me that we should probably use IDA here.
 > 
-> for merging this through drm-misc tree.
+>> On the other hand using smaller numbers is usually nicer for manual inspection.
 
-Thanks!
+Re-using IDs might bring confusion in the trace logs, for instance when tracing lots of short lived 
+processes.
 
-I've now pushed the series drm-misc-next.
+> 
+> Another option is to just add an interface to get a kernel client_id from the
+> same atomic / IDA.
 
-Btw there is also an IGT for xe I wrote ages ago^1, if you want to ping 
-someone to review it or take it over. Might be useful to have permanent 
-verification the UAF keeps being resolved.
+Honestly I don't really see the problem with the current patch: using the last N ids for the kernel 
+jobs requires no other changes and works fine.
 
+https://gitlab.freedesktop.org/drm/amd/-/issues/4260 has a screenshot of the UMR tool using these ids.
 
-Regards,
+If the theoretical overlap with client drm id is a concern, adding code to drm_file_alloc() to not 
+use the last 0xff ids would be easy.
 
-Tvrtko
+btw maybe other drivers also use kernel jobs with the same semantics, in which case we might want to 
+move the special IDs definition to a shared place.
 
-1) https://patchwork.freedesktop.org/patch/642709/?series=146211&rev=2
+Thanks,
+Pierre-Eric
 
