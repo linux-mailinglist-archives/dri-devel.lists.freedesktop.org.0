@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92020AD89EC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16394AD89EF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D725310E9B0;
-	Fri, 13 Jun 2025 11:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7243D10E954;
+	Fri, 13 Jun 2025 11:03:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BOgaSPLI";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="W74bGSVu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6975410E9B1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749812519; x=1781348519;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=8yzQ+IPPA7Lrx2RCuDtyNnd8xRKztZ+QJOFjp0XrRYQ=;
- b=BOgaSPLIkdf896sxJnjuxfp8ReOBLHgaFnlu9UXpQtTamhd1gog29ryU
- kCiBLDRu20kNgXsCK+QyiRx7t6m0WPwAmnlq+EFlXirGFF9VkRF2fb5Ud
- xE5vR7QTdnN7uMXNWZu0JxLnuEgbo85BAjda2jnxPlGI1s8MKJRE2kO4u
- 9XYWk0AncCH59QXTbkD0l33G+5/20+1p8UznGNL0A5NvOMZYqMNrXkgwd
- JiBOWnrDacXFqaQ5ODD1/MoxMYOTb93A44tdn/GCjHcRsutm1KF6aruTI
- OqSpg8ff3vMdSME94sQT1IoAhoLajfYOW2KXeO1TMMKf7cx7fLvhOu/vd g==;
-X-CSE-ConnectionGUID: UQ0CW5bKRwKgAyeHYdLpmg==
-X-CSE-MsgGUID: U7YdnHnyQgaiyG1pKuXTmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="74559348"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="74559348"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 04:01:58 -0700
-X-CSE-ConnectionGUID: WoTGv81jQxqvDuWovwRmtA==
-X-CSE-MsgGUID: yVvuwI+ERLiv6cqB9r4Y7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; d="scan'208";a="152958079"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.26])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 04:01:55 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tursulin@ursulin.net>, Simona Vetter
- <simona.vetter@ffwll.ch>, Christian =?utf-8?Q?K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>
-Cc: tzimmermann@suse.de, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/prime: remove drm_prime_lookup_buf_by_handle
-In-Reply-To: <dca65c78-9af4-4266-b60e-ce13b5a61f06@ursulin.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250604113234.2520-1-christian.koenig@amd.com>
- <aEBn9o-bARNut3ek@phenom.ffwll.local>
- <aEByd4gidRpxJkfp@phenom.ffwll.local>
- <7497bb60649f9459b9734514bd320033f45651e2@intel.com>
- <dca65c78-9af4-4266-b60e-ce13b5a61f06@ursulin.net>
-Date: Fri, 13 Jun 2025 14:01:51 +0300
-Message-ID: <39cf23f66c3f872dddbaf8948e42decc810263c6@intel.com>
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77FB810E954
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:03:22 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 0CB3B25F8B;
+ Fri, 13 Jun 2025 13:03:18 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id vCIuwyLbpHdc; Fri, 13 Jun 2025 13:03:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1749812582; bh=xSacqbNIg/9oGP/awU7ktqaXCqSMSf5bNRHv9Vu8nMU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=W74bGSVu8Tkpq7tIWHOgrW5bDW+opJlr9W6rbqBkSHFmg1nBgI1YXJ3qYYlPHqkHc
+ 5XRB08DesTbYTA2e600cDbpii29hkzuDYpEj1arI8OmQ2fNroCbMoWsVyIKpvdHY9L
+ dvFT2OqNJKZWZJhMm+l6KYlG+I0NdDgE73rEmo7MeFGe7IQQxVd7cML6QGj28V6Mg4
+ 8OHWi77df+UfFnNnHne80ZmAgOJC66QxL3tiZJ10dAIg4Ac+D10tgwTjaybRjZzVz0
+ wUrOaLpZCMyL3t9ygNw/9PgziZxlrHLT2wHqtrvuEhMZKOr2p6FgHOkXIIRvfIxGIt
+ F/u/xfLvxfdsw==
 MIME-Version: 1.0
-Content-Type: text/plain
+Date: Fri, 13 Jun 2025 11:03:01 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jessica
+ Zhang <jessica.zhang@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm: panel: add support for Samsung S6E8AA5X01 panel
+ controller
+In-Reply-To: <84ee6388-92af-49c8-988b-b79ed1453d5e@suse.de>
+References: <20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org>
+ <20250612-panel-samsung-s6e8aa5x01-v1-2-06dcba071ea6@disroot.org>
+ <84ee6388-92af-49c8-988b-b79ed1453d5e@suse.de>
+Message-ID: <84663a88789b993a1cab8c55af4e03a7@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,27 +67,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Jun 2025, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
-> On 13/06/2025 11:09, Jani Nikula wrote:
->> On Wed, 04 Jun 2025, Simona Vetter <simona.vetter@ffwll.ch> wrote:
->>> On Wed, Jun 04, 2025 at 05:36:22PM +0200, Simona Vetter wrote:
->> This regressed one of our CI IGT tests [1].
->> 
->> BR,
->> Jani.
->> 
->> 
->> [1] https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14463
+On 2025-06-13 09:39, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 12.06.25 um 16:52 schrieb Kaustabh Chakraborty:
+>> Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Implement
+>> a basic panel driver for such panels.
+>>
+>> The driver also initializes a backlight device, which works by changing
+>> the panel's gamma values and aid brightness levels appropriately, with
+>> the help of look-up tables acquired from downstream kernel sources.
+>>
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+
+[...]
+
+>> +
+>> +static void s6e8aa5x01_mcs_protect(struct mipi_dsi_multi_context *dsi,
+>> +				   struct s6e8aa5x01_ctx *ctx, bool protect)
+> 
+> I found this interface confusing. Rather split it up into .  It also does two different things AFAICT.
+> 
+> - The mcs_mutex protects against concurrent access from update_status and enable
+
+mcs_mutex is meant to prevent any early access protection of the MCS commands.
+Suppose there are two functions, A and B, accessing MCS.
+
+ENTRY: A()
+(access protection disabled)
+...
+
+ENTRY: B()
+(access protection disabled)
+...
+(access protection enabled)
+EXIT: B()
+
+[!] cannot access MCS commands here anymore
+(access protection enabled)
+EXIT: A()
+
+And to avoid such errors a mutex is provided.
+
+> 
+> - MSC_ACCESSPROT enable access to hardware state.
+> 
+> Maybe try this:
+> 
+> - Move msc_mutex into the callers, so that ->update_status and ->enable acquire and release the lock.
+> 
+> - Move MCS_ACCESSPROT into ->enable and ->disable and leave it accessible, if the hardware allows that.
+
+Yeah this is a good idea, I'll try it.
+
+>> +{
+>> +	if (protect) {
+>> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0xa5, 0xa5);
+>> +		mutex_unlock(&ctx->mcs_mutex);
+>> +	} else {
+>> +		mutex_lock(&ctx->mcs_mutex);
+>> +		mipi_dsi_dcs_write_seq_multi(dsi, MCS_ACCESSPROT, 0x5a, 0x5a);
+>> +	}
+>> +}
+>> +
+>> +static int s6e8aa5x01_update_brightness(struct backlight_device *backlight)#
+> 
+> Maybe call this function s6e8aa5x01_update_status() to match the callback.
+> 
+>> +{
+>> +	struct mipi_dsi_multi_context dsi = { .dsi = bl_get_data(backlight) };
+>> +	struct s6e8aa5x01_ctx *ctx = mipi_dsi_get_drvdata(dsi.dsi);
+>> +	u16 lvl = backlight->props.brightness;
+> 
+> backlight_get_brightness() here ?
+> 
+> 
+> I think you should also check panel->enabled and return if false. AFAIU there will be no gamma changes on disabled hardware anyway.
 >
-> It also explodes even more trivially when logging into a KDE Wayland 
-> session:
 
-Smells like a revert, and back to the drawing board, perhaps?
+The enable function is never executed when the panel is disabled. This is
+because flag checking is done by drm_panel anyway. See drm_panel_enable()
+in drivers/gpu/drm/drm_panel.c [1]
 
+>> +
+>> +static int s6e8aa5x01_probe(struct mipi_dsi_device *dsi)
+>> +{
+>> +	struct device *dev = &dsi->dev;
+>> +	struct s6e8aa5x01_ctx *ctx;
+>> +	int ret;
+>> +
+>> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> 
+> You're possibly using the instance after the hardware device has been removed. Alloc with drmm_kzalloc() or you might end up with UAF errors.
 
-BR,
-Jani.
+Hmm, none of the panel drivers are using drmm_kzalloc(), or even any
+drmm_*(). Are you sure I must use it?
 
+>> +	ret = devm_mutex_init(dev, &ctx->mcs_mutex);
+> 
+> You're taking this mutex in DRM code, so rather use drmm_mutex_init() here.
 
--- 
-Jani Nikula, Intel
+(The comment by me above applies here too)
+
+> 
+> Best regards
+> Thomas
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/gpu/drm/drm_panel.c#n209
