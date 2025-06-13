@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C381AD8D78
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 15:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96B8AD8D7C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 15:45:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A870610E1F3;
-	Fri, 13 Jun 2025 13:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB89C10E9B8;
+	Fri, 13 Jun 2025 13:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B2210E1E7;
- Fri, 13 Jun 2025 13:45:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A6D10E9AD;
+ Fri, 13 Jun 2025 13:45:47 +0000 (UTC)
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
 	Maarten Lankhorst <dev@lankhorst.se>
-Subject: [RFC PATCH 3/8] mei: Add IAF mei component
-Date: Fri, 13 Jun 2025 15:45:22 +0200
-Message-ID: <20250613134520.2458175-13-dev@lankhorst.se>
+Subject: [RFC PATCH 5/8] drm/xe: Add support for IAF devices.
+Date: Fri, 13 Jun 2025 15:45:24 +0200
+Message-ID: <20250613134520.2458175-15-dev@lankhorst.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250613134520.2458175-10-dev@lankhorst.se>
 References: <20250613134520.2458175-10-dev@lankhorst.se>
@@ -40,419 +40,715 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From the backport repository.
+Use the AUX bus interface to connect to the intel fabric device.
+This code is based on intel-gpu-backports tag
+I915_25WW18.2_1099.17_25.1.17_250113.16
 
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/misc/mei/Kconfig                   |   1 +
- drivers/misc/mei/Makefile                  |   1 +
- drivers/misc/mei/iaf/Kconfig               |  12 +
- drivers/misc/mei/iaf/Makefile              |   7 +
- drivers/misc/mei/iaf/mei_iaf.c             | 292 +++++++++++++++++++++
- drivers/misc/mei/mkhi.h                    |   2 +
- include/drm/intel/i915_mei_iaf_interface.h |  25 ++
- 7 files changed, 340 insertions(+)
- create mode 100644 drivers/misc/mei/iaf/Kconfig
- create mode 100644 drivers/misc/mei/iaf/Makefile
- create mode 100644 drivers/misc/mei/iaf/mei_iaf.c
- create mode 100644 include/drm/intel/i915_mei_iaf_interface.h
+ drivers/gpu/drm/xe/Makefile          |   1 +
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h |  23 ++
+ drivers/gpu/drm/xe/xe_device.c       |  12 +-
+ drivers/gpu/drm/xe/xe_device_types.h |   3 +
+ drivers/gpu/drm/xe/xe_gt_types.h     |   3 +
+ drivers/gpu/drm/xe/xe_iaf.c          | 405 +++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_iaf.h          |  57 ++++
+ drivers/gpu/drm/xe/xe_irq.c          |  16 +-
+ drivers/gpu/drm/xe/xe_vram.c         |   4 +-
+ 9 files changed, 520 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_iaf.c
+ create mode 100644 drivers/gpu/drm/xe/xe_iaf.h
 
-diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig
-index 7575fee96cc6a..60b2cfa27ebaa 100644
---- a/drivers/misc/mei/Kconfig
-+++ b/drivers/misc/mei/Kconfig
-@@ -84,5 +84,6 @@ config INTEL_MEI_VSC
- source "drivers/misc/mei/hdcp/Kconfig"
- source "drivers/misc/mei/pxp/Kconfig"
- source "drivers/misc/mei/gsc_proxy/Kconfig"
-+source "drivers/misc/mei/iaf/Kconfig"
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index 7b6fee7fd1a65..a83f3c775f3a5 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -74,6 +74,7 @@ xe-y += xe_bb.o \
+ 	xe_hw_engine_class_sysfs.o \
+ 	xe_hw_engine_group.o \
+ 	xe_hw_fence.o \
++	xe_iaf.o \
+ 	xe_irq.o \
+ 	xe_lrc.o \
+ 	xe_migrate.o \
+diff --git a/drivers/gpu/drm/xe/regs/xe_gt_regs.h b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
+index 5cd5ab8529c5c..0d436947ff81f 100644
+--- a/drivers/gpu/drm/xe/regs/xe_gt_regs.h
++++ b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
+@@ -85,6 +85,11 @@
+ #define XE2_GAMREQSTRM_CTRL			XE_REG_MCR(0x4194)
+ #define   CG_DIS_CNTLBUS			REG_BIT(6)
  
- endif
-diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile
-index 6f9fdbf1a4959..8be787f8ecd41 100644
---- a/drivers/misc/mei/Makefile
-+++ b/drivers/misc/mei/Makefile
-@@ -31,6 +31,7 @@ CFLAGS_mei-trace.o = -I$(src)
- obj-$(CONFIG_INTEL_MEI_HDCP) += hdcp/
- obj-$(CONFIG_INTEL_MEI_PXP) += pxp/
- obj-$(CONFIG_INTEL_MEI_GSC_PROXY) += gsc_proxy/
-+obj-$(CONFIG_INTEL_MEI_IAF) += iaf/
++#define PKG_ADDR_RANGE				XE_REG(0x41B0)
++#define   PKG_ADDR_RANGE_RANGE_SHIFT		20
++#define   PKG_ADDR_RANGE_BASE_SHIFT		1
++#define   PKG_ADDR_RANGE_ENABLE			1
++
+ #define CCS_AUX_INV				XE_REG(0x4208)
  
- obj-$(CONFIG_INTEL_MEI_VSC_HW) += mei-vsc-hw.o
- mei-vsc-hw-y := vsc-tp.o
-diff --git a/drivers/misc/mei/iaf/Kconfig b/drivers/misc/mei/iaf/Kconfig
-new file mode 100644
-index 0000000000000..4d131df6cf79f
---- /dev/null
-+++ b/drivers/misc/mei/iaf/Kconfig
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2020-2021, Intel Corporation. All rights reserved.
-+#
-+config INTEL_MEI_IAF
-+	tristate "Intel Accelerator Fabric services of ME Interface"
-+	depends on m
-+	select INTEL_MEI_ME
-+	depends on DRM_XE
-+	help
-+	  MEI Support for IAF Services on Intel graphics card.
+ #define VD0_AUX_INV				XE_REG(0x4218)
+@@ -96,6 +101,11 @@
+ #define XE2_LMEM_CFG				XE_REG(0x48b0)
+ 
+ #define XEHP_TILE_ADDR_RANGE(_idx)		XE_REG_MCR(0x4900 + (_idx) * 4)
++#define   XEHP_TILE_LMEM_RANGE_SHIFT            8
++#define   XEHP_TILE_LMEM_BASE_SHIFT             1
++#define   XEHP_TILE_LMEM_BASE_MASK              REG_GENMASK(7, 1)
++#define   XEHP_TILE_LMEM_RANGE_MASK             REG_GENMASK(14, 8)
 +
-+	  Enables the ME FW services required for IAF support.
-diff --git a/drivers/misc/mei/iaf/Makefile b/drivers/misc/mei/iaf/Makefile
-new file mode 100644
-index 0000000000000..1130cbc9c0ccb
---- /dev/null
-+++ b/drivers/misc/mei/iaf/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright (c) 2020-2021, Intel Corporation. All rights reserved.
-+#
-+# Makefile - IAF client driver for Intel MEI Bus Driver.
+ #define XEHP_FLAT_CCS_BASE_ADDR			XE_REG_MCR(0x4910)
+ #define XEHP_FLAT_CCS_PTR			REG_GENMASK(31, 8)
+ 
+@@ -560,6 +570,11 @@
+ #define   CCS_MODE_CSLICE(cslice, ccs) \
+ 	((ccs) << ((cslice) * CCS_MODE_CSLICE_WIDTH))
+ 
++#define PKG_ADDR_BASE				XE_REG(0x108390)
++#define   PKG_ADDR_BASE_RANGE_SHIFT		20
++#define   PKG_ADDR_BASE_BASE_SHIFT		1
++#define   PKG_ADDR_BASE_ENABLE			1
 +
-+obj-$(CONFIG_INTEL_MEI_IAF) += mei_iaf.o
-diff --git a/drivers/misc/mei/iaf/mei_iaf.c b/drivers/misc/mei/iaf/mei_iaf.c
+ #define FORCEWAKE_ACK_GT			XE_REG(0x130044)
+ 
+ /* Applicable for all FORCEWAKE_DOMAIN and FORCEWAKE_ACK_DOMAIN regs */
+@@ -594,4 +609,12 @@
+ 
+ #define SFC_DONE(n)				XE_REG(0x1cc000 + (n) * 0x1000)
+ 
++#define PUNIT_MMIO_CR_POC_STRAPS		XE_REG(0x281078)
++#define NUM_TILES_MASK				REG_GENMASK(1, 0)
++#define CD_ALIVE				REG_BIT(2)
++#define SOCKET_ID_MASK				REG_GENMASK(7, 3)
++
++#define CD_BASE_OFFSET				0x291000
++#define CD_BAR_LENGTH				0x40000
++
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index c7d50b098b5cb..9d4a3f3f3bbf1 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: MIT
+ /*
+- * Copyright © 2021 Intel Corporation
++ * Copyright © 2021 - 2025 Intel Corporation
+  */
+ 
+ #include "xe_device.h"
+@@ -43,6 +43,7 @@
+ #include "xe_hw_engine_group.h"
+ #include "xe_hwmon.h"
+ #include "xe_irq.h"
++#include "xe_iaf.h"
+ #include "xe_memirq.h"
+ #include "xe_mmio.h"
+ #include "xe_module.h"
+@@ -841,6 +842,11 @@ int xe_device_probe(struct xe_device *xe)
+ 	if (err)
+ 		return err;
+ 
++	/* Needs to be called before xe_vram_probe() */
++	err = xe_iaf_init(xe);
++	if (err)
++		return err;
++
+ 	err = xe_vram_probe(xe);
+ 	if (err)
+ 		return err;
+@@ -918,6 +924,10 @@ int xe_device_probe(struct xe_device *xe)
+ 	if (err)
+ 		goto err_unregister_display;
+ 
++	err = xe_iaf_init_aux(xe);
++	if (err)
++		goto err_unregister_display;
++
+ 	xe_debugfs_register(xe);
+ 
+ 	err = xe_hwmon_register(xe);
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 6bb8f5487c3a0..6998ee0b1a220 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -590,6 +590,9 @@ struct xe_device {
+ 	u8 vm_inject_error_position;
+ #endif
+ 
++	/** @iaf: Fabric specific struct */
++	struct xe_iaf *iaf;
++
+ 	/* private: */
+ 
+ #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
+diff --git a/drivers/gpu/drm/xe/xe_gt_types.h b/drivers/gpu/drm/xe/xe_gt_types.h
+index 7def0959da35d..331b726f7c562 100644
+--- a/drivers/gpu/drm/xe/xe_gt_types.h
++++ b/drivers/gpu/drm/xe/xe_gt_types.h
+@@ -445,6 +445,9 @@ struct xe_gt {
+ 
+ 	/** @eu_stall: EU stall counters subsystem per gt info */
+ 	struct xe_eu_stall_gt *eu_stall;
++
++	/** @iaf_irq: IRQ value for IAF interrupts to be raised */
++	int iaf_irq;
+ };
+ 
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_iaf.c b/drivers/gpu/drm/xe/xe_iaf.c
 new file mode 100644
-index 0000000000000..ad138ffe2b663
+index 0000000000000..d93b13d30fbcd
 --- /dev/null
-+++ b/drivers/misc/mei/iaf/mei_iaf.c
-@@ -0,0 +1,292 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/gpu/drm/xe/xe_iaf.c
+@@ -0,0 +1,405 @@
++// SPDX-License-Identifier: MIT
 +/*
-+ * Copyright © 2020-2021 Intel Corporation
++ * Copyright © 2025 Intel Corporation
 + */
++#include <linux/auxiliary_bus.h>
++#include <linux/firmware.h>
++#include <linux/irq.h>
++#include <linux/xarray.h>
 +
-+/**
-+ * DOC: MEI_IAF Client Driver
-+ *
-+ * The IAF (Intel Accelerator Fabric) component driver acts as an interface
-+ * between IAF i915 driver and GSC. The only api this interface provides is
-+ * the 'commit svn' call.
-+ */
++#include <drm/intel/intel_iaf_platform.h>
++#include <drm/drm_managed.h>
 +
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/uuid.h>
-+#include <linux/mei_cl_bus.h>
-+#include <linux/component.h>
-+#include <drm/drm_connector.h>
-+#include <drm/intel/i915_component.h>
-+#include <drm/intel/i915_mei_iaf_interface.h>
++#include "xe_device.h"
++#include "xe_iaf.h"
++#include "xe_mmio.h"
++#include "xe_gt_mcr.h"
++#include "regs/xe_reg_defs.h"
++#include "regs/xe_gt_regs.h"
++#include "regs/xe_bars.h"
 +
-+#include "../mkhi.h"
++/* Xarray of fabric devices */
++static DEFINE_XARRAY_ALLOC(intel_fdevs);
 +
-+#define MCA_ARBSVN_COMMIT_COMMAND_ID 0x1B
++struct xe_iaf {
++	/** @ops: shared interface operations */
++	const struct iaf_ops *ops;
++	/** @handle: IAF device handle */
++	void *handle;
++	/** @pd: platform data needed for auxiliary bus */
++	struct iaf_pdata pd;
 +
-+enum arbsvn_nvar_usage {
-+	ARBSVN_NVAR_USAGE_FW_MIN_VER = 0,
-+	ARBSVN_NVAR_USAGE_MAX
++	/** @dpa: base device physical address */
++	u64 dpa;
++	/** @irq_base: base IRQ for multi tile devices */
++	int irq_base;
++	/** @index: internal index for xe devices */
++	int index;
++	/** @fabric_id: IAF id generated by the IAF device */
++	u32 fabric_id;
++	/** @socket_id: socket from certain platforms */
++	u8 socket_id;
 +};
 +
-+struct mca_arbsvn_commit_req {
-+	struct mkhi_msg_hdr mkhi_header;
-+	u8                  usage_id;
-+	u8                  reserved0;
-+	u16                 reserved1;
-+} __packed;
-+
-+struct mca_arbsvn_commit_resp {
-+	struct mkhi_msg_hdr mkhi_header;
-+};
-+
-+#define MCA_OK               0x0  /* on successful commit */
-+#define MCA_INVALID_INPUT    0xb  /* if usage id is invalid */
-+/* if disabled in the file or any other error (generic, reading or writing file) */
-+#define MCA_ARB_SVN_DISABLED 0x20
-+/* SVN was not updated, same value */
-+#define MCA_ARB_SVN_SAME     0x28
-+/* SVN was not updated, older value */
-+#define MCA_ARB_SVN_SMALLER  0x29
-+
-+static int get_error_code(const struct device *dev, u8 result)
++static int register_dev(void *parent, void *handle, u32 fabric_id,
++			const struct iaf_ops *ops)
 +{
-+	int ret;
++	struct xe_device *xe = parent;
 +
-+	switch (result) {
-+	case MCA_OK:
-+		ret = 0;
-+		break;
-+	case MCA_ARB_SVN_DISABLED:
-+		dev_dbg(dev, "Arb Svn disabled (error code 0x%x)\n",
-+			MCA_ARB_SVN_DISABLED);
-+		ret = -ENOENT;
-+	break;
-+	case MCA_INVALID_INPUT:
-+		dev_err(dev, "Wrong usage id(error code 0x%x)\n",
-+			MCA_INVALID_INPUT);
-+		ret = -EINVAL;
-+	break;
-+	case MCA_ARB_SVN_SAME:
-+		dev_dbg(dev, "SVN was not updated, same value(error code 0x%x)\n",
-+			MCA_ARB_SVN_SAME);
-+		ret = -EACCES;
-+	break;
-+	case MCA_ARB_SVN_SMALLER:
-+		dev_dbg(dev, "SVN was not updated, older value(error code 0x%x)\n",
-+			MCA_ARB_SVN_SMALLER);
-+		ret = -EBADF;
-+	break;
-+	default:
-+		dev_err(dev, "Unknown error code 0x%x\n", result);
-+		ret = -EIO;
-+	}
++	WARN(xe->iaf->ops, "IAF: already registered");
 +
-+	return ret;
-+}
++	xe->iaf->handle = handle;
++	xe->iaf->fabric_id = fabric_id;
++	xe->iaf->ops = ops;
 +
-+static int mei_iaf_check_response(const struct device *dev,
-+				  struct mkhi_msg_hdr *hdr)
-+{
-+	if (hdr->group_id != MCHI_GROUP_ID) {
-+		dev_err(dev, "Mismatch group id: 0x%x instead of 0x%x\n",
-+			hdr->group_id, MCHI_GROUP_ID);
-+		return -EINVAL;
-+	}
-+
-+	if (hdr->command != (MCA_ARBSVN_COMMIT_COMMAND_ID | 0x80)) {
-+		dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
-+			hdr->command, MCA_ARBSVN_COMMIT_COMMAND_ID | 0x80);
-+		return -EINVAL;
-+	}
++	drm_info(&xe->drm, "IAF: registered: 0x%x\n", fabric_id);
 +
 +	return 0;
 +}
 +
-+/**
-+ * mei_iaf_commit_svn() - Commits current SVN.
-+ * @dev: device corresponding to the mei_cl_device
-+ * Return: 0 on Success
-+ * *  -EINVAL : Invalid usage id parameter
-+ * *  -ENOENT : ARB SVN is disabled in the file or any other error
-+ *             (generic, reading or writing file)
-+ * *  -EIO    : Unknown I/O error
-+ */
-+static int mei_iaf_commit_svn(const struct device *dev)
++static void unregister_dev(void *parent, const void *handle)
 +{
-+	struct mei_cl_device *cldev;
-+	struct mca_arbsvn_commit_req commit_req = { };
-+	struct mca_arbsvn_commit_resp commit_resp = { };
-+	int ret;
++	struct xe_device *xe = parent;
 +
-+	dev_dbg(dev, "in %s\n", __func__);
++	WARN(xe->iaf->handle != handle, "IAF: invalid handle");
 +
-+	if (!dev)
-+		return -EINVAL;
-+
-+	cldev = to_mei_cl_device(dev);
-+
-+	dev_dbg(dev, "after to_mei_cl_device cldev %p\n", cldev);
-+
-+	ret = mei_cldev_enable(cldev);
-+	if (ret < 0) {
-+		dev_dbg(dev, "mei_cldev_enable Failed. %d\n", ret);
-+		return -EBUSY;
-+	}
-+
-+	dev_dbg(dev, "after mei_cldev_enable, ret=%d\n", ret);
-+	commit_req.mkhi_header.group_id = MCHI_GROUP_ID;
-+	commit_req.mkhi_header.command = MCA_ARBSVN_COMMIT_COMMAND_ID;
-+	commit_req.usage_id = ARBSVN_NVAR_USAGE_FW_MIN_VER;
-+
-+	ret = mei_cldev_send(cldev, (u8 *)&commit_req, sizeof(commit_req));
-+	if (ret < 0) {
-+		dev_err(dev, "mei_cldev_send failed. %d\n", ret);
-+		goto end;
-+	}
-+	dev_dbg(dev, "after send, ret=%d\n", ret);
-+	print_hex_dump_debug("sent svn commit message: ", DUMP_PREFIX_OFFSET,
-+			     16, 1, (u8 *)&commit_req, ret, false);
-+
-+	ret = mei_cldev_recv(cldev, (u8 *)&commit_resp, sizeof(commit_resp));
-+	if (ret < 0) {
-+		dev_err(dev, "mei_cldev_recv failed. %d\n", ret);
-+		goto end;
-+	}
-+	dev_dbg(dev, "after recv, ret=%d\n", ret);
-+	print_hex_dump_debug("mei_iaf_commit_response ", DUMP_PREFIX_OFFSET,
-+			     16, 1, (u8 *)&commit_resp, ret, false);
-+
-+	ret = mei_iaf_check_response(dev, &commit_resp.mkhi_header);
-+	if (ret) {
-+		dev_err(dev, "bad result response from the firmware: 0x%x\n",
-+			*(uint32_t *)&commit_resp.mkhi_header);
-+		goto end;
-+	}
-+	dev_dbg(dev, "after check_response\n");
-+	ret = get_error_code(dev, commit_resp.mkhi_header.result);
-+
-+end:
-+	dev_dbg(dev, "returning with %d\n", ret);
-+	mei_cldev_disable(cldev);
-+	return ret;
++	drm_info(&xe->drm, "IAF: unregistered: 0x%x\n",
++		 xe->iaf->fabric_id);
++	xe->iaf->handle = NULL;
++	xe->iaf->ops = NULL;
 +}
 +
-+static const struct i915_iaf_component_ops mei_iaf_ops = {
-+	.owner = THIS_MODULE,
-+	.commit_svn = mei_iaf_commit_svn,
-+};
-+
-+static int mei_component_master_bind(struct device *dev)
++static int dev_event(void *parent, const void *handle, enum iaf_dev_event event,
++		     void *event_data)
 +{
-+	int ret;
-+
-+	dev_dbg(dev, "mei_iaf_ops addr %p\n", &mei_iaf_ops);
-+
-+	ret = component_bind_all(dev, (void *)&mei_iaf_ops);
-+	if (ret < 0)
-+		return ret;
-+
 +	return 0;
 +}
 +
-+static void mei_component_master_unbind(struct device *dev)
++static void init_pd(struct xe_device *xe, struct iaf_pdata *pd)
 +{
-+	dev_dbg(dev, "in %s\n", __func__);
-+	component_unbind_all(dev, (void *)&mei_iaf_ops);
++	u32 reg;
++
++	pd->version = IAF_VERSION;
++	pd->parent = xe;
++	pd->product = IAF_PONTEVECCHIO;
++	pd->index = xe->iaf->index & 0xFFFF;
++	pd->sd_cnt = xe->info.tile_count;
++	pd->socket_id = xe->iaf->socket_id;
++	pd->slot = PCI_SLOT(to_pci_dev(xe->drm.dev)->devfn);
++
++	pd->resources = NULL;
++	pd->num_resources = 0;
++	pd->register_dev = register_dev;
++	pd->unregister_dev = unregister_dev;
++	pd->dev_event = dev_event;
++
++	/*
++	 * Calculate the actual DPA offset and size (in GB) for the device.
++	 * Each tile will have the same amount of memory, so we only need to
++	 * read the first one.
++	 */
++	reg = xe_gt_mcr_unicast_read_any(xe_device_get_root_tile(xe)->primary_gt,
++					 XEHP_TILE_ADDR_RANGE(0)) & XEHP_TILE_LMEM_RANGE_MASK;
++
++	// TILE0 is < 8Gb, PVC needs 8GB, so fake it.
++	if (reg >> XEHP_TILE_LMEM_RANGE_SHIFT < 8) {
++		drm_err(&xe->drm, "XEHP_TILE0_ADDR_RANGE: %x\n", reg);
++		reg = 8 << XEHP_TILE_LMEM_RANGE_SHIFT;
++	}
++	pd->dpa.pkg_offset = (u32)xe->iaf->index * MAX_DPA_SIZE;
++	pd->dpa.pkg_size = (reg >> XEHP_TILE_LMEM_RANGE_SHIFT) * pd->sd_cnt;
 +}
 +
-+static const struct component_master_ops mei_component_master_ops = {
-+	.bind = mei_component_master_bind,
-+	.unbind = mei_component_master_unbind,
-+};
-+
 +/**
-+ * mei_iaf_component_match - compare function for matching mei iaf.
++ * init_resource - Create the resource array, and apply the appropriate data
++ * @xe: valid xe instance
++ * @res_cnt: pointer to return number of allocated resources
 + *
-+ *    The function checks if the driver is i915, the subcomponent is IAF
-+ *    and the parent of iaf and the grand parent of mei_if are the same
-+ *    i915 device.
++ * First resource [0] is for the IRQ(s).  Each device gets 1 IRQ. Subsequent
++ * resources describe the IO memory space for the device(s).
 + *
-+ * @dev: master device
-+ * @subcomponent: subcomponent to match (I915_COMPONENT_IAF)
-+ * @data: compare data (mei iaf device)
++ * Make sure to set the gt->iaf_irq value.
 + *
 + * Return:
-+ * * 1 - if components match
-+ * * 0 - otherwise
++ * * res - Initialized resource array
++ * * NULL - Allocaction failure
 + */
-+static int mei_iaf_component_match(struct device *dev, int subcomponent,
-+				   void *data)
++static struct resource *init_resource(struct xe_device *xe,
++				      u32 *res_cnt)
 +{
-+	struct device *base = data;
++	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
++	struct xe_tile *tile;
++	struct resource *res_base, *res;
++	u32 cnt = xe->info.tile_count * 2;
++	unsigned int i;
 +
-+	if (subcomponent != I915_COMPONENT_IAF ||
-+	    !dev->driver || strcmp(dev->driver->name, "iaf"))
-+		return 0;
++	/* Each sd gets one resource for IRQ and one for MEM */
++	res_base = drmm_kcalloc(&xe->drm, cnt, sizeof(*res_base), GFP_KERNEL);
++	if (!res_base)
++		return NULL;
 +
-+	base = base->parent;
-+	if (!base)
-+		return 0;
++	res = res_base;
++	for_each_tile(tile, xe, i) {
++		struct xe_gt *gt = tile->primary_gt;
 +
-+	base = base->parent;
-+	dev = dev->parent;
++		res->start = xe->iaf->irq_base + i;
++		res->end = xe->iaf->irq_base + i;
++		res->flags = IORESOURCE_IRQ;
++		res++;
 +
-+	return (base && dev && dev == base);
++		res->start = pci_resource_start(pdev, GTTMMADR_BAR) + CD_BASE_OFFSET +
++			     (tile->mmio.regs - xe->mmio.regs);
++		res->end = res->start + CD_BAR_LENGTH - 1;
++		res->flags = IORESOURCE_MEM;
++		drm_info(&xe->drm, "IAF: mem_resource = %pR\n", res);
++		res++;
++		gt->iaf_irq = xe->iaf->irq_base + i;
++	}
++
++	*res_cnt = cnt;
++	return res_base;
 +}
 +
-+static int mei_iaf_probe(struct mei_cl_device *cldev,
-+			 const struct mei_cl_device_id *id)
++/**
++ * xe_irq_mask - Null callback.  Masking/unmasking happens in the parent
++ * driver
++ * @d: Valid irq_data information
++ */
++static void iaf_irq_mask(struct irq_data *d)
 +{
-+	struct component_match *master_match;
-+	int ret;
++}
 +
-+	master_match = NULL;
-+	component_match_add_typed(&cldev->dev, &master_match,
-+				  mei_iaf_component_match, &cldev->dev);
-+	if (IS_ERR_OR_NULL(master_match)) {
-+		ret = -ENOMEM;
-+		goto err_exit;
++static void iaf_irq_unmask(struct irq_data *d)
++{
++}
++
++static struct irq_chip iaf_irq_chip = {
++	.name = "iaf_irq_chip",
++	.irq_mask = iaf_irq_mask,
++	.irq_unmask = iaf_irq_unmask,
++};
++
++/**
++ * init_irq_desc - Allocate IRQ descriptors to use for the fabric
++ * @xe: Valid xe instance
++ *
++ * Allocate the required IRQ descriptor(s) and initialize the
++ * appropriate state.
++ *
++ * Return:
++ * * 0 - Success
++ * * errno - Error that occurred
++ */
++static int init_irq_desc(struct xe_device *xe)
++{
++	unsigned int num_subdevs = xe->info.tile_count;
++	int err;
++	int irq;
++	int irq_base;
++
++	irq_base = irq_alloc_descs(-1, 0, num_subdevs, 0);
++	if (irq_base < 0) {
++		err = irq_base;
++		goto cleanup;
 +	}
 +
-+	ret = component_master_add_with_match(&cldev->dev,
-+					      &mei_component_master_ops,
-+					      master_match);
-+	if (ret < 0) {
-+		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
-+		goto err_exit;
++	err = 0;
++	for (irq = irq_base; !err && irq < irq_base + num_subdevs; irq++) {
++		irq_set_chip_and_handler_name(irq, &iaf_irq_chip,
++					      handle_simple_irq,
++					      "iaf_irq_handler");
++		err = irq_set_chip_data(irq, xe);
 +	}
++
++	if (err) {
++		irq_free_descs(irq_base, num_subdevs);
++		goto cleanup;
++	}
++
++	drm_info(&xe->drm, "IAF: IRQ base: %d  cnt: %d\n", irq_base,
++		 num_subdevs);
++
++	xe->iaf->irq_base = irq_base;
 +
 +	return 0;
 +
-+err_exit:
-+	return ret;
++cleanup:
++	drm_err(&xe->drm, "IAF: Failed to allocate IRQ data: %d\n", err);
++	return err;
 +}
 +
-+static void mei_iaf_remove(struct mei_cl_device *cldev)
++static void iaf_remove(struct drm_device *drm, void *arg)
 +{
-+	component_master_del(&cldev->dev, &mei_component_master_ops);
++	struct xe_device *xe = to_xe_device(drm);
++
++	xa_erase(&intel_fdevs, xe->iaf->index);
++	irq_free_descs(xe->iaf->irq_base, xe->info.tile_count);
 +}
-+
-+/* fe2af7a6-ef22-4b45-872f-176b0bbc8b43: MCHIF GUID */
-+#define MEI_GUID_MCHIF UUID_LE(0xfe2af7a6, 0xef22, 0x4b45, \
-+			       0x87, 0x2f, 0x17, 0x6b, 0x0b, 0xbc, 0x8b, 0x43)
-+
-+static struct mei_cl_device_id mei_iaf_tbl[] = {
-+	{ .uuid = MEI_GUID_MCHIF, .version = MEI_CL_VERSION_ANY },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(mei, mei_iaf_tbl);
-+
-+static struct mei_cl_driver mei_iaf_driver = {
-+	.id_table = mei_iaf_tbl,
-+	.name = KBUILD_MODNAME,
-+	.probe = mei_iaf_probe,
-+	.remove	= mei_iaf_remove,
-+};
-+
-+module_mei_cl_driver(mei_iaf_driver);
-+
-+MODULE_AUTHOR("Intel Corporation");
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("MEI IAF");
-diff --git a/drivers/misc/mei/mkhi.h b/drivers/misc/mei/mkhi.h
-index 1473ea4896662..63d9f02e7341f 100644
---- a/drivers/misc/mei/mkhi.h
-+++ b/drivers/misc/mei/mkhi.h
-@@ -16,6 +16,8 @@
- #define MKHI_GEN_GROUP_ID 0xFF
- #define MKHI_GEN_GET_FW_VERSION_CMD 0x2
- 
-+#define MCHI_GROUP_ID  0xA
-+
- #define MKHI_GROUP_ID_GFX              0x30
- #define MKHI_GFX_RESET_WARN_CMD_REQ    0x0
- #define MKHI_GFX_MEMORY_READY_CMD_REQ  0x1
-diff --git a/include/drm/intel/i915_mei_iaf_interface.h b/include/drm/intel/i915_mei_iaf_interface.h
-new file mode 100644
-index 0000000000000..dde938dd0ea2c
---- /dev/null
-+++ b/include/drm/intel/i915_mei_iaf_interface.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: (GPL-2.0+) */
-+/*
-+ * Copyright © 2020-2021 Intel Corporation
-+ */
-+
-+#ifndef _I915_MEI_IAF_INTERFACE_H_
-+#define _I915_MEI_IAF_INTERFACE_H_
-+
-+#include <linux/device.h>
 +
 +/**
-+ * struct i915_iaf_component_ops- ops for IAF services.
-+ * @owner: Module providing the ops
-+ * @commit_svn: commits current FW SVN
++ * xe_iaf_init - Allocate device index and complete initial HW setup
++ * @xe: valid device instance
++ *
++ * NOTE: index is zero inited.  If the IAF is not present, or an error occurs
++ * during setup, this must be 0 for the range registers.
++ *
 + */
-+struct i915_iaf_component_ops {
-+	/**
-+	 * @owner: mei_iaf module
++int xe_iaf_init(struct xe_device *xe)
++{
++	struct xe_gt *gt;
++	static u32 last_id;
++	unsigned int i;
++	u32 index = 0;
++	u32 range;
++	u32 base;
++	int err;
++
++	if (xe->info.platform != XE_PVC)
++		return 0;
++
++	u32 poc_straps = xe_mmio_read32(xe_root_tile_mmio(xe), PUNIT_MMIO_CR_POC_STRAPS);
++	if (!REG_FIELD_GET(CD_ALIVE, poc_straps)) {
++		drm_info(&xe->drm, "IAF unavailable\n");
++		goto set_range;
++	}
++
++	xe->iaf = drmm_kzalloc(&xe->drm, sizeof(*xe->iaf), GFP_KERNEL);
++	if (!xe->iaf)
++		return -ENOMEM;
++
++	xe->iaf->socket_id = REG_FIELD_GET(SOCKET_ID_MASK, poc_straps);
++	drm_info(&xe->drm, "IAF available\n");
++
++	err = init_irq_desc(xe);
++	if (err)
++		return err;
++
++	/*
++	 * Try the socket id first.  Systems with this feature, will
++	 * get a deterministic value.  If not, try with the cyclic.
 +	 */
-+	struct module *owner;
++	err = xa_insert(&intel_fdevs, xe->iaf->socket_id, xe,
++			GFP_KERNEL);
++	if (!err)
++		index = xe->iaf->socket_id;
 +
-+	int (*commit_svn)(const struct device *dev);
-+};
++	/* socket_id is not available */
++	if (err == -EBUSY) {
++		/*
++		 * NOTE: index is only updated on success i.e. >= 0
++		 * < 0 err, 0 ok, > 0 wrapped
++		 */
++		err = xa_alloc_cyclic(&intel_fdevs, &index, xe,
++				      XA_LIMIT(0, MAX_DEVICE_COUNT - 1),
++				      &last_id, GFP_KERNEL);
++	}
++	if (err < 0) {
++		index = 0;
++		drm_err(&xe->drm,
++			"IAF: Failed to allocate index: %d\n",
++			err);
++		irq_free_descs(xe->iaf->irq_base,
++			       xe->info.tile_count);
++		return err;
++	}
++	xe->iaf->index = index;
++	xe->iaf->dpa = (u64)index * MAX_DPA_SIZE * SZ_1G;
++	drm_info(&xe->drm, "IAF: [dpa 0x%llx-0x%llx\n", xe->iaf->dpa,
++		 ((u64)index + 1) * MAX_DPA_SIZE * SZ_1G - 1);
 +
-+#endif /* _I915_MEI_IAF_INTERFACE_H_ */
++	/*
++	 * Set range has to be done for all devices that support device
++	 * address space, regardless of presence or error.
++	 */
++set_range:
++	/* Set GAM address range registers */
++	range = index * MAX_DPA_SIZE << PKG_ADDR_RANGE_BASE_SHIFT;
++	range |= MAX_DPA_SIZE << PKG_ADDR_RANGE_RANGE_SHIFT;
++	range |= PKG_ADDR_RANGE_ENABLE;
++
++	/* set SGunit address range register */
++	base = index * MAX_DPA_SIZE << PKG_ADDR_BASE_BASE_SHIFT;
++	base |= MAX_DPA_SIZE << PKG_ADDR_BASE_RANGE_SHIFT;
++	base |= PKG_ADDR_BASE_ENABLE;
++
++	/* Needs to be set for each gt */
++	for_each_gt(gt, xe, i) {
++		xe_mmio_write32(&gt->mmio, PKG_ADDR_RANGE, range);
++		xe_mmio_write32(&gt->mmio, PKG_ADDR_BASE, base);
++	}
++
++	if (!xe->iaf)
++		return 0;
++
++	return drmm_add_action_or_reset(&xe->drm, iaf_remove, NULL);
++}
++
++static void iaf_remove_aux(struct drm_device *drm, void *arg)
++{
++	struct xe_device *xe = to_xe_device(drm);
++
++	auxiliary_device_delete(&xe->iaf->pd.aux_dev);
++	auxiliary_device_uninit(&xe->iaf->pd.aux_dev);
++	xe->iaf->ops = NULL;
++}
++
++/* Handled through drmm */
++static void xe_iaf_release_dev(struct device *dev)
++{ }
++
++/**
++ * xe_iaf_init_aux - Initialize resources and add auxiliary bus interface
++ * @xe: valid xe instance
++ *
++ */
++int xe_iaf_init_aux(struct xe_device *xe)
++{
++	struct device *dev = &to_pci_dev(xe->drm.dev)->dev;
++	struct resource *res = NULL;
++	struct iaf_pdata *pd;
++	int err = -ENOMEM;
++	u32 res_cnt;
++
++	if (!xe->iaf)
++		return 0;
++
++	pd = &xe->iaf->pd;
++	init_pd(xe, pd);
++
++	res = init_resource(xe, &res_cnt);
++	if (!res)
++		goto fail;
++
++	pd->resources = res;
++	pd->num_resources = res_cnt;
++
++	pd->aux_dev.name = "iaf";
++	pd->aux_dev.id = pd->index;
++	pd->aux_dev.dev.parent = dev;
++	pd->aux_dev.dev.release = xe_iaf_release_dev;
++
++	err = auxiliary_device_init(&pd->aux_dev);
++	if (err)
++		goto fail;
++
++	err = auxiliary_device_add(&pd->aux_dev);
++	if (err) {
++		auxiliary_device_uninit(&pd->aux_dev);
++		goto fail;
++	}
++
++	return drmm_add_action_or_reset(&xe->drm, iaf_remove_aux, NULL);
++
++fail:
++	drm_err(&xe->drm, "IAF: Failed to initialize err: %d\n", err);
++	return err;
++}
++
++u64 xe_iaf_dpa_base(struct xe_device *xe)
++{
++	if (!xe->iaf)
++		return 0ULL;
++
++	return xe->iaf->dpa;
++}
++
+diff --git a/drivers/gpu/drm/xe/xe_iaf.h b/drivers/gpu/drm/xe/xe_iaf.h
+new file mode 100644
+index 0000000000000..78d7cca447983
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_iaf.h
+@@ -0,0 +1,57 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2025 Intel Corporation
++ */
++
++#ifndef _XE_IAF_H_
++#define _XE_IAF_H_
++
++#include <linux/types.h>
++
++/*
++ * Define the maximum number of devices instances based on the amount of
++ * FID space.
++ *
++ * XARRAY limits are "inclusive", but using this value as a range check
++ * outside of xarray, makes the exclusive upper bound a little easier to
++ * deal with.
++ *
++ * I.e.:
++ * [0 - 256)
++ *
++ * Less than HW supports, but more than will be currently possible.
++ *
++ */
++#define MAX_DEVICE_COUNT 256
++
++/* Fixed Device Physical Address (DPA) size for a device/package (in GB) */
++#define MAX_DPA_SIZE 128
++
++struct xe_device;
++
++#if IS_ENABLED(CONFIG_DRM_INTEL_FABRIC)
++
++int xe_iaf_init(struct xe_device *xe);
++int xe_iaf_init_aux(struct xe_device *xe);
++u64 xe_iaf_dpa_base(struct xe_device *xe);
++
++#else
++
++static inline int xe_iaf_init(struct xe_device *xe)
++{
++	return 0;
++}
++
++static inline int xe_iaf_init_aux(struct xe_device *xe)
++{
++	return 0;
++}
++
++static inline u64 xe_iaf_dpa_base(struct xe_device *xe)
++{
++	return 0ULL;
++}
++
++#endif
++
++#endif
+diff --git a/drivers/gpu/drm/xe/xe_irq.c b/drivers/gpu/drm/xe/xe_irq.c
+index 5362d3174b060..439748987168e 100644
+--- a/drivers/gpu/drm/xe/xe_irq.c
++++ b/drivers/gpu/drm/xe/xe_irq.c
+@@ -1,10 +1,11 @@
+ // SPDX-License-Identifier: MIT
+ /*
+- * Copyright © 2021 Intel Corporation
++ * Copyright © 2021 - 2025 Intel Corporation
+  */
+ 
+ #include "xe_irq.h"
+ 
++#include <linux/irq.h>
+ #include <linux/sched/clock.h>
+ 
+ #include <drm/drm_managed.h>
+@@ -31,6 +32,9 @@
+ #define IIR(offset)				XE_REG(offset + 0x8)
+ #define IER(offset)				XE_REG(offset + 0xc)
+ 
++#define GEN12_IAF_IRQ BIT(8)
++#define CPORT_MBDB_INT_ENABLE_MASK		XE_REG(0x297008)
++
+ static int xe_irq_msix_init(struct xe_device *xe);
+ static void xe_irq_msix_free(struct xe_device *xe);
+ static int xe_irq_msix_request_irqs(struct xe_device *xe);
+@@ -419,6 +423,12 @@ static void dg1_intr_enable(struct xe_device *xe, bool stall)
+ 		xe_mmio_read32(mmio, DG1_MSTR_TILE_INTR);
+ }
+ 
++static void iaf_irq_handler(struct xe_gt *gt, const u32 master_ctl)
++{
++	if (master_ctl & GEN12_IAF_IRQ)
++		generic_handle_irq(gt->iaf_irq);
++}
++
+ /*
+  * Top-level interrupt handler for Xe_LP+ and beyond.  These platforms have
+  * a "master tile" interrupt register which must be consulted before the
+@@ -478,6 +488,7 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
+ 			xe_display_irq_handler(xe, master_ctl);
+ 			gu_misc_iir = gu_misc_irq_ack(xe, master_ctl);
+ 		}
++		iaf_irq_handler(tile->primary_gt, master_ctl);
+ 	}
+ 
+ 	dg1_intr_enable(xe, false);
+@@ -534,6 +545,9 @@ static void gt_irq_reset(struct xe_tile *tile)
+ 	xe_mmio_write32(mmio, GPM_WGBOXPERF_INTR_MASK,  ~0);
+ 	xe_mmio_write32(mmio, GUC_SG_INTR_ENABLE,	 0);
+ 	xe_mmio_write32(mmio, GUC_SG_INTR_MASK,		~0);
++
++	if (tile_to_xe(tile)->iaf)
++		xe_mmio_write32(mmio, CPORT_MBDB_INT_ENABLE_MASK, 0);
+ }
+ 
+ static void xelp_irq_reset(struct xe_tile *tile)
+diff --git a/drivers/gpu/drm/xe/xe_vram.c b/drivers/gpu/drm/xe/xe_vram.c
+index e421a74fb87c6..e4e4fdb62c82a 100644
+--- a/drivers/gpu/drm/xe/xe_vram.c
++++ b/drivers/gpu/drm/xe/xe_vram.c
+@@ -16,6 +16,7 @@
+ #include "xe_force_wake.h"
+ #include "xe_gt_mcr.h"
+ #include "xe_gt_sriov_vf.h"
++#include "xe_iaf.h"
+ #include "xe_mmio.h"
+ #include "xe_module.h"
+ #include "xe_sriov.h"
+@@ -152,8 +153,7 @@ static int determine_lmem_bar_size(struct xe_device *xe)
+ 	if (!xe->mem.vram.io_size)
+ 		return -EIO;
+ 
+-	/* XXX: Need to change when xe link code is ready */
+-	xe->mem.vram.dpa_base = 0;
++	xe->mem.vram.dpa_base = xe_iaf_dpa_base(xe);
+ 
+ 	/* set up a map to the total memory area. */
+ 	xe->mem.vram.mapping = ioremap_wc(xe->mem.vram.io_start, xe->mem.vram.io_size);
 -- 
 2.45.2
 
