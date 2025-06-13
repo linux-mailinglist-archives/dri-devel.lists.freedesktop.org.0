@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB671AD8B1D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49729AD8B57
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 13:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7210E8E9;
-	Fri, 13 Jun 2025 11:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40FEB10E171;
+	Fri, 13 Jun 2025 11:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K5FYjKsR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bnMCB8di";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A636E10E8DD;
- Fri, 13 Jun 2025 11:48:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B008E447DB;
- Fri, 13 Jun 2025 11:48:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F085BC4CEE3;
- Fri, 13 Jun 2025 11:48:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749815298;
- bh=MOo/4EALMeElSGHB60M5EW6v4K6E+bIxI3ruVPuQUbo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K5FYjKsRiG0qJWCWD4bxUY8srTZIgsZL7n1OVehhPdIe8hLyAzApcBQoh5FtkeMK1
- W8UfBxM5JwvIgu6m0QntfW9F+cwM66dCJHeOnXqbi47uPe9GvOF/38Yd9KnNWKV2sZ
- TmPXDoUXx9DwrkZBGV59fy9aPkMdNNOzn0I+1echHrkVA+dYDzFchphlJI18z+oB9X
- WijjUIJj+zhFYKSBDbgdAAC+3j3KK9tGL7hshkATJjZsK8ZhthFa+erlLk2TZoyI/z
- 68RZ6a8MqM/cekRRVIPN42GPiaWVa63bq1ZL853cwbjx0eKI66UOaQVUTxG2ldKR3i
- k6paGneoRRA1g==
-Date: Fri, 13 Jun 2025 13:48:14 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- Philipp Stanner <phasta@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1] drm/amdgpu: give each kernel job a unique id
-Message-ID: <aEwP_kOkRKD9akKt@pollux>
-References: <aEmR9420vj-ISz-W@cassiopeiae>
- <dc661205-1e5b-4697-863b-36a299365219@amd.com>
- <aEmcpsXwS8dLNGUg@cassiopeiae>
- <5f71cfd0-fd38-491c-8255-bdd3e0fb19dc@amd.com>
- <aEtnS6kvh1mssFTb@cassiopeiae>
- <099816b4-0b7b-4ac7-9bb5-22f23b1db7b7@amd.com>
- <aEvitwoc_D6OxXCS@pollux>
- <d205de0c-0c7a-4644-9655-e9ca28cadb57@damsy.net>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0777810E171
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 11:55:29 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-451ebd3d149so13800055e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 04:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749815727; x=1750420527; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xO4lHSnHfpkX9ey6V1hK+cOGeHbT22KfbfOMN9lyAQI=;
+ b=bnMCB8diCIgU0dudYWTWSEzRusIi8FSq+ZqFPp49Dru1Xyhn/LremLzQQ8lwchw4hQ
+ gBV0abtmSU3mjpVWX9N/KQp/upATPE23ABR/jBT/KwhshnYadaqTn68/cUrGa8hVS2qM
+ dbfC9cuC/P62UTsDZG04YkkviiQUTJuKNBZ7nl0ugDIXLCTJQK2q0BcFHFx8N0x/sOTF
+ wJl5hSyC3QBpxK2w7riIxkPkv2jH82j9audYn8j350jXH7BlqB2kGco3LYmry5xUvHWQ
+ CNY17j0vK1BJ0v8hKotyhEU6po++MhcHxFgFsN/lHI7BQ5lImxBbGV+MZk25SVthUPlf
+ cN6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749815727; x=1750420527;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xO4lHSnHfpkX9ey6V1hK+cOGeHbT22KfbfOMN9lyAQI=;
+ b=Its+QEqm0FnkI5t/1V5we6U+55Mm1ZJRzSsTyZ91yjIgb4LjqQcQGf0nrtpOJTInR9
+ /5SzxMt+0jjDGMe+aPPTKwb1OWnL5hjhjq30iTbNZoOxXQWaQhAtxlj7szN+OK5ELyjt
+ SntKIC+NSWfwnwrOyQfNq7+JeHAPXMWWN1EMV1lk2EUgpCor9k/lODlZOJXPj4EIEXPU
+ IY8HwNTLtQMcPz0iODd9XrI1zO2keeGER0BiOPXMEFXXl+uIPLmg99nfgkqRU6ZceucU
+ OG/RTSWw/D7HzvZ0JHOQcM9dl88uCSbSUFpavEGxDx5pVu1Le3LI3V0OSxsfjmH1gZ2z
+ eUJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsqMMCq3QgFbQ2wHzGAEi4msaCzSP1cMbXxCeouvTXpNdobXWFiMYa2U+HdIHdGazOaZIuAnsySDY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwG3svcMIO8xAPsVnckoNTia9UyyGqV5+Jc8Mx6U+q4VgQCIupC
+ qzefb1kC80mlBzZjPonqIjZ66YO3ckolj94Pq1eTiC8KhRlGsItFoPC/
+X-Gm-Gg: ASbGnct1x+UzciVHiqXmlhjYCKXfWthjKXkk3ZG1s40Dmg/bfAD1Go+xUHuRvodpaJa
+ Mwxh/lR/fq89PI/fv0ikNKvMWxikyM9gHKuxZEqW8CYkUZbv/QheJErKkkxWQrCx5jBYqUyUGy1
+ zIhuJAquPkx6b+kHswU+/1ryi7M4EKniWAGHpuVmyYrCs1QzCk/AxVwtGBty2iEPv2RNhWpSAQg
+ uwTOJH4yvdK8nlAakvP91Huiarw64bXE03KZE/OeYufT6+W914x7LfpqHq0bpZ9mjp4kaTegyHD
+ OTpVj+EUihd1x42qy1gm83f839yfJUPc9wKH4Ng8c7g5B0fd+XYYFYK6P2zpFLu0DFNgrg==
+X-Google-Smtp-Source: AGHT+IF90CtrNYbBnmdORu8/pLVZKEnKFH8SYtwc5YbhuQ8Be6X/il+Uo2k5UArsErZqC0gE2pksjA==
+X-Received: by 2002:a05:600c:3d97:b0:43d:fa59:cc8f with SMTP id
+ 5b1f17b1804b1-45334b07fe9mr26480615e9.33.1749815726197; 
+ Fri, 13 Jun 2025 04:55:26 -0700 (PDT)
+Received: from fedora ([94.73.34.56]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4532e22460bsm52636405e9.6.2025.06.13.04.55.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jun 2025 04:55:25 -0700 (PDT)
+Date: Fri, 13 Jun 2025 13:55:22 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Greg KH <gregkh@linuxfoundation.org>, Jonathan.Cameron@huawei.com,
+ airlied@gmail.com, aleksander.lobakin@intel.com,
+ andriy.shevchenko@linux.intel.com, bhelgaas@google.com,
+ broonie@kernel.org, dakr@kernel.org,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, louis.chauvet@bootlin.com,
+ lukas@wunner.de, lyude@redhat.com,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ melissa.srw@gmail.com, mripard@kernel.org, quic_zijuhu@quicinc.com,
+ rafael@kernel.org, robin.murphy@arm.com,
+ rust-for-linux@vger.kernel.org, simona@ffwll.ch
+Subject: Re: [PATCH v4 9/9] drm/vkms: convert to use faux_device
+Message-ID: <aEwRqrqn4M32ScxN@fedora>
+References: <2025022643-scouting-petticoat-492b@gregkh>
+ <20250311172054.2903-1-jose.exposito89@gmail.com>
+ <2025031218-oxidize-backing-e278@gregkh>
+ <Z9LqHcj4n7Dd8A-H@phenom.ffwll.local> <Z9MT23hgX2c21xNA@fedora>
+ <fa5f9e9c-09f6-4f92-8f6d-4e057f9fc5a9@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d205de0c-0c7a-4644-9655-e9ca28cadb57@damsy.net>
+In-Reply-To: <fa5f9e9c-09f6-4f92-8f6d-4e057f9fc5a9@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +103,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 11:27:08AM +0200, Pierre-Eric Pelloux-Prayer wrote:
-> Le 13/06/2025 à 10:35, Danilo Krummrich a écrit :
-> > On Fri, Jun 13, 2025 at 10:23:15AM +0200, Christian König wrote:
-> > > > Another option is to just add an interface to get a kernel client_id from the
-> > > > same atomic / IDA.
+Hi Thomas,
+
+Thanks for the heads up, this issue fall through the cracks.
+
+On Fri, Jun 13, 2025 at 10:15:05AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.03.25 um 18:20 schrieb José Expósito:
+> > On Thu, Mar 13, 2025 at 03:22:21PM +0100, Simona Vetter wrote:
+> > > On Wed, Mar 12, 2025 at 07:22:07AM +0100, Greg KH wrote:
+> > > > On Tue, Mar 11, 2025 at 06:20:53PM +0100, José Expósito wrote:
+> > > > > Hi everyone,
+> > > > > 
+> > > > > > On Tue, Feb 25, 2025 at 02:51:40PM +0100, Louis Chauvet wrote:
+> > > > > > > 
+> > > > > > > Le 25/02/2025 à 12:41, Thomas Zimmermann a écrit :
+> > > > > > > > Hi
+> > > > > > > > 
+> > > > > > > > Am 10.02.25 um 15:37 schrieb Louis Chauvet:
+> > > > > > > > > On 10/02/25 - 13:30, Greg Kroah-Hartman wrote:
+> > > > > > > > > > The vkms driver does not need to create a platform device, as there is
+> > > > > > > > > > no real platform resources associated it,  it only did so because it was
+> > > > > > > > > > simple to do that in order to get a device to use for resource
+> > > > > > > > > > management of drm resources.  Change the driver to use the faux device
+> > > > > > > > > > instead as this is NOT a real platform device.
+> > > > > > > > > > 
+> > > > > > > > > > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > > > > > > > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > > > > > > > > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > > > > > > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > > > > > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > > > > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > > > > > > > Cc: David Airlie <airlied@gmail.com>
+> > > > > > > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > > > > > > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > > > > > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > > > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > > > > > 
+> > > > > > > > > Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > > > > > > 
+> > > > > > > > > Thanks for the modification, it seems to work.
+> > > > > > > > Should this patch be merged through DRM trees? drm-misc-next is at
+> > > > > > > > v6.14-rc4 and has struct faux_device.
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > I was not aware the faux-device was merged, as it is a new feature, I
+> > > > > > > expected it to reach drm-misc-next on 6.15-rc1.
+> > > > > > I added it to Linus's tree just so that DRM could get these changes into
+> > > > > > their tree now :)
+> > > > > > 
+> > > > > > > I plan to merge [1] today/tomorrow (well tested with platform_device), and
+> > > > > > > then I will submit an updated version of this patch (only trivial conflicts,
+> > > > > > > but never tested with multiple VKMS devices).
+> > > > > > > 
+> > > > > > > [1]:https://lore.kernel.org/all/20250218101214.5790-1-jose.exposito89@gmail.com/
+> > > > > > Great, thanks!
+> > > > > > 
+> > > > > > greg k-h
+> > > > > Testing this patch again as part of some IGT tests I'm working on,
+> > > > > I noticed that, applying this patch on top of the latest drm-misc-next
+> > > > > triggers a warning at drivers/gpu/drm/drm_gem.c:571, in
+> > > > > drm_gem_get_pages():
+> > > > > 
+> > > > >      if (WARN_ON(!obj->filp))
+> > > > >              return ERR_PTR(-EINVAL);
+> > > > I don't see how the faux bus change would have anything to do with a
+> > > > filp as that's not related as far as I can tell.  But I don't know the
+> > > > drm layer at all, where does that filp come from?
+> > > Yeah that filp is the shmem file that backs gem bo. That's very far away
+> > > from anything device/driver related datastrctures. If this is a new
+> > > failure due to the aux bux conversion then it would be really surprising.
+> > Agreed, I find it surprising, but reverting the patch removes the warning.
+> > 
+> > It's most likely an issue on my side, but I decided to double check just
+> > in case someone else is also seeing this warning.
+> 
+> Any news on this issue?
+
+I tested again with drm-misc-next. At the moment of writing this, the last
+commit is 6bd90e700b42 ("drm/xe: Make dma-fences compliant with the safe
+access rules") and I still see a similar warning. The stack trace changed,
+but the warning is still present.
+
+I'm going to detail the exact steps I followed. Let's see if someone else is
+able to reproduce the issue:
+
+I started by applying the patches from this series that are not already merged:
+
+ - [PATCH v4 4/9] x86/microcode: move away from using a fake platform
+ - [PATCH v4 5/9] wifi: cfg80211: move away from using a fake
+ - [PATCH v4 8/9] drm/vgem/vgem_drv convert to use faux_device
+ - [PATCH v4 9/9] drm/vkms: convert to use faux_device
+
+The last patch has small conflict in vkms_drv.h that I solved like this:
+
+	struct vkms_device {
+		struct drm_device drm;
+		struct faux_device *faux_dev;
+		const struct vkms_config *config;
+	};
+
+And in vkms_drv.c:
+
+	static int vkms_create(struct vkms_config *config)
+	{
+		int ret;
+		struct faux_device *fdev;
+		struct vkms_device *vkms_device;
+		const char *dev_name;
+
+		dev_name = vkms_config_get_device_name(config);
+		fdev = faux_device_create(dev_name, NULL, NULL);
+		if (!fdev)
+			return -ENODEV;
+
+Next, I installed the new kernel in a QEMU virtual machine running Fedora 41.
+There is nothing special about my Fedora, it is the regular desktop version.
+
+After a reboot, "sudo modprobe vkms" shows a similar warning in dmesg.
+For reference, the warning is at the end of my email.
+
+Am I the only one sawing this warning?
+
+Jose
+
+---
+
+[   69.417850] [drm] Initialized vkms 1.0.0 for vkms on minor 1
+[   69.419446] faux_driver vkms: [drm] fb1: vkmsdrmfb frame buffer device
+[   69.520944] ------------[ cut here ]------------
+[   69.520954] WARNING: CPU: 2 PID: 1015 at drivers/dma-buf/dma-buf.c:1518 dma_buf_vmap+0x212/0x540
+[   69.520992] Modules linked in: vkms snd_seq_dummy snd_hrtimer snd_seq snd_seq_device snd_timer snd soundcore nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables rfkill qrtr sunrpc binfmt_misc ppdev pktcdvd parport_pc parport pcspkr i2c_piix4 e1000 i2c_smbus joydev loop nfnetlink vsock_loopback zram vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vmw_vmci vsock bochs serio_raw ata_generic pata_acpi fuse qemu_fw_cfg
+[   69.521082] CPU: 2 UID: 42 PID: 1015 Comm: KMS thread Not tainted 6.16.0-rc1+ #3 PREEMPT(voluntary) 
+[   69.521092] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-4.fc42 04/01/2014
+[   69.521095] RIP: 0010:dma_buf_vmap+0x212/0x540
+[   69.521105] Code: 7c 41 ff 03 0f 85 0a 02 00 00 c9 e9 c8 47 0c 01 80 3c 06 00 0f 85 c4 01 00 00 48 c7 01 00 00 00 00 48 85 d2 0f 85 bd fe ff ff <0f> 0b b8 ea ff ff ff eb af 48 85 f6 0f 85 cf 01 00 00 48 89 4c 24
+[   69.521112] RSP: 0018:ffffc90006a5f690 EFLAGS: 00010246
+[   69.521125] RAX: dffffc0000000000 RBX: 1ffff92000d4beea RCX: ffff88811467dcc8
+[   69.521128] RDX: 0000000000000000 RSI: 1ffff110228cfb99 RDI: ffff88811467dcd0
+[   69.521131] RBP: ffffc90006a5f728 R08: 1ffff92000d4bed9 R09: fffff52000d4bef1
+[   69.521162] R10: fffff52000d4bef2 R11: ffff8881017f4e28 R12: ffff8881149594f0
+[   69.521165] R13: ffff888114959400 R14: 1ffff11023146b29 R15: ffff88811467dcc8
+[   69.521168] FS:  00007fbbdd1ff6c0(0000) GS:ffff888417580000(0000) knlGS:0000000000000000
+[   69.521172] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   69.521174] CR2: 00007fbbcc0345c8 CR3: 000000011ec5a000 CR4: 00000000000006f0
+[   69.521179] Call Trace:
+[   69.521182]  <TASK>
+[   69.521185]  ? __pfx_dma_buf_vmap+0x10/0x10
+[   69.521193]  ? dma_resv_get_singleton+0x9a/0x2a0
+[   69.521197]  drm_gem_shmem_vmap_locked+0xc2/0x5f0
+[   69.521208]  ? __pfx_drm_gem_shmem_vmap_locked+0x10/0x10
+[   69.521212]  ? __pfx_ww_mutex_lock+0x10/0x10
+[   69.521225]  ? sched_clock_noinstr+0xd/0x20
+[   69.521230]  ? local_clock_noinstr+0x13/0xf0
+[   69.521233]  drm_gem_shmem_object_vmap+0xd/0x20
+[   69.521237]  drm_gem_vmap_locked+0x70/0xf0
+[   69.521247]  drm_gem_vmap+0x4c/0xa0
+[   69.521250]  drm_gem_fb_vmap+0xb2/0x3b0
+[   69.521255]  vkms_prepare_fb+0x6f/0x90 [vkms]
+[   69.521264]  ? drm_atomic_helper_setup_commit+0xb7b/0x1320
+[   69.521268]  drm_atomic_helper_prepare_planes+0x19f/0xb90
+[   69.521272]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
+[   69.521276]  drm_atomic_helper_commit+0x126/0x2d0
+[   69.521279]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
+[   69.521282]  drm_atomic_commit+0x205/0x2d0
+[   69.521290]  ? _raw_spin_lock_irqsave+0x97/0xf0
+[   69.521295]  ? __pfx_drm_atomic_commit+0x10/0x10
+[   69.521299]  ? __pfx___drm_printfn_info+0x10/0x10
+[   69.521313]  ? drm_event_reserve_init+0x1cd/0x260
+[   69.521318]  drm_mode_atomic_ioctl+0x1c79/0x2d30
+[   69.521323]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+[   69.521326]  ? __kasan_check_write+0x18/0x20
+[   69.521339]  drm_ioctl_kernel+0x17b/0x2f0
+[   69.521343]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+[   69.521349]  ? __pfx_drm_ioctl_kernel+0x10/0x10
+[   69.521353]  ? __pfx_do_vfs_ioctl+0x10/0x10
+[   69.521361]  ? __kasan_check_write+0x18/0x20
+[   69.521365]  drm_ioctl+0x51b/0xbd0
+[   69.521369]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+[   69.521373]  ? __pfx_drm_ioctl+0x10/0x10
+[   69.521378]  ? selinux_file_ioctl+0xfc/0x260
+[   69.521390]  __x64_sys_ioctl+0x143/0x1d0
+[   69.521394]  x64_sys_call+0xf4b/0x1d70
+[   69.521404]  do_syscall_64+0x82/0x2a0
+[   69.521408]  ? __kasan_check_write+0x18/0x20
+[   69.521411]  ? do_user_addr_fault+0x491/0xa60
+[   69.521420]  ? irqentry_exit+0x3f/0x50
+[   69.521423]  ? exc_page_fault+0x8b/0xe0
+[   69.521426]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   69.521430] RIP: 0033:0x7fbc078fd8ed
+[   69.521441] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+[   69.521444] RSP: 002b:00007fbbdd1fd9b0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   69.521449] RAX: ffffffffffffffda RBX: 00007fbbcc02af60 RCX: 00007fbc078fd8ed
+[   69.521452] RDX: 00007fbbdd1fda50 RSI: 00000000c03864bc RDI: 0000000000000035
+[   69.521455] RBP: 00007fbbdd1fda00 R08: 00000000000000e0 R09: 0000000000000001
+[   69.521457] R10: 0000000000000003 R11: 0000000000000246 R12: 00007fbbdd1fda50
+[   69.521459] R13: 00000000c03864bc R14: 0000000000000035 R15: 00007fbbcc02acf0
+[   69.521464]  </TASK>
+[   69.521466] ---[ end trace 0000000000000000 ]---
+
+
+
+> Best regards
+> Thomas
+> 
+> > 
+> > Jose
+> > 
+> > > -Sima
 > > > 
-> > > That won't give us fixed numbers for in kernel clients.
-> > 
-> > That's fine, then let's come up with an API that reserves fixed numbers.
-> > 
-> > My main concern is that drivers silently rely on DRM API internals, i.e. that
-> > client_id is an u64 atomic, etc.
+> > > -- 
+> > > Simona Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
 > 
-> Let me express the need then: an id that is printed in gpu_scheduler_trace
-> events and this id needs to be mappable by a userspace tool to a semantic.
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 > 
-> The current solution implements this need using:
-> * fixed ids which are u64 numbers because drm client id are u64.
-> * hard-coded mapping in the tool between these ids and their meaning
-> ("u64_max - 1" interpreted as "vm_update" and so on).
-> 
-> It doesn't depend on how drm internally manage these ids.
-> 
-> Adding an API to reserve fixed numbers would work but:
-> * if the fixed numbers are chosen by the driver ("drm_reserve_id(u64_max
-> -1)"), I don't see the benefit over the current patch
-> * if the fixed numbers are allocated by drm (drm_reserve_id("vm_update") ->
-> u64), it would then require a way to expose them to userspace (through
-> /sys/kernel/debug/dri/x/clients?)
-
-Yeah, both is possible, I'm fine with either.
-
-The benefit is that this way it becomes an official API, which can (and must)
-be considered should there ever be a change on drm_file::client_id.
-
-If someone would patch drm_file::client_id to start allocating IDs from high to
-low, your corresponding driver code would silently break, because it relies on
-an implementation detail of something that is not an official API.
-
-Yes, I know that this exact case won't happen, but I guess you get the idea. :-)
