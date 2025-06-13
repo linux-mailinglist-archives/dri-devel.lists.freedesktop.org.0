@@ -2,81 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84124AD8FA3
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FFEAD8FCD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9AB810E9E9;
-	Fri, 13 Jun 2025 14:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB58710E088;
+	Fri, 13 Jun 2025 14:41:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TJVZVDy0";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pay6qyGV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE02710E9E9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:35:17 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3a50fc819f2so1843782f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 07:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1749825316; x=1750430116; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oBo92Aqrei78EThbx4+bzTmqujk9FnHPDCLbgpY3H44=;
- b=TJVZVDy0xpTzRinWrwWKM+X0KTSbzmXFyltBJNFiMY+8r5ZctTZNdHr7SnLKDxKE5j
- lhlQZg0vVq/TLiNpB9sJ3Y8rz5v3UWcGQezHKpJQQKey3J+9ZDTC7s0Xiwaa+KGzx3hm
- 5mdP/XvmAhdvmhG+X5kbHyLW7DcBJdc2v4ogE=
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03ACF10E088
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55DAv5Ve029603
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=f8LvzWRSramzprfrBFvO2s+C1Hm+tEbtLlK
+ RSfKO3eY=; b=pay6qyGVBWCIHRDWXvnRM8KGHFLmvqXlScGFJW1m0kP6ycHs2uS
+ 12j1vP2HUfI22Sr7degxe/C8v4R6fxxYhLv57pLOoCbayh9KEayLx7+NK7O6hgL9
+ GH+9vx7+SGAgNh/saaT/p5Mp/MKWG+EyfGDn420awxfDOvJssKc2T8S4x582lllJ
+ gq1YxzsYSN/h2RX9lAiWznmrGMSyuzMbADosqAZFJ0+CCue9LRI671oLRcPz7/0n
+ EeQHxpoK7V1diHe/VDtMgNat+5fbczjHOaiQZoEU1dGPr0i13bLtFLbYckKQ8Ce3
+ XrhamGf/gXNpoNmmdyQ98akCJ6PWmTBC1wQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474d12bq34-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 14:41:52 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-b2c36d3f884so1571603a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 07:41:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749825316; x=1750430116;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oBo92Aqrei78EThbx4+bzTmqujk9FnHPDCLbgpY3H44=;
- b=S1CzX8X13tFp4IVqoaVR8HRJCxgHZI0DVZG92R6P9wMiqiV/4Ueg7OO6pFtBFzN314
- oacz48XDnAFZgFs7h/TFTEsCVYz5PLPgL6+zh7ShRgCI+8qXu85XEVGWsnlVilyJo250
- t6CIRf8e/Pnw3b0FkwQPLO2iuc3YxRrALYQNPQwWdEUWV5uCFMYT5Aw25TCDqXGLB1Z1
- jtw1lF+BrWjNIzB4hMSiwnHlj3bUYyWG4FCnmx1npMbqLxqKmKDMm+tGsc934tcyySMf
- vN/9e3HHv7zuHKdWpt/mFaV7VxsStgnfXuW3nMeqr4jsZmi8vGlFYKH+DoT7kOH3grRZ
- Qbrw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnlhzPz2i+EC4yqbztOF63IC9wfoShyYgYtTVl5hxXpQrnOBflPlLE0HZQO/WV5M8JaAI4Trn2aNs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWkxDkpeB+zN9AlT5AmLErbWBx9tkrl6CwlXVMlu7p3U+PEchX
- nKOhZD9Kp9opotiGkhvrhsZ1wH2IySkTBNra8Hk0+hrtEnmWZkrkD+R1g2dHQn34TnA=
-X-Gm-Gg: ASbGncvQ5SeZpKtZEDSS6tkdKL1tgDtjlOfu4hzdnVfoOqgSi+hYppEWQKyIe/4/Zkk
- WpeAF3FYd7G05nXOiKzUEt/hoMnR1wiWXkiZ2ps48HzXBdu6EHPxnTLxP06o3s+Id+k280mayyq
- oC4shTsLz1N0KN4OozZfOwwjddp26pOhLITTHOL7dbcZ+uype8Fi0IhLDhQCvI3bVn8lCqAguaZ
- p+WFSXlor6dQrVac6AotxopvDhZoBlTGtRyaTMsv8wQ9OEDHwXcOF4DrQ0NpwqwN/VClB92FgFn
- mCz5SZDB3P0LaK0gq3Xi3ewtm/nJuOuMRjO6Hb2Ny3lEGg7NEScAFpUdCCuw57HN+LPC0dRnHy6
- G9ZcJwbZE
-X-Google-Smtp-Source: AGHT+IGQGmU7scGz0wcbMunRp5Cac/Rurt7S5WDZxdpU+FAiiHirPT9dNtY3E0wni7dbZUyQSooOAg==
-X-Received: by 2002:a05:6000:240c:b0:3a5:2fae:1348 with SMTP id
- ffacd0b85a97d-3a568747db8mr3076957f8f.51.1749825315613; 
- Fri, 13 Jun 2025 07:35:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ d=1e100.net; s=20230601; t=1749825711; x=1750430511;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f8LvzWRSramzprfrBFvO2s+C1Hm+tEbtLlKRSfKO3eY=;
+ b=s+QP6KefxzLQyzSqQd1q9Fx+pa8bYqPxwjdWSq5lPKDqCQG4AwT36JqxAUCgE0JE/7
+ OVZrwkIJtETtaZFa/xoYfZDbiFsZVlBv+LWINKJkNhLIFbxQPcbj+Q7sK1e9fIbKxyiP
+ vLFdRV4FenEZmeEI93fjChSy0GkdBYbsVTRSoQ7W5S74FnvWuBO1MGsxVH3C7VCiPhlq
+ tmGNfJE3v0RQfODRay3p/wbkduUz8R59ud1lT+q/RlCc/nCTPLdPfdPe35T+jJi4ZaIM
+ 1FiSS9ZeDhoHKtrYUCgCPkd+cfv335YrbhzRPiGinkFW9TDK9+Kh3lU76GdS+l5ecylZ
+ ZAdA==
+X-Gm-Message-State: AOJu0YzvQX9qDWx/2DRiPSjLEk2XwH2FDYjFZqaC4P85kjdqkegmrZ2b
+ ndMjd3sxzQC9x/jOrTOyHtSpXE13Vd/o8dIL2XuzHo0auh3nGQuGB1Y42xWCtC6nupDI7HHSXBN
+ 2muSGcXhyhfamewgsAb8MvHfXE8+Ocn/DLHO330POa7WaotjGqGHUiq/Sj2npvIk13BRWM7QjWy
+ J+6UQ=
+X-Gm-Gg: ASbGnctqnrSvja2s2vT9RqYT9GYVKCEbg7J6cs7flzbSd31+Va87OC+JR5LA3LsK8mt
+ hGCoGttLLCafCy594VlokareEgnT6VQYXgsKGy4VLhjgvKMQTtEf0QFOa69DWoirsJKMM7dNIG8
+ Kv1amFpqui+8J5RvPURJKF3tJQaBrdSZLxRFuMm1dbImt/j+LVrBUPmajs4Vk7hKvysvA0CW0sU
+ 1h3pTkZcY/OTuYIyz6SxcVP/523ctYLdQFIIKhG8aE3pwraw54vkZDKonMH4l9EE+OVPBbLi1cB
+ GxfNkTgoQN1pVKdtMEToehxRG8kzojBI
+X-Received: by 2002:a05:6a20:748c:b0:21f:a883:d1dd with SMTP id
+ adf61e73a8af0-21facbdebf9mr4553243637.14.1749825710757; 
+ Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7GnAOt+z7rv+BSeU7ZHDxFM735EmwOZ4MxONhEpinIvFL7k6YOrMe2Cgq92R1/zv8XQne8A==
+X-Received: by 2002:a05:6a20:748c:b0:21f:a883:d1dd with SMTP id
+ adf61e73a8af0-21facbdebf9mr4553202637.14.1749825710353; 
+ Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
+Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4532e1838e4sm55172075e9.40.2025.06.13.07.35.14
+ 41be03b00d2f7-b2fe1680c5fsm1775491a12.49.2025.06.13.07.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jun 2025 07:35:15 -0700 (PDT)
-Date: Fri, 13 Jun 2025 16:35:13 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, jani.saarinen@intel.com,
- jani.nikula@linux.intel.com, tursulin@ursulin.net,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/prime: fix drm_prime_add_buf_handle
-Message-ID: <aEw3IRn565keDO6B@phenom.ffwll.local>
-References: <20250613131201.2141-1-christian.koenig@amd.com>
- <20250613131201.2141-2-christian.koenig@amd.com>
- <aEwv_sV3V6p8dmkP@phenom.ffwll.local>
- <238ce166-2dd5-4599-865b-1c263f01a465@amd.com>
+ Fri, 13 Jun 2025 07:41:50 -0700 (PDT)
+From: Rob Clark <robin.clark@oss.qualcomm.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm: Fix inverted WARN_ON() logic
+Date: Fri, 13 Jun 2025 07:41:44 -0700
+Message-ID: <20250613144144.27945-1-robin.clark@oss.qualcomm.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <238ce166-2dd5-4599-865b-1c263f01a465@amd.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+X-Proofpoint-GUID: MPFatgwKBjpnRhr4yo_oiYkeGF7mvauF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDEwNiBTYWx0ZWRfX0gAz+2QGBPZs
+ 5yPt06WQcjhjtuXeYizZahjKDj59Pj5MgHWcVGHLwpHTD6prTgmWkAQ3e4mj4nHbXgN4wCeE46w
+ Yj7Z/RV2CDxZYhesAUXsoeT0LygyEoU6mU5IjTwhxAiin1FDDHIE0Vz5vsmC6HGEkFSrITxhByl
+ DsiLpqQarDmOy1R2fVSPdLxRCU074GvN7/fEIb2zMrmTFoIz3MTJqAm7GDtrW7O6R7VwymCC+Xh
+ /qYsyrnhZZTQNsJ7jXUY2i0NbgjcAcJIpkfh9jUc8CikCDCQ1Ht121swi0IIKN6lZD3nZl39pcN
+ mqt062Tk4uZYRfuZpQVjqFhloM8uig0BmVxmKd/TcTqQLOU40OcnXzx6Gkgc+zkaYGe+BI/DavJ
+ yBAun7Wwaquq/sMJbuIcoftyD7HD5qzsiNH4SCH+wvUGcvsQt1Ex1WkFBG0deYC5cQ/CAn4x
+X-Authority-Analysis: v=2.4 cv=GYkXnRXL c=1 sm=1 tr=0 ts=684c38b0 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=4MAclHcQAAAA:8 a=r-1N9bTl5XODNADl1y4A:9
+ a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22 a=6vtlOZhwcO7ZS_iRoh4Z:22
+X-Proofpoint-ORIG-GUID: MPFatgwKBjpnRhr4yo_oiYkeGF7mvauF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-13_01,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506130106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,103 +125,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 04:12:47PM +0200, Christian König wrote:
-> On 6/13/25 16:04, Simona Vetter wrote:
-> > On Fri, Jun 13, 2025 at 03:12:01PM +0200, Christian König wrote:
-> >> It is possible through flink or IOCTLs like MODE_GETFB2 to create
-> >> multiple handles for the same underlying GEM object.
-> >>
-> >> But in prime we explicitely don't want to have multiple handles for the
-> >> same DMA-buf. So just ignore it if a DMA-buf is exported with another
-> >> handle.
-> >>
-> >> This was made obvious by removing the extra check in
-> >> drm_gem_prime_handle_to_dmabuf() to not add the handle if we could already
-> >> find it in the housekeeping structures.
-> >>
-> >> Signed-off-by: Christian König <christian.koenig@amd.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_prime.c | 11 +++++++++++
-> >>  1 file changed, 11 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> >> index 1d93b44c00c4..f5f30d947b61 100644
-> >> --- a/drivers/gpu/drm/drm_prime.c
-> >> +++ b/drivers/gpu/drm/drm_prime.c
-> >> @@ -113,6 +113,17 @@ static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
-> >>  
-> >>  		rb = *p;
-> >>  		pos = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
-> >> +
-> >> +		/*
-> >> +		 * Just ignore the new handle if we already have an handle for
-> >> +		 * this DMA-buf.
-> >> +		 */
-> >> +		if (dma_buf == pos->dma_buf) {
-> >> +			dma_buf_put(dma_buf);
-> >> +			kfree(member);
-> >> +			return 0;
-> > 
-> > This feels a bit brittle, because this case should only be possible when
-> > called from drm_gem_prime_handle_to_dmabuf and not from
-> > drm_gem_prime_fd_to_handle() (where it would indicate a real race and
-> > hence bug in our code).
-> > 
-> > I think  drm_gem_prime_fd_to_handle() should WARN_ON if it hits this case. 
-> > 
-> > Otherwise yes this is the functional change that I've missed :-/ Note that
-> > there's no race in the original code, because it's all protected by the
-> > file_priv->prime.lock. Which means I think you're claim that you've only
-> > widened the race with your patch is wrong.
-> 
-> Yeah, agree. I'm always confused that there are two locks to protect the data structures.
-> 
-> But there is indeed a problem in the existing code. What happens if a
-> GEM handle duplicate is exported with drm_prime_add_buf_handle()? E.g.
-> something created by GETFB2? 
+We want to WARN_ON() if info is NULL.
 
-The uniqueness guarantee only extends to FB2HANDLE, because that's the
-case userspace cannot figure out any other way. For flink import you can
-compare the flink name (those are global), and for other ioctl like
-GETFB(2) you just always get a new name that you need to close() yourself.
+Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Fixes: 0838fc3e6718 ("drm/msm/adreno: Check for recognized GPU before bind")
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I guess if you want a unique name for these others you could do a
-rount-trip through a dma-buf :-P
-
-But the reaons dma-buf import was special was that before we had a real
-inode or the KMP syscall there was just no way to compare dma-buf for
-identity, and so we needed a special guarantee. Probably the funniest
-piece of uapi we have :-/
-
-> IIRC AMD once had a test case which exercised exactly that. I'm not 100%
-> sure what would happen here, but it looks not correct to me.
-
-Yeah I think the real-world GETFB are only for when you know it's not one
-of your own buffers, so all fine. Or we haven't tested this stuff enough
-yet ... Either way, userpace can fix it with a round-trip through
-FD2HANDLE.
-
-Cheers, Sima
-
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Cheers, Sima
-> > 
-> >> +
-> >> +		}
-> >>  		if (dma_buf > pos->dma_buf)
-> >>  			p = &rb->rb_right;
-> >>  		else
-> >> -- 
-> >> 2.34.1
-> >>
-> > 
-> 
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 0d12454b1f2e..5c52d392427f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -217,7 +217,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	info = adreno_info(config.chip_id);
+ 	/* We shouldn't have gotten this far if we don't recognize the GPU: */
+-	if (!WARN_ON(info))
++	if (WARN_ON(!info))
+ 		return -ENXIO;
+ 
+ 	config.info = info;
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.49.0
+
