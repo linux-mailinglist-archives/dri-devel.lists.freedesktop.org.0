@@ -2,58 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414E4AD8F02
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EF5AD8F22
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jun 2025 16:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5E6A10E9D2;
-	Fri, 13 Jun 2025 14:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3F310E9DE;
+	Fri, 13 Jun 2025 14:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="IGC6Mus5";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lIZBr1Y+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A4710E2C0;
- Fri, 13 Jun 2025 14:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mRT1T3QFMsAo6fvrBZvJWhViow/2YRL6zJyXVnrI1KM=; b=IGC6Mus5vf9fCbYl4uv3Wpf9HR
- KBeVFbnBsLdQ03DLhdkgv3259vES/69FT2Ba1miRnI4/J1KGE4uGRDWe5fDPuSKL99Q2eqRAkTsCK
- bztNszAZiy2djvYphiG9bCj163MhviOuDwFmIsp/OV5w7KFAidkjWq9q9Ecv48IJQ7wzODZEkWy/C
- 0J3Hsvvc8/Zd2DG/EBHLQ6DVtXqOtg3Am9LEh7nJGBr1U0okhb7jpLb3a5jR78EjGbHA8bc7Ac9cL
- xepJlziw4s2eQIR9GiVAz7BSJrxdLTf3ft7XpOieqz/IUkvriOgkGX8bORNK83eUKBe2B7KoCepYU
- XlSN9GEw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uQ5An-0033Bp-BL; Fri, 13 Jun 2025 16:14:25 +0200
-Message-ID: <fbc3d126-499e-4f7f-91d8-ce6bc80ae21e@igalia.com>
-Date: Fri, 13 Jun 2025 15:14:24 +0100
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2049.outbound.protection.outlook.com [40.107.95.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D0210E9DA;
+ Fri, 13 Jun 2025 14:16:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CQkFgyQhvXJj1i0bG3+HHLpmnewb8LNQhmRzS/xwoYfFUBIGuo78PxFigblm0FQSO28gF3yqY6lDNVN5gHRVO7jzhsC/Dpqlk4diW56I8ICotrajiqWOYv06+YVU1X32WQwcfqIqYbC3eEJacwySbKTSibpwOP/NYzXn8rfcJWr+4+Sac1P0DFzsCG5Wsuq9kbPQ5u6W960I3eyAFIeAwvKtZs/AsFFmSXqqnr0RrdN0uRQ6PzELOf0/tSDurQXMP/40D+8HolenwZ1RNQmgCi+vGKvAgYOcDvzghV0SUcychZ6wRuO6WzJta8xgmsHNE+XmuwpsvfZpIo9mdDvwPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+iAreg8rNyRX77tlTfIV4xV6vzcab1XMnf7PNNQTTus=;
+ b=nPtof24OSnP9LSugyE22pr9VsC/Xzp2l9W08DiqiS2xJG5Jn2bdMFnG+WIXH3UMR7ief7Hr5mHV9LovKW+tkwMDmHrkVVWAlkcmnhQjADH8ZREknYDNEY01ntdGToUBeQK4xj24lbB3w79sHZLPb92bvzL0e7O872QdGA5zgeAc8ugwvEci9nbv8hIjNwWXeOLhEf6U54DGewzbElESwkPTOtWVojg8SJSQp36Y9ulXiV0t/P12/xy3nONP+ZaXtvPP/Kq9e5lxligq+qgcHnthj+CW+w60qFMUgxiEemutsrcT5NWUz9CGWiHTP9JY9VpU8HclaX37i6f4Q0qs5cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+iAreg8rNyRX77tlTfIV4xV6vzcab1XMnf7PNNQTTus=;
+ b=lIZBr1Y+gzIirAnc/3rXRjp0Rs/Lcs1FuC4CbNAx4npYi8u6NvRx9BhimvO6zSYyBURnYeXn/bn6VdzDgX+iIyqUfymp88A2xRAdOwy6oiiHT/wo8KrzJLdjSBmD1i1ilWsqzGwYrzrOVJy04bjIVYjT5peRW8+NBY1UUwb/Sls3KfQtDIo4gP1U5pkVFSG+pRy3VxVODOmYEJgS7otC6aqm1CXwMeuYmtTQ/7lOi+VZu9/d7uefYWdFS3SgjRizLRg2UswCxdO6X2ISI6Yw5P7nr3DJwVZ4ZvsPqvA0BMpj3Wg4RJwk9ArXGwyD3P0WJe4xInBaQPI5pA4Lf1oASg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB7355.namprd12.prod.outlook.com (2603:10b6:510:20e::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.23; Fri, 13 Jun
+ 2025 14:16:14 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8835.018; Fri, 13 Jun 2025
+ 14:16:14 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Jun 2025 23:16:10 +0900
+Message-Id: <DALGWEM3TD3O.95L77CD6R62S@nvidia.com>
+Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Boqun Feng" <boqun.feng@gmail.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Benno
+ Lossin" <lossin@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Ben
+ Skeggs" <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+ <aErtL6yxLu3Azbsm@tardis.local>
+In-Reply-To: <aErtL6yxLu3Azbsm@tardis.local>
+X-ClientProxiedBy: TYCPR01CA0023.jpnprd01.prod.outlook.com (2603:1096:405::35)
+ To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] drm/xe/bo: add GPU memory trace points
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Yiwei Zhang <zzyiwei@google.com>, Juston Li <justonli@chromium.org>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250611225145.1739201-1-justonli@chromium.org>
- <20250611225145.1739201-2-justonli@chromium.org>
- <mrfsys5djmsbotxlaahed5ogmofn4pkmgqfhl47rj3bwxdtlbv@7xbekwpkte57>
- <37a5f250-1c19-4b95-882b-b4ef3e5c6268@igalia.com>
- <p7wq3wrsddp7pk7bk5follhkc4f7ybgmc2o4e652jc2cfuqbhh@tckgwpy3khcn>
- <CAKT=dDkjYQUSwtYwFTvWppn-2sTdwYu_FE2jfhGXd6vWkQHvgg@mail.gmail.com>
- <3663ab48-6ac6-4903-aa08-f93c7b71ebf2@igalia.com>
- <yudr4466kytpf2l7jfu4oz3txismnupdlxk6fx3bxa5elweqdr@wmgeyur445pj>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <yudr4466kytpf2l7jfu4oz3txismnupdlxk6fx3bxa5elweqdr@wmgeyur445pj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7355:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba09e14e-f250-47df-a9b0-08ddaa84da53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUUzVlg3S0N2SnY4VGVROGJEUlIvcUs2ekQvN1Qyb2N4VEF5blVzS2E3N2ZE?=
+ =?utf-8?B?MmJ1S1ZxMDU5ZTgyM3pUZTZmdUp3V0ZVYnh5SXM1OG95aUlTVlBEUVFScUF3?=
+ =?utf-8?B?dThFZmRIUGJjbVZDd0h2NHoyRHJ5OWE5TWQvZStXTWM2T3dGMzdESlpPNGVn?=
+ =?utf-8?B?TlVlMlpaQXNMUVpTbVlFU2FRKzdsakJ6bm5yQ3AxeHdEQzM2bGlCbGJOWTFh?=
+ =?utf-8?B?b1BGYUhTVW1NNjR4K2JTZHFJOURiSW1nSGNvdUloYW12SDJ6T3R2Y1lKb2Fm?=
+ =?utf-8?B?VThpQVRFQUZ0VWJPWk1tWldQMTZJa1ZGcDRTRWJZNzN0blJzKzkwdElQMjJs?=
+ =?utf-8?B?ajZEUzA4L0NlZyt0WlJ2MnlFNUxaTWg3ajI2MTF5Q21NQVlaM05rUHBnSEtu?=
+ =?utf-8?B?Rk1Yd25Sakl1Vmoyd2UyaGhSQ1lZN3JwSFhiWXNmOTdOV1NXK3Q2RlBZdE1E?=
+ =?utf-8?B?dVcrMnhRWEN2UFo0RW9FT3hCK015WnorYWpKazBHMzY5YkV6M1ptbkZnRGlV?=
+ =?utf-8?B?K0hjRlBpblJLZ1VQT0xBWWg4eUJmRTFick1lVVEyMUtkM09qbERCZWZXaTRm?=
+ =?utf-8?B?Z2xrK3l3bzljNnQzL09UUFJJNjltVC9JZi92MFJNMXdkS3YrbFBNWXhtNEU2?=
+ =?utf-8?B?S2tZWWFBbitYdjc5SkF3WnlHa2xXd3AwVWl1cU9kVS9YbHFSbWgwbFc0ZWF2?=
+ =?utf-8?B?Um52MXlTU3FGRVMwOFpNbXlucFlPdURFeUFWVFRDdEhra0wzK3U0RzFHL0RI?=
+ =?utf-8?B?QVRrTEhkMHFoNG5vTkN4eWZCdlcwdkVWRlptNVNsNjI0eXJQdVNlWGFMQ0Rm?=
+ =?utf-8?B?NDM4TkJpTzROc0VPZENEUTJFanJMKytJdHZXdmxrSjFqZGZhcTdCMThGTkcx?=
+ =?utf-8?B?OHREMkRNQzRjTUM2Q3oycmNQdnlSS083NXF2YzN0UFcyZWlOb2NDMTdDTjVS?=
+ =?utf-8?B?NWZxQUF2dmNtVjU1UC9TTElVZGpVbUFVUXZ3STBjSFZPSmE2anBDNkwybGQz?=
+ =?utf-8?B?aEVnTGYwWUFDd1I5SlQ4dzNKWGJ4djE1QmxkZXJBeWVSVTFrYmpSY1MrdU9D?=
+ =?utf-8?B?V29KaE1xYjVZRzB3SGlGa1JJTXQvM0E4SzJsZEZJaFcrZThCWjZ2cysrb3g3?=
+ =?utf-8?B?cXh3ZldBMjFuZHZ4ZWxGVS83R2VEbFF3a2dXNm9FUUtyVktBVlUxaXY5Skpx?=
+ =?utf-8?B?Ukd4QWIrM1ZXdXg4VzBuM3IycTR3TituYnhlVTJHeFFvR3FIZGRFdE4zQ0VF?=
+ =?utf-8?B?NGhJSzRMcjJ2aDNTbEhnR2ZSbTJtVzg5QlVkTEJmSHRscnY2ekdyelJNQzdi?=
+ =?utf-8?B?VktmYjF4dlBkSnZsNHRaWkFyVS9YcjhLZFBoV2RoeHdVaUdMVm1sNFZNZ1J3?=
+ =?utf-8?B?aEFvaFRyYU5KNFJPYkUyalB5VEZnWmNiVHlRU01MdzJVQ2tzRlp0cGVNZGlN?=
+ =?utf-8?B?Mzl5VXJlOUd2b2l1L3VwdGFQYzU4QjNzRFZmYzV5R3p0OU9PNnhXV0F5dGxy?=
+ =?utf-8?B?ZUM0Q0krak1GcXFob0tMZjFmaTVkUHdxZ2tPWHNJN28yV2RQb3g3WUtGeUQx?=
+ =?utf-8?B?SmFXb0FESzQwaXlqcFdTV0VCdEtYRmtIOUgzeFZEc2h3K0RRS254NkdWN3hH?=
+ =?utf-8?B?VWo4RXU2U09aZUJiYWF1eW9FcmxXbEpGcElseUZ2NFFFOXhmTlgrSDVoVDNG?=
+ =?utf-8?B?WnlaSEJ3T3FVU05QRmVJRmZlQ21TRHdCQWxsVkE1WTNtVnRMYlo2RXEzTExr?=
+ =?utf-8?B?OFBWeXNra2d5MWc4REVleFUvbVc0UHBtOHl4OUtWd210NnVuVG1PeEgreUw2?=
+ =?utf-8?B?a3JTaUo2VElNUWMrNnFqdXh4ZXNzVmRtS09BUU0vU1poVFdYRWdYYkJZbFI5?=
+ =?utf-8?B?dDFjNlZSNW1OOTl2VisxTTc1ZytMMVlQbm8wZVlzNmZQR0E9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2dsNVY4T2xYWnY5clhVN0phUnhNd1RmR0NmOFZzMlJJZFJEUEhjVk5OQjEw?=
+ =?utf-8?B?ZFNma0k4Q3pxOVM3dWZFb2FIeDRCWXEwNWZLTkJUblplenJ1RU5LY2lPWkU1?=
+ =?utf-8?B?dVA1L3JJWGNFWnpzWWt2U3c2QUJsTWVHZnlWUU9qeXk2Q2FqczBNRXh6ZmYz?=
+ =?utf-8?B?b0RTaDhSalNBRUtBOXdRbmRoMmYvQ253V3p2cVBGUUxPd3llZW9LbFRTaDJu?=
+ =?utf-8?B?MFIwOUYvU0pFcnFaeTBrUkQvSDBmZXhoRWt5Nm1MNS9FdkdyanFpWDhxUUVB?=
+ =?utf-8?B?cmV1bWNUNmZFTDQvejQxNUtlZE5YbERmaVNhK2hpeGhxcTFKVUdyUVlibmNT?=
+ =?utf-8?B?dE1VQVN5NWNyYUlpQUJIdWxwWXZvUHRnMlhPN0RXRWlkT3pzNVBqNkhmSlE1?=
+ =?utf-8?B?UGxBU1RqYk1rNmExa0g4R01VNExJbEE5TEFVbnoranhCeXQzdlVkdDlyellL?=
+ =?utf-8?B?dVJFWTgzR2J0UnllTlo2OXowWGFyMWVHSXdiNmRTblU1RWNiaElZdWwrQ0du?=
+ =?utf-8?B?R3hCdDZrblFLSnB4RHkxQmFLNDIycjYxRHNWU2R0VVl3bFpxZUdnRGw5TjNl?=
+ =?utf-8?B?WXN6Nm1Uc3FuaHhjWmV0a2JvMjcwV1g2WDkzODZUWElUczd6ZmE4OERKUkJ4?=
+ =?utf-8?B?L2l1dzJSTlZFb2hvbXVmZUl0Mm44K0k2c2wwV0wzOW5oa3JwaVBuamtyK0lZ?=
+ =?utf-8?B?VkZyK0hsM2VPRndscWdTRnIzOVBJZWhNYlV6UC9qMUVmUjNSbTI1WTRpNUZn?=
+ =?utf-8?B?OEdiMHRFanBxeHBQbWNnaGZoQk9XMXQ1Z1N2Y3djb0h3WTNmTjNLZFFlNG85?=
+ =?utf-8?B?a2VwWERVa25XcGs3MDYraHhhYXpLVjF3T2R0UHJyZ1VPek9UclAzR0tlZlVj?=
+ =?utf-8?B?YWFsK1J2ZDN1SDdMd1NCQVU3cWw3cHNGOC9CeWVKOStxbXBwazFQNUhaVGpL?=
+ =?utf-8?B?c3liQkl4dHVMblM5a3N5YStxQVlDN2Zrd2ZJRldWYnRzUS8vVEtyWEszRmpo?=
+ =?utf-8?B?Ni9QNEQyNE5MbDZQbE9NOXcwNVh2MDdzWjhRTXJsYjVVWXpvSnlockNCMGN1?=
+ =?utf-8?B?c3dPMXF5a2NTTmhHcTN5OEFmcW5yN1UzK1Q1dkpWZmxET21say9LcGJWY0xU?=
+ =?utf-8?B?cDBqc0MzTTJaTnRSTjlVZHlMczdIbWM5M3JQUzVtdnVNemRTa1p3VzNya0RL?=
+ =?utf-8?B?NWRVSFB1N1hZaTk3RkxzTWg2OHZWMlIyZ0Jiekcza3JFNzNSQS9weWlwWC9h?=
+ =?utf-8?B?bVFUR0RqQmFyQ0VFYkFNUU1aSm56KzhvYXNGYkhhS2hWNTJJd3p0S0ZjU3hi?=
+ =?utf-8?B?VWdaNjBWbnk3ZzNvUkdnYzJUUEpxV2wraU5CaytUUXJqWjBpMi92Y3BsYUxN?=
+ =?utf-8?B?SXhHRVVxN3VBblBlYnN1K1lzcE9peE1BNEFGS0o1V3FxaGJ0M21iMjU3ZU95?=
+ =?utf-8?B?aXFvT1VqMWRWTzByajFYUDNoOVpCV29FQlczUmdDU0cwaWZ5cVNFRkJTbS9Z?=
+ =?utf-8?B?dmpVWnRPVXlRSTdxSG5naDNKNDVOaVYrWjJMeEtJS1VmQzZRR1NQdGw0cDVu?=
+ =?utf-8?B?U2VpR210aXdqOWNaYXkvam9KUzQwdkVGMjhoREg4TVlrVGVqRkQwZU5nb0x4?=
+ =?utf-8?B?T1FVRzMvODVYZ1F1dzY3VGRSRktXWVFmakltemVqcGg2OEpOSzlvMmtjTjZ1?=
+ =?utf-8?B?eXhycVdURnlTUFl5SEwzczhkN1Zsd1ovNUFTVzdHRzBrOXU3cERYbFBHcXRy?=
+ =?utf-8?B?UmVoUFJDZXhuS3ZWaWh3YUYyOXVBOGk0VjdPOU8ycE9CdXliSE1MZndjb2kw?=
+ =?utf-8?B?SXlxTGJicWx1amVvZ2RnOC96eTl4dzB0b0FaNGFQZ3pWWHNPZHladm5DTFB5?=
+ =?utf-8?B?NTRFSW1VM3FLUEFFcUtvZ1ZZVExTVWo5cTRWTjIrVXpncnpOK3FJbUErQmdi?=
+ =?utf-8?B?Z2JTT2JYOW1oZVZrZEU2Yk5MUDJlNmM5VVlaOHphYXVBNk8rdFZpK0hycDNY?=
+ =?utf-8?B?bUhiVVplWk50dDdpcVlWUGZNT1pqUzRVUURYWm44YUViS29pMmMxcUJLRnhk?=
+ =?utf-8?B?eWdYbWdUZkZENktrcWhuUGlkMi9JSHZ2UVBiblZXa2RPUXlQTnVxV2ZvVTZi?=
+ =?utf-8?B?cUJUQnBqYy9BRkYwWjRDaThWdG02Z1cvOHRENnNzRUlJZCs2Smh4UFY5MCtj?=
+ =?utf-8?Q?ePT/4IXd7dT5MPZs55SPR2K+C6N7Xc06n5ZkizvxNqbG?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba09e14e-f250-47df-a9b0-08ddaa84da53
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2025 14:16:14.2188 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2Ml4aOgRSxt+oFgpDL4dyrq14c1SujbKGCqYcCLSpyz6laCsVDtDYEQWm5lofeeaQWT0DtvJstrLJin8xgGUAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7355
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,136 +177,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri Jun 13, 2025 at 12:07 AM JST, Boqun Feng wrote:
+> On Thu, Jun 12, 2025 at 11:01:32PM +0900, Alexandre Courbot wrote:
+>> Introduce the `num` module, featuring the `PowerOfTwo` unsigned wrapper
+>> that guarantees (at build-time or runtime) that a value is a power of
+>> two.
+>>=20
+>> Such a property is often useful to maintain. In the context of the
+>> kernel, powers of two are often used to align addresses or sizes up and
+>> down, or to create masks. These operations are provided by this type.
+>>=20
+>> It is introduced to be first used by the nova-core driver.
+>>=20
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>> ---
+>>  rust/kernel/lib.rs |   1 +
+>>  rust/kernel/num.rs | 173 ++++++++++++++++++++++++++++++++++++++++++++++=
++++++++
+>>  2 files changed, 174 insertions(+)
+>>=20
+>> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+>> index 6b4774b2b1c37f4da1866e993be6230bc6715841..2955f65da1278dd4cba1e427=
+2ff178b8211a892c 100644
+>> --- a/rust/kernel/lib.rs
+>> +++ b/rust/kernel/lib.rs
+>> @@ -89,6 +89,7 @@
+>>  pub mod mm;
+>>  #[cfg(CONFIG_NET)]
+>>  pub mod net;
+>> +pub mod num;
+>>  pub mod of;
+>>  #[cfg(CONFIG_PM_OPP)]
+>>  pub mod opp;
+>> diff --git a/rust/kernel/num.rs b/rust/kernel/num.rs
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..ee0f67ad1a89e69f5f8d2077=
+eba5541b472e7d8a
+>> --- /dev/null
+>> +++ b/rust/kernel/num.rs
+>> @@ -0,0 +1,173 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Numerical and binary utilities for primitive types.
+>> +
+>> +use crate::build_assert;
+>> +use core::borrow::Borrow;
+>> +use core::fmt::Debug;
+>> +use core::hash::Hash;
+>> +use core::ops::Deref;
+>> +
+>> +/// An unsigned integer which is guaranteed to be a power of 2.
+>> +#[derive(Debug, Clone, Copy)]
+>> +#[repr(transparent)]
+>> +pub struct PowerOfTwo<T>(T);
+>> +
+>> +macro_rules! power_of_two_impl {
+>> +    ($($t:ty),+) =3D> {
+>> +        $(
+>> +            impl PowerOfTwo<$t> {
+>> +                /// Validates that `v` is a power of two at build-time,=
+ and returns it wrapped into
+>> +                /// `PowerOfTwo`.
+>> +                ///
+>> +                /// A build error is triggered if `v` cannot be asserte=
+d to be a power of two.
+>> +                ///
+>> +                /// # Examples
+>> +                ///
+>> +                /// ```
+>> +                /// use kernel::num::PowerOfTwo;
+>> +                ///
+>> +                /// let v =3D PowerOfTwo::<u32>::new(256);
+>> +                /// assert_eq!(v.value(), 256);
+>> +                /// ```
+>> +                #[inline(always)]
+>> +                pub const fn new(v: $t) -> Self {
+>
+> Then this function should be unsafe, because an invalid `v` can create
+> an invalid PowerOfTwo.
 
-On 13/06/2025 15:10, Lucas De Marchi wrote:
-> On Fri, Jun 13, 2025 at 09:02:27AM +0100, Tvrtko Ursulin wrote:
->>
->> On 12/06/2025 19:53, Yiwei Zhang wrote:
->>> On Thu, Jun 12, 2025 at 11:02 AM Lucas De Marchi
->>> <lucas.demarchi@intel.com> wrote:
->>>>
->>>> On Thu, Jun 12, 2025 at 05:46:52PM +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 12/06/2025 06:40, Lucas De Marchi wrote:
->>>>>> On Wed, Jun 11, 2025 at 03:51:24PM -0700, Juston Li wrote:
->>>>>>> Add TRACE_GPU_MEM tracepoints for tracking global and per-process 
->>>>>>> GPU
->>>>>>> memory usage.
->>>>>>>
->>>>>>> These are required by VSR on Android 12+ for reporting GPU driver 
->>>>>>> memory
->>>>>>> allocations.
->>>>>>>
->>>>>>> v3:
->>>>>>> - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
->>>>>>>  per-driver Kconfig (Lucas)
->>>>>>>
->>>>>>> v2:
->>>>>>> - Use u64 as preferred by checkpatch (Tvrtko)
->>>>>>> - Fix errors in comments/Kconfig description (Tvrtko)
->>>>>>> - drop redundant "CONFIG" in Kconfig
->>>>>>>
->>>>>>> Signed-off-by: Juston Li <justonli@chromium.org>
->>>>>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>> ---
->>>>>>> drivers/gpu/drm/xe/xe_bo.c           | 47 +++++++++++++++++++++++ 
->>>>>>> +++++
->>>>>>> drivers/gpu/drm/xe/xe_device_types.h | 16 ++++++++++
->>>>>>> 2 files changed, 63 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
->>>>>>> index 4e39188a021ab..89a3d23e3b800 100644
->>>>>>> --- a/drivers/gpu/drm/xe/xe_bo.c
->>>>>>> +++ b/drivers/gpu/drm/xe/xe_bo.c
->>>>>>> @@ -19,6 +19,8 @@
->>>>>>>
->>>>>>> #include <kunit/static_stub.h>
->>>>>>>
->>>>>>> +#include <trace/events/gpu_mem.h>
->>>>>>> +
->>>>>>> #include "xe_device.h"
->>>>>>> #include "xe_dma_buf.h"
->>>>>>> #include "xe_drm_client.h"
->>>>>>> @@ -418,6 +420,35 @@ static void xe_ttm_tt_account_subtract(struct
->>>>>>> xe_device *xe, struct ttm_tt *tt)
->>>>>>>        xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt- 
->>>>>>> >num_pages, 0);
->>>>>>> }
->>>>>>>
->>>>>>> +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
->>>>>>> +static void update_global_total_pages(struct ttm_device *ttm_dev,
->>>>>>> long num_pages)
->>>>>>> +{
->>>>>>> +    struct xe_device *xe = ttm_to_xe_device(ttm_dev);
->>>>>>> +    u64 global_total_pages =
->>>>>>> +        atomic64_add_return(num_pages, &xe->global_total_pages);
->>>>>>> +
->>>>>>> +    trace_gpu_mem_total(0, 0, global_total_pages << PAGE_SHIFT);
->>>>>>> +}
->>>>>>> +
->>>>>>> +static void update_process_mem(struct drm_file *file, ssize_t size)
->>>>>>> +{
->>>>>>> +    struct xe_file *xef = to_xe_file(file);
->>>>>>> +    u64 process_mem = atomic64_add_return(size, &xef->process_mem);
->>>>>>> +
->>>>>>> +    rcu_read_lock(); /* Locks file->pid! */
->>>>>>> +    trace_gpu_mem_total(0, pid_nr(rcu_dereference(file->pid)),
->>>>>>> process_mem);
->>>>>>
->>>>>> Isn't the first arg supposed to be the gpu id? Doesn't this become
->>>>>> invalid when I have e.g. LNL + BMG and the trace is enabled?
->>>>>
->>>>> Good point.
->>>>>
->>>>> u32 gpu_id does not seem possible to map to anything useful.
->>>>
->>>> maybe minor_id? although I'm not sure if the intention is to share this
->>>> outside drm as seems the case.
->>>
->>> Yes, that was for render minor in the case of drm.
->>
->> Or to keep the field as integer we can use dev->primary->index, which 
->> would then correlate with the /sys/class/drm/card%u, in case it needs 
->> to be mapped back.
->>
->> There is prior art in various drivers to use either dev_name or dev- 
->> >primary->index, but for this one it is probably easier to stick with 
->> the integer so both msm can keep passing the zero and we don't 
-> 
-> both msm?  In xe we'd use dev->primary->index, right?
+Doesn't the `build_assert` below allow us to keep this method safe,
+since it will fail at build-time if it cannot be asserted that `v` is a
+power of two?
 
-Right. I could have used some punctuation. Both as in 1) msm can keep 
-passing hardcoded zero, 2) we don't have to even start thinking about 
-Android userspace compatibility.
+>
+>> +                    build_assert!(v.count_ones() =3D=3D 1);
+>> +                    Self(v)
+>> +                }
+>> +
+>> +                /// Validates that `v` is a power of two at runtime, an=
+d returns it wrapped into
+>> +                /// `PowerOfTwo`.
+>> +                ///
+>> +                /// `None` is returned if `v` was not a power of two.
+>> +                ///
+>> +                /// # Examples
+>> +                ///
+>> +                /// ```
+>> +                /// use kernel::num::PowerOfTwo;
+>> +                ///
+>> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(16).unwrap().=
+value(), 16);
+>> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(15), None);
+>> +                /// ```
+>> +                #[inline(always)]
+>> +                pub const fn try_new(v: $t) -> Option<Self> {
+>> +                    match v.count_ones() {
+>> +                        1 =3D> Some(Self(v)),
+>> +                        _ =3D> None,
+>> +                    }
+>> +                }
+>> +
+>> +                /// Returns the value of this instance.
+>> +                ///
+>> +                /// It is guaranteed to be a power of two.
+>> +                ///
+>> +                /// # Examples
+>> +                ///
+>> +                /// ```
+>> +                /// use kernel::num::PowerOfTwo;
+>> +                ///
+>> +                /// let v =3D PowerOfTwo::<u32>::new(256);
+>> +                /// assert_eq!(v.value(), 256);
+>> +                /// ```
+>> +                #[inline(always)]
+>> +                pub const fn value(&self) -> $t {
+>> +                    self.0
+>> +                }
+>> +
+>> +                /// Returns the mask corresponding to `self.value() - 1=
+`.
+>> +                #[inline(always)]
+>> +                pub const fn mask(&self) -> $t {
+>> +                    self.0.wrapping_sub(1)
+>> +                }
+>> +
+>> +                /// Aligns `self` down to `alignment`.
+>> +                ///
+>> +                /// # Examples
+>> +                ///
+>> +                /// ```
+>> +                /// use kernel::num::PowerOfTwo;
+>> +                ///
+>> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_dow=
+n(0x4fff), 0x4000);
+>> +                /// ```
+>> +                #[inline(always)]
+>> +                pub const fn align_down(self, value: $t) -> $t {
+>
+> I'm late to party, but could we instead implement:
+>
+>     pub const fn round_down<i32>(value: i32, shift: i32) -> i32 {
+>         value & !((1 << shift) - 1)
+>     }
+>
+>     pub const fn round_up<i32>(value: i32, shift: i32) -> i32 {
+>         let mask =3D (1 << shift) - 1;
+>         value.wrapping_add(mask) & !mask
+>     }
+>
+> ? It's much harder to pass an invalid alignment with this.
 
-Regards,
-
-Tvrtko
-
-> 
-> Lucas De Marchi
-> 
->> have to think about Android userspace forward/backward compatibility.
->>
->> Regards,
->>
->> Tvrtko
->>
->>>
->>>>
->>>>>
->>>>> Shall we replace it with a string obtained from dev_name(struct device
->>>>> *) ? As only Android parses them I think we can get still away with
->>>>> changing the tracepoints ABI.
->>>>
->>>> works for me too. Is Android actually parsing it or just ignoring?
->>>> Because afaics it's always 0 in msm.
->>>
->>> Android has used it as part of the bpf map key:
->>> https://cs.android.com/android/platform/superproject/main/+/ 
->>> main:frameworks/native/services/gpuservice/bpfprogs/gpuMem.c
->>>
->>>>
->>>> Lucas De Marchi
->>
-
+It also forces you to think in terms of shifts instead of values - i.e.
+you cannot round to `0x1000` as it commonly done in the kernel, now you
+need to do some mental gymnastics to know it is actually a shift of `12`.
+Being able to use the actual value to round to is more familiar (and
+natural) to me.
