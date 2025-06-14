@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6874AD9985
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 03:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1590AD99DD
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 05:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA86410E779;
-	Sat, 14 Jun 2025 01:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD76510E0CB;
+	Sat, 14 Jun 2025 03:02:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OJInJ9Tc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NmrshUqn";
 	dkim-atps=neutral
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1125110E1AF;
- Sat, 14 Jun 2025 01:42:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63FC210E0CB;
+ Sat, 14 Jun 2025 03:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749865323; x=1781401323;
+ t=1749870145; x=1781406145;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=iPs6qCmhqt69fTEQUv2x39eUxGM0y2Qfmda25VU5QjU=;
- b=OJInJ9TcZJ3zmyksZXmUJoPWFUV7AHuLXJ6SAi9o5PgfvZlI1w3jLWNq
- tKFOmbNAxUxF/Y15KwV7CNAH/QOsz7ivTVtauoHqZ8cY0+2ndb89QQztE
- yRE8uekgX53ehtv8AlqfOm+WqJL4QE6fQfWS37PixFmrAyz1KNtstZGFF
- b+KDMLYbn99eiTtB5hzqcrBpI5lJRfdpjRK6x31gnEIUZrtdpEOIbX3iM
- z7wEa0oLVzoAtY4c7mJXynJa7tZ+kiBL+EJhaZW4HmxpO1A3rx0CgCyZH
- w3vXJThOAzyCA3bB3ilJdmf3aQz1hsfD+oJrscbr5xu3xKC1b+4pMgUt+ Q==;
-X-CSE-ConnectionGUID: 62xXBSLASs6+d+8b8ydkDg==
-X-CSE-MsgGUID: hIvb2Hy4ST6e4wYoNaHfVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69529982"
-X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; d="scan'208";a="69529982"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2025 18:42:03 -0700
-X-CSE-ConnectionGUID: hzQKLC2zSd6vHF3+UjSgJw==
-X-CSE-MsgGUID: PnQIDfm/Q/+hnRex3D0zGQ==
+ bh=lEbvjP7oyFx/WmF820IupnoTIvVblT4e/Zqi+A2+vR4=;
+ b=NmrshUqnpsMgh1S/UdvJD18+5i+KrETPk5xI10V/OYJpCKeaGOd1O7OJ
+ KgzKdSdRI3qUIHR4rE0TDJej6+2C8Gxx4BbXSpdnc1APjrJ94k7PSbNmc
+ zoz2z0QzqYq7eG57TONAoYR2canrChSkZzJhDiUK+kirW7RNXKumH4Vjk
+ Pu0IZXl5KhVq+SrdZWPJ5iuzUnZsWZb+aOsUgaOK69skltUW/ta1cuXXq
+ jQ9At5oP/BSIF7RLO/XdN4DbQRElWi5tHEKmk7CHE7BlxPPywTfz04PON
+ njtqB/Ht2r4+eeSwdSiC3IqL00VhJ/hx72QieBCMUFovCuSVHQ934aF1V Q==;
+X-CSE-ConnectionGUID: LAJLdrlPR2qQW6CG3AggDg==
+X-CSE-MsgGUID: neu8+eT/TlOUtVLM8nI05g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="62700223"
+X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; d="scan'208";a="62700223"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2025 20:02:23 -0700
+X-CSE-ConnectionGUID: ilEgh+LqRY2vag/r3HKyYw==
+X-CSE-MsgGUID: jjwYMwrnT++Dyi3nMl4Rug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; d="scan'208";a="153135885"
+X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; d="scan'208";a="147973871"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmviesa004.fm.intel.com with ESMTP; 13 Jun 2025 18:41:53 -0700
+ by orviesa009.jf.intel.com with ESMTP; 13 Jun 2025 20:02:23 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
 Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
-Subject: [PATCH] drm/i915/guc: Enable CT_DEAD output in regular debug builds
-Date: Fri, 13 Jun 2025 18:41:53 -0700
-Message-ID: <20250614014153.91379-1-John.C.Harrison@Intel.com>
+Subject: [PATCH v2] drm/i915/guc: Enable CT_DEAD output in regular debug builds
+Date: Fri, 13 Jun 2025 20:02:22 -0700
+Message-ID: <20250614030222.105601-1-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
@@ -81,14 +81,16 @@ against doing a CT_DEAD dump during an error injection test. No point
 in dumping large amounts of 'why did this fail' info when the fail is
 deliberately induced.
 
+v2: Revert accidentally enabling some other verbose debug output.
+
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 13 ++++++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 +++++++----
  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  2 +-
- 2 files changed, 9 insertions(+), 6 deletions(-)
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 0d5197c0824a9..6544fc3823668 100644
+index 0d5197c0824a9..380a11c92d632 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 @@ -13,7 +13,7 @@
@@ -100,15 +102,6 @@ index 0d5197c0824a9..6544fc3823668 100644
  enum {
  	CT_DEAD_ALIVE = 0,
  	CT_DEAD_SETUP,
-@@ -44,7 +44,7 @@ static inline struct intel_guc *ct_to_guc(struct intel_guc_ct *ct)
- 
- #define CT_ERROR(_ct, _fmt, ...) \
- 	guc_err(ct_to_guc(_ct), "CT: " _fmt, ##__VA_ARGS__)
--#ifdef CONFIG_DRM_I915_DEBUG_GUC
-+#ifdef CONFIG_DRM_I915_DEBUG
- #define CT_DEBUG(_ct, _fmt, ...) \
- 	guc_dbg(ct_to_guc(_ct), "CT: " _fmt, ##__VA_ARGS__)
- #else
 @@ -144,7 +144,7 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
  	spin_lock_init(&ct->requests.lock);
  	INIT_LIST_HEAD(&ct->requests.pending);
