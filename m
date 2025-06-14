@@ -2,114 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAC0AD9E02
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 17:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35FAAD9E61
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 19:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 235AE10E09B;
-	Sat, 14 Jun 2025 15:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC8510E0EA;
+	Sat, 14 Jun 2025 17:08:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q1ul7Tvv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZUvegvOs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4864E10E09B
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 15:15:52 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55EEx2Xt020269
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 15:15:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=d8pysWykzzp5ZSa8D/f7idklhSx+zwqym/FK5UgUh5U=; b=Q1
- ul7Tvvci9pwDP6eqpn0ZWDcQi81QcBBQjKEnCFPg42/fjAQC01+JsgFmESWvMVTH
- OQyzUQFc72gTAmdMvF18jlqocvbFA7YpHHajMeDOqcRjsw+Un0wJlIU4WyVfYFak
- pjM5wqnMzrWp1hPdO7ruHtz+bCnJ/ic/2fd0um7+Yn3ZBmQY8VLmaRwKBsFUx9Uk
- cyIOq3gYuXCreiqThbw86zsqmehfEq0uPuSVfYqlDa9dnH/urjoJRnXydKAoNW7F
- 1eHfEgcd1Mkw59nDfB9c3hkggDSFb427VZbi+NMRXKzq/f9K8G8s19vsZBNkBPrT
- l4HykaVbpkw+Nl94d2MQ==
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791en8ptf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 15:15:51 +0000 (GMT)
-Received: by mail-oi1-f197.google.com with SMTP id
- 5614622812f47-401c6b8b66fso2920118b6e.1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 08:15:51 -0700 (PDT)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D84410E07C;
+ Sat, 14 Jun 2025 17:08:32 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-7c5675dec99so388294585a.0; 
+ Sat, 14 Jun 2025 10:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749920911; x=1750525711; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oxVUAAHvP8h1CL9/50hYyRFp+95+lQwkRR0h40rA/qQ=;
+ b=ZUvegvOsn/vnadmMhdpZo8u0hFzSLFcdbg8Zo1laMjulIPdPseUSludV80iRrfZ+VU
+ tkSR7VNO4j0DA80KeOTRYVRzmB7ZDJY5HvoGrOonKS8RbdzYXIL1N6KkDlPMT6CRAKgv
+ 6jo5qIFGs0A0cMBC7VZ1n4R/+f9PxOvtOx+qLWFZQMO+d13ABNpodY9HRjp6mPMc0CIS
+ g1lr6KdZhKiAAWOo8hf4y1JP4/HSnvwVKTUNPEa7GjyLTQoSboIIMPRREM3HUH826Z/f
+ I2IVmD+GQ2aI1LmRmwq0T8gChtgzAt+xthAKZyaBxqae7XixiOsPhoNOiHvaVQtsj2oz
+ Ny5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749914150; x=1750518950;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=d8pysWykzzp5ZSa8D/f7idklhSx+zwqym/FK5UgUh5U=;
- b=KPB3cCp1w6PDmAxIFqogLh/n20PGk5kkAp+/mol/NnEaJ0ytfp8EXC9n7Bg8phUXML
- SHck74ws2YF0TXMcWJ8oW5AwGb8KOnNDT9kdoBRhmwr8c3LfwLyynkkDpWBycpsBytAK
- HhYXh779ncNVekF8iP3es4U76mq45uuWWfLWBTzRwnCK5gnJlpVLT78X8+wncUe8+/G1
- LLhMqqh9VnK1ZLPDV8VW+I+eabTtpephPZ67Ys6U/iKyZPsv6nz5RiRSoc+Zu2mYE/7W
- pweea9xesi+E4t0u0h+X+T4x9dHnhmQd8s56ORuX35FsjyXAAldAaFulJKR+FTwJlVip
- otLw==
+ d=1e100.net; s=20230601; t=1749920911; x=1750525711;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oxVUAAHvP8h1CL9/50hYyRFp+95+lQwkRR0h40rA/qQ=;
+ b=wzZOieaIemQvlj2IIF11HK+4CqdS+ukXQAeP1rRhhy/j6xzzrNmMRa1ycgiFu15zij
+ b0Th8mk0v3TsTQ4MG7OZeQ+U3gn/5iY/Y1byP7da9SMdjuV3Js5L9XWz8UGE0xACbyKF
+ ihjo+TtXsDpHXzH644cJBjvGbxEOAM/igO9gkfLsA6/5QUJSIeskt5LtWEULKPVqwb+x
+ L0Nq+3fl3D0K1auDqJHcxbAq/F2Fa+M0xS3wOjysRRK+fI3V9Ra96m+94CeXY5rqu4Uy
+ aC3CbCoKBLRc3Q1WaycZVtJ5pPbOELtI/9ImGz8BZzSV0ifVBA+X6QKtyE77RmlJrxAt
+ l1Dw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWE7BBl5sBpuPxhE86sNsqaUX/vVwplMisl8FZ00a2tLLLjmeYqrqZSDly9Fcc0KnFUKpFk7fbrLzo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymCfP/Kw1vJ5yDkkZeFdCD04qdvENT+56eBjDV79bd+XpXD+O/
- XDO0o0WBSVuGMd/IvwKHBa/oy8RFuHQgDjEYex0+w02lml0cgD5O9efWgRBBL93W4njWrQyl7k9
- ErqzkrW3eIIoM+P6GpsBYwdIVOoRJsGNJWz3XURQmzKbH8mOgqFWJ9Ud+fVH35dd195IRBeUpFV
- lnh/k4WMg3HNTPVfV+DJgaC8udfvsmMn8aBSxnmZcNB5Qqvw==
-X-Gm-Gg: ASbGncvu2E/yyogGyvFjvsIsfIH1DwLJtmfzdZ4nC3x+yJgbiALntu8EEolY5SP/YgO
- bi6QE+MtUCw+7sxciE1wLZHewk/Uqw6vjZs+zuMIRlHHppRFB9KGbz2t1VebOwWyAD/P106ygvy
- Pcq+I1ql6ZO7cYW12a+Hz/cbXXSRuN6FJnIms=
-X-Received: by 2002:a05:6808:690b:b0:401:cae9:4dc3 with SMTP id
- 5614622812f47-40a7c13a8b6mr2349829b6e.8.1749914150438; 
- Sat, 14 Jun 2025 08:15:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMbwblJsD/pMG2FwsGL3eZLj5yHznrNfIA7Pmr/sCExEn3egU7d2pTqU9/DLMoErYH02zZS3uNIJzPax6X90w=
-X-Received: by 2002:a05:6808:690b:b0:401:cae9:4dc3 with SMTP id
- 5614622812f47-40a7c13a8b6mr2349807b6e.8.1749914150052; Sat, 14 Jun 2025
- 08:15:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250613144144.27945-1-robin.clark@oss.qualcomm.com>
- <DALHS6EU059G.18NCREBNOHJ26@linaro.org>
- <89b7c681-45cb-4729-9684-4d1f13595859@oss.qualcomm.com>
-In-Reply-To: <89b7c681-45cb-4729-9684-4d1f13595859@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Sat, 14 Jun 2025 08:15:39 -0700
-X-Gm-Features: AX0GCFtPk9tPdVg_KDSrMIfi7f7qfSkV0Cof0fPtpyMc67NsnsiF1f7jX-9Eurs
-Message-ID: <CACSVV03_GEuFWHPDB3gGm+Mq9uR8QJ1HabKcKVxnQjagf65v=w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Fix inverted WARN_ON() logic
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Alexey Klimov <alexey.klimov@linaro.org>, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ AJvYcCV2rzdK1/EAJ+f1mLWTaxxBvaRxE4D5Y/7I1os4HpJOGnajGzXyfY8Chf8u5RuiFg/vQhT2RfSgtko=@lists.freedesktop.org,
+ AJvYcCVllsMIs5OSctNTLVAQwQGiz6nwyAy8XuW+TjUzQBnz5/uQhrQnUKyct7HSwNHYUZk+94CGXanrZA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcvYfitXqJmGTJh0VUn48EBA2Bm29wQVQpruMBYWwnBZYWMv3l
+ lm3zu1RjDbguT5qw/gDMl5FZQwKAMcEVpldxElFe1+bo/aiNH8vhBGad
+X-Gm-Gg: ASbGnctG8UBKgRBExIh45pswDDGbbL8C4xtjCf4CL9LSFISZO5bjOqveko8OdkdIKBN
+ NKbRaWtelU7RZze4ZI6gwWp9eOv8AxWHywbB0N1tCLJKkGwgnuM0s7OODei8Ee3v3UKapmkoh4m
+ 64Y1dcDKCUQk1wHwBx76h7EzbDt2fsIqoT9xhfOzZkjeVP+g24NOvL7pTgzH4lPKLFY51Xtam9I
+ TVhcsGCmAxEdp+DDoL8Hd8h5V99/ml0LKHqrPo+WZT4QDXrgL7tzHVU02Hl/mi93Bj1U+PRAGm0
+ 7wdKVJb9UV38sCcJSpv/Mk7M3jchazt4UsH5HfNgVqrh46cEW5pUgKw8PVMLFVEGs9tF2T4ysXi
+ IbWi03gVSR+wIf0KZhsH0O7yzfazP5BWu3fPFP1Fn57vBuUkmE60E
+X-Google-Smtp-Source: AGHT+IFuI5Iogxyn4F7KxbnZi28W1LHxaKHJ2292LsmPp2oZPmDqNDtGdBDsq/ot6E0bqW+DooZb2A==
+X-Received: by 2002:a05:620a:17a9:b0:7ca:f41a:546b with SMTP id
+ af79cd13be357-7d3c6c096f4mr572262285a.6.1749920911374; 
+ Sat, 14 Jun 2025 10:08:31 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com
+ (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7d3b8dc9323sm312906185a.20.2025.06.14.10.08.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Jun 2025 10:08:31 -0700 (PDT)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal
+ [10.202.2.50])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 1054E1200043;
+ Sat, 14 Jun 2025 13:08:30 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-10.internal (MEProxy); Sat, 14 Jun 2025 13:08:30 -0400
+X-ME-Sender: <xms:jaxNaDa_fdqUB9RuIocIKW8UidJwkUIn4A0q3HBRGMgUVREMdHNxiA>
+ <xme:jaxNaCYKE2MOC8kSyCcAy3XqoI1fat1wBEmgdNhrtxQwdZ9PPcZbff-BHc5C49H9Q
+ uC_GkmccjMksRy6RQ>
+X-ME-Received: <xmr:jaxNaF_OoZCym3thLwfVjhd25VyveWQJBL_hzrurVDE2cEuL9ZeGvhoi1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvudeflecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+ necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
+ drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
+ ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+ hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
+ ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
+ hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedvhedpmhho
+ uggvpehsmhhtphhouhhtpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiughirgdrtg
+ homhdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegr
+ lhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrg
+ hrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgr
+ ihhlrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
+ dprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthho
+ pehtmhhgrhhoshhssehumhhitghhrdgvughupdhrtghpthhtohepuggrkhhrsehkvghrnh
+ gvlhdrohhrgh
+X-ME-Proxy: <xmx:jaxNaJqkxdpUUQV9yk0sxRCuluUUw6kOcfHdnrkh8a61mHlNX1arFQ>
+ <xmx:jaxNaOo1RT6izaizxVP9UWs-2IAqcudHXVlcSDLtSJO3_0bkEf81Sw>
+ <xmx:jaxNaPTMhtLH-bGDn1gnSf3WN-VSrJZQigtqfdLxvmE12vyDfrM2Zw>
+ <xmx:jaxNaGoNFrt02Ky4jp8HsgwAFF4rdUi-lnYGAWrorw-ffzxbY1dtPA>
+ <xmx:jqxNaP6-2cpiS8pKJslikTdmjkOA37vypgNNkTF-P6_7EVybrvejQAAf>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 14 Jun 2025 13:08:29 -0400 (EDT)
+Date: Sat, 14 Jun 2025 10:08:28 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: Wsp8hyCj_Bun7T9rN0K_Goq8Hm4QWfuc
-X-Authority-Analysis: v=2.4 cv=D6RHKuRj c=1 sm=1 tr=0 ts=684d9227 cx=c_pps
- a=WJcna6AvsNCxL/DJwPP1KA==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=uiBUSSwroAowxIVJ74EA:9 a=QEXdDO2ut3YA:10
- a=_Y9Zt4tPzoBS9L09Snn2:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: Wsp8hyCj_Bun7T9rN0K_Goq8Hm4QWfuc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE0MDEyOCBTYWx0ZWRfX4ZJ5H03XarEL
- RUcF8nbQokaHHYhP3a+GH7ddZdJ+aGiBASVdtVoVcJ2ciR+Zm4cP3iUlmN/7DHpZk5L1LaY6KfF
- 5YxSdIgsBq46dWrZXWR0pEFMYi4sIPOrR1K1jJx0KFaSB7gJaHhF94nS29gJ2hha5qePSOJtf99
- /Qfpi4fI/du0umBhYbPJMRRbOXSNiOwqc7Ob+GPzTy1ka8BFFWYMtdnFIY7yL+2/hhJuBWbFNvo
- 34NsBR8sOWGqXD0ETB9Y2+7B/lnYuSGWgFtubiuSiZ8+0epQ20+G8NlfPVOVtcmPLVt9CM9uGQx
- vynJQ1Zb1kV3oriqNqatoOirfJP8JUqaI7ebYzgWaxYzA78lETvZdikWkuSwjvrW4r7pJk1ax/K
- /uqKYmiHpry2aHo5bMn5hCBDeF4vb7sXfQ1hVdsPiIBBwND2BoqiNidpHu1NQ5etqRXdQT6H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-14_05,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0 adultscore=0
- suspectscore=0 mlxlogscore=778 clxscore=1015 mlxscore=0 lowpriorityscore=0
- spamscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506140128
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
+Message-ID: <aE2sjA4DxFndTZYk@Mac.home>
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+ <aErtL6yxLu3Azbsm@tardis.local>
+ <DALGWEM3TD3O.95L77CD6R62S@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DALGWEM3TD3O.95L77CD6R62S@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,35 +140,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 12:33=E2=80=AFPM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
-> On 6/13/25 4:57 PM, Alexey Klimov wrote:
-> > On Fri Jun 13, 2025 at 3:41 PM BST, Rob Clark wrote:
-> >> We want to WARN_ON() if info is NULL.
-> >>
-> >> Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >> Fixes: 0838fc3e6718 ("drm/msm/adreno: Check for recognized GPU before =
-bind")
-> >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> >> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> >> ---
-> >>  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+On Fri, Jun 13, 2025 at 11:16:10PM +0900, Alexandre Courbot wrote:
+[...]
+> >> +                /// Aligns `self` down to `alignment`.
+> >> +                ///
+> >> +                /// # Examples
+> >> +                ///
+> >> +                /// ```
+> >> +                /// use kernel::num::PowerOfTwo;
+> >> +                ///
+> >> +                /// assert_eq!(PowerOfTwo::<u32>::new(0x1000).align_down(0x4fff), 0x4000);
+> >> +                /// ```
+> >> +                #[inline(always)]
+> >> +                pub const fn align_down(self, value: $t) -> $t {
 > >
-> > Apart from tag problem it is usually a good idea to add relevant people=
- in
-> > c/c. Especially when you fix the reported bug.
->
-> with Alexey's concerns addressed:
->
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> > I'm late to party, but could we instead implement:
+> >
+> >     pub const fn round_down<i32>(value: i32, shift: i32) -> i32 {
+> >         value & !((1 << shift) - 1)
+> >     }
+> >
+> >     pub const fn round_up<i32>(value: i32, shift: i32) -> i32 {
+> >         let mask = (1 << shift) - 1;
+> >         value.wrapping_add(mask) & !mask
+> >     }
+> >
+> > ? It's much harder to pass an invalid alignment with this.
+> 
+> It also forces you to think in terms of shifts instead of values - i.e.
+> you cannot round to `0x1000` as it commonly done in the kernel, now you
 
-Oops, forgot the reported-by.. but replying with the tag on list is
-enough, it will be picked up when I apply the patch
+Well, for const values, you can always define:
 
-BR,
--R
+   const ROUND_SHIFT_0X1000: i32 = 12;
+
+because `0x1000` is just a name ;-)
+
+or we define an Alignment in term of the shift:
+
+    pub struct Alignment {
+        shift: i8,
+    }
+
+    ipml Alignment {
+        pub const new(shift: i8) -> Self {
+            Self { shift }
+        }
+    }
+
+then
+
+    const ALIGN_0x1000: Alignment = Alignment::new(12);
+
+and
+
+    pub const fn round_down_i32(value: i32, align: Alignment) -> i32 {
+        ...
+    }
+
+My point was that instead of the value itself, we can always use the
+shift to represent a power of two, and that would avoid troubles when we
+need to check the internal representation.
+
+That said, after some experiments by myself, I haven't found any
+significant difference between shift representations vs value
+representations. So no strong reason of using a shift representation.
+
+Regards,
+Boqun
+
+> need to do some mental gymnastics to know it is actually a shift of `12`.
+> Being able to use the actual value to round to is more familiar (and
+> natural) to me.
