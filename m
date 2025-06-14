@@ -2,177 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01581AD9B28
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 10:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5B5AD9B42
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 10:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D1210E0D9;
-	Sat, 14 Jun 2025 08:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0075010E06A;
+	Sat, 14 Jun 2025 08:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l0QR3Ltl";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="H1NHtE1Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E69210E0D9;
- Sat, 14 Jun 2025 08:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1749888198; x=1781424198;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=kjw86R2SyVwTzZGjCNhtnFRtobvfjFQYe2xer2+2Dvo=;
- b=l0QR3LtlDUR1DsJnRpE+uwG7pS2HGdhuVqfO20xhNc8Xb69qa70loZ5E
- 3nry+vfeJp0QFuJSQ3YyHCX0iHGQtnHhbOd4VO6ZQ+76iCdR5uFmtjPwa
- Dk0hpbEnC0VzMkfKcADsiMPDHn831RxInt3QKZUwm5TZLMoH2tZcBGnTq
- e9SfuEDvCTSFCqeKa7WfogCzG2gICrb2wFBMFqPZK2Rm57De36So6ssvR
- Nxhkh6BMWZ4ckgfZADycz5tMvUZjfgKhamost0QgRoUPiT3y2kwxXbuRR
- LXI+u9kwqR4Xzm18U7ghmhFuErFRISs2q+SjaRJZNOPWoDXxvUtC3SZah g==;
-X-CSE-ConnectionGUID: k4xtkWq2SiuJ1XgG2nCOvw==
-X-CSE-MsgGUID: L5tIhODFSGOjDavvDEuJ6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63512457"
-X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; d="scan'208";a="63512457"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2025 01:03:03 -0700
-X-CSE-ConnectionGUID: twymRGx1TlKTFW5WH5H/og==
-X-CSE-MsgGUID: AlYCw9/BSl2dtKMyQwq7pQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; d="scan'208";a="153305934"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2025 01:03:04 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Sat, 14 Jun 2025 01:03:02 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Sat, 14 Jun 2025 01:03:02 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.60) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Sat, 14 Jun 2025 01:02:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YrnuV/ocAEW2JAwkIyR3BSbGqzI7e3rrkcgnv4qHHIBU6TE6NCA5ivDxwAOSJbz4CGd5ivuJws2a5I22ZIKJhlIpXAieAIbr3CbjdaMZxlRBKP4+QHeK/X5YkOanE/cAqd0KCINwM99FYkzqdpDdDfIiSDWAVpTrhZkVzEQ5boUNtvW8z48BTh4GZtfsyTlsc10wT6UIeJqn8GDZX9DBI1uo1ja3MY6CJrOIDmllZcT6/2HfITeKM/BLB0x4hxwg4DUhK358JMj8h5KCvHYzwc+d3u8e4zdduNliusZ3jFDBBu0Snwv+9VPV3ftzwXl0REgVGjLi7Tyr05KUXJOENg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1rZDn2F7Ec2q170s0UjKweYGk9Km7jaQyC9gcl2+OHo=;
- b=optijyPK+/q+GrcmVhJkwJD0TDYueCKshIFpkkG+4529gmTq2NNj9wZ3oZG+D8eQ8EuqicJ4b/F+z06R7N7cfnuFOKlDXcC07npcyAscAb79psksqUrT6FXJIevPd7p50dTXsaPYfYz0+auHsDW/Z3wMm9TEpvq4ljRHG2uoutKpu6M29or8ynhDJy90ZBNN9gbz7yWkSaaaGnhB4HCcxes79zHnv29yk30CMVM2yWebG92TUy1I68U3VYQP5MMrbHZVU4e4RR7xNXzVOZbeVgaANrXMnlQIqokwMu2TUgI0zz98w9Q6BBKMdWd1RMSW/SljCT/1r6QNxG03izuTUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
- by SN7PR11MB7042.namprd11.prod.outlook.com (2603:10b6:806:299::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.23; Sat, 14 Jun
- 2025 08:02:30 +0000
-Received: from CY5PR11MB6211.namprd11.prod.outlook.com
- ([fe80::df5a:a32c:8904:15f1]) by CY5PR11MB6211.namprd11.prod.outlook.com
- ([fe80::df5a:a32c:8904:15f1%4]) with mapi id 15.20.8813.024; Sat, 14 Jun 2025
- 08:02:30 +0000
-From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-To: "Nilawar, Badal" <badal.nilawar@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Usyskin, Alexander" <alexander.usyskin@intel.com>
-CC: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "Ceraolo Spurio, Daniele"
- <daniele.ceraolospurio@intel.com>, "jgg@nvidia.com" <jgg@nvidia.com>
-Subject: RE: [PATCH v2 02/10] mei: late_bind: add late binding component driver
-Thread-Topic: [PATCH v2 02/10] mei: late_bind: add late binding component
- driver
-Thread-Index: AQHb1wwAOQaAy8X7AkexPMlP+EXQ+7QCKIWQ
-Date: Sat, 14 Jun 2025 08:02:30 +0000
-Message-ID: <CY5PR11MB6211ADC01F813F24F5B7AA939576A@CY5PR11MB6211.namprd11.prod.outlook.com>
-References: <20250606175707.1403384-1-badal.nilawar@intel.com>
- <20250606175707.1403384-3-badal.nilawar@intel.com>
-In-Reply-To: <20250606175707.1403384-3-badal.nilawar@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6211:EE_|SN7PR11MB7042:EE_
-x-ms-office365-filtering-correlation-id: eba8734b-ffe5-441e-e0d9-08ddab19cfc0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|1800799024|366016|7053199007|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?+ZyPXzQXf7o0iNQD+eroj5uBx1b3uvbNsZHBEDI1kndLZ7jpmy0xPDmZ04F4?=
- =?us-ascii?Q?r481N6jo161MHlmtFbk7prYSZ4PA5AS6Yya0UIvHKgoRz7t38B40t3zbslFq?=
- =?us-ascii?Q?qpX5FEeRGxryry7k1TLM8wUKNPKSiHvZMW6zrxfNq+2/ip/kbfBLftc8QM0/?=
- =?us-ascii?Q?5xDzBCMoEWhscgumu4DU2oah4ajzGS7fX9wE2C3l0xiMvLLT5W312XMXFl6i?=
- =?us-ascii?Q?VJhorlhlSDak/62QWG1duYmvSihMEqXGhEtLODf2OL5uv6rUavtMG4jrv6oj?=
- =?us-ascii?Q?PZ4nEuJAZd3n4LX/bApPotYVo1bqKRc+XXBIttgWnmPF7N9sYyi2kjWDmJOu?=
- =?us-ascii?Q?RV4zV68yunMbpnOY4bI6Hbrrcphs41c8hvOCn1kLBtuMAy/1cVT44xMXDcqL?=
- =?us-ascii?Q?c3nEUwfA4noboTQOf5t//uy3YFmgVfH2eLvTp7FP5SQlDLpTvhJ0M2oDwUsh?=
- =?us-ascii?Q?d3cU4eVT70B+dq6K16Hq9LPSAVI9oe+BzFqLiYhwt+qIJd/lMhXx3ne7QaDs?=
- =?us-ascii?Q?MhXPSgaratLa1tIhUilBYJFnwhOKD3Wc83Lbpsu8G9zN4meg3rYVCu5rKWby?=
- =?us-ascii?Q?lD55KQBQnddgBsFigL5ZV2RlsC/2K9oFlD3hFM/yiXrLPCUt31g6T+s2uBvw?=
- =?us-ascii?Q?TnbebJK7USZU7IS6RE7Ga/ruVh52nMyPVUd56H0/4I18P++lg4KKflw0r1EE?=
- =?us-ascii?Q?i/fyzX7owKVz667UQj1rgT2YFOs3dMeEfy1LOcpolFYE3C2e7RqPLFnFYNor?=
- =?us-ascii?Q?Vt9OzmYI5RuP+Maa2vtDWtohcmT+5VkDL2+2eEba2RBxl0hG4O8QsF5xd4Kt?=
- =?us-ascii?Q?/mc5G4RqIzOAhfdmIzhfXbz01l/zasvFoyzzzg0KwkZnTVhCWjCRfFF7ai8K?=
- =?us-ascii?Q?fMg+TpcWCH7xehseN7mPErWgSVfMoZcBAe1QNhbLUbZVHs6jP5JqboslfMAC?=
- =?us-ascii?Q?X9dyU3ZD+l9ryx18xUH/5Cyo5jK2GtDI73YDIjnVnvXNJq2Oytqv6OV44VM7?=
- =?us-ascii?Q?hqNzHDHE821i6t5S9Rs315kIigLMuChh1z/Rx+GPfcYN1QzKfCxR6xSVZE3f?=
- =?us-ascii?Q?td1bqLS6xSVqp05u2OPMaJB9itxXDHQJVdwFqGBSemoXeg46ErBMO895ej/p?=
- =?us-ascii?Q?OXYvwmz3oH2PewFW4giiPJXKpk5CknnENWL7gcw87yaIMF082bs8B1kg6fNu?=
- =?us-ascii?Q?nGdqOPMs7KtCHKwlUSbBCmT2X2BDNsgxL7c3n0pJGIrPLS4dKoNgVQ6rIcO/?=
- =?us-ascii?Q?sZN26S7ioYmHThcj/koX5AWa6VxblfJVsmWOKgOAl5XLD7knKqU9248zFZV+?=
- =?us-ascii?Q?g6YeAnqwVILH7za6flOcra/C+0/4Vqw+69dkuQmzXLO3ajMmhsKJJFHe8ZM2?=
- =?us-ascii?Q?jDOaBN7GmVmfGJtLIRNaQXwVYGBjmvNH3MLpCV/B1R95oRWHXVI6WpCa3tfG?=
- =?us-ascii?Q?0Dn0fA6YLyBXnfJOV29Pqk7twTZ5sSINq4z4SHrld9F4/VZmPsEZQnWY/C9x?=
- =?us-ascii?Q?hfn3tDnab1TVU00=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?15MElt9EtsZAeEw13PspCHC7sPNlTLJuu35JD6NVt3hi7gAuQ2jPNrgBUsLY?=
- =?us-ascii?Q?PdQ3DFeCGSVhNxw7HbiX3elVuYXNwv3UTtvl5U7Y5jAhH4HYYQb84snPrq4G?=
- =?us-ascii?Q?nZ0XeeIbKBAkN1//292iJia+6eJWYskDHY2z3I1K0ttd69lT38cNaHetmObd?=
- =?us-ascii?Q?gW4MoKAp0f9X4ozckkh7ujGIrSlNQUsKrCAVINDUQKkx8l56R3TWrue7ih3B?=
- =?us-ascii?Q?D7DpnuYrTMQkrz9sYTyGx6YjrJOFmAFBg3q57DQ+otmoqBPn0JxLa0xC3vu6?=
- =?us-ascii?Q?KZVN73X5EdWBwau5QEpGH+an9kxHCyI7gc6lb2bm+4ndJIJWFsBeLc9H51oR?=
- =?us-ascii?Q?usIEGq4VfKbmpXpuiCS6t298h0XZVqut6gAN7p/Xgw+RJPliaPXM7quGuFzd?=
- =?us-ascii?Q?zOTfIcj/gc/+rWOyBu73Bv0DWSn581r3PXeAZ301nr5guuY5SX35jqA9/3En?=
- =?us-ascii?Q?YaZMLNdOHMHKGwcM9YB51R033W1UWs2vT3r+HSibZA0hC25tQi93TEha4+2T?=
- =?us-ascii?Q?ZjqtizqPK1/38wVM0NfyQZuJFj1lHFk6ywqTjU2xcJXtcHrfTyRM2OJRhR+0?=
- =?us-ascii?Q?K5TqKF56oExOoendyuFvZ2rTY4oLSr235P9I5cIxMKWd2p1JThNNVkIJG/ce?=
- =?us-ascii?Q?0JCl4H3rhFJ16UpmG8AZwmAqXtFvzZs3gdGFIUBQHFxmglGFJzGm4KanX4ZX?=
- =?us-ascii?Q?Tk1MHTsrGGjQKQSqrS1wVnX58BpuB3DsEGa6PjfK7UQaINe+qf1dAXIOaccg?=
- =?us-ascii?Q?ZELhJGJs+horVDlxcqKDEeqxUSa/fLzUML1SFKMaSc39+Dtw3A5hxIzXoOUR?=
- =?us-ascii?Q?MGFzRhzcqAO6/MAcGJIiMezAmUjgLPLH7aX0sRBM2NysJxuvbJH+N+u96KBI?=
- =?us-ascii?Q?0ruQsA6TOo/2xdkMNmUO6PMy2mH2gxuaGwOI19Awd8nzinTwAKnDmCKJ5vL/?=
- =?us-ascii?Q?ZiwPkocUf0Yf/PNXo7y3pNT+7hBoVBtGruq0yGMKnYWbm7TFS5Jz8MeTQIF8?=
- =?us-ascii?Q?o1RYiIv/sS3u+egdGobT0NokljE4f0/K3GrMrLRgH2+8LrfvpkNI1NeoxYIv?=
- =?us-ascii?Q?grWqDIZT8ddv7sbZQO5eCF8Vsena9q/plqySAcV8B0JWRav9NhcGR8S2rwSI?=
- =?us-ascii?Q?7MHzKCUO8k+y4rQWKUesq47tZlVW7MR+5vpIkcTmySBNDpc4XR7kp56vaYSf?=
- =?us-ascii?Q?7m4KZApXUunBzVEI3Z5Wk4znlmd7UKphebYCH4wLKbcNM7wSpb7wkl9/dBm9?=
- =?us-ascii?Q?RTFngkSuaGR/tSmdkvCoz+SrzujNhoUo/sT3wCa1eZ8tcMnAvVsL1dEpptCY?=
- =?us-ascii?Q?+9DBU21LCyJ0CsJcdPrKWRXlEHljbd59ZyXuutmQfmiEEkUxRdT/l+yRZ8N2?=
- =?us-ascii?Q?Q8wjRReHIvfTU+NH752Zzq8JStH2Jb9qC3XcHDO8shKpI7FmUkbv06AwSRtB?=
- =?us-ascii?Q?TicVAYiCjhHSzSy5lnM7Lr2C4jS2RBGc74Zg2X79Iga6hhJUHAHk/9YXWPbl?=
- =?us-ascii?Q?EsTPdw+oEFPPz+HvhQxmpo2fYIjkfqQn2C1+Fhh3XzWFWbfTaJRNWIvffHPx?=
- =?us-ascii?Q?RoKBatU+uqNEcGvWpf900blo0VFePEjNYzzYKNp8?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-m1973193.qiye.163.com (mail-m1973193.qiye.163.com
+ [220.197.31.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 419E910E06A
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 08:30:12 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 18a651237;
+ Sat, 14 Jun 2025 16:30:07 +0800 (GMT+08:00)
+Message-ID: <c5985382-3af7-4111-8ffa-20e88f4c1ca8@rock-chips.com>
+Date: Sat, 14 Jun 2025 16:30:06 +0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eba8734b-ffe5-441e-e0d9-08ddab19cfc0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2025 08:02:30.4517 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sD/eY3YFOCfPPNhonXk3Bk/oVAhDh3hvzR5xfDm43PqOIArAdro7lnkfgR1hf9c5TZPI5r1hOHmYlnBDsRaVW536OuzZafrBfq73wnH8nCw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7042
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/3] drm/bridge: analogix_dp: Apply
+ drm_bridge_connector helper
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ andy.yan@rock-chips.com, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ l.stach@pengutronix.de, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250526120742.3195812-1-damon.ding@rock-chips.com>
+ <20250526120742.3195812-4-damon.ding@rock-chips.com>
+ <cvbmmyryay65aqusf5z23cgary4gpoimuav73la4r5hc4jtndg@grvdn2rvhir4>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <cvbmmyryay65aqusf5z23cgary4gpoimuav73la4r5hc4jtndg@grvdn2rvhir4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUNJQlZOQ0gfSx1OTkMeGBlWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a976d8f737c09dakunm84ed366818831b6
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nz46Ngw*CjEwLUkiHi4PHi4s
+ NS4KCTNVSlVKTE9CQ0NCQ0tDQkNCVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKQ0pCTTcG
+DKIM-Signature: a=rsa-sha256;
+ b=H1NHtE1Qs+tHUenLeewG4U2prozlODz1tnLqSjxcvW8ruFTMDkLysp1eNQH9ds5o3CEF6VtcC/5vBlwfKAL8MrbLuDWp81tQY6pyioAJ/Ok96iZ9rx0bAam0pp1104G1ozwXM8Nx5oHS41MNEPC8fSv0yl35w8pZsel9UNdcHCU=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=sNCiwn8HYqqCA4rNK2VXPMwTL7jSBGEBVu/FFG32Gc4=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,442 +69,444 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
 
+On 2025/6/9 1:44, Dmitry Baryshkov wrote:
+> On Mon, May 26, 2025 at 08:07:42PM +0800, Damon Ding wrote:
+>> Apply drm_bridge_connector helper for Analogix DP driver.
+>>
+>> The following changes have been made:
+>> - Remove &analogix_dp_device.connector and change
+>>    &analogix_dp_device.bridge from a pointer to an instance.
+>> - Apply drm_bridge_connector helper to get rid of &drm_connector_funcs
+>>    and &drm_connector_helper_funcs.
+>> - Remove &analogix_dp_plat_data.skip_connector.
+> 
+> You've missed the exynos_dp.c which uses it.
+> 
+> I think there is slightly more to be handled here. For example, I'd
+> suggest moving panel / bridge parsing and attachment to the core driver
+> too. Exynos handles several backwards-compatibility cases, e.g. using
+> the "panel" property or just passing video timings in the DT node. You
+> might need to implement instantiating a panel from videomode specially
+> for exynos_dp.c
+> 
 
-> -----Original Message-----
-> From: Nilawar, Badal <badal.nilawar@intel.com>
-> Sent: Friday, June 6, 2025 11:27 PM
-> To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Cc: Gupta, Anshuman <anshuman.gupta@intel.com>; Vivi, Rodrigo
-> <rodrigo.vivi@intel.com>; Usyskin, Alexander <alexander.usyskin@intel.com=
->;
-> gregkh@linuxfoundation.org; Ceraolo Spurio, Daniele
-> <daniele.ceraolospurio@intel.com>; jgg@nvidia.com
-> Subject: [PATCH v2 02/10] mei: late_bind: add late binding component driv=
-er
->=20
-> From: Alexander Usyskin <alexander.usyskin@intel.com>
->=20
-> Add late binding component driver.
-> It allows pushing the late binding configuration from, for example, the X=
-e
-> graphics driver to the Intel discrete graphics card's CSE device.
->=20
-> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
-> v2:
->  - Use generic naming (Jani)
->  - Drop xe_late_bind_component struct to move to xe code (Daniele/Sasha)
-> ---
->  drivers/misc/mei/Kconfig                    |   1 +
->  drivers/misc/mei/Makefile                   |   1 +
->  drivers/misc/mei/late_bind/Kconfig          |  12 +
->  drivers/misc/mei/late_bind/Makefile         |   9 +
->  drivers/misc/mei/late_bind/mei_late_bind.c  | 261 ++++++++++++++++++++
->  include/drm/intel/i915_component.h          |   1 +
->  include/drm/intel/late_bind_mei_interface.h |  37 +++
->  7 files changed, 322 insertions(+)
->  create mode 100644 drivers/misc/mei/late_bind/Kconfig
->  create mode 100644 drivers/misc/mei/late_bind/Makefile
->  create mode 100644 drivers/misc/mei/late_bind/mei_late_bind.c
->  create mode 100644 include/drm/intel/late_bind_mei_interface.h
->=20
-> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig index
-> 7575fee96cc6..771becc68095 100644
-> --- a/drivers/misc/mei/Kconfig
-> +++ b/drivers/misc/mei/Kconfig
-> @@ -84,5 +84,6 @@ config INTEL_MEI_VSC
->  source "drivers/misc/mei/hdcp/Kconfig"
->  source "drivers/misc/mei/pxp/Kconfig"
->  source "drivers/misc/mei/gsc_proxy/Kconfig"
-> +source "drivers/misc/mei/late_bind/Kconfig"
->=20
->  endif
-> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile index
-> 6f9fdbf1a495..84bfde888d81 100644
-> --- a/drivers/misc/mei/Makefile
-> +++ b/drivers/misc/mei/Makefile
-> @@ -31,6 +31,7 @@ CFLAGS_mei-trace.o =3D -I$(src)
->  obj-$(CONFIG_INTEL_MEI_HDCP) +=3D hdcp/
->  obj-$(CONFIG_INTEL_MEI_PXP) +=3D pxp/
->  obj-$(CONFIG_INTEL_MEI_GSC_PROXY) +=3D gsc_proxy/
-> +obj-$(CONFIG_INTEL_MEI_LATE_BIND) +=3D late_bind/
->=20
->  obj-$(CONFIG_INTEL_MEI_VSC_HW) +=3D mei-vsc-hw.o  mei-vsc-hw-y :=3D vsc-
-> tp.o diff --git a/drivers/misc/mei/late_bind/Kconfig
-> b/drivers/misc/mei/late_bind/Kconfig
-> new file mode 100644
-> index 000000000000..c5302303e5af
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/Kconfig
-> @@ -0,0 +1,12 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2025, Intel Corporation. All rights reserved.
-> +#
-> +config INTEL_MEI_LATE_BIND
-> +	tristate "Intel late binding support on ME Interface"
-> +	select INTEL_MEI_ME
-> +	depends on DRM_XE
-> +	help
-> +	  MEI Support for Late Binding for Intel graphics card.
-> +
-> +	  Enables the ME FW interfaces for Late Binding for
-> +          Xe display driver of Intel.
-It is needed even for headless cards as well.
-> diff --git a/drivers/misc/mei/late_bind/Makefile
-> b/drivers/misc/mei/late_bind/Makefile
-> new file mode 100644
-> index 000000000000..a0aeda5853f0
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (c) 2025, Intel Corporation. All rights reserved.
-> +#
-> +# Makefile - Late Binding client driver for Intel MEI Bus Driver.
-> +
-> +subdir-ccflags-y +=3D -I$(srctree)/drivers/misc/mei/
-> +
-> +obj-$(CONFIG_INTEL_MEI_LATE_BIND) +=3D mei_late_bind.o
-> diff --git a/drivers/misc/mei/late_bind/mei_late_bind.c
-> b/drivers/misc/mei/late_bind/mei_late_bind.c
-> new file mode 100644
-> index 000000000000..964757a9b33a
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/mei_late_bind.c
-> @@ -0,0 +1,261 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2025 Intel Corporation  */ #include
-> +<drm/drm_connector.h> #include <drm/intel/i915_component.h> #include
-Why do we need drm_connector header ?
-Remove unnecessary headers.
-> +<drm/intel/late_bind_mei_interface.h>
-> +#include <linux/component.h>
-> +#include <linux/pci.h>
-> +#include <linux/mei_cl_bus.h>
-> +#include <linux/module.h>
-> +#include <linux/overflow.h>
-> +#include <linux/slab.h>
-> +#include <linux/uuid.h>
-> +
-> +#include "mkhi.h"
-> +
-> +#define GFX_SRV_MKHI_LATE_BINDING_CMD 0x12 #define
-Why it is not prefixed with DGFX. This is unique to DGFX cards ?
-@alexander any comment on above ?
-> +GFX_SRV_MKHI_LATE_BINDING_RSP (GFX_SRV_MKHI_LATE_BINDING_CMD
-> | 0x80)
-> +
-> +#define LATE_BIND_SEND_TIMEOUT_MSEC 3000 #define
-> +LATE_BIND_RECV_TIMEOUT_MSEC 3000
-From where we got these delay numbers, from any specs or it is arbitrary de=
-lay specific to let bind ?
-Add a code comment in that case.
-> +
-> +/**
-> + * struct csc_heci_late_bind_req - late binding request
-> + * @header: @ref mkhi_msg_hdr
-> + * @type: type of the late binding payload
-> + * @flags: flags to be passed to the firmware
-> + * @reserved: reserved field
-> + * @payload_size: size of the payload data in bytes
-> + * @payload: data to be sent to the firmware  */ struct
-> +csc_heci_late_bind_req {
-> +	struct mkhi_msg_hdr header;
-> +	u32 type;
-> +	u32 flags;
-> +	u32 reserved[2];
-> +	u32 payload_size;
-> +	u8  payload[] __counted_by(payload_size); } __packed;
-> +
-> +/**
-> + * struct csc_heci_late_bind_rsp - late binding response
-> + * @header: @ref mkhi_msg_hdr
-> + * @type: type of the late binding payload
-> + * @reserved: reserved field
-> + * @status: status of the late binding command execution by firmware
-> +*/ struct csc_heci_late_bind_rsp {
-> +	struct mkhi_msg_hdr header;
-> +	u32 type;
-> +	u32 reserved[2];
-> +	u32 status;
-> +} __packed;
-> +
-> +static int mei_late_bind_check_response(const struct device *dev, const
-> +struct mkhi_msg_hdr *hdr) {
-> +	if (hdr->group_id !=3D MKHI_GROUP_ID_GFX) {
-> +		dev_err(dev, "Mismatch group id: 0x%x instead of 0x%x\n",
-> +			hdr->group_id, MKHI_GROUP_ID_GFX);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (hdr->command !=3D GFX_SRV_MKHI_LATE_BINDING_RSP) {
-> +		dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
-> +			hdr->command,
-> GFX_SRV_MKHI_LATE_BINDING_RSP);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * mei_late_bind_push_config - Sends a config to the firmware.
-> + * @dev: device struct corresponding to the mei device
-> + * @type: payload type
-> + * @flags: payload flags
-> + * @payload: payload buffer
-> + * @payload_size: payload buffer size
-> + *
-> + * Return: 0 success, negative errno value on transport failure,
-> + *         positive status returned by FW
-> + */
-> +static int mei_late_bind_push_config(struct device *dev, u32 type, u32 f=
-lags,
-> +				     const void *payload, size_t payload_size) {
-> +	struct mei_cl_device *cldev;
-> +	struct csc_heci_late_bind_req *req =3D NULL;
-> +	struct csc_heci_late_bind_rsp rsp;
-> +	size_t req_size;
-> +	int ret;
-> +
-> +	if (!dev || !payload || !payload_size)
-> +		return -EINVAL;
-> +
-> +	cldev =3D to_mei_cl_device(dev);
-> +
-> +	ret =3D mei_cldev_enable(cldev);
-> +	if (ret < 0) {
-> +		dev_dbg(dev, "mei_cldev_enable failed. %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	req_size =3D struct_size(req, payload, payload_size);
-> +	if (req_size > mei_cldev_mtu(cldev)) {
-> +		dev_err(dev, "Payload is too big %zu\n", payload_size);
-> +		ret =3D -EMSGSIZE;
-> +		goto end;
-> +	}
-> +
-> +	req =3D kmalloc(req_size, GFP_KERNEL);
-> +	if (!req) {
-> +		ret =3D -ENOMEM;
-> +		goto end;
-> +	}
-> +
-> +	req->header.group_id =3D MKHI_GROUP_ID_GFX;
-> +	req->header.command =3D GFX_SRV_MKHI_LATE_BINDING_CMD;
-> +	req->type =3D type;
-> +	req->flags =3D flags;
-> +	req->reserved[0] =3D 0;
-> +	req->reserved[1] =3D 0;
-> +	req->payload_size =3D payload_size;
-> +	memcpy(req->payload, payload, payload_size);
-> +
-> +	ret =3D mei_cldev_send_timeout(cldev, (void *)req, req_size,
-> LATE_BIND_SEND_TIMEOUT_MSEC);
-> +	if (ret < 0) {
-> +		dev_err(dev, "mei_cldev_send failed. %d\n", ret);
-> +		goto end;
-> +	}
-> +	ret =3D mei_cldev_recv_timeout(cldev, (void *)&rsp, sizeof(rsp),
-> LATE_BIND_RECV_TIMEOUT_MSEC);
-> +	if (ret < 0) {
-> +		dev_err(dev, "mei_cldev_recv failed. %d\n", ret);
-> +		goto end;
-> +	}
-> +	ret =3D mei_late_bind_check_response(dev, &rsp.header);
-> +	if (ret) {
-> +		dev_err(dev, "bad result response from the firmware:
-> 0x%x\n",
-> +			*(uint32_t *)&rsp.header);
-> +		goto end;
-> +	}
-> +	ret =3D (int)rsp.status;
-> +	dev_dbg(dev, "mei_late_bind_push_config status =3D %d\n", ret);
-> +
-> +end:
-> +	mei_cldev_disable(cldev);
-> +	kfree(req);
-> +	return ret;
-> +}
-> +
-> +static const struct late_bind_component_ops mei_late_bind_ops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	.push_config =3D mei_late_bind_push_config, };
-> +
-> +static int mei_component_master_bind(struct device *dev) {
-> +	return component_bind_all(dev, (void *)&mei_late_bind_ops); }
-> +
-> +static void mei_component_master_unbind(struct device *dev) {
-> +	component_unbind_all(dev, (void *)&mei_late_bind_ops); }
-> +
-> +static const struct component_master_ops mei_component_master_ops =3D {
-> +	.bind =3D mei_component_master_bind,
-> +	.unbind =3D mei_component_master_unbind, };
-> +
-> +/**
-> + * mei_late_bind_component_match - compare function for matching mei
-> late bind.
-> + *
-> + *    The function checks if requested is Intel VGA device
-> + *    and the parent of requester and the grand parent of mei_if are the=
- same
-> + *    device.
-This might be broken for headless card, headless care need to necessarily b=
-e VGA card.
-> + *
-> + * @dev: master device
-> + * @subcomponent: subcomponent to match
-> (I915_COMPONENT_LATE_BIND)
-> + * @data: compare data (mei late-bind bus device)
-> + *
-> + * Return:
-> + * * 1 - if components match
-> + * * 0 - otherwise
-> + */
-> +static int mei_late_bind_component_match(struct device *dev, int
-> subcomponent,
-> +					 void *data)
-> +{
-> +	struct device *base =3D data;
-> +	struct pci_dev *pdev;
-> +
-> +	if (!dev)
-> +		return 0;
-> +
-> +	if (!dev_is_pci(dev))
-> +		return 0;
-> +
-> +	pdev =3D to_pci_dev(dev);
-> +
-> +	if (pdev->class !=3D (PCI_CLASS_DISPLAY_VGA << 8) ||
-> +	    pdev->vendor !=3D PCI_VENDOR_ID_INTEL)
-> +		return 0;
-> +
-> +	if (subcomponent !=3D I915_COMPONENT_LATE_BIND)
-> +		return 0;
-Why I915_COMPONENT_LATE_BIND ?
-Isn't this should be XE_ COMPONENT_LATE_BIND.
-> +
-> +	base =3D base->parent;
-> +	if (!base) /* mei device */
-> +		return 0;
-> +
-> +	base =3D base->parent; /* pci device */
-Is it sgunit pci endpoint ?=20
-If yes then good to mention in comment.
-> +
-> +	return !!base && dev =3D=3D base;
-> +}
-> +
-> +static int mei_late_bind_probe(struct mei_cl_device *cldev,
-> +			       const struct mei_cl_device_id *id) {
-> +	struct component_match *master_match =3D NULL;
-> +	int ret;
-> +
-> +	component_match_add_typed(&cldev->dev, &master_match,
-> +				  mei_late_bind_component_match, &cldev-
-> >dev);
-> +	if (IS_ERR_OR_NULL(master_match))
-> +		return -ENOMEM;
-> +
-> +	ret =3D component_master_add_with_match(&cldev->dev,
-> +					      &mei_component_master_ops,
-> +					      master_match);
-> +	if (ret < 0)
-> +		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static void mei_late_bind_remove(struct mei_cl_device *cldev) {
-> +	component_master_del(&cldev->dev,
-> &mei_component_master_ops); }
-> +
-> +#define MEI_GUID_MKHI UUID_LE(0xe2c2afa2, 0x3817, 0x4d19, \
-> +			      0x9d, 0x95, 0x6, 0xb1, 0x6b, 0x58, 0x8a, 0x5d)
-> +
-> +static struct mei_cl_device_id mei_late_bind_tbl[] =3D {
-> +	{ .uuid =3D MEI_GUID_MKHI, .version =3D MEI_CL_VERSION_ANY },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(mei, mei_late_bind_tbl);
-> +
-> +static struct mei_cl_driver mei_late_bind_driver =3D {
-> +	.id_table =3D mei_late_bind_tbl,
-> +	.name =3D KBUILD_MODNAME,
-> +	.probe =3D mei_late_bind_probe,
-> +	.remove	=3D mei_late_bind_remove,
-> +};
-> +
-> +module_mei_cl_driver(mei_late_bind_driver);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("MEI Late Binding");
-> diff --git a/include/drm/intel/i915_component.h
-> b/include/drm/intel/i915_component.h
-> index 4ea3b17aa143..4945044d41e6 100644
-> --- a/include/drm/intel/i915_component.h
-> +++ b/include/drm/intel/i915_component.h
-> @@ -31,6 +31,7 @@ enum i915_component_type {
->  	I915_COMPONENT_HDCP,
->  	I915_COMPONENT_PXP,
->  	I915_COMPONENT_GSC_PROXY,
-> +	I915_COMPONENT_LATE_BIND,
-We probably need a change here to make a xe specific component.
+For this patch series, I'd like to place the DRM bridge on the Analogix 
+side and the DRM connector/encoder on the Rockchip side.
 
-Thanks,
-Anshuman Gupta.
->  };
->=20
->  /* MAX_PORT is the number of port
-> diff --git a/include/drm/intel/late_bind_mei_interface.h
-> b/include/drm/intel/late_bind_mei_interface.h
-> new file mode 100644
-> index 000000000000..6b54b8cec5ae
-> --- /dev/null
-> +++ b/include/drm/intel/late_bind_mei_interface.h=09
-> @@ -0,0 +1,37 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright (c) 2025 Intel Corporation  */
-> +
-> +#ifndef _LATE_BIND_MEI_INTERFACE_H_
-> +#define _LATE_BIND_MEI_INTERFACE_H_
-> +
-> +#include <linux/types.h>
-> +
-> +struct device;
-> +struct module;
-> +
-> +/**
-> + * struct late_bind_component_ops - ops for Late Binding services.
-> + * @owner: Module providing the ops
-> + * @push_config: Sends a config to FW.
-> + */
-> +struct late_bind_component_ops {
-> +	struct module *owner;
-> +
-> +	/**
-> +	 * @push_config: Sends a config to FW.
-> +	 * @dev: device struct corresponding to the mei device
-> +	 * @type: payload type
-> +	 * @flags: payload flags
-> +	 * @payload: payload buffer
-> +	 * @payload_size: payload buffer size
-> +	 *
-> +	 * Return: 0 success, negative errno value on transport failure,
-> +	 *         positive status returned by FW
-> +	 */
-> +	int (*push_config)(struct device *dev, u32 type, u32 flags,
-> +			   const void *payload, size_t payload_size); };
-> +
-> +#endif /* _LATE_BIND_MEI_INTERFACE_H_ */
-> --
-> 2.34.1
+Following your recommendation, it would be better to handle the 
+panel/bridge parsing on the Analogix side. I believe this approach makes 
+sense because the panel/bridge should logically be positioned behind the 
+Analogix bridge in the display pipeline.
+
+I will implement you suggestion and update the exynos_dp.c driver 
+synchronously.
+
+> This would allow you to cleanup plat_data interface as a preparation for
+> this patch.
+> 
+>>
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>> ---
+>>   .../drm/bridge/analogix/analogix_dp_core.c    | 157 ++++++++----------
+>>   .../drm/bridge/analogix/analogix_dp_core.h    |   4 +-
+>>   include/drm/bridge/analogix_dp.h              |   1 -
+>>   3 files changed, 72 insertions(+), 90 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> index 2c51d3193120..d67afd63d999 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> @@ -22,6 +22,7 @@
+>>   #include <drm/drm_atomic.h>
+>>   #include <drm/drm_atomic_helper.h>
+>>   #include <drm/drm_bridge.h>
+>> +#include <drm/drm_bridge_connector.h>
+>>   #include <drm/drm_crtc.h>
+>>   #include <drm/drm_device.h>
+>>   #include <drm/drm_edid.h>
+>> @@ -946,9 +947,10 @@ static int analogix_dp_disable_psr(struct analogix_dp_device *dp)
+>>   	return analogix_dp_send_psr_spd(dp, &psr_vsc, true);
+>>   }
+>>   
+>> -static int analogix_dp_get_modes(struct drm_connector *connector)
+>> +static int analogix_dp_bridge_get_modes(struct drm_bridge *bridge,
+>> +					struct drm_connector *connector)
+>>   {
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	const struct drm_edid *drm_edid;
+>>   	int num_modes = 0;
+>>   
+>> @@ -957,10 +959,10 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
+>>   	} else {
+>>   		drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
+>>   
+>> -		drm_edid_connector_update(&dp->connector, drm_edid);
+>> +		drm_edid_connector_update(connector, drm_edid);
+>>   
+>>   		if (drm_edid) {
+>> -			num_modes += drm_edid_connector_add_modes(&dp->connector);
+>> +			num_modes += drm_edid_connector_add_modes(connector);
+>>   			drm_edid_free(drm_edid);
+>>   		}
+>>   	}
+> 
+> This should be split into get_modes() and edid_read(). Use
+> DRM_BRIDGE_OP_ flags to control which implementation is actually being
+> used.
+> 
+
+Yeah, I will do it.
+
+> 
+>> @@ -971,51 +973,25 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
+>>   	return num_modes;
+>>   }
+>>   
+>> -static struct drm_encoder *
+>> -analogix_dp_best_encoder(struct drm_connector *connector)
+>> +static int analogix_dp_bridge_atomic_check(struct drm_bridge *bridge,
+>> +					   struct drm_bridge_state *bridge_state,
+>> +					   struct drm_crtc_state *crtc_state,
+>> +					   struct drm_connector_state *conn_state)
+>>   {
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> -
+>> -	return dp->encoder;
+>> -}
+>> -
+>> -
+>> -static int analogix_dp_atomic_check(struct drm_connector *connector,
+>> -				    struct drm_atomic_state *state)
+>> -{
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> -	struct drm_connector_state *conn_state;
+>> -	struct drm_crtc_state *crtc_state;
+>> -
+>> -	conn_state = drm_atomic_get_new_connector_state(state, connector);
+>> -	if (WARN_ON(!conn_state))
+>> -		return -ENODEV;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   
+>>   	conn_state->self_refresh_aware = true;
+>>   
+>> -	if (!conn_state->crtc)
+>> -		return 0;
+>> -
+>> -	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+>> -	if (!crtc_state)
+>> -		return 0;
+>> -
+>>   	if (crtc_state->self_refresh_active && !dp->psr_supported)
+>>   		return -EINVAL;
+>>   
+>>   	return 0;
+>>   }
+>>   
+>> -static const struct drm_connector_helper_funcs analogix_dp_connector_helper_funcs = {
+>> -	.get_modes = analogix_dp_get_modes,
+>> -	.best_encoder = analogix_dp_best_encoder,
+>> -	.atomic_check = analogix_dp_atomic_check,
+>> -};
+>> -
+>>   static enum drm_connector_status
+>> -analogix_dp_detect(struct drm_connector *connector, bool force)
+>> +analogix_dp_bridge_detect(struct drm_bridge *bridge)
+>>   {
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	enum drm_connector_status status = connector_status_disconnected;
+>>   
+>>   	if (dp->plat_data->panel)
+>> @@ -1027,20 +1003,11 @@ analogix_dp_detect(struct drm_connector *connector, bool force)
+>>   	return status;
+>>   }
+>>   
+>> -static const struct drm_connector_funcs analogix_dp_connector_funcs = {
+>> -	.fill_modes = drm_helper_probe_single_connector_modes,
+>> -	.detect = analogix_dp_detect,
+>> -	.destroy = drm_connector_cleanup,
+>> -	.reset = drm_atomic_helper_connector_reset,
+>> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>> -};
+>> -
+>>   static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
+>>   				     struct drm_encoder *encoder,
+>>   				     enum drm_bridge_attach_flags flags)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct drm_connector *connector = NULL;
+>>   	int ret = 0;
+>>   
+>> @@ -1049,23 +1016,15 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	if (!dp->plat_data->skip_connector) {
+>> -		connector = &dp->connector;
+>> -		connector->polled = DRM_CONNECTOR_POLL_HPD;
+>> -
+>> -		ret = drm_connector_init(dp->drm_dev, connector,
+>> -					 &analogix_dp_connector_funcs,
+>> -					 DRM_MODE_CONNECTOR_eDP);
+>> -		if (ret) {
+>> -			DRM_ERROR("Failed to initialize connector with drm\n");
+>> -			return ret;
+>> -		}
+>> -
+>> -		drm_connector_helper_add(connector,
+>> -					 &analogix_dp_connector_helper_funcs);
+>> -		drm_connector_attach_encoder(connector, encoder);
+>> +	connector = drm_bridge_connector_init(dp->drm_dev, encoder);
+>> +	if (IS_ERR(connector)) {
+>> +		ret = PTR_ERR(connector);
+>> +		dev_err(dp->dev, "Failed to initialize connector with drm\n");
+>> +		return ret;
+>>   	}
+>>   
+>> +	drm_connector_attach_encoder(connector, encoder);
+>> +
+>>   	/*
+>>   	 * NOTE: the connector registration is implemented in analogix
+>>   	 * platform driver, that to say connector would be exist after
+>> @@ -1124,7 +1083,7 @@ struct drm_crtc *analogix_dp_get_new_crtc(struct analogix_dp_device *dp,
+>>   static void analogix_dp_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+>>   						 struct drm_atomic_state *old_state)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct drm_crtc *crtc;
+>>   	struct drm_crtc_state *old_crtc_state;
+>>   
+>> @@ -1177,14 +1136,21 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
+>>   }
+>>   
+>>   static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
+>> +					struct drm_atomic_state *state,
+>>   					const struct drm_display_mode *mode)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> -	struct drm_display_info *display_info = &dp->connector.display_info;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct video_info *video = &dp->video_info;
+>>   	struct device_node *dp_node = dp->dev->of_node;
+>> +	struct drm_connector *connector;
+>> +	struct drm_display_info *display_info;
+>>   	int vic;
+>>   
+>> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+>> +	if (!connector)
+>> +		return;
+>> +	display_info = &connector->display_info;
+>> +
+>>   	/* Input video interlaces & hsync pol & vsync pol */
+>>   	video->interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
+>>   	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
+>> @@ -1255,7 +1221,7 @@ static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
+>>   static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>>   					     struct drm_atomic_state *old_state)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct drm_crtc *crtc;
+>>   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+>>   	int timeout_loop = 0;
+>> @@ -1268,7 +1234,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>>   	new_crtc_state = drm_atomic_get_new_crtc_state(old_state, crtc);
+>>   	if (!new_crtc_state)
+>>   		return;
+>> -	analogix_dp_bridge_mode_set(bridge, &new_crtc_state->adjusted_mode);
+>> +	analogix_dp_bridge_mode_set(bridge, old_state, &new_crtc_state->adjusted_mode);
+>>   
+>>   	old_crtc_state = drm_atomic_get_old_crtc_state(old_state, crtc);
+>>   	/* Not a full enable, just disable PSR and continue */
+>> @@ -1297,7 +1263,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+>>   
+>>   static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   
+>>   	if (dp->dpms_mode != DRM_MODE_DPMS_ON)
+>>   		return;
+>> @@ -1320,7 +1286,7 @@ static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
+>>   static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>>   					      struct drm_atomic_state *old_state)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct drm_crtc *old_crtc, *new_crtc;
+>>   	struct drm_crtc_state *old_crtc_state = NULL;
+>>   	struct drm_crtc_state *new_crtc_state = NULL;
+>> @@ -1358,7 +1324,7 @@ static void analogix_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>>   static void analogix_dp_bridge_atomic_post_disable(struct drm_bridge *bridge,
+>>   						   struct drm_atomic_state *old_state)
+>>   {
+>> -	struct analogix_dp_device *dp = bridge->driver_private;
+>> +	struct analogix_dp_device *dp = to_dp(bridge);
+>>   	struct drm_crtc *crtc;
+>>   	struct drm_crtc_state *new_crtc_state;
+>>   	int ret;
+>> @@ -1384,24 +1350,27 @@ static const struct drm_bridge_funcs analogix_dp_bridge_funcs = {
+>>   	.atomic_enable = analogix_dp_bridge_atomic_enable,
+>>   	.atomic_disable = analogix_dp_bridge_atomic_disable,
+>>   	.atomic_post_disable = analogix_dp_bridge_atomic_post_disable,
+>> +	.atomic_check = analogix_dp_bridge_atomic_check,
+>>   	.attach = analogix_dp_bridge_attach,
+>> +	.get_modes = analogix_dp_bridge_get_modes,
+>> +	.detect = analogix_dp_bridge_detect,
+>>   };
+>>   
+>>   static int analogix_dp_create_bridge(struct drm_device *drm_dev,
+>>   				     struct analogix_dp_device *dp)
+>>   {
+>> -	struct drm_bridge *bridge;
+>> -
+>> -	bridge = devm_kzalloc(drm_dev->dev, sizeof(*bridge), GFP_KERNEL);
+>> -	if (!bridge) {
+>> -		DRM_ERROR("failed to allocate for drm bridge\n");
+>> -		return -ENOMEM;
+>> -	}
+>> +	struct drm_bridge *bridge = &dp->bridge;
+>> +	int ret;
+>>   
+>> -	dp->bridge = bridge;
+>> +	bridge->ops = DRM_BRIDGE_OP_DETECT |
+>> +		      DRM_BRIDGE_OP_HPD |
+>> +		      DRM_BRIDGE_OP_MODES;
+>> +	bridge->of_node = dp->dev->of_node;
+>> +	bridge->type = DRM_MODE_CONNECTOR_eDP;
+>>   
+>> -	bridge->driver_private = dp;
+>> -	bridge->funcs = &analogix_dp_bridge_funcs;
+>> +	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
+>> +	if (ret)
+>> +		return ret;
+>>   
+>>   	return drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+>>   }
+>> @@ -1493,9 +1462,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+>>   		return ERR_PTR(-EINVAL);
+>>   	}
+>>   
+>> -	dp = devm_kzalloc(dev, sizeof(struct analogix_dp_device), GFP_KERNEL);
+>> -	if (!dp)
+>> -		return ERR_PTR(-ENOMEM);
+>> +	dp = devm_drm_bridge_alloc(dev, struct analogix_dp_device, bridge,
+>> +				   &analogix_dp_bridge_funcs);
+>> +	if (IS_ERR(dp))
+>> +		return ERR_CAST(dp);
+>>   
+>>   	dp->dev = &pdev->dev;
+>>   	dp->dpms_mode = DRM_MODE_DPMS_OFF;
+>> @@ -1670,8 +1640,7 @@ EXPORT_SYMBOL_GPL(analogix_dp_bind);
+>>   
+>>   void analogix_dp_unbind(struct analogix_dp_device *dp)
+>>   {
+>> -	analogix_dp_bridge_disable(dp->bridge);
+>> -	dp->connector.funcs->destroy(&dp->connector);
+>> +	analogix_dp_bridge_disable(&dp->bridge);
+>>   
+>>   	drm_panel_unprepare(dp->plat_data->panel);
+>>   
+>> @@ -1681,7 +1650,8 @@ EXPORT_SYMBOL_GPL(analogix_dp_unbind);
+>>   
+>>   int analogix_dp_start_crc(struct drm_connector *connector)
+>>   {
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> +	struct analogix_dp_device *dp;
+>> +	struct drm_bridge *bridge;
+>>   
+>>   	if (!connector->state->crtc) {
+>>   		DRM_ERROR("Connector %s doesn't currently have a CRTC.\n",
+>> @@ -1689,13 +1659,26 @@ int analogix_dp_start_crc(struct drm_connector *connector)
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> +	bridge = drm_bridge_chain_get_first_bridge(connector->encoder);
+>> +	if (bridge->type != DRM_MODE_CONNECTOR_eDP)
+>> +		return -EINVAL;
+> 
+> This requires that Analogix is the first bridge in the chain. It might
+> be better to loop through all bridges, checking for one with matching
+> ops.
+>
+> I'll check, maybe we have other bridges which can generate CRC data. If
+> so, we can add DRM_BRIDGE_OP_CRC interface and loop that through
+> drm_bridge_connector.
+> 
+
+So far, the function is only for the use of rockchip_drm_vop.c driver, 
+and it is called in &drm_crtc_funcs.set_crc_source().
+
+It may be nice to make CRC calculation being a part of struct 
+drm_bridge_funcs. I will also try to check whether any serdes bridge 
+supports the CRC function.
+
+>> +
+>> +	dp = to_dp(bridge);
+>> +
+>>   	return drm_dp_start_crc(&dp->aux, connector->state->crtc);
+>>   }
+>>   EXPORT_SYMBOL_GPL(analogix_dp_start_crc);
+>>   
+>>   int analogix_dp_stop_crc(struct drm_connector *connector)
+>>   {
+>> -	struct analogix_dp_device *dp = to_dp(connector);
+>> +	struct analogix_dp_device *dp;
+>> +	struct drm_bridge *bridge;
+>> +
+>> +	bridge = drm_bridge_chain_get_first_bridge(connector->encoder);
+>> +	if (bridge->type != DRM_MODE_CONNECTOR_eDP)
+>> +		return -EINVAL;
+>> +
+>> +	dp = to_dp(bridge);
+>>   
+>>   	return drm_dp_stop_crc(&dp->aux);
+>>   }
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+>> index 9f9e492da80f..22f28384b4ec 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+>> @@ -10,6 +10,7 @@
+>>   #define _ANALOGIX_DP_CORE_H
+>>   
+>>   #include <drm/display/drm_dp_helper.h>
+>> +#include <drm/drm_bridge.h>
+>>   #include <drm/drm_crtc.h>
+>>   
+>>   #define DP_TIMEOUT_LOOP_COUNT 100
+>> @@ -153,8 +154,7 @@ struct analogix_dp_device {
+>>   	struct drm_encoder	*encoder;
+>>   	struct device		*dev;
+>>   	struct drm_device	*drm_dev;
+>> -	struct drm_connector	connector;
+>> -	struct drm_bridge	*bridge;
+>> +	struct drm_bridge	bridge;
+>>   	struct drm_dp_aux	aux;
+>>   	struct clk		*clock;
+>>   	unsigned int		irq;
+>> diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
+>> index cf17646c1310..cb9663ff61fb 100644
+>> --- a/include/drm/bridge/analogix_dp.h
+>> +++ b/include/drm/bridge/analogix_dp.h
+>> @@ -29,7 +29,6 @@ struct analogix_dp_plat_data {
+>>   	struct drm_panel *panel;
+>>   	struct drm_encoder *encoder;
+>>   	struct drm_connector *connector;
+>> -	bool skip_connector;
+>>   
+>>   	int (*power_on)(struct analogix_dp_plat_data *);
+>>   	int (*power_off)(struct analogix_dp_plat_data *);
+>> -- 
+>> 2.34.1
+>>
+> 
+
+Best regards,
+Damon
 
