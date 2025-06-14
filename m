@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1781AD9EB2
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 20:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80904AD9EB7
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 20:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A4410E143;
-	Sat, 14 Jun 2025 18:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9C710E15E;
+	Sat, 14 Jun 2025 18:09:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="ClZPKjxM";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="YzLTPmxz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C1C10E15D
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA58310E128
  for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:12 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250614180910euoutp017ae4ee844b6038ca1228e125963efee6~I_xtW94CP0712307123euoutp01L
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250614180910euoutp017ae4ee844b6038ca1228e125963efee6~I_xtW94CP0712307123euoutp01L
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250614180911euoutp029d7459e8af6d8f9eb530876721d360e5~I_xup6HcN0357903579euoutp02Q
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250614180911euoutp029d7459e8af6d8f9eb530876721d360e5~I_xup6HcN0357903579euoutp02Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1749924550;
- bh=63b01qSumkcLmIEY0xdhZ+QcRoYutlUuGjICSf4+AW0=;
+ s=mail20170921; t=1749924551;
+ bh=o4L0V+xOrkyiHYkxYBU3iTr+XvJFcrC7GTCBNOr94MM=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=ClZPKjxM5OghbTcfgCIe5d+vucZN+EPvVbPxD+9Zb8WF8Mgq/SyZ56JEQNKWXESQg
- Bhj+omRSPKgWYxnHmqIv2bmTCOMxjrmVLUL7ue7sTJAuJSgSHHRyW/awI2V15Dci+n
- 3Q9smHBE/SKziJWQZhykb9AV3+c13r7QivZ2jnIc=
+ b=YzLTPmxzre52eaQ2TUyCvf5McKcvJT6KkPiik/uZIum/0stGVXvvBH5z413HwwrsP
+ 68seIijMFNoKfHwvJ7ETUEDlDExEYfqGMA7lho91MNI09GiihgPX0608j+J/zHeQhe
+ VV9ZXzvH16dHorKgNOU5tn8qzsHwlVAoKGdIcOpo=
 Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250614180908eucas1p1f8e152bc86111d1fab4916e1737534e1~I_xr8DbVU2845928459eucas1p1D;
- Sat, 14 Jun 2025 18:09:08 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250614180909eucas1p2a34e3242fb42f7fd25e4038c291276ff~I_xtBbA1M2679426794eucas1p2z;
+ Sat, 14 Jun 2025 18:09:09 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250614180907eusmtip1ff19c528fcdbe243e1c7de018a545147~I_xq78Vp31758317583eusmtip1o;
- Sat, 14 Jun 2025 18:09:07 +0000 (GMT)
+ 20250614180908eusmtip146d8003bdf8d8b7eef56198cf49309ea~I_xsAY2Rl2797327973eusmtip1c;
+ Sat, 14 Jun 2025 18:09:08 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Sat, 14 Jun 2025 20:06:08 +0200
-Subject: [PATCH v4 2/8] dt-bindings: firmware: thead,th1520: Add resets for
- GPU clkgen
+Date: Sat, 14 Jun 2025 20:06:09 +0200
+Subject: [PATCH v4 3/8] pmdomain: thead: Instantiate GPU power sequencer via
+ auxiliary bus
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250614-apr_14_for_sending-v4-2-8e3945c819cd@samsung.com>
+Message-Id: <20250614-apr_14_for_sending-v4-3-8e3945c819cd@samsung.com>
 In-Reply-To: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
 To: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei
  <wefu@redhat.com>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
@@ -61,14 +61,14 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250614180908eucas1p1f8e152bc86111d1fab4916e1737534e1
+X-CMS-MailID: 20250614180909eucas1p2a34e3242fb42f7fd25e4038c291276ff
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250614180908eucas1p1f8e152bc86111d1fab4916e1737534e1
+X-RootMTR: 20250614180909eucas1p2a34e3242fb42f7fd25e4038c291276ff
 X-EPHeader: CA
-X-CMS-RootMailID: 20250614180908eucas1p1f8e152bc86111d1fab4916e1737534e1
+X-CMS-RootMailID: 20250614180909eucas1p2a34e3242fb42f7fd25e4038c291276ff
 References: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
- <CGME20250614180908eucas1p1f8e152bc86111d1fab4916e1737534e1@eucas1p1.samsung.com>
+ <CGME20250614180909eucas1p2a34e3242fb42f7fd25e4038c291276ff@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +84,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the TH1520 AON to describe the GPU clkgen reset line, required
-for proper GPU clock and reset sequencing.
+In order to support the complex power sequencing required by the TH1520
+GPU, the AON power domain driver must be responsible for initiating the
+corresponding sequencer driver. This functionality is specific to
+platforms where the GPU power sequencing hardware is controlled by the
+AON block.
 
-The T-HEAD TH1520 GPU requires coordinated management of two clocks
-(core and sys) and two resets (GPU core reset and GPU clkgen reset).
-Only the clkgen reset is exposed at the AON level, to support SoC
-specific initialization handled through a dedicated auxiliary power
-sequencing driver. The GPU core reset remains described in the GPU
-device node, as from the GPU driver's perspective, there is only a
-single reset line [1].
+Extend the AON power domain driver to check for the presence of the
+"gpu-clkgen" reset in its own device tree node.
 
-This follows upstream maintainers' recommendations [2] to abstract SoC
-specific details into the PM domain layer rather than exposing them to
-drivers directly.
+If the property is found, create and register a new auxiliary device.
+This device acts as a proxy that allows the dedicated `pwrseq-thead-gpu`
+auxiliary driver to bind and take control of the sequencing logic.
 
-Link: https://lore.kernel.org/all/816db99d-7088-4c1a-af03-b9a825ac09dc@imgtec.com/ - [1]
-Link: https://lore.kernel.org/all/38d9650fc11a674c8b689d6bab937acf@kernel.org/ - [2]
-
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/pmdomain/thead/Kconfig             |  1 +
+ drivers/pmdomain/thead/th1520-pm-domains.c | 53 ++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
-index bbc183200400de7aadbb21fea21911f6f4227b09..3365124c7fd4736922717bd31caa13272f4a4ea6 100644
---- a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
-+++ b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
-@@ -32,6 +32,13 @@ properties:
-     items:
-       - const: aon
+diff --git a/drivers/pmdomain/thead/Kconfig b/drivers/pmdomain/thead/Kconfig
+index 7d52f8374b074167d508a80fd807929c53faef12..208828e0fa0dc91256bf808b905bea32bb84250d 100644
+--- a/drivers/pmdomain/thead/Kconfig
++++ b/drivers/pmdomain/thead/Kconfig
+@@ -4,6 +4,7 @@ config TH1520_PM_DOMAINS
+ 	tristate "Support TH1520 Power Domains"
+ 	depends on TH1520_AON_PROTOCOL
+ 	select REGMAP_MMIO
++	select AUXILIARY_BUS
+ 	help
+ 	  This driver enables power domain management for the T-HEAD
+ 	  TH-1520 SoC. On this SoC there are number of power domains,
+diff --git a/drivers/pmdomain/thead/th1520-pm-domains.c b/drivers/pmdomain/thead/th1520-pm-domains.c
+index f702e20306f469aeb0ed15e54bd4f8309f28018c..9f2cd833e5f554d4a9154e276e5fe5720fc4d50f 100644
+--- a/drivers/pmdomain/thead/th1520-pm-domains.c
++++ b/drivers/pmdomain/thead/th1520-pm-domains.c
+@@ -5,8 +5,10 @@
+  * Author: Michal Wilczynski <m.wilczynski@samsung.com>
+  */
  
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    items:
-+      - const: gpu-clkgen
-+
-   "#power-domain-cells":
-     const: 1
++#include <linux/auxiliary_bus.h>
+ #include <linux/firmware/thead/thead,th1520-aon.h>
+ #include <linux/slab.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
  
+@@ -128,6 +130,51 @@ static void th1520_pd_init_all_off(struct generic_pm_domain **domains,
+ 	}
+ }
+ 
++static void th1520_pd_pwrseq_unregister_adev(void *adev)
++{
++	auxiliary_device_delete(adev);
++	auxiliary_device_uninit(adev);
++}
++
++static int th1520_pd_pwrseq_gpu_init(struct device *dev)
++{
++	struct auxiliary_device *adev;
++	int ret;
++
++	/*
++	 * Correctly check only for the property's existence in the DT node.
++	 * We don't need to get/claim the reset here; that is the job of
++	 * the auxiliary driver that we are about to spawn.
++	 */
++	if (of_property_match_string(dev->of_node, "reset-names",
++				     "gpu-clkgen") < 0)
++		/*
++		 * This is not an error. It simply means the optional sequencer
++		 * is not described in the device tree.
++		 */
++		return 0;
++
++	adev = devm_kzalloc(dev, sizeof(*adev), GFP_KERNEL);
++	if (!adev)
++		return -ENOMEM;
++
++	adev->name = "pwrseq-gpu";
++	adev->dev.parent = dev;
++
++	ret = auxiliary_device_init(adev);
++	if (ret)
++		return ret;
++
++	ret = auxiliary_device_add(adev);
++	if (ret) {
++		auxiliary_device_uninit(adev);
++		return ret;
++	}
++
++	return devm_add_action_or_reset(dev, th1520_pd_pwrseq_unregister_adev,
++					adev);
++}
++
+ static int th1520_pd_probe(struct platform_device *pdev)
+ {
+ 	struct generic_pm_domain **domains;
+@@ -186,8 +233,14 @@ static int th1520_pd_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_clean_genpd;
+ 
++	ret = th1520_pd_pwrseq_gpu_init(dev);
++	if (ret)
++		goto err_clean_provider;
++
+ 	return 0;
+ 
++err_clean_provider:
++	of_genpd_del_provider(dev->of_node);
+ err_clean_genpd:
+ 	for (i--; i >= 0; i--)
+ 		pm_genpd_remove(domains[i]);
 
 -- 
 2.34.1
