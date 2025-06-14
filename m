@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABE0AD9EB1
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 20:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50924AD9EAC
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 20:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5042910E14B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156CD10E128;
 	Sat, 14 Jun 2025 18:09:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="m4z86KHB";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="L06zSlpO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B978610E0DF
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:11 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250614180907euoutp02468ff0c87afdf5dd5ee5988a68d7b0fe~I_xrHCUh22365423654euoutp02p
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250614180907euoutp02468ff0c87afdf5dd5ee5988a68d7b0fe~I_xrHCUh22365423654euoutp02p
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFDA910E158
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:12 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250614180908euoutp0156515c33465bdbd8fdfcf45d0f335548~I_xsAUtZ00712307123euoutp01I
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 18:09:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250614180908euoutp0156515c33465bdbd8fdfcf45d0f335548~I_xsAUtZ00712307123euoutp01I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1749924547;
- bh=3Nmmr7S6VBvNVHPnioTy4yU768+DIJTpGVnZCTNmlSM=;
- h=From:Subject:Date:To:Cc:References:From;
- b=m4z86KHBEM9mIkaQ0yZS5dFavaMxOmG7xcLo70V1N2exyZXKqKipUp4M2dxm3foeY
- YRRwEIDsPo3cMJs13eMw2p+lh/SjOmELN25UHkx9S2+nnEieb8vAgqpdm9MaTpBm2T
- 2e9C721unKqgt14DPRqeYMtnev8rqLPU1450u8PY=
+ s=mail20170921; t=1749924548;
+ bh=es42sbD4TwJBn2FnGEDu63hM0VjueMf8OeKZlpT3Lck=;
+ h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
+ b=L06zSlpOGQcGYRb1RD6sNAkqpSSAbcaKSl/jtPMgtBoadivsrxChgvIKR8VVMvreV
+ vtKmDvh9KTXQTDIf0CFUP3+VYMUyQ/FAhC+d5Jkcno84YhsmaTvy9uvm80/GtsCMIh
+ +xecwWytHkjiYtDxku4szoiaDlNxTXuGzwBFsHk0=
 Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3~I_xp0tOcK2845928459eucas1p1C;
- Sat, 14 Jun 2025 18:09:06 +0000 (GMT)
+ 20250614180907eucas1p13d341c30e495fb36598b1d7c10ec7070~I_xrApfT50329603296eucas1p1O;
+ Sat, 14 Jun 2025 18:09:07 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250614180905eusmtip197e998d116f001834b10e9bea0ca774c~I_xoyZ9782797327973eusmtip1b;
- Sat, 14 Jun 2025 18:09:05 +0000 (GMT)
+ 20250614180906eusmtip10ef2265dbfca800be20fd8a02eca94e8~I_xp4kdF00306403064eusmtip1W;
+ Sat, 14 Jun 2025 18:09:06 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Subject: [PATCH v4 0/8] Add TH1520 GPU support with power sequencing
-Date: Sat, 14 Jun 2025 20:06:06 +0200
-Message-Id: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
+Date: Sat, 14 Jun 2025 20:06:07 +0200
+Subject: [PATCH v4 1/8] power: sequencing: Add T-HEAD TH1520 GPU power
+ sequencer driver
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAA66TWgC/33NSwrCMBSF4a2UjI3kaZqO3IdIiXm0GTQpiQald
- O+mnQgiDv8D97sLyDZ5m0HXLCDZ4rOPoQY7NECPKgwWelMbEEQ4YphBNaces97F1GcbjA8D5Dc
- qsWixUFqDejgn6/xzRy/X2qPP95he+49CtvUvVwhEUCDNlSPKyZM+ZzXlRxiOOk5gAwv9IJyin
- witSEsNF4wZKcUXsq7rG2YanRL7AAAA
-X-Change-ID: 20250414-apr_14_for_sending-5b3917817acc
+Message-Id: <20250614-apr_14_for_sending-v4-1-8e3945c819cd@samsung.com>
+In-Reply-To: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
 To: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei
  <wefu@redhat.com>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
  <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Michal
@@ -62,16 +59,16 @@ To: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei
  <ulf.hansson@linaro.org>,  Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
+ dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3
+X-CMS-MailID: 20250614180907eucas1p13d341c30e495fb36598b1d7c10ec7070
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3
+X-RootMTR: 20250614180907eucas1p13d341c30e495fb36598b1d7c10ec7070
 X-EPHeader: CA
-X-CMS-RootMailID: 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3
-References: <CGME20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20250614180907eucas1p13d341c30e495fb36598b1d7c10ec7070
+References: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
+ <CGME20250614180907eucas1p13d341c30e495fb36598b1d7c10ec7070@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,145 +84,291 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series introduces support for the Imagination IMG BXM-4-64
-GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
-managing the GPU's complex power-up and power-down sequence, which
-involves multiple clocks and resets.
+Introduce the pwrseq-thead-gpu driver, a power sequencer provider for
+the Imagination BXM-4-64 GPU on the T-HEAD TH1520 SoC. This driver is
+an auxiliary driver instantiated by the AON power domain driver.
 
-The TH1520 GPU requires a specific sequence to be followed for its
-clocks and resets to ensure correct operation. Initial discussions and
-an earlier version of this series explored managing this via the generic
-power domain (genpd) framework. However, following further discussions
-with kernel maintainers [1], the approach has been reworked to utilize
-the dedicated power sequencing (pwrseq) framework.
+The TH1520 GPU requires a specific sequence to correctly initialize and
+power down its resources:
+ - Enable GPU clocks (core and sys).
+ - De-assert the GPU clock generator reset (clkgen_reset).
+ - Introduce a short hardware-required delay.
+ - De-assert the GPU core reset. The power-down sequence performs these
+   steps in reverse.
 
-This revised series now employs a new pwrseq provider driver
-(pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
-encapsulates the SoC specific power sequence details. The Imagination
-GPU driver (pvr_device.c) is updated to act as a consumer of this power
-sequencer, requesting the "gpu-power" target. The sequencer driver,
-during its match phase with the GPU device, acquires the necessary clock
-and reset handles from the GPU device node to perform the full sequence.
+Implement this sequence via the pwrseq_power_on and pwrseq_power_off
+callbacks.
 
-This approach aligns with the goal of abstracting SoC specific power
-management details away from generic device drivers and leverages the
-pwrseq framework as recommended.
+Crucially, the driver's match function is called when a consumer (the
+Imagination GPU driver) requests the "gpu-power" target. During this
+match, the sequencer uses devm_clk_bulk_get() and
+devm_reset_control_get_exclusive() on the consumer's device to obtain
+handles to the GPU's "core" and "sys" clocks, and the GPU core reset.
+These, along with clkgen_reset obtained from parent aon node, allow it
+to perform the complete sequence.
 
-The series is structured as follows:
-
-Patch 1: Introduces the pwrseq-thead-gpu auxiliary driver to manage the
-         GPU's power-on/off sequence.
-Patch 2: Adds device tree bindings for the gpu-clkgen reset to the
-         existing thead,th1520-aon binding.
-Patch 3: Extends the pm-domains driver to detect the gpu-clkgen reset
-         and spawn the pwrseq-thead-gpu auxiliary driver.
-Patch 4: Updates the Imagination DRM driver to utilize the pwrseq
-         framework for TH1520 GPU power management.
-Patch 5: Adds the thead,th1520-gpu compatible string to the PowerVR GPU
-         device tree bindings.
-Patch 6: Adds the gpu-clkgen reset property to the aon node in the
-         TH1520 device tree source.
-Patch 7: Adds the device tree node for the IMG BXM-4-64 GPU and its
-         required fixed-clock.
-Patch 8: Enables compilation of the Imagination PowerVR driver on the
-         RISC-V architecture.
-
-This patchset finishes the work started in bigger series [2] by adding
-all remaining GPU power sequencing piece. After this patchset the GPU
-probes correctly.
-
-This series supersedes the previous genpd based approach. Testing on
-T-HEAD TH1520 SoC indicates the new pwrseq based solution works
-correctly.
-
-An open point in Patch 7/8 concerns the GPU memory clock (gpu_mem_clk),
-defined as a fixed-clock. The specific hardware frequency for this clock
-on the TH1520 could not be determined from available public
-documentation. Consequently, clock-frequency = <0>; has been used as a
-placeholder to enable driver functionality.
-
-Link to v3 of this series - [3].
-
-v4:
-
-- the pwrseq driver is now an auxiliary driver with a robust match
-  function based on the power-domains property, spawned from the AON
-  node 
-- Imagination DRM driver now uses of_device_id match data to
-  conditionally probe for the pwrseq, solving the cross platform
-  probe deferral issue
-- add Reviewed-by from Ulf for the entire series
-
-v3:
-
- - re-worked cover letter completely
- - complete architectural rework from using extended genpd callbacks to a
-   dedicated pwrseq provider driver
- - introduced pwrseq-thead-gpu.c and associated DT bindings
-   (thead,th1520-gpu-pwrseq)
- - the Imagination driver now calls devm_pwrseq_get() and uses
-   pwrseq_power_on() / pwrseq_power_off() for the TH1520 GPU
- - removed the platform_resources_managed flag from dev_pm_info and
-   associated logic
- - the new pwrseq driver's match() function now acquires consumer-specific
-   resources (GPU clocks, GPU core reset) directly from the consumer device
-
-v2:
-
-Extended the series by adding two new commits:
- - introduced a new platform_resources_managed flag in dev_pm_info along
-   with helper functions, allowing drivers to detect when clocks and resets
-   are managed by the platform
- - updated the DRM Imagination driver to skip claiming clocks when
-   platform_resources_managed is set
-
-Split the original bindings update:
- - the AON firmware bindings now only add the GPU clkgen reset (the GPU
-   core reset remains handled by the GPU node)
-
-Reworked the TH1520 PM domain driver to:
- - acquire GPU clocks and reset dynamically using attach_dev/detach_dev
-   callbacks
- - handle clkgen reset internally, while GPU core reset is obtained from
-   the consumer device node
- - added a check to enforce that only a single device can be attached to
-   the GPU PM domain
-
-[1] - https://lore.kernel.org/all/CAPDyKFpi6_CD++a9sbGBvJCuBSQS6YcpNttkRQhQMTWy1yyrRg@mail.gmail.com/
-[2] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
-[3] - https://lore.kernel.org/all/20250530-apr_14_for_sending-v3-0-83d5744d997c@samsung.com/
-
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
-Michal Wilczynski (8):
-      power: sequencing: Add T-HEAD TH1520 GPU power sequencer driver
-      dt-bindings: firmware: thead,th1520: Add resets for GPU clkgen
-      pmdomain: thead: Instantiate GPU power sequencer via auxiliary bus
-      drm/imagination: Use pwrseq for TH1520 GPU power management
-      dt-bindings: gpu: img,powervr-rogue: Add TH1520 GPU compatible
-      riscv: dts: thead: th1520: Add GPU clkgen reset to AON node
-      riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
-      drm/imagination: Enable PowerVR driver for RISC-V
+ MAINTAINERS                                 |   1 +
+ drivers/power/sequencing/Kconfig            |   8 ++
+ drivers/power/sequencing/Makefile           |   1 +
+ drivers/power/sequencing/pwrseq-thead-gpu.c | 208 ++++++++++++++++++++++++++++
+ 4 files changed, 218 insertions(+)
 
- .../bindings/firmware/thead,th1520-aon.yaml        |   7 +
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   9 +-
- MAINTAINERS                                        |   1 +
- arch/riscv/boot/dts/thead/th1520.dtsi              |  25 +++
- drivers/gpu/drm/imagination/Kconfig                |   3 +-
- drivers/gpu/drm/imagination/pvr_device.c           |  31 ++-
- drivers/gpu/drm/imagination/pvr_device.h           |  17 ++
- drivers/gpu/drm/imagination/pvr_drv.c              |   6 +
- drivers/gpu/drm/imagination/pvr_power.c            |  82 +++++---
- drivers/pmdomain/thead/Kconfig                     |   1 +
- drivers/pmdomain/thead/th1520-pm-domains.c         |  53 ++++++
- drivers/power/sequencing/Kconfig                   |   8 +
- drivers/power/sequencing/Makefile                  |   1 +
- drivers/power/sequencing/pwrseq-thead-gpu.c        | 208 +++++++++++++++++++++
- 14 files changed, 417 insertions(+), 35 deletions(-)
----
-base-commit: 4774cfe3543abb8ee98089f535e28ebfd45b975a
-change-id: 20250414-apr_14_for_sending-5b3917817acc
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0183c028fa18c397d30ec82fd419894f1f50a448..3283ff592215249bcf702dbb4ab710477243477e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21395,6 +21395,7 @@ F:	drivers/mailbox/mailbox-th1520.c
+ F:	drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
+ F:	drivers/pinctrl/pinctrl-th1520.c
+ F:	drivers/pmdomain/thead/
++F:	drivers/power/sequencing/pwrseq-thead-gpu.c
+ F:	drivers/reset/reset-th1520.c
+ F:	include/dt-bindings/clock/thead,th1520-clk-ap.h
+ F:	include/dt-bindings/power/thead,th1520-power.h
+diff --git a/drivers/power/sequencing/Kconfig b/drivers/power/sequencing/Kconfig
+index ddcc42a984921c55667c46ac586d259625e1f1a7..7fa912c9af2479cdce909467c29fe335788f0bd7 100644
+--- a/drivers/power/sequencing/Kconfig
++++ b/drivers/power/sequencing/Kconfig
+@@ -27,4 +27,12 @@ config POWER_SEQUENCING_QCOM_WCN
+ 	  this driver is needed for correct power control or else we'd risk not
+ 	  respecting the required delays between enabling Bluetooth and WLAN.
+ 
++config POWER_SEQUENCING_THEAD_GPU
++	tristate "T-HEAD TH1520 GPU power sequencing driver"
++	depends on ARCH_THEAD && AUXILIARY_BUS
++	help
++	  Say Y here to enable the power sequencing driver for the TH1520 SoC
++	  GPU. This driver handles the complex clock and reset sequence
++	  required to power on the Imagination BXM GPU on this platform.
++
+ endif
+diff --git a/drivers/power/sequencing/Makefile b/drivers/power/sequencing/Makefile
+index 2eec2df7912d11827f9ba914177dd2c882e44bce..647f81f4013ab825630f069d2e0f6d22159f1f56 100644
+--- a/drivers/power/sequencing/Makefile
++++ b/drivers/power/sequencing/Makefile
+@@ -4,3 +4,4 @@ obj-$(CONFIG_POWER_SEQUENCING)		+= pwrseq-core.o
+ pwrseq-core-y				:= core.o
+ 
+ obj-$(CONFIG_POWER_SEQUENCING_QCOM_WCN)	+= pwrseq-qcom-wcn.o
++obj-$(CONFIG_POWER_SEQUENCING_THEAD_GPU) += pwrseq-thead-gpu.o
+diff --git a/drivers/power/sequencing/pwrseq-thead-gpu.c b/drivers/power/sequencing/pwrseq-thead-gpu.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb77aba59a031471fe00c919fcc4a5f2564e0cb6
+--- /dev/null
++++ b/drivers/power/sequencing/pwrseq-thead-gpu.c
+@@ -0,0 +1,208 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * T-HEAD TH1520 GPU Power Sequencer Driver
++ *
++ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
++ * Author: Michal Wilczynski <m.wilczynski@samsung.com>
++ *
++ * This driver implements the power sequence for the Imagination BXM-4-64
++ * GPU on the T-HEAD TH1520 SoC. The sequence requires coordinating resources
++ * from both the sequencer's parent device node (clkgen_reset) and the GPU's
++ * device node (clocks and core reset).
++ *
++ * The `match` function is used to acquire the GPU's resources when the
++ * GPU driver requests the "gpu-power" sequence target.
++ */
++
++#include <linux/auxiliary_bus.h>
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/pwrseq/provider.h>
++#include <linux/reset.h>
++
++#include <dt-bindings/power/thead,th1520-power.h>
++
++struct pwrseq_thead_gpu_ctx {
++	struct pwrseq_device *pwrseq;
++	struct reset_control *clkgen_reset;
++	struct device_node *aon_node;
++
++	/* Consumer resources */
++	struct clk_bulk_data *clks;
++	int num_clks;
++	struct reset_control *gpu_reset;
++};
++
++static int pwrseq_thead_gpu_power_on(struct pwrseq_device *pwrseq)
++{
++	struct pwrseq_thead_gpu_ctx *ctx = pwrseq_device_get_drvdata(pwrseq);
++	int ret;
++
++	if (!ctx->clks || !ctx->gpu_reset)
++		return -ENODEV;
++
++	ret = clk_bulk_prepare_enable(ctx->num_clks, ctx->clks);
++	if (ret)
++		return ret;
++
++	ret = reset_control_deassert(ctx->clkgen_reset);
++	if (ret)
++		goto err_disable_clks;
++
++	/*
++	 * According to the hardware manual, a delay of at least 32 clock
++	 * cycles is required between de-asserting the clkgen reset and
++	 * de-asserting the GPU reset. Assuming a worst-case scenario with
++	 * a very high GPU clock frequency, a delay of 1 microsecond is
++	 * sufficient to ensure this requirement is met across all
++	 * feasible GPU clock speeds.
++	 */
++	udelay(1);
++
++	ret = reset_control_deassert(ctx->gpu_reset);
++	if (ret)
++		goto err_assert_clkgen;
++
++	return 0;
++
++err_assert_clkgen:
++	reset_control_assert(ctx->clkgen_reset);
++err_disable_clks:
++	clk_bulk_disable_unprepare(ctx->num_clks, ctx->clks);
++	return ret;
++}
++
++static int pwrseq_thead_gpu_power_off(struct pwrseq_device *pwrseq)
++{
++	struct pwrseq_thead_gpu_ctx *ctx = pwrseq_device_get_drvdata(pwrseq);
++
++	if (!ctx->clks || !ctx->gpu_reset)
++		return -ENODEV;
++
++	reset_control_assert(ctx->gpu_reset);
++	reset_control_assert(ctx->clkgen_reset);
++	clk_bulk_disable_unprepare(ctx->num_clks, ctx->clks);
++
++	return 0;
++}
++
++static const struct pwrseq_unit_data pwrseq_thead_gpu_unit = {
++	.name = "gpu-power-sequence",
++	.enable = pwrseq_thead_gpu_power_on,
++	.disable = pwrseq_thead_gpu_power_off,
++};
++
++static const struct pwrseq_target_data pwrseq_thead_gpu_target = {
++	.name = "gpu-power",
++	.unit = &pwrseq_thead_gpu_unit,
++};
++
++static const struct pwrseq_target_data *pwrseq_thead_gpu_targets[] = {
++	&pwrseq_thead_gpu_target,
++	NULL
++};
++
++static int pwrseq_thead_gpu_match(struct pwrseq_device *pwrseq,
++				  struct device *dev)
++{
++	struct pwrseq_thead_gpu_ctx *ctx = pwrseq_device_get_drvdata(pwrseq);
++	static const char *const clk_names[] = { "core", "sys" };
++	struct of_phandle_args pwr_spec;
++	int i, ret;
++
++	/* We only match the specific T-HEAD TH1520 GPU compatible */
++	if (!of_device_is_compatible(dev->of_node, "thead,th1520-gpu"))
++		return 0;
++
++	ret = of_parse_phandle_with_args(dev->of_node, "power-domains",
++					 "#power-domain-cells", 0, &pwr_spec);
++	if (ret)
++		return 0;
++
++	/* Additionally verify consumer device has AON as power-domain */
++	if (pwr_spec.np != ctx->aon_node || pwr_spec.args[0] != TH1520_GPU_PD) {
++		of_node_put(pwr_spec.np);
++		return 0;
++	}
++
++	of_node_put(pwr_spec.np);
++
++	/* Prevent multiple consumers from attaching */
++	if (ctx->gpu_reset || ctx->clks)
++		return -EBUSY;
++
++	ctx->num_clks = ARRAY_SIZE(clk_names);
++	ctx->clks = devm_kcalloc(dev, ctx->num_clks, sizeof(*ctx->clks),
++				 GFP_KERNEL);
++	if (!ctx->clks)
++		return -ENOMEM;
++
++	for (i = 0; i < ctx->num_clks; i++)
++		ctx->clks[i].id = clk_names[i];
++
++	ret = devm_clk_bulk_get(dev, ctx->num_clks, ctx->clks);
++	if (ret)
++		return ret;
++
++	ctx->gpu_reset = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(ctx->gpu_reset))
++		return PTR_ERR(ctx->gpu_reset);
++
++	return 1;
++}
++
++static int pwrseq_thead_gpu_probe(struct auxiliary_device *adev,
++				  const struct auxiliary_device_id *id)
++{
++	struct device *dev = &adev->dev;
++	struct device *parent_dev = dev->parent;
++	struct pwrseq_thead_gpu_ctx *ctx;
++	struct pwrseq_config config = {};
++
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->aon_node = parent_dev->of_node;
++
++	ctx->clkgen_reset =
++		devm_reset_control_get_exclusive(parent_dev, "gpu-clkgen");
++	if (IS_ERR(ctx->clkgen_reset))
++		return dev_err_probe(
++			dev, PTR_ERR(ctx->clkgen_reset),
++			"Failed to get GPU clkgen reset from parent\n");
++
++	config.parent = dev;
++	config.owner = THIS_MODULE;
++	config.drvdata = ctx;
++	config.match = pwrseq_thead_gpu_match;
++	config.targets = pwrseq_thead_gpu_targets;
++
++	ctx->pwrseq = devm_pwrseq_device_register(dev, &config);
++	if (IS_ERR(ctx->pwrseq))
++		return dev_err_probe(dev, PTR_ERR(ctx->pwrseq),
++				     "Failed to register power sequencer\n");
++
++	return 0;
++}
++
++static const struct auxiliary_device_id pwrseq_thead_gpu_id_table[] = {
++	{ .name = "th1520_pm_domains.pwrseq-gpu" },
++	{},
++};
++MODULE_DEVICE_TABLE(auxiliary, pwrseq_thead_gpu_id_table);
++
++static struct auxiliary_driver pwrseq_thead_gpu_driver = {
++	.driver = {
++		.name = "pwrseq-thead-gpu",
++	},
++	.probe = pwrseq_thead_gpu_probe,
++	.id_table = pwrseq_thead_gpu_id_table,
++};
++module_auxiliary_driver(pwrseq_thead_gpu_driver);
++
++MODULE_AUTHOR("Michal Wilczynski <m.wilczynski@samsung.com>");
++MODULE_DESCRIPTION("T-HEAD TH1520 GPU power sequencer driver");
++MODULE_LICENSE("GPL");
 
-Best regards,
 -- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+2.34.1
 
