@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CA0AD9F5D
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 21:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F932ADA03F
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 00:26:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9E710E1AE;
-	Sat, 14 Jun 2025 19:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C69110E04E;
+	Sat, 14 Jun 2025 22:26:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SoFx9wZI";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="V2O/wL6s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9490010E0D7;
- Sat, 14 Jun 2025 19:16:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E745AA50AAC;
- Sat, 14 Jun 2025 19:16:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D53CBC4CEEB;
- Sat, 14 Jun 2025 19:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749928576;
- bh=mmw5jhQLybady/7202hcLfn6hRFOBIqOFwgpzfoEdeM=;
- h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
- b=SoFx9wZIX1OI9wd6nGUhXheiyY3QdZlbZ5z9TdQnx/xnbda1R3j25z3Nw40owzddy
- sMJQkYY4+YLU1fR0J18xYq8lnNWpVYFyHOTv0vxd3MuzST8R2Yek+uqsTiG8XbZPBP
- FlHTc+UpfhnSQJCMh8kfuViz3RP/pYNAUPqRmZc0dlVS0h2m5nuDcRwRinM5GtW/fl
- mQaOu/dnKu1bdoLNXl3IhS2dd5zYxzyRAt+7pypC3XOBm1KyhhCXx1NBK0o6uT2IBX
- aWetXBQrRQPG56TW0XcXI9XGkLdPnaubFbcXR+i43tPVV2RqzNim1dlAxuo3OabiDI
- s8c/+6H60H07Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB0F10E04E
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 22:26:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1749939989; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=D1LZURzkb6q0S9Bue0AAKESyTSrlW9cdo3+6b9cs6MLs1FaTsfbjQHwJVpu7IM/pJ2m3oGmQhvEvVHL1mmKhLSzOa6Zjx8E7vs4j9bbA7Mu7O8/6nbkM7sYuRdvDiBbbUntFyVGMVq1Fhh8eV2ds8LuKOwsOIl+V0lJBrmPhJJk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1749939989;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=pwFnZGJTNZjT1OpNK2KnMMF5RUAHZRKOkFer0VB+0Lk=; 
+ b=D+z7v6/eeRl5wCOp2VCqxk88xV3DQEK9Pz0PIm+sxkMD6Uwy7K8raFLI8jmwB8LAtKm3HkNfNj3RpuT5aw8lCYUPEpgTprMfQ212e3UYGVKJ655XxQKlVucCNK/rFlqtgT5qkf0W0W3+bbkt8Ae8c0Ai/Dzd3b9/IB9UL2c0fVw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749939989; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=pwFnZGJTNZjT1OpNK2KnMMF5RUAHZRKOkFer0VB+0Lk=;
+ b=V2O/wL6snBIc4ilrqzx7PIIGS0vEZMB54u+PZpXmqahL80+On+lRChhReMICCNUY
+ JLIcuZOkGGuV9e8YST9qkxIOYNP2nn+HJsKOwjvzsOE3CZHAM6daZH1lAnSXPKJfabc
+ 6kZaje63hKRpK5raBzUxrd3n9FMfRXoX4+Xt/m7A=
+Received: by mx.zohomail.com with SMTPS id 1749939987753441.0436665438757;
+ Sat, 14 Jun 2025 15:26:27 -0700 (PDT)
+Message-ID: <23e2560e-276f-42d3-a525-0c0405c8641c@collabora.com>
+Date: Sun, 15 Jun 2025 01:26:25 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/2] Virtio-GPU suspend and resume
+To: dongwon.kim@intel.com, dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+References: <20250523220015.994716-1-dongwon.kim@intel.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20250523220015.994716-1-dongwon.kim@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 14 Jun 2025 21:16:10 +0200
-Message-Id: <DAMHWN6ML8A1.2AUE4UWR58KR2@kernel.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v5 05/23] rust: num: add the `fls` operation
-From: "Benno Lossin" <lossin@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
- <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
-In-Reply-To: <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +66,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Jun 12, 2025 at 4:01 PM CEST, Alexandre Courbot wrote:
-> Add an equivalent to the `fls` (Find Last Set bit) C function to Rust
-> unsigned types.
+Hi,
 
-Have you tried to upstream this?
+On 5/24/25 01:00, dongwon.kim@intel.com wrote:
+> From: Dongwon Kim <dongwon.kim@intel.com>
+> 
+> This patch series introduces a freeze and restore mechanism for
+> the virtio-gpu driver:
+> 
+> First patch adds `virtgpu_freeze` and `virtgpu_restore` functions.
+> These functions handle the deletion of virtio queues before suspension and
+> their recreation during the restoration process.
+> 
+> Second patch implements a mechanism for restoring `virtio_gpu_object` instances.
+> This is necessary because the host (QEMU) deletes all associated resources during
+> the virtio-gpu reset, which occurs as part of the restoration process.
+> 
+> These changes ensure that the virtio-gpu driver can properly handle suspend and
+> resume scenarios without resource loss.
+> 
+> Dongwon Kim (2):
+>   drm/virtio: Freeze and restore hooks to support suspend and resume
+>   drm/virtio: Implement save and restore for virtio_gpu_objects
+> 
+>  drivers/gpu/drm/virtio/virtgpu_drv.c    | 65 +++++++++++++++++++++-
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 ++++
+>  drivers/gpu/drm/virtio/virtgpu_kms.c    | 24 ++++++---
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 72 +++++++++++++++++++++++++
+>  4 files changed, 165 insertions(+), 7 deletions(-)
 
-> It is to be first used by the nova-core driver.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  rust/kernel/num.rs | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/rust/kernel/num.rs b/rust/kernel/num.rs
-> index ee0f67ad1a89e69f5f8d2077eba5541b472e7d8a..934afe17719f789c569dbd545=
-34adc2e26fe59f2 100644
-> --- a/rust/kernel/num.rs
-> +++ b/rust/kernel/num.rs
-> @@ -171,3 +171,34 @@ fn borrow(&self) -> &T {
->          &self.0
->      }
->  }
-> +
-> +macro_rules! impl_fls {
-> +    ($($t:ty),+) =3D> {
-> +        $(
-> +            ::kernel::macros::paste! {
-> +            /// Find Last Set Bit: return the 1-based index of the last =
-(i.e. most significant) set
-> +            /// bit in `v`.
-> +            ///
-> +            /// Equivalent to the C `fls` function.
-> +            ///
-> +            /// # Examples
-> +            ///
-> +            /// ```
-> +            /// use kernel::num::fls_u32;
-> +            ///
-> +            /// assert_eq!(fls_u32(0x0), 0);
-> +            /// assert_eq!(fls_u32(0x1), 1);
-> +            /// assert_eq!(fls_u32(0x10), 5);
-> +            /// assert_eq!(fls_u32(0xffff), 16);
-> +            /// assert_eq!(fls_u32(0x8000_0000), 32);
-> +            /// ```
-> +            #[inline(always)]
-> +            pub const fn [<fls_ $t>](v: $t) -> u32 {
+Tested the patches, applied to v6.15.2. Suspend-resume works with v2,
+display works on resume.
 
-Can we name this `find_last_set_bit_ $t`? When the upstream function
-lands, we should also rename this one.
+Have you figured out why 10ms workaround is needed?
 
----
-Cheers,
-Benno
-
-> +                $t::BITS - v.leading_zeros()
-> +            }
-> +            }
-> +        )+
-> +    };
-> +}
-> +
-> +impl_fls!(usize, u8, u16, u32, u64, u128);
-
+-- 
+Best regards,
+Dmitry
