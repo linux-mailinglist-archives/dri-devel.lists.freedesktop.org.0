@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46396AD9A1F
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 06:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD939AD9A28
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jun 2025 07:11:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4992A10E16F;
-	Sat, 14 Jun 2025 04:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A254710E1F8;
+	Sat, 14 Jun 2025 05:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mqiSDvQI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UsSJmvhS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B02E10E16F
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 04:57:43 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e7d8eb10c06so2081387276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 21:57:43 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3AE10E1F8
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 05:11:05 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-e812c817de0so2492819276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jun 2025 22:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749877062; x=1750481862; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1749877864; x=1750482664; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=N3q2qVFEmbLsR2HxaXqu+Z2ORgyuH1IAkMrz+Hg3+zQ=;
- b=mqiSDvQI6PBhDxo0HKqS/48QyPKwXzvMgSkZw1cLBm0SozjCxmaFhdnouIYj8JuQgK
- /vXh1QD58anuwCn9QAGTGXH0g8fjvcGYgRn34qD2BKuZO3CVl7YzG34szrMgMIHCmoUw
- Orc/TBmnpPhyMGWcaVJD9+oRhkxlthbMFNKj1DWxxd9MRF0urT2zN+O42Kkm4jdEigFD
- tOfzLW5hIqEFr8LYiHyr6tn2ulEtqUsfNKdZ0yymEoWABSU/78835Yb3MmAjuubZLQai
- OinQn+/JTSsvF21qYGeZ28XTCmRIIhMBAM25gYXTep3eiTIjzIILOHOJwM1tcX4SiSga
- w8AQ==
+ bh=CHjv9BHr/Bsn0d/syXcvcyuTrhfwt4Dz6/Z8OFUN72Y=;
+ b=UsSJmvhSsVR5dOZUMpuDRSHfvbQsYjGZap2qGzYctpCBq+ADOCc82c2q2z/NOmv/qV
+ 8bEZ2beKrIEBGmLAOhDFbWfjTPPvIxFWbOmAyNVhR9Ao1Uu6NoSb797RRd93HI8jlqMi
+ nDGbT12H6eAjel9xMHKZ0mE8MB/phm1v8chCEi7s2i1qhMqQ70/0OEdTgm5QGpSqAMjC
+ I38R2qazSv9NThDGSZh6h/4vc88bVxXRpZcSTy+jbTLoal+ax+5jKhLSx96oldc8ZKmK
+ Cj8MVp0Ev7AEbC1S/q7dxZdIO1dfTnIpqN1OuHkdqME39vI5FgRhQThu+IobqzYOFRj5
+ 6qcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749877062; x=1750481862;
+ d=1e100.net; s=20230601; t=1749877864; x=1750482664;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=N3q2qVFEmbLsR2HxaXqu+Z2ORgyuH1IAkMrz+Hg3+zQ=;
- b=m3aH7a4ueY8A3O+XI0aVFkj74dBzB/FedTr2m8SzG+R9jZxibauDM2qesyfqCD9PWs
- qbWNboGKYbHGNo9ffP5k1ShVX1V+NMxsgMKahSOE/fliGp8d3c07R5yCbyYP5ZAX7ndS
- iIcrTN3Xohl3r5SzlzH/G43k69BsKS7U+lBfEyaPTzkFspoDCSXk7O+TmiY6krwxbxpe
- Ec/aRPs8jyRgEGEguSlxhBY863WSrqEXHP8BgVvVKmpyTfbBnjY9c5pIxyu/DL4xg9E5
- qDcjOe8NpxI9KeKIl3M/wHHwTKpad4B78jQr07HrjmzFfg2EEgWO/VPd2C1a2HBEPEgW
- hYaw==
+ bh=CHjv9BHr/Bsn0d/syXcvcyuTrhfwt4Dz6/Z8OFUN72Y=;
+ b=a7XDKOn/rw2dQMT8ujBJaKjiJdjVgZSfg2kI+kzb4ggxrUa+6hgZYtRMbz/P1cksAH
+ cJhrF6HYS54V1I9csaDsjsycUsL3khPI9WK3IQs/kACShNgJreQbIU8GRoxLMO5ZQnDf
+ ZlyuU0eaEf1AxRr/8fUeXWGub8SWEtqYLruoS304bLF22nljDZqL2Zq/mVhc8caskzN9
+ nTh6p1JW6VgUdXuufdbwWd8097aDvf6Qu7iXDfSaRI7tSBNQOYc/7U7DfwvW0/2pluyj
+ nV2Yp7q1ADgDPO9OxePqEDx1FHiSP5oswb5hEhJqFw9SLB5ystCEy+EdZYyk9SAcXlVK
+ KwPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5kkE03WzUddwrvUY132BdcXvadNrJxtMuiIPubjZGD0yafnc9ibb6CMM6ytf3mv0lTYp2OdHJmzY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOSoYcu6WTnmKomFWulS4BEtJuU62Hcm5odSmopE3AM3ZYgvmw
- FKFtZRCXOPbVCHzx11MKz3nQoXRf9hiuNxU3vR/WOtcMlcLUYM76hMQt
-X-Gm-Gg: ASbGncs0K+4+SBGvX3UAeAzO4Q2n169otGLSLtRLDHxnmer2CEmHvdFjeTb5IYLsWZm
- uaTGPIHOOfcncOHtwu5M1qhk5IPIO/oTNOMHxhDqJG8F6N1+sD4CGZlg7UN+sbNJC7n/ip6vvFC
- 1tQ1Xxt3ucn1268X41pJPlpVafwH6USzehl+BeoXmJYgWVe0b7earZAmCg3b/XTy4kaEqHuar01
- KQzDlRcGT4kD85bPdxwdHkGVhBT6pHSAbxrpfMIa/TJbhCstusQMYka/GnWfSQBO2oOeuUmGZ/G
- 0GjbvJjQEDJ/6u3hQ4SQknL7NwnNxBAj+7TMqJjskgjtxv+Z6BErlGdkBbanu1ISeinGZV5F5o6
- 3
-X-Google-Smtp-Source: AGHT+IEV9Mmky9tjHAWVSE87xT+lR7tm5Ix4w7VEXf3TOBtMRYoUueAgNI3kbcVipyWMqOI7pqqzZA==
-X-Received: by 2002:a05:6902:1004:b0:e81:f2c1:60bb with SMTP id
- 3f1490d57ef6-e822acc6e9emr2965920276.46.1749877061987; 
- Fri, 13 Jun 2025 21:57:41 -0700 (PDT)
+ AJvYcCWzmQvCPJYzNnnafKCZkxJQE0Obb/yVuWUbdPyea5rqsPpwJyp3Ne3WcKkHIKs6mCkr6eWPSUEH4o4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWfYUtWUbaYKn5iUinnCWj8cbdPxrHbVRrA/h2EMl46k5dv/at
+ AJOcsnUf4XuWHG36fZK2mnapiproI5cXe9wYx+occ03BWSbAtqkYiCnq
+X-Gm-Gg: ASbGncvssV6wuwATha6mUOQl0PGI2wRLQK+uWtsvUf/7FNf1l1hGCgnWtHIFt/zb01H
+ 9aJQRSLdaYR8W9/RgxAr6uq6wSCtNNB3JHzZKFoS3A1y0TuRFysVrOr84mYTRV7moMPxlpL/85G
+ aYbjVs7j/AUqr6Az2ZUAOXaCm2uw3yxkKbmjyWltlazn0DvJlAXDnN8Bj63x4wHVFGk3L14OPRO
+ 5kKd5b1ysdVMsEUqtTRlIwx8zIVEeq7p2qsUfzfzL34KXuwySxbITlFPA/tLO7Hwkej1qAW/C+M
+ VJ51cHTsPNam6lYDYMpJOVKyvyU5j4K4ANWFn653iGhytALtGJ1srqzpzQbFVXQ4fx7K0i6PM9i
+ B
+X-Google-Smtp-Source: AGHT+IEBZRhqEoaI9+qTaFDDjh/m2Lcu/ckWlS6mfL4zM53CFmqJYkhil3ZYqx46+B9QzyibLGttkA==
+X-Received: by 2002:a05:6902:218e:b0:e82:54:5ae3 with SMTP id
+ 3f1490d57ef6-e822acab8camr3466928276.10.1749877864466; 
+ Fri, 13 Jun 2025 22:11:04 -0700 (PDT)
 Received: from trojai4.cs.purdue.edu ([128.210.0.165])
  by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-e820e315dc9sm1523330276.39.2025.06.13.21.57.41
+ 3f1490d57ef6-e820e099598sm1524227276.21.2025.06.13.22.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jun 2025 21:57:41 -0700 (PDT)
+ Fri, 13 Jun 2025 22:11:04 -0700 (PDT)
 From: Alex Guo <alexguo1023@gmail.com>
 To: deller@gmx.de
-Cc: FlorianSchandinat@gmx.de, alexguo1023@gmail.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fbdev: via: Fix potential divide by zero in get_var_refresh
-Date: Sat, 14 Jun 2025 00:57:39 -0400
-Message-Id: <20250614045739.3487259-1-alexguo1023@gmail.com>
+Cc: alexguo1023@gmail.com, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: sm501: Fix potential divide by zero
+Date: Sat, 14 Jun 2025 01:11:00 -0400
+Message-Id: <20250614051100.3501316-1-alexguo1023@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -88,31 +87,34 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Variable var->pixclock can be set by user. In case it equals to
-zero, divide by zero would occur in get_var_refresh.
-Similar crashes have happened in other fbdev drivers. We fix this
-by checking whether 'pixclock' is zero.
+zero, divide by zero would occur in sm501fb_set_par_common.
+Similar crashes have happened in other fbdev drivers.
+We cannot find the default vaild value for pixclock for driver
+sm501, so we fix this by checking whether 'pixclock' is zero.
 
 Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
 Error out if 'pixclock' equals zero")
 
 Signed-off-by: Alex Guo <alexguo1023@gmail.com>
 ---
- drivers/video/fbdev/via/viafbdev.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/video/fbdev/sm501fb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/via/viafbdev.c
-index 6da5ae7d229a..5b58e93f8c28 100644
---- a/drivers/video/fbdev/via/viafbdev.c
-+++ b/drivers/video/fbdev/via/viafbdev.c
-@@ -179,6 +179,8 @@ static inline int get_var_refresh(struct fb_var_screeninfo *var)
- 		+ var->hsync_len;
- 	vtotal = var->upper_margin + var->yres + var->lower_margin
- 		+ var->vsync_len;
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index ed6f4f43e2d5..a294b4e1c4aa 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -506,7 +506,9 @@ static int sm501fb_set_par_common(struct fb_info *info,
+ 			fbi->regs + head_addr);
+ 
+ 	/* program CRT clock  */
+-
++	
 +	if (!var->pixclock)
 +		return -EINVAL;
- 	return PICOS2KHZ(var->pixclock) * 1000 / (htotal * vtotal);
- }
+ 	pixclock = sm501fb_ps_to_hz(var->pixclock);
  
+ 	sm501pixclock = sm501_set_clock(fbi->dev->parent, clock_type,
 -- 
 2.34.1
 
