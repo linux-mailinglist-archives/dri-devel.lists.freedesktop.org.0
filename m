@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9E6ADA1E1
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 15:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FACADA1EA
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 15:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B15410E232;
-	Sun, 15 Jun 2025 13:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38D8C10E057;
+	Sun, 15 Jun 2025 13:32:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ghEIqce1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BEr7/QgG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC0510E232;
- Sun, 15 Jun 2025 13:25:55 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-313862d48e7so705986a91.1; 
- Sun, 15 Jun 2025 06:25:55 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54D7510E057;
+ Sun, 15 Jun 2025 13:32:46 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-313fab41fd5so254026a91.1; 
+ Sun, 15 Jun 2025 06:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749993955; x=1750598755; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1749994366; x=1750599166; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FSZZSMDBPFtEVqKeoNqHLJlRKfMjtGjyva/WaUGres8=;
- b=ghEIqce1pzk68/WhIZ+n7RhVbqUfsZ0v1MOBzWKwoRpnJ3eDapAsAsWdbCcofJ34W5
- tS4HHh2pPVOqIIdyooagKM1Pele6RoSF/Fo2AcCtOuLCJ23XNfqOMT6XU60NRtb5BMGW
- bmDp/69ngnDONZCF62TDdwUR9AMgNAwd1rRCBWo+U+wT5owEgq1SyWYxLBsSrql/ZGU7
- cXwZPoqNiOElJI++eM5SBodYangXXvwP81sewaAoDqLPQknsruA2KRw3hKzP5HX7oT40
- ZFrjsu5Ixy165VYgHLdfI1nI4bUIKf/D4tK1P8f72Kv4itYzgJML927X1rIxGeQBTKr1
- dZYg==
+ bh=+6biztJOYDaIMr4ggV0+B+qehBU/oHbwf4HAdJFN2AM=;
+ b=BEr7/QgGgblEVta3BeT5lWbFkWPzAGWtIL1ngO2PJCNHgovgfo+cqZ+rAVBab9J35R
+ fLSKr0WHcH5phXLwDdRUxsInU7jK+qUDu2xH/6lENrpLUBfzKoY4/T0VubLSiCxDu+f9
+ vR2dCZrnFdv8QiRrSdNNVg4acJrqcm8h7qthCX5glkAVbxbyLCU4/AfmfEl0vj/ajM9P
+ 0KGUAq1DSeHVjxEeRAGPSWr49rKP8Mzdvp2PZPc1kHqgKGYeLvtlZM7Xz4Yioz7/3Q5w
+ 5vcKjXIO++pflap2PugrTjBqD7UhS6DHXqi10uSuBzKvF5N/FxaYiNNOD+EIBsZKFORs
+ ofag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749993955; x=1750598755;
+ d=1e100.net; s=20230601; t=1749994366; x=1750599166;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FSZZSMDBPFtEVqKeoNqHLJlRKfMjtGjyva/WaUGres8=;
- b=FeZ6ec3rTHVZMUWxUrA2NmYQIfZVS0vINAsc9Y0KndKv9BXJEUoWQQEvf85IjInjBD
- zqI4E7GA+Qvb3gCG/hue3AqGYoGQQM4bkHG6aeexDZvlmCiYth3upX54NlOCQvQbaDlI
- xBoKEUZPTfErd5T+geESTATkRA9EVHVS9DL2R5SlihWwiBH+9pTs9KcVayczQyET5sIF
- jYNAqN4SUlL5y++IgatCE5uL80HiDSldHyAOltW6aCZpbWcnq64fDtnN3gLhYkBTDRtZ
- mrJR7WTiLp6Bk4Q5ET87e6wvUGAQl0fUS6UbgHiml1DG07DFIp5uV1vfoOYRLD6iYzxi
- UDJg==
+ bh=+6biztJOYDaIMr4ggV0+B+qehBU/oHbwf4HAdJFN2AM=;
+ b=RXA/W3WWWuIHNLM25qqsnCBVeL1o8rBEzbek0iBPEU1Pf8DjESRfDQGUpGn1vJ6tz1
+ moXYrsX7+j1jc6Ovz9zfGGhxBdmwr4VStmwGwUJBkrgWv3x+HXh6XejUKXlhg/1BgMVu
+ 8F7JvnTxjs0kwhHh4OHkuU8fJovlIPQxvz6yqxlE4LyWVoaAZvo8hcn6GomdP9a1/iK4
+ wLyGFuq3K8U+vQVArr4MQWwruTOxviCroy1CQTWDzEcrkPU1okaNYkSdnrdcRVh/URPb
+ xd56jXU5eol2O1ww4w4yu6l06trhf7zlcSJhh4UV+FE/lcaikMd/i7vRf2WSsMPS6A45
+ Hp1A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0eX2n0jHOLs3oFV6xTvIOChplIGaLuQR6y4FhkPe8S4SnIJnoCetgyJqz3/iTlddXPEFfDJOYvA==@lists.freedesktop.org,
- AJvYcCXkemxnESWxdA+DbtivpY86SwuumaXkNN+EtfMhoVuOf1XtVy2gIzZ2mxddm9aB/RZc4xpsF7HUCs0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzLp3Vyhzmdo2Bref+SooCEOGB6OCMs1WShKsNCGzUvaK5bGo1
- JfWt0xi4l4eZvTQjuB8bL7YBq92nEG2IZpbv287rQACzs+mFgk6sdDq5ImldZjs3dfBV1HxkF0I
- fRh8zT2Rr5DJHSG1EBx/B9ID30EDhZ0M=
-X-Gm-Gg: ASbGncvf+ReBCXAjLR7r7sfAFSWQ9KHG4+RIWGdJRVZuv2+rcpzXA6lAkmX0kz0V73S
- CYtCGXhxPxxoSO8Ej1nJp8LXxxo7c4Q+OztMkICLj30vxoEflfu6x33yQaOz0Ub0Zs4o8M+MsDG
- pKob4gckQg23lPzMfbxtgunZS/bf9XqkXL0aAnD+NrgJI=
-X-Google-Smtp-Source: AGHT+IHL489+Ip7x87tr3uBuoh4+FL6dhvUV+iEgTRFzqe+7NJzeg4yWPgNk3PpSOcE1u2TzipBmgzEfpVIaZmoYc0Q=
-X-Received: by 2002:a17:90b:4c45:b0:313:2bfc:94c with SMTP id
- 98e67ed59e1d1-313f1e70849mr3454988a91.8.1749993954821; Sun, 15 Jun 2025
- 06:25:54 -0700 (PDT)
+ AJvYcCWuhXncgscVze+kquXuCt5xczuTrFPNK2GxtuRB9TDCMcvk2SSTia4AYUVFvvhjqEuMi8sB29tjnJk=@lists.freedesktop.org,
+ AJvYcCXkOfAX6/dNI4kXj0YCQAbDxtqUr85RHHv/OjFViFlIygb+ehraPreoJwepgWEGYqSTAouAwCx3fA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxP0VJ4EMlTLKaYxOg2byEi6pvfDYLrwP1qSRzyGOpG+SiSeDln
+ 8YVwqk1q1oTNzaZSW6yTokktf6hVEtLW8VzyooRa4Y0A4wHNgbdFfOw7xXNfdEW0MJI6R4WYqVn
+ QDVpNo9Cx2dNZ+TzBaMcxAgEDK8PEgLE=
+X-Gm-Gg: ASbGncvMfLKHRGfP91P6llWLnvToHFWvSZNIy5wzOLEQJ+ZZUa95Iykvrj9H58dd3tg
+ ruKrE+nEw+d6u///mhHcRsCyseFlVguA25Ad4nq3fKMgUP9yXBYDlMqgR3evjXoP2+qhBawFEdj
+ L/Q75H8iRIRAEb0Oux7SqwrxISXQIWuTHu6/Xrar0dM5h5SAqhvrQheQ==
+X-Google-Smtp-Source: AGHT+IHQPepWr0PbwjEpszbly3f9S7PyiIfm9U5H1qbjy7Mjf/JI6jI8cAihWSLXmT4Yher59wp77PQ5KCOkUqJ5pgE=
+X-Received: by 2002:a17:90a:d890:b0:311:c5d9:2c8b with SMTP id
+ 98e67ed59e1d1-313f1da5571mr3359079a91.5.1749994365766; Sun, 15 Jun 2025
+ 06:32:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
- <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
- <CANiq72=3nDR=J2OXu9nWwZW_kcWfZ4KhZ3aS12_dcB=1EP2icQ@mail.gmail.com>
- <DAN1SGG5DPVE.UUW0B523LQHO@nvidia.com> <DAN1XS7Z0AFO.3S7PRNH5FWWV4@nvidia.com>
-In-Reply-To: <DAN1XS7Z0AFO.3S7PRNH5FWWV4@nvidia.com>
+ <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+In-Reply-To: <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 15 Jun 2025 15:25:42 +0200
-X-Gm-Features: AX0GCFtthC9dPN0SJASTPTNnA5ujZZS706Vksi3r_Hn7M7E3IClaBsBN60VbcoY
-Message-ID: <CANiq72mpFX2pSuy7JU+Xb_6fCkEA96er6Rsg0bVv+wBBO5OqUw@mail.gmail.com>
-Subject: Re: [PATCH v5 05/23] rust: num: add the `fls` operation
+Date: Sun, 15 Jun 2025 15:32:33 +0200
+X-Gm-Features: AX0GCFtDT2rLIdlNco-7aTZNeN4QdhHpMIapjyRZrHTOhSvmbikJIdVociuqbmg
+Message-ID: <CANiq72nS5DR2NxLoba1w83=Qsqzi-gdK7Le=y7BxPxQP5U6Rmg@mail.gmail.com>
+Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
 To: Alexandre Courbot <acourbot@nvidia.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -99,26 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 15, 2025 at 12:58=E2=80=AFPM Alexandre Courbot <acourbot@nvidia=
-.com> wrote:
+On Thu, Jun 12, 2025 at 4:02=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
 >
-> Also, although this will work nicely for `impl_fls!` which is a single
-> function, I'm afraid this won't scale well for `power_of_two_impl!`,
-> which defines 6 functions per type... Any suggestions for this case?
+> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(16).unwrap().v=
+alue(), 16);
 
-We can always generate the same "cases", i.e. sharing as much as
-possible the lines, and just passing the values (numbers) that
-actually differ, which you then plug into the example line
-concatenating.
+By the way, we are trying to write examples close to normal kernel
+code as possible, so could you please use `?` here instead of
+`unwrap()`?
 
-The standard library does that for their integer macros, e.g.
+It is not a big deal, when within `assert`s, but there is value in not
+showing any `unwrap()`s, and to spot easily places where we actually
+do `unwrap()`.
 
-    https://doc.rust-lang.org/src/core/num/int_macros.rs.html#3639-3644
+Also, please use intra-doc links wherever they may work, e.g. I think
+[`PowerOfTwo`] and [`None`] will work.
 
-If that happened to be too onerous for some reason, then we could
-ignore it for the time being (i.e. we don't need to delay things just
-for that), or we could put them as `#[test]`s to at least have them as
-tests.
+Thanks!
 
 Cheers,
 Miguel
