@@ -2,55 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F932ADA03F
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 00:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14E0ADA14D
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 10:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C69110E04E;
-	Sat, 14 Jun 2025 22:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04ABB10E00F;
+	Sun, 15 Jun 2025 08:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="V2O/wL6s";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K89nwRLU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB0F10E04E
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jun 2025 22:26:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1749939989; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=D1LZURzkb6q0S9Bue0AAKESyTSrlW9cdo3+6b9cs6MLs1FaTsfbjQHwJVpu7IM/pJ2m3oGmQhvEvVHL1mmKhLSzOa6Zjx8E7vs4j9bbA7Mu7O8/6nbkM7sYuRdvDiBbbUntFyVGMVq1Fhh8eV2ds8LuKOwsOIl+V0lJBrmPhJJk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1749939989;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=pwFnZGJTNZjT1OpNK2KnMMF5RUAHZRKOkFer0VB+0Lk=; 
- b=D+z7v6/eeRl5wCOp2VCqxk88xV3DQEK9Pz0PIm+sxkMD6Uwy7K8raFLI8jmwB8LAtKm3HkNfNj3RpuT5aw8lCYUPEpgTprMfQ212e3UYGVKJ655XxQKlVucCNK/rFlqtgT5qkf0W0W3+bbkt8Ae8c0Ai/Dzd3b9/IB9UL2c0fVw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749939989; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=pwFnZGJTNZjT1OpNK2KnMMF5RUAHZRKOkFer0VB+0Lk=;
- b=V2O/wL6snBIc4ilrqzx7PIIGS0vEZMB54u+PZpXmqahL80+On+lRChhReMICCNUY
- JLIcuZOkGGuV9e8YST9qkxIOYNP2nn+HJsKOwjvzsOE3CZHAM6daZH1lAnSXPKJfabc
- 6kZaje63hKRpK5raBzUxrd3n9FMfRXoX4+Xt/m7A=
-Received: by mx.zohomail.com with SMTPS id 1749939987753441.0436665438757;
- Sat, 14 Jun 2025 15:26:27 -0700 (PDT)
-Message-ID: <23e2560e-276f-42d3-a525-0c0405c8641c@collabora.com>
-Date: Sun, 15 Jun 2025 01:26:25 +0300
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6331E10E00F
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 08:30:07 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-453066fad06so25576565e9.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 01:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749976205; x=1750581005; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KuGogJWPapQAin3rE54hpggnDxcNPZWyx9aIMxHutdg=;
+ b=K89nwRLUW3wqLG1Q/+zMQMoy7QYAAouRs3rWyyC5L4K9+ZUONVkJ/bSCIPyL/dGbjy
+ 48YjtySPNswh/sW45choTHlCS1NXNPHH+1MK48a2gk9Q9o58GOIoaXUWsnIYkNtkz3GQ
+ 2fR4yrHRBdPUW1bXmGtLakXsWxfuD1VPLT2ly1JWg3iXZXMHIQRuI5i4ahaxDKoumoKr
+ Gk0npoQzT+w1hmSl4rD6gHq2vf6vUsPri63uH0niBoOnXKsHA2XuIeK4iRn3ADRG6n+/
+ IVdUWnc8/j5y3NVUF9DvI/OAZkaB7pW3PXPoYhvPjduSHqCOndIsN+l30pUkI7zDEGOA
+ mGQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749976205; x=1750581005;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KuGogJWPapQAin3rE54hpggnDxcNPZWyx9aIMxHutdg=;
+ b=rE5ShFxrWwNBCsUwTuA+cVAkDO1FsBBX67IoeKgH9zkI7mDGOF8JcZBscJd1m8QkNI
+ uUv9qnqVcREVmg7fhybsnEDnD7J2QGHFp6cNExk06pCyX3WQMYqRMqWb/whCNwaoMrm8
+ uEXMRt1s6QeCglYsf9VU77DP7oLzDqxYTrMYe72pTxKKEaEJopCc4wezFrXbN2+tJuS1
+ 7XuYqtL2jafpCM0OjAbm4QsQEsbska2j5+LmwtXc7ybmU87ji7tBrbfnVzmOTdPa7FkK
+ D9xdWK+/myiED7JVyiiQePe3GQAbIieWQMm4RZFcLjzSyhSvQ8SHkyMl9KB32DBRoKNU
+ /z4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVqm3+IRF6ScN7dnrRuVKMdI48PaT1P6aRBBom8FJnhQYih4u2qZA2D254LqmexPL8QQIruxr5MgF0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKuNMmoErjJZLvNNJ2zMpzEZVZ3PyhNkSoEesnaU8O65Qp5nQa
+ MmumzaCKB9EyK8vzEpJX00cE6+UUoa1Ou5KajwC4rKilSC0moMCMCUUf
+X-Gm-Gg: ASbGnctgZj+XpXID88xczEZBdKFoyGBS7nLe1Gw/i99s9+fVu4HKBBfGwa5l/GuBucJ
+ DTsSJRwT4cP8thwRIR7JMjAEEya6zXs1WmfoaHsM2nS+vvNLf29VBnoa6UAlQUPl7GHaJjinDR8
+ 9fpkBhgAxpf5pg88HwHJW5WKLTuF+opygW4uRMUYh/lwRrFS9Q1BSzgYt0iKJqPy7HTDLAJkjQ6
+ GhpV6YfuGLqcevNVuv45ykrhX7rfe7B6fc6fAUwZO81aOxQS+SoqHlZWfjzO8oS9onbbBP/pVeU
+ Ear56rU0aM6/VJ5OBY0x+U/dCMWbqsGvLV0apu0oHTnIfalym9iZsFnR0sCAxKxsilWhlutlhqI
+ P3Hp9OKje9W839/xBf2GhxVhV+r5ruDRRguE=
+X-Google-Smtp-Source: AGHT+IF9OW8znz+iOjoEakb1HbIdI1Ooss/XHYANejVTvB7P2jZm+Zdxdus6R8/hV1XuZzKcerkp/w==
+X-Received: by 2002:a05:600c:6989:b0:453:9b3:5b65 with SMTP id
+ 5b1f17b1804b1-4533ca502ecmr51592035e9.8.1749976205278; 
+ Sun, 15 Jun 2025 01:30:05 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4534172d2b0sm32503735e9.35.2025.06.15.01.30.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Jun 2025 01:30:05 -0700 (PDT)
+Date: Sun, 15 Jun 2025 09:30:03 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Alex Guo <alexguo1023@gmail.com>
+Cc: deller@gmx.de, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fbdev: i740: Fix potential divide by zero
+Message-ID: <20250615093003.6e524fa9@pumpkin>
+In-Reply-To: <20250614051837.3544959-1-alexguo1023@gmail.com>
+References: <20250614051837.3544959-1-alexguo1023@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/2] Virtio-GPU suspend and resume
-To: dongwon.kim@intel.com, dri-devel@lists.freedesktop.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-References: <20250523220015.994716-1-dongwon.kim@intel.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20250523220015.994716-1-dongwon.kim@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +90,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sat, 14 Jun 2025 01:18:37 -0400
+Alex Guo <alexguo1023@gmail.com> wrote:
 
-On 5/24/25 01:00, dongwon.kim@intel.com wrote:
-> From: Dongwon Kim <dongwon.kim@intel.com>
-> 
-> This patch series introduces a freeze and restore mechanism for
-> the virtio-gpu driver:
-> 
-> First patch adds `virtgpu_freeze` and `virtgpu_restore` functions.
-> These functions handle the deletion of virtio queues before suspension and
-> their recreation during the restoration process.
-> 
-> Second patch implements a mechanism for restoring `virtio_gpu_object` instances.
-> This is necessary because the host (QEMU) deletes all associated resources during
-> the virtio-gpu reset, which occurs as part of the restoration process.
-> 
-> These changes ensure that the virtio-gpu driver can properly handle suspend and
-> resume scenarios without resource loss.
-> 
-> Dongwon Kim (2):
->   drm/virtio: Freeze and restore hooks to support suspend and resume
->   drm/virtio: Implement save and restore for virtio_gpu_objects
-> 
->  drivers/gpu/drm/virtio/virtgpu_drv.c    | 65 +++++++++++++++++++++-
->  drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 ++++
->  drivers/gpu/drm/virtio/virtgpu_kms.c    | 24 ++++++---
->  drivers/gpu/drm/virtio/virtgpu_object.c | 72 +++++++++++++++++++++++++
->  4 files changed, 165 insertions(+), 7 deletions(-)
+> Variable var->pixclock can be set by user. In case it equals to
+> zero, divide by zero would occur in 4 switch branches in
+> i740fb_decode_var.
+> Similar crashes have happened in other fbdev drivers. We fix this
+> by checking whether 'pixclock' is zero.
 
-Tested the patches, applied to v6.15.2. Suspend-resume works with v2,
-display works on resume.
+Doesn't it already hit the 'default' clause of the switch statement?
 
-Have you figured out why 10ms workaround is needed?
+	David
 
--- 
-Best regards,
-Dmitry
+> 
+> Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
+> Error out if 'pixclock' equals zero")
+> 
+> Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+> ---
+>  drivers/video/fbdev/i740fb.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+> index 9b74dae71472..861e9e397b4e 100644
+> --- a/drivers/video/fbdev/i740fb.c
+> +++ b/drivers/video/fbdev/i740fb.c
+> @@ -419,6 +419,10 @@ static int i740fb_decode_var(const struct fb_var_screeninfo *var,
+>  
+>  
+>  	bpp = var->bits_per_pixel;
+> +	if (!var->pixclock){
+> +		dev_err(info->device, "pixclock must not be zero\n");
+> +		return -EINVAL;
+> +	}
+>  	switch (bpp) {
+>  	case 1 ... 8:
+>  		bpp = 8;
+
