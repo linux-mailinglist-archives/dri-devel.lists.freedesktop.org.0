@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E53CADA16E
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 11:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C815CADA176
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 11:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0C210E0D3;
-	Sun, 15 Jun 2025 09:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1390E10E20A;
+	Sun, 15 Jun 2025 09:37:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ph6F5/ke";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nW4Da215";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 131D910E0D3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 09:13:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 42ECE61137
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 09:13:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DE5AC4CEE3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 09:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749978786;
- bh=ViOQ7zr+P5L4FaHUhqeSK0Zg0nOFzYi/aRV1+FEE8XM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ph6F5/keiEw+CoDCGTFsrh6d4JzTjvEM6uofJm08hcI+cOZyrYnirp9OcY4vNQEGr
- 0YXcCeqey9KGM9/0Cy9AsSOD8yHalofOJXv6cjwMOWtyU7ahOBpa/77GzawdBiensq
- TrPuwhErjtLTHntgBgIKQS8RxNJUkWttHxHo19N1kJGSXRBOs0mYAGrNiBatlk2bHh
- cPpGRPei0CgchVy5P5Owz9L0aSV2J7CmvL5pd3Z4RRDCC3fiPzAjxPvvRWW/vaop6D
- 0ZPxyGO8mluzLUjZ/uMT3KDaPHwpLsIbRRkYu8UsNrnbArsQhWMxXtxtxkj4gKHjRN
- yzql0kWR9FEPg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 823EFC41612; Sun, 15 Jun 2025 09:13:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220230] linux-firmware 20250613 breaks AMD iGPU
-Date: Sun, 15 Jun 2025 09:13:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: therealgraysky@proton.me
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220230-2300-DOWs3LgP0X@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220230-2300@https.bugzilla.kernel.org/>
-References: <bug-220230-2300@https.bugzilla.kernel.org/>
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF4110E20A;
+ Sun, 15 Jun 2025 09:37:34 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-31306794b30so586645a91.2; 
+ Sun, 15 Jun 2025 02:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749980254; x=1750585054; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/gjcFnYr1zulmPLSgYp/FlvofVHo2jy2BSHVlmNjNfE=;
+ b=nW4Da2151VAV1cC61mcCNhOz6Ctr9aPjbYYpEgxORSwxPhlV2MeJH/bdujvOycG9FK
+ uqKiXhpeY4Wj+PrdACjg7vLVM9U8Gq7U4wak+f8jeg320Gw8v1wkaUfdysVOeTJ4wloy
+ sQkJq05s5PNuymUJMu8mfWxZIEWyDcXLdi4Ew1XI+4T4T1iffQUkbVxdib4Kcbct/QEd
+ g8OGHceVsn8OwfLQ992/gC7LOoAHh1ogFZTMHFmuASn4+W3S/KwU9wrtn2hHhyhFTYfo
+ H2l2E8PDzimTAx1aRIkNE4WRfG3zdkCDCvZEpS+IdPAQ08529pa4TCy4EfnqTTxV227H
+ 6SVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749980254; x=1750585054;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/gjcFnYr1zulmPLSgYp/FlvofVHo2jy2BSHVlmNjNfE=;
+ b=ThsqxSFAMrtGLhgeHa1UHnbV5wwZfeGyO/FB82OBxzfMHaVtsOuClPBt5nykz59fdG
+ b0DyoxGQ/TJa7/SW1XsohwPgXqGRP3uWLV2ZZN93IEcQpfKkCGtAuKbSjpeNdTQAfC30
+ 8rY0IzAG3Rq1K4DDd2AI9JCYzG0/OcR14/SnXuuPMQ3L90yO/9THwSG8d62UuhVjArNf
+ xjsg1Ti7XU1iTmit/jS8/h01uu9n+yMkXYrXWrdKFeg/gTaZi0aA/lNZ+8jdcxUJLnOs
+ vxW/bvhOCQKXrCzMNGYgC+1KrS8IQ7VsG6oUBwTU2m93fNseOQ+kZthOSE6FHcozbhZ6
+ Wing==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwzM2SGTPmZ5+gw+STpVllHl2Z1tcNU9bHole6XqVFra80hxcB5ZjwMC5a19+IQzozE+rScosi6Z0=@lists.freedesktop.org,
+ AJvYcCX6SherITeew+P9C0jcDTOpk+DdKaa+0ZtnjvJyTWgd5luCDQuK7r1qzoWcNKIISTgA7GrT6gFWDg==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxecV3eFJ+SzhaUDcnBwTzfHmXFfUJf8fC0rDLeoqrssOAgk13u
+ 6TVVrupSFMyPeI/ch3VOeMu1RX/1pUSj04j25ySqWKWKLlvN83hnDTAPYQyNa6gqtMIKg+i3ecp
+ a7pJOub0yndkRGprtO+BKhSa5KgSymCc=
+X-Gm-Gg: ASbGncv7R9GchnlHXYaxdokwFD/t/zrKJDl9sRFTkhiANHdsajIZ3U04rLQOsD+p5Fk
+ SUlgLSFh98CCOiHuZS4U4WOfbV42U01F1F5/PJgiX24+cGgzaMeQt/nR7Z34PaT+CblXjSAuEC6
+ BzwLGw3cUXz5aub3xNw1+4K8IhqA389W4M03VyxuKSeN35n4N1vJOhmQ==
+X-Google-Smtp-Source: AGHT+IGbIX4ZqW4W6JqEhTUKL7JgH4ax75TOpKeUB9Si29+wvmi0/pBeO4Qe4njiFfgTj8c0Ruhx6A+eKMp32rUHjw8=
+X-Received: by 2002:a17:90b:17c8:b0:30a:80bc:ad4 with SMTP id
+ 98e67ed59e1d1-313f18d8384mr2404966a91.0.1749980253763; Sun, 15 Jun 2025
+ 02:37:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
+In-Reply-To: <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 15 Jun 2025 11:37:21 +0200
+X-Gm-Features: AX0GCFsoXlgaGr3xG5wD7wf0x5De99vBBegtuz6QksxqbmtS7108VOxDnXnDgxI
+Message-ID: <CANiq72=3nDR=J2OXu9nWwZW_kcWfZ4KhZ3aS12_dcB=1EP2icQ@mail.gmail.com>
+Subject: Re: [PATCH v5 05/23] rust: num: add the `fls` operation
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Benno Lossin <lossin@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,20 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220230
+On Thu, Jun 12, 2025 at 4:02=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> +            /// ```
+> +            /// use kernel::num::fls_u32;
+> +            ///
+> +            /// assert_eq!(fls_u32(0x0), 0);
+> +            /// assert_eq!(fls_u32(0x1), 1);
+> +            /// assert_eq!(fls_u32(0x10), 5);
+> +            /// assert_eq!(fls_u32(0xffff), 16);
+> +            /// assert_eq!(fls_u32(0x8000_0000), 32);
+> +            /// ```
 
---- Comment #1 from therealgraysky@proton.me ---
-If I revert the following 4 commits, everything works as expected:
+For a future patch series: this could provide examples per type
+(passing them in the `impl_fls!` call).
 
-% git log --no-merges --pretty=3Doneline --abbrev-commit 20250509...20250613
-|grep amdgpu
-5ac6303062e4 amdgpu: DMCUB updates for various ASICs
-25750add9b77 amdgpu: DMCUB updates for various ASICs
-6b9fb15a5b49 amdgpu: DMCUB updates for various ASICs
-e663dc7a2122 amdgpu: updates for dcn 3.20 and dcn 4.01 firmware to 0.1.10.0
+I can create a good first issue if this lands and it is not somewhere alrea=
+dy.
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Cheers,
+Miguel
