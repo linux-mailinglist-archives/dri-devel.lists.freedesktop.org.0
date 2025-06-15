@@ -2,64 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538BFADA1B9
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 14:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9E6ADA1E1
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 15:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3FF810E123;
-	Sun, 15 Jun 2025 12:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B15410E232;
+	Sun, 15 Jun 2025 13:25:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tbxe77i8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ghEIqce1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C509710E226
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 12:12:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3A8F4A50053
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 12:12:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 93FC3C4CEE3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 12:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1749989556;
- bh=br/6pJ/lbhbURXtNN6BHcNBAvmZia7opywgrpvDQkO0=;
- h=From:To:Subject:Date:From;
- b=tbxe77i8T98OCW/82hMY1q0doLN5XgWsEopurQ6Ajv/XnmlFU56NrLvRiGYRDff0W
- eRamcQ1TU/XNctLAYsH3p2uUG9hToAYYcyY04/5xAtdgFRfnhbNh2R8mvpzVvhu6v5
- F6ww+B9/Vd3Us7yADX9i2hu8vVS0s1T/mSzg8ZL2uJCkubW40GI5y1rX+lXeFgVC77
- ntvp0ksyti8YDWBPlmtzjvYJzWIMrgm7FRROdzlx7TygEb0y+IiYMIm5/14U1an4T+
- u3zbfHmv1dn3KS2oVE4KU92kdhjeTQOcny6UB0XHh3K4iGyP0zO43WJGTT2MFQLV1F
- 8HyRmkD/TXNoQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 87964C41612; Sun, 15 Jun 2025 12:12:36 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220232] New: Title: RX 7900 XT/XTX DPM states incorrectly
- ordered - idle state in wrong position
-Date: Sun, 15 Jun 2025 12:12:36 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: a.von.blumenthal@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220232-2300@https.bugzilla.kernel.org/>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC0510E232;
+ Sun, 15 Jun 2025 13:25:55 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-313862d48e7so705986a91.1; 
+ Sun, 15 Jun 2025 06:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749993955; x=1750598755; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FSZZSMDBPFtEVqKeoNqHLJlRKfMjtGjyva/WaUGres8=;
+ b=ghEIqce1pzk68/WhIZ+n7RhVbqUfsZ0v1MOBzWKwoRpnJ3eDapAsAsWdbCcofJ34W5
+ tS4HHh2pPVOqIIdyooagKM1Pele6RoSF/Fo2AcCtOuLCJ23XNfqOMT6XU60NRtb5BMGW
+ bmDp/69ngnDONZCF62TDdwUR9AMgNAwd1rRCBWo+U+wT5owEgq1SyWYxLBsSrql/ZGU7
+ cXwZPoqNiOElJI++eM5SBodYangXXvwP81sewaAoDqLPQknsruA2KRw3hKzP5HX7oT40
+ ZFrjsu5Ixy165VYgHLdfI1nI4bUIKf/D4tK1P8f72Kv4itYzgJML927X1rIxGeQBTKr1
+ dZYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749993955; x=1750598755;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FSZZSMDBPFtEVqKeoNqHLJlRKfMjtGjyva/WaUGres8=;
+ b=FeZ6ec3rTHVZMUWxUrA2NmYQIfZVS0vINAsc9Y0KndKv9BXJEUoWQQEvf85IjInjBD
+ zqI4E7GA+Qvb3gCG/hue3AqGYoGQQM4bkHG6aeexDZvlmCiYth3upX54NlOCQvQbaDlI
+ xBoKEUZPTfErd5T+geESTATkRA9EVHVS9DL2R5SlihWwiBH+9pTs9KcVayczQyET5sIF
+ jYNAqN4SUlL5y++IgatCE5uL80HiDSldHyAOltW6aCZpbWcnq64fDtnN3gLhYkBTDRtZ
+ mrJR7WTiLp6Bk4Q5ET87e6wvUGAQl0fUS6UbgHiml1DG07DFIp5uV1vfoOYRLD6iYzxi
+ UDJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0eX2n0jHOLs3oFV6xTvIOChplIGaLuQR6y4FhkPe8S4SnIJnoCetgyJqz3/iTlddXPEFfDJOYvA==@lists.freedesktop.org,
+ AJvYcCXkemxnESWxdA+DbtivpY86SwuumaXkNN+EtfMhoVuOf1XtVy2gIzZ2mxddm9aB/RZc4xpsF7HUCs0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzLp3Vyhzmdo2Bref+SooCEOGB6OCMs1WShKsNCGzUvaK5bGo1
+ JfWt0xi4l4eZvTQjuB8bL7YBq92nEG2IZpbv287rQACzs+mFgk6sdDq5ImldZjs3dfBV1HxkF0I
+ fRh8zT2Rr5DJHSG1EBx/B9ID30EDhZ0M=
+X-Gm-Gg: ASbGncvf+ReBCXAjLR7r7sfAFSWQ9KHG4+RIWGdJRVZuv2+rcpzXA6lAkmX0kz0V73S
+ CYtCGXhxPxxoSO8Ej1nJp8LXxxo7c4Q+OztMkICLj30vxoEflfu6x33yQaOz0Ub0Zs4o8M+MsDG
+ pKob4gckQg23lPzMfbxtgunZS/bf9XqkXL0aAnD+NrgJI=
+X-Google-Smtp-Source: AGHT+IHL489+Ip7x87tr3uBuoh4+FL6dhvUV+iEgTRFzqe+7NJzeg4yWPgNk3PpSOcE1u2TzipBmgzEfpVIaZmoYc0Q=
+X-Received: by 2002:a17:90b:4c45:b0:313:2bfc:94c with SMTP id
+ 98e67ed59e1d1-313f1e70849mr3454988a91.8.1749993954821; Sun, 15 Jun 2025
+ 06:25:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-5-14ba7eaf166b@nvidia.com>
+ <CANiq72=3nDR=J2OXu9nWwZW_kcWfZ4KhZ3aS12_dcB=1EP2icQ@mail.gmail.com>
+ <DAN1SGG5DPVE.UUW0B523LQHO@nvidia.com> <DAN1XS7Z0AFO.3S7PRNH5FWWV4@nvidia.com>
+In-Reply-To: <DAN1XS7Z0AFO.3S7PRNH5FWWV4@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 15 Jun 2025 15:25:42 +0200
+X-Gm-Features: AX0GCFtthC9dPN0SJASTPTNnA5ujZZS706Vksi3r_Hn7M7E3IClaBsBN60VbcoY
+Message-ID: <CANiq72mpFX2pSuy7JU+Xb_6fCkEA96er6Rsg0bVv+wBBO5OqUw@mail.gmail.com>
+Subject: Re: [PATCH v5 05/23] rust: num: add the `fls` operation
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Benno Lossin <lossin@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,67 +99,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220232
+On Sun, Jun 15, 2025 at 12:58=E2=80=AFPM Alexandre Courbot <acourbot@nvidia=
+.com> wrote:
+>
+> Also, although this will work nicely for `impl_fls!` which is a single
+> function, I'm afraid this won't scale well for `power_of_two_impl!`,
+> which defines 6 functions per type... Any suggestions for this case?
 
-            Bug ID: 220232
-           Summary: Title: RX 7900 XT/XTX DPM states incorrectly ordered -
-                    idle state in wrong position
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: a.von.blumenthal@gmail.com
-        Regression: No
+We can always generate the same "cases", i.e. sharing as much as
+possible the lines, and just passing the values (numbers) that
+actually differ, which you then plug into the example line
+concatenating.
 
-Description:
-  The GPU DPM states are incorrectly ordered on AMD RX 7900 XT/XTX. The low=
-est
-idle clock state appears
-  in position 1 instead of position 0, causing inefficient power state
-transitions.
+The standard library does that for their integer macros, e.g.
 
-  System Information:
-  - GPU: AMD Radeon RX 7900 XT/XTX (PCI ID: 03:00.0)
-  - Kernel: 6.14.9-300.fc42.x86_64
-  - Distribution: Fedora 42
-  - Driver: amdgpu
+    https://doc.rust-lang.org/src/core/num/int_macros.rs.html#3639-3644
 
-  Current Behavior:
-  $ cat /sys/class/drm/card1/device/pp_dpm_sclk
-  0: 500Mhz
-  1: 120Mhz *
-  2: 2482Mhz
+If that happened to be too onerous for some reason, then we could
+ignore it for the time being (i.e. we don't need to delay things just
+for that), or we could put them as `#[test]`s to at least have them as
+tests.
 
-  Expected Behavior:
-  DPM states should be ordered from lowest to highest:
-  0: 120Mhz *
-  1: 500Mhz
-  2: 2482Mhz
-
-  Impact:
-  - GPU idles at wrong state priority
-  - Potential increased idle power consumption
-  - Affects all power profile modes (BOOTUP_DEFAULT, 3D_FULL_SCREEN, COMPUT=
-E,
-CUSTOM, etc.)
-
-  Steps to Reproduce:
-  1. Check DPM states: cat /sys/class/drm/card*/device/pp_dpm_sclk
-  2. Observe state 0 is 500MHz while state 1 is ~120MHz
-  3. Issue persists across all power profiles and after GPU reset
-
-  Additional Information:
-  - Issue confirmed on kernel 6.14.9
-  - GPU reset via rocm-smi -d 0 --gpureset does not resolve the issue
-  - Memory clock DPM states appear correctly ordered
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Cheers,
+Miguel
